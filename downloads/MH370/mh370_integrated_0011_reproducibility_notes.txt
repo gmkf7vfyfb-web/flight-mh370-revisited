@@ -1,0 +1,33 @@
+MH370 integrated 00:11 airborne posterior — first integrated Bayesian run
+
+Primary posterior:
+- Monte Carlo stabilisation: equal mixture of three independent 80,000-particle SMC runs (240,000 final particles).
+- Dominant latitude mode: -36.105 deg.
+- Median latitude: -35.949 deg.
+- 95% marginal latitude interval: [-37.022, -32.414] deg.
+- Median longitude: 90.162 E.
+- Median heading: 184.79 deg true.
+- Median Mach: 0.788.
+- Posterior mean gain-survival coefficient beta: 0.615.
+- Posterior mean BFO bias: 149.76 Hz.
+
+Evidence included:
+- BTO through 00:11, including corrected 18:25 log-on BTO.
+- BFO through 00:11, excluding 18:25 transient BFO.
+- Primary BFO sigma = 3.4 Hz.
+- Actual one-second Inmarsat-3F1 satellite ECEF ephemeris.
+- Stochastic aircraft dynamics based on the Davey/DST model classes and parameter ranges.
+- Same-channel R1200 received-power measurements.
+- Reconstructed 3-D port/starboard AES gain surface.
+- RF sigma = 1.6 dB.
+- Gain precompensation represented by beta and marginalised with a deliberately broadened calibration prior.
+
+Important first-run deviations/limitations:
+- The filter starts from the published 18:22 radar fix using a deliberately loose 10 NM prior, rather than reproducing the exact DST 18:01:49 primary-radar Kalman prior. DST itself did not use the 18:22 numerical point quantitatively because of its long-range uncertainty.
+- ACCESS-G nominal winds were not available in the supplied numerical data. Zero-mean OU wind uncertainty uses the Davey stochastic parameters; ISA temperature is used for Mach/TAS conversion.
+- The stochastic trajectory generator reproduces the Davey manoeuvre classes and parameter ranges but is not a bit-for-bit reimplementation of the proprietary/branching DST code.
+- RF transponder/GES time variation is absorbed by the calibrated residual noise and a marginalised link intercept, not explicitly represented by a time-correlated satellite/GES gain state.
+- No 00:19 end-of-flight, drift, or seabed-search evidence is included.
+
+Interpretation:
+The received-power/AES term moves substantial posterior mass south relative to the BTO+BFO-only comparator in this first implementation. The dominant integrated mode is near 36.1 S. Because the model is not yet an exact DST initialisation and lacks the ACCESS-G nominal weather field, this should be treated as a strong working result, not yet the publication-final posterior.

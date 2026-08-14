@@ -1,0 +1,5 @@
+basis,N,min_Hz,max_Hz,mean_Hz,sample_sd_Hz,population_sd_Hz,interpretation
+18:39 call,51,86.0,90.0,87.82352941176471,1.260252075625209,1.2478354962115545,Short-interval repeatability; does not include hour-scale bias drift or large transients.
+23:14 call,29,216.0,222.0,217.27586206896552,1.688121350668038,1.6587604787318198,Short-interval repeatability; does not include hour-scale bias drift or large transients.
+"DST 20 prior flights, in-flight, outliers excluded",3392,,,0.1755,4.3177,,Aggregate in-flight residual error; climb/descent excluded; includes within-flight bias variation.
+DST conservative accident-flight model,,,,,7.0,,Inflated to allow possible accident-flight BFO bias variation.

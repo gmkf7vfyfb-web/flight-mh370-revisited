@@ -1,0 +1,30 @@
+# Runtime and operating-system files only. Scientific intermediates are retained
+# until a later, reviewed curation commit.
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+pids/
+.agents/
+.codex/
+
+# Local environments and caches.
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.ipynb_checkpoints/
+*.openai-download-*
+
+# The immutable archive is uploaded as a release/Library asset, not committed.
+migration/package/*.tar.gz
+migration/package/*.tar.zst
+migration/package/*.zip
+
+# Never commit local credentials.
+.env
+.env.*
+!.env.example
+*.pem
+*.key

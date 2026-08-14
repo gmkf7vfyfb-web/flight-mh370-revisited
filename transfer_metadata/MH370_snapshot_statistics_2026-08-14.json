@@ -1,0 +1,54 @@
+{
+  "snapshot_date_utc": "2026-08-14",
+  "file_count": 673,
+  "total_uncompressed_bytes": 833268374,
+  "categories": {
+    "handoff_or_tooling": 15,
+    "intermediate": 197,
+    "library_master_archive": 148,
+    "materialized_artifact": 7,
+    "project_root": 13,
+    "research_output": 245,
+    "source_code": 19,
+    "source_data": 29
+  },
+  "extensions": {
+    ".bin": 4,
+    ".csv": 88,
+    ".docx": 4,
+    ".geojson": 7,
+    ".html": 6,
+    ".jpg": 56,
+    ".json": 13,
+    ".md": 18,
+    ".mjs": 7,
+    ".ndjson": 8,
+    ".pdf": 36,
+    ".png": 314,
+    ".py": 22,
+    ".txt": 67,
+    ".xls": 1,
+    ".xlsm": 2,
+    ".xlsx": 15,
+    ".zip": 3,
+    "[none]": 2
+  },
+  "excluded": {
+    "top_level": [
+      ".agents",
+      ".codex",
+      ".git",
+      "pids"
+    ],
+    "path_parts": [
+      "__pycache__"
+    ],
+    "generated_package_directory": "migration/package",
+    "compiled_python": [
+      "*.pyc",
+      "*.pyo"
+    ],
+    "library_transfer_staging": "*.openai-download-*"
+  },
+  "credential_pattern_findings": 0
+}

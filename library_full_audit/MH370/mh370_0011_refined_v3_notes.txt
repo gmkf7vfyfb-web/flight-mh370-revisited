@@ -1,0 +1,44 @@
+Refined MH370 integrated Bayesian model at 00:11 UTC
+
+Changes from the first integrated run
+1. Radar initialisation moved from a loose 18:22 prior to the final regular radar epoch at 18:01:49.
+   Davey specifies 0.5 NM position uncertainty and 1 degree heading uncertainty and states that the 18:22
+   point was not used numerically, but was used as evidence that the aircraft did not turn between 18:02
+   and 18:22. The precise numerical 18:01:49 mean coordinate is not tabulated in the source text, so the
+   current implementation uses a reconstructed mean (5.624829 N, 99.048157 E, track 295.66 deg) and
+   explicitly stress-tests the mean by about +/-0.8 NM.
+2. The BFO residual is decomposed into fast measurement noise plus a correlated latent bias:
+       sigma_fast = 1.5 Hz
+       total known-flight residual scale = 3.4 Hz
+       implied stationary slow-bias sigma = sqrt(3.4^2 - 1.5^2) = 3.051 Hz
+       primary slow-bias correlation time = 1 hour.
+   The 18:25 BFO remains excluded.
+3. The gain-survival/precompensation coefficient remains marginalised using the independent MH371 /
+   known-MH370 calibration.
+4. Exact ACCESS-G March 2014 numerical fields are still not available locally. The primary model therefore
+   retains the Davey OU wind-error model around zero nominal wind. Wind uncertainty stress tests at 0x and
+   2x its standard scale were performed; these are robustness tests, not substitutes for ACCESS-G.
+
+Pooled primary result (three independent 80,000-particle filters)
+- Dominant mode: 36.458°S
+- Median: 36.312°S
+- 95% marginal latitude interval: 32.578°S to 37.693°S
+- Median longitude: 89.604°E
+- Median heading: 186.08°T
+- Median Mach: 0.788
+- Mean gain-survival beta: 0.677
+- Median final BFO bias: 147.11 Hz
+
+Major modes in the pooled refined latitude posterior:
+- 36.46°S (relative peak height 1.00)
+- 37.47°S (relative peak height 0.70)
+- 34.22°S (relative peak height 0.25)
+- 33.11°S (relative peak height 0.11)
+
+Interpretation
+The ~36°S southern concentration found in the first integrated model survives the more DST-like radar
+initialisation and a correlated-BFO-bias treatment. The refined posterior is visibly multimodal: a dominant
+mode is around 36.5°S and another strong mode is around 37.5°S, with smaller modes near 34.2°S and 33.1°S.
+Because the exact ACCESS-G field and the exact numerical Kalman-filter mean at 18:01:49 have not yet been
+recovered from a primary numerical source, this remains a research-grade working posterior, not the final
+publication posterior.

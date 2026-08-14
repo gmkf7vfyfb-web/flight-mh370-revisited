@@ -1,0 +1,41 @@
+{
+  "title": "Pulau Perak descent/re-climb sensitivity through 00:11 UTC",
+  "seed": 3700480,
+  "n_airborne_particles": 1200000,
+  "n_PP_manoeuvre_draws_per_primary_case": 250000,
+  "fast_BFO_sigma_Hz": 0.9953793624482928,
+  "observation_cutoff": "2014-03-08T00:11:00Z",
+  "uses_0019_RF_observations": false,
+  "uses_drift_or_Pleiades_likelihood": false,
+  "PP_low_altitude_basis": "reported 4,800-ft branch; Normal(4,800,600), truncated 3,000--7,000 ft",
+  "radar_reanchor": "29,500 ft by 18:15 and same altitude at 18:22; no post-18:22 distance catch-up assigned",
+  "fuel_source": "downloads/MH370/9M-MRO Fuel Model V5.X.xlsm",
+  "fuel_flow_central_climb_response": "+37% per 1,000 fpm, from Endurance Model input; extrapolation tested at 20% and 50%",
+  "fuel_at_1822_calibration_t": 35.34187848956314,
+  "fuel_at_1822_SD_t": 0.45,
+  "reference_MEFE": "00:17:30 (6.5 minutes after 00:11), as stated in the local fuel workbook",
+  "fuel_window": "00:11--00:19, used as a sensitivity condition rather than an observation likelihood",
+  "proposal_limitation": "refined particle checkpoint is absent; the published multimodal 00:11 posterior is reconstructed, so exact upstream radar/Mach/gain/bias correlations are unavailable",
+  "performance_limit": "workbook static tables are interpolated; the custom macro/bicubic engine is not executed",
+  "scenario_definitions": [
+    {
+      "key": "no_pp",
+      "label": "No PP vertical excursion",
+      "full_high_branch": false,
+      "climb_response_per_1000fpm": 0.0
+    },
+    {
+      "key": "pp_only",
+      "label": "PP 4,800-ft descent/re-climb only",
+      "full_high_branch": false,
+      "climb_response_per_1000fpm": 0.37
+    },
+    {
+      "key": "full_pp",
+      "label": "Full high-altitude + PP branch",
+      "full_high_branch": true,
+      "climb_response_per_1000fpm": 0.37
+    }
+  ],
+  "distance_anchor_sensitivity": "A deliberately conservative alternate case carries the 31--52 NM PP still-air deficit into the post-radar leg; median sixth-arc latitude shift remains below 0.01 deg."
+}
