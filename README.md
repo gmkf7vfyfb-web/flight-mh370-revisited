@@ -43,8 +43,9 @@ to the premise that the objects are MH370 debris.
   is not a grant of redistribution rights, and rights remain with their
   respective owners. If you hold rights to material here and want it removed,
   please open an issue.
-- Seven oversized source files are hosted separately; see
-  [`LARGE_FILES.md`](LARGE_FILES.md).
+- Seven oversized source files are hosted in a companion Hugging Face dataset,
+  [`peteabiome/flight-mh370-revisited-data`](https://huggingface.co/datasets/peteabiome/flight-mh370-revisited-data);
+  see [`LARGE_FILES.md`](LARGE_FILES.md) for the list and restore instructions.
 - Exact reproduction, reconstruction, diagnostic sensitivity, and new analysis
   are deliberately distinguished; see the handoff dossier.
 - The immutable migration snapshot and its checksums are release assets, not

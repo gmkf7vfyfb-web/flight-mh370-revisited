@@ -6,7 +6,7 @@ is complete except for the files listed below. They are hosted as a companion
 Hugging Face dataset and are part of the same snapshot: the SHA-256 manifest in
 `transfer_metadata/` covers them alongside everything committed here.
 
-**Companion dataset:** `https://huggingface.co/datasets/<HF_DATASET>`
+**Companion dataset:** <https://huggingface.co/datasets/peteabiome/flight-mh370-revisited-data>
 
 ## The files
 
@@ -30,7 +30,7 @@ are preserved rather than deduplicated, consistent with the provenance rules in
 
 ```bash
 pip install huggingface_hub
-hf download <HF_DATASET> --repo-type dataset --local-dir /tmp/mh370-large
+hf download peteabiome/flight-mh370-revisited-data --repo-type dataset --local-dir /tmp/mh370-large
 ```
 
 The dataset preserves the original relative paths, so the files can be copied
