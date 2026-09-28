@@ -1,0 +1,45 @@
+{
+  "title": "Integrated Bayesian / Sequential Monte Carlo Methodology for Re-estimating the MH370 Impact and Wreckage Location",
+  "version": "2026-09-27",
+  "objective": "Estimate model-averaged PDFs for first water contact, effective impact/acoustic source, and principal wreckage resting location by propagating uncertainty from pre-impact flight evidence through EOF dynamics and independent post-impact evidence.",
+  "core_principle": "Sample the physically feasible manifold first; let observations supply likelihood rather than selecting a preferred narrative in advance.",
+  "target": "p(impact/wreckage location | radar + SATCOM + aircraft dynamics + fuel + EOF + hydroacoustics + debris/drift + satellite imagery + underwater-search results)",
+  "state": {
+    "continuous": "X_t=[phi,lambda,h,v_N,v_E,v_D,m_f,m,psi,theta,varphi,b]_t",
+    "discrete": "Q_t={flight-control mode,engine state,electrical state,configuration}",
+    "impact": "Psi={r_contact,t_contact,m_I,v_I,attitude,angular state,power state,energy-deposition history,breakup state,debris initial conditions,wreckage latent variables}"
+  },
+  "stages": [
+    "Calibrate component models on external/known events where possible.",
+    "Adaptive SMC from a fixed radar-derived initialisation epoch to 00:11 using radar/BTO/BFO/received-power/fuel/performance evidence.",
+    "Use the complete 00:11 posterior as EOF prior; assimilate 00:19 BTO/BFO/reboot evidence here; treat fuel-exhaustion causation as a model hypothesis.",
+    "Propagate through a time- and space-distributed water-impact episode, including powered/unpowered alternatives, fuel exhaustion as a hitting-time event, breakup and initial debris.",
+    "Conditionally evaluate hydroacoustic, debris/drift, imagery and underwater-search likelihoods from the common impact state.",
+    "Fuse evidence once at the common impact state, model-average across EOF hypotheses, and marginalise to contact/source/wreckage PDFs."
+  ],
+  "sampling": {
+    "speed": "Do not use one global uniform Mach prior. Sample speed conditional on altitude, mass, configuration and atmosphere; permit slower feasible speeds while enforcing stall/min-drag and VMO/MMO.",
+    "altitude": "Use temporally coherent altitude dynamics. Preserve low-altitude support at 00:11 using a descent-onset/mode mixture and/or stratified/bridge proposal, not independent 0-40,000 ft draws at all times.",
+    "bfo0011": "Infer vertical speed jointly with heading, speed and BFO bias/error. The 00:11 value is consistent with level flight but does not uniquely require it.",
+    "bfo0019": "Assimilate terminal data only in the EOF stage with OCXO/power-interruption hypotheses marginalised."
+  },
+  "equations": {
+    "joint": "p(Psi,E_K:I,X_0:K,H,Theta|Y) ∝ p(Theta)p(H|Theta)p(X_0|Theta) Π_k p(X_k|X_{k-1},Theta)L_-(Y^-|X_0:K,Theta)p(E_K:I,Psi|X_K,H,Theta)L_19(Y^19|E_K:I,H,Theta)L_A(Y^A|Psi,Theta_A)L_D(Y^D|Psi,Theta_D)L_P(Y^P|Psi,Theta_P)L_S(Y^S|Psi,Theta_S)",
+    "model_average": "p(r|Y)=Σ_h p(r|Y,H=h)P(H=h|Y)",
+    "fuel_exhaustion": "T_FE=inf{t:m_f(t)<=m_unusable(Q_t)}",
+    "kinetic_energy": "E_K=0.5*m_I*||v_I||^2",
+    "acoustic": "Y_r(f,t)=Σ_m G_r,m(f,t;r_source,Theta_ocean)S_0,m(f,t;Psi,Theta_I)+N_r(f,t)",
+    "drift": "dr_d=[U_current+U_Stokes+U_leeway]dt+Sigma^(1/2)dW_t",
+    "wreckage": "r_wreck=r_release+∫U(z(t),t)dt+∫v_rel,h(t)dt+Delta_r_seafloor",
+    "weight_update": "w_i'∝w_i L(y_k|X_k^i,Theta^i)",
+    "final_fusion": "w_i^final∝w_i^EOF L_A^i L_D^i L_P^i L_S^i"
+  },
+  "key_cautions": [
+    "Do not double-use 00:19 data.",
+    "Do not multiply separately normalised acoustic and drift posteriors without removing their common impact prior.",
+    "Do not equate first contact, acoustic source and main-wreckage location.",
+    "Do not make non-detections hard exclusions without detection models.",
+    "Treat searched seabed with spatial probability of detection, not a binary mask.",
+    "Treat satellite imagery with acquisition geometry and false-positive/look-elsewhere modelling."
+  ]
+}
