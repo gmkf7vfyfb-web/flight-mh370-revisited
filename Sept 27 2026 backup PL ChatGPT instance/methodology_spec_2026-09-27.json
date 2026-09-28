@@ -41,5 +41,44 @@
     "Do not make non-detections hard exclusions without detection models.",
     "Treat searched seabed with spatial probability of detection, not a binary mask.",
     "Treat satellite imagery with acquisition geometry and false-positive/look-elsewhere modelling."
-  ]
+  ],
+  "preliminary_diagnostics": {
+    "00:11_BFO": {
+      "published_measurement_hz": 252,
+      "Holland_level_flight_southerly_residual_hz": "approximately 4-6",
+      "approx_vertical_sensitivity_hz_per_100fpm": "approximately 1.8 at representative 00:11 geometry",
+      "simple_fixed_horizontal_state_descent_fpm": "approximately 220-330 to absorb a 4-6 Hz residual",
+      "interpretation": "Level flight remains plausible within ordinary BFO error; active descent should be inferred, not imposed.",
+      "project_refined_BFO_only_family_probabilities": {
+        "high_altitude_near_level": 0.7247,
+        "earlier_descent_completed_lower_level": 0.275,
+        "active_controlled_descent": 0.00037
+      },
+      "project_integrated_stage1_sensitivity_family_probabilities": {
+        "high_altitude_near_level": 0.5076,
+        "earlier_descent_completed_lower_level": 0.249,
+        "active_controlled_descent": 0.2434
+      },
+      "caution": "The integrated Stage-1 diagnostic reconstructed the 00:11 distribution from summary statistics and used a deliberately conservative effective BFO model; it is a sensitivity experiment, not the final production posterior."
+    },
+    "satellite_imagery": {
+      "pleiades_AF447_correction": "Pléiades-1A/1B launched in 2011/2012, so Pléiades could not have been used during the 2009 AF447 search.",
+      "historical_orbit_sources": [
+        "CelesTrak historical GP/TLE archives",
+        "Space-Track GP_HISTORY",
+        "CNES Pléiades World Heritage/DINAMIS acquisition archive"
+      ],
+      "required_filter_sequence": [
+        "above-horizon geometry",
+        "sensor footprint/off-nadir/illumination/cloud feasibility",
+        "actual acquisition/tasking and retained product"
+      ]
+    },
+    "AF447": {
+      "wreckage_distance_from_last_known_position_nm": 6.5,
+      "main_debris_field_m": "approximately 600 x 200",
+      "interpretation": "6.5 NM is not a direct measure of surface-impact-to-seabed drift because the aircraft continued unobserved after the last transmitted position.",
+      "drift_model_lesson": "Published reverse-drift work reported roughly 80-100 km positioning error after five days for some operational current products; search non-detections should be assimilated probabilistically."
+    }
+  }
 }
