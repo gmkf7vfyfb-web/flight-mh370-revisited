@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "dataset_id": "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+  "dataset_version": "202411",
+  "dataset_part": "default",
+  "component_units": {
+    "VSDX": "m s-1 east surface Stokes",
+    "VSDY": "m s-1 north surface Stokes"
+  },
+  "source_retrieval_manifest_sha256": "4790a438a3938686e7b778e417ff6d9245f6d84be9f8a79e17c73aca07a59cd0",
+  "source_file": {
+    "actual_bounds_degrees": {
+      "east": 150.0,
+      "north": 30.0,
+      "south": -50.0,
+      "west": 10.0
+    },
+    "bytes": 19214640,
+    "command": [
+      "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+      "subset",
+      "--dataset-id",
+      "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+      "--dataset-version",
+      "202411",
+      "--dataset-part",
+      "default",
+      "--variable",
+      "VSDX",
+      "--variable",
+      "VSDY",
+      "--start-datetime",
+      "2014-03-07T00:00:00+00:00",
+      "--end-datetime",
+      "2014-03-31T21:00:00+00:00",
+      "--minimum-longitude",
+      "10.0",
+      "--maximum-longitude",
+      "150.0",
+      "--minimum-latitude",
+      "-50.0",
+      "--maximum-latitude",
+      "30.0",
+      "--coordinates-selection-method",
+      "outside",
+      "--output-directory",
+      "/jackbox/home/.cache/mh370-cmems-waverys",
+      "--output-filename",
+      "cmems-waverys-stokes-2014-03.nc.partial.nc",
+      "--file-format",
+      "netcdf",
+      "--netcdf-compression-level",
+      "4",
+      "--disable-progress-bar",
+      "--log-level",
+      "ERROR",
+      "--raise-if-updating"
+    ],
+    "components": {
+      "VSDX": {
+        "cell_methods": "time:point area:mean",
+        "long_name": "Stokes drift U",
+        "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+        "units": "m s-1"
+      },
+      "VSDY": {
+        "cell_methods": "time:point area:mean",
+        "long_name": "Stokes drift V",
+        "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+        "units": "m s-1"
+      }
+    },
+    "finite_fraction_including_land": {
+      "VSDX": 0.6776354406423314,
+      "VSDY": 0.6776354406423314
+    },
+    "first_time_utc": "2014-03-07T00:00:00Z",
+    "global_attributes": {
+      "Conventions": "CF-1.6",
+      "copernicusmarine_version": "2.4.1",
+      "dataset": "global-reanalysis-wav-001-032",
+      "institution": "METEO-FRANCE",
+      "product": "GLOBAL_REANALYSIS_WAV_001_032",
+      "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+      "version": "1.2"
+    },
+    "last_time_utc": "2014-03-31T21:00:00Z",
+    "latitude_count": 401,
+    "longitude_count": 701,
+    "month": "2014-03",
+    "path": "/jackbox/home/.cache/mh370-cmems-waverys/cmems-waverys-stokes-2014-03.nc",
+    "requested_end": "2014-03-31",
+    "requested_start": "2014-03-07",
+    "sha256": "db645ffc00a3e764ed916ad53f1802db677fe354642a8d61b7465c63c1ff9c8b",
+    "spacing_degrees": {
+      "latitude_median": 0.20000004768371582,
+      "longitude_median": 0.19999980926513672
+    },
+    "time_calendar": "gregorian",
+    "time_count": 200,
+    "time_units": "hours since 1950-01-01",
+    "toolbox_response": {
+      "data_transfer_size": "4216.38 MB",
+      "file_size": "214.59 MB",
+      "message": "The request was successful.",
+      "status": "000"
+    }
+  },
+  "limitations": [
+    "WAVERYS is assimilative through significant-wave-height observations and uses GLORYS12 currents in the wave model.",
+    "VSDX/VSDY are surface Stokes velocities; their application to a partially submerged flaperon requires an explicit response sensitivity.",
+    "Direct aerodynamic windage and object-specific residual leeway remain distinct from this field."
+  ]
+}

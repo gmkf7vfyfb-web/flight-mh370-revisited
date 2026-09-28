@@ -1,0 +1,35 @@
+Pleiades-conditioned integrated impact posterior — working analysis
+
+Important data-use point
+- The final 00:19 BFO is NOT used.
+- The previously generated 00:19 airborne posterior was conditioned on the corrected 00:19 R600 BTO only.
+
+Airborne-posterior reconstruction
+- The original particle cloud was not preserved in the current runtime, so the saved 00:19 latitude-PDF and
+  2-D heat-map outputs were numerically digitised.
+- Reconstructed latitude mode: 37.243 S.
+- Reconstructed 95% latitude interval: 34.643 S to 38.826 S.
+- Exact saved-run summary for comparison was mode 37.2485 S, median 37.5297 S and 95% interval
+  34.6501–38.7926 S.
+- The 2-D arc centerline was fitted directly to the saved heat-map ridge.
+
+Pleiades likelihood
+- Conditional hypothesis Himg=1: at least some objects in the 23 March Pleiades images are MH370 debris.
+- Source centers from CSIRO Part III: east1 35.6 S, 92.8 E; west1 alternatives 34.7 S, 92.6 E and
+  35.3 S, 91.8 E.
+- Baseline mixture weights 0.50/0.25/0.25 are scenario weights, NOT probabilities published by CSIRO.
+- Gaussian spatial widths: 25 km along the local 7th-arc tangent and 10 km cross-arc. These translate
+  CSIRO's statements that locations within about 50 km essentially parallel to the arc are also plausible
+  and that it did not have enough confidence to determine the optimum width of the 10–30 km strips.
+- A publication version should reproduce the BRAN2015/BRAN2016 drift simulations directly rather than
+  treating these three source regions as Gaussian components.
+
+EOF kernels
+- No displacement: diagnostic only.
+- DST historical 15/30 NM: spatial density uniform inside 15 NM, with Gaussian falloff of 30 NM SD outside.
+- 15/50 and 15/100 NM use the same mathematical form with broader tails. These are sensitivity envelopes,
+  not claims that Davey/ATSB endorsed those values.
+
+This analysis therefore answers the counterfactual:
+'If at least some Pleiades objects were MH370 debris, how does that evidence reweight the integrated
+SATCOM/RF airborne posterior under alternative EOF-distance assumptions?'

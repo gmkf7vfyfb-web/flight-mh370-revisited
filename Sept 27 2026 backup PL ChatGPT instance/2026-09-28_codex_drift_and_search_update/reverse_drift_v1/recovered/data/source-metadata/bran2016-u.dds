@@ -1,0 +1,27 @@
+Dataset {
+    Float64 xu_ocean[xu_ocean = 3600];
+    Float64 yu_ocean[yu_ocean = 1500];
+    Float64 st_ocean[st_ocean = 51];
+    Float64 Time[Time = 31];
+    Float64 nv[nv = 2];
+    Float64 st_edges_ocean[st_edges_ocean = 52];
+    Float64 average_T1[Time = 31];
+    Float64 average_T2[Time = 31];
+    Float64 average_DT[Time = 31];
+    Grid {
+     ARRAY:
+        Float64 Time_bounds[Time = 31][nv = 2];
+     MAPS:
+        Float64 Time[Time = 31];
+        Float64 nv[nv = 2];
+    } Time_bounds;
+    Grid {
+     ARRAY:
+        Int16 u[Time = 31][st_ocean = 51][yu_ocean = 1500][xu_ocean = 3600];
+     MAPS:
+        Float64 Time[Time = 31];
+        Float64 st_ocean[st_ocean = 51];
+        Float64 yu_ocean[yu_ocean = 1500];
+        Float64 xu_ocean[xu_ocean = 3600];
+    } u;
+} gb6/BRAN/BRAN_2016/OFAM/ocean_u_2014_03.nc;

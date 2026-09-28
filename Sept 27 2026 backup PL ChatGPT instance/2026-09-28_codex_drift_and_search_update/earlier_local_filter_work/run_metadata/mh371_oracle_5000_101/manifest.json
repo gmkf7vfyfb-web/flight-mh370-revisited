@@ -1,0 +1,41 @@
+{
+  "classification": "new v12 reconstruction; not original binary/source reproduction",
+  "identity": {
+    "input_sha256": "6bf196b86550482170c295884016a6e92daf315c05def24120367c60adcbafd1",
+    "core_sha256": "ca0ed7d9a565be13f1b5d7fa00cb6c86bcae676012640a51e0a4b868d67cb284",
+    "runner_sha256": "16ae111eff8129ba9acc37842d8b3eefb828326596300fca053058ed2bdf762c",
+    "weather_sha256": "a7c2e45a1a8f5ff1514fc4adadaaa70a9d446ea7886b53bed264515c9811a694",
+    "magnetic_sha256": "686e63b65194f4903dd2ce889c009d1e54b0ff2438e9066f1b98fe6afe946961",
+    "config": {
+      "particles": 5000,
+      "seed": 101,
+      "dt_s": 10.0,
+      "maneuver_dt_s": 1.0,
+      "ess_fraction": 0.5,
+      "use_bfo": true,
+      "bfo_sigma_hz": 7.0,
+      "bias_prior_sd_hz": 25.0,
+      "position_sd_deg": 0.006666666666666667,
+      "angle_sd_deg": 1.0,
+      "mach_sd": 0.03
+    }
+  },
+  "weather": "known-flight ACARS oracle weather; not blind validation",
+  "input_classification": "reconstructed dense oracle implementation control; independent calibration differs from historical v12",
+  "python": "3.14.7",
+  "configuration": {
+    "particles": 5000,
+    "seed": 101,
+    "dt_s": 10.0,
+    "maneuver_dt_s": 1.0,
+    "ess_fraction": 0.5,
+    "use_bfo": true,
+    "bfo_sigma_hz": 7.0,
+    "bias_prior_sd_hz": 25.0,
+    "position_sd_deg": 0.006666666666666667,
+    "angle_sd_deg": 1.0,
+    "mach_sd": 0.03
+  },
+  "status": "completed",
+  "observations_completed": 8
+}

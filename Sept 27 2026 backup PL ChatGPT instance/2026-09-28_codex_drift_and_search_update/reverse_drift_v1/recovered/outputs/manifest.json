@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-08-27T01:06:32.898Z",
+  "inputs": [
+    {
+      "id": "bran2016",
+      "label": "BRAN2016 2.5 m layer",
+      "input_sha256": "b050a6ceae216a53499e3a96969933cada7f5a6abc03a8a709d8fb7b4118e43f",
+      "current_input_sha256": "b050a6ceae216a53499e3a96969933cada7f5a6abc03a8a709d8fb7b4118e43f",
+      "stokes_input_sha256": null,
+      "velocity_terms": [
+        "ocean-current product",
+        "windage × 10 m wind"
+      ]
+    },
+    {
+      "id": "oscar_v2_final",
+      "label": "OSCAR v2 Final upper-30-m control",
+      "input_sha256": "e24554662c0dde3c6c60ec6c6d78a28c83a25889817f33776e6215dce3f5355a",
+      "current_input_sha256": "e24554662c0dde3c6c60ec6c6d78a28c83a25889817f33776e6215dce3f5355a",
+      "stokes_input_sha256": null,
+      "velocity_terms": [
+        "ocean-current product",
+        "windage × 10 m wind"
+      ]
+    },
+    {
+      "id": "glorys12_waverys",
+      "label": "GLORYS12 0.494 m plus WAVERYS surface Stokes",
+      "input_sha256": "c7e7ae0eeac1755d74c34fccf10495978e213b4b26ae5930f138635ca8a69500",
+      "current_input_sha256": "c7e7ae0eeac1755d74c34fccf10495978e213b4b26ae5930f138635ca8a69500",
+      "stokes_input_sha256": "a73cff24004932ebd2d139968776b60ce8bf95c8b2d3d479d43a9e269868a907",
+      "velocity_terms": [
+        "Eulerian ocean current",
+        "surface Stokes drift",
+        "windage × 10 m wind"
+      ]
+    }
+  ],
+  "implementation": {
+    "source_control_revision": null,
+    "identity_method": "SHA-256 file inventory (checkout has no usable Git revision)",
+    "node_version": "v24.19.0",
+    "files": [
+      {
+        "path": "code/fetch_data.mjs",
+        "sha256": "3641f297f3adf5cdde257a602ef5bac2da4429c188af8a3c2dc333513b48d8bd"
+      },
+      {
+        "path": "code/prepare_cmems_fields.py",
+        "sha256": "d7207dc59a143702694984b4651ae90a5531454dba63b2e99cae8e804e83694a"
+      },
+      {
+        "path": "code/transport_core.mjs",
+        "sha256": "7b0a5bd39f82d9342eb59ccce6f351303c9508120a4bb22d62381a9e0433134b"
+      },
+      {
+        "path": "code/scenario_worker.mjs",
+        "sha256": "be953bd6106d3afcd4ff5763545a3a5589bb6e0a1f664dd3814b0828ec8a8f4c"
+      },
+      {
+        "path": "code/run_inversion.mjs",
+        "sha256": "993d4b786410c841243e7653d2703dbc85477a639583b33e72c11af44502f5da"
+      },
+      {
+        "path": "code/render_report.mjs",
+        "sha256": "31ffbef744e1ed48527ed6fc8c1232157d9975fb70d7c0d14768a8e565c3389d"
+      },
+      {
+        "path": "code/render_report.py",
+        "sha256": "a43fd28a9f9a1883498ecbb8c41077bd40b3be618e93deb894ab2601d167a41c"
+      },
+      {
+        "path": "code/requirements-plot.txt",
+        "sha256": "0c5132bfc8bf7d76d17a49c8c5555b3c5945192bddec844f233fb7cff8ffc1cd"
+      }
+    ],
+    "combined_sha256": "7a3add2598e39f380c95fca196cea1e0987e11bec864b24b9fc48fd2cd1dce8f",
+    "input_manifest_sha256": "5f23aa7d9d8b079578b240ca4d4c5f6be08f13b9bcb4393f1fe809b8d6dc5ede"
+  },
+  "outputs": [
+    {
+      "path": "forward-ensemble-primary-seeds.csv",
+      "bytes": 24962213,
+      "sha256": "51e493e6bde7688b55f7bdba3697da7264f01a2590255cdecad646a8eef8488b"
+    },
+    {
+      "path": "forward-ensemble-diffusion-sensitivity.csv",
+      "bytes": 16917669,
+      "sha256": "ef7a16a84302a790e26734d577f51608130b1072b7dbf6c294cfc41b2d636591"
+    },
+    {
+      "path": "conditional-impact-density.csv",
+      "bytes": 9684075,
+      "sha256": "bdc2a1dbac5c76a029a70039880a26a64f3b52cd55f367863213065a2cb609cb"
+    },
+    {
+      "path": "model-averaged-impact-density.csv",
+      "bytes": 890083,
+      "sha256": "0af895ba12d023a81cffbc0df4df30baba0de5d2a243861b86c0a7b9a2af222b"
+    },
+    {
+      "path": "identity-cardinality-sensitivity.csv",
+      "bytes": 422,
+      "sha256": "7a5b4d9a6cd836a0615c70de7af33e748188b643866a8478ccf1d7bdce1418a0"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 40745,
+      "sha256": "77b6ec631faab57ea2333c8796a9e046be82ea0699fec893bb1a7f378207e51d"
+    },
+    {
+      "path": "pleiades-forward-impact-density.svg",
+      "bytes": 142399,
+      "sha256": "d682553289750cf2d77d4ac759ce5bfc78e9f398b7006687627e647aef47ec91"
+    },
+    {
+      "path": "pleiades-forward-impact-density.pdf",
+      "bytes": 55687,
+      "sha256": "42ca69f75ae62dec7cc369bc1d9f532d700cfe53f1a11859731c54915d96a80e"
+    },
+    {
+      "path": "pleiades-forward-impact-density.png",
+      "bytes": 746909,
+      "sha256": "99318d6bbc0f1bdf2d3b7bff39890826a09d5c2d9fa23c70b1a3bf049cbe881d"
+    }
+  ]
+}

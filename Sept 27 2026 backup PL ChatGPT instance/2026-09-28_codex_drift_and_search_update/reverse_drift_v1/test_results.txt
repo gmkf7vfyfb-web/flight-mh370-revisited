@@ -1,0 +1,38 @@
+✖ all pinned source-file and grid hashes match (2.226791ms)
+✔ current, Stokes, and wind fields have the declared ordering and plausible values (29.407958ms)
+✔ declared source support and object identity sets are invariant (32.753083ms)
+✔ ensemble outputs conserve probability and retain valid trajectories (385.754625ms)
+✔ rendered and tabular output hashes match the output manifest (48.322458ms)
+✔ accessible paper section preserves key methods and conditional interpretation (1.322834ms)
+✔ bilinear and temporal interpolation preserve a constant vector (1.668ms)
+✔ midpoint advection agrees with analytic constant-current displacement (0.383875ms)
+✔ Eulerian current and Stokes drift are added as distinct velocity terms (0.176667ms)
+✔ random-walk scaling reproduces declared two-dimensional daily RMS (10.711833ms)
+✔ equal object identity weights are permutation invariant (0.130708ms)
+✔ source grid uses east-positive cross-arc coordinates (0.462584ms)
+✔ surface normalization and HPD conserve probability (0.256708ms)
+✔ model averaging is a normalized prior-weighted mixture, not a product (0.288833ms)
+✔ uniform one-to-five subset averaging is exactly equal to an exact-one mixture (0.242291ms)
+ℹ tests 15
+ℹ suites 0
+ℹ pass 14
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 561.210792
+
+✖ failing tests:
+
+test at output/reverse_drift_v1/recovered/code/data_invariants.test.mjs:16:1
+✖ all pinned source-file and grid hashes match (2.226791ms)
+  Error: ENOENT: no such file or directory, stat '/Users/pete/.codex/.chatgpt-projects/g-p-6a78d6b1dff48191b88c28a749390af8/output/reverse_drift_v1/recovered/paper/csiro-ocean-drift-part-iii.pdf'
+      at async stat (node:internal/fs/promises:1095:18)
+      at async TestContext.<anonymous> (file:///Users/pete/.codex/.chatgpt-projects/g-p-6a78d6b1dff48191b88c28a749390af8/output/reverse_drift_v1/recovered/code/data_invariants.test.mjs:19:25)
+      at async Test.run (node:internal/test_runner/test:1389:7)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    errno: -2,
+    code: 'ENOENT',
+    syscall: 'stat',
+    path: '/Users/pete/.codex/.chatgpt-projects/g-p-6a78d6b1dff48191b88c28a749390af8/output/reverse_drift_v1/recovered/paper/csiro-ocean-drift-part-iii.pdf'
+  }

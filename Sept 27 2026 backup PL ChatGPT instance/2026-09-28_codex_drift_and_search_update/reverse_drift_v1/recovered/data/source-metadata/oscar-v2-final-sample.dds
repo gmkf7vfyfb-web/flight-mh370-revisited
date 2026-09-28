@@ -1,0 +1,29 @@
+Dataset {
+    Float64 lon[longitude = 1440];
+    Float64 time[time = 1];
+    Float64 lat[latitude = 719];
+    Structure {
+        Float64 u[time = 1][longitude = 1440][latitude = 719];
+        Float64 lon[longitude = 1440];
+        Float64 lat[latitude = 719];
+        Float64 time[time = 1];
+    } u;
+    Structure {
+        Float64 vg[time = 1][longitude = 1440][latitude = 719];
+        Float64 lon[longitude = 1440];
+        Float64 lat[latitude = 719];
+        Float64 time[time = 1];
+    } vg;
+    Structure {
+        Float64 ug[time = 1][longitude = 1440][latitude = 719];
+        Float64 lon[longitude = 1440];
+        Float64 lat[latitude = 719];
+        Float64 time[time = 1];
+    } ug;
+    Structure {
+        Float64 v[time = 1][longitude = 1440][latitude = 719];
+        Float64 lon[longitude = 1440];
+        Float64 lat[latitude = 719];
+        Float64 time[time = 1];
+    } v;
+} oscar_currents_final_20140308.nc;

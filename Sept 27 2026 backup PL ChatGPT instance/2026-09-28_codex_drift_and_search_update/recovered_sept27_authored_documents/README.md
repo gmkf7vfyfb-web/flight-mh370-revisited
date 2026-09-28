@@ -1,0 +1,1 @@
+Authored methodology documents recovered from local Downloads. The parent September 27 manifest listed these but did not upload the binaries. Preserved unchanged. The later stage-transition clarification is in ../RESEARCH_STATE_UPDATE.md. Missing hydroacoustic map binaries were not recreated.
