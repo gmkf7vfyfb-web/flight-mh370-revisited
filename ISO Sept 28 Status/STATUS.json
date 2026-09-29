@@ -362,15 +362,18 @@
   "go-ahead on hydroacoustics next steps and Kadri questions"
  ],
  "not_included": [
-  "Boeing-confidential fuel tables",
-  "Boeing end-of-flight simulator runs",
-  "licensed Ball/ARINC antenna spec",
-  "Ocean Infinity 2018 community outline",
-  "raw SITA log (same-data copy at repository root)",
-  "ACARS workbook with MH371 truth",
-  "papers of mixed copyright",
-  "bulk public data (~14 GB) and particle arrays (~4 GB), listed with SHA-256",
+  "linked (explicit restrictive notice): Ulich fuel workbook (Boeing FPPM 'from a confidential source'); SIR Appendix 1.6E (Copyright Boeing); EUROCONTROL BADA, MathWorks and Lissys documents (all rights reserved)",
+  "redacted: ARINC 741 page removed from the Ball antenna compilation",
+  "too large for plain Git, public/regenerable: ocean fields (~13 GB), IMOS zip (566 MB), ERA5 and MERRA-2 grids, particle arrays (4 GB)",
   "unapproved correspondence drafts (Kadri cover letter and requests, Metz/Royer asks)",
   "raw conversation transcripts"
- ]
+ ],
+ "inputs": {
+  "folder": "inputs/",
+  "copied_files": 198,
+  "copied_MB": 373.2,
+  "index": "data/INPUTS_PUBLICATION.csv",
+  "mh371_truth": "inputs/acars/ holds MH371 truth; off-limits to the MH371 control (only its scorer may read it)",
+  "added": "2026-09-29, second commit, at Pete's request"
+ }
 }

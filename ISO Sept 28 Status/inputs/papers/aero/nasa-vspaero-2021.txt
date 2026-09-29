@@ -1,0 +1,2305 @@
+--- page 1 ---
+Transonic Correction Method for Flight Dynamic Stability
+Analysis of Mach 0.745 Transonic Truss-Braced Wing
+Nhan Nguyen*
+NASA Ames Research Center , Moffett Field, CA 94035
+Juntao Xiong†
+KBR Wyle, Inc., Moffett Field, CA 94035
+This paper presents a transonic correction method for obtaining dynamic stability derivatives for ﬂight dy-
+namic stability analysis. The method provides a transonic correction to the Theodorsen’s theory of unsteady
+aerodynamics using FUN3D CFD solver of unsteady Reynolds-averaged Navier-Stokes equations (RANS) for
+a series of wing sections of the Mach 0.745 Transonic Truss-Braced Wing in pitch and plunge oscillations.
+Unsteady lift and pitching moment coefﬁcients are obtained and used to develop the correction terms in the
+Theodorsen’s theory to account for transonic aerodynamics. The unsteady lift and pitching moment deriva-
+tives with respect to the unsteady angle of attack are obtained as frequency response functions of the reduced
+frequency. These frequency response functions are used to compute the dynamic stability derivatives of lift and
+pitching moment due to the angle of attack and pitch rate and the dynamic stability derivatives for the rolling
+moment and yawing moment with respect to the roll rate and yaw rate. A transonic correction is applied to
+steady-state stability derivatives computed by VSPAERO solver using transonic small disturbance code TS-
+FOIL coupled to an integral boundary method. A dynamic stability analysis is conducted for longitudinal
+and lateral-directional motions. Without transonic corrections and dynamic stability derivatives, the analysis
+indicates an unstable phugoid mode. The transonic correction applied to the steady-state stability derivatives
+computed by VSPAERO shows a stable phugoid mode. This is due to the increase of the drag stability deriva-
+tives as a result of the additional wave drag contribution in transonic ﬂow. The effect of the transonic dynamic
+stability derivatives is observed to be a signiﬁcant contributor to the increase in the damping values of all the
+ﬂight dynamic modes of the Mach 0.745 Transonic-Truss Braced Wing.
+I. Introduction
+The Subsonic Ultra Green Aircraft Research (SUGAR) Transonic Truss-Braced Wing (TTBW) aircraft concept is
+a Boeing-developed N+3 aircraft conﬁguration funded by the NASA ARMD Advanced Air Transport Technologies
+(AATT) project.1, 2 The TTBW aircraft concept is designed to be aerodynamically efﬁcient by employing a wing
+aspect ratio of about 19.55 which is signiﬁcantly greater than those of cantilever wing transport conﬁgurations. For
+example, the latest Boeing 777-X is reported to have a wing aspect ratio of 11. Without structural bracing, the
+increase in the wing root bending moment would require a signiﬁcant structural reinforcement which would lead to
+an increase in the structural weight that would offset the aerodynamic beneﬁt of the high aspect ratio wing. Thus, the
+design of a truss-braced structure is a multidisciplinary design optimization process that strives to achieve a delicate
+balance between aerodynamic efﬁciency and structural efﬁciency. In the SUGAR conﬁguration, the trade between
+the aerodynamic performance and structural design results in a truss-braced conﬁguration with the wings braced at
+approximately mid-span by two main struts. In addition, two jury struts, one on each wing, provide the additional
+structural reinforcement. Two versions of the TTBW conﬁgurations are currently being developed by Boeing; a Mach
+0.745 version and a Mach 0.8 version. Figure 1 is an illustration of the Mach 0.745 TTBW aircraft.
+*Senior Research Scientist and Technical Group Lead of Advanced Control and Engineering Systems Group, Intelligent Systems Division,
+nhan.t.nguyen@nasa.gov AIAA Associate Fellow
+†Aerospace Engineer, Intelligent System Division, juntao.xiong@nasa.gov
+1 of 27
+American Institute of Aeronautics and Astronautics
+--- page 2 ---
+Figure 1. Boeing SUGAR Transonic Truss-Braced Wing Aircraft Concept
+This study examines the dynamic stability of the Mach 0.745 TTBW. To analyze dynamic stability of transonic
+aircraft, capabilities for addressing transonic aerodynamics in the evaluation of both steady-state and dynamic stability
+derivatives are needed. Toward this end, a transonic correction method has been developed to address this need. A
+new method for extending the classical Theodorsen’s theory 3 of unsteady aerodynamics for incompressible ﬂow to
+transonic ﬂow is initially proposed by the author.4–6 Further development has been conducted and leads to the current
+method.7 The method modiﬁes the Theodorsen’s theory to correct for changes in the amplitude and phase shift of the
+lift and pitching moment of created by transonic ﬂow over an transonic airfoil in pitch and plunge. The amplitude
+and phase shift corrections are generally a function of the ﬂow parameters such as the Mach number, the reduced
+frequency, and the instantaneous angle of attack as well the airfoil characteristics such as the thickness and the type of
+airfoil. To derive the unsteady corrections, unsteady RANS CFD simulations are performed using FUN3D for selected
+reduced frequencies and Mach numbers for several transonic airfoil wing sections of the Mach 0.745 TTBW aircraft
+conﬁguration.1, 2
+The unsteady lift and pitching moment derivatives with respect to the unsteady angle of attack are obtained as
+frequency response functions over a range of the reduced frequency parameter. The frequency response functions
+are integrated over the wing to account for the angle of attack, pitch rate, roll rate, and yaw rate contributions. The
+integrated frequency response functions are then approximated using the Roger rational fraction approximation to
+obtain the dynamic stability derivatives of lift and pitching moment due to the angle of attack and pitch rate and the
+dynamic stability derivatives for the rolling moment and yawing moment with respect to the roll rate and yaw rate.
+The steady-state stability derivatives are computed from VSPAERO solver for inviscid subsonic ﬂow. A transonic
+correction is applied to steady-state stability derivatives using transonic small disturbance code TSFOIL coupled to
+an integral boundary method. The ﬂight dynamic equations of motion are then modiﬁed to include the transonic
+corrected steady-state and dynamic stability derivatives. Linearization of the equations of motion is used to extract the
+eigenvalues of the ﬂight dynamic modes for stability analysis.
+II. Transonic Correction Method
+The transonic correction method has been developed for both unsteady lift and pitching moment for transonic
+ﬂow over an airfoil in pitching and plunging motions. 7 The correction functions are obtained from unsteady RANS
+CFD simulations of several wing sections of the Mach 0.745 TTBW. In the following section, we will summarize the
+method for the pitching and plunging motions.
+2 of 27
+American Institute of Aeronautics and Astronautics
+--- page 3 ---
+A. Pitching Motion
+Consider an oscillating airfoil in a pitching motion with a sinusoidal angle of attack at the frequency ω
+α = ¯α + ˜α (1)
+˜α = α0 sin ωt = α0 sin kτ (2)
+where τ = 2V∞t
+c is a non-dimensional time, V∞ is the freestream airspeed, c is the airfoil chord, and k = ωc
+2V∞ is the
+reduced frequency.
+1. Unsteady Lift Correction
+The unsteady lift coefﬁcient is expressed as
+cl = ¯cl + ˜cl (3)
+where ¯cl = cl0 + clα ¯α is the steady-state lift coefﬁcient and ˜cl is the unsteady lift coefﬁcient.
+The unsteady transonic correction to the unsteady lift coefﬁcient is proposed as
+˜cl = (Uα + iWα ) clα
+cl∗α
+˜c∗
+l (4)
+where Uα (k, M∞, ¯α, α0) and Wα (k, M∞, ¯α, α0) are transonic correction functions to be applied to the Theodorsen’s
+unsteady lift coefﬁcient, denoted by ˜ c∗
+l , of an oscillating airfoil in incompressible ﬂow, c∗
+lα = 2π, and clα is the
+steady-state lift curve slope. The complex-valued correction provides both the amplitude and phase corrections to the
+unsteady lift by the functions Uα (k, M∞, ¯α, α0) and Wα (k, M∞, ¯α, α0), respectively. These functions depend on the
+reduced frequency k, Mach number M∞, the mean angle of attack ¯α, the amplitude of the alternating component of the
+angle of attack α0.
+The unsteady lift coefﬁcient ˜c∗
+l is established by the Theodorsen’s theory as
+˜c∗
+l = c∗
+lc + c∗
+lnc (5)
+where c∗
+lc is the circulatory lift coefﬁcient and c∗
+lnc is the noncirculatory lift coefﬁcient established by the Theodorsen’s
+theory.
+The circulatory lift coefﬁcient c∗
+lc is given by
+c∗
+lc = C (k) c∗
+lα
+(
+˜α + 2 ec
+c
+c ˙α
+2V∞
+)
+= [F (k) +iG (k)] c∗
+lα
+(
+˜α + 2 ec
+c
+dα
+dτ
+)
+(6)
+For a harmonic motion with θ = eikτ, we have dθ
+dτ = ikθ and d2θ
+dτ2 = ik dθ
+dτ =−k2θ. Then,
+c∗
+lc =
+[
+F (k)− 2k ec
+c G (k)
+]
+c∗
+lα α0 sin kτ +
+[
+G (k) +2k ec
+c F (k)
+]
+c∗
+lα α0 cos kτ (7)
+The noncirculatory lift coefﬁcient c∗
+lnc is due to the inertial force acting on the oscillating airfoil and is given by
+c∗
+lnc = π c ˙α
+2V∞
++ 2π em
+c
+c2 ¨α
+4V 2∞
+= π dα
+dτ + 2π em
+c
+d2α
+dτ2 = πkα0
+(
+cos kτ− 2k em
+c sin kτ
+)
+(8)
+The unsteady lift coefﬁcient ˜c∗
+l is obtained as
+˜c∗
+l = c∗
+lα α0 (Fk sin kτ + Gk cos kτ) (9)
+where
+Fk = F (k)− 2k ec
+c G (k)− k2 em
+c (10)
+Gk = G (k) +2k ec
+c F (k) + k
+2 (11)
+3 of 27
+American Institute of Aeronautics and Astronautics
+--- page 4 ---
+The unsteady lift coefﬁcient with the transonic correction is evaluated by
+˜cl = Fkclα α0 (Uα sin kτ +Wα cos kτ) +Gkclα α0 (Uα cos kτ−Wα sin kτ) (12)
+where the transonic amplitude and phase lift correction functions U and W are obtained from the Fourier sine and
+cosine transforms of the unsteady lift coefﬁcient as
+Uα =
+k
+(
+Fk
+∫ 2nπ
+k
+0 ˜cl sin kτdτ + Gk
+∫ 2nπ
+k
+0 ˜cl cos kτdτ
+)
+nπ
+(
+F2
+k + G2
+k
+)
+clα α0
+(13)
+Wα =
+k
+(
+Fk
+∫ 2nπ
+k
+0 ˜cl cos kτdτ− Gk
+∫ 2nπ
+k
+0 ˜cl sin kτdτ
+)
+nπ
+(
+F2
+k + G2
+k
+)
+clα α0
+(14)
+with n being the number of periods of oscillation.
+2. Unsteady Pitching Moment Correction
+For incompressible ﬂow, the aerodynamic center is at the quarter-chord point. For supersonic ﬂow, the aerodynamic
+center moves to the mid-chord point. Thus, for transonic ﬂow, the aerodynamic center moves between the quarter-
+chord and mid-chord points due to the moving shock structure. The motion of the aerodynamic center may be modeled
+as
+xac = ¯xac + x0 sin (ωt− φ ) = ¯xac + x0 sin (kτ− φ ) (15)
+where φ is the phase delay angle between the angle of attack motion and the aerodynamic center motion. We make
+an assumption that the unsteady motion of the aerodynamic center is proportional to the unsteady angle of attack such
+that xac
+c = ¯xac
+c + (Aα + iBα ) ˜α
+α0
+(16)
+where the functions Aα (k, M∞, ¯α, α0) and Bα (k, M∞, ¯α, α0) represent the amplitude and phase angle of the motion of
+the aerodynamic center.
+The steady-state pitching moment coefﬁcient about the pitch center can be expressed as
+¯cm = cmac + ¯e
+c ¯cl (17)
+where ¯e = xe− ¯xac is the distance between the pitch center and mean aerodynamic center.
+From the steady-state aerodynamics, we obtain
+∂ ¯cm
+∂ ¯α = ∂ cmac
+∂ ¯α + ¯e
+c clα (18)
+By the deﬁnition of an aerodynamic center, ∂ cmac
+∂ ¯α = 0. Therefore, we write
+¯cm = ¯cm0 + cmα ¯α (19)
+where ¯cm0 = cmac + ¯e
+c ¯cl0 is the pitching moment coefﬁcient about the pitch center at the zero angle of attack andcmα is
+the pitching moment curve slope about the pitch center.
+Using the pitching moment curve slope cmα , the distance ¯e between the pitch center and mean aerodynamic center
+can be determined as ¯e
+c = cmα
+clα
+(20)
+Then, the pitching moment coefﬁcient about the aerodynamic center is obtained as
+cmac = ¯cm− cmα
+clα
+¯cl (21)
+4 of 27
+American Institute of Aeronautics and Astronautics
+--- page 5 ---
+The circulatory pitching moment coefﬁcient about the pitch center is given by
+cmc =
+[ ¯e
+c− (Aα + iBα ) ˜α
+α0
+]
+clc− (Aα + iBα ) ˜α
+α0
+¯cl (22)
+The circulatory lift coefﬁcient is computed as
+clc =
+[
+F (k)− 2k ec
+c G (k)
+]
+clα α0 (U sin kτ +W cos kτ)
++
+[
+G (k) +2k ec
+c F (k)
+]
+clα α0 (U cos kτ−W sin kτ) (23)
+Then, the circulatory pitching moment coefﬁcient about the pitch center is obtained as
+cmc =
+( ¯e
+c Fc− ¯clAα
+)
+sin kτ +
+( ¯e
+c Gc− ¯clBα
+)
+cos kτ
+− 1
+2 (FcAα− GcBα ) + 1
+2 (FcAα− GcBα )cos2 kτ− 1
+2 (GcAα + FcBα )sin2 kτ (24)
+where
+Fc =
+[
+F (k)− 2k ec
+c G (k)
+]
+clα α0Uα−
+[
+G (k) +2k ec
+c F (k)
+]
+clα α0Wα (25)
+Gc =
+[
+G (k) +2k ec
+c F (k)
+]
+clα α0Uα +
+[
+F (k)− 2k ec
+c G (k)
+]
+clα α0Wα (26)
+In addition, a transonic correction for the noncirculatory pitching moment coefﬁcient is proposed as
+cmnc = (Tα + iVα ) c∗
+mnc (27)
+where c∗
+mnc is the incompressible noncirculatory pitching moment given by the Theodorsen’s theory as
+c∗
+mnc = πα0k
+[ k
+16
+(
+1 + 32 e2
+m
+c2
+)
+sin kτ− ec
+c cos kτ
+]
+(28)
+Thus, the total unsteady pitching moment coefﬁcient is expressed as
+˜cm =
+[ ¯e
+c− (Aα + iBα ) ˜α
+α0
+]
+clc− (Aα + iBα ) ˜α
+α0
+¯cl + (Tα + iVα ) c∗
+mnc (29)
+Summing all the contributions of the pitching moment coefﬁcient, the unsteady pitching moment coefﬁcient is
+obtained as
+˜cm = Fm sin kτ + Gm cos kτ− 1
+2 (GcAα + FcBα )sin2 kτ + 1
+2 (FcAα− GcBα )cos2 kτ (30)
+where
+Fm = ¯e
+c Fc− ¯clAα + πα0k
+[ k
+16
+(
+1 + 32 e2
+m
+c2
+)
+Tα + ec
+c Vα
+]
+(31)
+Gm = ¯e
+c Gc− ¯clBα + πα0k
+[ k
+16
+(
+1 + 32 e2
+m
+c2
+)
+Vα− ec
+c Tα
+]
+(32)
+Thus, the transonic pitching moment correction functions Aα, Bα, Tα, and Vα are obtained from the Fourier sine
+and cosine transforms of the unsteady pitching moment coefﬁcients as
+Aα =
+2k
+(
+Fc
+∫ 2nπ
+k
+0 ˜cm cos2 kτdτ− Gc
+∫ 2nπ
+k
+0 ˜cm sin2 kτdτ
+)
+nπ (F2c + G2c) (33)
+Bα =−
+2k
+(
+Fc
+∫ 2nπ
+k
+0 ˜cm sin2 kτdτ + Gc
+∫ 2nπ
+k
+0 ˜cm cos2 kτdτ
+)
+nπ (F2c + G2c) (34)
+5 of 27
+American Institute of Aeronautics and Astronautics
+--- page 6 ---
+Tα =
+k
+16
+(
+1 + 32 e2m
+c2
+)(
+Fm− ¯e
+c Fc + ¯clAα
+)
+− ec
+c
+(
+Gm− ¯e
+c Gc + ¯clBα
+)
+πα0k
+[( k
+16
+)2(
+1 + 32 e2m
+c2
+)2
++
+( ec
+c
+)2
+] (35)
+Vα =
+k
+16
+(
+1 + 32 e2m
+c2
+)(
+Gm− ¯e
+c Gc + ¯clBα
+)
++ ec
+c
+(
+Fm− ¯e
+c Fc + ¯clAα
+)
+πα0k
+[( k
+16
+)2(
+1 + 32 e2m
+c2
+)2
++
+( ec
+c
+)2
+] (36)
+B. Plunging Motion
+The motion of an airfoil in plunge is related to the pitching motion by the effective angle of attack
+˜α =
+˙h
+V∞
+(37)
+The plunging motion is described by
+h =−h0 cos ωt =−h0 cos kτ (38)
+Then, the airfoil sees an angle of attack
+α = ¯α +
+˙h
+V∞
+= ¯α + 2h0k
+c sin kτ (39)
+To establish the equivalent angle of attack, the plunging motion is prescribed by setting α0 = 2h0k
+c .
+1. Unsteady Lift Correction
+Applying the transonic correction, the unsteady lift coefﬁcient for the plunging motion are expressed as
+˜cl = (Uh + iWh) clα
+[
+C (k) 2
+c
+dh
+dτ + 1
+c
+d2h
+dτ2
+]
+= clα α0
+[
+FUh−
+(
+G + k
+2
+)
+Wh
+]
+sin kτ + clα α0
+[(
+G + k
+2
+)
+Uh + FWh
+]
+cos kτ (40)
+Thus, the correction functions Uh and Wh are obtained from the Fourier sine and cosine transforms of the unsteady
+lift coefﬁcient as
+Uh =
+k
+[
+F
+∫ 2nπ
+k
+0 ˜cl sin kτdτ +
+(
+G + k
+2
+)∫ 2nπ
+k
+0 ˜cl cos kτdτ
+]
+nπclα α0
+[
+F2 +
+(
+G + k
+2
+)2] (41)
+Wh =
+k
+[
+Fk
+∫ 2nπ
+k
+0 ˜cl cos kτdτ−
+(
+G + k
+2
+)∫ 2nπ
+k
+0 ˜cl sin kτdτ
+]
+nπclα α0
+[
+F2 +
+(
+G + k
+2
+)2] (42)
+2. Unsteady Pitching Moment Correction
+The unsteady pitching moment coefﬁcient for the plunging motion can be corrected as
+˜cm =
+[ ¯e
+c− (Ah + iBh) 1
+h0k
+dh
+dτ
+]
+(Uh + iWh) clαC (k) 2
+c
+dh
+dτ− (Th + iVh)2π em
+c
+1
+c
+d2h
+dτ2 (43)
+6 of 27
+American Institute of Aeronautics and Astronautics
+--- page 7 ---
+The expression for the unsteady pitching moment coefﬁcient is expanded as
+˜cm =
+( ¯e
+c Fh + πkα0
+em
+c Vh
+)
+sin kτ +
+( ¯e
+c Gh− πkα0
+em
+c Th
+)
+cos kτ
+− 1
+2 (FhAh− GhBh) + 1
+2 (FhAh− GhBh)cos2 kτ− 1
+2 (GhAh + FhBh)sin2 kτ (44)
+where
+Fh = clα α0 (FUh− GWh) (45)
+Gh = clα α0 (GUh + FWh) (46)
+Thus, we obtain the transonic correction functions Ah, Bh, Th, and Vh from the Fourier sine and cosine transforms
+of the unsteady pitching coefﬁcient as
+Ah =
+2k
+(
+Fh
+∫ 2nπ
+k
+0 ˜cm cos2 kτdτ− Gh
+∫ 2nπ
+k
+0 ˜cm sin2 kτdτ
+)
+nπ
+(
+F2
+h + G2
+h
+) (47)
+Bh =−
+2k
+(
+Fh
+∫ 2nπ
+k
+0 ˜cm sin2 kτdτ + Gh
+∫ 2nπ
+k
+0 ˜cm cos2 kτdτ
+)
+nπ
+(
+F2
+h + G2
+h
+) (48)
+Th =− k
+nπ
+∫ 2nπ
+k
+0 ˜cm cos kτdτ + ¯e
+c Gh
+πkα0 em
+c
+(49)
+Vh =
+k
+nπ
+∫ 2nπ
+k
+0 ˜cm sin kτdτ− ¯e
+c Fh
+πkα0 em
+c
+(50)
+III. Application of Transonic Correction in Unsteady Flow Simulations
+A series of unsteady RANS CFD simulations of oscillating transonic airfoils are conducted in FUN3D. The airfoils
+are extracted from the Boeing Mach 0.745 TTBW aircraft conﬁguration at four wing stations as shown in Figure 2.
+The pitch center of the oscillating airfoils is at the quarter-chord location. The FUN3D mesh has about 30 thousand
+grid points. The mesh domain size is about 100 times the airfoil chord length. The Roe’s ﬂux-difference splitting
+scheme and the Spalart-Allmaras turbulence model are used in the simulations. An optimized second-order backward
+ﬁnite-difference scheme is used in the time integration. The simulations are conducted in FUN3D for Mach 0.65, 0.7,
+0.75, and 0.8 at four different reduced frequencies k = 0.02, 0.1, 0.2, and k = 0.3.
+Figure 2. Mach 0.745 Transonic Truss Braced-Wing Airfoil Cuts
+Steady-state RANS CFD simulations of the full Mach 0.745 TTBW conﬁguration are also conducted in FUN3D.
+The Roe’s ﬂux-difference splitting scheme and the Spallart-Allmaras turbulence model are used in the simulations.
+The Venkatakrishnan limiter is also used. The tetrahedral and prism mesh has 90.4 million grid points. The steady
+state simulations are conducted at Mach 0.65, 0.7, and 0.75. The plots of the section lift coefﬁcients for these wing
+7 of 27
+American Institute of Aeronautics and Astronautics
+--- page 8 ---
+sections are shown in Figures 3(a)-(d). From this data set, the trim angles of attack for the wing sections are obtained
+for the design lift coefﬁcient of 0.73 at Mach 0.745. The wing sweep correction is also applied for each wing station.
+ (deg)
+cl
+Section A Steady-State Lift Coefficient
+M  = 0.65
+M  = 0.7
+M  = 0.75
+ (deg)
+cl
+Section B Steady-State Lift Coefficient
+M  = 0.65
+M  = 0.7
+M  = 0.75
+(a) (b)
+ (deg)
+cl
+Section C Steady-State Lift Coefficient
+M  = 0.65
+M  = 0.7
+M  = 0.75
+ (deg)
+cl
+Section D Steady-State Lift Coefficient
+M  = 0.65
+M  = 0.7
+M  = 0.75
+(c) (d)
+Figure 3. Mach 0.745 Transonic Truss-Braced Wing Section ¯cl
+Selected ﬁgures from the analysis are presented to illustrate the method. Figures 4 (a) and (b) show the time history
+of the unsteady lift coefﬁcient and the hysteresis loop in the lift curve, respectively, computed by FUN3D for the MAC
+wing section at Mach 0.8 and the reduced frequency k = 0.02. The computed unsteady lift coefﬁcient by the transonic
+correction method is in good agreement with the FUN3D results.
+Figures 5(a) and (b) present the time history of the unsteady pitching moment coefﬁcient and the hysteresis loop
+in the pitching moment curve, respectively, for Mach 0.8 and the reduced frequency k = 0.02. The unsteady pitching
+moment coefﬁcient exhibits a strong nonlinearity not seen in the unsteady lift coefﬁcient in Figures 4(a) and (b). The
+transonic correction method is able to capture the nonlinear pitching moment coefﬁcient quite accurately. There is an
+excellent agreement in the time histories of the unsteady pitching moment coefﬁcients between the FUN3D results
+and the transonic correction. The hysteresis loop in the pitching moment curve illustrates the strong nonlinearity. The
+match in the hysteresis loop is generally quite good.
+8 of 27
+American Institute of Aeronautics and Astronautics
+--- page 9 ---
+0 1 2 3 4 5 6 7 8 9
+Time (sec)
+Unsteady c l
+FUN3D Unsteady cl
+Transonic Correction
+-1.5 -1.25 -1 -0.75 -0.5
+ (deg)
+cl
+FUN3D Unsteady cl
+Transonic Correction
+(a) (b)
+Figure 4. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section cl Time History and cl vs. α for Mach 0.8 and k = 0.02
+0 1 2 3 4 5 6 7 8 9
+Time (sec)
+Unsteady c m
+FUN3D Unsteady cm
+Transonic Correction
+-1.5 -1.25 -1 -0.75 -0.5
+ (deg)
+cm
+FUN3D Unsteady cm
+Transonic Correction
+(a) (b)
+Figure 5. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section cm Time History and cm vs. α for Mach 0.8 and k = 0.02
+The nonlinear effect in the unsteady pitching moment coefﬁcient is postulated to be due to the unsteady motion
+of the aerodynamic center due to the moving shock. This has been conﬁrmed by the shock locations in the previous
+study.7 The inclusion of a transonic correction term to capture the unsteady motion of the aerodynamic center allows
+the transonic correction method to accurately model the unsteady pitching moment coefﬁcient. Figures 6(a) and (b)
+present the time history of the motion of the aerodynamic center about the mean aerodynamic center and the hysteresis
+of the aerodynamic center location vs. angle of attack, respectively, computed by the transonic correction method. The
+motion is predicted to be about 2.3% of chord.
+9 of 27
+American Institute of Aeronautics and Astronautics
+--- page 10 ---
+0 1 2 3 4 5 6 7 8 9
+Time (sec)
+Unsteady xac/c
+Computed Unsteady x ac/c
+-1.5 -1.25 -1 -0.75 -0.5
+ (deg)
+xac/c
+Computed Unsteady x ac/c
+(a) (b)
+Figure 6. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section xac Time History and xac vs. α for Mach 0.8 and k = 0.02
+To illustrate the effect of the reduced frequency, Figures 7(a) and (b) present the time history of the unsteady lift
+coefﬁcient and the hysteresis loop of the lift curve, respectively, for Mach 0.8 and the reduced frequencyk = 0.3. The
+transonic correction method captures the unsteady lift coefﬁcient very accurately.
+0 0.1 0.2 0.3 0.4 0.5 0.6
+Time (sec)
+Unsteady c l
+FUN3D Unsteady cl
+Transonic Correction
+-1.5 -1.25 -1 -0.75 -0.5
+ (deg)
+cl
+FUN3D Unsteady cl
+Transonic Correction
+(a) (b)
+Figure 7. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section cl Time History and cl vs. α for Mach 0.8 and k = 0.3
+Figures 8(a) and (b) show the time history of the unsteady pitching moment coefﬁcient and the hysteresis loop
+of the pitching moment curve, respectively, for Mach 0.8 and the reduced frequency k = 0.3. It is interesting to note
+that the strong nonlinear effect in the unsteady pitching moment coefﬁcient for the reduced frequency k = 0.02 is not
+present in the unsteady pitching moment for the reduced frequency k = 0.3. Nonetheless, the hysteresis loop in the
+unsteady pitching moment curve indicates a slight nonlinearity in the unsteady pitching moment coefﬁcient.
+Figures 9(a) and (b) show the time history of the unsteady motion of the aerodynamic center computed by the tran-
+sonic correction method. It is interesting to see that the amplitude of the motion of the aerodynamic center decreases
+as the reduced frequency increases when comparing the amplitudes for the reduced frequency k = 0.02 in Figures 6
+(a) and (b). Moreover, the phase angle of the motion of the aerodynamic center also reverses. A possible explanation
+for the reduced nonlinearity in the unsteady pitching moment coefﬁcient as the reduced frequency increases could be
+due to the lift circulation not being able to fully establish at higher values of the reduced frequency. At very small
+values of the reduced frequency, the ﬂow is dominated by the steady-state lift circulation which is strongly nonlinear
+10 of 27
+American Institute of Aeronautics and Astronautics
+--- page 11 ---
+in transonic ﬂow. Therefore, as the ﬂow begins to transition from a steady ﬂow to unsteady ﬂow, the nonlinear effect
+of the steady ﬂow still dominates.
+0 0.1 0.2 0.3 0.4 0.5 0.6
+Time (sec)
+Unsteady c m
+FUN3D Unsteady cm
+Transonic Correction
+-1.5 -1.25 -1 -0.75 -0.5
+ (deg)
+cm
+FUN3D Unsteady cm
+Transonic Correction
+(a) (b)
+Figure 8. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section cm Time History and cm vs. α for Mach 0.8 and k = 0.3
+0 0.1 0.2 0.3 0.4 0.5 0.6
+Time (sec)
+Unsteady xac/c
+Computed Unsteady x ac/c
+-1.5 -1.25 -1 -0.75 -0.5
+ (deg)
+xac/c
+Computed Unsteady x ac/c
+(a) (b)
+Figure 9. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section xac Time History and xac vs. α for Mach 0.8 and k = 0.3
+Figures 10(a) and (b) present the amplitude and phase correction functions Uα and Wα for the unsteady lift coefﬁ-
+cient in a pitching harmonic motion, respectively. The functions vary with the Mach number and the reduced frequency
+for the amplitude of oscillation of 0.5◦. The amplitude correction function Uα shows a decrease in the amplitude as the
+reduced frequency increases at a given Mach number. At the reduced frequency k = 0.3, the amplitude decreases by
+some amount as the Mach number increases from 0.6 to 0.8. The phase correction functionWα also shows an increase
+in the phase lag as the reduced frequency increases. At the reduced frequency k = 0.3, the phase angle decreases as
+the Mach number increases from 0.6 to 0.8.
+Figures 11(a) and (b) present the functions Aα and Bα that model the motion of the aerodynamic center, respec-
+tively. The function Aα represents the amplitude of the motion of the aerodynamic center and clearly shows a large
+amplitude at Mach 0.8 and k = 0.02. As the reduced frequency increases, the amplitude of the motion reduces. The
+function Bα represents the phase angle relative to the motion of the angle of attack. As the reduced frequency increases,
+the phase angle decreases.
+Figures 12 shows the functions Tα and Vα that correct for the amplitude and phase angle of the noncirculatory
+11 of 27
+American Institute of Aeronautics and Astronautics
+--- page 12 ---
+pitching moment coefﬁcient. The functions show large negative values at Mach 0.8 and k = 0.02 which indicates
+a larger correction for the noncirculatory pitching moment coefﬁcient due to the nonlinear effect. As the reduced
+frequency increases, the correction becomes small.
+0.5
+0.6 0.3
+0.6
+0.7
+0.65 0.2
+U
+0.8
+M k
+0.7
+0.9
+0.1
+1
+0.75
+0.8 0
+-0.35
+0.6 0.3
+-0.3
+-0.25
+0.65
+-0.2
+0.2
+W
+-0.15
+kM
+0.7
+-0.1
+0.1
+-0.05
+0.75
+0 0.8
+(a) (b)
+Figure 10. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section Transonic Correction Functions Uα and Wα for Unsteady Lift
+-0.03
+0.3 0.6
+-0.02
+0.65
+-0.01
+0.2
+A
+M k
+0.7
+0
+0.1
+0.01
+0.75
+0 0.8
+0
+0.3 0.6
+0.005
+0.01
+0.2 0.7
+B
+kM
+0.015
+0.8 0.1
+0.02
+0.9 0
+(a) (b)
+Figure 11. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section Transonic Correction Functions Aα and Bα for Aerodynamic
+Center Motion
+12 of 27
+American Institute of Aeronautics and Astronautics
+--- page 13 ---
+0
+0.6 0.3
+1
+0.65
+2
+0.2
+T
+M k
+0.7
+3
+0.1
+4
+0.75
+0.8 0
+-6
+0.3 0.6
+-4
+-2
+0.65 0.2
+V
+0
+kM
+0.7
+2
+0.1
+4
+0.75
+0.8 0
+(a) (b)
+Figure 12. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section Transonic Correction Functions Tα and Vα for Noncirculatory
+Pitching Moment
+Figures 13(a) and (b) compare the correction functions Uα and Wα for the pitching motion to Uh and Wh for the
+plunging motion for the unsteady lift as functions of the Mach number, respectively. The amplitude correction Uh for
+the plunging motion is slightly larger than the amplitude correction function Uα for the pitching motion by an almost
+constant offset. The phase correction Wh for the plunging motion is smaller in amplitude than the phase correctionWα
+for the pitching motion. The phase correction greatly increases for Mach 0.75.
+0.65 0.66 0.67 0.68 0.69 0.7 0.71 0.72 0.73 0.74 0.75
+M
+0.7
+0.72
+0.74
+0.76
+0.78
+0.8
+0.82
+0.84
+0.86
+0.88
+Uh, U
+Uh, k=0.1, 2h0k/c 0=0.1o
+U , k=0.1, 0=0.1o
+0.65 0.66 0.67 0.68 0.69 0.7 0.71 0.72 0.73 0.74 0.75
+M
+-0.215
+-0.21
+-0.205
+-0.2
+-0.195
+-0.19
+-0.185
+-0.18
+-0.175
+Wh, W
+Wh, k=0.1, 2h0k/c 0=0.1o
+W , k=0.1, 0=0.1o
+(a) (b)
+Figure 13. Mach 0.745 Transonic Truss-Braced Wing MAC Airfoil Transonic Correction Functions Uα and Wα for Pitching Motion and
+Uh and Wh for Plunging Motion for Unsteady Lift versus Mach Number for k = 0.1 and α0 = 2h0k
+c = 0.1◦
+Figures 14(a) and (b) compare the correction functions Aα and Bα for the pitching motion to the correction func-
+tions Ah and Bh for the pitching motion for the aerodynamic center motion as functions of the Mach number. These
+transonic correction functions capture the nonlinearity in the unsteady pitching moment. Their magnitudes gener-
+ally increase with increasing the Mach number, thereby implying that the ﬂow is increasingly nonlinear as the Mach
+number increases.
+13 of 27
+American Institute of Aeronautics and Astronautics
+--- page 14 ---
+0.65 0.66 0.67 0.68 0.69 0.7 0.71 0.72 0.73 0.74 0.75
+M
+-2
+-1.8
+-1.6
+-1.4
+-1.2
+-1
+-0.8
+-0.6
+-0.4
+Ah, A
+10-3
+Ah, k=0.1, 2h0k/c 0=0.1o
+A , k=0.1, 0=0.1o
+0.65 0.66 0.67 0.68 0.69 0.7 0.71 0.72 0.73 0.74 0.75
+M
+0
+1
+2
+3
+4
+5
+6
+7
+8
+9
+Bh, B
+10-3
+Bh, k=0.1, 2h0k/c 0=0.1o
+B , k=0.1, 0=0.1o
+(a) (b)
+Figure 14. Mach 0.745 Transonic Truss-Braced Wing MAC Airfoil Transonic Correction FunctionsAα and Bα for Pitching Motion and Ah
+and Bh for Plunging Motion for Aerodynamic Center Motion versus Mach Number for k = 0.1 and α0 = 2h0k
+c = 0.1◦
+Figures 15(a) and (b) compare the correction functionsTα and Vα for the pitching motion to the correction functions
+Th and Vh for the plunging motion for the noncirculatory pitching moment as functions of the Mach number. The
+amplitude correction Tα for the pitching motion is larger than amplitude correction Th for the plunging motion. The
+phase correction Vα for the pitching motion is slightly smaller in amplitude than the phase correction Vh for the
+plunging motion.
+0.65 0.66 0.67 0.68 0.69 0.7 0.71 0.72 0.73 0.74 0.75
+M
+0.4
+0.6
+0.8
+1
+1.2
+1.4
+1.6
+1.8
+2
+Th, T
+Th, k=0.1, 2h0k/c 0=0.1o
+T , k=0.1, 0=0.1o
+X: 0.65
+Y: 0.5574
+0.65 0.66 0.67 0.68 0.69 0.7 0.71 0.72 0.73 0.74 0.75
+M
+-2.4
+-2
+-1.6
+-1.2
+-0.8
+-0.4
+0
+Vh, V
+Vh, k=0.1, 2h0k/c 0=0.1o
+V , k=0.1, 0=0.1o
+(a) (b)
+Figure 15. Mach 0.745 Transonic Truss-Braced Wing MAC Airfoil Transonic Correction Functions Tα and Vα for Pitching Motion and Th
+and Vh for Plunging Motion for Noncirculatory Pitching Moment versus Mach Number for k = 0.1 and α0 = 2h0k
+c = 0.1◦
+IV . Dynamic Stability Derivative Analysis
+From the transonic correction method, we obtain the linear aerodynamic frequency response functions between
+the unsteady lift and pitching moment coefﬁcients and the oscillating angle of attack ˜α for the pitching motion by
+neglecting the nonlinear effect of the motion of the aerodynamic center. These linear aerodynamic frequency response
+14 of 27
+American Institute of Aeronautics and Astronautics
+--- page 15 ---
+functions for the pitching motion are obtained as
+cl ˜α (k) = [Uα (k) +iWα (k)] clα
+[
+C (k)
+(
+1 + 2 ec
+c ik
+)
++
+(1
+2 ik− em
+c k2
+)]
+(51)
+cm ˜α (k) = ¯e
+c [Uα (k) +iWα (k)] clαC (k)
+(
+1 + 2 ec
+c ik
+)
++ [Tα (k) +iVα (k)]
+[
+πk2
+( 1
+16 + 2 e2
+m
+c2
+)
+− iπkec
+]
+(52)
+The linear aerodynamic frequency response function for the plunging motion are obtained as
+cl˙˜h
+(k) = [Uh (k) +iWh (k)] clα
+[
+C (k) + 1
+2 ik
+]
+(53)
+cm˙˜h
+(k) = ¯e
+c [Uh (k) +iWh (k)] clαC (k)− [Th (k) +iVh (k)] π em
+c ik (54)
+where ˙˜h = ˙h
+V∞ .
+Figure 16(a) and (b) show the frequency response functions of the dynamic stability derivatives of the MAC wing
+section lift and pitching moment coefﬁcients with respect to the angle of attack. The frequency response functions
+are computed by an interpolation of the unsteady CFD simulation data over a reduced frequency range from 0 to 0.2.
+Figure 17(a) and (b) show the frequency response functions of the dynamic stability derivatives of the MAC wing
+section lift and pitching moment coefﬁcients with respect to the altitude rate.
+0 0.05 0.1 0.15 0.2
+k
+cl (k) Magnitude
+0 0.05 0.1 0.15 0.2
+k
+cl (k) Phase (rad)
+0 0.05 0.1 0.15 0.2
+k
+cm (k) Magnitude
+0 0.05 0.1 0.15 0.2
+k
+cm (k) Phase (rad)
+(a) (b)
+Figure 16. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section cl ˜α and cm ˜α Frequency Response Functions
+15 of 27
+American Institute of Aeronautics and Astronautics
+--- page 16 ---
+0 0.02 0.04 0.06 0.08
+k
+clh
+(k) Magnitude
+0 0.05 0.1 0.15 0.2
+k
+clh
+(k) Phase (rad)
+.
+.
+0 0.05 0.1 0.15 0.2
+k
+cmh
+(k) Magnitude
+0 0.05 0.1 0.15 0.2
+k
+cmh
+(k) Phase (rad).
+.
+(a) (b)
+Figure 17. Mach 0.745 Transonic Truss-Braced Wing MAC Wing Section cl˙˜h
+and cm˙˜h
+Frequency Response Functions
+To obtain the dynamic stability derivatives for the aircraft, the following analyses are performed:
+A. Dynamic Stability Derivatives with Respect to Angle of Attack
+We assume that the dynamic stability derivatives are dominant by the wing contribution. Furthermore, transonic ﬂow
+usually is associated with wing aerodynamics due to the high operating lift coefﬁcient in ﬂight. The horizontal tail and
+vertical tail usually operate at lower lift coefﬁcients. Therefore, the ﬂow is usually subsonic.
+The effective center of lift measured from the quarter-chord location is computed as
+e
+c =− cm ˜α
+cl ˜α
+(55)
+The aircraft lift and pitching moment stability derivatives with respect to the unsteady angle of attack ˜α due to the
+wing contribution are then obtained as
+CL ˜α = 1
+S
+∫ b
+2
+−b
+2
+cl ˜α cdy (56)
+Cm ˜α = 1
+S ¯c
+∫ b
+2
+−b
+2
+cl ˜α (xcg− xa− e) cdy = 1
+S ¯c
+∫ b
+2
+−b
+2
+[
+cm ˜α c + cl ˜α (xcg− xa)
+]
+cdy (57)
+where xcg is the aircraft center of gravity (CG) and xa is wing section at the quarter-chord location.
+Similarly, the aircraft lift and pitching moment stability derivatives with respect to the altitude rate ˙h due to the
+wing contribution are obtained as
+CL˙˜h
+= 1
+S
+∫ b
+2
+−b
+2
+cl˙˜h
+cdy (58)
+Cm˙˜h
+= 1
+S ¯c
+∫ b
+2
+−b
+2
+[
+cm˙˜h
+c + cl˙˜h
+(xcg− xa)
+]
+cdy (59)
+These frequency response functions are then approximated by a rational fraction approximation8, 9 as follows:
+CL ˜α ( ¯s) = CL ¨α ¯s2 +CL ˙α ¯s +CLα +
+6
+∑
+i=1
+ai ¯s
+¯s− pi
+(60)
+Cm ˜α ( ¯s) = Cm ¨α ¯s2 +Cm ˙α ¯s +Cmα +
+6
+∑
+i=1
+bi ¯s
+¯s− qi
+(61)
+16 of 27
+American Institute of Aeronautics and Astronautics
+--- page 17 ---
+CL˙˜h
+( ¯s) = CL˙h +
+6
+∑
+i=1
+fi
+¯s− ui
+(62)
+Cm˙˜h
+( ¯s) = Cm˙h +
+6
+∑
+i=1
+gi
+¯s− vi
+(63)
+where ¯s = ik = iωc
+2V∞ is the non-dimensional Laplace variable.
+The quantities CL ¨α , CL ˙α , Cm ¨α , and Cm ˙α are the dynamic stability derivatives of the lift and pitching moment
+coefﬁcients with respect to the angle of attack. The derivatives CL ¨α and Cm ¨α are due to the apparent mass effect. The
+derivatives CL ˙α , Cm ˙α , CL˙h, and Cm˙hrepresent the aerodynamic damping due to the changes in the angle of attack and
+the altitude rate. The rational fractions provide the additional poles in the frequency response functions to improve
+accuracy. It should be noted that the quantities CLα and Cmα are replaced by the total steady-state stability derivatives
+for the full aircraft conﬁguration to account for the tail contribution which is usually larger than the wing contribution
+for the pitching moment.
+The rational fraction approximation is performed by a linear regression technique to minimize the error square
+between the frequency response functions and the rational fraction approximation. For example, the minimization for
+the frequency response function CL ˜α is described by the cost function
+J = 1
+2Q [ℜ (ε)]2 + Q
+2 [ℑ (ε)]2 (64)
+where ε is the approximation error for N data samples generated by an interpolation over a reduced frequency range
+given by
+ε =
+N
+∑
+n=1
+(
+CL ¨α ¯s2
+n +CL ˙α ¯sn +CLα +
+6
+∑
+j=1
+a j ¯sn
+¯sn− p j
+−CL ˜αn
+)
+=
+N
+∑
+n=1
+[
+−CL ¨α k2
+n +CLα +
+6
+∑
+j=1
+a jk2
+n
+k2n + p2
+j
+− ℜ
+(
+CL ˜αn
+)
+]
++ i
+N
+∑
+n=1
+[
+CL ˙α kn−
+6
+∑
+j=1
+a j p jkn
+k2n + p2
+j
+− ℑ
+(
+CL ˜αn
+)
+]
+(65)
+and Q > 0 is a weighting coefﬁcient that can be adjusted to give relative accuracy in either the magnitude or phase
+angle.
+The poles pi, i = 1, . . . ,6 are pre-selected to be negative values in the range between 0 and−kmax where kmax is the
+largest reduced frequency in the CFD simulation data. The pre-selected values are generated by a random function.
+The linear regression is repeated over a large number of iterations and the results corresponding to the smallest error
+are obtained.
+The minimization is obtained by taking the partial derivatives ofJ with respect to CL ¨α , CL ˙α , CLα , and ai and setting
+them to zero. This results in
+∂ J
+∂CL ¨α
+= 1
+Q ℜ
+(
+¯s2ε
+)
++ Qℑ
+(
+¯s2ε
+)
+(66)
+∂ J
+∂CL ˙α
+= 1
+Q ℜ ( ¯sε) +Qℑ ( ¯sε) (67)
+∂ J
+∂CLα
+= 1
+Q ℜ (ε) +Qℑ (ε) (68)
+∂ J
+∂Cai
+= 1
+Q ℜ
+( ¯sε
+¯s− pi
+)
++ Qℑ
+( ¯sε
+¯s− pi
+)
+(69)
+17 of 27
+American Institute of Aeronautics and Astronautics
+--- page 18 ---
+This results in a linear matrix equation which can be readily solved to obtain CL ¨α , CL ˙α , CLα , and ai
+
+
+∑N
+n=1
+k4n
+Q 0 − ∑N
+n=1
+k2n
+Q − ∑N
+n=1
+k2n fn
+Q
+0 ∑N
+n=1 Qk2
+n 0 − ∑N
+n=1 Q fn p
+− ∑N
+n=1
+k2n
+Q 0 N
+Q ∑N
+n=1
+fn
+Q
+− ∑N
+n=1
+k2n f⊤n
+Q − ∑N
+n=1 Qp f⊤
+n ∑N
+n=1
+f⊤n
+Q ∑N
+n=1
+(
+f⊤n fn
+Q + Qp f⊤n fn p
+k2n
+)
+
+
+
+
+CL ¨α
+CL ˙α
+CLα
+a
+
+
+=
+
+
+− ∑N
+n=1
+k2nℜ
+(
+CL ˜αn
+)
+Q
+∑N
+n=1 Qknℑ
+(
+CL ˜αn
+)
+∑N
+n=1
+ℜ
+(
+CL ˜αn
+)
+Q
+∑N
+n=1
+[
+f⊤n ℜ
+(
+CL ˜αn
+)
+Q −
+Qp f⊤n ℑ
+(
+CL ˜αn
+)
+kn
+]
+
+
+(70)
+where fn =
+[ k2n
+k2n+p2
+1
+. . . k2n
+k2n+p2
+6
+]
+, p = diag (p1, . . . ,p6), and a =
+[
+a1 . . . a6
+]⊤
+.
+The lift and pitching moment contributions due to the dynamic stability derivatives with respect to the angle of
+attack and altitude rate are then expressed as
+(
+CL ˜α−CLα
+)
+α +
+CL˙˜h
+V∞
+˙h = CL ¨α ¯c2
+(2V∞)2 ¨α + CL ˙α ¯c
+2V∞
+˙α +
+6
+∑
+j=1
+η j +
+CL˙h
+V∞
+˙h +
+6
+∑
+j=1
+σ j (71)
+(
+Cm ˜α−Cmα
+)
+α +
+Cm˙˜h
+V∞
+˙h = Cm ¨α ¯c2
+(2V∞)2 ¨α + Cm ˙α ¯c
+2V∞
+˙α +
+6
+∑
+j=1
+ν j +
+Cm˙h
+V∞
+˙h +
+6
+∑
+j=1
+µ j (72)
+where µ j, ν j, σ j, and µ j are the unsteady aerodynamic states for the lift and pitching moment coefﬁcients due to the
+angle of attack and the altitude rate and are described by the following equations:
+¯c
+2V∞
+˙η j = p jη j + a j ¯c
+2V∞
+˙α (73)
+¯c
+2V∞
+˙ν j = q jν j + b j ¯c
+2V∞
+˙α (74)
+¯c
+2V∞
+˙σ j = u jσ j + f j
+V∞
+˙h (75)
+¯c
+2V∞
+˙µ j = v jσ j + g j
+V∞
+˙h (76)
+Figures 18(a)-(b) show the frequency response functions of the dynamic stability derivatives of the lift and pitching
+moment coefﬁcients with respect to the angle of attack, respectively. Figures 19(a)-(b) show the frequency response
+functions of the dynamic stability derivatives of the lift and pitching moment coefﬁcients with respect to the altitude
+rate, respectively.
+18 of 27
+American Institute of Aeronautics and Astronautics
+--- page 19 ---
+0 0.05 0.1 0.15 0.2
+k
+4
+6
+8
+10
+12
+CL (k) Magnitude
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+-0.4
+-0.3
+-0.2
+-0.1
+0
+CL (k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+1
+1.5
+2
+2.5
+3
+Cm (k) Magnitude Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+2.4
+2.6
+2.8
+3
+3.2
+Cm (k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+(a) (b)
+Figure 18. Mach 0.745 Transonic Truss-Braced Wing CL ˜α and Cm ˜α Frequency Response Functions
+0 0.05 0.1 0.15 0.2
+k
+4
+6
+8
+10
+12
+CLh
+(k) Magnitude
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+2.6
+2.8
+3
+3.2
+CLh
+(k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+.
+.
+0 0.05 0.1 0.15 0.2
+k
+1
+1.5
+2
+2.5
+3
+Cmh
+(k) Magnitude
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+-0.4
+-0.3
+-0.2
+-0.1
+0
+Cmh
+(k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+.
+.
+(a) (b)
+Figure 19. Mach 0.745 Transonic Truss-Braced Wing CL˙h and Cm˙h Frequency Response Functions
+B. Dynamic Stability Derivatives with Respect to Pitch Rate
+The pitch rate creates an effective plunge velocity at the three-quarter chord collation point on an airfoil
+˙hc = q (xc− xcg) (77)
+where xc is the effective downwash three-quarter chord location.
+The incremental lift and lift coefﬁcient are computed as
+∆L = q∞
+∫ b
+2
+−b
+2
+cl˙˜h
+(xc− xcg) cdy
+∆CL = ∆L
+q∞S = q ¯c
+2V∞
+2
+S ¯c
+∫ b
+2
+−b
+2
+cl˙˜h
+(xc− xcg) cdy (78)
+19 of 27
+American Institute of Aeronautics and Astronautics
+--- page 20 ---
+The lift derivative is then obtained as
+CL ˜q = ∂ ∆CL
+∂
+(
+q ¯c
+2V∞
+) = 2
+S ¯c
+∫ b
+2
+−b
+2
+cl˙˜h
+(xc− xcg) cdy (79)
+The incremental pitching moment and pitching moment coefﬁcient are computed as
+∆m = q∞
+∫ b
+2
+−b
+2
+[
+cm˙˜h
+q
+V∞
+(xc− xcg) c + cl˙˜h
+q
+V∞
+(xc− xcg) (xcg− xa)
+]
+cdy (80)
+∆Cm = ∆m
+q∞S ¯c = q ¯c
+2V∞
+2
+S ¯c2
+∫ b
+2
+−b
+2
+[
+cm˙˜h
+(xc− xcg) c + cl˙˜h
+(xc− xcg) (xcg− xa)
+]
+cdy (81)
+The pitching moment derivative is obtained as
+Cm ˜q = ∂ ∆Cm
+∂
+(
+q ¯c
+2V∞
+) = 2
+S ¯c2
+∫ b
+2
+−b
+2
+[
+cm˙˜h
+(xc− xcg) c + cl˙˜h
+(xc− xcg) (xcg− xa)
+]
+cdy (82)
+The frequency response functions of the lift and pitching moment derivatives with respect to the pitch rate are then
+approximated as
+CL ˜q ( ¯s) = CL ˙q ¯s +CLq +
+6
+∑
+j=1
+c j ¯s
+¯s− r j
+(83)
+Cm ˜q ( ¯s) = Cm ˙q ¯s +Cmq +
+6
+∑
+j=1
+d j ¯s
+¯s− s j
+(84)
+where CL ˙q and Cm ˙q are the dynamic stability derivatives of the lift and pitching moment coefﬁcients due to the pitch
+acceleration.
+The lift and pitching moment contributions due to the dynamic stability derivatives with respect to the pitch rate
+are then expressed as (
+CL ˜q−CLq
+)
+¯c
+2V∞
+q = CL ˙q ¯c2
+(2V∞)2 ˙q +
+6
+∑
+j=1
+λ j (85)
+(
+Cm ˜q−Cmq
+)
+¯c
+2V∞
+q = Cm ˙q ¯c2
+(2V∞)2 ˙q +
+6
+∑
+j=1
+κ j (86)
+where λ j and κ j are the unsteady aerodynamic states for the lift and pitching moment coefﬁcients due to the pitch rate
+and are described by the following equations:
+¯c
+2V∞
+˙λ j = r jλ j + c j ¯c2
+(2V∞)2 ˙q (87)
+¯c
+2V∞
+˙κ j = s jκ j + d j ¯c2
+(2V∞)2 ˙q (88)
+Figures 20(a) and (b) show the frequency response functions of the dynamic stability derivatives of the lift and
+pitching moment coefﬁcients with respect to the pitch rate, respectively.
+20 of 27
+American Institute of Aeronautics and Astronautics
+--- page 21 ---
+0 0.05 0.1 0.15 0.2
+k
+5
+10
+15
+20
+CLq
+(k) Magnitude
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+-0.6
+-0.4
+-0.2
+0
+CLq
+(k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+4
+6
+8
+10
+Cmq
+(k) Magnitude
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+2.6
+2.8
+3
+3.2
+Cmq
+(k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+(a) (b)
+Figure 20. Mach 0.745 Transonic Truss-Braced Wing CL ˜q and Cm ˜q Frequency Response Functions
+C. Dynamic Stability Derivatives with Respect to Roll Rate
+The roll rate creates an effective plunge velocity along the wing span
+˙hc = py (89)
+The incremental rolling moment and rolling moment coefﬁcient are computed as
+∆l =−q∞
+∫ b
+2
+−b
+2
+cl˙˜h
+py2
+V∞
+cdy (90)
+∆Cl = ∆l
+q∞Sb =− pb
+2V∞
+2
+Sb2
+∫ b
+2
+−b
+2
+cl˙˜h
+y2cdy (91)
+The rolling moment derivative is obtained as
+Cl ˜p = ∂ ∆Cl
+∂
+(
+pb
+2V∞
+) =− 2
+Sb2
+∫ b
+2
+−b
+2
+cl˙˜h
+y2cdy (92)
+The frequency response function of the rolling moment derivative with respect to the pitch rate are then approxi-
+mated as
+Cl ˜p ( ¯s) = Cl ˙p ¯s +Clp +
+6
+∑
+j=1
+e j ¯s
+¯s− t j
+(93)
+The rolling moment contribution due to the dynamic stability derivative with respect to the roll rate is then ex-
+pressed as (
+Cl ˜p−Clp
+)
+b
+2V∞
+p =
+Cl ˙pb ¯c
+(2V∞)2 ˙p +
+6
+∑
+j=1
+ξ j (94)
+where ξ j is the unsteady aerodynamic state for the rolling moment coefﬁcient due to the roll rate and is described by
+the following equation:
+¯c
+2V∞
+˙ξ j = t jξ j + e jb ¯c
+(2V∞)2 ˙p (95)
+Figure 21 shows the the frequency response function of the dynamic stability derivative of the rolling moment
+coefﬁcient with respect to the roll rate.
+21 of 27
+American Institute of Aeronautics and Astronautics
+--- page 22 ---
+0 0.05 0.1 0.15 0.2
+k
+0.5
+1
+1.5
+Clp
+(k) Magnitude
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+2.6
+2.8
+3
+3.2
+Clp
+(k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+Figure 21. Mach 0.745 Transonic Truss-Braced Wing Cl ˜p Frequency Response Function
+D. Dynamic Stability Derivatives with Respect to Yaw Rate
+The yaw rate an effective incremental airspeed along the wing span as
+∆V∞ =−ry (96)
+This results in the effective angle of attack
+αc = α ry
+V∞
+(97)
+The incremental rolling moment is computed as
+∆l =−
+∫ b
+2
+−b
+2
+cl ˜α
+(
+α + α ry
+V∞
+) 1
+2 ρ∞ (V∞− ry)2 ycdy +
+∫ b
+2
+−b
+2
+cl ˜α α 1
+2 ρ∞V 2
+∞ycdy
+=−
+∫ b
+2
+−b
+2
+cl ˜α α 1
+2 ρ∞
+(
+−2V∞ry + r2y2)
+ycdy−
+∫ b
+2
+−b
+2
+cl ˜α α ry
+V∞
+1
+2 ρ∞ (V∞− ry)2 ycdy
+= q∞
+∫ b
+2
+−b
+2
+cl ˜α
+αry2
+V∞
+cdy− q∞
+∫ b
+2
+−b
+2
+cl ˜α
+αr3y4
+V 3∞
+cdy (98)
+Note that the integrals that contain y and y3 are zero in the evaluation of the incremental yawing moment due to
+the assumption of symmetric cl ˜α . Since the term with V 3
+∞ is smaller, it can be neglected. The incremental rolling
+coefﬁcient is then computed as
+∆Cl = ∆l
+q∞Sb = rb
+2V∞
+2
+Sb2
+∫ b
+2
+−b
+2
+cl ˜α αy2cdy (99)
+The rolling moment derivative is then obtained as
+Cl˜r = ∂ ∆Cl
+∂
+(
+rb
+2V∞
+) = 2
+Sb2
+∫ b
+2
+−b
+2
+cl ˜α αy2cdy (100)
+The frequency response function of the rolling moment derivative with respect to the yaw rate are then approxi-
+mated as
+Cl˜r ( ¯s) = Cl˙r ¯s +Clr +
+6
+∑
+j=1
+h j ¯s
+¯s− w j
+(101)
+22 of 27
+American Institute of Aeronautics and Astronautics
+--- page 23 ---
+The rolling moment contribution due to the dynamic stability derivative with respect to the yaw rate is then ex-
+pressed as
+(Cl˜r−Clr ) b
+2V∞
+r = Cl˙r b ¯c
+(2V∞)2 ˙r +
+6
+∑
+j=1
+ζ j (102)
+where ξ j is the unsteady aerodynamic state for the rolling moment coefﬁcient due to the roll rate and is described by
+the following equation:
+¯c
+2V∞
+˙ζ j = w jζ j + h jb ¯c
+(2V∞)2 ˙r (103)
+Figure 22 shows the the frequency response function of the dynamic stability derivative of the rolling moment
+coefﬁcient with respect to the yaw rate.
+0 0.05 0.1 0.15 0.2
+k
+0.02
+0.03
+0.04
+0.05
+0.06
+Clr
+(k) Magnitude
+Integrated from FUN3D
+Rational Fraction Approximation
+0 0.05 0.1 0.15 0.2
+k
+-0.4
+-0.3
+-0.2
+-0.1
+0
+Clr
+(k) Phase (rad)
+Integrated from FUN3D
+Rational Fraction Approximation
+Figure 22. Mach 0.745 Transonic Truss-Braced Wing Cl˜r Frequency Response Function
+V . Flight Dynamic Stability Analysis
+To conduct the ﬂight dynamic stability analysis of the Mach 0.745 TTBW, we obtain the linearized equations of
+motion of the aircraft in the stability axes about the trim level ﬂight at the trim angle of attack ¯α.
+The linearized equations of motion for longitudinal dynamics are governed by
+˙h = V∞ (θ− α) (104)
+˙θ = q (105)
+m ˙V =−CDq∞S− mg (θ− α) (106)
+mV∞ ˙α =−CLq∞S + mV∞q (107)
+Iyy ˙q = Cmq∞S ¯c (108)
+The linearized equations of motion for lateral-directional dynamics are governed by
+˙φ = p (109)
+mV∞ ˙β = Cyq∞S + mgφ + mV ( ¯α p− r) (110)
+Ixx ˙p− Ixz ˙r = Clq∞Sb (111)
+−Ixz ˙p + Izz ˙r = Cnq∞Sb (112)
+23 of 27
+American Institute of Aeronautics and Astronautics
+--- page 24 ---
+The trim condition is at Mach 0.745 and the altitude of 43 ,606 ft corresponding to the trim lift coefﬁcient ¯CL =
+0.73 which is the design lift coefﬁcient of the Mach 0.745 TTBW. The results for VSPAERO without the transonic
+corrections are presented in Table 1. The VSPAERO steady-state stability derivatives do not account for transonic
+correction. The short-period mode is stable but the eigenvalues of the phugoid and plunge modes indicate instability.
+The damping of the Dutch-roll mode is 3.6% which is unacceptable. Both the roll and spiral modes are stable.
+Mode Eigenvalue Frequency (rad/sec) Damping Ratio
+Short-Period −0.3578± 0.3461i 0.4978 0.7188
+Phugoid 0.004054± 0.06248i 0.06261 −0.06475
+Plunge 0.0001929
+Dutch-Roll −0.008303± 0.2278i 0.2279 0.03643
+Roll −0.4902
+Spiral −0.0007362
+Table 1. Eigenvalues of Flight Dynamic Modes of Mach 0.745 Transonic Truss-Braced Wing without Transonic Correction
+Table 2 presents the eigenvalues of the ﬂight dynamic modes with the transonic correction of the steady-state
+stability derivatives computed by VSPAERO. The transonic correction is computed by the transonic small disturbance
+(TSD) code TSFOIL.10 This code is loosely coupled to an in-house integral boundary layer (IBL) code to correct for
+the viscous ﬂow interaction with the transonic shock on an airfoil. 11 The increase in the wave drag evidently results
+in the increase in the drag stability derivative which contributes to the airspeed damping. As a result, the phugoid and
+the plunge modes are both stable.
+Mode Eigenvalue Frequency (rad/sec) Damping Ratio
+Short-Period −0.3676± 0.3346i 0.4971 0.7396
+Phugoid −0.008282± 0.07693i 0.07738 0.1070
+Plunge −0.008621
+Dutch-Roll −0.005294± 0.2266i 0.2267 0.02336
+Roll −0.4950
+Spiral −0.001945
+Table 2. Eigenvalues of Flight Dynamic Modes of Mach 0.745 Transonic Truss-Braced Wing with Transonic-Corrected Steady-State Sta-
+bility Derivatives
+Table 3 presents the eigenvalues of the ﬂight dynamic modes with both the transonic-corrected steady-state and
+dynamic stability derivatives. There are 42 eigenvalues. Only those eigenvalues associated with the ﬂight dynamic
+modes are shown. Comparing the results with only the transonic-corrected steady-state stability derivatives, the dy-
+namic stability derivatives contribute more damping to some of the ﬂight dynamic modes such as the phugoid mode
+and the Dutch-roll modes.
+Mode Eigenvalue Frequency (Hz) Damping Ratio
+Short-Period −0.07317± 0.2183i 0.2303 0.3178
+Phugoid −0.3483,−0.07580 0.1625 1.3050
+Plunge −0.002748
+Dutch-Roll −0.01410± 0.2049i 0.2054 0.06865
+Roll −0.2736
+Spiral −0.002282
+Table 3. Eigenvalues of Flight Dynamic Modes of Mach 0.745 Transonic Truss-Braced Wing with Transonic-Corrected Steady-State and
+Dynamic Stability Derivatives
+To illustrate the effect of transonic aerodynamics on ﬂight dynamic stability, two simulations are conducted with
+24 of 27
+American Institute of Aeronautics and Astronautics
+--- page 25 ---
+an initial angle of attack of 1◦ for the longitudinal motion and an initial angle of sideslip of 1◦ for the lateral-directional
+motion. Figures 23(a)-(d) show the angle of attack, pitch rate, airspeed, and altitude, respectively. Without the
+transonic steady-state and dynamic stability derivatives, the longitudal motion is divergent. With only the transonic
+steady-state stability derivatives, the motion becomes stable but the response can be seen to be oscillatory for up to
+300 sec. This would be highly objectionable from the handling qualities and ride quality perspectives. The effect of
+the transonic dynamic stability derivatives is apparent as the motion becomes much more stable and no longer exhibits
+sustained oscillations. However, some large transients in the angle of attack and pitch rate are observed.
+0 100 200 300 400 500
+t (sec)
+1.2
+1.4
+1.6
+1.8
+2
+2.2
+2.4
+2.6
+2.8
+3
+3.2 (deg)
+Angle of Attack Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+0 100 200 300 400 500
+t (sec)
+-0.4
+-0.3
+-0.2
+-0.1
+0
+0.1
+0.2
+0.3q (deg/sec)
+Pitch Rate Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+(a) (b)
+0 100 200 300 400 500
+t (sec)
+670
+680
+690
+700
+710
+720
+730
+740
+750
+760
+770V (ft/sec)
+Airspeed Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+0 100 200 300 400 500
+t (sec)
+4.25
+4.3
+4.35
+4.4
+4.45
+4.5
+h (ft)
+104 Altitude Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+(c) (d)
+Figure 23. Mach 0.745 Transonic Truss-Braced Wing Longitudinal Dynamic Response to Initial 1◦ Angle of Attack
+Figure 24(a)-(d) show the roll angle, roll rate, angle of sideslip, and the yaw rate, respectively. The effect of the
+transonic dynamic stability derivatives can be readily seen as the lateral-directional motion becomes more damped
+than the motions computed without the transonic correction and with only the steady-state stability derivatives.
+25 of 27
+American Institute of Aeronautics and Astronautics
+--- page 26 ---
+0 100 200 300 400 500
+t (sec)
+-3
+-2
+-1
+0
+1
+2
+3
+ (deg)
+Roll Angle Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+0 100 200 300 400 500
+t (sec)
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6p (deg/sec)
+Roll Rate Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+(a) (b)
+0 100 200 300 400 500
+t (sec)
+-1
+-0.8
+-0.6
+-0.4
+-0.2
+0
+0.2
+0.4
+0.6
+0.8
+1
+ (deg)
+Sideslip Angle Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+0 100 200 300 400 500
+t (sec)
+-0.1
+-0.05
+0
+0.05
+0.1
+0.15r (deg/sec)
+Yaw Rate Response at Mach 0.745 and 43,606 ft
+w/o Transonic Stability Derivatives
+w/ Transonic Transonic Steady-State Stability Derivative
+w/ Transonic Stability Derivatives
+(c) (d)
+Figure 24. Mach 0.745 Transonic Truss-Braced Wing Lateral-Directional Dynamic Response to Initial 1◦ Angle of Sideslip
+VI. Discussion
+This study points out the signiﬁcance of the role of transonic aerodynamics on the dynamic stability of the Mach
+0.745 TTBW. Lower-order tools for assessing ﬂight dynamic stability usually do not have capabilities for predicting
+transonic aerodynamics. This could result in incorrect estimation of the stability derivatives which could lead to
+inaccurate stability assessments. By correcting transonic aerodynamics in the steady-state derivatives, improvements
+in the stability derivatives can be obtained but are still insufﬁcient to accurately capture the dynamic stability. Transonic
+correction to steady-state stability derivatives can be implemented fairly readily to coupling steady-state transonic ﬂow
+solvers to lower-order tools, or simply by correcting using the lift curve slopes obtained from high-ﬁdelity steady-state
+CFD simulations.
+Transonic dynamic stability analysis is much more complex and require unsteady RANS simulations which are
+computationally expensive. Conducting full three-dimensional unsteady RANS simulations is usually prohibitive. In
+this study, we develop an approach for analyzing the transonic stability derivatives using a transonic correction method
+developed for the Theodorsen’s theory. This method has been shown to be able to accurately capture the nonlinear un-
+steady transonic aerodynamics due to the moving shock. The method is leveraged to compute the frequency response
+functions of the lift and pitching moment derivatives. The transonic dynamic stability derivatives are then obtained
+from the frequency response functions by a rational fraction approximation.
+With respect to the Mach 0.745 TTBW, an initial ﬂight dynamic stability analysis has been conducted. The analysis
+26 of 27
+American Institute of Aeronautics and Astronautics
+--- page 27 ---
+shows that the aircraft has all stable ﬂight dynamic modes when the transonic dynamic stability derivatives are included
+in the analysis. However, the frequencies and damping values of the short-period mode and Dutch-roll mode are not
+considered acceptable from a handling qualities perspective. In particular, it is observed that the frequencies of the
+short-period mode and the Dutch-roll mode appear to be too low. Typical frequencies of the short-period mode and
+the Dutch-roll mode usually about an order or magnitude larger. While the damping can be improved with a ﬂight
+control system, the frequencies cannot usually be raised substantially by the ﬂight control system alone. A further
+examination of the mass and inertia properties may be necessary to reﬁne the stability analysis.
+VII. Conclusions
+This study develops a method for dynamic stability analysis that captures the transonic aerodynamics of the Mach
+0.745 Transonic Truss-Braced Wing aircraft. The method leverages a recently developed transonic correction method
+for unsteady transonic aerodynamics. This method is shown to be able to accurately model the nonlinear unsteady
+transonic ﬂow associated with a moving shock structure. The dynamic stability analysis method presents techniques
+for estimating the dynamic stability derivatives by a rational fraction approximation of the frequency response func-
+tions of the stability derivatives of the lift, pitching, and rolling moment coefﬁcients with respect to the angle of attack,
+pitch rate, roll rate, and yaw rates.
+The effect of the transonic dynamic stability derivatives is seen as a signiﬁcant effect in the ﬂight dynamic stability
+assessments of the Mach 0.745 Transonic Truss-Braced Wing aircraft. In generally, the transonic dynamic stabil-
+ity derivatives contribute substantially to the damping of the ﬂight dynamic modes, thereby improving the dynamic
+stability of the Mach 0.745 Transonic Truss-Braced Wing aircraft.
+The initial dynamic stability analysis indicates that while the all the ﬂight dynamic modes are stable the frequencies
+and damping values of the short-period mode and the Dutch-roll mode are considered unacceptable from a handing
+qualities perspective as the frequencies appear to be too low. A future dynamic stability study will be conducted for
+the Mach 0.8 Transonic Truss-Braced Wing Aircraft.
+Acknowledgment
+The authors wish to acknowledge NASA Advanced Air Transport Technology project for the funding support of
+this work. The authors also acknowledge Boeing Research and Technology and in particular Christopher Droney, Neal
+Harrison, Michael Beyar, Eric Dickey, and Anthony Sclafani, along with the NASA technical POC, Gregory Gatlin,
+for their research conducted under the NASA BAART contracts NNL10AA05B and NNL16AA04B. The research
+published in this paper is made possible by the technical data and wind tunnel test data furnished under these BAART
+contracts.
+References
+1Bradley, M. K. and Droney, C. K., “Subsonic Ultra Green Aircraft Research: Phase I Final Report,” NASA Contractor Report NASA/CR-
+2011-216847, Boeing Research and Technology, April 2011.
+2Bradley, M. K., Droney, C. K., and Allen, T. J., “Subsonic Ultra Green Aircraft Research Phase II: N+4 Advanced Concept Development,”
+NASA Contractor Report NASA/CR-2012-217556, Boeing Research and Technology, May 2012.
+3Theodorsen, T., “General Theory of Aerodynamic Instability and the mechanism of Flutter”, NACA Report No. 496, 1949.
+4Nguyen, N., Fugate, J., Kaul, U., and Xiong, J., “Flutter Analysis of the Transonic Truss-Braced Wing Aircraft Using Transonic Correction,”
+AIAA Structural Dynamics Conference, AIAA-2019-0217, January 2019.
+5Kaul, U. and Nguyen, N., “RANS Simulations of a Pitching and Plunging VCCTEF Airfoil Toward a Transonic Flutter Model,” AIAA
+Structural Dynamics Conference, AIAA-2019-2037, January 2019.
+6Kaul, U. and Nguyen, N., “Extending A Correction Method for Unsteady Transonic Aerodynamics as Applied to Variable Camber Contin-
+uous Trailing Edge Flap,” AIAA Applied Aerodynamic Conference, AIAA-2019-3157, June 2019.
+7Nguyen, N. and Xiong, J., “Transonic Correction to Theodorsen’s Theory for Oscillating Airfoil in Pitch and Plunge Toward Flutter,” AIAA
+Structural Dynamics Conference, AIAA-2021-1913, January 2021.
+8Abel, I., “An Analytical Technique for Predicting the Characteristics of a Flexible Wing Equipped with an Active Flutter-Suppression System
+and Comparison with Wind-Tunnel Data,” NASA TP-1367, 1979.
+9Roger, K. L., “Airplane Math Modeling and Active Aeroelastic Control Design,” AGARD CP-228, 1977.
+10Stahara, S. S., “Operational Manual for Two-Dimensional Transonic Code TSFOIL,” NASA Contractor Report 3064, December, 1978.
+11Fujiwara, G., Chaparro, D., and Nguyen, N., “An Integral Boundary Layer Direct Method Applied to 2D Transonic Small-Disturbance
+Equations,” 34th AIAA Applied Aerodynamics Conference, AIAA-2016-3160, June 2016.
+27 of 27
+American Institute of Aeronautics and Astronautics

@@ -1,0 +1,62 @@
+array_layout = "little-endian f32 [nlat][nlon], row 0 = lat0_deg, NaN = not computed"
+classes = ["w0.000", "w0.012", "w0.030"]
+code_revision = "2724f57"
+diffusivity_m2_s = 0.0
+end_utc = "2014-03-23T04:00:00Z"
+integrator = "explicit midpoint (RK2) on WGS-84, radii of curvature at each start point"
+lat0_deg = -42.0
+latitude_files = ["w0.000-lat.f32", "w0.012-lat.f32", "w0.030-lat.f32"]
+leeway_left_deg = [0.0, 0.0, 0.0]
+leeway_m_s = [0.0, 0.0, 0.0]
+lon0_deg = 82.0
+longitude_files = ["w0.000-lon.f32", "w0.012-lon.f32", "w0.030-lon.f32"]
+max_release_speed_m_s = [0.6194425661235939, 0.5871256126851182, 0.7621988651367066]
+model = "glorys12"
+nlat = 801
+nlon = 1121
+not_computed = "node on land, path reached land (GSHHG raster or the model's dry cells), or left a field's domain"
+product = "pleiades-map-fine"
+release_utc = "2014-03-08T00:40:00Z"
+space_interpolation = "bilinear over wet nodes, renormalised; never filled with zero"
+speed_window_utc = ["2014-03-08T00:00:00Z", "2014-03-08T01:00:00Z"]
+step_deg = 0.0125
+step_s = 3600.0
+stokes_factor = [0.0, 0.0, 0.0]
+time_interpolation = "linear between field time stamps; daily means stamped at 12:00 UTC"
+windage = [0.0, 0.012, 0.03]
+
+[fields.current]
+dataset = "cmems_mod_glo_phy_my_0.083deg_P1D-m"
+name = "CMEMS GLORYS12V1 surface current (0.494 m), daily mean"
+path = "/jackbox/home/MH370-inputs/ocean/glorys12/glorys12-surface-currents.mhgrid"
+product = "GLOBAL_MULTIYEAR_PHY_001_030"
+sha256 = "bec83bcab46e251938f617acf31ab19e76c153f146233ab0c0b37100536495cb"
+
+[fields.land]
+path = "/jackbox/home/MH370-inputs/ocean/gshhg/gshhg-f-land-30s.mhland"
+sha256 = "10f77d366b30072cde8909757c0dc69f3a781d4abcad9953a4b0cbdc36f3073b"
+source = "GSHHG 2.3.7 full resolution, level 1 (gshhs_f.b in gshhg-bin-2.3.7.zip)"
+
+[fields.wind]
+name = "ERA5 10 m wind (u10, v10), hourly analyses"
+path = "/jackbox/home/MH370-inputs/ocean/era5-wind10/era5-wind10-hourly-20140307-20140531.mhgrid"
+sha256 = "22db40f98ee037a5b5c9c59764976c921c10bf48edbe700fd1ea25279cdbcdab"
+source = "https://storage.googleapis.com/gcp-public-data-arco-era5/raw/date-variable-single_level/YYYY/MM/DD/{10m_u,10m_v}_component_of_wind/surface.nc"
+
+[interpolation_test]
+area = [-42.0, -32.0, 82.0, 96.0]
+fraction_over_25km = [0.0005, 0.0005, 0.0015]
+fraction_over_3km = [0.0165, 0.019, 0.0215]
+max_km = [48.60766750460494, 90.03206972054797, 74.27306068407827]
+median_km = [0.06536769375284938, 0.06496525137416977, 0.05611841541441503]
+n = [2000, 2000, 2000]
+not_computed = [0, 0, 0]
+p95_km = [0.9632200047434515, 0.8678687291180925, 1.1586916064132544]
+p99_km = [4.269801062310322, 4.948541449647025, 5.736664224423289]
+seed = 1
+
+[node_fates]
+afloat = [897921, 897921, 897921]
+beached = [0, 0, 0]
+left_domain = [0, 0, 0]
+no_data = [0, 0, 0]

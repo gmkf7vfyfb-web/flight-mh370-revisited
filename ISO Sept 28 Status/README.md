@@ -18,8 +18,9 @@ Recovery and continuation package, snapshot of 28–29 September 2026. It is wri
 | `code/uncommitted/` | Work in progress that is on no branch yet: tracked changes as patches, new files as tarballs, plus `checkouts.json` |
 | `code/branches.tsv`, `code/commit-map.tsv` | Branch heads, and original-to-published commit hashes |
 | `results/` | Small outputs of every run and module report: JSON summaries, CSV tables, PNG report pages, PDFs of 15 MB or less |
-| `results/NOT_COPIED.csv` | Every large output left out (particle arrays and similar, 4.0 GB), with size and SHA-256 |
-| `data/` | Manifests of every external input (244 files, 14.7 GB) with SHA-256, what it is and why it isn't copied; the inputs index; the weather-grid manifest |
+| `results/NOT_COPIED.csv` | Every run output left out (particle arrays and similar, 4.0 GB; two plots of the Boeing runs, now in `inputs/`), with size and SHA-256 |
+| `data/` | Manifests of every external input (244 files, 14.7 GB) with SHA-256, what it is; the inputs index; the weather-grid manifest |
+| `inputs/` | The downloaded third-party inputs themselves (198 files, 373 MB), copied as obtained, plus the small weather grids. `data/INPUTS_PUBLICATION.csv` gives every input's status (copied, redacted, linked, or too large) and source. **`inputs/acars/` contains the MH371 truth track: it is off-limits to the MH371 control (`inputs/MH371-TRUTH-WARNING.txt`)** |
 | `threads/` | The master prompts that set up each thread, the approved stage-API design (`design/d1-api-proposal.txt`), and the iso thread registry |
 | `decisions/` | The standing decisions and rulings made in conversation, one note per topic |
 | `environment/` | Toolchain versions, Python package freeze, make targets, host layout |
@@ -325,17 +326,21 @@ The iso set-up used one git worktree per thread and serialised heavy jobs with `
 
 **Commit identities.** Author and committer identities in the published history are replaced by `MH370 iso agents <mh370-iso@invalid>`, because the originals contain a personal email address. Rewriting changes the commit hashes; `code/commit-map.tsv` maps every original hash to its published one. Hashes quoted in thread messages and `status.md` are originals.
 
-**Left out:**
-- Restricted material:
-  - the Ulich/Boeing fuel tables;
-  - the Boeing end-of-flight simulator runs;
-  - the licensed Ball/ARINC antenna specification;
-  - the Ocean Infinity 2018 community outline;
-  - the raw SITA log, per this repository's rule (a same-data copy is already at this repository's root).
-- The ACARS workbook, which contains the MH371 truth.
-- Papers of mixed copyright.
-- Bulk public data (about 14 GB) and particle arrays (4 GB). All of these are listed with checksums.
-- Drafts of correspondence not yet approved by Pete: the Kadri cover letter and requests, and the Metz/Royer asks.
-- Raw conversation transcripts. Their content is carried by this report, `STATUS.json`, `decisions/` and the master prompts.
+**Inputs (added 29 Sep, at Pete's request).** The downloaded third-party inputs are now in `inputs/`, copied as obtained. That includes the ACARS workbook (MH371 truth, off-limits to the MH371 control), the raw SITA log, the Boeing end-of-flight simulator runs and their plots, the Ocean Infinity 2018 community outline, and papers. The exceptions are listed in `data/INPUTS_PUBLICATION.csv` with their public sources.
+- **Linked, not copied, because they carry an explicit restrictive notice:**
+  - the Ulich fuel workbook, whose tables say they come "from a Boeing FPPM from a confidential source"; the author's public copy is linked;
+  - Appendix 1.6E of the Malaysian Safety Investigation Report ("Copyright © Boeing"); the report itself is on the Malaysian MOT website;
+  - EUROCONTROL BADA documents, a MathWorks page and the Lissys Piano-X guide, all marked all rights reserved.
+- **Redacted:** the Ball antenna compilation is included with its page of ARINC Characteristic 741 (a paid standard) removed.
+- **Too large for plain Git; public and regenerable:**
+  - the ocean fields (about 13 GB);
+  - the IMOS recordings zip (566 MB);
+  - the ERA5 and MERRA-2 weather grids;
+  - the particle arrays (4 GB).
+  These can go to the Hugging Face companion dataset on request.
+
+**Still left out:**
+- drafts of correspondence not yet approved by Pete: the Kadri cover letter and requests, and the Metz/Royer asks;
+- raw conversation transcripts. Their content is carried by this report, `STATUS.json`, `decisions/` and the master prompts.
 
 This repository's AGENTS.md asks that it be kept private until source rights, personal data and unpublished analysis have been reviewed. This folder contains unpublished analysis.

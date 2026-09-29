@@ -1,0 +1,15 @@
+Calibration file names are written in the Metadata text file.
+
+Calibrations were carried out by:
+inputting White noise of known level into the system with the hydrophone in series.
+White noise level was -90 dB re 1 V^2/Hz
+The low frequency roll off was deliberately applied to flatten the sea noise 
+The impedance match of hydrophone and pre-amplifier is correctly accounted for in the calibration
+The low frequency roll off will differ with different hydrophones (different capacitance)
+
+The instrument settings during calibration were identical to those used in the field
+Calibrations were carried out pre- and post- deployment. The file supplied is pre-deployment.
+
+A power spectra of the calibration file will give the system gain with frequency (difference between measured and -90 input)
+
+The system gain can be used with the hydrophone sensitivity to convert volts to Pa.

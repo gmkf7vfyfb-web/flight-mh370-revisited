@@ -1,0 +1,2960 @@
+--- page 1 ---
+1 
+ 
+NASA Common Research Model: A History and Future 
+Plans 
+Melissa B. Rivers1   
+NASA Langley Research Center, Hampton, VA 23681 
+The NASA Common Research Model (CRM) has enabled many formal and informal 
+international cooperative activities and has enabled aeronautical researchers and engineers in 
+industry, government, and academia to work together across organizational and international 
+borders sharing results on relevant problems for the benefit of all. The NASA Common 
+Research Model (CRM) was conceived in 2007 and its aerodynamic design completed in 2008 
+responding to needs broadly expressed both within the US and international aeronautics 
+communities for modern/industry-relevant and open/public geometries coupled with 
+advanced experimental data for applied computational fluid dynamic validation studies. This 
+paper provides a brief history of the development of the CRM, along with a summary of wind 
+tunnel model data that has been obtained over the past 10 years. This paper presents data 
+obtained from the NASA Langley National Transonic Facility, the Ames 11-ft Transonic Wind 
+Tunnel and the European Transonic Windtunnel.  Sample comparisons are given between the 
+three wind tunnels for lift, drag and pitching moment. Several CRM-derivatives that have 
+been developed are also summarized in this paper. 
+I. Nomenclature 
+b = wing span, in. 
+c = wing mean aerodynamic chord, in. 
+CD = drag coefficient 
+CL = lift coefficient 
+Cm = pitching moment coefficient referenced to 0.25 of the wing mean aerodynamic chord 
+M∞ = freestream Mach number 
+q∞ = dynamic pressure, psf 
+Rec = Reynolds number based on mean aerodynamic chord 
+S = model reference area, ft2 
+a = angle of attack, deg 
+h = fraction of wing semi-span 
+L = leading edge sweep angle 
+s = standard deviation 
+q = wing twist, deg 
+II. Introduction 
+he NASA Common Research Model (CRM) has enabled many formal and informal international cooperative 
+activities and has enabled aeronautical researchers and engineers in industry, government, and academia to work 
+together across organizational and international borders sharing results on relevant problems for the benefit of all. The 
+creation of the CRM was motived by needs broadly expressed both within the US and international aeronautics 
+communities for modern/industry-relevant and open/public geometries coupled with advanced experimental data (e.g. 
+skin friction and off-body flow field data for example) suitable for applied computational fluid dynamic (CFD) 
+validation studies. One specific need was for a contemporary commercial transport geometry expressed by the AIAA 
+Applied Aerodynamics Technical Committee-sponsored international Drag Prediction Workshop (DPW) community 
+after completing DPW-I, II, and III between 2001-06.  In 2007, NASA’s Subsonic Fixed Wing (SFW) Project within 
+the Fundamental Aeronautics Program (FAP) took the lead and developed the idea of a modern, industry-relevant yet 
+                                                        1 Senior Research Engineer, Configuration Aerodynamics Branch, Mail Stop 267, AIAA Associate Fellow. 
+T 
+--- page 2 ---
+2 
+ 
+non-proprietary geometry and through its Aerodynamics Technical Working Group (ATWG) led a group of US 
+aerodynamics leaders from industry and government to define the goals and characteristics of the transport 
+configuration that became known as the NASA CRM.  Boeing then took the lead for the detailed aerodynamic design 
+of the CRM configuration; the geometry definition was a critical item because it strikes the difficult balance between 
+being both modern/industry-relevant (Mach 0.85/supercritical, so people and organizations care) and open/public 
+(non-proprietary, so the worldwide community can participate).  The detailed aerodynamic design was vetted with the 
+SFW ATWG and other experts before freezing the design in 2008 and reported by Vassberg [1,2] et. al. Once the 
+aerodynamic design was complete, wind tunnel model hardware was next. 
+NASA’s SFW Project led the hardware design, fabrication, and initial testing of the NASA CRM to meet the broad 
+objectives to provide open/public data for CFD validation studies and to provide an anchor for experimental 
+measurements and correction methods between facilities. NASA’s initial commitment was to complete two tests that 
+would provide data for the international DPW-IV (2009, blind calculations) [3], along with an offer to entertain 
+collaboration opportunities with additional organizations for further tests of the CRM to add to the public database. 
+The CRM was initially tested in the National Transonic Facility (NTF) at the NASA Langley Research Center in 2010 
+to provide a baseline data set for this geometry [4].  This initial test obtained force and moment, surface pressure, 
+model deformation, and surface flow visualization data that were used for CFD validation for DPW-IV.  The model 
+then was tested at the Ames 11-Foot Transonic Wind Tunnel Facility (11-ft) in 2010 [5].  The next stop for the CRM 
+was again the NTF in 2013 to provide test to test repeatability information adding to the wind tunnel and to add to the 
+growing CRM experimental database. The CRM database continued to provide test cases for DPW-V (2012) [6] and 
+DPW-VI (2016) [7]. In 2014, the model made its first international journey under a NASA/DLR collaborative 
+agreement and was tested at the European Transonic Windtunnel (ETW) as part of an EU initiative, and added more 
+information to the experimental database [8].  And now, the CRM is scheduled to be tested in the NTF in 2019 to 
+provide more repeatability data and to once again add further to the CRM experimental database. To facilitate the 
+dissemination of the acquired data, a website was set up to provide a place where people from all over the world can 
+retrieve information specifically related to their needs [9]. The purpose of this paper is to summarize the data acquired 
+to date with the original NASA CRM hardware in preparation for the next entry of the CRM. 
+Many organizations worldwide have embraced the CRM geometry for both computational and e xperimental 
+research. Variations of the original CRM have been fabricated and tested in facilities all over the world.  These 
+variations  will be discussed later in the paper. Further CRM-based collaborations and use of the configuration are 
+wide and varied – far beyond the initial expectations in 2007 when the concept was conceived and beyond the scope 
+of this paper; a future paper is envisioned to capture and summarize the broader use and benefit of the NASA CRM 
+configuration. 
+III. Design and Fabrication 
+This section provides additional detail on aerodynamic design and NASA CRM wind tunnel model hardware 
+design and fabrication complementing the more general discussion above. The CRM aerodynamics design consists of 
+a contemporary supercritical transonic wing and a fuselage that is representative of a wide-body commercial transport 
+aircraft. The CRM was designed for a cruise Mach number of M∞ = 0.85 with a design lift coefficient of CL = 0.5. A 
+sketch of the CRM with reference quantities listed is shown in Fig. 1. The aspect ratio is 9.0, the leading-edge sweep 
+angle (L) is 35 deg, the wing reference area (S) is 3.01 ft2, the wingspan (b) is 62.46 inches, and the mean aerodynamic 
+chord (c) is 7.45 inches. The model moment reference center is located 35.8 inches aft of the fuselage nose and 2.04 
+inches below the fuselage centerline. The nacelles are simple, flow-through nacelles. The model was designed to 
+measure pressures on both the left and right wings using 291 pressure orifices located in nine spanwise wing stations 
+(η = 0.131, 0.201, 0.283, 0.397, 0.502, 0.603, 0.727, 0.846, and 0.950) and on the left-hand nacelle by six orifices at 
+six radial stations (η = 30˚, 90˚, 150˚, 210˚, 270˚, and 330˚). Two wing root bending gages and two Kulite pressure 
+transducers were also installed in the wings. Five different configurations were designed: the wing/body (WB) alone, 
+wing/body/nacelle/pylon (WBNP), wing/body/tail = 0˚ (WBT0), wing/body/tail = +2˚ (WBT+2), and wing/body/tail 
+= -2˚ (WBT-2). 
+The fabrication of the CRM model was performed by Microcraft in Tullahoma, TN. The contract was awarded to 
+Microcraft in July of 2008 and fabricated out of cryogenically acceptable steel, Vascomax C250. The model hardware 
+was delivered to NASA in December 2009.  The model was then prepared for its first test in the NTF. 
+--- page 3 ---
+3 
+ 
+IV. Experimental Tests 
+A. National Transonic Facility 
+1. First entry, 2010 
+The first test of the CRM was performed at the NTF [10, 11] at the NASA Langley Research Center in January of 
+2010. The NTF is a unique national facility that enables testing of aircraft configurations at conditions ranging from 
+subsonic to low supersonic speeds at Reynolds numbers up to full-scale flight values. The NTF is a conventional, 
+closed circuit, continuous-flow, fan-driven, pressurized wind tunnel (Fig. 2) capable of operating in either dry air at 
+warm temperatures or nitrogen from warm to cryogenic temperatures. 
+This investigation, designated NTF 197, provided force and moment, surface pressure, model deformation, surface 
+flow visualization, wing bending moment and Kulite data.  Testing was conducted at 5, 19.8 and 30 million Reynolds 
+number based on the mean aerodynamic chord. To isolate static aeroelastic effects, the 19.8 million Reynolds number 
+data were collected at two different q∞ levels.  The data were collected at temperatures ranging from -250ºF up to 
+120ºF and Mach numbers ranging from 0.7 to 0.87. All Reynolds number values presented in this paper are based on 
+mean aerodynamic chord and all data presented in this paper were obtained at the design Mach number of 0.85. 
+Data were generally obtained over an angle-of-attack range from -3° to +12° at 5 million Reynolds number and an 
+angle-of-attack range from -3° to +6° at 19.8 and 30 million Reynolds numbers. The reduced angle-of-attack range at 
+the higher Reynolds number was required such that critical model stress levels would not be exceeded. Flow angularity 
+measurements were made and upflow corrections ranging from 0.092° to 0.173° were applied to the final NTF data. 
+Wall corrections accounting for model blockage, wake blockage, tunnel buoyancy, and lift interference were also 
+applied. Testing on the WBNP, WBT+2, and WBT-2 configurations was conducted at a Reynolds number of 5 million 
+only. However, data were obtained at all three Reynolds numbers for both the WB and WBT0 configurations. The 
+model is mounted in the wind tunnel using a blade sting arrangement as shown in Fig. 3. 
+Another important set of data obtained in this investigation was model deformation measurement s. Since an 
+effective correlation of computational and experimental data will be directly tied to how well the computational and 
+experimental model geometries match one another, it is important to obtain an accurate definition of the model 
+geometry as tested under aerodynamic loads. In order to obtain this information a video model deformation 
+measurement technique [12] has been developed and employed multiple times at the NTF. This system was used in 
+this initial investigation to obtain wing deflection and twist measurements due to aerodynamic loading. 
+During this test, continuous pitch sweep runs were conducted to acquire Kulite pressure transducer data and wing 
+root bending gage data. The model was pitched at a rate of 0.1 degree/second. The data from the wing root bending 
+gages and Kulites were analyzed by Balakrishna and Acheson [13]. 
+Further tunnel details and facility information are provided in Ref. [14] and more detailed information on this NTF 
+test are provided in Ref. [4]. 
+ 
+2. Second NTF entry, 2013 
+The third test of the CRM, designated as NTF 215, was performed in the NTF in July of 2013. The purpose of this 
+test was to obtain data to demonstrate improvements in the NTF and to provide long term test to test repeatability. 
+Testing was limited to the WB, WBT0, and WBNP configurations during this test. This investigation also provided 
+force and moment, surface pressure and model deformation data for comparison to the first entry in the NTF. Testing 
+was again conducted at 5, 19.8 and 30 million Reynolds number and at two different q∞ levels – a high and a low q∞ 
+condition for the Rec = 19.8 million cases to isolate aeroelastic effects. The data were also collected at temperatures 
+ranging from -250ºF up to 120ºF and Mach numbers ranging from 0.7 to 0.87.  All data presented in this paper for this 
+test were obtained at a freestream Mach number of 0.85, the design Mach number.  The rest of the test setup was 
+identical to the first test of the CRM in the NTF.  A limited set of NTF 215 data is presented herein; comparisons and 
+observations documenting the results of the improvements will be provided in a future paper. 
+B. Ames 11-ft Transonic Wind Tunnel  
+The second test of the CRM took place at the Ames 11-ft wind tunnel in March of 2010 and was designated Test 
+216. The Ames 11-ft tunnel is a closed circuit, variable-pressure, continuous operation wind tunnel (Fig. 4). 
+References [15] and [16] provide more detailed information about the facility. The purpose of this test was twofold: 
+first, to provide tunnel to tunnel comparison data at low Reynolds number and second, to leverage a wider range of 
+advanced measurement techniques available in a noncryogenic tunnel. 
+This investigation acquired force and moment, surface pressure, and surface flow visualization data for comparison 
+to the NTF data, as well as limited pressure sensitive paint (PSP) [17] and Fringe Imaging Skin Friction (FISF) 
+technique data [18]. Testing was conducted at a chord Reynolds number of 5 million. The data were collected at 
+--- page 4 ---
+4 
+ 
+temperatures of approximately 100ºF. Data were obtained at freestream Mach numbers ranging from 0.7 to 0.87 but 
+only the 0.85 data are presented in this paper. Data were generally obtained over an angle-of-attack range from -3° to 
++12° at 5 million chord Reynolds number. Wall corrections accounting for model blockage, wake blockage, tunnel 
+buoyancy, and lift interference were also applied. A picture of the CRM mounted in the 11-ft wind tunnel is shown in 
+Fig. 5.  More detailed information on this test in the 11-ft tunnel is given in Ref. [5]. 
+C. European Transonic Facility 
+The fourth test of the CRM was conducted in the European Transonic Wind Tunnel (ETW) in February 2014. The 
+ETW has a smaller test section and lower maximum pressure, but is otherwise very similar to the NTF as both are 
+pressurized cryogenic, closed circuit, continuous-flow, fan-driven wind tunnels (Fig. 6). Further details about the 
+ETW and its operation can be found at www.etw.de.  The focus of this test was to improve unsteady testing capabilities 
+for exploring limits of the flight envelope, specifically unsteady wake interference effects between the wake of an 
+aircraft wing and the horizontal tail plane as part of the European ESWIRP project (European Strategic Wind Tunnels 
+Improved Research Potential) [19]. 
+During this investigation, force and moment, surface pressure, wing deformation and PIV data were obtained. 
+Although data were acquired at 12 different Mach numbers ranging from 0.25 to 0.87, the majority of the test focused 
+on M∞ = 0.7 and the model design Mach number of 0.85. Only the M∞ = 0.85 data are presented herein. To cover the 
+relevant Reynolds numbers of 5, 19.8 and 30 million, the tunnel temperature was varied between 84°F (302K) and -
+249°F (117K) combined with corresponding pressures between 29psia (200 kPa) and 44psia (300 kPa). A photo of 
+the model installed in the ETW is shown in Fig. 7. Further details on this investigation are given in Ref. [8]. 
+V. Results 
+A. NTF 197 
+Since the first NTF test was the inaugural test of the CRM, the database from this test is extensive.  The first goal 
+was to assess the nacelle/pylon incremental effects for this configuration.  Fig. 8  shows a representative plot of the 
+nacelle/pylon effects. This figure indicates that at a Mach number of 0.85, the drag increases, the lift decreases and 
+the pitching moment increases at CL = 0.5 when a nacelle/pylon is added to the wing/body configuration, as expected.  
+The next goal of this test was to determine aeroelastic effect on this new geometry. A typical plot of the aeroelastic 
+effects is shown in Fig. 9.  This figure shows the aeroelastic effects on the WBT0 configuration at M∞ = 0.85 and Rec 
+= 19.8 million. An increase in q¥ gives a higher CD value, a lower CL and a higher pitching moment for this 
+configuration, which does not follow expected trends.  An increase in dynamic pressure is expected to cause a decrease 
+in CD instead of an increase. The cause for this anomaly is still being researched.  
+Determining tail effects was also a goal during NTF 197.  Three different horizontal tail settings were tested on 
+the WB configuration: tail = -2º, tail = 0º and tail = +2º. Fig. 10 shows an example of the tail effects, specifically for 
+the M∞ = 0.85 condition. At this condition, there is a decrease in drag, increase in lift and a decrease in pitching 
+moment when going from a -2º to a +2º tail setting, as expected.  
+The most significant goal of the initial investigation in the NTF was to establish a database for Reynolds numbers 
+from 5 million up to 30 million such that an assessment of Reynolds number effects could be made. Data were obtained 
+at 5, 19.8 and 30 million Reynolds number at three different Mach numbers for the WB and WBT0 configurations.  
+Figures 11 and 12 show examples of the Reynolds number effects for the WB and WBT0 configurations, respectively, 
+at Mach 0.85.  The lift coefficients at this Mach number for the WB configuration show an increase in lift with an 
+increase in Reynolds number.  The WBT0 configuration also shows an increase in lift with an increase in Reynolds 
+number except for the low q¥, 19.8 million case. A reduction in drag is noted for both configurations from 5 to 30 
+million Reynolds number but the WBT0 19.8 million, low q¥ cases does not fit this trend, since the 19.8 million low 
+q¥ data seems to fall right on top of the 30 million data. In addition, as Reynolds number is increased there is a decrease 
+in pitching moment for the WB configuration. For the WBT0 configuration, little to no Reynolds number effect is 
+seen for the pitching moment except for the low q¥, 19.8 million Reynolds number case, which shows a much smaller 
+pitching moment than the other Reynolds numbers. This may be explained by the fact that at the lower q¥ the wing 
+does not twist as much which leads to a higher local angle outboard.  This means more lift and more nose down for 
+the lower q¥ compared to the higher q¥. 
+Another goal of the initial test of the CRM was to evaluate model twist. Figures 13–16 show example twist plots 
+from the test. These plots show the aeroelastic twist vs. CL at Mach 0.85 for the 5 positions on the wing measured 
+during the test.  These four figures are for the WBT0 configuration at Rec = 5 million-low q¥, 19.8 million-low q¥, 
+--- page 5 ---
+5 
+ 
+19.8 million-high q¥, and 30 million-high q¥.  The higher Reynolds number data (Figures 14-16) have a distinct break 
+close to CL = 0.6, consistent with separation near the tip. 
+During NTF 197, multiple repeat runs were obtained for all five of the configurations tested (WB, WBPN WBT0, 
+WBT+2, and WBT-2) to provide an assessment of data repeatability. Sample repeatability data for this test are 
+presented in Figs. 17 and 18. Delta coefficient data are presented versus angle of attack for each configuration at each 
+condition. The delta coefficient data presented represent the difference between the coefficient value measured and 
+the average value of the coefficient at that particular angle of attack. These delta coefficient, or residual, data show 
+the level of variation in the repeat runs. The solid lines shown on each plot indicate the 2-sigma limits based on all the 
+data across the angle-of-attack range. Thus, it is shown that most all of the residual data fall within the 2-sigma limits, 
+which is true for most of the data from this test [4]. 
+B. Ames 11-ft Test 216 
+When the CRM was taken to Ames 11-ft for testing, many of the same goals were in place. Determining the effects 
+of adding a nacelle/pylon to the configuration was one goal.  Figure 19 shows an example of these effects at M∞ = 
+0.85 for both the Ames 11-ft and LaRC NTF tests.  This figure shows that the drag increases, the lift lowers and the 
+pitching moment increases at CL = 0.5 and M∞ = 0.85 with the addition of a nacelle/pylon in both wind tunnel tests. 
+The slopes are the same for lift, drag and pitching moment with negligible differences in the values of pitching moment 
+between the wind tunnel tests.  At M∞ = 0.85, there is approximately an eight drag count difference and a difference 
+of 0.01 in lift for both the WB and WBPN configurations between the wind tunnel tests. 
+Another goal of the Ames 11-ft test was to determine the horizontal tail effects for the CRM model.  Three different 
+tail settings were tested at both wind tunnels on the WB configuration:  tail = -2º, tail = +2º and tail = 0º. All of these 
+cases were run at a chord Reynolds number of 5 million.  Figure 20 shows the tail effects for a Mach number of 0.85.    
+This figure shows that for the CL = 0.5 and M∞ = 0.85 condition, there is again a decrease in drag, an increase in lift 
+and a decrease in pitching moment when going from a -2º to a +2º tail setting at Ames 11-ft just like at NTF, with 
+negligible difference between the wind tunnel pitching moment actual values.  The drag values between the Ames 11-
+ft and NTF tests give a difference of approximately eight drag counts for the WBT-2 setting, a difference of 
+approximately six drag counts for the WBT0 and 11 drag counts for the WBT+2 setting. The difference in lift is 
+approximately 0.004 for both the WBT+2 and WBT0 settings and approximately 0.006 for the WBT-2 setting. 
+The data repeatability for the Ames 11-ft test was checked in the same manner as at NTF, i.e., within each series 
+of runs, three runs were obtained at the given Mach number. Each of these three runs were always separated by at 
+least one run at a different test condition. This resulted in three repeat runs for all of the configurations at the conditions 
+tested. Sample repeatability data resulting from these runs at M∞ = 0.85 is presented in Fig. 21 which shows that most 
+all of the data are within the 2-sigma limits.  This is typical of all of the data from this test [5]. 
+C. NTF Test 215 
+One goal of the second test of the CRM in the NTF was to provide long-term repeatability data for the CRM 
+database.  With this being the case, the main focus while analyzing the data was on test-to-test repeatability.  Figures 
+22-26 show the test-to-test comparisons for the WB configuration at M∞ = 0.85 and Reynolds number varying from 5 
+up to 30 million and WBT0 configurations at M∞ = 0.85 and Reynolds number varying from 5 up to 19.8 million.   
+Delta coefficient data are presented versus angle of attack for each configuration at each condition shown. The 
+delta coefficient data presented represent the difference between the coefficient value measured and the average value 
+of the coefficient at that particular angle of attack. These delta coefficient, or residual, data show the level of variation 
+in the runs between the tests. The solid lines shown on each plot indicate the 2-sigma limits based on all the data across 
+the angle-of-attack range.  These figures show that most of the data fall within the 2-sigma limits which indicates very 
+good repeatability between the tests. 
+D. ETW test 
+While comparison with the NTF tests was not a primary goal of the test of the CRM in the ETW, the data acquired 
+did enable these comparisons. Figure 27 shows the comparison between NTF 197, NTF 215 and ETW at M∞ = 0.85 
+and Rec = 5 million. This figure shows that at this condition, the NTF lift data is lower than the ETW data and the NTF 
+drag data is ~ three drag counts lower than the ETW data. Finally, the NTF pitching moment is higher than the ETW 
+data at the given condition. 
+Figure 28 shows comparisons for the Rec = 19.8 million case at the low q∞ value.  At M∞ = 0.85 and design point 
+of CL = 0.5, the between-test NTF drag data indicates almost no difference between NTF 197 and NTF 215, but is four 
+counts higher than the ETW data. Off of this design point the drag differences vary slightly over the polar.  The NTF 
+--- page 6 ---
+6 
+ 
+197 and NTF 215 lift difference is negligible and is lower than ETW. For the pitching moment, the NTF197 data is 
+0.001 more nose up than the ETW data but the NTF 215 data is 0.003 higher than the ETW data. 
+The results for the Rec = 19.8 million case at a high q∞ value case are given in Fig. 29.  At M∞ = 0.85, the difference 
+in drag data between the NTF tests is negligible but is seven drag counts higher than the ETW data. The lift data 
+difference between the two NTF tests is negligible but is 0.026 lower than the ETW lift data.  The  pitching moment 
+indicates a change in slope above the design point of CL = 0.5 between the two NTF tests. A better agreement is seen 
+between NTF 215 and ETW below the design point of CL = 0.5 and a better agreement between the two NTF tests 
+above this design point.  The cause of the change in slope between the two NTF test data is unknown. 
+At a flight Reynolds number of Rec = 30 million and M∞ = 0.85, shown in Fig. 30, the NTF drag data is nine counts 
+higher than the ETW data, the NTF lift data is lower than ETW and the pitching moment data is higher than ETW. 
+More details on the comparison between the ETW and NTF 197 tests is provided in Ref. [8]. 
+VI. CRM Derivatives 
+Variations of the original CRM have been fabricated and tested in facilities all over the world.  The Japan 
+Aerospace Exploration Agency (JAXA) built and tested an 80% scaled version of the NASA CRM hardware.  This 
+model (Fig. 31) was tested in the JAXA 2m x 2m transonic wind tunnel in 2012 [20].  The data from this test was 
+compared to the data from the first NTF entry.  These comparisons showed differences in drag and pitching moment 
+due to a lower Reynolds number set point in the JAXA tunnel due to tunnel limitations (data not shown in this paper). 
+Further investigation looking into Reynolds number corrections and corrections for model deformation has been 
+conducted that provide some possible reasons for the lack of agreement between the two wind tunnels[21].  
+Another derivative of the CRM fabricated by the Office National d’Etudes et de Recherches Aerospactiales 
+(ONERA), the French Aeronautics and Space Research Center, is called the Large Reference Model (LRM) and was 
+tested in their S1MA wind tunnel.  This model was a 220% scaled version of the NASA CRM hardware.  This model 
+was the first (and only one thus far) to include a vertical tail [22].  A picture of the LRM installed in the S1MA wind 
+tunnel is shown in Fig. 32. 
+In 2016 the port wing of the NASA  CRM hardware was borrowed by the National Research Council (NRC) in 
+Canada for an experimental test program in the NRC 5-Foot Trisonic Wind Tunnel semispan test facility.  The existing 
+wing was mounted to a newly fabricated half-model fuselage. The configuration of the wind tunnel semispan facility 
+required the model be installed inverted as shown in Fig. 33.  The week-long test program provided valuable 
+information that the NRC will be able to utilize in the development of semispan test capabilities at the NRC 5-Foot 
+Trisonic Wind Tunnel. The comparison between the data from this NRC test program and the first NTF test data show 
+similar lift and moment characteristics when measured on the semispan configuration (data not shown in this paper). 
+Incremental effects of the nacelle/pylon can be assessed with similar accuracy as in a fullspan test but the absolute 
+drag coefficients obtained with the semispan setup are significantly biased and require additional analysis to establish 
+a methodology to correct [23].   
+Another derivative of the CRM geometry is the Common Research Model-High Lift (CRM-HL). This model was 
+developed in an effort to obtain the required high lift performance using active flow control (AFC) on simple-hinged 
+flaps while reducing the cruise drag associated with the external mechanisms on slotted flaps of a generic modern 
+transport aircraft [24-26]. This 10% scale high-lift configuration of the CRM was designed for testing at the NASA 
+Langley Research Center 14- by 22-Foot Subsonic Wind Tunnel in 2018, and is ongoing as of the writing of this 
+paper.  A depiction of the CRM-HL model is shown in Fig. 34. 
+More recently, a semispan wing based on the CRM geometry was designed for Natural Laminar Flow (NLF) on 
+the upper surface and tested in the NTF in 2018, designated CRM-NLF. This new wing was designed to experimentally 
+validate a new NLF technology called Crossflow Attenuated Natural Laminar Flow (CATNLF). This technology 
+enables significant extents of NLF on wings with sweep and Reynolds number typical of transports by using geometry 
+shaping to obtain surface pressures that delay boundary layer transition due to crossflow. A picture of this new wing 
+mounted in the NTF is shown in Fig. 35 and more information about the experiment is given in Ref. [27]. 
+Acknowledgments 
+The author would like to gratefully acknowledge the efforts of the NASA and ETW teams throughout all phases 
+of these experimental investigations and the AIAA Drag Prediction Workshop Committee for their support during the 
+design and fabrication of the CRM. The LaRC NTF, Ames 11-ft and ETW staff are recognized for their efforts in 
+effectively obtaining all desired experimental data.  Within NASA, work was funded by various projects over the 
+years, including the Subsonic Fixed Wing Project under the Fundamental Aeronautics Program, the Aerosciences 
+--- page 7 ---
+7 
+ 
+Evaluation and Test Capability (AETC) project and the Advanced Air Transport Technology Project within the 
+Advanced Air Vehicles Program. 
+References 
+ [1] Vassberg, J. C., DeHaan, M. A., Rivers, S. M., and Wahls, R. A., “Development of a Common Research Model for Applied 
+CFD validation studies.” AIAA Paper 2008-6919, 26th AIAA Applied Aerodynamics Conference, Honolulu, HI, August 2008. 
+[2] Vassberg, J. C., DeHaan, M. A., Rivers, S. M., and Wahls, R. A., “Retrospective on the Common Research Model for 
+Computational Fluid Dynamics Validation Studies,”, Journal of Aircraft 2018, Vol. 55, No. 4 (2018), pp. 1325-1337. 
+[3] Vassberg, J. C., et al., “Summary of the Fourth AIAA CFD Drag Prediction Workshop,” AIAA Paper 2010-4547, 28th 
+AIAA Applied Aerodynamics Conference, Chicago, IL, 2010. 
+[4] Rivers, Melissa B. and Dittberner, Ashley, “Experimental Investigation of the NASA Common Research Model,” AIAA 
+Paper 2010-4218, 28th AIAA Applied Aerodynamics Conference, Chicago, IL, June 2010. 
+[5] Rivers, Melissa B. and Dittberner, Ashley, “Experimental Investigations of the NASA Common Research Model in the 
+NASA Langley National Transonic Facility and NASA Ames 11-Ft Transonic Wind Tunnel (Invited),” AIAA Paper 2011-1126, 
+49th AIAA Aerospace Sciences Meeting, Orlando, FL, January 2011. 
+[6] Levy, David W., et al., “Summary of Data from the Fifth AIAA CFD Drag Prediction Workshop,”, AIAA Paper 2013-
+0046, 51st AIAA Aerospace Sciences Meeting, Grapevine, TX, January 2013. 
+[7] Tinoco, E. N., et al., “Summary Data from the Sixth AIAA CFD Drag Prediction Workshop: CRM Cases 2 to 5,” AIAA 
+Paper 2017-1208, 55th AIAA Aerospace Sciences Meeting, Grapevine, TX, January 2017. 
+[8] Rivers, Melissa B., Quest, Juergen, and Rudnik, Ralf, “Comparison of the NASA Common Research Model European 
+Transonic Wind Tunnel Test Data to NASA Test Data,” AIAA Paper 2015-1093, 53rd AIAA Aerospace Sciences Meeting, January 
+2015. 
+[9] NASA Common Research Model [online database], NASA, https://commonresearchmodel.larc.nasa.gov/ [retrieved 1 
+November 2018]. 
+[10] Gloss, B. B., “Current Status and Some Future Test Directions for the US National Transonic Facility. Wind Tunnels and 
+Wind Tunnel Test Techniques,” Royal Aeronautical Society , 1992, pp. 3.1-3.7. 
+[11] Wahls, R. A., “The National Transonic Facility: A Research Retrospective (Invited),” AIAA Paper 2001-0754, 39th AIAA 
+Aerospace Sciences Meeting and Exhibit, Reno, Nevada, January 2001. 
+[12] Burner, A. W. and Liu, T., “Videogrammetric Model Deformation Measurement Technique,” Journal of Aircraft, Vol. 38, 
+No. 4, July-August 2001, pp. 745-754. 
+[13] Balakrishna, S. and Acheson, Michael J., “Analysis of NASA Common Research Model Dynamic Data,” AIAA Paper 
+2011-1127, 49th AIAA Aerospace Sciences Meeting, Orlando, FL, January 2011.  
+[14] Fuller, D. E., “Guide for Users of the National Transonic Facility,” NASA TM-83124, 1981. 
+[15] Kmak, F., “Modernization and Activation of the NASA Ames 11-by-11-Foot Transonic Wind Tunnel,” AIAA Paper 2000-
+2680, 21st Aerodynamic Measurement Technology and Ground Testing Conference, June 2000. 
+[16] Amaya, M.A. and Murthy, S.V., “Flow Quality Measurements in the NASA Ames Upgraded 11-by-11-Foot Transonic 
+Wind Tunnel (invited Paper),” AIAA Paper 2000-2681, 21st Aerodynamic Measurement Technology and Ground Testing 
+Conference. June 2000. 
+[17] Bell, James H., “Pressure-Sensitive Paint Measurements on the NASA Common Research Model in the NASA 11-ft 
+Transonic Wind Tunnel,” AIAA Paper 2011-1128, 49th AIAA Aerospace Sciences Meeting, Orlando, FL, January 2011. 
+[18] Zilliac, et. al., “A Comparison of the Measured and Computed Skin Friction Distribution on the Common Research 
+Model,” AIAA Paper 2011-1129,  49th AIAA Aerospace Sciences Meeting, Orlando, FL, January 2011. 
+[19] Lutz, Thorsten, et. al., “Going for Experimental and Numberical Unsteady Wake Analyses Combined with Wall 
+Interference Assesment by Using the NASA CRM Model in ETW,” AIAA Paper 2013-0871, 51st AIAA Aerospace Sciences 
+Meeting, Grapevine, TX, January 2013. 
+[20] Ueno, M., Kohzai, T., Koga, S., Kato, H. Nakakita, K., and Sudani, N., “80% Scaled NASA Common Research Model 
+Wind Tunnel Test of JAXA at Relatively Low Reynolds Number,” AIAA Paper 2013-0493, 51st AIAA Aerospace Sciences 
+Meeting, Grapevine, TX, January 2013. 
+[21] Kohzai, M., Ueno, M., Koga, S., and Sudani, N., “Wall and Support Interference Corrections of NASA Common Research 
+Model Wind Tunnel Tests in JAXA,” AIAA Paper 2013-0963, 51st AIAA Aerospace Sciences Meeting, Grapevine, TX, January 
+2013. 
+[22] Cartieri, A., Hue, D., Chanzy, Q., and Atinault, O., “Experimental Investigations on the Common Research Model at 
+ONERA-S1MA – Comparison with DPW Numerical Results,” AIAA Paper 2017-0964, 55th AIAA Aerospace Sciences Meeting, 
+Grapevine, TX, January 2017. 
+[23] Broughton, Cabot A., Benmeddour, Ali, Mebarki, Youssef, and Rivers, Melissa B., “Experimental Investigations of the 
+NASA Common Research Semispan Model in the NRC 5 -Foot Trisonic Wind Tunnel,” AIAA Paper 2018-4285, 2018 
+Aerodynamic Measurement Technology and Ground Testing Conference, Atlanta, GA, June 2108. 
+[24] Lacy, Doug S. and Sclafani, Anthony J., “Development of the High Lift Common Research Model (HL -CRM): A 
+Representative High Lift Configuration for Transonic Transports,” AIAA Paper 2016-0308,  54th AIAA Aerospace Sciences 
+Meeting, San Diego, CA January 2016. 
+--- page 8 ---
+8 
+ 
+[25] Hartwich, Peter M., Shmilovich, Arvin, Lacy, Douglas S., Dickey, Eric D., Sclafani, Anthony J., Sundaram, P., and Yadlin, 
+Yoram, “Refined AFC-Enabled High-Lift System Integration Study,” NASA/CR-2016-219170, 2016. 
+[26] Lin, John C., Melton, Latunia P., Viken, Sally A., Andino, Marlyn Y., Koklu, Mehti, Hannon, Judith A. and Vatsa, Veer 
+N., “High Lift Common Research Model for Wind Tunnel Testing: An Active Flow Control Perspective,” AIAA Paper 2017-0319, 
+55th AIAA Aerospace Sciences Meeting, Grapevine, TX, January 2017. 
+[27] Lynde, M., Campbell, R., Rivers, M., Viken, S., Chan, D., Watkins, A. N., and Goodliff, S., “Preliminary Results from an 
+Experimental Assessment of a Natural Laminar Flow Design Method,” AIAA SciTech Forum, San Diego, CA, January 2019 (to 
+be published). 
+ 
+ 
+ 
+ 
+--- page 9 ---
+9 
+ 
+ 
+ 
+ 
+a)Top View 
+ 
+b) Isometric View 
+ 
+Fig.  1. Sketch of the Common Research Model with reference quantities. 
+ 
+A. Dittberner 
+Ashley.F.Dittberner@nasa.gov 
+National Transonic Facility 
+NASA Langley Research Center 
+Test 197-Common Research Model 
+Test 197-Common Research Model 
+Test Section Arrangement 
+A. Dittberner 
+Ashley.F.Dittberner@nasa.gov 
+National Transonic Facility 
+NASA Langley Research Center 
+Test 197-Common Research Model 
+Test 197-Common Research Model 
+Test Section Arrangement 
+--- page 10 ---
+10 
+ 
+ 
+ 
+Fig.  2. Sketch of the National Transonic Facility tunnel circuit. Linear dimensions are given in feet. 
+ 
+ 
+ 
+Fig.  3. Photo of the Common Research Model in the National Transonic Facility. 
+
+--- page 11 ---
+11 
+ 
+ 
+Fig.  4. Sketch of the Ames 11-Foot Transonic Wind Tunnel Facility. 
+ 
+ 
+Fig.  5. Photo of the NASA Common Research Model in the Ames 11-Foot Transonic Wind Tunnel 
+Facility. 
+
+--- page 12 ---
+12 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig.  6. Sketch of the European Transonic Wind Tunnel. 
+ 
+ 
+ 
+ 
+ 
+Fig.  7. Photo of the NASA Common Research Model in the European Transonic Windtunnel. 
+ 
+FODTurning Vanes
+Stilling Chamber with Screens and
+Honeycomb for Flow Straitening
+Flow Direction
+Second Throat Stainless Steel
+Pressure Shell with
+Internal Insulation
+Gase o u s 
+Nitrogen
+Blow-Off
+L iquid Nitrogen
+In je ct io n
+Two-Stage Compressor (50 MW)
+Te st  Se ct io n  wit h
+Aircraft Model
+Ad ju s t a b le
+Nozzel
+62,2 m
+11,4 m
+
+--- page 13 ---
+13 
+ 
+ 
+ 
+ 
+Fig.  8. NTF 197, nacelle/pylon effects, M∞ = 0.85, Rec = 5 million. 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - NTF Test 197, TWICS applied 
+Mach 0.85, Rec= 4.99 million 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Series 
+11. 
+12. 
+Run 
+44. 
+74. 
+Config 
+WB 
+WBPN 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+.04 
+.06 
+.08 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.04 
+.08 
+.12 
+.16 
+.20 
+.24 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+--- page 14 ---
+14 
+ 
+ 
+ 
+Fig.  9. NTF 197, aeroelastic effects, WBT0, M∞ = 0.85, Rec = 19.8 million. 
+ 
+ 
+-4 -2 0 2 4 6 8 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - NTF Test 197, TWICS Applied 
+WB Tail 0o
+, Mach 0.85, Rec=19.81 million 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Series 
+8. 
+4. 
+Run 
+212. 
+106. 
+q∞,psf 
+1312. 
+1983. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.08 
+-.04 
+0 
+.04 
+.08 
+.12 
+.16 
+.20 
+.24 
+.28 
+.32 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08 
+.09 
+.10 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+--- page 15 ---
+15 
+ 
+ 
+ 
+Fig.  10. NTF 197, tail effects, M∞ = 0.85, Rec = 5 million. 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - NTF Test 197 
+Mach 0.85, Rec= 4.99 million 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Series 
+15. 
+13. 
+14. 
+Run 
+196. 
+92. 
+176. 
+Config 
+WBT 
+WBT 
+WBT 
+Tail 
+-2o 
+0o
+ 
++2o
+ 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.24 
+-.16 
+-.08 
+0 
+.08 
+.16 
+.24 
+.32 
+.40 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.12 
+-.08 
+-.04 
+0 
+.04 
+.08 
+.12 
+.16 
+.20 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.02 
+.04 
+.06 
+.08 
+.10 
+.12 
+.14 
+.16 
+.18 
+.20 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+--- page 16 ---
+16 
+ 
+ 
+ 
+Fig.  11. NTF 197, Reynolds number effects, WB, M∞ = 0.85. 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - NTF Test 197 
+WB Tail off, Mach 0.85 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Series 
+11. 
+3. 
+1. 
+Run 
+44. 
+159. 
+146. 
+Rec,106
+ 
+4.99 
+19.76 
+29.92 
+q∞,psf 
+1383. 
+1983. 
+1986. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.12 
+-.10 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.10 
+-.09 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+Tue Nov 27 21:05:24 2018 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.02 
+.04 
+.06 
+.08 
+.10 
+.12 
+.14 
+.16 
+.18 
+.20 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.015 
+.020 
+.025 
+.030 
+.035 
+ CD 
+--- page 17 ---
+17 
+ 
+ 
+ 
+Fig.  12. NTF 197, Reynolds number effects, WBT0, M∞ = 0.85. 
+-4 -2 0 2 4 6 8 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - NTF Test 197 
+WBT Tail 0o
+, Mach 0.85 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Series 
+13. 
+8. 
+4. 
+2. 
+Run 
+92. 
+212. 
+106. 
+223. 
+Rec,106
+ 
+5.00 
+19.87 
+19.76 
+29.93 
+q∞,psf 
+1383. 
+1312. 
+1983. 
+1985. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.08 
+-.04 
+0 
+.04 
+.08 
+.12 
+.16 
+.20 
+.24 
+.28 
+.32 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08 
+.09 
+.10 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+--- page 18 ---
+18 
+ 
+ 
+Fig.  13. NTF 197, wing twist, WBT0, M∞ = 0.85, Rec = 5 million. 
+ 
+Fig.  14. NTF 197, wing twist, WBT0, M∞ = 0.85, Rec = 19.8 million, low q∞. 
+-.4 -.3 -.2 -.1 0 .1 .2 .3 .4 .5 .6 .7 .8 .9 
+ CL 
+-2.0 
+-1.8 
+-1.6 
+-1.4 
+-1.2 
+-1.0 
+-.8 
+-.6 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6  
+θ, deg 
+η 
+0.000 
+0.4286 
+0.5546 
+0.6773 
+0.7954 
+0.9150 
+-.4 -.3 -.2 -.1 0 .1 .2 .3 .4 .5 .6 .7 .8 .9 
+ CL 
+-2.0 
+-1.8 
+-1.6 
+-1.4 
+-1.2 
+-1.0 
+-.8 
+-.6 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6  
+θ, deg 
+η 
+0.000 
+0.4286 
+0.5546 
+0.6773 
+0.7954 
+0.9150 
+--- page 19 ---
+19 
+ 
+ 
+Fig.  15. NTF 197, wing twist, WBT0, M∞ = 0.85, Rec = 19.8 million, high q∞. 
+ 
+Fig.  16. NTF 197, wing twist, WBT0, M∞ = 0.85, Rec = 30 million. 
+-.4 -.3 -.2 -.1 0 .1 .2 .3 .4 .5 .6 .7 .8 .9 
+ CL 
+-2.0 
+-1.8 
+-1.6 
+-1.4 
+-1.2 
+-1.0 
+-.8 
+-.6 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6  
+θ, deg 
+η 
+0.000 
+0.4286 
+0.5546 
+0.6773 
+0.7954 
+0.9150 
+-.4 -.3 -.2 -.1 0 .1 .2 .3 .4 .5 .6 .7 .8 .9 
+ CL 
+-2.0 
+-1.8 
+-1.6 
+-1.4 
+-1.2 
+-1.0 
+-.8 
+-.6 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6  
+θ, deg 
+η 
+0.000 
+0.4286 
+0.5546 
+0.6773 
+0.7954 
+0.9150 
+--- page 20 ---
+20 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig.  17. NTF 197 data repeatability, WBT0 configuration, M∞ = 0.85, Rec = 5x106.                                                   
+Solid line indicates 2-sigma limits based on the residual data. 
+2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+ 
+α 
+.016 
+.024 
+.032 
+.040 
+.048 
+.056 
+.064  CD 
+ 
+.36 
+.40 
+.44 
+.48 
+.52 
+.56 
+.60 
+.64 
+.68 
+.72  CL 
+Run 
+92. 
+97. 
+99. 
+Rec,106 
+5.00 
+5.00 
+4.99 
+q∞,psf 
+1383.0 
+1385.2 
+1384.6 
+2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+ 
+α 
+-.0006 
+-.0004 
+-.0002 
+0 
+.0002 
+.0004 
+.0006 
+ ∆CD 
+ 
+-.012 
+-.009 
+-.006 
+-.003 
+0 
+.003 
+.006 
+.009 
+.012 
+ ∆CL 
+Preliminary Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility, Test 197 
+Common Research Model 
+Solid lines indicate 2-sigma limits based on the 
+residual data. 
+Created Tue May 11 08:32:50 2010 Series 13, Mach 0.85, WBT0 Configuration, Trips On 
+Test 
+197 
+197 
+197 
+Run 
+92 
+97 
+99 
+Mach 
+0.851 
+0.851 
+0.851 
+Temp (deg F) 
+120.2 
+120.3 
+121.0 
+Q (psf) 
+1386.6 
+1387.4 
+1386.8 
+ReC (million) 
+5.0 
+5.0 
+5.0 
+Preliminary Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility, Test 197 
+Common Research Model 
+Solid lines indicate 2-sigma limits based on the 
+residual data. 
+Created Tue May 11 07:42:04 2010 Series 8, Mach 0.85, WBT0 Configuration, Trips Off 
+Test 
+197 
+197 
+197 
+Run 
+212 
+215 
+217 
+Mach 
+0.850 
+0.850 
+0.850 
+Temp (deg F) 
+-250.5 
+-249.6 
+-250.1 
+Q (psf) 
+1311.9 
+1311.8 
+1311.3 
+ReC (million) 
+19.9 
+19.7 
+19.8 
+ 
+      
+ 
+ 
+ 
+ 
+ 
+                              
+          
+ 
+ 
+                                   
+          
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Downloaded by NASA Langley Research Ctr on February 7, 2014 | http://arc.aiaa.org | DOI: 10.2514/6.2010-4218 
+-.012 
+-.009 
+-.006 
+-.003 
+0 
+.003 
+.006 
+.009 
+.012 
+'CL 
+.33 
+.38 
+.43 
+.48 
+.53 
+.58 
+.63 
+.68 
+.73 
+CL 
+-.0006 
+-.0004 
+-.0002 
+0 
+.0002 
+.0004 
+.0006 
+'CD 
+.016 
+.024 
+.032 
+.040 
+.048 
+.056 
+.064 
+CD 
+1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+a (degrees) a (degrees) 
+Figure 33. Data Repeatability, WBT0 Configuration, Mach = 0.85, Rec = 5x106.  
+Solid line indicates 2-sigma limits based on the residual data.  
+.012 
+.009 
+.006 
+.003 
+'CL 0 
+-.003 
+-.006 
+-.009 
+-.012 
+.0006 
+.0004 
+.0002 
+0'CD 
+-.0002 
+-.0004 
+-.0006 
+.70 
+.68 
+.66 
+.64 
+.62 CL 
+.60 
+.58 
+.56 
+.54 
+.068 
+.060 
+.052 
+.044 CD 
+.036 
+.028 
+.020 
+2.5 3.0 3.5 4.0 4.5 5.0 5.5 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+a (degrees) a (degrees) 
+Figure 34. Data Repeatability, WBT0 Configuration, Mach = 0.85, Rec = 19.8x106.  
+Solid line indicates 2-sigma limits based on the residual data.  
+34  
+American Institute of Aeronautics and Astronautics  
+--- page 21 ---
+21 
+ 
+ 
+ 
+Fig.  18. NTF 197 data repeatability, WBT0 configuration, M∞ = 0.85, Rec = 30x106.                                                 
+Solid line indicates 2-sigma limits based on the residual data. 
+ 
+ 
+ 
+1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+ 
+α 
+.016 
+.024 
+.032 
+.040 
+.048 
+.056 
+.064  CD 
+ 
+.36 
+.40 
+.44 
+.48 
+.52 
+.56 
+.60 
+.64 
+.68 
+.72  CL 
+Run 
+223. 
+226. 
+228. 
+Rec,106 
+29.93 
+29.88 
+29.92 
+q∞,psf 
+1985.5 
+1984.6 
+1984.9 
+1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+ 
+α 
+-.0006 
+-.0004 
+-.0002 
+0 
+.0002 
+.0004 
+.0006 
+ ∆CD 
+ 
+-.012 
+-.009 
+-.006 
+-.003 
+0 
+.003 
+.006 
+.009 
+.012 
+ ∆CL 
+Preliminary Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility, Test 197 
+Common Research Model 
+Solid lines indicate 2-sigma limits based on the 
+residual data. 
+Created Mon May 10 16:06:20 2010 Series 4, Mach 0.85, WBT0 Configuration, Trips Off 
+Test 
+197 
+197 
+197 
+Run 
+106 
+109 
+111 
+Mach 
+0.850 
+0.850 
+0.850 
+Temp (deg F) 
+-181.8 
+-181.8 
+-181.8 
+Q (psf) 
+1984.0 
+1983.5 
+1983.4 
+ReC (million) 
+19.8 
+19.8 
+19.8 
+Preliminary Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility, Test 197 
+Common Research Model 
+Solid lines indicate 2-sigma limits based on the 
+residual data. 
+Created Mon May 10 15:43:42 2010 Series 2, Mach 0.85, WBT0 Configuration, Trips Off 
+Test 
+197 
+197 
+197 
+Run 
+223 
+226 
+228 
+Mach 
+0.850 
+0.850 
+0.850 
+Temp (deg F) 
+-249.8 
+-249.5 
+-249.6 
+Q (psf) 
+1985.4 
+1985.5 
+1986.0 
+ReC (million) 
+30.0 
+29.9 
+29.9 
+ 
+      
+ 
+ 
+ 
+ 
+ 
+                         
+          
+ 
+ 
+                       
+          
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.012 
+.009 
+.006 
+.003 
+Downloaded by NASA Langley Research Ctr on February 7, 2014 | http://arc.aiaa.org | DOI: 10.2514/6.2010-4218 
+'CL 0 
+-.003 
+-.006 
+-.009 
+-.012 
+.0006 
+.0004 
+.0002 
+0'CD 
+-.0002 
+-.0004 
+-.0006 
+.54 
+.50 
+.46 
+.42 
+.38 CL 
+.34 
+.30 
+.26 
+.22 
+.027 
+.025 
+.023 
+.021 CD 
+.019 
+.017 
+.015 
+.5 1.0 1.5 2.0 2.5 3.0 3.5 .5 1.0 1.5 2.0 2.5 3.0 3.5 
+a (degrees) a (degrees) 
+Figure 35. Data Repeatability, WBT0 Configuration, Mach = 0.85, Rec = 19.8x106. 
+Solid line indicates 2-sigma limits based on the residual data. 
+-.012 
+-.009 
+-.006 
+-.003 
+0 
+.003 
+.006 
+.009 
+.012 
+'CL 
+.34 
+.39 
+.44 
+.49 
+.54 
+.59 
+.64 
+.69 
+.74 
+CL 
+-.0006 
+-.0004 
+-.0002 
+0 
+.0002 
+.0004 
+.0006 
+'CD 
+.016 
+.024 
+.032 
+.040 
+.048 
+.056 
+.064 
+CD 
+1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+a (degrees) a (degrees) 
+Figure 36. Data Repeatability, WBT0 Configuration, Mach = 0.85, Rec = 30x106.  
+Solid line indicates 2-sigma limits based on the residual data.  
+35  
+American Institute of Aeronautics and Astronautics  
+--- page 22 ---
+22 
+ 
+ 
+Fig.  19. NTF 197 and Ames 11-ft, nacelle/pylon effects, M∞ = 0.85, Rec = 5x106. 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α, deg 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - Test to Test Comparison 
+Mach 0.85, Rec= 6.40 million 
+2.0 2.5 3.0 3.5 4.0 
+ α, deg 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Facility 
+LaRC NTF 
+LaRC NTF 
+Ames 11 ft 
+Ames 11 ft 
+Run 
+44. 
+74. 
+126. 
+108. 
+config 
+WB 
+WBPN 
+WB 
+WBPN 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+.04 
+.06 
+.08 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.04 
+.08 
+.12 
+.16 
+.20 
+.24 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+--- page 23 ---
+23 
+ 
+ 
+Fig.  20. NTF 197 and Ames 11-ft, tail effects, M∞ = 0.85, Rec = 5x106. 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α, deg 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+2.0 2.5 3.0 3.5 4.0 
+ α, deg 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Facility 
+LaRC NTF 
+LaRC NTF 
+LaRC NTF 
+Ames 11 ft 
+Ames 11 ft 
+Ames 11 ft 
+Run 
+196. 
+92. 
+176. 
+86. 
+77. 
+94. 
+Config 
+WBT 
+WBT 
+WBT 
+WBT 
+WBT 
+WBT 
+Tail ∠ 
+-2o 
+0o
+ 
++2o
+ 
+-2o 
+0o 
++2o
+ 
+M∞ 
+0.85 
+0.85 
+0.85 
+0.85 
+0.85 
+0.85 
+Rec,106 
+4.99 
+5.00 
+4.99 
+5.00 
+5.00 
+5.00 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.32 
+-.24 
+-.16 
+-.08 
+0 
+.08 
+.16 
+.24 
+.32 
+.40 
+.48 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.16 
+-.08 
+0 
+.08 
+.16 
+.24 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.04 
+.08 
+.12 
+.16 
+.20 
+.24 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+--- page 24 ---
+24 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig.  21. Ames 11-ft data repeatability, WBT0 configuration, M∞ = 0.85, Rec = 5x106.                                             
+Solid line indicates 2-sigma limits based on the residual data. 
+ 
+ 
+ 
+ 
+ 
+ 
+1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+ 
+α, deg 
+.016 
+.024 
+.032 
+.040 
+.048 
+.056 
+.064  CD 
+ 
+.36 
+.40 
+.44 
+.48 
+.52 
+.56 
+.60 
+.64 
+.68 
+.72  CL 
+Run 
+77. 
+80. 
+83. 
+Rec,106 
+5.00 
+5.00 
+5.00 
+q∞,psf 
+1303.9 
+1313.6 
+1321.3 
+1.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+ 
+α, deg 
+-.0006 
+-.0004 
+-.0002 
+0 
+.0002 
+.0004 
+.0006 
+ ∆CD 
+ 
+-.012 
+-.009 
+-.006 
+-.003 
+0 
+.003 
+.006 
+.009 
+.012 
+ ∆CL 
+ 
+      
+ 
+ 
+ 
+  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+.005 
+.004 
+.003 
+.002 
+.001 
+!CL 0 
+-.001 
+-.002 
+-.003 
+-.004 
+-.005 
+.8 
+.7 
+.6 
+.5 CL 
+.4 
+.3 
+.2 
+.0005 
+.0004 
+.0003 
+.0002 
+.0001 
+!CD 0 
+-.0001 
+-.0002 
+-.0003 
+-.0004 
+-.0005 
+.080 
+.075 
+.070 
+.065 
+.060 
+.055 
+.050 
+CD 
+.045 
+.040 
+.035 
+.030 
+.025 
+.020 
+.015 
+2.0  2.5 3.0 3.5 4.0 4.5 5.0 5.5 2.0 2.5 3.0 3.5 4.0 4.5 5.0 5.5 
+", deg ", deg 
+Figure 21. Ames 11-ft Data Repeatability, WBT0 Configuration, Mach = 0.85, Rec = 5x106. 
+Solid line indicates 2-sigma limits based on the residual data. 
+26  
+American Institute of Aeronautics and Astronautics  
+--- page 25 ---
+25 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig.  22. NTF test to test repeatability, WB, M∞ = 0.85, Rec = 19.8 million.                                                      
+Solid line indicates 2-sigma limits based on the residual data. 
+ 
+ 
+ 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Test 
+197.0 
+215.0 
+Run 
+159. 
+142. 
+Rec,106 
+19.76 
+19.69 
+q∞,psf 
+1983. 
+1983. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.12 
+-.10 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+.04 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.02 
+.04 
+.06 
+.08 
+.10 
+.12 
+.14 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+ 
+-.006 
+-.004 
+-.002 
+0 
+.002 
+.004 
+.006 
+ ∆CL 
+Final Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility 
+Common Research Model 
+2σ = +/- 0.0040 
+2σ = +/- 0.00047 
+Created Tue Nov  6 12:17:14 2018 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+-.0005 
+-.0004 
+-.0003 
+-.0002 
+-.0001 
+0 
+.0001 
+.0002 
+.0003 
+.0004 
+.0005 
+ ∆CD 
+Test 
+197 
+197 
+Run 
+159 
+1142 
+ReC (million) 
+19.76 
+19.68 
+Temp 
+-181.7 
+-180.8 
+Q (psf) 
+1982 
+1981 
+ 
+-.1 
+0 
+.1 
+.2 
+.3 
+.4 
+.5 
+.6 
+.7 
+.8 
+.9  CL 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08  CD 
+--- page 26 ---
+26 
+ 
+ 
+ 
+ 
+ 
+Fig.  23. NTF test to test repeatability, WB, M∞ = 0.85, Rec = 30 million.                                                      
+Solid line indicates 2-sigma limits based on the residual data. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Test 
+197.0 
+215.0 
+Run 
+146. 
+247. 
+Rec,106 
+29.93 
+29.87 
+q∞,psf 
+1986. 
+1984. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.12 
+-.10 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+.04 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.02 
+.04 
+.06 
+.08 
+.10 
+.12 
+.14 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+ 
+-.006 
+-.004 
+-.002 
+0 
+.002 
+.004 
+.006 
+ ∆CL 
+Final Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility 
+Common Research Model 
+2σ = +/- 0.0007 
+2σ = +/- 0.00033 
+Created Tue Nov  6 12:19:56 2018 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+-.0005 
+-.0004 
+-.0003 
+-.0002 
+-.0001 
+0 
+.0001 
+.0002 
+.0003 
+.0004 
+.0005 
+ ∆CD 
+Test 
+197 
+197 
+Run 
+146 
+1247 
+ReC (million) 
+29.93 
+29.89 
+Temp 
+-249.7 
+-249.5 
+Q (psf) 
+1985 
+1982 
+ 
+-.1 
+0 
+.1 
+.2 
+.3 
+.4 
+.5 
+.6 
+.7 
+.8 
+.9  CL 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08  CD 
+--- page 27 ---
+27 
+ 
+ 
+ 
+ 
+ 
+Fig.  24. NTF test to test repeatability, WBT0, M∞ = 0.85, Rec = 5 million.                                                      
+Solid line indicates 2-sigma limits based on the residual data. 
+ 
+ 
+ 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Test 
+197.0 
+215.0 
+Run 
+92. 
+68. 
+Rec,106 
+5.00 
+5.00 
+q∞,psf 
+1383. 
+1384. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.12 
+-.10 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+.04 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.02 
+.04 
+.06 
+.08 
+.10 
+.12 
+.14 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+ 
+-.006 
+-.004 
+-.002 
+0 
+.002 
+.004 
+.006 
+ ∆CL 
+Final Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility 
+Common Research Model 
+2σ = +/- 0.0030 
+2σ = +/- 0.00027 
+Created Tue Nov  6 12:32:36 2018 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+-.0005 
+-.0004 
+-.0003 
+-.0002 
+-.0001 
+0 
+.0001 
+.0002 
+.0003 
+.0004 
+.0005 
+ ∆CD 
+Test 
+197 
+197 
+Run 
+92 
+1068 
+ReC (million) 
+5.00 
+5.00 
+Temp 
+120.0 
+120.4 
+Q (psf) 
+1383 
+1384 
+ 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0  CL 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+0 
+.04 
+.08 
+.12 
+.16 
+.20  CD 
+--- page 28 ---
+28 
+ 
+ 
+ 
+Fig.  25. NTF test to test repeatability, WBT0, M∞ = 0.85, Rec = 19.8 million, low q∞.                                                      
+Solid line indicates 2-sigma limits based on the residual data. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Test 
+197.0 
+215.0 
+Run 
+212. 
+263. 
+Rec,106 
+19.87 
+19.80 
+q∞,psf 
+1312. 
+1310. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.12 
+-.10 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+.04 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.02 
+.04 
+.06 
+.08 
+.10 
+.12 
+.14 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+ 
+-.006 
+-.004 
+-.002 
+0 
+.002 
+.004 
+.006 
+ ∆CL 
+Final Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility 
+Common Research Model 
+2σ = +/- 0.0025 
+2σ = +/- 0.00030 
+Created Tue Nov  6 12:22:20 2018 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+-.0005 
+-.0004 
+-.0003 
+-.0002 
+-.0001 
+0 
+.0001 
+.0002 
+.0003 
+.0004 
+.0005 
+ ∆CD 
+Test 
+197 
+197 
+Run 
+212 
+1263 
+ReC (million) 
+19.88 
+19.81 
+Temp 
+-250.6 
+-250.1 
+Q (psf) 
+1311 
+1310 
+ 
+-.1 
+0 
+.1 
+.2 
+.3 
+.4 
+.5 
+.6 
+.7 
+.8 
+.9  CL 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08  CD 
+--- page 29 ---
+29 
+ 
+ 
+ 
+ 
+ 
+Fig.  26. NTF test to test repeatability, WBT0, M∞ = 0.85, Rec = 19.8 million, high q∞.                                                      
+Solid line indicates 2-sigma limits based on the residual data. 
+ 
+ 
+ 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Test 
+197.0 
+215.0 
+Run 
+106. 
+281. 
+Rec,106 
+19.76 
+19.72 
+q∞,psf 
+1983. 
+1982. 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.12 
+-.10 
+-.08 
+-.06 
+-.04 
+-.02 
+0 
+.02 
+.04 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+-.08 
+-.07 
+-.06 
+-.05 
+-.04 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.02 
+.04 
+.06 
+.08 
+.10 
+.12 
+.14 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.025 
+.030 
+.035 
+.040 
+ CD 
+ 
+-.006 
+-.004 
+-.002 
+0 
+.002 
+.004 
+.006 
+ ∆CL 
+Final Reduced Data 
+NASA Langley Research Center 
+National Transonic Facility 
+Common Research Model 
+2σ = +/- 0.0018 
+2σ = +/- 0.00018 
+Created Tue Nov  6 12:24:48 2018 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+-.0005 
+-.0004 
+-.0003 
+-.0002 
+-.0001 
+0 
+.0001 
+.0002 
+.0003 
+.0004 
+.0005 
+ ∆CD 
+Test 
+197 
+197 
+Run 
+106 
+1281 
+ReC (million) 
+19.76 
+19.74 
+Temp 
+-181.7 
+-181.3 
+Q (psf) 
+1983 
+1980 
+ 
+-.1 
+0 
+.1 
+.2 
+.3 
+.4 
+.5 
+.6 
+.7 
+.8 
+.9  CL 
+-4 -2 0 2 4 6 8 10 12 
+ α (degrees) 
+0 
+.01 
+.02 
+.03 
+.04 
+.05 
+.06 
+.07 
+.08  CD 
+--- page 30 ---
+30 
+ 
+ 
+Fig.  27. NTF and ETW test to test comparison, M∞ = 0.85, Rec = 5x106. 
+ 
+ 
+ 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - Test to Test Comparison 
+WB Tail = 0 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Facility 
+NTF Test 197 
+NTF Test 215 
+ETW ESWIRP Test 
+Run 
+92. 
+68. 
+153. 
+Rec,106 
+5.00 
+5.00 
+5.00 
+q∞,psf 
+1383.2 
+1383.3 
+1264.9 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.16 
+-.08 
+0 
+.08 
+.16 
+.24 
+.32 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+0 
+.02 
+.04 
+.06 
+.08 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.04 
+.08 
+.12 
+.16 
+.20 
+.24 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.022 
+.024 
+.026 
+.028 
+.030 
+.032 
+ CD 
+--- page 31 ---
+31 
+ 
+ 
+Fig.  28. NTF and ETW test to test comparison, M∞ = 0.85, Rec = 19.8x106, low q∞. 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - Test to Test Comparison 
+WB Tail = 0 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Facility 
+NTF Test 197 
+NTF Test 215 
+ETW ESWIRP Test 
+Run 
+212. 
+263. 
+226. 
+Rec,106 
+19.87 
+19.80 
+19.80 
+q∞,psf 
+1311.8 
+1310.0 
+1316.7 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.08 
+0 
+.08 
+.16 
+.24 
+.32 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+0 
+.02 
+.04 
+.06 
+.08 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.04 
+.08 
+.12 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.022 
+.024 
+.026 
+.028 
+.030 
+.032 
+ CD 
+--- page 32 ---
+32 
+ 
+ 
+Fig.  29. NTF and ETW test to test comparison, M∞ = 0.85, Rec = 19.8x106, high q∞. 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - Test to Test Comparison 
+WB Tail = 0 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Facility 
+NTF Test 197 
+NTF Test 215 
+ETW ESWIRP Test 
+Run 
+106. 
+281. 
+213. 
+Rec,106 
+19.76 
+19.73 
+19.80 
+q∞,psf 
+1983.2 
+1980.5 
+1977.3 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.08 
+0 
+.08 
+.16 
+.24 
+.32 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+0 
+.02 
+.04 
+.06 
+.08 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.04 
+.08 
+.12 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.022 
+.024 
+.026 
+.028 
+.030 
+.032 
+ CD 
+--- page 33 ---
+33 
+ 
+ 
+ 
+Fig.  30. NTF and ETW test to test comparison, M∞ = 0.85, Rec = 30x106. 
+ 
+ 
+ 
+ 
+ 
+-4 -2 0 2 4 6 8 10 12 
+ α 
+-.4 
+-.2 
+0 
+.2 
+.4 
+.6 
+.8 
+1.0 
+ CL 
+Common Research Model - Test to Test Comparison 
+WB Tail = 0 
+2.0 2.5 3.0 3.5 4.0 
+ α 
+.40 
+.45 
+.50 
+.55 
+.60 
+ CL 
+Facility 
+NTF Test 197 
+ETW ESWIRP Test 
+Run 
+223. 
+233. 
+Rec,106 
+29.93 
+30.02 
+q∞,psf 
+1985.4 
+1995.1 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+ CL 
+-.08 
+0 
+.08 
+.16 
+.24 
+.32 
+ Cm 
+.40 .45 .50 .55 .60 
+ CL 
+0 
+.02 
+.04 
+.06 
+.08 
+ Cm 
+-.4 -.2 0 .2 .4 .6 .8 1.0 
+  
+0 
+.04 
+.08 
+.12 
+ CD 
+.40 .45 .50 .55 .60 
+  
+.020 
+.022 
+.024 
+.026 
+.028 
+.030 
+.032 
+ CD 
+--- page 34 ---
+34 
+ 
+ 
+ 
+Fig.  31. The 80% scaled CRM model installed in the JAXA 2m x 2m Transonic Wind Tunnel. 
+ 
+ 
+ 
+ 
+ 
+Fig.  32. The ONERA Large Reference Model installed in the ONERA S1MA wind tunnel. 
+ 
+ 
+ 
+ 
+ 
+
+--- page 35 ---
+35 
+ 
+ 
+Fig.  33. CRM semispan model installed inverted in the NRC 5-Foot wind tunnel. 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig.  34. Photo of the CRM-HL model installed in the 14- by 22-Foot Subsonic Wind Tunnel at the NASA 
+Langley Research Center. 
+
+--- page 36 ---
+36 
+ 
+ 
+ 
+ 
+ 
+ 
+Fig.  35. Photo of the Common Research Model with Natural Laminar Flow wing in the National 
+Transonic Facility. 
+ 

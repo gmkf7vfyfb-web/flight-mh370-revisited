@@ -1,0 +1,11 @@
+# Bathymetry for hypotheses/hydroacoustics; written by its prepare/bathymetry.py.
+source = "NOAA NCEI ETOPO 2022 v1, 15 arc-second (every 4th cell), via ERDDAP"
+url = "https://coastwatch.pfeg.noaa.gov/erddap/griddap/ETOPO_2022_v1_15s.dods?z%5B(-50.0):4:(5.0)%5D%5B(55.0):4:(145.0)%5D"
+retrieved = "2026-09-26T00:23:38Z"
+layout = "little-endian int16 metres, positive up; rows south to north, columns west to east"
+rows = 3301
+columns = 5401
+south_deg = -49.9979166667
+west_deg = 55.0020833333
+step_lat_deg = 0.016666666667
+step_lon_deg = 0.016666666667

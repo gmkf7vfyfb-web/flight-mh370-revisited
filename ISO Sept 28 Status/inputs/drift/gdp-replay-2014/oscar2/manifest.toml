@@ -1,0 +1,35 @@
+area = [-45.0, -25.0, 60.0, 115.0]
+code_revision = "2724f57"
+diffusivity_m2_s = 0.0
+drogued_segments = 1032
+every_days = 3.0
+first_utc = "2014-03-08T00:00:00Z"
+horizon_days = 15.0
+last_utc = "2014-12-16T00:00:00Z"
+product = "gdp-replay-2014"
+step_s = 3600.0
+transition_segments = 77
+undrogued_segments = 1207
+
+[fields.current]
+dataset = "doi:10.5067/OSCAR-25F20"
+name = "OSCAR v2.0 Final total surface current (top 30 m mean), daily"
+path = "/jackbox/home/MH370-inputs/ocean/oscar2/oscar2-currents-20140307-20160831.mhgrid"
+product = "OSCAR_L4_OC_FINAL_V2.0"
+sha256 = "6259c83d44aec2a736ff91fc463437fdc565d2518b838dd3e8744c7b18ed4f4a"
+source = "https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/OSCAR_L4_OC_FINAL_V2.0/oscar_currents_final_YYYYMMDD.nc"
+
+[fields.land]
+path = "/jackbox/home/MH370-inputs/ocean/gshhg/gshhg-f-land-30s.mhland"
+sha256 = "10f77d366b30072cde8909757c0dc69f3a781d4abcad9953a4b0cbdc36f3073b"
+source = "GSHHG 2.3.7 full resolution, level 1 (gshhs_f.b in gshhg-bin-2.3.7.zip)"
+
+[fields.stokes]
+name = "CMEMS WAVERYS MFWAM three-hourly native-grid surface Stokes velocity"
+path = "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid"
+
+[fields.wind]
+name = "ERA5 10 m wind (u10, v10), hourly analyses"
+path = "/jackbox/home/MH370-inputs/ocean/era5-wind10/era5-wind10-3h-0p5-20140307-20160831.mhgrid"
+sha256 = "1b1f1555a192d6fc844807f79d795014ea7826234cf42aece9bc7d29c0a6da54"
+source = "https://storage.googleapis.com/gcp-public-data-arco-era5/raw/date-variable-single_level/YYYY/MM/DD/{10m_u,10m_v}_component_of_wind/surface.nc"

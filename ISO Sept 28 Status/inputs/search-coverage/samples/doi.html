@@ -1,0 +1,147 @@
+<!DOCTYPE html
+  SYSTEM "html">
+<html ng-app="gn_search_default" lang="en" id="ng-app">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      <title>Product catalogue</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="initial-scale=1.0">
+      <meta name="apple-mobile-web-app-capable" content="yes">
+      <meta name="description" content="Product catalogue">
+      <meta name="keywords" content="">
+      <link rel="icon" sizes="16x16 32x32 48x48" type="image/png" href="../../images/logos/favicon.png">
+      <link href="/geonetwork/api/collections/main/items?f=rss&amp;sortby=-createDate&amp;size=30" rel="alternate" type="application/rss+xml" title="Product catalogue - Geoscience Australia">
+      <link href="/geonetwork/api/collections/main?f=opensearch" rel="search" type="application/opensearchdescription+xml" title="Product catalogue - Geoscience Australia">
+      <link href="/geonetwork/static/gn_fonts.css?v=6adb0fd09395c50844078c872aa8af9630ea596e&amp;" rel="stylesheet" media="all">
+      <link href="/geonetwork/static/gn_search_default.css?v=6adb0fd09395c50844078c872aa8af9630ea596e&amp;" rel="stylesheet" media="all">
+      <link href="/geonetwork/static/gn_print_default.css?v=6adb0fd09395c50844078c872aa8af9630ea596e&amp;" rel="stylesheet" media="print">
+      <link href="/geonetwork/static/bootstrap-table.min.css?v=6adb0fd09395c50844078c872aa8af9630ea596e" rel="stylesheet" media="all">
+      <link href="/geonetwork/static/gn_pickers.css?v=6adb0fd09395c50844078c872aa8af9630ea596e&amp;" rel="stylesheet" media="screen">
+      <link href="/geonetwork/static/gn_inspire.css?v=6adb0fd09395c50844078c872aa8af9630ea596e&amp;" rel="stylesheet" media="all">
+      <link href="/geonetwork/static/ng-skos.css?v=6adb0fd09395c50844078c872aa8af9630ea596e" rel="stylesheet" media="screen">
+      <link href="/geonetwork/static/srv_custom_style.css?v=6adb0fd09395c50844078c872aa8af9630ea596e&amp;" rel="stylesheet" media="all"><script>
+      (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-5GH7BS4C');
+    </script></head>
+   <body data-ng-controller="GnCatController" data-ng-class="[isHeaderFixed ? 'gn-header-fixed' : 'gn-header-relative', isLogoInHeader ? 'gn-logo-in-header' : 'gn-logo-in-navbar', isFooterEnabled ? 'gn-show-footer' : 'gn-hide-footer']">
+      <div data-gn-alert-manager=""></div>
+      <noscript>
+         <div class="navbar navbar-default gn-top-bar" role="navigation">
+            <div class="container">
+               <div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" title="" aria-expanded="false" aria-controls="navbar"><span class="sr-only"></span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button></div>
+               <div id="navbar" class="navbar-collapse collapse">
+                  <ul class="nav navbar-nav" id="topbar-left">
+                     <li><a href="https://ecat.ga.gov.au/geonetwork/srv/"><img class="gn-logo" alt="" src="https://ecat.ga.gov.au/geonetwork/srv/../images/logos/b36836c0-1cc8-40fe-b409-99b8c7ed3914.png">Product catalogue</a></li>
+                     <li><a title="" href="https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search" onclick="location.href=('https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/search');return false;"><i class="fa fa-fw fa-search hidden-sm">&nbsp;</i><span></span></a></li>
+                     <li id="map-menu" class="hidden-nojs"><a title="" href="https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.search#/map"><i class="fa fa-fw fa-globe hidden-sm">&nbsp;</i><span></span></a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                     <li><a href="https://ecat.ga.gov.au/geonetwork/srv/eng/catalog.signin" title=""><i class="fa fa-sign-in fa-fw">&nbsp;</i></a></li>
+                  </ul>
+               </div>
+            </div>
+         </div>
+         <div class="container page">
+            <div class="row gn-row-main">
+               <div class="col-sm-8 col-sm-offset-2">
+                  <h1>Product catalogue</h1>
+                  <p>
+                     
+                     GeoNetwork opensource allows to easily share geographically referenced thematic
+                     information between different organizations. For more information please contact
+                     
+                     
+                  </p>
+                  <p>
+                     GeoNetwork's purpose is:
+                     
+                     To improve access to and integrated use of spatial data and information
+                     To support decision making
+                     To promote multidisciplinary approaches to sustainable development
+                     To enhance understanding of the benefits of geographic information
+                     
+                     
+                  </p><br><br><div class="alert alert-warning" data-ng-hide=""><strong>Warning!</strong> 
+                     <nojs>Javascript is not enabled. Enable it or click
+                        <a href="../search">here to search
+                           </a>
+                        in a degraded mode.
+                        
+                     </nojs>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="navbar navbar-default gn-bottom-bar" role="navigation">
+            <ul class="nav navbar-nav">
+               <li class="gn-footer-text"></li>
+               <li><a href="http://geonetwork-opensource.org/"><i class="fa fa-fw">&nbsp;</i><span></span></a></li>
+               <li class="hidden-sm"><a href="https://github.com/geonetwork/core-geonetwork"><i class="fa fa-github">&nbsp;</i><span></span></a></li>
+               <li><a href="/geonetwork/doc/api" title="">&nbsp;</a></li>
+            </ul>
+         </div>
+      </noscript>
+      <div data-ng-include="'../../catalog/views/default/templates/index.html'" class="gn-full"></div><script>var grecaptcha = {render: function() {}};
+        </script><script src="/geonetwork/static/lib.js?v=6adb0fd09395c50844078c872aa8af9630ea596e"></script><script src="/geonetwork/static/gn_search_default.js?v=6adb0fd09395c50844078c872aa8af9630ea596e&amp;"></script><script src="../../catalog/lib/d3_timeseries/d3.min.js?v=6adb0fd09395c50844078c872aa8af9630ea596e"></script><script src="../../catalog/lib/timeline/timeline-zoomable.js?v=6adb0fd09395c50844078c872aa8af9630ea596e"></script><link rel="stylesheet" href="../../catalog/lib/timeline/timeline.css">
+      <link rel="stylesheet" href="../../catalog/lib/d3_timeseries/nv.d3.min.css"><script type="text/javascript">
+      var module = angular.module('gn_search');
+    </script><script type="text/javascript">
+        module.config(['gnGlobalSettings',
+        function(gnGlobalSettings) {
+        gnGlobalSettings.isDisableLoginForm = false;
+        gnGlobalSettings.isShowLoginAsLink = false;
+        gnGlobalSettings.isUserProfileUpdateEnabled = true;
+        gnGlobalSettings.isUserGroupUpdateEnabled = true;
+        gnGlobalSettings.isIntranet = false;
+        }]);
+      </script><script type="text/javascript">
+      // Init GN config which is a dependency of gn
+      // in order to be initialized quite early
+      var cfgModule = angular.module('gn_config', []);
+      cfgModule.config(['gnViewerSettings', 'gnSearchSettings', 'gnGlobalSettings',
+      function(gnViewerSettings, gnSearchSettings, gnGlobalSettings) {
+      gnGlobalSettings.init(
+      {
+  "mods": {
+    "home": {
+      "facetConfig": {
+        "th_httpinspireeceuropaeutheme-theme_tree.key": {
+          "terms": {
+            "field": "th_httpinspireeceuropaeutheme-theme_tree.key",
+            "size": 34
+          },
+          "meta": {
+            "decorator": {
+              "type": "icon",
+              "prefix": "fa fa-2x pull-left gn-icon iti-",
+              "expression": "http://inspire.ec.europa.eu/theme/(.*)"
+            }
+          }
+        },
+        "resourceType": {
+          "terms": {
+            "field": "resourceType",
+            "size": 10
+          },
+          "meta": {
+            "decorator": {
+              "type": "icon",
+              "prefix": "fa fa-2x pull-left gn-icon-"
+            }
+          }
+        }
+      }
+    }
+  }
+},
+      // Relative path is safer as even if settings are wrong, the client app works.
+      null,
+      "https://ecat.ga.gov.au/geonetwork/srv/",
+      gnViewerSettings, gnSearchSettings);
+      }]);
+    </script><noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5GH7BS4C" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+   </body>
+</html>
