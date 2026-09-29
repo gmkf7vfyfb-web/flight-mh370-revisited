@@ -1,0 +1,17 @@
+# Diagnostic: filter through 00:11 only (the 00:19 messages follow the SDU restart and are
+# questioned), and save each mode's predictive sample with its BTO/BFO residuals at every
+# SATCOM step, so the report can show what the late arcs reject in each autopilot mode.
+name = "residuals-to-0011"
+seeds = [1, 2]
+exclude_epochs = ["m0019a", "m0019b"]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[[cases]]
+id = "bto-only"
+use_bfo = false
+
+[output]
+residual_samples = 100000

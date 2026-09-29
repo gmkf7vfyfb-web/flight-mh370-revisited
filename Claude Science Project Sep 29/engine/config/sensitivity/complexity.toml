@@ -1,0 +1,11 @@
+# Diagnostic: the base estimate with post-18:40 manoeuvre histories (history.npy), for the
+# trajectory-complexity versus arc-latitude plots. Latitude is at 00:19 (7th arc).
+name = "complexity"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[output]
+history_after_epoch = "m1839"

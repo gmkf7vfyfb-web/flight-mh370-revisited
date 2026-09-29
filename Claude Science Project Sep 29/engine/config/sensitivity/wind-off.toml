@@ -1,0 +1,16 @@
+# Sensitivity: nominal ERA5 wind switched off (wind-error OU process kept).
+# Tests whether late-flight wind is what penalises heading-hold modes at 22:41-00:19.
+name = "wind-off"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[[cases]]
+id = "bto-only"
+use_bfo = false
+seeds = [1, 2]
+
+[environment]
+wind_scale = 0.0

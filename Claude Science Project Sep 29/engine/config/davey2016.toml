@@ -1,0 +1,49 @@
+# Recreation of Davey et al. (2016), "Bayesian Methods in the Search for MH370",
+# Fig. 10.3: aircraft latitude pdf at 00:19 UTC with and without BFO.
+# Dynamics parameters are the published values compiled into crates/flight.
+
+name = "davey2016-fig10-3"
+# One filter per autopilot mode, in the order true heading, magnetic heading, true track,
+# magnetic track, lateral navigation. Particles are concentrated where the posterior mass is
+# (true track and lateral navigation carry ~94%); every mode is still run and weighted.
+particles_per_mode = [1_000_000, 500_000, 2_500_000, 500_000, 2_500_000]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+# Resample (systematic) whenever the effective sample size falls below this fraction.
+resample_ess_fraction = 0.5
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[[cases]]
+id = "bto-only"
+use_bfo = false
+seeds = [1, 2]
+
+[inputs]
+observations = "../data/satcom-observations.csv"
+ephemeris = "../data/satellite-ephemeris.csv"
+era5 = "../data/era5-wind-temperature.bin"
+igrf = "../data/igrf14-declination.bin"
+# Digitised Fig. 10.3 (bottom): the published curve this estimate is compared against.
+reference_curve = "../.sources/davey-2016/fig10-3-bfo-latitude-pdf.csv"
+
+# Ch. 4: prior at the penultimate radar point. Davey does not tabulate the mean
+# state numerically; this position and track are reconstructed from Fig. 4.1-4.3.
+[prior]
+time_utc = "2014-03-07T18:01:49Z"
+latitude_deg = 5.624829
+longitude_deg = 99.048157
+position_sd_nm = 0.5
+track_deg = 295.66
+track_sd_deg = 1.0
+
+# Sec. 5.3 / 8.1: constant BFO bias, prior mean = tarmac value, marginalised per particle.
+[bfo_bias]
+mean_hz = 150.0
+sd_hz = 25.0
+
+[output]
+# Route snapshots for plotting, and how many weighted routes to keep.
+route_interval_s = 600
+route_samples = 2000
