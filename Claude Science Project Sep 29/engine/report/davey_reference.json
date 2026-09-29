@@ -232,9 +232,10 @@
       "path": null,
       "book": 29.0,
       "cite": "p. 40",
-      "note": "Per-epoch, in data/satcom-observations.csv; 29 us here.",
+      "note": "Per-epoch, in data/satcom-observations.csv;",
       "compare": "declared",
-      "status": "same"
+      "status": "same",
+      "from_observations": "bto_sd_us:29"
     },
     {
       "area": "Measurement",
@@ -243,9 +244,10 @@
       "path": null,
       "book": 43.0,
       "cite": "p. 40",
-      "note": "43 us here.",
+      "note": "",
       "compare": "declared",
-      "status": "same"
+      "status": "same",
+      "from_observations": "bto_sd_us:43"
     },
     {
       "area": "Measurement",
@@ -254,9 +256,10 @@
       "path": null,
       "book": 62.0,
       "cite": "p. 40",
-      "note": "Known departure: 63 us here, on the single 00:19:29 R600 message.",
+      "note": "Known departure: this run assigns 63 us to the single 00:19:29 R600 log-on request; the book gives 62 us (p. 40).",
       "compare": "declared",
-      "status": "differs"
+      "status": "differs",
+      "from_observations": "bto_sd_us:63"
     },
     {
       "area": "Measurement",
@@ -265,9 +268,10 @@
       "path": null,
       "book": 7.0,
       "cite": "sec. 5.3",
-      "note": "7 Hz here. This project's own successive-difference study puts the fast random component near 0.995 Hz; the base run keeps the published 7 Hz.",
+      "note": "This project's own successive-difference study puts the fast random component near 0.995 Hz (95% 0.859-1.183); the base run keeps the published 7 Hz so the reproduction stays comparable.",
       "compare": "declared",
-      "status": "same"
+      "status": "same",
+      "from_observations": "bfo_sd_hz:7"
     },
     {
       "area": "Measurement",

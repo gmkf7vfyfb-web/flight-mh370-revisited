@@ -24,10 +24,10 @@ Prior,Initial Mach set point,,-,"[0.82, 0.03]",DIFFERS,Table 8.2 ('Control Mach 
 Prior,Prior mean position and track,,,not tabulated,DIFFERS,"ch. 4; Assumption 1, p. 73","Reconstructed here from the book's radar figures (5.624829 N, 99.048157 E, track 295.66 deg), because the book gives them only graphically."
 Prior,Autopilot-mode prior weights,,"[[true heading, 1], [magnetic heading, 1], [true track, 1], [magnetic track, 1], [lateral navigation, 1]]",equal over the five modes,same,"Table 8.1; Assumption 3, p. 73","The book carries the mode as a state element fixed per particle; here each mode is a separate filter with an equal prior, combined by marginal likelihood."
 Measurement,BTO fixed offset,us,495679,495679,same,"p. 39 (T_nom 499,962 us; T_channel for R1200 -4,283 us)","Eq. 5.3 read literally gives 504,245 us; 495,679 us is the combination that reproduces logged BTOs at known positions and matches Ashton et al. (2015)."
-Measurement,"BTO noise sd, R1200",us,,29,same,p. 40,"Per-epoch, in data/satcom-observations.csv; 29 us here."
-Measurement,"BTO noise sd, anomalous R1200",us,,43,same,p. 40,43 us here.
-Measurement,"BTO noise sd, R600",us,,62,DIFFERS,p. 40,"Known departure: 63 us here, on the single 00:19:29 R600 message."
-Measurement,BFO noise sd,Hz,,7,same,sec. 5.3,7 Hz here. This project's own successive-difference study puts the fast random component near 0.995 Hz; the base run keeps the published 7 Hz.
+Measurement,"BTO noise sd, R1200",us,29 at 7 epochs,29,same,p. 40,"Per-epoch, in data/satcom-observations.csv;"
+Measurement,"BTO noise sd, anomalous R1200",us,43 at 2 epochs,43,same,p. 40,
+Measurement,"BTO noise sd, R600",us,63 at 1 epoch,62,DIFFERS,p. 40,Known departure: this run assigns 63 us to the single 00:19:29 R600 log-on request; the book gives 62 us (p. 40).
+Measurement,BFO noise sd,Hz,7 at 11 epochs,7,same,sec. 5.3,This project's own successive-difference study puts the fast random component near 0.995 Hz (95% 0.859-1.183); the base run keeps the published 7 Hz so the reproduction stays comparable.
 Measurement,BFO bias treatment,,"constant per trajectory, Kalman-marginalised (Davey sec. 5.3 / 8.1)","constant per trajectory, Kalman-marginalised",same,"sec. 5.3, 8.1, p. 70",
 Measurement,BTO bias treatment,,,fixed per-flight T_channel only; no bias state,same,p. 39-40,Same here. The book records that T_channel is not stationary (Fig. 5.2 residual mean 10 us; Fig. 5.3 drift across 20 flights) and Assumption 2 (p. 73) names BTO variance inflation as a knob. Neither is tested in this project.
 Measurement,Vertical rate in the BFO model,,,not modelled,same,p. 63,Same here. 'The vertical rate will affect a BFO measurement but since the model only uses a nominal vertical rate it is unlikely to match any actual vertical manoeuvre in detail.' A descending particle is therefore scored with a level-flight BFO.

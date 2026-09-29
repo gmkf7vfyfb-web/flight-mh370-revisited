@@ -64,12 +64,45 @@ def show(value):
     return str(value)
 
 
+def observation_sigmas(run_json: dict) -> dict[str, dict[float, int]]:
+    """Measurement standard deviations actually used, per column, as {value: epoch count}.
+
+    BTO and BFO sigmas are per epoch, not per run, so they live in the observations file rather
+    than in the manifest. Reading them here is what keeps them in the table instead of leaving
+    the column blank: it is the one place the assumed measurement error can be checked against
+    the published one, and the R600 sigma is a known departure.
+    """
+    recorded = dig(run_json, "config.inputs.observations")[0]
+    if not recorded:
+        return {}
+    path = (REFERENCE.parent.parent / recorded).resolve()
+    if not path.is_file():
+        return {}
+    counts: dict[str, dict[float, int]] = {}
+    with path.open() as f:
+        for row in csv.DictReader(f):
+            for column in ("bto_sd_us", "bfo_sd_hz"):
+                text = (row.get(column) or "").strip()
+                if text:
+                    counts.setdefault(column, {})
+                    counts[column][float(text)] = counts[column].get(float(text), 0) + 1
+    return counts
+
+
 def compare(run_json: dict, reference: dict | None = None) -> list[dict]:
     """One row per reference entry: the run's value, the book's, and a verdict."""
     reference = reference or json.loads(REFERENCE.read_text())
+    sigmas = observation_sigmas(run_json)
     rows = []
     for entry in reference["rows"]:
         value, found = dig(run_json, entry["path"])
+        spec = entry.get("from_observations")
+        if spec:
+            # "<column>:<value>" — report how many epochs carry that sigma in this run.
+            column, wanted = spec.split(":")
+            wanted = float(wanted)
+            n = sigmas.get(column, {}).get(wanted, 0)
+            value, found = (f"{wanted:g} at {n} epoch{'s' if n != 1 else ''}" if n else "not used"), True
         if entry.get("compare") == "declared":
             # Prose or identifier: comparing the strings is not a verdict, so the reference
             # asserts the relationship and the note explains it.
