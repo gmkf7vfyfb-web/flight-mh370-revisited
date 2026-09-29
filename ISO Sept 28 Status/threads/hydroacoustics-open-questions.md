@@ -55,6 +55,14 @@ The fuel model will bound each path's exhaustion time. Its fuel-flow factor is N
 - until then, bound them by a stated tail of the fuel model's exhaustion time, not by the placeholder;
 - keep the placeholder numbers above only as an upper bound.
 
+**Update, 29 Sep (End of flight, commits 3e11c21 and 1c0b3d7): [Diagnostic/sensitivity], placeholder previews in still air, all distances labelled upper bounds.**
+- End of flight replaced the 01:16:05 maximum with each path's Boeing Table 4 endurance (SIR App. 1.6E), at its flight level and airspeed, with fuel flow 3 s.d. (3 × 1.8%) below Boeing's.
+- The 99th-percentile distance from the 00:19:29 position then drops:
+  - exhausted after the log-on: from 497 to 345 NM, with the latest impact from 01:41 to 01:21;
+  - powered impact: from 407 to 290 NM.
+- Caveat: at the preview's hand-off states (FL390–420, about 450 kt ground speed standing in for airspeed), Table 4 puts nominal exhaustion around 00:29 (median; range 23:53–00:47), with the 3 s.d. tail at 00:50. So Table 4 alone doesn't shrink the flight after 00:19 to minutes for high, slow paths.
+- The core fuel state, with each path's own speed and altitude history, will decide. Size the windows from that.
+
 ### 2. Calibrate propagation with the Blackman 2001/2003 catalogue
 
 **Proposal:** use all 41 shot–station records, including non-detections such as air8 at H01, to calibrate transmission loss and blockage at H01 and H08S. Today only air9 is used, 116 km from the arc.
