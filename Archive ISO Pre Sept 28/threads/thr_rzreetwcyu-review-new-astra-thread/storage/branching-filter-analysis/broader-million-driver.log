@@ -1,0 +1,143 @@
+2026-09-09T12:44:11.181245+00:00: Sensitivity turns16-mach8-altitude8-vertical-bfo, seed 37091713: 170,000 candidates running, PID 250378.
+2026-09-09T12:52:29.720895+00:00: Sensitivity turns16-mach8-altitude8-vertical-bfo, seed 37091713 completed in 498.11s, with exact trace checks. Model-specific comparison follows.
+2026-09-09T12:52:30.015162+00:00: Sensitivity turns16-mach8-altitude8-vertical-bfo, seed 37091714: 170,000 candidates running, PID 251954.
+2026-09-09T13:00:34.527642+00:00: Sensitivity turns16-mach8-altitude8-vertical-bfo, seed 37091714 completed in 483.95s, with exact trace checks. Model-specific comparison follows.
+2026-09-09T13:00:34.528450+00:00: Initial manoeuvre-relaxation comparison queue completed. All model families remain separate; further work is not stopped by this milestone.
+{
+  "status": "provisional conditional PDF; Monte Carlo variation reported without a fixed pass/fail threshold",
+  "total_initial_candidates": 1020000,
+  "regions": {
+    "south_of_35S": 0.9123768284203756,
+    "between_35S_and_38S": 0.9006192943435073,
+    "north_of_35S": 0.08762317157962443,
+    "north_of_30S": 0.011733562432600438,
+    "south_of_38S": 0.011757534076868255
+  },
+  "additional_vs_baseline_cdf_difference": [
+    0.13933915856338486,
+    0.1474531943151125
+  ],
+  "combined_vs_baseline_cdf_difference": [
+    0.04214844022634279,
+    0.044602839652904125
+  ],
+  "terminal_operating_state": {
+    "altitude_ft": {
+      "quantiles_05_50_95": [
+        30000.0,
+        37000.0,
+        42000.0
+      ],
+      "positive_weight_range": [
+        25000.0,
+        43000.0
+      ],
+      "probability_exactly_35000": 0.11244115330112289
+    },
+    "mach": {
+      "quantiles_05_50_95": [
+        0.73814396,
+        0.82225088,
+        0.83881603
+      ],
+      "positive_weight_range": [
+        0.71763452,
+        0.85038582
+      ]
+    },
+    "limited_turns": {
+      "1": 0.817038492905254,
+      "2": 0.13768167722950422,
+      "3": 0.03236380657762958,
+      "4": 0.009552618646772218,
+      "5": 0.0025206985807669363,
+      "6": 0.0005128601599788664,
+      "7": 0.0002558500425038002,
+      "8": 4.0069525272150495e-05,
+      "9": 3.503731297194331e-06,
+      "10": 3.023590899383107e-05,
+      "11": 1.7851753137526143e-07,
+      "12": 8.151946444118188e-09,
+      "13": 1.4872546324356827e-11,
+      "14": 7.67679650293277e-12
+    },
+    "limited_speed_changes": {
+      "0": 0.44669225996474105,
+      "1": 0.2922736720643239,
+      "2": 0.1357674689252521,
+      "3": 0.06022096624091,
+      "4": 0.028473620438973408,
+      "5": 0.01672963160440499,
+      "6": 0.008975205255966495,
+      "7": 0.005494988324386574,
+      "8": 0.005372187181041561
+    },
+    "limited_altitude_changes": {
+      "0": 0.40018620137611166,
+      "1": 0.30620122655507276,
+      "2": 0.1570390334439153,
+      "3": 0.07357502623871373,
+      "4": 0.03210276708081262,
+      "5": 0.015785766674076034,
+      "6": 0.007739271411190005,
+      "7": 0.0028831079615791637,
+      "8": 0.004487599258528758
+    }
+  },
+  "cell_ranked_probability_areas": {
+    "5": {
+      "0.5": {
+        "area_km2": 2725.0,
+        "probability_in_selected_cells": 0.5002972294791123
+      },
+      "0.8": {
+        "area_km2": 7950.0,
+        "probability_in_selected_cells": 0.800510524591509
+      },
+      "0.9": {
+        "area_km2": 12825.0,
+        "probability_in_selected_cells": 0.9002835427732352
+      },
+      "0.95": {
+        "area_km2": 18400.0,
+        "probability_in_selected_cells": 0.9500764053529364
+      }
+    },
+    "10": {
+      "0.5": {
+        "area_km2": 3200.0,
+        "probability_in_selected_cells": 0.5018842304493905
+      },
+      "0.8": {
+        "area_km2": 9200.0,
+        "probability_in_selected_cells": 0.8007947221695668
+      },
+      "0.9": {
+        "area_km2": 14800.0,
+        "probability_in_selected_cells": 0.900553338932387
+      },
+      "0.95": {
+        "area_km2": 21300.0,
+        "probability_in_selected_cells": 0.9500508278058548
+      }
+    },
+    "20": {
+      "0.5": {
+        "area_km2": 4400.0,
+        "probability_in_selected_cells": 0.5138304959472947
+      },
+      "0.8": {
+        "area_km2": 12400.0,
+        "probability_in_selected_cells": 0.8065444206994264
+      },
+      "0.9": {
+        "area_km2": 19600.0,
+        "probability_in_selected_cells": 0.9009551786780239
+      },
+      "0.95": {
+        "area_km2": 27600.0,
+        "probability_in_selected_cells": 0.9505564831160389
+      }
+    }
+  }
+}

@@ -1,0 +1,1431 @@
+{
+  "status": "completed_saved_simulation_briefing",
+  "generated_utc": "2026-09-11T08:46:27.858298+00:00",
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather",
+  "source_summary": {
+    "configuration_sha256": "f34337a898c17e3fab5ab871d4a41ec235fcab2ddb509cb87191043ceb712b0f",
+    "contact_provenance": {
+      "anomalous_r1200_bto": "Excluded: raw 49,660 microseconds has no ordinary channel-bias correction that is asserted here. Legacy 18,380 row is not consumed.",
+      "bfo_sd": "7 Hz inherited conditional likelihood; Holland startup offsets are handled in separately named cases, not changed measurements.",
+      "files_sha256": {
+        "/jackbox/home/MH370/inputs/accident/final-satcom-bursts.json": "f9461f46bc46375d75036a9267a5b70e6c696dfe50694fee063025ef0e70346c",
+        "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+        "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+      },
+      "satellite_fractional_epoch": "Runner uses bounded constant-velocity ECEF propagation from the whole-second source epoch.",
+      "source": {
+        "bursts": [
+          {
+            "channel": "IOR-R600-0-36F8",
+            "epoch_id": "m0019a",
+            "observed_bfo_hz": 182.0,
+            "raw_bto_us": 23000.0,
+            "recorded_time_utc": "2014-03-08T00:19:29.416Z",
+            "selection": "R600 BTO geometry is available with the separately declared correction and uncertainty; BFO startup treatment remains conditional."
+          },
+          {
+            "channel": "IOR-R1200-0-36F6",
+            "epoch_id": "m0019b",
+            "observed_bfo_hz": -2.0,
+            "raw_bto_us": 49660.0,
+            "recorded_time_utc": "2014-03-08T00:19:37.443Z",
+            "selection": "The anomalous R1200 BTO is not scored by this control. The BFO comparison retains an explicit startup/error condition."
+          }
+        ],
+        "model_choices": {
+          "r600_bto_correction_us": 4600.0,
+          "r600_bto_sd_us": 63.0,
+          "r600_sd_note": "Inherited declared observation uncertainty, not a value measured by the log.",
+          "satellite_fractional_epoch_model": "Constant-velocity ECEF propagation from the corresponding whole-second ephemeris; maximum absolute offset 1 second."
+        },
+        "schema_version": 1,
+        "source": {
+          "extract_note": "The previously retained unredacted-log extraction agrees with both recorded times, BFOs and raw BTOs. Product code does not load that source recreation.",
+          "independent_retained_extract_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+          "locator": "PDF page 41, R600 log-on request and final R1200 acknowledgment rows; page 1 gives the 4,600 microsecond R600 correction",
+          "retrieval_note": "ATSB-hosted PDF and page-41 text retrieved with the browser. Direct binary download timed out; no PDF hash is claimed.",
+          "title": "Inmarsat / DCA Signalling Unit Log for 9M-MRO, December 2014 update",
+          "url": "https://www.atsb.gov.au/sites/default/files/media/5772619/public_mh370-data-communication-logs.pdf",
+          "verified_utc": "2026-09-08"
+        },
+        "time_basis": "UTC timestamps recorded at the ground station, used as the declared SATCOM state epochs; subsecond timestamp resolution does not establish aircraft-state accuracy."
+      },
+      "time_origin_utc": "2014-03-07T18:01:49+00:00"
+    },
+    "contacts": [
+      {
+        "id": "m0019a",
+        "measurement": {
+          "bfo": 182.0,
+          "bfo_sd": 7.0,
+          "bto": 18400.0,
+          "bto_sd": 63.0,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18182.021038944004,
+            "y": 38049.648940256,
+            "z": 392.38317947199994
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001584,
+            "y": -0.001634,
+            "z": -0.083208
+          },
+          "time": 22660.416
+        },
+        "satellite_afc_hz": -37.8,
+        "time_utc": "2014-03-08T00:19:29.416Z"
+      },
+      {
+        "id": "m0019b",
+        "measurement": {
+          "bfo": -2.0,
+          "bfo_sd": 7.0,
+          "bto": null,
+          "bto_sd": null,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18182.034221269,
+            "y": 38049.635585695,
+            "z": 391.71525332500005
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001583,
+            "y": -0.001635,
+            "z": -0.083225
+          },
+          "time": 22668.443
+        },
+        "satellite_afc_hz": -37.8,
+        "time_utc": "2014-03-08T00:19:37.443Z"
+      }
+    ],
+    "continuations_sha256": "cd63c75b237d766263fbe64e5ca2b3187353bbc01fbe6046e6a488ca744ac98e",
+    "control_proposal_sha256": null,
+    "elapsed_seconds": 1052.746653992,
+    "enabled_spokes": [
+      "stochastic_cruise",
+      "fuel_consistency",
+      "end_of_flight",
+      "satcom_predictions"
+    ],
+    "executable_sha256": "cc0c009fe89166e789da419f0d5739494d1897e92f5e294eb89eaa09bdde79bf",
+    "limitations": [
+      "terminal control and aerodynamic families are explicit alternatives, never averaged",
+      "cruise fuel envelope is replaced by the explicit continuation condition using refined probability divided by old probability",
+      "fuel quantity and shared flow discrepancy are drawn jointly under the declared exhaustion interval",
+      "cruise Mach controls horizontal airspeed; the boundary retains its full horizontal and vertical velocity",
+      "terminal wind uses ERA5 plus the boundary wind residual held fixed during descent",
+      "pressure altitude is used as geometric height in this conditional point-mass approximation",
+      "these contact predictions do not condition on transmission availability or APU timing; power states remain recorded for separate hypotheses",
+      "BFO predictions are stored against the shared 00:11 bias state; sequence likelihood must update that bias jointly",
+      "unsupported terminal outcomes must be reported before conditioning any impact PDF",
+      "when a control proposal is enabled, its per-draw prior/proposal correction preserves the same physical control prior",
+      "impact angle is a velocity angle, not aircraft body pitch; acoustic coupling is not inferred here"
+    ],
+    "name": "Full broader million through impact; identical lower-level ERA5 with extension to60000ft",
+    "outcomes": {
+      "all_families:zero_fuel_compatibility": 75,
+      "openap2020-best-glide:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 107,
+      "openap2020-best-glide:Impact": 9034,
+      "openap2020-initial-trim:Impact": 9141,
+      "openap2020-positive-lift-1-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 62,
+      "openap2020-positive-lift-1-targets:Impact": 9079,
+      "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 577,
+      "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 231,
+      "openap2020-positive-lift-3-targets:Impact": 8333,
+      "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1272,
+      "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 698,
+      "openap2020-positive-lift-6-targets:Impact": 7171,
+      "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 610,
+      "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 3242,
+      "openap2020-signed-lift-6-targets:Impact": 5289,
+      "openap26-best-glide:Impact": 9141,
+      "openap26-initial-trim:Impact": 9141,
+      "openap26-positive-lift-1-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 86,
+      "openap26-positive-lift-1-targets:Impact": 9055,
+      "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 735,
+      "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 335,
+      "openap26-positive-lift-3-targets:Impact": 8071,
+      "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1586,
+      "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 1020,
+      "openap26-positive-lift-6-targets:Impact": 6535,
+      "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 738,
+      "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 3554,
+      "openap26-signed-lift-6-targets:Impact": 4849
+    },
+    "rows": 109767,
+    "scientific_source_sha256": "8ea20dd5235c8654a21190b78788bfbcafac749d6f41ef2a5d8bebd25fc7afde",
+    "seed": 37091831,
+    "selected_traces_are_not_a_posterior": false,
+    "sources": [
+      {
+        "configuration_sha256": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+        "draws": 1536,
+        "elapsed_seconds": 169.492417758,
+        "initial_candidates": 85000,
+        "log_evidence": -87.73058535941438,
+        "particles_sha256": "8a54673a4484f55d2e430a09132e088f7f7ec64db9cf71367dcfb280cf87ceb9",
+        "pooling_fraction": 0.10968988444442157,
+        "posterior_sha256": "d12fc37fb93ab58d8b6c44592aa13d4717b65307748e8dad170abbe20b624d66",
+        "seed": 37091631,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631"
+      },
+      {
+        "configuration_sha256": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+        "draws": 1536,
+        "elapsed_seconds": 165.667505152,
+        "initial_candidates": 85000,
+        "log_evidence": -88.1175819951356,
+        "particles_sha256": "6b9572088a43288221e0aa6842e52aba7334d9bc78c5182987b1ab09d1d127cc",
+        "pooling_fraction": 0.07448967433334781,
+        "posterior_sha256": "c1eb9eb2db31f0a2ccd49e088f01a2c76b54ff1d9fdb20dfd7629b5bfe42b80f",
+        "seed": 37091640,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640"
+      },
+      {
+        "configuration_sha256": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+        "draws": 1536,
+        "elapsed_seconds": 178.223761326,
+        "initial_candidates": 255000,
+        "log_evidence": -87.99046299278518,
+        "particles_sha256": "1fa05d9bf7104810944de4030bd70889fa37c6e000abb0cdcd4c7513bd53f37f",
+        "pooling_fraction": 0.2537607279875713,
+        "posterior_sha256": "88e207471236fbbf33df632e658be3919dd5cc94015e2301b8b92cbb18badf85",
+        "seed": 37091711,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711"
+      },
+      {
+        "configuration_sha256": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+        "draws": 1536,
+        "elapsed_seconds": 174.081638923,
+        "initial_candidates": 255000,
+        "log_evidence": -87.96782224936932,
+        "particles_sha256": "83351f1ef19cb969844e06d937d049efbc218804d6192c38c8649d48ab409992",
+        "pooling_fraction": 0.25957159244433636,
+        "posterior_sha256": "0296b1e00f9706f54ea9410b9007b58bdb876fa3c828a3a3fe76ab0808216522",
+        "seed": 37091712,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712"
+      },
+      {
+        "configuration_sha256": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+        "draws": 1536,
+        "elapsed_seconds": 177.040817036,
+        "initial_candidates": 170000,
+        "log_evidence": -88.03818290267179,
+        "particles_sha256": "19d1d849fad92870cb73453ff40295bb5fb0c73fe31905a820403c31a0bb5221",
+        "pooling_fraction": 0.1612904519871445,
+        "posterior_sha256": "971870a8df7da6e95646156395e47de12df6093d8a1f91f77221a925aa7ed96a",
+        "seed": 37091713,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713"
+      },
+      {
+        "configuration_sha256": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+        "draws": 1536,
+        "elapsed_seconds": 184.172018216,
+        "initial_candidates": 170000,
+        "log_evidence": -88.17122887689254,
+        "particles_sha256": "97146e31c53dab93aa08cc2e7f1f8b684a0d62672e84f29e6028d83e3b208ccc",
+        "pooling_fraction": 0.1411976688031739,
+        "posterior_sha256": "ead10daa20dc02a373f5f621585696ef80b79ec6fffa223400665b3b1e79c332",
+        "seed": 37091714,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714"
+      }
+    ],
+    "status": "conditional_terminal_predictions",
+    "terminal_weather_sha256": "1d170bfbbcca5a1fadbf0ea3cc2a7a6545a0255353d2829be012fc0779ff2def"
+  },
+  "configuration": {
+    "schema_version": 1,
+    "name": "Full broader million through impact; identical lower-level ERA5 with extension to60000ft",
+    "seed": 37091831,
+    "source_runs": [
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714"
+    ],
+    "draws_per_source": 1536,
+    "threads": 4,
+    "minimum_draws_per_2p5_degree_latitude_bin": 64,
+    "control_proposal": null,
+    "terminal_weather": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-weather/grid.bin",
+    "requested_traces": [],
+    "trace_interval_s": null,
+    "powered_step_s": 1.0,
+    "final_contacts": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-final-contacts.json",
+    "kernel": {
+      "families": [
+        {
+          "name": "openap26-initial-trim",
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "fixed_initial_trim"
+          }
+        },
+        {
+          "name": "openap26-best-glide",
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "best_glide",
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap26-positive-lift-1-targets",
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 1,
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap26-positive-lift-3-targets",
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 3,
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap26-positive-lift-6-targets",
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 6,
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap26-signed-lift-6-targets",
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 6,
+            "lift_coefficient_bounds": [
+              -0.3,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap2020-initial-trim",
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "fixed_initial_trim"
+          }
+        },
+        {
+          "name": "openap2020-best-glide",
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "best_glide",
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap2020-positive-lift-1-targets",
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 1,
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap2020-positive-lift-3-targets",
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 3,
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap2020-positive-lift-6-targets",
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 6,
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        },
+        {
+          "name": "openap2020-signed-lift-6-targets",
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "kind": "rate_limited_targets",
+            "segments": 6,
+            "lift_coefficient_bounds": [
+              -0.3,
+              1.2
+            ],
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "step_s": 0.03125
+          }
+        }
+      ],
+      "environment": {
+        "minimum_pressure_altitude_ft": 500.0,
+        "maximum_pressure_altitude_ft": 60000.0,
+        "below_minimum_policy": "clamp_to_grid",
+        "above_maximum_policy": "reject"
+      },
+      "fallback_atmosphere": {
+        "nodes": [
+          {
+            "altitude": 0.0,
+            "density": 1.225,
+            "wind_north": 0.0,
+            "wind_east": 0.0
+          },
+          {
+            "altitude": 43000.0,
+            "density": 0.25,
+            "wind_north": 0.0,
+            "wind_east": 0.0
+          }
+        ]
+      },
+      "integration": {
+        "time_step": 0.03125,
+        "maximum_duration": 3600.0,
+        "sea_surface_altitude": 0.0,
+        "maximum_steps": 160000
+      },
+      "apu_start_policy": {
+        "mode": "disabled"
+      },
+      "apu_accessible_reserved_fuel_kg": 0.0
+    }
+  },
+  "input_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-best-glide--neither-final-contact.csv": "f77a52a0952a93a721f0ba8c17542d56f63a3c24cc2ffa251cf0e90a7bea44dc",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-best-glide--r600-no-startup-offset.csv": "012977b2433b2adca5fef011c6f71ba888545fac9d4b18a48af69d70d5c63eda",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-initial-trim--neither-final-contact.csv": "76a0c9b7243dfa6a209067c8ce7274ff8b405225727b7cfe3cf74f791696d178",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-initial-trim--r600-no-startup-offset.csv": "9adbef80a5c4209ebf4c1ccbabb7f635d7240f6f0ef905043876e4ba18f1ff2f",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-positive-lift-1-targets--neither-final-contact.csv": "fa8aaaf4c111a9f21711a8ea1622e22bb7dd6ccef68dad04b64cfc49c7fac2c2",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-positive-lift-1-targets--r600-no-startup-offset.csv": "1021513501eb27502ad930ffbf74a678a7ba6f13b099118590e009012e3e7345",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-positive-lift-3-targets--neither-final-contact.csv": "722a3580fd99242a1d677a3b562afbeb0f413829b049f10089cef7d81cce53d1",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-positive-lift-3-targets--r600-no-startup-offset.csv": "b5dafc347990e6d78ea6fbcb439de7aee87209b21677e6f3b6be30e3ea95f51a",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-positive-lift-6-targets--neither-final-contact.csv": "18ef537da5387b3666fad753619eaff63a8c0788f969ef8ee41a9e939045610b",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-positive-lift-6-targets--r600-no-startup-offset.csv": "8fe7cbaa8440a325b956d451aac67e3ff60e8fa4d27512950d4c8395eb037af6",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-signed-lift-6-targets--neither-final-contact.csv": "028d3aeb56623fbaa17da55b2029f1a1c0ad3cf2761c0bbb9d4c1b7f2fa4f57a",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap2020-signed-lift-6-targets--r600-no-startup-offset.csv": "03205800bd9b8b34e185181eab65ec7b4c2d2b679831cfc7457c93c8082de442",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-best-glide--neither-final-contact.csv": "cf669c908c6fdc15d18531ed833e5195ef38450cc5d0ef4484cd473d3cccd9ca",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-best-glide--r600-no-startup-offset.csv": "53df2dd06acc9ee14a04229b1e76fe78be3a987641e7a2c83f5c53704d9238a1",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-initial-trim--neither-final-contact.csv": "d9b0a975236f414645991744d86f0ef2c444e78890243f615d50b8cbe5f6a018",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-initial-trim--r600-no-startup-offset.csv": "b7377b461b6d60cd69d9a1b270c9495f3cb3c3c74278279c3181fc2b01a62006",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-positive-lift-1-targets--neither-final-contact.csv": "7ec7dccfadc936956d0b590ae21d7ec437f01f1957de75277f2ba249b35d24e7",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-positive-lift-1-targets--r600-no-startup-offset.csv": "e869a2a8f5d7eda9f954358f3a187ff515af2f27a326adc105d696a47068fe9c",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-positive-lift-3-targets--neither-final-contact.csv": "785b87637239a350b20a5a18358c73af4947607a45827c0f6efd3b0c4f1f888a",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-positive-lift-3-targets--r600-no-startup-offset.csv": "d08c6c4a1754f3ab882a5c25e119100d42fbd6d6a929df90aa79fa27d587a456",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-positive-lift-6-targets--neither-final-contact.csv": "fe7788a0b6a58616e58616c8fff11dcad90da9a0ac0411145adbc2a70f1a4b94",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-positive-lift-6-targets--r600-no-startup-offset.csv": "f0770f96a877c7bc69f8cd701a81102414ed41a4da24d539f9962bae933cbafd",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-signed-lift-6-targets--neither-final-contact.csv": "01c13764788d6656f233bb0934c28402d28cf4f887ec056f1d0ddded41ee2ffc",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/openap26-signed-lift-6-targets--r600-no-startup-offset.csv": "5be973f1e18230c5480b2e9ef0a03de723510c72b9c3fab8435f963acb595af4",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather/summary.json": "8a75983a7f17eb22bb546e24104698411fae385433f97232a0f5e19d4238c339",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather/resolved-config.json": "030540fb0b8ccb35d66b1c3fe2b562f944c35e52ff7b4740b1de14b023c39e87",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned/summary.json": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/end-of-flight-briefing-traces/continuations.jsonl": "1183f23055c86ad697a002da58070f266912eeed441fa9775e87ce0e1adead29",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-context-selected-terminal-traces/continuations.jsonl": "335e45564f86406d19d31c7d4c6d7249de4bfbcab8be957ecd5f35d683bf104c"
+  },
+  "report_source_sha256": "12dc2d4a79c8de114e9ea6353f471892b0a84dba693a1e914702ba510899f84f",
+  "time_origin_unix_s": 1394215309.0,
+  "time_origin_utc": "18:01:49",
+  "utc_chart_date": "2014-03-08",
+  "new_monte_carlo_candidates": 0,
+  "maximum_sampled_duration_min": {
+    "openap26": 31.473278813215014,
+    "openap2020": 26.747204880374316
+  },
+  "latest_computed_impact_utc": "00:50:04",
+  "maximum_simulation_duration_s": 3600.0,
+  "case_statistics": {
+    "openap2020-best-glide": {
+      "neither-final-contact": {
+        "impact_count": 9034,
+        "outcome_counts": {
+          "Impact": 9034,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 107,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 16.700591342471853,
+        "maximum_duration_min": 24.288850192576138,
+        "weighted_duration_quantiles_min": [
+          18.519405427523694,
+          21.79261737840752,
+          24.08985626597508
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:34:45",
+          "00:38:47",
+          "00:42:08"
+        ],
+        "earliest_computed_impact_utc": "00:31:46",
+        "latest_computed_impact_utc": "00:43:14",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.9918650979930544,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 4213.120352736306,
+        "maximum_duration_identity": {
+          "source_index": 5,
+          "draw": 5
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 9034,
+        "outcome_counts": {
+          "Impact": 9034,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 107,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 16.700591342471853,
+        "maximum_duration_min": 24.288850192576138,
+        "weighted_duration_quantiles_min": [
+          19.22006573224929,
+          22.099709107704744,
+          24.168078454428482
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:35:08",
+          "00:38:08",
+          "00:42:14"
+        ],
+        "earliest_computed_impact_utc": "00:31:46",
+        "latest_computed_impact_utc": "00:43:14",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.9999999999999966,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.007762256852046726,
+        "effective_weighted_rows_all_scored_outcomes": 444.0397953584218,
+        "effective_weighted_computed_impacts": 444.0397953584213,
+        "maximum_duration_identity": {
+          "source_index": 5,
+          "draw": 5
+        }
+      }
+    },
+    "openap2020-initial-trim": {
+      "neither-final-contact": {
+        "impact_count": 9141,
+        "outcome_counts": {
+          "Impact": 9141,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 4.4825171742926,
+        "maximum_duration_min": 21.033622289767724,
+        "weighted_duration_quantiles_min": [
+          6.21270092114349,
+          11.811985797316993,
+          18.233627910520227
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:22:58",
+          "00:28:54",
+          "00:35:42"
+        ],
+        "earliest_computed_impact_utc": "00:19:31",
+        "latest_computed_impact_utc": "00:39:31",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 1.0000000000000004,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 4240.288016377089,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 846
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 9141,
+        "outcome_counts": {
+          "Impact": 9141,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 4.4825171742926,
+        "maximum_duration_min": 21.033622289767724,
+        "weighted_duration_quantiles_min": [
+          6.003619843447086,
+          11.54258440227295,
+          17.676691039443963
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:22:17",
+          "00:28:49",
+          "00:36:18"
+        ],
+        "earliest_computed_impact_utc": "00:19:31",
+        "latest_computed_impact_utc": "00:39:31",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.999999999999999,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 877.7302159411835,
+        "effective_weighted_computed_impacts": 877.7302159411763,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 846
+        }
+      }
+    },
+    "openap2020-positive-lift-1-targets": {
+      "neither-final-contact": {
+        "impact_count": 9079,
+        "outcome_counts": {
+          "Impact": 9079,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 62,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.83789081549603,
+        "maximum_duration_min": 26.747204880374316,
+        "weighted_duration_quantiles_min": [
+          1.0793726441991263,
+          12.269791687643252,
+          24.08145236704816
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:17:28",
+          "00:29:15",
+          "00:41:23"
+        ],
+        "earliest_computed_impact_utc": "00:15:59",
+        "latest_computed_impact_utc": "00:45:21",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.9936477467530749,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 4228.285525830449,
+        "maximum_duration_identity": {
+          "source_index": 4,
+          "draw": 475
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 9079,
+        "outcome_counts": {
+          "Impact": 9079,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 62,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.83789081549603,
+        "maximum_duration_min": 26.747204880374316,
+        "weighted_duration_quantiles_min": [
+          3.1159801982685775,
+          12.716804429855317,
+          23.61616118477432
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:20:03",
+          "00:29:49",
+          "00:40:59"
+        ],
+        "earliest_computed_impact_utc": "00:15:59",
+        "latest_computed_impact_utc": "00:45:21",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.9999999999999986,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.006352253246925349,
+        "effective_weighted_rows_all_scored_outcomes": 309.2107586601796,
+        "effective_weighted_computed_impacts": 309.2107586601797,
+        "maximum_duration_identity": {
+          "source_index": 4,
+          "draw": 475
+        }
+      }
+    },
+    "openap2020-positive-lift-3-targets": {
+      "neither-final-contact": {
+        "impact_count": 8333,
+        "outcome_counts": {
+          "Impact": 8333,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 577,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 231,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8232503510001455,
+        "maximum_duration_min": 25.731770060596016,
+        "weighted_duration_quantiles_min": [
+          1.0784921895159034,
+          10.004776848279288,
+          20.727424901728774
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:17:23",
+          "00:27:02",
+          "00:37:47"
+        ],
+        "earliest_computed_impact_utc": "00:15:54",
+        "latest_computed_impact_utc": "00:43:28",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.9063066650678372,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 3860.7655417915416,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 458
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 8333,
+        "outcome_counts": {
+          "Impact": 8333,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 577,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 231,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8232503510001455,
+        "maximum_duration_min": 25.731770060596016,
+        "weighted_duration_quantiles_min": [
+          2.6925771179495013,
+          11.083175578369021,
+          21.411682806749194
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:19:42",
+          "00:28:07",
+          "00:38:22"
+        ],
+        "earliest_computed_impact_utc": "00:15:54",
+        "latest_computed_impact_utc": "00:43:28",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.9511437893644203,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.036180883480435265,
+        "effective_weighted_rows_all_scored_outcomes": 245.521738902683,
+        "effective_weighted_computed_impacts": 228.8608357828051,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 458
+        }
+      }
+    },
+    "openap2020-positive-lift-6-targets": {
+      "neither-final-contact": {
+        "impact_count": 7171,
+        "outcome_counts": {
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1272,
+          "Impact": 7171,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 698,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8399630038249597,
+        "maximum_duration_min": 24.898495548991256,
+        "weighted_duration_quantiles_min": [
+          1.0751771926526998,
+          8.652230082769226,
+          17.159193622854826
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:17:36",
+          "00:25:35",
+          "00:34:34"
+        ],
+        "earliest_computed_impact_utc": "00:15:50",
+        "latest_computed_impact_utc": "00:42:16",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.7830085089765076,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 3345.6673950142163,
+        "maximum_duration_identity": {
+          "source_index": 0,
+          "draw": 388
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 7171,
+        "outcome_counts": {
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1272,
+          "Impact": 7171,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 698,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8399630038249597,
+        "maximum_duration_min": 24.898495548991256,
+        "weighted_duration_quantiles_min": [
+          3.2873290307433005,
+          9.647242545088194,
+          18.052202531430886
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:19:55",
+          "00:26:26",
+          "00:35:26"
+        ],
+        "earliest_computed_impact_utc": "00:15:50",
+        "latest_computed_impact_utc": "00:42:16",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.8287054111508404,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07029183318719204,
+        "effective_weighted_rows_all_scored_outcomes": 219.36464859805292,
+        "effective_weighted_computed_impacts": 180.3157345486985,
+        "maximum_duration_identity": {
+          "source_index": 0,
+          "draw": 388
+        }
+      }
+    },
+    "openap2020-signed-lift-6-targets": {
+      "neither-final-contact": {
+        "impact_count": 5289,
+        "outcome_counts": {
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3242,
+          "Impact": 5289,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 610,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.6428780044444162,
+        "maximum_duration_min": 23.241034284035354,
+        "weighted_duration_quantiles_min": [
+          0.8295402220345447,
+          5.281141376660404,
+          15.19023960646482
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:16:26",
+          "00:22:22",
+          "00:32:27"
+        ],
+        "earliest_computed_impact_utc": "00:15:48",
+        "latest_computed_impact_utc": "00:41:12",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.583326919327443,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 2453.0588385785313,
+        "maximum_duration_identity": {
+          "source_index": 2,
+          "draw": 78
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 5289,
+        "outcome_counts": {
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3242,
+          "Impact": 5289,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 610,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.6428780044444162,
+        "maximum_duration_min": 23.241034284035354,
+        "weighted_duration_quantiles_min": [
+          2.5396371727686224,
+          7.435720418946888,
+          15.32435051130924
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:20:15",
+          "00:24:33",
+          "00:32:52"
+        ],
+        "earliest_computed_impact_utc": "00:15:48",
+        "latest_computed_impact_utc": "00:41:12",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.7100833950479591,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.2362173617121513,
+        "effective_weighted_rows_all_scored_outcomes": 153.12847934885218,
+        "effective_weighted_computed_impacts": 106.1577091401874,
+        "maximum_duration_identity": {
+          "source_index": 2,
+          "draw": 78
+        }
+      }
+    },
+    "openap26-best-glide": {
+      "neither-final-contact": {
+        "impact_count": 9141,
+        "outcome_counts": {
+          "Impact": 9141,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 19.42508708704578,
+        "maximum_duration_min": 28.239579704577956,
+        "weighted_duration_quantiles_min": [
+          21.091142555507336,
+          25.34197432960021,
+          27.98765279046323
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:37:42",
+          "00:42:20",
+          "00:45:57"
+        ],
+        "earliest_computed_impact_utc": "00:34:31",
+        "latest_computed_impact_utc": "00:47:10",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 1.0000000000000004,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 4240.288016377089,
+        "maximum_duration_identity": {
+          "source_index": 5,
+          "draw": 5
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 9141,
+        "outcome_counts": {
+          "Impact": 9141,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 19.42508708704578,
+        "maximum_duration_min": 28.239579704577956,
+        "weighted_duration_quantiles_min": [
+          22.07943457300953,
+          25.761942671148912,
+          28.107348990720673
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:37:51",
+          "00:42:17",
+          "00:46:00"
+        ],
+        "earliest_computed_impact_utc": "00:34:31",
+        "latest_computed_impact_utc": "00:47:10",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 1.0000000000000013,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 354.01143428418123,
+        "effective_weighted_computed_impacts": 354.01143428418214,
+        "maximum_duration_identity": {
+          "source_index": 5,
+          "draw": 5
+        }
+      }
+    },
+    "openap26-initial-trim": {
+      "neither-final-contact": {
+        "impact_count": 9141,
+        "outcome_counts": {
+          "Impact": 9141,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 6.142304014047295,
+        "maximum_duration_min": 26.45850687904543,
+        "weighted_duration_quantiles_min": [
+          8.483877617659225,
+          15.770538322626816,
+          23.476156195103673
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:25:15",
+          "00:32:50",
+          "00:40:53"
+        ],
+        "earliest_computed_impact_utc": "00:21:11",
+        "latest_computed_impact_utc": "00:44:57",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 1.0000000000000004,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 4240.288016377089,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 846
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 9141,
+        "outcome_counts": {
+          "Impact": 9141,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 6.142304014047295,
+        "maximum_duration_min": 26.45850687904543,
+        "weighted_duration_quantiles_min": [
+          8.612431219217918,
+          14.925382437192093,
+          22.422447891516217
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:25:10",
+          "00:33:15",
+          "00:41:10"
+        ],
+        "earliest_computed_impact_utc": "00:21:11",
+        "latest_computed_impact_utc": "00:44:57",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 1.000000000000001,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 549.9017445684603,
+        "effective_weighted_computed_impacts": 549.9017445684655,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 846
+        }
+      }
+    },
+    "openap26-positive-lift-1-targets": {
+      "neither-final-contact": {
+        "impact_count": 9055,
+        "outcome_counts": {
+          "Impact": 9055,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 86,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8272314541519639,
+        "maximum_duration_min": 31.473278813215014,
+        "weighted_duration_quantiles_min": [
+          1.0685338962714013,
+          15.084955402778723,
+          28.776583012754177
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:17:52",
+          "00:32:10",
+          "00:46:03"
+        ],
+        "earliest_computed_impact_utc": "00:15:54",
+        "latest_computed_impact_utc": "00:50:04",
+        "fraction_of_computed_impact_weight_after_30_min": 0.00703503592783204,
+        "impact_mass_within_scored_support": 0.9921127632692149,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 4210.165462202329,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 208
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 9055,
+        "outcome_counts": {
+          "Impact": 9055,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 86,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8272314541519639,
+        "maximum_duration_min": 31.473278813215014,
+        "weighted_duration_quantiles_min": [
+          4.154005613591228,
+          16.791571039545488,
+          29.360960940239845
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:20:31",
+          "00:34:37",
+          "00:46:51"
+        ],
+        "earliest_computed_impact_utc": "00:15:54",
+        "latest_computed_impact_utc": "00:50:04",
+        "fraction_of_computed_impact_weight_after_30_min": 0.016412122230982925,
+        "impact_mass_within_scored_support": 1.0000000000000007,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.007430591192412251,
+        "effective_weighted_rows_all_scored_outcomes": 200.70128138160172,
+        "effective_weighted_computed_impacts": 200.70128138160308,
+        "maximum_duration_identity": {
+          "source_index": 3,
+          "draw": 208
+        }
+      }
+    },
+    "openap26-positive-lift-3-targets": {
+      "neither-final-contact": {
+        "impact_count": 8071,
+        "outcome_counts": {
+          "Impact": 8071,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 335,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 735,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8214643440608295,
+        "maximum_duration_min": 30.95098173213155,
+        "weighted_duration_quantiles_min": [
+          1.068364411914869,
+          12.310766754314319,
+          25.008223602179473
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:17:44",
+          "00:29:19",
+          "00:42:03"
+        ],
+        "earliest_computed_impact_utc": "00:16:03",
+        "latest_computed_impact_utc": "00:48:05",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0008483537551051349,
+        "impact_mass_within_scored_support": 0.8807644772406558,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 3739.931891596153,
+        "maximum_duration_identity": {
+          "source_index": 2,
+          "draw": 581
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 8071,
+        "outcome_counts": {
+          "Impact": 8071,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 335,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 735,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8214643440608295,
+        "maximum_duration_min": 30.95098173213155,
+        "weighted_duration_quantiles_min": [
+          3.8004510417832837,
+          12.665657572753359,
+          23.98739846548536
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:20:48",
+          "00:30:15",
+          "00:42:03"
+        ],
+        "earliest_computed_impact_utc": "00:16:03",
+        "latest_computed_impact_utc": "00:48:05",
+        "fraction_of_computed_impact_weight_after_30_min": 1.696267453344627e-13,
+        "impact_mass_within_scored_support": 0.9187760222862347,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.03734836170694398,
+        "effective_weighted_rows_all_scored_outcomes": 201.70131254402892,
+        "effective_weighted_computed_impacts": 189.15060276130748,
+        "maximum_duration_identity": {
+          "source_index": 2,
+          "draw": 581
+        }
+      }
+    },
+    "openap26-positive-lift-6-targets": {
+      "neither-final-contact": {
+        "impact_count": 6535,
+        "outcome_counts": {
+          "Impact": 6535,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1020,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1586,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8112811447546846,
+        "maximum_duration_min": 29.035420352583422,
+        "weighted_duration_quantiles_min": [
+          1.0373480360144944,
+          10.1994710698705,
+          21.6660182733418
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:17:31",
+          "00:27:05",
+          "00:39:11"
+        ],
+        "earliest_computed_impact_utc": "00:16:01",
+        "latest_computed_impact_utc": "00:47:03",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.7133966582006966,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 3026.863008667065,
+        "maximum_duration_identity": {
+          "source_index": 5,
+          "draw": 39
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 6535,
+        "outcome_counts": {
+          "Impact": 6535,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 1020,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1586,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.8112811447546846,
+        "maximum_duration_min": 29.035420352583422,
+        "weighted_duration_quantiles_min": [
+          2.9101997568820175,
+          11.893431722068817,
+          20.9982272599272
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:20:41",
+          "00:29:32",
+          "00:38:30"
+        ],
+        "earliest_computed_impact_utc": "00:16:01",
+        "latest_computed_impact_utc": "00:47:03",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.7390105803854294,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.07593188252381051,
+        "effective_weighted_rows_all_scored_outcomes": 164.09498953960568,
+        "effective_weighted_computed_impacts": 121.94290715326073,
+        "maximum_duration_identity": {
+          "source_index": 5,
+          "draw": 39
+        }
+      }
+    },
+    "openap26-signed-lift-6-targets": {
+      "neither-final-contact": {
+        "impact_count": 4849,
+        "outcome_counts": {
+          "Impact": 4849,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3554,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 738,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.6155672527741748,
+        "maximum_duration_min": 26.127897427472757,
+        "weighted_duration_quantiles_min": [
+          0.8091749927883333,
+          5.85712211691692,
+          19.427246082655376
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:16:21",
+          "00:22:47",
+          "00:36:16"
+        ],
+        "earliest_computed_impact_utc": "00:15:47",
+        "latest_computed_impact_utc": "00:44:04",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.5376070395795373,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+        "effective_weighted_rows_all_scored_outcomes": 4240.288016377072,
+        "effective_weighted_computed_impacts": 2202.699040294088,
+        "maximum_duration_identity": {
+          "source_index": 2,
+          "draw": 1178
+        }
+      },
+      "r600-no-startup-offset": {
+        "impact_count": 4849,
+        "outcome_counts": {
+          "Impact": 4849,
+          "DeclaredEnvelopeExit(NearVerticalFlightPath)": 3554,
+          "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 738,
+          "zero_fuel_compatibility": 75
+        },
+        "minimum_duration_min": 0.6155672527741748,
+        "maximum_duration_min": 26.127897427472757,
+        "weighted_duration_quantiles_min": [
+          3.2032579237529717,
+          9.302630806402824,
+          22.21828445657405
+        ],
+        "weighted_impact_time_quantiles_utc": [
+          "00:20:40",
+          "00:26:45",
+          "00:39:54"
+        ],
+        "earliest_computed_impact_utc": "00:15:47",
+        "latest_computed_impact_utc": "00:44:04",
+        "fraction_of_computed_impact_weight_after_30_min": 0.0,
+        "impact_mass_within_scored_support": 0.6544442437161929,
+        "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.23596460711994063,
+        "effective_weighted_rows_all_scored_outcomes": 137.13461817876515,
+        "effective_weighted_computed_impacts": 93.85036185676945,
+        "maximum_duration_identity": {
+          "source_index": 2,
+          "draw": 1178
+        }
+      }
+    }
+  },
+  "trace_examples": [
+    {
+      "family": "openap26-positive-lift-1-targets",
+      "source_index": 3,
+      "draw": 208,
+      "duration_min": 31.473278813215014,
+      "exhaustion_utc": "00:18:36",
+      "impact_utc": "00:50:04",
+      "start_altitude_ft": 43000.0,
+      "sample_count": 379
+    },
+    {
+      "family": "openap26-best-glide",
+      "source_index": 5,
+      "draw": 5,
+      "duration_min": 28.239579704577956,
+      "exhaustion_utc": "00:18:13",
+      "impact_utc": "00:46:27",
+      "start_altitude_ft": 43000.0,
+      "sample_count": 340
+    },
+    {
+      "family": "openap2020-positive-lift-1-targets",
+      "source_index": 4,
+      "draw": 475,
+      "duration_min": 26.747204880374316,
+      "exhaustion_utc": "00:17:51",
+      "impact_utc": "00:44:36",
+      "start_altitude_ft": 43000.0,
+      "sample_count": 322
+    },
+    {
+      "family": "openap26-positive-lift-3-targets",
+      "source_index": 0,
+      "draw": 318,
+      "duration_min": 18.758725855074164,
+      "exhaustion_utc": "00:15:50",
+      "impact_utc": "00:34:35",
+      "start_altitude_ft": 42000.0,
+      "sample_count": 114
+    },
+    {
+      "family": "openap26-signed-lift-6-targets",
+      "source_index": 0,
+      "draw": 318,
+      "duration_min": 15.22515053563008,
+      "exhaustion_utc": "00:15:50",
+      "impact_utc": "00:31:03",
+      "start_altitude_ft": 42000.0,
+      "sample_count": 93
+    },
+    {
+      "family": "openap26-signed-lift-6-targets",
+      "source_index": 5,
+      "draw": 1194,
+      "duration_min": 3.5711263305576115,
+      "exhaustion_utc": "00:16:42",
+      "impact_utc": "00:20:16",
+      "start_altitude_ft": 28000.0,
+      "sample_count": 23
+    }
+  ],
+  "figure_sha256": {
+    "simulation-sequence.svg": "f2596bc874fea1336d207c0c8cb475b25b80fea07ec113e02894dda9b76384f4",
+    "simulation-sequence.pdf": "87b604d56d49c9ec460658e5bc4f0d63037b250c6a8b0693627aea646c0729a8",
+    "simulation-sequence.png": "ab33a9b1743f2163ac9bca486c835ae0df72c877f82c95581cfb179b56ca25d4",
+    "duration-ranges.svg": "5ae01c0cfd0f9127a48425da2685f79ef9a1f5371c70f967a49b32af1e8bff4f",
+    "duration-ranges.pdf": "13cbb0a051f35e6daa25d5f7fd1dc388ca2ca99f3f7a98c5435afc3de0b5a465",
+    "duration-ranges.png": "49a262277645c1b42fe431f0d9dd40353f383c4f34602b18de849b7e243c529b",
+    "impact-counts-utc.svg": "4f93f29e80e62f0872283e83ca971e8cab6e2d93b8577754ee842d14aedb3c93",
+    "impact-counts-utc.pdf": "9cf188df2377298fcb7cbc0fc4a3a71e9cea7755d7df19078fafa2dc3ceb5f99",
+    "impact-counts-utc.png": "68e555a507a0985f9658278b41cb8180c05b9772f81d1ee8c8bbabe3e3bf0f30",
+    "impact-counts-after-exhaustion.svg": "44d806ff8adbd663819d01acc82ce6b82d3ac73fe5b2cea0e0a2fe252e066e96",
+    "impact-counts-after-exhaustion.pdf": "eff2410d8fd08df84dc51159c5d45b5f892f7a624abca90c9e9c84b79ca355f3",
+    "impact-counts-after-exhaustion.png": "0c2f11768524e478f0e026dcc09467de373c87efb7efde8d707aa166a1c14ffe",
+    "impact-weighted-utc.svg": "3362a4c517563e6c5c113cfaa6102ac207eb9530eea7e863eb190238b310c437",
+    "impact-weighted-utc.pdf": "42035e3c86fe753cffa759514bab65a60f8a57f2fdd732135aa386f2b3f4f15a",
+    "impact-weighted-utc.png": "1538659e73559d0ac05a4a8930c967a3876f05636e9778af4cfa3a755270a89e",
+    "impact-weighted-after-exhaustion.svg": "5209d494a2d390660d87d327d6dba89c80aa8bde6670ce40bc5853173768ead4",
+    "impact-weighted-after-exhaustion.pdf": "fe4299e489d11e22091d5b88adb20a8e6fa7e985c9da983d19ab5ca4c147906a",
+    "impact-weighted-after-exhaustion.png": "458db0f70b3becb8af9b4ff1f50c06a79429c8cd89e18e030d3699d78037e0b2",
+    "descent-examples.svg": "1ac1002e2fa2511a5f52e6573503fc43532f301127157bf4c360f16f2356eac6",
+    "descent-examples.pdf": "81b3fc6b6d4e2a74bd9fd72dce7195d94a37ea6c8bcb627380251e6d3e183975",
+    "descent-examples.png": "bdb45992d85aaeb611451d827647ce73ce11b3df8864a6dcf6c008c910500564"
+  },
+  "reproduction_command": "MH370_REPORT_PYTHON=/tmp/mh370-acoustic-venv/bin/python target/iteration/mh370 report-end-of-flight --source /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather --conditioned /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned --output /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/end-of-flight-briefing --traces /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/end-of-flight-briefing-traces/continuations.jsonl /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-context-selected-terminal-traces/continuations.jsonl --inline-output /jackbox/home/MH370/mh370-end-of-flight.html",
+  "duration_definition": "impact time minus the same row exhaustion_time_s; never a fixed nominal fuel-exhaustion epoch",
+  "raw_counts_definition": "computed physical impacts before final-contact reweighting; zero final-contact weight rows remain in raw counts",
+  "probability_definition": "named conditional weights, separately normalized over computed impacts; no mixture across physical models",
+  "elapsed_seconds": 10.271459487004904,
+  "peak_rss_kib": 299196
+}

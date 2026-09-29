@@ -1,0 +1,231 @@
+{
+  "acars_validation": {
+    "anchor_flow": {
+      "drag_n": 160191.7001745741,
+      "lift_coefficient": 0.4446554297303081,
+      "pressure_ratio": 0.23526015010587678,
+      "raw_thrust_fraction": 0.19465308177137905,
+      "tas_m_s": 249.2513354530349,
+      "temperature_ratio": 0.7959396147839666,
+      "total_fuel_flow_kg_s": 2.1704975475368897,
+      "used_thrust_fraction": 0.19465308177137905
+    },
+    "interval_rmse_kg": 83.93337656287558,
+    "intervals": [
+      {
+        "end_utc": "2014-03-07T16:46:43Z",
+        "error_predicted_minus_observed_kg": 163.8672078608579,
+        "observed_burn_kg": 1400.0,
+        "predicted_burn_kg": 1563.867207860858,
+        "start_utc": "2014-03-07T16:41:43Z"
+      },
+      {
+        "end_utc": "2014-03-07T16:51:43Z",
+        "error_predicted_minus_observed_kg": -43.825796787801664,
+        "observed_burn_kg": 1300.0,
+        "predicted_burn_kg": 1256.1742032121983,
+        "start_utc": "2014-03-07T16:46:43Z"
+      },
+      {
+        "end_utc": "2014-03-07T16:56:43Z",
+        "error_predicted_minus_observed_kg": -57.05737512186897,
+        "observed_burn_kg": 1100.0,
+        "predicted_burn_kg": 1042.942624878131,
+        "start_utc": "2014-03-07T16:51:43Z"
+      },
+      {
+        "end_utc": "2014-03-07T17:01:43Z",
+        "error_predicted_minus_observed_kg": -32.3457840697738,
+        "observed_burn_kg": 900.0,
+        "predicted_burn_kg": 867.6542159302262,
+        "start_utc": "2014-03-07T16:56:43Z"
+      },
+      {
+        "end_utc": "2014-03-07T17:06:43Z",
+        "error_predicted_minus_observed_kg": -46.358412690060504,
+        "observed_burn_kg": 700.0,
+        "predicted_burn_kg": 653.6415873099395,
+        "start_utc": "2014-03-07T17:01:43Z"
+      }
+    ],
+    "observed_total_burn_kg": 5400.0,
+    "predicted_ending_fuel_kg": 43815.72016080865,
+    "predicted_total_burn_kg": 5384.279839191353,
+    "total_error_predicted_minus_observed_kg": -15.720160808647051
+  },
+  "calculation_conventions": {
+    "celsius_zero_kelvin": 273.15,
+    "feet_per_flight_level": 100.0,
+    "seconds_per_hour": 3600.0
+  },
+  "circular_input_exclusion": {
+    "checked_files": [
+      "model_parameters.json",
+      "official_acars.json",
+      "official_post_acars.json",
+      "stress_families.json"
+    ],
+    "findings": {
+      "event_derived_exhaustion": {
+        "files": [],
+        "literal_present": false
+      },
+      "legacy_045t_sd": {
+        "files": [],
+        "literal_present": false
+      },
+      "legacy_1822_fuel": {
+        "files": [],
+        "literal_present": false
+      }
+    },
+    "passed": true
+  },
+  "initializer_contract": {
+    "blocker_ids": [
+      "public-proxy-level-cruise-failure",
+      "engine-feed-split-unidentified"
+    ],
+    "integration_status": "blocked",
+    "interface_id": "mh370-fuel-initializer-v1"
+  },
+  "input_identities": {
+    "initializer_contract_sha256": "2356fc342da68ba297de2725d9ccdf55374898b7c893eebef8247962a109329f",
+    "official_acars_sha256": "59d6f7480faa75df94664946b09752d2965050d319a20b1cd53d208492695e21",
+    "official_post_acars_sha256": "58b8820653ae759e42f14e6de0bb13f4e8430a9ec1dc917b695cf526bcdfabb4",
+    "public_performance_code_sha256": "2b753a6ce100b4f0e15d3c3b8adb028ac8dc09218b3a19aab1acf54db57bc55d",
+    "runner_code_sha256": "7c2234a350007bc9c2224ce094cef1e32d06db3fc17f9a48801d2be35baac8f4",
+    "stress_family_sha256": "6363e06269ab71cb0c6057bd5a5407d846299f5d7dfed8be537aaf2d08688ca9",
+    "workbook_evidence_sha256": "a45373a2c1a66e920510145a45bfd576a316deced64dde472f8fbb86971f75a3"
+  },
+  "interpretation": {
+    "acars_total_agreement": "error-cancellation-not-uniform-accuracy",
+    "official_post_acars_role": "calculated-comparator-not-measurement",
+    "post_acars_discrepancy": "reproduced-not-tuned",
+    "pulau_perak_role": "unweighted-stress-only"
+  },
+  "numerical_convergence": {
+    "acceptance_max_spread_kg": 1.0,
+    "runs": [
+      {
+        "predicted_total_burn_kg": 5384.289835375457,
+        "step_s": 2.0
+      },
+      {
+        "predicted_total_burn_kg": 5384.279839191353,
+        "step_s": 1.0
+      },
+      {
+        "predicted_total_burn_kg": 5384.274728988043,
+        "step_s": 0.5
+      }
+    ],
+    "spread_kg": 0.01510638741456205
+  },
+  "official_anchor": {
+    "altitude_ft": 35004.0,
+    "fuel_kg": 43800.0,
+    "mach": 0.821,
+    "sat_c": -43.8,
+    "utc": "2014-03-07T17:06:43Z",
+    "zero_fuel_weight_kg": 174369.0
+  },
+  "post_acars_comparison": {
+    "official_arc1_offset_s": 4882.9,
+    "official_calculated_burn_kg": 10275.895118039996,
+    "official_calculated_ending_fuel_kg": 33524.104881960004,
+    "overburn_vs_official_calculation_kg": 4226.524014838407,
+    "predicted_burn_kg": 14502.419132878404,
+    "predicted_ending_fuel_kg": 29297.580867121596,
+    "printed_duration_s": 4878.0,
+    "segments": [
+      {
+        "duration_s": 1296.0,
+        "elapsed_s": 1296.0,
+        "official_ending_fuel_kg": 41386.67502354,
+        "predicted_ending_fuel_kg": 40432.26307434079,
+        "predicted_minus_official_ending_fuel_kg": -954.4119491992096,
+        "segment": 1
+      },
+      {
+        "duration_s": 82.8,
+        "elapsed_s": 1378.8,
+        "official_ending_fuel_kg": 41236.53594907,
+        "predicted_ending_fuel_kg": 40219.47791095175,
+        "predicted_minus_official_ending_fuel_kg": -1017.0580381182517,
+        "segment": 2
+      },
+      {
+        "duration_s": 1944.0000000000002,
+        "elapsed_s": 3322.8,
+        "official_ending_fuel_kg": 36788.15557648,
+        "predicted_ending_fuel_kg": 34092.549312128234,
+        "predicted_minus_official_ending_fuel_kg": -2695.6062643517653,
+        "segment": 3
+      },
+      {
+        "duration_s": 1224.0,
+        "elapsed_s": 4546.8,
+        "official_ending_fuel_kg": 34212.204507250004,
+        "predicted_ending_fuel_kg": 30305.538936943372,
+        "predicted_minus_official_ending_fuel_kg": -3906.6655703066317,
+        "segment": 4
+      },
+      {
+        "duration_s": 331.2,
+        "elapsed_s": 4878.0,
+        "official_ending_fuel_kg": 33524.104881960004,
+        "predicted_ending_fuel_kg": 29297.580867121596,
+        "predicted_minus_official_ending_fuel_kg": -4226.524014838407,
+        "segment": 5
+      }
+    ]
+  },
+  "recreation_id": "ulich-v56-public-equation-discrepancy-v1",
+  "schema_version": 1,
+  "scientific_fingerprint_sha256": "0fa2204a6b6bced6814005083a33213431fde08a959f50871af4c4fafd5026b5",
+  "scientific_model": {
+    "eligibility": "diagnostic-only",
+    "fuel_flow_scale": 1.0,
+    "id": "public-b772-bffm2-diagnostic-v1",
+    "parameter_document_sha256": "5356a725e1a9c9ec78c32e5375b3a787c49c055cd78005872a9d737f0ed7866e",
+    "workbook_tables_used": false
+  },
+  "stress_family": {
+    "epistemic_role": "unweighted-stress-only",
+    "family_id": "pulau-perak-altitude-stress",
+    "profiles": [
+      {
+        "burn_kg": 11442.510500175435,
+        "ending_fuel_kg": 32357.489499824565,
+        "initializer_eligible": false,
+        "likelihood_weight": 0.0,
+        "profile_id": "low-floor-1000ft"
+      },
+      {
+        "burn_kg": 11271.711582978427,
+        "ending_fuel_kg": 32528.288417021573,
+        "initializer_eligible": false,
+        "likelihood_weight": 0.0,
+        "profile_id": "low-floor-4800ft"
+      },
+      {
+        "burn_kg": 10987.382883753926,
+        "ending_fuel_kg": 32812.617116246074,
+        "initializer_eligible": false,
+        "likelihood_weight": 0.0,
+        "profile_id": "low-floor-12000ft"
+      }
+    ]
+  },
+  "validation": {
+    "canonical_initializer_eligible": false,
+    "circular_input_exclusion_passed": true,
+    "coarse_acars_interval_rmse_passed": true,
+    "coarse_acars_total_error_passed": true,
+    "integration_convergence_passed": true,
+    "official_anchor_exact": true,
+    "six_official_fuel_values_exact": true,
+    "stress_family_has_zero_weight": true
+  }
+}

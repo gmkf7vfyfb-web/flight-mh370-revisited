@@ -1,0 +1,18 @@
+# Forward/backward trajectory-sampling investigation
+
+Owner: thr_rzreetwcyu. No subagents. Pete has authorized trying forward/backward inference through 00:11 and successively larger manoeuvre allowances, beginning with four direction changes and two changes each in Mach and altitude, with ensembles in the thousands.
+
+This is a new, explicitly requested bounded investigation after the overnight window; the old sampling ledger and stopped automations remain unchanged. Use at most four numerical workers and preserve two host CPU cores. No end-of-flight/impact calculation or final-BFO requirement belongs to this test. Propagate aircraft performance and fuel through 00:11; keep later exhaustion timing as a separately labelled future condition. The alternative paper remains unaccepted.
+
+1. Try alternating forward/backward blocks of ordered command variables, including joint neighbouring manoeuvres and corrected conditional proposals. This is control-space blocked smoothing inside SMC, not a claim that ordinary backward state resampling works for deterministic dynamics. Keep the intended fixed-command-count physical prior and all proposal corrections explicit.
+2. Verify the ordering density and conditional proposal/mutation mathematics on independently calculable controls before flight runs. Save source and input hashes before every run.
+3. Discover/construct guidance from observations and the declared flight model, never withheld truth. Measure a small pilot before choosing larger work. The main target is four direction settings plus two Mach and two altitude settings (4/2/2), conditional on this fixed count; it is not an inferred distribution over all command counts.
+4. Compare independent runs at 1,024 and 2,048 particles, with separate seeds. Use at most 15 minutes per initial run, with early stop on failure. Initial mathematical/discovery/pilot work is capped at five measured numerical minutes. All new numerical work is initially capped at 90 minutes total; record the sum separately from agent elapsed time. Increase count/work only after useful distribution agreement. A clear failed comparison requires a concrete correction or a lower-complexity control, not automatic scaling.
+5. Report full empirical-CDF/coordinate-quantile differences, coarse geographic-bin probabilities, mode frequencies, acceptance and runtime. Provisional agreement targets are CDF difference below 0.05 and 5th/50th/95th coordinate-quantile differences below 0.5 degrees, alongside mode-family and higher-work agreement. These are declared numerical resolution targets, not scientific confidence or complete-support guarantees. Found high-likelihood examples outside the sampled population remain an explicit coverage concern.
+6. If 4/2/2 is supported, increase allowances separately and then jointly; if unsupported, determine whether a smaller family is stable. Keep the browser and self-contained ISO report current, and state the largest empirically supported family and unresolved limits honestly.
+
+Measured allocation update: the1,024-particle main run took417s. The2,048-particle independent run therefore has a1,200s cap (20min), replacing the provisional15min per-run allowance for this larger comparison. The total90min cap is unchanged.
+
+## Bounded attempt closed
+
+No tested command-count family meets the declared stability resolution. The accurate1/0/0pair also fails; do not escalate command or particle counts automatically. Canonical integration repair and reporting are retained. Numerical work stopped at80.3minutes of90; no sampler remains running. See conclusion.json and the generated flight-sampling.html report. This is not completion of the original broad-estimator objective.

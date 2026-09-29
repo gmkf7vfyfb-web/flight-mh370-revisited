@@ -1,0 +1,21 @@
+{
+  "command": [
+    "/tmp/mh370-command-sampler/find_known_flight_guides.py",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/guides",
+    "--config",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/mh370-synthetic-command.toml",
+    "--directions",
+    "1",
+    "--seconds-per-fit",
+    "2",
+    "--max-calls",
+    "400"
+  ],
+  "purpose": "Observation-only proposal construction; no truth position input",
+  "sha256": {
+    "/tmp/mh370-command-sampler/find_known_flight_guides.py": "5bd5e18470cb815ae9abf7a25030b2d6318e39ae78b5e977a4d0345ccd30220e",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/mh370-synthetic-command.toml": "84c4fb085e139c7b99a3971241af2daca881288c6a3ff30603161f3c56e27a52",
+    "/jackbox/home/MH370/target/release/mh370": "88bdba22947b50a88d4cd5d1608c98c617654412c220ce1cd05a1a07d0be73eb",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/observations.csv": "d9bd1590a13c8bf1c856076e5481d3d6dceb80a25f85e278f8b9c3f70b0fe094"
+  }
+}

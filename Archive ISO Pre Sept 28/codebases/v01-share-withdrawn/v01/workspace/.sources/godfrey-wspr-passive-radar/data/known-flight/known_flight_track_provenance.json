@@ -1,0 +1,95 @@
+{
+  "output": {
+    "columns": [
+      "flight",
+      "track_point_index",
+      "time_utc",
+      "latitude_deg",
+      "longitude_deg_e",
+      "altitude_ft",
+      "heading_true_deg",
+      "position_source",
+      "position_method",
+      "source_sheet",
+      "source_excel_row"
+    ],
+    "file": "known_flight_track_observations.csv",
+    "rows": 77,
+    "rows_by_flight": {
+      "MH370": 6,
+      "MH371": 71
+    },
+    "sha256": "f16beefec5a504f76270fc0bc4ce01eed8fa2a647a48911065828f6cafde3c03",
+    "time_ranges_utc": {
+      "MH370": {
+        "first": "2014-03-07T16:41:43Z",
+        "last": "2014-03-07T17:06:43Z"
+      },
+      "MH371": {
+        "first": "2014-03-07T01:33:58Z",
+        "last": "2014-03-07T07:24:05Z"
+      }
+    }
+  },
+  "role": "Post-selection descriptive overlay only; never supplied to WSPR selection, PHaRLAP screening, clustering, residualization or truth scoring. Lines between rows are display interpolation, not continuously observed positions.",
+  "runtime": {
+    "openpyxl": "3.1.5",
+    "python": "3.14.7"
+  },
+  "schema": "mh370.wspr.known-flight-track-provenance.v1",
+  "selection": {
+    "excluded_repeated_excel_rows": [
+      98,
+      99,
+      100,
+      101,
+      102,
+      116,
+      117
+    ],
+    "inclusive_excel_row_ranges": {
+      "MH370": [
+        105,
+        110
+      ],
+      "MH371": [
+        14,
+        95
+      ]
+    },
+    "observation_date_utc": "2014-03-07",
+    "repeated_row_sources": {
+      "100": 93,
+      "101": 94,
+      "102": 95,
+      "116": 14,
+      "117": 15,
+      "98": 91,
+      "99": 92
+    },
+    "rule": "Within the declared flight row ranges retain rows whose UTC components, altitude, latitude, longitude and normalized true heading cells are all finite numeric values.",
+    "workbook_columns_one_based": {
+      "altitude_ft": 13,
+      "heading_true_deg": 29,
+      "hour": 9,
+      "latitude_deg": 18,
+      "longitude_deg_e": 19,
+      "minute": 10,
+      "second": 11
+    }
+  },
+  "source": {
+    "dataset": "MH370 Dissertation Working Spreadsheets",
+    "dataset_url": "https://huggingface.co/datasets/peteabiome/mh370-dissertation-spreadsheets",
+    "download_url": "https://huggingface.co/datasets/peteabiome/mh370-dissertation-spreadsheets/resolve/main/ACARS%20POSITION%20AND%20WIND%20REPORTS.xlsx?download=true",
+    "file": "ACARS POSITION AND WIND REPORTS.xlsx",
+    "license": "CC-BY-4.0",
+    "sha256": "5c9a79d106fbad3900db36b5ddf9d3baa57b8de5a76e72b95fff301fee6d81fe",
+    "size_bytes": 31260031,
+    "workbook_created_utc": "2019-02-18T18:50:06Z",
+    "workbook_creator": "Pete Large",
+    "workbook_modified_utc": "2019-02-18T22:32:04Z",
+    "worksheet": "ACARS"
+  },
+  "track_schema": "mh370.wspr.known-flight-track-observations.v1"
+}

@@ -1,0 +1,89 @@
+{
+  "schema_version": "mh370-igrf14-runtime-grid-v2",
+  "status": "derived_from_official_igrf14_global_grid",
+  "model": "IGRF-14",
+  "reference_time_utc": "2014-03-08T00:00:00+00:00",
+  "reference_time_unix_s": 1394236800,
+  "decimal_year": 2014.1808219178083,
+  "coefficient_interpolation_epochs": [
+    2010.0,
+    2015.0
+  ],
+  "noaa_package_sha256": "82202de7057e9525509b4b288b1e52d2c272543b5dedf89f2bbbddb83b1352f2",
+  "igrf14_shc_sha256": "716f9fa7c531933e74447c345224721111061313dbeb9419f8f3fd7f0ba3e65b",
+  "builder_sha256": "a2b67a4069f3c6ac959b597f49b7ebdd87528ac057738090408024b77dfaca80",
+  "pressure_altitudes_ft": [
+    500.0,
+    5000.0,
+    10000.0,
+    15000.0,
+    20000.0,
+    25000.0,
+    28000.0,
+    31000.0,
+    34000.0,
+    37000.0,
+    40000.0,
+    43000.0
+  ],
+  "latitude_bounds_deg": [
+    -90.0,
+    90.0
+  ],
+  "longitude_bounds_deg": [
+    -180.0,
+    180.0
+  ],
+  "grid_step_deg": 0.5,
+  "east_positive_declination": true,
+  "pole_row_synthesis_latitude_deg": 89.999999,
+  "domain_coverage_contract": {
+    "purpose": "broad repeated-manoeuvre MH370 inference from M1822 through M0011",
+    "latitude": "complete WGS-84 [-90, 90] support at 0.5 degree spacing",
+    "longitude": "complete WGS-84 [-180, 180) query support; +180 exactly duplicates the -180 physical meridian",
+    "altitude_ft": [
+      500.0,
+      43000.0
+    ],
+    "boundary_semantics": "an out-of-domain state is a data-coverage failure, not evidence against its control history",
+    "quantitative_reach_proof": "recorded in the matching canonical MH370 ERA5 manifest"
+  },
+  "binary_format": {
+    "magic": "MHIGRFV1",
+    "byte_order": "little_endian",
+    "axis_order": [
+      "pressure_altitude",
+      "latitude",
+      "longitude"
+    ],
+    "axis_direction": [
+      "ascending",
+      "ascending",
+      "ascending"
+    ],
+    "axis_type": "float32",
+    "field_type": "float32_declination_degrees",
+    "array_memory_order": "C; longitude varies fastest",
+    "longitude_seam": "+180 degree column exactly duplicates -180 degrees"
+  },
+  "array_shape_pressure_altitude_lat_lon": [
+    12,
+    361,
+    721
+  ],
+  "source_fixture_35000ft": {
+    "latitude_deg": 5.624829,
+    "longitude_deg": 99.048157,
+    "declination_deg": -0.4097140724739407
+  },
+  "output_path": "inputs/environment/mh370-igrf14-grid.bin",
+  "output_sha256": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+  "output_bytes": 12497900,
+  "limitations": [
+    "IGRF represents the large-scale core field, not local crustal anomalies.",
+    "One reference epoch is used for the 6.15-hour inference; secular variation over that interval is negligible.",
+    "Magnetic declination is direction-valued and undefined exactly at magnetic-field singularities; the runtime interpolates it circularly to avoid false jumps at +/-180 degrees.",
+    "At the exact geographic poles, east and north are coordinate-singular even though the stored IGRF values are finite.",
+    "The two exact geographic-pole rows store the finite one-sided declination limit synthesized at +/-89.999999 degrees to avoid roundoff NaNs in the official geodetic conversion helper."
+  ]
+}

@@ -1,0 +1,22 @@
+schema_version = 1
+name = "MH370 primary impact — BRAN2016 Pléiades conditional sensitivity"
+code_revision = "source-tree-sha256-d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d"
+parent_impact_handoffs = [
+  "../runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370023/impact-posterior-handoff.json",
+  "../runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370024/impact-posterior-handoff.json",
+  "../runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370025/impact-posterior-handoff.json",
+  "../runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370026/impact-posterior-handoff.json",
+  "../runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370027/impact-posterior-handoff.json",
+]
+branch_id = "pleiades-bran2016"
+relative_likelihood_floor = 1e-300
+maximum_source_time_offset_s = 2700.0
+
+[model]
+kind = "pleiades"
+grid = "../inputs/evidence/pleiades-conditional-source-surface/grid.csv"
+surfaces = "../inputs/evidence/pleiades-conditional-source-surface/surfaces.csv"
+manifest = "../inputs/evidence/pleiades-conditional-source-surface/manifest.json"
+surface_id = "bran2016"
+source_time_unix_s = 1394237940.0
+maximum_nearest_node_distance_nm = 5.0

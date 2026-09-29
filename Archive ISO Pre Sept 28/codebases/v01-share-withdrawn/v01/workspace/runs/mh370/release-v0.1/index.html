@@ -1,0 +1,1580 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MH370 integrated estimator — v0.1 release</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18212b;
+      --muted: #5b6671;
+      --line: #d9dee5;
+      --paper: #ffffff;
+      --wash: #f4f7fa;
+      --blue: #245f93;
+      --central: #1e7a49;
+      --conditional: #8b5c00;
+      --diagnostic: #7652a5;
+      --provisional: #a04638;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--wash);
+      color: var(--ink);
+      font: 15px/1.48 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    main { max-width: 1180px; margin: 0 auto; padding: 34px 24px 64px; }
+    header {
+      background: linear-gradient(120deg, #173d61, #276d99);
+      color: white;
+      padding: 30px 34px;
+      border-radius: 12px;
+      box-shadow: 0 3px 18px rgb(19 48 75 / 18%);
+    }
+    header h1 { margin: 0 0 8px; font-size: 31px; letter-spacing: -.02em; }
+    header p { max-width: 900px; margin: 7px 0; }
+    .release-meta { opacity: .86; font-size: 13px; }
+    .banner {
+      margin: 20px 0;
+      padding: 13px 16px;
+      background: #fff7dd;
+      border: 1px solid #ead08a;
+      border-radius: 8px;
+    }
+    h2 { margin: 34px 0 12px; font-size: 21px; }
+    h3 { margin: 0 0 7px; font-size: 17px; }
+    a { color: var(--blue); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+    .legend, .metrics, .artifact-links { display: flex; flex-wrap: wrap; gap: 7px; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+    .central { color: var(--central); background: #edf8f1; }
+    .conditional { color: var(--conditional); background: #fff6dc; }
+    .diagnostic_zero_weight { color: var(--diagnostic); background: #f5effc; }
+    .provisional { color: var(--provisional); background: #fff0ed; }
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+    .card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      padding: 17px 18px;
+      box-shadow: 0 1px 5px rgb(18 32 45 / 5%);
+    }
+    .card-head { display: flex; gap: 10px; justify-content: space-between; align-items: flex-start; }
+    .item-number {
+      display: inline-grid;
+      place-items: center;
+      min-width: 27px;
+      height: 27px;
+      margin-right: 6px;
+      border-radius: 50%;
+      background: #e7eef5;
+      font-weight: 750;
+    }
+    .metric { background: #eef3f7; border-radius: 4px; padding: 3px 6px; font-size: 12px; }
+    .artifact-links { margin-top: 12px; }
+    .artifact-links a { background: #eef5fb; border-radius: 5px; padding: 4px 7px; font-size: 12px; }
+    .remaining { color: var(--muted); font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; background: white; font-size: 13px; }
+    th, td { border: 1px solid var(--line); padding: 8px 9px; text-align: left; vertical-align: top; }
+    th { background: #eaf0f5; font-weight: 700; }
+    td code, .hash { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; }
+    .table-wrap { overflow-x: auto; border-radius: 7px; }
+    details { background: white; border: 1px solid var(--line); border-radius: 7px; padding: 10px 13px; margin: 7px 0; }
+    summary { cursor: pointer; font-weight: 650; }
+    pre { overflow-x: auto; background: #162432; color: #eef5fb; padding: 11px; border-radius: 6px; font-size: 12px; }
+    ul { margin: 7px 0 0; padding-left: 21px; }
+    .muted { color: var(--muted); }
+    footer { margin-top: 38px; padding-top: 15px; border-top: 1px solid var(--line); color: var(--muted); font-size: 12px; }
+    @media print {
+      body { background: white; font-size: 11px; }
+      main { max-width: none; padding: 0; }
+      header { box-shadow: none; background: white; color: black; border: 1px solid #777; }
+      .card { break-inside: avoid; box-shadow: none; }
+      a { color: black; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1 id="release-title">MH370 integrated estimator v0.1</h1>
+    <p id="release-abstract">Loading release manifest…</p>
+    <p class="release-meta" id="release-meta"></p>
+  </header>
+
+  <div class="banner" id="scientific-boundary"></div>
+
+  <section aria-labelledby="status-heading">
+    <h2 id="status-heading">Seven-item milestone status</h2>
+    <div class="legend" id="classification-legend"></div>
+    <div class="table-wrap" style="margin: 14px 0">
+      <table>
+        <thead><tr><th>Item</th><th>Deliverable</th><th>Evidence role</th><th>Release outcome</th></tr></thead>
+        <tbody id="status-rows"></tbody>
+      </table>
+    </div>
+    <div class="cards" id="item-cards"></div>
+  </section>
+
+  <section aria-labelledby="family-heading">
+    <h2 id="family-heading">Model-family contract</h2>
+    <p>Structural families below are reported separately. No row is pooled with another family and no conditional or diagnostic branch changes the central posterior.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Family</th><th>Class</th><th>Scope</th><th>Weight / composition</th></tr></thead>
+        <tbody id="family-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="evidence-heading">
+    <h2 id="evidence-heading">Evidence consumption ledger</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Evidence</th><th>Mode</th><th>Likelihood consumer</th><th>Safeguard</th></tr></thead>
+        <tbody id="evidence-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="artifact-heading">
+    <h2 id="artifact-heading">Primary artifacts</h2>
+    <p class="muted">Every local link is repository-relative and every listed file is identity-locked by byte count and SHA-256.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Artifact</th><th>Class</th><th>Role</th><th>Identity</th></tr></thead>
+        <tbody id="artifact-rows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section aria-labelledby="compute-heading">
+    <h2 id="compute-heading">Runs, commands, and validation</h2>
+    <div id="computation-list"></div>
+    <h3>Frozen release identities</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Identity</th><th>SHA-256</th></tr></thead>
+        <tbody id="identity-rows"></tbody>
+      </table>
+    </div>
+    <h3>Reproduction commands</h3>
+    <div id="command-list"></div>
+    <h3>Validation record</h3>
+    <div id="validation-list"></div>
+  </section>
+
+  <section aria-labelledby="blocker-heading">
+    <h2 id="blocker-heading">Known blockers and next-data priorities</h2>
+    <div id="blocker-list"></div>
+  </section>
+
+  <footer id="release-footer"></footer>
+</main>
+
+<script id="release-manifest" type="application/json">
+{
+  "abstract": "A self-contained checkpoint of the canonical 00:11 SATCOM estimator, typed posterior handoff, conditional end-of-flight impact families, optional external-evidence sensitivities, and provisional residual-search planning. Every result is labelled by evidential status and structural model family.",
+  "artifacts": [
+    {
+      "artifact_id": "item1-core-readme",
+      "bytes": 195823,
+      "classification": "central",
+      "item": 1,
+      "label": "00:11 suite summary",
+      "media_type": "application/json",
+      "path": "runs/mh370/0011-core-comparison/suite-summary.json",
+      "role": "Machine-readable five-seed numerical result",
+      "sha256": "4f4611bc2b010bdb87b50dbd32781d42fee4f3338c26ada7a05e55505b10118c"
+    },
+    {
+      "artifact_id": "item1-family-comparisons",
+      "bytes": 2780,
+      "classification": "central",
+      "item": 1,
+      "label": "00:11 paired metrics",
+      "media_type": "application/json",
+      "path": "runs/mh370/0011-core-comparison/family-comparisons.json",
+      "role": "Machine-readable spatial comparisons without model averaging",
+      "sha256": "8737ae087327b93916010b709f2e887f04452b4079a528b3ff8fada5dc4bd6a7"
+    },
+    {
+      "artifact_id": "item1-bto-map",
+      "bytes": 88256,
+      "classification": "central",
+      "item": 1,
+      "label": "BTO-only map",
+      "media_type": "image/png",
+      "path": "runs/mh370/0011-core-comparison/bto-only/posterior.png",
+      "role": "Publication-scale 00:11 spatial posterior",
+      "sha256": "f65100e87ab8584045b34b90a199ab7dc5333da7dbd8bd7e2388319003c78d44"
+    },
+    {
+      "artifact_id": "item1-medium-map",
+      "bytes": 89371,
+      "classification": "central",
+      "item": 1,
+      "label": "BTO + medium-BFO map",
+      "media_type": "image/png",
+      "path": "runs/mh370/0011-core-comparison/bto-bfo-medium/posterior.png",
+      "role": "Canonical 00:11 spatial posterior used by downstream release families",
+      "sha256": "f472eca6ca44c68cc68e82fa8d927cabab6898fb55158159619aa229a127010a"
+    },
+    {
+      "artifact_id": "item1-gain-map",
+      "bytes": 92435,
+      "classification": "conditional",
+      "item": 1,
+      "label": "Conditional-gain map",
+      "media_type": "image/png",
+      "path": "runs/mh370/0011-core-comparison/bto-bfo-gain-conditional/posterior.png",
+      "role": "No-precompensation received-power sensitivity at 00:11",
+      "sha256": "77bc15ce8685f6025218dfb4bc99c2ef9643c9760a37a894d1cc24efc8bc7a2e"
+    },
+    {
+      "artifact_id": "item1-run-manifest",
+      "bytes": 11717,
+      "classification": "central",
+      "item": 1,
+      "label": "00:11 hash manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/0011-core-comparison/run-manifest.json",
+      "role": "Configuration, input, executable, and output identities",
+      "sha256": "8a297133d5188da36a26ac13c1c466d4dfc9d979e3934f1354ad2f84feddf114"
+    },
+    {
+      "artifact_id": "item2-r600-readme",
+      "bytes": 36841,
+      "classification": "central",
+      "item": 2,
+      "label": "Typed R600 handoff vector map",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/0011-to-0019-seventh-arc-bto/posterior.svg",
+      "role": "Vector form of the typed continuation contact posterior",
+      "sha256": "f7a6853f4e3e54cf4369786c0cf8c5b183c51f1ef6fe600df8bba4600ee8ff3c"
+    },
+    {
+      "artifact_id": "item2-r600-map",
+      "bytes": 140644,
+      "classification": "central",
+      "item": 2,
+      "label": "R600 seventh-arc map",
+      "media_type": "image/png",
+      "path": "runs/mh370/0011-to-0019-seventh-arc-bto/posterior.png",
+      "role": "00:19:29 corrected-R600-BTO contact posterior",
+      "sha256": "f72caff8ed8b72b75720dcca2bf1ac8347e13f0d9c64507e29e5e34b69ddb757"
+    },
+    {
+      "artifact_id": "item2-r600-summary",
+      "bytes": 1780,
+      "classification": "central",
+      "item": 2,
+      "label": "R600 machine summary",
+      "media_type": "application/json",
+      "path": "runs/mh370/0011-to-0019-seventh-arc-bto/summary.json",
+      "role": "Particle count, ESS, endpoint, runtime, and limitations",
+      "sha256": "1b6957013b1fc83faa622dc245fdf724d093a661a9fad5896309335cc3adae66"
+    },
+    {
+      "artifact_id": "item2-r600-manifest",
+      "bytes": 3122,
+      "classification": "central",
+      "item": 2,
+      "label": "R600 hash manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/0011-to-0019-seventh-arc-bto/run-manifest.json",
+      "role": "Exact input and output identities for typed continuation",
+      "sha256": "7b6b4f1128a11cf68e56b00c9925786737f1a647de6b64d0a978777639ad7a67"
+    },
+    {
+      "artifact_id": "item3-martin-readme",
+      "bytes": 2243,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Martin/Kong fuel contract",
+      "media_type": "text/markdown",
+      "path": ".sources/martin-bsm-trent892-lrc/README.md",
+      "role": "Narrow Trent 892 LRC transcription, coarse check, and limitations",
+      "sha256": "f0af63f1198182ed3d04148ba3c36719cb8bdd138acdcdab28475203178c0736"
+    },
+    {
+      "artifact_id": "item3-aero-readme",
+      "bytes": 11899,
+      "classification": "conditional",
+      "item": 3,
+      "label": "B777 aero audit",
+      "media_type": "text/markdown",
+      "path": ".sources/b777-end-of-flight-aerodynamics/README.md",
+      "role": "Public source search, candidate-family admission, and fidelity boundary",
+      "sha256": "dda81251be58a8adcaf7f802c880a099328d50b3f545451c8282d4b34816e4d1"
+    },
+    {
+      "artifact_id": "item3-aero-comparison",
+      "bytes": 47636,
+      "classification": "conditional",
+      "item": 3,
+      "label": "B777 aero comparison",
+      "media_type": "text/html",
+      "path": ".sources/b777-end-of-flight-aerodynamics/outputs/comparison.html",
+      "role": "Browser-viewable public proxy and Boeing/ATSB trajectory comparison",
+      "sha256": "47d90775d7ee23734d82aa630b350e72b56e30070a61d59819617a2a29a95fa6"
+    },
+    {
+      "artifact_id": "item6-pleiades-source-report",
+      "bytes": 145490,
+      "classification": "conditional",
+      "item": 6,
+      "label": "Pl\u00e9iades source surfaces",
+      "media_type": "text/html",
+      "path": ".sources/pleiades-bran2016-forward-inversion/outputs/likelihood-handoff/comparison.html",
+      "role": "Four separate prior-free endpoint-compatibility surfaces",
+      "sha256": "b9b9cfdfed1973d237431458b92b6820a2bc2c0cf1d0fb148b24fa870580c0c1"
+    },
+    {
+      "artifact_id": "item6-pleiades-source-manifest",
+      "bytes": 16658,
+      "classification": "conditional",
+      "item": 6,
+      "label": "Pl\u00e9iades surface manifest",
+      "media_type": "application/json",
+      "path": ".sources/pleiades-bran2016-forward-inversion/outputs/likelihood-handoff/manifest.json",
+      "role": "Grid/surface identities and no-pooling composition contract",
+      "sha256": "b16fa3830f607c19e254a9a2b8cc52b05ab79b82028d1ffb31dab10eebee34ba"
+    },
+    {
+      "artifact_id": "item6-ocean-report",
+      "bytes": 179629,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Ocean-drift diagnostic report",
+      "media_type": "text/html",
+      "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/index.html",
+      "role": "CMEMS full-domain drift, recovery, non-recovery, isotope, and stability diagnostics",
+      "sha256": "e95910f81f964733725c13ce7c2796875fc9b6562c3012d6f53f112399595356"
+    },
+    {
+      "artifact_id": "item6-ocean-handoff",
+      "bytes": 133096,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Ocean-drift machine handoff",
+      "media_type": "application/json",
+      "path": ".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/ocean-drift-family-likelihoods.json",
+      "role": "Explicit admitted=false family surface and nearest-cell query contract",
+      "sha256": "bcfc11678c9cd314ab72dc220411a65fad0dd736132b77807035ba380497b044"
+    },
+    {
+      "artifact_id": "item6-hydro-report",
+      "bytes": 460734,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Hydroacoustic release report",
+      "media_type": "text/html",
+      "path": ".sources/kadri-2024-hydroacoustics/outputs/release-v0.1/index.html",
+      "role": "Forward/reverse grid, candidate intersections, and statistical boundary",
+      "sha256": "eecf943e96360d85e178a57849be9f08534367568744c6c5b5bec2955da8a171"
+    },
+    {
+      "artifact_id": "item6-hydro-forward-reverse",
+      "bytes": 362447,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Hydro forward/reverse figure",
+      "media_type": "image/svg+xml",
+      "path": ".sources/kadri-2024-hydroacoustics/outputs/release-v0.1/hydroacoustic-forward-reverse-diagnostic.svg",
+      "role": "Arc-box arrival/energy simulation and reverse timing compatibility",
+      "sha256": "2b66251934b2003130450ea6df7ebdd383b7ca48968f8e434052d1d2a9e9f776"
+    },
+    {
+      "artifact_id": "item6-hydro-signals",
+      "bytes": 95438,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Representative simulated signals",
+      "media_type": "image/svg+xml",
+      "path": ".sources/kadri-2024-hydroacoustics/outputs/release-v0.1/representative-simulated-signals.svg",
+      "role": "Signal-template examples for raw-channel workflow",
+      "sha256": "30c19f23e8d94f73828f9b047c0db2782204e305473b3b22160de2f497a3da89"
+    },
+    {
+      "artifact_id": "item6-hydro-summary",
+      "bytes": 3549,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Hydro machine summary",
+      "media_type": "application/json",
+      "path": ".sources/kadri-2024-hydroacoustics/outputs/release-v0.1/summary.json",
+      "role": "Grid/template counts, correlations, reverse matches, and zero-weight status",
+      "sha256": "2349239100beda3a6f81b2dd96a341464bc7f84330d1857bc923d01eb40ce872"
+    },
+    {
+      "artifact_id": "item6-hydro-manifest",
+      "bytes": 2862,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Hydro hash manifest",
+      "media_type": "application/json",
+      "path": ".sources/kadri-2024-hydroacoustics/outputs/release-v0.1/manifest.json",
+      "role": "Configuration, code, input, and output identities",
+      "sha256": "33df9eb095107c880900ba9db8df4c08311a22af763488dd6535223e1686ed20"
+    },
+    {
+      "artifact_id": "item7-search-readme",
+      "bytes": 8071,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Search planning contract",
+      "media_type": "text/markdown",
+      "path": ".sources/mh370-seabed-search-coverage/README.md",
+      "role": "Reproduction, input schema, planning method, and readiness boundary",
+      "sha256": "976efb72459bb583792f28b54c2b187478addbac3a4c4ff156980ee0c05a6682"
+    },
+    {
+      "artifact_id": "item7-evidence-atlas",
+      "bytes": 259681,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Search evidence atlas",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/evidence-atlas.html",
+      "role": "Official display footprints, reported totals, approximate outlines, and AIS context",
+      "sha256": "91b356bfca063dc07bb07c31194ee87787126ea31dbf652c2a0ecf6e65ec6b23"
+    },
+    {
+      "artifact_id": "item7-evidence-atlas-svg",
+      "bytes": 257372,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Search atlas SVG",
+      "media_type": "image/svg+xml",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/evidence-atlas.svg",
+      "role": "Vector publication form of search evidence atlas",
+      "sha256": "15e50db1054484cb05d01fad4f168d17d68f1134385e82a5e148b48e463682ba"
+    },
+    {
+      "artifact_id": "item7-planner-fixture",
+      "bytes": 446603,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Planner interface fixture",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-fixture/index.html",
+      "role": "Synthetic non-MH370 7,500 km2 tile-ranking control",
+      "sha256": "24959a2a431bf87c6f687f0d29426cef6146647e92cdd490f7a8e410f98a7e29"
+    },
+    {
+      "artifact_id": "item7-planner-summary",
+      "bytes": 3567,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Planner fixture summary",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-fixture/plan-summary.json",
+      "role": "Synthetic selected mass, tile budget, sequence, and non-operational flags",
+      "sha256": "bcd2f9c1da1a859914a1273f4c6ae5c0f25a247fd668125aeb0f2c6f7e5de595"
+    },
+    {
+      "artifact_id": "item7-build-manifest",
+      "bytes": 5974,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Search package build manifest",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/provenance/build-manifest.json",
+      "role": "Deterministic input and output identities",
+      "sha256": "12cd2667570060329bfa275d412105a3a995a67ef790ea706c3d0bccde7ce718"
+    },
+    {
+      "artifact_id": "item3-impact-report",
+      "bytes": 5052,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Conditional impact report",
+      "media_type": "text/html",
+      "path": "runs/mh370/release-v0.1/impact/publication/report.html",
+      "role": "Browser report for all terminal families, metrics, and limitations",
+      "sha256": "081a4b7ce08920cffd4451387e0b41cbebc806e3c6e909e719f91063d3c28e5a"
+    },
+    {
+      "artifact_id": "item3-impact-location",
+      "bytes": 584774,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Impact location comparison SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/impact/publication/impact-location-comparison.svg",
+      "role": "Five separately normalized terminal-family spatial PDFs",
+      "sha256": "1aa133140d771db81c71e90dcef36a96fc7dd58d6fe81694e807affd0f65179d"
+    },
+    {
+      "artifact_id": "item3-impact-dynamics",
+      "bytes": 114228,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Impact dynamics comparison SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/impact/publication/impact-dynamics-comparison.svg",
+      "role": "Terminal displacement, timing, speed, angle, and energy sensitivities",
+      "sha256": "385add9bf3a0b5f17713114e678ca6b63bb51a9f44ef9d5c3ec412b20bc93671"
+    },
+    {
+      "artifact_id": "item3-impact-summary",
+      "bytes": 53727,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Impact machine summary",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/impact/publication/summary.json",
+      "role": "Weighted family metrics and environment/fuel diagnostics",
+      "sha256": "a73a2de36dc883591523bef355175dbb089ba4fed9e8711644eff5531924feff"
+    },
+    {
+      "artifact_id": "item3-impact-suite-manifest",
+      "bytes": 30315,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Impact suite manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/impact/suite-manifest.json",
+      "role": "All 30 run configs, handoffs, sidecars, source tree, and frozen binary identities",
+      "sha256": "d3d4aae1d9e9428283d8764e9f12ea45910782f08709a1105c5848c600dbb374"
+    },
+    {
+      "artifact_id": "item3-impact-report-manifest",
+      "bytes": 11367,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Impact report manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/impact/publication/report-manifest.json",
+      "role": "Report generator, inputs, outputs, and reproduction command",
+      "sha256": "fbdbc3e3ec73c13b83b9e136cb3b53f9d74986951f585685f7bbd81fe40216eb"
+    },
+    {
+      "artifact_id": "item3-impact-matrix-config",
+      "bytes": 3876,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Impact family matrix",
+      "media_type": "application/json",
+      "path": "configs/mh370-impact-release-families.json",
+      "role": "Five separate terminal families and one gain-source branch",
+      "sha256": "815b39f9fae52f1ea586b81312e74a691a3567e43ae6d20f0002f50857bd151c"
+    },
+    {
+      "artifact_id": "item3-impact-base-config",
+      "bytes": 3136,
+      "classification": "conditional",
+      "item": 3,
+      "label": "Impact base configuration",
+      "media_type": "text/plain",
+      "path": "configs/mh370-impact-era5-martin-arc1-current-best-glide.toml",
+      "role": "ERA5, Martin fuel, attached-flow proxy, control, systems, and R600 declarations",
+      "sha256": "ebede5cf4fb623d33db6e84062f9c643e1664ec7d8e6b8e591a03934f779fb01"
+    },
+    {
+      "artifact_id": "item5-gain-impact-comparison",
+      "bytes": 282455,
+      "classification": "conditional",
+      "item": 5,
+      "label": "Gain-source impact comparison SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/impact/publication/impact-gain-source-comparison.svg",
+      "role": "Single-factor impact comparison from baseline versus conditional-gain 00:11 source",
+      "sha256": "d57473b712406cd0bbe89d85784a06b524fe04c997c10d1703fde00434dfc7be"
+    },
+    {
+      "artifact_id": "item6-conditional-readme",
+      "bytes": 2975,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Optional-branch release notes",
+      "media_type": "text/markdown",
+      "path": "runs/mh370/release-v0.1/conditional/README.md",
+      "role": "Fail-closed Pl\u00e9iades resolution result and ocean diagnostic disposition",
+      "sha256": "050168ac751328f13bb276d95f9bdfa6eea78e34290e71a2f7494f63981f415c"
+    },
+    {
+      "artifact_id": "item6-resolution-audit",
+      "bytes": 8480,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Pl\u00e9iades resolution audit",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-resolution-audit.json",
+      "role": "2,560-to-150,000-particle ladder and fail-closed decision",
+      "sha256": "9865f0657598c92e58023e55e4210b5c83317c9aea377a2123a08be2b9c1663a"
+    },
+    {
+      "artifact_id": "item6-bran-conditional",
+      "bytes": 14301,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "BRAN conditional SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-bran2016/conditional.svg",
+      "role": "Numerically unresolved display-only conditional contour",
+      "sha256": "e0ba75ff30c19cbecab65c35349dec02bece897b0abf009f20aa9c5944687d21"
+    },
+    {
+      "artifact_id": "item6-bran-manifest",
+      "bytes": 3270,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "BRAN branch manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-bran2016/run-manifest.json",
+      "role": "Frozen binary, config, source surface, parent handoffs, outputs, and ESS warning",
+      "sha256": "b24515850af6976a7383b9e4470c711277ee8142969f422406a5aa334af53fe3"
+    },
+    {
+      "artifact_id": "item6-oscar-conditional",
+      "bytes": 10060,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "OSCAR conditional SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-oscar-v2-final/conditional.svg",
+      "role": "Numerically unresolved display-only conditional contour",
+      "sha256": "72bc6a25077b7de386cde992fa8e107a6c80160bf28722af5ea7e5a52cc5f749"
+    },
+    {
+      "artifact_id": "item6-oscar-manifest",
+      "bytes": 3273,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "OSCAR branch manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-oscar-v2-final/run-manifest.json",
+      "role": "Frozen binary, config, source surface, parent handoffs, outputs, and ESS warning",
+      "sha256": "87e5f7aaceee967d6fadf33a53628209cfd4c405d698022e4701fc47dc33346e"
+    },
+    {
+      "artifact_id": "item6-glorys-conditional",
+      "bytes": 10267,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "GLORYS/WAVERYS conditional SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-glorys12-waverys/conditional.svg",
+      "role": "Numerically unresolved display-only conditional contour",
+      "sha256": "62fb3a7b45cc7a87dd8db891fc07f4a717841ec46d80bd810fb55c66fedd97a7"
+    },
+    {
+      "artifact_id": "item6-glorys-manifest",
+      "bytes": 3284,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "GLORYS/WAVERYS branch manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-glorys12-waverys/run-manifest.json",
+      "role": "Frozen binary, config, source surface, parent handoffs, outputs, and ESS warning",
+      "sha256": "bd338208903b2795b3f5f81be74b441a2f8d9790b542208babf5fc23549893fe"
+    },
+    {
+      "artifact_id": "item6-mixture-conditional",
+      "bytes": 12891,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Uncalibrated-mixture conditional SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-equal-family-uncalibrated/conditional.svg",
+      "role": "Numerically unresolved display-only mixture contour; not evidence",
+      "sha256": "7349f31a838234d8ea0fbbd7c06422c32b3ca6758b820675ba95c95be2e760dc"
+    },
+    {
+      "artifact_id": "item6-mixture-manifest",
+      "bytes": 3292,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Uncalibrated-mixture branch manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/conditional/pleiades-equal-family-uncalibrated/run-manifest.json",
+      "role": "Frozen binary, config, source surface, parent handoffs, outputs, and ESS warning",
+      "sha256": "53c45367076b2a51fdd5ddca4caa5ee45f619ed79ca440c2dddce9792ac93650"
+    },
+    {
+      "artifact_id": "item6-ocean-conditional",
+      "bytes": 88329,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "CMEMS diagnostic SVG",
+      "media_type": "image/svg+xml",
+      "path": "runs/mh370/release-v0.1/conditional/ocean-cmems-glorys12-waverys-diagnostic/conditional.svg",
+      "role": "Stable numerical reweighting shown only as an admitted=false drift diagnostic",
+      "sha256": "a80ab99174a3c7b979adc4a7dd7856cf987121f030e3d779df23cc8c3e3ff315"
+    },
+    {
+      "artifact_id": "item6-ocean-conditional-manifest",
+      "bytes": 3536,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "CMEMS diagnostic branch manifest",
+      "media_type": "application/json",
+      "path": "runs/mh370/release-v0.1/conditional/ocean-cmems-glorys12-waverys-diagnostic/run-manifest.json",
+      "role": "Frozen binary, diagnostic source, parent handoffs, outputs, and composition boundary",
+      "sha256": "e174d131e029992f558e835cd2edaa2d1e6bef9d5e443572c16b12065ce054af"
+    },
+    {
+      "artifact_id": "item6-rnzaf-svg",
+      "bytes": 1113588,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "RNZAF metadata context SVG",
+      "media_type": "image/svg+xml",
+      "path": ".sources/pleiades-bran2016-forward-inversion/outputs/rnzaf-context/rnzaf-pleiades-impact-context.svg",
+      "role": "RNZAF-labelled point metadata, seventh arc, baseline, and unresolved mixture contour",
+      "sha256": "9e256bf9c8f9b671ebcb37f4972a1437674d0e8d51d7186ed304cd830070f1f6"
+    },
+    {
+      "artifact_id": "item6-rnzaf-pdf",
+      "bytes": 405766,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "RNZAF metadata context PDF",
+      "media_type": "application/pdf",
+      "path": ".sources/pleiades-bran2016-forward-inversion/outputs/rnzaf-context/rnzaf-pleiades-impact-context.pdf",
+      "role": "Vector publication form of RNZAF metadata context",
+      "sha256": "70ec6ffa96d5694174a7d517e6c1b38979af54e3e9428b6735e00e46e21ba5b0"
+    },
+    {
+      "artifact_id": "item6-rnzaf-summary",
+      "bytes": 1973,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "RNZAF machine summary",
+      "media_type": "application/json",
+      "path": ".sources/pleiades-bran2016-forward-inversion/outputs/rnzaf-context/rnzaf-context-summary.json",
+      "role": "Input/output identities, record counts, and unresolved-ESS status",
+      "sha256": "e5ed9d2b62158fe447719b9f654cb92e6420dacadb86e3688656534391e86674"
+    },
+    {
+      "artifact_id": "item6-bran-config",
+      "bytes": 1302,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "BRAN conditional config",
+      "media_type": "text/plain",
+      "path": "configs/mh370-impact-conditional-pleiades-bran2016.toml",
+      "role": "Portable branch configuration",
+      "sha256": "026c8ca960654b700ff6b7ad0b4a96e05bd0bed82929dcddbfc3e3d56d25989d"
+    },
+    {
+      "artifact_id": "item6-oscar-config",
+      "bytes": 1311,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "OSCAR conditional config",
+      "media_type": "text/plain",
+      "path": "configs/mh370-impact-conditional-pleiades-oscar.toml",
+      "role": "Portable branch configuration",
+      "sha256": "f4a85f07d8244a00c2568c1db007d93998b22895d80f95cd7b463675c5105d37"
+    },
+    {
+      "artifact_id": "item6-glorys-config",
+      "bytes": 1324,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "GLORYS/WAVERYS conditional config",
+      "media_type": "text/plain",
+      "path": "configs/mh370-impact-conditional-pleiades-glorys-waverys.toml",
+      "role": "Portable branch configuration",
+      "sha256": "489461ca9a8f68656335944e7a5dc8f141610215c314814e6b18ce45532d6c4b"
+    },
+    {
+      "artifact_id": "item6-mixture-config",
+      "bytes": 1339,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "Uncalibrated-mixture conditional config",
+      "media_type": "text/plain",
+      "path": "configs/mh370-impact-conditional-pleiades-equal-mixture.toml",
+      "role": "Portable display-sensitivity configuration",
+      "sha256": "9bf0105aa4743c8ba93f12b3ff5ba9615837fda2292bf8059761d19e98aaec59"
+    },
+    {
+      "artifact_id": "item6-ocean-config",
+      "bytes": 1212,
+      "classification": "diagnostic_zero_weight",
+      "item": 6,
+      "label": "CMEMS diagnostic config",
+      "media_type": "text/plain",
+      "path": "configs/mh370-impact-conditional-ocean-cmems-diagnostic.toml",
+      "role": "Portable admitted=false branch configuration",
+      "sha256": "e72ca203b21e328120895944e5a96099c65d0e910d5e71d8e8d4f588a054fd8b"
+    },
+    {
+      "artifact_id": "item7-plan-baseline",
+      "bytes": 397571,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Baseline 7,500 km2 plan",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-baseline-primary-impact/index.html",
+      "role": "Non-operational planning-only baseline and extension sequence",
+      "sha256": "8b9ebdc77c6d37d39dd00556012e24035d69de7a224f6eb9c215b7964239c689"
+    },
+    {
+      "artifact_id": "item7-plan-bran",
+      "bytes": 402140,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "BRAN display-only plan",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-bran2016/index.html",
+      "role": "Numerically unresolved illustration; prohibited for ranking",
+      "sha256": "38c0b1ee029c16b21740067eb9e85d20acbd68d955d4debe388bb23fee03c7e3"
+    },
+    {
+      "artifact_id": "item7-plan-oscar",
+      "bytes": 401098,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "OSCAR display-only plan",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-oscar-v2-final/index.html",
+      "role": "Numerically unresolved illustration; prohibited for ranking",
+      "sha256": "48c4104487fd5542741aeeb4a958d632d839660ebf94c1d4d9589a5aa92b2c65"
+    },
+    {
+      "artifact_id": "item7-plan-glorys",
+      "bytes": 404146,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "GLORYS/WAVERYS display-only plan",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-glorys12-waverys/index.html",
+      "role": "Numerically unresolved illustration; prohibited for ranking",
+      "sha256": "3ceba7cd134357ceed52f299fb048537101829e4a40aa431bbedcc56089375bc"
+    },
+    {
+      "artifact_id": "item7-plan-mixture",
+      "bytes": 404953,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "Uncalibrated-mixture display-only plan",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-equal-family-uncalibrated/index.html",
+      "role": "Numerically unresolved illustration; prohibited for ranking and never pooled",
+      "sha256": "3e5a4d319d859008c27f8eead60285848e9aeaaf04f64bc5471843d52a342ff6"
+    },
+    {
+      "artifact_id": "item7-plan-ocean",
+      "bytes": 401587,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "CMEMS diagnostic plan",
+      "media_type": "text/html",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-ocean-cmems-diagnostic/index.html",
+      "role": "Stable numerical illustration from an admitted=false drift family; prohibited for operations",
+      "sha256": "f6dad255841433dfc2968f3b9f176f4c1d3a17f38e3b4081d7e7c9b224f4e0a9"
+    },
+    {
+      "artifact_id": "item7-plan-baseline-manifest",
+      "bytes": 2255,
+      "classification": "provisional",
+      "item": 7,
+      "label": "Baseline plan manifest",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-baseline-primary-impact/run-manifest.json",
+      "role": "Input and eight-output identities",
+      "sha256": "d25408661167ca45cacc224f178322882fa475d848918c9a0e4850a4a12ebc50"
+    },
+    {
+      "artifact_id": "item7-plan-bran-manifest",
+      "bytes": 2224,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "BRAN plan manifest",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-bran2016/run-manifest.json",
+      "role": "Input and eight-output identities",
+      "sha256": "c5d99671480fdab63b6385fe4d0952d9d1771babc66db667ea61c3a603adf6f9"
+    },
+    {
+      "artifact_id": "item7-plan-oscar-manifest",
+      "bytes": 2277,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "OSCAR plan manifest",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-oscar-v2-final/run-manifest.json",
+      "role": "Input and eight-output identities",
+      "sha256": "898282b2c337f206a5ac8a7d26661e101c347189381e2f7c6e1a2c081a67ba9e"
+    },
+    {
+      "artifact_id": "item7-plan-glorys-manifest",
+      "bytes": 2295,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "GLORYS/WAVERYS plan manifest",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-glorys12-waverys/run-manifest.json",
+      "role": "Input and eight-output identities",
+      "sha256": "55fc9af7d09239c5b6d59de6ba41c4541228a0ed435effd41950799e0937243b"
+    },
+    {
+      "artifact_id": "item7-plan-mixture-manifest",
+      "bytes": 2377,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "Uncalibrated-mixture plan manifest",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-pleiades-equal-family-uncalibrated/run-manifest.json",
+      "role": "Input and eight-output identities",
+      "sha256": "827d82c2f3a5d44545462b602a8104e85514122fb1a9ace7aff245e364a06a09"
+    },
+    {
+      "artifact_id": "item7-plan-ocean-manifest",
+      "bytes": 2286,
+      "classification": "diagnostic_zero_weight",
+      "item": 7,
+      "label": "CMEMS diagnostic plan manifest",
+      "media_type": "application/json",
+      "path": ".sources/mh370-seabed-search-coverage/outputs/planning-release-ocean-cmems-diagnostic/run-manifest.json",
+      "role": "Input and eight-output identities",
+      "sha256": "2c6b30ac14c8c3d2cf02abf47ffad7e59029c81ae78f9df2ca01a05d114dd3e8"
+    },
+    {
+      "artifact_id": "release-validator",
+      "bytes": 12453,
+      "classification": "provisional",
+      "item": 0,
+      "label": "Self-validating release checker",
+      "media_type": "text/x-python",
+      "path": "runs/mh370/release-v0.1/validate-release.py",
+      "role": "Checks release semantics, portable links, byte counts, SHA-256 identities, and HTML/manifest agreement without hashing the manifest itself",
+      "sha256": "288a8e5c3a54265a4c44cd3b446b38b46f2f23bde7823682c47d27b30b73217e"
+    }
+  ],
+  "blockers": [
+    {
+      "effect": "Public data do not identify a calibrated joint probability distribution for high-angle-of-attack aerodynamics, control degradation, fuel-feed split, APU pickup, and SDU restart behavior.",
+      "item": 3,
+      "release_treatment": "Emit explicit deterministic conditional families; do not assign cross-family probabilities or pool their impacts.",
+      "title": "B777 end-of-flight parameter probabilities"
+    },
+    {
+      "effect": "The full-domain GLORYS12+WAVERYS drift surface fails declared stability and per-recovery ESS diagnostics.",
+      "item": 6,
+      "release_treatment": "Expose it only as a diagnostic-zero-weight branch; it does not update the central posterior.",
+      "title": "Ocean-drift likelihood admission"
+    },
+    {
+      "effect": "Raw CTBTO hydrophone channels and calibrated path/source/station transfer functions are not publicly available in this workspace.",
+      "item": 6,
+      "release_treatment": "Provide forward/reverse diagnostic simulation and a raw-channel adapter; assign zero estimator weight.",
+      "title": "Hydroacoustic raw data and calibration"
+    },
+    {
+      "effect": "Exact machine-readable Ocean Infinity and Bluefin mission swaths, holidays, and calibrated probability of detection remain incomplete.",
+      "item": 7,
+      "release_treatment": "Publish an explicitly provisional planning atlas and area arithmetic, not a negative-search likelihood.",
+      "title": "Seabed coverage and detection probability"
+    }
+  ],
+  "classifications": [
+    {
+      "id": "central",
+      "label": "central posterior",
+      "meaning": "Canonical estimator calculation using admitted observations under the declared family."
+    },
+    {
+      "id": "conditional",
+      "label": "conditional sensitivity",
+      "meaning": "Scientifically explicit hypothesis/sensitivity; separate from the central posterior."
+    },
+    {
+      "id": "diagnostic_zero_weight",
+      "label": "diagnostic \u00b7 zero weight",
+      "meaning": "Runnable comparison or forward diagnostic with exactly zero estimator weight."
+    },
+    {
+      "id": "provisional",
+      "label": "planning-only",
+      "meaning": "Working milestone built from best-available proxies; not an admitted likelihood or definitive map."
+    }
+  ],
+  "commands": [
+    {
+      "command": "python3 crates/runner/scripts/impact_release_suite.py --matrix configs/mh370-impact-release-families.json --runner target/release/mh370 --output /tmp/mh370-impact-v01 --jobs 6",
+      "command_id": "impact-release-suite",
+      "purpose": "Regenerate the six separately reported end-of-flight families into a new empty directory"
+    },
+    {
+      "command": "python3 crates/reporting/scripts/impact_release_figures.py --suite runs/mh370/release-v0.1/impact/suite-manifest.json --land crates/reporting/assets/ne_110m_land.geojson --output /tmp/mh370-impact-report-v01",
+      "command_id": "impact-publication-report",
+      "purpose": "Regenerate the publication report from the frozen impact suite"
+    },
+    {
+      "command": "target/release/mh370 apply-conditional-surface --config <one-of-the-five-item-6-configs> --output /tmp/mh370-conditional-v01",
+      "command_id": "conditional-surface-branch",
+      "purpose": "Regenerate one optional branch into a new empty directory; branches are never pooled"
+    },
+    {
+      "command": "cargo run --release -p mh370-runner -- estimate \\\n  --config configs/mh370-0011-core-comparison.toml \\\n  --output /tmp/mh370-0011-release --threads 8",
+      "command_id": "estimate-0011-core",
+      "purpose": "Regenerate the five-seed 00:11 BTO/BFO/gain comparison"
+    },
+    {
+      "command": "cargo run --release -p mh370-runner -- continue-to-contact \\\n  --config configs/mh370-0011-to-0019-seventh-arc-bto.toml \\\n  --output /tmp/mh370-0011-to-r600-control",
+      "command_id": "continue-r600-primary",
+      "purpose": "Read the typed 00:11 handoffs and consume corrected R600 BTO once"
+    },
+    {
+      "command": ".venv/bin/python -B .sources/kadri-2024-hydroacoustics/code/hydro_release_workflow.py",
+      "command_id": "hydro-release-diagnostic",
+      "purpose": "Regenerate the zero-weight hydroacoustic forward/reverse bank"
+    },
+    {
+      "command": ".venv/bin/python -B .sources/mh370-seabed-search-coverage/code/build.py build\n.venv/bin/python -B .sources/mh370-seabed-search-coverage/code/build.py check",
+      "command_id": "search-evidence-and-fixture",
+      "purpose": "Regenerate and validate the search evidence atlas and planner fixture"
+    },
+    {
+      "command": "python3 runs/mh370/release-v0.1/validate-release.py",
+      "command_id": "validate-release-bundle",
+      "purpose": "Verify portable paths, embedded-manifest agreement, classifications, and every linked SHA-256"
+    }
+  ],
+  "computations": [
+    {
+      "classification": "conditional",
+      "particles": "2,560 weighted primary-family impacts; five additional named sensitivity families remain separate",
+      "run_id": "impact-release-v0.1",
+      "runtime": "Not captured by the suite manifest",
+      "seeds": "Deterministic transform of the frozen 00:11 handoff",
+      "summary": "ERA5, Martin Arc-1 fuel, Kong coarse check, explicit engine/electrical schedules, and public proxy aerodynamic alternatives. Primary-family ESS 1,930.34."
+    },
+    {
+      "classification": "diagnostic_zero_weight",
+      "particles": "2,560 canonical branch particles plus a 150,000-particle Pl\u00e9iades resolution ladder",
+      "run_id": "optional-location-surfaces-v0.1",
+      "runtime": "Recorded in individual run manifests",
+      "seeds": "Deterministic conditional reweighting",
+      "summary": "All branches execute; Pl\u00e9iades fails closed for low ESS and CMEMS remains admitted=false."
+    },
+    {
+      "classification": "central",
+      "particles": "30,000 per seed per family; 450,000 across three separately reported families",
+      "run_id": "0011-core-comparison",
+      "runtime": "1,092.688 s on 8 threads",
+      "seeds": "370023, 370024, 370025, 370026, 370027",
+      "summary": "ERA5 constant-true-track checkpoint through 00:11 UTC for BTO only, BTO plus medium BFO, and a separate conditional-gain family."
+    },
+    {
+      "classification": "central",
+      "particles": "150,000 pooled with equal numerical-seed weight",
+      "run_id": "0011-to-0019-r600",
+      "runtime": "2.095 s",
+      "seeds": "370023, 370024, 370025, 370026, 370027",
+      "summary": "Exact 510 s typed continuation and a single corrected-R600-BTO update; pooled ESS 135,729."
+    },
+    {
+      "classification": "diagnostic_zero_weight",
+      "particles": "5,289 source boxes \u00d7 32 impact templates = 169,248 combinations; 338,496 station predictions",
+      "run_id": "hydroacoustic-release-v0.1",
+      "runtime": "Deterministic source workflow; runtime recorded by source package",
+      "seeds": "none",
+      "summary": "Forward arrival/energy/signal prediction and reverse timing intersection for Cape Leeuwin and Diego Garcia without a likelihood."
+    },
+    {
+      "classification": "provisional",
+      "particles": "25 deliberately synthetic weighted particles",
+      "run_id": "search-planning-fixture",
+      "runtime": "Deterministic source workflow; repeated builds byte-identical",
+      "seeds": "none",
+      "summary": "Interface control for 12 25 km \u00d7 25 km tiles (7,500 km2), not an MH370 search recommendation."
+    }
+  ],
+  "evidence_consumption": [
+    {
+      "consumed_by": [
+        "satcom-0011-bto-only",
+        "satcom-0011-bto-bfo-medium",
+        "satcom-0011-bto-bfo-gain-conditional"
+      ],
+      "evidence_id": "satcom-bto-through-0011",
+      "mode": "likelihood",
+      "provenance": "Canonical accident SATCOM fixture through 00:11 UTC.",
+      "safeguard": "Each family owns an independent typed evidence ledger; consumption is exactly once per family."
+    },
+    {
+      "consumed_by": [
+        "satcom-0011-bto-bfo-medium",
+        "satcom-0011-bto-bfo-gain-conditional"
+      ],
+      "evidence_id": "satcom-bfo-through-0011-medium",
+      "mode": "likelihood",
+      "provenance": "Canonical accident BFO fixture with the declared medium observation model.",
+      "safeguard": "Satellite/GES oscillator correction is separate from latent aircraft BFO bias."
+    },
+    {
+      "consumed_by": [
+        "satcom-0011-bto-bfo-gain-conditional"
+      ],
+      "evidence_id": "received-power-through-0011-no-precompensation",
+      "mode": "conditional_likelihood",
+      "provenance": "Uncommissioned antenna surface under the no-precompensation endpoint.",
+      "safeguard": "The branch is conditional, carries no core model weight, and is never pooled with the baseline."
+    },
+    {
+      "consumed_by": [
+        "r600-seventh-arc-primary"
+      ],
+      "evidence_id": "r600-bto-001929",
+      "mode": "likelihood",
+      "provenance": "Corrected R600 BTO 18,400 microseconds at 00:19:29 UTC with 63 microsecond SD.",
+      "safeguard": "Consumed once after the 00:11 handoff; the R1200 BTO and both restart BFOs are not reused in the same primary selection."
+    },
+    {
+      "consumed_by": [],
+      "evidence_id": "restart-r1200-bto-bfo-0019",
+      "mode": "diagnostic_only",
+      "provenance": "00:19 R1200 BTO and raw R600/R1200 BFO restart observations.",
+      "safeguard": "Held out of likelihood pending empirical startup/channel-transient calibration."
+    },
+    {
+      "consumed_by": [
+        "pleiades-transport-alternatives"
+      ],
+      "evidence_id": "pleiades-20140323-conditional-source-surfaces",
+      "mode": "conditional_display_only",
+      "provenance": "Prior-free endpoint-compatibility proxies for BRAN2016, OSCAR v2 Final, GLORYS12+WAVERYS, and a separately labelled uncalibrated equal-prior sensitivity shape.",
+      "safeguard": "Choose exactly one surface; never multiply families or combine a component with the mixture. The 150,000-particle audit failed resolution, so no branch updates the central posterior or ranks search tiles."
+    },
+    {
+      "consumed_by": [],
+      "evidence_id": "ocean-drift-cmems-recoveries-nonrecoveries-isotopes",
+      "mode": "diagnostic_only",
+      "provenance": "Nine stringent debris recoveries, two Australian non-recovery populations, and conservative isotope screening.",
+      "safeguard": "CMEMS family is admitted=false; application status stays diagnostic and central posterior stays unchanged."
+    },
+    {
+      "consumed_by": [],
+      "evidence_id": "hydroacoustic-published-traces-and-candidate-signals",
+      "mode": "diagnostic_only",
+      "provenance": "Digitized published traces and reported candidate windows at Cape Leeuwin and Diego Garcia.",
+      "safeguard": "Predictive-only API produces no likelihood; raw-data search requires external channel preparation."
+    }
+  ],
+  "items": [
+    {
+      "artifact_ids": [
+        "item1-core-readme",
+        "item1-family-comparisons",
+        "item1-bto-map",
+        "item1-medium-map",
+        "item1-gain-map",
+        "item1-run-manifest"
+      ],
+      "classification": "central",
+      "metrics": [
+        "5 seeds",
+        "30,000 particles per seed",
+        "ERA5 + IGRF-14"
+      ],
+      "number": 1,
+      "outcome": "The canonical 00:11 BTO-only and medium-BFO families are reproducible across five seeds; received-power gain is emitted separately as a conditional family.",
+      "remaining": [
+        "Structural lateral-mode alternatives remain separate and are not assigned model probabilities."
+      ],
+      "title": "00:11 integrated SATCOM estimator"
+    },
+    {
+      "artifact_ids": [
+        "item2-r600-readme",
+        "item2-r600-map",
+        "item2-r600-summary",
+        "item2-r600-manifest"
+      ],
+      "classification": "central",
+      "metrics": [
+        "150,000 particles",
+        "exact typed round-trip",
+        "single-use evidence ledger"
+      ],
+      "number": 2,
+      "outcome": "The versioned 00:11 posterior handoff preserves state, BFO bias, identity, weights, provenance, model family, and evidence consumption into the R600 continuation.",
+      "remaining": [
+        "Fuel and electrical histories remain explicit downstream inputs rather than fields smuggled into AircraftState."
+      ],
+      "title": "Typed posterior handoff"
+    },
+    {
+      "artifact_ids": [
+        "item3-martin-readme",
+        "item3-aero-readme",
+        "item3-aero-comparison",
+        "item3-impact-report",
+        "item3-impact-location",
+        "item3-impact-dynamics",
+        "item3-impact-summary",
+        "item3-impact-suite-manifest",
+        "item3-impact-report-manifest",
+        "item3-impact-matrix-config",
+        "item3-impact-base-config"
+      ],
+      "classification": "conditional",
+      "metrics": [
+        "ERA5 along transition",
+        "Martin + Kong fuel comparators",
+        "explicit terminal families"
+      ],
+      "number": 3,
+      "outcome": "A deterministic, ERA5-driven 00:11-to-impact family suite is released. The primary conditional proxy uses Martin Arc-1 fuel, Kong as a coarse fuel cross-check, and the current public-aerodynamics best-glide family; all alternatives remain separately labelled and unpooled.",
+      "remaining": [
+        "Replace public proxy aerodynamics and conditional system schedules when validated B777-specific data become available."
+      ],
+      "title": "00:11-to-impact physics"
+    },
+    {
+      "artifact_ids": [
+        "item2-r600-readme",
+        "item2-r600-map",
+        "item2-r600-summary",
+        "item2-r600-manifest"
+      ],
+      "classification": "central",
+      "metrics": [
+        "R600 BTO primary",
+        "R1200 BTO conditional",
+        "restart BFO diagnostic"
+      ],
+      "number": 4,
+      "outcome": "The final SATCOM contract selects the seventh arc with corrected R600 BTO once and keeps the startup/channel observations separate pending transient calibration.",
+      "remaining": [
+        "Empirically calibrate the R1200 timing offset and short-outage OCXO/channel transient before likelihood admission."
+      ],
+      "title": "Final SATCOM evidence contract"
+    },
+    {
+      "artifact_ids": [
+        "item3-impact-report",
+        "item3-impact-location",
+        "item3-impact-dynamics",
+        "item3-impact-summary",
+        "item3-impact-suite-manifest",
+        "item3-impact-report-manifest",
+        "item5-gain-impact-comparison"
+      ],
+      "classification": "conditional",
+      "metrics": [
+        "2,560 weighted impacts in primary family",
+        "ESS 1,930.34",
+        "90% HPD 9,591.64 km2",
+        "median impact 00:37:49 UTC"
+      ],
+      "number": 5,
+      "outcome": "Within the primary conditional proxy, the weighted mean is 38.1596\u00b0S, 89.4088\u00b0E; median post-00:11 displacement is 106.91 NM, mean horizontal/downward impact speeds are 88.46/6.66 m/s, mean impact angle is 4.31\u00b0, and mean kinetic energy is 0.686 GJ. The conditional-gain source shifts the weighted impact mean by only 0.3 NM within this family.",
+      "remaining": [
+        "Interpret impact PDFs only within their named end-of-flight structural family."
+      ],
+      "title": "Impact PDFs and terminal dynamics"
+    },
+    {
+      "artifact_ids": [
+        "item6-pleiades-source-report",
+        "item6-pleiades-source-manifest",
+        "item6-ocean-report",
+        "item6-ocean-handoff",
+        "item6-hydro-report",
+        "item6-hydro-forward-reverse",
+        "item6-hydro-signals",
+        "item6-hydro-summary",
+        "item6-hydro-manifest",
+        "item6-conditional-readme",
+        "item6-resolution-audit",
+        "item6-bran-conditional",
+        "item6-bran-manifest",
+        "item6-oscar-conditional",
+        "item6-oscar-manifest",
+        "item6-glorys-conditional",
+        "item6-glorys-manifest",
+        "item6-mixture-conditional",
+        "item6-mixture-manifest",
+        "item6-ocean-conditional",
+        "item6-ocean-conditional-manifest",
+        "item6-rnzaf-svg",
+        "item6-rnzaf-pdf",
+        "item6-rnzaf-summary",
+        "item6-bran-config",
+        "item6-oscar-config",
+        "item6-glorys-config",
+        "item6-mixture-config",
+        "item6-ocean-config"
+      ],
+      "classification": "diagnostic_zero_weight",
+      "metrics": [
+        "4 Pl\u00e9iades alternatives",
+        "Pl\u00e9iades branches fail closed at 150,000 particles",
+        "ocean drift admitted=false",
+        "169,248 hydro templates",
+        "183 RNZAF metadata records"
+      ],
+      "number": 6,
+      "outcome": "All five optional location-surface branches execute, but v0.1 assigns them zero estimator weight. The four Pl\u00e9iades branches fail numerical resolution (150,000-particle ESS 5.63\u20139.14); CMEMS is numerically usable but its source contract is admitted=false. Hydroacoustics remains predictive-only, and RNZAF coordinates are contextual metadata rather than evidence.",
+      "remaining": [
+        "Do not multiply Pl\u00e9iades components or combine a component with their uncalibrated mixture.",
+        "Do not apply the current ocean-drift family to the central estimator."
+      ],
+      "title": "Optional external-evidence branches"
+    },
+    {
+      "artifact_ids": [
+        "item7-search-readme",
+        "item7-evidence-atlas",
+        "item7-evidence-atlas-svg",
+        "item7-planner-fixture",
+        "item7-planner-summary",
+        "item7-build-manifest",
+        "item7-plan-baseline",
+        "item7-plan-baseline-manifest",
+        "item7-plan-bran",
+        "item7-plan-bran-manifest",
+        "item7-plan-oscar",
+        "item7-plan-oscar-manifest",
+        "item7-plan-glorys",
+        "item7-plan-glorys-manifest",
+        "item7-plan-mixture",
+        "item7-plan-mixture-manifest",
+        "item7-plan-ocean",
+        "item7-plan-ocean-manifest"
+      ],
+      "classification": "provisional",
+      "metrics": [
+        "771.410 km2 Bluefin display polygons",
+        "88.590 km2 reported-minus-plotted difference",
+        "12 \u00d7 625 km2 planning budget",
+        "baseline KDE mass 38.51%",
+        "76-file release set cefaf5a8\u2026"
+      ],
+      "number": 7,
+      "outcome": "The evidence atlas separates official geometry, reported-but-unplotted totals, approximate Ocean Infinity outlines, and AIS context. The baseline primary-impact sensitivity selects twelve 625 km2 tiles containing 38.51% of its KDE mass and supplies a ranked extension sequence. Four Pl\u00e9iades plans are numerically unresolved and the ocean plan is diagnostic-only; none is operational guidance or a negative-search posterior.",
+      "remaining": [
+        "Exact swaths, survey holidays, and probability-of-detection calibration are needed before negative-search reweighting."
+      ],
+      "title": "Residual search planning"
+    }
+  ],
+  "model_families": [
+    {
+      "classification": "central",
+      "composition_rule": "Reported alone; no lateral-mode or evidential-family pooling.",
+      "family_id": "satcom-0011-bto-only",
+      "pooled_with": [],
+      "scope": "One-turn constant-true-track trajectory with admitted BTO observations through 00:11."
+    },
+    {
+      "classification": "central",
+      "composition_rule": "Reported alone; BFO structural alternatives are never averaged.",
+      "family_id": "satcom-0011-bto-bfo-medium",
+      "pooled_with": [],
+      "scope": "Same trajectory family with medium BFO likelihood."
+    },
+    {
+      "classification": "conditional",
+      "composition_rule": "Separate sensitivity with no assigned central model weight.",
+      "family_id": "satcom-0011-bto-bfo-gain-conditional",
+      "pooled_with": [],
+      "scope": "Medium-BFO family plus the no-precompensation antenna-gain endpoint."
+    },
+    {
+      "classification": "central",
+      "composition_rule": "Consumes corrected R600 BTO once after the typed handoff; restart R1200/BFO observations remain outside this primary likelihood.",
+      "family_id": "r600-seventh-arc-primary",
+      "pooled_with": [],
+      "scope": "Bounded 00:11-to-00:19:29 constant-true-track contact control."
+    },
+    {
+      "classification": "conditional",
+      "composition_rule": "Each end-of-flight control/fuel/aero family is a separate conditional result; probabilities across families are not inferred.",
+      "family_id": "impact-terminal-family-matrix",
+      "pooled_with": [],
+      "scope": "Deterministic 00:11-to-impact transitions using explicit systems, fuel, controls, atmosphere, and proxy aero inputs."
+    },
+    {
+      "classification": "conditional",
+      "composition_rule": "Primary release proxy only; no inferred probability relative to the five alternative terminal families.",
+      "family_id": "arc1-current-polar-best-glide-equal-feed",
+      "pooled_with": [],
+      "scope": "ERA5-driven Martin Arc-1, current public polar, best-glide, equal-feed impact family."
+    },
+    {
+      "classification": "conditional",
+      "composition_rule": "Choose exactly one BRAN, OSCAR, GLORYS+WAVERYS, or uncalibrated-mixture surface; never multiply or pool them.",
+      "family_id": "pleiades-transport-alternatives",
+      "pooled_with": [],
+      "scope": "Conditional endpoint-compatibility sensitivity for the 23 March 2014 Pl\u00e9iades source hypothesis."
+    },
+    {
+      "classification": "diagnostic_zero_weight",
+      "composition_rule": "admitted=false; never applied to central posterior and never averaged with other drift families.",
+      "family_id": "cmems-glorys12-waverys-full-domain",
+      "pooled_with": [],
+      "scope": "Debris drift, non-recovery, and conservative isotope diagnostic."
+    },
+    {
+      "classification": "diagnostic_zero_weight",
+      "composition_rule": "Forward/reverse predictions only; no likelihood-producing API.",
+      "family_id": "hydroacoustic-forward-reverse",
+      "pooled_with": [],
+      "scope": "Impact-to-station time/energy/signal simulation and raw-channel correlation adapter."
+    }
+  ],
+  "release_id": "v0.1",
+  "release_identities": {
+    "core_0011_manifest_sha256": "8a297133d5188da36a26ac13c1c466d4dfc9d979e3934f1354ad2f84feddf114",
+    "impact_report_manifest_sha256": "fbdbc3e3ec73c13b83b9e136cb3b53f9d74986951f585685f7bbd81fe40216eb",
+    "impact_runner_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+    "impact_source_tree_sha256": "d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d",
+    "impact_suite_manifest_sha256": "d3d4aae1d9e9428283d8764e9f12ea45910782f08709a1105c5848c600dbb374",
+    "r600_manifest_sha256": "7b6b4f1128a11cf68e56b00c9925786737f1a647de6b64d0a978777639ad7a67",
+    "six_plan_76_file_release_set_sha256": "cefaf5a86f8ea0630da39873ee9a916940542497ae6f36ea1e125c0c5d0e898d"
+  },
+  "release_status": "releaseable milestone; model-conditional and evidential boundaries apply",
+  "released_at_utc": "2026-08-31T00:00:00Z",
+  "schema_version": "mh370-release-manifest/1.0.0",
+  "scientific_contract": {
+    "central_posterior_updated_by_conditional_branches": false,
+    "interpretive_boundary": "This release reports model-conditional location and planning sensitivities, not an observed crash position, a posterior probability over structural families, or a calibrated negative-search conclusion.",
+    "structural_family_pooling_prohibited": true
+  },
+  "title": "MH370 integrated Bayesian estimator \u2014 v0.1 release milestone",
+  "validation": [
+    {
+      "check": "Full workspace",
+      "detail": "cargo fmt --all -- --check passed; cargo test --workspace passed 202 tests with four external-data tests intentionally ignored.",
+      "result": "passed"
+    },
+    {
+      "check": "Strict Clippy release debt",
+      "detail": "Strict all-target Clippy remains non-clean only on known style lints: one derivable Default in dynamics; four too-many-arguments, one double-ended last, and three needless as_bytes in reporting; one too-many-arguments in end-of-flight. Frozen science code was not changed for documentation-only cleanup.",
+      "result": "transparent non-blocking debt"
+    },
+    {
+      "check": "Impact suite and figures",
+      "detail": "Frozen runner, source tree, suite, report, generator, matrix, and base-config identities are recorded; report artifacts were generated from suite outputs without hand edits.",
+      "result": "passed"
+    },
+    {
+      "check": "Conditional branches fail closed",
+      "detail": "All five branch manifests reproduce. Pl\u00e9iades remains display-only after the 150,000-particle audit; CMEMS is diagnostic because admitted=false; central weights are unchanged.",
+      "result": "passed"
+    },
+    {
+      "check": "00:11 numerical replication",
+      "detail": "Five 30,000-particle seeds passed the declared convergence limits. Maximum seed-mean separation was 2.49 NM for BTO, 3.33 NM for medium BFO, and 1.36 NM for conditional gain; log-evidence ranges were 0.029, 0.136, and 0.110 nats.",
+      "result": "passed"
+    },
+    {
+      "check": "00:11 provenance and output identities",
+      "detail": "The run manifest verifies 85 outputs and locks the configuration, all compact inputs, and exact executable identity.",
+      "result": "passed"
+    },
+    {
+      "check": "Typed posterior handoff",
+      "detail": "Focused schema tests and an exact in-memory versus JSON-serialize/read/continue numerical regression passed; duplicate evidence consumption is rejected.",
+      "result": "passed"
+    },
+    {
+      "check": "Hydroacoustic diagnostic",
+      "detail": "Six source-workflow checks, deterministic hashes, and artifact-hygiene checks passed. The likelihood-producing API remains absent.",
+      "result": "passed"
+    },
+    {
+      "check": "Pl\u00e9iades source surfaces",
+      "detail": "The handoff suite passed 5/5 and the RNZAF suite passed 5/5; SHA256SUMS verified. Component surfaces and the uncalibrated mixture have separate canonical hashes and a machine-enforced no-pooling contract.",
+      "result": "passed"
+    },
+    {
+      "check": "Ocean-drift disposition",
+      "detail": "Full-domain replications, replay, isotope screen, and ledger checks completed. The surface failed out-of-support, every-recovery ESS, and replication-stability criteria and is therefore retained as diagnostic_zero_weight.",
+      "result": "passed disposition; likelihood not admitted"
+    },
+    {
+      "check": "Search evidence and planning package",
+      "detail": "Source build.py check passed. The deterministic aggregate over all 76 canonical files in the six planning-release directories is cefaf5a86f8ea0630da39873ee9a916940542497ae6f36ea1e125c0c5d0e898d. Figures were visually reviewed and manifests contain no host paths.",
+      "result": "passed as non-operational sensitivity"
+    }
+  ],
+  "validation_command": "python3 runs/mh370/release-v0.1/validate-release.py"
+}
+</script>
+<script>
+  (() => {
+    "use strict";
+    const manifest = JSON.parse(document.getElementById("release-manifest").textContent);
+    const byId = Object.fromEntries((manifest.artifacts || []).map(artifact => [artifact.artifact_id, artifact]));
+    const classById = Object.fromEntries((manifest.classifications || []).map(entry => [entry.id, entry]));
+    const escapeHtml = value => String(value ?? "").replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
+    const badge = classification => `<span class="badge ${escapeHtml(classification)}">${escapeHtml(classById[classification]?.label || classification)}</span>`;
+    const repoHref = path => "../../../" + path.split("/").map(encodeURIComponent).join("/");
+    const artifactLink = artifact => `<a href="${repoHref(artifact.path)}">${escapeHtml(artifact.label)}</a>`;
+    const renderList = values => values && values.length ? `<ul>${values.map(value => `<li>${escapeHtml(value)}</li>`).join("")}</ul>` : "—";
+
+    document.getElementById("release-title").textContent = manifest.title;
+    document.getElementById("release-abstract").textContent = manifest.abstract;
+    document.getElementById("release-meta").textContent = `${manifest.release_id} · ${manifest.released_at_utc} · ${manifest.release_status}`;
+    document.getElementById("scientific-boundary").innerHTML = `<strong>Interpretive boundary:</strong> ${escapeHtml(manifest.scientific_contract.interpretive_boundary)}`;
+    document.getElementById("classification-legend").innerHTML = manifest.classifications.map(entry => `${badge(entry.id)} <span class="muted">${escapeHtml(entry.meaning)}</span>`).join(" ");
+
+    document.getElementById("status-rows").innerHTML = manifest.items.map(item => `<tr>
+      <td>${item.number}</td><td>${escapeHtml(item.title)}</td><td>${badge(item.classification)}</td>
+      <td>${escapeHtml(item.outcome)}</td></tr>`).join("");
+
+    document.getElementById("item-cards").innerHTML = manifest.items.map(item => {
+      const links = (item.artifact_ids || []).map(id => byId[id]).filter(Boolean).map(artifactLink).join("");
+      const metrics = (item.metrics || []).map(metric => `<span class="metric">${escapeHtml(metric)}</span>`).join("");
+      return `<article class="card">
+        <div class="card-head"><h3><span class="item-number">${item.number}</span>${escapeHtml(item.title)}</h3>${badge(item.classification)}</div>
+        <p>${escapeHtml(item.outcome)}</p>
+        <div class="metrics">${metrics}</div>
+        <div class="artifact-links">${links}</div>
+        <div class="remaining"><strong>Boundary / next improvement:</strong>${renderList(item.remaining)}</div>
+      </article>`;
+    }).join("");
+
+    document.getElementById("family-rows").innerHTML = manifest.model_families.map(family => `<tr>
+      <td><code>${escapeHtml(family.family_id)}</code></td><td>${badge(family.classification)}</td>
+      <td>${escapeHtml(family.scope)}</td><td>${escapeHtml(family.composition_rule)}</td></tr>`).join("");
+
+    document.getElementById("evidence-rows").innerHTML = manifest.evidence_consumption.map(entry => `<tr>
+      <td><code>${escapeHtml(entry.evidence_id)}</code><br><span class="muted">${escapeHtml(entry.provenance)}</span></td>
+      <td>${escapeHtml(entry.mode)}</td><td>${escapeHtml(entry.consumed_by.join(", ") || "none")}</td>
+      <td>${escapeHtml(entry.safeguard)}</td></tr>`).join("");
+
+    document.getElementById("artifact-rows").innerHTML = manifest.artifacts.map(artifact => `<tr>
+      <td>${artifact.item}</td><td>${artifactLink(artifact)}<br><code>${escapeHtml(artifact.path)}</code></td>
+      <td>${badge(artifact.classification)}</td><td>${escapeHtml(artifact.role)}</td>
+      <td>${artifact.bytes.toLocaleString()} bytes<br><span class="hash">${escapeHtml(artifact.sha256)}</span></td></tr>`).join("");
+
+    document.getElementById("computation-list").innerHTML = manifest.computations.map(run => `<details>
+      <summary>${escapeHtml(run.run_id)} · ${badge(run.classification)}</summary>
+      <p>${escapeHtml(run.summary)}</p><p><strong>Seeds:</strong> ${escapeHtml(run.seeds)} · <strong>Particles:</strong> ${escapeHtml(run.particles)} · <strong>Runtime:</strong> ${escapeHtml(run.runtime)}</p>
+      </details>`).join("");
+    document.getElementById("identity-rows").innerHTML = Object.entries(manifest.release_identities || {}).map(([name, hash]) => `<tr>
+      <td><code>${escapeHtml(name)}</code></td><td><span class="hash">${escapeHtml(hash)}</span></td></tr>`).join("");
+    document.getElementById("command-list").innerHTML = manifest.commands.map(command => `<details>
+      <summary>${escapeHtml(command.purpose)}</summary><pre>${escapeHtml(command.command)}</pre></details>`).join("");
+    document.getElementById("validation-list").innerHTML = manifest.validation.map(check => `<details>
+      <summary>${escapeHtml(check.check)} — ${escapeHtml(check.result)}</summary>
+      <p>${escapeHtml(check.detail)}</p></details>`).join("");
+    document.getElementById("blocker-list").innerHTML = manifest.blockers.map(blocker => `<details>
+      <summary>Item ${blocker.item}: ${escapeHtml(blocker.title)}</summary>
+      <p>${escapeHtml(blocker.effect)}</p><p><strong>Release treatment:</strong> ${escapeHtml(blocker.release_treatment)}</p></details>`).join("");
+    document.getElementById("release-footer").textContent = `Manifest schema ${manifest.schema_version}. Validate with: ${manifest.validation_command}`;
+  })();
+</script>
+</body>
+</html>

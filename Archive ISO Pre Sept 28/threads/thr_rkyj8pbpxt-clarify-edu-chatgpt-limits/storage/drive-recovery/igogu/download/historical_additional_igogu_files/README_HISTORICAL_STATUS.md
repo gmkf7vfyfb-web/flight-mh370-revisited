@@ -1,0 +1,1 @@
+Historical additional IGOGU files include development logs, failed/obsolete pilot variants, and an old TASK_STATUS checkpoint. They are retained for completeness and do not supersede the final original report or the current follow-up README. Some historical log files reference old local paths. The core replay inputs are self-contained in the original reproducible archive.

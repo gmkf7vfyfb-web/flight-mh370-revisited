@@ -1,0 +1,13 @@
+── User ────────────────────────────────────────────────────
+Build the bounded source-only searched-area evidence package needed by MH370 Core. Scope all edits to a new descriptive .sources/mh370-seabed-search-coverage directory (or an existing exact descriptive equivalent if one already exists); do not edit product crates, runner, estimator, reporting, configs, or other .sources packages. Reacquire/pin official ATSB Phase-2 aircraft-search coverage and official Bluefin polygons from authoritative sources, with exact URLs/retrieval times/hashes/licensing, coordinate semantics, and reproducible conversion. Audit and include the official 2014 surface-search polygons only as a separately labelled time-resolved surface-search dataset. Treat Ocean Infinity 2018/2025-26 outlines and AIS vessel tracks only as uncertain/latent footprint constraints unless exact AUV swaths can be sourced; never buffer tracks into binary searched masks. Do not invent a uniform PoD or count bathymetric mapping as aircraft search. Produce a versioned machine-readable schema, source register, campaign inventory, browser-viewable comparison/coverage map, deterministic regeneration/checks, exact usable/blocked status, and the minimum negative-search likelihood inputs available. Recover useful legacy artifacts only after independently verifying their hashes and provenance. Report outcome, viewable links, validation, and missing official data; stop without product integration.
+
+── Provisioning thread failed ──────────────────────────────
+  Preparing worktree
+  Generating title and branch name
+  Generated title and branch name (2s)
+  Workspace setup failed (10ms)
+  Provisioning thread failed (2s)
+
+── Error ───────────────────────────────────────────────────
+  Provisioning thread failed
+  Path is not a git repository: /jackbox/home/MH370

@@ -1,0 +1,330 @@
+schema_version = 1
+name = "MH370 v0.1 broad repeated-manoeuvre diagnostic through 00:11"
+seeds = [370023, 370024, 370025, 370026, 370027, 370028, 370029, 370030]
+
+[[families]]
+id = "bto-only"
+use_bfo = false
+
+[[families]]
+id = "bto-bfo-published-error"
+use_bfo = true
+bfo_sd_override_hz = 7.0
+
+[inputs]
+observations = "/jackbox/home/MH370/inputs/accident/satcom-through-0011.csv"
+satellite_ephemeris = "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv"
+era5 = "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin"
+igrf = "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin"
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+source_epoch_id = "radar-180149"
+source_time_utc = "2014-03-07T18:01:49Z"
+fit_through_epoch_id = "m0011"
+
+[environment]
+time_origin_utc = "2014-03-07T18:01:49Z"
+time_origin_unix_s = 1394215309.0
+magnetic_altitude_policy = "clamp_to_grid_altitude"
+
+[filter]
+particles = 20000
+seed = 0
+algorithm = "bootstrap"
+initial_time_s = 0.0
+ess_resample_fraction = 0.5
+
+# Computational root preservation and variance reduction. These settings do
+# not add evidence or calibrate the structural prior; their adequacy is judged
+# from the independent-seed/root diagnostics in the fail-closed report.
+[resampling_policy]
+uniform_root_mixture_epsilon = 0.5
+
+[outputs]
+write_builtin_report_artifacts = false
+write_posterior_csv = false
+write_posterior_handoff = false
+write_observation_snapshot_csvs = true
+
+[fuel_anchor]
+id = "arc1-official-calculated-fuel-anchor"
+time = 1576.9
+zero_fuel_weight_kg = 174369.0
+total_onboard_fuel_kg = 33524.10488196
+reserved_fuel_kg = 15.0
+unusable_fuel_kg = 0.0
+left_usable_fraction = 0.5
+
+[model]
+proposal_candidates = 1
+fuel_flow_initialization_design = "log_space_latin_hypercube"
+
+[model.proposal_candidate_schedule]
+kind = "observation_interval_tiers"
+
+[[model.proposal_candidate_schedule.tiers]]
+minimum_elapsed_seconds = 600.0
+proposal_candidates = 2
+
+[model.radar_prior]
+time_s = 0.0
+latitude_deg = 5.624829
+longitude_deg = 99.048157
+position_sd_nm = 0.5
+control_mean_deg_true = 295.66
+control_sd_deg = 1.0
+mach_min = 0.73
+mach_max = 0.84
+altitude_min_ft = 25000.0
+altitude_max_ft = 43000.0
+
+[model.initial_vertical_speed_ft_min]
+minimum = -2000.0
+maximum = 2000.0
+
+[model.source_fuel]
+time = 0.0
+zero_fuel_weight = 174369.0
+left_usable_feed = 18163.50771345498
+right_usable_feed = 18163.50771345498
+reserved_fuel = 15.0
+unusable_fuel = 0.0
+
+[model.fuel_uncertainty.total_quantity_offset_kg]
+minimum = 0.0
+maximum = 0.0
+
+[model.fuel_uncertainty.flow_scale_log_uniform]
+minimum = 0.9
+maximum = 1.1
+
+[model.fuel_model]
+family = "declared_broad_extension"
+minimum_pressure_altitude = 500.0
+maximum_pressure_altitude = 43000.0
+minimum_mach = 0.3
+maximum_mach = 0.87
+maximum_absolute_bank = 30.0
+reference_mach = 0.82
+nominal_flow_scale = 1.0
+mach_log_sensitivity_per_mach = 1.5
+below_fl350_log_sensitivity_per_1000_ft = 0.04
+above_fl410_log_sensitivity_per_1000_ft = 0.02
+bank_induced_drag_fraction = 0.45
+climb_log_sensitivity_per_1000_ft_min = 0.04
+descent_log_relief_per_1000_ft_min = 0.015
+minimum_flow_multiplier = 0.5
+maximum_flow_multiplier = 2.5
+
+[model.fuel_flow_shares]
+left = 0.5
+right = 0.5
+
+[model.powered_feasibility]
+aerodynamic_family = "openap_v2_6_0_attached_flow"
+thrust_multiplier = 1.25
+static_thrust_cap_per_engine_n = 411480.0
+# Broad conditional authority for drag devices/configuration beyond the clean
+# OpenAP polar. This is an analyst-declared support bound, not a Boeing datum.
+maximum_additional_drag_coefficient = 0.1
+
+[model.limits]
+minimum_pressure_altitude_ft = 500.0
+maximum_pressure_altitude_ft = 43000.0
+minimum_mach_floor = 0.3
+mmo = 0.87
+vmo_kcas = 330.0
+wing_area_m2 = 427.8
+maximum_lift_coefficient = 1.5
+stall_speed_margin = 1.2
+maximum_bank_deg = 30.0
+maximum_roll_rate_deg_s = 3.0
+maximum_mach_rate_per_s = 0.0005
+maximum_climb_rate_ft_min = 4000.0
+maximum_descent_rate_ft_min = 4000.0
+maximum_vertical_acceleration_ft_min_s = 200.0
+heading_capture_time_s = 120.0
+altitude_capture_time_s = 600.0
+
+[model.integration]
+steady_step_s = 60.0
+transition_step_s = 15.0
+heading_capture_tolerance_deg = 0.25
+maximum_events_per_transition = 256
+
+[model.satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[model.satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[model.satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12
+
+[[model.initial_modes]]
+name = "constant-true-heading"
+mode = "constant_true_heading"
+scientific_probability = 0.2
+
+[[model.initial_modes]]
+name = "constant-magnetic-heading"
+mode = "constant_magnetic_heading"
+scientific_probability = 0.2
+
+[[model.initial_modes]]
+name = "constant-true-track"
+mode = "constant_true_track"
+scientific_probability = 0.2
+
+[[model.initial_modes]]
+name = "constant-magnetic-track"
+mode = "constant_magnetic_track"
+scientific_probability = 0.2
+
+[[model.initial_modes]]
+name = "great-circle-continuation"
+mode = "great_circle_track_continuation"
+scientific_probability = 0.2
+
+[[model.maneuver_families]]
+name = "log-tau-bin-0p1-to-0p316h"
+scientific_probability = 0.25
+
+[model.maneuver_families.process]
+maximum_course_change_deg = 180.0
+target_mach_min = 0.3
+target_mach_max = 0.87
+target_altitude_min_ft = 500.0
+target_altitude_max_ft = 43000.0
+great_circle_leg_length_nm = 600.0
+
+[model.maneuver_families.process.lateral_clock]
+mean_interval_s = 640.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.speed_clock]
+mean_interval_s = 640.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.altitude_clock]
+mean_interval_s = 640.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.lateral_mode_weights]
+constant_true_heading = 0.2
+constant_magnetic_heading = 0.2
+constant_true_track = 0.2
+constant_magnetic_track = 0.2
+great_circle_track_continuation = 0.2
+
+[[model.maneuver_families]]
+name = "log-tau-bin-0p316-to-1h"
+scientific_probability = 0.25
+
+[model.maneuver_families.process]
+maximum_course_change_deg = 180.0
+target_mach_min = 0.3
+target_mach_max = 0.87
+target_altitude_min_ft = 500.0
+target_altitude_max_ft = 43000.0
+great_circle_leg_length_nm = 600.0
+
+[model.maneuver_families.process.lateral_clock]
+mean_interval_s = 2024.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.speed_clock]
+mean_interval_s = 2024.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.altitude_clock]
+mean_interval_s = 2024.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.lateral_mode_weights]
+constant_true_heading = 0.2
+constant_magnetic_heading = 0.2
+constant_true_track = 0.2
+constant_magnetic_track = 0.2
+great_circle_track_continuation = 0.2
+
+[[model.maneuver_families]]
+name = "log-tau-bin-1-to-3p16h"
+scientific_probability = 0.25
+
+[model.maneuver_families.process]
+maximum_course_change_deg = 180.0
+target_mach_min = 0.3
+target_mach_max = 0.87
+target_altitude_min_ft = 500.0
+target_altitude_max_ft = 43000.0
+great_circle_leg_length_nm = 600.0
+
+[model.maneuver_families.process.lateral_clock]
+mean_interval_s = 6402.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.speed_clock]
+mean_interval_s = 6402.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.altitude_clock]
+mean_interval_s = 6402.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.lateral_mode_weights]
+constant_true_heading = 0.2
+constant_magnetic_heading = 0.2
+constant_true_track = 0.2
+constant_magnetic_track = 0.2
+great_circle_track_continuation = 0.2
+
+[[model.maneuver_families]]
+name = "log-tau-bin-3p16-to-10h"
+scientific_probability = 0.25
+
+[model.maneuver_families.process]
+maximum_course_change_deg = 180.0
+target_mach_min = 0.3
+target_mach_max = 0.87
+target_altitude_min_ft = 500.0
+target_altitude_max_ft = 43000.0
+great_circle_leg_length_nm = 600.0
+
+[model.maneuver_families.process.lateral_clock]
+mean_interval_s = 20243.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.speed_clock]
+mean_interval_s = 20243.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.altitude_clock]
+mean_interval_s = 20243.0
+minimum_interval_s = 60.0
+gamma_shape = 1.0
+
+[model.maneuver_families.process.lateral_mode_weights]
+constant_true_heading = 0.2
+constant_magnetic_heading = 0.2
+constant_true_track = 0.2
+constant_magnetic_track = 0.2
+great_circle_track_continuation = 0.2

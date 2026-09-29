@@ -1,0 +1,135 @@
+{
+  "source": "https://storage.googleapis.com/gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+  "time_utc": [
+    "2014-03-08T00:00:00Z",
+    "2014-03-08T01:00:00Z",
+    "2014-03-08T02:00:00Z"
+  ],
+  "altitude_ft": [
+    500.0,
+    5000.0,
+    10000.0,
+    15000.0,
+    20000.0,
+    25000.0,
+    28000.0,
+    31000.0,
+    34000.0,
+    37000.0,
+    40000.0,
+    43000.0,
+    46000.0,
+    50000.0,
+    55000.0,
+    60000.0
+  ],
+  "source_pressure_levels_hpa": [
+    1.0,
+    2.0,
+    3.0,
+    5.0,
+    7.0,
+    10.0,
+    20.0,
+    30.0,
+    50.0,
+    70.0,
+    100.0,
+    125.0,
+    150.0,
+    175.0,
+    200.0,
+    225.0,
+    250.0,
+    300.0,
+    350.0,
+    400.0,
+    450.0,
+    500.0,
+    550.0,
+    600.0,
+    650.0,
+    700.0,
+    750.0,
+    775.0,
+    800.0,
+    825.0,
+    850.0,
+    875.0,
+    900.0,
+    925.0,
+    950.0,
+    975.0,
+    1000.0
+  ],
+  "method": "log-pressure interpolation, exact global half-degree subsampling, longitude seam duplication; no upper-altitude or time extrapolation",
+  "original_shared_grid_max_abs_difference": 0.0,
+  "bytes": 149926296,
+  "sha256": "0de015b62786e54868b2a6d89d5bee50599521396a32fe0b7140c40dd6661ccc",
+  "chunks": [
+    {
+      "path": "temperature/1000897.0.0.0",
+      "bytes": 85392907,
+      "sha256": "d3117da993ffd74c8abc1fe3da5b11b128b3ac4361220b1ed1e63f90db90379c",
+      "generation": "1695520134406142",
+      "md5_base64": "WSQS4N02YXpF/NxhqpqNFw=="
+    },
+    {
+      "path": "temperature/1000896.0.0.0",
+      "bytes": 85397900,
+      "sha256": "0e11889d9c0695ba904da7faf5b7ac9fbd18734493e5cdd3a52e353040bd6db9",
+      "generation": "1695520135187220",
+      "md5_base64": "BkDJ1i80i9a5oEBTG7dytw=="
+    },
+    {
+      "path": "temperature/1000898.0.0.0",
+      "bytes": 85365410,
+      "sha256": "b47915c9b477cbbf4d124a065f30f23bd38a4df6a1e80f3e5fc37ff0d03be4bc",
+      "generation": "1695520134781504",
+      "md5_base64": "I2iDCm0Anb+1gPi6eeJ5cw=="
+    },
+    {
+      "path": "u_component_of_wind/1000896.0.0.0",
+      "bytes": 117860569,
+      "sha256": "c2590cfb76d957915bd960300a501a3e806849c97008c00536bd6bb9b039e217",
+      "generation": "1695520155701575",
+      "md5_base64": "Z1deZH8MrPc5BrksFGZtiQ=="
+    },
+    {
+      "path": "u_component_of_wind/1000897.0.0.0",
+      "bytes": 117864007,
+      "sha256": "229266b00ebc6402d1e8a5a8337926bae8aa415c4e47ae306b02d50b0a67a942",
+      "generation": "1695520155713962",
+      "md5_base64": "GOYc6XmG2/dBAiTnaVYxmw=="
+    },
+    {
+      "path": "u_component_of_wind/1000898.0.0.0",
+      "bytes": 117840839,
+      "sha256": "d60aba28e71a96ce38b3d2beac103712ffb9edebd32dd0b64f6b3eb08f7d4f87",
+      "generation": "1695520155724134",
+      "md5_base64": "GH8OwPwBoot54sehGN8KZQ=="
+    },
+    {
+      "path": "v_component_of_wind/1000897.0.0.0",
+      "bytes": 121881684,
+      "sha256": "b5b3e06209cdbc36dc9b41761bfed5a9b6970016241f630491e3877ef4ec3bb6",
+      "generation": "1695520175764238",
+      "md5_base64": "rn95QeFSkrs+Labrmq8FXA=="
+    },
+    {
+      "path": "v_component_of_wind/1000896.0.0.0",
+      "bytes": 121882745,
+      "sha256": "8229feed104ec199eabc1dfe7f2351b58368e12fea2ea58b2bb2c19da3a2b4f2",
+      "generation": "1695520175760458",
+      "md5_base64": "KMqGXbCaPwTigJH7D7mSMg=="
+    },
+    {
+      "path": "v_component_of_wind/1000898.0.0.0",
+      "bytes": 121883250,
+      "sha256": "972924d2d482fb8d86003656618bd563b97269103c5a6eab0b655b42aed9813e",
+      "generation": "1695520175767057",
+      "md5_base64": "WI+YWLFGaGkmO93Sa4H+zQ=="
+    }
+  ],
+  "seconds": 44.11941337499593
+}

@@ -1,0 +1,300 @@
+{
+  "schema_version": 2,
+  "config_schema_version": 2,
+  "handoff_schema_version": 2,
+  "run": {
+    "model_family": "bto-only",
+    "seed": 370024,
+    "lateral_mode": "constant_true_track",
+    "run_identity_sha256": "4d71d72f452e961c2d0422745056834c9d3e78e53a7c414b29249eea35e9d466",
+    "config_sha256": "d059536306148f624fd8d1d495f3aa4b58bb2e750cf92d9e7153ad2b53221357",
+    "input_sha256": {
+      "antenna_observations": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+      "antenna_surface": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd",
+      "era5": "261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53",
+      "igrf": "9910a4952f43de2c3a5f07df3a7879139b9d23267a5d4e77dbfedae093973b0e",
+      "satcom_observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+      "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d"
+    }
+  },
+  "fixed_waypoint_identity_sha256": null,
+  "summary": {
+    "model_scope": "one-turn constant true track model-conditional estimate",
+    "particles": 30000,
+    "observations": 10,
+    "use_bfo": false,
+    "lateral_mode": "constant_true_track",
+    "environment_applied": true,
+    "weather_applied": true,
+    "magnetic_declination_applied": false,
+    "seed": 370024,
+    "log_evidence": -50.3668592707445,
+    "posterior_ess": 28896.05700713685,
+    "temperature_steps": 21,
+    "minimum_tempered_ess": 17277.429966886462,
+    "minimum_mutation_acceptance": 0.08228055555555555,
+    "last_contact_mean": {
+      "latitude": -36.485113897969825,
+      "longitude": 89.35753533564065
+    },
+    "impact_mean": {
+      "latitude": -36.485113897969825,
+      "longitude": 89.35753533564065
+    },
+    "impact_latitude_50_deg": [
+      -36.89631255489813,
+      -36.082795207336794
+    ],
+    "impact_latitude_90_deg": [
+      -37.47680148107722,
+      -35.462333393132496
+    ],
+    "impact_longitude_50_deg": [
+      88.72463848105525,
+      90.00555038408345
+    ],
+    "impact_longitude_90_deg": [
+      87.74753268026598,
+      90.9188082842872
+    ],
+    "impact_displacement_90_nm": [
+      0.0,
+      0.0
+    ],
+    "turn_time_90_s": [
+      1966.4439849454507,
+      2397.1670965976937
+    ],
+    "post_turn_track_90_deg_true": [
+      184.0643068207421,
+      188.5659497099107
+    ],
+    "mach_90": [
+      0.7816460659286957,
+      0.8366826246156195
+    ],
+    "altitude_90_ft": [
+      26061.32786863593,
+      41602.43110438013
+    ],
+    "checkpoints": [
+      {
+        "step": 0,
+        "temperature": 1e-6,
+        "temperature_increment": 1e-6,
+        "particle_ess": 17277.429966886462,
+        "resampled": true,
+        "mutation_acceptance": 0.7586013888888888,
+        "log_evidence_increment": -0.6297698311774926,
+        "cumulative_log_evidence": -0.6297698311774926
+      },
+      {
+        "step": 1,
+        "temperature": 9.762029261541753e-6,
+        "temperature_increment": 8.762029261541752e-6,
+        "particle_ess": 24000.000000014938,
+        "resampled": true,
+        "mutation_acceptance": 0.6414041666666667,
+        "log_evidence_increment": -0.5245525173970069,
+        "cumulative_log_evidence": -1.1543223485744996
+      },
+      {
+        "step": 2,
+        "temperature": 0.000026055318527190813,
+        "temperature_increment": 0.00001629328926564906,
+        "particle_ess": 24000.00000006433,
+        "resampled": true,
+        "mutation_acceptance": 0.495825,
+        "log_evidence_increment": -0.4743331172353322,
+        "cumulative_log_evidence": -1.6286554658098318
+      },
+      {
+        "step": 3,
+        "temperature": 0.00006557109738717859,
+        "temperature_increment": 0.00003951577885998778,
+        "particle_ess": 24000.000000022643,
+        "resampled": true,
+        "mutation_acceptance": 0.35429444444444447,
+        "log_evidence_increment": -0.47437707437510923,
+        "cumulative_log_evidence": -2.103032540184941
+      },
+      {
+        "step": 4,
+        "temperature": 0.00016197763230585259,
+        "temperature_increment": 0.000096406534918674,
+        "particle_ess": 24000.00000000854,
+        "resampled": true,
+        "mutation_acceptance": 0.2397638888888889,
+        "log_evidence_increment": -0.4893053640381648,
+        "cumulative_log_evidence": -2.592337904223106
+      },
+      {
+        "step": 5,
+        "temperature": 0.0003923754434246463,
+        "temperature_increment": 0.00023039781111879376,
+        "particle_ess": 24000.00000000376,
+        "resampled": true,
+        "mutation_acceptance": 0.15660694444444445,
+        "log_evidence_increment": -0.5242484427015519,
+        "cumulative_log_evidence": -3.1165863469246577
+      },
+      {
+        "step": 6,
+        "temperature": 0.0009284318687489141,
+        "temperature_increment": 0.0005360564253242678,
+        "particle_ess": 24000.0000000017,
+        "resampled": true,
+        "mutation_acceptance": 0.102475,
+        "log_evidence_increment": -0.5847561215100416,
+        "cumulative_log_evidence": -3.7013424684346994
+      },
+      {
+        "step": 7,
+        "temperature": 0.0020473386950291494,
+        "temperature_increment": 0.0011189068262802352,
+        "particle_ess": 24000.00000000138,
+        "resampled": true,
+        "mutation_acceptance": 0.0837875,
+        "log_evidence_increment": -0.6567875773016176,
+        "cumulative_log_evidence": -4.358130045736317
+      },
+      {
+        "step": 8,
+        "temperature": 0.004117488232318407,
+        "temperature_increment": 0.0020701495372892568,
+        "particle_ess": 24000.000000000357,
+        "resampled": true,
+        "mutation_acceptance": 0.08351805555555555,
+        "log_evidence_increment": -0.7271666552452647,
+        "cumulative_log_evidence": -5.085296700981582
+      },
+      {
+        "step": 9,
+        "temperature": 0.007822975182286961,
+        "temperature_increment": 0.0037054869499685544,
+        "particle_ess": 24000.000000000287,
+        "resampled": true,
+        "mutation_acceptance": 0.08365694444444445,
+        "log_evidence_increment": -0.8332040341239129,
+        "cumulative_log_evidence": -5.918500735105495
+      },
+      {
+        "step": 10,
+        "temperature": 0.014079396949053805,
+        "temperature_increment": 0.006256421766766844,
+        "particle_ess": 24000.000000000062,
+        "resampled": true,
+        "mutation_acceptance": 0.0840236111111111,
+        "log_evidence_increment": -0.9623234799236187,
+        "cumulative_log_evidence": -6.880824215029113
+      },
+      {
+        "step": 11,
+        "temperature": 0.024187794011116686,
+        "temperature_increment": 0.01010839706206288,
+        "particle_ess": 24000.00000000022,
+        "resampled": true,
+        "mutation_acceptance": 0.08439722222222222,
+        "log_evidence_increment": -1.1373647238029214,
+        "cumulative_log_evidence": -8.018188938832035
+      },
+      {
+        "step": 12,
+        "temperature": 0.039615121956309285,
+        "temperature_increment": 0.0154273279451926,
+        "particle_ess": 24000.000000000073,
+        "resampled": true,
+        "mutation_acceptance": 0.08334166666666666,
+        "log_evidence_increment": -1.343400881855203,
+        "cumulative_log_evidence": -9.361589820687238
+      },
+      {
+        "step": 13,
+        "temperature": 0.06183641215809231,
+        "temperature_increment": 0.022221290201783022,
+        "particle_ess": 24000.000000000084,
+        "resampled": true,
+        "mutation_acceptance": 0.08346111111111111,
+        "log_evidence_increment": -1.5698206130863657,
+        "cumulative_log_evidence": -10.931410433773603
+      },
+      {
+        "step": 14,
+        "temperature": 0.09437408251864689,
+        "temperature_increment": 0.03253767036055458,
+        "particle_ess": 24000.00000000004,
+        "resampled": true,
+        "mutation_acceptance": 0.0828861111111111,
+        "log_evidence_increment": -1.9230793408616051,
+        "cumulative_log_evidence": -12.854489774635208
+      },
+      {
+        "step": 15,
+        "temperature": 0.1444453274124563,
+        "temperature_increment": 0.050071244893809416,
+        "particle_ess": 24000.000000000004,
+        "resampled": true,
+        "mutation_acceptance": 0.08233472222222223,
+        "log_evidence_increment": -2.5638318544961898,
+        "cumulative_log_evidence": -15.418321629131398
+      },
+      {
+        "step": 16,
+        "temperature": 0.22586100460171743,
+        "temperature_increment": 0.08141567718926113,
+        "particle_ess": 24000.000000000022,
+        "resampled": true,
+        "mutation_acceptance": 0.0825763888888889,
+        "log_evidence_increment": -3.746875251609614,
+        "cumulative_log_evidence": -19.165196880741014
+      },
+      {
+        "step": 17,
+        "temperature": 0.3559370273461414,
+        "temperature_increment": 0.13007602274442398,
+        "particle_ess": 24000.0,
+        "resampled": true,
+        "mutation_acceptance": 0.08262916666666667,
+        "log_evidence_increment": -5.569145177755171,
+        "cumulative_log_evidence": -24.734342058496186
+      },
+      {
+        "step": 18,
+        "temperature": 0.5547702327758876,
+        "temperature_increment": 0.19883320542974614,
+        "particle_ess": 24000.000000000022,
+        "resampled": true,
+        "mutation_acceptance": 0.08228055555555555,
+        "log_evidence_increment": -8.116646646265556,
+        "cumulative_log_evidence": -32.85098870476174
+      },
+      {
+        "step": 19,
+        "temperature": 0.8542103724659348,
+        "temperature_increment": 0.29944013969004724,
+        "particle_ess": 24000.000000000033,
+        "resampled": true,
+        "mutation_acceptance": 0.08228888888888888,
+        "log_evidence_increment": -11.84021434795359,
+        "cumulative_log_evidence": -44.69120305271533
+      },
+      {
+        "step": 20,
+        "temperature": 1.0,
+        "temperature_increment": 0.1457896275340652,
+        "particle_ess": 28896.05700713685,
+        "resampled": false,
+        "mutation_acceptance": null,
+        "log_evidence_increment": -5.6756562180291645,
+        "cumulative_log_evidence": -50.3668592707445
+      }
+    ],
+    "limitations": [
+      "The numerical radar mean is reconstructed; its original covariance is unavailable.",
+      "The trajectory assumes one instantaneous turn followed by constant true track, constant Mach, and constant altitude.",
+      "ERA5 temperature/wind is active; IGRF-14 declination is inactive for this true-reference lateral guidance.",
+      "Fuel state and the proprietary satellite correction series remain unavailable.",
+      "The final two BFO values are excluded; end-of-flight displacement is a separately named conditional model."
+    ]
+  }
+}

@@ -1,0 +1,564 @@
+── Worked for (54m 55s) ────────────────────────────────────
+  ── Ran 3 commands, edited 1 file, viewed 2 images, explored 2 searches
+    ── Ran /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 estimate-ocean-drift --config .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/resolved-run-config.toml --output .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/run (40m 42s)
+      $ /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 estimate-ocean-drift --config .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/resolved-run-config.toml --output .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/run
+      status=diagnostic family=cmems_glorys12_reanalysis isotope=true sampler=AdaptiveSmc peak=arc-152 cells=77 paths=1655808 elapsed_s=2441.120 png=.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/run/source-area.png pdf=.sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/run/source-area.pdf
+    ── Edited .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py +16 -7
+      @@ -511,2 +511,3 @@
+           axis.set_aspect(1.0 / math.cos(math.radians(25.0)))
+      +    axis.set_anchor("N")
+           axis.xaxis.set_major_locator(MultipleLocator(20.0))
+      @@ -702,3 +703,4 @@
+               f"{summary['event_count']} independent recovery episodes\n"
+      -        f"{variant.scope_note}\n\nInterpretation\n{variant.interpretation}"
+      +        f"{textwrap.fill(variant.scope_note, width=58)}\n\nInterpretation\n"
+      +        f"{textwrap.fill(variant.interpretation, width=58)}"
+           )
+      @@ -744,5 +746,5 @@
+               0.031,
+      -        "Evidence: Malaysian Safety Investigation Team (2018), pp. 1–14; Durgadoo et al. (2021), p. 4. "
+      -        "Australian absence context: CSIRO/ATSB drift reports. Discovery dates are observations, not beaching dates.",
+      -        fontsize=6.8,
+      +        "Evidence: Malaysian Safety Investigation Team (2018), pp. 1–14; Durgadoo et al. (2021), p. 4.\n"
+      +        "Australian absence: CSIRO/ATSB drift reports. Discovery dates are observations, not beaching dates.",
+      +        fontsize=6.5,
+               color=MUTED,
+      @@ -824,3 +826,4 @@
+           profile_axis.set_xlim(9.0, 45.0)
+      -    profile_axis.set_ylim(0.0, global_maximum * 1.08)
+      +    profile_axis.set_yscale("log")
+      +    profile_axis.set_ylim(1e-8, max(1.0, global_maximum * 1.08))
+           profile_axis.xaxis.set_major_locator(MultipleLocator(5.0))
+      @@ -829,3 +832,3 @@
+           profile_axis.set_xlabel("Seventh-arc source latitude (°S)")
+      -    profile_axis.set_ylabel("Normalized source mass per arc cell")
+      +    profile_axis.set_ylabel("Normalized source mass per arc cell (log scale)")
+           profile_axis.set_title("All five normalized conditional surfaces", loc="left", color=NAVY)
+      @@ -1267,2 +1270,8 @@
+           for variant in variants:
+      +        reference_maximum = max(
+      +            cell["normalized_source_cell_mass"] for cell in variants[0].cells or []
+      +        )
+      +        variant_maximum = max(
+      +            cell["normalized_source_cell_mass"] for cell in variant.cells or []
+      +        )
+               figure = variant_figure(
+      @@ -1271,3 +1280,3 @@
+                   land_document,
+      -            global_maximum,
+      +            max(reference_maximum, variant_maximum),
+                   input_hashes[relative(repo, variant.source.path)],
+    ── Ran .venv/bin/python -m py_compile .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py && .venv/bin/python -c 'import importlib.util,pathlib,sys p=pathlib.Path(".sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py") s=importlib.util.spec_from_file_location("atlas",p) m=importlib.util.module_from_spec(s) sys.modules[s.name]=m s.loader.exec_module(m) repo=pathlib.Path(".").resolve() m.configure_style(repo) events=m.read_config_events(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/resolved-run-config.toml") src=m.load_source(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json",events) v=m.Variant("preview","CMEMS · stringent 9","Primary preview","#0B6FA4",src,tuple(sorted(events)),False,False,"Recovered-object drift only; isotope and Australian absence removed.","Closest answer to ocean drift alone.",("Discovery time is not beaching time.","Coastal retention is uncalibrated.","Arrival ESS fails admission.")) m.build_variant(v) m.add_comparison_metrics([v]) land=m.read_json(repo/"crates/reporting/assets/ne_110m_land.geojson") mx=max(c["normalized_source_cell_mass"] for c in v.cells) f=m.variant_figure(v,v,land,mx,m.sha256(src.path)) f.savefig("/tmp/ocean-drift-atlas-preview-2.png",dpi=140,facecolor="white") m.plt.close(f)' (3s)
+      $ .venv/bin/python -m py_compile .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py && .venv/bin/python -c 'import importlib.util,pathlib,sys
+    p=pathlib.Path(".sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py")
+    s=importlib.util.spec_from_file_location("atlas",p)
+    m=importlib.util.module_from_spec(s)
+    sys.modules[s.name]=m
+    s.loader.exec_module(m)
+    repo=pathlib.Path(".").resolve()
+    m.configure_style(repo)
+    events=m.read_config_events(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/resolved-run-config.toml")
+    src=m.load_source(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json",events)
+    v=m.Variant("preview","CMEMS · stringent 9","Primary preview","#0B6FA4",src,tuple(sorted(events)),False,False,"Recovered-object drift only; isotope and Australian absence removed.","Closest answer to ocean drift alone.",("Discovery time is not beaching time.","Coastal retention is uncalibrated.","Arrival ESS fails admission."))
+    m.build_variant(v)
+    m.add_comparison_metrics([v])
+    land=m.read_json(repo/"crates/reporting/assets/ne_110m_land.geojson")
+    mx=max(c["normalized_source_cell_mass"] for c in v.cells)
+    f=m.variant_figure(v,v,land,mx,m.sha256(src.path))
+    f.savefig("/tmp/ocean-drift-atlas-preview-2.png",dpi=140,facecolor="white")
+    m.plt.close(f)'
+      exit code 0
+    ── Viewed image: /tmp/ocean-drift-atlas-preview-2.png
+    ── Ran .venv/bin/python -c 'from PIL import Image; im=Image.open("/tmp/ocean-drift-atlas-preview-2.png"); im.crop((1150,1050,1637,1158)).save("/tmp/footer-crop.png")'
+      $ .venv/bin/python -c 'from PIL import Image; im=Image.open("/tmp/ocean-drift-atlas-preview-2.png"); im.crop((1150,1050,1637,1158)).save("/tmp/footer-crop.png")'
+      exit code 0
+    ── Viewed image: /tmp/footer-crop.png
+    ── Searched for mh370-6ac6|PID
+    ── Searched for full-domain|family likelihood|Reproduce|Artifacts|DEBRIS-EVIDENCE|diagnostic_only in .sources/ocean-drift-input-preparation/README.md
+
+  ── Assistant
+  The recovered components already show the important scale of sensitivity: the pure nine-item CMEMS curve peaks at 30.70°S; omitting the two interior panels shifts the mode one arc cell to 31.20°S (TV 0.127); adding isotope plus Australian non-recovery barely changes it (TV 0.012). Switching to GDP instead produces an unstable one-cell mode at 36.57°S (TV 0.991), which is exactly why the prior work refused model-family averaging. The expanded-20 run is still progressing normally.
+
+  ── Ran .venv/bin/python -c 'import importlib.util,pathlib,sys p=pathlib.Path(".sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py") s=importlib.util.spec_from_file_location("atlas",p) m=importlib.util.module_from_spec(s) sys.modules[s.name]=m s.loader.exec_module(m) repo=pathlib.Path(".").resolve(); m.configure_style(repo) events=m.read_config_events(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/resolved-run-config.toml") cm=m.load_source(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json",events) gd=m.load_source(repo/".sources/ocean-drift-input-preparation/outputs/gdp-waverys-stringent-multi-debris/source-area.json",events) ids=tuple(sorted(events)); ext=tuple(x for x in ids if x not in ("antsiraka-cabin-panel-recovery","rodrigues-door-panel-recovery")) vs=[m.Variant("a","CMEMS · stringent 9","a","#0B6FA4",cm,ids,False,False,"","",()),m.Variant("b","CMEMS · exterior 7","b","#008B78",cm,ext,False,False,"","",()),m.Variant("c","CMEMS · full evidence","c","#D46B08",cm,ids,True,True,"","",()),m.Variant("d","GDP · full evidence","d","#6657A5",gd,ids,True,True,"","",())] for v in vs:m.build_variant(v) m.validate_common_arc(vs); m.add_comparison_metrics(vs) mx=max(c["normalized_source_cell_mass"] for v in vs for c in v.cells) f=m.overview_figure(vs,mx); f.savefig("/tmp/ocean-drift-overview-preview.png",dpi=140,facecolor="white"); m.plt.close(f)' (2s)
+    $ .venv/bin/python -c 'import importlib.util,pathlib,sys
+  p=pathlib.Path(".sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py")
+  s=importlib.util.spec_from_file_location("atlas",p)
+  m=importlib.util.module_from_spec(s)
+  sys.modules[s.name]=m
+  s.loader.exec_module(m)
+  repo=pathlib.Path(".").resolve(); m.configure_style(repo)
+  events=m.read_config_events(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/resolved-run-config.toml")
+  cm=m.load_source(repo/".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json",events)
+  gd=m.load_source(repo/".sources/ocean-drift-input-preparation/outputs/gdp-waverys-stringent-multi-debris/source-area.json",events)
+  ids=tuple(sorted(events)); ext=tuple(x for x in ids if x not in ("antsiraka-cabin-panel-recovery","rodrigues-door-panel-recovery"))
+  vs=[m.Variant("a","CMEMS · stringent 9","a","#0B6FA4",cm,ids,False,False,"","",()),m.Variant("b","CMEMS · exterior 7","b","#008B78",cm,ext,False,False,"","",()),m.Variant("c","CMEMS · full evidence","c","#D46B08",cm,ids,True,True,"","",()),m.Variant("d","GDP · full evidence","d","#6657A5",gd,ids,True,True,"","",())]
+  for v in vs:m.build_variant(v)
+  m.validate_common_arc(vs); m.add_comparison_metrics(vs)
+  mx=max(c["normalized_source_cell_mass"] for v in vs for c in v.cells)
+  f=m.overview_figure(vs,mx); f.savefig("/tmp/ocean-drift-overview-preview.png",dpi=140,facecolor="white"); m.plt.close(f)'
+    exit code 0
+
+  ── Viewed image: /tmp/ocean-drift-overview-preview.png
+
+  ── Explored 1 search, 1 file
+    ── Searched for mh370-6ac6|PID
+    ── Read .sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt
+
+  ── Context compacted
+
+  ── Assistant
+  The expanded 20-object CMEMS replay is the last long-running piece. I’m checking it now; once it lands, I’ll validate the run and build the six-page atlas plus the five standalone PDFs.
+
+  ── Ran 1 command, explored 1 file, 1 list
+    ── Ran ps -o pid,etime,%cpu,rss,vsz,stat,cmd -p 740233
+      $ ps -o pid,etime,%cpu,rss,vsz,stat,cmd -p 740233
+      PID     ELAPSED %CPU   RSS    VSZ STAT CMD
+       740233       14:41  500 11989036 18630684 S<sl /jackbox/home/.cache/mh370-ocean-drift-executables/mh370-6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5 estimate-ocean-drift --config .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/resolved-run-config.toml --output .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/run
+    ── Read .sources/ocean-drift-input-preparation/README.md
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/run
+
+  ── Assistant
+  The process is healthy at about 15 minutes, using six CPU cores and ~11.4 GB RAM; the runner writes atomically at completion, so an empty output directory is expected meanwhile. I’ve also confirmed the evidence notes already distinguish the stringent nine-object set from the broader 20-object circularity sensitivity.
+
+  ── Explored 1 search, 1 file
+    ── Searched for "^def
+    ── Read .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py
+
+  ── Assistant
+  One small provenance issue surfaced in the report generator: the circularity claim had a located passage but its direct official-report URL was missing from the generated ledger. I’m adding that source now so every evidence label remains traceable.
+
+  ── Edited 1 file, ran 1 command
+    ── Edited .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py +6
+      @@ -42,2 +42,6 @@
+       )
+      +EXAMINATION_URL = (
+      +    "https://www.mot.gov.my/en/Laporan%20MH%20370/"
+      +    "Debris%20Examination%20Reports%20-%20updated%2030%20April%202017.pdf"
+      +)
+       DURGADOO_URL = "https://doi.org/10.1080/1755876X.2019.1602102"
+      @@ -981,2 +985,3 @@
+       - Malaysian debris summary: <{MOT_URL}>
+      +- Malaysian debris examination reports: <{EXAMINATION_URL}>
+       - Durgadoo et al.: <{DURGADOO_URL}>
+      @@ -1353,2 +1358,3 @@
+                   {"source": "Malaysian debris summary, updated 30 Dec 2018", "url": MOT_URL},
+      +            {"source": "Malaysian debris examination reports, updated 30 Apr 2017", "url": EXAMINATION_URL},
+                   {"source": "Durgadoo et al. (2021)", "url": DURGADOO_URL},
+    ── Ran .venv/bin/python -m py_compile .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py && ps -o pid,etime,%cpu,rss,stat -p 740233
+      $ .venv/bin/python -m py_compile .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py && ps -o pid,etime,%cpu,rss,stat -p 740233
+      PID     ELAPSED %CPU   RSS STAT
+       740233       16:16  509 12100656 S<sl
+
+  ── Assistant
+  The provenance fix compiles cleanly. The replay is still compute-bound and stable at ~16 minutes; no memory or disk pressure is developing, so I’m letting the exact archived runner finish rather than substituting an approximation.
+
+  ── Ran 1 command, explored 1 search, 1 file
+    ── Ran ps -o pid,etime,%cpu,rss,vsz,stat,wchan:24 -p 740233; free -h
+      $ ps -o pid,etime,%cpu,rss,vsz,stat,wchan:24 -p 740233; free -h
+      PID     ELAPSED %CPU   RSS    VSZ STAT WCHAN
+       740233       17:29  515 12013776 18630684 S<sl futex_wait
+                     total        used        free      shared  buff/cache   available
+      Mem:            23Gi        19Gi       1.0Gi        19Mi       3.0Gi       3.4Gi
+      Swap:           23Gi        13Gi       9.6Gi
+    ── Searched for "^name in =
+    ── Read .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/resolved-run-config.toml
+
+  ── Assistant
+  The resolved expanded run is pinned to the full-domain CMEMS/WAVERYS fields and contains 20 objects grouped into 17 independent recovery episodes—so co-recovered fragments are not multiplied as separate observations. The one additional official “likely” panel remains excluded because its discovery date is only bounded to roughly a year, which cannot support a defensible arrival likelihood.
+
+  ── Ran ps -o pid,etime,%cpu,rss,stat -p 740233
+    $ ps -o pid,etime,%cpu,rss,stat -p 740233
+    PID     ELAPSED %CPU   RSS STAT
+     740233       18:36  520 12031140 S<sl
+
+  ── Assistant
+  Still healthy at ~19½ minutes, with no errors or partial artifacts. The finished atlas will keep each environmental family separate; the GDP sensitivity will be shown as a deliberately unstable contrast, never averaged into the CMEMS result.
+
+  ── Ran 2 commands, explored 1 list
+    ── Ran ps -o pid,etime,%cpu,rss,vsz,stat -p 740233
+      $ ps -o pid,etime,%cpu,rss,vsz,stat -p 740233
+      PID     ELAPSED %CPU   RSS    VSZ STAT
+       740233       20:30  527 12030124 18630684 S<sl
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris
+    ── Ran jq . .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/runtime-receipt.json (error)
+      $ jq . .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/runtime-receipt.json
+      /usr/bin/bash: line 1: jq: command not found
+      exit 127
+
+  ── Assistant
+  For scale, the prior stringent full-domain replay took on the order of half an hour; this broader replay is following the same expected profile. While it runs, I’m keeping validation lightweight so its numerical workload gets the machine.
+
+  ── Explored 1 file, 1 list
+    ── Read .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/runtime-receipt.json
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs
+
+  ── Assistant
+  At ~22 minutes, the run remains steady. Its workload is materially larger than the nine-object replay because it evaluates 17 recovery episodes across all 77 seventh-arc source cells; that extra cost is the price of answering the broad evidence interpretation directly.
+
+  ── Assistant
+  No warnings or failed cells have appeared. The expanded run still has a stable ~11.5 GB resident set, consistent with the already-validated stringent replay.
+
+  ── Assistant
+  The calculation is still progressing normally. All downstream report code is ready and syntax-checked; generation will begin immediately when the atomic run artifacts appear.
+
+  ── Assistant
+  Still clean. I’m preserving the old crashed thread untouched for auditability; this renamed current thread is the clean Sept 6 replacement and contains the recovered context plus the new analysis.
+
+  ── Assistant
+  No change in state beyond continued computation; this runner intentionally emits no progress log and commits the result only after all source-cell/event propagation finishes.
+
+  ── Ran ps -o pid,etime,%cpu,rss,stat -p 740233
+    $ ps -o pid,etime,%cpu,rss,stat -p 740233
+    PID     ELAPSED %CPU   RSS STAT
+     740233       26:26  542 11981008 S<sl
+
+  ── Assistant
+  The replay has reached ~26½ minutes and remains fully CPU-bound. Based on the prior run’s exact receipt and the increased episode count, the expected finish window is roughly 45–55 minutes total.
+
+  ── Assistant
+  Still normal at this checkpoint. The final validation will independently reconstruct each cell’s total log-likelihood from its per-recovery components before any plotting, so a partial or internally inconsistent run cannot silently become a figure.
+
+  ── Assistant
+  No anomalies. The report’s primary curve will remain the nine-item non-circular set; the 20-item curve answers the broad inclusion request but is explicitly marked as a circularity sensitivity because many added identity assessments reused drift consistency.
+
+  ── Assistant
+  The atlas layout is fixed at six pages: one comparison overview, then five fully annotated map/profile sheets for the stringent nine, expanded 20, exterior-only seven, ancillary-evidence CMEMS, and alternate-current GDP cases.
+
+  ── Ran ps -o pid,etime,%cpu,rss,vsz,stat -p 740233
+    $ ps -o pid,etime,%cpu,rss,vsz,stat -p 740233
+    PID     ELAPSED %CPU   RSS    VSZ STAT
+     740233       30:27  549 11978392 18630684 S<sl
+
+  ── Assistant
+  The expanded replay is now past 30 minutes, still at a stable ~11.4 GB and around six-core utilization. Nothing suggests a stall; it is simply the expected 1.50 million trajectory workload.
+
+  ── Assistant
+  Still clean. Each plotted distribution will be normalized only after removing the stored source prior, so the profiles show conditional ocean-drift support along the arc—not the prior or an integrated posterior.
+
+  ── Assistant
+  No warnings or output corruption. The figures will include both geography and the one-dimensional seventh-arc mass profile, with modes, equal-tail intervals, evidence scope, and limitations printed on each page.
+
+  ── Assistant
+  The replay remains stable. I’ll treat its manifest hashes, 77-cell coverage, 17-event coverage, and component-by-component likelihood reconstruction as hard gates before accepting the expanded curve.
+
+  ── Ran ps -o pid,etime,%cpu,rss,stat -p 740233
+    $ ps -o pid,etime,%cpu,rss,stat -p 740233
+    PID     ELAPSED %CPU   RSS STAT
+     740233       34:14  554 11909740 S<sl
+
+  ── Assistant
+  At ~34 minutes, resource use is actually slightly lower and the process remains compute-active. The expanded case should be in the latter half of its expected runtime now.
+
+  ── Assistant
+  Still progressing normally. The output set will also include machine-readable curves and summaries, a located-passage citation ledger, and SHA-256 manifests—not just presentation PDFs.
+
+  ── Assistant
+  No state change besides continued computation. The old thread’s full-domain result—mode near 30.70°S—has already been recovered and is serving as the primary cross-check for the regenerated atlas.
+
+  ── Assistant
+  The previously recovered controls are internally coherent: CMEMS’s recovered-only primary peaks at 30.70°S, the exterior-seven leave-out case at 31.20°S, while the GDP family jumps to 36.57°S and is rare-event unstable. The pending 20-object curve is the only missing comparison.
+
+  ── Ran ps -o pid,etime,%cpu,rss,stat -p 740233
+    $ ps -o pid,etime,%cpu,rss,stat -p 740233
+    PID     ELAPSED %CPU   RSS STAT
+     740233       37:59  558 11906964 S<sl
+
+  ── Assistant
+  The run has reached ~38 minutes and is still at sustained six-core utilization with stable memory. I’m staying with it through completion so the broad-evidence page is based on the actual transport calculation.
+
+  ── Assistant
+  Still clean. Once it finishes, rendering and verification should be brief compared with this propagation step.
+
+  ── Assistant
+  No errors or partial writes. The report generator is configured to reject any source result whose SHA-256 does not match its own run manifest.
+
+  ── Assistant
+  The expanded replay has finished successfully: 77 cells, 1,655,808 propagated paths, 2,441 seconds, and an initial runner peak at arc-152. I’m validating its hashes/component coverage now, then rendering the atlas.
+
+  ── Explored 1 list, ran 1 command
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris/run
+    ── Ran .venv/bin/python .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py --output .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity (8s)
+      $ .venv/bin/python .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py --output .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity
+      exit code 0
+
+  ── Assistant
+  The report build passed its hard checks and completed. I’m now checking the five numerical summaries, PDF page counts, deterministic regeneration, and visual legibility before I hand over the files.
+
+  ── Explored 1 list, ran 2 commands
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity
+    ── Ran .venv/bin/python -c 'import json, pathlib; d=json.loads(pathlib.Path(".sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/summary.json").read_text()); print("schema", d["schema"]); print("status", d["status"]); print("audit", d["evidence_audit"]); [print(v["short_label"], "mode", "{:.4f}S".format(v["summary"]["mode_latitude_s"]), v["summary"]["mode_cell_id"], "90%", v["summary"]["equal_tail_intervals_latitude_s"]["90"], "TV", "{:.6f}".format(v["summary"]["total_variation_from_primary"]), "Neff", "{:.4f}".format(v["summary"]["effective_source_cells"])) for v in d["variants"]]'
+      $ .venv/bin/python -c 'import json, pathlib; d=json.loads(pathlib.Path(".sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/summary.json").read_text()); print("schema", d["schema"]); print("status", d["status"]); print("audit", d["evidence_audit"]); [print(v["short_label"], "mode", "{:.4f}S".format(v["summary"]["mode_latitude_s"]), v["summary"]["mode_cell_id"], "90%", v["summary"]["equal_tail_intervals_latitude_s"]["90"], "TV", "{:.6f}".format(v["summary"]["total_variation_from_primary"]), "Neff", "{:.4f}".format(v["summary"]["effective_source_cells"])) for v in d["variants"]]'
+      schema mh370-seventh-arc-ocean-drift-sensitivity-v1
+      status diagnostic_only
+      audit {'audited_report_count': 41, 'expanded_additional_identity_basis': {'does_not_use_prior_drift': 1, 'unclear': 2, 'uses_prior_drift': 8}, 'expanded_episode_count': 17, 'expanded_object_count': 20, 'stringent_episode_count': 9, 'stringent_object_count': 9}
+      CMEMS · stringent 9 mode 30.7030S arc-152 90% [29.6984252929688, 35.7523803710938] TV 0.000000 Neff 8.2885
+      CMEMS · expanded 20 mode 30.7030S arc-152 90% [29.6984252929688, 35.7523803710938] TV 0.178328 Neff 8.2234
+      CMEMS · exterior 7 mode 31.1963S arc-153 90% [27.6214599609375, 35.7523803710938] TV 0.127458 Neff 8.2673
+      CMEMS · full evidence mode 30.7030S arc-152 90% [29.6984252929688, 35.7523803710938] TV 0.012018 Neff 8.1943
+      GDP · full evidence mode 36.5714S arc-165 90% [36.5713806152344, 36.5713806152344] TV 0.990534 Neff 1.0286
+    ── Ran .venv/bin/python -c 'import hashlib,json,pathlib,fitz; root=pathlib.Path(".").resolve(); out=root/".sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity"; m=json.loads((out/"artifact-sha256.json").read_text()); h=lambda p: hashlib.sha256(p.read_bytes()).hexdigest(); bad_out=[n for n,v in m["outputs"].items() if h(out/n)"'!=v]; bad_in=[n for n,v in m["inputs"].items() if h(root/n)!=v]; pdfs=sorted(out.glob("*.pdf")); print("hash_mismatches", {"inputs":bad_in,"outputs":bad_out}); print("pdf_pages", {p.name:len(fitz.open(p)) for p in pdfs}); print("atlas_text_pages", [len(page.get_text()) for page in fitz.open(out/"ocean-drift-sensitivity-atlas.pdf")])'"'
+      $ .venv/bin/python -c 'import hashlib,json,pathlib,fitz; root=pathlib.Path(".").resolve(); out=root/".sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity"; m=json.loads((out/"artifact-sha256.json").read_text()); h=lambda p: hashlib.sha256(p.read_bytes()).hexdigest(); bad_out=[n for n,v in m["outputs"].items() if h(out/n)"'!=v]; bad_in=[n for n,v in m["inputs"].items() if h(root/n)!=v]; pdfs=sorted(out.glob("*.pdf")); print("hash_mismatches", {"inputs":bad_in,"outputs":bad_out}); print("pdf_pages", {p.name:len(fitz.open(p)) for p in pdfs}); print("atlas_text_pages", [len(page.get_text()) for page in fitz.open(out/"ocean-drift-sensitivity-atlas.pdf")])'"'
+      warning: The `fitz` API is deprecated and will be removed in future. Use `import pymupdf` instead.
+      hash_mismatches {'inputs': [], 'outputs': []}
+      pdf_pages {'cmems-expanded-official-twenty-recovered-only.pdf': 1, 'cmems-stringent-nine-excluding-interior-panels.pdf': 1, 'cmems-stringent-nine-full-declared-evidence.pdf': 1, 'cmems-stringent-nine-recovered-only.pdf': 1, 'gdp-stringent-nine-full-declared-evidence.pdf': 1, 'ocean-drift-sensitivity-atlas.pdf': 6, 'ocean-drift-sensitivity-overview.pdf': 1}
+      atlas_text_pages [1454, 1599, 1878, 1709, 1832, 1825]
+
+  ── Assistant
+  All hash checks passed, every standalone PDF is one page, and the atlas is exactly six readable-text pages. The expanded 20-object sensitivity also peaks at 30.70°S; relative to the stringent primary its total-variation distance is 0.178, so it changes the shape but not the headline mode or 90% interval.
+
+  ── Ran 3 commands
+    ── Ran sha256sum .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/artifact-sha256.json
+      $ sha256sum .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/artifact-sha256.json
+      41e3955d287e892c769dad4d21a24d03243dae5b2869dc8af80c2be0247d130a  .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf
+      b16911d91426e19c3e91bcdf68ad4622bbb5db5e66fcacf63c6342b7cf66816f  .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/artifact-sha256.json
+    ── Ran .venv/bin/python .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py --output .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity (8s)
+      $ .venv/bin/python .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py --output .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity
+      exit code 0
+    ── Ran sha256sum .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/artifact-sha256.json
+      $ sha256sum .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/artifact-sha256.json
+      41e3955d287e892c769dad4d21a24d03243dae5b2869dc8af80c2be0247d130a  .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf
+      b16911d91426e19c3e91bcdf68ad4622bbb5db5e66fcacf63c6342b7cf66816f  .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/artifact-sha256.json
+
+  ── Assistant
+  A second full report generation produced byte-identical atlas and manifest hashes, confirming deterministic output. I’m doing the final visual inspection now—especially the expanded and GDP pages, where annotations and extreme concentration are easiest to misrender.
+
+  ── Viewed 7 images
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-overview.png
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/gdp-stringent-nine-full-declared-evidence.png
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-expanded-official-twenty-recovered-only.png
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-recovered-only.png
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-full-declared-evidence.png
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-excluding-interior-panels.png
+    ── Viewed image: /jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-recovered-only.png
+
+  ── Assistant
+  Visual inspection passed: map extents, seventh-arc coloring, recovery markers, profile axes, legends, warnings, and footnotes are all legible at page scale. The GDP spike is rendered accurately and prominently labelled as unstable. I’m adding the reproducible atlas handoff to the source documentation and integrity ledger now.
+
+  ── Explored 1 file, 1 list, edited 3 files, ran 2 commands
+    ── Read .sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt
+    ── Listed files in .sources/ocean-drift-input-preparation/outputs/cmems-full-domain-expanded-official-debris
+    ── Edited .sources/ocean-drift-input-preparation/DEBRIS-EVIDENCE.md +8
+      @@ -44,2 +44,10 @@
+       
+      +The expanded set has now been replayed over the same full CMEMS/WAVERYS
+      +evidence domain as the stringent set. Its recovered-only, prior-removed curve
+      +peaks at arc-152 (30.70°S), retains the stringent curve's 29.70–35.75°S 90%
+      +equal-tail interval, and has total-variation distance 0.178 from that curve.
+      +The result is reported only as the explicit circularity sensitivity in
+      +[`outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf`](outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf);
+      +it is not pooled with the stringent evidence or another current family.
+      +
+       ## Dates and coordinates
+    ── Edited .sources/ocean-drift-input-preparation/README.md +39
+      @@ -149,2 +149,41 @@
+       
+      +## Seventh-arc drift-only sensitivity atlas
+      +
+      +The publication PDF at
+      +[`outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf`](outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf)
+      +shows five prior-removed, separately normalized ocean-drift likelihoods on the
+      +common 77-cell seventh arc. The overview is followed by one annotated map and
+      +profile page per version:
+      +
+      +| Version | Mode | 90% equal-tail latitude | TV from primary |
+      +|---|---:|---:|---:|
+      +| CMEMS, stringent nine recoveries only | 30.70°S | 29.70–35.75°S | 0.000 |
+      +| CMEMS, expanded 20 objects / 17 episodes | 30.70°S | 29.70–35.75°S | 0.178 |
+      +| CMEMS, stringent set excluding two interior panels | 31.20°S | 27.62–35.75°S | 0.127 |
+      +| CMEMS, stringent nine plus declared ancillary evidence | 30.70°S | 29.70–35.75°S | 0.012 |
+      +| GDP climatology, stringent nine plus ancillary evidence | 36.57°S | 36.57–36.57°S | 0.991 |
+      +
+      +The expanded full-domain CMEMS/WAVERYS replay used 20 audited objects in 17
+      +independent recovery episodes, 1,655,808 simulated paths, seed 3700271, and
+      +2,441.120 seconds. Eight of its 11 additions explicitly reuse prior CSIRO
+      +drift consistency in their official identity assessment and two more have an
+      +unclear basis, so this is a labelled circularity sensitivity rather than the
+      +primary evidence selection. The GDP spike is rare-event unstable. Neither it
+      +nor any other curve is admitted into the integrated estimator or pooled across
+      +environmental families.
+      +
+      +Rebuild the complete six-page atlas and its five standalone PDFs from the
+      +hash-pinned run artifacts with one command:
+      +
+      +```bash
+      +.venv/bin/python .sources/ocean-drift-input-preparation/code/build_seventh_arc_drift_sensitivity.py \
+      +  --output .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity
+      +```
+      +
+      +The generator validates evidence-set membership, run-manifest hashes, common
+      +arc geometry, and exact reconstruction of every stored likelihood from its
+      +per-event components before plotting. `summary.json`, `sensitivity-curves.csv`,
+      +`CITATION-LEDGER.md`, and `artifact-sha256.json` provide the machine-readable
+      +definitions, values, located source passages, and integrity record.
+      +
+       ## Reproducible native retrieval and conversion
+    ── Edited .sources/ocean-drift-input-preparation/outputs/ARTIFACT-SHA256.txt +26
+      @@ -151 +151,27 @@
+       799beed5c2e0fe2ed034e65b5108eee8654b5708874d9249ef96a7074c95dc36  cmems-full-domain-family-likelihood-handoff/specification.json
+      +01b01d3cc3bac32f843175c64f37fdafe6116003977547ccf053bf5c96c96f44  cmems-full-domain-expanded-official-debris/resolved-run-config.toml
+      +1183966ece52273c7824759dd90d982f2d5dcb191907d70eb1f1373b5d925104  cmems-full-domain-expanded-official-debris/run/run-manifest.json
+      +0f7cc833c57a6f4d9c5456d1fa00aef5591b62bb2dd43a99e1b91716b9fbadc1  cmems-full-domain-expanded-official-debris/run/runtime-receipt.json
+      +af88f0de37747e6a0a6d5bd5fd06ab16c3582a664af799c40d8bbd8397f29d57  cmems-full-domain-expanded-official-debris/run/source-area.csv
+      +d0736dc0ccb67c4ab25b56faeb1be6bc558360dc8bc91e7193c4b7047bd94fa3  cmems-full-domain-expanded-official-debris/run/source-area.json
+      +daa50d91cc20be66e28770efb5881e1a3677f6259b0524ec676d2e782c83edc3  cmems-full-domain-expanded-official-debris/run/source-area.pdf
+      +978a8c37c90643913be21bc6a4303287bf130908d90cc7ac1ba4244638a951d7  cmems-full-domain-expanded-official-debris/run/source-area.png
+      +a128217ae62eff38cbf90534fc5079de8662a9ad5a043248fdb0ac14aff31557  cmems-full-domain-expanded-official-debris/run/source-area.svg
+      +5c500305241ab239ce508b123b2a59a0996486e91666cdffec69e47ae7606d9e  seventh-arc-drift-sensitivity/CITATION-LEDGER.md
+      +11896338133a9a9af426a48a56cd79a569ca4cd17f1f5c3f93a1076b48d45043  seventh-arc-drift-sensitivity/README.md
+      +b16911d91426e19c3e91bcdf68ad4622bbb5db5e66fcacf63c6342b7cf66816f  seventh-arc-drift-sensitivity/artifact-sha256.json
+      +1a9ba1ca0bfbf46e2e16b08dc3acf64fb50febc60aa7224f9790e132aa78af1d  seventh-arc-drift-sensitivity/cmems-expanded-official-twenty-recovered-only.pdf
+      +58f1878078b5a4554bf9c978c928c6441dd44469af1e24433ad1866121ba387d  seventh-arc-drift-sensitivity/cmems-expanded-official-twenty-recovered-only.png
+      +a6563a05b43f8fe984ed11653d32fce083d7b50c4ac70e1f6e98e6b21cc43bc3  seventh-arc-drift-sensitivity/cmems-stringent-nine-excluding-interior-panels.pdf
+      +7d8fccfecf8aaef92d3aa2cd02c4a37712466282beb34dafd27071d6b9e1ece7  seventh-arc-drift-sensitivity/cmems-stringent-nine-excluding-interior-panels.png
+      +eb4648f27180443c3d7b05a8ed26f2b29fa1efc4072e543e10192e76afba324c  seventh-arc-drift-sensitivity/cmems-stringent-nine-full-declared-evidence.pdf
+      +38e06c8427956f74ee0eb585c25064d5a49c40cc316e35793fb74004341dc136  seventh-arc-drift-sensitivity/cmems-stringent-nine-full-declared-evidence.png
+      +773c8db593cdc8e176beb9ed2359f7a6f69cb6d698248de1863b5a8bdf5b106a  seventh-arc-drift-sensitivity/cmems-stringent-nine-recovered-only.pdf
+      +c12be5562fbf1d5c51066edb69e089b39da74d5d798b6151591c2310078b17b0  seventh-arc-drift-sensitivity/cmems-stringent-nine-recovered-only.png
+      +e28eef912bcea3a2df13d6fce5cf37471fc397b278f72f20065d09aab80f6ede  seventh-arc-drift-sensitivity/gdp-stringent-nine-full-declared-evidence.pdf
+      +efb299f73c59d7b2672beadd6dc5dac59366c39bc41bcf5abb366fc4aef18df3  seventh-arc-drift-sensitivity/gdp-stringent-nine-full-declared-evidence.png
+      +41e3955d287e892c769dad4d21a24d03243dae5b2869dc8af80c2be0247d130a  seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf
+      +8826d84a47c42c57843206c07a4db62dbe6219106a9f682f86a20ffae8041019  seventh-arc-drift-sensitivity/ocean-drift-sensitivity-overview.pdf
+      +71d967eba947b25196cfaaba08017dc967e6bc5c7b4940fe23d616cd3a5ec607  seventh-arc-drift-sensitivity/ocean-drift-sensitivity-overview.png
+      +62aa8fd1f7028622d58abab1677a7ee934c526567e99250468db52674f732630  seventh-arc-drift-sensitivity/sensitivity-curves.csv
+      +bda84eeb21c35f412318e64bca64a960fd0a674ef56cd1ff3561854f7b185040  seventh-arc-drift-sensitivity/summary.json
+    ── Ran sha256sum --quiet -c ARTIFACT-SHA256.txt (error)
+      $ sha256sum --quiet -c ARTIFACT-SHA256.txt
+      sha256sum: ARTIFACT-SHA256.txt: No such file or directory
+      exit 1
+    ── Ran sha256sum --quiet -c ARTIFACT-SHA256.txt
+      $ sha256sum --quiet -c ARTIFACT-SHA256.txt
+      exit code 0
+
+  ── Assistant
+  Documentation and the repository-wide artifact ledger are updated, and all 177 ledger entries verify. Following the iso CLI skill’s handoff pattern, I’m opening the combined atlas in this current replacement thread so it is immediately available in the UI.
+
+  ── Ran 2 commands
+    ── Ran iso thread open .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf && iso status --json
+      $ iso thread open .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf && iso status --json
+      Thread thr_qpqec5d6kr (from ISO_THREAD_ID)
+      Thread: thr_qpqec5d6kr
+      Split: replace
+      Source: workspace
+      Path: .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf
+      Delivered: 0
+      {
+        "dataDir": "/jackbox/home/.iso",
+        "project": {
+          "id": "proj_pm8k5krhiy",
+          "name": "MH370 Main Thread"
+        },
+        "thread": {
+          "id": "thr_qpqec5d6kr",
+          "status": "active",
+          "title": "Ocean Drift — Sept 6 sensitivity atlas",
+          "pinnedAt": null,
+          "parentThreadId": null,
+          "environment": {
+            "display": {
+              "modeLabel": "Working locally",
+              "compactModeLabel": "Local",
+              "id": "env_v88zhv5sgs",
+              "mode": "direct",
+              "workspaceDisplayKind": "other"
+            },
+            "hostId": "host_dccwjaevcd"
+          }
+        },
+        "childThreads": [],
+        "pendingTodos": null
+      }
+    ── Ran pdfinfo .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf | sed -n '1,24p'; pdffonts .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf (error)
+      $ pdfinfo .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf | sed -n '1,24p'; pdffonts .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf
+      /usr/bin/bash: line 1: pdfinfo: command not found
+      /usr/bin/bash: line 1: pdffonts: command not found
+      exit 127
+
+── Assistant ───────────────────────────────────────────────
+Done. This clean thread is now titled **Ocean Drift — Sept 6 sensitivity atlas**; the crashing `Ocean Drift New` thread remains untouched, and its useful context was recovered.
+
+Open the [combined six-page PDF atlas](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-atlas.pdf).
+
+| Version | Mode | 90% latitude interval | TV from primary |
+|---|---:|---:|---:|
+| CMEMS, stringent 9 | 30.70°S | 29.70–35.75°S | 0.000 |
+| CMEMS, expanded 20 | 30.70°S | 29.70–35.75°S | 0.178 |
+| CMEMS, exterior 7 | 31.20°S | 27.62–35.75°S | 0.127 |
+| CMEMS + ancillary evidence | 30.70°S | 29.70–35.75°S | 0.012 |
+| GDP current sensitivity | 36.57°S | 36.57–36.57°S | 0.991 |
+
+The primary result is arc-152, approximately **30.70°S, 97.68°E**. These are prior-removed, separately normalized ocean-drift likelihoods—not calibrated posteriors. The extremely sharp GDP result is rare-event unstable and should not be interpreted as certainty.
+
+The expanded run used 20 dated official objects in 17 independent recovery episodes. Eight of its eleven additions explicitly reuse prior drift agreement in their identity assessment and two are unclear, so it is correctly presented as a circularity sensitivity. The Sandravinany panel was excluded because its reported discovery interval spans roughly a year. This evidence treatment follows the [Malaysian debris summary](https://www.mot.gov.my/en/Laporan%20MH%20370/Summary%20of%20Debris%20Recovered%20-%20Updated%2030%20Dec%202018.pdf), [Durgadoo et al.](https://doi.org/10.1080/1755876X.2019.1602102), the [official examination reports](https://www.mot.gov.my/en/Laporan%20MH%20370/Debris%20Examination%20Reports%20-%20updated%2030%20April%202017.pdf), and [CSIRO/ATSB drift reports](https://www.atsb.gov.au/csiro-mh370-drift-reports).
+
+Standalone PDFs:
+
+- [Stringent nine](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-recovered-only.pdf)
+- [Expanded twenty](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-expanded-official-twenty-recovered-only.pdf)
+- [Exterior seven](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-excluding-interior-panels.pdf)
+- [Ancillary-evidence sensitivity](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-full-declared-evidence.pdf)
+- [GDP current-family sensitivity](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/gdp-stringent-nine-full-declared-evidence.pdf)
+
+The expanded replay propagated 1,655,808 paths with seed 3700271. Hashes, component reconstruction, all 77 arc cells, PDF page counts, and deterministic regeneration passed. Supporting data are in [summary.json](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/summary.json) and [sensitivity-curves.csv](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/sensitivity-curves.csv).
+
+── Deprecation notice ──────────────────────────────────────
+  Full-history hydration is deprecated for paginated threads; use `excludeTurns: true`, then page with `thread/turns/list` and `thread/items/list`.
+
+── User ────────────────────────────────────────────────────
+Please make links available as images I can view in the ISO window. Please don’t only post .pdf formats again. Also when I say I want PDFs I mean probably density functions not .pdf format. Assume I do not want pdf format unless I specifically ask for it. But I always want viewable links.
+
+── Worked for (55s) ────────────────────────────────────────
+  ── Assistant
+  Understood. I’ll treat “PDF” as probability density function unless you explicitly ask for a PDF document. I’m using the iso CLI guidance now to switch the handoff to directly viewable PNG images and open the overview in the ISO window.
+
+  ── Explored 1 file, ran 1 command
+    ── Read /jackbox/home/.iso/runtime/global-skills/051cefb156e94b93b5e2578a675241b5008ea1dbc7132545e87c8f9b68faaaa9/skills/iso-cli/SKILL.md
+    ── Ran iso status --json && iso thread open .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-overview.png
+      $ iso status --json && iso thread open .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-overview.png
+      {
+        "dataDir": "/jackbox/home/.iso",
+        "project": {
+          "id": "proj_pm8k5krhiy",
+          "name": "MH370 Main Thread"
+        },
+        "thread": {
+          "id": "thr_qpqec5d6kr",
+          "status": "active",
+          "title": "Ocean Drift — Sept 6 sensitivity atlas",
+          "pinnedAt": null,
+          "parentThreadId": null,
+          "environment": {
+            "display": {
+              "modeLabel": "Working locally",
+              "compactModeLabel": "Local",
+              "id": "env_v88zhv5sgs",
+              "mode": "direct",
+              "workspaceDisplayKind": "other"
+            },
+            "hostId": "host_dccwjaevcd"
+          }
+        },
+        "childThreads": [],
+        "pendingTodos": null
+      }
+      Thread thr_qpqec5d6kr (from ISO_THREAD_ID)
+      Thread: thr_qpqec5d6kr
+      Split: replace
+      Source: workspace
+      Path: .sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-overview.png
+      Delivered: 1
+
+── Assistant ───────────────────────────────────────────────
+Understood. From now on:
+
+- “PDF” means probability density function unless you explicitly request a PDF document.
+- I’ll default plots to directly viewable PNG/SVG links.
+- I’ll always include ISO-viewable links.
+
+I’ve opened the overview PNG in the ISO window. Individual image links:
+
+- [All five density functions — overview PNG](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/ocean-drift-sensitivity-overview.png)
+- [Stringent nine-item density](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-recovered-only.png)
+- [Expanded twenty-item density](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-expanded-official-twenty-recovered-only.png)
+- [Seven exterior-items sensitivity](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-excluding-interior-panels.png)
+- [Isotope and Australian non-recovery sensitivity](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/cmems-stringent-nine-full-declared-evidence.png)
+- [GDP current-model sensitivity](/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/seventh-arc-drift-sensitivity/gdp-stringent-nine-full-declared-evidence.png)

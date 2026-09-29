@@ -1,0 +1,397 @@
+schema_version = 3
+name = "MH370 stringent multi-debris cabin-panel response sensitivity — 3 percent total leeway"
+family = "cmems_glorys12_reanalysis"
+source_cells = "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/source-cells.json"
+seed = 3700271
+particles_per_cell = 1024
+release_unix_seconds = 1394237940.0
+
+[sampling]
+method = "adaptive_smc"
+resampling_interval_days = 30.0
+selection_strength = 4.0
+start_days_before_recovery = 365.0
+
+[currents]
+binary = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/converted/cmems-glorys12.mhgrid"
+metadata = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/converted/cmems-glorys12.mhgrid.json"
+maximum_interpolation_gap_hours = 36.0
+renormalize_finite_spatial_corners = true
+
+[stokes]
+binary = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/converted/cmems-waverys-stokes.mhgrid"
+metadata = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/converted/cmems-waverys-stokes.mhgrid.json"
+maximum_interpolation_gap_hours = 4.0
+renormalize_finite_spatial_corners = true
+
+[wind]
+binary = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/wind/wind.mhgrid"
+metadata = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/wind/wind.mhgrid.json"
+maximum_interpolation_gap_hours = 36.0
+renormalize_finite_spatial_corners = false
+
+[coast]
+binary = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/converted/cmems-glorys12-waverys-coast.mhgrid"
+metadata = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/converted/cmems-glorys12-waverys-coast.mhgrid.json"
+
+[[motion_families]]
+id = "measured-flaperon-response"
+
+[motion_families.motion]
+integration_step_seconds = 21600.0
+output_step_seconds = 86400.0
+horizontal_diffusivity_m2_per_s = 100.0
+stokes_velocity_scale = 1.0
+windage_fraction = 0.0
+# CSIRO Part II empirical sensitivity: 0.10 m/s in excess of Stokes,
+# 20 degrees left of the wind. It remains distinct from Stokes velocity.
+windage_speed_m_per_s = 0.10
+windage_angle_degrees = -20.0
+current_standard_error_scale = 0.0
+
+[motion_families.debris]
+pre_discovery_window_days = 30.0
+spatial_bandwidth_km = 100.0
+probability_floor = 1e-9
+
+[[motion_families.debris.events]]
+id = "reunion-flaperon-recovery"
+object_ids = ["reunion-right-flaperon"]
+location = "Saint-Andre, Reunion"
+position = { latitude = -20.916180, longitude = 55.649150 }
+discovery_start_unix_seconds = 1438128000.0
+discovery_end_unix_seconds = 1438214400.0
+evidence_weight = 1.0
+is_flaperon = true
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.85
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 90.0
+probability = 0.15
+
+[[motion_families]]
+id = "low-exposure-exterior"
+
+[motion_families.motion]
+integration_step_seconds = 21600.0
+output_step_seconds = 86400.0
+horizontal_diffusivity_m2_per_s = 100.0
+stokes_velocity_scale = 1.0
+windage_fraction = 0.0
+windage_speed_m_per_s = 0.0
+windage_angle_degrees = 0.0
+current_standard_error_scale = 0.0
+
+[motion_families.debris]
+pre_discovery_window_days = 30.0
+spatial_bandwidth_km = 100.0
+probability_floor = 1e-9
+
+[[motion_families.debris.events]]
+id = "mossel-bay-engine-cowling-recovery"
+object_ids = ["mossel-bay-engine-cowling-roy"]
+location = "Klein Brak River, Mossel Bay, South Africa"
+position = { latitude = -34.093767, longitude = 22.149905 }
+discovery_start_unix_seconds = 1450828800.0
+discovery_end_unix_seconds = 1450915200.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families.debris.events]]
+id = "paindane-flap-fairing-recovery"
+object_ids = ["paindane-right-flap-fairing"]
+location = "Daghatane Beach, Paindane, Mozambique"
+position = { latitude = -24.078057, longitude = 35.499796 }
+discovery_start_unix_seconds = 1451174400.0
+discovery_end_unix_seconds = 1451260800.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families.debris.events]]
+id = "vilanculos-stabilizer-recovery"
+object_ids = ["vilanculos-horizontal-stabilizer-panel"]
+location = "Paluma Sandbank, Vilanculos, Mozambique"
+position = { latitude = -22.088570, longitude = 35.519020 }
+discovery_start_unix_seconds = 1456617600.0
+discovery_end_unix_seconds = 1456704000.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families.debris.events]]
+id = "chidenguele-fan-cowling-recovery"
+object_ids = ["chidenguele-right-fan-cowling"]
+location = "South of Chidenguele, Mozambique"
+position = { latitude = -24.958022, longitude = 34.196373 }
+discovery_start_unix_seconds = 1461456000.0
+discovery_end_unix_seconds = 1461542400.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families.debris.events]]
+id = "mauritius-left-flap-recovery"
+object_ids = ["mauritius-left-outboard-flap"]
+location = "Ilot Bernache, Mauritius"
+position = { latitude = -20.023383, longitude = 57.701386 }
+discovery_start_unix_seconds = 1462838400.0
+discovery_end_unix_seconds = 1462924800.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families.debris.events]]
+id = "pemba-right-flap-recovery"
+object_ids = ["pemba-right-outboard-flap"]
+location = "Kojani Island, Pemba, Tanzania"
+position = { latitude = -5.056071, longitude = 39.868086 }
+discovery_start_unix_seconds = 1466640000.0
+discovery_end_unix_seconds = 1466726400.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families]]
+id = "uncertain-interior-panels-3-percent-total-leeway-sensitivity"
+
+[motion_families.motion]
+integration_step_seconds = 21600.0
+output_step_seconds = 86400.0
+horizontal_diffusivity_m2_per_s = 100.0
+# CSIRO's 3% effective case includes unresolved wind-and-wave response, so
+# full Stokes is not added again. This is not a measured cabin-panel law.
+stokes_velocity_scale = 0.0
+windage_fraction = 0.03
+windage_speed_m_per_s = 0.0
+windage_angle_degrees = 0.0
+current_standard_error_scale = 0.0
+
+[motion_families.debris]
+pre_discovery_window_days = 30.0
+spatial_bandwidth_km = 100.0
+probability_floor = 1e-9
+
+[[motion_families.debris.events]]
+id = "rodrigues-door-panel-recovery"
+object_ids = ["rodrigues-door-closet-panel"]
+location = "Var-Brule Beach, Rodrigues, Mauritius"
+position = { latitude = -19.738711, longitude = 63.471632 }
+discovery_start_unix_seconds = 1459296000.0
+discovery_end_unix_seconds = 1459382400.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families.debris.events]]
+id = "antsiraka-cabin-panel-recovery"
+object_ids = ["antsiraka-cabin-interior-panel"]
+location = "Antsiraka Beach, Madagascar"
+position = { latitude = -16.862289, longitude = 49.726188 }
+discovery_start_unix_seconds = 1465689600.0
+discovery_end_unix_seconds = 1465776000.0
+evidence_weight = 1.0
+is_flaperon = false
+
+[[motion_families.debris.events.discovery_delay]]
+start_days = 0.0
+end_days = 30.0
+probability = 0.50
+[[motion_families.debris.events.discovery_delay]]
+start_days = 30.0
+end_days = 180.0
+probability = 0.35
+[[motion_families.debris.events.discovery_delay]]
+start_days = 180.0
+end_days = 540.0
+probability = 0.15
+
+[[motion_families]]
+id = "unobserved-low-exposure-non-recovery-population"
+
+[motion_families.motion]
+integration_step_seconds = 21600.0
+output_step_seconds = 86400.0
+horizontal_diffusivity_m2_per_s = 100.0
+stokes_velocity_scale = 1.0
+windage_fraction = 0.0
+windage_speed_m_per_s = 0.0
+windage_angle_degrees = 0.0
+current_standard_error_scale = 0.0
+
+[motion_families.debris]
+events = []
+pre_discovery_window_days = 30.0
+spatial_bandwidth_km = 100.0
+probability_floor = 1e-9
+
+[[motion_families.debris.non_recoveries]]
+id = "western-australia-no-recovery-low-exposure-population"
+location = "Western Australian coast sensitivity box"
+bounds = { south_degrees = -40.0, north_degrees = -10.0, west_degrees = 110.0, east_degrees = 130.0 }
+observation_start_unix_seconds = 1394237940.0
+observation_end_unix_seconds = 1485820800.0
+# Explicit weak Poisson exposure for unobserved low-exposure debris. It is
+# varied as a sensitivity and is not inferred from the recovered-object count.
+expected_reportable_items = 0.50
+
+[[motion_families]]
+id = "unobserved-high-windage-non-recovery-population"
+
+[motion_families.motion]
+integration_step_seconds = 21600.0
+output_step_seconds = 86400.0
+horizontal_diffusivity_m2_per_s = 100.0
+# CSIRO Part II defines 3% as total current-relative leeway for this control;
+# adding full Stokes as well would double count part of the effective windage.
+stokes_velocity_scale = 0.0
+windage_fraction = 0.03
+windage_speed_m_per_s = 0.0
+windage_angle_degrees = 0.0
+current_standard_error_scale = 0.0
+
+[motion_families.debris]
+events = []
+pre_discovery_window_days = 30.0
+spatial_bandwidth_km = 100.0
+probability_floor = 1e-9
+
+[[motion_families.debris.non_recoveries]]
+id = "western-australia-no-recovery-high-windage-population"
+location = "Western Australian coast sensitivity box"
+bounds = { south_degrees = -40.0, north_degrees = -10.0, west_degrees = 110.0, east_degrees = 130.0 }
+observation_start_unix_seconds = 1394237940.0
+observation_end_unix_seconds = 1485820800.0
+expected_reportable_items = 0.50
+
+[isotope]
+records = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/auxiliary/a2-g1-isotope.json"
+seawater_delta18o_per_mil = 0.4
+seawater_delta18o_sd_per_mil = 0.2
+calibration_sd_c = 1.0
+residual_sd_c = 1.5
+sst_field_sd_c = 0.5
+shell_smoothing_days = 7.0
+correlation_days = 14.0
+compatible_simultaneous_confidence = 0.95
+rejection_simultaneous_confidence = 0.995
+maximum_marginal_log_penalty = 0.6931471805599453
+maximum_rejection_log_penalty = 4.605170185988092
+
+[isotope.sst]
+binary = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/auxiliary/oisst.mhgrid"
+metadata = "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/auxiliary/oisst.mhgrid.json"
+
+[[isotope.chronologies]]
+name = "central-154-day"
+start_unix_seconds = 1424822400.0
+end_unix_seconds = 1438128000.0
+prior_weight = 1.0
+
+[[isotope.chronologies]]
+name = "early-192-day"
+start_unix_seconds = 1421452800.0
+end_unix_seconds = 1438128000.0
+prior_weight = 1.0
+
+[[isotope.chronologies]]
+name = "late-115-day"
+start_unix_seconds = 1428192000.0
+end_unix_seconds = 1438128000.0
+prior_weight = 1.0
+
+[map_context.bounds]
+longitude_min_deg = 15.0
+longitude_max_deg = 115.0
+latitude_min_deg = -46.0
+latitude_max_deg = -4.0

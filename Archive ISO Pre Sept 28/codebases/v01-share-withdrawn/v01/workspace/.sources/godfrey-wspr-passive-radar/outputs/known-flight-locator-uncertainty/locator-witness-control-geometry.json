@@ -1,0 +1,860 @@
+{
+  "actual_center_candidate_id": "known-flight:mh370_1642:00000658",
+  "actual_center_latitude_deg": 2.835193550758824,
+  "actual_center_longitude_deg_e": 101.81432299131276,
+  "epoch_id": "mh370_1642",
+  "inputs": {
+    "audit_sha256": "267c40c45d92f0bd05db9ca7ba743e81fc7d7e080d8de932005d2adb93febe40",
+    "pairs_sha256": "da356a4f2839b66e60cac52ac7dd9b995dde863637b6b530531c51a7129c2658",
+    "source_sha256": "bbebb6f78f4bb82d0ba937afd7839fa944ae97bd7d9d785898ffc661fc021919",
+    "spots_sha256": "c7c335b664e94c0cb4a99f1df68705bbc1cd1b0f2cc6110577615b848c774290",
+    "truth_sha256": "fdec168e491745226c16732068aee79dfba2aaf0f583c165e374317ec15c528f"
+  },
+  "limitations": [
+    "truth-selected coordinate sensitivity, not a blind detection",
+    "pairs excluded by the original map/100-NM filter are absent",
+    "newly entering pairs could change the control field after full rematerialization"
+  ],
+  "logical_bound": "Propagation filtering can only remove links. Every screened >=3-link cluster centre must therefore be an already qualifying raw proposal centre.",
+  "minimum_control_proposal_distance_to_actual_center_km": 198.9856239009557,
+  "no_screened_control_can_subtract_within_frozen_pair_universe": true,
+  "residual_tolerance_km": 25.0,
+  "retained_epoch_pair_count": 357,
+  "sample_index_zero_based": 23526,
+  "schema": "mh370.wspr.locator-witness-control-geometry.v1",
+  "scope": "All cell-centre-retained pairs for one epoch, with one coherent in-cell coordinate completion; no excluded pair is rematerialized.",
+  "strict_control_proposal_count": 62,
+  "strict_raw_proposal_count": 83,
+  "strict_raw_proposals": [
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000658",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 0.0,
+      "independent_links": 3,
+      "latitude_deg": 2.835193550758824,
+      "longitude_deg_e": 101.81432299131276,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:42:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000659",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 15.490092842171798,
+      "independent_links": 3,
+      "latitude_deg": 2.950973801619417,
+      "longitude_deg_e": 101.89188780751795,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:42:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000806",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 198.9856239009557,
+      "independent_links": 3,
+      "latitude_deg": 4.328801415523147,
+      "longitude_deg_e": 100.82671270877692,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:44:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000805",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 200.25721893850744,
+      "independent_links": 3,
+      "latitude_deg": 4.3554476552297565,
+      "longitude_deg_e": 100.84685270196294,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:44:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000849",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 227.40828141180918,
+      "independent_links": 3,
+      "latitude_deg": 1.2986485662455753,
+      "longitude_deg_e": 103.16490233006787,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000839",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 243.53614020909578,
+      "independent_links": 3,
+      "latitude_deg": 1.116080872901749,
+      "longitude_deg_e": 103.17219883746118,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000773",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 310.0871443840225,
+      "independent_links": 3,
+      "latitude_deg": 4.941979791447962,
+      "longitude_deg_e": 99.98293604400243,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000775",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 316.4091948788607,
+      "independent_links": 3,
+      "latitude_deg": 5.117821960571167,
+      "longitude_deg_e": 100.11109039296281,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000777",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 319.3419543688286,
+      "independent_links": 3,
+      "latitude_deg": 5.186518966752939,
+      "longitude_deg_e": 100.16118101408122,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000778",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 319.3419543688286,
+      "independent_links": 3,
+      "latitude_deg": 5.186518966752939,
+      "longitude_deg_e": 100.16118101408122,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000774",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 319.46007311165397,
+      "independent_links": 3,
+      "latitude_deg": 5.189167589753008,
+      "longitude_deg_e": 100.1631125399013,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000576",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 335.9384116114638,
+      "independent_links": 3,
+      "latitude_deg": 5.126009469473869,
+      "longitude_deg_e": 99.8397596294129,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000842",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 338.27702581708076,
+      "independent_links": 3,
+      "latitude_deg": 5.212272969733418,
+      "longitude_deg_e": 99.91095671568618,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000561",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 340.80282621137064,
+      "independent_links": 3,
+      "latitude_deg": 5.291308789599966,
+      "longitude_deg_e": 99.9762114394088,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000583",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 343.13172189950615,
+      "independent_links": 3,
+      "latitude_deg": 5.355856448745982,
+      "longitude_deg_e": 100.02952077069486,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000587",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 343.13172189950615,
+      "independent_links": 3,
+      "latitude_deg": 5.355856448745982,
+      "longitude_deg_e": 100.02952077069486,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000848",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 343.13172189950615,
+      "independent_links": 3,
+      "latitude_deg": 5.355856448745982,
+      "longitude_deg_e": 100.02952077069486,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000563",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 343.22626043604697,
+      "independent_links": 3,
+      "latitude_deg": 5.358345831030974,
+      "longitude_deg_e": 100.03157702975544,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000863",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 517.339186304606,
+      "independent_links": 3,
+      "latitude_deg": 7.480489331105975,
+      "longitude_deg_e": 102.07492052166575,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000874",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 527.3920713463921,
+      "independent_links": 3,
+      "latitude_deg": 7.568020171232117,
+      "longitude_deg_e": 102.12532729025027,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000598",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 543.5681006284892,
+      "independent_links": 3,
+      "latitude_deg": 7.7203292425552945,
+      "longitude_deg_e": 101.99426684934735,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000595",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 543.7433678297508,
+      "independent_links": 3,
+      "latitude_deg": 7.721859642792747,
+      "longitude_deg_e": 101.99554711558281,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000846",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 575.4654984789834,
+      "independent_links": 3,
+      "latitude_deg": 7.9944071035499755,
+      "longitude_deg_e": 102.22374966998929,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000840",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 589.3354509698522,
+      "independent_links": 4,
+      "latitude_deg": 8.111115122050313,
+      "longitude_deg_e": 102.32159325422396,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000837",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 609.4975651174005,
+      "independent_links": 3,
+      "latitude_deg": 8.278512843162929,
+      "longitude_deg_e": 102.46206688363208,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000620",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 626.7174215098468,
+      "independent_links": 3,
+      "latitude_deg": 8.419606898243726,
+      "longitude_deg_e": 102.58059220591346,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000625",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 632.6714676392604,
+      "independent_links": 3,
+      "latitude_deg": 8.468028178187273,
+      "longitude_deg_e": 102.62129495170028,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000621",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1085.2834137438392,
+      "independent_links": 3,
+      "latitude_deg": 12.32775943251762,
+      "longitude_deg_e": 99.52169150834756,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000627",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1092.549885304932,
+      "independent_links": 3,
+      "latitude_deg": 12.437605384283113,
+      "longitude_deg_e": 99.71112359526472,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000626",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1101.4673765835776,
+      "independent_links": 3,
+      "latitude_deg": 12.50832287481343,
+      "longitude_deg_e": 99.65836514386137,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000818",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1136.5299629365913,
+      "independent_links": 3,
+      "latitude_deg": 12.901831152110956,
+      "longitude_deg_e": 100.02515436303077,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000865",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1142.180582521385,
+      "independent_links": 3,
+      "latitude_deg": 12.947640331250732,
+      "longitude_deg_e": 99.99192280960672,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000823",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1146.5836021865005,
+      "independent_links": 3,
+      "latitude_deg": 13.005543790308131,
+      "longitude_deg_e": 100.09550432642276,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000861",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1158.664384578284,
+      "independent_links": 3,
+      "latitude_deg": 13.120249467824955,
+      "longitude_deg_e": 100.12338643520667,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000864",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1162.1018002506237,
+      "independent_links": 3,
+      "latitude_deg": 13.101613281922429,
+      "longitude_deg_e": 99.8368412978405,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000866",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1163.8566910611871,
+      "independent_links": 3,
+      "latitude_deg": 13.11511663544765,
+      "longitude_deg_e": 99.82322706062999,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000855",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1174.4726142118363,
+      "independent_links": 3,
+      "latitude_deg": 13.245677135911382,
+      "longitude_deg_e": 100.00976238550139,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000872",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1175.8453362175064,
+      "independent_links": 3,
+      "latitude_deg": 13.256536285169087,
+      "longitude_deg_e": 99.99991752745424,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000723",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1181.1372123747167,
+      "independent_links": 3,
+      "latitude_deg": 13.373541669565828,
+      "longitude_deg_e": 100.46675875589328,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000733",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1182.078190784557,
+      "independent_links": 3,
+      "latitude_deg": 13.33206811377479,
+      "longitude_deg_e": 100.11362339091376,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000794",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1182.078190784557,
+      "independent_links": 3,
+      "latitude_deg": 13.33206811377479,
+      "longitude_deg_e": 100.11362339091376,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:42:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000732",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1183.4995115211066,
+      "independent_links": 3,
+      "latitude_deg": 13.348040991706645,
+      "longitude_deg_e": 100.1328399885666,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000793",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1183.4995115211066,
+      "independent_links": 3,
+      "latitude_deg": 13.348040991706645,
+      "longitude_deg_e": 100.1328399885666,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:42:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000720",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1192.6931498686245,
+      "independent_links": 3,
+      "latitude_deg": 13.468534201056967,
+      "longitude_deg_e": 100.38994983181333,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000632",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1241.29433968892,
+      "independent_links": 3,
+      "latitude_deg": 13.960614097972737,
+      "longitude_deg_e": 100.88502817409493,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000633",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1251.1294026800217,
+      "independent_links": 3,
+      "latitude_deg": 14.044942792217544,
+      "longitude_deg_e": 100.8317643210444,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000813",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1251.8798186406264,
+      "independent_links": 3,
+      "latitude_deg": 14.07030207181978,
+      "longitude_deg_e": 101.08114583428075,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:44:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000826",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1251.8798186406264,
+      "independent_links": 3,
+      "latitude_deg": 14.07030207181978,
+      "longitude_deg_e": 101.08114583428075,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000634",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1253.5344390109533,
+      "independent_links": 3,
+      "latitude_deg": 14.065537650794592,
+      "longitude_deg_e": 100.81874908766768,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000645",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1253.5344390109533,
+      "independent_links": 3,
+      "latitude_deg": 14.065537650794592,
+      "longitude_deg_e": 100.81874908766768,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000629",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1255.1059163706354,
+      "independent_links": 3,
+      "latitude_deg": 14.097933769769957,
+      "longitude_deg_e": 101.05874499371166,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000804",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1256.1886844021578,
+      "independent_links": 3,
+      "latitude_deg": 14.1071999338391,
+      "longitude_deg_e": 101.05123138382555,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:44:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000803",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1259.6292638805623,
+      "independent_links": 3,
+      "latitude_deg": 14.14083419368224,
+      "longitude_deg_e": 101.09215606407165,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:44:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000646",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1268.8094243623323,
+      "independent_links": 3,
+      "latitude_deg": 14.211571972455816,
+      "longitude_deg_e": 100.91901829023615,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000630",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1268.8881559248277,
+      "independent_links": 3,
+      "latitude_deg": 14.215592798486766,
+      "longitude_deg_e": 100.96327981798811,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000830",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1271.6948612980743,
+      "independent_links": 3,
+      "latitude_deg": 14.250608805639418,
+      "longitude_deg_e": 101.10930589985057,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000631",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 1272.140733624453,
+      "independent_links": 3,
+      "latitude_deg": 14.243270685000425,
+      "longitude_deg_e": 100.94080390801376,
+      "pair_intersections": 5,
+      "physical_slot": "2014-03-07 16:32:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000827",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1272.140733624453,
+      "independent_links": 3,
+      "latitude_deg": 14.243270685000425,
+      "longitude_deg_e": 100.94080390801376,
+      "pair_intersections": 4,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000831",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1284.4138635356321,
+      "independent_links": 3,
+      "latitude_deg": 14.35960873343708,
+      "longitude_deg_e": 101.02082396483367,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000824",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1657.168974091701,
+      "independent_links": 3,
+      "latitude_deg": 16.99838978206027,
+      "longitude_deg_e": 97.09278158295174,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000817",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1659.4957537309376,
+      "independent_links": 4,
+      "latitude_deg": 17.074571170752293,
+      "longitude_deg_e": 97.26421203536844,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000820",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1660.501379799804,
+      "independent_links": 3,
+      "latitude_deg": 17.105280189688017,
+      "longitude_deg_e": 97.33344769077331,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:46:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000558",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1733.0779320126246,
+      "independent_links": 3,
+      "latitude_deg": 17.660162558279286,
+      "longitude_deg_e": 96.91068647024404,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000557",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1745.5907586567678,
+      "independent_links": 3,
+      "latitude_deg": 17.80405131764389,
+      "longitude_deg_e": 96.99117857535293,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000569",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1758.6084478432213,
+      "independent_links": 4,
+      "latitude_deg": 17.85018311273884,
+      "longitude_deg_e": 96.74823054963659,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000568",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1773.7315856406663,
+      "independent_links": 4,
+      "latitude_deg": 18.024770357001106,
+      "longitude_deg_e": 96.84520379563799,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000585",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1773.888223296186,
+      "independent_links": 4,
+      "latitude_deg": 17.963667557849192,
+      "longitude_deg_e": 96.65098797791532,
+      "pair_intersections": 3,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000796",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1817.2831649918835,
+      "independent_links": 3,
+      "latitude_deg": 18.42987178514905,
+      "longitude_deg_e": 96.82236820782414,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:44:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000797",
+      "condition": "plus_60_min",
+      "distance_to_actual_witness_center_km": 1823.4895571564275,
+      "independent_links": 3,
+      "latitude_deg": 18.500507301534522,
+      "longitude_deg_e": 96.86151974040234,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:44:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000549",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1896.4274083733662,
+      "independent_links": 3,
+      "latitude_deg": 19.59965589640748,
+      "longitude_deg_e": 98.6060258179706,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:38:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000551",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1920.6225141318178,
+      "independent_links": 3,
+      "latitude_deg": 19.823649858912734,
+      "longitude_deg_e": 98.61931087800308,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:38:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000555",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1951.0838030480777,
+      "independent_links": 3,
+      "latitude_deg": 20.035218599457032,
+      "longitude_deg_e": 98.25931136169633,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000556",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1963.0794761279456,
+      "independent_links": 3,
+      "latitude_deg": 20.15933116067367,
+      "longitude_deg_e": 98.33102583965334,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000566",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1976.903513493259,
+      "independent_links": 3,
+      "latitude_deg": 20.239834587843983,
+      "longitude_deg_e": 98.09558530331833,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000567",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 1987.9467901054268,
+      "independent_links": 3,
+      "latitude_deg": 20.35466364411082,
+      "longitude_deg_e": 98.16148091077922,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000710",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 2008.954430407111,
+      "independent_links": 3,
+      "latitude_deg": 20.49286348427612,
+      "longitude_deg_e": 97.89235393480779,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000714",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 2017.7931726360014,
+      "independent_links": 3,
+      "latitude_deg": 20.58806887556124,
+      "longitude_deg_e": 97.95813827987992,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:50:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000694",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 2144.9688851553333,
+      "independent_links": 3,
+      "latitude_deg": 21.533626246915937,
+      "longitude_deg_e": 96.93908423027568,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000695",
+      "condition": "actual_time",
+      "distance_to_actual_witness_center_km": 2157.571935560106,
+      "independent_links": 3,
+      "latitude_deg": 21.653309467599833,
+      "longitude_deg_e": 96.94897649619396,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:48:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000570",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 2157.571935560106,
+      "independent_links": 3,
+      "latitude_deg": 21.653309467599833,
+      "longitude_deg_e": 96.94897649619396,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000577",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 2165.1861375357894,
+      "independent_links": 3,
+      "latitude_deg": 21.725577004692404,
+      "longitude_deg_e": 96.95495764496833,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000571",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 3075.3709190507298,
+      "independent_links": 3,
+      "latitude_deg": 28.47774776730544,
+      "longitude_deg_e": 90.9372138768132,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    },
+    {
+      "center_candidate_id": "known-flight:mh370_1642:00000572",
+      "condition": "minus_60_min",
+      "distance_to_actual_witness_center_km": 3089.252977642875,
+      "independent_links": 3,
+      "latitude_deg": 28.57729933894139,
+      "longitude_deg_e": 90.84237302808194,
+      "pair_intersections": 2,
+      "physical_slot": "2014-03-07 16:40:00"
+    }
+  ]
+}

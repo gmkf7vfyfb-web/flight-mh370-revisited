@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "comparison_scope": "latitude marginals only",
+  "canonical_model_scope": "one-turn flight family with constant-track, speed, and altitude continuation from 00:11 to 00:19",
+  "display_bandwidth_deg": 0.1,
+  "canonical_0011": {
+    "particles": 30000,
+    "seeds": [
+      370023,
+      370024,
+      370025
+    ],
+    "evidence": "BTO plus medium BFO through 00:11 UTC, conditional on the one-turn family",
+    "south_latitude_deg": {
+      "q025": 36.1614464002243,
+      "median": 36.502167200633,
+      "q975": 37.17827957448818
+    },
+    "davey_comparison": "NOT_AVAILABLE_DAVEY_DID_NOT_PUBLISH_0011_POSITION_PDF"
+  },
+  "canonical_0019": {
+    "particles": 30000,
+    "evidence": "one-turn 00:11 posterior frozen in track, speed, and altitude, then selected with 00:19:29 R600 BTO only",
+    "south_latitude_deg": {
+      "q025": 37.25096536736373,
+      "median": 37.5914631786201,
+      "q975": 38.191135483824326
+    }
+  },
+  "davey_0019": {
+    "source": "Davey et al. (2016), Figure 10.3 bottom panel, digitized",
+    "source_pdf_pages": [
+      101,
+      102
+    ],
+    "book_pages": [
+      89,
+      90
+    ],
+    "south_latitude_deg": {
+      "q025": 34.90322237155584,
+      "median": 37.5322686131397,
+      "q975": 39.37777119079373
+    },
+    "digitized_support_south_latitude_deg": [
+      33.58378378378378,
+      40.184101748807635
+    ]
+  },
+  "canonical_0019_vs_davey_0019": {
+    "overlap_coefficient": 0.3548691882536486,
+    "median_absolute_difference_deg": 0.05919456548040358,
+    "canonical_95_width_deg": 0.9401701164605925,
+    "davey_95_width_deg": 4.474548819237889,
+    "davey_to_canonical_95_width_ratio": 4.759297004762266,
+    "canonical_0011_to_0019_width_change_percent": -7.53939384981085
+  },
+  "limitations": [
+    "Davey et al. do not publish a separate 00:11 aircraft-position marginal.",
+    "The Davey comparison is a digitized one-dimensional latitude marginal, not a two-dimensional particle set.",
+    "The canonical continuation introduces no new manoeuvre, speed, altitude, or process uncertainty after 00:11 and then uses one R600 BTO selection.",
+    "Davey's model permits a broader set of manoeuvre histories and used both 00:19 BTO messages.",
+    "The model families differ, so the narrower canonical curve is model-conditioned and is not an unconditional confidence interval or a reproduction acceptance test."
+  ]
+}

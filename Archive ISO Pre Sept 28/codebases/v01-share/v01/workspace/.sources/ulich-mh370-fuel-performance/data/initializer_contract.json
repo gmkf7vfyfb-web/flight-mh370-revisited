@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "interface_id": "mh370-fuel-initializer-v1",
+  "integration_status": "blocked",
+  "purpose": "Initialize total usable fuel and gross mass after the final ACARS fuel report without using later event time as a target.",
+  "required_anchor": {
+    "epoch_utc": "2014-03-07T17:06:43Z",
+    "zero_fuel_weight_kg": 174369.0,
+    "total_fuel_kg": 43800.0,
+    "pressure_altitude_ft": 35004.0,
+    "mach": 0.821,
+    "sat_c": -43.8,
+    "source_ref": "malaysia_safety_report",
+    "classification": "measured"
+  },
+  "inputs": {
+    "trajectory": {
+      "type": "ordered nonempty array",
+      "sample_fields": ["epoch_utc", "pressure_altitude_ft", "mach", "sat_c_or_named_temperature_rule", "bank_deg"],
+      "rules": ["strictly increasing UTC", "first sample exactly equals required_anchor", "explicit units and pressure-altitude reference", "no probability assigned to stress-only histories"]
+    },
+    "performance_model": {
+      "fields": ["family_id", "version_or_hash", "parameter_provenance", "validity_domain", "uncertainty_family"],
+      "rules": ["one explicit model family per run", "no mixing of incompatible families as sampling error", "must pass post-ACARS acceptance checks"]
+    },
+    "fuel_feed_state": {
+      "fields": ["left_engine_accessible_fuel_kg", "right_engine_accessible_fuel_kg", "unusable_fuel_kg", "crossfeed_state", "uncertainty_model"],
+      "required_for": "engine-specific flameout or end-of-flight initialization"
+    }
+  },
+  "outputs": {
+    "per_epoch": ["epoch_utc", "total_usable_fuel_kg", "gross_mass_kg", "model_family_id", "diagnostics"],
+    "end_of_flight_only": ["left_engine_accessible_fuel_kg", "right_engine_accessible_fuel_kg", "flameout_state_if_supported"],
+    "run_metadata": ["anchor_identity", "input_hashes", "parameter_hash", "model_version", "integration_step_s", "convergence_result"]
+  },
+  "invariants": [
+    "fuel and mass are finite, nonnegative, and dimensionally explicit",
+    "gross_mass_kg equals zero_fuel_weight_kg plus modeled onboard fuel mass",
+    "fuel never increases without an explicit transfer/source term",
+    "the official Arc-1 calculation is validation evidence, never a fit target",
+    "stress-family outputs carry zero likelihood weight and cannot initialize the estimator"
+  ],
+  "prohibited_calibrations": [
+    "legacy 18:22 fuel quantity",
+    "legacy 0.45 t standard deviation",
+    "00:17:30 exhaustion target derived from the 00:19 event"
+  ],
+  "acceptance_checks": [
+    "preserve the exact official anchor",
+    "report all five ACARS interval errors so total-error cancellation is visible",
+    "independently validate level-cruise burn against legally usable Trent 892B/9M-MRO-relevant performance evidence",
+    "bound numerical integration error below 1 kg for the ACARS fixture",
+    "provide a defensible engine-accessible fuel split before predicting engine-specific flameout"
+  ],
+  "blockers": [
+    {
+      "id": "public-proxy-level-cruise-failure",
+      "evidence": "The untuned proxy over-burns the official calculated Arc-1 comparison by 4226.524 kg.",
+      "resolution": "Replace or validate the cruise backend using legally usable, independently checkable performance evidence; do not tune to Arc-1."
+    },
+    {
+      "id": "engine-feed-split-unidentified",
+      "evidence": "The official ACARS anchor supplies total fuel, not left/right engine-accessible tank/feed state.",
+      "resolution": "Supply an independently supported tank/feed allocation and uncertainty model before engine-specific end-of-flight use."
+    }
+  ]
+}

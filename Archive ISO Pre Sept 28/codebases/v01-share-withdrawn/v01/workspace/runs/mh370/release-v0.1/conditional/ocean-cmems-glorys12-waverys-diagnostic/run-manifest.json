@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "command": "apply-conditional-surface",
+  "producer_executable_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+  "code_revision": "source-tree-sha256-d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d",
+  "config_sha256": "e72ca203b21e328120895944e5a96099c65d0e910d5e71d8e8d4f588a054fd8b",
+  "input_sha256": {
+    "configuration": "e72ca203b21e328120895944e5a96099c65d0e910d5e71d8e8d4f588a054fd8b",
+    "ocean_drift_handoff": "8554e9717008a06919f5471791f549f0fc6addc34eb0fbb54dcf0b0d265aebbf",
+    "parent_impact_handoff_0": "263f56a8316c9524b579bdc87c3409001ca388aef346e2efccdaf13b5e6b55e9",
+    "parent_impact_handoff_1": "6c3af77bc0954d01bf6612526dad10046a47f2b96616b470078edc3ae99062a7",
+    "parent_impact_handoff_2": "e4ffad641184c684898525c55c9b3aa6cfc590525af3d61335e325fdd121e7fe",
+    "parent_impact_handoff_3": "4515d09acadec71ad606c490d29bc9a1f8879d25cf719130ba999744e5c608c5",
+    "parent_impact_handoff_4": "c49c334a49b6b2adff8489aca560636f6e8b8cb09bc4814e3a14a80dfc0415e8"
+  },
+  "output_sha256": {
+    "baseline.pdf": "ad26c1cd28de5a086240cdb5799b3a4c1ebce2b6189e9d6c17268fbb0ec9c14a",
+    "baseline.png": "9da7c9ee93c1e87d7d2056d6ad1f67486fb140bd496015d20218146b0dc7b240",
+    "baseline.svg": "ffb7e819cd6367af5dfeebe8789048750dd1106dc3d1daa11fddf59c6b14c2d3",
+    "conditional-spatial-particles.csv": "0cf511d954ebf123055dc8b10947d54bf345cf3f0908af56ae7a196dcb39c79e",
+    "conditional-spatial-sensitivity.json": "43fdfe371db8d3d0748fff2f6921e981fe9681741cfc13f2da662984b5de7bc3",
+    "conditional.pdf": "8a967ef49fd42ab97486fadb2968f5c68e3707e4ed3a6e147e9ecba0e2e33404",
+    "conditional.png": "d1b282dae67b48eca1ca4bac20191f46851ba0b1a9ebec058a6f98bb38d0c5be",
+    "conditional.svg": "a80ab99174a3c7b979adc4a7dd7856cf987121f030e3d779df23cc8c3e3ff315"
+  },
+  "reproduction_command": "mh370 apply-conditional-surface --config configs/mh370-impact-conditional-ocean-cmems-diagnostic.toml --output runs/mh370/release-v0.1/conditional/ocean-cmems-glorys12-waverys-diagnostic",
+  "scientific_scope": [
+    "GLORYS12V1 assimilates ocean observations; the drifter replay is not guaranteed statistically held out",
+    "WAVERYS assimilates significant wave height and uses GLORYS12 currents in its wave calculation",
+    "one-times surface Stokes response, object leeway, diffusivity, recovery kernels, and beaching-to-discovery delays are sensitivities rather than jointly out-of-sample calibrated parameters",
+    "the persistent GLORYS12/WAVERYS support-mask union distinguishes land encounter but is not a measured shoreline or calibrated beaching, retention, or refloating model",
+    "this family remains separate from native HYCOM and GDP; no subjective family weight or pooled surface is reported",
+    "Family decision diagnostic_only failed: out_of_support_termination, eventwise_arrival_ess, seed_and_particle_stability.",
+    "This release exposes the source surface only as an explicitly enabled conditional sensitivity; it does not change the central posterior.",
+    "Out-of-support parent mass 0.000000 is removed only by the explicit 'condition_on_native_support' sensitivity condition; it is not evidence against those particles.",
+    "Relative scores are floored at 1.000e-300; this is a declared numerical sensitivity and not a physical false-positive calibration.",
+    "This branch is deliberately separate from the parent SATCOM/impact posterior and cannot be stacked with another family representing the same observations."
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "status": "completed",
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/traced-sampling-executable",
+  "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+  "runs": [
+    {
+      "seed": 37091631,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/history-replay-seed-37091631.json",
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091631",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091631",
+      "status": "completed",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/traced-sampling-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/history-replay-seed-37091631.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091631",
+        "--threads",
+        "4"
+      ],
+      "pid": 219365,
+      "posterior_csv_byte_identical": true,
+      "log_evidence_identical": true,
+      "elapsed_seconds": 224.155209988,
+      "exact_contact_state_checks": 264,
+      "examples": 33,
+      "positive_latitude_bins": 13
+    },
+    {
+      "seed": 37091640,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/history-replay-seed-37091640.json",
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091640",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091640",
+      "status": "completed",
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/traced-sampling-executable",
+        "estimate-branching-flight",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/history-replay-seed-37091640.json",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091640",
+        "--threads",
+        "4"
+      ],
+      "pid": 219751,
+      "posterior_csv_byte_identical": true,
+      "log_evidence_identical": true,
+      "elapsed_seconds": 231.406304295,
+      "exact_contact_state_checks": 264,
+      "examples": 33,
+      "positive_latitude_bins": 12
+    }
+  ],
+  "scope": "Recover original trajectories and contact states; these deterministic replays do not increase the independent candidate count.",
+  "created_utc": "2026-09-09T10:16:24.968115+00:00",
+  "driver_pid": 219364,
+  "updated_utc": "2026-09-09T10:24:01.535669+00:00"
+}

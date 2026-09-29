@@ -1,0 +1,1368 @@
+{
+  "scope": "Two hundred fixed conditional-mode engineering histories in ten independent batches; not a posterior sample or evidence estimate.",
+  "completed_histories": 200,
+  "strict_initialization_replays": 200,
+  "distinct_initial_state_digests": 200,
+  "contacts": {
+    "m1839": {
+      "cases": 200,
+      "support_lost": 0,
+      "factor_summaries": {
+        "log_bto": {
+          "minimum": 0.0,
+          "median": 0.0,
+          "maximum": 0.0,
+          "mean": 0.0,
+          "sample_sd": 0.0
+        },
+        "log_bfo": {
+          "minimum": -244.61722888296623,
+          "median": -4.6956143715246705,
+          "maximum": -3.061263642218949,
+          "mean": -20.02839648792189,
+          "sample_sd": 32.04159550007311
+        },
+        "log_measurement": {
+          "minimum": -244.61722888296623,
+          "median": -4.6956143715246705,
+          "maximum": -3.061263642218949,
+          "mean": -20.02839648792189,
+          "sample_sd": 32.04159550007311
+        },
+        "log_proposal_correction": {
+          "minimum": -25.595607208728662,
+          "median": -5.5680419558273115,
+          "maximum": 4.604917252772548,
+          "mean": -5.028703695972669,
+          "sample_sd": 3.812966497810382
+        },
+        "log_net_increment": {
+          "minimum": -245.3009831540945,
+          "median": -11.254904091784237,
+          "maximum": -1.457107914678815,
+          "mean": -25.05710018389456,
+          "sample_sd": 31.72181410217329
+        }
+      },
+      "weight_diagnostics": {
+        "before": {
+          "ess": 13.090364097423254,
+          "maximum_weight": 0.21047996844895708,
+          "winner": {
+            "batch": 5,
+            "case": 15,
+            "seed": 37200023,
+            "mode": 0
+          }
+        },
+        "measurement_only": {
+          "ess": 9.34322685211299,
+          "maximum_weight": 0.26367395511970637,
+          "winner": {
+            "batch": 5,
+            "case": 15,
+            "seed": 37200023,
+            "mode": 0
+          }
+        },
+        "proposal_only": {
+          "ess": 3.3716561388224715,
+          "maximum_weight": 0.4910325167834303,
+          "winner": {
+            "batch": 8,
+            "case": 15,
+            "seed": 37200035,
+            "mode": 0
+          }
+        },
+        "measurement_plus_proposal": {
+          "ess": 9.685596719784682,
+          "maximum_weight": 0.17805325531319224,
+          "winner": {
+            "batch": 6,
+            "case": 17,
+            "seed": 37200027,
+            "mode": 2
+          }
+        }
+      },
+      "measurement_compatible_within_two_log_units": {
+        "cases": 101,
+        "proposal_correction_range": 16.220843082991294,
+        "proposal_ratio_range": 11082114.75007029
+      },
+      "unweighted_measurement_proposal_correlation": -0.1429485819062071,
+      "joint_mode_mass": {
+        "0": 0.3037670972217418,
+        "1": 0.21283854905666752,
+        "2": 0.24594301053255035,
+        "3": 0.027041018100589786,
+        "4": 0.2104103250884506
+      }
+    },
+    "m1941": {
+      "cases": 200,
+      "support_lost": 0,
+      "factor_summaries": {
+        "log_bto": {
+          "minimum": -12438.284223078803,
+          "median": -13.747673547150281,
+          "maximum": -4.290039468383554,
+          "mean": -591.9349241123838,
+          "sample_sd": 1757.5886165813267
+        },
+        "log_bfo": {
+          "minimum": -230.64192020100117,
+          "median": -4.419078735828713,
+          "maximum": -3.0055116586241564,
+          "mean": -14.89491748408209,
+          "sample_sd": 28.80620852498146
+        },
+        "log_measurement": {
+          "minimum": -12452.556317880993,
+          "median": -22.505216711928572,
+          "maximum": -7.300010273350767,
+          "mean": -606.8298415964659,
+          "sample_sd": 1757.9333272090305
+        },
+        "log_proposal_correction": {
+          "minimum": -41.55282868207961,
+          "median": -4.025980290394255,
+          "maximum": 3.357144805369753,
+          "mean": -6.355292446059211,
+          "sample_sd": 7.5180629723025865
+        },
+        "log_net_increment": {
+          "minimum": -12453.289305899045,
+          "median": -30.00993776391155,
+          "maximum": -7.454968701025871,
+          "mean": -613.1851340425252,
+          "sample_sd": 1757.306438324053
+        }
+      },
+      "weight_diagnostics": {
+        "before": {
+          "ess": 9.685596719784693,
+          "maximum_weight": 0.17805325531319233,
+          "winner": {
+            "batch": 6,
+            "case": 17,
+            "seed": 37200027,
+            "mode": 2
+          }
+        },
+        "measurement_only": {
+          "ess": 2.48476365073933,
+          "maximum_weight": 0.5955010560651581,
+          "winner": {
+            "batch": 6,
+            "case": 16,
+            "seed": 37200027,
+            "mode": 1
+          }
+        },
+        "proposal_only": {
+          "ess": 2.488787229740977,
+          "maximum_weight": 0.6077259410397374,
+          "winner": {
+            "batch": 8,
+            "case": 10,
+            "seed": 37200034,
+            "mode": 0
+          }
+        },
+        "measurement_plus_proposal": {
+          "ess": 4.305088426043769,
+          "maximum_weight": 0.33523787497005064,
+          "winner": {
+            "batch": 7,
+            "case": 17,
+            "seed": 37200031,
+            "mode": 2
+          }
+        }
+      },
+      "measurement_compatible_within_two_log_units": {
+        "cases": 27,
+        "proposal_correction_range": 12.742203022930356,
+        "proposal_ratio_range": 341875.87888379814
+      },
+      "unweighted_measurement_proposal_correlation": -0.08550781867129592,
+      "joint_mode_mass": {
+        "0": 0.0008306802632605085,
+        "1": 0.39216378513554173,
+        "2": 0.5590014740017207,
+        "3": 0.009899239314640196,
+        "4": 0.03810482128483686
+      }
+    }
+  },
+  "batch_sensitivity": {
+    "m1839": {
+      "records": [
+        {
+          "batch": 0,
+          "joint_ess": 2.0798235706146073,
+          "joint_maximum_weight": 0.5297344706684575,
+          "measurement_only_ess": 2.492325113560127,
+          "proposal_only_ess": 1.0410535649540393,
+          "support_lost": 0,
+          "compatible_cases": 13,
+          "compatible_proposal_log_range": 7.826591854852018
+        },
+        {
+          "batch": 1,
+          "joint_ess": 1.0369086745927083,
+          "joint_maximum_weight": 0.9819496203767911,
+          "measurement_only_ess": 4.751865564494699,
+          "proposal_only_ess": 2.1952446742051923,
+          "support_lost": 0,
+          "compatible_cases": 10,
+          "compatible_proposal_log_range": 8.365095358687851
+        },
+        {
+          "batch": 2,
+          "joint_ess": 1.6058803133373245,
+          "joint_maximum_weight": 0.781778488581499,
+          "measurement_only_ess": 3.2156771621523705,
+          "proposal_only_ess": 1.8885038600206039,
+          "support_lost": 0,
+          "compatible_cases": 9,
+          "compatible_proposal_log_range": 3.5983326388190564
+        },
+        {
+          "batch": 3,
+          "joint_ess": 1.146589343578381,
+          "joint_maximum_weight": 0.9332012961234899,
+          "measurement_only_ess": 1.5256935461395094,
+          "proposal_only_ess": 2.0275686569521434,
+          "support_lost": 0,
+          "compatible_cases": 8,
+          "compatible_proposal_log_range": 4.751852840913546
+        },
+        {
+          "batch": 4,
+          "joint_ess": 2.5987374907573964,
+          "joint_maximum_weight": 0.5436840093134528,
+          "measurement_only_ess": 1.8757518687144996,
+          "proposal_only_ess": 5.453999215615265,
+          "support_lost": 0,
+          "compatible_cases": 9,
+          "compatible_proposal_log_range": 2.411544066918835
+        },
+        {
+          "batch": 5,
+          "joint_ess": 1.3091074371279423,
+          "joint_maximum_weight": 0.8710029586674429,
+          "measurement_only_ess": 1.4781682834969594,
+          "proposal_only_ess": 1.0279975180091787,
+          "support_lost": 0,
+          "compatible_cases": 9,
+          "compatible_proposal_log_range": 2.663311173879671
+        },
+        {
+          "batch": 6,
+          "joint_ess": 2.5250981082278883,
+          "joint_maximum_weight": 0.5424574508881893,
+          "measurement_only_ess": 4.782278680687483,
+          "proposal_only_ess": 2.994588658625927,
+          "support_lost": 0,
+          "compatible_cases": 11,
+          "compatible_proposal_log_range": 16.220843082991294
+        },
+        {
+          "batch": 7,
+          "joint_ess": 2.1461244836280224,
+          "joint_maximum_weight": 0.6456992048129746,
+          "measurement_only_ess": 4.0423427788340005,
+          "proposal_only_ess": 1.330676886606729,
+          "support_lost": 0,
+          "compatible_cases": 10,
+          "compatible_proposal_log_range": 7.376388334975441
+        },
+        {
+          "batch": 8,
+          "joint_ess": 1.674769319034817,
+          "joint_maximum_weight": 0.7503143566099023,
+          "measurement_only_ess": 2.171850517197862,
+          "proposal_only_ess": 1.657362164829313,
+          "support_lost": 0,
+          "compatible_cases": 11,
+          "compatible_proposal_log_range": 6.585943687664938
+        },
+        {
+          "batch": 9,
+          "joint_ess": 1.0575212951196926,
+          "joint_maximum_weight": 0.9722788249933865,
+          "measurement_only_ess": 5.29054497867267,
+          "proposal_only_ess": 1.3138509428476723,
+          "support_lost": 0,
+          "compatible_cases": 11,
+          "compatible_proposal_log_range": 10.1565414092935
+        }
+      ],
+      "joint_ess_summary": {
+        "minimum": 1.0369086745927083,
+        "median": 1.6403248161860708,
+        "maximum": 2.5987374907573964,
+        "mean": 1.718056003601878,
+        "sample_sd": 0.5915678995126656
+      },
+      "joint_maximum_weight_summary": {
+        "minimum": 0.5297344706684575,
+        "median": 0.7660464225957007,
+        "maximum": 0.9819496203767911,
+        "mean": 0.7552100681035586,
+        "sample_sd": 0.1817162664382444
+      },
+      "batches_with_joint_maximum_weight_at_least_0_90": 3,
+      "batches_with_joint_maximum_weight_at_least_0_95": 2,
+      "leave_one_batch_out_weighted_cdf_max_difference": {
+        "records": [
+          {
+            "batch": 0,
+            "latitude_deg": 0.4410973004726587,
+            "longitude_deg": 0.3591992522804513,
+            "altitude_ft": 0.597061909110883,
+            "initial_mach": 0.36391637246993236,
+            "initial_altitude_ft": 0.5993006457546167
+          },
+          {
+            "batch": 1,
+            "latitude_deg": 0.9813551574705699,
+            "longitude_deg": 0.8661400457582474,
+            "altitude_ft": 0.919156623922653,
+            "initial_mach": 0.6029107426626812,
+            "initial_altitude_ft": 0.6814690066129905
+          },
+          {
+            "batch": 2,
+            "latitude_deg": 0.6316550520431832,
+            "longitude_deg": 0.6512018727352588,
+            "altitude_ft": 0.5731790774882173,
+            "initial_mach": 0.8054559202046919,
+            "initial_altitude_ft": 0.33506279050864185
+          },
+          {
+            "batch": 3,
+            "latitude_deg": 0.5322359685014637,
+            "longitude_deg": 0.5741662232515751,
+            "altitude_ft": 0.6661467003429773,
+            "initial_mach": 0.4895572496161848,
+            "initial_altitude_ft": 0.6669128250847979
+          },
+          {
+            "batch": 4,
+            "latitude_deg": 0.49335951768523556,
+            "longitude_deg": 0.3242162840260733,
+            "altitude_ft": 0.49597097007806207,
+            "initial_mach": 0.6032057625449138,
+            "initial_altitude_ft": 0.5584522487959096
+          },
+          {
+            "batch": 5,
+            "latitude_deg": 0.7548308326862565,
+            "longitude_deg": 0.7892717047304939,
+            "altitude_ft": 0.5910263734766842,
+            "initial_mach": 0.6982489376584216,
+            "initial_altitude_ft": 0.5813507324616103
+          },
+          {
+            "batch": 6,
+            "latitude_deg": 0.3237943888822038,
+            "longitude_deg": 0.33706233220628734,
+            "altitude_ft": 0.5013032767416873,
+            "initial_mach": 0.772939971277375,
+            "initial_altitude_ft": 0.5002364727264283
+          },
+          {
+            "batch": 7,
+            "latitude_deg": 0.6520444721620575,
+            "longitude_deg": 0.35920784158558866,
+            "altitude_ft": 0.41290314480767276,
+            "initial_mach": 0.5416601143723522,
+            "initial_altitude_ft": 0.4217438013121411
+          },
+          {
+            "batch": 8,
+            "latitude_deg": 0.6893933473197646,
+            "longitude_deg": 0.7548183301425494,
+            "altitude_ft": 0.5702037337910237,
+            "initial_mach": 0.41873690943060016,
+            "initial_altitude_ft": 0.5721668490939922
+          },
+          {
+            "batch": 9,
+            "latitude_deg": 0.5669934600818933,
+            "longitude_deg": 0.5197034635442586,
+            "altitude_ft": 0.9868271116635711,
+            "initial_mach": 0.971634894996576,
+            "initial_altitude_ft": 0.9887018729908303
+          }
+        ],
+        "summaries": {
+          "latitude_deg": {
+            "minimum": 0.3237943888822038,
+            "median": 0.5993242560625383,
+            "maximum": 0.9813551574705699,
+            "mean": 0.6066759497305287,
+            "sample_sd": 0.18234695117332134
+          },
+          "longitude_deg": {
+            "minimum": 0.3242162840260733,
+            "median": 0.5469348433979169,
+            "maximum": 0.8661400457582474,
+            "mean": 0.5534987350260784,
+            "sample_sd": 0.20545197585134378
+          },
+          "altitude_ft": {
+            "minimum": 0.41290314480767276,
+            "median": 0.5821027254824507,
+            "maximum": 0.9868271116635711,
+            "mean": 0.6313778921423432,
+            "sample_sd": 0.1835727173240751
+          },
+          "initial_mach": {
+            "minimum": 0.36391637246993236,
+            "median": 0.6030582526037975,
+            "maximum": 0.971634894996576,
+            "mean": 0.6268266875233729,
+            "sample_sd": 0.18764644236855865
+          },
+          "initial_altitude_ft": {
+            "minimum": 0.33506279050864185,
+            "median": 0.5767587907778012,
+            "maximum": 0.9887018729908303,
+            "mean": 0.5905397245341959,
+            "sample_sd": 0.17514363821362847
+          }
+        }
+      }
+    },
+    "m1941": {
+      "records": [
+        {
+          "batch": 0,
+          "joint_ess": 2.7076699147590486,
+          "joint_maximum_weight": 0.5203257334339848,
+          "measurement_only_ess": 2.2516247965028993,
+          "proposal_only_ess": 1.024513862686557,
+          "support_lost": 0,
+          "compatible_cases": 4,
+          "compatible_proposal_log_range": 10.839343530376544
+        },
+        {
+          "batch": 1,
+          "joint_ess": 1.0213250683254929,
+          "joint_maximum_weight": 0.9894756402284022,
+          "measurement_only_ess": 1.001094627251188,
+          "proposal_only_ess": 2.877300723204852,
+          "support_lost": 0,
+          "compatible_cases": 1,
+          "compatible_proposal_log_range": 0.0
+        },
+        {
+          "batch": 2,
+          "joint_ess": 1.5657206468404723,
+          "joint_maximum_weight": 0.77157458546725,
+          "measurement_only_ess": 1.3527202062906964,
+          "proposal_only_ess": 1.761104695238187,
+          "support_lost": 0,
+          "compatible_cases": 4,
+          "compatible_proposal_log_range": 8.920247624051687
+        },
+        {
+          "batch": 3,
+          "joint_ess": 1.0011772334949576,
+          "joint_maximum_weight": 0.9994118183558317,
+          "measurement_only_ess": 1.0747979065060644,
+          "proposal_only_ess": 2.1260313389439394,
+          "support_lost": 0,
+          "compatible_cases": 3,
+          "compatible_proposal_log_range": 4.256644794687204
+        },
+        {
+          "batch": 4,
+          "joint_ess": 1.1832682485676234,
+          "joint_maximum_weight": 0.917498400371134,
+          "measurement_only_ess": 1.082456798286066,
+          "proposal_only_ess": 2.128458342625006,
+          "support_lost": 0,
+          "compatible_cases": 2,
+          "compatible_proposal_log_range": 4.054328942126332
+        },
+        {
+          "batch": 5,
+          "joint_ess": 1.0281915403725272,
+          "joint_maximum_weight": 0.9861060827759952,
+          "measurement_only_ess": 1.6164283696428037,
+          "proposal_only_ess": 1.1403509777477805,
+          "support_lost": 0,
+          "compatible_cases": 2,
+          "compatible_proposal_log_range": 7.929752518572734
+        },
+        {
+          "batch": 6,
+          "joint_ess": 1.0135248494778402,
+          "joint_maximum_weight": 0.9932876333302596,
+          "measurement_only_ess": 1.002249628915965,
+          "proposal_only_ess": 2.7291412446954117,
+          "support_lost": 0,
+          "compatible_cases": 1,
+          "compatible_proposal_log_range": 0.0
+        },
+        {
+          "batch": 7,
+          "joint_ess": 1.1850827358810878,
+          "joint_maximum_weight": 0.9155624586193044,
+          "measurement_only_ess": 1.29270135127181,
+          "proposal_only_ess": 1.5159002273235083,
+          "support_lost": 0,
+          "compatible_cases": 2,
+          "compatible_proposal_log_range": 0.0872512717565197
+        },
+        {
+          "batch": 8,
+          "joint_ess": 1.1491104263911966,
+          "joint_maximum_weight": 0.9303363761641016,
+          "measurement_only_ess": 1.3290843576147653,
+          "proposal_only_ess": 1.0249716172318852,
+          "support_lost": 0,
+          "compatible_cases": 5,
+          "compatible_proposal_log_range": 3.6042016727676938
+        },
+        {
+          "batch": 9,
+          "joint_ess": 1.174566707595004,
+          "joint_maximum_weight": 0.9211929511555028,
+          "measurement_only_ess": 1.016324041714546,
+          "proposal_only_ess": 2.02033888399774,
+          "support_lost": 0,
+          "compatible_cases": 3,
+          "compatible_proposal_log_range": 12.731250610209525
+        }
+      ],
+      "joint_ess_summary": {
+        "minimum": 1.0011772334949576,
+        "median": 1.1618385669931004,
+        "maximum": 2.7076699147590486,
+        "mean": 1.3029637371705252,
+        "sample_sd": 0.5207142830621786
+      },
+      "joint_maximum_weight_summary": {
+        "minimum": 0.5203257334339848,
+        "median": 0.9257646636598023,
+        "maximum": 0.9994118183558317,
+        "mean": 0.8944771679901766,
+        "sample_sd": 0.14767226472986322
+      },
+      "batches_with_joint_maximum_weight_at_least_0_90": 8,
+      "batches_with_joint_maximum_weight_at_least_0_95": 4,
+      "leave_one_batch_out_weighted_cdf_max_difference": {
+        "records": [
+          {
+            "batch": 0,
+            "latitude_deg": 0.48478087121374885,
+            "longitude_deg": 0.6011252161230134,
+            "altitude_ft": 0.9480267537009672,
+            "initial_mach": 0.7880608805103104,
+            "initial_altitude_ft": 0.3758106014096658
+          },
+          {
+            "batch": 1,
+            "latitude_deg": 0.7603798606217345,
+            "longitude_deg": 0.9935201653869007,
+            "altitude_ft": 0.9676672086555643,
+            "initial_mach": 0.8047997796802224,
+            "initial_altitude_ft": 0.7421258447031187
+          },
+          {
+            "batch": 2,
+            "latitude_deg": 0.7733877906874966,
+            "longitude_deg": 0.774545725942517,
+            "altitude_ft": 0.7729593310747259,
+            "initial_mach": 0.771065759590113,
+            "initial_altitude_ft": 0.7734738605228655
+          },
+          {
+            "batch": 3,
+            "latitude_deg": 0.6658666475186161,
+            "longitude_deg": 0.518761538050328,
+            "altitude_ft": 0.7042394682993385,
+            "initial_mach": 0.9823018789811161,
+            "initial_altitude_ft": 0.9909367677330397
+          },
+          {
+            "batch": 4,
+            "latitude_deg": 0.6829761903346969,
+            "longitude_deg": 0.9332582086143879,
+            "altitude_ft": 0.5526804375756721,
+            "initial_mach": 0.7867606809229803,
+            "initial_altitude_ft": 0.754545612876513
+          },
+          {
+            "batch": 5,
+            "latitude_deg": 0.9652058053279676,
+            "longitude_deg": 0.9994456439895021,
+            "altitude_ft": 0.9749855687044099,
+            "initial_mach": 0.5333806490235078,
+            "initial_altitude_ft": 0.7487561684144209
+          },
+          {
+            "batch": 6,
+            "latitude_deg": 0.9963274330403135,
+            "longitude_deg": 0.7786556119596544,
+            "altitude_ft": 0.9932414861476712,
+            "initial_mach": 0.7025353456581213,
+            "initial_altitude_ft": 0.9755599066382061
+          },
+          {
+            "batch": 7,
+            "latitude_deg": 0.8881067296625371,
+            "longitude_deg": 0.9662629461870684,
+            "altitude_ft": 0.6975315546109652,
+            "initial_mach": 0.7163470917976973,
+            "initial_altitude_ft": 0.5949052234653364
+          },
+          {
+            "batch": 8,
+            "latitude_deg": 0.5788602424270007,
+            "longitude_deg": 0.904740871991078,
+            "altitude_ft": 0.5290277651408055,
+            "initial_mach": 0.9299012616899397,
+            "initial_altitude_ft": 0.6716493048235621
+          },
+          {
+            "batch": 9,
+            "latitude_deg": 0.587940656084572,
+            "longitude_deg": 0.5822060862452155,
+            "altitude_ft": 0.9143561505807778,
+            "initial_mach": 0.7940824163360305,
+            "initial_altitude_ft": 0.6763589645527459
+          }
+        ],
+        "summaries": {
+          "latitude_deg": {
+            "minimum": 0.48478087121374885,
+            "median": 0.7216780254782157,
+            "maximum": 0.9963274330403135,
+            "mean": 0.7383832226918684,
+            "sample_sd": 0.17089089849994335
+          },
+          "longitude_deg": {
+            "minimum": 0.518761538050328,
+            "median": 0.8416982419753662,
+            "maximum": 0.9994456439895021,
+            "mean": 0.8052522014489666,
+            "sample_sd": 0.18272884428381808
+          },
+          "altitude_ft": {
+            "minimum": 0.5290277651408055,
+            "median": 0.8436577408277519,
+            "maximum": 0.9932414861476712,
+            "mean": 0.8054715724490897,
+            "sample_sd": 0.17818790317722707
+          },
+          "initial_mach": {
+            "minimum": 0.5333806490235078,
+            "median": 0.7874107807166454,
+            "maximum": 0.9823018789811161,
+            "mean": 0.7809235744190038,
+            "sample_sd": 0.12259478285271075
+          },
+          "initial_altitude_ft": {
+            "minimum": 0.3758106014096658,
+            "median": 0.7454410065587698,
+            "maximum": 0.9909367677330397,
+            "mean": 0.7304122255139475,
+            "sample_sd": 0.1768113092977141
+          }
+        }
+      }
+    }
+  },
+  "matched_budget_pooling": {
+    "m1839": {
+      "20": {
+        "groups": [
+          {
+            "batches": [
+              0
+            ],
+            "histories": 20,
+            "joint_ess": 2.0798235706146073,
+            "joint_maximum_weight": 0.5297344706684575,
+            "winner": {
+              "batch": 0,
+              "case": 1,
+              "seed": 37200000,
+              "mode": 1
+            }
+          },
+          {
+            "batches": [
+              1
+            ],
+            "histories": 20,
+            "joint_ess": 1.0369086745927083,
+            "joint_maximum_weight": 0.9819496203767911,
+            "winner": {
+              "batch": 1,
+              "case": 19,
+              "seed": 37200007,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              2
+            ],
+            "histories": 20,
+            "joint_ess": 1.6058803133373245,
+            "joint_maximum_weight": 0.781778488581499,
+            "winner": {
+              "batch": 2,
+              "case": 2,
+              "seed": 37200008,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              3
+            ],
+            "histories": 20,
+            "joint_ess": 1.146589343578381,
+            "joint_maximum_weight": 0.9332012961234899,
+            "winner": {
+              "batch": 3,
+              "case": 16,
+              "seed": 37200015,
+              "mode": 1
+            }
+          },
+          {
+            "batches": [
+              4
+            ],
+            "histories": 20,
+            "joint_ess": 2.5987374907573964,
+            "joint_maximum_weight": 0.5436840093134528,
+            "winner": {
+              "batch": 4,
+              "case": 9,
+              "seed": 37200017,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              5
+            ],
+            "histories": 20,
+            "joint_ess": 1.3091074371279423,
+            "joint_maximum_weight": 0.8710029586674429,
+            "winner": {
+              "batch": 5,
+              "case": 15,
+              "seed": 37200023,
+              "mode": 0
+            }
+          },
+          {
+            "batches": [
+              6
+            ],
+            "histories": 20,
+            "joint_ess": 2.5250981082278883,
+            "joint_maximum_weight": 0.5424574508881893,
+            "winner": {
+              "batch": 6,
+              "case": 17,
+              "seed": 37200027,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              7
+            ],
+            "histories": 20,
+            "joint_ess": 2.1461244836280224,
+            "joint_maximum_weight": 0.6456992048129746,
+            "winner": {
+              "batch": 7,
+              "case": 18,
+              "seed": 37200031,
+              "mode": 3
+            }
+          },
+          {
+            "batches": [
+              8
+            ],
+            "histories": 20,
+            "joint_ess": 1.674769319034817,
+            "joint_maximum_weight": 0.7503143566099023,
+            "winner": {
+              "batch": 8,
+              "case": 10,
+              "seed": 37200034,
+              "mode": 0
+            }
+          },
+          {
+            "batches": [
+              9
+            ],
+            "histories": 20,
+            "joint_ess": 1.0575212951196926,
+            "joint_maximum_weight": 0.9722788249933865,
+            "winner": {
+              "batch": 9,
+              "case": 0,
+              "seed": 37200036,
+              "mode": 0
+            }
+          }
+        ],
+        "joint_ess_summary": {
+          "minimum": 1.0369086745927083,
+          "median": 1.6403248161860708,
+          "maximum": 2.5987374907573964,
+          "mean": 1.718056003601878,
+          "sample_sd": 0.5915678995126656
+        },
+        "joint_maximum_weight_summary": {
+          "minimum": 0.5297344706684575,
+          "median": 0.7660464225957007,
+          "maximum": 0.9819496203767911,
+          "mean": 0.7552100681035586,
+          "sample_sd": 0.1817162664382444
+        }
+      },
+      "40": {
+        "groups": [
+          {
+            "batches": [
+              0,
+              1
+            ],
+            "histories": 40,
+            "joint_ess": 2.7088264578184544,
+            "joint_maximum_weight": 0.5062263240453496,
+            "winner": {
+              "batch": 1,
+              "case": 19,
+              "seed": 37200007,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              2,
+              3
+            ],
+            "histories": 40,
+            "joint_ess": 1.2714820084226424,
+            "joint_maximum_weight": 0.8852581010808381,
+            "winner": {
+              "batch": 3,
+              "case": 16,
+              "seed": 37200015,
+              "mode": 1
+            }
+          },
+          {
+            "batches": [
+              4,
+              5
+            ],
+            "histories": 40,
+            "joint_ess": 1.7758081236838816,
+            "joint_maximum_weight": 0.7422354395378916,
+            "winner": {
+              "batch": 5,
+              "case": 15,
+              "seed": 37200023,
+              "mode": 0
+            }
+          },
+          {
+            "batches": [
+              6,
+              7
+            ],
+            "histories": 40,
+            "joint_ess": 2.9000047355437846,
+            "joint_maximum_weight": 0.5045036024389489,
+            "winner": {
+              "batch": 6,
+              "case": 17,
+              "seed": 37200027,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              8,
+              9
+            ],
+            "histories": 40,
+            "joint_ess": 2.06657731099735,
+            "joint_maximum_weight": 0.6451005554494401,
+            "winner": {
+              "batch": 9,
+              "case": 0,
+              "seed": 37200036,
+              "mode": 0
+            }
+          }
+        ],
+        "joint_ess_summary": {
+          "minimum": 1.2714820084226424,
+          "median": 2.06657731099735,
+          "maximum": 2.9000047355437846,
+          "mean": 2.1445397272932225,
+          "sample_sd": 0.6695927507209859
+        },
+        "joint_maximum_weight_summary": {
+          "minimum": 0.5045036024389489,
+          "median": 0.6451005554494401,
+          "maximum": 0.8852581010808381,
+          "mean": 0.6566648045104937,
+          "sample_sd": 0.1624005299350611
+        }
+      },
+      "100": {
+        "groups": [
+          {
+            "batches": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "histories": 100,
+            "joint_ess": 4.176271333087768,
+            "joint_maximum_weight": 0.37309453959570216,
+            "winner": {
+              "batch": 1,
+              "case": 19,
+              "seed": 37200007,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            "histories": 100,
+            "joint_ess": 5.92872056868455,
+            "joint_maximum_weight": 0.25835528203826186,
+            "winner": {
+              "batch": 6,
+              "case": 17,
+              "seed": 37200027,
+              "mode": 2
+            }
+          }
+        ],
+        "joint_ess_summary": {
+          "minimum": 4.176271333087768,
+          "median": 5.0524959508861595,
+          "maximum": 5.92872056868455,
+          "mean": 5.0524959508861595,
+          "sample_sd": 1.2391687381756664
+        },
+        "joint_maximum_weight_summary": {
+          "minimum": 0.25835528203826186,
+          "median": 0.315724910816982,
+          "maximum": 0.37309453959570216,
+          "mean": 0.315724910816982,
+          "sample_sd": 0.08113290708717585
+        }
+      },
+      "200": {
+        "groups": [
+          {
+            "batches": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            "histories": 200,
+            "joint_ess": 9.685596719784682,
+            "joint_maximum_weight": 0.17805325531319224,
+            "winner": {
+              "batch": 6,
+              "case": 17,
+              "seed": 37200027,
+              "mode": 2
+            }
+          }
+        ],
+        "joint_ess_summary": 9.685596719784682,
+        "joint_maximum_weight_summary": 0.17805325531319224
+      }
+    },
+    "m1941": {
+      "20": {
+        "groups": [
+          {
+            "batches": [
+              0
+            ],
+            "histories": 20,
+            "joint_ess": 2.7076699147590486,
+            "joint_maximum_weight": 0.5203257334339848,
+            "winner": {
+              "batch": 0,
+              "case": 1,
+              "seed": 37200000,
+              "mode": 1
+            }
+          },
+          {
+            "batches": [
+              1
+            ],
+            "histories": 20,
+            "joint_ess": 1.0213250683254929,
+            "joint_maximum_weight": 0.9894756402284022,
+            "winner": {
+              "batch": 1,
+              "case": 19,
+              "seed": 37200007,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              2
+            ],
+            "histories": 20,
+            "joint_ess": 1.5657206468404723,
+            "joint_maximum_weight": 0.77157458546725,
+            "winner": {
+              "batch": 2,
+              "case": 12,
+              "seed": 37200010,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              3
+            ],
+            "histories": 20,
+            "joint_ess": 1.0011772334949576,
+            "joint_maximum_weight": 0.9994118183558317,
+            "winner": {
+              "batch": 3,
+              "case": 2,
+              "seed": 37200012,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              4
+            ],
+            "histories": 20,
+            "joint_ess": 1.1832682485676234,
+            "joint_maximum_weight": 0.917498400371134,
+            "winner": {
+              "batch": 4,
+              "case": 9,
+              "seed": 37200017,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              5
+            ],
+            "histories": 20,
+            "joint_ess": 1.0281915403725272,
+            "joint_maximum_weight": 0.9861060827759952,
+            "winner": {
+              "batch": 5,
+              "case": 9,
+              "seed": 37200021,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              6
+            ],
+            "histories": 20,
+            "joint_ess": 1.0135248494778402,
+            "joint_maximum_weight": 0.9932876333302596,
+            "winner": {
+              "batch": 6,
+              "case": 16,
+              "seed": 37200027,
+              "mode": 1
+            }
+          },
+          {
+            "batches": [
+              7
+            ],
+            "histories": 20,
+            "joint_ess": 1.1850827358810878,
+            "joint_maximum_weight": 0.9155624586193044,
+            "winner": {
+              "batch": 7,
+              "case": 17,
+              "seed": 37200031,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              8
+            ],
+            "histories": 20,
+            "joint_ess": 1.1491104263911966,
+            "joint_maximum_weight": 0.9303363761641016,
+            "winner": {
+              "batch": 8,
+              "case": 11,
+              "seed": 37200034,
+              "mode": 1
+            }
+          },
+          {
+            "batches": [
+              9
+            ],
+            "histories": 20,
+            "joint_ess": 1.174566707595004,
+            "joint_maximum_weight": 0.9211929511555028,
+            "winner": {
+              "batch": 9,
+              "case": 8,
+              "seed": 37200037,
+              "mode": 3
+            }
+          }
+        ],
+        "joint_ess_summary": {
+          "minimum": 1.0011772334949576,
+          "median": 1.1618385669931004,
+          "maximum": 2.7076699147590486,
+          "mean": 1.3029637371705252,
+          "sample_sd": 0.5207142830621786
+        },
+        "joint_maximum_weight_summary": {
+          "minimum": 0.5203257334339848,
+          "median": 0.9257646636598023,
+          "maximum": 0.9994118183558317,
+          "mean": 0.8944771679901766,
+          "sample_sd": 0.14767226472986322
+        }
+      },
+      "40": {
+        "groups": [
+          {
+            "batches": [
+              0,
+              1
+            ],
+            "histories": 40,
+            "joint_ess": 3.002900497931342,
+            "joint_maximum_weight": 0.49191602779798044,
+            "winner": {
+              "batch": 0,
+              "case": 1,
+              "seed": 37200000,
+              "mode": 1
+            }
+          },
+          {
+            "batches": [
+              2,
+              3
+            ],
+            "histories": 40,
+            "joint_ess": 1.0244783715276544,
+            "joint_maximum_weight": 0.9879383393630954,
+            "winner": {
+              "batch": 3,
+              "case": 2,
+              "seed": 37200012,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              4,
+              5
+            ],
+            "histories": 40,
+            "joint_ess": 2.0752128659389943,
+            "joint_maximum_weight": 0.6081750880876859,
+            "winner": {
+              "batch": 4,
+              "case": 9,
+              "seed": 37200017,
+              "mode": 4
+            }
+          },
+          {
+            "batches": [
+              6,
+              7
+            ],
+            "histories": 40,
+            "joint_ess": 2.148997075037346,
+            "joint_maximum_weight": 0.5628447068722933,
+            "winner": {
+              "batch": 7,
+              "case": 17,
+              "seed": 37200031,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              8,
+              9
+            ],
+            "histories": 40,
+            "joint_ess": 1.164429595865784,
+            "joint_maximum_weight": 0.9241763040361615,
+            "winner": {
+              "batch": 8,
+              "case": 11,
+              "seed": 37200034,
+              "mode": 1
+            }
+          }
+        ],
+        "joint_ess_summary": {
+          "minimum": 1.0244783715276544,
+          "median": 2.0752128659389943,
+          "maximum": 3.002900497931342,
+          "mean": 1.883203681260224,
+          "sample_sd": 0.8085913615433188
+        },
+        "joint_maximum_weight_summary": {
+          "minimum": 0.49191602779798044,
+          "median": 0.6081750880876859,
+          "maximum": 0.9879383393630954,
+          "mean": 0.7150100932314433,
+          "sample_sd": 0.22504406037509062
+        }
+      },
+      "100": {
+        "groups": [
+          {
+            "batches": [
+              0,
+              1,
+              2,
+              3,
+              4
+            ],
+            "histories": 100,
+            "joint_ess": 1.2918363990891382,
+            "joint_maximum_weight": 0.8779593394582378,
+            "winner": {
+              "batch": 3,
+              "case": 2,
+              "seed": 37200012,
+              "mode": 2
+            }
+          },
+          {
+            "batches": [
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            "histories": 100,
+            "joint_ess": 3.077736679735062,
+            "joint_maximum_weight": 0.44098313064119876,
+            "winner": {
+              "batch": 7,
+              "case": 17,
+              "seed": 37200031,
+              "mode": 2
+            }
+          }
+        ],
+        "joint_ess_summary": {
+          "minimum": 1.2918363990891382,
+          "median": 2.1847865394120998,
+          "maximum": 3.077736679735062,
+          "mean": 2.1847865394120998,
+          "sample_sd": 1.2628221989676909
+        },
+        "joint_maximum_weight_summary": {
+          "minimum": 0.44098313064119876,
+          "median": 0.6594712350497183,
+          "maximum": 0.8779593394582378,
+          "mean": 0.6594712350497183,
+          "sample_sd": 0.3089888404717171
+        }
+      },
+      "200": {
+        "groups": [
+          {
+            "batches": [
+              0,
+              1,
+              2,
+              3,
+              4,
+              5,
+              6,
+              7,
+              8,
+              9
+            ],
+            "histories": 200,
+            "joint_ess": 4.305088426043769,
+            "joint_maximum_weight": 0.33523787497005064,
+            "winner": {
+              "batch": 7,
+              "case": 17,
+              "seed": 37200031,
+              "mode": 2
+            }
+          }
+        ],
+        "joint_ess_summary": 4.305088426043769,
+        "joint_maximum_weight_summary": 0.33523787497005064
+      }
+    }
+  },
+  "factor_rows": {
+    "path": "/workspace/scratch/c386ceede7a0/rerun/candidate-20260919T0837/results/extended-physical-factor-rows.csv",
+    "bytes": 121653,
+    "sha256": "583f67e30716a1258e7f7af971d1c5aba2b0109ee4ca4a27f5ef856f77b253ce"
+  },
+  "limitations": [
+    "The seed grid is declared rather than randomly sampled and is crossed with all five modes.",
+    "The ESS values characterize importance-weight overlap within this diagnostic, not the archived posterior population.",
+    "No bridge, population resampling, calibrated probability, or hydroacoustic evidence is introduced."
+  ]
+}

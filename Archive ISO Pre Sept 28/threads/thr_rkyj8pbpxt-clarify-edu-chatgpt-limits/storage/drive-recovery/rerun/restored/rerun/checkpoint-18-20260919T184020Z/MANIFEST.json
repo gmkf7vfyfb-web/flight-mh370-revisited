@@ -1,0 +1,1069 @@
+{
+  "schema_version": 1,
+  "checkpoint": 18,
+  "created_utc": "2026-09-19T18:42:10.587937+00:00",
+  "file_count": 212,
+  "total_uncompressed_bytes": 6792624,
+  "files": [
+    {
+      "path": "MH370-Rerun-START-HERE-18.md",
+      "bytes": 1749,
+      "sha256": "97ead68aaaa317df7fe1241c646da286a676c62476a5cfb821e4a92335afad90"
+    },
+    {
+      "path": "continuation/checkpoint-18-continuation.json",
+      "bytes": 3613,
+      "sha256": "f59d344a93c2ec51c72cdb969918b07be8bf5e0e987a9c07c55811f0e13cd6ae"
+    },
+    {
+      "path": "experiment/affected-full-test.log",
+      "bytes": 16114,
+      "sha256": "5c85711571a4d3d66e3b51f9b17583c4bb8c0d509e7b71997656a954df054be0"
+    },
+    {
+      "path": "experiment/bridge-source-first-test.log",
+      "bytes": 2813,
+      "sha256": "11405d3d2d43790c4b797e03b1ec57431678b19f56ba358c0942b1dfaa819ad1"
+    },
+    {
+      "path": "experiment/bridge-source-validation.json",
+      "bytes": 616,
+      "sha256": "b1ae9a49ff9dd98211f40bac63bd0ef243a8847f8f187a90c046ca42d623831a"
+    },
+    {
+      "path": "experiment/python-tests.log",
+      "bytes": 772,
+      "sha256": "8261369fc1de6a202e07980a905d90d21f33b872e037345964d096dcc768011c"
+    },
+    {
+      "path": "experiment/source-diff.patch",
+      "bytes": 16058,
+      "sha256": "5c9632be6665f0363a6bb7a1834670628bbab294593cfe1c5f6e3131848f76b4"
+    },
+    {
+      "path": "experiment/test_bridge_source.py",
+      "bytes": 1799,
+      "sha256": "a7fe927c8817f653102d4fe76eac0722ed1af154c56e1560fa047b715ea3f455"
+    },
+    {
+      "path": "experiment/validate_bridge_source.py",
+      "bytes": 1730,
+      "sha256": "2d3334eac690ea967f53d74e5cb621c0450682d7bd2fe176c0b1b392898a140e"
+    },
+    {
+      "path": "findings/MH370-Rerun-findings-18-20260919.md",
+      "bytes": 4820,
+      "sha256": "0d5aa13d3537c469c725ce21e11dd1a41fe2e959aa9272e2fb35c4d3dff34ddc"
+    },
+    {
+      "path": "source/Cargo.lock",
+      "bytes": 25491,
+      "sha256": "d9dcf147e5fa3a4ee9a42924c37cd425d18b8237f47176c999dd095b0beb59a3"
+    },
+    {
+      "path": "source/Cargo.toml",
+      "bytes": 943,
+      "sha256": "d8664cd53fad196f0e96b3239f4db4a0c7f4e3c313ada1c072dd547249a386b4"
+    },
+    {
+      "path": "source/README.md",
+      "bytes": 14725,
+      "sha256": "7d37063b53470ccb51dd31ec02e950f69fc7618e9755c3daebaa650075263476"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150001.json",
+      "bytes": 4655,
+      "sha256": "b23c120e9d39f635854a5fde33ea07f2ad639470911f2bca2b65cb221cb5e058"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150002.json",
+      "bytes": 4655,
+      "sha256": "f64942fa7e7caa37a1c553c71b317bfd33959e9374e8c323553660fc64622c1c"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150003.json",
+      "bytes": 4655,
+      "sha256": "927f64ae1e5de68f14d96e56e02928b7a49dae410bd295f4b1510864758749df"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150004.json",
+      "bytes": 4655,
+      "sha256": "9c9a8b0f3d8f5912c82d0eb058df0d2d68e95dd99c9fe382f1e156bad8ff5d10"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150005.json",
+      "bytes": 4655,
+      "sha256": "1168ebec73d764a355a5592601e28d643d23813ddccea13a7096c047d048ef1e"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150006.json",
+      "bytes": 4655,
+      "sha256": "62f13f75eeb4982a13c4bc9fe4c33944943a8566b6876e7b176ab27adb0db004"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150007.json",
+      "bytes": 4655,
+      "sha256": "09beff5fd473f726b139019f8942290a4465ecf7591c8077bcde0b27f70b1b1c"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots100-seed-37150008.json",
+      "bytes": 4655,
+      "sha256": "fedc7f4731131777603b6039914b0b897ef23279fed77aae11de5e3e568d5d95"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150001.json",
+      "bytes": 4655,
+      "sha256": "092e3341e8c13d6f66a7337f69c463bca3441b139ff78b09ddfdbb6924fbd997"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150002.json",
+      "bytes": 4655,
+      "sha256": "d2a9ed46ea11ef8af9721c44af9896269ec46a81f1bfc793d6f8d20ab33e27e1"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150003.json",
+      "bytes": 4655,
+      "sha256": "26b8707674e8ac2520af076466f5b0781792e9b415af9dc3f9e9a42c472e8c32"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150004.json",
+      "bytes": 4655,
+      "sha256": "16b9090d853249e74a9641cb680752ba2b34c8ce6790a2dd1ad3fac80f651b16"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150005.json",
+      "bytes": 4655,
+      "sha256": "92f7c3044529d32b3eef144de9d3c3bd6c171d2fb26849407b7ff13642ea5f28"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150006.json",
+      "bytes": 4655,
+      "sha256": "5088982e8f1b69489e01c4ecb8d4f3f4c86e50889f31396c611a6479d4ece9a3"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150007.json",
+      "bytes": 4655,
+      "sha256": "56ffbe1393288674672dddcdd19886870aaeab610e965c5e42bda0133e5f6038"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots140-seed-37150008.json",
+      "bytes": 4655,
+      "sha256": "6de0aed4ea83618c4925f94cf39db2517ecc4d308fdc62ae8f0da2ac0a304dfe"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150001.json",
+      "bytes": 4655,
+      "sha256": "86e4bad1b887173bb94aef382e953c59f9cc628959377f0b26971536d56ea093"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150002.json",
+      "bytes": 4655,
+      "sha256": "e440ca9da4f75bceda7eae24efcb6f8af5f8e07274ac47494b67cbb232b6b71c"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150003.json",
+      "bytes": 4655,
+      "sha256": "316cdd17529f01d2fb54c6c8e46980bbaf07fe647119a1d745ccd6269a983e89"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150004.json",
+      "bytes": 4655,
+      "sha256": "d05b3d9c6269d6f8af0ec56668318a6588f9abcb37b3f05634eb780bda25f79b"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150005.json",
+      "bytes": 4655,
+      "sha256": "2d0a81c3e52ba508ef5771db84e2235c698f7f5fd6ff1a06682c4102f6c86b93"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150006.json",
+      "bytes": 4655,
+      "sha256": "455479b014ce2236cee0d8ecafc77c29b1488cc744143e8f858daeb0c9fffdc9"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150007.json",
+      "bytes": 4655,
+      "sha256": "f1046ac9f4039231b4ecdc3bc4f8dc21384bf5e318ae20e83a29965aee1b59f5"
+    },
+    {
+      "path": "source/configs/checkpoint15-k1-roots400-seed-37150008.json",
+      "bytes": 4655,
+      "sha256": "feb01fea05de5b340943be1b2573b79e4ac99edfefc4b2993676931681592b0c"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150001.json",
+      "bytes": 4809,
+      "sha256": "1ac924818cf8ee13f6341af3793dee938dcf1cc3daa6c8451769700b027527f6"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150002.json",
+      "bytes": 4809,
+      "sha256": "5d7bec95a33f431f7d3eda3926810bbbcf08e2bf7ef3f406a3b439129a6e23a5"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150003.json",
+      "bytes": 4809,
+      "sha256": "7031c4a33fc5fc10ac878b9e13416d4897817f9a7824d0adc5ce40fa9cf141a8"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150004.json",
+      "bytes": 4809,
+      "sha256": "2fe649e330e612f98d1f7374af47c743ff92365386c327c5058ba5a35e0108ab"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150005.json",
+      "bytes": 4809,
+      "sha256": "f6cc0422e2244fd22e8f0c7f115d00b45c4a6f3c673fadfccac63bc08cdbff8a"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150006.json",
+      "bytes": 4809,
+      "sha256": "b0015aa433d30785294ae4698304da7a02da6b400716bb1eac22f18525e10338"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150007.json",
+      "bytes": 4809,
+      "sha256": "959b87d6b8c6b57640471c7ad59a2226e4f92206aed15bfb9e2bd8e77a26313f"
+    },
+    {
+      "path": "source/configs/checkpoint15-k4-roots100-seed-37150008.json",
+      "bytes": 4809,
+      "sha256": "50d2839fb72404d3c5f1fba716ae1ff6e85f6f905b416075c3d1e8fa429ac666"
+    },
+    {
+      "path": "source/configs/mh370-cruise-through-0011-k1-equality-baseline.json",
+      "bytes": 4653,
+      "sha256": "93e5219fd178b30dbef93cbdc436b84b71a0a09f0efce3e83229b1c456fde600"
+    },
+    {
+      "path": "source/configs/mh370-cruise-through-0011-k1-equality-candidate.json",
+      "bytes": 4811,
+      "sha256": "8945ea90af13c4dd5b46dc27a6ffb8305b5161dcd4c63cc7b5f647ccfa1d909c"
+    },
+    {
+      "path": "source/configs/mh370-cruise-through-0011-k4-physical-control.json",
+      "bytes": 4804,
+      "sha256": "32ea5dcd8c38bbfc8374504891e05f2e0de0f538efb5351ebd246b88909c1758"
+    },
+    {
+      "path": "source/configs/mh370-cruise-through-0011-retained-parent-k1.json",
+      "bytes": 4825,
+      "sha256": "c84bbc63cb3c731269c15fd7a498ea7a483d48698cc91d8f9999be79a5ade4a4"
+    },
+    {
+      "path": "source/configs/mh370-cruise-through-0011-retained-parent-k4.json",
+      "bytes": 4820,
+      "sha256": "500f7dcc8ce30df4df470f6e8f92c671b36e9fd9890e80277285a34d8b730625"
+    },
+    {
+      "path": "source/configs/mh370-cruise-through-0011.json",
+      "bytes": 4667,
+      "sha256": "c2667af2e733cd735f3a0560c4991c75f185f8733904dda260cf639dc6842647"
+    },
+    {
+      "path": "source/crates/antenna/Cargo.toml",
+      "bytes": 242,
+      "sha256": "125c528fb3f4dd8a001c65624253e4897c91778e69af541f4a1f8079e16825b8"
+    },
+    {
+      "path": "source/crates/antenna/src/directional.rs",
+      "bytes": 19485,
+      "sha256": "6139b643e82e41a2a8c35ecc7606351f2c871cca031619a18c9cdaf688f8d240"
+    },
+    {
+      "path": "source/crates/antenna/src/lib.rs",
+      "bytes": 11161,
+      "sha256": "71aee85d8167da91e92f5b1a8097552874fe6133921c9dc3ccf415bc50282d84"
+    },
+    {
+      "path": "source/crates/controls/Cargo.toml",
+      "bytes": 570,
+      "sha256": "a654fc6e7ccddb7c6d9b30f4353e1821843fda866608465dbc2552291929c1c5"
+    },
+    {
+      "path": "source/crates/controls/flight_assumptions.py",
+      "bytes": 31310,
+      "sha256": "b293289efae892e47f124e2bbabed95f0c4466c01c137326b4e35c4946d519a6"
+    },
+    {
+      "path": "source/crates/controls/flight_evidence.py",
+      "bytes": 33994,
+      "sha256": "ab9899fb81e3c7ae31f1c1ef151d2b95381881d4e0a691955e5aeadbb8d109da"
+    },
+    {
+      "path": "source/crates/controls/src/config.rs",
+      "bytes": 5392,
+      "sha256": "fde586c83c63cc0b6562fc564562b5d908a9110ef72fe4e9aa4dedd4f715be55"
+    },
+    {
+      "path": "source/crates/controls/src/cruise.rs",
+      "bytes": 6763,
+      "sha256": "1e9c3b87572aec4baa0d9ab8671bef7a2d6b0422a16ccc2d6bfceeac27a9326c"
+    },
+    {
+      "path": "source/crates/controls/src/final_bfo.rs",
+      "bytes": 18184,
+      "sha256": "f916e30c65e3583b0cf12138a12a62799401ffd0f0296469e6ef0a485b18ad22"
+    },
+    {
+      "path": "source/crates/controls/src/known_flight.rs",
+      "bytes": 31927,
+      "sha256": "77355ae366b1fe7c6a1644db55fe451709e899cc4cc759ec789405c69a471719"
+    },
+    {
+      "path": "source/crates/controls/src/known_flight_antenna.rs",
+      "bytes": 5293,
+      "sha256": "7c554595d42525836d439f97fbf30ad7608745908f583fee9bd9f39081424ff7"
+    },
+    {
+      "path": "source/crates/controls/src/known_flight_score.rs",
+      "bytes": 31219,
+      "sha256": "a916d7ea75619c161fffc6303a3c2552e73681b97eb305c6953c859454c0f56d"
+    },
+    {
+      "path": "source/crates/controls/src/lib.rs",
+      "bytes": 1693,
+      "sha256": "a1b8c3b38c2539244343031e5311a3fbbef8397605ba00ec40708c5dfc19bbeb"
+    },
+    {
+      "path": "source/crates/controls/src/metrics.rs",
+      "bytes": 6247,
+      "sha256": "b46eebcff54c3dc366fb04ead74bd63e6198a73edb3b4c4cc06fb96ebc65a588"
+    },
+    {
+      "path": "source/crates/controls/src/synthetic.rs",
+      "bytes": 13539,
+      "sha256": "b64d77e9395a042ad2f757c25f339e304a5ce7366c079c7099a0eefb328ca7cc"
+    },
+    {
+      "path": "source/crates/controls/tests/forward_model.rs",
+      "bytes": 5161,
+      "sha256": "3d7609ed5512254ffe8a487cadda6d7b417d355838369ccc9490061c0486a004"
+    },
+    {
+      "path": "source/crates/controls/verify_cruise_generator.py",
+      "bytes": 4364,
+      "sha256": "903efa66611320d603405813eeb0c12f0c699014ea048c6fa278bc504e6691d9"
+    },
+    {
+      "path": "source/crates/domain/Cargo.toml",
+      "bytes": 247,
+      "sha256": "6d5fd9e42fa27bf339d5216fab8d98c0eeb69a7507fec950204dd38bb1994fcf"
+    },
+    {
+      "path": "source/crates/domain/src/geodesy.rs",
+      "bytes": 11306,
+      "sha256": "535af2a7583304873f72d20c0d712a3325f038132ff66363b71d2f44eea6e4fe"
+    },
+    {
+      "path": "source/crates/domain/src/impact.rs",
+      "bytes": 320,
+      "sha256": "0092bf4b1a575add6aa725ec9d5cf95dfc1c9d0d26369541261f09403c407385"
+    },
+    {
+      "path": "source/crates/domain/src/lib.rs",
+      "bytes": 841,
+      "sha256": "d8c837672801ffa9d1755202ee43f6c3da0f633250f97f87150ff30c8ae47271"
+    },
+    {
+      "path": "source/crates/domain/src/observation.rs",
+      "bytes": 1707,
+      "sha256": "604428b067b884b453b599a132a0c5cf0ff658448d33bdfc3097a93c0c5644c4"
+    },
+    {
+      "path": "source/crates/domain/src/state.rs",
+      "bytes": 1892,
+      "sha256": "87f90db2729a581fa1acb7ee959e9cfd2b679ba068c4725a4fd141680f936a2c"
+    },
+    {
+      "path": "source/crates/domain/src/units.rs",
+      "bytes": 3498,
+      "sha256": "1a906635061227cd81d30b7e0bcd9554871debd187af100ab8273b27794da276"
+    },
+    {
+      "path": "source/crates/domain/src/vector.rs",
+      "bytes": 1480,
+      "sha256": "d2a89ecf67030a9a7e611aade7e6b5106627ba00687f7d4355e1e793c00c0ff1"
+    },
+    {
+      "path": "source/crates/dynamics/Cargo.toml",
+      "bytes": 416,
+      "sha256": "87969c570100df0cd8242bbd32704876d0bd54eeb677c0d42801874a4b75dafe"
+    },
+    {
+      "path": "source/crates/dynamics/src/environment.rs",
+      "bytes": 21062,
+      "sha256": "f9d0114d074a7c7f32103257edfe82d9d381c590d96a13dc6ae024aada08c381"
+    },
+    {
+      "path": "source/crates/dynamics/src/lib.rs",
+      "bytes": 8695,
+      "sha256": "3ca078db24a1ea5e3180008e1f9dc68da750b8c87c265d303228f6fc097aee90"
+    },
+    {
+      "path": "source/crates/dynamics/src/one_turn.rs",
+      "bytes": 47380,
+      "sha256": "27f289366b2695a399e64e14e0716dc570906f010935b4d6303ec21b5146f8ef"
+    },
+    {
+      "path": "source/crates/dynamics/src/powered_flight.rs",
+      "bytes": 179447,
+      "sha256": "b3449e911ce34a020a180c25f538d2907c082e38223ac76cb2c1d96281e56235"
+    },
+    {
+      "path": "source/crates/dynamics/src/stochastic_cruise.rs",
+      "bytes": 64494,
+      "sha256": "aa7cc1f88843729b5ff82d4b19954ccb8fdf5147a816e8fc0f58b97386faa4c6"
+    },
+    {
+      "path": "source/crates/dynamics/src/three_dof.rs",
+      "bytes": 19940,
+      "sha256": "90e81bf6596c465f2f0b585502d96b02bdb656c80faae9ace1b8bc8431584e75"
+    },
+    {
+      "path": "source/crates/dynamics/src/waypoint.rs",
+      "bytes": 12230,
+      "sha256": "e1dd273d953f38cfad1aefbc8285cc9ae9961cb79c28e9d51ebc02c58fde73b6"
+    },
+    {
+      "path": "source/crates/end-of-flight/Cargo.toml",
+      "bytes": 327,
+      "sha256": "91226f385d770f88c4ee710a880e4a9663555cbe0a2e934a1dc550616a537998"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/aerodynamic_approximations.rs",
+      "bytes": 2770,
+      "sha256": "afd2407b11723d04465f195320b5781ffc9d6be8cf9f65a710f956d920528f16"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/bridge_boundary.rs",
+      "bytes": 19432,
+      "sha256": "441e20d94f1d555f4d3583d3bbddc6c4e52631af245307b8b8515b812105f782"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/control_prior.rs",
+      "bytes": 21667,
+      "sha256": "86b3c27ce04792d4fbb486f50cd67f3716a2f6419273ed8f98bdcb86f7e8b6f7"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/exhaustion_boundary.rs",
+      "bytes": 20918,
+      "sha256": "1ce3e986af3021699eaadf5b005413a438dd18c8713babeae83510b5604795f5"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/frozen_powered_fuel_projection.rs",
+      "bytes": 19524,
+      "sha256": "c84dcbd4a76cbdbcd35913f21906296c73a061c1858ba63edd6c30107df16cce"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/fuel_allocation.rs",
+      "bytes": 21050,
+      "sha256": "f4ee45cac8a54e4caaa52d72ffd86670748fc3dd35a0d769e243f32141eaa891"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/fuel_consistency.rs",
+      "bytes": 22132,
+      "sha256": "023dee83323454049a12c496280dc320a1f636170dcee82a02f695d1a15a352f"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/fuel_performance.rs",
+      "bytes": 8399,
+      "sha256": "c6013273af3ae3c64f754ed7413066d29f55296cec96b1007ec2782e65aedef6"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/kernel.rs",
+      "bytes": 153733,
+      "sha256": "66d295f94e5965acedb17406cac80dd9ee99b51a6f06d26efa9537d219e47c2d"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/lib.rs",
+      "bytes": 6630,
+      "sha256": "4fb955a5e5ac06277549537f6d31b570ae421661371dc91c0b45c46c9c3d40a3"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/powered_drag_allowance.rs",
+      "bytes": 12813,
+      "sha256": "498e8ea3e79d438b31b51186522ae4c89bd5e6db1a416c06d8415cfb3f066faa"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/powered_fuel.rs",
+      "bytes": 36947,
+      "sha256": "384f4ffd37e2602aaa4bd3e8f128270a6f725c58b1143e58f6e395de7fa55315"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/powered_segment_feasibility.rs",
+      "bytes": 17788,
+      "sha256": "4bfa264a04a8a288c8179c2420df32d1f3a391324790073ec49a76e2df29451d"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/powered_thrust.rs",
+      "bytes": 15438,
+      "sha256": "c09ac64c5709cb86153650b3bee4b1e6331d7c85e69b4bfaec82259f048aeb6e"
+    },
+    {
+      "path": "source/crates/end-of-flight/src/systems_timing.rs",
+      "bytes": 14289,
+      "sha256": "b858103833db66d5ad6c4967b18bb66f16137ce8a8bc1a46dba050ff6c826979"
+    },
+    {
+      "path": "source/crates/estimator/Cargo.toml",
+      "bytes": 559,
+      "sha256": "e3c5bdbdfd00f01f62f0b77490e06114e1cfae37e3655db27c8ee2df01c7776e"
+    },
+    {
+      "path": "source/crates/estimator/src/bridge_source.rs",
+      "bytes": 14342,
+      "sha256": "9bbd7e1eb4cdc4c9bcd30bf083d50a4e64f94212ddfbc6367f807f7f8db1fc5e"
+    },
+    {
+      "path": "source/crates/estimator/src/broad_flight.rs",
+      "bytes": 285721,
+      "sha256": "8f87e0b543ba1f493985437daa9aa58c2d1c07b70000352c0a666398d0df44c5"
+    },
+    {
+      "path": "source/crates/estimator/src/broad_handoff.rs",
+      "bytes": 78904,
+      "sha256": "673dcfd3358aa31ecf41b7b7fa83ac61f5470af3583ab1b9a43ed2da16e32b6c"
+    },
+    {
+      "path": "source/crates/estimator/src/cruise_filter.rs",
+      "bytes": 51424,
+      "sha256": "d4ea29b9000f031d65d0de5a5ca62c8369a4f9f5fdec2d7ac711490160b63cc5"
+    },
+    {
+      "path": "source/crates/estimator/src/final_flight.rs",
+      "bytes": 22044,
+      "sha256": "e344c3b2a5a2bdd22cc683404e008a7def35bbcfe455ff733d040b25591fb5c2"
+    },
+    {
+      "path": "source/crates/estimator/src/lib.rs",
+      "bytes": 11106,
+      "sha256": "839deec022faa694109eb9f9bf991b0e219f0381204a21bc18e84564fcc31688"
+    },
+    {
+      "path": "source/crates/estimator/src/posterior_handoff.rs",
+      "bytes": 24726,
+      "sha256": "36285a64e5fda5a083d5293c5ef48ba6a6a32c8f0039dc569d5c6e385fddcd95"
+    },
+    {
+      "path": "source/crates/hydroacoustics/Cargo.toml",
+      "bytes": 249,
+      "sha256": "c23e841db3790d0561ac75386e24b2ed9d78c78c027736935a3b78e883d44e32"
+    },
+    {
+      "path": "source/crates/hydroacoustics/src/diagnostic.rs",
+      "bytes": 20930,
+      "sha256": "09ba945e04e863435e5e784b71955e01c25222b84fa920efd97266838abfc935"
+    },
+    {
+      "path": "source/crates/hydroacoustics/src/lib.rs",
+      "bytes": 25788,
+      "sha256": "1cd99d047b51a0a9f6277af86ff6885bcc9d721cbaef23a984309f2bb68bff72"
+    },
+    {
+      "path": "source/crates/hydroacoustics/src/raw_triad.rs",
+      "bytes": 5932,
+      "sha256": "700f70cd6a8ae80eaf0167160ea2fcaf91e704e767d4d2a2db70a74474c9f537"
+    },
+    {
+      "path": "source/crates/ocean-drift/Cargo.toml",
+      "bytes": 461,
+      "sha256": "6993c7e749542efd1060e18affe62b617596180d3796398dfa515ae461b874b4"
+    },
+    {
+      "path": "source/crates/ocean-drift/examples/validate_current_trajectories.rs",
+      "bytes": 22678,
+      "sha256": "6dfe00216372f61451b3546ac7320390c476654046060edc3ce5f41b79509f5e"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/field.rs",
+      "bytes": 24955,
+      "sha256": "919f84200c6bfea5f41e3f0e0d2b04106e2d195af1082fc7550b6b2f03b667e0"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/isotope.rs",
+      "bytes": 24001,
+      "sha256": "14bd7fd6aeccba14ecc3aaf72472c8fd0c83e35c0f0f365ff52587c2b1765ba9"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/lib.rs",
+      "bytes": 1733,
+      "sha256": "2b7fafb543cd645ef2a8d94a7474cb80dbc82d90894138f52fe4cab4f39f0938"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/likelihood_surface.rs",
+      "bytes": 2510,
+      "sha256": "3ae6e72813b1fe1c49b6a9ef2dce4c4737b88d2b628e3bf2cd97aaf533c2cc84"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/observations.rs",
+      "bytes": 20692,
+      "sha256": "866f8f18e23796ea807b106f5001638013a17afe3710ac0bbdfc56dfd29dc521"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/sampling.rs",
+      "bytes": 22143,
+      "sha256": "53f94fa1de6d52f15f77f061b8b22af07c67c80c084c16aceef6737d9f61e8e8"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/source_area.rs",
+      "bytes": 29520,
+      "sha256": "aaff0d026081c844a6f1c7f0b516e5938b10ace85a29f2e38ae2131bd516ff55"
+    },
+    {
+      "path": "source/crates/ocean-drift/src/transport.rs",
+      "bytes": 24488,
+      "sha256": "c8c44adab8ae937e8e0d1ca2f147e9fe56cc43a015dcff7fd3e5bdd3a46b6db8"
+    },
+    {
+      "path": "source/crates/ocean-drift/tests/epochs.rs",
+      "bytes": 360,
+      "sha256": "b295e16a6110dbc2beb30e8efa3af1ba2ee5b746c91ce548b721b36988ed17a7"
+    },
+    {
+      "path": "source/crates/ocean-drift/tests/field_semantics.rs",
+      "bytes": 1859,
+      "sha256": "c63c78566d4d6622a8f97e91410df03d4a94f258f9e003a80d7d08e0e2ee6824"
+    },
+    {
+      "path": "source/crates/ocean-drift/tests/isotope_compatibility.rs",
+      "bytes": 5704,
+      "sha256": "6db2e139c9f71971d5dccfbb8fa47cb827a8a399511f6a757b760174e805b991"
+    },
+    {
+      "path": "source/crates/ocean-drift/tests/raw_field_spot.rs",
+      "bytes": 3920,
+      "sha256": "09ce8dc2c723290172e72527da8c65691f93757cc3da0895e96920ae4b42a7f4"
+    },
+    {
+      "path": "source/crates/ocean-drift/tests/source_area_conditional.rs",
+      "bytes": 8662,
+      "sha256": "cde74e172e6cf7033f336370463741282138fd80d67f39110893481e1394e3a1"
+    },
+    {
+      "path": "source/crates/particle-filter/Cargo.toml",
+      "bytes": 384,
+      "sha256": "cae187413315d000e74f622ee2debcb1bc6dff4bcc2cb912b47f67327b90197f"
+    },
+    {
+      "path": "source/crates/particle-filter/src/config.rs",
+      "bytes": 4550,
+      "sha256": "9aaf730877e7cc939f82079dce0ef23e9f59ef62015b83adc585e3b2c3a4a6ec"
+    },
+    {
+      "path": "source/crates/particle-filter/src/filter.rs",
+      "bytes": 31773,
+      "sha256": "e70e474c40d52b4aa23d121a93767d4701d1387f11b61caab6c983d138454b87"
+    },
+    {
+      "path": "source/crates/particle-filter/src/islands.rs",
+      "bytes": 46960,
+      "sha256": "0b7d95116c94be4e15cfa199bb5c261349eb3b60a814fb409a75dd2b446131fe"
+    },
+    {
+      "path": "source/crates/particle-filter/src/lib.rs",
+      "bytes": 3850,
+      "sha256": "9c784110025662ee91d905308a776e81de3b33935d73e247d304c3fd81f2f5fc"
+    },
+    {
+      "path": "source/crates/particle-filter/src/model.rs",
+      "bytes": 16291,
+      "sha256": "6112a2fd03308196c9cc43bba278532153f90401afc322885a4214bb34edeadf"
+    },
+    {
+      "path": "source/crates/particle-filter/src/resampling.rs",
+      "bytes": 17979,
+      "sha256": "5a559b0467c5bc69fe30eb187a3c5e53a591a9978de659a8b6a7e9cbbfc14ba2"
+    },
+    {
+      "path": "source/crates/particle-filter/src/rng.rs",
+      "bytes": 2804,
+      "sha256": "192225b693cf1366d77008d0f4a74ba9f177429363d2000ac8c3e9a4e07c228b"
+    },
+    {
+      "path": "source/crates/particle-filter/src/stratified.rs",
+      "bytes": 358280,
+      "sha256": "aed2c7233a3cce0dc5fa7ce8becd45c81443f258809d695ca2b6d3134ec71c5e"
+    },
+    {
+      "path": "source/crates/particle-filter/src/tempered.rs",
+      "bytes": 15354,
+      "sha256": "2a95ffeb017ef0ca17e5c791a52f3f632f6fffd84fae6abaf75a1d2f5f450ed3"
+    },
+    {
+      "path": "source/crates/reporting/Cargo.toml",
+      "bytes": 318,
+      "sha256": "d92e4e5a7b5b1dbd4806e346df690e300df90d94c5c126fddc94af2796a48114"
+    },
+    {
+      "path": "source/crates/reporting/assets/DejaVuSans-Bold.ttf",
+      "bytes": 708920,
+      "sha256": "b5d64817b6331723b5e59eaaa6db90057cbed58e9733f65687f110638192359f"
+    },
+    {
+      "path": "source/crates/reporting/assets/DejaVuSans.ttf",
+      "bytes": 759720,
+      "sha256": "6038a160b491e121c1f12c7bccb4a9c8730296e3adc1086a059404ed84b7451c"
+    },
+    {
+      "path": "source/crates/reporting/assets/ne_110m_land.geojson",
+      "bytes": 138160,
+      "sha256": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9"
+    },
+    {
+      "path": "source/crates/reporting/scripts/antenna_sensitivity_report.py",
+      "bytes": 14673,
+      "sha256": "432617bceed8c4129f3b19d671305c2ac131e5e8c96a3653c15173f16f8fac00"
+    },
+    {
+      "path": "source/crates/reporting/scripts/arc_density_report.py",
+      "bytes": 48678,
+      "sha256": "49fe99bfb6db7ee99d425f3aa21c0525baff209cca4894d0b0cc7d8037cd8dbf"
+    },
+    {
+      "path": "source/crates/reporting/scripts/broad_flight_figures.py",
+      "bytes": 122029,
+      "sha256": "7f2475a8e8557a897052bcdca62f947f2554a28841b9c22534363747caccc5dc"
+    },
+    {
+      "path": "source/crates/reporting/scripts/broad_snapshot_report.py",
+      "bytes": 70532,
+      "sha256": "166b7570b86b49f083c02bfa1326063bc30125fa85898e47a009f563b2d7eca2"
+    },
+    {
+      "path": "source/crates/reporting/scripts/cruise_impact_report.py",
+      "bytes": 28592,
+      "sha256": "eb84b9b6377183b4ebd12b11871ac24c5966ba988e51e5f25ebec53bd01f6e92"
+    },
+    {
+      "path": "source/crates/reporting/scripts/fixed_waypoint_figures.py",
+      "bytes": 94768,
+      "sha256": "867660ab8c04591562e225ed0fbeb3aa2e0ad61c72d429df12fc9bb9b758125d"
+    },
+    {
+      "path": "source/crates/reporting/scripts/flight_analysis_results.py",
+      "bytes": 34226,
+      "sha256": "a433766a877ab648e2d2229e2983ffe0219e1af6004938c38a689ae8c353ae46"
+    },
+    {
+      "path": "source/crates/reporting/scripts/flight_assumption_report.py",
+      "bytes": 105337,
+      "sha256": "f2c5476a6b8412d9a55868eb0411cd8d61412ef2b1a54b74f2dfa5a15215161d"
+    },
+    {
+      "path": "source/crates/reporting/scripts/flight_sampling_report.py",
+      "bytes": 20604,
+      "sha256": "f557a1bcdc89cda73f8964ff219445f618e01fd9db0f7be98795b6e33b15130b"
+    },
+    {
+      "path": "source/crates/reporting/scripts/flight_sensitivity_report.py",
+      "bytes": 12042,
+      "sha256": "89536c4a1dbdfcd5d21a2aa7e2de2b082e7957b9becd28c9ca5f5daae07bdcb8"
+    },
+    {
+      "path": "source/crates/reporting/scripts/impact_acoustic_report.py",
+      "bytes": 29102,
+      "sha256": "22a8b9009c06f11118413fbe5967ce29b63c105df9be276b127bb799731e0657"
+    },
+    {
+      "path": "source/crates/reporting/scripts/impact_release_figures.py",
+      "bytes": 41346,
+      "sha256": "54eb20945f40919044e093606a87671eb64c9174d9492e2a7d92da7fa9e18c6c"
+    },
+    {
+      "path": "source/crates/reporting/scripts/lateral_control_figures.py",
+      "bytes": 36601,
+      "sha256": "f870d20b7affecbbc6231ee004fd42faff6db59436c605f0b64c17d8924690e1"
+    },
+    {
+      "path": "source/crates/reporting/scripts/posterior_search_context.py",
+      "bytes": 25645,
+      "sha256": "ec121245b8f3a8d18355e1fb7f47c54931a2064064c4e4f98e2ff1a396deadc0"
+    },
+    {
+      "path": "source/crates/reporting/scripts/proposed_route_report.py",
+      "bytes": 10254,
+      "sha256": "7d6f67ad8a0bd484f03b79ddad16823d293ec2975f5751da7cdf2e0246a923c6"
+    },
+    {
+      "path": "source/crates/reporting/scripts/report_index.py",
+      "bytes": 10098,
+      "sha256": "ed3c9e42833b96422fbc885af0237025c56cdbe322c93cfbf3da1093fb5fe5b8"
+    },
+    {
+      "path": "source/crates/reporting/scripts/spatial_evidence_report.py",
+      "bytes": 18103,
+      "sha256": "cb7c45ed34f6aaf8d9613f1db6944015532fbeec6825b2d0f374c0cdb34148b6"
+    },
+    {
+      "path": "source/crates/reporting/scripts/synthetic_cruise_report.py",
+      "bytes": 16272,
+      "sha256": "905017becf2ec5664b7ab5514132b1574b5e48b6e0aa907777bb4a5dab482d65"
+    },
+    {
+      "path": "source/crates/reporting/scripts/tests/test_arc_density_report.py",
+      "bytes": 3482,
+      "sha256": "d742b58d9bba3ba5eb9447725d9a3c51504e3f53b5daa87cf99e9e9dda765cfe"
+    },
+    {
+      "path": "source/crates/reporting/scripts/tests/test_broad_snapshot_report.py",
+      "bytes": 14692,
+      "sha256": "0dddb79e3cbe59f7af4bfe6cfd6e58befe5e4f7b5b3bd8a56755ab9ebc131bd8"
+    },
+    {
+      "path": "source/crates/reporting/scripts/trajectory_examples_report.py",
+      "bytes": 16395,
+      "sha256": "ec779999eeec6c7e50d01261280f31e1d54eef7045c8ff4d2c14497427145e9f"
+    },
+    {
+      "path": "source/crates/reporting/scripts/validate_broad_release.py",
+      "bytes": 69954,
+      "sha256": "dacab35d0715d0f3e62bdba6bf06c411120fd1853454674b2842ecf7cfe4d215"
+    },
+    {
+      "path": "source/crates/reporting/src/bfo_table.rs",
+      "bytes": 11347,
+      "sha256": "65bf1b410b3add13421777b9d7b2c40fd5f9f5046d691e5d3298e8bfcf497b14"
+    },
+    {
+      "path": "source/crates/reporting/src/known_flight_png.rs",
+      "bytes": 46526,
+      "sha256": "1d38ce3cd6eb388187718fd7c1574174a97f4805d9bb1d09830d42e817907944"
+    },
+    {
+      "path": "source/crates/reporting/src/lib.rs",
+      "bytes": 60508,
+      "sha256": "22db65187fa07b07fa2bb2d0a49e73d0e4cb0e1237f0cd36ec7093449bfea6ef"
+    },
+    {
+      "path": "source/crates/reporting/tests/test_broad_flight_figures.py",
+      "bytes": 21330,
+      "sha256": "17fcef60fb8c09b73dcafc2583a67a9b98afed459d9e688463d7e35ec018232c"
+    },
+    {
+      "path": "source/crates/reporting/tests/test_validate_broad_release.py",
+      "bytes": 28967,
+      "sha256": "b6b87f53425ac3e663b73438fda426556a28299ab23fce23c0948abec2bf5a87"
+    },
+    {
+      "path": "source/crates/runner/Cargo.toml",
+      "bytes": 976,
+      "sha256": "89d66c74bda07200dce35cb0b3be7f1541f2d38eb047ef08ac81477d1219029d"
+    },
+    {
+      "path": "source/crates/runner/build.rs",
+      "bytes": 1569,
+      "sha256": "b0536b3d36f34537f308669ff1bb383f661437d63d7a78e7a1d4a5e6a1d96cb8"
+    },
+    {
+      "path": "source/crates/runner/examples/fixed_waypoint_integration_step_control.rs",
+      "bytes": 32118,
+      "sha256": "17e467d748f5c5c77e16d39daeb8a27c054f89f2a72984fd6b8d10bb426bbe48"
+    },
+    {
+      "path": "source/crates/runner/examples/r600_predictive_compatibility.rs",
+      "bytes": 92994,
+      "sha256": "6ae13356e4e7d5a7a45bbf80f90654752ed5cb1ae31596118d2bab05692a291c"
+    },
+    {
+      "path": "source/crates/runner/scripts/impact_release_suite.py",
+      "bytes": 16252,
+      "sha256": "316dec2cd968d9019000435f44b33d0577cab00bed644b6cac25f4c8af876a52"
+    },
+    {
+      "path": "source/crates/runner/src/accident_antenna.rs",
+      "bytes": 8620,
+      "sha256": "049f40931771b95d94ffafe56a818cd9f230575191ccc65506d0e620d6eda745"
+    },
+    {
+      "path": "source/crates/runner/src/accident_commands.rs",
+      "bytes": 67900,
+      "sha256": "7f77782065b616b8cc885ab609a112db0031616531461f2b640b8a4a846ae085"
+    },
+    {
+      "path": "source/crates/runner/src/broad_flight_commands.rs",
+      "bytes": 486397,
+      "sha256": "d5f80c868445837b204c0b9253509f3be880914841750db051236a164ae2f4ed"
+    },
+    {
+      "path": "source/crates/runner/src/broad_impact_handoff.rs",
+      "bytes": 64815,
+      "sha256": "101eba57d06554d68e25ef1b3bd6733a8c8d1fae72ef5e28c9aedfcfb50573af"
+    },
+    {
+      "path": "source/crates/runner/src/broad_terminal_cli.rs",
+      "bytes": 87983,
+      "sha256": "4f4e4515d0b940fc900bcba9b692c71f6ddb60a6867fbae6c8b5a6152b911d81"
+    },
+    {
+      "path": "source/crates/runner/src/broad_terminal_commands.rs",
+      "bytes": 73841,
+      "sha256": "854fbb1569eafd26aafcba9d9abb610d2b02db113408e84d78758c3910d992c5"
+    },
+    {
+      "path": "source/crates/runner/src/conditional_spatial_commands.rs",
+      "bytes": 61045,
+      "sha256": "e991fb4bdc9d2e7b5db0dcb2ab8374a73a91efa4c32beff53d7932ded76c1230"
+    },
+    {
+      "path": "source/crates/runner/src/contact_antenna_commands.rs",
+      "bytes": 11185,
+      "sha256": "93d6b665879a86984cafa7f9176fb7bf47f8f52d6e93c3f0045d5a0930ac0bc3"
+    },
+    {
+      "path": "source/crates/runner/src/continuation_commands.rs",
+      "bytes": 55945,
+      "sha256": "117e5a828ef21a82145160809feb2b7273ed74782e940f1ebdd41a184635dc63"
+    },
+    {
+      "path": "source/crates/runner/src/cruise_commands.rs",
+      "bytes": 69325,
+      "sha256": "02547c96a6a5dd3a37de98866265524d108b496257a76438cc151f61dc3cf10a"
+    },
+    {
+      "path": "source/crates/runner/src/cruise_impact_commands.rs",
+      "bytes": 41388,
+      "sha256": "88de1ebe4cd6c335ddc2dd19b26f2472d3a4c5abc3ffe8e51956ba1e160eea7c"
+    },
+    {
+      "path": "source/crates/runner/src/cruise_impact_conditions.rs",
+      "bytes": 15473,
+      "sha256": "de53e40902cf0cb8467f71810bdb82c0fcc8709da0aeb8eed4c95fb6425d974d"
+    },
+    {
+      "path": "source/crates/runner/src/final_bfo_commands.rs",
+      "bytes": 66316,
+      "sha256": "d1a678b43780cfd9f7a5862445da1da4065931294b670185a7ac8af4370fe93f"
+    },
+    {
+      "path": "source/crates/runner/src/impact_acoustic_commands.rs",
+      "bytes": 9323,
+      "sha256": "05bc3cf93d4bee27ff56b51f7cdced5144b877aed3977bde6fccbfbe7d11e753"
+    },
+    {
+      "path": "source/crates/runner/src/impact_commands.rs",
+      "bytes": 83618,
+      "sha256": "1ac2caf6bb5774429c708c517c5c8e98d3837b53c29c9a1fddb16377c6760f85"
+    },
+    {
+      "path": "source/crates/runner/src/impact_handoff.rs",
+      "bytes": 46598,
+      "sha256": "75160102ddcb5f4272e86ef47a642741d7b837cbc74fcce9fd6e99412c15c634"
+    },
+    {
+      "path": "source/crates/runner/src/known_flight_commands.rs",
+      "bytes": 25689,
+      "sha256": "5936669f0e097e8b54fdb993041be4c3017ed72def6ecefd4b35bdb2e4607f7d"
+    },
+    {
+      "path": "source/crates/runner/src/main.rs",
+      "bytes": 19889,
+      "sha256": "dcde55f6c6a49101be528b4b0ccd9de016e4905d5eae93afd3c5db3a809954f9"
+    },
+    {
+      "path": "source/crates/runner/src/ocean_drift_application.rs",
+      "bytes": 8502,
+      "sha256": "1215cbb77deec53366df9dedca2afd935b1519c6c6dcfe1da1c8e83923e16d7b"
+    },
+    {
+      "path": "source/crates/runner/src/ocean_drift_commands.rs",
+      "bytes": 35991,
+      "sha256": "943f1c418191677aea18918a605c653fcf6cfc7516a9ba8c6c360cc0436cbaff"
+    },
+    {
+      "path": "source/crates/runner/src/trajectory_replay.rs",
+      "bytes": 31136,
+      "sha256": "127feb50bee0c3472d42e14d272a2fc4faf97afc726f84af0406853e89b647ea"
+    },
+    {
+      "path": "source/crates/satcom/Cargo.toml",
+      "bytes": 313,
+      "sha256": "a51af53d6d6fd7b3d33ef7e2f024c509e66e9c212430781d88221ebcff414515"
+    },
+    {
+      "path": "source/crates/satcom/src/ephemeris.rs",
+      "bytes": 8025,
+      "sha256": "a4dff8e26db34f080f9b951c70f90b9504104e7a159d56096d9bc89e8ecbbad0"
+    },
+    {
+      "path": "source/crates/satcom/src/exact_contact.rs",
+      "bytes": 15328,
+      "sha256": "6aeb8e0fbdac900e6ce7c5b84c2a9c697b5980aa4f2677bbb767e01f1fb7d45b"
+    },
+    {
+      "path": "source/crates/satcom/src/final_bfo.rs",
+      "bytes": 8742,
+      "sha256": "66d4aae032701277363214e3c8a57dc24f3687e70f1885c8db8bb08ea075b951"
+    },
+    {
+      "path": "source/crates/satcom/src/lib.rs",
+      "bytes": 1138,
+      "sha256": "e6cda6dcab73b59226cb91fca76e08c5a351165490c857a0baa32e9770666f99"
+    },
+    {
+      "path": "source/crates/satcom/src/observation.rs",
+      "bytes": 9059,
+      "sha256": "6f73a090bd80839b275f7c24b5b2cf6097765a09a2b88623ee70073f829e0e5e"
+    },
+    {
+      "path": "source/crates/satcom/src/satcom.rs",
+      "bytes": 6514,
+      "sha256": "afa9aa3839a0894c716ad20ad8a5578a6778af1bfbd2e3d7b4e10ce71aad29d3"
+    },
+    {
+      "path": "source/crates/satcom/src/statistics.rs",
+      "bytes": 7260,
+      "sha256": "0126a38620889c698a4341fd25f9a44e29c44e1e16fad9a0c972aeae4f0f03e5"
+    },
+    {
+      "path": "source/inputs/accident/cruise-initial-proposal.json",
+      "bytes": 88985,
+      "sha256": "36fe5e15e13d65d3302da52e908c458ff0f04505ac8a6c8895b2284833e23f6c"
+    },
+    {
+      "path": "source/inputs/accident/satcom-through-0011.csv",
+      "bytes": 1167,
+      "sha256": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799"
+    },
+    {
+      "path": "source/inputs/accident/satellite-through-0011.csv",
+      "bytes": 1006,
+      "sha256": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d"
+    },
+    {
+      "path": "validation/environment-recovery-receipt.json",
+      "bytes": 1656,
+      "sha256": "0e6976cd94f1dd5e0958a330131ae9c380ae3c05fb8d354e23a6a39a450eede6"
+    },
+    {
+      "path": "validation/era5-recovery-receipt.json",
+      "bytes": 2135,
+      "sha256": "715c1c98dbe62e130814d7e168e4e72b4fc3ddd1693d051f83260b700116a779"
+    },
+    {
+      "path": "validation/era5-restoration-20260919T1545.json",
+      "bytes": 2158,
+      "sha256": "711d4aa385f824b6a73241f31ed88b5d705edde1d9970780f2db4daefbd7bec5"
+    },
+    {
+      "path": "validation/mh370-igrf14-grid.manifest.json",
+      "bytes": 3158,
+      "sha256": "6539167e7c8dcac8d6007517eca41aa3987b367791fa40bb768a37bb1b703b16"
+    },
+    {
+      "path": "validation/ownership-snapshot.json",
+      "bytes": 323,
+      "sha256": "360aac7f94aaec79f485d848a99df01b0cfd07bf4bbf0b3c9e210d2063f05022"
+    },
+    {
+      "path": "validation/reassemble_multipart.py",
+      "bytes": 2465,
+      "sha256": "a3fc13ac39774003b324d376f7a1f0dc82f5e04f5fe985497af34eb57a71a3b9"
+    },
+    {
+      "path": "validation/rust-toolchain.toml",
+      "bytes": 76,
+      "sha256": "23a67d71b57fef846d42150a2d0dcec5bb6ab7342b400a1966b8168f9481b917"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "schema_id": "mh370-hydroacoustic-artifact-hash-ledger",
+  "schema_version": 1,
+  "artifact_hygiene": {
+    "verified_clean": true,
+    "rejected_directory_names": [
+      ".mypy_cache",
+      ".pytest_cache",
+      "__pycache__"
+    ],
+    "rejected_file_suffixes": [
+      ".pyc",
+      ".pyo",
+      ".swp",
+      ".temp",
+      ".tmp"
+    ],
+    "rejected_backup_suffix": "~",
+    "scope": ".sources/kadri-2024-hydroacoustics"
+  },
+  "sha256": {
+    "forward-grid.csv": "6d9af329f7c06913ccdcf0e6cf93756652b9032ce9d32b0bf2738a4502079bbc",
+    "reverse-matches.csv": "b1d33b2c9a445337bc45896a7fb8e525a6aa66e1c1f298c0d56440972f06a51a",
+    "representative-simulated-signals.csv": "d3a5a2db2df141ab67aa0f180468409f99322f54b2d8988f1e12a49c7f3efbd2",
+    "impact-scenario-templates.json": "b22942c9edf63eba0f5ad2397db9e5d3f01cdc90e7a413fb01fea0bbdedaa63e",
+    "summary.json": "2349239100beda3a6f81b2dd96a341464bc7f84330d1857bc923d01eb40ce872",
+    "index.html": "eecf943e96360d85e178a57849be9f08534367568744c6c5b5bec2955da8a171",
+    "citation-ledger.md": "6d13608e0c6cb9bfb7ce9dd36a0401aeca91a6bba1e52377e640ba92fc5d2172",
+    "hydroacoustic-forward-reverse-diagnostic.svg": "2b66251934b2003130450ea6df7ebdd383b7ca48968f8e434052d1d2a9e9f776",
+    "hydroacoustic-forward-reverse-diagnostic.png": "841dd8406a31d5d3231d1a3bc4cc30e1fbb77147e7352285330106c8aeb856a4",
+    "hydroacoustic-forward-reverse-diagnostic.pdf": "198892a537b3bf433ba77d0de03439dff7a5f1e9edca04b097cf013833345316",
+    "representative-simulated-signals.svg": "30c19f23e8d94f73828f9b047c0db2782204e305473b3b22160de2f497a3da89",
+    "representative-simulated-signals.png": "6decd555a4f4eceab7ed0763430811dd4a423d28d4104ace85768cfa1e686531",
+    "representative-simulated-signals.pdf": "2038e091ccc6c929d06df70c32f1b992f190c9e57fd50e4267407c86edf66289",
+    "manifest.json": "33df9eb095107c880900ba9db8df4c08311a22af763488dd6535223e1686ed20"
+  }
+}

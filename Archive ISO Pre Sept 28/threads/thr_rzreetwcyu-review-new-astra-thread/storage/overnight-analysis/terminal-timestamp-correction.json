@@ -1,0 +1,32 @@
+{
+  "reason": "The primary Inmarsat/DCA log p41 establishes R1200 at00:19:37.443, not the rounded00:19:37.000 used in the terminal check. Correct only this timestamp and its satellite fractional propagation; preserve control design, seed and physical equations.",
+  "source_url": "https://www.atsb.gov.au/sites/default/files/media/5772619/public_mh370-data-communication-logs.pdf",
+  "old_checkpoints_relative_s": [
+    22660.416,
+    22668.0
+  ],
+  "corrected_checkpoints_relative_s": [
+    22660.416,
+    22668.443
+  ],
+  "started_utc": "2026-09-08T00:25:15.903275+00:00",
+  "previous_artifact_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/run-manifest.json": "39b4ad85dd681e0a05ed4447de75932575f12419f91aec05465a936bbddd4b32",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/summary.json": "bfea3c4321dc44c9cb32379a45f2068f44691472679328398311b56f11dcf426",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/impacts.jsonl": "d13407f701f0ce7269e9eb24f914dac8e152d4b03f3c5d18bed061b0ca0c8917",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/final-bfo-comparison/summary.json": "e07e5201b958a0132e7cfb8d974dca9c08b4f59db05de614f52183f687af0b47",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/final-bfo-comparison/bias-sensitivity.json": "9b8b0ce3baa39ddf3b9ea2d188646f37e30aed549fea2d57f79e6d5784e84f99",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-refinement/summary.json": "e9cc0ac3c6f7cc555dbea717a0dfa5c0ae14475266b57fa0f36fa10189fa1169",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/kadri-trajectory-examples/summary.json": "ac3c5ac5ae57859b91ce88d4624399af9a69b271387e862204be8708efce2ca6"
+  },
+  "sampling_budget_impact": "No flight sampler. Deterministic terminal timing correction only.",
+  "corrected_runtime_s": 39.33085601699713,
+  "paired_impact_examples": 44634,
+  "impact_outcome_counts_unchanged": true,
+  "physical_control_cases_unchanged": true,
+  "maximum_impact_time_change_s": 0.0045838999685656745,
+  "maximum_impact_position_change_nm": 0.002009947666825084,
+  "maximum_relative_impact_energy_change": 0.00011822115005089007,
+  "maximum_r600_predicted_bto_change_us": 1.1641532182693481e-10,
+  "corrected_manifest_sha256": "0700e8ae4dd920cc678b6ef7198106655806241fcbca2507c7c867bb42818352"
+}

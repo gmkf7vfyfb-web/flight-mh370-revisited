@@ -1,0 +1,33 @@
+{
+  "status": "ILLUSTRATIVE_PRESSURE_RENDERING_NOT_SOURCE_WAVEFORM_OR_DETECTOR",
+  "inputs": {
+    "data/impact-simulation-config.json": "aa590d4969317cbd535c5c43570f5d8af6096151cf0374933b071902ce80e6e4",
+    "outputs/impact-family-quantiles.csv": "7df3e2f581784b90100c9078168a9990a889aaa152aac7eb86b5b0d83c5c0795"
+  },
+  "code": {
+    "code/simulated_waveforms.py": "a57546de8299c4a963fcadeeb6953701d2b24c755441e12ba2889c4bb094bd2e"
+  },
+  "display_model": {
+    "coupling_prior": "f35_centred",
+    "pressure_quantile": 0.5,
+    "sample_rate_hz": 50.0,
+    "noise_rms_pa": 0.3,
+    "noise_band_hz": [
+      5.0,
+      15.0
+    ],
+    "pulse": "normalised 8 Hz Gaussian-windowed carrier plus delayed 6.2 Hz component",
+    "placement": "representative high-rate receiver time from impact-simulation-config.json"
+  },
+  "outputs": {
+    "simulated-pressure-time-series.png": "768e582869a1d891176ea717058616a4d1801f5c811eddbda0441a4d3af397bf",
+    "simulated-pressure-time-series.pdf": "0b89325cacd49236979d1cc6fd59db2c1713dcfa2a065be2cfd5c574d7221fda",
+    "simulated-pressure-spectrograms.png": "75c303f676b74ddc27ddc7ae8054fc52456f6131c40bfa0269a5c685ba0e0d5a",
+    "simulated-pressure-spectrograms.pdf": "0c726d45a082fba6e18f70055993aa9dd5b4f157330ced566fe2aa1b1da026d1"
+  },
+  "limitations": [
+    "only peak-pressure amplitude comes from the impact sensitivity calculation",
+    "pulse shape and noise are generic display assumptions",
+    "no 777 hydrodynamics, source spectrum, AGW dispersion, site response, CTBTO processing or detector is represented"
+  ]
+}

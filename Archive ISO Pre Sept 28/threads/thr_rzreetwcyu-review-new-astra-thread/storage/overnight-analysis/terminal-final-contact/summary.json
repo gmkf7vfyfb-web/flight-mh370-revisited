@@ -1,0 +1,91 @@
+{
+  "status": "conditional comparisons on feasibility witnesses; no normalized geographic PDF",
+  "witnesses": 215,
+  "terminal_cases_per_witness": 258,
+  "impact_examples": 44634,
+  "final_contact_counts": [
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "bto_geometry_scored",
+      "examples": 21761
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "checkpoint_unresolved; not an exclusion",
+      "examples": 134
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "bto_geometry_scored",
+      "examples": 22844
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "impact_before_airborne_contact; zero support under this condition",
+      "examples": 24
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "impact_before_airborne_contact; zero support under this condition",
+      "examples": 5
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "checkpoint_unresolved; not an exclusion",
+      "examples": 107
+    }
+  ],
+  "outcome_counts": [
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "\"impact\"",
+      "examples": 21766
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "{\"declared_envelope_exit\": \"airspeed_below_minimum\"}",
+      "examples": 134
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "\"impact\"",
+      "examples": 22868
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "outcome": "terminal_weather_domain_unresolved",
+      "examples": 5835
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "terminal_weather_domain_unresolved",
+      "examples": 4759
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "{\"declared_envelope_exit\": \"airspeed_below_minimum\"}",
+      "examples": 105
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "{\"declared_envelope_exit\": \"near_vertical_flight_path\"}",
+      "examples": 2
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "outcome": "terminal_integration_trial_unresolved",
+      "examples": 1
+    }
+  ],
+  "elapsed_s": 39.33085601699713,
+  "posterior_updated": false,
+  "limitations": [
+    "No source-state probability weights.",
+    "The prior to exhaustion retains the last powered control; no new post-00:11 powered commands are added.",
+    "Lift coefficient is held constant. Bank is either constant or brought to zero after a sampled30\u2013360s; instantaneous bank commands approximate unresolved roll dynamics.",
+    "Public attached-flow polars do not validate stalled or compressible terminal flight. Declared envelope exits are retained as unresolved outcomes.",
+    "Point-mass flight-path angle is not body pitch. Body attitude, breakup, water-entry impulse and acoustic coupling remain unresolved.",
+    "R600 BTO geometry is explicitly scored when requested; no final BFO, calibrated restart timing or geographic posterior weighting is applied.",
+    "Weather below 500 ft is explicitly clamped to the lowest grid level."
+  ]
+}

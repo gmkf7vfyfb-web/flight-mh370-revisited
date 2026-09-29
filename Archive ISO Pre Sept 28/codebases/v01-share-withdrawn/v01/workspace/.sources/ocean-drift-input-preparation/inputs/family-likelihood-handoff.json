@@ -1,0 +1,92 @@
+{
+  "schema": "mh370-ocean-drift-family-likelihood-specification-v1",
+  "title": "MH370 family-specific ocean-drift admission surfaces",
+  "admission_thresholds": {
+    "maximum_query_distance_nm": 75.0,
+    "maximum_out_of_support_fraction": 0.01,
+    "minimum_event_arrival_ess": 200.0,
+    "minimum_surface_mass_with_event_ess": 0.9,
+    "maximum_replication_total_variation": 0.1,
+    "maximum_contour_endpoint_shift_cells": 2,
+    "minimum_contour_set_jaccard": 0.8,
+    "minimum_validation_complete_fraction": 0.95,
+    "maximum_median_error_ratio_to_persistence": 1.0,
+    "minimum_median_fraction_better_than_persistence": 0.5
+  },
+  "families": [
+    {
+      "id": "native-hycom",
+      "label": "Native HYCOM currents + distinct WAVERYS Stokes",
+      "color": "#2F75B5",
+      "role": "time-varying assimilative-current sensitivity",
+      "source_result": ".sources/ocean-drift-input-preparation/outputs/native-hycom-flaperon-response/source-area.json",
+      "stability_summary": ".sources/ocean-drift-input-preparation/outputs/native-hycom-adaptive-stability/stability-summary.json",
+      "trajectory_validation_csv": ".sources/ocean-drift-input-preparation/outputs/validation/current-trajectory-overall.csv",
+      "trajectory_validation_family": "hycom_gofs31_native_plus_distinct_stokes",
+      "expected_recovery_events": [
+        "reunion-flaperon-recovery",
+        "mossel-bay-engine-cowling-recovery",
+        "paindane-flap-fairing-recovery",
+        "vilanculos-stabilizer-recovery",
+        "chidenguele-fan-cowling-recovery",
+        "mauritius-left-flap-recovery",
+        "pemba-right-flap-recovery",
+        "rodrigues-door-panel-recovery",
+        "antsiraka-cabin-panel-recovery"
+      ],
+      "expected_non_recoveries": [
+        "western-australia-no-recovery-low-exposure-population",
+        "western-australia-no-recovery-high-windage-population"
+      ],
+      "conditions": [
+        "GOFS-3.1-like HYCOM+NCODA native 1/12-degree surface-current family",
+        "full WAVERYS surface Stokes drift kept distinct from direct wind response",
+        "flaperon response is Stokes plus 0.10 m/s at 20 degrees left of wind",
+        "isotope is a bounded arrival-conditional compatibility screen"
+      ],
+      "limitations": [
+        "the retained native-current field ends on 2015-07-29; upstream experiment 53.X ends in December 2015, so even an extension cannot represent the 2016 recoveries or Australian non-recovery interval",
+        "the retained current series is every eighth available three-hour analysis with explicit repaired gaps, not a daily mean",
+        "HYCOM+NCODA is assimilative, so the drifter replay is not guaranteed statistically held out",
+        "the coast field distinguishes land from missing water but does not calibrate beach retention"
+      ]
+    },
+    {
+      "id": "gdp",
+      "label": "GDP monthly climatology + distinct WAVERYS Stokes",
+      "color": "#6D5AA7",
+      "role": "observational monthly-climatology sensitivity",
+      "source_result": ".sources/ocean-drift-input-preparation/outputs/gdp-waverys-stringent-multi-debris/source-area.json",
+      "stability_summary": ".sources/ocean-drift-input-preparation/outputs/gdp-adaptive-stability/stability-summary.json",
+      "trajectory_validation_csv": ".sources/ocean-drift-input-preparation/outputs/validation/current-trajectory-overall.csv",
+      "trajectory_validation_family": "gdp_monthly_climatology_plus_distinct_stokes",
+      "expected_recovery_events": [
+        "reunion-flaperon-recovery",
+        "mossel-bay-engine-cowling-recovery",
+        "paindane-flap-fairing-recovery",
+        "vilanculos-stabilizer-recovery",
+        "chidenguele-fan-cowling-recovery",
+        "mauritius-left-flap-recovery",
+        "pemba-right-flap-recovery",
+        "rodrigues-door-panel-recovery",
+        "antsiraka-cabin-panel-recovery"
+      ],
+      "expected_non_recoveries": [
+        "western-australia-no-recovery-low-exposure-population",
+        "western-australia-no-recovery-high-windage-population"
+      ],
+      "conditions": [
+        "GDP currents are a separate observational monthly-climatology family",
+        "nine selected recovery episodes use explicit stochastic beaching-to-discovery delays",
+        "two Australian non-recovery populations bracket low-exposure and hypothetical high-windage response without sharing recovered-object identities",
+        "isotope is a bounded arrival-conditional compatibility screen"
+      ],
+      "limitations": [
+        "the preserved GDP regional extract has sparse finite coverage and is 0.5 degree rather than the current official 0.25-degree product",
+        "monthly climatology omits interannual current variability over 2014-2017",
+        "the GDP product and validation drifters are not statistically independent",
+        "no subjective weight combines GDP with an assimilative current family"
+      ]
+    }
+  ]
+}

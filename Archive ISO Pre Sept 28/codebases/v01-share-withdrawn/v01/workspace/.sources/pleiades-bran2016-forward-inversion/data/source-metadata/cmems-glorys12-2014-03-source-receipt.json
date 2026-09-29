@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "dataset_id": "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+  "dataset_version": null,
+  "dataset_part": null,
+  "component_units": {
+    "uo": "m s-1 east",
+    "vo": "m s-1 north"
+  },
+  "source_retrieval_manifest_sha256": "0f031a8e850006341f4d88ce8c84e1ca4c3e55680003036cf7f5fc6747d8a766",
+  "source_file": {
+    "actual_bounds_degrees": {
+      "east": 150.0,
+      "north": 30.0,
+      "south": -50.0,
+      "west": 10.0
+    },
+    "bytes": 66284046,
+    "command": [
+      "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+      "subset",
+      "--dataset-id",
+      "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+      "--variable",
+      "uo",
+      "--variable",
+      "vo",
+      "--start-datetime",
+      "2014-03-07T00:00:00+00:00",
+      "--end-datetime",
+      "2014-03-31T00:00:00+00:00",
+      "--minimum-longitude",
+      "10.0",
+      "--maximum-longitude",
+      "150.0",
+      "--minimum-latitude",
+      "-50.0",
+      "--maximum-latitude",
+      "30.0",
+      "--minimum-depth",
+      "0.49402499198913574",
+      "--maximum-depth",
+      "0.49402499198913574",
+      "--coordinates-selection-method",
+      "outside",
+      "--output-directory",
+      "/jackbox/home/.cache/mh370-cmems-glorys12",
+      "--output-filename",
+      "cmems-glorys12-surface-2014-03.nc",
+      "--file-format",
+      "netcdf",
+      "--netcdf-compression-level",
+      "4",
+      "--disable-progress-bar",
+      "--log-level",
+      "ERROR"
+    ],
+    "components": {
+      "uo": {
+        "long_name": "Eastward velocity",
+        "standard_name": "eastward_sea_water_velocity",
+        "units": "m s-1"
+      },
+      "vo": {
+        "long_name": "Northward velocity",
+        "standard_name": "northward_sea_water_velocity",
+        "units": "m s-1"
+      }
+    },
+    "finite_fraction_including_land": {
+      "uo": 0.6742262453410555,
+      "vo": 0.6742274338709987
+    },
+    "first_time_utc": "2014-03-07T00:00:00Z",
+    "global_attributes": {
+      "Conventions": "CF-1.4",
+      "institution": "MERCATOR OCEAN",
+      "source": "MERCATOR GLORYS12V1",
+      "title": "daily mean fields from Global Ocean Physics Analysis and Forecast updated Daily"
+    },
+    "last_time_utc": "2014-03-31T00:00:00Z",
+    "latitude_count": 961,
+    "longitude_count": 1681,
+    "month": "2014-03",
+    "path": "/jackbox/home/.cache/mh370-cmems-glorys12/cmems-glorys12-surface-2014-03.nc",
+    "requested_end": "2014-03-31",
+    "requested_start": "2014-03-07",
+    "sha256": "db0b95ff815af7546a34b82a19e92e56c43711c2fdf3261e50454085dd71d7c9",
+    "spacing_degrees": {
+      "latitude_median": 0.0833333395421505,
+      "longitude_median": 0.08333396911621094
+    },
+    "surface_depth_m": 0.49402499198913574,
+    "time_count": 25,
+    "time_units": "hours since 1950-01-01"
+  },
+  "limitations": [
+    "GLORYS12V1 is assimilative; drifter validation is not guaranteed held out.",
+    "Only ocean current uo/vo are retrieved here. Stokes drift and direct windage remain distinct inputs.",
+    "Acceptance as the primary family requires the same all-path predictive and source-stability diagnostics as native HYCOM."
+  ]
+}

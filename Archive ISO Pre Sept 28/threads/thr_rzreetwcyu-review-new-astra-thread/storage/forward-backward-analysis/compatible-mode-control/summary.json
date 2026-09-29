@@ -1,0 +1,113 @@
+{
+  "ordered_times": {
+    "draws": 100000,
+    "expected_four_time_means": [
+      0.2,
+      0.4,
+      0.6,
+      0.8
+    ],
+    "maximum_mean_error": 0.0003393057065845251,
+    "log_density_identity_error": 1.3322676295501878e-15,
+    "request_encode_roundtrip_error": 8.081313396246514e-13
+  },
+  "exact_categorical_update": [
+    {
+      "temperature": 0.37,
+      "expected": [
+        0.20000000000149157,
+        0.20000000000149157,
+        0.19999999999900184,
+        0.19999999999901322,
+        0.19999999999901322
+      ],
+      "observed": [
+        0.20043333333333332,
+        0.20096666666666665,
+        0.20136666666666667,
+        0.19823333333333334,
+        0.199
+      ],
+      "maximum_error": 0.0017666666656798724,
+      "draws": 30000
+    },
+    {
+      "temperature": 1.0,
+      "expected": [
+        0.1999999999999909,
+        0.1999999999999909,
+        0.1999999999999909,
+        0.1999999999999909,
+        0.1999999999999909
+      ],
+      "observed": [
+        0.20183333333333334,
+        0.20193333333333333,
+        0.19633333333333333,
+        0.19946666666666665,
+        0.20043333333333332
+      ],
+      "maximum_error": 0.0036666666666575753,
+      "draws": 30000
+    }
+  ],
+  "deterministic_dynamics_control": [
+    {
+      "seed": 37091102,
+      "particles": 4096,
+      "mode_frequencies": [
+        0.20361328125,
+        0.191162109375,
+        0.208984375,
+        0.193115234375,
+        0.203125
+      ],
+      "expected_mode_frequencies": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "maximum_standardized_mean_error": 0.042059475346890224,
+      "maximum_standardized_variance_error": 0.033338631688745624,
+      "log_normalizer": 0.06220399874558691,
+      "expected_log_normalizer": 0.0,
+      "elapsed_s": 4.303322892999859,
+      "final_acceptance": 0.2108154296875,
+      "passed": true
+    },
+    {
+      "seed": 37091103,
+      "particles": 4096,
+      "mode_frequencies": [
+        0.192626953125,
+        0.18701171875,
+        0.205810546875,
+        0.214599609375,
+        0.199951171875
+      ],
+      "expected_mode_frequencies": [
+        0.2,
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "maximum_standardized_mean_error": 0.037781924256359734,
+      "maximum_standardized_variance_error": 0.04261351158894877,
+      "log_normalizer": 0.03970352130903976,
+      "expected_log_normalizer": 0.0,
+      "elapsed_s": 4.780576821001887,
+      "final_acceptance": 0.23485565185546875,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "elapsed_s": 9.788829386001453,
+  "scope": "Numerical proposal/weight and control-space smoothing check, not MH370 validation or physical calibration.",
+  "source_sha256": {
+    "/tmp/mh370-command-sampler/forward_backward_control.py": "4fd4fa6dfbcc981707ab717c5605b3014f1629e65976913dce4eaea46733061c",
+    "/tmp/mh370-command-sampler/sampler.py": "7a5b8089503309dd5788d648e770f83fae63b0d5fd4d6c68e5f5420f2bfbf430"
+  }
+}

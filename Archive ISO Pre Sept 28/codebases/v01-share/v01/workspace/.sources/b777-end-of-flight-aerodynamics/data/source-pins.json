@@ -1,0 +1,248 @@
+{
+  "schema_version": "1.0.0",
+  "frozen_at_utc": "2026-08-27T00:00:00Z",
+  "hash_algorithm": "sha256",
+  "notes": [
+    "Files marked fetch=true are downloaded only to the caller-selected cache outside the repository.",
+    "A public download is not treated as permission to redistribute. No upstream binary or data file is vendored here.",
+    "Legal classifications are an engineering intake screen, not legal advice."
+  ],
+  "sources": [
+    {
+      "id": "openap_release",
+      "candidate_family": "openap_b772_point_mass",
+      "title": "OpenAP v2.6.0 source",
+      "version": "v2.6.0",
+      "commit": "4fb21d6e402fd1f4a48b191ad6801c74479e71f5",
+      "published": "2026-07-02",
+      "url": "https://codeload.github.com/junzis/openap/tar.gz/4fb21d6e402fd1f4a48b191ad6801c74479e71f5",
+      "cache_filename": "openap-v2.6.0-4fb21d6e.tar.gz",
+      "sha256": "3e3bed2c6d17eca5aa1715e8906bd6c7099cb8f6df83c88a18375c9f726d7fc8",
+      "fetch": true,
+      "license": {
+        "spdx": "LGPL-3.0-only",
+        "file": "LICENSE",
+        "sha256": "e3a994d82e644b03a792a930f574002658412f62407f5fee083f2555c5f23118"
+      },
+      "pinned_members": {
+        "openap/data/aircraft/b772.yml": "6c056746a9430cf2dd4232ab3486e3c3141ed88478f7ab25959b52a2ed9b8273",
+        "openap/data/dragpolar/b772.yml": "b05b381eac8a896d6a7564ccd8277242c05de307c515b75eb4b3b96fd560ed42",
+        "openap/data/engine/engines.csv": "90f58f10a25d71c9c1b18f4611a8bfcd4f2fd15382c57df428397344ee6333d2",
+        "openap/drag.py": "ba577d14367c459b0c7a0f973f0995fdb8fcaabb744e6a992873184f422e80f8",
+        "openap/thrust.py": "e79d18b156010a66f2e6f11a766a5257323665d4d9f93646f43809eb5d4d173a"
+      }
+    },
+    {
+      "id": "openap_drag_polar_paper",
+      "candidate_family": "openap_b772_point_mass",
+      "title": "Estimating aircraft drag polar using open flight surveillance data and a stochastic total energy model",
+      "authors": "Sun, Hoekstra, Ellerbroek",
+      "journal": "Transportation Research Part C 114 (2020) 391-404",
+      "doi": "10.1016/j.trc.2020.01.026",
+      "repository_record": "https://resolver.tudelft.nl/uuid:c3ff6240-e5d7-46fa-a47c-77304f5c1c49",
+      "url": "https://repository.tudelft.nl/file/File_fc242ad5-d745-4225-8f2b-ef7faf810d0a",
+      "cache_filename": "openap-drag-polar-paper.pdf",
+      "sha256": "cf77acf25536922867270a764b0511ada2cfcb330c0d8a7e70dc6eb5be41c141",
+      "fetch": true,
+      "license": {
+        "status": "Elsevier all rights reserved; TU Delft repository access under the Taverne project",
+        "redistribution": "not_vendored"
+      }
+    },
+    {
+      "id": "openap_drag_polar_dataset",
+      "candidate_family": "openap_b772_point_mass",
+      "title": "Supplemental dataset for Estimating aircraft drag polar using open flight surveillance data and a stochastic total energy model",
+      "version": "Figshare article 11424924, version 2",
+      "published": "2019-12-21",
+      "record_url": "https://figshare.com/articles/dataset/Open_aircraft_performance_modeling_data/11424924/2",
+      "url": "https://ndownloader.figshare.com/files/20369382",
+      "cache_filename": "openap-drag-polar-data-v2.zip",
+      "sha256": "79e1a631597ec3984d0077ba62bfe10059464a9072773cae41117eabe271be4b",
+      "md5_publisher": "cb47cc08081f8ac6375783ffe4d81fde",
+      "fetch": true,
+      "license": {
+        "spdx": "CC-BY-4.0",
+        "redistribution": "allowed_with_attribution"
+      },
+      "pinned_members": {
+        "data/estimation_results/estimation_result_b772.csv": "429b306574dbd1efca566604fdd3e876aca379c029d67b0a96476848a732b718"
+      }
+    },
+    {
+      "id": "openap_b772_polar_change",
+      "candidate_family": "openap_b772_point_mass",
+      "title": "OpenAP commit changing B772 drag-polar coefficients",
+      "commit": "2ca2a05cc4c11fc7bff22f40f4098d06f229e62e",
+      "published": "2020-12-07",
+      "url": "https://github.com/junzis/openap/commit/2ca2a05cc4c11fc7bff22f40f4098d06f229e62e",
+      "fetch": false,
+      "pin": "commit identity and b772.yml diff",
+      "license": {
+        "spdx": "LGPL-3.0-only",
+        "redistribution": "allowed_under_license"
+      }
+    },
+    {
+      "id": "flightgear_777_modern_fdm",
+      "candidate_family": "flightgear_yasim_community_b777",
+      "title": "Boeing-777-Flightgear 777-200ER-v2 YASim definition",
+      "repository": "https://github.com/franck-vmd/Boeing-777-Flightgear",
+      "commit": "62396863bf567695b1137873bb939005accf85b3",
+      "published": "2026-07-17",
+      "url": "https://raw.githubusercontent.com/franck-vmd/Boeing-777-Flightgear/62396863bf567695b1137873bb939005accf85b3/777-VMD/777-200ER-v2.xml",
+      "cache_filename": "flightgear-modern-777-200ER.xml",
+      "sha256": "0d24ed659b6664af10d465ac71392405bb407c7a3b4d0a65efa64a5dbe129cb3",
+      "fetch": true,
+      "license": {
+        "spdx": "GPL-2.0-only",
+        "url": "https://raw.githubusercontent.com/franck-vmd/Boeing-777-Flightgear/62396863bf567695b1137873bb939005accf85b3/LICENSE",
+        "sha256": "8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643",
+        "redistribution": "allowed_under_license"
+      }
+    },
+    {
+      "id": "flightgear_777_historical_fdm",
+      "candidate_family": "flightgear_yasim_community_b777",
+      "title": "FGMEMBERS 777-200ER YASim definition",
+      "repository": "https://github.com/FGMEMBERS/777",
+      "commit": "371a354e5805c3c54afac926fea16bb19ea71fda",
+      "published": "2019-09-23",
+      "url": "https://raw.githubusercontent.com/FGMEMBERS/777/371a354e5805c3c54afac926fea16bb19ea71fda/777-200ER.xml",
+      "cache_filename": "flightgear-historical-777-200ER.xml",
+      "sha256": "9efa7d64bbcd6e7b31f87d3c60552712191cf16d88d8e87f78c2baedcdf75ede",
+      "fetch": true,
+      "archive_sha256": "46f3ed8d5c9ac682f811a3e8d1e4e2fb6d56558da66f76c2c036b502aded3b43",
+      "license": {
+        "status": "unresolved",
+        "evidence": "No repository-root licence file or file-level licence header was located at the pinned commit.",
+        "redistribution": "blocked"
+      }
+    },
+    {
+      "id": "jsbsim_release",
+      "candidate_family": "official_jsbsim_distribution",
+      "title": "JSBSim v1.3.1 source and official model inventory",
+      "version": "v1.3.1",
+      "commit": "3b25f25e49b42d0489c04ac805674fc1450ca579",
+      "published": "2026-05-17",
+      "url": "https://codeload.github.com/JSBSim-Team/jsbsim/tar.gz/3b25f25e49b42d0489c04ac805674fc1450ca579",
+      "cache_filename": "jsbsim-v1.3.1-3b25f25e.tar.gz",
+      "sha256": "69d410ec9281cd4b03d029c3430b99f3ff9d240a64f83a7479cf746fd8bdffff",
+      "fetch": true,
+      "license": {
+        "spdx": "LGPL-2.1-only",
+        "file": "COPYING",
+        "sha256": "1e7e6bae5a5bde32f1ae5a7c37a082d1ab03cf89354f7f936ac40be9e39a6531"
+      }
+    },
+    {
+      "id": "iannello_boeing_eof_trajectories",
+      "candidate_family": "boeing_engineering_simulator_outputs",
+      "title": "Ten Boeing engineering-simulator end-of-flight trajectory exports",
+      "post_url": "https://mh370.radiantphysics.com/2018/08/19/end-of-flight-simulations-of-mh370/",
+      "post_published": "2018-08-19",
+      "post_modified": "2018-08-31",
+      "url": "https://www.dropbox.com/s/8m4tiesn2wi0jgu/2018-08-19%20EOF%20Sims.zip?dl=1",
+      "cache_filename": "iannello-boeing-eof-simulations.zip",
+      "sha256": "e400ac73478dff8698cd344a69d7969804f6adb0eb2121d5cacd3b58d63111db",
+      "fetch": true,
+      "license": {
+        "status": "ATSB permission to Iannello to share on the cited blog; no general downstream licence located",
+        "redistribution": "link_only"
+      }
+    },
+    {
+      "id": "icao_engine_emissions_databank",
+      "candidate_family": "trent892_certification_points",
+      "title": "ICAO Aircraft Engine Emissions Databank",
+      "version": "03/2026",
+      "record_url": "https://www.easa.europa.eu/en/domains/environment/icao-aircraft-engine-emissions-databank",
+      "url": "https://www.easa.europa.eu/en/downloads/131424/en",
+      "cache_filename": "icao-eedb-2026-03.xlsx",
+      "sha256": "57a9ff572458ad3a3141afc1aea932b5faa5796d279f0ac74600b27869302530",
+      "fetch": true,
+      "license": {
+        "status": "publicly downloadable; no permissive data redistribution licence located",
+        "redistribution": "link_only"
+      }
+    },
+    {
+      "id": "nasa_transport_class_model_report",
+      "candidate_family": "nasa_generic_transport_tcm",
+      "title": "Development of the Transport Class Model Aircraft Simulation from a Sub-Scale Generic Transport Model Simulation",
+      "report_number": "NASA/TM-2011-217169",
+      "ntrs_record": "https://ntrs.nasa.gov/citations/20110014509",
+      "url": "https://ntrs.nasa.gov/api/citations/20110014509/downloads/20110014509.pdf?attachment=true",
+      "cache_filename": "nasa-tm-2011-217169-generic-transport.pdf",
+      "sha256": "22570bc60fd366a86ae2e3eb44dff7008a2764e5e3c31545c66ba758626800b5",
+      "fetch": true,
+      "license": {
+        "status": "work of the United States Government; NTRS marks public use permitted",
+        "redistribution": "public_use_permitted"
+      },
+      "software_release": {
+        "id": "LAR-17625-1",
+        "url": "https://software.nasa.gov/software/LAR-17625-1",
+        "availability": "open-source release available by request; requires MATLAB/Simulink"
+      }
+    },
+    {
+      "id": "malaysia_safety_investigation_report",
+      "candidate_family": "identity_reference",
+      "title": "MH370 Safety Investigation Report",
+      "publisher": "Malaysian ICAO Annex 13 Safety Investigation Team",
+      "published": "2018-07-02",
+      "url": "https://www.mot.gov.my/en/MH370%20Investigation%20Report/01-Report/MH370SafetyInvestigationReport.pdf",
+      "fetch": false,
+      "pin": "report title, publisher, publication date, URL, PDF pages 84, 95-96, and 135-136",
+      "license": {
+        "spdx": "CC-BY-3.0-AU",
+        "status": "Report text is CC BY 3.0 Australia except identified emblems and third-party material; separate Boeing trajectory-export rights are not inferred.",
+        "redistribution": "report_allowed_with_attribution"
+      }
+    },
+    {
+      "id": "atsb_search_debris_update",
+      "candidate_family": "boeing_engineering_simulator_outputs",
+      "title": "MH370 - Search and debris examination update",
+      "publisher": "Australian Transport Safety Bureau",
+      "published": "2016-11-02",
+      "amended": "2017-08-17",
+      "url": "https://www.atsb.gov.au/sites/default/files/media/5773389/ae-2014-054_mh370-search-and-debris-update_aug2017.pdf",
+      "fetch": false,
+      "pin": "ATSB investigation AE-2014-054, report date and amended date, URL",
+      "license": {
+        "spdx": "CC-BY-3.0-AU",
+        "status": "Report text is CC BY 3.0 Australia except identified emblems and third-party material.",
+        "redistribution": "report_allowed_with_attribution"
+      }
+    },
+    {
+      "id": "atsb_operational_search_report",
+      "candidate_family": "public_glide_comparator",
+      "title": "The Operational Search for MH370",
+      "publisher": "Australian Transport Safety Bureau",
+      "published": "2017-10-03",
+      "url": "https://www.atsb.gov.au/sites/default/files/media/5773565/operational-search-for-mh370_final_3oct2017.pdf",
+      "fetch": false,
+      "pin": "ATSB investigation AE-2014-054, report date, URL, PDF page 99",
+      "license": {
+        "status": "official public report; no permissive redistribution licence relied upon",
+        "redistribution": "link_only"
+      }
+    },
+    {
+      "id": "eurocontrol_bada_licence",
+      "candidate_family": "eurocontrol_bada",
+      "title": "BADA Product Management Document and licence agreement",
+      "url": "https://www.eurocontrol.int/sites/default/files/library/008_BADA_Product_management.pdf",
+      "fetch": false,
+      "pin": "official product-management document, Appendix B",
+      "license": {
+        "status": "request, review, and individual non-transferable licence required",
+        "redistribution": "blocked"
+      }
+    }
+  ]
+}

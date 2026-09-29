@@ -1,0 +1,47 @@
+{
+  "states": "baseline_exhaustion_states",
+  "parent_draws": 8192,
+  "integrations": 98304,
+  "seed": 260919,
+  "seconds": 217.75294378199033,
+  "prior_family_weights": [
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333,
+    0.08333333333333333
+  ],
+  "mixture_status": "Equal-family sensitivity mixture, not empirically calibrated EoF probabilities",
+  "BFO_status": "Feasibility envelope only; no probability law assumed for oscillator warm-up",
+  "impact_count": 85045,
+  "range_pass_count": 75997,
+  "range_and_BFO_envelope_count": 403,
+  "nested_weight_ess": 69642.84615085417,
+  "BFO_subset_ess": 358.345972905218,
+  "caution": "Nested ESS does not create independent information beyond the parent posterior; group uncertainty by source_index.",
+  "weather_sha256": "0de015b62786e54868b2a6d89d5bee50599521396a32fe0b7140c40dd6661ccc",
+  "status_counts": {
+    "1": 85045,
+    "2": 0,
+    "3": 4797,
+    "4": 0,
+    "5": 8462
+  },
+  "status_codes": {
+    "1": "impact",
+    "2": "duration limit",
+    "3": "speed or altitude envelope",
+    "4": "weather coverage",
+    "5": "near-vertical coordinate singularity"
+  },
+  "source_group_ess": 703.8412612951944,
+  "source_weight_ess": 718.9591159729026,
+  "source_largest_weight": 0.018273926375162418
+}

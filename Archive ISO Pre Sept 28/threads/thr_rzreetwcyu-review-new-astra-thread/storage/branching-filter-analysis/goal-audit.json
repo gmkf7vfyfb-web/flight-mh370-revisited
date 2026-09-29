@@ -1,0 +1,36 @@
+{
+  "checked_utc": "2026-09-09T02:58:06.805038+00:00",
+  "objective_achieved": false,
+  "next_goal_status": "blocked",
+  "blocking_condition": "The closed sampling allocation cannot cover the required independent flight validation, and no successful MH370 benchmark supports extending that allocation under the current plan. No new concrete, validated sampler correction is available.",
+  "allocation_seconds": 7200,
+  "used_seconds": 7171.624055344,
+  "remaining_seconds": 28.375944655999774,
+  "numerical_processes_live": false,
+  "consecutive_goal_turns_with_same_blocker": [
+    {
+      "turn": "original overnight goal turn ending with the 85000-particle comparison",
+      "classification": "progress",
+      "evidence": "Completed independent runs; agreement failed; sampling closed within cap."
+    },
+    {
+      "turn": "first automatic continuation after closure",
+      "classification": "progress",
+      "evidence": "Saved-run terminal attribution completed without new flights; retained-support disagreement persists when removing fuel factor."
+    },
+    {
+      "turn": "second automatic continuation after closure",
+      "classification": "no progress toward validated filter",
+      "evidence": "Revalidated terminal processes, unchanged failed comparison and insufficient remaining allocation; no safe useful sampling task identified."
+    }
+  ],
+  "completion_defects": [
+    "Independent MH370 distributions do not meet the predeclared numerical targets.",
+    "Known-flight control and high-manoeuvre synthetic recovery do not establish calibrated recovery for the final method.",
+    "Full aircraft-performance feasibility and fuel-model calibration remain incomplete.",
+    "No accepted canonical integration or publishable geographic PDF exists.",
+    "Subsequent complexity relaxation and additional evidence depend on the unresolved core."
+  ],
+  "resumption_condition": "Explicitly revised work/compute conditions and a concrete correction with an independently checkable benchmark; do not repeat the failed configuration unchanged.",
+  "limitations": "This is a resource and validation impasse for the present implementation and allocation, not proof that the inference problem is impossible."
+}

@@ -1,0 +1,93 @@
+{
+  "schema_id": "mh370-hydroacoustic-release-summary",
+  "schema_version": 1,
+  "status": "RELEASEABLE_DIAGNOSTIC_ZERO_WEIGHT",
+  "source_cell_count": 5289,
+  "source_grid_extent": {
+    "path": "../pleiades-bran2016-forward-inversion/outputs/model-averaged-impact-density.csv",
+    "sha256": "0af895ba12d023a81cffbc0df4df30baba0de5d2a243861b86c0a7b9a2af222b",
+    "geometry_only": true,
+    "expected_cell_count": 5289,
+    "along_arc_nm": [
+      0.0,
+      640.0
+    ],
+    "cross_arc_nm": [
+      -100.0,
+      100.0
+    ],
+    "spacing_nm": 5.0
+  },
+  "scenario_template_count": 32,
+  "expanded_box_scenario_count": 169248,
+  "station_prediction_count": 338496,
+  "reference_signal_cell_id": "a056_x-035",
+  "reverse_candidates": [
+    {
+      "candidate_id": "figure9_rectangle_1",
+      "candidate_status": "source-reported single-station candidate",
+      "compatible_cell_count": 0,
+      "compatible_scenario_template_count": 0,
+      "along_arc_min_nm": null,
+      "along_arc_max_nm": null,
+      "cross_arc_min_nm": null,
+      "cross_arc_max_nm": null,
+      "likelihood_evaluated": false,
+      "log_weight_increment": 0.0
+    },
+    {
+      "candidate_id": "figure9_rectangle_2",
+      "candidate_status": "source-reported preferred single-station candidate",
+      "compatible_cell_count": 0,
+      "compatible_scenario_template_count": 0,
+      "along_arc_min_nm": null,
+      "along_arc_max_nm": null,
+      "cross_arc_min_nm": null,
+      "cross_arc_max_nm": null,
+      "likelihood_evaluated": false,
+      "log_weight_increment": 0.0
+    },
+    {
+      "candidate_id": "oscar_visual_pair",
+      "candidate_status": "post-hoc publication-trace timing pair; boundary/airgun affected",
+      "compatible_cell_count": 3429,
+      "compatible_scenario_template_count": 4460,
+      "along_arc_min_nm": 0.0,
+      "along_arc_max_nm": 640.0,
+      "cross_arc_min_nm": -100.0,
+      "cross_arc_max_nm": 100.0,
+      "likelihood_evaluated": false,
+      "log_weight_increment": 0.0
+    },
+    {
+      "candidate_id": "complete_scan_top_pair",
+      "candidate_status": "representative maximum from complete unfiltered scan; scan-adjusted p=1.000",
+      "compatible_cell_count": 3433,
+      "compatible_scenario_template_count": 5368,
+      "along_arc_min_nm": 0.0,
+      "along_arc_max_nm": 640.0,
+      "cross_arc_min_nm": -100.0,
+      "cross_arc_max_nm": 100.0,
+      "likelihood_evaluated": false,
+      "log_weight_increment": 0.0
+    }
+  ],
+  "publication_trace_control": {
+    "unfiltered_maximum_energy_correlation_r": 0.11998328736494618,
+    "unfiltered_scan_adjusted_p": 1.0,
+    "rank8_maximum_energy_correlation_r": 0.1086594526988338,
+    "rank8_scan_adjusted_p": 0.9641434262948207,
+    "complete_scan_status": "EXPLORATORY_PUBLICATION_TRACE_CORRELATION_NOT_EVENT_ASSOCIATION_OR_LOCATION_LIKELIHOOD",
+    "conclusion": "no two-station association survives complete-search correction in the publication traces"
+  },
+  "evidence_disposition": "diagnostic_zero_weight",
+  "likelihood_evaluated": false,
+  "log_weight_increment": 0.0,
+  "release_boundaries": [
+    "impact families and coupling values form an unweighted sensitivity bank",
+    "straight-path celerity bounds are not bathymetric propagation Green functions",
+    "publication vectors are already-filtered plotted paths, not raw CTBTO triad channels",
+    "correlation, arrival, pressure and reverse-window results cannot reweight the estimator",
+    "raw-triad likelihood remains blocked on response/timing metadata and blinded injection calibration"
+  ]
+}

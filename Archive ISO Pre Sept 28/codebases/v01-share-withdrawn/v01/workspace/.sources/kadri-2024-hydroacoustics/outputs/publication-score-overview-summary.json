@@ -1,0 +1,79 @@
+{
+  "status": "PUBLICATION_TRACE_SCORE_AND_CONDITIONAL_TIMING_SUMMARY_NOT_EVENT_ASSOCIATION",
+  "h01w_q99_peaks": [
+    {
+      "station": "H01W",
+      "panel": "b",
+      "rank_within_panel": 1,
+      "peak_utc": "2014-03-08T00:39:23.700Z",
+      "local_energy_score": "3.80924257",
+      "panel_q99_threshold": "3.78920466",
+      "above_panel_q99": true,
+      "nearest_observed_airgun_peak_utc": "",
+      "offset_from_observed_airgun_peak_s": "",
+      "status": "PUBLICATION_TRACE_PEAK_NOT_EVENT_IDENTITY"
+    },
+    {
+      "station": "H01W",
+      "panel": "c",
+      "rank_within_panel": 1,
+      "peak_utc": "2014-03-08T00:52:04.350Z",
+      "local_energy_score": "11.8980253",
+      "panel_q99_threshold": "7.18505701",
+      "above_panel_q99": true,
+      "nearest_observed_airgun_peak_utc": "",
+      "offset_from_observed_airgun_peak_s": "",
+      "status": "PUBLICATION_TRACE_PEAK_NOT_EVENT_IDENTITY"
+    }
+  ],
+  "h08s_selected_filter": {
+    "method_selected_on_panel_d": "low_rank_8_shift_0.30s",
+    "panel_e_control_selected_method": "low_rank_8_shift_0.30s",
+    "panel_d_q99_peaks": [
+      {
+        "station": "H08S",
+        "panel": "d",
+        "rank_within_panel": 1,
+        "peak_utc": "2014-03-08T01:08:00.750Z",
+        "local_energy_score": "7.90914411",
+        "panel_q99_threshold": "7.40012645",
+        "above_panel_q99": true,
+        "nearest_observed_airgun_peak_utc": "2014-03-08T01:08:00.750Z",
+        "offset_from_observed_airgun_peak_s": "0.000",
+        "status": "FILTERED_PUBLICATION_TRACE_PEAK_NOT_EVENT_IDENTITY"
+      }
+    ],
+    "panel_e_q99_peaks": [
+      {
+        "station": "H08S",
+        "panel": "e",
+        "rank_within_panel": 1,
+        "peak_utc": "2014-03-08T01:12:49.500Z",
+        "local_energy_score": "11.8541195",
+        "panel_q99_threshold": "11.4233589",
+        "above_panel_q99": true,
+        "nearest_observed_airgun_peak_utc": "2014-03-08T01:12:49.300Z",
+        "offset_from_observed_airgun_peak_s": "0.200",
+        "status": "FILTERED_PUBLICATION_TRACE_PEAK_NOT_EVENT_IDENTITY"
+      }
+    ]
+  },
+  "impact_time_model": {
+    "sample_count": 500000,
+    "random_seed": 3700085,
+    "celerity_distribution": "uniform over acoustic_celerity_km_s",
+    "spatial_distribution": "integrated PDF reference_power_marginalization__core",
+    "quantiles": [
+      0.025,
+      0.5,
+      0.975
+    ],
+    "status": "DECLARED_TIMING_SUMMARY_NOT_EVENT_ASSOCIATION_POSTERIOR"
+  },
+  "limits": [
+    "scores operate on already-filtered publication vectors, not raw CTBTO channels",
+    "q99 is a within-panel screen, not a calibrated false-alarm probability",
+    "H08S residual filtering can remove or retain coincident signal energy depending on subspace overlap",
+    "impact-time intervals assume the independent integrated PDF and uniform celerity; they are not association posteriors"
+  ]
+}

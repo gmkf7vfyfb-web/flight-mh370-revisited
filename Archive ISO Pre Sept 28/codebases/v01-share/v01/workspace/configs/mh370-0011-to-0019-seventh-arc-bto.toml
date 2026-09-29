@@ -1,0 +1,38 @@
+schema_version = 2
+name = "MH370 00:11 to corrected R600 BTO control"
+plotted_paths = 400
+source_handoffs = [
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370024/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370025/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370026/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370027/posterior-handoff.json",
+]
+
+[selection]
+kind = "bto"
+
+[inputs]
+observations = "../inputs/accident/satcom-observations.csv"
+satellite_ephemeris = "../inputs/accident/satellite-ephemeris.csv"
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+source_epoch_id = "m0011"
+target_epoch_id = "m0019a"
+target_channel = "R600"
+
+[satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12

@@ -1,0 +1,288 @@
+{
+  "schema_version": 1,
+  "model_id": "public-b772-bffm2-diagnostic-v1",
+  "eligibility": "diagnostic-only",
+  "parameters": {
+    "gravity_m_s2": {
+      "value": 9.80665,
+      "unit": "m/s^2",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "Standard gravity used by the cited atmosphere and performance equations."
+    },
+    "air_gas_constant_j_kg_k": {
+      "value": 287.05287,
+      "unit": "J/(kg K)",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "Specific gas constant for dry air."
+    },
+    "ratio_specific_heats": {
+      "value": 1.4,
+      "unit": "1",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "Constant-gamma speed-of-sound approximation."
+    },
+    "sea_level_pressure_pa": {
+      "value": 101325.0,
+      "unit": "Pa",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "ISA sea-level pressure."
+    },
+    "sea_level_temperature_k": {
+      "value": 288.15,
+      "unit": "K",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "ISA sea-level temperature."
+    },
+    "tropospheric_lapse_k_m": {
+      "value": -0.0065,
+      "unit": "K/m",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "ISA lapse rate below the tropopause."
+    },
+    "tropopause_height_m": {
+      "value": 11000.0,
+      "unit": "m",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "Geopotential-height boundary in the two-layer atmosphere approximation."
+    },
+    "tropopause_temperature_k": {
+      "value": 216.65,
+      "unit": "K",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "ISA isothermal-layer temperature."
+    },
+    "feet_to_metres": {
+      "value": 0.3048,
+      "unit": "m/ft",
+      "classification": "source-derived",
+      "source_ref": "exact_unit_definitions",
+      "note": "Exact international-foot definition."
+    },
+    "celsius_zero_kelvin": {
+      "value": 273.15,
+      "unit": "K",
+      "classification": "source-derived",
+      "source_ref": "exact_unit_definitions",
+      "note": "Exact offset between Celsius and kelvin scales."
+    },
+    "seconds_per_hour": {
+      "value": 3600.0,
+      "unit": "s/h",
+      "classification": "source-derived",
+      "source_ref": "exact_unit_definitions",
+      "note": "Exact civil-time conversion."
+    },
+    "feet_per_flight_level": {
+      "value": 100.0,
+      "unit": "ft/FL",
+      "classification": "source-derived",
+      "source_ref": "official_appendix_1_6e",
+      "note": "Flight-level number expressed in hundreds of feet of pressure altitude."
+    },
+    "feet_per_minute_to_m_s": {
+      "value": 0.00508,
+      "unit": "(m/s)/(ft/min)",
+      "classification": "source-derived",
+      "source_ref": "exact_unit_definitions",
+      "note": "Exact conversion derived from the international foot and SI minute."
+    },
+    "knots_to_m_s": {
+      "value": 0.514444,
+      "unit": "(m/s)/kt",
+      "classification": "model-choice",
+      "source_ref": "exact_unit_definitions",
+      "note": "Six-significant-figure conversion retained to reproduce the public approximation; not used in the core burn calculation."
+    },
+    "pounds_to_kg": {
+      "value": 0.45359237,
+      "unit": "kg/lb",
+      "classification": "source-derived",
+      "source_ref": "exact_unit_definitions",
+      "note": "Exact international avoirdupois-pound definition."
+    },
+    "wing_area_m2": {
+      "value": 427.8,
+      "unit": "m^2",
+      "classification": "source-derived",
+      "source_ref": "openap_b772_aircraft_commit",
+      "note": "Generic B772 wing reference area; not an aircraft-tail-specific measurement."
+    },
+    "clean_drag_coefficient": {
+      "value": 0.024,
+      "unit": "1",
+      "classification": "source-derived",
+      "source_ref": "openap_b772_dragpolar_commit",
+      "note": "Generic clean parabolic-polar coefficient."
+    },
+    "induced_drag_factor": {
+      "value": 0.047,
+      "unit": "1",
+      "classification": "source-derived",
+      "source_ref": "openap_b772_dragpolar_commit",
+      "note": "Generic clean parabolic-polar factor."
+    },
+    "load_factor": {
+      "value": 1.0,
+      "unit": "1",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Unaccelerated point-mass vertical force balance."
+    },
+    "flight_path_angle_rule": {
+      "value": "atan2-vertical-rate-over-tas",
+      "unit": "method",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Finite-angle point-mass approximation retained exactly from the public recreation."
+    },
+    "minimum_required_thrust_n": {
+      "value": 0.0,
+      "unit": "N",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "The proxy does not represent reverse thrust or windmilling drag as negative commanded thrust."
+    },
+    "engine_count": {
+      "value": 2,
+      "unit": "engine",
+      "classification": "source-derived",
+      "source_ref": "aircraft_type_definition",
+      "note": "Boeing 777-200ER twin-engine architecture."
+    },
+    "maximum_static_thrust_per_engine_n": {
+      "value": 411480.0,
+      "unit": "N",
+      "classification": "source-derived",
+      "source_ref": "openap_engine_commit",
+      "note": "OpenAP Trent 892 row; certification/static rating, not available cruise thrust."
+    },
+    "lto_reference_points": [
+      {
+        "power_setting": {"value": 0.07, "unit": "1", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "ICAO idle certification point."},
+        "fuel_flow_per_engine_kg_s": {"value": 1.0, "unit": "kg/s", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "Uninstalled sea-level certification fuel flow."},
+        "installation_factor": {"value": 1.1, "unit": "1", "classification": "source-derived", "source_ref": "faa_sage_technical_manual", "note": "BFFM2 idle installation correction."}
+      },
+      {
+        "power_setting": {"value": 0.3, "unit": "1", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "ICAO approach certification point."},
+        "fuel_flow_per_engine_kg_s": {"value": 3.1, "unit": "kg/s", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "Uninstalled sea-level certification fuel flow."},
+        "installation_factor": {"value": 1.02, "unit": "1", "classification": "source-derived", "source_ref": "faa_sage_technical_manual", "note": "BFFM2 approach installation correction."}
+      },
+      {
+        "power_setting": {"value": 0.85, "unit": "1", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "ICAO climb-out certification point."},
+        "fuel_flow_per_engine_kg_s": {"value": 3.91, "unit": "kg/s", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "Uninstalled sea-level certification fuel flow."},
+        "installation_factor": {"value": 1.013, "unit": "1", "classification": "source-derived", "source_ref": "faa_sage_technical_manual", "note": "BFFM2 climb-out installation correction."}
+      },
+      {
+        "power_setting": {"value": 1.0, "unit": "1", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "ICAO take-off certification point."},
+        "fuel_flow_per_engine_kg_s": {"value": 5.33, "unit": "kg/s", "classification": "source-derived", "source_ref": "openap_engine_commit", "note": "Uninstalled sea-level certification fuel flow."},
+        "installation_factor": {"value": 1.01, "unit": "1", "classification": "source-derived", "source_ref": "faa_sage_technical_manual", "note": "BFFM2 take-off installation correction."}
+      }
+    ],
+    "reference_flow_interpolation": {
+      "value": "linear-in-power-setting",
+      "unit": "method",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Linear interpolation through adjusted LTO points; materially outside the recommended reduced-takeoff interpolation domain during cruise."
+    },
+    "thrust_fraction_lower_clamp": {
+      "value": 0.07,
+      "unit": "1",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Prevents extrapolation below the lowest LTO point."
+    },
+    "thrust_fraction_upper_clamp": {
+      "value": 1.0,
+      "unit": "1",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Prevents extrapolation above the highest LTO point."
+    },
+    "bffm2_temperature_exponent": {
+      "value": 3.8,
+      "unit": "1",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "Ambient correction exponent used in the inverse BFFM2 relation."
+    },
+    "bffm2_mach_exponent": {
+      "value": 0.2,
+      "unit": "1",
+      "classification": "source-derived",
+      "source_ref": "faa_sage_technical_manual",
+      "note": "Mach correction coefficient in the BFFM2 relation."
+    },
+    "fuel_flow_scale": {
+      "value": 1.0,
+      "unit": "1",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Explicitly untuned. No post-ACARS or exhaustion target is used."
+    },
+    "integration_step_s": {
+      "value": 1.0,
+      "unit": "s",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Deterministic midpoint integration step."
+    },
+    "integration_midpoint_fraction": {
+      "value": 0.5,
+      "unit": "1",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Evaluation point within each integration step."
+    },
+    "convergence_step_sizes_s": {
+      "value": [2.0, 1.0, 0.5],
+      "unit": "s",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Fixed step sizes used to bound numerical sensitivity."
+    },
+    "acars_total_abs_error_acceptance_kg": {
+      "value": 100.0,
+      "unit": "kg",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Coarse validation threshold reflecting 100 kg fuel-report granularity; it is not a statistical uncertainty."
+    },
+    "acars_interval_rmse_acceptance_kg": {
+      "value": 100.0,
+      "unit": "kg",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Coarse descriptive threshold only; interval signs remain mandatory output."
+    },
+    "integration_convergence_max_spread_kg": {
+      "value": 1.0,
+      "unit": "kg",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "Maximum allowed spread among the 2 s, 1 s, and 0.5 s ACARS midpoint runs."
+    },
+    "post_acars_temperature_rule": {
+      "value": "ISA-standard-day",
+      "unit": "method",
+      "classification": "source-derived",
+      "source_ref": "official_appendix_1_6e",
+      "note": "Matches the stated official calculation condition, but not a measured post-ACARS temperature history."
+    },
+    "post_acars_segment_transition_rule": {
+      "value": "instantaneous-between-printed-segments",
+      "unit": "method",
+      "classification": "model-choice",
+      "source_ref": "public_model_definition",
+      "note": "No transition energy is added; this deliberately isolates the official table's rounded constant-segment abstraction."
+    }
+  }
+}

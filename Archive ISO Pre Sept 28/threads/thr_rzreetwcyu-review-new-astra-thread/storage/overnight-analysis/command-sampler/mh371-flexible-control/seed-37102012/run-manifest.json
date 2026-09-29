@@ -1,0 +1,42 @@
+{
+  "command": [
+    "/tmp/mh370-command-sampler/sampler.py",
+    "--config",
+    "configs/mh371-broad-powered-flight-control.toml",
+    "--no-fuel-condition",
+    "--counts",
+    "8",
+    "2",
+    "2",
+    "--particles",
+    "512",
+    "--moves",
+    "48",
+    "--workers",
+    "4",
+    "--seed",
+    "37102012",
+    "--seconds",
+    "1500",
+    "--proposal",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/mh371-flexible-control/seed-37102011/proposal.npz",
+    "--witnesses",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/mh371-command-guides/guides.jsonl",
+    "--output",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/mh371-flexible-control/seed-37102012"
+  ],
+  "seed": 37102012,
+  "particles": 512,
+  "status": "unvalidated conditional sampling experiment",
+  "input_sha256": {
+    "/tmp/mh370-command-sampler/sampler.py": "153824d6fe8fd02880514497aca15c7e131958d2e383fdffe61a15e45259ae26",
+    "configs/mh371-broad-powered-flight-control.toml": "9b8bd2d0d61890eb50abfc2a5ebd5688f831fae39e56bc4fd31892823a4df06f",
+    "/jackbox/home/MH370/target/release/mh370": "65678edc029e2a89159a0c741bab5eb1d794046af60ee3112b40f77a0ce59ee5",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/mh371-flexible-control/seed-37102011/proposal.npz": "a8d32c7ba666e5bdf60c0bc024bd651daaf89d5b6b4148c315d70fba6e542457",
+    "/jackbox/home/MH370/configs/../inputs/controls/mh371-broad-satcom.csv": "0f1b0ff72b4385a53fae0e2cd86831ec65c60f37ad73ac07862cbbb96dfe6177",
+    "/jackbox/home/MH370/configs/../inputs/controls/mh371-broad-satellite.csv": "43f0e2445b9e979a8cdc5ac375294dd41050505b4d57c074bf923a9f359871fa",
+    "/jackbox/home/MH370/configs/../inputs/environment/mh371-era5-grid.bin": "44a65c9b043be2a71754722275877d9bff66df1342eb616d883159c65d3f63aa",
+    "/jackbox/home/MH370/configs/../inputs/environment/mh371-igrf14-grid.bin": "fbedb84fe68c6e547ff484fec47fbc89e28660fb2010ba4f336d0622467c933f"
+  },
+  "numpy_version": "2.5.2"
+}

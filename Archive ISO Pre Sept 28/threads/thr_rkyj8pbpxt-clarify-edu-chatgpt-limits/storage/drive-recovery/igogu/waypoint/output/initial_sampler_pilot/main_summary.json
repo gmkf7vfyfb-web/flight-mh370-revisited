@@ -1,0 +1,466 @@
+{
+  "status": "Exploratory importance estimate; convergence and numerical validation must be assessed before a probability-density claim",
+  "retained_contributions": 23102,
+  "weight_concentration_ESS": 1.0742570065295798,
+  "largest_weight": 0.9646194697252194,
+  "log_evidence_estimate": -80.64699057245025,
+  "latitude_quantiles": [
+    -35.028615842674064,
+    -34.882840424032985,
+    -34.882812330199194
+  ],
+  "longitude_quantiles": [
+    92.43946212989778,
+    92.61070859881363,
+    92.6107923442433
+  ],
+  "models": [
+    {
+      "turns": 0,
+      "altitude_class": 0,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 0,
+      "altitude_class": 1,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 1,
+      "altitude_class": 0,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 1,
+      "altitude_class": 1,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 2,
+      "altitude_class": 0,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 2,
+      "altitude_class": 1,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 3,
+      "altitude_class": 0,
+      "estimated_weight": 0.9917042386253317
+    },
+    {
+      "turns": 3,
+      "altitude_class": 1,
+      "estimated_weight": 0.007890735535420908
+    },
+    {
+      "turns": 4,
+      "altitude_class": 0,
+      "estimated_weight": 6.541223262843254e-06
+    },
+    {
+      "turns": 4,
+      "altitude_class": 1,
+      "estimated_weight": 0.000398484615979444
+    }
+  ],
+  "replicates": [
+    {
+      "replicate": 0,
+      "weight_concentration_ESS": 2.0248896464145947,
+      "latitude_quantiles": [
+        -35.39364568052859,
+        -35.0286163987197,
+        -34.311208414673345
+      ],
+      "longitude_quantiles": [
+        92.14770568282817,
+        92.43943695126973,
+        93.42109690326694
+      ],
+      "largest_weight": 0.6818414976828392
+    },
+    {
+      "replicate": 1,
+      "weight_concentration_ESS": 1.0202751403065107,
+      "latitude_quantiles": [
+        -34.883192146669785,
+        -34.88300655437266,
+        -34.88282096207555
+      ],
+      "longitude_quantiles": [
+        92.61062808573163,
+        92.61070968571072,
+        92.6107912856898
+      ],
+      "largest_weight": 0.9899815275625382
+    }
+  ],
+  "between_arcs_weight": 0.9999979927283819,
+  "RUNUT": [
+    {
+      "radius_nm": 5,
+      "passage_weight": 0.0,
+      "passage_and_between_weight": 0.0
+    },
+    {
+      "radius_nm": 10,
+      "passage_weight": 0.0,
+      "passage_and_between_weight": 0.0
+    },
+    {
+      "radius_nm": 20,
+      "passage_weight": 0.0,
+      "passage_and_between_weight": 0.0
+    }
+  ],
+  "cell_records": [
+    {
+      "replicate": "prior_cells",
+      "turns": 0,
+      "altitude_class": 0,
+      "prior_draws": 131072,
+      "fine_evaluations": 2654,
+      "fine_physical_fuel_valid": 568,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 185.00780444098928
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 0,
+      "altitude_class": 1,
+      "prior_draws": 131072,
+      "fine_evaluations": 2623,
+      "fine_physical_fuel_valid": 653,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 172.02055436799128
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 1,
+      "altitude_class": 0,
+      "prior_draws": 131072,
+      "fine_evaluations": 2732,
+      "fine_physical_fuel_valid": 589,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 141.99804512799892
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 1,
+      "altitude_class": 1,
+      "prior_draws": 131072,
+      "fine_evaluations": 2660,
+      "fine_physical_fuel_valid": 627,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 166.52550065499963
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 2,
+      "altitude_class": 0,
+      "prior_draws": 131072,
+      "fine_evaluations": 2633,
+      "fine_physical_fuel_valid": 541,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 117.36163746399689
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 2,
+      "altitude_class": 1,
+      "prior_draws": 131072,
+      "fine_evaluations": 2685,
+      "fine_physical_fuel_valid": 625,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 61.810332833003486
+    },
+    {
+      "replicate": "fine_importance_a",
+      "turns": 3,
+      "altitude_class": 0,
+      "seed": 2612191,
+      "particles": 4096,
+      "prior_draws": 13077,
+      "prior_valid": 17569,
+      "proposal_draws": 131072,
+      "total_trajectory_evaluations": 118031,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_3_0.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 7591,
+      "log_evidence": -81.62623697519874,
+      "importance_ess": 1.9351985141251802,
+      "relative_evidence_se": 0.7188429751540496,
+      "largest_importance_weight": 0.6976111207767601,
+      "unique_parameter_vectors": 37,
+      "gaussian_to_hard_gate_fraction": 0.05791473388671875,
+      "endpoint_lat_quantiles": [
+        -35.39367484981225,
+        -35.028616416154414,
+        -34.31114168947286
+      ],
+      "endpoint_lon_quantiles": [
+        92.08291738662717,
+        92.43943596234234,
+        93.41836302518932
+      ],
+      "elapsed_s": 296.2026822720072
+    },
+    {
+      "replicate": "fine_importance_b",
+      "turns": 3,
+      "altitude_class": 0,
+      "seed": 2612192,
+      "particles": 4096,
+      "prior_draws": 6617,
+      "prior_valid": 8861,
+      "proposal_draws": 65536,
+      "total_trajectory_evaluations": 59049,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_3_0.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 3837,
+      "log_evidence": -77.27969684311991,
+      "importance_ess": 1.0042428713722324,
+      "relative_evidence_se": 0.9978776456755095,
+      "largest_importance_weight": 0.9978843062701593,
+      "unique_parameter_vectors": 5,
+      "gaussian_to_hard_gate_fraction": 0.0585479736328125,
+      "endpoint_lat_quantiles": [
+        -34.88355400107917,
+        -34.88319212172998,
+        -34.882830242380784
+      ],
+      "endpoint_lon_quantiles": [
+        92.61055984084784,
+        92.6106746880642,
+        92.61078953528053
+      ],
+      "elapsed_s": 169.337002596003
+    },
+    {
+      "replicate": "fine_importance_a",
+      "turns": 3,
+      "altitude_class": 1,
+      "seed": 2612291,
+      "particles": 4096,
+      "prior_draws": 13055,
+      "prior_valid": 13468,
+      "proposal_draws": 131072,
+      "total_trajectory_evaluations": 117329,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_3_1.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 4300,
+      "log_evidence": -86.58060897195948,
+      "importance_ess": 3.027358529990229,
+      "relative_evidence_se": 0.5747289261637367,
+      "largest_importance_weight": 0.44153567602853705,
+      "unique_parameter_vectors": 20,
+      "gaussian_to_hard_gate_fraction": 0.032806396484375,
+      "endpoint_lat_quantiles": [
+        -35.23289145956315,
+        -35.207357015135365,
+        -34.85600069180009
+      ],
+      "endpoint_lon_quantiles": [
+        92.34918174515397,
+        92.43434227131957,
+        92.76040477722938
+      ],
+      "elapsed_s": 243.37245998698927
+    },
+    {
+      "replicate": "fine_importance_b",
+      "turns": 3,
+      "altitude_class": 1,
+      "seed": 2612292,
+      "particles": 4096,
+      "prior_draws": 6558,
+      "prior_valid": 6804,
+      "proposal_draws": 65536,
+      "total_trajectory_evaluations": 58831,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_3_1.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 2253,
+      "log_evidence": -82.11049300234532,
+      "importance_ess": 1.0042648045096063,
+      "relative_evidence_se": 0.9978667486280987,
+      "largest_importance_weight": 0.9978735499460434,
+      "unique_parameter_vectors": 4,
+      "gaussian_to_hard_gate_fraction": 0.0343780517578125,
+      "endpoint_lat_quantiles": [
+        -35.62156555467822,
+        -35.6094463107478,
+        -35.59732706681737
+      ],
+      "endpoint_lon_quantiles": [
+        91.94757286588998,
+        91.95339471513725,
+        91.95921656438452
+      ],
+      "elapsed_s": 145.33138518199848
+    },
+    {
+      "replicate": "fine_importance_a",
+      "turns": 4,
+      "altitude_class": 0,
+      "seed": 2613191,
+      "particles": 4096,
+      "prior_draws": 12902,
+      "prior_valid": 6052,
+      "proposal_draws": 131072,
+      "total_trajectory_evaluations": 104404,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_4_0.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 1470,
+      "log_evidence": -90.33310818391617,
+      "importance_ess": 6.767223419480544,
+      "relative_evidence_se": 0.3844001345180929,
+      "largest_importance_weight": 0.2918177931517146,
+      "unique_parameter_vectors": 46,
+      "gaussian_to_hard_gate_fraction": 0.0112152099609375,
+      "endpoint_lat_quantiles": [
+        -35.98011937890148,
+        -34.957918751146316,
+        -34.105542268307765
+      ],
+      "endpoint_lon_quantiles": [
+        91.5407911113432,
+        92.53964538611572,
+        93.65853703482165
+      ],
+      "elapsed_s": 153.29473911499372
+    },
+    {
+      "replicate": "fine_importance_b",
+      "turns": 4,
+      "altitude_class": 0,
+      "seed": 2613192,
+      "particles": 4096,
+      "prior_draws": 6550,
+      "prior_valid": 2978,
+      "proposal_draws": 65536,
+      "total_trajectory_evaluations": 52069,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_4_0.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 730,
+      "log_evidence": -90.18644186551573,
+      "importance_ess": 5.037608824429659,
+      "relative_evidence_se": 0.4455239826842805,
+      "largest_importance_weight": 0.36889952555785044,
+      "unique_parameter_vectors": 40,
+      "gaussian_to_hard_gate_fraction": 0.011138916015625,
+      "endpoint_lat_quantiles": [
+        -35.81690884054799,
+        -34.91478904097534,
+        -34.30659272779716
+      ],
+      "endpoint_lon_quantiles": [
+        91.61499861295397,
+        92.59003653437365,
+        93.54696546525835
+      ],
+      "elapsed_s": 95.59698691900121
+    },
+    {
+      "replicate": "fine_importance_a",
+      "turns": 4,
+      "altitude_class": 1,
+      "seed": 2613291,
+      "particles": 4096,
+      "prior_draws": 13010,
+      "prior_valid": 7608,
+      "proposal_draws": 131072,
+      "total_trajectory_evaluations": 109943,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_4_1.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 1976,
+      "log_evidence": -85.76704210740687,
+      "importance_ess": 1.2490600960947627,
+      "relative_evidence_se": 0.8947593876321651,
+      "largest_importance_weight": 0.8911918618182905,
+      "unique_parameter_vectors": 6,
+      "gaussian_to_hard_gate_fraction": 0.01507568359375,
+      "endpoint_lat_quantiles": [
+        -35.367224016951816,
+        -34.955167623596786,
+        -34.9550147036457
+      ],
+      "endpoint_lon_quantiles": [
+        92.21507840670756,
+        92.76535685102567,
+        92.76539804009309
+      ],
+      "elapsed_s": 147.7966027210059
+    },
+    {
+      "replicate": "fine_importance_b",
+      "turns": 4,
+      "altitude_class": 1,
+      "seed": 2613292,
+      "particles": 4096,
+      "prior_draws": 6463,
+      "prior_valid": 3754,
+      "proposal_draws": 65536,
+      "total_trajectory_evaluations": 55193,
+      "fine_target": "Navigation 1-second step, later level segments <=30 seconds; exact inclusion-probability correction for coarse-screen refinement",
+      "method": "Independent fixed-proposal importance sampling, 10% full prior plus 90% local and sensitivity-based Student-t mixtures; canonical turn-time prior density k!",
+      "proposal_file": "output/frozen_proposals/proposal_4_1.npz",
+      "complete": true,
+      "supported": true,
+      "gate_survivors": 945,
+      "log_evidence": -93.32832169811549,
+      "importance_ess": 1.3049072037024056,
+      "relative_evidence_se": 0.8753986286766265,
+      "largest_importance_weight": 0.8724707749802612,
+      "unique_parameter_vectors": 29,
+      "gaussian_to_hard_gate_fraction": 0.0144195556640625,
+      "endpoint_lat_quantiles": [
+        -35.290331728423325,
+        -34.944130454263366,
+        -34.943612627433126
+      ],
+      "endpoint_lon_quantiles": [
+        92.3745549933963,
+        92.85603660973925,
+        92.85744309673225
+      ],
+      "elapsed_s": 93.14353536699491
+    }
+  ],
+  "warning": "Zero-hit lower-turn cells are unresolved, not proved impossible. Independent samples share trained proposals; this tests integration noise, not discovery of every mode."
+}

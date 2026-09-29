@@ -1,0 +1,322 @@
+{
+  "accident_pairs": {
+    "00:19": {
+      "acknowledgement_bfo_hz": -2,
+      "acknowledgement_minus_reference_hz": -254,
+      "acknowledgement_minus_request_hz": -184,
+      "all_vertical_change_fpm_upward": -10523.97538498438,
+      "all_vertical_mean_acceleration_g_upward": -0.6791560868475144,
+      "all_vertical_mean_acceleration_m_s2_upward": -6.660246039083177,
+      "elapsed_s": 8.027,
+      "quality": {
+        "acknowledgement_ber_field": 0,
+        "acknowledgement_cno_db_hz": 43.38,
+        "request_ber_field": 0,
+        "request_cno_db_hz": 40.59
+      },
+      "request_bfo_hz": 182,
+      "request_minus_reference_hz": -70
+    },
+    "18:25": {
+      "acknowledgement_bfo_hz": 273,
+      "acknowledgement_minus_reference_hz": 129,
+      "acknowledgement_minus_request_hz": 131,
+      "all_vertical_change_fpm_upward": 7492.612909961705,
+      "all_vertical_mean_acceleration_g_upward": 0.5513199065089045,
+      "all_vertical_mean_acceleration_m_s2_upward": 5.406601361165548,
+      "elapsed_s": 7.04,
+      "quality": {
+        "acknowledgement_ber_field": 0,
+        "acknowledgement_cno_db_hz": 42.55,
+        "request_ber_field": 5,
+        "request_cno_db_hz": 30.28
+      },
+      "request_bfo_hz": 142,
+      "request_minus_reference_hz": -2
+    }
+  },
+  "source_model": "startup-bfo-scenarios",
+  "model_specification": {
+    "gross_error_component": "u | z=1 ~ StudentT(nu, 0, tau^2)",
+    "identifiability_warning": "The public controls do not calibrate the regression coefficients, tau, or a signed BER-to-BFO mapping.",
+    "mixture_indicator": "z ~ Bernoulli(p); logit(p) may depend on C/N0, BER, received power, bearer, message, channel unit and event state",
+    "observation_equation": "y[e,m] = h(x[e,m]) + b[m] + o[e,m] + u[e,m] + epsilon[e,m]",
+    "ordinary_component": "u | z=0 ~ Normal(0, sigma_quality^2)"
+  },
+  "public_operational_sequences": {
+    "all_six_ground_acknowledgements_lower_than_requests": true,
+    "event7_18_25_shape": {
+      "acknowledgement_raw_bfo_hz": 273.0,
+      "last_elapsed_s": 167.48300010804087,
+      "last_raw_bfo_hz": 143.0,
+      "post_ack_points_elapsed_bfo": [
+        [
+          96.4840000262484,
+          176.0
+        ],
+        [
+          96.98399982880801,
+          175.0
+        ],
+        [
+          100.98299996461719,
+          172.0
+        ],
+        [
+          158.4829998901114,
+          144.0
+        ],
+        [
+          162.83899995032698,
+          148.0
+        ],
+        [
+          162.97700023278594,
+          148.0
+        ],
+        [
+          163.13800003845245,
+          147.0
+        ],
+        [
+          163.2970001315698,
+          147.0
+        ],
+        [
+          163.4579999372363,
+          147.0
+        ],
+        [
+          163.63300024531782,
+          147.0
+        ],
+        [
+          167.48300010804087,
+          143.0
+        ]
+      ],
+      "request_raw_bfo_hz": 142.0
+    },
+    "events": {
+      "1": {
+        "acknowledgement_minus_request_raw_hz": -6.0,
+        "acknowledgement_raw_bfo_hz": 378.0,
+        "aircraft_state": "ground",
+        "closed_loop_to_open_loop_half_drop_hz": 3.0,
+        "closed_loop_to_open_loop_half_request_excess_hz": 62.24194906403494,
+        "fitted_baseline_hz": 259.5161018719301,
+        "outage_minutes_interval": [
+          381,
+          442
+        ],
+        "raw_request_excess_over_fitted_baseline_hz": 124.48389812806988,
+        "request_minus_acknowledgement_raw_hz": 6.0,
+        "request_raw_bfo_hz": 384.0,
+        "retained_fit_point_count": 6,
+        "sequence_point_count": 6,
+        "timestamp_utc": "2014-02-23T23:57:00Z",
+        "workbook_input_status": "digitized_from_holland_figure",
+        "workbook_rows": [
+          5,
+          10
+        ]
+      },
+      "2": {
+        "acknowledgement_minus_request_raw_hz": -12.389999999999986,
+        "acknowledgement_raw_bfo_hz": 468.0,
+        "aircraft_state": "ground",
+        "closed_loop_to_open_loop_half_drop_hz": 6.194999999999993,
+        "closed_loop_to_open_loop_half_request_excess_hz": 25.300942613096453,
+        "fitted_baseline_hz": 429.7881147738071,
+        "outage_minutes_interval": [
+          295,
+          354
+        ],
+        "raw_request_excess_over_fitted_baseline_hz": 50.601885226192906,
+        "request_minus_acknowledgement_raw_hz": 12.389999999999986,
+        "request_raw_bfo_hz": 480.39,
+        "retained_fit_point_count": 5,
+        "sequence_point_count": 5,
+        "timestamp_utc": "2014-02-26T14:11:00Z",
+        "workbook_input_status": "digitized_from_holland_figure",
+        "workbook_rows": [
+          11,
+          15
+        ]
+      },
+      "3": {
+        "acknowledgement_minus_request_raw_hz": -7.5,
+        "acknowledgement_raw_bfo_hz": -38.0,
+        "aircraft_state": "ground",
+        "closed_loop_to_open_loop_half_drop_hz": 3.75,
+        "closed_loop_to_open_loop_half_request_excess_hz": 24.139859102250334,
+        "fitted_baseline_hz": -78.77971820450067,
+        "outage_minutes_interval": [
+          35,
+          95
+        ],
+        "raw_request_excess_over_fitted_baseline_hz": 48.27971820450067,
+        "request_minus_acknowledgement_raw_hz": 7.5,
+        "request_raw_bfo_hz": -30.5,
+        "retained_fit_point_count": 7,
+        "sequence_point_count": 7,
+        "timestamp_utc": "2014-03-05T03:06:00Z",
+        "workbook_input_status": "digitized_from_holland_figure",
+        "workbook_rows": [
+          16,
+          22
+        ]
+      },
+      "4": {
+        "acknowledgement_minus_request_raw_hz": -4.0,
+        "acknowledgement_raw_bfo_hz": 486.0,
+        "aircraft_state": "ground",
+        "closed_loop_to_open_loop_half_drop_hz": 2.0,
+        "closed_loop_to_open_loop_half_request_excess_hz": 17.51334734104796,
+        "fitted_baseline_hz": 454.9733053179041,
+        "outage_minutes_interval": [
+          43,
+          103
+        ],
+        "raw_request_excess_over_fitted_baseline_hz": 35.02669468209592,
+        "request_minus_acknowledgement_raw_hz": 4.0,
+        "request_raw_bfo_hz": 490.0,
+        "retained_fit_point_count": 6,
+        "sequence_point_count": 6,
+        "timestamp_utc": "2014-03-06T13:29:00Z",
+        "workbook_input_status": "digitized_from_holland_figure",
+        "workbook_rows": [
+          23,
+          28
+        ]
+      },
+      "5": {
+        "acknowledgement_minus_request_raw_hz": -1.6800000000000068,
+        "acknowledgement_raw_bfo_hz": 369.0,
+        "aircraft_state": "ground",
+        "closed_loop_to_open_loop_half_drop_hz": 0.8400000000000034,
+        "closed_loop_to_open_loop_half_request_excess_hz": 14.562117301903186,
+        "fitted_baseline_hz": 341.55576539619364,
+        "outage_minutes_interval": [
+          35,
+          92
+        ],
+        "raw_request_excess_over_fitted_baseline_hz": 29.12423460380637,
+        "request_minus_acknowledgement_raw_hz": 1.6800000000000068,
+        "request_raw_bfo_hz": 370.68,
+        "retained_fit_point_count": 7,
+        "sequence_point_count": 7,
+        "timestamp_utc": "2014-03-06T15:02:00Z",
+        "workbook_input_status": "digitized_from_holland_figure",
+        "workbook_rows": [
+          29,
+          35
+        ]
+      },
+      "6": {
+        "acknowledgement_minus_request_raw_hz": -5.0,
+        "acknowledgement_raw_bfo_hz": 468.0,
+        "aircraft_state": "ground",
+        "closed_loop_to_open_loop_half_drop_hz": 2.5,
+        "closed_loop_to_open_loop_half_request_excess_hz": 63.34296488352069,
+        "fitted_baseline_hz": 346.3140702329586,
+        "outage_minutes_interval": [
+          228,
+          288
+        ],
+        "raw_request_excess_over_fitted_baseline_hz": 126.68592976704139,
+        "request_minus_acknowledgement_raw_hz": 5.0,
+        "request_raw_bfo_hz": 473.0,
+        "retained_fit_point_count": 11,
+        "sequence_point_count": 17,
+        "timestamp_utc": "2014-03-07T12:50:00Z",
+        "workbook_input_status": "cached_inmarsat_log_values",
+        "workbook_rows": [
+          36,
+          52
+        ]
+      },
+      "7": {
+        "acknowledgement_minus_request_raw_hz": 131.0,
+        "acknowledgement_raw_bfo_hz": 273.0,
+        "aircraft_state": "airborne",
+        "closed_loop_to_open_loop_half_drop_hz": null,
+        "closed_loop_to_open_loop_half_request_excess_hz": null,
+        "fitted_baseline_hz": 143.45943801344407,
+        "outage_minutes_interval": [
+          20,
+          78
+        ],
+        "raw_request_excess_over_fitted_baseline_hz": -1.4594380134440712,
+        "request_minus_acknowledgement_raw_hz": -131.0,
+        "request_raw_bfo_hz": 142.0,
+        "retained_fit_point_count": 0,
+        "sequence_point_count": 13,
+        "timestamp_utc": "2014-03-07T18:25:27.421Z",
+        "workbook_input_status": "cached_inmarsat_log_values",
+        "workbook_rows": [
+          53,
+          65
+        ]
+      }
+    },
+    "only_airborne_event": "7",
+    "shortest_ground_outage_lower_bound_minutes": 35,
+    "six_ground_request_to_ack_open_loop_equivalent_drop_range_hz": [
+      0.8400000000000034,
+      6.194999999999993
+    ]
+  },
+  "scenario_constraints": {
+    "00:19_holland_post_peak_correction": {
+      "all_vertical_change_fpm_upward": [
+        -10523.97538498438,
+        -10180.802274604453
+      ],
+      "all_vertical_downward_speed_increase_fpm": [
+        10180.802274604453,
+        10523.97538498438
+      ],
+      "corrected_acknowledgement_minus_request_hz": [
+        -184,
+        -178
+      ]
+    },
+    "00:19_negligible_common_transient_equal_kinematics": {
+      "required_additional_ack_minus_request_term_hz": -184
+    },
+    "18:25_common_post_peak_plus_bad_request": {
+      "assumed_ack_common_ocxo_excess_hz": 129,
+      "note": "Range assumes no additional ack term and Holland's 0..6 Hz request-minus-ack decay.",
+      "required_additional_request_term_hz": [
+        -137,
+        -131
+      ]
+    },
+    "18:25_pre_peak_request_near_settled": {
+      "acknowledgement_total_residual_hz": 129,
+      "note": "Fits total residuals but does not identify OCXO separately from other burst terms.",
+      "request_total_residual_hz": -2
+    },
+    "equal_kinematics_requires_combined_transient_ack_minus_request_hz": {
+      "00:19": -184,
+      "18:25": 131,
+      "fixed_signed_pair_bias_can_explain_both": false
+    }
+  },
+  "source": {
+    "workbook_path": "corpus/data/primary/ulich-2018-ocxo-transient-errors.xlsx",
+    "workbook_sha256": "5dbcdff99d832d255970306e0d41d319e2d35e2eff6474c8b04b3f6253853e02"
+  },
+  "ulich_workbook_factor_two_audit": {
+    "event6_open_loop_equivalent_half_request_excess_hz": 63.34296488352069,
+    "event6_raw_acknowledgement_bfo_hz": 468.0,
+    "event6_raw_request_bfo_hz": 473.0,
+    "event6_raw_request_excess_used_by_fit_hz": 126.68592976704139,
+    "explicit_formula_count": 200,
+    "explicit_half_factor_formula_matches": [],
+    "interpretation_limit": "The cached workbook directly subtracts a fitted baseline from raw-scale ground values. This audits the public artifact, not the author's intent or unavailable external workbooks.",
+    "maximum_cached_data_path_identity_error_hz": 0.0,
+    "visible_ground_to_open_loop_halving_in_fit_data_path": false
+  }
+}

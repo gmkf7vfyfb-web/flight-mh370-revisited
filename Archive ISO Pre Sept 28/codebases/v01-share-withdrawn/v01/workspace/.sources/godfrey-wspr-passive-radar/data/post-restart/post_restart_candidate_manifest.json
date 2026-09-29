@@ -1,0 +1,358 @@
+{
+  "anomaly_audit": {
+    "anomalous_six_character_rows": 86586,
+    "anomaly_type_counts": {
+      "dual": 22173,
+      "frequency_only": 25764,
+      "snr_only": 38649
+    },
+    "input_rows_in_included_bands": 179023,
+    "six_character_geometry_rows": 158674
+  },
+  "baseline_coverage_audit": {
+    "full_baseline_coverage": true,
+    "input_time_max": "2014-03-08 04:58:00",
+    "input_time_min": "2014-03-07 13:30:00",
+    "leading_margin_minutes": 46.0,
+    "required_baseline_time_max": "2014-03-08 04:28:00",
+    "required_baseline_time_min": "2014-03-07 14:16:00",
+    "selected_radio_time_max": "2014-03-08 01:28:00",
+    "selected_radio_time_min": "2014-03-07 17:16:00",
+    "trailing_margin_minutes": 30.0
+  },
+  "compact_spot_records": 9828,
+  "epochs": [
+    "m1825",
+    "m1941",
+    "m2041",
+    "m2141",
+    "m2241",
+    "m0011",
+    "m0019a"
+  ],
+  "inputs": {
+    "canonical_satcom_observations": {
+      "path": "/jackbox/home/MH370/inputs/accident/satcom-observations.csv",
+      "selected_rows": [
+        {
+          "bto_us": 12600.0,
+          "epoch_id": "m1825",
+          "note": "anomalous R1200; BFO excluded",
+          "raw_source_rows": "7013",
+          "time_utc": "2014-03-07 18:25:34"
+        },
+        {
+          "bto_us": 11500.0,
+          "epoch_id": "m1941",
+          "note": "R1200",
+          "raw_source_rows": "7126",
+          "time_utc": "2014-03-07 19:41:02"
+        },
+        {
+          "bto_us": 11740.0,
+          "epoch_id": "m2041",
+          "note": "R1200",
+          "raw_source_rows": "7128",
+          "time_utc": "2014-03-07 20:41:04"
+        },
+        {
+          "bto_us": 12780.0,
+          "epoch_id": "m2141",
+          "note": "R1200",
+          "raw_source_rows": "7130",
+          "time_utc": "2014-03-07 21:41:26"
+        },
+        {
+          "bto_us": 14540.0,
+          "epoch_id": "m2241",
+          "note": "R1200",
+          "raw_source_rows": "7132",
+          "time_utc": "2014-03-07 22:41:21"
+        },
+        {
+          "bto_us": 18040.0,
+          "epoch_id": "m0011",
+          "note": "R1200",
+          "raw_source_rows": "7187",
+          "time_utc": "2014-03-08 00:10:59"
+        },
+        {
+          "bto_us": 18400.0,
+          "epoch_id": "m0019a",
+          "note": "R600 corrected; BFO excluded",
+          "raw_source_rows": "7188",
+          "time_utc": "2014-03-08 00:19:29"
+        }
+      ],
+      "sha256": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0"
+    },
+    "canonical_satellite_ephemeris": {
+      "path": "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv",
+      "selected_rows": [
+        {
+          "epoch_id": "m1825",
+          "time_utc": "2014-03-07 18:25:34",
+          "x_km": 18138.16627,
+          "y_km": 38070.30314,
+          "z_km": 1150.214015
+        },
+        {
+          "epoch_id": "m1941",
+          "time_utc": "2014-03-07 19:41:02",
+          "x_km": 18146.73487,
+          "y_km": 38065.88964,
+          "z_km": 1206.651849
+        },
+        {
+          "epoch_id": "m2041",
+          "time_utc": "2014-03-07 20:41:04",
+          "x_km": 18153.99914,
+          "y_km": 38063.08991,
+          "z_km": 1158.411188
+        },
+        {
+          "epoch_id": "m2141",
+          "time_utc": "2014-03-07 21:41:26",
+          "x_km": 18161.90697,
+          "y_km": 38060.47336,
+          "z_km": 1029.903202
+        },
+        {
+          "epoch_id": "m2241",
+          "time_utc": "2014-03-07 22:41:21",
+          "x_km": 18170.08201,
+          "y_km": 38057.38586,
+          "z_km": 831.767167
+        },
+        {
+          "epoch_id": "m0011",
+          "time_utc": "2014-03-08 00:10:59",
+          "x_km": 18181.15895,
+          "y_km": 38050.48229,
+          "z_km": 434.568805
+        },
+        {
+          "epoch_id": "m0019a",
+          "time_utc": "2014-03-08 00:19:29",
+          "x_km": 18182.02038,
+          "y_km": 38049.64962,
+          "z_km": 392.417794
+        }
+      ],
+      "sha256": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+    },
+    "satellite_ephemeris_workbook": {
+      "path_at_materialization": "/tmp/Inmarsat3F1_fixed_position_velocity.xlsx",
+      "sha256": "a1a84be75ebdcf642a77dd110a755b01c6e4be1adb5dbef2cfb42fc5585989d0",
+      "source_url": "https://raw.githubusercontent.com/gmkf7vfyfb-web/flight-mh370-revisited/e0115e817975d073bdf2b09a428fbce62aeda35c/downloads/MH370/Inmarsat3F1_23839%20Fixed%20Position%20Velocity.xlsx"
+    },
+    "wspr_extract": {
+      "included_band_rows": 179023,
+      "note": "WSPR Live is mutable; the compact frozen output is the PHaRLAP input.",
+      "path_at_materialization": "/tmp/wspr_post_restart_frozen_bands_20260902.csv",
+      "query": "SELECT id,time,band,rx_sign,rx_lat,rx_lon,rx_loc,tx_sign,tx_lat,tx_lon,tx_loc,distance,azimuth,rx_azimuth,frequency,power,snr,drift,version,code FROM wspr.rx WHERE time >= toDateTime('2014-03-07 13:30:00') AND time < toDateTime('2014-03-08 05:00:00') AND band IN (-1,0,1,3,5,7,10,14,18,21,24,28) ORDER BY time,id FORMAT CSVWithNames",
+      "retrieved_utc": "2026-09-02T09:51:02Z",
+      "sha256": "2a2ceb43517b4f5e3e5cd53729ed66c29ae15144849bbdd1a1ca70e7dd7ebf74",
+      "source_url": "https://db1.wspr.live/",
+      "time_max": "2014-03-08 04:58:00",
+      "time_min": "2014-03-07 13:30:00"
+    }
+  },
+  "method": "Trajectory-blind, same-slot public-core anomaly intersections on the eastern BTO branch, followed by PHaRLAP in a separate frozen batch.",
+  "outputs": {
+    "post_restart_arc_audit.csv": {
+      "rows": 7,
+      "sha256": "82d716bfa96e712cb5ee4d6531330fb7bcc5b6ceeb4860251a83b0076f542e65"
+    },
+    "post_restart_arcs.csv": {
+      "rows": 78945,
+      "sha256": "30bb400e94a96ece97386ce76584e75bde0f8fa3412b119515f826232a31918b"
+    },
+    "post_restart_pair_locations.csv.gz": {
+      "rows": 38581,
+      "sha256": "d2b077dbaa3a87352e6c3537b22cf1811c48e171b29829117ffe81c103932675"
+    },
+    "post_restart_spot_records.csv.gz": {
+      "rows": 9828,
+      "sha256": "1167ab2ade104e5b6d9634cf3f38d9a33ca0debf68ae3fc3b3b2280279b54d0d"
+    }
+  },
+  "pair_counts": {
+    "m0011": {
+      "actual_time": 3448,
+      "minus_60_min": 4722,
+      "plus_60_min": 3123
+    },
+    "m0019a": {
+      "actual_time": 3959,
+      "minus_60_min": 4295,
+      "plus_60_min": 3954
+    },
+    "m1825": {
+      "actual_time": 1089,
+      "minus_60_min": 720,
+      "plus_60_min": 684
+    },
+    "m1941": {
+      "actual_time": 617,
+      "minus_60_min": 809,
+      "plus_60_min": 421
+    },
+    "m2041": {
+      "actual_time": 447,
+      "minus_60_min": 632,
+      "plus_60_min": 637
+    },
+    "m2141": {
+      "actual_time": 648,
+      "minus_60_min": 894,
+      "plus_60_min": 789
+    },
+    "m2241": {
+      "actual_time": 2317,
+      "minus_60_min": 2064,
+      "plus_60_min": 2312
+    }
+  },
+  "prespecified_assessment": {
+    "anomaly_threshold_standard_deviations": 0.75,
+    "arc_band_each_side_nm": 100.0,
+    "baseline_each_side_hours": 3.0,
+    "bto_arc_aircraft_altitude_km": 10.0,
+    "bto_arc_latitude_grid_points": 14001,
+    "control_offsets_minutes": {
+      "actual_time": 0,
+      "minus_60_min": -60,
+      "plus_60_min": 60
+    },
+    "epoch_selection": "One primary BTO arc at each of the seven conventional post-restart epochs. m1828a/m1828b are additional measurements of the first restart event, m0019b is the second seventh-arc measurement, and m1839/m2315 contain BFO but no BTO; none is treated as an additional numbered arc.",
+    "included_wspr_bands": [
+      -1,
+      0,
+      1,
+      3,
+      5,
+      7,
+      10,
+      14,
+      18,
+      21,
+      24,
+      28
+    ],
+    "legacy_reproduction_difference": "The earlier exploratory WSPR plot used 18:25:27 and BTO 17120 us for its first curve. This release assessment instead uses canonical estimator observation m1825 at 18:25:34 with BTO 12600 us. Other epoch differences are rounding at approximately one second.",
+    "map_extent_west_east_south_north_deg": [
+      64.0,
+      110.0,
+      -45.0,
+      10.0
+    ],
+    "minimum_baseline_rows": 5,
+    "minimum_link_circle_crossing_angle_deg": 20.0,
+    "truth_used_in_candidate_or_propagation_selection": false,
+    "wspr_midpoint_window_each_side_minutes": 10.0
+  },
+  "public_core_cluster_audit": {
+    "counts": {
+      "m0011": {
+        "raw_clusters": {
+          "actual_time": 403,
+          "minus_60_min": 644,
+          "plus_60_min": 396
+        },
+        "residual_clusters": {
+          "actual_time": 71,
+          "minus_60_min": 166,
+          "plus_60_min": 92
+        }
+      },
+      "m0019a": {
+        "raw_clusters": {
+          "actual_time": 509,
+          "minus_60_min": 591,
+          "plus_60_min": 542
+        },
+        "residual_clusters": {
+          "actual_time": 84,
+          "minus_60_min": 116,
+          "plus_60_min": 119
+        }
+      },
+      "m1825": {
+        "raw_clusters": {
+          "actual_time": 199,
+          "minus_60_min": 121,
+          "plus_60_min": 106
+        },
+        "residual_clusters": {
+          "actual_time": 89,
+          "minus_60_min": 50,
+          "plus_60_min": 42
+        }
+      },
+      "m1941": {
+        "raw_clusters": {
+          "actual_time": 102,
+          "minus_60_min": 165,
+          "plus_60_min": 62
+        },
+        "residual_clusters": {
+          "actual_time": 56,
+          "minus_60_min": 95,
+          "plus_60_min": 33
+        }
+      },
+      "m2041": {
+        "raw_clusters": {
+          "actual_time": 68,
+          "minus_60_min": 111,
+          "plus_60_min": 124
+        },
+        "residual_clusters": {
+          "actual_time": 39,
+          "minus_60_min": 68,
+          "plus_60_min": 71
+        }
+      },
+      "m2141": {
+        "raw_clusters": {
+          "actual_time": 103,
+          "minus_60_min": 127,
+          "plus_60_min": 120
+        },
+        "residual_clusters": {
+          "actual_time": 60,
+          "minus_60_min": 52,
+          "plus_60_min": 65
+        }
+      },
+      "m2241": {
+        "raw_clusters": {
+          "actual_time": 401,
+          "minus_60_min": 290,
+          "plus_60_min": 369
+        },
+        "residual_clusters": {
+          "actual_time": 109,
+          "minus_60_min": 85,
+          "plus_60_min": 117
+        }
+      }
+    },
+    "purpose": "Deterministic pre-PHaRLAP checksum only; these are not the extended-model results. Every candidate is provisionally passed through the surface screen before 25-km clustering and symmetric residualization.",
+    "total_clusters": 5553
+  },
+  "runtime": {
+    "numpy": "2.5.2",
+    "openpyxl": "3.1.5",
+    "pandas": "3.0.5",
+    "python": "3.14.7",
+    "scipy": "1.18.0"
+  },
+  "schema": "mh370.wspr.post-restart-candidates.v1",
+  "source_sha256": {
+    "control": "d1410f1a2ec385665ee445ed0b4989227797729d00cfa8793d9c71a4ecfa4bde",
+    "materializer": "e1a79caf4138ef1685074a52c9cc99fa766f9054506d087613feba3d1571b33f"
+  },
+  "total_pairs": 38581
+}

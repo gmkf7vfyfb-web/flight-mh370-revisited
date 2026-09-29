@@ -1,0 +1,33 @@
+{
+  "command": [
+    "/tmp/mh370-command-sampler/sampler.py",
+    "--counts",
+    "8",
+    "0",
+    "0",
+    "--particles",
+    "256",
+    "--moves",
+    "32",
+    "--seed",
+    "37090821",
+    "--seconds",
+    "900",
+    "--output",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/command-sampler/residual-drift-eight-settings/seed-37090821"
+  ],
+  "seed": 37090821,
+  "particles": 256,
+  "status": "unvalidated conditional sampling experiment",
+  "input_sha256": {
+    "/tmp/mh370-command-sampler/sampler.py": "5bc298b367eca7298b23e02281cc23bd7fc2585bbb232c5969ae219b97b494c7",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/target/release/mh370": "51504031770da91bd190cc9f2b090c63e7110c49935b5ad2adad4876ee18d0f7",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/flight-assumption-preanalysis/verified-witnesses.jsonl": "86a3f1c8330983092eeff3ddff39251ed49de72b52bd74dcde1f27962a160493",
+    "/jackbox/home/MH370/configs/../inputs/accident/satcom-through-0011.csv": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+    "/jackbox/home/MH370/configs/../inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/configs/../inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/configs/../inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "numpy_version": "2.5.2"
+}

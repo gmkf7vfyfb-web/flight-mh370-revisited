@@ -1,0 +1,137 @@
+{
+  "commands": [
+    {
+      "command": [
+        "/workspace/scratch/c386ceede7a0/.cargo/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "-p",
+        "mh370-estimator",
+        "--test",
+        "bridge_prefix",
+        "--",
+        "--nocapture"
+      ],
+      "log": "prefix-tests.log",
+      "returncode": 0
+    },
+    {
+      "command": [
+        "/workspace/scratch/c386ceede7a0/.cargo/bin/cargo",
+        "test",
+        "--offline",
+        "--locked",
+        "--workspace"
+      ],
+      "log": "workspace-tests.log",
+      "returncode": 101
+    }
+  ],
+  "prefixes": [
+    {
+      "seed": 37200001,
+      "segments": 67,
+      "mass_replay_error_kg": 5.820766091346741e-11,
+      "anchor_fuel_kg": 33357.178254217375,
+      "burn_kg": 642.821745782654,
+      "events": {
+        "altitude": 2,
+        "lateral": 1,
+        "speed": 3
+      },
+      "importance_weight_ready": false
+    },
+    {
+      "seed": 37200002,
+      "segments": 62,
+      "mass_replay_error_kg": 5.820766091346741e-11,
+      "anchor_fuel_kg": 33337.141155839985,
+      "burn_kg": 662.8588441600732,
+      "events": {
+        "altitude": 2,
+        "lateral": 2,
+        "speed": 4
+      },
+      "importance_weight_ready": false
+    },
+    {
+      "seed": 37200003,
+      "segments": 70,
+      "mass_replay_error_kg": 5.820766091346741e-11,
+      "anchor_fuel_kg": 33330.338385581446,
+      "burn_kg": 669.6616144186119,
+      "events": {
+        "altitude": 2,
+        "lateral": 3,
+        "speed": 1
+      },
+      "importance_weight_ready": false
+    },
+    {
+      "seed": 37200004,
+      "segments": 61,
+      "mass_replay_error_kg": 1.1641532182693481e-10,
+      "anchor_fuel_kg": 33361.02398925045,
+      "burn_kg": 638.9760107496404,
+      "events": {
+        "altitude": 2,
+        "lateral": 2,
+        "speed": 4
+      },
+      "importance_weight_ready": false
+    },
+    {
+      "seed": 37200005,
+      "segments": 27,
+      "mass_replay_error_kg": 1.1641532182693481e-10,
+      "anchor_fuel_kg": 33350.147780040614,
+      "burn_kg": 649.8522199592699,
+      "events": {
+        "altitude": 0,
+        "lateral": 0,
+        "speed": 5
+      },
+      "importance_weight_ready": false
+    },
+    {
+      "seed": 37200006,
+      "segments": 58,
+      "mass_replay_error_kg": 5.820766091346741e-11,
+      "anchor_fuel_kg": 33338.93087181814,
+      "burn_kg": 661.0691281818872,
+      "events": {
+        "altitude": 2,
+        "lateral": 2,
+        "speed": 2
+      },
+      "importance_weight_ready": false
+    },
+    {
+      "seed": 37200007,
+      "segments": 67,
+      "mass_replay_error_kg": 1.1641532182693481e-10,
+      "anchor_fuel_kg": 33341.89483042103,
+      "burn_kg": 658.1051695790593,
+      "events": {
+        "altitude": 4,
+        "lateral": 2,
+        "speed": 2
+      },
+      "importance_weight_ready": false
+    },
+    {
+      "seed": 37200008,
+      "segments": 69,
+      "mass_replay_error_kg": 5.820766091346741e-11,
+      "anchor_fuel_kg": 33338.496100010685,
+      "burn_kg": 661.5038999893441,
+      "events": {
+        "altitude": 3,
+        "lateral": 1,
+        "speed": 1
+      },
+      "importance_weight_ready": false
+    }
+  ]
+}

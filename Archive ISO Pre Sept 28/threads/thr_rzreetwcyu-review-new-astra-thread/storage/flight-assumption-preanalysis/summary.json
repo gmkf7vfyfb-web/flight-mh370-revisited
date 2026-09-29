@@ -1,0 +1,120 @@
+{
+  "status": "conditional feasibility examples; no posterior and no certified exclusion",
+  "coherence_examples": [
+    {
+      "endpoint_latitude": -36.191186093880575,
+      "direction_target_changes": 1,
+      "mode_switches": 0,
+      "sampled_absolute_heading_change_deg": 130.32489832426182,
+      "total_climb_ft": 0.0,
+      "total_descent_ft": 0.0,
+      "total_mach_variation": 0.0
+    },
+    {
+      "endpoint_latitude": -30.029818600602468,
+      "direction_target_changes": 8,
+      "mode_switches": 3,
+      "sampled_absolute_heading_change_deg": 581.4479209790386,
+      "total_climb_ft": 0.0,
+      "total_descent_ft": 0.0,
+      "total_mach_variation": 0.0
+    },
+    {
+      "endpoint_latitude": -15.06562403588273,
+      "direction_target_changes": 6,
+      "mode_switches": 3,
+      "sampled_absolute_heading_change_deg": 529.0382843649757,
+      "total_climb_ft": 0.0,
+      "total_descent_ft": 0.0,
+      "total_mach_variation": 0.0
+    }
+  ],
+  "comparisons": [
+    {
+      "comparison": "1 direction change",
+      "examples": 8,
+      "south_latitude": -36.191186093880575,
+      "north_latitude": -35.26022219856619
+    },
+    {
+      "comparison": "2 direction changes",
+      "examples": 14,
+      "south_latitude": -36.86933598499943,
+      "north_latitude": -34.17543620102193
+    },
+    {
+      "comparison": "4 direction changes",
+      "examples": 24,
+      "south_latitude": -37.18922844741217,
+      "north_latitude": -34.16629722222298
+    },
+    {
+      "comparison": "8 direction changes",
+      "examples": 58,
+      "south_latitude": -37.18922844741217,
+      "north_latitude": -15.061850514277262
+    },
+    {
+      "comparison": "16 direction changes",
+      "examples": 93,
+      "south_latitude": -37.479339092913655,
+      "north_latitude": -15.061850514277262
+    },
+    {
+      "comparison": "8 direction + up to 2 speed/altitude",
+      "examples": 77,
+      "south_latitude": -37.18922844741217,
+      "north_latitude": -15.061850514277262
+    },
+    {
+      "comparison": "8 direction + up to 4 speed/altitude",
+      "examples": 92,
+      "south_latitude": -37.37149468547249,
+      "north_latitude": -15.061850514277262
+    },
+    {
+      "comparison": "8 direction + up to 8 speed/altitude",
+      "examples": 114,
+      "south_latitude": -37.37149468547249,
+      "north_latitude": -15.061850514277262
+    }
+  ],
+  "verified_examples": 158,
+  "extreme_example_separation_nm": 1652.4263931861713,
+  "south_example": {
+    "valid": true,
+    "latitude": -37.479339092913655,
+    "longitude": 87.61895823403762,
+    "max_bto_sigma": 0.5404456950572514,
+    "max_bfo_sigma": 1.348035098800137,
+    "joint_chi2": 5.015766524482773,
+    "bias_hz": 149.77287090616687,
+    "fuel_kg": 332.97062232246685,
+    "exhaustion_time": null,
+    "satcom_compatible": true,
+    "restart_delay_s": 284.560322302812,
+    "fuel_delay_30_300_s": true,
+    "fuel_delay_60_180_s": false
+  },
+  "north_example": {
+    "valid": true,
+    "latitude": -15.061850514277262,
+    "longitude": 105.64049292320385,
+    "max_bto_sigma": 0.6197725407064667,
+    "max_bfo_sigma": 1.033138440223297,
+    "joint_chi2": 5.551958068338436,
+    "bias_hz": 147.48532697329634,
+    "fuel_kg": 564.0968921622191,
+    "exhaustion_time": null,
+    "satcom_compatible": true,
+    "restart_delay_s": 126.83208395329711,
+    "fuel_delay_30_300_s": true,
+    "fuel_delay_60_180_s": true
+  },
+  "search_and_verification_elapsed_seconds_sum": 503.9802798320088,
+  "search_child_cpu_seconds": 1201.119126,
+  "search_evaluations": 202959,
+  "search_profiles": 538,
+  "maximum_coarse_to_fine_endpoint_shift_nm": 3.708684957633299,
+  "maximum_coarse_to_fine_exhaustion_time_shift_s": 3.8732782320767
+}

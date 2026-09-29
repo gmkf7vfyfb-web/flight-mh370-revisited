@@ -1,0 +1,30 @@
+Completed the wide-net audit and durable ontology.
+
+My central judgment: public evidence strongly supports a southern-Indian-Ocean/seventh-arc loss family, but it does not currently justify a uniquely precise latitude. The narrowest published locations generally acquire their precision by conditioning away unresolved object identity or structural model uncertainty.
+
+Key findings:
+
+- The French “122 objects” and GA “70 objects” are different reported image lineages, not evidence that 52 objects were discarded. The later four Pleiades scenes produced 70 detections and 12 qualitative “probably man-made” labels, but no object was recovered or identified. CSIRO’s 35.6°S result is explicitly conditional on some of them being MH370 debris. [ATSB operational record](https://www.atsb.gov.au/sites/default/files/media/5773565/operational-search-for-mh370_final_3oct2017.pdf), [GA imagery report](https://www.atsb.gov.au/summary-imagery-analyses-non-natural-objects-support-search-flight-mh370).
+- Drift models provide regional constraints but materially diverge. Météo-France alone changes conclusions radically with buoyancy assumptions; Nesterov prefers 28–30°S; CSIRO favors the mid-30s; Trinanes supports broad westward compatibility while retaining major windage and buoyancy uncertainty. [CSIRO reports](https://www.atsb.gov.au/csiro-mh370-drift-reports), [NOAA-hosted Trinanes paper](https://www.aoml.noaa.gov/phod/docs/MH370_Trinanes_etal.pdf).
+- Retracted flap at separation is a legitimate narrow finding. “Therefore uncontrolled impact” is not derived.
+- Sonar non-detection applies to qualified reviewed cells, not rhetorical radii. The 2022 review covered qualifying data over about 29% of the requested 17,000 km².
+- Historical WSPR is rejected as a search-grade locator. An independent bistatic-radar calculation reproduces approximately −210 dBm, 51 dB below an already optimistic decoding threshold.
+- Hydroacoustic localization remains unknown, not impossible: public candidates lack validated association and calibration.
+- Malaysia has extended the Ocean Infinity agreement through 30 June 2027, with 7,428.54 km² reported remaining. [Official Malaysian statement](https://www.mot.gov.my/my/Kenyataan%20Media/Tahun%202026/29%20JUN%2026_KENYATAAN%20MEDIA%20MENTERI%20PENGANGKUTAN%20PERLANJUTAN%20PERJANJIAN%20ANTARA%20KERAJAAN%20MALAYSIA%20%26%20OCEAN%20INFINITY%20BAGI%20MENGESAN%20BANGKAI%20PESAWAT%20MH370.pdf).
+
+Artifacts:
+
+- [Full harsh-review report](/jackbox/home/MH370/reports/wide-net-ontology-audit-2026-08-13.md:8)
+- [Evidence-generating ontological model](/jackbox/home/MH370/ontology/EVIDENCE-MODEL.md:24)
+- [Typed ontology index](/jackbox/home/MH370/ontology/INDEX.md)
+- [Wide-net source inventory](/jackbox/home/MH370/knowledge/inventory/WIDE-NET-SOURCES.md:1)
+- [Pinpoint citation ledger](/jackbox/home/MH370/knowledge/citations/wide-net-ledger.md:1)
+- [Hashed corpus catalog](/jackbox/home/MH370/corpus/SOURCES.md:1)
+- [Pleiades count reproduction](/jackbox/home/MH370/analyses/D-0003-pleiades-count-audit/README.md:1)
+- [WSPR link-budget derivation](/jackbox/home/MH370/analyses/D-0004-wspr-link-budget/README.md:1)
+
+The repository now contains 53 hashed PDFs, 2,509 pages, 3,845 indexed chunks, and a graph of 54 nodes/61 relations. All 25 tests pass and every indexed artifact verifies against its hash.
+
+The highest-value missing evidence remains native French/MRSA imagery and masks, complete DGA flap metrology, the oldest flaperon barnacles, raw calibrated military radar, cell-level search/POD data, and raw multi-station acoustic records. Those are explicitly marked unavailable rather than silently inferred.
+
+One residual engineering issue is recorded in [SECURITY.md](/jackbox/home/MH370/SECURITY.md:1): npm reports two high-severity libvips advisories in the text-embedding dependency’s `sharp` package, with no fixed compatible release.

@@ -1,0 +1,17 @@
+{
+  "status": "PUBLICATION_TRACE_FILTER_SENSITIVITY_NOT_RAW_CTBTO_DATA",
+  "regular_grid_dt_s": 0.05,
+  "event_utc": "2014-03-08T01:03:13.150Z",
+  "period_search_s": [8.0, 12.0],
+  "envelope_window_s": 0.6,
+  "shot_search_half_window_s": 1.25,
+  "cycle_half_width_s": 4.5,
+  "alignment_max_shift_s": 0.5,
+  "fixed_mask_half_widths_s": [0.1, 0.15, 0.25, 0.5, 0.75, 1.0, 1.5, 2.0, 2.5, 3.0],
+  "adaptive_template_shift_s": [0.0, 0.15, 0.3, 0.5],
+  "low_rank_values": [1, 2, 3, 4, 6, 8],
+  "leave_out_neighbour_cycles": 1,
+  "target_local_half_width_s": 2.0,
+  "comparison_local_half_width_s": 2.0,
+  "seed": 3700067
+}

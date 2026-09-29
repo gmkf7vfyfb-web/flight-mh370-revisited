@@ -1,0 +1,22 @@
+{
+  "status": "Actual dynamically simulated conditional examples, selected after simulation; not posterior weights or event-association probabilities",
+  "arrival_time_utc": "2014-03-08T00:54:30Z",
+  "bearing_reference_deg": 306.18,
+  "conditional_counts_by_bearing_half_width_deg": {
+    "0.5": 13,
+    "3.3": 62
+  },
+  "selected_source_paths": 8,
+  "selection": "R600 absolute BTO residual <=3 SD, preferred arrival bracketed by 1430 and1570m/s travel times; bearing widths are separate declared sensitivities. Strict 0.5degree examples retained.",
+  "limitations": [
+    "No final BFO or calibrated reboot likelihood.",
+    "No event identity, waveform, amplitude or directional error calibration.",
+    "Selected paths and terminal controls do not form a probability sample.",
+    "The source paths were found by feasibility optimization before this selection; no trajectory prior conditioned on Kadri was sampled."
+  ],
+  "input_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/impacts.jsonl": "e9b3054ce0b4a3b0842be471e22c8b70e38cdb9b292e215d96b043f307e61d36",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/code/preferred_event_geometry.py": "6b80cdb568e246184526252bc4a793411a9dc6d5d90608b46e573825c5bb703a",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/conditional-geometry-config.json": "46f45b977210df0739f3e5b593562e8b6bbac312e4aa99dfbefb8e0e22d9f46a"
+  }
+}

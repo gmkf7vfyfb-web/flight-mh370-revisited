@@ -1,0 +1,182 @@
+{
+  "configuration_sha256": "e8876ab35779edbb73a6bceae2fa3a5eea29117c48fc310d84ff6aea5343d587",
+  "contact_provenance": {
+    "anomalous_r1200_bto": "Excluded: raw 49,660 microseconds has no ordinary channel-bias correction that is asserted here. Legacy 18,380 row is not consumed.",
+    "bfo_sd": "7 Hz inherited conditional likelihood; Holland startup offsets are handled in separately named cases, not changed measurements.",
+    "files_sha256": {
+      "/jackbox/home/MH370/inputs/accident/final-satcom-bursts.json": "f9461f46bc46375d75036a9267a5b70e6c696dfe50694fee063025ef0e70346c",
+      "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+      "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+    },
+    "satellite_fractional_epoch": "Runner uses bounded constant-velocity ECEF propagation from the whole-second source epoch.",
+    "source": {
+      "bursts": [
+        {
+          "channel": "IOR-R600-0-36F8",
+          "epoch_id": "m0019a",
+          "observed_bfo_hz": 182.0,
+          "raw_bto_us": 23000.0,
+          "recorded_time_utc": "2014-03-08T00:19:29.416Z",
+          "selection": "R600 BTO geometry is available with the separately declared correction and uncertainty; BFO startup treatment remains conditional."
+        },
+        {
+          "channel": "IOR-R1200-0-36F6",
+          "epoch_id": "m0019b",
+          "observed_bfo_hz": -2.0,
+          "raw_bto_us": 49660.0,
+          "recorded_time_utc": "2014-03-08T00:19:37.443Z",
+          "selection": "The anomalous R1200 BTO is not scored by this control. The BFO comparison retains an explicit startup/error condition."
+        }
+      ],
+      "model_choices": {
+        "r600_bto_correction_us": 4600.0,
+        "r600_bto_sd_us": 63.0,
+        "r600_sd_note": "Inherited declared observation uncertainty, not a value measured by the log.",
+        "satellite_fractional_epoch_model": "Constant-velocity ECEF propagation from the corresponding whole-second ephemeris; maximum absolute offset 1 second."
+      },
+      "schema_version": 1,
+      "source": {
+        "extract_note": "The previously retained unredacted-log extraction agrees with both recorded times, BFOs and raw BTOs. Product code does not load that source recreation.",
+        "independent_retained_extract_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "locator": "PDF page 41, R600 log-on request and final R1200 acknowledgment rows; page 1 gives the 4,600 microsecond R600 correction",
+        "retrieval_note": "ATSB-hosted PDF and page-41 text retrieved with the browser. Direct binary download timed out; no PDF hash is claimed.",
+        "title": "Inmarsat / DCA Signalling Unit Log for 9M-MRO, December 2014 update",
+        "url": "https://www.atsb.gov.au/sites/default/files/media/5772619/public_mh370-data-communication-logs.pdf",
+        "verified_utc": "2026-09-08"
+      },
+      "time_basis": "UTC timestamps recorded at the ground station, used as the declared SATCOM state epochs; subsecond timestamp resolution does not establish aircraft-state accuracy."
+    },
+    "time_origin_utc": "2014-03-07T18:01:49+00:00"
+  },
+  "contacts": [
+    {
+      "id": "m0019a",
+      "measurement": {
+        "bfo": 182.0,
+        "bfo_sd": 7.0,
+        "bto": 18400.0,
+        "bto_sd": 63.0,
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "satellite_position_km": {
+          "x": 18182.021038944004,
+          "y": 38049.648940256,
+          "z": 392.38317947199994
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001584,
+          "y": -0.001634,
+          "z": -0.083208
+        },
+        "time": 22660.416
+      },
+      "satellite_afc_hz": -37.8,
+      "time_utc": "2014-03-08T00:19:29.416Z"
+    },
+    {
+      "id": "m0019b",
+      "measurement": {
+        "bfo": -2.0,
+        "bfo_sd": 7.0,
+        "bto": null,
+        "bto_sd": null,
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "satellite_position_km": {
+          "x": 18182.034221269,
+          "y": 38049.635585695,
+          "z": 391.71525332500005
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001583,
+          "y": -0.001635,
+          "z": -0.083225
+        },
+        "time": 22668.443
+      },
+      "satellite_afc_hz": -37.8,
+      "time_utc": "2014-03-08T00:19:37.443Z"
+    }
+  ],
+  "continuations_sha256": "d5bbab77523e7b0658961a4a4751ce29bb7a29c0eb5e05e3e6c4bc70b943c915",
+  "elapsed_seconds": 5.649856849,
+  "enabled_spokes": [
+    "stochastic_cruise",
+    "fuel_consistency",
+    "end_of_flight",
+    "satcom_predictions"
+  ],
+  "executable_sha256": "d3c3633ab1a566296ed8e7524f5ae5c9d8c71fd7ce8cfbb75d9b7ec96a178c72",
+  "limitations": [
+    "terminal control and aerodynamic families are explicit alternatives, never averaged",
+    "cruise fuel envelope is replaced by the explicit continuation condition using refined probability divided by old probability",
+    "fuel quantity and shared flow discrepancy are drawn jointly under the declared exhaustion interval",
+    "cruise Mach controls horizontal airspeed; the boundary retains its full horizontal and vertical velocity",
+    "terminal wind uses ERA5 plus the boundary wind residual held fixed during descent",
+    "pressure altitude is used as geometric height in this conditional point-mass approximation",
+    "these contact predictions do not condition on transmission availability or APU timing; power states remain recorded for separate hypotheses",
+    "BFO predictions are stored against the shared 00:11 bias state; sequence likelihood must update that bias jointly",
+    "unsupported terminal outcomes must be reported before conditioning any impact PDF",
+    "impact angle is a velocity angle, not aircraft body pitch; acoustic coupling is not inferred here"
+  ],
+  "name": "terminal-thirtysecond-control-refinement",
+  "outcomes": {
+    "openap2020-best-glide:DeclaredEnvelopeExit(AtmosphereDomain)": 10,
+    "openap2020-best-glide:Impact": 22,
+    "openap2020-initial-trim:Impact": 32,
+    "openap2020-positive-lift-1-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 2,
+    "openap2020-positive-lift-1-targets:Impact": 30,
+    "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3,
+    "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 4,
+    "openap2020-positive-lift-3-targets:Impact": 25,
+    "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1,
+    "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 4,
+    "openap2020-positive-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 4,
+    "openap2020-positive-lift-6-targets:Impact": 23,
+    "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 4,
+    "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 2,
+    "openap2020-signed-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 11,
+    "openap2020-signed-lift-6-targets:Impact": 15,
+    "openap26-best-glide:DeclaredEnvelopeExit(AtmosphereDomain)": 9,
+    "openap26-best-glide:Impact": 23,
+    "openap26-initial-trim:Impact": 32,
+    "openap26-positive-lift-1-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+    "openap26-positive-lift-1-targets:Impact": 29,
+    "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 1,
+    "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+    "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 2,
+    "openap26-positive-lift-3-targets:Impact": 26,
+    "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 5,
+    "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+    "openap26-positive-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 4,
+    "openap26-positive-lift-6-targets:Impact": 20,
+    "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3,
+    "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(AtmosphereDomain)": 3,
+    "openap26-signed-lift-6-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 12,
+    "openap26-signed-lift-6-targets:Impact": 14
+  },
+  "rows": 384,
+  "scientific_source_sha256": "53dc98ea232a38d0555679afb0cbcbe2021382a05faf6de196c5dfc132aeabd3",
+  "seed": 37091801,
+  "sources": [
+    {
+      "configuration_sha256": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+      "draws": 32,
+      "elapsed_seconds": 5.574968678,
+      "initial_candidates": 85000,
+      "log_evidence": -87.73058535941438,
+      "particles_sha256": "8a54673a4484f55d2e430a09132e088f7f7ec64db9cf71367dcfb280cf87ceb9",
+      "pooling_fraction": 1.0,
+      "posterior_sha256": "d12fc37fb93ab58d8b6c44592aa13d4717b65307748e8dad170abbe20b624d66",
+      "seed": 37091631,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631"
+    }
+  ],
+  "status": "conditional_terminal_predictions"
+}

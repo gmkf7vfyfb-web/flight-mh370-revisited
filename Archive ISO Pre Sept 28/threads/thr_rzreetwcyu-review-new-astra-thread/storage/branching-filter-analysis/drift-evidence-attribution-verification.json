@@ -1,0 +1,767 @@
+{
+  "status": "passed",
+  "checked_utc": "2026-09-10T07:59:00.919553+00:00",
+  "script_sha256": "da9529b723120155b7537137e0249aa882a86f782ecd7c7b3889929678b1db70",
+  "report_sha256": "0fee1bef6ef309a665e2ddbed7ccfec01d51c73f11916e7693dc413aa2b037aa",
+  "source_sha256": "5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531",
+  "scope": "108 source factor reconstructions, independent nearest-cell geometry and temporal support, exact once-only factor normalization, common retained identities, ancestry joins, 216 phase metric checks.",
+  "checks": [
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "full-declared",
+      "rows": 7416,
+      "maximum_weight_error": 2.7755575615628914e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-only",
+      "rows": 7416,
+      "maximum_weight_error": 6.938893903907228e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-plus-isotope",
+      "rows": 7416,
+      "maximum_weight_error": 2.7755575615628914e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-plus-non-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 1.8041124150158794e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "exterior-recoveries-only",
+      "rows": 7416,
+      "maximum_weight_error": 1.0408340855860843e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-antsiraka-cabin-panel-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 1.3877787807814457e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-chidenguele-fan-cowling-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 1.1796119636642288e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-mauritius-left-flap-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 2.0816681711721685e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-mossel-bay-engine-cowling-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 5.551115123125783e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-paindane-flap-fairing-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 5.898059818321144e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-pemba-right-flap-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 7.632783294297951e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-reunion-flaperon-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 2.7755575615628914e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-rodrigues-door-panel-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 1.5265566588595902e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-vilanculos-stabilizer-recovery",
+      "rows": 7416,
+      "maximum_weight_error": 6.245004513516506e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "full-declared",
+      "rows": 7482,
+      "maximum_weight_error": 2.7755575615628914e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-only",
+      "rows": 7482,
+      "maximum_weight_error": 9.71445146547012e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-plus-isotope",
+      "rows": 7482,
+      "maximum_weight_error": 1.3877787807814457e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-plus-non-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 4.163336342344337e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "exterior-recoveries-only",
+      "rows": 7482,
+      "maximum_weight_error": 6.938893903907228e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-antsiraka-cabin-panel-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 4.85722573273506e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-chidenguele-fan-cowling-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 4.163336342344337e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-mauritius-left-flap-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 5.551115123125783e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-mossel-bay-engine-cowling-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 1.1102230246251565e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-paindane-flap-fairing-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 4.163336342344337e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-pemba-right-flap-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 1.5265566588595902e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-reunion-flaperon-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 1.3877787807814457e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-rodrigues-door-panel-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 1.6653345369377348e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "omit-vilanculos-stabilizer-recovery",
+      "rows": 7482,
+      "maximum_weight_error": 8.326672684688674e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "full-declared",
+      "rows": 10532,
+      "maximum_weight_error": 6.38378239159465e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-only",
+      "rows": 10532,
+      "maximum_weight_error": 5.551115123125783e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-plus-isotope",
+      "rows": 10532,
+      "maximum_weight_error": 3.885780586188048e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-plus-non-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 4.163336342344337e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "exterior-recoveries-only",
+      "rows": 10532,
+      "maximum_weight_error": 4.996003610813204e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-antsiraka-cabin-panel-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 2.498001805406602e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-chidenguele-fan-cowling-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 2.220446049250313e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-mauritius-left-flap-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 1.942890293094024e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-mossel-bay-engine-cowling-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 2.220446049250313e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-paindane-flap-fairing-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 3.0531133177191805e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-pemba-right-flap-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 1.1102230246251565e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-reunion-flaperon-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 2.7755575615628914e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-rodrigues-door-panel-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 3.191891195797325e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-vilanculos-stabilizer-recovery",
+      "rows": 10532,
+      "maximum_weight_error": 3.0531133177191805e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "full-declared",
+      "rows": 10852,
+      "maximum_weight_error": 4.163336342344337e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-only",
+      "rows": 10852,
+      "maximum_weight_error": 5.273559366969494e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-plus-isotope",
+      "rows": 10852,
+      "maximum_weight_error": 3.191891195797325e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-plus-non-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 3.469446951953614e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "exterior-recoveries-only",
+      "rows": 10852,
+      "maximum_weight_error": 2.0816681711721685e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-antsiraka-cabin-panel-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 2.3592239273284576e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-chidenguele-fan-cowling-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 1.8041124150158794e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-mauritius-left-flap-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 2.7755575615628914e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-mossel-bay-engine-cowling-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 4.440892098500626e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-paindane-flap-fairing-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 5.551115123125783e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-pemba-right-flap-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 1.3877787807814457e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-reunion-flaperon-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 3.7470027081099033e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-rodrigues-door-panel-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 1.3877787807814457e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "omit-vilanculos-stabilizer-recovery",
+      "rows": 10852,
+      "maximum_weight_error": 2.7755575615628914e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "full-declared",
+      "rows": 10535,
+      "maximum_weight_error": 8.604228440844963e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-only",
+      "rows": 10535,
+      "maximum_weight_error": 6.938893903907228e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-plus-isotope",
+      "rows": 10535,
+      "maximum_weight_error": 5.551115123125783e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-plus-non-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 2.7755575615628914e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "exterior-recoveries-only",
+      "rows": 10535,
+      "maximum_weight_error": 4.718447854656915e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-antsiraka-cabin-panel-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 1.3877787807814457e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-chidenguele-fan-cowling-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 2.7755575615628914e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-mauritius-left-flap-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 1.942890293094024e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-mossel-bay-engine-cowling-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 2.3592239273284576e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-paindane-flap-fairing-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 2.7755575615628914e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-pemba-right-flap-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 8.326672684688674e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-reunion-flaperon-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 7.494005416219807e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-rodrigues-door-panel-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 2.498001805406602e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-vilanculos-stabilizer-recovery",
+      "rows": 10535,
+      "maximum_weight_error": 2.7755575615628914e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "full-declared",
+      "rows": 10808,
+      "maximum_weight_error": 2.220446049250313e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-only",
+      "rows": 10808,
+      "maximum_weight_error": 7.355227538141662e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-plus-isotope",
+      "rows": 10808,
+      "maximum_weight_error": 1.6306400674181987e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-plus-non-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 4.579669976578771e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "exterior-recoveries-only",
+      "rows": 10808,
+      "maximum_weight_error": 5.689893001203927e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-antsiraka-cabin-panel-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 6.106226635438361e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-chidenguele-fan-cowling-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 1.3877787807814457e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-mauritius-left-flap-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 1.942890293094024e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-mossel-bay-engine-cowling-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 3.3306690738754696e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-paindane-flap-fairing-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 2.0816681711721685e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-pemba-right-flap-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 4.163336342344337e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-reunion-flaperon-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 2.220446049250313e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-rodrigues-door-panel-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 1.1102230246251565e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "omit-vilanculos-stabilizer-recovery",
+      "rows": 10808,
+      "maximum_weight_error": 2.636779683484747e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "full-declared--drift-alternate",
+      "rows": 7416,
+      "maximum_weight_error": 1.6306400674181987e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-only--drift-alternate",
+      "rows": 7416,
+      "maximum_weight_error": 6.938893903907228e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "full-declared--drift-doubled",
+      "rows": 7416,
+      "maximum_weight_error": 4.163336342344337e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-only--drift-doubled",
+      "rows": 7416,
+      "maximum_weight_error": 2.220446049250313e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "full-declared--drift-alternate",
+      "rows": 7482,
+      "maximum_weight_error": 1.6653345369377348e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-only--drift-alternate",
+      "rows": 7482,
+      "maximum_weight_error": 1.6653345369377348e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "full-declared--drift-doubled",
+      "rows": 7482,
+      "maximum_weight_error": 5.689893001203927e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Original",
+      "evidence_variant": "recoveries-only--drift-doubled",
+      "rows": 7482,
+      "maximum_weight_error": 8.326672684688674e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "full-declared--drift-alternate",
+      "rows": 10532,
+      "maximum_weight_error": 5.828670879282072e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-only--drift-alternate",
+      "rows": 10532,
+      "maximum_weight_error": 5.273559366969494e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "full-declared--drift-doubled",
+      "rows": 10532,
+      "maximum_weight_error": 2.0539125955565396e-15
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-only--drift-doubled",
+      "rows": 10532,
+      "maximum_weight_error": 1.2212453270876722e-15
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "full-declared--drift-alternate",
+      "rows": 10852,
+      "maximum_weight_error": 6.800116025829084e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-only--drift-alternate",
+      "rows": 10852,
+      "maximum_weight_error": 3.608224830031759e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "full-declared--drift-doubled",
+      "rows": 10852,
+      "maximum_weight_error": 1.5543122344752192e-15
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 1",
+      "evidence_variant": "recoveries-only--drift-doubled",
+      "rows": 10852,
+      "maximum_weight_error": 1.7763568394002505e-15
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "full-declared--drift-alternate",
+      "rows": 10535,
+      "maximum_weight_error": 1.9081958235744878e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-only--drift-alternate",
+      "rows": 10535,
+      "maximum_weight_error": 2.7755575615628914e-17
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "full-declared--drift-doubled",
+      "rows": 10535,
+      "maximum_weight_error": 9.992007221626409e-16
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-only--drift-doubled",
+      "rows": 10535,
+      "maximum_weight_error": 4.163336342344337e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "full-declared--drift-alternate",
+      "rows": 10808,
+      "maximum_weight_error": 2.3592239273284576e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-only--drift-alternate",
+      "rows": 10808,
+      "maximum_weight_error": 5.551115123125783e-17
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "full-declared--drift-doubled",
+      "rows": 10808,
+      "maximum_weight_error": 1.0408340855860843e-16
+    },
+    {
+      "terminal_family": "openap2020-positive-lift-3-targets",
+      "numerical_run": "Repeat 2",
+      "evidence_variant": "recoveries-only--drift-doubled",
+      "rows": 10808,
+      "maximum_weight_error": 1.3877787807814457e-17
+    }
+  ],
+  "elapsed_seconds": 16.936571010999614
+}

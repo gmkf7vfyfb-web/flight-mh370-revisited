@@ -1,0 +1,65 @@
+schema_version = 1
+name = "MH370 raw 00:19 BFO pair local-dynamics feasibility"
+source_posterior = "../runs/mh370/0011-to-0019-seventh-arc-bto/posterior.csv"
+
+[inputs]
+observations = "../inputs/accident/satcom-observations.csv"
+satellite_ephemeris = "../inputs/accident/satellite-ephemeris.csv"
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+request_epoch_id = "m0019a"
+acknowledgement_epoch_id = "m0019b"
+
+[raw_pair]
+request_bfo_hz = 182.0
+acknowledgement_bfo_hz = -2.0
+request_channel_bias_hz = 0.0
+acknowledgement_channel_bias_hz = 0.0
+ordinary_measurement_sd_hz = 7.0
+elapsed_seconds = 8.027
+
+[search]
+broad_posterior_samples = 512
+broad_altitude_levels_ft = [5000.0, 15000.0, 25000.0, 35000.0, 43000.0]
+track_step_deg = 5.0
+maximum_absolute_turn_rate_deg_s = 6.0
+turn_rate_step_deg_s = 0.5
+minimum_vertical_speed_fpm = -30000.0
+maximum_vertical_speed_fpm = 10000.0
+maximum_absolute_vertical_acceleration_g = 1.0
+maximum_generic_total_specific_load_g = 2.5
+
+[conditional_power]
+surface = "../inputs/evidence/mh371-first-pass-antenna-gain.bin"
+observed_dbm = -50.95
+observation_adjustment_db = -3.6
+observation_sd_db = 2.2
+reference_gain_dbic = 12.16
+directional_departure_scale = 1.0
+permit_unverified_reconstruction = true
+
+[conditional_power.link]
+requested_eirp_dbw = 10.5
+uplink_wavelength_m = 0.1820618
+downlink_wavelength_m = 0.0832757
+satellite_gt_constant_db = -11.5
+satellite_gt_linear_db_per_deg = 0.01396
+satellite_gt_quadratic_db_per_deg2 = 0.0001535
+satellite_receiver_offset_db = 27.5
+unit_conversion_db = 300.0
+
+[satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12

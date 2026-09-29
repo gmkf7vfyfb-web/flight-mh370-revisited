@@ -1,0 +1,661 @@
+   Compiling mh370-dynamics v0.1.0 (/jackbox/home/MH370/crates/dynamics)
+   Compiling mh370-reporting v0.1.0 (/jackbox/home/MH370/crates/reporting)
+   Compiling mh370-ocean-drift v0.1.0 (/jackbox/home/MH370/crates/ocean-drift)
+   Compiling mh370-controls v0.1.0 (/jackbox/home/MH370/crates/controls)
+   Compiling mh370-estimator v0.1.0 (/jackbox/home/MH370/crates/estimator)
+   Compiling mh370-runner v0.1.0 (/jackbox/home/MH370/crates/runner)
+   Compiling mh370-particle-filter v0.1.0 (/jackbox/home/MH370/crates/particle-filter)
+   Compiling mh370-satcom v0.1.0 (/jackbox/home/MH370/crates/satcom)
+   Compiling mh370-domain v0.1.0 (/jackbox/home/MH370/crates/domain)
+   Compiling mh370-end-of-flight v0.1.0 (/jackbox/home/MH370/crates/end-of-flight)
+   Compiling mh370-hydroacoustics v0.1.0 (/jackbox/home/MH370/crates/hydroacoustics)
+   Compiling mh370-antenna v0.1.0 (/jackbox/home/MH370/crates/antenna)
+    Finished `release` profile [optimized] target(s) in 1m 30s
+     Running unittests src/lib.rs (target/release/deps/mh370_antenna-0164f6ff9f1c9c02)
+
+running 4 tests
+test directional::tests::attitude_rotation_matches_independent_limiting_cases ... ok
+test directional::tests::grid_interpolates_and_requires_explicit_opt_in ... ok
+test tests::synthetic_pattern_requires_explicit_likelihood_opt_in ... ok
+test directional::tests::target_eirp_link_reproduces_audited_workbook_row ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_controls-f7a945142cac75ff)
+
+running 8 tests
+test known_flight::tests::sha256_syntax_check_is_strict ... ok
+test final_bfo::tests::solved_pair_reproduces_raw_request_and_requires_increasing_descent ... ok
+test known_flight::tests::parser_rejects_truth_like_fields_at_any_depth ... ok
+test known_flight_score::tests::scoring_hash_check_is_strict ... ok
+test known_flight_score::tests::circular_mean_handles_north_wrap ... ok
+test final_bfo::tests::broad_search_finds_a_pair_within_generous_kinematic_bounds ... ok
+test synthetic::tests::synthetic_dataset_is_exactly_repeatable ... ok
+test synthetic::tests::auxiliary_filter_closes_small_synthetic_fixture ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/forward_model.rs (target/release/deps/forward_model-28f249452dd665ba)
+
+running 1 test
+test rust_forward_model_matches_hash_pinned_python_scalar_fixture ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_domain-c91fb41d1ee9baf4)
+
+running 6 tests
+test geodesy::tests::wgs84_does_not_silently_collapse_to_legacy_sphere ... ok
+test geodesy::tests::ecef_equator_matches_wgs84_semi_major_axis ... ok
+test units::tests::latitude_is_validated_and_longitude_is_normalized ... ok
+test state::tests::true_track_resolves_to_north_east_velocity ... ok
+test geodesy::tests::wgs84_equatorial_degree_and_zero_distance ... ok
+test units::tests::longitude_and_bearing_wrap_at_declared_boundaries ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_dynamics-0b63fbd15336bfdf)
+
+running 69 tests
+test environment::tests::era5_interpolates_all_four_axes_and_converts_wind_units ... ok
+test environment::tests::era5_temperature_and_pressure_altitude_reproduce_manifest_density_contract ... ok
+test environment::tests::igrf_interpolates_declination_across_angular_wrap ... ok
+test environment::tests::parser_rejects_short_or_nonmonotonic_data ... ok
+test environment::tests::igrf_interpolates_east_positive_declination ... ok
+test one_turn::tests::direct_to_parameter_canonicalization_only_removes_inactive_scalar ... ok
+test one_turn::tests::direct_to_single_leg_rejects_arrival_during_a_lattice_cell ... ok
+test one_turn::tests::exact_turn_is_post_turn_and_derived_direct_course_matches_likelihood_path ... ok
+test one_turn::tests::environment_aware_heading_propagation_is_sequential_and_explicit ... ok
+test one_turn::tests::sampled_and_mutated_parameters_remain_in_the_declared_prior ... ok
+test one_turn::tests::presentation_velocity_uses_exact_epoch_era5_igrf_and_waypoint_tangent ... ok
+test one_turn::tests::absolute_lattice_is_invariant_to_scalar_and_direct_to_output_partitions ... ok
+test one_turn::tests::trajectory_turns_once_and_preserves_constant_speed_and_altitude ... ok
+test one_turn::tests::true_reference_modes_do_not_query_inactive_igrf ... ok
+test powered_flight::tests::all_negative_infinity_scores_use_the_uniform_candidate_law ... ok
+test powered_flight::tests::benchmark_six_hour_uniform_and_adaptive_cadences ... ignored, manual release-mode cadence throughput benchmark
+test powered_flight::tests::adding_candidates_does_not_shift_existing_marks_or_the_renewal_clock ... ok
+test powered_flight::tests::bank_rollout_turn_is_retained_without_heading_snap ... ok
+test powered_flight::tests::climb_and_turn_near_stall_remain_inside_actual_midpoint_lift_envelope ... ok
+test powered_flight::tests::adaptive_steps_use_coarse_cruise_and_fine_transition_segments ... ok
+test one_turn::tests::direct_to_preserves_initial_ctt_then_uses_derived_waypoint_track ... ok
+test powered_flight::tests::descent_from_vmo_decelerates_within_rate_or_returns_typed_conflict ... ok
+test powered_flight::tests::event_limit_is_a_reported_error_not_silent_truncation ... ok
+test powered_flight::tests::event_candidate_probabilities_give_the_exact_auxiliary_identity ... ok
+test powered_flight::tests::events_are_exact_boundaries_and_endpoint_commands_are_post_event ... ok
+test powered_flight::tests::bridge_split_reuses_one_transition_context_without_changing_results_or_rng_tail ... ok
+test powered_flight::tests::finite_rate_course_speed_and_altitude_changes_respect_declared_caps ... ok
+test powered_flight::tests::geometric_great_circle_leg_renews_before_artificial_endpoint ... ok
+test powered_flight::tests::ineligible_proposal_path_is_bitwise_identical_to_the_legacy_step_and_rng_tail ... ok
+test powered_flight::tests::initialization_rejects_vertical_speed_outside_declared_limits ... ok
+test powered_flight::tests::initialized_pending_renewals_record_their_dwell_origins_without_extra_rng_draws ... ok
+test powered_flight::tests::invalid_candidates_keep_defensive_support_and_fail_only_when_selected ... ok
+test powered_flight::tests::magnetic_altitude_clamp_is_declared_counted_and_can_be_rejected ... ok
+test powered_flight::tests::magnetic_modes_require_declination_but_true_modes_do_not ... ok
+test powered_flight::tests::heading_capture_matches_independent_exponential_limit ... ok
+test powered_flight::tests::obsolete_numeric_event_clock_schema_fails_closed ... ok
+test powered_flight::tests::proposal_configuration_is_bounded_and_rejects_nonfinite_probabilities ... ok
+test powered_flight::tests::due_east_constant_heading_preserves_ellipsoidal_parallel ... ok
+test powered_flight::tests::proposal_records_due_events_at_entry_and_endpoint_in_physical_order ... ok
+test powered_flight::tests::renewal_refresh_after_not_before_uses_exponential_memorylessness ... ok
+test powered_flight::tests::renewal_refresh_before_not_before_anchors_at_the_dwell_boundary ... ok
+test powered_flight::tests::proposal_rng_keys_are_tuple_separated_and_candidate_stable ... ok
+test powered_flight::tests::renewal_refresh_is_replay_pure_and_changes_only_the_selected_next_event ... ok
+test powered_flight::tests::renewal_refresh_rejects_clock_process_and_current_time_mismatches ... ok
+test powered_flight::tests::renewal_refresh_rejects_disabled_due_and_nonunit_streams ... ok
+test powered_flight::tests::renewal_refresh_rejects_only_origins_beyond_the_time_tolerance ... ok
+test powered_flight::tests::renewed_pending_clock_records_event_time_plus_minimum_dwell ... ok
+test powered_flight::tests::reusable_manual_budget_counts_due_entry_and_cross_step_events ... ok
+test powered_flight::tests::scorer_rejects_nan_and_positive_infinity_but_accepts_negative_infinity ... ok
+test powered_flight::tests::segment_carries_the_exact_weather_used_at_both_endpoints ... ok
+test powered_flight::tests::stall_floor_responds_to_mass_and_bank_and_vmo_caps_high_altitude ... ok
+test powered_flight::tests::state_and_declared_process_round_trip_through_serde ... ok
+test powered_flight::tests::ulp_crossed_reachable_boundary_collapses_without_panicking ... ok
+test tests::constant_track_propagation_closes_elapsed_distance_and_altitude ... ok
+test tests::magnetic_sign_and_heading_track_wind_resolution_match_convention ... ok
+test three_dof::tests::ballistic_free_fall_conserves_mechanical_energy_and_has_zero_specific_load ... ok
+test powered_flight::tests::straight_level_zero_wind_closes_distance_and_preserves_state ... ok
+test three_dof::tests::constant_acceleration_descent_matches_closed_form_energy_and_components ... ok
+test three_dof::tests::coordinated_level_turn_combines_vertical_and_lateral_specific_load ... ok
+test three_dof::tests::level_unaccelerated_flight_is_one_g_with_no_energy_change ... ok
+test three_dof::tests::raw_bfo_median_regression_matches_vertical_acceleration_and_energy_change ... ok
+test powered_flight::tests::fifteen_second_solution_controls_thirty_and_sixty_second_error ... ok
+test waypoint::tests::configured_long_polar_davis_leg_matches_geographiclib_and_closes ... ok
+test waypoint::tests::guidance_has_expected_cardinal_tracks_on_equator_and_meridian ... ok
+test waypoint::tests::guidance_rejects_arrival_instead_of_inventing_a_next_leg ... ok
+test waypoint::tests::inverse_wgs84_matches_vincenty_flinders_peak_benchmark ... ok
+test powered_flight::tests::randomized_history_respects_stepwise_rate_and_speed_envelopes ... ok
+test powered_flight::tests::same_seed_and_settings_are_bitwise_deterministic_including_events ... ok
+test one_turn::tests::canonical_era5_igrf_endpoints_are_invariant_to_requested_epoch_partition ... ok
+
+test result: ok. 68 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 0.14s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_end_of_flight-c87aa88dfef0cb02)
+
+running 74 tests
+test exhaustion_boundary::tests::rejects_non_boundary_state_and_invalid_apu_partition ... ok
+test aerodynamic_approximations::tests::audited_public_polar_comparators_are_exact_and_separate ... ok
+test exhaustion_boundary::tests::kernel_settles_boundary_and_switches_control_at_elapsed_zero ... ok
+test frozen_powered_fuel_projection::tests::malformed_scale_bound_operating_point_and_time_desync_are_typed_errors ... ok
+test exhaustion_boundary::tests::staggered_feed_history_does_not_reemit_the_earlier_flameout ... ok
+test frozen_powered_fuel_projection::tests::no_exhaustion_and_preexisting_exhaustion_are_distinct_outcomes ... ok
+test frozen_powered_fuel_projection::tests::projection_does_not_mutate_the_callers_state ... ok
+test exhaustion_boundary::tests::mapping_preserves_mass_and_makes_partition_explicit ... ok
+test frozen_powered_fuel_projection::tests::projection_matches_the_existing_exact_law_with_particle_scale ... ok
+test frozen_powered_fuel_projection::tests::selected_model_domain_failure_is_an_ordinary_outcome ... ok
+test fuel_allocation::tests::equal_endurance_with_unequal_flows_is_exact_and_conservative ... ok
+test frozen_powered_fuel_projection::tests::projection_is_duration_constant_and_outer_cadence_independent ... ok
+test fuel_allocation::tests::impossible_or_invalid_inputs_are_rejected ... ok
+test fuel_allocation::tests::official_acars_total_and_arc_one_total_preserve_gross_mass ... ok
+test fuel_allocation::tests::requested_sixty_second_leads_are_exact_in_both_directions ... ok
+test fuel_performance::tests::invalid_altitude_and_exhausted_projection_are_explicit ... ok
+test fuel_allocation::tests::kernel_emits_the_allocated_flameout_order_and_exact_times ... ok
+test fuel_performance::tests::kong_fixture_is_an_independent_close_check_not_an_initializer ... ok
+test fuel_performance::tests::workbook_fl350_coefficients_and_exact_projection_are_reproduced ... ok
+test kernel::kernel_tests::attempt_preserves_pre_checkpoint_impact_and_nonreach_outcomes ... ok
+test kernel::kernel_tests::attempt_rejects_invalid_checkpoint_schedule ... ok
+test kernel::kernel_tests::attempt_returns_terminal_state_when_trigger_is_never_reached ... ok
+test kernel::kernel_tests::checkpoint_after_early_termination_is_reported_as_unreached ... ok
+test kernel::kernel_tests::caller_owned_time_varying_atmosphere_is_used_at_integration_evaluations ... ok
+test kernel::kernel_tests::checkpoint_off_the_base_step_returns_complete_exact_time_state ... ok
+test kernel::kernel_tests::attempts_are_repeatable_and_event_state_is_base_step_invariant ... ok
+test kernel::kernel_tests::checkpointed_mixed_empty_schedule_matches_legacy_api ... ok
+test kernel::kernel_tests::checkpointed_mixed_post_trigger_checkpoint_uses_relative_schedule ... ok
+test kernel::kernel_tests::checkpointed_mixed_r600_style_sample_before_trigger_is_exact_and_controlled ... ok
+test kernel::kernel_tests::checkpointed_mixed_trigger_checkpoint_contains_post_event_switched_state ... ok
+test kernel::kernel_tests::checkpointed_mixed_runs_are_repeatable_and_base_step_event_invariant ... ok
+test kernel::kernel_tests::checkpointed_mixed_wrapper_preserves_typed_validation_and_unreached_errors ... ok
+test kernel::kernel_tests::checkpoints_coincident_with_flameout_power_and_apu_events_are_post_event ... ok
+test kernel::kernel_tests::checkpointed_runs_are_repeatable_and_empty_schedule_preserves_transition ... ok
+test kernel::kernel_tests::event_boundaries_reproduce_analytic_flameout_and_restart_times ... ok
+test kernel::kernel_tests::family_and_control_schedule_cannot_be_silently_mixed ... ok
+test kernel::kernel_tests::invalid_checkpoint_schedules_are_rejected_strictly ... ok
+test kernel::kernel_tests::generator_loss_switch_uses_post_trigger_schedule_and_is_repeatable ... ok
+test kernel::kernel_tests::mixed_control_matches_fixed_control_through_exact_dual_flameout ... ok
+test kernel::kernel_tests::mixed_policy_rejects_mismatch_invalid_post_schedule_and_unreachable_trigger ... ok
+test kernel::kernel_tests::mixed_switch_discrete_state_is_base_step_invariant ... ok
+test kernel::kernel_tests::vertical_trial_coordinate_failure_is_distinct_from_bad_inputs ... ok
+test kernel::kernel_tests::successful_attempt_exactly_matches_existing_checkpoint_wrapper ... ok
+test kernel::kernel_tests::straight_level_force_equilibrium_is_a_limiting_case ... ok
+test powered_drag_allowance::tests::insufficient_declared_drag_does_not_rescue_lower_thrust_failure ... ok
+test powered_drag_allowance::tests::malformed_allowance_returns_typed_error ... ok
+test powered_drag_allowance::tests::sufficient_declared_drag_rescues_lower_thrust_failure_in_steep_descent ... ok
+test powered_drag_allowance::tests::upper_thrust_failure_cannot_be_rescued_by_additional_drag ... ok
+test powered_drag_allowance::tests::zero_allowance_is_exactly_equivalent_to_existing_feasibility_flag ... ok
+test powered_fuel::tests::declared_climb_sensitivity_is_applied_exactly_once ... ok
+test powered_fuel::tests::declared_extension_reports_outside_table_reliance_and_conserves_mass ... ok
+test powered_fuel::tests::exact_constant_fl350_projection_matches_existing_independent_solution ... ok
+test powered_fuel::tests::feed_exhaustion_time_is_exact_and_independent_of_outer_cadence ... ok
+test powered_fuel::tests::invalid_domain_and_shares_are_typed_particle_rejections ... ok
+test powered_segment_feasibility::tests::aggressive_climb_and_acceleration_exceeds_declared_thrust ... ok
+test powered_segment_feasibility::tests::independent_straight_level_equilibrium_matches_parabolic_polar ... ok
+test powered_segment_feasibility::tests::malformed_physical_inputs_return_typed_errors ... ok
+test powered_segment_feasibility::tests::polar_families_are_not_averaged ... ok
+test powered_fuel::tests::midpoint_cadence_60_30_15_seconds_converges_for_smooth_varying_path ... ok
+test kernel::kernel_tests::drag_free_ballistic_impact_conserves_mechanical_energy ... ok
+test powered_thrust::tests::audited_trajectory_coverage_status_is_not_silently_lost ... ok
+test powered_segment_feasibility::tests::midpoint_cadence_refinement_is_finite_and_convergent ... ok
+test powered_thrust::tests::declared_primary_multiplier_is_applied_exactly ... ok
+test powered_thrust::tests::malformed_and_out_of_domain_inputs_are_typed ... ok
+test powered_thrust::tests::operating_engine_scaling_and_static_cap_are_explicit ... ok
+test powered_thrust::tests::pinned_runtime_probe_is_reproduced_without_forcing_trent892 ... ok
+test systems_timing::tests::forbidden_legacy_exhaustion_clock_is_absent ... ok
+test systems_timing::tests::central_intervals_match_independent_integer_gamma_quantiles ... ok
+test systems_timing::tests::independently_calculated_mode_and_normalized_log_density_match ... ok
+test systems_timing::tests::invalid_configuration_and_clock_mismatch_are_rejected ... ok
+test systems_timing::tests::nonpositive_lags_have_zero_density_not_an_occurrence_factor ... ok
+test systems_timing::tests::precise_r600_time_is_consistent_on_both_clocks ... ok
+test tests::conditional_boeing_projection_is_local_and_repeatable ... ok
+test tests::last_contact_mode_is_exactly_identity ... ok
+
+test result: ok. 74 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_estimator-e765286455bc2cde)
+
+running 61 tests
+test broad_flight::tests::continuation_preclassifies_exhaustion_before_checkpoint ... ok
+test broad_flight::tests::bridge_carries_initially_rejected_particles_to_zero_endpoint_likelihood ... ok
+test broad_flight::tests::event_mark_guide_configuration_is_exact_id_typed_and_requires_local_k1 ... ok
+test broad_flight::tests::exact_boundary_replay_restores_rng_and_splits_engine_events ... ok
+test broad_flight::tests::exact_continuation_reports_no_exhaustion_by_bound ... ok
+test broad_flight::tests::exact_dual_exhaustion_boundary_is_cadence_independent ... ok
+test broad_flight::tests::epsilon_one_event_mark_proposal_is_uniform_and_skips_every_proxy ... ok
+test broad_flight::tests::changing_mach_exhaustion_converges_to_independent_flow_integral ... ok
+test broad_flight::tests::fuel_selection_guide_classifies_strict_window_and_floor_outcomes ... ok
+test broad_flight::tests::fuel_selection_guide_configuration_and_post_anchor_guard_are_typed ... ok
+test broad_flight::tests::fuel_selection_guide_is_pure_and_independent_of_satcom_values ... ok
+test broad_flight::tests::latin_hypercube_model_uses_every_quantile_cell_once_without_weight_correction ... ok
+test broad_flight::tests::log_space_latin_hypercube_has_exact_cell_cdf_and_log_mean ... ok
+test broad_flight::tests::multiple_try_correction_is_exact_and_keyed_rng_deterministic ... ok
+test broad_flight::tests::event_mark_guide_uses_inclusive_lead_bounds_and_only_lateral_events ... ok
+test broad_flight::tests::frozen_command_proxy_is_candidate_sensitive_clock_independent_and_uses_carried_bfo_state ... ok
+test broad_flight::tests::neutral_fuel_selection_guide_is_exactly_one_for_every_outcome ... ok
+test broad_flight::tests::neutral_satcom_potentials_are_exactly_one_and_do_not_assimilate ... ok
+test broad_flight::tests::pending_renewal_refresh_fails_closed_for_due_and_nonunit_clocks ... ok
+test broad_flight::tests::pending_renewal_refresh_is_exact_typed_and_kind_domain_separated ... ok
+test broad_flight::tests::event_mark_guide_is_pure_corrected_and_observation_is_assimilated_once ... ok
+test broad_flight::tests::post_proposal_dynamics_rejection_discards_orphan_proxy_counts ... ok
+test broad_flight::tests::powered_feasibility_requires_nonnegative_finite_drag_allowance ... ok
+test broad_flight::tests::powered_limit_activity_is_preserved_for_posterior_audit ... ok
+test broad_flight::tests::proposal_candidate_schedule_has_exact_deterministic_boundaries ... ok
+test broad_flight::tests::neutral_bridge_subdivision_preserves_random_event_cadence_within_one_nm ... ok
+test broad_flight::tests::satcom_intermediate_schedule_is_typed_and_has_exact_boundaries ... ok
+test broad_flight::tests::satcom_potential_matches_remaining_hour_process_scales_and_bias_variance ... ok
+test broad_flight::tests::selected_end_event_commits_only_its_keyed_proxy_counts ... ok
+test broad_flight::tests::selected_unmaterializable_mark_retains_proposal_diagnostic_before_rejection ... ok
+test broad_flight::tests::split_satcom_transition_enforces_one_cumulative_event_budget ... ok
+test broad_flight::tests::stratified_filter_recovers_ordered_anchor_and_satcom_state ... ok
+test broad_flight::tests::stratum_override_initializes_within_each_log_flow_bin ... ok
+test broad_flight::tests::exact_intermediate_filter_assimilates_only_the_physical_endpoint ... ok
+test broad_flight::tests::terminal_tangent_guide_clamps_altitude_to_declared_limits ... ok
+test broad_flight::tests::persistent_fuel_twist_finalizes_to_physical_weights_and_evidence ... ok
+test broad_flight::tests::tiered_short_interval_k1_is_byte_compatible_with_legacy_k1 ... ok
+test broad_flight::tests::no_resample_refresh_seam_preserves_legacy_filter_bytes ... ok
+test broad_flight::tests::zero_likelihood_operations_do_not_revive_rejected_particles ... ok
+test broad_flight::tests::real_broad_filter_refreshes_only_m1839_resample_without_changing_target_state ... ok
+test broad_handoff::tests::broad_evidence_consumption_is_atomic ... ok
+test broad_handoff::tests::filtering_builder_records_no_bfo_evidence_for_bto_only_ablation ... ok
+test broad_handoff::tests::filtering_builder_preserves_and_validates_event_mark_proposal_correction ... ok
+test broad_handoff::tests::metadata_distinguishes_filtered_and_smoothed_checkpoints ... ok
+test broad_flight::tests::unmatched_event_mark_schedule_preserves_legacy_proposal_bytes_and_rng_tail ... ok
+test broad_handoff::tests::smoothed_builder_aggregates_exact_descendant_weights ... ok
+test broad_handoff::tests::filtering_builder_preserves_slots_roots_strata_and_round_trips ... ok
+test posterior_handoff::tests::current_reader_accepts_legacy_v1_scalar_handoffs_only ... ok
+test posterior_handoff::tests::evidence_can_only_be_consumed_once ... ok
+test posterior_handoff::tests::exact_two_particle_serde_round_trip ... ok
+test posterior_handoff::tests::validation_rejects_mismatched_aircraft_and_full_bias_mean ... ok
+test posterior_handoff::tests::fixed_waypoint_is_typed_once_at_run_level_and_required_for_lnav ... ok
+test broad_handoff::tests::schema_two_validates_refresh_metadata_counters_and_pending_pairs ... ok
+test posterior_handoff::tests::validation_requires_canonical_aircraft_heading_and_turn_bearings ... ok
+test posterior_handoff::tests::validation_requires_canonical_aircraft_and_turn_positions ... ok
+test posterior_handoff::tests::validation_requires_logsumexp_normalized_weights ... ok
+test tests::compact_parser_joins_ephemeris_by_identifier ... ok
+test posterior_handoff::tests::validation_requires_strictly_positive_ground_speed ... ok
+test tests::parser_rejects_missing_ephemeris_and_invalid_bfo_override ... ok
+test final_flight::tests::final_flight_sampler_is_deterministic_and_finite ... ok
+test broad_flight::tests::event_mark_proposal_composes_with_root_stratified_transition_pool ... ok
+
+test result: ok. 61 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_hydroacoustics-4a07fd8c12f71d84)
+
+running 13 tests
+test diagnostic::tests::duplicate_cell_and_scenario_identities_fail_closed ... ok
+test diagnostic::tests::mismatched_cell_position_and_unnormalized_weights_fail ... ok
+test diagnostic::tests::grid_predictions_are_explicitly_zero_weight ... ok
+test raw_triad::tests::unit_calibration_mismatch_and_non_triad_fail_closed ... ok
+test tests::cape_leeuwin_and_diego_garcia_arrivals_match_independent_scale ... ok
+test diagnostic::tests::reverse_trace_recovers_only_time_and_bearing_compatible_cell ... ok
+test raw_triad::tests::calibrated_counts_and_pascal_triads_validate ... ok
+test tests::energy_and_pressure_follow_declared_limiting_scales ... ok
+test tests::invalid_or_uncommissioned_models_fail_closed ... ok
+test tests::travel_time_uses_kilometres_and_orders_celerity_endpoints ... ok
+test tests::vertical_basis_excludes_horizontal_energy ... ok
+test tests::overlay_never_returns_a_likelihood ... ok
+test tests::zero_range_has_zero_travel_time_and_no_likelihood ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_ocean_drift-0624a94ff8b72c0c)
+
+running 25 tests
+test field::tests::configured_time_gap_is_outside_support_not_interpolated ... ok
+test isotope::tests::equation_two_reconstructs_published_endpoint_temperature ... ok
+test field::tests::january_is_month_zero ... ok
+test field::tests::packed_i16_preserves_scale_and_missing_values ... ok
+test isotope::tests::maximum_penalties_are_ordered_and_finite ... ok
+test field::tests::trilinear_axis_order_matches_independent_calculation ... ok
+test isotope::tests::simultaneous_threshold_increases_for_more_independent_records ... ok
+test observations::tests::co_recovered_objects_are_one_likelihood_factor ... ok
+test observations::tests::australian_non_recovery_penalizes_landfall_and_unresolved_coverage ... ok
+test observations::tests::delay_bins_change_compatibility_without_multiplying_discovery_rows ... ok
+test observations::tests::legacy_recovery_window_is_not_exact_beaching_time ... ok
+test sampling::tests::adaptive_checkpoints_stop_at_last_recovery_not_later_non_recovery ... ok
+test sampling::tests::independent_configuration_has_no_checkpoints ... ok
+test source_area::tests::deterministic_stream_keys_are_distinct_and_order_independent ... ok
+test field::tests::finite_corner_renormalization_is_explicit_and_never_uses_zero ... ok
+test source_area::tests::shared_episode_profiles_motion_laws_without_multiplying_them ... ok
+test transport::tests::absent_required_wind_is_a_configuration_failure_not_missing_coverage ... ok
+test transport::tests::fixed_seed_reproduces_diffusive_path ... ok
+test transport::tests::one_day_constant_eastward_fixture_matches_analytic_distance ... ok
+test transport::tests::configured_stokes_scale_has_the_expected_analytic_displacement ... ok
+test transport::tests::fixed_wind_relative_leeway_is_not_rescaled_by_wind_speed ... ok
+test transport::tests::termination_taxonomy_distinguishes_land_beaching_time_and_missing_data ... ok
+test field::tests::file_backed_packed_values_match_owned_values_and_reject_truncation ... ok
+test sampling::tests::correction_weights_make_rank_biased_resampling_unbiased ... ok
+test sampling::tests::correction_weights_remain_unbiased_through_multiple_synthetic_levels ... ok
+
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+     Running tests/epochs.rs (target/release/deps/epochs-cf6f23efda477ae5)
+
+running 1 test
+test canonical_utc_epochs_match_independent_unix_conversion ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/field_semantics.rs (target/release/deps/field_semantics-c6f5f645cf4828aa)
+
+running 2 tests
+test monthly_means_are_piecewise_and_december_does_not_blend_into_january ... ok
+test missing_error_corners_are_not_silently_replaced_with_zero ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/isotope_compatibility.rs (target/release/deps/isotope_compatibility-b0ea7f5ee5cd4e74)
+
+running 4 tests
+test any_compatible_chronology_is_neutral_despite_an_incompatible_alternative ... ok
+test missing_sst_coverage_is_neutral_and_reported_not_survivor_conditioned ... ok
+test one_unevaluable_chronology_prevents_all_chronology_rejection ... ok
+test marginal_penalty_is_soft_and_rejection_is_bounded ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/raw_field_spot.rs (target/release/deps/raw_field_spot-f5ec95ba75820d5d)
+
+running 4 tests
+test converted_fields_match_independently_read_raw_netcdf_points ... ignored, requires converted external current, Stokes, and wind fields
+test extended_glorys12_matches_raw_netcdf_node_with_packing_tolerance ... ignored, requires extended native-resolution CMEMS current field
+test extended_waverys_matches_raw_netcdf_node_with_packing_tolerance ... ignored, requires extended native-resolution CMEMS Stokes field
+test regridded_wind_matches_independent_gaussian_row_interpolation ... ignored, requires converted external wind field
+
+test result: ok. 0 passed; 0 failed; 4 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/source_area_conditional.rs (target/release/deps/source_area_conditional-26acb94107a4ad4e)
+
+running 2 tests
+test non_recovery_population_uses_an_independent_forward_ensemble ... ok
+test no_arrival_cell_is_reported_without_aborting_conditional_surface ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_particle_filter-6391f290683444bb)
+
+running 67 tests
+test islands::tests::an_unsupported_auxiliary_guide_is_fatal_not_island_extinction ... ok
+test islands::tests::canonical_island_identity_is_plan_order_and_thread_invariant ... ok
+test islands::tests::conditional_island_ess_triggers_only_the_degenerate_islands_resampling ... ok
+test islands::tests::all_islands_rejected_remains_a_typed_filter_failure ... ok
+test islands::tests::island_plan_rejects_invalid_or_ambiguous_allocations ... ok
+test islands::tests::no_observation_result_retains_each_islands_conditional_initial_evidence ... ok
+test resampling::tests::normalization_and_ess_are_stable_in_log_space ... ok
+test islands::tests::unequal_strata_and_islands_are_pooled_by_evidence_not_particle_count ... ok
+test islands::tests::extinct_island_keeps_exact_prior_denominator_and_retained_ancestry ... ok
+test islands::tests::one_island_is_compatible_with_the_existing_stratified_filter ... ok
+test resampling::tests::post_hoc_density_ratio_reports_overlap ... ok
+test resampling::tests::sized_resampling_and_ancestor_aggregation_are_exact ... ok
+test resampling::tests::systematic_resampling_has_declared_boundary_behavior ... ok
+test rng::tests::coordinate_streams_are_repeatable_and_length_delimited ... ok
+test rng::tests::keyed_streams_are_repeatable_and_separated ... ok
+test stratified::tests::checkpoint_root_counts_exclude_exactly_zero_mass_slots ... ok
+test stratified::tests::checkpoint_root_mass_diagnostics_ignore_clone_counts ... ok
+test stratified::tests::defensive_proposal_is_uniform_over_positive_roots_not_clones ... ok
+test stratified::tests::endpoint_pool_calls_context_hook_and_observe_once_per_candidate ... ok
+test stratified::tests::allocation_correction_recovers_declared_initial_stratum_mass ... ok
+test stratified::tests::endpoint_pool_has_exact_candidate_and_output_corrections ... ok
+test stratified::tests::delayed_rare_root_survives_with_exact_correction_and_evidence ... ok
+test stratified::tests::endpoint_pool_k1_is_byte_identical_to_the_legacy_bridge_endpoint ... ok
+test stratified::tests::global_pool_defensive_output_uses_exact_candidate_target_correction ... ok
+test stratified::tests::endpoint_pool_preserves_extinct_stratum_slots_and_rejects_whole_extinction ... ok
+test stratified::tests::global_pool_includes_transition_importance_correction_in_evidence ... ok
+test stratified::tests::global_pool_preserves_unequal_scientific_priors_and_allocations ... ok
+test stratified::tests::global_pool_schedule_validation_is_typed ... ok
+test stratified::tests::global_pool_preserves_extinct_stratum_slots_and_smoothed_zero_mass ... ok
+test stratified::tests::global_pool_is_plan_order_and_rayon_thread_invariant ... ok
+test stratified::tests::inactive_post_resample_move_step_records_resampling_without_calls ... ok
+test stratified::tests::intermediate_bridge_is_plan_order_and_rayon_thread_invariant ... ok
+test stratified::tests::intermediate_points_have_distinct_potentials_and_carry_ephemeral_context ... ok
+test stratified::tests::intermediate_potential_pool_telescopes_transition_and_endpoint_weights ... ok
+test stratified::tests::guided_standard_epoch_allocates_future_support_but_preserves_target_and_evidence ... ok
+test stratified::tests::intermediate_schedule_and_strictly_positive_potentials_are_validated ... ok
+test stratified::tests::noop_post_resample_move_preserves_legacy_filter_bytes ... ok
+test filter::tests::bootstrap_and_auxiliary_filters_recover_gaussian_location ... ok
+test stratified::tests::persistent_twist_endpoint_observes_each_k4_candidate_once_and_carries_context ... ok
+test stratified::tests::persistent_twist_constant_potential_cancels_and_all_inactive_is_byte_identical ... ok
+test stratified::tests::persistent_twist_is_plan_order_and_rayon_thread_invariant ... ok
+test stratified::tests::marked_jump_filter_recovers_observed_high_rate_history_and_ancestry ... ok
+test stratified::tests::persistent_twist_uses_successive_new_over_old_ratios_across_physical_epochs ... ok
+test stratified::tests::persistent_twist_preserves_stratum_extinction_and_global_untwist ... ok
+test stratified::tests::persistent_twist_validates_lifecycle_algorithm_and_finite_potential ... ok
+test filter::tests::results_are_identical_across_thread_counts ... ok
+test stratified::tests::post_resample_move_maps_model_errors_and_enforces_stratum_identity ... ok
+test stratified::tests::post_resample_move_records_zero_when_resampling_does_not_occur ... ok
+test stratified::tests::post_resample_move_rejects_unsupported_modes_and_invalid_schedule ... ok
+test stratified::tests::persistent_twist_enriches_slots_then_globally_untwists_to_the_physical_filter ... ok
+test stratified::tests::post_resample_move_is_once_per_child_and_thread_order_deterministic ... ok
+test stratified::tests::root_candidate_transition_streams_ignore_clone_order_and_other_roots ... ok
+test stratified::tests::root_stratified_pool_uses_exact_root_mass_over_replicate_weight ... ok
+test stratified::tests::persistent_twist_composes_with_two_bridge_points_and_endpoint_k4 ... ok
+test stratified::tests::root_stratified_standard_pool_is_thread_invariant ... ok
+test stratified::tests::root_stratified_bridge_uses_root_pools_at_points_and_endpoint_without_followup_resampling ... ok
+test stratified::tests::selection_guide_proposal_has_exact_target_over_proposal_correction ... ok
+test stratified::tests::selection_guide_composes_with_bridge_endpoint_and_retained_ancestry ... ok
+test stratified::tests::selection_guide_preserves_extinction_semantics_and_validates_inputs ... ok
+test stratified::tests::standard_only_intermediate_schedule_preserves_legacy_result ... ok
+test stratified::tests::selection_guide_is_plan_order_and_rayon_thread_invariant ... ok
+test stratified::tests::standard_only_pool_schedule_preserves_the_legacy_result ... ok
+test stratified::tests::unguided_selection_schedule_is_byte_identical_to_intermediate_filter ... ok
+test stratified::tests::selected_snapshots_compose_ancestry_across_skipped_epochs ... ok
+test stratified::tests::canonical_strata_and_keyed_streams_are_order_and_thread_invariant ... ok
+test tempered::tests::tempered_sampler_recovers_conjugate_gaussian_posterior ... ok
+test tempered::tests::tempered_sampler_is_identical_across_thread_counts ... ok
+
+test result: ok. 67 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_reporting-6df0bba8906b1353)
+
+running 14 tests
+test bfo_table::tests::renders_two_dynamic_tables ... ok
+test tests::display_density_is_normalized_and_all_hpd_contours_are_finite ... ok
+test tests::common_raster_spatial_comparison_has_exact_probability_identities ... ok
+test tests::generated_svg_is_standalone_vector_output ... ok
+test tests::generated_pdf_has_three_vector_pages_and_xref ... ok
+test tests::pdf_ascii_transliteration_preserves_scientific_symbols ... ok
+test tests::plot_bounds_expand_before_binning_outlying_positive_mass ... ok
+test tests::publication_density_bands_use_the_lighter_opacities ... ok
+test tests::long_pdf_header_wraps_without_dropping_words ... ok
+test tests::requested_bounds_are_shared_by_pdf_and_svg ... ok
+test known_flight_png::tests::map_context_overlays_are_clipped_to_the_plot_rectangle ... ok
+test known_flight_png::tests::six_panel_output_is_a_png ... ok
+test known_flight_png::tests::accident_panel_output_is_a_deterministic_publication_png ... ok
+test known_flight_png::tests::fitted_text_respects_the_available_pixel_width ... ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.47s
+
+     Running unittests src/main.rs (target/release/deps/mh370-a462643f51cacd01)
+
+running 106 tests
+test accident_commands::tests::artifact_schemas_and_machine_tokens_are_explicit ... ok
+test accident_commands::tests::geographic_report_labels_use_cardinal_hemispheres ... ok
+test accident_commands::tests::standalone_seed_identity_requires_complete_typed_lnav_route ... ok
+test broad_flight_commands::tests::final_bridge_aggregate_applies_outer_untwist_but_nested_candidate_pool_stays_twisted ... ok
+test broad_flight_commands::tests::fuel_selection_compatibility_uses_evidence_weighted_seed_mixture ... ok
+test broad_flight_commands::tests::fuel_selection_diagnostics_skip_zero_weight_pre_anchor_placeholders ... ok
+test broad_flight_commands::tests::checked_in_broad_pilot_preserves_fuel_support_in_one_hundred_strata ... ok
+test broad_flight_commands::tests::epsilon_one_satcom_event_mark_guide_serializes_exact_uniform_neutrality ... ok
+test broad_flight_commands::tests::all_observation_snapshot_export_is_opt_in_and_fuel_anchor_is_optional ... ok
+test broad_flight_commands::tests::fuel_selection_diagnostics_contract_records_proposal_only_provenance ... ok
+test broad_flight_commands::tests::fuel_selection_guide_coexists_with_endpoint_k4_bridge ... ok
+test broad_flight_commands::tests::fuel_selection_guide_starts_strictly_after_the_anchor_and_neutral_is_unguided ... ok
+test broad_flight_commands::tests::active_persistent_twist_accepts_bridge_and_rejects_other_inference_designs ... ok
+test broad_flight_commands::tests::intermediate_bridge_diagnostics_contract_is_provenance_bound ... ok
+test broad_flight_commands::tests::intermediate_bridge_defaults_and_explicit_toml_resolve_identically ... ok
+test broad_flight_commands::tests::intermediate_bridge_realizes_only_long_bto_endpoint_intervals ... ok
+test broad_flight_commands::tests::interval_tier_proposal_schedule_parses_and_preserves_exact_boundaries ... ok
+test broad_flight_commands::tests::fuel_selection_guide_time_window_is_locked_to_the_canonical_full_source ... ok
+test broad_flight_commands::tests::island_config_expands_every_scientific_stratum_without_changing_its_prior ... ok
+test broad_flight_commands::tests::fuel_selection_guide_rejects_unlocked_source_semantics_and_incompatible_inference ... ok
+test broad_flight_commands::tests::island_config_rejects_a_population_mismatch ... ok
+test broad_flight_commands::tests::island_config_rejects_repeated_latin_hypercube_cells ... ok
+test broad_flight_commands::tests::latin_hypercube_config_spelling_is_stable ... ok
+test broad_flight_commands::tests::observation_snapshot_csv_uses_the_audited_posterior_schema ... ok
+test broad_flight_commands::tests::log_space_latin_hypercube_rejects_legacy_fuel_support_partitions ... ok
+test broad_flight_commands::tests::intermediate_bridge_rejects_other_inference_designs_and_nonlocal_k1 ... ok
+test broad_flight_commands::tests::log_space_latin_hypercube_uses_only_twenty_structural_strata ... ok
+test broad_flight_commands::tests::neutral_persistent_twist_realizes_all_inactive_and_selects_the_legacy_path ... ok
+test broad_flight_commands::tests::neutral_satcom_event_mark_guide_diagnostics_close_skipped_proxy_counts ... ok
+test broad_flight_commands::tests::pending_renewal_refresh_checkpoint_and_lineage_diagnostics_fail_closed ... ok
+test broad_flight_commands::tests::pending_renewal_refresh_maps_exact_m1839_after_full_composition_with_twenty_strata ... ok
+test broad_flight_commands::tests::pending_renewal_refresh_rejects_bad_ids_final_endpoint_and_held_out_aliasing ... ok
+test broad_flight_commands::tests::persistent_twist_outer_and_nested_pool_evidence_recompose_to_final_physical_output ... ok
+test broad_flight_commands::tests::persistent_twist_diagnostics_contract_records_no_evidence_leak_and_placeholders ... ok
+test broad_flight_commands::tests::posterior_diagnostic_csv_fields_are_stable_and_aligned ... ok
+test broad_flight_commands::tests::persistent_twist_lifecycle_is_anchor_causal_and_finalizes_exactly_at_fit_through ... ok
+test broad_flight_commands::tests::pending_renewal_refresh_handoff_is_schema_two_and_legacy_config_stays_absent ... ok
+test broad_flight_commands::tests::root_stratified_transition_pool_diagnostics_enforce_allocation_and_evidence ... ok
+test broad_flight_commands::tests::root_stratified_transition_pool_maps_exact_post_composition_observations ... ok
+test broad_flight_commands::tests::pending_renewal_refresh_sidecar_is_hashed_self_contained_and_has_no_evidence_term ... ok
+test broad_flight_commands::tests::root_stratified_transition_pool_rejects_ambiguous_or_missing_ids ... ok
+test broad_flight_commands::tests::persistent_twist_toml_absence_default_floor_and_explicit_fields_are_stable ... ok
+test broad_flight_commands::tests::root_stratified_transition_pool_sidecar_disambiguates_the_generic_sentinel ... ok
+test broad_flight_commands::tests::satcom_event_mark_guide_diagnostics_recompose_against_config ... ok
+test broad_flight_commands::tests::satcom_event_mark_guide_realizes_exact_inclusive_family_endpoint ... ok
+test broad_flight_commands::tests::satcom_event_mark_guide_config_is_typed_and_root_pool_compatible ... ok
+test broad_flight_commands::tests::single_seed_combined_points_preserve_the_conditional_weights_exactly ... ok
+test broad_flight_commands::tests::satcom_event_mark_guide_rejects_unrealized_ambiguous_or_unusable_endpoints ... ok
+test broad_flight_commands::tests::satcom_event_mark_guide_sidecar_binds_physical_checkpoints ... ok
+test broad_flight_commands::tests::transition_pool_diagnostics_contract_is_provenance_bound ... ok
+test broad_flight_commands::tests::transition_pool_rejects_islands_and_stacked_local_candidates ... ok
+test broad_flight_commands::tests::unequal_seed_evidence_controls_the_combined_posterior_and_metrics ... ok
+test broad_impact_handoff::tests::continuation_correction_is_visible_in_both_mass_summaries ... ok
+test broad_impact_handoff::tests::duplicate_r600_evidence_is_rejected ... ok
+test broad_flight_commands::tests::transition_pool_schedule_is_typed_and_stably_described ... ok
+test broad_impact_handoff::tests::exact_r600_chronology_and_upstream_exclusion_are_enforced ... ok
+test broad_flight_commands::tests::satcom_event_mark_guide_rejects_stacked_or_nonbootstrap_designs ... ok
+test broad_impact_handoff::tests::impact_energy_and_unknown_attitude_are_validated ... ok
+test broad_flight_commands::tests::transition_pool_schedule_maps_final_typed_observations_and_exact_boundary ... ok
+test broad_impact_handoff::tests::joint_logon_timing_is_one_atomic_alternative_update ... ok
+test broad_impact_handoff::tests::valid_handoff_round_trips_with_explicit_null_unknowns ... ok
+test broad_terminal_cli::tests::checked_accident_inputs_resolve_the_fractional_r600_contact ... ok
+test broad_flight_commands::tests::root_stratified_transition_pool_rejects_incompatible_inference_designs ... ok
+test broad_terminal_cli::tests::terminal_cli_rejects_refresh_parent_before_any_continuation_is_propagated ... ok
+test broad_flight_commands::tests::pending_renewal_refresh_rejects_partial_streams_and_other_inference_paths ... ok
+test broad_terminal_commands::tests::terminal_builder_rejects_refresh_parent_before_calling_continuation ... ok
+test broad_terminal_commands::tests::joint_branch_keeps_powered_r600_score_but_zeroes_post_logon_exhaustion ... ok
+test conditional_spatial_commands::tests::equal_numerical_seed_pool_preserves_total_mass ... ok
+test conditional_spatial_commands::tests::log_normalization_and_effective_sample_size_are_independent_checks ... ok
+test conditional_spatial_commands::tests::native_boundary_includes_edges_and_rejects_extrapolation ... ok
+test conditional_spatial_commands::tests::numerical_seed_ledgers_may_have_distinct_evidence_normalizers_only ... ok
+test conditional_spatial_commands::tests::ocean_diagnostic_family_requires_opt_in_and_preserves_cell_status ... ok
+test conditional_spatial_commands::tests::query_requires_both_native_support_and_distance_limit ... ok
+test continuation_commands::tests::continued_handoffs_are_normalized_within_each_seed ... ok
+test continuation_commands::tests::evidence_consumption_is_atomic_across_seeds ... ok
+test broad_terminal_commands::tests::joint_branch_scores_timing_atomically_and_holds_out_occurrence_window ... ok
+test continuation_commands::tests::numerical_replicates_must_share_family_and_have_unique_seeds ... ok
+test continuation_commands::tests::shifted_origin_uses_declared_epoch_interval ... ok
+test continuation_commands::tests::serialized_typed_handoff_continuation_is_numerically_exact ... ok
+test final_bfo_commands::tests::source_parser_uses_bto_continuation_endpoint_and_weight ... ok
+test continuation_commands::tests::typed_handoff_round_trip_and_mode_rejection ... ok
+test final_bfo_commands::tests::systematic_sample_is_deterministic_and_respects_mass ... ok
+test impact_commands::tests::r600_consumption_rejects_duplicate_and_has_one_weight_update ... ok
+test impact_commands::tests::selected_ephemeris_epoch_must_have_exact_utc ... ok
+test impact_commands::tests::systematic_resampling_is_deterministic_and_exactly_corrected ... ok
+test impact_commands::tests::termination_mass_normalization_removes_roundoff_above_one ... ok
+test impact_commands::tests::utc_parser_pins_the_exact_handoff_interval ... ok
+test impact_handoff::tests::controlled_to_uncontrolled_policy_has_typed_trigger_serde ... ok
+test impact_handoff::tests::half_impact_survivors_preserve_parent_weights ... ok
+test impact_handoff::tests::positive_importance_correction_is_explicit_and_weight_neutral ... ok
+test impact_handoff::tests::rejects_duplicate_evidence_identity_and_dependence_group_consumption ... ok
+test impact_handoff::tests::rejects_inconsistent_energy_and_particle_normalization ... ok
+test impact_handoff::tests::rejects_inconsistent_impact_outcome_mass ... ok
+test impact_handoff::tests::separate_handoff_rejects_a_second_scenario ... ok
+test broad_terminal_cli::tests::fractional_r600_and_source_config_hash_are_strict_guards ... ok
+test impact_handoff::tests::source_checkpoint_must_follow_origin_and_precede_impacts ... ok
+test impact_handoff::tests::v1_rejects_source_seed_pooling ... ok
+test impact_handoff::tests::serde_round_trip_is_exact ... ok
+test impact_handoff::tests::v1_requires_one_scenario_and_unresolved_attitude_and_contact_duration ... ok
+test impact_handoff::tests::weight_update_discloses_evidence_normalizer ... ok
+test ocean_drift_application::tests::effective_sample_size_has_expected_limits ... ok
+test ocean_drift_commands::tests::coast_report_never_invents_beaching_from_a_land_mask ... ok
+test trajectory_replay::tests::terminal_domain_outcome_preserves_typed_errors_and_rejects_bad_inputs ... ok
+test ocean_drift_application::tests::application_removes_source_prior_and_rejects_family_mismatch ... ok
+test broad_terminal_commands::tests::synthetic_bridge_scores_fractional_r600_and_preserves_mirrored_outcomes ... ok
+test broad_terminal_cli::tests::synthetic_cli_is_end_to_end_deterministic_and_keeps_portable_paths ... ok
+
+test result: ok. 106 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
+
+     Running unittests src/lib.rs (target/release/deps/mh370_satcom-485583dfe555f365)
+
+running 13 tests
+test ephemeris::tests::finite_inputs_that_overflow_propagated_position_are_rejected ... ok
+test ephemeris::tests::non_finite_inputs_and_invalid_limit_fail_closed ... ok
+test exact_contact::tests::epoch_and_bias_mismatches_are_rejected_before_scoring ... ok
+test ephemeris::tests::subsecond_linear_fixture_moves_approximately_0034621_km_and_preserves_velocity ... ok
+test ephemeris::tests::negative_delta_and_exact_declared_limit_are_supported ... ok
+test exact_contact::tests::subsecond_bto_only_contact_propagates_0416_seconds_before_scoring ... ok
+test exact_contact::tests::zero_delta_fit_is_analytically_equivalent_to_existing_observation_api ... ok
+test observation::tests::predictive_frequency_update_changes_only_bias_state ... ok
+test ephemeris::tests::interval_beyond_caller_declared_span_is_rejected ... ok
+test satcom::tests::bto_matches_frozen_scalar_regression_fixture ... ok
+test satcom::tests::physical_doppler_sign_and_altitude_limit_hold ... ok
+test statistics::tests::ou_exact_moments_cover_brownian_and_stationary_limits ... ok
+test statistics::tests::sequential_bias_fixture_matches_frozen_dense_result ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_antenna
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_controls
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_domain
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_dynamics
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_end_of_flight
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_estimator
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_hydroacoustics
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_ocean_drift
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_particle_filter
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_reporting
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_satcom
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

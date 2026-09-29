@@ -1,0 +1,115 @@
+{
+  "purpose": "Source arithmetic recreation and explicit final-BFO compatibility of saved aircraft states",
+  "status": "conditional diagnostic, no geographic posterior or calibrated likelihood",
+  "printed_table_III_recreated_hz": [
+    [
+      28.0,
+      193.0
+    ],
+    [
+      -150.0,
+      9.0
+    ]
+  ],
+  "literal_prose_error_sign_intervals_hz": [
+    [
+      18.0,
+      183.0
+    ],
+    [
+      -160.0,
+      -1.0
+    ]
+  ],
+  "error_sign_note": "Section III-A defines prediction-minus-observation errors [-28,+18] Hz; Tables III/V instead extend the adjusted observation by [-18,+28]. Both are retained as separate conventions.",
+  "vertical_doppler_hz_per_100_fpm_directly_under_satellite": 2.790261888442837,
+  "conditions": {
+    "paper_url": "https://arxiv.org/pdf/1702.02432v3",
+    "paper_sha256": "c76dd9f1b6c341e99d95c68002202aad7ba6797eb1f1b343f00468235cd22821",
+    "version": "arXiv:1702.02432v3, 15 January 2018",
+    "observed_final_bfo_hz": [
+      182.0,
+      -2.0
+    ],
+    "observed_bfo_locator": "PDF page 9, Tables III and V",
+    "prediction_minus_observation_error_hz": [
+      -28.0,
+      18.0
+    ],
+    "error_locator": "PDF page 2, section III-A: extrema of 2,501 retained BFO errors from 20 preceding flights, used as assumed strict bounds in this paper",
+    "warmup_offset_hz": [
+      [
+        17.0,
+        136.0
+      ],
+      [
+        17.0,
+        130.0
+      ]
+    ],
+    "warmup_drop_hz": [
+      0.0,
+      6.0
+    ],
+    "warmup_locator": "PDF page 7, section V-A final paragraphs and V-B; seven preceding log-ons, with closed-loop compensation adjustment for six ground log-ons",
+    "no_warmup_alternative_hz": [
+      0.0,
+      0.0
+    ],
+    "no_warmup_locator": "PDF page 8, section VI-B; Tables V and VI",
+    "limitations": [
+      "Historical error extrema are not a calibrated probability distribution or a guaranteed physical bound on a new observation.",
+      "The previous sustained outages do not calibrate a one-minute power interruption; the paper explicitly notes this limitation.",
+      "The two warmup offsets share one event and are constrained by their drop; independent extreme combinations are not allowed.",
+      "Conditional calculations assume no additional unknown factor corrupts the two observations.",
+      "The comparison uses the stored R600 checkpoint at 00:19:29.416 and the nominal rounded R1200 checkpoint at 00:19:37.000. It does not infer a precise acceleration from those times."
+    ]
+  },
+  "comparison_counts": [
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "error_convention": "printed_table_error_convention",
+      "resolved_pairs": 21758,
+      "no_warmup_compatible": 0,
+      "shared_warmup_compatible": 0
+    },
+    {
+      "family": "openap_v2_6_0_attached_flow",
+      "error_convention": "literal_prose_error_convention",
+      "resolved_pairs": 21758,
+      "no_warmup_compatible": 0,
+      "shared_warmup_compatible": 0
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "error_convention": "printed_table_error_convention",
+      "resolved_pairs": 22840,
+      "no_warmup_compatible": 0,
+      "shared_warmup_compatible": 0
+    },
+    {
+      "family": "openap_published2020_attached_flow",
+      "error_convention": "literal_prose_error_convention",
+      "resolved_pairs": 22840,
+      "no_warmup_compatible": 0,
+      "shared_warmup_compatible": 0
+    }
+  ],
+  "resolved_pair_count": 44598,
+  "steady_bfo_drop_span_hz": [
+    -190.9529068824275,
+    176.92185234168562
+  ],
+  "bias_note": "Uses each source path\u2019s posterior mean steady BFO bias from observations through00:11. Shared bias is constant across the final pair and cancels from its difference; it is not re-fitted to the final observations.",
+  "elapsed_s": 16.30032163100259,
+  "input_sha256": {
+    "/jackbox/home/MH370/.sources/holland-2018-bfo-descent/data/observations-and-conditions.json": "c1818449fdead3f9683302e99494754ae4f0f6029deff1af6142340502c2d895",
+    "/jackbox/home/MH370/.sources/holland-2018-bfo-descent/code/recreate.py": "187ee98d4a84065f162a35bfe605842b21c22f783ec5c806e2a39cd152a83468",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/sources/holland-bfo-2018-arxiv-v3.pdf": "c76dd9f1b6c341e99d95c68002202aad7ba6797eb1f1b343f00468235cd22821",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2",
+    "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/run-manifest.json": "39b4ad85dd681e0a05ed4447de75932575f12419f91aec05465a936bbddd4b32",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/terminal-examples.jsonl": "971b27c323ffbe8ed97e9b7b32534a1058d3a7304a70388fa8642f0bd99981a2"
+  }
+}

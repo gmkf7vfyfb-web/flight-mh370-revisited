@@ -1,0 +1,11 @@
+{
+  "purpose": "Pilot-based runtime estimate, not a convergence prediction",
+  "pilot_particles": 128,
+  "pilot_elapsed_s": 107.16511603300023,
+  "pilot_tempering_updates": 12,
+  "proposed_particles": 1024,
+  "linear_time_estimate_s": 857.3209282640019,
+  "per_run_cap_s": 1100,
+  "workers": 4,
+  "limitation": "Different seeds may require additional tempering updates; computation must stop at the recorded cap."
+}

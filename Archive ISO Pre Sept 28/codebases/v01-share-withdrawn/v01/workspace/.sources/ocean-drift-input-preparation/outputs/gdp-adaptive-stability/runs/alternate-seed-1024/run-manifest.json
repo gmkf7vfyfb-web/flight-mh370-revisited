@@ -1,0 +1,146 @@
+{
+  "schema_version": 2,
+  "engine_version": "0.1.0",
+  "executable_sha256": "06db5534058a0805cf318e63a9e9b1b8d545e5d3f892d294a6dbbd8f102aeb3d",
+  "command": "estimate-ocean-drift",
+  "config_path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/gdp-adaptive-stability/configs/alternate-seed-1024.toml",
+  "config_sha256": "50f1d8c2579815f80a3c2d66a7a2345f045cf7f06e4505304813995e79197314",
+  "family": "gdp",
+  "isotope_enabled": true,
+  "seed": 3700919,
+  "particles_per_cell": 1024,
+  "sampling": {
+    "method": "adaptive_smc",
+    "resampling_interval_days": 30.0,
+    "selection_strength": 4.0,
+    "start_days_before_recovery": 300.0
+  },
+  "coast_enabled": false,
+  "current_maximum_interpolation_gap_hours": null,
+  "input_sha256": {
+    "currents.binary": "f25ff1192a47a69cd24e089c245f663c224f67f1550859489d260d960fcefc33",
+    "currents.metadata": "6dadbde2a962c7f3a923407d565742aec1e6f2e375926a32180724e8acd1f3c6",
+    "isotope_records": "a5231772727d2adae24dcc082abc02beb597448720be30dfbb2b46ac3fe4957a",
+    "source_cells": "a776615986bfd44e2025cfbecc940a6305609f55c97d08c31cb39ae9724b4f0a",
+    "sst.binary": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+    "sst.metadata": "ba70afa6e56ac411fd76859895cf6a3695d06fbe0da02c409c560aba8f97471b",
+    "stokes.binary": "12d4dc78a9572f2693bd545dfb8ccd9c4553676aa3b2e13a09b880ba9907f15c",
+    "stokes.metadata": "a505c955b675a9bba962d427fb79c6ad426e8333f86a881d0c4e9e5bef0ab1b5"
+  },
+  "input_metadata": {
+    "currents": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "f25ff1192a47a69cd24e089c245f663c224f67f1550859489d260d960fcefc33",
+      "component_units": {
+        "u": "m s-1 east",
+        "u_error": "m s-1 standard error",
+        "v": "m s-1 north",
+        "v_error": "m s-1 standard error"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "family": "gdp",
+      "finite_ocean_fraction": 0.6335462279936839,
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "This preserved subset is 0.5 degree; the current official product is 0.25 degree.",
+        "Land and sparsely observed missing cells are not nearest-filled.",
+        "Formal mean-current standard errors are not eddy diffusivity."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "NOAA GDP drifter-derived monthly mean surface currents",
+      "preserved_grid_resolution_degrees": 0.5,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0042-hierarchical-debris-drift/inputs/environment/gdp_monthlymeans_10E_150E_50S_25N_0p5deg.nc",
+          "sha256": "abe9d9bf4caffaabdc7330effc70de3518d6ba4fa7406aa24d1277f13015b941"
+        }
+      ],
+      "time_axis": "climatological month 0=January through 11=December; piecewise monthly"
+    },
+    "sst": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+      "component_units": {
+        "sst": "degree C"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "field_role": "sst",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "SST is an analyzed gridded product, not an in-situ observation along the flaperon path."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "NOAA 1/4 degree daily OISST v2.1 regional subset",
+      "preserved_grid_resolution_degrees": 0.25,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150117_20150224_10e150e_50s25n.nc",
+          "sha256": "1772f87f80f10dd6dd0d6fb55c380d3ecc6fd99c3b9bd62f3c9fbff17aeedd6d"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150225_20150729_10e150e_50s25n.nc",
+          "sha256": "20bd1653f2bb723c3dcfa0edf1e2effe45eff401218973fa12c0bcb5a7768a2d"
+        }
+      ],
+      "time_axis": "UTC Unix seconds"
+    },
+    "stokes": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "12d4dc78a9572f2693bd545dfb8ccd9c4553676aa3b2e13a09b880ba9907f15c",
+      "component_units": {
+        "u": "m s-1 east Stokes",
+        "v": "m s-1 north Stokes"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "field_role": "stokes",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "Daily 1 degree Stokes field omits subdaily and subgrid wave variability."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "ERA5 daily Stokes surface drift, preserved 1 degree regional field",
+      "preserved_grid_resolution_degrees": 1.0,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0043-generative-debris-drift/inputs/era5_stokes_daily_20140308_20200815_1deg.npz",
+          "sha256": "6f08aa78758b1d80a68c55ec917debcf93520394132387b919077aabe5bfd511"
+        }
+      ],
+      "time_axis": "UTC Unix seconds"
+    }
+  },
+  "outputs": {
+    "source-area.csv": "6565797b82b60151c11e5754349678e6422c6f885bad3809971b12a20bb6db87",
+    "source-area.json": "5882e85b7b281c14ed64fc915d42ee96246588e44e49371c47dd8eea79afe799",
+    "source-area.pdf": "a33f286154475b94012e3c11b08bace0c4a6fae151e0e1ba30b014bc6726efd4",
+    "source-area.png": "8a2cf90d1386733a9784576fe94b02901793a0a74f5f0203512685d7a24c5fc0",
+    "source-area.svg": "b6821c21f394cc55bd9e0e7b044cc09f9a7481f95b6e0bd64823721379e26146"
+  },
+  "limitations": [
+    "This preserved subset is 0.5 degree; the current official product is 0.25 degree.",
+    "Land and sparsely observed missing cells are not nearest-filled.",
+    "Formal mean-current standard errors are not eddy diffusivity.",
+    "Daily 1 degree Stokes field omits subdaily and subgrid wave variability.",
+    "SST is an analyzed gridded product, not an in-situ observation along the flaperon path.",
+    "Discovery is not beaching; the configured recovery window is a model choice.",
+    "The Gaussian spatial encounter kernel and midpoint integrator are explicit model choices, not published measurements."
+  ]
+}

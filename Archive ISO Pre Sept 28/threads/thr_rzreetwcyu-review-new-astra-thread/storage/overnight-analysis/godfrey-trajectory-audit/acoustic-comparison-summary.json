@@ -1,0 +1,17 @@
+{
+  "status": "Explicit position-by-impact-time sensitivity grid. The position indicators are not impact measurements, and cross-pairing them with the two narrative impact times does not produce eight physically coherent flight histories or eight claims made by the authors. No probabilities or WSPR likelihood are assigned.",
+  "source_locator": "Godfrey, Coetzee and Maskell, 31 August 2023, pages 48\u201349 and Table 5 pages 50\u201353",
+  "celerity_basis": "Kadri2024 page13 1500\u00b170m/s, retained as separate limiting sensitivities, not path-calibrated errors",
+  "limitations": [
+    "Station configuration supplies coordinates only; its legacy selected feature times are not used.",
+    "Spherical great-circle effective-celerity timing only; no bathymetric blockage, dispersion, sound-source amplitude, event identity or detection likelihood.",
+    "The 00:26 coordinate is a reported position indicator, not a measured impact point at 00:27:51.",
+    "The nominal proposed route still requires BTO, performance, BFO and fuel reconciliation."
+  ],
+  "input_sha256": {
+    "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/data/terminal-hypotheses-2023.json": "4cdadeb073ef3ed22ba8efb9067a083b74a005acc42abaaaa8fa9038482c96d0",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/sources/godfrey-flight-path-analysis-2023.pdf": "b674ff8bf1c226e7f782e6ac4dc10e2a984bda71ff1ec3862a3fb06123af1098",
+    "/jackbox/home/MH370/configs/accident-production.toml": "b5a45c2887ece56f7b25bbb02f1eebfcd8936a242f11b7a797b9ae57dea304e7",
+    "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/code/audit_proposed_trajectory.py": "9cf137e92805ab9b347ab854e2200faf600607ae8d0202b27e0651dc7b2e7481"
+  }
+}

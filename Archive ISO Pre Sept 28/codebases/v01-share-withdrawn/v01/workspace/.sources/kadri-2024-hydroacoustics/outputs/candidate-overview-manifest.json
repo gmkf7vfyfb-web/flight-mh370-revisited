@@ -1,0 +1,24 @@
+{
+  "status": "SOURCE_SIGNAL_AND_CONDITIONAL_GEOMETRY_OVERVIEW_NOT_ASSOCIATION_POSTERIOR",
+  "inputs": {
+    "data/event-pair-analysis-config.json": "e668bfb9eeb9e302cc8206ae7f68922468cfaa9a67678d0e24d1dea178c7b08e",
+    "outputs/conditional-event-pair-overlaps.csv": "5c5812dcd321f66399cf2c079ffb1128e79a3b7e155774b8739db54af8fd5d5c",
+    "data/posterior_grids.npz": "1c174d64590229e5948c6d1d51ea03d3c1342d25906d9f0761516eff8159b76b",
+    "data/seventh_arc_fl400.geojson": "8d95ae563560388d1ad7c2ef34a3154ff95c0b2dd09c59c842f374b80e1537ad",
+    "data/kadri-figure-extraction/metadata.json": "c80de542924df6cda30a2c7252a34a5cb3c15d4183f16ae95622d1665aeb6580"
+  },
+  "code": {
+    "code/candidate_overview.py": "0576cacb89f32e0a6f22e1ee7b275af631cf77250311314ac205ae53e50c8286",
+    "code/event_pair_analysis.py": "172eae0af7d754afc5ae9b150db2d2e47ca0d1a85d8155c63c5dd20398f23885"
+  },
+  "outputs": {
+    "source-and-table-event-trace-audit.csv": "ac9334a7d64952bb8764ca7c86be67884bd4c31398e23a1bc84335ab4a2aa247",
+    "candidate-bearing-and-timing-overview.png": "d602933e08363398649b3cd22616a53c9c9c93df03fcab5c2bf8d47b2f731202",
+    "candidate-bearing-and-timing-overview.pdf": "d102f628a2fab17d2e1202f97fde02a2709a4e0d185495351098ecf2fd475662"
+  },
+  "interpretive_limits": [
+    "publication-vector pressure cannot reproduce Kadri's triad bearing calculation",
+    "TOA-difference masses are spatial compatibility fractions, not association probabilities",
+    "the 30-minute impact-time control is an explicit alternative, not part of the baseline percentages"
+  ]
+}

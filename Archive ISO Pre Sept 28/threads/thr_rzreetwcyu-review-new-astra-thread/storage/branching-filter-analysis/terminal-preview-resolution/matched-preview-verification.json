@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "runs": [
+    {
+      "seed": 37097111,
+      "fine_source_sha256": "294bf777424cc992b29e4ddf7021561743999407cc9c56912bd5438da0988855",
+      "coarse_source_sha256": "8369fec460300f2a95b4a21b2f4be684052f3bd1bc1d824a5dd97b25b6f786e2",
+      "rows": 3069,
+      "guided_rows": 3066,
+      "exact_matched_rows": 3035,
+      "matched_contact_preview_bfo_absolute_difference_hz": {
+        "maximum": 1.1118475229897058,
+        "median": 0.12097919707144911,
+        "p95": 0.43500147469296696
+      }
+    },
+    {
+      "seed": 37097112,
+      "fine_source_sha256": "c5d5ea2fb0d05bd7ef47ec3ea8ba3bac83e7b23216a9d5fca27cf2074109d29a",
+      "coarse_source_sha256": "0196f1fdbcd5139ea0afb00db79b206f39bd78dcce17c3df5e99490f874e76a5",
+      "rows": 3070,
+      "guided_rows": 3068,
+      "exact_matched_rows": 3038,
+      "matched_contact_preview_bfo_absolute_difference_hz": {
+        "maximum": 1.222573096644112,
+        "median": 0.12234502446972328,
+        "p95": 0.4407339065005487
+      }
+    }
+  ],
+  "elapsed_seconds": 2.826252426006249,
+  "source_code_sha256": "50a5462c29752086b9adc77301d1805e66a74cf186ead6dd7b0d2eadc09eb6e1",
+  "scope": "Check exact fine-resolution outputs where matched guides select the same draw."
+}

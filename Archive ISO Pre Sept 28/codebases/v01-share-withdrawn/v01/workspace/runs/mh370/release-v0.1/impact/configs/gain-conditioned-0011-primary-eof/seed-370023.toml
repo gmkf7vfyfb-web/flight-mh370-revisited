@@ -1,0 +1,105 @@
+schema_version = 2
+hypothesis_id = "gain-conditioned-0011-primary-eof"
+source_handoff = "../../../../0011-core-comparison/bto-bfo-gain-conditional/seed-370023/posterior-handoff.json"
+relative_time_origin_utc = "2014-03-07T18:01:49Z"
+source_checkpoint_utc = "2014-03-08T00:10:59Z"
+code_revision = "source-tree-sha256-d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d"
+source_draw_count = 512
+eof_seed = 3700230019
+
+[inputs]
+observations = "../../../../../../inputs/accident/satcom-observations.csv"
+satellite_ephemeris = "../../../../../../inputs/accident/satellite-ephemeris.csv"
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+source_epoch_id = "m0011"
+r600_epoch_id = "m0019a"
+r600_channel = "R600"
+r1200_epoch_id = "m0019b"
+r1200_channel = "R1200"
+
+[satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12
+
+[scenario]
+id = "arc1-current-polar-best-glide-equal-feed"
+model_weight = 1.0
+restart_transient = "common_ocxo_warmup"
+aerodynamic_family = "openap_v2_6_0_attached_flow"
+
+[scenario.environment]
+model = "era5_pressure_altitude"
+grid = "../../../../../../inputs/environment/mh370-era5-grid.bin"
+manifest = "../../../../../../inputs/environment/mh370-era5-grid.manifest.json"
+minimum_pressure_altitude_ft = 500.0
+maximum_pressure_altitude_ft = 43000.0
+below_minimum_policy = "clamp_pressure_altitude"
+above_maximum_policy = "clamp_pressure_altitude"
+
+[scenario.fuel_model]
+model = "martin_trent892_lrc"
+zero_fuel_weight = 174369.0
+anchor_total_fuel = 33524.10488196
+anchor_utc = "2014-03-07T18:28:05.9Z"
+pressure_altitude = 35000.0
+apu_reserved_fuel = 15.0
+inaccessible_reported_fuel = 0.0
+thrust_per_engine = 65000.0
+left_generator_online = true
+right_generator_online = true
+effective_feed_timing = { mode = "equal_endurance" }
+martin_workbook_sha256 = "508d4288acac0b3eccf70ae200e0517d79979cbb47197155cee1b748142b8220"
+kong_sanity_workbook_sha256 = "5fee5196208c8655fb50af3f991df2e9a80298c84d800bb4990d5ca06f264437"
+
+[scenario.electrical]
+source = "engine_generators"
+satcom_powered = true
+
+[scenario.apu]
+mode = "off"
+elapsed_in_mode = 0.0
+generator_online = false
+fuel_flow = 0.0
+
+[scenario.ocxo]
+power = "powered"
+unpowered_duration = 0.0
+restart_count = 0
+
+[scenario.control_policy.scenario]
+label = "arc1-current-polar-best-glide-equal-feed"
+trigger = "dual_engine_flameout"
+
+[[scenario.control_policy.pre_trigger_controlled.segments]]
+start_offset = 0.0
+command = { mode = "controlled", lift_load_factor = 1.0, bank_angle = 0.0 }
+
+[[scenario.control_policy.post_trigger_uncontrolled.segments]]
+start_offset = 0.0
+command = { mode = "uncontrolled", lift_coefficient = 0.7145896010104964, bank_angle = 0.0 }
+
+[scenario.apu_start_policy]
+mode = "on_dual_engine_generator_loss"
+start_delay = 1.0
+start_fuel = 0.5
+generator_delay = 118.0
+running_fuel_flow = 0.02
+
+[scenario.integration]
+time_step = 2.0
+maximum_duration = 2941.0
+sea_surface_altitude = 0.0
+maximum_steps = 4000

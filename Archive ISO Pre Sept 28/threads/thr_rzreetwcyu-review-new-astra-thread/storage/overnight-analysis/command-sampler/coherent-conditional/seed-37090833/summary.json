@@ -1,0 +1,177 @@
+{
+  "history": [
+    {
+      "step": 0,
+      "temperature": 1e-10,
+      "pre_resample_ess": 406.9999999999994,
+      "mutation_acceptance": 0.3181423611111111,
+      "independence_acceptances": 2828,
+      "proposal_scale": 0.8277266013249651,
+      "root_count": 407,
+      "log_normalizer": -0.6349765644318035,
+      "elapsed_s": 67.68356183300057,
+      "evaluations": 19200,
+      "mean": [
+        -35.617181089651744,
+        90.79107413590312,
+        22478.41524662836
+      ]
+    },
+    {
+      "step": 1,
+      "temperature": 0.09327233106677864,
+      "pre_resample_ess": 614.4000000000335,
+      "mutation_acceptance": 0.2644314236111111,
+      "independence_acceptances": 1782,
+      "proposal_scale": 0.8337208382688379,
+      "root_count": 390,
+      "log_normalizer": -9.640276195112808,
+      "elapsed_s": 125.68726320999849,
+      "evaluations": 37632,
+      "mean": [
+        -35.695813934125056,
+        90.43354749051343,
+        22471.42141923812
+      ]
+    },
+    {
+      "step": 2,
+      "temperature": 0.2362998845215748,
+      "pre_resample_ess": 614.4000000000223,
+      "mutation_acceptance": 0.2700737847222222,
+      "independence_acceptances": 1620,
+      "proposal_scale": 0.8421309396206371,
+      "root_count": 369,
+      "log_normalizer": -23.07547540914344,
+      "elapsed_s": 183.52057292099926,
+      "evaluations": 56064,
+      "mean": [
+        -35.80571730790686,
+        90.28074411078858,
+        22453.837449863033
+      ]
+    },
+    {
+      "step": 3,
+      "temperature": 0.39076895000863593,
+      "pre_resample_ess": 614.4000000000326,
+      "mutation_acceptance": 0.21809895833333334,
+      "independence_acceptances": 881,
+      "proposal_scale": 0.8288050723142855,
+      "root_count": 342,
+      "log_normalizer": -37.29192467831493,
+      "elapsed_s": 240.2692477640012,
+      "evaluations": 74496,
+      "mean": [
+        -35.887760959722804,
+        90.16045927491628,
+        22443.88718204486
+      ]
+    },
+    {
+      "step": 4,
+      "temperature": 0.5520220081562145,
+      "pre_resample_ess": 614.4000000000115,
+      "mutation_acceptance": 0.20838758680555555,
+      "independence_acceptances": 729,
+      "proposal_scale": 0.8117389391508943,
+      "root_count": 309,
+      "log_normalizer": -51.90087203688912,
+      "elapsed_s": 297.54316787000425,
+      "evaluations": 92928,
+      "mean": [
+        -35.94522037473016,
+        90.0825407064736,
+        22436.280967644212
+      ]
+    },
+    {
+      "step": 5,
+      "temperature": 0.7137623971411908,
+      "pre_resample_ess": 614.4000000000151,
+      "mutation_acceptance": 0.19873046875,
+      "independence_acceptances": 366,
+      "proposal_scale": 0.791194650735527,
+      "root_count": 278,
+      "log_normalizer": -66.32348945178288,
+      "elapsed_s": 355.07996472200466,
+      "evaluations": 111360,
+      "mean": [
+        -36.00656706085292,
+        89.99131877315698,
+        22428.531110316264
+      ]
+    },
+    {
+      "step": 6,
+      "temperature": 0.8868615894127426,
+      "pre_resample_ess": 614.4000000000027,
+      "mutation_acceptance": 0.2126736111111111,
+      "independence_acceptances": 129,
+      "proposal_scale": 0.7765653703085161,
+      "root_count": 242,
+      "log_normalizer": -81.52027880013846,
+      "elapsed_s": 412.2079851160015,
+      "evaluations": 129792,
+      "mean": [
+        -36.06989687542562,
+        89.90248349352532,
+        22420.771399986555
+      ]
+    },
+    {
+      "step": 7,
+      "temperature": 1.0,
+      "pre_resample_ess": 705.0810385366615,
+      "mutation_acceptance": 0.19129774305555555,
+      "independence_acceptances": 46,
+      "proposal_scale": 0.7541035527313216,
+      "root_count": 220,
+      "log_normalizer": -91.32081284403327,
+      "elapsed_s": 468.74118543299846,
+      "evaluations": 148224,
+      "mean": [
+        -36.12504766480788,
+        89.81180407807598,
+        22414.655594841908
+      ]
+    }
+  ],
+  "elapsed_s": 468.7413959760015,
+  "seed": 37090833,
+  "mean": [
+    -36.12504766480788,
+    89.81180407807598,
+    22414.655594841908
+  ],
+  "quantiles": [
+    [
+      -36.48386361543282,
+      89.24057272789845,
+      22362.58495975585
+    ],
+    [
+      -36.12803325154748,
+      89.81401645772127,
+      22402.86259933936
+    ],
+    [
+      -35.78564532513192,
+      90.33921444030418,
+      22504.623338811743
+    ]
+  ],
+  "status": "conditional sampler experiment; independent validation and seed agreement required",
+  "counts": [
+    1,
+    0,
+    0
+  ],
+  "initial_bounds": [
+    0.3,
+    0.87,
+    500,
+    43000
+  ],
+  "maximum_child_rss_kib": 664360
+}

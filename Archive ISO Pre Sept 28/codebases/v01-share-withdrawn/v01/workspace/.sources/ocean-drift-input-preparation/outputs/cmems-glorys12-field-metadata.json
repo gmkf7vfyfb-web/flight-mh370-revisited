@@ -1,0 +1,87 @@
+{
+  "axis_order": [
+    "time",
+    "latitude",
+    "longitude"
+  ],
+  "binary_format": "MHGRID schema 3 little-endian packed i16 with distinct persistent-land sentinel",
+  "binary_sha256": "919405cbf4c03c257101794f977850df2385ac3ae976543858d59c480adb1470",
+  "component_units": {
+    "u": "m s-1 east",
+    "v": "m s-1 north"
+  },
+  "converter_version": "ocean-input-preparation-v4",
+  "dataset_id": "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+  "family": "cmems_glorys12_reanalysis",
+  "field_role": "currents",
+  "finite_component_fractions_including_land": {
+    "u": 0.6742165021381334,
+    "v": 0.6742272048677163
+  },
+  "first_time_unix_seconds": 1394150400.0,
+  "last_time_unix_seconds": 1438214400.0,
+  "latitude_spacing_degrees": [
+    0.08333206,
+    0.08333302,
+    0.08333325,
+    0.08333331,
+    0.08333333,
+    0.08333334,
+    0.08333337,
+    0.08333349,
+    0.08333397,
+    0.08333588
+  ],
+  "latitude_units": "degrees_north WGS84",
+  "limitations": [
+    "GLORYS12V1 is assimilative; the available drifter replay is not guaranteed held out.",
+    "Daily means omit subdaily current variability represented by the native-HYCOM three-hour analyses.",
+    "Land and any missing ocean value remain the packed missing sentinel; no missing value is converted to zero current.",
+    "Stokes drift, direct windage, and coastal beaching are not included in this current field and require distinct explicit inputs."
+  ],
+  "longitude_spacing_degrees": [
+    0.08332825,
+    0.08333206,
+    0.08333302,
+    0.08333397,
+    0.08333588,
+    0.08334351
+  ],
+  "longitude_units": "degrees_east WGS84",
+  "maximum_time_gap_hours": 24.0,
+  "name": "CMEMS GLORYS12V1 daily-mean native-grid surface currents",
+  "packing": {
+    "add_offset": 0.0,
+    "encoding": "signed i16",
+    "missing_value": -30000,
+    "persistent_land_mask_value": -29999,
+    "scale_factor": 0.001
+  },
+  "persistent_missing_mask_audit": {
+    "changed_cells": 3365,
+    "intermittently_missing_cells": 3365,
+    "interpretation": "Persistent missing cells define coastal support. Any intermittent missing cell remains missing in the packed current field and is never converted to zero.",
+    "persistent_missing_cells": 526262,
+    "time_component_comparisons": 1021
+  },
+  "product_id": "GLOBAL_MULTIYEAR_PHY_001_030",
+  "retrieval_manifest": {
+    "path": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-retrieval-manifest.json",
+    "sha256": "0f031a8e850006341f4d88ce8c84e1ca4c3e55680003036cf7f5fc6747d8a766"
+  },
+  "schema": "mh370-gridded-field-input-v2",
+  "source_file_bytes": 1359205398,
+  "source_file_count": 17,
+  "spatial_bounds_degrees": {
+    "east": 150.0,
+    "north": 30.0,
+    "south": -50.0,
+    "west": 10.0
+  },
+  "surface_depth_metres": 0.49402499198913574,
+  "time_axis": "UTC Unix seconds; upstream daily field labelled at 00:00 UTC",
+  "time_count": 511,
+  "time_gap_counts_hours": {
+    "24": 510
+  }
+}

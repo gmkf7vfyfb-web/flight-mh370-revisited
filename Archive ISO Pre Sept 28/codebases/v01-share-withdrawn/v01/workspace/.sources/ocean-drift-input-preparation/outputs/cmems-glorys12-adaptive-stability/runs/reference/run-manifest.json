@@ -1,0 +1,191 @@
+{
+  "schema_version": 2,
+  "engine_version": "0.1.0",
+  "executable_sha256": "ec970778a9b9b0e28b56af5e581713981c0b69432ca30a0f2336f6bbe1c6b658",
+  "command": "estimate-ocean-drift",
+  "config_path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-glorys12-adaptive-stability/configs/reference.toml",
+  "config_sha256": "e5c932c43ce11fc2183060c999d53b9bca29c907850f9f6814171574ce9e4ef6",
+  "family": "cmems_glorys12_reanalysis",
+  "isotope_enabled": true,
+  "seed": 3700019,
+  "particles_per_cell": 1024,
+  "sampling": {
+    "method": "adaptive_smc",
+    "resampling_interval_days": 30.0,
+    "selection_strength": 4.0,
+    "start_days_before_recovery": 300.0
+  },
+  "coast_enabled": true,
+  "current_maximum_interpolation_gap_hours": 36.0,
+  "input_sha256": {
+    "coast.binary": "fff1f2776117e98372f40811690c95110eac547a386e3b05f8d22d701b3981ae",
+    "coast.metadata": "4399ebfd9fa113b097f8608b3e5ad1499df9c301e33e0f9dd94381167f693fe8",
+    "currents.binary": "1b203dc1c92dbad9db6082e4406600a2d160778b675447c786f57fafb1e77641",
+    "currents.metadata": "d10be45a6d8d9ec18d8c50ff51424019971e97724d9a2711120d7a9d3b116f10",
+    "isotope_records": "a5231772727d2adae24dcc082abc02beb597448720be30dfbb2b46ac3fe4957a",
+    "source_cells": "a776615986bfd44e2025cfbecc940a6305609f55c97d08c31cb39ae9724b4f0a",
+    "sst.binary": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+    "sst.metadata": "ba70afa6e56ac411fd76859895cf6a3695d06fbe0da02c409c560aba8f97471b"
+  },
+  "input_metadata": {
+    "coast": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "fff1f2776117e98372f40811690c95110eac547a386e3b05f8d22d701b3981ae",
+      "component_units": {
+        "land_fraction": "binary fraction 0 ocean 1 land"
+      },
+      "converter_version": "ocean-input-preparation-v2",
+      "definition": "land_fraction=1 only where eastward surface current is missing at every retrieved daily analysis; intermittently missing ocean cells remain ocean and terminate as missing field coverage when encountered",
+      "family": "cmems_glorys12_reanalysis",
+      "field_role": "coastal_support",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "This model wet mask distinguishes persistent land from data gaps; it is not a shoreline-distance or beaching-probability model.",
+        "No beaching_rate component is present, so the transport code cannot invent coastal retention."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "CMEMS GLORYS12V1 persistent wet-mask coastal support field",
+      "retrieval_manifest": {
+        "path": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-retrieval-manifest.json",
+        "sha256": "0f031a8e850006341f4d88ce8c84e1ca4c3e55680003036cf7f5fc6747d8a766"
+      },
+      "schema": "mh370-gridded-field-input-v1",
+      "time_axis": "constant over the CMEMS retrieval interval"
+    },
+    "currents": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID schema 2 little-endian packed i16",
+      "binary_sha256": "1b203dc1c92dbad9db6082e4406600a2d160778b675447c786f57fafb1e77641",
+      "component_units": {
+        "u": "m s-1 east",
+        "v": "m s-1 north"
+      },
+      "converter_version": "ocean-input-preparation-v2",
+      "dataset_id": "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+      "family": "cmems_glorys12_reanalysis",
+      "field_role": "currents",
+      "finite_component_fractions_including_land": {
+        "u": 0.6742165021381334,
+        "v": 0.6742272048677163
+      },
+      "first_time_unix_seconds": 1394150400.0,
+      "last_time_unix_seconds": 1438214400.0,
+      "latitude_spacing_degrees": [
+        0.08333206,
+        0.08333302,
+        0.08333325,
+        0.08333331,
+        0.08333333,
+        0.08333334,
+        0.08333337,
+        0.08333349,
+        0.08333397,
+        0.08333588
+      ],
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "GLORYS12V1 is assimilative; the available drifter replay is not guaranteed held out.",
+        "Daily means omit subdaily current variability represented by the native-HYCOM three-hour analyses.",
+        "Land and any missing ocean value remain the packed missing sentinel; no missing value is converted to zero current.",
+        "Stokes drift, direct windage, and coastal beaching are not included in this current field and require distinct explicit inputs."
+      ],
+      "longitude_spacing_degrees": [
+        0.08332825,
+        0.08333206,
+        0.08333302,
+        0.08333397,
+        0.08333588,
+        0.08334351
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "maximum_time_gap_hours": 24.0,
+      "name": "CMEMS GLORYS12V1 daily-mean native-grid surface currents",
+      "packing": {
+        "add_offset": 0.0,
+        "encoding": "signed i16",
+        "missing_value": -30000,
+        "scale_factor": 0.001
+      },
+      "product_id": "GLOBAL_MULTIYEAR_PHY_001_030",
+      "retrieval_manifest": {
+        "path": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-retrieval-manifest.json",
+        "sha256": "0f031a8e850006341f4d88ce8c84e1ca4c3e55680003036cf7f5fc6747d8a766"
+      },
+      "schema": "mh370-gridded-field-input-v2",
+      "source_file_bytes": 1359205398,
+      "source_file_count": 17,
+      "spatial_bounds_degrees": {
+        "east": 150.0,
+        "north": 30.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "surface_depth_metres": 0.49402499198913574,
+      "time_axis": "UTC Unix seconds; upstream daily field labelled at 00:00 UTC",
+      "time_count": 511,
+      "time_gap_counts_hours": {
+        "24": 510
+      }
+    },
+    "sst": {
+      "axis_order": [
+        "time",
+        "latitude",
+        "longitude"
+      ],
+      "binary_format": "MHGRID1 little-endian",
+      "binary_sha256": "9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0",
+      "component_units": {
+        "sst": "degree C"
+      },
+      "converter_version": "ocean-input-preparation-v1",
+      "field_role": "sst",
+      "latitude_units": "degrees_north WGS84",
+      "limitations": [
+        "SST is an analyzed gridded product, not an in-situ observation along the flaperon path."
+      ],
+      "longitude_units": "degrees_east WGS84",
+      "name": "NOAA 1/4 degree daily OISST v2.1 regional subset",
+      "preserved_grid_resolution_degrees": 0.25,
+      "schema": "mh370-gridded-field-input-v1",
+      "source_files": [
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150117_20150224_10e150e_50s25n.nc",
+          "sha256": "1772f87f80f10dd6dd0d6fb55c380d3ecc6fd99c3b9bd62f3c9fbff17aeedd6d"
+        },
+        {
+          "path": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses/D-0060-cross-arc-debris-drift/inputs/isotope/source_files/noaa_oisst_20150225_20150729_10e150e_50s25n.nc",
+          "sha256": "20bd1653f2bb723c3dcfa0edf1e2effe45eff401218973fa12c0bcb5a7768a2d"
+        }
+      ],
+      "time_axis": "UTC Unix seconds"
+    }
+  },
+  "outputs": {
+    "source-area.csv": "90800e02b2ba2a9b59e06e92782e325704fea93fc1e09fa535588cab1e014e22",
+    "source-area.json": "0e5c0bc15886053ca1e21e58506fca84ae0e815413f8ab7c9b009ee083dfff05",
+    "source-area.pdf": "3543fdeaa996410da626124e744c268c718445b59688512d343fab1f249d11dc",
+    "source-area.png": "34a4feac46f99ef0d318ed2df2db407a49f896ce290d0bffb7b2f69516e89cfd",
+    "source-area.svg": "92a8029873660641ee7ea7371ab1cfe55a58395389b15649824c676cf8fcda46"
+  },
+  "limitations": [
+    "GLORYS12V1 is assimilative; the available drifter replay is not guaranteed held out.",
+    "Daily means omit subdaily current variability represented by the native-HYCOM three-hour analyses.",
+    "Land and any missing ocean value remain the packed missing sentinel; no missing value is converted to zero current.",
+    "Stokes drift, direct windage, and coastal beaching are not included in this current field and require distinct explicit inputs.",
+    "This model wet mask distinguishes persistent land from data gaps; it is not a shoreline-distance or beaching-probability model.",
+    "No beaching_rate component is present, so the transport code cannot invent coastal retention.",
+    "SST is an analyzed gridded product, not an in-situ observation along the flaperon path.",
+    "Discovery is not beaching; the configured recovery window is a model choice.",
+    "The Gaussian spatial encounter kernel and midpoint integrator are explicit model choices, not published measurements."
+  ]
+}

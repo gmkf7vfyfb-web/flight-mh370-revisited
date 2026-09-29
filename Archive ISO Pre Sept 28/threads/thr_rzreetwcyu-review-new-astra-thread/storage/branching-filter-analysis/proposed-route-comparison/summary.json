@@ -1,0 +1,158 @@
+{
+  "generated_utc": "2026-09-09T14:10:15.743941+00:00",
+  "route_audit": {
+    "status": "nominal published-route audit; no WSPR likelihood and no inferred trajectory probabilities",
+    "table_positions": 68,
+    "fastest_nominal_legs": [
+      {
+        "from_table_row": 34,
+        "to_table_row": 35,
+        "from_utc": "2014-03-07T22:16:00Z",
+        "to_utc": "2014-03-07T22:22:00Z",
+        "distance_nm": 73.53478655956759,
+        "nominal_mean_ground_speed_kt": 735.347865595676,
+        "minimum_mean_speed_allowing_independent_110_484s_slot_times_kt": 562.6657476437953,
+        "favorable_midpoint_weather_speed_ceiling_kt": 529.596513381345,
+        "ceiling_altitude_ft": 30500.0,
+        "ceiling_status": "sampled midpoint diagnostic, not a rigorous full-leg bound"
+      },
+      {
+        "from_table_row": 104,
+        "to_table_row": 106,
+        "from_utc": "2014-03-07T23:58:00Z",
+        "to_utc": "2014-03-08T00:00:00Z",
+        "distance_nm": 20.849730770658223,
+        "nominal_mean_ground_speed_kt": 625.4919231197467,
+        "minimum_mean_speed_allowing_independent_110_484s_slot_times_kt": 325.658313697999,
+        "favorable_midpoint_weather_speed_ceiling_kt": 581.8756943660536,
+        "ceiling_altitude_ft": 34000.0,
+        "ceiling_status": "sampled midpoint diagnostic, not a rigorous full-leg bound"
+      },
+      {
+        "from_table_row": 11,
+        "to_table_row": 12,
+        "from_utc": "2014-03-07T19:40:00Z",
+        "to_utc": "2014-03-07T19:48:00Z",
+        "distance_nm": 81.14473567311194,
+        "nominal_mean_ground_speed_kt": 608.5855175483396,
+        "minimum_mean_speed_allowing_independent_110_484s_slot_times_kt": 494.7145873947524,
+        "favorable_midpoint_weather_speed_ceiling_kt": 546.1672590430044,
+        "ceiling_altitude_ft": 30500.0,
+        "ceiling_status": "sampled midpoint diagnostic, not a rigorous full-leg bound"
+      },
+      {
+        "from_table_row": 49,
+        "to_table_row": 51,
+        "from_utc": "2014-03-07T23:04:00Z",
+        "to_utc": "2014-03-07T23:08:00Z",
+        "distance_nm": 37.65853498134537,
+        "nominal_mean_ground_speed_kt": 564.8780247201805,
+        "minimum_mean_speed_allowing_independent_110_484s_slot_times_kt": 386.8100282262338,
+        "favorable_midpoint_weather_speed_ceiling_kt": 550.1034665826653,
+        "ceiling_altitude_ft": 30500.0,
+        "ceiling_status": "sampled midpoint diagnostic, not a rigorous full-leg bound"
+      },
+      {
+        "from_table_row": 75,
+        "to_table_row": 77,
+        "from_utc": "2014-03-07T23:30:00Z",
+        "to_utc": "2014-03-07T23:32:00Z",
+        "distance_nm": 18.395107585134227,
+        "nominal_mean_ground_speed_kt": 551.8532275540268,
+        "minimum_mean_speed_allowing_independent_110_484s_slot_times_kt": 287.31880437029565,
+        "favorable_midpoint_weather_speed_ceiling_kt": 565.7738027868286,
+        "ceiling_altitude_ft": 30500.0,
+        "ceiling_status": "sampled midpoint diagnostic, not a rigorous full-leg bound"
+      }
+    ],
+    "limitations": [
+      "Spherical short-leg distances and interpolation use radius6371.0088km; not exact WGS84 geodesics.",
+      "Table times label WSPR slots. A common time offset does not change inter-position speeds; independent within-slot times can.",
+      "Altitude alternatives are explicit geometry checks, not inferred cruise levels.",
+      "Midpoint weather ceiling cannot exclude a route with variable altitude, timing or position uncertainty.",
+      "No BFO, fuel or continuous-control feasibility fit; Table5 coordinates are hypotheses, not measured aircraft positions."
+    ],
+    "elapsed_s": 0.789381732000038,
+    "input_sha256": {
+      "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/code/audit_proposed_trajectory.py": "16f8d2584fcfed33d046f765da6cb83fdd90a2f78b711508c107c6e473a034bd",
+      "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/data/proposed-trajectory-2023.csv": "733e1b1ce5d6e2cff83d65e1fec86b77c92417d1e3845bce566157bc32a08cea",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/sources/godfrey-flight-path-analysis-2023.pdf": "b674ff8bf1c226e7f782e6ac4dc10e2a984bda71ff1ec3862a3fb06123af1098",
+      "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+      "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+      "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+      "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+    }
+  },
+  "acoustic_audit": {
+    "status": "Explicit position-by-impact-time sensitivity grid. The position indicators are not impact measurements, and cross-pairing them with the two narrative impact times does not produce eight physically coherent flight histories or eight claims made by the authors. No probabilities or WSPR likelihood are assigned.",
+    "source_locator": "Godfrey, Coetzee and Maskell, 31 August 2023, pages 48\u201349 and Table 5 pages 50\u201353",
+    "celerity_basis": "Kadri2024 page13 1500\u00b170m/s, retained as separate limiting sensitivities, not path-calibrated errors",
+    "limitations": [
+      "Station configuration supplies coordinates only; its legacy selected feature times are not used.",
+      "Spherical great-circle effective-celerity timing only; no bathymetric blockage, dispersion, sound-source amplitude, event identity or detection likelihood.",
+      "The 00:26 coordinate is a reported position indicator, not a measured impact point at 00:27:51.",
+      "The nominal proposed route still requires BTO, performance, BFO and fuel reconciliation."
+    ],
+    "input_sha256": {
+      "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/data/terminal-hypotheses-2023.json": "4cdadeb073ef3ed22ba8efb9067a083b74a005acc42abaaaa8fa9038482c96d0",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/sources/godfrey-flight-path-analysis-2023.pdf": "b674ff8bf1c226e7f782e6ac4dc10e2a984bda71ff1ec3862a3fb06123af1098",
+      "/jackbox/home/MH370/configs/accident-production.toml": "b5a45c2887ece56f7b25bbb02f1eebfcd8936a242f11b7a797b9ae57dea304e7",
+      "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/code/audit_proposed_trajectory.py": "9cf137e92805ab9b347ab854e2200faf600607ae8d0202b27e0651dc7b2e7481"
+    }
+  },
+  "arrival_windows": [
+    {
+      "station": "H01W",
+      "scenario": "Paper's unpiloted timing illustration",
+      "arrival_minutes_utc": [
+        37.40211149851481,
+        39.907599651813506
+      ]
+    },
+    {
+      "station": "H01W",
+      "scenario": "Paper's active-pilot extension illustration",
+      "arrival_minutes_utc": [
+        43.48544483184814,
+        45.99093298514684
+      ]
+    },
+    {
+      "station": "H08S",
+      "scenario": "Paper's unpiloted timing illustration",
+      "arrival_minutes_utc": [
+        60.62562248309453,
+        65.43789411783219
+      ]
+    },
+    {
+      "station": "H08S",
+      "scenario": "Paper's active-pilot extension illustration",
+      "arrival_minutes_utc": [
+        66.70895581642786,
+        71.52122745116552
+      ]
+    }
+  ],
+  "sampled_path_ids": [
+    49985,
+    203398,
+    177837
+  ],
+  "histories_sha256": "f6a03e65bc0dbb629ae3998c5973db192f20afd9f57cfca7b0d37308fa037a9f",
+  "report_source_sha256": "7d6f67ad8a0bd484f03b79ddad16823d293ec2975f5751da7cdf2e0246a923c6",
+  "publication_trace_hashes": {
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-a-H01W.csv": "7e23cd37aae91effbfc7e69e13b96e5a6c19b4128b45d65f60d13040bb0950cc",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-b-H01W.csv": "d28d7fd0f54627299db873b23f3a0fc27b40531e108ed026851d55ed966e76c8",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-c-H01W.csv": "bab9e57665717858e239eb5a89a3a3acd52c2fc676c5c45a702c49ea6598e2c6",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-d-H08S.csv": "fe5615cd3c0f74c8b885ad6351cec9667a0817995a220fb7dc9ba9415aa8f1bc",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/kadri-figure-extraction/figure9-vector-traces/kadri-2024-figure9-panel-e-H08S.csv": "8fdf1287fcffac695e54f97930436adc5bb452be7e77ae24c757717b4c5ddd98"
+  },
+  "input_hashes": {
+    "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/data/proposed-trajectory-2023.csv": "733e1b1ce5d6e2cff83d65e1fec86b77c92417d1e3845bce566157bc32a08cea",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/sources/godfrey-flight-path-analysis-2023.pdf": "b674ff8bf1c226e7f782e6ac4dc10e2a984bda71ff1ec3862a3fb06123af1098",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/godfrey-trajectory-audit/summary.json": "189f7679c1467e70f6907665f7a9fb1fb4c41f62b94a7ec8b8127e3796a4eba7",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/godfrey-trajectory-audit/bto-comparison.json": "5fea2b96fe4d5179a3b63aff5926b606f32999d8e69731d6edbe925e6f961a36",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/godfrey-trajectory-audit/conditional-acoustic-arrivals.json": "f6e060b16637073b0ea55fe40ab14d487e7d0e844f69dca9b3c2fd973aa4db42"
+  }
+}

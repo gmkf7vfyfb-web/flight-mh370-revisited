@@ -1,0 +1,57 @@
+{
+  "coordinate_reference_system": "OGC:CRS84 / WGS84 longitude-latitude degrees",
+  "geojson_coordinate_order": "longitude, latitude",
+  "generated_by": "code/build_spire_aois.py",
+  "source_arc": "data/seventh_arc_fl400.geojson",
+  "source_arc_sha256": "8d95ae563560388d1ad7c2ef34a3154ff95c0b2dd09c59c842f374b80e1537ad",
+  "recommended_query_windows_utc": {
+    "seventh_arc_primary_impact_window": [
+      "2014-03-08T00:19:37Z",
+      "2014-03-08T00:49:37Z"
+    ],
+    "seventh_arc_padded_retrieval_window": [
+      "2014-03-08T00:00:00Z",
+      "2014-03-08T01:00:00Z"
+    ],
+    "huzzas_track_context": [
+      "2014-03-07T22:00:00Z",
+      "2014-03-08T03:00:00Z"
+    ]
+  },
+  "areas": {
+    "huzzas_geo_caspian_operational_area": {
+      "file": "huzzas-geo-caspian-operational-area.geojson",
+      "api_geometry_file": "huzzas-geo-caspian-operational-area-geometry.json",
+      "approximate_area_km2": 6084.4,
+      "bounds": [
+        114.0156687,
+        -21.54177143,
+        115.1305689,
+        -20.58733899
+      ],
+      "source": "NOPSEMA Huzzas environmental-plan operational polygon"
+    },
+    "seventh_arc_100nm_corridor": {
+      "file": "seventh-arc-100nm-corridor.geojson",
+      "api_geometry_file": "seventh-arc-100nm-corridor-geometry.json",
+      "centreline_northern_latitude_deg": -20.0,
+      "centreline_southern_latitude_deg": -43.9132385253906,
+      "centreline_length_km": 4675.4,
+      "corridor_half_width_nm": 100.0,
+      "approximate_area_km2": 1731796.4,
+      "bounds": [
+        64.45170727,
+        -45.57875268,
+        106.26240867,
+        -19.35103944
+      ],
+      "query_limit_note": "Too large for one HVP/HVT spatiotemporal request; use tiles."
+    },
+    "seventh_arc_query_tiles": {
+      "file": "seventh-arc-100nm-corridor-query-tiles.geojson",
+      "feature_count": 42,
+      "maximum_tile_area_km2": 42020.1,
+      "documented_spire_request_limit_km2": 50000.0
+    }
+  }
+}

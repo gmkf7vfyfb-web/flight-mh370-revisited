@@ -1,0 +1,148 @@
+{
+  "status": "DERIVED_CONDITIONAL_GEOMETRY_AND_PUBLICATION_TRACE_FILTER_NOT_RAW_DATA_OR_MH370_ASSOCIATION",
+  "spatial": {
+    "constraints_km": {
+      "H01W": [
+        2190.0,
+        2410.0
+      ],
+      "H08S": [
+        3580.0,
+        3930.0
+      ],
+      "H08S_minus_H01W": [
+        1390.0,
+        1525.0
+      ]
+    },
+    "basis": "Rounded constant-celerity mapping of the 00:47:01.700 H01W and 01:03:13.150 H08S publication-trace features under an illustrative common impact time near 00:21:29 UTC; not independently estimated station ranges.",
+    "seventh_arc_segments": {
+      "h01w_range": [
+        {
+          "start_latitude_deg": -14.293453093497991,
+          "start_longitude_deg_e": 106.6989258796939,
+          "middle_latitude_deg": -15.452842466292868,
+          "middle_longitude_deg_e": 106.34390554120448,
+          "end_latitude_deg": -16.603700699344785,
+          "end_longitude_deg_e": 105.95917387931549,
+          "sample_count": 119
+        },
+        {
+          "start_latitude_deg": -37.14980697631836,
+          "start_longitude_deg_e": 89.88013029098511,
+          "middle_latitude_deg": -37.88013989997636,
+          "middle_longitude_deg_e": 88.65704854329427,
+          "end_latitude_deg": -38.56711353975187,
+          "end_longitude_deg_e": 87.4074374928194,
+          "sample_count": 126
+        }
+      ],
+      "h08s_range": [
+        {
+          "start_latitude_deg": -7.698348999023443,
+          "start_longitude_deg_e": 108.1551246643065,
+          "middle_latitude_deg": -30.623135986328112,
+          "middle_longitude_deg_e": 97.75284484863285,
+          "end_latitude_deg": -42.921844482421875,
+          "end_longitude_deg_e": 74.83095114571708,
+          "sample_count": 2333
+        }
+      ],
+      "range_difference": [
+        {
+          "start_latitude_deg": -14.253961378528235,
+          "start_longitude_deg_e": 106.71026168331035,
+          "middle_latitude_deg": -15.080402005103352,
+          "middle_longitude_deg_e": 106.46153702274422,
+          "end_latitude_deg": -15.921988210370461,
+          "end_longitude_deg_e": 106.19079983618931,
+          "sample_count": 86
+        },
+        {
+          "start_latitude_deg": -37.21040344238281,
+          "start_longitude_deg_e": 89.78257179260255,
+          "middle_latitude_deg": -37.7345886230469,
+          "middle_longitude_deg_e": 88.9122772216797,
+          "end_latitude_deg": -38.22407023111983,
+          "end_longitude_deg_e": 88.0445353190104,
+          "sample_count": 89
+        }
+      ],
+      "joint": [
+        {
+          "start_latitude_deg": -14.293453093497991,
+          "start_longitude_deg_e": 106.6989258796939,
+          "middle_latitude_deg": -15.100004134639642,
+          "middle_longitude_deg_e": 106.45534589213686,
+          "end_latitude_deg": -15.921988210370461,
+          "end_longitude_deg_e": 106.19079983618931,
+          "sample_count": 84
+        },
+        {
+          "start_latitude_deg": -37.21040344238281,
+          "start_longitude_deg_e": 89.78257179260255,
+          "middle_latitude_deg": -37.7345886230469,
+          "middle_longitude_deg_e": 88.9122772216797,
+          "end_latitude_deg": -38.22407023111983,
+          "end_longitude_deg_e": 88.0445353190104,
+          "sample_count": 89
+        }
+      ]
+    },
+    "joint_arc_sample_count": 173
+  },
+  "filter": {
+    "method": "per-panel autocorrelation period estimate; tracked pulse epochs; robust phase-folded median template; per-cycle Huber-like amplitude fit; central template-energy mask",
+    "principal_mask_template_energy_fraction": 0.9,
+    "panel_metrics": [
+      {
+        "panel": "d",
+        "period_s": 9.926981297486854,
+        "shot_count": 60,
+        "shot_interval_median_s": 9.926981297486861,
+        "shot_interval_q10_s": 9.926981297486805,
+        "shot_interval_q90_s": 9.926981297486861,
+        "template_mask_lower_s_relative_to_shot": -3.2864732276017077,
+        "template_mask_upper_s_relative_to_shot": 3.280088018937784,
+        "masked_fraction": 0.6566666666666666,
+        "original_rms_pa": 0.24153331447267182,
+        "template_subtracted_rms_pa": 0.23812663666376432,
+        "rms_reduction_fraction": 0.014104380657985582,
+        "event_in_panel": true,
+        "event_nearest_shot_offset_s": 0.15272647574514053,
+        "event_within_periodic_mask": true,
+        "event_local_original_rms_pa_pm2s": 0.4023714222756541,
+        "event_local_template_subtracted_rms_pa_pm2s": 0.3748166950929998,
+        "event_local_rms_retained_fraction": 0.9315191744313858,
+        "status": "DERIVED_FROM_ALREADY_FILTERED_PUBLICATION_TRACE"
+      },
+      {
+        "panel": "e",
+        "period_s": 9.976444807682487,
+        "shot_count": 60,
+        "shot_interval_median_s": 9.97644480768247,
+        "shot_interval_q10_s": 9.97644480768247,
+        "shot_interval_q90_s": 9.976444807682526,
+        "template_mask_lower_s_relative_to_shot": -4.286881206801139,
+        "template_mask_upper_s_relative_to_shot": 2.8532444363432687,
+        "masked_fraction": 0.7116666666666667,
+        "original_rms_pa": 0.38999065522668536,
+        "template_subtracted_rms_pa": 0.3846234881778385,
+        "rms_reduction_fraction": 0.013762296549713948,
+        "event_in_panel": false,
+        "event_nearest_shot_offset_s": null,
+        "event_within_periodic_mask": null,
+        "event_local_original_rms_pa_pm2s": null,
+        "event_local_template_subtracted_rms_pa_pm2s": null,
+        "event_local_rms_retained_fraction": null,
+        "status": "DERIVED_FROM_ALREADY_FILTERED_PUBLICATION_TRACE"
+      }
+    ],
+    "limits": [
+      "input is an already-filtered and decimated publication drawing",
+      "masking removes observations rather than recovering them",
+      "template subtraction may suppress a physical signal coincident and morphologically correlated with the airgun train",
+      "single displayed traces cannot support beamforming, bearing or cross-station coherence"
+    ]
+  }
+}

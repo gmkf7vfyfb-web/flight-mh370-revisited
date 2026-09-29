@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "base_config": "mh370-impact-era5-martin-arc1-current-best-glide.toml",
+  "source_seeds": [370023, 370024, 370025, 370026, 370027],
+  "source_handoff_template": "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-{seed}/posterior-handoff.json",
+  "policy": {
+    "combination": "separate_conditionals_no_family_averaging",
+    "weight_interpretation": "Each family is normalized independently. No probability is assigned across fuel, feed, aerodynamic, or control families.",
+    "new_evidence": "Corrected 00:19:29 R600 BTO only, conditional on recorded reception and physical SATCOM power at the checkpoint.",
+    "held_out_or_diagnostic": [
+      "00:19:37 R1200 BTO",
+      "00:19:29 and 00:19:37 raw BFO",
+      "log-on time and occurrence"
+    ]
+  },
+  "families": [
+    {
+      "id": "arc1-current-polar-best-glide-equal-feed",
+      "title": "Arc-1 fuel · current OpenAP polar · best glide · equal feed",
+      "role": "primary conditional release proxy",
+      "release_draw_count_per_seed": 512,
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_anchor_utc": "2014-03-07T18:28:05.9Z",
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "post_flameout_lift_coefficient": 0.7145896010104964,
+      "effective_feed_timing": { "mode": "equal_endurance" }
+    },
+    {
+      "id": "final-acars-current-polar-best-glide-equal-feed",
+      "title": "Final ACARS fuel · current OpenAP polar · best glide · equal feed",
+      "role": "fuel-history sensitivity",
+      "release_draw_count_per_seed": 256,
+      "fuel_anchor_kg": 43800.0,
+      "fuel_anchor_utc": "2014-03-07T17:06:43Z",
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "post_flameout_lift_coefficient": 0.7145896010104964,
+      "effective_feed_timing": { "mode": "equal_endurance" }
+    },
+    {
+      "id": "arc1-published-polar-best-glide-equal-feed",
+      "title": "Arc-1 fuel · published 2020 polar · best glide · equal feed",
+      "role": "attached-flow aerodynamic sensitivity",
+      "release_draw_count_per_seed": 256,
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_anchor_utc": "2014-03-07T18:28:05.9Z",
+      "aerodynamic_family": "openap_published2020_attached_flow",
+      "post_flameout_lift_coefficient": 0.816496580927726,
+      "effective_feed_timing": { "mode": "equal_endurance" }
+    },
+    {
+      "id": "arc1-current-polar-low-lift-equal-feed",
+      "title": "Arc-1 fuel · current OpenAP polar · CL 0.30 · equal feed",
+      "role": "uncontrolled-lift sensitivity",
+      "release_draw_count_per_seed": 256,
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_anchor_utc": "2014-03-07T18:28:05.9Z",
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "post_flameout_lift_coefficient": 0.3,
+      "effective_feed_timing": { "mode": "equal_endurance" }
+    },
+    {
+      "id": "arc1-current-polar-best-glide-left-first-10s",
+      "title": "Arc-1 fuel · current OpenAP polar · best glide · left first by 10 s",
+      "role": "effective-feed chronology sensitivity",
+      "release_draw_count_per_seed": 256,
+      "fuel_anchor_kg": 33524.10488196,
+      "fuel_anchor_utc": "2014-03-07T18:28:05.9Z",
+      "aerodynamic_family": "openap_v2_6_0_attached_flow",
+      "post_flameout_lift_coefficient": 0.7145896010104964,
+      "effective_feed_timing": { "mode": "left_first_by", "lead": 10.0 }
+    }
+  ],
+  "conditional_source_branches": [
+    {
+      "id": "gain-conditioned-0011-primary-eof",
+      "title": "Conditional antenna-gain 00:11 source · primary EOF family",
+      "role": "conditional-gain source-posterior sensitivity",
+      "release_draw_count_per_seed": 512,
+      "terminal_family_id": "arc1-current-polar-best-glide-equal-feed",
+      "source_handoff_template": "../runs/mh370/0011-core-comparison/bto-bfo-gain-conditional/seed-{seed}/posterior-handoff.json"
+    }
+  ]
+}

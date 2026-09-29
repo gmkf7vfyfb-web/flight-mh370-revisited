@@ -1,0 +1,18 @@
+{
+  "schema": "ocean-drift-surface-audit-v1",
+  "data_readiness": "production",
+  "status": "diagnostic_only_not_admitted_as_likelihood",
+  "particles_per_cell": 16384,
+  "common_record_count": 36,
+  "family_source_event_rows": 16200,
+  "source_cells_per_family": 225,
+  "alpha_or_pseudocount_used": false,
+  "quadrature_reference": "uniform density in the local strip coordinates of along-arc chainage and signed cross-arc distance; trapezoidal endpoint weights",
+  "family_prior_for_reference_bma": {
+    "hycom": 0.5,
+    "gdp": 0.5
+  },
+  "zero_base_undefined_conditional_mark_rule": "exact-zero joint remains zero; undefined conditional mark on positive base support is fatal",
+  "integration_rule": "Downstream estimator must use family raw_log_likelihood values with its own flight prior and current-family prior; it must not reuse the uniform-strip-reference family posterior.",
+  "exact_zero_event_probability_count": 1138
+}

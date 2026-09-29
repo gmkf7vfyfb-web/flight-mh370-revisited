@@ -1,0 +1,1 @@
+Strict clippy reached an unrelated forbidden dependency and failed on eight existing warnings in `crates/reporting`; I won’t edit reporting. I’m rerunning clippy with `--no-deps`, which still compiles dependencies but applies `-D warnings` only to the requested runner targets, giving the scoped result this task can legitimately own.

@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "classification": "model-choice",
+  "source_ref": "public_model_definition",
+  "family_id": "pulau-perak-altitude-stress",
+  "likelihood_weight": 0.0,
+  "initializer_eligible": false,
+  "note": "Unweighted counterfactual stress family only. No member is asserted as the aircraft's history and no result enters validation, likelihoods, or initialization.",
+  "isa_temperature_offset_c": 10.0,
+  "profiles": [
+    {
+      "id": "low-floor-1000ft",
+      "waypoints": [
+        {"offset_s": 0.0, "altitude_ft": 35004.0, "mach": 0.821},
+        {"offset_s": 857.0, "altitude_ft": 34000.0, "mach": 0.82},
+        {"offset_s": 2616.0, "altitude_ft": 34000.0, "mach": 0.82},
+        {"offset_s": 3317.0, "altitude_ft": 1000.0, "mach": 0.48},
+        {"offset_s": 3365.0, "altitude_ft": 1000.0, "mach": 0.48},
+        {"offset_s": 4097.0, "altitude_ft": 29500.0, "mach": 0.82},
+        {"offset_s": 4517.0, "altitude_ft": 29500.0, "mach": 0.82}
+      ]
+    },
+    {
+      "id": "low-floor-4800ft",
+      "waypoints": [
+        {"offset_s": 0.0, "altitude_ft": 35004.0, "mach": 0.821},
+        {"offset_s": 857.0, "altitude_ft": 34000.0, "mach": 0.82},
+        {"offset_s": 2616.0, "altitude_ft": 34000.0, "mach": 0.82},
+        {"offset_s": 3317.0, "altitude_ft": 4800.0, "mach": 0.50},
+        {"offset_s": 3365.0, "altitude_ft": 4800.0, "mach": 0.50},
+        {"offset_s": 4097.0, "altitude_ft": 29500.0, "mach": 0.82},
+        {"offset_s": 4517.0, "altitude_ft": 29500.0, "mach": 0.82}
+      ]
+    },
+    {
+      "id": "low-floor-12000ft",
+      "waypoints": [
+        {"offset_s": 0.0, "altitude_ft": 35004.0, "mach": 0.821},
+        {"offset_s": 857.0, "altitude_ft": 34000.0, "mach": 0.82},
+        {"offset_s": 2616.0, "altitude_ft": 34000.0, "mach": 0.82},
+        {"offset_s": 3317.0, "altitude_ft": 12000.0, "mach": 0.55},
+        {"offset_s": 3365.0, "altitude_ft": 12000.0, "mach": 0.55},
+        {"offset_s": 4097.0, "altitude_ft": 29500.0, "mach": 0.82},
+        {"offset_s": 4517.0, "altitude_ft": 29500.0, "mach": 0.82}
+      ]
+    }
+  ]
+}

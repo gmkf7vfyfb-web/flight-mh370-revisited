@@ -1,0 +1,182 @@
+{
+  "conditional_assumptions": [
+    "generic attached-flow point mass, not B777 calibrated",
+    "static dry-ISA-like density profile and zero wind",
+    "controlled unit-load-factor flight until dual flameout",
+    "zero lift and zero bank after dual flameout",
+    "APU disabled; no restart transient likelihood",
+    "symmetric thrust and fuel flows except declared feed endurance"
+  ],
+  "held_out": [
+    "00:19:37 R1200 BTO",
+    "both raw final BFOs",
+    "logon timing and occurrence"
+  ],
+  "new_likelihood": "corrected 00:19:29 R600 BTO 18400 us SD 63 us conditional on recorded reception",
+  "rows": [
+    {
+      "draws": 512,
+      "id": "r172-low-equal",
+      "label": "172 kg / low / equal",
+      "status": "zero_r600_support"
+    },
+    {
+      "draws": 512,
+      "id": "r172-medium-equal",
+      "label": "172 kg / medium / equal",
+      "status": "zero_r600_support"
+    },
+    {
+      "draws": 512,
+      "id": "r172-high-equal",
+      "label": "172 kg / high / equal",
+      "status": "zero_r600_support"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 687.6366744463726,
+      "first_flameout_elapsed_s": 687.636674446374,
+      "id": "r860-low-equal",
+      "label": "860 kg / low / equal",
+      "mean_displacement_nm": 101.5085309139567,
+      "mean_impact_latitude_deg": -38.07650874844603,
+      "mean_impact_longitude_deg": 89.10327357254877,
+      "median_impact_utc": "2014-03-08T00:23:16.557357Z",
+      "r600_conditioned_ess": 466.33017461910026,
+      "r600_log_evidence": -5.416982498643581,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 461.8472472159664,
+      "first_flameout_elapsed_s": 461.8472472159665,
+      "id": "r860-medium-equal",
+      "label": "860 kg / medium / equal",
+      "mean_displacement_nm": 70.8420948642262,
+      "mean_impact_latitude_deg": -37.46594244487299,
+      "mean_impact_longitude_deg": 89.36570047715747,
+      "median_impact_utc": "2014-03-08T00:19:31.395854Z",
+      "r600_conditioned_ess": 304.96459861348416,
+      "r600_log_evidence": -6.304841804922478,
+      "r600_reached_impacts": 408,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "id": "r860-high-equal",
+      "label": "860 kg / high / equal",
+      "status": "zero_r600_support"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 2750.5474973433375,
+      "first_flameout_elapsed_s": 2750.5474973433375,
+      "id": "r3440-low-equal",
+      "label": "3,440 kg / low / equal",
+      "mean_displacement_nm": 396.7240408048338,
+      "mean_impact_latitude_deg": -42.91902769602942,
+      "mean_impact_longitude_deg": 87.98859933795809,
+      "median_impact_utc": "2014-03-08T00:57:39.482241Z",
+      "r600_conditioned_ess": 469.13589792131654,
+      "r600_log_evidence": -5.400096354249101,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 1847.3895258823625,
+      "first_flameout_elapsed_s": 1847.3895258823613,
+      "id": "r3440-medium-equal",
+      "label": "3,440 kg / medium / equal",
+      "mean_displacement_nm": 267.1998451458131,
+      "mean_impact_latitude_deg": -40.79418830708689,
+      "mean_impact_longitude_deg": 88.48843072819386,
+      "median_impact_utc": "2014-03-08T00:42:36.323821Z",
+      "r600_conditioned_ess": 469.0218112099119,
+      "r600_log_evidence": -5.400795824323345,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 1655.8015397610639,
+      "first_flameout_elapsed_s": 1655.8015397610652,
+      "id": "r3440-high-equal",
+      "label": "3,440 kg / high / equal",
+      "mean_displacement_nm": 239.72812826530432,
+      "mean_impact_latitude_deg": -40.34352091108188,
+      "mean_impact_longitude_deg": 88.59231907608033,
+      "median_impact_utc": "2014-03-08T00:39:24.735589Z",
+      "r600_conditioned_ess": 468.98157080300416,
+      "r600_log_evidence": -5.4010424666025605,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 491.8472472159659,
+      "first_flameout_elapsed_s": 431.8472472159665,
+      "id": "r860-medium-left-first-60s",
+      "label": "860 kg / medium / left first 60 s",
+      "mean_displacement_nm": 72.88164951097836,
+      "mean_impact_latitude_deg": -37.60647119717842,
+      "mean_impact_longitude_deg": 89.20660272990803,
+      "median_impact_utc": "2014-03-08T00:20:00.632308Z",
+      "r600_conditioned_ess": 461.88057364031727,
+      "r600_log_evidence": -5.445855110705648,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 491.8472472159659,
+      "first_flameout_elapsed_s": 431.8472472159665,
+      "id": "r860-medium-right-first-60s",
+      "label": "860 kg / medium / right first 60 s",
+      "mean_displacement_nm": 72.88164951097836,
+      "mean_impact_latitude_deg": -37.60647119717842,
+      "mean_impact_longitude_deg": 89.20660272990803,
+      "median_impact_utc": "2014-03-08T00:20:00.632308Z",
+      "r600_conditioned_ess": 461.88057364031727,
+      "r600_log_evidence": -5.445855110705648,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 521.8472472159674,
+      "first_flameout_elapsed_s": 401.8472472159665,
+      "id": "r860-medium-left-first-120s",
+      "label": "860 kg / medium / left first 120 s",
+      "mean_displacement_nm": 75.90061727332005,
+      "mean_impact_latitude_deg": -37.65769889466781,
+      "mean_impact_longitude_deg": 89.19783922772865,
+      "median_impact_utc": "2014-03-08T00:20:30.666098Z",
+      "r600_conditioned_ess": 476.2541260671071,
+      "r600_log_evidence": -5.352874172459697,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    },
+    {
+      "draws": 512,
+      "dual_flameout_elapsed_s": 521.8472472159673,
+      "first_flameout_elapsed_s": 401.8472472159665,
+      "id": "r860-medium-right-first-120s",
+      "label": "860 kg / medium / right first 120 s",
+      "mean_displacement_nm": 75.90061727332002,
+      "mean_impact_latitude_deg": -37.65769889466781,
+      "mean_impact_longitude_deg": 89.19783922772865,
+      "median_impact_utc": "2014-03-08T00:20:30.666098Z",
+      "r600_conditioned_ess": 476.2541260671071,
+      "r600_log_evidence": -5.352874172459697,
+      "r600_reached_impacts": 512,
+      "status": "complete"
+    }
+  ],
+  "scenario_combination": "separate_unweighted_no_averaging",
+  "schema": "mh370-conditional-impact-sensitivity-diagnostic-v1",
+  "source_draws_per_branch": 512,
+  "source_seed": 370023,
+  "status": "diagnostic_only_not_b777_calibrated"
+}

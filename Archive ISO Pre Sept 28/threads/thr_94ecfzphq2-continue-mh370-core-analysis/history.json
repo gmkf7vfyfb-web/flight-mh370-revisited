@@ -1,0 +1,13 @@
+[
+  {
+    "id": "phist_rrnu7rh348",
+    "createdAt": 1787862075212,
+    "input": [
+      {
+        "type": "text",
+        "text": "EOF increment complete; only crates/end-of-flight/src/kernel.rs was edited. Added typed caller-labelled ControlledToUncontrolledPolicy with DualEngineFlameout and DualEngineGeneratorLoss triggers, separate controlled pre-trigger and relative-time uncontrolled post-trigger schedules, exact discrete-event switch, complete typed switch state/event, explicit restart family and impact result, and strict mismatch/already-occurred/unreachable errors. Fixed and impact checkpoint call sites both use the new internal typed control context; no SATCOM/likelihood/sampling logic. Verification: EOF 15/15 tests; estimator 10/10 tests and cargo check pass; EOF fmt and strict all-target Clippy pass; direct EOF suite 5 ms / 3944 KiB sampled peak RSS. Runner check reaches concurrent runner code but currently fails only in crates/runner/src/impact_handoff.rs (missing model_family at 374/379 and () vs f64 at 322); runner was untouched. Limits: deterministic conditional only, two represented triggers, no public mixed-policy checkpoint API, existing point-mass/envelope fidelity. Ready for next steer.",
+        "mentions": []
+      }
+    ]
+  }
+]

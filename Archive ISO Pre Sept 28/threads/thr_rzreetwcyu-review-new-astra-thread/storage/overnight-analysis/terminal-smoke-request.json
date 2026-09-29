@@ -1,0 +1,107 @@
+{
+  "initial": [
+    5.624841841229786,
+    99.04797592592162,
+    295.6621038561965,
+    0.8108810962501123,
+    35003.8122226251,
+    0.0
+  ],
+  "initial_mode": "constant_true_track",
+  "commands": [
+    {
+      "time": 2109.549014924827,
+      "mode": "constant_true_track",
+      "control": 185.5872964730855
+    }
+  ],
+  "flow_scale": 1.0,
+  "continue_until_s": 23000,
+  "integration_scale": 0.25,
+  "trace_step_s": 60,
+  "return_model_state": true,
+  "terminal": {
+    "policy": {
+      "scenario": {
+        "label": "attached-flow-constant-lift-example",
+        "trigger": "dual_engine_flameout"
+      },
+      "pre_trigger_controlled": {
+        "segments": [
+          {
+            "start_offset": 0.0,
+            "command": {
+              "mode": "controlled",
+              "lift_load_factor": 1.0,
+              "bank_angle": 0.0
+            }
+          }
+        ]
+      },
+      "post_trigger_uncontrolled": {
+        "segments": [
+          {
+            "start_offset": 0.0,
+            "command": {
+              "mode": "uncontrolled",
+              "lift_coefficient": 0.7145896010104964,
+              "bank_angle": 0.0
+            }
+          }
+        ]
+      }
+    },
+    "aerodynamics": {
+      "reference_area": 427.8,
+      "zero_lift_drag_coefficient": 0.024,
+      "induced_drag_factor": 0.047,
+      "minimum_lift_coefficient": -1.5,
+      "maximum_lift_coefficient": 1.5,
+      "maximum_bank_angle": 60.0,
+      "minimum_true_airspeed": 50.0,
+      "maximum_true_airspeed": 700.0
+    },
+    "fallback_atmosphere": {
+      "nodes": [
+        {
+          "altitude": 0.0,
+          "density": 1.225,
+          "wind_north": 0.0,
+          "wind_east": 0.0
+        },
+        {
+          "altitude": 43000.0,
+          "density": 0.25,
+          "wind_north": 0.0,
+          "wind_east": 0.0
+        }
+      ]
+    },
+    "apu_start_policy": {
+      "mode": "on_dual_engine_generator_loss",
+      "start_delay": 1.0,
+      "start_fuel": 0.5,
+      "generator_delay": 118.0,
+      "running_fuel_flow": 0.02
+    },
+    "restart_transient": "common_ocxo_warmup",
+    "integration": {
+      "time_step": 1.0,
+      "maximum_duration": 3600.0,
+      "sea_surface_altitude": 0.0,
+      "maximum_steps": 6000
+    },
+    "environment": {
+      "minimum_pressure_altitude_ft": 500.0,
+      "maximum_pressure_altitude_ft": 43000.0,
+      "below_minimum_policy": "clamp_to_grid",
+      "above_maximum_policy": "reject"
+    },
+    "apu_accessible_reserved_fuel_kg": 15.0,
+    "ocxo_restart_count": 0,
+    "checkpoints_relative_s": [
+      22660.416,
+      22668.515
+    ]
+  }
+}

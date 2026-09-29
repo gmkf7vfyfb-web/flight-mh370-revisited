@@ -1,0 +1,55 @@
+schema_version = 2
+name = "MH370 00:11 to R600 constant-true-track conditional startup-power control"
+plotted_paths = 400
+source_handoffs = [
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370024/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370025/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370026/posterior-handoff.json",
+  "../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370027/posterior-handoff.json",
+]
+
+[selection]
+kind = "conditional_power"
+surface = "../inputs/evidence/mh371-first-pass-antenna-gain.bin"
+observed_dbm = -50.95
+observation_adjustment_db = -3.6
+observation_sd_db = 2.2
+reference_gain_dbic = 12.16
+directional_departure_scale = 1.0
+permit_unverified_reconstruction = true
+
+[selection.link]
+requested_eirp_dbw = 10.5
+uplink_wavelength_m = 0.1820618
+downlink_wavelength_m = 0.0832757
+satellite_gt_constant_db = -11.5
+satellite_gt_linear_db_per_deg = 0.01396
+satellite_gt_quadratic_db_per_deg2 = 0.0001535
+satellite_receiver_offset_db = 27.5
+unit_conversion_db = 300.0
+
+[inputs]
+observations = "../inputs/accident/satcom-observations.csv"
+satellite_ephemeris = "../inputs/accident/satellite-ephemeris.csv"
+ground_station_position_km = { x = -2368.8, y = 4881.1, z = -3342.0 }
+source_epoch_id = "m0011"
+target_epoch_id = "m0019a"
+target_channel = "R600"
+
+[satcom]
+bfo_bias_prior_mean_hz = 150.0
+bfo_bias_prior_sd_hz = 25.0
+
+[satcom.bto]
+speed_of_light_km_s = 299792.458
+nominal_delay_us = 499962.0
+channel_term_us = 4283.0
+
+[satcom.bfo]
+satellite_afc_hz = 0.0
+uplink_hz = 1646652500.0
+downlink_hz = 3615152500.0
+speed_of_light_km_s = 299792.458
+nominal_satellite_longitude_deg = 64.5
+nominal_satellite_altitude_km = 36210.12

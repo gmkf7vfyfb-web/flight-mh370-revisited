@@ -1,0 +1,11 @@
+record_type,name,date_or_status,vessel,source_volume_in3,shot_interval_m,latitude_deg,longitude_deg,h08s_range_km,h08s_initial_bearing_deg,pressure_or_level,provenance
+station,H08S triplet mean,2014-03-08,,,,-7.63937,72.48383,,,,Gibbons et al. hydrophone coordinates
+survey,Huzzas regulatory-polygon area centroid,active 2014-03-08,Geo Caspian,3366,18.75,-21.12139,114.63699,4763.05,112.96,,NOPSEMA polygon; TGS acquisition specification
+survey,Huzzas regulatory-polygon minimum,active 2014-03-08,Geo Caspian,3366,18.75,,,4705.95,112.14,,Calculated across polygon vertices
+survey,Huzzas regulatory-polygon maximum,active 2014-03-08,Geo Caspian,3366,18.75,,,4812.41,113.67,,Calculated across polygon vertices
+survey,Centaurus operational-polygon area centroid,2014-02-24 to 2014-03-18,not established in cited sources,4000,18.75,-20.65784,113.63029,4650.04,112.58,not detected at H08S,NOPSEMA polygon and source; Woodside dates; ATSB detection result
+pressure,Huzzas plan at 1 km,environment-plan representative,,,,,,,,201.00 dB re 1 uPa,NOPSEMA Huzzas plan
+pressure,Huzzas plan at 10 km,environment-plan representative,,,,,,,,181.00 dB re 1 uPa,NOPSEMA Huzzas plan
+pressure,Naive 20log extrapolation at H08S,calculated sensitivity,,,,,,4763.05,,127.44 dB re 1 uPa = 2.36 Pa,Continuation of plan's 1-to-10 km loss law
+pressure,Kadri H08S airgun range,publication statement,,,,,,,,126.02 to 132.04 dB re 1 uPa = 2 to 4 Pa,Kadri 2024
+energy,Comparable 2600-in3 array directional SEL,source-class comparator,,2600,,,,,,228 dB re 1 uPa2 m2 s = about 0.52 MJ under isotropic conversion,McCauley et al. 2021; not Huzzas-specific

@@ -1,0 +1,278 @@
+{
+  "schema": "mh370-trajectory-validation-resource-v1",
+  "family": "cmems_glorys12_daily_currents",
+  "commands": [
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/gdp_6hour_2014.csv",
+      "5",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2014-5d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/gdp_6hour_2014.csv",
+      "15",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2014-15d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/gdp_6hour_2014.csv",
+      "30",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2014-30d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "5",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2015-5d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "15",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2015-15d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "30",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2015-30d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/gdp_6hour_2014.csv",
+      "5",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2014-5d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/gdp_6hour_2014.csv",
+      "15",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2014-15d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/gdp_6hour_2014.csv",
+      "30",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2014-30d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "5",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2015-5d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "15",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2015-15d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "30",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2015-30d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ]
+  ],
+  "inputs": {
+    "runner": {
+      "path": "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "sha256": "5ba5e7c768f077ac8e450f1e7f297cd69bcaca1d9fa0386e6ef922d69e68e464"
+    },
+    "field": {
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid",
+      "sha256": "1b203dc1c92dbad9db6082e4406600a2d160778b675447c786f57fafb1e77641"
+    },
+    "trajectories": [
+      {
+        "year": 2014,
+        "path": "/tmp/gdp_6hour_2014.csv",
+        "sha256": "a711ba63241871bfef906e62684ec16629f0329c92edf47c9b65f4112388ca85"
+      },
+      {
+        "year": 2015,
+        "path": "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+        "sha256": "d9611800a0f5ffa00d3221de8af0e060ed784c866167aae82d5b12a1bc479c01"
+      }
+    ],
+    "stokes": {
+      "path": "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "sha256": "12d4dc78a9572f2693bd545dfb8ccd9c4553676aa3b2e13a09b880ba9907f15c"
+    }
+  },
+  "cases": [
+    {
+      "family": "cmems_glorys12_daily_currents",
+      "year": 2014,
+      "horizon_days": 5.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 6.589831731995218,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2014-5d.json",
+      "output_sha256": "75f97626b7a992a9e5b422e21c2867c66bfa059e9e17b33d6fa54a643f3cf5ea"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents",
+      "year": 2014,
+      "horizon_days": 15.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 3.7624239189972286,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2014-15d.json",
+      "output_sha256": "ba1f69664ff41a346cb713b23264929ec97f16c792b8d157f1611ffea4088b69"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents",
+      "year": 2014,
+      "horizon_days": 30.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 5.834124795001117,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2014-30d.json",
+      "output_sha256": "5ce484c857ac2a8e386542bdbe1cbe91b8a0d9734b844f08d45f4a1432b76294"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents",
+      "year": 2015,
+      "horizon_days": 5.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 5.66997926300246,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2015-5d.json",
+      "output_sha256": "efdced3cef4751120232be05f0db0b75bfc9cf6a5d943088bfa3d67528092bf8"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents",
+      "year": 2015,
+      "horizon_days": 15.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 2.6106753460044274,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2015-15d.json",
+      "output_sha256": "a35e94c072e4d2acd559d6963bdc07d27ad714d94662d089817a9d9feb9c3db4"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents",
+      "year": 2015,
+      "horizon_days": 30.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 2.6957644610010902,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-2015-30d.json",
+      "output_sha256": "4f5a48ab868fd7f59e9fe2e99872caa9d8079fc77813cfdfb92d8a0e1c9366fa"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "year": 2014,
+      "horizon_days": 5.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 3.820929524998064,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2014-5d.json",
+      "output_sha256": "ddfc707eb0e171c59c3923a740841ae947a376f5291e11d53182e2617809c0b6"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "year": 2014,
+      "horizon_days": 15.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 2.768134925994673,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2014-15d.json",
+      "output_sha256": "4fa8589cf7b8ce7dc695003a59e0be4a137c2f7e13870f4e0fa1d2e4c73f7605"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "year": 2014,
+      "horizon_days": 30.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 2.7958740199974272,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2014-30d.json",
+      "output_sha256": "9c32b1e86c31aadc383e8ae045e7a7cf40c299fd2d3dd5005ca6c47538886321"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "year": 2015,
+      "horizon_days": 5.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 2.6373961779972888,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2015-5d.json",
+      "output_sha256": "d4c9a18e391a8985cd20df94a9ea75665e980fe8d1e44389875daab84ae8086b"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "year": 2015,
+      "horizon_days": 15.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 2.7041885620055837,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2015-15d.json",
+      "output_sha256": "5cdcc0ef21004d4f320e93f2b9bd23bd36160efe5a81c41b0705412953f7776e"
+    },
+    {
+      "family": "cmems_glorys12_daily_currents_plus_distinct_stokes",
+      "year": 2015,
+      "horizon_days": 30.0,
+      "attempts": 600,
+      "elapsed_wall_seconds": 2.756602039997233,
+      "output": ".sources/ocean-drift-input-preparation/outputs/validation/cmems-glorys12-daily-currents-currents-stokes-2015-30d.json",
+      "output_sha256": "56213598c3a9447a1383906b634757ae69ffd1206a25c33c36e0d96978d4f3b2"
+    }
+  ],
+  "maximum_child_resident_set_kib": 6453692,
+  "child_user_cpu_seconds": 22.776881,
+  "child_system_cpu_seconds": 12.427053,
+  "note": "Every attempted path remains in each score. ru_maxrss is the maximum resident set of any sequential child, not a sum."
+}

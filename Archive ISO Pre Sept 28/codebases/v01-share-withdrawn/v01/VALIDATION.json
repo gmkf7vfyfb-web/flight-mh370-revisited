@@ -1,0 +1,52 @@
+{
+  "schema_id": "mh370-v01-capsule-validation",
+  "schema_version": 1,
+  "validated_utc": "2026-09-06",
+  "capsule_source_checks": {
+    "cargo_fmt": {
+      "command": "cargo fmt --all -- --check",
+      "status": "passed"
+    },
+    "cargo_test": {
+      "command": "cargo test --workspace --offline",
+      "status": "passed",
+      "passed": 459,
+      "failed": 0,
+      "ignored": 5,
+      "ignored_scope": "four external ocean-field checks and one manual performance benchmark"
+    },
+    "dependency_mode": "vendored and offline"
+  },
+  "original_release": {
+    "command": "python3 -B runs/mh370/release-v0.1/validate-release.py",
+    "status": "passed",
+    "indexed_artifacts": 70,
+    "manifest_sha256": "b5d89ff95bd26594506674dd51a04b36e23a04946ac0b835f85b5ee1b16db9e1"
+  },
+  "producer_binary": {
+    "status": "matched",
+    "sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+    "version": "mh370 0.1.0"
+  },
+  "mh371_v01_medium_control": {
+    "status": "complete_known_flight_control_assessment",
+    "numerical_valid": true,
+    "seeds": 2,
+    "particles_per_seed": 12000,
+    "minimum_final_mass_100nm": 0.5724,
+    "minimum_overlap": 0.6933,
+    "maximum_js_nats": 0.078253,
+    "pdf_sha256": "aaa5cb54830933691f5b3f009e94b9e5472c74ce53ba13dcdbaab58d2bee21bc"
+  },
+  "producer_source_lock": {
+    "locked_files": 80,
+    "matching": 64,
+    "different": 16,
+    "missing": 0,
+    "treatment": "documented provenance qualification, not capsule corruption"
+  },
+  "capsule_inventory_before_sha256_ledger": {
+    "files": 6812,
+    "uncompressed_bytes_approximate": 1832571000
+  }
+}

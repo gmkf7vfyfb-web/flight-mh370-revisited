@@ -1,0 +1,752 @@
+{
+  "status": "completed",
+  "updated_utc": "2026-09-09T16:52:29.804420+00:00",
+  "completed_data_sets": 8,
+  "planned_data_sets": 8,
+  "initial_candidates_per_run": 100000,
+  "design_sha256": "90fc8b663bb2e2fb4e6e795c5d106e8f6d4b00d576553a3133b3dd67a916a6b6",
+  "executable_sha256": "7ca6ec74771c1aa3eacda45a8fe28b6796183306f5b6ca2e134973f87e85eb22",
+  "summaries": [
+    {
+      "replicate": 0,
+      "coordinate": "latitude",
+      "total_data_sets": 8,
+      "computed_posteriors": 8,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 3,
+          "wilson95_fraction_among_computed": [
+            0.13684428582359742,
+            0.6942576053973727
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 7,
+          "wilson95_fraction_among_computed": [
+            0.5291118177871464,
+            0.9775825085499433
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 0,
+      "coordinate": "longitude",
+      "total_data_sets": 8,
+      "computed_posteriors": 8,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 3,
+          "wilson95_fraction_among_computed": [
+            0.13684428582359742,
+            0.6942576053973727
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 8,
+          "wilson95_fraction_among_computed": [
+            0.6755924351161198,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "latitude",
+      "total_data_sets": 8,
+      "computed_posteriors": 8,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.02241749145005667,
+            0.4708881822128535
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 7,
+          "wilson95_fraction_among_computed": [
+            0.5291118177871464,
+            0.9775825085499433
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "longitude",
+      "total_data_sets": 8,
+      "computed_posteriors": 8,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 2,
+          "wilson95_fraction_among_computed": [
+            0.071479212752109,
+            0.5907245696898311
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 8,
+          "wilson95_fraction_among_computed": [
+            0.6755924351161198,
+            1.0
+          ]
+        }
+      ]
+    }
+  ],
+  "data_sets": [
+    {
+      "truth_seed": 37091900,
+      "truth_coordinates_deg": [
+        -3.3511494410553966,
+        67.24923053937437
+      ],
+      "generating_mode": "lateral_navigation",
+      "generating_limited_manoeuvre_counts": [
+        3,
+        2,
+        1
+      ],
+      "truth_sha256": "0670e4a7a4856fc2e0660144af078b95b208f402a933e71a982baf5ad824681b",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.47816643676968834,
+            0.9396464101316188
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -4.3599042456,
+              -3.1970633273,
+              3.9226231272
+            ],
+            [
+              59.9065565997,
+              62.3297580723,
+              67.808562501
+            ]
+          ],
+          "largest_ancestor_mass": 0.5655611928041998,
+          "weighted_row_effective_count": 7538.040161610764,
+          "elapsed_seconds": 149.052675336,
+          "log_evidence": -93.87906786690617,
+          "posterior_sha256": "7bbf1454873e7299306fa08911d5d9f41122d161c1c4639158458e4b103d57ee"
+        },
+        {
+          "cdf_at_truth": [
+            0.15560557599971406,
+            0.8520435191016991
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -4.2879573509,
+              0.4091854736,
+              4.1145433651
+            ],
+            [
+              59.7905607058,
+              60.7947910119,
+              68.8521021992
+            ]
+          ],
+          "largest_ancestor_mass": 0.46852984806508,
+          "weighted_row_effective_count": 2967.763785597446,
+          "elapsed_seconds": 134.301876481,
+          "log_evidence": -92.55968885769379,
+          "posterior_sha256": "bab8b89f622735f652da06520a0acb24a323d001f2b09915f8ddc4bfc238479d"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.33635214577672423,
+        0.24630706460760426
+      ],
+      "pooled_cdf_at_truth": [
+        0.22364063811325624,
+        0.870520863557934
+      ],
+      "reference_pair_cdf_difference": [
+        0.3429646574963892,
+        0.2509400241066874
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.31366288945920145,
+        0.886810816506651
+      ]
+    },
+    {
+      "truth_seed": 37091903,
+      "truth_coordinates_deg": [
+        -4.978003201122931,
+        107.04962496498922
+      ],
+      "generating_mode": "constant_magnetic_heading",
+      "generating_limited_manoeuvre_counts": [
+        3,
+        7,
+        2
+      ],
+      "truth_sha256": "822be68aec48155b0f203fd6ccd3aac070650c2470a13c40ae3730b79bdf7f1d",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.03708126432885717,
+            0.7728479582878178
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -3.3957934208,
+              9.5214543837,
+              12.8565672407
+            ],
+            [
+              105.8385112405,
+              106.5569825132,
+              107.2960207994
+            ]
+          ],
+          "largest_ancestor_mass": 0.4328783224913409,
+          "weighted_row_effective_count": 338.03846043738616,
+          "elapsed_seconds": 230.008387042,
+          "log_evidence": -101.25942171860405,
+          "posterior_sha256": "3352b4e30b30baa46dec247aa36ed6c76e557794226c7baf47460582987a2c71"
+        },
+        {
+          "cdf_at_truth": [
+            0.0625878410811351,
+            0.8190062601370875
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -7.3933799917,
+              10.2573087428,
+              13.262700262
+            ],
+            [
+              105.7164620965,
+              106.4236351397,
+              107.2683734713
+            ]
+          ],
+          "largest_ancestor_mass": 0.10118100356954961,
+          "weighted_row_effective_count": 552.5760757372562,
+          "elapsed_seconds": 207.173444723,
+          "log_evidence": -101.01736198372235,
+          "posterior_sha256": "cc0afbb338f94c2988bfdc21f504ab1786147f99fcb10609e2ffa8373aaf9d83"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.18687722206973056,
+        0.20599699902684349
+      ],
+      "pooled_cdf_at_truth": [
+        0.05137058875141674,
+        0.7987068164295613
+      ],
+      "reference_pair_cdf_difference": [
+        0.28668143458732104,
+        0.21250796953703044
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.057179144576357296,
+        0.8561114672125192
+      ]
+    },
+    {
+      "truth_seed": 37091906,
+      "truth_coordinates_deg": [
+        -2.7173437046126123,
+        74.69619763498696
+      ],
+      "generating_mode": "lateral_navigation",
+      "generating_limited_manoeuvre_counts": [
+        16,
+        8,
+        8
+      ],
+      "truth_sha256": "caf9080bb657c6bfeeb2a518c444368d52ef638e53a96d7994f69a22fcf32124",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.09983919205229254,
+            0.7986373204191499
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -4.5177375525,
+              6.2516210736,
+              8.6504446449
+            ],
+            [
+              71.5699053336,
+              73.354903058,
+              75.1348258507
+            ]
+          ],
+          "largest_ancestor_mass": 0.28148141977096025,
+          "weighted_row_effective_count": 1010.9027689635082,
+          "elapsed_seconds": 264.373026023,
+          "log_evidence": -105.65352694553071,
+          "posterior_sha256": "3aa8f324934d2d88a88d0d485f0879a48830be9b776d165c03b3ee42fab08a2d"
+        },
+        {
+          "cdf_at_truth": [
+            0.06814823429746181,
+            0.667323392721537
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -3.8822928282,
+              4.6181820296,
+              7.8033150448
+            ],
+            [
+              72.3383773214,
+              74.2106071029,
+              75.2267304109
+            ]
+          ],
+          "largest_ancestor_mass": 0.5969483707156155,
+          "weighted_row_effective_count": 432.9038025890642,
+          "elapsed_seconds": 257.082798669,
+          "log_evidence": -105.68479798148314,
+          "posterior_sha256": "a51c8b9d69ea6a94f65d54d5289b3bec28531ac9da4e3207040860ea8db8a27e"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.28621708828700876,
+        0.2769263654454596
+      ],
+      "pooled_cdf_at_truth": [
+        0.08424144525739602,
+        0.7340068535611863
+      ],
+      "reference_pair_cdf_difference": [
+        0.37288722558672915,
+        0.43057797331943104
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.0987234975030309,
+        0.8321897754468629
+      ]
+    },
+    {
+      "truth_seed": 37091909,
+      "truth_coordinates_deg": [
+        17.961471896246074,
+        114.4674083612469
+      ],
+      "generating_mode": "constant_true_heading",
+      "generating_limited_manoeuvre_counts": [
+        7,
+        8,
+        8
+      ],
+      "truth_sha256": "34304883267df46e0acd140cd4aca0486ee4228119e2f990e74defbc4961bc86",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.8354262298909902,
+            0.16500549332874903
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -8.210922264,
+              5.5017825038,
+              24.6902252173
+            ],
+            [
+              112.2563726856,
+              116.142562165,
+              116.5091857874
+            ]
+          ],
+          "largest_ancestor_mass": 0.288810921394059,
+          "weighted_row_effective_count": 155.99643492210572,
+          "elapsed_seconds": 302.476117382,
+          "log_evidence": -105.94753770232848,
+          "posterior_sha256": "5935e5a1008e98d796ac886e15eea92d6a94dc1e0bab70eef4450dec6233dce4"
+        },
+        {
+          "cdf_at_truth": [
+            0.9339266603130914,
+            0.0679335774031852
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -8.5252712151,
+              5.1629502679,
+              18.9450913381
+            ],
+            [
+              114.1630154518,
+              116.2155087124,
+              116.4871400366
+            ]
+          ],
+          "largest_ancestor_mass": 0.36112651460065937,
+          "weighted_row_effective_count": 65.07564958627395,
+          "elapsed_seconds": 282.982195483,
+          "log_evidence": -105.82200604781339,
+          "posterior_sha256": "526b02aa0c063d2b02fe484f38b379338b1b1c5e390c771ab706f4fe0acf0807"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.1548488418683287,
+        0.1597665236700268
+      ],
+      "pooled_cdf_at_truth": [
+        0.8877636226375806,
+        0.11342712999887385
+      ],
+      "reference_pair_cdf_difference": [
+        0.2863996820283456,
+        0.23369806983020947
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.872694048310223,
+        0.12766200194685165
+      ]
+    },
+    {
+      "truth_seed": 37091912,
+      "truth_coordinates_deg": [
+        19.690643507787144,
+        106.21490274642247
+      ],
+      "generating_mode": "lateral_navigation",
+      "generating_limited_manoeuvre_counts": [
+        3,
+        3,
+        4
+      ],
+      "truth_sha256": "a40b210449bf6d72abda03a2a96c1b7f556594604de4c91df4d02d376eb61f8a",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.7893458278852781,
+            0.22783275491700128
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              11.1126447994,
+              16.7495032042,
+              20.2630905106
+            ],
+            [
+              105.9008834479,
+              107.1668805547,
+              108.5756388318
+            ]
+          ],
+          "largest_ancestor_mass": 0.16676288382019414,
+          "weighted_row_effective_count": 71.7462337751247,
+          "elapsed_seconds": 148.660265838,
+          "log_evidence": -102.15729658639042,
+          "posterior_sha256": "50c1b74644f96874d5ee20bf80523c2483ad1b42496704e44b8da4c7b18bcb02"
+        },
+        {
+          "cdf_at_truth": [
+            0.7739990411998542,
+            0.2414843447638306
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              15.1787871358,
+              18.9148883976,
+              21.4422296086
+            ],
+            [
+              105.4948082315,
+              106.5082044785,
+              107.6591975591
+            ]
+          ],
+          "largest_ancestor_mass": 0.34903508454539844,
+          "weighted_row_effective_count": 159.2991571966598,
+          "elapsed_seconds": 147.288892776,
+          "log_evidence": -101.5851035819401,
+          "posterior_sha256": "679867dea4a2a14aab84a7f1993770a36146b45ad67a960262b4a5bb6e008915"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.3949859423710082,
+        0.3808538807992108
+      ],
+      "pooled_cdf_at_truth": [
+        0.7795351022118853,
+        0.23655979372572614
+      ],
+      "reference_pair_cdf_difference": [
+        0.46574773381736106,
+        0.46300834793034285
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.7869976774749594,
+        0.24198487294690346
+      ]
+    },
+    {
+      "truth_seed": 37091915,
+      "truth_coordinates_deg": [
+        -7.580547360513865,
+        103.5656388715633
+      ],
+      "generating_mode": "constant_true_heading",
+      "generating_limited_manoeuvre_counts": [
+        1,
+        1,
+        1
+      ],
+      "truth_sha256": "8e881f750477e123d654bee44d4ab58dcccc3c5b2096f2bd42dbd9745932a94c",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.3037428209995373,
+            0.342534524879581
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -12.3749947535,
+              -6.1757007414,
+              -1.1718900738
+            ],
+            [
+              102.4093780204,
+              103.7500397436,
+              104.2243971124
+            ]
+          ],
+          "largest_ancestor_mass": 0.06415978139535941,
+          "weighted_row_effective_count": 250.34046121414735,
+          "elapsed_seconds": 116.464240335,
+          "log_evidence": -89.53188539286538,
+          "posterior_sha256": "3d971253f58f3034e96bb954b3b75743b02a9416f158539b9afaffec44620bcb"
+        },
+        {
+          "cdf_at_truth": [
+            0.2577497183135353,
+            0.29385723470363545
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -10.7004330141,
+              -5.9123232246,
+              -0.5939565065
+            ],
+            [
+              102.7955607585,
+              103.7961108443,
+              104.2560482206
+            ]
+          ],
+          "largest_ancestor_mass": 0.04772235720002533,
+          "weighted_row_effective_count": 567.8651632515413,
+          "elapsed_seconds": 121.319404486,
+          "log_evidence": -89.75905415809787,
+          "posterior_sha256": "f31cf99fcba5e4feb76938dc161ada0281190aaaf5454ddbee1c7b047fa8274e"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.060892589679539255,
+        0.06223012239949566
+      ],
+      "pooled_cdf_at_truth": [
+        0.2833471433703736,
+        0.3209485421928334
+      ],
+      "reference_pair_cdf_difference": [
+        0.15188589802105354,
+        0.14260114885406777
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.27613957922438764,
+        0.30771866524723435
+      ]
+    },
+    {
+      "truth_seed": 37091918,
+      "truth_coordinates_deg": [
+        4.504060891615347,
+        108.1844734586549
+      ],
+      "generating_mode": "constant_magnetic_heading",
+      "generating_limited_manoeuvre_counts": [
+        1,
+        1,
+        1
+      ],
+      "truth_sha256": "ad89624f1b912f81d605214323d5c9063ee2668572c13353fb9c43f3d8f293c2",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.8544281471585071,
+            0.5756547581744913
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -7.7366330347,
+              -0.5717115093,
+              6.4336208749
+            ],
+            [
+              107.5849530815,
+              108.1438579334,
+              108.3419780638
+            ]
+          ],
+          "largest_ancestor_mass": 0.10647594650690792,
+          "weighted_row_effective_count": 3818.944875168026,
+          "elapsed_seconds": 126.43020351,
+          "log_evidence": -90.90184191444243,
+          "posterior_sha256": "0b2ddb37f59265c93d5e320697ae5abe59db27d146dcb02e4d069e728f0b98c3"
+        },
+        {
+          "cdf_at_truth": [
+            0.9668355645671763,
+            0.8734637235369013
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -8.7362783439,
+              -5.9393416441,
+              2.6823223313
+            ],
+            [
+              107.4125522051,
+              107.8118112099,
+              108.2959172011
+            ]
+          ],
+          "largest_ancestor_mass": 0.48406581182233915,
+          "weighted_row_effective_count": 2637.0075309174695,
+          "elapsed_seconds": 125.883814665,
+          "log_evidence": -89.40217706617732,
+          "posterior_sha256": "c94f6bc6c997c4008dee3b09e8ece4e73eff39673211f6e2ad4574c571c33c56"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.5131261665401159,
+        0.42385109163730916
+      ],
+      "pooled_cdf_at_truth": [
+        0.9463239630936497,
+        0.8191208789668777
+      ],
+      "reference_pair_cdf_difference": [
+        0.5067602024395882,
+        0.33195796540734535
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.8472118823721615,
+        0.5173070328206439
+      ]
+    },
+    {
+      "truth_seed": 37091921,
+      "truth_coordinates_deg": [
+        14.904962473900092,
+        95.74887893841617
+      ],
+      "generating_mode": "constant_magnetic_heading",
+      "generating_limited_manoeuvre_counts": [
+        16,
+        8,
+        8
+      ],
+      "truth_sha256": "e8a81168283b704ed1d4c458ec46ce309c6625f2704ba0c3781b3a1f6f0e878e",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.4496526162690421,
+            0.5383248755144111
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -3.017994375,
+              16.8313971791,
+              29.6493156447
+            ],
+            [
+              83.2798212669,
+              95.0895600222,
+              98.622629012
+            ]
+          ],
+          "largest_ancestor_mass": 0.46029879987372446,
+          "weighted_row_effective_count": 139.11862037369085,
+          "elapsed_seconds": 202.974066284,
+          "log_evidence": -111.08985635989383,
+          "posterior_sha256": "fb17ade9e4fa8ee1f043ffff46f4bc91b5167ded6c453d44161a6edfdbedc73b"
+        },
+        {
+          "cdf_at_truth": [
+            0.8579150493816563,
+            0.14018899883021274
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -4.732155271,
+              6.6066867018,
+              25.8213443303
+            ],
+            [
+              88.3981537315,
+              98.1506998728,
+              98.5883171298
+            ]
+          ],
+          "largest_ancestor_mass": 0.829842336806881,
+          "weighted_row_effective_count": 7.5733192334606105,
+          "elapsed_seconds": 212.427390397,
+          "log_evidence": -109.71780544401433,
+          "posterior_sha256": "5ef5b441dfd9cfacb0125211251dcc75de07bf2c9aed8078ee3d5335ad5ba543"
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.4941142228947207,
+        0.48512986928030033
+      ],
+      "pooled_cdf_at_truth": [
+        0.7753281757113337,
+        0.2207273846441024
+      ],
+      "reference_pair_cdf_difference": [
+        0.5989081076668288,
+        0.5963740492585156
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.2838831446652919,
+        0.7008379393924304
+      ]
+    }
+  ],
+  "scope": "Prior-predictive numerical control; fuel disabled; no accident calibration; coordinate intervals are not joint geographic areas",
+  "method_reference": {
+    "url": "https://sites.stat.columbia.edu/gelman/research/unpublished/sbc.pdf",
+    "locator": "pp. 3\u20135: prior-predictive repetition, empirical CDF limitations and computational scope"
+  },
+  "limitations": [
+    "Only 8 generated data sets in this comparison; binomial uncertainty is substantial.",
+    "Weighted interacting particle rows are not independent posterior draws; these CDF diagnostics are not an exact independent-rank SBC test.",
+    "Generator shares flight and SATCOM equations with inference. Independent physical and equation checks remain necessary.",
+    "Fuel is disabled, isolating the flight/SATCOM process.",
+    "The accident-specific initial proposal is disabled for this control."
+  ],
+  "reference_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-comparison/summary.json",
+  "reference_summary_sha256": "f81f985f05a1b010358fa90a1c9d452ca0be817e9b7b9879beeb46df4353a8ff",
+  "reference_candidates_per_run": 20000
+}

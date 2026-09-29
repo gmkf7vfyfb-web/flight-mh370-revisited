@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.1.0",
+  "executable_sha256": "ed52e5c280844a07b00d02977914d8fbafd877606a2f8ec5c4be308cf7c91dea",
+  "command": "score-known-flight",
+  "status": "complete_known_flight_control_assessment",
+  "config_path": "configs/known-flight-scoring.toml",
+  "config_sha256": "984b8bacd7c0be2e2f7bc7d770177b2419d753d6cd1b423187eead9af7a88d21",
+  "truth_path": "inputs/controls/mh371-truth.csv",
+  "truth_sha256": "65de30cc4e20fc77a1d6048449d5654046fd78f83f325d14d2d26c6ccd9751c9",
+  "run_inputs": {
+    "/tmp/mh371-antenna-control-20260824/full-precomp/inference-seed-37102001.json": "cd90a2a58ccfd251cb9df24dc57565517e8fc5ca0c4e64bc7ad84147fcf499be",
+    "/tmp/mh371-antenna-control-20260824/full-precomp/inference-seed-37102002.json": "ed58385147175544bc147e75a6c444fa3ac43f878fc0b8109286c04672906e4a"
+  },
+  "outputs": {
+    "mh371-control.pdf": "c8008b130a7576028c54da1701c7190aab1e106bc99df43e3f25da930f46e5d9",
+    "mh371-posterior-panels.png": "9e3ee225055dbfd835879afbb100ba400b755260ad890e6d0b9c4acee8f707db",
+    "score-summary.json": "5e805fc52b511910a69b68550f7b9841563f3459f1a4ee8ea793d54352b6a1c4"
+  },
+  "limitations": [
+    "held-back ACARS positions and trajectories were loaded only by this scorer",
+    "posterior localization is conditional on the declared motion and BFO-noise family",
+    "this known-flight control does not establish adequacy for the MH370 accident flight"
+  ]
+}

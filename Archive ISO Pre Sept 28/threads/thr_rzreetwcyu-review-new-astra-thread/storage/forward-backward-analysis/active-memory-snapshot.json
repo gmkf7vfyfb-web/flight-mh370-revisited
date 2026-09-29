@@ -1,0 +1,47 @@
+{
+  "time_unix": 1788875920.2683303,
+  "servers": [
+    {
+      "pid": 39970,
+      "rss_kib": 349264,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml "
+    },
+    {
+      "pid": 39972,
+      "rss_kib": 349600,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml "
+    },
+    {
+      "pid": 39975,
+      "rss_kib": 349408,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml "
+    },
+    {
+      "pid": 39976,
+      "rss_kib": 349508,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml "
+    },
+    {
+      "pid": 40013,
+      "rss_kib": 349528,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/mh370-screening-flight.toml "
+    },
+    {
+      "pid": 40017,
+      "rss_kib": 349480,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/mh370-screening-flight.toml "
+    },
+    {
+      "pid": 40018,
+      "rss_kib": 349340,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/mh370-screening-flight.toml "
+    },
+    {
+      "pid": 40019,
+      "rss_kib": 349608,
+      "command": "/jackbox/home/MH370/target/release/mh370 replay-flight-trajectory --config /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/forward-backward-analysis/mh370-screening-flight.toml "
+    }
+  ],
+  "summed_server_rss_kib": 2795736,
+  "note": "Conservative sum includes shared pages repeatedly; only one of fine/coarse four-worker pools computes at a time."
+}

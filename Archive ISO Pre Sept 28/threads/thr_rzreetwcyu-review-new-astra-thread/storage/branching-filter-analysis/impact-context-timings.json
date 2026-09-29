@@ -1,0 +1,221 @@
+{
+  "created_utc": "2026-09-10T18:24:02.581637+00:00",
+  "context_sha256": "c6326d13a95722a824fea84a6fe4f31c643a9b324b4045179fc42efc4aab26bc",
+  "config_sha256": "667a774514005fa96460bea1b1d9113a0db785347d4394581477e196c7a54320",
+  "geometry_sha256": "46f45b977210df0739f3e5b593562e8b6bbac312e4aa99dfbefb8e0e22d9f46a",
+  "script_sha256": "8ccfa8c9508b83ce276bb65ceb91658e69db9b3f94d816add58c429fc84805d9",
+  "source_paths": [
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-context-inputs.json",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-acoustic-million.json",
+    "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/conditional-geometry-config.json"
+  ],
+  "earth_radius_km": 6371.0088,
+  "celerity_km_s": [
+    1.43,
+    1.57
+  ],
+  "stations": {
+    "H01W": {
+      "latitude": -34.892,
+      "longitude": 114.141
+    },
+    "H08S": {
+      "latitude": -7.639,
+      "longitude": 72.484
+    }
+  },
+  "method": "Impact time = arrival time minus great-circle distance / effective celerity at the exact plotted point. For E/F, intersect the two station intervals, allowing each path its own celerity within the declared range. No station time correction is fitted.",
+  "interpretation": "Scenario bounds at fixed coordinates, not a confidence interval, acoustic association or precision claim. Location, bearing and propagation-model errors are not integrated. Nominal 1.50 km/s estimates are diagnostics only.",
+  "superseded_timing": "The old shortlist impact columns A\u2013D used quantiles over a different broad source distribution. Old E/F seconds-wide values conditioned on central-celerity alignment choices. Neither is a point-specific uncertainty interval for these maps.",
+  "targets": {
+    "A": {
+      "arrivals": [
+        {
+          "station": "H01W",
+          "arrival_utc": "00:49:58",
+          "arrival_unix_s": 1394239798.0,
+          "kind": "Table 1 entry; matching peak not recovered",
+          "map_arrival_utc": "00:49:58",
+          "distance_km": 2024.4788592777263,
+          "impact_time_unix_s": [
+            1394238382.280518,
+            1394238508.5230196
+          ],
+          "nominal_impact_unix_s": 1394238448.3474271,
+          "nominal_impact_utc": "00:27:28"
+        }
+      ],
+      "implied_impact_unix_s": [
+        1394238382.280518,
+        1394238508.5230196
+      ],
+      "implied_impact_utc": [
+        "00:26:22",
+        "00:28:29"
+      ],
+      "display_impact": "00:26:22\u201300:28:29",
+      "counterpart_note": "No identified H08S counterpart",
+      "source_time_is_conditional": true
+    },
+    "B": {
+      "arrivals": [
+        {
+          "station": "H01W",
+          "arrival_utc": "00:53:31",
+          "arrival_unix_s": 1394240011.0,
+          "kind": "Table 1 entry; matching peak not recovered",
+          "map_arrival_utc": "00:53:31",
+          "distance_km": 2134.311564730962,
+          "impact_time_unix_s": [
+            1394238518.4744303,
+            1394238651.5658824
+          ],
+          "nominal_impact_unix_s": 1394238588.1256235,
+          "nominal_impact_utc": "00:29:48"
+        }
+      ],
+      "implied_impact_unix_s": [
+        1394238518.4744303,
+        1394238651.5658824
+      ],
+      "implied_impact_utc": [
+        "00:28:38",
+        "00:30:52"
+      ],
+      "display_impact": "00:28:38\u201300:30:52",
+      "counterpart_note": "No identified H08S counterpart",
+      "source_time_is_conditional": true
+    },
+    "C": {
+      "arrivals": [
+        {
+          "station": "H01W",
+          "arrival_utc": "00:52:00",
+          "arrival_unix_s": 1394239920.0,
+          "kind": "Reported cluster; local peak at 00:52:04.350",
+          "map_arrival_utc": "00:52:00"
+        }
+      ],
+      "implied_impact_unix_s": null,
+      "implied_impact_utc": null,
+      "display_impact": "Unresolved: no mapped source position",
+      "counterpart_note": "",
+      "source_time_is_conditional": true
+    },
+    "D": {
+      "arrivals": [
+        {
+          "station": "H01W",
+          "arrival_utc": "00:54:30",
+          "arrival_unix_s": 1394240070.0,
+          "kind": "Kadri preferred reported candidate",
+          "map_arrival_utc": "00:54:30",
+          "distance_km": 1585.9999999665642,
+          "impact_time_unix_s": [
+            1394238960.909091,
+            1394239059.8089173
+          ],
+          "nominal_impact_unix_s": 1394239012.6666667,
+          "nominal_impact_utc": "00:36:53"
+        }
+      ],
+      "implied_impact_unix_s": [
+        1394238960.909091,
+        1394239059.8089173
+      ],
+      "implied_impact_utc": [
+        "00:36:01",
+        "00:37:40"
+      ],
+      "display_impact": "00:36:01\u201300:37:40",
+      "counterpart_note": "No identified H08S counterpart",
+      "source_time_is_conditional": true
+    },
+    "E": {
+      "arrivals": [
+        {
+          "station": "H01W",
+          "arrival_utc": "00:52:04.350",
+          "arrival_unix_s": 1394239924.35,
+          "kind": "Exploratory publication-trace feature",
+          "map_arrival_utc": "00:52:04",
+          "distance_km": 2010.6574621965492,
+          "impact_time_unix_s": [
+            1394238518.2958305,
+            1394238643.6764572
+          ],
+          "nominal_impact_unix_s": 1394238583.9116917,
+          "nominal_impact_utc": "00:29:44"
+        },
+        {
+          "station": "H08S",
+          "arrival_utc": "01:10:00.500",
+          "arrival_unix_s": 1394241000.5,
+          "kind": "Exploratory periodic/panel-boundary feature",
+          "map_arrival_utc": "01:10:01",
+          "distance_km": 3631.718834196796,
+          "impact_time_unix_s": [
+            1394238460.8364797,
+            1394238687.3032904
+          ],
+          "nominal_impact_unix_s": 1394238579.3541105,
+          "nominal_impact_utc": "00:29:39"
+        }
+      ],
+      "implied_impact_unix_s": [
+        1394238518.2958305,
+        1394238643.6764572
+      ],
+      "implied_impact_utc": [
+        "00:28:38",
+        "00:30:44"
+      ],
+      "display_impact": "00:28:38\u201300:30:44",
+      "counterpart_note": "",
+      "source_time_is_conditional": true
+    },
+    "F": {
+      "arrivals": [
+        {
+          "station": "H01W",
+          "arrival_utc": "00:54:26.950",
+          "arrival_unix_s": 1394240066.95,
+          "kind": "Exploratory publication-trace feature",
+          "map_arrival_utc": "00:54:27",
+          "distance_km": 2002.326161851392,
+          "impact_time_unix_s": [
+            1394238666.7219148,
+            1394238791.583018
+          ],
+          "nominal_impact_unix_s": 1394238732.0658922,
+          "nominal_impact_utc": "00:32:12"
+        },
+        {
+          "station": "H08S",
+          "arrival_utc": "01:12:49.300",
+          "arrival_unix_s": 1394241169.3,
+          "kind": "Exploratory periodic feature",
+          "map_arrival_utc": "01:12:49",
+          "distance_km": 3660.6910930421673,
+          "impact_time_unix_s": [
+            1394238609.3761587,
+            1394238837.6496222
+          ],
+          "nominal_impact_unix_s": 1394238728.8392713,
+          "nominal_impact_utc": "00:32:09"
+        }
+      ],
+      "implied_impact_unix_s": [
+        1394238666.7219148,
+        1394238791.583018
+      ],
+      "implied_impact_utc": [
+        "00:31:07",
+        "00:33:12"
+      ],
+      "display_impact": "00:31:07\u201300:33:12",
+      "counterpart_note": "",
+      "source_time_is_conditional": true
+    }
+  }
+}

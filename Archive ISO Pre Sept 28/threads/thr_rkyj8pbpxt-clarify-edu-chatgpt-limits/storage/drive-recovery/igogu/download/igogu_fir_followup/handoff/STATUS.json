@@ -1,0 +1,29 @@
+{
+  "status": "analysis_complete_packaging",
+  "started_utc": "2026-09-19T20:35:48Z",
+  "automation_id": "6aaef2248e1c81a4960ddf842f7fff6b",
+  "scheduled_utc": "2026-09-19T22:00:00Z",
+  "drive_folder_id": "1E2wMSGz-MF_zFZ2GDvRZ1fO9aqQTT23F",
+  "prior_archives_index_drive_id": "1J6_RCo2PtyfJt1oZ_gIvhj1faQFB4QAV",
+  "scope": [
+    "early N571 turn intercepting FIR longitude 94deg25minE, exact south through18:40",
+    "second-turn fit to19:41 BTO/BFO, not a posterior",
+    "weighted published-waypoint proximity for original and R600 sensitivity ensembles"
+  ],
+  "preserve": [
+    "original model frozen",
+    "no 00:19 BFO",
+    "existing PDF provisional",
+    "no hydroacoustic or drift fusion"
+  ],
+  "latest_report": "output/mh370_IGOGU_FIR_and_waypoints.pdf",
+  "new_posterior_computed": false,
+  "full_example": "output/later_gate_fit_fine.npz",
+  "waypoint_exact_results": "output/waypoint_exact_shortlist.csv",
+  "remaining_science": [
+    "declare new interception prior/Jacobian and resample entire mixture",
+    "independent convergence and calibration",
+    "2014 waypoint validity/chance controls",
+    "physical terminal model"
+  ]
+}

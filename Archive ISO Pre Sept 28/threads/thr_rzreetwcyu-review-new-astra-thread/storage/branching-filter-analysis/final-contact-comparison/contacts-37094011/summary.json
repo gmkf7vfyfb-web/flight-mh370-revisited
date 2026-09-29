@@ -1,0 +1,840 @@
+{
+  "configuration_sha256": "27bada6b1df3633b930efbbf20fcbfa98b5a5a04cc6367ea2adf8b5ec3757a21",
+  "elapsed_seconds": 13.321365467,
+  "executable_sha256": "a410e3ef529a68e29388190eb7fb937b6a8b96bb28b190ec08ca66e2e5f84f8c",
+  "families": [
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9199187746309779,
+          "largest_initial_ancestor_weight": 0.021227708128168425,
+          "largest_row_weight": 0.0004765272441878945,
+          "log_known_evidence_contribution": -1.4797235533052984,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.05716473320287645,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.022916492166149795,
+            "Impact": 0.9199187746309779,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 8703.313304793424,
+          "weights_file": "openap2020-positive-lift-3-targets--neither-final-contact.csv",
+          "weights_sha256": "165ceef6046c53de731f4c6af25241f45e7289ba6af9561be5497d7a968d05c4"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.025054467551559743,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9330097776514205,
+          "largest_initial_ancestor_weight": 0.019526619726908497,
+          "largest_row_weight": 0.0010394900455457509,
+          "log_known_evidence_contribution": -7.354120158597397,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.051498401139620134,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.015491821208972486,
+            "Impact": 0.9330097776514205,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 5283.587038157634,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-bto-only.csv",
+          "weights_sha256": "af761e67015222a4e36f9f23d617943733225c34b6b31a0e18465fbdbda65733"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.025054467551559743,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9447192403508519,
+          "largest_initial_ancestor_weight": 0.019821026713526393,
+          "largest_row_weight": 0.010157299968295659,
+          "log_known_evidence_contribution": -12.930298678087091,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.051028131190946076,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.00425262845821343,
+            "Impact": 0.9447192403508519,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 513.873972297349,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "52519958ddaea5ace6e67310f23109f95b7273738c1509a0abd8e0f385b4934a"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.026621134325031482,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9429929190466861,
+          "largest_initial_ancestor_weight": 0.030302457948380115,
+          "largest_row_weight": 0.021049953007863078,
+          "log_known_evidence_contribution": -9.18011189100115,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.03539834270193867,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.021608738251378774,
+            "Impact": 0.9429929190466861,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 200.47360327614197,
+          "weights_file": "openap2020-positive-lift-3-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "dd8bd2de19e0a462ac93ee0e1c7fbea2c52d9847f51c2c8de48140264b2b90b6"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.026621134325031482,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9404557768958304,
+          "largest_initial_ancestor_weight": 0.02678005172884963,
+          "largest_row_weight": 0.02678003740847038,
+          "log_known_evidence_contribution": -14.665491575665623,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.04685112370604707,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.01269309939812228,
+            "Impact": 0.9404557768958304,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 218.55984226592582,
+          "weights_file": "openap2020-positive-lift-3-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "2222bd85a072ece759b90dfe3c79a3bbd7182a70b60e5248a3d41384dc9daae0"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.026621134325031482,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.8794009467809174,
+          "largest_initial_ancestor_weight": 0.07059962018860076,
+          "largest_row_weight": 0.0654109511347719,
+          "log_known_evidence_contribution": -22.032302920989604,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.12054289266155806,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.00005616055752313624,
+            "Impact": 0.8794009467809174,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 36.51182871193915,
+          "weights_file": "openap2020-positive-lift-3-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "8038a12eadac6cc90793e025012ed3e362bb0bd5aaf49b9f223fc87a8e0b45b7"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.026621134325031482,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9698531540421683,
+          "largest_initial_ancestor_weight": 0.06271922573137216,
+          "largest_row_weight": 0.061127952561558195,
+          "log_known_evidence_contribution": -22.689627420027062,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.02876452264899778,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.001382323308836104,
+            "Impact": 0.9698531540421683,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 55.4637004917951,
+          "weights_file": "openap2020-positive-lift-3-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "ee9ee9f7f1f08adde19f5d2427f9b8a3c08e2e68cda1cfb2811a7897f62c2e69"
+        }
+      ],
+      "draws": 49152,
+      "fuel_condition_normalizing_ratio": 0.22770062676951028,
+      "name": "openap2020-positive-lift-3-targets"
+    },
+    {
+      "cases": [
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "neither-final-contact",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": -0.0,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.8824526025206313,
+          "largest_initial_ancestor_weight": 0.020858524522853354,
+          "largest_row_weight": 0.0005080377736068382,
+          "log_known_evidence_contribution": -1.4906753004587756,
+          "name": "neither-final-contact",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.08253295070316745,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.03501444677619179,
+            "Impact": 0.8824526025206313,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 8576.236533480122,
+          "weights_file": "openap26-positive-lift-3-targets--neither-final-contact.csv",
+          "weights_sha256": "599ec9535c11492fd2d8c49e46be6d09043ad9f6610cf13d7d24253f23a63e56"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-only",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.03420236255046577,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9038652420799747,
+          "largest_initial_ancestor_weight": 0.020090798647982695,
+          "largest_row_weight": 0.0011460387739462296,
+          "log_known_evidence_contribution": -7.404458696184668,
+          "name": "r600-bto-only",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.07245703060617115,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.023677727313854195,
+            "Impact": 0.9038652420799747,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 5165.921880013302,
+          "weights_file": "openap26-positive-lift-3-targets--r600-bto-only.csv",
+          "weights_sha256": "8b7416fb85b8073e893c485bf971f5d45984ecf8249bfd40fde920beccd58bfb"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              false
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.03420236255046577,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.8986233487873675,
+          "largest_initial_ancestor_weight": 0.025493675044846405,
+          "largest_row_weight": 0.01579900837678978,
+          "log_known_evidence_contribution": -13.222483207701229,
+          "name": "r600-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.07982354330693725,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.021553107905691374,
+            "Impact": 0.8986233487873675,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 362.24069099161636,
+          "weights_file": "openap26-positive-lift-3-targets--r600-no-startup-offset.csv",
+          "weights_sha256": "f806e23478004338d8face14221e13e03b041499198613bff90447b9f4628c1a"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              false,
+              false
+            ],
+            "name": "r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.03618759347616337,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9095257275649689,
+          "largest_initial_ancestor_weight": 0.044558883148366105,
+          "largest_row_weight": 0.03117198784650591,
+          "log_known_evidence_contribution": -8.923858641623767,
+          "name": "r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.07796792071773952,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.01250635171729356,
+            "Impact": 0.9095257275649689,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 151.33430778080015,
+          "weights_file": "openap26-positive-lift-3-targets--r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "ec8b97a686029e650ff61522cf58ddd5182bbda423416ab407d407f1596575d4"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              false,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "r600-bto-r1200-bfo-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.03618759347616337,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9114664298393723,
+          "largest_initial_ancestor_weight": 0.04706493704898416,
+          "largest_row_weight": 0.04703487083243215,
+          "log_known_evidence_contribution": -14.481823617471289,
+          "name": "r600-bto-r1200-bfo-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.07829560163303141,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.010237968527597844,
+            "Impact": 0.9114664298393723,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 126.38239342305492,
+          "weights_file": "openap26-positive-lift-3-targets--r600-bto-r1200-bfo-no-startup-offset.csv",
+          "weights_sha256": "2cf83065db0abb2bd29a909f6270f4cf4f6f219553884682cc6b21de647a778d"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-no-startup-offset",
+            "startup": {
+              "kind": "no_offset"
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.03618759347616337,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9819760002585906,
+          "largest_initial_ancestor_weight": 0.15677687871244497,
+          "largest_row_weight": 0.15677371194246764,
+          "log_known_evidence_contribution": -21.714209004724996,
+          "name": "both-sequential-no-startup-offset",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.01756588217618726,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.00045811756522241024,
+            "Impact": 0.9819760002585906,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 26.786630950671103,
+          "weights_file": "openap26-positive-lift-3-targets--both-sequential-no-startup-offset.csv",
+          "weights_sha256": "d9972a13e2456e624e9c55c5c64d3598a7d7aeb764b338752733a31a0ca6ac2e"
+        },
+        {
+          "configuration": {
+            "bfo": [
+              true,
+              true
+            ],
+            "bto": [
+              true,
+              false
+            ],
+            "name": "both-sequential-shared-startup",
+            "startup": {
+              "first_minus_second_hz": [
+                0.0,
+                6.0
+              ],
+              "kind": "shared_uniform",
+              "quadrature_points": [
+                64,
+                16
+              ],
+              "second_offset_hz": [
+                17.0,
+                130.0
+              ]
+            }
+          },
+          "fraction_of_fuel_conditioned_prior_with_uncomputed_likelihood": 0.03618759347616337,
+          "has_positive_supported_weight": true,
+          "impact_mass_within_scored_support": 0.9805439459153018,
+          "largest_initial_ancestor_weight": 0.0994559894603961,
+          "largest_row_weight": 0.09766212983402285,
+          "log_known_evidence_contribution": -22.027425224431717,
+          "name": "both-sequential-shared-startup",
+          "outcome_mass_within_scored_support": {
+            "DeclaredEnvelopeExit(AirspeedBelowMinimum)": 0.011475416143398223,
+            "DeclaredEnvelopeExit(NearVerticalFlightPath)": 0.007980637941295977,
+            "Impact": 0.9805439459153018,
+            "zero_fuel_compatibility": 0.0
+          },
+          "row_weight_effective_count": 39.13404331138227,
+          "weights_file": "openap26-positive-lift-3-targets--both-sequential-shared-startup.csv",
+          "weights_sha256": "8df00f8f825b3efddd64881756806f40798435ff04f213dee70ff5c00bf24c2a"
+        }
+      ],
+      "draws": 49152,
+      "fuel_condition_normalizing_ratio": 0.22522051265861556,
+      "name": "openap26-positive-lift-3-targets"
+    }
+  ],
+  "limitations": [
+    "impact PDFs are conditional on the named terminal force and startup assumptions and the computed support",
+    "a missing likelihood caused by a model-domain exit is unknown, not evidence of impossibility; its incoming probability is reported",
+    "physical impact before a used radio contact gives zero likelihood for that case",
+    "kinematic SATCOM scoring conditions on an available transmission; APU, power-restoration timing and outage causes are separate unscored hypotheses",
+    "the shared-uniform startup law is an analyst-declared sensitivity density within source bounds, not Holland's calibrated prior",
+    "no impact-angle to body-pitch conversion or acoustic-coupling distribution is inferred by this update",
+    "effective row counts and repeated roots are not independent posterior sample counts"
+  ],
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/mixed-terminal-sampling/terminal-seed-37094011",
+  "source_configuration": {
+    "control_proposal": {
+      "bank": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-proposal-bank.json",
+      "context_scales": [
+        10000.0,
+        4000.0,
+        40.0,
+        3.0
+      ],
+      "half_width": 0.1,
+      "joint_fuel": true,
+      "nearest_centres": 8,
+      "prior_fraction": 0.2
+    },
+    "draws_per_source": 8192,
+    "final_contacts": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-final-contacts.json",
+    "kernel": {
+      "apu_accessible_reserved_fuel_kg": 0.0,
+      "apu_start_policy": {
+        "mode": "disabled"
+      },
+      "environment": {
+        "above_maximum_policy": "reject",
+        "below_minimum_policy": "clamp_to_grid",
+        "maximum_pressure_altitude_ft": 60000.0,
+        "minimum_pressure_altitude_ft": 500.0
+      },
+      "fallback_atmosphere": {
+        "nodes": [
+          {
+            "altitude": 0.0,
+            "density": 1.225,
+            "wind_east": 0.0,
+            "wind_north": 0.0
+          },
+          {
+            "altitude": 43000.0,
+            "density": 0.25,
+            "wind_east": 0.0,
+            "wind_north": 0.0
+          }
+        ]
+      },
+      "families": [
+        {
+          "aerodynamics": "openap_v2_6_0_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 3,
+            "step_s": 0.03125
+          },
+          "name": "openap26-positive-lift-3-targets"
+        },
+        {
+          "aerodynamics": "openap_published2020_attached_flow",
+          "control": {
+            "bank_angle_bounds_deg": [
+              -60.0,
+              60.0
+            ],
+            "change_time_bounds_s": [
+              10.0,
+              900.0
+            ],
+            "kind": "rate_limited_targets",
+            "lift_coefficient_bounds": [
+              0.05,
+              1.2
+            ],
+            "maximum_lift_coefficient_rate_per_s": 0.05,
+            "maximum_roll_rate_deg_s": 3.0,
+            "segments": 3,
+            "step_s": 0.03125
+          },
+          "name": "openap2020-positive-lift-3-targets"
+        }
+      ],
+      "integration": {
+        "maximum_duration": 3600.0,
+        "maximum_steps": 160000,
+        "sea_surface_altitude": 0.0,
+        "time_step": 0.03125
+      }
+    },
+    "minimum_draws_per_2p5_degree_latitude_bin": 64,
+    "name": "terminal-seed-37094011",
+    "powered_step_s": 1.0,
+    "requested_traces": [],
+    "schema_version": 1,
+    "seed": 37094011,
+    "source_runs": [
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713",
+      "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714"
+    ],
+    "terminal_weather": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-weather/grid.bin",
+    "threads": 4,
+    "trace_interval_s": null
+  },
+  "source_summary": {
+    "configuration_sha256": "49c898d93ed20974aa2c68371a36f59d20ec2de55e3740e48757579f9d15ea0e",
+    "contact_provenance": {
+      "anomalous_r1200_bto": "Excluded: raw 49,660 microseconds has no ordinary channel-bias correction that is asserted here. Legacy 18,380 row is not consumed.",
+      "bfo_sd": "7 Hz inherited conditional likelihood; Holland startup offsets are handled in separately named cases, not changed measurements.",
+      "files_sha256": {
+        "/jackbox/home/MH370/inputs/accident/final-satcom-bursts.json": "f9461f46bc46375d75036a9267a5b70e6c696dfe50694fee063025ef0e70346c",
+        "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+        "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+      },
+      "satellite_fractional_epoch": "Runner uses bounded constant-velocity ECEF propagation from the whole-second source epoch.",
+      "source": {
+        "bursts": [
+          {
+            "channel": "IOR-R600-0-36F8",
+            "epoch_id": "m0019a",
+            "observed_bfo_hz": 182.0,
+            "raw_bto_us": 23000.0,
+            "recorded_time_utc": "2014-03-08T00:19:29.416Z",
+            "selection": "R600 BTO geometry is available with the separately declared correction and uncertainty; BFO startup treatment remains conditional."
+          },
+          {
+            "channel": "IOR-R1200-0-36F6",
+            "epoch_id": "m0019b",
+            "observed_bfo_hz": -2.0,
+            "raw_bto_us": 49660.0,
+            "recorded_time_utc": "2014-03-08T00:19:37.443Z",
+            "selection": "The anomalous R1200 BTO is not scored by this control. The BFO comparison retains an explicit startup/error condition."
+          }
+        ],
+        "model_choices": {
+          "r600_bto_correction_us": 4600.0,
+          "r600_bto_sd_us": 63.0,
+          "r600_sd_note": "Inherited declared observation uncertainty, not a value measured by the log.",
+          "satellite_fractional_epoch_model": "Constant-velocity ECEF propagation from the corresponding whole-second ephemeris; maximum absolute offset 1 second."
+        },
+        "schema_version": 1,
+        "source": {
+          "extract_note": "The previously retained unredacted-log extraction agrees with both recorded times, BFOs and raw BTOs. Product code does not load that source recreation.",
+          "independent_retained_extract_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+          "locator": "PDF page 41, R600 log-on request and final R1200 acknowledgment rows; page 1 gives the 4,600 microsecond R600 correction",
+          "retrieval_note": "ATSB-hosted PDF and page-41 text retrieved with the browser. Direct binary download timed out; no PDF hash is claimed.",
+          "title": "Inmarsat / DCA Signalling Unit Log for 9M-MRO, December 2014 update",
+          "url": "https://www.atsb.gov.au/sites/default/files/media/5772619/public_mh370-data-communication-logs.pdf",
+          "verified_utc": "2026-09-08"
+        },
+        "time_basis": "UTC timestamps recorded at the ground station, used as the declared SATCOM state epochs; subsecond timestamp resolution does not establish aircraft-state accuracy."
+      },
+      "time_origin_utc": "2014-03-07T18:01:49+00:00"
+    },
+    "contacts": [
+      {
+        "id": "m0019a",
+        "measurement": {
+          "bfo": 182.0,
+          "bfo_sd": 7.0,
+          "bto": 18400.0,
+          "bto_sd": 63.0,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18182.021038944004,
+            "y": 38049.648940256,
+            "z": 392.38317947199994
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001584,
+            "y": -0.001634,
+            "z": -0.083208
+          },
+          "time": 22660.416
+        },
+        "satellite_afc_hz": -37.8,
+        "time_utc": "2014-03-08T00:19:29.416Z"
+      },
+      {
+        "id": "m0019b",
+        "measurement": {
+          "bfo": -2.0,
+          "bfo_sd": 7.0,
+          "bto": null,
+          "bto_sd": null,
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "satellite_position_km": {
+            "x": 18182.034221269,
+            "y": 38049.635585695,
+            "z": 391.7152533250001
+          },
+          "satellite_velocity_km_s": {
+            "x": 0.001583,
+            "y": -0.001635,
+            "z": -0.083225
+          },
+          "time": 22668.443
+        },
+        "satellite_afc_hz": -37.8,
+        "time_utc": "2014-03-08T00:19:37.443Z"
+      }
+    ],
+    "continuations_sha256": "127841716e58db49e9b2d394feca5db827d72321418870d3e14db3c3da433ead",
+    "control_proposal_sha256": "46fd7a46a9268e95819fa9be39e0b19926ce5f7ea3f288e28e2d88f93e418d59",
+    "elapsed_seconds": 1165.594944788,
+    "enabled_spokes": [
+      "stochastic_cruise",
+      "fuel_consistency",
+      "end_of_flight",
+      "satcom_predictions"
+    ],
+    "executable_sha256": "a410e3ef529a68e29388190eb7fb937b6a8b96bb28b190ec08ca66e2e5f84f8c",
+    "limitations": [
+      "terminal control and aerodynamic families are explicit alternatives, never averaged",
+      "cruise fuel envelope is replaced by the explicit continuation condition using refined probability divided by old probability",
+      "fuel quantity and shared flow discrepancy are drawn jointly under the declared exhaustion interval",
+      "cruise Mach controls horizontal airspeed; the boundary retains its full horizontal and vertical velocity",
+      "terminal wind uses ERA5 plus the boundary wind residual held fixed during descent",
+      "pressure altitude is used as geometric height in this conditional point-mass approximation",
+      "these contact predictions do not condition on transmission availability or APU timing; power states remain recorded for separate hypotheses",
+      "BFO predictions are stored against the shared 00:11 bias state; sequence likelihood must update that bias jointly",
+      "unsupported terminal outcomes must be reported before conditioning any impact PDF",
+      "when a control proposal is enabled, its per-draw prior/proposal correction preserves the same physical control prior",
+      "impact angle is a velocity angle, not aircraft body pitch; acoustic coupling is not inferred here"
+    ],
+    "name": "terminal-seed-37094011",
+    "outcomes": {
+      "all_families:zero_fuel_compatibility": 110,
+      "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 2603,
+      "openap2020-positive-lift-3-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 794,
+      "openap2020-positive-lift-3-targets:Impact": 45645,
+      "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(AirspeedBelowMinimum)": 3643,
+      "openap26-positive-lift-3-targets:DeclaredEnvelopeExit(NearVerticalFlightPath)": 1502,
+      "openap26-positive-lift-3-targets:Impact": 43897
+    },
+    "rows": 98194,
+    "scientific_source_sha256": "8ea20dd5235c8654a21190b78788bfbcafac749d6f41ef2a5d8bebd25fc7afde",
+    "seed": 37094011,
+    "selected_traces_are_not_a_posterior": false,
+    "sources": [
+      {
+        "configuration_sha256": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+        "draws": 8192,
+        "elapsed_seconds": 188.648173934,
+        "initial_candidates": 85000,
+        "log_evidence": -87.73058535941438,
+        "particles_sha256": "8a54673a4484f55d2e430a09132e088f7f7ec64db9cf71367dcfb280cf87ceb9",
+        "pooling_fraction": 0.10968988444442156,
+        "posterior_sha256": "d12fc37fb93ab58d8b6c44592aa13d4717b65307748e8dad170abbe20b624d66",
+        "seed": 37091631,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631"
+      },
+      {
+        "configuration_sha256": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+        "draws": 8192,
+        "elapsed_seconds": 189.214770213,
+        "initial_candidates": 85000,
+        "log_evidence": -88.1175819951356,
+        "particles_sha256": "6b9572088a43288221e0aa6842e52aba7334d9bc78c5182987b1ab09d1d127cc",
+        "pooling_fraction": 0.07448967433334781,
+        "posterior_sha256": "c1eb9eb2db31f0a2ccd49e088f01a2c76b54ff1d9fdb20dfd7629b5bfe42b80f",
+        "seed": 37091640,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640"
+      },
+      {
+        "configuration_sha256": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+        "draws": 8192,
+        "elapsed_seconds": 195.82102344,
+        "initial_candidates": 255000,
+        "log_evidence": -87.99046299278518,
+        "particles_sha256": "1fa05d9bf7104810944de4030bd70889fa37c6e000abb0cdcd4c7513bd53f37f",
+        "pooling_fraction": 0.2537607279875713,
+        "posterior_sha256": "88e207471236fbbf33df632e658be3919dd5cc94015e2301b8b92cbb18badf85",
+        "seed": 37091711,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711"
+      },
+      {
+        "configuration_sha256": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+        "draws": 8192,
+        "elapsed_seconds": 197.77153487,
+        "initial_candidates": 255000,
+        "log_evidence": -87.96782224936932,
+        "particles_sha256": "83351f1ef19cb969844e06d937d049efbc218804d6192c38c8649d48ab409992",
+        "pooling_fraction": 0.25957159244433636,
+        "posterior_sha256": "0296b1e00f9706f54ea9410b9007b58bdb876fa3c828a3a3fe76ab0808216522",
+        "seed": 37091712,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712"
+      },
+      {
+        "configuration_sha256": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+        "draws": 8192,
+        "elapsed_seconds": 197.755491354,
+        "initial_candidates": 170000,
+        "log_evidence": -88.03818290267179,
+        "particles_sha256": "19d1d849fad92870cb73453ff40295bb5fb0c73fe31905a820403c31a0bb5221",
+        "pooling_fraction": 0.1612904519871445,
+        "posterior_sha256": "971870a8df7da6e95646156395e47de12df6093d8a1f91f77221a925aa7ed96a",
+        "seed": 37091713,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713"
+      },
+      {
+        "configuration_sha256": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+        "draws": 8192,
+        "elapsed_seconds": 191.138606246,
+        "initial_candidates": 170000,
+        "log_evidence": -88.17122887689254,
+        "particles_sha256": "97146e31c53dab93aa08cc2e7f1f8b684a0d62672e84f29e6028d83e3b208ccc",
+        "pooling_fraction": 0.1411976688031739,
+        "posterior_sha256": "ead10daa20dc02a373f5f621585696ef80b79ec6fffa223400665b3b1e79c332",
+        "seed": 37091714,
+        "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714"
+      }
+    ],
+    "status": "conditional_terminal_predictions",
+    "terminal_weather_sha256": "1d170bfbbcca5a1fadbf0ea3cc2a7a6545a0255353d2829be012fc0779ff2def"
+  },
+  "status": "conditional_final_contact_sensitivities"
+}

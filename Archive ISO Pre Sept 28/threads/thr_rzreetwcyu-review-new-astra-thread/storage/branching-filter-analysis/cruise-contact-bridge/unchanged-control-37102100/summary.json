@@ -1,0 +1,109 @@
+{
+  "candidates": 20000,
+  "code_sha256": "7c60cc1c03e54e09d3f38510750fa7e2082368dc2d985992fc6500f50e41eee6",
+  "contact_components_sha256": "825cf714be673ae16fb1ed81a2df9cd257fc71c415dbc3bf72b7b456eff50db6",
+  "csv_sha256": "1aa72f6f4970144c4e6bd28765f17a4b418450b981c7e09e643590d38759584a",
+  "cumulative_log_evidence": -54.24129584571255,
+  "elapsed_seconds": 13.271900271,
+  "executable_sha256": "f19493bc9e4c02145751c6312ecfaa10236a6b9c9bede3760ebc9015cb94d4dc",
+  "gap_proposal_guide": null,
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/filter-checkpoints.json": "4932fe93f13c665dfe2aa7bdc04d5749c035f1cd6561eedc63096144d7864da2",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/initial-allocation.json": "b921d8f7fd36e07833b5f8b6091f2b499819715c4df30444db3a49f1845c5ae1",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/resolved-config.json": "3c61d7762af44a641a00371c80d46f3844dcf8e9b95370d51301b3b219c2ee5b",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100/sequential-filter-config.json": "2eab9f7525937cb6f67ba479c878fb4aa631b15a2f10fca682835c8d9802130e",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/observations.csv": "d9607356782660ccc034d215607ef9979d99db8aa393c487d9693a42c4a99c42",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "log_evidence_increment": -27.535933125972377,
+  "maximum_root_weight": 0.6160685992603736,
+  "observation_ids": [
+    "m1839",
+    "m1941"
+  ],
+  "original_checkpoint": {
+    "ancestor_resampled": false,
+    "cumulative_log_evidence": -54.24129584571255,
+    "distinct_root_ancestors": 3603,
+    "guide_ess": null,
+    "log_evidence_increment": -27.535933125972377,
+    "maximum_normalized_weight": 0.6160685992603739,
+    "maximum_root_weight": 0.6160685992603739,
+    "observation_index": 3,
+    "observation_time_s": 5953.0,
+    "posterior_ess": 2.5194555916383865,
+    "posterior_resampled": true,
+    "root_effective_sample_size": 2.519334187242678,
+    "roots_with_mass_at_least_1e_3": 29,
+    "roots_with_mass_at_least_1e_6": 396,
+    "strata": [
+      {
+        "conditional_ess": 1.5936020845085108,
+        "distinct_root_ancestors": 650,
+        "id": 0,
+        "log_posterior_mass": -3.2065139408885095,
+        "maximum_normalized_log_weight": -3.445792756462299,
+        "maximum_normalized_weight": 0.03187947935915002,
+        "particle_count": 4000,
+        "posterior_mass": 0.040497544315688146,
+        "root_effective_sample_size": 1.5935970017302483
+      },
+      {
+        "conditional_ess": 1.460692841943995,
+        "distinct_root_ancestors": 696,
+        "id": 1,
+        "log_posterior_mass": -0.28058254745748934,
+        "maximum_normalized_log_weight": -0.4843969592132811,
+        "maximum_normalized_weight": 0.6160685992603739,
+        "particle_count": 4000,
+        "posterior_mass": 0.7553435897757972,
+        "root_effective_sample_size": 1.4606253028360168
+      },
+      {
+        "conditional_ess": 3.9515781502998992,
+        "distinct_root_ancestors": 737,
+        "id": 2,
+        "log_posterior_mass": -2.3436002741084097,
+        "maximum_normalized_log_weight": -3.2989862553898237,
+        "maximum_normalized_weight": 0.03692057647181737,
+        "particle_count": 4000,
+        "posterior_mass": 0.09598145587826108,
+        "root_effective_sample_size": 3.9515655757669945
+      },
+      {
+        "conditional_ess": 3.055863992433803,
+        "distinct_root_ancestors": 774,
+        "id": 3,
+        "log_posterior_mass": -2.3700473913143556,
+        "maximum_normalized_log_weight": -3.1722939116580657,
+        "maximum_normalized_weight": 0.04190735578819163,
+        "particle_count": 4000,
+        "posterior_mass": 0.09347629620854749,
+        "root_effective_sample_size": 3.054876411090542
+      },
+      {
+        "conditional_ess": 2.3203539824331876,
+        "distinct_root_ancestors": 746,
+        "id": 4,
+        "log_posterior_mass": -4.219832017883799,
+        "maximum_normalized_log_weight": -4.7412903741053825,
+        "maximum_normalized_weight": 0.008727377334799625,
+        "particle_count": 4000,
+        "posterior_mass": 0.014701113821705728,
+        "root_effective_sample_size": 2.3171074541829313
+      }
+    ]
+  },
+  "posterior_ess": 2.519455591638389,
+  "prefix_seconds": 4.306600781,
+  "root_effective_sample_size": 2.51933418724268,
+  "scientific_source_sha256": "7a333adb0d003b99098381e755c87710f4d630ef3021447165c8a008b2369c48",
+  "scope": "Deterministic diagnostic replay of existing candidate streams. Full original observations configure fuel timing; no new terminal ensemble or substituted posterior.",
+  "seed": 37102100,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102100",
+  "status": "reproduced saved filtering checkpoint",
+  "threads": 4,
+  "through_block": 4
+}

@@ -1,0 +1,84 @@
+   Compiling proc-macro2 v1.0.107
+   Compiling quote v1.0.47
+   Compiling unicode-ident v1.0.24
+   Compiling libc v0.2.189
+   Compiling version_check v0.9.5
+   Compiling cfg-if v1.0.4
+   Compiling zerocopy v0.8.56
+   Compiling generic-array v0.14.7
+   Compiling serde_core v1.0.229
+   Compiling typenum v1.20.1
+   Compiling libm v0.2.16
+   Compiling autocfg v1.5.1
+   Compiling num-traits v0.2.19
+   Compiling getrandom v0.2.17
+   Compiling rand_core v0.6.4
+   Compiling syn v3.0.4
+   Compiling syn v2.0.119
+   Compiling zmij v1.0.23
+   Compiling serde v1.0.229
+   Compiling thiserror v1.0.69
+   Compiling thiserror-impl v1.0.69
+   Compiling serde_derive v1.0.229
+   Compiling ppv-lite86 v0.2.21
+   Compiling rand_chacha v0.3.1
+   Compiling crypto-common v0.1.7
+   Compiling block-buffer v0.10.4
+   Compiling serde_json v1.0.151
+   Compiling rand v0.8.7
+   Compiling digest v0.10.7
+   Compiling cpufeatures v0.2.17
+   Compiling memchr v2.8.3
+   Compiling itoa v1.0.18
+   Compiling rand_distr v0.4.3
+   Compiling sha2 v0.10.9
+   Compiling approx v0.5.1
+   Compiling mh370-domain v0.1.0 (/tmp/mh370-flight-integrator/crates/domain)
+   Compiling mh370-dynamics v0.1.0 (/tmp/mh370-flight-integrator/crates/dynamics)
+    Finished `release` profile [optimized] target(s) in 11.75s
+     Running unittests src/lib.rs (target/release/deps/mh370_dynamics-24b69868fdb0667f)
+
+running 40 tests
+test powered_flight::tests::benchmark_six_hour_uniform_and_adaptive_cadences ... ignored, manual release-mode cadence throughput benchmark
+test powered_flight::tests::all_negative_infinity_scores_use_the_uniform_candidate_law ... ok
+test powered_flight::tests::adding_candidates_does_not_shift_existing_marks_or_the_renewal_clock ... ok
+test powered_flight::tests::bank_rollout_turn_is_retained_without_heading_snap ... ok
+test powered_flight::tests::climb_and_turn_near_stall_remain_inside_actual_midpoint_lift_envelope ... ok
+test powered_flight::tests::descent_from_vmo_decelerates_within_rate_or_returns_typed_conflict ... ok
+test powered_flight::tests::event_candidate_probabilities_give_the_exact_auxiliary_identity ... ok
+test powered_flight::tests::event_limit_is_a_reported_error_not_silent_truncation ... ok
+test powered_flight::tests::finite_rate_course_speed_and_altitude_changes_respect_declared_caps ... ok
+test powered_flight::tests::geometric_great_circle_leg_renews_before_artificial_endpoint ... ok
+test powered_flight::tests::events_are_exact_boundaries_and_endpoint_commands_are_post_event ... ok
+test powered_flight::tests::adaptive_steps_use_coarse_cruise_and_fine_transition_segments ... ok
+test powered_flight::tests::bridge_split_reuses_one_transition_context_without_changing_results_or_rng_tail ... ok
+test powered_flight::tests::initialization_rejects_vertical_speed_outside_declared_limits ... ok
+test powered_flight::tests::ineligible_proposal_path_is_bitwise_identical_to_the_legacy_step_and_rng_tail ... ok
+test powered_flight::tests::initialized_pending_renewals_record_their_dwell_origins_without_extra_rng_draws ... ok
+test powered_flight::tests::invalid_candidates_keep_defensive_support_and_fail_only_when_selected ... ok
+test powered_flight::tests::magnetic_altitude_clamp_is_declared_counted_and_can_be_rejected ... ok
+test powered_flight::tests::magnetic_modes_require_declination_but_true_modes_do_not ... ok
+test powered_flight::tests::obsolete_numeric_event_clock_schema_fails_closed ... ok
+test powered_flight::tests::proposal_configuration_is_bounded_and_rejects_nonfinite_probabilities ... ok
+test powered_flight::tests::proposal_records_due_events_at_entry_and_endpoint_in_physical_order ... ok
+test powered_flight::tests::proposal_rng_keys_are_tuple_separated_and_candidate_stable ... ok
+test powered_flight::tests::renewal_refresh_after_not_before_uses_exponential_memorylessness ... ok
+test powered_flight::tests::renewal_refresh_before_not_before_anchors_at_the_dwell_boundary ... ok
+test powered_flight::tests::renewal_refresh_rejects_clock_process_and_current_time_mismatches ... ok
+test powered_flight::tests::renewal_refresh_is_replay_pure_and_changes_only_the_selected_next_event ... ok
+test powered_flight::tests::renewed_pending_clock_records_event_time_plus_minimum_dwell ... ok
+test powered_flight::tests::renewal_refresh_rejects_disabled_due_and_nonunit_streams ... ok
+test powered_flight::tests::renewal_refresh_rejects_only_origins_beyond_the_time_tolerance ... ok
+test powered_flight::tests::reusable_manual_budget_counts_due_entry_and_cross_step_events ... ok
+test powered_flight::tests::segment_carries_the_exact_weather_used_at_both_endpoints ... ok
+test powered_flight::tests::scorer_rejects_nan_and_positive_infinity_but_accepts_negative_infinity ... ok
+test powered_flight::tests::stall_floor_responds_to_mass_and_bank_and_vmo_caps_high_altitude ... ok
+test powered_flight::tests::state_and_declared_process_round_trip_through_serde ... ok
+test powered_flight::tests::ulp_crossed_reachable_boundary_collapses_without_panicking ... ok
+test powered_flight::tests::straight_level_zero_wind_closes_distance_and_preserves_state ... ok
+test powered_flight::tests::fifteen_second_solution_controls_thirty_and_sixty_second_error ... ok
+test powered_flight::tests::randomized_history_respects_stepwise_rate_and_speed_envelopes ... ok
+test powered_flight::tests::same_seed_and_settings_are_bitwise_deterministic_including_events ... ok
+
+test result: ok. 39 passed; 0 failed; 1 ignored; 0 measured; 27 filtered out; finished in 0.00s
+

@@ -1,0 +1,110 @@
+{
+  "candidates": 20000,
+  "code_sha256": "b8d358a24ce4f46c9f1582f08f8577968c6e50b5e488bd4c2cf42db5e7f0f239",
+  "contact_components_sha256": "e1af23e1da54e8ee34c462b8f65bd7bc622d9de11fe826714fafa45cc4ed77cd",
+  "csv_sha256": "428ba8490e69bda6390761ba64c3df41fbc6bf3dffdeb38e64b5e97d3b2b999f",
+  "cumulative_log_evidence": -49.08336494986207,
+  "elapsed_seconds": 41.466422625,
+  "executable_sha256": "1aad8e402fea747c5e5b6d0cb0007171c920dce66a9625ec95d118f812b784cf",
+  "gap_proposal_guide": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-joint-turn-guidance/joint-time-original-lookahead.json",
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-joint-turn-guidance/joint-time-original-lookahead.json": "6d849a622f670d4fd76e457387fd167cd741f993c290eaea6f1936c235b45382",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092106/inference-seed-37102112/filter-checkpoints.json": "3663338df1425565aff67d0d1c7e419c443a57eda82dd106cea52d40db0557ea",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092106/inference-seed-37102112/initial-allocation.json": "b921d8f7fd36e07833b5f8b6091f2b499819715c4df30444db3a49f1845c5ae1",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092106/inference-seed-37102112/resolved-config.json": "eb71893bde943958844fa9b7ca774a824340b611ba60df3a2c29ede0f20f9c8a",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092106/inference-seed-37102112/sequential-filter-config.json": "a8f11cab88d33c53dc9b550f6fd35900760f8b8426caf83f7ea3d7261abe1233",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092106/observations.csv": "4d6a97eef76cc71294efca1663a0eec540b39de74ec7157b47f80f84717d43a2",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "log_evidence_increment": -19.430464021982264,
+  "maximum_root_weight": 0.8470730785336091,
+  "observation_ids": [
+    "m1839",
+    "m1941"
+  ],
+  "original_checkpoint": {
+    "ancestor_resampled": false,
+    "cumulative_log_evidence": -50.6537104694868,
+    "distinct_root_ancestors": 625,
+    "guide_ess": null,
+    "log_evidence_increment": -21.00080954160699,
+    "maximum_normalized_weight": 0.41891462757762105,
+    "maximum_root_weight": 0.4282384014551271,
+    "observation_index": 3,
+    "observation_time_s": 5953.0,
+    "posterior_ess": 3.4467852055849675,
+    "posterior_resampled": true,
+    "root_effective_sample_size": 2.873766307610242,
+    "roots_with_mass_at_least_1e_3": 19,
+    "roots_with_mass_at_least_1e_6": 136,
+    "strata": [
+      {
+        "conditional_ess": 6.089693982024693,
+        "distinct_root_ancestors": 100,
+        "id": 0,
+        "log_posterior_mass": -4.562055013574925,
+        "maximum_normalized_log_weight": -5.600286040834495,
+        "maximum_normalized_weight": 0.003696806127723614,
+        "particle_count": 4000,
+        "posterior_mass": 0.010440581346211775,
+        "root_effective_sample_size": 4.9308209169612605
+      },
+      {
+        "conditional_ess": 1.7282911702614172,
+        "distinct_root_ancestors": 107,
+        "id": 1,
+        "log_posterior_mass": -0.8278737288279356,
+        "maximum_normalized_log_weight": -1.108206274942157,
+        "maximum_normalized_weight": 0.33015062972851233,
+        "particle_count": 4000,
+        "posterior_mass": 0.4369774317433862,
+        "root_effective_sample_size": 1.1907898684004337
+      },
+      {
+        "conditional_ess": 4.874332258477115,
+        "distinct_root_ancestors": 143,
+        "id": 2,
+        "log_posterior_mass": -4.676606606717689,
+        "maximum_normalized_log_weight": -5.569750699424175,
+        "maximum_normalized_weight": 0.003811430505980056,
+        "particle_count": 4000,
+        "posterior_mass": 0.009310554715406726,
+        "root_effective_sample_size": 3.3828181124107513
+      },
+      {
+        "conditional_ess": 1.4158860232948949,
+        "distinct_root_ancestors": 134,
+        "id": 3,
+        "log_posterior_mass": -0.6873376453703202,
+        "maximum_normalized_log_weight": -0.8700881326184612,
+        "maximum_normalized_weight": 0.41891462757762105,
+        "particle_count": 4000,
+        "posterior_mass": 0.5029132216330077,
+        "root_effective_sample_size": 1.3556151647860966
+      },
+      {
+        "conditional_ess": 1.672446782112798,
+        "distinct_root_ancestors": 141,
+        "id": 4,
+        "log_posterior_mass": -3.2099604213974677,
+        "maximum_normalized_log_weight": -3.471323942963691,
+        "maximum_normalized_weight": 0.031075860746589124,
+        "particle_count": 4000,
+        "posterior_mass": 0.040358210561996434,
+        "root_effective_sample_size": 1.6301697943286728
+      }
+    ]
+  },
+  "posterior_ess": 1.378636076745797,
+  "prefix_seconds": 4.518464245,
+  "root_effective_sample_size": 1.3780431505033368,
+  "scientific_source_sha256": "cf41a1636d8a73588c1331f08110940eb54c045cc8f5a78c4d51c92db177c8ce",
+  "scope": "Deterministic diagnostic replay of existing candidate streams. Full original observations configure fuel timing; no new terminal ensemble or substituted posterior.",
+  "seed": 37102112,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092106/inference-seed-37102112",
+  "status": "matched-prefix numerical proposal comparison",
+  "threads": 4,
+  "through_block": 4
+}

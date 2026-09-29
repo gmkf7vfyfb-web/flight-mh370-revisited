@@ -1,0 +1,111 @@
+{
+  "status": "publicly_specified_core_does_not_discriminate_aircraft_location",
+  "estimator_weight": 0.0,
+  "authors_spreadsheet_audit": {
+    "flight_cases": 48,
+    "rows": 1078,
+    "row_level_auc": 0.5560196995464852,
+    "flight_cluster_bootstrap_auc_95_interval": [
+      0.5289925653825583,
+      0.5871402643163705
+    ],
+    "ocean_auc": 0.5283677378165567,
+    "threshold_0_75_sd": {
+      "sensitivity": 0.719047619047619,
+      "specificity": 0.3549107142857143,
+      "false_positive_rate": 0.6450892857142857,
+      "present_cases_with_any_anomaly": 48,
+      "present_cases": 48,
+      "absent_cases_with_any_anomaly": 45,
+      "absent_cases": 47
+    }
+  },
+  "blind_localization": {
+    "cases": 48,
+    "spatial_alternatives_per_case": 2048,
+    "actual_mean_percentile": 0.4625701904296875,
+    "control_mean_percentile": 0.4726460774739583,
+    "actual_rank_higher": 23,
+    "control_rank_higher": 25,
+    "exact_sign_p": 0.8854334972865132,
+    "wilcoxon_p": 0.9392530737438562,
+    "ocean_cases": 16,
+    "ocean_actual_top_10_percent": 0
+  },
+  "candidate_trajectory_control": {
+    "trajectories": 12000,
+    "actual_mean_anomaly_rate": 0.630283719824501,
+    "actual_minus_four_control_mean": -0.008153962030418984,
+    "fraction_with_positive_actual_excess": 0.4395833333333333,
+    "paths_with_any_anomaly_at_actual": 12000,
+    "paths_with_any_anomaly_at_every_control": 12000
+  },
+  "bto_arc_controls": {
+    "seventh_arc_post_crossing": {
+      "raw_clusters_minus_actual_plus": [704, 576, 598],
+      "residual_25km_minus_actual_plus": [61, 24, 43],
+      "residual_by_tolerance_km": {
+        "10": [279, 152, 183],
+        "25": [61, 24, 43],
+        "50": [8, 1, 4],
+        "100": [0, 0, 0]
+      }
+    },
+    "sixth_arc": {
+      "raw_clusters_minus_actual_plus": [419, 294, 238],
+      "residual_25km_minus_actual_plus": [73, 33, 18],
+      "residual_exact_sign_flip_two_sided_p": 0.3828125,
+      "residual_one_sided_excess_p": 0.830078125
+    },
+    "all_arc_residual_actual_to_control_mean": {
+      "restart_1825": 1.03859649122807,
+      "arc2_1941": 0.8688524590163934,
+      "arc3_2041": 0.562962962962963,
+      "arc4_2141": 0.9830508474576272,
+      "arc5_2241": 1.0829268292682928,
+      "arc6_0011": 0.5353159851301115,
+      "arc7_0019": 0.6416666666666667
+    }
+  },
+  "known_flight_controls": {
+    "epochs": 6,
+    "raw_clusters_minus_actual_plus": [28, 48, 72],
+    "raw_epoch_block_two_sided_p": 0.6875,
+    "residual_25km_minus_actual_plus": [19, 40, 60],
+    "residual_epoch_block_two_sided_p": 1.0,
+    "residuals_within_100km_of_truth": 0,
+    "nearest_residual_km_by_epoch": {
+      "mh371_0404": null,
+      "mh371_0611": 135.45093952533006,
+      "mh371_0648": 153.8486138250397,
+      "mh370_1642": 1049.006923171525,
+      "mh370_1656": 145.25763447509075,
+      "mh370_1707": 288.45405479569905
+    }
+  },
+  "seventh_arc_geometry": {
+    "pair_locations_across_three_panels": 24392,
+    "minor_segment_link_incidences": 0,
+    "nearest_transmitter_to_region_km": 4322.267454054509,
+    "nearest_receiver_to_region_km": 1613.999516429158,
+    "actual_cluster_nearest_own_endpoint_minimum_km": 4316.516465558848,
+    "actual_cluster_nearest_own_endpoint_median_km": 13700.472978188904,
+    "ten_km_geometric_horizon_km": 356.7264109400588
+  },
+  "retained_result_sha256": {
+    "authors_spreadsheet_audit": "08d2cadda24073e85d6f82c4c6b9d5f3431ff687b5749eec0ea469a92d005d54",
+    "candidate_trajectory_control": "6fed063c47f40ce2b9848246b8e44c786d549d14bc72ca8b74dadaf31f7ff3b6",
+    "blind_localization": "5465b7cd2871809818d3a20fbe17c4712e444cabb451bc7f4773246f63337b5f",
+    "seventh_arc": "c715c15d698b1c5f259a3a02e15d882f5760cf346d0b44c0308246aed87de428",
+    "sixth_arc": "5a65ab73d4ef5c43fabc08e84c6df8ac281870179082164eea07fcd4bf366f77",
+    "all_arcs": "3334ac827772668c5f1bf4bdce805920b591b9fdf7316ecfa2a47e9ebc040aac",
+    "known_flights": "c1140a4e9c82fb3eb235d45af030fb24275cf21d519dcfabbaae8084bb847b16"
+  },
+  "legacy_root": "/jackbox/home/.iso/thread-storage/MH370-legacy-pre-refactor-20260824/analyses",
+  "limitations": [
+    "Large-data scripts and outputs are retained in the legacy archive and identified by hash rather than copied into this lean bundle.",
+    "The reproduction does not contain the authors' private antenna database, Matlab source, exact PropLab build and saved settings, or unpublished selection logic.",
+    "Full-circle geometry is deliberately permissive and does not identify the realized ionospheric mode.",
+    "Control p-values are diagnostics because time slots and repeated radio links are dependent."
+  ]
+}

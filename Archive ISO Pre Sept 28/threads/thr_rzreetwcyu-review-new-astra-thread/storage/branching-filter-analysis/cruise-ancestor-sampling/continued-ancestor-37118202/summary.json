@@ -1,0 +1,34 @@
+{
+  "ancestor_sampling": true,
+  "block_input_changes": [
+    229,
+    47,
+    228,
+    170,
+    17
+  ],
+  "chain_sha256": "99ad7455aa2f21f99a35fa59d91425b47f562c70175d5c327258972d50135b30",
+  "code_sha256": "853cc1ba82e7e184933ca4715df5d83bae451318b49384949a90e662faeeddc7",
+  "elapsed_seconds": 113.409393662,
+  "executable_sha256": "a978cdd992171b0849ef3b6761475f9ace24a712085778daa2650ba24cb8d76b",
+  "fuel_condition_time_s": 22150.0,
+  "initial_input_changes": 229,
+  "inputs": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/ancestor-37118102/continuation-reference.json": "fa350ea85b8c65c63afefed85d0f9f756853d87b9ef7ffeb7f6e0a092e0b452f",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102101/resolved-config.json": "ee8f7eeef568b2dd123fbbdf07b9a32ee4843c0f03b11606987c2640b636c4c9",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/observations.csv": "d9607356782660ccc034d215607ef9979d99db8aa393c487d9693a42c4a99c42",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "iterations": 512,
+  "particles": 64,
+  "reference": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/ancestor-37118102/continuation-reference.json",
+  "scientific_source_sha256": "ac41c09e8d4a645a7608e432ebcfd5186727fe07fa7d738b35b9eb57cefe6645",
+  "scope": "A conditional path Markov-chain control through the selected original observation block. All full-suffix factors retained. Chain states are dependent, not independent flights or an evidence estimate. Original physical priors and observations unchanged; no generating truth used.",
+  "seed": 37118202,
+  "selected_path_exact_replay_checks": 513,
+  "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-recovery/seed-37092100/inference-seed-37102101",
+  "status": "completed",
+  "through_block": 4
+}

@@ -1,0 +1,172 @@
+{
+  "status": "completed",
+  "started_utc": "2026-09-09T20:34:52.502191+00:00",
+  "pid": 346413,
+  "configuration": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/flight-drift-selected-terminal-traces.json",
+  "configuration_sha256": "4dc57864f4368ffb20e10b4f20799980126c6b126e4d670b38182b2fcf823b17",
+  "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/flight-drift-selected-terminal-traces",
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-extended-weather-executable",
+  "executable_sha256": "cc0c009fe89166e789da419f0d5739494d1897e92f5e294eb89eaa09bdde79bf",
+  "selected_records": 8,
+  "new_initial_candidates": 0,
+  "numerical_workers": 1,
+  "finished_utc": "2026-09-09T20:42:37.338248+00:00",
+  "verification": {
+    "checked_utc": "2026-09-09T20:42:37.338248+00:00",
+    "status": "passed",
+    "exact_original_physical_records_matched": 8,
+    "source_continuations_sha256": "cd63c75b237d766263fbe64e5ca2b3187353bbc01fbe6046e6a488ca744ac98e",
+    "selected_continuations_sha256": "429f4cfd1502f8b252c3c9d517917244c9eda11b91655717408cdb4d411e9750",
+    "additional_trace_metadata": [
+      {
+        "identity": [
+          0,
+          306,
+          "openap26-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          57,
+          0,
+          0
+        ],
+        "trace_states": 58
+      },
+      {
+        "identity": [
+          0,
+          472,
+          "openap2020-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          111,
+          2,
+          0
+        ],
+        "trace_states": 112
+      },
+      {
+        "identity": [
+          0,
+          952,
+          "openap26-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          51,
+          1,
+          0
+        ],
+        "trace_states": 52
+      },
+      {
+        "identity": [
+          1,
+          867,
+          "openap2020-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          77,
+          0,
+          0
+        ],
+        "trace_states": 78
+      },
+      {
+        "identity": [
+          3,
+          855,
+          "openap26-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          91,
+          1,
+          0
+        ],
+        "trace_states": 92
+      },
+      {
+        "identity": [
+          3,
+          970,
+          "openap2020-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          75,
+          0,
+          0
+        ],
+        "trace_states": 76
+      },
+      {
+        "identity": [
+          3,
+          971,
+          "openap2020-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          53,
+          1,
+          0
+        ],
+        "trace_states": 54
+      },
+      {
+        "identity": [
+          5,
+          733,
+          "openap26-positive-lift-3-targets"
+        ],
+        "additional_atmosphere_lookups": [
+          60,
+          1,
+          0
+        ],
+        "trace_states": 61
+      }
+    ],
+    "cruise_endpoint_differences_lat_deg_lon_deg_alt_ft": [
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        -1.4210854715202004e-14,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        -1.4210854715202004e-14,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ],
+      [
+        0.0,
+        0.0,
+        0.0
+      ]
+    ],
+    "elapsed_seconds": 12.304841516990564,
+    "scope": "All original physical, contact, fuel and weight fields match exactly. Trace logging adds atmosphere lookups and path samples. Cruise-prefix differences are checked serialization roundoff; no posterior weights changed."
+  },
+  "elapsed_seconds": 31.18861605
+}

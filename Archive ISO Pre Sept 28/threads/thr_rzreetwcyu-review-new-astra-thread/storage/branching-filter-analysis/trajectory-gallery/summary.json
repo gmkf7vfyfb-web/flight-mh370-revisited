@@ -1,0 +1,774 @@
+{
+  "generated_utc": "2026-09-09T10:30:58.746051+00:00",
+  "source_runs": [
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091631",
+      "seed": 37091631,
+      "examples": 33,
+      "exact_contact_state_checks": 264,
+      "trajectory_sha256": "938ff7ca558ba2231720d6e4119acb8abe1ecc94d537d9444694008017e07c3d",
+      "original_posterior_sha256": "649751ed6ac239656c7fc0ba70c1d46c91425b009fe2ba696b4c5bb7832b70b7"
+    },
+    {
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091640",
+      "seed": 37091640,
+      "examples": 33,
+      "exact_contact_state_checks": 264,
+      "trajectory_sha256": "d9ef8707df6949e42fad4f2e79f66906757f77ce190ec701834282b5559a828f",
+      "original_posterior_sha256": "6fa74bf2456517e9328ffe05e44d2b6dc04a3b517f66dfafb9c8f59dc84260c1"
+    }
+  ],
+  "pooled_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/pooled-arc-density/summary.json",
+  "pooled_summary_sha256": "5219ff7d6379913418ad6a302fd32c9f2ad8efb865f4239e3990e04e1dc870d8",
+  "source_sha256": "519c291ef2e322af64d0e40d98bd8546eb8b798392055fa710d707560bd6e0e7",
+  "initial_candidates": 1020000,
+  "bins": [
+    {
+      "latitude_bin_center_deg": -40.0,
+      "pooled_bin_probability": 3.0787479924881494e-05,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 34128,
+          "label": "31:34128 \u00b7 CTT \u00b7 2/0/0",
+          "source_run_weight": 7.179653042660348e-09,
+          "source_bin_probability": 8.242738233044634e-09,
+          "max_abs_bto_residual_sd": 2.7822402075479,
+          "max_abs_bfo_residual_sd": 1.4955838994732338,
+          "bfo_bias_mean_hz": 149.62889989402606
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 34021,
+          "label": "31:34021 \u00b7 CTT \u00b7 2/0/0",
+          "source_run_weight": 1.0494878976753921e-09,
+          "source_bin_probability": 8.242738233044634e-09,
+          "max_abs_bto_residual_sd": 3.3072024074358994,
+          "max_abs_bfo_residual_sd": 1.5634094845100444,
+          "bfo_bias_mean_hz": 149.60527063564714
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 34056,
+          "label": "31:34056 \u00b7 CTT \u00b7 2/0/0",
+          "source_run_weight": 1.3545108857061455e-11,
+          "source_bin_probability": 8.242738233044634e-09,
+          "max_abs_bto_residual_sd": 4.89487599138299,
+          "max_abs_bfo_residual_sd": 1.5563844315640227,
+          "bfo_bias_mean_hz": 149.60255378235686
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 79734,
+          "label": "40:79734 \u00b7 LNAV \u00b7 1/0/2",
+          "source_run_weight": 1.0893938236685737e-06,
+          "source_bin_probability": 1.102361020341456e-06,
+          "max_abs_bto_residual_sd": 1.9253096915801569,
+          "max_abs_bfo_residual_sd": 1.5929914140248715,
+          "bfo_bias_mean_hz": 149.81983996289875
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 73854,
+          "label": "40:73854 \u00b7 LNAV \u00b7 1/0/0",
+          "source_run_weight": 9.533017948617718e-09,
+          "source_bin_probability": 1.102361020341456e-06,
+          "max_abs_bto_residual_sd": 3.6846780294596604,
+          "max_abs_bfo_residual_sd": 1.5977508348667138,
+          "bfo_bias_mean_hz": 149.98916082749585
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 73846,
+          "label": "40:73846 \u00b7 LNAV \u00b7 1/0/0",
+          "source_run_weight": 3.4317317768651573e-09,
+          "source_bin_probability": 1.102361020341456e-06,
+          "max_abs_bto_residual_sd": 3.968049902346483,
+          "max_abs_bfo_residual_sd": 1.5308090819354447,
+          "bfo_bias_mean_hz": 150.00092635431974
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -37.5,
+      "pooled_bin_probability": 0.7033700070488629,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 78869,
+          "label": "31:78869 \u00b7 LNAV \u00b7 1/2/0",
+          "source_run_weight": 0.0006045970159747164,
+          "source_bin_probability": 0.7950196856416708,
+          "max_abs_bto_residual_sd": 1.1565419947307012,
+          "max_abs_bfo_residual_sd": 1.251920148037836,
+          "bfo_bias_mean_hz": 150.18122012262228
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 70032,
+          "label": "31:70032 \u00b7 LNAV \u00b7 1/2/2",
+          "source_run_weight": 0.0005652214229712478,
+          "source_bin_probability": 0.7950196856416708,
+          "max_abs_bto_residual_sd": 1.500669390310389,
+          "max_abs_bfo_residual_sd": 1.320567302237882,
+          "bfo_bias_mean_hz": 150.54380257466048
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 69660,
+          "label": "31:69660 \u00b7 LNAV \u00b7 1/0/0",
+          "source_run_weight": 0.000676851818200104,
+          "source_bin_probability": 0.7950196856416708,
+          "max_abs_bto_residual_sd": 1.4213175763243584,
+          "max_abs_bfo_residual_sd": 1.2592811473073806,
+          "bfo_bias_mean_hz": 150.45192183628123
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 39252,
+          "label": "40:39252 \u00b7 CTT \u00b7 1/0/1",
+          "source_run_weight": 0.006406396769638229,
+          "source_bin_probability": 0.734565241846272,
+          "max_abs_bto_residual_sd": 1.0447818867918426,
+          "max_abs_bfo_residual_sd": 1.3068922436646102,
+          "bfo_bias_mean_hz": 150.29770131818694
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 39288,
+          "label": "40:39288 \u00b7 CTT \u00b7 1/0/2",
+          "source_run_weight": 0.009018875270007158,
+          "source_bin_probability": 0.734565241846272,
+          "max_abs_bto_residual_sd": 1.571723131942643,
+          "max_abs_bfo_residual_sd": 1.2695604327644219,
+          "bfo_bias_mean_hz": 150.38503765245463
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 82519,
+          "label": "40:82519 \u00b7 LNAV \u00b7 1/0/0",
+          "source_run_weight": 0.00011615212371716849,
+          "source_bin_probability": 0.734565241846272,
+          "max_abs_bto_residual_sd": 1.711866105541362,
+          "max_abs_bfo_residual_sd": 1.1757672751839112,
+          "bfo_bias_mean_hz": 150.10913058985807
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -35.0,
+      "pooled_bin_probability": 0.22501576489851532,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 67748,
+          "label": "31:67748 \u00b7 CMT \u00b7 2/2/0",
+          "source_run_weight": 0.0012325530491346113,
+          "source_bin_probability": 0.17562742945101836,
+          "max_abs_bto_residual_sd": 1.0507522834332435,
+          "max_abs_bfo_residual_sd": 1.207060100973767,
+          "bfo_bias_mean_hz": 149.9318615565892
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 38786,
+          "label": "31:38786 \u00b7 CTT \u00b7 1/0/1",
+          "source_run_weight": 0.0018166515993613274,
+          "source_bin_probability": 0.17562742945101836,
+          "max_abs_bto_residual_sd": 2.0916631248466477,
+          "max_abs_bfo_residual_sd": 1.1392983098832912,
+          "bfo_bias_mean_hz": 150.47829116565373
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 45698,
+          "label": "31:45698 \u00b7 CTT \u00b7 1/1/1",
+          "source_run_weight": 0.0005530737696170171,
+          "source_bin_probability": 0.17562742945101836,
+          "max_abs_bto_residual_sd": 1.4397156188858609,
+          "max_abs_bfo_residual_sd": 1.177587154067181,
+          "bfo_bias_mean_hz": 150.49911517228233
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 52422,
+          "label": "40:52422 \u00b7 CMT \u00b7 2/0/2",
+          "source_run_weight": 0.0012211777713883269,
+          "source_bin_probability": 0.22411270537261288,
+          "max_abs_bto_residual_sd": 1.6349813214619644,
+          "max_abs_bfo_residual_sd": 1.2370023864608177,
+          "bfo_bias_mean_hz": 150.06429573054203
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 50706,
+          "label": "40:50706 \u00b7 CTT \u00b7 2/2/2",
+          "source_run_weight": 0.0005104351363124074,
+          "source_bin_probability": 0.22411270537261288,
+          "max_abs_bto_residual_sd": 1.7433002985720845,
+          "max_abs_bfo_residual_sd": 1.289764876968649,
+          "bfo_bias_mean_hz": 148.62455038316185
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 64696,
+          "label": "40:64696 \u00b7 CMT \u00b7 2/2/2",
+          "source_run_weight": 0.003008921767259495,
+          "source_bin_probability": 0.22411270537261288,
+          "max_abs_bto_residual_sd": 0.5856905938186362,
+          "max_abs_bfo_residual_sd": 1.33802257541432,
+          "bfo_bias_mean_hz": 149.5883373252527
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -32.5,
+      "pooled_bin_probability": 0.057628377998095476,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 74009,
+          "label": "31:74009 \u00b7 LNAV \u00b7 2/1/2",
+          "source_run_weight": 0.0011948646829067937,
+          "source_bin_probability": 0.013643174486456845,
+          "max_abs_bto_residual_sd": 1.2428086986082831,
+          "max_abs_bfo_residual_sd": 1.7799510437445545,
+          "bfo_bias_mean_hz": 148.87273271438724
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 72042,
+          "label": "31:72042 \u00b7 LNAV \u00b7 4/2/2",
+          "source_run_weight": 0.0002483582133911576,
+          "source_bin_probability": 0.013643174486456845,
+          "max_abs_bto_residual_sd": 0.8026947554357446,
+          "max_abs_bfo_residual_sd": 0.6140498826139223,
+          "bfo_bias_mean_hz": 150.68503156332426
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 72040,
+          "label": "31:72040 \u00b7 LNAV \u00b7 4/2/1",
+          "source_run_weight": 6.634865420853627e-05,
+          "source_bin_probability": 0.013643174486456845,
+          "max_abs_bto_residual_sd": 1.826959334157311,
+          "max_abs_bfo_residual_sd": 0.5639208523246972,
+          "bfo_bias_mean_hz": 150.74317243563155
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 71254,
+          "label": "40:71254 \u00b7 LNAV \u00b7 3/0/1",
+          "source_run_weight": 4.274981605637114e-05,
+          "source_bin_probability": 0.02930992696362775,
+          "max_abs_bto_residual_sd": 1.268946743192922,
+          "max_abs_bfo_residual_sd": 1.2408758569553657,
+          "bfo_bias_mean_hz": 150.39644851672503
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 58331,
+          "label": "40:58331 \u00b7 CMT \u00b7 2/2/0",
+          "source_run_weight": 5.688894921452349e-06,
+          "source_bin_probability": 0.02930992696362775,
+          "max_abs_bto_residual_sd": 1.1817538075365832,
+          "max_abs_bfo_residual_sd": 2.135268363998644,
+          "bfo_bias_mean_hz": 148.23273552954134
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 5186,
+          "label": "40:5186 \u00b7 CTH \u00b7 2/0/0",
+          "source_run_weight": 4.331086669848147e-05,
+          "source_bin_probability": 0.02930992696362775,
+          "max_abs_bto_residual_sd": 1.6123598517693483,
+          "max_abs_bfo_residual_sd": 2.0463127292977794,
+          "bfo_bias_mean_hz": 148.21795230728475
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -30.0,
+      "pooled_bin_probability": 0.006964265548978671,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 59520,
+          "label": "31:59520 \u00b7 CMT \u00b7 2/0/2",
+          "source_run_weight": 9.363347716762195e-05,
+          "source_bin_probability": 0.00976954039080949,
+          "max_abs_bto_residual_sd": 1.801883829894058,
+          "max_abs_bfo_residual_sd": 1.4395559560754683,
+          "bfo_bias_mean_hz": 149.13741747023394
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 9319,
+          "label": "31:9319 \u00b7 CTH \u00b7 3/2/2",
+          "source_run_weight": 9.16637493686862e-05,
+          "source_bin_probability": 0.00976954039080949,
+          "max_abs_bto_residual_sd": 1.6763781409947491,
+          "max_abs_bfo_residual_sd": 1.5836321373551445,
+          "bfo_bias_mean_hz": 148.35985169270066
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 60015,
+          "label": "31:60015 \u00b7 CMT \u00b7 2/2/2",
+          "source_run_weight": 0.00011119731755363527,
+          "source_bin_probability": 0.00976954039080949,
+          "max_abs_bto_residual_sd": 1.2646514791051922,
+          "max_abs_bfo_residual_sd": 1.6348388581796078,
+          "bfo_bias_mean_hz": 149.12583475216633
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 37722,
+          "label": "40:37722 \u00b7 CTT \u00b7 2/2/2",
+          "source_run_weight": 3.085049690097541e-06,
+          "source_bin_probability": 0.0051996409067572085,
+          "max_abs_bto_residual_sd": 2.0598777338284355,
+          "max_abs_bfo_residual_sd": 1.458132623971088,
+          "bfo_bias_mean_hz": 149.23691534642393
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 6545,
+          "label": "40:6545 \u00b7 CTH \u00b7 2/2/2",
+          "source_run_weight": 7.317548717219958e-05,
+          "source_bin_probability": 0.0051996409067572085,
+          "max_abs_bto_residual_sd": 1.2555743759791045,
+          "max_abs_bfo_residual_sd": 1.4784989388747118,
+          "bfo_bias_mean_hz": 148.44048401198836
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 61923,
+          "label": "40:61923 \u00b7 CMT \u00b7 2/0/2",
+          "source_run_weight": 0.0001990346777223492,
+          "source_bin_probability": 0.0051996409067572085,
+          "max_abs_bto_residual_sd": 1.901110221344801,
+          "max_abs_bfo_residual_sd": 1.5228387170675473,
+          "bfo_bias_mean_hz": 149.74704351718012
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -27.5,
+      "pooled_bin_probability": 0.005210277165816183,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 64900,
+          "label": "31:64900 \u00b7 CMT \u00b7 2/2/2",
+          "source_run_weight": 5.318276375139375e-06,
+          "source_bin_probability": 0.0044880876414108185,
+          "max_abs_bto_residual_sd": 1.0898264622705154,
+          "max_abs_bfo_residual_sd": 1.1667842258288121,
+          "bfo_bias_mean_hz": 149.4944761290599
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 21680,
+          "label": "31:21680 \u00b7 CMH \u00b7 2/2/2",
+          "source_run_weight": 1.7814720176414387e-05,
+          "source_bin_probability": 0.0044880876414108185,
+          "max_abs_bto_residual_sd": 1.1179395538116483,
+          "max_abs_bfo_residual_sd": 1.510261522598191,
+          "bfo_bias_mean_hz": 149.2565015052123
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 64351,
+          "label": "31:64351 \u00b7 CMT \u00b7 2/2/0",
+          "source_run_weight": 2.3241507470399046e-05,
+          "source_bin_probability": 0.0044880876414108185,
+          "max_abs_bto_residual_sd": 1.2918307145471395,
+          "max_abs_bfo_residual_sd": 1.0868518263616929,
+          "bfo_bias_mean_hz": 149.7368939735174
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 65291,
+          "label": "40:65291 \u00b7 CMT \u00b7 4/0/0",
+          "source_run_weight": 0.001021717037659198,
+          "source_bin_probability": 0.005711368755761406,
+          "max_abs_bto_residual_sd": 1.0851919061448103,
+          "max_abs_bfo_residual_sd": 0.7248056977017784,
+          "bfo_bias_mean_hz": 150.96145560789012
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 26197,
+          "label": "40:26197 \u00b7 CMH \u00b7 2/2/2",
+          "source_run_weight": 4.3051114389107634e-05,
+          "source_bin_probability": 0.005711368755761406,
+          "max_abs_bto_residual_sd": 1.7668714630417526,
+          "max_abs_bfo_residual_sd": 0.9990918418365433,
+          "bfo_bias_mean_hz": 149.00548257584012
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 83525,
+          "label": "40:83525 \u00b7 LNAV \u00b7 2/0/2",
+          "source_run_weight": 9.424927560860722e-05,
+          "source_bin_probability": 0.005711368755761406,
+          "max_abs_bto_residual_sd": 2.3619538631816073,
+          "max_abs_bfo_residual_sd": 1.1352793045219545,
+          "bfo_bias_mean_hz": 148.915056725039
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -25.0,
+      "pooled_bin_probability": 0.0016959205610652338,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 25148,
+          "label": "31:25148 \u00b7 CMH \u00b7 2/2/2",
+          "source_run_weight": 3.530324715213974e-05,
+          "source_bin_probability": 0.0013084310358506912,
+          "max_abs_bto_residual_sd": 2.052796531982463,
+          "max_abs_bfo_residual_sd": 0.7873770153236664,
+          "bfo_bias_mean_hz": 150.06952406272134
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 63399,
+          "label": "31:63399 \u00b7 CMT \u00b7 2/2/2",
+          "source_run_weight": 3.254588142456376e-05,
+          "source_bin_probability": 0.0013084310358506912,
+          "max_abs_bto_residual_sd": 0.9889391558084252,
+          "max_abs_bfo_residual_sd": 0.9215962070282119,
+          "bfo_bias_mean_hz": 149.97227225255835
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 27448,
+          "label": "31:27448 \u00b7 CMH \u00b7 2/2/2",
+          "source_run_weight": 0.0001272460016268271,
+          "source_bin_probability": 0.0013084310358506912,
+          "max_abs_bto_residual_sd": 1.6819071912042123,
+          "max_abs_bfo_residual_sd": 0.7478586772381642,
+          "bfo_bias_mean_hz": 149.44259859396126
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 15109,
+          "label": "40:15109 \u00b7 CTH \u00b7 2/2/1",
+          "source_run_weight": 1.816384213568089e-05,
+          "source_bin_probability": 0.001079058760888371,
+          "max_abs_bto_residual_sd": 2.2930359264016795,
+          "max_abs_bfo_residual_sd": 0.9395454777333734,
+          "bfo_bias_mean_hz": 149.43873569719207
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 19989,
+          "label": "40:19989 \u00b7 CMH \u00b7 3/2/2",
+          "source_run_weight": 4.3764929689053684e-05,
+          "source_bin_probability": 0.001079058760888371,
+          "max_abs_bto_residual_sd": 1.0872254045258662,
+          "max_abs_bfo_residual_sd": 0.9493498708692982,
+          "bfo_bias_mean_hz": 149.69492752529789
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 57216,
+          "label": "40:57216 \u00b7 CMT \u00b7 3/2/2",
+          "source_run_weight": 0.0001155628280667973,
+          "source_bin_probability": 0.001079058760888371,
+          "max_abs_bto_residual_sd": 1.8212962358796583,
+          "max_abs_bfo_residual_sd": 0.8587847821340802,
+          "bfo_bias_mean_hz": 150.00318971777216
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -22.5,
+      "pooled_bin_probability": 4.3961383921069674e-05,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 31625,
+          "label": "31:31625 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 1.3887847145998056e-05,
+          "source_bin_probability": 0.00010060676649912004,
+          "max_abs_bto_residual_sd": 1.3706625140741757,
+          "max_abs_bfo_residual_sd": 1.053739679562349,
+          "bfo_bias_mean_hz": 148.78830297586694
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 31627,
+          "label": "31:31627 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 6.697843056104528e-05,
+          "source_bin_probability": 0.00010060676649912004,
+          "max_abs_bto_residual_sd": 1.1749340135439557,
+          "max_abs_bfo_residual_sd": 1.0288876915793383,
+          "bfo_bias_mean_hz": 148.58781081158367
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 60173,
+          "label": "31:60173 \u00b7 CMT \u00b7 4/2/2",
+          "source_run_weight": 8.288013927228437e-06,
+          "source_bin_probability": 0.00010060676649912004,
+          "max_abs_bto_residual_sd": 1.883515958648159,
+          "max_abs_bfo_residual_sd": 1.0555672807877516,
+          "bfo_bias_mean_hz": 149.93639731664925
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 26853,
+          "label": "40:26853 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 9.15273215225694e-06,
+          "source_bin_probability": 1.9918677150713802e-05,
+          "max_abs_bto_residual_sd": 1.4155191911087404,
+          "max_abs_bfo_residual_sd": 1.2367527594217296,
+          "bfo_bias_mean_hz": 149.19785603580274
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 29924,
+          "label": "40:29924 \u00b7 CMH \u00b7 4/1/0",
+          "source_run_weight": 5.372056789715304e-06,
+          "source_bin_probability": 1.9918677150713802e-05,
+          "max_abs_bto_residual_sd": 3.1887048777064373,
+          "max_abs_bfo_residual_sd": 0.9560182126043019,
+          "bfo_bias_mean_hz": 151.26635992792302
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 22595,
+          "label": "40:22595 \u00b7 CMH \u00b7 3/2/1",
+          "source_run_weight": 2.1974057607467075e-06,
+          "source_bin_probability": 1.9918677150713802e-05,
+          "max_abs_bto_residual_sd": 1.6864131444659693,
+          "max_abs_bfo_residual_sd": 2.759195232871824,
+          "bfo_bias_mean_hz": 147.8515139415279
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -20.0,
+      "pooled_bin_probability": 3.4028942850953645e-06,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 31518,
+          "label": "31:31518 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 3.183997820326117e-06,
+          "source_bin_probability": 5.381752137940022e-06,
+          "max_abs_bto_residual_sd": 3.0499085485955284,
+          "max_abs_bfo_residual_sd": 0.7535927316204395,
+          "bfo_bias_mean_hz": 150.51487553129596
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 21735,
+          "label": "31:21735 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 3.1311267756000546e-07,
+          "source_bin_probability": 5.381752137940022e-06,
+          "max_abs_bto_residual_sd": 1.1185581422137931,
+          "max_abs_bfo_residual_sd": 1.3014153820123795,
+          "bfo_bias_mean_hz": 148.71843782169836
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 21427,
+          "label": "31:21427 \u00b7 CMH \u00b7 2/2/2",
+          "source_run_weight": 1.0753401652085458e-07,
+          "source_bin_probability": 5.381752137940022e-06,
+          "max_abs_bto_residual_sd": 0.910827636897434,
+          "max_abs_bfo_residual_sd": 3.7312296658864597,
+          "bfo_bias_mean_hz": 148.26306125613777
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 23411,
+          "label": "40:23411 \u00b7 CMH \u00b7 3/2/0",
+          "source_run_weight": 1.0189389907735058e-08,
+          "source_bin_probability": 7.500582041833874e-07,
+          "max_abs_bto_residual_sd": 1.0587582808200688,
+          "max_abs_bfo_residual_sd": 3.589962233264359,
+          "bfo_bias_mean_hz": 148.10098433465706
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 23788,
+          "label": "40:23788 \u00b7 CMH \u00b7 3/2/1",
+          "source_run_weight": 2.2711477850434245e-08,
+          "source_bin_probability": 7.500582041833874e-07,
+          "max_abs_bto_residual_sd": 1.4939630270658606,
+          "max_abs_bfo_residual_sd": 3.3252218386159984,
+          "bfo_bias_mean_hz": 147.7656227543893
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 29291,
+          "label": "40:29291 \u00b7 CMH \u00b7 3/2/2",
+          "source_run_weight": 1.1773082400956957e-09,
+          "source_bin_probability": 7.500582041833874e-07,
+          "max_abs_bto_residual_sd": 1.5151597495704632,
+          "max_abs_bfo_residual_sd": 3.8548947996869845,
+          "bfo_bias_mean_hz": 147.96518445474024
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -17.5,
+      "pooled_bin_probability": 3.094799172522533e-05,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 50568,
+          "label": "31:50568 \u00b7 CTT \u00b7 4/2/2",
+          "source_run_weight": 7.549338777786359e-06,
+          "source_bin_probability": 7.659662481528933e-06,
+          "max_abs_bto_residual_sd": 1.596868673389665,
+          "max_abs_bfo_residual_sd": 1.241161065486937,
+          "bfo_bias_mean_hz": 149.30877211268242
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 31515,
+          "label": "31:31515 \u00b7 CMH \u00b7 4/2/1",
+          "source_run_weight": 1.0884676994226541e-07,
+          "source_bin_probability": 7.659662481528933e-06,
+          "max_abs_bto_residual_sd": 1.1749340135439557,
+          "max_abs_bfo_residual_sd": 4.006826579446582,
+          "bfo_bias_mean_hz": 148.44830048352662
+        },
+        {
+          "seed": 37091631,
+          "terminal_slot": 72151,
+          "label": "31:72151 \u00b7 LNAV \u00b7 4/2/2",
+          "source_run_weight": 7.74240044049073e-10,
+          "source_bin_probability": 7.659662481528933e-06,
+          "max_abs_bto_residual_sd": 1.907598227860631,
+          "max_abs_bfo_residual_sd": 3.7081001669292255,
+          "bfo_bias_mean_hz": 147.7255219525344
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 19043,
+          "label": "40:19043 \u00b7 CMH \u00b7 2/2/2",
+          "source_run_weight": 3.730376129578286e-08,
+          "source_bin_probability": 8.852133616077513e-08,
+          "max_abs_bto_residual_sd": 2.553730695731215,
+          "max_abs_bfo_residual_sd": 3.688645853866833,
+          "bfo_bias_mean_hz": 147.82380371153792
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 32584,
+          "label": "40:32584 \u00b7 CMH \u00b7 3/2/2",
+          "source_run_weight": 5.009058310077727e-08,
+          "source_bin_probability": 8.852133616077513e-08,
+          "max_abs_bto_residual_sd": 1.4566719544256619,
+          "max_abs_bfo_residual_sd": 3.659142588292109,
+          "bfo_bias_mean_hz": 147.45597545743686
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 27149,
+          "label": "40:27149 \u00b7 CMH \u00b7 4/2/0",
+          "source_run_weight": 1.0988551062196717e-09,
+          "source_bin_probability": 8.852133616077513e-08,
+          "max_abs_bto_residual_sd": 3.4397745134413307,
+          "max_abs_bfo_residual_sd": 1.0195215639966437,
+          "bfo_bias_mean_hz": 149.10626087373953
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -15.0,
+      "pooled_bin_probability": 2.8244200977130632e-06,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 31570,
+          "label": "31:31570 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 8.770115136978485e-10,
+          "source_bin_probability": 8.770115136978485e-10,
+          "max_abs_bto_residual_sd": 2.9675866757491445,
+          "max_abs_bfo_residual_sd": 3.825492941433763,
+          "bfo_bias_mean_hz": 147.25018308300656
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -12.5,
+      "pooled_bin_probability": 3.253819386706101e-06,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 24567,
+          "label": "31:24567 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 2.9993476740151414e-05,
+          "source_bin_probability": 2.9993476740151414e-05,
+          "max_abs_bto_residual_sd": 1.4297318070593033,
+          "max_abs_bfo_residual_sd": 0.763361287209323,
+          "bfo_bias_mean_hz": 151.98660117189613
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 48048,
+          "label": "40:48048 \u00b7 CTT \u00b7 4/0/2",
+          "source_run_weight": 1.812874328345836e-07,
+          "source_bin_probability": 1.9777636562738993e-07,
+          "max_abs_bto_residual_sd": 3.090716846983735,
+          "max_abs_bfo_residual_sd": 0.8971781299153138,
+          "bfo_bias_mean_hz": 151.16911680901723
+        },
+        {
+          "seed": 37091640,
+          "terminal_slot": 76180,
+          "label": "40:76180 \u00b7 LNAV \u00b7 4/2/2",
+          "source_run_weight": 1.6488932792806313e-08,
+          "source_bin_probability": 1.9777636562738993e-07,
+          "max_abs_bto_residual_sd": 1.9947738643707547,
+          "max_abs_bfo_residual_sd": 3.8277951116772835,
+          "bfo_bias_mean_hz": 148.41650329677955
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -10.0,
+      "pooled_bin_probability": 2.0873593613094074e-07,
+      "examples": [
+        {
+          "seed": 37091640,
+          "terminal_slot": 22810,
+          "label": "40:22810 \u00b7 CMH \u00b7 2/2/2",
+          "source_run_weight": 1.802272590771472e-14,
+          "source_bin_probability": 1.802272590771472e-14,
+          "max_abs_bto_residual_sd": 5.4625276092957735,
+          "max_abs_bfo_residual_sd": 3.4036761812944656,
+          "bfo_bias_mean_hz": 147.64035759611028
+        }
+      ]
+    },
+    {
+      "latitude_bin_center_deg": -7.5,
+      "pooled_bin_probability": 5.3374328843541065e-11,
+      "examples": [
+        {
+          "seed": 37091631,
+          "terminal_slot": 32656,
+          "label": "31:32656 \u00b7 CMH \u00b7 4/2/2",
+          "source_run_weight": 5.751688810543377e-10,
+          "source_bin_probability": 5.751688810543377e-10,
+          "max_abs_bto_residual_sd": 1.595704751472583,
+          "max_abs_bfo_residual_sd": 2.8792162406173367,
+          "bfo_bias_mean_hz": 147.31268122809468
+        }
+      ]
+    }
+  ],
+  "exact_history_count": 66,
+  "inline_bytes": 4696693,
+  "reproduction_command": "python /jackbox/home/MH370/crates/reporting/scripts/trajectory_examples_report.py --histories /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091631 /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/recovered-history-seed-37091640 --pooled-summary /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/pooled-arc-density/summary.json --output /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/trajectory-gallery --inline-output /jackbox/home/MH370/mh370-route-examples.html"
+}

@@ -1,0 +1,11 @@
+{
+  "purpose": "Model-consistent noisy synthetic flight, declared before recovery. Observation likelihood uses the generating forward equations, so this tests inference and plumbing, not independent physics. Truth is reserved for scoring; guide construction reads observations only. No exhaustion-time condition.",
+  "code_and_input_sha256": {
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/target/release/mh370": "88bdba22947b50a88d4cd5d1608c98c617654412c220ce1cd05a1a07d0be73eb",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/observations.csv": "d9bd1590a13c8bf1c856076e5481d3d6dceb80a25f85e278f8b9c3f70b0fe094",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/mh370-synthetic-command.toml": "84c4fb085e139c7b99a3971241af2daca881288c6a3ff30603161f3c56e27a52",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-command-control/withheld-truth.json": "9e16ebcdadf9e3ac193b1a3f77eab9a7e842330ad1087307d8805fadb281b936"
+  },
+  "seed": 37090840
+}

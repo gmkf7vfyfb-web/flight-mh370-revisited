@@ -1,0 +1,110 @@
+{
+  "observations": [
+    {
+      "id": "m0019a",
+      "time_utc": "2014-03-08T00:19:29.416Z",
+      "satellite_afc_hz": -37.8,
+      "measurement": {
+        "time": 22660.416,
+        "satellite_position_km": {
+          "x": 18182.02038,
+          "y": 38049.64962,
+          "z": 392.417794
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001584,
+          "y": -0.001634,
+          "z": -0.083208
+        },
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "bto": 18400.0,
+        "bto_sd": 63.0,
+        "bfo": 182.0,
+        "bfo_sd": 7.0
+      }
+    },
+    {
+      "id": "m0019b",
+      "time_utc": "2014-03-08T00:19:37.443Z",
+      "satellite_afc_hz": -37.8,
+      "measurement": {
+        "time": 22668.443,
+        "satellite_position_km": {
+          "x": 18182.03352,
+          "y": 38049.63631,
+          "z": 391.752122
+        },
+        "satellite_velocity_km_s": {
+          "x": 0.001583,
+          "y": -0.001635,
+          "z": -0.083225
+        },
+        "ground_station_position_km": {
+          "x": -2368.8,
+          "y": 4881.1,
+          "z": -3342.0
+        },
+        "bto": null,
+        "bto_sd": null,
+        "bfo": -2.0,
+        "bfo_sd": 7.0
+      }
+    }
+  ],
+  "ephemeris_reference_times_s": [
+    22660.0,
+    22668.0
+  ],
+  "provenance": {
+    "source": {
+      "schema_version": 1,
+      "source": {
+        "title": "Inmarsat / DCA Signalling Unit Log for 9M-MRO, December 2014 update",
+        "url": "https://www.atsb.gov.au/sites/default/files/media/5772619/public_mh370-data-communication-logs.pdf",
+        "locator": "PDF page 41, R600 log-on request and final R1200 acknowledgment rows; page 1 gives the 4,600 microsecond R600 correction",
+        "verified_utc": "2026-09-08",
+        "retrieval_note": "ATSB-hosted PDF and page-41 text retrieved with the browser. Direct binary download timed out; no PDF hash is claimed.",
+        "independent_retained_extract_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "extract_note": "The previously retained unredacted-log extraction agrees with both recorded times, BFOs and raw BTOs. Product code does not load that source recreation."
+      },
+      "time_basis": "UTC timestamps recorded at the ground station, used as the declared SATCOM state epochs; subsecond timestamp resolution does not establish aircraft-state accuracy.",
+      "bursts": [
+        {
+          "epoch_id": "m0019a",
+          "recorded_time_utc": "2014-03-08T00:19:29.416Z",
+          "channel": "IOR-R600-0-36F8",
+          "raw_bto_us": 23000.0,
+          "observed_bfo_hz": 182.0,
+          "selection": "R600 BTO geometry is available with the separately declared correction and uncertainty; BFO startup treatment remains conditional."
+        },
+        {
+          "epoch_id": "m0019b",
+          "recorded_time_utc": "2014-03-08T00:19:37.443Z",
+          "channel": "IOR-R1200-0-36F6",
+          "raw_bto_us": 49660.0,
+          "observed_bfo_hz": -2.0,
+          "selection": "The anomalous R1200 BTO is not scored by this control. The BFO comparison retains an explicit startup/error condition."
+        }
+      ],
+      "model_choices": {
+        "r600_bto_correction_us": 4600.0,
+        "r600_bto_sd_us": 63.0,
+        "r600_sd_note": "Inherited declared observation uncertainty, not a value measured by the log.",
+        "satellite_fractional_epoch_model": "Constant-velocity ECEF propagation from the corresponding whole-second ephemeris; maximum absolute offset 1 second."
+      }
+    },
+    "files_sha256": {
+      "/jackbox/home/MH370/inputs/accident/final-satcom-bursts.json": "f9461f46bc46375d75036a9267a5b70e6c696dfe50694fee063025ef0e70346c",
+      "/jackbox/home/MH370/inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2",
+      "/jackbox/home/MH370/inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0"
+    },
+    "time_origin_utc": "2014-03-07T18:01:49+00:00",
+    "satellite_fractional_epoch": "Runner uses bounded constant-velocity ECEF propagation from the whole-second source epoch.",
+    "bfo_sd": "7 Hz inherited conditional likelihood; Holland startup offsets are handled in separately named cases, not changed measurements.",
+    "anomalous_r1200_bto": "Excluded: raw 49,660 microseconds has no ordinary channel-bias correction that is asserted here. Legacy 18,380 row is not consumed."
+  }
+}

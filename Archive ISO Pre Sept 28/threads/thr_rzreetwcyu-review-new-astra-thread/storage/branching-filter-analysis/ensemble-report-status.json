@@ -1,0 +1,53 @@
+{
+  "status": "completed",
+  "reporter_pid": 214860,
+  "updated_utc": "2026-09-09T10:08:25.440894+00:00",
+  "seeds": [
+    37091631,
+    37091632,
+    37091633,
+    37091634,
+    37091635,
+    37091636,
+    37091637,
+    37091638,
+    37091639,
+    37091640,
+    37091641,
+    37091642
+  ],
+  "command": [
+    "/tmp/mh370-acoustic-venv/bin/python",
+    "/jackbox/home/MH370/crates/reporting/scripts/arc_density_report.py",
+    "--runs",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091631",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091632",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091633",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091634",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091635",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091636",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091637",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091638",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091639",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091640",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091641",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/fuel-initial-proposal-85000-seed-37091642",
+    "--output",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/pooled-arc-density",
+    "--inline-output",
+    "/jackbox/home/MH370/mh370-report-preview.html",
+    "--baseline-runs",
+    "3",
+    "--extension-state",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/million-extension.json"
+  ],
+  "rendered_candidates": 1020000,
+  "regions": {
+    "south_of_35S": 0.874580627835261,
+    "between_35S_and_38S": 0.864556367435761,
+    "north_of_35S": 0.12541937216473897,
+    "north_of_30S": 0.01024562549173783,
+    "south_of_38S": 0.010024260399500062
+  },
+  "rendered_utc": "2026-09-09T10:08:03.178672+00:00"
+}

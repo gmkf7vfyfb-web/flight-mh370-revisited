@@ -1,0 +1,143 @@
+{
+  "schema": "mh370-cmems-full-domain-conversion-receipt-v1",
+  "converter": {
+    "path": ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+    "sha256": "976e36b6e6dd1eda4bb7d11e2f29e7c3cf9441b1983a802e27ca81dc7f859a5a",
+    "version": "ocean-input-preparation-v5"
+  },
+  "environment": {
+    "python": "3.14.7",
+    "numpy": "2.5.2",
+    "xarray": "2026.7.0",
+    "h5netcdf": "1.8.1"
+  },
+  "commands": [
+    [
+      ".venv/bin/python",
+      ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+      "--cmems-glorys12-manifest",
+      ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-full-domain-retrieval-manifest.json",
+      "--output",
+      "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted"
+    ],
+    [
+      ".venv/bin/python",
+      ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+      "--cmems-waverys-manifest",
+      ".sources/ocean-drift-input-preparation/outputs/cmems-waverys-full-domain-retrieval-manifest.json",
+      "--output",
+      "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted"
+    ],
+    [
+      ".venv/bin/python",
+      ".sources/ocean-drift-input-preparation/code/prepare_inputs.py",
+      "--combine-cmems-coast-support",
+      "--output",
+      "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted"
+    ]
+  ],
+  "retrievals": {
+    "currents": {
+      "product_id": "GLOBAL_MULTIYEAR_PHY_001_030",
+      "dataset_id": "cmems_mod_glo_phy_my_0.083deg_P1D-m",
+      "manifest_path": ".sources/ocean-drift-input-preparation/outputs/cmems-glorys12-full-domain-retrieval-manifest.json",
+      "manifest_sha256": "7e9261a1017d795e82a36220084496efe9122f973ba1d33e82d0f7dadb11fedb",
+      "aggregate_source_sha256": "9016b8b4bc9f532b37e4919b759017eb1453fcaf9e1db008ed7757647c0b502e",
+      "source_file_count": 35,
+      "source_bytes": 3721251223,
+      "time_count": 1062,
+      "time_basis": "daily fields labelled at 00:00 UTC",
+      "units": {
+        "uo": "m s-1 east",
+        "vo": "m s-1 north"
+      },
+      "spatial_bounds_degrees": {
+        "west": 0.0,
+        "east": 180.0,
+        "south": -55.0,
+        "north": 15.0
+      },
+      "period_utc": {
+        "start": "2014-03-07T00:00:00Z",
+        "end": "2017-01-31T00:00:00Z"
+      }
+    },
+    "stokes": {
+      "product_id": "GLOBAL_MULTIYEAR_WAV_001_032",
+      "dataset_id": "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+      "dataset_version": "202411",
+      "dataset_part": "default",
+      "manifest_path": ".sources/ocean-drift-input-preparation/outputs/cmems-waverys-full-domain-retrieval-manifest.json",
+      "manifest_sha256": "8328b876443ccbea92e77afc0967dba60922db82a189a0b110b69d66da527b43",
+      "aggregate_source_sha256": "6d88e6da3205a22a053f413ec41e81609aac5fe3b98bc129965d794dd6b9c5fb",
+      "source_file_count": 35,
+      "source_bytes": 1036618373,
+      "time_count": 8496,
+      "time_basis": "three-hourly instantaneous analyses on a Gregorian UTC axis",
+      "units": {
+        "VSDX": "m s-1 east surface Stokes",
+        "VSDY": "m s-1 north surface Stokes"
+      },
+      "spatial_bounds_degrees": {
+        "west": 0.0,
+        "east": 180.0,
+        "south": -55.0,
+        "north": 15.0
+      },
+      "period_utc": {
+        "start": "2014-03-07T00:00:00Z",
+        "end": "2017-01-31T21:00:00Z"
+      }
+    }
+  },
+  "outputs": {
+    "currents": {
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12.mhgrid",
+      "bytes": 7720352072,
+      "sha256": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+      "metadata_sha256": "61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3",
+      "packing_scale_m_s": 0.001,
+      "ordinary_missing_sentinel": -30000,
+      "persistent_land_sentinel": -29999,
+      "persistent_missing_cells": 365620,
+      "intermittently_missing_cells": 5418
+    },
+    "stokes": {
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-waverys-stokes.mhgrid",
+      "bytes": 10747552080,
+      "sha256": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+      "metadata_sha256": "d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6",
+      "packing_scale_m_s": 0.001,
+      "ordinary_missing_sentinel": -30000,
+      "persistent_land_sentinel": -29999,
+      "persistent_missing_cells": 62542,
+      "intermittently_or_component_missing_cells": 1136
+    },
+    "coastal_support": {
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-full-domain/converted/cmems-glorys12-waverys-coast.mhgrid",
+      "bytes": 14563288,
+      "sha256": "5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668",
+      "metadata_sha256": "886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f",
+      "grid_cells": 1817401,
+      "union_land_cells": 368406,
+      "interpretation": "union of persistent model-support masks; not a measured shoreline or calibrated beaching, retention, or refloating model"
+    }
+  },
+  "conversion_resources": {
+    "currents": {
+      "elapsed_wall_seconds": 165.088435,
+      "maximum_resident_set_kib": 151012
+    },
+    "stokes": {
+      "elapsed_wall_seconds": 790.426499,
+      "maximum_resident_set_kib": 87416
+    },
+    "coastal_support_union": {
+      "elapsed_wall_seconds": 0.2,
+      "elapsed_precision": "rounded to 0.1 second",
+      "maximum_resident_set_kib": 87736
+    }
+  },
+  "missing_data_policy": "No missing current or Stokes value is converted to zero. Only a cell missing in both components at every time is persistent coastal support. Intermittent or component-specific gaps remain ordinary missing coverage and terminate with that typed reason when sampled.",
+  "separation": "Currents and surface Stokes velocity are distinct fields. Direct windage and object-response uncertainty are not embedded in either field."
+}

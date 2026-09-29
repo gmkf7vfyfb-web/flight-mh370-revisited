@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mh370-raw-hydrophone-triad-v1",
+  "title": "MH370 raw hydrophone triad input",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_id",
+    "schema_version",
+    "station_id",
+    "station_position_wgs84",
+    "start_time_utc",
+    "sample_rate_hz",
+    "pressure_unit",
+    "sample_file",
+    "time_offset_column",
+    "channels",
+    "instrument_response_id",
+    "timing_correction_id"
+  ],
+  "properties": {
+    "schema_id": {"const": "mh370-raw-hydrophone-triad"},
+    "schema_version": {"const": 1},
+    "station_id": {"type": "string", "minLength": 1},
+    "station_position_wgs84": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["latitude_deg", "longitude_deg_e"],
+      "properties": {
+        "latitude_deg": {"type": "number", "minimum": -90, "maximum": 90},
+        "longitude_deg_e": {"type": "number", "minimum": -180, "exclusiveMaximum": 180}
+      }
+    },
+    "start_time_utc": {"type": "string", "format": "date-time"},
+    "sample_rate_hz": {"type": "number", "exclusiveMinimum": 0},
+    "pressure_unit": {"enum": ["pascal", "instrument_counts"]},
+    "sample_file": {"type": "string", "minLength": 1},
+    "time_offset_column": {"type": "string", "minLength": 1},
+    "instrument_response_id": {"type": "string", "minLength": 1},
+    "timing_correction_id": {"type": "string", "minLength": 1},
+    "channels": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "input_column", "local_east_m", "local_north_m", "local_up_m", "pascal_per_count"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1},
+          "input_column": {"type": "string", "minLength": 1},
+          "local_east_m": {"type": "number"},
+          "local_north_m": {"type": "number"},
+          "local_up_m": {"type": "number"},
+          "pascal_per_count": {"type": ["number", "null"], "exclusiveMinimum": 0}
+        }
+      }
+    }
+  }
+}

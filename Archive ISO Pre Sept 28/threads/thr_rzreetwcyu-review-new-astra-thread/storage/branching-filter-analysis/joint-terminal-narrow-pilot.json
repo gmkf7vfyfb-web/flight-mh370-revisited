@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "name": "joint-terminal-narrow-pilot",
+  "seed": 37092001,
+  "source_runs": [
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714"
+  ],
+  "draws_per_source": 256,
+  "threads": 4,
+  "minimum_draws_per_2p5_degree_latitude_bin": 4,
+  "powered_step_s": 1.0,
+  "final_contacts": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-final-contacts.json",
+  "kernel": {
+    "families": [
+      {
+        "name": "openap26-positive-lift-3-targets",
+        "aerodynamics": "openap_v2_6_0_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 3,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60.0,
+            60.0
+          ],
+          "change_time_bounds_s": [
+            10.0,
+            900.0
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.03125
+        }
+      },
+      {
+        "name": "openap2020-positive-lift-3-targets",
+        "aerodynamics": "openap_published2020_attached_flow",
+        "control": {
+          "kind": "rate_limited_targets",
+          "segments": 3,
+          "lift_coefficient_bounds": [
+            0.05,
+            1.2
+          ],
+          "bank_angle_bounds_deg": [
+            -60.0,
+            60.0
+          ],
+          "change_time_bounds_s": [
+            10.0,
+            900.0
+          ],
+          "maximum_lift_coefficient_rate_per_s": 0.05,
+          "maximum_roll_rate_deg_s": 3.0,
+          "step_s": 0.03125
+        }
+      }
+    ],
+    "environment": {
+      "minimum_pressure_altitude_ft": 500.0,
+      "maximum_pressure_altitude_ft": 60000.0,
+      "below_minimum_policy": "clamp_to_grid",
+      "above_maximum_policy": "reject"
+    },
+    "fallback_atmosphere": {
+      "nodes": [
+        {
+          "altitude": 0.0,
+          "density": 1.225,
+          "wind_north": 0.0,
+          "wind_east": 0.0
+        },
+        {
+          "altitude": 43000.0,
+          "density": 0.25,
+          "wind_north": 0.0,
+          "wind_east": 0.0
+        }
+      ]
+    },
+    "integration": {
+      "time_step": 0.03125,
+      "maximum_duration": 3600.0,
+      "sea_surface_altitude": 0.0,
+      "maximum_steps": 160000
+    },
+    "apu_start_policy": {
+      "mode": "disabled"
+    },
+    "apu_accessible_reserved_fuel_kg": 0.0
+  },
+  "terminal_weather": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-weather/grid.bin",
+  "control_proposal": {
+    "bank": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-proposal-bank.json",
+    "nearest_centres": 8,
+    "prior_fraction": 0.2,
+    "half_width": 0.03,
+    "context_scales": [
+      10000.0,
+      4000.0,
+      40.0,
+      3.0
+    ],
+    "joint_fuel": true
+  }
+}

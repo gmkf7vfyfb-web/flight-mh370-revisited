@@ -1,0 +1,1167 @@
+{
+  "array_shape_time_pressure_altitude_lat_lon": [
+    9,
+    12,
+    361,
+    721
+  ],
+  "binary_format": {
+    "array_memory_order": "C; longitude varies fastest",
+    "axis_order": [
+      "time",
+      "pressure_altitude",
+      "latitude",
+      "longitude"
+    ],
+    "axis_types": [
+      "int64_unix_seconds",
+      "float32",
+      "float32",
+      "float32"
+    ],
+    "byte_order": "little_endian",
+    "field_type": "float32",
+    "longitude_seam": "+180 degree column exactly duplicates -180 degrees",
+    "magic": "MHERA5V1"
+  },
+  "density_derivation_contract": {
+    "dry_air_gas_constant_j_kg_k": 287.05287,
+    "formula": "rho_kg_m3 = target_pressure_hpa * 100 / (R_d * temperature_k)",
+    "humidity": "not applied; dry-air approximation",
+    "pressure_source": "ISA target pressure recorded for the pressure-altitude axis",
+    "stored_in_binary": false,
+    "temperature_source": "four-dimensionally interpolated ERA5 temperature from this binary"
+  },
+  "deterministic_regeneration": {
+    "byte_for_byte_equal": true,
+    "independent_remote_runs": 2,
+    "runs": [
+      {
+        "output_bytes": 337328648,
+        "output_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+        "retrieved_utc": "2026-09-06T22:15:09.276101Z",
+        "run_id": "independent-a",
+        "runtime": {
+          "elapsed_seconds": 35.468044963,
+          "metadata_and_identity_seconds": 0.38556451299999983,
+          "modal_cpu_request": 4.0,
+          "modal_memory_request_mib": [
+            16384,
+            24576
+          ],
+          "peak_process_rss_basis": "Linux getrusage(RUSAGE_SELF).ru_maxrss",
+          "peak_process_rss_bytes": 2865037312,
+          "processing_and_write_seconds": 2.9317218619999963,
+          "source_data_load_seconds": 31.822979664
+        }
+      },
+      {
+        "output_bytes": 337328648,
+        "output_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+        "retrieved_utc": "2026-09-06T22:15:44.716108Z",
+        "run_id": "independent-b",
+        "runtime": {
+          "elapsed_seconds": 33.002400331,
+          "metadata_and_identity_seconds": 0.4319081079999947,
+          "modal_cpu_request": 4.0,
+          "modal_memory_request_mib": [
+            16384,
+            24576
+          ],
+          "peak_process_rss_basis": "Linux getrusage(RUSAGE_SELF).ru_maxrss",
+          "peak_process_rss_bytes": 4491255808,
+          "processing_and_write_seconds": 2.561790720999994,
+          "source_data_load_seconds": 29.696975898000005
+        }
+      }
+    ],
+    "scope": "binary bytes; run timestamps and runtime measurements in the manifest are intentionally run-specific"
+  },
+  "domain_coverage_contract": {
+    "altitude_ft": [
+      500.0,
+      43000.0
+    ],
+    "boundary_semantics": "a state outside the time or altitude axes is a data-coverage failure, not evidence against its control history",
+    "coordinate_singularity_caveat": "east/north components and headings are coordinate-singular at the exact geographic poles even though ERA5 values there are finite",
+    "deterministic_reach_bound": {
+      "duration_s": 22150.0,
+      "mach_cap": 0.87,
+      "maximum_grid_temperature_k": 315.41436767578125,
+      "maximum_grid_wind_m_s": 100.84589804312766,
+      "maximum_ground_speed_m_s": 410.5913607146233,
+      "maximum_latitude_change_deg_using_minimum_wgs84_meridional_radius": 82.24877415885184,
+      "maximum_reach_nm": 4910.690410274787,
+      "maximum_true_airspeed_m_s": 309.74546267149566,
+      "proof": "ground speed is no greater than Mach times the maximum grid speed of sound plus the maximum grid wind-vector magnitude; the installed spatial grid is global and therefore cannot truncate a valid WGS-84 trajectory regardless of this finite reach bound",
+      "source_mean_latitude_deg": 5.624829,
+      "source_mean_longitude_deg": 99.048157,
+      "source_position_sd_nm": 0.5,
+      "source_uncertainty_note": "the Gaussian tangent-plane source draw has mathematically unbounded tails, but the environment spans every valid runtime LatLon; invalid latitude draws are handled by the estimator's declared source-state logic rather than by this grid"
+    },
+    "latitude": "complete WGS-84 [-90, 90] support at 0.5 degree spacing",
+    "longitude": "complete WGS-84 [-180, 180) query support; the +180 axis endpoint exactly duplicates the -180 physical meridian for non-periodic runtime interpolation",
+    "purpose": "broad repeated-manoeuvre MH370 inference from M1822 through M0011",
+    "time_utc": [
+      "2014-03-07T17:00:00",
+      "2014-03-08T01:00:00"
+    ]
+  },
+  "extractor_sha256": "59cb163416150b758361ede8c50028296d8ee0b5b2ec33393528e7cd38011cdd",
+  "field_statistics": {
+    "temperature_k": {
+      "maximum": 315.41436767578125,
+      "mean": 241.5876939887898,
+      "minimum": 196.96621704101562
+    },
+    "wind_east_m_s": {
+      "maximum": 97.63721466064453,
+      "mean": 9.514245371400168,
+      "minimum": -45.24833679199219
+    },
+    "wind_north_m_s": {
+      "maximum": 78.67399597167969,
+      "mean": 0.04314479479896002,
+      "minimum": -63.382118225097656
+    }
+  },
+  "independently_regenerated_utc": "2026-09-06T22:15:44.716108Z",
+  "intended_local_path": "inputs/environment/mh370-era5-grid.bin",
+  "latitude_axis": {
+    "count": 361,
+    "first_deg": 90.0,
+    "last_deg": -90.0,
+    "orientation": "north_to_south_descending",
+    "step_deg": -0.5
+  },
+  "local_validation_and_install_command": "python3 .sources/ecmwf-era5-weather/code/validate_mh370.py .sources/ecmwf-era5-weather/outputs/mh370-era5-grid.candidate.bin .sources/ecmwf-era5-weather/outputs/mh370-era5-grid.candidate.manifest.json --record .sources/ecmwf-era5-weather/outputs/mh370-era5-validation.json --report .sources/ecmwf-era5-weather/outputs/mh370-era5-validation.html --install-directory inputs/environment",
+  "longitude_axis": {
+    "count": 721,
+    "first_deg": -180.0,
+    "last_deg": 180.0,
+    "orientation": "west_to_east_ascending; degrees_east; +180 duplicates -180",
+    "step_deg": 0.5
+  },
+  "output_bytes": 337328648,
+  "output_path": "mh370/2014-03-07_2014-03-08/mh370-era5-grid.bin",
+  "output_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+  "pressure_altitude_interpolation": [
+    {
+      "log_pressure_weight_to_upper": 0.8050080480519514,
+      "lower_source_hpa": 975.0,
+      "lower_source_index": 16,
+      "pressure_altitude_ft": 500,
+      "target_pressure_hpa": 995.075397017007,
+      "upper_source_hpa": 1000.0,
+      "upper_source_index": 17
+    },
+    {
+      "log_pressure_weight_to_upper": 0.7258824762051924,
+      "lower_source_hpa": 825.0,
+      "lower_source_index": 14,
+      "pressure_altitude_ft": 5000,
+      "target_pressure_hpa": 843.0726454059843,
+      "upper_source_hpa": 850.0,
+      "upper_source_index": 15
+    },
+    {
+      "log_pressure_weight_to_upper": 0.9384904189926336,
+      "lower_source_hpa": 650.0,
+      "lower_source_index": 12,
+      "pressure_altitude_ft": 10000,
+      "target_pressure_hpa": 696.8164162360137,
+      "upper_source_hpa": 700.0,
+      "upper_source_index": 13
+    },
+    {
+      "log_pressure_weight_to_upper": 0.44712499186566496,
+      "lower_source_hpa": 550.0,
+      "lower_source_index": 10,
+      "pressure_altitude_ft": 15000,
+      "target_pressure_hpa": 571.8194184101366,
+      "upper_source_hpa": 600.0,
+      "upper_source_index": 11
+    },
+    {
+      "log_pressure_weight_to_upper": 0.32411461016158516,
+      "lower_source_hpa": 450.0,
+      "lower_source_index": 8,
+      "pressure_altitude_ft": 20000,
+      "target_pressure_hpa": 465.6323923628082,
+      "upper_source_hpa": 500.0,
+      "upper_source_index": 9
+    },
+    {
+      "log_pressure_weight_to_upper": 0.5368001139722183,
+      "lower_source_hpa": 350.0,
+      "lower_source_index": 6,
+      "pressure_altitude_ft": 25000,
+      "target_pressure_hpa": 376.0089029857536,
+      "upper_source_hpa": 400.0,
+      "upper_source_index": 7
+    },
+    {
+      "log_pressure_weight_to_upper": 0.6049776020889028,
+      "lower_source_hpa": 300.0,
+      "lower_source_index": 5,
+      "pressure_altitude_ft": 28000,
+      "target_pressure_hpa": 329.3233791264665,
+      "upper_source_hpa": 350.0,
+      "upper_source_index": 6
+    },
+    {
+      "log_pressure_weight_to_upper": 0.7655481813768366,
+      "lower_source_hpa": 250.0,
+      "lower_source_index": 4,
+      "pressure_altitude_ft": 31000,
+      "target_pressure_hpa": 287.44652820629113,
+      "upper_source_hpa": 300.0,
+      "upper_source_index": 5
+    },
+    {
+      "log_pressure_weight_to_upper": 0.9996168446455886,
+      "lower_source_hpa": 225.0,
+      "lower_source_index": 3,
+      "pressure_altitude_ft": 34000,
+      "target_pressure_hpa": 249.98990784227917,
+      "upper_source_hpa": 250.0,
+      "upper_source_index": 4
+    },
+    {
+      "log_pressure_weight_to_upper": 0.6780263156641244,
+      "lower_source_hpa": 200.0,
+      "lower_source_index": 2,
+      "pressure_altitude_ft": 37000,
+      "target_pressure_hpa": 216.62708312499484,
+      "upper_source_hpa": 225.0,
+      "upper_source_index": 3
+    },
+    {
+      "log_pressure_weight_to_upper": 0.5182377146496167,
+      "lower_source_hpa": 175.0,
+      "lower_source_index": 1,
+      "pressure_altitude_ft": 40000,
+      "target_pressure_hpa": 187.5390288603344,
+      "upper_source_hpa": 200.0,
+      "upper_source_index": 2
+    },
+    {
+      "log_pressure_weight_to_upper": 0.5135319355907861,
+      "lower_source_hpa": 150.0,
+      "lower_source_index": 0,
+      "pressure_altitude_ft": 43000,
+      "target_pressure_hpa": 162.35683386635253,
+      "upper_source_hpa": 175.0,
+      "upper_source_index": 1
+    }
+  ],
+  "pressure_altitude_model": {
+    "altitude_interpretation": "pressure altitude, not observed geopotential or geometric height",
+    "constants": {
+      "dry_air_gas_constant_j_kg_k": 287.05287,
+      "metres_per_foot": 0.3048,
+      "sea_level_pressure_hpa": 1013.25,
+      "sea_level_temperature_k": 288.15,
+      "standard_gravity_m_s2": 9.80665,
+      "tropopause_geopotential_height_m": 11000.0,
+      "tropopause_temperature_k": 216.65,
+      "tropospheric_lapse_rate_k_m": 0.0065
+    },
+    "lowest_target_note": "500 ft is the lowest near-sea-level target whose ISA pressure is strictly bracketed by the public 975 and 1000 hPa levels; 0 ft would require extrapolation above 1000 hPa",
+    "name": "ICAO ISA pressure altitude through the 11 km tropopause",
+    "vertical_interpolation": "linear in natural-log pressure for each field"
+  },
+  "pressure_altitudes_ft": [
+    500,
+    5000,
+    10000,
+    15000,
+    20000,
+    25000,
+    28000,
+    31000,
+    34000,
+    37000,
+    40000,
+    43000
+  ],
+  "raw_source_spot_checks": [
+    {
+      "derived_dry_air_density_kg_m3": 1.3295852461390387,
+      "fields": {
+        "temperature_k": {
+          "output_value": 260.7221374511719,
+          "raw_lower_source_value": 263.0187683105469,
+          "raw_upper_source_value": 260.16583251953125
+        },
+        "wind_east_m_s": {
+          "output_value": -0.0002650183450896293,
+          "raw_lower_source_value": 3.266334533691406e-05,
+          "raw_upper_source_value": -0.0003371238708496094
+        },
+        "wind_north_m_s": {
+          "output_value": 0.0004040604399051517,
+          "raw_lower_source_value": -0.0004410743713378906,
+          "raw_upper_source_value": 0.0006087720394134521
+        }
+      },
+      "latitude_deg": 90.0,
+      "longitude_deg": -180.0,
+      "lower_source_hpa": 975.0,
+      "pressure_altitude_ft": 500,
+      "target_pressure_hpa": 995.075397017007,
+      "time_utc": "2014-03-07T17:00:00",
+      "upper_source_hpa": 1000.0
+    },
+    {
+      "derived_dry_air_density_kg_m3": 0.6116025283966011,
+      "fields": {
+        "temperature_k": {
+          "output_value": 265.2235107421875,
+          "raw_lower_source_value": 263.61322021484375,
+          "raw_upper_source_value": 268.58148193359375
+        },
+        "wind_east_m_s": {
+          "output_value": -7.17733097076416,
+          "raw_lower_source_value": -6.587761878967285,
+          "raw_upper_source_value": -8.406776428222656
+        },
+        "wind_north_m_s": {
+          "output_value": -0.24799583852291107,
+          "raw_lower_source_value": 0.10889911651611328,
+          "raw_upper_source_value": -0.9922389984130859
+        }
+      },
+      "latitude_deg": 0.0,
+      "longitude_deg": 0.0,
+      "lower_source_hpa": 450.0,
+      "pressure_altitude_ft": 20000,
+      "target_pressure_hpa": 465.6323923628082,
+      "time_utc": "2014-03-07T21:00:00",
+      "upper_source_hpa": 500.0
+    },
+    {
+      "derived_dry_air_density_kg_m3": 0.2490116018319699,
+      "fields": {
+        "temperature_k": {
+          "output_value": 227.13763427734375,
+          "raw_lower_source_value": 227.158203125,
+          "raw_upper_source_value": 227.11814880371094
+        },
+        "wind_east_m_s": {
+          "output_value": -0.0007680871640332043,
+          "raw_lower_source_value": -0.0009708404541015625,
+          "raw_upper_source_value": -0.000576019287109375
+        },
+        "wind_north_m_s": {
+          "output_value": 0.0002689347602427006,
+          "raw_lower_source_value": 0.0006670951843261719,
+          "raw_upper_source_value": -0.00010824203491210938
+        }
+      },
+      "latitude_deg": -90.0,
+      "longitude_deg": 180.0,
+      "lower_source_hpa": 150.0,
+      "pressure_altitude_ft": 43000,
+      "target_pressure_hpa": 162.35683386635253,
+      "time_utc": "2014-03-08T01:00:00",
+      "upper_source_hpa": 175.0
+    }
+  ],
+  "remote_download_commands": [
+    "modal volume get --force mh370-environment-v1 mh370/2014-03-07_2014-03-08/mh370-era5-grid.bin .sources/ecmwf-era5-weather/outputs/mh370-era5-grid.candidate.bin",
+    "modal volume get --force mh370-environment-v1 mh370/2014-03-07_2014-03-08/mh370-era5-grid.manifest.json .sources/ecmwf-era5-weather/outputs/mh370-era5-grid.candidate.manifest.json"
+  ],
+  "retrieval_command": "modal run .sources/ecmwf-era5-weather/code/extract_mh370.py",
+  "retrieved_utc": "2026-09-06T22:15:09.276101Z",
+  "schema_version": "mh370-era5-runtime-grid-manifest-v3",
+  "source": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+  "source_access_revision": "google-research/arco-era5@8fb5e9b982f489ba91af3ced9ce0b0a8ade8dd7d",
+  "source_array_shape_time_pressure_lat_lon": [
+    9,
+    18,
+    361,
+    721
+  ],
+  "source_attributes": {
+    "last_updated": "2026-09-05 03:15:26.016363+00:00",
+    "valid_time_start": "1940-01-01",
+    "valid_time_stop": "2026-04-30",
+    "valid_time_stop_era5t": "2026-08-30"
+  },
+  "source_chunk_compressed_bytes": 2926778130,
+  "source_chunk_identity_sha256": "eed7079e6bbd5260d95f965071ed656d9667d43864f720207021fc1fb5bfb887",
+  "source_chunk_objects": [
+    {
+      "crc32c_base64": "kg0fIw==",
+      "etag": "CLm1luXSv4EDEAE=",
+      "generation": "1695434794179257",
+      "md5_base64": "vq6SPzUj4wTd/DEmgvDiUA==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000889.0.0.0",
+      "size_bytes": 85436282,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T17:00:00",
+      "updated": "2023-09-23T02:06:34.181Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000889,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "oSq0hg==",
+      "etag": "CJqWk+XSv4EDEAE=",
+      "generation": "1695434794126106",
+      "md5_base64": "bsWK6N5/fHm7miGe7+7kWw==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000890.0.0.0",
+      "size_bytes": 85433914,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T18:00:00",
+      "updated": "2023-09-23T02:06:34.128Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000890,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "ZrHuHw==",
+      "etag": "CNzikeXSv4EDEAE=",
+      "generation": "1695434794103132",
+      "md5_base64": "fcaBBxnWfhmZjkq36AlNsQ==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000891.0.0.0",
+      "size_bytes": 85419445,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T19:00:00",
+      "updated": "2023-09-23T02:06:34.105Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000891,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "+HVAxA==",
+      "etag": "CNOEkeXSv4EDEAE=",
+      "generation": "1695434794091091",
+      "md5_base64": "yZEsHM9kkLKUDnhPt9iR7A==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000892.0.0.0",
+      "size_bytes": 85425849,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T20:00:00",
+      "updated": "2023-09-23T02:06:34.093Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000892,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "I06Nqg==",
+      "etag": "CJDdkeXSv4EDEAE=",
+      "generation": "1695434794102416",
+      "md5_base64": "tGFvzaNYXoIL4CfDnXsIFQ==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000893.0.0.0",
+      "size_bytes": 85406792,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T21:00:00",
+      "updated": "2023-09-23T02:06:34.106Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000893,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "qt0diQ==",
+      "etag": "CJqjkeXSv4EDEAE=",
+      "generation": "1695434794095002",
+      "md5_base64": "sgIIM135FmLw5oGLIMn1Sg==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000894.0.0.0",
+      "size_bytes": 85461841,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T22:00:00",
+      "updated": "2023-09-23T02:06:34.097Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000894,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "8BacqA==",
+      "etag": "CPTGkuXSv4EDEAE=",
+      "generation": "1695434794115956",
+      "md5_base64": "jXiKvLGxwIt4wrUOANGvhA==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000895.0.0.0",
+      "size_bytes": 85435350,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T23:00:00",
+      "updated": "2023-09-23T02:06:34.118Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000895,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "Aguu4w==",
+      "etag": "CJSW+NqQwoEDEAE=",
+      "generation": "1695520135187220",
+      "md5_base64": "BkDJ1i80i9a5oEBTG7dytw==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000896.0.0.0",
+      "size_bytes": 85397900,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-08T00:00:00",
+      "updated": "2023-09-24T01:48:55.189Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000896,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "7oibQw==",
+      "etag": "CP6/yNqQwoEDEAE=",
+      "generation": "1695520134406142",
+      "md5_base64": "WSQS4N02YXpF/NxhqpqNFw==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/temperature/1000897.0.0.0",
+      "size_bytes": 85392907,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-08T01:00:00",
+      "updated": "2023-09-24T01:48:54.408Z",
+      "variable": "temperature",
+      "zarr_chunk_indices": [
+        1000897,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "jXgpsQ==",
+      "etag": "CMbU5uvSv4EDEAE=",
+      "generation": "1695434808076870",
+      "md5_base64": "QAEfv7b6LgPAeqoTTgEEiQ==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000889.0.0.0",
+      "size_bytes": 117944013,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T17:00:00",
+      "updated": "2023-09-23T02:06:48.079Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000889,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "G9Zrpw==",
+      "etag": "CIbz5evSv4EDEAE=",
+      "generation": "1695434808064390",
+      "md5_base64": "ecTAgdEbEen44pGgiM+1Ow==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000890.0.0.0",
+      "size_bytes": 117944698,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T18:00:00",
+      "updated": "2023-09-23T02:06:48.066Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000890,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "wBWvZw==",
+      "etag": "CILM5uvSv4EDEAE=",
+      "generation": "1695434808075778",
+      "md5_base64": "8kjrjuY040rtwIDu9zrI4A==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000891.0.0.0",
+      "size_bytes": 117924644,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T19:00:00",
+      "updated": "2023-09-23T02:06:48.078Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000891,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "96NF6Q==",
+      "etag": "CJ/z5evSv4EDEAE=",
+      "generation": "1695434808064415",
+      "md5_base64": "CkiPkSwRkn7xwyuwS6cwDw==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000892.0.0.0",
+      "size_bytes": 117901835,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T20:00:00",
+      "updated": "2023-09-23T02:06:48.067Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000892,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "Pxkv+g==",
+      "etag": "CLew5uvSv4EDEAE=",
+      "generation": "1695434808072247",
+      "md5_base64": "J22aYa8FGcv30U76vQCqRg==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000893.0.0.0",
+      "size_bytes": 117875739,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T21:00:00",
+      "updated": "2023-09-23T02:06:48.074Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000893,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "EcL4IA==",
+      "etag": "CPep5uvSv4EDEAE=",
+      "generation": "1695434808071415",
+      "md5_base64": "CKBntNnbyJHniKE/5O25uQ==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000894.0.0.0",
+      "size_bytes": 117902166,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T22:00:00",
+      "updated": "2023-09-23T02:06:48.073Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000894,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "dIiwbg==",
+      "etag": "CLWa5uvSv4EDEAE=",
+      "generation": "1695434808069429",
+      "md5_base64": "5O9bTm6sbkDX7LEZGMEA5w==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000895.0.0.0",
+      "size_bytes": 117866809,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T23:00:00",
+      "updated": "2023-09-23T02:06:48.072Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000895,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "gxGGog==",
+      "etag": "CMei3OSQwoEDEAE=",
+      "generation": "1695520155701575",
+      "md5_base64": "Z1deZH8MrPc5BrksFGZtiQ==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000896.0.0.0",
+      "size_bytes": 117860569,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-08T00:00:00",
+      "updated": "2023-09-24T01:49:15.704Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000896,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "IguFFw==",
+      "etag": "CKqD3eSQwoEDEAE=",
+      "generation": "1695520155713962",
+      "md5_base64": "GOYc6XmG2/dBAiTnaVYxmw==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/u_component_of_wind/1000897.0.0.0",
+      "size_bytes": 117864007,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-08T01:00:00",
+      "updated": "2023-09-24T01:49:15.716Z",
+      "variable": "u_component_of_wind",
+      "zarr_chunk_indices": [
+        1000897,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "LyyT7g==",
+      "etag": "CPul3PLSv4EDEAE=",
+      "generation": "1695434822587131",
+      "md5_base64": "7vB0aOJ91G9gfK/tlQPlYA==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000889.0.0.0",
+      "size_bytes": 121871714,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T17:00:00",
+      "updated": "2023-09-23T02:07:02.590Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000889,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "l4h9wg==",
+      "etag": "COO53PLSv4EDEAE=",
+      "generation": "1695434822589667",
+      "md5_base64": "sKHAY4og9bZjCBOdmyN7PA==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000890.0.0.0",
+      "size_bytes": 121862825,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T18:00:00",
+      "updated": "2023-09-23T02:07:02.592Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000890,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "yM2DjQ==",
+      "etag": "CM7g3PLSv4EDEAE=",
+      "generation": "1695434822594638",
+      "md5_base64": "x8IQ4rqUvHnRM0g6L2d1lg==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000891.0.0.0",
+      "size_bytes": 121860169,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T19:00:00",
+      "updated": "2023-09-23T02:07:02.596Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000891,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "pLyF9Q==",
+      "etag": "CMXQ2/LSv4EDEAE=",
+      "generation": "1695434822576197",
+      "md5_base64": "JyRfYG+zN0eXXhcJ9VU20A==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000892.0.0.0",
+      "size_bytes": 121857373,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T20:00:00",
+      "updated": "2023-09-23T02:07:02.579Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000892,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "RNyY0g==",
+      "etag": "CODY3vLSv4EDEAE=",
+      "generation": "1695434822626400",
+      "md5_base64": "uRDHug0Fl3VFjOcdDwSdLA==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000893.0.0.0",
+      "size_bytes": 121858491,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T21:00:00",
+      "updated": "2023-09-23T02:07:02.630Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000893,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "VJOj5g==",
+      "etag": "CKqV3fLSv4EDEAE=",
+      "generation": "1695434822601386",
+      "md5_base64": "t3j1SAk2grM5PzvFJNFW9w==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000894.0.0.0",
+      "size_bytes": 121907364,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T22:00:00",
+      "updated": "2023-09-23T02:07:02.604Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000894,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "IBGdAw==",
+      "etag": "CND23PLSv4EDEAE=",
+      "generation": "1695434822597456",
+      "md5_base64": "n9x8nHvo/+N+ZoxkpJZ3lA==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000895.0.0.0",
+      "size_bytes": 121901005,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-07T23:00:00",
+      "updated": "2023-09-23T02:07:02.599Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000895,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "1Sonnw==",
+      "etag": "CMrIpO6QwoEDEAE=",
+      "generation": "1695520175760458",
+      "md5_base64": "KMqGXbCaPwTigJH7D7mSMg==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000896.0.0.0",
+      "size_bytes": 121882745,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-08T00:00:00",
+      "updated": "2023-09-24T01:49:35.763Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000896,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "crc32c_base64": "gYFEXA==",
+      "etag": "CI7mpO6QwoEDEAE=",
+      "generation": "1695520175764238",
+      "md5_base64": "rn95QeFSkrs+Labrmq8FXA==",
+      "metageneration": "1",
+      "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/v_component_of_wind/1000897.0.0.0",
+      "size_bytes": 121881684,
+      "source_chunks": [
+        1,
+        37,
+        721,
+        1440
+      ],
+      "source_dtype": "float32",
+      "time_utc": "2014-03-08T01:00:00",
+      "updated": "2023-09-24T01:49:35.766Z",
+      "variable": "v_component_of_wind",
+      "zarr_chunk_indices": [
+        1000897,
+        0,
+        0,
+        0
+      ]
+    }
+  ],
+  "source_consolidated_metadata": {
+    "crc32c_base64": "DQZ10Q==",
+    "etag": "CPmnmt+81pYDEAE=",
+    "generation": "1788578126795769",
+    "md5_base64": "kjsuNuyb3Ssu8Lo6N7nelQ==",
+    "metageneration": "1",
+    "object": "gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3/.zmetadata",
+    "sha256": "409449e1c7c4ec56159d7031d8756c76cb25619c6b5da005d15eaaf85eaaaf78",
+    "size_bytes": 132785,
+    "updated": "2026-09-05T03:15:26.809Z"
+  },
+  "source_open_array_shape_time_pressure_lat_lon": [
+    9,
+    18,
+    361,
+    720
+  ],
+  "source_pressure_levels_hpa": [
+    150,
+    175,
+    200,
+    225,
+    250,
+    300,
+    350,
+    400,
+    450,
+    500,
+    550,
+    600,
+    650,
+    700,
+    825,
+    850,
+    975,
+    1000
+  ],
+  "source_variable_metadata": {
+    "temperature": {
+      "long_name": "Temperature",
+      "short_name": "t",
+      "standard_name": "air_temperature",
+      "units": "K"
+    },
+    "u_component_of_wind": {
+      "long_name": "U component of wind",
+      "short_name": "u",
+      "standard_name": "eastward_wind",
+      "units": "m s**-1"
+    },
+    "v_component_of_wind": {
+      "long_name": "V component of wind",
+      "short_name": "v",
+      "standard_name": "northward_wind",
+      "units": "m s**-1"
+    }
+  },
+  "status": "validated_global_grid",
+  "time_basis": "UTC hourly analysis validity time; ERA5 analysis step is zero",
+  "times_unix_s": [
+    1394211600,
+    1394215200,
+    1394218800,
+    1394222400,
+    1394226000,
+    1394229600,
+    1394233200,
+    1394236800,
+    1394240400
+  ],
+  "times_utc": [
+    "2014-03-07T17:00:00",
+    "2014-03-07T18:00:00",
+    "2014-03-07T19:00:00",
+    "2014-03-07T20:00:00",
+    "2014-03-07T21:00:00",
+    "2014-03-07T22:00:00",
+    "2014-03-07T23:00:00",
+    "2014-03-08T00:00:00",
+    "2014-03-08T01:00:00"
+  ],
+  "units": {
+    "latitude": "degrees_north",
+    "longitude": "degrees_east",
+    "pressure_altitude": "ft",
+    "temperature_k": "K",
+    "time": "integer Unix seconds in UTC",
+    "wind_east_m_s": "m s^-1; positive eastward",
+    "wind_north_m_s": "m s^-1; positive northward"
+  },
+  "variables_in_binary_order": [
+    "temperature_k",
+    "wind_east_m_s",
+    "wind_north_m_s"
+  ],
+  "vertical_wind": "not retrieved, inferred, stored, or implied"
+}

@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "name": "Explicit initial direction; conditional shared-rate refresh; corrected command guide",
+  "inputs": {
+    "observations": "/jackbox/home/MH370/inputs/accident/satcom-through-0011.csv",
+    "satellite_ephemeris": "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv",
+    "era5": "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin",
+    "igrf": "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin",
+    "time_origin_unix_s": 1394215309.0,
+    "ground_station_position_km": {
+      "x": -2368.8,
+      "y": 4881.1,
+      "z": -3342.0
+    },
+    "bfo_sd_override_hz": 7
+  },
+  "model": {
+    "dynamics": {
+      "radar": {
+        "time_s": 0.0,
+        "latitude_deg": 5.624829,
+        "longitude_deg": 99.048157,
+        "position_sd_nm": 0.5,
+        "control_mean_deg_true": 295.66,
+        "control_sd_deg": 1.0,
+        "mach_min": 0.73,
+        "mach_max": 0.84,
+        "altitude_min_ft": 25000.0,
+        "altitude_max_ft": 43000.0
+      },
+      "mach_bounds": [
+        0.73,
+        0.84
+      ],
+      "altitude_bounds_ft": [
+        25000,
+        43000
+      ],
+      "altitude_increment_ft": 1000,
+      "mean_manoeuvre_hours": [
+        0.1,
+        10
+      ],
+      "maximum_turn_deg": 180,
+      "bank_deg": 15,
+      "mach_rate_per_minute": 0.1,
+      "altitude_rate_ft_min": 4000,
+      "cruise_step_s": 10,
+      "manoeuvre_step_s": 1,
+      "ou_reversion": [
+        0.0106,
+        0.0098,
+        0.00109
+      ],
+      "ou_noise_variance": [
+        2.05e-07,
+        0.00013361021844547798,
+        0.0702
+      ],
+      "lnav_switch_mean_hours": 8.656170245333781,
+      "initial_angle_reference": "ground_track",
+      "marginalize_manoeuvre_rate": true
+    },
+    "satcom": {
+      "bfo_bias_prior_mean_hz": 150.0,
+      "bfo_bias_prior_sd_hz": 25.0,
+      "bto": {
+        "speed_of_light_km_s": 299792.458,
+        "nominal_delay_us": 499962.0,
+        "channel_term_us": 4283.0
+      },
+      "bfo": {
+        "satellite_afc_hz": 0.0,
+        "uplink_hz": 1646652500.0,
+        "downlink_hz": 3615152500.0,
+        "speed_of_light_km_s": 299792.458,
+        "nominal_satellite_longitude_deg": 64.5,
+        "nominal_satellite_altitude_km": 36210.12
+      }
+    },
+    "use_bfo": true,
+    "include_vertical_doppler": false,
+    "fuel": {
+      "anchor_time_s": 1576.9,
+      "zero_fuel_weight_kg": 174369.0,
+      "anchor_fuel_range_kg": [
+        32524.10488196,
+        34524.10488196
+      ],
+      "inaccessible_fuel_kg": 15.0,
+      "flow_scale_bounds": [
+        0.9,
+        1.1
+      ],
+      "flow_quadrature_points": 9,
+      "exhaustion_time_bounds_s": [
+        22391.0,
+        22631.0
+      ],
+      "model": {
+        "family": "declared_broad_extension",
+        "minimum_pressure_altitude": 500.0,
+        "maximum_pressure_altitude": 43000.0,
+        "minimum_mach": 0.3,
+        "maximum_mach": 0.87,
+        "maximum_absolute_bank": 30.0,
+        "reference_mach": 0.82,
+        "nominal_flow_scale": 1.0,
+        "mach_log_sensitivity_per_mach": 1.5,
+        "below_fl350_log_sensitivity_per_1000_ft": 0.04,
+        "above_fl410_log_sensitivity_per_1000_ft": 0.02,
+        "bank_induced_drag_fraction": 0.45,
+        "climb_log_sensitivity_per_1000_ft_min": 0.04,
+        "descent_log_relief_per_1000_ft_min": 0.015,
+        "minimum_flow_multiplier": 0.5,
+        "maximum_flow_multiplier": 2.5
+      }
+    },
+    "proposal_guide": {
+      "uniform_mixture": 0.2,
+      "bto_sd_multiplier": 3,
+      "bfo_sd_multiplier": 2,
+      "minimum_remaining_seconds": 120,
+      "turn_bins": 256,
+      "mach_bins": 64,
+      "lookahead_bto": true,
+      "first_turn_probability_boost": 0.95,
+      "first_turn_bfo_threshold_sigma": 4
+    }
+  },
+  "branching": {
+    "seed": 37091401,
+    "initial_time_s": 0.0,
+    "offspring": 6,
+    "threshold": 9.357622968840175e-14,
+    "log_likelihood_multipliers": [],
+    "max_nodes_per_root": 1000000,
+    "max_leaves_per_root": 50000,
+    "max_runtime_seconds": 180,
+    "max_total_leaves": 500000,
+    "roulette_weight": 9.357622968840175e-14,
+    "offspring_by_observation": [
+      1,
+      1,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      4,
+      1
+    ]
+  },
+  "modes": [
+    "constant_true_heading",
+    "constant_magnetic_heading",
+    "constant_true_track",
+    "constant_magnetic_track",
+    "lateral_navigation"
+  ],
+  "mode_probabilities": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+  ],
+  "roots_per_mode": 1000,
+  "peak_relative_likelihoods": true,
+  "sampling_method": "sequential"
+}

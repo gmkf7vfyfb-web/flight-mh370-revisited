@@ -1,0 +1,35 @@
+{
+  "status": "PUBLICATION_TRACE_SIGNIFICANCE_AND_SOURCE_TIME_ALIGNMENT_CONTROL",
+  "random_seed": 3700091,
+  "iaaft_replicates": 1000,
+  "iaaft_iterations": 30,
+  "iaaft_null": "amplitude-adjusted Fourier surrogates preserving the panel amplitude distribution and approximately preserving its power spectrum",
+  "exploratory_h01_window_utc": [
+    "2014-03-08T00:47:00Z",
+    "2014-03-08T00:50:00Z"
+  ],
+  "h01_display_window_utc": [
+    "2014-03-08T00:45:30Z",
+    "2014-03-08T00:50:10Z"
+  ],
+  "h01_late_display_window_utc": [
+    "2014-03-08T00:55:20Z",
+    "2014-03-08T00:57:00Z"
+  ],
+  "central_celerity_km_s": 1.50,
+  "celerity_range_km_s": [1.43, 1.57],
+  "source_targets_csv": "data/acoustic-alignment-source-targets.csv",
+  "stronger_airgun_control": {
+    "low_rank": 20,
+    "alignment_max_shift_s": 0.30,
+    "observed_centre_mask_half_width_s": 1.0,
+    "score_exclusion_half_width_s": 3.0,
+    "score_exclusion_basis": "The widest local-energy window is 4 s, so a score can include a raw-pressure sample up to 2 s from its centre; dilate the ±1 s pressure mask to ±3 s when displaying uncontaminated score samples.",
+    "primary_low_rank": 8,
+    "injection_seed": 3700092,
+    "injection_count": 40,
+    "injection_amplitude_pa": 0.35,
+    "injection_sigma_s": 0.35
+  },
+  "interpretation": "All tests use already-filtered, vector-extracted publication traces. The 00:47-00:50 window was selected after visual inspection, so its window p-value is exploratory. Source-time alignment is conditional on a point target and celerity; it is not an event association."
+}

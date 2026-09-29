@@ -1,0 +1,178 @@
+{
+  "status": "completed",
+  "started_utc": "2026-09-12T07:29:35.575396+00:00",
+  "driver_pid": 208906,
+  "executable_sha256": "eb7854d26bc2491052025a2b93aaa1e5ad20fc712b515ae483faaa1deefe14fe",
+  "driver_sha256": "026069ba8a333c6c71eb2763ddf377a8ca875c9cb3fda4f4c5492e1ab584d86b",
+  "design_sha256": "abe372accdc56aa4851fbe9232945f19aa517db0b282c36f40c3b40e3786015a",
+  "planned_runs": 4,
+  "completed_runs": 4,
+  "paths_per_run": 4096,
+  "runs": [
+    {
+      "label": "guidance-365-seed-3701271",
+      "seed": 3701271,
+      "guidance_days": 365,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-365-seed-3701271.toml",
+      "config_sha256": "dcdf4ba0ab5876b8d12b7ba4ea918d69ebe289777de704c22c3e5eedea24d886",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-365-seed-3701271",
+      "status": "completed",
+      "elapsed_seconds": 109.89820021101332,
+      "runtime_receipt": {
+        "schema_version": 3,
+        "unix_time_s": 1789198282,
+        "elapsed_seconds": 107.191172664,
+        "source_cells": 4,
+        "simulated_paths": 4096,
+        "propagated_segments": 57344,
+        "peak_memory_kib": 6756348
+      },
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/mh370",
+        "estimate-ocean-drift",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-365-seed-3701271.toml",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-365-seed-3701271"
+      ],
+      "source_area_sha256": "ef153c3ef42de138aebc16f4bb42e2df81c2851aeb9dc301227a2015c5d29d06",
+      "manifest_sha256": "562b4f6dfcc1025a889aea6a60e0577a0f7a13ca3dee99bd1222fe273e0257f0",
+      "input_sha256": {
+        "coast.binary": "5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668",
+        "coast.metadata": "886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f",
+        "currents.binary": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+        "currents.metadata": "61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3",
+        "source_cells": "5a065626cc0f5e7e1d0d986ecf97c7fcba9da3b6f240c4ad8f04c064a5f3de89",
+        "stokes.binary": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+        "stokes.metadata": "d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6",
+        "wind.binary": "c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62",
+        "wind.metadata": "b689d546dc3aa76f7b67e7241e2cae739cda8e89ca0443734b190e5367470fda"
+      }
+    },
+    {
+      "label": "guidance-540-seed-3701271",
+      "seed": 3701271,
+      "guidance_days": 540,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-540-seed-3701271.toml",
+      "config_sha256": "27cc7fc90e593ad1d09d1e6e5522f9fcba40092b89ae7f116199e3c6e02fbd10",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-540-seed-3701271",
+      "status": "completed",
+      "elapsed_seconds": 111.5749744779896,
+      "runtime_receipt": {
+        "schema_version": 3,
+        "unix_time_s": 1789198393,
+        "elapsed_seconds": 108.202884383,
+        "source_cells": 4,
+        "simulated_paths": 4096,
+        "propagated_segments": 77824,
+        "peak_memory_kib": 6751356
+      },
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/mh370",
+        "estimate-ocean-drift",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-540-seed-3701271.toml",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-540-seed-3701271"
+      ],
+      "source_area_sha256": "4c0fbc117f53ce0cfb8228894251d2a9f84e2aa50a6bf6a673da465163d7d9b2",
+      "manifest_sha256": "fb9669db1542b4f1537d211466f1846b39d07af7f9c0c2726479ee826b57a1a3",
+      "input_sha256": {
+        "coast.binary": "5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668",
+        "coast.metadata": "886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f",
+        "currents.binary": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+        "currents.metadata": "61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3",
+        "source_cells": "5a065626cc0f5e7e1d0d986ecf97c7fcba9da3b6f240c4ad8f04c064a5f3de89",
+        "stokes.binary": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+        "stokes.metadata": "d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6",
+        "wind.binary": "c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62",
+        "wind.metadata": "b689d546dc3aa76f7b67e7241e2cae739cda8e89ca0443734b190e5367470fda"
+      }
+    },
+    {
+      "label": "guidance-365-seed-37093001",
+      "seed": 37093001,
+      "guidance_days": 365,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-365-seed-37093001.toml",
+      "config_sha256": "68e12aa27199ab498a49012294ea3e1c45a3d3e9500ed4c652d2fce2df97f09b",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-365-seed-37093001",
+      "status": "completed",
+      "elapsed_seconds": 110.68629042300745,
+      "runtime_receipt": {
+        "schema_version": 3,
+        "unix_time_s": 1789198505,
+        "elapsed_seconds": 108.390611784,
+        "source_cells": 4,
+        "simulated_paths": 4096,
+        "propagated_segments": 57344,
+        "peak_memory_kib": 6676544
+      },
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/mh370",
+        "estimate-ocean-drift",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-365-seed-37093001.toml",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-365-seed-37093001"
+      ],
+      "source_area_sha256": "648c9aa807f1645a7b8f3e907b5548490198a2fa9355685865047c619c2be13b",
+      "manifest_sha256": "74fc9efb0cbc6f64ac1aef527f3db7a73cb555d28464f8b639e652e09cdf3df6",
+      "input_sha256": {
+        "coast.binary": "5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668",
+        "coast.metadata": "886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f",
+        "currents.binary": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+        "currents.metadata": "61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3",
+        "source_cells": "5a065626cc0f5e7e1d0d986ecf97c7fcba9da3b6f240c4ad8f04c064a5f3de89",
+        "stokes.binary": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+        "stokes.metadata": "d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6",
+        "wind.binary": "c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62",
+        "wind.metadata": "b689d546dc3aa76f7b67e7241e2cae739cda8e89ca0443734b190e5367470fda"
+      }
+    },
+    {
+      "label": "guidance-540-seed-37093001",
+      "seed": 37093001,
+      "guidance_days": 540,
+      "config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-540-seed-37093001.toml",
+      "config_sha256": "58940626a414b9027287b32294519e029ec8c85155aa333addb59f4f557f45c2",
+      "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-540-seed-37093001",
+      "status": "completed",
+      "elapsed_seconds": 107.5581519779953,
+      "runtime_receipt": {
+        "schema_version": 3,
+        "unix_time_s": 1789198613,
+        "elapsed_seconds": 105.399986788,
+        "source_cells": 4,
+        "simulated_paths": 4096,
+        "propagated_segments": 77824,
+        "peak_memory_kib": 6770416
+      },
+      "command": [
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/mh370",
+        "estimate-ocean-drift",
+        "--config",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/configs/guidance-540-seed-37093001.toml",
+        "--output",
+        "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cowling-arrival-sampling/runs/guidance-540-seed-37093001"
+      ],
+      "source_area_sha256": "56099df451a3f8510f881588f8af9864828408b9c3573e536fe6b3a474b3f05c",
+      "manifest_sha256": "826a7936d59065d67488315f419a9b08accde201b28c97a397c96621817a12ce",
+      "input_sha256": {
+        "coast.binary": "5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668",
+        "coast.metadata": "886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f",
+        "currents.binary": "d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52",
+        "currents.metadata": "61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3",
+        "source_cells": "5a065626cc0f5e7e1d0d986ecf97c7fcba9da3b6f240c4ad8f04c064a5f3de89",
+        "stokes.binary": "33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea",
+        "stokes.metadata": "d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6",
+        "wind.binary": "c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62",
+        "wind.metadata": "b689d546dc3aa76f7b67e7241e2cae739cda8e89ca0443734b190e5367470fda"
+      }
+    }
+  ],
+  "worker_pid": null,
+  "run_started_utc": "2026-09-12T07:35:07.763592+00:00",
+  "checked_utc": "2026-09-12T07:36:55.339212+00:00",
+  "inference_running": false,
+  "completed_utc": "2026-09-12T07:36:55.339206+00:00"
+}

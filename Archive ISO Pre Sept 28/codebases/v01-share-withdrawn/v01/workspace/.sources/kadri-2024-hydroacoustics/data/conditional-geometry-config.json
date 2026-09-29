@@ -1,0 +1,49 @@
+{
+  "status": "ASSUMPTION-BOUND_LINES_OF_POSITION_AND_PUBLICATION_TRACE_FILTER",
+  "earth_radius_km": 6371.0088,
+  "stations": {
+    "H01W": {
+      "name": "Cape Leeuwin",
+      "latitude_deg": -34.892,
+      "longitude_deg_e": 114.141
+    },
+    "H08S": {
+      "name": "Diego Garcia South",
+      "latitude_deg": -7.639,
+      "longitude_deg_e": 72.484
+    }
+  },
+  "conditional_range_constraints_km": {
+    "H01W": [2190.0, 2410.0],
+    "H08S": [3580.0, 3930.0],
+    "H08S_minus_H01W": [1390.0, 1525.0]
+  },
+  "range_basis": "Rounded constant-celerity mapping of the 00:47:01.700 H01W and 01:03:13.150 H08S publication-trace features under an illustrative common impact time near 00:21:29 UTC; not independently estimated station ranges.",
+  "map_grid": {
+    "longitude_min_deg_e": 60.0,
+    "longitude_max_deg_e": 122.0,
+    "latitude_min_deg": -48.0,
+    "latitude_max_deg": 2.0,
+    "spacing_deg": 0.1
+  },
+  "filter": {
+    "regular_grid_dt_s": 0.05,
+    "period_search_s": [8.0, 12.0],
+    "shot_tracking_half_window_s": 1.1,
+    "envelope_window_s": 0.6,
+    "mask_template_energy_fraction": 0.9,
+    "mask_energy_fraction_sensitivity": [0.8, 0.9, 0.95],
+    "candidate_energy_windows_s": [1.0, 2.0, 4.0],
+    "candidate_minimum_separation_s": 5.0,
+    "candidate_quantile": 0.99,
+    "event_utc": "2014-03-08T01:03:13.150Z",
+    "high_rate_window_utc": [
+      "2014-03-08T01:00:28.245Z",
+      "2014-03-08T01:06:03.859Z"
+    ],
+    "reference_median_arrivals_utc": [
+      "2014-03-08T01:03:02.684Z",
+      "2014-03-08T01:03:09.269Z"
+    ]
+  }
+}

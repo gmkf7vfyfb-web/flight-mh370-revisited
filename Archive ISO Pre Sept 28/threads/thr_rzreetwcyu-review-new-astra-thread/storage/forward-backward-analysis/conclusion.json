@@ -1,0 +1,17 @@
+{
+  "closed_utc": "2026-09-08T14:31:43.747568+00:00",
+  "status": "bounded attempt closed; required stable distribution not achieved",
+  "scope": "BTO/BFO and declared powered-flight/fuel model through 00:11 only; no later exhaustion-time condition",
+  "largest_demonstrated_stable_family": null,
+  "release_probability_density": false,
+  "next_count_escalation_supported": false,
+  "numerical_batch_elapsed_seconds": 4815.5541674000015,
+  "cap_seconds": 5400,
+  "paragraphs": [
+    "No tested flight family has yet met the declared stability checks. This attempt does not establish a reliable probability density through 00:11, or a maximum number of manoeuvres the aircraft could have made.",
+    "The initial four-direction/two-Mach/two-altitude comparison used 1,024 and 2,048 particles and disagreed by up to 40 percentage points in cumulative location fractions. Those runs preceded the integration repair. Accurate four-direction and two-direction pilots then exceeded their short runtime limits, so they were not scaled up.",
+    "Two accurate one-direction runs, with no commanded Mach or altitude changes, completed at 1,024 particles each in 15.1 and 14.7 minutes. Their location distributions differ by up to 18.8 percentage points, against the five-point target. The largest 5th/50th/95th coordinate-quantile difference is 0.16 degrees, which meets the separate 0.5-degree target, but navigation-mode frequencies differ by 7.8 points. Close average locations therefore do not establish stability.",
+    "The flight integration repair is retained in the canonical code: 469 workspace tests pass, all 22 earlier representative path-refinement checks pass, and all 19 additional checks on the new one-direction population pass. The latter change position by less than 0.01 nautical miles on refinement. These are numerical checks of the declared model; independent aircraft-performance calibration and a successful flight-recovery control remain outstanding.",
+    "Numerical work stopped after 80.3 minutes of the 90-minute allowance; engineering and reporting took longer. Further automatic increases in particles or manoeuvre count are not justified by these results. The remaining problem is inadequate exploration of correlated route parameters and route families. Exact reuse of unchanged flight segments could reduce cost, but a speed improvement alone would not establish stable sampling. No new production run, broader evidence combination, end-of-flight estimate or publication-ready probability result is being released."
+  ]
+}

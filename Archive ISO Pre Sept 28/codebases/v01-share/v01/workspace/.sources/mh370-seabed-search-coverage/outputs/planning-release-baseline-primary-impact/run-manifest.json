@@ -1,0 +1,59 @@
+{
+  "deterministic": true,
+  "generator": "code/build.py",
+  "generator_sha256": "25c7bb4ec09d2f55f8f422ee6aa7eba59d677aa3693efb2009db22b944214b90",
+  "input": {
+    "bytes": 446640,
+    "logical_path": "runs/mh370/release-v0.1/conditional/baseline-primary-impact-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "7ee909f6f20fd35552e2cd375e1edf6e277b1df992849e35191c194102cc13b8",
+    "weight_column": "baseline_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "outputs": [
+    {
+      "bytes": 397571,
+      "path": "outputs/planning-release-baseline-primary-impact/index.html",
+      "sha256": "8b9ebdc77c6d37d39dd00556012e24035d69de7a224f6eb9c215b7964239c689"
+    },
+    {
+      "bytes": 224305,
+      "path": "outputs/planning-release-baseline-primary-impact/ordered-tiles-posterior-only.csv",
+      "sha256": "57a0061d97c944be856ff436ac2221794185f609ceaa8ce4c4c896846ff59110"
+    },
+    {
+      "bytes": 220659,
+      "path": "outputs/planning-release-baseline-primary-impact/ordered-tiles-proxy-logistics.csv",
+      "sha256": "ad13392daa068d4b5bee94aa2b9cd1cc9e332e30e76201a4b1f1ef3b7883d426"
+    },
+    {
+      "bytes": 3726,
+      "path": "outputs/planning-release-baseline-primary-impact/plan-summary.json",
+      "sha256": "8eeb6103cc351ebaddc03f280b626be4823a90674cceb898cc0ae6d332c5b501"
+    },
+    {
+      "bytes": 100054,
+      "path": "outputs/planning-release-baseline-primary-impact/search-plan.pdf",
+      "sha256": "83ce4350a0d31c4a71ce0f90ad09c5804afee2bd9a3ec28baf19513a06d8b1d5"
+    },
+    {
+      "bytes": 582938,
+      "path": "outputs/planning-release-baseline-primary-impact/search-plan.png",
+      "sha256": "d029f47cc927c8193981723612a793640c61000569c0ebc899d652b88a36c622"
+    },
+    {
+      "bytes": 395096,
+      "path": "outputs/planning-release-baseline-primary-impact/search-plan.svg",
+      "sha256": "d196e08b926470271444361972470bc915816772c2190a09e73baa1a2237915c"
+    },
+    {
+      "bytes": 11016,
+      "path": "outputs/planning-release-baseline-primary-impact/selected-tiles.geojson",
+      "sha256": "19cb2eb4215f9bd28ab1839945bf7c8f9b7c727e0fff116d666640cf0c4f06ae"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

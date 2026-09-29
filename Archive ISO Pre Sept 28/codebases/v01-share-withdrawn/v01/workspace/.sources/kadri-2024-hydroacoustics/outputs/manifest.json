@@ -1,0 +1,27 @@
+{
+  "status": "REPRODUCIBLE_OUTPUT_HASHES",
+  "inputs": {
+    "data/filter-sensitivity-config.json": "0fd84f9dc766fc19dfe2e2bef9993456b908bc3318efe9bba7b1b66eb799a466",
+    "data/kadri-figure-extraction/metadata.json": "c80de542924df6cda30a2c7252a34a5cb3c15d4183f16ae95622d1665aeb6580",
+    "data/observed-transient-candidates.csv": "263f3af177458e738a1114da2320ee2da60917dc62af22e2f1aeb3e8faac24d1"
+  },
+  "code": {
+    "code/filter_sensitivity.py": "453df999febb8e5a5d86468c3eeed5b1bb4927ab234acfa152e48bfddc12ed2f"
+  },
+  "outputs": {
+    "filter-method-sensitivity.csv": "7f98a364985fdfa48fa9ec48073fe48767589de1577d328f834e3a6df42f046a",
+    "mask-width-sensitivity.csv": "e742b1d6004384ef0090e201aca7fdda4dc774ef1eabb76e1f69f1d4a6a40e43",
+    "leave-one-shot-out-controls.csv": "db60c942ad6d385e0de774bda729fc24662168c3b40f0aa4a03ed55088e3b9c3",
+    "summary.json": "ec5df5fe9d54c6a27b01dafecdc3e9315c042feb03f2d5341213cb57ac0fdac7",
+    "airgun-filter-mask-tradeoffs.png": "1fdc3c36a8460eca6d6c135dcef51d26140b7752956fc33ec54682dd64517ebd",
+    "airgun-filter-mask-tradeoffs.pdf": "3ddb22444aa08f3cc35b585dbb4aa395d0cb680a066c02e02241ce2f437b8ba8",
+    "leave-one-shot-out-controls.png": "481fc443e50703a28b4983ede2ed37706a27d69327cc33e20b0736b948b9b74c",
+    "leave-one-shot-out-controls.pdf": "9312a6fa3dcf4128d53d63d88a3f9fb72652859169257a9ce2efa3a1b5a60ebb",
+    "subsecond-periodic-mask-comparison.png": "227a49ece4094940fef746b4570c79476630033bc490eab3c0332a8cd66b3f29",
+    "subsecond-periodic-mask-comparison.pdf": "f53004d50419028f3316ffc595be02b0cf592f3adf8faa1190dc75981c3db191",
+    "expanded-filter-full-trace.png": "071779bd201ff19f3fb15c086cb544f8cbf713b226e3adbe0a6b5e87048732db",
+    "expanded-filter-full-trace.pdf": "2b8fd4feb92d2d98bbdc9ce25adf57ef0c26afa5f2d3035fe55e86d3b9516cfe",
+    "expanded-filter-010313-zoom.png": "617d8d0aec76b94b77b4fd30c7122513a95c85277cc140288fca7e2dc2d0b277",
+    "expanded-filter-010313-zoom.pdf": "96af816d8017b2893b59c4e1f2ff52b0f9ac15fca59b5ef8a6efb4c8950b6f1f"
+  }
+}

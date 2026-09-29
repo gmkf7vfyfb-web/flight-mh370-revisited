@@ -1,0 +1,41 @@
+{
+  "configuration_sha256": "667a774514005fa96460bea1b1d9113a0db785347d4394581477e196c7a54320",
+  "elapsed_seconds": 10.363206194,
+  "event_geometry_compatible_counts": {
+    "openap2020-best-glide": 15,
+    "openap2020-initial-trim": 6,
+    "openap2020-positive-lift-1-targets": 2,
+    "openap2020-positive-lift-3-targets": 3,
+    "openap26-best-glide": 2,
+    "openap26-initial-trim": 8,
+    "openap26-positive-lift-1-targets": 2,
+    "openap26-positive-lift-6-targets": 1,
+    "openap26-signed-lift-6-targets": 1
+  },
+  "executable_sha256": "cc0c009fe89166e789da419f0d5739494d1897e92f5e294eb89eaa09bdde79bf",
+  "impacts": 94839,
+  "likelihood_evaluated": false,
+  "limitations": [
+    "Straight great-circle effective-celerity references do not model path-dependent bathymetry, scattering, multipath or receiver response.",
+    "Ground-frame energy treats the local water surface as stationary; wave and current-relative corrections have not been applied.",
+    "Efficiency values are separate unweighted reference scenarios, not a calibrated probability law for acoustic coupling.",
+    "No pressure amplitude or detection probability is inferred without source coupling and path/receiver calibration.",
+    "Body attitude is uncomputed; a velocity angle is not body pitch.",
+    "Reported event compatibility is a conditional timing/bearing construction, not a likelihood or an identified MH370 signal. Missing terminal impacts remain outside this predictive subset."
+  ],
+  "log_weight_increment": 0.0,
+  "predictions_sha256": "2b169789e87c2f9b46ce607d92c193b2c66e6ae28e781f028985fb5dc2e0b8ba",
+  "scientific_source_sha256": "8ea20dd5235c8654a21190b78788bfbcafac749d6f41ef2a5d8bebd25fc7afde",
+  "source_condition_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+  "source_conditioned": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned",
+  "source_configuration_hashes": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713/resolved-config.json": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/resolved-config.json": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711/resolved-config.json": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712/resolved-config.json": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/resolved-config.json": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640/resolved-config.json": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8"
+  },
+  "source_continuations_sha256": "cd63c75b237d766263fbe64e5ca2b3187353bbc01fbe6046e6a488ca744ac98e",
+  "status": "conditional_acoustic_predictions_only"
+}

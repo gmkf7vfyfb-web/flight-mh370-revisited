@@ -1,0 +1,27 @@
+   Compiling mh370-hydroacoustics v0.1.0 (/jackbox/home/MH370/crates/hydroacoustics)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.65s
+     Running unittests src/lib.rs (target/debug/deps/mh370_hydroacoustics-b976ff50b12e7505)
+
+running 13 tests
+test diagnostic::tests::grid_predictions_are_explicitly_zero_weight ... ok
+test diagnostic::tests::reverse_trace_recovers_only_time_and_bearing_compatible_cell ... ok
+test diagnostic::tests::mismatched_cell_position_and_unnormalized_weights_fail ... ok
+test raw_triad::tests::calibrated_counts_and_pascal_triads_validate ... ok
+test diagnostic::tests::duplicate_cell_and_scenario_identities_fail_closed ... ok
+test raw_triad::tests::unit_calibration_mismatch_and_non_triad_fail_closed ... ok
+test tests::cape_leeuwin_and_diego_garcia_arrivals_match_independent_scale ... ok
+test tests::energy_and_pressure_follow_declared_limiting_scales ... ok
+test tests::travel_time_uses_kilometres_and_orders_celerity_endpoints ... ok
+test tests::invalid_or_uncommissioned_models_fail_closed ... ok
+test tests::vertical_basis_excludes_horizontal_energy ... ok
+test tests::overlay_never_returns_a_likelihood ... ok
+test tests::zero_range_has_zero_travel_time_and_no_likelihood ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests mh370_hydroacoustics
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

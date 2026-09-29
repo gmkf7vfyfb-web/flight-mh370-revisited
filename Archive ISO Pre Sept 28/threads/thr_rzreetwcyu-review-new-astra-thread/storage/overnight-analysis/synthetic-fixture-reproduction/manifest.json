@@ -1,0 +1,23 @@
+{
+  "purpose": "Model-consistent noisy synthetic control; known endpoint and generating path are reserved for scoring. No exhaustion-time condition.",
+  "limitation": "Uses the fitting forward equations, so this does not test independent physics or repeated-data coverage. CSV source-row metadata identifies the observation template; the BTO/BFO values are synthetic.",
+  "seed": 37090840,
+  "noise_order": "CSV row order, BTO then BFO when present",
+  "code_and_input_sha256": {
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "1d404bceb70d70825a770e3c80aa3638a4bd103e287b0898022ce2cfd4766a2e",
+    "/jackbox/home/MH370/inputs/accident/satcom-through-0011.csv": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+    "/jackbox/home/MH370/target/release/mh370": "88bdba22947b50a88d4cd5d1608c98c617654412c220ce1cd05a1a07d0be73eb",
+    "/jackbox/home/MH370/crates/controls/flight_evidence.py": "d3e9161ebdadd2b1bf05d38e0cabb411002b4fabf77e52af09c9867a3cf5cf06",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-fixture-reproduction/observations.csv": "d9bd1590a13c8bf1c856076e5481d3d6dceb80a25f85e278f8b9c3f70b0fe094",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-fixture-reproduction/mh370-synthetic-command.toml": "b101ac3f4c50f5b834e1bbe8eef48500bfd06849389e89ef80575a1664a47bef",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/synthetic-fixture-reproduction/withheld-truth.json": "9e16ebcdadf9e3ac193b1a3f77eab9a7e842330ad1087307d8805fadb281b936",
+    "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+    "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4",
+    "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1"
+  },
+  "elapsed_s": 1.2960350179928355,
+  "reproduction_comparison": {
+    "observation_bytes_identical": true,
+    "withheld_truth_identical": true
+  }
+}

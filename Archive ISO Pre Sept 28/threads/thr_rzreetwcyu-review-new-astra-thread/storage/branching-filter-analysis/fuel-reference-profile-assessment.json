@@ -1,0 +1,62 @@
+{
+  "model": "DeclaredBroadExtension of the supplied Martin/BSM LRC rows",
+  "classification": "comparison with official calculated outputs, not measured cruise validation",
+  "source_url": "https://www.mot.gov.my/my/Laporan%20Siasatan%20Mh370/02-Appendices/Appendices%20Set%201%20-%207%20Appendices%201.1A%20to1.9A/Appendix-1.6E-Aircraft-Performance-Analysis-MH370-%289M-MRO%29.pdf",
+  "located_passages": "Official Appendix 1.6E PDF page 3 assumptions and page 5 Table 3",
+  "initial_fuel_kg": 43800.0,
+  "zero_fuel_mass_kg": 174369.0,
+  "limitations": [
+    "Printed constant-state segments total 4878s, 4.9s shorter than the stated Arc-1 epoch.",
+    "Zero bank/vertical speed in each printed segment; scale1; no parameters fitted.",
+    "Official references use Boeing/Rolls-Royce analyses with assumed altitude/speed histories.",
+    "The separate 4226.524kg overburn belongs to the Ulich clean-room drag/ICAO proxy, not this model.",
+    "One reference profile cannot calibrate the operating envelope or declared uncertainty intervals."
+  ],
+  "segments": [
+    {
+      "segment": 1,
+      "model_burn_kg": 2433.520989876444,
+      "model_ending_fuel_kg": 41366.479010123556,
+      "official_calculated_ending_fuel_kg": 41386.67502354,
+      "declared_flow_multiplier": 1.0135915364502062
+    },
+    {
+      "segment": 2,
+      "model_burn_kg": 151.33572661242215,
+      "model_ending_fuel_kg": 41215.14328351113,
+      "official_calculated_ending_fuel_kg": 41236.53594907,
+      "declared_flow_multiplier": 0.9925280548191384
+    },
+    {
+      "segment": 3,
+      "model_burn_kg": 4625.6064763176255,
+      "model_ending_fuel_kg": 36589.53680719351,
+      "official_calculated_ending_fuel_kg": 36788.15557648,
+      "declared_flow_multiplier": 1.306693629836088
+    },
+    {
+      "segment": 4,
+      "model_burn_kg": 2806.3164388071164,
+      "model_ending_fuel_kg": 33783.22036838639,
+      "official_calculated_ending_fuel_kg": 34212.204507250004,
+      "declared_flow_multiplier": 1.2814599321940212
+    },
+    {
+      "segment": 5,
+      "model_burn_kg": 737.2782766669407,
+      "model_ending_fuel_kg": 33045.94209171945,
+      "official_calculated_ending_fuel_kg": 33524.104881960004,
+      "declared_flow_multiplier": 1.2548298679402794
+    }
+  ],
+  "predicted_total_burn_kg": 10754.057908280549,
+  "official_calculated_total_burn_kg": 10275.895118039996,
+  "ending_fuel_difference_kg": -478.16279024055257,
+  "input_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/fuel_reference_check.py": "9a3fd5ba84276f4c52cff4cfee3791fc737e8e33d7d9284c7a97e257d9e66835",
+    "/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/data/official_post_acars.json": "58b8820653ae759e42f14e6de0bb13f4e8430a9ec1dc917b695cf526bcdfabb4",
+    "/jackbox/home/MH370/.sources/martin-bsm-trent892-lrc/data/coefficient-pins.json": "cbb0bbd2dee84f3e76f9516b003f7f578d5449324bb94a568504d26d5be64187",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/fuel-condition.json": "ed9dd61023ee23409577fb0d4ffc1d4a7cec5cbb44bcbac8bb31e4ceb70a5bfd",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/fuel-endurance-reference-inputs.json": "5dd6300e504179980c27547e3c55edcd3a429b1f19f4f9e4a172550185bd8884"
+  }
+}

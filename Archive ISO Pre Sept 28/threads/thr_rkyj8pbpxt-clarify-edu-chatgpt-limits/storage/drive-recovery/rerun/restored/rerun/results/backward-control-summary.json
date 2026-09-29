@@ -1,0 +1,60 @@
+{
+  "scope": "Synthetic discrete methodological controls, not MH370 aircraft inference.",
+  "exact_checks": {
+    "enumerated_paths": 81,
+    "maximum_absolute_error": 1.6653345369377348e-16,
+    "deterministic_transition_compatibility": "passed",
+    "scope": "Exact finite-model arithmetic and path-law checks only."
+  },
+  "cases": {
+    "tight_initial": {
+      "exact_initial_sd": 0.23808631196350244,
+      "unweighted_uniform_endpoint_cdf_error": 0.7028117426756123,
+      "corrected_reverse_max_absolute_probability_error": 2.220446049250313e-16,
+      "median_forward_root_ess": 5.460869143228463,
+      "methods": {
+        "forward_genealogy": {
+          "median_initial_cdf_error": 0.24174285457638636,
+          "median_initial_mean_error": 0.09106788036074415
+        },
+        "particle_backward": {
+          "median_initial_cdf_error": 0.07697485686788544,
+          "median_initial_mean_error": 0.021874999999999978
+        },
+        "exact_future_bridge": {
+          "median_initial_cdf_error": 0.0546875,
+          "median_initial_mean_error": 0.012499999999999956
+        }
+      }
+    },
+    "broad_initial": {
+      "exact_initial_sd": 0.7271385692500798,
+      "unweighted_uniform_endpoint_cdf_error": 0.7028117422804632,
+      "corrected_reverse_max_absolute_probability_error": 1.3877787807814457e-16,
+      "median_forward_root_ess": 3.986359923926559,
+      "methods": {
+        "forward_genealogy": {
+          "median_initial_cdf_error": 0.3321343485349466,
+          "median_initial_mean_error": 0.24960722072139874
+        },
+        "particle_backward": {
+          "median_initial_cdf_error": 0.13439108893121918,
+          "median_initial_mean_error": 0.08046874999999998
+        },
+        "exact_future_bridge": {
+          "median_initial_cdf_error": 0.06435483749099008,
+          "median_initial_mean_error": 0.045335835530192825
+        }
+      }
+    }
+  },
+  "seed_repetitions_per_case": 24,
+  "filter_particles": 64,
+  "backward_or_bridge_paths": 128,
+  "matching": "Backward method reuses the same forward bank and incurs extra work. Exact bridge has an oracle future message unavailable for the aircraft model. This is not an equal-cost superiority trial.",
+  "remaining": "Full physical transition support, static-parameter moves, fuel timing and proposal-density integration are unimplemented.",
+  "elapsed_seconds": 0.3071201650018338,
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "script_sha256": "a9d1f50ec014efa6cb3bdb782363b0b19eceb8cee372febce0e0ae9e083ef99c"
+}

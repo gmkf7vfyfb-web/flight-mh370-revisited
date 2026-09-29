@@ -1,0 +1,93 @@
+{
+  "sampling_cap_seconds": 7200,
+  "entries": [
+    {
+      "run": "command-sampler/coherent-conditional/seed-37090832/summary.json",
+      "seconds": 145.86887374400249,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/coherent-conditional/seed-37090833/summary.json",
+      "seconds": 468.7413959760015,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/mh371-flexible-control/seed-37102011/summary.json",
+      "seconds": 750.1630821899962,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/mh371-flexible-control/seed-37102012/summary.json",
+      "seconds": 1054.5334562170028,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/residual-drift-eight-settings/seed-37090821/summary.json",
+      "seconds": 278.7071879319992,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/residual-drift-eight-settings/seed-37090822/summary.json",
+      "seconds": 1799.0987098750047,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/local-mixture-eight-settings/seed-37090811/summary.json",
+      "seconds": 154.95766138700128,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/local-mixture-eight-settings/seed-37090812/summary.json",
+      "seconds": 717.063735912001,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/eight-settings/seed-37090803/summary.json",
+      "seconds": 427.9111576810028,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/one-setting/seed-37090801/summary.json",
+      "seconds": 47.979266223002924,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/one-setting/seed-37090802/summary.json",
+      "seconds": 145.0602053670009,
+      "kind": "completed flight sampler"
+    },
+    {
+      "run": "command-sampler/coherent-conditional/seed-37090831/failure.json",
+      "seconds": 550.0,
+      "kind": "conservative runtime allowance for failed 540 s capped run; final mutation evaluation overshoot included"
+    },
+    {
+      "run": "mh371-command-guides/summary.json",
+      "seconds": 13.701704797000275,
+      "kind": "proposal discovery"
+    },
+    {
+      "run": "command-sampler/synthetic-coherent-control/seed-37090841/summary.json",
+      "seconds": 114.72055363999971,
+      "kind": "completed synthetic flight sampler"
+    },
+    {
+      "run": "command-sampler/synthetic-coherent-control/seed-37090842/summary.json",
+      "seconds": 316.7891238029988,
+      "kind": "completed synthetic flight sampler"
+    },
+    {
+      "run": "synthetic-command-control/guides/summary.json",
+      "seconds": 11.36513442699652,
+      "kind": "synthetic observation-only guide discovery"
+    },
+    {
+      "run": "unitemized proposal/analytic controls",
+      "seconds": 60.0,
+      "kind": "conservative allowance; not a directly measured batch"
+    }
+  ],
+  "allocated_seconds": 7056.661249171011,
+  "remaining_seconds": 143.33875082898885,
+  "sampling_decision": "Stop flight sampling escalation. Broad validation failed; useful bounded simple/synthetic controls complete."
+}

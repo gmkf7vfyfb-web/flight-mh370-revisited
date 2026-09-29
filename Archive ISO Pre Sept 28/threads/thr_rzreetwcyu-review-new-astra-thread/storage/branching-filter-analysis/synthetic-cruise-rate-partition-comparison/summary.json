@@ -1,0 +1,955 @@
+{
+  "status": "completed",
+  "updated_utc": "2026-09-09T19:51:52.119725+00:00",
+  "completed_data_sets": 4,
+  "planned_data_sets": 4,
+  "initial_candidates_per_run": 20000,
+  "design_sha256": "e5e0fda5713f2b2fdaa5dde55183fdc5ec63bb7a9bb8b4dbab3d1b3467961537",
+  "executable_sha256": "973908c7dd12a9d7b778a5b15fb0f8b7c49cd089d33e02227f83233d317cc607",
+  "report_source_sha256": "a2b5221355492a8adcb7e21b74bfa8648a955864c96d21dd62291bd89bc85b53",
+  "summaries": [
+    {
+      "replicate": 0,
+      "coordinate": "latitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.04558726080970055,
+            0.6993581574175981
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 2,
+          "wilson95_fraction_among_computed": [
+            0.15003898915214947,
+            0.8499610108478506
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 0,
+      "coordinate": "longitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.4898908364545973
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 3,
+          "wilson95_fraction_among_computed": [
+            0.30064184258240184,
+            0.9544127391902995
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "latitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.4898908364545973
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.04558726080970055,
+            0.6993581574175981
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "longitude",
+      "total_data_sets": 4,
+      "computed_posteriors": 4,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.4898908364545973
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.04558726080970055,
+            0.6993581574175981
+          ]
+        }
+      ]
+    }
+  ],
+  "data_sets": [
+    {
+      "truth_seed": 37092100,
+      "truth_coordinates_deg": [
+        18.07625107500884,
+        91.11744289164545
+      ],
+      "generating_mode": "constant_magnetic_track",
+      "generating_limited_manoeuvre_counts": [
+        16,
+        8,
+        8
+      ],
+      "truth_sha256": "0dc87df727b9cef7fda627938b41877be5ccbfa4e92df06d86665f367d86d407",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.781144334826838,
+            0.20644907363923304
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              5.7431373843,
+              12.6507554482,
+              22.0691179138
+            ],
+            [
+              88.2586451866,
+              93.9328664837,
+              95.7952784544
+            ]
+          ],
+          "largest_ancestor_mass": 0.8244674857760309,
+          "weighted_row_effective_count": 28.37592815747285,
+          "elapsed_seconds": 76.279211767,
+          "log_evidence": -121.84117610768428,
+          "posterior_sha256": "bd56883fd677e187db601964e93ede1db81a23928153c14d3c424c5bfab75b2a",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 7855.3995365232,
+              "root_effective_sample_size": 7855.3995365232,
+              "maximum_root_weight": 0.00027595826534584456,
+              "cumulative_log_evidence": -6.042116528381044
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 4031.3623276084422,
+              "root_effective_sample_size": 1658.8367004034649,
+              "maximum_root_weight": 0.001697124923215258,
+              "cumulative_log_evidence": -17.093861529073095
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 11107.144187969674,
+              "root_effective_sample_size": 1929.6072785480453,
+              "maximum_root_weight": 0.0014941992407301748,
+              "cumulative_log_evidence": -26.741872218977065
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 12.308755252949426,
+              "root_effective_sample_size": 12.306964337493913,
+              "maximum_root_weight": 0.15106643654875704,
+              "cumulative_log_evidence": -55.48478706488679
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 20.675904022824206,
+              "root_effective_sample_size": 4.147403261677336,
+              "maximum_root_weight": 0.41574465648711906,
+              "cumulative_log_evidence": -73.77211481921611
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 11.53344128201919,
+              "root_effective_sample_size": 3.6595765401329023,
+              "maximum_root_weight": 0.37067822373608383,
+              "cumulative_log_evidence": -87.14917415141146
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 20.85709108173943,
+              "root_effective_sample_size": 1.6145611643506377,
+              "maximum_root_weight": 0.7708892921722843,
+              "cumulative_log_evidence": -101.89163178689111
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 28.37592815747312,
+              "root_effective_sample_size": 1.4278598975761845,
+              "maximum_root_weight": 0.8244674857760298,
+              "cumulative_log_evidence": -121.84117610768428
+            }
+          ],
+          "checkpoint_source_sha256": "2f4767393b110b59dc6ed61527393f4b534dcf945a1e2dafdcd19cf3b40787d7",
+          "time_origin_unix_s": 1394215309.0
+        },
+        {
+          "cdf_at_truth": [
+            0.9756962818393438,
+            0.021721967710207967
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              6.8510129422,
+              13.1186589876,
+              17.2098441865
+            ],
+            [
+              91.7317758446,
+              93.611237484,
+              95.5761001185
+            ]
+          ],
+          "largest_ancestor_mass": 0.670147554107648,
+          "weighted_row_effective_count": 5.8054665456435925,
+          "elapsed_seconds": 83.417818326,
+          "log_evidence": -121.49086132249349,
+          "posterior_sha256": "9b97c2265e458e5443b540bb05c2084cce1547f8e34aa6fac153231831cb13aa",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 7807.655120188734,
+              "root_effective_sample_size": 7807.655120188734,
+              "maximum_root_weight": 0.00021086156013781538,
+              "cumulative_log_evidence": -6.053174558975421
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 4114.436952633412,
+              "root_effective_sample_size": 1621.606675376665,
+              "maximum_root_weight": 0.001678899262344036,
+              "cumulative_log_evidence": -17.11530888126127
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 11316.56028554185,
+              "root_effective_sample_size": 1921.018103208072,
+              "maximum_root_weight": 0.001342950166236903,
+              "cumulative_log_evidence": -26.74079686132132
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 2.9259418906184087,
+              "root_effective_sample_size": 2.925931644933679,
+              "maximum_root_weight": 0.49960334572964543,
+              "cumulative_log_evidence": -54.31869311484718
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 56.20143043882449,
+              "root_effective_sample_size": 1.0036702646587359,
+              "maximum_root_weight": 0.9981696911221357,
+              "cumulative_log_evidence": -68.453555193987
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 4.358283034575686,
+              "root_effective_sample_size": 1.1526112224878582,
+              "maximum_root_weight": 0.9309490051100721,
+              "cumulative_log_evidence": -86.03594182529699
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 22.0372996432417,
+              "root_effective_sample_size": 1.0378441825794382,
+              "maximum_root_weight": 0.9815602094565276,
+              "cumulative_log_evidence": -99.68381159686444
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 5.80546654564359,
+              "root_effective_sample_size": 1.8721939586688339,
+              "maximum_root_weight": 0.6701475541076497,
+              "cumulative_log_evidence": -121.49086132249349
+            }
+          ],
+          "checkpoint_source_sha256": "2cc932ee1fda9dac83abdacffdb49e11931c04d59d5a10a35b89e450d4a790aa",
+          "time_origin_unix_s": 1394215309.0
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.3447200405376396,
+        0.3453663929800922
+      ],
+      "pooled_cdf_at_truth": [
+        0.8952867775947948,
+        0.09807080531566428
+      ],
+      "reference_pair_cdf_difference": [
+        0.47102841541436513,
+        0.4691941209947744
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.33120739496965906,
+        0.6502050640834045
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.3335124702693937,
+        0.330847727410546
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.8581134730419742,
+        0.13802837579204744
+      ]
+    },
+    {
+      "truth_seed": 37092102,
+      "truth_coordinates_deg": [
+        21.1847985408742,
+        60.17448649414652
+      ],
+      "generating_mode": "lateral_navigation",
+      "generating_limited_manoeuvre_counts": [
+        1,
+        2,
+        0
+      ],
+      "truth_sha256": "2b474b3d52a1547bff608fe851c4f99e554ea9bc223c02a9a7e0ad67664acfa0",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.9687608685119713,
+            0.8354601624270317
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              13.7655476979,
+              20.1054985138,
+              20.8606991526
+            ],
+            [
+              55.6303023157,
+              56.656622952,
+              80.9677991745
+            ]
+          ],
+          "largest_ancestor_mass": 0.3980355588172663,
+          "weighted_row_effective_count": 39.77595645362585,
+          "elapsed_seconds": 49.047133138,
+          "log_evidence": -89.47055529323976,
+          "posterior_sha256": "f3d8b6ac7a726943232cf2b44d6abcbb4fb2bf99b53f5caf0d21e287e3164d2b",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 2594.2190756649534,
+              "root_effective_sample_size": 2594.2190756649534,
+              "maximum_root_weight": 0.0017371884812945732,
+              "cumulative_log_evidence": -8.33559661498828
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 9231.30732827898,
+              "root_effective_sample_size": 1054.8427657244438,
+              "maximum_root_weight": 0.0036653081911664238,
+              "cumulative_log_evidence": -18.06786401082502
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 15762.058788396333,
+              "root_effective_sample_size": 814.7477823406044,
+              "maximum_root_weight": 0.004034259714675089,
+              "cumulative_log_evidence": -26.056735260122466
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 3.8593934649598087,
+              "root_effective_sample_size": 3.8270541484542715,
+              "maximum_root_weight": 0.5088077952117376,
+              "cumulative_log_evidence": -41.42016081910319
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 1040.632549886926,
+              "root_effective_sample_size": 57.68041056891922,
+              "maximum_root_weight": 0.06166983858087042,
+              "cumulative_log_evidence": -52.59101028696658
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 493.5509747874895,
+              "root_effective_sample_size": 15.63391072026393,
+              "maximum_root_weight": 0.14285938589157243,
+              "cumulative_log_evidence": -62.33978813485102
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 638.9050788148584,
+              "root_effective_sample_size": 11.194895686738256,
+              "maximum_root_weight": 0.1817960339545385,
+              "cumulative_log_evidence": -72.69514720983068
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 39.77595645362585,
+              "root_effective_sample_size": 5.0117581775318945,
+              "maximum_root_weight": 0.3980355588172663,
+              "cumulative_log_evidence": -89.47055529323976
+            }
+          ],
+          "checkpoint_source_sha256": "8212cb872861d8ec99cf5e9d39807041f51b2f5b50fa24ec50d0d703321e4194",
+          "time_origin_unix_s": 1394215309.0
+        },
+        {
+          "cdf_at_truth": [
+            0.9643461239694203,
+            0.8062889385015308
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              14.1056244716,
+              20.1984690416,
+              20.7202665778
+            ],
+            [
+              55.3650318702,
+              56.8611314613,
+              80.6348064002
+            ]
+          ],
+          "largest_ancestor_mass": 0.21795616610174554,
+          "weighted_row_effective_count": 33.18082119231271,
+          "elapsed_seconds": 49.760159575,
+          "log_evidence": -90.32930452908235,
+          "posterior_sha256": "af6f8ee7494395c8ba7448b4c93590f83d4b61eec7f6d2d038d7c7f5daeb1554",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 2466.724854638329,
+              "root_effective_sample_size": 2466.7248546383294,
+              "maximum_root_weight": 0.0022871597002608545,
+              "cumulative_log_evidence": -8.35996364999271
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 9468.660633811283,
+              "root_effective_sample_size": 1055.4411977108916,
+              "maximum_root_weight": 0.003724695297865474,
+              "cumulative_log_evidence": -18.06463728047831
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 15983.197250901496,
+              "root_effective_sample_size": 843.2778830086011,
+              "maximum_root_weight": 0.003783377724282195,
+              "cumulative_log_evidence": -26.058958011619552
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 639.3001350648012,
+              "root_effective_sample_size": 110.00413132865137,
+              "maximum_root_weight": 0.03915301818650504,
+              "cumulative_log_evidence": -42.29739088880707
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 904.2842375784194,
+              "root_effective_sample_size": 40.74294667932055,
+              "maximum_root_weight": 0.07828860603451676,
+              "cumulative_log_evidence": -52.77457786966343
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 634.8951517137305,
+              "root_effective_sample_size": 10.803143634433045,
+              "maximum_root_weight": 0.15554260936202777,
+              "cumulative_log_evidence": -62.590588909970265
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 850.8720589784556,
+              "root_effective_sample_size": 7.673757502713057,
+              "maximum_root_weight": 0.24797251063459827,
+              "cumulative_log_evidence": -72.83519757522943
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 33.18082119231269,
+              "root_effective_sample_size": 6.192450663108105,
+              "maximum_root_weight": 0.21795616610174562,
+              "cumulative_log_evidence": -90.32930452908235
+            }
+          ],
+          "checkpoint_source_sha256": "b9ac594138e6fd642c37fbeed5047744ca5678e1b363658a9a6a84e01c19670d",
+          "time_origin_unix_s": 1394215309.0
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.17771337372221796,
+        0.19716616311047047
+      ],
+      "pooled_cdf_at_truth": [
+        0.9674470373029432,
+        0.8267787848230808
+      ],
+      "reference_pair_cdf_difference": [
+        0.23506937396399158,
+        0.18223032485688284
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.9571424176274725,
+        0.8549535843099674
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.17279471393276497,
+        0.1665734045146077
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.96967033966458,
+        0.8969004403195127
+      ]
+    },
+    {
+      "truth_seed": 37092104,
+      "truth_coordinates_deg": [
+        26.979984744855653,
+        62.039914515326444
+      ],
+      "generating_mode": "constant_magnetic_heading",
+      "generating_limited_manoeuvre_counts": [
+        0,
+        0,
+        2
+      ],
+      "truth_sha256": "f39ea844924cc4ae6f80d026652c2d1ae2a759506d2601c0d11e7e5194596074",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.7053120490597673,
+            0.8733961045674956
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              26.7871247904,
+              26.9357152473,
+              27.0781680924
+            ],
+            [
+              60.392258322,
+              61.4098166062,
+              62.3844978103
+            ]
+          ],
+          "largest_ancestor_mass": 0.11097752648679671,
+          "weighted_row_effective_count": 367.1496578803534,
+          "elapsed_seconds": 43.295785518,
+          "log_evidence": -81.71254817026363,
+          "posterior_sha256": "8401f4ce6c0f770e05afbe1ee3b476523d2725ea355ec10fae9e67a443c33700",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 10110.830040753597,
+              "root_effective_sample_size": 10110.830040753597,
+              "maximum_root_weight": 0.0002953285510348049,
+              "cumulative_log_evidence": -5.687393782512057
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 5460.408176242812,
+              "root_effective_sample_size": 5460.408176242812,
+              "maximum_root_weight": 0.00032312301919208453,
+              "cumulative_log_evidence": -14.981053655956487
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 12704.567681195302,
+              "root_effective_sample_size": 4516.269681280047,
+              "maximum_root_weight": 0.0004191581360845928,
+              "cumulative_log_evidence": -23.076160158778933
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 1581.5033991219018,
+              "root_effective_sample_size": 929.787392219208,
+              "maximum_root_weight": 0.0036970600540871404,
+              "cumulative_log_evidence": -36.42317004478318
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 1336.9917750073862,
+              "root_effective_sample_size": 261.9530559473409,
+              "maximum_root_weight": 0.011643695910202888,
+              "cumulative_log_evidence": -46.91927904987386
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 381.00074243856733,
+              "root_effective_sample_size": 79.62087844774172,
+              "maximum_root_weight": 0.03752354808780144,
+              "cumulative_log_evidence": -56.992440961095305
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 1234.710064921218,
+              "root_effective_sample_size": 60.1270409734101,
+              "maximum_root_weight": 0.048284321620616556,
+              "cumulative_log_evidence": -65.79229800570735
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 367.1496578803527,
+              "root_effective_sample_size": 20.89870500213031,
+              "maximum_root_weight": 0.11097752648679711,
+              "cumulative_log_evidence": -81.71254817026363
+            }
+          ],
+          "checkpoint_source_sha256": "926813175ce41ff7157116347be2f94f065719c356b6cc470c426f34f6a42ead",
+          "time_origin_unix_s": 1394215309.0
+        },
+        {
+          "cdf_at_truth": [
+            0.7573954454273029,
+            0.9551531699891288
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              26.719703358,
+              26.8773353805,
+              27.0921122857
+            ],
+            [
+              60.3107991695,
+              60.8811450996,
+              62.0295570399
+            ]
+          ],
+          "largest_ancestor_mass": 0.253879335550147,
+          "weighted_row_effective_count": 379.0139179030711,
+          "elapsed_seconds": 44.686350786,
+          "log_evidence": -82.19476516780385,
+          "posterior_sha256": "38c15299d531184cafd991187960fa4beaed5c8502c849a068d1eb117057c0da",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 10148.002910739127,
+              "root_effective_sample_size": 10148.002910739127,
+              "maximum_root_weight": 0.0007899660583072686,
+              "cumulative_log_evidence": -5.677403303138369
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 5475.871282961261,
+              "root_effective_sample_size": 5475.871282961261,
+              "maximum_root_weight": 0.00028808261203315083,
+              "cumulative_log_evidence": -14.978933337429265
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 12428.14995493926,
+              "root_effective_sample_size": 4455.269638930824,
+              "maximum_root_weight": 0.00042844472942117206,
+              "cumulative_log_evidence": -23.08364621358612
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 1588.9653841899456,
+              "root_effective_sample_size": 946.6001966218196,
+              "maximum_root_weight": 0.003941844489601953,
+              "cumulative_log_evidence": -36.413061982388484
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 1320.1084715748461,
+              "root_effective_sample_size": 247.10715583103737,
+              "maximum_root_weight": 0.01614156920649494,
+              "cumulative_log_evidence": -46.90218658236608
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 278.6845103140161,
+              "root_effective_sample_size": 65.18549151070236,
+              "maximum_root_weight": 0.06138535860547988,
+              "cumulative_log_evidence": -57.379268295249496
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 1356.4193753278855,
+              "root_effective_sample_size": 39.97397364224758,
+              "maximum_root_weight": 0.08536250177655198,
+              "cumulative_log_evidence": -66.12535996698489
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 379.01391790307514,
+              "root_effective_sample_size": 7.675672992087463,
+              "maximum_root_weight": 0.25387933555014697,
+              "cumulative_log_evidence": -82.19476516780385
+            }
+          ],
+          "checkpoint_source_sha256": "383bac1818e8e6520fe924365fe60a2b8fc16a295546df15907d1b3dff09b4b9",
+          "time_origin_unix_s": 1394215309.0
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.2583229517366499,
+        0.31410324922853106
+      ],
+      "pooled_cdf_at_truth": [
+        0.7251937788709661,
+        0.9046051269860604
+      ],
+      "reference_pair_cdf_difference": [
+        0.11254850643620651,
+        0.052440307443249456
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.6825784780421698,
+        0.9002561630543484
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.13059595328357532,
+        0.17668126388906458
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.703954070433117,
+        0.9262346935545407
+      ]
+    },
+    {
+      "truth_seed": 37092106,
+      "truth_coordinates_deg": [
+        -15.31050154442958,
+        87.07836821669497
+      ],
+      "generating_mode": "constant_magnetic_heading",
+      "generating_limited_manoeuvre_counts": [
+        16,
+        8,
+        8
+      ],
+      "truth_sha256": "f21650ddfe650d0e1bf84f71384b85ba473daf0ae831959f9a31f948a0c75365",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            5.138877482048012e-07,
+            0.0009139789138032452
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -9.0757088926,
+              -4.0382694346,
+              1.1226864344
+            ],
+            [
+              90.0875057888,
+              91.5735164336,
+              91.8149581713
+            ]
+          ],
+          "largest_ancestor_mass": 0.7822981222615479,
+          "weighted_row_effective_count": 8.390174769122162,
+          "elapsed_seconds": 57.217322065,
+          "log_evidence": -110.43024794659794,
+          "posterior_sha256": "a1ee3bb9511211f2e167a32b1479ecaef5cb933433b24baa37c3bd20f8d61aa9",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 148.78988259058258,
+              "root_effective_sample_size": 148.78988259058258,
+              "maximum_root_weight": 0.06517360326217593,
+              "cumulative_log_evidence": -9.344083352544073
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 914.3286855651875,
+              "root_effective_sample_size": 24.838204513162566,
+              "maximum_root_weight": 0.12408680796665271,
+              "cumulative_log_evidence": -20.955218737301898
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 5570.366007022605,
+              "root_effective_sample_size": 19.86103353204128,
+              "maximum_root_weight": 0.18691110079161835,
+              "cumulative_log_evidence": -29.40370613100143
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 7.8597002906718005,
+              "root_effective_sample_size": 7.071144708352275,
+              "maximum_root_weight": 0.22785996457959232,
+              "cumulative_log_evidence": -51.10947635269038
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 4.616416917310032,
+              "root_effective_sample_size": 2.5642215348323827,
+              "maximum_root_weight": 0.5928802905571501,
+              "cumulative_log_evidence": -64.15258379906332
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 30.126778872085087,
+              "root_effective_sample_size": 2.240826446238425,
+              "maximum_root_weight": 0.6547769170779986,
+              "cumulative_log_evidence": -79.21287046835961
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 40.1111474227141,
+              "root_effective_sample_size": 2.6419775724870966,
+              "maximum_root_weight": 0.5961137768447722,
+              "cumulative_log_evidence": -92.63266518587585
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 8.390174769122135,
+              "root_effective_sample_size": 1.599528280702331,
+              "maximum_root_weight": 0.7822981222615513,
+              "cumulative_log_evidence": -110.43024794659794
+            }
+          ],
+          "checkpoint_source_sha256": "f2f6a7e137b4eb06c38ab282fe7ea665ba9bbc3263a7e2c57930ee82c9df64a0",
+          "time_origin_unix_s": 1394215309.0
+        },
+        {
+          "cdf_at_truth": [
+            0.0009096481955834784,
+            0.0017557484819927885
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -9.3885651536,
+              -6.7991288131,
+              10.7042843026
+            ],
+            [
+              89.1144297725,
+              90.9167624192,
+              91.8135216655
+            ]
+          ],
+          "largest_ancestor_mass": 0.9427089469117294,
+          "weighted_row_effective_count": 10.885957925112619,
+          "elapsed_seconds": 59.421511236,
+          "log_evidence": -110.00266659329853,
+          "posterior_sha256": "1c2f9a8626b2d91b21a5e6b8c48a407f31478ba704838b334edd5e9317211e29",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 342.4912301928023,
+              "root_effective_sample_size": 342.4912301928024,
+              "maximum_root_weight": 0.01602777111422342,
+              "cumulative_log_evidence": -9.329860886368543
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 902.7613749871942,
+              "root_effective_sample_size": 17.239232089812717,
+              "maximum_root_weight": 0.15971443382684578,
+              "cumulative_log_evidence": -20.813612494857537
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 5017.769647216058,
+              "root_effective_sample_size": 13.147108146572585,
+              "maximum_root_weight": 0.24450432045526058,
+              "cumulative_log_evidence": -29.318923064088043
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 3.8047412273479244,
+              "root_effective_sample_size": 2.944846978828999,
+              "maximum_root_weight": 0.5624828386791734,
+              "cumulative_log_evidence": -51.123807768824484
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 21.32606985075922,
+              "root_effective_sample_size": 1.5574330788352324,
+              "maximum_root_weight": 0.7946799035973388,
+              "cumulative_log_evidence": -64.97232915583139
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 13.03993339983221,
+              "root_effective_sample_size": 1.1526547587501967,
+              "maximum_root_weight": 0.9309129801954088,
+              "cumulative_log_evidence": -79.37915629441963
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 26.33655829535099,
+              "root_effective_sample_size": 1.2008107081306705,
+              "maximum_root_weight": 0.9115033787040601,
+              "cumulative_log_evidence": -92.27184252741205
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 10.885957925112645,
+              "root_effective_sample_size": 1.1234614845062496,
+              "maximum_root_weight": 0.9427089469117284,
+              "cumulative_log_evidence": -110.00266659329853
+            }
+          ],
+          "checkpoint_source_sha256": "d41b357d3129bc2177e6802d18fab8b7333af57c4d18b07ffee777f6b8e3ff03",
+          "time_origin_unix_s": 1394215309.0
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.40554485736113854,
+        0.4516895559389193
+      ],
+      "pooled_cdf_at_truth": [
+        0.0005508092207264824,
+        0.0014234986413348312
+      ],
+      "reference_pair_cdf_difference": [
+        0.4452989842132363,
+        0.35715525658878694
+      ],
+      "reference_pooled_cdf_at_truth": [
+        2.0058878795427176e-11,
+        0.0011719004699327358
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.3046203940299987,
+        0.4394107252194655
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.014909951617296616,
+        0.03820940728873293
+      ]
+    }
+  ],
+  "scope": "Prior-predictive numerical control; fuel envelope conditioned; no accident calibration; coordinate intervals are not joint geographic areas",
+  "method_reference": {
+    "url": "https://sites.stat.columbia.edu/gelman/research/unpublished/sbc.pdf",
+    "locator": "pp. 3\u20135: prior-predictive repetition, empirical CDF limitations and computational scope"
+  },
+  "limitations": [
+    "Only 4 generated data sets in this comparison; binomial uncertainty is substantial.",
+    "Weighted interacting particle rows are not independent posterior draws; these CDF diagnostics are not an exact independent-rank SBC test.",
+    "Generator shares flight and SATCOM equations with inference. Independent physical and equation checks remain necessary.",
+    "Generating routes were accepted by an independent uniform draw against the same remaining-fuel-envelope probability used in inference. Acceptance uses no SATCOM measurement or noise value. This checks computation conditional on that envelope, not the physical validity of the fuel model or an exact exhaustion trajectory.",
+    "The accident-specific initial proposal is disabled for this control. Three equal-log-width parts of the existing shared manoeuvre waiting-time prior retain separate numerical populations in each navigation mode. Their prior masses sum exactly to the original prior; the original command/timing guide and all physical assumptions are unchanged."
+  ],
+  "reference_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-comparison/summary.json",
+  "reference_summary_sha256": "a278a0eb630ebef856a630907d0987dce5f63a4fff8e858eea6c9a32deca5227",
+  "reference_candidates_per_run": 20000,
+  "additional_reference_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-command-path-comparison/summary.json",
+  "additional_reference_summary_sha256": "df40775e27edad796985317cf3152650a1a73aa7215ad9bbad95504829c9e2e9"
+}

@@ -1,0 +1,118 @@
+{
+  "status": "Descriptive audit of found nominal-fuel examples, not complete physical support or a posterior",
+  "nominal_examples": 215,
+  "latitude_span_deg": [
+    -37.479339092913655,
+    -15.020241520284197
+  ],
+  "examples_without_source_fuel_domain_exit": 136,
+  "latitude_span_without_source_fuel_domain_exit_deg": [
+    -37.479339092913655,
+    -15.020241520284197
+  ],
+  "examples_with_thrust_proxy_extrapolation": 215,
+  "steady_cruise_direction_allowance_spans": [
+    {
+      "maximum_direction_settings": 1,
+      "examples": 8,
+      "latitude_span_deg": [
+        -36.191186093880575,
+        -35.26022219856619
+      ]
+    },
+    {
+      "maximum_direction_settings": 2,
+      "examples": 14,
+      "latitude_span_deg": [
+        -36.86933598499943,
+        -34.17543620102193
+      ]
+    },
+    {
+      "maximum_direction_settings": 4,
+      "examples": 24,
+      "latitude_span_deg": [
+        -37.18922844741217,
+        -34.16629722222298
+      ]
+    },
+    {
+      "maximum_direction_settings": 8,
+      "examples": 58,
+      "latitude_span_deg": [
+        -37.18922844741217,
+        -15.061850514277262
+      ]
+    },
+    {
+      "maximum_direction_settings": 16,
+      "examples": 93,
+      "latitude_span_deg": [
+        -37.479339092913655,
+        -15.061850514277262
+      ]
+    }
+  ],
+  "limits": {
+    "minimum_pressure_altitude_ft": 500.0,
+    "maximum_pressure_altitude_ft": 43000.0,
+    "minimum_mach_floor": 0.3,
+    "mmo": 0.87,
+    "vmo_kcas": 330.0,
+    "wing_area_m2": 427.8,
+    "maximum_lift_coefficient": 1.5,
+    "stall_speed_margin": 1.2,
+    "maximum_bank_deg": 30.0,
+    "maximum_roll_rate_deg_s": 3.0,
+    "maximum_mach_rate_per_s": 0.0005,
+    "maximum_climb_rate_ft_min": 4000.0,
+    "maximum_descent_rate_ft_min": 4000.0,
+    "maximum_vertical_acceleration_ft_min_s": 200.0,
+    "heading_capture_time_s": 120.0,
+    "altitude_capture_time_s": 600.0
+  },
+  "fuel_model": {
+    "family": "declared_broad_extension",
+    "minimum_pressure_altitude": 500.0,
+    "maximum_pressure_altitude": 43000.0,
+    "minimum_mach": 0.3,
+    "maximum_mach": 0.87,
+    "maximum_absolute_bank": 30.0,
+    "reference_mach": 0.82,
+    "nominal_flow_scale": 1.0,
+    "mach_log_sensitivity_per_mach": 1.5,
+    "below_fl350_log_sensitivity_per_1000_ft": 0.04,
+    "above_fl410_log_sensitivity_per_1000_ft": 0.02,
+    "bank_induced_drag_fraction": 0.45,
+    "climb_log_sensitivity_per_1000_ft_min": 0.04,
+    "descent_log_relief_per_1000_ft_min": 0.015,
+    "minimum_flow_multiplier": 0.5,
+    "maximum_flow_multiplier": 2.5
+  },
+  "fuel_anchor": {
+    "id": "arc1-official-calculated-fuel-anchor",
+    "time": 1576.9,
+    "zero_fuel_weight_kg": 174369.0,
+    "total_onboard_fuel_kg": 33524.10488196,
+    "reserved_fuel_kg": 15.0,
+    "unusable_fuel_kg": 0.0,
+    "left_usable_fraction": 0.5
+  },
+  "powered_feasibility": {
+    "aerodynamic_family": "openap_v2_6_0_attached_flow",
+    "thrust_multiplier": 1.25,
+    "static_thrust_cap_per_engine_n": 411480.0,
+    "maximum_additional_drag_coefficient": 0.1
+  },
+  "exhaustion_to_r600_condition_seconds": [
+    30.0,
+    300.0
+  ],
+  "coherence_measure_note": "Descriptive coordinates are kept separate. No weighted simplicity score or pilot-behaviour prior is inferred. Trace-derived totals are discretized approximations.",
+  "input_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/flight-assumption-preanalysis/verified-witnesses.jsonl": "86a3f1c8330983092eeff3ddff39251ed49de72b52bd74dcde1f27962a160493",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/cruise-exploration/verified-witnesses.jsonl": "669fc5d2f96c1b797a1e417c2d0edc903d0b4d42bf7341c6bfd4a62cce8b1b00",
+    "/jackbox/home/MH370/configs/mh370-broad-powered-flight-diagnostic.toml": "43aecc9b2a932b13e4072dbdbc0a8faa241d235d95ffa62d3a7f3ad0afe94ac3",
+    "/jackbox/home/MH370/crates/reporting/scripts/flight_assumption_report.py": "f2c5476a6b8412d9a55868eb0411cd8d61412ef2b1a54b74f2dfa5a15215161d"
+  }
+}

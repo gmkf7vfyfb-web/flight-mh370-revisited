@@ -1,0 +1,44 @@
+[workspace]
+resolver = "2"
+members = [
+  "crates/domain",
+  "crates/dynamics",
+  "crates/satcom",
+  "crates/particle-filter",
+  "crates/ocean-drift",
+  "crates/end-of-flight",
+  "crates/hydroacoustics",
+  "crates/antenna",
+  "crates/reporting",
+  "crates/controls",
+  "crates/estimator",
+  "crates/runner",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+rust-version = "1.75"
+
+[workspace.dependencies]
+anyhow = "1"
+approx = "0.5"
+clap = { version = "4", features = ["derive"] }
+hex = "0.4"
+fontdue = "0.9.4"
+png = "0.18.1"
+rand = "0.8"
+rand_chacha = "0.3"
+rand_distr = "0.4"
+rayon = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+thiserror = "1"
+toml = "0.8"
+
+[profile.release]
+codegen-units = 1
+lto = "thin"
+strip = "symbols"

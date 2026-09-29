@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.1.0",
+  "executable_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+  "command": "infer-impact",
+  "hypothesis_id": "final-acars-current-polar-best-glide-equal-feed",
+  "config_path": "runs/mh370/release-v0.1/impact/configs/final-acars-current-polar-best-glide-equal-feed/seed-370023.toml",
+  "config_sha256": "aefe28bba747b32b8fe625550d6f10b7d4a462838dfddb93fd3c0cae4c911b2a",
+  "input_sha256": {
+    "era5_grid": "261f4e1442ffac69df0201371f7dbf42da0ac0fa30065fc04e0e6293677a2a53",
+    "era5_manifest": "3dc2ba3e19406bc2707b72e2428511da7f10abba0b6f76f270af5bc5895ff43e",
+    "satcom_observations": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+    "satellite_ephemeris": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2",
+    "source_posterior_handoff": "c632671784813ab804ebb31abab7a0dfc7d9a43acc213119f252ffcd1aca6ba3"
+  },
+  "run_identity_sha256": "61df51077c16d08344084c733f3e7d4871c52ed70fba958cf6c60c965e165607",
+  "outputs": {
+    "impact-posterior-handoff.json": "ea8eb380066fc45ad302e84a791432be23354e11c4cd38f16f9d67df5b88f517",
+    "transition-sidecar.json": "260334bbd26dcea9bf6e5e051695ae8aef304f89ba947c238ad8f684a9615a77"
+  },
+  "scientific_scope": [
+    "One caller-selected conditional end-of-flight scenario; no scenario probabilities or model-family averaging.",
+    "Corrected 00:19:29 R600 BTO is the only new likelihood. Recorded reception requires SATCOM power at that checkpoint; power is a physical support condition and receives no separate likelihood.",
+    "00:19:37 R1200 BTO is held out; both final raw BFOs remain diagnostic and do not alter weights.",
+    "Aerodynamic family conditional_attached_flow_proxy_not_b777_terminal_calibration is an explicit attached-flow conditional proxy, not a B777 terminal-flight calibration.",
+    "Control history, fuel/feed state, APU, electrical, and restart behavior are explicit conditional inputs, not inferred model-family probabilities.",
+    "ERA5 temperature and horizontal wind are sampled at every force evaluation; the extraction is hourly and 0.5 degree, so interpolation does not create high-cadence observations.",
+    "Impact attitude and water-contact duration are unresolved and therefore null."
+  ]
+}

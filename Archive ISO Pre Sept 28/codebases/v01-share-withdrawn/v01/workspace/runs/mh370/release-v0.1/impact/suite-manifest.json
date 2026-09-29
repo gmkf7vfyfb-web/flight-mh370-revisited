@@ -1,0 +1,422 @@
+{
+  "base_config": "configs/mh370-impact-era5-martin-arc1-current-best-glide.toml",
+  "base_config_sha256": "ebede5cf4fb623d33db6e84062f9c643e1664ec7d8e6b8e591a03934f779fb01",
+  "conditional_source_branches": [
+    {
+      "draw_count_per_seed": 512,
+      "eof_scenario_id": "arc1-current-polar-best-glide-equal-feed",
+      "id": "gain-conditioned-0011-primary-eof",
+      "role": "conditional-gain source-posterior sensitivity",
+      "runs": [
+        {
+          "config": "configs/gain-conditioned-0011-primary-eof/seed-370023.toml",
+          "config_sha256": "e8ea9828289db1075ebbbfe235ca58a38142951e908cbd0eeae880feae73a5ee",
+          "impact_handoff": "gain-conditioned-0011-primary-eof/seed-370023/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "7495bd5324ed657c3c57fc5c772b320c8121921517ec00529e7732121712f5ae",
+          "run_manifest": "gain-conditioned-0011-primary-eof/seed-370023/run-manifest.json",
+          "run_manifest_sha256": "feb63cde1935b59d448754b1e1c9e6d1cd6f8a439c24affb2d2a12f668d10790",
+          "source_seed": 370023,
+          "transition_sidecar": "gain-conditioned-0011-primary-eof/seed-370023/transition-sidecar.json",
+          "transition_sidecar_sha256": "6c21453ddffb746b3bfc4f1162373aa6b057371704dc2568b0eb392900c91b4b"
+        },
+        {
+          "config": "configs/gain-conditioned-0011-primary-eof/seed-370024.toml",
+          "config_sha256": "2eee5e5058ccc0ece6facfa507ea16239be02c051b0789ea5ab20c8934322665",
+          "impact_handoff": "gain-conditioned-0011-primary-eof/seed-370024/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "14664c4e4ae4680df4eeabfeccef38ee09f9232bb51965ddf1abce719e4f3386",
+          "run_manifest": "gain-conditioned-0011-primary-eof/seed-370024/run-manifest.json",
+          "run_manifest_sha256": "6fe5688bad6f77d0807aca72560a431736ee9a4e34c9cde54e4ceb6b5d888abe",
+          "source_seed": 370024,
+          "transition_sidecar": "gain-conditioned-0011-primary-eof/seed-370024/transition-sidecar.json",
+          "transition_sidecar_sha256": "003446bf15e8b0023628a49697a6a8c31d080ba6f2acabe6aeab04edd0392679"
+        },
+        {
+          "config": "configs/gain-conditioned-0011-primary-eof/seed-370025.toml",
+          "config_sha256": "e97ace1e3d964cb18e6b233dcc90aff76d9ac4376af39a033295d2235843d851",
+          "impact_handoff": "gain-conditioned-0011-primary-eof/seed-370025/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "bd77c7283a41063fbeea8cfdb56a02aa5dcb30320141c707379811c5002fc8eb",
+          "run_manifest": "gain-conditioned-0011-primary-eof/seed-370025/run-manifest.json",
+          "run_manifest_sha256": "163a8f5aa4052cf0862bd21728c35ab320ccdb0df9f820904eb87606bf6ecd2f",
+          "source_seed": 370025,
+          "transition_sidecar": "gain-conditioned-0011-primary-eof/seed-370025/transition-sidecar.json",
+          "transition_sidecar_sha256": "0647b5d8c27a725b230d9212dba12e01e280e788dad840d572decff8eb97ad41"
+        },
+        {
+          "config": "configs/gain-conditioned-0011-primary-eof/seed-370026.toml",
+          "config_sha256": "d71f4daaae610140ec1122a7d52d8735f05ca8a750df228395e3a8135de6a9f6",
+          "impact_handoff": "gain-conditioned-0011-primary-eof/seed-370026/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "3ef1ebb8d97fd7d7e514cf45b6d784ac595d58062ef460da2cedd454f240a3f5",
+          "run_manifest": "gain-conditioned-0011-primary-eof/seed-370026/run-manifest.json",
+          "run_manifest_sha256": "f4bacd9ee5b39aebf8fa108f7e44942b6a39633716962b4ef43ad21adb3d8038",
+          "source_seed": 370026,
+          "transition_sidecar": "gain-conditioned-0011-primary-eof/seed-370026/transition-sidecar.json",
+          "transition_sidecar_sha256": "0c992c6572d80d069e7dfead802e93ea538060f90e8ef315d7d15be2ba9151fd"
+        },
+        {
+          "config": "configs/gain-conditioned-0011-primary-eof/seed-370027.toml",
+          "config_sha256": "5fc7fdf23873937c83f860d82bc5a12d8f3567a8227791f055f19b121ac3f2bb",
+          "impact_handoff": "gain-conditioned-0011-primary-eof/seed-370027/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "9ad2e178809156b8cfd53d79a3bd57827b80a59c238782a0ee25c0e86316c029",
+          "run_manifest": "gain-conditioned-0011-primary-eof/seed-370027/run-manifest.json",
+          "run_manifest_sha256": "c0b333d7eda299a9ee9c2783efb8bcf41a74a34913f008fb42ac4ac60085c110",
+          "source_seed": 370027,
+          "transition_sidecar": "gain-conditioned-0011-primary-eof/seed-370027/transition-sidecar.json",
+          "transition_sidecar_sha256": "e80a85d1504286ff56822b4eeabc48022c14a74ab929eeae1935e7038582e5f3"
+        }
+      ],
+      "source_seed_combination": "equal_numerical_replicates",
+      "title": "Conditional antenna-gain 00:11 source \u00b7 primary EOF family"
+    }
+  ],
+  "families": [
+    {
+      "draw_count_per_seed": 512,
+      "eof_scenario_id": "arc1-current-polar-best-glide-equal-feed",
+      "id": "arc1-current-polar-best-glide-equal-feed",
+      "role": "primary conditional release proxy",
+      "runs": [
+        {
+          "config": "configs/arc1-current-polar-best-glide-equal-feed/seed-370023.toml",
+          "config_sha256": "b17584e731a5bf19f7b75d64af225fcd11d16d3b6336434a2e36ef0a7f35f366",
+          "impact_handoff": "arc1-current-polar-best-glide-equal-feed/seed-370023/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "263f56a8316c9524b579bdc87c3409001ca388aef346e2efccdaf13b5e6b55e9",
+          "run_manifest": "arc1-current-polar-best-glide-equal-feed/seed-370023/run-manifest.json",
+          "run_manifest_sha256": "c580afad8a18864f0b6009ac65aade86ee0bc2ea1f1fd6a39e673c87293abf28",
+          "source_seed": 370023,
+          "transition_sidecar": "arc1-current-polar-best-glide-equal-feed/seed-370023/transition-sidecar.json",
+          "transition_sidecar_sha256": "f241b56fe8831cea166db2b04d22e99c537bb0a8ae619c1cecc01994fa81be8d"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-equal-feed/seed-370024.toml",
+          "config_sha256": "61704219b2cce95d8cf81742845266884e7fd82745942a7798fca7627598d19f",
+          "impact_handoff": "arc1-current-polar-best-glide-equal-feed/seed-370024/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "6c3af77bc0954d01bf6612526dad10046a47f2b96616b470078edc3ae99062a7",
+          "run_manifest": "arc1-current-polar-best-glide-equal-feed/seed-370024/run-manifest.json",
+          "run_manifest_sha256": "9bb98c131f58694139f1681e0e7746df1e9f6515c265df49021c24449b733e8d",
+          "source_seed": 370024,
+          "transition_sidecar": "arc1-current-polar-best-glide-equal-feed/seed-370024/transition-sidecar.json",
+          "transition_sidecar_sha256": "abe8c59535a308c21e6b7902dc772465be2b6c741c96498f7c05907a21acc059"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-equal-feed/seed-370025.toml",
+          "config_sha256": "1bc96620499fc985bd57a83c2538e62a6686db11f13189eb867817518040c795",
+          "impact_handoff": "arc1-current-polar-best-glide-equal-feed/seed-370025/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "e4ffad641184c684898525c55c9b3aa6cfc590525af3d61335e325fdd121e7fe",
+          "run_manifest": "arc1-current-polar-best-glide-equal-feed/seed-370025/run-manifest.json",
+          "run_manifest_sha256": "8058ce27f3a5dc55fb44f03d64094ad37146216a63671e4103c7b3914d1a53f6",
+          "source_seed": 370025,
+          "transition_sidecar": "arc1-current-polar-best-glide-equal-feed/seed-370025/transition-sidecar.json",
+          "transition_sidecar_sha256": "ed54bf3959a16d7c35b679004f5610cd6f6a9e812009dcef10aa5ef1816c2434"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-equal-feed/seed-370026.toml",
+          "config_sha256": "0f1496ee5e0f9657aecda2a92c893a84cae91e06a206fc7a1692fff8b8d47a84",
+          "impact_handoff": "arc1-current-polar-best-glide-equal-feed/seed-370026/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "4515d09acadec71ad606c490d29bc9a1f8879d25cf719130ba999744e5c608c5",
+          "run_manifest": "arc1-current-polar-best-glide-equal-feed/seed-370026/run-manifest.json",
+          "run_manifest_sha256": "69c930f5e6d156054f66a4430621485370ef36fc093a4bf9116fc5f88a548968",
+          "source_seed": 370026,
+          "transition_sidecar": "arc1-current-polar-best-glide-equal-feed/seed-370026/transition-sidecar.json",
+          "transition_sidecar_sha256": "341eb33b4799e5b91f342ff683de07a08d85477814c7072e5cb961abf6b374a3"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-equal-feed/seed-370027.toml",
+          "config_sha256": "369a52f14d5963e7468552122abab400d9bd9db602910e85391f0514c682c1bd",
+          "impact_handoff": "arc1-current-polar-best-glide-equal-feed/seed-370027/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "c49c334a49b6b2adff8489aca560636f6e8b8cb09bc4814e3a14a80dfc0415e8",
+          "run_manifest": "arc1-current-polar-best-glide-equal-feed/seed-370027/run-manifest.json",
+          "run_manifest_sha256": "c1d989edb30b59d5982c89b51420ce7e4ab899877ac6dee2a94b9b496491869b",
+          "source_seed": 370027,
+          "transition_sidecar": "arc1-current-polar-best-glide-equal-feed/seed-370027/transition-sidecar.json",
+          "transition_sidecar_sha256": "c5298ed3da5fc3b9d1792de1957ec4fae82635d9a514a3c67096d5ae17f0ddea"
+        }
+      ],
+      "source_seed_combination": "equal_numerical_replicates",
+      "title": "Arc-1 fuel \u00b7 current OpenAP polar \u00b7 best glide \u00b7 equal feed"
+    },
+    {
+      "draw_count_per_seed": 256,
+      "eof_scenario_id": "final-acars-current-polar-best-glide-equal-feed",
+      "id": "final-acars-current-polar-best-glide-equal-feed",
+      "role": "fuel-history sensitivity",
+      "runs": [
+        {
+          "config": "configs/final-acars-current-polar-best-glide-equal-feed/seed-370023.toml",
+          "config_sha256": "aefe28bba747b32b8fe625550d6f10b7d4a462838dfddb93fd3c0cae4c911b2a",
+          "impact_handoff": "final-acars-current-polar-best-glide-equal-feed/seed-370023/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "ea8eb380066fc45ad302e84a791432be23354e11c4cd38f16f9d67df5b88f517",
+          "run_manifest": "final-acars-current-polar-best-glide-equal-feed/seed-370023/run-manifest.json",
+          "run_manifest_sha256": "f3bdddd05aefa515c2bf0c9e7dfda3657ed46da5970e026a97700a05c1e96a9a",
+          "source_seed": 370023,
+          "transition_sidecar": "final-acars-current-polar-best-glide-equal-feed/seed-370023/transition-sidecar.json",
+          "transition_sidecar_sha256": "260334bbd26dcea9bf6e5e051695ae8aef304f89ba947c238ad8f684a9615a77"
+        },
+        {
+          "config": "configs/final-acars-current-polar-best-glide-equal-feed/seed-370024.toml",
+          "config_sha256": "53fa7ccee1513b57e9231f07fcd3f1f35ac70a4bac4f8021c9e4e88c3eb95d25",
+          "impact_handoff": "final-acars-current-polar-best-glide-equal-feed/seed-370024/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "984a32591b46e425f310af21dfc8dd0ebce0d9f38be9fd9b6f26640ce202c6df",
+          "run_manifest": "final-acars-current-polar-best-glide-equal-feed/seed-370024/run-manifest.json",
+          "run_manifest_sha256": "c31ae45dd6b4be3c72f4ebb478a94a07282b022b119ddd17ae1cb19f9990d885",
+          "source_seed": 370024,
+          "transition_sidecar": "final-acars-current-polar-best-glide-equal-feed/seed-370024/transition-sidecar.json",
+          "transition_sidecar_sha256": "2a05cabef893722a0fa282fd89ddf0a8e342aaf06c7936d1e812f7cc7f709c9f"
+        },
+        {
+          "config": "configs/final-acars-current-polar-best-glide-equal-feed/seed-370025.toml",
+          "config_sha256": "081237dc647534eb843e952e1deeea9c8f85ee7d3fc988eb127793888d2466e1",
+          "impact_handoff": "final-acars-current-polar-best-glide-equal-feed/seed-370025/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "c3b04bc1c4fa3ba97e1493ba2a9e3470576331d7ce5c49c989d1e07e24e19c2f",
+          "run_manifest": "final-acars-current-polar-best-glide-equal-feed/seed-370025/run-manifest.json",
+          "run_manifest_sha256": "86889e9c639df2c578b2ac77c2a67972a4948e0b1c2bbadde681f14f884d62e5",
+          "source_seed": 370025,
+          "transition_sidecar": "final-acars-current-polar-best-glide-equal-feed/seed-370025/transition-sidecar.json",
+          "transition_sidecar_sha256": "c991eb72b7da5660bf4ce3b6a7a46713e0060fda4fc8840f4394318c28d10689"
+        },
+        {
+          "config": "configs/final-acars-current-polar-best-glide-equal-feed/seed-370026.toml",
+          "config_sha256": "9b15020307f3260ca6bc60aeefa6d83b39cb85a4009f4cc01e0c62f14fbb50a8",
+          "impact_handoff": "final-acars-current-polar-best-glide-equal-feed/seed-370026/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "99546dd810a32d7bfc3cb3a0c0cac14f40720f9ea2f6f9f38ffdfa45f41123a7",
+          "run_manifest": "final-acars-current-polar-best-glide-equal-feed/seed-370026/run-manifest.json",
+          "run_manifest_sha256": "e0e3ce40243cca82ee486fccc08b4c325b034a0a38f72b4316ed838068427757",
+          "source_seed": 370026,
+          "transition_sidecar": "final-acars-current-polar-best-glide-equal-feed/seed-370026/transition-sidecar.json",
+          "transition_sidecar_sha256": "744d2049fac0f1762abc293752ed3269a591752925f468de362893c84887bdbe"
+        },
+        {
+          "config": "configs/final-acars-current-polar-best-glide-equal-feed/seed-370027.toml",
+          "config_sha256": "0771b07e9e7000577c5ed8d606b29af4bd6f0bea8c843fb61b2c266d157d247a",
+          "impact_handoff": "final-acars-current-polar-best-glide-equal-feed/seed-370027/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "32919078bed0efd66b329199f186683231df05f7bc0462182027cee3af9b18f1",
+          "run_manifest": "final-acars-current-polar-best-glide-equal-feed/seed-370027/run-manifest.json",
+          "run_manifest_sha256": "1952dd926764b994f059b478e25eb98e48324af173b80c6bbfb29a93841a8577",
+          "source_seed": 370027,
+          "transition_sidecar": "final-acars-current-polar-best-glide-equal-feed/seed-370027/transition-sidecar.json",
+          "transition_sidecar_sha256": "fb0b958e573fe863f6da65c4d61575c3d84de6b486ef2597de984edb5d269245"
+        }
+      ],
+      "source_seed_combination": "equal_numerical_replicates",
+      "title": "Final ACARS fuel \u00b7 current OpenAP polar \u00b7 best glide \u00b7 equal feed"
+    },
+    {
+      "draw_count_per_seed": 256,
+      "eof_scenario_id": "arc1-published-polar-best-glide-equal-feed",
+      "id": "arc1-published-polar-best-glide-equal-feed",
+      "role": "attached-flow aerodynamic sensitivity",
+      "runs": [
+        {
+          "config": "configs/arc1-published-polar-best-glide-equal-feed/seed-370023.toml",
+          "config_sha256": "d9ce496c845fab7b0d7ac687d6d259861ffd57f7b589f583c82ebad8e3a0565a",
+          "impact_handoff": "arc1-published-polar-best-glide-equal-feed/seed-370023/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "55f819b715e9b0483ceb3950af1618db798a6175a0525ad2c795f876153e1070",
+          "run_manifest": "arc1-published-polar-best-glide-equal-feed/seed-370023/run-manifest.json",
+          "run_manifest_sha256": "731479351657c6a0169711afe39f858e645953ed3adae6855ab1c07f1e74a69b",
+          "source_seed": 370023,
+          "transition_sidecar": "arc1-published-polar-best-glide-equal-feed/seed-370023/transition-sidecar.json",
+          "transition_sidecar_sha256": "12a9a323682ccfb878b706eda3f32a14e5650d54e7dedf41d1b4267119569749"
+        },
+        {
+          "config": "configs/arc1-published-polar-best-glide-equal-feed/seed-370024.toml",
+          "config_sha256": "fb9fc815e22d7e3e0b3884f48ada0320be1ab1bf78fe5f4559716133d06aa05d",
+          "impact_handoff": "arc1-published-polar-best-glide-equal-feed/seed-370024/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "edf6621748c93abb06c0fbc97e8fdd919309b654f395c1c207fb0b1414a509a8",
+          "run_manifest": "arc1-published-polar-best-glide-equal-feed/seed-370024/run-manifest.json",
+          "run_manifest_sha256": "556cf5db2d60326d5be441917f163b1d742a8d034fd504da15e81d90aab2dcc0",
+          "source_seed": 370024,
+          "transition_sidecar": "arc1-published-polar-best-glide-equal-feed/seed-370024/transition-sidecar.json",
+          "transition_sidecar_sha256": "c35fe30db874c87de6248553840c011cd906e80096d4144a06fe0e4ef663a094"
+        },
+        {
+          "config": "configs/arc1-published-polar-best-glide-equal-feed/seed-370025.toml",
+          "config_sha256": "23ba77ba16314e18ebd9160dbf41faae78b6f2de87a9930f7382951628f33fb7",
+          "impact_handoff": "arc1-published-polar-best-glide-equal-feed/seed-370025/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "4f36a4d6483c48567fbc5b5bc939da63153695bdc7aa543f805547ccd80f6920",
+          "run_manifest": "arc1-published-polar-best-glide-equal-feed/seed-370025/run-manifest.json",
+          "run_manifest_sha256": "a404ce675d30c165ca4e34059006a317e778a013a8a686fcec16afbd9aca5ee7",
+          "source_seed": 370025,
+          "transition_sidecar": "arc1-published-polar-best-glide-equal-feed/seed-370025/transition-sidecar.json",
+          "transition_sidecar_sha256": "4debac6db1a07d969d2c3e0abe888bc583cafcc6a5c71c2c56dc1baf2e7b23d7"
+        },
+        {
+          "config": "configs/arc1-published-polar-best-glide-equal-feed/seed-370026.toml",
+          "config_sha256": "d678d5ae3647959e9813ea3723a447ac4d3cf694e4c3d148bde1f2398850ea29",
+          "impact_handoff": "arc1-published-polar-best-glide-equal-feed/seed-370026/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "1e7925e745dd845feff0050cd64610014155ac272cb5990b1645b396272aca90",
+          "run_manifest": "arc1-published-polar-best-glide-equal-feed/seed-370026/run-manifest.json",
+          "run_manifest_sha256": "250d4977241b2c68f8b02302c59a2f3abacb338d49c973ce7bf1d6f94a97489c",
+          "source_seed": 370026,
+          "transition_sidecar": "arc1-published-polar-best-glide-equal-feed/seed-370026/transition-sidecar.json",
+          "transition_sidecar_sha256": "117de18ebfbd1a0710b0beca53dcccd4103648e6aeb324fd9f43b988dde04086"
+        },
+        {
+          "config": "configs/arc1-published-polar-best-glide-equal-feed/seed-370027.toml",
+          "config_sha256": "c59ad5d00eb7645e6b16845918f911a723ada38a608cf55f27d2098af3a25fe4",
+          "impact_handoff": "arc1-published-polar-best-glide-equal-feed/seed-370027/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "042b03792c379cf17bade7200b06eb9996f6e43fadef9e4a0c3c608d34daa516",
+          "run_manifest": "arc1-published-polar-best-glide-equal-feed/seed-370027/run-manifest.json",
+          "run_manifest_sha256": "92e86411e2742e12459efcf7afd06b8e14d4c65d459ed30392a2d3be4256cdb9",
+          "source_seed": 370027,
+          "transition_sidecar": "arc1-published-polar-best-glide-equal-feed/seed-370027/transition-sidecar.json",
+          "transition_sidecar_sha256": "3fd0c6594d97f1b51f749b203824118ff37f380fae3e55e51cf46157372dc7d7"
+        }
+      ],
+      "source_seed_combination": "equal_numerical_replicates",
+      "title": "Arc-1 fuel \u00b7 published 2020 polar \u00b7 best glide \u00b7 equal feed"
+    },
+    {
+      "draw_count_per_seed": 256,
+      "eof_scenario_id": "arc1-current-polar-low-lift-equal-feed",
+      "id": "arc1-current-polar-low-lift-equal-feed",
+      "role": "uncontrolled-lift sensitivity",
+      "runs": [
+        {
+          "config": "configs/arc1-current-polar-low-lift-equal-feed/seed-370023.toml",
+          "config_sha256": "80d278e1b3c9906d9ca8394f41588db4d70cdb9a25ccc4653a955b5d1c39ebec",
+          "impact_handoff": "arc1-current-polar-low-lift-equal-feed/seed-370023/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "057e9b181afc807d4170798b3af640f8a19744d20af00113f12d1a0aa785597d",
+          "run_manifest": "arc1-current-polar-low-lift-equal-feed/seed-370023/run-manifest.json",
+          "run_manifest_sha256": "32839742bb9f80c3fb8e5f2ccc4607aa70c58b8f12d3ac40ea5779c6d765be1e",
+          "source_seed": 370023,
+          "transition_sidecar": "arc1-current-polar-low-lift-equal-feed/seed-370023/transition-sidecar.json",
+          "transition_sidecar_sha256": "f6f4ee057d547992ddc310e819ecfc5d13f48d5c5cdc753e6bd259a8ffc1c842"
+        },
+        {
+          "config": "configs/arc1-current-polar-low-lift-equal-feed/seed-370024.toml",
+          "config_sha256": "bc166a0a191e19c995260625fa97e674de429c260e8529092f7a404aaf838ece",
+          "impact_handoff": "arc1-current-polar-low-lift-equal-feed/seed-370024/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "f0431b91f5eb4014e2b5d61c0cc886649c327bd356e0cfcf4f06d973112e3b78",
+          "run_manifest": "arc1-current-polar-low-lift-equal-feed/seed-370024/run-manifest.json",
+          "run_manifest_sha256": "0c2d6ae9b0d4f4a3fddc3d5850e2f3c5b1faed103270fcc08200d45a046c8158",
+          "source_seed": 370024,
+          "transition_sidecar": "arc1-current-polar-low-lift-equal-feed/seed-370024/transition-sidecar.json",
+          "transition_sidecar_sha256": "0102559683568936bc0793be862b79a5ff0aa4306c62796ac74c5d1d28027508"
+        },
+        {
+          "config": "configs/arc1-current-polar-low-lift-equal-feed/seed-370025.toml",
+          "config_sha256": "a22c4c3554f49f4adc0839619a83802805d20599812b9b3835a3d71634789b7d",
+          "impact_handoff": "arc1-current-polar-low-lift-equal-feed/seed-370025/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "8e219f1d189f29409ed2ad6b4887f7f3b28a5f646e0d1511bed7319ed5e44c52",
+          "run_manifest": "arc1-current-polar-low-lift-equal-feed/seed-370025/run-manifest.json",
+          "run_manifest_sha256": "2a48fd574084fff037d298c6e4008e4911637f315d49c4150ef71a865a9850b7",
+          "source_seed": 370025,
+          "transition_sidecar": "arc1-current-polar-low-lift-equal-feed/seed-370025/transition-sidecar.json",
+          "transition_sidecar_sha256": "6cdfafb615f8b2cf37286bdbac868bde996e3cfefd0a5cb959324ded7af180cf"
+        },
+        {
+          "config": "configs/arc1-current-polar-low-lift-equal-feed/seed-370026.toml",
+          "config_sha256": "6091eb9f60f4a461e8601f3e2c7c1c4aefdc5ea350ff20add401a8f56cb6638f",
+          "impact_handoff": "arc1-current-polar-low-lift-equal-feed/seed-370026/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "be5956fffbf6e97329c35c50c1917cd36b156c9c184389883f841fcd45cf16bc",
+          "run_manifest": "arc1-current-polar-low-lift-equal-feed/seed-370026/run-manifest.json",
+          "run_manifest_sha256": "f970bf8bf758ffad7c96405161df293d5575d378653b47fd601799eb6258c3d4",
+          "source_seed": 370026,
+          "transition_sidecar": "arc1-current-polar-low-lift-equal-feed/seed-370026/transition-sidecar.json",
+          "transition_sidecar_sha256": "9f709c5f4791d05fa7016ce1b856fb50af04b63d97f4d597550e2868ff0e9764"
+        },
+        {
+          "config": "configs/arc1-current-polar-low-lift-equal-feed/seed-370027.toml",
+          "config_sha256": "a9b824a4fd82fa1466d15c03e2074c6e02185975b5ecb19e572b2e6750c6a2f6",
+          "impact_handoff": "arc1-current-polar-low-lift-equal-feed/seed-370027/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "cf419c5f45f585fac734b22ad702f3062b137019cfd5ed721b06b916cdf9583b",
+          "run_manifest": "arc1-current-polar-low-lift-equal-feed/seed-370027/run-manifest.json",
+          "run_manifest_sha256": "88c9c760baa9ce51e04c9e805d3dae8037c67857572829c1509dab0b24d71ae9",
+          "source_seed": 370027,
+          "transition_sidecar": "arc1-current-polar-low-lift-equal-feed/seed-370027/transition-sidecar.json",
+          "transition_sidecar_sha256": "ec3a04bf4c0b3ded39cc6018a009886db767c6bceb26984322f8eeb388f639ba"
+        }
+      ],
+      "source_seed_combination": "equal_numerical_replicates",
+      "title": "Arc-1 fuel \u00b7 current OpenAP polar \u00b7 CL 0.30 \u00b7 equal feed"
+    },
+    {
+      "draw_count_per_seed": 256,
+      "eof_scenario_id": "arc1-current-polar-best-glide-left-first-10s",
+      "id": "arc1-current-polar-best-glide-left-first-10s",
+      "role": "effective-feed chronology sensitivity",
+      "runs": [
+        {
+          "config": "configs/arc1-current-polar-best-glide-left-first-10s/seed-370023.toml",
+          "config_sha256": "a82d6fde86467a46724475a2e8e29dff925bd3e18d4b42a86abc3fb4b97aa5ed",
+          "impact_handoff": "arc1-current-polar-best-glide-left-first-10s/seed-370023/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "6b714f87bcc5633c0725fc6dd4bd84634868e795092e744bfb1de6dd603b762f",
+          "run_manifest": "arc1-current-polar-best-glide-left-first-10s/seed-370023/run-manifest.json",
+          "run_manifest_sha256": "8db75cb99683f39997a5f2016954e4fcf03a8c78e86933e198c62c5331205345",
+          "source_seed": 370023,
+          "transition_sidecar": "arc1-current-polar-best-glide-left-first-10s/seed-370023/transition-sidecar.json",
+          "transition_sidecar_sha256": "846ee6d2fbfb26fec858aad111fcff9346c66acb6aa602ccbc81fbed04ae19cb"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-left-first-10s/seed-370024.toml",
+          "config_sha256": "d68f864c8b68d8ee58434fe4d42c6a6096d78b56d3df4ebcb9fc4714578df48d",
+          "impact_handoff": "arc1-current-polar-best-glide-left-first-10s/seed-370024/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "6228e67bc7869d011f1a5919a3404ceb6ecb7ad9259303ecea56485abce3287a",
+          "run_manifest": "arc1-current-polar-best-glide-left-first-10s/seed-370024/run-manifest.json",
+          "run_manifest_sha256": "677b3795e2d6e499faed2118c6006ce889b9b666fcd641c762c1e5c32c955978",
+          "source_seed": 370024,
+          "transition_sidecar": "arc1-current-polar-best-glide-left-first-10s/seed-370024/transition-sidecar.json",
+          "transition_sidecar_sha256": "faf7807a75112f665c37f9c37a7932ee16154589ac372f4d139a5b1305c0ff58"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-left-first-10s/seed-370025.toml",
+          "config_sha256": "51424ac1c0b8225ed41070907038c51dc2a29b23beff01ebbcd7ec4b89f23a04",
+          "impact_handoff": "arc1-current-polar-best-glide-left-first-10s/seed-370025/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "be3dd3fe283ee34f3fe2438a49accad2b4c8c2cbde77c9ed30ac4f0573e80bbe",
+          "run_manifest": "arc1-current-polar-best-glide-left-first-10s/seed-370025/run-manifest.json",
+          "run_manifest_sha256": "c72dd93d465ed6f1ab27b38836911447dece6b00312dd50982ba7c639f30ac9c",
+          "source_seed": 370025,
+          "transition_sidecar": "arc1-current-polar-best-glide-left-first-10s/seed-370025/transition-sidecar.json",
+          "transition_sidecar_sha256": "829e5d3f853bd6fd1627b2ab4d27851f314ce65db97a7e24208a1b5c712416ee"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-left-first-10s/seed-370026.toml",
+          "config_sha256": "feb9299e3f7a75176b52e163d00ef605e9fff122402fc657d76bfee5b63d5e94",
+          "impact_handoff": "arc1-current-polar-best-glide-left-first-10s/seed-370026/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "2d0e9f95061cc9cb3b7e969a841992d235d6c3d4110b43e6de8d6daf024685ab",
+          "run_manifest": "arc1-current-polar-best-glide-left-first-10s/seed-370026/run-manifest.json",
+          "run_manifest_sha256": "689328e730d2f772350db60102b1730bd35809875c2cb3a529296dc236b3641f",
+          "source_seed": 370026,
+          "transition_sidecar": "arc1-current-polar-best-glide-left-first-10s/seed-370026/transition-sidecar.json",
+          "transition_sidecar_sha256": "72752ab4f033f7bb70bf99dedf02e96030c13e7448f99a72e1e1ce29da307516"
+        },
+        {
+          "config": "configs/arc1-current-polar-best-glide-left-first-10s/seed-370027.toml",
+          "config_sha256": "017e4768db42872d5a0c8c0147f1fbda829a621cacea6723a9e16afab0dde813",
+          "impact_handoff": "arc1-current-polar-best-glide-left-first-10s/seed-370027/impact-posterior-handoff.json",
+          "impact_handoff_sha256": "106309fbf3ce84235072e6336ba1b2f23b73d6517622fc097e15691a1d8d13b8",
+          "run_manifest": "arc1-current-polar-best-glide-left-first-10s/seed-370027/run-manifest.json",
+          "run_manifest_sha256": "6c1d680dc12006aa13c6289bb47b2d3e9874e74172f0e81986fd5940b1c927cb",
+          "source_seed": 370027,
+          "transition_sidecar": "arc1-current-polar-best-glide-left-first-10s/seed-370027/transition-sidecar.json",
+          "transition_sidecar_sha256": "6c4102b6ef3f2b8ed40771e9f28888db9d68de52f622429bd991d963b5fe23b8"
+        }
+      ],
+      "source_seed_combination": "equal_numerical_replicates",
+      "title": "Arc-1 fuel \u00b7 current OpenAP polar \u00b7 best glide \u00b7 left first by 10 s"
+    }
+  ],
+  "family_combination": "separate",
+  "generator": "crates/runner/scripts/impact_release_suite.py",
+  "generator_sha256": "316dec2cd968d9019000435f44b33d0577cab00bed644b6cac25f4c8af876a52",
+  "matrix": "configs/mh370-impact-release-families.json",
+  "matrix_sha256": "815b39f9fae52f1ea586b81312e74a691a3567e43ae6d20f0002f50857bd151c",
+  "path_basis": "repository_root",
+  "policy": {
+    "combination": "separate_conditionals_no_family_averaging",
+    "held_out_or_diagnostic": [
+      "00:19:37 R1200 BTO",
+      "00:19:29 and 00:19:37 raw BFO",
+      "log-on time and occurrence"
+    ],
+    "new_evidence": "Corrected 00:19:29 R600 BTO only, conditional on recorded reception and physical SATCOM power at the checkpoint.",
+    "weight_interpretation": "Each family is normalized independently. No probability is assigned across fuel, feed, aerodynamic, or control families."
+  },
+  "requested_draw_count": null,
+  "runner": "target/release/mh370",
+  "runner_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+  "schema_id": "mh370-impact-conditional-suite",
+  "schema_version": 1,
+  "source_tree_lock": "source-tree.lock.json",
+  "source_tree_lock_sha256": "b7d5c1b314b9f500bec44b9383587e5dc8faa2cb470672c3e98cbd70a2afc59c",
+  "source_tree_sha256": "d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d"
+}

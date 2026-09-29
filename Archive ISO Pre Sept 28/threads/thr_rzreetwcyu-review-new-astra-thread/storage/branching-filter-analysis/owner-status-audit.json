@@ -1,0 +1,103 @@
+{
+  "checked_utc": "2026-09-18T18:04:29.611872+00:00",
+  "last_verified_scientific_report_utc": "2026-09-18T18:00:34.681011+00:00",
+  "new_scientific_results_since_report": true,
+  "numerical_workers_running": false,
+  "owner_active_task": "Direct queued continuation is executing. Instrumenting two saved PGAS updates to separate full-suffix observation and prior/proposal factors. No sampler yet.",
+  "failed_automation": {
+    "id": "auto_mkkakdkryas",
+    "projectId": "proj_pm8k5krhiy",
+    "name": "MH370 owner continuation: core estimator and checked reports",
+    "enabled": false,
+    "trigger": {
+      "triggerType": "once",
+      "runAt": 1789495866035
+    },
+    "execution": {
+      "mode": "agent",
+      "prompt": "Continue Pete Large's authorized MH370 implementation work in this existing owner thread; this is not a new objective. Read the newest sections of /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/plan.md and progress.md, then inspect actual processes and artifacts. Steps1\u20132 are complete: current verified report is terminal-refined-mixture/mixed/model-mixture/report/, with equal four-case00:19BFO mixture updated by drift/search. Broad mixed repeatability improved, but core cruise recovery and fine search rankings remain unresolved. Preserve no-subagents and the single canonical implementation. The old8September deadline/cap and arbitrary5%threshold are superseded. Do not rerun completed/failed experiments or scale an unchanged failed method. Latest complete-candidate first-gap controls are rejected, archived and removed; even averaging all candidate weights leaves ancestry concentration. Next useful core task is to investigate revisions of earlier physical flight histories conditioned on later observations: inspect the archived full-history/random-input methods first, identify a concrete mathematical correction rather than repeat them, and validate any new proposal with independent finite/continuous reference calculations before a small matched control. Do not use generating truth to tune an inference proposal or count diagnostic candidate continuations as new complete MH370 trajectories. Continue other useful authorized work when an experiment is unsupported. Maintain frequent plain-English updates, actual process status, reproducible inputs and browser/PDF reports. State limitations honestly; do not claim a stable estimator or unattended work without verification.",
+      "providerId": "codex",
+      "model": "gpt-6-astra",
+      "permissionMode": "auto",
+      "environment": {
+        "type": "project-default"
+      },
+      "targetThreadId": "thr_rzreetwcyu"
+    },
+    "origin": "agent",
+    "createdByThreadId": "thr_rzreetwcyu",
+    "nextRunAt": null,
+    "lastRunAt": 1789495866401,
+    "runCount": 1,
+    "lastRunStatus": "failed",
+    "lastRunThreadId": "thr_rzreetwcyu",
+    "lastError": "Command turn.submit failed",
+    "createdAt": 1788813091015,
+    "updatedAt": 1789495896498
+  },
+  "automation_runs": {
+    "runs": [
+      {
+        "id": "arun_udpzllkzbdq",
+        "automationId": "auto_mkkakdkryas",
+        "runMode": "agent",
+        "threadId": "thr_rzreetwcyu",
+        "status": "failed",
+        "trigger": "schedule",
+        "skipReason": null,
+        "error": "Command turn.submit failed",
+        "output": null,
+        "exitCode": null,
+        "scheduledFor": 1789495866035,
+        "startedAt": 1789495866401,
+        "finishedAt": 1789495896498
+      }
+    ],
+    "nextCursor": null
+  },
+  "next_continuation_queue": [
+    {
+      "id": "qmsg_ninfk2e57j",
+      "content": [
+        {
+          "type": "text",
+          "text": "Continue Pete Large's already authorized MH370 estimator implementation in this same owner thread. This is the continuation queued after the 18 September status audit, not a new goal. Read the newest plan.md and progress.md in /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis and inspect actual processes. No scientific work happened between the 15 September final report and this audit: the 18:11 owner automation failed with Command turn.submit failed. The report server has now been restored. Existing conditional results remain unchanged: terminal-refined-mixture/mixed/model-mixture/report/; first two requested outputs are complete, but stable cruise recovery and defensible fine search rankings are not achieved. No subagents or new threads; preserve the one canonical implementation. Do not repeat failed or completed experiments unchanged or increase their sample size without a concrete correction. Old deadlines, compute cap and arbitrary 5% cutoff are superseded. Next useful task: inspect the archived full-history/random-input/annealed and ordered forward-backward methods, then identify a concrete, mathematically justified way to revise earlier physical flight histories under later observations. Current proposal-only gap experiments leave ancestry collapse; saved all-candidate averaging showed the random candidate selection was not the primary cause. Distinguish a new correction from those rejected approaches. Validate any proposed transition or importance correction with independent reference calculations before a small matched synthetic control; preserve physical priors and likelihoods and never tune proposals to generating truth. Do useful implementation or diagnosis rather than only acknowledge this prompt. Maintain concise updates, current process status, reproducible provenance and results/limitations. The latest status audit is owner-status-audit.json. Do not claim unattended progress merely because a message is queued or scheduled.",
+          "mentions": []
+        }
+      ],
+      "senderName": null,
+      "model": "gpt-6-astra",
+      "reasoningLevel": "max",
+      "permissionMode": "auto",
+      "serviceTier": "default",
+      "groupWithNext": false,
+      "createdAt": 1789750782694,
+      "updatedAt": 1789750782694
+    }
+  ],
+  "queue_acceptance": {
+    "returncode": 0,
+    "stdout": "{\n  \"threadId\": \"thr_rzreetwcyu\",\n  \"ok\": true,\n  \"mode\": \"queue\"\n}\n",
+    "stderr": "",
+    "prompt": "Continue Pete Large's already authorized MH370 estimator implementation in this same owner thread. This is the continuation queued after the 18 September status audit, not a new goal. Read the newest plan.md and progress.md in /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis and inspect actual processes. No scientific work happened between the 15 September final report and this audit: the 18:11 owner automation failed with Command turn.submit failed. The report server has now been restored. Existing conditional results remain unchanged: terminal-refined-mixture/mixed/model-mixture/report/; first two requested outputs are complete, but stable cruise recovery and defensible fine search rankings are not achieved. No subagents or new threads; preserve the one canonical implementation. Do not repeat failed or completed experiments unchanged or increase their sample size without a concrete correction. Old deadlines, compute cap and arbitrary 5% cutoff are superseded. Next useful task: inspect the archived full-history/random-input/annealed and ordered forward-backward methods, then identify a concrete, mathematically justified way to revise earlier physical flight histories under later observations. Current proposal-only gap experiments leave ancestry collapse; saved all-candidate averaging showed the random candidate selection was not the primary cause. Distinguish a new correction from those rejected approaches. Validate any proposed transition or importance correction with independent reference calculations before a small matched synthetic control; preserve physical priors and likelihoods and never tune proposals to generating truth. Do useful implementation or diagnosis rather than only acknowledge this prompt. Maintain concise updates, current process status, reproducible provenance and results/limitations. The latest status audit is owner-status-audit.json. Do not claim unattended progress merely because a message is queued or scheduled."
+  },
+  "report_pdf_sha256": "c22398482f35f06d63ebdb576a7d7257fa935b563e89f3937274d3b0a71c3699",
+  "report_base_url": "https://internal--8771.iso.abiome.org/overnight",
+  "report_server": {
+    "pid": 190920,
+    "started_utc": "2026-09-18T16:58:35.122988+00:00",
+    "port": 8771,
+    "root": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/flight-assumption-preanalysis/web",
+    "purpose": "Serve the existing reports; no numerical sampling is running."
+  },
+  "limitations": "Queue submission succeeded; continuation execution is not yet verified. Core cruise recovery, physical calibration and fine search-area ranking remain unfinished.",
+  "queued_continuation_execution_verified_utc": "2026-09-18T17:18:56.332302+00:00",
+  "new_results_scope": "Synthetic history-revision controls completed and independently verified. Existing MH370 impact/drift/search probabilities unchanged; stable cruise recovery not achieved.",
+  "current_scientific_driver": null,
+  "current_scientific_worker": null,
+  "scientific_progress_since_15_september": true,
+  "next_direct_continuation": {
+    "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/cruise-ancestor-sampling/next-owner-continuation.json",
+    "execution_verified": true
+  }
+}

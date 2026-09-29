@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "source_ref": "malaysia_safety_report",
+  "classification": "measured",
+  "time_basis": "UTC",
+  "altitude_reference": "pressure altitude",
+  "notes": [
+    "Fuel is reported to the nearest 100 kg in the official table.",
+    "ZFW is the official flight-load value used as the mass anchor.",
+    "The final row is the mandatory initializer anchor; validation rows before it do not change that anchor."
+  ],
+  "zero_fuel_weight": {"value": 174369.0, "unit": "kg", "classification": "measured", "source_ref": "malaysia_safety_report"},
+  "records": [
+    {"utc": "2014-03-07T16:41:43Z", "altitude_ft": 103.0, "mach": 0.255, "sat_c": 27.3, "fuel_kg": 49200.0},
+    {"utc": "2014-03-07T16:46:43Z", "altitude_ft": 10582.0, "mach": 0.478, "sat_c": 10.4, "fuel_kg": 47800.0},
+    {"utc": "2014-03-07T16:51:43Z", "altitude_ft": 21193.0, "mach": 0.669, "sat_c": -11.8, "fuel_kg": 46500.0},
+    {"utc": "2014-03-07T16:56:43Z", "altitude_ft": 28938.0, "mach": 0.783, "sat_c": -27.4, "fuel_kg": 45400.0},
+    {"utc": "2014-03-07T17:01:43Z", "altitude_ft": 34998.0, "mach": 0.819, "sat_c": -43.9, "fuel_kg": 44500.0},
+    {"utc": "2014-03-07T17:06:43Z", "altitude_ft": 35004.0, "mach": 0.821, "sat_c": -43.8, "fuel_kg": 43800.0}
+  ],
+  "required_anchor": {
+    "utc": "2014-03-07T17:06:43Z",
+    "zero_fuel_weight_kg": 174369.0,
+    "fuel_kg": 43800.0,
+    "altitude_ft": 35004.0,
+    "mach": 0.821,
+    "sat_c": -43.8
+  }
+}

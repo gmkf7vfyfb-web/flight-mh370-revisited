@@ -1,0 +1,71 @@
+{
+  "status": "controls_queued_after_high_effort_shared_comparison",
+  "updated_utc": "2026-09-09T20:03:14.709912+00:00",
+  "checkout": "/tmp/mh370-independent-command-rates",
+  "scientific_change": "Optional independent mean waiting times for turn, Mach and altitude clocks, each retaining the current log-uniform0.1\u201310h marginal prior. Current shared-rate default preserved exactly. This is a physical-prior sensitivity, not a computational correction or calibration.",
+  "scientific_runs_launched": false,
+  "validation_required": [
+    "independent joint-count probability reference",
+    "busy/limited clocks use each type rate",
+    "conditional-rate refresh preserves within-type temporal dependence without cross-type coupling",
+    "byte-identical shared-rate default control",
+    "fixed generated-flight controls before broader claims"
+  ],
+  "module_checks": {
+    "dynamics_passed": 82,
+    "dynamics_ignored": 1,
+    "estimator_passed": 63,
+    "runner_passed": 107
+  },
+  "independent_reference": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/independent-command-rates-reference.json",
+  "executable": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/independent-command-rates-executable",
+  "executable_sha256": "0a9010cccba84c7350e523a7bfa932d85e8f035c378fee8f6848e0232cd3f8da",
+  "source_archive_sha256": "34287c97f9d9775a18d0cb765bb24532d494af13b3c2e9a1e2d1786f0182a3f7",
+  "scientific_source_sha256": "6c097e442b8ec1eee76e376fabd859d5f2a861052ac7dca836720021ff24d97e",
+  "default_control": {
+    "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/independent-command-rates-default-control",
+    "csv_histories_and_log_evidence_exactly_preserved": true,
+    "elapsed_seconds": 13.835058648,
+    "peak_memory": "VmHWM:\t  716948 kB",
+    "threads": 1,
+    "posterior_csv_sha256": "d402a9e365251a520a0c7a907f9419a2574e96cf1abea00d0387c98c2a4ec80e"
+  },
+  "control_configuration_sha256": "0523a751aaa6ccdd63afafd9cd5938c7bc8fbfd9d27c979268eb124ce5bb32e1",
+  "generating_seeds": [
+    37092300,
+    37092301,
+    37092302,
+    37092303,
+    37092304,
+    37092305,
+    37092306,
+    37092307
+  ],
+  "fixture_selection": "Eight consecutive seeds fixed before any generated truth or estimation output is read; no outcome selection.",
+  "control_status_file": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-independent-rates-status.json",
+  "control_design_sha256": "bb58313e6313186d49762683668abf4db11b38cdcab3c120e3787eb823413ac3",
+  "control_driver_pid": 341479,
+  "generator_control": {
+    "status": "passed",
+    "changed_measurement_values_leave_fixture_identical": true,
+    "shared_bias_shift_hz": 73,
+    "checked_bfo_contacts": 9,
+    "unchanged_bto_contacts": 8,
+    "physical_states_identical": true,
+    "fuel_condition_enabled": true,
+    "fuel_acceptance_independent_of_measurements_and_bias": true,
+    "executable_sha256": "0a9010cccba84c7350e523a7bfa932d85e8f035c378fee8f6848e0232cd3f8da",
+    "elapsed_seconds": 4.844257214994286
+  },
+  "generator_seconds": 1.794236128,
+  "generator_prior_draws": [
+    3,
+    4,
+    12,
+    5,
+    3,
+    1,
+    10,
+    1
+  ]
+}

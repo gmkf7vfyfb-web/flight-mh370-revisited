@@ -1,0 +1,16 @@
+Traceback (most recent call last):
+  File "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/run_antenna_conditions.py", line 30, in <module>
+    with Path(run['output']+'.log').open('x') as log:
+         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "/usr/lib/python3.14/pathlib/__init__.py", line 771, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/antenna-runs/antenna-broader-170000-seed-37091713.log'
+Traceback (most recent call last):
+  File "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/update_broader_antenna.py", line 10, in <module>
+    p.write_text(json.dumps(s,indent=2)+'\n');subprocess.run(['python3',str(B/'run_antenna_conditions.py'),str(p)],check=True)
+                                              ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python3', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/run_antenna_conditions.py', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/antenna-broader-million-status.json']' returned non-zero exit status 1.

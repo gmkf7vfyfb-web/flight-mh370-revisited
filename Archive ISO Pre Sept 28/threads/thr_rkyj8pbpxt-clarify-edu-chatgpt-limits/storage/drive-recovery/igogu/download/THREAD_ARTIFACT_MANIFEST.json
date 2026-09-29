@@ -1,0 +1,792 @@
+[
+  {
+    "path": "bto_arc_charts/README.md",
+    "bytes": 10986,
+    "sha256": "00113f0c04c735b37031859a01b135ab277d7d9c518b593bc2f158cc75ce8b8e"
+  },
+  {
+    "path": "bto_arc_charts/requirements.txt",
+    "bytes": 77,
+    "sha256": "c762c9087ac2da2ba9118ccb1d8db66be3bff2411573f3e8f11c4c3eb76a5920"
+  },
+  {
+    "path": "bto_arc_charts/make_efg_report.py",
+    "bytes": 9488,
+    "sha256": "e2b3510d34ba287ed5d30e5a4a4c5e503707b678426fcbd0c24eb795049e8e5b"
+  },
+  {
+    "path": "bto_arc_charts/plot_bto_exchange.py",
+    "bytes": 17428,
+    "sha256": "18f0b0299e9ed6602c3a8e9059bbfa858e7032cdac7a21da3656e3371b41f0d9"
+  },
+  {
+    "path": "bto_arc_charts/analyze_efg.py",
+    "bytes": 10009,
+    "sha256": "1a46e88bb3eab7b8b5f774a3be8c2d30d1698f1bf5e771032741f5e5908051cb"
+  },
+  {
+    "path": "bto_arc_charts/inputs/geography.json",
+    "bytes": 3364,
+    "sha256": "297e440b13f10f52b63cd5d8b0eeb7276b5496032fe1b5452a9ada68b640ac27"
+  },
+  {
+    "path": "bto_arc_charts/inputs/exchange_rchannel.csv",
+    "bytes": 809,
+    "sha256": "0af8822dce207300d88d42120f65a38664078a3fc41b8dfc0450c44552c5c17e"
+  },
+  {
+    "path": "bto_arc_charts/inputs/sources.json",
+    "bytes": 694,
+    "sha256": "ea0d175befc22fcb1200e0b8eae09817e4c3ac29f537782b9d72f4af49a42ed9"
+  },
+  {
+    "path": "bto_arc_charts/inputs/land.geojson",
+    "bytes": 1636166,
+    "sha256": "e874b27a51d146452be360cafb3cc50c86001074a67d534113e6534682f9826b"
+  },
+  {
+    "path": "bto_arc_charts/inputs/satellite_ephemeris.csv",
+    "bytes": 1211,
+    "sha256": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+  },
+  {
+    "path": "bto_arc_charts/inputs/model.json",
+    "bytes": 767,
+    "sha256": "547bf9609c45c2ce3565b6f6486a6d9b8c6fb8017087af28504cc97558e5a07a"
+  },
+  {
+    "path": "bto_arc_charts/sources/malaysia_enr_3_3_2010.pdf",
+    "bytes": 50810,
+    "sha256": "85126999798f4e0ee7e5d652e8cb37c90e185a727c29b7e4d92ff2a526740fff"
+  },
+  {
+    "path": "bto_arc_charts/sources/ne_50m_land.geojson",
+    "bytes": 1636166,
+    "sha256": "e874b27a51d146452be360cafb3cc50c86001074a67d534113e6534682f9826b"
+  },
+  {
+    "path": "bto_arc_charts/sources/malaysia_enr_2_1_historical.pdf",
+    "bytes": 3149607,
+    "sha256": "b5483f87ca8a5599c5f654d9bd49def880a5edab88c988dbd7332d170f02f796"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_analysis.json",
+    "bytes": 22267,
+    "sha256": "efdcce38666582357a76843e6a0d6e9870ba468bf00777079aab5048ac64a4c3"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_formal_optima.csv",
+    "bytes": 534,
+    "sha256": "143aaa79781edf625da80e8afb5f2c538532ef4e53da8856b6158649f9e5aa46"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_speed_comparison.csv",
+    "bytes": 1765,
+    "sha256": "75647896e6081d37da9f1acf28662ef56d190164e3744c0c26e6b409a8a0ff85"
+  },
+  {
+    "path": "bto_arc_charts/output/mh370_bto_arcs_airways_fir.pdf",
+    "bytes": 765572,
+    "sha256": "0fc9a93c306ba0b2e78797cb62d15ecc794bfa3cd674437bc941b4cbea5784d2"
+  },
+  {
+    "path": "bto_arc_charts/output/mh370_bto_arcs_regional.png",
+    "bytes": 666997,
+    "sha256": "a15e6b76f7f8daf6932150041220bcb4e81325f7b194f732a1b901b2f56283bc"
+  },
+  {
+    "path": "bto_arc_charts/output/bfo_model_crosscheck.json",
+    "bytes": 233,
+    "sha256": "b152233d647ad9890d6968e19ca83380d74e4f3f17db4e0881a590fb7918a542"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_continuous_track_points.csv",
+    "bytes": 6165,
+    "sha256": "96453ec0432fa70d5f4ed0da8aeae0c76e0df5c5659e339a5abbb4aad5c586fc"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_analysis_console.json",
+    "bytes": 20176,
+    "sha256": "fdaf0db5d72d2f561b390c95718513cc2a8152d7b4375b19f9323b73d4829dc9"
+  },
+  {
+    "path": "bto_arc_charts/output/arc_coordinates.csv",
+    "bytes": 256452,
+    "sha256": "78a541912acbd8e4131a6acc2076ead7bc678efc651e5f82964126ace299cbd5"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_continuous_tracks.csv",
+    "bytes": 4424,
+    "sha256": "67db7c10affbf834ee13d46b10c3ca0feab7281d6a95f7dde6ccc8013f52260d"
+  },
+  {
+    "path": "bto_arc_charts/output/mh370_efg_airway_bfo_analysis.pdf",
+    "bytes": 52327,
+    "sha256": "f0adc3d73b43dd51dbfc8d0c5bc011b24f00b0bf39f38acfdf213ea6f2e2ed0f"
+  },
+  {
+    "path": "bto_arc_charts/output/validation.json",
+    "bytes": 1130,
+    "sha256": "08dc7fd0852bd6d2790021e32783137518c5982c9c88fbdc5ac092e1ee01e71c"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_nominal_timing.csv",
+    "bytes": 279,
+    "sha256": "660b19cb3fad6e09e1284f0c6d9a52ead7a3c5fdd9da71c9a78da6f7415ab404"
+  },
+  {
+    "path": "bto_arc_charts/output/efg_intersections.csv",
+    "bytes": 1416,
+    "sha256": "272be18eaa3992362592df50ded4c6f5709a2761ed34a40b57e2c46e36cf5a89"
+  },
+  {
+    "path": "bto_arc_charts/output/mh370_bto_arcs_detail.png",
+    "bytes": 595285,
+    "sha256": "e83f839a1355b96d66a21e2a17e6edc087e5da84f214c6e1b4bf925e1db0bd38"
+  },
+  {
+    "path": "bto_arc_charts/qa/mh370_efg_airway_bfo_analysis-2.png",
+    "bytes": 111368,
+    "sha256": "904d874028b7d8edcdc5f36f99b061f04d68d2e69e7a5f3d6c73377b4e38307f"
+  },
+  {
+    "path": "bto_arc_charts/qa/final-map-detail.png",
+    "bytes": 172847,
+    "sha256": "f52e4596f3cf73476c91f3cc819758615b0e72719ae652dcd8683ac969a698b3"
+  },
+  {
+    "path": "bto_arc_charts/qa/mh370_efg_airway_bfo_analysis-3.png",
+    "bytes": 28166,
+    "sha256": "1bdbfda32aa21b25389cc9ee00a7054467acb9e158581f4122b38f67d7d70e43"
+  },
+  {
+    "path": "bto_arc_charts/qa/pdf_check.pdf",
+    "bytes": 6778,
+    "sha256": "d031d1066455b7c5dfd30ac398f570be85da8a5b84a36c6fce19776802af6df4"
+  },
+  {
+    "path": "bto_arc_charts/qa/final_map_run.json",
+    "bytes": 1130,
+    "sha256": "08dc7fd0852bd6d2790021e32783137518c5982c9c88fbdc5ac092e1ee01e71c"
+  },
+  {
+    "path": "bto_arc_charts/qa/mh370_efg_airway_bfo_analysis-1.png",
+    "bytes": 134890,
+    "sha256": "1bcc89c2b70b9a9f679a78cd6a68e4b42d39f4aa56ace3a8921c5d6d3faba385"
+  },
+  {
+    "path": "bto_arc_charts/qa/page-1.png",
+    "bytes": 198752,
+    "sha256": "27979de80ac475cf0aa0208e3d72e31f618f25b33215a66ffe4878119eaaacc5"
+  },
+  {
+    "path": "bto_arc_charts/qa/mh370_bto_arcs_airways_fir-1.png",
+    "bytes": 198666,
+    "sha256": "c6984cf2f61cb3385e9de267db39d5b530559d8d19b01349bc3fa31039392532"
+  },
+  {
+    "path": "bto_arc_charts/qa/analysis-final-1.png",
+    "bytes": 152085,
+    "sha256": "1e8e531dedc933b12747006321bf09827006a1031d571201d724ce2171cdfb52"
+  },
+  {
+    "path": "bto_arc_charts/qa/analysis-final-2.png",
+    "bytes": 150410,
+    "sha256": "a410fbc064f0f41f171e969e0fc58fda488bbce651a1f084a02192845cb81480"
+  },
+  {
+    "path": "bto_arc_charts/qa/page-2.png",
+    "bytes": 211006,
+    "sha256": "1b3cb0b3cb59d79fc01b2abf02d2bece7886c3deeb130174a6a4f629da291bdf"
+  },
+  {
+    "path": "bto_arc_charts/qa/mh370_bto_arcs_airways_fir-2.png",
+    "bytes": 212683,
+    "sha256": "0d8c7147ecd9aef7ab8ab289821b4e277973487a27fff3115e028eebf7fc54a1"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/tests/test_strict_airway.py",
+    "bytes": 3167,
+    "sha256": "0e35fed5006624ee117c6dd5a12b292227b0c8f773d3c8b604257854943b0983"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/tests/test_route_mixture43.py",
+    "bytes": 3044,
+    "sha256": "cdcfa3f42691ffebf16d5854b4efe5b6a3f516592d1759ecfeb780b72f2999a7"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/scripts/run_strict_airway.py",
+    "bytes": 22846,
+    "sha256": "41f00c16ce825d59884420d9bc63e2e118d8b213ee7f0936fab18552d9bdc903"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/scripts/render_strict_airway.py",
+    "bytes": 18762,
+    "sha256": "b7cccc7f59375fee3b91785d75f8ebcb759ec41b3376f241757c4b9150de90a1"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/scripts/run_route_mixture43.py",
+    "bytes": 27754,
+    "sha256": "5a7829f806f8ddafc79b7568df76acdb09d7b6ec71f9531bfcc19355bc425e31"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/scripts/report_route_mixture43.py",
+    "bytes": 12474,
+    "sha256": "66d3ea74f02a793217ef91cd4ffd8eefa064cee064284d9729cda67198610a3b"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/powered_segment_feasibility.rs",
+    "bytes": 17788,
+    "sha256": "4bfa264a04a8a288c8179c2420df32d1f3a391324790073ec49a76e2df29451d"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/mh370-broad-powered-flight-pilot.toml",
+    "bytes": 8849,
+    "sha256": "5c85cfc3170e93b3f353ec5ebc6c6a7b72040dd2e5aa160a33eefc6542b03a3d"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/initial_proposal.json",
+    "bytes": 12560,
+    "sha256": "3a7bda0dbc343e98773aa12d282f756dbeac6ffcd1fc9b56ee1d8d19eb0c0754"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/mh370-cruise-through-0011.json",
+    "bytes": 4622,
+    "sha256": "6af99c34cd47c10c2bb10a1c677df3c8b1b76f07c3331bf88dc7f855e56e452c"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/satellite-ephemeris.csv",
+    "bytes": 1211,
+    "sha256": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/powered_fuel.rs",
+    "bytes": 36947,
+    "sha256": "384f4ffd37e2602aaa4bd3e8f128270a6f725c58b1143e58f6e395de7fa55315"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/aerodynamic_approximations.rs",
+    "bytes": 2770,
+    "sha256": "afd2407b11723d04465f195320b5781ffc9d6be8cf9f65a710f956d920528f16"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/powered_thrust.rs",
+    "bytes": 15438,
+    "sha256": "c09ac64c5709cb86153650b3bee4b1e6331d7c85e69b4bfaec82259f048aeb6e"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/runtime_versions.json",
+    "bytes": 240,
+    "sha256": "2a6153e34250dc04f62c15966fd1139555ba496c3f4b65a4127021fdaf4428d9"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/strict_airway/mh370-era5-grid.manifest.json",
+    "bytes": 35362,
+    "sha256": "4a312d7d733851fc03cf96fd5bcad65eeb4c42e1a5c1451aeb3a3654706adad0"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/map/ne_110m_land.geojson",
+    "bytes": 138160,
+    "sha256": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/processed/mh370_later_observations.csv",
+    "bytes": 86187,
+    "sha256": "9645d96ca00c3c76574b8c8c4610a39ae1f3411462a0ce7a4ee8ab31a0734b72"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/route_mixture43/chennai_fir_2024.pdf",
+    "bytes": 103419,
+    "sha256": "a5f46fd2a9ff6a7a72fc61ad84fa0542449e032230c991ac84adc5aa74f6d9bf"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/route_mixture43/igogu_initial_proposal.json",
+    "bytes": 530,
+    "sha256": "c9caedf6ea46cf019e91229dae780fd8809adb4914ae625d9e9188f658afa93d"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/data/route_mixture43/jakarta_fir_contingency_2024.pdf",
+    "bytes": 2420562,
+    "sha256": "54469435f0420415e54c7155d15041b9ab2589da675907f8937c2ea886bb83f3"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/contour_diagnostics.py",
+    "bytes": 21725,
+    "sha256": "5c419edeb234e812573a13376ed5d7ccac5b4f0ffa0c7a1f222706cce9416f24"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/measurements.py",
+    "bytes": 27850,
+    "sha256": "ebccebb80c4b29bd7a414c760f9b31328c5c968c2d5ee6952885a278e3a922a4"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/__init__.py",
+    "bytes": 90,
+    "sha256": "75089a11787cb713224776e18ea64040d130ef4c4b1d0d26d49eb536575df67a"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/dynamics.py",
+    "bytes": 32520,
+    "sha256": "a18b18d0e0edca5ba72ac21d1fd0f06735f8e6cad0cb4afc4891455f6bfc46f2"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/plotting.py",
+    "bytes": 27819,
+    "sha256": "a8026744cd7eb04a6ee37e07182d7b50a44eb5515d0d2cb25a0551ee44382caf"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/filter.py",
+    "bytes": 28947,
+    "sha256": "587003d8c2464dfa42add2ef36622d9a2682664414cc096c0ddbe822166f920a"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/conditional_physics.py",
+    "bytes": 5456,
+    "sha256": "a36167faa8cf36d74c25df77de95eb6d829799127b7b827d25c0630893f42036"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/data_mh371.py",
+    "bytes": 29864,
+    "sha256": "35699efc8dc27e42d83b61c07d1e2ee4566a2136a387b588984133b9b495540b"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/data_mh370_later.py",
+    "bytes": 9665,
+    "sha256": "98dfc66b68d6491dc44d51be3a4064bbde6e3d93da7efbd4df6d0901ac70aef6"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/wspr_calibration.py",
+    "bytes": 4320,
+    "sha256": "0ffcd44a53ebca728cd91a98852a31e0737fe3c044891643d83ecb419b71df9e"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/control_modes.py",
+    "bytes": 19087,
+    "sha256": "b1faf8084ebc578e95e189b6a38333f61275ad9e6a8490d58e129e3e0a2d6a45"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/bfo.py",
+    "bytes": 25748,
+    "sha256": "3b67c38b6e752eecb5b778e95d9a218ac74908865fa65658de0a53ed8dde69f0"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/data_mh370.py",
+    "bytes": 27143,
+    "sha256": "b30adfe704c05af5ff2dadaf7cd9e2cabed94eed65f34a830262f379ee7016f6"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/wspr.py",
+    "bytes": 3718,
+    "sha256": "169cea521a441cc99ffebc0b251e0c0ae5344f191efbaf2e5f2660e32bb64b39"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/geometry.py",
+    "bytes": 13422,
+    "sha256": "86fa9fcfc6b68a551c3a38a1c98a1a7b0c2fb1e37961e1494754433107d19f30"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/src/mh370_pf/contour_stability.py",
+    "bytes": 23910,
+    "sha256": "dd3db3b8ddf9f13ff0761f0c0ef00fb72931c53a7784a4352f71af20a76554d1"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/prefix_large_igogu_south/source_run.py",
+    "bytes": 26834,
+    "sha256": "dcc97ae1ec2bad37425f0a25ae61f3db84803a25835dd7a07080d9abe78ce822"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/prefix_large_igogu_south/manifest.json",
+    "bytes": 8179,
+    "sha256": "23ed8507dd9a3ff9f73d3cfacb7cc8019ac754e72c8c88713dac0a43566be738"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/igogu_boundary_a/source_run.py",
+    "bytes": 26834,
+    "sha256": "dcc97ae1ec2bad37425f0a25ae61f3db84803a25835dd7a07080d9abe78ce822"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/igogu_boundary_a/manifest.json",
+    "bytes": 8830,
+    "sha256": "4e15d8d04fb4be696cf4ce9d05b6f0dbca8e84d855303b13fb0eb52f98d3f437"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/development_p627/source_run.py",
+    "bytes": 25882,
+    "sha256": "41a8a76efb6d356f9625851c4187b384e22b8f5fda1fcd65f7c304e0952410c7"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/development_p627/manifest.json",
+    "bytes": 6661,
+    "sha256": "51a05f8a7efb2533aa5bbf8cd09cfdc3829833c8f8bc6c55ea4accd567fe9ba9"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/development_igogu_south/source_run.py",
+    "bytes": 25882,
+    "sha256": "41a8a76efb6d356f9625851c4187b384e22b8f5fda1fcd65f7c304e0952410c7"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/development_igogu_south/manifest.json",
+    "bytes": 7835,
+    "sha256": "01c7553fad0dafe56413d6b6f6f004c70e4734d461dc4258e9aa31964e1315d3"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/development_igogu_boundary/source_run.py",
+    "bytes": 25882,
+    "sha256": "41a8a76efb6d356f9625851c4187b384e22b8f5fda1fcd65f7c304e0952410c7"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/development_igogu_boundary/manifest.json",
+    "bytes": 7877,
+    "sha256": "7621d13e16e9ee09049d0c401a6a00bd1f64905a65eb6dd83e3a9ff56b7c45ff"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/prefix_large_p627/source_run.py",
+    "bytes": 26834,
+    "sha256": "dcc97ae1ec2bad37425f0a25ae61f3db84803a25835dd7a07080d9abe78ce822"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/prefix_large_p627/manifest.json",
+    "bytes": 20802,
+    "sha256": "e11a8c8381cb43719e863a4f1e8a7217f522ac36246958635741803db6371e74"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/igogu_south_a/source_run.py",
+    "bytes": 26834,
+    "sha256": "dcc97ae1ec2bad37425f0a25ae61f3db84803a25835dd7a07080d9abe78ce822"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/igogu_south_a/manifest.json",
+    "bytes": 8790,
+    "sha256": "d9964e105680a768e3f8d211aafc888341649943e925859dfe49f1efced074f2"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/p627_b/source_run.py",
+    "bytes": 27632,
+    "sha256": "447a2f56818ee9cad47a9ad18a816243ba570a3b0c86a5b03e0cfdd02761ba8f"
+  },
+  {
+    "path": "speed_audit_recovery/mh370_equal_priors/output/route_mixture43/p627_b/manifest.json",
+    "bytes": 7224,
+    "sha256": "92bad30f58e01bb688e6f5e73187054f371ac9c910b801ea641067c2388eaeb5"
+  },
+  {
+    "path": "upload/image(1).png",
+    "bytes": 830097,
+    "sha256": "75b166cb7da5846ea5ce9b71e185bb339e737b82d32f13e23fe7f0dd8273416e"
+  },
+  {
+    "path": "upload/image.png",
+    "bytes": 830097,
+    "sha256": "75b166cb7da5846ea5ce9b71e185bb339e737b82d32f13e23fe7f0dd8273416e"
+  },
+  {
+    "path": "upload/image(2).png",
+    "bytes": 830097,
+    "sha256": "75b166cb7da5846ea5ce9b71e185bb339e737b82d32f13e23fe7f0dd8273416e"
+  },
+  {
+    "path": "historical_additional_igogu_files/TASK_STATUS.md",
+    "bytes": 8149,
+    "sha256": "9ceeb84faac11ed32a4d67f1facc3fa2cb605ad15d0455d799f367e262e0ad8e"
+  },
+  {
+    "path": "historical_additional_igogu_files/src/reference_physics.py",
+    "bytes": 5456,
+    "sha256": "a36167faa8cf36d74c25df77de95eb6d829799127b7b827d25c0630893f42036"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/run_a.log",
+    "bytes": 28604,
+    "sha256": "5f542ff2ed84b657e5b2763f56f7e855137193d4fb8bbc8bd2a3041f0a45d76a"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_cruise.log",
+    "bytes": 9553,
+    "sha256": "14f8e35d1747c5f06f61739073c949752e6590ab2843abd46f660d4d2754c1be"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/train_other.log",
+    "bytes": 22959,
+    "sha256": "76441dae88f875e4e403efb14ea7e08105bc8f6908bfe274cf03a086108c43f9"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge.log",
+    "bytes": 15978,
+    "sha256": "e7408b4d645f478eab53af2b1e83e223628d780836980a83ba12cacde3df1e9b"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/train_4_1.log",
+    "bytes": 3823,
+    "sha256": "beeb3ea760909065eab52f2d2af087468983e6e2e1b6c729b2e7a7d1748f16e7"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_pilot.log",
+    "bytes": 896,
+    "sha256": "63c8726de10256b7825e9269f27b96f1786bc36b2e773715dc35a5436858d07b"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/refined_a.log",
+    "bytes": 12225,
+    "sha256": "f865e5d5e856fc2a2aaf6f04dcc9f86cce6fa8316c4dc206e743169b18b49306"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/assembly.log",
+    "bytes": 7359,
+    "sha256": "ff70d0670d5b742b319aa965a5b913a03f5e462aa202441bd3187196239af692"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_gn_pilot.log",
+    "bytes": 1040,
+    "sha256": "635ad77a60ab5690e63f18a52bca59bd7cb7eb3007ecb123d19ba529c7176eed"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_b.log",
+    "bytes": 17278,
+    "sha256": "fd66064e9b10ea03aeea0503830cfd95a7fe696f95c765defa0731cb31b1eb90"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_a.log",
+    "bytes": 17268,
+    "sha256": "9e9229559456469f631a95b428e17fe763d534ca7bc2673b0af42caef788000e"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/train_1_0.log",
+    "bytes": 3841,
+    "sha256": "17eea08c010ed8339e046101abfd5964b5013469cd827a43c9d87848d696d4f2"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot.log",
+    "bytes": 3679,
+    "sha256": "1dca53dc04849ba261477a34dfc68cfdbf047247bfdbce97d72887fa1509103d"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/package_result.json",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/run_b.log",
+    "bytes": 29409,
+    "sha256": "b85869cddd411d44b6d00dc0ef97d0e1003827c4d583d897913b6ca5bcb60c3d"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_joint.log",
+    "bytes": 3728,
+    "sha256": "e8ca4f2321f3712cbfc738fde20e99af8eb03db9798d3833e5af29304ebac16a"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/refined_b.log",
+    "bytes": 12204,
+    "sha256": "7f4dcc9a44e2e2bf8bab29d6f6c11b84a20845554d091ef704bee87e1a7a3afb"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/refine_other.log",
+    "bytes": 850,
+    "sha256": "0fe15e85f2d44ae435b82573385876fb9117d6ed2f65752eb16e977b031d2e81"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/train_zero.log",
+    "bytes": 1440,
+    "sha256": "bc2089facae269fd21d5e142ef5f702c337b8b1019d4bab1398c4f30bb2b8ed0"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/refined_pilot.log",
+    "bytes": 1046,
+    "sha256": "9d6cc7489fc8175fa7976bdfd172ab386e1df4c9d69fb74af5dae9f6beb4549c"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_2.png",
+    "bytes": 187321,
+    "sha256": "74beffabe3079b71468b3c4705d503d3769870f0e72b189083db9e2d9288c6cf"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_5.png",
+    "bytes": 126117,
+    "sha256": "17a1db1894585f29d6a0ac8821a4b16f100666b5e48c1a7f47f2cdbb2e963bad"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_8.png",
+    "bytes": 121332,
+    "sha256": "1512527b3b8fdec6d65de0b32db7f26c84ce5aafc68f46b863d77408a396acb0"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_montage.png",
+    "bytes": 507269,
+    "sha256": "c7e731eb668feb0774555f6ffb51cfceff1dd34a6e84f4c3f0c114ef28fcdcc1"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_6.png",
+    "bytes": 116345,
+    "sha256": "d5708005ba3302e4bd380f0beb1b98db36f48d44b5f38221821f5ca4bab79aa9"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_3.png",
+    "bytes": 131139,
+    "sha256": "28c31bf9c51e5c383c9cc626bc14c46faefb3ab07fbae54e7e27aba6d3f2b187"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_4.png",
+    "bytes": 168522,
+    "sha256": "2b866fc2c6030f3f5bc4b24174b5ef237180e9b20416a97623eb3dc344b77ca4"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_9.png",
+    "bytes": 130834,
+    "sha256": "2a7a80c052a72f9efa7b1570617eb761946545f474e1f97a67ef8a7753cac18f"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_7.png",
+    "bytes": 119142,
+    "sha256": "4bc6e98e502e535c6759cb6ce363eced0b41982a87ce189151bf0d53278d5d1e"
+  },
+  {
+    "path": "historical_additional_igogu_files/qa/pdf_page_1.png",
+    "bytes": 124782,
+    "sha256": "657d467af9828fb19d26133102db35e8bd1bc1415a71b190b8b3240440f27ba8"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/proposals/proposal_1_0.npz",
+    "bytes": 30861,
+    "sha256": "0f0de980af888526a15bafb91e4495c7dac2ca1ae23bc2bd5ee5d80f5a0a71ae"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_pilot/cell_1_0.json",
+    "bytes": 974,
+    "sha256": "c7fc1c0a562a2d301b4cf267f3691b1221efc0cf2dd751ca1cdba1435a72c319"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_pilot/cell_1_0.npz",
+    "bytes": 73615,
+    "sha256": "e521597e53ff8c0138e06b06de871cf0b260daf3e551368b225e5542aaf84c73"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_pilot/config.json",
+    "bytes": 4240,
+    "sha256": "bc4574edb5c9e80427ea817f3bdefa87cb5510e99c5a243ad278c52ab3737b8f"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_pilot/importance_measure_1_0.npz",
+    "bytes": 792496,
+    "sha256": "e205a3928ccbcb001378ae60fc0f9add119990f649fd17ad0e9cb9d34c2615db"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_gn_pilot/cell_1_0.json",
+    "bytes": 1012,
+    "sha256": "21f2f8f1d539ee50978b2f86fa0df05a30b72b8ae36d9a5603ef7a5f87d138de"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_gn_pilot/cell_1_0.npz",
+    "bytes": 95918,
+    "sha256": "87833cfa36c6fa5776e0dda4ab55617f2144912c7b0105be21977bc1e73ba2e2"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_gn_pilot/config.json",
+    "bytes": 4244,
+    "sha256": "112cebf0cd1f8bb0f1f2c9fdd6bbec14502972d3631e5f3c39c1e1c78fca47b7"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/importance_gn_pilot/importance_measure_1_0.npz",
+    "bytes": 825522,
+    "sha256": "60da7a5e7c1bdde858ce326d699886d4b713b976d9b31357d557439a8720b953"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot/cell_4_1.npz",
+    "bytes": 105187,
+    "sha256": "52cdd526eaaa405e8d565db89fec617c965d44e9e6d1b76fe3a7784fcafcbd37"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot/summary.json",
+    "bytes": 368,
+    "sha256": "f66ad6b71cb5c97feea50d4304f443e1a3d5e9119037e669b848a04f9c0b546f"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot/config.json",
+    "bytes": 3757,
+    "sha256": "3212db3da26f7d1bf799a7a70342e9af393fa79517bfeec51af79c10699c5f7a"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot/cell_0_0.json",
+    "bytes": 5484,
+    "sha256": "abeec04a406018ce12f2a93c9eca9a2bbac79fd7622e1e2fb0e580b46c9cf9bb"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot/cell_0_0.npz",
+    "bytes": 90636,
+    "sha256": "f32f2a5b1dfd4f1bf29722e7c2e3df52588c4e91be391638fba9bb8ecc501d5b"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot/cell_4_1.json",
+    "bytes": 9107,
+    "sha256": "17c225790e91aba65956df1e4f29e16b783fa0a348ebab629d394389028f72bd"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_cruise/config.json",
+    "bytes": 3913,
+    "sha256": "1523d8ac52ec4eec5c10cfef8ab67e4d303f882b05d15abeec9ad787e1285057"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_cruise/cell_0_0.json",
+    "bytes": 24190,
+    "sha256": "37f1bc7565973d866d711e1f637a0f42c7a78e593e848c75b4115f643dc18d6a"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_cruise/cell_0_0.npz",
+    "bytes": 398939,
+    "sha256": "a53672d638234f6db22004e63641c60461b1dafca298102ec1f9dcb92e420a52"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/cell_1_1.npz",
+    "bytes": 171716,
+    "sha256": "d2c46a5ee74caafe3447d72a2136a78f0f623288813592ed37a8efafe0fc9b1f"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/cell_4_1.npz",
+    "bytes": 273190,
+    "sha256": "b41ddf8451bdcb72bdaba8d291047f0ab6b7f82b22b1d5f0f95c8fc4cd5fe603"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/summary.json",
+    "bytes": 485,
+    "sha256": "ca655aa7a87926c0fc08ec4af0c65c29cddcb135d180ecf757ef82bcfb10cc82"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/cell_1_1.json",
+    "bytes": 25968,
+    "sha256": "06f2b598b2e91d3fdc6adf4b697d2493de7eef7260731407e7b25988ed42c5ec"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/config.json",
+    "bytes": 3769,
+    "sha256": "8921ac1c92777a8d33da453de8b1a5bdab865b382c8d4d28a1e9863318eea3ab"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/cell_0_0.json",
+    "bytes": 23872,
+    "sha256": "c7463e1129ebdc0acdc788f1bfd0fbd2045746ce331e0808dcbcfa1aa09553a8"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/cell_0_0.npz",
+    "bytes": 136691,
+    "sha256": "c25ab3885085189b9fc0e54f6a7a441c655b9f92560bc3adde997d708bb55221"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_bridge/cell_4_1.json",
+    "bytes": 27590,
+    "sha256": "c4663e1d88c5ab848a6b1a29492c656eecb33138340aece44fdf267844cb1205"
+  },
+  {
+    "path": "historical_additional_igogu_files/output/pilot_joint/config.json",
+    "bytes": 3908,
+    "sha256": "1cc4315427825c257dea224c4278d424911fa5a97fcfd99d72a717a0a05de7d9"
+  },
+  {
+    "path": "THREAD_CONTEXT.json",
+    "bytes": 3091,
+    "sha256": "69ea3e036de192b213aa709d5b8b664280bdbe128ec154102a1b42f31fafdfd9"
+  },
+  {
+    "path": "historical_additional_igogu_files/README_HISTORICAL_STATUS.md",
+    "bytes": 375,
+    "sha256": "00a313ec238256eedeae19e86c1edbd9aeee0cf15ada9e4ae69d81c82350e851"
+  }
+]

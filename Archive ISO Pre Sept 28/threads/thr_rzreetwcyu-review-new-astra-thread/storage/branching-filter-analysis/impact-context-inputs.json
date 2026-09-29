@@ -1,0 +1,1882 @@
+{
+  "created_utc": "2026-09-10T07:31:12.753567+00:00",
+  "target_selection": "Earlier A\u2013F discussion shortlist, not a statistical ranking; C has no southern-arc intersection. E/F are exploratory associations, not published Kadri locations.",
+  "targets": [
+    {
+      "key": "kadri_table_004958",
+      "label": "A \u00b7 Kadri Table 1\n00:49:58",
+      "category": "Kadri catalogue only",
+      "cl_arrival": "00:49:58\n260.41\u00b0 bearing",
+      "dg_arrival": "Predicted 01:04:50\u201301:11:05",
+      "arc_latitude": "35.88\u00b0S \u00b7 on arc",
+      "trace_assessment": "No corresponding peak recovered from the published H01W trace.",
+      "critical_limitation": "Entry exists in Table 1; conditional DG window is not a detected counterpart.",
+      "colour": "#7C8DA5",
+      "source_point_latitude_deg": "-35.87999515856732",
+      "source_point_longitude_deg_e": "91.79330506405586",
+      "id": "A",
+      "position": [
+        -35.87999515856732,
+        91.79330506405586
+      ]
+    },
+    {
+      "key": "kadri_table_005331",
+      "label": "B \u00b7 Kadri Table 1\n00:53:31",
+      "category": "Kadri catalogue only",
+      "cl_arrival": "00:53:31\n257.58\u00b0 bearing",
+      "dg_arrival": "Predicted 01:07:50\u201301:13:36",
+      "arc_latitude": "36.74\u00b0S \u00b7 on arc",
+      "trace_assessment": "No corresponding peak recovered from the published H01W trace.",
+      "critical_limitation": "Entry exists in Table 1; conditional DG window is not a detected counterpart.",
+      "colour": "#627E9A",
+      "source_point_latitude_deg": "-36.7432135665844",
+      "source_point_longitude_deg_e": "90.51998329783882",
+      "id": "B",
+      "position": [
+        -36.7432135665844,
+        90.51998329783882
+      ]
+    },
+    {
+      "key": "figure9_rectangle_1_cluster",
+      "label": "C \u00b7 Figure 9 rectangle 1\n00:52 cluster",
+      "category": "Visible H01W feature",
+      "cl_arrival": "00:52:00 reported\n00:52:04.35 q99 peak",
+      "dg_arrival": "None reported\n01:10:00.50 is post hoc",
+      "arc_latitude": "No southern intersection",
+      "trace_assessment": "Strong H01W local-energy feature is visible near the published rectangle.",
+      "critical_limitation": "Reported 57\u00b0 bearing is incompatible with the southern arc and the OSCAR direction.",
+      "colour": "#2A8C9D",
+      "source_point_latitude_deg": "",
+      "source_point_longitude_deg_e": "",
+      "id": "C",
+      "position": null
+    },
+    {
+      "key": "figure9_rectangle_2",
+      "label": "D \u00b7 Kadri preferred\n00:54:30 / 306.18\u00b0",
+      "category": "Published preferred candidate",
+      "cl_arrival": "00:54:30 reported\nlocal score below q99",
+      "dg_arrival": "No identified counterpart\n01:12:29\u201349 is periodic",
+      "arc_latitude": "25.79\u00b0S \u00b7 on arc",
+      "trace_assessment": "Kadri-labelled feature; our local-energy screen does not exceed panel q99.",
+      "critical_limitation": "Bearing intersects far north of the independent high-density region.",
+      "colour": "#B8903F",
+      "source_point_latitude_deg": "-25.791762012",
+      "source_point_longitude_deg_e": "101.380864962",
+      "id": "D",
+      "position": [
+        -25.791762012,
+        101.380864962
+      ]
+    },
+    {
+      "key": "oscar_boundary_pair",
+      "label": "E \u00b7 OSCAR timing pair\npost hoc boundary audit",
+      "category": "Exploratory two-station pair",
+      "cl_arrival": "00:52:04.350",
+      "dg_arrival": "01:10:00.500",
+      "arc_latitude": "35.35\u00b0S \u00b7 65 km off",
+      "trace_assessment": "Strong CL feature plus a cropped DG panel-boundary segment.",
+      "critical_limitation": "DG segment lies in the airgun cadence; matched-window p=0.632.",
+      "colour": "#6757A5",
+      "source_point_latitude_deg": "-34.91671340761436",
+      "source_point_longitude_deg_e": "92.04716381373476",
+      "id": "E",
+      "position": [
+        -34.91671340761436,
+        92.04716381373476
+      ]
+    },
+    {
+      "key": "late_periodic_pair",
+      "label": "F \u00b7 00:54:27 / 01:12:49\nfull-grid timing pair",
+      "category": "Exploratory two-station pair",
+      "cl_arrival": "00:54:26.950",
+      "dg_arrival": "01:12:49.300",
+      "arc_latitude": "35.46\u00b0S \u00b7 37 km off",
+      "trace_assessment": "Spatially compatible timing pair; DG cycle is among the pulse-tail leaders.",
+      "critical_limitation": "Complete pulse/time-slide search p=1.000; not an association.",
+      "colour": "#8A5CA8",
+      "source_point_latitude_deg": "-35.211598961037026",
+      "source_point_longitude_deg_e": "92.10234000337563",
+      "id": "F",
+      "position": [
+        -35.211598961037026,
+        92.10234000337563
+      ]
+    }
+  ],
+  "cases": [
+    {
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-signed-lift-6-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "sha256": "d776f74ef9cd0dfdb33ba1e7b65f7dabb3d10bdc9807a56920d7b17c0095ea2a"
+    },
+    {
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-signed-lift-6-targets--neither-final-contact--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "sha256": "92946666620238bff1f1faa4b78baa66787a7057e8c1f511e97693db8a1bf7f3"
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-positive-lift-3-targets--r600-no-startup-offset--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "sha256": "fbead12260a553dec0326a4e95feea13f9e4dfcbfca759d56d9782a5efa8df50"
+    },
+    {
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-million-comparisons/openap26-positive-lift-3-targets--neither-final-contact--cmems-nine-episodes/conditional-spatial-sensitivity.json",
+      "sha256": "56892f5911bdeaeb93abcfa8a454a1f141a2aea5c5b963d5c20d1c2ea4ef0c9e"
+    }
+  ],
+  "search": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-context-inputs/search.geojson",
+  "arc": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-context-inputs/arc.geojson",
+  "source_inputs": {
+    "candidates": {
+      "path": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/outputs/potential-signals-summary.csv",
+      "sha256": "920ab4a2462791c736e1fe307cc25dae61650e79164b3cd5d3f5b8318e7a183a"
+    },
+    "search": {
+      "path": "/jackbox/home/MH370/.sources/mh370-seabed-search-coverage/data/map/search-evidence-atlas.geojson",
+      "sha256": "6c582ee17ca21dae1a4f06778d8f4314c111c429b2d8cc75e008381c508a0e5e"
+    },
+    "arc": {
+      "path": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/seventh_arc_fl400.geojson",
+      "sha256": "8d95ae563560388d1ad7c2ef34a3154ff95c0b2dd09c59c842f374b80e1537ad"
+    }
+  },
+  "cruise_sources": [
+    {
+      "configuration_sha256": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+      "draws": 1536,
+      "elapsed_seconds": 169.492417758,
+      "initial_candidates": 85000,
+      "log_evidence": -87.73058535941438,
+      "particles_sha256": "8a54673a4484f55d2e430a09132e088f7f7ec64db9cf71367dcfb280cf87ceb9",
+      "pooling_fraction": 0.10968988444442156,
+      "posterior_sha256": "d12fc37fb93ab58d8b6c44592aa13d4717b65307748e8dad170abbe20b624d66",
+      "seed": 37091631,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631"
+    },
+    {
+      "configuration_sha256": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+      "draws": 1536,
+      "elapsed_seconds": 165.667505152,
+      "initial_candidates": 85000,
+      "log_evidence": -88.1175819951356,
+      "particles_sha256": "6b9572088a43288221e0aa6842e52aba7334d9bc78c5182987b1ab09d1d127cc",
+      "pooling_fraction": 0.07448967433334781,
+      "posterior_sha256": "c1eb9eb2db31f0a2ccd49e088f01a2c76b54ff1d9fdb20dfd7629b5bfe42b80f",
+      "seed": 37091640,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640"
+    },
+    {
+      "configuration_sha256": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+      "draws": 1536,
+      "elapsed_seconds": 178.223761326,
+      "initial_candidates": 255000,
+      "log_evidence": -87.99046299278518,
+      "particles_sha256": "1fa05d9bf7104810944de4030bd70889fa37c6e000abb0cdcd4c7513bd53f37f",
+      "pooling_fraction": 0.2537607279875713,
+      "posterior_sha256": "88e207471236fbbf33df632e658be3919dd5cc94015e2301b8b92cbb18badf85",
+      "seed": 37091711,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711"
+    },
+    {
+      "configuration_sha256": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+      "draws": 1536,
+      "elapsed_seconds": 174.081638923,
+      "initial_candidates": 255000,
+      "log_evidence": -87.96782224936932,
+      "particles_sha256": "83351f1ef19cb969844e06d937d049efbc218804d6192c38c8649d48ab409992",
+      "pooling_fraction": 0.25957159244433636,
+      "posterior_sha256": "0296b1e00f9706f54ea9410b9007b58bdb876fa3c828a3a3fe76ab0808216522",
+      "seed": 37091712,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712"
+    },
+    {
+      "configuration_sha256": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+      "draws": 1536,
+      "elapsed_seconds": 177.040817036,
+      "initial_candidates": 170000,
+      "log_evidence": -88.03818290267179,
+      "particles_sha256": "19d1d849fad92870cb73453ff40295bb5fb0c73fe31905a820403c31a0bb5221",
+      "pooling_fraction": 0.1612904519871445,
+      "posterior_sha256": "971870a8df7da6e95646156395e47de12df6093d8a1f91f77221a925aa7ed96a",
+      "seed": 37091713,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713"
+    },
+    {
+      "configuration_sha256": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+      "draws": 1536,
+      "elapsed_seconds": 184.172018216,
+      "initial_candidates": 170000,
+      "log_evidence": -88.17122887689254,
+      "particles_sha256": "97146e31c53dab93aa08cc2e7f1f8b684a0d62672e84f29e6028d83e3b208ccc",
+      "pooling_fraction": 0.1411976688031739,
+      "posterior_sha256": "ead10daa20dc02a373f5f621585696ef80b79ec6fffa223400665b3b1e79c332",
+      "seed": 37091714,
+      "source": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714"
+    }
+  ],
+  "selections": [
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 37.480355375353135,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.800708146578174,
+        "longitude_deg": 91.38917169333524,
+        "impact_time_unix_s": 1394238663.8224983,
+        "baseline_weight": 0.00043200160795135115,
+        "conditional_weight": 2.8546257608090364e-05,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 21.937408836575592,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 9.004559005186522,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 736,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.85255394912568,
+        "longitude_deg": 91.88732041820049,
+        "impact_time_unix_s": 1394238288.7402432,
+        "baseline_weight": 0.00011112404108279705,
+        "conditional_weight": 0.0017523295452610268,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 7.374722728616008,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 130.59333054636238,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.800708146578174,
+        "longitude_deg": 91.38917169333524,
+        "impact_time_unix_s": 1394238663.8224983,
+        "baseline_weight": 0.00043200160795135115,
+        "conditional_weight": 2.8546257608090364e-05,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 21.937408836575592,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 28.047207249760298,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 712,
+          "parent_slot": 76708,
+          "root_id": 76640
+        },
+        "latitude_deg": -36.876632181656795,
+        "longitude_deg": 90.25261759011232,
+        "impact_time_unix_s": 1394238213.8729305,
+        "baseline_weight": 4.702658019980217e-19,
+        "conditional_weight": 5.559655080867687e-19,
+        "relative_log_likelihood": -4.036731220508045,
+        "nearest_surface_distance_nm": 6.691870286880876,
+        "surface_cell_id": "arc-166",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 76708,
+      "history_root": 76640,
+      "counts": [
+        1,
+        0,
+        2
+      ],
+      "mode": "lateral_navigation"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 38.38315460946544,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 1194,
+          "parent_slot": 119835,
+          "root_id": 118697
+        },
+        "latitude_deg": -26.02718156417519,
+        "longitude_deg": 101.1002011177701,
+        "impact_time_unix_s": 1394238016.9285867,
+        "baseline_weight": 8.029696139709013e-05,
+        "conditional_weight": 2.7389100225776827e-05,
+        "relative_log_likelihood": -5.279726053336233,
+        "nearest_surface_distance_nm": 13.297302324885045,
+        "surface_cell_id": "arc-143",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 119835,
+      "history_root": 118697,
+      "counts": [
+        3,
+        7,
+        4
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 38.38315460946544,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 1194,
+          "parent_slot": 119835,
+          "root_id": 118697
+        },
+        "latitude_deg": -26.02718156417519,
+        "longitude_deg": 101.1002011177701,
+        "impact_time_unix_s": 1394238016.9285867,
+        "baseline_weight": 8.029696139709013e-05,
+        "conditional_weight": 2.7389100225776827e-05,
+        "relative_log_likelihood": -5.279726053336233,
+        "nearest_surface_distance_nm": 13.297302324885045,
+        "surface_cell_id": "arc-143",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 119835,
+      "history_root": 118697,
+      "counts": [
+        3,
+        7,
+        4
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 114.98839444824296,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.800708146578174,
+        "longitude_deg": 91.38917169333524,
+        "impact_time_unix_s": 1394238663.8224983,
+        "baseline_weight": 0.00043200160795135115,
+        "conditional_weight": 2.8546257608090364e-05,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 21.937408836575592,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 95.72233120235497,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 737,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.769492210454764,
+        "longitude_deg": 91.90296967604826,
+        "impact_time_unix_s": 1394239003.533692,
+        "baseline_weight": 4.653918635030214e-26,
+        "conditional_weight": 7.338825195645985e-25,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 3.654804275370088,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 91.96883005679469,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.800708146578174,
+        "longitude_deg": 91.38917169333524,
+        "impact_time_unix_s": 1394238663.8224983,
+        "baseline_weight": 0.00043200160795135115,
+        "conditional_weight": 2.8546257608090364e-05,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 21.937408836575592,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 64.60753222248684,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 737,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.769492210454764,
+        "longitude_deg": 91.90296967604826,
+        "impact_time_unix_s": 1394239003.533692,
+        "baseline_weight": 4.653918635030214e-26,
+        "conditional_weight": 7.338825195645985e-25,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 3.654804275370088,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 111.13410103390741,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 2,
+          "draw": 689,
+          "parent_slot": 228197,
+          "root_id": 224880
+        },
+        "latitude_deg": -36.25118918834362,
+        "longitude_deg": 90.64530840676463,
+        "impact_time_unix_s": 1394238074.8239572,
+        "baseline_weight": 0.000489155208594294,
+        "conditional_weight": 0.0006084161831218759,
+        "relative_log_likelihood": -3.701253043320079,
+        "nearest_surface_distance_nm": 20.380627383858336,
+        "surface_cell_id": "arc-165",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711/trajectory-examples.json",
+        "sha256": "f6a03e65bc0dbb629ae3998c5973db192f20afd9f57cfca7b0d37308fa037a9f"
+      },
+      "history_terminal_slot": 228197,
+      "history_root": 224880,
+      "counts": [
+        1,
+        7,
+        2
+      ],
+      "mode": "lateral_navigation"
+    },
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 9.004559005186522,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 5,
+          "draw": 736,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.85255394912568,
+        "longitude_deg": 91.88732041820049,
+        "impact_time_unix_s": 1394238288.7402432,
+        "baseline_weight": 0.00019797720958910126,
+        "conditional_weight": 0.0023484226394223213,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 7.374722728616008,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 55.845744149879344,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 2,
+          "draw": 689,
+          "parent_slot": 228197,
+          "root_id": 224880
+        },
+        "latitude_deg": -36.25118918834362,
+        "longitude_deg": 90.64530840676463,
+        "impact_time_unix_s": 1394238074.8239572,
+        "baseline_weight": 0.000489155208594294,
+        "conditional_weight": 0.0006084161831218759,
+        "relative_log_likelihood": -3.701253043320079,
+        "nearest_surface_distance_nm": 20.380627383858336,
+        "surface_cell_id": "arc-165",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711/trajectory-examples.json",
+        "sha256": "f6a03e65bc0dbb629ae3998c5973db192f20afd9f57cfca7b0d37308fa037a9f"
+      },
+      "history_terminal_slot": 228197,
+      "history_root": 224880,
+      "counts": [
+        1,
+        7,
+        2
+      ],
+      "mode": "lateral_navigation"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 28.047207249760298,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 0,
+          "draw": 712,
+          "parent_slot": 76708,
+          "root_id": 76640
+        },
+        "latitude_deg": -36.876632181656795,
+        "longitude_deg": 90.25261759011232,
+        "impact_time_unix_s": 1394238213.8729305,
+        "baseline_weight": 0.00030281247647549324,
+        "conditional_weight": 0.00026929700211492016,
+        "relative_log_likelihood": -4.036731220508045,
+        "nearest_surface_distance_nm": 6.691870286880876,
+        "surface_cell_id": "arc-166",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 76708,
+      "history_root": 76640,
+      "counts": [
+        1,
+        0,
+        2
+      ],
+      "mode": "lateral_navigation"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 77.44988585029152,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 2,
+          "draw": 1070,
+          "parent_slot": 178854,
+          "root_id": 176793
+        },
+        "latitude_deg": -26.364139910752083,
+        "longitude_deg": 100.93897774396885,
+        "impact_time_unix_s": 1394238124.949665,
+        "baseline_weight": 3.249363191117948e-05,
+        "conditional_weight": 7.412282757998052e-05,
+        "relative_log_likelihood": -3.094752943301245,
+        "nearest_surface_distance_nm": 11.48327525089876,
+        "surface_cell_id": "arc-144",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711/trajectory-examples.json",
+        "sha256": "f6a03e65bc0dbb629ae3998c5973db192f20afd9f57cfca7b0d37308fa037a9f"
+      },
+      "history_terminal_slot": 178854,
+      "history_root": 176793,
+      "counts": [
+        2,
+        5,
+        5
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 33.87031328054902,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 1,
+          "draw": 1124,
+          "parent_slot": 57146,
+          "root_id": 57247
+        },
+        "latitude_deg": -25.58115183953931,
+        "longitude_deg": 101.62505620313698,
+        "impact_time_unix_s": 1394237986.549546,
+        "baseline_weight": 8.014348732654136e-06,
+        "conditional_weight": 2.2657823722624576e-08,
+        "relative_log_likelihood": -9.787915958901849,
+        "nearest_surface_distance_nm": 8.209849613973413,
+        "surface_cell_id": "arc-142",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640/trajectory-examples.json",
+        "sha256": "9632b98f198ca786d8b3197244b5e3a4e719651417cede2f43ec4e16eb8b21f4"
+      },
+      "history_terminal_slot": 57146,
+      "history_root": 57247,
+      "counts": [
+        2,
+        4,
+        5
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 114.98839444824296,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.800708146578174,
+        "longitude_deg": 91.38917169333524,
+        "impact_time_unix_s": 1394238663.8224983,
+        "baseline_weight": 0.00021365731647327458,
+        "conditional_weight": 1.0620253647735352e-05,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 21.937408836575592,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 95.72233120235497,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 5,
+          "draw": 737,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.769492210454764,
+        "longitude_deg": 91.90296967604826,
+        "impact_time_unix_s": 1394239003.533692,
+        "baseline_weight": 0.00019800171446135022,
+        "conditional_weight": 0.002348713318318569,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 3.654804275370088,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 91.96883005679469,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.800708146578174,
+        "longitude_deg": 91.38917169333524,
+        "impact_time_unix_s": 1394238663.8224983,
+        "baseline_weight": 0.00021365731647327458,
+        "conditional_weight": 1.0620253647735352e-05,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 21.937408836575592,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-signed-lift-6-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 64.60753222248684,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-signed-lift-6-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 5,
+          "draw": 737,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.769492210454764,
+        "longitude_deg": 91.90296967604826,
+        "impact_time_unix_s": 1394239003.533692,
+        "baseline_weight": 0.00019800171446135022,
+        "conditional_weight": 0.002348713318318569,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 3.654804275370088,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 4.171867184995782,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 733,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.89978738723985,
+        "longitude_deg": 91.83264773873151,
+        "impact_time_unix_s": 1394238447.5572894,
+        "baseline_weight": 0.001088847810966023,
+        "conditional_weight": 0.016330179584753433,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 11.239422460488225,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 4.171867184995782,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 733,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.89978738723985,
+        "longitude_deg": 91.83264773873151,
+        "impact_time_unix_s": 1394238447.5572894,
+        "baseline_weight": 0.001088847810966023,
+        "conditional_weight": 0.016330179584753433,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 11.239422460488225,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 109.7997173461796,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.85517562352409,
+        "longitude_deg": 91.05577197023223,
+        "impact_time_unix_s": 1394238875.8370175,
+        "baseline_weight": 0.00039190030353595997,
+        "conditional_weight": 2.462949110215006e-05,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 24.61277171327106,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 32.666071922158935,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 0,
+          "draw": 708,
+          "parent_slot": 76708,
+          "root_id": 76640
+        },
+        "latitude_deg": -36.83731231195616,
+        "longitude_deg": 90.17247636644515,
+        "impact_time_unix_s": 1394238571.2648423,
+        "baseline_weight": 1.077704225363347e-43,
+        "conditional_weight": 1.2117696140733653e-43,
+        "relative_log_likelihood": -4.036731220508045,
+        "nearest_surface_distance_nm": 7.84762033868005,
+        "surface_cell_id": "arc-166",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 76708,
+      "history_root": 76640,
+      "counts": [
+        1,
+        0,
+        2
+      ],
+      "mode": "lateral_navigation"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 84.18387457495352,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 3,
+          "draw": 1101,
+          "parent_slot": 90070,
+          "root_id": 88259
+        },
+        "latitude_deg": -25.16789724744825,
+        "longitude_deg": 101.85599716019857,
+        "impact_time_unix_s": 1394238719.5601232,
+        "baseline_weight": 0.00040882729970575734,
+        "conditional_weight": 5.301463398987236e-06,
+        "relative_log_likelihood": -8.499289862651523,
+        "nearest_surface_distance_nm": 18.543384733331255,
+        "surface_cell_id": "arc-141",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091712/trajectory-examples.json",
+        "sha256": "79e03a718fa0340c292a69786c049b16d02126f0c345603298eac1e7a2e069c3"
+      },
+      "history_terminal_slot": 90070,
+      "history_root": 88259,
+      "counts": [
+        2,
+        3,
+        1
+      ],
+      "mode": "constant_magnetic_heading"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 40.262360352960485,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 1194,
+          "parent_slot": 119835,
+          "root_id": 118697
+        },
+        "latitude_deg": -25.957262962308462,
+        "longitude_deg": 101.02293092534421,
+        "impact_time_unix_s": 1394238209.151913,
+        "baseline_weight": 7.79539909827247e-25,
+        "conditional_weight": 2.5289079986569483e-25,
+        "relative_log_likelihood": -5.279726053336233,
+        "nearest_surface_distance_nm": 17.710403691281137,
+        "surface_cell_id": "arc-143",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 119835,
+      "history_root": 118697,
+      "counts": [
+        3,
+        7,
+        4
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 111.02810568621493,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 733,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.89978738723985,
+        "longitude_deg": 91.83264773873151,
+        "impact_time_unix_s": 1394238447.5572894,
+        "baseline_weight": 0.001088847810966023,
+        "conditional_weight": 0.016330179584753433,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 11.239422460488225,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 73.47077044536992,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 734,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.57741419602121,
+        "longitude_deg": 92.03852277980309,
+        "impact_time_unix_s": 1394239250.331796,
+        "baseline_weight": 8.598713203144558e-29,
+        "conditional_weight": 1.2896065858879038e-27,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 10.953052516934747,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 80.31798893166791,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 733,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.89978738723985,
+        "longitude_deg": 91.83264773873151,
+        "impact_time_unix_s": 1394238447.5572894,
+        "baseline_weight": 0.001088847810966023,
+        "conditional_weight": 0.016330179584753433,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 11.239422460488225,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "r600-no-startup-offset",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 41.086058100673945,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "r600-no-startup-offset",
+          "source_index": 5,
+          "draw": 734,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.57741419602121,
+        "longitude_deg": 92.03852277980309,
+        "impact_time_unix_s": 1394239250.331796,
+        "baseline_weight": 8.598713203144558e-29,
+        "conditional_weight": 1.2896065858879038e-27,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 10.953052516934747,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 120.89154380448625,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 2,
+          "draw": 689,
+          "parent_slot": 228197,
+          "root_id": 224880
+        },
+        "latitude_deg": -35.8242651997588,
+        "longitude_deg": 90.4537108311215,
+        "impact_time_unix_s": 1394238845.4984398,
+        "baseline_weight": 0.0002985738984514423,
+        "conditional_weight": 0.00035465030551398453,
+        "relative_log_likelihood": -3.701253043320079,
+        "nearest_surface_distance_nm": 47.64826173773637,
+        "surface_cell_id": "arc-165",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711/trajectory-examples.json",
+        "sha256": "f6a03e65bc0dbb629ae3998c5973db192f20afd9f57cfca7b0d37308fa037a9f"
+      },
+      "history_terminal_slot": 228197,
+      "history_root": 224880,
+      "counts": [
+        1,
+        7,
+        2
+      ],
+      "mode": "lateral_navigation"
+    },
+    {
+      "target_id": "A",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 4.171867184995782,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 5,
+          "draw": 733,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.89978738723985,
+        "longitude_deg": 91.83264773873151,
+        "impact_time_unix_s": 1394238447.5572894,
+        "baseline_weight": 0.0001223763300697865,
+        "conditional_weight": 0.001386286230046336,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 11.239422460488225,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 102.3549118893285,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 2,
+          "draw": 689,
+          "parent_slot": 228197,
+          "root_id": 224880
+        },
+        "latitude_deg": -35.8242651997588,
+        "longitude_deg": 90.4537108311215,
+        "impact_time_unix_s": 1394238845.4984398,
+        "baseline_weight": 0.0002985738984514423,
+        "conditional_weight": 0.00035465030551398453,
+        "relative_log_likelihood": -3.701253043320079,
+        "nearest_surface_distance_nm": 47.64826173773637,
+        "surface_cell_id": "arc-165",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711/trajectory-examples.json",
+        "sha256": "f6a03e65bc0dbb629ae3998c5973db192f20afd9f57cfca7b0d37308fa037a9f"
+      },
+      "history_terminal_slot": 228197,
+      "history_root": 224880,
+      "counts": [
+        1,
+        7,
+        2
+      ],
+      "mode": "lateral_navigation"
+    },
+    {
+      "target_id": "B",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 27.786178961115706,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 0,
+          "draw": 308,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -36.5614905027758,
+        "longitude_deg": 90.73378059461538,
+        "impact_time_unix_s": 1394238076.5049648,
+        "baseline_weight": 0.00012875061503693166,
+        "conditional_weight": 0.000152931804135542,
+        "relative_log_likelihood": -3.701253043320079,
+        "nearest_surface_distance_nm": 2.5569344631195334,
+        "surface_cell_id": "arc-165",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 66.83613116439724,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 2,
+          "draw": 1070,
+          "parent_slot": 178854,
+          "root_id": 176793
+        },
+        "latitude_deg": -26.33711664764842,
+        "longitude_deg": 101.66221605352086,
+        "impact_time_unix_s": 1394238768.5851204,
+        "baseline_weight": 1.9833685063780444e-05,
+        "conditional_weight": 4.859927542853632e-06,
+        "relative_log_likelihood": -5.279726053336233,
+        "nearest_surface_distance_nm": 26.0247561421796,
+        "surface_cell_id": "arc-143",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-255000-seed-37091711/trajectory-examples.json",
+        "sha256": "f6a03e65bc0dbb629ae3998c5973db192f20afd9f57cfca7b0d37308fa037a9f"
+      },
+      "history_terminal_slot": 178854,
+      "history_root": 176793,
+      "counts": [
+        2,
+        5,
+        5
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "D",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 40.262360352960485,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 5,
+          "draw": 1194,
+          "parent_slot": 119835,
+          "root_id": 118697
+        },
+        "latitude_deg": -25.957262962308462,
+        "longitude_deg": 101.02293092534421,
+        "impact_time_unix_s": 1394238209.151913,
+        "baseline_weight": 1.1388412788570405e-05,
+        "conditional_weight": 2.7905485441851793e-06,
+        "relative_log_likelihood": -5.279726053336233,
+        "nearest_surface_distance_nm": 17.710403691281137,
+        "surface_cell_id": "arc-143",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 119835,
+      "history_root": 118697,
+      "counts": [
+        3,
+        7,
+        4
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 137.71753069119066,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 0,
+          "draw": 318,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -35.85517562352409,
+        "longitude_deg": 91.05577197023223,
+        "impact_time_unix_s": 1394238875.8370175,
+        "baseline_weight": 0.00013041361267607102,
+        "conditional_weight": 6.190624617312077e-06,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 24.61277171327106,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "E",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 73.47077044536992,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 5,
+          "draw": 734,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.57741419602121,
+        "longitude_deg": 92.03852277980309,
+        "impact_time_unix_s": 1394239250.331796,
+        "baseline_weight": 0.00012095261135465313,
+        "conditional_weight": 0.0013701582611072188,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 10.953052516934747,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Highest flight weight within 150 km",
+      "distance_km": 133.24668338059845,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 0,
+          "draw": 312,
+          "parent_slot": 39591,
+          "root_id": 39168
+        },
+        "latitude_deg": -36.15930087117361,
+        "longitude_deg": 91.1994106707711,
+        "impact_time_unix_s": 1394238754.619353,
+        "baseline_weight": 0.00013468061926984691,
+        "conditional_weight": 6.393175835084674e-06,
+        "relative_log_likelihood": -6.921042870869499,
+        "nearest_surface_distance_nm": 9.057524563446963,
+        "surface_cell_id": "arc-164",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091631/trajectory-examples.json",
+        "sha256": "4e710339171ba05b6b82dd44259d56b84cec504d6d9e1b3848e6ed3559c3986f"
+      },
+      "history_terminal_slot": 39591,
+      "history_root": 39168,
+      "counts": [
+        2,
+        4,
+        2
+      ],
+      "mode": "constant_true_track"
+    },
+    {
+      "target_id": "F",
+      "terminal_family": "openap26-positive-lift-3-targets",
+      "contact_case": "neither-final-contact",
+      "role": "Closest retained geographic neighbour",
+      "distance_km": 41.086058100673945,
+      "spatial_particle": {
+        "identity": {
+          "terminal_summary_sha256": "9546c85a5542428d2f628f49b0d22530ec7a89cd3c769d45d855136b94200e77",
+          "terminal_family": "openap26-positive-lift-3-targets",
+          "contact_case": "neither-final-contact",
+          "source_index": 5,
+          "draw": 734,
+          "parent_slot": 130341,
+          "root_id": 129496
+        },
+        "latitude_deg": -35.57741419602121,
+        "longitude_deg": 92.03852277980309,
+        "impact_time_unix_s": 1394239250.331796,
+        "baseline_weight": 0.00012095261135465313,
+        "conditional_weight": 0.0013701582611072188,
+        "relative_log_likelihood": -1.4460851202064615,
+        "nearest_surface_distance_nm": 10.953052516934747,
+        "surface_cell_id": "arc-163",
+        "source_cell_status": "supported",
+        "support_status": "supported",
+        "used_likelihood_floor": false
+      },
+      "history_source": {
+        "path": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714/trajectory-examples.json",
+        "sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f"
+      },
+      "history_terminal_slot": 130341,
+      "history_root": 129496,
+      "counts": [
+        3,
+        1,
+        6
+      ],
+      "mode": "constant_magnetic_track"
+    }
+  ],
+  "trace_config": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-context-inputs/terminal-traces.json",
+  "trace_config_sha256": "97afe9740ded9c384d2a87ab506c88f80071e5d1e7dc202665dbb297fb2224f0",
+  "trace_directory": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-context-selected-terminal-traces",
+  "selection_rule": "For each mapped target and selected flight/contact model, show the highest-flight-weight retained route within 150 km and the closest retained geographic neighbour. Same endpoint choices are deduplicated in drawings. These are illustrative selections among 213 retained exact histories, not samples from an acoustic-conditioned posterior. Report actual distances and contact weights; geographical proximity alone does not establish a satellite or acoustic match.",
+  "report_conditions": [
+    "Broad cruise source: 1,020,000 initial candidates, caps 16 turn/8 Mach/8 altitude starts after 18:25; stated mode/frequency and fuel priors remain.",
+    "The paired maps differ only by the supplied CMEMS nine-recovery, isotope and Australian coastal non-recovery compatibility factors. Gain and acoustic evidence are not multiplied into them.",
+    "Seventh arc is the archived official FL400 reference; impact altitude is sea level. No impact is forced onto that reference curve.",
+    "Historical 2014\u201317 survey data extents, Bluefin display footprints and approximate 2018 outline are shown as context. Proposed renewed-search bands and AIS tracks are not labelled as searched seabed.",
+    "No calibrated searched-area non-detection likelihood is applied. Current campaign swath completion is not known from these outlines.",
+    "Kadri target coordinates are conditional geometric constructions. A/B are catalogue entries without recovered corresponding peaks in the published trace. C is unlocalised on the southern arc. D is the preferred reported candidate. E/F are exploratory timing pairs with periodic interference.",
+    "These model-conditioned impact PDFs remain numerically and physically provisional."
+  ]
+}

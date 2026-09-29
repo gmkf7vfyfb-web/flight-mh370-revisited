@@ -1,0 +1,26 @@
+Completed entirely under `.sources/ulich-mh370-fuel-performance`; product crates, configs, shared inputs, and other source packages were untouched.
+
+Key findings:
+
+- ACARS predicted burn: 5,384.280 kg versus 5,400 kg observed.
+- Total error: −15.720 kg; interval RMSE: 83.933 kg.
+- The close total is cancellation: one +163.9 kg interval followed by four under-burn intervals.
+- Untuned Arc‑1 over-burn: 4,226.524 kg, ending at 29,297.581 kg versus the official calculated 33,524.105 kg. The public LTO/BFFM2 proxy is therefore unsuitable for level-cruise initialization without independent performance evidence. [Official ACARS report](https://www.mot.gov.my/my/Laporan%20Siasatan%20Mh370/01-Laporan/MH370SafetyInvestigationReport.pdf), [Appendix 1.6E](https://www.mot.gov.my/my/Laporan%20Siasatan%20Mh370/02-Appendices/Appendices%20Set%201%20-%207%20Appendices%201.1A%20to1.9A/Appendix-1.6E-Aircraft-Performance-Analysis-MH370-%289M-MRO%29.pdf).
+- Preserved workbook SHA‑256: `a45373a2…f75a3`; audit passed all 19 range pins. Macros/formulas were never executed and no confidential table values were exported.
+- Legacy 18:22 fuel, 0.45 t SD, and event-derived 00:17:30 exhaustion calibration are excluded.
+- Pulau Perak profiles have zero likelihood weight and are initializer-ineligible.
+- Canonical initialization remains blocked by the 4.2265 t cruise discrepancy and missing engine-accessible fuel/feed split.
+
+Artifacts:
+
+- [Browser report](/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/outputs/report.html)
+- [Full results](/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/outputs/results.json)
+- [Workbook audit](/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/outputs/workbook_audit.json)
+- [Initializer contract](/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/INITIALIZER_CONTRACT.md)
+- [Reproduction guide](/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/README.md)
+- [Citation ledger](/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/citation-ledger.md)
+- [Complete hashes](/jackbox/home/MH370/.sources/ulich-mh370-fuel-performance/SHA256SUMS)
+
+Verification: 9 tests pass; stable artifacts were byte-identical across repeated runs. Final recorded execution was 1.11 s with 78.3 MiB peak RSS. Scientific fingerprint: `0fa2204a6b6bced6814005083a33213431fde08a959f50871af4c4fafd5026b5`.
+
+::inline-vis{file=".sources/ulich-mh370-fuel-performance/outputs/report.html" height="720px"}

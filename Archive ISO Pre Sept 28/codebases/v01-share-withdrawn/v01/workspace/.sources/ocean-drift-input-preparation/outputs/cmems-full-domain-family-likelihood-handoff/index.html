@@ -1,0 +1,2824 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MH370 ocean-drift family handoff</title>
+<style>
+:root { color-scheme: light; --navy:#17365d; --ink:#172033; --muted:#5b6474; --line:#d7dee9; }
+* { box-sizing:border-box; }
+body { margin:0; font-family:Inter,ui-sans-serif,system-ui,-apple-system,sans-serif; color:var(--ink); background:#f5f7fa; }
+main { max-width:1120px; margin:0 auto; padding:22px; }
+h1 { color:var(--navy); font-size:24px; margin:0 0 7px; }
+p { color:var(--muted); line-height:1.5; }
+.notice { background:#fff4dd; border-left:5px solid #d97706; padding:12px 15px; border-radius:5px; color:#6b4500; }
+.card { background:white; border:1px solid var(--line); border-radius:10px; margin:16px 0; padding:17px; box-shadow:0 2px 7px #20304a0d; }
+table { width:100%; border-collapse:collapse; font-size:14px; }
+th,td { padding:9px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+th { color:var(--navy); }
+.swatch { display:inline-block; width:11px; height:11px; border-radius:50%; margin-right:7px; }
+.decision { font-weight:700; text-transform:uppercase; }
+.plot svg { width:100%; height:auto; }
+.query-grid { display:grid; grid-template-columns:1.5fr 1fr 1fr auto; gap:9px; align-items:end; }
+label { display:block; color:var(--muted); font-size:12px; margin-bottom:4px; }
+select,input,button { width:100%; padding:9px; border:1px solid #b7c0ce; border-radius:6px; background:white; }
+button { background:var(--navy); color:white; border-color:var(--navy); cursor:pointer; }
+#query-result { margin-top:12px; padding:12px; background:#f5f7fa; border-radius:6px; min-height:46px; }
+code { font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:12px; }
+@media (max-width:700px) { .query-grid { grid-template-columns:1fr; } main { padding:12px; } }
+</style>
+</head>
+<body><main>
+<h1>Ocean-drift likelihood admission handoff</h1>
+<p>Family-specific seventh-arc likelihoods. Source priors are removed before query; current families are never averaged.</p>
+<div class="notice"><strong>Admission status:</strong> A diagnostic-only surface must not update the integrated flight posterior.</div>
+<section class="card"><table><thead><tr><th>Family</th><th>Decision</th><th>Failed checks</th><th>Diagnostic peak</th></tr></thead><tbody><tr><td><span class='swatch' style='background:#D97706'></span>Full-domain GLORYS12 currents + distinct WAVERYS Stokes</td><td class='decision'>diagnostic only</td><td>out_of_support_termination, eventwise_arrival_ess, seed_and_particle_stability</td><td>30.70°S</td></tr></tbody></table></section>
+<section class="card plot"><svg xmlns:xlink="http://www.w3.org/1999/xlink" width="576pt" height="208.8pt" viewBox="0 0 576 208.8" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 208.8 
+L 576 208.8 
+L 576 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 44.313756 172.799057 
+L 531.686244 172.799057 
+L 531.686244 34.600095 
+L 44.313756 34.600095 
+z
+" style="fill: #ffffff"/>
+   </g>
+   <g id="FillBetweenPolyCollection_1">
+    <defs>
+     <path id="mf6d219dfa8" d="M 66.467051 -36.000943 
+L 66.467051 -36.000943 
+L 74.700389 -36.000943 
+L 82.912759 -36.000943 
+L 91.102949 -36.000943 
+L 99.26975 -36.000943 
+L 107.411953 -36.000943 
+L 115.527943 -36.000943 
+L 123.616512 -36.000943 
+L 131.676449 -36.000943 
+L 139.706143 -36.000943 
+L 147.704381 -36.000943 
+L 155.669956 -36.000943 
+L 163.601254 -36.000943 
+L 171.496662 -36.000944 
+L 179.354567 -36.053857 
+L 187.173759 -36.000944 
+L 194.953028 -36.000943 
+L 202.689955 -36.000943 
+L 210.383733 -36.000943 
+L 218.032347 -36.000943 
+L 225.633779 -36.000943 
+L 233.187223 -36.000943 
+L 240.69026 -36.000943 
+L 248.141276 -36.000943 
+L 255.538659 -36.011769 
+L 262.880392 -36.027742 
+L 270.164863 -36.00833 
+L 277.389651 -36.671383 
+L 284.553547 -41.961425 
+L 291.653728 -38.790532 
+L 298.688985 -52.694846 
+L 305.656493 -37.280224 
+L 312.554642 -36.681095 
+L 319.38101 -38.572327 
+L 326.133985 -77.464928 
+L 332.810341 -36.504069 
+L 339.408868 -167.619002 
+L 345.92634 -135.827634 
+L 352.361144 -137.723822 
+L 358.710456 -94.159835 
+L 364.971859 -56.790306 
+L 371.142931 -44.77496 
+L 377.221254 -95.353192 
+L 383.204408 -39.880224 
+L 389.089569 -46.754808 
+L 394.873916 -54.189153 
+L 400.555432 -42.048121 
+L 406.130891 -66.995733 
+L 411.59747 -36.130824 
+L 416.953153 -39.250931 
+L 422.19431 -38.324672 
+L 427.318925 -36.010156 
+L 432.323773 -36.308802 
+L 437.206029 -36.70044 
+L 441.963276 -37.388893 
+L 446.592286 -36.000944 
+L 451.090236 -36.002149 
+L 455.454709 -36.000943 
+L 459.682879 -36.000943 
+L 463.771522 -36.000943 
+L 467.718621 -36.002076 
+L 471.520547 -36.000943 
+L 475.175283 -36.000943 
+L 478.68041 -36.000943 
+L 482.032702 -36.000943 
+L 485.22974 -36.000943 
+L 488.269506 -36.000943 
+L 491.149582 -36.000943 
+L 493.867144 -36.000943 
+L 496.42058 -36.000943 
+L 498.807873 -36.000943 
+L 501.026604 -36.000943 
+L 503.07516 -36.000943 
+L 504.951524 -36.000943 
+L 506.654083 -36.000943 
+L 508.182032 -36.000943 
+L 509.532949 -36.000943 
+L 509.532949 -36.000943 
+L 509.532949 -36.000943 
+L 508.182032 -36.000943 
+L 506.654083 -36.000943 
+L 504.951524 -36.000943 
+L 503.07516 -36.000943 
+L 501.026604 -36.000943 
+L 498.807873 -36.000943 
+L 496.42058 -36.000943 
+L 493.867144 -36.000943 
+L 491.149582 -36.000943 
+L 488.269506 -36.000943 
+L 485.22974 -36.000943 
+L 482.032702 -36.000943 
+L 478.68041 -36.000943 
+L 475.175283 -36.000943 
+L 471.520547 -36.000943 
+L 467.718621 -36.000943 
+L 463.771522 -36.000943 
+L 459.682879 -36.000943 
+L 455.454709 -36.000943 
+L 451.090236 -36.000943 
+L 446.592286 -36.000943 
+L 441.963276 -36.000943 
+L 437.206029 -36.000943 
+L 432.323773 -36.000943 
+L 427.318925 -36.000943 
+L 422.19431 -36.000943 
+L 416.953153 -36.000943 
+L 411.59747 -36.000943 
+L 406.130891 -36.000943 
+L 400.555432 -36.000943 
+L 394.873916 -36.000943 
+L 389.089569 -36.000943 
+L 383.204408 -36.000943 
+L 377.221254 -36.000943 
+L 371.142931 -36.000943 
+L 364.971859 -36.000943 
+L 358.710456 -36.000943 
+L 352.361144 -36.000943 
+L 345.92634 -36.000943 
+L 339.408868 -36.000943 
+L 332.810341 -36.000943 
+L 326.133985 -36.000943 
+L 319.38101 -36.000943 
+L 312.554642 -36.000943 
+L 305.656493 -36.000943 
+L 298.688985 -36.000943 
+L 291.653728 -36.000943 
+L 284.553547 -36.000943 
+L 277.389651 -36.000943 
+L 270.164863 -36.000943 
+L 262.880392 -36.000943 
+L 255.538659 -36.000943 
+L 248.141276 -36.000943 
+L 240.69026 -36.000943 
+L 233.187223 -36.000943 
+L 225.633779 -36.000943 
+L 218.032347 -36.000943 
+L 210.383733 -36.000943 
+L 202.689955 -36.000943 
+L 194.953028 -36.000943 
+L 187.173759 -36.000943 
+L 179.354567 -36.000943 
+L 171.496662 -36.000943 
+L 163.601254 -36.000943 
+L 155.669956 -36.000943 
+L 147.704381 -36.000943 
+L 139.706143 -36.000943 
+L 131.676449 -36.000943 
+L 123.616512 -36.000943 
+L 115.527943 -36.000943 
+L 107.411953 -36.000943 
+L 99.26975 -36.000943 
+L 91.102949 -36.000943 
+L 82.912759 -36.000943 
+L 74.700389 -36.000943 
+L 66.467051 -36.000943 
+z
+" style="stroke: #d97706; stroke-opacity: 0.16"/>
+    </defs>
+    <g clip-path="url(#p9082e48881)">
+     <use xlink:href="#mf6d219dfa8" x="0" y="208.8" style="fill: #d97706; fill-opacity: 0.16; stroke: #d97706; stroke-opacity: 0.16"/>
+    </g>
+   </g>
+   <g id="matplotlib.axis_1">
+    <g id="xtick_1">
+     <g id="line2d_1">
+      <path d="M 65.839176 172.799057 
+L 65.839176 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_2">
+      <defs>
+       <path id="m9581528230" d="M 0 0 
+L 0 3.5 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m9581528230" x="65.839176" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_1">
+      <!-- 10 -->
+      <g transform="translate(60.112926 186.636947) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-14" d="M 794 531 
+L 1825 531 
+L 1825 4091 
+L 703 3866 
+L 703 4441 
+L 1819 4666 
+L 2450 4666 
+L 2450 531 
+L 3481 531 
+L 3481 0 
+L 794 0 
+L 794 531 
+z
+" transform="scale(0.015625)"/>
+        <path id="DejaVuSans-13" d="M 2034 4250 
+Q 1547 4250 1301 3770 
+Q 1056 3291 1056 2328 
+Q 1056 1369 1301 889 
+Q 1547 409 2034 409 
+Q 2525 409 2770 889 
+Q 3016 1369 3016 2328 
+Q 3016 3291 2770 3770 
+Q 2525 4250 2034 4250 
+z
+M 2034 4750 
+Q 2819 4750 3233 4129 
+Q 3647 3509 3647 2328 
+Q 3647 1150 3233 529 
+Q 2819 -91 2034 -91 
+Q 1250 -91 836 529 
+Q 422 1150 422 2328 
+Q 422 3509 836 4129 
+Q 1250 4750 2034 4750 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-14"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_3">
+      <path d="M 131.90913 172.799057 
+L 131.90913 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_4">
+      <g>
+       <use xlink:href="#m9581528230" x="131.90913" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- 15 -->
+      <g transform="translate(126.18288 186.636947) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-18" d="M 691 4666 
+L 3169 4666 
+L 3169 4134 
+L 1269 4134 
+L 1269 2991 
+Q 1406 3038 1543 3061 
+Q 1681 3084 1819 3084 
+Q 2600 3084 3056 2656 
+Q 3513 2228 3513 1497 
+Q 3513 744 3044 326 
+Q 2575 -91 1722 -91 
+Q 1428 -91 1123 -41 
+Q 819 9 494 109 
+L 494 744 
+Q 775 591 1075 516 
+Q 1375 441 1709 441 
+Q 2250 441 2565 725 
+Q 2881 1009 2881 1497 
+Q 2881 1984 2565 2268 
+Q 2250 2553 1709 2553 
+Q 1456 2553 1204 2497 
+Q 953 2441 691 2322 
+L 691 4666 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-14"/>
+       <use xlink:href="#DejaVuSans-18" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_5">
+      <path d="M 197.979083 172.799057 
+L 197.979083 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_6">
+      <g>
+       <use xlink:href="#m9581528230" x="197.979083" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- 20 -->
+      <g transform="translate(192.252833 186.636947) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-15" d="M 1228 531 
+L 3431 531 
+L 3431 0 
+L 469 0 
+L 469 531 
+Q 828 903 1448 1529 
+Q 2069 2156 2228 2338 
+Q 2531 2678 2651 2914 
+Q 2772 3150 2772 3378 
+Q 2772 3750 2511 3984 
+Q 2250 4219 1831 4219 
+Q 1534 4219 1204 4116 
+Q 875 4013 500 3803 
+L 500 4441 
+Q 881 4594 1212 4672 
+Q 1544 4750 1819 4750 
+Q 2544 4750 2975 4387 
+Q 3406 4025 3406 3419 
+Q 3406 3131 3298 2873 
+Q 3191 2616 2906 2266 
+Q 2828 2175 2409 1742 
+Q 1991 1309 1228 531 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-15"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_7">
+      <path d="M 264.049037 172.799057 
+L 264.049037 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_8">
+      <g>
+       <use xlink:href="#m9581528230" x="264.049037" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- 25 -->
+      <g transform="translate(258.322787 186.636947) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-15"/>
+       <use xlink:href="#DejaVuSans-18" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_9">
+      <path d="M 330.11899 172.799057 
+L 330.11899 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_10">
+      <g>
+       <use xlink:href="#m9581528230" x="330.11899" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 30 -->
+      <g transform="translate(324.39274 186.636947) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-16" d="M 2597 2516 
+Q 3050 2419 3304 2112 
+Q 3559 1806 3559 1356 
+Q 3559 666 3084 287 
+Q 2609 -91 1734 -91 
+Q 1441 -91 1130 -33 
+Q 819 25 488 141 
+L 488 750 
+Q 750 597 1062 519 
+Q 1375 441 1716 441 
+Q 2309 441 2620 675 
+Q 2931 909 2931 1356 
+Q 2931 1769 2642 2001 
+Q 2353 2234 1838 2234 
+L 1294 2234 
+L 1294 2753 
+L 1863 2753 
+Q 2328 2753 2575 2939 
+Q 2822 3125 2822 3475 
+Q 2822 3834 2567 4026 
+Q 2313 4219 1838 4219 
+Q 1578 4219 1281 4162 
+Q 984 4106 628 3988 
+L 628 4550 
+Q 988 4650 1302 4700 
+Q 1616 4750 1894 4750 
+Q 2613 4750 3031 4423 
+Q 3450 4097 3450 3541 
+Q 3450 3153 3228 2886 
+Q 3006 2619 2597 2516 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-16"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_11">
+      <path d="M 396.188944 172.799057 
+L 396.188944 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_12">
+      <g>
+       <use xlink:href="#m9581528230" x="396.188944" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <!-- 35 -->
+      <g transform="translate(390.462694 186.636947) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-16"/>
+       <use xlink:href="#DejaVuSans-18" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_13">
+      <path d="M 462.258898 172.799057 
+L 462.258898 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_14">
+      <g>
+       <use xlink:href="#m9581528230" x="462.258898" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- 40 -->
+      <g transform="translate(456.532648 186.636947) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-17" d="M 2419 4116 
+L 825 1625 
+L 2419 1625 
+L 2419 4116 
+z
+M 2253 4666 
+L 3047 4666 
+L 3047 1625 
+L 3713 1625 
+L 3713 1100 
+L 3047 1100 
+L 3047 0 
+L 2419 0 
+L 2419 1100 
+L 313 1100 
+L 313 1709 
+L 2253 4666 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-17"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_8">
+     <g id="line2d_15">
+      <path d="M 528.328851 172.799057 
+L 528.328851 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_16">
+      <g>
+       <use xlink:href="#m9581528230" x="528.328851" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_8">
+      <!-- 45 -->
+      <g transform="translate(522.602601 186.636947) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-17"/>
+       <use xlink:href="#DejaVuSans-18" transform="translate(63.625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_9">
+     <!-- Seventh-arc source latitude (°S) -->
+     <g transform="translate(215.751797 203.637651) scale(0.09 -0.09)">
+      <defs>
+       <path id="DejaVuSans-36" d="M 3425 4513 
+L 3425 3897 
+Q 3066 4069 2747 4153 
+Q 2428 4238 2131 4238 
+Q 1616 4238 1336 4038 
+Q 1056 3838 1056 3469 
+Q 1056 3159 1242 3001 
+Q 1428 2844 1947 2747 
+L 2328 2669 
+Q 3034 2534 3370 2195 
+Q 3706 1856 3706 1288 
+Q 3706 609 3251 259 
+Q 2797 -91 1919 -91 
+Q 1588 -91 1214 -16 
+Q 841 59 441 206 
+L 441 856 
+Q 825 641 1194 531 
+Q 1563 422 1919 422 
+Q 2459 422 2753 634 
+Q 3047 847 3047 1241 
+Q 3047 1584 2836 1778 
+Q 2625 1972 2144 2069 
+L 1759 2144 
+Q 1053 2284 737 2584 
+Q 422 2884 422 3419 
+Q 422 4038 858 4394 
+Q 1294 4750 2059 4750 
+Q 2388 4750 2728 4690 
+Q 3069 4631 3425 4513 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-48" d="M 3597 1894 
+L 3597 1613 
+L 953 1613 
+Q 991 1019 1311 708 
+Q 1631 397 2203 397 
+Q 2534 397 2845 478 
+Q 3156 559 3463 722 
+L 3463 178 
+Q 3153 47 2828 -22 
+Q 2503 -91 2169 -91 
+Q 1331 -91 842 396 
+Q 353 884 353 1716 
+Q 353 2575 817 3079 
+Q 1281 3584 2069 3584 
+Q 2775 3584 3186 3129 
+Q 3597 2675 3597 1894 
+z
+M 3022 2063 
+Q 3016 2534 2758 2815 
+Q 2500 3097 2075 3097 
+Q 1594 3097 1305 2825 
+Q 1016 2553 972 2059 
+L 3022 2063 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-59" d="M 191 3500 
+L 800 3500 
+L 1894 563 
+L 2988 3500 
+L 3597 3500 
+L 2284 0 
+L 1503 0 
+L 191 3500 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-51" d="M 3513 2113 
+L 3513 0 
+L 2938 0 
+L 2938 2094 
+Q 2938 2591 2744 2837 
+Q 2550 3084 2163 3084 
+Q 1697 3084 1428 2787 
+Q 1159 2491 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1366 3272 1645 3428 
+Q 1925 3584 2291 3584 
+Q 2894 3584 3203 3211 
+Q 3513 2838 3513 2113 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-57" d="M 1172 4494 
+L 1172 3500 
+L 2356 3500 
+L 2356 3053 
+L 1172 3053 
+L 1172 1153 
+Q 1172 725 1289 603 
+Q 1406 481 1766 481 
+L 2356 481 
+L 2356 0 
+L 1766 0 
+Q 1100 0 847 248 
+Q 594 497 594 1153 
+L 594 3053 
+L 172 3053 
+L 172 3500 
+L 594 3500 
+L 594 4494 
+L 1172 4494 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-4b" d="M 3513 2113 
+L 3513 0 
+L 2938 0 
+L 2938 2094 
+Q 2938 2591 2744 2837 
+Q 2550 3084 2163 3084 
+Q 1697 3084 1428 2787 
+Q 1159 2491 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 4863 
+L 1159 4863 
+L 1159 2956 
+Q 1366 3272 1645 3428 
+Q 1925 3584 2291 3584 
+Q 2894 3584 3203 3211 
+Q 3513 2838 3513 2113 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-10" d="M 313 2009 
+L 1997 2009 
+L 1997 1497 
+L 313 1497 
+L 313 2009 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-44" d="M 2194 1759 
+Q 1497 1759 1228 1600 
+Q 959 1441 959 1056 
+Q 959 750 1161 570 
+Q 1363 391 1709 391 
+Q 2188 391 2477 730 
+Q 2766 1069 2766 1631 
+L 2766 1759 
+L 2194 1759 
+z
+M 3341 1997 
+L 3341 0 
+L 2766 0 
+L 2766 531 
+Q 2569 213 2275 61 
+Q 1981 -91 1556 -91 
+Q 1019 -91 701 211 
+Q 384 513 384 1019 
+Q 384 1609 779 1909 
+Q 1175 2209 1959 2209 
+L 2766 2209 
+L 2766 2266 
+Q 2766 2663 2505 2880 
+Q 2244 3097 1772 3097 
+Q 1472 3097 1187 3025 
+Q 903 2953 641 2809 
+L 641 3341 
+Q 956 3463 1253 3523 
+Q 1550 3584 1831 3584 
+Q 2591 3584 2966 3190 
+Q 3341 2797 3341 1997 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-55" d="M 2631 2963 
+Q 2534 3019 2420 3045 
+Q 2306 3072 2169 3072 
+Q 1681 3072 1420 2755 
+Q 1159 2438 1159 1844 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1341 3275 1631 3429 
+Q 1922 3584 2338 3584 
+Q 2397 3584 2469 3576 
+Q 2541 3569 2628 3553 
+L 2631 2963 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-46" d="M 3122 3366 
+L 3122 2828 
+Q 2878 2963 2633 3030 
+Q 2388 3097 2138 3097 
+Q 1578 3097 1268 2742 
+Q 959 2388 959 1747 
+Q 959 1106 1268 751 
+Q 1578 397 2138 397 
+Q 2388 397 2633 464 
+Q 2878 531 3122 666 
+L 3122 134 
+Q 2881 22 2623 -34 
+Q 2366 -91 2075 -91 
+Q 1284 -91 818 406 
+Q 353 903 353 1747 
+Q 353 2603 823 3093 
+Q 1294 3584 2113 3584 
+Q 2378 3584 2631 3529 
+Q 2884 3475 3122 3366 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-3" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-56" d="M 2834 3397 
+L 2834 2853 
+Q 2591 2978 2328 3040 
+Q 2066 3103 1784 3103 
+Q 1356 3103 1142 2972 
+Q 928 2841 928 2578 
+Q 928 2378 1081 2264 
+Q 1234 2150 1697 2047 
+L 1894 2003 
+Q 2506 1872 2764 1633 
+Q 3022 1394 3022 966 
+Q 3022 478 2636 193 
+Q 2250 -91 1575 -91 
+Q 1294 -91 989 -36 
+Q 684 19 347 128 
+L 347 722 
+Q 666 556 975 473 
+Q 1284 391 1588 391 
+Q 1994 391 2212 530 
+Q 2431 669 2431 922 
+Q 2431 1156 2273 1281 
+Q 2116 1406 1581 1522 
+L 1381 1569 
+Q 847 1681 609 1914 
+Q 372 2147 372 2553 
+Q 372 3047 722 3315 
+Q 1072 3584 1716 3584 
+Q 2034 3584 2315 3537 
+Q 2597 3491 2834 3397 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-52" d="M 1959 3097 
+Q 1497 3097 1228 2736 
+Q 959 2375 959 1747 
+Q 959 1119 1226 758 
+Q 1494 397 1959 397 
+Q 2419 397 2687 759 
+Q 2956 1122 2956 1747 
+Q 2956 2369 2687 2733 
+Q 2419 3097 1959 3097 
+z
+M 1959 3584 
+Q 2709 3584 3137 3096 
+Q 3566 2609 3566 1747 
+Q 3566 888 3137 398 
+Q 2709 -91 1959 -91 
+Q 1206 -91 779 398 
+Q 353 888 353 1747 
+Q 353 2609 779 3096 
+Q 1206 3584 1959 3584 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-58" d="M 544 1381 
+L 544 3500 
+L 1119 3500 
+L 1119 1403 
+Q 1119 906 1312 657 
+Q 1506 409 1894 409 
+Q 2359 409 2629 706 
+Q 2900 1003 2900 1516 
+L 2900 3500 
+L 3475 3500 
+L 3475 0 
+L 2900 0 
+L 2900 538 
+Q 2691 219 2414 64 
+Q 2138 -91 1772 -91 
+Q 1169 -91 856 284 
+Q 544 659 544 1381 
+z
+M 1991 3584 
+L 1991 3584 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-4f" d="M 603 4863 
+L 1178 4863 
+L 1178 0 
+L 603 0 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-4c" d="M 603 3500 
+L 1178 3500 
+L 1178 0 
+L 603 0 
+L 603 3500 
+z
+M 603 4863 
+L 1178 4863 
+L 1178 4134 
+L 603 4134 
+L 603 4863 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-47" d="M 2906 2969 
+L 2906 4863 
+L 3481 4863 
+L 3481 0 
+L 2906 0 
+L 2906 525 
+Q 2725 213 2448 61 
+Q 2172 -91 1784 -91 
+Q 1150 -91 751 415 
+Q 353 922 353 1747 
+Q 353 2572 751 3078 
+Q 1150 3584 1784 3584 
+Q 2172 3584 2448 3432 
+Q 2725 3281 2906 2969 
+z
+M 947 1747 
+Q 947 1113 1208 752 
+Q 1469 391 1925 391 
+Q 2381 391 2643 752 
+Q 2906 1113 2906 1747 
+Q 2906 2381 2643 2742 
+Q 2381 3103 1925 3103 
+Q 1469 3103 1208 2742 
+Q 947 2381 947 1747 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-b" d="M 1984 4856 
+Q 1566 4138 1362 3434 
+Q 1159 2731 1159 2009 
+Q 1159 1288 1364 580 
+Q 1569 -128 1984 -844 
+L 1484 -844 
+Q 1016 -109 783 600 
+Q 550 1309 550 2009 
+Q 550 2706 781 3412 
+Q 1013 4119 1484 4856 
+L 1984 4856 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-72" d="M 1600 4347 
+Q 1350 4347 1178 4173 
+Q 1006 4000 1006 3750 
+Q 1006 3503 1178 3333 
+Q 1350 3163 1600 3163 
+Q 1850 3163 2022 3333 
+Q 2194 3503 2194 3750 
+Q 2194 3997 2020 4172 
+Q 1847 4347 1600 4347 
+z
+M 1600 4750 
+Q 1800 4750 1984 4673 
+Q 2169 4597 2303 4453 
+Q 2447 4313 2519 4134 
+Q 2591 3956 2591 3750 
+Q 2591 3338 2302 3052 
+Q 2013 2766 1594 2766 
+Q 1172 2766 890 3047 
+Q 609 3328 609 3750 
+Q 609 4169 896 4459 
+Q 1184 4750 1600 4750 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-c" d="M 513 4856 
+L 1013 4856 
+Q 1481 4119 1714 3412 
+Q 1947 2706 1947 2009 
+Q 1947 1309 1714 600 
+Q 1481 -109 1013 -844 
+L 513 -844 
+Q 928 -128 1133 580 
+Q 1338 1288 1338 2009 
+Q 1338 2731 1133 3434 
+Q 928 4138 513 4856 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-36"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(63.484375 0)"/>
+      <use xlink:href="#DejaVuSans-59" transform="translate(125.015625 0)"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(184.203125 0)"/>
+      <use xlink:href="#DejaVuSans-51" transform="translate(245.734375 0)"/>
+      <use xlink:href="#DejaVuSans-57" transform="translate(309.109375 0)"/>
+      <use xlink:href="#DejaVuSans-4b" transform="translate(348.3125 0)"/>
+      <use xlink:href="#DejaVuSans-10" transform="translate(411.6875 0)"/>
+      <use xlink:href="#DejaVuSans-44" transform="translate(447.765625 0)"/>
+      <use xlink:href="#DejaVuSans-55" transform="translate(509.046875 0)"/>
+      <use xlink:href="#DejaVuSans-46" transform="translate(547.953125 0)"/>
+      <use xlink:href="#DejaVuSans-3" transform="translate(602.9375 0)"/>
+      <use xlink:href="#DejaVuSans-56" transform="translate(634.71875 0)"/>
+      <use xlink:href="#DejaVuSans-52" transform="translate(686.8125 0)"/>
+      <use xlink:href="#DejaVuSans-58" transform="translate(748 0)"/>
+      <use xlink:href="#DejaVuSans-55" transform="translate(811.375 0)"/>
+      <use xlink:href="#DejaVuSans-46" transform="translate(850.28125 0)"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(905.265625 0)"/>
+      <use xlink:href="#DejaVuSans-3" transform="translate(966.796875 0)"/>
+      <use xlink:href="#DejaVuSans-4f" transform="translate(998.578125 0)"/>
+      <use xlink:href="#DejaVuSans-44" transform="translate(1026.359375 0)"/>
+      <use xlink:href="#DejaVuSans-57" transform="translate(1087.640625 0)"/>
+      <use xlink:href="#DejaVuSans-4c" transform="translate(1126.84375 0)"/>
+      <use xlink:href="#DejaVuSans-57" transform="translate(1154.625 0)"/>
+      <use xlink:href="#DejaVuSans-58" transform="translate(1193.828125 0)"/>
+      <use xlink:href="#DejaVuSans-47" transform="translate(1257.203125 0)"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(1320.6875 0)"/>
+      <use xlink:href="#DejaVuSans-3" transform="translate(1382.21875 0)"/>
+      <use xlink:href="#DejaVuSans-b" transform="translate(1414 0)"/>
+      <use xlink:href="#DejaVuSans-72" transform="translate(1453.015625 0)"/>
+      <use xlink:href="#DejaVuSans-36" transform="translate(1503.015625 0)"/>
+      <use xlink:href="#DejaVuSans-c" transform="translate(1566.5 0)"/>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_17">
+      <path d="M 44.313756 172.799057 
+L 531.686244 172.799057 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_18">
+      <defs>
+       <path id="mbfb9796fab" d="M 0 0 
+L -3.5 0 
+" style="stroke: #000000; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#mbfb9796fab" x="44.313756" y="172.799057" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_10">
+      <!-- 0.0 -->
+      <g transform="translate(23.000943 176.218002) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-11" d="M 684 794 
+L 1344 794 
+L 1344 0 
+L 684 0 
+L 684 794 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_2">
+     <g id="line2d_19">
+      <path d="M 44.313756 146.475445 
+L 531.686244 146.475445 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_20">
+      <g>
+       <use xlink:href="#mbfb9796fab" x="44.313756" y="146.475445" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <!-- 0.2 -->
+      <g transform="translate(23.000943 149.89439) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-15" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_21">
+      <path d="M 44.313756 120.151833 
+L 531.686244 120.151833 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_22">
+      <g>
+       <use xlink:href="#mbfb9796fab" x="44.313756" y="120.151833" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_12">
+      <!-- 0.4 -->
+      <g transform="translate(23.000943 123.570779) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-17" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_23">
+      <path d="M 44.313756 93.828222 
+L 531.686244 93.828222 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_24">
+      <g>
+       <use xlink:href="#mbfb9796fab" x="44.313756" y="93.828222" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <!-- 0.6 -->
+      <g transform="translate(23.000943 97.247167) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-19" d="M 2113 2584 
+Q 1688 2584 1439 2293 
+Q 1191 2003 1191 1497 
+Q 1191 994 1439 701 
+Q 1688 409 2113 409 
+Q 2538 409 2786 701 
+Q 3034 994 3034 1497 
+Q 3034 2003 2786 2293 
+Q 2538 2584 2113 2584 
+z
+M 3366 4563 
+L 3366 3988 
+Q 3128 4100 2886 4159 
+Q 2644 4219 2406 4219 
+Q 1781 4219 1451 3797 
+Q 1122 3375 1075 2522 
+Q 1259 2794 1537 2939 
+Q 1816 3084 2150 3084 
+Q 2853 3084 3261 2657 
+Q 3669 2231 3669 1497 
+Q 3669 778 3244 343 
+Q 2819 -91 2113 -91 
+Q 1303 -91 875 529 
+Q 447 1150 447 2328 
+Q 447 3434 972 4092 
+Q 1497 4750 2381 4750 
+Q 2619 4750 2861 4703 
+Q 3103 4656 3366 4563 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-19" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_5">
+     <g id="line2d_25">
+      <path d="M 44.313756 67.50461 
+L 531.686244 67.50461 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_26">
+      <g>
+       <use xlink:href="#mbfb9796fab" x="44.313756" y="67.50461" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <!-- 0.8 -->
+      <g transform="translate(23.000943 70.923555) scale(0.09 -0.09)">
+       <defs>
+        <path id="DejaVuSans-1b" d="M 2034 2216 
+Q 1584 2216 1326 1975 
+Q 1069 1734 1069 1313 
+Q 1069 891 1326 650 
+Q 1584 409 2034 409 
+Q 2484 409 2743 651 
+Q 3003 894 3003 1313 
+Q 3003 1734 2745 1975 
+Q 2488 2216 2034 2216 
+z
+M 1403 2484 
+Q 997 2584 770 2862 
+Q 544 3141 544 3541 
+Q 544 4100 942 4425 
+Q 1341 4750 2034 4750 
+Q 2731 4750 3128 4425 
+Q 3525 4100 3525 3541 
+Q 3525 3141 3298 2862 
+Q 3072 2584 2669 2484 
+Q 3125 2378 3379 2068 
+Q 3634 1759 3634 1313 
+Q 3634 634 3220 271 
+Q 2806 -91 2034 -91 
+Q 1263 -91 848 271 
+Q 434 634 434 1313 
+Q 434 1759 690 2068 
+Q 947 2378 1403 2484 
+z
+M 1172 3481 
+Q 1172 3119 1398 2916 
+Q 1625 2713 2034 2713 
+Q 2441 2713 2670 2916 
+Q 2900 3119 2900 3481 
+Q 2900 3844 2670 4047 
+Q 2441 4250 2034 4250 
+Q 1625 4250 1398 4047 
+Q 1172 3844 1172 3481 
+z
+" transform="scale(0.015625)"/>
+       </defs>
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-1b" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_6">
+     <g id="line2d_27">
+      <path d="M 44.313756 41.180998 
+L 531.686244 41.180998 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d8dee8; stroke-opacity: 0.8; stroke-width: 0.6; stroke-linecap: square"/>
+     </g>
+     <g id="line2d_28">
+      <g>
+       <use xlink:href="#mbfb9796fab" x="44.313756" y="41.180998" style="stroke: #000000; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_15">
+      <!-- 1.0 -->
+      <g transform="translate(23.000943 44.599943) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-14"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_16">
+     <!-- Relative likelihood -->
+     <g transform="translate(9.838834 144.708638) rotate(-90) scale(0.09 -0.09)">
+      <defs>
+       <path id="DejaVuSans-35" d="M 2841 2188 
+Q 3044 2119 3236 1894 
+Q 3428 1669 3622 1275 
+L 4263 0 
+L 3584 0 
+L 2988 1197 
+Q 2756 1666 2539 1819 
+Q 2322 1972 1947 1972 
+L 1259 1972 
+L 1259 0 
+L 628 0 
+L 628 4666 
+L 2053 4666 
+Q 2853 4666 3247 4331 
+Q 3641 3997 3641 3322 
+Q 3641 2881 3436 2590 
+Q 3231 2300 2841 2188 
+z
+M 1259 4147 
+L 1259 2491 
+L 2053 2491 
+Q 2509 2491 2742 2702 
+Q 2975 2913 2975 3322 
+Q 2975 3731 2742 3939 
+Q 2509 4147 2053 4147 
+L 1259 4147 
+z
+" transform="scale(0.015625)"/>
+       <path id="DejaVuSans-4e" d="M 581 4863 
+L 1159 4863 
+L 1159 1991 
+L 2875 3500 
+L 3609 3500 
+L 1753 1863 
+L 3688 0 
+L 2938 0 
+L 1159 1709 
+L 1159 0 
+L 581 0 
+L 581 4863 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-35"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(65 0)"/>
+      <use xlink:href="#DejaVuSans-4f" transform="translate(126.53125 0)"/>
+      <use xlink:href="#DejaVuSans-44" transform="translate(154.3125 0)"/>
+      <use xlink:href="#DejaVuSans-57" transform="translate(215.59375 0)"/>
+      <use xlink:href="#DejaVuSans-4c" transform="translate(254.796875 0)"/>
+      <use xlink:href="#DejaVuSans-59" transform="translate(282.578125 0)"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(341.765625 0)"/>
+      <use xlink:href="#DejaVuSans-3" transform="translate(403.296875 0)"/>
+      <use xlink:href="#DejaVuSans-4f" transform="translate(435.078125 0)"/>
+      <use xlink:href="#DejaVuSans-4c" transform="translate(462.859375 0)"/>
+      <use xlink:href="#DejaVuSans-4e" transform="translate(490.640625 0)"/>
+      <use xlink:href="#DejaVuSans-48" transform="translate(544.984375 0)"/>
+      <use xlink:href="#DejaVuSans-4f" transform="translate(606.515625 0)"/>
+      <use xlink:href="#DejaVuSans-4c" transform="translate(634.296875 0)"/>
+      <use xlink:href="#DejaVuSans-4b" transform="translate(662.078125 0)"/>
+      <use xlink:href="#DejaVuSans-52" transform="translate(725.453125 0)"/>
+      <use xlink:href="#DejaVuSans-52" transform="translate(786.640625 0)"/>
+      <use xlink:href="#DejaVuSans-47" transform="translate(847.828125 0)"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_29">
+    <path d="M 66.467051 172.799057 
+L 74.700389 172.799057 
+L 82.912759 172.799057 
+L 91.102949 172.799057 
+L 99.26975 172.799057 
+L 107.411953 172.799057 
+L 115.527943 172.799057 
+L 123.616512 172.799057 
+L 131.676449 172.799057 
+L 139.706143 172.799057 
+L 147.704381 172.799057 
+L 155.669956 172.799057 
+L 163.601254 172.799057 
+L 171.496662 172.799056 
+L 179.354567 172.746143 
+L 187.173759 172.799056 
+L 194.953028 172.799057 
+L 202.689955 172.799057 
+L 210.383733 172.799057 
+L 218.032347 172.799057 
+L 225.633779 172.799057 
+L 233.187223 172.799057 
+L 240.69026 172.799057 
+L 248.141276 172.799057 
+L 255.538659 172.788231 
+L 262.880392 172.772258 
+L 270.164863 172.79167 
+L 277.389651 172.128617 
+L 284.553547 166.838575 
+L 291.653728 170.009468 
+L 298.688985 156.105154 
+L 305.656493 171.519776 
+L 312.554642 172.118905 
+L 319.38101 170.227673 
+L 326.133985 131.335072 
+L 332.810341 172.295931 
+L 339.408868 41.180998 
+L 345.92634 72.972366 
+L 352.361144 71.076178 
+L 358.710456 114.640165 
+L 364.971859 152.009694 
+L 371.142931 164.02504 
+L 377.221254 113.446808 
+L 383.204408 168.919776 
+L 389.089569 162.045192 
+L 394.873916 154.610847 
+L 400.555432 166.751879 
+L 406.130891 141.804267 
+L 411.59747 172.669176 
+L 416.953153 169.549069 
+L 422.19431 170.475328 
+L 427.318925 172.789844 
+L 432.323773 172.491198 
+L 437.206029 172.09956 
+L 441.963276 171.411107 
+L 446.592286 172.799056 
+L 451.090236 172.797851 
+L 455.454709 172.799057 
+L 459.682879 172.799057 
+L 463.771522 172.799057 
+L 467.718621 172.797924 
+L 471.520547 172.799057 
+L 475.175283 172.799057 
+L 478.68041 172.799057 
+L 482.032702 172.799057 
+L 485.22974 172.799057 
+L 488.269506 172.799057 
+L 491.149582 172.799057 
+L 493.867144 172.799057 
+L 496.42058 172.799057 
+L 498.807873 172.799057 
+L 501.026604 172.799057 
+L 503.07516 172.799057 
+L 504.951524 172.799057 
+L 506.654083 172.799057 
+L 508.182032 172.799057 
+L 509.532949 172.799057 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke: #d97706; stroke-width: 1.8; stroke-linecap: square"/>
+   </g>
+   <g id="line2d_30">
+    <path d="M 339.408868 172.799057 
+L 339.408868 34.600095 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke-dasharray: 0.8,1.32; stroke-dashoffset: 0; stroke: #d97706; stroke-width: 0.8"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 44.313756 172.799057 
+L 44.313756 34.600095 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 531.686244 172.799057 
+L 531.686244 34.600095 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 44.313756 172.799057 
+L 531.686244 172.799057 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 44.313756 34.600095 
+L 531.686244 34.600095 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="text_17">
+    <!-- No family pooling -->
+    <g style="fill: #6b7280" transform="translate(456.693769 51.734762) scale(0.08 -0.08)">
+     <defs>
+      <path id="DejaVuSans-31" d="M 628 4666 
+L 1478 4666 
+L 3547 763 
+L 3547 4666 
+L 4159 4666 
+L 4159 0 
+L 3309 0 
+L 1241 3903 
+L 1241 0 
+L 628 0 
+L 628 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-49" d="M 2375 4863 
+L 2375 4384 
+L 1825 4384 
+Q 1516 4384 1395 4259 
+Q 1275 4134 1275 3809 
+L 1275 3500 
+L 2222 3500 
+L 2222 3053 
+L 1275 3053 
+L 1275 0 
+L 697 0 
+L 697 3053 
+L 147 3053 
+L 147 3500 
+L 697 3500 
+L 697 3744 
+Q 697 4328 969 4595 
+Q 1241 4863 1831 4863 
+L 2375 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-50" d="M 3328 2828 
+Q 3544 3216 3844 3400 
+Q 4144 3584 4550 3584 
+Q 5097 3584 5394 3201 
+Q 5691 2819 5691 2113 
+L 5691 0 
+L 5113 0 
+L 5113 2094 
+Q 5113 2597 4934 2840 
+Q 4756 3084 4391 3084 
+Q 3944 3084 3684 2787 
+Q 3425 2491 3425 1978 
+L 3425 0 
+L 2847 0 
+L 2847 2094 
+Q 2847 2600 2669 2842 
+Q 2491 3084 2119 3084 
+Q 1678 3084 1418 2786 
+Q 1159 2488 1159 1978 
+L 1159 0 
+L 581 0 
+L 581 3500 
+L 1159 3500 
+L 1159 2956 
+Q 1356 3278 1631 3431 
+Q 1906 3584 2284 3584 
+Q 2666 3584 2933 3390 
+Q 3200 3197 3328 2828 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-5c" d="M 2059 -325 
+Q 1816 -950 1584 -1140 
+Q 1353 -1331 966 -1331 
+L 506 -1331 
+L 506 -850 
+L 844 -850 
+Q 1081 -850 1212 -737 
+Q 1344 -625 1503 -206 
+L 1606 56 
+L 191 3500 
+L 800 3500 
+L 1894 763 
+L 2988 3500 
+L 3597 3500 
+L 2059 -325 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-53" d="M 1159 525 
+L 1159 -1331 
+L 581 -1331 
+L 581 3500 
+L 1159 3500 
+L 1159 2969 
+Q 1341 3281 1617 3432 
+Q 1894 3584 2278 3584 
+Q 2916 3584 3314 3078 
+Q 3713 2572 3713 1747 
+Q 3713 922 3314 415 
+Q 2916 -91 2278 -91 
+Q 1894 -91 1617 61 
+Q 1341 213 1159 525 
+z
+M 3116 1747 
+Q 3116 2381 2855 2742 
+Q 2594 3103 2138 3103 
+Q 1681 3103 1420 2742 
+Q 1159 2381 1159 1747 
+Q 1159 1113 1420 752 
+Q 1681 391 2138 391 
+Q 2594 391 2855 752 
+Q 3116 1113 3116 1747 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-4a" d="M 2906 1791 
+Q 2906 2416 2648 2759 
+Q 2391 3103 1925 3103 
+Q 1463 3103 1205 2759 
+Q 947 2416 947 1791 
+Q 947 1169 1205 825 
+Q 1463 481 1925 481 
+Q 2391 481 2648 825 
+Q 2906 1169 2906 1791 
+z
+M 3481 434 
+Q 3481 -459 3084 -895 
+Q 2688 -1331 1869 -1331 
+Q 1566 -1331 1297 -1286 
+Q 1028 -1241 775 -1147 
+L 775 -588 
+Q 1028 -725 1275 -790 
+Q 1522 -856 1778 -856 
+Q 2344 -856 2625 -561 
+Q 2906 -266 2906 331 
+L 2906 616 
+Q 2728 306 2450 153 
+Q 2172 0 1784 0 
+Q 1141 0 747 490 
+Q 353 981 353 1791 
+Q 353 2603 747 3093 
+Q 1141 3584 1784 3584 
+Q 2172 3584 2450 3431 
+Q 2728 3278 2906 2969 
+L 2906 3500 
+L 3481 3500 
+L 3481 434 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-31"/>
+     <use xlink:href="#DejaVuSans-52" transform="translate(74.8125 0)"/>
+     <use xlink:href="#DejaVuSans-3" transform="translate(136 0)"/>
+     <use xlink:href="#DejaVuSans-49" transform="translate(167.78125 0)"/>
+     <use xlink:href="#DejaVuSans-44" transform="translate(202.984375 0)"/>
+     <use xlink:href="#DejaVuSans-50" transform="translate(264.265625 0)"/>
+     <use xlink:href="#DejaVuSans-4c" transform="translate(361.671875 0)"/>
+     <use xlink:href="#DejaVuSans-4f" transform="translate(389.453125 0)"/>
+     <use xlink:href="#DejaVuSans-5c" transform="translate(417.234375 0)"/>
+     <use xlink:href="#DejaVuSans-3" transform="translate(476.421875 0)"/>
+     <use xlink:href="#DejaVuSans-53" transform="translate(508.203125 0)"/>
+     <use xlink:href="#DejaVuSans-52" transform="translate(571.6875 0)"/>
+     <use xlink:href="#DejaVuSans-52" transform="translate(632.875 0)"/>
+     <use xlink:href="#DejaVuSans-4f" transform="translate(694.0625 0)"/>
+     <use xlink:href="#DejaVuSans-4c" transform="translate(721.84375 0)"/>
+     <use xlink:href="#DejaVuSans-51" transform="translate(749.625 0)"/>
+     <use xlink:href="#DejaVuSans-4a" transform="translate(813 0)"/>
+    </g>
+   </g>
+   <g id="text_18">
+    <!-- Full-domain GLORYS12 currents + distinct WAVERYS Stokes  ·  DIAGNOSTIC ONLY -->
+    <g transform="translate(44.313756 28.600095) scale(0.1 -0.1)">
+     <defs>
+      <path id="DejaVuSans-Bold-29" d="M 588 4666 
+L 3834 4666 
+L 3834 3756 
+L 1791 3756 
+L 1791 2888 
+L 3713 2888 
+L 3713 1978 
+L 1791 1978 
+L 1791 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-58" d="M 500 1363 
+L 500 3500 
+L 1625 3500 
+L 1625 3150 
+Q 1625 2866 1622 2436 
+Q 1619 2006 1619 1863 
+Q 1619 1441 1641 1255 
+Q 1663 1069 1716 984 
+Q 1784 875 1895 815 
+Q 2006 756 2150 756 
+Q 2500 756 2700 1025 
+Q 2900 1294 2900 1772 
+L 2900 3500 
+L 4019 3500 
+L 4019 0 
+L 2900 0 
+L 2900 506 
+Q 2647 200 2364 54 
+Q 2081 -91 1741 -91 
+Q 1134 -91 817 281 
+Q 500 653 500 1363 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-4f" d="M 538 4863 
+L 1656 4863 
+L 1656 0 
+L 538 0 
+L 538 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-10" d="M 347 2297 
+L 2309 2297 
+L 2309 1388 
+L 347 1388 
+L 347 2297 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-47" d="M 2919 2988 
+L 2919 4863 
+L 4044 4863 
+L 4044 0 
+L 2919 0 
+L 2919 506 
+Q 2688 197 2409 53 
+Q 2131 -91 1766 -91 
+Q 1119 -91 703 423 
+Q 288 938 288 1747 
+Q 288 2556 703 3070 
+Q 1119 3584 1766 3584 
+Q 2128 3584 2408 3439 
+Q 2688 3294 2919 2988 
+z
+M 2181 722 
+Q 2541 722 2730 984 
+Q 2919 1247 2919 1747 
+Q 2919 2247 2730 2509 
+Q 2541 2772 2181 2772 
+Q 1825 2772 1636 2509 
+Q 1447 2247 1447 1747 
+Q 1447 1247 1636 984 
+Q 1825 722 2181 722 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-52" d="M 2203 2784 
+Q 1831 2784 1636 2517 
+Q 1441 2250 1441 1747 
+Q 1441 1244 1636 976 
+Q 1831 709 2203 709 
+Q 2569 709 2762 976 
+Q 2956 1244 2956 1747 
+Q 2956 2250 2762 2517 
+Q 2569 2784 2203 2784 
+z
+M 2203 3584 
+Q 3106 3584 3614 3096 
+Q 4122 2609 4122 1747 
+Q 4122 884 3614 396 
+Q 3106 -91 2203 -91 
+Q 1297 -91 786 396 
+Q 275 884 275 1747 
+Q 275 2609 786 3096 
+Q 1297 3584 2203 3584 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-50" d="M 3781 2919 
+Q 3994 3244 4286 3414 
+Q 4578 3584 4928 3584 
+Q 5531 3584 5847 3212 
+Q 6163 2841 6163 2131 
+L 6163 0 
+L 5038 0 
+L 5038 1825 
+Q 5041 1866 5042 1909 
+Q 5044 1953 5044 2034 
+Q 5044 2406 4934 2573 
+Q 4825 2741 4581 2741 
+Q 4263 2741 4089 2478 
+Q 3916 2216 3909 1719 
+L 3909 0 
+L 2784 0 
+L 2784 1825 
+Q 2784 2406 2684 2573 
+Q 2584 2741 2328 2741 
+Q 2006 2741 1831 2477 
+Q 1656 2213 1656 1722 
+L 1656 0 
+L 531 0 
+L 531 3500 
+L 1656 3500 
+L 1656 2988 
+Q 1863 3284 2130 3434 
+Q 2397 3584 2719 3584 
+Q 3081 3584 3359 3409 
+Q 3638 3234 3781 2919 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-44" d="M 2106 1575 
+Q 1756 1575 1579 1456 
+Q 1403 1338 1403 1106 
+Q 1403 894 1545 773 
+Q 1688 653 1941 653 
+Q 2256 653 2472 879 
+Q 2688 1106 2688 1447 
+L 2688 1575 
+L 2106 1575 
+z
+M 3816 1997 
+L 3816 0 
+L 2688 0 
+L 2688 519 
+Q 2463 200 2181 54 
+Q 1900 -91 1497 -91 
+Q 953 -91 614 226 
+Q 275 544 275 1050 
+Q 275 1666 698 1953 
+Q 1122 2241 2028 2241 
+L 2688 2241 
+L 2688 2328 
+Q 2688 2594 2478 2717 
+Q 2269 2841 1825 2841 
+Q 1466 2841 1156 2769 
+Q 847 2697 581 2553 
+L 581 3406 
+Q 941 3494 1303 3539 
+Q 1666 3584 2028 3584 
+Q 2975 3584 3395 3211 
+Q 3816 2838 3816 1997 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-4c" d="M 538 3500 
+L 1656 3500 
+L 1656 0 
+L 538 0 
+L 538 3500 
+z
+M 538 4863 
+L 1656 4863 
+L 1656 3950 
+L 538 3950 
+L 538 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-51" d="M 4056 2131 
+L 4056 0 
+L 2931 0 
+L 2931 347 
+L 2931 1631 
+Q 2931 2084 2911 2256 
+Q 2891 2428 2841 2509 
+Q 2775 2619 2662 2680 
+Q 2550 2741 2406 2741 
+Q 2056 2741 1856 2470 
+Q 1656 2200 1656 1722 
+L 1656 0 
+L 538 0 
+L 538 3500 
+L 1656 3500 
+L 1656 2988 
+Q 1909 3294 2193 3439 
+Q 2478 3584 2822 3584 
+Q 3428 3584 3742 3212 
+Q 4056 2841 4056 2131 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-3" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-2a" d="M 4781 347 
+Q 4331 128 3847 18 
+Q 3363 -91 2847 -91 
+Q 1681 -91 1000 561 
+Q 319 1213 319 2328 
+Q 319 3456 1012 4103 
+Q 1706 4750 2913 4750 
+Q 3378 4750 3804 4662 
+Q 4231 4575 4609 4403 
+L 4609 3438 
+Q 4219 3659 3833 3768 
+Q 3447 3878 3059 3878 
+Q 2341 3878 1952 3476 
+Q 1563 3075 1563 2328 
+Q 1563 1588 1938 1184 
+Q 2313 781 3003 781 
+Q 3191 781 3352 804 
+Q 3513 828 3641 878 
+L 3641 1784 
+L 2906 1784 
+L 2906 2591 
+L 4781 2591 
+L 4781 347 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-2f" d="M 588 4666 
+L 1791 4666 
+L 1791 909 
+L 3903 909 
+L 3903 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-32" d="M 2719 3878 
+Q 2169 3878 1866 3472 
+Q 1563 3066 1563 2328 
+Q 1563 1594 1866 1187 
+Q 2169 781 2719 781 
+Q 3272 781 3575 1187 
+Q 3878 1594 3878 2328 
+Q 3878 3066 3575 3472 
+Q 3272 3878 2719 3878 
+z
+M 2719 4750 
+Q 3844 4750 4481 4106 
+Q 5119 3463 5119 2328 
+Q 5119 1197 4481 553 
+Q 3844 -91 2719 -91 
+Q 1597 -91 958 553 
+Q 319 1197 319 2328 
+Q 319 3463 958 4106 
+Q 1597 4750 2719 4750 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-35" d="M 2297 2597 
+Q 2675 2597 2839 2737 
+Q 3003 2878 3003 3200 
+Q 3003 3519 2839 3656 
+Q 2675 3794 2297 3794 
+L 1791 3794 
+L 1791 2597 
+L 2297 2597 
+z
+M 1791 1766 
+L 1791 0 
+L 588 0 
+L 588 4666 
+L 2425 4666 
+Q 3347 4666 3776 4356 
+Q 4206 4047 4206 3378 
+Q 4206 2916 3982 2619 
+Q 3759 2322 3309 2181 
+Q 3556 2125 3751 1926 
+Q 3947 1728 4147 1325 
+L 4800 0 
+L 3519 0 
+L 2950 1159 
+Q 2778 1509 2601 1637 
+Q 2425 1766 2131 1766 
+L 1791 1766 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-3c" d="M -63 4666 
+L 1253 4666 
+L 2316 3003 
+L 3378 4666 
+L 4697 4666 
+L 2919 1966 
+L 2919 0 
+L 1716 0 
+L 1716 1966 
+L -63 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-36" d="M 3834 4519 
+L 3834 3531 
+Q 3450 3703 3084 3790 
+Q 2719 3878 2394 3878 
+Q 1963 3878 1756 3759 
+Q 1550 3641 1550 3391 
+Q 1550 3203 1689 3098 
+Q 1828 2994 2194 2919 
+L 2706 2816 
+Q 3484 2659 3812 2340 
+Q 4141 2022 4141 1434 
+Q 4141 663 3683 286 
+Q 3225 -91 2284 -91 
+Q 1841 -91 1394 -6 
+Q 947 78 500 244 
+L 500 1259 
+Q 947 1022 1364 901 
+Q 1781 781 2169 781 
+Q 2563 781 2772 912 
+Q 2981 1044 2981 1288 
+Q 2981 1506 2839 1625 
+Q 2697 1744 2272 1838 
+L 1806 1941 
+Q 1106 2091 782 2419 
+Q 459 2747 459 3303 
+Q 459 4000 909 4375 
+Q 1359 4750 2203 4750 
+Q 2588 4750 2994 4692 
+Q 3400 4634 3834 4519 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-14" d="M 750 831 
+L 1813 831 
+L 1813 3847 
+L 722 3622 
+L 722 4441 
+L 1806 4666 
+L 2950 4666 
+L 2950 831 
+L 4013 831 
+L 4013 0 
+L 750 0 
+L 750 831 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-15" d="M 1844 884 
+L 3897 884 
+L 3897 0 
+L 506 0 
+L 506 884 
+L 2209 2388 
+Q 2438 2594 2547 2791 
+Q 2656 2988 2656 3200 
+Q 2656 3528 2436 3728 
+Q 2216 3928 1850 3928 
+Q 1569 3928 1234 3808 
+Q 900 3688 519 3450 
+L 519 4475 
+Q 925 4609 1322 4679 
+Q 1719 4750 2100 4750 
+Q 2938 4750 3402 4381 
+Q 3866 4013 3866 3353 
+Q 3866 2972 3669 2642 
+Q 3472 2313 2841 1759 
+L 1844 884 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-46" d="M 3366 3391 
+L 3366 2478 
+Q 3138 2634 2908 2709 
+Q 2678 2784 2431 2784 
+Q 1963 2784 1702 2511 
+Q 1441 2238 1441 1747 
+Q 1441 1256 1702 982 
+Q 1963 709 2431 709 
+Q 2694 709 2930 787 
+Q 3166 866 3366 1019 
+L 3366 103 
+Q 3103 6 2833 -42 
+Q 2563 -91 2291 -91 
+Q 1344 -91 809 395 
+Q 275 881 275 1747 
+Q 275 2613 809 3098 
+Q 1344 3584 2291 3584 
+Q 2566 3584 2833 3536 
+Q 3100 3488 3366 3391 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-55" d="M 3138 2547 
+Q 2991 2616 2845 2648 
+Q 2700 2681 2553 2681 
+Q 2122 2681 1889 2404 
+Q 1656 2128 1656 1613 
+L 1656 0 
+L 538 0 
+L 538 3500 
+L 1656 3500 
+L 1656 2925 
+Q 1872 3269 2151 3426 
+Q 2431 3584 2822 3584 
+Q 2878 3584 2943 3579 
+Q 3009 3575 3134 3559 
+L 3138 2547 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-48" d="M 4031 1759 
+L 4031 1441 
+L 1416 1441 
+Q 1456 1047 1700 850 
+Q 1944 653 2381 653 
+Q 2734 653 3104 758 
+Q 3475 863 3866 1075 
+L 3866 213 
+Q 3469 63 3072 -14 
+Q 2675 -91 2278 -91 
+Q 1328 -91 801 392 
+Q 275 875 275 1747 
+Q 275 2603 792 3093 
+Q 1309 3584 2216 3584 
+Q 3041 3584 3536 3087 
+Q 4031 2591 4031 1759 
+z
+M 2881 2131 
+Q 2881 2450 2695 2645 
+Q 2509 2841 2209 2841 
+Q 1884 2841 1681 2658 
+Q 1478 2475 1428 2131 
+L 2881 2131 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-57" d="M 1759 4494 
+L 1759 3500 
+L 2913 3500 
+L 2913 2700 
+L 1759 2700 
+L 1759 1216 
+Q 1759 972 1856 886 
+Q 1953 800 2241 800 
+L 2816 800 
+L 2816 0 
+L 1856 0 
+Q 1194 0 917 276 
+Q 641 553 641 1216 
+L 641 2700 
+L 84 2700 
+L 84 3500 
+L 641 3500 
+L 641 4494 
+L 1759 4494 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-56" d="M 3272 3391 
+L 3272 2541 
+Q 2913 2691 2578 2766 
+Q 2244 2841 1947 2841 
+Q 1628 2841 1473 2761 
+Q 1319 2681 1319 2516 
+Q 1319 2381 1436 2309 
+Q 1553 2238 1856 2203 
+L 2053 2175 
+Q 2913 2066 3209 1816 
+Q 3506 1566 3506 1031 
+Q 3506 472 3093 190 
+Q 2681 -91 1863 -91 
+Q 1516 -91 1145 -36 
+Q 775 19 384 128 
+L 384 978 
+Q 719 816 1070 734 
+Q 1422 653 1784 653 
+Q 2113 653 2278 743 
+Q 2444 834 2444 1013 
+Q 2444 1163 2330 1236 
+Q 2216 1309 1875 1350 
+L 1678 1375 
+Q 931 1469 631 1722 
+Q 331 1975 331 2491 
+Q 331 3047 712 3315 
+Q 1094 3584 1881 3584 
+Q 2191 3584 2531 3537 
+Q 2872 3491 3272 3391 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-e" d="M 3053 4013 
+L 3053 2375 
+L 4684 2375 
+L 4684 1638 
+L 3053 1638 
+L 3053 0 
+L 2309 0 
+L 2309 1638 
+L 678 1638 
+L 678 2375 
+L 2309 2375 
+L 2309 4013 
+L 3053 4013 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-3a" d="M 191 4666 
+L 1344 4666 
+L 2150 1275 
+L 2950 4666 
+L 4109 4666 
+L 4909 1275 
+L 5716 4666 
+L 6859 4666 
+L 5759 0 
+L 4372 0 
+L 3525 3547 
+L 2688 0 
+L 1300 0 
+L 191 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-24" d="M 3419 850 
+L 1538 850 
+L 1241 0 
+L 31 0 
+L 1759 4666 
+L 3194 4666 
+L 4922 0 
+L 3713 0 
+L 3419 850 
+z
+M 1838 1716 
+L 3116 1716 
+L 2478 3572 
+L 1838 1716 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-39" d="M 31 4666 
+L 1241 4666 
+L 2478 1222 
+L 3713 4666 
+L 4922 4666 
+L 3194 0 
+L 1759 0 
+L 31 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-28" d="M 588 4666 
+L 3834 4666 
+L 3834 3756 
+L 1791 3756 
+L 1791 2888 
+L 3713 2888 
+L 3713 1978 
+L 1791 1978 
+L 1791 909 
+L 3903 909 
+L 3903 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-4e" d="M 538 4863 
+L 1656 4863 
+L 1656 2216 
+L 2944 3500 
+L 4244 3500 
+L 2534 1894 
+L 4378 0 
+L 3022 0 
+L 1656 1459 
+L 1656 0 
+L 538 0 
+L 538 4863 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-79" d="M 653 2828 
+L 1778 2828 
+L 1778 1619 
+L 653 1619 
+L 653 2828 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-27" d="M 1791 3756 
+L 1791 909 
+L 2222 909 
+Q 2959 909 3348 1275 
+Q 3738 1641 3738 2338 
+Q 3738 3031 3350 3393 
+Q 2963 3756 2222 3756 
+L 1791 3756 
+z
+M 588 4666 
+L 1856 4666 
+Q 2919 4666 3439 4514 
+Q 3959 4363 4331 4000 
+Q 4659 3684 4818 3271 
+Q 4978 2859 4978 2338 
+Q 4978 1809 4818 1395 
+Q 4659 981 4331 666 
+Q 3956 303 3431 151 
+Q 2906 0 1856 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-2c" d="M 588 4666 
+L 1791 4666 
+L 1791 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-31" d="M 588 4666 
+L 1931 4666 
+L 3628 1466 
+L 3628 4666 
+L 4769 4666 
+L 4769 0 
+L 3425 0 
+L 1728 3200 
+L 1728 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-37" d="M 31 4666 
+L 4331 4666 
+L 4331 3756 
+L 2784 3756 
+L 2784 0 
+L 1581 0 
+L 1581 3756 
+L 31 3756 
+L 31 4666 
+z
+" transform="scale(0.015625)"/>
+      <path id="DejaVuSans-Bold-26" d="M 4288 256 
+Q 3956 84 3597 -3 
+Q 3238 -91 2847 -91 
+Q 1681 -91 1000 561 
+Q 319 1213 319 2328 
+Q 319 3447 1000 4098 
+Q 1681 4750 2847 4750 
+Q 3238 4750 3597 4662 
+Q 3956 4575 4288 4403 
+L 4288 3438 
+Q 3953 3666 3628 3772 
+Q 3303 3878 2944 3878 
+Q 2300 3878 1931 3465 
+Q 1563 3053 1563 2328 
+Q 1563 1606 1931 1193 
+Q 2300 781 2944 781 
+Q 3303 781 3628 887 
+Q 3953 994 4288 1222 
+L 4288 256 
+z
+" transform="scale(0.015625)"/>
+     </defs>
+     <use xlink:href="#DejaVuSans-Bold-29"/>
+     <use xlink:href="#DejaVuSans-Bold-58" transform="translate(63.328125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-4f" transform="translate(134.515625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-4f" transform="translate(168.796875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-10" transform="translate(203.078125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-47" transform="translate(244.578125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-52" transform="translate(316.15625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-50" transform="translate(384.859375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-44" transform="translate(489.0625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(556.546875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-51" transform="translate(590.828125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(662.015625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-2a" transform="translate(696.828125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-2f" transform="translate(778.90625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-32" transform="translate(839.0625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-35" transform="translate(924.078125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3c" transform="translate(995.609375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-36" transform="translate(1068.015625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-14" transform="translate(1140.03125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-15" transform="translate(1209.609375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(1279.1875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-46" transform="translate(1314 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-58" transform="translate(1373.28125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-55" transform="translate(1444.46875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-55" transform="translate(1493.78125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-48" transform="translate(1543.09375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-51" transform="translate(1610.921875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-57" transform="translate(1682.109375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-56" transform="translate(1729.90625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(1789.421875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-e" transform="translate(1824.234375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(1908.03125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-47" transform="translate(1942.84375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(2014.421875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-56" transform="translate(2048.703125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-57" transform="translate(2108.21875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(2156.015625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-51" transform="translate(2190.296875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-46" transform="translate(2261.484375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-57" transform="translate(2320.765625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(2368.5625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3a" transform="translate(2403.375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-24" transform="translate(2509.1875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-39" transform="translate(2579.796875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-28" transform="translate(2657.1875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-35" transform="translate(2725.5 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3c" transform="translate(2797.03125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-36" transform="translate(2869.4375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(2941.453125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-36" transform="translate(2976.265625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-57" transform="translate(3048.28125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-52" transform="translate(3096.078125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-4e" transform="translate(3164.78125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-48" transform="translate(3228.59375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-56" transform="translate(3296.421875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(3355.9375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(3390.75 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-79" transform="translate(3425.5625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(3463.546875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(3498.359375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-27" transform="translate(3533.171875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-2c" transform="translate(3616.1875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-24" transform="translate(3653.390625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-2a" transform="translate(3730.78125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-31" transform="translate(3812.859375 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-32" transform="translate(3896.546875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-36" transform="translate(3981.5625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-37" transform="translate(4053.578125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-2c" transform="translate(4121.796875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-26" transform="translate(4159 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3" transform="translate(4232.390625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-32" transform="translate(4267.203125 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-31" transform="translate(4352.21875 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-2f" transform="translate(4435.90625 0)"/>
+     <use xlink:href="#DejaVuSans-Bold-3c" transform="translate(4484.046875 0)"/>
+    </g>
+   </g>
+  </g>
+  <g id="axes_2">
+   <g id="matplotlib.axis_3">
+    <g id="ytick_7">
+     <g id="line2d_31">
+      <defs>
+       <path id="m5216df4a3e" d="M 0 0 
+L 3.5 0 
+" style="stroke: #4b5563; stroke-width: 0.8"/>
+      </defs>
+      <g>
+       <use xlink:href="#m5216df4a3e" x="531.686244" y="172.799057" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_19">
+      <!-- 0.0 -->
+      <g style="fill: #4b5563" transform="translate(538.686244 176.218002) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_8">
+     <g id="line2d_32">
+      <g>
+       <use xlink:href="#m5216df4a3e" x="531.686244" y="146.475445" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_20">
+      <!-- 0.2 -->
+      <g style="fill: #4b5563" transform="translate(538.686244 149.89439) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-15" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_9">
+     <g id="line2d_33">
+      <g>
+       <use xlink:href="#m5216df4a3e" x="531.686244" y="120.151833" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_21">
+      <!-- 0.4 -->
+      <g style="fill: #4b5563" transform="translate(538.686244 123.570779) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-17" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_10">
+     <g id="line2d_34">
+      <g>
+       <use xlink:href="#m5216df4a3e" x="531.686244" y="93.828222" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_22">
+      <!-- 0.6 -->
+      <g style="fill: #4b5563" transform="translate(538.686244 97.247167) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-19" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_11">
+     <g id="line2d_35">
+      <g>
+       <use xlink:href="#m5216df4a3e" x="531.686244" y="67.50461" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_23">
+      <!-- 0.8 -->
+      <g style="fill: #4b5563" transform="translate(538.686244 70.923555) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-13"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-1b" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_12">
+     <g id="line2d_36">
+      <g>
+       <use xlink:href="#m5216df4a3e" x="531.686244" y="41.180998" style="fill: #4b5563; stroke: #4b5563; stroke-width: 0.8"/>
+      </g>
+     </g>
+     <g id="text_24">
+      <!-- 1.0 -->
+      <g style="fill: #4b5563" transform="translate(538.686244 44.599943) scale(0.09 -0.09)">
+       <use xlink:href="#DejaVuSans-14"/>
+       <use xlink:href="#DejaVuSans-11" transform="translate(63.625 0)"/>
+       <use xlink:href="#DejaVuSans-13" transform="translate(95.40625 0)"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_25">
+     <!-- Out-of-support fraction -->
+     <g style="fill: #4b5563" transform="translate(570.837651 155.273092) rotate(-90) scale(0.09 -0.09)">
+      <defs>
+       <path id="DejaVuSans-32" d="M 2522 4238 
+Q 1834 4238 1429 3725 
+Q 1025 3213 1025 2328 
+Q 1025 1447 1429 934 
+Q 1834 422 2522 422 
+Q 3209 422 3611 934 
+Q 4013 1447 4013 2328 
+Q 4013 3213 3611 3725 
+Q 3209 4238 2522 4238 
+z
+M 2522 4750 
+Q 3503 4750 4090 4092 
+Q 4678 3434 4678 2328 
+Q 4678 1225 4090 567 
+Q 3503 -91 2522 -91 
+Q 1538 -91 948 565 
+Q 359 1222 359 2328 
+Q 359 3434 948 4092 
+Q 1538 4750 2522 4750 
+z
+" transform="scale(0.015625)"/>
+      </defs>
+      <use xlink:href="#DejaVuSans-32"/>
+      <use xlink:href="#DejaVuSans-58" transform="translate(78.71875 0)"/>
+      <use xlink:href="#DejaVuSans-57" transform="translate(142.09375 0)"/>
+      <use xlink:href="#DejaVuSans-10" transform="translate(181.296875 0)"/>
+      <use xlink:href="#DejaVuSans-52" transform="translate(219.234375 0)"/>
+      <use xlink:href="#DejaVuSans-49" transform="translate(280.421875 0)"/>
+      <use xlink:href="#DejaVuSans-10" transform="translate(310.15625 0)"/>
+      <use xlink:href="#DejaVuSans-56" transform="translate(346.234375 0)"/>
+      <use xlink:href="#DejaVuSans-58" transform="translate(398.328125 0)"/>
+      <use xlink:href="#DejaVuSans-53" transform="translate(461.703125 0)"/>
+      <use xlink:href="#DejaVuSans-53" transform="translate(525.1875 0)"/>
+      <use xlink:href="#DejaVuSans-52" transform="translate(588.671875 0)"/>
+      <use xlink:href="#DejaVuSans-55" transform="translate(649.859375 0)"/>
+      <use xlink:href="#DejaVuSans-57" transform="translate(690.96875 0)"/>
+      <use xlink:href="#DejaVuSans-3" transform="translate(730.171875 0)"/>
+      <use xlink:href="#DejaVuSans-49" transform="translate(761.953125 0)"/>
+      <use xlink:href="#DejaVuSans-55" transform="translate(797.15625 0)"/>
+      <use xlink:href="#DejaVuSans-44" transform="translate(838.265625 0)"/>
+      <use xlink:href="#DejaVuSans-46" transform="translate(899.546875 0)"/>
+      <use xlink:href="#DejaVuSans-57" transform="translate(954.53125 0)"/>
+      <use xlink:href="#DejaVuSans-4c" transform="translate(993.734375 0)"/>
+      <use xlink:href="#DejaVuSans-52" transform="translate(1021.515625 0)"/>
+      <use xlink:href="#DejaVuSans-51" transform="translate(1082.703125 0)"/>
+     </g>
+    </g>
+   </g>
+   <g id="line2d_37">
+    <path d="M 66.467051 164.112626 
+L 74.700389 164.430297 
+L 82.912759 164.891249 
+L 91.102949 164.441604 
+L 99.26975 165.303393 
+L 107.411953 164.425029 
+L 115.527943 165.143617 
+L 123.616512 164.566006 
+L 131.676449 166.525609 
+L 139.706143 167.374709 
+L 147.704381 166.859124 
+L 155.669956 170.200468 
+L 163.601254 169.280059 
+L 171.496662 169.605247 
+L 179.354567 170.318426 
+L 187.173759 170.248844 
+L 194.953028 170.563532 
+L 202.689955 170.437328 
+L 210.383733 169.473554 
+L 218.032347 170.631873 
+L 225.633779 170.994588 
+L 233.187223 169.626005 
+L 240.69026 169.858862 
+L 248.141276 170.704556 
+L 255.538659 169.948846 
+L 262.880392 170.248182 
+L 270.164863 170.483305 
+L 277.389651 170.516699 
+L 284.553547 170.009342 
+L 291.653728 170.442943 
+L 298.688985 170.545472 
+L 305.656493 171.101366 
+L 312.554642 170.565929 
+L 319.38101 170.206331 
+L 326.133985 170.198771 
+L 332.810341 170.077011 
+L 339.408868 170.485847 
+L 345.92634 170.202102 
+L 352.361144 170.245138 
+L 358.710456 170.330082 
+L 364.971859 170.523168 
+L 371.142931 171.056782 
+L 377.221254 171.369446 
+L 383.204408 171.081137 
+L 389.089569 170.610184 
+L 394.873916 170.919575 
+L 400.555432 170.625836 
+L 406.130891 170.914384 
+L 411.59747 171.200282 
+L 416.953153 170.733827 
+L 422.19431 171.200692 
+L 427.318925 170.943596 
+L 432.323773 170.774937 
+L 437.206029 169.082069 
+L 441.963276 170.257624 
+L 446.592286 166.006831 
+L 451.090236 162.496398 
+L 455.454709 162.448423 
+L 459.682879 160.879773 
+L 463.771522 160.470833 
+L 467.718621 160.752543 
+L 471.520547 161.16351 
+L 475.175283 160.970903 
+L 478.68041 160.435956 
+L 482.032702 160.571742 
+L 485.22974 160.577636 
+L 488.269506 160.729702 
+L 491.149582 143.973259 
+L 493.867144 156.116971 
+L 496.42058 153.097977 
+L 498.807873 146.334304 
+L 501.026604 154.779673 
+L 503.07516 159.678046 
+L 504.951524 159.774695 
+L 506.654083 139.871991 
+L 508.182032 142.520639 
+L 509.532949 156.249113 
+" clip-path="url(#p9082e48881)" style="fill: none; stroke-dasharray: 3.7,1.6; stroke-dashoffset: 0; stroke: #6b7280"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 44.313756 172.799057 
+L 44.313756 34.600095 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 531.686244 172.799057 
+L 531.686244 34.600095 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 44.313756 172.799057 
+L 531.686244 172.799057 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 44.313756 34.600095 
+L 531.686244 34.600095 
+" style="fill: none; stroke: #000000; stroke-width: 0.8; stroke-linejoin: miter; stroke-linecap: square"/>
+   </g>
+  </g>
+  <g id="text_26">
+   <!-- MH370 ocean-drift family likelihoods and field-support diagnostics -->
+   <g transform="translate(62.094375 12.118365) scale(0.12 -0.12)">
+    <defs>
+     <path id="DejaVuSans-Bold-30" d="M 588 4666 
+L 2119 4666 
+L 3181 2169 
+L 4250 4666 
+L 5778 4666 
+L 5778 0 
+L 4641 0 
+L 4641 3413 
+L 3566 897 
+L 2803 897 
+L 1728 3413 
+L 1728 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-2b" d="M 588 4666 
+L 1791 4666 
+L 1791 2888 
+L 3566 2888 
+L 3566 4666 
+L 4769 4666 
+L 4769 0 
+L 3566 0 
+L 3566 1978 
+L 1791 1978 
+L 1791 0 
+L 588 0 
+L 588 4666 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-16" d="M 2981 2516 
+Q 3453 2394 3698 2092 
+Q 3944 1791 3944 1325 
+Q 3944 631 3412 270 
+Q 2881 -91 1863 -91 
+Q 1503 -91 1142 -33 
+Q 781 25 428 141 
+L 428 1069 
+Q 766 900 1098 814 
+Q 1431 728 1753 728 
+Q 2231 728 2486 893 
+Q 2741 1059 2741 1369 
+Q 2741 1688 2480 1852 
+Q 2219 2016 1709 2016 
+L 1228 2016 
+L 1228 2791 
+L 1734 2791 
+Q 2188 2791 2409 2933 
+Q 2631 3075 2631 3366 
+Q 2631 3634 2415 3781 
+Q 2200 3928 1806 3928 
+Q 1516 3928 1219 3862 
+Q 922 3797 628 3669 
+L 628 4550 
+Q 984 4650 1334 4700 
+Q 1684 4750 2022 4750 
+Q 2931 4750 3382 4451 
+Q 3834 4153 3834 3553 
+Q 3834 3144 3618 2883 
+Q 3403 2622 2981 2516 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-1a" d="M 428 4666 
+L 3944 4666 
+L 3944 3988 
+L 2125 0 
+L 953 0 
+L 2675 3781 
+L 428 3781 
+L 428 4666 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-13" d="M 2944 2338 
+Q 2944 3213 2780 3570 
+Q 2616 3928 2228 3928 
+Q 1841 3928 1675 3570 
+Q 1509 3213 1509 2338 
+Q 1509 1453 1675 1090 
+Q 1841 728 2228 728 
+Q 2613 728 2778 1090 
+Q 2944 1453 2944 2338 
+z
+M 4147 2328 
+Q 4147 1169 3647 539 
+Q 3147 -91 2228 -91 
+Q 1306 -91 806 539 
+Q 306 1169 306 2328 
+Q 306 3491 806 4120 
+Q 1306 4750 2228 4750 
+Q 3147 4750 3647 4120 
+Q 4147 3491 4147 2328 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-49" d="M 2841 4863 
+L 2841 4128 
+L 2222 4128 
+Q 1984 4128 1890 4042 
+Q 1797 3956 1797 3744 
+L 1797 3500 
+L 2753 3500 
+L 2753 2700 
+L 1797 2700 
+L 1797 0 
+L 678 0 
+L 678 2700 
+L 122 2700 
+L 122 3500 
+L 678 3500 
+L 678 3744 
+Q 678 4316 997 4589 
+Q 1316 4863 1984 4863 
+L 2841 4863 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-5c" d="M 78 3500 
+L 1197 3500 
+L 2138 1125 
+L 2938 3500 
+L 4056 3500 
+L 2584 -331 
+Q 2363 -916 2067 -1148 
+Q 1772 -1381 1288 -1381 
+L 641 -1381 
+L 641 -647 
+L 991 -647 
+Q 1275 -647 1404 -556 
+Q 1534 -466 1606 -231 
+L 1638 -134 
+L 78 3500 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-4b" d="M 4056 2131 
+L 4056 0 
+L 2931 0 
+L 2931 347 
+L 2931 1625 
+Q 2931 2084 2911 2256 
+Q 2891 2428 2841 2509 
+Q 2775 2619 2662 2680 
+Q 2550 2741 2406 2741 
+Q 2056 2741 1856 2470 
+Q 1656 2200 1656 1722 
+L 1656 0 
+L 538 0 
+L 538 4863 
+L 1656 4863 
+L 1656 2988 
+Q 1909 3294 2193 3439 
+Q 2478 3584 2822 3584 
+Q 3428 3584 3742 3212 
+Q 4056 2841 4056 2131 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-13ab" d="M 3078 4863 
+L 4206 4863 
+L 4206 3950 
+L 3078 3950 
+L 3078 4863 
+z
+M 2847 4863 
+L 2847 4128 
+L 2228 4128 
+Q 1994 4128 1903 4042 
+Q 1813 3956 1813 3744 
+L 1813 3500 
+L 4206 3500 
+L 4206 0 
+L 3078 0 
+L 3078 2700 
+L 1813 2700 
+L 1813 0 
+L 684 0 
+L 684 2700 
+L 134 2700 
+L 134 3500 
+L 684 3500 
+L 684 3744 
+Q 684 4316 1003 4589 
+Q 1322 4863 1991 4863 
+L 2847 4863 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-53" d="M 1656 506 
+L 1656 -1331 
+L 538 -1331 
+L 538 3500 
+L 1656 3500 
+L 1656 2988 
+Q 1888 3294 2169 3439 
+Q 2450 3584 2816 3584 
+Q 3463 3584 3878 3070 
+Q 4294 2556 4294 1747 
+Q 4294 938 3878 423 
+Q 3463 -91 2816 -91 
+Q 2450 -91 2169 54 
+Q 1888 200 1656 506 
+z
+M 2400 2772 
+Q 2041 2772 1848 2508 
+Q 1656 2244 1656 1747 
+Q 1656 1250 1848 986 
+Q 2041 722 2400 722 
+Q 2759 722 2948 984 
+Q 3138 1247 3138 1747 
+Q 3138 2247 2948 2509 
+Q 2759 2772 2400 2772 
+z
+" transform="scale(0.015625)"/>
+     <path id="DejaVuSans-Bold-4a" d="M 2919 594 
+Q 2688 288 2409 144 
+Q 2131 0 1766 0 
+Q 1125 0 706 504 
+Q 288 1009 288 1791 
+Q 288 2575 706 3076 
+Q 1125 3578 1766 3578 
+Q 2131 3578 2409 3434 
+Q 2688 3291 2919 2981 
+L 2919 3500 
+L 4044 3500 
+L 4044 353 
+Q 4044 -491 3511 -936 
+Q 2978 -1381 1966 -1381 
+Q 1638 -1381 1331 -1331 
+Q 1025 -1281 716 -1178 
+L 716 -306 
+Q 1009 -475 1290 -558 
+Q 1572 -641 1856 -641 
+Q 2406 -641 2662 -400 
+Q 2919 -159 2919 353 
+L 2919 594 
+z
+M 2181 2772 
+Q 1834 2772 1640 2515 
+Q 1447 2259 1447 1791 
+Q 1447 1309 1634 1061 
+Q 1822 813 2181 813 
+Q 2531 813 2725 1069 
+Q 2919 1325 2919 1791 
+Q 2919 2259 2725 2515 
+Q 2531 2772 2181 2772 
+z
+" transform="scale(0.015625)"/>
+    </defs>
+    <use xlink:href="#DejaVuSans-Bold-30"/>
+    <use xlink:href="#DejaVuSans-Bold-2b" transform="translate(99.515625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-16" transform="translate(183.203125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-1a" transform="translate(252.78125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-13" transform="translate(322.359375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-3" transform="translate(391.9375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-52" transform="translate(426.75 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-46" transform="translate(495.453125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-48" transform="translate(554.734375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-44" transform="translate(622.5625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-51" transform="translate(690.046875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-10" transform="translate(761.234375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-47" transform="translate(802.734375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-55" transform="translate(874.3125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(923.625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-49" transform="translate(957.90625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-57" transform="translate(1001.40625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-3" transform="translate(1049.203125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-49" transform="translate(1084.015625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-44" transform="translate(1127.515625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-50" transform="translate(1195 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(1299.203125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4f" transform="translate(1333.484375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-5c" transform="translate(1367.765625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-3" transform="translate(1432.953125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4f" transform="translate(1467.765625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(1502.046875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4e" transform="translate(1536.328125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-48" transform="translate(1600.140625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4f" transform="translate(1667.96875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(1702.25 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4b" transform="translate(1736.53125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-52" transform="translate(1807.71875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-52" transform="translate(1876.421875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-47" transform="translate(1945.125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-56" transform="translate(2016.703125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-3" transform="translate(2076.21875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-44" transform="translate(2111.03125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-51" transform="translate(2178.515625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-47" transform="translate(2249.703125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-3" transform="translate(2321.28125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-13ab" transform="translate(2356.09375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-48" transform="translate(2430.21875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4f" transform="translate(2498.046875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-47" transform="translate(2532.328125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-10" transform="translate(2603.90625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-56" transform="translate(2645.40625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-58" transform="translate(2704.921875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-53" transform="translate(2776.109375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-53" transform="translate(2847.6875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-52" transform="translate(2919.265625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-55" transform="translate(2987.96875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-57" transform="translate(3037.28125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-3" transform="translate(3085.078125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-47" transform="translate(3119.890625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(3191.46875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-44" transform="translate(3225.75 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4a" transform="translate(3293.234375 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-51" transform="translate(3364.8125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-52" transform="translate(3436 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-56" transform="translate(3504.703125 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-57" transform="translate(3564.21875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-4c" transform="translate(3612.015625 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-46" transform="translate(3646.296875 0)"/>
+    <use xlink:href="#DejaVuSans-Bold-56" transform="translate(3705.578125 0)"/>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="p9082e48881">
+   <rect x="44.313756" y="34.600095" width="487.372489" height="138.198962"/>
+  </clipPath>
+ </defs>
+</svg>
+</section>
+<section class="card">
+<h2>Common query interface</h2>
+<p>Nearest WGS84 great-circle source cell, maximum 75.0 NM. Beyond that distance the result is <code>out_of_support</code>, never zero or neutral evidence.</p>
+<div class="query-grid">
+<div><label for="family">Family</label><select id="family"></select></div>
+<div><label for="latitude">Latitude (°)</label><input id="latitude" type="number" step="0.01" value="-34"></div>
+<div><label for="longitude">Longitude (°E)</label><input id="longitude" type="number" step="0.01" value="94"></div>
+<div><button id="query">Query</button></div>
+</div>
+<div id="query-result">Choose a family and position.</div>
+</section>
+</main>
+<script>
+const handoff={"schema":"mh370-ocean-drift-family-likelihood-handoff-v1","title":"MH370 full-domain CMEMS ocean-drift admission surface","family_combination":"prohibited_without_out_of_sample_estimated_model_weights","query_contract":{"coordinate_reference":"WGS84 latitude/longitude degrees","algorithm":"nearest source cell by great-circle distance","maximum_nearest_cell_distance_nm":75.0,"source_prior_removed":true,"returned_fields":["evidence_log_likelihood","relative_log_likelihood","relative_likelihood"],"out_of_support":{"status":"out_of_support","likelihood":null,"required_behavior":"error; do not extrapolate and do not treat as zero or neutral current"},"admission_rule":"Only admissible_conditional_likelihood families may update the integrated estimator."},"admission_thresholds":{"maximum_query_distance_nm":75.0,"maximum_out_of_support_fraction":0.01,"minimum_event_arrival_ess":200.0,"minimum_surface_mass_with_event_ess":0.9,"maximum_replication_total_variation":0.1,"maximum_contour_endpoint_shift_cells":2,"minimum_contour_set_jaccard":0.8,"minimum_validation_complete_fraction":0.95,"maximum_median_error_ratio_to_persistence":1.0,"minimum_median_fraction_better_than_persistence":0.5},"specification":{"path":".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-family-likelihood-handoff/specification.json","sha256":"799beed5c2e0fe2ed034e65b5108eee8654b5708874d9249ef96a7074c95dc36"},"families":[{"id":"cmems-glorys12-waverys-full-domain","label":"Full-domain GLORYS12 currents + distinct WAVERYS Stokes","color":"#D97706","current_family":"cmems_glorys12_reanalysis","role":"time-varying assimilative-current family with distinct wave Stokes sensitivity","decision":"diagnostic_only","admitted":false,"failed_checks":["out_of_support_termination","eventwise_arrival_ess","seed_and_particle_stability"],"conditions":["GLORYS12V1 daily native 1/12-degree surface currents from 0E-180E and 55S-15N over 2014-03-07 through 2017-01-31","WAVERYS three-hourly 0.2-degree surface Stokes velocity is a distinct field with an explicit one-times response; direct windage remains separate","the same nine stringent recovery episodes, two Australian non-recovery populations, object-response laws, seed, proposal accounting, and conservative arrival-conditional isotope screen are used as the matched family comparison","the source-cell prior is removed before the conditional likelihood is exposed"],"limitations":["GLORYS12V1 assimilates ocean observations; the drifter replay is not guaranteed statistically held out","WAVERYS assimilates significant wave height and uses GLORYS12 currents in its wave calculation","one-times surface Stokes response, object leeway, diffusivity, recovery kernels, and beaching-to-discovery delays are sensitivities rather than jointly out-of-sample calibrated parameters","the persistent GLORYS12/WAVERYS support-mask union distinguishes land encounter but is not a measured shoreline or calibrated beaching, retention, or refloating model","this family remains separate from native HYCOM and GDP; no subjective family weight or pooled surface is reported"],"source_result":{"path":".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/source-area.json","sha256":"5798db6878502adef429658497bdb6e9f431affc2d8cdbed88a1c54735b76531","seed":3700271,"particles_per_cell":1024,"isotope_enabled":true,"run_manifest":{"path":".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/run-manifest.json","sha256":"503f91d2b25beed29158a17782340f2e2c64f0e363034cd24e9e548044ca7865","executable_sha256":"6ac6d41bd3399e856706441d9dacd993f4ce0493a120219027afaa7ebc0e7fe5","config_sha256":"90431bdaa6c5e1c18b322ba2b446e1a528aff0afc090af7351dfdb0fe4cd570c","input_sha256":{"coast.binary":"5b08d121da01b271bacd9f87614c0178e9a56de0c7ee59c81010bdbec318f668","coast.metadata":"886f151454efe376bdee4b7b6cdb77b6a6b8a986982f29fc9739cf6c0d65497f","currents.binary":"d532482adda31b357ed4d2e899074255d277f64a99b5c2503be699ad1c5e6d52","currents.metadata":"61c6559deb978d5cbf2041e7e43f8e32db3bbacde49376cae6d134308b836ee3","isotope_records":"a5231772727d2adae24dcc082abc02beb597448720be30dfbb2b46ac3fe4957a","source_cells":"0180bc2cfa53e901c7896f9be05d204507cbceefd81cb63fc765b48b7d875279","sst.binary":"9a8fdb023e7f4d719547b2393c913dddba7ff0f788f1c8b83839a08916635fc0","sst.metadata":"ba70afa6e56ac411fd76859895cf6a3695d06fbe0da02c409c560aba8f97471b","stokes.binary":"33b73a88da9d76a8828c274fcd19a9a550326842c6c7ddea241e1bf3f6f92fea","stokes.metadata":"d6f6e3541dc526a1e91a09e577f3f488dad7c5485eedef61b9a94f18999357b6","wind.binary":"c151628e9dd072fcb56f00cace91ab6057ccc35391646a91d5caa0b6d2aabd62","wind.metadata":"b689d546dc3aa76f7b67e7241e2cae739cda8e89ca0443734b190e5367470fda"}},"runtime":{"path":".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-multi-debris/runtime-receipt.json","sha256":"b17253deadb0bd094f175bd6bd2e3fe11e29063ece2679d4470a3dde0b1ca7ac","elapsed_seconds":1694.606275341,"peak_memory_kib":11724316,"simulated_paths":867328}},"surface_summary":{"cell_count":77,"peak_cell_id":"arc-152","peak_latitude_s":30.7030334472656,"peak_longitude_e":97.6808013916016,"latitude_s_equal_tail_intervals":{"90":[29.6984252929688,35.7523803710938],"95":[27.6214599609375,35.7523803710938],"99":[26.5517272949219,36.968017578125]}},"evidence_scope":{"expected_recovery_events":["antsiraka-cabin-panel-recovery","chidenguele-fan-cowling-recovery","mauritius-left-flap-recovery","mossel-bay-engine-cowling-recovery","paindane-flap-fairing-recovery","pemba-right-flap-recovery","reunion-flaperon-recovery","rodrigues-door-panel-recovery","vilanculos-stabilizer-recovery"],"represented_recovery_events":["antsiraka-cabin-panel-recovery","chidenguele-fan-cowling-recovery","mauritius-left-flap-recovery","mossel-bay-engine-cowling-recovery","paindane-flap-fairing-recovery","pemba-right-flap-recovery","reunion-flaperon-recovery","rodrigues-door-panel-recovery","vilanculos-stabilizer-recovery"],"expected_non_recoveries":["western-australia-no-recovery-high-windage-population","western-australia-no-recovery-low-exposure-population"],"represented_non_recoveries":["western-australia-no-recovery-high-windage-population","western-australia-no-recovery-low-exposure-population"]},"diagnostics":{"checks":[{"name":"complete_evidence_scope","passed":true,"value":{"recoveries":["antsiraka-cabin-panel-recovery","chidenguele-fan-cowling-recovery","mauritius-left-flap-recovery","mossel-bay-engine-cowling-recovery","paindane-flap-fairing-recovery","pemba-right-flap-recovery","reunion-flaperon-recovery","rodrigues-door-panel-recovery","vilanculos-stabilizer-recovery"],"non_recoveries":["western-australia-no-recovery-high-windage-population","western-australia-no-recovery-low-exposure-population"]},"threshold":{"recoveries":["antsiraka-cabin-panel-recovery","chidenguele-fan-cowling-recovery","mauritius-left-flap-recovery","mossel-bay-engine-cowling-recovery","paindane-flap-fairing-recovery","pemba-right-flap-recovery","reunion-flaperon-recovery","rodrigues-door-panel-recovery","vilanculos-stabilizer-recovery"],"non_recoveries":["western-australia-no-recovery-high-windage-population","western-australia-no-recovery-low-exposure-population"]},"explanation":"Every selected recovery and Australian non-recovery population must be represented."},{"name":"out_of_support_termination","passed":false,"value":0.01746190604959787,"threshold":0.01,"explanation":"Missing, outside-spatial, and outside-time support are failures, never zero current."},{"name":"eventwise_arrival_ess","passed":false,"value":0,"threshold":0.9,"explanation":"Supported source mass must have hundreds-scale effective arrivals for every recovery."},{"name":"seed_and_particle_stability","passed":false,"value":{"matched":true,"passed":false,"run":"reference","comparison_count":2,"maximum_total_variation":0.3944942222182672,"maximum_90_95_99_endpoint_shift_cells":6,"minimum_90_95_99_highest_weight_set_jaccard":0.5333333333333333,"source":{"path":".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json","sha256":"945faa86370c7bb23e3032c0b1e334a6d2ba4915de40adce46608eeb176ba87f"}},"threshold":{"maximum_total_variation":0.1,"maximum_contour_endpoint_shift_cells":2,"minimum_contour_set_jaccard":0.8},"explanation":"The exact surface must be stable when the seed changes and particle count doubles."},{"name":"predictive_drifter_validation","passed":true,"value":{"matched":true,"passed":true,"family":"cmems_glorys12_full_domain_plus_distinct_stokes","row_count":9,"attempted_paths":5400,"minimum_complete_fraction":0.9883333333333333,"median_error_ratio_to_persistence":0.6950387324045249,"median_fraction_better_than_persistence":0.6383333333333333,"failed_paths_scored_by_terminal_hold":true,"assimilation_or_climatology_leakage_limitation":true,"source":{"path":"/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory-overall.csv","sha256":"7091949fd84e7d7fedbbce5147356c644e9676f046c7f006bdee524648e38cf9"}},"threshold":{"minimum_complete_fraction":0.95,"maximum_median_error_ratio_to_persistence":1.0,"minimum_median_fraction_better_than_persistence":0.5},"explanation":"All attempts, including terminated paths, are scored against persistence."},{"name":"conservative_isotope_screen","passed":true,"value":{"enabled":true,"maximum_conditional_log_compatibility":0.0,"path_classification_counts":{"compatible":24716,"marginal":756,"rejected":149,"missing_coverage":17454}},"threshold":"enabled and never positive","explanation":"Isotope is conditional on represented Reunion arrival and may only downweight."}],"surface_weighted_termination_reason_fractions":{"missing_field_coverage":0.010109689739243213,"outside_spatial_support":0.007352216310354657,"land_encounter":0.5882131837615281,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"surface_weighted_out_of_support_fraction":0.01746190604959787,"surface_mass_with_every_recovery_ess_at_least_threshold":0,"event_arrival_effective_sample_size":[{"event_id":"antsiraka-cabin-panel-recovery","maximum_effective_sample_size":398.24344746140963,"median_effective_sample_size":98.91909457813011,"surface_mass_at_or_above_threshold":0.0037669101847350147},{"event_id":"chidenguele-fan-cowling-recovery","maximum_effective_sample_size":178.97124842500028,"median_effective_sample_size":57.59465304885181,"surface_mass_at_or_above_threshold":0},{"event_id":"mauritius-left-flap-recovery","maximum_effective_sample_size":297.5910726697569,"median_effective_sample_size":90.15176311451674,"surface_mass_at_or_above_threshold":1.4010159443458127e-12},{"event_id":"mossel-bay-engine-cowling-recovery","maximum_effective_sample_size":66.7010785227144,"median_effective_sample_size":16.541770494835717,"surface_mass_at_or_above_threshold":0},{"event_id":"paindane-flap-fairing-recovery","maximum_effective_sample_size":130.05215726473938,"median_effective_sample_size":54.9527649955495,"surface_mass_at_or_above_threshold":0},{"event_id":"pemba-right-flap-recovery","maximum_effective_sample_size":542.3467268708467,"median_effective_sample_size":81.97308980841814,"surface_mass_at_or_above_threshold":1.4451086945491574e-10},{"event_id":"reunion-flaperon-recovery","maximum_effective_sample_size":398.3118883184308,"median_effective_sample_size":29.52156002264473,"surface_mass_at_or_above_threshold":0.9176978087852772},{"event_id":"rodrigues-door-panel-recovery","maximum_effective_sample_size":427.08065886384264,"median_effective_sample_size":111.06330613827329,"surface_mass_at_or_above_threshold":0.001078021933315773},{"event_id":"vilanculos-stabilizer-recovery","maximum_effective_sample_size":216.9594039018069,"median_effective_sample_size":52.91535613494649,"surface_mass_at_or_above_threshold":3.046210701223878e-14}],"isotope_path_classification_counts":{"compatible":24716,"marginal":756,"rejected":149,"missing_coverage":17454},"stability":{"matched":true,"passed":false,"run":"reference","comparison_count":2,"maximum_total_variation":0.3944942222182672,"maximum_90_95_99_endpoint_shift_cells":6,"minimum_90_95_99_highest_weight_set_jaccard":0.5333333333333333,"source":{"path":".sources/ocean-drift-input-preparation/outputs/cmems-full-domain-stringent-stability/stability-summary.json","sha256":"945faa86370c7bb23e3032c0b1e334a6d2ba4915de40adce46608eeb176ba87f"}},"predictive_validation":{"matched":true,"passed":true,"family":"cmems_glorys12_full_domain_plus_distinct_stokes","row_count":9,"attempted_paths":5400,"minimum_complete_fraction":0.9883333333333333,"median_error_ratio_to_persistence":0.6950387324045249,"median_fraction_better_than_persistence":0.6383333333333333,"failed_paths_scored_by_terminal_hold":true,"assimilation_or_climatology_leakage_limitation":true,"source":{"path":"/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/cmems-full-domain/cmems-full-domain-current-trajectory-overall.csv","sha256":"7091949fd84e7d7fedbbce5147356c644e9676f046c7f006bdee524648e38cf9"}}},"cells":[{"id":"arc-116","latitude_deg":-10.0475158691406,"longitude_deg":107.74055480957,"evidence_log_likelihood":-72.03098998614212,"relative_log_likelihood":-27.809072470737092,"relative_likelihood":8.368994435744694e-13,"diagnostic_uniform_cell_mass":1.7458631566510143e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.03162208764332659,"outside_spatial_support":0.034375172557497544,"land_encounter":0.7146834532850449,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":102.70067815132325,"chidenguele-fan-cowling-recovery":110.54221385113574,"mauritius-left-flap-recovery":92.55377968575988,"mossel-bay-engine-cowling-recovery":28.215537410669786,"paindane-flap-fairing-recovery":71.56194538207359,"pemba-right-flap-recovery":145.24348797846847,"reunion-flaperon-recovery":2.0262250954265193,"rodrigues-door-panel-recovery":421.6365726646576,"vilanculos-stabilizer-recovery":93.33364209714729},"conditional_isotope_log_compatibility":0.0},{"id":"arc-117","latitude_deg":-10.6705932617188,"longitude_deg":107.611831665039,"evidence_log_likelihood":-70.32078259417874,"relative_log_likelihood":-26.098865078773713,"relative_likelihood":4.628144524623302e-12,"diagnostic_uniform_cell_mass":9.654812261178136e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0318801762658547,"outside_spatial_support":0.03170349958589022,"land_encounter":0.7090910982638604,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":35.22072076436445,"chidenguele-fan-cowling-recovery":62.292322294268956,"mauritius-left-flap-recovery":209.29419544239997,"mossel-bay-engine-cowling-recovery":24.014605589705752,"paindane-flap-fairing-recovery":82.7876324991682,"pemba-right-flap-recovery":41.48306340788153,"reunion-flaperon-recovery":1.5034136817495494,"rodrigues-door-panel-recovery":338.78923582141806,"vilanculos-stabilizer-recovery":91.64029527994408},"conditional_isotope_log_compatibility":0.0},{"id":"arc-118","latitude_deg":-11.2920837402344,"longitude_deg":107.475448608398,"evidence_log_likelihood":-72.55302407355894,"relative_log_likelihood":-28.33110655815392,"relative_likelihood":4.965428762505444e-13,"diagnostic_uniform_cell_mass":1.0358423822589277e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.028114924390326555,"outside_spatial_support":0.031966556034371464,"land_encounter":0.7181189883810798,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":132.59256086946166,"chidenguele-fan-cowling-recovery":122.49214337051413,"mauritius-left-flap-recovery":34.306928959884466,"mossel-bay-engine-cowling-recovery":41.11527478735012,"paindane-flap-fairing-recovery":79.0379446130229,"pemba-right-flap-recovery":205.5324270714621,"reunion-flaperon-recovery":1.672820693113844,"rodrigues-door-panel-recovery":304.53385739211353,"vilanculos-stabilizer-recovery":104.6917101623475},"conditional_isotope_log_compatibility":0.0},{"id":"arc-119","latitude_deg":-11.9118957519531,"longitude_deg":107.331329345703,"evidence_log_likelihood":-75.69596861441586,"relative_log_likelihood":-31.474051099010836,"relative_likelihood":2.142857466126253e-14,"diagnostic_uniform_cell_mass":4.4702334656666295e-15,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.025791394736370137,"outside_spatial_support":0.03770636923042593,"land_encounter":0.7272206710136315,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":61.74722022729265,"chidenguele-fan-cowling-recovery":79.17791753609501,"mauritius-left-flap-recovery":42.41474432994114,"mossel-bay-engine-cowling-recovery":59.75192451131902,"paindane-flap-fairing-recovery":105.68814146680053,"pemba-right-flap-recovery":304.60071535707624,"reunion-flaperon-recovery":3.185671798236618,"rodrigues-door-panel-recovery":180.9969024182048,"vilanculos-stabilizer-recovery":79.22485578382748},"conditional_isotope_log_compatibility":0.0},{"id":"arc-120","latitude_deg":-12.5299377441406,"longitude_deg":107.179428100586,"evidence_log_likelihood":-72.03903286615676,"relative_log_likelihood":-27.817115350751735,"relative_likelihood":8.30195357982896e-13,"diagnostic_uniform_cell_mass":1.731877705802377e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0254844055807403,"outside_spatial_support":0.03146571514073856,"land_encounter":0.7158178418830531,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":256.9410557231121,"chidenguele-fan-cowling-recovery":53.20122175760919,"mauritius-left-flap-recovery":56.22366582336223,"mossel-bay-engine-cowling-recovery":26.161031404179777,"paindane-flap-fairing-recovery":84.09419589826076,"pemba-right-flap-recovery":58.02065693117627,"reunion-flaperon-recovery":2.4413614014361795,"rodrigues-door-panel-recovery":427.08065886384264,"vilanculos-stabilizer-recovery":71.10029822448274},"conditional_isotope_log_compatibility":0.0},{"id":"arc-121","latitude_deg":-13.1461181640625,"longitude_deg":107.019653320313,"evidence_log_likelihood":-71.20809805933534,"relative_log_likelihood":-26.986180543930317,"relative_likelihood":1.9056831857896722e-12,"diagnostic_uniform_cell_mass":3.975462151234503e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0302844587119622,"outside_spatial_support":0.033339240077414546,"land_encounter":0.7075209462012992,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":135.90009290342257,"chidenguele-fan-cowling-recovery":56.776334111149254,"mauritius-left-flap-recovery":50.70394568128369,"mossel-bay-engine-cowling-recovery":38.43380569665908,"paindane-flap-fairing-recovery":94.21667205429408,"pemba-right-flap-recovery":101.60739680495864,"reunion-flaperon-recovery":2.99115219238685,"rodrigues-door-panel-recovery":246.76267026430264,"vilanculos-stabilizer-recovery":52.15644573859333},"conditional_isotope_log_compatibility":0.0},{"id":"arc-122","latitude_deg":-13.7603149414063,"longitude_deg":106.851959228516,"evidence_log_likelihood":-69.90816535417525,"relative_log_likelihood":-25.686247838770228,"relative_likelihood":6.992046418679241e-12,"diagnostic_uniform_cell_mass":1.458616841687449e-12,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.026479095228894238,"outside_spatial_support":0.031684960211369816,"land_encounter":0.7072185164164603,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":155.69379991375175,"chidenguele-fan-cowling-recovery":54.95207957611044,"mauritius-left-flap-recovery":54.644094653118785,"mossel-bay-engine-cowling-recovery":41.85687056410157,"paindane-flap-fairing-recovery":62.749948883406994,"pemba-right-flap-recovery":362.282201510184,"reunion-flaperon-recovery":6.164092215970265,"rodrigues-door-panel-recovery":232.11441383642156,"vilanculos-stabilizer-recovery":174.72697623023345},"conditional_isotope_log_compatibility":0.0},{"id":"arc-123","latitude_deg":-14.3724365234375,"longitude_deg":106.676254272461,"evidence_log_likelihood":-70.75794192117188,"relative_log_likelihood":-26.536024405766852,"relative_likelihood":2.989172849481849e-12,"diagnostic_uniform_cell_mass":6.23573929561051e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.03150280120171795,"outside_spatial_support":0.031049791319541543,"land_encounter":0.6927160816945214,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":41.48826570389863,"chidenguele-fan-cowling-recovery":28.832932010716423,"mauritius-left-flap-recovery":33.89209568463723,"mossel-bay-engine-cowling-recovery":34.14860094036433,"paindane-flap-fairing-recovery":85.49858645221153,"pemba-right-flap-recovery":65.14210141463215,"reunion-flaperon-recovery":2.2822372654359286,"rodrigues-door-panel-recovery":193.42888508511575,"vilanculos-stabilizer-recovery":70.4812820487358},"conditional_isotope_log_compatibility":0.0},{"id":"arc-124","latitude_deg":-14.9823913574219,"longitude_deg":106.492492675781,"evidence_log_likelihood":-71.11683473763223,"relative_log_likelihood":-26.894917222227207,"relative_likelihood":2.0877854140731866e-12,"diagnostic_uniform_cell_mass":4.355347182279992e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.022106504926034384,"outside_spatial_support":0.025557528419867977,"land_encounter":0.7616829466967875,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":169.44646849503107,"chidenguele-fan-cowling-recovery":178.97124842500028,"mauritius-left-flap-recovery":297.5910726697569,"mossel-bay-engine-cowling-recovery":46.604666491567976,"paindane-flap-fairing-recovery":105.16279488334327,"pemba-right-flap-recovery":542.3467268708467,"reunion-flaperon-recovery":2.015732902205424,"rodrigues-door-panel-recovery":50.58406344595065,"vilanculos-stabilizer-recovery":194.76228953282524},"conditional_isotope_log_compatibility":0.0},{"id":"arc-125","latitude_deg":-15.5900573730469,"longitude_deg":106.300567626953,"evidence_log_likelihood":-68.33178636317007,"relative_log_likelihood":-24.109868847765043,"relative_likelihood":3.3823379621970704e-11,"diagnostic_uniform_cell_mass":7.055924432594615e-12,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.013600113737213863,"outside_spatial_support":0.027612680219236522,"land_encounter":0.7963878975349826,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":259.4413001455543,"chidenguele-fan-cowling-recovery":62.37328566417545,"mauritius-left-flap-recovery":44.67413967644889,"mossel-bay-engine-cowling-recovery":35.012526821399746,"paindane-flap-fairing-recovery":120.49406123208551,"pemba-right-flap-recovery":60.87898666057301,"reunion-flaperon-recovery":1.1434398900021807,"rodrigues-door-panel-recovery":49.936556276359646,"vilanculos-stabilizer-recovery":74.67556772587685},"conditional_isotope_log_compatibility":0.0},{"id":"arc-126","latitude_deg":-16.1953430175781,"longitude_deg":106.100402832031,"evidence_log_likelihood":-66.3820756355781,"relative_log_likelihood":-22.16015812017308,"relative_likelihood":2.3766520835068027e-10,"diagnostic_uniform_cell_mass":4.9579544360196257e-11,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.017699153914375983,"outside_spatial_support":0.02743092037493455,"land_encounter":0.7852177762220285,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":108.6136325452872,"chidenguele-fan-cowling-recovery":70.9554123719641,"mauritius-left-flap-recovery":152.27660487495734,"mossel-bay-engine-cowling-recovery":42.57305043827051,"paindane-flap-fairing-recovery":111.27229684479441,"pemba-right-flap-recovery":485.7558241841283,"reunion-flaperon-recovery":7.026657920130451,"rodrigues-door-panel-recovery":212.1733851839132,"vilanculos-stabilizer-recovery":131.29334289703866},"conditional_isotope_log_compatibility":-1.221245327087673e-15},{"id":"arc-127","latitude_deg":-16.7981567382813,"longitude_deg":105.89192199707,"evidence_log_likelihood":-68.66613613886689,"relative_log_likelihood":-24.444218623461865,"relative_likelihood":2.4210889044243134e-11,"diagnostic_uniform_cell_mass":5.050654471889201e-12,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.010184862643742914,"outside_spatial_support":0.009558543149281373,"land_encounter":0.8588515647598817,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":105.79303718883533,"chidenguele-fan-cowling-recovery":43.146856315671336,"mauritius-left-flap-recovery":66.65628249831263,"mossel-bay-engine-cowling-recovery":28.58684407807789,"paindane-flap-fairing-recovery":63.50040893836129,"pemba-right-flap-recovery":523.3353699778489,"reunion-flaperon-recovery":1.000003362599558,"rodrigues-door-panel-recovery":65.0367412885235,"vilanculos-stabilizer-recovery":78.135616575539},"conditional_isotope_log_compatibility":0.0},{"id":"arc-128","latitude_deg":-17.3983764648438,"longitude_deg":105.675033569336,"evidence_log_likelihood":-69.27717100447946,"relative_log_likelihood":-25.05525348907443,"relative_likelihood":1.3141400979981725e-11,"diagnostic_uniform_cell_mass":2.74143900726421e-12,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.012721999366837974,"outside_spatial_support":0.014014437215633528,"land_encounter":0.821646263486966,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":49.69677618376757,"chidenguele-fan-cowling-recovery":28.87009232077476,"mauritius-left-flap-recovery":71.15242083642399,"mossel-bay-engine-cowling-recovery":45.57786937388048,"paindane-flap-fairing-recovery":71.91336097695124,"pemba-right-flap-recovery":156.18265355054302,"reunion-flaperon-recovery":2.07068872098114,"rodrigues-door-panel-recovery":100.94912284193782,"vilanculos-stabilizer-recovery":59.19523973127295},"conditional_isotope_log_compatibility":-1.1657341758564212e-14},{"id":"arc-129","latitude_deg":-17.9958801269531,"longitude_deg":105.449661254883,"evidence_log_likelihood":-63.34914654073063,"relative_log_likelihood":-19.127229025325605,"relative_likelihood":4.933441470811468e-09,"diagnostic_uniform_cell_mass":1.029169485714626e-09,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.011295786414546522,"outside_spatial_support":0.012969959332334531,"land_encounter":0.7006020265090395,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":90.41349495081305,"chidenguele-fan-cowling-recovery":109.34990159802143,"mauritius-left-flap-recovery":110.10247159708675,"mossel-bay-engine-cowling-recovery":21.99128599892587,"paindane-flap-fairing-recovery":89.33636852593523,"pemba-right-flap-recovery":65.87872646999324,"reunion-flaperon-recovery":1.1227542203853922,"rodrigues-door-panel-recovery":114.6282340724965,"vilanculos-stabilizer-recovery":104.68197298043154},"conditional_isotope_log_compatibility":0.0},{"id":"arc-130","latitude_deg":-18.5905456542969,"longitude_deg":105.215682983398,"evidence_log_likelihood":-52.04091341015885,"relative_log_likelihood":-7.818995894753826,"relative_likelihood":0.00040202515577280164,"diagnostic_uniform_cell_mass":8.38668149321292e-05,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.011801810584355954,"outside_spatial_support":0.007045381484414452,"land_encounter":0.7068698211630319,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":398.24344746140963,"chidenguele-fan-cowling-recovery":84.53075162189879,"mauritius-left-flap-recovery":85.68658514350717,"mossel-bay-engine-cowling-recovery":25.419847951726364,"paindane-flap-fairing-recovery":88.5384134559964,"pemba-right-flap-recovery":66.51710189553089,"reunion-flaperon-recovery":20.637720893188412,"rodrigues-door-panel-recovery":139.32405029774534,"vilanculos-stabilizer-recovery":73.20519545363838},"conditional_isotope_log_compatibility":-5.4924471477586e-07},{"id":"arc-131","latitude_deg":-19.1822814941406,"longitude_deg":104.973037719727,"evidence_log_likelihood":-62.8357818416699,"relative_log_likelihood":-18.613864326264874,"relative_likelihood":8.243306277243614e-09,"diagnostic_uniform_cell_mass":1.7196432413626107e-09,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.010470697383467687,"outside_spatial_support":0.008905159579670205,"land_encounter":0.7878693554853258,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":127.14166808319546,"chidenguele-fan-cowling-recovery":75.97551629776355,"mauritius-left-flap-recovery":73.51852693684238,"mossel-bay-engine-cowling-recovery":38.48678324612198,"paindane-flap-fairing-recovery":99.40214696493621,"pemba-right-flap-recovery":64.75274616089327,"reunion-flaperon-recovery":1.0000000017779536,"rodrigues-door-panel-recovery":172.9136049616464,"vilanculos-stabilizer-recovery":59.427125962042325},"conditional_isotope_log_compatibility":0.0},{"id":"arc-132","latitude_deg":-19.77099609375,"longitude_deg":104.721603393555,"evidence_log_likelihood":-70.10988380632611,"relative_log_likelihood":-25.887966290921085,"relative_likelihood":5.71477442060443e-12,"diagnostic_uniform_cell_mass":1.1921640271250968e-12,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.009087549303652988,"outside_spatial_support":0.007897387441009802,"land_encounter":0.9007064352506768,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":217.38804011301104,"chidenguele-fan-cowling-recovery":53.22666326624119,"mauritius-left-flap-recovery":50.40286325300706,"mossel-bay-engine-cowling-recovery":38.29161239877545,"paindane-flap-fairing-recovery":65.37546048989994,"pemba-right-flap-recovery":62.41207069139744,"reunion-flaperon-recovery":1.1083671714375198,"rodrigues-door-panel-recovery":286.2089302023275,"vilanculos-stabilizer-recovery":67.61318353255778},"conditional_isotope_log_compatibility":0.0},{"id":"arc-133","latitude_deg":-20.3565063476563,"longitude_deg":104.461288452148,"evidence_log_likelihood":-76.83198747831054,"relative_log_likelihood":-32.61006996290551,"relative_likelihood":6.880603953319392e-15,"diagnostic_uniform_cell_mass":1.4353687327477273e-15,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.00859700023522666,"outside_spatial_support":0.009346807729054045,"land_encounter":0.9303190056789367,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":200.99247522916377,"chidenguele-fan-cowling-recovery":53.7324420904343,"mauritius-left-flap-recovery":151.98279460139437,"mossel-bay-engine-cowling-recovery":25.422179660959028,"paindane-flap-fairing-recovery":63.39075486100538,"pemba-right-flap-recovery":60.593210293479856,"reunion-flaperon-recovery":1.083903086666197,"rodrigues-door-panel-recovery":61.44147429501427,"vilanculos-stabilizer-recovery":83.34842465287221},"conditional_isotope_log_compatibility":0.0},{"id":"arc-134","latitude_deg":-20.9387512207031,"longitude_deg":104.191970825195,"evidence_log_likelihood":-65.80970851115482,"relative_log_likelihood":-21.5877909957498,"relative_likelihood":4.2125153272604325e-10,"diagnostic_uniform_cell_mass":8.787764603212167e-11,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.014352993280451816,"outside_spatial_support":0.01091331808504262,"land_encounter":0.8547592963243702,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":58.322802748670114,"chidenguele-fan-cowling-recovery":52.87631913826403,"mauritius-left-flap-recovery":68.08840892868251,"mossel-bay-engine-cowling-recovery":27.25603876834692,"paindane-flap-fairing-recovery":92.70618188804075,"pemba-right-flap-recovery":347.51605403499514,"reunion-flaperon-recovery":2.836479550353233,"rodrigues-door-panel-recovery":79.9517652574237,"vilanculos-stabilizer-recovery":64.56154148221124},"conditional_isotope_log_compatibility":0.0},{"id":"arc-135","latitude_deg":-21.517578125,"longitude_deg":103.91357421875,"evidence_log_likelihood":-73.7769257329711,"relative_log_likelihood":-29.55500821756607,"relative_likelihood":1.4602358902831576e-13,"diagnostic_uniform_cell_mass":3.046210701223878e-14,"source_prior_weight_removed":0.012987012987012988,"status":"no_flaperon_arrival","termination_reason_fractions":{"missing_field_coverage":0.0075033591531161355,"outside_spatial_support":0.008962341030872515,"land_encounter":0.9294088280920609,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":26.419810729438172,"chidenguele-fan-cowling-recovery":45.577859031702424,"mauritius-left-flap-recovery":46.757336353588066,"mossel-bay-engine-cowling-recovery":53.560965542391806,"paindane-flap-fairing-recovery":71.8808498735847,"pemba-right-flap-recovery":32.48963742109349,"reunion-flaperon-recovery":0.0,"rodrigues-door-panel-recovery":92.95930960084863,"vilanculos-stabilizer-recovery":216.9594039018069},"conditional_isotope_log_compatibility":null},{"id":"arc-136","latitude_deg":-22.0928344726563,"longitude_deg":103.6259765625,"evidence_log_likelihood":-77.3936189287106,"relative_log_likelihood":-33.17170141330557,"relative_likelihood":3.9238565407979e-15,"diagnostic_uniform_cell_mass":8.185591015933775e-16,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0070539342231772115,"outside_spatial_support":0.0066559544346086645,"land_encounter":0.931328547290955,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":126.84196758664828,"chidenguele-fan-cowling-recovery":46.958638458744886,"mauritius-left-flap-recovery":35.3231699018582,"mossel-bay-engine-cowling-recovery":66.7010785227144,"paindane-flap-fairing-recovery":74.72681775655093,"pemba-right-flap-recovery":359.66147075574867,"reunion-flaperon-recovery":1.9999927233440074,"rodrigues-door-panel-recovery":24.110052113724525,"vilanculos-stabilizer-recovery":58.391309998590735},"conditional_isotope_log_compatibility":0.0},{"id":"arc-137","latitude_deg":-22.6644592285156,"longitude_deg":103.329086303711,"evidence_log_likelihood":-80.26378605653707,"relative_log_likelihood":-36.04186854113205,"relative_likelihood":2.2244127468304e-16,"diagnostic_uniform_cell_mass":4.640366641049763e-17,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.01720573933559722,"outside_spatial_support":0.006902285540345396,"land_encounter":0.9359678745240021,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":26.70334934923237,"chidenguele-fan-cowling-recovery":32.25935407517618,"mauritius-left-flap-recovery":9.822010771963305,"mossel-bay-engine-cowling-recovery":17.11596152046155,"paindane-flap-fairing-recovery":41.441791954780534,"pemba-right-flap-recovery":162.75463320633568,"reunion-flaperon-recovery":1.9473594033813366,"rodrigues-door-panel-recovery":39.62039581140801,"vilanculos-stabilizer-recovery":178.6257176489723},"conditional_isotope_log_compatibility":0.0},{"id":"arc-138","latitude_deg":-23.2322692871094,"longitude_deg":103.022766113281,"evidence_log_likelihood":-72.1557096000465,"relative_log_likelihood":-27.933792084641482,"relative_likelihood":7.387682780453592e-13,"diagnostic_uniform_cell_mass":1.5411508847862398e-13,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.01597324445426282,"outside_spatial_support":0.00636559891692075,"land_encounter":0.9272819539495031,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":24.25936545863604,"chidenguele-fan-cowling-recovery":57.59465304885181,"mauritius-left-flap-recovery":84.71697769467076,"mossel-bay-engine-cowling-recovery":16.786712463779416,"paindane-flap-fairing-recovery":72.86545608854092,"pemba-right-flap-recovery":35.50539897759344,"reunion-flaperon-recovery":1.9896084665607765,"rodrigues-door-panel-recovery":33.7780346430591,"vilanculos-stabilizer-recovery":80.93159847825196},"conditional_isotope_log_compatibility":-2.2204460492503136e-16},{"id":"arc-139","latitude_deg":-23.796142578125,"longitude_deg":102.706909179688,"evidence_log_likelihood":-73.48053478269813,"relative_log_likelihood":-29.258617267293104,"relative_likelihood":1.9640112570855925e-13,"diagnostic_uniform_cell_mass":4.0971408444824326e-14,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.009494249499615071,"outside_spatial_support":0.006419228918137909,"land_encounter":0.9240331267044049,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":35.30603789206554,"chidenguele-fan-cowling-recovery":35.5488432712303,"mauritius-left-flap-recovery":36.70148672842178,"mossel-bay-engine-cowling-recovery":28.63316936385317,"paindane-flap-fairing-recovery":66.75595678309782,"pemba-right-flap-recovery":81.97308980841814,"reunion-flaperon-recovery":1.0,"rodrigues-door-panel-recovery":86.90015309532033,"vilanculos-stabilizer-recovery":128.54155697324745},"conditional_isotope_log_compatibility":0.0},{"id":"arc-140","latitude_deg":-24.35595703125,"longitude_deg":102.381408691406,"evidence_log_likelihood":-53.62765454508619,"relative_log_likelihood":-9.405737029681163,"relative_likelihood":8.225083390717242e-05,"diagnostic_uniform_cell_mass":1.7158417492671755e-05,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.012864362351120848,"outside_spatial_support":0.008790800987765683,"land_encounter":0.8417258590277225,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":38.40272908698897,"chidenguele-fan-cowling-recovery":59.46250858303362,"mauritius-left-flap-recovery":93.97554764358937,"mossel-bay-engine-cowling-recovery":33.96817437947156,"paindane-flap-fairing-recovery":130.05215726473938,"pemba-right-flap-recovery":92.2201917576004,"reunion-flaperon-recovery":13.283652016802197,"rodrigues-door-panel-recovery":147.98540882012585,"vilanculos-stabilizer-recovery":76.44589785649714},"conditional_isotope_log_compatibility":-3.338805604366424e-06},{"id":"arc-141","latitude_deg":-24.9115600585938,"longitude_deg":102.046142578125,"evidence_log_likelihood":-52.72120737805655,"relative_log_likelihood":-8.499289862651523,"relative_likelihood":0.00020361291081490488,"diagnostic_uniform_cell_mass":4.247586516391079e-05,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.011627547213819128,"outside_spatial_support":0.007753338491071297,"land_encounter":0.7158354424810084,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":63.86206087209694,"chidenguele-fan-cowling-recovery":78.34769148877307,"mauritius-left-flap-recovery":146.54770356035397,"mossel-bay-engine-cowling-recovery":22.972245317155522,"paindane-flap-fairing-recovery":77.1280343479292,"pemba-right-flap-recovery":66.75630736698639,"reunion-flaperon-recovery":24.506726943208125,"rodrigues-door-panel-recovery":129.5454938107491,"vilanculos-stabilizer-recovery":51.898289992139645},"conditional_isotope_log_compatibility":-0.0038169913989162998},{"id":"arc-142","latitude_deg":-25.4628295898438,"longitude_deg":101.70100402832,"evidence_log_likelihood":-54.00983347430687,"relative_log_likelihood":-9.787915958901849,"relative_likelihood":5.612574382955438e-05,"diagnostic_uniform_cell_mass":1.1708439890118389e-05,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.008204956241006494,"outside_spatial_support":0.00938952520641824,"land_encounter":0.6761732865244585,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":53.96238741297906,"chidenguele-fan-cowling-recovery":86.37046519494788,"mauritius-left-flap-recovery":117.53538363815743,"mossel-bay-engine-cowling-recovery":57.08353990780644,"paindane-flap-fairing-recovery":60.108177255116786,"pemba-right-flap-recovery":64.054933352257,"reunion-flaperon-recovery":2.1006091374641005,"rodrigues-door-panel-recovery":101.24060097399929,"vilanculos-stabilizer-recovery":49.323531841987965},"conditional_isotope_log_compatibility":-3.030259593266429e-06},{"id":"arc-143","latitude_deg":-26.0095825195313,"longitude_deg":101.34587097168,"evidence_log_likelihood":-49.50164356874126,"relative_log_likelihood":-5.279726053336233,"relative_likelihood":0.005093826038228018,"diagnostic_uniform_cell_mass":0.0010626274488304839,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.00967878294488087,"outside_spatial_support":0.007661981450657502,"land_encounter":0.5956004775538958,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":98.60673327629776,"chidenguele-fan-cowling-recovery":73.05394319540578,"mauritius-left-flap-recovery":114.10532470907191,"mossel-bay-engine-cowling-recovery":16.325047890773185,"paindane-flap-fairing-recovery":61.640992153328824,"pemba-right-flap-recovery":48.983967448541165,"reunion-flaperon-recovery":56.76341282413185,"rodrigues-door-panel-recovery":91.17893803141972,"vilanculos-stabilizer-recovery":48.01683056520428},"conditional_isotope_log_compatibility":-4.087179625044924e-06},{"id":"arc-144","latitude_deg":-26.5517272949219,"longitude_deg":100.98063659668,"evidence_log_likelihood":-47.31667045870627,"relative_log_likelihood":-3.094752943301245,"relative_likelihood":0.04528619933720897,"diagnostic_uniform_cell_mass":0.009447193152608597,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.015641534408333144,"outside_spatial_support":0.005553996237885833,"land_encounter":0.6795427625407957,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":100.35980285364678,"chidenguele-fan-cowling-recovery":91.02251539969558,"mauritius-left-flap-recovery":90.15176311451674,"mossel-bay-engine-cowling-recovery":34.969676584916414,"paindane-flap-fairing-recovery":82.0861077600103,"pemba-right-flap-recovery":51.877767797652076,"reunion-flaperon-recovery":79.72987178369445,"rodrigues-door-panel-recovery":99.47367071338643,"vilanculos-stabilizer-recovery":64.13754758528981},"conditional_isotope_log_compatibility":-2.703398334736787e-06},{"id":"arc-145","latitude_deg":-27.0890502929688,"longitude_deg":100.605163574219,"evidence_log_likelihood":-48.0759273533382,"relative_log_likelihood":-3.8540098379331766,"relative_likelihood":0.021194578991880625,"diagnostic_uniform_cell_mass":0.0044214194269997,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.008683640811475083,"outside_spatial_support":0.009217502967947162,"land_encounter":0.66856916713801,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":92.40293881682629,"chidenguele-fan-cowling-recovery":83.60707524593359,"mauritius-left-flap-recovery":97.16029833982365,"mossel-bay-engine-cowling-recovery":30.597832687873066,"paindane-flap-fairing-recovery":83.46236520994636,"pemba-right-flap-recovery":41.402458203567974,"reunion-flaperon-recovery":126.69531205424617,"rodrigues-door-panel-recovery":97.25841554715869,"vilanculos-stabilizer-recovery":52.91535613494649},"conditional_isotope_log_compatibility":-1.0814169711299992e-05},{"id":"arc-146","latitude_deg":-27.6214599609375,"longitude_deg":100.219345092773,"evidence_log_likelihood":-46.28677820881005,"relative_log_likelihood":-2.0648606934050235,"relative_likelihood":0.12683595842283063,"diagnostic_uniform_cell_mass":0.026459358821312895,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.008749303076318701,"outside_spatial_support":0.008372852653118084,"land_encounter":0.6606897425377292,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":71.16949765189251,"chidenguele-fan-cowling-recovery":87.58459791802679,"mauritius-left-flap-recovery":97.73243706481958,"mossel-bay-engine-cowling-recovery":28.34773746765535,"paindane-flap-fairing-recovery":68.05604020058028,"pemba-right-flap-recovery":75.99673429551073,"reunion-flaperon-recovery":116.39811875298318,"rodrigues-door-panel-recovery":129.0291780100733,"vilanculos-stabilizer-recovery":85.19453891160965},"conditional_isotope_log_compatibility":-1.964417150935826e-07},{"id":"arc-147","latitude_deg":-28.1487426757813,"longitude_deg":99.8230743408203,"evidence_log_likelihood":-48.85552366020721,"relative_log_likelihood":-4.633606144802187,"relative_likelihood":0.009719645379146984,"diagnostic_uniform_cell_mass":0.0020276236163677217,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0077903625325907,"outside_spatial_support":0.00510825118303279,"land_encounter":0.6373142439322504,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":144.00110533292298,"chidenguele-fan-cowling-recovery":87.7821131647954,"mauritius-left-flap-recovery":115.71028066029389,"mossel-bay-engine-cowling-recovery":14.275979727579296,"paindane-flap-fairing-recovery":54.9527649955495,"pemba-right-flap-recovery":78.86797734069597,"reunion-flaperon-recovery":105.41674467634608,"rodrigues-door-panel-recovery":190.60811828200627,"vilanculos-stabilizer-recovery":52.770679276690956},"conditional_isotope_log_compatibility":-1.5165859794202016e-08},{"id":"arc-148","latitude_deg":-28.6707763671875,"longitude_deg":99.4162139892578,"evidence_log_likelihood":-49.487260366753844,"relative_log_likelihood":-5.265342851348819,"relative_likelihood":0.005167620998736719,"diagnostic_uniform_cell_mass":0.001078021879271062,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.010376461564943843,"outside_spatial_support":0.006590267921318015,"land_encounter":0.6856503124098072,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":99.33535825121191,"chidenguele-fan-cowling-recovery":84.59148081595907,"mauritius-left-flap-recovery":112.8601423021866,"mossel-bay-engine-cowling-recovery":20.367665694975006,"paindane-flap-fairing-recovery":50.68875151823571,"pemba-right-flap-recovery":135.96250211747832,"reunion-flaperon-recovery":53.71675965651096,"rodrigues-door-panel-recovery":252.12459385245285,"vilanculos-stabilizer-recovery":62.13502572167334},"conditional_isotope_log_compatibility":-3.7301523827718593e-06},{"id":"arc-149","latitude_deg":-29.1873779296875,"longitude_deg":98.9986724853516,"evidence_log_likelihood":-48.15737733294678,"relative_log_likelihood":-3.935459817541755,"relative_likelihood":0.019536713938036264,"diagnostic_uniform_cell_mass":0.004075570766395522,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.010335263767994395,"outside_spatial_support":0.009363600817014173,"land_encounter":0.687968681615412,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":83.31420112891526,"chidenguele-fan-cowling-recovery":96.42324139746782,"mauritius-left-flap-recovery":84.0743741284941,"mossel-bay-engine-cowling-recovery":19.64122794949577,"paindane-flap-fairing-recovery":64.92647030374094,"pemba-right-flap-recovery":75.10310235709142,"reunion-flaperon-recovery":135.66434225342257,"rodrigues-door-panel-recovery":123.29405704651568,"vilanculos-stabilizer-recovery":50.836727857184805},"conditional_isotope_log_compatibility":-0.00012262466474885776},{"id":"arc-150","latitude_deg":-29.6984252929688,"longitude_deg":98.5703277587891,"evidence_log_likelihood":-45.37699652363625,"relative_log_likelihood":-1.1550790082312261,"relative_likelihood":0.31503264574800416,"diagnostic_uniform_cell_mass":0.06571923228967837,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.011493371539845575,"outside_spatial_support":0.008262932056571718,"land_encounter":0.5951182915563873,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":123.92655811640662,"chidenguele-fan-cowling-recovery":83.45122772948089,"mauritius-left-flap-recovery":103.98459306060522,"mossel-bay-engine-cowling-recovery":30.555065303916184,"paindane-flap-fairing-recovery":50.299763367110586,"pemba-right-flap-recovery":87.71821986897764,"reunion-flaperon-recovery":206.57674077974033,"rodrigues-door-panel-recovery":101.97817849940816,"vilanculos-stabilizer-recovery":84.40411372407335},"conditional_isotope_log_compatibility":-9.880319805027804e-07},{"id":"arc-151","latitude_deg":-30.2036743164063,"longitude_deg":98.1310729980469,"evidence_log_likelihood":-49.78873688528316,"relative_log_likelihood":-5.566819369878132,"relative_likelihood":0.003822619456072987,"diagnostic_uniform_cell_mass":0.0007974399459212115,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.01211117748653985,"outside_spatial_support":0.008570224229417323,"land_encounter":0.718331845749581,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":83.36892330755886,"chidenguele-fan-cowling-recovery":91.9237960660322,"mauritius-left-flap-recovery":92.91420724787126,"mossel-bay-engine-cowling-recovery":40.573487033066996,"paindane-flap-fairing-recovery":74.29080786622691,"pemba-right-flap-recovery":60.33077243529294,"reunion-flaperon-recovery":109.8533513402986,"rodrigues-door-panel-recovery":87.89679068350996,"vilanculos-stabilizer-recovery":69.56941290721649},"conditional_isotope_log_compatibility":-0.00027383969250807384},{"id":"arc-152","latitude_deg":-30.7030334472656,"longitude_deg":97.6808013916016,"evidence_log_likelihood":-44.221917515405025,"relative_log_likelihood":0.0,"relative_likelihood":1.0,"diagnostic_uniform_cell_mass":0.20861086359363354,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.009253506192093293,"outside_spatial_support":0.008321668068059063,"land_encounter":0.5722617132734614,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":83.35092205166785,"chidenguele-fan-cowling-recovery":119.40837075097346,"mauritius-left-flap-recovery":128.54442983033982,"mossel-bay-engine-cowling-recovery":16.541770494835717,"paindane-flap-fairing-recovery":80.85366807977209,"pemba-right-flap-recovery":100.74347620166924,"reunion-flaperon-recovery":205.85610390787303,"rodrigues-door-panel-recovery":166.9523703717045,"vilanculos-stabilizer-recovery":66.75933910674738},"conditional_isotope_log_compatibility":-5.3668453011882565e-08},{"id":"arc-153","latitude_deg":-31.1962585449219,"longitude_deg":97.2194061279297,"evidence_log_likelihood":-44.49838615639503,"relative_log_likelihood":-0.2764686409900037,"relative_likelihood":0.7584574032320354,"diagnostic_uniform_cell_mass":0.15822245388721964,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.012008047725464733,"outside_spatial_support":0.007722947760657201,"land_encounter":0.6261523080491983,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":97.14726610387346,"chidenguele-fan-cowling-recovery":105.33823591856815,"mauritius-left-flap-recovery":86.80894132017211,"mossel-bay-engine-cowling-recovery":51.82801545503084,"paindane-flap-fairing-recovery":78.41078464915925,"pemba-right-flap-recovery":53.08465367594203,"reunion-flaperon-recovery":212.74756735770518,"rodrigues-door-panel-recovery":192.97482543159748,"vilanculos-stabilizer-recovery":80.45503155243313},"conditional_isotope_log_compatibility":-5.521602651681274e-05},{"id":"arc-154","latitude_deg":-31.6832275390625,"longitude_deg":96.7467956542969,"evidence_log_likelihood":-44.47956950885764,"relative_log_likelihood":-0.2576519934526118,"relative_likelihood":0.7728641470955565,"diagnostic_uniform_cell_mass":0.16122785716616106,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.012004414030689569,"outside_spatial_support":0.00739960099063973,"land_encounter":0.6199834952962875,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":97.24873189900305,"chidenguele-fan-cowling-recovery":107.39694459492645,"mauritius-left-flap-recovery":117.69535803911583,"mossel-bay-engine-cowling-recovery":37.450079357232475,"paindane-flap-fairing-recovery":73.70132128822452,"pemba-right-flap-recovery":82.25250483749866,"reunion-flaperon-recovery":319.59856354937483,"rodrigues-door-panel-recovery":106.04668695541336,"vilanculos-stabilizer-recovery":61.14960345815512},"conditional_isotope_log_compatibility":-1.5035491194426912e-07},{"id":"arc-155","latitude_deg":-32.1637268066406,"longitude_deg":96.2628784179688,"evidence_log_likelihood":-45.038642977623425,"relative_log_likelihood":-0.8167254622184004,"relative_likelihood":0.4418762284640951,"diagnostic_uniform_cell_mass":0.09218018162139259,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.011681546811252747,"outside_spatial_support":0.007077088086467353,"land_encounter":0.6264527244723287,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":96.66451498334652,"chidenguele-fan-cowling-recovery":96.47337617203749,"mauritius-left-flap-recovery":99.86288701663399,"mossel-bay-engine-cowling-recovery":38.7486175402744,"paindane-flap-fairing-recovery":90.50198653765642,"pemba-right-flap-recovery":70.17512795670547,"reunion-flaperon-recovery":200.17222961107313,"rodrigues-door-panel-recovery":115.63267087724307,"vilanculos-stabilizer-recovery":60.89362560448226},"conditional_isotope_log_compatibility":-2.9580780572414134e-05},{"id":"arc-156","latitude_deg":-32.6375732421875,"longitude_deg":95.7675476074219,"evidence_log_likelihood":-46.067380307797976,"relative_log_likelihood":-1.8454627923929507,"relative_likelihood":0.15795220489331488,"diagnostic_uniform_cell_mass":0.03295054586931297,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.010061958841857982,"outside_spatial_support":0.007229660395913824,"land_encounter":0.5851648896000401,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":98.91909457813011,"chidenguele-fan-cowling-recovery":125.8989341039379,"mauritius-left-flap-recovery":121.15597919798628,"mossel-bay-engine-cowling-recovery":12.157592247530433,"paindane-flap-fairing-recovery":69.543134201742,"pemba-right-flap-recovery":65.56038137726276,"reunion-flaperon-recovery":231.92821619106587,"rodrigues-door-panel-recovery":116.17602052563778,"vilanculos-stabilizer-recovery":75.42121161838323},"conditional_isotope_log_compatibility":-1.6691904491836427e-06},{"id":"arc-157","latitude_deg":-33.1045837402344,"longitude_deg":95.2607421875,"evidence_log_likelihood":-46.93002699657988,"relative_log_likelihood":-2.7081094811748585,"relative_likelihood":0.06666271477895869,"diagnostic_uniform_cell_mass":0.013906566499534648,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.008432590557747461,"outside_spatial_support":0.004804766645924896,"land_encounter":0.5191548370120211,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":116.34956154497573,"chidenguele-fan-cowling-recovery":80.32105179739919,"mauritius-left-flap-recovery":105.64209054581298,"mossel-bay-engine-cowling-recovery":10.219536291046346,"paindane-flap-fairing-recovery":38.59605551093988,"pemba-right-flap-recovery":74.63913302540539,"reunion-flaperon-recovery":241.8629273629523,"rodrigues-door-panel-recovery":151.18773163498855,"vilanculos-stabilizer-recovery":60.676651237203295},"conditional_isotope_log_compatibility":-1.9578986542125357e-05},{"id":"arc-158","latitude_deg":-33.5645751953125,"longitude_deg":94.7423553466797,"evidence_log_likelihood":-45.01833174020196,"relative_log_likelihood":-0.7964142247969335,"relative_likelihood":0.4509430489179373,"diagnostic_uniform_cell_mass":0.09407161886631703,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.006006014481423802,"outside_spatial_support":0.004855802672940357,"land_encounter":0.5379529606007594,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":133.08132311268184,"chidenguele-fan-cowling-recovery":126.58107085323098,"mauritius-left-flap-recovery":88.4545635745559,"mossel-bay-engine-cowling-recovery":24.913290511282597,"paindane-flap-fairing-recovery":45.85043841030266,"pemba-right-flap-recovery":84.53341636506536,"reunion-flaperon-recovery":201.0917066240756,"rodrigues-door-panel-recovery":124.94391648600963,"vilanculos-stabilizer-recovery":64.40611150606784},"conditional_isotope_log_compatibility":-8.901034987189467e-05},{"id":"arc-159","latitude_deg":-34.0173645019531,"longitude_deg":94.2123565673828,"evidence_log_likelihood":-47.746171876533566,"relative_log_likelihood":-3.5242543611285413,"relative_likelihood":0.029473775970820265,"diagnostic_uniform_cell_mass":0.0061485498586381,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.007174836392145516,"outside_spatial_support":0.005877472165724779,"land_encounter":0.49946582783643406,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":119.78662703683877,"chidenguele-fan-cowling-recovery":138.62108346741132,"mauritius-left-flap-recovery":145.49607343759877,"mossel-bay-engine-cowling-recovery":5.381294418912505,"paindane-flap-fairing-recovery":20.792508474520332,"pemba-right-flap-recovery":108.83868638956687,"reunion-flaperon-recovery":162.05051413211496,"rodrigues-door-panel-recovery":112.47067993054564,"vilanculos-stabilizer-recovery":60.11673510449191},"conditional_isotope_log_compatibility":-6.0851885674611014e-05},{"id":"arc-160","latitude_deg":-34.4627380371094,"longitude_deg":93.670654296875,"evidence_log_likelihood":-46.72655651327432,"relative_log_likelihood":-2.504638997869293,"relative_likelihood":0.08170508837291904,"diagnostic_uniform_cell_mass":0.017044569045468787,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.009133389080917396,"outside_spatial_support":0.007497103700128237,"land_encounter":0.5266863322822819,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":139.54031392308423,"chidenguele-fan-cowling-recovery":84.43584030224706,"mauritius-left-flap-recovery":128.53919348888522,"mossel-bay-engine-cowling-recovery":10.807564518217884,"paindane-flap-fairing-recovery":42.4904988044533,"pemba-right-flap-recovery":94.21380485007903,"reunion-flaperon-recovery":198.05235358727802,"rodrigues-door-panel-recovery":136.52462037433364,"vilanculos-stabilizer-recovery":46.044544061298076},"conditional_isotope_log_compatibility":-4.55630781420984e-05},{"id":"arc-161","latitude_deg":-34.9004821777344,"longitude_deg":93.1172180175781,"evidence_log_likelihood":-46.2010481797809,"relative_log_likelihood":-1.979130664375873,"relative_likelihood":0.13818931800513332,"diagnostic_uniform_cell_mass":0.028827792968466114,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.008561257121790117,"outside_spatial_support":0.005718559577885621,"land_encounter":0.5101994438943761,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":85.81241162362808,"chidenguele-fan-cowling-recovery":116.06056756734851,"mauritius-left-flap-recovery":139.44871830464237,"mossel-bay-engine-cowling-recovery":3.9072680514648472,"paindane-flap-fairing-recovery":33.98758943311482,"pemba-right-flap-recovery":143.26952929578837,"reunion-flaperon-recovery":265.92794422578606,"rodrigues-door-panel-recovery":115.7281850458654,"vilanculos-stabilizer-recovery":48.09058532026017},"conditional_isotope_log_compatibility":-3.872713813573671e-08},{"id":"arc-162","latitude_deg":-35.3304443359375,"longitude_deg":92.552001953125,"evidence_log_likelihood":-47.30223003293602,"relative_log_likelihood":-3.0803125175309987,"relative_likelihood":0.04594489581975206,"diagnostic_uniform_cell_mass":0.009584604394678,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.008074856274924642,"outside_spatial_support":0.00843671168691474,"land_encounter":0.5250573283926935,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":156.5658039561969,"chidenguele-fan-cowling-recovery":88.02108231417516,"mauritius-left-flap-recovery":102.67438007502889,"mossel-bay-engine-cowling-recovery":8.526069883906608,"paindane-flap-fairing-recovery":69.39944591967615,"pemba-right-flap-recovery":94.14171638870776,"reunion-flaperon-recovery":172.65961340654937,"rodrigues-door-panel-recovery":109.42401916619646,"vilanculos-stabilizer-recovery":43.42337771304193},"conditional_isotope_log_compatibility":-2.0725388702529588e-05},{"id":"arc-163","latitude_deg":-35.7523803710938,"longitude_deg":91.9749603271484,"evidence_log_likelihood":-45.66800263561149,"relative_log_likelihood":-1.4460851202064617,"relative_likelihood":0.23549040246824576,"diagnostic_uniform_cell_mass":0.04912585622691308,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.008458842561256069,"outside_spatial_support":0.005860415250831328,"land_encounter":0.5112891998003206,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":93.72988579178204,"chidenguele-fan-cowling-recovery":115.34515613863279,"mauritius-left-flap-recovery":148.55346820366012,"mossel-bay-engine-cowling-recovery":8.861275906557989,"paindane-flap-fairing-recovery":27.320156018861173,"pemba-right-flap-recovery":84.13383575811406,"reunion-flaperon-recovery":224.17334860908255,"rodrigues-door-panel-recovery":152.84724865636272,"vilanculos-stabilizer-recovery":52.05566511248993},"conditional_isotope_log_compatibility":-4.879461065451045e-08},{"id":"arc-164","latitude_deg":-36.1660766601563,"longitude_deg":91.3860778808594,"evidence_log_likelihood":-51.142960386274524,"relative_log_likelihood":-6.921042870869499,"relative_likelihood":0.0009868002984474162,"diagnostic_uniform_cell_mass":0.0002058572624535708,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.006967961782280052,"outside_spatial_support":0.005179119211135093,"land_encounter":0.4790412758995726,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":166.80115850504518,"chidenguele-fan-cowling-recovery":44.90058226542433,"mauritius-left-flap-recovery":111.75774185446367,"mossel-bay-engine-cowling-recovery":3.508832034656665,"paindane-flap-fairing-recovery":11.736492390640901,"pemba-right-flap-recovery":128.7212303880881,"reunion-flaperon-recovery":363.57610266115114,"rodrigues-door-panel-recovery":157.522684784025,"vilanculos-stabilizer-recovery":46.52749251054208},"conditional_isotope_log_compatibility":-6.0080040071538346e-05},{"id":"arc-165","latitude_deg":-36.5713806152344,"longitude_deg":90.7853546142578,"evidence_log_likelihood":-47.923170558725104,"relative_log_likelihood":-3.7012530433200794,"relative_likelihood":0.024692566221964068,"diagnostic_uniform_cell_mass":0.005151137563906909,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.004267040296378572,"outside_spatial_support":0.011424039075467908,"land_encounter":0.4657403036895879,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":152.4985687152027,"chidenguele-fan-cowling-recovery":90.85270015582232,"mauritius-left-flap-recovery":110.9425220051752,"mossel-bay-engine-cowling-recovery":2.928251375764985,"paindane-flap-fairing-recovery":13.683222210999727,"pemba-right-flap-recovery":118.07679063744921,"reunion-flaperon-recovery":335.9256614615956,"rodrigues-door-panel-recovery":145.46982374750243,"vilanculos-stabilizer-recovery":68.83896679970458},"conditional_isotope_log_compatibility":-9.003469876009965e-07},{"id":"arc-166","latitude_deg":-36.968017578125,"longitude_deg":90.1728057861328,"evidence_log_likelihood":-48.25864873591307,"relative_log_likelihood":-4.036731220508045,"relative_likelihood":0.017655088788873282,"diagnostic_uniform_cell_mass":0.003683043319069133,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.003733331178302107,"outside_spatial_support":0.008410635799444004,"land_encounter":0.4636667828022378,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":202.44222524044795,"chidenguele-fan-cowling-recovery":69.26733275889207,"mauritius-left-flap-recovery":116.67358628330777,"mossel-bay-engine-cowling-recovery":4.592734989795949,"paindane-flap-fairing-recovery":18.265714294214007,"pemba-right-flap-recovery":149.87596901339825,"reunion-flaperon-recovery":353.1593319206022,"rodrigues-door-panel-recovery":128.7191968179941,"vilanculos-stabilizer-recovery":42.47793934563514},"conditional_isotope_log_compatibility":-8.075140556555638e-11},{"id":"arc-167","latitude_deg":-37.3558349609375,"longitude_deg":89.5484313964844,"evidence_log_likelihood":-53.78901962890143,"relative_log_likelihood":-9.567102113496404,"relative_likelihood":6.999392443297188e-05,"diagnostic_uniform_cell_mass":1.460149302226979e-05,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.004854164086544734,"outside_spatial_support":0.009243147618103653,"land_encounter":0.473232590239637,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":112.90355702128929,"chidenguele-fan-cowling-recovery":56.6525049439025,"mauritius-left-flap-recovery":106.26370473339861,"mossel-bay-engine-cowling-recovery":1.0239329951931706,"paindane-flap-fairing-recovery":12.036503699196398,"pemba-right-flap-recovery":86.81012168697168,"reunion-flaperon-recovery":379.88351987156966,"rodrigues-door-panel-recovery":124.27856837365205,"vilanculos-stabilizer-recovery":33.69382865562802},"conditional_isotope_log_compatibility":-2.353561789905639e-12},{"id":"arc-168","latitude_deg":-37.7345886230469,"longitude_deg":88.9122772216797,"evidence_log_likelihood":-50.27993462780326,"relative_log_likelihood":-6.0580171123982325,"relative_likelihood":0.0023390343343905728,"diagnostic_uniform_cell_mass":0.00048794797247237717,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.003379735893230602,"outside_spatial_support":0.011999002776934753,"land_encounter":0.45500414154246965,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":119.62320867199229,"chidenguele-fan-cowling-recovery":74.89385647569252,"mauritius-left-flap-recovery":134.1186454968485,"mossel-bay-engine-cowling-recovery":1.8625986202906109,"paindane-flap-fairing-recovery":15.03307451288366,"pemba-right-flap-recovery":106.44145389002416,"reunion-flaperon-recovery":296.1708423398,"rodrigues-door-panel-recovery":127.43694107575271,"vilanculos-stabilizer-recovery":40.68485569897313},"conditional_isotope_log_compatibility":-3.9245273697551666e-12},{"id":"arc-169","latitude_deg":-38.1040649414063,"longitude_deg":88.2643890380859,"evidence_log_likelihood":-49.45921514960661,"relative_log_likelihood":-5.237297634201582,"relative_likelihood":0.00531459943941873,"diagnostic_uniform_cell_mass":0.001108683178711382,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.003967134193346804,"outside_spatial_support":0.024273577699752878,"land_encounter":0.4402931063413378,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":124.41911518721359,"chidenguele-fan-cowling-recovery":69.7078543430671,"mauritius-left-flap-recovery":129.8569487148701,"mossel-bay-engine-cowling-recovery":1.9997708280401645,"paindane-flap-fairing-recovery":14.017693816015582,"pemba-right-flap-recovery":178.1379837597135,"reunion-flaperon-recovery":382.3247483388214,"rodrigues-door-panel-recovery":96.86001606303796,"vilanculos-stabilizer-recovery":48.363377870766485},"conditional_isotope_log_compatibility":-7.103384521970288e-08},{"id":"arc-170","latitude_deg":-38.4640808105469,"longitude_deg":87.6048278808594,"evidence_log_likelihood":-48.773993806282064,"relative_log_likelihood":-4.552076290877039,"relative_likelihood":0.01054528655556206,"diagnostic_uniform_cell_mass":0.002199861335198135,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0030149069312775,"outside_spatial_support":0.016294243168313946,"land_encounter":0.45375944437682325,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":117.1255285090669,"chidenguele-fan-cowling-recovery":54.38442883371714,"mauritius-left-flap-recovery":171.35485641236906,"mossel-bay-engine-cowling-recovery":3.752978514494293,"paindane-flap-fairing-recovery":12.520355287700655,"pemba-right-flap-recovery":139.15146979381026,"reunion-flaperon-recovery":311.46876383427343,"rodrigues-door-panel-recovery":129.44114634610358,"vilanculos-stabilizer-recovery":51.631433045755045},"conditional_isotope_log_compatibility":0.0},{"id":"arc-171","latitude_deg":-38.8143920898438,"longitude_deg":86.9337005615234,"evidence_log_likelihood":-63.68854774203899,"relative_log_likelihood":-19.466630226633967,"relative_likelihood":3.5135805256428587e-09,"diagnostic_uniform_cell_mass":7.329710677601296e-10,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0020665322105937545,"outside_spatial_support":0.04953904790880682,"land_encounter":0.40290366007898204,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":151.91675199933277,"chidenguele-fan-cowling-recovery":42.80229524671046,"mauritius-left-flap-recovery":105.15625233711793,"mossel-bay-engine-cowling-recovery":1.0000000000005866,"paindane-flap-fairing-recovery":6.323710155762138,"pemba-right-flap-recovery":186.70209683870698,"reunion-flaperon-recovery":328.74711119397335,"rodrigues-door-panel-recovery":112.13000915243211,"vilanculos-stabilizer-recovery":32.066000435192464},"conditional_isotope_log_compatibility":-3.488623376968936e-05},{"id":"arc-172","latitude_deg":-39.15478515625,"longitude_deg":86.2511138916016,"evidence_log_likelihood":-55.822522386627796,"relative_log_likelihood":-11.600604871222771,"relative_likelihood":9.16054511000711e-06,"diagnostic_uniform_cell_mass":1.9109892263870196e-06,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0019258067033352225,"outside_spatial_support":0.07635113514792904,"land_encounter":0.45447641930198174,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":89.1695220049002,"chidenguele-fan-cowling-recovery":39.32410843882814,"mauritius-left-flap-recovery":124.64381889186416,"mossel-bay-engine-cowling-recovery":1.0000000835264673,"paindane-flap-fairing-recovery":8.683710663290821,"pemba-right-flap-recovery":149.1734867935324,"reunion-flaperon-recovery":398.3118883184308,"rodrigues-door-panel-recovery":113.61404774862731,"vilanculos-stabilizer-recovery":10.21989334243343},"conditional_isotope_log_compatibility":-3.4227638624982516e-05},{"id":"arc-173","latitude_deg":-39.4850769042969,"longitude_deg":85.5571594238281,"evidence_log_likelihood":-66.54060590385664,"relative_log_likelihood":-22.31868838845162,"relative_likelihood":2.028228073104906e-10,"diagnostic_uniform_cell_mass":4.2311040989526576e-11,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0019887476740661682,"outside_spatial_support":0.0766526945731743,"land_encounter":0.44645065863252814,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":205.31091289268466,"chidenguele-fan-cowling-recovery":37.84847285966825,"mauritius-left-flap-recovery":96.24353205039587,"mossel-bay-engine-cowling-recovery":1.0000000000000075,"paindane-flap-fairing-recovery":6.133173404553147,"pemba-right-flap-recovery":135.7601571285391,"reunion-flaperon-recovery":304.2089151150617,"rodrigues-door-panel-recovery":122.49714424953495,"vilanculos-stabilizer-recovery":33.33102240920656},"conditional_isotope_log_compatibility":-1.993591958381326e-10},{"id":"arc-174","latitude_deg":-39.8050537109375,"longitude_deg":84.8520050048828,"evidence_log_likelihood":-78.40026128035866,"relative_log_likelihood":-34.17834376495364,"relative_likelihood":1.433949649959929e-15,"diagnostic_uniform_cell_mass":2.991374748279293e-16,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0004214196377649418,"outside_spatial_support":0.09013821997974543,"land_encounter":0.673940934134525,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":171.01553553035444,"chidenguele-fan-cowling-recovery":14.18990412343259,"mauritius-left-flap-recovery":70.56190996094548,"mossel-bay-engine-cowling-recovery":1.02690320078959,"paindane-flap-fairing-recovery":2.161807244889579,"pemba-right-flap-recovery":112.54726977206984,"reunion-flaperon-recovery":234.03977769224292,"rodrigues-door-panel-recovery":89.75969685522529,"vilanculos-stabilizer-recovery":7.751772330696238},"conditional_isotope_log_compatibility":-2.671318721816515e-11},{"id":"arc-175","latitude_deg":-40.1144714355469,"longitude_deg":84.1358184814453,"evidence_log_likelihood":-64.26009461817533,"relative_log_likelihood":-20.038177102770305,"relative_likelihood":1.9839478717066653e-09,"diagnostic_uniform_cell_mass":4.138730788414787e-10,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0015175578483595448,"outside_spatial_support":0.09214910141270198,"land_encounter":0.47998522315816317,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":129.58994661772138,"chidenguele-fan-cowling-recovery":36.184166219963274,"mauritius-left-flap-recovery":91.21223538850653,"mossel-bay-engine-cowling-recovery":1.004425947418865,"paindane-flap-fairing-recovery":3.963201684245847,"pemba-right-flap-recovery":160.10478842684702,"reunion-flaperon-recovery":163.09191490793697,"rodrigues-door-panel-recovery":102.43216536639898,"vilanculos-stabilizer-recovery":30.67805644054383},"conditional_isotope_log_compatibility":-5.058990655301278e-06},{"id":"arc-176","latitude_deg":-40.4131774902344,"longitude_deg":83.4087829589844,"evidence_log_likelihood":-55.8846330572422,"relative_log_likelihood":-11.662715541837173,"relative_likelihood":8.608886779061618e-06,"diagnostic_uniform_cell_mass":1.7959073055598582e-06,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0009642045612122503,"outside_spatial_support":0.09056209741044477,"land_encounter":0.47036729872709715,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":106.20313083461318,"chidenguele-fan-cowling-recovery":50.54174946705046,"mauritius-left-flap-recovery":131.5951789580551,"mossel-bay-engine-cowling-recovery":1.0,"paindane-flap-fairing-recovery":8.548024518303604,"pemba-right-flap-recovery":143.55862075371826,"reunion-flaperon-recovery":228.61778655161572,"rodrigues-door-panel-recovery":111.06330613827329,"vilanculos-stabilizer-recovery":26.469404905650467},"conditional_isotope_log_compatibility":0.0},{"id":"arc-177","latitude_deg":-40.7008972167969,"longitude_deg":82.6710968017578,"evidence_log_likelihood":-79.60880576293198,"relative_log_likelihood":-35.386888247526954,"relative_likelihood":4.2822271670260183e-16,"diagnostic_uniform_cell_mass":8.933191074174165e-17,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0004102054370162593,"outside_spatial_support":0.0879936753074784,"land_encounter":0.6915776388626066,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":182.7716123315525,"chidenguele-fan-cowling-recovery":15.073152218517093,"mauritius-left-flap-recovery":58.526364863288876,"mossel-bay-engine-cowling-recovery":1.0,"paindane-flap-fairing-recovery":3.679990613894666,"pemba-right-flap-recovery":72.22122517025956,"reunion-flaperon-recovery":106.12836988618805,"rodrigues-door-panel-recovery":83.17376378257177,"vilanculos-stabilizer-recovery":7.670819548044766},"conditional_isotope_log_compatibility":-0.00011007255455626958},{"id":"arc-178","latitude_deg":-40.9774780273438,"longitude_deg":81.9230041503906,"evidence_log_likelihood":-88.68644203063612,"relative_log_likelihood":-44.46452451523109,"relative_likelihood":4.8899268518343847e-20,"diagnostic_uniform_cell_mass":1.0200918634708687e-20,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.00011729971216569683,"outside_spatial_support":0.08974995805160327,"land_encounter":0.7776587554631627,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":77.01482972359405,"chidenguele-fan-cowling-recovery":6.8474214872445165,"mauritius-left-flap-recovery":43.88436607052299,"mossel-bay-engine-cowling-recovery":1.0,"paindane-flap-fairing-recovery":1.3388604955058732,"pemba-right-flap-recovery":77.96093658475259,"reunion-flaperon-recovery":34.96988902983595,"rodrigues-door-panel-recovery":63.38703080308014,"vilanculos-stabilizer-recovery":6.41056404620114},"conditional_isotope_log_compatibility":0.0},{"id":"arc-179","latitude_deg":-41.2427368164063,"longitude_deg":81.1647644042969,"evidence_log_likelihood":-98.84117530999212,"relative_log_likelihood":-54.6192577945871,"relative_likelihood":1.901768869969748e-24,"diagnostic_uniform_cell_mass":3.9672964631987765e-25,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":3.947052139238423e-05,"outside_spatial_support":0.09389217298718892,"land_encounter":0.8347344035240327,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":75.96471685684143,"chidenguele-fan-cowling-recovery":5.117597914028903,"mauritius-left-flap-recovery":26.20986805199015,"mossel-bay-engine-cowling-recovery":1.066313027820616,"paindane-flap-fairing-recovery":1.4348878411485897,"pemba-right-flap-recovery":26.382259516713717,"reunion-flaperon-recovery":6.363548335970592,"rodrigues-door-panel-recovery":7.859388572597832,"vilanculos-stabilizer-recovery":2.8772944887396026},"conditional_isotope_log_compatibility":0.0},{"id":"arc-180","latitude_deg":-41.4964294433594,"longitude_deg":80.3966522216797,"evidence_log_likelihood":-80.69601300335253,"relative_log_likelihood":-36.47409548794751,"relative_likelihood":1.4437819139689608e-16,"diagnostic_uniform_cell_mass":3.0118859191393406e-17,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0006160886528419714,"outside_spatial_support":0.09228388701871164,"land_encounter":0.7092903731478748,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":169.08517726994157,"chidenguele-fan-cowling-recovery":5.213277280532655,"mauritius-left-flap-recovery":61.26638717284038,"mossel-bay-engine-cowling-recovery":1.3187570619313778,"paindane-flap-fairing-recovery":1.253237730866173,"pemba-right-flap-recovery":82.30000561322402,"reunion-flaperon-recovery":26.57105399191213,"rodrigues-door-panel-recovery":47.090900524647175,"vilanculos-stabilizer-recovery":3.936946034125268},"conditional_isotope_log_compatibility":0.0},{"id":"arc-181","latitude_deg":-41.7383728027344,"longitude_deg":79.6189727783203,"evidence_log_likelihood":-84.09078046430318,"relative_log_likelihood":-39.868862948898155,"relative_likelihood":4.843650756818202e-18,"diagnostic_uniform_cell_mass":1.0104381673258018e-18,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0002406704744977037,"outside_spatial_support":0.0926145284485807,"land_encounter":0.7734382890983058,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":44.97120276855769,"chidenguele-fan-cowling-recovery":4.129532104802181,"mauritius-left-flap-recovery":42.46578777928835,"mossel-bay-engine-cowling-recovery":1.962725623879721,"paindane-flap-fairing-recovery":1.9048214656366014,"pemba-right-flap-recovery":38.79825361166275,"reunion-flaperon-recovery":41.43059258936854,"rodrigues-door-panel-recovery":29.17044275211863,"vilanculos-stabilizer-recovery":2.600955111308031},"conditional_isotope_log_compatibility":0.0},{"id":"arc-182","latitude_deg":-41.9684143066406,"longitude_deg":78.83203125,"evidence_log_likelihood":-78.59542416640842,"relative_log_likelihood":-34.373506651003396,"relative_likelihood":1.1797112957306889e-15,"diagnostic_uniform_cell_mass":2.461005921935434e-16,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.00034404420303327135,"outside_spatial_support":0.09135579668893612,"land_encounter":0.7132574836083122,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":123.96277736848421,"chidenguele-fan-cowling-recovery":17.54505935893261,"mauritius-left-flap-recovery":51.510273010080724,"mossel-bay-engine-cowling-recovery":1.9796371121676843,"paindane-flap-fairing-recovery":1.0436854589783142,"pemba-right-flap-recovery":67.98081595662553,"reunion-flaperon-recovery":55.79112441516145,"rodrigues-door-panel-recovery":78.07418921490107,"vilanculos-stabilizer-recovery":1.571728729308154},"conditional_isotope_log_compatibility":0.0},{"id":"arc-183","latitude_deg":-42.1863708496094,"longitude_deg":78.0362091064453,"evidence_log_likelihood":-114.76369458318696,"relative_log_likelihood":-70.54177706778194,"relative_likelihood":2.312573133111045e-31,"diagnostic_uniform_cell_mass":4.8242787842173e-32,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":1.3294456298818456e-05,"outside_spatial_support":0.2189976652256168,"land_encounter":0.7228298537670071,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":19.513671817102267,"chidenguele-fan-cowling-recovery":1.975803789046765,"mauritius-left-flap-recovery":2.8019460256817874,"mossel-bay-engine-cowling-recovery":1.008033593973326,"paindane-flap-fairing-recovery":1.0000000002748484,"pemba-right-flap-recovery":2.1633234102293444,"reunion-flaperon-recovery":2.0014022509057234,"rodrigues-door-panel-recovery":2.7455949703119087,"vilanculos-stabilizer-recovery":2.000144036169492},"conditional_isotope_log_compatibility":0.0},{"id":"arc-184","latitude_deg":-42.3920288085938,"longitude_deg":77.2318725585938,"evidence_log_likelihood":-179.64575796779826,"relative_log_likelihood":-135.42384045239322,"relative_likelihood":1.5352297348768934e-59,"diagnostic_uniform_cell_mass":3.202656008072938e-60,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0,"outside_spatial_support":0.12674617472557914,"land_encounter":0.8290411065265353,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":2.1364216221741623,"chidenguele-fan-cowling-recovery":1.047338355191147,"mauritius-left-flap-recovery":0.0,"mossel-bay-engine-cowling-recovery":0.0,"paindane-flap-fairing-recovery":0.0,"pemba-right-flap-recovery":0.0,"reunion-flaperon-recovery":0.0,"rodrigues-door-panel-recovery":0.0,"vilanculos-stabilizer-recovery":0.0},"conditional_isotope_log_compatibility":-1.6386891843468653e-13},{"id":"arc-185","latitude_deg":-42.5852661132813,"longitude_deg":76.4194183349609,"evidence_log_likelihood":-169.9092484877013,"relative_log_likelihood":-125.68733097229627,"relative_likelihood":2.59827858321928e-55,"diagnostic_uniform_cell_mass":5.4202913910221665e-56,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0,"outside_spatial_support":0.1496837143255659,"land_encounter":0.8022089717100092,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":2.407853210850927,"chidenguele-fan-cowling-recovery":1.0000000132304219,"mauritius-left-flap-recovery":1.867737291061382,"mossel-bay-engine-cowling-recovery":0.0,"paindane-flap-fairing-recovery":1.0109799662709253,"pemba-right-flap-recovery":1.3011754805865408,"reunion-flaperon-recovery":0.0,"rodrigues-door-panel-recovery":1.5019888451511494,"vilanculos-stabilizer-recovery":1.5805418466221695},"conditional_isotope_log_compatibility":0.0},{"id":"arc-186","latitude_deg":-42.7659301757813,"longitude_deg":75.5992584228516,"evidence_log_likelihood":-167.83149931733723,"relative_log_likelihood":-123.60958180193221,"relative_likelihood":2.0751080398945457e-54,"diagnostic_uniform_cell_mass":4.3289008025249336e-55,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0,"outside_spatial_support":0.20107235631157697,"land_encounter":0.7542479601924952,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":2.1566992329177004,"chidenguele-fan-cowling-recovery":1.0,"mauritius-left-flap-recovery":3.313150726252764,"mossel-bay-engine-cowling-recovery":0.0,"paindane-flap-fairing-recovery":1.0000983300353707,"pemba-right-flap-recovery":0.0,"reunion-flaperon-recovery":1.1150476906022386,"rodrigues-door-panel-recovery":1.682244278701546,"vilanculos-stabilizer-recovery":1.0000000003647036},"conditional_isotope_log_compatibility":0.0},{"id":"arc-187","latitude_deg":-42.933837890625,"longitude_deg":74.7718505859375,"evidence_log_likelihood":-132.8890635260361,"relative_log_likelihood":-88.66714601063107,"relative_likelihood":3.107046560998933e-39,"diagnostic_uniform_cell_mass":6.481636663156166e-40,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.00018701808480516366,"outside_spatial_support":0.13671960397074534,"land_encounter":0.8322873985839991,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":7.13920656676098,"chidenguele-fan-cowling-recovery":1.3969924310141144,"mauritius-left-flap-recovery":5.6054099670066195,"mossel-bay-engine-cowling-recovery":0.0,"paindane-flap-fairing-recovery":1.0,"pemba-right-flap-recovery":2.922237224305165,"reunion-flaperon-recovery":1.4221848190788826,"rodrigues-door-panel-recovery":2.380809289406352,"vilanculos-stabilizer-recovery":1.0000101975565172},"conditional_isotope_log_compatibility":0.0},{"id":"arc-188","latitude_deg":-43.0888671875,"longitude_deg":73.9376373291016,"evidence_log_likelihood":-75.8174650159102,"relative_log_likelihood":-31.595547500505177,"relative_likelihood":1.897702229483159e-14,"diagnostic_uniform_cell_mass":3.958813009360455e-15,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0006141866408244631,"outside_spatial_support":0.09907586055367017,"land_encounter":0.6058079276831317,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":84.89004017763536,"chidenguele-fan-cowling-recovery":20.541937091092937,"mauritius-left-flap-recovery":87.68784989069188,"mossel-bay-engine-cowling-recovery":1.067039589824764,"paindane-flap-fairing-recovery":5.050686756136742,"pemba-right-flap-recovery":94.11882244062609,"reunion-flaperon-recovery":29.52156002264473,"rodrigues-door-panel-recovery":99.65097876667114,"vilanculos-stabilizer-recovery":7.233817014090159},"conditional_isotope_log_compatibility":0.0},{"id":"arc-189","latitude_deg":-43.2308654785156,"longitude_deg":73.0971374511719,"evidence_log_likelihood":-117.08022624465052,"relative_log_likelihood":-72.8583087292455,"relative_likelihood":2.2805445372187072e-32,"diagnostic_uniform_cell_mass":4.757463653729378e-33,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.00010772457596805088,"outside_spatial_support":0.0988480099420288,"land_encounter":0.8498849133337443,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":17.38188193604547,"chidenguele-fan-cowling-recovery":1.0052739515347842,"mauritius-left-flap-recovery":10.73211896923993,"mossel-bay-engine-cowling-recovery":1.5615025869473582,"paindane-flap-fairing-recovery":1.0514770374790565,"pemba-right-flap-recovery":22.03647876803318,"reunion-flaperon-recovery":1.1913745292639013,"rodrigues-door-panel-recovery":22.272274484763418,"vilanculos-stabilizer-recovery":1.0034620001496115},"conditional_isotope_log_compatibility":0.0},{"id":"arc-190","latitude_deg":-43.3597106933594,"longitude_deg":72.2508239746094,"evidence_log_likelihood":-116.41147635646382,"relative_log_likelihood":-72.1895588410588,"relative_likelihood":4.451157322115368e-32,"diagnostic_uniform_cell_mass":9.285597729576121e-33,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.0,"outside_spatial_support":0.25017133908512834,"land_encounter":0.6977219909337906,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":3.663516299895733,"chidenguele-fan-cowling-recovery":5.868076303150978,"mauritius-left-flap-recovery":11.567353974029388,"mossel-bay-engine-cowling-recovery":1.09425185176857,"paindane-flap-fairing-recovery":2.437430395615583,"pemba-right-flap-recovery":10.195343297920793,"reunion-flaperon-recovery":1.000000021157522,"rodrigues-door-panel-recovery":4.715494366929352,"vilanculos-stabilizer-recovery":1.9090462071186818},"conditional_isotope_log_compatibility":0.0},{"id":"arc-191","latitude_deg":-43.475341796875,"longitude_deg":71.3992309570313,"evidence_log_likelihood":-114.23913218526356,"relative_log_likelihood":-70.01721466985853,"relative_likelihood":3.9075993675949795e-31,"diagnostic_uniform_cell_mass":8.15167678651925e-32,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":0.00028499195998407136,"outside_spatial_support":0.2297626025176602,"land_encounter":0.6888417183011116,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":11.382155116644968,"chidenguele-fan-cowling-recovery":2.0907216784957656,"mauritius-left-flap-recovery":24.172413554382608,"mossel-bay-engine-cowling-recovery":1.000007872163635,"paindane-flap-fairing-recovery":1.018823842890355,"pemba-right-flap-recovery":30.180184724701405,"reunion-flaperon-recovery":1.9717816890207471,"rodrigues-door-panel-recovery":28.631402404916223,"vilanculos-stabilizer-recovery":1.915722265101867},"conditional_isotope_log_compatibility":0.0},{"id":"arc-192","latitude_deg":-43.5775756835938,"longitude_deg":70.5429229736328,"evidence_log_likelihood":-87.26768472578237,"relative_log_likelihood":-43.04576721037735,"relative_likelihood":2.0205091952621283e-19,"diagnostic_uniform_cell_mass":4.215001681225101e-20,"source_prior_weight_removed":0.012987012987012988,"status":"supported","termination_reason_fractions":{"missing_field_coverage":5.2497507372495663e-05,"outside_spatial_support":0.12568969790911452,"land_encounter":0.7552233842302389,"beaching":0.0,"outside_time_support":0.0,"numerical_failure":0.0},"event_effective_sample_size":{"antsiraka-cabin-panel-recovery":47.91924757745861,"chidenguele-fan-cowling-recovery":5.2830856450830606,"mauritius-left-flap-recovery":46.33653980523636,"mossel-bay-engine-cowling-recovery":1.0439494240740115,"paindane-flap-fairing-recovery":1.2986499681090524,"pemba-right-flap-recovery":35.97560239885208,"reunion-flaperon-recovery":6.83157057093681,"rodrigues-door-panel-recovery":25.924541440982367,"vilanculos-stabilizer-recovery":3.2597872807610315},"conditional_isotope_log_compatibility":0.0}]}]};
+const familySelect=document.getElementById('family');
+for(const family of handoff.families){const option=document.createElement('option');option.value=family.id;option.textContent=family.label;familySelect.appendChild(option);}
+function haversineNm(a,b,c,d){const r=3440.065,rad=Math.PI/180;const p1=a*rad,p2=c*rad,dp=(c-a)*rad,dl=(d-b)*rad;const h=Math.sin(dp/2)**2+Math.cos(p1)*Math.cos(p2)*Math.sin(dl/2)**2;return 2*r*Math.asin(Math.sqrt(Math.min(1,h)));}
+document.getElementById('query').addEventListener('click',()=>{
+ const family=handoff.families.find(item=>item.id===familySelect.value);
+ const latitude=Number(document.getElementById('latitude').value),longitude=Number(document.getElementById('longitude').value);
+ let best=null,distance=Infinity;for(const cell of family.cells){const value=haversineNm(latitude,longitude,cell.latitude_deg,cell.longitude_deg);if(value<distance){distance=value;best=cell;}}
+ const target=document.getElementById('query-result');
+ if(!Number.isFinite(latitude)||!Number.isFinite(longitude)){target.textContent='Enter finite coordinates.';return;}
+ if(distance>handoff.query_contract.maximum_nearest_cell_distance_nm){target.innerHTML=`<strong>out_of_support</strong> · nearest cell ${best.id} is ${distance.toFixed(1)} NM away · no likelihood returned`;return;}
+ target.innerHTML=`<strong>${family.decision}</strong> · cell ${best.id} · ${distance.toFixed(1)} NM · relative likelihood ${best.relative_likelihood.toPrecision(5)} · relative log-likelihood ${best.relative_log_likelihood.toFixed(4)}`;
+});
+</script></body></html>

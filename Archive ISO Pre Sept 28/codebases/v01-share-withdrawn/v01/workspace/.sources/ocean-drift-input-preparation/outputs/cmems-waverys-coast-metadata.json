@@ -1,0 +1,34 @@
+{
+  "axis_order": [
+    "time",
+    "latitude",
+    "longitude"
+  ],
+  "binary_format": "MHGRID1 little-endian",
+  "binary_sha256": "e9b97c21272bac674f9dba3dd28121e73775438e7eee8493c94770385c1ddec4",
+  "component_units": {
+    "land_fraction": "binary fraction 0 water 1 persistent wave-model mask"
+  },
+  "converter_version": "ocean-input-preparation-v4",
+  "definition": "land_fraction=1 exactly where both WAVERYS Stokes components are missing at every retrieved three-hour analysis; the converter rejects a time-varying or component-varying mask",
+  "family": "cmems_waverys_reanalysis",
+  "field_role": "coastal_support",
+  "latitude_units": "degrees_north WGS84",
+  "limitations": [
+    "This is the native wave model persistent support mask, not a measured shoreline-distance, beaching-probability, retention, or refloating model.",
+    "Its 0.2-degree coastal support is coarser than GLORYS12 currents and can terminate a path before the geometric shoreline.",
+    "No beaching_rate component is present, so the transport code cannot invent coastal retention."
+  ],
+  "longitude_units": "degrees_east WGS84",
+  "name": "CMEMS WAVERYS persistent-mask coastal support field",
+  "persistent_mask_counts": {
+    "masked_cells": 90617,
+    "water_cells": 190484
+  },
+  "retrieval_manifest": {
+    "path": ".sources/ocean-drift-input-preparation/outputs/cmems-waverys-retrieval-manifest.json",
+    "sha256": "4790a438a3938686e7b778e417ff6d9245f6d84be9f8a79e17c73aca07a59cd0"
+  },
+  "schema": "mh370-gridded-field-input-v1",
+  "time_axis": "constant over the WAVERYS retrieval interval"
+}

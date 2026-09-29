@@ -1,0 +1,161 @@
+[
+  {
+    "first": "terminal-refinement-control",
+    "second": "terminal-quarter-step-control",
+    "changed_outcomes": [],
+    "common_impacts": 291,
+    "max_impact_distance_m": 21.592544766791804,
+    "max_impact_time_difference_s": 0.06209112814030959,
+    "max_bfo_difference_hz": 0.8471685237813631,
+    "worst_bfo_case": [
+      0.8471685237813631,
+      [
+        "openap26-signed-lift-6-targets",
+        11
+      ],
+      "m0019a",
+      155.27255758175025
+    ]
+  },
+  {
+    "first": "terminal-quarter-step-control",
+    "second": "terminal-eighth-step-control",
+    "changed_outcomes": [
+      [
+        [
+          "openap26-best-glide",
+          10
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          11
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          12
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-positive-lift-1-targets",
+          12
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          13
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          15
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          16
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          18
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          22
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          25
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-best-glide",
+          28
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-positive-lift-1-targets",
+          28
+        ],
+        "impact",
+        "maximum_steps"
+      ],
+      [
+        [
+          "openap26-positive-lift-1-targets",
+          29
+        ],
+        "impact",
+        "maximum_steps"
+      ]
+    ],
+    "common_impacts": 278,
+    "max_impact_distance_m": 5.290292752967764,
+    "max_impact_time_difference_s": 0.015068316755787237,
+    "max_bfo_difference_hz": 0.21370970688644775,
+    "worst_bfo_case": [
+      0.21370970688644775,
+      [
+        "openap26-signed-lift-6-targets",
+        11
+      ],
+      "m0019a",
+      156.1197261055316
+    ]
+  },
+  {
+    "first": "terminal-eighth-step-control",
+    "second": "terminal-control-cadence-refinement",
+    "changed_outcomes": [],
+    "common_impacts": 278,
+    "max_impact_distance_m": 238.13836473674843,
+    "max_impact_time_difference_s": 0.12897245270869462,
+    "max_bfo_difference_hz": 5.068601514507918,
+    "worst_bfo_case": [
+      5.068601514507918,
+      [
+        "openap2020-signed-lift-6-targets",
+        1
+      ],
+      "m0019b",
+      43.462428431780125
+    ]
+  }
+]

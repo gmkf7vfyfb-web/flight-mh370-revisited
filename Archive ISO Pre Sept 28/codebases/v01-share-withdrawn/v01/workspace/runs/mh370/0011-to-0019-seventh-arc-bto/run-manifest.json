@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "engine_version": "0.1.0",
+  "executable_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+  "command": "continue-to-contact",
+  "config_path": "configs/mh370-0011-to-0019-seventh-arc-bto.toml",
+  "config_sha256": "73eef215ca8292dfc4fa7170d678241bad7d0316abfa53043f23d0858aa96dc3",
+  "input_sha256": {
+    "configs/../inputs/accident/satcom-observations.csv": "bd344ba05826f9176f394ac42e04b5f2ba4c5705c8a980b7655579024dc0d4e0",
+    "configs/../inputs/accident/satellite-ephemeris.csv": "4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2",
+    "configs/../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior-handoff.json": "c632671784813ab804ebb31abab7a0dfc7d9a43acc213119f252ffcd1aca6ba3",
+    "configs/../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370024/posterior-handoff.json": "6b1aad4d7c08cc02dc9b56ba0658d82f013348429ab5ed941997ce4f4fb4c764",
+    "configs/../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370025/posterior-handoff.json": "be7f80e710a9a3031f9df31b982a1a44aa2a6327881da4f522bd27d9f2012df4",
+    "configs/../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370026/posterior-handoff.json": "18dc434dc676e9eb46013d5c334c590288f4782d1b5587823fac4843c51ede03",
+    "configs/../runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370027/posterior-handoff.json": "486b5938decd725b4f10392beef136f4c70c77453711c4cd6ab019e9b53daabb"
+  },
+  "outputs": {
+    "posterior.csv": "581fa2f2fb6647fd8fe02f0f0b6e45a9e50155e1c4e50844bcabbb67c7c925f2",
+    "posterior.png": "f72caff8ed8b72b75720dcca2bf1ac8347e13f0d9c64507e29e5e34b69ddb757",
+    "posterior.svg": "f7a6853f4e3e54cf4369786c0cf8c5b183c51f1ef6fe600df8bba4600ee8ff3c",
+    "report.pdf": "2d6deb4aaba3cde09d02b9b67890d399ec79b9e666c17202a237291c50580e7f",
+    "seed-370023/posterior-handoff.json": "0f2b666cb9a4f9825f8e461ab80a7e347dbe1844729b6876b5365759dcdc3ac0",
+    "seed-370024/posterior-handoff.json": "8d4c905d88b9d18dadc34a5179fce667e000a6e1b4c184af8e32c89dd2406a03",
+    "seed-370025/posterior-handoff.json": "5b24f345de59a6c406494958cb6a89a6ec52a9202d546da4298a7446e90ff216",
+    "seed-370026/posterior-handoff.json": "e1501c12268bae097e3af3f5eaadb78141dab5899369fdc01e889aa24a21b0d0",
+    "seed-370027/posterior-handoff.json": "d8d897f8a229aac7317c09955364ffcb034697bdf5ac47603dcbd82eb711a2e6",
+    "summary.json": "1b6957013b1fc83faa622dc245fdf724d093a661a9fad5896309335cc3adae66"
+  },
+  "scientific_scope": [
+    "This is a typed conditional continuation of completed 00:11 posterior handoffs, not a fresh fit.",
+    "The frozen constant-true-track propagation is a short-horizon control and is not the physical end-of-flight transition model.",
+    "Each numerical seed is updated and normalized independently; the report gives every seed equal mixture weight.",
+    "Only the explicitly selected target evidence is consumed atomically from each source evidence ledger.",
+    "Only the target epoch's BTO likelihood updates particle probability.",
+    "The report overlays a calculated equal-BTO arc at posterior-weighted mean altitude."
+  ]
+}

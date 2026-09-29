@@ -1,0 +1,31 @@
+[package]
+name = "mh370-runner"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[[bin]]
+name = "mh370"
+path = "src/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+clap.workspace = true
+hex.workspace = true
+mh370-antenna = { path = "../antenna" }
+mh370-controls = { path = "../controls" }
+mh370-domain = { path = "../domain" }
+mh370-dynamics = { path = "../dynamics" }
+mh370-hydroacoustics = { path = "../hydroacoustics" }
+mh370-ocean-drift = { path = "../ocean-drift" }
+mh370-estimator = { path = "../estimator" }
+mh370-end-of-flight = { path = "../end-of-flight" }
+mh370-particle-filter = { path = "../particle-filter" }
+mh370-reporting = { path = "../reporting" }
+mh370-satcom = { path = "../satcom" }
+rayon.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+toml.workspace = true

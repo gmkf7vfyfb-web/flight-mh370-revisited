@@ -1,0 +1,3480 @@
+{
+  "component_units": {
+    "VSDX": "m s-1 east surface Stokes",
+    "VSDY": "m s-1 north surface Stokes"
+  },
+  "credential_environment_variables": [
+    "COPERNICUSMARINE_SERVICE_USERNAME",
+    "COPERNICUSMARINE_SERVICE_PASSWORD"
+  ],
+  "dataset_id": "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+  "dataset_part": "default",
+  "dataset_version": "202411",
+  "file_format": "NetCDF4 with compression level 4",
+  "files": [
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 12667962,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-03-07T00:00:00+00:00",
+        "--end-datetime",
+        "2014-03-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-03.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-03-07T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-03-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-03",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-03.nc",
+      "requested_end": "2014-03-31",
+      "requested_start": "2014-03-07",
+      "sha256": "786bf093c2aa3a2520c698cba2bfccc5fed82ba6c8b7ba68a2d5dfa09ef8006f",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 200,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "4216.38 MB",
+        "file_size": "131.90 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 14834433,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-04-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-04-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-04.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-04-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-04-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-04",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-04.nc",
+      "requested_end": "2014-04-30",
+      "requested_start": "2014-04-01",
+      "sha256": "a4a8c92a968ba4f7adbf766eccdd7c24625a7a993c7a250e75233fe7a965b62e",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16152777,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-05-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-05-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-05.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-05-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-05-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-05",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-05.nc",
+      "requested_end": "2014-05-31",
+      "requested_start": "2014-05-01",
+      "sha256": "d5494f3eea784e6dba78874f8b3d9f587be24b26aa91554bd906494116d31813",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16099040,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-06-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-06-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-06.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-06-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-06-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-06",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-06.nc",
+      "requested_end": "2014-06-30",
+      "requested_start": "2014-06-01",
+      "sha256": "ce84dfc3ec4f6555df2a4e3274e1cc5a2ec3e1d371ac9fd77053ef3f718b24da",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16697787,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-07-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-07-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-07.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-07-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-07-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-07",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-07.nc",
+      "requested_end": "2014-07-31",
+      "requested_start": "2014-07-01",
+      "sha256": "3e20416720535be888424b536c29882f9affcbe788b4f8b74f80183e289085fc",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16462812,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-08-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-08-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-08.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-08-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-08-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-08",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-08.nc",
+      "requested_end": "2014-08-31",
+      "requested_start": "2014-08-01",
+      "sha256": "5d3a5247b860bd117f721cb33aa161e8f663523a7e965f4a60c86401f0b996db",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16070270,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-09-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-09-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-09.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-09-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-09-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-09",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-09.nc",
+      "requested_end": "2014-09-30",
+      "requested_start": "2014-09-01",
+      "sha256": "67d5652ee81d1e7c7d9116270c2f23ecf8808f206283b3bf8101c993274becf3",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16152860,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-10-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-10-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-10.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-10-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-10-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-10",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-10.nc",
+      "requested_end": "2014-10-31",
+      "requested_start": "2014-10-01",
+      "sha256": "2e394a37d83bcbe3af83b33c4c22aed57d96833cbab071cc64e05a3b12479e27",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15309421,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-11-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-11-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-11.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-11-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-11-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-11",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-11.nc",
+      "requested_end": "2014-11-30",
+      "requested_start": "2014-11-01",
+      "sha256": "d4957a1be11dd227afe150dc0f2ee8b3ae21a34b9b9ca34a3c5e53289085509f",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15847919,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2014-12-01T00:00:00+00:00",
+        "--end-datetime",
+        "2014-12-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2014-12.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2014-12-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2014-12-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2014-12",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2014-12.nc",
+      "requested_end": "2014-12-31",
+      "requested_start": "2014-12-01",
+      "sha256": "5e0341ac0297d852447f872b050daeadfb82da41c45163ecc879d183e8d1344f",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16399067,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-01-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-01-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-01.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-01-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-01-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-01",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-01.nc",
+      "requested_end": "2015-01-31",
+      "requested_start": "2015-01-01",
+      "sha256": "c471de2dc51d0c242e7148ee4b3f803ec07049da9356a9ef0aa0117c51602a0b",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 14615814,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-02-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-02-28T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-02.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-02-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-02-28T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-02",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-02.nc",
+      "requested_end": "2015-02-28",
+      "requested_start": "2015-02-01",
+      "sha256": "9cad1242abb18fd5137cba714af972488ee674e5d9194684196d85f7c4eb952d",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 224,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "4722.34 MB",
+        "file_size": "147.73 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15479895,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-03-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-03-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-03.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-03-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-03-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-03",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-03.nc",
+      "requested_end": "2015-03-31",
+      "requested_start": "2015-03-01",
+      "sha256": "7e648b77b0ee7c3b656d17ee1ee76022f0d6bda852c2a8ae2be4a5e484f2d823",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15091396,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-04-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-04-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-04.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-04-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-04-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-04",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-04.nc",
+      "requested_end": "2015-04-30",
+      "requested_start": "2015-04-01",
+      "sha256": "001fd3b2918b9257f68e44c6dab19dece58cba32c527a348f913a3f7c7a58e64",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15880238,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-05-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-05-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-05.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-05-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-05-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-05",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-05.nc",
+      "requested_end": "2015-05-31",
+      "requested_start": "2015-05-01",
+      "sha256": "6d6902845c590a6d8446687cf33792b7d3072d160ba08d2eb703326acd754fbf",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15851341,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-06-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-06-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-06.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-06-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-06-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-06",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-06.nc",
+      "requested_end": "2015-06-30",
+      "requested_start": "2015-06-01",
+      "sha256": "6154181cbdc4700ed2d6981f785af5cb8eddd3e2aabbf7cf67f6ecd7fff8ec67",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16660901,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-07-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-07-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-07.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-07-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-07-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-07",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-07.nc",
+      "requested_end": "2015-07-31",
+      "requested_start": "2015-07-01",
+      "sha256": "20e2fb85f8787809053211addc6bb74bf7aa50f88aa6403c815f3463d34ba2c2",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16303850,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-08-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-08-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-08.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-08-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-08-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-08",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-08.nc",
+      "requested_end": "2015-08-31",
+      "requested_start": "2015-08-01",
+      "sha256": "9988d15c23bd3f9c213fa824139fab6337698a35a89d20d045715d9eea22eae4",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15845819,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-09-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-09-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-09.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-09-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-09-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-09",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-09.nc",
+      "requested_end": "2015-09-30",
+      "requested_start": "2015-09-01",
+      "sha256": "91cf770e782a7cf12dfe73fffad75f2758a783675ff169522e00a8906a973bfb",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16018543,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-10-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-10-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-10.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-10-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-10-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-10",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-10.nc",
+      "requested_end": "2015-10-31",
+      "requested_start": "2015-10-01",
+      "sha256": "8484b975600146b9177c6bda9f05a7c255a507c5ed43eacebdc4f1ffe080581f",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15151932,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-11-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-11-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-11.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-11-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-11-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-11",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-11.nc",
+      "requested_end": "2015-11-30",
+      "requested_start": "2015-11-01",
+      "sha256": "1dabe8a61dca350e574f3f282cf713630652494a3c92c1ba43ccc2c12fc6b4f9",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15542692,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2015-12-01T00:00:00+00:00",
+        "--end-datetime",
+        "2015-12-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2015-12.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2015-12-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2015-12-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2015-12",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2015-12.nc",
+      "requested_end": "2015-12-31",
+      "requested_start": "2015-12-01",
+      "sha256": "713b7c11ed05c0c370181a03c7c20f422dc475ddde12ca008eeec0e765a87f0e",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16053391,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-01-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-01-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-01.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-01-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-01-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-01",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-01.nc",
+      "requested_end": "2016-01-31",
+      "requested_start": "2016-01-01",
+      "sha256": "ab976eac0f5ca56af81a13598c1e6ef2c90ba0fc164d1eab28da27120f05c46d",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15111584,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-02-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-02-29T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-02.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-02-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-02-29T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-02",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-02.nc",
+      "requested_end": "2016-02-29",
+      "requested_start": "2016-02-01",
+      "sha256": "997335c0f3b27719e4bdf8ba9f14144fdd5d891cada7bcb638f65fcf8e5ade3f",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 232,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "4891.00 MB",
+        "file_size": "153.01 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15602177,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-03-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-03-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-03.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-03-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-03-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-03",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-03.nc",
+      "requested_end": "2016-03-31",
+      "requested_start": "2016-03-01",
+      "sha256": "a27f9120ce5bf79b6c5975be76e5bcf43181b7002a27b17823579f80c5670c1a",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15011996,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-04-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-04-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-04.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-04-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-04-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-04",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-04.nc",
+      "requested_end": "2016-04-30",
+      "requested_start": "2016-04-01",
+      "sha256": "b4e7400c9c195c4bd7e6883f9da98797ed5c189dfdb306cd06b3d6b366ab913a",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16275018,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-05-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-05-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-05.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-05-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-05-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-05",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-05.nc",
+      "requested_end": "2016-05-31",
+      "requested_start": "2016-05-01",
+      "sha256": "a103e2a4396f0e415e4989177ae5362babf194c806708480db466b6c334d2177",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15832261,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-06-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-06-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-06.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-06-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-06-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-06",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-06.nc",
+      "requested_end": "2016-06-30",
+      "requested_start": "2016-06-01",
+      "sha256": "eb99039216fcebb80f3d1112b601f3360872e2be9607b9af6820cf7621736614",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16574536,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-07-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-07-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-07.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-07-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-07-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-07",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-07.nc",
+      "requested_end": "2016-07-31",
+      "requested_start": "2016-07-01",
+      "sha256": "19b58917b8a96ef179370b8eb1d6bdda01d2e333eb9c066510fde7900b972d96",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16659052,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-08-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-08-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-08.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-08-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-08-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-08",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-08.nc",
+      "requested_end": "2016-08-31",
+      "requested_start": "2016-08-01",
+      "sha256": "3ba815bb7d28e20d94fa1b60251370cfa156fd64b68bd8fec17da363e685b966",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15625627,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-09-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-09-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-09.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-09-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-09-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-09",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-09.nc",
+      "requested_end": "2016-09-30",
+      "requested_start": "2016-09-01",
+      "sha256": "d9b02b1d70ed987975e6305dd8f6592fd5f85b6317ac52629b041f131adbc5ea",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15941202,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-10-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-10-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-10.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-10-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-10-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-10",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-10.nc",
+      "requested_end": "2016-10-31",
+      "requested_start": "2016-10-01",
+      "sha256": "6208b4a0649a6ef1460518dc79a80a6b0ef3402a064fa47cc6e161eab4c12452",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15054691,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-11-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-11-30T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-11.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-11-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-11-30T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-11",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-11.nc",
+      "requested_end": "2016-11-30",
+      "requested_start": "2016-11-01",
+      "sha256": "f5906109e67d3ccd3771afed53253b7f156439ed1cf768137aa8dbb18909f5bf",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 240,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5059.65 MB",
+        "file_size": "158.28 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 15902265,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2016-12-01T00:00:00+00:00",
+        "--end-datetime",
+        "2016-12-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2016-12.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2016-12-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2016-12-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2016-12",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2016-12.nc",
+      "requested_end": "2016-12-31",
+      "requested_start": "2016-12-01",
+      "sha256": "b29b530b7eb57beadb084a6c007455679b8c6a3afb3cc1bf53d93eee52035380",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    },
+    {
+      "actual_bounds_degrees": {
+        "east": 135.0,
+        "north": 5.0,
+        "south": -50.0,
+        "west": 10.0
+      },
+      "bytes": 16062673,
+      "command": [
+        "/jackbox/home/MH370/.venv/bin/copernicusmarine",
+        "subset",
+        "--dataset-id",
+        "cmems_mod_glo_wav_my_0.2deg_PT3H-i",
+        "--dataset-version",
+        "202411",
+        "--dataset-part",
+        "default",
+        "--variable",
+        "VSDX",
+        "--variable",
+        "VSDY",
+        "--start-datetime",
+        "2017-01-01T00:00:00+00:00",
+        "--end-datetime",
+        "2017-01-31T21:00:00+00:00",
+        "--minimum-longitude",
+        "10.0",
+        "--maximum-longitude",
+        "135.0",
+        "--minimum-latitude",
+        "-50.0",
+        "--maximum-latitude",
+        "5.0",
+        "--coordinates-selection-method",
+        "outside",
+        "--output-directory",
+        "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw",
+        "--output-filename",
+        "cmems-waverys-stokes-2017-01.nc.partial.nc",
+        "--file-format",
+        "netcdf",
+        "--netcdf-compression-level",
+        "4",
+        "--disable-progress-bar",
+        "--log-level",
+        "ERROR",
+        "--raise-if-updating"
+      ],
+      "components": {
+        "VSDX": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift U",
+          "standard_name": "sea_surface_wave_stokes_drift_x_velocity",
+          "units": "m s-1"
+        },
+        "VSDY": {
+          "cell_methods": "time:point area:mean",
+          "long_name": "Stokes drift V",
+          "standard_name": "sea_surface_wave_stokes_drift_y_velocity",
+          "units": "m s-1"
+        }
+      },
+      "finite_fraction_including_land": {
+        "VSDX": 0.7842524424688614,
+        "VSDY": 0.7842524424688614
+      },
+      "first_time_utc": "2017-01-01T00:00:00Z",
+      "global_attributes": {
+        "Conventions": "CF-1.6",
+        "copernicusmarine_version": "2.4.1",
+        "dataset": "global-reanalysis-wav-001-032",
+        "institution": "METEO-FRANCE",
+        "product": "GLOBAL_REANALYSIS_WAV_001_032",
+        "title": "Mean fields from global wave model MFWAM of Meteo-France with ECMWF forcing",
+        "version": "1.2"
+      },
+      "last_time_utc": "2017-01-31T21:00:00Z",
+      "latitude_count": 276,
+      "longitude_count": 626,
+      "month": "2017-01",
+      "path": "/jackbox/home/.cache/mh370-ocean-inputs-multi-debris/waverys/raw/cmems-waverys-stokes-2017-01.nc",
+      "requested_end": "2017-01-31",
+      "requested_start": "2017-01-01",
+      "sha256": "d9671b519645f2cfc3e227b554272bcc85cd9811c4b5b559c4075e90a3f298a8",
+      "spacing_degrees": {
+        "latitude_median": 0.20000028610229492,
+        "longitude_median": 0.20000076293945312
+      },
+      "time_calendar": "gregorian",
+      "time_count": 248,
+      "time_units": "hours since 1950-01-01",
+      "toolbox_response": {
+        "data_transfer_size": "5228.31 MB",
+        "file_size": "163.56 MB",
+        "message": "The request was successful.",
+        "status": "000"
+      }
+    }
+  ],
+  "limitations": [
+    "WAVERYS is assimilative through significant-wave-height observations and uses GLORYS12 currents in the wave model.",
+    "VSDX/VSDY are surface Stokes velocities; their application to a partially submerged flaperon requires an explicit response sensitivity.",
+    "Direct aerodynamic windage and object-specific residual leeway remain distinct from this field."
+  ],
+  "official_product": "https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_WAV_001_032/description",
+  "official_subset_method": "https://help.marine.copernicus.eu/en/articles/7972861-copernicus-marine-toolbox-cli-subset",
+  "official_user_manual": "https://documentation.marine.copernicus.eu/PUM/CMEMS-GLO-PUM-001-032.pdf",
+  "product_id": "GLOBAL_MULTIYEAR_WAV_001_032",
+  "requested_bounds_degrees": {
+    "east": 135.0,
+    "north": 5.0,
+    "south": -50.0,
+    "west": 10.0
+  },
+  "requested_period": {
+    "end": "2017-01-31",
+    "start": "2014-03-07"
+  },
+  "requested_variables": [
+    "VSDX",
+    "VSDY"
+  ],
+  "schema": "mh370-cmems-waverys-retrieval-v1",
+  "selection_method": "outside",
+  "service_selection": "Copernicus Marine Toolbox automatic ARCO selection",
+  "summary": {
+    "all_file_sha256": "730e0e0a7e041a45e85a20e728a022d28912adf909ebfc612085abf8fa37363f",
+    "bytes": 550843242,
+    "file_count": 35,
+    "time_count": 8496
+  },
+  "time_basis": "three-hourly instantaneous analyses on a Gregorian UTC axis",
+  "toolbox_version": "copernicusmarine, version 2.4.1"
+}

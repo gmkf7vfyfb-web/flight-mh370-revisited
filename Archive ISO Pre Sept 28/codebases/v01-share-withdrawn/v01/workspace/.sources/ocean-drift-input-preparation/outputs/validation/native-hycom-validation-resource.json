@@ -1,0 +1,85 @@
+{
+  "schema": "mh370-trajectory-validation-resource-v1",
+  "scope": "resumed four-case subset; eight previously completed repaired-field cases were not duplicated",
+  "commands": [
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "hycom_gofs31_native_currents",
+      "/tmp/mh370-ocean-inputs-native/hycom-native.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "15",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-2015-15d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "hycom_gofs31_native_plus_distinct_stokes",
+      "/tmp/mh370-ocean-inputs-native/hycom-native.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "15",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-stokes-2015-15d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "hycom_gofs31_native_currents",
+      "/tmp/mh370-ocean-inputs-native/hycom-native.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "30",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-2015-30d.json",
+      "none",
+      "36"
+    ],
+    [
+      "/jackbox/home/MH370/target/release/examples/validate_current_trajectories",
+      "hycom_gofs31_native_plus_distinct_stokes",
+      "/tmp/mh370-ocean-inputs-native/hycom-native.mhgrid",
+      "/tmp/mh370-gdp-validation/gdp_6hour_2015.csv",
+      "30",
+      "600",
+      "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-stokes-2015-30d.json",
+      "/tmp/mh370-ocean-inputs-final/stokes.mhgrid",
+      "36"
+    ]
+  ],
+  "cases": [
+    {
+      "family": "hycom_gofs31_native_currents",
+      "year": 2015,
+      "horizon_days": 15,
+      "elapsed_wall_seconds": 12.030710763996467,
+      "output": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-2015-15d.json"
+    },
+    {
+      "family": "hycom_gofs31_native_plus_distinct_stokes",
+      "year": 2015,
+      "horizon_days": 15,
+      "elapsed_wall_seconds": 14.91983678098768,
+      "output": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-stokes-2015-15d.json"
+    },
+    {
+      "family": "hycom_gofs31_native_currents",
+      "year": 2015,
+      "horizon_days": 30,
+      "elapsed_wall_seconds": 13.287428070965689,
+      "output": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-2015-30d.json"
+    },
+    {
+      "family": "hycom_gofs31_native_plus_distinct_stokes",
+      "year": 2015,
+      "horizon_days": 30,
+      "elapsed_wall_seconds": 17.00368119601626,
+      "output": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/validation/native-hycom-stokes-2015-30d.json"
+    }
+  ],
+  "elapsed_wall_seconds": 57.25948733300902,
+  "maximum_child_resident_set_kib": 7718972,
+  "child_user_cpu_seconds": 10.974666,
+  "child_system_cpu_seconds": 20.276797,
+  "note": "ru_maxrss is the maximum resident set of any sequential validation child, not their sum."
+}

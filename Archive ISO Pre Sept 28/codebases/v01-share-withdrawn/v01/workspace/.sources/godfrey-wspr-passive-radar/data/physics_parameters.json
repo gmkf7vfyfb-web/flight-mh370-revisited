@@ -1,0 +1,25 @@
+{
+  "triangular_hop": {
+    "route_distance_km": 15000.0,
+    "hop_count": 5,
+    "representative_route_apex_height_km": 250.0,
+    "aircraft_ceiling_km": 12.0,
+    "representative_apex_heights_km": [100.0, 150.0, 200.0, 250.0, 300.0, 400.0],
+    "arrival_angles_deg": [2.0, 3.5, 7.97, 8.0],
+    "cruise_altitude_km": 10.0,
+    "published_example_altitude_ft": 9045.0,
+    "published_example_elevation_deg": 7.97
+  },
+  "bistatic_link_budget": {
+    "frequency_hz": 14097000.0,
+    "transmit_power_w": 1.0,
+    "transmitter_gain_linear": 1.0,
+    "receiver_gain_linear": 1.0,
+    "transmitter_to_aircraft_m": 9868000.0,
+    "aircraft_to_receiver_m": 6660000.0,
+    "direct_path_m": 16527000.0,
+    "favourable_rcs_m2": 18791.0,
+    "optimistic_noise_floor_dbm": -129.0,
+    "wspr_threshold_snr_db": -30.0
+  }
+}

@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MH370 posterior evolution and search context</title>
+<style>
+body{margin:0;background:#f4f6f8;color:#1e2935;font:15px/1.5 system-ui,sans-serif}main{max-width:1180px;margin:auto;padding:28px}
+h1{color:#173a60;margin-bottom:4px}.lead{color:#52606d;margin-top:0}.card{background:white;border:1px solid #d8dee5;border-radius:9px;padding:20px;margin:18px 0;box-shadow:0 2px 10px #25364d12}
+img{display:block;width:100%;height:auto}a{color:#195f92}table{border-collapse:collapse;width:100%;font-size:13px}th,td{padding:8px;border-bottom:1px solid #e0e5ea;text-align:left}th{background:#eef3f7}.warning{border-left:4px solid #b43737;padding-left:12px;color:#792222}
+</style></head><body><main>
+<h1>MH370 posterior evolution and seabed-search context</h1>
+<p class="lead">Canonical v0.1 posterior states with Davey and searched-area context.</p>
+<div class="card"><p><a href="posterior-evolution-search-context.svg">SVG</a> · <a href="posterior-evolution-search-context.pdf">vector PDF</a> · <a href="posterior-evolution-search-context.png">PNG</a></p><img src="posterior-evolution-search-context.png" alt="MH370 posterior and search context"></div>
+<div class="card"><h2>Numerical display summary</h2><table><thead><tr><th>State</th><th>N</th><th>ESS</th><th>Weighted mean</th><th>50 / 95 / 99% HPD km²</th></tr></thead><tbody><tr><td>00:11 · BTO + medium BFO</td><td>150,000</td><td>145,223.3</td><td>36.4086°S, 89.4961°E</td><td>4,112 / 17,952 / 27,744</td></tr><tr><td>00:19:29 · corrected R600 BTO</td><td>150,000</td><td>135,729.4</td><td>37.4546°S, 89.3735°E</td><td>4,080 / 17,840 / 27,568</td></tr><tr><td>Impact · primary conditional EOF</td><td>2,560</td><td>1,930.3</td><td>38.1596°S, 89.4088°E</td><td>4,544 / 20,176 / 31,552</td></tr></tbody></table></div>
+<div class="card warning"><strong>Scientific boundary.</strong> The impact surface is conditional on the v0.1 primary end-of-flight proxy. Davey is shown only as the published one-dimensional 00:19 latitude marginal; no 2D Davey grid is invented. Search layers are context, not negative evidence or calibrated probability-of-detection masks.</div>
+<div class="card"><p><a href="caption.md">Full caption</a> · <a href="summary.json">machine summary</a> · <a href="run-manifest.json">provenance manifest</a> · <a href="artifact-sha256.json">artifact hashes</a></p></div>
+</main></body></html>

@@ -1,0 +1,27 @@
+{
+  "status": "not_integrated",
+  "updated_utc": "2026-09-09T19:42:58.554644+00:00",
+  "checkout": "/tmp/mh370-cruise-rate-partition",
+  "scientific_pilot_launched": true,
+  "note": "Protect equal log-width parts of the existing shared manoeuvre waiting-time prior within navigation strata. Exact mixture restores original prior. Original transition guide retained; fitted initial proposal disallowed. Pilot launched after completed larger command-mixture comparison did not establish a general stability benefit.",
+  "module_checks_passed": 63,
+  "executable_sha256": "973908c7dd12a9d7b778a5b15fb0f8b7c49cd089d33e02227f83233d317cc607",
+  "source_archive_sha256": "260c9e14b276f0e1fa1e318eb89b77a4d6a10dc2e87bd27ae82f35de7a8cb5a5",
+  "scientific_source_sha256": "5dbcb42ee0a29a2edf4e6b84d3d14083c8bb20fcc9428c8818edd8f0fdbeeab1",
+  "default_control": {
+    "output": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/rate-partition-default-control",
+    "csv_and_histories_byte_identical": true,
+    "log_evidence_identical": true,
+    "elapsed_seconds": 13.206972145,
+    "peak_memory": "VmHWM:\t  717116 kB",
+    "threads": 1
+  },
+  "pilot_design": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-rate-partition-design.json",
+  "pilot_design_sha256": "e5e0fda5713f2b2fdaa5dde55183fdc5ec63bb7a9bb8b4dbab3d1b3467961537",
+  "pilot_runs_prepared": 8,
+  "superseded_unstarted_design_sha256": "3fd8e65123cefff4f8e407b4223de218b2966ad27c416de95982a214ad8b487d",
+  "driver_pid": 329951,
+  "checkout_removed": true,
+  "reason": "Not integrated: four matched20k pairs give median coordinate CDF gaps30.15/32.97pp versus original34.02/26.97pp. No general improvement in truth recovery or ancestry concentration; no unchanged escalation.",
+  "cleanup_record": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/rate-partition-checkout-cleanup.json"
+}

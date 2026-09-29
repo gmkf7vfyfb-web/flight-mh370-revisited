@@ -1,0 +1,154 @@
+{
+  "csv_sha256": "f10779c52997bfff82ba0a2057832b9e74367935e797d297f0fd319cde506439",
+  "elapsed_seconds": 5.954264778,
+  "examples": 102,
+  "executable_sha256": "48489941b3fdffb059c2321e5e8a9e1f7d59b52a2704180f23ffabaf2ca18c50",
+  "force_balance_limitations": [
+    "OpenAP B772 attached-flow polar; not calibrated B777-200ER or Trent 892 data",
+    "caller-declared thrust range is a conditional proxy, not an inferred engine envelope",
+    "midpoint constant-rate inversion requires subdivision across material state changes",
+    "numerical lift-coefficient bounds are not a validated stall or high-angle-of-attack model",
+    "heading dynamics, control-law authority, buffet, windmilling, and structural limits are absent"
+  ],
+  "inputs": [
+    {
+      "config_sha256": "fabf45996e5a5162bf65fbeb86af474ebe1f32418f6818920d7a2c3ac5e69f3d",
+      "examples_sha256": "53f27188f3af47ece3f1a58ad2227a6ff265501c27ee281854877cc0cea8a083",
+      "run": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091713",
+      "source_provenance": {
+        "configuration_sha256": "3ab8ec9be676c54cdc1dcdb114e5b8e554a25406e7680bb596eb6f05d7669bd3",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "36fe5e15e13d65d3302da52e908c458ff0f04505ac8a6c8895b2284833e23f6c",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "weather_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+    },
+    {
+      "config_sha256": "9f758da36f044dc94aae88a3d86e02496668ec73ca0147c9218e3eb881fb7b05",
+      "examples_sha256": "078f69456b47b7f514ce7e82943e839da8e06468630aca8b6a7698f61cd1e01f",
+      "run": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714",
+      "source_provenance": {
+        "configuration_sha256": "5cee73e1ef1ba313d567c3c59e031cb78544e561990d88f6ced8f5e816353cb6",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "496b571a95333911b91520f42b3f617b74fa7fbca4da0a24a51fdb3dde48f8df",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "weather_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+    },
+    {
+      "config_sha256": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+      "examples_sha256": "9632b98f198ca786d8b3197244b5e3a4e719651417cede2f43ec4e16eb8b21f4",
+      "run": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-seed-37091640",
+      "source_provenance": {
+        "configuration_sha256": "84b3f4738abf655f4b07dfa05a5151b9e89d0145a705f266aac6564f4712550d",
+        "enabled_spokes": [
+          "stochastic_cruise",
+          "satcom",
+          "fuel_consistency"
+        ],
+        "executable_sha256": "7bd822edb46f3fff074126ab1b7b89f688245d20d7a1b2840a0a3574ee675e5f",
+        "inputs": {
+          "magnetic": "ad71fa679c7933858e8748fa34b124f4e405921b337c92aeb7efeb1002ac6ac1",
+          "observations": "0ed8bed1798861536aa659e7fdf5cd8f43ccbe160cdf3c61fb7479b7e0fbb799",
+          "satellite_ephemeris": "be8acec5f7ea3c583b6637e2a68d779d6005d995c906c3c6345fa80381c7a48d",
+          "weather": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+        },
+        "limitations": [
+          "ERA5/IGRF inputs substitute for the published historical input versions",
+          "initial mode probabilities are declared assumptions",
+          "kinematic cruise model is not a calibrated aircraft performance deck",
+          "fuel uses a public conditional proxy and a conservative continuation envelope",
+          "one completed run does not establish convergence or coverage"
+        ],
+        "proposal_inputs": {
+          "initial_operating_proposal": "496b571a95333911b91520f42b3f617b74fa7fbca4da0a24a51fdb3dde48f8df",
+          "initial_replay_donors": null
+        },
+        "root_interpretation": "initial independent draws; interacting resampled ancestry is not independent Monte Carlo replication",
+        "sampling_method": "sequential_blocked",
+        "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+        "scope": "airborne state at final supplied contact; no terminal or auxiliary evidence"
+      },
+      "weather_sha256": "73a14bf7e931da9f4f3f034b77ac24b9514fdef727b82eb9e30c67df938489f4"
+    }
+  ],
+  "limitations": [
+    "The selected histories are illustrative and not a probability-weighted sample of the full ensemble.",
+    "Only saved contacts at or after the fuel anchor are checked; manoeuvres between contacts and before the anchor are untested.",
+    "Speed and flight-path-angle acceleration are zero in this diagnostic, even when the original process is changing them.",
+    "Every positive finite flow-quadrature node uses both compatible initial-fuel interval endpoints; these endpoint cases are not posterior mass samples.",
+    "Nominal OpenAP thrust is a conditional comparison, not a validated Trent 892B limit. No hard exclusions are applied."
+  ],
+  "peak_memory": "VmHWM:\t  685536 kB",
+  "records": 13312,
+  "scope": "Steady-segment diagnostic of saved illustrative contact states; no posterior reweighting",
+  "source_sha256": "f127e0d3fb45e9e69752578ca04f9cdd13360864758348cfdacb12a8bc508aea",
+  "thrust_limitations": [
+    "conditional simplified two-shaft turbofan proxy; not a calibrated 9M-MRO Trent 892B-17 deck",
+    "uses pressure altitude with ISA temperature and OpenAP's zero-rate cruise equation",
+    "caller-declared multiplier and static cap are analyst choices, not source uncertainties",
+    "no bleed, installation, deterioration, throttle/spool, asymmetric-control, or windmilling model",
+    "audited B772 trajectory coverage is contextual and does not validate the thrust equation",
+    "the numerical proxy domain is broader than the audited B772 trajectory coverage"
+  ],
+  "thrust_provenance": [
+    "OpenAP v2.6.0 commit 4fb21d6e402fd1f4a48b191ad6801c74479e71f5",
+    "openap/thrust.py SHA-256 e79d18b156010a66f2e6f11a766a5257323665d4d9f93646f43809eb5d4d173a",
+    "openap/data/aircraft/b772.yml SHA-256 6c056746a9430cf2dd4232ab3486e3c3141ed88478f7ab25959b52a2ed9b8273",
+    "openap/data/engine/engines.csv SHA-256 90f58f10a25d71c9c1b18f4611a8bfcd4f2fd15382c57df428397344ee6333d2",
+    "engine family is OpenAP's accepted B772 Trent 895 option, not a forced Trent 892 pairing"
+  ],
+  "deterministic_repeat": {
+    "earlier_elapsed_seconds": 5.760718832,
+    "csv_byte_identical": true,
+    "reason": "Add measured peak memory and verify focused control reproducibility"
+  }
+}

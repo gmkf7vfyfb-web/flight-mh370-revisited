@@ -1,0 +1,83 @@
+{
+  "schema": "mh370.wspr.pharlap.post-restart-publication-plots.v1",
+  "run_id": "f7fc46ffc13e8cc9dd8afa9ceedb43f37b1c6fa981189f9ae7bc8f684c2a19a9",
+  "inputs": {
+    ".sources/godfrey-wspr-passive-radar/outputs/post-restart-pharlap/post_restart_pharlap_clusters.csv": "9d501d798a1bddbbe4580743b5940e793c0f4255aaafa68acdd3344c922beb8c",
+    ".sources/godfrey-wspr-passive-radar/data/post-restart/post_restart_arcs.csv": "30bb400e94a96ece97386ce76584e75bde0f8fa3412b119515f826232a31918b",
+    ".sources/godfrey-wspr-passive-radar/outputs/post-restart-pharlap/post_restart_pharlap_comparison.csv": "84049f36058d9dd217037a0cc745dd2a40b07dfe0e5a86fc5f8171ee4838655e",
+    ".sources/godfrey-wspr-passive-radar/outputs/post-restart-pharlap/run_metadata.json": "2db3afa4152315edb25eeb32568114a180068ee3d359b7d23897036604257956"
+  },
+  "outputs": {
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-1-of-3.png": "ded35378a95137efd2641214cecc544e16f85609aed09b8b87dd3cffed6b1ae0",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-1-of-3.pdf": "98e669d30c40a33c716e2cff296453abd7b9486478bc3d36dbb2abb75d08963b",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-1-of-3.svg": "ca432e3f40d4f3b9e5b7e88cdec27d8e88ac9ba5f2d05824b7290b429636a5d4",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-2-of-3.png": "d1eb3eca7b6c724949479ba6abaae4fef711feff0fcb81e8c80180f8193e7378",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-2-of-3.pdf": "b475e06e80059c430b1aa98c2d8122d2fbefa9879d2bbc9f6b68679919b54fba",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-2-of-3.svg": "056b55c8bc9ff1a4b826f2df900fd07ff32c86914f5edad9fa0a1a3a9894833b",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-3-of-3.png": "484c06eb514ff1c977cc767a5095138cc5cc90dd64252d071e180394f9b06ab3",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-3-of-3.pdf": "1d2eca1012d7b710dc3ed9808571510a6795a125d0e5910560aec32486850283",
+    "post-restart-pharlap-surface-endpoint-residual-controls-page-3-of-3.svg": "21e78065174cbc7c25c1d240fc9f02edebb446a45b34b8e673a3ae7647084da6",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-1-of-3.png": "57e3b95fec8888b22d97b251d0109786f0e492203fed11c9c490a79474180e7f",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-1-of-3.pdf": "ea14e6d0d185a2f02df938f665bd29a84051281ea4df90d735da7a4e0605d199",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-1-of-3.svg": "eef06372ccc011a558b2e7aa74a8cc4011522632847525d0dd766085e61a1923",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-2-of-3.png": "5e6fa3b34697f615b1600205cc4d0f34e8e030fdafb3851616c9cf3568b07d47",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-2-of-3.pdf": "d363c731e8df4fe08123593ad27474c2491973a87634c034b101c02599033487",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-2-of-3.svg": "0b7b0a2f3563a7d218e0794626c155e6e43e4cc4442a045cc175f3a19b79f94b",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-3-of-3.png": "d9adac58cf723a16ed9d4f880ec5cb9787baef8eb139a7bf89274f3b028fae0d",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-3-of-3.pdf": "b6da97f5e34e2e0b9b3426dd6113c1a229aa2389cfcef9c1a75f55e96e4a51c4",
+    "post-restart-pharlap-common-aircraft-altitude-residual-controls-page-3-of-3.svg": "99fa327f2d1a52e03001cfa5531e2e871371d753f2ed13fefa5ed8ead0096d31",
+    "post-restart-pharlap-raw-residual-comparison.csv": "da7d223aa188785696c158a9979f43361ed8cdf663849556a9d404b0e69fcbf8",
+    "post-restart-pharlap-residual-cluster-plot-audit.csv": "c80272b4b8978e5fe84b9544fba2155341db72877bfb33978cee7360b5c792ad",
+    "post-restart-pharlap-figure-captions.md": "d88e986e6386c93bed48e906c80c78acf26221c3a6fc6f222b25d70affd36dff"
+  },
+  "figure_contract": {
+    "epochs": [
+      "m1825",
+      "m1941",
+      "m2041",
+      "m2141",
+      "m2241",
+      "m0011",
+      "m0019a"
+    ],
+    "conditions": [
+      "minus_60_min",
+      "actual_time",
+      "plus_60_min"
+    ],
+    "screens": [
+      "surface_endpoint",
+      "common_aircraft_altitude"
+    ],
+    "rows_per_page": 3,
+    "pages": [
+      [
+        "m1825",
+        "m1941",
+        "m2041"
+      ],
+      [
+        "m2141",
+        "m2241",
+        "m0011"
+      ],
+      [
+        "m0019a"
+      ]
+    ],
+    "truth_or_trajectory_overlay": "none; unavailable post-18:22",
+    "plotted_rows": "residual clusters only",
+    "panel_annotation": "raw and residual cluster counts",
+    "support_colour_scale": [
+      3,
+      6
+    ],
+    "arc_display_maximum_points": 1500,
+    "png_dpi": 300
+  },
+  "interpretation": "PHaRLAP propagation feasibility is a screen rather than evidence that a returned mode occurred; adjacent radio windows are dependent.",
+  "runtime": {
+    "python": "3.14.7",
+    "matplotlib": "3.11.1"
+  }
+}

@@ -1,0 +1,90 @@
+schema_version = 2
+name = "MH370 flaperon drift diagnostic — CMEMS GLORYS12V1 daily 1/12-degree currents"
+family = "cmems_glorys12_reanalysis"
+source_cells = "/tmp/mh370-ocean-inputs-final/source-cells.json"
+seed = 3701048
+particles_per_cell = 1024
+release_unix_seconds = 1394237940.0
+
+[sampling]
+method = "adaptive_smc"
+resampling_interval_days = 30.0
+selection_strength = 4.0
+start_days_before_recovery = 300.0
+
+[currents]
+binary = "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid"
+metadata = "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12.mhgrid.json"
+# The source product is daily; never interpolate over a missing daily analysis.
+maximum_interpolation_gap_hours = 36.0
+
+[coast]
+binary = "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12-coast.mhgrid"
+metadata = "/jackbox/home/.cache/mh370-ocean-inputs-cmems/cmems-glorys12-coast.mhgrid.json"
+
+[motion]
+integration_step_seconds = 21600.0
+output_step_seconds = 86400.0
+# Explicit unresolved-dispersion sensitivity; not fitted to debris recoveries.
+horizontal_diffusivity_m2_per_s = 100.0
+# Direct windage remains distinct and disabled for this flaperon family.
+windage_fraction = 0.0
+windage_angle_degrees = 0.0
+# This field has no supplied cellwise current standard errors.
+current_standard_error_scale = 0.0
+
+[debris]
+pre_discovery_window_days = 30.0
+spatial_bandwidth_km = 100.0
+probability_floor = 1e-9
+
+[[debris.events]]
+id = "confirmed-flaperon"
+location = "Saint-Andre, Reunion"
+position = { latitude = -20.916180, longitude = 55.649150 }
+discovery_start_unix_seconds = 1438128000.0
+discovery_end_unix_seconds = 1438128000.0
+evidence_weight = 1.0
+is_flaperon = true
+
+[isotope]
+records = "/tmp/mh370-ocean-inputs-final/a2-g1-isotope.json"
+seawater_delta18o_per_mil = 0.4
+seawater_delta18o_sd_per_mil = 0.2
+calibration_sd_c = 1.0
+residual_sd_c = 1.5
+sst_field_sd_c = 0.5
+shell_smoothing_days = 7.0
+correlation_days = 14.0
+compatible_simultaneous_confidence = 0.95
+rejection_simultaneous_confidence = 0.995
+maximum_marginal_log_penalty = 0.6931471805599453
+maximum_rejection_log_penalty = 4.605170185988092
+
+[isotope.sst]
+binary = "/tmp/mh370-ocean-inputs-final/oisst.mhgrid"
+metadata = "/tmp/mh370-ocean-inputs-final/oisst.mhgrid.json"
+
+[[isotope.chronologies]]
+name = "central-154-day"
+start_unix_seconds = 1424822400.0
+end_unix_seconds = 1438128000.0
+prior_weight = 1.0
+
+[[isotope.chronologies]]
+name = "early-192-day"
+start_unix_seconds = 1421452800.0
+end_unix_seconds = 1438128000.0
+prior_weight = 1.0
+
+[[isotope.chronologies]]
+name = "late-115-day"
+start_unix_seconds = 1428192000.0
+end_unix_seconds = 1438128000.0
+prior_weight = 1.0
+
+[map_context.bounds]
+longitude_min_deg = 65.0
+longitude_max_deg = 115.0
+latitude_min_deg = -46.0
+latitude_max_deg = -5.0

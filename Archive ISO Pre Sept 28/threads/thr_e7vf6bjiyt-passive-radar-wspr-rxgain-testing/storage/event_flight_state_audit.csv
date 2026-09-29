@@ -1,0 +1,17 @@
+event,flight,time_utc,altitude_ft,vertical_speed_fpm,classification,reason
+0,MH371,01:55,27599.8,-0.6,include,level at FL276
+1,MH371,03:20,28517.0,559.6,exclude,climb
+2,MH371,03:29,36094.0,0.6,turn_only,level altitude but turning; state sources conflict
+3,MH371,03:35,36097.0,0.2,turn_only,level altitude but turning
+4,MH371,03:59,38102.0,-0.4,include,straight-and-level high cruise
+5,MH371,04:29,39999.0,1.2,include,straight-and-level high cruise
+6,MH371,04:55,39998.0,0.4,include,straight-and-level high cruise
+7,MH371,05:10,39999.0,-0.6,include,straight-and-level high cruise
+8,MH371,05:29,40001.0,-0.2,include,straight-and-level high cruise
+9,MH371,06:09,39998.0,0.6,include,straight-and-level high cruise
+10,MH371,06:48,40000.0,0.0,include,straight-and-level high cruise
+11,MH371,07:58,,,exclude,post-cruise/descent or ground
+12,MH371,08:01,,,exclude,post-cruise/descent or ground
+13,MH370,15:59,0.0,0.0,exclude,ground/preflight
+14,MH370,16:06,0.0,0.0,exclude,ground/preflight
+15,MH370,17:06,37375.0,0.0,include,level high cruise

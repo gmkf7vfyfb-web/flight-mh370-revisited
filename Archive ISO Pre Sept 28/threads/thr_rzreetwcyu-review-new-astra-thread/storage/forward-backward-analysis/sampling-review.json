@@ -1,0 +1,27 @@
+{
+  "updated_utc": "2026-09-08T14:00:14.550967+00:00",
+  "scope": "Code review of the current accurate-target prototype; numerical runs remain frozen.",
+  "findings": [
+    {
+      "issue": "The original categorical finite-table control used z=0, where its two sign families have equal likelihood. Its expected probabilities were uniform.",
+      "change": "The control now selects a fixed state with an analytically declared 1.2-log-unit contrast. This strengthens the control without changing sampler or flight code.",
+      "verification": "Passed the nonuniform five-entry conditional tables and both independent 4096-particle exact-Gaussian controls; source hashes recorded in nonuniform-mode-control/summary.json."
+    },
+    {
+      "issue": "Ordinary independent guide proposals had no accepted whole-route jumps in the final population of the completed 128-particle one-direction timing pilot.",
+      "consequence": "Local movement and completion do not establish global route-family coverage. Independent runs, mode frequencies and independent flight recovery remain required."
+    },
+    {
+      "issue": "The flight kernel uses a capped midpoint fixed-point iteration.",
+      "consequence": "The saved-flight refinement and limiting-case checks bound its numerical error on those tested paths; they are not proof over every possible flight state."
+    },
+    {
+      "issue": "Every proposal currently invokes replay-flight-trajectory from the initial radar state, including proposals that change only late controls.",
+      "consequence": "Caching exact unchanged prefix states could reduce repeated work for flexible families, but has not been implemented or benchmarked. This would be an efficiency change, not evidence or a guarantee of mode mixing."
+    },
+    {
+      "issue": "The kernel uses transition-sized steps whenever heading error exceeds the numerical tolerance, bank is nonzero, or Mach/altitude targets have not settled. Midpoint iteration repeatedly evaluates weather and heading guidance.",
+      "consequence": "Accurate propagation is intrinsically more expensive in this implementation. Existing replay benchmarks and per-run call counts document the cost; a fine-grained profiler is unavailable on this host. No speculative speedup is claimed."
+    }
+  ]
+}

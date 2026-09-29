@@ -1,0 +1,623 @@
+{
+  "cases": [
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.0,
+        "endpoint": "full_target_eirp_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 1.72,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.68678256204124,
+      "log_mean_conditional_likelihood": -11.515553685148706,
+      "maximum_initial_ancestor_weight": 0.17262416084713908,
+      "maximum_row_weight": 0.008287608169009992,
+      "name": "departure0-pitch0-sd1p72",
+      "pitch_nose_up_deg": 0.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1293.464928843694,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0-pitch0-sd1p72.csv",
+      "weights_sha256": "8b31c2c87bba82d134783c0b437727d1d8fc5babcff4509853bef5b471ce94ee"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.5,
+        "endpoint": "intermediate_directional_departure",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 1.72,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -97.41861721195802,
+      "log_mean_conditional_likelihood": -9.24738833506548,
+      "maximum_initial_ancestor_weight": 0.1689632240081738,
+      "maximum_row_weight": 0.0085102071308225,
+      "name": "departure0p5-pitch0-sd1p72",
+      "pitch_nose_up_deg": 0.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1327.1440240645013,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0p5-pitch0-sd1p72.csv",
+      "weights_sha256": "2167ea6b656030929614d46579cc3b43980384cb62c4d8928d5d8882893dd432"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.5,
+        "endpoint": "intermediate_directional_departure",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 1.72,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -97.36461964980884,
+      "log_mean_conditional_likelihood": -9.193390772916306,
+      "maximum_initial_ancestor_weight": 0.17007612693684898,
+      "maximum_row_weight": 0.008484771411097068,
+      "name": "departure0p5-pitch3-sd1p72",
+      "pitch_nose_up_deg": 3.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1322.143977910063,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0p5-pitch3-sd1p72.csv",
+      "weights_sha256": "1cc3670df3008dc857ebfeb32d2d99337170c52ce356b6f87bf7410c3c517d34"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.5,
+        "endpoint": "intermediate_directional_departure",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 1.72,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -97.33990419045305,
+      "log_mean_conditional_likelihood": -9.168675313560517,
+      "maximum_initial_ancestor_weight": 0.17049616910142995,
+      "maximum_row_weight": 0.008426144617535082,
+      "name": "departure0p5-pitch6-sd1p72",
+      "pitch_nose_up_deg": 6.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1323.4301716462337,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0p5-pitch6-sd1p72.csv",
+      "weights_sha256": "c2beac51a5f23a9d0ff426520d6bbc9816347cc5db8232176a9eac5230dafeda"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 1.0,
+        "endpoint": "no_gain_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 1.72,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -96.70491561997746,
+      "log_mean_conditional_likelihood": -8.533686743084914,
+      "maximum_initial_ancestor_weight": 0.16747894391173765,
+      "maximum_row_weight": 0.008593036143174367,
+      "name": "departure1-pitch0-sd1p72",
+      "pitch_nose_up_deg": 0.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1324.7590721510321,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure1-pitch0-sd1p72.csv",
+      "weights_sha256": "0e0dda9e3a8e08806a0a550e599839de8d3c1150b00e00a9a6a180acad96b407"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 1.0,
+        "endpoint": "no_gain_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 1.72,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -96.64680274766765,
+      "log_mean_conditional_likelihood": -8.475573870775104,
+      "maximum_initial_ancestor_weight": 0.1690005433529192,
+      "maximum_row_weight": 0.008553623365364563,
+      "name": "departure1-pitch3-sd1p72",
+      "pitch_nose_up_deg": 3.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1319.2533493043247,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure1-pitch3-sd1p72.csv",
+      "weights_sha256": "a60a203f27cca35d8ab1ccde8c6a309b245419354e79fb5a7f9cd7f42756c83c"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 1.0,
+        "endpoint": "no_gain_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 1.72,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -96.62237917694722,
+      "log_mean_conditional_likelihood": -8.45115030005468,
+      "maximum_initial_ancestor_weight": 0.1694840524530307,
+      "maximum_row_weight": 0.008470254823678107,
+      "name": "departure1-pitch6-sd1p72",
+      "pitch_nose_up_deg": 6.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1322.3269232523571,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure1-pitch6-sd1p72.csv",
+      "weights_sha256": "468bbf52a9301eab403403a0d0ea1985176c72303f1605c686e8589c43fed531"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.0,
+        "endpoint": "full_target_eirp_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 3.44,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.99559074411816,
+      "log_mean_conditional_likelihood": -11.824361867225615,
+      "maximum_initial_ancestor_weight": 0.17251771807678176,
+      "maximum_row_weight": 0.008273221729698929,
+      "name": "departure0-pitch0-sd3p44",
+      "pitch_nose_up_deg": 0.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1294.6075030203235,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0-pitch0-sd3p44.csv",
+      "weights_sha256": "0da663eba548439eb95b253f048f738058554417bca50da53177539b3d756e38"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.5,
+        "endpoint": "intermediate_directional_departure",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 3.44,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.43020759703343,
+      "log_mean_conditional_likelihood": -11.258978720140885,
+      "maximum_initial_ancestor_weight": 0.17141635908092318,
+      "maximum_row_weight": 0.008342045169889036,
+      "name": "departure0p5-pitch0-sd3p44",
+      "pitch_nose_up_deg": 0.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1314.4290531933764,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0p5-pitch0-sd3p44.csv",
+      "weights_sha256": "9ad18e17c494c231e3a59bf74c73137d5508bb1e4bf355df1a8dec7e51158bda"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.5,
+        "endpoint": "intermediate_directional_departure",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 3.44,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.41653820927661,
+      "log_mean_conditional_likelihood": -11.245309332384066,
+      "maximum_initial_ancestor_weight": 0.17170516870137917,
+      "maximum_row_weight": 0.008334387950824234,
+      "name": "departure0p5-pitch3-sd3p44",
+      "pitch_nose_up_deg": 3.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1312.6351711525756,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0p5-pitch3-sd3p44.csv",
+      "weights_sha256": "c1e5e16f9137c93ed6153ee9949dde0280e74a0a3ec0a4abeda3088ed4aab313"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 0.5,
+        "endpoint": "intermediate_directional_departure",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 3.44,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.41016858929018,
+      "log_mean_conditional_likelihood": -11.238939712397634,
+      "maximum_initial_ancestor_weight": 0.17182507292011143,
+      "maximum_row_weight": 0.008318366648849258,
+      "name": "departure0p5-pitch6-sd3p44",
+      "pitch_nose_up_deg": 6.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1312.1125311114897,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure0p5-pitch6-sd3p44.csv",
+      "weights_sha256": "bf5944856c166bbfb93ac90d756b983c67a31e418e67a57159c5997b1db348c7"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 1.0,
+        "endpoint": "no_gain_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 3.44,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.2538508020788,
+      "log_mean_conditional_likelihood": -11.082621925186263,
+      "maximum_initial_ancestor_weight": 0.17075794806000108,
+      "maximum_row_weight": 0.008379585700322698,
+      "name": "departure1-pitch0-sd3p44",
+      "pitch_nose_up_deg": 0.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1322.6762491162121,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure1-pitch0-sd3p44.csv",
+      "weights_sha256": "4e58e77649ab3a0a4709dfe9e74ca8baa8eb65f8822aa2a097ea8d688d02cef4"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 1.0,
+        "endpoint": "no_gain_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 3.44,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.23886706047477,
+      "log_mean_conditional_likelihood": -11.067638183582238,
+      "maximum_initial_ancestor_weight": 0.1711872296636855,
+      "maximum_row_weight": 0.008366148842191692,
+      "name": "departure1-pitch3-sd3p44",
+      "pitch_nose_up_deg": 3.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1320.1460129212855,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure1-pitch3-sd3p44.csv",
+      "weights_sha256": "f23ed45a67858a95447b7643c598d7bd78f978638fc57ecc477a87242c994498"
+    },
+    {
+      "antenna": {
+        "airframe_heading_treatment": "trajectory true heading; equals the ground-track proxy only for environment-free constant-track runs",
+        "applied_to_posterior": true,
+        "directional_departure_scale": 1.0,
+        "endpoint": "no_gain_precompensation",
+        "epochs": [
+          "m0011",
+          "m1941",
+          "m2041",
+          "m2141",
+          "m2241"
+        ],
+        "excluded_power_data": [
+          "18:25-18:28 restart rows: source workbook identity failure",
+          "18:39 and 23:15 telephony: unresolved channel/beam calibration"
+        ],
+        "model_weight": null,
+        "observation_sd_db": 3.44,
+        "power_observations": 5,
+        "reference_gain_dbic": 12.16,
+        "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+        "status": "conditional_sensitivity_only",
+        "surface_basis": "unverified_first_pass_reconstruction"
+      },
+      "heading": "true air heading from retained wind-aware navigation state",
+      "inputs": {
+        "observations_sha256": "f89a6ad90d194caee2413487431376dd7e9199857ad2455f12ec747f681e0907",
+        "surface_sha256": "971b4c08c6e010857b5cda3af0d16f395da7e8d97660e8ff2f008f4ca0e7d0cd"
+      },
+      "log_evidence": -99.23231835157493,
+      "log_mean_conditional_likelihood": -11.06108947468239,
+      "maximum_initial_ancestor_weight": 0.17135132448852247,
+      "maximum_row_weight": 0.008341993793147448,
+      "name": "departure1-pitch6-sd3p44",
+      "pitch_nose_up_deg": 6.0,
+      "positive_source_rows": 112648,
+      "roll": "signed commanded bank from retained dynamics state",
+      "row_weight_effective_count": 1319.5413696604692,
+      "scored_unique_contact_states": 163195,
+      "weights_file": "departure1-pitch6-sd3p44.csv",
+      "weights_sha256": "d76ffb7fb62f5dce6dcb8d75303f209b5fa143933d0c86db36718b178a4c9e33"
+    }
+  ],
+  "elapsed_seconds": 3.816381662,
+  "executable_sha256": "44f5f4cb382dde55a57d82941a0b1ffa9c3c2093a54ff91da17c761e8bf1bc29",
+  "initial_candidates": 170000,
+  "limitations": [
+    "first-pass reconstructed gain surface and link calibration are conditional assumptions",
+    "body pitch is a declared fixed sensitivity condition, not inferred from flight-path angle",
+    "five power errors are modelled as independent normal errors; common calibration uncertainty is not calibrated",
+    "power timestamps follow the whole-second SATCOM model epochs by 0.904 to 0.928 seconds; retained states use the model epochs",
+    "no trajectory resampling or new route support is generated by this likelihood update",
+    "row weight counts and shared initial ancestry are diagnostics, not independent posterior sample counts"
+  ],
+  "scientific_source_sha256": "96ed6a0e20fb9afe866711c084aeed92767d98e021821753705c51228c4bb6ea",
+  "source_contact_populations_sha256": "9ddb1cb6858fd23b93ab4376d8ce87233e9becdbe08d3fd7eb68a7cbcb7a95c9",
+  "source_posterior_sha256": "ead10daa20dc02a373f5f621585696ef80b79ec6fffa223400665b3b1e79c332",
+  "source_run": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/runs/turns16-mach8-altitude8-vertical-bfo-170000-seed-37091714",
+  "source_seed": 37091714,
+  "status": "conditional_sensitivity_only"
+}

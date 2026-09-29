@@ -1,0 +1,148 @@
+{
+  "schema_id": "mh370-pleiades-conditional-resolution-audit",
+  "schema_version": 1,
+  "status": "fail_closed_numerically_unresolved",
+  "frozen_executable_sha256": "de28b0adc6de796026e6075da614b5e11c78459d4beafbca42f6e30b10758b4b",
+  "source_tree_sha256": "d43975e6be06a07db8ceebdc48009613ce5701638d4d3511e316e74eca2d952d",
+  "surface_inputs": {
+    "grid.csv": "8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8",
+    "surfaces.csv": "a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748",
+    "manifest.json": "b16fa3830f607c19e254a9a2b8cc52b05ab79b82028d1ffb31dab10eebee34ba"
+  },
+  "metrics_csv": {
+    "path": "pleiades-resolution-audit.csv",
+    "sha256": "5811059e9feb572e5cce785b32e64c6ee26154167e284a2f40ac1c520c34d626"
+  },
+  "method": {
+    "impact_family": "arc1-current-polar-best-glide-equal-feed",
+    "source_seeds": [370023, 370024, 370025, 370026, 370027],
+    "seed_combination": "equal_numerical_replicates",
+    "draws_per_seed": [512, 2000, 8000, 30000],
+    "total_particles": [2560, 10000, 40000, 150000],
+    "surface_policy": "Each Pléiades transport surface is applied separately. Components are never multiplied or pooled; the equal-family surface is an uncalibrated sensitivity, not evidence.",
+    "support_policy": "condition_on_native_support",
+    "maximum_nearest_node_distance_nm": 5.0,
+    "likelihood_floor": 1e-300,
+    "stability_metrics": [
+      "great-circle change in conditional centroid from the preceding draw rung",
+      "conditional weighted radial 50/90/95/99 percentiles around that rung's centroid",
+      "total-variation and Jensen-Shannon divergence between conditional masses aggregated on the native Pléiades grid cells",
+      "maximum single-particle weight and top-ten-particle mass"
+    ]
+  },
+  "source_ensembles": [
+    {
+      "draws_per_seed": 512,
+      "total_particles": 2560,
+      "status": "canonical_release_ensemble",
+      "suite_manifest": "../impact/suite-manifest.json",
+      "suite_manifest_sha256": "d3d4aae1d9e9428283d8764e9f12ea45910782f08709a1105c5848c600dbb374",
+      "baseline_effective_sample_size": 1930.3404810061481,
+      "parent_handoff_sha256": [
+        "263f56a8316c9524b579bdc87c3409001ca388aef346e2efccdaf13b5e6b55e9",
+        "6c3af77bc0954d01bf6612526dad10046a47f2b96616b470078edc3ae99062a7",
+        "e4ffad641184c684898525c55c9b3aa6cfc590525af3d61335e325fdd121e7fe",
+        "4515d09acadec71ad606c490d29bc9a1f8879d25cf719130ba999744e5c608c5",
+        "c49c334a49b6b2adff8489aca560636f6e8b8cb09bc4814e3a14a80dfc0415e8"
+      ]
+    },
+    {
+      "draws_per_seed": 2000,
+      "total_particles": 10000,
+      "status": "temporary_nonpromoted_resolution_pilot",
+      "suite_manifest_sha256": "902eef18d3dc358640efd9ffafda0f269fc4fd1ce2df68fd963cb67422d20af6",
+      "baseline_effective_sample_size": 7430.0198459591375,
+      "parent_handoff_sha256": [
+        "7aeaef0586dc1d6d8f80bc7453dd311afb00dff815978137c9eeb36041ebd216",
+        "1d0caebb693843b111c02748af531671bfec326a6169e00216aca40e07fc1fef",
+        "a24e6b68e19862d3f81f5ad3b96fde4a6394ed7e59e829906c5892c70c9367f1",
+        "ddc5f738fb6198798b5e80a760e87a13a67eab678cc1bc73f006447f76345ded",
+        "1f47665c5de8066f3fa51a5f655c332a5d25d170137f8f4cade074be681824a6"
+      ]
+    },
+    {
+      "draws_per_seed": 8000,
+      "total_particles": 40000,
+      "status": "temporary_nonpromoted_resolution_pilot",
+      "suite_manifest_sha256": "b74369d4eff5bda9094e0e87643881c2531fa0ebf44b1632d1a5f4f4435692a3",
+      "baseline_effective_sample_size": 29861.878986241467,
+      "parent_handoff_sha256": [
+        "e8ace5ebd34c5ff5b009543ea68ba51804da8f0f2859d433136a58307a23eacc",
+        "b58077a9b42644d5886b6604a23c02d06cf2f1ebfeb1393de8bf3b60f48f05c1",
+        "b2edf9d07d3588efbf91e8b1a902becd4288ca659ba7af1ec3df3cc9b6ecbfc9",
+        "8bb21b626794f4dd83891dc483604b9e0773be6328f5b36329a52d2b57d18f5d",
+        "d031fe283b8bd193e400d1a1dd120069f437625b6b3cfc272f8e996257bfabae"
+      ]
+    },
+    {
+      "draws_per_seed": 30000,
+      "total_particles": 150000,
+      "status": "temporary_nonpromoted_resolution_pilot",
+      "suite_manifest_sha256": "1953f3141d8c1ba4608445cefe11640cad4b380721ff1c5ef1b441591c64a80b",
+      "baseline_effective_sample_size": 112279.99757333299,
+      "parent_handoff_sha256": [
+        "393eac37b84cddfd7aa6bdfb5e0601bd2b1147b091e860b2540cdf0c4fdcfb84",
+        "dffed43427cbf04fcc66217f4e974ef76e16adbd7175ec534e417fa11dff6c28",
+        "582462c77b5236e682bce1052ec3f8858fb885329c62fc580aabe3e35847755a",
+        "737ab07ee360a675f0a2516aa1ddbc0567500b343d0753167ffaca72a72ee1a0",
+        "830632a09f129df6d37e0a52f9ac8737e44c56bee0d53e0d1a9c2208a5fc0004"
+      ]
+    }
+  ],
+  "maximum_draw_results": [
+    {
+      "surface_id": "bran2016",
+      "conditional_effective_sample_size": 5.62746166825557,
+      "conditional_centroid_deg": [-37.252990917711216, 89.87527679540106],
+      "shift_from_baseline_nm": 58.27448145769071,
+      "centroid_change_from_40000_particles_nm": 3.18524005321,
+      "native_cell_total_variation_from_40000_particles": 0.364842156804,
+      "maximum_particle_weight": 0.364842041632
+    },
+    {
+      "surface_id": "oscar_v2_final",
+      "conditional_effective_sample_size": 9.13539304885,
+      "conditional_centroid_deg": [-37.2949579266, 89.8214222319],
+      "shift_from_baseline_nm": 54.997960262,
+      "centroid_change_from_40000_particles_nm": 0.760108170449,
+      "native_cell_total_variation_from_40000_particles": 0.00459892221412,
+      "maximum_particle_weight": 0.220971748354
+    },
+    {
+      "surface_id": "glorys12_waverys",
+      "conditional_effective_sample_size": 6.12602971146,
+      "conditional_centroid_deg": [-37.4475829898, 89.434273198],
+      "shift_from_baseline_nm": 42.3757920999,
+      "centroid_change_from_40000_particles_nm": 1.37116016011,
+      "native_cell_total_variation_from_40000_particles": 0.00234913631869,
+      "maximum_particle_weight": 0.243085419648
+    },
+    {
+      "surface_id": "equal_transport_family_model_average",
+      "conditional_effective_sample_size": 5.62962143035,
+      "conditional_centroid_deg": [-37.2530282391, 89.8751922216],
+      "shift_from_baseline_nm": 58.2708995524,
+      "centroid_change_from_40000_particles_nm": 3.19149768527,
+      "native_cell_total_variation_from_40000_particles": 0.364772369958,
+      "maximum_particle_weight": 0.364772020669
+    }
+  ],
+  "diagnosis": {
+    "support_is_not_the_cause": "At 150,000 particles, native support retains 0.999203044737 of baseline mass for every family.",
+    "likelihood_floor_is_not_the_cause": "Conditional mass assigned to floored particles is below 6.2e-266 for every family.",
+    "result": "Conditional ESS remains below 10 for every family and 22-36% of posterior mass can reside on one impact particle. BRAN2016 and the equal-family sensitivity retain native-cell TV about 0.365 from 40,000 to 150,000 particles. OSCAR and GLORYS grid modes are more stable, but their particle ESS remains only 9.14 and 6.13. No conditional centroid or HPD contour is numerically resolved."
+  },
+  "release_policy": {
+    "central_posterior_updated": false,
+    "canonical_2560_particle_branches": "Retained only as explicit unresolved diagnostics with their built-in ESS warning.",
+    "large_pilots": "Not promoted; temporary ensembles exist only to establish the resolution failure.",
+    "search_planning": "Do not use any Pléiades-conditioned contour, centroid, or area to rank or allocate search effort in this release.",
+    "rnzaf": "Panel C must report the equal-family conditional ESS and label its contours numerically unresolved and display only."
+  },
+  "reproduction": {
+    "impact_pilot_command": "python3 crates/runner/scripts/impact_release_suite.py --matrix configs/mh370-impact-release-families.json --runner target/release/mh370 --output <temporary-directory>/mh370-impact-primary-pilot-<draws>x5 --draw-count <draws> --jobs 5",
+    "draw_values": [2000, 8000, 30000],
+    "conditional_command": "nice -n 15 target/release/mh370 apply-conditional-surface --config <temporary-directory>/mh370-pleiades-resolution-<draws>-<surface>.toml --output <temporary-directory>/mh370-pleiades-resolution-pilot/n<draws>/<surface>",
+    "temporary_config_rule": "Copy the corresponding checked-in Pléiades conditional TOML, rebase its impact parent prefix to the named pilot suite, and rebase ../inputs to the repository inputs directory. No scientific field changes."
+  }
+}

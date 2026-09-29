@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "sources": [
+    {
+      "id": "malaysia_safety_report",
+      "title": "MH370 Safety Investigation Report",
+      "url": "https://www.mot.gov.my/my/Laporan%20Siasatan%20Mh370/01-Laporan/MH370SafetyInvestigationReport.pdf",
+      "sha256": "b39fa554b38c8e156fbb0f09567de0baf32bafaf012b0f2b80133745f3ed1f32",
+      "size_bytes": 8399521,
+      "locators": ["PDF p. 96 / report p. 51, Table 1.6D", "PDF p. 158 / report p. 113, Table 1.9A", "PDF pp. 417-418 / report pp. 372-373", "PDF p. 422 / report p. 377"],
+      "included": false
+    },
+    {
+      "id": "official_appendix_1_6e",
+      "title": "Appendix 1.6E: Aircraft Performance Analysis MH370 (9M-MRO)",
+      "url": "https://www.mot.gov.my/my/Laporan%20Siasatan%20Mh370/02-Appendices/Appendices%20Set%201%20-%207%20Appendices%201.1A%20to1.9A/Appendix-1.6E-Aircraft-Performance-Analysis-MH370-%289M-MRO%29.pdf",
+      "sha256": "451226f436f3e99bd72d1bc0d31b381167d39fb0888da49f9bc62a762945e69e",
+      "size_bytes": 1111811,
+      "locators": ["PDF pp. 3-5, assumptions and Table 3"],
+      "included": false
+    },
+    {
+      "id": "faa_sage_technical_manual",
+      "title": "FAA System for Assessing Aviation's Global Emissions, Version 1.5, Technical Manual",
+      "url": "https://www.faa.gov/sites/faa.gov/files/about/office_org/headquarters_offices/apl/FAA-EE-2005-01_SAGE-Technical-Manual.pdf",
+      "sha256": "04c9b47ce46582ed64969f178ee6a5a62e9c85a38eae8c3b18fb2006fae280c3",
+      "size_bytes": 1312887,
+      "locators": ["PDF pp. 42-43 / manual pp. 35-36", "PDF p. 45 / manual p. 38", "PDF pp. 50-51 / manual pp. 43-44"],
+      "included": false
+    },
+    {
+      "id": "icao_doc_9889_update",
+      "title": "ICAO Doc 9889 update, first edition",
+      "url": "https://www.icao.int/environmental-protection/Documents/Doc%209889.SGAR.WG2.Initial%20Update.pdf",
+      "sha256": null,
+      "size_bytes": null,
+      "locators": ["PDF pp. 56-60, reduced-takeoff interpolation and extrapolation cautions"],
+      "included": false,
+      "retrieval_note": "The passage was located in browser-extracted official PDF text; the direct local URL returned 404 on 2026-08-27, so no unverified file hash is asserted."
+    },
+    {
+      "id": "openap_b772_aircraft_commit",
+      "title": "OpenAP historical B772 aircraft definition",
+      "url": "https://raw.githubusercontent.com/junzis/openap/472ab3e48d52ae62f9586d2e75e143ea4182a9e9/openap/data/aircraft/b772.yml",
+      "sha256": "6c056746a9430cf2dd4232ab3486e3c3141ed88478f7ab25959b52a2ed9b8273",
+      "size_bytes": null,
+      "locators": ["wing area and engine-option fields"],
+      "included": false
+    },
+    {
+      "id": "openap_b772_dragpolar_commit",
+      "title": "OpenAP historical B772 drag polar",
+      "url": "https://raw.githubusercontent.com/junzis/openap/472ab3e48d52ae62f9586d2e75e143ea4182a9e9/openap/data/dragpolar/b772.yml",
+      "sha256": "b05b381eac8a896d6a7564ccd8277242c05de307c515b75eb4b3b96fd560ed42",
+      "size_bytes": null,
+      "locators": ["clean cd0 and k fields"],
+      "included": false
+    },
+    {
+      "id": "openap_engine_commit",
+      "title": "OpenAP historical engine table, Trent 892 row",
+      "url": "https://raw.githubusercontent.com/junzis/openap/472ab3e48d52ae62f9586d2e75e143ea4182a9e9/openap/data/engines.csv",
+      "sha256": "90f58f10a25d71c9c1b18f4611a8bfcd4f2fd15382c57df428397344ee6333d2",
+      "size_bytes": null,
+      "locators": ["row UID 2RR027"],
+      "included": false
+    },
+    {
+      "id": "ulich_public_workbook",
+      "title": "9M-MRO Fuel Model V5.6, public Google Drive artifact",
+      "url": "https://drive.google.com/file/d/1Wt9DOU0Z53W7NERzSsK2sxcyrojmN7Sq/view?usp=sharing",
+      "sha256": "42d150e36a79e2b9493680128e4833f14eebd6c1cc9551c66d00e0c7127d92a4",
+      "size_bytes": 2705123,
+      "locators": ["OOXML package metadata and audit-only range hashes"],
+      "included": false,
+      "redistribution": "not-redistributed"
+    },
+    {
+      "id": "ulich_preserved_workbook",
+      "title": "Preserved Ulich 9M-MRO Fuel Model V5.6 snapshot",
+      "url": null,
+      "sha256": "a45373a2c1a66e920510145a45bfd576a316deced64dde472f8fbb86971f75a3",
+      "size_bytes": 2376741,
+      "locators": ["OOXML package metadata and audit-only range hashes"],
+      "included": false,
+      "redistribution": "not-redistributed"
+    },
+    {
+      "id": "exact_unit_definitions",
+      "title": "Exact international unit definitions",
+      "url": "https://www.nist.gov/pml/owm/si-units-mass",
+      "sha256": null,
+      "size_bytes": null,
+      "locators": ["international pound and foot conversion definitions"],
+      "included": false
+    },
+    {
+      "id": "aircraft_type_definition",
+      "title": "Boeing 777-200ER type architecture",
+      "url": "https://www.boeing.com/commercial/777",
+      "sha256": null,
+      "size_bytes": null,
+      "locators": ["twin-engine aircraft family description"],
+      "included": false
+    },
+    {
+      "id": "public_model_definition",
+      "title": "This clean-room public-equation recreation",
+      "url": null,
+      "sha256": null,
+      "size_bytes": null,
+      "locators": ["src/public_performance.py and data/model_parameters.json"],
+      "included": true
+    }
+  ]
+}

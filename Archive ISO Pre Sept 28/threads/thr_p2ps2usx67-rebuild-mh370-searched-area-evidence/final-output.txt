@@ -1,0 +1,9 @@
+Blocked by the execution environment before any repository changes were possible. Every local command fails with:
+
+```text
+bwrap: No permissions to create a new namespace
+```
+
+The requested directory does not yet exist, and neither shell execution nor patching could create it. No files were modified.
+
+Please restart the iso environment with working sandbox/user-namespace support—typically `kernel.unprivileged_userns_clone=1`—then rerun this request.

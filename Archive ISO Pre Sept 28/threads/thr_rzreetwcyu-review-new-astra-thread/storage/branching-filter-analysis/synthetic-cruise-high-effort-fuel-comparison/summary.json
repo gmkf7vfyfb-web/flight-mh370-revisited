@@ -1,0 +1,337 @@
+{
+  "status": "deferred_by_owner",
+  "updated_utc": "2026-09-09T20:52:35.340671+00:00",
+  "completed_data_sets": 1,
+  "planned_data_sets": 4,
+  "initial_candidates_per_run": 500000,
+  "design_sha256": "18d00de1fe95dceb77898ddcece3391824fc50459aea943c7e31975233734b47",
+  "executable_sha256": "6125d1dbe86ba609672b26b18c1116200b65275083325e3997cd640efe1f1fe6",
+  "report_source_sha256": "a2b5221355492a8adcb7e21b74bfa8648a955864c96d21dd62291bd89bc85b53",
+  "summaries": [
+    {
+      "replicate": 0,
+      "coordinate": "latitude",
+      "total_data_sets": 1,
+      "computed_posteriors": 1,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.7934506856227626
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.20654931437723745,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 0,
+      "coordinate": "longitude",
+      "total_data_sets": 1,
+      "computed_posteriors": 1,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.7934506856227626
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 1,
+          "wilson95_fraction_among_computed": [
+            0.20654931437723745,
+            1.0
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "latitude",
+      "total_data_sets": 1,
+      "computed_posteriors": 1,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.7934506856227626
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.7934506856227626
+          ]
+        }
+      ]
+    },
+    {
+      "replicate": 1,
+      "coordinate": "longitude",
+      "total_data_sets": 1,
+      "computed_posteriors": 1,
+      "uncomputed_posteriors": 0,
+      "intervals": [
+        {
+          "nominal_mass": 0.5,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.7934506856227626
+          ]
+        },
+        {
+          "nominal_mass": 0.9,
+          "inside": 0,
+          "wilson95_fraction_among_computed": [
+            0.0,
+            0.7934506856227626
+          ]
+        }
+      ]
+    }
+  ],
+  "data_sets": [
+    {
+      "truth_seed": 37092100,
+      "truth_coordinates_deg": [
+        18.07625107500884,
+        91.11744289164545
+      ],
+      "generating_mode": "constant_magnetic_track",
+      "generating_limited_manoeuvre_counts": [
+        16,
+        8,
+        8
+      ],
+      "truth_sha256": "0dc87df727b9cef7fda627938b41877be5ccbfa4e92df06d86665f367d86d407",
+      "replicates": [
+        {
+          "cdf_at_truth": [
+            0.8024870039295702,
+            0.18897232289601204
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              4.9380699512,
+              14.8365109512,
+              20.7127819837
+            ],
+            [
+              89.4829597273,
+              93.007894059,
+              95.7714859227
+            ]
+          ],
+          "largest_ancestor_mass": 0.9562967281818652,
+          "weighted_row_effective_count": 59.725676724319825,
+          "elapsed_seconds": 2141.988820222,
+          "log_evidence": -111.4841783127114,
+          "posterior_sha256": "eec52eb926503a440ef2d151652cd46dd016d834a76d5b715fc3ced3cea24628",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 196611.50498271786,
+              "root_effective_sample_size": 196611.50498271786,
+              "maximum_root_weight": 3.864029045043403e-05,
+              "cumulative_log_evidence": -6.040618062909612
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 123382.39949577533,
+              "root_effective_sample_size": 41650.52051909964,
+              "maximum_root_weight": 8.35167575844489e-05,
+              "cumulative_log_evidence": -17.090485202271523
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 354497.4605249472,
+              "root_effective_sample_size": 49116.718035045415,
+              "maximum_root_weight": 0.00016096943180091296,
+              "cumulative_log_evidence": -26.734260156677045
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 4.1483182793328295,
+              "root_effective_sample_size": 4.148308501881641,
+              "maximum_root_weight": 0.40450095045494955,
+              "cumulative_log_evidence": -52.40039289763181
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 169.64470882006938,
+              "root_effective_sample_size": 2.5176638882996922,
+              "maximum_root_weight": 0.47362710132856045,
+              "cumulative_log_evidence": -65.82002832193339
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 1.8583824310934347,
+              "root_effective_sample_size": 1.4630758597004345,
+              "maximum_root_weight": 0.8169377390000594,
+              "cumulative_log_evidence": -78.70180820145487
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 391.36595898364396,
+              "root_effective_sample_size": 1.3221102372145765,
+              "maximum_root_weight": 0.8645361611943059,
+              "cumulative_log_evidence": -91.62067863822948
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 59.725676724310766,
+              "root_effective_sample_size": 1.0925102469847796,
+              "maximum_root_weight": 0.9562967281820148,
+              "cumulative_log_evidence": -111.4841783127114
+            }
+          ],
+          "checkpoint_source_sha256": "da2f6de76cbf128d10151355cc657c71b33c7b4dcc33d4395a15ae17851f9ce7",
+          "time_origin_unix_s": 1394215309.0
+        },
+        {
+          "cdf_at_truth": [
+            0.9952435260437358,
+            0.003929430483784533
+          ],
+          "coordinate_quantiles_05_50_95": [
+            [
+              -8.5369129157,
+              6.5864761218,
+              13.2055193128
+            ],
+            [
+              93.6962635524,
+              95.5285850101,
+              96.0704182356
+            ]
+          ],
+          "largest_ancestor_mass": 0.9818889272726862,
+          "weighted_row_effective_count": 60.103234333879946,
+          "elapsed_seconds": 2089.878406449,
+          "log_evidence": -111.64132378555293,
+          "posterior_sha256": "14a390943f0eb903f2974f386badfb17de9440ec433a4aee96acd77e87fa4591",
+          "contact_diversity": [
+            {
+              "observation_time_s": 1425.0,
+              "posterior_ess": 196568.80670977518,
+              "root_effective_sample_size": 196568.80670977518,
+              "maximum_root_weight": 2.9233701315470784e-05,
+              "cumulative_log_evidence": -6.041501724357023
+            },
+            {
+              "observation_time_s": 1576.0,
+              "posterior_ess": 123412.88183321546,
+              "root_effective_sample_size": 41660.39259049916,
+              "maximum_root_weight": 0.00012134873093536043,
+              "cumulative_log_evidence": -17.085430034765274
+            },
+            {
+              "observation_time_s": 1585.0,
+              "posterior_ess": 354008.7723172387,
+              "root_effective_sample_size": 49060.407345164276,
+              "maximum_root_weight": 0.00011658877282556316,
+              "cumulative_log_evidence": -26.732103513452838
+            },
+            {
+              "observation_time_s": 5953.0,
+              "posterior_ess": 1.5026413831480818,
+              "root_effective_sample_size": 1.502634867535532,
+              "maximum_root_weight": 0.810499945648218,
+              "cumulative_log_evidence": -50.91908664077358
+            },
+            {
+              "observation_time_s": 9555.0,
+              "posterior_ess": 37.010360858514865,
+              "root_effective_sample_size": 1.1101814163131247,
+              "maximum_root_weight": 0.9486909648469862,
+              "cumulative_log_evidence": -64.744996074979
+            },
+            {
+              "observation_time_s": 13177.0,
+              "posterior_ess": 27.260175666290912,
+              "root_effective_sample_size": 1.206058743049322,
+              "maximum_root_weight": 0.9083838500192403,
+              "cumulative_log_evidence": -78.90206933729785
+            },
+            {
+              "observation_time_s": 16772.0,
+              "posterior_ess": 99.9031569912308,
+              "root_effective_sample_size": 1.087115623982956,
+              "maximum_root_weight": 0.9587116673123732,
+              "cumulative_log_evidence": -91.84328333394606
+            },
+            {
+              "observation_time_s": 22150.0,
+              "posterior_ess": 60.103234333871335,
+              "root_effective_sample_size": 1.037001891362456,
+              "maximum_root_weight": 0.981888927272826,
+              "cumulative_log_evidence": -111.64132378555293
+            }
+          ],
+          "checkpoint_source_sha256": "319e18ab1cc5de8e6a84f9800672239d1d6607721f6d234e86fd972378575e8e",
+          "time_origin_unix_s": 1394215309.0
+        }
+      ],
+      "independent_maximum_coordinate_cdf_difference": [
+        0.648332159315548,
+        0.631937422065223
+      ],
+      "pooled_cdf_at_truth": [
+        0.8913081066997277,
+        0.1037056165684349
+      ],
+      "reference_pair_cdf_difference": [
+        0.20977062573565114,
+        0.15432029478552745
+      ],
+      "reference_pooled_cdf_at_truth": [
+        0.9175418493141285,
+        0.07658467018685354
+      ],
+      "additional_reference_pair_cdf_difference": [
+        0.47102841541436513,
+        0.4691941209947744
+      ],
+      "additional_reference_pooled_cdf_at_truth": [
+        0.33120739496965906,
+        0.6502050640834045
+      ]
+    }
+  ],
+  "scope": "Prior-predictive numerical control; fuel envelope conditioned; no accident calibration; coordinate intervals are not joint geographic areas",
+  "method_reference": {
+    "url": "https://sites.stat.columbia.edu/gelman/research/unpublished/sbc.pdf",
+    "locator": "pp. 3\u20135: prior-predictive repetition, empirical CDF limitations and computational scope"
+  },
+  "limitations": [
+    "Only 4 generated data sets in this comparison; binomial uncertainty is substantial.",
+    "Weighted interacting particle rows are not independent posterior draws; these CDF diagnostics are not an exact independent-rank SBC test.",
+    "Generator shares flight and SATCOM equations with inference. Independent physical and equation checks remain necessary.",
+    "Generating routes were accepted by an independent uniform draw against the same remaining-fuel-envelope probability used in inference. Acceptance uses no SATCOM measurement or noise value. This checks computation conditional on that envelope, not the physical validity of the fuel model or an exact exhaustion trajectory.",
+    "The accident-specific initial proposal is disabled for this control. Each filter has five times as many interacting candidates as the matched100k comparison. No physical or proposal changes; fresh independent seeds. This tests effort scaling, not repeated-data physical calibration."
+  ],
+  "reference_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-larger-fuel-comparison/summary.json",
+  "reference_summary_sha256": "27971f384e7e243ba975178770620503e0513b51eda4d8bf693c487128bb4423",
+  "reference_candidates_per_run": 100000,
+  "additional_reference_summary": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/synthetic-cruise-fuel-comparison/summary.json",
+  "additional_reference_summary_sha256": "a278a0eb630ebef856a630907d0987dce5f63a4fff8e858eea6c9a32deca5227"
+}

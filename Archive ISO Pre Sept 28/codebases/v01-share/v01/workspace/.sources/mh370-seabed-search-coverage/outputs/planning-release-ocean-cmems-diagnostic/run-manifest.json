@@ -1,0 +1,59 @@
+{
+  "deterministic": true,
+  "generator": "code/build.py",
+  "generator_sha256": "25c7bb4ec09d2f55f8f422ee6aa7eba59d677aa3693efb2009db22b944214b90",
+  "input": {
+    "bytes": 687419,
+    "logical_path": "runs/mh370/release-v0.1/conditional/ocean-cmems-glorys12-waverys-diagnostic/conditional-spatial-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "0cf511d954ebf123055dc8b10947d54bf345cf3f0908af56ae7a196dcb39c79e",
+    "weight_column": "conditional_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "outputs": [
+    {
+      "bytes": 401587,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/index.html",
+      "sha256": "f6dad255841433dfc2968f3b9f176f4c1d3a17f38e3b4081d7e7c9b224f4e0a9"
+    },
+    {
+      "bytes": 217142,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/ordered-tiles-posterior-only.csv",
+      "sha256": "a5807530d9a42782c6bfc07161cb7aa378c34197248bba59ab4f5eb77b1a4881"
+    },
+    {
+      "bytes": 217162,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/ordered-tiles-proxy-logistics.csv",
+      "sha256": "f38d3fbafe5183f817d96a5727074e0cafc9c285b7d07005f82eec8b2fbe587d"
+    },
+    {
+      "bytes": 3783,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/plan-summary.json",
+      "sha256": "d09250cc8b8138ef89b0ac883a6f29632ffb2733b2061b49ffb3bab895002d82"
+    },
+    {
+      "bytes": 100093,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/search-plan.pdf",
+      "sha256": "bbb9c2141ba990ff50d18bbd3f3b481f84db6f1d26a4d8dbd696147f38083ecf"
+    },
+    {
+      "bytes": 576047,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/search-plan.png",
+      "sha256": "8b81dad934f647a584bb362c0858813a8d54d33719d1b90aba35bf3cc718dc07"
+    },
+    {
+      "bytes": 399079,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/search-plan.svg",
+      "sha256": "f87b5aa24b7d4c086f8611e18891c21996e777bba1065e497d86d1ca3d4a2da7"
+    },
+    {
+      "bytes": 11024,
+      "path": "outputs/planning-release-ocean-cmems-diagnostic/selected-tiles.geojson",
+      "sha256": "66685b84fa740cab9f248a3e530891a68e2e466a0c070086e2ce4b12176f3c9c"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

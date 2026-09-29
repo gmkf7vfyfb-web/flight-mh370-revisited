@@ -1,0 +1,15 @@
+scope,epoch_id,sequence,flight,arc_time_utc,screen,screen_label,raw_minus_60_min,raw_actual_time,raw_plus_60_min,residual_minus_60_min,residual_actual_time,residual_plus_60_min,residual_control_mean,residual_actual_minus_control_mean,actual_time_references_recovered,actual_time_references_scored,epoch_block_actual_excess_p,epoch_block_two_sided_p,connected_window_actual_excess_p,connected_window_two_sided_p
+pooled,,,Pooled known flights,,surface_endpoint,Surface endpoint,7,0,6,7,0,6,6.5,-6.5,0,6,1.0,0.0625,1.0,0.25
+pooled,,,Pooled known flights,,common_aircraft_altitude,Common aircraft altitude,14,7,25,9,6,22,15.5,-9.5,0,6,1.0,0.03125,1.0,0.25
+epoch,mh371_0404,1,MH371,2014-03-07 04:04:09.457000,surface_endpoint,Surface endpoint,0,0,0,0,0,0,0.0,0.0,0,1,,,,
+epoch,mh371_0404,1,MH371,2014-03-07 04:04:09.457000,common_aircraft_altitude,Common aircraft altitude,1,0,0,1,0,0,0.5,-0.5,0,1,,,,
+epoch,mh371_0611,2,MH371,2014-03-07 06:11:01.159000,surface_endpoint,Surface endpoint,0,0,3,0,0,3,1.5,-1.5,0,1,,,,
+epoch,mh371_0611,2,MH371,2014-03-07 06:11:01.159000,common_aircraft_altitude,Common aircraft altitude,0,0,3,0,0,3,1.5,-1.5,0,1,,,,
+epoch,mh371_0648,3,MH371,2014-03-07 06:48:31.157000,surface_endpoint,Surface endpoint,0,0,2,0,0,2,1.0,-1.0,0,1,,,,
+epoch,mh371_0648,3,MH371,2014-03-07 06:48:31.157000,common_aircraft_altitude,Common aircraft altitude,0,0,6,0,0,6,3.0,-3.0,0,1,,,,
+epoch,mh370_1642,4,MH370,2014-03-07 16:42:32.406000,surface_endpoint,Surface endpoint,3,0,1,3,0,1,2.0,-2.0,0,1,,,,
+epoch,mh370_1642,4,MH370,2014-03-07 16:42:32.406000,common_aircraft_altitude,Common aircraft altitude,5,3,9,2,3,7,4.5,-1.5,0,1,,,,
+epoch,mh370_1656,5,MH370,2014-03-07 16:55:53.157000,surface_endpoint,Surface endpoint,2,0,0,2,0,0,1.0,-1.0,0,1,,,,
+epoch,mh370_1656,5,MH370,2014-03-07 16:55:53.157000,common_aircraft_altitude,Common aircraft altitude,2,2,6,1,2,5,3.0,-1.0,0,1,,,,
+epoch,mh370_1707,6,MH370,2014-03-07 17:07:19.156500,surface_endpoint,Surface endpoint,2,0,0,2,0,0,1.0,-1.0,0,1,,,,
+epoch,mh370_1707,6,MH370,2014-03-07 17:07:19.156500,common_aircraft_altitude,Common aircraft altitude,6,2,1,5,1,1,3.0,-2.0,0,1,,,,

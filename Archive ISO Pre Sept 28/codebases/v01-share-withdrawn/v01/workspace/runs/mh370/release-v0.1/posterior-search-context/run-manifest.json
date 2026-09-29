@@ -1,0 +1,37 @@
+{
+  "command_working_directory": "repository_root",
+  "generator": "crates/reporting/scripts/posterior_search_context.py",
+  "generator_sha256": "ab9f6846bb36174f36e3ce8840fd1dd3b066e5cc063b7ceea1c6af9555a3d6aa",
+  "input_sha256": {
+    ".sources/davey-2016-bayesian-search/data/davey_fig10_3_digitized_latitude_pdf.csv": "ae2d701df29be8c37720caafe744bc7735a22e4c0765d31820fefa2fe7f400ed",
+    ".sources/mh370-seabed-search-coverage/data/area-inventory.json": "093f4f45c9555e426eeedb328a27a090de895ece5f7a9f4ddd09df3ad677a66a",
+    ".sources/mh370-seabed-search-coverage/data/map/search-evidence-atlas.geojson": "6c582ee17ca21dae1a4f06778d8f4314c111c429b2d8cc75e008381c508a0e5e",
+    "crates/reporting/assets/ne_110m_land.geojson": "9e0729ee253ca7d7a5c4ae9395fb1902264c5377c52e224d13dd85010e2835d9",
+    "runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370023/posterior.csv": "9c2628f8177ff396bab9e431c4419cdfdb29a088966f9366a811d157d3a4d883",
+    "runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370024/posterior.csv": "ff344be860fa14ce273068da112f49aa951b99db05c11826be1602d15f5d2f78",
+    "runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370025/posterior.csv": "3314e8c9fa035a13c150819f8232a45caa658f918aeca37477cb19a9046fb9ba",
+    "runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370026/posterior.csv": "e72efccae14c3b9c46d00b9b9d2894195b4ed8eeeebd76085ec426df6e2d5cb2",
+    "runs/mh370/0011-core-comparison/bto-bfo-medium/seed-370027/posterior.csv": "b5af9123f4484770c01746b4648372782ea7b3ffe62637c2adfce52a0510ae97",
+    "runs/mh370/0011-core-comparison/run-manifest.json": "8a297133d5188da36a26ac13c1c466d4dfc9d979e3934f1354ad2f84feddf114",
+    "runs/mh370/0011-to-0019-seventh-arc-bto/posterior.csv": "581fa2f2fb6647fd8fe02f0f0b6e45a9e50155e1c4e50844bcabbb67c7c925f2",
+    "runs/mh370/0011-to-0019-seventh-arc-bto/run-manifest.json": "7b6b4f1128a11cf68e56b00c9925786737f1a647de6b64d0a978777639ad7a67",
+    "runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370023/impact-posterior-handoff.json": "263f56a8316c9524b579bdc87c3409001ca388aef346e2efccdaf13b5e6b55e9",
+    "runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370024/impact-posterior-handoff.json": "6c3af77bc0954d01bf6612526dad10046a47f2b96616b470078edc3ae99062a7",
+    "runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370025/impact-posterior-handoff.json": "e4ffad641184c684898525c55c9b3aa6cfc590525af3d61335e325fdd121e7fe",
+    "runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370026/impact-posterior-handoff.json": "4515d09acadec71ad606c490d29bc9a1f8879d25cf719130ba999744e5c608c5",
+    "runs/mh370/release-v0.1/impact/arc1-current-polar-best-glide-equal-feed/seed-370027/impact-posterior-handoff.json": "c49c334a49b6b2adff8489aca560636f6e8b8cb09bc4814e3a14a80dfc0415e8",
+    "runs/mh370/release-v0.1/impact/suite-manifest.json": "d3d4aae1d9e9428283d8764e9f12ea45910782f08709a1105c5848c600dbb374"
+  },
+  "output_sha256": {
+    "caption.md": "ada94ea14b2e306866202ffcd87d759e302d559aae3a12c70da15bee06a64102",
+    "index.html": "015465d016dbad1db71f3128389f63ddd2d50fd2b355575798f216cdf7bdad49",
+    "posterior-evolution-search-context.pdf": "cecc77cbf4958569061392bde1e644b7b956df4fa044177f1855245f3530ff1d",
+    "posterior-evolution-search-context.png": "65f44bed194c456965fcbf808f48b0029a074f58c955022fa001872bf3e282fc",
+    "posterior-evolution-search-context.svg": "7811e6f84a02b37b3dd1dbd1bca132a2cc027786794dd186d6f3edef9b9bb909",
+    "summary.json": "d949970e9d899158b13c3ea2136f1ca547ffa458ef8e71e1926199c645355cf9"
+  },
+  "path_basis": "repository_root",
+  "reproduction_command_template": "python -B crates/reporting/scripts/posterior_search_context.py --core-run runs/mh370/0011-core-comparison --continuation-run runs/mh370/0011-to-0019-seventh-arc-bto --impact-suite runs/mh370/release-v0.1/impact/suite-manifest.json --davey-latitude .sources/davey-2016-bayesian-search/data/davey_fig10_3_digitized_latitude_pdf.csv --search-atlas .sources/mh370-seabed-search-coverage/data/map/search-evidence-atlas.geojson --area-inventory .sources/mh370-seabed-search-coverage/data/area-inventory.json --land crates/reporting/assets/ne_110m_land.geojson --output <new-empty-output-directory>",
+  "schema_id": "mh370-posterior-search-context-manifest",
+  "schema_version": 1
+}

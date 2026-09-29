@@ -1,0 +1,198 @@
+{
+  "runs": [
+    {
+      "run": "seed-37091121",
+      "diagnostic_subsample": 128,
+      "mode_checks": [
+        {
+          "slot": 0,
+          "current_frequency": [
+            0.328125,
+            0.0625,
+            0.0,
+            0.40625,
+            0.203125
+          ],
+          "mean_exact_conditional_probability": [
+            0.19468584505264216,
+            0.2171527809557344,
+            0.18820212454979218,
+            0.2145222287207219,
+            0.18543702072110854
+          ],
+          "mean_probability_of_changing_mode": 0.7636978355286757
+        },
+        {
+          "slot": 1,
+          "current_frequency": [
+            0.3984375,
+            0.0390625,
+            0.0625,
+            0.1484375,
+            0.3515625
+          ],
+          "mean_exact_conditional_probability": [
+            0.36674270487795024,
+            0.038672040908677804,
+            0.06870290122434128,
+            0.2041616612319083,
+            0.3217206917571219
+          ],
+          "mean_probability_of_changing_mode": 0.27572900627439567
+        },
+        {
+          "slot": 2,
+          "current_frequency": [
+            0.265625,
+            0.09375,
+            0.4296875,
+            0.0546875,
+            0.15625
+          ],
+          "mean_exact_conditional_probability": [
+            0.2107827774796776,
+            0.08541729140291526,
+            0.3907507450030424,
+            0.11075128553310862,
+            0.20229790058125574
+          ],
+          "mean_probability_of_changing_mode": 0.35178615253663614
+        },
+        {
+          "slot": 3,
+          "current_frequency": [
+            0.4375,
+            0.0546875,
+            0.09375,
+            0.0078125,
+            0.40625
+          ],
+          "mean_exact_conditional_probability": [
+            0.37715607097308845,
+            0.11333721930085056,
+            0.11305275628278307,
+            0.08974789074707293,
+            0.3067060626962056
+          ],
+          "mean_probability_of_changing_mode": 0.5131506863066728
+        },
+        {
+          "slot": 4,
+          "current_frequency": [
+            0.5859375,
+            0.1015625,
+            0.0078125,
+            0.0,
+            0.3046875
+          ],
+          "mean_exact_conditional_probability": [
+            0.49605571567685625,
+            0.08757664284694218,
+            0.020314690820899088,
+            0.023052055998796582,
+            0.3730008946565062
+          ],
+          "mean_probability_of_changing_mode": 0.4448810681062976
+        }
+      ]
+    },
+    {
+      "run": "seed-37091122",
+      "diagnostic_subsample": 128,
+      "mode_checks": [
+        {
+          "slot": 0,
+          "current_frequency": [
+            0.1875,
+            0.046875,
+            0.03125,
+            0.234375,
+            0.5
+          ],
+          "mean_exact_conditional_probability": [
+            0.20303434197637169,
+            0.18787646267702549,
+            0.2092963041227067,
+            0.18919694471357107,
+            0.21059594651032482
+          ],
+          "mean_probability_of_changing_mode": 0.7692787953817444
+        },
+        {
+          "slot": 1,
+          "current_frequency": [
+            0.265625,
+            0.0078125,
+            0.625,
+            0.078125,
+            0.0234375
+          ],
+          "mean_exact_conditional_probability": [
+            0.2544952547331729,
+            0.014915802075085204,
+            0.4911352968241523,
+            0.11422084102172149,
+            0.12523280534586806
+          ],
+          "mean_probability_of_changing_mode": 0.2594263233135445
+        },
+        {
+          "slot": 2,
+          "current_frequency": [
+            0.15625,
+            0.0546875,
+            0.1953125,
+            0.03125,
+            0.5625
+          ],
+          "mean_exact_conditional_probability": [
+            0.32289176920108026,
+            0.06311818920611456,
+            0.19587804595390246,
+            0.09877792143933256,
+            0.3193340741995703
+          ],
+          "mean_probability_of_changing_mode": 0.4300418473423514
+        },
+        {
+          "slot": 3,
+          "current_frequency": [
+            0.8125,
+            0.0703125,
+            0.0078125,
+            0.0,
+            0.109375
+          ],
+          "mean_exact_conditional_probability": [
+            0.42922560475622445,
+            0.10754695404026686,
+            0.018512726086094125,
+            0.0235565251484686,
+            0.4211581899689456
+          ],
+          "mean_probability_of_changing_mode": 0.5103062329204795
+        },
+        {
+          "slot": 4,
+          "current_frequency": [
+            0.8203125,
+            0.0,
+            0.0,
+            0.0234375,
+            0.15625
+          ],
+          "mean_exact_conditional_probability": [
+            0.5470419522493438,
+            0.015878540774900057,
+            0.008979578322153297,
+            0.01316732872565169,
+            0.41493259992795156
+          ],
+          "mean_probability_of_changing_mode": 0.4329039916477172
+        }
+      ]
+    }
+  ],
+  "elapsed_s": 10.64526993200161,
+  "scope": "Conditional mode probabilities at retained continuous controls; a mixing diagnostic, not a new posterior."
+}

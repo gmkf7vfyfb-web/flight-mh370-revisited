@@ -1,0 +1,101 @@
+{
+  "profiles": 800,
+  "counts": {
+    "unresolved": 733,
+    "found_joint_example": 67
+  },
+  "evaluations": 155365,
+  "elapsed_s": 219.80663956499484,
+  "maximum_child_rss_kib": 664568,
+  "initial_mach_bounds": [
+    0.3,
+    0.87
+  ],
+  "initial_altitude_bounds_ft": [
+    500.0,
+    43000.0
+  ],
+  "initial_grid": [
+    [
+      0.5,
+      1000
+    ],
+    [
+      0.65,
+      1000
+    ],
+    [
+      0.78,
+      1000
+    ],
+    [
+      0.84,
+      1000
+    ],
+    [
+      0.5,
+      10000
+    ],
+    [
+      0.65,
+      10000
+    ],
+    [
+      0.78,
+      10000
+    ],
+    [
+      0.84,
+      10000
+    ],
+    [
+      0.5,
+      20000
+    ],
+    [
+      0.65,
+      20000
+    ],
+    [
+      0.78,
+      20000
+    ],
+    [
+      0.84,
+      20000
+    ],
+    [
+      0.5,
+      30000
+    ],
+    [
+      0.65,
+      30000
+    ],
+    [
+      0.78,
+      30000
+    ],
+    [
+      0.84,
+      30000
+    ],
+    [
+      0.5,
+      40000
+    ],
+    [
+      0.65,
+      40000
+    ],
+    [
+      0.78,
+      40000
+    ],
+    [
+      0.84,
+      40000
+    ]
+  ],
+  "limitations": "Fixed initial cruise held before 18:25. Found paths require fine replay. Missing examples are unresolved, not excluded. Counts and density are not probabilities."
+}

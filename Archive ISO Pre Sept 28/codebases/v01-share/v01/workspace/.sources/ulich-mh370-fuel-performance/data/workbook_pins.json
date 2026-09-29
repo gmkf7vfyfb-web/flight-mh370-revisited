@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "canonicalization": "ooxml-cached-cell-token-grid-v1",
+  "preserved_workbook": {
+    "sha256": "a45373a2c1a66e920510145a45bfd576a316deced64dde472f8fbb86971f75a3",
+    "size_bytes": 2376741,
+    "sheet_count": 24,
+    "version_text": "Version 5.6",
+    "version_text_sha256": "b030bcffda7f4b4578e99ff538bcd8cbb2827defffb3825c1ab3bca4b9ca1ebf",
+    "vba_project_sha256": "427c8a1f8f79aec8184e1bb6c3ff58358361880334db7db6fe9239acb7eedfb9"
+  },
+  "public_reference_workbook": {
+    "sha256": "42d150e36a79e2b9493680128e4833f14eebd6c1cc9551c66d00e0c7127d92a4",
+    "size_bytes": 2705123,
+    "vba_project_sha256": "7e164d0d8d02283750fe36568430319f33d93a8a4694714241f8fe3b61e3c64c"
+  },
+  "comparison_attestation": {
+    "method": "local-side-by-side-nonexecuting-ooxml-audit",
+    "all_audited_range_values_equal": true,
+    "equal_range_count": 19,
+    "ooxml_changed_part_count": 39,
+    "note": "Attestation is bound to the two whole-file hashes above; no cell values are retained."
+  },
+  "policy": {
+    "mode": "audit-only",
+    "redistribute_values": false,
+    "integrate_tables": false,
+    "conditional_future_use": "Only after legal provenance, independent validation, and removal of event-linked calibration are established."
+  },
+  "ranges": [
+    {"id": "drag-coefficient", "sheet": "Drag Coef Table", "range": "B4:L28", "canonical_value_sha256": "c45ada31b9701400f43cf3cb2c0bc20eaa23df86a415ab9792f3094fd655a6e2"},
+    {"id": "tsfc-efficiency", "sheet": "TSFC Eff Table", "range": "B4:E69", "canonical_value_sha256": "2d6f0a7f273393b9a20314fb9b3cfdd252bd115bf845115250551b4f194010ba"},
+    {"id": "lrc-mach", "sheet": "LRC Mach", "range": "C4:AL21", "canonical_value_sha256": "1f0fab7997c0af860d1d05887ce857108bf22e96a94e5858b0d9c0318704ebf0"},
+    {"id": "lrc-kias", "sheet": "LRC KIAS", "range": "C4:AL21", "canonical_value_sha256": "eb3eacec972648c8b3eccb054232ab0ba607bd1e2504239f2cfe526bc84da52a"},
+    {"id": "lrc-fuel-flow", "sheet": "LRC FF", "range": "C4:AL21", "canonical_value_sha256": "9f857d808fdb0eb3bb1ff340cf1e472974bf6db3ec6da2bac9ff807f19660d55"},
+    {"id": "m084-mach", "sheet": "M0.84 Mach", "range": "C4:AL21", "canonical_value_sha256": "6127a8828c81e90cef61f34235ebadf259b134d45ec3fe51d4e06baca9a84e2d"},
+    {"id": "m084-kias", "sheet": "M0.84 KIAS", "range": "C4:AL21", "canonical_value_sha256": "71e71c685500cda4031088087ef1b838e6225e25c679e7ac59a5185f20b41c5f"},
+    {"id": "m084-fuel-flow", "sheet": "M0.84 FF", "range": "C4:Q21", "canonical_value_sha256": "a498c57a6cbbcfd439af2620d392ac6d75046b654d8c4642cca834931f70d87b"},
+    {"id": "holding-kias", "sheet": "Holding KIAS", "range": "C4:M13", "canonical_value_sha256": "bb711e5164710270b5df07f6f5091ce295c27f98525575d610c0847e1db6c3e9"},
+    {"id": "holding-mach", "sheet": "Holding Mach", "range": "C4:M13", "canonical_value_sha256": "aa4276a08cde57ec313b3f5b388f1cdbef3cd1f8928eb60b6b212685471b2b22"},
+    {"id": "holding-fuel-flow", "sheet": "Holding FF", "range": "C4:M13", "canonical_value_sha256": "9dacd7819899d1be9ec3ee5286726c2bb275ed4f8f21a03e9774ee181bcf9b5f"},
+    {"id": "lrc-inop-mach", "sheet": "LRC INOP Mach", "range": "C4:AA21", "canonical_value_sha256": "a71e01170449b4c6e4604c7785b8fc540a8b787ac82c53205ca4cb07e1d98d56"},
+    {"id": "lrc-inop-fuel-flow", "sheet": "LRC INOP FF", "range": "C4:AA21", "canonical_value_sha256": "2948efd6230871952aab38d779f4d58a5f50715903b3979d74800ae3f51ca5de"},
+    {"id": "holding-inop-mach", "sheet": "Holding INOP Mach", "range": "C4:U13", "canonical_value_sha256": "b8f4bf0f18241fcc7ecdfb6a98f1c3ec27585f194e709842fca290621d62b58c"},
+    {"id": "holding-inop-fuel-flow", "sheet": "Holding INOP FF", "range": "C4:J13", "canonical_value_sha256": "b89ffa489f0ffb07c9154458c7e74a94f001e86a601e8a80204d12ed34d16440"},
+    {"id": "mrc-mach", "sheet": "MRC Mach", "range": "C3:T18", "canonical_value_sha256": "6e880aa6b4baeea4de8612383a2dde6002ca37f0ccb229b6acbefa4d449c0ef8"},
+    {"id": "mrc-fuel-flow", "sheet": "MRC FF", "range": "C3:T18", "canonical_value_sha256": "0de4f5209bbc286ab3a322ba545eccfdb73137303392a89b5f98f8da5369e45e"},
+    {"id": "ci52-mach", "sheet": "CI=52 Mach", "range": "C3:T18", "canonical_value_sha256": "539a1a6cbcd3ecd25031d03eebcc9fe3e740473d2dc63242c6643802bb2d33ea"},
+    {"id": "ci52-fuel-flow", "sheet": "CI=52 FF", "range": "C3:T18", "canonical_value_sha256": "c52df44f1e6eae31dc7d3a8e6523639880bf8f635b7d073299557b78ffee6a50"}
+  ]
+}

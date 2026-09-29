@@ -1,0 +1,318 @@
+{
+  "status": "Exploratory importance estimate; convergence and numerical validation must be assessed before a probability-density claim",
+  "retained_contributions": 15434,
+  "weight_concentration_ESS": 4.8011732651417125,
+  "largest_weight": 0.4030014943120622,
+  "log_evidence_estimate": -57.67259396682977,
+  "latitude_quantiles": [
+    -35.63400019717598,
+    -35.03329968037112,
+    -33.6631106462459
+  ],
+  "longitude_quantiles": [
+    91.80164910878898,
+    92.49366325633895,
+    94.09631235437276
+  ],
+  "models": [
+    {
+      "turns": 0,
+      "altitude_class": 0,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 0,
+      "altitude_class": 1,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 1,
+      "altitude_class": 0,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 1,
+      "altitude_class": 1,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 2,
+      "altitude_class": 0,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 2,
+      "altitude_class": 1,
+      "estimated_weight": 0.0
+    },
+    {
+      "turns": 3,
+      "altitude_class": 0,
+      "estimated_weight": 0.9987247018465029
+    },
+    {
+      "turns": 3,
+      "altitude_class": 1,
+      "estimated_weight": 0.0002175521748377191
+    },
+    {
+      "turns": 4,
+      "altitude_class": 0,
+      "estimated_weight": 3.484680104563931e-06
+    },
+    {
+      "turns": 4,
+      "altitude_class": 1,
+      "estimated_weight": 0.001054261298557408
+    }
+  ],
+  "replicates": [
+    {
+      "replicate": 0,
+      "log_evidence_estimate": -57.12591525863905,
+      "weight_concentration_ESS": 3.604621704728236,
+      "latitude_quantiles": [
+        -35.63430791968372,
+        -35.033318831037,
+        -33.97166130883646
+      ],
+      "longitude_quantiles": [
+        91.80164285646366,
+        92.35912229734072,
+        93.87312271371015
+      ],
+      "largest_weight": 0.466570317108305
+    },
+    {
+      "replicate": 1,
+      "log_evidence_estimate": -58.97273238600041,
+      "weight_concentration_ESS": 14.206210177839393,
+      "latitude_quantiles": [
+        -35.595091552680294,
+        -35.00174669034589,
+        -33.63136472775214
+      ],
+      "longitude_quantiles": [
+        91.85475499698572,
+        92.6198071509573,
+        94.0963273628317
+      ],
+      "largest_weight": 0.17198991126141763
+    }
+  ],
+  "between_arcs_weight": 0.8271020301592652,
+  "RUNUT": [
+    {
+      "radius_nm": 5,
+      "passage_weight": 0.0,
+      "passage_and_between_weight": 0.0
+    },
+    {
+      "radius_nm": 10,
+      "passage_weight": 0.0,
+      "passage_and_between_weight": 0.0
+    },
+    {
+      "radius_nm": 20,
+      "passage_weight": 0.0,
+      "passage_and_between_weight": 0.0
+    }
+  ],
+  "cell_records": [
+    {
+      "replicate": "prior_cells",
+      "turns": 0,
+      "altitude_class": 0,
+      "prior_draws": 131072,
+      "fine_evaluations": 2654,
+      "fine_physical_fuel_valid": 568,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 185.00780444098928
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 0,
+      "altitude_class": 1,
+      "prior_draws": 131072,
+      "fine_evaluations": 2623,
+      "fine_physical_fuel_valid": 653,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 172.02055436799128
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 1,
+      "altitude_class": 0,
+      "prior_draws": 131072,
+      "fine_evaluations": 2732,
+      "fine_physical_fuel_valid": 589,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 141.99804512799892
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 1,
+      "altitude_class": 1,
+      "prior_draws": 131072,
+      "fine_evaluations": 2660,
+      "fine_physical_fuel_valid": 627,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 166.52550065499963
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 2,
+      "altitude_class": 0,
+      "prior_draws": 131072,
+      "fine_evaluations": 2633,
+      "fine_physical_fuel_valid": 541,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 117.36163746399689
+    },
+    {
+      "replicate": "prior_cells",
+      "turns": 2,
+      "altitude_class": 1,
+      "prior_draws": 131072,
+      "fine_evaluations": 2685,
+      "fine_physical_fuel_valid": 625,
+      "gate_survivors": 0,
+      "log_evidence_estimate": null,
+      "interpretation": "Zero hits do not prove the cell has zero posterior mass",
+      "seconds": 61.810332833003486
+    },
+    {
+      "replicate": "physical_v6_a",
+      "turns": 3,
+      "altitude_class": 0,
+      "proposal_draws": 262144,
+      "fine_evaluations": 8645,
+      "gate_survivors": 1773,
+      "seed": 266300,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -54.824760637622866,
+      "importance_ess": 3.5943423491791475,
+      "largest_importance_weight": 0.46723821046010444
+    },
+    {
+      "replicate": "physical_v6_b",
+      "turns": 3,
+      "altitude_class": 0,
+      "proposal_draws": 262144,
+      "fine_evaluations": 8815,
+      "gate_survivors": 1850,
+      "seed": 266301,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -56.67044537729811,
+      "importance_ess": 14.197757944739669,
+      "largest_importance_weight": 0.17204118639407873
+    },
+    {
+      "replicate": "physical_v6_a",
+      "turns": 3,
+      "altitude_class": 1,
+      "proposal_draws": 262144,
+      "fine_evaluations": 6902,
+      "gate_survivors": 2141,
+      "seed": 266310,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -63.113702559386056,
+      "importance_ess": 1.0779235898052486,
+      "largest_importance_weight": 0.9628246096765978
+    },
+    {
+      "replicate": "physical_v6_b",
+      "turns": 3,
+      "altitude_class": 1,
+      "proposal_draws": 262144,
+      "fine_evaluations": 6933,
+      "gate_survivors": 2095,
+      "seed": 266311,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -68.69275925261316,
+      "importance_ess": 10.818542829746923,
+      "largest_importance_weight": 0.23048046280843346
+    },
+    {
+      "replicate": "physical_v6_a",
+      "turns": 4,
+      "altitude_class": 0,
+      "proposal_draws": 262144,
+      "fine_evaluations": 7623,
+      "gate_survivors": 1933,
+      "seed": 266400,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -67.29374692561915,
+      "importance_ess": 1.7622718623723168,
+      "largest_importance_weight": 0.7418472033681585
+    },
+    {
+      "replicate": "physical_v6_b",
+      "turns": 4,
+      "altitude_class": 0,
+      "proposal_draws": 262144,
+      "fine_evaluations": 7438,
+      "gate_survivors": 1915,
+      "seed": 266401,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -70.26949461227684,
+      "importance_ess": 4.6513744700954724,
+      "largest_importance_weight": 0.4050889252704853
+    },
+    {
+      "replicate": "physical_v6_a",
+      "turns": 4,
+      "altitude_class": 1,
+      "proposal_draws": 262144,
+      "fine_evaluations": 5600,
+      "gate_survivors": 1812,
+      "seed": 266410,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -61.57008134040003,
+      "importance_ess": 1.0060707074242843,
+      "largest_importance_weight": 0.9969764234490935
+    },
+    {
+      "replicate": "physical_v6_b",
+      "turns": 4,
+      "altitude_class": 1,
+      "proposal_draws": 262144,
+      "fine_evaluations": 5801,
+      "gate_survivors": 1915,
+      "seed": 266411,
+      "complete": true,
+      "method": "Exact inherited prior in scaled physical coordinates, 10% prior + Student-t GN proposal; fine inclusion correction retained",
+      "coordinate_system": "scaled_physical",
+      "log_evidence": -64.81305056042152,
+      "importance_ess": 1.1731365545340546,
+      "largest_importance_weight": 0.9215570398631768
+    }
+  ],
+  "warning": "Zero-hit lower-turn cells are unresolved, not proved impossible. Independent samples share trained proposals; this tests integration noise, not discovery of every mode.",
+  "proposal_source": "physical_v6",
+  "total_proposals": 2883584
+}

@@ -1,0 +1,11 @@
+[package]
+name = "mh370-antenna"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+mh370-domain = { path = "../domain" }
+serde.workspace = true
+thiserror.workspace = true

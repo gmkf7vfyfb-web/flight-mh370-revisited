@@ -1,0 +1,23 @@
+{
+  "command": [
+    "cargo",
+    "test",
+    "--workspace",
+    "--locked",
+    "--offline",
+    "-j",
+    "2",
+    "--",
+    "--test-threads=2"
+  ],
+  "exit_code": 0,
+  "elapsed_s": 37.1233428830019,
+  "child_user_cpu_s": 47.556016,
+  "child_system_cpu_s": 1.847832,
+  "maximum_child_rss_kib": 663624,
+  "memory_note": "Maximum RSS of a child process, not a measured concurrent-process total.",
+  "tests_passed": 467,
+  "tests_failed": 0,
+  "tests_ignored": 5,
+  "cargo_fmt_check_passed": true
+}

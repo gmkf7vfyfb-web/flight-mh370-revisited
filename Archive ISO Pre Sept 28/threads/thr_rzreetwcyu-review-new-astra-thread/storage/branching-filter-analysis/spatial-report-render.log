@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/jackbox/home/MH370/crates/reporting/scripts/spatial_evidence_report.py", line 141, in <module>
+    a=p.parse_args();report(a.state,a.category,a.output,a.inline_output)
+                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/jackbox/home/MH370/crates/reporting/scripts/spatial_evidence_report.py", line 134, in report
+    (output/'summary.json').write_text(json.dumps(result,indent=2)+'\n');browser(values,category,output,inline)
+                                                                         ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/jackbox/home/MH370/crates/reporting/scripts/spatial_evidence_report.py", line 123, in browser
+    if len(document.encode())>5*1024**2:raise ValueError('ISO document limit exceeded')
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: ISO document limit exceeded
+Traceback (most recent call last):
+  File "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/render_spatial_comparisons.py", line 7, in <module>
+    subprocess.run(['/tmp/mh370-acoustic-venv/bin/python',str(R/'crates/reporting/scripts/spatial_evidence_report.py'),'--state',str(B/'spatial-comparison-status.json'),'--category',category,'--output',str(B/(category+'-comparison')),'--inline-output',str(preview)],check=True,env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',OPENBLAS_NUM_THREADS='1'))
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/tmp/mh370-acoustic-venv/bin/python', '/jackbox/home/MH370/crates/reporting/scripts/spatial_evidence_report.py', '--state', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-comparison-status.json', '--category', 'drift', '--output', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/drift-comparison', '--inline-output', '/jackbox/home/MH370/mh370-drift-comparison.html']' returned non-zero exit status 1.

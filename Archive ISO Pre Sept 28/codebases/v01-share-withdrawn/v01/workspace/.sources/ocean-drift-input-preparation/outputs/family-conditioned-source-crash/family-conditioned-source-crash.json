@@ -1,0 +1,914 @@
+{
+  "conditioned_crash_summaries": {
+    "constant-magnetic-heading__cmems": {
+      "after_effective_sample_size": 28839.65175324807,
+      "before_effective_sample_size": 29142.250716592873,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0,
+      "current_family": "cmems_glorys12_reanalysis",
+      "effective_sample_size": 28839.65175324807,
+      "flight_family": "constant-magnetic-heading",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 31.693412750452,
+          "upper": 31.841343237405
+        },
+        "90": {
+          "lower": 31.616566342805,
+          "upper": 31.933254491586
+        },
+        "95": {
+          "lower": 31.548191529467,
+          "upper": 31.970199716442
+        },
+        "99": {
+          "lower": 31.481159544278,
+          "upper": 32.043312593259
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 95.961100601484,
+          "upper": 96.072888159709
+        },
+        "90": {
+          "lower": 95.86190636293,
+          "upper": 96.151944194088
+        },
+        "95": {
+          "lower": 95.834565672102,
+          "upper": 96.189811211112
+        },
+        "99": {
+          "lower": 95.763856951818,
+          "upper": 96.25571901141
+        }
+      },
+      "maximum_cell_distance_nm": 39.787463043238354,
+      "mean_latitude_s": 31.7663252387473,
+      "mean_longitude_e": 96.01692863599905,
+      "median_assigned_source_arrival_ess": 53.226596958549486,
+      "numerical_note": "posthoc_particle_ess_reported",
+      "particles": 30000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "combined mass depends materially on source cells with fewer than 100 effective Reunion arrivals",
+      "zero_likelihood_particles": 0
+    },
+    "constant-magnetic-heading__native": {
+      "after_effective_sample_size": 28886.67108454657,
+      "before_effective_sample_size": 29142.250716592873,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 1.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0697539414444952,
+      "current_family": "hycom_gofs31_reanalysis",
+      "effective_sample_size": 28886.67108454657,
+      "flight_family": "constant-magnetic-heading",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 31.693412750452,
+          "upper": 31.841423723863
+        },
+        "90": {
+          "lower": 31.619115877782,
+          "upper": 31.933254491586
+        },
+        "95": {
+          "lower": 31.549026454971,
+          "upper": 31.970211509182
+        },
+        "99": {
+          "lower": 31.481159544278,
+          "upper": 32.043931878869
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 95.960968885144,
+          "upper": 96.072888159709
+        },
+        "90": {
+          "lower": 95.861727964991,
+          "upper": 96.150987445626
+        },
+        "95": {
+          "lower": 95.834565672102,
+          "upper": 96.188952499344
+        },
+        "99": {
+          "lower": 95.76256003913,
+          "upper": 96.253533000628
+        }
+      },
+      "maximum_cell_distance_nm": 39.787463043238354,
+      "mean_latitude_s": 31.766688822546875,
+      "mean_longitude_e": 96.01663232099618,
+      "median_assigned_source_arrival_ess": 176.125403166986,
+      "numerical_note": "posthoc_particle_ess_reported",
+      "particles": 30000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "at least 90% of combined mass maps to source cells with arrival ESS >=100",
+      "zero_likelihood_particles": 0
+    },
+    "constant-magnetic-track__cmems": {
+      "after_effective_sample_size": 53050.26616078806,
+      "before_effective_sample_size": 83058.27350480709,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 9.448458908145562e-06,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0,
+      "current_family": "cmems_glorys12_reanalysis",
+      "effective_sample_size": 53050.266160788036,
+      "flight_family": "constant-magnetic-track",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 33.169770338144,
+          "upper": 33.313297773591
+        },
+        "90": {
+          "lower": 33.063314818919,
+          "upper": 33.36114010523
+        },
+        "95": {
+          "lower": 33.028001725694,
+          "upper": 33.374502348699
+        },
+        "99": {
+          "lower": 32.976484242489,
+          "upper": 33.402400056263
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 93.983345912601,
+          "upper": 94.109744898378
+        },
+        "90": {
+          "lower": 93.939214690324,
+          "upper": 94.212175779239
+        },
+        "95": {
+          "lower": 93.920520051432,
+          "upper": 94.242681003883
+        },
+        "99": {
+          "lower": 93.891775213614,
+          "upper": 94.294305782055
+        }
+      },
+      "maximum_cell_distance_nm": 51.401391429504486,
+      "mean_latitude_s": 33.23457107702356,
+      "mean_longitude_e": 94.05372714293892,
+      "median_assigned_source_arrival_ess": 9.159948509863327,
+      "numerical_note": "posthoc_particle_ess_reported",
+      "particles": 90000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "combined mass depends materially on source cells with fewer than 100 effective Reunion arrivals",
+      "zero_likelihood_particles": 0
+    },
+    "constant-magnetic-track__native": {
+      "after_effective_sample_size": 83370.92190640334,
+      "before_effective_sample_size": 83058.27350480709,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 0.37588646378724855,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0,
+      "current_family": "hycom_gofs31_reanalysis",
+      "effective_sample_size": 83370.92190640334,
+      "flight_family": "constant-magnetic-track",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 33.222395378083,
+          "upper": 33.40506852656
+        },
+        "90": {
+          "lower": 33.090075712764,
+          "upper": 33.540290340116
+        },
+        "95": {
+          "lower": 33.054204396377,
+          "upper": 33.594771831581
+        },
+        "99": {
+          "lower": 32.98986458325,
+          "upper": 33.690000364139
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 93.9038926076,
+          "upper": 94.072233013946
+        },
+        "90": {
+          "lower": 93.764211483064,
+          "upper": 94.183075127175
+        },
+        "95": {
+          "lower": 93.711691270192,
+          "upper": 94.220527404587
+        },
+        "99": {
+          "lower": 93.604168387925,
+          "upper": 94.276726981923
+        }
+      },
+      "maximum_cell_distance_nm": 51.401391429504486,
+      "mean_latitude_s": 33.315036321214166,
+      "mean_longitude_e": 93.98208614496984,
+      "median_assigned_source_arrival_ess": 85.73549239417119,
+      "numerical_note": "posthoc_particle_ess_reported",
+      "particles": 90000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "combined mass depends materially on source cells with fewer than 100 effective Reunion arrivals",
+      "zero_likelihood_particles": 0
+    },
+    "constant-true-heading__cmems": {
+      "after_effective_sample_size": 16.582065156733922,
+      "before_effective_sample_size": 81118.35372822062,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 0.19799653625006314,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0,
+      "current_family": "cmems_glorys12_reanalysis",
+      "effective_sample_size": 16.582065156733922,
+      "flight_family": "constant-true-heading",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 35.051374236689,
+          "upper": 35.920519341145
+        },
+        "90": {
+          "lower": 34.971774551429,
+          "upper": 37.013833826542
+        },
+        "95": {
+          "lower": 34.971774551429,
+          "upper": 37.108554140267
+        },
+        "99": {
+          "lower": 34.971774551429,
+          "upper": 37.263461466701
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 90.435403689468,
+          "upper": 91.750674392766
+        },
+        "90": {
+          "lower": 88.715214439266,
+          "upper": 91.776752142775
+        },
+        "95": {
+          "lower": 88.590134163938,
+          "upper": 91.776752142775
+        },
+        "99": {
+          "lower": 88.341887754297,
+          "upper": 91.776752142775
+        }
+      },
+      "maximum_cell_distance_nm": 54.878573990632844,
+      "mean_latitude_s": 35.61585082408227,
+      "mean_longitude_e": 90.87748951183391,
+      "median_assigned_source_arrival_ess": 6.522700885839798,
+      "numerical_note": "severe_posthoc_importance_collapse",
+      "particles": 90000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "combined mass depends materially on source cells with fewer than 100 effective Reunion arrivals",
+      "zero_likelihood_particles": 0
+    },
+    "constant-true-heading__native": {
+      "after_effective_sample_size": 76076.960484232,
+      "before_effective_sample_size": 81118.35372822062,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0,
+      "current_family": "hycom_gofs31_reanalysis",
+      "effective_sample_size": 76076.96048423198,
+      "flight_family": "constant-true-heading",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 35.562138972728,
+          "upper": 35.920417578832
+        },
+        "90": {
+          "lower": 35.336993488315,
+          "upper": 36.416739640907
+        },
+        "95": {
+          "lower": 35.299660499571,
+          "upper": 36.548206544794
+        },
+        "99": {
+          "lower": 35.172985690965,
+          "upper": 36.797896980312
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 90.435849130511,
+          "upper": 90.968836988985
+        },
+        "90": {
+          "lower": 89.686991518249,
+          "upper": 91.268321129572
+        },
+        "95": {
+          "lower": 89.446532165783,
+          "upper": 91.2906412901
+        },
+        "99": {
+          "lower": 89.083320080437,
+          "upper": 91.42155661814
+        }
+      },
+      "maximum_cell_distance_nm": 54.878573990632844,
+      "mean_latitude_s": 35.773345423848276,
+      "mean_longitude_e": 90.64315638025322,
+      "median_assigned_source_arrival_ess": 44.98601294512427,
+      "numerical_note": "posthoc_particle_ess_reported",
+      "particles": 90000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "combined mass depends materially on source cells with fewer than 100 effective Reunion arrivals",
+      "zero_likelihood_particles": 0
+    },
+    "constant-true-track__cmems": {
+      "after_effective_sample_size": 3957.7651707848995,
+      "before_effective_sample_size": 28696.574295497256,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 0.06780800800524955,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0,
+      "current_family": "cmems_glorys12_reanalysis",
+      "effective_sample_size": 3957.7651707848995,
+      "flight_family": "constant-true-track",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 36.972876348288,
+          "upper": 37.169884190379
+        },
+        "90": {
+          "lower": 36.28948582946,
+          "upper": 37.726274234777
+        },
+        "95": {
+          "lower": 36.106418101003,
+          "upper": 37.819270668206
+        },
+        "99": {
+          "lower": 35.907766617676,
+          "upper": 37.973103952524
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 88.264199028653,
+          "upper": 88.597031212713
+        },
+        "90": {
+          "lower": 87.286558201638,
+          "upper": 89.68382827987
+        },
+        "95": {
+          "lower": 87.144356188755,
+          "upper": 89.974072380176
+        },
+        "99": {
+          "lower": 86.847612851016,
+          "upper": 90.262319192241
+        }
+      },
+      "maximum_cell_distance_nm": 60.586370779188066,
+      "mean_latitude_s": 37.04123762093964,
+      "mean_longitude_e": 88.47268005040817,
+      "median_assigned_source_arrival_ess": 1.8078997169904236,
+      "numerical_note": "posthoc_particle_ess_reported",
+      "particles": 30000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "combined mass depends materially on source cells with fewer than 100 effective Reunion arrivals",
+      "zero_likelihood_particles": 0
+    },
+    "constant-true-track__native": {
+      "after_effective_sample_size": 26866.78524339464,
+      "before_effective_sample_size": 28696.574295497256,
+      "composition": "normalized flight posterior times source combined_log_weight after removing source prior; nearest source cell on the legacy 3440.065-nm sphere",
+      "conditioned_mass_on_probability_floor_cells": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_100": 0.0,
+      "conditioned_mass_on_source_arrival_ess_at_least_200": 0.0,
+      "current_family": "hycom_gofs31_reanalysis",
+      "effective_sample_size": 26866.78524339464,
+      "flight_family": "constant-true-track",
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 36.175244456949,
+          "upper": 36.673012256592
+        },
+        "90": {
+          "lower": 35.926080160022,
+          "upper": 36.928620270114
+        },
+        "95": {
+          "lower": 35.869749838962,
+          "upper": 37.061579669539
+        },
+        "99": {
+          "lower": 35.742980422068,
+          "upper": 37.708677813013
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 89.096375759292,
+          "upper": 89.868625918792
+        },
+        "90": {
+          "lower": 88.686942699078,
+          "upper": 90.229438888826
+        },
+        "95": {
+          "lower": 88.445615399151,
+          "upper": 90.314842638014
+        },
+        "99": {
+          "lower": 87.334557936743,
+          "upper": 90.474552427068
+        }
+      },
+      "maximum_cell_distance_nm": 60.586370779188066,
+      "mean_latitude_s": 36.42860126835497,
+      "mean_longitude_e": 89.46654903031488,
+      "median_assigned_source_arrival_ess": 35.569319182093395,
+      "numerical_note": "posthoc_particle_ess_reported",
+      "particles": 30000,
+      "scientific_status": "diagnostic_only_not_calibrated",
+      "source_support_note": "combined mass depends materially on source cells with fewer than 100 effective Reunion arrivals",
+      "zero_likelihood_particles": 0
+    }
+  },
+  "flight_only_summaries": {
+    "constant-magnetic-heading": {
+      "effective_sample_size": 29142.250716592873,
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 31.693412750452,
+          "upper": 31.842945264378
+        },
+        "90": {
+          "lower": 31.650800616758,
+          "upper": 31.934881884509
+        },
+        "95": {
+          "lower": 31.600987933284,
+          "upper": 31.971649328397
+        },
+        "99": {
+          "lower": 31.492194590749,
+          "upper": 32.044488124709
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 95.95814702574,
+          "upper": 96.072888159709
+        },
+        "90": {
+          "lower": 95.860166555675,
+          "upper": 96.129054953008
+        },
+        "95": {
+          "lower": 95.834228829623,
+          "upper": 96.161666675007
+        },
+        "99": {
+          "lower": 95.760967222787,
+          "upper": 96.230359072472
+        }
+      },
+      "mean_latitude_s": 31.77247145992055,
+      "mean_longitude_e": 96.01199861638759,
+      "particles": 30000
+    },
+    "constant-magnetic-track": {
+      "effective_sample_size": 83058.27350480709,
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 33.216453749639,
+          "upper": 33.390729353436
+        },
+        "90": {
+          "lower": 33.084914911664,
+          "upper": 33.533213538281
+        },
+        "95": {
+          "lower": 33.050131923224,
+          "upper": 33.586817409485
+        },
+        "99": {
+          "lower": 32.98650406633,
+          "upper": 33.684467411663
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 93.918028239575,
+          "upper": 94.080001817008
+        },
+        "90": {
+          "lower": 93.774314993416,
+          "upper": 94.186992369939
+        },
+        "95": {
+          "lower": 93.72174834701,
+          "upper": 94.223236515114
+        },
+        "99": {
+          "lower": 93.610128419467,
+          "upper": 94.277550893267
+        }
+      },
+      "mean_latitude_s": 33.30563391426894,
+      "mean_longitude_e": 93.99044941605621,
+      "particles": 90000
+    },
+    "constant-true-heading": {
+      "effective_sample_size": 81118.35372822062,
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 35.604142150031,
+          "upper": 35.991343461439
+        },
+        "90": {
+          "lower": 35.336993488315,
+          "upper": 36.452136923761
+        },
+        "95": {
+          "lower": 35.316931881523,
+          "upper": 36.573245077068
+        },
+        "99": {
+          "lower": 35.186949646905,
+          "upper": 36.842345075402
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 90.329913753823,
+          "upper": 90.912624348987
+        },
+        "90": {
+          "lower": 89.626910872728,
+          "upper": 91.268321129572
+        },
+        "95": {
+          "lower": 89.404484189454,
+          "upper": 91.276509258227
+        },
+        "99": {
+          "lower": 89.022562765587,
+          "upper": 91.407378006248
+        }
+      },
+      "mean_latitude_s": 35.821057762515565,
+      "mean_longitude_e": 90.57303976558481,
+      "particles": 90000
+    },
+    "constant-true-track": {
+      "effective_sample_size": 28696.574295497256,
+      "latitude_equal_tail": {
+        "50": {
+          "lower": 36.166052159839,
+          "upper": 36.71833279711
+        },
+        "90": {
+          "lower": 35.926080160022,
+          "upper": 37.111617226413
+        },
+        "95": {
+          "lower": 35.872201011617,
+          "upper": 37.277522304609
+        },
+        "99": {
+          "lower": 35.751444484936,
+          "upper": 37.592487631441
+        }
+      },
+      "longitude_equal_tail": {
+        "50": {
+          "lower": 89.033860817911,
+          "upper": 89.888925750338
+        },
+        "90": {
+          "lower": 88.366859532564,
+          "upper": 90.229438888826
+        },
+        "95": {
+          "lower": 88.089424246147,
+          "upper": 90.30487085205
+        },
+        "99": {
+          "lower": 87.543909339646,
+          "upper": 90.452020221955
+        }
+      },
+      "mean_latitude_s": 36.45473282141755,
+      "mean_longitude_e": 89.42284998496329,
+      "particles": 30000
+    }
+  },
+  "inputs": {
+    "flight_families": {
+      "constant-magnetic-heading": {
+        "posteriors": [
+          {
+            "particles": 10000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/constant-magnetic-heading/seed-370023/posterior.csv",
+            "sha256": "ff30af50c937868c4b22c8d85c9ee306e9fff6a423b1e4df74afda92f5045b1e"
+          },
+          {
+            "particles": 10000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/constant-magnetic-heading/seed-370024/posterior.csv",
+            "sha256": "ac39d416efeb44feaef08c5498f7af5d73c4057bacb1ac47678b498d5fd03190"
+          },
+          {
+            "particles": 10000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/constant-magnetic-heading/seed-370025/posterior.csv",
+            "sha256": "cd62a6780dd9c9a4c8c9867c525e118bafb7bc0a619076de8a5281b6a9056a92"
+          }
+        ],
+        "suite": {
+          "family_converged": true,
+          "log_evidence_range": 0.6179760191857611,
+          "maximum_seed_mean_separation_nm": 9.337316703673038,
+          "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/suite-summary.json",
+          "sha256": "283c45fd1f11fc74879705f5c09abbfb4b6b7375610f5f111b5bd03a035e0597",
+          "status": "complete_nonconverged"
+        }
+      },
+      "constant-magnetic-track": {
+        "posteriors": [
+          {
+            "particles": 30000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/constant-magnetic-track/seed-370023/posterior.csv",
+            "sha256": "ac45c25497cc3c3182e23291f12b7307a1859a25628169be161d10376f56018c"
+          },
+          {
+            "particles": 30000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/constant-magnetic-track/seed-370024/posterior.csv",
+            "sha256": "11c2cb2750b57fa22e29239739fae060c78b894fe8a8e4ed6d36783803bcc551"
+          },
+          {
+            "particles": 30000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/constant-magnetic-track/seed-370025/posterior.csv",
+            "sha256": "370545f19e41f78f7272746da3eb870aec60b0bedd5565676f47f88b7bfd8368"
+          }
+        ],
+        "suite": {
+          "family_converged": true,
+          "log_evidence_range": 0.7690524407671262,
+          "maximum_seed_mean_separation_nm": 4.513767952737837,
+          "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/suite-summary.json",
+          "sha256": "3cac9c37016663dbf5efd557e88f7c6f3f0068ce85a39c8e328ed212bcfba7a4",
+          "status": "complete_converged"
+        }
+      },
+      "constant-true-heading": {
+        "posteriors": [
+          {
+            "particles": 30000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/constant-true-heading/seed-370023/posterior.csv",
+            "sha256": "34b0f2bc30b99cc3b35921e720625e1d57a69e5348b12300d3ba4dcb3035378b"
+          },
+          {
+            "particles": 30000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/constant-true-heading/seed-370024/posterior.csv",
+            "sha256": "8100f04c707202b51dbe38f6da248adbb68e77d574a9eda9ff1a18cb3d4ace8a"
+          },
+          {
+            "particles": 30000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/constant-true-heading/seed-370025/posterior.csv",
+            "sha256": "23ad113799a475680e35f1842440d919a432cfe6d91f392b3252b1abd783246a"
+          }
+        ],
+        "suite": {
+          "family_converged": true,
+          "log_evidence_range": 0.45965820671072777,
+          "maximum_seed_mean_separation_nm": 5.868869612293823,
+          "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-evidence-refinement/suite-summary.json",
+          "sha256": "3cac9c37016663dbf5efd557e88f7c6f3f0068ce85a39c8e328ed212bcfba7a4",
+          "status": "complete_converged"
+        }
+      },
+      "constant-true-track": {
+        "posteriors": [
+          {
+            "particles": 10000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/constant-true-track/seed-370023/posterior.csv",
+            "sha256": "a5dd848a3e578694cb411a1d2f5a338c01793303a9798917d4649f4756c859d4"
+          },
+          {
+            "particles": 10000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/constant-true-track/seed-370024/posterior.csv",
+            "sha256": "cbb345b8943bc643c5626b9faf60fabf1f3215643487548f5c8af494b292a874"
+          },
+          {
+            "particles": 10000,
+            "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/constant-true-track/seed-370025/posterior.csv",
+            "sha256": "9d58913d7c7f6c47f0a9d1c60d63e37487cb0a354e4397a87054de2a924cbcee"
+          }
+        ],
+        "suite": {
+          "family_converged": true,
+          "log_evidence_range": 0.41921620150533556,
+          "maximum_seed_mean_separation_nm": 2.9053511489568344,
+          "path": "/jackbox/home/MH370/runs/mh370/through-0011-antenna-autopilot-modes-medium/suite-summary.json",
+          "sha256": "283c45fd1f11fc74879705f5c09abbfb4b6b7375610f5f111b5bd03a035e0597",
+          "status": "complete_nonconverged"
+        }
+      }
+    },
+    "sources": {
+      "cmems": {
+        "family": "cmems_glorys12_reanalysis",
+        "particles_per_cell": 8192,
+        "path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/cmems-glorys12-arrival-stability/runs/doubled/source-area.json",
+        "seed": 3700019,
+        "sha256": "749928297b223cf8579f11879898c12a66a692d16c5ffc36b6544f185a7df388"
+      },
+      "gdp": {
+        "family": "gdp",
+        "particles_per_cell": 2048,
+        "path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/gdp-adaptive-stability/runs/double-particles-2048/source-area.json",
+        "seed": 3700019,
+        "sha256": "048cc7a4b22225c046874152bd00b844e18eee2078f00dee1ad9ac39d09762c3"
+      },
+      "native": {
+        "family": "hycom_gofs31_reanalysis",
+        "particles_per_cell": 8192,
+        "path": "/jackbox/home/MH370/.sources/ocean-drift-input-preparation/outputs/native-hycom-current-only-stability/runs/doubled/source-area.json",
+        "seed": 3700019,
+        "sha256": "0d87e7f1b8a4f1b060dae939dd04c15269e5033fb14cda9b98e6e69b4565d755"
+      }
+    }
+  },
+  "layout_audit": {
+    "all_pass": true,
+    "lane_labels_inside_canvas": true,
+    "profile_y_label_does_not_overlap_ticks": true,
+    "profile_y_label_to_tick_gap_pixels": 18.17621527777777
+  },
+  "matched_native_vs_cmems": {
+    "bhattacharyya_coefficient": 0.8861008726031017,
+    "interpretation": "case-matched currents-only families share a northern mode but retain materially different profile shapes; they are not pooled",
+    "jensen_shannon_nats": 0.1065473680132887,
+    "total_variation": 0.39245635347052876
+  },
+  "method": {
+    "current_families_pooled": false,
+    "distance_basis": "legacy 3440.065-nautical-mile sphere, matching canonical runner",
+    "flight_control_families_pooled": false,
+    "gdp_application": "not applied because sparse-field termination and replication instability are material",
+    "maximum_nearest_cell_distance_nm": 75.0,
+    "model_weights": null,
+    "source_prior_removed_before_flight_composition": true,
+    "source_release_assumption": "seventh-arc release at impact at 2014-03-08 00:19 UTC"
+  },
+  "outputs": {
+    "family-conditioned-source-crash.csv": {
+      "bytes": 4644,
+      "sha256": "c67d54222e03a9d215facac8b0ada99c35215883bc574db53a38b82f47a7804f"
+    },
+    "family-conditioned-source-crash.pdf": {
+      "bytes": 73968,
+      "sha256": "631d0e78b7a0be9fdea56efdd66a465c9e8591db58e6ffd022a3c2a195b4028b"
+    },
+    "family-conditioned-source-crash.png": {
+      "bytes": 580108,
+      "sha256": "6ce2cc5c1b068a5b75efc2daf092779efcd32a36613ee2acfdb1727ef89cf5e3"
+    },
+    "family-conditioned-source-crash.svg": {
+      "bytes": 193168,
+      "sha256": "e48aa146af37548b7c26a6b0a6d2d93b63d4606c7ff07636c6d3f25034a18cf6"
+    }
+  },
+  "purpose": "diagnostic family-conditioned source and inferred crash-location comparison",
+  "schema": "mh370-family-conditioned-source-crash-v1",
+  "scientific_decision": {
+    "condition": "flaperon release coincides with impact on the represented seventh arc",
+    "reason": "flight-supported locations intersect the weak southern tails of both drift families; several intersections have low source arrival ESS or probability-floor dependence, and one CMEMS post-hoc application has severe importance collapse",
+    "source_is_candidate_crash_site_conditionally": true,
+    "status": "diagnostic_only_not_accepted_as_narrow_crash_posterior"
+  },
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "python": "3.14.7"
+  },
+  "source_summaries": {
+    "cmems": {
+      "entropy_effective_cells": 25.171868584814202,
+      "equal_tail": {
+        "50": {
+          "lower": 11.9118957519531,
+          "upper": 20.9387512207031
+        },
+        "90": {
+          "lower": 10.0475158691406,
+          "upper": 30.2036743164063
+        },
+        "95": {
+          "lower": 10.0475158691406,
+          "upper": 31.6832275390625
+        },
+        "99": {
+          "lower": 10.0475158691406,
+          "upper": 32.1637268066406
+        }
+      },
+      "family": "cmems_glorys12_reanalysis",
+      "isotope_enabled": true,
+      "maximum_arrival_effective_sample_size": 493.83395795716706,
+      "mean_importance_weighted_terminated_fraction": 0.010970421128814037,
+      "median_arrival_effective_sample_size": 12.823520768479554,
+      "particles_per_cell": 8192,
+      "peak_cell": "arc-123",
+      "peak_latitude_s": 14.3724365234375,
+      "peak_longitude_e": 106.676254272461,
+      "probability_floor_source_mass": 5.341192961312327e-07,
+      "seed": 3700019,
+      "source_mass_arrival_ess_at_least_100": 0.831897114965361,
+      "source_mass_arrival_ess_at_least_200": 0.6537256079417831
+    },
+    "gdp": {
+      "entropy_effective_cells": 53.800599932227854,
+      "equal_tail": {
+        "50": {
+          "lower": 19.77099609375,
+          "upper": 35.7523803710938
+        },
+        "90": {
+          "lower": 11.9118957519531,
+          "upper": 41.7383728027344
+        },
+        "95": {
+          "lower": 10.0475158691406,
+          "upper": 42.1863708496094
+        },
+        "99": {
+          "lower": 10.0475158691406,
+          "upper": 43.475341796875
+        }
+      },
+      "family": "gdp",
+      "isotope_enabled": true,
+      "maximum_arrival_effective_sample_size": 292.8701674677272,
+      "mean_importance_weighted_terminated_fraction": 0.605815734946382,
+      "median_arrival_effective_sample_size": 75.01089963653095,
+      "particles_per_cell": 2048,
+      "peak_cell": "arc-163",
+      "peak_latitude_s": 35.7523803710938,
+      "peak_longitude_e": 91.9749603271484,
+      "probability_floor_source_mass": 0.0,
+      "seed": 3700019,
+      "source_mass_arrival_ess_at_least_100": 0.5305173257040785,
+      "source_mass_arrival_ess_at_least_200": 0.12268123410552884
+    },
+    "native": {
+      "entropy_effective_cells": 37.866642047532,
+      "equal_tail": {
+        "50": {
+          "lower": 13.1461181640625,
+          "upper": 23.2322692871094
+        },
+        "90": {
+          "lower": 10.6705932617188,
+          "upper": 31.6832275390625
+        },
+        "95": {
+          "lower": 10.0475158691406,
+          "upper": 34.0173645019531
+        },
+        "99": {
+          "lower": 10.0475158691406,
+          "upper": 38.4640808105469
+        }
+      },
+      "family": "hycom_gofs31_reanalysis",
+      "isotope_enabled": true,
+      "maximum_arrival_effective_sample_size": 944.730109130492,
+      "mean_importance_weighted_terminated_fraction": 0.09515563615835872,
+      "median_arrival_effective_sample_size": 159.079831943656,
+      "particles_per_cell": 8192,
+      "peak_cell": "arc-121",
+      "peak_latitude_s": 13.1461181640625,
+      "peak_longitude_e": 107.019653320313,
+      "probability_floor_source_mass": 0.0,
+      "seed": 3700019,
+      "source_mass_arrival_ess_at_least_100": 0.9792991048204439,
+      "source_mass_arrival_ess_at_least_200": 0.9130603549817046
+    }
+  }
+}

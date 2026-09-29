@@ -1,0 +1,59 @@
+{
+  "deterministic": true,
+  "generator": "code/build.py",
+  "generator_sha256": "25c7bb4ec09d2f55f8f422ee6aa7eba59d677aa3693efb2009db22b944214b90",
+  "input": {
+    "bytes": 821,
+    "logical_path": ".sources/mh370-seabed-search-coverage/data/planning/fixture-impact-particles.csv",
+    "particle_count": 25,
+    "role": "synthetic_fixture",
+    "sha256": "3d91b1d40f6ece5247f9bba524addc35d0e385c1c1a6677c12fca1beb17fdd48",
+    "weight_column": "weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "outputs": [
+    {
+      "bytes": 446603,
+      "path": "outputs/planning-fixture/index.html",
+      "sha256": "24959a2a431bf87c6f687f0d29426cef6146647e92cdd490f7a8e410f98a7e29"
+    },
+    {
+      "bytes": 323623,
+      "path": "outputs/planning-fixture/ordered-tiles-posterior-only.csv",
+      "sha256": "a03c2c31f81a45136de90ea8158d296ec229bbab997466ca9f2a8b240d96a201"
+    },
+    {
+      "bytes": 323621,
+      "path": "outputs/planning-fixture/ordered-tiles-proxy-logistics.csv",
+      "sha256": "ac5429b732ae330d8caaa05e65ee6cd8c8abdd1a5f64d9f35b6c5b6e61cbdbf8"
+    },
+    {
+      "bytes": 3567,
+      "path": "outputs/planning-fixture/plan-summary.json",
+      "sha256": "bcd2f9c1da1a859914a1273f4c6ae5c0f25a247fd668125aeb0f2c6f7e5de595"
+    },
+    {
+      "bytes": 113310,
+      "path": "outputs/planning-fixture/search-plan.pdf",
+      "sha256": "46cd734ab5d46dd4c3bc31f336b78022771090a469954d0b344373560e564c77"
+    },
+    {
+      "bytes": 776321,
+      "path": "outputs/planning-fixture/search-plan.png",
+      "sha256": "057a1cd9352bed105a1b5f7f4911d8d4ef024b24d1da2389e67b831458423b02"
+    },
+    {
+      "bytes": 444264,
+      "path": "outputs/planning-fixture/search-plan.svg",
+      "sha256": "1aad5012360b9645e1008a91997343255f8aeda8f0d52d1c28fbdb890c6e5eb4"
+    },
+    {
+      "bytes": 11147,
+      "path": "outputs/planning-fixture/selected-tiles.geojson",
+      "sha256": "71230d57ff69766b3d3e047a3a9418c1b89bd78fafd3fda16f3af351debfc46d"
+    }
+  ],
+  "schema_version": 1,
+  "snapshot_date": "2026-08-31"
+}

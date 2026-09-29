@@ -1,0 +1,77 @@
+{
+  "analysis": "known-flight antenna publication controls",
+  "code": {
+    "path": ".sources/large-2019-antenna-gain/code/publication_controls.py",
+    "sha256": "716b0eff2600c3e67faff7d04be9f16bf0fc84c4e038276c0fba636ef92f5fb2"
+  },
+  "inputs": {
+    ".sources/large-2019-antenna-gain/data/early-mh370-forward-power-control.csv": "948bc874e6c144e021d43acd88378983f17baf8a348b2ce7215e706afbb3174d",
+    ".sources/large-2019-antenna-gain/outputs/blocked_event_scores.csv": "9c8780d0cd8ff1e2efd19542f6308ede7a014c08c3aee48f89a4442b3a0d6140",
+    ".sources/large-2019-antenna-gain/outputs/blocked_predictions.csv": "7925127500790a4191d61a4dae5213d3ab1a52e87b7ae48f4726487441cf1ccc",
+    ".sources/large-2019-antenna-gain/outputs/hypothesis_comparison.csv": "e273ad35deca286fd74622141f335c209f11bcfb4ccab18ff3d372b112ddba2f",
+    "runs/mh371/conditional-antenna-full-precomp-medium-assessment/score-summary.json": "5e805fc52b511910a69b68550f7b9841563f3459f1a4ee8ea793d54352b6a1c4",
+    "runs/mh371/conditional-antenna-no-precomp-medium-assessment/score-summary.json": "80db54e515a33a4eab4ee253f3a9bfe5571e34f55887e8cc75aa49ec1432ec54",
+    "runs/mh371/final-analog-medium-assessment/score-summary.json": "c0d9f3ef01febee69ed390a824197c446cd6b9f5c143db36a4bd5844cb9480d1"
+  },
+  "outputs": {
+    "PUBLICATION-CONTROLS.md": {
+      "bytes": 2698,
+      "sha256": "41eb7766e71c3fa7139fbf406f6819421950c8f0d420c0ade017abd0b5b4cf09"
+    },
+    "early_mh370_forward_power_burst_summary.csv": {
+      "bytes": 875,
+      "sha256": "9d038b40d6975fae3d6b99cf96294d62686e4c96d1e18c627ab7eb001989c09e"
+    },
+    "figure_4_mh371_spatial_endpoint_comparison.pdf": {
+      "bytes": 37859,
+      "sha256": "844c7f3c7d087edb60fd1c3fe4138b14bedaa028a4eec44df25c25c536790c63"
+    },
+    "figure_4_mh371_spatial_endpoint_comparison.png": {
+      "bytes": 460618,
+      "sha256": "eae8553ff52c56d0e7e714bd4d773a119e9627377ddd39b69beff3194336f240"
+    },
+    "figure_5_early_mh370_forward_power_control.pdf": {
+      "bytes": 34351,
+      "sha256": "3c7729209e233225e1764c789c704f6287e145b7f5d81bb0d4fba29b9da8e27c"
+    },
+    "figure_5_early_mh370_forward_power_control.png": {
+      "bytes": 251037,
+      "sha256": "da262422d084254db0b1c05edd2eeef1edd0541e616ba290c0384675df58efef"
+    },
+    "figure_6_gain_hypothesis_by_flight.pdf": {
+      "bytes": 34356,
+      "sha256": "b220407fe4d479b6fdf68bf30ee24847e0226da098d1d6fe12fbe56c91c5c94d"
+    },
+    "figure_6_gain_hypothesis_by_flight.png": {
+      "bytes": 330353,
+      "sha256": "5dd02ccb31661d47fe795f2b18b83b145eec9979d16fa20362fcff3372f2c6a3"
+    },
+    "gain_hypothesis_event_differences_by_flight.csv": {
+      "bytes": 1611,
+      "sha256": "2299b5858333eed2f3f84900e3b155c0937adeebd116bb20d88909b9bd1ced59"
+    },
+    "gain_hypothesis_summary_by_flight.csv": {
+      "bytes": 678,
+      "sha256": "1d3469faf807dba27c4ac4c8ea302df4d3a8301c12f1ea23f87734a65cc8c198"
+    },
+    "mh371_spatial_endpoint_comparison.csv": {
+      "bytes": 5743,
+      "sha256": "efa7362201e9065a082649a71fc9aa98d8403663d0560366d2f3cad9bf839bff"
+    }
+  },
+  "schema_version": 1,
+  "scientific_boundary": [
+    "early MH370 is a forward received-power holdout, not spatial inference",
+    "events or bursts are replicate units; raw reports are aggregated",
+    "no 18:25 state is treated as observed truth",
+    "gain endpoint preference is not stable across flights or validation constructions"
+  ],
+  "seed": 20260826,
+  "software": {
+    "matplotlib": "3.11.1",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "python": "3.14.7"
+  },
+  "status": "complete_with_early_mh370_spatial_blocker"
+}

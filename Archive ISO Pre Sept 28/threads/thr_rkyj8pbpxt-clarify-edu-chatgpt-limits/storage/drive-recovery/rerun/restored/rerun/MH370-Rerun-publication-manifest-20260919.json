@@ -1,0 +1,35 @@
+{
+  "published_utc": "2026-09-19T14:35:00Z",
+  "scope": "Frozen checkpoint-12 estimator audit and continuation handoff",
+  "scientific_status": {
+    "replacement_estimator_validated": false,
+    "full_aircraft_bridge_executed": false,
+    "location_probability_claimed": false,
+    "hydroacoustics_included": false
+  },
+  "portable_checkpoint": {
+    "name": "MH370-Rerun-checkpoint-12-20260919T133957Z.zip",
+    "bytes": 70447732,
+    "sha256": "2d72f0e7224cdcba5788056890fe533ef3c561d302ba7786a82aa4b94bf160bf",
+    "contents": "6689 files plus CHECKPOINT-12-MANIFEST.json; uncompressed payload 221000423 bytes"
+  },
+  "separate_publication_files": [
+    {"name": "MH370-Rerun-12-hour-summary-20260919.md", "role": "concise top-level summary"},
+    {"name": "MH370-Rerun-START-HERE-12.md", "sha256": "fd2ba2bb47bcccf62ccae5c85915cb709cd43b44faf723f3f56a61de9d54223d"},
+    {"name": "MH370-Rerun-findings-12-20260919.md", "sha256": "e5c59fd2a8a8ca36e647bcc1b3357bdd26e0f4230720556e6f48adbc14e7a01a"},
+    {"name": "continuous-bridge-recovery.pdf", "sha256": "8c12ee58e6cde855e38b9bd86e7a003954fe1d1f5231e20e42d9f72585ca56a5"},
+    {"name": "continuous-bridge-recovery.json", "sha256": "634bc07399538ba4dbb9360bc3b31d9b98897aa80a9c73b771f23274a7337e68"},
+    {"name": "environment.json", "sha256": "a576b41e1233c812e502a886e3a4512aed11cc5aa316c8de662e3d1f29cee0ee"},
+    {"name": "failed-attempt.json", "sha256": "0dd8ac4f14afd74afff3bc358e2ba50cdf99df394a8c0bc7a1b8a76c9b6ba93f"},
+    {"name": "CHECKPOINT-12-MANIFEST.json", "role": "complete source/input/output hash inventory inside and outside the ZIP"}
+  ],
+  "required_runtime": {
+    "checkpoint_12": ["Python 3.12", "NumPy 2.3.5", "SciPy 1.17.0", "Matplotlib for figures"],
+    "aircraft_source": ["Rust 1.98.0 commit 88d9e12ae178fab0fb5cc050a94da85685d449ea"],
+    "unresolved": [
+      "Rust 1.98.0 compiler executable is unavailable in the current environment",
+      "Primary provenance for 6.578 N, 96.340 E and 2 NM / 2 degree radar uncertainty scales"
+    ]
+  },
+  "continue_from": "MH370-Rerun-START-HERE-12.md"
+}

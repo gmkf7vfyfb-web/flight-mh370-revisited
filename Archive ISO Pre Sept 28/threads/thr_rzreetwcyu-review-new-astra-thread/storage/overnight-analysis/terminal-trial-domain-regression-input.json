@@ -1,0 +1,228 @@
+[
+  {
+    "witness": 118,
+    "case_index": 240,
+    "request": {
+      "initial": [
+        5.62994672681929,
+        99.02929860377726,
+        296.01344452399655,
+        0.8235361481201304,
+        40489.09526996905,
+        0.0
+      ],
+      "initial_mode": "constant_true_track",
+      "commands": [
+        {
+          "time": 2109.1138268921245,
+          "mode": "constant_true_track",
+          "control": 166.34930070663492
+        },
+        {
+          "time": 4388.0991944585585,
+          "mode": "great_circle_track_continuation",
+          "control": 214.35853591451567
+        },
+        {
+          "time": 6520.865092660499,
+          "mode": "constant_true_track",
+          "control": 176.9379042386516
+        },
+        {
+          "time": 16875.38212731271,
+          "mode": "constant_true_track",
+          "control": 211.51957508434623
+        },
+        {
+          "time": 19156.36627999819,
+          "mode": "great_circle_track_continuation",
+          "control": 132.18046831126023
+        },
+        {
+          "time": 1749.8069934268797,
+          "mach": 0.7551828867436537
+        },
+        {
+          "time": 3089.4464258425887,
+          "mach": 0.757438833893579
+        },
+        {
+          "time": 8389.317598425045,
+          "mach": 0.7530173564559418
+        },
+        {
+          "time": 9053.809158660028,
+          "mach": 0.7462588465021598
+        },
+        {
+          "time": 14504.37156244532,
+          "mach": 0.8032005710604041
+        },
+        {
+          "time": 13998.439911509422,
+          "mach": 0.6198607224811503
+        },
+        {
+          "time": 12502.581386206097,
+          "mach": 0.7280683177363382
+        },
+        {
+          "time": 16678.323581456472,
+          "mach": 0.8014195610300393
+        },
+        {
+          "time": 3423.5626240796155,
+          "altitude": 39450.32685668123
+        },
+        {
+          "time": 7579.731965533059,
+          "altitude": 41299.31930141495
+        },
+        {
+          "time": 9768.084528390951,
+          "altitude": 40062.79020224716
+        },
+        {
+          "time": 9777.972360283464,
+          "altitude": 40554.10623323611
+        },
+        {
+          "time": 10040.263660301047,
+          "altitude": 40570.01946170596
+        },
+        {
+          "time": 19785.467845514337,
+          "altitude": 20799.440093273486
+        },
+        {
+          "time": 7855.698170210543,
+          "altitude": 39097.512437210666
+        },
+        {
+          "time": 12367.68618629593,
+          "altitude": 37770.9741037147
+        }
+      ],
+      "flow_scale": 1.0,
+      "continue_until_s": 23000.0,
+      "integration_scale": 0.25,
+      "trace_step_s": 60,
+      "return_model_state": true,
+      "terminal_examples": [
+        {
+          "policy": {
+            "scenario": {
+              "label": "initial-bank-then-wings-level",
+              "trigger": "dual_engine_flameout"
+            },
+            "pre_trigger_controlled": {
+              "segments": [
+                {
+                  "start_offset": 0.0,
+                  "command": {
+                    "mode": "controlled",
+                    "lift_load_factor": 1.0,
+                    "bank_angle": 0.0
+                  }
+                }
+              ]
+            },
+            "post_trigger_uncontrolled": {
+              "segments": [
+                {
+                  "start_offset": 0.0,
+                  "command": {
+                    "mode": "uncontrolled",
+                    "lift_coefficient": 1.0209584532305598,
+                    "bank_angle": 1.4439306780695915
+                  }
+                },
+                {
+                  "start_offset": 107.45579933747649,
+                  "command": {
+                    "mode": "uncontrolled",
+                    "lift_coefficient": 1.0209584532305598,
+                    "bank_angle": 0.0
+                  }
+                }
+              ]
+            }
+          },
+          "aerodynamic_family": "openap_published2020_attached_flow",
+          "fallback_atmosphere": {
+            "nodes": [
+              {
+                "altitude": 0.0,
+                "density": 1.225,
+                "wind_north": 0.0,
+                "wind_east": 0.0
+              },
+              {
+                "altitude": 43000.0,
+                "density": 0.25,
+                "wind_north": 0.0,
+                "wind_east": 0.0
+              }
+            ]
+          },
+          "apu_start_policy": {
+            "mode": "on_dual_engine_generator_loss",
+            "start_delay": 1.0,
+            "start_fuel": 0.5,
+            "generator_delay": 118.0,
+            "running_fuel_flow": 0.02
+          },
+          "restart_transient": "common_ocxo_warmup",
+          "integration": {
+            "time_step": 1.0,
+            "maximum_duration": 3600.0,
+            "sea_surface_altitude": 0.0,
+            "maximum_steps": 6000
+          },
+          "environment": {
+            "minimum_pressure_altitude_ft": 500.0,
+            "maximum_pressure_altitude_ft": 43000.0,
+            "below_minimum_policy": "clamp_to_grid",
+            "above_maximum_policy": "reject"
+          },
+          "apu_accessible_reserved_fuel_kg": 15.0,
+          "ocxo_restart_count": 0,
+          "checkpoints_relative_s": [
+            22660.416,
+            22668.0
+          ]
+        }
+      ],
+      "terminal_bto_contacts": [
+        {
+          "satellite_source_epoch": 1394237969.0,
+          "satellite_source_state": {
+            "position_km": {
+              "x": 18182.02038,
+              "y": 38049.64962,
+              "z": 392.417794
+            },
+            "velocity_km_s": {
+              "x": 0.001584,
+              "y": -0.001634,
+              "z": -0.083208
+            }
+          },
+          "satellite_delta": 0.416,
+          "satellite_propagation_limit": {
+            "maximum_absolute_delta": 1.0
+          },
+          "ground_station_position_km": {
+            "x": -2368.8,
+            "y": 4881.1,
+            "z": -3342.0
+          },
+          "observed_bto": 18400.0,
+          "bto_standard_deviation": 63.0,
+          "bfo": null
+        }
+      ]
+    },
+    "error": "invalid transition input: point-mass turn equation is singular near vertical flight"
+  }
+]

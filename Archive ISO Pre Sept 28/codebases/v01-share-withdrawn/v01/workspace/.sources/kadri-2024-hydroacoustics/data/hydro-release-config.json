@@ -1,0 +1,115 @@
+{
+  "schema_id": "mh370-hydroacoustic-release-workflow",
+  "schema_version": 1,
+  "status": "DIAGNOSTIC_ZERO_WEIGHT_PUBLICATION_TRACE_RELEASE",
+  "source_grid": {
+    "path": "../pleiades-bran2016-forward-inversion/outputs/model-averaged-impact-density.csv",
+    "sha256": "0af895ba12d023a81cffbc0df4df30baba0de5d2a243861b86c0a7b9a2af222b",
+    "geometry_only": true,
+    "expected_cell_count": 5289,
+    "along_arc_nm": [0.0, 640.0],
+    "cross_arc_nm": [-100.0, 100.0],
+    "spacing_nm": 5.0
+  },
+  "publication_trace_controls": {
+    "grid_path": "outputs/two-station-correlation-source-grid.csv",
+    "grid_sha256": "6c2bb50b0c3c83a2d181a27b1ca2e11976e8e6a8f031541ce814be7c6a1c960e",
+    "unfiltered_top_path": "outputs/unfiltered-acquisition-top10.csv",
+    "unfiltered_top_sha256": "4a1892e86907f2e3c2cf47c3f7ed6a5f751270f9cd77c3201e7a35d0f29a3941",
+    "filtered_top_path": "outputs/filtered-acquisition-top10.csv",
+    "filtered_top_sha256": "b3bd15df4f86471e910cbe8ea1a1ed2b2f73702a28e2da1a2cc543500a01e9ce",
+    "summary_path": "outputs/two-station-correlation-summary.json",
+    "summary_sha256": "8d57980a0574e5f235333590ecfc0e276c47f365ada0b2dc131b37f2fe3453d9",
+    "role": "already-filtered PDF-vector complete-search control; never an observed-signal likelihood"
+  },
+  "stations": {
+    "H01W": {
+      "name": "Cape Leeuwin",
+      "latitude_deg": -34.892,
+      "longitude_deg_e": 114.141,
+      "publication_trace_window_utc": ["2014-03-08T00:35:00Z", "2014-03-08T01:00:00Z"]
+    },
+    "H08S": {
+      "name": "Diego Garcia South",
+      "latitude_deg": -7.639,
+      "longitude_deg_e": 72.484,
+      "publication_trace_window_utc": ["2014-03-08T01:00:00Z", "2014-03-08T01:20:00Z"]
+    }
+  },
+  "impact_scenario_bank": {
+    "mass_kg": 174369.0,
+    "mass_status": "9M-MRO final-loadsheet zero-fuel weight used only as a fuel-exhaustion impact-mass surrogate",
+    "impact_time_utc": ["2014-03-08T00:19:37Z", "2014-03-08T00:49:37Z"],
+    "time_count": 8,
+    "impact_families": [
+      {
+        "id": "controlled_ditching_class",
+        "vertical_speed_m_s": 1.1,
+        "horizontal_speed_m_s": 70.0,
+        "contact_duration_s": 3.0
+      },
+      {
+        "id": "flight1549_contact_analogue",
+        "vertical_speed_m_s": 3.81,
+        "horizontal_speed_m_s": 75.0,
+        "contact_duration_s": 1.5
+      },
+      {
+        "id": "partially_arrested_bridge",
+        "vertical_speed_m_s": 35.0,
+        "horizontal_speed_m_s": 100.0,
+        "contact_duration_s": 0.5
+      },
+      {
+        "id": "unarrested_high_rate",
+        "vertical_speed_m_s": 99.314,
+        "horizontal_speed_m_s": 135.0,
+        "contact_duration_s": 0.15
+      }
+    ],
+    "coupling_fraction_range": [1e-8, 1e-2],
+    "energy_basis": "vertical kinetic energy for the pressure proxy; total kinetic energy is also reported",
+    "family_weights": "none; Cartesian sensitivity bank, not a crash prior"
+  },
+  "propagation": {
+    "celerity_km_s": [1.43, 1.57],
+    "central_celerity_km_s": 1.5,
+    "unresolved_path_timing_s": 5.0,
+    "frequency_hz": [2.0, 40.0],
+    "path_family": "straight great-circle celerity envelope without bathymetric Green functions"
+  },
+  "reverse_candidates": [
+    {
+      "id": "figure9_rectangle_1",
+      "status": "source-reported single-station candidate",
+      "observations": [
+        {"station": "H01W", "arrival_utc": "2014-03-08T00:52:00Z", "half_width_s": 1.0, "bearing_deg": 57.0, "bearing_half_width_deg": 3.3}
+      ]
+    },
+    {
+      "id": "figure9_rectangle_2",
+      "status": "source-reported preferred single-station candidate",
+      "observations": [
+        {"station": "H01W", "arrival_utc": "2014-03-08T00:54:30Z", "half_width_s": 1.0, "bearing_deg": 306.18, "bearing_half_width_deg": 3.3}
+      ]
+    },
+    {
+      "id": "oscar_visual_pair",
+      "status": "post-hoc publication-trace timing pair; boundary/airgun affected",
+      "observations": [
+        {"station": "H01W", "arrival_utc": "2014-03-08T00:52:04.350Z", "half_width_s": 1.0},
+        {"station": "H08S", "arrival_utc": "2014-03-08T01:10:00.500Z", "half_width_s": 1.0}
+      ]
+    },
+    {
+      "id": "complete_scan_top_pair",
+      "status": "representative maximum from complete unfiltered scan; scan-adjusted p=1.000",
+      "observations": [
+        {"station": "H01W", "arrival_utc": "2014-03-08T00:54:30.148Z", "half_width_s": 1.0},
+        {"station": "H08S", "arrival_utc": "2014-03-08T01:12:29.599Z", "half_width_s": 1.0}
+      ]
+    }
+  ],
+  "random_seed": 3700110,
+  "interpretation": "All source cells, impact scenarios, publication-trace scores and reverse matches are diagnostics with a zero log-weight increment."
+}

@@ -1,0 +1,121 @@
+{
+  "schema": "mh370-current-trajectory-replay-v4",
+  "family": "hycom_gofs31_native_currents",
+  "current_field": "/tmp/mh370-ocean-inputs-native/hycom-native.mhgrid",
+  "stokes_field": null,
+  "maximum_current_interpolation_gap_hours": 36.0,
+  "trajectory_file": "/tmp/gdp_6hour_2014.csv",
+  "horizon_days": 15.0,
+  "requested_segments": 600,
+  "candidate_segments": 3069,
+  "in_time_support_candidate_segments": 2485,
+  "attempted_segments": 600,
+  "completed_segments": 593,
+  "field_terminated_segments": 7,
+  "termination_reasons": {
+    "missing_field_coverage": 7
+  },
+  "first_start_unix_seconds": 1394150400.0,
+  "last_start_unix_seconds": 1418688000.0,
+  "all_attempts": {
+    "cases": 600,
+    "complete_fraction": 0.9883333333333333,
+    "mean_current_with_terminal_hold_error_km": 233.33605370085976,
+    "median_current_with_terminal_hold_error_km": 201.14948471123444,
+    "mean_persistence_error_km": 283.3723526350902,
+    "median_persistence_error_km": 236.5905909348296,
+    "current_better_than_persistence_fraction": 0.5666666666666667,
+    "prior_velocity_baseline_cases": 564,
+    "mean_prior_velocity_error_km": 341.4703540948793,
+    "median_prior_velocity_error_km": 280.0651181931896,
+    "current_better_than_prior_velocity_fraction": 0.6453900709219859
+  },
+  "by_longitude_region": {
+    "central_60e_100e": {
+      "cases": 336,
+      "complete_fraction": 0.9910714285714286,
+      "mean_current_with_terminal_hold_error_km": 206.42980880316495,
+      "median_current_with_terminal_hold_error_km": 179.46180095337508,
+      "mean_persistence_error_km": 283.49835970944196,
+      "median_persistence_error_km": 238.99155958163465,
+      "current_better_than_persistence_fraction": 0.6130952380952381,
+      "prior_velocity_baseline_cases": 317,
+      "mean_prior_velocity_error_km": 308.20715024267366,
+      "median_prior_velocity_error_km": 255.74828195835022,
+      "current_better_than_prior_velocity_fraction": 0.6498422712933754
+    },
+    "eastern_100e_150e": {
+      "cases": 79,
+      "complete_fraction": 0.9746835443037974,
+      "mean_current_with_terminal_hold_error_km": 226.52913421428704,
+      "median_current_with_terminal_hold_error_km": 195.9109517755504,
+      "mean_persistence_error_km": 229.31032104024882,
+      "median_persistence_error_km": 215.86099717344155,
+      "current_better_than_persistence_fraction": 0.4936708860759494,
+      "prior_velocity_baseline_cases": 72,
+      "mean_prior_velocity_error_km": 283.2512406444435,
+      "median_prior_velocity_error_km": 235.73759666200004,
+      "current_better_than_prior_velocity_fraction": 0.6111111111111112
+    },
+    "western_10e_60e": {
+      "cases": 185,
+      "complete_fraction": 0.9891891891891892,
+      "mean_current_with_terminal_hold_error_km": 285.11035059310115,
+      "median_current_with_terminal_hold_error_km": 261.26793640685275,
+      "mean_persistence_error_km": 306.2294451702815,
+      "median_persistence_error_km": 245.0162586085754,
+      "current_better_than_persistence_fraction": 0.5135135135135135,
+      "prior_velocity_baseline_cases": 175,
+      "mean_prior_velocity_error_km": 425.6772786067687,
+      "median_prior_velocity_error_km": 343.45146741987446,
+      "current_better_than_prior_velocity_fraction": 0.6514285714285715
+    }
+  },
+  "by_drogue_status": {
+    "drogue_transition": {
+      "cases": 18,
+      "complete_fraction": 1.0,
+      "mean_current_with_terminal_hold_error_km": 205.70622011660006,
+      "median_current_with_terminal_hold_error_km": 210.10639078710784,
+      "mean_persistence_error_km": 295.3547526373273,
+      "median_persistence_error_km": 269.2652183086461,
+      "current_better_than_persistence_fraction": 0.6666666666666666,
+      "prior_velocity_baseline_cases": 16,
+      "mean_prior_velocity_error_km": 502.5219013961225,
+      "median_prior_velocity_error_km": 362.0383191963628,
+      "current_better_than_prior_velocity_fraction": 0.8125
+    },
+    "drogued": {
+      "cases": 337,
+      "complete_fraction": 0.9821958456973294,
+      "mean_current_with_terminal_hold_error_km": 223.30432991865433,
+      "median_current_with_terminal_hold_error_km": 195.9109517755504,
+      "mean_persistence_error_km": 256.8356416661281,
+      "median_persistence_error_km": 204.20887519141698,
+      "current_better_than_persistence_fraction": 0.5341246290801187,
+      "prior_velocity_baseline_cases": 305,
+      "mean_prior_velocity_error_km": 313.2358492120072,
+      "median_prior_velocity_error_km": 250.6635741772832,
+      "current_better_than_prior_velocity_fraction": 0.6295081967213115
+    },
+    "undrogued": {
+      "cases": 245,
+      "complete_fraction": 0.9959183673469387,
+      "mean_current_with_terminal_hold_error_km": 249.16473908502286,
+      "median_current_with_terminal_hold_error_km": 214.66496574811674,
+      "mean_persistence_error_km": 318.99352976366225,
+      "median_persistence_error_km": 277.5158565382113,
+      "current_better_than_persistence_fraction": 0.6040816326530613,
+      "prior_velocity_baseline_cases": 243,
+      "mean_prior_velocity_error_km": 366.30450731486366,
+      "median_prior_velocity_error_km": 300.7542099031584,
+      "current_better_than_prior_velocity_fraction": 0.654320987654321
+    }
+  },
+  "survivor_median_current_error_km": 201.21294844258378,
+  "survivor_mean_current_error_km": 232.59057787965455,
+  "survivor_median_persistence_error_km": 236.62250406425696,
+  "survivor_mean_persistence_error_km": 282.5834972972795,
+  "survivor_current_better_fraction": 0.5666104553119731,
+  "interpretation": "Candidates outside the field's declared outer time range are reported but not selected. Every selected in-time interval is scored. A terminated hycom_gofs31_native_currents path holds its last valid position to the target time and remains in all-attempt metrics; internal time-gap and other termination categories are separate. Drogued, undrogued, and intervals spanning drogue loss are reported separately because explicit surface Stokes drift is not the same physical forecast for those targets. Persistence and a prior-24-hour constant-velocity baseline are reported. Field declared time support is Some((1394150400.0, 1438171200.0)). The assimilative HYCOM+NCODA reanalysis may use surface observations related to the validating drifter network, so this is not guaranteed held out."
+}

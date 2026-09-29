@@ -1,0 +1,1163 @@
+{
+  "schema_version": 1,
+  "status": "DERIVED_SIZE_INTERVAL_CALIBRATION; OBJECT_IDENTITY_UNKNOWN",
+  "method": {
+    "views": [
+      "true_colour",
+      "pca"
+    ],
+    "crop_hypotheses": {
+      "standard": [
+        0.06,
+        0.18,
+        0.58,
+        0.9
+      ],
+      "wide": [
+        0.02,
+        0.12,
+        0.64,
+        0.94
+      ],
+      "inset": [
+        0.1,
+        0.23,
+        0.54,
+        0.86
+      ]
+    },
+    "threshold_quantiles": [
+      0.96,
+      0.975,
+      0.985
+    ],
+    "baseline": {
+      "crop": "standard",
+      "threshold_quantile": 0.975
+    },
+    "component_correspondence": "Retain a perturbation only when its source-coordinate binary mask has IoU >= 0.25 with that view's standard-q0.975 baseline.",
+    "interval": "p10-p90 across correspondence-qualified trials, pooled across both report-embedded views; lower and upper limits apply jointly to area, oriented length and oriented width."
+  },
+  "objects": [
+    {
+      "object_id": "phr-4-object-06",
+      "ga_area_m2_reported": 25,
+      "summary": {
+        "total_trials": 18,
+        "retained_trials": 15,
+        "rejected_trials": 3,
+        "minimum_baseline_component_iou": 0.25
+      },
+      "strict_intervals": {
+        "visible_area_m2": {
+          "p10": 14.83,
+          "p90": 31.68
+        },
+        "visible_length_m": {
+          "p10": 6.38,
+          "p90": 9.24
+        },
+        "visible_width_m": {
+          "p10": 4.54,
+          "p90": 6.32
+        }
+      },
+      "trials": [
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.77016479,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 32.4606,
+          "visible_length_m": 8.7405,
+          "visible_width_m": 6.3233
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 25,
+          "visible_length_m": 7.789,
+          "visible_width_m": 6.0993
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.77927928,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 19.482,
+          "visible_length_m": 6.7272,
+          "visible_width_m": 4.8735
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.81918819,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 30.518,
+          "visible_length_m": 8.5543,
+          "visible_width_m": 6.3224
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 25,
+          "visible_length_m": 7.789,
+          "visible_width_m": 6.0993
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.79954955,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 19.9887,
+          "visible_length_m": 6.7306,
+          "visible_width_m": 4.8411
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.72136474,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 34.6565,
+          "visible_length_m": 9.7608,
+          "visible_width_m": 6.317
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.98886414,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 25.2815,
+          "visible_length_m": 7.8243,
+          "visible_width_m": 6.1232
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.68018018,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 17.0045,
+          "visible_length_m": 6.4318,
+          "visible_width_m": 4.6023
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.83093829,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 30.0865,
+          "visible_length_m": 9.2398,
+          "visible_width_m": 6.0092
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 25,
+          "visible_length_m": 8.1936,
+          "visible_width_m": 5.8088
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.46998983,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 11.7497,
+          "visible_length_m": 5.8715,
+          "visible_width_m": 4.3218
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.83093829,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 30.0865,
+          "visible_length_m": 9.2398,
+          "visible_width_m": 6.0092
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.87455516,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 28.586,
+          "visible_length_m": 8.8342,
+          "visible_width_m": 5.964
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.53509664,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 13.3774,
+          "visible_length_m": 6.3378,
+          "visible_width_m": 4.4982
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.0,
+          "corresponds_to_baseline": false,
+          "rejection_reason": "baseline_component_iou_below_0.25",
+          "visible_area_m2": 4.4507,
+          "visible_length_m": 20.8909,
+          "visible_width_m": 3.0825
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.0,
+          "corresponds_to_baseline": false,
+          "rejection_reason": "baseline_component_iou_below_0.25",
+          "visible_area_m2": 0.1017,
+          "visible_length_m": 0.6379,
+          "visible_width_m": 0.1595
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.00305188,
+          "corresponds_to_baseline": false,
+          "rejection_reason": "baseline_component_iou_below_0.25",
+          "visible_area_m2": 0.0763,
+          "visible_length_m": 0.4784,
+          "visible_width_m": 0.1595
+        }
+      ]
+    },
+    {
+      "object_id": "phr-4-object-18",
+      "ga_area_m2_reported": 69,
+      "summary": {
+        "total_trials": 18,
+        "retained_trials": 18,
+        "rejected_trials": 0,
+        "minimum_baseline_component_iou": 0.25
+      },
+      "strict_intervals": {
+        "visible_area_m2": {
+          "p10": 46.36,
+          "p90": 92.46
+        },
+        "visible_length_m": {
+          "p10": 10.72,
+          "p90": 13.73
+        },
+        "visible_width_m": {
+          "p10": 8.95,
+          "p90": 11.72
+        }
+      },
+      "trials": [
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.72353674,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 95.3649,
+          "visible_length_m": 13.9535,
+          "visible_width_m": 11.1999
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 69,
+          "visible_length_m": 11.4491,
+          "visible_width_m": 9.8018
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.68158348,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 47.0293,
+          "visible_length_m": 11.1152,
+          "visible_width_m": 8.9492
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.75651042,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 91.2083,
+          "visible_length_m": 12.9803,
+          "visible_width_m": 11.9446
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.99486301,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 69.3563,
+          "visible_length_m": 11.4423,
+          "visible_width_m": 9.8027
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.63683305,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 43.9415,
+          "visible_length_m": 10.6867,
+          "visible_width_m": 7.6187
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.49871245,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 138.3563,
+          "visible_length_m": 17.7447,
+          "visible_width_m": 13.7808
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.96994992,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 71.1377,
+          "visible_length_m": 11.3969,
+          "visible_width_m": 10.0482
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.67814114,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 46.7917,
+          "visible_length_m": 11.1256,
+          "visible_width_m": 8.9519
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.89658635,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 76.9586,
+          "visible_length_m": 13.6346,
+          "visible_width_m": 11.0207
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 69,
+          "visible_length_m": 12.9604,
+          "visible_width_m": 10.7273
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.65733483,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 45.3561,
+          "visible_length_m": 9.3035,
+          "visible_width_m": 9.154
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.89658635,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 76.9586,
+          "visible_length_m": 13.6346,
+          "visible_width_m": 11.0207
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.99888143,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 69.0773,
+          "visible_length_m": 12.9549,
+          "visible_width_m": 10.7328
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.81410974,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 56.1736,
+          "visible_length_m": 11.7918,
+          "visible_width_m": 11.6184
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.84805318,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 81.3628,
+          "visible_length_m": 13.4813,
+          "visible_width_m": 11.4455
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.99554069,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 69.3091,
+          "visible_length_m": 13.1057,
+          "visible_width_m": 10.68
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.77603583,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 53.7783,
+          "visible_length_m": 10.7371,
+          "visible_width_m": 9.81
+        }
+      ]
+    },
+    {
+      "object_id": "phr-4-object-19",
+      "ga_area_m2_reported": 41,
+      "summary": {
+        "total_trials": 18,
+        "retained_trials": 18,
+        "rejected_trials": 0,
+        "minimum_baseline_component_iou": 0.25
+      },
+      "strict_intervals": {
+        "visible_area_m2": {
+          "p10": 28.66,
+          "p90": 66.63
+        },
+        "visible_length_m": {
+          "p10": 8.57,
+          "p90": 11.94
+        },
+        "visible_width_m": {
+          "p10": 6.49,
+          "p90": 9.81
+        }
+      },
+      "trials": [
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.56301748,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 72.8219,
+          "visible_length_m": 11.9445,
+          "visible_width_m": 9.3351
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 41,
+          "visible_length_m": 10.634,
+          "visible_width_m": 8.5516
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.8251634,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 33.8317,
+          "visible_length_m": 8.5792,
+          "visible_width_m": 5.8928
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.55234657,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 74.2288,
+          "visible_length_m": 13.824,
+          "visible_width_m": 12.359
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.93721286,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 43.7467,
+          "visible_length_m": 11.1671,
+          "visible_width_m": 8.793
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.84390244,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 34.9706,
+          "visible_length_m": 11.0229,
+          "visible_width_m": 9.5506
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.6408377,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 63.9788,
+          "visible_length_m": 11.3898,
+          "visible_width_m": 8.5413
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.90196078,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 36.8464,
+          "visible_length_m": 9.2478,
+          "visible_width_m": 7.8289
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.80718954,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 33.0948,
+          "visible_length_m": 8.5443,
+          "visible_width_m": 5.7938
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.96187364,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 42.6251,
+          "visible_length_m": 9.669,
+          "visible_width_m": 7.6998
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 41,
+          "visible_length_m": 9.6378,
+          "visible_width_m": 7.7176
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.54473386,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 22.3341,
+          "visible_length_m": 7.3477,
+          "visible_width_m": 7.2154
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.83145009,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 49.3114,
+          "visible_length_m": 11.9423,
+          "visible_width_m": 9.8022
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.84497608,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 48.5221,
+          "visible_length_m": 11.9425,
+          "visible_width_m": 9.8358
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.63646659,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 26.0951,
+          "visible_length_m": 9.0311,
+          "visible_width_m": 6.7481
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.89735772,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 45.6897,
+          "visible_length_m": 9.6306,
+          "visible_width_m": 7.7373
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.96926454,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 42.3001,
+          "visible_length_m": 9.6785,
+          "visible_width_m": 7.6933
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.73952435,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 29.7633,
+          "visible_length_m": 9.411,
+          "visible_width_m": 7.0481
+        }
+      ]
+    },
+    {
+      "object_id": "phr-4-object-26",
+      "ga_area_m2_reported": 49,
+      "summary": {
+        "total_trials": 18,
+        "retained_trials": 18,
+        "rejected_trials": 0,
+        "minimum_baseline_component_iou": 0.25
+      },
+      "strict_intervals": {
+        "visible_area_m2": {
+          "p10": 25.08,
+          "p90": 61.54
+        },
+        "visible_length_m": {
+          "p10": 10.59,
+          "p90": 14.28
+        },
+        "visible_width_m": {
+          "p10": 6.9,
+          "p90": 8.32
+        }
+      },
+      "trials": [
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.78745645,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 62.2257,
+          "visible_length_m": 13.4715,
+          "visible_width_m": 8.3499
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 49,
+          "visible_length_m": 13.3116,
+          "visible_width_m": 8.011
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.84955752,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 41.6283,
+          "visible_length_m": 13.1277,
+          "visible_width_m": 7.9024
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.68021068,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 72.0365,
+          "visible_length_m": 14.2804,
+          "visible_width_m": 8.7984
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.93775934,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 52.2522,
+          "visible_length_m": 13.4497,
+          "visible_width_m": 7.934
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.85066372,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 41.6825,
+          "visible_length_m": 13.1264,
+          "visible_width_m": 7.8952
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.8,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 61.25,
+          "visible_length_m": 13.4735,
+          "visible_width_m": 8.3127
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.93584071,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 45.8562,
+          "visible_length_m": 13.2755,
+          "visible_width_m": 7.9827
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.46238938,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 22.6571,
+          "visible_length_m": 8.3308,
+          "visible_width_m": 7.4238
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.82437276,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 59.4391,
+          "visible_length_m": 14.2775,
+          "visible_width_m": 7.91
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 49,
+          "visible_length_m": 12.502,
+          "visible_width_m": 7.5846
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.3226087,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 15.8078,
+          "visible_length_m": 7.2028,
+          "visible_width_m": 6.8648
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.81734186,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 59.9504,
+          "visible_length_m": 14.2801,
+          "visible_width_m": 7.9156
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.87319666,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 56.1157,
+          "visible_length_m": 14.2864,
+          "visible_width_m": 7.9223
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.56608696,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 27.7383,
+          "visible_length_m": 11.6074,
+          "visible_width_m": 6.9189
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.82260372,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 59.567,
+          "visible_length_m": 14.2815,
+          "visible_width_m": 7.9187
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.8826087,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 42.907,
+          "visible_length_m": 11.8582,
+          "visible_width_m": 7.2872
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.53826087,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 26.1191,
+          "visible_length_m": 11.5552,
+          "visible_width_m": 6.5719
+        }
+      ]
+    },
+    {
+      "object_id": "phr-4-object-27",
+      "ga_area_m2_reported": 39,
+      "summary": {
+        "total_trials": 18,
+        "retained_trials": 18,
+        "rejected_trials": 0,
+        "minimum_baseline_component_iou": 0.25
+      },
+      "strict_intervals": {
+        "visible_area_m2": {
+          "p10": 27.71,
+          "p90": 56.01
+        },
+        "visible_length_m": {
+          "p10": 9.33,
+          "p90": 11.82
+        },
+        "visible_width_m": {
+          "p10": 6.49,
+          "p90": 8.91
+        }
+      },
+      "trials": [
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.69976636,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 55.7329,
+          "visible_length_m": 11.7556,
+          "visible_width_m": 8.4296
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 39,
+          "visible_length_m": 11.4375,
+          "visible_width_m": 7.6352
+        },
+        {
+          "view": "true_colour",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.8130217,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 31.7078,
+          "visible_length_m": 10.3863,
+          "visible_width_m": 6.4919
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.68850575,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 56.6444,
+          "visible_length_m": 11.986,
+          "visible_width_m": 9.1648
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.96147673,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 40.5626,
+          "visible_length_m": 11.4107,
+          "visible_width_m": 8.9829
+        },
+        {
+          "view": "true_colour",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.81135225,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 31.6427,
+          "visible_length_m": 10.2121,
+          "visible_width_m": 6.495
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.61122449,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 63.8063,
+          "visible_length_m": 11.962,
+          "visible_width_m": 8.4131
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.85085227,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 45.8364,
+          "visible_length_m": 11.3861,
+          "visible_width_m": 8.8723
+        },
+        {
+          "view": "true_colour",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.82971619,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 32.3589,
+          "visible_length_m": 11.2552,
+          "visible_width_m": 6.4627
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.90918065,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 42.8958,
+          "visible_length_m": 10.4903,
+          "visible_width_m": 6.7756
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 1.0,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 39,
+          "visible_length_m": 9.5639,
+          "visible_width_m": 6.7514
+        },
+        {
+          "view": "pca",
+          "crop": "standard",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.57871878,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 22.4853,
+          "visible_length_m": 8.6285,
+          "visible_width_m": 6.6031
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.82526882,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 47.2573,
+          "visible_length_m": 10.345,
+          "visible_width_m": 8.131
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.91824526,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 42.4723,
+          "visible_length_m": 9.4946,
+          "visible_width_m": 8.146
+        },
+        {
+          "view": "pca",
+          "crop": "wide",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.69923996,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 27.2704,
+          "visible_length_m": 9.3215,
+          "visible_width_m": 6.4876
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.96,
+          "baseline_component_iou": 0.88728324,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 43.9544,
+          "visible_length_m": 10.6962,
+          "visible_width_m": 6.7476
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.975,
+          "baseline_component_iou": 0.99783315,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 39.0847,
+          "visible_length_m": 9.5643,
+          "visible_width_m": 6.7505
+        },
+        {
+          "view": "pca",
+          "crop": "inset",
+          "threshold_quantile": 0.985,
+          "baseline_component_iou": 0.7155266,
+          "corresponds_to_baseline": true,
+          "rejection_reason": null,
+          "visible_area_m2": 27.9055,
+          "visible_length_m": 9.3289,
+          "visible_width_m": 6.6103
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,390 @@
+{
+  "audit_passed": true,
+  "audit_policy": {
+    "external_links_followed": false,
+    "formulas_recalculated": false,
+    "macros_executed": false,
+    "table_values_exported": false,
+    "workbook_used_by_public_model": false
+  },
+  "file": {
+    "matches_preserved_pin": true,
+    "matches_size_pin": true,
+    "name": "9M-MRO Fuel Model V5.X.xlsm",
+    "sha256": "a45373a2c1a66e920510145a45bfd576a316deced64dde472f8fbb86971f75a3",
+    "size_bytes": 2376741
+  },
+  "formula_environment": {
+    "bicubic_interpolation_formula_count": 2406,
+    "independently_recalculable_here": false,
+    "risk_defined_name_present": true,
+    "solver_defined_name_present": true
+  },
+  "macro": {
+    "executed": false,
+    "matches_pin": true,
+    "present": true,
+    "sha256": "427c8a1f8f79aec8184e1bb6c3ff58358361880334db7db6fe9239acb7eedfb9",
+    "signature_present": false
+  },
+  "package": {
+    "calc_chain_present": true,
+    "chart_xml_count": 17,
+    "compressed_bytes": 2353167,
+    "connection_part_present": false,
+    "custom_xml_present": false,
+    "embedded_object_count": 0,
+    "external_link_count": 1,
+    "external_link_part_hashes": [
+      "df9982a93cea5180e526085c27bd049f4801d990a80a61111aa1f54c029aefe5"
+    ],
+    "image_count": 10,
+    "member_count": 165,
+    "sheet_count": 24,
+    "uncompressed_bytes": 13312075
+  },
+  "properties": {
+    "application": "Microsoft Macintosh Excel",
+    "created": "2013-01-15T23:16:12Z",
+    "links_up_to_date": "false",
+    "modified": "2026-08-09T23:19:24Z"
+  },
+  "public_reference_pin_attestation": {
+    "all_audited_range_values_equal": true,
+    "current_ranges_match_attested_pins": true,
+    "equal_range_count": 19,
+    "fresh_reference_compared_this_run": false,
+    "method": "local-side-by-side-nonexecuting-ooxml-audit",
+    "note": "Attestation is bound to the two whole-file hashes above; no cell values are retained.",
+    "ooxml_changed_part_count": 39,
+    "public_workbook_sha256": "42d150e36a79e2b9493680128e4833f14eebd6c1cc9551c66d00e0c7127d92a4"
+  },
+  "range_pins": [
+    {
+      "canonical_value_sha256": "c45ada31b9701400f43cf3cb2c0bc20eaa23df86a415ab9792f3094fd655a6e2",
+      "id": "drag-coefficient",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "B4:L28",
+      "sheet": "Drag Coef Table"
+    },
+    {
+      "canonical_value_sha256": "2d6f0a7f273393b9a20314fb9b3cfdd252bd115bf845115250551b4f194010ba",
+      "id": "tsfc-efficiency",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "B4:E69",
+      "sheet": "TSFC Eff Table"
+    },
+    {
+      "canonical_value_sha256": "1f0fab7997c0af860d1d05887ce857108bf22e96a94e5858b0d9c0318704ebf0",
+      "id": "lrc-mach",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:AL21",
+      "sheet": "LRC Mach"
+    },
+    {
+      "canonical_value_sha256": "eb3eacec972648c8b3eccb054232ab0ba607bd1e2504239f2cfe526bc84da52a",
+      "id": "lrc-kias",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:AL21",
+      "sheet": "LRC KIAS"
+    },
+    {
+      "canonical_value_sha256": "9f857d808fdb0eb3bb1ff340cf1e472974bf6db3ec6da2bac9ff807f19660d55",
+      "id": "lrc-fuel-flow",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:AL21",
+      "sheet": "LRC FF"
+    },
+    {
+      "canonical_value_sha256": "6127a8828c81e90cef61f34235ebadf259b134d45ec3fe51d4e06baca9a84e2d",
+      "id": "m084-mach",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:AL21",
+      "sheet": "M0.84 Mach"
+    },
+    {
+      "canonical_value_sha256": "71e71c685500cda4031088087ef1b838e6225e25c679e7ac59a5185f20b41c5f",
+      "id": "m084-kias",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:AL21",
+      "sheet": "M0.84 KIAS"
+    },
+    {
+      "canonical_value_sha256": "a498c57a6cbbcfd439af2620d392ac6d75046b654d8c4642cca834931f70d87b",
+      "id": "m084-fuel-flow",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:Q21",
+      "sheet": "M0.84 FF"
+    },
+    {
+      "canonical_value_sha256": "bb711e5164710270b5df07f6f5091ce295c27f98525575d610c0847e1db6c3e9",
+      "id": "holding-kias",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:M13",
+      "sheet": "Holding KIAS"
+    },
+    {
+      "canonical_value_sha256": "aa4276a08cde57ec313b3f5b388f1cdbef3cd1f8928eb60b6b212685471b2b22",
+      "id": "holding-mach",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:M13",
+      "sheet": "Holding Mach"
+    },
+    {
+      "canonical_value_sha256": "9dacd7819899d1be9ec3ee5286726c2bb275ed4f8f21a03e9774ee181bcf9b5f",
+      "id": "holding-fuel-flow",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:M13",
+      "sheet": "Holding FF"
+    },
+    {
+      "canonical_value_sha256": "a71e01170449b4c6e4604c7785b8fc540a8b787ac82c53205ca4cb07e1d98d56",
+      "id": "lrc-inop-mach",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:AA21",
+      "sheet": "LRC INOP Mach"
+    },
+    {
+      "canonical_value_sha256": "2948efd6230871952aab38d779f4d58a5f50715903b3979d74800ae3f51ca5de",
+      "id": "lrc-inop-fuel-flow",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:AA21",
+      "sheet": "LRC INOP FF"
+    },
+    {
+      "canonical_value_sha256": "b8f4bf0f18241fcc7ecdfb6a98f1c3ec27585f194e709842fca290621d62b58c",
+      "id": "holding-inop-mach",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:U13",
+      "sheet": "Holding INOP Mach"
+    },
+    {
+      "canonical_value_sha256": "b89ffa489f0ffb07c9154458c7e74a94f001e86a601e8a80204d12ed34d16440",
+      "id": "holding-inop-fuel-flow",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C4:J13",
+      "sheet": "Holding INOP FF"
+    },
+    {
+      "canonical_value_sha256": "6e880aa6b4baeea4de8612383a2dde6002ca37f0ccb229b6acbefa4d449c0ef8",
+      "id": "mrc-mach",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C3:T18",
+      "sheet": "MRC Mach"
+    },
+    {
+      "canonical_value_sha256": "0de4f5209bbc286ab3a322ba545eccfdb73137303392a89b5f98f8da5369e45e",
+      "id": "mrc-fuel-flow",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C3:T18",
+      "sheet": "MRC FF"
+    },
+    {
+      "canonical_value_sha256": "539a1a6cbcd3ecd25031d03eebcc9fe3e740473d2dc63242c6643802bb2d33ea",
+      "id": "ci52-mach",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C3:T18",
+      "sheet": "CI=52 Mach"
+    },
+    {
+      "canonical_value_sha256": "c52df44f1e6eae31dc7d3a8e6523639880bf8f635b7d073299557b78ffee6a50",
+      "id": "ci52-fuel-flow",
+      "integration_status": "audit-only-not-integrated",
+      "matches_pin": true,
+      "range": "C3:T18",
+      "sheet": "CI=52 FF"
+    }
+  ],
+  "rights_and_circularity": {
+    "boeing_confidential_notice_count": 8,
+    "calibration_indicator_matches": [
+      {
+        "cell": "E21",
+        "content_sha256": "f5ba383a6183b0b256718e4b4c8c805d292d21a75b93ad3cab7e85055e5383c3",
+        "indicator": "event_time_001730",
+        "sheet": "Endurance Model"
+      },
+      {
+        "cell": "BJ75",
+        "content_sha256": "fdda3fcdd0d3e8ce726804ed00e02b85c0cd5c1e1588ddf034ca8d1b86089aa8",
+        "indicator": "legacy_sd_045t",
+        "sheet": "Endurance Model"
+      }
+    ],
+    "confidential_content_present": true,
+    "reason": "Mixed provenance and confidential notices prevent safe redistribution; event-linked calibration prevents independent use.",
+    "tables_integrated": false,
+    "tables_redistributed": false
+  },
+  "schema_version": 1,
+  "sheets": [
+    {
+      "cell_count": 1268,
+      "dimension": "A1:AH255",
+      "formula_count": 89,
+      "name": "Fuel Flow Model"
+    },
+    {
+      "cell_count": 48497,
+      "dimension": "A1:EM691",
+      "formula_count": 39383,
+      "name": "Endurance Model"
+    },
+    {
+      "cell_count": 700,
+      "dimension": "B1:V104",
+      "formula_count": 121,
+      "name": "Endurance vs Range Plot"
+    },
+    {
+      "cell_count": 297,
+      "dimension": "B1:L28",
+      "formula_count": 21,
+      "name": "Drag Coef Table"
+    },
+    {
+      "cell_count": 272,
+      "dimension": "B1:E70",
+      "formula_count": 130,
+      "name": "TSFC Eff Table"
+    },
+    {
+      "cell_count": 0,
+      "dimension": "A1",
+      "formula_count": 0,
+      "name": "Figures"
+    },
+    {
+      "cell_count": 894,
+      "dimension": "B1:AL229",
+      "formula_count": 27,
+      "name": "LRC Mach"
+    },
+    {
+      "cell_count": 864,
+      "dimension": "B1:AL32",
+      "formula_count": 622,
+      "name": "LRC KIAS"
+    },
+    {
+      "cell_count": 1554,
+      "dimension": "B1:AL360",
+      "formula_count": 27,
+      "name": "LRC FF"
+    },
+    {
+      "cell_count": 1893,
+      "dimension": "A1:BC439",
+      "formula_count": 437,
+      "name": "LRC Tables"
+    },
+    {
+      "cell_count": 1016,
+      "dimension": "B1:AL34",
+      "formula_count": 14,
+      "name": "M0.84 Mach"
+    },
+    {
+      "cell_count": 1016,
+      "dimension": "B1:AL34",
+      "formula_count": 191,
+      "name": "M0.84 KIAS"
+    },
+    {
+      "cell_count": 664,
+      "dimension": "B1:Q732",
+      "formula_count": 14,
+      "name": "M0.84 FF"
+    },
+    {
+      "cell_count": 365,
+      "dimension": "B1:AD44",
+      "formula_count": 1,
+      "name": "Holding KIAS"
+    },
+    {
+      "cell_count": 244,
+      "dimension": "B1:M44",
+      "formula_count": 91,
+      "name": "Holding Mach"
+    },
+    {
+      "cell_count": 324,
+      "dimension": "B1:M456",
+      "formula_count": 1,
+      "name": "Holding FF"
+    },
+    {
+      "cell_count": 1532,
+      "dimension": "A1:AA462",
+      "formula_count": 112,
+      "name": "LRC INOP Mach"
+    },
+    {
+      "cell_count": 1532,
+      "dimension": "A1:AA462",
+      "formula_count": 112,
+      "name": "LRC INOP FF"
+    },
+    {
+      "cell_count": 500,
+      "dimension": "B1:V454",
+      "formula_count": 65,
+      "name": "Holding INOP Mach"
+    },
+    {
+      "cell_count": 324,
+      "dimension": "B1:M454",
+      "formula_count": 8,
+      "name": "Holding INOP FF"
+    },
+    {
+      "cell_count": 381,
+      "dimension": "B1:T25",
+      "formula_count": 1,
+      "name": "MRC Mach"
+    },
+    {
+      "cell_count": 381,
+      "dimension": "B1:T25",
+      "formula_count": 1,
+      "name": "MRC FF"
+    },
+    {
+      "cell_count": 381,
+      "dimension": "B1:T25",
+      "formula_count": 1,
+      "name": "CI=52 Mach"
+    },
+    {
+      "cell_count": 381,
+      "dimension": "B1:T25",
+      "formula_count": 1,
+      "name": "CI=52 FF"
+    }
+  ],
+  "version": {
+    "matches_pin": true,
+    "safe_cell": "Fuel Flow Model!B9",
+    "text": "Version 5.6",
+    "text_sha256": "b030bcffda7f4b4578e99ff538bcd8cbb2827defffb3825c1ab3bca4b9ca1ebf"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "command": "apply-conditional-surface",
+  "producer_executable_sha256": "0175acbcb9f1373784eb2ad9b0406b5860c946ded154ae5040b930e680df7cd1",
+  "code_revision": "executable-and-source-manifest",
+  "config_sha256": "67e6ad228da6388e85dde3d5a153ae0c2073c907f863b3e26b1ee6b52af685b3",
+  "input_sha256": {
+    "configuration": "67e6ad228da6388e85dde3d5a153ae0c2073c907f863b3e26b1ee6b52af685b3",
+    "cruise_source_config_0": "219ab0678f6ab1d2b32df9d7f4d70d244efb9cb7ea79a459090fff55970d997c",
+    "cruise_source_config_1": "373b5677129fb04cb3cb55ffff39835ca94bed22c470c412acb97ece2444cbb8",
+    "cruise_source_config_2": "2096ae66aa1ed0418884a2d26a683cfbae8856ed6f05559438b7a5310988d268",
+    "cruise_source_config_3": "17864867ebca485ed9997a9263a5a536046f6cd64f714a2c8e351fad876f7b3a",
+    "pleiades_grid": "8473b9179798b9edc1bf5825e9ec94b9c51565e760c527bb07b4e58770ac40e8",
+    "pleiades_manifest": "b16fa3830f607c19e254a9a2b8cc52b05ab79b82028d1ffb31dab10eebee34ba",
+    "pleiades_surfaces": "a68773b196de790b6700346959ae72e9bcdae532686e86c23913443af8d6a748",
+    "terminal_case_weights": "8043cdfb60cd31c2d4727d4e6c01d31202e38f6130e3214e088bda83f95d07b2",
+    "terminal_condition_summary": "27f18b452c07f0e8518b00833247cd1cc4475d506f7df776eeff6f4d20345089"
+  },
+  "output_sha256": {
+    "baseline.pdf": "db3dd08e842e7661448cf0e7c11b2177f3e29fb99dc66dcf75122580b4877ffc",
+    "baseline.png": "02097f387fe26caaffcd833376d41edc50be16efc89a0a4e295415a3e00d0309",
+    "baseline.svg": "2fa9055131b6ec8371fb7f80cb602c46b0a41a288f1488ad95101ce6e8c4c083",
+    "conditional-spatial-particles.csv": "5c3176c53b7cb73803f8a02ab1dc0c9e7f5ef809670889f8bd455133ae730780",
+    "conditional-spatial-sensitivity.json": "fdf1085c4812bd2b87d0cbf072088166624e40e460c6f4ef493f38c868f2b604",
+    "conditional.pdf": "9a08f9b24793322efabb94e85002d1f697511f4a088556d98ea0094703be409c",
+    "conditional.png": "96f903340403a9da6d38fdf428127ad3faea17926415970106a98aed6a2635d6",
+    "conditional.svg": "f0c83ea919595d5a208e5c6ce9ea406d546a522aedfbcef4c2ad57adf35e70ea"
+  },
+  "reproduction_command": "mh370 apply-conditional-surface --config /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-comparisons/openap2020-signed-lift-6-targets--r600-no-startup-offset--pleiades-glorys12_waverys.toml --output /jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/spatial-comparisons/openap2020-signed-lift-6-targets--r600-no-startup-offset--pleiades-glorys12_waverys",
+  "scientific_scope": [
+    "The image-object identity, false-positive process, and image-selection process are uncalibrated; this is a conditional proxy, not core evidence.",
+    "Alternative Pleiades transport families represent the same image hypothesis and are run separately, never multiplied.",
+    "Arbitrary impact positions use a declared nearest 5-NM grid-node discretization after an explicit native-boundary check.",
+    "Parent terminal family openap2020-signed-lift-6-targets, contact case r600-no-startup-offset; parent source already includes the cruise, fuel and selected final-contact weights exactly once.",
+    "Spatial comparison conditions on computed impacts. Parent incoming mass with uncomputed contact likelihood: 0.3235171030141313; computed impact mass within scored support: 0.6469329469974993. These unresolved masses are not evidence against their locations.",
+    "One terminal Monte Carlo seed is used here; its four cruise source populations are already pooled with their recorded effort and normalizers. No new equal-weight pool or legacy handoff is fabricated.",
+    "Out-of-support parent mass 0.030417 is removed only by the explicit 'condition_on_native_support' sensitivity condition; it is not evidence against those particles.",
+    "No extra likelihood floor is added. Source numerical underflow is preserved and is not evidence of physical impossibility. Floors already present in source observation models remain source assumptions.",
+    "This branch is deliberately separate from the parent SATCOM/impact posterior and cannot be stacked with another family representing the same observations.",
+    "Conditional weight effective row count is 4.17; it measures concentration, not independent flight ancestry or calibrated uncertainty. Independent numerical repeats are required to assess sampling variation."
+  ]
+}

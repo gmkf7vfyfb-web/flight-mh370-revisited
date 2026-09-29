@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "name": "Published stochastic cruise and branching algorithm benchmark through 00:11",
+  "inputs": {
+    "observations": "/jackbox/home/MH370/inputs/accident/satcom-through-0011.csv",
+    "satellite_ephemeris": "/jackbox/home/MH370/inputs/accident/satellite-through-0011.csv",
+    "era5": "/jackbox/home/MH370/inputs/environment/mh370-era5-grid.bin",
+    "igrf": "/jackbox/home/MH370/inputs/environment/mh370-igrf14-grid.bin",
+    "time_origin_unix_s": 1394215309.0,
+    "ground_station_position_km": {
+      "x": -2368.8,
+      "y": 4881.1,
+      "z": -3342.0
+    },
+    "bfo_sd_override_hz": 7
+  },
+  "model": {
+    "dynamics": {
+      "radar": {
+        "time_s": 0.0,
+        "latitude_deg": 5.624829,
+        "longitude_deg": 99.048157,
+        "position_sd_nm": 0.5,
+        "control_mean_deg_true": 295.66,
+        "control_sd_deg": 1.0,
+        "mach_min": 0.73,
+        "mach_max": 0.84,
+        "altitude_min_ft": 25000.0,
+        "altitude_max_ft": 43000.0
+      },
+      "mach_bounds": [
+        0.73,
+        0.84
+      ],
+      "altitude_bounds_ft": [
+        25000,
+        43000
+      ],
+      "altitude_increment_ft": 1000,
+      "mean_manoeuvre_hours": [
+        0.1,
+        10
+      ],
+      "maximum_turn_deg": 180,
+      "bank_deg": 15,
+      "mach_rate_per_minute": 0.1,
+      "altitude_rate_ft_min": 4000,
+      "cruise_step_s": 10,
+      "manoeuvre_step_s": 1,
+      "ou_reversion": [
+        0.0106,
+        0.0098,
+        0.00109
+      ],
+      "ou_noise_variance": [
+        2.05e-07,
+        0.00013361021844547798,
+        0.0702
+      ],
+      "lnav_switch_mean_hours": 8.656170245333781
+    },
+    "satcom": {
+      "bfo_bias_prior_mean_hz": 150.0,
+      "bfo_bias_prior_sd_hz": 25.0,
+      "bto": {
+        "speed_of_light_km_s": 299792.458,
+        "nominal_delay_us": 499962.0,
+        "channel_term_us": 4283.0
+      },
+      "bfo": {
+        "satellite_afc_hz": 0.0,
+        "uplink_hz": 1646652500.0,
+        "downlink_hz": 3615152500.0,
+        "speed_of_light_km_s": 299792.458,
+        "nominal_satellite_longitude_deg": 64.5,
+        "nominal_satellite_altitude_km": 36210.12
+      }
+    },
+    "use_bfo": true,
+    "include_vertical_doppler": false,
+    "fuel": null
+  },
+  "branching": {
+    "seed": 37091301,
+    "initial_time_s": 0.0,
+    "offspring": 3,
+    "threshold": 1.3887943864964021e-11,
+    "log_likelihood_multipliers": [],
+    "max_nodes_per_root": 200000,
+    "max_leaves_per_root": 50000,
+    "max_runtime_seconds": 120.0
+  },
+  "modes": [
+    "constant_true_heading",
+    "constant_magnetic_heading",
+    "constant_true_track",
+    "constant_magnetic_track",
+    "lateral_navigation"
+  ],
+  "mode_probabilities": [
+    0.2,
+    0.2,
+    0.2,
+    0.2,
+    0.2
+  ],
+  "roots_per_mode": 25,
+  "peak_relative_likelihoods": true
+}

@@ -1,0 +1,887 @@
+{
+  "audit_source_sha256": "35b7b04f7103222410c3cae27fab3120ce440d073b31f68105e79685519fb31e",
+  "cluster_distance_search_precondition": "selected clusters were evaluated only in realizations having at least one raw pair within 50 km; the reported minimum is not a global minimum outside that subset",
+  "cluster_radius_km": 25.0,
+  "coherence_key": "one surface-uniform point per (callsign, six-character locator) per realization",
+  "global_station_count": 62,
+  "inputs": {
+    "pairs": {
+      "path": "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/data/known-flight/known_flight_pair_locations.csv.gz",
+      "sha256": "da356a4f2839b66e60cac52ac7dd9b995dde863637b6b530531c51a7129c2658"
+    },
+    "spots": {
+      "path": "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/data/known-flight/known_flight_spot_records.csv.gz",
+      "sha256": "c7c335b664e94c0cb4a99f1df68705bbc1cd1b0f2cc6110577615b848c774290"
+    },
+    "truth": {
+      "path": "/jackbox/home/MH370/.sources/godfrey-wspr-passive-radar/data/known-flight/known_flight_truth_references.csv",
+      "sha256": "fdec168e491745226c16732068aee79dfba2aaf0f583c165e374317ec15c528f"
+    }
+  },
+  "interpretation": "The scrambled Sobol sample is a sensitivity design, not a calibrated probability distribution for antenna locations.",
+  "maximum_cell_center_reconstruction_error_km": 0.000995691180409477,
+  "minimum_crossing_angle_deg": 20.0,
+  "minimum_independent_links": 3,
+  "nearest_cluster_witnesses": {
+    "mh370_1642": {
+      "center_candidate_id": "known-flight:mh370_1642:00000658",
+      "center_truth_distance_km": 3.818394415030759,
+      "independent_links": 3,
+      "neighbor_candidate_ids": [
+        "known-flight:mh370_1642:00000658",
+        "known-flight:mh370_1642:00000659"
+      ],
+      "neighbor_candidates": [
+        {
+          "candidate_id": "known-flight:mh370_1642:00000658",
+          "crossing_angle_deg": 72.20354289916453,
+          "latitude_deg": 2.8715501838586635,
+          "longitude_deg_e": 101.70932916168333,
+          "spot_id_1": 186113922,
+          "spot_id_2": 186113647,
+          "truth_distance_km": 3.818394415030759
+        },
+        {
+          "candidate_id": "known-flight:mh370_1642:00000659",
+          "crossing_angle_deg": 71.37837143185732,
+          "latitude_deg": 3.0296182116313783,
+          "longitude_deg_e": 101.81507108956495,
+          "spot_id_1": 186114162,
+          "spot_id_2": 186113647,
+          "truth_distance_km": 23.798650455866753
+        }
+      ],
+      "relevant_station_coordinates": [
+        {
+          "callsign": "G3JKF",
+          "latitude_deg": 50.76823909921797,
+          "locator": "JO00BS",
+          "longitude_deg_e": 0.11302496034962438
+        },
+        {
+          "callsign": "G8VDQ",
+          "latitude_deg": 51.54133170053659,
+          "locator": "IO91UM",
+          "longitude_deg_e": -0.27883743230874336
+        },
+        {
+          "callsign": "K7FET",
+          "latitude_deg": 45.50164427968971,
+          "locator": "CN85MM",
+          "longitude_deg_e": -122.93991999374703
+        },
+        {
+          "callsign": "ON4SAR",
+          "latitude_deg": 51.18941966413834,
+          "locator": "JO21CE",
+          "longitude_deg_e": 4.2261914942258345
+        },
+        {
+          "callsign": "PI4THT",
+          "latitude_deg": 52.20956322130399,
+          "locator": "JO32KF",
+          "longitude_deg_e": 6.897880397892246
+        },
+        {
+          "callsign": "W7ZWW",
+          "latitude_deg": 45.292042980312644,
+          "locator": "CN85RH",
+          "longitude_deg_e": -122.55521564775457
+        }
+      ],
+      "sample_index_zero_based": 10038
+    },
+    "mh370_1656": {
+      "center_candidate_id": "known-flight:mh370_1656:00000998",
+      "center_truth_distance_km": 2.75522443519814,
+      "independent_links": 3,
+      "neighbor_candidate_ids": [
+        "known-flight:mh370_1656:00000998",
+        "known-flight:mh370_1656:00001018"
+      ],
+      "neighbor_candidates": [
+        {
+          "candidate_id": "known-flight:mh370_1656:00000998",
+          "crossing_angle_deg": 49.031284697615774,
+          "latitude_deg": 3.9042059305404533,
+          "longitude_deg_e": 102.13257623664707,
+          "spot_id_1": 186117013,
+          "spot_id_2": 186117110,
+          "truth_distance_km": 2.75522443519814
+        },
+        {
+          "candidate_id": "known-flight:mh370_1656:00001018",
+          "crossing_angle_deg": 48.226984742443996,
+          "latitude_deg": 3.755979284457828,
+          "longitude_deg_e": 102.10462631644216,
+          "spot_id_1": 186117373,
+          "spot_id_2": 186117110,
+          "truth_distance_km": 18.01103287169859
+        }
+      ],
+      "relevant_station_coordinates": [
+        {
+          "callsign": "AI4RY",
+          "latitude_deg": 32.60862991463837,
+          "locator": "EM72GO",
+          "longitude_deg_e": -85.49829656576428
+        },
+        {
+          "callsign": "G3JKF",
+          "latitude_deg": 50.75256878537201,
+          "locator": "JO00BS",
+          "longitude_deg_e": 0.15950131012747681
+        },
+        {
+          "callsign": "G8VDQ",
+          "latitude_deg": 51.51636804223714,
+          "locator": "IO91UM",
+          "longitude_deg_e": -0.32988427199112863
+        },
+        {
+          "callsign": "K3SIW",
+          "latitude_deg": 42.040833395883034,
+          "locator": "EN52TA",
+          "longitude_deg_e": -88.34583573555575
+        },
+        {
+          "callsign": "ON4SAR",
+          "latitude_deg": 51.20830740787999,
+          "locator": "JO21CE",
+          "longitude_deg_e": 4.17731098489215
+        },
+        {
+          "callsign": "PI4THT",
+          "latitude_deg": 52.24491289437172,
+          "locator": "JO32KF",
+          "longitude_deg_e": 6.90185109906209
+        }
+      ],
+      "sample_index_zero_based": 102140
+    },
+    "mh371_0611": {
+      "center_candidate_id": "known-flight:mh371_0611:00000134",
+      "center_truth_distance_km": 157.08186718494312,
+      "independent_links": 3,
+      "neighbor_candidate_ids": [
+        "known-flight:mh371_0611:00000134",
+        "known-flight:mh371_0611:00000136"
+      ],
+      "neighbor_candidates": [
+        {
+          "candidate_id": "known-flight:mh371_0611:00000134",
+          "crossing_angle_deg": 50.6326492736266,
+          "latitude_deg": 10.75824051212248,
+          "longitude_deg_e": 107.92046779467974,
+          "spot_id_1": 185971963,
+          "spot_id_2": 185972039,
+          "truth_distance_km": 157.08186718494312
+        },
+        {
+          "candidate_id": "known-flight:mh371_0611:00000136",
+          "crossing_angle_deg": 49.33995545812796,
+          "latitude_deg": 10.682119114696919,
+          "longitude_deg_e": 107.90031902873162,
+          "spot_id_1": 185971970,
+          "spot_id_2": 185972039,
+          "truth_distance_km": 148.72906014380501
+        }
+      ],
+      "relevant_station_coordinates": [
+        {
+          "callsign": "EX1UN/1",
+          "latitude_deg": 42.83396303088094,
+          "locator": "MN72HU",
+          "longitude_deg_e": 74.5879476252788
+        },
+        {
+          "callsign": "G4NDM",
+          "latitude_deg": 52.957913169302,
+          "locator": "IO92KW",
+          "longitude_deg_e": -1.0871955857922633
+        },
+        {
+          "callsign": "K4COD",
+          "latitude_deg": 33.095040879925676,
+          "locator": "EM73SC",
+          "longitude_deg_e": -84.43516303614403
+        },
+        {
+          "callsign": "OZ7IT",
+          "latitude_deg": 55.23125254999367,
+          "locator": "JO65DF",
+          "longitude_deg_e": 12.252883578883484
+        },
+        {
+          "callsign": "PC1CP",
+          "latitude_deg": 53.16623559712908,
+          "locator": "JO33JD",
+          "longitude_deg_e": 6.760473986078674
+        },
+        {
+          "callsign": "W4MO",
+          "latitude_deg": 27.107470109158854,
+          "locator": "EL87TC",
+          "longitude_deg_e": -82.36654215989014
+        }
+      ],
+      "sample_index_zero_based": 77858
+    }
+  },
+  "numerical_environment": {
+    "numpy": "2.5.2",
+    "scipy": "1.18.1"
+  },
+  "primary_tolerance_witnesses": {
+    "mh370_1642": [
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 3.818394415030759,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 10038
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 5.397264919040359,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 12442
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 18.354632813032584,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 13294
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 19.64550266892249,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 16815
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 19.065936212913293,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 19250
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 10.634245316388798,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 23526
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 21.326172466975688,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 23948
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 24.07225137436997,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 27354
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 24.734498550283384,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 32520
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 21.0932227148344,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 37178
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 22.442931063809212,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 38440
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 19.634915724108748,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 39836
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 23.55867946355518,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 44716
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 9.225451210389892,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 45188
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 23.12975659633976,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 52586
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 24.423497673482313,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 54586
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 20.240366674188557,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 54852
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 21.581288704643267,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 61156
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 19.856444578302185,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 61179
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 19.067452911731273,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 63404
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 7.42834140418056,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 65655
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 24.486875426598022,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 66629
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 10.806931497618773,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 74980
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 21.03272428061569,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 79480
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 15.352625296297777,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 80887
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 21.110599493396016,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 88366
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 17.62470298972068,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 89939
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 21.972549504755563,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 91790
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 15.74071569401085,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 104458
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 24.52307808643472,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 119782
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1642:00000658",
+        "center_truth_distance_km": 16.832354442882583,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1642:00000658",
+          "known-flight:mh370_1642:00000659"
+        ],
+        "sample_index_zero_based": 130288
+      }
+    ],
+    "mh370_1656": [
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 17.326880881366773,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 1766
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 20.229073287210987,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 6197
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 23.83861256625347,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 11139
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 23.965244283119922,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 12850
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 22.84583942990047,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 17576
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 14.033847265053263,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 20822
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 21.07620751383237,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 25986
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 16.840664620552563,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 28796
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 22.40441022527121,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 38892
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 18.395546414816597,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 44599
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 20.638500737469684,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 50110
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 9.800829062148104,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 54848
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 24.69323292427547,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 60187
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 17.507388372985258,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 79025
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 24.47654886826406,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 89705
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 15.497701371112736,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 101856
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 2.75522443519814,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 102140
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 14.40325261518608,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 105218
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 24.278071555714504,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 110550
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 13.194860317889368,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 113192
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 20.450489536384612,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 126360
+      },
+      {
+        "center_candidate_id": "known-flight:mh370_1656:00000998",
+        "center_truth_distance_km": 17.510046615691152,
+        "independent_links": 3,
+        "neighbor_candidate_ids": [
+          "known-flight:mh370_1656:00000998",
+          "known-flight:mh370_1656:00001018"
+        ],
+        "sample_index_zero_based": 129126
+      }
+    ]
+  },
+  "results": [
+    {
+      "baseline_minimum_raw_truth_distance_km": 228.75634842551557,
+      "best_raw_candidate_id": "known-flight:mh370_1642:00000658",
+      "best_raw_sample_index": 111682,
+      "candidate_pair_count": 2,
+      "epoch_id": "mh370_1642",
+      "maximum_intersection_shift_km": 1134.4943653199682,
+      "maximum_near_truth_independent_links": 3,
+      "minimum_selected_cluster_truth_distance_among_raw_within_search_km": 3.818394415030759,
+      "physical_slot": "2014-03-07 16:42:00",
+      "sample_minimum_raw_truth_distance_km": 0.33256187058091796,
+      "samples_with_qualifying_cluster_within_25km": 31,
+      "samples_with_qualifying_cluster_within_50km": 358,
+      "samples_with_raw_pair_within_25km": 2011,
+      "samples_with_raw_pair_within_50km": 7581,
+      "station_count": 6
+    },
+    {
+      "baseline_minimum_raw_truth_distance_km": 69.52305089132969,
+      "best_raw_candidate_id": "known-flight:mh370_1656:00001018",
+      "best_raw_sample_index": 78621,
+      "candidate_pair_count": 27,
+      "epoch_id": "mh370_1656",
+      "maximum_intersection_shift_km": 1004.4720791852666,
+      "maximum_near_truth_independent_links": 3,
+      "minimum_selected_cluster_truth_distance_among_raw_within_search_km": 2.75522443519814,
+      "physical_slot": "2014-03-07 16:54:00",
+      "sample_minimum_raw_truth_distance_km": 0.02301180753261217,
+      "samples_with_qualifying_cluster_within_25km": 22,
+      "samples_with_qualifying_cluster_within_50km": 496,
+      "samples_with_raw_pair_within_25km": 9689,
+      "samples_with_raw_pair_within_50km": 36313,
+      "station_count": 26
+    },
+    {
+      "baseline_minimum_raw_truth_distance_km": 198.05672881467905,
+      "best_raw_candidate_id": "known-flight:mh370_1707:00001462",
+      "best_raw_sample_index": 72368,
+      "candidate_pair_count": 9,
+      "epoch_id": "mh370_1707",
+      "maximum_intersection_shift_km": 218.43080547712975,
+      "maximum_near_truth_independent_links": 0,
+      "minimum_selected_cluster_truth_distance_among_raw_within_search_km": "",
+      "physical_slot": "2014-03-07 17:06:00",
+      "sample_minimum_raw_truth_distance_km": 111.10339751487197,
+      "samples_with_qualifying_cluster_within_25km": 0,
+      "samples_with_qualifying_cluster_within_50km": 0,
+      "samples_with_raw_pair_within_25km": 0,
+      "samples_with_raw_pair_within_50km": 0,
+      "station_count": 16
+    },
+    {
+      "baseline_minimum_raw_truth_distance_km": 276.1537549326927,
+      "best_raw_candidate_id": "known-flight:mh371_0404:00000060",
+      "best_raw_sample_index": 91455,
+      "candidate_pair_count": 4,
+      "epoch_id": "mh371_0404",
+      "maximum_intersection_shift_km": 41.71826841418418,
+      "maximum_near_truth_independent_links": 0,
+      "minimum_selected_cluster_truth_distance_among_raw_within_search_km": "",
+      "physical_slot": "2014-03-07 04:04:00",
+      "sample_minimum_raw_truth_distance_km": 241.62811620457552,
+      "samples_with_qualifying_cluster_within_25km": 0,
+      "samples_with_qualifying_cluster_within_50km": 0,
+      "samples_with_raw_pair_within_25km": 0,
+      "samples_with_raw_pair_within_50km": 0,
+      "station_count": 6
+    },
+    {
+      "baseline_minimum_raw_truth_distance_km": 143.8728954623333,
+      "best_raw_candidate_id": "known-flight:mh371_0611:00000140",
+      "best_raw_sample_index": 63624,
+      "candidate_pair_count": 9,
+      "epoch_id": "mh371_0611",
+      "maximum_intersection_shift_km": 1189.5855113888001,
+      "maximum_near_truth_independent_links": 0,
+      "minimum_selected_cluster_truth_distance_among_raw_within_search_km": 157.08186718494312,
+      "physical_slot": "2014-03-07 06:10:00",
+      "sample_minimum_raw_truth_distance_km": 1.9092979059263764,
+      "samples_with_qualifying_cluster_within_25km": 0,
+      "samples_with_qualifying_cluster_within_50km": 0,
+      "samples_with_raw_pair_within_25km": 435,
+      "samples_with_raw_pair_within_50km": 3761,
+      "station_count": 15
+    },
+    {
+      "baseline_minimum_raw_truth_distance_km": 1539.682331295512,
+      "best_raw_candidate_id": "known-flight:mh371_0648:00000347",
+      "best_raw_sample_index": 40199,
+      "candidate_pair_count": 8,
+      "epoch_id": "mh371_0648",
+      "maximum_intersection_shift_km": 1161.2841382717127,
+      "maximum_near_truth_independent_links": 0,
+      "minimum_selected_cluster_truth_distance_among_raw_within_search_km": "",
+      "physical_slot": "2014-03-07 06:48:00",
+      "sample_minimum_raw_truth_distance_km": 695.6815384413235,
+      "samples_with_qualifying_cluster_within_25km": 0,
+      "samples_with_qualifying_cluster_within_50km": 0,
+      "samples_with_raw_pair_within_25km": 0,
+      "samples_with_raw_pair_within_50km": 0,
+      "station_count": 11
+    }
+  ],
+  "sample_count": 131072,
+  "sample_method": "scrambled Sobol low-discrepancy sequence",
+  "sample_power": 17,
+  "schema": "mh370.wspr.known-flight-locator-uncertainty-audit.v1",
+  "scope": "Geometry-only stress test of already frozen anomalous pair candidates at the nearest actual-time WSPR slot; PHaRLAP is not rerun.",
+  "seed": 370371,
+  "selected_candidate_pair_count": 59,
+  "selected_spot_count": 49,
+  "truth_tolerances_km": [
+    25.0,
+    50.0
+  ]
+}

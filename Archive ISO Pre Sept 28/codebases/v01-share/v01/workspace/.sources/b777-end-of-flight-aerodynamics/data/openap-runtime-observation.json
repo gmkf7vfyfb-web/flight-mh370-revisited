@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "executed_at_utc": "2026-08-27",
+  "source": {
+    "openap_version": "v2.6.0",
+    "commit": "4fb21d6e402fd1f4a48b191ad6801c74479e71f5",
+    "archive_sha256": "3e3bed2c6d17eca5aa1715e8906bd6c7099cb8f6df83c88a18375c9f726d7fc8"
+  },
+  "runtime": {
+    "python": "3.14.7",
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.1"
+  },
+  "probe": {
+    "aircraft": "B772",
+    "height_ft": 35000,
+    "mach": 0.84,
+    "mass_kg": 208525.63917525773,
+    "tas_kt": 484.1921481396607,
+    "clean_drag_N": 159899.86051114558,
+    "engines": [
+      {
+        "engine": null,
+        "force_engine": false,
+        "status": "executed",
+        "maximum_cruise_thrust_N": 170794.67839718476,
+        "modeled_descent_idle_thrust_N": 9931.427718598632
+      },
+      {
+        "engine": "Trent 895",
+        "force_engine": false,
+        "status": "executed",
+        "maximum_cruise_thrust_N": 172760.21376335467,
+        "modeled_descent_idle_thrust_N": 10159.526735157624
+      },
+      {
+        "engine": "Trent 892",
+        "force_engine": false,
+        "status": "rejected",
+        "exception_type": "ValueError",
+        "message": "Engine Trent 892 and aircraft B772 mismatch. Available engines for B772 are ['GE90-77B', 'PW4077', 'Trent 877', 'GE90-94B', 'PW4090', 'Trent 895']"
+      },
+      {
+        "engine": "Trent 892",
+        "force_engine": true,
+        "status": "executed",
+        "maximum_cruise_thrust_N": 172110.55260022063,
+        "modeled_descent_idle_thrust_N": 10120.910449056188
+      }
+    ]
+  },
+  "admission_effect": "none",
+  "warning": "The forced pairing is an API execution check only; it is not a validated B777-200ER/Trent 892 model."
+}

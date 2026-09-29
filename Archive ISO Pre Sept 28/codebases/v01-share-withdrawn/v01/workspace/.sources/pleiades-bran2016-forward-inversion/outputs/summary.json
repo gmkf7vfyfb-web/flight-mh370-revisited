@@ -1,0 +1,1294 @@
+{
+  "schema_version": 1,
+  "status": "derived_model_conditional",
+  "identity_conclusion": "unknown",
+  "generated_utc": "2026-08-27T01:06:32.898Z",
+  "implementation": {
+    "source_control_revision": null,
+    "identity_method": "SHA-256 file inventory (checkout has no usable Git revision)",
+    "node_version": "v24.19.0",
+    "files": [
+      {
+        "path": "code/fetch_data.mjs",
+        "sha256": "3641f297f3adf5cdde257a602ef5bac2da4429c188af8a3c2dc333513b48d8bd"
+      },
+      {
+        "path": "code/prepare_cmems_fields.py",
+        "sha256": "d7207dc59a143702694984b4651ae90a5531454dba63b2e99cae8e804e83694a"
+      },
+      {
+        "path": "code/transport_core.mjs",
+        "sha256": "7b0a5bd39f82d9342eb59ccce6f351303c9508120a4bb22d62381a9e0433134b"
+      },
+      {
+        "path": "code/scenario_worker.mjs",
+        "sha256": "be953bd6106d3afcd4ff5763545a3a5589bb6e0a1f664dd3814b0828ec8a8f4c"
+      },
+      {
+        "path": "code/run_inversion.mjs",
+        "sha256": "993d4b786410c841243e7653d2703dbc85477a639583b33e72c11af44502f5da"
+      },
+      {
+        "path": "code/render_report.mjs",
+        "sha256": "31ffbef744e1ed48527ed6fc8c1232157d9975fb70d7c0d14768a8e565c3389d"
+      },
+      {
+        "path": "code/render_report.py",
+        "sha256": "a43fd28a9f9a1883498ecbb8c41077bd40b3be618e93deb894ab2601d167a41c"
+      },
+      {
+        "path": "code/requirements-plot.txt",
+        "sha256": "0c5132bfc8bf7d76d17a49c8c5555b3c5945192bddec844f233fb7cff8ffc1cd"
+      }
+    ],
+    "combined_sha256": "7a3add2598e39f380c95fca196cea1e0987e11bec864b24b9fc48fd2cd1dce8f",
+    "input_manifest_sha256": "5f23aa7d9d8b079578b240ca4d4c5f6be08f13b9bcb4393f1fe809b8d6dc5ede"
+  },
+  "configuration": {
+    "schema_version": 1,
+    "start_utc": "2014-03-08T00:19:00Z",
+    "observation_utc": "2014-03-23T04:00:00Z",
+    "integration_step_hours": 3,
+    "arc_latitude_range_deg": [
+      -39,
+      -32
+    ],
+    "arc_spacing_nm": 5,
+    "cross_arc_range_nm": [
+      -100,
+      100
+    ],
+    "cross_arc_spacing_nm": 5,
+    "windage_factors": [
+      0,
+      0.012,
+      0.03
+    ],
+    "windage_prior": [
+      0.3333333333333333,
+      0.3333333333333333,
+      0.3333333333333333
+    ],
+    "primary_diffusion_rms_nm_per_day": 5,
+    "diffusion_sensitivity_nm_per_day": [
+      0,
+      10
+    ],
+    "primary_kernel_sigma_km": 10,
+    "kernel_sensitivity_km": [
+      5,
+      20
+    ],
+    "primary_object_set": "all_rating5",
+    "object_set_sensitivity": "morphology_shortlist5",
+    "particles_per_windage_primary": 64,
+    "particles_per_windage_sensitivity": 32,
+    "seeds": [
+      37003801,
+      37003802,
+      37003803
+    ],
+    "bran_subset": {
+      "time_indices": [
+        7,
+        22
+      ],
+      "depth_index": 0,
+      "latitude_indices": [
+        299,
+        499
+      ],
+      "longitude_indices": [
+        799,
+        1049
+      ],
+      "scale_factor": 0.0003051851,
+      "missing_packed_value": -32768
+    },
+    "ncep_wind_subset": {
+      "time_indices": [
+        66,
+        81
+      ],
+      "latitude_indices": [
+        57,
+        73
+      ],
+      "longitude_indices": [
+        42,
+        57
+      ]
+    },
+    "oscar_subset": {
+      "latitude_indices": [
+        179,
+        259
+      ],
+      "longitude_indices": [
+        320,
+        420
+      ]
+    }
+  },
+  "execution": {
+    "worker_concurrency": 6,
+    "wall_seconds_before_render": 1730.185789924,
+    "maximum_resident_set_mb": 1232.80078125
+  },
+  "source_grid": {
+    "cells": 5289,
+    "along_cells": 129,
+    "cross_cells": 41,
+    "nominal_cell_area_km2": 85.7476,
+    "support_area_km2": 439027.71200001123
+  },
+  "objects": {
+    "all_rating5": [
+      "PHR_1-1",
+      "PHR_3-7",
+      "PHR_3-10",
+      "PHR_4-2",
+      "PHR_4-3",
+      "PHR_4-4",
+      "PHR_4-5",
+      "PHR_4-6",
+      "PHR_4-18",
+      "PHR_4-19",
+      "PHR_4-26",
+      "PHR_4-27"
+    ],
+    "morphology_shortlist5": [
+      "PHR_4-6",
+      "PHR_4-18",
+      "PHR_4-19",
+      "PHR_4-26",
+      "PHR_4-27"
+    ]
+  },
+  "current_models": [
+    {
+      "id": "bran2016",
+      "label": "BRAN2016 2.5 m layer",
+      "input_sha256": "b050a6ceae216a53499e3a96969933cada7f5a6abc03a8a709d8fb7b4118e43f",
+      "current_input_sha256": "b050a6ceae216a53499e3a96969933cada7f5a6abc03a8a709d8fb7b4118e43f",
+      "stokes_input_sha256": null,
+      "velocity_terms": [
+        "ocean-current product",
+        "windage × 10 m wind"
+      ]
+    },
+    {
+      "id": "oscar_v2_final",
+      "label": "OSCAR v2 Final upper-30-m control",
+      "input_sha256": "e24554662c0dde3c6c60ec6c6d78a28c83a25889817f33776e6215dce3f5355a",
+      "current_input_sha256": "e24554662c0dde3c6c60ec6c6d78a28c83a25889817f33776e6215dce3f5355a",
+      "stokes_input_sha256": null,
+      "velocity_terms": [
+        "ocean-current product",
+        "windage × 10 m wind"
+      ]
+    },
+    {
+      "id": "glorys12_waverys",
+      "label": "GLORYS12 0.494 m plus WAVERYS surface Stokes",
+      "input_sha256": "c7e7ae0eeac1755d74c34fccf10495978e213b4b26ae5930f138635ca8a69500",
+      "current_input_sha256": "c7e7ae0eeac1755d74c34fccf10495978e213b4b26ae5930f138635ca8a69500",
+      "stokes_input_sha256": "a73cff24004932ebd2d139968776b60ce8bf95c8b2d3d479d43a9e269868a907",
+      "velocity_terms": [
+        "Eulerian ocean current",
+        "surface Stokes drift",
+        "windage × 10 m wind"
+      ]
+    }
+  ],
+  "summaries": {
+    "bran2016": {
+      "primary": {
+        "mode": {
+          "id": "a054_x+015",
+          "latitude": -35.41788707769665,
+          "longitude": 92.88584624728297,
+          "crossNm": 15
+        },
+        "mean": {
+          "latitude": -35.25005809735829,
+          "longitude": 92.29517264403057,
+          "crossNm": -11.77087925753624
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5035328020291202,
+            "areaKm2": 7202.7983999999915,
+            "densityThresholdPerKm2": 0.00004344300134759872
+          },
+          "0.9": {
+            "achievedMass": 0.9009278360815063,
+            "areaKm2": 24309.444599999937,
+            "densityThresholdPerKm2": 0.000011341240593577164
+          },
+          "0.95": {
+            "achievedMass": 0.9505275333593165,
+            "areaKm2": 30011.65999999986,
+            "densityThresholdPerKm2": 0.000006351307641851229
+          }
+        },
+        "massWithin30NmOfArc": 0.6834242428715431,
+        "massEastOfArc": 0.47175145068537405,
+        "massWestOfArc": 0.46203948422701674
+      },
+      "kernel_5km": {
+        "mode": {
+          "id": "a053_x+010",
+          "latitude": -35.3002739318864,
+          "longitude": 92.8907621322908,
+          "crossNm": 10
+        },
+        "mean": {
+          "latitude": -35.26553973923694,
+          "longitude": 92.32943991805855,
+          "crossNm": -9.96532753289617
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5012959256103765,
+            "areaKm2": 6345.322399999995,
+            "densityThresholdPerKm2": 0.000045287487581991026
+          },
+          "0.9": {
+            "achievedMass": 0.9000990530726395,
+            "areaKm2": 22851.735399999958,
+            "densityThresholdPerKm2": 0.000012264683048790258
+          },
+          "0.95": {
+            "achievedMass": 0.9501020796346725,
+            "areaKm2": 28125.21279999989,
+            "densityThresholdPerKm2": 0.000006868069638761541
+          }
+        },
+        "massWithin30NmOfArc": 0.7016402221630292,
+        "massEastOfArc": 0.5012043495838657,
+        "massWestOfArc": 0.431615452519201
+      },
+      "kernel_20km": {
+        "mode": {
+          "id": "a054_x+015",
+          "latitude": -35.41788707769665,
+          "longitude": 92.88584624728297,
+          "crossNm": 15
+        },
+        "mean": {
+          "latitude": -35.218503388493666,
+          "longitude": 92.21790184603873,
+          "crossNm": -15.682610131298857
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5000886665789891,
+            "areaKm2": 8832.002799999993,
+            "densityThresholdPerKm2": 0.00003765742199544556
+          },
+          "0.9": {
+            "achievedMass": 0.9002055367982048,
+            "areaKm2": 27996.5913999999,
+            "densityThresholdPerKm2": 0.00000949483793687156
+          },
+          "0.95": {
+            "achievedMass": 0.9500961342580074,
+            "areaKm2": 35113.6421999999,
+            "densityThresholdPerKm2": 0.000004955651651204703
+          }
+        },
+        "massWithin30NmOfArc": 0.6429414053395047,
+        "massEastOfArc": 0.41192220985380334,
+        "massWestOfArc": 0.524944270207134
+      },
+      "morphology_shortlist5": {
+        "mode": {
+          "id": "a055_x+025",
+          "latitude": -35.59727191187172,
+          "longitude": 92.94946765734078,
+          "crossNm": 25
+        },
+        "mean": {
+          "latitude": -35.34369887506466,
+          "longitude": 92.53350925314582,
+          "crossNm": 0.16497924706771755
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5010839804326787,
+            "areaKm2": 5402.098799999998,
+            "densityThresholdPerKm2": 0.00006151498837971775
+          },
+          "0.9": {
+            "achievedMass": 0.900514227067472,
+            "areaKm2": 17235.267600000036,
+            "densityThresholdPerKm2": 0.000013729717208892878
+          },
+          "0.95": {
+            "achievedMass": 0.9501747427980884,
+            "areaKm2": 21951.38559999997,
+            "densityThresholdPerKm2": 0.000007476145625244095
+          }
+        },
+        "massWithin30NmOfArc": 0.8084305084366212,
+        "massEastOfArc": 0.5649201080031303,
+        "massWestOfArc": 0.3594882839811697
+      },
+      "windage_0": {
+        "mode": {
+          "id": "a054_x+015",
+          "latitude": -35.41788707769665,
+          "longitude": 92.88584624728297,
+          "crossNm": 15
+        },
+        "mean": {
+          "latitude": -35.19399567962601,
+          "longitude": 92.07043614411306,
+          "crossNm": -21.666324270177288
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5028052197866376,
+            "areaKm2": 6431.069999999994,
+            "densityThresholdPerKm2": 0.00005283545703934829
+          },
+          "0.9": {
+            "achievedMass": 0.9009160696104596,
+            "areaKm2": 20450.802599999985,
+            "densityThresholdPerKm2": 0.000013282853440788996
+          },
+          "0.95": {
+            "achievedMass": 0.9506044768432075,
+            "areaKm2": 25295.54199999992,
+            "densityThresholdPerKm2": 0.000007549640948040662
+          }
+        },
+        "massWithin30NmOfArc": 0.6126243048679441,
+        "massEastOfArc": 0.31804344091251624,
+        "massWestOfArc": 0.6211239283227732
+      },
+      "windage_1p2": {
+        "mode": {
+          "id": "a056_x+020",
+          "latitude": -35.59469121821137,
+          "longitude": 92.8024215381646,
+          "crossNm": 20
+        },
+        "mean": {
+          "latitude": -35.263676666172984,
+          "longitude": 92.3348282547427,
+          "crossNm": -9.872833390011563
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5032696613230853,
+            "areaKm2": 5916.584399999996,
+            "densityThresholdPerKm2": 0.00004894178794561123
+          },
+          "0.9": {
+            "achievedMass": 0.9008313552830787,
+            "areaKm2": 22037.133199999967,
+            "densityThresholdPerKm2": 0.000012236632066021825
+          },
+          "0.95": {
+            "achievedMass": 0.9500105612417573,
+            "areaKm2": 27224.862999999896,
+            "densityThresholdPerKm2": 0.000006939035097223902
+          }
+        },
+        "massWithin30NmOfArc": 0.7130135293894736,
+        "massEastOfArc": 0.48769303999743885,
+        "massWestOfArc": 0.4342077319303
+      },
+      "windage_3": {
+        "mode": {
+          "id": "a053_x+015",
+          "latitude": -35.36123465284905,
+          "longitude": 92.96017440729038,
+          "crossNm": 15
+        },
+        "mean": {
+          "latitude": -35.294313930424046,
+          "longitude": 92.48794390017683,
+          "crossNm": -3.4392039731575865
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5021232985170195,
+            "areaKm2": 5402.098799999998,
+            "densityThresholdPerKm2": 0.000050962853885322026
+          },
+          "0.9": {
+            "achievedMass": 0.9008935609908152,
+            "areaKm2": 24095.075599999942,
+            "densityThresholdPerKm2": 0.00001043092685678575
+          },
+          "0.95": {
+            "achievedMass": 0.9503244531314958,
+            "areaKm2": 30011.659999999865,
+            "densityThresholdPerKm2": 0.000006226575249383523
+          }
+        },
+        "massWithin30NmOfArc": 0.7265692482822599,
+        "massEastOfArc": 0.6150970754147995,
+        "massWestOfArc": 0.3253361688671241
+      },
+      "diffusion_0nm_day": {
+        "mode": {
+          "id": "a054_x+025",
+          "latitude": -35.53976898924981,
+          "longitude": 93.02481977058478,
+          "crossNm": 25
+        },
+        "mean": {
+          "latitude": -35.305127888382636,
+          "longitude": 92.40709365903206,
+          "crossNm": -5.702835339046129
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5146776646756608,
+            "areaKm2": 1286.214,
+            "densityThresholdPerKm2": 0.00020712574644226055
+          },
+          "0.9": {
+            "achievedMass": 0.9000627869800997,
+            "areaKm2": 5745.089199999998,
+            "densityThresholdPerKm2": 0.00004151212695818256
+          },
+          "0.95": {
+            "achievedMass": 0.9514470740226614,
+            "areaKm2": 7374.293599999992,
+            "densityThresholdPerKm2": 0.000024218204441979853
+          }
+        },
+        "massWithin30NmOfArc": 0.7424110177613144,
+        "massEastOfArc": 0.6262609100066416,
+        "massWestOfArc": 0.33320283183356014
+      },
+      "diffusion_10nm_day": {
+        "mode": {
+          "id": "a052_x+000",
+          "latitude": -35.12164076955529,
+          "longitude": 92.82648920225304,
+          "crossNm": 0
+        },
+        "mean": {
+          "latitude": -35.18646325397537,
+          "longitude": 92.14763450014354,
+          "crossNm": -19.291685866842354
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5011359229199731,
+            "areaKm2": 15777.558400000042,
+            "densityThresholdPerKm2": 0.000021020266143792082
+          },
+          "0.9": {
+            "achievedMass": 0.9002102385252708,
+            "areaKm2": 48061.52980000026,
+            "densityThresholdPerKm2": 0.000006116028859907082
+          },
+          "0.95": {
+            "achievedMass": 0.9501329308101021,
+            "areaKm2": 59165.84400000057,
+            "densityThresholdPerKm2": 0.000003332332915386872
+          }
+        },
+        "massWithin30NmOfArc": 0.5831997103244771,
+        "massEastOfArc": 0.3265725653575219,
+        "massWestOfArc": 0.619418795111265
+      }
+    },
+    "oscar_v2_final": {
+      "primary": {
+        "mode": {
+          "id": "a056_x-035",
+          "latitude": -34.91671340761436,
+          "longitude": 92.04716381373476,
+          "crossNm": -35
+        },
+        "mean": {
+          "latitude": -34.97243507985768,
+          "longitude": 91.86213744099386,
+          "crossNm": -38.36525221405592
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5017109661697898,
+            "areaKm2": 6088.0795999999955,
+            "densityThresholdPerKm2": 0.00005734329953091485
+          },
+          "0.9": {
+            "achievedMass": 0.9005921958704498,
+            "areaKm2": 18392.860200000014,
+            "densityThresholdPerKm2": 0.00001575335585759673
+          },
+          "0.95": {
+            "achievedMass": 0.9500689184704832,
+            "areaKm2": 22980.356799999954,
+            "densityThresholdPerKm2": 0.000007495866444956646
+          }
+        },
+        "massWithin30NmOfArc": 0.46430975091976096,
+        "massEastOfArc": 0.048473852165089315,
+        "massWestOfArc": 0.9090455270160909
+      },
+      "kernel_5km": {
+        "mode": {
+          "id": "a056_x-025",
+          "latitude": -35.039982100450175,
+          "longitude": 92.18448339999473,
+          "crossNm": -25
+        },
+        "mean": {
+          "latitude": -34.976631362373226,
+          "longitude": 91.86733729354378,
+          "crossNm": -38.01963854840468
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5025748913373761,
+            "areaKm2": 5573.593999999997,
+            "densityThresholdPerKm2": 0.00006081841339492895
+          },
+          "0.9": {
+            "achievedMass": 0.9008033503064174,
+            "areaKm2": 17020.898600000033,
+            "densityThresholdPerKm2": 0.000016721875995329787
+          },
+          "0.95": {
+            "achievedMass": 0.950589307799852,
+            "areaKm2": 20922.41439999998,
+            "densityThresholdPerKm2": 0.000009501053188318673
+          }
+        },
+        "massWithin30NmOfArc": 0.4708151621653468,
+        "massEastOfArc": 0.04375934472287647,
+        "massWestOfArc": 0.9080452328734748
+      },
+      "kernel_20km": {
+        "mode": {
+          "id": "a055_x-020",
+          "latitude": -35.04737914589352,
+          "longitude": 92.32552769039134,
+          "crossNm": -20
+        },
+        "mean": {
+          "latitude": -34.95154468572687,
+          "longitude": 91.87497293455215,
+          "crossNm": -38.81901541968352
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5029728374345969,
+            "areaKm2": 7545.78879999999,
+            "densityThresholdPerKm2": 0.00004776370367483543
+          },
+          "0.9": {
+            "achievedMass": 0.9001465645452148,
+            "areaKm2": 22422.99739999996,
+            "densityThresholdPerKm2": 0.000010629682980810502
+          },
+          "0.95": {
+            "achievedMass": 0.9503152106666019,
+            "areaKm2": 29239.931599999865,
+            "densityThresholdPerKm2": 0.000004970131980715327
+          }
+        },
+        "massWithin30NmOfArc": 0.4550855806615067,
+        "massEastOfArc": 0.06213439628245179,
+        "massWestOfArc": 0.8981528797982932
+      },
+      "morphology_shortlist5": {
+        "mode": {
+          "id": "a056_x-035",
+          "latitude": -34.91671340761436,
+          "longitude": 92.04716381373476,
+          "crossNm": -35
+        },
+        "mean": {
+          "latitude": -34.98145904226656,
+          "longitude": 91.93880623766339,
+          "crossNm": -35.49808144288923
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5013068822259243,
+            "areaKm2": 5316.351199999998,
+            "densityThresholdPerKm2": 0.00006825717535779441
+          },
+          "0.9": {
+            "achievedMass": 0.9001353062474083,
+            "areaKm2": 15520.315600000038,
+            "densityThresholdPerKm2": 0.00001772915566177424
+          },
+          "0.95": {
+            "achievedMass": 0.950713411128188,
+            "areaKm2": 19164.588600000006,
+            "densityThresholdPerKm2": 0.00001018562104549629
+          }
+        },
+        "massWithin30NmOfArc": 0.4908195158849064,
+        "massEastOfArc": 0.05531516301347942,
+        "massWestOfArc": 0.8979652405524087
+      },
+      "windage_0": {
+        "mode": {
+          "id": "a063_x-065",
+          "latitude": -34.92813366311466,
+          "longitude": 91.10952656197898,
+          "crossNm": -65
+        },
+        "mean": {
+          "latitude": -34.897981931053195,
+          "longitude": 91.54464273199531,
+          "crossNm": -52.08162195493256
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5005727906607202,
+            "areaKm2": 4801.8656,
+            "densityThresholdPerKm2": 0.00007613048001434548
+          },
+          "0.9": {
+            "achievedMass": 0.9006462780795912,
+            "areaKm2": 14276.975400000025,
+            "densityThresholdPerKm2": 0.000018838803405120204
+          },
+          "0.95": {
+            "achievedMass": 0.9507279277843373,
+            "areaKm2": 18135.617400000017,
+            "densityThresholdPerKm2": 0.000009600671164514286
+          }
+        },
+        "massWithin30NmOfArc": 0.22229498191772923,
+        "massEastOfArc": 0.00606540331888403,
+        "massWestOfArc": 0.9863189077109685
+      },
+      "windage_1p2": {
+        "mode": {
+          "id": "a055_x-030",
+          "latitude": -34.92518075345392,
+          "longitude": 92.18687436440257,
+          "crossNm": -30
+        },
+        "mean": {
+          "latitude": -34.96253945725633,
+          "longitude": 91.85602295500743,
+          "crossNm": -39.0272600469654
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5020494573804146,
+            "areaKm2": 5059.108399999999,
+            "densityThresholdPerKm2": 0.00006419306716984739
+          },
+          "0.9": {
+            "achievedMass": 0.9010224058157841,
+            "areaKm2": 16549.286800000038,
+            "densityThresholdPerKm2": 0.000017669267607162507
+          },
+          "0.95": {
+            "achievedMass": 0.9501097581932506,
+            "areaKm2": 20450.802599999985,
+            "densityThresholdPerKm2": 0.000009450388357412466
+          }
+        },
+        "massWithin30NmOfArc": 0.4502052744261854,
+        "massEastOfArc": 0.03185506482292092,
+        "massWestOfArc": 0.9331766417424058
+      },
+      "windage_3": {
+        "mode": {
+          "id": "a055_x-005",
+          "latitude": -35.23067673455292,
+          "longitude": 92.53350767937448,
+          "crossNm": -5
+        },
+        "mean": {
+          "latitude": -35.05628474276484,
+          "longitude": 92.18355485372737,
+          "crossNm": -24.08086466833671
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5026066946799514,
+            "areaKm2": 4630.370400000001,
+            "densityThresholdPerKm2": 0.00006502160736646071
+          },
+          "0.9": {
+            "achievedMass": 0.9001041644132957,
+            "areaKm2": 18907.345800000014,
+            "densityThresholdPerKm2": 0.000012559790473450666
+          },
+          "0.95": {
+            "achievedMass": 0.9506465147830884,
+            "areaKm2": 23923.580399999948,
+            "densityThresholdPerKm2": 0.00000768957024456695
+          }
+        },
+        "massWithin30NmOfArc": 0.7187748739945419,
+        "massEastOfArc": 0.10723609439247331,
+        "massWestOfArc": 0.8081346902815931
+      },
+      "diffusion_0nm_day": {
+        "mode": {
+          "id": "a061_x-060",
+          "latitude": -34.883518168261205,
+          "longitude": 91.32492465452256,
+          "crossNm": -60
+        },
+        "mean": {
+          "latitude": -34.99173657870541,
+          "longitude": 91.87396403309118,
+          "crossNm": -37.19092476220653
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5039848946937503,
+            "areaKm2": 1371.9615999999999,
+            "densityThresholdPerKm2": 0.00031849055310597063
+          },
+          "0.9": {
+            "achievedMass": 0.9017433266236272,
+            "areaKm2": 4673.244200000001,
+            "densityThresholdPerKm2": 0.000043334531212137844
+          },
+          "0.95": {
+            "achievedMass": 0.9506623467727119,
+            "areaKm2": 6045.205799999997,
+            "densityThresholdPerKm2": 0.00003044619718335188
+          }
+        },
+        "massWithin30NmOfArc": 0.4896449693971184,
+        "massEastOfArc": 0.001800701198456909,
+        "massWestOfArc": 0.9728861820443658
+      },
+      "diffusion_10nm_day": {
+        "mode": {
+          "id": "a054_x-030",
+          "latitude": -34.86941847570745,
+          "longitude": 92.26046539242483,
+          "crossNm": -30
+        },
+        "mean": {
+          "latitude": -34.956497699535376,
+          "longitude": 91.91240337615136,
+          "crossNm": -37.2516089253444
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.500442416658105,
+            "areaKm2": 13548.120800000022,
+            "densityThresholdPerKm2": 0.00002663948336648005
+          },
+          "0.9": {
+            "achievedMass": 0.9002922729196469,
+            "areaKm2": 41115.97420000005,
+            "densityThresholdPerKm2": 0.000006388753550989439
+          },
+          "0.95": {
+            "achievedMass": 0.9501491968493954,
+            "areaKm2": 51405.68620000034,
+            "densityThresholdPerKm2": 0.000003583770908427102
+          }
+        },
+        "massWithin30NmOfArc": 0.42098987124300463,
+        "massEastOfArc": 0.12667378043552832,
+        "massWestOfArc": 0.839628202930036
+      }
+    },
+    "glorys12_waverys": {
+      "primary": {
+        "mode": {
+          "id": "a059_x-010",
+          "latitude": -35.391239712554196,
+          "longitude": 92.16266554849784,
+          "crossNm": -10
+        },
+        "mean": {
+          "latitude": -35.2596579862005,
+          "longitude": 91.91783538741414,
+          "crossNm": -23.76060783032182
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5034014604036573,
+            "areaKm2": 6002.331999999996,
+            "densityThresholdPerKm2": 0.00005386455451120523
+          },
+          "0.9": {
+            "achievedMass": 0.9006222530880089,
+            "areaKm2": 22122.880799999966,
+            "densityThresholdPerKm2": 0.000010238068040033293
+          },
+          "0.95": {
+            "achievedMass": 0.9500405533451938,
+            "areaKm2": 28639.698399999877,
+            "densityThresholdPerKm2": 0.000005115959059843881
+          }
+        },
+        "massWithin30NmOfArc": 0.6352626645716631,
+        "massEastOfArc": 0.1198197172469961,
+        "massWestOfArc": 0.8061133434160738
+      },
+      "kernel_5km": {
+        "mode": {
+          "id": "a058_x-015",
+          "latitude": -35.273568928503394,
+          "longitude": 92.17063845139366,
+          "crossNm": -15
+        },
+        "mean": {
+          "latitude": -35.24021862618206,
+          "longitude": 91.92362871200397,
+          "crossNm": -24.4507034584334
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5027267918862323,
+            "areaKm2": 5316.351199999998,
+            "densityThresholdPerKm2": 0.00006580217356566707
+          },
+          "0.9": {
+            "achievedMass": 0.9001326822926797,
+            "areaKm2": 19721.948,
+            "densityThresholdPerKm2": 0.000010787704983230442
+          },
+          "0.95": {
+            "achievedMass": 0.9504652076507181,
+            "areaKm2": 25595.658599999922,
+            "densityThresholdPerKm2": 0.000006284099507248197
+          }
+        },
+        "massWithin30NmOfArc": 0.6293480128331687,
+        "massEastOfArc": 0.10276388151783984,
+        "massWestOfArc": 0.82146195361272
+      },
+      "kernel_20km": {
+        "mode": {
+          "id": "a059_x-010",
+          "latitude": -35.391239712554196,
+          "longitude": 92.16266554849784,
+          "crossNm": -10
+        },
+        "mean": {
+          "latitude": -35.28587693075465,
+          "longitude": 91.91460535404372,
+          "crossNm": -22.64945840731418
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5031144377304875,
+            "areaKm2": 8146.021999999988,
+            "densityThresholdPerKm2": 0.00004056564265458707
+          },
+          "0.9": {
+            "achievedMass": 0.90007699717083,
+            "areaKm2": 28468.203199999876,
+            "densityThresholdPerKm2": 0.00000762627352893761
+          },
+          "0.95": {
+            "achievedMass": 0.9501807014975152,
+            "areaKm2": 37643.19639999995,
+            "densityThresholdPerKm2": 0.000003823158899016436
+          }
+        },
+        "massWithin30NmOfArc": 0.6274288562360915,
+        "massEastOfArc": 0.1631419010981832,
+        "massWestOfArc": 0.7657935426688709
+      },
+      "morphology_shortlist5": {
+        "mode": {
+          "id": "a059_x-010",
+          "latitude": -35.391239712554196,
+          "longitude": 92.16266554849784,
+          "crossNm": -10
+        },
+        "mean": {
+          "latitude": -35.2555616612453,
+          "longitude": 91.98500935496124,
+          "crossNm": -21.800190219975867
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5044119545751153,
+            "areaKm2": 5059.108399999999,
+            "densityThresholdPerKm2": 0.00007026402397091938
+          },
+          "0.9": {
+            "achievedMass": 0.900688710762567,
+            "areaKm2": 16892.27720000004,
+            "densityThresholdPerKm2": 0.000013749198155923854
+          },
+          "0.95": {
+            "achievedMass": 0.9502335720170024,
+            "areaKm2": 21694.142799999972,
+            "densityThresholdPerKm2": 0.000007000270594538569
+          }
+        },
+        "massWithin30NmOfArc": 0.6576955383691161,
+        "massEastOfArc": 0.11780138969745625,
+        "massWestOfArc": 0.8088030389198831
+      },
+      "windage_0": {
+        "mode": {
+          "id": "a057_x-030",
+          "latitude": -35.03188186328068,
+          "longitude": 92.0423073074555,
+          "crossNm": -30
+        },
+        "mean": {
+          "latitude": -35.1208014258078,
+          "longitude": 91.78665461158094,
+          "crossNm": -34.23168893686861
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5046133415427677,
+            "areaKm2": 5402.098799999998,
+            "densityThresholdPerKm2": 0.0000656249254265719
+          },
+          "0.9": {
+            "achievedMass": 0.9000201645887774,
+            "areaKm2": 19121.71480000001,
+            "densityThresholdPerKm2": 0.000011328520878420915
+          },
+          "0.95": {
+            "achievedMass": 0.9500330385545239,
+            "areaKm2": 24866.803999999935,
+            "densityThresholdPerKm2": 0.000006502780100302079
+          }
+        },
+        "massWithin30NmOfArc": 0.43614482536069177,
+        "massEastOfArc": 0.03595998387459351,
+        "massWestOfArc": 0.9315491456299752
+      },
+      "windage_1p2": {
+        "mode": {
+          "id": "a057_x-015",
+          "latitude": -35.2178490975009,
+          "longitude": 92.24698269400085,
+          "crossNm": -15
+        },
+        "mean": {
+          "latitude": -35.23563175691439,
+          "longitude": 91.93880121321531,
+          "crossNm": -24.15452347040342
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5036748466406029,
+            "areaKm2": 4887.6132,
+            "densityThresholdPerKm2": 0.00006719909382924076
+          },
+          "0.9": {
+            "achievedMass": 0.9002763362418087,
+            "areaKm2": 20150.685999999994,
+            "densityThresholdPerKm2": 0.000010293353863192883
+          },
+          "0.95": {
+            "achievedMass": 0.9502508010847401,
+            "areaKm2": 26410.260799999905,
+            "densityThresholdPerKm2": 0.00000601857489590495
+          }
+        },
+        "massWithin30NmOfArc": 0.6543198565587566,
+        "massEastOfArc": 0.09230254373246313,
+        "massWestOfArc": 0.8373963110142396
+      },
+      "windage_3": {
+        "mode": {
+          "id": "a061_x+000",
+          "latitude": -35.626466328446654,
+          "longitude": 92.1471609401524,
+          "crossNm": 0
+        },
+        "mean": {
+          "latitude": -35.44357701716232,
+          "longitude": 92.04469568197187,
+          "crossNm": -11.414105477742087
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5018095438134667,
+            "areaKm2": 4458.875200000001,
+            "densityThresholdPerKm2": 0.00007090392508326673
+          },
+          "0.9": {
+            "achievedMass": 0.900776914244716,
+            "areaKm2": 19550.452800000003,
+            "densityThresholdPerKm2": 0.000010424295513896477
+          },
+          "0.95": {
+            "achievedMass": 0.9503021545761701,
+            "areaKm2": 25638.532399999916,
+            "densityThresholdPerKm2": 0.000006204778492669068
+          }
+        },
+        "massWithin30NmOfArc": 0.8415329212859236,
+        "massEastOfArc": 0.244862653725655,
+        "massWestOfArc": 0.6296833629912316
+      },
+      "diffusion_0nm_day": {
+        "mode": {
+          "id": "a060_x+000",
+          "latitude": -35.570803829265266,
+          "longitude": 92.22328522525086,
+          "crossNm": 0
+        },
+        "mean": {
+          "latitude": -35.229512293976654,
+          "longitude": 91.94704399262342,
+          "crossNm": -24.207444816871806
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5044312817818736,
+            "areaKm2": 1629.2043999999996,
+            "densityThresholdPerKm2": 0.00020686194576132917
+          },
+          "0.9": {
+            "achievedMass": 0.901288828778797,
+            "areaKm2": 5616.467799999998,
+            "densityThresholdPerKm2": 0.00003534066441778796
+          },
+          "0.95": {
+            "achievedMass": 0.9505297614182074,
+            "areaKm2": 7288.545999999992,
+            "densityThresholdPerKm2": 0.000023908659468225913
+          }
+        },
+        "massWithin30NmOfArc": 0.6243762397706014,
+        "massEastOfArc": 0.05269691118433526,
+        "massWestOfArc": 0.8327043083097969
+      },
+      "diffusion_10nm_day": {
+        "mode": {
+          "id": "a062_x-015",
+          "latitude": -35.4964496983216,
+          "longitude": 91.86525504994928,
+          "crossNm": -15
+        },
+        "mean": {
+          "latitude": -35.281002183343276,
+          "longitude": 91.9457621905066,
+          "crossNm": -21.731208301466257
+        },
+        "hpd": {
+          "0.5": {
+            "achievedMass": 0.5011051897110312,
+            "areaKm2": 15005.830000000036,
+            "densityThresholdPerKm2": 0.000022594936878228816
+          },
+          "0.9": {
+            "achievedMass": 0.9000820482395838,
+            "areaKm2": 47589.91800000023,
+            "densityThresholdPerKm2": 0.000005474101109224354
+          },
+          "0.95": {
+            "achievedMass": 0.9500135235403406,
+            "areaKm2": 59294.46540000056,
+            "densityThresholdPerKm2": 0.000003284016241404521
+          }
+        },
+        "massWithin30NmOfArc": 0.5666468175095778,
+        "massEastOfArc": 0.24019366974418457,
+        "massWestOfArc": 0.7112274821796825
+      }
+    }
+  },
+  "convergence": {
+    "bran2016": [
+      {
+        "first_seed": 37003801,
+        "second_seed": 37003802,
+        "total_variation": 0.14633509002606734,
+        "mode_separation_km": 13.085598898371122,
+        "mean_separation_km": 0.9073869792848569
+      },
+      {
+        "first_seed": 37003801,
+        "second_seed": 37003803,
+        "total_variation": 0.14092508913147278,
+        "mode_separation_km": 9.251930215682366,
+        "mean_separation_km": 1.7619525898405304
+      },
+      {
+        "first_seed": 37003802,
+        "second_seed": 37003803,
+        "total_variation": 0.14161103188605853,
+        "mode_separation_km": 9.223982283077412,
+        "mean_separation_km": 1.2121472247661949
+      }
+    ],
+    "oscar_v2_final": [
+      {
+        "first_seed": 37003801,
+        "second_seed": 37003802,
+        "total_variation": 0.15479744412380766,
+        "mode_separation_km": 47.252066657887696,
+        "mean_separation_km": 3.0187466854518985
+      },
+      {
+        "first_seed": 37003801,
+        "second_seed": 37003803,
+        "total_variation": 0.14865028430114774,
+        "mode_separation_km": 20.603818775780503,
+        "mean_separation_km": 1.3413460264457369
+      },
+      {
+        "first_seed": 37003802,
+        "second_seed": 37003803,
+        "total_variation": 0.15358312848956884,
+        "mode_separation_km": 27.842067749015452,
+        "mean_separation_km": 1.717168979900148
+      }
+    ],
+    "glorys12_waverys": [
+      {
+        "first_seed": 37003801,
+        "second_seed": 37003802,
+        "total_variation": 0.14715212920759244,
+        "mode_separation_km": 18.545405318708422,
+        "mean_separation_km": 0.7919968350381286
+      },
+      {
+        "first_seed": 37003801,
+        "second_seed": 37003803,
+        "total_variation": 0.13846225344373359,
+        "mode_separation_km": 20.71036296567612,
+        "mean_separation_km": 0.5738453664781814
+      },
+      {
+        "first_seed": 37003802,
+        "second_seed": 37003803,
+        "total_variation": 0.13966385379025414,
+        "mode_separation_km": 38.19634437296105,
+        "mean_separation_km": 0.3864944915147226
+      }
+    ]
+  },
+  "current_product_comparison": {
+    "totalVariation": 0.5636177756591376,
+    "modeSeparationKm": 94.431622798648,
+    "meanSeparationKm": 50.04505305287704
+  },
+  "current_family_comparisons": [
+    {
+      "first_model": "bran2016",
+      "second_model": "oscar_v2_final",
+      "total_variation": 0.5636177756591376,
+      "mode_separation_km": 94.431622798648,
+      "mean_separation_km": 50.04505305287704
+    },
+    {
+      "first_model": "bran2016",
+      "second_model": "glorys12_waverys",
+      "total_variation": 0.5700004655251079,
+      "mode_separation_km": 65.61088093839803,
+      "mean_separation_km": 34.27923474392234
+    },
+    {
+      "first_model": "oscar_v2_final",
+      "second_model": "glorys12_waverys",
+      "total_variation": 0.48393761876245545,
+      "mode_separation_km": 53.79970022325205,
+      "mean_separation_km": 32.33707541573295
+    }
+  ],
+  "interpretation": "Normalized forward-transport compatibility over declared support; not a calibrated crash posterior or object-identity finding.",
+  "model_average": {
+    "id": "equal_transport_family_model_average",
+    "label": "Equal prior-weighted 3-family transport-model average",
+    "component_weights": [
+      {
+        "id": "bran2016",
+        "weight": 0.3333333333333333
+      },
+      {
+        "id": "oscar_v2_final",
+        "weight": 0.3333333333333333
+      },
+      {
+        "id": "glorys12_waverys",
+        "weight": 0.3333333333333333
+      }
+    ],
+    "primary": {
+      "mode": {
+        "id": "a057_x-015",
+        "latitude": -35.2178490975009,
+        "longitude": 92.24698269400085,
+        "crossNm": -15
+      },
+      "mean": {
+        "latitude": -35.16071705447223,
+        "longitude": 92.02504849081286,
+        "crossNm": -24.63224643397128
+      },
+      "hpd": {
+        "0.5": {
+          "achievedMass": 0.5011149064685728,
+          "areaKm2": 9517.983599999998,
+          "densityThresholdPerKm2": 0.00003912296628222682
+        },
+        "0.9": {
+          "achievedMass": 0.9000584951770096,
+          "areaKm2": 28768.319799999885,
+          "densityThresholdPerKm2": 0.00000934783421336488
+        },
+        "0.95": {
+          "achievedMass": 0.9504244807078965,
+          "areaKm2": 35671.00159999991,
+          "densityThresholdPerKm2": 0.00000549727645050892
+        }
+      },
+      "massWithin30NmOfArc": 0.5943322194543226,
+      "massEastOfArc": 0.21334834003248668,
+      "massWestOfArc": 0.7257327848863937
+    },
+    "interpretation": "Equal prior-weighted mixture over explicitly alternative transport families; not a product of independent evidence, an empirically calibrated family posterior, or random-sampling uncertainty."
+  },
+  "identity_cardinality_sensitivity": {
+    "object_set": "morphology_shortlist5",
+    "object_count": 5,
+    "subset_selection": "Uniform without replacement conditional on selected-object count K.",
+    "subset_score": "Arithmetic mean of the K selected object-location likelihoods.",
+    "cardinality_prior": [
+      {
+        "selected_object_count": 1,
+        "prior_probability": 0.5161290322580645
+      },
+      {
+        "selected_object_count": 2,
+        "prior_probability": 0.25806451612903225
+      },
+      {
+        "selected_object_count": 3,
+        "prior_probability": 0.12903225806451613
+      },
+      {
+        "selected_object_count": 4,
+        "prior_probability": 0.06451612903225806
+      },
+      {
+        "selected_object_count": 5,
+        "prior_probability": 0.03225806451612903
+      }
+    ],
+    "resulting_object_weights": [
+      0.2,
+      0.2,
+      0.2,
+      0.2,
+      0.2
+    ],
+    "maximum_absolute_difference_from_equal_weight": 0,
+    "pdf_total_variation_from_exactly_one": 0,
+    "conclusion": "Exactly identical to the equal-weight exactly-one mixture by linearity; the result holds for any prior on K when subsets are uniform and their likelihoods are averaged.",
+    "excluded_alternative": "A joint/product likelihood for several objects is not this sensitivity and would require a correlated debris-survival, dispersion and image-detection model."
+  }
+}

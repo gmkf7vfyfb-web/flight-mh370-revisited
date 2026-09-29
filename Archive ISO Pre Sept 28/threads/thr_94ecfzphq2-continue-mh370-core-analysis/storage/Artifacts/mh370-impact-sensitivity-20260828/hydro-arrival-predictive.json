@@ -1,0 +1,195 @@
+{
+  "celerity_interval_km_s": [
+    1.45,
+    1.55
+  ],
+  "likelihood_evaluated": false,
+  "limitations": [
+    "No observed trace, selected event, correlation score, or likelihood is used.",
+    "Amplitude is not predicted because impact attitude and contact duration are unresolved.",
+    "Straight great-circle distance and a broad effective celerity interval are a geometry sensitivity, not a bathymetric path Green function.",
+    "Parent impact branches are generic point-mass conditionals, not B777 calibrated."
+  ],
+  "predictions": [
+    {
+      "arrival_earliest_median_utc_unix_s": 1394239648.7763596,
+      "arrival_earliest_q05_utc_unix_s": 1394239609.7946882,
+      "arrival_latest_median_utc_unix_s": 1394239748.9051256,
+      "arrival_latest_q95_utc_unix_s": 1394239820.9562657,
+      "arrival_midpoint_median_utc_unix_s": 1394239698.8574862,
+      "distance_km_mean": 2259.2779349934954,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 low/equal",
+      "station": "Cape Leeuwin H01W"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394240632.2510364,
+      "arrival_earliest_q05_utc_unix_s": 1394240617.6629274,
+      "arrival_latest_median_utc_unix_s": 1394240800.421495,
+      "arrival_latest_q95_utc_unix_s": 1394240813.0113869,
+      "arrival_midpoint_median_utc_unix_s": 1394240716.3222718,
+      "distance_km_mean": 3775.0618132083473,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 low/equal",
+      "station": "Diego Garcia H08S"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394239410.6012218,
+      "arrival_earliest_q05_utc_unix_s": 1394239376.8244169,
+      "arrival_latest_median_utc_unix_s": 1394239509.860611,
+      "arrival_latest_q95_utc_unix_s": 1394239572.0122626,
+      "arrival_midpoint_median_utc_unix_s": 1394239460.2566733,
+      "distance_km_mean": 2235.557775846338,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 medium/equal",
+      "station": "Cape Leeuwin H01W"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394240376.8250058,
+      "arrival_earliest_q05_utc_unix_s": 1394240367.2666612,
+      "arrival_latest_median_utc_unix_s": 1394240542.6109774,
+      "arrival_latest_q95_utc_unix_s": 1394240554.1652236,
+      "arrival_midpoint_median_utc_unix_s": 1394240459.7179916,
+      "distance_km_mean": 3728.560070591448,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 medium/equal",
+      "station": "Diego Garcia H08S"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394239446.3430684,
+      "arrival_earliest_q05_utc_unix_s": 1394239408.4234893,
+      "arrival_latest_median_utc_unix_s": 1394239546.2615654,
+      "arrival_latest_q95_utc_unix_s": 1394239618.5611567,
+      "arrival_midpoint_median_utc_unix_s": 1394239496.302317,
+      "distance_km_mean": 2249.5747305546383,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 medium/60 s stagger",
+      "station": "Cape Leeuwin H01W"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394240410.1184103,
+      "arrival_earliest_q05_utc_unix_s": 1394240398.606256,
+      "arrival_latest_median_utc_unix_s": 1394240576.1448646,
+      "arrival_latest_q95_utc_unix_s": 1394240587.8145082,
+      "arrival_midpoint_median_utc_unix_s": 1394240493.1328351,
+      "distance_km_mean": 3734.8200455402152,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 medium/60 s stagger",
+      "station": "Diego Garcia H08S"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394239476.8508968,
+      "arrival_earliest_q05_utc_unix_s": 1394239438.4431605,
+      "arrival_latest_median_utc_unix_s": 1394239576.734159,
+      "arrival_latest_q95_utc_unix_s": 1394239649.1058106,
+      "arrival_midpoint_median_utc_unix_s": 1394239526.7579446,
+      "distance_km_mean": 2250.3619981227316,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 medium/120 s stagger",
+      "station": "Cape Leeuwin H01W"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394240442.9007664,
+      "arrival_earliest_q05_utc_unix_s": 1394240431.2157762,
+      "arrival_latest_median_utc_unix_s": 1394240609.299219,
+      "arrival_latest_q95_utc_unix_s": 1394240621.225583,
+      "arrival_midpoint_median_utc_unix_s": 1394240526.1039457,
+      "distance_km_mean": 3739.30941077647,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "860 medium/120 s stagger",
+      "station": "Diego Garcia H08S"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394241815.9446268,
+      "arrival_earliest_q05_utc_unix_s": 1394241773.9168007,
+      "arrival_latest_median_utc_unix_s": 1394241923.1504521,
+      "arrival_latest_q95_utc_unix_s": 1394241997.2809079,
+      "arrival_midpoint_median_utc_unix_s": 1394241869.5475395,
+      "distance_km_mean": 2420.493638513822,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "3,440 low/equal",
+      "station": "Cape Leeuwin H01W"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394242973.2370713,
+      "arrival_earliest_q05_utc_unix_s": 1394242911.133994,
+      "arrival_latest_median_utc_unix_s": 1394243160.3372056,
+      "arrival_latest_q95_utc_unix_s": 1394243206.7967632,
+      "arrival_midpoint_median_utc_unix_s": 1394243066.7871385,
+      "distance_km_mean": 4206.151406105473,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "3,440 low/equal",
+      "station": "Diego Garcia H08S"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394240857.4363968,
+      "arrival_earliest_q05_utc_unix_s": 1394240818.9460018,
+      "arrival_latest_median_utc_unix_s": 1394240960.928212,
+      "arrival_latest_q95_utc_unix_s": 1394241033.2912874,
+      "arrival_midpoint_median_utc_unix_s": 1394240909.10983,
+      "distance_km_mean": 2336.6983092971595,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "3,440 medium/equal",
+      "station": "Cape Leeuwin H01W"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394241946.2988605,
+      "arrival_earliest_q05_utc_unix_s": 1394241906.3291035,
+      "arrival_latest_median_utc_unix_s": 1394242124.8242981,
+      "arrival_latest_q95_utc_unix_s": 1394242153.764466,
+      "arrival_midpoint_median_utc_unix_s": 1394242035.5615792,
+      "distance_km_mean": 4013.47541530116,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "3,440 medium/equal",
+      "station": "Diego Garcia H08S"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394240656.470351,
+      "arrival_earliest_q05_utc_unix_s": 1394240617.4071236,
+      "arrival_latest_median_utc_unix_s": 1394240759.2464235,
+      "arrival_latest_q95_utc_unix_s": 1394240832.0113034,
+      "arrival_midpoint_median_utc_unix_s": 1394240707.8583872,
+      "distance_km_mean": 2321.4483706395104,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "3,440 high/equal",
+      "station": "Cape Leeuwin H01W"
+    },
+    {
+      "arrival_earliest_median_utc_unix_s": 1394241729.045114,
+      "arrival_earliest_q05_utc_unix_s": 1394241693.7089982,
+      "arrival_latest_median_utc_unix_s": 1394241905.7867472,
+      "arrival_latest_q95_utc_unix_s": 1394241931.4536664,
+      "arrival_midpoint_median_utc_unix_s": 1394241817.4258485,
+      "distance_km_mean": 3973.288718573942,
+      "likelihood_evaluated": false,
+      "propagation_family": "sofar_group_celerity_sensitivity_1.45_1.55_km_s",
+      "scenario": "3,440 high/equal",
+      "station": "Diego Garcia H08S"
+    }
+  ],
+  "role": "posterior_predictive_geometry_only",
+  "schema": "mh370-hydro-arrival-predictive-diagnostic-v1",
+  "station_coordinates": {
+    "Cape Leeuwin H01W": {
+      "latitude_deg": -34.892,
+      "longitude_deg": 114.141
+    },
+    "Diego Garcia H08S": {
+      "latitude_deg": -7.639,
+      "longitude_deg": 72.484
+    }
+  }
+}

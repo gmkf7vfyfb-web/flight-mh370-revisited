@@ -1,0 +1,36 @@
+{
+  "anchor_time_s": 1576.9,
+  "zero_fuel_weight_kg": 174369.0,
+  "anchor_fuel_range_kg": [
+    32524.10488196,
+    34524.10488196
+  ],
+  "inaccessible_fuel_kg": 15.0,
+  "flow_scale_bounds": [
+    0.9,
+    1.1
+  ],
+  "flow_quadrature_points": 9,
+  "exhaustion_time_bounds_s": [
+    22391.0,
+    22631.0
+  ],
+  "model": {
+    "family": "declared_broad_extension",
+    "minimum_pressure_altitude": 500.0,
+    "maximum_pressure_altitude": 43000.0,
+    "minimum_mach": 0.3,
+    "maximum_mach": 0.87,
+    "maximum_absolute_bank": 30.0,
+    "reference_mach": 0.82,
+    "nominal_flow_scale": 1.0,
+    "mach_log_sensitivity_per_mach": 1.5,
+    "below_fl350_log_sensitivity_per_1000_ft": 0.04,
+    "above_fl410_log_sensitivity_per_1000_ft": 0.02,
+    "bank_induced_drag_fraction": 0.45,
+    "climb_log_sensitivity_per_1000_ft_min": 0.04,
+    "descent_log_relief_per_1000_ft_min": 0.015,
+    "minimum_flow_multiplier": 0.5,
+    "maximum_flow_multiplier": 2.5
+  }
+}

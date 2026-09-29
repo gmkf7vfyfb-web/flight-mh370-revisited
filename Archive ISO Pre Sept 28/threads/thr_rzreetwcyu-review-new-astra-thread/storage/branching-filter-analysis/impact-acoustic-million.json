@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "source_conditioned": "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-million-extended-weather-conditioned",
+  "stations": [
+    {
+      "name": "H01W",
+      "position": {
+        "latitude": -34.892,
+        "longitude": 114.141
+      }
+    },
+    {
+      "name": "H08S",
+      "position": {
+        "latitude": -7.639,
+        "longitude": 72.484
+      }
+    }
+  ],
+  "celerity_km_s": {
+    "minimum": 1.43,
+    "maximum": 1.57
+  },
+  "coupling_efficiency_reference_values": [
+    0.0,
+    1e-08,
+    1e-06,
+    0.0001,
+    0.01,
+    1.0
+  ],
+  "conditional_event": {
+    "name": "Kadri2024 Table1 preferred event, conditional identification",
+    "station": "H01W",
+    "arrival_time_unix_s": 1394240070.0,
+    "bearing_true_deg": 306.18,
+    "bearing_tolerance_deg": 0.5
+  },
+  "provenance": {
+    "paper": "https://www.nature.com/articles/s41598-024-60529-1",
+    "paper_sha256": "b4f8f37ad1577a0f4726e6acdbfeea295b89197c88fac4ab5546d80bd9eb9db4",
+    "located_passages": "PDFpages13\u201314 andTable1; p9 timing inconsistent withTable1",
+    "stations_source": "/jackbox/home/MH370/.sources/kadri-2024-hydroacoustics/data/conditional-geometry-config.json",
+    "stations_source_sha256": "46f45b977210df0739f3e5b593562e8b6bbac312e4aa99dfbefb8e0e22d9f46a",
+    "coupling": "Unweighted reference efficiencies spanning zero to energy-conservation ceiling. Interior values are illustrative scenarios, not measured bounds or a probability law."
+  }
+}

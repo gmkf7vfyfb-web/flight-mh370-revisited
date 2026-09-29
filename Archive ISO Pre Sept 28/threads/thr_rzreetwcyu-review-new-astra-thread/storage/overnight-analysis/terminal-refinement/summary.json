@@ -1,0 +1,25 @@
+{
+  "purpose": "Integration refinement of selected terminal examples; not physical validation",
+  "selection": "Each polar/control family median time, then latitude/time/energy/displacement/vertical-speed extremes and closest tested R600 residual to 3 SD",
+  "cases": 17,
+  "steps_s": [
+    1.0,
+    0.5,
+    0.25
+  ],
+  "passed": 17,
+  "final_step_tolerances": {
+    "time_s": 0.1,
+    "position_nm": 0.1,
+    "relative_energy": 0.001,
+    "bto_us": 1.0
+  },
+  "elapsed_s": 2.185253264004132,
+  "input_and_code_sha256": {
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/run-manifest.json": "0700e8ae4dd920cc678b6ef7198106655806241fcbca2507c7c867bb42818352",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/impacts.jsonl": "e9b3054ce0b4a3b0842be471e22c8b70e38cdb9b292e215d96b043f307e61d36",
+    "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/overnight-analysis/terminal-final-contact/terminal-examples.jsonl": "f1658874a62e1de47c6af6588de014b95ec61525e65bbbb330ff511dbe2f0959",
+    "/jackbox/home/MH370/target/release/mh370": "88bdba22947b50a88d4cd5d1608c98c617654412c220ce1cd05a1a07d0be73eb",
+    "/jackbox/home/MH370/crates/controls/flight_evidence.py": "ad83f6f216bfbcce28a6e838c927683e13c86dce200ebad34f0797f02028c55c"
+  }
+}

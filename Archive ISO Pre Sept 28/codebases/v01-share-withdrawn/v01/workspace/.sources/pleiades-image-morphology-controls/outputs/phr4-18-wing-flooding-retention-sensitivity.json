@@ -1,0 +1,5087 @@
+{
+  "schema_version": 2,
+  "status": "FIRST_ORDER_MODEL_CONDITIONAL_SENSITIVITY; NOT A BOEING TANK MODEL, FLOODING PROBABILITY, OR OBJECT IDENTITY RESULT",
+  "source_hashes_sha256": {
+    "sensitivity_input": "c5ccc0e12a2d8fc3d170e82b8663fa9cda90664c4f4ea9d69d350da34c5f68f3",
+    "component_context": "820061b135ed1e6fbcb176f1171c7147a9f4c641b87cc76de7dbc9e0676322be",
+    "targets": "fa92cb080d33078dab1a12461f92ce969e6c2b2d3dccf5831f0ecea3181606cf",
+    "pca_selected_masks": "f90180806acfeaed7a2eca15edbddd66b0500fba1b993a04b1b9732cf540de3b",
+    "runner_code": "ea9fe14dddff07f52ad43ba2411f5b3c9dcfaff95b3a71632a402da2f7317e10",
+    "hydrostatics_code": "20f55a1285ddaf26049b26e85fc21f525c2fa85ab4b4ec506787f7b8fbfef79b"
+  },
+  "software": {
+    "python": "3.14.7",
+    "numpy": "2.5.2"
+  },
+  "method": {
+    "scope": "Complete left-wing geometry only, because that is the exact PHR_4 object-18 PCA-only random-pose source geometry.",
+    "compartments": "Nine equal-index span/chord cells ordered root/midspan/tip by leading/middle/trailing. They are retained-air sensitivity cells, not documented Boeing tank bays.",
+    "binary_enumeration": "All 2^9 fully retained/fully flooded patterns for three preserved mass-thickness draws and engine absent/attached mass cases.",
+    "continuous_refinement": "Deterministic coordinate search over retained-air fractions in [0,1], initialized at the 4 binary minima of reference-height RMSE for each mass/engine configuration. This is a local multistart sensitivity, not a proof of a continuous global optimum.",
+    "attitude_target": "Exact waterline-relative root, tip, leading and trailing reference heights of random_pose__03122; this is a selected geometry sensitivity, not a measured wing attitude.",
+    "descriptive_similarity_flag": "Same tip-down/trailing-down sense with each of those two vertical offsets within 25% of the selected target. The 25% flag is descriptive and is not an observation uncertainty or acceptance probability.",
+    "image_screen": "Each equilibrium is rendered at 12 original sensor-surrogate views. PCA IoU is ranked only after the corrected two-sided object-18 area, oriented-length and oriented-width gate.",
+    "hydrostatics": "Rigid quasi-static five-layer voxel displacement balance with coarse-to-fine minimum sampled potential; no waves, CFD, compressible trapped-air transport, slosh, flexure, breakup or time integration."
+  },
+  "target": {
+    "candidate_id": "random_pose__03122",
+    "pinned_pca_iou": 0.727,
+    "pinned_pca_loss": 0.273,
+    "pose": {
+      "afloat": true,
+      "pose_source": "random_orientation_and_immersion_not_hydrostatic",
+      "roll_degrees": 25.51,
+      "pitch_degrees": 53.02,
+      "heave_m": -2.133,
+      "target_visible_fraction": 0.4492,
+      "equivalent_tilt_from_face_on_degrees": 57.12,
+      "root_to_tip_height_difference_m": -15.508,
+      "leading_to_trailing_height_difference_m": -5.924,
+      "interpretation": {
+        "span": "tip lower than root",
+        "chord": "trailing edge lower than leading edge"
+      },
+      "matrix": [
+        [
+          0.601495,
+          0.344051,
+          0.720994
+        ],
+        [
+          0.0,
+          0.90251,
+          -0.430668
+        ],
+        [
+          -0.798877,
+          0.259045,
+          0.542855
+        ]
+      ],
+      "reference_heights_m": {
+        "root": 3.64947334,
+        "tip": -11.85875357,
+        "leading": 1.04887079,
+        "trailing": -4.87484326
+      }
+    },
+    "strict_intervals": {
+      "visible_area_m2": {
+        "p10": 46.36,
+        "p90": 92.46
+      },
+      "visible_length_m": {
+        "p10": 10.72,
+        "p90": 13.73
+      },
+      "visible_width_m": {
+        "p10": 8.95,
+        "p90": 11.72
+      }
+    },
+    "independent_renderer_check": {
+      "strict_size_eligible": true,
+      "silhouette_iou_pca": 0.72695652,
+      "pca_loss_lower_is_better": 0.27304348,
+      "visible_area_m2": 81.0,
+      "visible_length_m": 13.40001671,
+      "visible_width_m": 10.5999757
+    }
+  },
+  "counts": {
+    "original_states": 168,
+    "binary_states": 3072,
+    "refined_states": 24,
+    "continuous_objective_evaluations": 3398
+  },
+  "summaries": {
+    "original_progressive_schedules": {
+      "state_count": 168,
+      "afloat_state_count": 143,
+      "same_span_and_chord_sense_count": 41,
+      "within_25_percent_each_slope_component_count": 0,
+      "within_25_percent_and_root_above_tip_below_count": 0,
+      "within_25_percent_root_above_tip_below_and_strict_size_count": 0,
+      "states_with_any_strict_size_render": 0,
+      "closest_same_sense_by_slope": {
+        "family": "original_progressive_schedule",
+        "state_id": "tip_trailing_first__flood0.8__draw0__absent",
+        "draw_index": 0,
+        "engine_state": "absent",
+        "mass_kg": 13000.0,
+        "modeled_air_volume_m3": 215.14049632,
+        "retained_air_volume_m3": 131.92827809,
+        "solid_volume_m3": 4.81481481,
+        "mean_plan_cell_retained_air_fraction": 0.54237045,
+        "metadata": {
+          "flooding_hypothesis": "tip_trailing_first",
+          "flood_progress": 0.8
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 127161.67022565,
+          "roll_degrees": 0.0,
+          "pitch_degrees": 5.0,
+          "heave_m": 0.69580078,
+          "equivalent_tilt_from_face_on_degrees": 5.0,
+          "root_to_tip_height_difference_m": -1.0156065,
+          "leading_to_trailing_height_difference_m": -0.62260059,
+          "reference_heights_m": {
+            "root": 0.98538301,
+            "tip": -0.03022349,
+            "leading": 0.94730739,
+            "trailing": 0.3247068
+          },
+          "centre_of_buoyancy": [
+            0.46881584,
+            5.67072038,
+            -0.13988586
+          ],
+          "centre_of_mass_world": [
+            -0.04414556,
+            6.16171837,
+            0.58987104
+          ],
+          "horizontal_force_line_residual_m": 0.71007635,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.9961947,
+              0.0,
+              0.08715574
+            ],
+            [
+              0.0,
+              1.0,
+              -0.0
+            ],
+            [
+              -0.08715574,
+              0.0,
+              0.9961947
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 14.4923935,
+          "chord_height_error_m": 5.30139941,
+          "slope_vector_distance_m": 15.43160086,
+          "relative_slope_rmse": 0.91492077,
+          "reference_height_rmse_m": 6.59653578,
+          "tilt_error_degrees": -52.12,
+          "same_span_and_chord_sense": true,
+          "root_above_and_tip_below_sea_level": true,
+          "within_25_percent_each_slope_component": false
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 0,
+          "best_any": {
+            "strict_size_eligible": false,
+            "silhouette_iou_pca": 0.39405941,
+            "pca_loss_lower_is_better": 0.60594059,
+            "visible_area_m2": 181.5,
+            "visible_length_m": 30.39468432,
+            "visible_width_m": 12.09264059,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 90.0
+          },
+          "best_strict": null
+        },
+        "retained_air_fraction": [
+          0.44444444,
+          0.8,
+          1.0,
+          0.25641026,
+          0.36363636,
+          0.52631579,
+          0.20408163,
+          0.22727273,
+          0.27777778
+        ]
+      },
+      "closest_by_reference_waterline_rmse": {
+        "family": "original_progressive_schedule",
+        "state_id": "uniform__flood0.95__draw0__absent",
+        "draw_index": 0,
+        "engine_state": "absent",
+        "mass_kg": 13000.0,
+        "modeled_air_volume_m3": 215.14049632,
+        "retained_air_volume_m3": 14.34269975,
+        "solid_volume_m3": 4.81481481,
+        "mean_plan_cell_retained_air_fraction": 0.06666667,
+        "metadata": {
+          "flooding_hypothesis": "uniform",
+          "flood_progress": 0.95
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 6636.45243404,
+          "roll_degrees": -4.0,
+          "pitch_degrees": 8.0,
+          "heave_m": 0.06591797,
+          "equivalent_tilt_from_face_on_degrees": 8.93844812,
+          "root_to_tip_height_difference_m": 0.03131233,
+          "leading_to_trailing_height_difference_m": -0.9363486,
+          "reference_heights_m": {
+            "root": -0.3058251,
+            "tip": -0.27451277,
+            "leading": 0.23379152,
+            "trailing": -0.70255709
+          },
+          "centre_of_buoyancy": [
+            0.39064117,
+            5.48919443,
+            -0.61405865
+          ],
+          "centre_of_mass_world": [
+            -0.10941126,
+            6.13907917,
+            -0.46292913
+          ],
+          "horizontal_force_line_residual_m": 0.8200016,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.99026807,
+              -0.00970822,
+              0.13883408
+            ],
+            [
+              0.0,
+              0.99756405,
+              0.06975647
+            ],
+            [
+              -0.1391731,
+              -0.06907761,
+              0.98785583
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 15.53931233,
+          "chord_height_error_m": 4.9876514,
+          "slope_vector_distance_m": 16.32013769,
+          "relative_slope_rmse": 0.92544717,
+          "reference_height_rmse_m": 6.47903054,
+          "tilt_error_degrees": -48.18155188,
+          "same_span_and_chord_sense": false,
+          "root_above_and_tip_below_sea_level": false,
+          "within_25_percent_each_slope_component": false
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 0,
+          "best_any": {
+            "strict_size_eligible": false,
+            "silhouette_iou_pca": 0.35387674,
+            "pca_loss_lower_is_better": 0.64612326,
+            "visible_area_m2": 174.75,
+            "visible_length_m": 31.43986225,
+            "visible_width_m": 11.016693,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 90.0
+          },
+          "best_strict": null
+        },
+        "retained_air_fraction": [
+          0.06666667,
+          0.06666667,
+          0.06666667,
+          0.06666667,
+          0.06666667,
+          0.06666667,
+          0.06666667,
+          0.06666667,
+          0.06666667
+        ]
+      },
+      "lowest_strict_pca_loss": null
+    },
+    "exhaustive_binary_retention": {
+      "state_count": 3072,
+      "afloat_state_count": 3050,
+      "same_span_and_chord_sense_count": 761,
+      "within_25_percent_each_slope_component_count": 1,
+      "within_25_percent_and_root_above_tip_below_count": 0,
+      "within_25_percent_root_above_tip_below_and_strict_size_count": 0,
+      "states_with_any_strict_size_render": 2,
+      "closest_same_sense_by_slope": {
+        "family": "exhaustive_binary_retention",
+        "state_id": "binary001__draw0__absent",
+        "draw_index": 0,
+        "engine_state": "absent",
+        "mass_kg": 13000.0,
+        "modeled_air_volume_m3": 215.14049632,
+        "retained_air_volume_m3": 36.79013411,
+        "solid_volume_m3": 4.81481481,
+        "mean_plan_cell_retained_air_fraction": 0.17613636,
+        "metadata": {
+          "binary_pattern_index": 1,
+          "binary_pattern_root_to_tip_leading_to_trailing": "100000000"
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 29645.07264398,
+          "roll_degrees": 20.0,
+          "pitch_degrees": 86.0,
+          "heave_m": -4.58251953,
+          "equivalent_tilt_from_face_on_degrees": 86.24158729,
+          "root_to_tip_height_difference_m": -12.19533024,
+          "leading_to_trailing_height_difference_m": -7.14611626,
+          "reference_heights_m": {
+            "root": -0.97992733,
+            "tip": -13.17525757,
+            "leading": -1.62310467,
+            "trailing": -8.76922093
+          },
+          "centre_of_buoyancy": [
+            1.96893841,
+            5.84765839,
+            -2.41673815
+          ],
+          "centre_of_mass_world": [
+            1.99734675,
+            5.82752946,
+            -4.40802141
+          ],
+          "horizontal_force_line_residual_m": 0.03481677,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.06975647,
+              0.341187,
+              0.93740358
+            ],
+            [
+              0.0,
+              0.93969262,
+              -0.34202014
+            ],
+            [
+              -0.99756405,
+              0.02385812,
+              0.06554964
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 3.31266976,
+          "chord_height_error_m": -1.22211626,
+          "slope_vector_distance_m": 3.53091335,
+          "relative_slope_rmse": 0.20998659,
+          "reference_height_rmse_m": 3.3715784,
+          "tilt_error_degrees": 29.12158729,
+          "same_span_and_chord_sense": true,
+          "root_above_and_tip_below_sea_level": false,
+          "within_25_percent_each_slope_component": true
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 0,
+          "best_any": {
+            "strict_size_eligible": false,
+            "silhouette_iou_pca": 0.58919804,
+            "pca_loss_lower_is_better": 0.41080196,
+            "visible_area_m2": 33.5,
+            "visible_length_m": 8.85614509,
+            "visible_width_m": 6.19603662,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 0.0
+          },
+          "best_strict": null
+        },
+        "retained_air_fraction": [
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "closest_by_reference_waterline_rmse": {
+        "family": "exhaustive_binary_retention",
+        "state_id": "binary002__draw0__absent",
+        "draw_index": 0,
+        "engine_state": "absent",
+        "mass_kg": 13000.0,
+        "modeled_air_volume_m3": 215.14049632,
+        "retained_air_volume_m3": 68.02719772,
+        "solid_volume_m3": 4.81481481,
+        "mean_plan_cell_retained_air_fraction": 0.17613636,
+        "metadata": {
+          "binary_pattern_index": 2,
+          "binary_pattern_root_to_tip_leading_to_trailing": "010000000"
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 61663.06285319,
+          "roll_degrees": 4.0,
+          "pitch_degrees": 42.0,
+          "heave_m": -0.81787109,
+          "equivalent_tilt_from_face_on_degrees": 42.1547758,
+          "root_to_tip_height_difference_m": -9.03777022,
+          "leading_to_trailing_height_difference_m": -4.8233677,
+          "reference_heights_m": {
+            "root": 2.03136299,
+            "tip": -7.00640723,
+            "leading": 1.28845897,
+            "trailing": -3.53490873
+          },
+          "centre_of_buoyancy": [
+            0.15441989,
+            6.17974565,
+            -0.90165385
+          ],
+          "centre_of_mass_world": [
+            0.1887775,
+            6.15433829,
+            -0.55628657
+          ],
+          "horizontal_force_line_residual_m": 0.04273148,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.74314483,
+              0.04667619,
+              0.66750064
+            ],
+            [
+              0.0,
+              0.99756405,
+              -0.06975647
+            ],
+            [
+              -0.66913061,
+              0.05183916,
+              0.74133456
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 6.47022978,
+          "chord_height_error_m": 1.1006323,
+          "slope_vector_distance_m": 6.56317491,
+          "relative_slope_rmse": 0.32294756,
+          "reference_height_rmse_m": 2.64652476,
+          "tilt_error_degrees": -14.9652242,
+          "same_span_and_chord_sense": true,
+          "root_above_and_tip_below_sea_level": true,
+          "within_25_percent_each_slope_component": false
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 1,
+          "best_any": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.66339869,
+            "pca_loss_lower_is_better": 0.33660131,
+            "visible_area_m2": 79.75,
+            "visible_length_m": 13.02214389,
+            "visible_width_m": 9.95124452,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 90.0
+          },
+          "best_strict": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.66339869,
+            "pca_loss_lower_is_better": 0.33660131,
+            "visible_area_m2": 79.75,
+            "visible_length_m": 13.02214389,
+            "visible_width_m": 9.95124452,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 90.0
+          }
+        },
+        "retained_air_fraction": [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "lowest_strict_pca_loss": {
+        "family": "exhaustive_binary_retention",
+        "state_id": "binary002__draw0__absent",
+        "draw_index": 0,
+        "engine_state": "absent",
+        "mass_kg": 13000.0,
+        "modeled_air_volume_m3": 215.14049632,
+        "retained_air_volume_m3": 68.02719772,
+        "solid_volume_m3": 4.81481481,
+        "mean_plan_cell_retained_air_fraction": 0.17613636,
+        "metadata": {
+          "binary_pattern_index": 2,
+          "binary_pattern_root_to_tip_leading_to_trailing": "010000000"
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 61663.06285319,
+          "roll_degrees": 4.0,
+          "pitch_degrees": 42.0,
+          "heave_m": -0.81787109,
+          "equivalent_tilt_from_face_on_degrees": 42.1547758,
+          "root_to_tip_height_difference_m": -9.03777022,
+          "leading_to_trailing_height_difference_m": -4.8233677,
+          "reference_heights_m": {
+            "root": 2.03136299,
+            "tip": -7.00640723,
+            "leading": 1.28845897,
+            "trailing": -3.53490873
+          },
+          "centre_of_buoyancy": [
+            0.15441989,
+            6.17974565,
+            -0.90165385
+          ],
+          "centre_of_mass_world": [
+            0.1887775,
+            6.15433829,
+            -0.55628657
+          ],
+          "horizontal_force_line_residual_m": 0.04273148,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.74314483,
+              0.04667619,
+              0.66750064
+            ],
+            [
+              0.0,
+              0.99756405,
+              -0.06975647
+            ],
+            [
+              -0.66913061,
+              0.05183916,
+              0.74133456
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 6.47022978,
+          "chord_height_error_m": 1.1006323,
+          "slope_vector_distance_m": 6.56317491,
+          "relative_slope_rmse": 0.32294756,
+          "reference_height_rmse_m": 2.64652476,
+          "tilt_error_degrees": -14.9652242,
+          "same_span_and_chord_sense": true,
+          "root_above_and_tip_below_sea_level": true,
+          "within_25_percent_each_slope_component": false
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 1,
+          "best_any": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.66339869,
+            "pca_loss_lower_is_better": 0.33660131,
+            "visible_area_m2": 79.75,
+            "visible_length_m": 13.02214389,
+            "visible_width_m": 9.95124452,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 90.0
+          },
+          "best_strict": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.66339869,
+            "pca_loss_lower_is_better": 0.33660131,
+            "visible_area_m2": 79.75,
+            "visible_length_m": 13.02214389,
+            "visible_width_m": 9.95124452,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 90.0
+          }
+        },
+        "retained_air_fraction": [
+          0.0,
+          1.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "within_25_percent_retention_constraints": {
+        "retained_in_every_state": [
+          "root-leading"
+        ],
+        "flooded_in_every_state": [
+          "root-middle",
+          "root-trailing",
+          "midspan-leading",
+          "midspan-middle",
+          "midspan-trailing",
+          "tip-leading",
+          "tip-middle",
+          "tip-trailing"
+        ],
+        "retained_in_any_state": [
+          "root-leading"
+        ]
+      }
+    },
+    "continuous_coordinate_refinement": {
+      "state_count": 24,
+      "afloat_state_count": 24,
+      "same_span_and_chord_sense_count": 11,
+      "within_25_percent_each_slope_component_count": 10,
+      "within_25_percent_and_root_above_tip_below_count": 10,
+      "within_25_percent_root_above_tip_below_and_strict_size_count": 10,
+      "states_with_any_strict_size_render": 10,
+      "closest_same_sense_by_slope": {
+        "family": "continuous_refinement",
+        "state_id": "draw1__absent__start02__final",
+        "draw_index": 1,
+        "engine_state": "absent",
+        "mass_kg": 6536.0565,
+        "modeled_air_volume_m3": 220.89913672,
+        "retained_air_volume_m3": 17.3797508,
+        "solid_volume_m3": 2.42076167,
+        "mean_plan_cell_retained_air_fraction": 0.04660866,
+        "metadata": {
+          "start_binary_pattern": "010000000",
+          "coordinate_evaluations": 112,
+          "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+          "start_binary_rank_within_configuration": 2,
+          "start_binary_state_id": "binary002__draw1__absent",
+          "start_binary_reference_height_rmse_m": 3.50588914
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 13759.46878335,
+          "roll_degrees": 19.0,
+          "pitch_degrees": 58.0,
+          "heave_m": -2.50244141,
+          "equivalent_tilt_from_face_on_degrees": 59.930607,
+          "root_to_tip_height_difference_m": -14.0107312,
+          "leading_to_trailing_height_difference_m": -6.20252466,
+          "reference_heights_m": {
+            "root": 2.39861944,
+            "tip": -11.61211177,
+            "leading": 0.52856184,
+            "trailing": -5.67396282
+          },
+          "centre_of_buoyancy": [
+            1.71313594,
+            5.98858585,
+            -1.62413103
+          ],
+          "centre_of_mass_world": [
+            1.69631457,
+            5.93938851,
+            -1.57510916
+          ],
+          "horizontal_force_line_residual_m": 0.05199362,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.52991926,
+              0.27609745,
+              0.80184523
+            ],
+            [
+              0.0,
+              0.94551858,
+              -0.32556815
+            ],
+            [
+              -0.8480481,
+              0.17252484,
+              0.50104851
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 1.4972688,
+          "chord_height_error_m": -0.27852466,
+          "slope_vector_distance_m": 1.52295431,
+          "relative_slope_rmse": 0.07593445,
+          "reference_height_rmse_m": 0.7960498,
+          "tilt_error_degrees": 2.810607,
+          "same_span_and_chord_sense": true,
+          "root_above_and_tip_below_sea_level": true,
+          "within_25_percent_each_slope_component": true
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 2,
+          "best_any": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.66508689,
+            "pca_loss_lower_is_better": 0.33491311,
+            "visible_area_m2": 78.5,
+            "visible_length_m": 12.51047258,
+            "visible_width_m": 10.60506961,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 0.0
+          },
+          "best_strict": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.66508689,
+            "pca_loss_lower_is_better": 0.33491311,
+            "visible_area_m2": 78.5,
+            "visible_length_m": 12.51047258,
+            "visible_width_m": 10.60506961,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 0.0
+          }
+        },
+        "retained_air_fraction": [
+          0.0,
+          0.25,
+          0.015625,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "closest_by_reference_waterline_rmse": {
+        "family": "continuous_refinement",
+        "state_id": "draw1__absent__start01__final",
+        "draw_index": 1,
+        "engine_state": "absent",
+        "mass_kg": 6536.0565,
+        "modeled_air_volume_m3": 220.89913672,
+        "retained_air_volume_m3": 49.28363569,
+        "solid_volume_m3": 2.42076167,
+        "mean_plan_cell_retained_air_fraction": 0.20072798,
+        "metadata": {
+          "start_binary_pattern": "100000000",
+          "coordinate_evaluations": 115,
+          "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+          "start_binary_rank_within_configuration": 1,
+          "start_binary_state_id": "binary001__draw1__absent",
+          "start_binary_reference_height_rmse_m": 2.98657173
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 46460.95078767,
+          "roll_degrees": 19.0,
+          "pitch_degrees": 59.0,
+          "heave_m": -2.47314453,
+          "equivalent_tilt_from_face_on_degrees": 60.85784855,
+          "root_to_tip_height_difference_m": -14.00105552,
+          "leading_to_trailing_height_difference_m": -6.26361138,
+          "reference_heights_m": {
+            "root": 2.399711,
+            "tip": -11.60134452,
+            "leading": 0.56778048,
+            "trailing": -5.69583091
+          },
+          "centre_of_buoyancy": [
+            1.73288128,
+            5.99298297,
+            -1.62478276
+          ],
+          "centre_of_mass_world": [
+            1.71224039,
+            5.93938851,
+            -1.57555829
+          ],
+          "horizontal_force_line_residual_m": 0.0574318,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.51503807,
+              0.27906638,
+              0.81046761
+            ],
+            [
+              0.0,
+              0.94551858,
+              -0.32556815
+            ],
+            [
+              -0.8571673,
+              0.16768,
+              0.48697807
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 1.50694448,
+          "chord_height_error_m": -0.33961138,
+          "slope_vector_distance_m": 1.54473867,
+          "relative_slope_rmse": 0.07977756,
+          "reference_height_rmse_m": 0.79586964,
+          "tilt_error_degrees": 3.73784855,
+          "same_span_and_chord_sense": true,
+          "root_above_and_tip_below_sea_level": true,
+          "within_25_percent_each_slope_component": true
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 2,
+          "best_any": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.65793781,
+            "pca_loss_lower_is_better": 0.34206219,
+            "visible_area_m2": 78.25,
+            "visible_length_m": 12.94883346,
+            "visible_width_m": 10.43635243,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 0.0
+          },
+          "best_strict": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.65793781,
+            "pca_loss_lower_is_better": 0.34206219,
+            "visible_area_m2": 78.25,
+            "visible_length_m": 12.94883346,
+            "visible_width_m": 10.43635243,
+            "off_nadir_degrees": 30.0,
+            "view_azimuth_degrees": 0.0
+          }
+        },
+        "retained_air_fraction": [
+          0.875,
+          0.25,
+          0.015625,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "lowest_strict_pca_loss": {
+        "family": "continuous_refinement",
+        "state_id": "draw2__absent__start02__final",
+        "draw_index": 2,
+        "engine_state": "absent",
+        "mass_kg": 6330.1005,
+        "modeled_air_volume_m3": 172.11299644,
+        "retained_air_volume_m3": 12.69320697,
+        "solid_volume_m3": 2.34448167,
+        "mean_plan_cell_retained_air_fraction": 0.04953835,
+        "metadata": {
+          "start_binary_pattern": "010000000",
+          "coordinate_evaluations": 177,
+          "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+          "start_binary_rank_within_configuration": 2,
+          "start_binary_state_id": "binary002__draw2__absent",
+          "start_binary_reference_height_rmse_m": 5.6402922
+        },
+        "pose": {
+          "afloat": true,
+          "reserve_buoyancy_kg": 9083.53035497,
+          "roll_degrees": 19.0,
+          "pitch_degrees": 39.0,
+          "heave_m": -3.61572266,
+          "equivalent_tilt_from_face_on_degrees": 42.70917896,
+          "root_to_tip_height_difference_m": -13.38809569,
+          "leading_to_trailing_height_difference_m": -4.70742962,
+          "reference_heights_m": {
+            "root": 1.53055615,
+            "tip": -11.85753954,
+            "leading": -0.94355126,
+            "trailing": -5.65098088
+          },
+          "centre_of_buoyancy": [
+            0.85801919,
+            6.22410652,
+            -1.70526652
+          ],
+          "centre_of_mass_world": [
+            0.87639732,
+            6.1857507,
+            -1.70343992
+          ],
+          "horizontal_force_line_residual_m": 0.04253145,
+          "locally_stable_grid_check": true,
+          "matrix": [
+            [
+              0.77714596,
+              0.20488668,
+              0.59503412
+            ],
+            [
+              0.0,
+              0.94551858,
+              -0.32556815
+            ],
+            [
+              -0.62932039,
+              0.25301398,
+              0.73480594
+            ]
+          ]
+        },
+        "attitude": {
+          "span_height_error_m": 2.11990431,
+          "chord_height_error_m": 1.21657038,
+          "slope_vector_distance_m": 2.44418448,
+          "relative_slope_rmse": 0.17444219,
+          "reference_height_rmse_m": 1.50515338,
+          "tilt_error_degrees": -14.41082104,
+          "same_span_and_chord_sense": true,
+          "root_above_and_tip_below_sea_level": true,
+          "within_25_percent_each_slope_component": true
+        },
+        "image_screen": {
+          "render_count": 12,
+          "strict_render_count": 3,
+          "best_any": {
+            "strict_size_eligible": false,
+            "silhouette_iou_pca": 0.69752066,
+            "pca_loss_lower_is_better": 0.30247934,
+            "visible_area_m2": 56.5,
+            "visible_length_m": 10.88885744,
+            "visible_width_m": 8.7641008,
+            "off_nadir_degrees": 15.0,
+            "view_azimuth_degrees": 90.0
+          },
+          "best_strict": {
+            "strict_size_eligible": true,
+            "silhouette_iou_pca": 0.68167203,
+            "pca_loss_lower_is_better": 0.31832797,
+            "visible_area_m2": 62.0,
+            "visible_length_m": 11.21875162,
+            "visible_width_m": 9.27487225,
+            "off_nadir_degrees": 15.0,
+            "view_azimuth_degrees": 270.0
+          }
+        },
+        "retained_air_fraction": [
+          0.0859375,
+          0.1953125,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ]
+      },
+      "within_25_percent_retention_constraints": {
+        "retained_in_every_state": [],
+        "flooded_in_every_state": [
+          "midspan-leading",
+          "midspan-middle",
+          "midspan-trailing",
+          "tip-leading",
+          "tip-middle",
+          "tip-trailing"
+        ],
+        "retained_in_any_state": [
+          "root-leading",
+          "root-middle",
+          "root-trailing"
+        ]
+      },
+      "target_like_attitude_assumptions": {
+        "definition": "Each spanwise and chordwise reference-height offset is within 25% of the selected random-pose target, with the modeled root above and tip below sea level.",
+        "engine_states": [
+          "absent"
+        ],
+        "draw_indices": [
+          0,
+          1,
+          2
+        ],
+        "retained_air_fraction_range_by_sensitivity_cell": {
+          "root-leading": {
+            "minimum": 0.0,
+            "maximum": 1.0
+          },
+          "root-middle": {
+            "minimum": 0.1796875,
+            "maximum": 0.515625
+          },
+          "root-trailing": {
+            "minimum": 0.0,
+            "maximum": 0.015625
+          },
+          "midspan-leading": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          },
+          "midspan-middle": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          },
+          "midspan-trailing": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          },
+          "tip-leading": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          },
+          "tip-middle": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          },
+          "tip-trailing": {
+            "minimum": 0.0,
+            "maximum": 0.0
+          }
+        },
+        "modeled_retained_air_volume_m3_range": [
+          12.69320697,
+          71.86665793
+        ],
+        "strict_size_state_count": 10
+      }
+    }
+  },
+  "selected_records": {
+    "closest_original_waterline": {
+      "family": "original_progressive_schedule",
+      "state_id": "uniform__flood0.95__draw0__absent",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 14.34269975,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.06666667,
+      "metadata": {
+        "flooding_hypothesis": "uniform",
+        "flood_progress": 0.95
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 6636.45243404,
+        "roll_degrees": -4.0,
+        "pitch_degrees": 8.0,
+        "heave_m": 0.06591797,
+        "equivalent_tilt_from_face_on_degrees": 8.93844812,
+        "root_to_tip_height_difference_m": 0.03131233,
+        "leading_to_trailing_height_difference_m": -0.9363486,
+        "reference_heights_m": {
+          "root": -0.3058251,
+          "tip": -0.27451277,
+          "leading": 0.23379152,
+          "trailing": -0.70255709
+        },
+        "centre_of_buoyancy": [
+          0.39064117,
+          5.48919443,
+          -0.61405865
+        ],
+        "centre_of_mass_world": [
+          -0.10941126,
+          6.13907917,
+          -0.46292913
+        ],
+        "horizontal_force_line_residual_m": 0.8200016,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.99026807,
+            -0.00970822,
+            0.13883408
+          ],
+          [
+            0.0,
+            0.99756405,
+            0.06975647
+          ],
+          [
+            -0.1391731,
+            -0.06907761,
+            0.98785583
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 15.53931233,
+        "chord_height_error_m": 4.9876514,
+        "slope_vector_distance_m": 16.32013769,
+        "relative_slope_rmse": 0.92544717,
+        "reference_height_rmse_m": 6.47903054,
+        "tilt_error_degrees": -48.18155188,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": false,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.35387674,
+          "pca_loss_lower_is_better": 0.64612326,
+          "visible_area_m2": 174.75,
+          "visible_length_m": 31.43986225,
+          "visible_width_m": 11.016693,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.06666667,
+        0.06666667,
+        0.06666667,
+        0.06666667,
+        0.06666667,
+        0.06666667,
+        0.06666667,
+        0.06666667,
+        0.06666667
+      ]
+    },
+    "closest_binary_waterline": {
+      "family": "exhaustive_binary_retention",
+      "state_id": "binary002__draw0__absent",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 68.02719772,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.17613636,
+      "metadata": {
+        "binary_pattern_index": 2,
+        "binary_pattern_root_to_tip_leading_to_trailing": "010000000"
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 61663.06285319,
+        "roll_degrees": 4.0,
+        "pitch_degrees": 42.0,
+        "heave_m": -0.81787109,
+        "equivalent_tilt_from_face_on_degrees": 42.1547758,
+        "root_to_tip_height_difference_m": -9.03777022,
+        "leading_to_trailing_height_difference_m": -4.8233677,
+        "reference_heights_m": {
+          "root": 2.03136299,
+          "tip": -7.00640723,
+          "leading": 1.28845897,
+          "trailing": -3.53490873
+        },
+        "centre_of_buoyancy": [
+          0.15441989,
+          6.17974565,
+          -0.90165385
+        ],
+        "centre_of_mass_world": [
+          0.1887775,
+          6.15433829,
+          -0.55628657
+        ],
+        "horizontal_force_line_residual_m": 0.04273148,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.74314483,
+            0.04667619,
+            0.66750064
+          ],
+          [
+            0.0,
+            0.99756405,
+            -0.06975647
+          ],
+          [
+            -0.66913061,
+            0.05183916,
+            0.74133456
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 6.47022978,
+        "chord_height_error_m": 1.1006323,
+        "slope_vector_distance_m": 6.56317491,
+        "relative_slope_rmse": 0.32294756,
+        "reference_height_rmse_m": 2.64652476,
+        "tilt_error_degrees": -14.9652242,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "selected_render": {
+        "strict_size_eligible": true,
+        "silhouette_iou_pca": 0.66339869,
+        "pca_loss_lower_is_better": 0.33660131,
+        "visible_area_m2": 79.75,
+        "visible_length_m": 13.02214389,
+        "visible_width_m": 9.95124452,
+        "off_nadir_degrees": 30.0,
+        "view_azimuth_degrees": 90.0,
+        "mask_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000007e00000000000000000000000000ffc0000000000000000000000000fff0000000000000000000000000fff8000000000000000000000000ffff000000000000000000000000ffff800000000000000000000000ffffc000000000000000000000007fffe000000000000000000000007fffe000000000000000000000007fffe000000000000000000000007fffc000000000000000000000007fff8000000000000000000000007fff8000000000000000000000007fff8000000000000000000000007ffe0000000000000000000000007ffc0000000000000000000000007ffc0000000000000000000000007ffc0000000000000000000000007ff00000000000000000000000007fe00000000000000000000000007fc00000000000000000000000007fc00000000000000000000000001f800000000000000000000000001e000000000000000000000000000e000000000000000000000000000e0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "mask_shape": [
+          112,
+          112
+        ],
+        "mask_pixel_count": 319
+      }
+    },
+    "closest_refined_waterline": {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start01__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 49.28363569,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.20072798,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 115,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw1__absent",
+        "start_binary_reference_height_rmse_m": 2.98657173
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 46460.95078767,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.47314453,
+        "equivalent_tilt_from_face_on_degrees": 60.85784855,
+        "root_to_tip_height_difference_m": -14.00105552,
+        "leading_to_trailing_height_difference_m": -6.26361138,
+        "reference_heights_m": {
+          "root": 2.399711,
+          "tip": -11.60134452,
+          "leading": 0.56778048,
+          "trailing": -5.69583091
+        },
+        "centre_of_buoyancy": [
+          1.73288128,
+          5.99298297,
+          -1.62478276
+        ],
+        "centre_of_mass_world": [
+          1.71224039,
+          5.93938851,
+          -1.57555829
+        ],
+        "horizontal_force_line_residual_m": 0.0574318,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.27906638,
+            0.81046761
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8571673,
+            0.16768,
+            0.48697807
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.50694448,
+        "chord_height_error_m": -0.33961138,
+        "slope_vector_distance_m": 1.54473867,
+        "relative_slope_rmse": 0.07977756,
+        "reference_height_rmse_m": 0.79586964,
+        "tilt_error_degrees": 3.73784855,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.875,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "selected_render": {
+        "strict_size_eligible": true,
+        "silhouette_iou_pca": 0.65793781,
+        "pca_loss_lower_is_better": 0.34206219,
+        "visible_area_m2": 78.25,
+        "visible_length_m": 12.94883346,
+        "visible_width_m": 10.43635243,
+        "off_nadir_degrees": 30.0,
+        "view_azimuth_degrees": 0.0,
+        "mask_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f000000000000000000000000007f80000000000000000000000001ff8000000000000000000000003fff800000000000000000000000ffff800000000000000000000000ffff80000000000000000000000fffff80000000000000000000007fffff80000000000000000000007fffff80000000000000000000007fffff80000000000000000000001fffff80000000000000000000001fffff800000000000000000000003ffff800000000000000000000000ffff800000000000000000000000ffff8000000000000000000000003fff80000000000000000000000003ff80000000000000000000000000ff80000000000000000000000000ef800000000000000000000000000f8000000000000000000000000003800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "mask_shape": [
+          112,
+          112
+        ],
+        "mask_pixel_count": 313
+      }
+    },
+    "closest_refined_target_like_with_strict_size": {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start01__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 49.28363569,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.20072798,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 115,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw1__absent",
+        "start_binary_reference_height_rmse_m": 2.98657173
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 46460.95078767,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.47314453,
+        "equivalent_tilt_from_face_on_degrees": 60.85784855,
+        "root_to_tip_height_difference_m": -14.00105552,
+        "leading_to_trailing_height_difference_m": -6.26361138,
+        "reference_heights_m": {
+          "root": 2.399711,
+          "tip": -11.60134452,
+          "leading": 0.56778048,
+          "trailing": -5.69583091
+        },
+        "centre_of_buoyancy": [
+          1.73288128,
+          5.99298297,
+          -1.62478276
+        ],
+        "centre_of_mass_world": [
+          1.71224039,
+          5.93938851,
+          -1.57555829
+        ],
+        "horizontal_force_line_residual_m": 0.0574318,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.27906638,
+            0.81046761
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8571673,
+            0.16768,
+            0.48697807
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.50694448,
+        "chord_height_error_m": -0.33961138,
+        "slope_vector_distance_m": 1.54473867,
+        "relative_slope_rmse": 0.07977756,
+        "reference_height_rmse_m": 0.79586964,
+        "tilt_error_degrees": 3.73784855,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.875,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "selected_render": {
+        "strict_size_eligible": true,
+        "silhouette_iou_pca": 0.65793781,
+        "pca_loss_lower_is_better": 0.34206219,
+        "visible_area_m2": 78.25,
+        "visible_length_m": 12.94883346,
+        "visible_width_m": 10.43635243,
+        "off_nadir_degrees": 30.0,
+        "view_azimuth_degrees": 0.0,
+        "mask_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001f000000000000000000000000007f80000000000000000000000001ff8000000000000000000000003fff800000000000000000000000ffff800000000000000000000000ffff80000000000000000000000fffff80000000000000000000007fffff80000000000000000000007fffff80000000000000000000007fffff80000000000000000000001fffff80000000000000000000001fffff800000000000000000000003ffff800000000000000000000000ffff800000000000000000000000ffff8000000000000000000000003fff80000000000000000000000003ff80000000000000000000000000ff80000000000000000000000000ef800000000000000000000000000f8000000000000000000000000003800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "mask_shape": [
+          112,
+          112
+        ],
+        "mask_pixel_count": 313
+      }
+    },
+    "lowest_strict_pca_overall": {
+      "family": "continuous_refinement",
+      "state_id": "draw2__absent__start02__final",
+      "draw_index": 2,
+      "engine_state": "absent",
+      "mass_kg": 6330.1005,
+      "modeled_air_volume_m3": 172.11299644,
+      "retained_air_volume_m3": 12.69320697,
+      "solid_volume_m3": 2.34448167,
+      "mean_plan_cell_retained_air_fraction": 0.04953835,
+      "metadata": {
+        "start_binary_pattern": "010000000",
+        "coordinate_evaluations": 177,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary002__draw2__absent",
+        "start_binary_reference_height_rmse_m": 5.6402922
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 9083.53035497,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 39.0,
+        "heave_m": -3.61572266,
+        "equivalent_tilt_from_face_on_degrees": 42.70917896,
+        "root_to_tip_height_difference_m": -13.38809569,
+        "leading_to_trailing_height_difference_m": -4.70742962,
+        "reference_heights_m": {
+          "root": 1.53055615,
+          "tip": -11.85753954,
+          "leading": -0.94355126,
+          "trailing": -5.65098088
+        },
+        "centre_of_buoyancy": [
+          0.85801919,
+          6.22410652,
+          -1.70526652
+        ],
+        "centre_of_mass_world": [
+          0.87639732,
+          6.1857507,
+          -1.70343992
+        ],
+        "horizontal_force_line_residual_m": 0.04253145,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.77714596,
+            0.20488668,
+            0.59503412
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.62932039,
+            0.25301398,
+            0.73480594
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.11990431,
+        "chord_height_error_m": 1.21657038,
+        "slope_vector_distance_m": 2.44418448,
+        "relative_slope_rmse": 0.17444219,
+        "reference_height_rmse_m": 1.50515338,
+        "tilt_error_degrees": -14.41082104,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 3,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.69752066,
+          "pca_loss_lower_is_better": 0.30247934,
+          "visible_area_m2": 56.5,
+          "visible_length_m": 10.88885744,
+          "visible_width_m": 8.7641008,
+          "off_nadir_degrees": 15.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.68167203,
+          "pca_loss_lower_is_better": 0.31832797,
+          "visible_area_m2": 62.0,
+          "visible_length_m": 11.21875162,
+          "visible_width_m": 9.27487225,
+          "off_nadir_degrees": 15.0,
+          "view_azimuth_degrees": 270.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0859375,
+        0.1953125,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "selected_render": {
+        "strict_size_eligible": true,
+        "silhouette_iou_pca": 0.68167203,
+        "pca_loss_lower_is_better": 0.31832797,
+        "visible_area_m2": 62.0,
+        "visible_length_m": 11.21875162,
+        "visible_width_m": 9.27487225,
+        "off_nadir_degrees": 15.0,
+        "view_azimuth_degrees": 270.0,
+        "mask_hex": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003e000000000000000000000000003e000000000000000000000000003e000000000000000000000000007e000000000000000000000000007fc0000000000000000000000000ffc0000000000000000000000000ffc0000000000000000000000000fff0000000000000000000000000fff0000000000000000000000001fff0000000000000000000000001fff0000000000000000000000001fff8000000000000000000000003fff8000000000000000000000003fffe000000000000000000000003fffe000000000000000000000003fffe000000000000000000000007fffe000000000000000000000007fffe00000000000000000000000fffe000000000000000000000000ffe0000000000000000000000000fc0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "mask_shape": [
+          112,
+          112
+        ],
+        "mask_pixel_count": 248
+      }
+    }
+  },
+  "top_20_reference_height_rmse": [
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start01__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 49.28363569,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.20072798,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 115,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw1__absent",
+        "start_binary_reference_height_rmse_m": 2.98657173
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 46460.95078767,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.47314453,
+        "equivalent_tilt_from_face_on_degrees": 60.85784855,
+        "root_to_tip_height_difference_m": -14.00105552,
+        "leading_to_trailing_height_difference_m": -6.26361138,
+        "reference_heights_m": {
+          "root": 2.399711,
+          "tip": -11.60134452,
+          "leading": 0.56778048,
+          "trailing": -5.69583091
+        },
+        "centre_of_buoyancy": [
+          1.73288128,
+          5.99298297,
+          -1.62478276
+        ],
+        "centre_of_mass_world": [
+          1.71224039,
+          5.93938851,
+          -1.57555829
+        ],
+        "horizontal_force_line_residual_m": 0.0574318,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.27906638,
+            0.81046761
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8571673,
+            0.16768,
+            0.48697807
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.50694448,
+        "chord_height_error_m": -0.33961138,
+        "slope_vector_distance_m": 1.54473867,
+        "relative_slope_rmse": 0.07977756,
+        "reference_height_rmse_m": 0.79586964,
+        "tilt_error_degrees": 3.73784855,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.875,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start03__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 53.84133353,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.22274503,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 112,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary003__draw1__absent",
+        "start_binary_reference_height_rmse_m": 3.50588914
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 51132.591074,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.47314453,
+        "equivalent_tilt_from_face_on_degrees": 60.85784855,
+        "root_to_tip_height_difference_m": -14.00105552,
+        "leading_to_trailing_height_difference_m": -6.26361138,
+        "reference_heights_m": {
+          "root": 2.399711,
+          "tip": -11.60134452,
+          "leading": 0.56778048,
+          "trailing": -5.69583091
+        },
+        "centre_of_buoyancy": [
+          1.73227631,
+          5.99268526,
+          -1.62434275
+        ],
+        "centre_of_mass_world": [
+          1.71224039,
+          5.93938851,
+          -1.57555829
+        ],
+        "horizontal_force_line_residual_m": 0.0569384,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.27906638,
+            0.81046761
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8571673,
+            0.16768,
+            0.48697807
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.50694448,
+        "chord_height_error_m": -0.33961138,
+        "slope_vector_distance_m": 1.54473867,
+        "relative_slope_rmse": 0.07977756,
+        "reference_height_rmse_m": 0.79586964,
+        "tilt_error_degrees": 3.73784855,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start02__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 17.3797508,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.04660866,
+      "metadata": {
+        "start_binary_pattern": "010000000",
+        "coordinate_evaluations": 112,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary002__draw1__absent",
+        "start_binary_reference_height_rmse_m": 3.50588914
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 13759.46878335,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 58.0,
+        "heave_m": -2.50244141,
+        "equivalent_tilt_from_face_on_degrees": 59.930607,
+        "root_to_tip_height_difference_m": -14.0107312,
+        "leading_to_trailing_height_difference_m": -6.20252466,
+        "reference_heights_m": {
+          "root": 2.39861944,
+          "tip": -11.61211177,
+          "leading": 0.52856184,
+          "trailing": -5.67396282
+        },
+        "centre_of_buoyancy": [
+          1.71313594,
+          5.98858585,
+          -1.62413103
+        ],
+        "centre_of_mass_world": [
+          1.69631457,
+          5.93938851,
+          -1.57510916
+        ],
+        "horizontal_force_line_residual_m": 0.05199362,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.52991926,
+            0.27609745,
+            0.80184523
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8480481,
+            0.17252484,
+            0.50104851
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.4972688,
+        "chord_height_error_m": -0.27852466,
+        "slope_vector_distance_m": 1.52295431,
+        "relative_slope_rmse": 0.07593445,
+        "reference_height_rmse_m": 0.7960498,
+        "tilt_error_degrees": 2.810607,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start04__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 17.3797508,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.04660866,
+      "metadata": {
+        "start_binary_pattern": "010100000",
+        "coordinate_evaluations": 183,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 4,
+        "start_binary_state_id": "binary010__draw1__absent",
+        "start_binary_reference_height_rmse_m": 4.69372998
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 13759.46878335,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 58.0,
+        "heave_m": -2.50244141,
+        "equivalent_tilt_from_face_on_degrees": 59.930607,
+        "root_to_tip_height_difference_m": -14.0107312,
+        "leading_to_trailing_height_difference_m": -6.20252466,
+        "reference_heights_m": {
+          "root": 2.39861944,
+          "tip": -11.61211177,
+          "leading": 0.52856184,
+          "trailing": -5.67396282
+        },
+        "centre_of_buoyancy": [
+          1.71313594,
+          5.98858585,
+          -1.62413103
+        ],
+        "centre_of_mass_world": [
+          1.69631457,
+          5.93938851,
+          -1.57510916
+        ],
+        "horizontal_force_line_residual_m": 0.05199362,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.52991926,
+            0.27609745,
+            0.80184523
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8480481,
+            0.17252484,
+            0.50104851
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.4972688,
+        "chord_height_error_m": -0.27852466,
+        "slope_vector_distance_m": 1.52295431,
+        "relative_slope_rmse": 0.07593445,
+        "reference_height_rmse_m": 0.7960498,
+        "tilt_error_degrees": 2.810607,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__absent__start01__final",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 44.27405735,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.1348544,
+      "metadata": {
+        "start_binary_pattern": "010000000",
+        "coordinate_evaluations": 177,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary002__draw0__absent",
+        "start_binary_reference_height_rmse_m": 2.64652476
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 37316.09397245,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 61.0,
+        "heave_m": -2.52685547,
+        "equivalent_tilt_from_face_on_degrees": 62.71631501,
+        "root_to_tip_height_difference_m": -13.96891384,
+        "leading_to_trailing_height_difference_m": -6.38004293,
+        "reference_heights_m": {
+          "root": 2.28514553,
+          "tip": -11.68376831,
+          "leading": 0.53113144,
+          "trailing": -5.84891149
+        },
+        "centre_of_buoyancy": [
+          1.64290042,
+          5.88021676,
+          -1.60068679
+        ],
+        "centre_of_mass_world": [
+          1.64724509,
+          5.86162793,
+          -1.57404655
+        ],
+        "horizontal_force_line_residual_m": 0.01908981,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.48480962,
+            0.28474832,
+            0.82696918
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.87461971,
+            0.15783857,
+            0.4583965
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.53908616,
+        "chord_height_error_m": -0.45604293,
+        "slope_vector_distance_m": 1.60522939,
+        "relative_slope_rmse": 0.08881377,
+        "reference_height_rmse_m": 0.88159985,
+        "tilt_error_degrees": 5.59631501,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65286624,
+          "pca_loss_lower_is_better": 0.34713376,
+          "visible_area_m2": 75.5,
+          "visible_length_m": 12.4612541,
+          "visible_width_m": 10.5217833,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65286624,
+          "pca_loss_lower_is_better": 0.34713376,
+          "visible_area_m2": 75.5,
+          "visible_length_m": 12.4612541,
+          "visible_width_m": 10.5217833,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.25,
+        0.515625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__absent__start02__final",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 71.86665793,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.26695668,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 111,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary003__draw0__absent",
+        "start_binary_reference_height_rmse_m": 2.64652476
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 65598.50956655,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 65.0,
+        "heave_m": -2.40966797,
+        "equivalent_tilt_from_face_on_degrees": 66.44723653,
+        "root_to_tip_height_difference_m": -13.85363345,
+        "leading_to_trailing_height_difference_m": -6.58945435,
+        "reference_heights_m": {
+          "root": 2.2631172,
+          "tip": -11.59051625,
+          "leading": 0.67124944,
+          "trailing": -5.91820491
+        },
+        "centre_of_buoyancy": [
+          1.73644849,
+          5.91371377,
+          -1.60272618
+        ],
+        "centre_of_mass_world": [
+          1.70969708,
+          5.86162793,
+          -1.57408605
+        ],
+        "horizontal_force_line_residual_m": 0.05855401,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.42261826,
+            0.29506495,
+            0.85693085
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.90630779,
+            0.13759105,
+            0.39959342
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.65436655,
+        "chord_height_error_m": -0.66545435,
+        "slope_vector_distance_m": 1.78318765,
+        "relative_slope_rmse": 0.10954158,
+        "reference_height_rmse_m": 0.89793319,
+        "tilt_error_degrees": 9.32723653,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.515625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__absent__start03__final",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 71.86665793,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.26695668,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 111,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary001__draw0__absent",
+        "start_binary_reference_height_rmse_m": 3.3715784
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 65598.50956655,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 65.0,
+        "heave_m": -2.40966797,
+        "equivalent_tilt_from_face_on_degrees": 66.44723653,
+        "root_to_tip_height_difference_m": -13.85363345,
+        "leading_to_trailing_height_difference_m": -6.58945435,
+        "reference_heights_m": {
+          "root": 2.2631172,
+          "tip": -11.59051625,
+          "leading": 0.67124944,
+          "trailing": -5.91820491
+        },
+        "centre_of_buoyancy": [
+          1.73644849,
+          5.91371377,
+          -1.60272618
+        ],
+        "centre_of_mass_world": [
+          1.70969708,
+          5.86162793,
+          -1.57408605
+        ],
+        "horizontal_force_line_residual_m": 0.05855401,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.42261826,
+            0.29506495,
+            0.85693085
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.90630779,
+            0.13759105,
+            0.39959342
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.65436655,
+        "chord_height_error_m": -0.66545435,
+        "slope_vector_distance_m": 1.78318765,
+        "relative_slope_rmse": 0.10954158,
+        "reference_height_rmse_m": 0.89793319,
+        "tilt_error_degrees": 9.32723653,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.515625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw2__absent__start01__final",
+      "draw_index": 2,
+      "engine_state": "absent",
+      "mass_kg": 6330.1005,
+      "modeled_air_volume_m3": 172.11299644,
+      "retained_air_volume_m3": 37.77403001,
+      "solid_volume_m3": 2.34448167,
+      "mean_plan_cell_retained_air_fraction": 0.20778587,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 174,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw2__absent",
+        "start_binary_reference_height_rmse_m": 3.09235695
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 34791.37396681,
+        "roll_degrees": 15.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.91748047,
+        "equivalent_tilt_from_face_on_degrees": 60.16601571,
+        "root_to_tip_height_difference_m": -13.17836292,
+        "leading_to_trailing_height_difference_m": -6.2348257,
+        "reference_heights_m": {
+          "root": 1.5402342,
+          "tip": -11.63812871,
+          "leading": 0.00711737,
+          "trailing": -6.22770833
+        },
+        "centre_of_buoyancy": [
+          1.09219572,
+          6.36377352,
+          -1.64237499
+        ],
+        "centre_of_mass_world": [
+          1.10346425,
+          6.31282233,
+          -1.64506144
+        ],
+        "horizontal_force_line_residual_m": 0.05218241,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.22185122,
+            0.82796003
+          ],
+          [
+            0.0,
+            0.96592583,
+            -0.25881905
+          ],
+          [
+            -0.8571673,
+            0.13330166,
+            0.49748858
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.32963708,
+        "chord_height_error_m": -0.3108257,
+        "slope_vector_distance_m": 2.35028116,
+        "relative_slope_rmse": 0.11251561,
+        "reference_height_rmse_m": 1.36134668,
+        "tilt_error_degrees": 3.04601571,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.1796875,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw2__absent__start03__final",
+      "draw_index": 2,
+      "engine_state": "absent",
+      "mass_kg": 6330.1005,
+      "modeled_air_volume_m3": 172.11299644,
+      "retained_air_volume_m3": 37.77403001,
+      "solid_volume_m3": 2.34448167,
+      "mean_plan_cell_retained_air_fraction": 0.20778587,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 174,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary003__draw2__absent",
+        "start_binary_reference_height_rmse_m": 5.64270918
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 34791.37396681,
+        "roll_degrees": 15.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.91748047,
+        "equivalent_tilt_from_face_on_degrees": 60.16601571,
+        "root_to_tip_height_difference_m": -13.17836292,
+        "leading_to_trailing_height_difference_m": -6.2348257,
+        "reference_heights_m": {
+          "root": 1.5402342,
+          "tip": -11.63812871,
+          "leading": 0.00711737,
+          "trailing": -6.22770833
+        },
+        "centre_of_buoyancy": [
+          1.09219572,
+          6.36377352,
+          -1.64237499
+        ],
+        "centre_of_mass_world": [
+          1.10346425,
+          6.31282233,
+          -1.64506144
+        ],
+        "horizontal_force_line_residual_m": 0.05218241,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.22185122,
+            0.82796003
+          ],
+          [
+            0.0,
+            0.96592583,
+            -0.25881905
+          ],
+          [
+            -0.8571673,
+            0.13330166,
+            0.49748858
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.32963708,
+        "chord_height_error_m": -0.3108257,
+        "slope_vector_distance_m": 2.35028116,
+        "relative_slope_rmse": 0.11251561,
+        "reference_height_rmse_m": 1.36134668,
+        "tilt_error_degrees": 3.04601571,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.1796875,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw2__absent__start02__final",
+      "draw_index": 2,
+      "engine_state": "absent",
+      "mass_kg": 6330.1005,
+      "modeled_air_volume_m3": 172.11299644,
+      "retained_air_volume_m3": 12.69320697,
+      "solid_volume_m3": 2.34448167,
+      "mean_plan_cell_retained_air_fraction": 0.04953835,
+      "metadata": {
+        "start_binary_pattern": "010000000",
+        "coordinate_evaluations": 177,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary002__draw2__absent",
+        "start_binary_reference_height_rmse_m": 5.6402922
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 9083.53035497,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 39.0,
+        "heave_m": -3.61572266,
+        "equivalent_tilt_from_face_on_degrees": 42.70917896,
+        "root_to_tip_height_difference_m": -13.38809569,
+        "leading_to_trailing_height_difference_m": -4.70742962,
+        "reference_heights_m": {
+          "root": 1.53055615,
+          "tip": -11.85753954,
+          "leading": -0.94355126,
+          "trailing": -5.65098088
+        },
+        "centre_of_buoyancy": [
+          0.85801919,
+          6.22410652,
+          -1.70526652
+        ],
+        "centre_of_mass_world": [
+          0.87639732,
+          6.1857507,
+          -1.70343992
+        ],
+        "horizontal_force_line_residual_m": 0.04253145,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.77714596,
+            0.20488668,
+            0.59503412
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.62932039,
+            0.25301398,
+            0.73480594
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.11990431,
+        "chord_height_error_m": 1.21657038,
+        "slope_vector_distance_m": 2.44418448,
+        "relative_slope_rmse": 0.17444219,
+        "reference_height_rmse_m": 1.50515338,
+        "tilt_error_degrees": -14.41082104,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 3,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.69752066,
+          "pca_loss_lower_is_better": 0.30247934,
+          "visible_area_m2": 56.5,
+          "visible_length_m": 10.88885744,
+          "visible_width_m": 8.7641008,
+          "off_nadir_degrees": 15.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.68167203,
+          "pca_loss_lower_is_better": 0.31832797,
+          "visible_area_m2": 62.0,
+          "visible_length_m": 11.21875162,
+          "visible_width_m": 9.27487225,
+          "off_nadir_degrees": 15.0,
+          "view_azimuth_degrees": 270.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0859375,
+        0.1953125,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__attached__start01__final",
+      "draw_index": 0,
+      "engine_state": "attached",
+      "mass_kg": 20136.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 37.57649827,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.16237571,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 177,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw0__attached",
+        "start_binary_reference_height_rmse_m": 4.25315372
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 23315.09591391,
+        "roll_degrees": 31.0,
+        "pitch_degrees": 0.0,
+        "heave_m": -5.00244141,
+        "equivalent_tilt_from_face_on_degrees": 31.0,
+        "root_to_tip_height_difference_m": -12.32514726,
+        "leading_to_trailing_height_difference_m": -0.43125198,
+        "reference_heights_m": {
+          "root": 1.21698029,
+          "tip": -11.10816698,
+          "leading": -3.25968904,
+          "trailing": -3.69094101
+        },
+        "centre_of_buoyancy": [
+          -2.9600531,
+          5.93712217,
+          -1.57798262
+        ],
+        "centre_of_mass_world": [
+          -3.06398852,
+          5.87415815,
+          -2.38215741
+        ],
+        "horizontal_force_line_residual_m": 0.1215197,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            1.0,
+            0.0,
+            0.0
+          ],
+          [
+            0.0,
+            0.8571673,
+            -0.51503807
+          ],
+          [
+            -0.0,
+            0.51503807,
+            0.8571673
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 3.18285274,
+        "chord_height_error_m": 5.49274802,
+        "slope_vector_distance_m": 6.34829366,
+        "relative_slope_rmse": 0.67150124,
+        "reference_height_rmse_m": 2.57126987,
+        "tilt_error_degrees": -26.12,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.57661927,
+          "pca_loss_lower_is_better": 0.42338073,
+          "visible_area_m2": 66.25,
+          "visible_length_m": 12.08606163,
+          "visible_width_m": 6.84459382,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 180.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.8046875,
+        0.1171875,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "exhaustive_binary_retention",
+      "state_id": "binary002__draw0__absent",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 68.02719772,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.17613636,
+      "metadata": {
+        "binary_pattern_index": 2,
+        "binary_pattern_root_to_tip_leading_to_trailing": "010000000"
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 61663.06285319,
+        "roll_degrees": 4.0,
+        "pitch_degrees": 42.0,
+        "heave_m": -0.81787109,
+        "equivalent_tilt_from_face_on_degrees": 42.1547758,
+        "root_to_tip_height_difference_m": -9.03777022,
+        "leading_to_trailing_height_difference_m": -4.8233677,
+        "reference_heights_m": {
+          "root": 2.03136299,
+          "tip": -7.00640723,
+          "leading": 1.28845897,
+          "trailing": -3.53490873
+        },
+        "centre_of_buoyancy": [
+          0.15441989,
+          6.17974565,
+          -0.90165385
+        ],
+        "centre_of_mass_world": [
+          0.1887775,
+          6.15433829,
+          -0.55628657
+        ],
+        "horizontal_force_line_residual_m": 0.04273148,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.74314483,
+            0.04667619,
+            0.66750064
+          ],
+          [
+            0.0,
+            0.99756405,
+            -0.06975647
+          ],
+          [
+            -0.66913061,
+            0.05183916,
+            0.74133456
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 6.47022978,
+        "chord_height_error_m": 1.1006323,
+        "slope_vector_distance_m": 6.56317491,
+        "relative_slope_rmse": 0.32294756,
+        "reference_height_rmse_m": 2.64652476,
+        "tilt_error_degrees": -14.9652242,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "exhaustive_binary_retention",
+      "state_id": "binary003__draw0__absent",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 104.81733183,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.35227273,
+      "metadata": {
+        "binary_pattern_index": 3,
+        "binary_pattern_root_to_tip_leading_to_trailing": "110000000"
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 99372.95031199,
+        "roll_degrees": 4.0,
+        "pitch_degrees": 42.0,
+        "heave_m": -0.81787109,
+        "equivalent_tilt_from_face_on_degrees": 42.1547758,
+        "root_to_tip_height_difference_m": -9.03777022,
+        "leading_to_trailing_height_difference_m": -4.8233677,
+        "reference_heights_m": {
+          "root": 2.03136299,
+          "tip": -7.00640723,
+          "leading": 1.28845897,
+          "trailing": -3.53490873
+        },
+        "centre_of_buoyancy": [
+          0.15441989,
+          6.17974565,
+          -0.90165385
+        ],
+        "centre_of_mass_world": [
+          0.1887775,
+          6.15433829,
+          -0.55628657
+        ],
+        "horizontal_force_line_residual_m": 0.04273148,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.74314483,
+            0.04667619,
+            0.66750064
+          ],
+          [
+            0.0,
+            0.99756405,
+            -0.06975647
+          ],
+          [
+            -0.66913061,
+            0.05183916,
+            0.74133456
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 6.47022978,
+        "chord_height_error_m": 1.1006323,
+        "slope_vector_distance_m": 6.56317491,
+        "relative_slope_rmse": 0.32294756,
+        "reference_height_rmse_m": 2.64652476,
+        "tilt_error_degrees": -14.9652242,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__absent__start04__final",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 23.45620824,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.10990767,
+      "metadata": {
+        "start_binary_pattern": "101000000",
+        "coordinate_evaluations": 122,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 4,
+        "start_binary_state_id": "binary005__draw0__absent",
+        "start_binary_reference_height_rmse_m": 5.41428362
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 15977.79863328,
+        "roll_degrees": 34.0,
+        "pitch_degrees": -4.0,
+        "heave_m": -5.15380859,
+        "equivalent_tilt_from_face_on_degrees": 34.20636994,
+        "root_to_tip_height_difference_m": -12.53634277,
+        "leading_to_trailing_height_difference_m": 0.03122505,
+        "reference_heights_m": {
+          "root": 1.3505908,
+          "tip": -11.18575198,
+          "leading": -3.46755448,
+          "trailing": -3.43632943
+        },
+        "centre_of_buoyancy": [
+          -0.25319398,
+          5.18138956,
+          -1.7756659
+        ],
+        "centre_of_mass_world": [
+          -0.26868751,
+          5.16945731,
+          -1.80949082
+        ],
+        "horizontal_force_line_residual_m": 0.01955578,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.99756405,
+            -0.03900733,
+            -0.05783074
+          ],
+          [
+            0.0,
+            0.82903757,
+            -0.5591929
+          ],
+          [
+            0.06975647,
+            0.55783074,
+            0.82701808
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.97165723,
+        "chord_height_error_m": 5.95522505,
+        "slope_vector_distance_m": 6.65548286,
+        "relative_slope_rmse": 0.72363259,
+        "reference_height_rmse_m": 2.65542894,
+        "tilt_error_degrees": -22.91363006,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.56704362,
+          "pca_loss_lower_is_better": 0.43295638,
+          "visible_area_m2": 68.0,
+          "visible_length_m": 12.62332345,
+          "visible_width_m": 7.01122743,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 180.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.15625,
+        0.0,
+        0.5,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__attached__start01__final",
+      "draw_index": 1,
+      "engine_state": "attached",
+      "mass_kg": 13672.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 23.35820143,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.11283736,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 103,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw1__attached",
+        "start_binary_reference_height_rmse_m": 4.50998434
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 12751.38067579,
+        "roll_degrees": 40.0,
+        "pitch_degrees": -11.0,
+        "heave_m": -5.43701172,
+        "equivalent_tilt_from_face_on_degrees": 41.238681,
+        "root_to_tip_height_difference_m": -12.87619426,
+        "leading_to_trailing_height_difference_m": 0.83472113,
+        "reference_heights_m": {
+          "root": 1.54847909,
+          "tip": -11.32771517,
+          "leading": -3.85257041,
+          "trailing": -3.01784928
+        },
+        "centre_of_buoyancy": [
+          -4.87378789,
+          5.71663559,
+          -1.62490519
+        ],
+        "centre_of_mass_world": [
+          -4.98512132,
+          5.70632964,
+          -2.98562221
+        ],
+        "horizontal_force_line_residual_m": 0.11180942,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.98162718,
+            -0.12264966,
+            -0.14616817
+          ],
+          [
+            0.0,
+            0.76604444,
+            -0.64278761
+          ],
+          [
+            0.190809,
+            0.63097779,
+            0.75197005
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.63180574,
+        "chord_height_error_m": 6.75872113,
+        "slope_vector_distance_m": 7.25304852,
+        "relative_slope_rmse": 0.81561769,
+        "reference_height_rmse_m": 2.83587425,
+        "tilt_error_degrees": -15.881319,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.54679803,
+          "pca_loss_lower_is_better": 0.45320197,
+          "visible_area_m2": 67.75,
+          "visible_length_m": 12.98008212,
+          "visible_width_m": 7.42771379,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 180.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.640625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__attached__start03__final",
+      "draw_index": 1,
+      "engine_state": "attached",
+      "mass_kg": 13672.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 23.35820143,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.11283736,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 174,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary003__draw1__attached",
+        "start_binary_reference_height_rmse_m": 6.06651703
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 12751.38067579,
+        "roll_degrees": 40.0,
+        "pitch_degrees": -11.0,
+        "heave_m": -5.43701172,
+        "equivalent_tilt_from_face_on_degrees": 41.238681,
+        "root_to_tip_height_difference_m": -12.87619426,
+        "leading_to_trailing_height_difference_m": 0.83472113,
+        "reference_heights_m": {
+          "root": 1.54847909,
+          "tip": -11.32771517,
+          "leading": -3.85257041,
+          "trailing": -3.01784928
+        },
+        "centre_of_buoyancy": [
+          -4.87378789,
+          5.71663559,
+          -1.62490519
+        ],
+        "centre_of_mass_world": [
+          -4.98512132,
+          5.70632964,
+          -2.98562221
+        ],
+        "horizontal_force_line_residual_m": 0.11180942,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.98162718,
+            -0.12264966,
+            -0.14616817
+          ],
+          [
+            0.0,
+            0.76604444,
+            -0.64278761
+          ],
+          [
+            0.190809,
+            0.63097779,
+            0.75197005
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.63180574,
+        "chord_height_error_m": 6.75872113,
+        "slope_vector_distance_m": 7.25304852,
+        "relative_slope_rmse": 0.81561769,
+        "reference_height_rmse_m": 2.83587425,
+        "tilt_error_degrees": -15.881319,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.54679803,
+          "pca_loss_lower_is_better": 0.45320197,
+          "visible_area_m2": 67.75,
+          "visible_length_m": 12.98008212,
+          "visible_width_m": 7.42771379,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 180.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.640625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__attached__start04__final",
+      "draw_index": 1,
+      "engine_state": "attached",
+      "mass_kg": 13672.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 23.35820143,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.11283736,
+      "metadata": {
+        "start_binary_pattern": "111000000",
+        "coordinate_evaluations": 175,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 4,
+        "start_binary_state_id": "binary007__draw1__attached",
+        "start_binary_reference_height_rmse_m": 6.06651703
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 12751.38067579,
+        "roll_degrees": 40.0,
+        "pitch_degrees": -11.0,
+        "heave_m": -5.43701172,
+        "equivalent_tilt_from_face_on_degrees": 41.238681,
+        "root_to_tip_height_difference_m": -12.87619426,
+        "leading_to_trailing_height_difference_m": 0.83472113,
+        "reference_heights_m": {
+          "root": 1.54847909,
+          "tip": -11.32771517,
+          "leading": -3.85257041,
+          "trailing": -3.01784928
+        },
+        "centre_of_buoyancy": [
+          -4.87378789,
+          5.71663559,
+          -1.62490519
+        ],
+        "centre_of_mass_world": [
+          -4.98512132,
+          5.70632964,
+          -2.98562221
+        ],
+        "horizontal_force_line_residual_m": 0.11180942,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.98162718,
+            -0.12264966,
+            -0.14616817
+          ],
+          [
+            0.0,
+            0.76604444,
+            -0.64278761
+          ],
+          [
+            0.190809,
+            0.63097779,
+            0.75197005
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.63180574,
+        "chord_height_error_m": 6.75872113,
+        "slope_vector_distance_m": 7.25304852,
+        "relative_slope_rmse": 0.81561769,
+        "reference_height_rmse_m": 2.83587425,
+        "tilt_error_degrees": -15.881319,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.54679803,
+          "pca_loss_lower_is_better": 0.45320197,
+          "visible_area_m2": 67.75,
+          "visible_length_m": 12.98008212,
+          "visible_width_m": 7.42771379,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 180.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.640625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__attached__start02__final",
+      "draw_index": 0,
+      "engine_state": "attached",
+      "mass_kg": 20136.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 37.42433785,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.17737926,
+      "metadata": {
+        "start_binary_pattern": "101000000",
+        "coordinate_evaluations": 192,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary005__draw0__attached",
+        "start_binary_reference_height_rmse_m": 4.38512828
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 23159.13147951,
+        "roll_degrees": 44.0,
+        "pitch_degrees": -15.0,
+        "heave_m": -5.58837891,
+        "equivalent_tilt_from_face_on_degrees": 45.9864164,
+        "root_to_tip_height_difference_m": -13.04116581,
+        "leading_to_trailing_height_difference_m": 1.28705193,
+        "reference_heights_m": {
+          "root": 1.65429784,
+          "tip": -11.38686797,
+          "leading": -4.0648097,
+          "trailing": -2.77775777
+        },
+        "centre_of_buoyancy": [
+          -3.95293087,
+          5.09749917,
+          -1.68715184
+        ],
+        "centre_of_mass_world": [
+          -3.96238633,
+          5.13416821,
+          -2.63889435
+        ],
+        "horizontal_force_line_residual_m": 0.03786851,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.96592583,
+            -0.17979082,
+            -0.18617884
+          ],
+          [
+            0.0,
+            0.7193398,
+            -0.69465837
+          ],
+          [
+            0.25881905,
+            0.67098846,
+            0.69482889
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.46683419,
+        "chord_height_error_m": 7.21105193,
+        "slope_vector_distance_m": 7.62132146,
+        "relative_slope_rmse": 0.86805133,
+        "reference_height_rmse_m": 2.94749457,
+        "tilt_error_degrees": -11.1335836,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.55184534,
+          "pca_loss_lower_is_better": 0.44815466,
+          "visible_area_m2": 75.75,
+          "visible_length_m": 14.65581977,
+          "visible_width_m": 7.71629598,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 270.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.65625,
+        0.0,
+        0.375,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__attached__start04__final",
+      "draw_index": 0,
+      "engine_state": "attached",
+      "mass_kg": 20136.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 37.42433785,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.17737926,
+      "metadata": {
+        "start_binary_pattern": "111000000",
+        "coordinate_evaluations": 122,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 4,
+        "start_binary_state_id": "binary007__draw0__attached",
+        "start_binary_reference_height_rmse_m": 5.60056179
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 23159.13147951,
+        "roll_degrees": 44.0,
+        "pitch_degrees": -15.0,
+        "heave_m": -5.58837891,
+        "equivalent_tilt_from_face_on_degrees": 45.9864164,
+        "root_to_tip_height_difference_m": -13.04116581,
+        "leading_to_trailing_height_difference_m": 1.28705193,
+        "reference_heights_m": {
+          "root": 1.65429784,
+          "tip": -11.38686797,
+          "leading": -4.0648097,
+          "trailing": -2.77775777
+        },
+        "centre_of_buoyancy": [
+          -3.95293087,
+          5.09749917,
+          -1.68715184
+        ],
+        "centre_of_mass_world": [
+          -3.96238633,
+          5.13416821,
+          -2.63889435
+        ],
+        "horizontal_force_line_residual_m": 0.03786851,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.96592583,
+            -0.17979082,
+            -0.18617884
+          ],
+          [
+            0.0,
+            0.7193398,
+            -0.69465837
+          ],
+          [
+            0.25881905,
+            0.67098846,
+            0.69482889
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.46683419,
+        "chord_height_error_m": 7.21105193,
+        "slope_vector_distance_m": 7.62132146,
+        "relative_slope_rmse": 0.86805133,
+        "reference_height_rmse_m": 2.94749457,
+        "tilt_error_degrees": -11.1335836,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.55184534,
+          "pca_loss_lower_is_better": 0.44815466,
+          "visible_area_m2": 75.75,
+          "visible_length_m": 14.65581977,
+          "visible_width_m": 7.71629598,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 270.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.65625,
+        0.0,
+        0.375,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__attached__start03__final",
+      "draw_index": 0,
+      "engine_state": "attached",
+      "mass_kg": 20136.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 34.25217479,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.12659801,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 177,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary003__draw0__attached",
+        "start_binary_reference_height_rmse_m": 5.59585115
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 19907.6643485,
+        "roll_degrees": 44.0,
+        "pitch_degrees": -15.0,
+        "heave_m": -5.61279297,
+        "equivalent_tilt_from_face_on_degrees": 45.9864164,
+        "root_to_tip_height_difference_m": -13.04116581,
+        "leading_to_trailing_height_difference_m": 1.28705193,
+        "reference_heights_m": {
+          "root": 1.62988378,
+          "tip": -11.41128203,
+          "leading": -4.08922376,
+          "trailing": -2.80217183
+        },
+        "centre_of_buoyancy": [
+          -3.9417233,
+          5.10466888,
+          -1.73270046
+        ],
+        "centre_of_mass_world": [
+          -3.96238633,
+          5.13416821,
+          -2.66330842
+        ],
+        "horizontal_force_line_residual_m": 0.03601626,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.96592583,
+            -0.17979082,
+            -0.18617884
+          ],
+          [
+            0.0,
+            0.7193398,
+            -0.69465837
+          ],
+          [
+            0.25881905,
+            0.67098846,
+            0.69482889
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.46683419,
+        "chord_height_error_m": 7.21105193,
+        "slope_vector_distance_m": 7.62132146,
+        "relative_slope_rmse": 0.86805133,
+        "reference_height_rmse_m": 2.95698137,
+        "tilt_error_degrees": -11.1335836,
+        "same_span_and_chord_sense": false,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 0,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.55184534,
+          "pca_loss_lower_is_better": 0.44815466,
+          "visible_area_m2": 75.75,
+          "visible_length_m": 14.65581977,
+          "visible_width_m": 7.71629598,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 270.0
+        },
+        "best_strict": null
+      },
+      "retained_air_fraction": [
+        0.46875,
+        0.25,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "top_20_strict_pca": [
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw2__absent__start02__final",
+      "draw_index": 2,
+      "engine_state": "absent",
+      "mass_kg": 6330.1005,
+      "modeled_air_volume_m3": 172.11299644,
+      "retained_air_volume_m3": 12.69320697,
+      "solid_volume_m3": 2.34448167,
+      "mean_plan_cell_retained_air_fraction": 0.04953835,
+      "metadata": {
+        "start_binary_pattern": "010000000",
+        "coordinate_evaluations": 177,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary002__draw2__absent",
+        "start_binary_reference_height_rmse_m": 5.6402922
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 9083.53035497,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 39.0,
+        "heave_m": -3.61572266,
+        "equivalent_tilt_from_face_on_degrees": 42.70917896,
+        "root_to_tip_height_difference_m": -13.38809569,
+        "leading_to_trailing_height_difference_m": -4.70742962,
+        "reference_heights_m": {
+          "root": 1.53055615,
+          "tip": -11.85753954,
+          "leading": -0.94355126,
+          "trailing": -5.65098088
+        },
+        "centre_of_buoyancy": [
+          0.85801919,
+          6.22410652,
+          -1.70526652
+        ],
+        "centre_of_mass_world": [
+          0.87639732,
+          6.1857507,
+          -1.70343992
+        ],
+        "horizontal_force_line_residual_m": 0.04253145,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.77714596,
+            0.20488668,
+            0.59503412
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.62932039,
+            0.25301398,
+            0.73480594
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.11990431,
+        "chord_height_error_m": 1.21657038,
+        "slope_vector_distance_m": 2.44418448,
+        "relative_slope_rmse": 0.17444219,
+        "reference_height_rmse_m": 1.50515338,
+        "tilt_error_degrees": -14.41082104,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 3,
+        "best_any": {
+          "strict_size_eligible": false,
+          "silhouette_iou_pca": 0.69752066,
+          "pca_loss_lower_is_better": 0.30247934,
+          "visible_area_m2": 56.5,
+          "visible_length_m": 10.88885744,
+          "visible_width_m": 8.7641008,
+          "off_nadir_degrees": 15.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.68167203,
+          "pca_loss_lower_is_better": 0.31832797,
+          "visible_area_m2": 62.0,
+          "visible_length_m": 11.21875162,
+          "visible_width_m": 9.27487225,
+          "off_nadir_degrees": 15.0,
+          "view_azimuth_degrees": 270.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0859375,
+        0.1953125,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start02__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 17.3797508,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.04660866,
+      "metadata": {
+        "start_binary_pattern": "010000000",
+        "coordinate_evaluations": 112,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary002__draw1__absent",
+        "start_binary_reference_height_rmse_m": 3.50588914
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 13759.46878335,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 58.0,
+        "heave_m": -2.50244141,
+        "equivalent_tilt_from_face_on_degrees": 59.930607,
+        "root_to_tip_height_difference_m": -14.0107312,
+        "leading_to_trailing_height_difference_m": -6.20252466,
+        "reference_heights_m": {
+          "root": 2.39861944,
+          "tip": -11.61211177,
+          "leading": 0.52856184,
+          "trailing": -5.67396282
+        },
+        "centre_of_buoyancy": [
+          1.71313594,
+          5.98858585,
+          -1.62413103
+        ],
+        "centre_of_mass_world": [
+          1.69631457,
+          5.93938851,
+          -1.57510916
+        ],
+        "horizontal_force_line_residual_m": 0.05199362,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.52991926,
+            0.27609745,
+            0.80184523
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8480481,
+            0.17252484,
+            0.50104851
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.4972688,
+        "chord_height_error_m": -0.27852466,
+        "slope_vector_distance_m": 1.52295431,
+        "relative_slope_rmse": 0.07593445,
+        "reference_height_rmse_m": 0.7960498,
+        "tilt_error_degrees": 2.810607,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start04__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 17.3797508,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.04660866,
+      "metadata": {
+        "start_binary_pattern": "010100000",
+        "coordinate_evaluations": 183,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 4,
+        "start_binary_state_id": "binary010__draw1__absent",
+        "start_binary_reference_height_rmse_m": 4.69372998
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 13759.46878335,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 58.0,
+        "heave_m": -2.50244141,
+        "equivalent_tilt_from_face_on_degrees": 59.930607,
+        "root_to_tip_height_difference_m": -14.0107312,
+        "leading_to_trailing_height_difference_m": -6.20252466,
+        "reference_heights_m": {
+          "root": 2.39861944,
+          "tip": -11.61211177,
+          "leading": 0.52856184,
+          "trailing": -5.67396282
+        },
+        "centre_of_buoyancy": [
+          1.71313594,
+          5.98858585,
+          -1.62413103
+        ],
+        "centre_of_mass_world": [
+          1.69631457,
+          5.93938851,
+          -1.57510916
+        ],
+        "horizontal_force_line_residual_m": 0.05199362,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.52991926,
+            0.27609745,
+            0.80184523
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8480481,
+            0.17252484,
+            0.50104851
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.4972688,
+        "chord_height_error_m": -0.27852466,
+        "slope_vector_distance_m": 1.52295431,
+        "relative_slope_rmse": 0.07593445,
+        "reference_height_rmse_m": 0.7960498,
+        "tilt_error_degrees": 2.810607,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66508689,
+          "pca_loss_lower_is_better": 0.33491311,
+          "visible_area_m2": 78.5,
+          "visible_length_m": 12.51047258,
+          "visible_width_m": 10.60506961,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "exhaustive_binary_retention",
+      "state_id": "binary002__draw0__absent",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 68.02719772,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.17613636,
+      "metadata": {
+        "binary_pattern_index": 2,
+        "binary_pattern_root_to_tip_leading_to_trailing": "010000000"
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 61663.06285319,
+        "roll_degrees": 4.0,
+        "pitch_degrees": 42.0,
+        "heave_m": -0.81787109,
+        "equivalent_tilt_from_face_on_degrees": 42.1547758,
+        "root_to_tip_height_difference_m": -9.03777022,
+        "leading_to_trailing_height_difference_m": -4.8233677,
+        "reference_heights_m": {
+          "root": 2.03136299,
+          "tip": -7.00640723,
+          "leading": 1.28845897,
+          "trailing": -3.53490873
+        },
+        "centre_of_buoyancy": [
+          0.15441989,
+          6.17974565,
+          -0.90165385
+        ],
+        "centre_of_mass_world": [
+          0.1887775,
+          6.15433829,
+          -0.55628657
+        ],
+        "horizontal_force_line_residual_m": 0.04273148,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.74314483,
+            0.04667619,
+            0.66750064
+          ],
+          [
+            0.0,
+            0.99756405,
+            -0.06975647
+          ],
+          [
+            -0.66913061,
+            0.05183916,
+            0.74133456
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 6.47022978,
+        "chord_height_error_m": 1.1006323,
+        "slope_vector_distance_m": 6.56317491,
+        "relative_slope_rmse": 0.32294756,
+        "reference_height_rmse_m": 2.64652476,
+        "tilt_error_degrees": -14.9652242,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        }
+      },
+      "retained_air_fraction": [
+        0.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "exhaustive_binary_retention",
+      "state_id": "binary003__draw0__absent",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 104.81733183,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.35227273,
+      "metadata": {
+        "binary_pattern_index": 3,
+        "binary_pattern_root_to_tip_leading_to_trailing": "110000000"
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 99372.95031199,
+        "roll_degrees": 4.0,
+        "pitch_degrees": 42.0,
+        "heave_m": -0.81787109,
+        "equivalent_tilt_from_face_on_degrees": 42.1547758,
+        "root_to_tip_height_difference_m": -9.03777022,
+        "leading_to_trailing_height_difference_m": -4.8233677,
+        "reference_heights_m": {
+          "root": 2.03136299,
+          "tip": -7.00640723,
+          "leading": 1.28845897,
+          "trailing": -3.53490873
+        },
+        "centre_of_buoyancy": [
+          0.15441989,
+          6.17974565,
+          -0.90165385
+        ],
+        "centre_of_mass_world": [
+          0.1887775,
+          6.15433829,
+          -0.55628657
+        ],
+        "horizontal_force_line_residual_m": 0.04273148,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.74314483,
+            0.04667619,
+            0.66750064
+          ],
+          [
+            0.0,
+            0.99756405,
+            -0.06975647
+          ],
+          [
+            -0.66913061,
+            0.05183916,
+            0.74133456
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 6.47022978,
+        "chord_height_error_m": 1.1006323,
+        "slope_vector_distance_m": 6.56317491,
+        "relative_slope_rmse": 0.32294756,
+        "reference_height_rmse_m": 2.64652476,
+        "tilt_error_degrees": -14.9652242,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": false
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.66339869,
+          "pca_loss_lower_is_better": 0.33660131,
+          "visible_area_m2": 79.75,
+          "visible_length_m": 13.02214389,
+          "visible_width_m": 9.95124452,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 90.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start01__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 49.28363569,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.20072798,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 115,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw1__absent",
+        "start_binary_reference_height_rmse_m": 2.98657173
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 46460.95078767,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.47314453,
+        "equivalent_tilt_from_face_on_degrees": 60.85784855,
+        "root_to_tip_height_difference_m": -14.00105552,
+        "leading_to_trailing_height_difference_m": -6.26361138,
+        "reference_heights_m": {
+          "root": 2.399711,
+          "tip": -11.60134452,
+          "leading": 0.56778048,
+          "trailing": -5.69583091
+        },
+        "centre_of_buoyancy": [
+          1.73288128,
+          5.99298297,
+          -1.62478276
+        ],
+        "centre_of_mass_world": [
+          1.71224039,
+          5.93938851,
+          -1.57555829
+        ],
+        "horizontal_force_line_residual_m": 0.0574318,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.27906638,
+            0.81046761
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8571673,
+            0.16768,
+            0.48697807
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.50694448,
+        "chord_height_error_m": -0.33961138,
+        "slope_vector_distance_m": 1.54473867,
+        "relative_slope_rmse": 0.07977756,
+        "reference_height_rmse_m": 0.79586964,
+        "tilt_error_degrees": 3.73784855,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.875,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw1__absent__start03__final",
+      "draw_index": 1,
+      "engine_state": "absent",
+      "mass_kg": 6536.0565,
+      "modeled_air_volume_m3": 220.89913672,
+      "retained_air_volume_m3": 53.84133353,
+      "solid_volume_m3": 2.42076167,
+      "mean_plan_cell_retained_air_fraction": 0.22274503,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 112,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary003__draw1__absent",
+        "start_binary_reference_height_rmse_m": 3.50588914
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 51132.591074,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.47314453,
+        "equivalent_tilt_from_face_on_degrees": 60.85784855,
+        "root_to_tip_height_difference_m": -14.00105552,
+        "leading_to_trailing_height_difference_m": -6.26361138,
+        "reference_heights_m": {
+          "root": 2.399711,
+          "tip": -11.60134452,
+          "leading": 0.56778048,
+          "trailing": -5.69583091
+        },
+        "centre_of_buoyancy": [
+          1.73227631,
+          5.99268526,
+          -1.62434275
+        ],
+        "centre_of_mass_world": [
+          1.71224039,
+          5.93938851,
+          -1.57555829
+        ],
+        "horizontal_force_line_residual_m": 0.0569384,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.27906638,
+            0.81046761
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.8571673,
+            0.16768,
+            0.48697807
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.50694448,
+        "chord_height_error_m": -0.33961138,
+        "slope_vector_distance_m": 1.54473867,
+        "relative_slope_rmse": 0.07977756,
+        "reference_height_rmse_m": 0.79586964,
+        "tilt_error_degrees": 3.73784855,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65793781,
+          "pca_loss_lower_is_better": 0.34206219,
+          "visible_area_m2": 78.25,
+          "visible_length_m": 12.94883346,
+          "visible_width_m": 10.43635243,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.25,
+        0.015625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__absent__start01__final",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 44.27405735,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.1348544,
+      "metadata": {
+        "start_binary_pattern": "010000000",
+        "coordinate_evaluations": 177,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary002__draw0__absent",
+        "start_binary_reference_height_rmse_m": 2.64652476
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 37316.09397245,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 61.0,
+        "heave_m": -2.52685547,
+        "equivalent_tilt_from_face_on_degrees": 62.71631501,
+        "root_to_tip_height_difference_m": -13.96891384,
+        "leading_to_trailing_height_difference_m": -6.38004293,
+        "reference_heights_m": {
+          "root": 2.28514553,
+          "tip": -11.68376831,
+          "leading": 0.53113144,
+          "trailing": -5.84891149
+        },
+        "centre_of_buoyancy": [
+          1.64290042,
+          5.88021676,
+          -1.60068679
+        ],
+        "centre_of_mass_world": [
+          1.64724509,
+          5.86162793,
+          -1.57404655
+        ],
+        "horizontal_force_line_residual_m": 0.01908981,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.48480962,
+            0.28474832,
+            0.82696918
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.87461971,
+            0.15783857,
+            0.4583965
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.53908616,
+        "chord_height_error_m": -0.45604293,
+        "slope_vector_distance_m": 1.60522939,
+        "relative_slope_rmse": 0.08881377,
+        "reference_height_rmse_m": 0.88159985,
+        "tilt_error_degrees": 5.59631501,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 2,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65286624,
+          "pca_loss_lower_is_better": 0.34713376,
+          "visible_area_m2": 75.5,
+          "visible_length_m": 12.4612541,
+          "visible_width_m": 10.5217833,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.65286624,
+          "pca_loss_lower_is_better": 0.34713376,
+          "visible_area_m2": 75.5,
+          "visible_length_m": 12.4612541,
+          "visible_width_m": 10.5217833,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        0.25,
+        0.515625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw2__absent__start01__final",
+      "draw_index": 2,
+      "engine_state": "absent",
+      "mass_kg": 6330.1005,
+      "modeled_air_volume_m3": 172.11299644,
+      "retained_air_volume_m3": 37.77403001,
+      "solid_volume_m3": 2.34448167,
+      "mean_plan_cell_retained_air_fraction": 0.20778587,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 174,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 1,
+        "start_binary_state_id": "binary001__draw2__absent",
+        "start_binary_reference_height_rmse_m": 3.09235695
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 34791.37396681,
+        "roll_degrees": 15.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.91748047,
+        "equivalent_tilt_from_face_on_degrees": 60.16601571,
+        "root_to_tip_height_difference_m": -13.17836292,
+        "leading_to_trailing_height_difference_m": -6.2348257,
+        "reference_heights_m": {
+          "root": 1.5402342,
+          "tip": -11.63812871,
+          "leading": 0.00711737,
+          "trailing": -6.22770833
+        },
+        "centre_of_buoyancy": [
+          1.09219572,
+          6.36377352,
+          -1.64237499
+        ],
+        "centre_of_mass_world": [
+          1.10346425,
+          6.31282233,
+          -1.64506144
+        ],
+        "horizontal_force_line_residual_m": 0.05218241,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.22185122,
+            0.82796003
+          ],
+          [
+            0.0,
+            0.96592583,
+            -0.25881905
+          ],
+          [
+            -0.8571673,
+            0.13330166,
+            0.49748858
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.32963708,
+        "chord_height_error_m": -0.3108257,
+        "slope_vector_distance_m": 2.35028116,
+        "relative_slope_rmse": 0.11251561,
+        "reference_height_rmse_m": 1.36134668,
+        "tilt_error_degrees": 3.04601571,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.1796875,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw2__absent__start03__final",
+      "draw_index": 2,
+      "engine_state": "absent",
+      "mass_kg": 6330.1005,
+      "modeled_air_volume_m3": 172.11299644,
+      "retained_air_volume_m3": 37.77403001,
+      "solid_volume_m3": 2.34448167,
+      "mean_plan_cell_retained_air_fraction": 0.20778587,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 174,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary003__draw2__absent",
+        "start_binary_reference_height_rmse_m": 5.64270918
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 34791.37396681,
+        "roll_degrees": 15.0,
+        "pitch_degrees": 59.0,
+        "heave_m": -2.91748047,
+        "equivalent_tilt_from_face_on_degrees": 60.16601571,
+        "root_to_tip_height_difference_m": -13.17836292,
+        "leading_to_trailing_height_difference_m": -6.2348257,
+        "reference_heights_m": {
+          "root": 1.5402342,
+          "tip": -11.63812871,
+          "leading": 0.00711737,
+          "trailing": -6.22770833
+        },
+        "centre_of_buoyancy": [
+          1.09219572,
+          6.36377352,
+          -1.64237499
+        ],
+        "centre_of_mass_world": [
+          1.10346425,
+          6.31282233,
+          -1.64506144
+        ],
+        "horizontal_force_line_residual_m": 0.05218241,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.51503807,
+            0.22185122,
+            0.82796003
+          ],
+          [
+            0.0,
+            0.96592583,
+            -0.25881905
+          ],
+          [
+            -0.8571673,
+            0.13330166,
+            0.49748858
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 2.32963708,
+        "chord_height_error_m": -0.3108257,
+        "slope_vector_distance_m": 2.35028116,
+        "relative_slope_rmse": 0.11251561,
+        "reference_height_rmse_m": 1.36134668,
+        "tilt_error_degrees": 3.04601571,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.64600326,
+          "pca_loss_lower_is_better": 0.35399674,
+          "visible_area_m2": 67.25,
+          "visible_length_m": 12.06868437,
+          "visible_width_m": 9.522295,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.1796875,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__absent__start02__final",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 71.86665793,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.26695668,
+      "metadata": {
+        "start_binary_pattern": "110000000",
+        "coordinate_evaluations": 111,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 2,
+        "start_binary_state_id": "binary003__draw0__absent",
+        "start_binary_reference_height_rmse_m": 2.64652476
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 65598.50956655,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 65.0,
+        "heave_m": -2.40966797,
+        "equivalent_tilt_from_face_on_degrees": 66.44723653,
+        "root_to_tip_height_difference_m": -13.85363345,
+        "leading_to_trailing_height_difference_m": -6.58945435,
+        "reference_heights_m": {
+          "root": 2.2631172,
+          "tip": -11.59051625,
+          "leading": 0.67124944,
+          "trailing": -5.91820491
+        },
+        "centre_of_buoyancy": [
+          1.73644849,
+          5.91371377,
+          -1.60272618
+        ],
+        "centre_of_mass_world": [
+          1.70969708,
+          5.86162793,
+          -1.57408605
+        ],
+        "horizontal_force_line_residual_m": 0.05855401,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.42261826,
+            0.29506495,
+            0.85693085
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.90630779,
+            0.13759105,
+            0.39959342
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.65436655,
+        "chord_height_error_m": -0.66545435,
+        "slope_vector_distance_m": 1.78318765,
+        "relative_slope_rmse": 0.10954158,
+        "reference_height_rmse_m": 0.89793319,
+        "tilt_error_degrees": 9.32723653,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.515625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "family": "continuous_refinement",
+      "state_id": "draw0__absent__start03__final",
+      "draw_index": 0,
+      "engine_state": "absent",
+      "mass_kg": 13000.0,
+      "modeled_air_volume_m3": 215.14049632,
+      "retained_air_volume_m3": 71.86665793,
+      "solid_volume_m3": 4.81481481,
+      "mean_plan_cell_retained_air_fraction": 0.26695668,
+      "metadata": {
+        "start_binary_pattern": "100000000",
+        "coordinate_evaluations": 111,
+        "objective": "minimum RMS error across root, tip, leading and trailing reference heights",
+        "start_binary_rank_within_configuration": 3,
+        "start_binary_state_id": "binary001__draw0__absent",
+        "start_binary_reference_height_rmse_m": 3.3715784
+      },
+      "pose": {
+        "afloat": true,
+        "reserve_buoyancy_kg": 65598.50956655,
+        "roll_degrees": 19.0,
+        "pitch_degrees": 65.0,
+        "heave_m": -2.40966797,
+        "equivalent_tilt_from_face_on_degrees": 66.44723653,
+        "root_to_tip_height_difference_m": -13.85363345,
+        "leading_to_trailing_height_difference_m": -6.58945435,
+        "reference_heights_m": {
+          "root": 2.2631172,
+          "tip": -11.59051625,
+          "leading": 0.67124944,
+          "trailing": -5.91820491
+        },
+        "centre_of_buoyancy": [
+          1.73644849,
+          5.91371377,
+          -1.60272618
+        ],
+        "centre_of_mass_world": [
+          1.70969708,
+          5.86162793,
+          -1.57408605
+        ],
+        "horizontal_force_line_residual_m": 0.05855401,
+        "locally_stable_grid_check": true,
+        "matrix": [
+          [
+            0.42261826,
+            0.29506495,
+            0.85693085
+          ],
+          [
+            0.0,
+            0.94551858,
+            -0.32556815
+          ],
+          [
+            -0.90630779,
+            0.13759105,
+            0.39959342
+          ]
+        ]
+      },
+      "attitude": {
+        "span_height_error_m": 1.65436655,
+        "chord_height_error_m": -0.66545435,
+        "slope_vector_distance_m": 1.78318765,
+        "relative_slope_rmse": 0.10954158,
+        "reference_height_rmse_m": 0.89793319,
+        "tilt_error_degrees": 9.32723653,
+        "same_span_and_chord_sense": true,
+        "root_above_and_tip_below_sea_level": true,
+        "within_25_percent_each_slope_component": true
+      },
+      "image_screen": {
+        "render_count": 12,
+        "strict_render_count": 1,
+        "best_any": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        },
+        "best_strict": {
+          "strict_size_eligible": true,
+          "silhouette_iou_pca": 0.63004847,
+          "pca_loss_lower_is_better": 0.36995153,
+          "visible_area_m2": 71.25,
+          "visible_length_m": 12.49082542,
+          "visible_width_m": 9.50502878,
+          "off_nadir_degrees": 30.0,
+          "view_azimuth_degrees": 0.0
+        }
+      },
+      "retained_air_fraction": [
+        1.0,
+        0.515625,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "runtime": {
+    "wall_seconds": 296.85257116,
+    "maximum_resident_set_kib": 97980
+  }
+}

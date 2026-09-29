@@ -1,0 +1,107 @@
+{
+  "branch_status": "diagnostic_only",
+  "declared_proxy_opportunity_multipliers": {
+    "approximate_march2024_inboard_outline": 1.05,
+    "approximate_march2024_outboard_outline": 0.88,
+    "approximate_oi2018_outline": 0.82,
+    "combined_clamp": [
+      0.5,
+      1.1
+    ],
+    "interpretation": "subjective planning sensitivity only; not PoD, a likelihood, or evidence of target absence",
+    "official_bluefin_display_footprint": 0.75,
+    "official_phase2_source_footprint": 0.72,
+    "within_25_km_of_ais_surface_vessel_track": 0.95
+  },
+  "input": {
+    "bytes": 687419,
+    "logical_path": "runs/mh370/release-v0.1/conditional/ocean-cmems-glorys12-waverys-diagnostic/conditional-spatial-particles.csv",
+    "particle_count": 2560,
+    "role": "release_input",
+    "sha256": "0cf511d954ebf123055dc8b10947d54bf345cf3f0908af56ae7a196dcb39c79e",
+    "weight_column": "conditional_weight",
+    "weight_mode": "linear",
+    "weights_normalized_by_planner": true
+  },
+  "label": "release-ocean-cmems-diagnostic",
+  "method": {
+    "budget_km2": 7500.0,
+    "centroid_latitude_deg": -38.4039225630165,
+    "centroid_longitude_deg": 88.93071748859008,
+    "kde": "isotropic Gaussian evaluated at tile centers",
+    "kde_bandwidth_km": 35.0,
+    "kde_grid_mass_renormalized": true,
+    "kde_truncation_sigma": 4.0,
+    "projection": "local equirectangular coordinates about weighted particle centroid",
+    "ranking_extension": "all rows after the first 12 in each ordered CSV are the deterministic extension order under that family's assumptions",
+    "selected_tile_count": 12,
+    "tile_area_km2": 625.0,
+    "tile_size_km": 25.0
+  },
+  "plans": {
+    "posterior_only": {
+      "ranking": "posterior KDE mass per square kilometre",
+      "selected_area_km2": 7500.0,
+      "selected_posterior_mass": 0.36304748770178696,
+      "selected_tile_ids": [
+        "tile-x014-y011",
+        "tile-x013-y010",
+        "tile-x014-y010",
+        "tile-x015-y011",
+        "tile-x013-y011",
+        "tile-x012-y010",
+        "tile-x015-y012",
+        "tile-x014-y012",
+        "tile-x012-y009",
+        "tile-x015-y010",
+        "tile-x013-y009",
+        "tile-x016-y011"
+      ]
+    },
+    "proxy_logistics_sensitivity": {
+      "operational_sequence": "greedy next-tile score divided by 1 + great-circle transit_km/100 within the selected set",
+      "operational_tile_ids": [
+        "tile-x014-y010",
+        "tile-x015-y010",
+        "tile-x014-y011",
+        "tile-x015-y011",
+        "tile-x016-y011",
+        "tile-x015-y012",
+        "tile-x014-y012",
+        "tile-x013-y011",
+        "tile-x013-y010",
+        "tile-x013-y009",
+        "tile-x014-y009",
+        "tile-x012-y010"
+      ],
+      "ranking": "posterior KDE mass per square kilometre times declared opportunity multiplier",
+      "selected_area_km2": 7500.0,
+      "selected_posterior_mass": 0.35840923299712835,
+      "selected_tile_ids": [
+        "tile-x014-y010",
+        "tile-x015-y010",
+        "tile-x013-y009",
+        "tile-x014-y011",
+        "tile-x013-y010",
+        "tile-x015-y011",
+        "tile-x016-y011",
+        "tile-x013-y011",
+        "tile-x014-y009",
+        "tile-x012-y010",
+        "tile-x015-y012",
+        "tile-x014-y012"
+      ]
+    },
+    "selected_tile_overlap_count": 11
+  },
+  "schema_version": 1,
+  "scientific_boundary": {
+    "ais_tracks_update_posterior": false,
+    "approximate_outlines_update_posterior": false,
+    "binary_exclusion_applied": false,
+    "calibrated_search_optimization_ready": false,
+    "negative_search_likelihood_applied": false
+  },
+  "snapshot_date": "2026-08-31",
+  "status_note": "Ocean family admitted=false and diagnostic_only after failed out-of-support, eventwise-arrival-ESS, and seed/particle-stability checks. Must not guide operations."
+}

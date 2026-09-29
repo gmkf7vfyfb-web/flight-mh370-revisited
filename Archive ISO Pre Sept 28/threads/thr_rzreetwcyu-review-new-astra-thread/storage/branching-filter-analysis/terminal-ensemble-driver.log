@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "/jackbox/home/MH370/crates/reporting/scripts/cruise_impact_report.py", line 233, in <module>
+    a=p.parse_args();report(a.source,a.output,a.inline_output)
+                     ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/jackbox/home/MH370/crates/reporting/scripts/cruise_impact_report.py", line 137, in report
+    write_browser(result,output,inline)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "/jackbox/home/MH370/crates/reporting/scripts/cruise_impact_report.py", line 227, in write_browser
+    if len(document.encode())>5*1024**2:raise ValueError('Inline report exceeds 5 MiB')
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: Inline report exceeds 5 MiB
+Traceback (most recent call last):
+  File "/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/run_terminal_ensemble.py", line 17, in <module>
+    subprocess.run(['/tmp/mh370-acoustic-venv/bin/python',str(root/'crates/reporting/scripts/cruise_impact_report.py'),'--source',s['conditional_output'],'--output',str(B/'impact-comparison'),'--inline-output',str(preview)],env=dict(os.environ,PYTHONDONTWRITEBYTECODE='1',OPENBLAS_NUM_THREADS='1'),check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/tmp/mh370-acoustic-venv/bin/python', '/jackbox/home/MH370/crates/reporting/scripts/cruise_impact_report.py', '--source', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/terminal-conditioned-seed-37091811', '--output', '/jackbox/home/.iso/thread-storage/thr_rzreetwcyu/branching-filter-analysis/impact-comparison', '--inline-output', '/jackbox/home/MH370/mh370-impact-comparison.html']' returned non-zero exit status 1.

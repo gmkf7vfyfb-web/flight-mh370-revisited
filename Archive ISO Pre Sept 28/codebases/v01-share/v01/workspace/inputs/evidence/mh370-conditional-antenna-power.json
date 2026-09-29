@@ -1,0 +1,59 @@
+{
+  "schema_version": "mh370-conditional-antenna-power-v1",
+  "source_id": "mh370-rxgain-conditional-sensitivity",
+  "status": "conditional_sensitivity_only",
+  "surface_basis": "unverified_first_pass_reconstruction",
+  "source_result_sha256": "ebb04c26a803f020864c5398412f3dfd05e7e91d17df783f92a3fd188b0bc94d",
+  "observations": [
+    {
+      "epoch_id": "m1941",
+      "satcom_time_utc": "2014-03-07T19:41:02.000Z",
+      "power_time_utc": "2014-03-07T19:41:02.906Z",
+      "power_time_offset_s": 0.906,
+      "channel": "IOR-R1200-0-36ED",
+      "raw_rows": 1,
+      "source_rows": "7126",
+      "observed_dbm": -54.54
+    },
+    {
+      "epoch_id": "m2041",
+      "satcom_time_utc": "2014-03-07T20:41:04.000Z",
+      "power_time_utc": "2014-03-07T20:41:04.904Z",
+      "power_time_offset_s": 0.904,
+      "channel": "IOR-R1200-0-36ED",
+      "raw_rows": 1,
+      "source_rows": "7128",
+      "observed_dbm": -55.52
+    },
+    {
+      "epoch_id": "m2141",
+      "satcom_time_utc": "2014-03-07T21:41:26.000Z",
+      "power_time_utc": "2014-03-07T21:41:26.905Z",
+      "power_time_offset_s": 0.905,
+      "channel": "IOR-R1200-0-36ED",
+      "raw_rows": 1,
+      "source_rows": "7130",
+      "observed_dbm": -54.11
+    },
+    {
+      "epoch_id": "m2241",
+      "satcom_time_utc": "2014-03-07T22:41:21.000Z",
+      "power_time_utc": "2014-03-07T22:41:21.906Z",
+      "power_time_offset_s": 0.906,
+      "channel": "IOR-R1200-0-36ED",
+      "raw_rows": 1,
+      "source_rows": "7132",
+      "observed_dbm": -53.02
+    },
+    {
+      "epoch_id": "m0011",
+      "satcom_time_utc": "2014-03-08T00:10:59.000Z",
+      "power_time_utc": "2014-03-08T00:10:59.928Z",
+      "power_time_offset_s": 0.928,
+      "channel": "IOR-R1200-0-36ED",
+      "raw_rows": 1,
+      "source_rows": "7187",
+      "observed_dbm": -53.27
+    }
+  ]
+}
