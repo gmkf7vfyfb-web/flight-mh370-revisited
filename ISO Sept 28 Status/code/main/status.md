@@ -173,7 +173,16 @@ Each hypothesis records its own status in `hypotheses/<name>/hypothesis.toml`.
   the 01:58 turn shown in Davey's Fig. 9.7.
   - Fix the window, config and scoring before anyone looks at the truth track. The window is
     Davey's validation segment (Fig. 9.7), not one chosen by us.
-  - Only the scorer reads the ACARS truth. Rows 01:33–02:59 UTC (altitude, Mach, weight, fuel;
+  - Only the scorer reads the ACARS truth. Every copy of the MH371 ACARS rows is off-limits to
+    everything else: /jackbox/home/MH370-inputs/acars/, the GitHub copy in
+    gmkf7vfyfb-web/flight-mh370-revisited ("ISO Sept 28 Status/inputs/acars/" and
+    mh371-acars.xlsx at its root), and Pete's Hugging Face dissertation spreadsheets.
+    Also the old v01 codebase copies, in the same repository under "Archive ISO Pre Sept 28/
+    codebases/", in /jackbox/home/MH370-v01-share*/ and on Pete's Google Drive ("MH370 ISO
+    large files/Archive Pre Sept 28/codebases/"): v01/workspace/inputs/controls/mh371-truth.csv,
+    v01/workspace/runs/mh371/broad-flight-truth-control/, .sources/large-2019-antenna-gain/
+    outputs/mh371_surface_truth_audit.csv and .sources/ulich-mh370-fuel-performance/data/
+    official_acars.json. Rows 01:33–02:59 UTC (altitude, Mach, weight, fuel;
     no positions) were seen on 2026-09-25 while identifying the file.
   - Its 5-minute ACARS fuel-on-board reports are an in-flight test of the fuel model,
     independent of Boeing's tables.

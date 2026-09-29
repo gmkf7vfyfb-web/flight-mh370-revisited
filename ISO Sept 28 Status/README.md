@@ -1,10 +1,11 @@
 # ISO Sept 28 Status: MH370 integrated estimator (iso threads)
 
-Recovery and continuation package, snapshot of 28–29 September 2026. It is written so that another agent, AI model or person can pick up every workstream without access to the iso host.
+Recovery and continuation package, snapshot of 28–29 September 2026. It was refreshed in place at about 19:00 UTC on 29 September with all code up to the development pause. That refresh is a one-time exception, at Pete's request, to this repository's rule against overwriting a released folder. It is written so that another agent, AI model or person can pick up every workstream without access to the iso host.
 
 - **Built by:** the iso thread "Modular Architecture", which owns the architecture and reviews every branch.
 - **Researcher:** Pete Large.
-- **Code snapshot:** MH370 `main` at original commit `3214289` (published as `f6f8873`, see [Commit identities](#8-commit-identities-and-what-is-not-here)).
+- **Development is paused** (Pete, 29 September, about 19:00 UTC). No thread is working and no job is running.
+- **Code snapshot:** MH370 `main` at original commit `7121e2b` (published as `acd448f`, see [Commit identities](#8-commit-identities-and-what-is-not-here)).
 - **What it isn't:** nothing here is an integrated impact estimate. The estimator is still being assembled. Every number below is labelled with the provenance classes of this repository's AGENTS.md.
 
 ## Contents
@@ -113,14 +114,14 @@ Branch heads are original hashes; `code/branches.tsv` maps them to the published
 
 | Thread (iso ID) | Role | Branch @ head | State |
 | --- | --- | --- | --- |
-| Modular Architecture (`thr_4pbhvf3sxi`) | Architecture, reviews, merges, core requests | none | Reviews of the composer, Pleiades, hydroacoustics and ocean transport were interrupted by usage limits and must be resumed |
-| Investigate persistent agent issue (`thr_mgewhqvb78`) | Core estimator: filter, dynamics, fuel, MH371 control | `main` | Stratum-weighting fix committed; corrected full base run (`make report`) in progress; MH371 control queued |
-| Core stages & composer (`thr_6wkhvpqx8k`) | Stage API, hand-off, end-of-flight stage, composer | `core/stages` @ `3833f97` (2 ahead) | M3–M5 and M7 merged; composer (M6) in review, being changed to the neutral fill; should-fix list pending |
-| End of flight (`thr_kaycpkjz9k`) | Terminal module: descents, 00:19 timing, endings | `hypothesis/end-of-flight` @ `3e11c21` (11 ahead) plus uncommitted latents | Three endings with a declared other-cause log-on rate; latents in progress; integration (E5) next |
+| Modular Architecture (`thr_4pbhvf3sxi`) | Architecture, reviews, merges, core requests | none | Development paused. The reviews of the composer, Pleiades, hydroacoustics and ocean transport were interrupted and are still to be resumed |
+| Investigate persistent agent issue (`thr_mgewhqvb78`) | Core estimator: filter, dynamics, fuel, MH371 control | `main` | Stratum-weighting fix committed (`47ff1b1`, `7d23084`). The corrected base run and the MH371 control were stopped by host restarts before finishing: no result from either. Paused |
+| Core stages & composer (`thr_6wkhvpqx8k`) | Stage API, hand-off, end-of-flight stage, composer | `core/stages` @ `b25806e` (3 ahead) plus uncommitted work | M3–M5 and M7 merged. The composer (M6) is rebased (`6b47f67`), with the end-of-flight stage review fixes (`f345b00`) and the neutral fill in progress. Requested: `family_groups`, highest-density areas, wider histograms, zero-weight children. Paused |
+| End of flight (`thr_kaycpkjz9k`) | Terminal module: descents, 00:19 timing, endings | `hypothesis/end-of-flight` @ `600b8c4` (15 ahead) plus uncommitted work | Three endings with a declared other-cause log-on rate; per-descent latents; piloted flight kept within the envelope; a Table 4 fuel tail as the placeholder's alternative. Connected to the real stage (E5) and running at tiny scale. The powered ending waits for zero-weight children, and the collapse of the BFO options' sample is under investigation. Paused |
 | Ocean drift (`thr_faie5jqc7p`) | Shared surface-drift transport (`crates/ocean`), drift maps, GDP replay | `core/ocean-transport` @ `25818b6` (13 ahead) | Rebased and regress-clean; review pending; widened debris ensembles approved |
-| Pleiades (`thr_ec96wswyz6`) | Satellite sightings (Pleiades, possible COSMO-SkyMed) | `hypothesis/pleiades` @ `0cd3bad` (8 ahead) | Review pending; exact-Poisson rework approved; refactor to `satellite-sightings` with COSMO next |
+| Pleiades (`thr_ec96wswyz6`) | Satellite sightings (Pleiades, possible COSMO-SkyMed) | `hypothesis/pleiades` @ `0cd3bad` (8 ahead) | Review pending. The exact-Poisson rework is in progress (uncommitted, on `wip/pleiades-poisson`); the refactor to `satellite-sightings` with COSMO comes next. Paused |
 | Searched areas (`thr_uduhvqttbk`) | Seabed-search negative evidence | `hypothesis/seabed-search` @ `b73541a` (5 ahead) | Approved; merges after the composer |
-| Hydroacoustics (`thr_gbqx8u9yfp`) | Predicted arrivals, IMOS search, Kadri package | `hypothesis/hydroacoustics` @ `7141e5d` (14 ahead) | Staged scope done; review pending; next steps await Pete |
+| Hydroacoustics (`thr_gbqx8u9yfp`) | Predicted arrivals, IMOS search, Kadri package | `hypothesis/hydroacoustics` @ `7141e5d` (14 ahead) | Staged scope done; review pending. Next steps on hold ([`threads/hydroacoustics-open-questions.md`](threads/hydroacoustics-open-questions.md)) |
 | Ocean impact to ocean floor (`thr_7e786pehut`) | Settling: contact point to wreckage resting place | `hypothesis/settling` (work untracked, in `code/uncommitted/settling-untracked.tar.gz`) | First-pass physics, breakup table, readers; full-depth BRAN2016 subset approved |
 | Antenna gain (`thr_vimeq9ezrd`) | Received power of the R1200 log-ons | `main` (merged) | Parked by Pete until the engine runs stably to impact |
 | Implement executable core filter (`thr_dkvnnfnn3b`) | Local app (`describe.rs`, `ui/`) | `main` checkout, uncommitted | Its edits are in `code/uncommitted/main-checkout.patch` |
@@ -140,7 +141,7 @@ Provenance labels follow this repository's AGENTS.md. "Stand-in" and "placeholde
 - **[Diagnostic/sensitivity]** A pooling defect was found in review: rows were weighted by the current autopilot mode instead of their stratum. It is fixed in `47ff1b1`. Exact reweighting of the stored run gives:
   - shoulder (34.5–36.5°S) 3.5% → 3.6%, with the median unchanged;
   - complex-manoeuvres 17.7% → 17.9%, and mach-wide 10.6% → 11.1%.
-  No conclusion changes. The corrected full rerun was in progress at the snapshot.
+  No conclusion changes. The reweighted numbers are exact; the corrected full rerun was stopped twice by host restarts.
 - **[Diagnostic/sensitivity]** The missing northern shoulder: the book has 25% there and this recreation 3.6%. What was ruled out:
   - weather: ERA5, NCEP FNL and MERRA-2 all agree, and wind-off doesn't restore it;
   - the satellite ephemeris;
@@ -175,6 +176,11 @@ Provenance labels follow this repository's AGENTS.md. "Stand-in" and "placeholde
   - before the log-on: 111 NM beyond to 79 NM inside;
   - after the log-on: up to about 418 NM beyond;
   - powered impact: up to about 349 NM beyond.
+- **[Diagnostic/sensitivity]** End of flight also replaced the placeholder with each path's Boeing Table 4 endurance, at its flight level and airspeed, with fuel flow 3 s.d. below Boeing's. The 99th-percentile distance from the 00:19:29 position then becomes:
+  - after the log-on: 345 NM, with the latest impact at 01:21;
+  - powered impact: 290 NM.
+
+  At the preview's hand-off states (FL390–420), Table 4 puts nominal exhaustion around 00:29 (range 23:53–00:47), so only the core's fuel state will decide. All of these distances are upper bounds.
 
 ### 3.4 Ocean drift
 
@@ -227,7 +233,7 @@ Provenance labels follow this repository's AGENTS.md. "Stand-in" and "placeholde
 ### 3.9 MH371 known-flight control
 
 - Built and committed before any run: window by rule (Davey Fig. 9.7), BTO only, regional ERA5, pass rule declared.
-- A pre-fix run was stopped unscored. It runs once, after the fix.
+- A pre-fix run was stopped unscored. The post-fix run was stopped by host restarts before it began, so nothing has been scored. It runs once, when development resumes.
 
 ## 4. Decisions in force
 
@@ -259,6 +265,9 @@ Full notes are in `decisions/`.
 
 ## 5. Intended next steps
 
+Development is paused. When it resumes:
+
+0. Restart the corrected base report, then the MH371 control.
 1. Resume the interrupted reviews: composer, Pleiades, hydroacoustics, ocean transport. Then merge in this order: composer (with the neutral fill, `family_groups`, takeover documentation, should-fix items 1–7), then the reviewed modules.
 2. Core estimator:
    - finish the corrected base report;

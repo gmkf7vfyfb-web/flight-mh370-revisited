@@ -3,10 +3,11 @@
   "date_utc": "2026-09-29",
   "name": "ISO Sept 28 Status",
   "built_by": "iso thread Modular Architecture (thr_4pbhvf3sxi)",
-  "code_main_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
-  "code_main_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+  "code_main_original": "7121e2bd7e6ae18e34ce1e46ea2d34bd1814f8a4",
+  "code_main_published": "acd448f61bbe1226ef00d01251e5542821caf944",
   "identity_note": "commit identities anonymised as 'MH370 iso agents <mh370-iso@invalid>'; code/commit-map.tsv maps original to published hashes",
-  "not_an_estimate": "no integrated impact estimate exists yet; stand-in and placeholder results are not evidence"
+  "not_an_estimate": "no integrated impact estimate exists yet; stand-in and placeholder results are not evidence",
+  "refreshed": "2026-09-29 ~19:00 UTC, in place, all code up to the development pause (Pete's one-time override of the no-overwrite rule)"
  },
  "architecture": {
   "stages": [
@@ -56,7 +57,7 @@
    "id": "thr_4pbhvf3sxi",
    "title": "Modular Architecture",
    "role": "architecture, reviews, merges, core requests; writes no module code",
-   "state": "reviews of composer, Pleiades, hydroacoustics and ocean transport interrupted by usage limits; to resume",
+   "state": "development paused; reviews of composer, Pleiades, hydroacoustics and ocean transport to be resumed",
    "next": [
     "resume the four reviews",
     "merge composer then reviewed modules",
@@ -70,12 +71,12 @@
    "role": "core estimator (filter, dynamics, fuel, MH371 control); commits to main",
    "code": {
     "branch": "main",
-    "head_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
-    "head_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+    "head_original": "7121e2bd7e6ae18e34ce1e46ea2d34bd1814f8a4",
+    "head_published": "acd448f61bbe1226ef00d01251e5542821caf944",
     "commits_ahead_of_main": 0,
     "commits_behind_main": 0
    },
-   "state": "stratum fix committed (47ff1b1, 7d23084); corrected full base run (make report) in progress; MH371 control queued",
+   "state": "stratum fix committed (47ff1b1, 7d23084); corrected base run and MH371 control stopped by host restarts before finishing; paused",
    "next": [
     "finish make report and swap runs/davey2016",
     "MH371 blind control once",
@@ -91,12 +92,12 @@
    "role": "stage API, hand-off, end-of-flight stage, composer",
    "code": {
     "branch": "core/stages",
-    "head_original": "3833f971b0667264cf3fe3f6e562807584518260",
-    "head_published": "90201f91b4f63997e00ce578be434c8294191ab5",
-    "commits_ahead_of_main": 2,
-    "commits_behind_main": 4
+    "head_original": "b25806e6d18886033282ac299f22540f6a3f8cc6",
+    "head_published": "8d75dbcc10992585f19d403e6cfbbfdb0c82bcc3",
+    "commits_ahead_of_main": 3,
+    "commits_behind_main": 0
    },
-   "state": "M3-M5 and M7 on main; composer (M6) in review; neutral fill, family_groups, takeover docs and should-fix 1-7 in progress",
+   "state": "composer rebased (6b47f67) with end-of-flight stage review fixes (f345b00); neutral fill in progress (b25806e + uncommitted); requested family_groups, HPD areas, wider histograms, zero-weight children; paused",
    "next": [
     "composer changes and merge",
     "trajectory strata",
@@ -110,12 +111,12 @@
    "role": "terminal module",
    "code": {
     "branch": "hypothesis/end-of-flight",
-    "head_original": "3e11c2157151e2fb31faa9faab2b5efc9af70e39",
-    "head_published": "0c9b16c6928ccc2c413b044ae3e84e562bb8afca",
-    "commits_ahead_of_main": 11,
-    "commits_behind_main": 28
+    "head_original": "600b8c4da1516c3d2f7abfae7aaf36463e86a381",
+    "head_published": "3893a2cb176f6fe70c80fe5eb0d012f6a904af2f",
+    "commits_ahead_of_main": 15,
+    "commits_behind_main": 0
    },
-   "state": "three endings with declared other-cause log-on rate lambda; latents uncommitted (code/uncommitted/end-of-flight.patch)",
+   "state": "three endings, declared lambda; latents; envelope-limited piloted flight; Table 4 tail placeholder alternative; E5 terminal adapter running at tiny scale; powered ending awaits zero-weight children; BFO-option ESS collapse under investigation; paused",
    "next": [
     "latents",
     "E5 integration with the real stage",
@@ -132,7 +133,7 @@
     "head_original": "25818b66cd159eec24f40860a4d32fd3185d7de5",
     "head_published": "20a9fbd58eae305f80ef81275eb4a9b70581e293",
     "commits_ahead_of_main": 13,
-    "commits_behind_main": 4
+    "commits_behind_main": 6
    },
    "state": "rebased, regress byte-identical; review pending",
    "next": [
@@ -150,9 +151,9 @@
     "head_original": "0cd3bade961c8cda4b9dd4eeea75884d898816ae",
     "head_published": "e19ced94963efddb1a1142c1ea86c240a918a6bc",
     "commits_ahead_of_main": 8,
-    "commits_behind_main": 4
+    "commits_behind_main": 6
    },
-   "state": "review pending; exact Poisson rework (rate grid, Jeffreys background) on wip/pleiades-poisson",
+   "state": "review pending; exact-Poisson rework in progress (uncommitted, wip/pleiades-poisson); satellite-sightings refactor with COSMO next; paused",
    "next": [
     "apply review findings with the Poisson rework",
     "rename to satellite-sightings",
@@ -169,7 +170,7 @@
     "head_original": "b73541afeaa039bd61fc04f865bdc51eaefffcc9",
     "head_published": "da5eb41608c7e3d5a7ddd3fd08f4da8b4fd65b43",
     "commits_ahead_of_main": 5,
-    "commits_behind_main": 4
+    "commits_behind_main": 6
    },
    "state": "approved; merges after composer",
    "next": [
@@ -186,9 +187,9 @@
     "head_original": "7141e5de98199370b2134cbd55c6885e81673678",
     "head_published": "e12fea8a5473ffae1ef1d11d29688b5a02aa6274",
     "commits_ahead_of_main": 14,
-    "commits_behind_main": 4
+    "commits_behind_main": 6
    },
-   "state": "staged scope done; review pending; next steps await Pete",
+   "state": "staged scope done; review pending; next steps on hold (threads/hydroacoustics-open-questions.md)",
    "next": [
     "Pete's decision: widen windows, Blackman calibration, IMOS weak likelihood",
     "Kadri package review by Pete; nothing sent without him"
@@ -203,7 +204,7 @@
     "head_original": "d5870d88fe6234d39947a8e5e999d45ce8b8a599",
     "head_published": "82465558ad7b11d624485ff7f905ceca12c9fa97",
     "commits_ahead_of_main": 0,
-    "commits_behind_main": 4
+    "commits_behind_main": 6
    },
    "state": "work untracked (code/uncommitted/settling-untracked.tar.gz): physics, breakup table, readers",
    "next": [
@@ -218,8 +219,8 @@
    "role": "received power of the hourly R1200 log-ons",
    "code": {
     "branch": "main",
-    "head_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
-    "head_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+    "head_original": "7121e2bd7e6ae18e34ce1e46ea2d34bd1814f8a4",
+    "head_published": "acd448f61bbe1226ef00d01251e5542821caf944",
     "commits_ahead_of_main": 0,
     "commits_behind_main": 0
    },
@@ -234,8 +235,8 @@
    "role": "local app (describe.rs, ui/)",
    "code": {
     "branch": "main",
-    "head_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
-    "head_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+    "head_original": "7121e2bd7e6ae18e34ce1e46ea2d34bd1814f8a4",
+    "head_published": "acd448f61bbe1226ef00d01251e5542821caf944",
     "commits_ahead_of_main": 0,
     "commits_behind_main": 0
    },
@@ -318,6 +319,11 @@
    "area": "antenna-gain",
    "label": "Reconstructed analysis",
    "claim": "old MH371 preference for no precompensation (+2.45) -> +1.46 with a free offset, -0.23 dropping the 02:00 burst"
+  },
+  {
+   "area": "end-of-flight",
+   "label": "Diagnostic/sensitivity",
+   "claim": "placeholder replaced by per-path Boeing Table 4 endurance with fuel flow 3 s.d. below Boeing's: 99th-percentile distance 345 NM after the log-on (latest impact 01:21), 290 NM powered impact; Table 4 puts nominal exhaustion ~00:29 at the preview hand-off states; upper bounds"
   }
  ],
  "decisions": {
@@ -375,5 +381,10 @@
   "index": "data/INPUTS_PUBLICATION.csv",
   "mh371_truth": "inputs/acars/ holds MH371 truth; off-limits to the MH371 control (only its scorer may read it)",
   "added": "2026-09-29, second commit, at Pete's request"
+ },
+ "development_paused": {
+  "since": "2026-09-29T19:00Z",
+  "by": "Pete Large",
+  "state": "no thread working, no job running; resume starts with the corrected base report, then the MH371 control"
  }
 }
