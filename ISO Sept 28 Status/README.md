@@ -282,6 +282,8 @@ Full notes are in `decisions/`.
    - Blackman calibration;
    - IMOS non-detection as a weak likelihood;
    - review of the Kadri package, with questions arising from the published-material tests. Nothing is sent without Pete.
+
+   These are saved, with Pete's comments of 29 Sep, in [`threads/hydroacoustics-open-questions.md`](threads/hydroacoustics-open-questions.md). They are on hold.
 7. The first integrated run to impact. Then remind Pete of the deferred items and the paid aerodynamic-model options.
 
 ## 6. How to continue
