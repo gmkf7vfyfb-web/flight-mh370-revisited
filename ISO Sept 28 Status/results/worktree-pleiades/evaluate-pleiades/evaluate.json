@@ -1,0 +1,146 @@
+{
+  "code_revision": "24a0a83-dirty",
+  "columns": [
+    "weight",
+    "arc-kernel:loglik",
+    "pleiades:loglik:not-H/glorys12/0",
+    "pleiades:loglik:not-H/glorys12/0.012",
+    "pleiades:loglik:not-H/glorys12/0.03",
+    "pleiades:loglik:not-H/oscar2/0",
+    "pleiades:loglik:not-H/oscar2/0.012",
+    "pleiades:loglik:not-H/oscar2/0.03",
+    "pleiades:loglik:not-H/bran2016/0",
+    "pleiades:loglik:not-H/bran2016/0.012",
+    "pleiades:loglik:not-H/bran2016/0.03",
+    "pleiades:loglik:H/glorys12/0",
+    "pleiades:loglik:H/glorys12/0.012",
+    "pleiades:loglik:H/glorys12/0.03",
+    "pleiades:loglik:H/oscar2/0",
+    "pleiades:loglik:H/oscar2/0.012",
+    "pleiades:loglik:H/oscar2/0.03",
+    "pleiades:loglik:H/bran2016/0",
+    "pleiades:loglik:H/bran2016/0.012",
+    "pleiades:loglik:H/bran2016/0.03"
+  ],
+  "config_paths": [
+    "hypotheses/pleiades/run.toml"
+  ],
+  "modules": [
+    {
+      "absolute_scale": false,
+      "alternatives": [],
+      "name": "arc-kernel",
+      "observations": [],
+      "parameters": {
+        "distance_nm": {
+          "mean": 0.0,
+          "sd": 50.0
+        },
+        "takeover_unix_s": 1394237977.443
+      },
+      "prediction_columns": []
+    },
+    {
+      "absolute_scale": true,
+      "alternatives": [
+        {
+          "name": "pleiades-origin",
+          "options": [
+            [
+              "not-H",
+              0.5
+            ],
+            [
+              "H",
+              0.5
+            ]
+          ],
+          "sweep_label": "expected detectable rating-5-sized MRO objects K·η (prior odds of H)"
+        },
+        {
+          "name": "ocean-model",
+          "options": [
+            [
+              "glorys12",
+              0.3333333333333333
+            ],
+            [
+              "oscar2",
+              0.3333333333333333
+            ],
+            [
+              "bran2016",
+              0.3333333333333333
+            ]
+          ],
+          "sweep_label": null
+        },
+        {
+          "name": "pleiades-windage",
+          "options": [
+            [
+              "0",
+              0.3333333333333333
+            ],
+            [
+              "0.012",
+              0.3333333333333333
+            ],
+            [
+              "0.03",
+              0.3333333333333333
+            ]
+          ],
+          "sweep_label": null
+        }
+      ],
+      "name": "pleiades",
+      "observations": [
+        "pleiades:PHR1",
+        "pleiades:PHR3",
+        "pleiades:PHR4N",
+        "pleiades:PHR4S"
+      ],
+      "parameters": {
+        "association": {
+          "kind": "single"
+        },
+        "drift_maps": [
+          [
+            "data/external/drift/pleiades-map-fine/glorys12",
+            "data/external/drift/pleiades-map/glorys12"
+          ],
+          [
+            "data/external/drift/pleiades-map-fine/oscar2",
+            "data/external/drift/pleiades-map/oscar2"
+          ],
+          [
+            "data/external/drift/pleiades-map-fine/bran2016",
+            "data/external/drift/pleiades-map/bran2016"
+          ]
+        ],
+        "kernel": {
+          "bran2016": {
+            "form": "student-t",
+            "nu": 3.684,
+            "scale_km": 94.1
+          },
+          "glorys12": {
+            "form": "student-t",
+            "nu": 2.725,
+            "scale_km": 77.27
+          },
+          "oscar2": {
+            "form": "student-t",
+            "nu": 2.624,
+            "scale_km": 72.32
+          }
+        },
+        "min_rating": 5
+      },
+      "prediction_columns": []
+    }
+  ],
+  "rows": 22960,
+  "samples": "runs/fixture/bto-bfo/seed-1/impacts.npy"
+}

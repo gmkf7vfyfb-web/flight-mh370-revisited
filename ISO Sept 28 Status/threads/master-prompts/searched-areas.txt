@@ -1,0 +1,57 @@
+YOUR JOB: "Searched areas" (hypothesis work: hypotheses/seabed-search/, created with `make new-hypothesis H=seabed-search`)
+Negative evidence from the unsuccessful seabed searches:
+
+  P(no find | impact y) = ρ + (1−ρ)·Π_k(1 − q_k·c_k(y))
+
+- c_k is campaign k's coverage probability at y, as a raster.
+- q_k is its detection probability.
+- ρ is the probability the wreck was undetectable (terrain, burial, misclassified contacts).
+Later, once the ocean transport exists, add aerial/surface-search non-detection as a separate drift-dependent module.
+
+AVAILABILITY (checked live, 25 Sep 2026)
+- Phase 2 deep tow is available now.
+  - GA/AusSeabed WFS layer ausseabed:MH370_Phase_2_Sonar_Imagery_Backscatter_Inverse_Deep_Tow__SSS__5m_2018_L0_Coverage.
+  - A valid-data footprint, about 103,900 km² net (its attribute says 130,961), CC BY 4.0.
+  - Archived copy: .archive/.sources/mh370-seabed-search-coverage/data/official/phase2-deep-tow-l0.geojson.gz.
+- GO Phoenix SAS, DHJ SAS and AUV are available now as 5 m valid-pixel rasters.
+  - WCS: coverageId=ausseabed__<layer>_OV at https://warehouse.ausseabed.gov.au/geoserver/wcs.
+    - Scaled full-extent requests work for GO Phoenix (4.7 MB at 250 m).
+    - DHJ works through scaled subset tiles, AUV through native-resolution subsets.
+  - Or the 5.7 GB zip of cloud-optimised GeoTIFFs: https://files.ausseabed.gov.au/survey/MH370-Phase2-SOnarImagery-Backscatter-5m-2018.zip.
+    - Inner zips: deep tow 4.20 GB, AUV 0.71 GB, GO Phoenix 0.67 GB, DHJ 0.16 GB.
+    - Download only what you need; the disk is tight.
+  - GO Phoenix alone adds about 14,400 km² at 32.7–35.3°S outside the deep-tow vector. That's the gap that caused the old northward artefact.
+  - Do NOT use the WFS GO Phoenix or DHJ "coverage" records: they are a bounding rectangle and a coarse outline.
+- Caveat: GA describes the mosaics as visualisation products, with overlaps. A valid pixel means data exists, not that it met the detection standard.
+  - Confidence categories and holidays exist only as ATSB area percentages: 97.4% at ≥95% confidence, 2.1% at ~70%, 0.5% gaps (Operational Search report, 3 Oct 2017, Fig. 73).
+  - The 2022 data review found 72.79 km² of holidays within about 4,900 km² reviewed.
+- Ocean Infinity 2018: no official geometry.
+  - A community-traced outline (grade C) is at .archive/.sources/mh370-seabed-search-coverage/data/context/approximate-ocean-infinity-outlines.geojson, with reported totals (>112,000 km²).
+  - It can only be a labelled, inferred variant with fractional coverage, about 0.75–0.81 inside the outline.
+- Ocean Infinity 2025–26: totals only (about 7,571 km² surveyed of ~15,000; MOT, 8 Mar 2026). No defensible geometry.
+- Bluefin-21 (2014): GA ArcGIS display polygons, 771 km² (ATSB says 860).
+- 2014 aerial search: GA ArcGIS Search_And_Rescue_Search_Area2014, 387 day-labelled polygons (D11–D52).
+  - The licence is "still under review", and there is no detection probability.
+  - Use later, drift-dependent, and only once the licence is clear.
+
+PRIOR WORK
+- Port .archive/crates/search-evidence/src/lib.rs (236 lines, good):
+  - the miss likelihood, with shared versus independent misses;
+  - no floor, and zero total mass is an error;
+  - its hand fixture: half the mass covered at 80% detection gives 1/6 of the posterior inside, Z = 0.6.
+- Drop the per-point polygon tests (too slow) in favour of precomputed rasters.
+- Discard the runner plumbing and the 2,623-line build.py. Salvage its URL list and spherical-area function.
+- Bugs to avoid:
+  - the old likelihood ran on display geometry;
+  - the SAS coverage was omitted;
+  - a uniform 94% applied over holes double-discounted them.
+- Uncertainty in the detection probability barely matters for location: for one campaign the likelihood is linear in q. What matters is coverage completeness, how overlapping campaigns depend on each other, and ρ.
+
+DELIVERABLES
+- A prepare/ script that builds compact per-campaign coverage rasters, ~1 km or finer, stored under data/external/search-coverage/ unless small enough for the module.
+  - Validate against the vector area and ATSB's totals, including ATSB's ~120,000 km² Phase-2 figure, which still needs verifying.
+- The module: lib.rs, hypothesis.toml, run.toml.
+  - Campaigns are parameters.
+  - Ocean Infinity variants are labelled as inferred.
+- Report pages: PDFs before and after, mass removed per campaign, split-half agreement.
+- Tests.

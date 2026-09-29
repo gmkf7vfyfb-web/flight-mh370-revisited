@@ -1,0 +1,155 @@
+diff --git a/hypotheses/end-of-flight/flight.rs b/hypotheses/end-of-flight/flight.rs
+index 6d00854..12b4c80 100644
+--- a/hypotheses/end-of-flight/flight.rs
++++ b/hypotheses/end-of-flight/flight.rs
+@@ -97,14 +97,34 @@ const TUCK_MACH: f64 = 0.75;
+ const MAX_GAMMA: f64 = 88.0 * std::f64::consts::PI / 180.0;
+ const MAX_ROLL_RATE: f64 = 5.0 * std::f64::consts::PI / 180.0;
+ 
++/// Total thrust, in units of one engine's maximum continuous thrust.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub enum Thrust {
++    /// A fixed setting: 0 with both engines out, up to 1 with one running, up to 2 with both.
++    Set(f64),
++    /// Both engines managed between flight idle and maximum continuous to hold a vertical speed
++    /// (m/s, negative descending) while the pitch law holds the equivalent airspeed: pitch for
++    /// speed, power for path. Where even idle is too much, the aircraft descends at the idle
++    /// rate.
++    VerticalSpeed(f64),
++}
++
++/// Flight idle of both engines together (an assumption: three per cent of maximum continuous
++/// thrust each).
++const IDLE: f64 = 0.06;
++
++/// beta = -d(ln rho)/dh (1/m) of the ISA at a pressure altitude (m).
++fn density_gradient(alt_m: f64) -> f64 {
++    let rho = |h: f64| isa_pressure(h) / isa_temperature(h);
++    (rho(alt_m - 50.0) / rho(alt_m + 50.0)).ln() / 100.0
++}
++
+ /// Everything that stays fixed during one phase of flight.
+ #[derive(Debug, Clone, Copy, PartialEq)]
+ pub struct Phase {
+     pub pitch: Pitch,
+     pub roll: Roll,
+-    /// Total thrust, in units of one engine's maximum continuous thrust: 0 with both engines
+-    /// out, up to 1 with one running, up to 2 with both (flight idle is a few hundredths each).
+-    pub thrust: f64,
++    pub thrust: Thrust,
+     pub increments: Increments,
+ }
+ 
+@@ -207,8 +227,7 @@ impl<'a> Aircraft<'a> {
+                 // Damp towards the equilibrium glide: -dV/dt/g = sin(gamma) + (D - T)/W.
+                 let cl = n * weight / qs;
+                 let drag = self.aero.drag_coefficient(d.mach, cl, &d.air, &phase.increments) * qs;
+-                let thrust = phase.thrust * self.aero.engine_thrust(d.mach, &d.air);
+-                n -= damping * (s.gamma.sin() + (drag - thrust) / weight);
++                n -= damping * (s.gamma.sin() + (drag - self.thrust(s, d, phase, drag)) / weight);
+             }
+             n
+         };
+@@ -239,6 +258,22 @@ impl<'a> Aircraft<'a> {
+         }
+     }
+ 
++    /// Thrust (N) given the drag (N) it works against.
++    fn thrust(&self, s: &State, d: &AirData, phase: &Phase, drag: f64) -> f64 {
++        match phase.thrust {
++            Thrust::Set(k) if k > 0.0 => k * self.aero.engine_thrust(d.mach, &d.air),
++            Thrust::Set(_) => 0.0,
++            Thrust::VerticalSpeed(rate) => {
++                // Steady at constant EAS: T = D + W sin(gamma) + m dV/dt with sin(gamma) = rate/V,
++                // the true airspeed following the density: dV/dt = V beta rate / 2.
++                let one = self.aero.engine_thrust(d.mach, &d.air);
++                let v = s.tas.max(1.0);
++                let wanted = drag + self.mass_kg * (G * (rate / v).clamp(-1.0, 1.0) + 0.5 * v * density_gradient(s.alt_m) * rate);
++                wanted.clamp(IDLE * one, 2.0 * one)
++            }
++        }
++    }
++
+     fn bank_rate(&self, s: &State, phase: &Phase) -> f64 {
+         match phase.roll {
+             Roll::Asymmetry { turn_rate, spiral, protect, max_bank } => {
+@@ -273,7 +308,7 @@ impl<'a> Aircraft<'a> {
+         let qs = d.q * self.aero.wing_area_m2();
+         let lift = cl * qs;
+         let drag = self.aero.drag_coefficient(d.mach, cl, &d.air, &phase.increments) * qs;
+-        let thrust = if phase.thrust > 0.0 { phase.thrust * self.aero.engine_thrust(d.mach, &d.air) } else { 0.0 };
++        let thrust = self.thrust(s, &d, phase, drag);
+         let m = self.mass_kg;
+         let v = s.tas.max(20.0);
+         let cos_g = s.gamma.cos();
+@@ -526,7 +561,7 @@ mod tests {
+     }
+ 
+     fn phase(pitch: Pitch, thrust: f64) -> Phase {
+-        Phase { pitch, roll: Roll::Hold { bank: 0.0 }, thrust, increments: Increments::CLEAN }
++        Phase { pitch, roll: Roll::Hold { bank: 0.0 }, thrust: Thrust::Set(thrust), increments: Increments::CLEAN }
+     }
+ 
+     fn density(alt_m: f64) -> f64 {
+@@ -576,14 +611,16 @@ mod tests {
+         let a = aircraft(&aero);
+         let eas = a.eas(&start(alt, tas, 0.0));
+         let mach = tas / Air { pressure_pa: isa_pressure(alt), temperature_k: isa_temperature(alt) }.speed_of_sound();
+-        for pitch in [
+-            Pitch::Speed { ref_eas: eas, ref_tau_s: 60.0, stiffness: 1.0, damping: 0.0, lag_s: 10.0 },
+-            Pitch::Speed { ref_eas: eas, ref_tau_s: 0.0, stiffness: 2.0, damping: 1.0, lag_s: 0.0 },
+-            Pitch::Trim { cl_trim: cl, mach_trim: mach, tuck: 2.0 },
+-            Pitch::AltitudeHold { alt_m: alt, floor_eas: 0.5 * eas },
++        let pilot = Pitch::Speed { ref_eas: eas, ref_tau_s: 0.0, stiffness: 2.0, damping: 1.0, lag_s: 0.0 };
++        for (pitch, thrust) in [
++            (Pitch::Speed { ref_eas: eas, ref_tau_s: 60.0, stiffness: 1.0, damping: 0.0, lag_s: 10.0 }, Thrust::Set(1.0)),
++            (pilot, Thrust::Set(1.0)),
++            (Pitch::Trim { cl_trim: cl, mach_trim: mach, tuck: 2.0 }, Thrust::Set(1.0)),
++            (Pitch::AltitudeHold { alt_m: alt, floor_eas: 0.5 * eas }, Thrust::Set(1.0)),
++            (pilot, Thrust::VerticalSpeed(0.0)),
+         ] {
+-            let end = a.fly(start(alt, tas, 0.0), &[(0.0, phase(pitch, 1.0))], &[], 600.0, 0.5, None).last;
+-            assert!((end.alt_m - alt).abs() < 1e-6 && (end.tas - tas).abs() < 1e-9, "{pitch:?}: {end:?}");
++            let end = a.fly(start(alt, tas, 0.0), &[(0.0, Phase { thrust, ..phase(pitch, 0.0) })], &[], 600.0, 0.5, None).last;
++            assert!((end.alt_m - alt).abs() < 1e-6 && (end.tas - tas).abs() < 1e-9, "{pitch:?} {thrust:?}: {end:?}");
+             // 150 m/s north for 600 s along the meridian at 3 km.
+             let (rm, _) = geo::radii_of_curvature_km(0.0);
+             let expected = (90_000.0 / (rm * 1000.0 + alt)).to_degrees();
+@@ -591,6 +628,37 @@ mod tests {
+         }
+     }
+ 
++    /// Pitch for speed, power for path: from level flight the managed thrust settles on the
++    /// commanded descent rate at the held speed; where idle is too much, on the idle descent at
++    /// constant EAS, sin(gamma) = (T - D) / W / (1 + V^2 beta / 2g), the acceleration factor
++    /// of performance engineering, with beta = (g/R - lapse) / T in the ISA troposphere.
++    #[test]
++    fn managed_thrust_holds_the_descent_rate() {
++        let (alt, tas) = (8000.0, 180.0);
++        let drag = (0.02 + 0.05 * level_cl(alt, tas).powi(2)) * 0.5 * density(alt) * tas * tas * 100.0;
++        let aero = Parabolic { cd0: 0.02, k: 0.05, thrust: drag };
++        let a = aircraft(&aero);
++        let eas = a.eas(&start(alt, tas, 0.0));
++        let pilot = Pitch::Speed { ref_eas: eas, ref_tau_s: 0.0, stiffness: 2.0, damping: 1.0, lag_s: 0.0 };
++        let fly = |rate: f64| {
++            let p = Phase { thrust: Thrust::VerticalSpeed(rate), ..phase(pilot, 0.0) };
++            a.fly(start(alt, tas, 0.0), &[(0.0, p)], &[], 300.0, 0.5, None).last
++        };
++        let s = fly(-5.0);
++        let rate = s.tas * s.gamma.sin();
++        assert!((rate + 5.0).abs() < 0.05 && (a.eas(&s) - eas).abs() / eas < 0.01, "{rate} m/s at {} vs {eas}", a.eas(&s));
++        // Idle: 6% of one engine's thrust, which here equals the level-flight drag.
++        let s = fly(-50.0);
++        let v = a.eas(&s);
++        assert!((v - eas).abs() / eas < 0.01, "{v} vs {eas}");
++        let q = 0.5 * SEA_LEVEL_DENSITY * v * v * 100.0;
++        let d = (0.02 + 0.05 * (MASS * G * s.gamma.cos() / (q * 100.0)).powi(2)) * q * 100.0;
++        let t = isa_temperature(s.alt_m);
++        let beta = (G / 287.052_87 - 0.0065) / t;
++        let expected = ((0.06 * drag - d) / (MASS * G) / (1.0 + s.tas * s.tas * beta / (2.0 * G))).asin();
++        assert!((s.gamma - expected).abs() < 0.001, "{} vs {expected}", s.gamma);
++    }
++
+     /// Small-amplitude phugoid at constant lift coefficient, no drag: the linear theory gives
+     /// w^2 = 2 (g/V)^2 + g beta, beta = -(1/rho) d(rho)/dh = (g/R - lapse)/T in the ISA
+     /// troposphere. Without the density term it is Lanchester's period pi sqrt(2) V/g.

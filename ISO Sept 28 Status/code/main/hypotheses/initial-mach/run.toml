@@ -1,0 +1,12 @@
+# Base estimate with the initial Mach set point ~ N(0.82, 0.03).
+base = "../../config/davey2016.toml"
+name = "initial-mach"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[hypotheses.initial-mach]
+mean = 0.82
+sd = 0.03

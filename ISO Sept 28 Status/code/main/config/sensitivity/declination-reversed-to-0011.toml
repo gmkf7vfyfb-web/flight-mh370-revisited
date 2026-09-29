@@ -1,0 +1,8 @@
+# Diagnostic: magnetic declination applied with the opposite sign (true = magnetic - declination),
+# through 00:11 with residual snapshots, to compare with residuals-to-0011. Tests whether a sign
+# convention difference would let magnetic-mode paths fit the late arcs and form the shoulder.
+base = "residuals-to-0011.toml"
+name = "declination-reversed-to-0011"
+
+[environment]
+declination_scale = -1.0

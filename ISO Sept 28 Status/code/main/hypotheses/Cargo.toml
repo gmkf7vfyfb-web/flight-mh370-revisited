@@ -1,0 +1,14 @@
+[package]
+name = "mh370-hypotheses"
+description = "Registry of conditional hypotheses; each lives in its own hypotheses/<name>/ directory"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+build = "build.rs"
+
+# Hypotheses may use only these. Anything else is a core change.
+[dependencies]
+geo.workspace = true
+hypothesis.workspace = true
+serde.workspace = true
+toml.workspace = true

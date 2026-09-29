@@ -1,0 +1,7 @@
+# A small cached run that impact modules test against in seconds: the integrated estimate at
+# smoke scale (with config/smoke.toml), stopped at 00:11, with placeholder arc-kernel impacts.
+# Build it with `make fixture`. It checks code paths; it is never evidence.
+[terminal]
+handoff = 2000
+handoff_floor = 100
+children = 10

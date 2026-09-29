@@ -1,0 +1,550 @@
+{
+  "case": "bto-bfo",
+  "seed": 16,
+  "particles_per_mode": [
+    1000,
+    500,
+    2500,
+    500,
+    2500
+  ],
+  "log_evidence": -98.23498249254325,
+  "modes": [
+    {
+      "mode": "TrueHeading",
+      "prior_weight": 1.0,
+      "log_evidence": -99.06251072689173,
+      "posterior_probability": 0.08742568622338463,
+      "final_ess": 999.9999999999848,
+      "distinct_origins": 2,
+      "epochs": [
+        {
+          "epoch": "m1825",
+          "ess_after_update": 319.731939669939,
+          "log_evidence_increment": -6.161242035018494,
+          "resampled": true,
+          "distinct_parents": 399,
+          "seconds": 0.005257512
+        },
+        {
+          "epoch": "m1828a",
+          "ess_after_update": 715.3332413342108,
+          "log_evidence_increment": -9.047214105134337,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000656641
+        },
+        {
+          "epoch": "m1828b",
+          "ess_after_update": 584.4763013569944,
+          "log_evidence_increment": -7.793787624998475,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000178425
+        },
+        {
+          "epoch": "m1839",
+          "ess_after_update": 24.73187080801926,
+          "log_evidence_increment": -6.381679838463057,
+          "resampled": true,
+          "distinct_parents": 42,
+          "seconds": 0.003572763
+        },
+        {
+          "epoch": "m1941",
+          "ess_after_update": 8.834675074104767,
+          "log_evidence_increment": -12.659678802320165,
+          "resampled": true,
+          "distinct_parents": 23,
+          "seconds": 0.010659432
+        },
+        {
+          "epoch": "m2041",
+          "ess_after_update": 77.83745833131653,
+          "log_evidence_increment": -10.09164918305678,
+          "resampled": true,
+          "distinct_parents": 98,
+          "seconds": 0.010985281
+        },
+        {
+          "epoch": "m2141",
+          "ess_after_update": 295.1164303470079,
+          "log_evidence_increment": -8.97006707590982,
+          "resampled": true,
+          "distinct_parents": 383,
+          "seconds": 0.008677063
+        },
+        {
+          "epoch": "m2241",
+          "ess_after_update": 48.472838526205834,
+          "log_evidence_increment": -10.753639718905486,
+          "resampled": true,
+          "distinct_parents": 93,
+          "seconds": 0.008184848
+        },
+        {
+          "epoch": "m2315",
+          "ess_after_update": 823.5695196105148,
+          "log_evidence_increment": -3.987378833335476,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.003930291
+        },
+        {
+          "epoch": "m0011",
+          "ess_after_update": 10.450005799434498,
+          "log_evidence_increment": -12.339404467878804,
+          "resampled": true,
+          "distinct_parents": 35,
+          "seconds": 0.008055682
+        },
+        {
+          "epoch": "m0019a",
+          "ess_after_update": 770.9518796963196,
+          "log_evidence_increment": -5.545381727024136,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.001197714
+        },
+        {
+          "epoch": "m0019b",
+          "ess_after_update": 467.6721998701275,
+          "log_evidence_increment": -5.331387314846687,
+          "resampled": true,
+          "distinct_parents": 541,
+          "seconds": 0.001782844
+        }
+      ],
+      "runtime_s": 0.063343467
+    },
+    {
+      "mode": "MagneticHeading",
+      "prior_weight": 1.0,
+      "log_evidence": -108.46784051463823,
+      "posterior_probability": 7.193764602947075e-6,
+      "final_ess": 499.9999999999944,
+      "distinct_origins": 1,
+      "epochs": [
+        {
+          "epoch": "m1825",
+          "ess_after_update": 181.54868304498268,
+          "log_evidence_increment": -6.042890124065536,
+          "resampled": true,
+          "distinct_parents": 215,
+          "seconds": 0.002881217
+        },
+        {
+          "epoch": "m1828a",
+          "ess_after_update": 353.0624051908784,
+          "log_evidence_increment": -9.039450051381785,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000380364
+        },
+        {
+          "epoch": "m1828b",
+          "ess_after_update": 288.25649105763574,
+          "log_evidence_increment": -7.791317027878847,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000096856
+        },
+        {
+          "epoch": "m1839",
+          "ess_after_update": 8.832815410153833,
+          "log_evidence_increment": -6.873760907556971,
+          "resampled": true,
+          "distinct_parents": 18,
+          "seconds": 0.001731309
+        },
+        {
+          "epoch": "m1941",
+          "ess_after_update": 1.0039393100045664,
+          "log_evidence_increment": -13.573019158161026,
+          "resampled": true,
+          "distinct_parents": 2,
+          "seconds": 0.005737884
+        },
+        {
+          "epoch": "m2041",
+          "ess_after_update": 3.770424719915165,
+          "log_evidence_increment": -12.786896964622485,
+          "resampled": true,
+          "distinct_parents": 9,
+          "seconds": 0.005669378
+        },
+        {
+          "epoch": "m2141",
+          "ess_after_update": 5.851804120557176,
+          "log_evidence_increment": -12.257014470693576,
+          "resampled": true,
+          "distinct_parents": 10,
+          "seconds": 0.005666475
+        },
+        {
+          "epoch": "m2241",
+          "ess_after_update": 57.78831171718792,
+          "log_evidence_increment": -9.85982128152736,
+          "resampled": true,
+          "distinct_parents": 98,
+          "seconds": 0.005002392
+        },
+        {
+          "epoch": "m2315",
+          "ess_after_update": 352.2560690646398,
+          "log_evidence_increment": -3.5784760694867357,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.002511969
+        },
+        {
+          "epoch": "m0011",
+          "ess_after_update": 2.660562254155837,
+          "log_evidence_increment": -13.28654827338277,
+          "resampled": true,
+          "distinct_parents": 9,
+          "seconds": 0.005045892
+        },
+        {
+          "epoch": "m0019a",
+          "ess_after_update": 85.8459932392432,
+          "log_evidence_increment": -7.496673354477371,
+          "resampled": true,
+          "distinct_parents": 119,
+          "seconds": 0.001608326
+        },
+        {
+          "epoch": "m0019b",
+          "ess_after_update": 229.03924406604102,
+          "log_evidence_increment": -5.881972831403773,
+          "resampled": true,
+          "distinct_parents": 268,
+          "seconds": 0.001041925
+        }
+      ],
+      "runtime_s": 0.037545365
+    },
+    {
+      "mode": "TrueTrack",
+      "prior_weight": 1.0,
+      "log_evidence": -101.95906142612749,
+      "posterior_probability": 0.004827064085055224,
+      "final_ess": 1504.085861620567,
+      "distinct_origins": 2,
+      "epochs": [
+        {
+          "epoch": "m1825",
+          "ess_after_update": 917.7763900822023,
+          "log_evidence_increment": -5.990972650090614,
+          "resampled": true,
+          "distinct_parents": 1075,
+          "seconds": 0.012996375
+        },
+        {
+          "epoch": "m1828a",
+          "ess_after_update": 1853.4955057846714,
+          "log_evidence_increment": -9.011354694942064,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.001158854
+        },
+        {
+          "epoch": "m1828b",
+          "ess_after_update": 1532.989560123489,
+          "log_evidence_increment": -7.768597448711623,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000314794
+        },
+        {
+          "epoch": "m1839",
+          "ess_after_update": 65.63089229525599,
+          "log_evidence_increment": -6.384028248101616,
+          "resampled": true,
+          "distinct_parents": 124,
+          "seconds": 0.007966737
+        },
+        {
+          "epoch": "m1941",
+          "ess_after_update": 12.06039382651786,
+          "log_evidence_increment": -13.497705087858396,
+          "resampled": true,
+          "distinct_parents": 29,
+          "seconds": 0.027231151
+        },
+        {
+          "epoch": "m2041",
+          "ess_after_update": 71.91864704845538,
+          "log_evidence_increment": -11.507357442018256,
+          "resampled": true,
+          "distinct_parents": 137,
+          "seconds": 0.028516784
+        },
+        {
+          "epoch": "m2141",
+          "ess_after_update": 106.12132801938638,
+          "log_evidence_increment": -11.11718483320194,
+          "resampled": true,
+          "distinct_parents": 203,
+          "seconds": 0.027249024
+        },
+        {
+          "epoch": "m2241",
+          "ess_after_update": 141.68618444706127,
+          "log_evidence_increment": -10.665927014251901,
+          "resampled": true,
+          "distinct_parents": 244,
+          "seconds": 0.026534915
+        },
+        {
+          "epoch": "m2315",
+          "ess_after_update": 1382.8766905639998,
+          "log_evidence_increment": -4.681882738765654,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.011403123
+        },
+        {
+          "epoch": "m0011",
+          "ess_after_update": 102.25681843709026,
+          "log_evidence_increment": -10.748282927556394,
+          "resampled": true,
+          "distinct_parents": 184,
+          "seconds": 0.022562542
+        },
+        {
+          "epoch": "m0019a",
+          "ess_after_update": 2050.0564948264328,
+          "log_evidence_increment": -5.41663858022769,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.002931189
+        },
+        {
+          "epoch": "m0019b",
+          "ess_after_update": 1504.085861620567,
+          "log_evidence_increment": -5.169129760401348,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000379987
+        }
+      ],
+      "runtime_s": 0.169626469
+    },
+    {
+      "mode": "MagneticTrack",
+      "prior_weight": 1.0,
+      "log_evidence": -117.12597157642125,
+      "posterior_probability": 1.2496191696746065e-9,
+      "final_ess": 499.9999999999944,
+      "distinct_origins": 1,
+      "epochs": [
+        {
+          "epoch": "m1825",
+          "ess_after_update": 198.9789008247944,
+          "log_evidence_increment": -5.911752645936799,
+          "resampled": true,
+          "distinct_parents": 235,
+          "seconds": 0.002966773
+        },
+        {
+          "epoch": "m1828a",
+          "ess_after_update": 347.26848996691785,
+          "log_evidence_increment": -9.084882509785619,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000439243
+        },
+        {
+          "epoch": "m1828b",
+          "ess_after_update": 288.1458373599171,
+          "log_evidence_increment": -7.75369967257609,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000215886
+        },
+        {
+          "epoch": "m1839",
+          "ess_after_update": 13.502512194489054,
+          "log_evidence_increment": -6.347787194310392,
+          "resampled": true,
+          "distinct_parents": 24,
+          "seconds": 0.001879379
+        },
+        {
+          "epoch": "m1941",
+          "ess_after_update": 3.182962691958545,
+          "log_evidence_increment": -14.8822995433331,
+          "resampled": true,
+          "distinct_parents": 9,
+          "seconds": 0.006505206
+        },
+        {
+          "epoch": "m2041",
+          "ess_after_update": 3.178622967163362,
+          "log_evidence_increment": -13.461576246195273,
+          "resampled": true,
+          "distinct_parents": 11,
+          "seconds": 0.007699513
+        },
+        {
+          "epoch": "m2141",
+          "ess_after_update": 2.2963359421517504,
+          "log_evidence_increment": -13.297329128925423,
+          "resampled": true,
+          "distinct_parents": 6,
+          "seconds": 0.008509428
+        },
+        {
+          "epoch": "m2241",
+          "ess_after_update": 1.607429110439481,
+          "log_evidence_increment": -13.753137299083727,
+          "resampled": true,
+          "distinct_parents": 5,
+          "seconds": 0.008124384
+        },
+        {
+          "epoch": "m2315",
+          "ess_after_update": 255.74260025612597,
+          "log_evidence_increment": -3.943432283656861,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.003927504
+        },
+        {
+          "epoch": "m0011",
+          "ess_after_update": 1.0190930035579517,
+          "log_evidence_increment": -17.269063227405965,
+          "resampled": true,
+          "distinct_parents": 3,
+          "seconds": 0.007457353
+        },
+        {
+          "epoch": "m0019a",
+          "ess_after_update": 319.2414633158193,
+          "log_evidence_increment": -6.060659770431201,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.001153484
+        },
+        {
+          "epoch": "m0019b",
+          "ess_after_update": 211.22025008008023,
+          "log_evidence_increment": -5.360352054780801,
+          "resampled": true,
+          "distinct_parents": 288,
+          "seconds": 0.000929344
+        }
+      ],
+      "runtime_s": 0.049946928
+    },
+    {
+      "mode": "LateralNavigation",
+      "prior_weight": 1.0,
+      "log_evidence": -96.72234180487192,
+      "posterior_probability": 0.9077400546773314,
+      "final_ess": 1458.613935040276,
+      "distinct_origins": 1,
+      "epochs": [
+        {
+          "epoch": "m1825",
+          "ess_after_update": 950.8692573981256,
+          "log_evidence_increment": -5.9793316257657745,
+          "resampled": true,
+          "distinct_parents": 1119,
+          "seconds": 0.013408909
+        },
+        {
+          "epoch": "m1828a",
+          "ess_after_update": 1823.0255533796776,
+          "log_evidence_increment": -9.036727662923877,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.001212148
+        },
+        {
+          "epoch": "m1828b",
+          "ess_after_update": 1488.7037391189842,
+          "log_evidence_increment": -7.773615836607242,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.00030238
+        },
+        {
+          "epoch": "m1839",
+          "ess_after_update": 51.47242401290092,
+          "log_evidence_increment": -6.684822901575542,
+          "resampled": true,
+          "distinct_parents": 116,
+          "seconds": 0.00831059
+        },
+        {
+          "epoch": "m1941",
+          "ess_after_update": 42.20426555887682,
+          "log_evidence_increment": -12.225632218080296,
+          "resampled": true,
+          "distinct_parents": 104,
+          "seconds": 0.030274663
+        },
+        {
+          "epoch": "m2041",
+          "ess_after_update": 298.41474732427264,
+          "log_evidence_increment": -9.786093231140402,
+          "resampled": true,
+          "distinct_parents": 435,
+          "seconds": 0.024529626
+        },
+        {
+          "epoch": "m2141",
+          "ess_after_update": 788.1550848113969,
+          "log_evidence_increment": -8.904736305451893,
+          "resampled": true,
+          "distinct_parents": 954,
+          "seconds": 0.02056759
+        },
+        {
+          "epoch": "m2241",
+          "ess_after_update": 317.979557833767,
+          "log_evidence_increment": -9.765266572681028,
+          "resampled": true,
+          "distinct_parents": 507,
+          "seconds": 0.019922299
+        },
+        {
+          "epoch": "m2315",
+          "ess_after_update": 2220.813956161389,
+          "log_evidence_increment": -4.0865648147899645,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.009317469
+        },
+        {
+          "epoch": "m0011",
+          "ess_after_update": 50.719140078580054,
+          "log_evidence_increment": -11.772077128392993,
+          "resampled": true,
+          "distinct_parents": 124,
+          "seconds": 0.019043182
+        },
+        {
+          "epoch": "m0019a",
+          "ess_after_update": 2216.8765285518343,
+          "log_evidence_increment": -5.3569490527098615,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.002462312
+        },
+        {
+          "epoch": "m0019b",
+          "ess_after_update": 1458.613935040276,
+          "log_evidence_increment": -5.350524454753047,
+          "resampled": false,
+          "distinct_parents": null,
+          "seconds": 0.000307821
+        }
+      ],
+      "runtime_s": 0.150009396
+    }
+  ],
+  "runtime_s": 0.47086621
+}

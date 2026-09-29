@@ -1,0 +1,53 @@
+MH370 inputs kept outside git (large, licensed or not redistributable). Copied 2026-09-25; originals were in /tmp.
+Record provenance in README's data table (core) or the lib.rs doc comment (module) when a file is used.
+
+fuel/              ulich-9M-MRO-fuel-model-v5.6-public.xlsm: Ulich fuel model V5.6, public Google Drive copy
+                   (https://drive.google.com/file/d/1Wt9DOU0Z53W7NERzSsK2sxcyrojmN7Sq). Tables carry Boeing-confidential
+                   notices: use locally, never redistribute. Use raw performance tables only (the endurance sheet is
+                   calibrated to events). BSMv7-9-4-original.xlsx: user-supplied BSM v7.9.4 workbook (origin/licence open).
+acars/             ACARS position and wind reports workbook (source to be recorded).
+satellite/         Inmarsat-3F1 fixed position/velocity workbook (source of data/satellite-ephemeris.csv).
+godfrey/           Godfrey workbook v19.8.
+wspr/              WSPR authors' results workbook (WSPR is a low-priority option).
+ocean/gdp/         NOAA GDP 6-hourly drifter extracts 2014-2016 (public; for drifter validation, split drogued/undrogued).
+ocean/settling/    BRAN2016 u,v at every z* layer (51 to 5,000 m), daily means 7-8 Mar 2014, 50-27 S 80-105 E, 0.1 deg
+                   (public NCI OPeNDAP, CSIRO Bluelink acknowledgement), and ERA5 10 m wind 7 Mar 18 UTC-8 Mar 12 UTC repacked
+                   from ocean/era5-wind10 hourly. Written by hypotheses/settling/prepare/ocean.py (TOML sidecars give layout).
+end-of-flight/     Boeing end-of-flight simulator runs zip (via Iannello, 19 Aug 2018) + extract PDF;
+                   report-text/: text extracts of Malaysian SIR Appendix 1.6E (Boeing performance analysis),
+                   ATSB 8 Oct 2014 flight-path update, Ashton et al. 2015, Davey 2015, GDAS audits.
+radar/             JORN FAQ (public).
+papers/hydroacoustics/  Brown et al. 2026, Blackman et al. SIO/LLNL UCRL-TR-207323 (2001/2003 calibration shots),
+                   Curtin CMST 2014-30, text extracts of Kadri 2024 and S1 and the 2025 poster, IMOS metadata.
+papers/aero/       Aerodynamic-model survey sources: Poll-Schumann B772 scripts (ps_ld.py etc.), NASA CRM/TCM/VSPAERO,
+                   EASA 777 TCDS, BADA licence terms, 14 CFR Part 60, NTSB EgyptAir 990 / Asiana 214 extracts, Malaysian SIR.
+search-coverage/samples/  Small verification samples from the GA/AusSeabed services (25 Sep 2026 check).
+imos-acoustic/     MH370.zip (566 MB): IMOS/Curtin Perth Canyon (3315, 3376) and Scott Reef (3250) recordings,
+                   2014-03-08 00:00 to 03-09 00:49 UTC, ~307 s every 15 min at 6 kHz, with calibration files, metadata,
+                   Curtin's MATLAB loader and reports. Source: s3://imos-data/IMOS/ANMN/Acoustic/MH370.zip (public AODN).
+recovered-v01/     Small files recovered 2026-09-26 after /jackbox/home/MH370/.archive was deleted (at Pete's request).
+                   Source: the 2026-09-07 v01 share snapshot (MH370-v01-share-withdrawn-one-turn-20260907/v01/workspace),
+                   under their original relative paths. They may predate later archive edits, so verify before relying on them.
+                   Includes: debris-evidence-audit.csv, published-drift-comparators.csv, CMEMS retrieval scripts,
+                   old ocean-drift transport/field/drifter-replay code, OI outlines, deep-tow coverage, Kadri Table 1
+                   transients, old hydroacoustics equations, end-of-flight kernel.rs and systems_timing.rs, B777 aero
+                   candidate families, Boeing simulator runs zip, Pleiades transport_core.mjs and objects, raw 00:19 extract.
+                   Not recoverable (postdate the snapshot): search-evidence lib.rs, satcom final_bfo.rs,
+                   end-of-flight control_prior.rs, Holland 2018 extracted data (the paper is arXiv:1702.02432).
+satcom/            SITA-35200217-08Mar2014.xlsx: the released unredacted SITA/Inmarsat log of AES 35200217 (7-8 Mar 2014),
+                   sha256 b0ccbfb0e28286b60a891e78e556554a406c7006056ba0784d4c195767f17b80, 1,192,185 B; Pete's Drive id
+                   1XCQhAsul9bilZ8uMDr4weJ5ffhFXbD31. Source of data/satcom-observations.csv (BTO, BFO) and of the antenna-gain
+                   module's received powers. Sheet "SU Log": Rx Power (dBm), C/No, BFO, BTO per burst; "AES Process": log-ons,
+                   antenna class, initial R-channel EIRP; "Telephony": call EIRP and power-control counts. Released in 2017 by
+                   the Malaysian Government to a passenger's relative without restriction on further release, then made public
+                   (Large 2019, printed pp. 92-93).
+                   Same data as "Unredacted Raw 35200217 Logs for SITA 08Mar2014(p).xlsx" at the top of Pete's GitHub repository
+                   gmkf7vfyfb-web/flight-mh370-revisited (sha256 d4b03e42..., 1,192,205 B; compared 2026-09-29): every cell of all
+                   seven sheets is identical. The files differ only in Excel save metadata (modified 2018-08-04 here, 2026-08-09
+                   there, both last saved by Pete Large; window and selection views; Excel build).
+antenna/           Antenna-gain module inputs (thread thr_vimeq9ezrd, 2026-09-28).
+                   GAIN IN AC COORDS TO 68 EL 360 AZ.xlsx: Large (2019) AES gain in aircraft coordinates (sha256 1fb1a509...),
+                   CC BY 4.0 from huggingface.co/datasets/peteabiome/mh370-dissertation-spreadsheets (a values-only export is
+                   committed in hypotheses/antenna-gain/).
+                   ball-airlink-hgas-spec-compilation.pdf: Pete's upload (ARINC 741 p.38 licensed copy + Ball AIRLINK HGAS
+                   data sheet + Westfeldt & Konrad 1992 paper). Not redistributable: never commit.

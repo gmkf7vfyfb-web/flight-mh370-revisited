@@ -1,0 +1,17 @@
+# Sensitivity: NASA MERRA-2 winds and temperatures instead of ERA5 (same model otherwise).
+# Tests whether the late-arc penalty on heading-hold and magnetic modes is specific to ERA5.
+# Build the grid with: .venv/bin/python .sources/weather-sensitivity/extract.py merra2 /tmp/merra2-raw data/merra2-wind-temperature.bin
+name = "merra2"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[[cases]]
+id = "bto-only"
+use_bfo = false
+seeds = [1, 2]
+
+[inputs]
+era5 = "../../data/merra2-wind-temperature.bin"

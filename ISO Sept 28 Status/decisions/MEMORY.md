@@ -1,0 +1,11 @@
+- [Thread coordination](thread-coordination.md) — which iso thread owns which MH370 topic, worktrees, inputs folder, flock rule, near-full disk
+- [Fuel/performance plan](fuel-performance-plan.md) — Pete-approved core fuel state design, inputs and validation targets; starts after phase 1
+- [No unpiloted-EoF assumption](eof-no-unpiloted-assumption.md) — Pete's correction: Boeing/ATSB unpiloted runs and Holland's BFO reading are conditional, never anchors
+- [Revisit paid aero options](revisit-paid-aero-options.md) — remind Pete about Level-D sim hours / X-Plane+FlightFactor once the open EoF baseline is built and tested
+- [MH371 blind control](mh371-blind-control.md) — fix window (Davey Fig 9.7), config and scorer before reading ACARS truth; only scorer reads it
+- [PNGs, not PDFs, for Pete](pete-needs-images-not-pdfs.md) — Pete cannot preview PDFs in iso; link PNG pages/figures (PDF alongside for the record)
+- [iso orphaned agent processes](iso-orphaned-agent-processes.md) — daemon restarts orphan running agents (PPID 1); check before `tell --mode auto` or duplicates start on one session
+- [Seabed-search rulings](seabed-search-rulings.md) — rule-3 OK for bilinear coverage; OI outline never in git; ln L = 0 off searched ground; M3 migration done 28 Sep
+- [Deferred until stable impact](pete-deferred-until-stable-impact.md) — Pete's 28 Sep methodology decisions: what's in progress, what's parked, and the milestones at which to remind him
+- [COSMO-SkyMed sightings](cosmo-skymed-sightings.md) — four 21 Mar radar targets as a conditional set beside Pleiades; source/time/footprint still owed by Pete; no double-counting of shared drift
+- [Pete dissertation spreadsheets (HF, CC BY 4.0)](pete-dissertation-spreadsheets-hf.md) — 43 working files incl. gain tables and link-budget workbook; redistributable with attribution; also holds MH371 ACARS truth

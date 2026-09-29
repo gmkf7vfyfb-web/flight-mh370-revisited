@@ -1,0 +1,3292 @@
+diff --git a/hypotheses/end-of-flight/aero.rs b/hypotheses/end-of-flight/aero.rs
+new file mode 100644
+index 0000000..2905d56
+--- /dev/null
++++ b/hypotheses/end-of-flight/aero.rs
+@@ -0,0 +1,227 @@
++//! Air data and the Poll-Schumann B777-200 point-mass aerodynamics, with the uncertain
++//! post-flame-out drag increments. Sources and departures are in the crate doc comment.
++
++use std::f64::consts::PI;
++
++pub const G: f64 = 9.806_65;
++const KAPPA: f64 = 1.4;
++const R_AIR: f64 = 287.052_87;
++pub const SEA_LEVEL_DENSITY: f64 = 1.225;
++
++/// ISA static pressure (Pa) at a pressure altitude (m).
++pub fn isa_pressure(alt_m: f64) -> f64 {
++    if alt_m <= 11_000.0 {
++        101_325.0 * (1.0 - 2.255_77e-5 * alt_m).powf(5.255_88)
++    } else {
++        22_632.06 * (-G * (alt_m - 11_000.0) / (R_AIR * 216.65)).exp()
++    }
++}
++
++pub fn isa_temperature(alt_m: f64) -> f64 {
++    (288.15 - 0.0065 * alt_m).max(216.65)
++}
++
++/// Static pressure and temperature of the air around the aircraft.
++#[derive(Debug, Clone, Copy)]
++pub struct Air {
++    pub pressure_pa: f64,
++    pub temperature_k: f64,
++}
++
++impl Air {
++    pub fn density(&self) -> f64 {
++        self.pressure_pa / (R_AIR * self.temperature_k)
++    }
++    pub fn speed_of_sound(&self) -> f64 {
++        (KAPPA * R_AIR * self.temperature_k).sqrt()
++    }
++}
++
++/// Poll-Schumann parameters: pycontrails `ps-aircraft-params-20250328.csv`, row B772
++/// (Apache-2.0), equations from Poll & Schumann (2021) as implemented in pycontrails
++/// `ps_model.py` and `ps_operational_limits.py`.
++#[derive(Debug, Clone, Copy)]
++pub struct Airframe {
++    pub wing_area_m2: f64,
++    aspect_ratio: f64,
++    cos_sweep: f64,
++    psi_0: f64,
++    delta_2: f64,
++    x_ref: f64,
++    wing_constant: f64,
++    j_1: f64,
++    j_2: f64,
++    j_3: f64,
++    cl_design: f64,
++    mach_design: f64,
++    thrust_coefficient_design: f64,
++    tr_ec: f64,
++    m_ec: f64,
++    /// Turbine entry temperature at maximum continuous climb (K): 0.92 of the take-off value
++    /// 2000 (1 - exp(62.8 - 0.0325 * 1994)) for a 1994 first flight.
++    tet_mcc: f64,
++}
++
++pub const B772: Airframe = Airframe {
++    wing_area_m2: 427.8,
++    aspect_ratio: 8.678_038_569,
++    cos_sweep: 0.851_726_902,
++    psi_0: 6.461_822_217,
++    delta_2: 0.020_708_613,
++    x_ref: 0.987_569_999,
++    wing_constant: 0.767_369_197,
++    j_1: 0.078_399_473,
++    j_2: 0.873_764_241,
++    j_3: 70.0,
++    cl_design: 0.495_253_823,
++    mach_design: 0.8106,
++    thrust_coefficient_design: 0.024_180_523,
++    tr_ec: 5.716_123_93,
++    m_ec: 0.730_970_427,
++    tet_mcc: 1_592.225_056,
++};
++
++/// Where every public model (Poll-Schumann's MMO for the B772, the NASA CRM wind-tunnel
++/// data, which stop at M 0.87) runs out. Drag beyond it is extrapolated.
++pub const EXTRAPOLATION_MACH: f64 = 0.89;
++
++/// Uncertain additions to the clean polar once both engines have failed.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Increments {
++    /// Two windmilling Trent 892s plus the deployed ram-air turbine, as a drag coefficient
++    /// on the wing area.
++    pub windmill_cd: f64,
++    /// Multiplier on the growth of wave drag beyond `EXTRAPOLATION_MACH` (1 keeps
++    /// Poll-Schumann's own form).
++    pub transonic_scale: f64,
++    /// Drag rise k * (CL - CL_usable)^2 above the usable lift coefficient, where the
++    /// parabolic polar no longer holds.
++    pub separation_k: f64,
++}
++
++impl Increments {
++    pub const CLEAN: Increments = Increments { windmill_cd: 0.0, transonic_scale: 1.0, separation_k: 0.0 };
++}
++
++/// What the flight integrator needs from an aerodynamic model.
++pub trait Aerodynamics: Sync {
++    fn wing_area_m2(&self) -> f64;
++    /// Drag coefficient at a Mach number and lift coefficient.
++    fn drag_coefficient(&self, mach: f64, cl: f64, air: &Air, inc: &Increments) -> f64;
++    /// Operating limit on the lift coefficient (about 1.3 times the stall speed at low Mach).
++    fn usable_cl(&self, mach: f64) -> f64;
++    /// Maximum continuous thrust of one engine (N).
++    fn engine_thrust(&self, mach: f64, air: &Air) -> f64;
++
++    /// Angle of attack (rad) for a lift coefficient, where the model knows it; for attitude
++    /// latents only, never for forces.
++    fn alpha(&self, _mach: f64, _cl: f64) -> f64 {
++        f64::NAN
++    }
++}
++
++impl Aerodynamics for Airframe {
++    fn wing_area_m2(&self) -> f64 {
++        self.wing_area_m2
++    }
++
++    fn drag_coefficient(&self, mach: f64, cl: f64, air: &Air, inc: &Increments) -> f64 {
++        let t = air.temperature_k;
++        let viscosity = 1.458e-6 * t.powf(1.5) / (110.4 + t);
++        let reynolds = self.wing_area_m2.sqrt() * mach.max(0.05) * air.pressure_pa / viscosity * (KAPPA / (R_AIR * t)).sqrt();
++        let cd0 = 0.0269 / reynolds.powf(0.14) * self.psi_0;
++        let k1 = 0.8 * (1.0 - 0.53 * self.cos_sweep) * cd0;
++        let oswald = 1.0 / (1.0 + 0.03 + self.delta_2 + k1 * PI * self.aspect_ratio);
++        let induced = cl * cl / (PI * self.aspect_ratio * oswald);
++        let wave = if mach <= EXTRAPOLATION_MACH {
++            self.wave_drag(mach, cl)
++        } else {
++            let edge = self.wave_drag(EXTRAPOLATION_MACH, cl);
++            edge + inc.transonic_scale * (self.wave_drag(mach, cl) - edge)
++        };
++        let separation = inc.separation_k * (cl - self.usable_cl(mach)).max(0.0).powi(2);
++        cd0 + induced + wave + separation + inc.windmill_cd
++    }
++
++    /// Poll-Schumann maximum usable lift coefficient (buffet-margin operating limit). Its
++    /// cubic turns negative just above Mach 1, so it is held at its Mach 0.95 value beyond.
++    fn usable_cl(&self, mach: f64) -> f64 {
++        let m = mach.min(0.95) / self.mach_design;
++        let ratio = if m < 0.70 {
++            1.8 + 0.160 * m - 1.085 * m * m
++        } else {
++            13.272 - 42.262 * m + 49.883 * m * m - 19.683 * m * m * m
++        };
++        ratio * self.cl_design
++    }
++
++    /// Angle of attack of the fuselage datum: lift-curve slope from the Helmbold/DATCOM relation
++    /// on Poll-Schumann's aspect ratio and sweep, compressible up to Mach 0.95, and a zero-lift
++    /// angle of -2 deg (camber and wing incidence of a typical transport; an assumption, as
++    /// neither is published for the 777). About 3 deg in cruise at CL 0.5 and Mach 0.8.
++    fn alpha(&self, mach: f64, cl: f64) -> f64 {
++        let a = self.aspect_ratio;
++        let beta2 = 1.0 - mach.min(0.95).powi(2);
++        let tan2 = 1.0 / (self.cos_sweep * self.cos_sweep) - 1.0;
++        let slope = 2.0 * PI * a / (2.0 + (4.0 + a * a * beta2 * (1.0 + tan2 / beta2) / 0.95f64.powi(2)).sqrt());
++        -2f64.to_radians() + cl / slope
++    }
++
++    /// Poll-Schumann maximum continuous thrust of ONE engine (N), no throttle buffer.
++    fn engine_thrust(&self, mach: f64, air: &Air) -> f64 {
++        let m = mach.max(0.2);
++        let tr_max = (self.tet_mcc / air.temperature_k)
++            / (self.tr_ec * (1.0 - 0.53 * (m - self.m_ec).powi(2)) * (1.0 + 0.2 * m * m));
++        let h2 = ((1.0 + 0.55 * m) / (1.0 + 0.55 * self.mach_design)) / (m / self.mach_design).powi(2);
++        let ct = (1.0 + 2.5 * (tr_max - 1.0)) * h2 * self.thrust_coefficient_design;
++        0.5 * ct * 0.5 * KAPPA * air.pressure_pa * m * m * self.wing_area_m2
++    }
++}
++
++impl Airframe {
++    fn wave_drag(&self, mach: f64, cl: f64) -> f64 {
++        let m_cc = self.wing_constant - 0.10 * cl / (self.cos_sweep * self.cos_sweep);
++        let x = mach * self.cos_sweep / m_cc;
++        let a = (x - self.j_2).max(0.0);
++        let b = (x - self.x_ref).max(0.0);
++        self.cos_sweep.powi(3) * self.j_1 * a * a + self.j_3 * b.powi(4)
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    fn isa(alt_ft: f64) -> Air {
++        let h = alt_ft * 0.3048;
++        Air { pressure_pa: isa_pressure(h), temperature_k: isa_temperature(h) }
++    }
++
++    /// Lift-to-drag ratios from pycontrails' own equations (data/external/papers/aero/ps_ld.py,
++    /// an independent Python implementation), 174 t, ISA, clean.
++    #[test]
++    fn polar_matches_the_independent_python_implementation() {
++        let cases = [
++            (35_000.0, 0.68, 20.82),
++            (25_000.0, 0.54, 21.01),
++            (15_000.0, 0.44, 21.19),
++            (5_000.0, 0.365, 21.36),
++            (35_000.0, 0.87, 17.4),
++            (35_000.0, 0.95, 8.2),
++        ];
++        for (alt, mach, expected) in cases {
++            let air = isa(alt);
++            let cl = 174_000.0 * G / (0.5 * KAPPA * air.pressure_pa * mach * mach * B772.wing_area_m2);
++            let ld = cl / B772.drag_coefficient(mach, cl, &air, &Increments::CLEAN);
++            assert!((ld - expected).abs() < 0.051, "FL{} M{mach}: L/D {ld:.3} vs {expected}", alt / 100.0);
++        }
++    }
++
++    /// Poll-Schumann thrust (pycontrails formula, computed in Python): 60.3 kN per engine at
++    /// FL400/M0.81, which is also the thrust implied by Boeing's single-engine deceleration.
++    #[test]
++    fn engine_thrust_matches_the_python_formula() {
++        let thrust = B772.engine_thrust(0.81, &isa(40_000.0));
++        assert!((thrust - 60_300.0).abs() < 100.0, "{thrust}");
++    }
++}
+diff --git a/hypotheses/end-of-flight/calibrate.rs b/hypotheses/end-of-flight/calibrate.rs
+new file mode 100644
+index 0000000..752b42f
+--- /dev/null
++++ b/hypotheses/end-of-flight/calibrate.rs
+@@ -0,0 +1,199 @@
++//! Calibration flights against Boeing's ten engineering-simulator exports.
++//!
++//! `cargo test --release -p mh370-hypotheses end_of_flight::calibrate -- --ignored` flies each
++//! case from its onset state (prepare/boeing-runs-targets.csv) in the simulator's fitted wind,
++//! over a small grid of the uncertain parameters, and writes 1 Hz X/Y/altitude traces in the
++//! exports' own form to runs/end-of-flight/prepare/calibration-traces.csv. The script
++//! prepare/boeing_runs.py then measures model and runs with the same code.
++
++use super::aero::{isa_temperature, Increments, B772};
++use super::flight::{Aircraft, Phase, Pitch, Roll, State, Weather, FT};
++use std::fmt::Write as _;
++
++const KT: f64 = 1852.0 / 3600.0;
++pub const MASS_KG: f64 = 174_500.0;
++
++/// The wind fitted to the long runs' loops: from 246 deg, 23.5 kt at sea level plus
++/// 0.79 kt per 1,000 ft up to 25,000 ft; ISA temperature.
++pub struct SimulatorWind;
++
++impl Weather for SimulatorWind {
++    fn sample(&self, _: f64, alt_ft: f64, _: f64, _: f64) -> (f64, f64, f64) {
++        let speed = (23.5 + 0.79 * alt_ft.clamp(0.0, 25_000.0) / 1000.0) * KT;
++        let towards = 66f64.to_radians();
++        (isa_temperature(alt_ft * FT), speed * towards.sin(), speed * towards.cos())
++    }
++}
++
++pub struct Case {
++    pub name: String,
++    pub long: bool,
++    /// Cruise state at the first flame-out, and the single-engine phase's length (s).
++    pub cruise: State,
++    pub single_engine_s: f64,
++    /// State at the second flame-out (long cases) or at the loss of control (short cases).
++    pub start: State,
++    pub eas_kt: f64,
++}
++
++pub fn cases() -> Vec<Case> {
++    let text = include_str!("prepare/boeing-runs-targets.csv");
++    let mut lines = text.lines().filter(|l| !l.starts_with('#'));
++    let header: Vec<&str> = lines.next().unwrap().split(',').collect();
++    let col = |row: &[&str], key: &str| row[header.iter().position(|h| *h == key).unwrap()].to_string();
++    lines
++        .map(|l| {
++            let row: Vec<&str> = l.split(',').collect();
++            let num = |k: &str| col(&row, k).parse::<f64>().unwrap();
++            Case {
++                name: col(&row, "case"),
++                long: col(&row, "regime") == "long",
++                cruise: State {
++                    unix_s: 0.0,
++                    lat_deg: 0.0,
++                    lon_deg: 90.0,
++                    alt_m: num("start_alt_ft") * FT,
++                    tas: num("start_tas_kt") * KT,
++                    gamma: 0.0,
++                    heading: num("heading_at_second_deg").to_radians(),
++                    bank: 0.0,
++                    sensed_eas: f64::NAN,
++                    reference_eas: f64::NAN,
++                },
++                single_engine_s: num("t_second_flameout_s") - num("t_first_flameout_s"),
++                start: State {
++                    unix_s: 0.0,
++                    lat_deg: 0.0,
++                    lon_deg: 90.0,
++                    alt_m: num("alt_at_second_ft") * FT,
++                    tas: num("tas_at_second_kt") * KT,
++                    gamma: num("gamma_at_second_deg").to_radians(),
++                    heading: num("heading_at_second_deg").to_radians(),
++                    bank: 0.0,
++                    sensed_eas: f64::NAN,
++                    reference_eas: f64::NAN,
++                },
++                eas_kt: num("eas_at_second_kt"),
++            }
++        })
++        .collect()
++}
++
++/// One uncontrolled descent from the onset state.
++pub fn fly(case: &Case, phase: Phase, trace: bool) -> super::flight::Flight {
++    let aircraft = Aircraft { aero: &B772, mass_kg: MASS_KG, weather: &SimulatorWind, stall_factor: 1.5, protected_factor: 1.15 };
++    aircraft.fly(case.start, &[(0.0, phase)], &[], 3600.0, 0.5, trace.then_some(1.0))
++}
++
++pub fn normal_law(case: &Case, floor_eas_kt: f64, ref_tau_s: f64, stiffness: f64, lag_s: f64, windmill_cd: f64, turn_rate_deg_s: f64) -> Phase {
++    Phase {
++        pitch: Pitch::Speed { ref_eas: case.eas_kt.max(floor_eas_kt) * KT, ref_tau_s, stiffness, damping: 0.0, lag_s },
++        roll: Roll::Asymmetry { turn_rate: turn_rate_deg_s.to_radians(), spiral: -1.0 / 60.0, protect: true, max_bank: 1.5 },
++        thrust: 0.0,
++        increments: Increments { windmill_cd, transonic_scale: 1.0, separation_k: 1.4 },
++    }
++}
++
++/// Stick-fixed trim from the loss of control, trimmed `offset` below one g, bank diverging in
++/// the direction of `turn_rate`.
++pub fn stick_fixed(case: &Case, tuck: f64, offset: f64, spiral: f64, turn_rate_deg_s: f64, transonic_scale: f64) -> Phase {
++    let air = super::aero::Air { pressure_pa: super::aero::isa_pressure(case.start.alt_m), temperature_k: isa_temperature(case.start.alt_m) };
++    let q = 0.5 * air.density() * case.start.tas * case.start.tas;
++    Phase {
++        pitch: Pitch::Trim {
++            cl_trim: (1.0 - offset) * MASS_KG * super::aero::G * case.start.gamma.cos() / (q * B772.wing_area_m2),
++            mach_trim: case.start.tas / air.speed_of_sound(),
++            tuck,
++        },
++        roll: Roll::Asymmetry { turn_rate: turn_rate_deg_s.to_radians(), spiral, protect: false, max_bank: 60f64.to_radians() },
++        thrust: 0.0,
++        increments: Increments { windmill_cd: 0.0045, transonic_scale, separation_k: 1.4 },
++    }
++}
++
++/// Boeing's driftdown figure (SIR App. 1.6E): "0.0034 nm per foot of altitude", 120 NM from
++/// FL350, with both engines windmilling and wings held level. Prints the model's best
++/// still-air glide from FL350 at the reference mass, started steady at the glide speed, as
++/// NM per foot of altitude and as L/D over the energy height lost (altitude plus V^2/2g).
++#[test]
++#[ignore]
++fn driftdown() {
++    let aircraft = Aircraft { aero: &B772, mass_kg: MASS_KG, weather: &super::flight::StillIsa, stall_factor: 1.5, protected_factor: 1.15 };
++    let alt = 35_000.0 * FT;
++    let sigma = (super::aero::isa_pressure(alt) / (287.052_87 * isa_temperature(alt)) / super::aero::SEA_LEVEL_DENSITY).sqrt();
++    for cd in [0.0, 0.001, 0.002, 0.003, 0.004, 0.005] {
++        let (nm, keas, ld) = (180..=260).step_by(5).map(|keas| {
++            let eas = f64::from(keas) * KT;
++            let start = State { unix_s: 0.0, lat_deg: 0.0, lon_deg: 90.0, alt_m: alt, tas: eas / sigma, gamma: -0.055, heading: 0.0, bank: 0.0, sensed_eas: f64::NAN, reference_eas: f64::NAN };
++            let glide = Phase {
++                pitch: Pitch::Speed { ref_eas: eas, ref_tau_s: 0.0, stiffness: 2.0, damping: 1.0, lag_s: 0.0 },
++                roll: Roll::Hold { bank: 0.0 },
++                thrust: 0.0,
++                increments: Increments { windmill_cd: cd, transonic_scale: 1.0, separation_k: 1.4 },
++            };
++            let f = aircraft.fly(start, &[(0.0, glide)], &[], 7200.0, 0.5, None);
++            let (rm, _) = geo::radii_of_curvature_km(0.0);
++            let metres = f.impact.unwrap().lat_deg.to_radians() * rm * 1000.0;
++            let energy = alt + (start.tas.powi(2) - f.last.tas.powi(2)) / (2.0 * super::aero::G);
++            (metres / 1852.0, keas, metres / energy)
++        }).fold((0.0, 0, 0.0), |a, b| if b.0 > a.0 { b } else { a });
++        println!("dCD {cd:.3}: best glide from FL350 {nm:.1} NM at {keas} KEAS = {:.5} NM/ft; L/D over energy height {ld:.1}", nm / 35_000.0);
++    }
++}
++
++#[test]
++#[ignore]
++fn calibration_traces() {
++    let mut out = String::from("set,case,t,x_nm,y_nm,alt_ft\n");
++    let mut record = |label: &str, case: &Case, flight: &super::flight::Flight| {
++        let (rm, rn) = geo::radii_of_curvature_km(0.0);
++        for s in &flight.trace {
++            let x = (s.lon_deg - 90.0).to_radians() * rn * 1000.0 / 1852.0;
++            let y = s.lat_deg.to_radians() * rm * 1000.0 / 1852.0;
++            writeln!(out, "{label},{},{:.0},{x:.4},{y:.4},{:.0}", case.name, s.unix_s, s.alt_ft).unwrap();
++        }
++        match (flight.impact, flight.trace.last()) {
++            (Some(s), Some(last)) if s.unix_s > last.unix_s + 0.5 => {
++                let x = (s.lon_deg - 90.0).to_radians() * rn * 1000.0 / 1852.0;
++                let y = s.lat_deg.to_radians() * rm * 1000.0 / 1852.0;
++                writeln!(out, "{label},{},{:.2},{x:.4},{y:.4},0", case.name, s.unix_s).unwrap();
++            }
++            _ => {}
++        }
++    };
++    let cases = cases();
++    // The autopilot's single-engine phase, from the first to the second flame-out.
++    for case in cases.iter().filter(|c| c.long) {
++        let aircraft = Aircraft { aero: &B772, mass_kg: MASS_KG, weather: &SimulatorWind, stall_factor: 1.5, protected_factor: 1.15 };
++        let phase = super::descent::single_engine_phase(&aircraft, &case.cruise);
++        record("single-engine", case, &aircraft.fly(case.cruise, &[(0.0, phase)], &[], case.single_engine_s, 0.5, Some(1.0)));
++    }
++    // The reference moves to the 195 KEAS floor with a 60 s time constant (Boeing's smooth
++    // approach after the disconnect); the lag sets how fast the phugoid grows, and linear
++    // theory makes that very sensitive near 1 s, so it is swept finely.
++    let mut sets = vec![];
++    for lag in [0.7, 0.8, 0.85, 0.9, 1.0] {
++        sets.push((0.0045, 0.8, lag, 195.0, 60.0));
++    }
++    for (cd, stiffness, lag, floor, tau) in sets {
++        let label = format!("normal cd{cd} k{stiffness} lag{lag} floor{floor} tau{tau}");
++        for case in cases.iter().filter(|c| c.long) {
++            record(&label, case, &fly(case, normal_law(case, floor, tau, stiffness, lag, cd, -0.7), true));
++        }
++    }
++    // Short runs: bank sign from the run (03 and 06 roll left, 04 and 10 right).
++    for tuck in [1.0, 2.0, 3.0] {
++        for offset in [0.0, 0.05, 0.1] {
++            for (spiral, scale) in [(1.0 / 120.0, 1.0), (1.0 / 60.0, 1.0), (1.0 / 120.0, 0.3)] {
++                let label = format!("trim tuck{tuck} offset{offset} spiral{:.0} wave{scale}", 1.0 / spiral);
++                for case in cases.iter().filter(|c| !c.long) {
++                    let sign = if case.name.ends_with("03") || case.name.ends_with("06") { -1.0 } else { 1.0 };
++                    record(&label, case, &fly(case, stick_fixed(case, tuck, offset, spiral, sign * 0.5, scale), true));
++                }
++            }
++        }
++    }
++    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../runs/end-of-flight/prepare");
++    std::fs::create_dir_all(&dir).unwrap();
++    std::fs::write(dir.join("calibration-traces.csv"), out).unwrap();
++}
+diff --git a/hypotheses/end-of-flight/descent.rs b/hypotheses/end-of-flight/descent.rs
+new file mode 100644
+index 0000000..5d2af55
+--- /dev/null
++++ b/hypotheses/end-of-flight/descent.rs
+@@ -0,0 +1,187 @@
++//! One descent from the takeover to the sea: after a flame-out, the autopilot's single-engine
++//! phase and then a family's flight from the second flame-out; before exhaustion, a powered
++//! family's flight from the start of the powered descent.
++//!
++//! Single-engine phase (the right engine fails first; Boeing's long runs): the autopilot holds
++//! altitude and heading with the left engine at maximum continuous thrust; once the speed has
++//! decayed to its floor it holds that speed and lets the aircraft drift down.
++
++use super::aero::Increments;
++use super::endings::{Ending, Takeover};
++use super::families::{Family, Start, POWERED, REFERENCE_MASS_KG};
++use super::flight::{Aircraft, Envelope, Flight, Phase, Pitch, Roll, Snapshot, State, FT};
++use super::timing::{ACK_UNIX_S, LOGON_UNIX_S};
++#[cfg(test)]
++use super::{aero::B772, flight::StillIsa};
++
++const KT: f64 = 1852.0 / 3600.0;
++/// Operating limits for `envelope_exceedance`: MMO 0.87 and VMO 330 kt (777-200ER; VMO is a
++/// calibrated airspeed, compared here with the equivalent airspeed, slightly lenient at
++/// altitude) and the 2.5 g limit manoeuvring load (14 CFR 25.337). The design dive limits and
++/// the ultimate load lie beyond them and are not public, so exceeding these is where breakup
++/// becomes possible, not where it happens.
++const MMO: f64 = 0.87;
++const VMO_KT: f64 = 330.0;
++const LIMIT_LOAD_FACTOR: f64 = 2.5;
++/// Autopilot speed floor with one engine out, at the reference mass (Boeing's long runs reach
++/// the second flame-out at 157-165 KEAS).
++const AUTOPILOT_FLOOR_KEAS: f64 = 165.0;
++/// Longest flight after the second flame-out before the descent is reported as not ending.
++const MAX_FLIGHT_S: f64 = 3.0 * 3600.0;
++
++#[derive(Debug, Clone)]
++pub struct Descent {
++    pub ending: Ending,
++    pub family: Family,
++    pub first_unix_s: f64,
++    pub second_unix_s: f64,
++    pub at_second: Snapshot,
++    /// From the second flame-out: impact, states at the requested epochs, envelope.
++    pub flight: Flight,
++    pub single_engine: Envelope,
++    /// Control lost at the first flame-out, in an electrical configuration where one engine's
++    /// loss takes the autopilot (stick-fixed family); otherwise the autopilot flies on one engine.
++    pub autopilot_lost_at_first: bool,
++}
++
++/// What each descent records besides its impact, in `Descent::latents` order. Attitude (deg) at
++/// the 00:19 log-on and acknowledgement where this module flew them (NaN where the core did or
++/// the aircraft was down) and at impact; pitch and angle of attack come from an assumed
++/// lift-curve slope (`aero`). The envelope covers the single-engine phase too.
++pub const LATENT_COLUMNS: [&str; 17] = [
++    "second_flameout_unix_s",
++    "autopilot_lost_at_first_flameout",
++    "bank_deg_logon",
++    "pitch_deg_logon",
++    "bank_deg_ack",
++    "pitch_deg_ack",
++    "bank_deg_impact",
++    "pitch_deg_impact",
++    "alpha_deg_impact",
++    "max_mach",
++    "max_keas",
++    "max_descent_fpm",
++    "max_load_factor",
++    "extrapolated_s",
++    "above_grid_s",
++    "stalled_s",
++    "envelope_exceedance",
++];
++
++impl Descent {
++    /// A powered impact must come before exhaustion; every other ending is unpowered by then.
++    pub fn powered_in_time(&self) -> bool {
++        !POWERED.contains(&self.family) || self.flight.impact.is_some_and(|i| i.unix_s <= self.second_unix_s)
++    }
++
++    /// The `LATENT_COLUMNS`, given the epochs passed to `descend`. For a powered impact the
++    /// second flame-out is the exhaustion it came before, and the autopilot column is NaN.
++    pub fn latents(&self, epochs: &[f64]) -> Vec<f64> {
++        let at = |t: f64| epochs.iter().position(|&e| (e - t).abs() < 1e-3).and_then(|i| self.flight.epochs[i]);
++        let attitude = |s: Option<Snapshot>| s.map_or([f64::NAN; 3], |s| [s.bank, s.pitch, s.alpha].map(f64::to_degrees));
++        let (logon, ack, impact) = (attitude(at(LOGON_UNIX_S)), attitude(at(ACK_UNIX_S)), attitude(self.flight.impact));
++        let (e, s) = (self.flight.envelope, self.single_engine);
++        let max_mach = e.max_mach.max(s.max_mach);
++        let max_keas = e.max_eas.max(s.max_eas) / KT;
++        let max_load_factor = e.max_load_factor.max(s.max_load_factor);
++        let autopilot = if POWERED.contains(&self.family) { f64::NAN } else { f64::from(u8::from(self.autopilot_lost_at_first)) };
++        vec![
++            self.second_unix_s,
++            autopilot,
++            logon[0],
++            logon[1],
++            ack[0],
++            ack[1],
++            impact[0],
++            impact[1],
++            impact[2],
++            max_mach,
++            max_keas,
++            e.max_descent.max(s.max_descent) / FT * 60.0,
++            max_load_factor,
++            e.extrapolated_s + s.extrapolated_s,
++            e.above_grid_s + s.above_grid_s,
++            e.stalled_s + s.stalled_s,
++            (max_mach / MMO).max(max_keas / VMO_KT).max(max_load_factor / LIMIT_LOAD_FACTOR),
++        ]
++    }
++}
++
++/// The autopilot on one engine from the first flame-out: one windmilling engine, no ram-air
++/// turbine yet.
++pub fn single_engine_phase(aircraft: &Aircraft, first: &State) -> Phase {
++    Phase {
++        pitch: Pitch::AltitudeHold { alt_m: first.alt_m, floor_eas: AUTOPILOT_FLOOR_KEAS * KT * (aircraft.mass_kg / REFERENCE_MASS_KG).sqrt() },
++        roll: Roll::Heading { target: first.heading, max_bank: 25f64.to_radians() },
++        thrust: 1.0,
++        increments: Increments { windmill_cd: 0.001, transonic_scale: 1.0, separation_k: 1.4 },
++    }
++}
++
++/// From the takeover state to the sea. After a flame-out the autopilot flies the single-engine
++/// phase to the second flame-out, unless the family takes over at the first; a powered family
++/// starts at once. For a powered family `second_unix_s` in the takeover is the exhaustion time
++/// that its impact must precede (`Descent::powered_in_time`).
++pub fn descend(aircraft: &Aircraft, first: State, takeover: &Takeover, family: Family, u: &[f64], epochs: &[f64], dt: f64) -> Descent {
++    let second_unix_s = takeover.second_unix_s;
++    let powered = POWERED.contains(&family);
++    let autopilot_lost_at_first = family.from_first(u);
++    let (start, single_engine) = if powered || autopilot_lost_at_first {
++        (first, Envelope::default())
++    } else {
++        let single = single_engine_phase(aircraft, &first);
++        let before = aircraft.fly(first, &[(first.unix_s, single)], &[], second_unix_s, dt, None);
++        (before.last, before.envelope)
++    };
++    let (eas, mach, q) = aircraft.airspeeds(&start);
++    let at = Start {
++        unix_s: start.unix_s,
++        second_unix_s,
++        eas,
++        cl_1g: aircraft.mass_kg * super::aero::G * start.gamma.cos() / (q * aircraft.aero.wing_area_m2()),
++        mach,
++        heading: start.heading,
++        mass_kg: aircraft.mass_kg,
++        single_engine_s: start.unix_s - first.unix_s,
++    };
++    let phases = family.phases(u, &at);
++    // When the family starts before the second flame-out, record the state there too.
++    let mut all_epochs = epochs.to_vec();
++    let later = !powered && start.unix_s < second_unix_s;
++    if later {
++        all_epochs.push(second_unix_s);
++    }
++    let mut flight = aircraft.fly(start, &phases, &all_epochs, start.unix_s + MAX_FLIGHT_S, dt, None);
++    let at_second = if later { flight.epochs.pop().flatten() } else { Some(aircraft.snapshot(&start, None)) };
++    Descent {
++        ending: takeover.ending,
++        family,
++        first_unix_s: first.unix_s,
++        second_unix_s,
++        // Down before the second flame-out: the impact stands in for it.
++        at_second: at_second.or(flight.impact).unwrap_or_else(|| aircraft.snapshot(&flight.last, None)),
++        flight,
++        single_engine,
++        autopilot_lost_at_first,
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    /// With no gap between the flame-outs, losing control at the first flame-out and at the
++    /// second are the same flight.
++    #[test]
++    fn control_lost_at_either_flame_out_agrees_when_they_coincide() {
++        let aircraft = Aircraft { aero: &B772, mass_kg: REFERENCE_MASS_KG, weather: &StillIsa, stall_factor: 1.5, protected_factor: 1.15 };
++        let first = State { unix_s: 0.0, lat_deg: -35.0, lon_deg: 90.0, alt_m: 11_000.0, tas: 240.0, gamma: 0.0, heading: 3.3, bank: 0.0, sensed_eas: f64::NAN, reference_eas: f64::NAN };
++        let mut u = [0.4, 0.6, 0.3, 0.8, 0.5, 0.5, 0.5, 0.25, 0.7, 0.6];
++        let takeover = Takeover { ending: Ending::ExhaustedBeforeLogon, unix_s: 0.0, second_unix_s: 0.0 };
++        let a = descend(&aircraft, first, &takeover, Family::StickFixed, &u, &[], 0.5);
++        u[7] = 0.75;
++        let b = descend(&aircraft, first, &takeover, Family::StickFixed, &u, &[], 0.5);
++        assert_eq!(a.flight.impact, b.flight.impact);
++        assert!(a.flight.impact.is_some());
++    }
++}
+diff --git a/hypotheses/end-of-flight/endings.rs b/hypotheses/end-of-flight/endings.rs
+new file mode 100644
+index 0000000..9e7415c
+--- /dev/null
++++ b/hypotheses/end-of-flight/endings.rs
+@@ -0,0 +1,244 @@
++//! How the flight ended, relative to fuel exhaustion and the 00:19 log-on: the hypotheses above
++//! the descent families (Pete, 28 Sep 2026). Exhaustion causing the log-on is one hypothesis,
++//! not an axiom.
++//!
++//! - `exhausted-before-logon`: both engines flamed out before 00:19:29.416 and the log-on is the
++//!   APU restoring the SDU's power (lag density). The takeover is the first flame-out.
++//! - `exhausted-after-logon`: powered through 00:19, the SDU's power interrupted by something
++//!   else; exhaustion later, then an unpowered descent. The takeover is the first flame-out,
++//!   before or after the 00:19 epochs.
++//! - `powered-impact`: the aircraft reached the sea with engines running, before exhaustion.
++//!   The takeover is the start of the powered descent.
++//! Under the last two the log-on comes at a declared other-cause rate (`timing::Logon`, swept);
++//! under all three the aircraft was still flying at 00:19:37.443.
++//!
++//! Until the core models fuel, exhaustion after the log-on, and a powered impact, are bounded by
++//! a PLACEHOLDER window ending at 01:16:05: the longest endurance in Boeing's Table 4 (SIR App.
++//! 1.6E), 6.8 h from arc 1 at 18:28:05.9. With the core's fuel state, each path's own exhaustion
++//! time replaces it (`with_fuel`).
++//!
++//! Sampling follows the terminal hook, which passes nothing from the takeover draw to the
++//! descent: the takeover draws its time from a mixture over the endings; the descent draws the
++//! ending given that time with probability proportional to its share of the mixture density,
++//! then the second flame-out given the takeover. The ln(prior/proposal) shares add up exactly.
++
++use super::timing::{Cause, Logon, ACK_UNIX_S, HANDOFF_UNIX_S, LOGON_UNIX_S};
++
++/// Placeholder end of any powered flight until the core models fuel (01:16:05 UTC).
++pub const PLACEHOLDER_LATEST_UNIX_S: f64 = 1_394_241_365.0;
++
++#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
++pub enum Ending {
++    ExhaustedBeforeLogon,
++    ExhaustedAfterLogon,
++    PoweredImpact,
++}
++
++pub const ENDINGS: [Ending; 3] = [Ending::ExhaustedBeforeLogon, Ending::ExhaustedAfterLogon, Ending::PoweredImpact];
++
++impl Ending {
++    pub fn name(self) -> &'static str {
++        match self {
++            Ending::ExhaustedBeforeLogon => "exhausted-before-logon",
++            Ending::ExhaustedAfterLogon => "exhausted-after-logon",
++            Ending::PoweredImpact => "powered-impact",
++        }
++    }
++
++    fn index(self) -> usize {
++        ENDINGS.iter().position(|&e| e == self).unwrap()
++    }
++
++    /// What caused the SDU's power interruption behind the 00:19 log-on.
++    pub fn cause(self) -> Cause {
++        if self == Ending::ExhaustedBeforeLogon { Cause::Exhaustion } else { Cause::Other }
++    }
++}
++
++/// Endings' prior weights and timing. `exhaustion_unix_s` is the path's exhaustion time from
++/// the core's fuel state, NaN until the core models fuel.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Timing {
++    pub priors: [f64; 3],
++    pub max_gap_s: f64,
++    pub exhaustion_unix_s: f64,
++}
++
++/// The takeover and what the descent needs of it.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Takeover {
++    pub ending: Ending,
++    pub unix_s: f64,
++    /// The second flame-out; for a powered impact, the (placeholder or fuel) exhaustion time
++    /// that bounds it.
++    pub second_unix_s: f64,
++}
++
++impl Timing {
++    fn latest(&self) -> f64 {
++        if self.exhaustion_unix_s.is_finite() { self.exhaustion_unix_s } else { PLACEHOLDER_LATEST_UNIX_S }
++    }
++
++    /// The ending's window for the takeover time, if the ending is possible. With a fuel
++    /// exhaustion time, the takeover is the first flame-out, a flat gap before it; exhaustion
++    /// must precede the log-on for the first ending and follow the acknowledgement for the
++    /// second (the SDU loses power within seconds of the second flame-out).
++    fn window(&self, e: Ending) -> Option<(f64, f64)> {
++        let fuel = self.exhaustion_unix_s;
++        let (lo, hi) = match e {
++            Ending::ExhaustedBeforeLogon | Ending::ExhaustedAfterLogon if fuel.is_finite() => {
++                let possible = if e == Ending::ExhaustedBeforeLogon { fuel < LOGON_UNIX_S } else { fuel > ACK_UNIX_S };
++                if !possible {
++                    return None;
++                }
++                ((fuel - self.max_gap_s).max(HANDOFF_UNIX_S), fuel)
++            }
++            Ending::ExhaustedBeforeLogon => (HANDOFF_UNIX_S, LOGON_UNIX_S),
++            Ending::ExhaustedAfterLogon => ((ACK_UNIX_S - self.max_gap_s).max(HANDOFF_UNIX_S), self.latest()),
++            Ending::PoweredImpact => (HANDOFF_UNIX_S, self.latest()),
++        };
++        (hi > lo && self.priors[e.index()] > 0.0).then_some((lo, hi))
++    }
++
++    /// Mixture density of the takeover time.
++    fn density(&self, t: f64) -> f64 {
++        ENDINGS
++            .iter()
++            .filter_map(|&e| self.window(e).map(|(lo, hi)| if t >= lo && t <= hi { self.priors[e.index()] / (hi - lo) } else { 0.0 }))
++            .sum::<f64>()
++            / self.total()
++    }
++
++    fn total(&self) -> f64 {
++        ENDINGS.iter().filter(|&&e| self.window(e).is_some()).map(|&e| self.priors[e.index()]).sum()
++    }
++
++    /// Takeover time from two uniforms, and its share of ln(prior/proposal).
++    pub fn takeover_time(&self, pick: f64, u: f64) -> (f64, f64) {
++        let total = self.total();
++        let mut cum = 0.0;
++        for &e in &ENDINGS {
++            if let Some((lo, hi)) = self.window(e) {
++                cum += self.priors[e.index()] / total;
++                if pick < cum || cum >= 1.0 - 1e-12 {
++                    let t = lo + u * (hi - lo);
++                    return (t, -self.density(t).ln());
++                }
++            }
++        }
++        unreachable!("no ending is possible")
++    }
++
++    /// Given the takeover time, the ending (by its share of the mixture density at that time)
++    /// and the second flame-out from two uniforms; and the rest of ln(prior/proposal), for `u`
++    /// uniform (the caller adds -ln q(u) when `u` comes from an adapted proposal).
++    pub fn takeover(&self, t: f64, pick: f64, u: f64) -> (Takeover, f64) {
++        let q = self.density(t);
++        let mut cum = 0.0;
++        let mut chosen = None;
++        for &e in &ENDINGS {
++            if let Some((lo, hi)) = self.window(e) {
++                if t >= lo && t <= hi {
++                    cum += self.priors[e.index()] / (hi - lo) / self.total() / q;
++                    if chosen.is_none() && (pick < cum || cum >= 1.0 - 1e-12) {
++                        chosen = Some((e, lo, hi));
++                    }
++                }
++            }
++        }
++        let (ending, lo, hi) = chosen.expect("the takeover time lies in some ending's window");
++        let prior = self.priors[ending.index()] / self.total();
++        // ln(prior / proposal) of the ending and its takeover time, given the mixture draw:
++        // prior P(e) p_e(t, ...) against P(e) q_e(t) / q(t) q(e | t); q(t) comes back from the
++        // takeover's share.
++        let q_e = 1.0 / (hi - lo);
++        let fuel = self.exhaustion_unix_s.is_finite();
++        let (second, prior_density, proposal_density) = match ending {
++            Ending::PoweredImpact => (self.latest(), 1.0 / (self.latest() - HANDOFF_UNIX_S), q_e),
++            _ if fuel => {
++                // The second flame-out is the path's exhaustion; the gap is flat on its range.
++                (self.exhaustion_unix_s, 1.0 / self.max_gap_s.min(self.exhaustion_unix_s - HANDOFF_UNIX_S), q_e)
++            }
++            _ => {
++                let (first_lo, last) = match ending {
++                    Ending::ExhaustedBeforeLogon => (t, (t + self.max_gap_s).min(LOGON_UNIX_S)),
++                    _ => (t.max(ACK_UNIX_S), (t + self.max_gap_s).min(self.latest())),
++                };
++                let second = first_lo + u * (last - first_lo);
++                let window = match ending {
++                    Ending::ExhaustedBeforeLogon => LOGON_UNIX_S - HANDOFF_UNIX_S,
++                    _ => self.latest() - ACK_UNIX_S,
++                };
++                let joint = 1.0 / window / self.max_gap_s.min(second - HANDOFF_UNIX_S);
++                (second, joint, q_e / (last - first_lo))
++            }
++        };
++        let log_correction = prior.ln() + prior_density.ln() - (prior * proposal_density).ln() + q.ln();
++        (Takeover { ending, unix_s: t, second_unix_s: second }, log_correction)
++    }
++
++    /// log p(log-on data | ending, flight), per second of log-on time.
++    pub fn logon_log_likelihood(&self, logon: &Logon, takeover: &Takeover, impact_unix_s: Option<f64>) -> f64 {
++        logon.log_likelihood(takeover.ending.cause(), takeover.second_unix_s, impact_unix_s)
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    /// Weighted draws reproduce the prior: each ending's share, and for the two exhaustion
++    /// endings a flat second flame-out over its window (placeholder, no fuel).
++    #[test]
++    fn mixture_draws_reproduce_the_prior() {
++        let timing = Timing { priors: [1.0, 1.0, 1.0], max_gap_s: 900.0, exhaustion_unix_s: f64::NAN };
++        let mut seed = 0x1234_5678_u64;
++        let mut uniform = move || {
++            seed = seed.wrapping_add(0x9E37_79B9_7F4A_7C15);
++            let mut z = seed;
++            z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
++            z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
++            (((z ^ (z >> 31)) >> 11) as f64 + 0.5) / (1u64 << 53) as f64
++        };
++        let n = 600_000;
++        let (mut share, mut before, mut after) = ([0.0; 3], [0.0; 5], [0.0; 5]);
++        for _ in 0..n {
++            let (t, a) = timing.takeover_time(uniform(), uniform());
++            let (tk, b) = timing.takeover(t, uniform(), uniform());
++            let w = (a + b).exp() / n as f64;
++            share[tk.ending.index()] += w;
++            let bin = |lo: f64, hi: f64| (((tk.second_unix_s - lo) / (hi - lo)) * 5.0).clamp(0.0, 4.0) as usize;
++            match tk.ending {
++                Ending::ExhaustedBeforeLogon => before[bin(HANDOFF_UNIX_S, LOGON_UNIX_S)] += w,
++                Ending::ExhaustedAfterLogon => after[bin(ACK_UNIX_S, PLACEHOLDER_LATEST_UNIX_S)] += w,
++                Ending::PoweredImpact => assert_eq!(tk.second_unix_s, PLACEHOLDER_LATEST_UNIX_S),
++            }
++        }
++        for s in share {
++            assert!((s - 1.0 / 3.0).abs() < 0.01, "{share:?}");
++        }
++        for b in before.iter().chain(&after) {
++            assert!((b * 15.0 - 1.0).abs() < 0.05, "{before:?} {after:?}");
++        }
++        // With a fuel exhaustion time before the log-on, only two endings remain, the second
++        // flame-out is the exhaustion and the first is flat over the possible gap before it.
++        let fuel = LOGON_UNIX_S - 150.0;
++        let timing = Timing { exhaustion_unix_s: fuel, ..timing };
++        let (mut share, mut first) = ([0.0; 3], [0.0; 5]);
++        for _ in 0..n {
++            let (t, a) = timing.takeover_time(uniform(), uniform());
++            let (tk, b) = timing.takeover(t, uniform(), uniform());
++            let w = (a + b).exp() / n as f64;
++            share[tk.ending.index()] += w;
++            if tk.ending == Ending::ExhaustedBeforeLogon {
++                assert_eq!(tk.second_unix_s, fuel);
++                // The gap cannot exceed the time since the hand-off (360 s here).
++                first[(((fuel - t) / (fuel - HANDOFF_UNIX_S).min(900.0)) * 5.0).clamp(0.0, 4.0) as usize] += w;
++            }
++        }
++        assert!((share[0] - 0.5).abs() < 0.01 && share[1] == 0.0 && (share[2] - 0.5).abs() < 0.01, "{share:?}");
++        for f in first {
++            assert!((f * 10.0 - 1.0).abs() < 0.05, "{first:?}");
++        }
++    }
++}
+diff --git a/hypotheses/end-of-flight/families.rs b/hypotheses/end-of-flight/families.rs
+new file mode 100644
+index 0000000..27c3bcb
+--- /dev/null
++++ b/hypotheses/end-of-flight/families.rs
+@@ -0,0 +1,232 @@
++//! What happened after the second flame-out, as families of flight plans.
++//!
++//! Each family maps independent uniforms to the flight from the second flame-out, so its
++//! parameter prior is uniform on its unit cube and any proposal can be corrected exactly.
++//! Family prior weights are declared in run.toml; results are always shown per family.
++//! Nobody is assumed to have flown the aircraft, nor assumed not to have.
++//!
++//! Unpiloted, with the residual asymmetry an explicit input:
++//! - `normal-law`: pitch as in Boeing's six long runs (speed stability about a reference
++//!   moving to a floor, sensed through a lag) with bank-angle protection. The asymmetry is the
++//!   rudder that thrust-asymmetry compensation leaves behind when the second engine spools
++//!   down after a single-engine phase (Boeing 2014, SIR App. 1.6E: about 0.2 deg, a slow left
++//!   roll), plus a trim asymmetry either way.
++//! - `stick-fixed`: no protections; Mach tuck, trim offset and a divergent spiral in either
++//!   direction, bounded by Boeing's four short runs. Control is lost at the second flame-out, or
++//!   at the first in an electrical configuration where one engine's loss takes the autopilot
++//!   (ATSB 2016, the short runs): then the other engine runs on, uncompensated, until the second.
++//! Piloted:
++//! - `glide`: wings level at a chosen speed, with up to two turns to any heading, into the sea.
++//! - `ditching`: the same at a lower speed, flared to a low sink rate.
++//! - `dive`: a push-over to a chosen flight-path angle after a delay.
++//!
++//! The families above follow a flame-out. Before exhaustion, with engines running (the
++//! `powered-impact` ending), from the start of the powered descent:
++//! - `powered-upset` (unpiloted): control lost with thrust set, stick-fixed as above.
++//! - `powered-dive`, `powered-descent` (a held flight-path angle, with up to two turns, into the
++//!   sea) and `powered-ditching` (flared) (piloted).
++//! Running engines windmill no drag. Within each ending, piloted and unpiloted families share
++//! the prior equally, each half split evenly among its families.
++
++use super::aero::Increments;
++use super::flight::{Phase, Pitch, Roll};
++
++const KT: f64 = 1852.0 / 3600.0;
++const FT: f64 = 0.3048;
++/// Speeds below are for this mass and scale with the square root of the actual mass.
++pub const REFERENCE_MASS_KG: f64 = 174_500.0;
++
++#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
++pub enum Family {
++    NormalLaw,
++    StickFixed,
++    Glide,
++    Ditching,
++    Dive,
++    PoweredUpset,
++    PoweredDive,
++    PoweredDescent,
++    PoweredDitching,
++}
++
++/// After a flame-out.
++pub const UNPOWERED: [Family; 5] = [Family::NormalLaw, Family::StickFixed, Family::Glide, Family::Ditching, Family::Dive];
++/// Before exhaustion, engines running.
++pub const POWERED: [Family; 4] = [Family::PoweredUpset, Family::PoweredDive, Family::PoweredDescent, Family::PoweredDitching];
++
++/// The aircraft where the family's flight starts (the second flame-out, or the first for a
++/// family that takes over there), as the families need it.
++#[derive(Debug, Clone, Copy)]
++pub struct Start {
++    pub unix_s: f64,
++    pub second_unix_s: f64,
++    pub eas: f64,
++    /// Lift coefficient for one g at the current speed and flight-path angle.
++    pub cl_1g: f64,
++    pub mach: f64,
++    pub heading: f64,
++    pub mass_kg: f64,
++    /// Length of the autopilot's single-engine phase before it (s).
++    pub single_engine_s: f64,
++}
++
++fn lerp(u: f64, a: f64, b: f64) -> f64 {
++    a + u * (b - a)
++}
++
++/// Log-uniform between a and b.
++fn log_lerp(u: f64, a: f64, b: f64) -> f64 {
++    (a.ln() + u * (b.ln() - a.ln())).exp()
++}
++
++impl Family {
++    pub fn name(self) -> &'static str {
++        match self {
++            Family::NormalLaw => "normal-law",
++            Family::StickFixed => "stick-fixed",
++            Family::Glide => "glide",
++            Family::Ditching => "ditching",
++            Family::Dive => "dive",
++            Family::PoweredUpset => "powered-upset",
++            Family::PoweredDive => "powered-dive",
++            Family::PoweredDescent => "powered-descent",
++            Family::PoweredDitching => "powered-ditching",
++        }
++    }
++
++    pub fn piloted(self) -> bool {
++        !matches!(self, Family::NormalLaw | Family::StickFixed | Family::PoweredUpset)
++    }
++
++    /// Prior weight within its set (`UNPOWERED` or `POWERED`): piloted and unpiloted halves,
++    /// each split evenly.
++    pub fn prior_within(self, set: &[Family]) -> f64 {
++        let alike = set.iter().filter(|f| f.piloted() == self.piloted()).count();
++        0.5 / alike as f64
++    }
++
++    /// Number of uniform coordinates the family consumes.
++    pub fn dimension(self) -> usize {
++        match self {
++            Family::StickFixed => 10,
++            Family::NormalLaw | Family::Glide | Family::PoweredUpset | Family::PoweredDescent => 7,
++            Family::Ditching | Family::PoweredDitching => 9,
++            Family::Dive => 6,
++            Family::PoweredDive => 5,
++        }
++    }
++
++    /// Whether the family's flight starts at the first flame-out instead of the second.
++    pub fn from_first(self, u: &[f64]) -> bool {
++        self == Family::StickFixed && u[7] < 0.5
++    }
++
++    /// Phases from `at`, from `dimension()` uniforms.
++    pub fn phases(self, u: &[f64], at: &Start) -> Vec<(f64, Phase)> {
++        assert_eq!(u.len(), self.dimension());
++        let speed = |kt: f64| kt * KT * (at.mass_kg / REFERENCE_MASS_KG).sqrt();
++        let t0 = at.unix_s;
++        // Windmilling engines and ram-air turbine: Boeing's driftdown figure (read as a steady
++        // glide from FL350) and the long simulator spirals both give about 0.004 (calibrate.rs).
++        let increments = |u: f64, transonic_scale: f64| Increments { windmill_cd: lerp(u, 0.0025, 0.0055), transonic_scale, separation_k: 1.4 };
++        let running = |transonic_scale: f64| Increments { windmill_cd: 0.0, transonic_scale, separation_k: 1.4 };
++        let pilot_speed = |ref_eas: f64| Pitch::Speed { ref_eas, ref_tau_s: 20.0, stiffness: 2.0, damping: 1.0, lag_s: 0.0 };
++        let turns = |n: f64, times: [f64; 2], headings: [f64; 2], max_bank: f64| {
++            let count = (3.0 * n).floor().min(2.0) as usize;
++            let mut t: Vec<(f64, f64)> = (0..count).map(|i| (t0 + lerp(times[i], 0.0, 1200.0), lerp(headings[i], 0.0, std::f64::consts::TAU))).collect();
++            t.sort_by(|a, b| a.0.total_cmp(&b.0));
++            let mut rolls = vec![(t0, Roll::Heading { target: at.heading, max_bank })];
++            rolls.extend(t.into_iter().map(|(time, target)| (time, Roll::Heading { target, max_bank })));
++            rolls
++        };
++        match self {
++            Family::NormalLaw => {
++                let tac = if at.single_engine_s > 30.0 { -lerp(u[0], 0.0, 1.0) } else { 0.0 };
++                let turn_rate = (tac + lerp(u[1], -0.3, 0.3)).to_radians();
++                let floor = speed(lerp(u[4], 185.0, 205.0));
++                vec![(t0, Phase {
++                    pitch: Pitch::Speed { ref_eas: at.eas.max(floor), ref_tau_s: lerp(u[5], 30.0, 120.0), stiffness: 0.8, damping: 0.0, lag_s: lerp(u[3], 0.7, 1.0) },
++                    roll: Roll::Asymmetry { turn_rate, spiral: -1.0 / lerp(u[2], 40.0, 90.0), protect: true, max_bank: 1.5 },
++                    thrust: 0.0,
++                    increments: increments(u[6], 1.0),
++                })]
++            }
++            Family::StickFixed => {
++                let pitch = Pitch::Trim { cl_trim: (1.0 - lerp(u[1], -0.05, 0.1)) * at.cl_1g, mach_trim: at.mach, tuck: lerp(u[0], 1.0, 3.5) };
++                let (turn, spiral, max_bank) = (lerp(u[3], -1.2, 1.2), 1.0 / lerp(u[2], 40.0, 150.0), lerp(u[4], 45.0, 75.0).to_radians());
++                let increments = increments(u[6], log_lerp(u[5], 0.3, 2.0));
++                let roll = |turn_deg_s: f64| Roll::Asymmetry { turn_rate: turn_deg_s.to_radians(), spiral, protect: false, max_bank };
++                let unpowered = Phase { pitch, roll: roll(turn), thrust: 0.0, increments };
++                if self.from_first(u) {
++                    // The running engine's thrust, uncompensated, rolls the aircraft hard in the
++                    // same direction; one engine windmills and the ram-air turbine is stowed.
++                    let one_engine = Phase {
++                        pitch,
++                        roll: roll(turn.signum() * lerp(u[9], 0.5, 2.5)),
++                        thrust: lerp(u[8], 0.5, 1.0),
++                        increments: Increments { windmill_cd: 0.001, ..increments },
++                    };
++                    vec![(t0, one_engine), (at.second_unix_s, unpowered)]
++                } else {
++                    vec![(t0, unpowered)]
++                }
++            }
++            Family::Glide | Family::Ditching => {
++                let pitch = if self == Family::Glide {
++                    pilot_speed(speed(lerp(u[0], 195.0, 260.0)))
++                } else {
++                    Pitch::Ditch { ref_eas: speed(lerp(u[0], 165.0, 200.0)), flare_alt_m: lerp(u[6], 30.0, 150.0) * FT, touchdown_vs: lerp(u[7], -4.0, -0.5) }
++                };
++                let increments = increments(if self == Family::Glide { u[6] } else { u[8] }, 1.0);
++                turns(u[1], [u[2], u[4]], [u[3], u[5]], 25f64.to_radians())
++                    .into_iter()
++                    .map(|(time, roll)| (time, Phase { pitch, roll, thrust: 0.0, increments }))
++                    .collect()
++            }
++            Family::Dive => {
++                let increments = increments(u[4], log_lerp(u[5], 0.3, 2.0));
++                let glide = Phase { pitch: pilot_speed(at.eas), roll: Roll::Hold { bank: 0.0 }, thrust: 0.0, increments };
++                let dive = Phase {
++                    pitch: Pitch::Path { gamma: lerp(u[1], -70.0, -10.0).to_radians(), tau_s: 5.0, n_min: lerp(u[2], 0.0, 0.8), n_max: 2.5 },
++                    roll: Roll::Hold { bank: lerp(u[3], -30.0, 30.0).to_radians() },
++                    thrust: 0.0,
++                    increments,
++                };
++                vec![(t0, glide), (t0 + lerp(u[0], 0.0, 600.0), dive)]
++            }
++            Family::PoweredUpset => vec![(t0, Phase {
++                pitch: Pitch::Trim { cl_trim: (1.0 - lerp(u[1], -0.05, 0.1)) * at.cl_1g, mach_trim: at.mach, tuck: lerp(u[0], 1.0, 3.5) },
++                roll: Roll::Asymmetry {
++                    turn_rate: lerp(u[3], -1.2, 1.2).to_radians(),
++                    spiral: 1.0 / lerp(u[2], 40.0, 150.0),
++                    protect: false,
++                    max_bank: lerp(u[4], 45.0, 75.0).to_radians(),
++                },
++                thrust: lerp(u[6], 0.5, 2.0),
++                increments: running(log_lerp(u[5], 0.3, 2.0)),
++            })],
++            Family::PoweredDive => vec![(t0, Phase {
++                pitch: Pitch::Path { gamma: lerp(u[1], -70.0, -10.0).to_radians(), tau_s: 5.0, n_min: lerp(u[2], 0.0, 0.8), n_max: 2.5 },
++                roll: Roll::Hold { bank: lerp(u[3], -30.0, 30.0).to_radians() },
++                thrust: lerp(u[0], 0.1, 2.0),
++                increments: running(log_lerp(u[4], 0.3, 2.0)),
++            })],
++            Family::PoweredDescent => {
++                let pitch = Pitch::Path { gamma: lerp(u[0], -10.0, -1.0).to_radians(), tau_s: 10.0, n_min: 0.5, n_max: 1.5 };
++                let thrust = lerp(u[6], 0.1, 1.0);
++                turns(u[1], [u[2], u[4]], [u[3], u[5]], 25f64.to_radians())
++                    .into_iter()
++                    .map(|(time, roll)| (time, Phase { pitch, roll, thrust, increments: running(1.0) }))
++                    .collect()
++            }
++            Family::PoweredDitching => {
++                let pitch = Pitch::Ditch { ref_eas: speed(lerp(u[0], 150.0, 200.0)), flare_alt_m: lerp(u[6], 30.0, 150.0) * FT, touchdown_vs: lerp(u[7], -4.0, -0.5) };
++                let thrust = lerp(u[8], 0.1, 0.6);
++                turns(u[1], [u[2], u[4]], [u[3], u[5]], 25f64.to_radians())
++                    .into_iter()
++                    .map(|(time, roll)| (time, Phase { pitch, roll, thrust, increments: running(1.0) }))
++                    .collect()
++            }
++        }
++    }
++}
+diff --git a/hypotheses/end-of-flight/flight.rs b/hypotheses/end-of-flight/flight.rs
+new file mode 100644
+index 0000000..6d00854
+--- /dev/null
++++ b/hypotheses/end-of-flight/flight.rs
+@@ -0,0 +1,636 @@
++//! Point-mass flight from the first flame-out to the sea: air-relative speed, flight-path
++//! angle, heading and bank over the WGS-84 ellipsoid, in the runner's wind and temperature.
++//!
++//! Lift and bank come from control laws (`Pitch`, `Roll`), so one integrator serves the
++//! autopilot's single-engine phase, the unpiloted families and the piloted ones.
++
++use super::aero::{isa_pressure, isa_temperature, Aerodynamics, Air, Increments, EXTRAPOLATION_MACH, G, SEA_LEVEL_DENSITY};
++
++pub const FT: f64 = 0.3048;
++/// The ERA5 grid tops out here; above it the runner clamps to the 43,000 ft level.
++pub const GRID_TOP_M: f64 = 43_000.0 * FT;
++
++/// Wind and temperature along the flight. The runner implements it over ERA5.
++pub trait Weather: Sync {
++    /// Temperature (K), wind towards the east and towards the north (m/s).
++    fn sample(&self, unix_s: f64, alt_ft: f64, lat_deg: f64, lon_deg: f64) -> (f64, f64, f64);
++
++    /// Pressure altitude of the sea surface (ft), where a descent ends; the runner derives it
++    /// from ERA5 mean-sea-level pressure. ISA sea level by default.
++    fn surface_ft(&self, _unix_s: f64, _lat_deg: f64, _lon_deg: f64) -> f64 {
++        0.0
++    }
++}
++
++/// ISA temperature and still air, for tests and calibration.
++pub struct StillIsa;
++
++impl Weather for StillIsa {
++    fn sample(&self, _: f64, alt_ft: f64, _: f64, _: f64) -> (f64, f64, f64) {
++        (isa_temperature(alt_ft * FT), 0.0, 0.0)
++    }
++}
++
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct State {
++    pub unix_s: f64,
++    pub lat_deg: f64,
++    pub lon_deg: f64,
++    /// Pressure altitude (m).
++    pub alt_m: f64,
++    /// True airspeed (m/s).
++    pub tas: f64,
++    /// Air-relative flight-path angle (rad), negative when descending.
++    pub gamma: f64,
++    /// Direction of the air-relative velocity (rad, clockwise from north).
++    pub heading: f64,
++    /// Bank (rad), positive right wing down.
++    pub bank: f64,
++    /// Equivalent airspeed as seen by the speed-stability law, lagging the true value (m/s).
++    /// NaN at a start means "equal to the current EAS".
++    pub sensed_eas: f64,
++    /// The speed-stability law's reference (m/s), moving from the speed at the start of the
++    /// phase towards the law's target. NaN means "the EAS when the phase begins".
++    pub reference_eas: f64,
++}
++
++/// How lift is commanded, as a load factor n = L/W or a trimmed lift coefficient.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub enum Pitch {
++    /// Autopilot altitude hold with an engine out: hold `alt_m`; once the equivalent airspeed
++    /// falls to `floor_eas`, hold that speed instead and let the aircraft descend.
++    AltitudeHold { alt_m: f64, floor_eas: f64 },
++    /// Hold the flight path (n = cos(gamma), turn-compensated up to 30 deg of bank) plus speed
++    /// stability about a reference that moves from the phase's initial EAS to `ref_eas` (m/s)
++    /// with time constant `ref_tau_s` (0: at once), acting on the EAS sensed through a lag of
++    /// `lag_s`. Unpiloted: the 777 normal-mode C*U-like law, no damping; the lag is what lets
++    /// its phugoid grow as in Boeing's runs. Piloted: a pilot flying a speed, `damping` > 0.
++    Speed { ref_eas: f64, ref_tau_s: f64, stiffness: f64, damping: f64, lag_s: f64 },
++    /// Stick-fixed trim, no protections: the lift coefficient trimmed at `mach_trim`, reduced
++    /// above Mach 0.75 by the tuck, a fraction `tuck` per unit Mach (never below zero).
++    Trim { cl_trim: f64, mach_trim: f64, tuck: f64 },
++    /// Pilot tracking a flight-path angle (rad) with a time constant (s), load factor limited.
++    Path { gamma: f64, tau_s: f64, n_min: f64, n_max: f64 },
++    /// Pilot gliding at `ref_eas`, then below `flare_alt_m` flaring to a sink rate of
++    /// `touchdown_vs` (m/s, negative) for a ditching.
++    Ditch { ref_eas: f64, flare_alt_m: f64, touchdown_vs: f64 },
++}
++
++/// How the bank angle evolves.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub enum Roll {
++    /// Hands off with a residual asymmetry. The forcing is the bank of a steady turn at
++    /// `turn_rate` (rad/s) at the reference roll-in rate 1/60 s; `spiral` (1/s) is the spiral
++    /// mode: negative settles on a bank, positive diverges towards `max_bank`. `protect`
++    /// adds normal-mode bank-angle protection (rolled back towards 30 deg above 35 deg).
++    Asymmetry { turn_rate: f64, spiral: f64, protect: bool, max_bank: f64 },
++    /// Pilot or autopilot holding a heading (rad), banking up to `max_bank`.
++    Heading { target: f64, max_bank: f64 },
++    /// Pilot holding a bank angle (rad).
++    Hold { bank: f64 },
++}
++
++pub const ROLL_IN_PER_S: f64 = 1.0 / 60.0;
++/// Where the stick-fixed trimmed lift starts to fall with Mach (the tuck).
++const TUCK_MACH: f64 = 0.75;
++/// The point mass is not flown through the vertical.
++const MAX_GAMMA: f64 = 88.0 * std::f64::consts::PI / 180.0;
++const MAX_ROLL_RATE: f64 = 5.0 * std::f64::consts::PI / 180.0;
++
++/// Everything that stays fixed during one phase of flight.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Phase {
++    pub pitch: Pitch,
++    pub roll: Roll,
++    /// Total thrust, in units of one engine's maximum continuous thrust: 0 with both engines
++    /// out, up to 1 with one running, up to 2 with both (flight idle is a few hundredths each).
++    pub thrust: f64,
++    pub increments: Increments,
++}
++
++/// Air data derived from the state.
++struct AirData {
++    air: Air,
++    mach: f64,
++    q: f64,
++    eas: f64,
++    wind_east: f64,
++    wind_north: f64,
++}
++
++/// What the integrator needs besides the state.
++pub struct Aircraft<'a> {
++    pub aero: &'a dyn Aerodynamics,
++    pub mass_kg: f64,
++    pub weather: &'a dyn Weather,
++    /// Lift coefficient where attached flow ends (stall/buffet), as a multiple of the usable CL.
++    pub stall_factor: f64,
++    /// Normal-mode stall protection: the protected lift coefficient as a multiple of the usable CL.
++    pub protected_factor: f64,
++}
++
++#[derive(Debug, Clone, Copy, Default)]
++struct Rates {
++    lat: f64,
++    lon: f64,
++    alt: f64,
++    tas: f64,
++    gamma: f64,
++    heading: f64,
++    bank: f64,
++    sensed_eas: f64,
++    reference_eas: f64,
++}
++
++/// Diagnostics accumulated along one flight.
++#[derive(Debug, Clone, Copy, Default, PartialEq)]
++pub struct Envelope {
++    pub max_mach: f64,
++    pub max_eas: f64,
++    pub max_descent: f64,
++    /// Largest lift over weight.
++    pub max_load_factor: f64,
++    pub max_alt_m: f64,
++    /// Seconds with the lift coefficient at the stall limit (beyond attached flow).
++    pub stalled_s: f64,
++    /// Seconds above `EXTRAPOLATION_MACH`.
++    pub extrapolated_s: f64,
++    /// Seconds above the top of the weather grid.
++    pub above_grid_s: f64,
++}
++
++/// A state reported to the runner: position and ground-relative velocity.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Snapshot {
++    pub unix_s: f64,
++    pub lat_deg: f64,
++    pub lon_deg: f64,
++    pub alt_ft: f64,
++    pub velocity_east: f64,
++    pub velocity_north: f64,
++    pub velocity_up: f64,
++    pub tas: f64,
++    pub gamma: f64,
++    /// Attitude (rad) and load factor where the control law is known, NaN elsewhere.
++    pub bank: f64,
++    pub alpha: f64,
++    pub pitch: f64,
++    pub load_factor: f64,
++}
++
++impl<'a> Aircraft<'a> {
++    fn air_data(&self, s: &State) -> AirData {
++        let (temperature_k, wind_east, wind_north) = self.weather.sample(s.unix_s, s.alt_m / FT, s.lat_deg, s.lon_deg);
++        let air = Air { pressure_pa: isa_pressure(s.alt_m), temperature_k };
++        let rho = air.density();
++        AirData {
++            mach: s.tas / air.speed_of_sound(),
++            q: 0.5 * rho * s.tas * s.tas,
++            eas: s.tas * (rho / SEA_LEVEL_DENSITY).sqrt(),
++            air,
++            wind_east,
++            wind_north,
++        }
++    }
++
++    /// Lift coefficient demanded by the pitch law, before limits, and whether the law is
++    /// protected (normal mode or autopilot).
++    fn commanded_cl(&self, s: &State, d: &AirData, phase: &Phase) -> (f64, bool) {
++        let weight = self.mass_kg * G;
++        let qs = d.q * self.aero.wing_area_m2();
++        let (cos_g, cos_b) = (s.gamma.cos(), s.bank.cos());
++        let compensated = cos_g / cos_b.max(30f64.to_radians().cos());
++        let sensed = if s.sensed_eas.is_nan() { d.eas } else { s.sensed_eas };
++        let speed_law = |ref_eas: f64, stiffness: f64, damping: f64| {
++            let mut n = compensated + stiffness * (sensed - ref_eas) / ref_eas;
++            if damping > 0.0 {
++                // Damp towards the equilibrium glide: -dV/dt/g = sin(gamma) + (D - T)/W.
++                let cl = n * weight / qs;
++                let drag = self.aero.drag_coefficient(d.mach, cl, &d.air, &phase.increments) * qs;
++                let thrust = phase.thrust * self.aero.engine_thrust(d.mach, &d.air);
++                n -= damping * (s.gamma.sin() + (drag - thrust) / weight);
++            }
++            n
++        };
++        let path_law = |gamma: f64, tau_s: f64| (cos_g + s.tas / G * (gamma - s.gamma) / tau_s) / cos_b.max(0.1);
++        match phase.pitch {
++            Pitch::AltitudeHold { alt_m, floor_eas } => {
++                let target = (0.1 * (alt_m - s.alt_m) / s.tas).clamp(-0.05, 0.05);
++                let n = path_law(target, 5.0).min(speed_law(floor_eas, 2.0, 1.0));
++                (n * weight / qs, true)
++            }
++            Pitch::Speed { ref_eas, ref_tau_s, stiffness, damping, .. } => {
++                let reference = if ref_tau_s > 0.0 && !s.reference_eas.is_nan() { s.reference_eas } else { ref_eas };
++                (speed_law(reference, stiffness, damping) * weight / qs, damping == 0.0)
++            }
++            Pitch::Trim { cl_trim, mach_trim, tuck } => {
++                let factor = |m: f64| (1.0 - tuck * (m - TUCK_MACH).max(0.0)).max(0.0);
++                (cl_trim * factor(d.mach) / factor(mach_trim).max(1e-3), false)
++            }
++            Pitch::Path { gamma, tau_s, n_min, n_max } => (path_law(gamma, tau_s).clamp(n_min, n_max) * weight / qs, false),
++            Pitch::Ditch { ref_eas, flare_alt_m, touchdown_vs } => {
++                let n = if s.alt_m > flare_alt_m {
++                    speed_law(ref_eas, 2.0, 1.0)
++                } else {
++                    path_law((touchdown_vs / s.tas.max(1.0)).clamp(-1.0, 0.0).asin(), 2.0).clamp(0.5, 2.0)
++                };
++                (n * weight / qs, false)
++            }
++        }
++    }
++
++    fn bank_rate(&self, s: &State, phase: &Phase) -> f64 {
++        match phase.roll {
++            Roll::Asymmetry { turn_rate, spiral, protect, max_bank } => {
++                let forcing = ROLL_IN_PER_S * (s.tas * turn_rate / G).atan();
++                let mut rate = forcing + spiral * s.bank;
++                if rate * s.bank > 0.0 {
++                    rate *= (1.0 - (s.bank / max_bank).powi(2)).max(0.0);
++                }
++                let excess = s.bank.abs() - 35f64.to_radians();
++                if protect && excess > 0.0 {
++                    rate -= s.bank.signum() * (0.2 * (excess + 5f64.to_radians()));
++                }
++                rate
++            }
++            Roll::Heading { target, max_bank } => {
++                let error = geo::wrap_pi(target - s.heading);
++                let wanted = (2.0 * error).clamp(-max_bank, max_bank);
++                ((wanted - s.bank) / 2.0).clamp(-MAX_ROLL_RATE, MAX_ROLL_RATE)
++            }
++            Roll::Hold { bank } => ((bank - s.bank) / 2.0).clamp(-MAX_ROLL_RATE, MAX_ROLL_RATE),
++        }
++    }
++
++    /// Rates of change, plus the air data, whether lift is at the stall limit, and the lift
++    /// coefficient applied.
++    fn rates(&self, s: &State, phase: &Phase) -> (Rates, AirData, bool, f64) {
++        let d = self.air_data(s);
++        let (demand, protected) = self.commanded_cl(s, &d, phase);
++        let usable = self.aero.usable_cl(d.mach);
++        let limit = usable * if protected { self.protected_factor } else { self.stall_factor };
++        let cl = demand.clamp(-0.5 * usable, limit);
++        let qs = d.q * self.aero.wing_area_m2();
++        let lift = cl * qs;
++        let drag = self.aero.drag_coefficient(d.mach, cl, &d.air, &phase.increments) * qs;
++        let thrust = if phase.thrust > 0.0 { phase.thrust * self.aero.engine_thrust(d.mach, &d.air) } else { 0.0 };
++        let m = self.mass_kg;
++        let v = s.tas.max(20.0);
++        let cos_g = s.gamma.cos();
++        let horizontal = s.tas * cos_g;
++        let north = horizontal * s.heading.cos() + d.wind_north;
++        let east = horizontal * s.heading.sin() + d.wind_east;
++        let (rm, rn) = geo::radii_of_curvature_km(s.lat_deg);
++        let r = Rates {
++            lat: (north / (rm * 1000.0 + s.alt_m)).to_degrees(),
++            lon: (east / ((rn * 1000.0 + s.alt_m) * s.lat_deg.to_radians().cos())).to_degrees(),
++            alt: s.tas * s.gamma.sin(),
++            tas: (thrust - drag) / m - G * s.gamma.sin(),
++            gamma: (lift * s.bank.cos() - m * G * cos_g) / (m * v),
++            heading: lift * s.bank.sin() / (m * v * cos_g.max(0.05)),
++            bank: self.bank_rate(s, phase),
++            sensed_eas: match phase.pitch {
++                Pitch::Speed { lag_s, .. } if lag_s > 0.0 => (d.eas - s.sensed_eas) / lag_s,
++                _ => 0.0,
++            },
++            reference_eas: match phase.pitch {
++                Pitch::Speed { ref_eas, ref_tau_s, .. } if ref_tau_s > 0.0 => (ref_eas - s.reference_eas) / ref_tau_s,
++                _ => 0.0,
++            },
++        };
++        (r, d, !protected && demand >= limit, cl)
++    }
++
++    fn advance(&self, s: &State, r: &Rates, dt: f64) -> State {
++        State {
++            unix_s: s.unix_s + dt,
++            lat_deg: s.lat_deg + r.lat * dt,
++            lon_deg: s.lon_deg + r.lon * dt,
++            alt_m: s.alt_m + r.alt * dt,
++            tas: s.tas + r.tas * dt,
++            gamma: s.gamma + r.gamma * dt,
++            heading: s.heading + r.heading * dt,
++            bank: s.bank + r.bank * dt,
++            sensed_eas: s.sensed_eas + r.sensed_eas * dt,
++            reference_eas: s.reference_eas + r.reference_eas * dt,
++        }
++    }
++
++    /// One classical Runge-Kutta step; also returns the air data, stall flag and lift
++    /// coefficient at the start.
++    fn step(&self, s: &State, phase: &Phase, dt: f64) -> (State, AirData, bool, f64) {
++        let (k1, d, stalled, cl) = self.rates(s, phase);
++        let k2 = self.rates(&self.advance(s, &k1, 0.5 * dt), phase).0;
++        let k3 = self.rates(&self.advance(s, &k2, 0.5 * dt), phase).0;
++        let k4 = self.rates(&self.advance(s, &k3, dt), phase).0;
++        let avg = |f: fn(&Rates) -> f64| (f(&k1) + 2.0 * f(&k2) + 2.0 * f(&k3) + f(&k4)) / 6.0;
++        let r = Rates {
++            lat: avg(|r| r.lat),
++            lon: avg(|r| r.lon),
++            alt: avg(|r| r.alt),
++            tas: avg(|r| r.tas),
++            gamma: avg(|r| r.gamma),
++            heading: avg(|r| r.heading),
++            bank: avg(|r| r.bank),
++            sensed_eas: avg(|r| r.sensed_eas),
++            reference_eas: avg(|r| r.reference_eas),
++        };
++        let mut next = self.advance(s, &r, dt);
++        if !matches!(phase.pitch, Pitch::Speed { lag_s, .. } if lag_s > 0.0) {
++            next.sensed_eas = self.air_data(&next).eas;
++        }
++        next.lon_deg = geo::wrap_longitude(next.lon_deg);
++        next.tas = next.tas.max(1.0);
++        next.gamma = next.gamma.clamp(-MAX_GAMMA, MAX_GAMMA);
++        (next, d, stalled, cl)
++    }
++
++    /// Position and ground-relative velocity for the runner; attitude and load factor too when
++    /// the phase (hence the lift) is known.
++    pub fn snapshot(&self, s: &State, phase: Option<&Phase>) -> Snapshot {
++        let d = self.air_data(s);
++        let horizontal = s.tas * s.gamma.cos();
++        let (alpha, pitch, load_factor) = match phase {
++            Some(phase) => {
++                let cl = self.rates(s, phase).3;
++                let alpha = self.aero.alpha(d.mach, cl);
++                // Body pitch from path, incidence and bank, with no sideslip.
++                let pitch = (s.gamma.sin() * alpha.cos() + s.gamma.cos() * alpha.sin() * s.bank.cos()).asin();
++                (alpha, pitch, cl * d.q * self.aero.wing_area_m2() / (self.mass_kg * G))
++            }
++            None => (f64::NAN, f64::NAN, f64::NAN),
++        };
++        Snapshot {
++            unix_s: s.unix_s,
++            lat_deg: s.lat_deg,
++            lon_deg: s.lon_deg,
++            alt_ft: s.alt_m / FT,
++            velocity_east: horizontal * s.heading.sin() + d.wind_east,
++            velocity_north: horizontal * s.heading.cos() + d.wind_north,
++            velocity_up: s.tas * s.gamma.sin(),
++            tas: s.tas,
++            gamma: s.gamma,
++            bank: s.bank,
++            alpha,
++            pitch,
++            load_factor,
++        }
++    }
++
++    /// Height (m) above the sea surface's pressure altitude.
++    fn above_surface(&self, s: &State) -> f64 {
++        s.alt_m - self.weather.surface_ft(s.unix_s, s.lat_deg, s.lon_deg) * FT
++    }
++
++    /// Equivalent airspeed (m/s) of a state.
++    pub fn eas(&self, s: &State) -> f64 {
++        self.air_data(s).eas
++    }
++
++    /// Equivalent airspeed (m/s), Mach number and dynamic pressure (Pa) of a state.
++    pub fn airspeeds(&self, s: &State) -> (f64, f64, f64) {
++        let d = self.air_data(s);
++        (d.eas, d.mach, d.q)
++    }
++
++    /// Fly `phases` in turn, switching at the given times, until the sea or `until_s`.
++    /// Records a snapshot at each `epochs` time reached, and one every `trace_s` if set.
++    pub fn fly(&self, start: State, phases: &[(f64, Phase)], epochs: &[f64], until_s: f64, dt: f64, trace_s: Option<f64>) -> Flight {
++        let mut s = start;
++        if s.sensed_eas.is_nan() {
++            s.sensed_eas = self.air_data(&s).eas;
++        }
++        let mut out = Flight { epochs: vec![None; epochs.len()], ..Flight::default() };
++        let mut next_trace = trace_s.map(|_| s.unix_s);
++        let mut k = 0;
++        s.reference_eas = self.air_data(&s).eas;
++        loop {
++            while k + 1 < phases.len() && s.unix_s >= phases[k + 1].0 - 1e-9 {
++                k += 1;
++                s.reference_eas = self.air_data(&s).eas;
++            }
++            let phase = &phases[k];
++            if let (Some(t), Some(every)) = (next_trace, trace_s) {
++                if s.unix_s >= t - 1e-9 {
++                    out.trace.push(self.snapshot(&s, Some(&phase.1)));
++                    next_trace = Some(t + every);
++                }
++            }
++            if s.unix_s >= until_s {
++                out.last = s;
++                return out;
++            }
++            // Stop exactly at the next phase switch, epoch or trace time.
++            let mut h = dt.min(until_s - s.unix_s);
++            if k + 1 < phases.len() {
++                h = h.min(phases[k + 1].0 - s.unix_s);
++            }
++            for (i, &e) in epochs.iter().enumerate() {
++                if out.epochs[i].is_none() && e > s.unix_s + 1e-9 {
++                    h = h.min(e - s.unix_s);
++                }
++            }
++            let h = h.max(1e-6);
++            let (next, d, stalled, cl) = self.step(&s, &phase.1, h);
++            let e = &mut out.envelope;
++            e.max_mach = e.max_mach.max(d.mach);
++            e.max_eas = e.max_eas.max(d.eas);
++            e.max_alt_m = e.max_alt_m.max(s.alt_m);
++            e.max_descent = e.max_descent.max(-s.tas * s.gamma.sin());
++            e.max_load_factor = e.max_load_factor.max(cl * d.q * self.aero.wing_area_m2() / (self.mass_kg * G));
++            e.stalled_s += if stalled { h } else { 0.0 };
++            e.extrapolated_s += if d.mach > EXTRAPOLATION_MACH { h } else { 0.0 };
++            e.above_grid_s += if s.alt_m > GRID_TOP_M { h } else { 0.0 };
++            if self.above_surface(&next) <= 0.0 {
++                // Land on the surface: secant iterations on the length of the last step.
++                let (mut f0, mut a0, mut f1, mut a1) = (0.0, self.above_surface(&s), 1.0, self.above_surface(&next));
++                let mut at = next;
++                for _ in 0..8 {
++                    let f = (f1 - a1 * (f1 - f0) / (a1 - a0)).clamp(1e-9, 1.0);
++                    at = self.step(&s, &phase.1, f * h).0;
++                    let height = self.above_surface(&at);
++                    if height.abs() < 1e-4 {
++                        break;
++                    }
++                    (f0, a0, f1, a1) = (f1, a1, f, height);
++                }
++                at.alt_m -= self.above_surface(&at);
++                out.impact = Some(self.snapshot(&at, Some(&phase.1)));
++                out.last = at;
++                return out;
++            }
++            s = next;
++            for (i, &e) in epochs.iter().enumerate() {
++                if out.epochs[i].is_none() && (s.unix_s - e).abs() < 1e-6 {
++                    out.epochs[i] = Some(self.snapshot(&s, Some(&phase.1)));
++                }
++            }
++        }
++    }
++}
++
++/// The outcome of one flight.
++#[derive(Debug, Clone, Default)]
++pub struct Flight {
++    /// At the sea surface, if reached before the time limit.
++    pub impact: Option<Snapshot>,
++    /// States at the requested epochs (None if the flight ended first).
++    pub epochs: Vec<Option<Snapshot>>,
++    pub trace: Vec<Snapshot>,
++    pub envelope: Envelope,
++    /// Final state (at impact or at the time limit).
++    pub last: State,
++}
++
++impl Default for State {
++    fn default() -> Self {
++        State { unix_s: 0.0, lat_deg: 0.0, lon_deg: 0.0, alt_m: 0.0, tas: 0.0, gamma: 0.0, heading: 0.0, bank: 0.0, sensed_eas: f64::NAN, reference_eas: f64::NAN }
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++    use std::f64::consts::PI;
++
++    /// A fixed parabolic polar, thrust per engine, no Mach or Reynolds effects and no lift limit.
++    struct Parabolic {
++        cd0: f64,
++        k: f64,
++        thrust: f64,
++    }
++
++    impl Aerodynamics for Parabolic {
++        fn wing_area_m2(&self) -> f64 {
++            100.0
++        }
++        fn drag_coefficient(&self, _: f64, cl: f64, _: &Air, _: &Increments) -> f64 {
++            self.cd0 + self.k * cl * cl
++        }
++        fn usable_cl(&self, _: f64) -> f64 {
++            10.0
++        }
++        fn engine_thrust(&self, _: f64, _: &Air) -> f64 {
++            self.thrust
++        }
++    }
++
++    const MASS: f64 = 100_000.0;
++
++    fn aircraft(aero: &Parabolic) -> Aircraft<'_> {
++        Aircraft { aero, mass_kg: MASS, weather: &StillIsa, stall_factor: 1.0, protected_factor: 1.0 }
++    }
++
++    fn start(alt_m: f64, tas: f64, gamma: f64) -> State {
++        State { unix_s: 0.0, lat_deg: 0.0, lon_deg: 90.0, alt_m, tas, gamma, heading: 0.0, bank: 0.0, sensed_eas: f64::NAN, reference_eas: f64::NAN }
++    }
++
++    fn phase(pitch: Pitch, thrust: f64) -> Phase {
++        Phase { pitch, roll: Roll::Hold { bank: 0.0 }, thrust, increments: Increments::CLEAN }
++    }
++
++    fn density(alt_m: f64) -> f64 {
++        Air { pressure_pa: isa_pressure(alt_m), temperature_k: isa_temperature(alt_m) }.density()
++    }
++
++    /// Lift coefficient that balances weight at `tas` and `alt_m`.
++    fn level_cl(alt_m: f64, tas: f64) -> f64 {
++        MASS * G / (0.5 * density(alt_m) * tas * tas * 100.0)
++    }
++
++    /// Still ISA air over a sea surface at -500 ft pressure altitude (high pressure).
++    struct HighPressure;
++
++    impl Weather for HighPressure {
++        fn sample(&self, _: f64, alt_ft: f64, _: f64, _: f64) -> (f64, f64, f64) {
++            (isa_temperature(alt_ft * FT), 0.0, 0.0)
++        }
++        fn surface_ft(&self, _: f64, _: f64, _: f64) -> f64 {
++            -500.0
++        }
++    }
++
++    /// No lift and no drag: kinetic plus potential energy is conserved down to the surface,
++    /// wherever the surface lies.
++    #[test]
++    fn ballistic_flight_conserves_mechanical_energy() {
++        let aero = Parabolic { cd0: 0.0, k: 0.0, thrust: 0.0 };
++        let coast = phase(Pitch::Trim { cl_trim: 0.0, mach_trim: 1.0, tuck: 0.0 }, 0.0);
++        for (weather, surface_m) in [(&StillIsa as &dyn Weather, 0.0), (&HighPressure, -500.0 * FT)] {
++            let a = Aircraft { weather, ..aircraft(&aero) };
++            let flight = a.fly(start(1000.0, 200.0, -10f64.to_radians()), &[(0.0, coast)], &[], 600.0, 0.5, None);
++            let impact = flight.impact.expect("reaches the sea");
++            assert!((impact.alt_ft * FT - surface_m).abs() < 1e-6);
++            let v2 = impact.velocity_east.powi(2) + impact.velocity_north.powi(2) + impact.velocity_up.powi(2);
++            let (before, after) = (0.5 * 200.0f64.powi(2) + G * (1000.0 - surface_m), 0.5 * v2);
++            assert!((after - before).abs() / before < 1e-8, "{before} {after}");
++        }
++    }
++
++    #[test]
++    fn level_flight_is_an_equilibrium_under_every_pitch_law() {
++        let (alt, tas) = (3000.0, 150.0);
++        let cl = level_cl(alt, tas);
++        let drag = (0.02 + 0.05 * cl * cl) * 0.5 * density(alt) * tas * tas * 100.0;
++        let aero = Parabolic { cd0: 0.02, k: 0.05, thrust: drag };
++        let a = aircraft(&aero);
++        let eas = a.eas(&start(alt, tas, 0.0));
++        let mach = tas / Air { pressure_pa: isa_pressure(alt), temperature_k: isa_temperature(alt) }.speed_of_sound();
++        for pitch in [
++            Pitch::Speed { ref_eas: eas, ref_tau_s: 60.0, stiffness: 1.0, damping: 0.0, lag_s: 10.0 },
++            Pitch::Speed { ref_eas: eas, ref_tau_s: 0.0, stiffness: 2.0, damping: 1.0, lag_s: 0.0 },
++            Pitch::Trim { cl_trim: cl, mach_trim: mach, tuck: 2.0 },
++            Pitch::AltitudeHold { alt_m: alt, floor_eas: 0.5 * eas },
++        ] {
++            let end = a.fly(start(alt, tas, 0.0), &[(0.0, phase(pitch, 1.0))], &[], 600.0, 0.5, None).last;
++            assert!((end.alt_m - alt).abs() < 1e-6 && (end.tas - tas).abs() < 1e-9, "{pitch:?}: {end:?}");
++            // 150 m/s north for 600 s along the meridian at 3 km.
++            let (rm, _) = geo::radii_of_curvature_km(0.0);
++            let expected = (90_000.0 / (rm * 1000.0 + alt)).to_degrees();
++            assert!((end.lat_deg - expected).abs() < 1e-6, "{}", end.lat_deg);
++        }
++    }
++
++    /// Small-amplitude phugoid at constant lift coefficient, no drag: the linear theory gives
++    /// w^2 = 2 (g/V)^2 + g beta, beta = -(1/rho) d(rho)/dh = (g/R - lapse)/T in the ISA
++    /// troposphere. Without the density term it is Lanchester's period pi sqrt(2) V/g.
++    #[test]
++    fn phugoid_period_matches_linear_theory() {
++        let (alt, v) = (5000.0, 128.0);
++        let aero = Parabolic { cd0: 0.0, k: 0.0, thrust: 0.0 };
++        let trim = phase(Pitch::Trim { cl_trim: level_cl(alt, v), mach_trim: 0.5, tuck: 0.0 }, 0.0);
++        let flight = aircraft(&aero).fly(start(alt, 1.005 * v, 0.0), &[(0.0, trim)], &[], 600.0, 0.1, Some(0.1));
++        let h: Vec<f64> = flight.trace.iter().map(|s| s.alt_ft).collect();
++        let peaks: Vec<f64> = (1..h.len() - 1).filter(|&i| h[i] > h[i - 1] && h[i] >= h[i + 1]).map(|i| flight.trace[i].unix_s).collect();
++        let period = (peaks[peaks.len() - 1] - peaks[0]) / (peaks.len() - 1) as f64;
++        let t = isa_temperature(alt);
++        let beta = (G / 287.052_87 - 0.0065) / t;
++        let theory = 2.0 * PI / (2.0 * (G / v).powi(2) + G * beta).sqrt();
++        assert!((period - theory).abs() / theory < 0.005, "period {period:.2} s, theory {theory:.2} s");
++        assert!((period / (PI * 2f64.sqrt() * v / G) - 0.957).abs() < 0.01);
++    }
++
++    /// Wings-level glide at the best lift coefficient of a fixed polar: the still-air distance
++    /// is L/D times the loss of energy height (altitude plus the small change in V^2/2g).
++    #[test]
++    fn still_air_glide_distance_is_altitude_times_lift_to_drag() {
++        let (cd0, k) = (0.02, 0.04);
++        let cl = (cd0 / k as f64).sqrt();
++        let ld = cl / (2.0 * cd0);
++        let aero = Parabolic { cd0, k, thrust: 0.0 };
++        let a = aircraft(&aero);
++        let (alt, gamma) = (10_000.0, -(1.0 / ld).atan());
++        let v0 = (2.0 * MASS * G * gamma.cos() / (density(alt) * 100.0 * cl)).sqrt();
++        let eas = a.eas(&start(alt, v0, gamma));
++        let glide = phase(Pitch::Speed { ref_eas: eas, ref_tau_s: 0.0, stiffness: 2.0, damping: 1.0, lag_s: 0.0 }, 0.0);
++        let flight = a.fly(start(alt, v0, gamma), &[(0.0, glide)], &[], 7200.0, 0.5, None);
++        let impact = flight.impact.expect("reaches the sea");
++        let v1 = flight.last.tas;
++        let energy = alt + (v0 * v0 - v1 * v1) / (2.0 * G);
++        let (rm, _) = geo::radii_of_curvature_km(impact.lat_deg / 2.0);
++        let distance = impact.lat_deg.to_radians() * rm * 1000.0;
++        // Along the arc at mean height about alt/2: ground distance is shorter by (1 - h/2R).
++        let expected = ld * energy * (1.0 - 0.5 * alt / (rm * 1000.0));
++        assert!((distance - expected).abs() / expected < 0.003, "{distance:.0} m vs {expected:.0} m (L/D {ld:.2})");
++    }
++}
+diff --git a/hypotheses/end-of-flight/hypothesis.toml b/hypotheses/end-of-flight/hypothesis.toml
+new file mode 100644
+index 0000000..3f4afc3
+--- /dev/null
++++ b/hypotheses/end-of-flight/hypothesis.toml
+@@ -0,0 +1,17 @@
++# Metadata for this hypothesis. Keep it current; the report prints it.
++question = "Given the posterior at 00:11 and fuel exhaustion, where, when and how energetically did the aircraft reach the sea, under each explicitly weighted end-of-flight family (controlled glide, ditching, unpiloted spiral/phugoid, dive), with and without the 00:19 transmissions?"
++# open | supported | not-supported | inconclusive
++status = "open"
++# One line, written when the question is answered, citing the run that answered it.
++summary = ""
++# Changes needed in the core (new hooks, new state fields). Leave empty if none.
++# A hypothesis agent writes requests here and stops; it never edits core code.
++core_requests = [
++    "Terminal hook, two calls per trajectory: takeover_time(handoff at 00:11, fuel, uniforms) -> (unix_s of the FIRST flame-out, log proposal correction); the runner flies the core dynamics to that time; then descend(state at takeover, atmosphere, uniforms, requested epochs) -> descent samples with impact fields, the state (lat, lon, alt, velocity east/north/up) at each requested 00:19 epoch, and a log proposal correction.",
++    "Atmosphere access inside the terminal hook: wind and temperature at (unix_s, alt_ft, lat, lon), a trait in crates/hypothesis implemented by the runner over the ERA5 grid (500-43,000 ft, 17:00-01:00).",
++    "Exact 00:19 epochs: R600 00:19:29.416 and R1200 00:19:37.443 (data/satcom-observations.csv rounds both to whole seconds); BFOs 182 and -2 Hz; the start-up BFO offset (Holland 2018) is a core measurement-model option.",
++    "Scoring callback: log-likelihood of the config-selected 00:19 observations for a candidate descent's epoch states, used only to adapt the defensive-mixture proposal; final weights stay exact (module returns log p/q, runner scores each observation once).",
++    "Runner-supplied uniforms as a stream (FnMut() -> f64, seeded per descent), because the number of draws varies with family and proposal.",
++    "When fuel lands: per trajectory, the second (left) flame-out time or the fuel state implying it, the mass, and ideally the left/right fuel imbalance.",
++    "Terminal hook docs: takeover_time is 'when the module takes over' (a flame-out, or the start of a powered descent), possibly after 00:19:37; a takeover after the last epoch leaves the epoch list empty.",
++]
+diff --git a/hypotheses/end-of-flight/lib.rs b/hypotheses/end-of-flight/lib.rs
+new file mode 100644
+index 0000000..e3d8dc5
+--- /dev/null
++++ b/hypotheses/end-of-flight/lib.rs
+@@ -0,0 +1,123 @@
++//! End of flight: from the takeover to the sea, under explicitly weighted hypotheses about how
++//! the flight ended and families of what happened in the cockpit, piloted and unpiloted alike.
++//!
++//! How it enters the estimate. The runner hands over each posterior trajectory when the module
++//! takes over (terminal hook, being built on core/stages): at a flame-out, or at the start of a
++//! powered descent. This module flies descents to the sea and returns impact samples with their
++//! energy, the states at the 00:19 epochs after the takeover for the runner to score, and one
++//! observation term of its own: the 00:19:29.416 log-on, scored under each hypothesis.
++//!
++//! Hypotheses (`endings`; Pete, 28 Sep 2026: exhaustion causing the log-on is not an axiom):
++//! exhausted before the log-on, exhausted after it (powered through 00:19), and a powered
++//! impact before exhaustion. Until the core models fuel, the later two are bounded by a
++//! PLACEHOLDER window ending at 01:16:05 (Boeing Table 4's longest endurance, 6.8 h from arc 1);
++//! with fuel, each path's exhaustion time decides between the first two. Equal priors; results
++//! are reported per hypothesis, then per family. ASSUMPTION: until its takeover, a path flies on
++//! the core's dynamics, so under the later two endings the flight after 00:19 follows the core's
++//! autopilot-mode cruise until the flame-out or the powered descent.
++//!
++//! Model (details and sources in each file):
++//! - `aero`: Poll-Schumann B777-200 point-mass polar (pycontrails, Apache-2.0) and its
++//!   maximum-continuous thrust, plus uncertain post-flame-out increments: windmilling
++//!   engines and ram-air turbine, drag rise above the usable lift coefficient, and wave-drag
++//!   growth beyond Mach 0.89, where every public model and the NASA CRM data (M <= 0.87)
++//!   end. Flight beyond it is labelled extrapolated.
++//! - `flight`: 3-DOF point mass over WGS-84 in the runner's wind and temperature, with
++//!   control laws for lift and bank.
++//! - `descent`: the autopilot's single-engine phase from the first flame-out, then a family's
++//!   flight from the second.
++//! - `families`: after a flame-out, normal-law and stick-fixed unpiloted descents (the residual
++//!   asymmetry an input; control lost at the first or the second flame-out) and piloted glides,
++//!   ditchings and dives; before exhaustion, a powered upset and a piloted powered dive,
++//!   descent or ditching. Each on its own unit cube of priors, piloted and unpiloted halves.
++//! - `timing`: flame-out timing and the APU/SDU log-on lag. The takeover draws the first
++//!   flame-out; each descent draws the second given it, as one of its family's coordinates.
++//! - `sampler`, `proposal`: per trajectory, pilot rounds scored with the runner's callback (and
++//!   this module's log-on term) adapt a defensive mixture on each family's unit cube (half plain
++//!   prior, half boxes about the weighted pilots, boxes only in the coordinates the pilots
++//!   constrain); the final draws come fresh from it with exact ln(prior/proposal). Generic in
++//!   what is simulated: nothing assumes the aircraft is unpowered after the takeover.
++//!
++//! The log-on (observation `m0019a.logon`: the 00:19:29.416 request, its 00:19:37.443
++//! acknowledgement, and the aircraft still flying at the acknowledgement) is scored under each
++//! ending on one absolute scale, density per second of log-on time (`timing::Logon`):
++//! - exhausted before the log-on: the lag from the second flame-out (APU about 60 s, SDU about
++//!   60 s; gamma, mean 120 s, sd 20 s by default);
++//! - the other two: other-cause log-ons at a declared rate, the first after the 00:10:59
++//!   hand-off coming at the observed time. The rate is swept (0.1, 0.3, 1 per hour; this
++//!   flight had one such log-on, at 18:25, in about seven hours) and the endings' evidence is
++//!   reported against it. Under all three, no other-cause log-on came before 00:19:29.416.
++//!
++//! Until the terminal hook reaches main, `preview` (ignored test) flies every family from
++//! hand-offs taken from the base run's routes (prepare/handoffs.py) in still air, and
++//! prepare/preview.py draws per-family results. It is a physics preview and not evidence:
++//! the real numbers come from the ERA5 descent atmosphere through the terminal hook.
++//!
++//! Departures from published work, and why:
++//! - Boeing's ten engineering-simulator runs (ATSB 2016) are calibration data for this open
++//!   model, not a prior over what happened: they assume nobody flew the aircraft.
++//! - Pitch after the second flame-out is an uncertain alternative. In the six long Boeing
++//!   runs the phugoid period is 81-86 s at about 250 kt, where a stick-fixed (constant-CL)
++//!   aircraft would show 58 s; a load-factor law with speed stability (777 normal mode,
++//!   C*U-like) reproduces it. The four short runs, which diverge to 50-60 deg of bank and
++//!   Mach 0.97-1.04, look stick-fixed. The brief's "secondary mode" is therefore one option,
++//!   not the assumption (prepare/boeing_runs.py).
++//! - Windmilling engines and ram-air turbine add drag coefficient 0.0025-0.0055 to the clean
++//!   Poll-Schumann polar (about +15-30% at best glide). Boeing's driftdown figure, "0.0034 nm
++//!   per foot of altitude", 120 NM from FL350 (SIR App. 1.6E), read as a steady best glide
++//!   from FL350, needs 0.004 (model: 118.5 NM at 215 KEAS); the long simulator spirals, L/D
++//!   17.5-18.2, need 0.0045. Read instead as a bare L/D of 20.7 it would need almost none;
++//!   the steady-glide reading is how performance data are tabulated (`calibrate::driftdown`).
++//!
++//! Calibration against the six long Boeing runs (prepare/boeing_runs.py, `calibrate`), flown
++//! from each run's second flame-out in the simulator's fitted wind (from 246 deg, 23.5 kt at
++//! sea level rising to 43 kt at 25,000 ft). Normal-mode law: speed stiffness 0.8 about a
++//! reference that moves from the disconnect speed to a 195 KEAS floor with a 60 s time
++//! constant, sensed through a 0.8-0.85 s lag; drag 0.0045 above the clean polar; residual
++//! asymmetry of 0.7 deg/s left, spiral mode -1/60 s. Result, model against runs: 1,330-1,390 s
++//! against 1,361-1,458 s from the loss of control to the sea, 23-24 NM against 16-34 NM,
++//! phugoid 85-86 s against 81.5-86 s, peak descent 6,000-7,000 fpm against 4,560-7,140 fpm,
++//! peak 250-262 KEAS against 233-264. The phugoid's growth is very sensitive to the lag
++//! (linear theory: it turns unstable above about 0.5 s), so the lag is an uncertain input.
++//! Not reproduced: the step changes of bank in runs 05, 08 and 09 and run 05's final dive.
++//!
++//! The four short runs (control lost at the first flame-out; 4-7 min and 9-20 NM to the sea;
++//! 33,000-58,000 fpm; 570-616 KEAS at Mach 0.97-1.04) need a stick-fixed law with a strong
++//! Mach tuck (trimmed lift falling 1-3.5% per 0.01 Mach above 0.75), a trim offset of up to
++//! 10% below one g, a divergent spiral and less transonic drag than Poll-Schumann
++//! extrapolates. No single setting reproduces all four: the model dives more directly than
++//! Boeing's first-dive-then-zoom sequences. ATSB warned that these runs left the simulator's
++//! own database, so they bound the stick-fixed family's priors rather than fix a point.
++
++#![allow(dead_code)] // The terminal hook (core/stages) will call into these modules.
++
++mod aero;
++mod descent;
++mod endings;
++mod families;
++mod flight;
++mod proposal;
++mod sampler;
++mod sampling;
++mod timing;
++
++#[cfg(test)]
++mod calibrate;
++#[cfg(test)]
++mod preview;
++
++use hypothesis::Hypothesis;
++use serde::Deserialize;
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Params {}
++
++struct EndOfFlight;
++
++pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
++    let _: Params = params.clone().try_into().map_err(|e| format!("end-of-flight: {e}"))?;
++    Ok(Box::new(EndOfFlight))
++}
++
++impl Hypothesis for EndOfFlight {}
+diff --git a/hypotheses/end-of-flight/prepare/boeing-runs-targets.csv b/hypotheses/end-of-flight/prepare/boeing-runs-targets.csv
+new file mode 100644
+index 0000000..55bfa98
+--- /dev/null
++++ b/hypotheses/end-of-flight/prepare/boeing-runs-targets.csv
+@@ -0,0 +1,12 @@
++# Derived by prepare/boeing_runs.py from 2018-08-19-eof-sims.zip. Simulator wind fitted: from 246 deg, 23.5 kt at sea level +0.79 kt per 1000 ft up to 25,000 ft.
++case,regime,start_alt_ft,start_tas_kt,t_first_flameout_s,t_uncontrolled_s,alt_at_uncontrolled_ft,tas_at_uncontrolled_kt,eas_at_uncontrolled_kt,t_second_flameout_s,alt_at_second_ft,tas_at_second_kt,eas_at_second_kt,heading_at_second_deg,gamma_at_second_deg,heading_at_uncontrolled_deg,gamma_at_uncontrolled_deg,duration_uncontrolled_s,ground_distance_nm,air_distance_nm,path_length_nm,mean_eas_kt,max_eas_kt,median_abs_bank_deg,phugoid_period_s,phugoid_tas_kt,max_descent_fpm,t_to_10k_fpm_s,t_to_15k_fpm_s,energy_ld
++Case 01,long,40000,469.1,108.5,1092.0,31570,293.2,174.2,1074.0,32564,274.6,160.1,185.5,-1.89,185.2,-8.95,1443.1,24.0,11.59,100.0,197.9,233.1,8.8,84.0,251.9,4560,nan,nan,18.18
++Case 02,long,40000,466.7,106.4,1093.0,31253,296.1,176.9,1072.0,32446,274.7,160.6,186.8,-1.92,186.5,-8.42,1385.3,28.96,16.69,96.7,195.7,251.3,9.3,83.0,249.1,6300,nan,nan,17.97
++Case 03,short,40000,469.1,143.0,152.0,39822,457.0,227.7,152.0,39822,457.2,227.8,187.2,-1.38,187.2,-1.38,437.2,19.51,18.89,50.2,291.1,573.4,16.0,80.0,486.7,53460,294.0,296.0,nan
++Case 04,short,40000,469.7,141.0,142.0,39976,456.6,226.7,142.0,39976,457.0,226.9,187.6,-0.76,187.6,-0.76,314.1,10.21,13.62,41.3,313.3,589.5,17.2,138.0,494.5,33510,162.0,167.0,nan
++Case 05,long,35000,439.0,91.2,872.0,33147,323.8,186.7,850.0,34990,282.5,157.4,183.4,-1.76,182.2,-8.43,1025.6,21.18,23.12,72.5,197.7,371.7,5.0,86.0,263.2,24150,708.0,938.0,17.61
++Case 06,short,35000,439.4,138.0,139.0,34943,428.8,239.0,139.0,34943,429.5,239.3,181.8,-0.79,181.8,-0.79,247.5,12.19,11.94,32.5,303.6,616.4,9.0,122.0,456.2,43320,146.0,156.0,nan
++Case 07,long,40000,470.4,107.7,1093.0,31492,294.7,175.3,1074.0,32560,274.8,160.2,191.3,-1.95,190.9,-8.69,1361.1,23.35,13.37,95.7,197.9,241.8,8.8,86.0,251.9,4860,nan,nan,18.06
++Case 08,long,35000,423.4,98.9,892.0,32745,293.9,170.8,877.0,33598,277.6,158.8,183.4,-1.87,182.7,-9.35,1356.9,15.91,8.09,92.9,193.4,263.7,5.3,81.5,244.9,7140,nan,nan,17.52
++Case 09,long,40000,470.4,107.4,808.0,34739,309.0,172.9,792.0,35496,299.3,165.0,185.1,-1.8,184.6,-7.55,1458.0,34.06,20.78,102.8,191.9,248.7,10.1,83.0,246.8,6900,nan,nan,17.46
++Case 10,short,40000,468.3,144.0,145.0,39944,457.7,227.4,145.0,39944,457.7,227.4,188.6,-0.72,188.6,-0.72,335.5,8.96,12.67,38.9,298.1,605.4,17.9,140.0,495.9,57990,165.0,170.0,nan
+diff --git a/hypotheses/end-of-flight/prepare/boeing_runs.py b/hypotheses/end-of-flight/prepare/boeing_runs.py
+new file mode 100644
+index 0000000..b9c5bc5
+--- /dev/null
++++ b/hypotheses/end-of-flight/prepare/boeing_runs.py
+@@ -0,0 +1,373 @@
++"""Calibration targets from Boeing's ten end-of-flight engineering-simulator runs.
++
++Input: data/external/end-of-flight/2018-08-19-eof-sims.zip. These are the ten 1 Hz
++time / X / Y (NM) / altitude (ft) exports that ATSB defined in April 2016 and Boeing flew
++in its engineering simulator (ATSB, "MH370 - Search and debris examination update",
++2 Nov 2016, pp. 7-8); they were shared publicly by Iannello (19 Aug 2018) with ATSB's
++permission. ATSB: they "do not represent all possible scenarios, nor ... the exact
++response of the accident aircraft". No configuration labels, Mach, attitude or control
++channels were released, so everything below is inferred from the track.
++
++Method, per case:
++- Simulator wind. The six long cases circle for 15-25 minutes. Low-passing the ground
++  velocity over one phugoid period leaves a circle of radius TAS centred on the wind;
++  a circle fit per loop gives the wind at that loop's mean altitude. One profile
++  (speed linear in altitude, one direction) is fitted to all loops and used for every
++  case, above 25,000 ft held at its 25,000 ft value.
++- Events. t1: first flame-out, where the level-flight ground-speed decay extrapolates
++  back to the initial speed, or the onset of descent, whichever is first. tu: onset of
++  uncontrolled flight, the first time the 20 s mean |turn rate| of the air-relative
++  velocity exceeds 0.15 deg/s. Long cases (tu - t1 > 120 s) kept the autopilot through
++  the first flame-out; short cases lost it there. t2: second flame-out in the long cases,
++  the last time before tu that the 10 s mean descent rate was under 1,000 fpm (the
++  autopilot's driftdown ends and the nose drops); t2 = tu in the short cases. The model's
++  calibration flights start at t2.
++- After tu: bank from the coordinated-turn relation tan(bank) = V_h * turn rate / g,
++  EAS from ISA density at the recorded altitude, phugoid period from successive downward
++  zero crossings of the vertical speed about its 90 s running mean, descent-rate
++  milestones on 1 s differences, and an energy-height L/D over the circling descent:
++  L/D = sum(n * V dt) / (loss of h + V^2 / 2g), n = 1/cos(bank), over the circling
++  descent below 260 KEAS. The runs end 470-1,860 ft above the sea; the impact time
++  extrapolates the mean descent rate of the last 90 s (at least 1,000 fpm).
++
++Writes boeing-runs-targets.csv next to this script (small derived data, committed) and
++diagnostic figures to runs/end-of-flight/prepare/ (generated, never committed).
++
++Calibration: the model's ignored test `calibration_traces` (calibrate.rs) flies each case from
++its onset state in the same wind and writes 1 Hz traces in the exports' own X/Y/altitude
++form to runs/end-of-flight/prepare/calibration-traces.csv. Given that file, this script
++measures the simulated traces with the same code and writes calibration.csv and figures.
++
++Run from the repository root:  .venv/bin/python hypotheses/end-of-flight/prepare/boeing_runs.py
++"""
++
++import csv
++import io
++import pathlib
++import zipfile
++
++import matplotlib
++
++matplotlib.use("Agg")
++import matplotlib.pyplot as plt
++import numpy as np
++
++ROOT = pathlib.Path(__file__).resolve().parents[3]
++ZIP = ROOT / "data/external/end-of-flight/2018-08-19-eof-sims.zip"
++HERE = pathlib.Path(__file__).resolve().parent
++FIGURES = ROOT / "runs/end-of-flight/prepare"
++
++NM, KT, FT, G = 1852.0, 1852.0 / 3600.0, 0.3048, 9.80665
++
++
++def isa_density(h_m):
++    t = np.maximum(288.15 - 0.0065 * h_m, 216.65)
++    p = np.where(h_m <= 11_000, 101_325 * (t / 288.15) ** 5.25588,
++                 22_632.06 * np.exp(-G * (h_m - 11_000) / (287.05287 * 216.65)))
++    return p / (287.05287 * t)
++
++
++def centred(v, w):
++    """Running mean over w samples, NaN where the window is incomplete."""
++    out = np.full(v.shape, np.nan)
++    c = np.convolve(v, np.ones(w) / w, mode="valid")
++    out[w // 2: w // 2 + len(c)] = c
++    return out
++
++
++def load():
++    with zipfile.ZipFile(ZIP) as z:
++        names = sorted(n for n in z.namelist() if n.endswith(".csv"))
++        return {n[:-4]: np.loadtxt(io.StringIO(z.read(n).decode()), delimiter=",", skiprows=1).T for n in names}
++
++
++def fit_circle(vx, vy, t):
++    """Wind (m/s east, north) and TAS (m/s, linear in time) from a low-passed ground-velocity circle."""
++    w = np.array([vx.mean(), vy.mean()])
++    a, b, tt = 120.0, 0.0, t - t.mean()
++    for _ in range(60):
++        dx, dy = vx - w[0], vy - w[1]
++        r = np.hypot(dx, dy)
++        res = r - (a + b * tt)
++        jac = np.column_stack([-dx / r, -dy / r, -np.ones_like(tt), -tt])
++        step = np.linalg.lstsq(jac, -res, rcond=None)[0]
++        w += step[:2]
++        a += step[2]
++        b += step[3]
++    turned = np.unwrap(np.arctan2(vx - w[0], vy - w[1]))
++    return w, abs(turned[-1] - turned[0])
++
++
++def wind_profile(cases):
++    """Fit one wind profile to per-loop circle fits of the long cases."""
++    rows = []
++    for name, (t, x, y, h) in cases.items():
++        if t[-1] < 1500:
++            continue
++        vx = centred(centred(np.gradient(x, t) * NM, 88), 88)
++        vy = centred(centred(np.gradient(y, t) * NM, 88), 88)
++        hs = centred(h, 88)
++        start = t[np.argmax(np.abs(np.gradient(np.unwrap(np.arctan2(vx, vy)), t)) > np.radians(0.2))]
++        for w0 in np.arange(start + 60, t[-1] - 480, 120):
++            s = (t >= w0) & (t < w0 + 480) & np.isfinite(vx)
++            w, turned = fit_circle(vx[s], vy[s], t[s])
++            if turned > np.radians(300):
++                rows.append((hs[s].mean() * FT, w[0], w[1]))
++    rows = np.array(rows)
++    direction = np.arctan2(rows[:, 1].mean(), rows[:, 2].mean())
++    speed = np.hypot(rows[:, 1], rows[:, 2])
++    slope, intercept = np.polyfit(rows[:, 0], speed, 1)
++    return direction, intercept, slope, rows
++
++
++def analyse(name, t, x, y, h, wind, onset=None, long=None):
++    """Measure one trace. Simulated traces start at their `onset` (s) and take `long` from the run."""
++    direction, intercept, slope, _ = wind
++    hm = h * FT
++    speed = intercept + slope * np.minimum(hm, 25_000 * FT)
++    wx, wy = speed * np.sin(direction), speed * np.cos(direction)
++    vx = np.gradient(x, t) * NM - wx
++    vy = np.gradient(y, t) * NM - wy
++    vz = np.gradient(hm, t)
++    vh = np.hypot(vx, vy)
++    v = np.hypot(vh, vz)
++    heading = np.unwrap(np.arctan2(vx, vy))
++    turn = centred(np.gradient(heading, t), 20)
++    bank = np.degrees(np.arctan(vh * np.nan_to_num(turn) / G))
++    eas = v * np.sqrt(isa_density(hm) / 1.225)
++    gs = np.hypot(np.gradient(x, t), np.gradient(y, t)) * NM
++    gs30 = centred(gs, 30)
++
++    # t1: first flame-out.
++    g0 = np.nanmean(gs30[15:60])
++    i_drop = np.argmax(gs30 < g0 - 5 * KT)
++    j = slice(i_drop, i_drop + 60)
++    k, c = np.polyfit(t[j], gs30[j], 1)
++    t_decay = (g0 - c) / k if k < 0 else np.inf
++    t_descent = t[np.argmax(centred(vz, 10) < -500 * FT / 60)]
++    # A level deceleration of at least a minute before the descent marks a flame-out
++    # with the autopilot still engaged; otherwise the descent itself is the first event.
++    t1 = t_decay if 0 < t_decay < t_descent - 60 else t_descent
++    iu = np.argmax((np.abs(turn) > np.radians(0.15)) & (t > t1))
++    if onset is not None:
++        t1, iu = onset, int(np.argmin(np.abs(t - onset)))
++    tu = t[iu]
++    long_case = tu - t1 > 120 if long is None else long
++    i2 = iu
++    if long_case and onset is None:
++        slow = np.where((centred(vz, 10) > -1000 * FT / 60) & (t < tu))[0]
++        i2 = slow[-1] if len(slow) else iu
++
++    after = t >= tu
++    descent_ft_s = -np.mean(np.gradient(h, t)[-90:])
++    t_impact = t[-1] + h[-1] / max(descent_ft_s, 1000 / 60)
++    vz_fpm = vz / FT * 60
++
++    def first(mask):
++        m = mask & after
++        return t[np.argmax(m)] - tu if m.any() else np.nan
++
++    # Phugoid: downward zero crossings of vz about its 90 s running mean.
++    dv = vz - centred(vz, 90)
++    s = after & np.isfinite(dv)
++    zc = t[1:][(dv[1:] < 0) & (dv[:-1] >= 0) & s[1:]]
++    zc = zc[np.concatenate([[True], np.diff(zc) > 30])] if len(zc) else zc
++    periods = np.diff(zc)
++    ok = (periods > 40) & (periods < 200)
++    mid = 0.5 * (zc[1:] + zc[:-1])
++    phugoid = np.median(periods[ok]) if ok.any() else np.nan
++    phugoid_tas = np.interp(mid[ok], t, centred(v, 90)).mean() / KT if ok.any() else np.nan
++
++    # Energy-height L/D while circling below the first high-speed excursion (long cases).
++    ld = np.nan
++    if long_case:
++        m = (t > tu + 120) & (t < t[-1] - 60)
++        m &= np.cumsum(m & (eas > 260 * KT)) == 0
++        n = 1 / np.cos(np.radians(bank[m]))
++        e = hm + v ** 2 / (2 * G)
++        ld = np.sum(n * v[m]) / (e[m][0] - e[m][-1]) if m.sum() > 60 else np.nan
++
++    xu, yu = x[iu], y[iu]
++    wind_shift = np.array([np.sum(wx[after]), np.sum(wy[after])]) / NM
++    return {
++        "case": name, "regime": "long" if long_case else "short",
++        "start_alt_ft": round(h[0]), "start_tas_kt": round(np.mean(v[5:60]) / KT, 1),
++        "t_first_flameout_s": round(t1, 1), "t_uncontrolled_s": round(tu, 1),
++        "alt_at_uncontrolled_ft": round(h[iu]), "tas_at_uncontrolled_kt": round(v[iu] / KT, 1),
++        "eas_at_uncontrolled_kt": round(eas[iu] / KT, 1),
++        "t_second_flameout_s": round(t[i2], 1), "alt_at_second_ft": round(h[i2]),
++        "tas_at_second_kt": round(np.mean(v[max(i2 - 5, 0):i2 + 5]) / KT, 1),
++        "eas_at_second_kt": round(np.mean(eas[max(i2 - 5, 0):i2 + 5]) / KT, 1),
++        "heading_at_second_deg": round(np.degrees(np.nanmean(heading[max(i2 - 5, 0):i2 + 5])) % 360, 1),
++        "gamma_at_second_deg": round(np.degrees(np.arctan2(np.mean(vz[max(i2 - 5, 0):i2 + 5]), np.mean(vh[max(i2 - 5, 0):i2 + 5]))), 2),
++        "heading_at_uncontrolled_deg": round(np.degrees(np.nanmean(heading[max(iu - 5, 0):iu + 5])) % 360, 1),
++        "gamma_at_uncontrolled_deg": round(np.degrees(np.arctan2(np.mean(vz[max(iu - 5, 0):iu + 5]), np.mean(vh[max(iu - 5, 0):iu + 5]))), 2),
++        "duration_uncontrolled_s": round(t_impact - tu, 1),
++        "ground_distance_nm": round(np.hypot(x[-1] - xu, y[-1] - yu), 2),
++        "air_distance_nm": round(np.hypot(x[-1] - xu - wind_shift[0], y[-1] - yu - wind_shift[1]), 2),
++        "path_length_nm": round(np.sum(np.hypot(np.diff(x[after]), np.diff(y[after]))), 1),
++        "mean_eas_kt": round(np.nanmean(eas[after & (t < t[-1] - 30)]) / KT, 1),
++        "max_eas_kt": round(np.nanmax(eas[after]) / KT, 1),
++        "median_abs_bank_deg": round(np.nanmedian(np.abs(bank[after & (eas < 300 * KT)])), 1),
++        "phugoid_period_s": round(phugoid, 1), "phugoid_tas_kt": round(phugoid_tas, 1),
++        "max_descent_fpm": round(-np.min(vz_fpm[after])),
++        "t_to_10k_fpm_s": first(vz_fpm < -10_000), "t_to_15k_fpm_s": first(vz_fpm < -15_000),
++        "energy_ld": round(ld, 2),
++        "_series": (t, x, y, h, eas / KT, vz_fpm, bank, t1, tu),
++    }
++
++
++METRICS = ["duration_uncontrolled_s", "air_distance_nm", "ground_distance_nm", "mean_eas_kt", "median_abs_bank_deg",
++           "phugoid_period_s", "max_descent_fpm", "t_to_15k_fpm_s", "max_eas_kt", "energy_ld"]
++
++
++def single_engine(data, wind, by_case):
++    """The autopilot's single-engine phase: model from each run's first flame-out against the run."""
++    m0 = data["set"] == "single-engine"
++    if not m0.any():
++        return
++    names = list(dict.fromkeys(data["case"][m0]))
++    fig, axes = plt.subplots(len(names), 2, figsize=(12, 2.4 * len(names)))
++    print("single-engine phase, at the second flame-out: altitude ft and KEAS, model / run")
++    for ax, name in zip(np.atleast_2d(axes), names):
++        m = m0 & (data["case"] == name)
++        b = by_case[name]
++        r = analyse(name, data["t"][m], data["x_nm"][m], data["y_nm"][m], data["alt_ft"][m], wind, onset=0.0, long=False)["_series"]
++        tb = b["_series"][0] - b["t_first_flameout_s"]
++        keep = (tb >= -30) & (tb <= b["t_second_flameout_s"] - b["t_first_flameout_s"] + 30)
++        ax[0].plot(tb[keep], b["_series"][3][keep], "k-", lw=0.8, label="Boeing")
++        ax[0].plot(r[0], r[3], "r-", lw=0.8, label="model")
++        ax[1].plot(tb[keep], b["_series"][4][keep], "k-", lw=0.8)
++        ax[1].plot(r[0], r[4], "r-", lw=0.8)
++        ax[0].set_title(f"{name}: altitude, ft (from the first flame-out)")
++        ax[1].set_title("EAS, kt")
++        ax[0].legend(fontsize=7)
++        print(f"  {name}: {r[3][-1]:.0f} / {b['alt_at_second_ft']:.0f} ft, {np.nanmean(r[4][-6:-1]):.0f} / {b['eas_at_second_kt']:.0f} KEAS")
++    fig.tight_layout()
++    fig.savefig(ROOT / "runs/end-of-flight/prepare/calibration-single-engine.png", dpi=60)
++    plt.close(fig)
++
++
++def compare(wind, results):
++    """Measure the model's calibration traces with the same code and tabulate them against the runs."""
++    traces = ROOT / "runs/end-of-flight/prepare/calibration-traces.csv"
++    if not traces.exists():
++        return
++    data = np.genfromtxt(traces, delimiter=",", names=True, dtype=None, encoding=None)
++    rows = []
++    by_case = {b["case"]: b for b in results}
++    single_engine(data, wind, by_case)
++    for label in [s for s in dict.fromkeys(data["set"]) if s != "single-engine"]:
++        for name in dict.fromkeys(data["case"][data["set"] == label]):
++            m = (data["set"] == label) & (data["case"] == name)
++            b = by_case[name]
++            r = analyse(name, data["t"][m], data["x_nm"][m], data["y_nm"][m], data["alt_ft"][m], wind,
++                        onset=b["t_uncontrolled_s"] - b["t_second_flameout_s"], long=b["regime"] == "long")
++            rows.append({"set": label, "case": name, **{k: r[k] for k in METRICS}, "_series": r["_series"]})
++    with open(ROOT / "runs/end-of-flight/prepare/calibration.csv", "w", newline="") as f:
++        w = csv.DictWriter(f, fieldnames=["set", "case", *METRICS])
++        w.writeheader()
++        for r in [{"set": "boeing", "case": b["case"], **{k: b[k] for k in METRICS}} for b in results] + rows:
++            w.writerow({k: r[k] for k in ["set", "case", *METRICS]})
++    sets = list(dict.fromkeys(r["set"] for r in rows))
++    print(f"{'set':34s}" + "".join(f"{k[:14]:>15s}" for k in METRICS))
++    for label in sets:
++        mine = [r for r in rows if r["set"] == label]
++        # Mean relative error per metric over the cases this set flew.
++        err = []
++        for k in METRICS:
++            e = [(r[k] - by_case[r["case"]][k]) / by_case[r["case"]][k] for r in mine
++                 if np.isfinite(r[k]) and np.isfinite(by_case[r["case"]][k]) and by_case[r["case"]][k] != 0]
++            err.append(np.mean(e) if e else np.nan)
++        print(f"{label:34s}" + "".join(f"{e:+15.3f}" for e in err))
++    for name in dict.fromkeys(r["case"] for r in rows):
++        b = by_case[name]
++        print(f"{name:10s} boeing " + " ".join(f"{k[:8]}={b[k]}" for k in METRICS))
++        for r in rows:
++            if r["case"] == name:
++                print(f"{'':10s} {r['set'][:30]:30s} " + " ".join(f"{r[k]:.4g}" for k in METRICS))
++
++    # Model against the run, per case, for each simulated set.
++    for label in sets:
++        mine = [r for r in rows if r["set"] == label]
++        fig, axes = plt.subplots(len(mine), 4, figsize=(18, 2.6 * len(mine)))
++        for ax, r in zip(np.atleast_2d(axes), mine):
++            b = by_case[r["case"]]["_series"]
++            # Both aligned on the second flame-out (the model's t = 0).
++            tb = b[0] - by_case[r["case"]]["t_second_flameout_s"]
++            for series, style, lab in [(b, "k-", "Boeing"), (r["_series"], "r-", "model")]:
++                t = tb if series is b else series[0]
++                ax[0].plot(series[1] - series[1][np.argmin(np.abs(t))], series[2] - series[2][np.argmin(np.abs(t))], style, lw=0.7, label=lab)
++                ax[1].plot(t, series[3], style, lw=0.7)
++                ax[2].plot(t, series[4], style, lw=0.7)
++                ax[3].plot(t, series[6], style, lw=0.7)
++            ax[0].set_aspect("equal")
++            ax[0].legend(fontsize=7)
++            ax[0].set_title(f"{r['case']}: track from onset, NM")
++            ax[1].set_title("altitude, ft")
++            ax[2].set_title("EAS, kt")
++            ax[3].set_title("bank, deg")
++            for a in ax[1:]:
++                a.set_xlim(-60, max(tb[-1], r["_series"][0][-1]) + 30)
++                a.grid(alpha=0.3)
++        fig.suptitle(label)
++        fig.tight_layout()
++        fig.savefig(ROOT / "runs/end-of-flight/prepare" / f"calibration-{label.replace(' ', '_')}.png", dpi=55)
++        plt.close(fig)
++    return rows
++
++
++def main():
++    cases = load()
++    wind = wind_profile(cases)
++    direction, intercept, slope, loops = wind
++    results = [analyse(n, *cases[n], wind) for n in cases]
++
++    fields = [k for k in results[0] if not k.startswith("_")]
++    with open(HERE / "boeing-runs-targets.csv", "w", newline="") as f:
++        f.write(f"# Derived by prepare/boeing_runs.py from {ZIP.name}. Simulator wind fitted: "
++                f"from {np.degrees(direction) + 180:.0f} deg, {intercept / KT:.1f} kt at sea level "
++                f"{slope * 1000 * FT / KT:+.2f} kt per 1000 ft up to 25,000 ft.\n")
++        w = csv.DictWriter(f, fieldnames=fields)
++        w.writeheader()
++        for r in results:
++            w.writerow({k: r[k] for k in fields})
++
++    FIGURES.mkdir(parents=True, exist_ok=True)
++    fig, axes = plt.subplots(len(results), 4, figsize=(18, 3.0 * len(results)))
++    for ax, r in zip(axes, results):
++        t, x, y, h, eas, vz, bank, t1, tu = r["_series"]
++        ax[0].plot(x, y, lw=0.8)
++        ax[0].plot(x[t == tu], y[t == tu], "ro")
++        ax[0].set_aspect("equal")
++        ax[0].set_title(f"{r['case']} ({r['regime']}): track, NM; red = uncontrolled onset")
++        ax[1].plot(t, h, lw=0.8)
++        ax[1].set_title("altitude, ft")
++        ax[2].plot(t, eas, lw=0.8)
++        ax[2].set_title("EAS, kt (wind removed)")
++        ax[3].plot(t, bank, lw=0.8, label="bank, deg")
++        ax[3].plot(t, vz / 1000, lw=0.8, label="vertical speed, 1000 fpm")
++        ax[3].legend(loc="lower left", fontsize=7)
++        for a in ax[1:]:
++            a.axvline(t1, color="k", ls=":", lw=0.8)
++            a.axvline(tu, color="r", ls=":", lw=0.8)
++            a.grid(alpha=0.3)
++    fig.tight_layout()
++    fig.savefig(FIGURES / "boeing-runs.png", dpi=60)
++
++    fig, ax = plt.subplots(figsize=(6, 4))
++    ax.plot(loops[:, 0] / FT, np.hypot(loops[:, 1], loops[:, 2]) / KT, "o", label="per-loop circle fits")
++    hh = np.linspace(0, 25_000 * FT, 10)
++    ax.plot(hh / FT, (intercept + slope * hh) / KT, "-", label="profile used")
++    ax.set_xlabel("altitude, ft")
++    ax.set_ylabel("wind speed, kt")
++    ax.set_title(f"Simulator wind, from {np.degrees(direction) + 180:.0f} deg")
++    ax.legend()
++    fig.tight_layout()
++    fig.savefig(FIGURES / "boeing-wind.png", dpi=80)
++
++    compare(wind, results)
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/end-of-flight/prepare/handoffs.py b/hypotheses/end-of-flight/prepare/handoffs.py
+new file mode 100644
+index 0000000..cb88c38
+--- /dev/null
++++ b/hypotheses/end-of-flight/prepare/handoffs.py
+@@ -0,0 +1,52 @@
++"""Hand-off states for the standalone preview, until the terminal hook supplies real ones.
++
++The base run keeps 2,000 resampled (equally weighted) routes per replicate as positions every
++600 s from 18:01:49; the last two points are 00:01:49 and 00:11:49. Each preview hand-off is
++a route's position at 00:11:49 with its track and ground speed over the last ten minutes. The
++routes carry no altitude or airspeed, so altitude is drawn from the replicate's weighted final
++altitudes and the airspeed is taken as the ground speed: the preview flies in still air. It is
++a physics preview, not a posterior; the terminal hook will hand over full states and ERA5 wind.
++
++Writes runs/end-of-flight/preview/handoffs.csv. Run from the repository root.
++"""
++
++import pathlib
++
++import numpy as np
++
++ROOT = pathlib.Path(__file__).resolve().parents[3]
++BASE = ROOT / "runs/davey2016/bto-bfo"
++OUT = ROOT / "runs/end-of-flight/preview"
++PER_SEED, SEEDS = 50, [1, 2, 3, 4]
++T_ROUTE_END = 1_394_215_309.0 + 37 * 600.0  # 00:11:49 UTC
++
++
++def main():
++    rng = np.random.default_rng(1)
++    rows = []
++    for seed in SEEDS:
++        routes = np.load(BASE / f"seed-{seed}/routes.npy")
++        final = np.load(BASE / f"seed-{seed}/final.npy", mmap_mode="r")
++        pick = rng.choice(len(routes), PER_SEED, replace=False)
++        rows_final = rng.choice(len(final), 200_000, replace=False)
++        weights = np.asarray(final[rows_final, 0], dtype=float)
++        altitudes = np.asarray(final[rows_final, 3], dtype=float)
++        alt = rng.choice(altitudes, PER_SEED, p=weights / weights.sum())
++        for i, a in zip(pick, alt):
++            (lat0, lon0), (lat1, lon1) = routes[i, -2], routes[i, -1]
++            north = np.radians(lat1 - lat0) * 6_356_752.0
++            east = np.radians(lon1 - lon0) * 6_378_137.0 * np.cos(np.radians(0.5 * (lat0 + lat1)))
++            rows.append((seed, int(i), T_ROUTE_END, lat1, lon1, a, np.degrees(np.arctan2(east, north)) % 360,
++                         np.hypot(north, east) / 600.0))
++    OUT.mkdir(parents=True, exist_ok=True)
++    with open(OUT / "handoffs.csv", "w") as f:
++        f.write("seed,route,unix_s,lat_deg,lon_deg,alt_ft,track_deg,ground_speed_m_s\n")
++        for r in rows:
++            f.write(",".join(f"{v:.6f}" if isinstance(v, float) else str(v) for v in r) + "\n")
++    speeds = np.array([r[-1] for r in rows]) / (1852 / 3600)
++    print(f"{len(rows)} hand-offs; ground speed {np.percentile(speeds, [5, 50, 95]).round(0)} kt; "
++          f"altitude {np.percentile([r[5] for r in rows], [5, 50, 95]).round(-2)} ft")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/end-of-flight/prepare/preview.py b/hypotheses/end-of-flight/prepare/preview.py
+new file mode 100644
+index 0000000..6503c4f
+--- /dev/null
++++ b/hypotheses/end-of-flight/prepare/preview.py
+@@ -0,0 +1,193 @@
++"""Per-hypothesis results of the standalone preview ensemble (preview.rs), as figures and a table.
++
++Hypotheses first: each ending's evidence from the log-on alone, per second of log-on time on one
++absolute scale, against the declared rate of other-cause log-ons (swept 0.1, 0.3, 1 per hour):
++the flame-out -> APU -> SDU lag under exhaustion before the log-on, the other-cause rate
++otherwise, no other-cause log-on before 00:19:29.416, and the aircraft still flying at 00:19:37.443.
++The posterior from equal priors is shown beside it; any other prior follows from the evidence.
++Then each ending's impact distance from the arc, and per ending each family, normalised on its own. Positions are measured from the aircraft's position at 00:19:29.416,
++which lies on the 7th arc: 'across' is the component towards (+) or away from (-) the
++satellite's sub-point (0 N, 64.5 E), i.e. inside or outside the arc. Where the core flew that
++epoch (takeover after it), the position comes from the hand-off's cruise, dead-reckoned. For a
++powered impact, 'from the flame-out point' is from the start of the powered descent.
++
++A physics preview and NOT EVIDENCE: still air, hand-offs from the base run's routes, the
++placeholder exhaustion window (to 01:16:05) and the log-on term only. Descents faster than
++Mach 0.89 (red) are extrapolated in every model, Boeing's included.
++
++Writes runs/end-of-flight/preview/preview-<ending>.png and preview-summary.csv. Run from the
++repository root.
++"""
++
++import pathlib
++
++import matplotlib
++
++matplotlib.use("Agg")
++import matplotlib.pyplot as plt
++import numpy as np
++
++ROOT = pathlib.Path(__file__).resolve().parents[3]
++DIR = ROOT / "runs/end-of-flight/preview"
++MASS_KG, NM, FPM = 174_500.0, 1852.0, 0.3048 / 60.0
++R_EARTH = 6_371_000.0
++LOGON = 1_394_237_969.416
++HANDOFF = 1_394_237_459.0
++RATES_PER_HOUR = [0.1, 0.3, 1.0]
++FINALS = 4
++ENDINGS = {
++    "exhausted-before-logon": ["normal-law", "stick-fixed", "glide", "ditching", "dive"],
++    "exhausted-after-logon": ["normal-law", "stick-fixed", "glide", "ditching", "dive"],
++    "powered-impact": ["powered-upset", "powered-dive", "powered-descent", "powered-ditching"],
++}
++
++
++def enu_offset(lat0, lon0, lat1, lon1):
++    """Local east/north offset (m) of point 1 from point 0 on a sphere."""
++    east = np.radians(lon1 - lon0) * R_EARTH * np.cos(np.radians(lat0))
++    north = np.radians(lat1 - lat0) * R_EARTH
++    return east, north
++
++
++def weighted_quantiles(x, w, q):
++    order = np.argsort(x)
++    c = np.cumsum(w[order]) / w.sum()
++    return np.interp(q, c, x[order])
++
++
++def logon_positions(d, handoffs):
++    """Position at 00:19:29.416: the descent's own, else the hand-off's cruise dead-reckoned."""
++    lat, lon = d["logon_lat"].astype(float), d["logon_lon"].astype(float)
++    h = handoffs[d["handoff"]]
++    dt = LOGON - h["unix_s"]
++    north = h["ground_speed_m_s"] * np.cos(np.radians(h["track_deg"])) * dt
++    east = h["ground_speed_m_s"] * np.sin(np.radians(h["track_deg"])) * dt
++    cruise_lat = h["lat_deg"] + np.degrees(north / R_EARTH)
++    cruise_lon = h["lon_deg"] + np.degrees(east / (R_EARTH * np.cos(np.radians(h["lat_deg"]))))
++    missing = ~np.isfinite(lat)
++    lat[missing], lon[missing] = cruise_lat[missing], cruise_lon[missing]
++    return lat, lon
++
++
++def logon_log_likelihood(d, rate_per_hour):
++    """The log-on term at a given other-cause rate, from the parts the preview stored."""
++    rate = rate_per_hour / 3600.0
++    quiet = -rate * (LOGON - HANDOFF)
++    ll = np.where(d["ending"] == "exhausted-before-logon", d["lag_log_density"], np.log(rate)) + quiet
++    return np.where(d["flying_at_ack"] == 1, ll, -np.inf)
++
++
++def main():
++    d = np.genfromtxt(DIR / "descents.csv", delimiter=",", names=True, dtype=None, encoding=None)
++    handoffs = np.genfromtxt(DIR / "handoffs.csv", delimiter=",", names=True)
++    children = len(set(zip(d["handoff"], d["child"])))
++    per_child = np.array([len(ENDINGS[e]) * FINALS for e in d["ending"]], dtype=float)
++    ok = np.isfinite(d["impact_unix_s"])
++
++    # Evidence per ending: the importance weights estimate P(e) Z_e; equal priors here.
++    lines = ["other_per_hour,ending,log_evidence_per_s,posterior_equal_priors"]
++    evidence = {}
++    for rate in RATES_PER_HOUR:
++        logw = d["log_proposal_correction"] + logon_log_likelihood(d, rate)
++        joint = {e: np.exp(logw[(d["ending"] == e) & ok] - 0.0) / per_child[(d["ending"] == e) & ok] for e in ENDINGS}
++        z = {e: w[np.isfinite(w)].sum() / children / (1 / 3) for e, w in joint.items()}
++        total = sum(z.values())
++        evidence[rate] = z
++        for e in ENDINGS:
++            lines.append(f"{rate},{e},{np.log(z[e]):.3f},{z[e] / total:.3f}")
++    (DIR / "preview-evidence.csv").write_text("\n".join(lines) + "\n")
++    print("\n".join(lines))
++
++    # Weights within each ending do not depend on the rate (a constant factor there).
++    logw = d["log_proposal_correction"] + logon_log_likelihood(d, 0.3)
++    good = ok & np.isfinite(logw)
++    weight = np.where(good, np.exp(np.where(good, logw, 0.0) - logw[good].max()) / per_child, 0.0)
++    logon_lat, logon_lon = logon_positions(d, handoffs)
++    e1, n1 = enu_offset(logon_lat, logon_lon, d["impact_lat"], d["impact_lon"])
++    se, sn = enu_offset(logon_lat, logon_lon, 0.0 * logon_lat, 64.5 + 0.0 * logon_lon)
++    unit = np.hypot(se, sn)
++    across_all = (e1 * se + n1 * sn) / unit / NM
++    along_all = (e1 * sn - n1 * se) / unit / NM
++
++    # Domain sizing: impact distance from the 00:19:29 position on the arc, per ending.
++    fig, axes = plt.subplots(2, 3, figsize=(16, 8))
++    rows_domain = ["ending,quantity,p01,p05,p50,p95,p99"]
++    for j, ending in enumerate(ENDINGS):
++        m = good & (d["ending"] == ending)
++        w = weight[m]
++        post = {r: evidence[r][ending] / sum(evidence[r].values()) for r in RATES_PER_HOUR}
++        ax = axes[0, j]
++        ax.hist(across_all[m], bins=60, weights=w / w.sum())
++        ax.set_xlabel("NM across the 7th arc from the 00:19:29 position (+ inside)")
++        ax.set_title(f"{ending}\nposterior (equal priors, log-on only) " + ", ".join(f"{p:.2f}@{r}/h" for r, p in post.items()), fontsize=9)
++        axes[1, j].hist((d["impact_unix_s"][m] - 1_394_236_800) / 60.0, bins=60, weights=w / w.sum(), color="C1")
++        axes[1, j].set_xlabel("impact time, minutes after 00:00 UTC")
++        for name, v in [("across_arc_nm", across_all[m]), ("distance_from_logon_position_nm", np.hypot(across_all[m], along_all[m])),
++                        ("impact_minutes_after_0000", (d["impact_unix_s"][m] - 1_394_236_800) / 60.0)]:
++            q = weighted_quantiles(v, w, [0.01, 0.05, 0.5, 0.95, 0.99])
++            rows_domain.append(f"{ending},{name}," + ",".join(f"{x:.1f}" for x in q))
++    fig.suptitle("PREVIEW, NOT EVIDENCE: impact distance from the arc and impact time per ending "
++                 "(still air, placeholder exhaustion window to 01:16:05, families at their priors)", fontsize=11)
++    fig.tight_layout(rect=(0, 0, 1, 0.95))
++    fig.savefig(DIR / "preview-endings.png", dpi=65)
++    plt.close(fig)
++    (DIR / "preview-domain.csv").write_text("\n".join(rows_domain) + "\n")
++    print("\n".join(rows_domain))
++
++    rows = []
++    for ending, families in ENDINGS.items():
++        in_ending = d["ending"] == ending
++        fig, axes = plt.subplots(6, len(families), figsize=(4.2 * len(families), 20))
++        for j, fam in enumerate(families):
++            m = in_ending & (d["family"] == fam) & good
++            w = weight[m]
++            x = d[m]
++            ess = w.sum() ** 2 / (w ** 2).sum() if w.sum() > 0 else 0.0
++            minutes = (x["impact_unix_s"] - np.where(fam.startswith("powered"), x["first_unix_s"], x["second_unix_s"])) / 60.0
++            e0, n0 = enu_offset(x["second_lat"], x["second_lon"], x["impact_lat"], x["impact_lon"])
++            from_start = np.hypot(e0, n0) / NM
++            across, along = across_all[m], along_all[m]
++            v2 = x["impact_v_east"] ** 2 + x["impact_v_north"] ** 2 + x["impact_v_up"] ** 2
++            ke_total = 0.5 * MASS_KG * v2 / 1e9
++            sink = -x["impact_v_up"] / FPM
++            hot = x["extrapolated_s"] > 0
++            row = {"ending": ending, "family": fam, "family_weight_within_ending": round(w.sum() / weight[in_ending & good].sum(), 3),
++                   "descents": int(m.sum()), "ess": round(ess, 1),
++                   "share_extrapolated": round(float(np.average(hot, weights=w)), 3)}
++            stats = {"minutes": minutes, "from_start_nm": from_start, "across_arc_nm": across, "along_arc_nm": along,
++                     "ke_total_gj": ke_total, "impact_sink_fpm": sink}
++            for k, v in stats.items():
++                q = weighted_quantiles(v, w, [0.05, 0.5, 0.95])
++                row.update({f"{k}_p05": round(q[0], 2), f"{k}_p50": round(q[1], 2), f"{k}_p95": round(q[2], 2)})
++            rows.append(row)
++            ax = axes[:, j]
++            ax[0].set_title(f"{fam}: ESS {ess:.0f} of {m.sum()}\n{row['share_extrapolated']:.0%} extrapolated (above M0.89, red)", fontsize=10)
++            ax[0].scatter(along[~hot], across[~hot], s=3, c="C0", alpha=0.5)
++            ax[0].scatter(along[hot], across[hot], s=3, c="C3", alpha=0.5)
++            ax[0].axhline(0, color="k", lw=0.5)
++            ax[0].set_xlabel("along the arc from the 00:19:29 position, NM")
++            ax[0].set_ylabel("across the arc, NM (+ towards the satellite)")
++            start = "start of powered descent" if fam.startswith("powered") else "2nd flame-out"
++            for a, (v, label) in zip(ax[1:], [(minutes, f"minutes from {start} to the sea"),
++                                              (from_start, f"NM from the {start} point"),
++                                              (across, "NM across the 7th arc (+ inside)"),
++                                              (ke_total, "kinetic energy at impact, GJ"),
++                                              (sink, "descent rate at impact, fpm")]):
++                a.hist([v[~hot], v[hot]], bins=40, weights=[w[~hot] / w.sum(), w[hot] / w.sum()], color=["C0", "C3"], stacked=True)
++                a.set_xlabel(label)
++                for qq in weighted_quantiles(v, w, [0.05, 0.5, 0.95]):
++                    a.axvline(qq, color="k", lw=0.6, ls=":")
++        fig.suptitle(f"PREVIEW, NOT EVIDENCE. Hypothesis {ending}, its families (still air, placeholder exhaustion window). "
++                     "Red: above Mach 0.89, extrapolated in every model.", fontsize=12)
++        fig.tight_layout(rect=(0, 0, 1, 0.975))
++        fig.savefig(DIR / f"preview-{ending}.png", dpi=55)
++        plt.close(fig)
++    keys = list(rows[0])
++    with open(DIR / "preview-summary.csv", "w") as f:
++        f.write(",".join(keys) + "\n")
++        for r in rows:
++            f.write(",".join(str(r[k]) for k in keys) + "\n")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/end-of-flight/preview.rs b/hypotheses/end-of-flight/preview.rs
+new file mode 100644
+index 0000000..c7947ad
+--- /dev/null
++++ b/hypotheses/end-of-flight/preview.rs
+@@ -0,0 +1,129 @@
++//! Standalone preview ensemble until the terminal hook exists (ignored test):
++//! `cargo test --release -p mh370-hypotheses end_of_flight::preview -- --ignored`.
++//!
++//! Follows the hook's shape. From each hand-off in runs/end-of-flight/preview/handoffs.csv
++//! (prepare/handoffs.py) it draws several children; each draws the takeover time from the
++//! mixture over the endings, dead-reckons the cruise to it, picks the ending given that time,
++//! and samples every family of that ending with the two-pass sampler (stratified, with the
++//! family prior as a correction). Epochs at or before the takeover belong to the core and are
++//! left out. The proposal adapts to the log-on term only; the runner will add the 00:19
++//! BTO/BFO options. Still ISA air; placeholder exhaustion window. Writes one row per final
++//! descent to runs/end-of-flight/preview/descents.csv for prepare/preview.py.
++
++use super::aero::B772;
++use super::descent::{descend, Descent, LATENT_COLUMNS};
++use super::endings::{Ending, Takeover, Timing};
++use super::families::{POWERED, UNPOWERED};
++use super::flight::{Aircraft, State, StillIsa, FT};
++use super::sampler::{sample, Settings};
++use super::timing::{Lag, Logon, ACK_UNIX_S, LOGON_UNIX_S};
++use std::fmt::Write as _;
++
++const HANDOFFS: usize = 100;
++const CHILDREN: usize = 8;
++const MASS_KG: f64 = 174_500.0;
++
++/// splitmix64: the runner will supply uniforms; the preview makes its own.
++struct Uniforms(u64);
++
++impl Uniforms {
++    fn next(&mut self) -> f64 {
++        self.0 = self.0.wrapping_add(0x9E37_79B9_7F4A_7C15);
++        let mut z = self.0;
++        z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
++        z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
++        (((z ^ (z >> 31)) >> 11) as f64 + 0.5) / (1u64 << 53) as f64
++    }
++}
++
++#[test]
++#[ignore]
++fn preview_ensemble() {
++    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../runs/end-of-flight/preview");
++    let text = std::fs::read_to_string(root.join("handoffs.csv")).expect("run prepare/handoffs.py first");
++    let handoffs: Vec<Vec<f64>> = text.lines().skip(1).take(HANDOFFS).map(|l| l.split(',').map(|v| v.parse().unwrap()).collect()).collect();
++    // The proposal adapts at a middle other-cause rate; the weights stay exact whatever the
++    // rate, and prepare/preview.py recomputes the log-on term across the sweep.
++    let logon = Logon { lag: Lag { mean_s: 120.0, sd_s: 20.0 }, other_per_hour: 0.3 };
++    let timing = Timing { priors: [1.0, 1.0, 1.0], max_gap_s: 900.0, exhaustion_unix_s: f64::NAN };
++    let settings = Settings { pilots: 12, rounds: 1, finals: 4, centres: 8, half_width: 0.1, prior_share: 0.5 };
++    let aircraft = Aircraft { aero: &B772, mass_kg: MASS_KG, weather: &StillIsa, stall_factor: 1.5, protected_factor: 1.15 };
++    let threads = std::thread::available_parallelism().map_or(4, |n| n.get());
++    let chunks: Vec<String> = std::thread::scope(|scope| {
++        let workers: Vec<_> = (0..threads)
++            .map(|w| {
++                let (handoffs, aircraft) = (&handoffs, &aircraft);
++                scope.spawn(move || {
++                    let mut out = String::new();
++                    for (h, row) in handoffs.iter().enumerate().skip(w).step_by(threads) {
++                        let mut rng = Uniforms(0xD1CE_0000 + h as u64);
++                        let (t0, lat, lon, alt_ft, track, speed) = (row[2], row[3], row[4], row[5], row[6].to_radians(), row[7]);
++                        for child in 0..CHILDREN {
++                            let (t, takeover_share) = timing.takeover_time(rng.next(), rng.next());
++                            let (lat1, lon1) = geo::advance(lat, lon, alt_ft, speed * track.cos() * 3600.0 / 1852.0, speed * track.sin() * 3600.0 / 1852.0, t - t0);
++                            let start = State { unix_s: t, lat_deg: lat1, lon_deg: lon1, alt_m: alt_ft * FT, tas: speed, gamma: 0.0, heading: track, bank: 0.0, sensed_eas: f64::NAN, reference_eas: f64::NAN };
++                            let pick = rng.next();
++                            let ending = timing.takeover(t, pick, 0.5).0.ending;
++                            let set: &[_] = if ending == Ending::PoweredImpact { &POWERED } else { &UNPOWERED };
++                            let epochs: Vec<f64> = [LOGON_UNIX_S, ACK_UNIX_S].into_iter().filter(|&e| e > t).collect();
++                            for &family in set {
++                                let stratum = (family.prior_within(set) * set.len() as f64).ln();
++                                let simulate = |u: &[f64]| {
++                                    let (takeover, share) = timing.takeover(t, pick, u[0]);
++                                    let d = descend(aircraft, start, &takeover, family, &u[1..], &epochs, 0.5);
++                                    let valid = if d.powered_in_time() { 0.0 } else { f64::NEG_INFINITY };
++                                    (d, share + stratum + valid)
++                                };
++                                let own = |d: &Descent| {
++                                    let takeover = Takeover { ending: d.ending, unix_s: d.first_unix_s, second_unix_s: d.second_unix_s };
++                                    timing.logon_log_likelihood(&logon, &takeover, d.flight.impact.map(|i| i.unix_s))
++                                };
++                                for (d, correction) in sample(&settings, 1 + family.dimension(), &mut || rng.next(), &simulate, &own) {
++                                    write_row(&mut out, h, child, &d, takeover_share + correction, &logon, &epochs);
++                                }
++                            }
++                        }
++                    }
++                    out
++                })
++            })
++            .collect();
++        workers.into_iter().map(|w| w.join().unwrap()).collect()
++    });
++    let mut out = String::from("handoff,child,ending,family,log_proposal_correction,lag_log_density,flying_at_ack,first_unix_s,second_unix_s,second_lat,second_lon,second_alt_ft");
++    for tag in ["logon", "ack"] {
++        for c in ["lat", "lon", "alt_ft", "v_east", "v_north", "v_up"] {
++            write!(out, ",{tag}_{c}").unwrap();
++        }
++    }
++    out.push_str(",impact_unix_s,impact_lat,impact_lon,impact_v_east,impact_v_north,impact_v_up,impact_tas,impact_gamma");
++    for c in LATENT_COLUMNS {
++        write!(out, ",{c}").unwrap();
++    }
++    out.push('\n');
++    out.extend(chunks);
++    std::fs::write(root.join("descents.csv"), out).unwrap();
++}
++
++/// One row: the log-on term is stored in parts (the exhaustion lag density and whether the
++/// aircraft was still flying at the acknowledgement) so that any other-cause rate can be applied.
++fn write_row(out: &mut String, handoff: usize, child: usize, d: &Descent, log_correction: f64, logon: &Logon, epochs: &[f64]) {
++    let flying = d.flight.impact.is_none_or(|i| i.unix_s >= ACK_UNIX_S);
++    let lag = logon.lag.log_likelihood(LOGON_UNIX_S - d.second_unix_s);
++    write!(out, "{handoff},{child},{},{},{:.6},{:.6},{},{:.2},{:.2},{:.5},{:.5},{:.0}", d.ending.name(), d.family.name(), log_correction, lag, u8::from(flying), d.first_unix_s, d.second_unix_s, d.at_second.lat_deg, d.at_second.lon_deg, d.at_second.alt_ft).unwrap();
++    // One column group per 00:19 epoch; empty where the core flew it or the aircraft was down.
++    for target in [LOGON_UNIX_S, ACK_UNIX_S] {
++        match epochs.iter().position(|&x| x == target).and_then(|i| d.flight.epochs[i]) {
++            Some(s) => write!(out, ",{:.5},{:.5},{:.0},{:.2},{:.2},{:.2}", s.lat_deg, s.lon_deg, s.alt_ft, s.velocity_east, s.velocity_north, s.velocity_up).unwrap(),
++            None => out.push_str(",,,,,,"),
++        }
++    }
++    match d.flight.impact {
++        Some(i) => write!(out, ",{:.2},{:.5},{:.5},{:.2},{:.2},{:.2},{:.2},{:.4}", i.unix_s, i.lat_deg, i.lon_deg, i.velocity_east, i.velocity_north, i.velocity_up, i.tas, i.gamma).unwrap(),
++        None => out.push_str(",,,,,,,,"),
++    }
++    for v in d.latents(epochs) {
++        write!(out, ",{v:.4}").unwrap();
++    }
++    out.push('\n');
++}
+diff --git a/hypotheses/end-of-flight/proposal.rs b/hypotheses/end-of-flight/proposal.rs
+new file mode 100644
+index 0000000..efb3795
+--- /dev/null
++++ b/hypotheses/end-of-flight/proposal.rs
+@@ -0,0 +1,161 @@
++//! Adaptive defensive proposal on a unit cube, for descents consistent with the 00:19 data.
++//!
++//! Two passes, as agreed with the architecture: pilot draws from the prior are scored with the
++//! runner's callback; the proposal is then fixed and every final draw comes from it fresh.
++//! Pilot draws never enter the final weights. The proposal stays defensive: a share of plain
++//! prior draws (at least half by default) keeps every 00:19 data option, including none,
++//! weighted from the same draws.
++//!
++//! q(x) = s + (1 - s) * mean over centres of the uniform density on a box about the centre,
++//! clipped to the cube. The prior is uniform on the cube, so ln(p/q) = -ln q(x). Boxes span
++//! only the coordinates the pilots constrain (weighted spread under 0.2, against 0.289 for a
++//! uniform); the others keep their full prior range, so parameters the data do not see are not
++//! narrowed around a few pilot values. In a constrained coordinate the half-width is three
++//! weighted standard deviations of the pilots, but never less than half the pilots' spacing in
++//! the constrained subspace (a few heavy pilots can understate the spread) nor more than a set
++//! maximum.
++
++/// Proposal on [0, 1]^d.
++#[derive(Debug, Clone)]
++pub struct BoxMixture {
++    prior_share: f64,
++    /// Per coordinate; 0.5 or more spans the whole range (inactive).
++    half_widths: Vec<f64>,
++    centres: Vec<Vec<f64>>,
++}
++
++impl BoxMixture {
++    /// The plain prior.
++    pub fn prior() -> Self {
++        BoxMixture { prior_share: 1.0, half_widths: Vec::new(), centres: Vec::new() }
++    }
++
++    /// Fit to pilot draws with log target weights: `n_centres` centres resampled in proportion
++    /// to weight (systematic, from one uniform), boxes at most `max_half_width` wide each way,
++    /// prior share `prior_share`. Falls back to the prior when no pilot has finite weight.
++    pub fn fit(points: &[Vec<f64>], log_weights: &[f64], n_centres: usize, max_half_width: f64, prior_share: f64, u: f64) -> Self {
++        let top = log_weights.iter().copied().filter(|w| w.is_finite()).fold(f64::NEG_INFINITY, f64::max);
++        if !top.is_finite() || n_centres == 0 {
++            return Self::prior();
++        }
++        let w: Vec<f64> = log_weights.iter().map(|l| if l.is_finite() { (l - top).exp() } else { 0.0 }).collect();
++        let total: f64 = w.iter().sum();
++        let mut centres = Vec::with_capacity(n_centres);
++        let (mut cum, mut i) = (w[0] / total, 0);
++        for k in 0..n_centres {
++            let target = (k as f64 + u) / n_centres as f64;
++            while cum < target && i + 1 < w.len() {
++                i += 1;
++                cum += w[i] / total;
++            }
++            centres.push(points[i].clone());
++        }
++        let spread: Vec<f64> = (0..points[0].len())
++            .map(|j| {
++                let mean = points.iter().zip(&w).map(|(p, w)| p[j] * w).sum::<f64>() / total;
++                (points.iter().zip(&w).map(|(p, w)| (p[j] - mean).powi(2) * w).sum::<f64>() / total).sqrt()
++            })
++            .collect();
++        let constrained = spread.iter().filter(|&&sd| sd < 0.2).count().max(1);
++        let spacing = 0.5 * (points.len() as f64).powf(-1.0 / constrained as f64);
++        let half_widths = spread.iter().map(|&sd| if sd < 0.2 { (3.0 * sd).max(spacing).min(max_half_width) } else { 1.0 }).collect();
++        BoxMixture { prior_share, half_widths, centres }
++    }
++
++    fn bounds(&self, j: usize, c: f64) -> (f64, f64) {
++        let h = self.half_widths[j];
++        ((c - h).max(0.0), (c + h).min(1.0))
++    }
++
++    /// Density on the unit cube.
++    pub fn density(&self, x: &[f64]) -> f64 {
++        if self.centres.is_empty() {
++            return 1.0;
++        }
++        let boxes: f64 = self
++            .centres
++            .iter()
++            .map(|c| {
++                c.iter().zip(x).enumerate().map(|(j, (&ci, &xi))| {
++                    let (lo, hi) = self.bounds(j, ci);
++                    if xi >= lo && xi <= hi { 1.0 / (hi - lo) } else { 0.0 }
++                })
++                .product::<f64>()
++            })
++            .sum::<f64>()
++            / self.centres.len() as f64;
++        self.prior_share + (1.0 - self.prior_share) * boxes
++    }
++
++    /// A draw of dimension `d` and its ln(prior / proposal).
++    pub fn draw(&self, d: usize, uniform: &mut dyn FnMut() -> f64) -> (Vec<f64>, f64) {
++        let x: Vec<f64> = if self.centres.is_empty() || uniform() < self.prior_share {
++            (0..d).map(|_| uniform()).collect()
++        } else {
++            let k = ((uniform() * self.centres.len() as f64) as usize).min(self.centres.len() - 1);
++            self.centres[k].iter().enumerate().map(|(j, &c)| {
++                let (lo, hi) = self.bounds(j, c);
++                lo + uniform() * (hi - lo)
++            })
++            .collect()
++        };
++        let log_correction = -self.density(&x).ln();
++        (x, log_correction)
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    fn stream(seed: u64) -> impl FnMut() -> f64 {
++        let mut s = seed;
++        move || {
++            s = s.wrapping_add(0x9E37_79B9_7F4A_7C15);
++            let mut z = s;
++            z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
++            z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
++            (((z ^ (z >> 31)) >> 11) as f64 + 0.5) / (1u64 << 53) as f64
++        }
++    }
++
++    /// A narrow likelihood on the first two coordinates, standing in for the runner's 00:19
++    /// score; the third coordinate is a parameter the data do not see.
++    fn target(x: &[f64]) -> f64 {
++        -0.5 * (((x[0] - 0.3) / 0.03).powi(2) + ((x[1] - 0.8) / 0.03).powi(2))
++    }
++
++    /// The proposal is a density (integrates to one), its weights are exact (weighted mean of
++    /// x0 against the known 0.3), the free coordinate keeps its uniform spread, and it is far
++    /// more efficient than drawing from the prior.
++    #[test]
++    fn adapted_weights_are_exact_and_efficient() {
++        let mut uniform = stream(7);
++        let pilots: Vec<Vec<f64>> = (0..400).map(|_| (0..3).map(|_| uniform()).collect()).collect();
++        let logw: Vec<f64> = pilots.iter().map(|x| target(x)).collect();
++        let q = BoxMixture::fit(&pilots, &logw, 32, 0.1, 0.5, uniform());
++        assert!(q.half_widths[0] < 0.2 && q.half_widths[1] < 0.2 && q.half_widths[2] >= 0.5, "{:?}", q.half_widths);
++        // Draws and density agree: E_q[p/q] = 1 (the prior is uniform on the cube).
++        let n = 200_000;
++        let mean_ratio = (0..n).map(|_| q.draw(3, &mut uniform).1.exp()).sum::<f64>() / n as f64;
++        assert!((mean_ratio - 1.0).abs() < 0.02, "E_q[p/q] = {mean_ratio}");
++        let estimate = |q: &BoxMixture, uniform: &mut dyn FnMut() -> f64| {
++            let draws: Vec<(Vec<f64>, f64)> = (0..4000).map(|_| {
++                let (x, c) = q.draw(3, uniform);
++                let lw = c + target(&x);
++                (x, lw)
++            }).collect();
++            let top = draws.iter().map(|d| d.1).fold(f64::MIN, f64::max);
++            let w: Vec<f64> = draws.iter().map(|d| (d.1 - top).exp()).collect();
++            let s: f64 = w.iter().sum();
++            let mean = |j: usize| draws.iter().zip(&w).map(|(d, w)| d.0[j] * w).sum::<f64>() / s;
++            let (m2, free) = (mean(2), draws.iter().zip(&w).map(|(d, w)| d.0[2] * d.0[2] * w).sum::<f64>() / s);
++            (mean(0), (free - m2 * m2).sqrt(), s * s / w.iter().map(|w| w * w).sum::<f64>())
++        };
++        let (mean, free_sd, ess) = estimate(&q, &mut uniform);
++        let (_, _, ess_prior) = estimate(&BoxMixture::prior(), &mut uniform);
++        assert!((mean - 0.3).abs() < 0.005, "{mean}");
++        assert!((free_sd - 12f64.sqrt().recip()).abs() < 0.02, "free coordinate sd {free_sd}");
++        assert!(ess > 10.0 * ess_prior, "adapted ESS {ess:.0}, prior {ess_prior:.1}");
++    }
++}
+diff --git a/hypotheses/end-of-flight/run.toml b/hypotheses/end-of-flight/run.toml
+new file mode 100644
+index 0000000..9b69c4a
+--- /dev/null
++++ b/hypotheses/end-of-flight/run.toml
+@@ -0,0 +1,5 @@
++# Base estimate plus this hypothesis. Keys here override the base config.
++base = "../../config/davey2016.toml"
++name = "end-of-flight"
++
++[hypotheses.end-of-flight]
+diff --git a/hypotheses/end-of-flight/sampler.rs b/hypotheses/end-of-flight/sampler.rs
+new file mode 100644
+index 0000000..2a06456
+--- /dev/null
++++ b/hypotheses/end-of-flight/sampler.rs
+@@ -0,0 +1,109 @@
++//! Two-pass sampling of one trajectory's descents: pilot rounds, scored, adapt the proposal;
++//! then the final draws come fresh from the fixed proposal. Pilot draws never enter the final
++//! weights. Generic in what is simulated, so it assumes nothing about the flight after the
++//! takeover (unpowered, still powered, or anything a later family adds).
++
++use super::proposal::BoxMixture;
++
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Settings {
++    /// Pilot draws per adaptation round.
++    pub pilots: usize,
++    /// Adaptation rounds; 0 draws the finals from the plain prior.
++    pub rounds: usize,
++    pub finals: usize,
++    pub centres: usize,
++    /// Largest half-width of a proposal box in any coordinate.
++    pub half_width: f64,
++    /// Share of plain prior draws in the final proposal.
++    pub prior_share: f64,
++}
++
++/// Final draws of one stratum on the unit cube of dimension `dim`. `simulate(u)` returns a
++/// candidate and the share of ln(prior/proposal) that is not the cube's own (a prior that is not
++/// uniform in u). `target` is the log-likelihood the proposal adapts to: the configured data
++/// scores and this module's own terms. Each final comes with its exact ln(prior/proposal).
++pub fn sample<C>(
++    settings: &Settings,
++    dim: usize,
++    uniform: &mut dyn FnMut() -> f64,
++    simulate: &dyn Fn(&[f64]) -> (C, f64),
++    target: &dyn Fn(&C) -> f64,
++) -> Vec<(C, f64)> {
++    let mut proposal = BoxMixture::prior();
++    for _ in 0..settings.rounds {
++        let (mut points, mut log_weights) = (Vec::with_capacity(settings.pilots), Vec::with_capacity(settings.pilots));
++        for _ in 0..settings.pilots {
++            let (u, cube) = proposal.draw(dim, uniform);
++            let (candidate, prior) = simulate(&u);
++            log_weights.push(cube + prior + target(&candidate));
++            points.push(u);
++        }
++        proposal = BoxMixture::fit(&points, &log_weights, settings.centres, settings.half_width, settings.prior_share, uniform());
++    }
++    (0..settings.finals)
++        .map(|_| {
++            let (u, cube) = proposal.draw(dim, uniform);
++            let (candidate, prior) = simulate(&u);
++            (candidate, cube + prior)
++        })
++        .collect()
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    /// Simulation-based calibration: truths drawn from the prior, data drawn from the model
++    /// given each truth; the weighted 10-90% interval of the finals must cover the truth about
++    /// 80% of the time, and the proposal must beat plain prior draws. Enough finals are drawn
++    /// for a large effective sample: weighted quantiles from a small one are biased inwards.
++    #[test]
++    fn final_intervals_cover_the_truth() {
++        let mut seed = 0x5EED_u64;
++        let mut uniform = move || {
++            seed = seed.wrapping_add(0x9E37_79B9_7F4A_7C15);
++            let mut z = seed;
++            z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
++            z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
++            (((z ^ (z >> 31)) >> 11) as f64 + 0.5) / (1u64 << 53) as f64
++        };
++        let settings = Settings { pilots: 64, rounds: 2, finals: 2000, centres: 16, half_width: 0.1, prior_share: 0.5 };
++        let sd = 0.03;
++        let (trials, mut covered, mut ess_total) = (200, 0, 0.0);
++        for _ in 0..trials {
++            let truth = [uniform(), uniform(), uniform()];
++            // Two noisy observations of the first two coordinates; the third is unobserved.
++            let normal = |u: &mut dyn FnMut() -> f64| (-2.0 * u().ln()).sqrt() * (std::f64::consts::TAU * u()).cos();
++            let data = [truth[0] + sd * normal(&mut uniform), truth[1] + sd * normal(&mut uniform)];
++            let finals = sample(&settings, 3, &mut uniform, &|u| (u.to_vec(), 0.0), &|x: &Vec<f64>| {
++                -0.5 * (((x[0] - data[0]) / sd).powi(2) + ((x[1] - data[1]) / sd).powi(2))
++            });
++            let mut draws: Vec<(f64, f64)> = finals
++                .iter()
++                .map(|(x, c)| (x[0], c - 0.5 * (((x[0] - data[0]) / sd).powi(2) + ((x[1] - data[1]) / sd).powi(2))))
++                .collect();
++            draws.sort_by(|a, b| a.0.total_cmp(&b.0));
++            let top = draws.iter().map(|d| d.1).fold(f64::MIN, f64::max);
++            let w: Vec<f64> = draws.iter().map(|d| (d.1 - top).exp()).collect();
++            let total: f64 = w.iter().sum();
++            ess_total += total * total / w.iter().map(|w| w * w).sum::<f64>();
++            let (mut cum, mut lo, mut hi) = (0.0, f64::NAN, f64::NAN);
++            for ((x, _), w) in draws.iter().zip(&w) {
++                cum += w / total;
++                if lo.is_nan() && cum >= 0.1 {
++                    lo = *x;
++                }
++                if hi.is_nan() && cum >= 0.9 {
++                    hi = *x;
++                }
++            }
++            covered += usize::from(lo <= truth[0] && truth[0] <= hi);
++        }
++        let rate = covered as f64 / trials as f64;
++        println!("coverage {rate}, mean ESS {:.0} of {}", ess_total / trials as f64, settings.finals);
++        assert!((rate - 0.8).abs() < 0.08, "coverage {rate}");
++        // Plain prior draws would give an ESS of about 2000 * 2 pi 0.03^2, about 11.
++        assert!(ess_total / trials as f64 > 100.0, "mean ESS {}", ess_total / trials as f64);
++    }
++}
+diff --git a/hypotheses/end-of-flight/sampling.rs b/hypotheses/end-of-flight/sampling.rs
+new file mode 100644
+index 0000000..4499ac6
+--- /dev/null
++++ b/hypotheses/end-of-flight/sampling.rs
+@@ -0,0 +1,118 @@
++//! Gamma-distribution helpers for the log-on lag (no statistics crate is available to a
++//! hypothesis).
++
++use std::f64::consts::PI;
++
++/// ln Gamma(x), Lanczos approximation (g = 7, 9 terms; relative error below 1e-13).
++pub fn ln_gamma(x: f64) -> f64 {
++    const C: [f64; 9] = [
++        0.999_999_999_999_809_9,
++        676.520_368_121_885_1,
++        -1_259.139_216_722_402_8,
++        771.323_428_777_653_1,
++        -176.615_029_162_140_6,
++        12.507_343_278_686_905,
++        -0.138_571_095_265_720_12,
++        9.984_369_578_019_572e-6,
++        1.505_632_735_149_311_6e-7,
++    ];
++    if x < 0.5 {
++        return (PI / (PI * x).sin()).ln() - ln_gamma(1.0 - x);
++    }
++    let x = x - 1.0;
++    let a = C[1..].iter().enumerate().fold(C[0], |a, (i, c)| a + c / (x + i as f64 + 1.0));
++    let t = x + 7.5;
++    0.5 * (2.0 * PI).ln() + (x + 0.5) * t.ln() - t + a.ln()
++}
++
++/// log density of Gamma(shape, scale) at x; minus infinity for x <= 0.
++pub fn gamma_log_pdf(x: f64, shape: f64, scale: f64) -> f64 {
++    if x <= 0.0 {
++        return f64::NEG_INFINITY;
++    }
++    (shape - 1.0) * x.ln() - x / scale - ln_gamma(shape) - shape * scale.ln()
++}
++
++/// Regularised lower incomplete gamma P(shape, x): series below shape + 1, Lentz continued
++/// fraction above.
++pub fn standard_gamma_cdf(shape: f64, x: f64) -> f64 {
++    if x <= 0.0 {
++        return 0.0;
++    }
++    let log_prefix = -x + shape * x.ln() - ln_gamma(shape);
++    if x < shape + 1.0 {
++        let (mut term, mut sum, mut a) = (1.0 / shape, 1.0 / shape, shape);
++        for _ in 0..1000 {
++            a += 1.0;
++            term *= x / a;
++            sum += term;
++            if term < sum * 1e-16 {
++                break;
++            }
++        }
++        (sum.ln() + log_prefix).exp()
++    } else {
++        let tiny = 1e-300;
++        let mut b = x + 1.0 - shape;
++        let (mut c, mut d) = (1.0 / tiny, 1.0 / b);
++        let mut h = d;
++        for i in 1..1000 {
++            let an = -(i as f64) * (i as f64 - shape);
++            b += 2.0;
++            d = an * d + b;
++            d = if d.abs() < tiny { tiny } else { d };
++            c = b + an / c;
++            c = if c.abs() < tiny { tiny } else { c };
++            d = 1.0 / d;
++            let delta = d * c;
++            h *= delta;
++            if (delta - 1.0).abs() < 1e-16 {
++                break;
++            }
++        }
++        1.0 - (h.ln() + log_prefix).exp()
++    }
++}
++
++/// x with P(shape, x) = u: Newton steps kept inside a shrinking bracket.
++pub fn standard_gamma_quantile(shape: f64, u: f64) -> f64 {
++    let (mut lo, mut hi) = (0.0, shape + 50.0 * shape.sqrt() + 50.0);
++    let mut x = shape;
++    for _ in 0..200 {
++        let f = standard_gamma_cdf(shape, x) - u;
++        if f.abs() < 1e-14 || hi - lo < 1e-13 * hi {
++            break;
++        }
++        if f > 0.0 {
++            hi = x;
++        } else {
++            lo = x;
++        }
++        let newton = x - f / gamma_log_pdf(x, shape, 1.0).exp();
++        x = if newton > lo && newton < hi { newton } else { 0.5 * (lo + hi) };
++    }
++    x
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    #[test]
++    fn gamma_functions_match_closed_forms() {
++        // Gamma(n) = (n-1)!, Gamma(1/2) = sqrt(pi); the shape-1 gamma is the exponential.
++        assert!((ln_gamma(10.0) - 362_880f64.ln()).abs() < 1e-12);
++        assert!((ln_gamma(0.5) - PI.sqrt().ln()).abs() < 1e-12);
++        for x in [0.1, 1.0, 3.0, 20.0] {
++            assert!((standard_gamma_cdf(1.0, x) - (1.0 - (-x as f64).exp())).abs() < 1e-14);
++        }
++        // Shape 2: P = 1 - (1 + x) e^-x, on both sides of the series/fraction switch.
++        for x in [0.5, 2.9, 3.1, 12.0] {
++            assert!((standard_gamma_cdf(2.0, x) - (1.0 - (1.0 + x) * (-x as f64).exp())).abs() < 1e-14);
++        }
++        for (shape, u) in [(36.0, 0.5), (8.16, 0.01), (36.0, 0.999)] {
++            let x = standard_gamma_quantile(shape, u);
++            assert!((standard_gamma_cdf(shape, x) - u).abs() < 1e-12, "{shape} {u}");
++        }
++    }
++}
+diff --git a/hypotheses/end-of-flight/timing.rs b/hypotheses/end-of-flight/timing.rs
+new file mode 100644
+index 0000000..9639da9
+--- /dev/null
++++ b/hypotheses/end-of-flight/timing.rs
+@@ -0,0 +1,167 @@
++//! Flame-out timing and the 00:19:29.416 log-on, the one observation this module consumes.
++//!
++//! Chain (ATSB 2015, AE-2014-054, pp. 9-10 and footnote 6): the second engine flames out,
++//! both AC transfer buses drop, the SDU loses power and the APU auto-starts; its generator
++//! comes on line after about 60 s; the SDU then needs about 60 s to request log-on. No
++//! scatter was published for either interval, so the lag L = A + S is a gamma density with a
++//! stated mean and standard deviation (defaults 120 s and 20 s). The archive's Erlang(8,
++//! 14.875 s) is the same family with sd 42 s and is kept as a sensitivity, not a default.
++
++use super::sampling::{gamma_log_pdf, standard_gamma_quantile};
++
++/// 2014-03-08 00:19:29.416 UTC: the R600 log-on request (ground-station log time).
++pub const LOGON_UNIX_S: f64 = 1_394_237_969.416;
++/// 2014-03-08 00:19:37.443 UTC: the R1200 log-on acknowledgement.
++pub const ACK_UNIX_S: f64 = 1_394_237_977.443;
++/// 2014-03-08 00:10:59 UTC: the last powered exchange and the core's hand-off.
++pub const HANDOFF_UNIX_S: f64 = 1_394_237_459.0;
++/// What caused the 00:19 log-on.
++#[derive(Debug, Clone, Copy, PartialEq, Eq)]
++pub enum Cause {
++    /// Fuel exhaustion: the second flame-out cut the SDU's power and the APU restored it.
++    Exhaustion,
++    /// An unrelated interruption of the SDU's power (see `Logon`).
++    Other,
++}
++
++/// The log-on likelihood's inputs: the exhaustion lag, and the declared rate of other-cause
++/// log-ons. Those are a Poisson process in time: the density of the first after the 00:10:59
++/// hand-off, at the observed time, is rate * exp(-rate * elapsed). The rate is not known; it
++/// is swept (0.1, 0.3 and 1 per hour; this flight had one such log-on, at 18:25, in about
++/// seven hours) and the endings' evidence reported against it.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Logon {
++    pub lag: Lag,
++    pub other_per_hour: f64,
++}
++
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct Lag {
++    pub mean_s: f64,
++    pub sd_s: f64,
++}
++
++impl Lag {
++    fn shape_scale(&self) -> (f64, f64) {
++        let shape = (self.mean_s / self.sd_s).powi(2);
++        (shape, self.mean_s / shape)
++    }
++
++    /// log density (per second) of observing the log-on `lag_s` after the second flame-out.
++    pub fn log_likelihood(&self, lag_s: f64) -> f64 {
++        let (shape, scale) = self.shape_scale();
++        gamma_log_pdf(lag_s, shape, scale)
++    }
++
++    /// The lag at probability `u`.
++    pub fn quantile(&self, u: f64) -> f64 {
++        let (shape, scale) = self.shape_scale();
++        scale * standard_gamma_quantile(shape, u)
++    }
++}
++
++/// The two flame-outs without fuel from the core. Prior: the second (total exhaustion) flat
++/// on [hand-off, log-on]; the right engine first by a gap flat on [0, min(max gap, second -
++/// hand-off)] (Rolls-Royce: its fuel consumption was slightly higher, SIR App. 1.6E; the core
++/// flies normal cruise to 00:11, so a single-engine phase before it is outside this model).
++///
++/// Sampling follows the terminal hook: the takeover draws the first flame-out flat on the
++/// window, and the descent draws the second given it from a unit coordinate. The two ln(p/q)
++/// shares, `first` and `second`, add up to the exact correction.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct FlameoutTimes {
++    pub max_gap_s: f64,
++}
++
++impl FlameoutTimes {
++    const WINDOW_S: f64 = LOGON_UNIX_S - HANDOFF_UNIX_S;
++
++    /// First flame-out and its share of ln(p/q): minus ln of its proposal density.
++    pub fn first(&self, u: f64) -> (f64, f64) {
++        (HANDOFF_UNIX_S + u * Self::WINDOW_S, Self::WINDOW_S.ln())
++    }
++
++    /// Second flame-out from the unit coordinate `u`, and its share of ln(p/q): the joint prior
++    /// density minus ln of the proposal density of the second given the first, for u uniform.
++    /// The caller adds -ln q(u) when u comes from an adapted proposal.
++    pub fn second(&self, first_unix_s: f64, u: f64) -> (f64, f64) {
++        let last = (first_unix_s + self.max_gap_s).min(LOGON_UNIX_S);
++        let second = first_unix_s + u * (last - first_unix_s);
++        let joint = -Self::WINDOW_S.ln() - self.max_gap_s.min(second - HANDOFF_UNIX_S).ln();
++        (second, joint + (last - first_unix_s).ln())
++    }
++}
++
++impl Logon {
++    /// log p(the 00:19:29.416 log-on and its 00:19:37.443 acknowledgement | a flight, cause),
++    /// per second of log-on time, on one absolute scale for both causes. Under both, no
++    /// other-cause log-on came between the hand-off and the observed one, and the aircraft was
++    /// still flying at the acknowledgement: a transmission cannot come from an aircraft that has
++    /// already struck the sea. Under exhaustion the time is the lag after the second flame-out;
++    /// otherwise it is the other-cause rate.
++    pub fn log_likelihood(&self, cause: Cause, second_unix_s: f64, impact_unix_s: Option<f64>) -> f64 {
++        let rate = self.other_per_hour / 3600.0;
++        let quiet = -rate * (LOGON_UNIX_S - HANDOFF_UNIX_S);
++        match (impact_unix_s, cause) {
++            (Some(t), _) if t < ACK_UNIX_S => f64::NEG_INFINITY,
++            (_, Cause::Exhaustion) => self.lag.log_likelihood(LOGON_UNIX_S - second_unix_s) + quiet,
++            (_, Cause::Other) => rate.ln() + quiet,
++        }
++    }
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    #[test]
++    fn lag_density_is_a_normalised_gamma_with_the_stated_moments() {
++        let lag = Lag { mean_s: 120.0, sd_s: 20.0 };
++        let (mut mass, mut mean, mut var) = (0.0, 0.0, 0.0);
++        let dx = 0.01;
++        for i in 1..40_000 {
++            let x = i as f64 * dx;
++            let p = lag.log_likelihood(x).exp() * dx;
++            mass += p;
++            mean += p * x;
++            var += p * (x - 120.0).powi(2);
++        }
++        assert!((mass - 1.0).abs() < 1e-6, "{mass}");
++        assert!((mean - 120.0).abs() < 1e-3, "{mean}");
++        assert!((var.sqrt() - 20.0).abs() < 1e-3, "{}", var.sqrt());
++        assert!((lag.quantile(0.5) - 118.89).abs() < 0.05, "{}", lag.quantile(0.5));
++        // Other cause: the first-event density of a Poisson process, which integrates to one
++        // over the log-on time (here checked in closed form at the observed time).
++        let logon = Logon { lag, other_per_hour: 0.3 };
++        let rate: f64 = 0.3 / 3600.0;
++        let other = logon.log_likelihood(Cause::Other, LOGON_UNIX_S - 120.0, None);
++        assert!((other - (rate.ln() - rate * (LOGON_UNIX_S - HANDOFF_UNIX_S))).abs() < 1e-12);
++        let late = logon.log_likelihood(Cause::Exhaustion, LOGON_UNIX_S - 120.0, Some(ACK_UNIX_S - 1.0));
++        assert_eq!(late, f64::NEG_INFINITY);
++    }
++
++    /// The two-step draw (first flat, second given first) with its ln(p/q) reproduces the
++    /// prior: the second flame-out flat over the window and the gap never above its maximum.
++    #[test]
++    fn two_step_draw_reproduces_the_flat_prior() {
++        let times = FlameoutTimes { max_gap_s: 900.0 };
++        let (mut seed, n, bins) = (0x9E37_79B9_7F4A_7C15_u64, 400_000, 10);
++        let mut uniform = || {
++            seed ^= seed << 13;
++            seed ^= seed >> 7;
++            seed ^= seed << 17;
++            (seed >> 11) as f64 / (1u64 << 53) as f64
++        };
++        let mut mass = vec![0.0; bins];
++        for _ in 0..n {
++            let (first, a) = times.first(uniform());
++            let (second, b) = times.second(first, uniform());
++            assert!(second - first <= 900.0 + 1e-9 && second <= LOGON_UNIX_S);
++            let bin = ((second - HANDOFF_UNIX_S) / (LOGON_UNIX_S - HANDOFF_UNIX_S) * bins as f64) as usize;
++            mass[bin.min(bins - 1)] += (a + b).exp() / n as f64;
++        }
++        for m in &mass {
++            assert!((m * bins as f64 - 1.0).abs() < 0.02, "{mass:?}");
++        }
++    }
++}

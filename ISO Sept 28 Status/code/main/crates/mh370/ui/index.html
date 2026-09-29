@@ -1,0 +1,655 @@
+<!doctype html>
+<!--
+  The app's single page. It holds no model: every control it shows comes from
+  /api/describe, and every number it draws comes from a run's summary.json, which the
+  runner computes. Plotting and layout only.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>MH370 particle filter</title>
+<style>
+  :root {
+    --ink: #0b0b0b; --muted: #52514e; --line: #d8d6d0; --bg: #fbfaf8; --panel: #ffffff;
+    --ours: #2a78d6; --davey: #eb6834; --warn: #b3541e; --ok: #1baf7a;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 13px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  header { display: flex; align-items: baseline; gap: 16px; padding: 10px 16px; border-bottom: 1px solid var(--line); background: var(--panel); position: sticky; top: 0; z-index: 5; }
+  header h1 { font-size: 14px; margin: 0; font-weight: 600; }
+  header .meta { color: var(--muted); font-size: 12px; }
+  main { display: grid; grid-template-columns: 380px 1fr; gap: 16px; padding: 16px; align-items: start; }
+  .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; margin-bottom: 14px; }
+  .panel > h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0; padding: 9px 12px; border-bottom: 1px solid var(--line); cursor: pointer; display: flex; justify-content: space-between; }
+  .panel > .body { padding: 12px; }
+  .panel.closed > .body { display: none; }
+  label { display: block; margin-bottom: 9px; }
+  label > span { display: block; color: var(--muted); font-size: 11px; margin-bottom: 2px; }
+  input, select, button, textarea { font: inherit; color: var(--ink); }
+  input[type=text], input[type=number], select, textarea { width: 100%; padding: 4px 6px; border: 1px solid var(--line); border-radius: 4px; background: #fff; }
+  textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 11px; resize: vertical; }
+  button { padding: 5px 11px; border: 1px solid var(--line); border-radius: 5px; background: #fff; cursor: pointer; }
+  button.primary { background: var(--ours); border-color: var(--ours); color: #fff; font-weight: 600; }
+  button:disabled { opacity: .5; cursor: default; }
+  .row { display: flex; gap: 8px; align-items: center; }
+  .row > * { flex: 1; }
+  .grid5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; }
+  .grid5 input { padding: 3px; text-align: right; font-size: 11px; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .chip { padding: 3px 9px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer; font-size: 12px; background: #fff; }
+  .chip.on { background: var(--ours); border-color: var(--ours); color: #fff; }
+  .note { color: var(--muted); font-size: 11px; margin: 2px 0 0; }
+  .warnbox { border-left: 3px solid var(--warn); background: #fdf3ec; padding: 7px 10px; margin-bottom: 10px; font-size: 12px; }
+  table { border-collapse: collapse; width: 100%; font-size: 12px; }
+  th, td { text-align: left; padding: 3px 6px 3px 0; border-bottom: 1px solid #efedE8; vertical-align: top; }
+  th { color: var(--muted); font-weight: 500; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: 10px; }
+  .stat { border: 1px solid var(--line); border-radius: 5px; padding: 7px 9px; }
+  .stat b { display: block; font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .stat span { color: var(--muted); font-size: 11px; }
+  .bar { height: 7px; background: #eceae5; border-radius: 3px; overflow: hidden; }
+  .bar > div { height: 100%; background: var(--ours); }
+  canvas { width: 100%; display: block; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; color: var(--muted); font-size: 11px; margin-top: 6px; }
+  .legend i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; margin-right: 4px; vertical-align: middle; }
+  .changed { color: var(--warn); font-weight: 600; }
+  .status { font-size: 12px; color: var(--muted); }
+  .events { max-height: 150px; overflow: auto; font-family: ui-monospace, Menlo, monospace; font-size: 11px; color: var(--muted); }
+  details summary { cursor: pointer; color: var(--muted); font-size: 12px; }
+  pre { white-space: pre-wrap; font-size: 11.5px; color: var(--muted); }
+</style>
+</head>
+<body>
+<header>
+  <h1>MH370 particle filter</h1>
+  <span class="meta" id="header-meta"></span>
+  <span style="flex:1"></span>
+  <span class="status" id="status"></span>
+  <button id="run" class="primary">Run</button>
+  <button id="cancel" disabled>Cancel</button>
+  <button id="quit" title="Stop the app">Quit</button>
+</header>
+
+<main>
+  <div>
+    <section class="panel" id="panel-engine">
+      <h2>Engine <span></span></h2>
+      <div class="body">
+        <label><span>Configuration</span><select id="engine"></select></label>
+        <p class="note" id="engine-note"></p>
+        <label><span>Run name (written to runs/&lt;name&gt;)</span><input type="text" id="run-name"></label>
+        <label><span>Compare against</span><select id="baseline"></select></label>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-size">
+      <h2>Run size <span></span></h2>
+      <div class="body">
+        <div class="chips" id="presets"></div>
+        <label><span>Particles per mode (true heading, magnetic heading, true track, magnetic track, LNAV)</span>
+          <div class="grid5" id="particles"></div>
+        </label>
+        <label><span>Seeds (replicates, comma separated)</span><input type="text" id="seeds"></label>
+        <label><span>Measurements</span><div class="chips" id="cases"></div></label>
+        <label><span>Resample below ESS fraction</span><input type="number" id="ess" step="0.05" min="0.05" max="1"></label>
+        <p class="note" id="estimate"></p>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-hypotheses">
+      <h2>Hypotheses <span></span></h2>
+      <div class="body" id="hypotheses"></div>
+    </section>
+
+    <section class="panel closed" id="panel-assumptions">
+      <h2>Assumptions <span></span></h2>
+      <div class="body" id="assumptions"></div>
+    </section>
+
+    <section class="panel closed" id="panel-override">
+      <h2>Override this run applies <span></span></h2>
+      <div class="body">
+        <p class="note">The controls above are merged over the configuration exactly like an override file, so the same run can be repeated on the command line.</p>
+        <textarea id="override" rows="8" readonly></textarea>
+        <p class="note" id="cli"></p>
+      </div>
+    </section>
+
+    <section class="panel closed" id="panel-data">
+      <h2>Data sources <span></span></h2>
+      <div class="body" id="data"></div>
+    </section>
+
+    <section class="panel closed" id="panel-departures">
+      <h2>Departures from the paper <span></span></h2>
+      <div class="body"><pre id="departures"></pre></div>
+    </section>
+  </div>
+
+  <div>
+    <section class="panel">
+      <h2>Aircraft latitude at 00:19:37 UTC <span></span></h2>
+      <div class="body">
+        <div id="unconverged"></div>
+        <div class="chips" id="curve-toggles"></div>
+        <canvas id="pdf" height="300"></canvas>
+        <div class="legend" id="pdf-legend"></div>
+        <div class="stats" id="stats" style="margin-top:12px"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Autopilot mode <span></span></h2>
+      <div class="body"><table id="modes"></table>
+        <p class="note">P(mode | data) is the prior mode weight times that mode's marginal likelihood. One filter is run per mode, so the mix is an evidence comparison, not a resampled label.</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Position <span></span></h2>
+      <div class="body"><canvas id="map" height="420"></canvas>
+        <div class="legend"><span><i style="border-color:var(--ours)"></i>posterior density</span><span><i style="border-color:#8a8983;border-top-style:dashed"></i>BTO arcs</span><span>&#9670; 18:01:49 radar point</span></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Replicates and diagnostics <span></span></h2>
+      <div class="body">
+        <table id="replicates"></table>
+        <details style="margin-top:8px"><summary>Filter progress</summary><div class="events" id="events"></div></details>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+"use strict";
+const MODE_COLOURS = ["#2a78d6", "#eb6834", "#1baf7a", "#eda100", "#e87ba4"];
+const $ = (id) => document.getElementById(id);
+const state = {
+  describe: null, engine: null, controls: {}, changed: {}, hypotheses: {}, particles: [], seeds: [],
+  cases: [], ess: 0.5, run: null, summary: null, baseline: null, curves: { modes: false, replicates: false, published: true },
+  caseIndex: 0, timer: null,
+};
+
+// ---------------------------------------------------------------- formatting
+const fmtLat = (v) => v === null || v === undefined || !isFinite(v) ? "—" : `${Math.abs(v).toFixed(2)}°${v < 0 ? "S" : "N"}`;
+const fmtPct = (v) => v === null || v === undefined || !isFinite(v) ? "—" : `${(100 * v).toFixed(1)}%`;
+const fmtNum = (v, d = 2) => v === null || v === undefined || !isFinite(v) ? "—" : v.toFixed(d);
+const fmtCount = (v) => v >= 1e6 ? `${(v / 1e6).toFixed(v % 1e6 ? 1 : 0)}M` : v >= 1e3 ? `${(v / 1e3).toFixed(v % 1e3 ? 1 : 0)}k` : `${v}`;
+const fmtTime = (s) => s < 90 ? `${s.toFixed(0)} s` : s < 5400 ? `${(s / 60).toFixed(1)} min` : `${(s / 3600).toFixed(1)} h`;
+
+// ---------------------------------------------------------------- start-up
+async function boot() {
+  const describe = await fetch("/api/describe").then((r) => r.json());
+  if (describe.error) { $("status").textContent = describe.error; return; }
+  state.describe = describe;
+  $("header-meta").textContent = `${describe.model} · ${describe.code_revision} · ${describe.threads} threads`;
+
+  $("engine").innerHTML = describe.engines.map((e) =>
+    `<option value="${e.path}">${e.kind === "base" ? "Base estimate" : e.kind === "hypothesis" ? `Hypothesis: ${e.id}` : `${e.kind}: ${e.id}`}</option>`).join("");
+  $("engine").onchange = () => selectEngine($("engine").value);
+
+  $("baseline").innerHTML = `<option value="">nothing</option>` +
+    describe.runs.map((r) => `<option value="${r.path}">${r.name}</option>`).join("");
+  $("baseline").onchange = loadBaseline;
+
+  renderData(describe.data);
+  $("departures").textContent = describe.departures || "README.md was not found next to the configuration.";
+  for (const panel of document.querySelectorAll(".panel > h2")) {
+    panel.onclick = () => panel.parentElement.classList.toggle("closed");
+  }
+  $("run").onclick = startRun;
+  $("cancel").onclick = () => state.run && fetch(`/api/cancel?id=${state.run.id}`, { method: "POST" });
+  $("quit").onclick = async () => {
+    await fetch("/api/quit", { method: "POST" });
+    document.body.innerHTML = `<p style="padding:24px">The app has stopped. Runs already written are in <code>runs/</code>.</p>`;
+  };
+  selectEngine(describe.engines[0].path);
+}
+
+function selectEngine(path) {
+  const engine = state.describe.engines.find((e) => e.path === path) || state.describe.engines[0];
+  state.engine = engine;
+  $("engine").value = engine.path;
+  $("engine-note").textContent = engine.description || "";
+  $("run-name").value = engine.kind === "base" ? "app-base" : `app-${engine.id}`;
+  // An override file is not a run on its own: apply it over the base estimate.
+  state.overlays = engine.applies_over ? [engine.path] : [];
+  state.base = engine.applies_over || engine.path;
+  state.changed = {};
+  state.hypotheses = {};
+  const controls = state.describe.controls;
+  state.particles = controls.find((c) => c.key === "particles_per_mode").value.slice();
+  state.seeds = controls.find((c) => c.key === "seeds").value.slice();
+  state.ess = controls.find((c) => c.key === "resample_ess_fraction").value;
+  state.cases = ["bto-bfo"];
+  renderControls();
+  renderHypotheses();
+  renderOverride();
+}
+
+// ---------------------------------------------------------------- controls
+const PRESETS = [
+  ["Quick look", 20e3, 1], ["Medium", 200e3, 2], ["Large", 1.4e6, 4], ["Publication", 1.4e6, 8],
+];
+function renderControls() {
+  $("presets").innerHTML = PRESETS.map(([label, per, seeds], i) =>
+    `<span class="chip" data-preset="${i}">${label} · ${fmtCount(per * 5)} × ${seeds}</span>`).join("");
+  for (const chip of $("presets").children) {
+    chip.onclick = () => {
+      const [, per, seeds] = PRESETS[chip.dataset.preset];
+      // Publication keeps the shipped mode split; the others spread evenly.
+      const shipped = state.describe.controls.find((c) => c.key === "particles_per_mode").value;
+      const total = per * 5;
+      state.particles = chip.dataset.preset === "3" ? shipped.slice()
+        : shipped.map((n) => Math.round(total * n / shipped.reduce((a, b) => a + b, 0) / 1000) * 1000);
+      state.seeds = Array.from({ length: seeds }, (_, i) => i + 1);
+      renderControls(); renderOverride();
+    };
+  }
+  $("particles").innerHTML = state.particles.map((n, i) => `<input type="number" data-mode="${i}" value="${n}" min="0" step="1000">`).join("");
+  for (const input of $("particles").children) {
+    input.onchange = () => { state.particles[input.dataset.mode] = Math.max(0, +input.value | 0); renderOverride(); };
+  }
+  $("seeds").value = state.seeds.join(", ");
+  $("seeds").onchange = () => {
+    state.seeds = $("seeds").value.split(",").map((s) => parseInt(s.trim(), 10)).filter((n) => Number.isFinite(n) && n > 0);
+    renderOverride();
+  };
+  $("cases").innerHTML = [["bto-bfo", "BTO + BFO"], ["bto-only", "BTO only"]].map(([id, label]) =>
+    `<span class="chip ${state.cases.includes(id) ? "on" : ""}" data-case="${id}">${label}</span>`).join("");
+  for (const chip of $("cases").children) {
+    chip.onclick = () => {
+      const id = chip.dataset.case;
+      state.cases = state.cases.includes(id) ? state.cases.filter((c) => c !== id) : [...state.cases, id];
+      if (!state.cases.length) state.cases = [id];
+      renderControls(); renderOverride();
+    };
+  }
+  $("ess").value = state.ess;
+  $("ess").onchange = () => { state.ess = +$("ess").value; renderOverride(); };
+  renderAssumptions();
+  updateEstimate();
+}
+
+function renderAssumptions() {
+  const groups = {};
+  for (const control of state.describe.controls) {
+    if (["particles_per_mode", "seeds", "resample_ess_fraction"].includes(control.key)) continue;
+    (groups[control.group] ||= []).push(control);
+  }
+  $("assumptions").innerHTML = Object.entries(groups).map(([group, controls]) => `
+    <h3 style="font-size:12px;margin:10px 0 6px;color:var(--muted)">${group}</h3>
+    ${controls.map((c) => {
+      const value = state.changed[c.key] ?? c.value;
+      const published = c.published ?? c.value;
+      const isChanged = JSON.stringify(value) !== JSON.stringify(published);
+      const input = c.kind === "range"
+        ? `<div class="row"><input type="number" data-key="${c.key}" data-part="0" value="${value[0]}" step="any">
+             <input type="number" data-key="${c.key}" data-part="1" value="${value[1]}" step="any"></div>`
+        : `<input type="number" data-key="${c.key}" value="${value}" step="any">`;
+      return `<label><span class="${isChanged ? "changed" : ""}">${c.label}${c.unit ? ` (${c.unit})` : ""}${isChanged ? ` · published ${JSON.stringify(published)}` : ""}</span>
+        ${input}<p class="note">${c.note || ""}</p></label>`;
+    }).join("")}`).join("");
+  for (const input of $("assumptions").querySelectorAll("input")) {
+    input.onchange = () => {
+      const control = state.describe.controls.find((c) => c.key === input.dataset.key);
+      if (control.kind === "range") {
+        const current = (state.changed[control.key] ?? control.value).slice();
+        current[+input.dataset.part] = +input.value;
+        state.changed[control.key] = current;
+      } else {
+        state.changed[control.key] = +input.value;
+      }
+      renderAssumptions(); renderOverride();
+    };
+  }
+}
+
+function renderHypotheses() {
+  const list = state.describe.hypotheses;
+  const api = state.describe.hypothesis_api || {};
+  const footer = `<details style="margin-top:10px"><summary>Adding another module</summary>
+      <p class="note">${api.new || ""}. A hypothesis is a directory under <code>hypotheses/</code>; the build
+      discovers it, and it appears here with whatever parameters its <code>run.toml</code> declares.</p>
+      <pre style="margin-top:6px">${(api.hooks || "").replace(/[<&]/g, (ch) => ch === "<" ? "&lt;" : "&amp;")}</pre></details>`;
+  if (!list.length) { $("hypotheses").innerHTML = `<p class="note">No hypothesis directories yet.</p>${footer}`; return; }
+  const enabled = Object.keys(state.hypotheses).length;
+  const combined = enabled > 1 ? `<div class="warnbox">More than one hypothesis is enabled. A combined run is an
+      explicit alternative, never the base estimate.</div>` : "";
+  $("hypotheses").innerHTML = combined + list.map((h) => {
+    const on = state.hypotheses[h.name] !== undefined;
+    const params = h.parameters || {};
+    const requests = h.core_requests && h.core_requests !== "[]" ? h.core_requests : "";
+    return `<div style="margin-bottom:10px">
+      <label style="margin:0"><input type="checkbox" data-hyp="${h.name}" ${on ? "checked" : ""} ${h.built ? "" : "disabled"} style="width:auto">
+        <b>${h.name}</b> <span style="color:var(--muted)">· ${h.status || "open"}</span>
+        ${h.built ? "" : `<span class="changed">· not in this build</span>`}</label>
+      <p class="note">${h.question || ""}</p>
+      ${h.summary ? `<p class="note"><i>${h.summary}</i></p>` : ""}
+      ${requests ? `<p class="note changed">Asks the core for: ${requests}</p>` : ""}
+      ${h.built ? "" : `<p class="note">Its directory exists but the binary predates it. Rebuild: <code>make app</code>.</p>`}
+      ${on ? Object.entries(params).map(([k, v]) => typeof v === "number"
+        ? `<label style="margin:4px 0"><span>${k}</span><input type="number" data-hyp-param="${h.name}" data-name="${k}" value="${state.hypotheses[h.name][k] ?? v}" step="any"></label>`
+        : "").join("") : ""}
+    </div>`;
+  }).join("") + footer;
+  for (const box of $("hypotheses").querySelectorAll("input[type=checkbox]")) {
+    box.onchange = () => {
+      const h = state.describe.hypotheses.find((x) => x.name === box.dataset.hyp);
+      if (box.checked) state.hypotheses[h.name] = { ...(h.parameters || {}) };
+      else delete state.hypotheses[h.name];
+      renderHypotheses(); renderOverride();
+    };
+  }
+  for (const input of $("hypotheses").querySelectorAll("input[data-hyp-param]")) {
+    input.onchange = () => { state.hypotheses[input.dataset.hypParam][input.dataset.name] = +input.value; renderOverride(); };
+  }
+}
+
+// The run is driven by an override file, so the app writes TOML directly: a whole number
+// in a float field has to reach the runner as 1.0, which JSON cannot express.
+function tomlValue(v, type = "float") {
+  if (Array.isArray(v)) return `[${v.map((x) => tomlValue(x, type)).join(", ")}]`;
+  if (typeof v === "string") return JSON.stringify(v);
+  if (typeof v === "boolean") return `${v}`;
+  if (type === "integer") return `${Math.round(v)}`;
+  return Number.isInteger(v) ? v.toFixed(1) : `${v}`;
+}
+
+/// The override this run applies, as the TOML that is actually sent.
+function buildOverride() {
+  const top = [
+    `particles_per_mode = ${tomlValue(state.particles, "integer")}`,
+    `seeds = ${tomlValue(state.seeds, "integer")}`,
+    `resample_ess_fraction = ${tomlValue(state.ess)}`,
+  ];
+  const tables = {};
+  for (const [key, value] of Object.entries(state.changed)) {
+    const control = state.describe.controls.find((c) => c.key === key);
+    if (JSON.stringify(value) === JSON.stringify(control.published ?? control.value)) continue;
+    const parts = key.split(".");
+    const type = control.kind.startsWith("integer") ? "integer" : "float";
+    const line = `${parts.at(-1)} = ${tomlValue(value, type)}`;
+    if (parts.length === 1) top.push(line);
+    else (tables[parts.slice(0, -1).join(".")] ||= []).push(line);
+  }
+  const blocks = [top.join("\n")];
+  for (const id of state.cases) blocks.push(`[[cases]]\nid = ${JSON.stringify(id)}\nuse_bfo = ${id === "bto-bfo"}`);
+  for (const [table, lines] of Object.entries(tables)) blocks.push(`[${table}]\n${lines.join("\n")}`);
+  for (const [name, params] of Object.entries(state.hypotheses)) {
+    const types = (state.describe.hypotheses.find((h) => h.name === name) || {}).parameter_types || {};
+    blocks.push(`[hypotheses.${name}]\n` + Object.entries(params)
+      .map(([k, v]) => `${k} = ${tomlValue(v, types[k] === "integer" ? "integer" : "float")}`).join("\n"));
+  }
+  return blocks.join("\n\n") + "\n";
+}
+
+function renderOverride() {
+  $("override").value = buildOverride();
+  const paths = [state.base, ...state.overlays].join(" ");
+  $("cli").textContent = `cargo run --release -- ${paths} <this-override.toml> runs/${$("run-name").value || "app"}`;
+  updateEstimate();
+}
+
+async function updateEstimate() {
+  const particles = state.particles.reduce((a, b) => a + b, 0);
+  const replicates = state.seeds.length * state.cases.length;
+  const estimate = await fetch(`/api/estimate?particles=${particles}&replicates=${replicates}`).then((r) => r.json());
+  $("estimate").innerHTML = `${fmtCount(particles)} particles × ${replicates} replicate${replicates === 1 ? "" : "s"}
+    · about ${fmtTime(estimate.seconds)} on ${estimate.threads} threads · about ${(estimate.memory_mib / 1024).toFixed(1)} GB peak.
+    ${particles < 1e6 ? `<span class="changed">Below a million particles this is a smoke run: useful for code paths, never for conclusions.</span>` : ""}`;
+}
+
+// ---------------------------------------------------------------- running
+async function startRun() {
+  const body = { engine: state.base, overlays: state.overlays, overrides_toml: buildOverride(), name: $("run-name").value };
+  const started = await fetch("/api/run", { method: "POST", body: JSON.stringify(body) }).then((r) => r.json());
+  if (started.error) { $("status").textContent = started.error; return; }
+  state.run = started;
+  $("run").disabled = true; $("cancel").disabled = false;
+  clearInterval(state.timer);
+  state.timer = setInterval(poll, 700);
+  poll();
+}
+
+async function poll() {
+  if (!state.run) return;
+  const run = await fetch(`/api/run?id=${state.run.id}`).then((r) => r.json());
+  state.run = run;
+  const done = run.steps_done / Math.max(run.steps_total, 1);
+  $("status").textContent = run.status === "running"
+    ? `${(100 * done).toFixed(0)}% · ${fmtTime(run.elapsed_s)} elapsed`
+    : `${run.status}${run.error ? `: ${run.error}` : ""} · ${fmtTime(run.elapsed_s)}`;
+  $("events").innerHTML = (run.events || []).slice(-60).reverse().map((e) =>
+    `${e.case} seed ${e.seed} ${e.mode} ${e.epoch}: ESS ${Math.round(e.ess).toLocaleString()}${e.resampled ? " · resampled" : ""}`).join("<br>");
+  if (run.status !== "running") {
+    clearInterval(state.timer);
+    $("run").disabled = false; $("cancel").disabled = true;
+    if (run.summary) { state.summary = run.summary; render(); refreshRuns(); }
+  }
+}
+
+async function refreshRuns() {
+  const describe = await fetch("/api/describe").then((r) => r.json());
+  state.describe.runs = describe.runs;
+  const current = $("baseline").value;
+  $("baseline").innerHTML = `<option value="">nothing</option>` + describe.runs.map((r) => `<option value="${r.path}">${r.name}</option>`).join("");
+  $("baseline").value = current;
+}
+
+async function loadBaseline() {
+  const path = $("baseline").value;
+  state.baseline = path ? await fetch(`/api/summary?run=${encodeURIComponent(path)}`).then((r) => r.json()) : null;
+  if (state.baseline && state.baseline.error) { $("status").textContent = state.baseline.error; state.baseline = null; }
+  render();
+}
+
+// ---------------------------------------------------------------- results
+function currentCase(summary) {
+  if (!summary || !summary.cases || !summary.cases.length) return null;
+  return summary.cases[Math.min(state.caseIndex, summary.cases.length - 1)];
+}
+
+function render() {
+  const summary = state.summary;
+  const c = currentCase(summary);
+  if (!c) return;
+  renderToggles(summary);
+  renderStats(summary, c);
+  renderModes(c);
+  renderReplicates(c);
+  drawPdf(summary, c);
+  drawMap(summary, c);
+}
+
+function renderToggles(summary) {
+  const cases = summary.cases.map((c, i) => `<span class="chip ${i === state.caseIndex ? "on" : ""}" data-case-index="${i}">${c.case}</span>`).join("");
+  const toggles = [["published", "published curve"], ["modes", "per mode"], ["replicates", "per replicate"]]
+    .map(([k, label]) => `<span class="chip ${state.curves[k] ? "on" : ""}" data-curve="${k}">${label}</span>`).join("");
+  $("curve-toggles").innerHTML = cases + `<span style="width:14px"></span>` + toggles;
+  for (const chip of $("curve-toggles").children) {
+    if (chip.dataset.caseIndex !== undefined) chip.onclick = () => { state.caseIndex = +chip.dataset.caseIndex; render(); };
+    if (chip.dataset.curve) chip.onclick = () => { state.curves[chip.dataset.curve] = !state.curves[chip.dataset.curve]; render(); };
+  }
+}
+
+function renderStats(summary, c) {
+  const b = state.baseline && currentCase(state.baseline);
+  const delta = (ours, base, fmt) => b && base !== undefined && base !== null ? `<span class="stat-delta" style="color:var(--muted)"> (${fmt(base)})</span>` : "";
+  const stat = (label, value, note = "") => `<div class="stat"><b>${value}</b><span>${label}${note}</span></div>`;
+  const split = c.split_half_overlap;
+  $("stats").innerHTML = [
+    stat("median latitude", fmtLat(c.stats.median) + delta(c.stats.median, b && b.stats.median, fmtLat)),
+    stat("95% interval", `${fmtLat(c.stats.q975)} – ${fmtLat(c.stats.q025)}`),
+    stat("peak", fmtLat(c.stats.mode)),
+    stat(`shoulder ${fmtLat(summary.shoulder_interval[1])}–${fmtLat(summary.shoulder_interval[0])}`,
+      fmtPct(c.probability.shoulder) + delta(0, b && b.probability.shoulder, fmtPct)),
+    c.reference_overlap !== null && c.reference_overlap !== undefined ? stat("overlap with published curve", fmtPct(c.reference_overlap)) : "",
+    split !== null && split !== undefined ? stat("split-half overlap", fmtPct(split), split < 0.9 ? " · replicates disagree" : "") : "",
+    stat("log evidence", fmtNum(c.log_evidence, 2)),
+    stat("particles", `${fmtCount(c.particles)} × ${c.seeds.length}`),
+    summary.runtime_s ? stat("run time", fmtTime(summary.runtime_s)) : "",
+    summary.peak_memory_mib ? stat("peak memory", `${(summary.peak_memory_mib / 1024).toFixed(1)} GB`) : "",
+  ].join("");
+  const unconverged = split !== null && split !== undefined && split < 0.9;
+  $("unconverged").innerHTML = unconverged
+    ? `<div class="warnbox"><b>Unconverged.</b> The two halves of the replicate set overlap by ${fmtPct(split)}.
+       The base estimate holds ${fmtPct(0.93)} at 7M particles. Read this as a code-path check, not a result.</div>`
+    : "";
+}
+
+function renderModes(c) {
+  const names = ["True heading", "Magnetic heading", "True track", "Magnetic track", "Lateral navigation"];
+  const rows = c.mode_probability.map((p, i) => {
+    const mode = (c.modes || [])[i] || {};
+    return `<tr><td><i style="display:inline-block;width:9px;height:9px;background:${MODE_COLOURS[i]};border-radius:2px"></i> ${names[i]}</td>
+      <td style="width:45%"><div class="bar"><div style="width:${(100 * p).toFixed(1)}%;background:${MODE_COLOURS[i]}"></div></div></td>
+      <td class="num">${fmtPct(p)}</td>
+      <td class="num">${mode.stats ? fmtLat(mode.stats.median) : "—"}</td></tr>`;
+  }).join("");
+  $("modes").innerHTML = `<tr><th>Mode</th><th></th><th class="num">P(mode | data)</th><th class="num">median</th></tr>${rows}`;
+}
+
+function renderReplicates(c) {
+  const rows = (c.replicates || []).map((r) => `<tr>
+      <td>${r.seed}</td><td class="num">${fmtLat(r.stats.median)}</td>
+      <td class="num">${fmtLat(r.stats.q975)} – ${fmtLat(r.stats.q025)}</td>
+      <td class="num">${fmtNum(r.log_evidence, 2)}</td>
+      <td class="num">${(r.final_ess || []).map((e) => fmtCount(Math.round(e))).join(" / ")}</td></tr>`).join("");
+  $("replicates").innerHTML = `<tr><th>Seed</th><th class="num">median</th><th class="num">95% interval</th>
+    <th class="num">log evidence</th><th class="num">final ESS per mode</th></tr>${rows}`;
+}
+
+// ---------------------------------------------------------------- plots
+function setupCanvas(canvas) {
+  const ratio = window.devicePixelRatio || 1;
+  const width = canvas.clientWidth, height = +canvas.getAttribute("height");
+  canvas.width = width * ratio; canvas.height = height * ratio;
+  const ctx = canvas.getContext("2d");
+  ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+  ctx.clearRect(0, 0, width, height);
+  return { ctx, width, height };
+}
+
+function gridLatitude(summary, i) { return summary.grid.min + i * summary.grid.step; }
+
+function drawPdf(summary, c) {
+  const { ctx, width, height } = setupCanvas($("pdf"));
+  const pad = { l: 46, r: 12, t: 10, b: 26 };
+  // Fit the window to where the density lives, with a degree of margin.
+  const threshold = Math.max(...c.density) * 0.002;
+  let lo = c.density.findIndex((d) => d > threshold), hi = c.density.length - 1 - [...c.density].reverse().findIndex((d) => d > threshold);
+  const published = summary.reference && summary.reference.density;
+  if (state.curves.published && published) {
+    const plo = published.findIndex((d) => d > Math.max(...published) * 0.002);
+    const phi = published.length - 1 - [...published].reverse().findIndex((d) => d > Math.max(...published) * 0.002);
+    lo = Math.min(lo, plo); hi = Math.max(hi, phi);
+  }
+  const x0 = gridLatitude(summary, Math.max(0, lo - 20)), x1 = gridLatitude(summary, Math.min(c.density.length - 1, hi + 20));
+  const series = [];
+  if (state.curves.published && published) series.push({ data: published, colour: "var(--davey)", width: 1.6, dash: [5, 3], label: "published (Davey Fig. 10.3)" });
+  if (state.curves.modes) for (const [i, m] of (c.modes || []).entries()) {
+    if (m.probability > 1e-4) series.push({ data: m.density, colour: MODE_COLOURS[i], width: 1, alpha: .75, label: `${m.mode} (${fmtPct(m.probability)})` });
+  }
+  if (state.curves.replicates) for (const r of c.replicates || []) series.push({ data: r.density, colour: "#9b9a95", width: .8, alpha: .8, label: null });
+  const baselineCase = state.baseline && currentCase(state.baseline);
+  if (baselineCase) series.push({ data: baselineCase.density, colour: "#7a7973", width: 1.4, dash: [2, 3], label: `compared run` });
+  series.push({ data: c.density, colour: "var(--ours)", width: 2, label: "this run" });
+  const peak = Math.max(...series.flatMap((s) => s.data.slice(Math.max(0, lo - 20), hi + 20)));
+  const X = (lat) => pad.l + (lat - x0) / (x1 - x0) * (width - pad.l - pad.r);
+  const Y = (d) => height - pad.b - d / (peak * 1.08) * (height - pad.t - pad.b);
+
+  // Shoulder band, axes, then the curves.
+  ctx.fillStyle = "#f3f1ec";
+  ctx.fillRect(X(summary.shoulder_interval[0]), pad.t, X(summary.shoulder_interval[1]) - X(summary.shoulder_interval[0]), height - pad.t - pad.b);
+  ctx.strokeStyle = "#e6e4df"; ctx.lineWidth = 1; ctx.fillStyle = "#52514e"; ctx.font = "11px -apple-system, sans-serif";
+  const step = (x1 - x0) > 14 ? 5 : (x1 - x0) > 6 ? 2 : 1;
+  for (let lat = Math.ceil(x0 / step) * step; lat <= x1; lat += step) {
+    ctx.beginPath(); ctx.moveTo(X(lat), pad.t); ctx.lineTo(X(lat), height - pad.b); ctx.stroke();
+    ctx.textAlign = "center"; ctx.fillText(fmtLat(lat), X(lat), height - pad.b + 14);
+  }
+  ctx.textAlign = "right";
+  for (let k = 0; k <= 4; k++) {
+    const d = peak * 1.08 * k / 4;
+    ctx.beginPath(); ctx.moveTo(pad.l, Y(d)); ctx.lineTo(width - pad.r, Y(d)); ctx.stroke();
+    ctx.fillText(d.toFixed(2), pad.l - 5, Y(d) + 3);
+  }
+  ctx.save(); ctx.translate(11, height / 2); ctx.rotate(-Math.PI / 2); ctx.textAlign = "center";
+  ctx.fillText("probability per degree", 0, 0); ctx.restore();
+
+  for (const s of series) {
+    ctx.beginPath(); ctx.globalAlpha = s.alpha || 1;
+    ctx.strokeStyle = s.colour.startsWith("var") ? getComputedStyle(document.body).getPropertyValue(s.colour.slice(4, -1)) : s.colour;
+    ctx.lineWidth = s.width; ctx.setLineDash(s.dash || []);
+    let started = false;
+    for (let i = Math.max(0, lo - 20); i <= Math.min(s.data.length - 1, hi + 20); i++) {
+      const px = X(gridLatitude(summary, i)), py = Y(s.data[i]);
+      started ? ctx.lineTo(px, py) : (ctx.moveTo(px, py), started = true);
+    }
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1; ctx.setLineDash([]);
+  $("pdf-legend").innerHTML = series.filter((s) => s.label).reverse()
+    .map((s) => `<span><i style="border-color:${s.colour}"></i>${s.label}</span>`).join("") +
+    `<span style="color:var(--muted)">shaded: published northern shoulder</span>`;
+}
+
+function drawMap(summary, c) {
+  const { ctx, width, height } = setupCanvas($("map"));
+  const cells = c.map || [];
+  if (!cells.length) return;
+  const pad = { l: 40, r: 10, t: 8, b: 24 };
+  // Frame the posterior, with room for the arcs it sits on.
+  const lat = cells.map((k) => summary.map.lat[0] + k[0] * summary.map.step);
+  const lon = cells.map((k) => summary.map.lon[0] + k[1] * summary.map.step);
+  const extent = [Math.min(...lon) - 6, Math.max(...lon) + 6, Math.min(...lat) - 4, Math.max(...lat) + 4];
+  const X = (v) => pad.l + (v - extent[0]) / (extent[1] - extent[0]) * (width - pad.l - pad.r);
+  const Y = (v) => height - pad.b - (v - extent[2]) / (extent[3] - extent[2]) * (height - pad.t - pad.b);
+
+  ctx.strokeStyle = "#eceae5";
+  for (let v = Math.ceil(extent[0] / 5) * 5; v <= extent[1]; v += 5) { ctx.beginPath(); ctx.moveTo(X(v), pad.t); ctx.lineTo(X(v), height - pad.b); ctx.stroke(); }
+  for (let v = Math.ceil(extent[2] / 5) * 5; v <= extent[3]; v += 5) { ctx.beginPath(); ctx.moveTo(pad.l, Y(v)); ctx.lineTo(width - pad.r, Y(v)); ctx.stroke(); }
+  ctx.fillStyle = "#52514e"; ctx.font = "11px -apple-system, sans-serif"; ctx.textAlign = "center";
+  for (let v = Math.ceil(extent[0] / 5) * 5; v <= extent[1]; v += 5) ctx.fillText(`${v.toFixed(0)}°E`, X(v), height - pad.b + 14);
+  ctx.textAlign = "right";
+  for (let v = Math.ceil(extent[2] / 5) * 5; v <= extent[3]; v += 5) ctx.fillText(fmtLat(v), pad.l - 4, Y(v) + 3);
+
+  ctx.setLineDash([4, 3]); ctx.strokeStyle = "#8a8983"; ctx.lineWidth = .8;
+  for (const arc of summary.reference_arcs || []) {
+    ctx.beginPath();
+    arc.lat_lon.forEach(([la, lo], i) => i ? ctx.lineTo(X(lo), Y(la)) : ctx.moveTo(X(lo), Y(la)));
+    ctx.stroke();
+  }
+  ctx.setLineDash([]);
+
+  const peak = Math.max(...cells.map((k) => k[2]));
+  const w = X(extent[0] + summary.map.step) - X(extent[0]), h = Y(extent[2]) - Y(extent[2] + summary.map.step);
+  for (const [y, x, value] of cells) {
+    const t = Math.log10(value / peak) / 3 + 1; // three decades of density
+    if (t <= 0) continue;
+    ctx.fillStyle = `rgba(42, 120, 214, ${Math.min(1, 0.12 + 0.88 * t).toFixed(3)})`;
+    ctx.fillRect(X(summary.map.lon[0] + x * summary.map.step), Y(summary.map.lat[0] + (y + 1) * summary.map.step), Math.max(w, 1.5), Math.max(h, 1.5));
+  }
+  if (summary.prior) {
+    ctx.fillStyle = "#0b0b0b";
+    ctx.beginPath();
+    ctx.arc(X(summary.prior.longitude_deg), Y(summary.prior.latitude_deg), 3.5, 0, 2 * Math.PI);
+    ctx.fill();
+  }
+}
+
+function renderData(data) {
+  $("data").innerHTML = `<table><tr><th>Input</th><th>File</th><th class="num">Size</th></tr>` + data.map((d) => `
+    <tr><td>${d.key}</td><td>${d.path.split("/").pop()}${d.present ? "" : ` <span class="changed">missing</span>`}
+      <p class="note">${d.content || ""}${d.source ? ` — ${d.source}` : ""}</p></td>
+      <td class="num">${d.bytes ? (d.bytes / 1e6).toFixed(1) + " MB" : "—"}</td></tr>`).join("") + `</table>`;
+}
+
+window.addEventListener("resize", () => state.summary && render());
+boot();
+</script>
+</body>
+</html>

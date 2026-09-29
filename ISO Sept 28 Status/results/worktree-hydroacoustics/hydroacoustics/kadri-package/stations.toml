@@ -1,0 +1,70 @@
+# Receivers used by the hydroacoustics module and its prepare/ scripts. One source per network.
+#
+# IMS hydrophones: ISC International Registry of Seismograph Stations, queried 2026-09-25
+# (http://www.isc.ac.uk/cgi-bin/stations?stnsearch=STN&sta_list=H01W1,H01W2,H01W3,H08S1,H08S2,H08S3).
+# `seafloor_m` is the registry elevation (negative below sea level). `depth_m` is its depth
+# field, read as the hydrophone depth below the surface. The hydrophones are moored about
+# 450 m above the seabed, near the sound-channel axis.
+#
+# IMOS loggers: Curtin CMST metadata in MH370.zip (3315_3250_3376__MetaData.txt) and in
+# Portland_MH370.zip (MetaData_3274_3275.txt), both on AODN. The hydrophones lie on the seabed
+# (IMOS_MH370_DataOverview.doc). Water depth:
+# - 450 m for 3315 (Curtin report 2014-30, "RCS");
+# - 216 m for 3250 (metadata);
+# - from ETOPO 2022 where Curtin did not note it: 410 m for 3376, and 146 m and 173 m for the
+#   Portland shelf loggers 3274 and 3275.
+#
+# H08N is left out: Blackman et al. (2004) found the paths from sites air6-air9 to it blocked.
+
+[[station]]
+id = "H01W"
+name = "Cape Leeuwin, IMS HA01 (triad)"
+elements = [
+  { id = "H01W1", lat = -34.89300, lon = 114.15400, depth_m = 1063.0, seafloor_m = -1535.0 },
+  { id = "H01W2", lat = -34.89850, lon = 114.13380, depth_m = 1046.0, seafloor_m = -1616.0 },
+  { id = "H01W3", lat = -34.88320, lon = 114.13610, depth_m = 1056.0, seafloor_m = -1522.0 },
+]
+
+[[station]]
+id = "H08S"
+name = "Diego Garcia south, IMS HA08 (triad)"
+elements = [
+  { id = "H08S1", lat = -7.64530, lon = 72.47440, depth_m = 1413.0, seafloor_m = -1889.0 },
+  { id = "H08S2", lat = -7.64530, lon = 72.49330, depth_m = 1356.0, seafloor_m = -1918.0 },
+  { id = "H08S3", lat = -7.62750, lon = 72.48380, depth_m = 1359.0, seafloor_m = -1776.0 },
+]
+
+[[station]]
+id = "3315"
+name = "Perth Canyon, IMOS logger 3315 (Curtin's RCS)"
+elements = [
+  { id = "3315", lat = -31.8672167, lon = 115.0011333, depth_m = 450.0, seafloor_m = -450.0 },
+]
+
+[[station]]
+id = "3376"
+name = "Perth Canyon, IMOS logger 3376 (records staggered 5 min from 3315)"
+elements = [
+  { id = "3376", lat = -31.8421667, lon = 115.0137333, depth_m = 410.0, seafloor_m = -410.0 },
+]
+
+[[station]]
+id = "3250"
+name = "Scott Reef, IMOS logger 3250"
+elements = [
+  { id = "3250", lat = -15.4833667, lon = 121.2510000, depth_m = 216.0, seafloor_m = -216.0 },
+]
+
+[[station]]
+id = "3274"
+name = "Portland (Victoria) shelf, IMOS logger 3274"
+elements = [
+  { id = "3274", lat = -38.5369667, lon = 141.2475667, depth_m = 146.0, seafloor_m = -146.0 },
+]
+
+[[station]]
+id = "3275"
+name = "Portland (Victoria) shelf, IMOS logger 3275 (records staggered from 3274)"
+elements = [
+  { id = "3275", lat = -38.5424333, lon = 141.2255833, depth_m = 173.0, seafloor_m = -173.0 },
+]

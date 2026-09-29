@@ -1,0 +1,540 @@
+D1 API PROPOSAL: core/stages (thr_6wkhvpqx8k), 2026-09-25
+For review by thr_4pbhvf3sxi before implementation. Includes both Pleiades points
+(NaN = not computed; module-owned and shared-by-name alternatives in one evidence set).
+
+======================================================================
+0. DECISIONS TO CONFIRM (details below)
+======================================================================
+a. time_utc keeps the whole-second times the cruise filter has always used (base stays
+   byte-identical); a new logged_utc column carries the SITA millisecond times, and stage 2
+   uses those. Moving the cruise filter to logged times is a separate, intended change
+   (under 2 us of BTO) for the core owner to decide.
+b. Observation IDs: SATCOM `<epoch>.bto|bfo|logon`; everything else `<source>:<item>`,
+   prefixed by data source (debris:, image:, search:, acoustic:, radar:), NOT by module, so two
+   modules using the same datum collide in the ownership check.
+c. Child weights are self-normalised per parent: w_child = w_parent * omega / sum(omega),
+   omega = exp(log proposal correction). Option "none" then reproduces the 00:11 posterior
+   exactly; the ratio bias is O(1/N). (Alternative: unbiased (1/N) sum(omega), which requires
+   every module's correction to be exactly normalised. I recommend self-normalised.)
+d. Phase 1 allows at most ONE trajectory-level alternative set per run (strata = its options
+   x the 5 modes). Enough for route families; lifting it later is a core change.
+e. The terminal module's own datum (the 00:19 log-on, m0019a.logon) is scored through its
+   ordinary impact hook, using ImpactView.takeover_unix_s. "With/without log-on" are then just
+   evidence sets that do or don't list the module.
+f. Hand-off continuation state is serialised with serde to TOML, not JSON: Aircraft holds
+   f64::INFINITY in its manoeuvre clocks, which JSON cannot carry; TOML carries inf/nan and
+   round-trips f64 exactly. No new dependency.
+g. The 00:19 BFO measurement alternatives (no offset / start-up offset / inflated error) are a
+   terminal-owned alternative named "final-bfo-model", composed like any module-owned one.
+h. A module's role comes from config, not from which methods it overrides:
+   - named in [terminal]: the terminal module (terminal hook; impact hooks in the sets that
+     list it);
+   - named in a [[compose]] set: an impact module (impact hooks only);
+   - any other enabled hypothesis: a trajectory module (the four existing hooks, in the filter).
+   So one `observations()` list and one `alternatives()` list suffice: the role says where
+   they count (trajectory: every set; impact: the sets that list the module) and at which
+   level alternatives act (trajectory: strata; impact: likelihood columns).
+i. ImpactView carries `parent` but deliberately not `weight`. Every file the runner writes
+   (impacts.npy, predictions.npy, evaluate output) has the weight; the hook never sees it, so
+   impact_log_likelihood cannot depend on the posterior (rule 1). Hydroacoustics gets weights
+   where it needs them: in the files it exports.
+j. `mh370 evaluate` (the Hydroacoustics request) comes right after these signatures are
+   agreed, ahead of the hand-off and terminal stage (section 8).
+k. The log-on ID: your note says 'logon-0019'; I propose `m0019a.logon`, so every SATCOM ID is
+   <epoch>.<quantity> and validated against the table. Same observation, used once, owned by
+   the terminal module. If you prefer 'logon-0019' I'll use that and special-case it.
+l. The terminal hook follows End of flight's two steps exactly: takeover_time, then descend
+   returning Vec<Descent>, with an Atmosphere trait, a score callback and FnMut uniform
+   streams. The callback scores the option named by `[terminal] target`, with the BFO models
+   mixed by their priors.
+
+======================================================================
+1. OBSERVATION OWNERSHIP (D2)
+======================================================================
+IDs
+- SATCOM, validated against data/satcom-observations.csv:
+    <epoch>.bto   <epoch>.bfo   <epoch>.logon
+  e.g. m0011.bto, m0019a.bto, m0019a.bfo, m0019b.bfo, m0019a.logon (the 00:19 log-on event:
+  one ID for the request/acknowledge pair), m1825.logon.
+- Everything else: "<source>:<item>", chosen by the module, e.g. "debris:flaperon-reunion",
+  "image:PHR_4-north", "search:phase2-deep-tow", "acoustic:HA01", "radar:1822".
+  The runner cannot validate these, only their disjointness; the source prefix makes a
+  double use across modules show up as a collision.
+
+Table changes (data/satcom-observations.csv; readers use header lookup, so new columns are safe)
+- logged_utc: SITA log time to the ms for single bursts (from the raw extract), blank for the
+  two C-channel means. m0019a 00:19:29.416, m0019b 00:19:37.443, m0011 00:10:59.928, ...
+- cruise: which of the row's measurements the cruise model applies to: "bto bfo" | "bto" | "bfo".
+  m0019a and m0019b: "bto". Their BFOs are now filled (182 Hz, -2 Hz, s.d. 7 Hz) but the cruise
+  filter never reads them. m1825: "bto".
+- events: "logon" on m1825 and m0019a.
+- time_utc unchanged. The satellite state stays the ephemeris row of the epoch: the <=0.93 s
+  offset to the logged time moves the satellite <=80 m (<0.5 us BTO, <0.01 Hz BFO).
+
+Who consumes what, for each (case, evidence set)
+- cruise filter: <e>.bto for each filtered epoch whose `cruise` has bto; <e>.bfo if the case
+  uses BFO and `cruise` has bfo;
+- trajectory modules: observations() (every set: the filter runs them);
+- terminal stage: the IDs of the set's data option;
+- impact modules, incl. the terminal module's own impact hook: observations(), in the sets
+  that list the module.
+At load time the runner builds {id -> consumer} for every (case, set). It refuses to start if an
+ID appears twice, if a SATCOM ID or quantity doesn't exist, or if a terminal option uses an
+epoch the filter still consumes. run.json records it:
+  "observations": [{"case": "bto-bfo", "set": "core+drift",
+                    "assignment": {"m1941.bto": "cruise filter", "m0019a.bto": "terminal option bto",
+                                   "m0019a.logon": "end-of-flight", "debris:flaperon-reunion": "debris-drift"}}]
+Base runs record one assignment per case (cruise filter only).
+
+The stop: `exclude_epochs = ["m0019a", "m0019b"]`. Without [terminal] they are dropped, as
+now (the existing *-to-0011 sensitivities are unchanged). With [terminal] they become the
+stage-2 epochs. Only epochs after the last filtered epoch may be handed on.
+
+======================================================================
+2. crates/hypothesis ADDITIONS (existing hooks and types unchanged, except where noted)
+======================================================================
+// ---------- metadata ----------
+
+/// A discrete model choice; option priors are positive and sum to one. Modules declaring the
+/// same `name` share one alternative (e.g. "ocean-model"): the labels must match exactly, and
+/// the composer marginalises it once, jointly across those modules. A name used only by one
+/// module is module-owned (e.g. pleiades "pleiades-origin" {not-H, H}; "pleiades-windage").
+/// Priors can be overridden per evidence set in config (the pi sweep).
+#[derive(Debug, Clone, PartialEq)]
+pub struct Alternatives {
+    pub name: String,
+    pub options: Vec<(String, f64)>,   // (label, prior probability)
+}
+
+// ---------- the trait ----------
+
+pub trait Hypothesis: Send + Sync {
+    // Declarations, called once before a run. The module's role (decision h) says where they act.
+    /// NEW. Observation IDs this module's hooks use (section 1).
+    fn observations(&self) -> Vec<String> { Vec::new() }
+    /// NEW. Discrete alternatives. Trajectory module: options run as separate strata of the
+    /// filter, like autopilot modes (at most one set per run). Impact or terminal module: the
+    /// sets `impact_log_likelihood` distinguishes, in the order of its `choice` argument. An
+    /// impact alternative named like the run's trajectory alternative is not marginalised
+    /// again: each impact uses its parent stratum's option.
+    fn alternatives(&self) -> Vec<Alternatives> { Vec::new() }
+    /// NEW. True if values under different options share one scale (normalised densities of
+    /// the module's data, or all divided by the same background), so they may be mixed. If
+    /// false, the composer reports this module's options only as labelled conditional results.
+    fn absolute_scale(&self) -> bool { false }
+    /// NEW (Hydroacoustics). Names, with units, of what `predict` writes, in order.
+    fn prediction_columns(&self) -> Vec<String> { Vec::new() }
+
+    // Stage 1, the filter. Unchanged. `final_log_likelihood` applies at the filter's last
+    // epoch: 00:19:37 in the base, 00:11 when the run stops there (doc comment updated).
+    fn adjust_prior(&self, _prior: &mut PriorSpec) {}
+    /// NEW. Called for the trajectory module that declares the run's trajectory alternative,
+    /// after `adjust_prior`: the prior of the stratum for option `alternative`.
+    fn adjust_stratum_prior(&self, _alternative: usize, _prior: &mut PriorSpec) {}
+    fn extra_epochs(&self) -> Vec<(String, f64)> { Vec::new() }
+    fn epoch_log_likelihood(&self, _epoch: &EpochView, _state: &StateView) -> f64 { 0.0 }
+    fn final_log_likelihood(&self, _state: &StateView) -> f64 { 0.0 }
+
+    // Stage 2.
+    /// NEW. The end-of-flight model, for the module named in `[terminal] module`.
+    fn terminal(&self) -> Option<&dyn Terminal> { None }
+
+    // Stage 3.
+    /// NEW. ln p(module data | impact, choice); `choice` holds one option index per entry of
+    /// `alternatives()`. Returns a finite value; -inf only where the data are genuinely
+    /// impossible; NaN for "not computed" (outside the module's data domain). Never a floor.
+    fn impact_log_likelihood(&self, _impact: &ImpactView, _choice: &[usize]) -> f64 { 0.0 }
+    /// NEW (Hydroacoustics). out.len() == prediction_columns().len(); NaN = not computed.
+    fn predict(&self, _impact: &ImpactView, _out: &mut [f64]) {}
+}
+
+StateView gains `pub alternative: usize` (the particle's trajectory-level option; 0 if none).
+Hypotheses never construct StateView, so existing modules compile unchanged. The core
+thread's post-phase-1 plan hook fits on top, with the same uniform stream shape:
+  fn plan(&self, alternative: usize, uniform: &mut dyn FnMut() -> f64) -> Option<Plan>
+
+// ---------- stage 2: terminal (End of flight's requirements, as approved) ----------
+// Units for everything below: positions in degrees, altitude in feet, velocities in m/s,
+// mass in kg, time in Unix seconds. (StateView keeps knots; the runner converts once.)
+// Uniform streams: `&mut dyn FnMut() -> f64`, draws on the open interval (0, 1), a fresh
+// stream per call, seeded by (seed, hand-off row, child, purpose). Modules never own a generator.
+
+/// Wind and temperature from the runner's ERA5 grid (IGRF for declination). Queries outside
+/// the grid are clamped: today 500-43,000 ft and 17:00-01:00 UTC (section 7, item 4).
+pub trait Atmosphere {
+    fn at(&self, unix_s: f64, altitude_ft: f64, latitude_deg: f64, longitude_deg: f64) -> Air;
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Air {
+    pub temperature_k: f64,
+    pub pressure_pa: f64,            // ISA pressure at the grid's pressure altitude
+    pub wind_east_mps: f64,
+    pub wind_north_mps: f64,
+    pub declination_deg: f64,
+    pub clamped: bool,               // the query lay outside the grid's altitude or time span
+}
+
+/// The aircraft where the core dynamics hand over: at the hand-off (00:11) and at the takeover.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FlightState {
+    pub unix_s: f64,
+    pub latitude_deg: f64,
+    pub longitude_deg: f64,
+    pub altitude_ft: f64,
+    pub ground_velocity_east_mps: f64,
+    pub ground_velocity_north_mps: f64,
+    pub vertical_speed_mps: f64,     // +/- climb rate mid level change, else 0
+    pub mach: f64,
+    pub true_air_speed_mps: f64,
+    pub heading_deg: f64,            // true
+    pub wind_east_mps: f64,          // ERA5 wind plus the model's wind-error state
+    pub wind_north_mps: f64,
+    pub mode: usize,
+    // NaN until the core models fuel (reserved slots):
+    pub mass_kg: f64,
+    pub fuel_kg: f64,
+    pub fuel_exhaustion_unix_s: f64,
+}
+
+/// A 00:19 burst after the stop. Logged times: 00:19:29.416 (R600), 00:19:37.443 (R1200).
+#[derive(Debug, Clone, PartialEq)]
+pub struct TerminalEpoch {
+    pub id: String,                  // "m0019a", "m0019b"
+    pub unix_s: f64,
+}
+
+/// The aircraft at one requested epoch, as the module returns it.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct EpochState {
+    pub latitude_deg: f64,
+    pub longitude_deg: f64,
+    pub altitude_ft: f64,
+    pub velocity_east_mps: f64,
+    pub velocity_north_mps: f64,
+    pub velocity_up_mps: f64,
+}
+
+/// The fields of an impact the module owns. The runner derives flight-path angle and total
+/// and vertical kinetic energy from these, so the definitions exist once.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Impact {
+    pub unix_s: f64,
+    pub latitude_deg: f64,
+    pub longitude_deg: f64,
+    pub velocity_east_mps: f64,
+    pub velocity_north_mps: f64,
+    pub velocity_up_mps: f64,
+    pub mass_kg: f64,
+}
+
+#[derive(Debug, Clone, PartialEq)]
+pub struct Descent {
+    pub impact: Impact,
+    pub family: usize,               // index into Terminal::families()
+    /// One entry per requested epoch; None where the aircraft was already down (the runner
+    /// then scores any data option using that epoch as impossible).
+    pub at_epochs: Vec<Option<EpochState>>,
+    /// ln(prior / proposal) of this descent given the takeover state; 0 when drawn from the prior.
+    pub log_q_correction: f64,
+}
+
+pub trait Terminal: Send + Sync {
+    /// Descent families, e.g. ["glide", "ditching", "spiral", "dive"], sampled from the
+    /// module's declared prior; the composer reports results per family.
+    fn families(&self) -> Vec<String>;
+    /// (a) The FIRST flame-out, for one child of the trajectory handed off at `handoff`
+    /// (fuel fields are filled once the core has fuel). Returns (unix_s >= handoff.unix_s,
+    /// ln(prior / proposal)). The runner then flies the core dynamics to that time.
+    fn takeover_time(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> (f64, f64);
+    /// (b) Descents from the takeover state: M >= 1 independent draws from the module's
+    /// descent proposal. `epochs` are the requested 00:19 epochs at or after the takeover;
+    /// earlier ones were flown on the core dynamics and are scored from those states.
+    /// `score(candidates)` returns the log-likelihood of the config-selected observations
+    /// (`[terminal] target`, BFO models mixed by their priors) with candidate states at `epochs`
+    /// and the powered states before them. Use it only to adapt the proposal: the runner scores
+    /// every observation exactly once for the final weights, and log_q_correction keeps the
+    /// weights exact.
+    fn descend(
+        &self,
+        takeover: &FlightState,
+        atmosphere: &dyn Atmosphere,
+        uniform: &mut dyn FnMut() -> f64,
+        epochs: &[TerminalEpoch],
+        score: &dyn Fn(&[Option<EpochState>]) -> f64,
+    ) -> Vec<Descent>;
+}
+
+// ---------- shared raw-array reader (crates/hypothesis/src/raw.rs) ----------
+// For impact-module products: drift maps, debris ensembles, coverage rasters, bathymetry.
+// A TOML manifest next to a little-endian C-order array:
+//   data = "drift-bran2016.f32"            # relative to the manifest
+//   dtype = "f32"                          # f32 | f64
+//   shape = [48, 301, 351]
+//   [[axes]]                               # one per dimension: regular (start, step) or explicit values
+//   name = "time_unix_s"
+//   values = [...]
+//   [[axes]]
+//   name = "latitude_deg"
+//   start = -45.0
+//   step = 0.1
+//   ...
+//   NaN in the data means "not computed".
+pub struct RawArray { pub shape: Vec<usize>, pub axes: Vec<Axis>, /* f32 or f64 storage */ }
+pub struct Axis { pub name: String, pub values: Vec<f64> }
+impl RawArray {
+    pub fn load(manifest: &Path) -> Result<RawArray, String>;
+    pub fn get(&self, index: &[usize]) -> f64;
+    /// Multilinear interpolation at axis coordinates. NaN outside the axes, or if any corner
+    /// is NaN: "not computed" propagates and is never filled.
+    pub fn interpolate(&self, at: &[f64]) -> f64;
+}
+Adds `serde` to crates/hypothesis (already allowed for hypotheses). Modules name their product
+by a path in their params: relative to the repository root (where make runs) or absolute,
+e.g. data/external/drift/... -> /jackbox/home/MH370-inputs/drift/.
+
+// ---------- stage 3: impacts ----------
+
+/// One impact sample, as every impact module sees it. No weight (decision i): modules return
+/// likelihoods only; the files the runner writes carry the weights.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ImpactView {
+    pub parent: usize,               // row of the parent trajectory in handoff.npy
+    pub unix_s: f64,
+    pub latitude_deg: f64,
+    pub longitude_deg: f64,
+    pub velocity_east_mps: f64,
+    pub velocity_north_mps: f64,
+    pub velocity_up_mps: f64,
+    pub flight_path_angle_deg: f64,  // below the horizontal, positive descending (runner-derived)
+    pub mass_kg: f64,
+    pub kinetic_energy_j: f64,       // runner-derived from mass and velocity
+    pub vertical_kinetic_energy_j: f64,
+    pub family: usize,
+    pub takeover_unix_s: f64,        // first flame-out
+    pub takeover_latitude_deg: f64,
+    pub takeover_longitude_deg: f64,
+    pub takeover_altitude_ft: f64,
+    pub mode: usize,                 // parent's autopilot mode
+    pub alternative: usize,          // parent's trajectory-level option
+}
+
+======================================================================
+3. STAGE 2 ORCHESTRATION (D4), per case and replicate
+======================================================================
+1. The filter stops at its last epoch. Hand-off (D3): K rows, drawn by systematic resampling
+   within each stratum s from its final weights. K_s = max(floor, round(K * P(s|D))) rows,
+   each with weight P(s|D)/K_s. So the rows carry the mode posterior and pool with the
+   summary.rs factors exactly as final.npy rows do.
+2. For each hand-off row r (parallel), child c = 0..N-1:
+   (t, q1) = module.takeover_time(handoff state, stream)
+   the runner flies a copy of the parent Aircraft on the core dynamics to t, recording the
+     powered state at each 00:19 epoch before t (cruise-model convention: no vertical rate,
+     as in the filter);
+   descents = module.descend(state at t, &atmosphere, stream, epochs at or after t, &score)
+   for each descent j of M: row weight omega = exp(q1 + q2_j) / M.
+   The runner scores every column from the epoch states: BTO Gaussian; BFO sequentially with
+     the parent's Kalman bias, marginalised over the start-up offset by Gauss-Legendre
+     quadrature (ported from the archive's final_bfo.rs into crates/satcom) for the
+     "startup-offset" model.
+3. Weights (decision c): self-normalised per parent, w_row = w_parent * omega / sum(omega).
+4. Errors: a takeover before the stop; M = 0; a non-finite impact field; a family index out
+   of range; an at_epochs length mismatch.
+Random streams: the filter's layout is unchanged (stratum<<48 | step<<32 | particle, with
+stratum = alternative*5 + mode, so identical for the base). Terminal streams use
+(0xF000|purpose)<<48 | child<<32 | row; purposes: powered, takeover, descent.
+Round-trip test (D3): continuing a hand-off row on the filter's own stream for the next step
+reproduces the straight-through particle bit for bit. The terminal stage deliberately uses
+per-child streams instead, so children of one parent differ.
+
+======================================================================
+4. FILES (per replicate: runs/<run>/<case>/seed-<s>/; existing files unchanged)
+======================================================================
+handoff.npy   K x 13 float64, row-aligned with handoff.toml:
+              weight, latitude_deg, longitude_deg, altitude_ft, mach, tau_h, mode, alternative,
+              bfo_bias_hz, bfo_bias_variance_hz2, origin, final_row (row in final.npy),
+              particle (index in its stratum's filter). Fuel columns appended when fuel lands.
+handoff.toml  stop = {epoch, step, unix_s}; [[row]] aircraft = <serde Aircraft incl. guidance>,
+              bias = {mean_hz, variance_hz2}
+impacts.npy   K*N rows, float64:
+              weight, parent (row in handoff), stratum, family, unix_s, latitude_deg, longitude_deg,
+              velocity_east_mps, velocity_north_mps, velocity_up_mps, flight_path_angle_deg,
+              mass_kg, kinetic_energy_j, vertical_kinetic_energy_j, takeover_unix_s,
+              takeover_latitude_deg, takeover_longitude_deg, takeover_altitude_ft,
+              arc_distance_nm (signed, beyond the arc positive; arc = [terminal] arc epoch's BTO,
+              at sea level), log_proposal_correction,
+              per terminal epoch: bto_residual_us:<e>, bfo_innovation_hz:<e> (diagnostic),
+              one "loglik:<option>" per data option, or "loglik:<option>/<bfo-model>" when the
+              option uses a BFO.
+              Column names in run.json "impact_columns"; families in run.json "families".
+modules/<name>.npy  row-aligned with impacts.npy: one "loglik:<o1>/<o2>/..." column per option
+              combination of the module's alternatives() (declaration order, first varying
+              slowest). Names in compose.json.
+predictions.npy  (Hydroacoustics) M rows per replicate, a weighted resample of impacts.npy
+              under the evidence set named in [predictions] (stratified by stratum with a
+              floor, like the hand-off):
+              weight (pooled posterior weight: sums to one over all replicates of the case),
+              impact_row, parent, stratum, family, unix_s, latitude_deg, longitude_deg,
+              velocity_east_mps, velocity_north_mps, velocity_up_mps, mass_kg,
+              kinetic_energy_j, vertical_kinetic_energy_j, then "<module>:<column>" for every
+              prediction column of every enabled module. Names in run.json "prediction_columns".
+Run level: run.json gains stop_epoch, terminal, impact_columns, prediction_columns, families,
+strata, observations, modules (declarations), compose; summary.json gains "impacts" (section 6).
+
+Entry points
+  mh370 <config> [<override>...] <out>             stages 1-4, as configured
+  mh370 evaluate <config.toml> <samples> <out-dir> (Hydroacoustics) the enabled modules'
+        impact_log_likelihood (every option combination) and predict on a samples file:
+        impacts.npy layout, or CSV with ImpactView column names (columns a module does not
+        need may be absent; they read as NaN), plus an optional weight column that is passed
+        through. Writes per module "loglik:..." and prediction columns, in the input's format
+        (npy + evaluate.json with the names, or CSV). No filter, no composition: every impact
+        module can test against fixtures with it.
+  mh370 compose  <run> <config> [<override>...] <out>   stages 3-4 on a finished run's impacts
+                                                    (seconds; writes modules/, summary.json, compose.json)
+  mh370 terminal <run> <config> [<override>...] <out>   stages 2-4 from a finished run's hand-off
+  make fixture                 runs/fixture: smoke scale, 00:11 stop, arc-kernel impacts (~1 min)
+  make compose H=<name>        that module against runs/fixture, with a report page
+Until the fixture exists (M5), I can generate a stand-in impacts CSV from the base run's 00:19:37
+posterior (weighted resample; position and time only, other columns NaN), so Hydroacoustics can
+pre-register arrival windows with `evaluate` as soon as M3 lands.
+
+======================================================================
+5. CONFIG
+======================================================================
+# config/integrated.toml (core-owned)
+base = "davey2016.toml"
+exclude_epochs = ["m0019a", "m0019b"]      # the filter stops at 00:11; these go to stage 2
+
+[terminal]
+module = "arc-kernel"                      # an enabled hypothesis whose terminal() is Some
+handoff = 20000                            # trajectories per replicate
+handoff_floor = 200                        # at least this many per stratum with posterior > 0
+children = 20                              # descents per trajectory
+arc = "m0019a"                             # defines arc_distance_nm
+target = "all"                             # the option the module's score callback evaluates
+options = [                                # one weight column each, from the same children
+  { id = "none", use = [] },
+  { id = "r600-bto", use = ["m0019a.bto"] },
+  { id = "bto", use = ["m0019a.bto", "m0019b.bto"] },
+  { id = "all", use = ["m0019a.bto", "m0019b.bto", "m0019a.bfo", "m0019b.bfo"] },
+]
+[terminal.bfo_models]                      # the alternative "final-bfo-model", for options with a BFO
+no-offset = { prior = 0.34 }
+startup-offset = { prior = 0.33, second_hz = [lo, hi], first_minus_second_hz = [lo, hi], points = [64, 16] }
+inflated = { prior = 0.33, sd_hz = 25.0 }
+
+[hypotheses.arc-kernel]
+distance_nm = { mean = 0.0, sd = 15.0 }
+
+[[compose]]
+id = "core"
+option = "bto"
+
+# A module's run.toml adds its own set; combinations live only in core-owned configs.
+[[compose]]
+id = "core+drift"
+option = "bto"
+modules = ["debris-drift"]
+given = { "ocean-model" = "bran2016" }        # optional: condition instead of marginalising
+priors = { "pleiades-origin" = [0.9, 0.1] }   # optional: override declared priors
+tolerance = 1e-3                              # optional: uncomputed share that flags "incomplete"
+
+[predictions]                                 # (Hydroacoustics) predictions.npy per case and seed
+samples = 20000                               # M rows per replicate
+set = "core"                                  # evidence set whose posterior the resample follows
+
+Trajectory-level strata: particles_per_mode applies to every option unless
+  [particles_per_alternative] <label> = [5 numbers].
+Modules read offline products (drift maps, coverage rasters) through paths in their params,
+resolved relative to the file that names them.
+
+======================================================================
+6. COMPOSER SEMANTICS AND summary.json (D6)
+======================================================================
+For case, set E, replicate i, stratum s, impact rows r in (i, s) with prior weights w_r:
+- Alternative space A: the product of every alternative the set touches: its modules'
+  impact_alternatives, joined by name, plus "final-bfo-model" if the option uses a BFO,
+  minus those fixed by `given`. Error above 4096 combinations. Declared priors must agree
+  across modules sharing a name unless `priors` sets them.
+- l_r(a) = loglik_option(r, a) + sum over modules of loglik_m(r, a restricted to m).
+- NaN (not computed): a row is uncomputed under a if any term is NaN. It is never read as 0
+  or -inf. Evidence sums run over computed rows only. The composer reports, per module and for
+  the set, the share of the pre-module posterior (w_r * L_option) on uncomputed rows, and
+  labels the composed result "conditional on the computed domain". Above `tolerance` the set
+  is flagged incomplete: in summary.json and in red on the report page.
+- Z_is(a) = sum_{computed r} w_r exp(l_r(a)) / sum_r w_r.
+  Z_is = sum_a P(a) Z_is(a). This needs absolute_scale for every module whose alternatives
+  are in A; otherwise those alternatives are reported only per option, as labelled
+  conditional results.
+- Pooling: the island estimator of summary.rs, generalised to strata, on
+  log Z_filter[i][s] + log Z_is. pooling() takes (stratum priors, log Z[i][s]); for the base
+  it gives exactly today's factors.
+- P(a|D) is proportional to P(a) * sum_s prior(s) * mean_i(Z_filter[i][s] Z_is(a)). Reported
+  per alternative, with log Bayes factors, e.g. P(H|D) for pleiades-origin. For two-option
+  alternatives the report draws P(H|D) against pi from the Bayes factor, so the pi sweep
+  needs no rerun.
+- ESS per factor, over rows and over parents: prior; option only; each module alone;
+  combined.
+- Replicate agreement: split-half overlap of the latitude density and of the 2-D map. Below
+  0.9 the set is flagged unconverged.
+
+summary.json:
+"impacts": {
+  "grid": {"projection": "sinusoidal", "central_meridian_deg": 95.0, "radius_km": 6371.0072, "cell_km": 10.0},
+  "families": [...],
+  "cases": [{"case": "bto-bfo", "sets": [{
+     "id", "option", "modules", "given", "priors",
+     "incomplete": bool, "unconverged": bool,
+     "uncomputed": {"set": x, "<module>": x},
+     "log_evidence_increment": x, "replicates": [{"seed", "log_evidence_increment", "stats"}],
+     "stratum_probability": [...],
+     "ess": {"rows": {"prior", "option", "<module>", "combined"}, "parents": {...}},
+     "alternatives": [{"name", "modules", "absolute", "options": [{"label", "prior", "posterior",
+                       "log_bayes_factor", "latitude": {"stats"}, "map": [[ix, iy, p], ...]}]}],
+     "families": [{"family", "probability", "stats"}],
+     "latitude": {"density", "stats", "split_half_overlap"},      // summary.rs grid, stats(), upper_edge
+     "map": [[ix, iy, p], ...], "map_split_half_overlap",
+     "impact_time", "kinetic_energy_j", "arc_distance_nm",          // histograms
+     "predictions": {"<module>: <name>": {"q025", "median", "q975", "uncomputed"}}
+  }]}]
+}
+Grid: sinusoidal equal-area, x = R (lon - 95E) cos(lat), y = R lat, 10 km cells (exactly
+equal-area on the authalic sphere; within 0.5% on the ellipsoid). The inverse is two lines
+in the report.
+Report pages: one generic page per (case, set), driven by module metadata (hypothesis.toml
+question/status, declared alternatives, predictions, consumed observations). The base pages
+stay as they are.
+
+======================================================================
+7. NEEDED FROM THE CORE THREAD (thr_mgewhqvb78)
+======================================================================
+1. OK to add #[derive(Serialize, Deserialize)] on flight::Aircraft and environment::Weather
+   in core/stages (the agreed exception).
+2. Three read-only accessors (no dynamics change). May I add them in core/stages, or would
+   you rather add them yourself?
+   Aircraft::air_data(&self) -> AirData { true_air_speed_kt, heading_rad, wind_north_kt,
+                                          wind_east_kt, temperature_k }
+   Aircraft::vertical_speed_fpm(&self, p: &Parameters) -> f64    // +/- climb rate mid-level-change
+   Gridded::era5_span(&self) -> [(f64, f64); 2]                   // time, altitude: for Air.clamped
+3. Fuel: when it lands it fills FlightState.fuel_kg and fuel_exhaustion_unix_s, and adds
+   handoff.npy columns; the slots are reserved.
+4. Atmosphere above 43,000 ft and after 01:00, if the end-of-flight module asks: a separate
+   regional grid data/era5-terminal.bin in the same MHERA5V1 format (e.g. 15-45S, 80-115E,
+   00:00-03:00, 0-60,000 ft incl. 50/70/100 hPa), built by .sources/era5-weather/extract.py
+   with other arguments and used only by stage 2. The base grid and estimate are untouched.
+
+======================================================================
+8. ORDER OF WORK AND MERGES (each: cargo test, make regress, announced before landing)
+======================================================================
+M1 D8 plumbing: .iso-env-setup.sh, /data/external in .gitignore.
+M2 D2: table columns, cruise flags, observation IDs, ownership check, run.json assignment.
+M3 API additions in crates/hypothesis (all of section 2), ImpactView, and `mh370 evaluate`
+   (npy and CSV samples), plus the stand-in impacts CSV. Hydroacoustics starts here.
+M4 D3: serde derives and accessors, hand-off files, round-trip test.
+M5 D4 terminal stage (incl. the satcom final-BFO models), D5 arc-kernel, predictions.npy.
+M6 D6: composer, alternatives, NaN accounting, summary.rs and report pages; trajectory-level
+   strata, with the analytic tests.
+M7 D7: fixture, `mh370 compose` / `mh370 terminal`, make fixture / make compose.
+Tests: composition (Gaussian factor on a Gaussian prior, incl. a NaN region), ownership
+overlap rejection, stratified alternatives vs analytic evidence, hand-off round trip.

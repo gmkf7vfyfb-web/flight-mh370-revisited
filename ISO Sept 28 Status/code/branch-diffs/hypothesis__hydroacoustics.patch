@@ -1,0 +1,3663 @@
+diff --git a/hypotheses/hydroacoustics/bathymetry.rs b/hypotheses/hydroacoustics/bathymetry.rs
+new file mode 100644
+index 0000000..bde18da
+--- /dev/null
++++ b/hypotheses/hydroacoustics/bathymetry.rs
+@@ -0,0 +1,94 @@
++//! Regional seafloor grid (ETOPO 2022, 1 arc-minute) and what the module reads from it:
++//! depth at the impact, the seabed slope towards each station, and the shallowest point on
++//! each path.
++
++use serde::Deserialize;
++use std::path::Path;
++
++/// Little-endian int16 elevations (m, positive up), rows south to north, as written by
++/// prepare/bathymetry.py, with a TOML sidecar of the same stem describing the grid.
++pub struct Grid {
++    south: f64,
++    west: f64,
++    step_lat: f64,
++    step_lon: f64,
++    rows: usize,
++    columns: usize,
++    z: Vec<i16>,
++}
++
++#[derive(Deserialize)]
++struct Sidecar {
++    rows: usize,
++    columns: usize,
++    south_deg: f64,
++    west_deg: f64,
++    step_lat_deg: f64,
++    step_lon_deg: f64,
++}
++
++impl Grid {
++    pub fn load(path: &Path) -> Result<Grid, String> {
++        let sidecar = path.with_extension("toml");
++        let text = std::fs::read_to_string(&sidecar).map_err(|e| format!("{}: {e}", sidecar.display()))?;
++        let s: Sidecar = toml::from_str(&text).map_err(|e| format!("{}: {e}", sidecar.display()))?;
++        let bytes = std::fs::read(path).map_err(|e| format!("{}: {e}", path.display()))?;
++        if bytes.len() != 2 * s.rows * s.columns {
++            return Err(format!("{}: expected {} x {} int16 values", path.display(), s.rows, s.columns));
++        }
++        let z = bytes.chunks_exact(2).map(|b| i16::from_le_bytes([b[0], b[1]])).collect();
++        Ok(Grid::new(s.south_deg, s.west_deg, s.step_lat_deg, s.step_lon_deg, s.rows, s.columns, z))
++    }
++
++    pub fn new(south: f64, west: f64, step_lat: f64, step_lon: f64, rows: usize, columns: usize, z: Vec<i16>) -> Grid {
++        assert_eq!(z.len(), rows * columns);
++        Grid { south, west, step_lat, step_lon, rows, columns, z }
++    }
++
++    /// Bilinear elevation (m, positive up), or None outside the grid.
++    pub fn elevation(&self, lat: f64, lon: f64) -> Option<f64> {
++        let y = (lat - self.south) / self.step_lat;
++        let x = (lon - self.west) / self.step_lon;
++        if !(y >= 0.0 && x >= 0.0 && y <= (self.rows - 1) as f64 && x <= (self.columns - 1) as f64) {
++            return None;
++        }
++        let (i, j) = ((y as usize).min(self.rows - 2), (x as usize).min(self.columns - 2));
++        let (fy, fx) = (y - i as f64, x - j as f64);
++        let at = |r: usize, c: usize| f64::from(self.z[r * self.columns + c]);
++        Some(
++            (1.0 - fy) * ((1.0 - fx) * at(i, j) + fx * at(i, j + 1))
++                + fy * ((1.0 - fx) * at(i + 1, j) + fx * at(i + 1, j + 1)),
++        )
++    }
++}
++
++/// Seabed along one impact-to-station path.
++#[derive(Debug, Clone, Copy, PartialEq)]
++pub struct PathSeabed {
++    /// Seabed slope towards the station over the first SLOPE_KM, degrees; positive when the
++    /// seabed deepens towards the station, which is what lets a surface source couple into
++    /// the sound channel (Curtin report 2014-30, sec. 7).
++    pub downslope_deg: f64,
++    /// Shallowest seabed (m, positive down) more than END_KM from both ends. Negative is land.
++    pub min_depth_m: f64,
++}
++
++pub const SLOPE_KM: f64 = 20.0;
++pub const END_KM: f64 = 30.0;
++const STEP_KM: f64 = 2.0;
++
++/// Sample the seabed every STEP_KM along the great circle from the impact to the station.
++pub fn path_seabed(grid: &Grid, from: (f64, f64), to: (f64, f64), range_km: f64) -> Option<PathSeabed> {
++    let depth_at = |km: f64| {
++        let (lat, lon) = super::geodesy::along(from.0, from.1, to.0, to.1, km / range_km);
++        grid.elevation(lat, lon).map(|z| -z)
++    };
++    let downslope_deg = (depth_at(SLOPE_KM.min(range_km))? - depth_at(0.0)?).atan2(SLOPE_KM * 1000.0).to_degrees();
++    let mut min_depth_m = f64::INFINITY;
++    let mut km = END_KM;
++    while km <= range_km - END_KM {
++        min_depth_m = min_depth_m.min(depth_at(km)?);
++        km += STEP_KM;
++    }
++    Some(PathSeabed { downslope_deg, min_depth_m })
++}
+diff --git a/hypotheses/hydroacoustics/blackman-air9-tl.csv b/hypotheses/hydroacoustics/blackman-air9-tl.csv
+new file mode 100644
+index 0000000..ff5a39c
+--- /dev/null
++++ b/hypotheses/hydroacoustics/blackman-air9-tl.csv
+@@ -0,0 +1,259 @@
++# Blackman et al. (2004) UCRL-TR-207323 Fig. 23: observed transmission loss, site air9,
++# median over shots, only where signal exceeded noise by 3 dB. Digitised by prepare/digitise_blackman.py.
++frequency_hz,h08s_db,h01w_db
++5.56,121.6,
++5.90,124.5,
++6.25,125.4,
++6.60,125.8,
++6.94,127.0,
++7.29,125.8,
++7.64,125.1,
++7.99,125.9,
++8.33,126.6,
++8.68,124.8,
++9.03,121.7,
++9.38,121.4,
++9.72,121.6,
++10.07,120.6,
++10.42,120.3,
++10.76,121.7,
++11.11,123.3,
++11.46,124.8,
++11.81,125.5,
++12.15,126.9,
++12.50,128.2,
++12.85,129.0,
++13.19,129.7,
++13.54,130.1,123.1
++13.89,130.3,123.8
++14.24,129.1,124.8
++14.58,127.6,124.8
++14.93,127.7,124.8
++15.28,128.7,124.9
++15.62,127.7,123.5
++15.97,127.2,122.0
++16.32,125.8,120.7
++16.67,124.4,119.6
++17.01,123.5,118.5
++17.36,123.0,117.8
++17.71,122.3,117.2
++18.06,122.3,117.0
++18.40,121.7,117.0
++18.75,121.2,116.5
++19.10,120.5,115.7
++19.44,121.4,116.3
++19.79,123.4,117.7
++20.14,125.6,119.8
++20.49,127.2,120.7
++20.83,128.3,122.3
++21.18,128.7,123.8
++21.53,128.6,124.7
++21.88,126.6,125.4
++22.22,125.8,125.6
++22.57,127.7,125.4
++22.92,127.6,
++23.26,127.9,125.4
++23.61,128.3,124.8
++23.96,127.7,124.8
++24.31,127.3,124.1
++24.65,126.9,123.7
++25.00,125.8,123.8
++25.35,125.9,123.3
++25.69,,123.7
++26.04,126.3,124.5
++26.39,128.0,125.2
++26.74,,125.8
++27.08,129.1,125.9
++27.43,129.6,125.5
++27.78,128.4,124.9
++28.12,127.5,124.8
++28.47,126.8,124.9
++28.82,124.9,124.5
++29.17,123.3,123.8
++29.51,122.3,123.7
++29.86,122.0,124.9
++30.21,123.1,125.4
++30.56,124.8,125.8
++30.90,126.1,126.2
++31.25,126.5,126.5
++31.60,126.8,
++31.94,127.2,126.9
++32.29,128.2,127.5
++32.64,128.9,127.3
++32.99,129.3,127.5
++33.33,129.3,127.9
++33.68,129.7,127.9
++34.03,129.6,127.9
++34.38,129.1,127.9
++34.72,127.7,127.6
++35.07,128.4,127.6
++35.42,128.3,127.0
++35.76,127.2,125.8
++36.11,125.8,125.4
++36.46,124.9,126.3
++36.81,124.5,127.6
++37.15,124.8,127.9
++37.50,125.4,128.3
++37.85,126.8,128.7
++38.19,128.4,129.0
++38.54,129.0,129.7
++38.89,129.0,130.1
++39.24,129.4,130.4
++39.58,130.1,131.1
++39.93,129.6,130.5
++40.28,129.0,130.1
++40.62,129.1,129.8
++40.97,130.5,129.8
++41.32,131.5,130.4
++41.67,132.1,131.4
++42.01,132.5,132.2
++42.36,133.1,133.1
++42.71,133.2,133.2
++43.06,133.5,132.9
++43.40,132.6,132.6
++43.75,132.6,132.2
++44.10,131.1,131.5
++44.44,130.0,131.2
++44.79,,131.0
++45.14,130.4,130.5
++45.49,129.8,129.8
++45.83,130.1,130.4
++46.18,130.8,131.2
++46.53,131.7,132.1
++46.88,132.8,132.1
++47.22,132.6,132.5
++47.57,132.9,132.9
++47.92,133.9,133.2
++48.26,,132.9
++48.61,133.8,132.4
++48.96,134.2,131.7
++49.31,133.2,132.8
++49.65,133.2,132.5
++50.00,,132.2
++50.35,133.1,132.6
++50.69,132.6,132.2
++51.04,131.7,131.7
++51.39,131.2,131.2
++51.74,130.1,131.5
++52.08,130.1,
++52.43,130.4,130.5
++52.78,129.8,129.3
++53.12,129.3,129.8
++53.47,129.0,129.4
++53.82,,128.9
++54.17,128.3,129.0
++54.51,128.7,128.6
++54.86,129.4,128.4
++55.21,130.1,129.1
++55.56,131.4,130.3
++55.90,131.9,131.4
++56.25,132.5,132.1
++56.60,133.9,132.1
++56.94,134.5,132.6
++57.29,133.6,133.2
++57.64,134.9,133.8
++57.99,134.6,133.8
++58.33,134.6,134.0
++58.68,134.7,134.5
++59.03,134.7,134.2
++59.38,133.8,135.0
++59.72,,135.4
++60.07,133.5,135.0
++60.42,134.6,136.0
++60.76,135.6,136.1
++61.11,136.0,135.9
++61.46,135.7,136.4
++61.81,135.7,
++62.15,136.0,136.6
++62.50,136.3,136.0
++62.85,136.8,135.7
++63.19,136.4,135.7
++63.54,137.3,135.9
++63.89,136.8,135.6
++64.24,136.3,135.7
++64.58,136.3,135.7
++64.93,137.0,135.7
++65.28,136.8,135.0
++65.62,136.6,135.2
++65.97,,135.9
++66.32,,136.4
++66.67,138.4,137.1
++67.01,140.5,137.4
++67.36,139.6,138.0
++67.71,138.4,
++68.06,138.7,138.2
++68.40,138.2,
++68.75,139.5,
++69.10,138.0,138.5
++69.44,138.5,138.5
++69.79,139.2,138.8
++70.14,138.8,138.5
++70.49,138.5,138.2
++70.83,138.5,138.2
++71.18,139.2,138.2
++71.53,,138.5
++71.88,,138.8
++72.22,140.2,139.1
++72.57,139.9,
++72.92,139.5,138.7
++73.26,138.8,138.2
++73.61,138.5,138.2
++73.96,138.2,138.2
++74.31,137.7,138.2
++74.65,137.3,138.4
++75.00,137.4,137.5
++75.35,137.4,136.8
++75.69,137.0,136.4
++76.04,136.1,135.9
++76.39,135.4,135.3
++76.74,135.2,134.6
++77.08,134.9,133.6
++77.43,134.3,133.2
++77.78,134.0,132.9
++78.12,134.0,132.4
++78.47,134.3,132.1
++78.82,134.6,132.1
++79.17,,132.1
++79.51,134.9,131.8
++79.86,135.2,132.1
++80.21,135.2,132.8
++80.56,134.9,133.3
++80.90,135.2,133.2
++81.25,135.2,133.5
++81.60,135.2,133.8
++81.94,134.6,133.3
++82.29,134.6,133.6
++82.64,134.6,134.0
++82.99,134.6,134.0
++83.33,135.3,134.0
++83.68,135.7,133.8
++84.03,135.7,133.5
++84.38,135.4,133.8
++84.72,134.6,133.5
++85.07,134.0,132.6
++85.42,134.0,131.9
++85.76,133.8,132.1
++86.11,134.0,131.8
++86.46,134.3,131.7
++86.81,,132.2
++87.15,,131.9
++87.50,134.2,131.5
++87.85,133.2,131.1
++88.19,133.2,130.5
++88.54,132.9,130.8
++88.89,132.5,
++89.24,132.9,131.5
++89.58,132.5,131.9
++89.93,,132.1
++90.28,,131.7
++90.97,,131.4
++91.32,,131.0
++91.67,,130.7
++92.01,,129.8
++92.36,,129.0
++92.71,,128.6
++93.06,,128.2
++93.40,,128.3
++93.75,,128.6
++94.10,,128.0
++94.44,,127.3
+diff --git a/hypotheses/hydroacoustics/geodesy.rs b/hypotheses/hydroacoustics/geodesy.rs
+new file mode 100644
+index 0000000..7b23568
+--- /dev/null
++++ b/hypotheses/hydroacoustics/geodesy.rs
+@@ -0,0 +1,67 @@
++//! Geodesics on the WGS-84 ellipsoid (Vincenty's inverse formula) and points along a path.
++
++use geo::{WGS84_A_KM, WGS84_F};
++
++/// Distance (km) from point 1 to point 2, and the azimuth (degrees clockwise from true
++/// north) of the geodesic leaving point 1. Vincenty (1975); converges to 1e-12 rad except
++/// for nearly antipodal points, which never occur here.
++pub fn inverse(lat1: f64, lon1: f64, lat2: f64, lon2: f64) -> (f64, f64) {
++    let (a, f) = (WGS84_A_KM, WGS84_F);
++    let b = a * (1.0 - f);
++    let l = (lon2 - lon1).to_radians();
++    let (sin_u1, cos_u1) = ((1.0 - f) * lat1.to_radians().tan()).atan().sin_cos();
++    let (sin_u2, cos_u2) = ((1.0 - f) * lat2.to_radians().tan()).atan().sin_cos();
++    let mut lambda = l;
++    let (mut sin_sigma, mut cos_sigma, mut sigma, mut cos2_alpha, mut cos_2sm) = (0.0, 1.0, 0.0, 1.0, 0.0);
++    for _ in 0..200 {
++        let (sin_l, cos_l) = lambda.sin_cos();
++        sin_sigma = ((cos_u2 * sin_l).powi(2) + (cos_u1 * sin_u2 - sin_u1 * cos_u2 * cos_l).powi(2)).sqrt();
++        if sin_sigma == 0.0 {
++            return (0.0, 0.0);
++        }
++        cos_sigma = sin_u1 * sin_u2 + cos_u1 * cos_u2 * cos_l;
++        sigma = sin_sigma.atan2(cos_sigma);
++        let sin_alpha = cos_u1 * cos_u2 * sin_l / sin_sigma;
++        cos2_alpha = 1.0 - sin_alpha * sin_alpha;
++        cos_2sm = if cos2_alpha == 0.0 { 0.0 } else { cos_sigma - 2.0 * sin_u1 * sin_u2 / cos2_alpha };
++        let c = f / 16.0 * cos2_alpha * (4.0 + f * (4.0 - 3.0 * cos2_alpha));
++        let next = l
++            + (1.0 - c) * f * sin_alpha * (sigma + c * sin_sigma * (cos_2sm + c * cos_sigma * (2.0 * cos_2sm * cos_2sm - 1.0)));
++        let done = (next - lambda).abs() < 1e-12;
++        lambda = next;
++        if done {
++            break;
++        }
++    }
++    let u2 = cos2_alpha * (a * a - b * b) / (b * b);
++    let big_a = 1.0 + u2 / 16384.0 * (4096.0 + u2 * (-768.0 + u2 * (320.0 - 175.0 * u2)));
++    let big_b = u2 / 1024.0 * (256.0 + u2 * (-128.0 + u2 * (74.0 - 47.0 * u2)));
++    let delta_sigma = big_b
++        * sin_sigma
++        * (cos_2sm
++            + big_b / 4.0
++                * (cos_sigma * (2.0 * cos_2sm * cos_2sm - 1.0)
++                    - big_b / 6.0 * cos_2sm * (4.0 * sin_sigma * sin_sigma - 3.0) * (4.0 * cos_2sm * cos_2sm - 3.0)));
++    let (sin_l, cos_l) = lambda.sin_cos();
++    let azimuth = (cos_u2 * sin_l).atan2(cos_u1 * sin_u2 - sin_u1 * cos_u2 * cos_l).to_degrees();
++    (b * big_a * (sigma - delta_sigma), azimuth.rem_euclid(360.0))
++}
++
++/// The point a fraction `t` of the way from point 1 to point 2 along the great circle through
++/// them (spherical interpolation of geodetic coordinates). Within a few km of the ellipsoidal
++/// geodesic at these ranges, which is enough for sampling bathymetry.
++pub fn along(lat1: f64, lon1: f64, lat2: f64, lon2: f64, t: f64) -> (f64, f64) {
++    let unit = |lat: f64, lon: f64| {
++        let (sl, cl) = lat.to_radians().sin_cos();
++        let (so, co) = lon.to_radians().sin_cos();
++        [cl * co, cl * so, sl]
++    };
++    let (p, q) = (unit(lat1, lon1), unit(lat2, lon2));
++    let omega = (p[0] * q[0] + p[1] * q[1] + p[2] * q[2]).clamp(-1.0, 1.0).acos();
++    if omega < 1e-12 {
++        return (lat1, lon1);
++    }
++    let (wp, wq) = (((1.0 - t) * omega).sin() / omega.sin(), (t * omega).sin() / omega.sin());
++    let v = [wp * p[0] + wq * q[0], wp * p[1] + wq * q[1], wp * p[2] + wq * q[2]];
++    (v[2].atan2(v[0].hypot(v[1])).to_degrees(), v[1].atan2(v[0]).to_degrees())
++}
+diff --git a/hypotheses/hydroacoustics/hypothesis.toml b/hypotheses/hydroacoustics/hypothesis.toml
+new file mode 100644
+index 0000000..7df66b2
+--- /dev/null
++++ b/hypotheses/hydroacoustics/hypothesis.toml
+@@ -0,0 +1,9 @@
++# Metadata for this hypothesis. Keep it current; the report prints it.
++question = "Where, when and how loudly would a 7th-arc impact have reached H01W, H08S and the IMOS loggers, and does any detection or its absence constrain the impact once detector performance is measured?"
++# open | supported | not-supported | inconclusive
++status = "open"
++# One line, written when the question is answered, citing the run that answered it.
++summary = "Predictive only (zero log-likelihood). Pre-registered IMOS search on the stand-in windows (evaluate on core/stages 197fd64): 0 detections at 3315/3376/3274/3275 (0.12-0.23 expected each), 1 at blocked Scott Reef (0.72 expected, p = 0.51). With a nominal 4 GJ and 15 +/- 10 dB site coupling, P(any IMOS logger detects) is 0.24 at the F-35 anchor eta (8.7e-3), 0.095 at eta/10 and 0.005 at eta/1000, so the silence weighs at most about 0.76 against the loudest scenarios. Single-logger thresholds (0.25/h/band) exceed Curtin's control arrivals (S 9-17 dB); H01W needs Kadri's data."
++# Changes needed in the core (new hooks, new state fields). Leave empty if none.
++# A hypothesis agent writes requests here and stops; it never edits core code.
++core_requests = []
+diff --git a/hypotheses/hydroacoustics/kadri2024-table1.csv b/hypotheses/hydroacoustics/kadri2024-table1.csv
+new file mode 100644
+index 0000000..eb13fde
+--- /dev/null
++++ b/hypotheses/hydroacoustics/kadri2024-table1.csv
+@@ -0,0 +1,23 @@
++# Kadri (2024), Sci. Rep. 14:10102, Table 1: transients at H01W from 00:36 UTC on 8 March 2014 (time,
++# bearing, and Kadri's delta-t in minutes relative to an impact on the 7th arc at 00:19:29). The
++# caption names two major signals: 00:52 at 57 deg (not in the rows) and 00:54:30 at 306.18 deg.
++time_utc,bearing_deg,delta_t_min
++2014-03-08T00:38:29Z,261.24,-3.68
++2014-03-08T00:39:02Z,268.24,0
++2014-03-08T00:39:53Z,256.77,-4.27
++2014-03-08T00:40:34Z,303.28,3.60
++2014-03-08T00:41:43Z,309.96,4.03
++2014-03-08T00:42:02Z,253.66,3.93
++2014-03-08T00:45:36Z,311.98,7.70
++2014-03-08T00:47:04Z,343.16,-2.30
++2014-03-08T00:48:55Z,291.13,11.77
++2014-03-08T00:49:41Z,234.67,
++2014-03-08T00:49:58Z,260.41,7.43
++2014-03-08T00:51:50Z,320.40,12.72
++2014-03-08T00:52:36Z,329.51,11.10
++2014-03-08T00:52:36Z,324.26,12.65
++2014-03-08T00:52:50Z,274.84,14.15
++2014-03-08T00:53:31Z,257.58,9.75
++2014-03-08T00:53:38Z,315.46,15.32
++2014-03-08T00:54:30Z,306.18,17.10
++2014-03-08T00:55:07Z,314.15,16.95
+diff --git a/hypotheses/hydroacoustics/lib.rs b/hypotheses/hydroacoustics/lib.rs
+new file mode 100644
+index 0000000..56e221f
+--- /dev/null
++++ b/hypotheses/hydroacoustics/lib.rs
+@@ -0,0 +1,389 @@
++//! Hydroacoustics: where and when an MH370 sea impact would have been heard, and how loudly.
++//!
++//! **Assumption.** A high-energy impact near the 7th arc radiates a low-frequency pulse into
++//! the SOFAR channel. The pulse reaches the IMS hydrophone triads H01W (Cape Leeuwin) and H08S
++//! (Diego Garcia) and the IMOS loggers 3315/3376 (Perth Canyon), 3250 (Scott Reef) and
++//! 3274/3275 (Portland shelf).
++//!
++//! **How it enters the estimate.** It does not yet. Every log-likelihood hook returns zero.
++//! It is an impact module: named in a `[[compose]]` set, it writes predictions for each impact
++//! sample (`prediction_columns`, `predict`), which `mh370 evaluate` also runs on a samples file.
++//! Per impact sample and station, the module predicts:
++//! - geodesic range and back-azimuth (WGS-84, Vincenty);
++//! - the arrival window for a group celerity of 1.478-1.492 km/s;
++//! - the shallowest seabed on the path and a blockage flag;
++//! - the seabed slope at the impact;
++//! - band transmission loss with its s.d.;
++//! - band received exposure and broadband peak pressure at eta = 1.
++//!
++//! Exposure scales as 10 log10(eta) and peak pressure as sqrt(eta). Detection data can enter
++//! only once a detector's probability of detection and false-alarm rate are measured
++//! (prepare/, the detection-control protocol). The form will then be
++//! (1 - P_D) + P_D x (detection match / background rate), so an absence counts only where a
++//! signal would have been detectable.
++//!
++//! **Sources and departures.**
++//! - Source: eta x impact kinetic energy (total by default), radiated as a monopole with a
++//!   flat spectrum over 2-40 Hz.
++//! - eta's upper anchor is the F-35A crash (Brown et al. 2026, Icarus): 900 MJ gave 0.7 Pa at
++//!   H11, 3,300 km away. Brown's eta ~ 1e-4 comes from Arons' near-field explosion law
++//!   applied at 3,300 km. Here the F-35 is re-expressed in this chain (`f35_eta`), which gives
++//!   eta = 8.7e-3. The two numbers are different conventions, not a disagreement.
++//! - The F-35 site was favourable, so its eta is an upper bound.
++//! - Transmission loss: the air9 airgun shots of 19 Oct 2001 (27 deg 33.2-34.0' S,
++//!   98 deg 51.6-53.9' E, Blackman et al. 2004, UCRL-TR-207323, Table I and Fig. 23) are
++//!   116 km from the 7th arc. Their loss at H01 (1,663 km) and H08S (3,549 km) is used per band.
++//! - The report's text gives 4,825 km to H08S, but its own Table I positions give 3,549 km;
++//!   we use the table.
++//! - Bands without measured frequencies (below 5 Hz at both stations, below 13 Hz at H01)
++//!   borrow the nearest measured band, with 6 dB extra s.d.
++//! - Loss moves to other ranges by cylindrical spreading.
++//! - A site-coupling loss relative to air9 (`site_coupling_db`, s.d. `site_coupling_sd_db`)
++//!   carries the largest unknown: how a surface impact over a deep, flat seabed couples into
++//!   the channel (see `propagation::SiteCoupling`).
++//! - The IMOS loggers have no loss calibration. They borrow H01's, with 10 dB extra s.d.
++//!
++//! **Data.**
++//! - Stations: stations.toml (ISC registry; Curtin metadata).
++//! - Measured loss: blackman-air9-tl.csv (digitised by prepare/digitise_blackman.py).
++//! - Bathymetry: NOAA NCEI ETOPO 2022 (15 arc-second, public domain), sampled every 1 arc-minute
++//!   by prepare/bathymetry.py into /jackbox/home/MH370-inputs/bathymetry/. It is outside git
++//!   and read through `bathymetry` in run.toml.
++//! - IMOS acoustic data: CC BY 4.0. "Data was sourced from Australia's Integrated Marine
++//!   Observing System (IMOS) - IMOS is enabled by the National Collaborative Research
++//!   Infrastructure Strategy (NCRIS)."
++
++mod bathymetry;
++mod geodesy;
++mod propagation;
++
++use hypothesis::{Hypothesis, ImpactView};
++use propagation::{Calibration, SiteCoupling, BANDS};
++use serde::Deserialize;
++use std::path::Path;
++
++#[derive(Deserialize)]
++#[serde(deny_unknown_fields)]
++struct Params {
++    /// Bathymetry grid (.i16 with a .toml sidecar), relative to the repository root.
++    bathymetry: String,
++    /// Group celerity of the SOFAR arrival, km/s. Curtin modelled 1.484-1.486 km/s and Blackman
++    /// found arrivals within seconds of 1.49 km/s.
++    celerity_km_s: [f64; 2],
++    /// "total" or "vertical" impact kinetic energy as the source energy.
++    energy_basis: String,
++    site_coupling_db: f64,
++    site_coupling_sd_db: f64,
++    /// A path is blocked if the seabed rises above this depth (m) away from its ends.
++    blocking_depth_m: f64,
++}
++
++#[derive(Deserialize)]
++struct StationTable {
++    station: Vec<StationEntry>,
++}
++
++#[derive(Deserialize)]
++struct StationEntry {
++    id: String,
++    elements: Vec<Element>,
++}
++
++#[derive(Deserialize)]
++struct Element {
++    lat: f64,
++    lon: f64,
++}
++
++/// air9, the mean of the first and last shot positions (Blackman et al. 2004, Table I).
++const AIR9: (f64, f64) = (-27.56, 98.879_167);
++/// Extra TL s.d. for a receiver without its own calibration (the IMOS loggers), dB.
++const UNCALIBRATED_RECEIVER_SD: f64 = 10.0;
++/// Share of the F-35's kinetic energy that was vertical, for the vertical-energy variant.
++/// Its impact angle is not in the sources held here; 0.5 is a 45-degree dive.
++const F35_VERTICAL_FRACTION: f64 = 0.5;
++
++struct Station {
++    id: String,
++    lat: f64,
++    lon: f64,
++    calibration: Calibration,
++    extra_sd: f64,
++}
++
++pub struct Hydroacoustics {
++    params: Params,
++    stations: Vec<Station>,
++    grid: bathymetry::Grid,
++    coupling: SiteCoupling,
++    vertical_energy: bool,
++    /// eta at which the F-35 crash is reproduced: the upper anchor of the eta range.
++    pub f35_eta: f64,
++}
++
++pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
++    Ok(Box::new(Hydroacoustics::from_params(params)?))
++}
++
++impl Hydroacoustics {
++    pub fn from_params(params: &toml::Value) -> Result<Hydroacoustics, String> {
++        let params: Params = params.clone().try_into().map_err(|e| format!("hydroacoustics: {e}"))?;
++        let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("..");
++        let grid = bathymetry::Grid::load(&root.join(&params.bathymetry)).map_err(|e| {
++            format!("hydroacoustics: {e}; fetch it with hypotheses/hydroacoustics/prepare/bathymetry.py")
++        })?;
++        Hydroacoustics::with_grid(params, grid)
++    }
++
++    fn with_grid(params: Params, grid: bathymetry::Grid) -> Result<Hydroacoustics, String> {
++        let [c_min, c_max] = params.celerity_km_s;
++        if !(c_min > 1.4 && c_max >= c_min && c_max < 1.6) {
++            return Err("hydroacoustics: celerity_km_s must be ordered and within 1.4-1.6 km/s".into());
++        }
++        let vertical_energy = match params.energy_basis.as_str() {
++            "total" => false,
++            "vertical" => true,
++            other => return Err(format!("hydroacoustics: energy_basis `{other}` is not total or vertical")),
++        };
++        if !(params.site_coupling_sd_db >= 0.0) {
++            return Err("hydroacoustics: site_coupling_sd_db must be non-negative".into());
++        }
++        let table: StationTable = toml::from_str(include_str!("stations.toml")).map_err(|e| e.to_string())?;
++        let (h08s, h01w) = measured_loss();
++        let mut stations = Vec::new();
++        for entry in table.station {
++            let n = entry.elements.len() as f64;
++            let lat = entry.elements.iter().map(|e| e.lat).sum::<f64>() / n;
++            let lon = entry.elements.iter().map(|e| e.lon).sum::<f64>() / n;
++            // The IMOS loggers have no calibration of their own; they borrow the nearest IMS one.
++            let (rows, reference, extra_sd) = match entry.id.as_str() {
++                "H08S" => (&h08s, (lat, lon), 0.0),
++                "H01W" => (&h01w, (lat, lon), 0.0),
++                _ => (&h01w, h01w_reference(), UNCALIBRATED_RECEIVER_SD),
++            };
++            let (range_km, _) = geodesy::inverse(reference.0, reference.1, AIR9.0, AIR9.1);
++            stations.push(Station { id: entry.id, lat, lon, calibration: Calibration::from_table(range_km, rows), extra_sd });
++        }
++        let reference: Vec<Calibration> =
++            stations.iter().filter(|s| s.extra_sd == 0.0).map(|s| s.calibration).collect();
++        let f35_energy = propagation::F35_ENERGY_J * if vertical_energy { F35_VERTICAL_FRACTION } else { 1.0 };
++        let f35_eta = propagation::f35_eta(&reference, f35_energy);
++        let coupling = SiteCoupling { loss_db: params.site_coupling_db, sd_db: params.site_coupling_sd_db };
++        Ok(Hydroacoustics { params, stations, grid, coupling, vertical_energy, f35_eta })
++    }
++}
++
++impl Hypothesis for Hydroacoustics {
++    /// Names of the values `predict` writes, in order. First the seabed depth at the impact and
++    /// the F-35 anchor eta (a constant, so downstream eta scans read it from here). Then, per
++    /// station: range, back-azimuth, arrival window and path seabed; per band TL, its s.d. and
++    /// exposure at eta = 1 (dB re 1 uPa^2 s); and the broadband peak pressure at eta = 1.
++    fn prediction_columns(&self) -> Vec<String> {
++        let mut columns = vec!["site_depth_m".to_string(), "f35_eta".to_string()];
++        for s in &self.stations {
++            for name in [
++                "range_km",
++                "back_azimuth_deg",
++                "arrival_early_unix_s",
++                "arrival_late_unix_s",
++                "path_min_depth_m",
++                "blocked",
++                "site_downslope_deg",
++            ] {
++                columns.push(format!("{}.{name}", s.id));
++            }
++            for (lo, hi) in BANDS {
++                for name in ["tl_db", "tl_sd_db", "sel_eta1_db"] {
++                    columns.push(format!("{}.{name}.{lo}-{hi}hz", s.id));
++                }
++            }
++            columns.push(format!("{}.peak_eta1_pa", s.id));
++        }
++        columns
++    }
++
++    fn predict(&self, impact: &ImpactView, out: &mut [f64]) {
++        let at = (impact.latitude_deg, impact.longitude_deg);
++        let energy = if self.vertical_energy { impact.vertical_kinetic_energy_j } else { impact.kinetic_energy_j };
++        let [c_min, c_max] = self.params.celerity_km_s;
++        out[0] = self.grid.elevation(at.0, at.1).map_or(f64::NAN, |z| -z);
++        out[1] = self.f35_eta;
++        let mut k = 2;
++        for s in &self.stations {
++            let (range_km, back_azimuth) = geodesy::inverse(s.lat, s.lon, at.0, at.1);
++            let seabed = bathymetry::path_seabed(&self.grid, at, (s.lat, s.lon), range_km);
++            let (min_depth, blocked, downslope) = match seabed {
++                Some(p) => (p.min_depth_m, f64::from(u8::from(p.min_depth_m < self.params.blocking_depth_m)), p.downslope_deg),
++                None => (f64::NAN, f64::NAN, f64::NAN),
++            };
++            out[k..k + 7].copy_from_slice(&[
++                range_km,
++                back_azimuth,
++                impact.unix_s + range_km / c_max,
++                impact.unix_s + range_km / c_min,
++                min_depth,
++                blocked,
++                downslope,
++            ]);
++            k += 7;
++            let mut sel = [0.0; 4];
++            for (b, band) in BANDS.iter().enumerate() {
++                let tl = s.calibration.tl_at(b, range_km) + self.coupling.loss_db;
++                let sd = (s.calibration.sd_db[b].powi(2) + s.extra_sd.powi(2) + self.coupling.sd_db.powi(2)).sqrt();
++                sel[b] = propagation::energy_source_level_db(energy, *band) - tl;
++                out[k..k + 3].copy_from_slice(&[tl, sd, sel[b]]);
++                k += 3;
++            }
++            out[k] = propagation::peak_pa(&sel, range_km);
++            k += 1;
++        }
++    }
++}
++
++/// The digitised air9 loss per frequency: (H08S rows, H01W rows) of (Hz, dB).
++fn measured_loss() -> (Vec<(f64, f64)>, Vec<(f64, f64)>) {
++    let (mut h08s, mut h01w) = (Vec::new(), Vec::new());
++    for line in include_str!("blackman-air9-tl.csv").lines().filter(|l| !l.starts_with('#')).skip(1) {
++        let fields: Vec<&str> = line.split(',').collect();
++        let f: f64 = fields[0].parse().unwrap();
++        if let Ok(v) = fields[1].parse() {
++            h08s.push((f, v));
++        }
++        if let Ok(v) = fields[2].parse() {
++            h01w.push((f, v));
++        }
++    }
++    (h08s, h01w)
++}
++
++/// H01W's centre, the calibration point borrowed by the IMOS loggers.
++fn h01w_reference() -> (f64, f64) {
++    let table: StationTable = toml::from_str(include_str!("stations.toml")).unwrap();
++    let h01w = table.station.iter().find(|s| s.id == "H01W").unwrap();
++    let n = h01w.elements.len() as f64;
++    (h01w.elements.iter().map(|e| e.lat).sum::<f64>() / n, h01w.elements.iter().map(|e| e.lon).sum::<f64>() / n)
++}
++
++#[cfg(test)]
++mod tests {
++    use super::*;
++
++    const H01W: (f64, f64) = (-34.891_566_666_666_67, 114.1413);
++
++    /// A module over a flat 4,000 m seabed covering the whole region.
++    fn module(celerity: [f64; 2]) -> Hydroacoustics {
++        let grid = bathymetry::Grid::new(-50.0, 55.0, 0.5, 0.5, 111, 141, vec![-4000; 111 * 141]);
++        let params = Params {
++            bathymetry: String::new(),
++            celerity_km_s: celerity,
++            energy_basis: "total".into(),
++            site_coupling_db: 15.0,
++            site_coupling_sd_db: 10.0,
++            blocking_depth_m: 1000.0,
++        };
++        Hydroacoustics::with_grid(params, grid).unwrap()
++    }
++
++    fn predict(m: &Hydroacoustics, lat: f64, lon: f64, energy_j: f64) -> std::collections::HashMap<String, f64> {
++        let impact = ImpactView {
++            parent: 0,
++            unix_s: 1_000.0,
++            latitude_deg: lat,
++            longitude_deg: lon,
++            velocity_east_mps: 0.0,
++            velocity_north_mps: 0.0,
++            velocity_up_mps: 0.0,
++            flight_path_angle_deg: 0.0,
++            mass_kg: 0.0,
++            kinetic_energy_j: energy_j,
++            vertical_kinetic_energy_j: energy_j,
++            family: 0,
++            takeover_unix_s: f64::NAN,
++            takeover_latitude_deg: f64::NAN,
++            takeover_longitude_deg: f64::NAN,
++            takeover_altitude_ft: f64::NAN,
++            mode: 0,
++            alternative: 0,
++            latents: &[],
++        };
++        let mut out = vec![0.0; m.prediction_columns().len()];
++        m.predict(&impact, &mut out);
++        m.prediction_columns().into_iter().zip(out).collect()
++    }
++
++    #[test]
++    fn geodesics_match_geographiclib() {
++        // GeographicLib (pyproj 3.8 Geod, WGS-84), computed independently.
++        let (d, az) = geodesy::inverse(H01W.0, H01W.1, AIR9.0, AIR9.1);
++        assert!((d - 1663.093_802).abs() < 1e-3 && (az - 295.062_582_56).abs() < 1e-6, "{d} {az}");
++        let (d, az) = geodesy::inverse(-7.639_366_666_666_667, 72.483_833_333_333_34, AIR9.0, AIR9.1);
++        assert!((d - 3548.858_639).abs() < 1e-3 && (az - 131.683_010_82).abs() < 1e-6, "{d} {az}");
++    }
++
++    #[test]
++    fn zero_range_has_zero_travel_time() {
++        let p = predict(&module([1.478, 1.492]), H01W.0, H01W.1, 1e9);
++        assert_eq!(p["H01W.range_km"], 0.0);
++        assert_eq!(p["H01W.arrival_early_unix_s"], 1_000.0);
++        assert_eq!(p["H01W.arrival_late_unix_s"], 1_000.0);
++    }
++
++    #[test]
++    fn four_times_the_energy_doubles_the_pressure() {
++        let m = module([1.478, 1.492]);
++        let (one, four) = (predict(&m, -35.0, 92.0, 1e9), predict(&m, -35.0, 92.0, 4e9));
++        for s in ["H01W", "H08S", "3315"] {
++            let ratio = four[&format!("{s}.peak_eta1_pa")] / one[&format!("{s}.peak_eta1_pa")];
++            assert!((ratio - 2.0).abs() < 1e-12, "{s}: {ratio}");
++            let gain = four[&format!("{s}.sel_eta1_db.20-40hz")] - one[&format!("{s}.sel_eta1_db.20-40hz")];
++            assert!((gain - 10.0 * 4f64.log10()).abs() < 1e-9);
++        }
++    }
++
++    #[test]
++    fn cape_leeuwin_and_diego_garcia_ranges_match_the_archived_scale() {
++        // The previous codebase's independent check: a source at 34.9167 S 92.0472 E is
++        // ~2,011 km from H01W and ~3,632 km from H08S, i.e. 22.4 and 40.5 min at 1.45-1.55 km/s.
++        let p = predict(&module([1.45, 1.55]), -34.9167, 92.0472, 1e9);
++        let mid = |s: &str| {
++            0.5 * (p[&format!("{s}.arrival_early_unix_s")] + p[&format!("{s}.arrival_late_unix_s")]) - 1_000.0
++        };
++        assert!((p["H01W.range_km"] - 2_011.0).abs() < 10.0);
++        assert!((p["H08S.range_km"] - 3_632.0).abs() < 15.0);
++        assert!((mid("H01W") / 60.0 - 22.4).abs() < 0.2);
++        assert!((mid("H08S") / 60.0 - 40.5).abs() < 0.3);
++    }
++
++    #[test]
++    fn levels_follow_hand_computed_values() {
++        // 1 J over 2-40 Hz: 10 log10(1.539e6 / 4 pi) + 120 = 170.880 dB re 1 uPa^2 s m^2.
++        assert!((propagation::energy_source_level_db(1.0, (2.0, 40.0)) - 170.880).abs() < 1e-3);
++        // 1 Pa^2 s received over the 6.0 s duration at 3,333.33 km: rms 0.408 Pa, peak 1.225 Pa.
++        let sel = [120.0 - 10.0 * 4f64.log10(); 4];
++        assert!((propagation::peak_pa(&sel, 3_333.333_333) - 3.0 / 6f64.sqrt()).abs() < 1e-9);
++        // The anchor reproduces the F-35 peak it was built from.
++        let m = module([1.478, 1.492]);
++        let reference: Vec<Calibration> = m.stations[..2].iter().map(|s| s.calibration).collect();
++        let mut sel = [0.0; 4];
++        for (b, band) in BANDS.iter().enumerate() {
++            let tl = reference.iter().map(|c| c.tl_at(b, 3300.0)).sum::<f64>() / 2.0;
++            sel[b] = propagation::energy_source_level_db(m.f35_eta * 900e6, *band) - tl;
++        }
++        assert!((propagation::peak_pa(&sel, 3300.0) - 0.7).abs() < 1e-9);
++    }
++
++    #[test]
++    fn a_ridge_on_the_path_blocks_it_and_flat_seabed_does_not() {
++        let mut m = module([1.478, 1.492]);
++        assert_eq!(predict(&m, -35.0, 92.0, 1e9)["H01W.blocked"], 0.0);
++        // A 200 m deep ridge along 100 E, across every path from 92 E to Cape Leeuwin.
++        let mut z = vec![-4000i16; 111 * 141];
++        for row in 0..111 {
++            z[row * 141 + 90] = -200;
++        }
++        m.grid = bathymetry::Grid::new(-50.0, 55.0, 0.5, 0.5, 111, 141, z);
++        let p = predict(&m, -35.0, 92.0, 1e9);
++        assert_eq!(p["H01W.blocked"], 1.0);
++        assert!(p["H01W.path_min_depth_m"] < 1000.0 && p["site_depth_m"] == 4000.0);
++    }
++}
+diff --git a/hypotheses/hydroacoustics/prepare/bathymetry.py b/hypotheses/hydroacoustics/prepare/bathymetry.py
+new file mode 100644
+index 0000000..50d9eb5
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/bathymetry.py
+@@ -0,0 +1,74 @@
++#!/usr/bin/env python3
++"""Fetch the regional bathymetry grid the hydroacoustics module reads.
++
++ETOPO 2022 (NOAA NCEI, 15 arc-second, EGM2008 heights) sampled every 4th cell,
++i.e. on a 1 arc-minute grid, over 50S-5N, 55E-145E: every station (H01W, H08S,
++Perth Canyon, Scott Reef, Portland) and every path from the 7th arc. Written outside git
++as little-endian int16 metres (positive up), rows south to north, with a TOML
++sidecar that states the grid and its provenance.
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/bathymetry.py
++"""
++
++from __future__ import annotations
++
++import sys
++import urllib.request
++from datetime import datetime, timezone
++from pathlib import Path
++
++import numpy as np
++
++DATASET = "https://coastwatch.pfeg.noaa.gov/erddap/griddap/ETOPO_2022_v1_15s"
++SOUTH, NORTH, WEST, EAST, STRIDE = -50.0, 5.0, 55.0, 145.0, 4
++OUT = Path("/jackbox/home/MH370-inputs/bathymetry")
++NAME = "etopo2022-1min-50S5N-55E145E"
++
++
++def read_dods(raw: bytes) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
++    """Decode a DAP2 .dods GRID response: z[lat][lon] float32, then its two coordinate maps."""
++    body = raw[raw.index(b"\nData:\n") + len(b"\nData:\n"):]
++
++    def array(offset: int, dtype: str) -> tuple[np.ndarray, int]:
++        n = int(np.frombuffer(body, ">u4", 1, offset)[0])  # XDR arrays repeat their length
++        values = np.frombuffer(body, dtype, n, offset + 8)
++        return values, offset + 8 + n * np.dtype(dtype).itemsize
++
++    z, offset = array(0, ">f4")
++    lat, offset = array(offset, ">f8")
++    lon, offset = array(offset, ">f8")
++    assert offset == len(body), "trailing bytes in .dods response"
++    return z.reshape(lat.size, lon.size), lat, lon
++
++
++def main() -> None:
++    query = f"z[({SOUTH}):{STRIDE}:({NORTH})][({WEST}):{STRIDE}:({EAST})]"
++    url = f"{DATASET}.dods?{urllib.request.quote(query, safe='():')}"
++    print(f"fetching {url}", file=sys.stderr)
++    with urllib.request.urlopen(url, timeout=600) as response:
++        raw = response.read()
++    z, lat, lon = read_dods(raw)
++    if lat[0] > lat[-1]:
++        z, lat = z[::-1], lat[::-1]
++    step_lat, step_lon = np.diff(lat), np.diff(lon)
++    assert np.allclose(step_lat, step_lat[0]) and np.allclose(step_lon, step_lon[0]), "grid is not regular"
++    assert np.isfinite(z).all(), "missing values in the grid"
++
++    OUT.mkdir(parents=True, exist_ok=True)
++    np.round(z).astype("<i2").tofile(OUT / f"{NAME}.i16")
++    retrieved = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
++    (OUT / f"{NAME}.toml").write_text(
++        "# Bathymetry for hypotheses/hydroacoustics; written by its prepare/bathymetry.py.\n"
++        f'source = "NOAA NCEI ETOPO 2022 v1, 15 arc-second (every {STRIDE}th cell), via ERDDAP"\n'
++        f'url = "{url}"\n'
++        f'retrieved = "{retrieved}"\n'
++        'layout = "little-endian int16 metres, positive up; rows south to north, columns west to east"\n'
++        f"rows = {lat.size}\ncolumns = {lon.size}\n"
++        f"south_deg = {lat[0]:.10f}\nwest_deg = {lon[0]:.10f}\n"
++        f"step_lat_deg = {step_lat[0]:.12f}\nstep_lon_deg = {step_lon[0]:.12f}\n"
++    )
++    print(f"{OUT / NAME}.i16: {lat.size} x {lon.size}, depth range {z.min():.0f} to {z.max():.0f} m")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/detect.py b/hypotheses/hydroacoustics/prepare/detect.py
+new file mode 100644
+index 0000000..5022cb6
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/detect.py
+@@ -0,0 +1,114 @@
++"""The pre-registered detector D1 (preregistration.toml [detector]) and the measurements built
++on it: noise statistics, thresholds at a fixed false-alarm rate, positive controls and
++injection-recovery.
++
++D1 works on a 0.5 s grid:
++- E is the band power averaged over energy_window_s;
++- B is the median of E over the two background flanks, 10-60 s either side;
++- S = 10 log10(E / B), in dB.
++Detections are local maxima of S at or above the band threshold, each at least separation_s
++from a larger one.
++"""
++
++from __future__ import annotations
++
++import tomllib
++from pathlib import Path
++
++import numpy as np
++
++from measure import bandpass
++
++HERE = Path(__file__).resolve().parent
++PREREG = tomllib.loads((HERE.parent / "preregistration.toml").read_text())
++DET = PREREG["detector"]
++BANDS = [tuple(b) for b in PREREG["bands"]["hz"]]
++STEP_S = 0.5
++
++
++def statistic(x: np.ndarray, fs: float, edge_s: float) -> tuple[np.ndarray, np.ndarray, np.ndarray]:
++    """Grid times (s), E (Pa^2) and S (dB) for one band-passed channel. Grid points without the
++    whole energy window inside the usable record, or with less than 25 s of background, are NaN."""
++    half = DET["energy_window_s"] / 2
++    edge = max(edge_s, DET["edge_s"])
++    duration = x.size / fs
++    t = np.arange(edge + half, duration - edge - half, STEP_S)
++    cumulative = np.concatenate([[0.0], np.cumsum(x * x)])
++    lo, hi = np.round((t - half) * fs).astype(int), np.round((t + half) * fs).astype(int)
++    e = (cumulative[hi] - cumulative[lo]) / (hi - lo)
++    inner, outer = DET["background_s"]
++    offsets = np.concatenate([np.arange(-outer, -inner + 1e-9, STEP_S), np.arange(inner, outer + 1e-9, STEP_S)])
++    index = np.arange(t.size)[:, None] + np.round(offsets / STEP_S).astype(int)[None, :]
++    inside = (index >= 0) & (index < t.size)
++    flank = np.where(inside, e[np.clip(index, 0, t.size - 1)], np.nan)
++    enough = inside.sum(axis=1) >= 25.0 / STEP_S
++    with np.errstate(invalid="ignore", divide="ignore"):
++        b = np.where(enough, np.nanmedian(flank, axis=1), np.nan)
++        s = 10 * np.log10(e / b)
++    return t, e, s
++
++
++def peaks(t: np.ndarray, s: np.ndarray, e: np.ndarray) -> list[tuple[float, float, float]]:
++    """D1 peaks as (time, S maximum, SNR). The S maximum is a local maximum of S at least
++    separation_s from any larger one; the threshold applies to it. As pre-registered, the time
++    is that of the largest E within half an energy window of it, and the SNR is S at that time."""
++    finite = np.isfinite(s)
++    candidates = [k for k in range(1, s.size - 1)
++                  if finite[k] and s[k] >= s[k - 1] and s[k] >= s[k + 1] and np.isfinite(s[k - 1]) and np.isfinite(s[k + 1])]
++    kept: list[int] = []
++    for k in sorted(candidates, key=lambda k: -s[k]):
++        if all(abs(t[k] - t[j]) >= DET["separation_s"] for j in kept):
++            kept.append(k)
++    half = int(round(DET["energy_window_s"] / 2 / STEP_S))
++    out = []
++    for k in sorted(kept):
++        lo = max(0, k - half)
++        m = lo + int(np.argmax(e[lo:k + half + 1]))
++        out.append((float(t[m]), float(s[k]), float(s[m]) if np.isfinite(s[m]) else float(s[k])))
++    return out
++
++
++def threshold(values: list[float], hours: float, rate: float = PREREG["threshold"]["false_alarms_per_hour_per_band"]) -> float:
++    """The S level exceeded `rate` times per hour by background peaks. With fewer background
++    hours than 1/rate, this is the largest peak, extrapolated by the empirical log-slope."""
++    v = np.sort(np.asarray(values))[::-1]
++    k = rate * hours  # expected number of exceedances
++    if k >= 1:
++        return float(np.interp(k, np.arange(1, v.size + 1), v))
++    slope = (v[0] - v[min(9, v.size - 1)]) / np.log(min(10, v.size))  # dB per e-fold in count
++    return float(v[0] - slope * np.log(k))
++
++
++def triad_detections(p: np.ndarray, fs: float, lat: np.ndarray, lon: np.ndarray, band: tuple[float, float],
++                     bearings: tuple[float, float], threshold_db: float, edge_s: float = 0.0) -> list[dict]:
++    """D2 (preregistration.toml [detector]): D1 on delay-and-sum beams steered every 0.5 deg across
++    `bearings` at 1.485 km/s. Each detection keeps its best beam and is then tested by a plane-wave
++    fit to the element lags over +/- energy_window_s. It passes if the apparent speed is in
++    apparent_speed_km_s and the closure is at most closure_s."""
++    from measure import delay, local_xy, plane_wave, plane_wave_delays
++
++    x = bandpass(p, fs, *band)
++    found: list[dict] = []
++    for azimuth in np.arange(bearings[0], bearings[1] + 1e-9, 0.5):
++        lags = plane_wave_delays(lat, lon, azimuth)
++        beam = np.mean([delay(x[i], fs, -lags[i]) for i in range(3)], axis=0)
++        t, e, s = statistic(beam, fs, edge_s)
++        for tp, smax, snr in peaks(t, s, e):
++            if smax < threshold_db:
++                continue
++            twin = next((d for d in found if abs(d["time_s"] - tp) < DET["separation_s"]), None)
++            if twin is None or smax > twin["s_max_db"]:
++                if twin is not None:
++                    found.remove(twin)
++                found.append({"time_s": tp, "s_max_db": smax, "snr_db": snr, "beam_deg": float(azimuth)})
++    half = DET["energy_window_s"]
++    for d in found:
++        i, j = int(round((d["time_s"] - half) * fs)), int(round((d["time_s"] + half) * fs))
++        baz, speed, closure = plane_wave(x[:, max(0, i):j], fs, local_xy(lat, lon))
++        # A strong arrival from outside the window leaks into edge beams through the sidelobes of a
++        # three-element array; its fitted bearing gives it away, and the match rule rejects it.
++        d.update(back_azimuth_deg=float(baz), apparent_speed_km_s=float(speed), closure_s=float(closure),
++                 plane_wave_ok=bool(DET["apparent_speed_km_s"][0] <= speed <= DET["apparent_speed_km_s"][1]
++                                    and abs(closure) <= DET["closure_s"]),
++                 in_window=bool(bearings[0] <= baz <= bearings[1]))
++    return sorted(found, key=lambda d: d["time_s"])
+diff --git a/hypotheses/hydroacoustics/prepare/digitise_blackman.py b/hypotheses/hydroacoustics/prepare/digitise_blackman.py
+new file mode 100644
+index 0000000..ab5945b
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/digitise_blackman.py
+@@ -0,0 +1,55 @@
++#!/usr/bin/env python3
++"""Digitise the air9 transmission loss from Blackman et al. (2004), UCRL-TR-207323, Fig. 23.
++
++Fig. 23 plots the median observed loss (dB) against frequency for each shot site, only where
++the signal exceeded noise by 3 dB. air9 (27 deg 33.6' S, 98 deg 52.6' E, 19 Oct 2001) is the
++solid black curve in the DGS (H08S) and CL (H01) panels. This reads the embedded raster
++(351 x 458 px), traces the darkest curve column by column, and writes
++../blackman-air9-tl.csv. Axes: 0-100 Hz over x = 51-339 px; 150-115 dB over each panel's
++125 px height (the panel tops are y = 149 and 289).
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/digitise_blackman.py
++"""
++
++from __future__ import annotations
++
++import io
++from pathlib import Path
++
++import numpy as np
++import pymupdf
++from PIL import Image
++
++HERE = Path(__file__).resolve().parent
++PDF = HERE.parents[2] / "data/external/papers/hydroacoustics/ucrl-tr-207323.pdf"
++PANELS = {"h08s_db": 149, "h01w_db": 289}  # top edge (150 dB) of the DGS and CL panels
++X0, PX_PER_HZ, PX_PER_DB, DARK = 51, 2.88, 125 / 35, 135
++
++
++def main() -> None:
++    doc = pymupdf.open(PDF)
++    xref = doc[22].get_images(full=True)[1][0]  # report page 21: Fig. 22 map, then Fig. 23
++    image = np.asarray(Image.open(io.BytesIO(doc.extract_image(xref)["image"])).convert("L")).astype(int)
++    assert image.shape == (458, 351), image.shape
++    columns = range(X0 + 2, 338)
++    table = {"frequency_hz": [(x - X0) / PX_PER_HZ for x in columns]}
++    for name, top in PANELS.items():
++        values = []
++        for x in columns:
++            rows = np.nonzero(image[top + 2 : top + 124, x] < DARK)[0] + top + 2
++            rows = rows[~((x >= 225) & (x <= 315) & (rows >= top + 75))]  # legend
++            rows = rows[~((x <= 106) & (rows <= top + 24))]  # panel label
++            values.append(150 - (np.median(rows) - top) / PX_PER_DB if rows.size else np.nan)
++        table[name] = values
++    lines = ["# Blackman et al. (2004) UCRL-TR-207323 Fig. 23: observed transmission loss, site air9,",
++             "# median over shots, only where signal exceeded noise by 3 dB. Digitised by prepare/digitise_blackman.py.",
++             "frequency_hz,h08s_db,h01w_db"]
++    for f, a, b in zip(*table.values()):
++        if np.isfinite(a) or np.isfinite(b):
++            lines.append(f"{f:.2f},{'' if np.isnan(a) else f'{a:.1f}'},{'' if np.isnan(b) else f'{b:.1f}'}")
++    (HERE.parent / "blackman-air9-tl.csv").write_text("\n".join(lines) + "\n")
++    print(f"wrote {len(lines) - 3} rows")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/earthquakes.py b/hypotheses/hydroacoustics/prepare/earthquakes.py
+new file mode 100644
+index 0000000..668cf3e
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/earthquakes.py
+@@ -0,0 +1,81 @@
++#!/usr/bin/env python3
++"""Exploratory positive controls, not pre-registered: T-phases of catalogued earthquakes at the
++IMOS loggers, outside the quarantine.
++
++Events come from the USGS ComCat catalogue: M >= 4, 7-9 March 2014, 65 S-15 N, 40-160 E
++(https://earthquake.usgs.gov/fdsnws/event/1/query, queried 2026-09-26). Only events whose
++predicted arrival falls in a logger record are listed. The arrival is predicted as origin time
++plus the spherical distance at 1.48 km/s, from 120 s early to 60 s late: T-phases start with
++faster seismic legs. The script reports D1's largest S near that time in each band, and how
++often background peaks at that logger reach it (detection-control.json).
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/earthquakes.py
++"""
++
++from __future__ import annotations
++
++import json
++
++import numpy as np
++
++import detect
++import waveforms as w
++from measure import bandpass
++
++OUT = w.HERE.parents[2] / "runs/hydroacoustics/imos"
++EVENTS = [  # (origin UTC, lat, lon, depth km, magnitude, place): USGS ComCat
++    ("2014-03-07T20:36:06", -49.0178, 123.3764, 14.9, 4.5, "western Indian-Antarctic Ridge"),
++    ("2014-03-07T22:50:07", -54.3570, 140.0450, 10.7, 4.2, "west of Macquarie Island"),
++    ("2014-03-07T23:52:18", -9.6744, 108.4193, 34.1, 4.1, "243 km SSW of Kroya, Java"),
++    ("2014-03-08T03:37:52", -4.2194, 133.6963, 10.0, 5.2, "187 km NE of Tual"),
++    ("2014-03-08T05:50:41", -7.4612, 128.4641, 162.2, 4.0, "199 km NE of Lospalos"),
++    ("2014-03-08T08:50:55", -6.0063, 102.5166, 35.2, 4.4, "233 km SSW of Pagar Alam, Sumatra"),
++    ("2014-03-08T23:42:47", -10.1577, 118.8848, 75.0, 4.1, "161 km WSW of Waingapu"),
++]
++EARLY_S, LATE_S = 120.0, 60.0
++
++
++def distance_km(lat1, lon1, lat2, lon2) -> float:
++    a, b = np.radians([lat1, lat2]), np.radians(lon2 - lon1)
++    return float(6371.0 * np.arccos(np.clip(np.sin(a[0]) * np.sin(a[1]) + np.cos(a[0]) * np.cos(a[1]) * np.cos(b), -1, 1)))
++
++
++def main() -> None:
++    controls = {r["logger"]: r for r in json.loads((OUT / "detection-control.json").read_text())}
++    quarantine = [np.datetime64(t.rstrip("Z"), "ns") for t in detect.PREREG["windows"]["quarantine_utc"]]
++    rows = []
++    for logger, station in ((k, v) for k, v in w.stations().items() if k in controls):
++        element = station["elements"][0]
++        records = w.imos_records(logger)
++        for origin, lat, lon, depth, magnitude, place in EVENTS:
++            km = distance_km(lat, lon, element["lat"], element["lon"])
++            arrival = np.datetime64(origin, "ns") + np.timedelta64(int(km / 1.48 * 1e9), "ns")
++            for member, opened in records:
++                if not (opened <= arrival <= opened + np.timedelta64(330, "s")):
++                    continue
++                if quarantine[0] - np.timedelta64(400, "s") <= opened <= quarantine[1]:
++                    continue
++                trace = w.read_imos(logger, member)
++                offset = (arrival - trace.t0) / np.timedelta64(1, "ns") * 1e-9
++                if trace.quality or not (10 <= offset <= trace.p.shape[1] / trace.fs - 10):
++                    continue
++                far = controls[logger]["far_per_hour"]
++                bands = {}
++                for band in detect.BANDS:
++                    t, e, s = detect.statistic(bandpass(trace.p[0], trace.fs, *band), trace.fs, trace.edge_s)
++                    near = [(tp, smax) for tp, smax, _ in detect.peaks(t, s, e) if -EARLY_S <= tp - offset <= LATE_S]
++                    if near:
++                        tp, smax = max(near, key=lambda x: x[1])
++                        key = f"{band[0]:g}-{band[1]:g}"
++                        bands[key] = {"s_max_db": round(smax, 1), "offset_s": round(tp - offset, 1),
++                                      "background_per_hour_at_or_above": round(float(np.interp(smax, far["threshold_db"], far[key])), 2),
++                                      "above_threshold": bool(smax >= controls[logger]["thresholds_db"][key])}
++                rows.append({"logger": logger, "event": f"{origin} M{magnitude} {place}", "distance_km": round(km),
++                             "predicted_arrival": str(arrival)[:19], "bands": bands})
++                print(logger, rows[-1]["event"], rows[-1]["distance_km"], "km;",
++                      {k: (v["s_max_db"], v["offset_s"], v["background_per_hour_at_or_above"]) for k, v in bands.items()})
++    (OUT / "earthquake-controls.json").write_text(json.dumps(rows, indent=1))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/imos_analysis.py b/hypotheses/hydroacoustics/prepare/imos_analysis.py
+new file mode 100644
+index 0000000..30475c4
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/imos_analysis.py
+@@ -0,0 +1,224 @@
++#!/usr/bin/env python3
++"""Detection control on the IMOS/Curtin loggers (3315, 3376, 3250), outside the quarantine.
++
++For each logger it computes:
++- noise: PSD and band-power percentiles (5/50/95) and burstiness;
++- the D1 false-alarm rate against threshold, and the pre-registered thresholds;
++- positive controls: Curtin's published arrivals, which must be found within 5 s;
++- injection-recovery: P_D against broadband 2-40 Hz exposure, and timing errors.
++
++Records overlapping preregistration.toml's quarantine are never read. Output goes to
++runs/hydroacoustics/imos/: detection-control.json, PNG figures and detection-control.pdf.
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/imos_analysis.py
++"""
++
++from __future__ import annotations
++
++import json
++
++import matplotlib
++
++matplotlib.use("Agg")
++import matplotlib.pyplot as plt
++import numpy as np
++from matplotlib.backends.backend_pdf import PdfPages
++
++import detect
++import waveforms as w
++from measure import bandpass, synthetic
++
++ROOT = w.HERE.parents[2]
++OUT = ROOT / "runs/hydroacoustics/imos"
++LOGGERS = ["3315", "3376", "3250", "3274", "3275"]
++# Typical 7th-arc range (km) for the injected duration, 2 s + 1.2 s per 1000 km.
++TYPICAL_RANGE_KM = {"3315": 2300.0, "3376": 2300.0, "3250": 3600.0, "3274": 4900.0, "3275": 4900.0}
++EXPOSURES_DB = np.arange(90.0, 132.0, 2.0)
++PAD_S = detect.PREREG["windows"]["timing_pad_s"]
++QUARANTINE = [np.datetime64(t.rstrip("Z"), "ns") for t in detect.PREREG["windows"]["quarantine_utc"]]
++CONTROLS = [(c["station"], np.datetime64(c["utc"].rstrip("Z"), "ns"), c["note"]) for c in detect.PREREG["controls"]["events"]]
++RECORD_S = 310.0
++
++
++def quarantined(opened: np.datetime64) -> bool:
++    """True if a record opened at `opened` (within ~30 s of its first sample) could overlap the quarantine."""
++    margin = np.timedelta64(60, "s")
++    return opened - margin < QUARANTINE[1] and opened + np.timedelta64(int(RECORD_S * 1e9), "ns") + margin > QUARANTINE[0]
++
++
++def seconds_into(trace: w.Trace, t: np.datetime64) -> float:
++    return (t - trace.t0) / np.timedelta64(1, "ns") * 1e-9
++
++
++def analyse_logger(logger: str, rng: np.random.Generator) -> dict:
++    # The file-opening time in the name is within ~30 s of the first sample: widen the check.
++    records = [(m, s) for m, s in w.imos_records(logger) if not quarantined(s)]
++    controls = [(t, note) for station, t, note in CONTROLS if station == logger]
++    band_power = {b: [] for b in detect.BANDS}
++    peaks = {b: [] for b in detect.BANDS}
++    psd, hours, background, control_traces = [], 0.0, [], []
++    screened = []
++    for member, _ in records:
++        trace = w.read_imos(logger, member)
++        if trace.quality:
++            screened.append({"record": member, "reason": trace.quality})
++            continue
++        x = trace.p[0]
++        f, spectrum = w.welch_psd(x[int(trace.edge_s * trace.fs):-int(trace.edge_s * trace.fs)], trace.fs, 1024)
++        psd.append(10 * np.log10(spectrum / 1e-12))
++        inside = [(t, note) for t, note in controls if 0 <= seconds_into(trace, t) <= x.size / trace.fs]
++        filtered = {b: bandpass(x, trace.fs, *b) for b in detect.BANDS}
++        for b in detect.BANDS:
++            t, e, s = detect.statistic(filtered[b], trace.fs, trace.edge_s)
++            band_power[b].append(10 * np.log10(e[np.isfinite(s)] / 1e-12))
++            found = detect.peaks(t, s, e)
++            # Known events are controls, not background: drop peaks within 30 s of them.
++            found = [pk for pk in found if all(abs(pk[0] - seconds_into(trace, tc)) > 30 for tc, _ in inside)]
++            peaks[b].extend(pk[1] for pk in found)
++        valid = detect.statistic(filtered[detect.BANDS[0]], trace.fs, trace.edge_s)
++        hours += np.isfinite(valid[2]).sum() * detect.STEP_S / 3600
++        if inside:
++            control_traces.append((trace, filtered, inside))
++        else:
++            background.append((trace, filtered))
++
++    thresholds = {b: detect.threshold(peaks[b], hours) for b in detect.BANDS}
++    levels = np.arange(0.0, 30.01, 0.5)
++    far = {b: [float(np.sum(np.asarray(peaks[b]) >= level) / hours) for level in levels] for b in detect.BANDS}
++
++    control_results = []
++    for trace, filtered, inside in control_traces:
++        for tc, note in inside:
++            hits = []
++            for b in detect.BANDS:
++                t, e, s = detect.statistic(filtered[b], trace.fs, trace.edge_s)
++                hits += [(tp, snr, b) for tp, smax, snr in detect.peaks(t, s, e) if smax >= thresholds[b]]
++            offset = seconds_into(trace, tc)
++            near = [h for h in hits if abs(h[0] - offset) <= 5.0]
++            # The control's own S maximum per band (any threshold), and how often background peaks reach it.
++            strength = {}
++            for b in detect.BANDS:
++                t, e, s = detect.statistic(filtered[b], trace.fs, trace.edge_s)
++                close = [smax for tp, smax, _ in detect.peaks(t, s, e) if abs(tp - offset) <= 5.0]
++                if close:
++                    level = max(close)
++                    strength[f"{b[0]:g}-{b[1]:g}"] = {"s_max_db": round(level, 1),
++                                                      "background_per_hour_at_or_above": round(sum(v >= level for v in peaks[b]) / hours, 2)}
++            control_results.append({
++                "utc": str(tc), "note": note, "found": bool(near),
++                "detections": [{"offset_s": round(tp - offset, 1), "snr_db": round(sp, 1), "band_hz": list(b)} for tp, sp, b in near],
++                "strength": strength, "record": trace.note.split(":")[0],
++            })
++
++    duration = 2.0 + 1.2e-3 * TYPICAL_RANGE_KM[logger]
++    pd, timing = [], []
++    for exposure in EXPOSURES_DB:
++        found = 0
++        for _ in range(detect.PREREG["injection"]["injections_per_step"]):
++            trace, filtered = background[rng.integers(len(background))]
++            n = trace.p.shape[1]
++            centre = rng.uniform(75.0, n / trace.fs - 75.0)
++            signal = synthetic(trace.fs, duration, exposure, rng)
++            pad = int(10 * trace.fs)
++            start = int(round((centre - duration / 2) * trace.fs)) - pad
++            hit = None
++            for b in detect.BANDS:
++                piece = bandpass(np.concatenate([np.zeros(pad), signal, np.zeros(pad)]), trace.fs, *b)
++                x = filtered[b].copy()
++                x[start:start + piece.size] += piece
++                t, e, s = detect.statistic(x, trace.fs, trace.edge_s)
++                near = [tp for tp, smax, _ in detect.peaks(t, s, e) if smax >= thresholds[b] and abs(tp - centre) <= PAD_S]
++                if near and hit is None:
++                    hit = near[0] - centre
++            found += hit is not None
++            if hit is not None:
++                timing.append(hit)
++        pd.append(found / detect.PREREG["injection"]["injections_per_step"])
++
++    power = {b: np.concatenate(band_power[b]) for b in detect.BANDS}
++    psd = np.array(psd)
++    return {
++        "logger": logger,
++        "records_used": len(records) - len(screened),
++        "records_screened_out": screened,
++        "background_hours": hours,
++        "thresholds_db": {f"{b[0]:g}-{b[1]:g}": thresholds[b] for b in detect.BANDS},
++        "background_peaks": {f"{b[0]:g}-{b[1]:g}": len(peaks[b]) for b in detect.BANDS},
++        "band_power_db": {f"{b[0]:g}-{b[1]:g}": {q: float(np.percentile(power[b], q)) for q in (5, 50, 95)} for b in detect.BANDS},
++        "burstiness_db": {f"{b[0]:g}-{b[1]:g}": float(np.percentile(power[b], 99) - np.percentile(power[b], 50)) for b in detect.BANDS},
++        "psd_percentiles_db": {"frequency_hz": f.tolist(), **{str(q): np.percentile(psd, q, axis=0).tolist() for q in (5, 50, 95)}},
++        "far_per_hour": {"threshold_db": levels.tolist(), **{f"{b[0]:g}-{b[1]:g}": far[b] for b in detect.BANDS}},
++        "controls": control_results,
++        "injection": {"duration_s": duration, "exposure_db": EXPOSURES_DB.tolist(), "p_detect": pd,
++                      "timing_error_s": {"median": float(np.median(timing)) if timing else None,
++                                         "p05": float(np.percentile(timing, 5)) if timing else None,
++                                         "p95": float(np.percentile(timing, 95)) if timing else None}},
++    }
++
++
++def figures(results: list[dict]) -> list[plt.Figure]:
++    figs = []
++    fig, axes = plt.subplots(1, len(results), figsize=(12, 3.8), sharey=True)
++    for ax, r in zip(axes, results):
++        p = r["psd_percentiles_db"]
++        f = np.array(p["frequency_hz"])
++        keep = (f >= 1.5) & (f <= 100)
++        ax.fill_between(f[keep], np.array(p["5"])[keep], np.array(p["95"])[keep], color="0.85", label="5-95 %")
++        ax.plot(f[keep], np.array(p["50"])[keep], color="k", lw=1, label="median")
++        ax.set_xscale("log")
++        ax.set_title(f"Logger {r['logger']}: noise PSD, {r['records_used']} records")
++        ax.set_xlabel("Frequency (Hz)")
++        ax.grid(alpha=0.3)
++    axes[0].set_ylabel("dB re 1 uPa^2/Hz")
++    axes[0].legend()
++    figs.append(fig)
++
++    fig, axes = plt.subplots(1, len(results), figsize=(12, 3.8), sharey=True)
++    for ax, r in zip(axes, results):
++        levels = r["far_per_hour"]["threshold_db"]
++        for band, tau in r["thresholds_db"].items():
++            line, = ax.semilogy(levels, np.maximum(r["far_per_hour"][band], 1e-3), label=f"{band} Hz")
++            ax.axvline(tau, color=line.get_color(), ls=":", lw=1)
++        ax.axhline(0.25, color="k", lw=0.8)
++        ax.set_title(f"Logger {r['logger']}: D1 false alarms ({r['background_hours']:.1f} h)")
++        ax.set_xlabel("Threshold S (dB)")
++        ax.grid(alpha=0.3)
++    axes[0].set_ylabel("Peaks per hour at or above threshold")
++    axes[0].legend(fontsize=8)
++    figs.append(fig)
++
++    fig, ax = plt.subplots(figsize=(7, 4.2))
++    for r in results:
++        inj = r["injection"]
++        ax.plot(inj["exposure_db"], inj["p_detect"], marker="o", ms=3, label=f"{r['logger']} ({inj['duration_s']:.1f} s pulse)")
++    ax.set_xlabel("Injected broadband 2-40 Hz exposure (dB re 1 uPa^2 s)")
++    ax.set_ylabel("P_D (D1, any band, +/-9 s)")
++    ax.set_title("Injection-recovery into real IMOS background (200 per point)")
++    ax.grid(alpha=0.3)
++    ax.legend()
++    figs.append(fig)
++    return figs
++
++
++def main() -> None:
++    OUT.mkdir(parents=True, exist_ok=True)
++    rng = np.random.default_rng(20260926)
++    results = [analyse_logger(logger, rng) for logger in LOGGERS]
++    (OUT / "detection-control.json").write_text(json.dumps(results, indent=1))
++    figs = figures(results)
++    with PdfPages(OUT / "detection-control.pdf") as pdf:
++        for k, fig in enumerate(figs):
++            fig.tight_layout()
++            fig.savefig(OUT / f"figure-{k + 1}.png", dpi=130)
++            pdf.savefig(fig)
++    for r in results:
++        print(r["logger"], f"{r['background_hours']:.2f} h", "thresholds", {k: round(v, 1) for k, v in r["thresholds_db"].items()})
++        print("   screened out:", r["records_screened_out"])
++        print("   controls:", [(c["utc"][11:19], c["found"], c["strength"]) for c in r["controls"]])
++        inj = r["injection"]
++        at = {int(x): p for x, p in zip(inj["exposure_db"], inj["p_detect"])}
++        print("   P_D:", {k: at[k] for k in (96, 100, 104, 108, 112, 116, 120)}, "timing", inj["timing_error_s"])
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/kadri_tests.py b/hypotheses/hydroacoustics/prepare/kadri_tests.py
+new file mode 100644
+index 0000000..f202388
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/kadri_tests.py
+@@ -0,0 +1,262 @@
++#!/usr/bin/env python3
++"""Tests of our chain on Kadri's published material. Requested by Pete, 28 Sep 2026.
++
++Published, processed traces; not raw data; not blind. They test code only, and never choose
++windows, thresholds or eta; nothing here feeds preregistration.toml or the package.
++
++(a) Timing. Kadri's Table 1 delta-t, recomputed with our travel-time model under his
++    assumption: an impact on the 7th arc at 00:19:29 along each bearing. Arc and station
++    geometry come from `mh370 evaluate` (the module itself) on points of the m0019a arc
++    (base run reference arc, 35,000 ft).
++(b) Measurement. D1 and measure.py on the Figure 9 vector traces (old extraction, metadata.json).
++    Each panel is one plotted channel with ~15 vertices per second. Only its envelope and
++    content below about 5 Hz are real, and it carries no bearing.
++(c) Loudness. The six crashes of Figures 4-5, with positions and speeds from Kadri's S1:
++    - masses are our assumptions from aircraft type and phase of flight;
++    - peaks and arrival times are read by eye from the published figures;
++    - the prediction is the module's chain relative to the F-35 anchor: favourable coupling,
++      cylindrical spreading, duration 2 s + 1.2 s per 1000 km, pressure proportional to
++      sqrt(eta KE / (range x duration)).
++    Station distances are spherical (under 0.5 % from the geodesic), which is enough for
++    minute-scale timing and dB-scale levels.
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/kadri_tests.py
++"""
++
++from __future__ import annotations
++
++import csv
++import json
++import subprocess
++
++import matplotlib
++
++matplotlib.use("Agg")
++import matplotlib.pyplot as plt
++import numpy as np
++
++import detect
++import waveforms as w
++from measure import measure
++
++ROOT = w.HERE.parents[2]
++OUT = ROOT / "runs/hydroacoustics/kadri-tests"
++SRC = w.Path("/jackbox/home/MH370-v01-share-withdrawn-one-turn-20260907/v01/workspace/.sources/kadri-2024-hydroacoustics")
++LABEL = "published, processed traces; not raw data; not blind"
++ARC_TIME = np.datetime64("2014-03-08T00:19:29")
++KADRI_C = 1.5  # km/s, Kadri's stated speed
++
++# ISC registry element coordinates (queried 2026-09-28), triad centres, for stations outside stations.toml.
++IMS = {"H11N": (19.7209, 166.8993), "H11S": (18.4981, 166.6977), "H10S": (-8.9510, -14.6522),
++       "H08N": (-6.3375, 71.0021), "H08S": (-7.6394, 72.4838), "H01W": (-34.8916, 114.1413)}
++F35 = {"energy_j": 900e6, "peak_pa": 0.7, "range_km": 3300.0}  # Brown et al. (2026), the module's anchor
++# (name, UTC of impact, lat, lon, speed m/s [S1], assumed mass kg (type, phase), station, figure panel start UTC,
++#  transient minute read in the panel, peak Pa read, reading uncertainty Pa, distinct from noise in the figure?)
++CRASHES = [
++    ("F-35A", "2019-04-09T10:26:30", 40.5028, 142.0769, 300.0, None, "H11N", "2019-04-09T10:58", 5.05, 1.10, 0.15, True),
++    ("F-35A", "2019-04-09T10:26:30", 40.5028, 142.0769, 300.0, None, "H11S", "2019-04-09T10:59", 5.10, 1.00, 0.20, True),
++    ("Yemenia 626", "2009-06-29T22:50:00", -11.6749, 43.2777, 133.3, 115e3, "H08N", "2009-06-29T23:29", 4.80, 0.23, 0.05, False),
++    ("Yemenia 626", "2009-06-29T22:50:00", -11.6749, 43.2777, 133.3, 115e3, "H08S", "2009-06-29T23:27", 4.95, 0.70, 0.10, False),
++    ("Sriwijaya 182", "2021-01-09T07:40:27", -5.9150, 107.1183, 150.0, 57e3, "H08S", "2021-01-09T08:06", 5.30, 1.00, 0.10, True),
++    ("Air France 447", "2009-06-01T02:14:28", 3.0658, -30.5617, 78.3, 205e3, "H10S", "2009-06-01T02:41", 4.75, 0.80, 0.10, True),
++    ("Transair 810", "2021-07-02T11:46:00", 21.3114, -157.9044, 59.7, 48e3, "H11S", "2021-07-02T12:27", 4.80, 0.45, 0.08, True),
++    ("Transair 810", "2021-07-02T11:46:00", 21.3114, -157.9044, 59.7, 48e3, "H11N", "2021-07-02T12:28", 4.90, 0.40, 0.10, False),
++    ("Lion Air 904", "2013-04-13T07:10:00", -8.7503, 115.1503, 66.7, 60e3, "H01W", "2013-04-13T07:37", 4.80, 1.75, 0.20, True),
++    ("Lion Air 904", "2013-04-13T07:10:00", -8.7503, 115.1503, 66.7, 60e3, "H08S", "2013-04-13T07:58", 4.80, 0.50, 0.08, True),
++]
++SPEED_NOTE = {"Sriwijaya 182": "speed not given by Kadri: 150 m/s assumed (100-200)",
++              "F-35A": "energy 900 +/- 200 MJ (Brown et al. 2026)"}
++
++
++def spherical_km(a, b) -> float:
++    (la1, lo1), (la2, lo2) = np.radians(a), np.radians(b)
++    c = np.sin(la1) * np.sin(la2) + np.cos(la1) * np.cos(la2) * np.cos(lo2 - lo1)
++    return float(6371.0 * np.arccos(np.clip(c, -1, 1)))
++
++
++def duration_s(range_km: float) -> float:
++    return 2.0 + 1.2e-3 * range_km  # the module's received duration (propagation::duration_s)
++
++
++def evaluate(samples: list[tuple[float, float, float]]) -> dict[str, np.ndarray]:
++    """The module's predictions for (unix_s, lat, lon) samples, through `mh370 evaluate`."""
++    OUT.mkdir(parents=True, exist_ok=True)
++    path = OUT / "arc-samples.csv"
++    with open(path, "w") as f:
++        f.write("unix_s,latitude_deg,longitude_deg\n")
++        f.writelines(f"{t:.3f},{la:.6f},{lo:.6f}\n" for t, la, lo in samples)
++    subprocess.run([str(ROOT / "target/release/mh370"), "evaluate", "hypotheses/hydroacoustics/run.toml", str(path), str(OUT / "arc-evaluate")],
++                   cwd=ROOT, check=True, capture_output=True)
++    import package
++    return package.read_evaluate(OUT / "arc-evaluate/evaluate.csv")
++
++
++def timing() -> list[dict]:
++    arc = next(a for a in json.loads((ROOT / "runs/davey2016/run.json").read_text())["reference_arcs"] if a["epoch"] == "m0019a")
++    t0 = float(ARC_TIME.astype("datetime64[s]").astype(float))
++    table = evaluate([(t0, la, lo) for la, lo in arc["lat_lon"]])
++    baz, rng = table["hydroacoustics:H01W.back_azimuth_deg"], table["hydroacoustics:H01W.range_km"]
++    mid = 0.5 * (table["hydroacoustics:H01W.arrival_early_unix_s"] + table["hydroacoustics:H01W.arrival_late_unix_s"])
++    rows = []
++    for r in csv.DictReader(line for line in open(w.HERE.parent / "kadri2024-table1.csv") if not line.startswith("#")):
++        t_obs = float(np.datetime64(r["time_utc"].rstrip("Z")).astype("datetime64[s]").astype(float))
++        bearing = float(r["bearing_deg"])
++        # Arc crossings along this bearing: segments whose back-azimuth brackets it; take the nearest.
++        k = [i for i in range(len(baz) - 1) if (baz[i] - bearing) * (baz[i + 1] - bearing) <= 0 and abs(baz[i] - baz[i + 1]) < 20]
++        row = {"time_utc": r["time_utc"], "bearing_deg": bearing, "kadri_dt_min": float(r["delta_t_min"]) if r["delta_t_min"] else None}
++        if k:
++            i = min(k, key=lambda j: rng[j])
++            f = (bearing - baz[i]) / (baz[i + 1] - baz[i])
++            r7 = rng[i] + f * (rng[i + 1] - rng[i])
++            arrival = mid[i] + f * (mid[i + 1] - mid[i])
++            row.update(arc_lat=float(table["latitude_deg"][i] + f * (table["latitude_deg"][i + 1] - table["latitude_deg"][i])),
++                       our_range_km=float(r7), our_dt_min=(t_obs - arrival) / 60,
++                       kadri_c_dt_min=((t_obs - t0) - r7 / KADRI_C) / 60)
++            if row["kadri_dt_min"] is not None:
++                row["residual_min"] = row["our_dt_min"] - row["kadri_dt_min"]
++                row["kadri_implied_range_km"] = KADRI_C * ((t_obs - t0) - row["kadri_dt_min"] * 60)
++        rows.append(row)
++    return rows
++
++
++def measurement() -> dict:
++    meta = json.loads((SRC / "data/kadri-figure-extraction/metadata.json").read_text())
++    table = [(np.datetime64(r["time_utc"].rstrip("Z")), float(r["bearing_deg"]))
++             for r in csv.DictReader(line for line in open(w.HERE.parent / "kadri2024-table1.csv") if not line.startswith("#"))]
++    panels = []
++    for p in meta["figure9_vector_traces"]:
++        data = np.genfromtxt(SRC / "data/kadri-figure-extraction" / p["file"], delimiter=",", names=True, usecols=(0, 2))
++        t, x = data["plotted_time_s"], data["pressure_pa"]
++        grid = np.arange(0.0, 600.0, 1 / 250.0)
++        trace = np.interp(grid, t, x)  # the plotted polyline on a uniform grid; content above ~5 Hz is not real
++        start = np.datetime64(p["start_utc"].rstrip("Z"))
++        tt, e, s = detect.statistic(trace, 250.0, 0.0)  # broadband: Kadri already band-passed 2-40 Hz
++        found = detect.peaks(tt, s, e)
++        entries = []
++        for when, bearing in table:
++            offset = (when - start) / np.timedelta64(1, "s")
++            if not (70 <= offset <= 590):
++                continue
++            near = [pk for pk in found if abs(pk[0] - offset) <= 5.0]
++            m = measure(trace[None, :], 250.0, t=offset - 2.0, duration=8.0, bands=((0.5, 40.0),))[0]
++            rank = sorted([pk[1] for pk in found], reverse=True)
++            entries.append({"time_utc": str(when), "bearing_deg": bearing, "d1_peak_within_5s": bool(near),
++                            "s_max_db": round(max(pk[1] for pk in near), 1) if near else None,
++                            "rank_in_panel": (rank.index(max(pk[1] for pk in near)) + 1) if near else None,
++                            "peak_pa": round(float(m["peak_pa"]), 3), "snr_db": round(float(m["snr_db"]), 1),
++                            "exposure_db": round(float(10 * np.log10(m["exposure_pa2s"] / 1e-12)), 1)})
++        top = sorted(found, key=lambda pk: -pk[1])[:5]
++        panels.append({"panel": p["panel"], "station": p["station"], "start_utc": p["start_utc"], "d1_peaks": len(found),
++                       "top_peaks": [{"utc": str(start + np.timedelta64(int(pk[0] * 1e3), "ms"))[11:19], "s_max_db": round(pk[1], 1)} for pk in top],
++                       "table1": entries})
++    return {"panels": panels}
++
++
++def loudness() -> list[dict]:
++    rows = []
++    t_f35 = duration_s(F35["range_km"])
++    for name, when, lat, lon, speed, mass, station, panel, minute, peak, peak_sd, distinct in CRASHES:
++        km = spherical_km((lat, lon), IMS[station])
++        energy = F35["energy_j"] if mass is None else 0.5 * mass * speed**2
++        # The chain relative to its own anchor, favourable coupling like the F-35 site.
++        predicted = F35["peak_pa"] * np.sqrt((energy / F35["energy_j"]) * (F35["range_km"] / km) * (t_f35 / duration_s(km)))
++        impact = np.datetime64(when)
++        early = impact + np.timedelta64(int(km / 1.492 - 9), "s")
++        late = impact + np.timedelta64(int(km / 1.478 + 9), "s")
++        observed = np.datetime64(panel) + np.timedelta64(int(minute * 60), "s")
++        offset_min = (observed - (early + (late - early) / 2)) / np.timedelta64(60, "s")
++        rows.append({"crash": name, "station": station, "range_km": round(km), "kinetic_energy_mj": round(energy / 1e6),
++                     "note": SPEED_NOTE.get(name, "mass assumed from type and phase"),
++                     "predicted_peak_pa_favourable": round(float(predicted), 3),
++                     "observed_peak_pa": peak, "observed_sd_pa": peak_sd, "distinct_in_figure": distinct,
++                     "implied_extra_loss_db": round(float(20 * np.log10(predicted / peak)), 1),
++                     "arrival_window_utc": [str(early)[11:19], str(late)[11:19]], "figure_transient_utc": str(observed)[11:19],
++                     "timing_offset_min": round(float(offset_min), 1),
++                     "timing_consistent": bool(abs(offset_min) <= 1.5)})
++    return rows
++
++
++def page(results: dict) -> None:
++    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
++    fig.suptitle(f"Tests on Kadri (2024) published material: {LABEL}", fontsize=11, color="darkred")
++    ax = axes[0, 0]
++    t = [r for r in results["timing"] if r.get("residual_min") is not None]
++    ax.scatter([r["bearing_deg"] for r in t], [r["kadri_dt_min"] for r in t], label="Kadri Table 1 delta-t", color="k")
++    ax.scatter([r["bearing_deg"] for r in t], [r["our_dt_min"] for r in t], label="ours (module, 1.478-1.492 km/s)", color="tab:orange")
++    ax.scatter([r["bearing_deg"] for r in t], [r["kadri_c_dt_min"] for r in t], label="ours at c = 1.5 km/s", color="tab:blue", marker="x")
++    residuals = np.array([r["residual_min"] for r in t])
++    usual = np.abs(residuals - np.median(residuals)) < 0.5
++    notes = [f"ours - Kadri: median {np.median(residuals):+.2f} min ({usual.sum()} of {len(t)} rows within 0.5 min of it)"]
++    for r, ok in zip(t, usual):
++        if not ok:
++            flipped = abs(r["our_dt_min"] + r["kadri_dt_min"]) < 0.5
++            notes.append(f"{r['time_utc'][11:19]} {r['bearing_deg']:.1f} deg: Kadri {r['kadri_dt_min']:+.2f}, ours {r['our_dt_min']:+.2f}"
++                         + (" (sign differs, magnitudes agree)" if flipped else ""))
++    ax.text(0.02, 0.02, "\n".join(notes), transform=ax.transAxes, fontsize=7, va="bottom",
++            bbox={"facecolor": "white", "alpha": 0.9, "lw": 0})
++    ax.set_xlabel("Bearing at H01W (deg)")
++    ax.set_ylabel("delta-t (min)")
++    ax.set_title("(a) Table 1 delta-t: impact on the 7th arc at 00:19:29")
++    ax.grid(alpha=0.3)
++    ax.legend(fontsize=8)
++    ax = axes[0, 1]
++    ax.axis("off")
++    lines = ["(b) D1 and measure.py on Figure 9 traces (one plotted channel per panel; no bearings)", ""]
++    for p in results["measurement"]["panels"]:
++        lines.append(f"panel {p['panel']} {p['station']} {p['start_utc'][11:16]}: top D1 peaks " +
++                     ", ".join(f"{q['utc']} S={q['s_max_db']}" for q in p["top_peaks"][:3]))
++        for e in p["table1"]:
++            lines.append(f"   T1 {e['time_utc'][11:19]} {e['bearing_deg']:6.1f}: " +
++                         (f"D1 peak S={e['s_max_db']} (rank {e['rank_in_panel']})" if e["d1_peak_within_5s"] else "no D1 peak within 5 s") +
++                         f"; peak {e['peak_pa']} Pa, SNR {e['snr_db']} dB")
++    ax.text(0, 1, "\n".join(lines), va="top", family="monospace", fontsize=6.3)
++    ax = axes[1, 0]
++    rows = results["loudness"]
++    for k, r in enumerate(rows):
++        colour = "tab:green" if r["timing_consistent"] else "tab:red"
++        marker = "o" if r["distinct_in_figure"] else "s"
++        ax.errorbar(r["predicted_peak_pa_favourable"], r["observed_peak_pa"], yerr=r["observed_sd_pa"], fmt=marker, color=colour)
++        ax.annotate(f"{r['crash']} {r['station']}", (r["predicted_peak_pa_favourable"], r["observed_peak_pa"]), fontsize=7,
++                    xytext=(5, 9 * ((k % 3) - 1)), textcoords="offset points")
++    lim = [0.05, 20]
++    ax.plot(lim, lim, color="k", lw=0.8, label="equal (favourable coupling, F-35 eta)")
++    ax.plot(lim, np.array(lim) / 10 ** (15 / 20), color="0.5", ls="--", lw=0.8, label="module default coupling (-15 dB)")
++    ax.set_xscale("log")
++    ax.set_yscale("log")
++    ax.set_xlim(lim)
++    ax.set_ylim(0.1, 3)
++    ax.set_xlabel("Predicted peak (Pa), chain relative to the F-35 anchor")
++    ax.set_ylabel("Peak read from Kadri Figs 4-5 (Pa)")
++    ax.set_title("(c) Loudness. Green: arrival fits a water path; red: it does not. Squares: not distinct")
++    ax.grid(alpha=0.3, which="both")
++    ax.legend(fontsize=7, loc="lower right")
++    ax = axes[1, 1]
++    ax.axis("off")
++    lines = ["(c) Timing and level of the crash signals", "",
++             f"{'crash':15}{'stn':5}{'km':>6}{'MJ':>6}{'window (water path)':>21}{'figure':>9}{'off min':>8}{'pred Pa':>8}{'read Pa':>8}{'dB':>6}"]
++    for r in rows:
++        lines.append(f"{r['crash'][:15]:15}{r['station']:5}{r['range_km']:>6}{r['kinetic_energy_mj']:>6}"
++                     f"{r['arrival_window_utc'][0] + '-' + r['arrival_window_utc'][1]:>21}{r['figure_transient_utc']:>9}"
++                     f"{r['timing_offset_min']:>8}{r['predicted_peak_pa_favourable']:>8}{r['observed_peak_pa']:>8}{r['implied_extra_loss_db']:>6}")
++    fits = [r for r in rows if r["timing_consistent"]]
++    lines += ["", "dB: predicted over read, i.e. the extra loss the favourable-coupling F-35 chain needs.",
++              "Masses are assumed from type and phase; Sriwijaya's speed is assumed (Kadri gives none).",
++              "Timing: water path from the crash site at the reported impact time, +/-1.5 min.",
++              f"Consistent: {', '.join(sorted({r['crash'] for r in fits}))}; "
++              f"inconsistent: {', '.join(sorted({r['crash'] for r in rows if not r['timing_consistent']}))}.",
++              "Only timing-consistent signals can test eta; the F-35A is the anchor itself."]
++    ax.text(0, 1, "\n".join(lines), va="top", family="monospace", fontsize=7)
++    fig.tight_layout(rect=(0, 0, 1, 0.96))
++    fig.savefig(OUT / "kadri-tests.png", dpi=110)
++
++
++def main() -> None:
++    OUT.mkdir(parents=True, exist_ok=True)
++    results = {"label": LABEL, "timing": timing(), "measurement": measurement(), "loudness": loudness()}
++    (OUT / "kadri-tests.json").write_text(json.dumps(results, indent=1, default=float))
++    page(results)
++    print(f"{OUT / 'kadri-tests.png'}; {LABEL}")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/measure.py b/hypotheses/hydroacoustics/prepare/measure.py
+new file mode 100644
+index 0000000..e78b5f4
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/measure.py
+@@ -0,0 +1,122 @@
++"""Reference measurements of a transient on one hydrophone or a triad (numpy only).
++
++The same code measures every arrival in our analysis and is the script sent to Usama Kadri,
++so his numbers and ours are computed identically. Input is pressure in Pa, shape
++(channels, samples), at `fs` Hz. For triads, give hydrophone positions in degrees.
++
++For each band, over a signal window [t, t + duration] and a noise window ending `gap_s`
++before t, it reports:
++- peak_pa: the largest |p| on any channel in the signal window;
++- rms_pa and exposure_pa2s: the channel mean of RMS and of the integral of p^2 over the window;
++- noise_rms_pa: the RMS in the noise window;
++- snr_db: 20 log10(rms_pa / noise_rms_pa).
++Triads add a plane-wave fit to the cross-correlation lags: back-azimuth (degrees from north,
++the direction the sound comes from), apparent speed and lag-closure residual.
++
++Filters are zero-phase Butterworth: the |H|^2 response of forward-backward filtering, applied
++by FFT. Measure away from record ends.
++"""
++
++from __future__ import annotations
++
++import numpy as np
++
++BANDS = ((2.0, 5.0), (5.0, 10.0), (10.0, 20.0), (20.0, 40.0))
++
++
++def butterworth_power(f, low, high, order=4):
++    """|H(f)|^2 of an order-`order` Butterworth band-pass: the zero-phase (filtfilt) response."""
++    af = np.maximum(np.abs(f), 1e-30)
++    g = np.ones_like(af)
++    if low:
++        g /= 1.0 + (low / af) ** (2 * order)
++    if high:
++        g /= 1.0 + (af / high) ** (2 * order)
++    return g
++
++
++def bandpass(x, fs, low, high, order=4):
++    n = x.shape[-1]
++    return np.fft.irfft(np.fft.rfft(x, axis=-1) * butterworth_power(np.fft.rfftfreq(n, 1 / fs), low, high, order), n,
++                        axis=-1)
++
++
++def local_xy(lat, lon):
++    """East and north offsets (m) of each hydrophone from their mean position."""
++    lat, lon = np.asarray(lat, float), np.asarray(lon, float)
++    r = 6_371_000.0
++    east = np.radians(lon - lon.mean()) * r * np.cos(np.radians(lat.mean()))
++    north = np.radians(lat - lat.mean()) * r
++    return np.column_stack([east, north])
++
++
++def lag(a, b, fs):
++    """Delay (s) of b relative to a from the cross-correlation peak, refined by a parabola."""
++    n = a.size + b.size - 1
++    size = 1 << (n - 1).bit_length()
++    c = np.fft.irfft(np.conj(np.fft.rfft(a, size)) * np.fft.rfft(b, size), size)
++    c = np.concatenate([c[-(a.size - 1):], c[: b.size]])  # lags -(len a - 1) .. len b - 1
++    k = int(np.argmax(c))
++    shift = 0.0
++    if 0 < k < c.size - 1:
++        denom = c[k - 1] - 2 * c[k] + c[k + 1]
++        shift = 0.5 * (c[k - 1] - c[k + 1]) / denom if denom != 0 else 0.0
++    return (k - (a.size - 1) + shift) / fs
++
++
++def plane_wave(p, fs, xy):
++    """Least-squares plane wave through the three pairwise lags: back-azimuth (deg), apparent
++    speed (km/s) and closure residual (s) = lag12 + lag23 - lag13."""
++    pairs = [(0, 1), (1, 2), (0, 2)]
++    lags = np.array([lag(p[i], p[j], fs) for i, j in pairs])
++    baseline = np.array([xy[j] - xy[i] for i, j in pairs])
++    slowness, *_ = np.linalg.lstsq(baseline, lags, rcond=None)  # s/m, along the propagation direction
++    back_azimuth = np.degrees(np.arctan2(-slowness[0], -slowness[1])) % 360
++    speed = 1e-3 / np.hypot(*slowness) if np.any(slowness) else np.inf
++    return back_azimuth, speed, lags[0] + lags[1] - lags[2]
++
++
++def measure(p, fs, t, duration, noise_s=60.0, gap_s=10.0, lat=None, lon=None, bands=BANDS):
++    """Measurements of the transient starting `t` seconds into `p` (one dict per band)."""
++    p = np.atleast_2d(np.asarray(p, float))
++    i, j = int(round(t * fs)), int(round((t + duration) * fs))
++    k0, k1 = int(round((t - gap_s - noise_s) * fs)), int(round((t - gap_s) * fs))
++    if k0 < 0 or j > p.shape[1]:
++        raise ValueError("signal or noise window runs off the record")
++    rows = []
++    for low, high in bands:
++        x = bandpass(p, fs, low, high)
++        signal, noise = x[:, i:j], x[:, k0:k1]
++        rms = np.sqrt((signal**2).mean(axis=1)).mean()
++        noise_rms = np.sqrt((noise**2).mean(axis=1)).mean()
++        row = {"band_hz": f"{low:g}-{high:g}", "peak_pa": np.abs(signal).max(), "rms_pa": rms,
++               "exposure_pa2s": (signal**2).sum(axis=1).mean() / fs, "noise_rms_pa": noise_rms,
++               "snr_db": 20 * np.log10(rms / noise_rms)}
++        if p.shape[0] == 3 and lat is not None:
++            row["back_azimuth_deg"], row["apparent_speed_km_s"], row["closure_s"] = plane_wave(
++                signal, fs, local_xy(lat, lon))
++        rows.append(row)
++    return rows
++
++
++def delay(x, fs, seconds):
++    """Delay a signal by a fractional number of samples (circular, by FFT phase shift)."""
++    f = np.fft.rfftfreq(x.shape[-1], 1 / fs)
++    return np.fft.irfft(np.fft.rfft(x) * np.exp(-2j * np.pi * f * seconds), x.shape[-1])
++
++
++def plane_wave_delays(lat, lon, back_azimuth_deg, speed_km_s=1.485):
++    """Arrival time (s) at each hydrophone, relative to the array centre, of a plane wave coming
++    from `back_azimuth_deg`."""
++    theta = np.radians(back_azimuth_deg)
++    towards = -np.array([np.sin(theta), np.cos(theta)])  # propagation direction (east, north)
++    return local_xy(lat, lon) @ towards / (speed_km_s * 1e3)
++
++
++def synthetic(fs, duration_s, exposure_db, rng):
++    """The pre-registered injection waveform (preregistration.toml [injection]): 2-40 Hz Gaussian
++    noise under a Hann envelope of `duration_s`, scaled to a broadband exposure (dB re 1 uPa^2 s)."""
++    pad = int(10 * fs)
++    n = int(round(duration_s * fs))
++    x = bandpass(rng.standard_normal(n + 2 * pad), fs, 2.0, 40.0)[pad:pad + n] * np.hanning(n)
++    return x * np.sqrt(10 ** (exposure_db / 10) * 1e-12 / ((x * x).sum() / fs))
+diff --git a/hypotheses/hydroacoustics/prepare/other_nights.py b/hypotheses/hydroacoustics/prepare/other_nights.py
+new file mode 100644
+index 0000000..4e92a6a
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/other_nights.py
+@@ -0,0 +1,74 @@
++#!/usr/bin/env python3
++"""Other-night backgrounds for Perth Canyon logger 3376 (preregistration.toml [backgrounds]).
++
++Streams every 3376 record starting 22:00-02:00 UTC on the nights of 1-14 March 2014 from
++AODN (PAPCA/3376), except the MH370 night, and never stores the raw records. For each record
++it keeps the band-power distribution and every D1 peak (time, band, S). With the thresholds
++from imos_analysis.py, these give the detection rate in the same UTC window on other nights,
++and 22:00-02:00 noise percentiles. Output: runs/hydroacoustics/imos/other-nights.json.
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/other_nights.py
++"""
++
++from __future__ import annotations
++
++import json
++import re
++import urllib.request
++
++import numpy as np
++
++import detect
++import waveforms as w
++from measure import bandpass
++
++BUCKET = "https://imos-data.s3-ap-southeast-2.amazonaws.com"
++PREFIX = "IMOS/ANMN/Acoustic/PAPCA/3376"
++OUT = w.HERE.parents[2] / "runs/hydroacoustics/imos/other-nights.json"
++MH370_EVENING = np.datetime64("2014-03-07")
++
++
++def keys(day: str) -> list[tuple[str, np.datetime64]]:
++    """(URL, instrument-clock open time from the hex file name) for one AODN day folder."""
++    with urllib.request.urlopen(f"{BUCKET}/?list-type=2&prefix={PREFIX}/{day}/raw/", timeout=120) as r:
++        listing = r.read().decode()
++    names = re.findall(r"<Key>([^<]+\.DAT)</Key>", listing)
++    return [(f"{BUCKET}/{k}", np.datetime64(int(k.rsplit("/", 1)[1][:8], 16), "s").astype("datetime64[ns]")) for k in names]
++
++
++def main() -> None:
++    first, last = (np.datetime64(d) for d in detect.PREREG["backgrounds"]["other_nights"])
++    records = []
++    day = first - np.timedelta64(1, "D")
++    while day <= last + np.timedelta64(1, "D"):
++        records += keys(str(day).replace("-", ""))
++        day += np.timedelta64(1, "D")
++    rows = []
++    for url, opened in sorted(records, key=lambda r: r[1]):
++        hour = (opened - opened.astype("datetime64[D]")) / np.timedelta64(1, "h")
++        evening = opened.astype("datetime64[D]") - (np.timedelta64(1, "D") if hour < 12 else np.timedelta64(0, "D"))
++        if not (hour >= 21.9 or hour < 2.0) or not (first <= evening <= last):
++            continue
++        if evening == MH370_EVENING:
++            continue  # the MH370 night is the search itself, not a background; its quarantine is never opened
++        trace = w.read_imos_aodn("3376", url)
++        row = {"url": url, "start_utc": str(trace.t0), "evening": str(evening), "bands": {}}
++        if trace.quality or trace.p.shape[1] < 120 * trace.fs:
++            row["unusable"] = trace.quality or f"{trace.p.shape[1] / trace.fs:.0f} s of data"
++            rows.append(row)
++            print(row["start_utc"], "unusable:", row["unusable"], flush=True)
++            continue
++        for band in detect.BANDS:
++            t, e, s = detect.statistic(bandpass(trace.p[0], trace.fs, *band), trace.fs, trace.edge_s)
++            row["bands"][f"{band[0]:g}-{band[1]:g}"] = {
++                "power_db_percentiles": [float(np.percentile(10 * np.log10(e[np.isfinite(s)] / 1e-12), q)) for q in (5, 50, 95)],
++                "peaks": [[round(tp, 1), round(smax, 2), round(snr, 2)] for tp, smax, snr in detect.peaks(t, s, e)],
++                "searched_s": float(np.isfinite(s).sum() * detect.STEP_S)}
++        rows.append(row)
++        print(row["start_utc"], {b: round(v["power_db_percentiles"][1], 1) for b, v in row["bands"].items()}, flush=True)
++    OUT.write_text(json.dumps(rows, indent=1))
++    print(f"{len(rows)} records, {len({r['evening'] for r in rows})} nights -> {OUT}")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/package.py b/hypotheses/hydroacoustics/prepare/package.py
+new file mode 100644
+index 0000000..28ee1d2
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/package.py
+@@ -0,0 +1,317 @@
++#!/usr/bin/env python3
++"""Build the package for Usama Kadri: a draft for Pete's review. Nothing is sent from here.
++
++Writes runs/hydroacoustics/kadri-package/:
++- cover.txt and requests.txt (R0-R6);
++- measure.py, the reference measurement script;
++- preregistration.toml and stations.toml;
++- synthetic/: triad waveforms with known arrivals, their truth and our measurements of them;
++- windows.csv and predictions.csv, from `mh370 evaluate` output on impact samples (the
++  stand-in until the end-of-flight stage exists), when that output is present;
++- outreach/: short separate asks to Metz's group (F-35 waveforms) and to Royer (OHASISBIO).
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/package.py [evaluate-output.csv]
++"""
++
++from __future__ import annotations
++
++import csv
++import json
++import shutil
++import sys
++import textwrap
++from pathlib import Path
++
++import numpy as np
++
++import detect
++import waveforms as w
++from measure import BANDS, delay, measure, plane_wave_delays, synthetic
++
++ROOT = w.HERE.parents[2]
++OUT = ROOT / "runs/hydroacoustics/kadri-package"
++MODULE = "hydroacoustics:"
++ETA_STEPS = 7  # eta = F-35 anchor x 10^(-k/2), k = 0..6: three decades
++
++
++def utc(seconds: float) -> str:
++    return str(np.datetime64(int(round(seconds)), "s")) + "Z"
++
++
++def weighted_quantile(x: np.ndarray, weight: np.ndarray, q: float) -> float:
++    order = np.argsort(x)
++    cumulative = np.cumsum(weight[order]) / weight.sum()
++    return float(x[order][min(np.searchsorted(cumulative, q), x.size - 1)])
++
++
++def read_evaluate(path: Path) -> dict[str, np.ndarray]:
++    with open(path) as f:
++        header = next(csv.reader(f))
++    data = np.loadtxt(path, delimiter=",", skiprows=1, ndmin=2)
++    return {name: data[:, k] for k, name in enumerate(header)}
++
++
++def windows(table: dict[str, np.ndarray]) -> list[dict]:
++    """preregistration.toml [windows] rule, applied to the evaluated impact samples."""
++    rule = detect.PREREG["windows"]
++    weight = table.get("weight", np.ones(len(table["unix_s"])))
++    rows = []
++    for sid, s in w.stations().items():
++        early, late = table[f"{MODULE}{sid}.arrival_early_unix_s"], table[f"{MODULE}{sid}.arrival_late_unix_s"]
++        baz = table[f"{MODULE}{sid}.back_azimuth_deg"]
++        row = {"station": sid,
++               "start_utc": utc(weighted_quantile(early, weight, 0.0025) - rule["timing_pad_s"]),
++               "end_utc": utc(weighted_quantile(late, weight, 0.9975) + rule["timing_pad_s"]),
++               "blocked_fraction": round(float(np.average(table[f"{MODULE}{sid}.blocked"] == 1, weights=weight)), 3)}
++        if len(s["elements"]) == 3:
++            row["back_azimuth_min_deg"] = round(weighted_quantile(baz, weight, 0.0025) - rule["bearing_pad_deg"], 2)
++            row["back_azimuth_max_deg"] = round(weighted_quantile(baz, weight, 0.9975) + rule["bearing_pad_deg"], 2)
++        rows.append(row)
++    return rows
++
++
++def predictions(table: dict[str, np.ndarray], step_deg: float = 0.5) -> list[dict]:
++    """One row per 0.5-degree location bin and station: medians over the bin's impact samples."""
++    weight = table.get("weight", np.ones(len(table["unix_s"])))
++    eta_anchor = float(np.nanmedian(table[f"{MODULE}f35_eta"]))
++    etas = eta_anchor * 10 ** (-np.arange(ETA_STEPS) / 2)
++    keys = np.floor(table["latitude_deg"] / step_deg), np.floor(table["longitude_deg"] / step_deg)
++    rows = []
++    for key in sorted(set(zip(*keys))):
++        m = (keys[0] == key[0]) & (keys[1] == key[1])
++        share = weight[m].sum() / weight.sum()
++        for sid in w.stations():
++            c = lambda name: table[f"{MODULE}{sid}.{name}"][m]
++            row = {"station": sid, "weight": round(float(share), 6),
++                   "latitude_deg": (key[0] + 0.5) * step_deg, "longitude_deg": (key[1] + 0.5) * step_deg,
++                   "seafloor_depth_m": round(float(np.nanmedian(table[f"{MODULE}site_depth_m"][m])), 0),
++                   "impact_first_utc": utc(table["unix_s"][m].min()), "impact_last_utc": utc(table["unix_s"][m].max()),
++                   "kinetic_energy_j": float(np.median(table["kinetic_energy_j"][m])),
++                   "range_km": round(float(np.median(c("range_km"))), 1),
++                   "back_azimuth_deg": round(float(np.median(c("back_azimuth_deg"))), 2),
++                   "arrival_first_utc": utc(c("arrival_early_unix_s").min()),
++                   "arrival_last_utc": utc(c("arrival_late_unix_s").max()),
++                   "blocked": int(np.median(c("blocked")) >= 0.5)}
++            for low, high in BANDS:
++                band = f"{low:g}-{high:g}hz"
++                row[f"tl_db_{band}"] = round(float(np.median(c(f"tl_db.{band}"))), 1)
++                row[f"tl_sd_db_{band}"] = round(float(np.median(c(f"tl_sd_db.{band}"))), 1)
++            for k, eta in enumerate(etas):
++                total = 10 * np.log10(sum(10 ** ((c(f"sel_eta1_db.{low:g}-{high:g}hz") + 10 * np.log10(eta)) / 10)
++                                          for low, high in BANDS))
++                row[f"exposure_db_eta{k}"] = round(float(np.median(total)), 1)
++                row[f"peak_pa_eta{k}"] = float(f"{np.median(c('peak_eta1_pa')) * np.sqrt(eta):.3g}")
++            rows.append(row)
++    return rows, etas
++
++
++def kadri_in_window(rows: list[dict]) -> str:
++    """Which Kadri (2024) Table 1 transients fall inside the H01W time and bearing window."""
++    window = next(r for r in rows if r["station"] == "H01W")
++    start, end = (np.datetime64(window[k].rstrip("Z")) for k in ("start_utc", "end_utc"))
++    lo, hi = window["back_azimuth_min_deg"], window["back_azimuth_max_deg"]
++    table = np.genfromtxt(w.HERE.parent / "kadri2024-table1.csv", delimiter=",", skip_header=4, dtype=str)
++    inside = [f"{t[11:19]} ({float(b):.1f} deg)" for t, b, _ in table
++              if start <= np.datetime64(t.rstrip("Z")) <= end and lo <= float(b) <= hi]
++    return (f"{len(inside)} of {len(table)} transients lie inside it ({window['start_utc'][11:19]}-"
++            f"{window['end_utc'][11:19]} UTC, {lo:.1f}-{hi:.1f} deg): {', '.join(inside)}. Your "
++            "00:54:30 candidate (306.2 deg) is outside the bearing window, and your table stops at "
++            "00:55:07 while the window runs later.")
++
++
++def coloured_noise(n: int, fs: float, f_psd: np.ndarray, psd_db: np.ndarray, rng: np.random.Generator) -> np.ndarray:
++    """Gaussian noise whose one-sided PSD follows `psd_db` (dB re 1 uPa^2/Hz)."""
++    f = np.fft.rfftfreq(n, 1 / fs)
++    psd = 10 ** (np.interp(f, f_psd, psd_db) / 10) * 1e-12
++    return np.fft.irfft(np.fft.rfft(rng.standard_normal(n)) * np.sqrt(psd * fs / 2), n)
++
++
++def synthetic_triads(rng: np.random.Generator) -> None:
++    """Triad waveforms with known arrivals, for checking that measure.py runs identically on both sides."""
++    folder = OUT / "synthetic"
++    folder.mkdir(parents=True, exist_ok=True)
++    imos = json.loads((ROOT / "runs/hydroacoustics/imos/detection-control.json").read_text())
++    spectrum = next(r for r in imos if r["logger"] == "3315")["psd_percentiles_db"]
++    fs, n = 250.0, int(300 * 250)
++    arrivals = {"H01W": [(100.0, 253.3, 110.0), (200.0, 301.6, 100.0)], "H08S": [(100.0, 156.8, 110.0), (200.0, 145.0, 100.0)]}
++    truth, expected = [], []
++    for sid, events in arrivals.items():
++        elements = w.stations()[sid]["elements"]
++        lat, lon = np.array([e["lat"] for e in elements]), np.array([e["lon"] for e in elements])
++        p = np.vstack([coloured_noise(n, fs, np.array(spectrum["frequency_hz"]), np.array(spectrum["50"]), rng) for _ in elements])
++        for centre, bearing, exposure in events:
++            duration = 2.0 + 1.2e-3 * (2300.0 if sid == "H01W" else 3700.0)
++            signal = np.zeros(n)
++            s = synthetic(fs, duration, exposure, rng)
++            k = int(round((centre - duration / 2) * fs))
++            signal[k:k + s.size] = s
++            for i, dt in enumerate(plane_wave_delays(lat, lon, bearing)):
++                p[i] += delay(signal, fs, dt)
++            truth.append({"station": sid, "centre_s": centre, "back_azimuth_deg": bearing, "exposure_db": exposure,
++                          "duration_s": round(duration, 2), "speed_km_s": 1.485})
++            for row in measure(p, fs, t=centre - 4.0, duration=8.0, lat=lat, lon=lon):
++                expected.append({"station": sid, "centre_s": centre, **{k2: (round(float(v), 5) if not isinstance(v, str) else v)
++                                                                     for k2, v in row.items()}})
++        header = "time_s," + ",".join(e["id"] for e in elements)
++        np.savetxt(folder / f"{sid}-synthetic.csv", np.column_stack([np.arange(n) / fs, p.T]), fmt="%.6g", delimiter=",",
++                   header=header, comments="")
++    write_csv(folder / "truth.csv", truth)
++    write_csv(folder / "expected-measurements.csv", expected)
++
++
++def write_csv(path: Path, rows: list[dict]) -> None:
++    with open(path, "w", newline="") as f:
++        writer = csv.DictWriter(f, fieldnames=list(rows[0]))
++        writer.writeheader()
++        writer.writerows(rows)
++
++
++COVER = """\
++Hydroacoustic check of MH370's final minutes: materials and requests (DRAFT for Pete Large's review)
++
++Usama,
++
++We cannot access IMS data, so we have built everything we can around it and would like to
++ask you to run specific, pre-registered tests on your archive and send back numbers only.
++No waveforms need to leave Cardiff.
++
++What is here:
++- windows.csv: when and from which bearing a 7th-arc impact would arrive at each station.
++  The windows were fixed by a rule (preregistration.toml) before anyone looked inside them.
++- predictions.csv: per 0.5-degree impact bin and station, range, bearing, arrival times,
++  transmission loss per band with its uncertainty, and predicted exposure and peak pressure for
++  seven values of the coupling efficiency eta. They span three decades below the F-35A crash,
++  which we use as the upper anchor.
++- measure.py: one short numpy script that measures a transient per band: peak, RMS, exposure,
++  pre-event noise, SNR, and a triad plane-wave bearing. If we both use it, our numbers are
++  comparable.
++- synthetic/: triad waveforms with known arrivals (truth.csv) and our measurements of them
++  (expected-measurements.csv). Running measure.py on them should reproduce those numbers exactly.
++- requests.txt: the tests, in priority order.
++
++What we have found so far is in requests.txt under "Context". The short version:
++- transmission loss from the 7th-arc region is partly calibrated by the 2001 air9 airgun shots;
++- the source strength of an aircraft impact is not calibrated by anything public except the
++  F-35A, which is an upper bound;
++- whether MH370 should have been heard therefore depends on numbers only your archive can give.
++"""
++
++REQUESTS = """\
++Requests, in priority order. Please use measure.py for all measurements, with bands 2-5, 5-10,
++10-20 and 20-40 Hz, and state the signal window you chose.
++
++R0. Units. What unit does 'calib' carry for the H01W and H08S hydrophone channels in your data
++    (Pa/count?), and what are the channel codes and sample rates? Our readers
++    (CSS3.0, IMS2.0, miniSEED) convert with that factor.
++
++R1. Historical crashes, F-35A first. For each event, station and band: arrival time,
++    back-azimuth, peak pressure, RMS and exposure over the signal window, pre-event noise RMS,
++    SNR. Please also give the impact time and position you used. The F-35A (9 Apr 2019, H11) is
++    our only calibration of the source; its exposure per band fixes the top of the eta range.
++
++R2. The Blackman et al. (2004) calibration shots, if your archive reaches back that far: airgun
++    sites air7, air8 and air9 (15-19 Oct 2001) at H01 and H08S, and the SUS charge at A11
++    (9 Jun 2003, 00:37:34 UTC) at H01. The same measurements. air9 is 116 km from the 7th arc,
++    so it calibrates propagation from the search region directly. air8 was not seen at H01 and
++    nobody has explained why.
++
++R3. Same-night controls, the same measurements:
++    (a) the 01:34:50 UTC arrival at H01W, bearing 301.6 deg (Curtin report 2014-30; ATSB judged
++        it likely geological);
++    (b) the two arrivals Curtin used to check clocks: H01W 04:59:21 (210.2 deg) and 05:14:28
++        (208.5 deg);
++    (c) at H08S: a few TGS Huzzas airgun shots near 113 deg (00:00-02:08 UTC) and the small
++        Java Trench earthquake near 93 deg (about 01:59).
++    (a) and (b) were also recorded by the Perth Canyon logger we analyse. Your levels would tie
++    the two stations together.
++
++R4. Noise. Percentiles 5/50/95 of band power in 4-s windows, per hydrophone and band,
++    22:00-02:00 UTC on 7-8 March 2014. The same for that UTC window on other nights, 1-14 March.
++
++R5. Injection-recovery with your detector unchanged:
++    - add our synthetic signal (measure.synthetic: 2-40 Hz, Hann envelope, duration as given;
++      measure.plane_wave_delays for the stated bearing) to your real 7-8 March background
++      outside the windows;
++    - use exposures in 2 dB steps from 90 to 130 dB re 1 uPa^2 s, 200 injections per step if
++      feasible, at random times;
++    - report, for each injection, whether your detector fired within 9 s, its time, bearing and
++      statistic.
++    This turns "no signal" into "no signal where P_D was X".
++
++R6. Every detection your detector makes inside windows.csv: time, bearing, statistic, band,
++    whatever you judge its origin. And the same list for the background windows: the same
++    station +/-6 h in window-length steps, the same UTC windows on other nights, and the bearing
++    window rotated in 10-deg steps. Significance comes from comparing the two lists, not from
++    any single trace.
++
++Context:
++- Transmission loss: we use Blackman et al.'s measured air9 loss (about 119-125 dB at H01,
++  124-127 dB at H08S, 10-40 Hz), moved to each impact bin by cylindrical spreading. On top
++  of that we add a site-coupling loss of 15 +/- 10 dB. air9 was chosen for favourable coupling
++  (a slope deepening towards both stations), while the posterior region at 35-39 S is deep
++  and nearly flat. Duncan & Dall'Osto (2023) model 20-30 dB less for an MH370 path than for
++  the F-35's.
++- Source: a monopole radiating eta x kinetic energy with a flat spectrum over 2-40 Hz. The
++  F-35A (900 MJ, 0.7 Pa at 3,300 km) gives eta = 8.7e-3 in this chain; Brown et al.'s
++  eta ~ 1e-4 is the same event in Arons' explosion convention.
++- Your Table 1 against the pre-registered H01W window: {kadri}
++  Candidates are scored against backgrounds (R6), not singly. Curtin's plane-wave detector found
++  only one northerly arrival at H01W between 00:10 and 08:00 (01:34:50).
++"""
++
++METZ = """\
++To: D. Metz (with K. Obana, Y. Fukao), co-authors of "Remote hydroacoustic detection of an
++airplane crash" (Pure Appl. Geophys. 180, 2023). DRAFT for Pete Large's review.
++
++We are checking whether an impact near MH370's final satellite arc would have been heard at the
++IMS hydrophones. The F-35A crash of 9 April 2019 is the only aircraft impact with a known
++energy and a clean long-range recording, so it anchors our source model.
++
++Could you share (i) a copy of the paper and (ii) the H11N/H11S and coastal-hydrophone waveforms
++around the arrival, or failing that your measured peak pressure, exposure and spectrum per
++station? We would also value the impact time, position and velocity you used, and your view of
++the local coupling at the Japan Trench slope.
++"""
++
++ROYER = """\
++To: J.-Y. Royer (OHASISBIO, Univ. Brest). DRAFT for Pete Large's review.
++
++We are checking whether an impact near MH370's final satellite arc (8 March 2014, about
++00:19-00:55 UTC) would have been recorded by hydrophones in the southern Indian Ocean. Were any
++OHASISBIO moorings recording on 7-8 March 2014? If so, would you share, or examine for us, the
++records from 00:00 to 02:30 UTC? We can send predicted arrival times and bearings per site, and
++our measurement script, so that the analysis is pre-registered and identical to what we run
++on the IMOS loggers.
++"""
++
++
++def main() -> None:
++    OUT.mkdir(parents=True, exist_ok=True)
++    (OUT / "outreach").mkdir(exist_ok=True)
++    (OUT / "cover.txt").write_text(COVER)
++    (OUT / "requests.txt").write_text(REQUESTS.replace("{kadri}", "(windows not yet computed)"))
++    (OUT / "outreach/metz.txt").write_text(METZ)
++    (OUT / "outreach/royer.txt").write_text(ROYER)
++    for name in ("measure.py",):
++        shutil.copy(w.HERE / name, OUT / name)
++    for name in ("preregistration.toml", "stations.toml"):
++        shutil.copy(w.HERE.parent / name, OUT / name)
++    synthetic_triads(np.random.default_rng(20260926))
++    evaluated = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "runs/hydroacoustics/evaluate/evaluate.csv"
++    if evaluated.exists():
++        table = read_evaluate(evaluated)
++        rows_w = windows(table)
++        write_csv(OUT / "windows.csv", rows_w)
++        text = textwrap.fill(kadri_in_window(rows_w), width=92, subsequent_indent="  ")
++        (OUT / "requests.txt").write_text(REQUESTS.replace("{kadri}", text.lstrip()))
++        rows, etas = predictions(table)
++        write_csv(OUT / "predictions.csv", rows)
++        (OUT / "eta.txt").write_text("eta_k = F-35 anchor x 10^(-k/2): " + ", ".join(f"eta{k} = {e:.3g}" for k, e in enumerate(etas)) + "\n")
++        print(f"windows and predictions from {evaluated}")
++    else:
++        print(f"no evaluate output at {evaluated}; windows.csv and predictions.csv not written")
++    print(f"package in {OUT}")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/report.py b/hypotheses/hydroacoustics/prepare/report.py
+new file mode 100644
+index 0000000..4d1e9b3
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/report.py
+@@ -0,0 +1,274 @@
++#!/usr/bin/env python3
++"""The hydroacoustics report: runs/hydroacoustics/report.pdf, plus one PNG per page.
++
++Pages (each only when its inputs exist):
++1. Map: stations, stand-in impact samples and paths over ETOPO 2022.
++2. Detection control on the IMOS loggers: noise and P_D (imos_analysis.py).
++3. H01W: Kadri's Table 1 transients and Curtin's 01:34:50 arrival against the pre-registered
++   time and bearing window (windows.csv from package.py).
++4. Predicted exposure at each IMOS logger over the eta range, against its measured P_D
++   (evaluate output with detection-control.json).
++5. The pre-registered in-window search and every control (search.py, earthquakes.py).
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/report.py
++"""
++
++from __future__ import annotations
++
++import json
++import tomllib
++
++import matplotlib
++
++matplotlib.use("Agg")
++import matplotlib.pyplot as plt
++import numpy as np
++from matplotlib.backends.backend_pdf import PdfPages
++
++import waveforms as w
++
++ROOT = w.HERE.parents[2]
++OUT = ROOT / "runs/hydroacoustics"
++RUN = tomllib.loads((w.HERE.parent / "run.toml").read_text())["hypotheses"]["hydroacoustics"]
++
++
++def great_circle(a: tuple[float, float], b: tuple[float, float], n: int = 200) -> np.ndarray:
++    """Points on the great circle from a to b (lat, lon in degrees), for drawing only."""
++    def unit(lat, lon):
++        la, lo = np.radians(lat), np.radians(lon)
++        return np.array([np.cos(la) * np.cos(lo), np.cos(la) * np.sin(lo), np.sin(la)])
++    p, q = unit(*a), unit(*b)
++    omega = np.arccos(np.clip(p @ q, -1, 1))
++    t = np.linspace(0, 1, n)[:, None]
++    v = (np.sin((1 - t) * omega) * p + np.sin(t * omega) * q) / np.sin(omega)
++    return np.column_stack([np.degrees(np.arctan2(v[:, 2], np.hypot(v[:, 0], v[:, 1]))), np.degrees(np.arctan2(v[:, 1], v[:, 0]))])
++
++
++def map_page() -> plt.Figure:
++    grid_path = ROOT / RUN["bathymetry"]
++    meta = tomllib.loads(grid_path.with_suffix(".toml").read_text())
++    z = np.fromfile(grid_path, "<i2").reshape(meta["rows"], meta["columns"])[::6, ::6]
++    lat = meta["south_deg"] + 6 * meta["step_lat_deg"] * np.arange(z.shape[0])
++    lon = meta["west_deg"] + 6 * meta["step_lon_deg"] * np.arange(z.shape[1])
++    fig, ax = plt.subplots(figsize=(11, 7.5))
++    depth = np.where(z < 0, -z, np.nan)
++    image = ax.pcolormesh(lon, lat, depth, cmap="Blues", vmin=0, vmax=6500, shading="auto")
++    ax.contourf(lon, lat, (z >= 0).astype(float), levels=[0.5, 1.5], colors=["0.75"])
++    ax.contour(lon, lat, depth, levels=[1000], colors="0.35", linewidths=0.4)
++    fig.colorbar(image, ax=ax, label="Water depth (m); grey line 1,000 m (sound-channel axis)", shrink=0.8)
++    impacts = OUT / "stand-in-impacts.csv"
++    peak = (-38.2, 88.6)
++    if impacts.exists():
++        cloud = np.loadtxt(impacts, delimiter=",", skiprows=1)
++        ax.scatter(cloud[::10, 2], cloud[::10, 1], s=1, color="tab:orange", alpha=0.4, label="Stand-in impacts (labelled, not a posterior)")
++        peak = (float(np.median(cloud[:, 1])), float(np.median(cloud[:, 2])))
++    colours = {"H01W": "tab:red", "H08S": "tab:purple", "3315": "tab:green", "3376": "tab:green", "3250": "tab:brown",
++               "3274": "tab:olive", "3275": "tab:olive"}
++    for sid, s in w.stations().items():
++        slat = np.mean([e["lat"] for e in s["elements"]])
++        slon = np.mean([e["lon"] for e in s["elements"]])
++        path = great_circle(peak, (slat, slon))
++        ax.plot(path[:, 1], path[:, 0], color=colours[sid], lw=0.8)
++        ax.plot(slon, slat, marker="^", color=colours[sid], ms=8, mec="k")
++        ax.annotate(sid, (slon, slat), xytext=(4, 4), textcoords="offset points", fontsize=8)
++    ax.plot(98.879, -27.56, marker="*", color="yellow", mec="k", ms=12, label="air9 airgun calibration site (2001)")
++    ax.set_xlim(60, 145)
++    ax.set_ylim(-48, 0)
++    ax.set_aspect(1 / np.cos(np.radians(25)))
++    ax.set_xlabel("Longitude (deg E)")
++    ax.set_ylabel("Latitude (deg)")
++    ax.set_title("Hydroacoustic receivers and paths from the median stand-in impact (great circles)")
++    ax.legend(loc="lower left", fontsize=8)
++    return fig
++
++
++def detection_pages() -> list[plt.Figure]:
++    path = OUT / "imos/detection-control.json"
++    if not path.exists():
++        return []
++    results = json.loads(path.read_text())
++    figs = []
++    fig, axes = plt.subplots(2, 1, figsize=(11, 8.5))
++    for r in results:
++        p = r["psd_percentiles_db"]
++        f = np.array(p["frequency_hz"])
++        keep = (f >= 1.5) & (f <= 100)
++        axes[0].plot(f[keep], np.array(p["50"])[keep], lw=1, label=f"{r['logger']} median ({r['records_used']} records)")
++    axes[0].set_xscale("log")
++    axes[0].set_xlabel("Frequency (Hz)")
++    axes[0].set_ylabel("Noise PSD, dB re 1 uPa^2/Hz")
++    axes[0].set_title("IMOS loggers, 8-9 March 2014 outside the quarantine: median noise")
++    axes[0].grid(alpha=0.3)
++    axes[0].legend(fontsize=8)
++    for r in results:
++        inj = r["injection"]
++        axes[1].plot(inj["exposure_db"], inj["p_detect"], marker="o", ms=3, label=f"{r['logger']} ({inj['duration_s']:.1f} s pulse)")
++    axes[1].set_xlabel("Injected broadband 2-40 Hz exposure (dB re 1 uPa^2 s)")
++    axes[1].set_ylabel("P_D of D1 (any band, within 9 s)")
++    axes[1].set_title("Injection-recovery into each logger's own background (200 injections per point)")
++    axes[1].grid(alpha=0.3)
++    axes[1].legend(fontsize=8)
++    figs.append(fig)
++
++    fig, ax = plt.subplots(figsize=(11, 8.5))
++    ax.axis("off")
++    lines = ["Detection control, IMOS loggers (8-9 March 2014, outside the quarantine)", "",
++             f"{'logger':8}{'hours':>7}  {'thresholds S (dB) 2-5/5-10/10-20/20-40':42}{'exposure for P_D = 0.5':>24}", ""]
++    for r in results:
++        inj = r["injection"]
++        pd = np.array(inj["p_detect"])
++        half = float(np.interp(0.5, np.maximum.accumulate(pd), inj["exposure_db"])) if pd.max() >= 0.5 else None
++        thresholds = "/".join(f"{v:.1f}" for v in r["thresholds_db"].values())
++        lines.append(f"{r['logger']:8}{r['background_hours']:7.1f}  {thresholds:42}"
++                     f"{(f'{half:.0f} dB re 1 uPa^2 s' if half else '> 130 dB (not reached)'):>24}")
++        for c in r["controls"]:
++            strength = ", ".join(f"{b} Hz S={v['s_max_db']} ({v['background_per_hour_at_or_above']}/h as strong)"
++                                 for b, v in c.get("strength", {}).items())
++            lines.append(f"    control {c['utc'][11:19]} UTC: {'FOUND' if c['found'] else 'not found'}; {strength}")
++        if r.get("records_screened_out"):
++            lines.append(f"    screened out: " + "; ".join(f"{x['record'].rsplit('/', 1)[1]} ({x['reason']})" for x in r["records_screened_out"]))
++    ax.text(0.0, 1.0, "\n".join(lines), va="top", family="monospace", fontsize=8)
++    figs.append(fig)
++    return figs
++
++
++def kadri_page() -> list[plt.Figure]:
++    windows_csv = OUT / "kadri-package/windows.csv"
++    if not windows_csv.exists():
++        return []
++    import csv
++
++    window = next(r for r in csv.DictReader(open(windows_csv)) if r["station"] == "H01W")
++    table = np.genfromtxt(w.HERE.parent / "kadri2024-table1.csv", delimiter=",", skip_header=4, dtype=str)
++    times = np.array([np.datetime64(t.rstrip("Z")) for t in table[:, 0]])
++    minutes = lambda t: (t - np.datetime64("2014-03-08T00:00:00")) / np.timedelta64(1, "s") / 60
++    start, end = (np.datetime64(window[k].rstrip("Z")) for k in ("start_utc", "end_utc"))
++    lo, hi = float(window["back_azimuth_min_deg"]), float(window["back_azimuth_max_deg"])
++    fig, ax = plt.subplots(figsize=(11, 6))
++    ax.add_patch(plt.Rectangle((minutes(start), lo), minutes(end) - minutes(start), hi - lo, color="tab:orange", alpha=0.3,
++                               label="Pre-registered H01W window (stand-in posterior)"))
++    ax.scatter(minutes(times), table[:, 1].astype(float), color="k", s=18, zorder=3, label="Kadri (2024) Table 1 transients")
++    ax.scatter([minutes(np.datetime64("2014-03-08T01:34:50"))], [301.6], marker="s", color="tab:red", s=40, zorder=3,
++               label="HA01 01:34:50, 301.6 deg (Curtin 2014-30)")
++    ax.set_xlabel("Minutes after 00:00 UTC, 8 March 2014")
++    ax.set_ylabel("Back-azimuth at H01W (deg)")
++    ax.set_title("H01W arrivals against the pre-registered time and bearing window")
++    ax.grid(alpha=0.3)
++    ax.legend(fontsize=8)
++    return [fig]
++
++
++def coverage(logger: str, early: np.ndarray, late: np.ndarray, pad_s: float) -> np.ndarray:
++    """Fraction of each arrival window (widened by pad_s) that falls where D1 can search a record:
++    the first sample comes within ~30 s of the file-opening time in the record's name, and the
++    edges are excluded. Uses only file names, so quarantined records are never opened."""
++    import detect
++
++    opened = np.array([t for _, t in w.imos_records(logger)]).astype("datetime64[s]").astype(float)
++    lo = opened + 20.0 + detect.DET["edge_s"] + detect.DET["energy_window_s"] / 2
++    hi = opened + 20.0 + 307.0 - detect.DET["edge_s"] - detect.DET["energy_window_s"] / 2
++    a, b = early - pad_s, late + pad_s
++    overlap = np.zeros_like(a)
++    for l, h in zip(lo, hi):
++        overlap += np.clip(np.minimum(b, h) - np.maximum(a, l), 0, None)
++    return overlap / (b - a)
++
++
++def level_page() -> list[plt.Figure]:
++    evaluated = OUT / "evaluate/evaluate.csv"
++    control = OUT / "imos/detection-control.json"
++    if not (evaluated.exists() and control.exists()):
++        return []
++    import detect
++    import package
++
++    table = package.read_evaluate(evaluated)
++    controls = {r["logger"]: r for r in json.loads(control.read_text())}
++    eta_anchor = float(np.nanmedian(table["hydroacoustics:f35_eta"]))
++    etas = eta_anchor * 10 ** (-np.arange(package.ETA_STEPS) / 2)
++    rng = np.random.default_rng(1)
++    bands = [f"{lo:g}-{hi:g}hz" for lo, hi in package.BANDS]
++    fig, axes = plt.subplots(1, len(controls), figsize=(14, 4.8), sharey=True)
++    summary = {}
++    for ax, (logger, r) in zip(np.atleast_1d(axes), controls.items()):
++        inj = r["injection"]
++        column = lambda name: table[f"hydroacoustics:{logger}.{name}"]
++        sel = np.column_stack([column(f"sel_eta1_db.{b}") for b in bands])
++        spread = np.column_stack([column(f"tl_sd_db.{b}") for b in bands]).mean(axis=1)
++        cover = coverage(logger, column("arrival_early_unix_s"), column("arrival_late_unix_s"),
++                         detect.PREREG["windows"]["timing_pad_s"])
++        blocked = column("blocked") == 1
++        summary[logger] = {"mean_coverage": float(cover.mean()), "blocked_fraction": float(blocked.mean()), "p_detect": {}}
++        ax.plot(inj["exposure_db"], inj["p_detect"], color="k", lw=2, label="P_D (injection)")
++        density = ax.twinx()
++        density.set_yticks([])
++        for k, eta in enumerate(etas):
++            total = 10 * np.log10((10 ** ((sel + 10 * np.log10(eta)) / 10)).sum(axis=1)) - rng.normal(0, spread)
++            p_d = np.interp(total, inj["exposure_db"], inj["p_detect"], left=0.0, right=1.0)
++            summary[logger]["p_detect"][f"{eta:.2e}"] = float(np.mean(cover * p_d * ~blocked))
++            if k % 2 == 0:
++                density.hist(total, bins=50, density=True, histtype="step", lw=1.2, label=f"eta = {eta:.1e}")
++        text = "\n".join(f"eta {e}: P = {v:.3f}" for e, v in summary[logger]["p_detect"].items())
++        ax.text(0.02, 0.98, f"coverage {cover.mean():.2f}\n{text}", transform=ax.transAxes, va="top", fontsize=6.5,
++                family="monospace", bbox={"facecolor": "white", "alpha": 0.95, "lw": 0}, zorder=10)
++        ax.set_title(f"Logger {logger}")
++        ax.set_xlabel("Broadband exposure (dB re 1 uPa^2 s)")
++        ax.grid(alpha=0.3)
++    np.atleast_1d(axes)[0].set_ylabel("P_D (black); predicted exposure density (coloured, own scale)")
++    np.atleast_1d(axes)[0].legend(fontsize=7, loc="center left")
++    density.legend(fontsize=7, loc="center right")
++    fig.suptitle("Predicted exposure over the labelled stand-in impacts (nominal 4 GJ; TL incl. 15 +/- 10 dB site coupling) "
++                 "against measured P_D. P = mean over impacts of record coverage x P_D, zero if blocked", fontsize=9)
++    (OUT / "imos/detection-probability.json").write_text(json.dumps(summary, indent=1))
++    return [fig]
++
++
++def search_page() -> list[plt.Figure]:
++    path = OUT / "imos/search.json"
++    if not path.exists():
++        return []
++    results = json.loads(path.read_text())
++    lines = ["Pre-registered search of the IMOS loggers (windows from the stand-in envelope; thresholds fixed from background)", "",
++             f"{'logger':8}{'window (UTC)':>22}{'searched':>10}{'expected':>10}{'found':>7}{'P(N>=n)':>9}"]
++    for r in results:
++        if "logger" not in r:
++            continue
++        window = f"{r['window'][0][11:19]}-{r['window'][1][11:19]}"
++        lines.append(f"{r['logger']:8}{window:>22}{r['searched_s']:>9.0f}s{r['expected']:>10.2f}{len(r['detections']):>7}{r['p_value']:>9.2f}")
++        for d in r["detections"]:
++            lines.append(f"    detection {d['utc'][11:19]} UTC, {d['band_hz'][0]:g}-{d['band_hz'][1]:g} Hz, S = {d['s_max_db']} dB")
++        if r.get("other_nights"):
++            o = r["other_nights"]
++            lines.append(f"    same UTC window on 13 other nights: {o['detections']} detections in {o['searched_hours']:.1f} h "
++                         f"({o['per_hour']:.2f}/h, i.e. {o['per_hour'] * r['searched_s'] / 3600:.2f} expected)")
++    lines += ["", "Controls (published arrivals at 3315; D1's S near each, and how often background peaks are as strong):"]
++    for r in results:
++        for c in r.get("controls", []):
++            parts = ", ".join(f"{b} Hz S={v['s_max_db']} ({v['background_per_hour_at_or_above']}/h)" for b, v in c["strength"].items())
++            lines.append(f"  {c['utc'][11:19]} {c['station']}: {parts}")
++    quakes = OUT / "imos/earthquake-controls.json"
++    if quakes.exists():
++        lines += ["", "Exploratory controls, not pre-registered: T-phases of USGS M>=4 earthquakes (largest S per band near the prediction)"]
++        for q in json.loads(quakes.read_text()):
++            best = max(q["bands"].items(), key=lambda kv: kv[1]["s_max_db"]) if q["bands"] else None
++            if best:
++                lines.append(f"  {q['logger']} {q['event'][:45]:45} {q['distance_km']:>5} km: best {best[0]} Hz S={best[1]['s_max_db']} "
++                             f"at {best[1]['offset_s']:+.0f} s ({best[1]['background_per_hour_at_or_above']}/h)")
++    fig, ax = plt.subplots(figsize=(11, 8.5))
++    ax.axis("off")
++    ax.text(0.0, 1.0, "\n".join(lines), va="top", family="monospace", fontsize=7.5)
++    return [fig]
++
++
++def main() -> None:
++    pages = [map_page()] + detection_pages() + kadri_page() + level_page() + search_page()
++    with PdfPages(OUT / "report.pdf") as pdf:
++        for k, fig in enumerate(pages, 1):
++            fig.tight_layout()
++            pdf.savefig(fig)
++            fig.savefig(OUT / f"report-page-{k}.png", dpi=110)
++    print(f"{OUT / 'report.pdf'}: {len(pages)} pages, PNG beside each")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/search.py b/hypotheses/hydroacoustics/prepare/search.py
+new file mode 100644
+index 0000000..32a8c75
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/search.py
+@@ -0,0 +1,132 @@
++#!/usr/bin/env python3
++"""The pre-registered search of the IMOS loggers. Run only after the windows are committed.
++
++For each logger:
++- open the records that overlap its window (windows.csv from package.py, built by the
++  preregistration.toml rule);
++- run D1 at the thresholds imos_analysis.py fixed from the background;
++- list every detection inside the window;
++- compare the count with the background expectation lambda x searched time, where lambda is
++  the logger's own D1 rate outside the quarantine and, for 3376, on other nights.
++The loggers record 5 minutes in every 15, so the searched time is the overlap of records
++with the window, not the window length. Output: runs/hydroacoustics/imos/search.json.
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/search.py runs/hydroacoustics/kadri-package/windows.csv
++"""
++
++from __future__ import annotations
++
++import csv
++import json
++import math
++import sys
++
++import numpy as np
++
++import detect
++import waveforms as w
++from measure import bandpass
++
++ROOT = w.HERE.parents[2]
++OUT = ROOT / "runs/hydroacoustics/imos"
++
++
++def poisson_tail(k: int, mean: float) -> float:
++    """P(N >= k) for N ~ Poisson(mean)."""
++    return 1.0 - sum(math.exp(-mean) * mean**j / math.factorial(j) for j in range(k))
++
++
++def background_rate(logger: str, control: dict, thresholds: dict) -> tuple[float, float]:
++    """D1 detections per hour above threshold (any band), outside the quarantine."""
++    far = control["far_per_hour"]
++    levels = np.array(far["threshold_db"])
++    rate = sum(float(np.interp(tau, levels, far[f"{b[0]:g}-{b[1]:g}"])) for b, tau in thresholds.items())
++    return rate, control["background_hours"]
++
++
++def other_night_rate(start: np.datetime64, end: np.datetime64, thresholds: dict) -> dict:
++    """D1 detections per hour (any band, same thresholds) in the same UTC time of day on the other
++    nights, from other_nights.py."""
++    rows = [r for r in json.loads((OUT / "other-nights.json").read_text()) if "unusable" not in r]
++    seconds = lambda t: float((t - t.astype("datetime64[D]")) / np.timedelta64(1, "s"))
++    lo, hi = seconds(start), seconds(end)
++    count, searched = 0, 0.0
++    for r in rows:
++        t0 = np.datetime64(r["start_utc"][:26])
++        for band, tau in thresholds.items():
++            data = r["bands"][f"{band[0]:g}-{band[1]:g}"]
++            count += sum(1 for tp, smax, _ in data["peaks"] if smax >= tau and lo <= seconds(t0) + tp <= hi)
++        overlap = max(0.0, min(seconds(t0) + 307.0, hi) - max(seconds(t0), lo))
++        searched += overlap * r["bands"]["2-5"]["searched_s"] / 307.0
++    return {"detections": count, "searched_hours": searched / 3600, "per_hour": count / (searched / 3600) if searched else None}
++
++
++def control_strengths(controls: dict) -> list[dict]:
++    """Every control's S per band and how often background peaks reach it, including the 01:33:44
++    arrival at 3315: inside the quarantine but outside the 3315 window, so it can be opened once
++    the windows are committed."""
++    out = []
++    for c in detect.PREREG["controls"]["events"]:
++        logger, t = c["station"], np.datetime64(c["utc"].rstrip("Z"), "ns")
++        for member, opened in w.imos_records(logger):
++            if not (opened <= t <= opened + np.timedelta64(340, "s")):
++                continue
++            trace = w.read_imos(logger, member)
++            offset = (t - trace.t0) / np.timedelta64(1, "ns") * 1e-9
++            if trace.quality or not (0 <= offset <= trace.p.shape[1] / trace.fs):
++                continue
++            far = controls[logger]["far_per_hour"]
++            strength = {}
++            for band in detect.BANDS:
++                tt, e, s = detect.statistic(bandpass(trace.p[0], trace.fs, *band), trace.fs, trace.edge_s)
++                close = [(tp, smax) for tp, smax, _ in detect.peaks(tt, s, e) if abs(tp - offset) <= 5.0]
++                if close:
++                    tp, smax = max(close, key=lambda x: x[1])
++                    key = f"{band[0]:g}-{band[1]:g}"
++                    strength[key] = {"s_max_db": round(smax, 1), "offset_s": round(tp - offset, 1),
++                                     "background_per_hour_at_or_above": round(float(np.interp(smax, far["threshold_db"], far[key])), 2)}
++            out.append({"station": logger, "utc": c["utc"], "note": c["note"], "strength": strength})
++    return out
++
++
++def main() -> None:
++    windows = {row["station"]: row for row in csv.DictReader(open(sys.argv[1]))}
++    controls = {r["logger"]: r for r in json.loads((OUT / "detection-control.json").read_text())}
++    results = []
++    for logger, control in controls.items():
++        window = windows[logger]
++        start, end = (np.datetime64(window[k].rstrip("Z"), "ns") for k in ("start_utc", "end_utc"))
++        thresholds = {tuple(float(x) for x in b.split("-")): v for b, v in control["thresholds_db"].items()}
++        detections, searched_s = [], 0.0
++        for member, opened in w.imos_records(logger):
++            if opened > end or opened + np.timedelta64(400, "s") < start:
++                continue
++            trace = w.read_imos(logger, member)
++            if trace.quality:
++                continue  # the pre-registered data-quality screen (amendment 2)
++            for band, tau in thresholds.items():
++                t, e, s = detect.statistic(bandpass(trace.p[0], trace.fs, *band), trace.fs, trace.edge_s)
++                inside = np.array([start <= trace.time_of(x) <= end for x in t])
++                if band == next(iter(thresholds)):
++                    searched_s += float((np.isfinite(s) & inside).sum() * detect.STEP_S)
++                for tp, smax, snr in detect.peaks(t, s, e):
++                    if smax >= tau and start <= trace.time_of(tp) <= end:
++                        detections.append({"utc": str(trace.time_of(tp)), "band_hz": list(band), "s_max_db": round(smax, 2),
++                                           "snr_db": round(snr, 2), "record": member})
++        rate, hours = background_rate(logger, control, thresholds)
++        expected = rate * searched_s / 3600
++        result = {"logger": logger, "window": [str(start), str(end)], "searched_s": searched_s,
++                  "background_per_hour": rate, "background_hours": hours, "expected": expected,
++                  "detections": sorted(detections, key=lambda d: d["utc"]),
++                  "p_value": poisson_tail(len(detections), expected)}
++        if logger == "3376":
++            result["other_nights"] = other_night_rate(start, end, thresholds)
++        results.append(result)
++        print(f"{logger}: searched {searched_s:.0f} s of {window['start_utc']}-{window['end_utc']}; "
++              f"{len(detections)} detections, {expected:.2f} expected; P(N >= n) = {results[-1]['p_value']:.3f}")
++    results.append({"controls": control_strengths(controls)})
++    (OUT / "search.json").write_text(json.dumps(results, indent=1))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/stand_in.py b/hypotheses/hydroacoustics/prepare/stand_in.py
+new file mode 100644
+index 0000000..38153bb
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/stand_in.py
+@@ -0,0 +1,87 @@
++#!/usr/bin/env python3
++"""Stand-in impact samples until the end-of-flight stage exists (labelled; never evidence).
++
++Draws N positions from the pooled BTO+BFO posterior at 00:19:37 (base run final.npy,
++replicates combined with summary.json's pool factors). Each is moved a uniform 0-250 km in a
++uniform direction, and given an impact time uniform on 00:19:37-00:55:00 UTC, as fixed in
++preregistration.toml [windows.stand_in]. The spread is deliberately wider than any glide.
++Kinetic energy is a nominal 4 GJ (200 t at 200 m/s; vertical half of it). The windows do not
++use it, and nothing here predicts it.
++
++Options set other labelled stand-ins without changing the registered one:
++- --spread-km;
++- --last (last impact time, UTC);
++- --beyond-arc: move only away from the satellite's sub-point (0 N, 64.5 E), i.e. outside the arc;
++- --out.
++
++    .venv/bin/python hypotheses/hydroacoustics/prepare/stand_in.py [--spread-km 250] [--last 00:55:00] [--beyond-arc]
++"""
++
++from __future__ import annotations
++
++import argparse
++import json
++from pathlib import Path
++
++import numpy as np
++
++ROOT = Path(__file__).resolve().parents[3]
++T_FIRST = np.datetime64("2014-03-08T00:19:37")
++EARTH_KM = 6371.0
++SUB_SATELLITE = (0.0, 64.5)  # Inmarsat-3F1, degrees
++SEED = 20260926
++
++
++def main() -> None:
++    parser = argparse.ArgumentParser()
++    parser.add_argument("--run", default="runs/davey2016")
++    parser.add_argument("--n", type=int, default=20_000)
++    parser.add_argument("--spread-km", type=float, default=250.0)
++    parser.add_argument("--last", default="00:55:00")
++    parser.add_argument("--beyond-arc", action="store_true")
++    parser.add_argument("--out", default="stand-in-impacts.csv")
++    args = parser.parse_args()
++    run, n = ROOT / args.run, args.n
++    case = next(c for c in json.loads((run / "summary.json").read_text())["cases"] if c["case"] == "bto-bfo")
++    lat, lon, weight = [], [], []
++    for rep, seed in enumerate(case["seeds"]):
++        final = np.load(run / f"bto-bfo/seed-{seed}/final.npy", mmap_mode="r")
++        factors = np.asarray(case["pool_factors"][rep])
++        weight.append(np.asarray(final[:, 0]) * factors[np.asarray(final[:, 9]).astype(int)])
++        lat.append(np.asarray(final[:, 1]))
++        lon.append(np.asarray(final[:, 2]))
++    lat, lon, weight = np.concatenate(lat), np.concatenate(lon), np.concatenate(weight)
++    rng = np.random.default_rng(SEED)
++    cumulative = np.cumsum(weight / weight.sum())
++    pick = np.minimum(np.searchsorted(cumulative, (rng.random() + np.arange(n)) / n), lat.size - 1)
++
++    # Spherical destination point: a stand-in spread, not a prediction, so no ellipsoid.
++    delta = rng.uniform(0, args.spread_km, n) / EARTH_KM
++    phi1, lam1 = np.radians(lat[pick]), np.radians(lon[pick])
++    if args.beyond_arc:  # within 90 deg of the direction pointing away from the sub-satellite point
++        phi_s, lam_s = np.radians(SUB_SATELLITE)
++        towards = np.arctan2(np.sin(lam_s - lam1) * np.cos(phi_s),
++                             np.cos(phi1) * np.sin(phi_s) - np.sin(phi1) * np.cos(phi_s) * np.cos(lam_s - lam1))
++        azimuth = towards + np.pi + rng.uniform(-np.pi / 2, np.pi / 2, n)
++    else:
++        azimuth = rng.uniform(0, 2 * np.pi, n)
++    phi2 = np.arcsin(np.sin(phi1) * np.cos(delta) + np.cos(phi1) * np.sin(delta) * np.cos(azimuth))
++    lam2 = lam1 + np.arctan2(np.sin(azimuth) * np.sin(delta) * np.cos(phi1), np.cos(delta) - np.sin(phi1) * np.sin(phi2))
++    t0 = T_FIRST.astype("datetime64[s]").astype(float)
++    last = np.datetime64(f"2014-03-08T{args.last}").astype("datetime64[s]").astype(float)
++    t = rng.uniform(t0, last, n)
++
++    out = ROOT / "runs/hydroacoustics"
++    out.mkdir(parents=True, exist_ok=True)
++    path = out / args.out
++    header = "unix_s,latitude_deg,longitude_deg,kinetic_energy_j,vertical_kinetic_energy_j,weight"
++    rows = np.column_stack([t, np.degrees(phi2), (np.degrees(lam2) + 180) % 360 - 180,
++                            np.full(n, 4e9), np.full(n, 2e9), np.full(n, 1.0 / n)])
++    np.savetxt(path, rows, fmt=["%.3f", "%.6f", "%.6f", "%.4e", "%.4e", "%.6e"], delimiter=",", header=header,
++               comments="")
++    print(f"{path}: {n} stand-in impacts; posterior draws from {lat.size} particles, "
++          f"latitude {np.degrees(phi2).min():.2f} to {np.degrees(phi2).max():.2f}")
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/hypotheses/hydroacoustics/prepare/waveforms.py b/hypotheses/hydroacoustics/prepare/waveforms.py
+new file mode 100644
+index 0000000..ac68d93
+--- /dev/null
++++ b/hypotheses/hydroacoustics/prepare/waveforms.py
+@@ -0,0 +1,522 @@
++"""Calibrated-pressure traces, the readers that produce them, and zero-phase filters.
++
++Every reader returns a `Trace`: pressure in pascals, one row per hydrophone, on a common
++250 Hz grid (the IMS rate), with the UTC time of the first sample and each hydrophone's
++position. Detection, noise statistics and injection-recovery all work on Traces, so the
++same analysis runs on the IMOS loggers here and on IMS triads in Usama Kadri's archive.
++
++Filters (measure.bandpass) act in the frequency domain, so each reader tapers the record ends
++and `edge_s` seconds at each end should be ignored.
++"""
++
++from __future__ import annotations
++
++import dataclasses
++import functools
++import re
++import tomllib
++import zipfile
++from datetime import datetime, timezone
++from pathlib import Path
++
++import numpy as np
++
++FS = 250.0
++HERE = Path(__file__).resolve().parent
++IMOS_ZIP = HERE.parents[2] / "data/external/imos-acoustic/MH370.zip"
++
++
++@dataclasses.dataclass
++class Trace:
++    station: str
++    channels: list[str]
++    lat: np.ndarray
++    lon: np.ndarray
++    t0: np.datetime64  # UTC of the first sample, ns resolution
++    fs: float
++    p: np.ndarray  # (channel, sample) pressure in Pa
++    note: str  # provenance: source files, calibration, clock corrections
++    edge_s: float = 0.0  # seconds at each end corrupted by tapering and circular filtering
++    quality: str = ""  # empty, or why the record fails the data-quality screen
++
++    @property
++    def seconds(self) -> np.ndarray:
++        return np.arange(self.p.shape[1]) / self.fs
++
++    def time_of(self, s: float) -> np.datetime64:
++        return self.t0 + np.timedelta64(int(round(s * 1e9)), "ns")
++
++    def window(self, start: np.datetime64, stop: np.datetime64) -> "Trace":
++        """The part of the trace between two UTC times."""
++        i = max(0, int(np.ceil((start - self.t0) / np.timedelta64(1, "ns") * 1e-9 * self.fs)))
++        j = min(self.p.shape[1], int(np.floor((stop - self.t0) / np.timedelta64(1, "ns") * 1e-9 * self.fs)))
++        return dataclasses.replace(self, t0=self.time_of(i / self.fs), p=self.p[:, i:max(i, j)])
++
++
++def stations() -> dict[str, dict]:
++    """Receiver positions: the module's stations.toml, shared with the Rust code."""
++    table = tomllib.loads((HERE.parent / "stations.toml").read_text())
++    return {s["id"]: s for s in table["station"]}
++
++
++def smooth(k: int) -> int:
++    """The smallest integer >= k with no prime factor above 5: a fast FFT length."""
++    while True:
++        r = k
++        for p in (2, 3, 5):
++            while r % p == 0:
++                r //= p
++        if r == 1:
++            return k
++        k += 1
++
++
++def tukey(n: int, taper: int) -> np.ndarray:
++    w = np.ones(n)
++    if taper > 0:
++        ramp = 0.5 - 0.5 * np.cos(np.pi * np.arange(taper) / taper)
++        w[:taper], w[n - taper:] = ramp, ramp[::-1]
++    return w
++
++
++def welch_psd(x: np.ndarray, fs: float, nfft: int) -> tuple[np.ndarray, np.ndarray]:
++    """One-sided power spectral density (units^2/Hz), Hann segments with 50 % overlap."""
++    w = np.hanning(nfft)
++    step = nfft // 2
++    segments = np.lib.stride_tricks.sliding_window_view(x, nfft)[::step]
++    spectra = np.abs(np.fft.rfft((segments - segments.mean(axis=1, keepdims=True)) * w, axis=1)) ** 2
++    psd = spectra.mean(axis=0) / (fs * (w**2).sum())
++    psd[1:-1] *= 2
++    return np.fft.rfftfreq(nfft, 1 / fs), psd
++
++
++# --- IMOS / Curtin CMST sea-noise loggers ---------------------------------------------------
++
++CAL_INPUT_DB = -90.0  # white noise injected in series with the hydrophone, dB re 1 V^2/Hz
++CAL_FLOOR_DB = 30.0  # below the gain peak by more than this, the response is not inverted
++CAL_MIN_HZ = 1.5  # below this the white-noise records stop falling with frequency (leakage floor)
++PORTLAND_ZIP = "https://imos-data.s3-ap-southeast-2.amazonaws.com/IMOS/ANMN/Acoustic/Portland_MH370.zip"
++# Logger: (archive, its top folder, metadata file, calibration folder, record folder). MH370.zip
++# is local (data/external); Portland_MH370.zip is read member by member over HTTP.
++IMOS_LOGGERS = {
++    "3315": (IMOS_ZIP, "MH370/", "3315_3250_3376__MetaData.txt", "Calibration/", "3315_PerthCanyon/"),
++    "3376": (IMOS_ZIP, "MH370/", "3315_3250_3376__MetaData.txt", "Calibration/", "3376_PerthCanyon/"),
++    "3250": (IMOS_ZIP, "MH370/", "3315_3250_3376__MetaData.txt", "Calibration/", "3250_ScottReef/"),
++    "3274": (PORTLAND_ZIP, "Portland_MH370/", "MetaData_3274_3275.txt", "calibration/", "3274_Portland/"),
++    "3275": (PORTLAND_ZIP, "Portland_MH370/", "MetaData_3274_3275.txt", "calibration/", "3275_Portland/"),
++}
++
++
++class RemoteZip:
++    """A zip on a web server, read one member at a time by HTTP range requests; nothing is stored."""
++
++    def __init__(self, url: str):
++        import struct
++        import urllib.request
++
++        def get(span: str) -> bytes:
++            return urllib.request.urlopen(urllib.request.Request(url, headers={"Range": f"bytes={span}"}), timeout=300).read()
++
++        self.get = lambda first, last: get(f"{first}-{last}")
++        tail = get("-65536")  # the end-of-directory record and the central directory
++        end = tail.rindex(b"PK\x05\x06")
++        size, = struct.unpack("<I", tail[end + 12:end + 16])
++        self.members, k = {}, end - size
++        while k < end:
++            method, = struct.unpack("<H", tail[k + 10:k + 12])
++            compressed, = struct.unpack("<I", tail[k + 20:k + 24])
++            n, extra, comment = struct.unpack("<HHH", tail[k + 28:k + 34])
++            offset, = struct.unpack("<I", tail[k + 42:k + 46])
++            self.members[tail[k + 46:k + 46 + n].decode("latin1")] = (method, compressed, offset)
++            k += 46 + n + extra + comment
++
++    def namelist(self) -> list[str]:
++        return list(self.members)
++
++    def read(self, name: str) -> bytes:
++        import struct
++        import zlib
++
++        method, compressed, offset = self.members[name]
++        head = self.get(offset, offset + 29)
++        n, extra = struct.unpack("<HH", head[26:30])
++        data = self.get(offset + 30 + n + extra, offset + 30 + n + extra + compressed - 1)
++        return zlib.decompress(data, -15) if method == 8 else data
++
++
++_ARCHIVES: dict = {}
++
++
++def imos_archive(logger: str):
++    source = IMOS_LOGGERS[logger][0]
++    if source not in _ARCHIVES:
++        _ARCHIVES[source] = RemoteZip(source) if str(source).startswith("http") else zipfile.ZipFile(source)
++    return _ARCHIVES[source]
++
++
++def read_dat(raw: bytes) -> tuple[list[str], str, float, np.ndarray]:
++    """Curtin logger .DAT: five ASCII header lines, big-endian unsigned 16-bit samples, a footer
++    starting 'Record Marker'. Returns header lines, footer, sample rate and volts at the A/D
++    (0-5 V over 65536 counts, mean removed), as in Curtin's load_loggerdatanew.m."""
++    start, header = 0, []
++    for _ in range(5):
++        end = raw.index(b"\n", start)
++        header.append(raw[start:end].decode("ascii"))
++        start = end + 1
++    stop = raw.rindex(b"\nRecord Marker")
++    enabled = [int(c) for c in re.findall(r"C\d=(\d)", header[3] + header[4])]
++    if sum(enabled) != 1:
++        raise ValueError("only single-channel logger records are supported")
++    rate = float(re.search(r"Sample Rate (\d+)", header[2]).group(1))
++    volts = np.frombuffer(raw[start:stop], ">u2").astype(float) * (5.0 / 65536)
++    return header, raw[stop + 1:].decode("ascii"), rate, volts - volts.mean()
++
++
++def dropout(raw: bytes) -> str:
++    """Why a record fails the data-quality screen (preregistration.toml amendment 2), or "".
++    The screen reads only the A/D counts: a run of identical counts lasting 0.1 s or more, or a
++    mean more than 10,000 counts from mid-scale (a dead or offset channel)."""
++    start = 0
++    for _ in range(5):
++        start = raw.index(b"\n", start) + 1
++    counts = np.frombuffer(raw[start:raw.rindex(b"\nRecord Marker")], ">u2")
++    rate = float(re.search(rb"Sample Rate (\d+)", raw[:start]).group(1))
++    change = np.flatnonzero(np.diff(counts) != 0)
++    longest = int(np.diff(np.concatenate([[-1], change, [counts.size - 1]])).max()) if counts.size else 0
++    if longest >= 0.1 * rate:
++        return f"{longest / rate:.2f} s of identical A/D counts"
++    if abs(counts.mean() - 32768) > 10_000:
++        return f"A/D mean {counts.mean():.0f}, far from mid-scale"
++    return ""
++
++
++@functools.cache
++def imos_metadata(logger: str) -> dict:
++    """Sensitivity (dB re 1 V^2/uPa^2), calibration file and clock settings from Curtin's metadata.
++    The file writes the unit as 'V^2/Pa^2'; -197.8 dB only makes sense per uPa^2 (0.13 mV/Pa, a
++    standard HTI-90 value), and noise levels come out right with that reading."""
++    _, top, name, _, _ = IMOS_LOGGERS[logger]
++    text = imos_archive(logger).read(top + name).decode("latin1")
++    block = next(b for b in text.split("Curtin ID")[1:] if b.split()[0] == logger)
++    sets = re.findall(r"system clock set \d\s+(\S+ \S+)\s+(-?[\d.]+)", block)
++    return {
++        "sensitivity_db": float(re.search(r"sensitivity \(dB re V\^2/Pa\^2\)\s+(-?[\d.]+)", block).group(1)),
++        "cal_file": re.search(r"system gain file\s+\S+\s+(\S+\.DAT)", block).group(1),
++        "clock_sets": [(np.datetime64(datetime.strptime(t, "%d-%b-%Y %H:%M:%S"), "ns"), float(o)) for t, o in sets],
++    }
++
++
++def imos_records(logger: str) -> list[tuple[str, np.datetime64]]:
++    """(member, file-opening time) for each record: the instrument-clock time written in hex in the
++    file name, within ~30 s of the first sample. read_imos times each record exactly."""
++    _, top, _, _, folder = IMOS_LOGGERS[logger]
++    names = [m for m in imos_archive(logger).namelist() if m.startswith(top + folder) and m.upper().endswith(".DAT")]
++    return sorted((m, np.datetime64(int(m.rsplit("/", 1)[1][:8], 16), "s").astype("datetime64[ns]")) for m in names)
++
++
++def imos_drift_s(logger: str, clock: np.datetime64) -> float:
++    """Logger clock minus UTC (s) at `clock`, linear between the metadata's two clock settings.
++    For 3315, 3376 and 3250 this reproduces Curtin's drift-corrected listing to 0.4 ms."""
++    (t1, o1), (t2, o2) = imos_metadata(logger)["clock_sets"]
++    return o1 + (o2 - o1) * float((clock - t1) / (t2 - t1))
++
++
++_GAIN: dict[str, tuple[np.ndarray, np.ndarray]] = {}
++
++
++def imos_gain(logger: str) -> tuple[np.ndarray, np.ndarray]:
++    """System gain (dB, volts at the A/D per volt at the hydrophone) from the white-noise record."""
++    _, top, _, calibration, _ = IMOS_LOGGERS[logger]
++    name = top + calibration + imos_metadata(logger)["cal_file"]
++    if name not in _GAIN:
++        _, _, rate, volts = read_dat(imos_archive(logger).read(name))
++        f, psd = welch_psd(volts, rate, 2**15)
++        _GAIN[name] = f, 10 * np.log10(np.maximum(psd, 1e-30)) - CAL_INPUT_DB
++    return _GAIN[name]
++
++
++def read_imos(logger: str, member: str) -> Trace:
++    """One record from the logger's archive (MH370.zip or Portland_MH370.zip)."""
++    return imos_trace(logger, imos_archive(logger).read(member), member)
++
++
++def read_imos_aodn(logger: str, url: str) -> Trace:
++    """One record streamed from the logger's AODN deployment folder; nothing is stored."""
++    import urllib.request
++
++    with urllib.request.urlopen(url, timeout=300) as response:
++        return imos_trace(logger, response.read(), url)
++
++
++def imos_trace(logger: str, raw: bytes, source: str) -> Trace:
++    """A logger record as calibrated pressure at 250 Hz, timed by the logger clock (footer) minus
++    the metadata's linear drift.
++
++    The A/D volts are divided by the system gain from the logger's white-noise calibration
++    and by the hydrophone sensitivity, all in one FFT. The spectrum is then truncated to
++    125 Hz, with a cosine taper from 100 to 120 Hz. The deliberate low-frequency roll-off is
++    inverted only where the gain is within CAL_FLOOR_DB of its peak; below that the output is
++    zero, and so is everything below CAL_MIN_HZ. The usable low-frequency limit is recorded in
++    `note`."""
++    meta = imos_metadata(logger)
++    header, footer, rate, volts = read_dat(raw)
++    quality = dropout(raw)
++    clock = logger_clock(footer)
++    start = clock - np.timedelta64(int(round(imos_drift_s(logger, clock) * 1e9)), "ns")
++    factor = int(round(rate / FS))
++    keep = volts.size // factor  # output samples; the input is zero-padded to a fast FFT length
++    m = smooth(keep)
++    n = m * factor
++    volts = np.concatenate([volts[: keep * factor] * tukey(keep * factor, int(0.5 * rate)), np.zeros(n - keep * factor)])
++    spectrum = np.fft.rfft(volts)
++    f = np.fft.rfftfreq(n, 1 / rate)
++    cal_f, gain_db = imos_gain(logger)
++    gain_db = np.interp(f, cal_f, gain_db)
++    usable = (f >= CAL_MIN_HZ) & (gain_db >= gain_db[f <= 120].max() - CAL_FLOOR_DB)
++    f_min = f[usable & (f < 120)].min()
++    volts_per_pa = 10 ** (meta["sensitivity_db"] / 20) * 1e6
++    response = np.where(usable, 1.0 / (10 ** (gain_db / 20) * volts_per_pa), 0.0)
++    anti_alias = np.where(f <= 100, 1.0, np.where(f < 120, 0.5 + 0.5 * np.cos(np.pi * (f - 100) / 20), 0.0))
++    out = np.fft.irfft((spectrum * response * anti_alias)[: m // 2 + 1] / factor, m)[:keep]
++    s = stations()[logger]["elements"][0]
++    return Trace(
++        station=logger,
++        channels=[logger],
++        lat=np.array([s["lat"]]),
++        lon=np.array([s["lon"]]),
++        t0=start,
++        fs=FS,
++        p=out[None, :],
++        quality=quality,
++        note=(f"{source}: {header[1].strip()}; footer '{footer.splitlines()[1].strip()}'. Start = logger clock "
++              f"minus linear drift (metadata). Gain from {meta['cal_file']}, sensitivity {meta['sensitivity_db']} "
++              f"dB re V^2/uPa^2; response inverted above {f_min:.1f} Hz."),
++        edge_s=2.0,
++    )
++
++
++def logger_clock(footer: str) -> np.datetime64:
++    """Instrument-clock time of the first sample: 'First Data-YYYY/MM/DD hh:mm:ss - ticks/65536'."""
++    day, clock, ticks = re.search(r"First Data-(\S+) (\S+) - (\d+)", footer).groups()
++    t = datetime.strptime(f"{day} {clock}", "%Y/%m/%d %H:%M:%S").replace(tzinfo=timezone.utc)
++    return np.datetime64(t.replace(tzinfo=None), "ns") + np.timedelta64(int(int(ticks) / 65536 * 1e9), "ns")
++
++
++# --- IMS hydrophones: IDC formats ------------------------------------------------------------
++# Each reader returns one single-channel Trace per waveform segment, in pascals, with the
++# element's position from stations.toml (NaN if the code is not there). `pa_per_unit` converts
++# the file's calibrated unit to Pa: CSS3.0 and IMS2.0 give `calib` per count. The IDC unit for
++# hydrophone channels must be confirmed by whoever holds the data (Kadri, request R0); a wrong
++# unit shows up as noise levels orders of magnitude from 60-110 dB re 1 uPa^2/Hz.
++
++
++def _element_position(code: str) -> tuple[float, float]:
++    for s in stations().values():
++        for e in s["elements"]:
++            if e["id"] == code.strip():
++                return e["lat"], e["lon"]
++    return float("nan"), float("nan")
++
++
++def _single(code: str, chan: str, t0: np.datetime64, fs: float, x: np.ndarray, note: str) -> Trace:
++    lat, lon = _element_position(code)
++    return Trace(station=code, channels=[f"{code}.{chan}"], lat=np.array([lat]), lon=np.array([lon]), t0=t0, fs=fs,
++                 p=np.asarray(x, float)[None, :], note=note)
++
++
++def _epoch(seconds: float) -> np.datetime64:
++    return np.datetime64(int(round(seconds * 1e6)), "us").astype("datetime64[ns]")
++
++
++CSS_TYPES = {"s4": ">i4", "i4": "<i4", "s2": ">i2", "i2": "<i2", "t4": ">f4", "f4": "<f4", "t8": ">f8", "f8": "<f8"}
++
++
++def read_css(wfdisc: Path, pa_per_unit: float = 1.0) -> list[Trace]:
++    """CSS3.0 wfdisc rows (whitespace-separated fields 1-18) and their binary .w files."""
++    out = []
++    for line in Path(wfdisc).read_text().splitlines():
++        f = line.split()
++        if len(f) < 18:
++            continue
++        sta, chan, time, nsamp, rate, calib, dtype, folder, dfile, foff = (
++            f[0], f[1], float(f[2]), int(f[7]), float(f[8]), float(f[9]), f[13], f[15], f[16], int(f[17]))
++        if dtype == "s3":
++            raw = np.frombuffer((Path(wfdisc).parent / folder / dfile).read_bytes()[foff:foff + 3 * nsamp], np.uint8)
++            b = raw.reshape(-1, 3).astype(np.int32)
++            counts = ((b[:, 0] << 24) | (b[:, 1] << 16) | (b[:, 2] << 8)) >> 8
++        elif dtype in CSS_TYPES:
++            size = np.dtype(CSS_TYPES[dtype]).itemsize
++            counts = np.frombuffer((Path(wfdisc).parent / folder / dfile).read_bytes()[foff:foff + size * nsamp],
++                                   CSS_TYPES[dtype])
++        else:
++            raise ValueError(f"{wfdisc}: datatype {dtype} not supported (CSS e1/compressed formats)")
++        calib = calib if calib != 0 else 1.0
++        out.append(_single(sta, chan, _epoch(time), rate, counts * calib * pa_per_unit,
++                           f"CSS3.0 {Path(wfdisc).name}: {sta} {chan} {dtype}, calib {calib} x {pa_per_unit} Pa/unit"))
++    return out
++
++
++CM6 = "+-0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
++
++
++def decode_cm6(text: str, n: int) -> np.ndarray:
++    """GSE2/IMS2.0 CM6: 6-bit characters, first with continuation, sign and 4 bits, the rest with
++    continuation and 5 bits; the values are second differences."""
++    code = {c: i for i, c in enumerate(CM6)}
++    values, k = [], 0
++    chars = [code[c] for c in text if c in code]
++    while len(values) < n:
++        first = chars[k]
++        v, sign, more = first & 0x0F, first & 0x10, first & 0x20
++        k += 1
++        while more:
++            nxt = chars[k]
++            v, more = (v << 5) | (nxt & 0x1F), nxt & 0x20
++            k += 1
++        values.append(-v if sign else v)
++    return np.cumsum(np.cumsum(np.array(values, dtype=np.int64)))
++
++
++def gse_checksum(x: np.ndarray) -> int:
++    """CHK2 of the integer samples: running sum, both kept to magnitude below 1e8 (GSE2.1)."""
++    modulo, total = 100_000_000, 0
++    for s in x.tolist():
++        s = s - int(s / modulo) * modulo if abs(s) >= modulo else s
++        total += s
++        total = total - int(total / modulo) * modulo if abs(total) >= modulo else total
++    return abs(total)
++
++
++def read_gse(path: Path, pa_per_unit: float = 1.0) -> list[Trace]:
++    """IMS2.0 / GSE2 waveforms: WID2 header, optional STA2, DAT2 block (INT or CM6), CHK2."""
++    lines = Path(path).read_text(errors="replace").splitlines()
++    out, k = [], 0
++    while k < len(lines):
++        if not lines[k].startswith("WID2"):
++            k += 1
++            continue
++        tokens = lines[k].split()
++        d = next(i for i, t in enumerate(tokens) if t in ("INT", "CM6", "CM8", "AU6", "AU8"))
++        day, clock, sta, chan, dtype = tokens[1], tokens[2], tokens[3], tokens[4], tokens[d]
++        nsamp, rate, calib = int(tokens[d + 1]), float(tokens[d + 2]), float(tokens[d + 3])
++        k += 1
++        while not lines[k].startswith("DAT2"):
++            k += 1
++        body = []
++        k += 1
++        while not lines[k].startswith("CHK2"):
++            body.append(lines[k].strip())
++            k += 1
++        checksum = int(lines[k].split()[1])
++        if dtype == "CM6":
++            counts = decode_cm6("".join(body), nsamp)
++        elif dtype == "INT":
++            counts = np.array(" ".join(body).split(), dtype=np.int64)[:nsamp]
++        else:
++            raise ValueError(f"{path}: {dtype} not supported")
++        if gse_checksum(counts) != checksum:
++            raise ValueError(f"{path}: {sta} {chan} fails its CHK2 checksum; the data are not decoded correctly")
++        t0 = np.datetime64(f"{day.replace('/', '-')}T{clock}", "ns")
++        calib = calib if calib != 0 else 1.0
++        out.append(_single(sta, chan, t0, rate, counts * calib * pa_per_unit,
++                           f"IMS2.0 {Path(path).name}: {sta} {chan} {dtype}, CHK2 ok, calib {calib} x {pa_per_unit} Pa/unit"))
++    return out
++
++
++def _steim(words: np.ndarray, n: int, level: int) -> np.ndarray:
++    """Steim-1/2 frames (16 big-endian words each) to n integers, checked against the reverse constant."""
++    frames = words.reshape(-1, 16).astype(np.int64)
++    x0, xn = int(np.int32(frames[0, 1])), int(np.int32(frames[0, 2]))
++
++    def signed(v: int, bits: int) -> int:
++        return v - (1 << bits) if v & (1 << (bits - 1)) else v
++
++    diffs: list[int] = []
++    for f, frame in enumerate(frames):
++        nibbles = int(frame[0])
++        for i in range(1, 16):
++            c, w = (nibbles >> (30 - 2 * i)) & 3, int(frame[i]) & 0xFFFFFFFF
++            if c == 0 or (f == 0 and i < 3):
++                continue
++            if c == 1:
++                diffs += [signed((w >> s) & 0xFF, 8) for s in (24, 16, 8, 0)]
++            elif level == 1:
++                layout = (2, 16) if c == 2 else (1, 32)
++                diffs += [signed((w >> (32 - layout[1] * (j + 1))) & ((1 << layout[1]) - 1), layout[1]) for j in range(layout[0])]
++            else:
++                dnib = w >> 30
++                count, bits = {(2, 1): (1, 30), (2, 2): (2, 15), (2, 3): (3, 10),
++                               (3, 0): (5, 6), (3, 1): (6, 5), (3, 2): (7, 4)}[(c, dnib)]
++                diffs += [signed((w >> (bits * (count - 1 - j))) & ((1 << bits) - 1), bits) for j in range(count)]
++    x = x0 + np.concatenate([[0], np.cumsum(diffs[1:n])])
++    if x[-1] != xn:
++        raise ValueError("Steim reverse integration constant does not match; record not decoded correctly")
++    return x
++
++
++def read_mseed(path: Path, pa_per_count: float) -> list[Trace]:
++    """miniSEED (SEED 2.4 data records with blockette 1000): int16/int32/float32/float64 and Steim-1/2.
++    miniSEED carries no calibration, so `pa_per_count` must come from the station response."""
++    raw = Path(path).read_bytes()
++    pieces: dict[tuple, list] = {}
++    offset = 0
++    while offset + 48 <= len(raw):
++        head = raw[offset:offset + 48]
++        order = ">" if 1900 <= int.from_bytes(head[20:22], "big") <= 2100 else "<"
++        u16 = lambda b: int.from_bytes(b, "big" if order == ">" else "little")
++        year, day = u16(head[20:22]), u16(head[22:24])
++        hour, minute, second, frac = head[24], head[25], head[26], u16(head[28:30])
++        nsamp, factor, mult = u16(head[30:32]), np.int16(u16(head[32:34])), np.int16(u16(head[34:36]))
++        correction = int.from_bytes(head[40:44], "big" if order == ">" else "little", signed=True)
++        data_start, blockette = u16(head[44:46]), u16(head[46:48])
++        encoding, length, micro = None, None, 0
++        while blockette:
++            kind, following = u16(raw[offset + blockette:offset + blockette + 2]), u16(raw[offset + blockette + 2:offset + blockette + 4])
++            if kind == 1000:
++                encoding, length = raw[offset + blockette + 4], 1 << raw[offset + blockette + 6]
++            elif kind == 1001:
++                micro = int(np.int8(raw[offset + blockette + 5]))
++            blockette = following
++        if length is None:
++            raise ValueError(f"{path}: record at byte {offset} has no blockette 1000")
++        rate = (factor * mult if mult > 0 else -factor / mult) if factor > 0 else (-mult / factor if mult > 0 else 1 / (factor * mult))
++        data = raw[offset + data_start:offset + length]
++        if encoding in (10, 11):
++            counts = _steim(np.frombuffer(data[: len(data) // 64 * 64], ">u4"), nsamp, 1 if encoding == 10 else 2)
++        else:
++            dtype = {1: "i2", 3: "i4", 4: "f4", 5: "f8"}[encoding]
++            counts = np.frombuffer(data, order + dtype, nsamp)
++        start = (np.datetime64(f"{year:04d}-01-01", "ns") + np.timedelta64(day - 1, "D") + np.timedelta64(hour, "h")
++                 + np.timedelta64(minute, "m") + np.timedelta64(second, "s") + np.timedelta64(frac * 100_000 + micro * 1000, "ns"))
++        if not head[36] & 0x02:
++            start += np.timedelta64(correction * 100_000, "ns")
++        code = (head[8:13].decode().strip(), head[15:18].decode().strip())
++        pieces.setdefault(code, []).append((start, float(rate), np.asarray(counts, float)))
++        offset += length
++    out = []
++    for (sta, chan), records in pieces.items():
++        records.sort(key=lambda r: r[0])
++        start, rate, parts = records[0][0], records[0][1], [records[0][2]]
++        for t, r, x in records[1:]:
++            expected = start + np.timedelta64(int(round(sum(p.size for p in parts) / rate * 1e9)), "ns")
++            if abs((t - expected) / np.timedelta64(1, "ns")) > 0.5e9 / rate:
++                out.append(_single(sta, chan, start, rate, np.concatenate(parts) * pa_per_count, f"miniSEED {Path(path).name}"))
++                start, parts = t, []
++            parts.append(x)
++        out.append(_single(sta, chan, start, rate, np.concatenate(parts) * pa_per_count,
++                           f"miniSEED {Path(path).name}: {sta} {chan}, {pa_per_count} Pa/count"))
++    return out
++
++
++def triad(traces: list[Trace], station: str) -> Trace:
++    """Stack three element traces (same rate) on their common time span into one triad Trace."""
++    fs = traces[0].fs
++    start = max(t.t0 for t in traces)
++    stop = min(t.t0 + np.timedelta64(int(t.p.shape[1] / fs * 1e9), "ns") for t in traces)
++    parts = [t.window(start, stop) for t in traces]
++    n = min(p.p.shape[1] for p in parts)
++    if max(abs((p.t0 - start) / np.timedelta64(1, "ns")) for p in parts) > 0.5e9 / fs:
++        raise ValueError(f"{station}: element start times are not sample-aligned")
++    return Trace(station=station, channels=[c for p in parts for c in p.channels],
++                 lat=np.concatenate([p.lat for p in parts]), lon=np.concatenate([p.lon for p in parts]),
++                 t0=start, fs=fs, p=np.vstack([p.p[:, :n] for p in parts]), note="; ".join(p.note for p in parts))
+diff --git a/hypotheses/hydroacoustics/preregistration.toml b/hypotheses/hydroacoustics/preregistration.toml
+new file mode 100644
+index 0000000..aed3562
+--- /dev/null
++++ b/hypotheses/hydroacoustics/preregistration.toml
+@@ -0,0 +1,136 @@
++# Pre-registered hydroacoustic search. Committed before any in-window data were opened; the git
++# history is the record. A change after in-window data are opened must be a new, dated entry
++# in [[amendment]] that says what was seen first. The numbers below are used by prepare/.
++registered = "2026-09-26"
++
++[windows]
++# Windows are built by rule, so a new impact posterior updates them without choices.
++rule = """
++For each station, and for each 00:19 data option the end-of-flight stage offers:
++- time window: the 0.25 % to 99.75 % weighted quantiles of the predicted arrival window
++  (arrival_early_unix_s, arrival_late_unix_s) over the impact posterior, widened by
++  timing_pad_s on both sides;
++- bearing window (triads only): the same quantiles of back_azimuth_deg, widened by
++  bearing_pad_deg on both sides.
++Predictions come from `mh370 evaluate` with run.toml."""
++# 3 x 3 s: clock, onset pick and path. Blackman et al. (2004) found arrivals within a few
++# seconds of 1.49 km/s along the geodesic.
++timing_pad_s = 9.0
++# 3 x 1 deg: the TGS survey showed a 0.6 deg bias at H08S (Curtin 2014-30). Heavier tails
++# (3.3 deg demonstrated, up to 30 deg for weak arrivals) are reported as a sensitivity,
++# not searched.
++bearing_pad_deg = 3.0
++# Until the conservative envelope from the stand-in posterior is committed (next entry), no
++# data inside this interval are opened. The interval covers any 7th-arc impact up to 00:55
++# UTC (a glide from 00:19 longer than a B777's) reaching any station up to 6,500 km away at
++# 1.478 km/s. That includes the Portland loggers (see amendment 1).
++quarantine_utc = ["2014-03-08T00:19:37Z", "2014-03-08T02:10:00Z"]
++
++[windows.stand_in]
++# Conservative envelope until end-of-flight impact samples exist: base-run (davey2016)
++# final.npy positions at 00:19:37, each moved by a uniform random distance of 0-250 km in a
++# uniform random direction, impact time uniform on 00:19:37-00:55:00 UTC, kinetic energy
++# not used (prepare/stand_in.py, seed 20260926, 20,000 samples).
++# Computed 2026-09-28 by `mh370 evaluate` (core/stages 197fd64, the module adapted to its API)
++# on stand-in-impacts.csv (sha256 e95d5d5e69eafc76...), giving evaluate.csv (sha256 9e6d52ea66af5669...), with the rule
++# above (prepare/package.py windows). Every window lies inside the quarantine.
++envelope = [
++  { station = "H01W", utc = ["2014-03-08T00:42:49Z", "2014-03-08T01:24:02Z"], back_azimuth_deg = [242.59, 298.13], blocked_fraction = 0.0 },
++  { station = "H08S", utc = ["2014-03-08T00:59:49Z", "2014-03-08T01:38:19Z"], back_azimuth_deg = [128.64, 168.23], blocked_fraction = 0.2 },
++  { station = "3315", utc = ["2014-03-08T00:44:31Z", "2014-03-08T01:26:17Z"], blocked_fraction = 0.0 },
++  { station = "3376", utc = ["2014-03-08T00:44:32Z", "2014-03-08T01:26:19Z"], blocked_fraction = 0.0 },
++  { station = "3250", utc = ["2014-03-08T01:00:26Z", "2014-03-08T01:44:08Z"], blocked_fraction = 1.0 },
++  { station = "3274", utc = ["2014-03-08T01:08:23Z", "2014-03-08T01:48:36Z"], blocked_fraction = 0.007 },
++  { station = "3275", utc = ["2014-03-08T01:08:21Z", "2014-03-08T01:48:34Z"], blocked_fraction = 0.004 },
++]
++
++[bands]
++hz = [[2.0, 5.0], [5.0, 10.0], [10.0, 20.0], [20.0, 40.0]]
++# Zero-phase Butterworth, order 4 each way: the |H|^2 response of forward-backward filtering.
++butterworth_order = 4
++
++[detector]
++# D1, every hydrophone and band:
++#   E(t) = mean of p^2 over a running window of energy_window_s.
++#   B(t) = median of E over [t - 60, t - 10] and [t + 10, t + 60] s.
++#   S(t) = 10 log10(E / B).
++# A detection is a local maximum of S at or above the band threshold, at least 10 s from a
++# larger one. Its time is the maximum of E and its SNR is S there. Data within edge_s of a
++# record end are not searched.
++energy_window_s = 4.0
++background_s = [10.0, 60.0]
++separation_s = 10.0
++edge_s = 5.0
++# D2, triads only (Kadri runs it, or we do if IMS data become available):
++# - Plane-wave fit to cross-correlation lags between the three hydrophones, in the band of
++#   the D1 detection, over the detection +/- energy_window_s.
++# - Keep the detection only if the apparent speed is within apparent_speed_km_s and the lag
++#   closure residual is at most closure_s (Curtin 2014-30's acceptance criteria).
++# - Delay-and-sum beams, steered every 0.5 deg across the bearing window at 1.485 km/s, then
++#   run D1 on each beam.
++apparent_speed_km_s = [1.42, 1.55]
++closure_s = 0.010
++
++[threshold]
++# Per station and band: the S level whose exceedances (local maxima as above) occur once per
++# 4 hours in the same station's background records, so the four bands together give about
++# one false alarm per hour. Backgrounds exclude the quarantine interval and the known events
++# listed in [controls]. Computed before any in-window data are opened.
++false_alarms_per_hour_per_band = 0.25
++
++[match]
++# A detection matches an impact sample if its time is inside that sample's arrival window
++# widened by timing_pad_s. For triads its bearing must also be within bearing_pad_deg of the
++# sample's back-azimuth.
++rule = "time within arrival window +/- timing_pad_s; triads also bearing within +/- bearing_pad_deg"
++
++[backgrounds]
++# Background rate lambda of matching detections, from:
++# - the same station outside the window: +/- 6 h in window-length steps (IMOS: every record
++#   on 8-9 March outside the quarantine);
++# - the same UTC window on other nights: 1-14 March 2014 (IMOS: logger 3376's deployment on
++#   AODN, PAPCA/3376);
++# - triads: off-bearing windows, the bearing window rotated in 10 deg steps;
++# - cross-station coincidences: time slides of whole hours.
++same_station_hours = 6.0
++other_nights = ["2014-03-01", "2014-03-14"]
++off_bearing_step_deg = 10.0
++
++[injection]
++# Synthetic impact signal added to real background records:
++# - 2-40 Hz band-limited Gaussian noise under a Hann envelope, with a duration of
++#   2 s + 1.2 s per 1000 km (the module's received duration);
++# - scaled to a stated broadband exposure (dB re 1 uPa^2 s);
++# - triads: delayed per hydrophone for a plane wave at 1.485 km/s from the stated bearing.
++# P_D is the fraction recovered by D1 (and D2) within timing_pad_s of the injected time, per
++# 2 dB exposure step. Timing and bearing errors are recorded.
++exposure_step_db = 2.0
++injections_per_step = 200
++
++[controls]
++# Positive controls (published arrivals). The detector must find each within 5 s.
++# 3315 is Curtin's RCS; its records are 25.8 s drift-corrected (IMOSFilesLocation3315.txt).
++events = [
++  { station = "3315", utc = "2014-03-08T05:03:01Z", note = "HA01 04:59:21, bearing 210.2 deg (Curtin 2014-30, Table 3)" },
++  { station = "3315", utc = "2014-03-08T05:18:13Z", note = "HA01 05:14:28, bearing 208.5 deg, weaker (Curtin 2014-30, Table 3)" },
++  { station = "3315", utc = "2014-03-08T01:33:44Z", note = "HA01 01:34:50, bearing 301.6 deg; ATSB: likely geological. Opened after the envelope is committed" },
++]
++
++[[amendment]]
++date = "2026-09-26"
++change = """Added the IMOS Portland shelf loggers 3274 and 3275 (AODN Portland_MH370.zip) as stations.
++Moved the quarantine end from 01:45 to 02:10 UTC so it also covers their 4,500-5,500 km
++ranges. No in-window data had been opened for any station: only the Portland zip's file list
++and metadata had been read."""
++
++[[amendment]]
++date = "2026-09-26"
++change = """Data-quality screen: a record with a run of identical A/D counts lasting 0.1 s or more, or an
++A/D mean more than 10,000 counts from mid-scale, is excluded from background, search and injection
++alike (prepare/waveforms.py, dropout). Found because one 3315 record (14:45 UTC on 8 March,
++counts 511-895 with 305 s of constant runs) produced every background peak above S = 33 dB and
++so set the 3315 thresholds. Also, each control's own S and the background rate of peaks at
++least that high are now reported. Before this amendment, at the registered thresholds, the two
++3315 controls (05:03:01 and 05:18:13) were not found: their S is 10-17 dB against thresholds of
++27-36 dB. No in-window data had been opened."""
++
+diff --git a/hypotheses/hydroacoustics/propagation.rs b/hypotheses/hydroacoustics/propagation.rs
+new file mode 100644
+index 0000000..1686185
+--- /dev/null
++++ b/hypotheses/hydroacoustics/propagation.rs
+@@ -0,0 +1,120 @@
++//! Source level, transmission loss and received level, per frequency band.
++//!
++//! Received exposure in band b (dB re 1 uPa^2 s) is SEL_b = ESL_b - TL_b.
++//! - ESL_b is the energy source level at 1 m of a monopole that radiates eta x KE, with a
++//!   flat energy spectrum over 2-40 Hz.
++//! - TL_b is Blackman et al.'s measured air9 loss for the station, moved to the impact's
++//!   range by cylindrical spreading, plus a site-coupling term (see `SiteCoupling`).
++//!
++//! Peak pressure = CREST x sqrt(exposure / duration). The received duration grows with range
++//! through multipath dispersion.
++
++pub const BANDS: [(f64, f64); 4] = [(2.0, 5.0), (5.0, 10.0), (10.0, 20.0), (20.0, 40.0)];
++const SPECTRUM: (f64, f64) = (2.0, 40.0);
++/// Seawater impedance, kg m^-2 s^-1 (1026 kg/m^3 x 1500 m/s).
++const RHO_C: f64 = 1.539e6;
++/// Peak over RMS pressure within the received signal duration.
++pub const CREST: f64 = 3.0;
++
++/// Received signal duration (s): 2 s plus 1.2 s per 1000 km. This gives the ~6 s F-35 pulse at
++/// 3,300 km (Kadri 2024) and the few-second to >5 s airgun wavetrains of Blackman et al.
++pub fn duration_s(range_km: f64) -> f64 {
++    2.0 + 1.2e-3 * range_km
++}
++
++/// ESL_b (dB re 1 uPa^2 s m^2) of a monopole radiating `energy_j` over 2-40 Hz.
++pub fn energy_source_level_db(energy_j: f64, band: (f64, f64)) -> f64 {
++    let fraction = (band.1 - band.0) / (SPECTRUM.1 - SPECTRUM.0);
++    10.0 * (RHO_C * energy_j * fraction / (4.0 * std::f64::consts::PI)).log10() + 120.0
++}
++
++/// Measured transmission loss from air9 (Blackman et al. 2004, Fig. 23), energy-averaged per band.
++#[derive(Debug, Clone, Copy)]
++pub struct Calibration {
++    /// Geodesic range from air9 to the station, km.
++    pub range_km: f64,
++    pub tl_db: [f64; 4],
++    pub sd_db: [f64; 4],
++}
++
++/// Standard deviations (dB) that make up a band's TL uncertainty.
++const SD_DIGITISED: f64 = 1.0; // reading Fig. 23, and the shot-to-shot median
++const SD_OTHER_PATH: f64 = 3.0; // another path to the same station: air7 vs air9 differ by 1-3 dB
++const SD_EXTRAPOLATED: f64 = 6.0; // band with no measured frequencies, taken from its neighbour
++
++impl Calibration {
++    /// Band TL from one column of the digitised table. A band where the measurement covers
++    /// less than half the band is borrowed from the nearest measured band, with extra s.d.
++    pub fn from_table(range_km: f64, rows: &[(f64, f64)]) -> Calibration {
++        let mut measured = [None; 4];
++        for (k, &(lo, hi)) in BANDS.iter().enumerate() {
++            let in_band: Vec<&(f64, f64)> = rows.iter().filter(|(f, _)| *f >= lo && *f < hi).collect();
++            let values: Vec<f64> = in_band.iter().map(|r| r.1).collect();
++            let covered = match (in_band.first(), in_band.last()) {
++                (Some(first), Some(last)) => (last.0 - first.0) / (hi - lo),
++                _ => 0.0,
++            };
++            if covered >= 0.5 {
++                let energy = values.iter().map(|tl| 10f64.powf(-tl / 10.0)).sum::<f64>() / values.len() as f64;
++                let mean = values.iter().sum::<f64>() / values.len() as f64;
++                let spread = (values.iter().map(|v| (v - mean).powi(2)).sum::<f64>() / values.len() as f64).sqrt();
++                measured[k] = Some((-10.0 * energy.log10(), spread));
++            }
++        }
++        let mut tl_db = [0.0; 4];
++        let mut sd_db = [0.0; 4];
++        for k in 0..4 {
++            let (source, extra) = match measured[k] {
++                Some(m) => (m, 0.0),
++                None => {
++                    let nearest = (0..4).filter(|&j| measured[j].is_some()).min_by_key(|&j| j.abs_diff(k)).unwrap();
++                    (measured[nearest].unwrap(), SD_EXTRAPOLATED)
++                }
++            };
++            tl_db[k] = source.0;
++            sd_db[k] = (SD_DIGITISED.powi(2) + source.1.powi(2) + SD_OTHER_PATH.powi(2) + extra.powi(2)).sqrt();
++        }
++        Calibration { range_km, tl_db, sd_db }
++    }
++
++    /// TL (dB) for a favourable source site at another range: cylindrical spreading from the
++    /// calibration range. Absorption is below 0.2 dB per 1000 km at 40 Hz (Ainslie & McColm
++    /// 1998) and is neglected.
++    pub fn tl_at(&self, band: usize, range_km: f64) -> f64 {
++        self.tl_db[band] + 10.0 * (range_km / self.range_km).log10()
++    }
++}
++
++/// How well an impact site couples into the sound channel, relative to air9. air9 was chosen
++/// for favourable coupling (Blackman et al. 2004, sec. 1.2), and so was the F-35 site, on the
++/// Japan Trench slope with a shallow channel (Brown et al. 2026). A surface source over a deep,
++/// flat seabed couples worse. Duncan & Dall'Osto (2023, abstract) model an MH370 path to HA01
++/// 20-30 dB below the F-35's.
++#[derive(Debug, Clone, Copy)]
++pub struct SiteCoupling {
++    pub loss_db: f64,
++    pub sd_db: f64,
++}
++
++/// Broadband (2-40 Hz) peak pressure (Pa) from band exposures (dB re 1 uPa^2 s).
++pub fn peak_pa(sel_db: &[f64; 4], range_km: f64) -> f64 {
++    let exposure_pa2s: f64 = sel_db.iter().map(|s| 10f64.powf(s / 10.0) * 1e-12).sum();
++    CREST * (exposure_pa2s / duration_s(range_km)).sqrt()
++}
++
++/// Brown et al. (2026): F-35A, 9 Apr 2019, 900 +/- 200 MJ at impact, 0.7 Pa peak at H11
++/// (Wake Island), 3,300 km, on a clear path from a favourable site.
++pub const F35_ENERGY_J: f64 = 900e6;
++pub const F35_PEAK_PA: f64 = 0.7;
++pub const F35_RANGE_KM: f64 = 3300.0;
++
++/// eta that reproduces the F-35 peak in this chain. The F-35 site is favourable (no coupling
++/// loss) and its path TL is the mean of the air9 calibrations moved to 3,300 km.
++pub fn f35_eta(calibrations: &[Calibration], energy_j: f64) -> f64 {
++    let mut sel = [0.0; 4];
++    for (k, band) in BANDS.iter().enumerate() {
++        let tl = calibrations.iter().map(|c| c.tl_at(k, F35_RANGE_KM)).sum::<f64>() / calibrations.len() as f64;
++        sel[k] = energy_source_level_db(energy_j, *band) - tl;
++    }
++    (F35_PEAK_PA / peak_pa(&sel, F35_RANGE_KM)).powi(2)
++}
+diff --git a/hypotheses/hydroacoustics/run.toml b/hypotheses/hydroacoustics/run.toml
+new file mode 100644
+index 0000000..e8b2a7b
+--- /dev/null
++++ b/hypotheses/hydroacoustics/run.toml
+@@ -0,0 +1,20 @@
++# Base estimate plus the hydroacoustic predictions. The module adds zero log-likelihood, so the
++# estimate equals the base; the run is for evaluating predictions on impact samples.
++base = "../../config/davey2016.toml"
++name = "hydroacoustics"
++
++[hypotheses.hydroacoustics]
++bathymetry = "data/external/bathymetry/etopo2022-1min-50S5N-55E145E.i16"
++celerity_km_s = [1.478, 1.492]
++energy_basis = "total"
++# Coupling loss of the impact site relative to air9, and its s.d. (dB): between air9-like
++# favourable coupling (0) and Duncan & Dall'Osto's 20-30 dB for an MH370 path to HA01.
++site_coupling_db = 15.0
++site_coupling_sd_db = 10.0
++blocking_depth_m = 1000.0
++
++# The module acts on impact samples (predictions only; its log-likelihood is zero).
++[[compose]]
++id = "hydroacoustics"
++modules = ["hydroacoustics"]
++
+diff --git a/hypotheses/hydroacoustics/stations.toml b/hypotheses/hydroacoustics/stations.toml
+new file mode 100644
+index 0000000..5ef0c7c
+--- /dev/null
++++ b/hypotheses/hydroacoustics/stations.toml
+@@ -0,0 +1,70 @@
++# Receivers used by the hydroacoustics module and its prepare/ scripts. One source per network.
++#
++# IMS hydrophones: ISC International Registry of Seismograph Stations, queried 2026-09-25
++# (http://www.isc.ac.uk/cgi-bin/stations?stnsearch=STN&sta_list=H01W1,H01W2,H01W3,H08S1,H08S2,H08S3).
++# `seafloor_m` is the registry elevation (negative below sea level). `depth_m` is its depth
++# field, read as the hydrophone depth below the surface. The hydrophones are moored about
++# 450 m above the seabed, near the sound-channel axis.
++#
++# IMOS loggers: Curtin CMST metadata in MH370.zip (3315_3250_3376__MetaData.txt) and in
++# Portland_MH370.zip (MetaData_3274_3275.txt), both on AODN. The hydrophones lie on the seabed
++# (IMOS_MH370_DataOverview.doc). Water depth:
++# - 450 m for 3315 (Curtin report 2014-30, "RCS");
++# - 216 m for 3250 (metadata);
++# - from ETOPO 2022 where Curtin did not note it: 410 m for 3376, and 146 m and 173 m for the
++#   Portland shelf loggers 3274 and 3275.
++#
++# H08N is left out: Blackman et al. (2004) found the paths from sites air6-air9 to it blocked.
++
++[[station]]
++id = "H01W"
++name = "Cape Leeuwin, IMS HA01 (triad)"
++elements = [
++  { id = "H01W1", lat = -34.89300, lon = 114.15400, depth_m = 1063.0, seafloor_m = -1535.0 },
++  { id = "H01W2", lat = -34.89850, lon = 114.13380, depth_m = 1046.0, seafloor_m = -1616.0 },
++  { id = "H01W3", lat = -34.88320, lon = 114.13610, depth_m = 1056.0, seafloor_m = -1522.0 },
++]
++
++[[station]]
++id = "H08S"
++name = "Diego Garcia south, IMS HA08 (triad)"
++elements = [
++  { id = "H08S1", lat = -7.64530, lon = 72.47440, depth_m = 1413.0, seafloor_m = -1889.0 },
++  { id = "H08S2", lat = -7.64530, lon = 72.49330, depth_m = 1356.0, seafloor_m = -1918.0 },
++  { id = "H08S3", lat = -7.62750, lon = 72.48380, depth_m = 1359.0, seafloor_m = -1776.0 },
++]
++
++[[station]]
++id = "3315"
++name = "Perth Canyon, IMOS logger 3315 (Curtin's RCS)"
++elements = [
++  { id = "3315", lat = -31.8672167, lon = 115.0011333, depth_m = 450.0, seafloor_m = -450.0 },
++]
++
++[[station]]
++id = "3376"
++name = "Perth Canyon, IMOS logger 3376 (records staggered 5 min from 3315)"
++elements = [
++  { id = "3376", lat = -31.8421667, lon = 115.0137333, depth_m = 410.0, seafloor_m = -410.0 },
++]
++
++[[station]]
++id = "3250"
++name = "Scott Reef, IMOS logger 3250"
++elements = [
++  { id = "3250", lat = -15.4833667, lon = 121.2510000, depth_m = 216.0, seafloor_m = -216.0 },
++]
++
++[[station]]
++id = "3274"
++name = "Portland (Victoria) shelf, IMOS logger 3274"
++elements = [
++  { id = "3274", lat = -38.5369667, lon = 141.2475667, depth_m = 146.0, seafloor_m = -146.0 },
++]
++
++[[station]]
++id = "3275"
++name = "Portland (Victoria) shelf, IMOS logger 3275 (records staggered from 3274)"
++elements = [
++  { id = "3275", lat = -38.5424333, lon = 141.2255833, depth_m = 173.0, seafloor_m = -173.0 },
++]

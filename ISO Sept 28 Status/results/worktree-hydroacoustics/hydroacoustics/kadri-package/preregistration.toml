@@ -1,0 +1,136 @@
+# Pre-registered hydroacoustic search. Committed before any in-window data were opened; the git
+# history is the record. A change after in-window data are opened must be a new, dated entry
+# in [[amendment]] that says what was seen first. The numbers below are used by prepare/.
+registered = "2026-09-26"
+
+[windows]
+# Windows are built by rule, so a new impact posterior updates them without choices.
+rule = """
+For each station, and for each 00:19 data option the end-of-flight stage offers:
+- time window: the 0.25 % to 99.75 % weighted quantiles of the predicted arrival window
+  (arrival_early_unix_s, arrival_late_unix_s) over the impact posterior, widened by
+  timing_pad_s on both sides;
+- bearing window (triads only): the same quantiles of back_azimuth_deg, widened by
+  bearing_pad_deg on both sides.
+Predictions come from `mh370 evaluate` with run.toml."""
+# 3 x 3 s: clock, onset pick and path. Blackman et al. (2004) found arrivals within a few
+# seconds of 1.49 km/s along the geodesic.
+timing_pad_s = 9.0
+# 3 x 1 deg: the TGS survey showed a 0.6 deg bias at H08S (Curtin 2014-30). Heavier tails
+# (3.3 deg demonstrated, up to 30 deg for weak arrivals) are reported as a sensitivity,
+# not searched.
+bearing_pad_deg = 3.0
+# Until the conservative envelope from the stand-in posterior is committed (next entry), no
+# data inside this interval are opened. The interval covers any 7th-arc impact up to 00:55
+# UTC (a glide from 00:19 longer than a B777's) reaching any station up to 6,500 km away at
+# 1.478 km/s. That includes the Portland loggers (see amendment 1).
+quarantine_utc = ["2014-03-08T00:19:37Z", "2014-03-08T02:10:00Z"]
+
+[windows.stand_in]
+# Conservative envelope until end-of-flight impact samples exist: base-run (davey2016)
+# final.npy positions at 00:19:37, each moved by a uniform random distance of 0-250 km in a
+# uniform random direction, impact time uniform on 00:19:37-00:55:00 UTC, kinetic energy
+# not used (prepare/stand_in.py, seed 20260926, 20,000 samples).
+# Computed 2026-09-28 by `mh370 evaluate` (core/stages 197fd64, the module adapted to its API)
+# on stand-in-impacts.csv (sha256 e95d5d5e69eafc76...), giving evaluate.csv (sha256 9e6d52ea66af5669...), with the rule
+# above (prepare/package.py windows). Every window lies inside the quarantine.
+envelope = [
+  { station = "H01W", utc = ["2014-03-08T00:42:49Z", "2014-03-08T01:24:02Z"], back_azimuth_deg = [242.59, 298.13], blocked_fraction = 0.0 },
+  { station = "H08S", utc = ["2014-03-08T00:59:49Z", "2014-03-08T01:38:19Z"], back_azimuth_deg = [128.64, 168.23], blocked_fraction = 0.2 },
+  { station = "3315", utc = ["2014-03-08T00:44:31Z", "2014-03-08T01:26:17Z"], blocked_fraction = 0.0 },
+  { station = "3376", utc = ["2014-03-08T00:44:32Z", "2014-03-08T01:26:19Z"], blocked_fraction = 0.0 },
+  { station = "3250", utc = ["2014-03-08T01:00:26Z", "2014-03-08T01:44:08Z"], blocked_fraction = 1.0 },
+  { station = "3274", utc = ["2014-03-08T01:08:23Z", "2014-03-08T01:48:36Z"], blocked_fraction = 0.007 },
+  { station = "3275", utc = ["2014-03-08T01:08:21Z", "2014-03-08T01:48:34Z"], blocked_fraction = 0.004 },
+]
+
+[bands]
+hz = [[2.0, 5.0], [5.0, 10.0], [10.0, 20.0], [20.0, 40.0]]
+# Zero-phase Butterworth, order 4 each way: the |H|^2 response of forward-backward filtering.
+butterworth_order = 4
+
+[detector]
+# D1, every hydrophone and band:
+#   E(t) = mean of p^2 over a running window of energy_window_s.
+#   B(t) = median of E over [t - 60, t - 10] and [t + 10, t + 60] s.
+#   S(t) = 10 log10(E / B).
+# A detection is a local maximum of S at or above the band threshold, at least 10 s from a
+# larger one. Its time is the maximum of E and its SNR is S there. Data within edge_s of a
+# record end are not searched.
+energy_window_s = 4.0
+background_s = [10.0, 60.0]
+separation_s = 10.0
+edge_s = 5.0
+# D2, triads only (Kadri runs it, or we do if IMS data become available):
+# - Plane-wave fit to cross-correlation lags between the three hydrophones, in the band of
+#   the D1 detection, over the detection +/- energy_window_s.
+# - Keep the detection only if the apparent speed is within apparent_speed_km_s and the lag
+#   closure residual is at most closure_s (Curtin 2014-30's acceptance criteria).
+# - Delay-and-sum beams, steered every 0.5 deg across the bearing window at 1.485 km/s, then
+#   run D1 on each beam.
+apparent_speed_km_s = [1.42, 1.55]
+closure_s = 0.010
+
+[threshold]
+# Per station and band: the S level whose exceedances (local maxima as above) occur once per
+# 4 hours in the same station's background records, so the four bands together give about
+# one false alarm per hour. Backgrounds exclude the quarantine interval and the known events
+# listed in [controls]. Computed before any in-window data are opened.
+false_alarms_per_hour_per_band = 0.25
+
+[match]
+# A detection matches an impact sample if its time is inside that sample's arrival window
+# widened by timing_pad_s. For triads its bearing must also be within bearing_pad_deg of the
+# sample's back-azimuth.
+rule = "time within arrival window +/- timing_pad_s; triads also bearing within +/- bearing_pad_deg"
+
+[backgrounds]
+# Background rate lambda of matching detections, from:
+# - the same station outside the window: +/- 6 h in window-length steps (IMOS: every record
+#   on 8-9 March outside the quarantine);
+# - the same UTC window on other nights: 1-14 March 2014 (IMOS: logger 3376's deployment on
+#   AODN, PAPCA/3376);
+# - triads: off-bearing windows, the bearing window rotated in 10 deg steps;
+# - cross-station coincidences: time slides of whole hours.
+same_station_hours = 6.0
+other_nights = ["2014-03-01", "2014-03-14"]
+off_bearing_step_deg = 10.0
+
+[injection]
+# Synthetic impact signal added to real background records:
+# - 2-40 Hz band-limited Gaussian noise under a Hann envelope, with a duration of
+#   2 s + 1.2 s per 1000 km (the module's received duration);
+# - scaled to a stated broadband exposure (dB re 1 uPa^2 s);
+# - triads: delayed per hydrophone for a plane wave at 1.485 km/s from the stated bearing.
+# P_D is the fraction recovered by D1 (and D2) within timing_pad_s of the injected time, per
+# 2 dB exposure step. Timing and bearing errors are recorded.
+exposure_step_db = 2.0
+injections_per_step = 200
+
+[controls]
+# Positive controls (published arrivals). The detector must find each within 5 s.
+# 3315 is Curtin's RCS; its records are 25.8 s drift-corrected (IMOSFilesLocation3315.txt).
+events = [
+  { station = "3315", utc = "2014-03-08T05:03:01Z", note = "HA01 04:59:21, bearing 210.2 deg (Curtin 2014-30, Table 3)" },
+  { station = "3315", utc = "2014-03-08T05:18:13Z", note = "HA01 05:14:28, bearing 208.5 deg, weaker (Curtin 2014-30, Table 3)" },
+  { station = "3315", utc = "2014-03-08T01:33:44Z", note = "HA01 01:34:50, bearing 301.6 deg; ATSB: likely geological. Opened after the envelope is committed" },
+]
+
+[[amendment]]
+date = "2026-09-26"
+change = """Added the IMOS Portland shelf loggers 3274 and 3275 (AODN Portland_MH370.zip) as stations.
+Moved the quarantine end from 01:45 to 02:10 UTC so it also covers their 4,500-5,500 km
+ranges. No in-window data had been opened for any station: only the Portland zip's file list
+and metadata had been read."""
+
+[[amendment]]
+date = "2026-09-26"
+change = """Data-quality screen: a record with a run of identical A/D counts lasting 0.1 s or more, or an
+A/D mean more than 10,000 counts from mid-scale, is excluded from background, search and injection
+alike (prepare/waveforms.py, dropout). Found because one 3315 record (14:45 UTC on 8 March,
+counts 511-895 with 305 s of constant runs) produced every background peak above S = 33 dB and
+so set the 3315 thresholds. Also, each control's own S and the background rate of peaks at
+least that high are now reported. Before this amendment, at the registered thresholds, the two
+3315 controls (05:03:01 and 05:18:13) were not found: their S is 10-17 dB against thresholds of
+27-36 dB. No in-window data had been opened."""
+

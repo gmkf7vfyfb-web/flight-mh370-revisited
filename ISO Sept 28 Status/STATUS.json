@@ -1,0 +1,376 @@
+{
+ "snapshot": {
+  "date_utc": "2026-09-29",
+  "name": "ISO Sept 28 Status",
+  "built_by": "iso thread Modular Architecture (thr_4pbhvf3sxi)",
+  "code_main_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
+  "code_main_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+  "identity_note": "commit identities anonymised as 'MH370 iso agents <mh370-iso@invalid>'; code/commit-map.tsv maps original to published hashes",
+  "not_an_estimate": "no integrated impact estimate exists yet; stand-in and placeholder results are not evidence"
+ },
+ "architecture": {
+  "stages": [
+   "flight filter to 00:11 with stratified hand-off of the full posterior",
+   "end of flight: core dynamics to the module's takeover, module descents, runner scores selected 00:19 data",
+   "impact modules: log-likelihood or predictions per impact sample",
+   "composer: evidence sets, per-hypothesis results first, averages only beside prior sensitivity"
+  ],
+  "outputs": [
+   "water contact",
+   "acoustic source",
+   "wreckage resting place"
+  ],
+  "hooks": {
+   "filter": [
+    "adjust_prior",
+    "adjust_stratum_prior",
+    "extra_epochs",
+    "epoch_log_likelihood",
+    "final_log_likelihood"
+   ],
+   "after": [
+    "impact_log_likelihood",
+    "predict",
+    "Terminal: takeover_time, descend"
+   ],
+   "declarations": [
+    "observations (each once)",
+    "alternatives",
+    "absolute_scale",
+    "prediction_columns"
+   ]
+  },
+  "composition_rules": [
+   "likelihoods not posteriors, absolute scale declared",
+   "each observation once",
+   "shared impact samples, no private smoothing",
+   "no floors; NaN = not computed, filled neutrally, reported, excluded from comparisons above tolerance",
+   "accurate where the flight posterior has mass",
+   "ESS and split-half; unconverged reported as such",
+   "discrete choices by evidence or labelled sensitivities; no fixed-weight map averages",
+   "synthetic-recovery test and hand fixtures"
+  ]
+ },
+ "threads": [
+  {
+   "id": "thr_4pbhvf3sxi",
+   "title": "Modular Architecture",
+   "role": "architecture, reviews, merges, core requests; writes no module code",
+   "state": "reviews of composer, Pleiades, hydroacoustics and ocean transport interrupted by usage limits; to resume",
+   "next": [
+    "resume the four reviews",
+    "merge composer then reviewed modules",
+    "coordinate COSMO inputs and drift maps",
+    "remind Pete of deferred items at a stable engine to impact"
+   ]
+  },
+  {
+   "id": "thr_mgewhqvb78",
+   "title": "Investigate persistent agent issue",
+   "role": "core estimator (filter, dynamics, fuel, MH371 control); commits to main",
+   "code": {
+    "branch": "main",
+    "head_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
+    "head_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+    "commits_ahead_of_main": 0,
+    "commits_behind_main": 0
+   },
+   "state": "stratum fix committed (47ff1b1, 7d23084); corrected full base run (make report) in progress; MH371 control queued",
+   "next": [
+    "finish make report and swap runs/davey2016",
+    "MH371 blind control once",
+    "fuel state",
+    "feasible speed prior",
+    "00:11 vertical speed and descent onset",
+    "00:11 altitude bands"
+   ]
+  },
+  {
+   "id": "thr_6wkhvpqx8k",
+   "title": "Core stages & composer",
+   "role": "stage API, hand-off, end-of-flight stage, composer",
+   "code": {
+    "branch": "core/stages",
+    "head_original": "3833f971b0667264cf3fe3f6e562807584518260",
+    "head_published": "90201f91b4f63997e00ce578be434c8294191ab5",
+    "commits_ahead_of_main": 2,
+    "commits_behind_main": 4
+   },
+   "state": "M3-M5 and M7 on main; composer (M6) in review; neutral fill, family_groups, takeover docs and should-fix 1-7 in progress",
+   "next": [
+    "composer changes and merge",
+    "trajectory strata",
+    "transform-column mechanism for settling",
+    "diagnostics hook"
+   ]
+  },
+  {
+   "id": "thr_kaycpkjz9k",
+   "title": "End of flight",
+   "role": "terminal module",
+   "code": {
+    "branch": "hypothesis/end-of-flight",
+    "head_original": "3e11c2157151e2fb31faa9faab2b5efc9af70e39",
+    "head_published": "0c9b16c6928ccc2c413b044ae3e84e562bb8afca",
+    "commits_ahead_of_main": 11,
+    "commits_behind_main": 28
+   },
+   "state": "three endings with declared other-cause log-on rate lambda; latents uncommitted (code/uncommitted/end-of-flight.patch)",
+   "next": [
+    "latents",
+    "E5 integration with the real stage",
+    "per-hypothesis previews with ERA5",
+    "fuel-state exhaustion replaces placeholder windows"
+   ]
+  },
+  {
+   "id": "thr_faie5jqc7p",
+   "title": "Ocean drift",
+   "role": "shared transport crates/ocean, drift maps, GDP replay, debris ensembles",
+   "code": {
+    "branch": "core/ocean-transport",
+    "head_original": "25818b66cd159eec24f40860a4d32fd3185d7de5",
+    "head_published": "20a9fbd58eae305f80ef81275eb4a9b70581e293",
+    "commits_ahead_of_main": 13,
+    "commits_behind_main": 4
+   },
+   "state": "rebased, regress byte-identical; review pending",
+   "next": [
+    "review and merge",
+    "debris ensembles, 400 NM beyond / 200 NM inside the arc",
+    "21 March maps for COSMO once time known"
+   ]
+  },
+  {
+   "id": "thr_ec96wswyz6",
+   "title": "Pleiades",
+   "role": "satellite sightings: Pleiades 23 Mar, possible COSMO-SkyMed 21 Mar",
+   "code": {
+    "branch": "hypothesis/pleiades",
+    "head_original": "0cd3bade961c8cda4b9dd4eeea75884d898816ae",
+    "head_published": "e19ced94963efddb1a1142c1ea86c240a918a6bc",
+    "commits_ahead_of_main": 8,
+    "commits_behind_main": 4
+   },
+   "state": "review pending; exact Poisson rework (rate grid, Jeffreys background) on wip/pleiades-poisson",
+   "next": [
+    "apply review findings with the Poisson rework",
+    "rename to satellite-sightings",
+    "COSMO set with cosmo-time {00:00Z,12:00Z}",
+    "impact-free link test"
+   ]
+  },
+  {
+   "id": "thr_uduhvqttbk",
+   "title": "Searched areas",
+   "role": "seabed-search negative evidence",
+   "code": {
+    "branch": "hypothesis/seabed-search",
+    "head_original": "b73541afeaa039bd61fc04f865bdc51eaefffcc9",
+    "head_published": "da5eb41608c7e3d5a7ddd3fd08f4da8b4fd65b43",
+    "commits_ahead_of_main": 5,
+    "commits_behind_main": 4
+   },
+   "state": "approved; merges after composer",
+   "next": [
+    "merge",
+    "score resting positions from settling when available"
+   ]
+  },
+  {
+   "id": "thr_gbqx8u9yfp",
+   "title": "Hydroacoustics",
+   "role": "predictions, IMOS search, Kadri package",
+   "code": {
+    "branch": "hypothesis/hydroacoustics",
+    "head_original": "7141e5de98199370b2134cbd55c6885e81673678",
+    "head_published": "e12fea8a5473ffae1ef1d11d29688b5a02aa6274",
+    "commits_ahead_of_main": 14,
+    "commits_behind_main": 4
+   },
+   "state": "staged scope done; review pending; next steps await Pete",
+   "next": [
+    "Pete's decision: widen windows, Blackman calibration, IMOS weak likelihood",
+    "Kadri package review by Pete; nothing sent without him"
+   ]
+  },
+  {
+   "id": "thr_7e786pehut",
+   "title": "Ocean impact to ocean floor",
+   "role": "settling module (contact point to wreckage resting place)",
+   "code": {
+    "branch": "hypothesis/settling",
+    "head_original": "d5870d88fe6234d39947a8e5e999d45ce8b8a599",
+    "head_published": "82465558ad7b11d624485ff7f905ceca12c9fa97",
+    "commits_ahead_of_main": 0,
+    "commits_behind_main": 4
+   },
+   "state": "work untracked (code/uncommitted/settling-untracked.tar.gz): physics, breakup table, readers",
+   "next": [
+    "BRAN2016 full-depth subset 50-27S 80-105E",
+    "first pass and survey",
+    "core request for transform columns"
+   ]
+  },
+  {
+   "id": "thr_vimeq9ezrd",
+   "title": "Antenna gain",
+   "role": "received power of the hourly R1200 log-ons",
+   "code": {
+    "branch": "main",
+    "head_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
+    "head_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+    "commits_ahead_of_main": 0,
+    "commits_behind_main": 0
+   },
+   "state": "merged, parked by Pete until a stable engine to impact",
+   "next": [
+    "none until un-parked"
+   ]
+  },
+  {
+   "id": "thr_dkvnnfnn3b",
+   "title": "Implement executable core filter",
+   "role": "local app (describe.rs, ui/)",
+   "code": {
+    "branch": "main",
+    "head_original": "3214289c7591b9bbd40c4c0b1469de21f7a8db12",
+    "head_published": "f6f8873ca603f3406651b17c8019198f3ef44588",
+    "commits_ahead_of_main": 0,
+    "commits_behind_main": 0
+   },
+   "state": "uncommitted edits in the main checkout (code/uncommitted/main-checkout.patch)",
+   "next": []
+  }
+ ],
+ "results": [
+  {
+   "area": "core",
+   "label": "Reproduced result",
+   "claim": "Davey Fig 10.3 latitude PDF at 00:19 (BTO+BFO, 8 x 7M particles): median 38.16S, 95% 35.91-39.53S; book 37.53S, 34.90-39.38S; overlap 71%; split-half 93%"
+  },
+  {
+   "area": "core",
+   "label": "Diagnostic/sensitivity",
+   "claim": "stratum pooling fix (47ff1b1): shoulder 34.5-36.5S 3.5% -> 3.6%, median unchanged; complex-manoeuvres 17.7 -> 17.9%; mach-wide 10.6 -> 11.1%"
+  },
+  {
+   "area": "core",
+   "label": "Diagnostic/sensitivity",
+   "claim": "northern shoulder deficit (book 25%): not weather, ephemeris, altitude or Mach prior, declination; sparse filters reproduce >=25% in ~1 in 7-12 runs at 7-35k particles, never at 140k; ACCESS-G test pending"
+  },
+  {
+   "area": "fuel",
+   "label": "New analysis",
+   "claim": "Ulich/Boeing tables: fuel-flow factor ~ N(1.009, 0.018) from 11 in-range items (+/-6-7 min over 6 h); old public proxy over-burned Table 3 by 41%"
+  },
+  {
+   "area": "end-of-flight",
+   "label": "New analysis",
+   "claim": "placeholder, still air, log-on only, equal priors: P(before, after, powered) = 0.977/0.014/0.009 (lambda 0.1/h), 0.934/0.039/0.026 (0.3/h), 0.811/0.114/0.075 (1/h)"
+  },
+  {
+   "area": "ocean-drift",
+   "label": "New analysis",
+   "claim": "GDP replay kernels (Student-t nu, scale): GLORYS12 2.73/77 km, OSCAR2 2.62/72 km, BRAN2016 3.68/94 km; skill 0.49-0.60 vs 0.10 currents-only"
+  },
+  {
+   "area": "pleiades",
+   "label": "Reproduced result",
+   "claim": "Griffin & Oke: BRAN2016 endpoints from 35.6S 92.8E land 20-30 km from PHR_4"
+  },
+  {
+   "area": "pleiades",
+   "label": "New analysis",
+   "claim": "stand-in on 00:19 positions: Z_H 6.4e-4; P(H|D) 0.0006/0.006/0.06 at K*eta 1/10/100; given H median 36.8S, 45% in 34.5-36.5S"
+  },
+  {
+   "area": "pleiades",
+   "label": "New analysis",
+   "claim": "P_in(s) ~ Lambda_H(s) (median ratio 1.15-1.24): cluster positions barely discriminate impact sites in the mixed result; information is in p(s|D,H) and P(H|D)"
+  },
+  {
+   "area": "cosmo",
+   "label": "New analysis",
+   "claim": "four possible COSMO-SkyMed targets 21 Mar lie 49-81 km from nearest Pleiades cluster; dawn-dusk SAR orbits imply ~00:00 or ~12:00 UTC at 91.5E; provenance and footprint open"
+  },
+  {
+   "area": "seabed-search",
+   "label": "Diagnostic/sensitivity",
+   "claim": "stand-in: Phase 2 coverage 120,487 km2 held 96.3% of 00:19 mass; 60-87% stays on searched ground for rho 0-0.2; placeholder impacts +/-50 NM: 17% at rho 0.05"
+  },
+  {
+   "area": "hydroacoustics",
+   "label": "New analysis",
+   "claim": "pre-registered IMOS search: 0 detections at 3315/3376/3274/3275; 1 at blocked Scott Reef (p=0.51); P(any IMOS detects) 0.24/0.095/0.005 at eta_F35, /10, /1000"
+  },
+  {
+   "area": "hydroacoustics",
+   "label": "Diagnostic/sensitivity",
+   "claim": "Curtin 01:33-01:34 event fails bearing and two-station timing for impacts up to 500 NM beyond the arc and 01:40: stays a control"
+  },
+  {
+   "area": "hydroacoustics",
+   "label": "Reconstructed analysis",
+   "claim": "Kadri (2024) published material: 16/18 Table 1 offsets reproduced to ~7 s; one sign typo; 00:39:02 arrives 52 s early; no Table 1 transient stands out in Fig 9 traces (<=3.2 dB); only F-35A and Lion Air 904 crash signals timing-consistent; eta rests on the F-35A alone"
+  },
+  {
+   "area": "antenna-gain",
+   "label": "Reconstructed analysis",
+   "claim": "old MH371 preference for no precompensation (+2.45) -> +1.46 with a free offset, -0.23 dropping the 02:00 burst"
+  }
+ ],
+ "decisions": {
+  "framing": [
+   "no unpiloted end of flight assumed",
+   "Boeing/ATSB unpiloted runs and Holland's BFO reading are conditional, never anchors",
+   "00:19 reboot by fuel exhaustion is a hypothesis"
+  ],
+  "adopted_2026_09_28": [
+   "settling module",
+   "feasible speed prior",
+   "00:11 vertical speed inferred, descent onset, altitude bands",
+   "wider end-of-flight hypotheses",
+   "attitude/electrical state in end of flight"
+  ],
+  "deferred_until_stable_engine_to_impact": [
+   "shared breakup field",
+   "outage-dependent start-up BFO offset",
+   "leave-one-out and information gain",
+   "Blackman calibration set",
+   "antenna-gain integration",
+   "paid aero-model options (reminder)"
+  ],
+  "parked": [
+   "satellite acquisition census",
+   "antenna gain (module merged, not integrated)"
+  ],
+  "core_change_protocol": "one element at a time: fuel, speed prior, vertical speed/descent onset, altitude bands; split-half and blind MH371 after each",
+  "mh371": "blind: only the scorer reads ACARS truth"
+ },
+ "next_steps": [
+  "resume reviews and merge composer, then modules",
+  "core: corrected base report, MH371, fuel, speed prior, vertical speed, altitude bands",
+  "end of flight: latents, E5, previews with ERA5, fuel-based exhaustion",
+  "settling first pass and transform columns",
+  "satellite sightings: Poisson rework, COSMO set, 21 March maps",
+  "hydroacoustics: Pete's decision on next steps; package review",
+  "first integrated run to impact, then deferred items with Pete"
+ ],
+ "open_inputs_from_pete": [
+  "COSMO source document, acquisition time, footprint, target sizes, total radar target count",
+  "go-ahead on hydroacoustics next steps and Kadri questions"
+ ],
+ "not_included": [
+  "Boeing-confidential fuel tables",
+  "Boeing end-of-flight simulator runs",
+  "licensed Ball/ARINC antenna spec",
+  "Ocean Infinity 2018 community outline",
+  "raw SITA log (same-data copy at repository root)",
+  "ACARS workbook with MH371 truth",
+  "papers of mixed copyright",
+  "bulk public data (~14 GB) and particle arrays (~4 GB), listed with SHA-256",
+  "unapproved correspondence drafts (Kadri cover letter and requests, Metz/Royer asks)",
+  "raw conversation transcripts"
+ ]
+}

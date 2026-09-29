@@ -1,0 +1,55 @@
+YOUR JOB: "Pleiades" (hypothesis work: hypotheses/pleiades/, created with `make new-hypothesis H=pleiades`)
+A conditional hypothesis. H: at least one object imaged by Pleiades on 23 March 2014 (Geoscience Australia Record 2017/13) came from 9M-MRO.
+- The module returns the log-likelihood ratio of the object data under H versus not-H, given the impact location.
+- The prior π on H is swept, not fixed. The composer then reports p(x | D, H), P(H | D) and the mixture.
+- Results are explicit conditional alternatives, never the base estimate.
+- The drift physics comes from the shared ocean-transport component (crates/ocean, built by the "Ocean drift" thread); coordinate with them. Until it exists, work on:
+  - the object table and clustering;
+  - the background density;
+  - the likelihood design and tests;
+  - a comparison with Griffin & Oke's method.
+
+PRIOR WORK
+(a) The morphology screen gave no usable probability. It compared 5 rating-5 objects against 26,976 masks in 8 families (777 parts, random geometry, ocean-debris classes), and the margins were 0.0002–0.009.
+- Pete concluded the objects are "much more likely … nothing to do with MH370".
+- He accepted this summary: the objects cannot be identified; a source near 35°S is admissible only as a conditional hypothesis.
+- Don't redo the screen unless you have a genuinely new approach.
+
+(b) Forward drift, 8–23 March, from 5,289 cells (32–39°S, ±100 NM, 5 NM spacing), with BRAN2016, OSCAR v2 and GLORYS12+WAVERYS, windage 0/1.2/3%.
+- Modes near 35°S 92°E:
+  - BRAN: 35.42°S 92.89°E, 21.7 km from Griffin & Oke's 35.6°S 92.8°E;
+  - OSCAR: 34.92°S 92.05°E;
+  - GLORYS: 35.39°S 92.16°E.
+- The model families differ materially: total variation 0.48–0.57.
+- Diffusion sets the width.
+
+(c) Integration collapsed: ESS 5.6–9.1 of 150,000, with one particle holding 22–36% of the mass. The likelihood was an unnormalised 10 km kernel with no model-error term, so the tails were set by whichever of 576 particles landed nearest.
+
+DESIGN GUIDANCE
+- log L = ln[(1−π) + π Σ_c w_c p(y_c|s)/q_c], summed over object clusters. The 12 rating-5 objects are really about 4 locations: PHR_4 north, PHR_4 south, PHR_3, PHR_1.
+- Use an analytic spread (random walk + transport-model error calibrated on drifters) so p(y|s) is normalised and seed-free.
+- q_c is a documented background density over the imaged footprint.
+- Avoid counting Stokes drift twice: Griffin & Oke's 1.2% windage is a Stokes proxy, so don't add WAVERYS Stokes on top.
+- The ocean model is the shared alternative "ocean-model".
+- Open questions:
+  - scene footprints, and a Poisson term for debris that should have been seen but wasn't;
+  - whether to include the rating-4 objects (PHR_2 object 12 has lat and lon swapped in GA's table);
+  - a correlated multi-object likelihood;
+  - the size of the 15-day transport error.
+
+DATA (all under .archive/.sources/pleiades-bran2016-forward-inversion/)
+- data/pleiades-rating5-objects.csv: from GA Record 2017/13, Tables 1–4, spot-checked.
+- The GA report is CC BY 4.0, except images marked © CNES, which covers every object crop. Never commit the crops.
+- Current subsets in data/, with URLs and hashes in the manifests, regenerable with code/fetch_data.mjs:
+  - BRAN2016, 0.1°, via NCI OPeNDAP (anonymous);
+  - OSCAR v2, 0.25°, via Earthdata (Pete's login works);
+  - GLORYS12, 1/12°, and WAVERYS, via Copernicus.
+- The CSIRO Part III PDF (method) is in paper/.
+- Raw CMEMS NetCDFs for March–July 2014 are at /jackbox/home/.cache/mh370-cmems-{glorys12,waverys}.
+
+PORT / DISCARD
+- Port transport_core.mjs's two independent tests (constant-current analytic displacement; random-walk RMS) if the shared transport lacks them.
+- Discard:
+  - the likelihood-handoff builder (its max-normalisation destroyed the likelihood scale);
+  - the 216 scenario directories;
+  - the renderers.

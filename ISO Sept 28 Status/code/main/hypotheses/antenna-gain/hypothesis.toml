@@ -1,0 +1,16 @@
+# Metadata for this hypothesis. Keep it current; the report prints it.
+question = "Does the received power of the five hourly R1200 log-on acknowledgements (19:41-00:11), predicted from each path's attitude and the 9M-MRO AES antenna gain pattern, change the estimate under either precompensation endpoint (full or none)?"
+# open | supported | not-supported | inconclusive
+status = "open"
+# One line, written when the question is answered, citing the run that answered it.
+summary = ""
+# Parked (Pete, 28 Sep 2026): not integrated until the estimator runs stably to impact. These are
+# what switching it on would need; none is requested to be built now.
+core_requests = [
+    "StateView: the true air heading, deg (Aircraft::air_data().heading_rad). The module uses the ground track meanwhile; 3-8 deg of drift (more in the southern westerlies) moves the predicted gain by a median 0.2-0.45 dB and by up to 0.9 dB.",
+    "StateView: the signed bank angle, deg, right wing down positive: +/- Parameters::bank_angle_deg (15) while turn_remaining is non-zero, else 0. The module assumes wings level meanwhile.",
+    "StateView: vertical speed, ft/min (Aircraft::vertical_speed_fpm), and true air speed, kt (Aircraft::air_data()), for the flight-path angle; pitch is then that angle plus a cruise angle of attack the module sets. The module uses a fixed pitch meanwhile; 3 deg of pitch moves the gain by up to 0.8 dB.",
+    "Per-particle module state: a few f64 per particle for a trajectory module, set at the prior, carried through propagation and resampling, read and written in epoch_log_likelihood (the path accumulator fuel also needs). With it the module marginalises the receive-chain offset shared by the five bursts (a scalar Kalman update, as for the BFO bias); without it the offset is fixed, which confounds the precompensation endpoints with the link calibration.",
+    "Only for end-of-flight use (00:19:29 R600 and 00:19:37 R1200 powers): heading, pitch and bank in the terminal EpochState at each 00:19 epoch. The module would also need the R600-R1200 offset, the HPA output limit and the restart-channel calibration.",
+    "When un-parked: an rx_power_dbm column in data/satcom-observations.csv (source: the SITA log, SU Log 'Rx Power (dBm)'), <epoch>.rxpower observation IDs and the value in EpochView, so that SATCOM measurements live in one table. The module then drops its five embedded values and declares m1941.rxpower ... m0011.rxpower instead of rxpower:<epoch>.",
+]
