@@ -15,6 +15,7 @@ app quote one set of numbers. Nothing here is hand-edited.
 
 import argparse
 import json
+import sys
 import textwrap
 from pathlib import Path
 
@@ -28,6 +29,9 @@ from matplotlib.colors import LogNorm  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 LAND = HERE / "ne_110m_land.geojson"
+
+sys.path.insert(0, str(HERE))
+import parameters  # noqa: E402  (sibling module: the parameter table shared with parameters.csv)
 
 MODES = ["True heading", "Magnetic heading", "True track", "Magnetic track", "Lateral navigation"]
 OURS, DAVEY = "#2a78d6", "#eb6834"
@@ -142,6 +146,69 @@ def draw_map(ax, case, routes, arcs, prior, extent):
     ax.set_xlabel("Longitude (°E)")
     ax.set_ylabel("Latitude (°)")
     return mesh
+
+
+def page_parameters(pdf, run_json, out):
+    """Every parameter and model choice beside Davey et al. (2016), differences marked.
+
+    Rows come from report/davey_reference.json via report/parameters.py, so the page and the
+    run's parameters.csv cannot disagree. Long prose is truncated here; the CSV carries the full
+    text, the book citation and the note for each row.
+    """
+    rows = parameters.compare(run_json)
+    fig = plt.figure(figsize=(8.27, 11.69))
+    fig.text(0.06, 0.955, "Parameters and model choices against Davey et al. (2016)",
+             fontsize=13, weight="bold", color=INK, va="top")
+    n_diff = sum(r["verdict"] == "DIFFERS" for r in rows)
+    text_block(fig, 0.06, 0.928,
+               f"{len(rows)} parameters and choices. {len(rows) - n_diff} match the published "
+               f"model; {n_diff} differ and are marked. A difference is not by itself a defect: "
+               "some are deliberate and documented (ERA5 for the unavailable ACCESS-G, IGRF-14 "
+               "for NOAA, the sampler), some are the subject of the run (a widened Mach range), "
+               "and some are worth fixing. Page numbers refer to the book; the full table with "
+               "citations and notes is written beside this report as parameters.csv.",
+               width=112, size=8, colour=MUTED)
+
+    x = {"mark": 0.055, "name": 0.075, "run": 0.395, "book": 0.655}
+    y, dy = 0.845, 0.0138
+    header = {"name": "Parameter", "run": "This run", "book": "Davey et al. (2016)"}
+    for key, label in header.items():
+        fig.text(x[key], y, label, fontsize=7.5, weight="bold", color=INK, va="top")
+    y -= dy * 1.1
+    fig.lines.append(plt.Line2D([0.055, 0.945], [y + dy * 0.45] * 2, color=MUTED, lw=0.5,
+                                transform=fig.transFigure))
+    y -= dy * 0.35
+
+    def clip(text, n):
+        text = text or "-"
+        return text if len(text) <= n else text[: n - 1].rstrip() + "…"
+
+    area = None
+    for r in rows:
+        if r["area"] != area:
+            area = r["area"]
+            y -= dy * 0.55
+            fig.text(x["mark"], y, area, fontsize=7.5, weight="bold", color=OURS, va="top")
+            y -= dy
+        differs = r["verdict"] == "DIFFERS"
+        colour = DAVEY if differs else INK
+        if differs:
+            fig.text(x["mark"], y, "▸", fontsize=6, color=DAVEY, va="top")
+        unit = f" ({r['unit']})" if r["unit"] else ""
+        fig.text(x["name"], y, clip(r["parameter"] + unit, 52), fontsize=6.4, color=colour, va="top")
+        fig.text(x["run"], y, clip(r["this_run"], 40), fontsize=6.4, color=colour, va="top")
+        fig.text(x["book"], y, clip(r["davey"], 44), fontsize=6.4, color=colour, va="top")
+        y -= dy
+
+    text_block(fig, 0.06, y - dy,
+               "▸ marks a difference. Rows whose value is prose or a file identifier cannot be "
+               "compared by string match; for those the reference file asserts the relationship "
+               "explicitly and parameters.csv records why. Quantities held per epoch rather than "
+               "per run — the BTO and BFO measurement standard deviations — are in "
+               "data/satcom-observations.csv and are compared in the note column of the CSV.",
+               width=112, size=7, colour=MUTED)
+    save_page(pdf, fig, out)
+    plt.close(fig)
 
 
 def save_page(pdf, fig, out):
@@ -442,6 +509,11 @@ def main():
             Reproduce with one command from the repository root:  {reproduce}""", size=8.5, width=118)
         save_page(pdf, fig, out)
         plt.close(fig)
+
+        # Page 5: parameters and model choices against the book. Written for every run, and
+        # emitted beside the report as parameters.csv so the paper can cite the same rows.
+        page_parameters(pdf, run, out)
+        parameters.write_csv(run_dir / "parameters.csv", parameters.compare(run))
     print(out)
 
 
