@@ -1,0 +1,22 @@
+{
+  "schema_version": "mh370-igrf-generation-grid-v1",
+  "model": "IGRF-11",
+  "why": "declination-generation sensitivity; Davey's reference [31] is NOAA's IGRF grid calculator, which served IGRF-11 in 2014",
+  "reference_time_utc": "2014-03-08T00:00:00+00:00",
+  "decimal_year": 2014.1808219178083,
+  "coefficient_interpolation_epochs": [
+    2010.0,
+    2015.0
+  ],
+  "shc_sha256": "55ff52ec572d949f2924dfd247760bfcd2db0294e5894703cc1a8e065a7ccbf8",
+  "noaa_package_sha256": "82202de7057e9525509b4b288b1e52d2c272543b5dedf89f2bbbddb83b1352f2",
+  "builder_sha256": "5b44b3b29071cf41a73edf6c5c92610e25318d5f73ee5d21fdfe5820d3eb079c",
+  "reference_builder_sha256": "a2b67a4069f3c6ac959b597f49b7ebdd87528ac057738090408024b77dfaca80",
+  "array_shape_pressure_altitude_lat_lon": [
+    12,
+    361,
+    721
+  ],
+  "output_sha256": "c3d34930d3330ef1e5248df0ac2faaa2b7e75d25d70bb40139bd1219827185d8",
+  "output_bytes": 12497900
+}

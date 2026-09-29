@@ -52,6 +52,32 @@ Confirmed as genuinely eliminated, and for the right reason:
   ephemeris result in particular is the informative one — a near-uniform offset moves every arc
   together and every mode with it, so it cannot change the mode mix.
 
+One elimination has now been completed that was previously only partial:
+
+- **Declination generation — tested, and it is not the cause.** `status.md` recorded only that the
+  grid "matches IGRF-14 exactly" and a sign-reversal diagnostic; the *generation* had never been
+  varied. Davey's reference [31] is NOAA's IGRF grid calculator
+  (`ngdc.noaa.gov/geomag-web/#igrfgrid`), not the World Magnetic Model, and in 2014 that
+  calculator served **IGRF-11**, whose last main-field epoch is 2010.0 — a March 2014 value was
+  extrapolated 4.19 years on predicted secular variation. IGRF-12 was agreed only in December
+  2014. The official NOAA package already in `.sources` ships `SHC_files/IGRF1..14.SHC`, so the
+  field the book's source would have returned is reproducible exactly;
+  `.sources/igrf14-declination/build_generation.py` builds it with `build.py`'s own synthesis.
+
+  The difference looked promising a priori. At FL350 on 2014-03-08, IGRF-11 minus IGRF-14 is mean
+  −0.108° and at most 0.154° over 40°S–8°N/85–105°E, and mean −0.088° over the 30–37°S corridor,
+  against a control-angle OU steady-state sd of 0.0826° — a spatially coherent bias of about one
+  sigma of the angle process, sustained for six hours, and applied only to the two magnetic modes
+  that carry P(shoulder | mode) of 0.52 and 0.55. IGRF-12 minus IGRF-14 is at most 0.010°.
+
+  The run says no. `declination-igrf11` (4 × 7M, converged, split-half 0.923): shoulder
+  **0.0369 against the base's 0.0368**, overlap with the book 0.714 against 0.717, median
+  −38.180° against −38.160°, log-evidence +0.035. The magnetic modes gain almost nothing —
+  combined weight 0.0178 → 0.0205. The reason is arithmetic: those modes hold under 2% of the
+  posterior, and closing a 3.7%-to-25% gap needs them to gain +1.6 to +2.8 in log-evidence, which
+  0.09° of declination bias does not come close to delivering. Declination is eliminated as a
+  candidate, and IGRF-14 remains the better model for the epoch on its own merits.
+
 One elimination is weaker than it looks:
 
 - **Turn counts.** `status.md` uses the turn-count histogram as evidence for the sparse-filter

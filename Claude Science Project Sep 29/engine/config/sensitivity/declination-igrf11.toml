@@ -1,0 +1,30 @@
+# Sensitivity: declination from IGRF-11 instead of IGRF-14, everything else at the base estimate.
+#
+# Davey et al. cite reference [31] as "NOAA (2014) Grid of magnetic field estimated values,
+# ngdc.noaa.gov/geomag-web/#igrfgrid" — NOAA's IGRF grid calculator, not the World Magnetic Model.
+# In 2014 that calculator served IGRF-11, whose last main-field epoch is 2010.0, so a March 2014
+# value was extrapolated 4.19 years on predicted secular variation; IGRF-12 was only agreed in
+# December 2014. This run therefore reproduces the declination field the book's source would have
+# returned, rather than the better modern one.
+#
+# status.md records only two declination checks: that the grid matches IGRF-14 exactly, and a
+# sign-reversal diagnostic. The generation itself was never tested, and status.md attributes the
+# magnetic modes' late-arc penalty to the declination swing, so this is the aimed test.
+#
+# Measured difference at FL350 on 2014-03-08, IGRF-11 minus IGRF-14: mean -0.108 deg and maximum
+# 0.154 deg over 40S-8N/85-105E; mean -0.088 deg and maximum 0.113 deg in the 30-37S corridor,
+# against a control-angle OU steady-state sd of 0.0826 deg. A coherent bias of about one sigma of
+# the angle process, applied for six hours, and only to the two magnetic modes — which carry
+# P(shoulder | mode) of 0.52 and 0.55.
+#
+# Build the grid first:
+#   python .sources/igrf14-declination/build_generation.py 11 data/igrf11-declination.bin
+name = "declination-igrf11"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+igrf = "../../data/igrf11-declination.bin"
