@@ -1,0 +1,39 @@
+name: September 29 Rust validation
+
+on:
+  push:
+    branches: [sept-29-chatgpt-advances]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  frozen-baseline:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: "ISO Sept 28 Status/code/main"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Check frozen September 28 workspace
+        run: cargo check --workspace
+      - name: Test frozen September 28 workspace
+        run: cargo test --workspace
+
+  sept29-integration-scaffold:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Inventory September 29 integration files
+        run: find "September 29 ChatGPT advances" -maxdepth 4 -type f -print | sort
+      - name: Guard scientific status
+        run: |
+          test -f "September 29 ChatGPT advances/REGRESSION_GATE.md"
+          grep -q "Scientific output is forbidden" "September 29 ChatGPT advances/REGRESSION_GATE.md"
+          grep -q "43_800" "September 29 ChatGPT advances/code/fuel_initialization.rs"
+          grep -q "174_369" "September 29 ChatGPT advances/code/provisional_777_fuel.rs"
+      - name: Explain integration gate
+        run: |
+          echo "The September 29 modules are currently staged outside the frozen Cargo workspace."
+          echo "This job verifies their presence and safety gates; the next patch moves/copies them into a runnable working workspace."
