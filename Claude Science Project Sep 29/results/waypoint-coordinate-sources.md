@@ -29,6 +29,63 @@ degrees-minutes-tenths form (e.g. "N07.05.7° E103.47.1°", p. 328) and an
 additional waypoint at N05.15.6 E100.27.5. The ATSB flight path update text in
 the same directory contains no coordinates for these fixes.
 
+## AIP-sourced table supplied by the user
+
+`MH370_waypoint_hypotheses_2014_boundary.csv` supplies ten fixes with per-row
+provenance, now merged into `engine/data/waypoints.csv`. Its sourcing is stronger
+than any of the three routes considered below: Malaysia DCA AIP Supplement
+36/2008 and AIP AMDT 3/2011, India AIP archive effective 1 April 2012 ENR
+1.9/4.3, and India NOTAM G0419/13 effective 22 August 2013 — all pre-dating March
+2014 — with a `historical_status` column that records later NOTAM renamings at
+unchanged coordinates (DOTEN → AMVUR in 2019, SADAP → DUMAR and ORARA → MANPU in
+2018). That is the epoch problem raised below solved rather than caveated.
+
+**It cross-checks against Ashton et al.** Computing the separation between the two
+independent sources on the two fixes both carry:
+
+| fix | AIP table | Ashton et al. (2015) | separation |
+|---|---|---|---|
+| IGOGU | 07°31′01″N 094°25′00″E | N07 31, E094 25 | **0.02 NM** |
+| MEKAR | 06°30′14″N 096°29′28″E | N06 30, E096 30 | **0.58 NM** |
+
+IGOGU is exact. The MEKAR difference is entirely Ashton's rounding to whole
+minutes — 96°30′ against 96°29′28″ is 32″ of longitude, 0.53 NM at this latitude.
+An AIP table and a peer-reviewed paper agreeing to the precision each states is
+about as good as provenance gets here, and it raises confidence in the eight rows
+Ashton does not cover.
+
+**Two hypotheses, not one.** Six of the ten fixes — DOTEN, SADAP, ORARA, SUPLU,
+NODAX and VVZ — are on airway N877 running north-west toward India, and the
+table's `initial_true_bearing_from_NILAM_deg` and `within_296_to_316_screen`
+columns show they were assembled for a bearing screen from NILAM, not for the
+southern polygon. They must not be pooled into the polygon's sampling set. The
+table's relevance to the polygon is MEKAR, NILAM, IGOGU and SAMAK; the other six
+belong to the northern-route conditional and should be carried under their own
+hypothesis with their own prior.
+
+SAMAK is now sourced (07°58′42″N 094°25′00″E, India AIP archive effective 1 April
+2012), which settles the point that it should be included north of IGOGU — it sits
+27.7 NM due north of IGOGU on exactly the same meridian, 094°25′00″E, both on the
+FIR boundary.
+
+## Still needed to close the polygon
+
+Twelve fixes and one boundary segment:
+
+| fix | why it is needed |
+|---|---|
+| LAGOG | the phase-2 box's NW corner is defined as 10 NM NW of LAGOG on N571 |
+| IVRAR | phase-2 box SE corner, and a polygon vertex |
+| RUNUT | polygon vertex |
+| YPCC | polygon vertex (Cocos aerodrome reference point) |
+| PIPOV | named as the southern limit of useful waypoints, about 4°S |
+| ANOKO, NOPEK, BEDAX, BULVA, MUTMI, POSOD, BEBIM | the archived shortlist's interior sampling set |
+
+Plus the Kuala Lumpur / Jakarta FIR boundary between 6N 94E and 6N 92E, which the
+polygon follows and which no source in hand describes. Without it the polygon's
+southern-west edge cannot be closed, so the interior test "is this fix inside the
+sampling region" cannot be evaluated for fixes near that edge.
+
 ## What is not in the repository
 
 No coordinate is held for NILAM, VAMPI, SAMAK, LAGOG, IVRAR, RUNUT, PIPOV,
