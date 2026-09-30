@@ -3,7 +3,7 @@
 
 Pete asked on 29 Sep 2026 for the left-out downloaded items to be included. Everything without an
 explicit restrictive notice is copied, with the MH371 truth file labelled off-limits to the MH371
-control. Items with an explicit notice (confidential Boeing data, a paid standard, "all rights
+control. Items with an explicit notice (a paid standard, "all rights
 reserved" manuals) are linked to their public sources instead. Files too large for plain Git
 (over 95 MB) are listed for the Hugging Face companion dataset or regeneration.
 """
@@ -20,12 +20,8 @@ MAX = 95_000_000
 # Linked instead of copied: path in MH370-inputs -> (reason, where to get it).
 LINKED = {
     "fuel/ulich-9M-MRO-fuel-model-v5.6-public.xlsm": (
-        "its LRC/M0.84/holding sheets say 'Yellow squares are from a Boeing FPPM from a confidential source'",
+        "its colour key says some cells are 'from a Boeing FPPM from a confidential source' (provenance, not a stated restriction); linked pending Pete's decision",
         "author's public copy: https://drive.google.com/file/d/1Wt9DOU0Z53W7NERzSsK2sxcyrojmN7Sq"),
-    "papers/aero/sir.pdf": ("Appendix 1.6E carries 'Copyright (c) Boeing'",
-                            "Malaysian MOT, MH370 Safety Investigation Report, 2 Jul 2018: https://www.mot.gov.my/en/Laporan%20MH%20370/MH370SafetyInvestigationReport.pdf"),
-    "papers/aero/sir.txt": ("text extract of the same report", "as above"),
-    "end-of-flight/report-text/boeing_performance_appendix_1_6E.txt": ("Boeing-copyright appendix text", "as above (SIR Appendix 1.6E)"),
     "papers/aero/bada-standard-licence-information.pdf": ("EUROCONTROL, all rights reserved", "https://www.eurocontrol.int/model/bada"),
     "papers/aero/bada4-licence.pdf": ("EUROCONTROL, all rights reserved", "https://www.eurocontrol.int/model/bada"),
     "papers/aero/overview-bada-apm.pdf": ("EUROCONTROL, all rights reserved", "https://www.eurocontrol.int/model/bada"),

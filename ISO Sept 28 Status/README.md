@@ -21,7 +21,7 @@ Recovery and continuation package, snapshot of 28–29 September 2026. It was re
 | `results/` | Small outputs of every run and module report: JSON summaries, CSV tables, PNG report pages, PDFs of 15 MB or less |
 | `results/NOT_COPIED.csv` | Every run output left out (particle arrays and similar, 4.0 GB; two plots of the Boeing runs, now in `inputs/`), with size and SHA-256 |
 | `data/` | Manifests of every external input (244 files, 14.7 GB) with SHA-256, what it is; the inputs index; the weather-grid manifest |
-| `inputs/` | The downloaded third-party inputs themselves (198 files, 373 MB), copied as obtained, plus the small weather grids. `data/INPUTS_PUBLICATION.csv` gives every input's status (copied, redacted, linked, or too large) and source. **`inputs/acars/` contains the MH371 truth track: it is off-limits to the MH371 control (`inputs/MH371-TRUTH-WARNING.txt`)** |
+| `inputs/` | The downloaded third-party inputs themselves (201 files, 384 MB), copied as obtained, plus the small weather grids. `data/INPUTS_PUBLICATION.csv` gives every input's status (copied, redacted, linked, or too large) and source. **`inputs/acars/` contains the MH371 truth track: it is off-limits to the MH371 control (`inputs/MH371-TRUTH-WARNING.txt`)** |
 | `threads/` | The master prompts that set up each thread, the approved stage-API design (`design/d1-api-proposal.txt`), and the iso thread registry |
 | `decisions/` | The standing decisions and rulings made in conversation, one note per topic |
 | `environment/` | Toolchain versions, Python package freeze, make targets, host layout |
@@ -152,7 +152,8 @@ Provenance labels follow this repository's AGENTS.md. "Stand-in" and "placeholde
 ### 3.2 Fuel and performance
 
 - **[New analysis]** Fuel-flow factor from the Ulich/Boeing performance tables: about 1.009 ± 0.018 (11 in-range items), i.e. ±6–7 minutes over 6 hours from arc 1. An older public proxy over-burned Boeing's Table 3 by 41%.
-- The tables themselves are Boeing-confidential and are not included.
+- The tables come from the Ulich workbook. Its colour key marks some cells as "from a Boeing FPPM from a confidential source"; that note describes provenance and states no restriction. The workbook is linked, not copied, pending Pete's decision (section 8).
+- Boeing's comparison figures are Tables 3 and 4 of Appendix 1.6E (Boeing Performance Analysis) of the Malaysian Safety Investigation Report. The appendix text is in `inputs/end-of-flight/report-text/`, and the main report is in `inputs/papers/aero/sir.pdf`.
 - The fuel state enters the core next, one change at a time.
 
 ### 3.3 End of flight (placeholder; not evidence)
@@ -339,8 +340,9 @@ The iso set-up used one git worktree per thread and serialised heavy jobs with `
 
 **Inputs (added 29 Sep, at Pete's request).** The downloaded third-party inputs are now in `inputs/`, copied as obtained. That includes the ACARS workbook (MH371 truth, off-limits to the MH371 control), the raw SITA log, the Boeing end-of-flight simulator runs and their plots, the Ocean Infinity 2018 community outline, and papers. The exceptions are listed in `data/INPUTS_PUBLICATION.csv` with their public sources.
 - **Linked, not copied, because they carry an explicit restrictive notice:**
-  - the Ulich fuel workbook, whose tables say they come "from a Boeing FPPM from a confidential source"; the author's public copy is linked;
-  - Appendix 1.6E of the Malaysian Safety Investigation Report ("Copyright © Boeing"); the report itself is on the Malaysian MOT website;
+  - the Ulich fuel workbook: its colour key says some cells are "from a Boeing FPPM from a confidential source". That's a provenance note, not a stated restriction, and the author released the file publicly. It's linked (the author's public copy) pending Pete's decision.
+
+  *Corrected 30 Sep:* earlier versions of this folder called those tables "Boeing-confidential, never redistribute". They also said Appendix 1.6E of the Malaysian Safety Investigation Report carried a Boeing copyright notice. Both statements were wrong. The report's "Copyright © Boeing. Reprinted with permission" notices are on reprinted figures only. The main report and the Appendix 1.6E text are now included in `inputs/`.
   - EUROCONTROL BADA documents, a MathWorks page and the Lissys Piano-X guide, all marked all rights reserved.
 - **Redacted:** the Ball antenna compilation is included with its page of ARINC Characteristic 741 (a paid standard) removed.
 - **Too large for plain Git; public and regenerable:**

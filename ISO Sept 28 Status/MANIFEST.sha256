@@ -1,6 +1,6 @@
-4fc315a579c397cb7ca76d3d7ebf06c899ca6aaa0b9b0306ea8c5425b08a1334  ./README.md
-e08934432b44dcaff0c27292fe28f8dc8d0e80ac104e9f93472bf565be36937e  ./STATUS.json
-1c5cf18d7cf1e4d1db064e4ea66fc55519cd86fad2c83ef5f46bb1929185b012  ./add_inputs.py
+d418a30190d76b773956873ee68d226a6f068828d8ed44bba58f0294204622db  ./README.md
+92012440828042964a162cfde47f835c575a32f9d7d185e5959cb963b744aa74  ./STATUS.json
+90c1eabbd2e012ab0e692b9bf8206f9e58cac2023eb531326f482587c6d2244c  ./add_inputs.py
 d882ab959f5cd98bafb225fc9fb9ba944ec600570fb925f8d3bf1ab2df8eded6  ./build_export.py
 d5620282b6e2776a271d5dc51d1daeb23b557179f37a976b160536f4cfb3363e  ./code/branch-diffs/core__ocean-transport.log.txt
 4b50a77c67facfc7f3e2cdaa2fa49fb6e1c1794ca7562a17840440100553fbdf  ./code/branch-diffs/core__ocean-transport.patch
@@ -123,8 +123,8 @@ d84ae3ea0c4c459982ca34e000758322188eb6ff8535c2249178422fee607e7d  ./code/uncommi
 7dc953f6940317d263add36b136478a19c49c0c397bbbfbb5e24f6799ae35300  ./code/uncommitted/main-checkout.patch
 efec392bda62916165da914379420af612d1c5ea8dc58210e3f81c0e62cffe8d  ./code/uncommitted/pleiades.patch
 1981a34cf520ae9a42fb62d8be4c72776eeb282e350aac717d1579d0152fc762  ./code/uncommitted/settling-untracked.tar.gz
-35d7d833835e316315b9ca8ed639a496740a3e4f425fc61427ebf24952b487f2  ./data/INPUTS_PUBLICATION.csv
-8bc16fde29bbf45449fec043c48232b6471bdc93c29b7dfcb0d991e3a490d38a  ./data/MH370-inputs-INDEX.txt
+eb8e958512a34e92efc0791fac30554752cc7ead6bca146e0ca10046bfd228f1  ./data/INPUTS_PUBLICATION.csv
+529b060dbc8879de2db7e7aacd68591a6e57708f68f48853bf593e31626ff2e8  ./data/MH370-inputs-INDEX.txt
 275d4394f3448d99a323e8a89bff9dd3f95aec38c6aff6aecce236a845b0cf64  ./data/MH370-inputs-manifest.csv
 0d1800aa063e22667cafc4a18713d244de6abaed5155c3e26d208e893b506ee5  ./data/data-grids-manifest.csv
 48e78b13c231998977e48988cff8a66656f4d0b40f3b9e91066d672d15d6c28f  ./decisions/MEMORY.md
@@ -143,7 +143,7 @@ cd358d7629f30a6644a1ddcf2e158501f127de0c4f60efb0898809e58890fd25  ./decisions/re
 3492b5e25de06efa0f3fa3e6d188963d04d3e65eab556d176289d4b5147eb38c  ./decisions/thread-coordination.md
 7462472ffbb1bbc4db25cf6d8b3e34db3a88a0b92d4a932008dd631d27e7374c  ./environment/environment.txt
 e5f96c20bdb7b3c34ad9cc920e00a2d4987a48fb9ad1a9d3dd5252408cf68cc5  ./environment/python-requirements-freeze.txt
-8bc16fde29bbf45449fec043c48232b6471bdc93c29b7dfcb0d991e3a490d38a  ./inputs/INDEX.txt
+529b060dbc8879de2db7e7aacd68591a6e57708f68f48853bf593e31626ff2e8  ./inputs/INDEX.txt
 2257a77663d5958b68a78ad002130509a3a09271802d9fbd1747a8966327b216  ./inputs/MH371-TRUTH-WARNING.txt
 5c9a79d106fbad3900db36b5ddf9d3baa57b8de5a76e72b95fff301fee6d81fe  ./inputs/acars/mh370-acars-position-and-wind-reports.xlsx
 1fb1a5090727ace7de3e2fc93313708069da652680cee366e713514823f7f3e5  ./inputs/antenna/GAIN IN AC COORDS TO 68 EL 360 AZ.xlsx
@@ -205,6 +205,7 @@ e400ac73478dff8698cd344a69d7969804f6adb0eb2121d5cacd3b58d63111db  ./inputs/end-o
 bc6cecd6c822dd3b9b514e3b264d8d345dba9475d00f4ce019bcacca9cb8edf7  ./inputs/end-of-flight/2018-08-19-sim-extract.pdf
 b40003f3d32327ccc3b66072e8947c4872e6cf32f771793c03c675e938b2d737  ./inputs/end-of-flight/report-text/ashton_search_for_mh370.txt
 1c290cf9c5475d8cc56e2fd04791a112eb1262dab15020d988169ad494eb50b3  ./inputs/end-of-flight/report-text/atsb_20141008_flightpath_update.txt
+c0a03f4424775072778f0cd650487503c34b3992531b03b811b7208be6bfc9a2  ./inputs/end-of-flight/report-text/boeing_performance_appendix_1_6E.txt
 c48c667c73bd38e5d21083a3bfcd62504e08c82cfc94d71f4cdd0785048ee06d  ./inputs/end-of-flight/report-text/davey2015.txt
 fb1f499f72440278bece9cf10c08418f74f79458f23b7c32ff80851ee88a235b  ./inputs/fuel/BSMv7-9-4-original.xlsx
 9d8f503861a4e318375c24e972c32d8a21b72c6132375221aefd713ae67b6b21  ./inputs/godfrey/mh370-godfrey-v19.8.xlsx
@@ -229,6 +230,7 @@ ee868646aebd9279ef2582df436f6b439031dc289bb61aac93d99bc314fc2f09  ./inputs/paper
 8e393428e05f31f119f923fa4b272f2b7f7fa3500d9a64cfc258121ef8036164  ./inputs/papers/aero/ps_ld.py
 4be9a282a9fe8e6d8f2f8c5f0f02ad90738763395767f8a0b4be73d44929b66d  ./inputs/papers/aero/ps_model.py
 55dddb3e511d2fc799cff2bd0a1ba252baba1828b5b9942ec3d637b103ce2182  ./inputs/papers/aero/ps_operational_limits.py
+453e097601dc08c37421a84e9a4fe2e80acd4e437180d8a629d1cbbc05838e64  ./inputs/papers/aero/sir.pdf
 22570bc60fd366a86ae2e3eb44dff7008a2764e5e3c31545c66ba758626800b5  ./inputs/papers/aero/tcm.pdf
 1a078e2aa3a06f2c6f74c8421113b45e1cf7cb3c70898584ec82bdf3c28ff3ed  ./inputs/papers/aero/tcm.txt
 3d63c0654f6d5d3fa58e2cdc71548831a7c6dd942200d9b3a876a926cbab2598  ./inputs/papers/hydroacoustics/3315_3250_3376__MetaData.txt
