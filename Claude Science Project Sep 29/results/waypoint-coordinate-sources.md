@@ -68,6 +68,44 @@ SAMAK is now sourced (07°58′42″N 094°25′00″E, India AIP archive effect
 27.7 NM due north of IGOGU on exactly the same meridian, 094°25′00″E, both on the
 FIR boundary.
 
+## Polygon geometry — the vertex order matters and only one reading is valid
+
+With IVRAR replaced by the declared vertex 4N 96E, the phase-3 region is fully
+specified numerically, but the vertex *order* is not. Walking it exactly as
+stated —
+
+`8N 94E → 6N 94E → 6N 92E → RUNUT → YPCC → 4N 96E → NILAM → 8N 92E → close`
+
+— produces a **self-intersecting** polygon: the closing leg NILAM → 8N 92E crosses
+the eastern leg 8N 94E → 6N 94E at about 7.2°N. Point-in-polygon containment is
+undefined inside a crossing (the even–odd rule returns an answer, but it is an
+artefact of the winding, not a containment), so the literal specification cannot
+be used to decide which fixes are in the sampling set.
+
+Of the candidate orderings tested, exactly one is a simple polygon: **drop the
+8N 92E vertex and close NILAM → 8N 94E directly.** Under that ordering:
+
+| fix | position | in region? |
+|---|---|---|
+| IGOGU | 7.517°N 094°25′E | inside |
+| ANOKO | 7.136°N 094°25′E | inside |
+| NOPEK | 6.604°N 094°25′E | inside |
+| SAMAK | 7.978°N 094°25′E | **outside** |
+
+So three of the four FIR-boundary fixes are inside the region despite sitting
+25 NM east of the 094°00′E leg — because the NILAM → 8N 94E closing leg carries the
+eastern boundary out to 095°58′E at NILAM's latitude, which more than covers them.
+The 094°00′E standoff does not exclude them.
+
+Only SAMAK falls outside, and not because of the eastern leg: it lies north of the
+NILAM → 8N 94E closing leg. Bringing it in is a question about the region's
+northern edge, not its eastern one.
+
+Two things therefore need confirming before the stratum is built: whether dropping
+8N 92E is the intended reading (it is the only one that yields a simple polygon
+among those tried), and whether SAMAK should be inside — which matters because the
+northern-route discussion treats SAMAK and IGOGU as a pair on the same meridian.
+
 ## Still needed to close the polygon
 
 Twelve fixes and one boundary segment:
