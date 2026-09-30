@@ -1,0 +1,24 @@
+# Diagnostic bracket for the early-epoch misfit.
+#
+# The base prior fixes the 18:01:49 track at 295.66 deg with a 1.0 deg standard
+# deviation (Table 8.2). That is the radar-derived track along N571. Evidence
+# discussed by the user suggests the aircraft may have flown a more north-north-
+# westerly heading after the last radar return at 18:22:12, possibly north of the
+# airway; and the 18:25-18:28 BTO sequence is not consistent with N571 at cruise
+# speed, so either the speed was low or the track was not N571.
+#
+# This run widens the initial track prior to 15 deg. That is NOT the right model -
+# the freedom belongs after 18:22, not at 18:01, and widening at 18:01 also admits
+# tracks south of the airway that the radar excludes. It is a diagnostic: if the
+# uniform (mode-independent) misfit at m1839 and m1941 falls, the base population
+# genuinely cannot reach the trajectories those arcs want, and a post-radar track
+# offset is warranted. If it does not fall, the misfit comes from elsewhere.
+name = "track-wide"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[prior]
+track_sd_deg = 15.0

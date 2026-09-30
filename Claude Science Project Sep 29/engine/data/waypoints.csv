@@ -1,12 +1,23 @@
-name,lat_deg,lon_deg,lat_dms,lon_dms,role,source,source_effective,historical_status,provenance
-MEKAR,6.5038889,96.4911111,06°30′14″N,096°29′28″E,context_upstream,Malaysia DCA AIP Supplement 36/2008 / AIP AMDT 3/2011; same coordinate in current CAAM AIP,,pre-2014,aip_historical
-NILAM,6.7563889,95.9766667,06°45′23″N,095°58′36″E,screen_anchor,Malaysia DCA AIP Supplement 36/2008 / AIP AMDT 3/2011,,pre-2014,aip_historical
-IGOGU,7.5169444,94.4166667,07°31′01″N,094°25′00″E,tested_candidate,Malaysia DCA historical AIP; India AIP archive effective 1 Apr 2012 ENR 1.9/4.3,,valid before Mar 2014,aip_historical
-DOTEN,10.7427778,89.9972222,10°44′34″N,089°59′50″E,tested_candidate,India AIP N877 / ENR significant-point records; later 2019 NOTAM shows DOTEN replaced by AMVUR at same coordinate,,historical name valid before 2019; used for Mar-2014 screen,aip_historical
-SADAP,12.1016667,88.6891667,12°06′06″N,088°41′21″E,tested_candidate,India AIP archive effective 1 Apr 2012 ENR 4.3; 2018 NOTAM later replaced SADAP by DUMAR at same coordinate,,valid Mar 2014,aip_historical
-SAMAK,7.9783333,94.4166667,07°58′42″N,094°25′00″E,tested_candidate,India AIP archive effective 1 Apr 2012 ENR 1.9/4.3,,valid Mar 2014,aip_historical
-ORARA,15.9845556,84.9145278,15°59′04.4″N,084°54′52.3″E,tested_candidate,India AIP archive effective 1 Apr 2012 ENR 1.9; 2018 NOTAM later replaced ORARA by MANPU at same coordinate,,valid Mar 2014,aip_historical
-SUPLU,16.8458333,84.0625,16°50′45″N,084°03′45″E,tested_candidate,"India NOTAM G0419/13, effective 22 Aug 2013, inserted SUPLU into N877",,valid Mar 2014,aip_historical
-NODAX,17.2291667,83.6875,17°13′45″N,083°41′15″E,tested_candidate,"India NOTAM G0419/13, effective 22 Aug 2013, inserted NODAX into N877",,valid Mar 2014,aip_historical
-VVZ,17.66775,83.2527778,17°40′03.9″N,083°15′10.0″E,tested_candidate,India AIP archive effective 1 Apr 2012 ENR 1.9; historical VVZ coordinate,,valid Mar 2014,aip_historical
-ISBIX,0.3666667,93.6750000,00°22′N,093 40.5′E,tested_candidate,"Ashton, Bruce, Colledge & Dickinson, 'The Search for MH370', J. Navigation 68(1) 2015, doi:10.1017/S037346331400068X",2015 (describes March 2014 airspace),contemporaneous,contemporaneous
+name,lat_deg,lon_deg,role,provenance,source,source_effective,historical_status,cross_check_nm
+ANOKO,7.1361111,94.4161111,FIR boundary,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+BEBIM,-10.6450000,93.8350000,interior,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+BEDAX,5.3643278,93.7875750,post-transition candidate,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+BULVA,4.5666667,94.0000000,interior,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+IGOGU,7.5169444,94.4166667,"route, FIR boundary",aip_historical,Malaysia DCA historical AIP; India AIP archive effective 1 Apr 2012 ENR 1.9/4.3,pre-March 2014,valid before Mar 2014,0.0000 vs opennav
+ISBIX,0.3667417,93.6751083,post-transition candidate,contemporaneous,"Ashton, Bruce, Colledge & Dickinson, 'The Search for MH370', J. Navigation 68(1) 2015, doi:10.1017/S037346331400068X (cross-checked against opennav)",describes March 2014,epoch not verified for March 2014,
+LAGOG,8.5940278,91.9970833,N571/N877 junction; phase-2 box NW corner reference,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+MEKAR,6.5038889,96.4911111,route_upstream,aip_historical,Malaysia DCA AIP Supplement 36/2008 / AIP AMDT 3/2011; same coordinate in current CAAM AIP,pre-March 2014,pre-2014,0.0000 vs opennav
+MUTMI,-4.1333333,92.9783333,interior,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+NILAM,6.7563889,95.9766667,"route_upstream, polygon vertex",aip_historical,Malaysia DCA AIP Supplement 36/2008 / AIP AMDT 3/2011,pre-March 2014,pre-2014,0.0166 vs opennav
+NOPEK,6.6038889,94.4166667,FIR boundary,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+PIPOV,-4.3683333,92.5416667,southern limit of dense waypoints (~4S),third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+POSOD,-3.4916667,94.1650000,interior,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+RUNUT,-13.8266667,91.3800000,polygon vertex,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+SAMAK,7.9783333,94.4166667,"route, FIR boundary",aip_historical,India AIP archive effective 1 Apr 2012 ENR 1.9/4.3,pre-March 2014,valid Mar 2014,0.0000 vs opennav
+VAMPI,6.1822222,97.5855556,route_upstream,third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+YPCC,-12.1883000,96.8339000,polygon vertex (aerodrome reference point),third_party_navdata,opennav.com current navigation database (third-party aggregator),current cycle (read 2026),epoch not verified for March 2014,
+V_4N96E,4.0000000,96.0000000,polygon vertex (replaces IVRAR),declared,user-declared sampling region,n/a,"Declared sampling-region vertex, not a named fix. Replaces IVRAR, which is absent from current navdata for all 16 regional FIRs and was most likely renamed or withdrawn after March 2014.",
+V_6N92E,6.0000000,92.0000000,polygon vertex,declared,user-declared sampling region,n/a,Western end of the FIR-boundary leg.,
+V_6N94E,6.0000000,94.0000000,polygon vertex,declared,user-declared sampling region,n/a,Eastern leg turns west here onto the FIR boundary.,
+V_8N92E,8.0000000,92.0000000,polygon vertex,declared,user-declared sampling region,n/a,"NW corner, closing back to 8N 94E.",
+V_8N94E,8.0000000,94.0000000,polygon vertex,declared,user-declared sampling region,n/a,NE corner. Eastern leg deliberately set 25 NM west of the FIR boundary at 094d25'E so trajectories either side of the boundary are sampleable; further west would overfly the Andaman/Nicobar chain.,
