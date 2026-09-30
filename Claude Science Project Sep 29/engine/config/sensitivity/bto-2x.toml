@@ -1,0 +1,24 @@
+# Sensitivity: every BTO standard deviation doubled, everything else at the base estimate.
+#
+# Davey names this knob explicitly in Assumption 2 (p. 73): the BTO and BFO standard deviations
+# are "provided to the algorithm as a known input", and "minor inflation of the assumed BTO
+# variance would lead to incremental changes in the filter output". It has never been run here.
+#
+# Why it is the aimed test for the missing northern shoulder: the heading and magnetic modes lose
+# 2.2 to 5.1 in log-evidence at the 22:41, 00:11 and 00:19 arcs, and the mode mixture that
+# reproduces the published curve needs them to regain +1.6 to +2.8. Penalties of that size come
+# from BTO residuals of a few hundred microseconds against a 29 us sigma, so inflating sigma
+# shrinks all three penalties and flattens the mode mixture. The book also records the channel
+# calibration T_channel as non-stationary (Fig. 5.2 residual mean 10 us; Fig. 5.3 drift across 20
+# flights), which is a physical reason to think 29 us is tight - though a *constant* offset is
+# already excluded by the ephemeris sensitivity, so a drifting bias, not a wider white sigma, is
+# the principled version of this. Run the cheap version first.
+name = "bto-2x"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../data/variants/satcom-observations-bto2x.csv"

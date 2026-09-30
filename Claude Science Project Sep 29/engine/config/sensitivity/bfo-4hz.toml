@@ -1,0 +1,21 @@
+# Sensitivity: BFO standard deviation 4 Hz instead of Davey's 7 Hz, everything else at the base.
+#
+# Davey uses 7 Hz a priori (sec. 5.3) and calls the measurement standard deviations a known input
+# whose inflation moves the result incrementally (Assumption 2, p. 73). 4 Hz is the value implied
+# by the data on the assumption of no transient bias. For reference, this project's own
+# within-cluster successive-difference study puts the *fast random* component near 0.995 Hz
+# (95% interval about 0.859-1.183 Hz), with slow or intermittent bias excluded from that estimate;
+# 4 Hz therefore sits between the published figure and the fast-noise-only one, and is the
+# appropriate test of "measured, assuming no transient bias".
+#
+# Tightening the BFO should sharpen mode discrimination. The shoulder deficit is already present
+# in the BTO-only case, so BFO tightening is not expected to restore it; this bounds that.
+name = "bfo-4hz"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../data/variants/satcom-observations-bfo4hz.csv"
