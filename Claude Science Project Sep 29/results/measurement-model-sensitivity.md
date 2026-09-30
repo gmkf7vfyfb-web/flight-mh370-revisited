@@ -13,6 +13,48 @@ delay `T_channel` as non-stationary — a residual mean of 10 µs and drift over
 several days. So the error model is a declared assumption with a declared
 weakness, and it had never been varied in this engine. Three variants were run.
 
+## The 7 Hz figure is already an inflation, by the book's own account
+
+This turned out to matter more than expected, so it is worth stating before the
+results. The BTO values are empirical and stated as such (p. 27): "For the R1200
+messages, the empirically derived standard deviation of the measurement noise
+wBTO_k is 29µs, and for R600 messages, 62 µs. For anomalous R1200 messages a
+standard deviation of 43µs was used." The three classes in the observations file
+are exactly these.
+
+The BFO figure is different. Table 5.1 (p. 31) gives the measured statistics from
+the 20 flights of 9M-MRO before the accident flight:
+
+| sample | mean error (Hz) | sd (Hz) | mean, outliers excl. | sd, outliers excl. |
+|---|---|---|---|---|
+| including tarmac | 0.2246 | 4.9592 | 0.2745 | **4.0192** |
+| in-flight only | 0.1079 | 5.4840 | 0.1755 | **4.3177** |
+
+The book then states the choice in the next sentence: "to be conservative and
+allow for potential variation in the δf_bias value on the accident flight, our
+model assumes a noise standard deviation of 7 Hz."
+
+So 7 Hz is not a measurement. It is the 4.32 Hz in-flight figure inflated by a
+factor of 1.62 to cover uncertainty in the BFO bias. The `bfo-4hz` run is
+therefore not an arbitrary tightening — it is the book's own empirical value,
+run without the inflation.
+
+That framing raises a question about the inflation itself. The engine, following
+the book, already treats the BFO bias as an unknown constant per trajectory with
+a 25 Hz prior standard deviation and marginalises it in closed form through the
+Rao-Blackwellised step (p. 30). Bias uncertainty is thus accounted for twice:
+once properly, in the marginalisation, and again in the σ inflation. Whether
+that double-count is material is exactly what `bfo-4hz` measures, and the answer
+below is that it is.
+
+Two things the book's own analysis says that qualify this. The histogram of
+3,392 in-flight BFO errors (Fig. 5.5) "shows some non-Gaussian features and the
+tails of the distribution for negative errors are somewhat heavier than those for
+positive errors" — so a Gaussian at the empirical sd understates the tails, which
+is part of what the inflation buys. And the 4.32 Hz figure excludes outliers and
+excludes climbing and descending data points, so it is the sd of level cruise
+with outliers removed, not of the whole record.
+
 ## Runs
 
 | run | change from base | replicates |
@@ -91,12 +133,15 @@ disproportionately the curving magnetic-mode paths.
    −95.45 `bfo-4hz`, −99.38 `bto-2x`) cannot be read as model comparison. They
    are only comparable within a fixed observation model — which is how the
    declination and weather sensitivities used them.
-2. **4 Hz assumes no transient bias.** It is the scatter measured from the data
-   on the assumption that the BFO bias is constant over the flight. The engine
-   marginalises a constant BFO bias, so that assumption is partly built in — but
-   any drift in the bias would appear as scatter, and attributing all of it to
-   measurement noise then makes the 4 Hz figure too tight. The run should be read
-   as the lower end of a plausible range, not as a better-calibrated value.
+2. **4 Hz is the book's level-cruise, outliers-excluded figure.** Table 5.1's
+   4.3177 Hz excludes climbing and descending points and excludes outliers, and
+   Fig. 5.5 records heavier negative tails than a Gaussian. So 4 Hz is defensible
+   as the noise of level cruise and *not* defensible as the noise of the whole
+   record, including the descent that may have been in progress at 00:11 and
+   00:19. Read `bfo-4hz` as the un-inflated end of a range whose other end is the
+   book's 7 Hz, with the true figure epoch-dependent in a way neither run
+   captures. This is one more reason to get vertical rate into the BFO model: the
+   inflation is partly standing in for a state variable that is missing.
 3. **`bto-2x` is a bracket, not a calibration.** Doubling every σ is a way of
    asking how much of the result rests on BTO confidence. It is not a claim that
    the true σ is twice the nominal. A *drifting* BTO offset — the thing Figures
@@ -119,10 +164,10 @@ classes exactly as the book assigns them:
 | 63 µs | m0019a | R600 log-on request |
 | — | m1839, m2315 | C-channel, BTO not used (means of 51 and 29) |
 
-So the per-epoch table is a channel-type table, which is what Davey specifies —
-62 µs for R600 against 29 µs for R1200, with the log-on acknowledges treated as a
-separate class because their BTOs are known to be anomalous. The only fidelity
-gap is 63 against the book's 62 µs, already recorded in the parameter table.
+So the per-epoch table is a channel-type table, matching the book's p. 27
+sentence class for class: 29 µs for R1200, 62 µs for R600, 43 µs for anomalous
+R1200. The only fidelity gap is 63 against the book's 62 µs, already recorded in
+the parameter table.
 What this engine does differently is read the value from the observations file
 instead of hardcoding the channel table, which is why the parameter table shows
 these rows as derived `from_observations` rather than as declared constants —

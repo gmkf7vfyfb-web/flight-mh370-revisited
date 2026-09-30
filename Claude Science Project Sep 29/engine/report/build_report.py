@@ -15,9 +15,69 @@ app quote one set of numbers. Nothing here is hand-edited.
 
 import argparse
 import json
+import os
 import sys
 import textwrap
 from pathlib import Path
+
+
+# Keys whose difference is structural rather than a modelling choice: the case list
+# carries per-case ids and seed lists, and the run name and output path identify the
+# run rather than describing it.
+DEVIATION_SKIP_TOP = ("name", "output", "cases")
+
+# The name carried by config/davey2016.toml. Used only to warn when a non-base run is
+# reported without a --baseline to diff against.
+BASE_CONFIG_NAME = "davey2016-fig10-3"
+
+
+def config_deviations(base_cfg, cfg):
+    """Every declared difference between two run configurations.
+
+    Returns [(dotted_path, base_value, run_value)]. Input paths are compared by
+    basename so that the same file reached through a different relative prefix is
+    not reported as a difference. Used to label a sensitivity report with what it
+    actually varied: a run that changes an input file or a prior bound enables no
+    hypothesis and would otherwise be indistinguishable from the base estimate.
+    """
+    out = []
+
+    def walk(a, b, path):
+        if isinstance(a, dict) and isinstance(b, dict):
+            for k in sorted(set(a) | set(b)):
+                if not path and k in DEVIATION_SKIP_TOP:
+                    continue
+                walk(a.get(k), b.get(k), f"{path}.{k}" if path else k)
+            return
+        if path.startswith("inputs"):
+            a = os.path.basename(a) if isinstance(a, str) else a
+            b = os.path.basename(b) if isinstance(b, str) else b
+        if a != b:
+            out.append((path, a, b))
+
+    walk(base_cfg, cfg, "")
+    return out
+
+
+def describe_deviations(cfg, deviations, n_seeds, base_n_seeds):
+    """One sentence naming the run and what it varied from the base configuration."""
+    def show(v):
+        # A key absent from one configuration is not the value None; say so, because a
+        # reader cannot otherwise tell "the base set this to null" from "the base never
+        # declared it and the default applied".
+        return "(not declared)" if v is None else repr(v)
+
+    # The replicate count already states the seed difference, so the seed lists
+    # themselves are dropped: they are long and carry nothing extra.
+    # "to" rather than an arrow: the report's serif font has no U+2192 glyph, so an
+    # arrow renders as a missing-character box in the PDF.
+    parts = [f"{p.rsplit('.', 1)[-1]} {show(a)} to {show(b)}"
+             for p, a, b in deviations if p != "seeds"]
+    if n_seeds != base_n_seeds:
+        parts.append(f"replicates {base_n_seeds} to {n_seeds}")
+    if not parts:
+        return ""
+    return f"Sensitivity run {cfg.get('name', '?')!r}, varying " + "; ".join(parts) + "."
 
 import matplotlib
 
@@ -233,14 +293,6 @@ def main():
     hyp_text = "; ".join(f"{h['name']} ({', '.join(f'{k} = {v}' for k, v in h['parameters'].items())})" for h in hyps)
     wind_scale = run["config"].get("environment", {}).get("wind_scale", 1.0)
     sensitivity = wind_scale != 1.0
-    conditions = " ".join(filter(None, [
-        f"Hypotheses enabled: {hyp_text}." if hyps else "",
-        f"Sensitivity run: nominal ERA5 wind scaled by {wind_scale:g} (wind-error process kept)." if sensitivity else "",
-    ])) or "Base estimate: no hypotheses enabled."
-    if "stratum" not in run["final_columns"]:
-        conditions += (" Pooled by final autopilot mode (run predates the stratum column; biased for "
-                       "lateral-navigation paths that reverted to heading hold).")
-    variant = bool(hyps) or sensitivity
     COLUMNS = run["final_columns"]
     cfg = run["config"]
     case_seeds = {c["id"]: c.get("seeds") or cfg["seeds"] for c in cfg["cases"]}
@@ -248,11 +300,31 @@ def main():
     cases = {c: load_case(run_dir, c, s) for c, s in case_seeds.items()}
     bfo, bto = cases["bto-bfo"], cases.get("bto-only")
     base = None
+    base_cfg = None
+    base_seeds = None
     if args.baseline:
         base_run = json.loads((args.baseline / "run.json").read_text())
         base_cfg = base_run["config"]
         base_seeds = next(c.get("seeds") or base_cfg["seeds"] for c in base_cfg["cases"] if c["id"] == "bto-bfo")
         base = load_case(args.baseline.resolve(), "bto-bfo", base_seeds)
+
+    # What this run varied. A run that changes an input file or a prior bound enables
+    # no hypothesis and leaves wind_scale at 1, so neither of those flags alone can
+    # tell a sensitivity run from the base estimate; the configuration diff can.
+    deviations = config_deviations(base_cfg, cfg) if base_cfg else []
+    dev_text = describe_deviations(cfg, deviations, len(seeds), len(base_seeds or seeds)) if base_cfg else ""
+    unlabelled = not args.baseline and cfg.get("name") != BASE_CONFIG_NAME
+    conditions = " ".join(filter(None, [
+        f"Hypotheses enabled: {hyp_text}." if hyps else "",
+        f"Sensitivity run: nominal ERA5 wind scaled by {wind_scale:g} (wind-error process kept)." if sensitivity else "",
+        dev_text,
+        (f"Run {cfg.get('name', '?')!r} is not the base configuration, but no --baseline was given, "
+         "so the differences from it are not stated here.") if unlabelled else "",
+    ])) or "Base estimate: no hypotheses enabled."
+    if "stratum" not in run["final_columns"]:
+        conditions += (" Pooled by final autopilot mode (run predates the stratum column; biased for "
+                       "lateral-navigation paths that reverted to heading hold).")
+    variant = bool(hyps) or sensitivity or bool(deviations) or unlabelled
     reference = load_summary(run_dir).get("reference")
     if not reference:
         raise SystemExit(f"{run_dir}/summary.json has no published comparison curve; rebuild it with: "
@@ -312,8 +384,15 @@ def main():
         fig.text(0.08, 0.955, "Where was MH370 at 00:19 UTC?", fontsize=17, weight="bold", color=INK)
         fig.text(0.08, 0.932, "A reproduction of the DSTG Bayesian aircraft-position pdf (Davey et al. 2016, Fig. 10.3)",
                  fontsize=11, color=MUTED)
-        fig.text(0.08, 0.914, conditions, fontsize=9, color=INK if variant else MUTED, style="italic")
-        y = text_block(fig, 0.08, 0.893, f"""
+        # Wrapped: a deviation list naming two or three configuration keys overruns one
+        # line at this font size, and an unwrapped fig.text is clipped at the figure edge
+        # rather than shrunk, which silently truncates what the run actually varied. The
+        # body below starts one line lower per extra subtitle line, so a long deviation
+        # list pushes the text down instead of overprinting it.
+        cond_lines = textwrap.wrap(conditions, 112) or [""]
+        fig.text(0.08, 0.920, "\n".join(cond_lines), fontsize=9, va="top",
+                 linespacing=1.5, color=INK if variant else MUTED, style="italic")
+        y = text_block(fig, 0.08, 0.893 - 0.0155 * (len(cond_lines) - 1), f"""
             This report recreates the probability density function (pdf) of the aircraft's latitude at the final
             satellite handshake, 00:19 UTC on 8 March 2014, from the model published by Davey, Gordon, Holland,
             Rutten and Williams, Bayesian Methods in the Search for MH370 (Springer, 2016). The aircraft state is

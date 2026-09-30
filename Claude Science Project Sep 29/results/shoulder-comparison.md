@@ -155,10 +155,12 @@ Two consequences:
   roulette carries the same weight as the best path in the population, and a handful of such
   survivors can carry visible mass in the final normalised pdf.
 - With weights unnormalised and η absolute, essentially every path is in the roulette regime.
-  A single BTO epoch at σ = 29 µs contributes at most ln(1/(29√2π)) = −4.29 even at zero
-  residual, so a *perfect* path accumulates ln L = −38.6 over the nine BTO epochs alone — already
-  past both e⁻²⁵ and e⁻³⁰. So survival is being decided by roulette, and in that regime the mode
-  mix is set by survival counts rather than by likelihood ratios.
+  A single BTO epoch at σ = 29 µs contributes at most ln(1/(29√2π)) = −4.286 even at zero
+  residual, and the ten epochs that carry a BTO have σ = 29 µs (seven), 43 µs (two) and 63 µs
+  (one), so a *perfect* path accumulates ln L = −44.43 on the BTO terms alone, and −75.94 once
+  the eleven BFO terms at 7 Hz are included. Either figure is already past both e⁻²⁵ and e⁻³⁰.
+  So survival is being decided by roulette, and in that regime the mode mix is set by survival
+  counts rather than by likelihood ratios.
 
 This code does the opposite, and does it deliberately: one fixed-size filter per autopilot mode,
 systematic resampling whenever ESS falls below 50%, and modes combined in proportion to their
