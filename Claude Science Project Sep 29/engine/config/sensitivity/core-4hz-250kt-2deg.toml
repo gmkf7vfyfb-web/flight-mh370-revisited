@@ -1,0 +1,22 @@
+# Core-engine combination requested by the user:
+#   BFO sd 4 Hz (the book's own Table 5.1 in-flight, outliers-excluded figure)
+#   Mach sampling floor 0.41 (250 kt TAS at cruise altitude)
+#   initial track sd 2 deg (base is 1 deg, Table 8.2)
+# The BFO bias stays a CONSTANT per trajectory, marginalised by the Rao-Blackwell
+# step. The "bias allowed to vary" case is not available: the engine has no
+# process-noise term on the bias, so that variant needs a core change.
+name = "core-4hz-250kt-2deg"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../data/variants/satcom-observations-bfo4hz.csv"
+
+[prior]
+track_sd_deg = 2.0
+
+[dynamics]
+mach_range = [0.41, 0.86]
