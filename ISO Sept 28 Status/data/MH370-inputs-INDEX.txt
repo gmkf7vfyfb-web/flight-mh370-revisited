@@ -2,8 +2,9 @@ MH370 inputs kept outside git (large, licensed or not redistributable). Copied 2
 Record provenance in README's data table (core) or the lib.rs doc comment (module) when a file is used.
 
 fuel/              ulich-9M-MRO-fuel-model-v5.6-public.xlsm: Ulich fuel model V5.6, public Google Drive copy
-                   (https://drive.google.com/file/d/1Wt9DOU0Z53W7NERzSsK2sxcyrojmN7Sq). Tables carry Boeing-confidential
-                   notices: use locally, never redistribute. Use raw performance tables only (the endurance sheet is
+                   (https://drive.google.com/file/d/1Wt9DOU0Z53W7NERzSsK2sxcyrojmN7Sq). Its colour key marks some table cells
+                   'from a Boeing FPPM from a confidential source' (provenance, not a stated restriction;
+                   corrected 30 Sep 2026). Use raw performance tables only (the endurance sheet is
                    calibrated to events). BSMv7-9-4-original.xlsx: user-supplied BSM v7.9.4 workbook (origin/licence open).
 acars/             ACARS position and wind reports workbook (source to be recorded).
 satellite/         Inmarsat-3F1 fixed position/velocity workbook (source of data/satellite-ephemeris.csv).

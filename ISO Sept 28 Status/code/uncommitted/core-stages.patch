@@ -1,1273 +1,665 @@
-diff --git a/config/integrated.toml b/config/integrated.toml
-index 39f5fe3..5744ff1 100644
---- a/config/integrated.toml
-+++ b/config/integrated.toml
-@@ -26,24 +26,26 @@ options = [
-     { id = "both-bto", use = ["m0019a.bto", "m0019b.bto"] },
- ]
+diff --git a/crates/mh370/src/compose.rs b/crates/mh370/src/compose.rs
+index 85c77a0..aa10d1c 100644
+--- a/crates/mh370/src/compose.rs
++++ b/crates/mh370/src/compose.rs
+@@ -10,11 +10,13 @@
+ //! - within (i, s), rows share the stratum's pooled mass in proportion to w_r L_r;
+ //! - P(a | D) is proportional to P(a) sum_s prior(s) mean_i(Z_filter,is Z_is(a)).
+ //!
+-//! A row not computed is filled neutrally: it takes the mean likelihood of the computed rows of
+-//! its replicate and stratum (of its replicate, or of all replicates, if none of those is
+-//! computed). So the evidence is that of the computed domain, a region the module cannot
+-//! cover is never scored as impossible, and uncomputed rows keep their prior share instead of
+-//! being renormalised onto the covered rows. Their share of the prior mass is reported.
++//! A row not computed is filled neutrally: under each combination it takes the mean likelihood
++//! of the computed rows of its replicate and stratum (of its replicate, or of all replicates,
++//! if none of those is computed). So the evidence is that of the computed domain, a region the
++//! module cannot cover is never scored as impossible, and uncomputed rows keep their prior
++//! share instead of being renormalised onto the covered rows. Their share of the prior mass is
++//! reported. With nothing computed at all, the weights are the prior's and every evidence is
++//! NaN (undefined), never zero.
  
--# The 00:19 BFO measurement alternatives ("final-bfo-model"), equally likely a priori.
-+# The 00:19 BFO measurement alternatives ("final-bfo-model"): no offset and the start-up
-+# offset are mixed by their evidence from equal priors; the inflated error is a declared
-+# sensitivity, reported only conditionally (prior 0).
- [terminal.bfo_models.no-offset]
--prior = 0.3333333333333333
-+prior = 0.5
- 
- # Holland (2018, arXiv:1702.02432v3): the R1200 acknowledge 17-130 Hz above a steady oscillator
- # (Sec. V-B), the R600 log-on request 0-6 Hz above that (Sec. V-A). Extrapolated from seven log-ons
- # after long outages (Table II; footnote 13: less after this ~1 min outage); the uniform densities
--# are an analyst choice.
-+# are an analyst choice. The 17-130 Hz range is integrated exactly; the gap by 16 nodes.
- [terminal.bfo_models.startup-offset]
--prior = 0.3333333333333333
-+prior = 0.5
- second_hz = [17.0, 130.0]
- first_minus_second_hz = [0.0, 6.0]
--points = [64, 16]
-+points = 16
- 
- # A declared sensitivity: independent 34 Hz errors, the spread of the historical start-up offsets,
- # (136 - 17)/sqrt(12). It drops the assumptions that the offset is positive and shared.
- [terminal.bfo_models.inflated]
--prior = 0.3333333333333333
-+prior = 0.0
- sd_hz = 34.0
- 
- [hypotheses.arc-kernel]
-diff --git a/crates/hypothesis/src/lib.rs b/crates/hypothesis/src/lib.rs
-index 617b317..5604348 100644
---- a/crates/hypothesis/src/lib.rs
-+++ b/crates/hypothesis/src/lib.rs
-@@ -19,7 +19,8 @@
- //!      00:19:37 UTC in the base estimate, 00:11 when a terminal stage follows.
- //! 2. The terminal stage continues each trajectory to impact. The module named in
- //!    `[terminal] module` supplies the [`Terminal`] model: the runner flies the core dynamics
--//!    to its takeover time, the module descends, and the runner scores the 00:19 observations.
-+//!    to the module's takeover (a first flame-out, or the start of a descent under power), the
-+//!    module descends, and the runner scores the 00:19 observations.
- //! 3. Impact modules, named in `[[compose]]` sets, return [`Hypothesis::impact_log_likelihood`]
- //!    for every impact sample, and may fill named [`Hypothesis::predict`]ions.
- //! 4. The composer combines the chosen modules into one posterior.
-@@ -261,6 +262,8 @@ pub struct EpochState {
- 
- /// The impact fields a terminal module supplies. The runner derives the flight-path angle
- /// and the total and vertical kinetic energy from them, so those definitions exist once.
-+/// Velocities and mass may be NaN (not modelled), never infinite. Build it with
-+/// `Impact { ..Impact::at(unix_s, lat, lon) }` so that added fields keep a default.
- #[derive(Debug, Clone, Copy, PartialEq)]
- pub struct Impact {
-     pub unix_s: f64,
-@@ -272,7 +275,17 @@ pub struct Impact {
-     pub mass_kg: f64,
- }
- 
--/// One descent from a takeover state to impact.
-+impl Impact {
-+    /// An impact at this time and place, with velocities and mass not modelled (NaN).
-+    pub fn at(unix_s: f64, latitude_deg: f64, longitude_deg: f64) -> Self {
-+        let nan = f64::NAN;
-+        Impact { unix_s, latitude_deg, longitude_deg, velocity_east_mps: nan, velocity_north_mps: nan, velocity_up_mps: nan, mass_kg: nan }
-+    }
-+}
-+
-+/// One descent from a takeover state to impact. Build it with
-+/// `Descent { at_epochs, latents, ..Descent::new(impact, family) }` so that added fields keep a
-+/// default.
- #[derive(Debug, Clone, PartialEq)]
- pub struct Descent {
-     pub impact: Impact,
-@@ -287,29 +300,47 @@ pub struct Descent {
-     pub log_q_correction: f64,
- }
- 
--/// The end-of-flight model: from the powered state at the first flame-out to impact.
-+impl Descent {
-+    /// A prior draw with no requested epochs and no latents.
-+    pub fn new(impact: Impact, family: usize) -> Self {
-+        Descent { impact, family, at_epochs: Vec::new(), latents: Vec::new(), log_q_correction: 0.0 }
-+    }
-+}
-+
-+/// The end-of-flight model: from the takeover, when the module takes over from the core
-+/// dynamics (a first flame-out, or the start of a descent under power), to impact. The
-+/// flame-out, if any, is one of the module's latents.
- ///
- /// Uniform streams yield draws on the open interval (0, 1). Each call gets a fresh stream,
- /// seeded by (seed, hand-off row, child, purpose).
- pub trait Terminal: Send + Sync {
-     /// Descent families, e.g. glide, ditching, spiral, dive. The module samples them from its
--    /// declared prior, and the composer reports results per family.
-+    /// declared prior. Names are unique and free of `,` `/` `:`.
-     fn families(&self) -> Vec<String>;
- 
-+    /// One group label per family, in `families()` order: a partition into the end-of-flight
-+    /// hypotheses the composer leads with (e.g. the three endings: exhausted before the log-on,
-+    /// exhausted after it, powered impact). Within a group, families keep their sampled prior
-+    /// and are shown as secondary detail. Empty: every family is its own group.
-+    fn family_groups(&self) -> Vec<String> {
-+        Vec::new()
-+    }
-+
-     /// Names of the latent variables each descent records, e.g. the second flame-out time or
-     /// the gap between engines. Only this module's own impact hook reads them.
-     fn latent_columns(&self) -> Vec<String> {
-         Vec::new()
+ /// One replicate's impact samples.
+ pub struct Replica<'a> {
+@@ -35,11 +37,13 @@ pub struct Composition {
+     pub stratum_probability: Vec<f64>,
+     /// P(a | D) per combination of alternatives.
+     pub combination_probability: Vec<f64>,
+-    /// ln of the evidence of this data under each combination, relative to the prior.
++    /// ln of the evidence of this data under each combination, relative to the prior; also for
++    /// a combination of prior 0, which is reported only conditionally.
+     pub combination_log_evidence: Vec<f64>,
+     /// ln of the evidence of this data, alternatives marginalised: the log-evidence increment.
+     pub log_evidence: f64,
+-    /// The same, per replicate (each pooled over its own strata).
++    /// The same, per replicate (each pooled over its own strata; NaN if none of its rows is
++    /// computed).
+     pub replicate_log_evidence: Vec<f64>,
+     pub ess_rows: f64,
+     pub ess_parents: f64,
+@@ -101,8 +105,14 @@ pub fn compose(replicas: &[Replica], loglik: &[Vec<f64>], strata_prior: &[f64],
+     let weighted: Vec<f64> = combination_log_evidence.iter().zip(combination_prior).map(|(l, p)| p * (l - shift).exp()).collect();
+     let weighted_total: f64 = weighted.iter().sum();
+     let combination_probability = weighted.iter().map(|w| w / weighted_total).collect();
++    // Evidence exists only where something was computed.
++    let defined = |i: usize| computed_mass[i].iter().any(|&m| m > 0.0);
++    let undefined = !(0..replicas.len()).any(defined);
+     let replicate_log_evidence = (0..replicas.len())
+         .map(|i| {
++            if !defined(i) {
++                return f64::NAN;
++            }
+             let prior: f64 = (0..n_strata).map(|s| strata_prior[s] * filter(i, s)).sum();
+             ((0..n_strata).map(|s| strata_prior[s] * filter(i, s) * z(i, s, None)).sum::<f64>() / prior).ln() + shift
+         })
+@@ -139,13 +149,18 @@ pub fn compose(replicas: &[Replica], loglik: &[Vec<f64>], strata_prior: &[f64],
+         }
      }
- 
--    /// The first flame-out for one child of the trajectory handed off at `handoff`. Returns
--    /// (unix time, not before the hand-off; ln(prior / proposal) of the draw). The runner then
--    /// flies the core dynamics to that time.
-+    /// The takeover for one child of the trajectory handed off at `handoff`: when the module
-+    /// takes over from the core dynamics. Returns (unix time, not before the hand-off;
-+    /// ln(prior / proposal) of the draw). The runner then flies the core dynamics to that time;
-+    /// it may lie after the last 00:19 burst.
-     fn takeover_time(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> (f64, f64);
- 
-     /// One or more independent draws from the module's descent proposal, starting from the
--    /// takeover state. `epochs` are the 00:19 epochs at or after the takeover; earlier ones
--    /// were flown on the core dynamics.
-+    /// takeover state. `epochs` are the 00:19 epochs strictly after the takeover (possibly
-+    /// none); those at or before it were flown on the core dynamics.
-     ///
-     /// `score(candidates)` gives the log-likelihood of the configured target observations
-     /// (`[terminal] target`, BFO models mixed by their priors) with candidate states at
-@@ -345,12 +376,14 @@ pub struct ImpactView<'a> {
-     pub vertical_kinetic_energy_j: f64,
-     /// Index into the terminal module's families.
-     pub family: usize,
--    /// The first flame-out: time and place.
-+    /// The takeover: when the terminal module took over from the core dynamics (a first
-+    /// flame-out, or the start of a descent under power), and where.
-     pub takeover_unix_s: f64,
-     pub takeover_latitude_deg: f64,
-     pub takeover_longitude_deg: f64,
-     pub takeover_altitude_ft: f64,
--    /// The parent trajectory's autopilot mode and trajectory-level option.
-+    /// The parent trajectory's stratum: the autopilot mode it was filtered under (it may have
-+    /// reverted from lateral navigation since), and its trajectory-level option.
-     pub mode: usize,
-     pub alternative: usize,
-     /// The terminal module's latents; empty for every other module.
-diff --git a/crates/mh370/src/config.rs b/crates/mh370/src/config.rs
-index e2ab6e4..cf6bbf6 100644
---- a/crates/mh370/src/config.rs
-+++ b/crates/mh370/src/config.rs
-@@ -73,7 +73,8 @@ pub struct DataOption {
- }
- 
- /// One 00:19 BFO model: no offset (no parameters), a start-up offset (`second_hz`,
--/// `first_minus_second_hz`, `points`) or an inflated error (`sd_hz`).
-+/// `first_minus_second_hz`, and `points` Gauss-Legendre nodes over the gap) or an inflated
-+/// error (`sd_hz`). A model with prior 0 is reported only conditionally, never mixed in.
- #[derive(Deserialize, Serialize, Clone)]
- #[serde(deny_unknown_fields)]
- pub struct BfoModelConfig {
-@@ -83,7 +84,7 @@ pub struct BfoModelConfig {
-     #[serde(default, skip_serializing_if = "Option::is_none")]
-     pub first_minus_second_hz: Option<[f64; 2]>,
-     #[serde(default, skip_serializing_if = "Option::is_none")]
--    pub points: Option<[usize; 2]>,
-+    pub points: Option<usize>,
-     #[serde(default, skip_serializing_if = "Option::is_none")]
-     pub sd_hz: Option<f64>,
- }
-diff --git a/crates/mh370/src/impacts.rs b/crates/mh370/src/impacts.rs
-index 17c0cd0..84466b6 100644
---- a/crates/mh370/src/impacts.rs
-+++ b/crates/mh370/src/impacts.rs
-@@ -90,6 +90,15 @@ impl Fields {
-     }
- }
- 
-+/// Whether a module is a placeholder (`placeholder = true` in its hypothesis.toml), whose
-+/// outputs every file and page labels "not a result".
-+pub fn is_placeholder(name: &str) -> bool {
-+    hypotheses::metadata(name)
-+        .and_then(|text| text.parse::<toml::Table>().ok())
-+        .and_then(|meta| meta.get("placeholder").and_then(toml::Value::as_bool))
-+        .unwrap_or(false)
-+}
-+
- /// A name that becomes part of a column name: not empty, and free of the separators.
- pub fn check_name(what: &str, name: &str) -> Result<(), String> {
-     if name.is_empty() || name.contains([',', '/', ':', '\n', '\r']) {
-@@ -259,6 +268,7 @@ pub fn evaluate(args: &[String]) -> Result<(), String> {
-             "code_revision": code_revision(),
-             "modules": modules.iter().map(|m| json!({
-                 "name": m.name,
-+                "placeholder": is_placeholder(&m.name),
-                 "parameters": config.hypotheses[&m.name],
-                 "observations": m.hypothesis.observations(),
-                 "alternatives": m.hypothesis.alternatives().iter().map(|a| json!({"name": a.name, "options": a.options, "sweep_label": a.sweep_label})).collect::<Vec<_>>(),
+     let ess_parents = 1.0 / by_parent.values().map(|w: &f64| w * w).sum::<f64>();
++    let (log_evidence, combination_log_evidence) = if undefined {
++        (f64::NAN, vec![f64::NAN; n_comb])
++    } else {
++        ((total / before).ln() + shift, combination_log_evidence)
++    };
+     Composition {
+         weights,
+         uncomputed,
+         stratum_probability,
+         combination_probability,
+         combination_log_evidence,
+-        log_evidence: (total / before).ln() + shift,
++        log_evidence,
+         replicate_log_evidence,
+         ess_rows,
+         ess_parents,
 diff --git a/crates/mh370/src/main.rs b/crates/mh370/src/main.rs
-index e0bc81b..3ad6e42 100644
+index b1a27f3..3c478eb 100644
 --- a/crates/mh370/src/main.rs
 +++ b/crates/mh370/src/main.rs
-@@ -83,9 +83,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
-     // Excluded bursts after the filter's stop go to the end-of-flight stage when there is one.
-     let excluded: Vec<satcom::Epoch> = epochs.iter().filter(|e| config.exclude_epochs.contains(&e.id)).cloned().collect();
-     epochs.retain(|e| !config.exclude_epochs.contains(&e.id));
--    let mut environment = Gridded::load(&config.inputs.era5, &config.inputs.igrf)?;
--    environment.wind_scale = config.environment.wind_scale;
--    environment.declination_scale = config.environment.declination_scale;
-+    let environment = load_environment(&config)?;
- 
-     let hypotheses: Vec<Box<dyn Hypothesis>> = roles
-         .trajectory
-@@ -132,7 +130,8 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
-     let stage = match (&config.terminal, &terminal_module) {
-         (Some(t), Some(module)) => {
-             let later = excluded.iter().filter(|e| e.unix_s > stop.unix_s).cloned().collect();
--            Some(terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), &t.module)?, later)?)
-+            let placeholder = impacts::is_placeholder(&t.module);
-+            Some(terminal::Stage::new(t, &params, &environment, environment.era5_span(), terminal_model(module.as_ref(), &t.module)?, later, placeholder)?)
+@@ -241,10 +241,10 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
          }
-         _ => None,
-     };
-@@ -194,7 +193,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
-             write_json(&dir.join("diagnostics.json"), &replicate)?;
-             if let Some(stage) = &stage {
-                 let started = Instant::now();
--                let diagnostics = stage.run(seed, &stop, &handed_off, &dir)?;
-+                let (diagnostics, _) = stage.run(seed, case.use_bfo, &stop, &handed_off, &dir)?;
-                 write_json(&dir.join("terminal.json"), &diagnostics)?;
-                 eprintln!("{} seed {seed}: end of flight in {:.1} s", case.id, started.elapsed().as_secs_f64());
-             }
-@@ -258,6 +257,14 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
-     Ok(manifest)
- }
- 
-+/// The weather grids of a configuration, with its sensitivity scales.
-+fn load_environment(config: &config::Config) -> Result<Gridded, String> {
-+    let mut environment = Gridded::load(&config.inputs.era5, &config.inputs.igrf)?;
-+    environment.wind_scale = config.environment.wind_scale;
-+    environment.declination_scale = config.environment.declination_scale;
-+    Ok(environment)
-+}
-+
- /// The terminal model of the module named in `[terminal]`.
- fn terminal_model<'a>(module: &'a dyn Hypothesis, name: &str) -> Result<&'a dyn Terminal, String> {
-     module.terminal().ok_or_else(|| format!("{name} is named in [terminal] but has no terminal model"))
-@@ -282,9 +289,7 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
-     };
-     let module = hypotheses::construct(name, &config.hypotheses[name])?;
-     let epochs = satcom::load_epochs(&config.inputs.observations, &config.inputs.ephemeris)?;
--    let mut environment = Gridded::load(&config.inputs.era5, &config.inputs.igrf)?;
--    environment.wind_scale = config.environment.wind_scale;
--    environment.declination_scale = config.environment.declination_scale;
-+    let environment = load_environment(&config)?;
-     let params = config.dynamics.apply(Parameters::default());
- 
-     let mut handoffs = Vec::new();
-@@ -292,7 +297,7 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
-         for &seed in case.seeds.as_ref().unwrap_or(&config.seeds) {
-             let dir = run_dir.join(&case.id).join(format!("seed-{seed}"));
-             if dir.join("handoff.toml").is_file() {
--                handoffs.push((case.id.clone(), seed, handoff::read(&dir)?));
-+                handoffs.push((case.id.clone(), case.use_bfo, seed, handoff::read(&dir)?));
-             }
+         if let (Some(stage), false) = (&stage, impacts_of_case.is_empty()) {
+             let started = Instant::now();
+-            let (columns, families) = (stage.impact_columns(), stage.module.families());
++            let (columns, families, groups) = (stage.impact_columns(), stage.module.families(), stage.module.family_groups());
+             let reference = stage.epochs.last().map_or(f64::NAN, |e| e.logged_unix_s);
+             let terminal_module = roles.terminal.as_deref().unwrap_or_default();
+-            composed_cases.push(compose_case(&case.id, &config, &columns, &families, reference, terminal_module, &impact_modules, &impacts_of_case)?);
++            composed_cases.push(compose_case(&case.id, &config, &columns, &families, &groups, reference, terminal_module, &impact_modules, &impacts_of_case)?);
+             eprintln!("{}: composed {} sets in {:.1} s", case.id, config.compose.len(), started.elapsed().as_secs_f64());
          }
      }
-@@ -301,15 +306,15 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
-         None => return Err(format!("{}: no handoff.toml for the configuration's cases and seeds", run_dir.display())),
-     };
-     let later = epochs.iter().filter(|e| config.exclude_epochs.contains(&e.id) && e.unix_s > stop.unix_s).cloned().collect();
--    let stage = terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), name)?, later)?;
-+    let stage = terminal::Stage::new(t, &params, &environment, environment.era5_span(), terminal_model(module.as_ref(), name)?, later, impacts::is_placeholder(name))?;
-     let mut replicates = Vec::new();
--    for (case, seed, (s, rows)) in handoffs {
-+    for (case, use_bfo, seed, (s, rows)) in handoffs {
-         if s != stop {
-             return Err(format!("{case} seed {seed}: its hand-off stops at {} rather than {}", s.epoch, stop.epoch));
-         }
-         let dir = out.join(&case).join(format!("seed-{seed}"));
-         std::fs::create_dir_all(&dir).map_err(|e| e.to_string())?;
--        let diagnostics = stage.run(seed, &stop, &rows, &dir)?;
-+        let (diagnostics, _) = stage.run(seed, use_bfo, &stop, &rows, &dir)?;
-         write_json(&dir.join("terminal.json"), &diagnostics)?;
-         replicates.push(serde_json::json!({"case": case, "seed": seed, "terminal": diagnostics}));
+@@ -321,6 +321,7 @@ fn compose_case(
+     config: &config::Config,
+     columns: &[String],
+     families: &[String],
++    groups: &[String],
+     reference_unix_s: f64,
+     terminal_module: &str,
+     modules: &[impacts::Module],
+@@ -336,6 +337,7 @@ fn compose_case(
+         terminal: config.terminal.as_ref().ok_or("no [terminal]")?,
+         terminal_module,
+         families,
++        groups,
+         declarations: &declarations,
+         placeholder,
+         reference_unix_s,
+@@ -365,7 +367,7 @@ fn recompose(args: &[String]) -> Result<(), String> {
+     if columns.is_empty() || config.compose.is_empty() {
+         return Err(format!("{}: needs a run with impacts and a configuration with [[compose]] sets", run_dir.display()));
      }
-diff --git a/crates/mh370/src/terminal.rs b/crates/mh370/src/terminal.rs
-index 78ed593..2fb39e4 100644
---- a/crates/mh370/src/terminal.rs
-+++ b/crates/mh370/src/terminal.rs
-@@ -1,56 +1,76 @@
- //! Stage 2, the end of flight: every handed-off trajectory continues to impact.
+-    let families = strings(&manifest["terminal"]["module_families"]);
++    let (families, groups) = (strings(&manifest["terminal"]["module_families"]), strings(&manifest["terminal"]["family_groups"]));
+     let reference = manifest["terminal"]["epochs"].as_array().and_then(|e| e.last()).and_then(|e| e["logged_unix_s"].as_f64()).unwrap_or(f64::NAN);
+     let terminal_module = manifest["config"]["terminal"]["module"].as_str().unwrap_or_default().to_string();
+     let listed: BTreeSet<&String> = config.compose.iter().flat_map(|s| &s.modules).collect();
+@@ -394,7 +396,7 @@ fn recompose(args: &[String]) -> Result<(), String> {
+             });
+         }
+         if !replicates.is_empty() {
+-            cases.push(compose_case(&case.id, &config, &columns, &families, reference, &terminal_module, &modules, &replicates)?);
++            cases.push(compose_case(&case.id, &config, &columns, &families, &groups, reference, &terminal_module, &modules, &replicates)?);
+         }
+     }
+     write_json(&out.join("summary.json"), &serde_json::json!({"impacts": {"grid": sets::grid(), "cases": cases}}))?;
+diff --git a/crates/mh370/src/sets.rs b/crates/mh370/src/sets.rs
+index eb8edec..ccbc6a4 100644
+--- a/crates/mh370/src/sets.rs
++++ b/crates/mh370/src/sets.rs
+@@ -1,22 +1,29 @@
+ //! Stage 4 for one case: each evidence set composed (compose.rs) and summarised for
+ //! summary.json.
  //!
- //! For each hand-off row and each of its N children, on the child's own random streams:
--//! 1. the terminal module draws the takeover time (the first flame-out);
-+//! 1. the terminal module draws the takeover, when it takes over from the core dynamics (a
-+//!    first flame-out, or the start of a descent under power);
- //! 2. the runner flies the core dynamics to it, recording the state at each 00:19 burst on
- //!    the way (the cruise-model convention, as in the filter: no vertical rate);
- //! 3. the module descends from the takeover state to impact, returning one or more descents
--//!    with the state at each burst after the takeover;
-+//!    with the state at each burst strictly after the takeover;
- //! 4. the runner scores every data option from those states with the core measurement model:
--//!    BTO Gaussian, BFO jointly with the parent's Kalman bias under each BFO model.
-+//!    BTO Gaussian, BFO jointly with the parent's Kalman bias under each BFO model. BFO options
-+//!    are not computed (NaN) in a case filtered without BFO, whose bias is only its prior.
+-//! Results lead per end-of-flight hypothesis: each descent family of the terminal module and,
+-//! when a set uses the terminal module's own data, each option of its alternatives (e.g. what
+-//! caused the 00:19 log-on). Each comes with the evidence of the set's data under it. An
+-//! average across them is shown only beside a prior sensitivity (the terminal module's own
+-//! prior, and a uniform one), because priors such as piloted against unpiloted cannot be
+-//! tested. Under a prior pi, P(h | D) is proportional to pi_h Z_h, and the average is the
+-//! mixture of the per-hypothesis results with those weights. Every other alternative (the
+-//! 00:19 BFO model, an ocean model, ...) is marginalised by evidence within each hypothesis,
+-//! and its posterior is reported.
++//! Results lead per end-of-flight hypothesis: each group of descent families of the terminal
++//! module (`Terminal::family_groups`, e.g. the endings: exhausted before the log-on, after it,
++//! powered impact) and, when a set uses the terminal module's own data, each option of its
++//! alternatives (e.g. what caused the 00:19 log-on). Each comes with the evidence of the set's
++//! data under it. Within a group, families are weighted by prior times evidence, as the
++//! samples carry them, and shown as secondary detail. An average across the hypotheses is
++//! shown only beside a prior sensitivity (the terminal module's own prior, and a uniform one),
++//! because priors such as piloted against unpiloted cannot be tested. Under a prior pi,
++//! P(h | D) is proportional to pi_h Z_h, and the average is the mixture of the per-hypothesis
++//! results with those weights. Every other alternative (the 00:19 BFO model, an ocean model,
++//! ...) is marginalised by evidence within each hypothesis, and its posterior is reported; an
++//! option of prior 0 is reported only conditionally, by its evidence.
++//!
++//! A hypothesis with more of its pre-module posterior not computed than the set's tolerance
++//! is still shown, with where the rows not computed lie, but it is labelled "not comparable"
++//! and takes no part in the average or in Bayes factors against the other hypotheses.
  //!
- //! Descent j of the M from one takeover has proposal weight exp(lnq_takeover + lnq_j) / M, and
- //! the children of a parent share its hand-off weight in proportion (self-normalised per
- //! parent). Every data option is a separate log-likelihood column of impacts.npy, computed
--//! from the same children, so options compare side by side.
-+//! from the same children, so options compare side by side. The children's streams are
-+//! nested, so terminal.json also reports each column from the first half of the children:
-+//! the doubling check of the sampler, from the same pass.
+ //! Every position summary is keyed by the point it describes. Only "contact" (first water
+ //! contact) exists now; the acoustic source and the resting place on the seabed will follow.
  
- use crate::config::TerminalConfig;
- use crate::handoff::{Row, Stop};
--use crate::impacts::IMPACT_COLUMNS;
-+use crate::impacts::{check_name, IMPACT_COLUMNS};
- use crate::output::write_npy64;
- use flight::environment::{Environment, MPS_PER_KNOT};
- use flight::{Aircraft, Parameters};
--use hypothesis::{Air, Atmosphere, EpochState, FlightState, Terminal, TerminalEpoch};
-+use hypothesis::{Air, Atmosphere, Descent, EpochState, FlightState, Terminal, TerminalEpoch};
- use rand::{Rng, SeedableRng};
- use rand_chacha::ChaCha8Rng;
- use rayon::prelude::*;
--use satcom::{bfo_without_bias_hz, bto_us, gaussian_log_likelihood, BfoBias, Epoch, FinalBfo};
-+use satcom::{bfo_without_bias_hz, bto_us, gaussian_log_likelihood, BfoBias, Epoch, FinalBfo, FINAL_BFO_BURSTS};
+ use crate::compose::{compose, Composition, Replica};
+ use crate::config::{ComposeSet, TerminalConfig};
+-use crate::summary::{impact_density, map_overlap, overlap, round, round_all, stats, weighted_quantiles, Histogram, IMPACT_MAP};
++use crate::summary::{impact_cell, impact_density, map_overlap, overlap, round, round_all, stats, weighted_quantiles, Histogram, IMPACT_MAP};
+ use hypothesis::Alternatives;
  use serde_json::{json, Value};
- use std::path::Path;
- 
- const FPM_PER_MPS: f64 = 60.0 / 0.3048;
- 
-+/// One observation a data option uses: the BTO of a burst, or its BFO in the 00:19 BFO models'
-+/// slot for that burst (bound by burst id, see `FINAL_BFO_BURSTS`).
-+#[derive(Clone, Copy, PartialEq)]
-+struct Use {
-+    epoch: usize,
-+    bfo_slot: Option<usize>,
-+}
-+
- /// Everything stage 2 shares across replicates.
- pub struct Stage<'a, E> {
-     pub params: &'a Parameters,
-     pub environment: &'a E,
-     /// The weather grid's time and pressure-altitude span; queries outside are clamped.
--    pub span: Option<[(f64, f64); 2]>,
-+    span: [(f64, f64); 2],
-     pub module: &'a dyn Terminal,
-     pub children: usize,
-     /// The bursts after the stop, in time order; scored at their logged times.
-     pub epochs: Vec<Epoch>,
--    /// Per data option: (epoch index, BFO?) for each observation it uses.
--    options: Vec<Vec<(usize, bool)>>,
-+    options: Vec<Vec<Use>>,
-     /// Log-likelihood columns: (label, data option, BFO model).
-     columns: Vec<(String, usize, Option<usize>)>,
--    /// (label, prior, model) of each 00:19 BFO model.
-+    /// (label, prior, model) of each 00:19 BFO model; prior 0 means reported conditionally only.
-     bfo_models: Vec<(String, f64, FinalBfo)>,
-     target: usize,
-     /// Satellite position and BTO of the arc epoch.
-     arc: (geo::Vec3, f64),
-     families: usize,
-     latents: usize,
-+    /// The terminal module is a placeholder: every file and page says so.
-+    pub placeholder: bool,
-+}
-+
-+/// One scored descent: its impacts.npy row, its child, and its log proposal weight.
-+struct Scored {
-+    row: Vec<f64>,
-+    child: usize,
-+    log_weight: f64,
+ use std::collections::BTreeMap;
+@@ -49,6 +56,8 @@ pub struct Stage4<'a> {
+     pub terminal: &'a TerminalConfig,
+     pub terminal_module: &'a str,
+     pub families: &'a [String],
++    /// One end-of-flight group label per family, or none: every family is its own group.
++    pub groups: &'a [String],
+     pub declarations: &'a BTreeMap<String, Declaration>,
+     /// The terminal module is a placeholder: every page says "not a result".
+     pub placeholder: bool,
+@@ -75,6 +84,14 @@ struct Logliks {
+     modules: Vec<(String, Vec<Vec<f64>>)>,
  }
  
- impl<'a, E: Environment> Stage<'a, E> {
-@@ -59,33 +79,41 @@ impl<'a, E: Environment> Stage<'a, E> {
-         config: &TerminalConfig,
-         params: &'a Parameters,
-         environment: &'a E,
--        span: Option<[(f64, f64); 2]>,
-+        span: [(f64, f64); 2],
-         module: &'a dyn Terminal,
-         epochs: Vec<Epoch>,
-+        placeholder: bool,
-     ) -> Result<Self, String> {
-         if epochs.is_empty() {
-             return Err("[terminal]: no bursts after the stop; list them in exclude_epochs".into());
-         }
--        if epochs.len() > 2 && config.options.iter().any(|o| o.observations.iter().any(|id| id.ends_with(".bfo"))) {
--            return Err("[terminal]: the 00:19 BFO models cover two bursts".into());
-+        // The child index is 16 bits of the random-stream id.
-+        if !(1..=65_535).contains(&config.children) || config.handoff == 0 {
-+            return Err("[terminal]: need 1 to 65,535 children and a hand-off of at least one trajectory".into());
-         }
-         let mut options = Vec::new();
-         for option in &config.options {
-+            check_name("terminal option", &option.id)?;
-             let mut uses = Vec::new();
-             for id in &option.observations {
-                 let (epoch, quantity) = id.split_once('.').ok_or_else(|| format!("terminal option {}: bad observation {id}", option.id))?;
-                 let k = epochs.iter().position(|e| e.id == epoch).ok_or_else(|| {
-                     format!("terminal option {}: {epoch} is not a burst after the stop (exclude it from the filter)", option.id)
-                 })?;
--                let present = match quantity {
--                    "bto" => epochs[k].bto_us.is_some(),
--                    "bfo" => epochs[k].bfo_hz.is_some(),
--                    _ => false,
-+                let used = match quantity {
-+                    "bto" if epochs[k].bto_us.is_some() => Use { epoch: k, bfo_slot: None },
-+                    "bfo" if epochs[k].bfo_hz.is_some() => {
-+                        let slot = FINAL_BFO_BURSTS.iter().position(|b| *b == epoch).ok_or_else(|| {
-+                            format!("terminal option {}: the 00:19 BFO models cover {FINAL_BFO_BURSTS:?} only, not {epoch}", option.id)
-+                        })?;
-+                        Use { epoch: k, bfo_slot: Some(slot) }
-+                    }
-+                    _ => return Err(format!("terminal option {}: {id} is not a measured BTO or BFO", option.id)),
-                 };
--                if !present || uses.contains(&(k, quantity == "bfo")) {
--                    return Err(format!("terminal option {}: {id} is not a measured BTO or BFO, or is listed twice", option.id));
-+                if uses.contains(&used) {
-+                    return Err(format!("terminal option {}: {id} is listed twice", option.id));
-                 }
--                uses.push((k, quantity == "bfo"));
-+                uses.push(used);
-             }
-             options.push(uses);
-         }
-@@ -96,16 +124,19 @@ impl<'a, E: Environment> Stage<'a, E> {
-         let bfo_models = config
-             .bfo_models
-             .iter()
--            .map(|(label, m)| Ok((label.clone(), m.prior, FinalBfo::new(&m.model(label)?)?)))
-+            .map(|(label, m)| {
-+                check_name("terminal BFO model", label)?;
-+                Ok((label.clone(), m.prior, FinalBfo::new(&m.model(label)?)?))
-+            })
-             .collect::<Result<Vec<_>, String>>()?;
-         let total: f64 = bfo_models.iter().map(|m| m.1).sum();
--        if !bfo_models.is_empty() && (!bfo_models.iter().all(|m| m.1 > 0.0) || (total - 1.0).abs() > 1e-6) {
--            return Err(format!("terminal.bfo_models: priors must be positive and sum to 1 (sum {total})"));
-+        if !bfo_models.is_empty() && (!bfo_models.iter().all(|m| m.1 >= 0.0) || (total - 1.0).abs() > 1e-6) {
-+            return Err(format!("terminal.bfo_models: priors must be non-negative and sum to 1 (sum {total}); 0 is conditional only"));
-         }
-         let mut columns = Vec::new();
-         for (o, uses) in options.iter().enumerate() {
-             let id = &config.options[o].id;
--            if uses.iter().any(|u| u.1) {
-+            if uses.iter().any(|u| u.bfo_slot.is_some()) {
-                 if bfo_models.is_empty() {
-                     return Err(format!("terminal option {id} uses a BFO: declare terminal.bfo_models"));
-                 }
-@@ -117,11 +148,18 @@ impl<'a, E: Environment> Stage<'a, E> {
-         let target = ids.iter().position(|id| *id == config.target).ok_or_else(|| format!("terminal.target {} is not an option", config.target))?;
-         let arc = epochs.iter().find(|e| e.id == config.arc).and_then(|e| Some((e.satellite_km, e.bto_us?)));
-         let arc = arc.ok_or_else(|| format!("terminal.arc {} is not a burst after the stop with a BTO", config.arc))?;
--        let (families, latents) = (module.families().len(), module.latent_columns().len());
--        if families == 0 {
--            return Err("the terminal module declares no descent families".into());
-+        let (families, groups) = (module.families(), module.family_groups());
-+        if families.is_empty() || !(groups.is_empty() || groups.len() == families.len()) {
-+            return Err("the terminal module needs families, and one group label per family (or none)".into());
-         }
--        Ok(Stage { params, environment, span, module, children: config.children, epochs, options, columns, bfo_models, target, arc, families, latents })
-+        for name in families.iter().chain(&groups) {
-+            check_name("terminal family or group", name)?;
-+        }
-+        if (1..families.len()).any(|i| families[..i].contains(&families[i])) {
-+            return Err("the terminal module's family names must be unique".into());
-+        }
-+        let latents = module.latent_columns().len();
-+        Ok(Stage { params, environment, span, module, children: config.children, epochs, options, columns, bfo_models, target, arc, families: families.len(), latents, placeholder })
++impl Logliks {
++    /// The set's data: the option plus every module, for replicate i, row j and combination c.
++    fn combined(&self, i: usize, j: usize, c: usize) -> f64 {
++        let at = |m: &[Vec<f64>]| m[i][j * self.combos + c];
++        at(&self.option) + self.modules.iter().map(|(_, m)| at(m)).sum::<f64>()
++    }
++}
++
+ impl Stage4<'_> {
+     fn column(&self, name: &str) -> Result<usize, String> {
+         self.columns.iter().position(|c| c == name).ok_or_else(|| format!("impacts.npy has no column {name}"))
+@@ -85,20 +102,43 @@ impl Stage4<'_> {
      }
  
-     /// Column names of impacts.npy.
-@@ -139,49 +177,48 @@ impl<'a, E: Environment> Stage<'a, E> {
-     /// What run.json records about the stage.
-     pub fn manifest(&self) -> Value {
-         json!({
-+            "placeholder": self.placeholder,
-             "module_families": self.module.families(),
-+            "family_groups": self.module.family_groups(),
-             "latent_columns": self.module.latent_columns(),
-             "children": self.children,
-             "epochs": self.epochs.iter().map(|e| json!({"id": e.id, "logged_unix_s": e.logged_unix_s})).collect::<Vec<_>>(),
-             "loglik_columns": self.columns.iter().map(|c| &c.0).collect::<Vec<_>>(),
--            "bfo_models": self.bfo_models.iter().map(|m| json!({"label": m.0, "prior": m.1})).collect::<Vec<_>>(),
-+            "bfo_models": self.bfo_models.iter().map(|m| json!({"label": m.0, "prior": m.1, "conditional_only": m.1 == 0.0})).collect::<Vec<_>>(),
-         })
+     /// Every data option's evidence and ESS against the flight posterior, so that a collapse
+-    /// shows as evidence, not only as a small ESS.
++    /// shows as evidence, not only as a small ESS; with the share not computed (all of it for
++    /// a BFO option in a case filtered without BFO), and whether its BFO model is conditional
++    /// only (prior 0).
+     pub fn options(&self, replicates: &[ReplicateImpacts]) -> Result<Value, String> {
+         let all: Vec<Vec<usize>> = replicates.iter().map(|r| (0..self.rows(r)).collect()).collect();
+         let mut out = Vec::new();
+         for (k, name) in self.columns.iter().enumerate().filter(|(_, c)| c.starts_with("loglik:")) {
+             let width = self.columns.len();
+             let c = self.compose(replicates, &all, 1, &|i, j, _| replicates[i].values[j * width + k], &[1.0])?;
+-            out.push(json!({"column": &name["loglik:".len()..], "log_evidence_increment": finite(c.log_evidence),
++            let column = &name["loglik:".len()..];
++            let model = column.split_once('/').and_then(|(_, m)| self.terminal.bfo_models.get(m));
++            out.push(json!({"column": column, "log_evidence_increment": finite(c.log_evidence),
+                             "replicate_log_evidence": c.replicate_log_evidence.iter().map(|l| finite(*l)).collect::<Vec<_>>(),
+-                            "ess_rows": round(c.ess_rows), "ess_parents": round(c.ess_parents)}));
++                            "ess_rows": round(c.ess_rows), "ess_parents": round(c.ess_parents),
++                            "not_computed": round(c.uncomputed), "conditional_only": model.is_some_and(|m| m.prior == 0.0)}));
+         }
+         Ok(Value::Array(out))
      }
  
--    /// Stage 2 for one replicate: writes impacts.npy to `dir` and returns its diagnostics.
--    pub fn run(&self, seed: u64, stop: &Stop, rows: &[Row], dir: &Path) -> Result<Value, String> {
-+    /// Stage 2 for one replicate, in a case that filtered with (`use_bfo`) or without the BFOs:
-+    /// writes impacts.npy to `dir` and returns its diagnostics and its rows.
-+    pub fn run(&self, seed: u64, use_bfo: bool, stop: &Stop, rows: &[Row], dir: &Path) -> Result<(Value, Vec<f64>), String> {
-+        if rows.len() > u32::MAX as usize {
-+            return Err("more hand-off rows than the random-stream id holds".into());
++    /// The end-of-flight groups in order of first appearance, each with its families.
++    fn groups(&self) -> Result<Vec<(String, Vec<usize>)>, String> {
++        if self.groups.is_empty() {
++            return Ok(self.families.iter().enumerate().map(|(f, name)| (name.clone(), vec![f])).collect());
 +        }
-         let width = self.impact_columns().len();
--        let per_parent: Vec<(Vec<f64>, Vec<f64>)> =
--            rows.par_iter().enumerate().map(|(r, row)| self.children_of(seed, stop, r, row, width)).collect::<Result<_, String>>()?;
--        let mut values = Vec::new();
--        let mut corrections = Vec::new();
--        for (v, c) in per_parent {
--            values.extend(v);
--            corrections.extend(c);
--        }
--        let count = values.len() / width;
--        write_npy64(&dir.join("impacts.npy"), &[count, width], &values)?;
--        Ok(self.diagnostics(&values, width, rows.len(), &corrections))
-+        let per_parent: Vec<Vec<Scored>> =
-+            rows.par_iter().enumerate().map(|(r, row)| self.children_of(seed, use_bfo, stop, r, row)).collect::<Result<_, String>>()?;
-+        let values: Vec<f64> = per_parent.iter().flatten().flat_map(|s| s.row.iter().copied()).collect();
-+        write_npy64(&dir.join("impacts.npy"), &[values.len() / width, width], &values)?;
-+        Ok((self.diagnostics(&per_parent, width, rows), values))
-     }
- 
--    /// Every child of one hand-off row: its impact rows (weights self-normalised within the
--    /// parent) and each child's mean proposal correction (for the self-check).
--    fn children_of(&self, seed: u64, stop: &Stop, r: usize, row: &Row, width: usize) -> Result<(Vec<f64>, Vec<f64>), String> {
-+    /// Every descent of every child of one hand-off row, weights self-normalised in the parent.
-+    fn children_of(&self, seed: u64, use_bfo: bool, stop: &Stop, r: usize, row: &Row) -> Result<Vec<Scored>, String> {
-         if (row.aircraft.unix_s - stop.unix_s).abs() > 1e-3 {
-             return Err(format!("hand-off row {r} is not at the stop time"));
-         }
-         let bias = BfoBias { mean_hz: row.bias.mean_hz, variance_hz2: row.bias.variance_hz2 };
-         let handoff = flight_state(&row.aircraft, self.params);
-         let atmosphere = Weather { environment: self.environment, span: self.span };
--        let mut out = Vec::new();
--        let mut log_weights = Vec::new();
--        let mut corrections = Vec::with_capacity(self.children);
-+        let mut scored = Vec::new();
-         for c in 0..self.children {
-             let (takeover, q_takeover) = self.module.takeover_time(&handoff, &mut uniform(seed, 2, c, r));
-             if !(takeover.is_finite() && takeover >= handoff.unix_s && q_takeover.is_finite()) {
-                 return Err(format!("{r}/{c}: takeover {takeover} (correction {q_takeover}) is not a finite time after the hand-off"));
-             }
--            // Powered flight on the core dynamics, through the bursts before the takeover.
-+            // Powered flight on the core dynamics, through the bursts at or before the takeover.
-+            // Aircraft::propagate is the filter's advance() without route points; the two agree
-+            // here because no route point falls after the filter's stop.
-             let mut aircraft = row.aircraft.clone();
-             let mut rng = child_stream(seed, 1, c, r);
-             let later = self.epochs.iter().position(|e| e.logged_unix_s > takeover).unwrap_or(self.epochs.len());
-@@ -202,49 +239,77 @@ impl<'a, E: Environment> Stage<'a, E> {
-                 }
-                 let mut all = states.clone();
-                 all[later..].copy_from_slice(candidates);
--                self.target_log_likelihood(&all, bias)
-+                self.target_log_likelihood(&self.scores(&all, bias), use_bfo)
-             };
-             let descents = self.module.descend(&at, &atmosphere, &mut uniform(seed, 3, c, r), &requested, &score);
-             if descents.is_empty() {
-                 return Err(format!("{r}/{c}: the terminal module returned no descent"));
-             }
--            let mut mean = 0.0;
-             for d in &descents {
--                let i = &d.impact;
--                let valid = i.unix_s.is_finite() && i.unix_s >= takeover && i.latitude_deg.is_finite() && i.longitude_deg.is_finite();
--                if !valid || d.family >= self.families || d.latents.len() != self.latents || d.at_epochs.len() != requested.len() {
--                    return Err(format!("{r}/{c}: descent with a non-finite or early impact, unknown family, or wrong latents/epochs length"));
--                }
--                if !d.log_q_correction.is_finite() {
--                    return Err(format!("{r}/{c}: non-finite log proposal correction"));
--                }
--                let finite = |s: &EpochState| {
--                    [s.latitude_deg, s.longitude_deg, s.altitude_ft, s.velocity_east_mps, s.velocity_north_mps, s.velocity_up_mps]
--                        .iter()
--                        .all(|v| v.is_finite())
--                };
--                if !d.at_epochs.iter().flatten().all(finite) {
--                    return Err(format!("{r}/{c}: a state at a burst is not finite (use None if the aircraft was down)"));
--                }
-+                self.check(d, takeover, &requested).map_err(|e| format!("{r}/{c}: {e}"))?;
-                 let mut all = states.clone();
-                 all[later..].copy_from_slice(&d.at_epochs);
-                 let q = q_takeover + d.log_q_correction;
--                mean += q.exp() / descents.len() as f64;
--                log_weights.push(q - (descents.len() as f64).ln());
--                out.extend(self.impact_row(r, row, &at, d, q, &all, bias));
-+                let log_weight = q - (descents.len() as f64).ln();
-+                scored.push(Scored { row: self.impact_row(r, row, &at, d, q, &all, bias, use_bfo), child: c, log_weight });
-             }
--            corrections.push(mean);
-         }
-         // Self-normalise within the parent: the children share its hand-off weight.
--        let max = log_weights.iter().copied().fold(f64::NEG_INFINITY, f64::max);
--        let total: f64 = log_weights.iter().map(|lw| (lw - max).exp()).sum();
--        for (k, lw) in log_weights.iter().enumerate() {
--            out[k * width] = row.weight * (lw - max).exp() / total;
-+        let max = scored.iter().map(|s| s.log_weight).fold(f64::NEG_INFINITY, f64::max);
-+        let total: f64 = scored.iter().map(|s| (s.log_weight - max).exp()).sum();
-+        for s in &mut scored {
-+            s.row[0] = row.weight * (s.log_weight - max).exp() / total;
-         }
--        Ok((out, corrections))
-+        Ok(scored)
-     }
- 
--    fn impact_row(&self, r: usize, row: &Row, at: &FlightState, d: &hypothesis::Descent, q: f64, states: &[Option<EpochState>], bias: BfoBias) -> Vec<f64> {
-+    /// A descent's fields: impact time and place finite and not before the takeover;
-+    /// velocities and mass finite or NaN (not modelled), never infinite; a known family; the
-+    /// declared latents; one state per requested burst, each finite, none after the impact.
-+    fn check(&self, d: &Descent, takeover: f64, requested: &[TerminalEpoch]) -> Result<(), String> {
-+        let i = &d.impact;
-+        if !(i.unix_s.is_finite() && i.unix_s >= takeover && i.latitude_deg.is_finite() && i.longitude_deg.is_finite()) {
-+            return Err("the impact time or place is not finite, or precedes the takeover".into());
++        if self.groups.len() != self.families.len() {
++            return Err(format!("{} family groups for {} families", self.groups.len(), self.families.len()));
 +        }
-+        if [i.velocity_east_mps, i.velocity_north_mps, i.velocity_up_mps, i.mass_kg].iter().any(|v| v.is_infinite()) {
-+            return Err("an impact velocity or mass is infinite (use NaN if not modelled)".into());
-+        }
-+        if d.family >= self.families || d.latents.len() != self.latents || d.at_epochs.len() != requested.len() || !d.log_q_correction.is_finite() {
-+            return Err("unknown family, wrong number of latents or states, or a non-finite proposal correction".into());
-+        }
-+        for (state, epoch) in d.at_epochs.iter().zip(requested) {
-+            if let Some(s) = state {
-+                let values = [s.latitude_deg, s.longitude_deg, s.altitude_ft, s.velocity_east_mps, s.velocity_north_mps, s.velocity_up_mps];
-+                if !values.iter().all(|v| v.is_finite()) || epoch.unix_s > i.unix_s {
-+                    return Err(format!("the state at {} is not finite or follows the impact (use None once down)", epoch.id));
-+                }
++        let mut out: Vec<(String, Vec<usize>)> = Vec::new();
++        for (f, group) in self.groups.iter().enumerate() {
++            match out.iter_mut().find(|(name, _)| name == group) {
++                Some((_, members)) => members.push(f),
++                None => out.push((group.clone(), vec![f])),
 +            }
 +        }
-+        Ok(())
++        Ok(out)
 +    }
 +
-+    /// Per burst, the measurement terms of a state: the BTO log-likelihood and residual, and the
-+    /// BFO contact (measured, predicted without bias, noise s.d.). Computed once per descent.
-+    fn scores(&self, states: &[Option<EpochState>], bias: BfoBias) -> Vec<Option<BurstScore>> {
-+        self.epochs
-+            .iter()
-+            .zip(states)
-+            .map(|(epoch, state)| {
-+                state.as_ref().map(|s| {
-+                    let bto = epoch.bto_us.map(|z| z - bto_us(epoch.satellite_km, s.latitude_deg, s.longitude_deg, s.altitude_ft));
-+                    BurstScore {
-+                        bto_ll: bto.map_or(f64::NAN, |r| gaussian_log_likelihood(r, epoch.bto_sd_us)),
-+                        bto_residual: bto,
-+                        bfo: epoch.bfo_hz.map(|z| (z, predicted_bfo(epoch, s), epoch.bfo_sd_hz)),
-+                        bias,
-+                    }
-+                })
-+            })
-+            .collect()
-+    }
-+
-+    #[allow(clippy::too_many_arguments)]
-+    fn impact_row(&self, r: usize, row: &Row, at: &FlightState, d: &Descent, q: f64, states: &[Option<EpochState>], bias: BfoBias, use_bfo: bool) -> Vec<f64> {
-         let i = &d.impact;
-         let (ve, vn, vu) = (i.velocity_east_mps, i.velocity_north_mps, i.velocity_up_mps);
-         let speed2 = ve * ve + vn * vn + vu * vu;
-@@ -271,51 +336,58 @@ impl<'a, E: Environment> Stage<'a, E> {
-             satcom::arc_distance_nm(self.arc.0, i.latitude_deg, i.longitude_deg, 0.0, self.arc.1),
-             q,
-         ];
--        for (epoch, state) in self.epochs.iter().zip(states) {
--            let (bto, bfo) = match state {
--                Some(s) => {
--                    let bto = epoch.bto_us.map_or(f64::NAN, |z| z - bto_us(epoch.satellite_km, s.latitude_deg, s.longitude_deg, s.altitude_ft));
--                    let bfo = epoch.bfo_hz.map_or(f64::NAN, |z| z - predicted_bfo(epoch, s) - bias.mean_hz);
--                    (bto, bfo)
--                }
--                None => (f64::NAN, f64::NAN),
--            };
-+        let scores = self.scores(states, bias);
-+        for s in &scores {
-+            let (bto, bfo) = s.as_ref().map_or((f64::NAN, f64::NAN), |s| {
-+                (s.bto_residual.unwrap_or(f64::NAN), s.bfo.map_or(f64::NAN, |(z, p, _)| z - p - s.bias.mean_hz))
-+            });
-             v.extend([bto, bfo]);
-         }
-         v.extend(&d.latents);
-         for (_, option, model) in &self.columns {
--            v.push(self.log_likelihood(*option, *model, states, bias));
-+            v.push(self.log_likelihood(*option, *model, &scores, use_bfo));
-         }
-         v
-     }
- 
--    /// ln p(the option's observations | the states at the bursts), under one BFO model. Minus
--    /// infinity if the aircraft was down before a burst the option uses.
--    fn log_likelihood(&self, option: usize, model: Option<usize>, states: &[Option<EpochState>], bias: BfoBias) -> f64 {
-+    /// ln p(the option's observations | the states at the bursts), under one BFO model: minus
-+    /// infinity if the aircraft was down before a burst the option uses; NaN (not computed) for
-+    /// a BFO option in a case filtered without BFO.
-+    fn log_likelihood(&self, option: usize, model: Option<usize>, scores: &[Option<BurstScore>], use_bfo: bool) -> f64 {
-+        let uses = &self.options[option];
-+        if !use_bfo && uses.iter().any(|u| u.bfo_slot.is_some()) {
-+            return f64::NAN;
-+        }
-         let mut total = 0.0;
-         let mut contacts = [None, None];
--        for &(k, is_bfo) in &self.options[option] {
--            let (epoch, Some(s)) = (&self.epochs[k], &states[k]) else { return f64::NEG_INFINITY };
--            if is_bfo {
--                contacts[k] = Some((epoch.bfo_hz.unwrap(), predicted_bfo(epoch, s), epoch.bfo_sd_hz));
--            } else {
--                let residual = epoch.bto_us.unwrap() - bto_us(epoch.satellite_km, s.latitude_deg, s.longitude_deg, s.altitude_ft);
--                total += gaussian_log_likelihood(residual, epoch.bto_sd_us);
-+        let mut bias = None;
-+        for u in uses {
-+            let Some(s) = &scores[u.epoch] else { return f64::NEG_INFINITY };
-+            match u.bfo_slot {
-+                Some(slot) => {
-+                    contacts[slot] = s.bfo;
-+                    bias = Some(s.bias);
-+                }
-+                None => total += s.bto_ll,
-             }
-         }
--        match model {
--            Some(m) => total + self.bfo_models[m].2.log_likelihood(bias, contacts),
--            None => total,
-+        match (model, bias) {
-+            (Some(m), Some(bias)) => total + self.bfo_models[m].2.log_likelihood(bias, contacts),
-+            _ => total,
-         }
-     }
- 
--    /// The target option's log-likelihood, BFO models mixed by their priors: for proposals only.
--    fn target_log_likelihood(&self, states: &[Option<EpochState>], bias: BfoBias) -> f64 {
--        if !self.options[self.target].iter().any(|u| u.1) {
--            return self.log_likelihood(self.target, None, states, bias);
-+    /// The target option's log-likelihood for proposals: its BFO models mixed by their priors
-+    /// (conditional-only models left out), and only its BTO part in a case without BFO.
-+    fn target_log_likelihood(&self, scores: &[Option<BurstScore>], use_bfo: bool) -> f64 {
-+        let uses_bfo = self.options[self.target].iter().any(|u| u.bfo_slot.is_some());
-+        if !uses_bfo || !use_bfo {
-+            let bto_only: Vec<Use> = self.options[self.target].iter().filter(|u| u.bfo_slot.is_none()).copied().collect();
-+            return bto_only.iter().map(|u| scores[u.epoch].as_ref().map_or(f64::NEG_INFINITY, |s| s.bto_ll)).sum();
-         }
-         let terms: Vec<f64> = (0..self.bfo_models.len())
--            .map(|m| self.bfo_models[m].1.ln() + self.log_likelihood(self.target, Some(m), states, bias))
-+            .filter(|&m| self.bfo_models[m].1 > 0.0)
-+            .map(|m| self.bfo_models[m].1.ln() + self.log_likelihood(self.target, Some(m), scores, use_bfo))
-             .collect();
-         let max = terms.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-         if max == f64::NEG_INFINITY {
-@@ -324,56 +396,91 @@ impl<'a, E: Environment> Stage<'a, E> {
-         max + terms.iter().map(|t| (t - max).exp()).sum::<f64>().ln()
-     }
- 
--    /// Per replicate: the proposal self-check (mean correction per child, which is 1 in
--    /// expectation for an exactly normalised proposal) and, per column, the log-evidence
--    /// increment and the effective sample size over rows and over parents.
--    fn diagnostics(&self, values: &[f64], width: usize, parents: usize, corrections: &[f64]) -> Value {
--        let rows: Vec<&[f64]> = values.chunks_exact(width).collect();
--        let n = corrections.len() as f64;
--        let mean = corrections.iter().sum::<f64>() / n;
--        let sd = (corrections.iter().map(|c| (c - mean).powi(2)).sum::<f64>() / (n - 1.0).max(1.0)).sqrt();
--        let ess = |weight: &dyn Fn(&[f64]) -> f64| {
--            let w: Vec<f64> = rows.iter().map(|row| weight(row)).collect();
-+    /// Per replicate: the proposal self-check, per parent (the mean correction over its
-+    /// children, 1 in expectation for an exactly normalised proposal), and per column the
-+    /// log-evidence increment and effective sample sizes, from all children and from the first
-+    /// half of them (the doubling check).
-+    fn diagnostics(&self, per_parent: &[Vec<Scored>], width: usize, rows: &[Row]) -> Value {
-+        let parent_means: Vec<f64> = per_parent
-+            .iter()
-+            .map(|scored| {
-+                // Each child's correction is the mean of exp(lnq) over its descents: its log
-+                // weights already carry the 1/M, so summing exp(log_weight) gives it directly.
-+                let children: std::collections::BTreeSet<usize> = scored.iter().map(|s| s.child).collect();
-+                scored.iter().map(|s| s.log_weight.exp()).sum::<f64>() / children.len().max(1) as f64
-+            })
+     /// One set: per end-of-flight hypothesis, then the prior sensitivity of their average.
+     pub fn set(&self, set: &ComposeSet, replicates: &[ReplicateImpacts]) -> Result<Value, String> {
+         let dims = self.dims(set)?;
+@@ -109,29 +149,58 @@ impl Stage4<'_> {
+         let eof: Vec<usize> = (0..dims.len()).filter(|&d| dims[d].eof && dims[d].given.is_none()).collect();
+         let all: Vec<Vec<usize>> = replicates.iter().map(|r| (0..self.rows(r)).collect()).collect();
+         let prior_weights = self.compose(replicates, &all, 1, &|_, _, _| 0.0, &[1.0])?.weights;
++        let share = |rows: &[Vec<usize>]| -> f64 { prior_weights.iter().zip(rows).map(|(w, rows)| rows.iter().map(|&j| w[j]).sum::<f64>()).sum() };
++        let family_rows: Vec<Vec<Vec<usize>>> = (0..self.families.len())
++            .map(|f| replicates.iter().map(|r| (0..self.rows(r)).filter(|&j| r.values[j * width + family] as usize == f).collect()).collect())
 +            .collect();
-+        let n = parent_means.len() as f64;
-+        let mean = parent_means.iter().sum::<f64>() / n;
-+        let sd = (parent_means.iter().map(|m| (m - mean).powi(2)).sum::<f64>() / (n - 1.0).max(1.0)).sqrt();
-+        let worst = parent_means.iter().map(|m| (m - 1.0).abs()).fold(0.0, f64::max);
-+        let half = self.children / 2;
-+        // Row weights from a subset of the children, self-normalised in each parent.
-+        let weights = |keep: &dyn Fn(usize) -> bool| -> Vec<(usize, f64, &[f64])> {
-+            let mut out = Vec::new();
-+            for (p, scored) in per_parent.iter().enumerate() {
-+                let kept: Vec<&Scored> = scored.iter().filter(|s| keep(s.child)).collect();
-+                let max = kept.iter().map(|s| s.log_weight).fold(f64::NEG_INFINITY, f64::max);
-+                let total: f64 = kept.iter().map(|s| (s.log_weight - max).exp()).sum();
-+                out.extend(kept.iter().map(|s| (p, rows[p].weight * (s.log_weight - max).exp() / total, s.row.as_slice())));
-+            }
-+            out
-+        };
-+        let summarise = |weighted: &[(usize, f64, &[f64])], k: Option<usize>| -> Value {
-+            let values: Vec<(usize, f64, f64)> = weighted.iter().map(|&(p, w, row)| (p, w, k.map_or(0.0, |k| row[k]))).collect();
-+            if values.iter().any(|v| v.2.is_nan()) {
-+                return json!({"log_evidence_increment": null, "ess_rows": null, "ess_parents": null, "not_computed": true});
-+            }
-+            let max = values.iter().map(|v| v.2).fold(f64::NEG_INFINITY, f64::max);
-+            if max == f64::NEG_INFINITY {
-+                // Every descent makes these observations impossible.
-+                return json!({"log_evidence_increment": null, "ess_rows": 0.0, "ess_parents": 0.0});
-+            }
-+            let w: Vec<f64> = values.iter().map(|v| v.1 * (v.2 - max).exp()).collect();
-             let total: f64 = w.iter().sum();
--            let mut by_parent = vec![0.0; parents];
--            for (row, wi) in rows.iter().zip(&w) {
--                by_parent[row[1] as usize] += wi;
-+            let mut by_parent = vec![0.0; rows.len()];
-+            for (v, wi) in values.iter().zip(&w) {
-+                by_parent[v.0] += wi;
+ 
+         let mut hypotheses = Vec::new();
+-        for (f, name) in self.families.iter().enumerate() {
+-            let rows: Vec<Vec<usize>> = replicates.iter().map(|r| (0..self.rows(r)).filter(|&j| r.values[j * width + family] as usize == f).collect()).collect();
++        for (group, members) in self.groups()? {
++            let rows: Vec<Vec<usize>> = (0..replicates.len())
++                .map(|i| {
++                    let mut rows: Vec<usize> = members.iter().flat_map(|&f| family_rows[f][i].iter().copied()).collect();
++                    rows.sort_unstable();
++                    rows
++                })
++                .collect();
+             if rows.iter().all(Vec::is_empty) {
+                 continue;
              }
--            let ess = |v: &[f64]| total * total / v.iter().map(|x| x * x).sum::<f64>();
--            (total, ess(&w), ess(&by_parent))
-+            let ess = |x: &[f64]| total * total / x.iter().map(|y| y * y).sum::<f64>();
-+            json!({"log_evidence_increment": max + total.ln(), "ess_rows": ess(&w), "ess_parents": ess(&by_parent)})
-         };
--        let (_, prior_rows, prior_parents) = ess(&|row| row[0]);
-+        let (all, first_half) = (weights(&|_| true), weights(&|c| c < half));
-         let first_loglik = width - self.columns.len();
-         let columns: Vec<Value> = self
-             .columns
-             .iter()
-             .enumerate()
-             .map(|(c, (label, ..))| {
--                let k = first_loglik + c;
--                let max = rows.iter().map(|row| row[k]).fold(f64::NEG_INFINITY, f64::max);
--                if max == f64::NEG_INFINITY {
--                    // Every descent makes these observations impossible.
--                    return json!({"column": label, "log_evidence_increment": null, "ess_rows": 0.0, "ess_parents": 0.0});
--                }
--                let (total, rows_ess, parents_ess) = ess(&|row| row[0] * (row[k] - max).exp());
--                json!({"column": label, "log_evidence_increment": max + total.ln(), "ess_rows": rows_ess, "ess_parents": parents_ess})
-+                let k = Some(first_loglik + c);
-+                json!({"column": label, "all_children": summarise(&all, k), "first_half_of_children": summarise(&first_half, k)})
+-            let family_share: f64 = prior_weights.iter().zip(&rows).map(|(w, rows)| rows.iter().map(|&j| w[j]).sum::<f64>()).sum();
++            let group_share = share(&rows);
+             for e in cartesian(&eof.iter().map(|&d| dims[d].labels.len()).collect::<Vec<_>>()) {
+                 let keep: Vec<usize> = (0..combos.len()).filter(|&c| eof.iter().zip(&e).all(|(&d, &o)| combos[c][d] == o)).collect();
+                 let labels: BTreeMap<&str, &str> = eof.iter().zip(&e).map(|(&d, &o)| (dims[d].name.as_str(), dims[d].labels[o].as_str())).collect();
+-                let prior = family_share * eof.iter().zip(&e).map(|(&d, &o)| dims[d].priors[o]).product::<f64>();
++                let prior = group_share * eof.iter().zip(&e).map(|(&d, &o)| dims[d].priors[o]).product::<f64>();
+                 let result = self.hypothesis(set, replicates, &rows, &logliks, &keep, &dims, &combos)?;
+-                hypotheses.push((name.clone(), labels, prior, result));
++                // Secondary detail: each family's share of the group's prior, its own evidence,
++                // and its share of the group's posterior (prior times evidence, as the samples
++                // carry it).
++                let mut families = Vec::new();
++                for &f in members.iter().filter(|&&f| family_rows[f].iter().any(|r| !r.is_empty())) {
++                    let priors = combination_priors(&dims, &combos, &keep);
++                    let own = self.compose(replicates, &family_rows[f], keep.len(), &|i, j, c| logliks.combined(i, j, keep[c]), &priors)?;
++                    let posterior: f64 = (0..replicates.len())
++                        .map(|i| rows[i].iter().zip(&result.weights[i]).filter(|(&j, _)| replicates[i].values[j * width + family] as usize == f).map(|(_, w)| w).sum::<f64>())
++                        .sum();
++                    families.push(json!({"family": self.families[f], "prior_share": round(share(&family_rows[f]) / group_share),
++                                         "log_evidence": finite(own.log_evidence), "posterior_share": round(posterior)}));
++                }
++                let names: Vec<&String> = members.iter().map(|&f| &self.families[f]).collect();
++                hypotheses.push((group.clone(), names, labels, prior, result, families));
+             }
+         }
+-        let evidence: Vec<f64> = hypotheses.iter().map(|h| h.3.log_evidence).collect();
+-        let sensitivity: Vec<Value> = [("terminal module", hypotheses.iter().map(|h| h.2).collect::<Vec<_>>()), ("uniform", vec![1.0; hypotheses.len()])]
++        // Not comparable: more of the pre-module posterior not computed than the set tolerates.
++        let comparable: Vec<bool> = hypotheses.iter().map(|h| h.4.not_computed <= set.tolerance).collect();
++        let evidence: Vec<f64> = hypotheses.iter().map(|h| h.4.log_evidence).collect();
++        let best = evidence.iter().zip(&comparable).filter(|(l, &c)| c && l.is_finite()).map(|(l, _)| *l).fold(f64::NEG_INFINITY, f64::max);
++        let sensitivity: Vec<Value> = [("terminal module", hypotheses.iter().map(|h| h.3).collect::<Vec<_>>()), ("uniform", vec![1.0; hypotheses.len()])]
+             .into_iter()
+             .map(|(label, prior)| {
++                let prior: Vec<f64> = prior.iter().zip(&comparable).map(|(&p, &c)| if c { p } else { 0.0 }).collect();
+                 let weights = posterior(&prior, &evidence);
+-                json!({"prior": label, "hypothesis_prior": round_all(&normalise(&prior)), "hypothesis_posterior": round_all(&weights),
+-                       "points": {"contact": mixture(&hypotheses.iter().map(|h| &h.3).collect::<Vec<_>>(), &weights)}})
++                let masked = |v: &[f64]| v.iter().zip(&comparable).map(|(&x, &c)| if c { json!(round(x)) } else { Value::Null }).collect::<Vec<_>>();
++                let average = weights.iter().any(|&w| w > 0.0).then(|| json!({"contact": mixture(&hypotheses.iter().map(|h| &h.4).collect::<Vec<_>>(), &weights)}));
++                json!({"prior": label, "hypothesis_prior": masked(&normalise(&prior)), "hypothesis_posterior": masked(&weights), "points": average})
              })
              .collect();
-         json!({
--            "parents": parents,
--            "children": corrections.len(),
--            "descents": rows.len(),
--            "proposal_self_check": {"mean_correction": mean, "standard_error": sd / n.sqrt()},
--            "ess_prior": {"rows": prior_rows, "parents": prior_parents},
-+            "placeholder": self.placeholder,
-+            "parents": rows.len(),
-+            "children": self.children,
-+            "descents": per_parent.iter().map(Vec::len).sum::<usize>(),
-+            "proposal_self_check": {"mean_of_parent_means": mean, "standard_error": sd / n.sqrt(), "worst_parent_deviation": worst},
-+            "ess_prior": summarise(&all, None),
-             "columns": columns,
-         })
+         Ok(json!({
+@@ -139,8 +208,12 @@ impl Stage4<'_> {
+             "placeholder": self.placeholder,
+             "alternatives": dims.iter().filter(|d| !d.eof).map(|d| json!({"name": d.name, "labels": d.labels, "prior": d.priors,
+                 "given": d.given.map(|g| &d.labels[g]), "modules": d.modules, "absolute": d.absolute})).collect::<Vec<_>>(),
+-            "end_of_flight": hypotheses.iter().map(|(family, labels, prior, result)| json!({
+-                "family": family, "alternatives": labels, "prior": round(*prior), "result": result.json})).collect::<Vec<_>>(),
++            "end_of_flight": hypotheses.iter().zip(&comparable).map(|((group, names, labels, prior, result, families), &c)| json!({
++                "group": group, "families": names, "alternatives": labels, "prior": round(*prior),
++                "comparable": c,
++                "label": (!c).then(|| format!("not comparable: {}% not computed", percent(result.not_computed))),
++                "log_bayes_factor_vs_best": if c { finite(result.log_evidence - best) } else { Value::Null },
++                "result": result.json, "family_detail": families})).collect::<Vec<_>>(),
+             "prior_sensitivity": sensitivity,
+         }))
      }
+@@ -181,8 +254,8 @@ impl Stage4<'_> {
+         }
+         for (name, priors) in &set.priors {
+             let d = dims.iter_mut().find(|d| &d.name == name).ok_or_else(|| format!("set {}: priors for unknown alternative {name}", set.id))?;
+-            if priors.len() != d.labels.len() || !priors.iter().all(|p| *p > 0.0) || (priors.iter().sum::<f64>() - 1.0).abs() > 1e-6 {
+-                return Err(format!("set {}: priors for {name} need {} positive values summing to one", set.id, d.labels.len()));
++            if priors.len() != d.labels.len() || !priors.iter().all(|p| *p >= 0.0) || (priors.iter().sum::<f64>() - 1.0).abs() > 1e-6 {
++                return Err(format!("set {}: priors for {name} need {} non-negative values summing to one (0: conditional only)", set.id, d.labels.len()));
+             }
+             d.priors = priors.clone();
+         }
+@@ -266,23 +339,27 @@ impl Stage4<'_> {
+         let priors = combination_priors(dims, combos, keep);
+         let n = keep.len();
+         let at = |m: &[Vec<f64>], i: usize, j: usize, c: usize| m[i][j * l.combos + keep[c]];
+-        let combined = |i: usize, j: usize, c: usize| at(&l.option, i, j, c) + l.modules.iter().map(|(_, m)| at(m, i, j, c)).sum::<f64>();
++        let combined = |i: usize, j: usize, c: usize| l.combined(i, j, keep[c]);
+         let c = self.compose(replicates, rows, n, &combined, &priors)?;
+         // Each factor on its own, for the effective sample sizes; the option alone is also the
+         // posterior before the modules, against which uncomputed shares are measured.
+         let option_only = self.compose(replicates, rows, n, &|i, j, c| at(&l.option, i, j, c), &priors)?;
++        let not_computed = |factor: &dyn Fn(usize, usize, usize) -> f64| -> f64 {
++            (0..replicates.len())
++                .map(|i| rows[i].iter().zip(&option_only.weights[i]).filter(|(&j, _)| (0..n).any(|c| factor(i, j, c).is_nan())).map(|(_, w)| w).sum::<f64>())
++                .sum()
++        };
+         let mut ess = BTreeMap::new();
+         ess.insert("option".to_string(), json!({"rows": round(option_only.ess_rows), "parents": round(option_only.ess_parents)}));
+         let mut uncomputed = serde_json::Map::new();
+-        uncomputed.insert("set".into(), json!(round(c.uncomputed)));
++        uncomputed.insert("option".into(), json!(round(not_computed(&|i, j, c| at(&l.option, i, j, c)))));
+         for (module, m) in &l.modules {
+             let alone = self.compose(replicates, rows, n, &|i, j, c| at(m, i, j, c), &priors)?;
+             ess.insert(module.clone(), json!({"rows": round(alone.ess_rows), "parents": round(alone.ess_parents)}));
+-            let missing: f64 = (0..replicates.len())
+-                .map(|i| rows[i].iter().zip(&option_only.weights[i]).filter(|(&j, _)| (0..n).any(|c| at(m, i, j, c).is_nan())).map(|(_, w)| w).sum::<f64>())
+-                .sum();
+-            uncomputed.insert(module.clone(), json!(round(missing)));
++            uncomputed.insert(module.clone(), json!(round(not_computed(&|i, j, c| at(m, i, j, c)))));
+         }
++        let any = not_computed(&combined);
++        uncomputed.insert("any".into(), json!(round(any)));
+         ess.insert("combined".to_string(), json!({"rows": round(c.ess_rows), "parents": round(c.ess_parents)}));
+ 
+         let (lat, lon) = (self.column("latitude_deg")?, self.column("longitude_deg")?);
+@@ -295,6 +372,15 @@ impl Stage4<'_> {
+                 .collect()
+         };
+         let (density, map) = impact_density(positions(replicates, rows, &c.weights).into_iter());
++        // Where the rows not computed lie: their share of this posterior, per map cell.
++        let mut map_not_computed = BTreeMap::new();
++        for (i, r) in replicates.iter().enumerate() {
++            for (&j, &w) in rows[i].iter().zip(&c.weights[i]) {
++                if w > 0.0 && (0..n).any(|c| combined(i, j, c).is_nan()) {
++                    *map_not_computed.entry(impact_cell(r.values[j * width + lat], r.values[j * width + lon])).or_insert(0.0) += w;
++                }
++            }
++        }
+         // Split-half agreement: the first half of the replicates against the second.
+         let half = replicates.len() / 2;
+         let split = if half > 0 {
+@@ -316,16 +402,14 @@ impl Stage4<'_> {
+                 let marginal: Vec<f64> =
+                     (0..d.labels.len()).map(|o| keep.iter().zip(&c.combination_probability).filter(|(&cb, _)| combos[cb][k] == o).map(|(_, p)| p).sum()).collect();
+                 // ln Z(o): the evidence under option o, the other alternatives averaged with their
+-                // priors. Differences between options are log Bayes factors, free of this prior.
++                // priors. It does not involve o's own prior, so an option of prior 0 (reported
++                // only conditionally) has one too. Differences are log Bayes factors.
++                let others = conditional_priors(dims, combos, keep, k);
+                 let evidence: Vec<Value> = (0..d.labels.len())
+-                    .map(|o| {
+-                        let terms: Vec<(f64, f64)> = (0..keep.len()).filter(|&cb| combos[keep[cb]][k] == o).map(|cb| (priors[cb], c.combination_log_evidence[cb])).collect();
+-                        let max = terms.iter().map(|t| t.1).fold(f64::NEG_INFINITY, f64::max);
+-                        let mass: f64 = terms.iter().map(|t| t.0).sum();
+-                        finite(max + (terms.iter().map(|(p, l)| p * (l - max).exp()).sum::<f64>() / mass).ln())
+-                    })
++                    .map(|o| finite(log_mean((0..keep.len()).filter(|&cb| combos[keep[cb]][k] == o).map(|cb| (others[cb], c.combination_log_evidence[cb])))))
+                     .collect();
+-                json!({"name": d.name, "labels": d.labels, "posterior": round_all(&marginal), "log_evidence": evidence})
++                json!({"name": d.name, "labels": d.labels, "posterior": round_all(&marginal), "log_evidence": evidence,
++                       "conditional_only": d.priors.iter().map(|p| *p == 0.0).collect::<Vec<_>>()})
+             })
+             .collect();
+         let json = json!({
+@@ -334,18 +418,18 @@ impl Stage4<'_> {
+             "stratum_probability": round_all(&c.stratum_probability),
+             "ess": ess,
+             "uncomputed": uncomputed,
+-            "incomplete": c.uncomputed > set.tolerance,
+             "unconverged": split.is_some_and(|(lat, _)| lat < 0.9),
+             "alternatives": alternatives,
+             "predictions": self.predictions(set, replicates, rows, &c.weights),
+             "points": {"contact": {
+                 "latitude": {"density": round_all(&density), "stats": stats(&density), "split_half_overlap": split.map(|s| round(s.0))},
+                 "map": map.iter().map(|(&(x, y), &p)| json!([x, y, round(p)])).collect::<Vec<_>>(),
++                "map_not_computed": map_not_computed.iter().map(|(&(x, y), &p)| json!([x, y, round(p)])).collect::<Vec<_>>(),
+                 "map_split_half_overlap": split.map(|s| round(s.1)),
+             }},
+             "histograms": self.histograms(replicates, rows, &c.weights)?,
+         });
+-        Ok(Hypothesis { log_evidence: c.log_evidence, density, map, json })
++        Ok(Hypothesis { log_evidence: c.log_evidence, not_computed: any, weights: c.weights, density, map, json })
+     }
+ 
+     fn histograms(&self, replicates: &[ReplicateImpacts], rows: &[Vec<usize>], weights: &[Vec<f64>]) -> Result<Value, String> {
+@@ -398,6 +482,10 @@ impl Stage4<'_> {
+ /// One end-of-flight hypothesis composed.
+ struct Hypothesis {
+     log_evidence: f64,
++    /// Share of the pre-module posterior on rows some factor of the set does not compute.
++    not_computed: f64,
++    /// Posterior row weights, aligned with the hypothesis's rows.
++    weights: Vec<Vec<f64>>,
+     density: Vec<f64>,
+     map: BTreeMap<(i32, i32), f64>,
+     json: Value,
+@@ -436,6 +524,26 @@ fn finite(v: f64) -> Value {
+     if v.is_finite() { json!(v) } else { Value::Null }
  }
  
-+/// The measurement terms of the state at one burst.
-+#[derive(Clone, Copy)]
-+struct BurstScore {
-+    bto_ll: f64,
-+    bto_residual: Option<f64>,
-+    bfo: Option<(f64, f64, f64)>,
-+    bias: BfoBias,
++/// ln of the weighted mean of exp(l) over (weight, l) pairs.
++fn log_mean(terms: impl Iterator<Item = (f64, f64)>) -> f64 {
++    let terms: Vec<(f64, f64)> = terms.filter(|t| t.0 > 0.0).collect();
++    if terms.iter().any(|t| t.1.is_nan()) {
++        return f64::NAN;
++    }
++    let max = terms.iter().map(|t| t.1).fold(f64::NEG_INFINITY, f64::max);
++    if max == f64::NEG_INFINITY {
++        return max;
++    }
++    let mass: f64 = terms.iter().map(|t| t.0).sum();
++    max + (terms.iter().map(|(p, l)| p * (l - max).exp()).sum::<f64>() / mass).ln()
 +}
 +
- /// The runner's weather service for terminal modules.
- struct Weather<'a, E> {
-     environment: &'a E,
--    span: Option<[(f64, f64); 2]>,
-+    span: [(f64, f64); 2],
++/// A share as a percentage to about three figures.
++fn percent(share: f64) -> String {
++    let p = 100.0 * share;
++    if p >= 10.0 { format!("{p:.0}") } else if p >= 1.0 { format!("{p:.1}") } else { format!("{p:.2}") }
++}
++
+ /// Every combination of the dimensions' options; a fixed dimension keeps its given option.
+ fn combinations(dims: &[Dim]) -> Result<Vec<Vec<usize>>, String> {
+     let sizes: Vec<usize> = dims.iter().map(|d| if d.given.is_some() { 1 } else { d.labels.len() }).collect();
+@@ -462,14 +570,75 @@ fn cartesian(sizes: &[usize]) -> Vec<Vec<usize>> {
+ /// Priors of the combinations `keep`: the product over the free alternatives that are not
+ /// end-of-flight hypotheses (those are fixed per hypothesis), normalised.
+ fn combination_priors(dims: &[Dim], combos: &[Vec<usize>], keep: &[usize]) -> Vec<f64> {
+-    let p: Vec<f64> = keep
+-        .iter()
+-        .map(|&c| dims.iter().enumerate().filter(|(_, d)| d.given.is_none() && !d.eof).map(|(k, d)| d.priors[combos[c][k]]).product())
+-        .collect();
+-    normalise(&p)
++    normalise(&conditional_priors(dims, combos, keep, usize::MAX))
++}
++
++/// The same product without alternative `except`: the prior of the other alternatives given
++/// its option (not normalised).
++fn conditional_priors(dims: &[Dim], combos: &[Vec<usize>], keep: &[usize], except: usize) -> Vec<f64> {
++    keep.iter()
++        .map(|&c| dims.iter().enumerate().filter(|&(k, d)| k != except && d.given.is_none() && !d.eof).map(|(k, d)| d.priors[combos[c][k]]).product())
++        .collect()
  }
  
- impl<E: Environment> Atmosphere for Weather<'_, E> {
-@@ -387,7 +494,7 @@ impl<E: Environment> Atmosphere for Weather<'_, E> {
-             wind_north_mps: w.wind_north_kt * MPS_PER_KNOT,
-             declination_deg: self.environment.declination_deg(altitude_ft, latitude_deg, longitude_deg),
-             surface_pressure_altitude_ft: 0.0,
--            clamped: self.span.is_some_and(|[time, altitude]| outside(time, unix_s) || outside(altitude, altitude_ft)),
-+            clamped: outside(self.span[0], unix_s) || outside(self.span[1], altitude_ft),
-         }
-     }
- }
-@@ -433,7 +540,8 @@ fn predicted_bfo(epoch: &Epoch, s: &EpochState) -> f64 {
- }
- 
- /// The stream of one (purpose, child, hand-off row): purposes 1 powered flight, 2 takeover,
--/// 3 descent. Disjoint from every filter stream, whose top 16 bits are the stratum.
-+/// 3 descent. Disjoint from every filter stream, whose top 16 bits are the stratum. The child
-+/// takes 16 bits and the row 32, which Stage::new and Stage::run check.
- fn child_stream(seed: u64, purpose: u64, child: usize, row: usize) -> ChaCha8Rng {
-     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-     rng.set_stream(((0xF000 | purpose) << 48) | ((child as u64) << 32) | row as u64);
-@@ -445,3 +553,136 @@ fn uniform(seed: u64, purpose: u64, child: usize, row: usize) -> impl FnMut() ->
-     let mut rng = child_stream(seed, purpose, child, row);
-     move || ((rng.gen::<u64>() >> 11) as f64 + 0.5) / (1u64 << 53) as f64
+ /// The map grid, for summary.json.
+ pub fn grid() -> Value {
+     json!({"projection": "sinusoidal", "central_meridian_deg": IMPACT_MAP.0, "radius_km": 6_371.007_2, "cell_km": IMPACT_MAP.1, "points": POINTS})
  }
 +
 +#[cfg(test)]
 +mod tests {
 +    use super::*;
-+    use crate::handoff::Bias;
-+    use flight::environment::CalmAir;
-+    use flight::{Mode, Prior};
-+    use geo::Vec3;
-+    use hypothesis::Impact;
 +
-+    /// Takeover `after` seconds past the hand-off (correction 0.3), then two descents: one with a
-+    /// known state at every requested burst (correction -0.2), one already down (+0.1).
-+    struct Stub {
-+        after: f64,
-+        state: EpochState,
-+    }
-+
-+    impl Terminal for Stub {
-+        fn families(&self) -> Vec<String> {
-+            vec!["stub".into()]
-+        }
-+        fn takeover_time(&self, handoff: &FlightState, _: &mut dyn FnMut() -> f64) -> (f64, f64) {
-+            (handoff.unix_s + self.after, 0.3)
-+        }
-+        fn descend(&self, at: &FlightState, _: &dyn Atmosphere, _: &mut dyn FnMut() -> f64, epochs: &[TerminalEpoch], _: &dyn Fn(&[Option<EpochState>]) -> f64) -> Vec<Descent> {
-+            let later = Impact::at(at.unix_s + 900.0, -35.0, 95.0);
-+            let early = Impact::at(at.unix_s + 1.0, -35.0, 95.0);
-+            vec![
-+                Descent { at_epochs: vec![Some(self.state); epochs.len()], log_q_correction: -0.2, ..Descent::new(later, 0) },
-+                Descent { at_epochs: vec![None; epochs.len()], log_q_correction: 0.1, ..Descent::new(early, 0) },
-+            ]
-+        }
-+    }
-+
++    /// Three families with constant likelihoods, so every evidence is exact: f0 (prior 0.2,
++    /// likelihood 2) and f1 (0.3, 0.5) form group g, f2 (0.5, 1) is group h with 30% of its rows
++    /// not computed. Under a second BFO model, of prior 0, every likelihood is 3.
 +    #[test]
-+    fn stage_two_weights_and_scores_descents() {
-+        let config: TerminalConfig = toml::from_str(
-+            "module = \"stub\"\nhandoff = 2\nhandoff_floor = 1\nchildren = 2\narc = \"b1\"\ntarget = \"bto\"\n\
-+             options = [{ id = \"none\", use = [] }, { id = \"bto\", use = [\"b1.bto\"] }]\n",
-+        )
-+        .unwrap();
-+        let params = Parameters::default();
-+        let prior = Prior {
-+            unix_s: 0.0,
-+            lat: -30.0,
-+            lon: 95.0,
-+            position_sd_nm: 1.0,
-+            track_deg: 180.0,
-+            track_sd_deg: 1.0,
-+            mach_range: params.mach_range,
-+            mach_gaussian: None,
-+            altitude_levels: Prior::uniform_altitude_levels(&params),
-+        };
-+        let stop = Stop { epoch: "stop".into(), step: 0, unix_s: 600.0 };
-+        let mut rng = ChaCha8Rng::seed_from_u64(1);
-+        let rows: Vec<Row> = [0.3, 0.7]
-+            .iter()
-+            .enumerate()
-+            .map(|(k, &weight)| {
-+                let mut aircraft = Aircraft::sample(&prior, Mode::TrueTrack, &params, &CalmAir, &mut rng);
-+                aircraft.propagate(stop.unix_s, &params, &CalmAir, &mut rng);
-+                Row { weight, mode: 2, alternative: 0, particle: k, final_row: k, origin: k as u32, bias: Bias { mean_hz: 150.0, variance_hz2: 25.0 }, aircraft }
-+            })
-+            .collect();
-+        let satellite = Vec3::new(18_182.0, 38_049.6, 392.4);
-+        let burst = Epoch {
-+            id: "b1".into(),
-+            unix_s: 900.0,
-+            logged_unix_s: 900.0,
-+            bto_us: Some(18_400.0),
-+            bto_sd_us: 63.0,
-+            bfo_hz: Some(182.0),
-+            bfo_sd_hz: 7.0,
-+            cruise_bto: false,
-+            cruise_bfo: false,
-+            events: Vec::new(),
-+            satellite_afc_hz: -37.8,
-+            satellite_km: satellite,
-+            satellite_velocity_km_s: Vec3::default(),
-+        };
-+        let state = EpochState { latitude_deg: -36.0, longitude_deg: 93.0, altitude_ft: 20_000.0, velocity_east_mps: 0.0, velocity_north_mps: -200.0, velocity_up_mps: -60.0 };
-+        let span = [(f64::MIN, f64::MAX), (f64::MIN, f64::MAX)];
-+        let dir = std::env::temp_dir().join(format!("terminal-test-{}", std::process::id()));
-+        std::fs::create_dir_all(&dir).unwrap();
-+
-+        // The BFO models are bound to the two 00:19 bursts by id; any other burst is refused.
-+        let refused: TerminalConfig = toml::from_str(
-+            "module = \"stub\"\nhandoff = 2\nhandoff_floor = 1\nchildren = 2\narc = \"b1\"\ntarget = \"bfo\"\n\
-+             options = [{ id = \"bfo\", use = [\"b1.bfo\"] }]\n[bfo_models.plain]\nprior = 1.0\n",
-+        )
-+        .unwrap();
-+        let stub = Stub { after: 60.0, state };
-+        assert!(Stage::new(&refused, &params, &CalmAir, span, &stub, vec![burst.clone()], false).is_err());
-+
-+        let stage = Stage::new(&config, &params, &CalmAir, span, &stub, vec![burst.clone()], false).unwrap();
-+        let (diagnostics, values) = stage.run(7, true, &stop, &rows, &dir).unwrap();
-+        let columns = stage.impact_columns();
-+        let at = |name: &str| columns.iter().position(|c| c == name).unwrap();
-+        let table: Vec<&[f64]> = values.chunks_exact(columns.len()).collect();
-+        assert_eq!(table.len(), 2 * 2 * 2, "two parents x two children x two descents");
-+        for (p, row) in rows.iter().enumerate() {
-+            let sum: f64 = table.iter().filter(|r| r[at("parent")] as usize == p).map(|r| r[0]).sum();
-+            assert!((sum - row.weight).abs() < 1e-12, "parent {p}: {sum}");
-+        }
-+        // Within a child, the descents weigh exp(0.3 - 0.2) : exp(0.3 + 0.1).
-+        let (down, up): (Vec<&&[f64]>, Vec<&&[f64]>) = table.iter().partition(|r| r[at("loglik:bto")] == f64::NEG_INFINITY);
-+        assert!((up[0][0] / down[0][0] - (-0.3f64).exp()).abs() < 1e-12);
-+        let residual = 18_400.0 - bto_us(satellite, -36.0, 93.0, 20_000.0);
-+        let gaussian = -0.5 * (residual / 63.0).powi(2) - (63.0 * (2.0 * std::f64::consts::PI).sqrt()).ln();
-+        for r in &table {
-+            assert_eq!(r[at("loglik:none")], 0.0);
-+        }
-+        for r in &up {
-+            assert!((r[at("loglik:bto")] - gaussian).abs() < 1e-9);
-+        }
-+        assert_eq!(down.len(), 4, "the descent already down scores the burst as impossible");
-+        let check = &diagnostics["proposal_self_check"];
-+        let expected = (0.1f64.exp() + 0.4f64.exp()) / 2.0;
-+        assert!((check["mean_of_parent_means"].as_f64().unwrap() - expected).abs() < 1e-12, "{check}");
-+
-+        // A takeover after the last burst: the burst is scored on the powered flight, finite
-+        // and equal for both descents of a child.
-+        let stub = Stub { after: 400.0, state };
-+        let stage = Stage::new(&config, &params, &CalmAir, span, &stub, vec![burst], false).unwrap();
-+        let (_, values) = stage.run(7, true, &stop, &rows, &dir).unwrap();
-+        std::fs::remove_dir_all(&dir).unwrap();
-+        let table: Vec<&[f64]> = values.chunks_exact(columns.len()).collect();
-+        for pair in table.chunks_exact(2) {
-+            let (a, b) = (pair[0][at("loglik:bto")], pair[1][at("loglik:bto")]);
-+            assert!(a.is_finite() && a == b, "{a} {b}");
-+        }
-+    }
-+}
-diff --git a/crates/satcom/src/lib.rs b/crates/satcom/src/lib.rs
-index 059a013..41b3fc4 100644
---- a/crates/satcom/src/lib.rs
-+++ b/crates/satcom/src/lib.rs
-@@ -130,17 +130,21 @@ impl BfoBias {
-     }
- }
- 
-+/// The two bursts the 00:19 BFO models describe, in their order: the R600 log-on request, then
-+/// the R1200 acknowledge. The models' offsets are tied to these bursts, not to positions.
-+pub const FINAL_BFO_BURSTS: [&str; 2] = ["m0019a", "m0019b"];
-+
- /// A measurement alternative for the 00:19 BFOs. Both were sent during the satellite data unit's
--/// start-up: the first by the R600 log-on request, the second by the R1200 acknowledge. Whether
--/// the cruise model holds for them is questioned, so each alternative is scored separately.
-+/// start-up (`FINAL_BFO_BURSTS`). Whether the cruise model holds for them is questioned, so each
-+/// alternative is scored separately.
- #[derive(Debug, Clone, PartialEq)]
- pub enum FinalBfoModel {
-     /// The cruise model: measurement noise only.
-     NoOffset,
--    /// A start-up offset added to each measured BFO: the second's uniform on `second_hz`, the
--    /// first's larger by a uniform `first_minus_second_hz` (one shared start-up event),
--    /// integrated by Gauss-Legendre quadrature with `points` nodes per range.
--    StartupOffset { second_hz: [f64; 2], first_minus_second_hz: [f64; 2], points: [usize; 2] },
-+    /// A start-up offset added to each measured BFO: the second burst's uniform on `second_hz`,
-+    /// the first's larger by a uniform `first_minus_second_hz` (one shared start-up event). The
-+    /// second offset is integrated in closed form; the gap by Gauss-Legendre with `points` nodes.
-+    StartupOffset { second_hz: [f64; 2], first_minus_second_hz: [f64; 2], points: usize },
-     /// The cruise model with this noise s.d. in place of the tabulated one.
-     Inflated { sd_hz: f64 },
- }
-@@ -148,53 +152,131 @@ pub enum FinalBfoModel {
- /// The joint likelihood of the selected 00:19 BFOs under one [`FinalBfoModel`].
- #[derive(Debug, Clone)]
- pub struct FinalBfo {
--    /// (offset of the first and second BFO, quadrature weight); weights sum to one.
--    nodes: Vec<([f64; 2], f64)>,
-     sd_hz: Option<f64>,
-+    /// Start-up offset: the second burst's range, and (gap, weight) nodes for the first minus
-+    /// the second; weights sum to one.
-+    startup: Option<([f64; 2], Vec<(f64, f64)>)>,
- }
- 
- impl FinalBfo {
-     pub fn new(model: &FinalBfoModel) -> Result<Self, String> {
-         match model {
--            FinalBfoModel::NoOffset => Ok(FinalBfo { nodes: vec![([0.0, 0.0], 1.0)], sd_hz: None }),
--            FinalBfoModel::Inflated { sd_hz } if *sd_hz > 0.0 && sd_hz.is_finite() => {
--                Ok(FinalBfo { nodes: vec![([0.0, 0.0], 1.0)], sd_hz: Some(*sd_hz) })
--            }
-+            FinalBfoModel::NoOffset => Ok(FinalBfo { sd_hz: None, startup: None }),
-+            FinalBfoModel::Inflated { sd_hz } if *sd_hz > 0.0 && sd_hz.is_finite() => Ok(FinalBfo { sd_hz: Some(*sd_hz), startup: None }),
-             FinalBfoModel::Inflated { sd_hz } => Err(format!("inflated BFO s.d. {sd_hz} must be positive")),
-             FinalBfoModel::StartupOffset { second_hz, first_minus_second_hz, points } => {
--                let second = uniform_quadrature(*second_hz, points[0])?;
--                let decay = uniform_quadrature(*first_minus_second_hz, points[1])?;
--                let nodes = second.iter().flat_map(|&(b, wb)| decay.iter().map(move |&(d, wd)| ([b + d, b], wb * wd))).collect();
--                Ok(FinalBfo { nodes, sd_hz: None })
-+                if !(second_hz[0].is_finite() && second_hz[0] < second_hz[1] && second_hz[1].is_finite()) {
-+                    return Err(format!("start-up offset range {second_hz:?}: need lo < hi"));
-+                }
-+                Ok(FinalBfo { sd_hz: None, startup: Some((*second_hz, uniform_quadrature(*first_minus_second_hz, *points)?)) })
-             }
-         }
-     }
- 
-     /// ln p(selected BFOs). `contacts` holds (measured, predicted without bias, noise s.d.) for
--    /// the first and second burst, `None` where the burst's BFO is not used. One bias, with the
--    /// trajectory's posterior `bias` from the cruise BFOs, is shared by both; the offsets are
--    /// marginalised over the model's prior.
-+    /// the first and second burst of `FINAL_BFO_BURSTS`, `None` where that BFO is not used. One
-+    /// bias, with the trajectory's posterior `bias` from the cruise BFOs, is shared by both; the
-+    /// offsets are marginalised over the model's prior.
-     pub fn log_likelihood(&self, bias: BfoBias, contacts: [Option<(f64, f64, f64)>; 2]) -> f64 {
-         if contacts.iter().all(Option::is_none) {
-             return 0.0;
-         }
--        let (mut max, mut sum) = (f64::NEG_INFINITY, 0.0);
--        for (offsets, weight) in &self.nodes {
-+        let Some((range, gaps)) = &self.startup else {
-             let mut state = bias;
--            let mut value = weight.ln();
--            for (contact, offset) in contacts.iter().zip(offsets) {
--                if let Some((measured, predicted, sd)) = contact {
--                    value += state.update(*predicted, measured - offset, self.sd_hz.unwrap_or(*sd));
--                }
-+            return contacts.iter().flatten().map(|&(z, p, sd)| state.update(p, z, self.sd_hz.unwrap_or(sd))).sum();
-+        };
-+        let terms: Vec<f64> = gaps.iter().map(|&(gap, w)| w.ln() + offset_integral(bias, &contacts, gap, *range)).collect();
-+        let max = terms.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-+        if max == f64::NEG_INFINITY {
-+            return max;
-+        }
-+        max + terms.iter().map(|t| (t - max).exp()).sum::<f64>().ln()
-+    }
-+}
-+
-+/// ln of the likelihood of the contacts, averaged over the second burst's offset b uniform on
-+/// `range`, with the first's offset b + gap. Given b, the contacts are jointly Gaussian with
-+/// covariance V 11' + diag(sd^2) and a mean linear in b, so the average over b is the Gaussian
-+/// integral of a quadratic, in closed form: a difference of normal distribution functions.
-+fn offset_integral(bias: BfoBias, contacts: &[Option<(f64, f64, f64)>; 2], gap: f64, range: [f64; 2]) -> f64 {
-+    // Residuals before the offset b, and the noise variances, of the contacts in use.
-+    let used: Vec<(f64, f64)> = contacts
-+        .iter()
-+        .enumerate()
-+        .filter_map(|(k, c)| c.map(|(z, p, sd)| (z - p - bias.mean_hz - if k == 0 { gap } else { 0.0 }, sd * sd)))
-+        .collect();
-+    let v = bias.variance_hz2;
-+    // C = v 11' + diag(n); its inverse and determinant for one or two contacts.
-+    let (inverse, det) = match used.as_slice() {
-+        [(_, n)] => (vec![vec![1.0 / (v + n)]], v + n),
-+        [(_, n1), (_, n2)] => {
-+            let det = (v + n1) * (v + n2) - v * v;
-+            (vec![vec![(v + n2) / det, -v / det], vec![-v / det, (v + n1) / det]], det)
-+        }
-+        _ => unreachable!(),
-+    };
-+    let quad = |x: &[f64], y: &[f64]| -> f64 { (0..x.len()).map(|i| (0..y.len()).map(|j| x[i] * inverse[i][j] * y[j]).sum::<f64>()).sum() };
-+    let r: Vec<f64> = used.iter().map(|u| u.0).collect();
-+    let ones = vec![1.0; r.len()];
-+    let (a, b, q) = (quad(&ones, &ones), quad(&ones, &r), quad(&r, &r));
-+    let centre = b / a;
-+    let (lo, hi) = ((range[0] - centre) * a.sqrt(), (range[1] - centre) * a.sqrt());
-+    let n = r.len() as f64;
-+    -0.5 * (q - b * b / a) - 0.5 * (n * std::f64::consts::TAU.ln() + det.ln()) + 0.5 * (std::f64::consts::TAU / a).ln()
-+        - (range[1] - range[0]).ln()
-+        + log_normal_between(lo, hi)
-+}
-+
-+/// ln(Phi(hi) - Phi(lo)) for lo < hi, accurate far into either tail.
-+fn log_normal_between(lo: f64, hi: f64) -> f64 {
-+    if hi <= 0.0 {
-+        let (a, b) = (log_normal_cdf(hi), log_normal_cdf(lo));
-+        a + (-(b - a).exp()).ln_1p()
-+    } else if lo >= 0.0 {
-+        log_normal_between(-hi, -lo)
-+    } else {
-+        (1.0 - (log_normal_cdf(lo)).exp() - (log_normal_cdf(-hi)).exp()).ln()
-+    }
-+}
-+
-+/// ln Phi(x): the log of the standard normal distribution function.
-+pub fn log_normal_cdf(x: f64) -> f64 {
-+    std::f64::consts::LN_2.mul_add(-1.0, log_erfc(-x / std::f64::consts::SQRT_2))
-+}
-+
-+/// ln erfc(x), from the Taylor series of erf where it converges quickly and a continued fraction
-+/// in the upper tail (no underflow: the Gaussian factor is kept in the exponent).
-+fn log_erfc(x: f64) -> f64 {
-+    if x < 2.0 {
-+        // erf by its Taylor series; erfc = 1 - erf is not small here.
-+        let (mut term, mut sum, x2) = (x, x, x * x);
-+        for n in 1..200 {
-+            term *= -x2 / n as f64;
-+            let add = term / (2 * n + 1) as f64;
-+            sum += add;
-+            if add.abs() < 1e-17 * sum.abs() {
-+                break;
-             }
--            if value > max {
--                sum = sum * (max - value).exp() + 1.0;
--                max = value;
--            } else {
--                sum += (value - max).exp();
-+        }
-+        (1.0 - 2.0 / std::f64::consts::PI.sqrt() * sum).ln()
-+    } else {
-+        // erfc(x) = exp(-x^2)/sqrt(pi) * 1/(x + (1/2)/(x + 1/(x + (3/2)/(x + ...)))), by Lentz.
-+        let tiny = 1e-300;
-+        let (mut f, mut c, mut d) = (x, x, 0.0);
-+        for k in 1..500 {
-+            let a = k as f64 / 2.0;
-+            d = x + a * d;
-+            d = if d.abs() < tiny { tiny } else { d };
-+            c = x + a / c;
-+            c = if c.abs() < tiny { tiny } else { c };
-+            d = 1.0 / d;
-+            let delta = c * d;
-+            f *= delta;
-+            if (delta - 1.0).abs() < 1e-16 {
-+                break;
-             }
-         }
--        max + sum.ln()
-+        -x * x - 0.5 * std::f64::consts::PI.ln() - f.ln()
-     }
- }
- 
-@@ -234,8 +316,8 @@ fn uniform_quadrature(range: [f64; 2], points: usize) -> Result<Vec<(f64, f64)>,
- }
- 
- /// Signed distance (NM) from the arc on which the predicted BTO equals `bto`: the BTO residual
--/// at this position over the local BTO gradient. Positive beyond the arc, away from the
--/// sub-satellite point.
-+/// at this position over the local BTO gradient. Positive beyond the arc (away from the
-+/// sub-satellite point). First order: about 1.5% short or long at 100 NM from the arc.
- pub fn arc_distance_nm(satellite_km: Vec3, lat: f64, lon: f64, alt_ft: f64, bto: f64) -> f64 {
-     let here = bto_us(satellite_km, lat, lon, alt_ft);
-     // One nautical mile north and east (3,600 kt for one second).
-@@ -409,13 +491,44 @@ mod tests {
-         // The quadrature is exact for x^4 on [0, 1] (mean 1/5).
-         let nodes = uniform_quadrature([0.0, 1.0], 16).unwrap();
-         assert!((nodes.iter().map(|(x, w)| w * x.powi(4)).sum::<f64>() - 0.2).abs() < 1e-13);
--        // A contact whose innovation sits mid-way in a 113 Hz uniform offset range, more than
--        // 7 predictive s.d. from either end: the marginal density is 1/113.
--        let model = FinalBfoModel::StartupOffset { second_hz: [17.0, 130.0], first_minus_second_hz: [0.0, 6.0], points: [64, 16] };
-+        let model = FinalBfo::new(&FinalBfoModel::StartupOffset { second_hz: [17.0, 130.0], first_minus_second_hz: [0.0, 6.0], points: 16 }).unwrap();
-+        // The second burst alone, its innovation mid-way in the 113 Hz range and more than 7
-+        // predictive s.d. from either end: the marginal density is 1/113.
-         let bias = BfoBias { mean_hz: 150.0, variance_hz2: 4.0 };
--        let second = Some((-2.0, -225.5, 7.0));
--        let value = FinalBfo::new(&model).unwrap().log_likelihood(bias, [None, second]);
-+        let value = model.log_likelihood(bias, [None, Some((-2.0, -225.5, 7.0))]);
-         assert!((value + 113f64.ln()).abs() < 1e-9, "{value}");
-+        // The first burst alone, innovation 20 Hz: its offset b + gap has density (20 - 17)/(113 x 6)
-+        // at 20 Hz (a trapezoid rising from 17 Hz), so ln(3/678), whatever the noise s.d.
-+        let sharp = BfoBias { mean_hz: 150.0, variance_hz2: 0.0 };
-+        let value = model.log_likelihood(sharp, [Some((170.0, 0.0, 1.0)), None]);
-+        assert!((value - (3.0f64 / 678.0).ln()).abs() < 1e-9, "{value}");
-+    }
-+
-+    /// Both bursts, against brute force: the joint density with the bias marginalised, integrated
-+    /// over the second offset and the gap on a fine midpoint grid.
-+    #[test]
-+    fn the_closed_form_offset_integral_matches_brute_force() {
-+        let (second, gap) = ([17.0, 130.0], [0.0, 6.0]);
-+        let model = FinalBfo::new(&FinalBfoModel::StartupOffset { second_hz: second, first_minus_second_hz: gap, points: 16 }).unwrap();
-+        let bias = BfoBias { mean_hz: 150.0, variance_hz2: 9.0 };
-+        let (first, later) = ((260.0, 40.0, 7.0), (250.0, 45.0, 5.0));
-+        let value = model.log_likelihood(bias, [Some(first), Some(later)]);
-+        let (v, n1, n2) = (bias.variance_hz2, first.2 * first.2, later.2 * later.2);
-+        let det = (v + n1) * (v + n2) - v * v;
-+        let (nb, nd) = (4000, 200);
-+        let mut total = 0.0;
-+        for i in 0..nb {
-+            let b = second[0] + (i as f64 + 0.5) * (second[1] - second[0]) / nb as f64;
-+            for j in 0..nd {
-+                let g = gap[0] + (j as f64 + 0.5) * (gap[1] - gap[0]) / nd as f64;
-+                let r1 = first.0 - first.1 - bias.mean_hz - b - g;
-+                let r2 = later.0 - later.1 - bias.mean_hz - b;
-+                let q = ((v + n2) * r1 * r1 - 2.0 * v * r1 * r2 + (v + n1) * r2 * r2) / det;
-+                total += (-0.5 * q).exp() / (std::f64::consts::TAU * det.sqrt());
++    fn groups_lead_and_a_hypothesis_not_computed_is_not_compared() {
++        let columns = ["weight", "parent", "mode", "family", "unix_s", "latitude_deg", "longitude_deg", "kinetic_energy_j", "arc_distance_nm", "loglik:x/main", "loglik:x/zero"]
++            .map(String::from);
++        let (priors, likelihoods, n) = ([0.2, 0.3, 0.5], [2.0f64, 0.5, 1.0], 1000);
++        let mut values = Vec::new();
++        for f in 0..3 {
++            for k in 0..n {
++                let (main, zero) = if f == 2 && k < 3 * n / 10 { (f64::NAN, f64::NAN) } else { (likelihoods[f].ln(), 3f64.ln()) };
++                values.extend([priors[f] / n as f64, (f * n + k) as f64, 0.0, f as f64, 0.0, -30.0 - k as f64 / n as f64, 95.0, 1e9, 0.0, main, zero]);
 +            }
 +        }
-+        let brute = (total / (nb * nd) as f64).ln();
-+        assert!((value - brute).abs() < 1e-5, "{value} vs {brute}");
-     }
++        let terminal: TerminalConfig = toml::from_str(
++            "module = \"t\"\nhandoff = 1\nhandoff_floor = 1\nchildren = 1\narc = \"m0019a\"\ntarget = \"x\"\n\
++             options = [{ id = \"x\", use = [\"m0019a.bfo\"] }]\n[bfo_models.main]\nprior = 1.0\n[bfo_models.zero]\nprior = 0.0\nsd_hz = 34.0\n",
++        )
++        .unwrap();
++        let set: ComposeSet = toml::from_str("id = \"s\"\noption = \"x\"").unwrap();
++        let (families, groups, declarations) = (["f0", "f1", "f2"].map(String::from), ["g", "g", "h"].map(String::from), BTreeMap::new());
++        let stage = Stage4 { columns: &columns, terminal: &terminal, terminal_module: "t", families: &families, groups: &groups, declarations: &declarations, placeholder: false, reference_unix_s: 0.0 };
++        let replicate = ReplicateImpacts { seed: 1, values, modules: BTreeMap::new(), filter_log_z: vec![0.0], strata_prior: vec![1.0] };
++        let out = stage.set(&set, &[replicate]).unwrap();
++        let close = |v: &Value, x: f64| v.as_f64().is_some_and(|v| (v - x).abs() < 1e-9);
++        let (g, h) = (&out["end_of_flight"][0], &out["end_of_flight"][1]);
++
++        // Group g leads with Z = (0.2 * 2 + 0.3 * 0.5) / 0.5 = 1.1; its families follow, sharing the
++        // group's posterior 0.4 : 0.15.
++        assert_eq!((&g["group"], &g["families"]), (&json!("g"), &json!(["f0", "f1"])));
++        assert!(close(&g["prior"], 0.5) && close(&g["result"]["log_evidence"], 1.1f64.ln()));
++        let detail = &g["family_detail"];
++        assert!(close(&detail[0]["prior_share"], 0.4) && close(&detail[0]["log_evidence"], 2f64.ln()) && close(&detail[0]["posterior_share"], 0.4 / 0.55));
++        assert!(close(&detail[1]["log_evidence"], 0.5f64.ln()) && close(&detail[1]["posterior_share"], 0.15 / 0.55));
++        // The BFO model of prior 0 is not mixed in, but its evidence is reported (ln 3).
++        let bfo = &g["result"]["alternatives"][0];
++        assert!(close(&bfo["posterior"][1], 0.0) && close(&bfo["log_evidence"][1], 3f64.ln()));
++        assert_eq!(bfo["conditional_only"], json!([false, true]));
++
++        // Group h is shown, with the evidence of its computed rows, where its rows not computed lie
++        // (they keep their prior share), and a label; it takes no part in comparisons.
++        assert!(close(&h["result"]["log_evidence"], 0.0) && close(&h["result"]["uncomputed"]["any"], 0.3));
++        assert_eq!((&h["comparable"], &h["label"]), (&json!(false), &json!("not comparable: 30% not computed")));
++        let missing: f64 = h["result"]["points"]["contact"]["map_not_computed"].as_array().unwrap().iter().map(|c| c[2].as_f64().unwrap()).sum();
++        assert!((missing - 0.3).abs() < 1e-9, "{missing}");
++        assert!(close(&g["log_bayes_factor_vs_best"], 0.0) && h["log_bayes_factor_vs_best"].is_null());
++        for p in out["prior_sensitivity"].as_array().unwrap() {
++            assert!(close(&p["hypothesis_posterior"][0], 1.0) && p["hypothesis_posterior"][1].is_null(), "{p}");
++        }
++    }
++}
+diff --git a/report/build_report.py b/report/build_report.py
+index e04b772..b032a71 100644
+--- a/report/build_report.py
++++ b/report/build_report.py
+@@ -173,6 +173,13 @@ def draw_impact_map(ax, point, grid):
+         density = p / grid["cell_km"] ** 2  # probability per km^2
+         sc = ax.scatter(lon, lat, c=density, s=3, marker="s", cmap="Blues", zorder=2, linewidths=0,
+                         norm=LogNorm(vmin=max(density.max() * 1e-3, 1e-12), vmax=density.max()))
++        # Where the samples not computed lie: they keep their share of the map (neutral fill).
++        missing = point.get("map_not_computed", [])
++        if missing:
++            mlat, mlon, mp = cell_centres(missing, grid)
++            ax.scatter(mlon, mlat, s=3, marker="s", facecolors="none", edgecolors=DAVEY, linewidths=0.3, zorder=3,
++                       label=f"not computed: {mp.sum():.1%} of this map")
++            ax.legend(loc="lower left", fontsize=7)
+         # Frame the cells that hold 99.5% of the probability, not the faintest tail.
+         order = np.argsort(p)[::-1]
+         core = order[: np.searchsorted(np.cumsum(p[order]), 0.995 * p.sum()) + 1]
+@@ -214,8 +221,14 @@ def impact_report(run, summary, out):
+             opts = case["options"]
+             ax = fig.add_axes([0.32, 0.12, 0.6, y - 0.18])
+             values = [o["log_evidence_increment"] if o["log_evidence_increment"] is not None else np.nan for o in opts]
+-            ax.barh(range(len(opts)), values, color=OURS)
+-            ax.set_yticks(range(len(opts)), [f"{o['column']}  (ESS {o['ess_rows']:,.0f} / {o['ess_parents']:,.0f})" for o in opts], fontsize=7)
++            ax.barh(range(len(opts)), values, color=[MUTED if o.get("conditional_only") else OURS for o in opts])
++
++            def option_label(o):
++                if o.get("not_computed", 0) >= 1 - 1e-9:
++                    return f"{o['column']}  (not computed: BFO in a case without BFO)"
++                note = ", conditional only" if o.get("conditional_only") else ""
++                return f"{o['column']}  (ESS {o['ess_rows']:,.0f} / {o['ess_parents']:,.0f}{note})"
++            ax.set_yticks(range(len(opts)), [option_label(o) for o in opts], fontsize=7)
+             ax.invert_yaxis()
+             ax.set_xlabel("Log-evidence increment against the flight posterior")
+             ax.axvline(0, color=MUTED, lw=0.6)
+@@ -228,10 +241,12 @@ def impact_report(run, summary, out):
+                     point = r["points"]["contact"]
+                     fig = plt.figure(figsize=(8.27, 11.69))
+                     banner(fig, s["placeholder"])
+-                    label = ", ".join([h["family"]] + [f"{k} = {v}" for k, v in h["alternatives"].items()])
++                    label = ", ".join([h["group"]] + [f"{k} = {v}" for k, v in h["alternatives"].items()])
+                     fig.text(0.08, 0.955, f"Set {s['id']}: {label}", fontsize=13, weight="bold", color=INK)
+                     fig.text(0.08, 0.935, f"Case {case['case']}; 00:19 data option {s['option']}; modules "
+                              f"{', '.join(s['modules']) or 'none'}. First water contact.", fontsize=9, color=MUTED)
++                    if not h["comparable"]:
++                        fig.text(0.92, 0.955, h["label"].capitalize(), ha="right", fontsize=10, color="#c0392b", weight="bold")
+                     draw_impact_map(fig.add_axes([0.1, 0.52, 0.8, 0.39]), point, grid)
+                     ax = fig.add_axes([0.1, 0.33, 0.8, 0.14])
+                     density = np.array(point["latitude"]["density"])
+@@ -241,17 +256,26 @@ def impact_report(run, summary, out):
+                     ax.set_ylim(bottom=0)
+                     ax.set_xlabel("Latitude of first water contact (°)")
+                     ax.set_ylabel("Density (per degree)")
+-                    flags = [w for w, on in (("INCOMPLETE", r["incomplete"]), ("UNCONVERGED", r["unconverged"])) if on]
++                    flags = ["UNCONVERGED"] if r["unconverged"] else []
+                     ess = "; ".join(f"{k} {v['rows']:,.0f} / {v['parents']:,.0f}" for k, v in r["ess"].items())
+-                    alts = "; ".join(f"{a['name']}: " + ", ".join(f"{l} {p:.2f} (ln Z {fmt(z)})" for l, p, z in zip(a["labels"], a["posterior"], a["log_evidence"]))
++
++                    def option(label, p, z, conditional):
++                        return f"{label} conditional only (ln Z {fmt(z)})" if conditional else f"{label} {p:.2f} (ln Z {fmt(z)})"
++                    alts = "; ".join(f"{a['name']}: " + ", ".join(option(*o) for o in zip(a["labels"], a["posterior"], a["log_evidence"], a["conditional_only"]))
+                                      for a in r["alternatives"]) or "none"
+                     preds = "; ".join(f"{k}: {fmt(v['median'], '.4g')} [{fmt(v['q025'], '.4g')}, {fmt(v['q975'], '.4g')}]" for k, v in r["predictions"].items()) or "none"
++                    families = "; ".join(f"{f['family']} prior {f['prior_share']:.2f}, posterior {f['posterior_share']:.2f} (ln Z {fmt(f['log_evidence'])})"
++                                         for f in h["family_detail"])
++                    comparison = (f"ln Bayes factor against the best comparable hypothesis: {fmt(h['log_bayes_factor_vs_best'])}."
++                                  if h["comparable"] else f"{h['label'].capitalize()} (tolerance {s['tolerance']:.2%}): shown, but not compared.")
+                     text_block(fig, 0.08, 0.27, f"""
+                         {' '.join(flags) + '. ' if flags else ''}Latitude median {st['median']:.2f}°, 95% interval
+                         {st['q025']:.2f}° to {st['q975']:.2f}°. Log evidence of the set's data under this hypothesis:
+                         {fmt(r['log_evidence'])} (replicates {', '.join(fmt(x) for x in r['replicate_log_evidence'])}).
+-                        Split-half agreement: latitude {fmt(point['latitude']['split_half_overlap'])}, map
+-                        {fmt(point['map_split_half_overlap'])}.
++                        {comparison} Split-half agreement: latitude {fmt(point['latitude']['split_half_overlap'])},
++                        map {fmt(point['map_split_half_overlap'])}.
++
++                        Descent families in this group (share of its prior and posterior): {families}.
  
-     #[test]
+                         Effective sample sizes (descents / trajectories): {ess}. Share of the pre-module posterior not
+                         computed: {', '.join(f'{k} {v:.2%}' for k, v in r['uncomputed'].items())}.
+@@ -266,22 +290,30 @@ def impact_report(run, summary, out):
+                 fig.text(0.08, 0.955, f"Set {s['id']}: the average over end-of-flight hypotheses", fontsize=13, weight="bold", color=INK)
+                 y = text_block(fig, 0.08, 0.935, """The end-of-flight hypotheses cannot be ranked by a prior that data could test,
+                     so their average is shown only under two priors: the terminal module's own, and uniform. Each
+-                    hypothesis's weight is its prior times the evidence of the set's data under it.""", size=8.5, width=118)
++                    hypothesis's weight is its prior times the evidence of the set's data under it. A hypothesis with
++                    more of its posterior not computed than the set tolerates takes no part.""", size=8.5, width=118)
+                 ax = fig.add_axes([0.1, 0.5, 0.8, y - 0.55])
+-                lines = []
++                lines, averaged = [], [p for p in s["prior_sensitivity"] if p["points"]]
++                name = lambda h: h["group"] + "".join(" " + v for v in h["alternatives"].values())  # noqa: E731
+                 for p, colour in zip(s["prior_sensitivity"], (OURS, DAVEY)):
++                    if not p["points"]:
++                        lines.append(f"Prior {p['prior']}: no comparable hypothesis.")
++                        continue
+                     point = p["points"]["contact"]
+                     ax.plot(GRID, point["latitude"]["density"], color=colour, label=f"prior: {p['prior']}")
+                     st = point["latitude"]["stats"]
+-                    weights = ", ".join(f"{h['family']}{''.join(' ' + v for v in h['alternatives'].values())} {w:.2f}"
+-                                        for h, w in zip(eof, p["hypothesis_posterior"]))
++                    weights = ", ".join(f"{name(h)} {w:.2f}" for h, w in zip(eof, p["hypothesis_posterior"]) if w is not None)
+                     lines.append(f"Prior {p['prior']}: median {st['median']:.2f}°, 95% {st['q025']:.2f}° to {st['q975']:.2f}°; "
+                                  f"hypothesis weights {weights}.")
+-                ax.set_xlim(min(p["points"]["contact"]["latitude"]["stats"]["q025"] for p in s["prior_sensitivity"]) - 3,
+-                            max(p["points"]["contact"]["latitude"]["stats"]["q975"] for p in s["prior_sensitivity"]) + 3)
++                excluded = [f"{name(h)} ({h['label']})" for h in eof if not h["comparable"]]
++                if excluded:
++                    lines.append(f"Not compared: {'; '.join(excluded)}.")
++                if averaged:
++                    ax.set_xlim(min(p["points"]["contact"]["latitude"]["stats"]["q025"] for p in averaged) - 3,
++                                max(p["points"]["contact"]["latitude"]["stats"]["q975"] for p in averaged) + 3)
++                    ax.legend()
+                 ax.set_xlabel("Latitude of first water contact (°)")
+                 ax.set_ylabel("Density (per degree)")
+-                ax.legend()
+                 text_block(fig, 0.08, 0.44, "\n\n".join(lines), size=8.5, width=118)
+                 save_page(pdf, fig, out)
+                 plt.close(fig)
