@@ -86,6 +86,7 @@ import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.backends.backend_pdf import PdfPages  # noqa: E402
 from matplotlib.colors import LogNorm  # noqa: E402
+from matplotlib.lines import Line2D  # noqa: E402
 
 HERE = Path(__file__).resolve().parent
 LAND = HERE / "ne_110m_land.geojson"
@@ -206,6 +207,255 @@ def draw_map(ax, case, routes, arcs, prior, extent):
     ax.set_xlabel("Longitude (°E)")
     ax.set_ylabel("Latitude (°)")
     return mesh
+
+
+def hpd_levels(density, cell_area, fractions):
+    """Density thresholds enclosing each requested posterior mass.
+
+    Sorts cells by density and walks down the cumulative mass, so the contour at the returned
+    level bounds the smallest region holding that much probability — a highest-posterior-density
+    region, not a quantile of either coordinate. Returns one level per fraction, ascending, with
+    duplicates nudged apart so `contour` accepts them.
+    """
+    flat = np.sort(density.ravel())[::-1]
+    mass = np.cumsum(flat) * cell_area
+    total = mass[-1]
+    levels = []
+    for f in fractions:
+        i = int(np.searchsorted(mass, f * total))
+        levels.append(float(flat[min(i, len(flat) - 1)]))
+    levels = sorted(levels)
+    for i in range(1, len(levels)):
+        if levels[i] <= levels[i - 1]:
+            levels[i] = levels[i - 1] * (1 + 1e-6) + 1e-30
+    return levels
+
+
+def arc_polyline(arcs, epoch):
+    """The reference BTO arc for one epoch as (lon, lat), or None if the run has no such arc."""
+    for a in arcs:
+        if a["epoch"] == epoch and a.get("lat_lon"):
+            pts = np.asarray(a["lat_lon"], dtype=float)
+            return pts[:, 1], pts[:, 0]
+    return None
+
+
+def clip_text(s, n):
+    """Truncate to `n` characters with an ellipsis, for fixed-width table cells."""
+    s = str(s)
+    return s if len(s) <= n else s[: n - 1] + "\u2026"
+
+
+def dm_label(value, axis):
+    """Latitude/longitude tick text in the navigation convention: 34.5 -> 34.5°S."""
+    if axis == "lat":
+        return f"{abs(value):g}°{'S' if value < 0 else 'N'}"
+    return f"{abs(value):g}°{'W' if value < 0 else 'E'}"
+
+
+def run_summary_lines(run_json, case, arc_summary):
+    """The right-hand column: what this run did differently, then what it concluded.
+
+    Differences come from the same `parameters.compare` rows as the parameter page, so the two
+    cannot disagree; only the rows marked DIFFERS are listed, which is what a reader scanning
+    for "how is this not Davey" wants.
+    """
+    rows = parameters.compare(run_json)
+    diff = [r for r in rows if str(r.get("verdict", "")).upper().startswith("DIFFER")]
+    lines = [("head", "DIFFERENCES FROM DAVEY")]
+    if not diff:
+        lines.append(("body", "None: this is the base estimate."))
+    for r in diff:
+        name = r["parameter"]
+        run_v, book_v = str(r["this_run"]), str(r["davey"])
+        # Input rows carry a resolved path; the file name is the informative part.
+        if "/" in run_v:
+            run_v = run_v.rsplit("/", 1)[-1]
+        for a, b in ((" standard deviation", " sd"), ("Altitude after a vertical manoeuvre, uniform on", "Altitude range")):
+            name = name.replace(a, b)
+        lines.append(("item", f"{name}: {clip_text(run_v, 26)}"))
+        lines.append(("sub", f"book: {clip_text(book_v, 30)}"))
+    lines.append(("gap", ""))
+    lines.append(("head", "POSTERIOR AT 00:19"))
+    s = case["stats"]
+    lines.append(("body", f"median {abs(s['median']):.2f}°S, mode {abs(s['mode']):.2f}°S"))
+    lines.append(("body", f"95% {abs(s['q975']):.2f}–{abs(s['q025']):.2f}°S"))
+    lines.append(("body", f"replicates {len(case['reps'])}, split-half {case['split_half_overlap']:.3f}"))
+    # Largest share of the posterior carried by one prior draw: a sampling diagnostic, not a
+    # property of the posterior, and the first thing to check when a region looks lumpy.
+    biggest = 0.0
+    for r in case["reps"]:
+        pw = np.asarray(r["pooled_weight"], dtype=float)
+        if pw.sum() > 0:
+            biggest = max(biggest, float(pw.max() / pw.sum() / len(case["reps"])))
+    lines.append(("body", f"largest single draw {biggest * 100:.2f}% of weight"))
+    if arc_summary:
+        for f, a in zip(arc_summary["fractions"], arc_summary["area_nm2"]):
+            lines.append(("body", f"{int(round(f * 100))}% region {a:,.0f} NM²"))
+    return lines
+
+
+def page_arc_closeup(pdf, case, arcs, out, run_json=None, bin_deg=0.05, fractions=(0.5, 0.9, 0.95, 0.99)):
+    """Close-up of the 00:19 (7th) arc over the region holding 99.9% of the posterior.
+
+    Contours are highest-posterior-density regions of the joint latitude-longitude posterior, so
+    the 50% curve bounds the smallest area holding half the probability. Shown as contours rather
+    than a pixel mesh because the mesh's visual extent depends on the colour floor, which is a
+    plotting choice, whereas an HPD contour is a property of the posterior.
+    """
+    lon = np.concatenate([np.asarray(r["cols"]["longitude_deg"], dtype=float) for r in case["reps"]])
+    lat = np.concatenate([np.asarray(r["cols"]["latitude_deg"], dtype=float) for r in case["reps"]])
+    w = np.concatenate([np.asarray(r["pooled_weight"], dtype=float) for r in case["reps"]])
+    w = w / w.sum()
+
+    # View: the bounding box of the 99% highest-posterior-density region, not the central 99% of
+    # each coordinate. The posterior has a sparse northern tail; a per-coordinate span is
+    # stretched by it, which flattens the inner contours into an unreadable sliver. The HPD
+    # region drops those low-density cells. Computed on a coarse pass over the full extent, then
+    # re-binned on the result.
+    cx = np.arange(lon.min() - bin_deg, lon.max() + 2 * bin_deg, bin_deg)
+    cy = np.arange(lat.min() - bin_deg, lat.max() + 2 * bin_deg, bin_deg)
+    coarse, _, _ = np.histogram2d(lon, lat, bins=[cx, cy], weights=w)
+    keep = coarse / (bin_deg * bin_deg) >= hpd_levels(coarse / (bin_deg * bin_deg), bin_deg * bin_deg, [0.99])[0]
+    ix, iy = np.where(keep)
+    x0, x1 = float(cx[ix.min()]) - bin_deg, float(cx[ix.max() + 1]) + bin_deg
+    y0, y1 = float(cy[iy.min()]) - bin_deg, float(cy[iy.max() + 1]) + bin_deg
+
+    xe = np.arange(x0, x1 + bin_deg, bin_deg)
+    ye = np.arange(y0, y1 + bin_deg, bin_deg)
+    h, _, _ = np.histogram2d(lon, lat, bins=[xe, ye], weights=w)
+    cell = bin_deg * bin_deg
+    dens = h / cell
+    # Light smoothing so the contours describe the posterior rather than the bin lattice. Box
+    # kernel over 3x3 bins = 0.15 deg, well inside the posterior's own width.
+    k = np.ones((3, 3)) / 9.0
+    pad = np.pad(dens, 1, mode="constant")
+    sm = sum(k[i, j] * pad[i:i + dens.shape[0], j:j + dens.shape[1]] for i in range(3) for j in range(3))
+    sm *= dens.sum() / sm.sum() if sm.sum() > 0 else 1.0
+
+    levels = hpd_levels(sm, cell, fractions)
+    xc, yc = (xe[:-1] + xe[1:]) / 2, (ye[:-1] + ye[1:]) / 2
+
+    fig = plt.figure(figsize=(8.27, 11.69))
+    ax = fig.add_axes([0.075, 0.545, 0.595, 0.395])
+    ax.set_axisbelow(True)
+    ax.grid(True, color="#e9e9e6", lw=0.5, zorder=0)
+    for poly in land_polygons():
+        ax.fill(poly[:, 0], poly[:, 1], color="#ebeae6", lw=0.4, ec="#c3c2bc", zorder=1)
+    # Greyscale shading, darkest at the densest region.
+    ax.contourf(xc, yc, sm.T, levels=levels + [sm.max() * (1 + 1e-9)],
+                colors=["#ededed", "#d2d2d2", "#ababab", "#7d7d7d"], zorder=2)
+    cs = ax.contour(xc, yc, sm.T, levels=levels, colors="#3f3f3f", linewidths=[0.6, 0.7, 0.8, 1.0], zorder=3)
+    ax.clabel(cs, fmt={lv: f"{int(round(f * 100))}%" for lv, f in zip(levels, sorted(fractions, reverse=True))},
+              fontsize=6.5, inline=True, inline_spacing=2)
+    med = (float(np.average(lon, weights=w)), float(np.average(lat, weights=w)))
+    ax.plot(*med, marker="+", ms=8, mew=1.3, color=INK, zorder=8)
+    handles = [Line2D([], [], marker="+", ls="", ms=8, mew=1.3, color=INK, label="Coordinate means")]
+    drawn = []
+    for epoch, label, style in (("m0011", "6th arc, 00:11", (0, (6, 3))), ("m0019a", "7th arc, 00:19", None)):
+        p = arc_polyline(arcs, epoch)
+        if p is None:
+            continue
+        inview = (p[0] >= x0 - 2) & (p[0] <= x1 + 2) & (p[1] >= y0 - 2) & (p[1] <= y1 + 2)
+        if inview.sum() < 2:
+            continue
+        colour = DAVEY if style is None else "#8a8983"
+        ax.plot(p[0][inview], p[1][inview], color=colour,
+                lw=1.3 if style is None else 1.0, ls=style or "-", zorder=5)
+        handles.append(Line2D([], [], color=colour, lw=1.3 if style is None else 1.0,
+                              ls=style or "-", label=label))
+        drawn.append(label)
+    ax.legend(handles=handles, loc="lower left", frameon=True, framealpha=0.9, edgecolor="#c3c2bc",
+              fontsize=6.8, labelspacing=0.4, borderpad=0.4)
+    ax.set_xlim(x0, x1)
+    ax.set_ylim(y0, y1)
+    ax.set_aspect(1 / np.cos(np.radians((y0 + y1) / 2)))
+    ax.xaxis.set_major_formatter(lambda v, _: dm_label(v, "lon"))
+    ax.yaxis.set_major_formatter(lambda v, _: dm_label(v, "lat"))
+    ax.tick_params(labelsize=7)
+    ax.set_title("a   Position at 00:19 UTC, over the 99% region", loc="left", fontsize=10.5, pad=8)
+
+    area_nm2 = []
+    for lv in levels:
+        cells = int((sm >= lv).sum())
+        area_nm2.append(cells * cell * 3600.0 * float(np.cos(np.radians((y0 + y1) / 2))))
+
+    # Right-hand column: what this run varied and what it concluded.
+    if run_json is not None:
+        summary = {"fractions": sorted(fractions, reverse=True), "area_nm2": sorted(area_nm2, reverse=True)}
+        y = 0.935
+        for kind, text in run_summary_lines(run_json, case, summary):
+            if kind == "gap":
+                y -= 0.016
+                continue
+            size, colour, weight = {
+                "head": (8.0, INK, "bold"),
+                "item": (7.0, INK, "normal"),
+                "sub": (6.4, MUTED, "normal"),
+                "body": (7.0, INK, "normal"),
+            }[kind]
+            x = 0.715 if kind != "sub" else 0.725
+            for j, piece in enumerate(textwrap.wrap(text, 34 if kind != "sub" else 33) or [""]):
+                fig.text(x if j == 0 else x + 0.01, y, piece, fontsize=size, color=colour,
+                         weight=weight, va="top", ha="left")
+                y -= 0.0125
+            y -= 0.004 if kind == "sub" else 0.006
+
+    # Panel b: the same posterior in arc-relative coordinates. The region is a ribbon roughly
+    # 0.3 deg wide and 15 deg long, so on an aspect-true map the inner contours collapse to a
+    # line. Plotting east-west offset from the arc against latitude separates the two scales
+    # without distorting either.
+    arc7 = arc_polyline(arcs, "m0019a") or arc_polyline(arcs, "m0019b")
+    panel_b = None
+    if arc7 is not None:
+        alon, alat = arc7
+        order = np.argsort(alat)
+        off_nm = (lon - np.interp(lat, alat[order], alon[order])) * 60.0 * np.cos(np.radians(lat))
+        inside = (lat >= y0) & (lat <= y1)
+        lim = max(4.0, float(np.percentile(np.abs(off_nm[(lat >= y0) & (lat <= y1)]), 99.9)))
+        ob, lb = np.linspace(-lim, lim, 101), np.arange(y0, y1 + bin_deg, bin_deg)
+        h2, _, _ = np.histogram2d(off_nm[inside], lat[inside], bins=[ob, lb], weights=w[inside])
+        cell2 = (ob[1] - ob[0]) * bin_deg
+        d2 = h2 / cell2
+        pad2 = np.pad(d2, 1, mode="constant")
+        s2 = sum(k[i, j] * pad2[i:i + d2.shape[0], j:j + d2.shape[1]] for i in range(3) for j in range(3))
+        if s2.sum() > 0:
+            s2 *= d2.sum() / s2.sum()
+            lv2 = hpd_levels(s2, cell2, fractions)
+            ax2 = fig.add_axes([0.075, 0.275, 0.595, 0.195])
+            oc, lc = (ob[:-1] + ob[1:]) / 2, (lb[:-1] + lb[1:]) / 2
+            ax2.set_axisbelow(True)
+            ax2.grid(True, color="#e9e9e6", lw=0.5, zorder=0)
+            ax2.contourf(oc, lc, s2.T, levels=lv2 + [s2.max() * (1 + 1e-9)],
+                         colors=["#ededed", "#d2d2d2", "#ababab", "#7d7d7d"], zorder=2)
+            ax2.contour(oc, lc, s2.T, levels=lv2, colors="#3f3f3f", linewidths=[0.6, 0.7, 0.8, 1.0], zorder=3)
+            ax2.axvline(0.0, color=DAVEY, lw=1.2, zorder=4)
+            ax2.yaxis.set_major_formatter(lambda v, _: dm_label(v, "lat"))
+            ax2.tick_params(labelsize=7)
+            ax2.set_xlim(oc.min(), oc.max())
+            ax2.set_ylim(y0, y1)
+            ax2.set_xlabel("East–west offset from the 00:19 arc at the same latitude (NM)")
+            ax2.set_ylabel("Latitude (°)")
+            ax2.set_title("b   The same posterior, measured from the arc", loc="left", fontsize=10.5, pad=6)
+            panel_b = {"levels": lv2, "offset_nm_p95": float(np.percentile(np.abs(off_nm[inside]), 95))}
+
+    shown = ", ".join(f"{int(round(f*100))}% {a:,.0f}" for f, a in
+                      zip(sorted(fractions, reverse=True), area_nm2))
+    text_block(fig, 0.075, 0.225, f"""
+        Figure 3. Joint latitude-longitude posterior at 00:19 UTC, drawn as highest-posterior-density
+        regions: the {int(round(min(fractions)*100))}% curve bounds the smallest area holding
+        {int(round(min(fractions)*100))}% of the probability, and so on outward, so a region here
+        is the smallest place to look for that confidence rather than an interval in either
+        coordinate alone. Binned at {bin_deg:g}° and smoothed over three bins. Panel a spans the
+        bounding box of the 99% region, so sparse outlying cells are excluded; enclosed areas
+        (NM², at the view's mean latitude) are {shown}. Panel b replots the same particles against
+        their east-west offset from the 00:19 arc, because the region is about 0.3° wide and
+        {y1 - y0:.0f}° long and the inner contours are not separable at a true aspect ratio.
+        {'Arcs are the reference BTO loci at 35,000 ft; 00:19 is the 7th.' if drawn else ''}
+        Land: Natural Earth 1:110m.""", size=8, colour=MUTED, width=128)
+    save_page(pdf, fig, out)
+    plt.close(fig)
+    return {"view": [x0, x1, y0, y1], "levels": levels, "area_nm2": area_nm2, "panel_b": panel_b}
 
 
 def page_parameters(pdf, run_json, out):
@@ -465,7 +715,10 @@ def main():
         save_page(pdf, fig, out)
         plt.close(fig)
 
-        # Page 3: posterior checks against the book.
+        # Page 3: close-up of the 7th arc, as credible regions rather than a pixel mesh.
+        arc_summary = page_arc_closeup(pdf, bfo, run["reference_arcs"], out, run_json=run)
+
+        # Page 4: posterior checks against the book.
         fig = plt.figure(figsize=(8.27, 11.69))
         fig.text(0.08, 0.955, "Posterior behaviour compared with the book", fontsize=13, weight="bold", color=INK)
         axes = [fig.add_axes(r) for r in ([0.1, 0.70, 0.36, 0.2], [0.58, 0.70, 0.36, 0.2],
@@ -529,7 +782,7 @@ def main():
         save_page(pdf, fig, out)
         plt.close(fig)
 
-        # Page 4: method, convergence and reproduction.
+        # Page 5: method, convergence and reproduction.
         fig = plt.figure(figsize=(8.27, 11.69))
         fig.text(0.08, 0.955, "Method, convergence and reproduction", fontsize=13, weight="bold", color=INK)
         ax = fig.add_axes([0.1, 0.70, 0.36, 0.2])
@@ -589,7 +842,7 @@ def main():
         save_page(pdf, fig, out)
         plt.close(fig)
 
-        # Page 5: parameters and model choices against the book. Written for every run, and
+        # Page 6: parameters and model choices against the book. Written for every run, and
         # emitted beside the report as parameters.csv so the paper can cite the same rows.
         page_parameters(pdf, run, out)
         parameters.write_csv(run_dir / "parameters.csv", parameters.compare(run))

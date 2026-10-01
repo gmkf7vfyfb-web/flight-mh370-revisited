@@ -101,6 +101,11 @@ fn constants(p: &Parameters) -> Value {
             "lnav_switch_mean_s": p.lnav_switch_mean_s,
             "cruise_step_s": p.cruise_step_s,
             "manoeuvre_step_s": p.manoeuvre_step_s,
+            "bfo_vertical_rate": p.bfo_vertical_rate,
+            "fuel": p.fuel.as_ref().map(|f| serde_json::json!({
+                "initial_kg": f.initial_kg, "zfw_kg": f.zfw_kg,
+                "factor_mean": f.factor_mean, "factor_sd": f.factor_sd,
+            })),
             "source": "Davey et al. (2016) Table 8.2 and ch. 6-7, compiled into crates/flight",
         },
         "measurement": {

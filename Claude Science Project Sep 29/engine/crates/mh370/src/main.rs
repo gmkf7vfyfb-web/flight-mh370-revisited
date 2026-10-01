@@ -97,7 +97,8 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
     }
     let terminal_module = roles.terminal.as_ref().map(|name| hypotheses::construct(name, &config.hypotheses[name])).transpose()?;
 
-    let params = config.dynamics.apply(Parameters::default());
+    let mut params = config.dynamics.apply(Parameters::default());
+    params.fuel = load_fuel(&config)?;
     let mut spec = PriorSpec {
         unix_s: satcom::parse_utc(&config.prior.time_utc)?,
         latitude_deg: config.prior.latitude_deg,
@@ -259,6 +260,31 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
 }
 
 /// The terminal model of the module named in `[terminal]`.
+
+/// Load the performance tables and build the shared fuel model, or `None` when `[fuel]` is absent.
+///
+/// Fails loudly when `[fuel]` is set without `inputs.fuel_tables`: a run that asked for fuel and
+/// silently got none would report a fuel-constrained posterior that was never constrained.
+fn load_fuel(config: &config::Config) -> Result<Option<std::sync::Arc<flight::FuelModel>>, String> {
+    let Some(f) = &config.fuel else { return Ok(None) };
+    let path = config
+        .inputs
+        .fuel_tables
+        .as_ref()
+        .ok_or("[fuel] is set but inputs.fuel_tables is missing")?;
+    let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+    let tables = flight::fuel::FuelTables::from_json(&text)?;
+    Ok(Some(std::sync::Arc::new(flight::FuelModel::new(
+        tables,
+        flight::fuel::FuelPrior {
+            initial_kg: f.initial_kg,
+            zfw_kg: f.zfw_kg,
+            factor_mean: f.factor_mean,
+            factor_sd: f.factor_sd,
+        },
+    ))))
+}
+
 fn terminal_model<'a>(module: &'a dyn Hypothesis, name: &str) -> Result<&'a dyn Terminal, String> {
     module.terminal().ok_or_else(|| format!("{name} is named in [terminal] but has no terminal model"))
 }
@@ -285,7 +311,8 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
     let mut environment = Gridded::load(&config.inputs.era5, &config.inputs.igrf)?;
     environment.wind_scale = config.environment.wind_scale;
     environment.declination_scale = config.environment.declination_scale;
-    let params = config.dynamics.apply(Parameters::default());
+    let mut params = config.dynamics.apply(Parameters::default());
+    params.fuel = load_fuel(&config)?;
 
     let mut handoffs = Vec::new();
     for case in &config.cases {

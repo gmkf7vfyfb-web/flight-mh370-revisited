@@ -8,12 +8,15 @@
 
 pub mod environment;
 
+pub mod fuel;
+
 use environment::{Environment, Weather, MPS_PER_KNOT};
 use geo::{advance, radii_of_curvature_km, wrap_pi, KM_PER_FT, KM_S_PER_KT};
 use rand::Rng;
 use rand_distr::{Distribution, Exp1, StandardNormal};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::{LN_2, PI};
+use std::sync::Arc;
 
 /// Model parameters. `Default` is Davey et al. (2016) Table 8.2 and ch. 6-7.
 #[derive(Debug, Clone)]
@@ -35,6 +38,20 @@ pub struct Parameters {
     pub lnav_switch_mean_s: f64,
     pub cruise_step_s: f64,
     pub manoeuvre_step_s: f64,
+    /// Fuel state and the loaded performance tables; `None` leaves fuel unmodelled, which is
+    /// the published model (Davey Assumption 4 substitutes the 0.73 Mach floor for a fuel
+    /// constraint). Shared behind an `Arc` because the grids are ~4,000 cells and `Parameters`
+    /// is cloned per filter; the manifest identifies them by their source hash.
+    pub fuel: Option<Arc<FuelModel>>,
+    /// Pass the modelled vertical speed to the cruise BFO instead of zero.
+    ///
+    /// Davey sec. 7.2 carries no vertical rate in the cruise state, and the aircraft's own
+    /// Doppler compensation does not include the vertical component of its velocity (sec. 5.3),
+    /// so a climbing or descending aircraft has an uncompensated vertical Doppler term that the
+    /// published model omits. At the 00:11 geometry that term is 17.5 Hz per 1,000 ft/min against
+    /// a 7 Hz measurement standard deviation, so the omission is not small for any particle in a
+    /// level change. `false` reproduces the published model exactly.
+    pub bfo_vertical_rate: bool,
 }
 
 impl Default for Parameters {
@@ -56,6 +73,8 @@ impl Default for Parameters {
             lnav_switch_mean_s: 6.0 / LN_2 * 3600.0,
             cruise_step_s: 10.0,
             manoeuvre_step_s: 5.0,
+            fuel: None,
+            bfo_vertical_rate: false,
         }
     }
 }
@@ -206,6 +225,21 @@ pub struct Aircraft {
     pub tau_s: f64,
     next_turn: f64,
     next_acceleration: f64,
+    /// Fuel on board, kg. NaN when the run does not model fuel.
+    pub fuel_kg: f64,
+    /// Time the last engine stopped, unix seconds; NaN while fuel remains or when not modelled.
+    pub fuel_exhausted_unix_s: f64,
+    /// This path's draw from the fuel-flow factor prior, N(1.0085, 0.0178).
+    fuel_factor: f64,
+    /// Seconds flown with the flight level below FL060, where only one speed schedule is
+    /// tabulated and the flow is taken at FL060 instead.
+    pub fuel_below_tables_s: f64,
+    /// Seconds flown at a Mach outside the bracketing schedules, where the drag law is
+    /// extrapolated rather than interpolated.
+    pub fuel_extrapolated_s: f64,
+    /// Seconds flown above the service ceiling for the aircraft's weight, where the tables are
+    /// empty because the airframe could not sustain the state.
+    pub fuel_above_ceiling_s: f64,
     next_climb: f64,
     pub turns: u16,
     pub accelerations: u16,
@@ -228,6 +262,38 @@ pub struct Aircraft {
 }
 
 const ENVIRONMENT_REFRESH_S: f64 = 60.0;
+
+/// The fuel tables plus the declared prior, shared by every particle in a run.
+pub struct FuelModel {
+    pub tables: fuel::FuelTables,
+    pub initial_kg: f64,
+    pub zfw_kg: f64,
+    pub factor_mean: f64,
+    pub factor_sd: f64,
+}
+
+impl std::fmt::Debug for FuelModel {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("FuelModel")
+            .field("initial_kg", &self.initial_kg)
+            .field("zfw_kg", &self.zfw_kg)
+            .field("factor_mean", &self.factor_mean)
+            .field("factor_sd", &self.factor_sd)
+            .finish_non_exhaustive()
+    }
+}
+
+impl FuelModel {
+    pub fn new(tables: fuel::FuelTables, prior: fuel::FuelPrior) -> Self {
+        Self {
+            tables,
+            initial_kg: prior.initial_kg,
+            zfw_kg: prior.zfw_kg,
+            factor_mean: prior.factor_mean,
+            factor_sd: prior.factor_sd,
+        }
+    }
+}
 
 impl Aircraft {
     /// Draw from the prior with the autopilot mode fixed (the runner stratifies by mode).
@@ -268,6 +334,21 @@ impl Aircraft {
             next_turn: prior.unix_s + exp(rng) * tau_s,
             next_acceleration: prior.unix_s + exp(rng) * tau_s,
             next_climb: prior.unix_s + exp(rng) * tau_s,
+            // The factor is a per-path draw from the calibration's own uncertainty, so the
+            // posterior integrates over how well the tables describe this airframe rather than
+            // conditioning on the point estimate.
+            fuel_kg: match &p.fuel {
+                None => f64::NAN,
+                Some(f) => f.initial_kg,
+            },
+            fuel_exhausted_unix_s: f64::NAN,
+            fuel_factor: match &p.fuel {
+                None => f64::NAN,
+                Some(f) => f.factor_mean + f.factor_sd * normal(rng),
+            },
+            fuel_below_tables_s: 0.0,
+            fuel_extrapolated_s: 0.0,
+            fuel_above_ceiling_s: 0.0,
             turns: 0,
             accelerations: 0,
             climbs: 0,
@@ -351,6 +432,44 @@ impl Aircraft {
             0.0
         } else {
             (p.climb_rate_ft_per_s * 60.0).copysign(self.alt_target_ft - self.alt_ft)
+        }
+    }
+
+    /// Burn `dt` seconds of fuel at the current flight level, weight and Mach.
+    ///
+    /// Weight falls as fuel burns, so the flow is re-read every step rather than held at the
+    /// initial weight. Once the tank is empty the engines have stopped: the time is recorded
+    /// and nothing further is burnt. A step whose flow falls outside the tables still burns —
+    /// at the clamped or extrapolated value — and its duration is accumulated so the report can
+    /// say how much of each trajectory rests on an extrapolation.
+    fn burn_fuel(&mut self, p: &Parameters, dt: f64) {
+        let Some(model) = &p.fuel else { return };
+        if !(self.fuel_kg > 0.0) {
+            return;
+        }
+        let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
+        let Some((flow_kg_h, cover)) = model.tables.fuel_flow_kg_h(self.alt_ft / 100.0, weight_t, self.mach) else {
+            // Outside the weight grid entirely, which the prior cannot reach from 43,800 kg of
+            // fuel and a 174,196 kg zero-fuel weight. Counted so it is never silent.
+            self.fuel_below_tables_s += dt;
+            return;
+        };
+        if cover.below_tables {
+            self.fuel_below_tables_s += dt;
+        }
+        if cover.extrapolated_mach || cover.single_schedule {
+            self.fuel_extrapolated_s += dt;
+        }
+        if cover.above_ceiling {
+            self.fuel_above_ceiling_s += dt;
+        }
+        let burn = flow_kg_h * self.fuel_factor * dt / 3600.0;
+        if burn >= self.fuel_kg {
+            // Exhaustion inside this step: interpolate the moment linearly in the step.
+            self.fuel_exhausted_unix_s = self.unix_s + dt * self.fuel_kg / burn;
+            self.fuel_kg = 0.0;
+        } else {
+            self.fuel_kg -= burn;
         }
     }
 
@@ -439,6 +558,7 @@ impl Aircraft {
                 let phi = (-beta * dt).exp();
                 x * phi + (q / (2.0 * beta) * (1.0 - phi * phi)).sqrt() * normal(rng)
             };
+            self.burn_fuel(p, dt);
             self.mach_deviation = ou(self.mach_deviation, p.mach_reversion_per_s, p.mach_noise_per_s, rng);
             self.control_deviation = ou(self.control_deviation, p.angle_reversion_per_s, p.angle_noise_rad2_per_s, rng);
             self.wind_error_north_kt = ou(self.wind_error_north_kt, p.wind_reversion_per_s, p.wind_noise_kt2_per_s, rng);

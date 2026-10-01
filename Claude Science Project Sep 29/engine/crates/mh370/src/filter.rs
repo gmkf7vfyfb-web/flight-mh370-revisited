@@ -32,9 +32,14 @@ pub const PARTICLE_BYTES: usize = std::mem::size_of::<Particle>();
 /// `mode` is the autopilot mode the particle is flying at the end, which differs from its
 /// stratum once a lateral-navigation path has reverted to heading hold. `stratum` is the
 /// mode filter the particle belongs to: weights and pooling use it.
-pub const FINAL_COLUMNS: [&str; 13] = [
+pub const FINAL_COLUMNS: [&str; 18] = [
     "weight", "latitude_deg", "longitude_deg", "altitude_ft", "mach", "tau_h", "turns", "accelerations", "climbs", "mode",
     "bfo_bias_hz", "origin", "stratum",
+    // NaN throughout when the run does not model fuel. `fuel_exhausted_unix_s` is NaN for a
+    // path that still had fuel at the final step; the two coverage columns say how many seconds
+    // of the path were flown where the tables needed clamping or extrapolating.
+    "fuel_kg", "fuel_exhausted_unix_s", "fuel_below_tables_s", "fuel_extrapolated_s",
+    "fuel_above_ceiling_s",
 ];
 
 /// A time at which the filter stops and weights particles: a SATCOM epoch, or an epoch
@@ -298,6 +303,10 @@ fn advance<E: Environment>(p: &mut Particle, to: f64, ctx: &Context<E>, rng: &mu
     a.propagate(to, ctx.params, ctx.environment, rng);
 }
 
+/// Log-weight penalty standing in for rejecting a path on fuel grounds. Finite so that a
+/// fully rejected stratum still reports an evidence and an ESS rather than NaN; e^-50 is 2e-22.
+const FUEL_REJECT_LOG_PENALTY: f64 = -50.0;
+
 fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum: u64, mode: Mode) -> Result<FilterOutput, String> {
     let started = Instant::now();
     let config = ctx.config;
@@ -305,6 +314,17 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let n = config.particles_per_mode[stratum as usize];
     let params = ctx.params;
     let stream = |step: u64, i: usize| stream(seed, stratum, step, i);
+    // Fuel evidence, resolved once: the time the aircraft must still have had fuel at, and the
+    // Gaussian on when it ran out. Both are optional and declared in `[fuel]`.
+    let fuel_power_until = config.fuel.as_ref().and_then(|f| f.require_power_until.as_ref()).and_then(|id| {
+        ctx.steps.iter().find(|s| s.id == *id).map(|s| s.unix_s)
+    });
+    let fuel_exhaustion = config.fuel.as_ref().and_then(|f| {
+        match (&f.exhaustion_target_utc, f.exhaustion_sd_s) {
+            (Some(t), Some(sd)) => satcom::parse_utc(t).ok().map(|t| (t, sd)),
+            _ => None,
+        }
+    });
 
     let mut particles: Vec<Particle> = (0..n)
         .into_par_iter()
@@ -344,13 +364,40 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                     *lw += gaussian_log_likelihood(residual, epoch.bto_sd_us);
                 }
                 if let (true, true, Some(z)) = (case.use_bfo, epoch.cruise_bfo, epoch.bfo_hz) {
-                    // The model carries no vertical rate in cruise (Davey sec. 7.2).
-                    let predicted = bfo_without_bias_hz(epoch, a.lat, a.lon, a.alt_ft, a.v_north_kt, a.v_east_kt, 0.0);
+                    // Davey sec. 7.2 carries no vertical rate in cruise, so the published model
+                    // scores a particle in a level change as though it were level. The end-of-flight
+                    // stage already passes the real rate (terminal.rs); `bfo_vertical_rate` passes it
+                    // here too. 17.5 Hz per 1,000 ft/min at the 00:11 geometry.
+                    let v_up = if params.bfo_vertical_rate { a.vertical_speed_fpm(params) } else { 0.0 };
+                    let predicted = bfo_without_bias_hz(epoch, a.lat, a.lon, a.alt_ft, a.v_north_kt, a.v_east_kt, v_up);
                     p.residual[1] = (z - predicted - p.bias.mean_hz) as f32;
                     p.residual[2] = (p.bias.variance_hz2 + epoch.bfo_sd_hz.powi(2)).sqrt() as f32;
                     *lw += p.bias.update(predicted, z, epoch.bfo_sd_hz);
                 }
+                // Fuel as evidence. The aircraft transmitted at this epoch, so a path whose
+                // tank ran dry before it contradicts the observation. Rejection is applied as a
+                // large finite penalty rather than negative infinity so that a stratum in which
+                // every path is rejected still yields a finite evidence and a readable
+                // diagnostic instead of a NaN; e^-50 is 2e-22, which is zero against any
+                // surviving path.
+                if let Some(until) = fuel_power_until {
+                    if epoch.unix_s <= until && a.fuel_exhausted_unix_s < epoch.unix_s {
+                        *lw += FUEL_REJECT_LOG_PENALTY;
+                    }
+                }
                 p.residual[3] = (*lw - before) as f32;
+            }
+            if last {
+                // When the engines stopped. The 00:19 log-on followed engine failure and an APU
+                // start, so exhaustion should sit shortly before it. A path still holding fuel at
+                // the final step has not contradicted anything yet, but it is further from the
+                // target the more fuel it has left, so it is scored at the final step time — a
+                // lower bound on its exhaustion — which penalises it smoothly rather than by a
+                // cliff.
+                if let Some((target, sd)) = fuel_exhaustion {
+                    let when = if a.fuel_exhausted_unix_s.is_finite() { a.fuel_exhausted_unix_s } else { a.unix_s };
+                    *lw += gaussian_log_likelihood(when - target, sd);
+                }
             }
             if !ctx.hypotheses.is_empty() {
                 let view = p.view();
@@ -441,6 +488,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 p.bias.mean_hz,
                 f64::from(p.origin),
                 stratum as f64,
+                a.fuel_kg,
+                a.fuel_exhausted_unix_s,
+                a.fuel_below_tables_s,
+                a.fuel_extrapolated_s,
+                a.fuel_above_ceiling_s,
             ]
         })
         .collect();

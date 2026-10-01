@@ -1,0 +1,10 @@
+# Vertical rate into the cruise BFO, with nothing else changed, so its effect is isolated.
+name = "vr-only"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[dynamics]
+bfo_vertical_rate = true

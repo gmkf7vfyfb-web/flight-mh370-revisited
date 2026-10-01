@@ -299,12 +299,10 @@
       "area": "Measurement",
       "label": "Vertical rate in the BFO model",
       "unit": "",
-      "path": null,
+      "path": "assumptions.dynamics.bfo_vertical_rate",
       "book": "not modelled",
       "cite": "p. 63",
-      "note": "Same here. 'The vertical rate will affect a BFO measurement but since the model only uses a nominal vertical rate it is unlikely to match any actual vertical manoeuvre in detail.' A descending particle is therefore scored with a level-flight BFO.",
-      "compare": "declared",
-      "status": "same"
+      "note": "Book p. 63: 'The vertical rate will affect a BFO measurement but since the model only uses a nominal vertical rate it is unlikely to match any actual vertical manoeuvre in detail.' With this true the cruise BFO uses the modelled vertical speed instead of zero; at the 00:11 geometry the term is 17.5 Hz per 1,000 ft/min against a 7 Hz measurement sd. False reproduces the published model."
     },
     {
       "area": "Measurement",
@@ -387,12 +385,10 @@
       "area": "Model choice",
       "label": "Fuel and endurance",
       "unit": "",
-      "path": null,
+      "path": "assumptions.dynamics.fuel",
       "book": "infinite fuel; constraints applied to the pdf afterwards; fuel informs the Mach range",
       "cite": "Assumptions 4 and 7, p. 73",
-      "note": "Same here: no fuel state (fuel_kg is NaN). Any run that widens mach_range therefore removes the only endurance constraint in the model.",
-      "compare": "declared",
-      "status": "same"
+      "note": "Assumptions 4 and 7 (p. 73) carry no fuel state, so widening mach_range removes the only endurance constraint. When this row is populated the run burns the Boeing-derived tables along each path, with the flow factor drawn from the Appendix 1.6E calibration N(1.0085, 0.0178), and reports exhaustion time per trajectory."
     },
     {
       "area": "Model choice",

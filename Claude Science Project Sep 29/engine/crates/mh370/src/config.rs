@@ -27,6 +27,9 @@ pub struct Config {
     /// Overrides of the published dynamics constants; empty is the estimate.
     #[serde(default)]
     pub dynamics: DynamicsConfig,
+    /// Fuel burn and exhaustion evidence; absent leaves fuel unmodelled, as the book does.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fuel: Option<FuelConfig>,
     /// SATCOM epochs left out of the run (e.g. the 00:19 messages after the SDU restart).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub exclude_epochs: Vec<String>,
@@ -182,6 +185,11 @@ pub struct Inputs {
     /// Digitised published latitude pdf, compared against in reports and the app.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub reference_curve: Option<PathBuf>,
+    /// Extracted Boeing-derived performance tables; required when `[fuel]` is present. Held
+    /// here rather than under `[fuel]` so the loader resolves it against the config's directory
+    /// like every other input.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fuel_tables: Option<PathBuf>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]
@@ -225,6 +233,39 @@ impl Default for EnvironmentConfig {
 
 /// Overrides of `flight::Parameters` (Davey et al. 2016, Table 8.2 and ch. 6-7).
 /// Every field left out keeps its published value, so an empty table is the estimate.
+/// Fuel burn and what the fuel state is allowed to say about the trajectory.
+///
+/// The burn model itself is the calibrated one: tabulated flow times a per-path factor drawn
+/// from N(`factor_mean`, `factor_sd`), the calibration against Boeing's Appendix 1.6E figures
+/// being N(1.0085, 0.0178). The two evidence terms are separate switches because they make
+/// different claims:
+///
+///   * `require_power_until` is an observation, not an assumption: the aircraft transmitted at
+///     that epoch, so a path whose tank ran dry earlier is inconsistent with the data.
+///   * `exhaustion_target_utc` with `exhaustion_sd_s` is the weaker claim that the 00:19 log-on
+///     followed engine failure and an APU start, so exhaustion should sit shortly before it.
+///     Left absent, fuel constrains nothing beyond the hard requirement above.
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct FuelConfig {
+    /// Fuel on board at the prior epoch, kg (43,800 at the 17:06:43 ACARS report).
+    pub initial_kg: f64,
+    /// Zero-fuel weight, kg (174,196 from the same report).
+    pub zfw_kg: f64,
+    pub factor_mean: f64,
+    pub factor_sd: f64,
+    /// Epoch the aircraft must still have had fuel at, e.g. "m0011". Absent applies no such
+    /// requirement.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub require_power_until: Option<String>,
+    /// Centre of the Gaussian on exhaustion time, as a UTC timestamp.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub exhaustion_target_utc: Option<String>,
+    /// Standard deviation of that Gaussian, seconds.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub exhaustion_sd_s: Option<f64>,
+}
+
 #[derive(Deserialize, Serialize, Clone, Default)]
 #[serde(deny_unknown_fields)]
 pub struct DynamicsConfig {
@@ -260,6 +301,10 @@ pub struct DynamicsConfig {
     pub cruise_step_s: Option<f64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub manoeuvre_step_s: Option<f64>,
+    /// Pass the modelled vertical speed to the cruise BFO instead of zero. Default false,
+    /// which reproduces the published model (Davey sec. 7.2 carries no cruise vertical rate).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bfo_vertical_rate: Option<bool>,
 }
 
 impl DynamicsConfig {
@@ -271,7 +316,7 @@ impl DynamicsConfig {
         set!(mach_reversion_per_s, mach_noise_per_s, angle_reversion_per_s, angle_noise_rad2_per_s,
              wind_reversion_per_s, wind_noise_kt2_per_s, tau_range_h, mach_range, altitude_range_ft,
              altitude_step_ft, bank_angle_deg, mach_rate_per_s, climb_rate_ft_per_s, lnav_switch_mean_s,
-             cruise_step_s, manoeuvre_step_s);
+             cruise_step_s, manoeuvre_step_s, bfo_vertical_rate);
         p
     }
 }
