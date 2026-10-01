@@ -1,0 +1,109 @@
+{
+ "run": "runs/stage2-fuel-narrowmach-8",
+ "code_revision": "4659d16-dirty",
+ "config_paths": [
+  "config/davey2016.toml",
+  "config/sensitivity/stage2-fuel-narrowmach-8.toml"
+ ],
+ "runtime_s": 4914.976762292,
+ "peak_memory_mib": 8719.03125,
+ "threads": 18,
+ "split_half_floor": 0.9,
+ "converged": false,
+ "cases": [
+  {
+   "case": "bto-bfo",
+   "seeds": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+   ],
+   "particles_per_replicate": 14000000,
+   "pooled_by": "stratum",
+   "converged": false,
+   "gates": {
+    "pooling_closure": {
+     "passed": true,
+     "max_abs_error": 1.9984014443252818e-15,
+     "tolerance": 1e-09,
+     "stratum_sums": [
+      1.0000000000000018,
+      1.0000000000000018,
+      1.000000000000002,
+      1.0000000000000018,
+      1.0000000000000018
+     ]
+    },
+    "split_half_overlap": {
+     "passed": false,
+     "value": 0.8618313882061776,
+     "floor": 0.9
+    }
+   },
+   "reported": {
+    "replicate_pairwise_overlap": {
+     "min": 0.6220507673500001,
+     "max": 0.8490755742
+    },
+    "replicate_median_span_deg": 0.5361966910451841,
+    "reference_overlap": 0.7927053126150826,
+    "log_evidence": -104.48756621715428,
+    "ess_fraction_by_epoch": {
+     "m1825": 0.36237279496513525,
+     "m1828a": 0.7111780875616709,
+     "m1828b": 0.5747822531193357,
+     "m1839": 0.019846812528690146,
+     "m1941": 0.009837900988233188,
+     "m2041": 0.09491814110263101,
+     "m2141": 0.196535358389505,
+     "m2241": 0.12176307732888243,
+     "m2315": 0.7634259745331107,
+     "m0011": 0.010380417411315582,
+     "m0019a": 0.7584425377497602,
+     "m0019b": 0.5396481429979912
+    },
+    "tightest_epochs": [
+     {
+      "epoch": "m1941",
+      "ess_fraction": 0.009837900988233188
+     },
+     {
+      "epoch": "m0011",
+      "ess_fraction": 0.010380417411315582
+     },
+     {
+      "epoch": "m1839",
+      "ess_fraction": 0.019846812528690146
+     }
+    ],
+    "distinct_origins_by_mode": {
+     "TrueHeading": {
+      "min": 955,
+      "max": 1097
+     },
+     "MagneticHeading": {
+      "min": 954,
+      "max": 1022
+     },
+     "TrueTrack": {
+      "min": 665,
+      "max": 736
+     },
+     "MagneticTrack": {
+      "min": 701,
+      "max": 719
+     },
+     "LateralNavigation": {
+      "min": 678,
+      "max": 738
+     }
+    }
+   }
+  }
+ ]
+}

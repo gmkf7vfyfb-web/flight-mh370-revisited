@@ -328,11 +328,63 @@ Assumption 4. The book substitutes the Mach floor for a fuel constraint and then
 the two are not equivalent: endurance admits a different set of trajectories than a speed floor
 does, and the set it admits sits further north.
 
-It is still short of the 0.90 convergence floor at four replicates, but the diagnostics say the
-remaining gap is pooling noise rather than a starved sampler: 978 and 711 surviving draws in MH and
-MT, the most of any fuel run, and only 1.9 % of weight rejected by the power requirement against
-6.2 % under the wide prior. An eight-replicate run is in progress, together with stage 3 applied to
-this configuration rather than to the wide one.
+### Eight replicates, and what is actually converged
+
+Doubling the replicates lifted split-half from 0.829 to **0.862** and left every reported quantity
+where it was — median −37.828 → −37.733, shoulder 0.0868 → 0.0864, overlap 0.791 → **0.793**. The
+stability of the pooled numbers is not by itself evidence of convergence, so the halves were
+compared directly:
+
+| | median °S | P(shoulder) | 97.5 % bound |
+|---|---|---|---|
+| reproduction, half A / B | −38.21 / −38.11 | 0.0367 / 0.0373 | −35.92 / −35.84 |
+| fuel, half A / B | −37.59 / −37.77 | **0.1074 / 0.0751** | −34.38 / −35.10 |
+
+The base run reproduces its shoulder to 0.2 % between independent halves; the fuel run's spread is
+±19 %. **The shoulder is precisely the quantity that has not converged**, which is what the 0.862
+was saying. The pooled 0.0864 is therefore reportable only as "about 2–3 times the base", with the
+direction robust — every fuel configuration tried, and both halves of each, sits above 0.0368 —
+and the magnitude not yet an estimate.
+
+The overlap is the sturdier number: 0.791 at four replicates, 0.793 at eight. **0.79 stands.**
+
+### Stage 3 on the fuel configuration
+
+Applying the drifting bias to the narrow-Mach fuel configuration instead of the wide-Mach base
+changes the character of the run completely:
+
+| run | split-half | replicate overlap, min–max | replicate median span | overlap | log evidence |
+|---|---|---|---|---|---|
+| stage 3 on the wide base | 0.669 | 0.511–0.815 | 1.142° | 0.792 | −104.57 |
+| **stage 3 on the fuel configuration** | **0.849** | 0.721–0.853 | **0.328°** | 0.728 | **−101.65** |
+
+It pulls the result back south — shoulder 0.0864 → 0.0648, overlap 0.793 → 0.728 — the same
+direction the drift showed when added on its own, and it **raises** the log evidence from −104.49
+to −101.65. Both models are fitted to the same observed numbers, so the Bayes factor is well
+defined: about **17 : 1** in favour of the drifting-bias measurement model over the flat 7 Hz one.
+The caveat is that this compares two *measurement-error* models, both of them modelling choices
+rather than measured quantities, so it is not evidence about the aircraft's path.
+
+That sharpens the standing tension into a single sentence, now on one consistent prior set. Fuel
+raises agreement with the published curve from 0.717 to 0.793 and costs 8.2 nats of evidence; the
+drifting bias wins 2.8 nats back and gives 0.065 of that agreement away.
+
+### Status of item 2, honestly stated
+
+| stage | converged | direction on the shoulder |
+|---|---|---|
+| reproduction of the published model | yes, 0.934 | — |
+| vertical rate in the cruise BFO | yes, 0.945 | none; the term is inert at these epochs |
+| fuel and endurance | **no, 0.862** | raises it, by a factor between 2 and 3 |
+| drifting BFO bias | yes, 0.950 | lowers it, 0.0368 → 0.0260 |
+| fuel + drifting bias | **no, 0.849** | raises it, 0.0368 → 0.065 |
+
+Three of the five meet the declared floor. The two that do not are the two containing the fuel
+evidence, and the reason is understood rather than mysterious: the hard power requirement discards
+most of the proposal's mass, and the remaining disagreement between replicates is concentrated in
+the northern tail — exactly the region the shoulder statistic measures. Closing it needs a proposal
+that is aware of endurance, not more particles; the natural form is to sample the speed and
+altitude profile jointly with the fuel state rather than rejecting afterwards.
 
 ### Reportable position
 
