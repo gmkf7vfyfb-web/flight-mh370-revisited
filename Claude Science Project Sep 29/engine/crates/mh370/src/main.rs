@@ -98,7 +98,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
     let terminal_module = roles.terminal.as_ref().map(|name| hypotheses::construct(name, &config.hypotheses[name])).transpose()?;
 
     let mut params = config.dynamics.apply(Parameters::default());
-    params.fuel = load_fuel(&config)?;
+    params.fuel = load_fuel(&config, &epochs)?;
     let mut spec = PriorSpec {
         unix_s: satcom::parse_utc(&config.prior.time_utc)?,
         latitude_deg: config.prior.latitude_deg,
@@ -265,7 +265,10 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
 ///
 /// Fails loudly when `[fuel]` is set without `inputs.fuel_tables`: a run that asked for fuel and
 /// silently got none would report a fuel-constrained posterior that was never constrained.
-fn load_fuel(config: &config::Config) -> Result<Option<std::sync::Arc<flight::FuelModel>>, String> {
+fn load_fuel(
+    config: &config::Config,
+    epochs: &[satcom::Epoch],
+) -> Result<Option<std::sync::Arc<flight::FuelModel>>, String> {
     let Some(f) = &config.fuel else { return Ok(None) };
     let path = config
         .inputs
@@ -274,7 +277,7 @@ fn load_fuel(config: &config::Config) -> Result<Option<std::sync::Arc<flight::Fu
         .ok_or("[fuel] is set but inputs.fuel_tables is missing")?;
     let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
     let tables = flight::fuel::FuelTables::from_json(&text)?;
-    Ok(Some(std::sync::Arc::new(flight::FuelModel::new(
+    let mut model = flight::FuelModel::new(
         tables,
         flight::fuel::FuelPrior {
             initial_kg: f.initial_kg,
@@ -282,7 +285,35 @@ fn load_fuel(config: &config::Config) -> Result<Option<std::sync::Arc<flight::Fu
             factor_mean: f.factor_mean,
             factor_sd: f.factor_sd,
         },
-    ))))
+    );
+    match f.proposal.as_deref() {
+        None | Some("reject") => {}
+        Some("endurance") => {
+            // The proposal is built around the same deadline the evidence uses, so the paths
+            // it stops proposing are exactly the ones the requirement would have rejected.
+            let id = f
+                .require_power_until
+                .as_ref()
+                .ok_or("[fuel] proposal = \"endurance\" needs require_power_until to aim at")?;
+            let deadline = epochs
+                .iter()
+                .find(|e| e.id == *id)
+                .map(|e| e.unix_s)
+                .ok_or_else(|| format!("[fuel] require_power_until = \"{id}\" is not an epoch"))?;
+            let prior_mix = f.proposal_prior_mix.unwrap_or(0.15);
+            if !(prior_mix > 0.0 && prior_mix < 1.0) {
+                return Err("[fuel] proposal_prior_mix must lie strictly between 0 and 1, so the \
+                            proposal keeps the prior's support".into());
+            }
+            model.endurance = Some(flight::EnduranceProposal {
+                deadline_unix_s: deadline,
+                prior_mix,
+                cells: f.proposal_cells.unwrap_or(16).max(2),
+            });
+        }
+        Some(other) => return Err(format!("[fuel] proposal = \"{other}\" is not reject or endurance")),
+    }
+    Ok(Some(std::sync::Arc::new(model)))
 }
 
 fn terminal_model<'a>(module: &'a dyn Hypothesis, name: &str) -> Result<&'a dyn Terminal, String> {
@@ -312,7 +343,7 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
     environment.wind_scale = config.environment.wind_scale;
     environment.declination_scale = config.environment.declination_scale;
     let mut params = config.dynamics.apply(Parameters::default());
-    params.fuel = load_fuel(&config)?;
+    params.fuel = load_fuel(&config, &epochs)?;
 
     let mut handoffs = Vec::new();
     for case in &config.cases {

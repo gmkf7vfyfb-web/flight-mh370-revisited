@@ -213,6 +213,64 @@ impl FuelTables {
         let per_engine = a * mach * mach + b / (mach * mach);
         (per_engine.is_finite() && per_engine > 0.0).then_some((2.0 * per_engine, cover))
     }
+
+    /// The lowest fuel flow the tables offer at this weight, kg/h, over every tabulated flight
+    /// level and every Mach those levels cover.
+    ///
+    /// This is the cheapest continuation the airframe has: no future choice of speed or
+    /// altitude can burn less than this. That makes it the basis of a *necessary* condition
+    /// for a trajectory to still have fuel at a later deadline, which is what lets a doomed
+    /// path be identified early instead of at the deadline itself. Each level's own minimum
+    /// sits at the stationary point of the `a M^2 + b / M^2` fit between the two most
+    /// economical schedules, clamped to the Mach interval those schedules actually span, so
+    /// the value is never read from an extrapolation.
+    pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
+        let grid = &self.schedules[0].1.fls;
+        let mut best = f64::INFINITY;
+        for &fl in grid {
+            let pts = self.points_at(fl, weight_t);
+            if pts.len() < 2 {
+                // One point carries no Mach dependence; take it as it stands (both engines).
+                if let Some(&(_, f)) = pts.first() {
+                    best = best.min(2.0 * f);
+                }
+                continue;
+            }
+            let ((m0, f0), (m1, f1)) = (pts[0], pts[1]);
+            let det = m0 * m0 / (m1 * m1) - m1 * m1 / (m0 * m0);
+            let a = (f0 / (m1 * m1) - f1 / (m0 * m0)) / det;
+            let b = (m0 * m0 * f1 - m1 * m1 * f0) / det;
+            let mut candidates = vec![m0, m1];
+            if a > 0.0 && b > 0.0 {
+                let stationary = (b / a).powf(0.25);
+                if stationary > m0 && stationary < m1 {
+                    candidates.push(stationary);
+                }
+            }
+            for m in candidates {
+                let per_engine = a * m * m + b / (m * m);
+                if per_engine.is_finite() && per_engine > 0.0 {
+                    best = best.min(2.0 * per_engine);
+                }
+            }
+        }
+        best.is_finite().then_some(best)
+    }
+
+    /// Flow on a Mach grid across `range` at this level and weight, kg/h, for the endurance
+    /// proposal. `None` entries are Mach values the tables cannot price at all.
+    ///
+    /// A grid rather than a root-find because the drag law is U-shaped in Mach: flow falls to
+    /// the economical point and rises either side of it, so the affordable set can be an
+    /// interior interval and a bisection on "is this Mach affordable" would miss it.
+    pub fn flow_grid(&self, fl: f64, weight_t: f64, range: (f64, f64), cells: usize) -> Vec<Option<f64>> {
+        (0..cells)
+            .map(|i| {
+                let m = range.0 + (range.1 - range.0) * (i as f64 + 0.5) / cells as f64;
+                self.fuel_flow_kg_h(fl, weight_t, m).map(|(f, _)| f)
+            })
+            .collect()
+    }
 }
 
 /// Declared fuel state at the prior epoch and the model's own uncertainty.
@@ -277,6 +335,61 @@ mod tests {
         let t = tables();
         assert!(t.fuel_flow_kg_h(350.0, 200.0, 0.88).unwrap().1.extrapolated_mach);
         assert!(!t.fuel_flow_kg_h(350.0, 200.0, 0.80).unwrap().1.extrapolated_mach);
+    }
+
+    #[test]
+    fn min_flow_is_a_true_lower_bound() {
+        // The necessary condition the endurance proposal prunes on is only sound if no
+        // reachable level and speed burns less than `min_flow_kg_h`. Sweep the grid and check.
+        let t = tables();
+        for &w in &[180.0, 200.0, 220.0] {
+            let floor = t.min_flow_kg_h(w).expect("a minimum at a reachable weight");
+            for fl in (60..=430).step_by(10) {
+                for m in (40..=86).step_by(2) {
+                    if let Some((ff, cover)) = t.fuel_flow_kg_h(f64::from(fl), w, f64::from(m) / 100.0) {
+                        // Extrapolations off the end of the drag law are not states the
+                        // aircraft can hold; the bound is over the tabulated envelope.
+                        if !cover.extrapolated_mach {
+                            assert!(ff >= floor - 1e-6, "{ff} at FL{fl} M{m} undercuts floor {floor} at {w} t");
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn min_flow_falls_as_the_aircraft_lightens() {
+        let t = tables();
+        let (heavy, light) = (t.min_flow_kg_h(220.0).unwrap(), t.min_flow_kg_h(190.0).unwrap());
+        assert!(light < heavy, "{light} should undercut {heavy}");
+    }
+
+    #[test]
+    fn the_endurance_mixture_is_a_normalised_density() {
+        // The proposal's exactness rests on the weight being the prior-to-proposal density
+        // ratio, so the implied proposal must integrate to one over the Mach range. With
+        // `cells` equal cells, `n_aff` of them affordable, the per-cell density relative to
+        // the prior is alpha + (1 - alpha) * cells / n_aff on an affordable cell and alpha
+        // elsewhere; averaging that over the cells must give exactly one.
+        let (cells, alpha) = (16usize, 0.15);
+        for n_aff in 1..=cells {
+            let total: f64 = (0..cells)
+                .map(|i| alpha + if i < n_aff { (1.0 - alpha) * cells as f64 / n_aff as f64 } else { 0.0 })
+                .sum::<f64>()
+                / cells as f64;
+            assert!((total - 1.0).abs() < 1e-12, "n_aff {n_aff} integrates to {total}");
+        }
+    }
+
+    #[test]
+    fn flow_grid_spans_the_requested_range() {
+        let t = tables();
+        let g = t.flow_grid(350.0, 200.0, (0.73, 0.84), 16);
+        assert_eq!(g.len(), 16);
+        assert!(g.iter().all(|f| f.is_some()), "every cell in the cruise band should price");
+        let (first, last) = (g[0].unwrap(), g[15].unwrap());
+        assert!(last > first, "flow should rise across the cruise band: {first} to {last}");
     }
 
     #[test]

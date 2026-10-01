@@ -171,6 +171,16 @@ impl Config {
 pub struct Case {
     pub id: String,
     pub use_bfo: bool,
+    /// Whether the BTO enters the likelihood. Default true. Set false, with `use_bfo` false,
+    /// for a case whose only evidence is the fuel: the prior propagated under the endurance
+    /// requirement alone, which is the first rung of the evidence ladder.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub use_bto: Option<bool>,
+    /// Last epoch whose measurements enter the likelihood, e.g. `"m0011"`. Later epochs are
+    /// still propagated through and their residuals still recorded, so the 00:19 pair can be
+    /// read as a diagnostic on a posterior that was not fitted to it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub likelihood_until: Option<String>,
     /// Overrides the top-level seeds for this case.
     pub seeds: Option<Vec<u64>>,
 }
@@ -270,6 +280,22 @@ pub struct FuelConfig {
     /// Standard deviation of that Gaussian, seconds.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub exhaustion_sd_s: Option<f64>,
+    /// How the speed and altitude profile is proposed against the fuel state.
+    ///
+    /// `"reject"` (the default, and what the published model does) proposes the profile from
+    /// the prior alone and rejects the path at `require_power_until` if the tank ran dry.
+    /// `"endurance"` lets the fuel state into the proposal: a path is dropped as soon as the
+    /// deadline is unreachable on any continuation, and new Mach targets are drawn from a
+    /// mixture of the prior and the affordable speeds, with the weight corrected exactly.
+    /// Both target the same posterior; only the sampler's efficiency differs.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub proposal: Option<String>,
+    /// Weight the endurance proposal leaves on the unmodified prior. Default 0.15.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub proposal_prior_mix: Option<f64>,
+    /// Mach cells the affordable set is resolved on. Default 16.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub proposal_cells: Option<usize>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Default)]

@@ -240,6 +240,14 @@ pub struct Aircraft {
     /// Seconds flown above the service ceiling for the aircraft's weight, where the tables are
     /// empty because the airframe could not sustain the state.
     pub fuel_above_ceiling_s: f64,
+    /// Set once the remaining fuel cannot reach the endurance deadline even on the cheapest
+    /// continuation the tables allow, so the path is certain to be rejected there.
+    pub fuel_doomed: bool,
+    /// Log of the prior-to-proposal density ratio accumulated by the endurance speed proposal,
+    /// not yet taken into the particle's weight. The filter drains it each step.
+    pub fuel_log_weight_correction: f64,
+    /// Mach targets drawn from the endurance-restricted part of the mixture. Output-only.
+    pub fuel_guided_draws: u16,
     next_climb: f64,
     pub turns: u16,
     pub accelerations: u16,
@@ -270,6 +278,37 @@ pub struct FuelModel {
     pub zfw_kg: f64,
     pub factor_mean: f64,
     pub factor_sd: f64,
+    /// Endurance-aware proposal, when one is configured: the time the aircraft must still have
+    /// had fuel at, and how much of the speed proposal is left on the prior.
+    ///
+    /// Without this the filter proposes a speed and altitude profile that knows nothing about
+    /// the tank, burns fuel along it, and rejects the path at the deadline if it ran dry — which
+    /// discarded about seven proposal paths in ten and left the survivors thinly represented in
+    /// exactly the region the posterior cares about. With it the fuel state enters the proposal
+    /// in two ways, both of them exact:
+    ///
+    /// 1. A path is killed as soon as it *cannot* reach the deadline even on the cheapest
+    ///    continuation the tables allow. That set is a subset of the set the deadline rejects,
+    ///    so nothing is excluded that the model would have kept; the only change is that the
+    ///    rejection happens at the first epoch it is certain rather than at the deadline, so
+    ///    resampling reallocates the effort while there is still flight left to explore.
+    /// 2. A new Mach target is drawn from a mixture of the prior and the prior restricted to
+    ///    the Mach values the remaining fuel can actually sustain to the deadline, and the
+    ///    importance weight is corrected by the exact prior-to-proposal density ratio. The
+    ///    mixture keeps the proposal's support equal to the prior's, so the correction is
+    ///    bounded and the target distribution is unchanged.
+    pub endurance: Option<EnduranceProposal>,
+}
+
+/// Settings for the endurance-aware speed proposal.
+#[derive(Clone, Copy, Debug)]
+pub struct EnduranceProposal {
+    /// The deadline the aircraft must still have had fuel at, as a Unix time.
+    pub deadline_unix_s: f64,
+    /// Weight left on the unmodified prior, so the proposal covers the prior's whole support.
+    pub prior_mix: f64,
+    /// Mach cells the affordable set is resolved on.
+    pub cells: usize,
 }
 
 impl std::fmt::Debug for FuelModel {
@@ -291,6 +330,7 @@ impl FuelModel {
             zfw_kg: prior.zfw_kg,
             factor_mean: prior.factor_mean,
             factor_sd: prior.factor_sd,
+            endurance: None,
         }
     }
 }
@@ -346,6 +386,9 @@ impl Aircraft {
                 None => f64::NAN,
                 Some(f) => f.factor_mean + f.factor_sd * normal(rng),
             },
+            fuel_doomed: false,
+            fuel_log_weight_correction: 0.0,
+            fuel_guided_draws: 0,
             fuel_below_tables_s: 0.0,
             fuel_extrapolated_s: 0.0,
             fuel_above_ceiling_s: 0.0,
@@ -470,6 +513,31 @@ impl Aircraft {
             self.fuel_kg = 0.0;
         } else {
             self.fuel_kg -= burn;
+        }
+        self.mark_doomed_if_short(model);
+    }
+
+    /// Flag the path once no continuation can reach the endurance deadline.
+    ///
+    /// The test is against `min_flow_kg_h`, the cheapest flow the tables offer at this weight
+    /// over every level and speed, so it fires only when the deadline is unreachable however
+    /// the aircraft is subsequently flown. A path that fails it would be rejected at the
+    /// deadline in any case; flagging it here lets the filter drop it at the next resampling
+    /// instead of carrying it to the end.
+    fn mark_doomed_if_short(&mut self, model: &FuelModel) {
+        let Some(e) = model.endurance else { return };
+        if self.fuel_doomed || self.unix_s >= e.deadline_unix_s {
+            return;
+        }
+        if !(self.fuel_kg > 0.0) {
+            self.fuel_doomed = true;
+            return;
+        }
+        let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
+        let Some(min_flow) = model.tables.min_flow_kg_h(weight_t) else { return };
+        let needed = min_flow * self.fuel_factor * (e.deadline_unix_s - self.unix_s) / 3600.0;
+        if self.fuel_kg < needed {
+            self.fuel_doomed = true;
         }
     }
 
@@ -693,6 +761,58 @@ impl Aircraft {
         e * self.tau_s
     }
 
+    /// A new Mach target: uniform on the prior's range, or, with an endurance proposal
+    /// configured, from a mixture that favours the speeds the remaining fuel can sustain.
+    ///
+    /// The affordable set is resolved on a Mach grid rather than by a root-find because the
+    /// `a M^2 + b / M^2` drag law is U-shaped: flow falls to the economical speed and rises
+    /// either side of it, so the affordable set can be an interior interval. A cell counts as
+    /// affordable if holding that Mach at the present level to the deadline costs no more than
+    /// the fuel on board; that is a *sufficient* test for the cell, and the prior mixture
+    /// component keeps every other cell reachable, so no trajectory the prior allows is
+    /// excluded. The returned draw carries its exact log prior-to-proposal ratio into
+    /// `fuel_log_weight_correction`, which the filter takes into the particle's weight.
+    fn draw_mach_target<R: Rng>(&mut self, p: &Parameters, rng: &mut R) -> f64 {
+        let (lo, hi) = p.mach_range;
+        let uniform = |rng: &mut R| rng.gen_range(lo..hi);
+        let Some(model) = &p.fuel else { return uniform(rng) };
+        let Some(e) = model.endurance else { return uniform(rng) };
+        let remaining_h = (e.deadline_unix_s - self.unix_s) / 3600.0;
+        if remaining_h <= 0.0 || !(self.fuel_kg > 0.0) || !(hi > lo) {
+            return uniform(rng);
+        }
+        let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
+        let budget_kg_h = self.fuel_kg / (self.fuel_factor * remaining_h);
+        let flows = model.tables.flow_grid(self.alt_ft / 100.0, weight_t, (lo, hi), e.cells);
+        let affordable: Vec<bool> = flows.iter().map(|f| f.is_some_and(|f| f <= budget_kg_h)).collect();
+        let n_aff = affordable.iter().filter(|&&a| a).count();
+        if n_aff == 0 || n_aff == e.cells {
+            // Every speed is affordable, or none is. Either way the restriction carries no
+            // information and the prior is already the right proposal.
+            return uniform(rng);
+        }
+        // Mixture: `prior_mix` on the prior, the rest uniform on the affordable cells. Both
+        // components are uniform within a cell, so the density ratio is constant per cell.
+        let (alpha, cells) = (e.prior_mix, e.cells as f64);
+        let guided = rng.gen_bool(1.0 - alpha);
+        let index = if guided {
+            let k = rng.gen_range(0..n_aff);
+            affordable.iter().enumerate().filter(|(_, &a)| a).map(|(i, _)| i).nth(k).unwrap_or(0)
+        } else {
+            rng.gen_range(0..e.cells)
+        };
+        let width = (hi - lo) / cells;
+        let mach = lo + width * (index as f64 + rng.gen::<f64>());
+        // Prior density is 1 / (hi - lo) everywhere. In a cell the proposal density is
+        // alpha / (hi - lo) plus, where affordable, (1 - alpha) / (n_aff * width).
+        let q_rel = alpha + if affordable[index] { (1.0 - alpha) * cells / n_aff as f64 } else { 0.0 };
+        if guided {
+            self.fuel_guided_draws += 1;
+        }
+        self.fuel_log_weight_correction -= q_rel.ln();
+        mach
+    }
+
     fn start_due_manoeuvres<R: Rng>(&mut self, p: &Parameters, env: &impl Environment, rng: &mut R) {
         // A started manoeuvre suspends its clock until it completes; a draw equal to the
         // current value (e.g. the same flight level) completes immediately.
@@ -703,7 +823,7 @@ impl Aircraft {
             self.next_turn = if self.turn_remaining == 0.0 { now + self.exp_gap(rng) } else { f64::INFINITY };
         }
         if self.next_acceleration <= now {
-            self.mach_target = rng.gen_range(p.mach_range.0..p.mach_range.1);
+            self.mach_target = self.draw_mach_target(p, rng);
             self.accelerations += 1;
             self.next_acceleration = if self.mach_target == self.mach { now + self.exp_gap(rng) } else { f64::INFINITY };
         }
@@ -785,6 +905,91 @@ mod tests {
             assert!((south_nm - tas).abs() / tas < 0.01, "{south_nm} vs {tas} in {:?}", a.mode);
             assert!((a.lon - 90.0).abs() < 1e-6);
         }
+    }
+
+    fn fuel_model_with_endurance(deadline_unix_s: f64) -> FuelModel {
+        let p = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/fuel-tables.json");
+        let tables = fuel::FuelTables::from_json(&std::fs::read_to_string(p).expect("fuel tables")).unwrap();
+        let mut m = FuelModel::new(tables, fuel::FuelPrior::default());
+        m.endurance = Some(EnduranceProposal { deadline_unix_s, prior_mix: 0.15, cells: 16 });
+        m
+    }
+
+    #[test]
+    fn the_endurance_proposal_leaves_the_mach_prior_unchanged() {
+        // The proposal is only legitimate if reweighting undoes it exactly. Draw Mach targets
+        // through the shipped `draw_mach_target` at a fuel state tight enough that most speeds
+        // are unaffordable, carry each draw's own log prior-to-proposal correction, and check
+        // that the *weighted* distribution is the uniform prior the book specifies rather than
+        // the skewed thing the proposal actually sampled from.
+        let (deadline, fuel_kg, alt_ft) = (3.0 * 3600.0, 17_500.0, 35_000.0);
+        let mut p = quiet();
+        p.fuel = Some(std::sync::Arc::new(fuel_model_with_endurance(deadline)));
+        let model = p.fuel.clone().unwrap();
+        let (lo, hi) = p.mach_range;
+        let cells = 16;
+
+        // Check first that this state actually splits the Mach range, so the test cannot pass
+        // by never engaging the restricted branch at all - which is how it passed the first
+        // time it was written.
+        let weight_t = (model.zfw_kg + fuel_kg) / 1000.0;
+        let budget = fuel_kg / (1.0085 * deadline / 3600.0);
+        let grid = model.tables.flow_grid(alt_ft / 100.0, weight_t, (lo, hi), cells);
+        let n_aff = grid.iter().filter(|f| f.is_some_and(|f| f <= budget)).count();
+        assert!(
+            n_aff > 0 && n_aff < cells,
+            "the test state must leave some speeds affordable and some not; got {n_aff} of {cells} \
+             against a budget of {budget:.0} kg/h over flows {grid:?}"
+        );
+
+        let mut rng = ChaCha8Rng::seed_from_u64(11);
+        let bins = 8;
+        let (mut weighted, mut raw, mut total) = (vec![0.0f64; bins], vec![0.0f64; bins], 0.0);
+        for _ in 0..40_000 {
+            let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
+            a.alt_ft = alt_ft;
+            a.fuel_kg = fuel_kg;
+            a.fuel_log_weight_correction = 0.0;
+            let m = a.draw_mach_target(&p, &mut rng);
+            let b = (((m - lo) / (hi - lo)) * bins as f64) as usize;
+            let b = b.min(bins - 1);
+            let w = a.fuel_log_weight_correction.exp();
+            weighted[b] += w;
+            raw[b] += 1.0;
+            total += w;
+        }
+        let drawn: Vec<f64> = raw.iter().map(|c| c / 40_000.0).collect();
+        assert!(
+            drawn[0] > 1.6 * drawn[bins - 1],
+            "the proposal should visibly favour slow cruise here, got {drawn:?}"
+        );
+        for (b, w) in weighted.iter().enumerate() {
+            let share = w / total;
+            assert!(
+                (share - 1.0 / bins as f64).abs() < 0.012,
+                "bin {b} carries weighted share {share}, not the uniform {}; weights {weighted:?}",
+                1.0 / bins as f64
+            );
+        }
+    }
+
+    #[test]
+    fn a_path_that_cannot_reach_the_deadline_is_flagged_early() {
+        // The pruning test must fire before the deadline, not at it; that is the whole point.
+        let deadline = 6.0 * 3600.0;
+        let mut p = quiet();
+        p.fuel = Some(std::sync::Arc::new(fuel_model_with_endurance(deadline)));
+        let mut rng = ChaCha8Rng::seed_from_u64(12);
+        let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
+        a.fuel_kg = 3_000.0; // nowhere near six hours at any speed
+        a.propagate(600.0, &p, &CalmAir, &mut rng);
+        assert!(a.fuel_doomed, "a tank this small cannot reach the deadline on any continuation");
+        assert!(a.unix_s < deadline, "and it should be known well before the deadline");
+
+        let mut b = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
+        b.fuel_kg = 40_000.0;
+        b.propagate(600.0, &p, &CalmAir, &mut rng);
+        assert!(!b.fuel_doomed, "a full tank is not doomed six hours out");
     }
 
     #[test]

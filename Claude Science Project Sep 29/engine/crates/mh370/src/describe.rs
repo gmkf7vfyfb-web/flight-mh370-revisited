@@ -106,6 +106,11 @@ fn constants(p: &Parameters) -> Value {
             "fuel": p.fuel.as_ref().map(|f| serde_json::json!({
                 "initial_kg": f.initial_kg, "zfw_kg": f.zfw_kg,
                 "factor_mean": f.factor_mean, "factor_sd": f.factor_sd,
+                "proposal": match &f.endurance {
+                    None => "reject".to_string(),
+                    Some(e) => format!(
+                        "endurance (deadline unix {}, prior mix {}, {} cells)",                        e.deadline_unix_s, e.prior_mix, e.cells),
+                },
             })),
             "source": "Davey et al. (2016) Table 8.2 and ch. 6-7, compiled into crates/flight",
         },

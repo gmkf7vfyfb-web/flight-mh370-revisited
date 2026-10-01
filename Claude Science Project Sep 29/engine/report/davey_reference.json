@@ -400,6 +400,16 @@
       "note": "Assumptions 4 and 7 (p. 73) carry no fuel state, so widening mach_range removes the only endurance constraint. When this row is populated the run burns the Boeing-derived tables along each path, with the flow factor drawn from the Appendix 1.6E calibration N(1.0085, 0.0178), and reports exhaustion time per trajectory."
     },
     {
+      "area": "Sampler",
+      "label": "Fuel proposal",
+      "path": "assumptions.dynamics.fuel.proposal",
+      "book": "n/a (no fuel model)",
+      "compare": "declared",
+      "status": "differs",
+      "cite": "sec. 7.2; Assumption 4, p. 47",
+      "note": "Known departure, and a sampler change rather than a model change. The book has no fuel model at all: Assumption 4 substitutes a 0.73 Mach floor for the endurance constraint, so nothing has to be proposed against a tank. With fuel modelled, proposing the speed and altitude profile from the prior alone and rejecting at 00:11 discarded about seven paths in ten. `endurance` instead drops a path at the first epoch the deadline is unreachable on the cheapest continuation the tables allow, and draws new Mach targets from a mixture of the prior and the affordable speeds with the exact prior-to-proposal weight correction. Both target the same posterior; only the efficiency differs, which is what the reject-proposal control run measures."
+    },
+    {
       "area": "Model choice",
       "label": "Observation cutoff",
       "unit": "",

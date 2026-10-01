@@ -107,6 +107,9 @@ struct Particle {
     /// Manoeuvre counters (turns, speed changes, altitude changes, degrees turned) at
     /// `output.history_after_epoch`. Output-only.
     history_start: [f32; 4],
+    /// Whether this path has already been charged the fuel rejection penalty, so that the
+    /// early endurance test and the deadline test cannot both charge it.
+    fuel_penalised: bool,
 }
 
 impl Particle {
@@ -319,6 +322,15 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let fuel_power_until = config.fuel.as_ref().and_then(|f| f.require_power_until.as_ref()).and_then(|id| {
         ctx.steps.iter().find(|s| s.id == *id).map(|s| s.unix_s)
     });
+    // The case's evidence set: whether the BTO is scored at all, and the last epoch whose
+    // measurements enter the likelihood. Later epochs are still flown and still reported.
+    let use_bto = case.use_bto.unwrap_or(true);
+    let scored_until = case.likelihood_until.as_ref().and_then(|id| {
+        ctx.steps.iter().find(|s| s.id == *id).map(|s| s.unix_s)
+    });
+    if case.likelihood_until.is_some() && scored_until.is_none() {
+        return Err(format!("case {}: likelihood_until names no epoch", case.id));
+    }
     let fuel_exhaustion = config.fuel.as_ref().and_then(|f| {
         match (&f.exhaustion_target_utc, f.exhaustion_sd_s) {
             (Some(t), Some(sd)) => satcom::parse_utc(t).ok().map(|t| (t, sd)),
@@ -333,7 +345,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             let mut route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
             route[0] = [aircraft.lat as f32, aircraft.lon as f32];
             let bias = BfoBias { mean_hz: config.bfo_bias.mean_hz, variance_hz2: config.bfo_bias.sd_hz.powi(2) };
-            Particle { aircraft, bias, origin: i as u32, route, residual: [f32::NAN; 4], history_start: [0.0; 4] }
+            Particle { aircraft, bias, origin: i as u32, route, residual: [f32::NAN; 4], history_start: [0.0; 4], fuel_penalised: false }
         })
         .collect();
     let mut log_weights = vec![-(n as f64).ln(); n];
@@ -366,16 +378,34 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             if config.output.history_after_epoch.as_deref() == Some(step.id.as_str()) {
                 p.history_start = [f32::from(a.turns), f32::from(a.accelerations), f32::from(a.climbs), a.turned_rad.to_degrees() as f32];
             }
+            // The endurance proposal's exact log prior-to-proposal ratio, accumulated over the
+            // steps since the last epoch. Draining it here rather than inside the dynamics
+            // keeps the correction in the weight and out of the trajectory.
+            *lw += std::mem::take(&mut a.fuel_log_weight_correction);
+            // A path the fuel state has already ruled out: it cannot reach the deadline on any
+            // continuation, so it would be rejected there. Charging the same penalty now lets
+            // the resampling that follows reallocate its share while there is still flight to
+            // explore. Charged once; the deadline test below then skips it.
+            if a.fuel_doomed && !p.fuel_penalised {
+                p.fuel_penalised = true;
+                *lw += FUEL_REJECT_LOG_PENALTY;
+            }
             if let Some(epoch) = &step.satcom {
                 let before = *lw;
                 p.residual = [f32::NAN; 4];
-                // Only measurements the cruise model applies to (the table's `cruise` column).
+                // Only measurements the cruise model applies to (the table's `cruise` column),
+                // and only up to the case's likelihood cutoff: later epochs are still flown
+                // through and their residuals still recorded, as diagnostics on a posterior
+                // that was not fitted to them.
+                let scored = scored_until.is_none_or(|t| epoch.unix_s <= t);
                 if let (true, Some(z)) = (epoch.cruise_bto, epoch.bto_us) {
                     let residual = z - bto_us(epoch.satellite_km, a.lat, a.lon, a.alt_ft);
                     p.residual[0] = residual as f32;
-                    *lw += gaussian_log_likelihood(residual, epoch.bto_sd_us);
+                    if use_bto && scored {
+                        *lw += gaussian_log_likelihood(residual, epoch.bto_sd_us);
+                    }
                 }
-                if let (true, true, Some(z)) = (case.use_bfo, epoch.cruise_bfo, epoch.bfo_hz) {
+                if let (true, true, Some(z)) = (case.use_bfo && scored, epoch.cruise_bfo, epoch.bfo_hz) {
                     // The bias wanders over the gap since the previous BFO; the gap is a
                     // property of the measurement schedule, so it is computed once per step.
                     if let Some(rate) = config.bfo_bias.drift_hz2_per_s {
@@ -398,7 +428,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 // diagnostic instead of a NaN; e^-50 is 2e-22, which is zero against any
                 // surviving path.
                 if let Some(until) = fuel_power_until {
-                    if epoch.unix_s <= until && a.fuel_exhausted_unix_s < epoch.unix_s {
+                    if epoch.unix_s <= until && a.fuel_exhausted_unix_s < epoch.unix_s && !p.fuel_penalised {
+                        p.fuel_penalised = true;
                         *lw += FUEL_REJECT_LOG_PENALTY;
                     }
                 }
@@ -729,7 +760,7 @@ mod tests {
             for row in rows.iter().filter(|r| r.mode == m) {
                 let bias = BfoBias { mean_hz: row.bias.mean_hz, variance_hz2: row.bias.variance_hz2 };
                 let route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
-                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, residual: [f32::NAN; 4], history_start: [0.0; 4] };
+                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, residual: [f32::NAN; 4], history_start: [0.0; 4], fuel_penalised: false };
                 advance(&mut p, 7200.0, &straight, &mut stream(seed, m as u64, stop.step as u64 + 2, row.particle));
                 let a = &p.aircraft;
                 let e = &expected[row.particle];
