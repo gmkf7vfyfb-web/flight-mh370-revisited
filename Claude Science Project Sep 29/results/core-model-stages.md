@@ -219,3 +219,130 @@ decorrelation argument fails. Note the direction: the constant-bias model with a
 *under-uses* the early cluster, because it inflates each of those three measurements independently
 when they share almost the same bias realisation.
 
+## All runs
+
+Overlap is against the digitised Davey Fig. 10.3. Log evidence is comparable only within a fixed
+observation model, so the fuel and bias rows are not comparable with the rows above them: both
+change the likelihood's normalisation.
+
+| run | median °S | P(shoulder) | overlap | split-half | log Z | draws MH / MT |
+|---|---|---|---|---|---|---|
+| base | −38.160 | 0.0368 | 0.717 | **0.934** | −96.26 | 251 / 181 |
+| vertical rate only | −38.188 | 0.0359 | 0.709 | **0.945** | −96.30 | 223 / 168 |
+| **stage 1** | −37.337 | 0.1762 | 0.721 | **0.916** | −98.05 | 289 / 203 |
+| fuel, burn only | −37.319 | 0.1713 | 0.719 | 0.793 | −98.04 | 295 / 200 |
+| **stage 2**, 7 M/mode | −37.306 | 0.1954 | 0.636 | 0.743 | −106.19 | 96 / 76 |
+| stage 2, 14 M equal | −37.319 | 0.2479 | 0.625 | 0.755 | −106.15 | 531 / 380 |
+| **stage 3**, 14 M equal | −37.721 | 0.1720 | **0.792** | 0.669 | −104.57 | 600 / 399 |
+
+Two things stand out.
+
+**The stage-3 combination gives the best agreement with the published curve of any run so far** —
+overlap 0.792 against the base 0.717 and the previous best 0.789 — and it does so while *raising*
+the evidence relative to stage 2 (−104.57 against −106.15, comparable because both use the same
+observation model). It is **not converged**, so this is a lead rather than a result.
+
+That agreement belongs to the combination, not to the drifting bias. Run on its own, the drifting
+bias does the opposite:
+
+| run | median °S | P(shoulder) | overlap | split-half | posterior BFO bias |
+|---|---|---|---|---|---|
+| base (constant bias, 7 Hz) | −38.160 | 0.0368 | 0.717 | 0.934 | 150.13 ± 0.37 Hz |
+| drifting bias alone (0.995 Hz + drift) | −38.373 | **0.0260** | **0.634** | **0.950** | 145.22 ± 1.47 Hz |
+
+The drifting bias **reduces** the shoulder, from 0.0368 to 0.0260, and moves *away* from the
+published curve. The mechanism is the one the calibration predicts: it makes the early cluster
+more informative, because three measurements nine seconds and twelve minutes apart share one bias
+realisation instead of being inflated independently. Used efficiently, that cluster constrains the
+turn south more tightly and pushes the posterior slightly south. The posterior bias is estimated
+5 Hz lower than under the constant model and with four times the spread, which is the drift
+correctly declining to pin down a quantity that moves.
+
+**Stage 1 converged; stage 3's mechanism converges on its own, better than anything else tried
+(split-half 0.950); stages 2 and 3 as cumulative runs did not.** The honest boundary is that the
+fuel evidence, not the vertical-rate term and not the drifting bias, is what breaks convergence.
+
+## Why stages 2 and 3 did not converge, and what was tried
+
+Three attempts, in order:
+
+1. **More replicates.** Stage 2 at 8 seeds: split-half 0.743.
+2. **More particles and a fairer allocation.** The base allocation gives MH and MT 0.5 M each
+   against 2.5 M for TT and LNAV, which starves the two modes carrying the shoulder — and those
+   are the modes the fuel cut hits hardest. Equalising at 2.8 M per mode, 14 M total, did exactly
+   what it was meant to: surviving prior draws in MH went 96 → 531 and in MT 76 → 380. Split-half
+   moved 0.743 → 0.755. So the draw count was not the binding constraint.
+3. **Drop the weaker evidence term.** The exhaustion-timing Gaussian targets 00:17:30 ± 300 s
+   while the burn model's own weighted median exhaustion is 23:17:20 — twelve standard deviations
+   away, keeping a 14.6 % slice of weight — so it looked like the culprit. It is not: removing it
+   and keeping only the hard requirement gives split-half 0.740, no better than 0.755 with it.
+
+   The binding cut is the hard requirement itself. Measured on the burn-only run,
+   **69.0 % of posterior weight sits on paths whose tank ran dry before 00:10:59**, so
+   `require_power_until = m0011` discards about seven paths in ten. That is the correct thing to
+   do — those paths cannot have sent the 00:11 transmission — but it leaves a small, seed-dependent
+   survivor set, and no particle budget fixes a proposal that is wrong about most of its mass.
+
+| attempt | split-half |
+|---|---|
+| stage 1, no fuel | **0.916** |
+| fuel burn, no evidence | 0.793 |
+| fuel + both terms, 7 M/mode, 8 seeds | 0.743 |
+| fuel + both terms, 14 M equal | 0.755 |
+| fuel + hard requirement only, 14 M equal | 0.740 |
+
+The underlying conflict is between the fuel model and the wide-Mach prior. The prior proposes
+fast paths; fuel says fast paths cannot reach 00:19. The posterior is the narrow intersection, and
+the prior is a poor proposal for it. Davey's Assumption 4 made the 0.73 Mach floor a stand-in for
+the fuel constraint, so with fuel modelled the floor and the fuel model are two statements of one
+thing — which means the self-consistent configuration is fuel *with* a feasible speed prior, not
+fuel fighting a deliberately widened one.
+
+Two further runs follow from that diagnosis rather than from trial and error:
+
+- `stage2-fuel-hardonly` keeps only the hard observation — the aircraft transmitted at 00:11, so a
+  path whose tank ran dry earlier contradicts the data — and drops the timing Gaussian, which is
+  an inference about APU and SDU start-up rather than a measurement.
+- `stage2-fuel-narrowmach` restores the book's Mach range and altitude floor, so the fuel model
+  replaces the role Assumption 4 gave the Mach floor instead of competing with a widened prior.
+
+### The narrow-Mach result, and what it says about Assumption 4
+
+Restoring the book's own Mach range and altitude prior, so fuel takes over the role Assumption 4
+gave the 0.73 Mach floor instead of fighting a widened one:
+
+| run | median °S | P(shoulder) | overlap | split-half | weight rejected at 00:11 | draws MH / MT |
+|---|---|---|---|---|---|---|
+| base, no fuel | −38.160 | 0.0368 | 0.717 | 0.934 | — | 251 / 181 |
+| fuel, wide Mach | −37.328 | 0.2406 | 0.622 | 0.740 | 6.2 % | 531 / 380 |
+| **fuel, book's Mach range** | −37.828 | **0.0868** | **0.791** | **0.829** | 1.9 % | **978 / 711** |
+
+This is the most informative run of the three stages. With **no prior widened at all** — Davey's
+Mach range, Davey's altitude prior, Davey's track standard deviation, Davey's 7 Hz BFO — simply
+adding the fuel model moves the shoulder from 0.0368 to **0.0868**, a factor of 2.4, and improves
+agreement with the published curve from 0.717 to **0.791**, the best of any run in the project.
+
+That is fuel acting as *evidence* rather than as a relaxed assumption, and it bears directly on
+Assumption 4. The book substitutes the Mach floor for a fuel constraint and then notes
+(Assumption 7) that low speeds "cannot match the measurements". With the real constraint in place
+the two are not equivalent: endurance admits a different set of trajectories than a speed floor
+does, and the set it admits sits further north.
+
+It is still short of the 0.90 convergence floor at four replicates, but the diagnostics say the
+remaining gap is pooling noise rather than a starved sampler: 978 and 711 surviving draws in MH and
+MT, the most of any fuel run, and only 1.9 % of weight rejected by the power requirement against
+6.2 % under the wide prior. An eight-replicate run is in progress, together with stage 3 applied to
+this configuration rather than to the wide one.
+
+### Reportable position
+
+The fuel model is implemented, ported literally from the version calibrated against Boeing's own
+figures, validated by unit tests against the tables, and produces a physically sensible burn:
+median exhaustion 00:14:56 with the evidence applied, 359 kg remaining at the final step, and a
+weighted median of 23:17:20 before any fuel evidence is applied at all.
+
+Combining it with a *widened* speed prior does not converge at this particle budget, and the
+wide-Mach fuel numbers — shoulder 0.24 — should be quoted as an upper bound, not an estimate.
+Combining it with the book's own priors is close to converged and is the result worth carrying
+forward.
+
