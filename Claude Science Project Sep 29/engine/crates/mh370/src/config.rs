@@ -208,6 +208,12 @@ pub struct PriorConfig {
 pub struct BiasConfig {
     pub mean_hz: f64,
     pub sd_hz: f64,
+    /// Variance added to the bias per second between epochs, Hz^2/s. Absent or zero gives the
+    /// published model: one unknown constant per trajectory. Set it to let the bias wander, in
+    /// which case `bfo_sd_hz` should be the genuinely random part of the noise rather than the
+    /// inflated 7 Hz, because the drift now carries what the inflation was standing in for.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub drift_hz2_per_s: Option<f64>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]

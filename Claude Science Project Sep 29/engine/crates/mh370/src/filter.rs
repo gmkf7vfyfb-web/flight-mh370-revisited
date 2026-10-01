@@ -340,6 +340,10 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let mut log_evidence = 0.0;
     let mut diagnostics = Vec::new();
     let mut snapshots = Vec::new();
+    // Time of the previous BFO-bearing epoch, for the bias random walk. The first BFO gets no
+    // drift: its gap is from the prior, where the 25 Hz prior standard deviation already stands
+    // for everything that happened before the filter starts.
+    let mut last_bfo_unix_s: Option<f64> = None;
 
     for (k, step) in ctx.steps.iter().enumerate() {
         if ctx.cancelled() {
@@ -348,6 +352,14 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         let t_step = Instant::now();
         let last = k + 1 == ctx.steps.len();
         let epoch_view = EpochView { id: &step.id, unix_s: step.unix_s, satcom: step.satcom.is_some() };
+        let has_bfo = step.satcom.as_ref().is_some_and(|e| case.use_bfo && e.cruise_bfo && e.bfo_hz.is_some());
+        let bfo_gap_s = match (has_bfo, last_bfo_unix_s) {
+            (true, Some(prev)) => step.unix_s - prev,
+            _ => 0.0,
+        };
+        if has_bfo {
+            last_bfo_unix_s = Some(step.unix_s);
+        }
         particles.par_iter_mut().zip(log_weights.par_iter_mut()).enumerate().for_each(|(i, (p, lw))| {
             advance(p, step.unix_s, ctx, &mut stream(k as u64 + 1, i));
             let a = &mut p.aircraft;
@@ -364,6 +376,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                     *lw += gaussian_log_likelihood(residual, epoch.bto_sd_us);
                 }
                 if let (true, true, Some(z)) = (case.use_bfo, epoch.cruise_bfo, epoch.bfo_hz) {
+                    // The bias wanders over the gap since the previous BFO; the gap is a
+                    // property of the measurement schedule, so it is computed once per step.
+                    if let Some(rate) = config.bfo_bias.drift_hz2_per_s {
+                        p.bias.drift(bfo_gap_s, rate);
+                    }
                     // Davey sec. 7.2 carries no vertical rate in cruise, so the published model
                     // scores a particle in a level change as though it were level. The end-of-flight
                     // stage already passes the real rate (terminal.rs); `bfo_vertical_rate` passes it

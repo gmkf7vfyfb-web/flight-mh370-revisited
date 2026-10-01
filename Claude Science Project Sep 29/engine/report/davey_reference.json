@@ -285,6 +285,15 @@
       "note": "Both treat the BFO bias as one unknown constant per trajectory and integrate it out in closed form rather than sampling it, so there is no numerical value to compare; the agreement is in the treatment."
     },
     {
+      "area": "Prior",
+      "label": "BFO bias drift rate",
+      "unit": "Hz^2/s",
+      "path": "assumptions.prior.bfo_bias_drift_hz2_per_s",
+      "book": 0.0,
+      "cite": "sec. 5.3, p. 29-30",
+      "note": "The book models the bias as an unknown constant and inflates the measurement sd from 4.3 Hz to 7 Hz instead, stating the reason directly (p. 29): the bias term changes, 'To compensate for this, the measurement variance was inflated'. Fig. 5.4's within-flight variation reaches +/-20 Hz over minutes and 'was found to have a geographic dependency' that could not be quantified. A non-zero rate here makes the bias a random walk, still marginalised exactly by the same Kalman recursion, so the measurement sd can be the random part alone - 0.995 Hz by the successive-difference estimate in this repository."
+    },
+    {
       "area": "Measurement",
       "label": "BTO bias treatment",
       "unit": "",

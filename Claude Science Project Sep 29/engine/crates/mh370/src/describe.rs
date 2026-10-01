@@ -68,6 +68,7 @@ pub fn assumptions(config: &Config, params: &Parameters, spec: &PriorSpec) -> Va
             "altitude_levels": spec.altitude_levels.len(),
             "mode_weights": MODES.iter().zip(spec.mode_weights).collect::<Vec<_>>(),
             "bfo_bias_mean_hz": config.bfo_bias.mean_hz, "bfo_bias_sd_hz": config.bfo_bias.sd_hz,
+            "bfo_bias_drift_hz2_per_s": config.bfo_bias.drift_hz2_per_s.unwrap_or(0.0),
         },
         "environment": {"wind_scale": config.environment.wind_scale},
         "sampler": {

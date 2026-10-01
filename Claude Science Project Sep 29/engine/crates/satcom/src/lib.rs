@@ -119,6 +119,29 @@ pub struct BfoBias {
 }
 
 impl BfoBias {
+    /// Let the bias wander for `dt` seconds before the next measurement.
+    ///
+    /// Davey models the bias as an unknown *constant* per trajectory (sec. 5.3) and inflates the
+    /// measurement variance from 4.3 Hz to 7 Hz to cover the fact that it is not — p. 29: "This is
+    /// a less reliable assumption than for BTO because the bias term changes. To compensate for
+    /// this, the measurement variance was inflated". The structured within-flight variation of
+    /// Fig. 5.4 reaches +/-20 Hz on a timescale of minutes and "was found to have a geographic
+    /// dependency" that could not be quantified.
+    ///
+    /// Treating the bias as a random walk instead puts that variation where it belongs. The step
+    /// stays linear-Gaussian, so the bias is still marginalised exactly by the same Kalman
+    /// recursion and no extra particles are needed: only the variance grows between epochs. The
+    /// measurement noise can then be the genuinely random part — prior work in this repository
+    /// estimates 0.995 Hz (95% 0.859-1.183) from 78 successive differences inside the 18:39 and
+    /// 23:14 call clusters, which removes each cluster's mean and so excludes bias drift.
+    ///
+    /// `rate_hz2_per_s` is the variance added per second. Zero reproduces the constant-bias model.
+    pub fn drift(&mut self, dt: f64, rate_hz2_per_s: f64) {
+        if rate_hz2_per_s > 0.0 && dt > 0.0 {
+            self.variance_hz2 += rate_hz2_per_s * dt;
+        }
+    }
+
     /// Marginal log-likelihood of `measured` given the bias-free prediction, then the Kalman update.
     pub fn update(&mut self, predicted_without_bias: f64, measured: f64, noise_sd: f64) -> f64 {
         let innovation = measured - predicted_without_bias - self.mean_hz;

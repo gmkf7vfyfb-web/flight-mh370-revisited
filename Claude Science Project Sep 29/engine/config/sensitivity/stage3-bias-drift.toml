@@ -1,0 +1,46 @@
+# Stage 3: stage 2 plus a drifting BFO bias.
+#
+# The book models the bias as an unknown constant and inflates the measurement sd from 4.3 Hz to
+# 7 Hz to cover the fact that it is not one (p. 29). This run instead lets the bias wander and
+# sets the measurement sd to the genuinely random part, 0.995 Hz, estimated in this repository
+# from 78 successive differences inside the 18:39 and 23:14 call clusters with each cluster's
+# mean removed, so bias drift is excluded from it.
+#
+# The drift rate is calibrated to reproduce the book's own total uncertainty where the book's
+# decorrelation argument holds. With a random part of 0.995 Hz and hourly handshakes,
+#   rate = (7^2 - 0.995^2) / 3600 s = 0.01334 Hz^2/s
+# gives a total of 7.00 Hz across an hourly gap - identical to the published model - while
+# giving 1.05 Hz across the 9-second gap between the two 18:28 messages and 3.22 Hz from 18:28
+# to the 18:39 call. So it matches the book where the book is defensible and is tighter where
+# its "generally at least an hour apart" argument does not apply, which is exactly the early
+# cluster that establishes the turn south.
+name = "stage3-bias-drift"
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../data/variants/satcom-observations-bfo1hz.csv"
+fuel_tables = "../../data/fuel-tables.json"
+
+[prior]
+track_sd_deg = 2.0
+
+[bfo_bias]
+drift_hz2_per_s = 0.01334
+
+[dynamics]
+mach_range = [0.41, 0.86]
+altitude_range_ft = [2000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+exhaustion_target_utc = "2014-03-08T00:17:30Z"
+exhaustion_sd_s = 300.0

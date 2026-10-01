@@ -1,0 +1,13 @@
+# The drifting bias with nothing else changed, so its own effect is visible.
+name = "bias-drift-only"
+seeds = [1, 2, 3, 4]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+observations = "../../data/variants/satcom-observations-bfo1hz.csv"
+
+[bfo_bias]
+drift_hz2_per_s = 0.01334
