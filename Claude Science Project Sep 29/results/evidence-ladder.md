@@ -71,8 +71,9 @@ every step pays for scattered ERA5 lookups.
 Rung 2 is the worst at 0.766, and the reason is structural rather than a budget problem: the BTO
 constrains range but not bearing, so the posterior is spread along a one-dimensional manifold
 thousands of kilometres long and the sample along it is thin. The m1941 effective sample fraction
-falls to 0.080 %. Its replicate median span is 1.69°, against 0.20–0.32° for the other rungs. **Rung
-2's numbers should be read as indicative only.**
+falls to 0.080 %. Its replicate median span is 1.69°, against 0.13–0.21° for the other three rungs
+(0.130° at rung 1, 0.208° at rung 3, 0.202° at rung 4). **Rung 2's numbers should be read as
+indicative only.**
 
 Rungs 3 and 4 sit at 0.857 and 0.864 — short of the floor, in the way already documented for the
 fuel runs, with the residual replicate disagreement concentrated in the northern tail that the
