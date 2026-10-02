@@ -546,17 +546,23 @@ def main():
     COLUMNS = run["final_columns"]
     cfg = run["config"]
     case_seeds = {c["id"]: c.get("seeds") or cfg["seeds"] for c in cfg["cases"]}
-    seeds = case_seeds["bto-bfo"]
+    # The run's primary case. `bto-bfo` for the base estimate and most sensitivities, but the
+    # evidence-ladder rungs name their own case after the measurements they admit ("fuel-only",
+    # "bto"), so the id is taken from the configuration rather than assumed. The secondary
+    # BTO-only panel is drawn only when a run actually carries that case.
+    primary = "bto-bfo" if "bto-bfo" in case_seeds else cfg["cases"][0]["id"]
+    seeds = case_seeds[primary]
     cases = {c: load_case(run_dir, c, s) for c, s in case_seeds.items()}
-    bfo, bto = cases["bto-bfo"], cases.get("bto-only")
+    bfo, bto = cases[primary], cases.get("bto-only")
     base = None
     base_cfg = None
     base_seeds = None
     if args.baseline:
         base_run = json.loads((args.baseline / "run.json").read_text())
         base_cfg = base_run["config"]
-        base_seeds = next(c.get("seeds") or base_cfg["seeds"] for c in base_cfg["cases"] if c["id"] == "bto-bfo")
-        base = load_case(args.baseline.resolve(), "bto-bfo", base_seeds)
+        base_primary = "bto-bfo" if any(c["id"] == "bto-bfo" for c in base_cfg["cases"]) else base_cfg["cases"][0]["id"]
+        base_seeds = next(c.get("seeds") or base_cfg["seeds"] for c in base_cfg["cases"] if c["id"] == base_primary)
+        base = load_case(args.baseline.resolve(), base_primary, base_seeds)
 
     # What this run varied. A run that changes an input file or a prior bound enables
     # no hypothesis and leaves wind_scale at 1, so neither of those flags alone can

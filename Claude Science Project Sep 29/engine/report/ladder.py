@@ -84,9 +84,12 @@ def load_final(run_dir, case):
     ix = {k: i for i, k in enumerate(run["final_columns"])}
     parts = sorted((run_dir / case).glob("seed-*/final.npy"))
     if not parts:
-        return None, None
-    rows = np.concatenate([np.asarray(np.load(p, mmap_mode="r"), dtype=float) for p in parts])
-    w = rows[:, 0]
+        return None, None, None
+    # Kept at the stored width; promoting 56 million rows x 18 columns to float64 would cost
+    # about 8 GB alongside a filter run. Only the weights are widened, because they are summed
+    # over every particle.
+    rows = np.concatenate([np.load(p, mmap_mode="r") for p in parts])
+    w = np.asarray(rows[:, 0], dtype=np.float64)
     return rows, ix, w / w.sum()
 
 
@@ -116,7 +119,9 @@ def summarise(run_dir):
             "log_evidence": case["log_evidence"],
         }
         if rows is not None:
-            lat, lon, alt = rows[:, ix["latitude_deg"]], rows[:, ix["longitude_deg"]], rows[:, ix["altitude_ft"]]
+            lat = np.asarray(rows[:, ix["latitude_deg"]], dtype=np.float64)
+            lon = np.asarray(rows[:, ix["longitude_deg"]], dtype=np.float64)
+            alt = np.asarray(rows[:, ix["altitude_ft"]], dtype=np.float64)
             # Out-of-sample 00:19 BTO, recomputed from the saved final state.
             z, sd = observed_bto("m0019b")
             sat, _ = S.satstate(M0019B)
