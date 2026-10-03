@@ -312,6 +312,14 @@ pub struct SamplerConfig {
     /// result. Absent disables the step.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub lookahead_bto_sd_us: Option<f64>,
+    /// Epochs at which to apply a resample-move rejuvenation (Gilks & Berzuini): after
+    /// resampling, re-simulate each particle's segment from its parent's pre-epoch state with
+    /// fresh manoeuvre randomness and accept the candidate by the Metropolis ratio of the two
+    /// incremental weights. The proposal is the model's own transition, so the ratio is the
+    /// likelihood ratio and the move leaves the target invariant exactly; what it buys is path
+    /// diversity among the children that a resample has just made identical.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub rejuvenate_epochs: Vec<String>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Default)]

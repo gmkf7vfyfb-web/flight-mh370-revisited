@@ -97,13 +97,60 @@ their predecessors — and those already sit at 60–70 % ESS, so there is nothi
 MH370 epoch spacing puts every epoch that needs help in the regime where this construction cannot
 provide it.
 
-## What follows
+## What was tried second: resample-move rejuvenation, which is invariant and does not help either
 
-An auxiliary look-ahead needs an informative predictive density. Over an hour of flight with a
-manoeuvre model, that requires integrating over the intervening randomness rather than ignoring
-it — which means either steering the manoeuvre draws themselves during the propagation, with the
-exact prior-to-proposal correction (the construction that did work for the fuel endurance
-constraint), or using later information, which is what a backward pass supplies. The fold at
-19:41 leaves the along-track position genuinely ambiguous forward in time; the 20:41 arc is what
-resolves it. That makes smoothing the structurally indicated remedy, and the archive notes it has
-never been attempted here: "no active backward simulation or full-history rejuvenation".
+The archive records what is missing — "no active backward simulation or full-history
+rejuvenation" — so the second intervention supplies the rejuvenation half, as Gilks & Berzuini's
+resample-move, behind `[sampler] rejuvenate_epochs`. After the ordinary resample at a named
+epoch, every child re-simulates its segment from its parent's pre-epoch state with fresh
+manoeuvre randomness, and the candidate is accepted on the Metropolis ratio of the two
+incremental weights. Because the proposal is the model's own transition, that ratio is the
+likelihood ratio and the move is invariant for the current target.
+
+To let both the move and the likelihood use one code path rather than two, the epoch update was
+first factored into a closure. The refactor is byte-exact: seed 1 of the base configuration
+returns log evidence −96.66146918417472 before and after, to every digit.
+
+Measured at 2M particles, four seeds, base configuration:
+
+| variant | log evidence | median | P(shoulder) | split-half | distinct draws (TT) | acceptance | wall |
+|---|---|---|---|---|---|---|---|
+| off | −96.341 | −38.111 | 0.0365 | 0.818 | 181.0 | — | 299 s |
+| 18:39 and 19:41 | −96.362 | −38.096 | 0.0379 | **0.828** | 221.2 | 14.4 % | 1,615 s |
+| all ten epochs | −96.344 | −38.151 | 0.0365 | **0.817** | 233.8 | 35.9 % | 570 s |
+
+The move does what it claims. The posterior does not shift — log evidence within 0.021 nats,
+median within 0.055°, shoulder 0.0365 to 0.0379 — so invariance holds at scale as well as in
+principle. And it genuinely diversifies the genealogy: surviving distinct prior draws rise from
+181 to 221 and 234, a gain of 22 % and 29 %.
+
+**But split-half does not move**: 0.818 → 0.828 → 0.817, all inside replicate noise. The
+two-epoch variant costs 5.4× the runtime for that nothing.
+
+(The timing is counter-intuitive — rejuvenating at two epochs cost more than at ten — because
+the move only fires where a resample fires, and rejuvenating early changes which later epochs
+degenerate enough to trigger one. The 19:41 segment is 71 minutes and is by far the most
+expensive to re-simulate, so a variant that skips it is cheaper regardless of how many other
+epochs it treats.)
+
+## Conclusion: this degeneracy is not reachable by reweighting or by local diversity
+
+Two interventions, both correct, neither useful:
+
+- An auxiliary look-ahead **harms** the epoch it targets, because over 71 minutes a dead-reckoned
+  predictive density carries no information about where the particle lands.
+- Resample-move rejuvenation adds a fifth more genealogical diversity and buys no convergence.
+
+Taken together these rule out two of the three available classes of fix. Reweighting cannot help
+because the weights are already correct and the problem is which states exist, not how they are
+scored. Blind re-simulation cannot help because the transition it draws from is the same one that
+failed to reach the sliver the first time. What is left is the class neither attempt belongs to: a
+proposal that uses the **next** arc to steer the segment, so the intervening manoeuvre draws are
+conditioned on both endpoints rather than on the first alone.
+
+That is the construction the archive's own checkpoints were reaching for under the name
+"two-ended guidance", and it is the one the fold geometry argues for directly: at 19:41 the
+along-track position is genuinely unidentified looking forward, and the information that pins it
+arrives an hour later at 20:41. A bridge proposal between consecutive arcs — draw the segment
+conditioned on hitting the next arc, carry the exact prior-to-proposal ratio, exactly as the fuel
+endurance proposal does for speed — is the remaining candidate, and the one I would build next.

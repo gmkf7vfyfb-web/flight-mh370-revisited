@@ -164,6 +164,11 @@ pub struct ModeRun {
     /// Times the auxiliary look-ahead triggered a resample of its own, ahead of a BTO epoch.
     #[serde(default)]
     pub lookahead_resamples: u32,
+    /// Rejuvenation moves accepted, and proposed.
+    #[serde(default)]
+    pub rejuvenation_accepted: u64,
+    #[serde(default)]
+    pub rejuvenation_proposed: u64,
     epochs: Vec<StepDiagnostics>,
     runtime_s: f64,
 }
@@ -278,6 +283,8 @@ impl ModeRun {
             final_ess: 0.0,
             distinct_origins: 0,
             lookahead_resamples: 0,
+            rejuvenation_accepted: 0,
+            rejuvenation_proposed: 0,
             epochs: Vec::new(),
             runtime_s: 0.0,
         }
@@ -355,6 +362,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     // Auxiliary look-ahead: extra standard deviation, in microseconds, added in quadrature to
     // the epoch's own BTO sd when scoring a dead-reckoned prediction. None disables the step.
     let lookahead_sd_us = config.sampler.as_ref().and_then(|s| s.lookahead_bto_sd_us);
+    let rejuvenate: Vec<String> = config.sampler.as_ref().map(|s| s.rejuvenate_epochs.clone()).unwrap_or_default();
+    let mut rejuvenated = [0u64; 2];
     let mut lookahead_resamples = 0u32;
     let mut log_weights = vec![-(n as f64).ln(); n];
     let mut log_evidence = 0.0;
@@ -446,8 +455,13 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 log_weights.par_iter_mut().zip(&aux).for_each(|(lw, a)| *lw -= a);
             }
         }
-        particles.par_iter_mut().zip(log_weights.par_iter_mut()).enumerate().for_each(|(i, (p, lw))| {
-            advance(p, step.unix_s, ctx, &mut stream(k as u64 + 1, i));
+        // One epoch's propagation and weighting for a single particle, returning the
+        // log-weight increment. Factored out so the resample-move rejuvenation below can score a
+        // re-simulated candidate through exactly the same code as the particle it competes with;
+        // two copies of this arithmetic would be two chances to diverge.
+        let step_update = |p: &mut Particle, i: usize, stream_base: u64| -> f64 {
+            let mut delta = 0.0f64;
+            advance(p, step.unix_s, ctx, &mut stream(stream_base, i));
             let a = &mut p.aircraft;
             if config.output.history_after_epoch.as_deref() == Some(step.id.as_str()) {
                 p.history_start = [f32::from(a.turns), f32::from(a.accelerations), f32::from(a.climbs), a.turned_rad.to_degrees() as f32];
@@ -455,17 +469,17 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             // The endurance proposal's exact log prior-to-proposal ratio, accumulated over the
             // steps since the last epoch. Draining it here rather than inside the dynamics
             // keeps the correction in the weight and out of the trajectory.
-            *lw += std::mem::take(&mut a.fuel_log_weight_correction);
+            delta += std::mem::take(&mut a.fuel_log_weight_correction);
             // A path the fuel state has already ruled out: it cannot reach the deadline on any
             // continuation, so it would be rejected there. Charging the same penalty now lets
             // the resampling that follows reallocate its share while there is still flight to
             // explore. Charged once; the deadline test below then skips it.
             if a.fuel_doomed && !p.fuel_penalised {
                 p.fuel_penalised = true;
-                *lw += FUEL_REJECT_LOG_PENALTY;
+                delta += FUEL_REJECT_LOG_PENALTY;
             }
             if let Some(epoch) = &step.satcom {
-                let before = *lw;
+                let before = delta;
                 p.residual = [f32::NAN; 4];
                 // Only measurements the cruise model applies to (the table's `cruise` column),
                 // and only up to the case's likelihood cutoff: later epochs are still flown
@@ -476,7 +490,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                     let residual = z - bto_us(epoch.satellite_km, a.lat, a.lon, a.alt_ft);
                     p.residual[0] = residual as f32;
                     if use_bto && scored {
-                        *lw += gaussian_log_likelihood(residual, epoch.bto_sd_us);
+                        delta += gaussian_log_likelihood(residual, epoch.bto_sd_us);
                     }
                 }
                 if let (true, true, Some(z)) = (case.use_bfo && scored, epoch.cruise_bfo, epoch.bfo_hz) {
@@ -493,7 +507,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                     let predicted = bfo_without_bias_hz(epoch, a.lat, a.lon, a.alt_ft, a.v_north_kt, a.v_east_kt, v_up);
                     p.residual[1] = (z - predicted - p.bias.mean_hz) as f32;
                     p.residual[2] = (p.bias.variance_hz2 + epoch.bfo_sd_hz.powi(2)).sqrt() as f32;
-                    *lw += p.bias.update(predicted, z, epoch.bfo_sd_hz);
+                    delta += p.bias.update(predicted, z, epoch.bfo_sd_hz);
                 }
                 // Fuel as evidence. The aircraft transmitted at this epoch, so a path whose
                 // tank ran dry before it contradicts the observation. Rejection is applied as a
@@ -504,10 +518,10 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 if let Some(until) = fuel_power_until {
                     if epoch.unix_s <= until && a.fuel_exhausted_unix_s < epoch.unix_s && !p.fuel_penalised {
                         p.fuel_penalised = true;
-                        *lw += FUEL_REJECT_LOG_PENALTY;
+                        delta += FUEL_REJECT_LOG_PENALTY;
                     }
                 }
-                p.residual[3] = (*lw - before) as f32;
+                p.residual[3] = (delta - before) as f32;
             }
             if last {
                 // When the engines stopped. The 00:19 log-on followed engine failure and an APU
@@ -518,19 +532,35 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 // cliff.
                 if let Some((target, sd)) = fuel_exhaustion {
                     let when = if a.fuel_exhausted_unix_s.is_finite() { a.fuel_exhausted_unix_s } else { a.unix_s };
-                    *lw += gaussian_log_likelihood(when - target, sd);
+                    delta += gaussian_log_likelihood(when - target, sd);
                 }
             }
             if !ctx.hypotheses.is_empty() {
                 let view = p.view();
                 for h in ctx.hypotheses {
-                    *lw += h.epoch_log_likelihood(&epoch_view, &view);
+                    delta += h.epoch_log_likelihood(&epoch_view, &view);
                     if last {
-                        *lw += h.final_log_likelihood(&view);
+                        delta += h.final_log_likelihood(&view);
                     }
                 }
             }
-        });
+            delta
+        };
+        // The state every particle is in before this epoch's propagation, kept only when this
+        // epoch is to be rejuvenated: the move needs the parent's pre-epoch state to re-simulate
+        // the same segment a second time.
+        let rejuvenating = rejuvenate.iter().any(|e| e == &step.id);
+        let before_step: Vec<Particle> = if rejuvenating { particles.clone() } else { Vec::new() };
+        let deltas: Vec<f64> = particles
+            .par_iter_mut()
+            .zip(log_weights.par_iter_mut())
+            .enumerate()
+            .map(|(i, (p, lw))| {
+                let d = step_update(p, i, k as u64 + 1);
+                *lw += d;
+                d
+            })
+            .collect();
 
         if config.output.residual_samples > 0 && step.satcom.is_some() {
             snapshots.push((step.id.clone(), residual_snapshot(&particles, &log_weights, config.output.residual_samples, &mut stream(4000 + k as u64, 0))));
@@ -541,9 +571,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         let ess = effective_sample_size(&log_weights);
         let resample = ess < config.resample_ess_fraction * n as f64;
         let mut distinct_parents = None;
+        let mut parents_for_move: Option<Vec<usize>> = None;
         if resample {
             let parents = systematic_resample(&log_weights, n, &mut stream(2000 + k as u64, 0));
             distinct_parents = Some(count_distinct(&parents));
+            parents_for_move = Some(parents.clone());
             let refresh_step = 1000 + k as u64;
             particles = parents
                 .par_iter()
@@ -555,6 +587,30 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 })
                 .collect();
             log_weights.fill(-(n as f64).ln());
+            // Resample-move rejuvenation. The resample above has just made many children exact
+            // copies of one parent; this gives each of them an independent second draw of the
+            // segment into this epoch and keeps whichever the Metropolis ratio prefers. Because
+            // the proposal is the model's own transition, that ratio is the ratio of incremental
+            // weights, and the move is invariant for the current target - it adds path diversity
+            // without moving the posterior.
+            if rejuvenating {
+                let parents = parents_for_move.as_ref().expect("parents are set when resampling");
+                let moved: Vec<(Particle, bool)> = parents
+                    .par_iter()
+                    .enumerate()
+                    .map(|(j, &anc)| {
+                        let mut cand = before_step[anc].clone();
+                        cand.aircraft.refresh_manoeuvre_rate(params, &mut stream(9100 + k as u64, j));
+                        let d_new = step_update(&mut cand, j, 9000 + k as u64);
+                        let d_old = deltas[anc];
+                        let u: f64 = stream(9200 + k as u64, j).gen();
+                        if u.ln() < d_new - d_old { (cand, true) } else { (particles[j].clone(), false) }
+                    })
+                    .collect();
+                rejuvenated[0] += moved.iter().filter(|&&(_, a)| a).count() as u64;
+                rejuvenated[1] += moved.len() as u64;
+                particles = moved.into_iter().map(|(p, _)| p).collect();
+            }
         }
         eprintln!(
             "{} seed {seed} {:?} {:>7}: ESS {:>10.0}{} ({:.1} s)",
@@ -629,6 +685,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         final_ess: effective_sample_size(&log_weights),
         distinct_origins: count_distinct(&origins),
         lookahead_resamples,
+        rejuvenation_accepted: rejuvenated[0],
+        rejuvenation_proposed: rejuvenated[1],
         epochs: diagnostics,
         runtime_s: started.elapsed().as_secs_f64(),
     };
