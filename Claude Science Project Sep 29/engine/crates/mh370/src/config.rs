@@ -30,6 +30,9 @@ pub struct Config {
     /// Fuel burn and exhaustion evidence; absent leaves fuel unmodelled, as the book does.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub fuel: Option<FuelConfig>,
+    /// Sampler settings that change how the posterior is explored but not what it is.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sampler: Option<SamplerConfig>,
     /// SATCOM epochs left out of the run (e.g. the 00:19 messages after the SDU restart).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub exclude_epochs: Vec<String>,
@@ -296,6 +299,19 @@ pub struct FuelConfig {
     /// Mach cells the affordable set is resolved on. Default 16.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub proposal_cells: Option<usize>,
+}
+
+/// Sampler settings. These change which particles receive effort, never the target posterior.
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct SamplerConfig {
+    /// Enables the auxiliary look-ahead before each BTO epoch, with this much extra standard
+    /// deviation (microseconds) added in quadrature to the epoch's own when scoring a
+    /// dead-reckoned prediction. The factor is divided out exactly after the real likelihood,
+    /// so this value trades steering strength against correction variance and cannot bias the
+    /// result. Absent disables the step.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub lookahead_bto_sd_us: Option<f64>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Default)]

@@ -161,6 +161,9 @@ pub struct ModeRun {
     pub posterior_probability: f64,
     pub final_ess: f64,
     pub distinct_origins: usize,
+    /// Times the auxiliary look-ahead triggered a resample of its own, ahead of a BTO epoch.
+    #[serde(default)]
+    pub lookahead_resamples: u32,
     epochs: Vec<StepDiagnostics>,
     runtime_s: f64,
 }
@@ -274,6 +277,7 @@ impl ModeRun {
             posterior_probability: 0.0,
             final_ess: 0.0,
             distinct_origins: 0,
+            lookahead_resamples: 0,
             epochs: Vec::new(),
             runtime_s: 0.0,
         }
@@ -348,6 +352,10 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             Particle { aircraft, bias, origin: i as u32, route, residual: [f32::NAN; 4], history_start: [0.0; 4], fuel_penalised: false }
         })
         .collect();
+    // Auxiliary look-ahead: extra standard deviation, in microseconds, added in quadrature to
+    // the epoch's own BTO sd when scoring a dead-reckoned prediction. None disables the step.
+    let lookahead_sd_us = config.sampler.as_ref().and_then(|s| s.lookahead_bto_sd_us);
+    let mut lookahead_resamples = 0u32;
     let mut log_weights = vec![-(n as f64).ln(); n];
     let mut log_evidence = 0.0;
     let mut diagnostics = Vec::new();
@@ -371,6 +379,72 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         };
         if has_bfo {
             last_bfo_unix_s = Some(step.unix_s);
+        }
+        // Auxiliary look-ahead (Pitt & Shephard). Before propagating into a BTO epoch, score
+        // each particle by where a dead-reckoned continuation of its present velocity would put
+        // it on that epoch's arc, fold that into the resampling weights, and divide it out again
+        // after the real propagation and the real likelihood. The division is exact and the
+        // auxiliary factor only has to be positive, so the dead-reckoning approximation inside
+        // it cannot bias the posterior - it only decides which particles get the effort.
+        //
+        // Why this epoch set matters. At 19:41 the track is within 2 degrees of tangential to
+        // the arc: one BTO standard deviation admits about 122 NM along track against 4.2 NM
+        // across it, a 29:1 sliver, because the range is at its minimum there (closest approach
+        // is 19:55). A proposal that scatters particles isotropically puts almost none of them
+        // in that sliver, which is what the recorded m1941 ESS of 0.08-0.13% measures. The
+        // look-ahead aims the resampling at the sliver before the propagation is spent.
+        let aux: Vec<f64> = match (lookahead_sd_us, step.satcom.as_ref()) {
+            (Some(sd_extra), Some(epoch)) if epoch.cruise_bto && epoch.bto_us.is_some() && use_bto => {
+                let z = epoch.bto_us.unwrap();
+                // Inflated so the auxiliary weight stays a soft steer rather than a second
+                // likelihood: the dead-reckoned prediction carries real error over an hour of
+                // flight, and under-stating it would make the correction term violent.
+                let sd = (epoch.bto_sd_us.powi(2) + sd_extra * sd_extra).sqrt();
+                particles
+                    .par_iter()
+                    .map(|p| {
+                        let a = &p.aircraft;
+                        let dt = step.unix_s - a.unix_s;
+                        let (lat, lon) = geo::advance(a.lat, a.lon, a.alt_ft, a.v_north_kt, a.v_east_kt, dt);
+                        let predicted = bto_us(epoch.satellite_km, lat, lon, a.alt_ft);
+                        gaussian_log_likelihood(z - predicted, sd)
+                    })
+                    .collect()
+            }
+            _ => Vec::new(),
+        };
+        if !aux.is_empty() {
+            // Fold in, then take the normaliser into the evidence so the two halves of the
+            // auxiliary step telescope: log sum(w * lambda) here, log mean(L / lambda) below.
+            log_weights.par_iter_mut().zip(&aux).for_each(|(lw, a)| *lw += a);
+            let inc = log_sum_exp(&log_weights);
+            log_evidence += inc;
+            log_weights.par_iter_mut().for_each(|lw| *lw -= inc);
+            let ess_aux = effective_sample_size(&log_weights);
+            if ess_aux < config.resample_ess_fraction * n as f64 {
+                let parents = systematic_resample(&log_weights, n, &mut stream(6000 + k as u64, 0));
+                let refresh = 7000 + k as u64;
+                let picked: Vec<(Particle, f64)> = parents
+                    .par_iter()
+                    .enumerate()
+                    .map(|(i, &j)| {
+                        let mut p = particles[j].clone();
+                        p.aircraft.refresh_manoeuvre_rate(params, &mut stream(refresh, i));
+                        (p, aux[j])
+                    })
+                    .collect();
+                particles = picked.iter().map(|(p, _)| p.clone()).collect();
+                // Each child inherits its parent's auxiliary factor so the division below
+                // removes exactly what was added.
+                let inherited: Vec<f64> = picked.iter().map(|&(_, a)| a).collect();
+                log_weights
+                    .par_iter_mut()
+                    .zip(&inherited)
+                    .for_each(|(lw, a)| *lw = -(n as f64).ln() - a);
+                lookahead_resamples += 1;
+            } else {
+                log_weights.par_iter_mut().zip(&aux).for_each(|(lw, a)| *lw -= a);
+            }
         }
         particles.par_iter_mut().zip(log_weights.par_iter_mut()).enumerate().for_each(|(i, (p, lw))| {
             advance(p, step.unix_s, ctx, &mut stream(k as u64 + 1, i));
@@ -554,6 +628,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         posterior_probability: f64::NAN,
         final_ess: effective_sample_size(&log_weights),
         distinct_origins: count_distinct(&origins),
+        lookahead_resamples,
         epochs: diagnostics,
         runtime_s: started.elapsed().as_secs_f64(),
     };
