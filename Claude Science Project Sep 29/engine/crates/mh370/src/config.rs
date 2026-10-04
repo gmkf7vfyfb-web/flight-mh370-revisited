@@ -333,6 +333,45 @@ pub struct SamplerConfig {
     /// Candidate turn angles evaluated per draw. Default 24.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub bridge_cells: Option<usize>,
+    /// Replaces systematic resampling with Davey's branching scheme (Sect. 8). Absent keeps the
+    /// fixed-population resampler.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub branching: Option<BranchingConfig>,
+}
+
+/// Davey Sect. 8 and Table 8.2: resampling by randomised branching over independently
+/// propagated trajectories, rather than systematic resampling of a fixed population.
+///
+/// A particle whose weight is at or above the threshold is duplicated into `branch_factor`
+/// children, each carrying its parent's weight divided by that factor. One below the threshold
+/// is kept with probability equal to its weight, at weight one, and is otherwise pruned; the
+/// book notes that pruning is the common outcome. Both arms preserve the weighted sum in
+/// expectation (Eq. 8.5), so the scheme is unbiased and the population size floats.
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct BranchingConfig {
+    /// Davey's n-bar, tabulated as 3-10.
+    pub branch_factor: u32,
+    /// Davey's log eta, tabulated as -25 or -30.
+    ///
+    /// The book states eta as an absolute threshold on a weight it leaves unnormalised, and
+    /// does not fix that weight's scale. Here weights are rescaled each epoch so the best
+    /// surviving path sits at one, with the shift banked exactly into the evidence, so the
+    /// threshold reads as "this many nats worse than the best path". That is the only reading
+    /// on which the tabulated eta and branch factor are mutually consistent: a path that
+    /// matched every measurement perfectly would still fall through an absolute e^-25 floor
+    /// after a handful of epochs, purely from the repeated division by n-bar.
+    pub log_threshold: f64,
+    /// Population ceiling. Exceeding it triggers an unbiased systematic reduction back to this
+    /// size, which is a departure from the published scheme forced by memory: Davey's
+    /// population is bounded only by pruning. Defaults to twice the configured particle count.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_particles: Option<usize>,
+    /// Redraw each child's manoeuvre time constant from its conditional posterior, as this
+    /// engine's systematic resampler does. Davey samples tau once per trajectory and copies it
+    /// into the children, which is the default here.
+    #[serde(default)]
+    pub refresh_tau: bool,
 }
 
 #[derive(Deserialize, Serialize, Clone, Default)]

@@ -148,6 +148,9 @@ struct StepDiagnostics {
     log_evidence_increment: f64,
     resampled: bool,
     distinct_parents: Option<usize>,
+    /// Live particle count after this epoch. Constant unless branching is enabled.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    population: Option<usize>,
     seconds: f64,
 }
 
@@ -366,10 +369,31 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let bridge = config.sampler.as_ref().and_then(|s| s.bridge_prior_mix.map(|mix| {
         (mix, s.bridge_window_sd.unwrap_or(3.0), s.bridge_cells.unwrap_or(24))
     }));
+    // Davey's branching resampler. Incompatible with the three fixed-population steps above:
+    // each of those inherits or divides out a per-particle factor indexed against a population
+    // that branching changes underneath them.
+    let branching = config.sampler.as_ref().and_then(|s| s.branching.clone());
+    if let Some(b) = &branching {
+        if lookahead_sd_us.is_some() || !rejuvenate.is_empty() || bridge.is_some() {
+            return Err("sampler.branching cannot be combined with the look-ahead, rejuvenation or bridge steps".into());
+        }
+        if b.branch_factor < 2 {
+            return Err(format!("sampler.branching.branch_factor is {}, must be at least 2", b.branch_factor));
+        }
+    }
+    let branch_cap = branching.as_ref().map(|b| b.max_particles.unwrap_or(2 * n)).unwrap_or(n);
     let mut rejuvenated = [0u64; 2];
     let mut lookahead_resamples = 0u32;
     let mut log_weights = vec![-(n as f64).ln(); n];
     let mut log_evidence = 0.0;
+    // Branching leaves the weights unnormalised, as the published scheme does. Every epoch the
+    // population is rescaled so its best member sits at zero log-weight and the shift is banked
+    // here, which keeps the threshold comparison scale-free and the arithmetic in range; the
+    // evidence is this plus the log of the surviving weight sum.
+    let mut log_scale = 0.0f64;
+    // Log of the weighted total, which under branching is the running evidence estimate. The
+    // weights start at 1/n apiece, so it starts at zero.
+    let mut running_total = 0.0f64;
     let mut diagnostics = Vec::new();
     let mut snapshots = Vec::new();
     // Time of the previous BFO-bearing epoch, for the bias random walk. The first BFO gets no
@@ -592,11 +616,128 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         if config.output.residual_samples > 0 && step.satcom.is_some() {
             snapshots.push((step.id.clone(), residual_snapshot(&particles, &log_weights, config.output.residual_samples, &mut stream(4000 + k as u64, 0))));
         }
-        let increment = log_sum_exp(&log_weights);
-        log_evidence += increment;
-        log_weights.par_iter_mut().for_each(|lw| *lw -= increment);
-        let ess = effective_sample_size(&log_weights);
-        let resample = ess < config.resample_ess_fraction * n as f64;
+        // The evidence, and the weight normalisation the rest of the step works from. Without
+        // branching the weights are renormalised to sum to one each epoch and the normaliser is
+        // the evidence increment. With branching they stay unnormalised and are instead shifted
+        // so the best sits at zero, so the increment has to be read off the running total.
+        let increment;
+        if branching.is_some() {
+            let top = log_weights.par_iter().cloned().reduce(|| f64::NEG_INFINITY, f64::max);
+            if n > 0 && !top.is_finite() {
+                return Err(format!("{} seed {seed} {mode:?}: every particle was eliminated at {}", case.id, step.id));
+            }
+            log_weights.par_iter_mut().for_each(|lw| *lw -= top);
+            log_scale += top;
+            // The running weighted total is the evidence estimate so far; this epoch's
+            // contribution is how much it moved. Measured against the total left by the
+            // previous epoch's branching, so the branching's own sampling noise stays inside
+            // the estimator rather than being charged to a measurement.
+            let total = log_sum_exp(&log_weights) + log_scale;
+            increment = total - running_total;
+            running_total = total;
+        } else {
+            increment = log_sum_exp(&log_weights);
+            log_evidence += increment;
+            log_weights.par_iter_mut().for_each(|lw| *lw -= increment);
+        }
+        // ESS and systematic resampling both read normalised weights; under branching the
+        // stored weights are not normalised, so the diagnostic works on a normalised copy.
+        let ess = if branching.is_some() {
+            let t = log_sum_exp(&log_weights);
+            effective_sample_size(&log_weights.par_iter().map(|lw| lw - t).collect::<Vec<_>>())
+        } else {
+            effective_sample_size(&log_weights)
+        };
+        let mut population = None;
+        if let Some(b) = &branching {
+            // Davey Eq. 8.6. Weights are relative to the best surviving path, so the threshold
+            // reads as a number of nats behind it; children of a branching parent take its
+            // weight divided by the branch factor, and a pruned parent's rare survivor is
+            // promoted to weight one. Both arms leave the weighted sum unchanged in
+            // expectation, which is what makes the floating population size legitimate.
+            let ln_nbar = f64::from(b.branch_factor).ln();
+            let counts: Vec<u32> = log_weights
+                .par_iter()
+                .enumerate()
+                .map(|(i, &lw)| {
+                    if lw >= b.log_threshold {
+                        b.branch_factor
+                    } else {
+                        let u: f64 = stream(8000 + k as u64, i).gen();
+                        u32::from(u.ln() < lw)
+                    }
+                })
+                .collect();
+            let offsets: Vec<usize> = counts
+                .iter()
+                .scan(0usize, |acc, &c| {
+                    let at = *acc;
+                    *acc += c as usize;
+                    Some(at)
+                })
+                .collect();
+            let total: usize = offsets.last().copied().unwrap_or(0) + counts.last().copied().unwrap_or(0) as usize;
+            if n > 0 && total == 0 {
+                return Err(format!("{} seed {seed} {mode:?}: branching pruned every particle at {}", case.id, step.id));
+            }
+            // Overflow is handled before the children exist. Every child of a parent is an
+            // identical copy carrying the same weight, so drawing the capped population from
+            // the children is the same draw as taking it from the parents weighted by the
+            // mass each parent's block would have carried. Doing it at the parent level is
+            // distributionally identical and never materialises the oversized population,
+            // which would otherwise peak at the branch factor times the live count.
+            if total > branch_cap {
+                let mass: Vec<f64> = counts
+                    .par_iter()
+                    .zip(&log_weights)
+                    .map(|(&c, &lw)| {
+                        if c == 0 {
+                            f64::NEG_INFINITY
+                        } else if lw >= b.log_threshold {
+                            lw - ln_nbar + f64::from(c).ln()
+                        } else {
+                            0.0
+                        }
+                    })
+                    .collect();
+                let total_w = log_sum_exp(&mass);
+                let normalised: Vec<f64> = mass.par_iter().map(|x| x - total_w).collect();
+                let picked = systematic_resample(&normalised, branch_cap, &mut stream(8100 + k as u64, 0));
+                particles = picked
+                    .par_iter()
+                    .enumerate()
+                    .map(|(c, &j)| {
+                        let mut p = particles[j].clone();
+                        if b.refresh_tau {
+                            p.aircraft.refresh_manoeuvre_rate(params, &mut stream(8200 + k as u64, c));
+                        }
+                        p
+                    })
+                    .collect();
+                log_weights = vec![total_w - (branch_cap as f64).ln(); branch_cap];
+            } else {
+                let children: Vec<(Particle, f64)> = (0..total)
+                    .into_par_iter()
+                    .map(|c| {
+                        // Which parent this child belongs to: offsets is ascending, so the
+                        // parent is the last one whose block starts at or before c.
+                        let i = offsets.partition_point(|&o| o <= c) - 1;
+                        let mut p = particles[i].clone();
+                        if b.refresh_tau {
+                            p.aircraft.refresh_manoeuvre_rate(params, &mut stream(8200 + k as u64, c));
+                        }
+                        let w = if log_weights[i] >= b.log_threshold { log_weights[i] - ln_nbar } else { 0.0 };
+                        (p, w)
+                    })
+                    .collect();
+                let (kids, w): (Vec<Particle>, Vec<f64>) = children.into_iter().unzip();
+                particles = kids;
+                log_weights = w;
+            }
+            population = Some(particles.len());
+            running_total = log_sum_exp(&log_weights) + log_scale;
+        }
+        let resample = branching.is_none() && ess < config.resample_ess_fraction * n as f64;
         let mut distinct_parents = None;
         let mut parents_for_move: Option<Vec<usize>> = None;
         if resample {
@@ -654,6 +795,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             log_evidence_increment: increment,
             resampled: resample,
             distinct_parents,
+            population,
             seconds: t_step.elapsed().as_secs_f64(),
         });
         if let Some(report) = ctx.progress {
@@ -671,6 +813,16 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 seconds: t_step.elapsed().as_secs_f64(),
             });
         }
+    }
+
+    // Branching carried the weights unnormalised all the way through, which is where its
+    // evidence estimate lives: the surviving weight sum times everything banked in the
+    // rescalings. Normalising here puts the population back on the footing the output,
+    // route sampling and hand-off all assume.
+    if branching.is_some() {
+        let total = log_sum_exp(&log_weights);
+        log_evidence = total + log_scale;
+        log_weights.par_iter_mut().for_each(|lw| *lw -= total);
     }
 
     // Compact output: one row per particle (weight normalised within this mode) and a route sample.

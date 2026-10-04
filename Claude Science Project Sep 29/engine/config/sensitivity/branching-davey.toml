@@ -1,0 +1,18 @@
+# Davey's branching resampler (Sect. 8, Table 8.2) in place of systematic resampling.
+#
+# n-bar at the top of the tabulated 3-10 range and eta at the deeper of the two tabulated
+# thresholds. Within the published range this is the useful corner: a smaller branch factor
+# reaches the same 19:41 effective sample several times faster but lets the population collapse
+# afterwards, costing two orders of magnitude at 00:11. See results/branching-resampler.md.
+name = "branching-davey"
+seeds = [1, 2, 3, 4]
+particles_per_mode = [200000, 200000, 200000, 200000, 200000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[sampler.branching]
+branch_factor = 10
+log_threshold = -30.0
+max_particles = 1500000

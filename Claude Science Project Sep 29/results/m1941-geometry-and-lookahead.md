@@ -177,7 +177,7 @@ fails in the way that follows from its own use of that prediction:
 
 - the **look-ahead** resamples on an auxiliary weight that is nearly independent of where the
   particle lands, then divides it out, which is pure added variance;
-- the **bridge** steers a turn so the dead-reckoned arrival hits the arc, but the 56 % that
+- the **bridge** steers a turn so the dead-reckoned arrival hits the arc, but the 83 % that
   manoeuvre again afterwards do not arrive there, so they pay the importance correction without
   the likelihood gain that was supposed to offset it;
 - **rejuvenation** re-simulates the segment from the same transition, so its candidates miss the
@@ -209,7 +209,7 @@ guidance". It has now been built and it fails, for the reason above.
 ### What the three failures jointly point at
 
 All three try to *predict across* the leg. The measurement that follows is the same in each case:
-you cannot, because the model puts a manoeuvre in that leg for 56 % of particles. So the remedy
+you cannot, because the model puts a manoeuvre in that leg for 83 % of particles. So the remedy
 has to be one that needs no prediction at all.
 
 There are two such remedies, and the project should try both.
