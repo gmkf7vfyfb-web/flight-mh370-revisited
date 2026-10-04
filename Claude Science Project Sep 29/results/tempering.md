@@ -168,9 +168,43 @@ because the 00:19 state, which is stored exactly and in bulk, agrees.
 
 This is the northern shoulder seen in two dimensions rather than as a bump on the latitude
 marginal. Being just under half a percent of mass it sits right at the edge of a 99 % region, so
-its *appearance* in a figure is sensitive to the level chosen — which is a reason to quote the
-enclosed mass directly, as the companion `mass-*.pdf` curves do, rather than relying on which
-contours happen to be drawn.
+its *appearance* in a figure is sensitive to the level chosen.
+
+### What those trajectories actually are
+
+The region is not a diffuse tail of the main population; it is a structurally different one.
+Weighting by posterior probability over 311,050 final-state particles in the band against
+13.2 million in the main body south of 34.5°S:
+
+| | island, 26–31°S | main body, south of 34.5°S |
+|---|---|---|
+| autopilot mode | **magnetic track 47 %, true heading 31 %** | true track 57 %, lateral navigation 31 % |
+| turns | 2.38 | 1.13 |
+| speed changes | 2.92 | 1.47 |
+| altitude changes | 2.80 | 1.68 |
+| manoeuvre time constant τ | 3.24 h | 5.05 h |
+| Mach | 0.780 | 0.796 |
+| longitude at 00:19 | 99.3°E | 88.1°E |
+
+The mode mixture inverts. The main body is dominated by true track and lateral navigation — the
+straight-line options — while the island is dominated by magnetic track and true heading, which
+curve as the magnetic declination changes along the route. And the island manoeuvres about twice
+as often, with a time constant two-thirds as long.
+
+`island-paths.pdf` shows what that looks like. These paths fly south from the 18:01 prior like
+everything else, then double back and loiter between roughly 20 and 31°S, zig-zagging across the
+same stretch of ocean rather than continuing. They satisfy the arcs by *not covering ground* —
+spending the six hours turning instead of travelling — which is only reachable with several
+manoeuvres, and the manoeuvre prior charges for each of them. That is why a route this
+distinctive carries only half a percent.
+
+Two things follow. First, this is a genuine feature of Davey's model rather than an artefact of
+ours: nothing in the published formulation forbids a loitering path, and the uniform ±180° turn
+prior makes it reachable. Second, **these runs carry no fuel model**, so nothing yet tests
+whether such a path is flyable. Loitering does not cost extra fuel in itself — endurance is set
+by time aloft, and these particles are slightly slower than the main body, so they are if
+anything *more* endurance-feasible — but the fuel machinery also carries the exhaustion-time
+term, and whether that reshapes the island is an open question worth one run.
 
 ## Honest limits
 

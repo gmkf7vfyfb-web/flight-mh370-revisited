@@ -114,6 +114,80 @@ def utc(epochs, epoch_id):
     return dt.datetime.fromtimestamp(round(t / 60) * 60, dt.timezone.utc).strftime("%H:%M")
 
 
+def per_replicate(run_dir, epoch_id, case):
+    """Latitudes and weights at an epoch, one entry per replicate."""
+    meta = json.loads((run_dir / "run.json").read_text())
+    target = next((e["unix_s"] for e in meta["epochs"] if e["id"] == epoch_id), None)
+    if target is None:
+        raise SystemExit(f"{epoch_id}: not an epoch of this run")
+    out = []
+    seeds = sorted((run_dir / case).glob("seed-*"))
+    iw, ilat = meta["final_columns"].index("weight"), meta["final_columns"].index("latitude_deg")
+    for seed_dir in seeds:
+        routes = np.load(seed_dir / "routes.npy")
+        index = (target - meta["prior_unix_s"]) / meta["route_interval_s"]
+        if index + 1 >= routes.shape[1]:
+            a = np.load(seed_dir / "final.npy", mmap_mode="r")
+            step = max(1, a.shape[0] // (4_000_000 // max(1, len(seeds))))
+            chunk = np.asarray(a[::step])
+            out.append((chunk[:, ilat].astype(float), chunk[:, iw].astype(float)))
+        else:
+            pos = positions_at(routes, meta["prior_unix_s"], meta["route_interval_s"], target)
+            out.append((pos[:, 0].astype(float), np.ones(len(pos))))
+    return out, meta
+
+
+def latitude_density(lat, weights, grid, smooth_deg=0.1):
+    """Weighted histogram on `grid`, Gaussian-smoothed, normalised to a density per degree."""
+    step = grid[1] - grid[0]
+    edges = np.concatenate([grid - step / 2, [grid[-1] + step / 2]])
+    counts, _ = np.histogram(lat, bins=edges, weights=weights)
+    dens = gaussian_filter(counts, smooth_deg / step, mode="constant")
+    total = dens.sum() * step
+    return dens / total if total > 0 else dens
+
+
+def density_figure(run_dir, epoch_id, case, figsize=(7.2, 4.2)):
+    """Latitude pdf at an epoch: pooled curve, each replicate behind it, Davey's where it applies.
+
+    The same density the map contours, read as a marginal. Replicate curves are the honest
+    display of sampling spread: where they separate, the pooled curve is not yet resolved.
+    """
+    reps, meta = per_replicate(pathlib.Path(run_dir), epoch_id, case)
+    grid = np.arange(-50.0, 50.0 + 0.05, 0.05)
+    curves = [latitude_density(lat, w, grid) for lat, w in reps]
+    pooled = np.mean(curves, axis=0)
+
+    fig, ax = plt.subplots(figsize=figsize)
+    for c in curves:
+        ax.plot(grid, c, color="#4a6fa5", lw=0.5, alpha=0.45)
+    ax.plot(grid, pooled, color="#1f4e8c", lw=1.8,
+            label=f"This recreation, pooled over {len(curves)} replicates (thin: each)")
+
+    # Davey's published curve is the pdf at the final handshake, so it is only a fair overlay
+    # against the final epoch.
+    last = meta["epochs"][-1]["id"]
+    ref = (json.loads((pathlib.Path(run_dir) / "summary.json").read_text()).get("reference") or {})
+    if epoch_id in (last, "m0019a", "m0019b") and ref.get("density"):
+        rgrid = np.linspace(-50, 50, len(ref["density"]))
+        ax.plot(rgrid, ref["density"], color="#d1603d", lw=1.6, ls="--",
+                label="Davey et al. (2016) Fig. 10.3, digitised")
+
+    lo = min(grid[np.argmax(pooled > pooled.max() * 1e-3)], -41.0)
+    hi = grid[len(pooled) - 1 - np.argmax(pooled[::-1] > pooled.max() * 1e-3)]
+    ax.set_xlim(lo, max(hi + 1.0, -26.0))
+    ax.set_ylim(bottom=0)
+    ax.set_xlabel(f"latitude at {utc(meta['epochs'], epoch_id)} UTC (°)")
+    ax.set_ylabel("probability density (per degree)")
+    ax.set_title(f"Latitude pdf at {utc(meta['epochs'], epoch_id)} UTC — {meta['config']['name']}",
+                 loc="left", fontsize=9)
+    ax.legend(loc="upper right", frameon=False, fontsize=7)
+    ax.grid(axis="y", color="#e8e8e8", lw=0.6)
+    ax.set_axisbelow(True)
+    fig.tight_layout()
+    return fig
+
+
 def mass_figure(run_dir, epoch_id, case, figsize=(6.4, 4.0)):
     """Cumulative probability mass against latitude along the arc.
 
@@ -179,12 +253,66 @@ def positions_for(run_dir, epoch_id, case):
     return pos[:, 0].astype(float), None, f"{len(pos):,} pooled route samples", meta
 
 
+def trajectory_figure(run_dir, epoch_id, case, band, n_show=40, figsize=(7.0, 6.2)):
+    """Whole flight paths of the particles that are inside a latitude band at one epoch.
+
+    `band` is (south, north) in degrees. Drawn against a background sample of everything else,
+    so the question the figure answers is not "what does a trajectory look like" but "what do
+    these trajectories do differently".
+    """
+    run_dir = pathlib.Path(run_dir)
+    meta = json.loads((run_dir / "run.json").read_text())
+    target = next(e["unix_s"] for e in meta["epochs"] if e["id"] == epoch_id)
+    routes = load_routes(run_dir, case)
+    at_epoch = positions_at(routes, meta["prior_unix_s"], meta["route_interval_s"], target)
+    keep = np.isfinite(routes[:, :, 0]).all(axis=1)
+    lat_at = at_epoch[:, 0]
+    sel = keep & (lat_at > band[0]) & (lat_at < band[1])
+    other = keep & (lat_at < -34.5)
+    rng = np.random.default_rng(0)
+    pick = np.where(sel)[0]
+    pick = rng.choice(pick, min(n_show, len(pick)), replace=False)
+    bg = rng.choice(np.where(other)[0], min(220, int(other.sum())), replace=False)
+
+    fig, ax = plt.subplots(figsize=figsize)
+    for i in bg:
+        ax.plot(routes[i, :, 1], routes[i, :, 0], color="#c9c9c9", lw=0.35, alpha=0.5, zorder=1)
+    for i in pick:
+        ax.plot(routes[i, :, 1], routes[i, :, 0], color="#b16286", lw=0.7, alpha=0.85, zorder=3)
+    for arc_id, style in ((epoch_id, dict(lw=1.2, color="#1f4e8c")),):
+        arc = next((a for a in meta["reference_arcs"] if a["epoch"] == arc_id), None)
+        if arc:
+            pts = np.asarray(arc["lat_lon"], dtype=float)
+            ax.plot(pts[:, 1], pts[:, 0], label=f"{arc_label(arc_id, meta['epochs'])} arc, "
+                    f"{utc(meta['epochs'], arc_id)} UTC", zorder=4, **style)
+    ax.plot([], [], color="#b16286", lw=0.9,
+            label=f"terminating {abs(band[1]):.0f}–{abs(band[0]):.0f}°S  ({len(np.where(sel)[0])} of {int(keep.sum()):,})")
+    ax.plot([], [], color="#c9c9c9", lw=0.9, label="main body, south of 34.5°S")
+    ax.scatter(routes[:, 0, 1][keep][:1], routes[:, 0, 0][keep][:1], s=18, color="#2b2b2b",
+               zorder=5, label="18:01 prior")
+
+    ax.set_xlabel("longitude (°E)")
+    ax.set_ylabel("latitude (°)")
+    ax.yaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{abs(v):.0f}°{'S' if v < 0 else 'N' if v > 0 else ''}"))
+    ax.set_title(f"Paths reaching the northern region at {utc(meta['epochs'], epoch_id)} UTC\n{meta['config']['name']}",
+                 loc="left", fontsize=9)
+    # Framed on the trajectories; the arc runs far beyond them and is simply clipped.
+    plat = routes[np.concatenate([pick, bg])][:, :, 0]
+    plon = routes[np.concatenate([pick, bg])][:, :, 1]
+    ax.set_ylim(np.nanmin(plat) - 2.0, np.nanmax(plat) + 3.0)
+    ax.set_xlim(np.nanmin(plon) - 2.0, np.nanmax(plon) + 2.0)
+    ax.set_aspect(1 / np.cos(np.deg2rad(20)))
+    ax.legend(loc="upper left", frameon=False, fontsize=7)
+    fig.tight_layout()
+    return fig
+
+
 def draw(run_dir, epoch_id, case, out_dir):
     """Build the map and write it as PDF and PNG. Returns the PDF path."""
     out_dir = pathlib.Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
     written = []
-    for name, build in (("position", figure), ("mass", mass_figure)):
+    for name, build in (("position", figure), ("density", density_figure)):
         fig = build(pathlib.Path(run_dir), epoch_id, case)
         stem = out_dir / f"{name}-{epoch_id}"
         fig.savefig(f"{stem}.pdf")
