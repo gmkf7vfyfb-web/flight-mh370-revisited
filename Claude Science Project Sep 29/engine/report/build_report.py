@@ -85,6 +85,7 @@ matplotlib.use("pdf")
 import matplotlib.pyplot as plt  # noqa: E402
 import numpy as np  # noqa: E402
 from matplotlib.backends.backend_pdf import PdfPages  # noqa: E402
+
 from matplotlib.colors import LogNorm  # noqa: E402
 from matplotlib.lines import Line2D  # noqa: E402
 
@@ -92,6 +93,7 @@ HERE = Path(__file__).resolve().parent
 LAND = HERE / "ne_110m_land.geojson"
 
 sys.path.insert(0, str(HERE))
+import epoch_map  # noqa: E402
 import parameters  # noqa: E402  (sibling module: the parameter table shared with parameters.csv)
 
 MODES = ["True heading", "Magnetic heading", "True track", "Magnetic track", "Lateral navigation"]
@@ -723,6 +725,16 @@ def main():
 
         # Page 3: close-up of the 7th arc, as credible regions rather than a pixel mesh.
         arc_summary = page_arc_closeup(pdf, bfo, run["reference_arcs"], out, run_json=run)
+
+        # Position maps at the sixth and seventh arcs: where the aircraft is on latitude and
+        # longitude axes, as credible regions rather than the latitude marginal the rest of
+        # the report works in. Drawn for every run so the two views are always side by side.
+        for epoch_id in ("m0011", "m0019a"):
+            try:
+                fig = epoch_map.figure(run_dir, epoch_id, primary, figsize=(8.27, 7.6))
+                save_page(pdf, fig, out)
+            except SystemExit as exc:
+                print(f"  position map {epoch_id}: skipped ({exc})")
 
         # Page 4: posterior checks against the book.
         fig = plt.figure(figsize=(8.27, 11.69))

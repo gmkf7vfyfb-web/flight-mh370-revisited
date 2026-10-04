@@ -354,8 +354,12 @@ pub struct SamplerConfig {
     pub temper_stages: Option<usize>,
 }
 
-/// Davey Sect. 8 and Table 8.2: resampling by randomised branching over independently
-/// propagated trajectories, rather than systematic resampling of a fixed population.
+/// Davey Sect. 8 and Table 8.2: the resampling step of the SIR filter implemented as
+/// randomised branching over independently propagated trajectories, rather than as systematic
+/// resampling of a fixed population. Both are SIR - the book calls its filter "a form of SIR
+/// particle filter" (p. 30) and presents branching as a way of resampling, "thus resampling can
+/// also be implemented through a randomised branching procedure" (p. 70) - so what this flag
+/// selects is the resampling mechanism, not a different class of filter.
 ///
 /// A particle whose weight is at or above the threshold is duplicated into `branch_factor`
 /// children, each carrying its parent's weight divided by that factor. One below the threshold

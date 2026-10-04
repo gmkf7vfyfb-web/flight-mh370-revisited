@@ -1,8 +1,14 @@
 # Davey's branching resampler, built and measured
 
 Obtaining the book (`davey-2016-reference.md`) revealed that this engine's resampler is not the
-published one. Davey does not resample a fixed population; Sect. 8 describes branching with
-pruning over independently propagated trajectories. That made it both a fidelity gap and the
+published one. Both are SIR particle filters — p. 30 is explicit that "the filter used in this
+book is a form of SIR particle filter", drawing from the dynamics and weighting by the
+likelihood, which is what this engine does too. What differs is how the *resampling step* of
+that SIR filter is implemented. Davey does not resample a fixed population by multinomial or
+systematic selection; Sect. 8 describes branching with pruning over independently propagated
+trajectories, and the book presents it explicitly as a way of resampling rather than as an
+alternative to it: "thus resampling can also be implemented through a randomised branching
+procedure, recursively adapting the number of particles" (p. 70). That made it both a fidelity gap and the
 one candidate remedy for the 19:41 bottleneck carrying the original authors' endorsement, so it
 was built first, ahead of tempering.
 

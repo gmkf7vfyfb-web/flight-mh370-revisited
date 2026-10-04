@@ -1,0 +1,16 @@
+# Annealed SMC at all three constrained epochs: 18:39, 19:41 and now 00:11.
+#
+# tempered-1839-1941 moved the binding constraint off 19:41 and onto 00:11, at 4.60%. This
+# adds 00:11 to the schedule to find out whether the same remedy works on what is a different
+# pathology: 00:11 is the best-conditioned epoch in the flight geometrically, crossing the arc
+# at 48 degrees, so its low effective sample reflects how narrow the posterior has become by
+# then rather than a caustic in the likelihood.
+name = "tempered-three"
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m0011"]
+temper_stages = 16

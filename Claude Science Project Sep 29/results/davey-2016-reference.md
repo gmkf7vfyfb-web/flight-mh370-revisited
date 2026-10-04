@@ -36,9 +36,9 @@ Table 8.2 (p. 73) is the authoritative parameter summary. Every row, against the
 
 | Table 8.2 | published | engine | |
 |---|---|---|---|
-| Initial latitude s.d. | 0.4 arcmin | 0.5 NM | **differs**, 25 % wider |
-| Initial longitude s.d. | 0.4 arcmin | 0.5 NM | **differs**, 25 % wider |
-| Initial control Mach s.d. | Gaussian 0.03 | uniform 0.73–0.84 | **differs**, structurally |
+| Initial latitude s.d. | 0.4 arcmin † | 0.5 NM | matches Ch. 4, see below |
+| Initial longitude s.d. | 0.4 arcmin † | 0.5 NM | matches Ch. 4, see below |
+| Initial control Mach s.d. | Gaussian 0.03 † | uniform 0.73–0.84 | matches Ch. 4, see below |
 | Initial control angle s.d. | 1° | 1.0° | matches |
 | Initial BFO bias s.d. | 25 Hz | 25 Hz | matches |
 | Initial Mach deviation s.d. | 0.00311 | 0.003113 (derived) | matches |
@@ -62,28 +62,52 @@ the stationary distribution of the corresponding OU process, `sqrt(q / 2β)`. Th
 Davey's tabulated figures to three significant figures is a real check on the OU constants, and
 `crates/flight/src/lib.rs` already carries a test asserting it.
 
-### The three genuine departures
+### † Table 8.2's "Initialisation" block is the validation setup, not the accident prior
 
-**Initial position spread.** Ours is 0.5 NM against a tabulated 0.4 arcmin, i.e. 0.4 NM. Note
-the book is internally inconsistent here: the validation chapter (p. 77) states the same prior
-as "0.4° in latitude and longitude", which is 60 times wider and cannot be reconciled with
-Table 8.2. Either is negligible against a 29 µs BTO σ of about 2.3 NM, but the table is the
-specification and the engine should use it.
+An earlier revision of this note read the first three rows as specifications for the accident
+flight and listed two of them as departures this engine should correct. That was wrong, and
+Chapter 4 says so in plain words.
 
-**Initial Mach.** Table 8.2 initialises Mach as Gaussian with s.d. 0.03 about the radar-derived
-value; the engine draws it uniformly across the full 0.73–0.84 band. This is not a rounding
-difference — it is a materially wider prior at 18:01:49, and it is a plausible contributor to
-the spread the filter then has to resolve. The plumbing already exists: `Prior::mach_gaussian`
-is implemented and simply unset in `config/davey2016.toml`.
+On the accident flight the prior is defined at the penultimate radar point, and p. 34 states:
+"a prior was defined at 18:01 at the penultimate radar point using the output of the Kalman
+filter described above. **The position standard deviations were set to 0.5 nm and the direction
+standard deviation to 1°.**" Page 35 then states: "**An initial Mach number was selected from a
+uniform prior between 0.73 and 0.84**; this was chosen on the basis of expert advice to ensure
+that the required flight endurance is achievable."
 
-**Resampling.** This is the large one. The engine uses systematic resampling of a fixed
-population when ESS falls below half. Davey does not resample in that sense at all. Sect. 8
+Those are the engine's values exactly — 0.5 NM, 1°, uniform 0.73–0.84. Nothing to change.
+
+Table 8.2's initialisation rows describe instead how the filter was started for the *validation*
+flights, where it is initialised on known truth with Gaussian error. Chapter 9 confirms it
+(p. 77): "The filter was initialised using the true aircraft location, speed and control angle
+with a Gaussian random error. The standard deviation of the initialisation error was chosen to
+be the same as the prior for the accident flight, that is 0.4° in latitude and longitude, 1° in
+angle and Mach 0.03 in air speed."
+
+Two cautions follow. First, Table 8.2 and p. 77 disagree with each other — 0.4 arcminutes against
+0.4 degrees, a factor of sixty — so the table alone cannot be trusted on these rows and the
+chapter text governs. Second, p. 77's claim that the validation initialisation is "the same as
+the prior for the accident flight" is not consistent with Chapter 4 either, on either reading.
+The accident-flight prior is the one Chapter 4 states, and that is what this engine implements.
+
+The general lesson, worth keeping: **Table 8.2 is a summary, and where it conflicts with the
+chapter that defines a quantity, the chapter wins.** The OU constants and manoeuvre rows in the
+table are corroborated by Chapters 6 and 7 and are safe; the initialisation rows are not.
+
+### The one genuine departure: resampling
+
+The engine uses systematic resampling of a fixed population when ESS falls below half. Davey's
+filter is also an SIR particle filter — p. 30 is explicit, "the filter used in this book is a
+form of SIR particle filter" — but its resampling step is implemented differently. Sect. 8
 describes a *branching* scheme over independently propagated trajectories: each particle is
 treated separately, and at each step a particle with weight `w ≥ η` is duplicated into n̄
 branches each carrying weight `w/n̄`, while a particle below the threshold survives with
-probability `w` at weight 1 and is otherwise pruned. The weights are left unnormalised until the
-very end. The population size is therefore not fixed — it grows and is pruned adaptively, which
-is exactly what makes "increase particles until enough likely paths appear" implementable.
+probability `w` at weight 1 and is otherwise pruned. The book frames this explicitly as a way of
+resampling, not as an alternative to it: "thus resampling can also be implemented through a
+randomised branching procedure, recursively adapting the number of particles" (p. 70). The
+weights are left unnormalised until the very end, and the population size is not fixed — it
+grows and is pruned adaptively, which is what makes "increase particles until enough likely
+paths appear" implementable.
 
 They are explicit that this was chosen for exploration rather than efficiency: the scheme "is not
 necessarily computationally efficient, but in this particular application it was more important
@@ -114,8 +138,9 @@ of the two families this project has tried.
 ## What this changes
 
 1. The 0.90 split-half floor is ours, not Davey's, and the paper must say so.
-2. Two prior settings should be corrected to the table: initial position s.d. to 0.4 arcmin, and
-   initial Mach to Gaussian s.d. 0.03.
+2. The accident-flight prior needs **no** correction: 0.5 NM, 1° and uniform Mach 0.73–0.84 are
+   Davey's own values from Chapter 4. Table 8.2's initialisation rows belong to the validation
+   experiments and must not be applied here.
 3. Davey's filter assumes **infinite fuel** (assumption 4, p. 74) and applies fuel constraints
    afterwards as a censor. This project's in-filter fuel model is an extension beyond the
    published method, not a reproduction of it, and should be presented that way.
