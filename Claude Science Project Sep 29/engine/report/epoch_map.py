@@ -253,7 +253,7 @@ def positions_for(run_dir, epoch_id, case):
     return pos[:, 0].astype(float), None, f"{len(pos):,} pooled route samples", meta
 
 
-def trajectory_figure(run_dir, epoch_id, case, band, n_show=40, figsize=(7.0, 6.2)):
+def trajectory_figure(run_dir, epoch_id, case, band, n_show=40, figsize=(8.6, 6.2)):
     """Whole flight paths of the particles that are inside a latitude band at one epoch.
 
     `band` is (south, north) in degrees. Drawn against a background sample of everything else,
@@ -302,7 +302,10 @@ def trajectory_figure(run_dir, epoch_id, case, band, n_show=40, figsize=(7.0, 6.
     ax.set_ylim(np.nanmin(plat) - 2.0, np.nanmax(plat) + 3.0)
     ax.set_xlim(np.nanmin(plon) - 2.0, np.nanmax(plon) + 2.0)
     ax.set_aspect(1 / np.cos(np.deg2rad(20)))
-    ax.legend(loc="upper left", frameon=False, fontsize=7)
+    # Outside the axes: this panel is tall and narrow and every interior corner is crossed by
+    # trajectories, so an inset key always lands on data.
+    ax.legend(loc="upper left", bbox_to_anchor=(1.02, 1.0), frameon=False, fontsize=7,
+              borderaxespad=0.0)
     fig.tight_layout()
     return fig
 
@@ -365,7 +368,7 @@ def figure(run_dir, epoch_id, case, figsize=None):
     ax.contour(lon_c, lat_c, dens, levels=levels, colors="#2b2b2b", linewidths=[0.5, 0.7, 0.9])
     from matplotlib.patches import Patch
 
-    bands = [Patch(facecolor=c, edgecolor="#2b2b2b", lw=0.6, label=f"{int(f * 100)} % credible")
+    bands = [Patch(facecolor=c, edgecolor="#2b2b2b", lw=0.6, label=f"{int(f * 100)} % of probability")
              for c, f in zip(shades[::-1], (0.50, 0.90, 0.99))]
 
     # The arcs this map is read against: the one the posterior sits on and the final one.
