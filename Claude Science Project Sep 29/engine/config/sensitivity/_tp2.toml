@@ -1,0 +1,10 @@
+base = "../davey2016.toml"
+name = "_tp2"
+seeds = [1, 2]
+particles_per_mode = [200000, 200000, 200000, 200000, 200000]
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+[sampler]
+temper_epochs = ["m1941"]
+temper_stages = 2

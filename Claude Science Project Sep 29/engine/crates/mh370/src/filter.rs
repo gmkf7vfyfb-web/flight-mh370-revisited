@@ -366,6 +366,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     // the epoch's own BTO sd when scoring a dead-reckoned prediction. None disables the step.
     let lookahead_sd_us = config.sampler.as_ref().and_then(|s| s.lookahead_bto_sd_us);
     let rejuvenate: Vec<String> = config.sampler.as_ref().map(|s| s.rejuvenate_epochs.clone()).unwrap_or_default();
+    let temper_epochs: Vec<String> = config.sampler.as_ref().map(|s| s.temper_epochs.clone()).unwrap_or_default();
+    let temper_stages = config.sampler.as_ref().and_then(|s| s.temper_stages).unwrap_or(4).max(1);
     let bridge = config.sampler.as_ref().and_then(|s| s.bridge_prior_mix.map(|mix| {
         (mix, s.bridge_window_sd.unwrap_or(3.0), s.bridge_cells.unwrap_or(24))
     }));
@@ -601,17 +603,70 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             particles.par_iter_mut().for_each(|p| p.aircraft.arc_target = arc_target);
         }
         let rejuvenating = rejuvenate.iter().any(|e| e == &step.id);
-        let before_step: Vec<Particle> = if rejuvenating { particles.clone() } else { Vec::new() };
-        let deltas: Vec<f64> = particles
+        let tempering = temper_epochs.iter().any(|e| e == &step.id).then_some(temper_stages);
+        let before_step: Vec<Particle> =
+            if rejuvenating || tempering.is_some() { particles.clone() } else { Vec::new() };
+        // The epoch's full log-likelihood increment per particle. Added to the weights here
+        // unless the epoch is tempered, in which case it is paid out in stages below.
+        let mut deltas: Vec<f64> = particles
             .par_iter_mut()
-            .zip(log_weights.par_iter_mut())
             .enumerate()
-            .map(|(i, (p, lw))| {
-                let d = step_update(p, i, k as u64 + 1);
-                *lw += d;
-                d
-            })
+            .map(|(i, p)| step_update(p, i, k as u64 + 1))
             .collect();
+        if tempering.is_none() {
+            log_weights.par_iter_mut().zip(&deltas).for_each(|(lw, d)| *lw += d);
+        }
+        // Annealed SMC at a degenerate epoch. The increment is applied as L^beta over equal
+        // stages; between stages the population is resampled and then moved by the same
+        // invariant kernel the rejuvenation step uses, accepted against the *tempered* ratio so
+        // each intermediate distribution is left invariant. The exponents sum to one, so the
+        // epoch's contribution to the weight and to the evidence is unchanged: what changes is
+        // that the population is given several chances to migrate into a sharp likelihood,
+        // with its diversity restored between them, instead of one.
+        let mut tempered_increment = 0.0f64;
+        if let Some(stages) = tempering {
+            let share = 1.0 / stages as f64;
+            for j in 0..stages {
+                log_weights.par_iter_mut().zip(&deltas).for_each(|(lw, d)| *lw += d * share);
+                let inc = log_sum_exp(&log_weights);
+                log_evidence += inc;
+                tempered_increment += inc;
+                log_weights.par_iter_mut().for_each(|lw| *lw -= inc);
+                if effective_sample_size(&log_weights) >= config.resample_ess_fraction * n as f64 {
+                    continue;
+                }
+                let tag = (k * 16 + j) as u64;
+                let parents = systematic_resample(&log_weights, n, &mut stream(9500 + tag, 0));
+                // The move targets the tempered distribution reached so far, so the Metropolis
+                // ratio carries the same exponent the weights have been charged.
+                let beta = share * (j + 1) as f64;
+                let moved: Vec<(Particle, f64)> = parents
+                    .par_iter()
+                    .enumerate()
+                    .map(|(c, &anc)| {
+                        let mut cand = before_step[anc].clone();
+                        cand.aircraft.refresh_manoeuvre_rate(params, &mut stream(9600 + tag, c));
+                        let d_new = step_update(&mut cand, c, 9700 + tag);
+                        let u: f64 = stream(9800 + tag, c).gen();
+                        if u.ln() < beta * (d_new - deltas[anc]) {
+                            (cand, d_new)
+                        } else {
+                            (particles[anc].clone(), deltas[anc])
+                        }
+                    })
+                    .collect();
+                rejuvenated[0] += moved
+                    .iter()
+                    .zip(&parents)
+                    .filter(|((_, d), &anc)| *d != deltas[anc])
+                    .count() as u64;
+                rejuvenated[1] += moved.len() as u64;
+                let (kids, d): (Vec<Particle>, Vec<f64>) = moved.into_iter().unzip();
+                particles = kids;
+                deltas = d;
+                log_weights.fill(-(n as f64).ln());
+            }
+        }
 
         if config.output.residual_samples > 0 && step.satcom.is_some() {
             snapshots.push((step.id.clone(), residual_snapshot(&particles, &log_weights, config.output.residual_samples, &mut stream(4000 + k as u64, 0))));
@@ -635,6 +690,10 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             let total = log_sum_exp(&log_weights) + log_scale;
             increment = total - running_total;
             running_total = total;
+        } else if tempering.is_some() {
+            // Already paid out and renormalised stage by stage; the epoch's contribution is
+            // the sum of the stage normalisers.
+            increment = tempered_increment;
         } else {
             increment = log_sum_exp(&log_weights);
             log_evidence += increment;

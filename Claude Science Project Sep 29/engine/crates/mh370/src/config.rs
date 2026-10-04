@@ -337,6 +337,21 @@ pub struct SamplerConfig {
     /// fixed-population resampler.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub branching: Option<BranchingConfig>,
+    /// Epochs whose likelihood is applied in stages rather than at once (annealed SMC): the
+    /// increment is raised to a power that climbs from zero to one over `temper_stages`, with a
+    /// resample and an invariant MCMC move between stages, so the population migrates into a
+    /// sharp likelihood gradually instead of meeting all of it at a single instant.
+    ///
+    /// This is the one remedy for the 19:41 degeneracy that needs no prediction across the leg:
+    /// the guide is the likelihood itself, which is exactly computable, rather than a
+    /// dead-reckoned forecast of where a particle will be, which is wrong for the 83 % of
+    /// particles that manoeuvre during that leg.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub temper_epochs: Vec<String>,
+    /// Stages per tempered epoch. Defaults to 4. The product of the stage exponents is one, so
+    /// the target posterior is unchanged however many are used.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temper_stages: Option<usize>,
 }
 
 /// Davey Sect. 8 and Table 8.2: resampling by randomised branching over independently

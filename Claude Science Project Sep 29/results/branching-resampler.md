@@ -45,10 +45,12 @@ Effective sample sizes are absolute, summed over modes and averaged over seeds.
 | branching n̄=3, η=e⁻²⁵ | 1,500,000 | **76,207** | 2,677 | 76 s | 7.5 GB | −94.880 |
 | branching n̄=10, η=e⁻³⁰ | 1,500,000 | **75,833** | 465,152 | 292 s | 7.2 GB | −94.725 |
 
-**The evidence agrees.** Across six branching configurations spanning both tabulated thresholds
-and branch factors 3, 5 and 10, the log evidence lands between −93.97 and −94.19, against
-−94.70 for the 1.5M baseline. The scheme is unbiased, as Eq. 8.5 says it should be, and that is
-the check that matters for using it at all.
+**The evidence agrees.** Across five branching configurations spanning both tabulated
+thresholds and branch factors 3, 5 and 10, the log evidence lands between **−94.880 and
+−94.659** — n̄=3 at e⁻²⁵ −94.880, n̄=3 at e⁻³⁰ −94.659, n̄=5 at e⁻³⁰ −94.729, n̄=10 at e⁻²⁵
+−94.689, n̄=10 at e⁻³⁰ −94.725 — against −94.703 for the 1.5M baseline, which sits inside that
+range. The spread is 0.22 nats and the baseline is not an outlier in it. The scheme is
+unbiased, as Eq. 8.5 says it should be, and that is the check that matters for using it at all.
 
 **19:41 is unmoved.** At equal peak population every scheme delivers the same effective sample
 at the bottleneck: 76,727, 76,207, 75,833 — a spread of 1.2 %. The large differences in ESS
