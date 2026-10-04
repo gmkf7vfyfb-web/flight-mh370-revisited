@@ -248,6 +248,13 @@ pub struct Aircraft {
     pub fuel_log_weight_correction: f64,
     /// Mach targets drawn from the endurance-restricted part of the mixture. Output-only.
     pub fuel_guided_draws: u16,
+    /// The arc the next epoch puts the aircraft on, when the bridge proposal is enabled. Set by
+    /// the filter before each step; transient within a step, so it is never serialised and a
+    /// deserialised aircraft resumes with turns on the prior until the filter sets it again.
+    #[serde(skip)]
+    pub arc_target: Option<ArcTarget>,
+    /// Turns drawn from the arc-directed part of the mixture. Output-only.
+    pub bridged_turns: u16,
     next_climb: f64,
     pub turns: u16,
     pub accelerations: u16,
@@ -298,6 +305,25 @@ pub struct FuelModel {
     ///    mixture keeps the proposal's support equal to the prior's, so the correction is
     ///    bounded and the target distribution is unchanged.
     pub endurance: Option<EnduranceProposal>,
+}
+
+/// Where the next arc is, expressed as pure geometry so this crate need not know the
+/// measurement model. The filter converts the epoch's BTO into a required aircraft-to-satellite
+/// range and hands over the satellite position with it.
+#[derive(Clone, Copy, Debug)]
+pub struct ArcTarget {
+    pub unix_s: f64,
+    pub satellite_km: geo::Vec3,
+    /// Range from aircraft to satellite the measurement implies, km.
+    pub range_km: f64,
+    /// One measurement standard deviation in the same units.
+    pub sd_km: f64,
+    /// Weight left on the unmodified prior, so the proposal keeps the prior's support.
+    pub prior_mix: f64,
+    /// Candidate turn angles evaluated.
+    pub cells: usize,
+    /// How many standard deviations count as reaching the arc.
+    pub window_sd: f64,
 }
 
 /// Settings for the endurance-aware speed proposal.
@@ -386,6 +412,8 @@ impl Aircraft {
                 None => f64::NAN,
                 Some(f) => f.factor_mean + f.factor_sd * normal(rng),
             },
+            arc_target: None,
+            bridged_turns: 0,
             fuel_doomed: false,
             fuel_log_weight_correction: 0.0,
             fuel_guided_draws: 0,
@@ -761,6 +789,71 @@ impl Aircraft {
         e * self.tau_s
     }
 
+    /// A new turn: uniform on the prior's full circle, or, with an arc target set, from a
+    /// mixture that favours turns which bring the aircraft onto the next arc.
+    ///
+    /// This is the two-ended half of the sampler. The endurance proposal steers speed using
+    /// what is known at the start of a leg; this steers heading using where the leg has to end.
+    /// It exists because the 19:41 crossing is tangential - one BTO standard deviation admits
+    /// about 122 NM along track against 4.2 NM across it - so the arc accepts a thin sliver of
+    /// headings and an unguided turn almost never lands in it.
+    ///
+    /// Each candidate turn is scored by dead-reckoning the resulting ground track to the target
+    /// epoch and measuring the aircraft-to-satellite range there. That ignores the wind change
+    /// and any later manoeuvre over the leg, which is why the prior keeps a share of the
+    /// mixture and why the window is several standard deviations wide: the proposal only has to
+    /// be better than uniform, and the exact prior-to-proposal ratio accumulated here makes any
+    /// error in it a question of efficiency rather than of correctness.
+    fn draw_turn<R: Rng>(&mut self, rng: &mut R) -> f64 {
+        let Some(t) = self.arc_target else { return rng.gen_range(-PI..PI) };
+        let dt = t.unix_s - self.unix_s;
+        if dt <= 0.0 {
+            return rng.gen_range(-PI..PI);
+        }
+        let speed_kt = self.v_north_kt.hypot(self.v_east_kt);
+        if !(speed_kt > 0.0) {
+            return rng.gen_range(-PI..PI);
+        }
+        let track = self.v_east_kt.atan2(self.v_north_kt);
+        let cells = t.cells.max(4);
+        let width = 2.0 * PI / cells as f64;
+        // Dead-reckon each candidate turn and mark those that reach the arc.
+        let mut ok = vec![false; cells];
+        let mut hits = 0usize;
+        for (c, slot) in ok.iter_mut().enumerate() {
+            let turn = -PI + width * (c as f64 + 0.5);
+            let b = track + turn;
+            let (lat, lon) = geo::advance(
+                self.lat, self.lon, self.alt_ft,
+                speed_kt * b.cos(), speed_kt * b.sin(), dt);
+            let r = (t.satellite_km - geo::lla_to_ecef(lat, lon, self.alt_ft * KM_PER_FT)).norm();
+            if (r - t.range_km).abs() <= t.window_sd * t.sd_km {
+                *slot = true;
+                hits += 1;
+            }
+        }
+        if hits == 0 || hits == cells {
+            return rng.gen_range(-PI..PI);
+        }
+        let alpha = t.prior_mix;
+        let guided = rng.gen_bool(1.0 - alpha);
+        let index = if guided {
+            let k = rng.gen_range(0..hits);
+            ok.iter().enumerate().filter(|(_, &b)| b).map(|(i, _)| i).nth(k).unwrap_or(0)
+        } else {
+            rng.gen_range(0..cells)
+        };
+        let turn = -PI + width * (index as f64 + rng.gen::<f64>());
+        // Prior density is 1 / 2pi everywhere; in a cell the proposal adds
+        // (1 - alpha) / (hits * width) on top of alpha / 2pi.
+        let q_rel = alpha + if ok[index] { (1.0 - alpha) * cells as f64 / hits as f64 } else { 0.0 };
+        if guided {
+            self.bridged_turns += 1;
+        }
+        self.fuel_log_weight_correction -= q_rel.ln();
+        turn
+    }
+
     /// A new Mach target: uniform on the prior's range, or, with an endurance proposal
     /// configured, from a mixture that favours the speeds the remaining fuel can sustain.
     ///
@@ -818,7 +911,7 @@ impl Aircraft {
         // current value (e.g. the same flight level) completes immediately.
         let now = self.unix_s;
         if self.next_turn <= now {
-            self.turn_remaining = rng.gen_range(-PI..PI);
+            self.turn_remaining = self.draw_turn(rng);
             self.turns += 1;
             self.next_turn = if self.turn_remaining == 0.0 { now + self.exp_gap(rng) } else { f64::INFINITY };
         }

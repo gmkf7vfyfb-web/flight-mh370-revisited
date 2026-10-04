@@ -363,6 +363,9 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     // the epoch's own BTO sd when scoring a dead-reckoned prediction. None disables the step.
     let lookahead_sd_us = config.sampler.as_ref().and_then(|s| s.lookahead_bto_sd_us);
     let rejuvenate: Vec<String> = config.sampler.as_ref().map(|s| s.rejuvenate_epochs.clone()).unwrap_or_default();
+    let bridge = config.sampler.as_ref().and_then(|s| s.bridge_prior_mix.map(|mix| {
+        (mix, s.bridge_window_sd.unwrap_or(3.0), s.bridge_cells.unwrap_or(24))
+    }));
     let mut rejuvenated = [0u64; 2];
     let mut lookahead_resamples = 0u32;
     let mut log_weights = vec![-(n as f64).ln(); n];
@@ -549,6 +552,30 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         // The state every particle is in before this epoch's propagation, kept only when this
         // epoch is to be rejuvenated: the move needs the parent's pre-epoch state to re-simulate
         // the same segment a second time.
+        // The arc this step ends on, handed to the dynamics as pure geometry: the filter owns
+        // the measurement model, so it converts the BTO into the aircraft-to-satellite range it
+        // implies and the flight crate never needs to know about timing offsets or the ground
+        // station. Cleared when this step carries no BTO, so turns fall back to the prior.
+        let arc_target = match (bridge, step.satcom.as_ref()) {
+            (Some((mix, window, cells)), Some(epoch)) if epoch.cruise_bto && epoch.bto_us.is_some() && use_bto => {
+                let total_km = (epoch.bto_us.unwrap() + satcom::BTO_FIXED_OFFSET_US)
+                    * satcom::SPEED_OF_LIGHT_KM_S * 1e-6 / 2.0;
+                let ges_km = (epoch.satellite_km - satcom::PERTH_GES_KM).norm();
+                Some(flight::ArcTarget {
+                    unix_s: step.unix_s,
+                    satellite_km: epoch.satellite_km,
+                    range_km: total_km - ges_km,
+                    sd_km: epoch.bto_sd_us * satcom::SPEED_OF_LIGHT_KM_S * 1e-6 / 2.0,
+                    prior_mix: mix,
+                    cells,
+                    window_sd: window,
+                })
+            }
+            _ => None,
+        };
+        if bridge.is_some() {
+            particles.par_iter_mut().for_each(|p| p.aircraft.arc_target = arc_target);
+        }
         let rejuvenating = rejuvenate.iter().any(|e| e == &step.id);
         let before_step: Vec<Particle> = if rejuvenating { particles.clone() } else { Vec::new() };
         let deltas: Vec<f64> = particles

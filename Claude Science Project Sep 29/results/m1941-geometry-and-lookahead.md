@@ -133,6 +133,55 @@ degenerate enough to trigger one. The 19:41 segment is 71 minutes and is by far 
 expensive to re-simulate, so a variant that skips it is cheaper regardless of how many other
 epochs it treats.)
 
+## What was tried third: an arc-bridge turn proposal, which also fails
+
+The two-ended construction, behind `[sampler] bridge_prior_mix`. During the leg into a BTO
+epoch, a turn is drawn from a mixture of the prior and the turns whose dead-reckoned
+continuation reaches that epoch's arc, with the exact prior-to-proposal ratio carried into the
+weight — structurally identical to the fuel endurance proposal, which does work. The filter
+converts the epoch's BTO into an aircraft-to-satellite range and hands the dynamics pure
+geometry, so the measurement model stays in one place.
+
+| run | log evidence | m1941 ESS | m2041 ESS | distinct draws |
+|---|---|---|---|---|
+| bridge off | −96.66 | **0.989 %** | 10.04 % | 90 |
+| prior mix 0.50 | −96.02 | 0.304 % | 6.51 % | 96 |
+| prior mix 0.25 | −96.69 | 0.334 % | 7.62 % | 109 |
+| prior mix 0.10 | −95.84 | 0.210 % | 1.38 % | 114 |
+
+Worse at every mixture, by a factor of three to five.
+
+## One cause behind all three failures
+
+Each construction assumes the leg into 19:41 is predictable from its start. It is not. Under the
+prior, with the manoeuvre time constant log-uniform on 1–20 h and three clocks running (turn,
+speed, altitude):
+
+| leg | duration | P(at least one manoeuvre) |
+|---|---|---|
+| 18:28:05 → 18:28:14 | 9 s | 0.2 % |
+| 18:28 → 18:39 | 701 s | 16.0 % |
+| **18:39 → 19:41** | **4,267 s** | **56.2 %** |
+| 19:41 → 20:41 | 3,602 s | 51.6 % |
+| 00:19:29 → 00:19:37 | 8 s | 0.2 % |
+
+**More than half the particles manoeuvre during the leg into 19:41.** A dead-reckoned prediction
+from the start of that leg is therefore wrong for the majority of them, and each construction
+fails in the way that follows from its own use of that prediction:
+
+- the **look-ahead** resamples on an auxiliary weight that is nearly independent of where the
+  particle lands, then divides it out, which is pure added variance;
+- the **bridge** steers a turn so the dead-reckoned arrival hits the arc, but the 56 % that
+  manoeuvre again afterwards do not arrive there, so they pay the importance correction without
+  the likelihood gain that was supposed to offset it;
+- **rejuvenation** re-simulates the segment from the same transition, so its candidates miss the
+  sliver at the same rate the originals did — which is why it buys genealogical diversity and no
+  convergence.
+
+The symmetry is exact: the only epochs where dead reckoning is reliable are the 9- and 8-second
+pairs, at 0.2 % manoeuvre probability, and those already sit at 60–70 % ESS. Every epoch that
+needs help is in the regime where none of these three can give it.
+
 ## Conclusion: this degeneracy is not reachable by reweighting or by local diversity
 
 Two interventions, both correct, neither useful:
@@ -148,9 +197,23 @@ failed to reach the sliver the first time. What is left is the class neither att
 proposal that uses the **next** arc to steer the segment, so the intervening manoeuvre draws are
 conditioned on both endpoints rather than on the first alone.
 
-That is the construction the archive's own checkpoints were reaching for under the name
-"two-ended guidance", and it is the one the fold geometry argues for directly: at 19:41 the
-along-track position is genuinely unidentified looking forward, and the information that pins it
-arrives an hour later at 20:41. A bridge proposal between consecutive arcs — draw the segment
-conditioned on hitting the next arc, carry the exact prior-to-proposal ratio, exactly as the fuel
-endurance proposal does for speed — is the remaining candidate, and the one I would build next.
+That was the construction the archive's checkpoints reached for under the name "two-ended
+guidance". It has now been built and it fails, for the reason above.
+
+### What the three failures jointly point at
+
+All three try to *predict across* the leg. The measurement that follows is the same in each case:
+you cannot, because the model puts a manoeuvre in that leg for 56 % of particles. So the remedy
+has to be one that needs no prediction at all.
+
+That is **tempering**: apply the 19:41 likelihood in stages, L^β for β rising from 0 to 1, with a
+resample and an invariant MCMC move between stages, so the population migrates into the sliver
+gradually instead of being hit with the whole cliff at one instant. Annealed SMC is the textbook
+answer to a likelihood that is sharp relative to the proposal, and it is the only one of the four
+that does not depend on knowing where a particle will end up — it uses the likelihood itself as
+the guide, which is the one thing here that is exactly computable.
+
+Both halves already exist. The likelihood is factored into `step_update`, so raising it to a power
+is a one-line change, and the rejuvenation move built above is precisely the invariant kernel
+tempering needs between stages. Neither helped alone; the literature says the combination is what
+works, and this project now has the measurement to explain why the alternatives did not.

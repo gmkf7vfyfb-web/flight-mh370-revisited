@@ -320,6 +320,19 @@ pub struct SamplerConfig {
     /// diversity among the children that a resample has just made identical.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub rejuvenate_epochs: Vec<String>,
+    /// Enables the arc-bridge turn proposal: during the leg into a BTO epoch, turns are drawn
+    /// from a mixture of the prior and the turns whose dead-reckoned continuation reaches that
+    /// epoch's arc, with the exact prior-to-proposal ratio carried into the weight. This is the
+    /// two-ended half of the sampler - the endurance proposal steers speed from what is known at
+    /// the start of a leg, this steers heading from where the leg must end. Absent disables it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bridge_prior_mix: Option<f64>,
+    /// How many standard deviations of the epoch's BTO count as reaching the arc. Default 3.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bridge_window_sd: Option<f64>,
+    /// Candidate turn angles evaluated per draw. Default 24.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bridge_cells: Option<usize>,
 }
 
 #[derive(Deserialize, Serialize, Clone, Default)]
