@@ -154,18 +154,24 @@ Worse at every mixture, by a factor of three to five.
 ## One cause behind all three failures
 
 Each construction assumes the leg into 19:41 is predictable from its start. It is not. Under the
-prior, with the manoeuvre time constant log-uniform on 1–20 h and three clocks running (turn,
-speed, altitude):
+prior, with the manoeuvre time constant τ ~ Jeffreys(0.1, 10) h — Davey's Table 8.2 value, and
+the engine's — and three clocks running (turn, speed, altitude):
 
-| leg | duration | P(at least one manoeuvre) |
-|---|---|---|
-| 18:28:05 → 18:28:14 | 9 s | 0.2 % |
-| 18:28 → 18:39 | 701 s | 16.0 % |
-| **18:39 → 19:41** | **4,267 s** | **56.2 %** |
-| 19:41 → 20:41 | 3,602 s | 51.6 % |
-| 00:19:29 → 00:19:37 | 8 s | 0.2 % |
+| leg | duration | P(at least one manoeuvre) | expected number |
+|---|---|---|---|
+| 18:28:05 → 18:28:14 | 9 s | 1.6 % | 0.02 |
+| 18:28 → 18:39 | 701 s | 49.6 % | 1.26 |
+| **18:39 → 19:41** | **4,267 s** | **83.0 %** | **7.64** |
+| 19:41 → 20:41 | 3,602 s | 80.3 % | 6.45 |
+| 00:19:29 → 00:19:37 | 8 s | 1.4 % | 0.01 |
 
-**More than half the particles manoeuvre during the leg into 19:41.** A dead-reckoned prediction
+(An earlier revision of this note gave 56.2 % for the critical leg, computed against a τ range of
+1–20 h that is neither Davey's nor this engine's. The corrected figure is 83.0 %.)
+
+**Five particles in six manoeuvre during the leg into 19:41, nearly eight times on average.**
+Davey states the same problem qualitatively at p. 69 of the book — "potentially several of each
+can be sampled between measurements... the proportion of particles that sample a trajectory
+close to the measurements will be small". A dead-reckoned prediction
 from the start of that leg is therefore wrong for the majority of them, and each construction
 fails in the way that follows from its own use of that prediction:
 
@@ -206,7 +212,16 @@ All three try to *predict across* the leg. The measurement that follows is the s
 you cannot, because the model puts a manoeuvre in that leg for 56 % of particles. So the remedy
 has to be one that needs no prediction at all.
 
-That is **tempering**: apply the 19:41 likelihood in stages, L^β for β rising from 0 to 1, with a
+There are two such remedies, and the project should try both.
+
+The first is the one Davey actually used, which was unknown to this project until the book was
+obtained: **branching with pruning**, not resampling. Each trajectory is propagated
+independently; one with weight above a threshold η is duplicated into n̄ branches at weight w/n̄,
+one below survives with probability w and is otherwise pruned, and the population size floats
+rather than being held fixed. Table 8.2 gives n̄ in 3–10 and η at e⁻²⁵ or e⁻³⁰. The authors chose
+it deliberately for exploration over efficiency. See `davey-2016-reference.md`.
+
+The second is **tempering**: apply the 19:41 likelihood in stages, L^β for β rising from 0 to 1, with a
 resample and an invariant MCMC move between stages, so the population migrates into the sliver
 gradually instead of being hit with the whole cliff at one instant. Annealed SMC is the textbook
 answer to a likelihood that is sharp relative to the proposal, and it is the only one of the four
