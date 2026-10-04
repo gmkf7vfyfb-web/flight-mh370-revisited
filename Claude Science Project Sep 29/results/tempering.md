@@ -65,11 +65,83 @@ that stage's resample, which is the same point in the cycle the untempered diagn
 at. Everything above is that. Anyone adding a within-epoch move to this filter should expect
 the same trap.
 
+## At full scale, on the base reproduction
+
+`config/davey2016.toml` plus `config/sensitivity/tempered-1839-1941.toml`: identical in every
+respect except the sampler flag — 7,000,000 particles per replicate, eight seeds, both
+bottleneck epochs tempered over sixteen stages.
+
+| epoch | systematic | tempered | |
+|---|---|---|---|
+| 18:25 | 36.240 % | 36.240 % | — |
+| 18:28a | 72.787 % | 72.787 % | — |
+| 18:28b | 58.929 % | 58.929 % | — |
+| **18:39** | **2.152 %** | **31.029 %** | **14.4×** |
+| **19:41** | **1.021 %** | **6.037 %** | **5.9×** |
+| 20:41 | 8.885 % | 8.817 % | — |
+| 21:41 | 19.265 % | 19.341 % | — |
+| 22:41 | 12.258 % | 12.190 % | — |
+| 23:15 | 81.982 % | 82.013 % | — |
+| 00:11 | 4.645 % | 4.596 % | — |
+| 00:19a | 76.186 % | 76.377 % | — |
+| 00:19b | 54.537 % | 54.802 % | — |
+
+The effect is surgical: the two tempered epochs move by factors of 14 and 6, and the other ten
+sit within 1 % of their untempered values — three of them identical to five decimal places,
+because tempering 18:39 and 19:41 cannot change anything that happened before them.
+
+**The convergence criterion moves.**
+
+| | systematic | tempered |
+|---|---|---|
+| split-half overlap | 0.9340 | **0.9416** |
+| replicate pairwise overlap | 0.853–0.925 | **0.873–0.941** |
+| replicate median span | 0.3121° | **0.2288°** |
+| tightest epoch | 19:41, at 1.02 % | **00:11, at 4.60 %** |
+
+The replicate median span — how far apart eight independent replicates put the posterior median
+— tightens by 27 %, which is the most direct statement of the gain: the same model, the same
+evidence, and the eight answers agree more closely. And the binding constraint is no longer
+19:41. After four failed attempts the bottleneck has moved to 00:11, which is a different
+problem with a different cause.
+
+**The posterior does not move**, which is the control that matters:
+
+| | systematic | tempered |
+|---|---|---|
+| median | −38.1595° | −38.1124° |
+| mode | −38.35° | −38.05° |
+| 95 % interval | [−39.533, −35.880] | [−39.538, −35.861] |
+| overlap with Davey Fig. 10.3 | 0.7172 | 0.7211 |
+| log evidence | −96.2635 | −96.2860 |
+
+The median shifts by 0.047°, a fifth of the replicate span, and the 95 % bounds agree to 0.02°.
+The log evidence agrees to 0.023 nats. Tempering made the estimate of the posterior better
+without making it a different posterior.
+
+Runtime is not quoted here: the two runs were recorded at different times on different code
+revisions and the wall-clock figures are not comparable. The matched measurement is the
+small-scale sweep above, where sixteen stages cost about 1.8× the untempered runtime.
+
 ## Honest limits
 
 The absolute numbers are still small. Nine hundred and fifty distinct surviving prior draws out
 of a million particles is twice as many as before and still an impoverished sample; tempering
-improves the bottleneck substantially without making it comfortable. Whether that is enough to
-move the project's convergence criterion — the split-half overlap between replicate posteriors
-— is a separate question from the per-epoch effective sample size, and is measured at full
-scale separately.
+improves the bottleneck substantially without making it comfortable.
+
+At full scale 19:41 goes from 1.02 % to 6.04 %, which is a real gain and still the second-worst
+epoch in the flight. The split-half overlap moves from 0.9340 to 0.9416 against a floor
+calibrated at 0.924 for eight replicates (`split-half-threshold.md`) — so the base run already
+passed and the tempered run passes by more. The honest summary is that tempering did not turn a
+failing filter into a passing one; it tightened a filter that was marginally passing, and it
+removed the specific pathology that had made the margin untrustworthy.
+
+What it does settle is the diagnosis. Five interventions, one of which works, and the one that
+works is the only one that does not depend on predicting where a particle will be. That is a
+result about the problem, not just about the sampler, and it is worth a section in the paper.
+
+The next constraint is 00:11 at 4.60 %, which tempering leaves untouched because it is not the
+same pathology: 00:11 is well-conditioned geometrically — the track crosses the arc at 48°, the
+most favourable angle of any epoch — and its low effective sample reflects the accumulated
+narrowing of the posterior by then rather than a caustic in the likelihood. Whether tempering
+helps there is an open question and cheap to test.
