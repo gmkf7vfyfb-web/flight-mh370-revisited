@@ -4,7 +4,21 @@ The book was absent from the working tree for most of this project's life — `p
 gitignored and was never fetched — so a number of things had been inferred from secondary
 sources and from the previous ChatGPT-era threads. It has now been obtained from the publisher
 (see `.sources/davey-2016/README.md`). This note records what the original says, and audits the
-engine against it. Page numbers are PDF pages of the 124-page Springer file.
+engine against it.
+
+**Citation convention: printed book page numbers**, as they appear in the running headers, not
+positions in the PDF file. The two differ by fourteen — the Springer PDF carries front matter —
+and an earlier revision of this note cited PDF positions, which sent two quotations to the wrong
+page. Every page number below was verified by reading the running header off the page carrying
+the quoted text.
+
+A related caveat, not yet resolved. The results files written before the book was obtained
+(`shoulder-comparison.md`, `measurement-model-sensitivity.md` and others) carry page citations
+taken from secondary sources, and spot-checking suggests they follow neither convention
+consistently — `shoulder-comparison.md` cites the assumptions list as p. 73 where the book
+prints it on p. 60. Those citations should be audited against the PDF before anything built on
+them goes into the paper. The parameter *values* in those files are separately corroborated by
+the Table 8.2 audit below and are not in doubt; it is the page references that need checking.
 
 ## The convergence criterion: Davey published none that is quantitative
 
@@ -13,10 +27,10 @@ the project's 0.90 split-half floor was asserted rather than derived and that "w
 is not established". It is now established, and the answer is that he used nothing of the kind.
 
 The phrase "effective sample size" does not occur in the book. Neither does "converged".
-"Degeneracy" occurs once, in the generic description of particle filters (p. 30). There is no
+"Degeneracy" occurs once, in the generic description of particle filters (p. 16). There is no
 split-half statistic, no ESS threshold, and no numerical convergence test anywhere in the text.
 
-What the book does say is procedural (p. 70): rather than running a pre-specified number of
+What the book does say is procedural (p. 56): rather than running a pre-specified number of
 particles, they chose "to adaptively increase the number of particles used until it was possible
 to identify an adequate number of likely paths". That is the criterion — a qualitative judgement
 about the number of surviving high-weight trajectories, made by the analyst, not a statistic
@@ -31,7 +45,7 @@ that turns out not to exist.
 
 ## Table 8.2, and the engine audit
 
-Table 8.2 (p. 73) is the authoritative parameter summary. Every row, against the engine's
+Table 8.2 (p. 59) is the authoritative parameter summary. Every row, against the engine's
 `Parameters::default()` and `config/davey2016.toml`:
 
 | Table 8.2 | published | engine | |
@@ -68,7 +82,7 @@ An earlier revision of this note read the first three rows as specifications for
 flight and listed two of them as departures this engine should correct. That was wrong, and
 Chapter 4 says so in plain words.
 
-On the accident flight the prior is defined at the penultimate radar point, and p. 34 states:
+On the accident flight the prior is defined at the penultimate radar point, and p. 21 states:
 "a prior was defined at 18:01 at the penultimate radar point using the output of the Kalman
 filter described above. **The position standard deviations were set to 0.5 nm and the direction
 standard deviation to 1°.**" Page 35 then states: "**An initial Mach number was selected from a
@@ -79,14 +93,14 @@ Those are the engine's values exactly — 0.5 NM, 1°, uniform 0.73–0.84. Noth
 
 Table 8.2's initialisation rows describe instead how the filter was started for the *validation*
 flights, where it is initialised on known truth with Gaussian error. Chapter 9 confirms it
-(p. 77): "The filter was initialised using the true aircraft location, speed and control angle
+(p. 64): "The filter was initialised using the true aircraft location, speed and control angle
 with a Gaussian random error. The standard deviation of the initialisation error was chosen to
 be the same as the prior for the accident flight, that is 0.4° in latitude and longitude, 1° in
 angle and Mach 0.03 in air speed."
 
-Two cautions follow. First, Table 8.2 and p. 77 disagree with each other — 0.4 arcminutes against
+Two cautions follow. First, Table 8.2 and p. 64 disagree with each other — 0.4 arcminutes against
 0.4 degrees, a factor of sixty — so the table alone cannot be trusted on these rows and the
-chapter text governs. Second, p. 77's claim that the validation initialisation is "the same as
+chapter text governs. Second, p. 64's claim that the validation initialisation is "the same as
 the prior for the accident flight" is not consistent with Chapter 4 either, on either reading.
 The accident-flight prior is the one Chapter 4 states, and that is what this engine implements.
 
@@ -97,14 +111,14 @@ table are corroborated by Chapters 6 and 7 and are safe; the initialisation rows
 ### The one genuine departure: resampling
 
 The engine uses systematic resampling of a fixed population when ESS falls below half. Davey's
-filter is also an SIR particle filter — p. 30 is explicit, "the filter used in this book is a
+filter is also an SIR particle filter — p. 16 is explicit, "the filter used in this book is a
 form of SIR particle filter" — but its resampling step is implemented differently. Sect. 8
 describes a *branching* scheme over independently propagated trajectories: each particle is
 treated separately, and at each step a particle with weight `w ≥ η` is duplicated into n̄
 branches each carrying weight `w/n̄`, while a particle below the threshold survives with
 probability `w` at weight 1 and is otherwise pruned. The book frames this explicitly as a way of
 resampling, not as an alternative to it: "thus resampling can also be implemented through a
-randomised branching procedure, recursively adapting the number of particles" (p. 70). The
+randomised branching procedure, recursively adapting the number of particles" (p. 56). The
 weights are left unnormalised until the very end, and the population size is not fixed — it
 grows and is pruned adaptively, which is what makes "increase particles until enough likely
 paths appear" implementable.
@@ -116,7 +130,7 @@ to broadly explore the enormous state space". Table 8.2 pins the constants we wo
 
 ## Davey states this project's 19:41 problem, in advance
 
-The passage at p. 69 is worth quoting against the three failed interventions:
+The passage at p. 55 is worth quoting against the three failed interventions:
 
 > A problem with sampling from the dynamics is that this can be a very diffuse distribution. In
 > the MH370 case, the model allows for turns and speed and altitude changes, and potentially
@@ -141,7 +155,7 @@ of the two families this project has tried.
 2. The accident-flight prior needs **no** correction: 0.5 NM, 1° and uniform Mach 0.73–0.84 are
    Davey's own values from Chapter 4. Table 8.2's initialisation rows belong to the validation
    experiments and must not be applied here.
-3. Davey's filter assumes **infinite fuel** (assumption 4, p. 74) and applies fuel constraints
+3. Davey's filter assumes **infinite fuel** (assumption 4, p. 60) and applies fuel constraints
    afterwards as a censor. This project's in-filter fuel model is an extension beyond the
    published method, not a reproduction of it, and should be presented that way.
 4. The branching resampler moves from "an idea on the list" to "the published method we are not

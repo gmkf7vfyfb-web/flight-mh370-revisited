@@ -169,7 +169,7 @@ the engine's — and three clocks running (turn, speed, altitude):
 1–20 h that is neither Davey's nor this engine's. The corrected figure is 83.0 %.)
 
 **Five particles in six manoeuvre during the leg into 19:41, nearly eight times on average.**
-Davey states the same problem qualitatively at p. 69 of the book — "potentially several of each
+Davey states the same problem qualitatively at p. 55 of the book — "potentially several of each
 can be sampled between measurements... the proportion of particles that sample a trajectory
 close to the measurements will be small". A dead-reckoned prediction
 from the start of that leg is therefore wrong for the majority of them, and each construction

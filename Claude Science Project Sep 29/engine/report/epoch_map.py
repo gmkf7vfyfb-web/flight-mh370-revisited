@@ -27,7 +27,7 @@ from matplotlib.ticker import FuncFormatter
 from scipy.ndimage import gaussian_filter
 
 # Credible levels drawn, outermost first.
-LEVELS = (0.95, 0.90, 0.50)
+LEVELS = (0.99, 0.90, 0.50)
 GRID_DEG = 0.1
 SMOOTH_DEG = 0.3
 
@@ -114,16 +114,84 @@ def utc(epochs, epoch_id):
     return dt.datetime.fromtimestamp(round(t / 60) * 60, dt.timezone.utc).strftime("%H:%M")
 
 
+def mass_figure(run_dir, epoch_id, case, figsize=(6.4, 4.0)):
+    """Cumulative probability mass against latitude along the arc.
+
+    The posterior at a handshake lies on that handshake's arc, so latitude is a single
+    sufficient coordinate along it and the two-dimensional map collapses to one curve without
+    losing anything. Reading a credible interval off this is exact at any level, where the map
+    only shows the three contours that were drawn.
+    """
+    lat, weights, source, meta = positions_for(pathlib.Path(run_dir), epoch_id, case)
+    w = np.ones_like(lat) if weights is None else weights
+    order = np.argsort(lat)
+    lat_s, w_s = lat[order], w[order]
+    cum = np.cumsum(w_s) / w_s.sum()
+
+    def at(p):
+        return float(np.interp(p, cum, lat_s))
+
+    fig, ax = plt.subplots(figsize=figsize)
+    ax.plot(lat_s, 100 * cum, color="#2b2b2b", lw=1.3)
+
+    # Central credible intervals, read straight off the curve.
+    bands = [(0.50, "#6a6a6a"), (0.90, "#a8a8a8"), (0.99, "#dcdcdc")]
+    rows = []
+    for frac, colour in reversed(bands):
+        lo, hi = at(0.5 - frac / 2), at(0.5 + frac / 2)
+        ax.axvspan(lo, hi, color=colour, zorder=0, lw=0)
+        rows.append((frac, lo, hi))
+    for frac, lo, hi in rows:
+        for v, p in ((lo, 50 - 50 * frac), (hi, 50 + 50 * frac)):
+            ax.plot([v, v], [0, p], color="#2b2b2b", lw=0.5, ls=":", zorder=1)
+    # Interval figures as a block rather than beside each band: an annotation anchored to the
+    # 99 % bound sits at the edge of the data and overflows the axes.
+    text = "\n".join(f"{int(f * 100):>2} %   {abs(hi):.2f}–{abs(lo):.2f}°S   ({abs(hi - lo):.2f}° wide)"
+                     for f, lo, hi in rows)
+    ax.text(0.985, 0.03, text, transform=ax.transAxes, fontsize=6.5, family="monospace",
+            color="#2b2b2b", va="bottom", ha="right")
+
+    ax.set_xlabel("latitude along the arc (°)")
+    ax.set_ylabel("cumulative probability mass (%)")
+    ax.set_title(f"Mass against latitude at {utc(meta['epochs'], epoch_id)} UTC\n{meta['config']['name']}",
+                 loc="left", fontsize=9)
+    ax.set_yticks([0, 25, 50, 75, 100])
+    ax.xaxis.set_major_formatter(FuncFormatter(lambda v, _: f"{abs(v):.0f}°{'S' if v < 0 else 'N' if v > 0 else ''}"))
+    ax.set_xlim(at(0.001), at(0.999))
+    ax.set_ylim(0, 103)
+    ax.text(0.015, 0.97, source, transform=ax.transAxes, fontsize=6, color="#555555", va="top")
+    fig.tight_layout()
+    return fig
+
+
+def positions_for(run_dir, epoch_id, case):
+    """Latitudes and weights at an epoch, from routes or from the stored final state."""
+    meta = json.loads((run_dir / "run.json").read_text())
+    target = next((e["unix_s"] for e in meta["epochs"] if e["id"] == epoch_id), None)
+    if target is None:
+        raise SystemExit(f"{epoch_id}: not an epoch of this run")
+    index = (target - meta["prior_unix_s"]) / meta["route_interval_s"]
+    routes = load_routes(run_dir, case)
+    if index + 1 >= routes.shape[1]:
+        lat, _lon, weights = final_positions(run_dir, case, meta["final_columns"])
+        return lat, weights, f"{len(lat):,} final-state particles", meta
+    pos = positions_at(routes, meta["prior_unix_s"], meta["route_interval_s"], target)
+    return pos[:, 0].astype(float), None, f"{len(pos):,} pooled route samples", meta
+
+
 def draw(run_dir, epoch_id, case, out_dir):
     """Build the map and write it as PDF and PNG. Returns the PDF path."""
-    fig = figure(pathlib.Path(run_dir), epoch_id, case)
     out_dir = pathlib.Path(out_dir)
     out_dir.mkdir(parents=True, exist_ok=True)
-    stem = out_dir / f"position-{epoch_id}"
-    fig.savefig(f"{stem}.pdf")
-    fig.savefig(f"{stem}.png", dpi=300)
-    plt.close(fig)
-    return f"{stem}.pdf"
+    written = []
+    for name, build in (("position", figure), ("mass", mass_figure)):
+        fig = build(pathlib.Path(run_dir), epoch_id, case)
+        stem = out_dir / f"{name}-{epoch_id}"
+        fig.savefig(f"{stem}.pdf")
+        fig.savefig(f"{stem}.png", dpi=300)
+        plt.close(fig)
+        written.append(f"{stem}.pdf")
+    return "  ".join(written)
 
 
 def figure(run_dir, epoch_id, case, figsize=None):
@@ -170,7 +238,7 @@ def figure(run_dir, epoch_id, case, figsize=None):
     from matplotlib.patches import Patch
 
     bands = [Patch(facecolor=c, edgecolor="#2b2b2b", lw=0.6, label=f"{int(f * 100)} % credible")
-             for c, f in zip(shades[::-1], (0.50, 0.90, 0.95))]
+             for c, f in zip(shades[::-1], (0.50, 0.90, 0.99))]
 
     # The arcs this map is read against: the one the posterior sits on and the final one.
     wanted = {epoch_id: dict(lw=1.3, color="#b16286")}
