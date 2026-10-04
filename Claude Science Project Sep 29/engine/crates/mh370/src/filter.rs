@@ -624,6 +624,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         // that the population is given several chances to migrate into a sharp likelihood,
         // with its diversity restored between them, instead of one.
         let mut tempered_increment = 0.0f64;
+        // The epoch's effective sample size at its worst moment: measured after each stage's
+        // weight update and before that stage's resample, which is the same point in the cycle
+        // the untempered diagnostic is taken at. Measuring after the resample instead would
+        // report the population size and say nothing.
+        let mut tempered_ess = f64::INFINITY;
         if let Some(stages) = tempering {
             let share = 1.0 / stages as f64;
             for j in 0..stages {
@@ -632,7 +637,9 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 log_evidence += inc;
                 tempered_increment += inc;
                 log_weights.par_iter_mut().for_each(|lw| *lw -= inc);
-                if effective_sample_size(&log_weights) >= config.resample_ess_fraction * n as f64 {
+                let stage_ess = effective_sample_size(&log_weights);
+                tempered_ess = tempered_ess.min(stage_ess);
+                if stage_ess >= config.resample_ess_fraction * n as f64 {
                     continue;
                 }
                 let tag = (k * 16 + j) as u64;
@@ -704,6 +711,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         let ess = if branching.is_some() {
             let t = log_sum_exp(&log_weights);
             effective_sample_size(&log_weights.par_iter().map(|lw| lw - t).collect::<Vec<_>>())
+        } else if tempering.is_some() {
+            tempered_ess
         } else {
             effective_sample_size(&log_weights)
         };
