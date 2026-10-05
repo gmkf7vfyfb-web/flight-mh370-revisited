@@ -100,24 +100,57 @@ runtime per tempered epoch at 16 stages, and it is already implemented and confi
 2.8M-particle-per-mode run remains the fallback, but it is now the second choice rather than the
 first.
 
-A correction to a claim made from the four-replicate partial: I reported there that fuel cuts the
-distinct surviving prior draws hardest in magnetic heading and magnetic track. At eight
-replicates that is wrong in direction. Minimum distinct origins across replicates:
+### The two runs do not share a particle allocation — control for it
 
-| mode | fuel + tempering | fuel-free tempered |
-|---|---|---|
-| true heading | 1150 | 1136 |
-| magnetic heading | 1016 | 398 |
-| true track | 693 | 2277 |
-| magnetic track | 808 | 323 |
-| lateral navigation | 797 | 2061 |
+This comparison has a confound that must be handled before any per-mode number from it is quoted.
+The two runs put the same 7,000,000 particles in different places:
 
-Fuel *raises* surviving draws in the two magnetic modes, by 2.6× and 2.5×, and *lowers* them in
-true track and lateral navigation by about 3×. That is the same reweighting the mode mixture
-shows, seen from the sampler's side: the modes fuel favours get more of the population and
-therefore retain more diversity. Static-parameter collapse is not the problem in any mode — the
-smallest figure, 693, is well clear of the ~100 the engine's README cites as the bootstrap-filter
-failure case.
+| mode | fuel + tempering | fuel-free tempered | ratio |
+|---|---|---|---|
+| true heading | 1,400,000 | 1,000,000 | 1.40× |
+| magnetic heading | 1,400,000 | 500,000 | 2.80× |
+| true track | 1,400,000 | 2,500,000 | 0.56× |
+| magnetic track | 1,400,000 | 500,000 | 2.80× |
+| lateral navigation | 1,400,000 | 2,500,000 | 0.56× |
+
+So this run gave the magnetic modes 2.8× the particles and true track and lateral navigation 56%
+of theirs. **Mode-averaged ESS fractions and raw distinct-draw counts are not comparable between
+them.** The per-epoch table above is a mode average and inherits that caveat.
+
+Checked per mode, the two conclusions that matter survive it:
+
+- **20:41 collapses in every mode**, 1.60–3.11% against 8.44–9.26%, a 3–5× drop with no mode
+  exempt. The same holds for 21:41 (6.67–8.60% against 17.67–21.24%) and 18:25 (11.05–15.47%
+  against 34.30–37.57%). 22:41 is the one heterogeneous case: true track falls 3.9× but magnetic
+  heading barely moves. So the recommendation to temper 20:41 and 21:41 is allocation-robust;
+  adding 22:41 rests mostly on true track.
+- **18:39 and 19:41 are unchanged in every mode**, to within 0.4 percentage points, and **00:11
+  improves in every mode** (true track 10.04 → 33.63%, lateral navigation 10.23 → 13.07%, and the
+  three thin modes from under 2% to 2–7%).
+
+And a correction, which supersedes what I wrote from the four-replicate partial *and* my first
+reading of this run. Normalised per million particles, minimum distinct surviving prior draws:
+
+| mode | fuel + tempering | fuel-free tempered | change |
+|---|---|---|---|
+| true heading | 821 | 1136 | −28% |
+| magnetic heading | 726 | 796 | −9% |
+| true track | 495 | 911 | −46% |
+| magnetic track | 577 | 646 | −11% |
+| lateral navigation | 569 | 824 | −31% |
+
+**Fuel lowers surviving draws in every mode**, by 9% to 46%, hardest in true track and lateral
+navigation. The raw counts appear to show the opposite for the magnetic modes only because those
+modes received 2.8× the particles here. My earlier statement that fuel *raises* draws in the
+magnetic modes by 2.5–2.6× was an artefact of the allocation, not a result; the original
+four-replicate claim was right that fuel cuts draws and wrong about which modes it hits hardest.
+Static-parameter collapse is not the problem anywhere — the smallest figure, 495 per million, is
+well clear of the ~100 the engine's README cites as the bootstrap-filter failure case.
+
+Allocation is therefore a free lever for the next run, and the present equal split is not
+obviously right: posterior mode weights are true track 59.2%, lateral navigation 24.6%, true
+heading 10.2%, magnetic track 4.8%, magnetic heading 1.2%, while every mode got 20% of the
+particles.
 
 ## How to quote this run
 
