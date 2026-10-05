@@ -12,13 +12,24 @@ and an earlier revision of this note cited PDF positions, which sent two quotati
 page. Every page number below was verified by reading the running header off the page carrying
 the quoted text.
 
-A related caveat, not yet resolved. The results files written before the book was obtained
-(`shoulder-comparison.md`, `measurement-model-sensitivity.md` and others) carry page citations
-taken from secondary sources, and spot-checking suggests they follow neither convention
-consistently — `shoulder-comparison.md` cites the assumptions list as p. 73 where the book
-prints it on p. 60. Those citations should be audited against the PDF before anything built on
-them goes into the paper. The parameter *values* in those files are separately corroborated by
-the Table 8.2 audit below and are not in doubt; it is the page references that need checking.
+**That audit is now complete.** Every page citation in `results/*.md` was checked by locating the
+cited claim's anchor text in the book and reading off the printed page it falls on. The outcome:
+
+- `shoulder-comparison.md` cited **PDF positions throughout**, all 25 of them, and has been
+  corrected. The numbers were not a clean offset either — they carried one to two pages of slop,
+  so each was re-derived individually rather than shifted by fourteen. One citation was worse than
+  misnumbered: the acceleration rate was attributed to a page that does not state it. The book
+  gives it on p. 49 — "The assumed rate corresponds to a change of Mach of 0.1 in one minute" —
+  which does corroborate `mach_rate_per_s = 0.1/60`.
+- `measurement-model-sensitivity.md`, `core-model-stages.md`, `branching-resampler.md`,
+  `m1941-geometry-and-lookahead.md` and this file already used printed pages and needed no change.
+- `waypoint-coordinate-sources.md`'s "p. 328" belongs to the Malaysian Safety Investigation
+  Report, not this book, and is correctly attributed.
+
+The three assumptions cited in the shoulder file — 2 (measurement error characteristics known),
+4 (infinite fuel) and 7 (speed limited to Mach 0.73–0.84) — are all on p. 60, in §8.3, which runs
+pp. 59–61. The parameter *values* in these files were never in doubt: they are independently
+corroborated by the Table 8.2 audit below.
 
 ## The convergence criterion: Davey published none that is quantitative
 

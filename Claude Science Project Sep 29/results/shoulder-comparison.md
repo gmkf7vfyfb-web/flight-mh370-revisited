@@ -1,5 +1,13 @@
 # Why the northern shoulder is missing: this code against Davey et al. (2016)
 
+> **Citation audit, 5 October.** This file was written before the book was obtained and cited
+> **PDF positions**, not printed pages. Every page reference has been re-derived by locating the
+> cited claim's anchor text in the book and reading off its printed page; the corrections are not
+> a uniform offset, because the original numbers also carried one to two pages of slop. Figure,
+> table and equation numbers are unaffected. The acceleration rate, previously cited to a page
+> that does not state it, is verified at p. 49: "The assumed rate corresponds to a change of Mach
+> of 0.1 in one minute."
+
 A line-by-line comparison of `crates/flight`, `crates/satcom` and `crates/mh370` against the
 book's chapters 3, 5–8 and 10, plus a re-check of the eliminations recorded in
 `engine/status.md`. Book page references are to `.sources/davey-2016/paper.pdf` (124 pp.).
@@ -13,25 +21,25 @@ Every published constant I could check is transcribed correctly. These are not c
 
 | Quantity | Book | This code |
 |---|---|---|
-| Mach OU β, q | 1.058e-2, 2.05e-7 (p. 51) | identical; steady-state sd 0.0031126 vs book 0.003113 |
-| Control-angle OU β, q | 9.792e-3, 4.074e-8 (p. 53) | identical; sd 0.0826° vs Table 8.2's 0.0826° |
-| Wind-error OU β, q | 1.087e-3, 0.07021 (p. 57) | identical; sd 5.683 kn vs book 5.684 kn |
+| Mach OU β, q | 1.058e-2, 2.05e-7 (p. 37) | identical; steady-state sd 0.0031126 vs book 0.003113 |
+| Control-angle OU β, q | 9.792e-3, 4.074e-8 (p. 38) | identical; sd 0.0826° vs Table 8.2's 0.0826° |
+| Wind-error OU β, q | 1.087e-3, 0.07021 (Table 8.2, p. 59) | identical; sd 5.683 kn vs book 5.684 kn |
 | Manoeuvre clock | three independent exponential processes sharing one τ, `exp(-3T/τ)` (Eq. 7.5) | three clocks (`next_turn`, `next_acceleration`, `next_climb`), exposure summed over all three in the τ Gibbs update |
 | τ prior | Jeffreys on 0.1–10 h, one draw per trajectory (Eq. 7.6) | `tau_range_h = (0.1, 10.0)`, drawn once, log-uniform |
-| Turn extent | uniform ±180°, 15° bank (p. 62) | identical |
-| Acceleration rate | Mach 0.1 per minute (p. 62) | `mach_rate_per_s = 0.1/60` |
-| Vertical rate | 4,000 ft/min (p. 62) | `climb_rate_ft_per_s = 4000/60` |
-| Altitude | uniform 1,000 ft steps, 25,000–43,000 ft (p. 62) | identical |
-| LNAV reversion | exponential, mean 6/ln2 h, to true or magnetic heading (p. 56) | `lnav_switch_mean_s = 6/LN_2 * 3600`; P(switch in 6 h) = 0.5000 |
-| BTO fixed term | T_nom 499,962 µs, T_channel(R1200) −4,283 µs (p. 39) | 495,679 µs = T_nom + T_channel, the combination that reproduces logged BTOs |
-| BTO noise | R1200 29 µs, anomalous R1200 43 µs (p. 40) | 29 and 43 µs |
-| Cruise time step | 10 s (p. 58) | `cruise_step_s = 10.0` |
+| Turn extent | uniform ±180°, 15° bank (p. 49) | identical |
+| Acceleration rate | Mach 0.1 per minute (p. 49) | `mach_rate_per_s = 0.1/60` |
+| Vertical rate | 4,000 ft/min (p. 49) | `climb_rate_ft_per_s = 4000/60` |
+| Altitude | uniform 1,000 ft steps, 25,000–43,000 ft (p. 49) | identical |
+| LNAV reversion | exponential, mean 6/ln2 h, to true or magnetic heading (p. 43) | `lnav_switch_mean_s = 6/LN_2 * 3600`; P(switch in 6 h) = 0.5000 |
+| BTO fixed term | T_nom 499,962 µs, T_channel(R1200) −4,283 µs (p. 25) | 495,679 µs = T_nom + T_channel, the combination that reproduces logged BTOs |
+| BTO noise | R1200 29 µs, anomalous R1200 43 µs (p. 26) | 29 and 43 µs |
+| Cruise time step | 10 s (p. 45) | `cruise_step_s = 10.0` |
 
 ## 2. Discrepancies found, all too small to matter
 
-- **R600 BTO sd is 63 µs here, 62 µs in the book** (p. 40). Affects only the 00:19:29 R600
+- **R600 BTO sd is 63 µs here, 62 µs in the book** (p. 26). Affects only the 00:19:29 R600
   message. A 1.6% change in one σ on one epoch.
-- **Manoeuvre integration step is 5 s; the book uses 1 s** (p. 72, "a sequence of 1 s steps").
+- **Manoeuvre integration step is 5 s; the book uses 1 s** (p. 59, "a sequence of 1 s steps").
   At 500 kt and 15° bank the turn rate is ~0.6°/s, so a step turns 3°; the chord-versus-arc
   error over a 90° turn is on the order of 0.1 NM, against a 29 µs BTO σ of about 2.3 NM.
 - **Initial position sd is 0.5 NM; Table 8.2 gives 0.4 arcminutes.** Slightly wider.
@@ -46,7 +54,7 @@ Confirmed as genuinely eliminated, and for the right reason:
 - **Initial Mach.** `hypotheses/initial-mach` already tests exactly Table 8.2's initialisation —
   Gaussian N(0.82, 0.03) rather than uniform 0.73–0.84 — and records shoulder 3.5% vs 3.5%.
   This is the correct reading of the book: the uniform 0.73–0.84 applies to Mach *after an
-  acceleration* (p. 62), while initialisation is Gaussian (Table 8.2). The distinction was not
+  acceleration* (p. 49), while initialisation is Gaussian (Table 8.2). The distinction was not
   missed.
 - **Altitude prior, declination sign, satellite ephemeris, weather model.** All tested; the
   ephemeris result in particular is the informative one — a near-uniform offset moves every arc
@@ -84,7 +92,7 @@ One elimination is weaker than it looks:
   explanation (this recreation 12% with ≥2 turns, the book 49%). But the book says of that same
   figure: around half the paths made more than one turn, and this "would appear to be of interest
   but is in fact misleading" — Fig. 10.5 shows the double turns are single turns split into two
-  segments, and there are "very few genuine turns later in the flight" (p. 103). So the 49% is
+  segments, and there are "very few genuine turns later in the flight" (p. 91). So the 49% is
   not a count of genuine manoeuvres and the 12-vs-49 gap is partly definitional. The
   sparse-filter argument should not lean on it.
 
@@ -100,7 +108,7 @@ One elimination rests on a global statistic where a local one is needed:
 
 ## 4. The lever nobody has pulled: the BTO error model
 
-The book names it explicitly. Assumption 2 (p. 73): the BTO and BFO standard deviations are
+The book names it explicitly. Assumption 2 (p. 60): the BTO and BFO standard deviations are
 "provided to the algorithm as a known input", and "minor inflation of the assumed BTO variance
 would lead to incremental changes in the filter output". No run in this project has inflated the
 BTO variance, and no hypothesis directory tests it.
@@ -116,7 +124,7 @@ restores the shoulder.
 The book also supplies a physical reason to think the assumed σ is too tight, and it is not white
 noise. Fig. 5.2's residual histogram "has an underlying mean of 10 µs… due to the channel
 dependent calibration term T_channel not being stationary", and Fig. 5.3 plots BTO errors
-drifting across the 20 flights over six days (p. 40). A non-stationary channel calibration is a
+drifting across the 20 flights over six days (p. 26). A non-stationary channel calibration is a
 *slowly varying bias*, and this filter marginalises a BFO bias but no BTO bias at all.
 
 The distinction matters, and it is what makes this different from the ephemeris test already run:
@@ -143,10 +151,10 @@ version of the same effect rather than a speculation.
 
 This is not a bug in either implementation, but it does explain a flatter mode mix in the book.
 
-The book's resampler is not the conventional one. Per Eq. 8.6 and step 4e (pp. 70–71): a particle
+The book's resampler is not the conventional one. Per Eq. 8.6 and step 4e (pp. 56–57): a particle
 whose accumulated weight is at least η is branched n̄ times with weight w/n̄; a particle below η
 is branched **once with probability w and given weight 1**, otherwise pruned. Table 8.2 gives
-n̄ = 3–10 and η = e⁻²⁵ or e⁻³⁰. Weights are unnormalised until the final step (p. 71).
+n̄ = 3–10 and η = e⁻²⁵ or e⁻³⁰. Weights are unnormalised until the final step (p. 58).
 
 Two consequences:
 
@@ -194,12 +202,12 @@ informative than further physical sensitivities.
 
 ## 6. On the 0.73 Mach floor, and what a wider one buys
 
-The book's stated justification does not survive the recreation. Assumption 7 (p. 73): speeds are
+The book's stated justification does not survive the recreation. Assumption 7 (p. 60): speeds are
 limited to Mach 0.73–0.84 because fuel consumption is very inefficient above and "at lower speeds
 the aircraft is not able to match the measurements". The second clause is contradicted here. Low
 speeds do match the measurements in this implementation.
 
-What the floor was actually doing is stated in Assumption 4 (p. 73): "Infinite fuel: the fuel
+What the floor was actually doing is stated in Assumption 4 (p. 60): "Infinite fuel: the fuel
 constraints on the aircraft can be applied to the pdf afterwards… Broad information about the
 fuel consumption rate of the aircraft has been used to inform the range of allowable Mach
 numbers." The floor is a stand-in for endurance — as
@@ -296,18 +304,18 @@ the Gibbs update after every resampling; at an acceleration the Mach target is r
 from the whole range, at a climb the altitude is redrawn in 1,000 ft steps, at a turn the control
 angle changes by a uniform ±180°. Multi-manoeuvre paths are generated freely, and the posterior's
 preference for few manoeuvres is inference, not a constraint — it is Davey's own explanation
-(p. 103) that a sequence of random turns rarely cancels out when a straight path would fit.
+(p. 91) that a sequence of random turns rarely cancels out when a straight path would fit.
 
 Three limits are real, and all three matter for a piloted end-of-flight scenario:
 
-- **The altitude floor is 25,000 ft** (`altitude_range_ft`, book p. 62). A descent begun before
+- **The altitude floor is 25,000 ft** (`altitude_range_ft`, book p. 49). A descent begun before
   00:11, or any low-altitude leg, cannot be generated at all — it is excluded a priori rather
   than tested, which sits badly with `AGENTS.md` rule 6.
-- **Vertical rate is absent from the BFO model** (book p. 63, stated explicitly). So even with
+- **Vertical rate is absent from the BFO model** (book p. 50, stated explicitly). So even with
   the floor opened, a descending particle would be scored with a level-flight BFO: the descent
   would be unfalsifiable rather than tested, and 00:11 is exactly where a planned descent shows.
   This must land before, or with, any altitude change.
-- **The three manoeuvre types are independent** (book p. 60: simultaneity is "not precluded but
+- **The three manoeuvre types are independent** (book p. 47: simultaneity is "not precluded but
   not favoured") and **turns are undirected**. A coordinated slow-turn-descend sequence therefore
   carries the product of three independent coincidences, and goal-directed flight is penalised
   relative to how likely a piloted scenario makes it. This is prior *shape*, so no amount of
