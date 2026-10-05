@@ -158,9 +158,14 @@ Figure and report work is free; do it while someone else holds the machine.
 
 This rule is mechanical, and it replaces the advisory "claim the machine in `RUNBOOK.md`" that
 preceded it. The reason is a measured failure: on 4 October two 7M-particle runs of the same
-configuration ran concurrently for some hours, load average reached 210 with zero free cores, and
-per-replicate time went from 42 minutes to 5 hours 18 — a 7.2× slowdown. A lock would have made
-the second job wait. Worse, the sandbox has **no process table** (`ps -A` returns nothing,
+configuration ran concurrently for some hours, and load average reached 210 with zero free cores.
+The per-replicate times, from the `final.npy` mtimes, were 43 and 41 minutes for the two clean
+replicates, then 316 and 317 minutes — **7.5×** — for the two that followed. That window also
+contains a lid-close suspension, so the whole 7.5× is not attributable to contention alone. The
+cleanly attributable figure is the next replicate, which overlapped the second process for about
+half its length and took 74 minutes, **1.75×**. A lock would have made the second job wait.
+
+Worse, the sandbox has **no process table** (`ps -A` returns nothing,
 `pkill` reports "Cannot get process list") and the engine's only cancellation hook is an
 in-process flag used by `serve`, so a runaway job cannot be signalled; the only way to stop one
 is to make its output path unwritable and let its next write fail. Prevention is the only
