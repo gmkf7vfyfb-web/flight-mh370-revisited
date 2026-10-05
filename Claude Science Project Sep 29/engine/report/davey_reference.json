@@ -1,424 +1,424 @@
 {
-  "source": "Davey, Gordon, Holland, Rutten & Williams, Bayesian Methods in the Search for MH370 (Springer, 2016). Page numbers are PDF pages of .sources/davey-2016/paper.pdf (124 pp.).",
-  "note": "Every row states the published value or choice, where it comes from, and the dotted path at which this run's value is recorded in run.json. report/parameters.py joins the two and marks each row same / differs / not-in-book. Rows marked compare='declared' are prose or identifier choices where a string match is not a verdict; their 'status' is asserted here and explained in 'note'.",
-  "rows": [
-    {
-      "area": "Dynamics",
-      "label": "Mach OU reversion rate",
-      "unit": "1/s",
-      "path": "assumptions.dynamics.mach_reversion_per_s",
-      "book": 0.01058,
-      "cite": "p. 51; Table 8.2"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Mach OU noise strength",
-      "unit": "1/s",
-      "path": "assumptions.dynamics.mach_noise_per_s",
-      "book": 2.05e-07,
-      "cite": "p. 51; Table 8.2"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Control-angle OU reversion rate",
-      "unit": "1/s",
-      "path": "assumptions.dynamics.angle_reversion_per_s",
-      "book": 0.009792,
-      "cite": "p. 53 (Table 8.2 rounds to 9.8e-3)"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Control-angle OU noise strength",
-      "unit": "rad^2/s",
-      "path": "assumptions.dynamics.angle_noise_rad2_per_s",
-      "book": 4.074e-08,
-      "cite": "p. 53; Table 8.2"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Wind-error OU reversion rate",
-      "unit": "1/s",
-      "path": "assumptions.dynamics.wind_reversion_per_s",
-      "book": 0.001087,
-      "cite": "p. 57; Table 8.2"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Wind-error OU noise strength",
-      "unit": "kn^2/s",
-      "path": "assumptions.dynamics.wind_noise_kt2_per_s",
-      "book": 0.07021,
-      "cite": "p. 57; Table 8.2"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Manoeuvre time constant, Jeffreys support",
-      "unit": "h",
-      "path": "assumptions.dynamics.tau_range_h",
-      "book": [
-        0.1,
-        10.0
-      ],
-      "cite": "Eq. 7.6, p. 64; Table 8.2"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Mach after an acceleration, uniform on",
-      "unit": "Mach",
-      "path": "assumptions.dynamics.mach_range",
-      "book": [
-        0.73,
-        0.84
-      ],
-      "cite": "p. 62; Table 8.2",
-      "note": "Chosen for endurance, not measured: Assumption 7 (p. 73) and Assumption 4 (p. 73) make the floor a stand-in for the fuel constraint."
-    },
-    {
-      "area": "Dynamics",
-      "label": "Altitude after a vertical manoeuvre, uniform on",
-      "unit": "ft",
-      "path": "assumptions.dynamics.altitude_range_ft",
-      "book": [
-        25000.0,
-        43000.0
-      ],
-      "cite": "p. 62; Table 8.2"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Altitude step",
-      "unit": "ft",
-      "path": "assumptions.dynamics.altitude_step_ft",
-      "book": 1000.0,
-      "cite": "p. 62"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Bank angle in turns",
-      "unit": "deg",
-      "path": "assumptions.dynamics.bank_angle_deg",
-      "book": 15.0,
-      "cite": "p. 62"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Mach rate during an acceleration",
-      "unit": "Mach/s",
-      "path": "assumptions.dynamics.mach_rate_per_s",
-      "book": 0.0016666666666666668,
-      "cite": "p. 62 (0.1 Mach per minute)"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Vertical rate during a climb or descent",
-      "unit": "ft/s",
-      "path": "assumptions.dynamics.climb_rate_ft_per_s",
-      "book": 66.66666666666667,
-      "cite": "p. 62 (4,000 ft per minute)"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Mean time to lateral-navigation reversion",
-      "unit": "s",
-      "path": "assumptions.dynamics.lnav_switch_mean_s",
-      "book": 31162.212883201613,
-      "cite": "p. 56 (6/ln2 h; P(switch in 6 h) = 0.5)"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Cruise integration step",
-      "unit": "s",
-      "path": "assumptions.dynamics.cruise_step_s",
-      "book": 10.0,
-      "cite": "p. 58 (60 s for lateral navigation)"
-    },
-    {
-      "area": "Dynamics",
-      "label": "Manoeuvre integration step",
-      "unit": "s",
-      "path": "assumptions.dynamics.manoeuvre_step_s",
-      "book": 1.0,
-      "cite": "p. 72 ('a sequence of 1 s steps')",
-      "note": "Known departure. At 500 kt and 15 deg bank a 5 s step turns 3 deg; the chord-versus-arc error over a 90 deg turn is of order 0.1 NM against a 29 us BTO sigma of about 2.3 NM."
-    },
-    {
-      "area": "Prior",
-      "label": "Prior epoch",
-      "unit": "UTC",
-      "path": "assumptions.prior.time_utc",
-      "book": "2014-03-07T18:01:49Z",
-      "cite": "p. 70, step 2; ch. 4"
-    },
-    {
-      "area": "Prior",
-      "label": "Position standard deviation",
-      "unit": "NM",
-      "path": "assumptions.prior.position_sd_nm",
-      "book": 0.4,
-      "cite": "Table 8.2 (0.4 arcminutes in latitude and longitude)",
-      "note": "Known departure, slightly wider."
-    },
-    {
-      "area": "Prior",
-      "label": "Track standard deviation",
-      "unit": "deg",
-      "path": "assumptions.prior.track_sd_deg",
-      "book": 1.0,
-      "cite": "Table 8.2"
-    },
-    {
-      "area": "Prior",
-      "label": "BFO bias prior mean",
-      "unit": "Hz",
-      "path": "assumptions.prior.bfo_bias_mean_hz",
-      "book": 150.0,
-      "cite": "sec. 5.3, 8.1 (the tarmac value)"
-    },
-    {
-      "area": "Prior",
-      "label": "BFO bias prior standard deviation",
-      "unit": "Hz",
-      "path": "assumptions.prior.bfo_bias_sd_hz",
-      "book": 25.0,
-      "cite": "Table 8.2"
-    },
-    {
-      "area": "Prior",
-      "label": "Initial Mach set point",
-      "unit": "",
-      "path": "assumptions.prior.mach_gaussian",
-      "book": [
-        0.82,
-        0.03
-      ],
-      "cite": "Table 8.2 ('Control Mach Gaussian s.d. 0.03'); Fig. 10.6",
-      "note": "Known departure: the base run draws the initial Mach uniformly on mach_range instead. The book's uniform 0.73-0.84 applies to Mach *after an acceleration* (p. 62), not to initialisation. Tested as hypotheses/initial-mach: shoulder 3.5% either way, not supported."
-    },
-    {
-      "area": "Prior",
-      "label": "Prior mean position and track",
-      "unit": "",
-      "path": null,
-      "book": "not tabulated",
-      "cite": "ch. 4; Assumption 1, p. 73",
-      "note": "Reconstructed here from the book's radar figures (5.624829 N, 99.048157 E, track 295.66 deg), because the book gives them only graphically.",
-      "compare": "declared",
-      "status": "differs"
-    },
-    {
-      "area": "Prior",
-      "label": "Autopilot-mode prior weights",
-      "unit": "",
-      "path": "assumptions.prior.mode_weights",
-      "book": "equal over the five modes",
-      "cite": "Table 8.1; Assumption 3, p. 73",
-      "note": "The book carries the mode as a state element fixed per particle; here each mode is a separate filter with an equal prior, combined by marginal likelihood.",
-      "compare": "declared",
-      "status": "same"
-    },
-    {
-      "area": "Measurement",
-      "label": "BTO fixed offset",
-      "unit": "us",
-      "path": "assumptions.measurement.bto_fixed_offset_us",
-      "book": 495679.0,
-      "cite": "p. 39 (T_nom 499,962 us; T_channel for R1200 -4,283 us)",
-      "note": "Eq. 5.3 read literally gives 504,245 us; 495,679 us is the combination that reproduces logged BTOs at known positions and matches Ashton et al. (2015)."
-    },
-    {
-      "area": "Measurement",
-      "label": "BTO noise sd, R1200",
-      "unit": "us",
-      "path": null,
-      "book": 29.0,
-      "cite": "p. 40",
-      "note": "Per-epoch, in data/satcom-observations.csv;",
-      "compare": "declared",
-      "status": "same",
-      "from_observations": "bto_sd_us:29"
-    },
-    {
-      "area": "Measurement",
-      "label": "BTO noise sd, anomalous R1200",
-      "unit": "us",
-      "path": null,
-      "book": 43.0,
-      "cite": "p. 40",
-      "note": "The book assigns BTO noise by message type. The two anomalous R1200 log-on acknowledges (18:25 and 00:19:37) are treated as their own class because their raw BTOs are known to be offset; the engine reads 43 us for them from the observations file. Run bto-29us collapses all three classes to the single R1200 value and changes the shoulder by 0.0005, so the class distinction is a fidelity choice rather than a modelling requirement.",
-      "compare": "declared",
-      "status": "same",
-      "from_observations": "bto_sd_us:43"
-    },
-    {
-      "area": "Measurement",
-      "label": "BTO noise sd, R600",
-      "unit": "us",
-      "path": null,
-      "book": 62.0,
-      "cite": "p. 40",
-      "note": "Known departure: this run assigns 63 us to the single 00:19:29 R600 log-on request; the book gives 62 us (p. 40).",
-      "compare": "declared",
-      "status": "differs",
-      "from_observations": "bto_sd_us:63"
-    },
-    {
-      "area": "Measurement",
-      "label": "BFO noise sd",
-      "unit": "Hz",
-      "path": null,
-      "book": 7.0,
-      "cite": "sec. 5.3",
-      "note": "This project's own successive-difference study puts the fast random component near 0.995 Hz (95% 0.859-1.183); the base run keeps the published 7 Hz so the reproduction stays comparable.",
-      "compare": "declared",
-      "status": "same",
-      "from_observations": "bfo_sd_hz:7"
-    },
-    {
-      "area": "Measurement",
-      "label": "BFO bias treatment",
-      "unit": "",
-      "path": "assumptions.measurement.bfo_bias",
-      "book": "constant per trajectory, Kalman-marginalised",
-      "cite": "sec. 5.3, 8.1, p. 70",
-      "compare": "declared",
-      "status": "same",
-      "note": "Both treat the BFO bias as one unknown constant per trajectory and integrate it out in closed form rather than sampling it, so there is no numerical value to compare; the agreement is in the treatment."
-    },
-    {
-      "area": "Prior",
-      "label": "BFO bias drift rate",
-      "unit": "Hz^2/s",
-      "path": "assumptions.prior.bfo_bias_drift_hz2_per_s",
-      "book": 0.0,
-      "cite": "sec. 5.3, p. 29-30",
-      "note": "The book models the bias as an unknown constant and inflates the measurement sd from 4.3 Hz to 7 Hz instead, stating the reason directly (p. 29): the bias term changes, 'To compensate for this, the measurement variance was inflated'. Fig. 5.4's within-flight variation reaches +/-20 Hz over minutes and 'was found to have a geographic dependency' that could not be quantified. A non-zero rate here makes the bias a random walk, still marginalised exactly by the same Kalman recursion, so the measurement sd can be the random part alone - 0.995 Hz by the successive-difference estimate in this repository."
-    },
-    {
-      "area": "Measurement",
-      "label": "BTO bias treatment",
-      "unit": "",
-      "path": null,
-      "book": "fixed per-flight T_channel only; no bias state",
-      "cite": "p. 39-40",
-      "note": "Same here. The book records that T_channel is not stationary (Fig. 5.2 residual mean 10 us; Fig. 5.3 drift across 20 flights) and Assumption 2 (p. 73) names BTO variance inflation as a knob. Neither is tested in this project.",
-      "compare": "declared",
-      "status": "same"
-    },
-    {
-      "area": "Measurement",
-      "label": "Vertical rate in the BFO model",
-      "unit": "",
-      "path": "assumptions.dynamics.bfo_vertical_rate",
-      "book": "not modelled",
-      "cite": "p. 63",
-      "note": "Book p. 63: 'The vertical rate will affect a BFO measurement but since the model only uses a nominal vertical rate it is unlikely to match any actual vertical manoeuvre in detail.' With this true the cruise BFO uses the modelled vertical speed instead of zero; at the 00:11 geometry the term is 17.5 Hz per 1,000 ft/min against a 7 Hz measurement sd. False reproduces the published model."
-    },
-    {
-      "area": "Measurement",
-      "label": "00:19 BFO",
-      "unit": "",
-      "path": null,
-      "book": "not used; believed unreliable",
-      "cite": "p. 102",
-      "note": "Same here: the 00:19 BFOs are excluded from the cruise likelihood and reserved for the end-of-flight stage.",
-      "compare": "declared",
-      "status": "same"
-    },
-    {
-      "area": "Model choice",
-      "label": "Weather source",
-      "unit": "",
-      "path": "config.inputs.era5",
-      "book": "ACCESS-G, 150-500 hPa (about 18,000-44,000 ft), 0.375 x 0.5625 deg, 3-hourly",
-      "cite": "p. 57",
-      "note": "Known departure: ERA5 here, 0.5 deg, hourly, 12 pressure altitudes from 500 to 43,000 ft. ACCESS-G is not public. Global RMS differences between ERA5, NCEP FNL and MERRA-2 are 2-2.4 m/s, below the model's own 5.68 kn wind-error sd.",
-      "compare": "declared",
-      "status": "differs"
-    },
-    {
-      "area": "Model choice",
-      "label": "Magnetic declination source",
-      "unit": "",
-      "path": "config.inputs.igrf",
-      "book": "NOAA",
-      "cite": "Fig. 6.2, p. 54",
-      "note": "Known departure: IGRF-14 here.",
-      "compare": "declared",
-      "status": "differs"
-    },
-    {
-      "area": "Model choice",
-      "label": "Resampling scheme",
-      "unit": "",
-      "path": "assumptions.sampler.scheme",
-      "book": "randomised branching: weight >= eta branches n-bar times at w/n-bar; weight < eta branches once with probability w and is promoted to weight 1, else pruned. n-bar 3-10, eta e^-25 or e^-30, weights unnormalised until the end.",
-      "cite": "Eq. 8.6 and step 4e, pp. 69-71; Table 8.2",
-      "note": "Major departure, and the leading candidate for the missing northern shoulder. See results/shoulder-comparison.md sec. 5.",
-      "compare": "declared",
-      "status": "differs"
-    },
-    {
-      "area": "Model choice",
-      "label": "Manoeuvre-type dependence",
-      "unit": "",
-      "path": null,
-      "book": "turns, accelerations and vertical manoeuvres independent, sharing one time constant",
-      "cite": "p. 60; Eq. 7.5",
-      "note": "Same here. The book notes simultaneous changes are 'not precluded but not favoured', so coordinated manoeuvre sequences carry the product of three independent coincidences.",
-      "compare": "declared",
-      "status": "same"
-    },
-    {
-      "area": "Model choice",
-      "label": "Turn extent",
-      "unit": "deg",
-      "path": null,
-      "book": "uniform on -180 to +180",
-      "cite": "p. 62",
-      "note": "Same here. Turns are undirected, so goal-directed manoeuvre sequences are not favoured.",
-      "compare": "declared",
-      "status": "same"
-    },
-    {
-      "area": "Model choice",
-      "label": "Cost-index speed mode",
-      "unit": "",
-      "path": null,
-      "book": "implemented but unused in most experiments; narrows the pdf slightly",
-      "cite": "sec. 6.2.1, p. 52; sec. 10.7",
-      "note": "Known departure: omitted here (proprietary Boeing tables).",
-      "compare": "declared",
-      "status": "differs"
-    },
-    {
-      "area": "Model choice",
-      "label": "Fuel and endurance",
-      "unit": "",
-      "path": "assumptions.dynamics.fuel",
-      "book": "infinite fuel; constraints applied to the pdf afterwards; fuel informs the Mach range",
-      "cite": "Assumptions 4 and 7, p. 73",
-      "note": "Assumptions 4 and 7 (p. 73) carry no fuel state, so widening mach_range removes the only endurance constraint. When this row is populated the run burns the Boeing-derived tables along each path, with the flow factor drawn from the Appendix 1.6E calibration N(1.0085, 0.0178), and reports exhaustion time per trajectory."
-    },
-    {
-      "area": "Sampler",
-      "label": "Fuel proposal",
-      "path": "assumptions.dynamics.fuel.proposal",
-      "book": "n/a (no fuel model)",
-      "compare": "declared",
-      "status": "differs",
-      "cite": "sec. 7.2; Assumption 4, p. 47",
-      "note": "Known departure, and a sampler change rather than a model change. The book has no fuel model at all: Assumption 4 substitutes a 0.73 Mach floor for the endurance constraint, so nothing has to be proposed against a tank. With fuel modelled, proposing the speed and altitude profile from the prior alone and rejecting at 00:11 discarded about seven paths in ten. `endurance` instead drops a path at the first epoch the deadline is unreachable on the cheapest continuation the tables allow, and draws new Mach targets from a mixture of the prior and the affordable speeds with the exact prior-to-proposal weight correction. Both target the same posterior; only the efficiency differs, which is what the reject-proposal control run measures."
-    },
-    {
-      "area": "Model choice",
-      "label": "Observation cutoff",
-      "unit": "",
-      "path": "stop.epoch",
-      "book": "00:19 (BTO only at 00:19)",
-      "cite": "ch. 10.1",
-      "compare": "declared",
-      "status": "same",
-      "note": "Both stop at the 00:19 log-on and use its BTO but not its BFO, the BFO being recorded during SDU start-up. A string match is not meaningful for a cutoff stated as a time and an exclusion."
-    }
-  ]
+ "source": "Davey, Gordon, Holland, Rutten & Williams, Bayesian Methods in the Search for MH370 (Springer, 2016). Page numbers are PRINTED book pages, as printed in the running headers, not PDF positions; the offset between the two is 13 or 14 depending on the chapter (see results/davey-page-map.json).",
+ "note": "Every row states the published value or choice, where it comes from, and the dotted path at which this run's value is recorded in run.json. report/parameters.py joins the two and marks each row same / differs / not-in-book. Rows marked compare='declared' are prose or identifier choices where a string match is not a verdict; their 'status' is asserted here and explained in 'note'.",
+ "rows": [
+  {
+   "area": "Dynamics",
+   "label": "Mach OU reversion rate",
+   "unit": "1/s",
+   "path": "assumptions.dynamics.mach_reversion_per_s",
+   "book": 0.01058,
+   "cite": "p. 38; Table 8.2, p. 59"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Mach OU noise strength",
+   "unit": "1/s",
+   "path": "assumptions.dynamics.mach_noise_per_s",
+   "book": 2.05e-07,
+   "cite": "p. 38; Table 8.2, p. 59"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Control-angle OU reversion rate",
+   "unit": "1/s",
+   "path": "assumptions.dynamics.angle_reversion_per_s",
+   "book": 0.009792,
+   "cite": "p. 39 (Table 8.2, p. 59, rounds to 9.8e-3)"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Control-angle OU noise strength",
+   "unit": "rad^2/s",
+   "path": "assumptions.dynamics.angle_noise_rad2_per_s",
+   "book": 4.074e-08,
+   "cite": "p. 39; Table 8.2, p. 59"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Wind-error OU reversion rate",
+   "unit": "1/s",
+   "path": "assumptions.dynamics.wind_reversion_per_s",
+   "book": 0.001087,
+   "cite": "Table 8.2, p. 59 (the wind model is described pp. 43-44 but the constants appear only in the table)"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Wind-error OU noise strength",
+   "unit": "kn^2/s",
+   "path": "assumptions.dynamics.wind_noise_kt2_per_s",
+   "book": 0.07021,
+   "cite": "Table 8.2, p. 59 (the wind model is described pp. 43-44 but the constants appear only in the table)"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Manoeuvre time constant, Jeffreys support",
+   "unit": "h",
+   "path": "assumptions.dynamics.tau_range_h",
+   "book": [
+    0.1,
+    10.0
+   ],
+   "cite": "Eq. 7.6, p. 50; Table 8.2, p. 59"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Mach after an acceleration, uniform on",
+   "unit": "Mach",
+   "path": "assumptions.dynamics.mach_range",
+   "book": [
+    0.73,
+    0.84
+   ],
+   "cite": "p. 49; Table 8.2, p. 59",
+   "note": "Chosen for endurance, not measured: Assumption 7 (p. 73) and Assumption 4 (p. 73) make the floor a stand-in for the fuel constraint."
+  },
+  {
+   "area": "Dynamics",
+   "label": "Altitude after a vertical manoeuvre, uniform on",
+   "unit": "ft",
+   "path": "assumptions.dynamics.altitude_range_ft",
+   "book": [
+    25000.0,
+    43000.0
+   ],
+   "cite": "p. 49; Table 8.2, p. 59"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Altitude step",
+   "unit": "ft",
+   "path": "assumptions.dynamics.altitude_step_ft",
+   "book": 1000.0,
+   "cite": "p. 49"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Bank angle in turns",
+   "unit": "deg",
+   "path": "assumptions.dynamics.bank_angle_deg",
+   "book": 15.0,
+   "cite": "p. 49 ('a fixed bank angle of 15 degrees was chosen')"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Mach rate during an acceleration",
+   "unit": "Mach/s",
+   "path": "assumptions.dynamics.mach_rate_per_s",
+   "book": 0.0016666666666666668,
+   "cite": "p. 49 ('The assumed rate corresponds to a change of Mach of 0.1 in one minute')"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Vertical rate during a climb or descent",
+   "unit": "ft/s",
+   "path": "assumptions.dynamics.climb_rate_ft_per_s",
+   "book": 66.66666666666667,
+   "cite": "p. 49 ('a nominal rate of 4,000 ft per minute')"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Mean time to lateral-navigation reversion",
+   "unit": "s",
+   "path": "assumptions.dynamics.lnav_switch_mean_s",
+   "book": 31162.212883201613,
+   "cite": "p. 43 ('a mean time of 6/ln(2) hours, which means that the probability of switching in 6 h is 0.5')"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Cruise integration step",
+   "unit": "s",
+   "path": "assumptions.dynamics.cruise_step_s",
+   "book": 10.0,
+   "cite": "p. 45 (60 s for lateral navigation)"
+  },
+  {
+   "area": "Dynamics",
+   "label": "Manoeuvre integration step",
+   "unit": "s",
+   "path": "assumptions.dynamics.manoeuvre_step_s",
+   "book": 1.0,
+   "cite": "p. 59 ('a sequence of 1 s steps')",
+   "note": "Known departure. At 500 kt and 15 deg bank a 5 s step turns 3 deg; the chord-versus-arc error over a 90 deg turn is of order 0.1 NM against a 29 us BTO sigma of about 2.3 NM."
+  },
+  {
+   "area": "Prior",
+   "label": "Prior epoch",
+   "unit": "UTC",
+   "path": "assumptions.prior.time_utc",
+   "book": "2014-03-07T18:01:49Z",
+   "cite": "p. 56, step 2; ch. 4"
+  },
+  {
+   "area": "Prior",
+   "label": "Position standard deviation",
+   "unit": "NM",
+   "path": "assumptions.prior.position_sd_nm",
+   "book": 0.4,
+   "cite": "Table 8.2, p. 59 (0.4 arcminutes in latitude and longitude; the defining chapter, p. 21, says 0.5 nm)",
+   "note": "Known departure, slightly wider."
+  },
+  {
+   "area": "Prior",
+   "label": "Track standard deviation",
+   "unit": "deg",
+   "path": "assumptions.prior.track_sd_deg",
+   "book": 1.0,
+   "cite": "Table 8.2, p. 59"
+  },
+  {
+   "area": "Prior",
+   "label": "BFO bias prior mean",
+   "unit": "Hz",
+   "path": "assumptions.prior.bfo_bias_mean_hz",
+   "book": 150.0,
+   "cite": "sec. 5.3, 8.1 (the tarmac value)"
+  },
+  {
+   "area": "Prior",
+   "label": "BFO bias prior standard deviation",
+   "unit": "Hz",
+   "path": "assumptions.prior.bfo_bias_sd_hz",
+   "book": 25.0,
+   "cite": "Table 8.2, p. 59"
+  },
+  {
+   "area": "Prior",
+   "label": "Initial Mach set point",
+   "unit": "",
+   "path": "assumptions.prior.mach_gaussian",
+   "book": [
+    0.82,
+    0.03
+   ],
+   "cite": "Table 8.2, p. 59 ('Control Mach Gaussian s.d. 0.03'); Fig. 10.6",
+   "note": "Known departure: the base run draws the initial Mach uniformly on mach_range instead. The book's uniform 0.73-0.84 applies to Mach *after an acceleration* (p. 62), not to initialisation. Tested as hypotheses/initial-mach: shoulder 3.5% either way, not supported."
+  },
+  {
+   "area": "Prior",
+   "label": "Prior mean position and track",
+   "unit": "",
+   "path": null,
+   "book": "not tabulated",
+   "cite": "ch. 4, p. 21; Assumption 1, p. 60",
+   "note": "Reconstructed here from the book's radar figures (5.624829 N, 99.048157 E, track 295.66 deg), because the book gives them only graphically.",
+   "compare": "declared",
+   "status": "differs"
+  },
+  {
+   "area": "Prior",
+   "label": "Autopilot-mode prior weights",
+   "unit": "",
+   "path": "assumptions.prior.mode_weights",
+   "book": "equal over the five modes",
+   "cite": "Table 8.1; Assumption 3, p. 60",
+   "note": "The book carries the mode as a state element fixed per particle; here each mode is a separate filter with an equal prior, combined by marginal likelihood.",
+   "compare": "declared",
+   "status": "same"
+  },
+  {
+   "area": "Measurement",
+   "label": "BTO fixed offset",
+   "unit": "us",
+   "path": "assumptions.measurement.bto_fixed_offset_us",
+   "book": 495679.0,
+   "cite": "p. 26 (T_nom 499,962 us; T_channel for R1200 -4,283 us)",
+   "note": "Eq. 5.3 read literally gives 504,245 us; 495,679 us is the combination that reproduces logged BTOs at known positions and matches Ashton et al. (2015)."
+  },
+  {
+   "area": "Measurement",
+   "label": "BTO noise sd, R1200",
+   "unit": "us",
+   "path": null,
+   "book": 29.0,
+   "cite": "p. 27",
+   "note": "Per-epoch, in data/satcom-observations.csv;",
+   "compare": "declared",
+   "status": "same",
+   "from_observations": "bto_sd_us:29"
+  },
+  {
+   "area": "Measurement",
+   "label": "BTO noise sd, anomalous R1200",
+   "unit": "us",
+   "path": null,
+   "book": 43.0,
+   "cite": "p. 27",
+   "note": "The book assigns BTO noise by message type. The two anomalous R1200 log-on acknowledges (18:25 and 00:19:37) are treated as their own class because their raw BTOs are known to be offset; the engine reads 43 us for them from the observations file. Run bto-29us collapses all three classes to the single R1200 value and changes the shoulder by 0.0005, so the class distinction is a fidelity choice rather than a modelling requirement.",
+   "compare": "declared",
+   "status": "same",
+   "from_observations": "bto_sd_us:43"
+  },
+  {
+   "area": "Measurement",
+   "label": "BTO noise sd, R600",
+   "unit": "us",
+   "path": null,
+   "book": 62.0,
+   "cite": "p. 27",
+   "note": "Known departure: this run assigns 63 us to the single 00:19:29 R600 log-on request; the book gives 62 us (p. 40).",
+   "compare": "declared",
+   "status": "differs",
+   "from_observations": "bto_sd_us:63"
+  },
+  {
+   "area": "Measurement",
+   "label": "BFO noise sd",
+   "unit": "Hz",
+   "path": null,
+   "book": 7.0,
+   "cite": "sec. 5.3",
+   "note": "This project's own successive-difference study puts the fast random component near 0.995 Hz (95% 0.859-1.183); the base run keeps the published 7 Hz so the reproduction stays comparable.",
+   "compare": "declared",
+   "status": "same",
+   "from_observations": "bfo_sd_hz:7"
+  },
+  {
+   "area": "Measurement",
+   "label": "BFO bias treatment",
+   "unit": "",
+   "path": "assumptions.measurement.bfo_bias",
+   "book": "constant per trajectory, Kalman-marginalised",
+   "cite": "sec. 5.3, 8.1, p. 56",
+   "compare": "declared",
+   "status": "same",
+   "note": "Both treat the BFO bias as one unknown constant per trajectory and integrate it out in closed form rather than sampling it, so there is no numerical value to compare; the agreement is in the treatment."
+  },
+  {
+   "area": "Prior",
+   "label": "BFO bias drift rate",
+   "unit": "Hz^2/s",
+   "path": "assumptions.prior.bfo_bias_drift_hz2_per_s",
+   "book": 0.0,
+   "cite": "sec. 5.3, p. 29",
+   "note": "The book models the bias as an unknown constant and inflates the measurement sd from 4.3 Hz to 7 Hz instead, stating the reason directly (p. 29): the bias term changes, 'To compensate for this, the measurement variance was inflated'. Fig. 5.4's within-flight variation reaches +/-20 Hz over minutes and 'was found to have a geographic dependency' that could not be quantified. A non-zero rate here makes the bias a random walk, still marginalised exactly by the same Kalman recursion, so the measurement sd can be the random part alone - 0.995 Hz by the successive-difference estimate in this repository."
+  },
+  {
+   "area": "Measurement",
+   "label": "BTO bias treatment",
+   "unit": "",
+   "path": null,
+   "book": "fixed per-flight T_channel only; no bias state",
+   "cite": "pp. 26-27",
+   "note": "Same here. The book records that T_channel is not stationary (Fig. 5.2 residual mean 10 us; Fig. 5.3 drift across 20 flights) and Assumption 2 (p. 73) names BTO variance inflation as a knob. Neither is tested in this project.",
+   "compare": "declared",
+   "status": "same"
+  },
+  {
+   "area": "Measurement",
+   "label": "Vertical rate in the BFO model",
+   "unit": "",
+   "path": "assumptions.dynamics.bfo_vertical_rate",
+   "book": "not modelled",
+   "cite": "pp. 28-29 (the compensation 'does not include the vertical component of the aircraft velocity' and assumes 'a vertical speed of zero'); climbing and descending points excluded from the noise statistics, p. 30",
+   "note": "Book p. 63: 'The vertical rate will affect a BFO measurement but since the model only uses a nominal vertical rate it is unlikely to match any actual vertical manoeuvre in detail.' With this true the cruise BFO uses the modelled vertical speed instead of zero; at the 00:11 geometry the term is 17.5 Hz per 1,000 ft/min against a 7 Hz measurement sd. False reproduces the published model."
+  },
+  {
+   "area": "Measurement",
+   "label": "00:19 BFO",
+   "unit": "",
+   "path": null,
+   "book": "not used; believed unreliable",
+   "cite": "p. 89",
+   "note": "Same here: the 00:19 BFOs are excluded from the cruise likelihood and reserved for the end-of-flight stage.",
+   "compare": "declared",
+   "status": "same"
+  },
+  {
+   "area": "Model choice",
+   "label": "Weather source",
+   "unit": "",
+   "path": "config.inputs.era5",
+   "book": "ACCESS-G, 150-500 hPa (about 18,000-44,000 ft), 0.375 x 0.5625 deg, 3-hourly",
+   "cite": "p. 43",
+   "note": "Known departure: ERA5 here, 0.5 deg, hourly, 12 pressure altitudes from 500 to 43,000 ft. ACCESS-G is not public. Global RMS differences between ERA5, NCEP FNL and MERRA-2 are 2-2.4 m/s, below the model's own 5.68 kn wind-error sd.",
+   "compare": "declared",
+   "status": "differs"
+  },
+  {
+   "area": "Model choice",
+   "label": "Magnetic declination source",
+   "unit": "",
+   "path": "config.inputs.igrf",
+   "book": "NOAA",
+   "cite": "Fig. 6.2, p. 41 ('Source NOAA')",
+   "note": "Known departure: IGRF-14 here.",
+   "compare": "declared",
+   "status": "differs"
+  },
+  {
+   "area": "Model choice",
+   "label": "Resampling scheme",
+   "unit": "",
+   "path": "assumptions.sampler.scheme",
+   "book": "randomised branching: weight >= eta branches n-bar times at w/n-bar; weight < eta branches once with probability w and is promoted to weight 1, else pruned. n-bar 3-10, eta e^-25 or e^-30, weights unnormalised until the end.",
+   "cite": "Eq. 8.6 and step 4e, pp. 55-57; Table 8.2, p. 59",
+   "note": "Major departure, and the leading candidate for the missing northern shoulder. See results/shoulder-comparison.md sec. 5.",
+   "compare": "declared",
+   "status": "differs"
+  },
+  {
+   "area": "Model choice",
+   "label": "Manoeuvre-type dependence",
+   "unit": "",
+   "path": null,
+   "book": "turns, accelerations and vertical manoeuvres independent, sharing one time constant",
+   "cite": "p. 47 ('Each type of manoeuvre was assumed to occur independently'); Eq. 7.5",
+   "note": "Same here. The book notes simultaneous changes are 'not precluded but not favoured', so coordinated manoeuvre sequences carry the product of three independent coincidences.",
+   "compare": "declared",
+   "status": "same"
+  },
+  {
+   "area": "Model choice",
+   "label": "Turn extent",
+   "unit": "deg",
+   "path": null,
+   "book": "uniform on -180 to +180",
+   "cite": "p. 49",
+   "note": "Same here. Turns are undirected, so goal-directed manoeuvre sequences are not favoured.",
+   "compare": "declared",
+   "status": "same"
+  },
+  {
+   "area": "Model choice",
+   "label": "Cost-index speed mode",
+   "unit": "",
+   "path": null,
+   "book": "implemented but unused in most experiments; narrows the pdf slightly",
+   "cite": "sec. 6.2.1, p. 39; sec. 10.7",
+   "note": "Known departure: omitted here (proprietary Boeing tables).",
+   "compare": "declared",
+   "status": "differs"
+  },
+  {
+   "area": "Model choice",
+   "label": "Fuel and endurance",
+   "unit": "",
+   "path": "assumptions.dynamics.fuel",
+   "book": "infinite fuel; constraints applied to the pdf afterwards; fuel informs the Mach range",
+   "cite": "Assumptions 4 and 7, p. 60",
+   "note": "Assumptions 4 and 7 (p. 73) carry no fuel state, so widening mach_range removes the only endurance constraint. When this row is populated the run burns the Boeing-derived tables along each path, with the flow factor drawn from the Appendix 1.6E calibration N(1.0085, 0.0178), and reports exhaustion time per trajectory."
+  },
+  {
+   "area": "Sampler",
+   "label": "Fuel proposal",
+   "path": "assumptions.dynamics.fuel.proposal",
+   "book": "n/a (no fuel model)",
+   "compare": "declared",
+   "status": "differs",
+   "cite": "sec. 7.2; Assumption 4, p. 60",
+   "note": "Known departure, and a sampler change rather than a model change. The book has no fuel model at all: Assumption 4 substitutes a 0.73 Mach floor for the endurance constraint, so nothing has to be proposed against a tank. With fuel modelled, proposing the speed and altitude profile from the prior alone and rejecting at 00:11 discarded about seven paths in ten. `endurance` instead drops a path at the first epoch the deadline is unreachable on the cheapest continuation the tables allow, and draws new Mach targets from a mixture of the prior and the affordable speeds with the exact prior-to-proposal weight correction. Both target the same posterior; only the efficiency differs, which is what the reject-proposal control run measures."
+  },
+  {
+   "area": "Model choice",
+   "label": "Observation cutoff",
+   "unit": "",
+   "path": "stop.epoch",
+   "book": "00:19 (BTO only at 00:19)",
+   "cite": "ch. 10.1",
+   "compare": "declared",
+   "status": "same",
+   "note": "Both stop at the 00:19 log-on and use its BTO but not its BFO, the BFO being recorded during SDU start-up. A string match is not meaningful for a cutoff stated as a time and an exclusion."
+  }
+ ]
 }

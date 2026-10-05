@@ -3,7 +3,7 @@
 The base filter takes its measurement standard deviations per epoch from
 `data/satcom-observations.csv`: BTO 29 µs at seven epochs, 43 µs at two, 63 µs
 at one, and BFO 7 Hz at all eleven epochs that carry a BFO. The 7 Hz figure is
-Davey's own a priori value (Assumption 2, p. 73); the per-epoch BTO figures
+Davey's own a priori value (Assumption 2, p. 60); the per-epoch BTO figures
 follow Davey's scheme of assigning σ by message type rather than a single
 constant.
 

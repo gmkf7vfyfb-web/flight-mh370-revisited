@@ -7,10 +7,18 @@ sources and from the previous ChatGPT-era threads. It has now been obtained from
 engine against it.
 
 **Citation convention: printed book page numbers**, as they appear in the running headers, not
-positions in the PDF file. The two differ by fourteen — the Springer PDF carries front matter —
-and an earlier revision of this note cited PDF positions, which sent two quotations to the wrong
-page. Every page number below was verified by reading the running header off the page carrying
-the quoted text.
+positions in the PDF file. Every page number below was verified by reading the running header off
+the page carrying the quoted text, and that is the only safe method: **the offset between PDF
+position and printed page is not constant.** It is 13 over printed pp. 20–41 (chapters 4–6) and
+pp. 64–109 (chapters 9–11), but 14 over pp. 42–61 (chapters 7–8) and pp. 12–17 (chapter 3),
+because the extracted text merges the occasional blank verso. Converting a PDF position by
+subtracting a fixed number therefore produces citations that are right in some chapters and one
+page out in others — which is exactly the error that had to be repaired in
+`shoulder-comparison.md`, twice: once for the convention and once for the offset.
+
+The running-header grammar makes this mechanical to check. Verso (even) pages head with the page
+number followed by the chapter title; recto (odd) pages head with the section title followed by
+the page number; chapter openers carry no number at all.
 
 **That audit is now complete.** Every page citation in `results/*.md` was checked by locating the
 cited claim's anchor text in the book and reading off the printed page it falls on. The outcome:

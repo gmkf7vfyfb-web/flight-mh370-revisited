@@ -3,7 +3,9 @@
 > **Citation audit, 5 October.** This file was written before the book was obtained and cited
 > **PDF positions**, not printed pages. Every page reference has been re-derived by locating the
 > cited claim's anchor text in the book and reading off its printed page; the corrections are not
-> a uniform offset, because the original numbers also carried one to two pages of slop. Figure,
+> a uniform offset: the PDF-to-printed offset is itself 13 in chapters 4–6 and 10, and 14 in
+> chapters 7–8, and the original numbers carried a further one to two pages of slop. Each page
+> below was read off the running header of the page carrying the anchor text. Figure,
 > table and equation numbers are unaffected. The acceleration rate, previously cited to a page
 > that does not state it, is verified at p. 49: "The assumed rate corresponds to a change of Mach
 > of 0.1 in one minute."
@@ -21,8 +23,8 @@ Every published constant I could check is transcribed correctly. These are not c
 
 | Quantity | Book | This code |
 |---|---|---|
-| Mach OU β, q | 1.058e-2, 2.05e-7 (p. 37) | identical; steady-state sd 0.0031126 vs book 0.003113 |
-| Control-angle OU β, q | 9.792e-3, 4.074e-8 (p. 38) | identical; sd 0.0826° vs Table 8.2's 0.0826° |
+| Mach OU β, q | 1.058e-2, 2.05e-7 (p. 38) | identical; steady-state sd 0.0031126 vs book 0.003113 |
+| Control-angle OU β, q | 9.792e-3, 4.074e-8 (p. 39) | identical; sd 0.0826° vs Table 8.2's 0.0826° |
 | Wind-error OU β, q | 1.087e-3, 0.07021 (Table 8.2, p. 59) | identical; sd 5.683 kn vs book 5.684 kn |
 | Manoeuvre clock | three independent exponential processes sharing one τ, `exp(-3T/τ)` (Eq. 7.5) | three clocks (`next_turn`, `next_acceleration`, `next_climb`), exposure summed over all three in the τ Gibbs update |
 | τ prior | Jeffreys on 0.1–10 h, one draw per trajectory (Eq. 7.6) | `tau_range_h = (0.1, 10.0)`, drawn once, log-uniform |
@@ -31,13 +33,13 @@ Every published constant I could check is transcribed correctly. These are not c
 | Vertical rate | 4,000 ft/min (p. 49) | `climb_rate_ft_per_s = 4000/60` |
 | Altitude | uniform 1,000 ft steps, 25,000–43,000 ft (p. 49) | identical |
 | LNAV reversion | exponential, mean 6/ln2 h, to true or magnetic heading (p. 43) | `lnav_switch_mean_s = 6/LN_2 * 3600`; P(switch in 6 h) = 0.5000 |
-| BTO fixed term | T_nom 499,962 µs, T_channel(R1200) −4,283 µs (p. 25) | 495,679 µs = T_nom + T_channel, the combination that reproduces logged BTOs |
-| BTO noise | R1200 29 µs, anomalous R1200 43 µs (p. 26) | 29 and 43 µs |
+| BTO fixed term | T_nom 499,962 µs, T_channel(R1200) −4,283 µs (p. 26) | 495,679 µs = T_nom + T_channel, the combination that reproduces logged BTOs |
+| BTO noise | R1200 29 µs, anomalous R1200 43 µs (p. 27) | 29 and 43 µs |
 | Cruise time step | 10 s (p. 45) | `cruise_step_s = 10.0` |
 
 ## 2. Discrepancies found, all too small to matter
 
-- **R600 BTO sd is 63 µs here, 62 µs in the book** (p. 26). Affects only the 00:19:29 R600
+- **R600 BTO sd is 63 µs here, 62 µs in the book** (p. 27). Affects only the 00:19:29 R600
   message. A 1.6% change in one σ on one epoch.
 - **Manoeuvre integration step is 5 s; the book uses 1 s** (p. 59, "a sequence of 1 s steps").
   At 500 kt and 15° bank the turn rate is ~0.6°/s, so a step turns 3°; the chord-versus-arc
@@ -92,7 +94,7 @@ One elimination is weaker than it looks:
   explanation (this recreation 12% with ≥2 turns, the book 49%). But the book says of that same
   figure: around half the paths made more than one turn, and this "would appear to be of interest
   but is in fact misleading" — Fig. 10.5 shows the double turns are single turns split into two
-  segments, and there are "very few genuine turns later in the flight" (p. 91). So the 49% is
+  segments, and there are "very few genuine turns later in the flight" (p. 92). So the 49% is
   not a count of genuine manoeuvres and the 12-vs-49 gap is partly definitional. The
   sparse-filter argument should not lean on it.
 
@@ -124,7 +126,7 @@ restores the shoulder.
 The book also supplies a physical reason to think the assumed σ is too tight, and it is not white
 noise. Fig. 5.2's residual histogram "has an underlying mean of 10 µs… due to the channel
 dependent calibration term T_channel not being stationary", and Fig. 5.3 plots BTO errors
-drifting across the 20 flights over six days (p. 26). A non-stationary channel calibration is a
+drifting across the 20 flights over six days (p. 27). A non-stationary channel calibration is a
 *slowly varying bias*, and this filter marginalises a BFO bias but no BTO bias at all.
 
 The distinction matters, and it is what makes this different from the ephemeris test already run:
@@ -304,7 +306,7 @@ the Gibbs update after every resampling; at an acceleration the Mach target is r
 from the whole range, at a climb the altitude is redrawn in 1,000 ft steps, at a turn the control
 angle changes by a uniform ±180°. Multi-manoeuvre paths are generated freely, and the posterior's
 preference for few manoeuvres is inference, not a constraint — it is Davey's own explanation
-(p. 91) that a sequence of random turns rarely cancels out when a straight path would fit.
+(p. 92) that a sequence of random turns rarely cancels out when a straight path would fit.
 
 Three limits are real, and all three matter for a piloted end-of-flight scenario:
 
