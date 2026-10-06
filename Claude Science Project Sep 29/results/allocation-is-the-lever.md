@@ -77,9 +77,23 @@ is only half right, and the half that is wrong should be stated plainly.
 | magnetic heading | 1.4M → 0.5M | 0.0118 → 0.0114 | 33.9% → 62.1% | 1087–1191 → 359–429 |
 | magnetic track | 1.4M → 0.5M | 0.0492 → 0.0452 | 30.5% → 59.5% | 816–908 → 298–356 |
 
-Only true track's *mixing weight* steadied. Lateral navigation's got marginally worse, and the
-three modes that lost particles got substantially worse. So the improvement is not mixing-weight
-stability.
+By that measure only true track's *mixing weight* steadied. But the min–max range across
+individual replicates is not the measure tied to split-half, which compares two *pooled* halves.
+Recomputed as the mean absolute difference between pooled halves over all 35 partitions
+(`report/quantity_convergence.py`), the picture is worse still and the correction should be
+stated plainly:
+
+| mode probability | best-model | 6temper | realloc |
+|---|---|---|---|
+| true heading | 8.3% | 7.1% | 12.7% |
+| magnetic heading | 6.2% | 6.8% | 12.7% |
+| true track | 5.3% | 6.0% | 6.8% |
+| magnetic track | 6.8% | 6.9% | 12.9% |
+| lateral navigation | 8.3% | 9.6% | 12.0% |
+
+**Every mode's mixing weight is less stable under reallocation, true track included.** So the
+improvement is not mixing-weight stability by either measure; the earlier reading that it was,
+taken from a four-replicate interim on thinned backups, was wrong.
 
 What did improve, in both dominant modes and by about 80%, is the number of distinct surviving
 prior draws — the resolution at which each mode's own conditional posterior is estimated. True
@@ -91,7 +105,46 @@ fuel-bearing run has achieved, is the same fact seen from the other side.
 This also sharpens what to expect from further reallocation. Pushing more particles into true
 track and lateral navigation should keep paying until their conditional densities stop sharpening;
 it will not stabilise the mixing weights, and the minor modes will keep degrading. There is a
-floor under how far that can go, set by needing the shoulder to remain estimable at all.
+floor under how far that can go, set by needing the shoulder to remain estimable at all — and the
+mixing weights are now the quantity closest to that floor, so the next allocation step should be
+smaller than this one.
+
+## What is actually converged, quantity by quantity
+
+A single overlap gate answers one question for the whole posterior and answers it badly in both
+directions. `report/quantity_convergence.py` evaluates every reported number on each pooled half
+over all 35 partitions. Mean absolute half-to-half difference:
+
+| quantity | best-model | 6temper | **realloc** | no-fuel reference |
+|---|---|---|---|---|
+| median | 0.066° | 0.058° | **0.043°** | 0.046° |
+| 50% HDI, northern bound | 0.089° | 0.084° | **0.064°** | 0.130° |
+| 50% HDI, southern bound | 0.564° | 0.489° | **0.124°** | 0.127° |
+| 90% HDI, northern bound | 0.139° | 0.151° | **0.107°** | 0.059° |
+| 90% HDI, southern bound | 0.323° | 0.310° | **0.251°** | 0.026° |
+| peak mass, −38.5..−37 | 8.5% | 7.5% | **4.8%** | 2.4% |
+| shoulder mass, −36.5..−34.5 | 7.8% | 6.7% | **9.2%** | 2.8% |
+| mode probabilities | 5.3–8.3% | 6.0–9.6% | **6.8–12.9%** | 4.7–7.7% |
+
+Read down the realloc column and the verdict is not one verdict:
+
+- **The location of the posterior is converged.** The median agrees between halves to 0.043°,
+  about 2.6 nautical miles on the 7th arc, and it has been stable to 0.06° across three
+  successive models. Quoting it to 0.1° is safe.
+- **The 50% credible interval is converged**, and this is where reallocation paid most: the
+  southern bound went from 0.564° between halves to 0.124°, a factor of 4.5. That single number
+  is the largest improvement anywhere in the table.
+- **The peak mass is nearly converged**, 4.8% against the no-fuel reference's 2.4%.
+- **The shoulder is not converged**, at 9.2% mean and 23% worst case, and it got worse rather
+  than better. No fuel-bearing run has it under 6.7%.
+- **The mode probabilities are not converged in any run**, not even the one that passes the gate:
+  the no-fuel reference still swings lateral navigation by 7.7% between halves.
+
+That is the honest basis on which to relax a single pass/fail bar: not by lowering 0.924, but by
+retiring it as the sole gate and reporting each quantity against the precision the paper quotes
+it at. The median and the 50% interval are publishable now. The shoulder is direction-robust and
+magnitude-unconverged, and saying so is a stronger paper than quoting it to three figures behind
+a threshold it does not meet.
 
 ## Where this leaves the convergence programme
 
