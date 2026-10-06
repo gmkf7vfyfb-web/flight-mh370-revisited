@@ -19,7 +19,7 @@ Full scale throughout means **7,000,000 particles × 8 replicates, one measureme
 | no fuel, 3 tempered | **0.62 h** | measured, `runs/tempered-three` |
 | no fuel, 6 tempered | ~1.0 h | inferred, c-series ratio 2.92 |
 | **fuel, 3 tempered** | **6.88 h** | measured, `runs/best-model` |
-| fuel, 6 tempered | **~10.7 h** | scaled, f6/f3 = 1.55 |
+| **fuel, 6 tempered** | **11.3 h** | measured, `runs/best-model-6temper` |
 | fuel, 6 tempered, wide Mach | **~9.7 h** | scaled, f6w/f3 = 1.41 |
 | fuel, 7 tempered (+18:25) | ~11.9 h | inferred, +1 epoch at 139 s smoke |
 | fuel, 6 tempered, 32 stages | ~18.3 h | inferred, stage arithmetic |
@@ -31,6 +31,19 @@ Two multipliers do the work:
   evaluating 16 Mach cells per manoeuvre draw plus the rejection of doomed trajectories.
 - **Each tempered epoch costs ~18% of the untempered base** at 16 stages (three added epochs took
   f3 → f6, 760 s → 1178 s). Tempering is cheap. Fuel is not.
+
+**The smoke rule has now been checked against a full run.** At smoke scale f6/f3 = 1.55, so the
+six-epoch full-scale run was predicted at 1.55 × 6.88 = 10.7 h. It measured 11.3 h, a ratio of
+1.64×. The rule under-predicted by 6%, in the same direction and of the same order as the 14% seen
+on the particle-count scaling. Treat smoke-derived full-scale costs as a lower bound with roughly
+10% headroom; they remain reliable for *ranking* changes, which is all they are used for.
+
+A note on reading that 11.3 h out of the run record: `runs/best-model-6temper/run.json` and
+`model-comparison.csv` both record `runtime_h = 9.89`, which is **seven** replicates. The run was
+assembled from two launches after the first died at seed 2, and the resume covered seeds 2–8 while
+seed 1 survived from the first attempt. The like-for-like eight-replicate figure is 9.89/7 × 8 =
+11.3 h. Dividing the recorded 9.89 by `best-model`'s 6.88 gives 1.44× and compares seven replicates
+with eight.
 
 Smoke-gate costs at 1M × 2 seeds, one case: no fuel ~1–4 min, fuel + 3 tempered **12.7 min**,
 fuel + 6 tempered **19.6 min**.
@@ -55,10 +68,18 @@ The bottleneck returns to **19:41 at 5.59%**, which is already tempered at 16 st
 intervention does what the diagnosis said it would and hands the problem back to where tempering
 was first applied.
 
-**Cost: ~10.7 h.** **Caveat that must not be dropped:** per-epoch ESS is not replicate agreement.
-This project has already been burned by that once — tempering 00:11 lifted its ESS 4.3× and
-changed no convergence measure at all. So this is the right experiment, and it is not a promise of
-a passing split-half.
+**Cost: ~10.7 h predicted.** **Caveat that must not be dropped:** per-epoch ESS is not replicate
+agreement. This project has already been burned by that once — tempering 00:11 lifted its ESS 4.3×
+and changed no convergence measure at all. So this is the right experiment, and it is not a promise
+of a passing split-half.
+
+**Outcome (run, 11.3 h):** the caveat was the operative sentence. Full scale reproduced the smoke
+ESS gains almost exactly — 20:41 2.50% → 25.86%, 21:41 7.63% → 45.12%, 22:41 5.54% → 38.13% — with
+log evidence unmoved at −104.748, epochs before 20:41 identical and epochs after differing by
+≤0.3%. Split-half agreement went 0.8798 → **0.8869** against a 0.924 floor: a gain of 0.0071 for
+1.64× the compute. The replicate median span did tighten, 0.391° → 0.306°. This is the second
+independent demonstration that per-epoch ESS is not what limits replicate agreement. Written up in
+`results/tempering-is-not-the-fix.md`.
 
 ## (b) Fuel with the wider Mach range — we have effectively done it, and it is worse
 
@@ -104,7 +125,7 @@ lateral-navigation flavour. One geometry item is still open: the phase-3 ring mu
 92°E meridian, and the literal walk in the spec self-intersects.
 
 Compute, once built: the "without" arm **is** run (a), so only one extra run is needed, at (a)'s
-cost — **+10.7 h** — plus the smoke gate.
+cost — **+11.3 h** — plus the smoke gate.
 
 ## (d) Controlled descent before fuel exhaustion — not built, and the design is not on record
 
@@ -151,7 +172,12 @@ Mach prior, so any descent latent placed there needs its own tempering before it
 3. **Particle allocation is free.** `best-model` gave every mode 20% of the particles while the
    posterior weights are true track 59.2%, lateral navigation 24.6%, true heading 10.2%, magnetic
    track 4.8%, magnetic heading 1.2%. The fuel-free tempered runs used an unequal split. Allocate
-   deliberately: by posterior mass, or toward whichever modes are ESS-limited.
+   deliberately: by posterior mass, or toward whichever modes are ESS-limited. **This is now the
+   leading candidate for the convergence failure, not a housekeeping note.** Across the eight
+   six-epoch replicates, true track and lateral navigation hold 83% of the mass and swing 33% and
+   54% of their own value between replicates; the converging fuel-free run gave each of them 2.5M
+   particles against `best-model`'s 1.4M, so true track had ~2,310 independent draws there against
+   ~990 here.
 4. **One measurement case, not two.** `config/davey2016.toml` also runs a `bto-only` case at two
    seeds. Every sensitivity config already overrides to the single `bto-bfo` case; keep doing it.
 5. **Temper only where it pays, and check it paid.** 00:11 tempering bought nothing fuel-free but
@@ -165,14 +191,22 @@ Mach prior, so any descent latent placed there needs its own tempering before it
 
 ## Recommended order
 
-| # | item | cost | gate |
-|---|---|---|---|
-| 1 | (a) fuel + 6 tempered epochs, book Mach | 10.7 h | already smoke-validated |
-| 2 | if 19:41 still binds: 32 stages | 18.3 h | smoke first |
-| 3 | BFO 4 Hz shoulder re-test on the convergent fuel config | 10.7 h | — |
-| 4 | (d) build the descent family; one filter run to 22:41 | 8.5 h + variants | design review first |
-| 5 | (c) build the waypoint module; one extra run | 10.7 h | close the polygon ring first |
-| 6 | (b) wide Mach, only with 18:25 tempered | 11.9 h | expect worse agreement |
+| # | item | cost | gate | status |
+|---|---|---|---|---|
+| 1 | (a) fuel + 6 tempered epochs, book Mach | 11.3 h measured | smoke-validated | **done — split-half 0.8869, still fails 0.924** |
+| 1b | reallocate particles by posterior mass at 6 tempered epochs | ~11 h | follows from the band decomposition | **running** |
+| 2 | if 19:41 still binds: 32 stages | 18.3 h | smoke first | deferred — tempering twice shown not to be the lever |
+| 3 | BFO 4 Hz shoulder re-test, 4 seeds × 3.5M | ~3 h | — | queued |
+| 4 | (d) build the descent family; one filter run to 22:41 | 8.5 h + variants | design review first | not built |
+| 5 | (c) build the waypoint module; one extra run | 11.3 h | close the polygon ring first | not built |
+| 6 | (b) wide Mach, only with 18:25 tempered | 11.9 h | expect worse agreement | deferred |
+
+Item 1b is new and it is the item the six-epoch run earned. The disagreement between replicates is
+60.5% in the −38.5..−37 band and only 3.8% in the shoulder, and it is carried by the true-track and
+lateral-navigation modes trading ~20 points of probability mass between replicates. `best-model`
+gave those two modes 1.4M particles each where the converging fuel-free run gave them 2.5M. Equal
+allocation was the wrong call: it starved the modes that set the peak in order to protect a band
+carrying 3.8% of the disagreement.
 
 Items 1 and 3 are pure compute on existing code. Items 4 and 5 are development first, and item 4
 needs a written specification before it needs cores.
