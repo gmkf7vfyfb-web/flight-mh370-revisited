@@ -23,23 +23,25 @@ adding a number. See `results/davey-page-map.json`.
 | — of those 18, recorded as departures | 7 |
 | — of those 18, recorded as matching | 11 |
 
-The four value differences are the manoeuvre integration step, the initial position standard
-deviation, the vertical-rate term in the BFO, and the fuel model. The first three are in table 1a
-below. The fuel model is an extension, so it is in table 1c.
+The 21 rows that match by value are not listed below. The other 22 rows appear exactly once each
+in tables 1a, 1b and 1c, which hold 3, 8 and 3 rows. That is 14 rows, so the accounting needs
+stating:
 
-The seven prose departures are the prior mean position and track, the R600 BTO noise, the weather
-source, the declination source, the resampling scheme, the cost-index speed mode, and the fuel
-proposal. The R600 noise is in table 1a because it is a number even though it is read per epoch
-from the observations file rather than from a configuration field. The rest are in table 1b.
+| Where it is listed | Rows | Which |
+|---|---|---|
+| Table 1a | 3 | Manoeuvre step and initial position sd (2 of the 4 value differences), plus the R600 BTO noise (1 of the 7 prose departures — it is a number, but read per epoch from the observations file rather than from a configuration field) |
+| Table 1b | 8 | Weather source, declination source, resampling scheme, cost-index speed mode, prior mean position and track (5 prose departures), the initial Mach set point, and 2 items not in the reference file at all |
+| Table 1c | 3 | The fuel model and the vertical-rate BFO term (the other 2 value differences), plus the endurance proposal (the 7th prose departure) |
+| Not listed | 11 | Prose rows recorded as matching |
+| Not listed | 21 | Value rows recorded as matching |
 
-One inconsistency in the reference file itself, recorded here rather than silently relied on: the
-initial Mach set point is stored with status "matching", but its own note calls it a known
-departure. The note is right and the status field is wrong. It is listed as a difference in
-table 1b.
-
-Table 1b also lists two items that are not in the reference file at all, because they are sampler
-changes with no published counterpart to compare against: the tempering and the particle
-allocation.
+21 + 11 + 3 + 8 + 3 = 46, which exceeds 43 by the two sampler items in table 1b. **Tempering and
+particle allocation are not in `davey_reference.json`**, because they are sampler changes with no
+published counterpart to compare a value against. Excluding them, 44 — and the last one over is
+the initial Mach set point, which is counted among the 11 prose rows recorded as matching *and*
+listed as a difference in table 1b. That is deliberate, and it is an inconsistency in the
+reference file rather than in this sheet: the row is stored with status "matching" while its own
+note calls it a known departure. The note is right. Recorded here rather than silently relied on.
 
 ### 1a. Parameter values that differ
 
@@ -47,7 +49,6 @@ allocation.
 |---|---|---|---|---|
 | Manoeuvre integration step | 1 s | 5 s | p. 59 | This is a fidelity gap. It is not a decision. A 1 s step does 5 times more integration work. Measure the cost before you change it. |
 | Initial position standard deviation | 0.4 arcminutes | 0.5 NM | Table 8.2, p. 59 | The book gives 0.4 arcminutes in the table. The book gives 0.5 NM in the text on p. 21. The run uses the text value. |
-| Vertical rate in the BFO model | Not modelled | Modelled | pp. 28–29 | This is an extension. See section 2. |
 | BTO noise, R600 message | 62 µs | 63 µs | p. 27 | One epoch only, 00:19:29. This is a fidelity gap. The effect is very small. |
 
 ### 1b. Methodology that differs
