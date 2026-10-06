@@ -12,9 +12,34 @@ adding a number. See `results/davey-page-map.json`.
 
 ## 1. Differences from the book
 
-`report/davey_reference.json` holds 43 parameters. The run matches the book on 21 of the
-parameters that can be compared by value. It differs on 4. It also differs on 7 choices that are
-prose or identifiers, where a value match has no meaning.
+`report/davey_reference.json` holds 43 rows. They divide as follows, and the three counts sum to
+43.
+
+| Row type | Count |
+|---|---|
+| Can be compared by value, and the run **matches** the book | 21 |
+| Can be compared by value, and the run **differs** | 4 |
+| Prose or identifier, so a value match has no meaning | 18 |
+| — of those 18, recorded as departures | 7 |
+| — of those 18, recorded as matching | 11 |
+
+The four value differences are the manoeuvre integration step, the initial position standard
+deviation, the vertical-rate term in the BFO, and the fuel model. The first three are in table 1a
+below. The fuel model is an extension, so it is in table 1c.
+
+The seven prose departures are the prior mean position and track, the R600 BTO noise, the weather
+source, the declination source, the resampling scheme, the cost-index speed mode, and the fuel
+proposal. The R600 noise is in table 1a because it is a number even though it is read per epoch
+from the observations file rather than from a configuration field. The rest are in table 1b.
+
+One inconsistency in the reference file itself, recorded here rather than silently relied on: the
+initial Mach set point is stored with status "matching", but its own note calls it a known
+departure. The note is right and the status field is wrong. It is listed as a difference in
+table 1b.
+
+Table 1b also lists two items that are not in the reference file at all, because they are sampler
+changes with no published counterpart to compare against: the tempering and the particle
+allocation.
 
 ### 1a. Parameter values that differ
 
