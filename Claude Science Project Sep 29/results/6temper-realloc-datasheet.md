@@ -23,25 +23,33 @@ adding a number. See `results/davey-page-map.json`.
 | — of those 18, recorded as departures | 7 |
 | — of those 18, recorded as matching | 11 |
 
-The 21 rows that match by value are not listed below. The other 22 rows appear exactly once each
-in tables 1a, 1b and 1c, which hold 3, 8 and 3 rows. That is 14 rows, so the accounting needs
-stating:
+Tables 1a, 1b and 1c below hold **3 + 8 + 3 = 14 rows**. Twelve of those 14 come from the
+reference file. The other two are sampler changes that the reference file does not contain. The
+remaining 31 reference-file rows are not listed, because the run matches the book on them.
 
-| Where it is listed | Rows | Which |
+| Reference-file rows | Count | Listed below? |
 |---|---|---|
-| Table 1a | 3 | Manoeuvre step and initial position sd (2 of the 4 value differences), plus the R600 BTO noise (1 of the 7 prose departures — it is a number, but read per epoch from the observations file rather than from a configuration field) |
-| Table 1b | 8 | Weather source, declination source, resampling scheme, cost-index speed mode, prior mean position and track (5 prose departures), the initial Mach set point, and 2 items not in the reference file at all |
-| Table 1c | 3 | The fuel model and the vertical-rate BFO term (the other 2 value differences), plus the endurance proposal (the 7th prose departure) |
-| Not listed | 11 | Prose rows recorded as matching |
-| Not listed | 21 | Value rows recorded as matching |
+| Value differences | 4 | Yes — 2 in table 1a, 2 in table 1c |
+| Prose departures | 7 | Yes — 1 in table 1a, 5 in table 1b, 1 in table 1c |
+| Prose rows recorded as matching | 11 | One only: the initial Mach set point, in table 1b. The other 10 are not listed. |
+| Value rows recorded as matching | 21 | No |
+| **Total** | **43** | **12 listed, 31 not** |
 
-21 + 11 + 3 + 8 + 3 = 46, which exceeds 43 by the two sampler items in table 1b. **Tempering and
-particle allocation are not in `davey_reference.json`**, because they are sampler changes with no
-published counterpart to compare a value against. Excluding them, 44 — and the last one over is
-the initial Mach set point, which is counted among the 11 prose rows recorded as matching *and*
-listed as a difference in table 1b. That is deliberate, and it is an inconsistency in the
-reference file rather than in this sheet: the row is stored with status "matching" while its own
-note calls it a known departure. The note is right. Recorded here rather than silently relied on.
+Add the two sampler changes that are not in the reference file — the tempering and the particle
+allocation, both in table 1b — and the tables hold 14 rows. 12 + 2 = 14, and 12 + 31 = 43.
+
+Row by row:
+
+| Where | Rows | Which |
+|---|---|---|
+| Table 1a | 3 | Manoeuvre step and initial position sd (2 value differences), plus the R600 BTO noise (a prose departure — it is a number, but read per epoch from the observations file rather than from a configuration field) |
+| Table 1b | 8 | Resampling scheme, weather source, declination source, cost-index speed mode, prior mean position and track (5 prose departures); the initial Mach set point; the tempering and the particle allocation (2 rows absent from the reference file) |
+| Table 1c | 3 | Fuel model and vertical-rate BFO term (the other 2 value differences), plus the endurance proposal (the 7th prose departure) |
+
+One inconsistency in the reference file, recorded here rather than silently relied on. The initial
+Mach set point is stored with status "matching", but its own note calls it a known departure. The
+note is right and the status field is wrong. That is why it is counted among the 11 prose rows
+recorded as matching and still listed as a difference in table 1b.
 
 ### 1a. Parameter values that differ
 
