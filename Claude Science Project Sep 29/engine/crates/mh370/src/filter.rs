@@ -429,7 +429,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         // the arc: one BTO standard deviation admits about 122 NM along track against 4.2 NM
         // across it, a 29:1 sliver, because the range is at its minimum there (closest approach
         // is 19:55). A proposal that scatters particles isotropically puts almost none of them
-        // in that sliver, which is what the recorded m1941 ESS of 0.08-0.13% measures. The
+        // in that sliver, which is what the recorded m1941 ESS measures: 0.70-1.03% across the
+        // untempered runs in results/convergence-ledger.csv, falling to 0.08-0.13% in the three
+        // endurance rungs that score fuel without tempering, and rising to 5.7-6.0% once 19:41
+        // is annealed at 16 stages. The 0.08-0.13% figure quoted here previously was the
+        // endurance rungs alone and is not the general case. The
         // look-ahead aims the resampling at the sliver before the propagation is spent.
         let aux: Vec<f64> = match (lookahead_sd_us, step.satcom.as_ref()) {
             (Some(sd_extra), Some(epoch)) if epoch.cruise_bto && epoch.bto_us.is_some() && use_bto => {

@@ -9,7 +9,7 @@ the *data* survives; what does not survive is anything held only in memory, and 
 
 This writes a thinned, portable copy instead: a stride-sampled subset of the final particle
 columns that matter for the posterior, plus every replicate's diagnostics verbatim. At stride 10
-and twelve columns that is roughly 60 MB for eight seeds — small enough to save as an artifact
+and twelve columns that is 82 MB for eight seeds (measured on best-model-6temper) — small enough to save as an artifact
 and mirror to Drive after every seed.
 
 `diagnostics.json` is byte-identical to the corresponding entry of `run.json`'s `replicates`

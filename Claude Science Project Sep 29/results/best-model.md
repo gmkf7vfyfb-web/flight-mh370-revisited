@@ -1,7 +1,7 @@
 # The best model: fuel evidence inside a tempered filter
 
 `config/davey2016.toml` + `config/sensitivity/best-model.toml`, eight replicates of 7,000,000
-particles (1,400,000 per autopilot mode), 6.88 h wall on 18 threads, 7.2 GB peak. This is the
+particles (1,400,000 per autopilot mode), 6.88 h wall on 18 threads, 7,199 MiB (7.03 GiB) peak. This is the
 first run to combine the in-filter fuel model with the annealed-SMC sampler that fixed the 19:41
 bottleneck, and it is the configuration the project had been building toward: fuel as evidence,
 on Davey's own priors, with a sampler that converges on the fuel-free problem.
