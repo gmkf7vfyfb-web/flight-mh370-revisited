@@ -16,10 +16,20 @@ nothing to convergence.** That is the result.
 | 22:41 | 5.54% | **38.13%** | **6.9×** |
 | every other epoch | — | — | 1.00× |
 
-The three targeted epochs lift by 6–10×. Every other epoch is unchanged to three significant
-figures, which is the correctness check: tempering sums its exponents to one, so it must not
-disturb epochs it does not touch, and it does not. Log evidence moves from −104.734 to −104.748,
-within replicate noise.
+The three targeted epochs lift by 6–10×. The correctness check is what happens to the others, and
+it splits by position:
+
+- **Epochs before the first newly tempered one are identical** — 18:25 13.30%, 18:28:05 67.52%,
+  18:28:14 54.53%, 18:39 31.25%, 19:41 5.67% in both runs. They must be, since nothing upstream
+  changed.
+- **Epochs after it differ by at most 0.3%** — 23:15 58.17 → 58.13%, 00:11 11.62 → 11.65%,
+  00:19:29 75.68 → 75.49%, 00:19:37 53.62 → 53.55%. Not identical, and they should not be:
+  tempering resamples within each epoch it acts on, so the downstream population is a different
+  draw from the same distribution. A 0.3% shift at an epoch running above 50% is resampling
+  noise, not a disturbance.
+
+Tempering sums its exponents to one, so the target and the evidence must be unchanged, and log
+evidence moves from −104.734 to −104.748 — 0.014 nats, within replicate noise.
 
 The bottleneck returns to **19:41 at 5.67%**, as predicted.
 
