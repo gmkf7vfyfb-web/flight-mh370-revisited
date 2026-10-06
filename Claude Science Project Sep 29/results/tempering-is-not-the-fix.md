@@ -55,9 +55,17 @@ convergence by 0.007. Twice is a pattern, not an anomaly: **per-epoch effective 
 what limits replicate agreement in this filter.** Any future proposal justified by "this epoch has
 a low ESS" now has to answer this result first.
 
-Runtime: 11.3 h at eight replicates, 1.64× `best-model`. The smoke calibration predicted 1.55×, so
-the scaling rule held. An earlier figure of 1.94× quoted from the first two seeds was premature —
-those seeds ran during start-up and the settled rate is 77–85 min per replicate.
+Runtime, and the derivation matters because the recorded number is not the comparable one. This
+run was assembled from two launches: the first died at seed 2 when the app restarted, leaving seed
+1 complete, and the resume covered **seeds 2–8**. So `run.json` and `model-comparison.csv` record
+`runtime_h = 9.89`, which is the wall time of **seven** replicates, not eight. The like-for-like
+figure is 9.89 / 7 × 8 = **11.3 h**, against `best-model`'s 6.88 h for eight — a ratio of
+**1.64×**. Dividing the recorded 9.89 by 6.88 gives 1.44× and compares seven replicates with
+eight.
+
+The smoke calibration predicted 1.55×, so the scaling rule held to within 6%. An earlier figure of
+1.94× quoted from the first two seeds was premature — those ran during start-up, and the settled
+rate is 77–85 min per replicate.
 
 ## Where the disagreement actually lives
 
