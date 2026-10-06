@@ -37,6 +37,19 @@ const MIN_TABULATED_FL: f64 = 60.0;
 /// point describes straight flight like the other schedules.
 const RACETRACK: f64 = 1.05;
 
+/// Two schedules whose tabulated Mach numbers agree to within this are one point, not two.
+///
+/// CI 52 and LRC are the same schedule below the M0.84 band — Ulich reconstructs both, and
+/// between FL270 and FL430 their tabulated Mach agrees to four decimal places at some weights
+/// without being bitwise equal. Treating them as two distinct points left the two-point drag
+/// fit with a determinant of order 1e-4, and extrapolating from it turned a 1.5 kg/h rounding
+/// difference in the tabulated flows into swings from 2,100 to 30,195 kg/h over 0.2 t of gross
+/// weight, including a sign change where the fit returned no flow at all and the step burnt
+/// nothing. The merge tolerance is two orders of magnitude above the table's own Mach rounding
+/// and two orders below the narrowest genuine schedule separation (0.0053 Mach, CI 52 to LRC
+/// at FL270), so it separates the schedules that differ and joins the ones that do not.
+const MACH_MERGE_TOL: f64 = 5e-3;
+
 #[derive(Deserialize)]
 struct RawTable {
     flight_levels: Vec<f64>,
@@ -117,6 +130,10 @@ pub struct Coverage {
     /// was taken at the highest level that is covered, and the time is recorded separately —
     /// a particle accumulating this is in a state the airframe could not sustain.
     pub above_ceiling: bool,
+    /// The two-point drag fit was ill-conditioned or gave a non-positive flow, so the nearest
+    /// tabulated flow was used instead. A step may be approximate, but it must never burn
+    /// nothing: a trajectory that cannot be priced is not a trajectory that flies for free.
+    pub fit_fallback: bool,
 }
 
 pub struct FuelTables {
@@ -153,8 +170,22 @@ impl FuelTables {
             }
         }
         pts.sort_by(|a, b| a.0.total_cmp(&b.0));
-        pts.dedup_by(|a, b| a.0 == b.0);
-        pts
+        // Merge schedules whose Mach is indistinguishable, averaging both coordinates. This
+        // replaces an exact-equality `dedup_by`, which only caught the cases where two
+        // reconstructed schedules happened to round to the same bits.
+        let mut merged: Vec<(f64, f64, f64)> = Vec::with_capacity(pts.len());
+        for (m, f) in pts {
+            match merged.last_mut() {
+                Some(last) if m - last.0 <= MACH_MERGE_TOL => {
+                    let n = last.2 + 1.0;
+                    last.0 += (m - last.0) / n;
+                    last.1 += (f - last.1) / n;
+                    last.2 = n;
+                }
+                _ => merged.push((m, f, 1.0)),
+            }
+        }
+        merged.into_iter().map(|(m, f, _)| (m, f)).collect()
     }
 
     /// Total fuel flow for both engines, kg/h, at a flight level, gross weight and Mach.
@@ -198,19 +229,36 @@ impl FuelTables {
             let (_, f) = pts[0];
             return (f.is_finite() && f > 0.0).then_some((2.0 * f, cover));
         }
+        let top = pts.len() - 1;
+        cover.extrapolated_mach = mach < pts[0].0 || mach > pts[top].0;
+        // `mach >= pts[0].0` holds in the final branch, so index 0 always satisfies the
+        // predicate and the search cannot fail. Defaulting to 0 rather than propagating `None`
+        // keeps a NaN Mach, which makes every comparison false, from buying a step with no fuel.
         let k = if mach < pts[0].0 {
             0
-        } else if mach >= pts[pts.len() - 1].0 {
-            pts.len() - 2
+        } else if mach >= pts[top].0 {
+            top - 1
         } else {
-            (0..pts.len() - 1).rev().find(|&i| pts[i].0 <= mach)?
+            (0..top).rev().find(|&i| pts[i].0 <= mach).unwrap_or(0)
         };
         let ((m0, f0), (m1, f1)) = (pts[k], pts[k + 1]);
-        cover.extrapolated_mach = mach < pts[0].0 || mach > pts[pts.len() - 1].0;
         let det = m0 * m0 / (m1 * m1) - m1 * m1 / (m0 * m0);
-        let a = (f0 / (m1 * m1) - f1 / (m0 * m0)) / det;
-        let b = (m0 * m0 * f1 - m1 * m1 * f0) / det;
-        let per_engine = a * mach * mach + b / (mach * mach);
+        let per_engine = if det.abs() < 1e-6 {
+            cover.fit_fallback = true;
+            f1
+        } else {
+            let a = (f0 / (m1 * m1) - f1 / (m0 * m0)) / det;
+            let b = (m0 * m0 * f1 - m1 * m1 * f0) / det;
+            let fitted = a * mach * mach + b / (mach * mach);
+            if fitted.is_finite() && fitted > 0.0 {
+                fitted
+            } else {
+                // The fit is unusable. Burn at the nearest tabulated flow rather than return
+                // nothing: a step that cannot be priced must not be a step that is free.
+                cover.fit_fallback = true;
+                f0.max(f1)
+            }
+        };
         (per_engine.is_finite() && per_engine > 0.0).then_some((2.0 * per_engine, cover))
     }
 
@@ -335,6 +383,76 @@ mod tests {
         let t = tables();
         assert!(t.fuel_flow_kg_h(350.0, 200.0, 0.88).unwrap().1.extrapolated_mach);
         assert!(!t.fuel_flow_kg_h(350.0, 200.0, 0.80).unwrap().1.extrapolated_mach);
+    }
+
+    #[test]
+    fn every_reachable_cruise_cell_prices() {
+        // The aircraft cannot fly without burning. CI 52 and LRC are tabulated to Mach numbers
+        // that coincide to four decimals at some weights between FL270 and FL430; treating them
+        // as two points left a determinant of order 1e-4, and the extrapolation from it returned
+        // a non-positive flow — so the step burnt nothing and the filter concentrated on the
+        // paths that found the pocket. Nothing in the reachable domain may return `None`.
+        let t = tables();
+        let mut worst: Option<(f64, f64, f64)> = None;
+        let mut fl = 60.0;
+        while fl <= 430.0 {
+            let mut w = 174.2;
+            while w <= 218.0 {
+                // 0.41 is the floor of the widest Mach prior any configuration uses. Below it
+                // the b/M^2 term of the drag fit runs away - 66,112 kg/h at FL375 M0.20 - which
+                // is the fit extrapolated far outside its validity, not a flight condition. It
+                // is self-limiting rather than exploitable: such a path goes dry at once, where
+                // the no-flow pocket this test guards against made a path free to fly forever.
+                let mut m = 0.41;
+                while m <= 0.90 {
+                    match t.fuel_flow_kg_h(fl, w, m) {
+                        None => panic!("no flow at FL{} {} t M{}", fl, w, m),
+                        Some((ff, cover)) => {
+                            assert!(ff.is_finite() && ff > 0.0, "{} at FL{} {} t M{}", ff, fl, w, m);
+                            // A cell already flagged above the service ceiling describes a state
+                            // the airframe cannot hold, so its flow need not be a flight figure.
+                            if !cover.above_ceiling && worst.is_none_or(|(x, _, _)| ff > x) {
+                                worst = Some((ff, fl, m));
+                            }
+                        }
+                    }
+                    m += 0.01;
+                }
+                w += 0.37;
+            }
+            fl += 5.0;
+        }
+        // Two engines at full thrust burn on the order of 20 t/h. The worst corner of the
+        // reachable domain is FL395 at 217.9 t and M0.41 - far below the buffet boundary at that
+        // level and weight - where the drag fit extrapolated two Mach numbers down from the
+        // lowest schedule gives 23.6 t/h. The bound is set above that: the invariant being
+        // guarded is that no cell is FREE, and a cell that is merely expensive is self-limiting
+        // because the path burns out within minutes.
+        let (ff, fl, m) = worst.unwrap();
+        assert!(ff < 25_000.0, "runaway flow {} kg/h at FL{} M{}", ff, fl, m);
+        println!("worst flow over the reachable domain: {:.0} kg/h at FL{} M{:.2}", ff, fl, m);
+    }
+
+    #[test]
+    fn the_degenerate_pair_prices_smoothly_in_weight() {
+        // Across the weight window that used to straddle the sign change, the flow must stay
+        // inside a few per cent of its neighbours rather than swinging from 2,100 to 30,195.
+        let t = tables();
+        let flows: Vec<f64> = (0..20)
+            .map(|i| t.fuel_flow_kg_h(270.0, 208.5 + 0.05 * i as f64, 0.82).unwrap().0)
+            .collect();
+        let (lo, hi) = flows.iter().fold((f64::MAX, 0.0f64), |(a, b), &x| (a.min(x), b.max(x)));
+        assert!(hi / lo < 1.01, "flow spans {:.0}-{:.0} kg/h over 1 t of weight", lo, hi);
+    }
+
+    #[test]
+    fn coincident_schedules_become_one_point() {
+        // At FL270 and 208.7 t, CI 52 and LRC differ by 2e-5 Mach. They must merge.
+        let t = tables();
+        let pts = t.points_at(270.0, 208.7);
+        for w in pts.windows(2) {
+            assert!(w[1].0 - w[0].0 > MACH_MERGE_TOL, "points {:?} and {:?} should have merged", w[0], w[1]);
+        }
     }
 
     #[test]

@@ -234,6 +234,16 @@ pub struct Aircraft {
     /// Seconds flown with the flight level below FL060, where only one speed schedule is
     /// tabulated and the flow is taken at FL060 instead.
     pub fuel_below_tables_s: f64,
+    /// Seconds for which the tables returned NO flow at all, so the step burnt nothing. This
+    /// used to be pooled into `fuel_below_tables_s`, which hid it: the FL060 clamp burns at a
+    /// much HIGHER flow than cruise while this burns at zero, so pooling them made a
+    /// fuel-conserving defect look like an altitude-clamp diagnostic. Any nonzero value here is
+    /// a bug, not a modelling choice — a trajectory cannot fly without burning.
+    pub fuel_no_flow_s: f64,
+    /// Why the last no-flow step had no flow, as a small code so the cause can be read off the
+    /// saved state without a debugger: 0 none, 1 a non-finite flight level, 2 a non-finite Mach,
+    /// 3 a non-finite weight, 4 the tables genuinely had no bracketing pair.
+    pub fuel_no_flow_cause: f64,
     /// Seconds flown at a Mach outside the bracketing schedules, where the drag law is
     /// extrapolated rather than interpolated.
     pub fuel_extrapolated_s: f64,
@@ -418,6 +428,8 @@ impl Aircraft {
             fuel_log_weight_correction: 0.0,
             fuel_guided_draws: 0,
             fuel_below_tables_s: 0.0,
+            fuel_no_flow_s: 0.0,
+            fuel_no_flow_cause: 0.0,
             fuel_extrapolated_s: 0.0,
             fuel_above_ceiling_s: 0.0,
             turns: 0,
@@ -520,15 +532,27 @@ impl Aircraft {
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
         let Some((flow_kg_h, cover)) = model.tables.fuel_flow_kg_h(self.alt_ft / 100.0, weight_t, self.mach) else {
-            // Outside the weight grid entirely, which the prior cannot reach from 43,800 kg of
-            // fuel and a 174,196 kg zero-fuel weight. Counted so it is never silent.
-            self.fuel_below_tables_s += dt;
+            // The tables gave no flow. This is counted separately from the FL060 clamp because
+            // the two have OPPOSITE effects on the burn - the clamp burns at a much higher flow
+            // than cruise, this burns nothing - and pooling them hid a defect for weeks. A
+            // trajectory cannot fly without burning, so any time accumulated here is a bug.
+            // The cause is recorded so it can be read off the saved state.
+            self.fuel_no_flow_s += dt;
+            self.fuel_no_flow_cause = if !(self.alt_ft / 100.0).is_finite() {
+                1.0
+            } else if !self.mach.is_finite() {
+                2.0
+            } else if !weight_t.is_finite() {
+                3.0
+            } else {
+                4.0
+            };
             return;
         };
         if cover.below_tables {
             self.fuel_below_tables_s += dt;
         }
-        if cover.extrapolated_mach || cover.single_schedule {
+        if cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback {
             self.fuel_extrapolated_s += dt;
         }
         if cover.above_ceiling {
