@@ -46,7 +46,54 @@ it explains every anomaly in the ledger at once:
   and lateral navigation raises the number that survive to the terminal term, but every surviving
   particle still meets the same unprepared shock.
 
-## The remedy: a fuel look-ahead, built the way the BTO look-ahead already is
+## The first remedy: ask whether term 3 belongs in the likelihood at all
+
+This note originally went straight to a sampler workaround. That was the wrong order, and the
+point is the user's: **`exhaustion_target_utc` is a conditional hypothesis, not an observation.**
+It asserts that the 00:19 log-on was caused by fuel exhaustion followed by an APU start. That is a
+claim about the *cause* of the log-on, and it is disputed — Lyne among others proposes a different
+cause. Conditioning the ensemble on it and then reading the posterior as evidence for it is
+circular.
+
+`config.rs` already draws this distinction in its own documentation, which makes the removal a
+return to the design rather than a departure from it:
+
+> `require_power_until` is an observation, not an assumption: the aircraft transmitted at that
+> epoch, so a path whose tank ran dry earlier is inconsistent with the data.
+> `exhaustion_target_utc` with `exhaustion_sd_s` is the weaker claim that the 00:19 log-on
+> followed engine failure and an APU start, so exhaustion should sit shortly before it. Left
+> absent, fuel constrains nothing beyond the hard requirement above.
+
+Two consequences, and they point the same way.
+
+**Methodologically**, removing it converts fuel exhaustion from an input to an output. The run
+then produces a joint posterior over *when and where* the engines stopped, which can be laid over
+00:17:30 and over the 6th and 7th arcs. Density that coincides with the hypothesised window
+supports the hypothesis; density that does not questions it. Either way the test is a test, which
+it cannot be while the filter is told the answer.
+
+**For the sampler**, it removes the degeneracy at its source rather than working around it. Term 3
+*is* the terminal shock. With it gone there is no quantity in the weight that depends on the whole
+path and arrives only at the end.
+
+What is retained: `require_power_until = "m0011"` and the early `fuel_doomed` rejection that
+implements it. Those follow from the observed transmissions. The endurance proposal is unaffected
+— `main.rs` builds its deadline from `require_power_until`, not from the exhaustion target, so the
+proposal keeps aiming at the same place.
+
+What is lost, and must be reported rather than discovered later: the term was penalising paths
+that still held a lot of fuel at the end, which are the slow, low, short ones. Removing it admits
+more of them, so the 00:19 posterior should widen and move north. The honest presentation is two
+arms — base model without the term, declared conditional arm with it — in the same
+declared-alternatives style the project uses for the 00:19 BFO interpretations.
+
+`config/sensitivity/no-exhaustion-prior.toml` is `6temper-realloc` with those two keys removed and
+nothing else changed. Smoke-gate it at 1M × 2 seeds against `6temper-realloc` at the same scale.
+
+## The contingency: a fuel look-ahead, built the way the BTO look-ahead already is
+
+If removing term 3 is not enough — or if the conditional arm that keeps it is also wanted at a
+usable convergence — the sampler workaround stands, and it is this.
 
 The engine already contains exactly the right mechanism, applied to a different problem. In
 `filter.rs` the auxiliary look-ahead (Pitt & Shephard) scores each particle before a BTO epoch by
@@ -78,7 +125,18 @@ Three properties make this the right shape:
   weight component that says which particles are heading for the right exhaustion time, so twelve
   resampling steps can act on it instead of none.
 
-## What to build, in order
+## What to do, in order
+
+1. **Run `no-exhaustion-prior` at smoke scale against `6temper-realloc`.** No code change, 20
+   minutes, one variable. This is first because it is free and because it is the methodologically
+   correct model whether or not it fixes the sampler.
+2. If the two-seed split-half moves materially, run it full scale, eight replicates. Expect at
+   most 11 h and probably less, since a likelihood term is being removed rather than added.
+3. Report the resulting fuel-exhaustion posterior — time and position — against 00:17:30 and the
+   6th and 7th arcs. That is the diagnostic the removal buys.
+4. Keep `6temper-realloc` as the declared conditional arm and report the two side by side.
+
+Only if steps 1–2 leave replicate agreement short, build the look-ahead:
 
 1. Add `lookahead_fuel_sd_s` to `[sampler]`, defaulting to `None`, exactly parallel to
    `lookahead_bto_sd_us`. Off by default; the published model and `davey2016.toml` stay

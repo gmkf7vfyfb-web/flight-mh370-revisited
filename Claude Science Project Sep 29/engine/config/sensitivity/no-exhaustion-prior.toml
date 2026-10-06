@@ -1,0 +1,66 @@
+# 6temper-realloc with the fuel EXHAUSTION-TIME PRIOR removed. One variable changed.
+#
+# WHAT IS REMOVED. `exhaustion_target_utc = 00:17:30` with `exhaustion_sd_s = 300`. Nothing else.
+#
+# WHY IT SHOULD NOT BE IN THE LIKELIHOOD. config.rs already separates the two fuel evidence terms
+# on exactly this ground: `require_power_until` is an observation - the aircraft transmitted at
+# 00:11, so a path whose tank ran dry earlier contradicts the data - whereas the exhaustion-time
+# Gaussian is "the weaker claim that the 00:19 log-on followed engine failure and an APU start".
+# That weaker claim is a conditional hypothesis about the CAUSE of the log-on, and it is disputed:
+# Lyne among others proposes a different cause. Conditioning the ensemble on it and then reading
+# the posterior as support for it is circular. Removed from the likelihood, the predicted
+# exhaustion time and position become an OUTPUT - a joint posterior the 00:17:30 figure and the
+# 6th and 7th arcs can be laid over - which tests the hypothesis instead of assuming it.
+#
+# WHY IT SHOULD ALSO FIX THE SAMPLER. results/fuel-path-degeneracy.md traces the convergence
+# failure to this term specifically. It is a 300-second window on a flight of over six hours,
+# evaluated once inside `if last`, on `fuel_exhausted_unix_s` - a deterministic functional of the
+# whole trajectory. It arrives after every satcom epoch has been scored and resampled against,
+# with nothing earlier in the weight pointing towards it. That is path degeneracy, and it is why
+# no fuel-bearing run in results/convergence-ledger.csv has ever passed split-half (0 of 14, best
+# 0.875) while 13 of 14 fuel-free runs at the same Mach prior do.
+#
+# WHAT TO EXPECT, AND IT IS NOT FREE. The term was penalising paths that still held a lot of fuel
+# at 00:19 - the slow, low, short ones. Removing it admits more of them, so the 00:19 posterior
+# should widen and move north. Report both arms side by side: this run as the base, and
+# 6temper-realloc as the declared conditional arm that assumes fuel exhaustion caused the log-on.
+#
+# HARD CONSTRAINTS RETAINED. `require_power_until = "m0011"` and the early `fuel_doomed` rejection
+# it implements. Those are necessary conditions from the observed transmissions, not hypotheses.
+#
+# Smoke-gate first at 1M x 2 seeds against 6temper-realloc at the same scale. The gate is the
+# variance of the terminal weight contribution, reconstructible from the saved
+# fuel_exhausted_unix_s column - NOT per-epoch ESS, which the ledger has twice shown is the wrong
+# gate.
+name = "no-exhaustion-prior"
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+particles_per_mode = [1000000, 500000, 2500000, 500000, 2500000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+fuel_tables = "../../data/fuel-tables.json"
+
+[prior]
+track_sd_deg = 1.0
+
+[dynamics]
+mach_range = [0.73, 0.84]
+altitude_range_ft = [25000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16
