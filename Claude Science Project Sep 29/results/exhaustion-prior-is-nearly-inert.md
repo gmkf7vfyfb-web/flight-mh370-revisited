@@ -85,6 +85,58 @@ seconds from a run-level reference epoch, which is three digits instead of ten a
 comfortably; it affects no other column, since latitudes and fuel masses are nowhere near that
 exponent.
 
+## The one-sided constraint, evaluated exactly without a new run
+
+"The tank ran dry by the last step" is a deterministic function of the particle state, so
+conditioning the posterior on it is exact: keep the subset, keep the weights, renormalise. The PDF
+of the 36.8% that ran dry **is** the posterior under a hard one-sided flame-out constraint. No
+approximation and no re-run. Computed on all eight replicates of `6temper-realloc`
+(`results/realloc-conditioned-on-exhaustion.pdf`):
+
+| | unconditioned | **conditioned on flame-out** | conditioned, σ=300 tilt divided out |
+|---|---|---|---|
+| share of mass | 100% | 36.8% | 36.8% |
+| median | −37.66° | **−37.48°** | −37.50° |
+| mode | −37.75° | −37.70° | −37.70° |
+| 50% HDI | [−38.15, −37.05], width 1.10° | **[−37.85, −37.15], width 0.70°** | [−37.90, −37.20], width 0.70° |
+| 90% HDI | [−39.60, −35.90], width 3.70° | **[−38.45, −36.20], width 2.25°** | [−38.50, −36.25], width 2.25° |
+| shoulder, −36.5..−34.5 | 0.1042 | **0.0843** | 0.0794 |
+| split-half, mean over 35 partitions | 0.9109 | **0.9053** | 0.9072 |
+| overlap with Davey Fig. 10.3 | 0.7934 | **0.6043** | 0.6107 |
+| distinct surviving roots, 8 replicates | 40,759 | **31,937 (78%)** | 31,937 |
+
+Five things to read off it.
+
+1. **It sharpens the posterior substantially.** The 50% interval narrows by 36% and the 90%
+   interval by 39%. That is a large gain in precision from a constraint that adds no new data —
+   it only removes trajectories inconsistent with the aircraft having been out of fuel.
+2. **It costs almost nothing in replicate agreement**, 0.9109 → 0.9053, and it keeps **78% of the
+   distinct surviving roots while carrying 36.8% of the mass**. The subset is far better resolved
+   than its mass share suggests, because the never-dry paths are concentrated in fewer lineages.
+3. **The median moves north by 0.18°**, from −37.66° to −37.48°, slightly *towards* Davey's
+   Fig. 10.3 median of −37.557° — 0.081° away instead of 0.104°.
+4. **Overlap with Fig. 10.3 nevertheless falls hard, 0.793 → 0.604, and that is not a
+   deterioration.** Overlap rewards agreement in *shape*, and the conditioned posterior is much
+   narrower than Davey's. Davey has no fuel model — Assumption 4 substitutes a Mach floor for the
+   endurance constraint — so his PDF is necessarily broader than one that knows the aircraft ran
+   out of fuel. A lower overlap here means information has been added, not that the answer got
+   worse. **Overlap with Fig. 10.3 must stop being used as a figure of merit once a constraint
+   Davey did not have is imposed.**
+5. **The residual σ=300 s tilt is doing nothing**, which is the same 0.09-nat conclusion from the
+   other direction: dividing it out moves the median 0.02° and leaves both intervals identical.
+
+The shoulder drops from 0.1042 to 0.0843, which is 35.0% of Davey's 0.2406 against 43.3%
+unconditioned. So the flame-out constraint takes the project *further* from reproducing the
+northern shoulder. That is consistent with the shoulder being carried by the magnetic modes and by
+slower, shorter paths — the ones most likely to still hold fuel at 00:19.
+
+What this does not settle: the fully specified one-sided term would also carry a soft upper tail
+on how long *before* 00:19:29 the tank emptied, anchored on APU auto-start and SDU boot. The hard
+constraint evaluated here admits exhaustion at 00:11 as readily as at 00:19:12. Section 2d of
+`results/6temper-realloc-datasheet.md` shows the exhaustion time is quantised to 128 s in storage,
+so the surviving mass sits in five slots between 00:10:40 and 00:19:12 and the earliest of them
+carries 1.7%. Adding the upper tail would mostly reweight within those five slots.
+
 ## Where the fuel degeneracy diagnosis goes next
 
 The ledger fact stands: 0 of 14 fuel-bearing runs pass split-half, 13 of 14 fuel-free runs at the
