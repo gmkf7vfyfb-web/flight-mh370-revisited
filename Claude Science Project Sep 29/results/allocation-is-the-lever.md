@@ -16,6 +16,16 @@ Reallocation is worth **+0.0240** of split-half. Three extra tempered epochs wer
 and cost 1.64× the compute. Reallocation cost **less**: 9.42 h against 11.3 h, a 17% saving at the
 same particle total.
 
+**On that 11.3 h, because the co-saved `model-comparison.csv` says 9.89 and the two must be
+reconciled before either is quoted.** `best-model-6temper` was assembled from two launches: the
+first died at seed 2, and the resume covered seeds 2–8 while seed 1 survived from the first
+attempt. Both `run.json` and `model-comparison.csv` therefore record 9.89 h for **seven**
+replicates. The like-for-like eight-replicate figure is 9.89/7 × 8 = 11.3 h, and that is what
+gives 1.64× against `best-model`'s 6.88 h. Dividing the recorded 9.89 by 6.88 gives 1.44× and
+compares seven replicates with eight. `6temper-realloc`'s 9.42 h needs no such adjustment — one
+launch, all eight replicates, 1.17–1.20 h each. The derivation is also in
+`results/tempering-is-not-the-fix.md` and `results/compute-plan.md`.
+
 The saving is not the point but it is worth recording a likely cause, because it affects how
 future allocations should be costed. The two magnetic modes went from 1.4M to 0.5M each — 1.8M
 particles moved out of modes that need an IGRF declination lookup at every step and into modes
