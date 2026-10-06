@@ -60,8 +60,14 @@ buy, and it comes out in favour of the hypothesis rather than against it.
 
 ## Two things the same measurement exposes
 
-**53% of the posterior still has fuel at the last step**, with a mass-weighted mean of 3,836 kg
-remaining — more than three tonnes, about 40 minutes of cruise. Only 47% runs dry by 00:19:37.
+**Most of the posterior still has fuel at the last step.** At smoke scale, 1M × 2 replicates with
+equal weights across replicates, 53% still holds fuel with a mass-weighted mean of 3,836 kg. On
+the full-scale `6temper-realloc` run — 7M × 8 replicates with the correct per-replicate,
+per-stratum pooling factors applied — the figures are **63.2% still holding fuel and a mean of
+6,462 kg across the whole posterior**, about 68 minutes of cruise. The full-scale pair is the one
+to quote; the smoke pair understates the effect because the two replicates were pooled with equal
+weights rather than by evidence share. Either way the conclusion is the same and the full-scale
+version is stronger.
 If the flame-out hypothesis is right, that half of the posterior is inconsistent with it, and the
 reason it survives is precisely the 0.09-nat penalty computed above. So the hypothesis is *not*
 being imposed on the ensemble; if anything it is barely being expressed. A term that actually
