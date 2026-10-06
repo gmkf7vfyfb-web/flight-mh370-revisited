@@ -23,7 +23,7 @@ import sys
 
 import numpy as np
 from matplotlib import pyplot as plt
-from matplotlib.ticker import FuncFormatter
+from matplotlib.ticker import FuncFormatter, MultipleLocator
 from scipy.ndimage import gaussian_filter
 
 # Credible levels drawn, outermost first.
@@ -361,6 +361,16 @@ def figure(run_dir, epoch_id, case, figsize=None):
     half_lon = half_lat / np.cos(np.deg2rad(mid_lat))
     height = 4.8
     fig, ax = plt.subplots(figsize=figsize or (height * half_lon / half_lat * 0.92, height))
+
+    # Faint graticule, matched to the tick spacing and drawn beneath the density so it reads as a
+    # reference frame rather than as data. Step chosen from the span so a tight map is not ruled
+    # into noise and a wide one still carries lines: the latitude density figure does the same.
+    span = 2 * half_lat
+    step = 1.0 if span < 6 else 2.0 if span < 14 else 5.0
+    ax.xaxis.set_major_locator(MultipleLocator(step))
+    ax.yaxis.set_major_locator(MultipleLocator(step))
+    ax.set_axisbelow(True)
+    ax.grid(True, which="major", color="#e3e3e3", lw=0.6)
 
     # Greyscale: darker is denser. Filled bands between the credible levels, then crisp edges.
     shades = ["#dcdcdc", "#a8a8a8", "#6a6a6a"]
