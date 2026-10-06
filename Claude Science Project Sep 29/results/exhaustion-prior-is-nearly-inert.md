@@ -96,7 +96,7 @@ approximation and no re-run. Computed on all eight replicates of `6temper-reallo
 | | unconditioned | **conditioned on flame-out** | conditioned, σ=300 tilt divided out |
 |---|---|---|---|
 | share of mass | 100% | 36.8% | 36.8% |
-| median | −37.66° | **−37.48°** | −37.50° |
+| median | −37.64° | **−37.45°** | −37.47° |
 | mode | −37.75° | −37.70° | −37.70° |
 | 50% HDI | [−38.15, −37.05], width 1.10° | **[−37.85, −37.15], width 0.70°** | [−37.90, −37.20], width 0.70° |
 | 90% HDI | [−39.60, −35.90], width 3.70° | **[−38.45, −36.20], width 2.25°** | [−38.50, −36.25], width 2.25° |
@@ -113,8 +113,12 @@ Five things to read off it.
 2. **It costs almost nothing in replicate agreement**, 0.9109 → 0.9053, and it keeps **78% of the
    distinct surviving roots while carrying 36.8% of the mass**. The subset is far better resolved
    than its mass share suggests, because the never-dry paths are concentrated in fewer lineages.
-3. **The median moves north by 0.18°**, from −37.66° to −37.48°, slightly *towards* Davey's
-   Fig. 10.3 median of −37.557° — 0.081° away instead of 0.104°.
+3. **The median moves north by 0.18°**, from −37.64° to −37.45°, slightly *towards* Davey's
+   Fig. 10.3 median of −37.532° — 0.081° away instead of 0.104°. (All medians in this note are
+   read off the 0.05° grid with the cumulative taken at each bin's upper edge. An earlier version
+   interpolated against the bin centres, which biased every absolute median 0.025° south —
+   exactly half a grid step — and no difference was affected. The corrected estimator reproduces
+   the engine's raw-particle medians exactly and returns Davey's as −37.5323.)
 4. **Overlap with Fig. 10.3 nevertheless falls hard, 0.793 → 0.604, and that is not a
    deterioration.** Overlap rewards agreement in *shape*, and the conditioned posterior is much
    narrower than Davey's. Davey has no fuel model — Assumption 4 substitutes a Mach floor for the
@@ -123,7 +127,8 @@ Five things to read off it.
    worse. **Overlap with Fig. 10.3 must stop being used as a figure of merit once a constraint
    Davey did not have is imposed.**
 5. **The residual σ=300 s tilt is doing nothing**, which is the same 0.09-nat conclusion from the
-   other direction: dividing it out moves the median 0.02° and leaves both intervals identical.
+   other direction: dividing it out moves the median from −37.452° to −37.472°, two hundredths of
+   a degree, and leaves both intervals identical.
 
 The shoulder drops from 0.1042 to 0.0843, which is 35.0% of Davey's 0.2406 against 43.3%
 unconditioned. So the flame-out constraint takes the project *further* from reproducing the
