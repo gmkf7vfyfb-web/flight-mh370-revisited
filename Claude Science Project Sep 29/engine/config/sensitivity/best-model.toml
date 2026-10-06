@@ -25,6 +25,17 @@
 # in magnetic heading and magnetic track - the two modes that carry the northern shoulder - so
 # the published allocation starves exactly the part of the posterior under examination. The
 # total is held at 7M per replicate so this is directly comparable with tempered-1839-1941.
+#
+# CORRECTION, added after the run and after best-model-6temper. The ALLOCATION paragraph above
+# is wrong and is left in place only because it is the rationale this run was launched under.
+# Decomposing the replicate disagreement by latitude band (results/tempering-is-not-the-fix.md)
+# puts 60.5% of it in the -38.5..-37 main peak and 3.8% in the northern shoulder. The modes that
+# set the peak are true track and lateral navigation, which hold 83% of the posterior mass and
+# swing 33% and 54% of their own value across the eight replicates. Equal allocation took those
+# two modes from the published 2.5M to 1.4M in order to give magnetic heading and magnetic track
+# 1.4M each - that is, it starved the modes that set the peak to protect a band carrying 3.8% of
+# the disagreement. Do not reuse this allocation. 6temper-realloc.toml restores [1, 0.5, 2.5,
+# 0.5, 2.5] M at six tempered epochs and is the controlled test of the correction.
 name = "best-model"
 seeds = [1, 2, 3, 4, 5, 6, 7, 8]
 particles_per_mode = [1400000, 1400000, 1400000, 1400000, 1400000]
