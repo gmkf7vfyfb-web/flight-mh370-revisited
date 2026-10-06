@@ -1,0 +1,51 @@
+# The six-tempered fuel model with the particle allocation that CONVERGES on the fuel-free
+# problem, instead of the equal split. One variable changed from best-model-6temper.
+#
+# Why: best-model-6temper fails split-half at 0.8869 against a 0.924 floor, and the disagreement
+# is not where the equal allocation was chosen to protect. Decomposed by latitude band, 91% of the
+# replicate disagreement sits between -40 and -37 - the main peak - and only 3.8% in the shoulder
+# band the magnetic modes carry. The mechanism is a mode-mixture instability: across 8 replicates
+# true track ranges 0.481-0.674 and lateral navigation 0.189-0.325, a 33% and 54% relative spread
+# on the two modes holding 83% of the mass. They have different geometries, so trading weight
+# between them moves the peak.
+#
+# The equal split took true track and lateral navigation from 2.5M to 1.4M to give the magnetic
+# modes 1.4M each. That starved the modes that set the peak: true track holds ~990 absolute
+# independent draws here against ~2,310 in tempered-1839-1941, which converges at 0.9545 with
+# 21.3% and 36.2% mode spreads. This run restores that allocation under the fuel model.
+#
+# Total held at 7M per replicate, so it stays comparable with every other 7M run.
+name = "6temper-realloc"
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+particles_per_mode = [1000000, 500000, 2500000, 500000, 2500000]
+
+[[cases]]
+id = "bto-bfo"
+use_bfo = true
+
+[inputs]
+fuel_tables = "../../data/fuel-tables.json"
+
+[prior]
+track_sd_deg = 1.0
+
+[dynamics]
+mach_range = [0.73, 0.84]
+altitude_range_ft = [25000.0, 43000.0]
+bfo_vertical_rate = true
+
+[fuel]
+initial_kg = 36609.0
+zfw_kg = 174196.0
+factor_mean = 1.0085
+factor_sd = 0.0178
+require_power_until = "m0011"
+proposal = "endurance"
+proposal_prior_mix = 0.15
+proposal_cells = 16
+exhaustion_target_utc = "2014-03-08T00:17:30Z"
+exhaustion_sd_s = 300.0
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16
