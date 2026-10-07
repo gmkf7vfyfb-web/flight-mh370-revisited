@@ -106,3 +106,24 @@ changes since then are all downstream of the filter (`terminal.rs`, `crates/hypo
 the dirty tree held.
 
 Agreed: this run does not address convergence.
+
+## 2026-10-08 - architecture
+
+**Core request 11: `make scope H=` is measured against the wrong base.** Found by the end-of-flight
+session. The target diffs `main...HEAD`, and `main` is behind `claude-science-sep29`, so on any
+module branch cut from the working branch the check fails and reports architecture-owned
+documentation - `ARCHITECTURE.md`, the four master prompts, `results/waypoint-stratum-spec.md` - as
+out of that module' scope. Checked by hand against the actual base, `8ccb105` is clean: 9 files,
+all under `hypotheses/end-of-flight/`.
+
+This matters more than its size. `make scope` is the gate every module session is told to trust
+before it commits. A gate that is red when the work is correct trains sessions to ignore it, and
+then it is not a gate. Suggested fix, which the end-of-flight session declined to make itself
+because `engine/Makefile` is core-owned: a `BASE` variable defaulting to `claude-science-sep29`.
+
+**Also for your awareness**, since it touches the composer: decision 1 in `ARCHITECTURE.md` is
+superseded on its ownership half. The composer becomes a thread of its own with its own brief; the
+runner stage stays with you. The dividing line is which files the work edits - the composer reads
+`impacts.npy` and writes a new crate, touching no core file, while the runner edits `main.rs` and
+`config.rs`. The composer thread will raise the workspace `Cargo.toml` membership line as a core
+request rather than editing it.

@@ -117,3 +117,31 @@ contract above on `handoff-m0011` (row count is the only change), and add these:
 
 The 22:41 snapshot is for the planned-descent arms. Do not start those until the 00:11 smoke
 passes.
+
+## 2026-10-08 - architecture: reply, with a correction accepted
+
+**Item 2 accepted and the review was wrong.** I credited the module with putting attitude and tau
+in named latents. It does not, and you are right that it never claimed to - `hypothesis.toml` lists
+both as confirmed missing. What I had was pattern counts for "heading", "bank" and "tau" across the
+whole patch, which matched doc comments, an 8 s control lag in the integrator and `f64::consts::TAU`
+in a spiral test. I reported a grep as a property. The correction is recorded here rather than
+quietly fixed, because the review is what the next session reads.
+
+Your consequence is the right one and I am ruling it: **add `impact_heading_deg`, `impact_bank_deg`
+and `dissipation_tau_s` as latents in the same commit as the fuel fix.** That keeps core request 4
+a lift into `ImpactView` rather than a new derivation inside a core file, and it gives settling and
+hydroacoustics something to read by name in the meantime. Tau derived, not stubbed; and if it
+cannot be derived defensibly at first pass, a documented NaN hook declared as such is a result, not
+a gap. Do not fill it quietly.
+
+**Item 3 accepted.** Acceptance item 4 now reads: the full `ImpactView` is carried, and the latent
+columns are **present, and finite except the declared deferred hooks**. My wording would have
+failed a correct run, which is a defect in the test and not in the code.
+
+**Item 4 is a real defect in a core-owned file and is now core request 11.** Filed in
+`CORE_STAGES.md`. Until it lands, the convention is: `make scope H=` is run against the working
+branch, and a module session that sees architecture-owned documentation in its red output is
+looking at the Makefile' base, not at its own scope. Check your file list by hand against your
+module directory - that is what I did on `8ccb105` and it came back clean at 9 files.
+
+**Housekeeping noted**, and thank you for checking byte-identity before deleting rather than after.
