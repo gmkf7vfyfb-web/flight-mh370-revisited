@@ -200,28 +200,67 @@ and child processes are suspended with it. Hold an active poll instead.
   `git config --local core.excludesFile ""`, or cargo fails on an unreadable `~/.config/git`.
 - **Keep `ISO Sept 28 Status/` frozen.** It is a snapshot, not a working directory.
 
-## Open architecture decisions
+## Architecture decisions — ruled 6 October
 
-These need Pete's ruling before modules are tasked.
+The four decisions this section used to pose have been ruled. Recorded here as settled, with the
+reasoning, because a module session needs to know what is decided and what is still moving.
 
-1. **Composer before end of flight.** Recommended. Stage 4 is the only stage with no
-   implementation at all, it is small — combine log-likelihoods over shared impact samples, report
-   evidence, ESS and replicate agreement — and until it exists no downstream module can be
-   integration-tested. The end-of-flight model is by contrast a genuine modelling problem and can
-   proceed in parallel against the `arc-kernel` placeholder. Building the composer first also
-   forces `ImpactView` to be settled before five modules code against a frozen struct.
-2. **Settling stays a separate module, and is not optional.** Searched areas must be compared
-   against a **wreckage** PDF, not an impact PDF, so the transform from impact point to resting
-   place sits between end-of-flight and searched areas on the critical path. It is a transform,
-   not a likelihood: it exposes `prediction_columns()` and `predict()`, and returns no
-   log-likelihood of its own.
-3. **Three additions to `ImpactView`**, needed before modules freeze against it:
-   - **attitude at impact** beyond flight-path angle (at least heading and bank), which the
-     end-of-flight and hydroacoustic source models both need;
-   - **dissipation duration τ**, without which the hydroacoustic source term η(γ, ż, attitude,
-     breakup, τ) cannot be evaluated;
-   - **debris class**, which both drift and settling need — a wing panel and an engine do not
-     sink or drift alike.
-4. **Who owns `crates/ocean`.** Surface drift and settling both need ocean transport. The
-   previous harness gave the shared component to the drift module on a `core/ocean-transport`
-   branch and had settling depend on it. That still looks right, but it makes settling wait.
+1. **Composer before end of flight: reshaped, not adopted as posed.** The composer does not gate
+   the end-of-flight *dynamics*, which is the long pole and depends on none of it. It must exist
+   before the first end-of-flight impact samples are composed with anything. So it runs as a small
+   parallel track rather than as a gate. It needs no master prompt of its own: `core-stages.txt`
+   §D6 already specifies it — evaluate `impact_log_likelihood` on `impacts.npy` per enabled module
+   and alternative; evidence sets from config; per-(replicate, mode) evidence increments so
+   `summary.rs` pooling stays correct; ESS per factor and the posterior probability of each
+   alternative; shared alternatives aligned **by name** and marginalised jointly across modules;
+   composed PDFs on a 2-D equal-area grid extending `summary.rs` rather than a second summariser.
+2. **Settling: separate, non-optional, and a transform.** Ruled as posed. It returns no
+   log-likelihood of its own, because there is essentially no observed MH370 seabed debris to
+   score and the one scoreable fact — the search having found nothing — belongs to searched areas.
+   **Its output is carried as samples, not as summary columns**: each impact sample fans out into
+   wreckage samples with the parent's weight split across them, the seabed analogue of the
+   end-of-flight hand-off. The reason is that searched areas' detection probability depends on the
+   extent and piece sizes of the field, not only on its centre, and summary moments discard
+   exactly that. This needs a new runner stage — a core change owned by core stages & composer,
+   not by settling and not by end of flight. The draw count is set by measuring what searched
+   areas needs to resolve its coverage polygons; the column form stays as a cheap fallback.
+3. **Three additions to `ImpactView`: ruled in.** Attitude at impact beyond flight-path angle (at
+   least heading and bank); dissipation duration τ, without which the hydroacoustic source term
+   η(γ, ż, attitude, breakup, τ) cannot be evaluated; and debris class, because a wing panel and
+   an engine neither sink nor drift alike. Required by the end-of-flight module's own stated
+   purpose, which is the position *and attitude* of arrival, the energy, and the *duration* of the
+   surface-impact event. Granularity is settled: the impact sample carries a debris **class**, and
+   settling generates the object ensemble from class plus energy and attitude. The sample is not
+   variable-length.
+   What a module *emits* is not what a consumer *conditions on*. Settling's first pass conditions
+   breakup families on vertical and total kinetic energy plus flight-path angle only, carrying
+   attitude and τ unused, because sink rate spans two orders of magnitude of seabed displacement
+   while attitude at impact comes out of the least-constrained part of the dynamics. The fields are
+   emitted anyway: the sensitivity test they permit is cheap, retrofitting them is not.
+4. **`crates/ocean` goes to a third owner, not to drift.** A **shared ocean transport** module owns
+   `crates/ocean` on branch `core/ocean-transport`, delivering the transport API, its data
+   provisioning and its tests, with no hypothesis and no likelihood of its own. Drift, settling
+   **and Pleiades** all depend on it — Pleiades included, because connecting an imaged debris field
+   to an impact requires transport from impact time to sighting time. The cost accepted with this
+   ruling: three consumers now wait on one producer, so its API must be specified from all three
+   sets of requirements before it builds.
+
+### Two standing conventions that came out of the same pass
+
+- **A conditional is labelled on every figure.** Conditioning on a latent (exhaustion time) is
+  legitimate; selecting trajectories by whether they could reach a hypothesised outcome is not.
+  The Pleiades hypothesis enters as a log-likelihood on the shared impact samples, so its subset
+  emerges as a posterior reweighting. Pre-selection is admissible only as a compute saving, and
+  then the band must be a generous superset of the support with the boundary diagnostic attached.
+- **`.md` files: none inside `engine/`.** That tree allows exactly three — `README.md`,
+  `AGENTS.md`, `status.md`. Assumptions and sources go in the `lib.rs` doc comment; status goes in
+  `hypothesis.toml`; write-ups go to the project-level `results/`, a sibling of `engine/`.
+
+## Still open
+
+1. The wreckage-draw count per impact, pending agreement with searched areas.
+2. The freeze of the shared breakup field — the same object as the `ImpactView` debris class —
+   pending requirements from settling, drift and hydroacoustics.
+3. Provisioning of bathymetry and full-depth ocean reanalyses on this machine.
+4. Whether the end-of-flight entry point stays the fuel-exhaustion-window conditional once the
+   fuel burn defect is fixed and the dry fraction rises.

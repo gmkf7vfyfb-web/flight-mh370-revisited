@@ -23,28 +23,45 @@ can consume.
 The module exists to produce an honest posterior, not to decide what happened. Simulations are for
 learning physics, not for settling the question.
 
-**Two versions, run and compared.** This is the experiment, not two separate products:
+**Three arms, run and compared.** This is the experiment, not three separate products:
 
-| | onset of major descent | what it represents |
-|---|---|---|
-| **V1** | flame-out-associated only | cruise continues to engine failure, then descent; the altitude and Mach sampling already implemented still applies |
-| **V2** | anticipatory, any time from the checkpoint onward, **plus** flame-out-associated | a deliberate descent commenced before exhaustion, in preparation for a terminal event |
+| | hand-off | onset of major descent | what it isolates |
+|---|---|---|---|
+| **V1a** | the filter's own stop epoch (00:11, continuing through 00:19) | flame-out-associated only | the best-sampled cruise-to-exhaustion case; nearly free, because the hand-off is built anyway |
+| **V1b** | 22:41 (`m2241`) | flame-out-associated only — anticipatory support set to **zero** | against V1a: the checkpoint-and-sampling effect, with the physics held fixed |
+| **V2** | 22:41 (`m2241`) | anticipatory, any time from the checkpoint onward, **plus** flame-out-associated | against V1b: the descent hypothesis, with the sampling held fixed |
 
-The headline result is **how the impact PDF differs between them**, and what that implies for how
-defensible cruise-to-exhaustion-then-uncontrolled-descent is against the evidence relative to the
+The headline result is **how the impact PDF differs**, and what that implies for how defensible
+cruise-to-exhaustion-then-uncontrolled-descent is against the evidence relative to the
 alternatives.
 
-### A correction to the obvious design, and it matters
+### Why three arms rather than two, and what each comparison licenses
 
-The tempting arrangement is V1 branching from the existing 00:11 posterior and V2 from 22:41.
-**Do not do that.** The two would then differ in *where 00:11 was scored* — inside the filter for
-V1, inside the terminal stage for V2 — as well as in the descent hypothesis, and the difference in
-impact PDFs would not be attributable to the thing under test.
+An earlier version of this prompt ruled that *both* versions must branch from 22:41, on the
+grounds that V1-from-00:11 against V2-from-22:41 would differ in *where 00:11 was scored* — inside
+the filter for one, inside the terminal stage for the other — as well as in the descent
+hypothesis, so the difference in impact PDFs would not be attributable to the thing under test.
+**That objection is correct and the remedy was wrong.** Forcing both arms through 22:41 discards
+the best-sampled estimate we have and settles the attribution question by assumption instead of
+measuring it.
 
-**Both versions branch from the same 22:41 (`m2241`) checkpoint**, score the same observations in
-the same place, and differ only in the support of the descent-onset latent. V1 is then V2 with the
-anticipatory branch switched off, which is the cleanest nesting a hypothesis test can have. One
-filter run to 22:41 serves both.
+The three-arm decomposition measures it. V1a against V1b isolates the checkpoint and the sampling
+with the physics held fixed; V1b against V2 isolates the descent hypothesis with the sampling held
+fixed. The cost is one extra terminal-stage sweep off a hand-off being built anyway, not another
+filter run.
+
+Three consequences for how you build and report:
+
+- **Do not hard-code a checkpoint.** The descent-onset latent's support is a config-settable
+  interval, and *empty support* — flame-out-associated onset only — must be a legal setting. That
+  is what makes V1b V2 with one switch thrown, which is the cleanest nesting a hypothesis test can
+  have.
+- **The hand-off epoch is a config choice, not a property of the module.** The configurable filter
+  stop epoch and "bursts after the stop" scoring are already built. V1a and V1b differ only in
+  which epoch the hand-off was taken at.
+- **If V1b has not been run, say what the V1a-against-V2 difference does and does not establish.**
+  It is reportable as "the impact PDF differs by X between these two configurations". It does not
+  license "X is caused by the descent hypothesis". Only the third arm licenses that sentence.
 
 ---
 
@@ -76,9 +93,45 @@ stage alone from a stored `handoff.npy`, which is what makes variant sweeps chea
 
 `ImpactView` carries parent, time, position, ENU velocity, flight-path angle, mass, total and
 vertical kinetic energy, descent family, takeover time/place/altitude, mode, alternative and module
-latents. **It is missing fields the downstream modules need** — attitude beyond flight-path angle,
-the dissipation duration τ for the hydroacoustic source term, a debris class, and later per-engine
-state and configuration. Raise these as core requests; do not work around them.
+latents. **Three additions are ruled in and this module emits all three**: attitude at impact
+beyond flight-path angle (at least heading and bank), the dissipation duration τ for the
+hydroacoustic source term, and a debris class. They are required because the module's stated
+purpose is the position *and attitude* of arrival, the energy, the *duration* of the surface-impact
+event, and outputs that seed drift and hydroacoustics.
+
+What you emit is not the same as what a consumer conditions on. Settling's first pass conditions
+its breakup families on vertical and total kinetic energy plus flight-path angle only, carrying
+attitude and τ through unused, because sink rate spans two orders of magnitude of seabed
+displacement and attitude at impact comes out of the least-constrained part of the dynamics. **Emit
+them anyway** — a sensitivity test that the fields make possible is cheap; retrofitting the fields
+later is not.
+
+Granularity is settled: `ImpactView` carries a debris **class**, and settling generates the
+object ensemble from class plus energy and attitude. Do not make the impact sample
+variable-length.
+
+Two further hooks exist, stubbed and documented, with no physics behind them yet: a debris-class
+output and a **sink-versus-float** flag. Both are deferred by decision, and both are expected to be
+a light lift once the element classes exist, which is the whole reason the hooks go in now.
+Per-engine state and configuration come later, after the single-flame-out version works.
+
+### Scope and reporting rules, from `engine/AGENTS.md`
+
+These are not advisory. `make scope H=end-of-flight` fails if the branch touches anything outside
+`hypotheses/end-of-flight/`, and it must pass before you hand back: no core crates, no `config/`,
+no `report/`, no `README.md` or `status.md`. Use your own `run.toml` inside your directory rather
+than adding to `config/`. Changing the hook API in `crates/hypothesis` is a core change.
+
+Write **no new `.md` files inside `engine/`** — that tree allows exactly three, `README.md`,
+`AGENTS.md` and `status.md`, and forbids all other reports there. The assumptions, their sources
+and how they enter the estimate belong in the `lib.rs` doc comment, with at least one test against
+an independently computed value. Status goes in `hypothesis.toml`: a `status` field and a one-line
+`summary` quoting the numbers. Longer write-ups go one level up, in the project's `results/`
+directory, which is a sibling of `engine/` and is where the analysis notes live.
+
+Iterate with `make smoke H=end-of-flight`, about a minute, code paths only. **`make hypothesis
+H=end-of-flight` runs at full scale** — that is not a smoke test and is not yours to start
+unilaterally.
 
 ---
 
@@ -89,7 +142,7 @@ start-up-offset model as a core request. Both are now done.
 
 | thing | status |
 |---|---|
-| Fuel model, Boeing-calibrated tables, endurance proposal, exhaustion-time term | **built and validated**; 16 of 51 configs exercise it |
+| Fuel model, Boeing-calibrated tables, endurance proposal, exhaustion-time term | **built**, 16 of 51 configs exercise it, and **a burn defect found 6 Oct**: a failed flow lookup returned without burning, for 19.55% of every trajectory on average. Fix written, Boeing calibration re-validated, re-run pending. Absolute fuel states from earlier runs are not usable — see §5 |
 | `Terminal` trait, `handoff.npy`, `terminal.rs`, `impacts.rs`, `mh370 terminal` | **built** |
 | `TerminalConfig.options` — named sets of bursts after the stop, each one log-likelihood column computed from the **same** children | **built** |
 | `TerminalConfig.bfo_models` + `satcom::FinalBfoModel` (`NoOffset`, `Inflated{sd_hz}`, `StartupOffset{second_hz, first_minus_second_hz, points}`) | **built, with tests** |
@@ -181,6 +234,15 @@ objective, the second an outcome. Defining "controlled ditching" by a successful
 silently discards every failed attempt — which is exactly the population the hypothesis must be
 tested against.
 
+**Vocabulary.** The words used in discussion map onto the three axes rather than forming a fourth
+list, and the mapping belongs in a doc comment so nobody re-invents a flat family set:
+"controlled" and "uncontrolled" are the *control* axis; "arrested" and "unarrested" describe
+whether a developing upset or descent was checked, which is also the control axis; "phugoid" is
+an *outcome* of a particular propulsion-and-control combination, not a family of its own, and it
+appears in the tests (period ≈ π√2·V/g) and in the pitfalls (phugoids climbing above the 43,000 ft
+weather grid). If a term in discussion does not map onto initiation × propulsion × control, raise
+it rather than adding a family.
+
 Post-flame-out systems logic is unchanged: RAT deploys, APU starts in about a minute, secondary
 flight-control mode with no envelope protection or thrust-asymmetry compensation and degraded yaw
 damping, no autopilot on RAT power, flaps unresponsive to the handle on RAT power alone, residual
@@ -203,6 +265,37 @@ why a descent cannot be bolted onto a cruise-only posterior.
 **Single flame-out event for the first working version.** Per-engine flame-out (right engine first,
 gap unpublished, single-engine phase never modelled) is agreed in principle and comes after, so its
 effect on the impact PDF can be measured rather than assumed.
+
+### Three time resolutions, and only one of them is yours
+
+Keep these separate; running them together has already caused one wrong diagnosis.
+
+1. **The core filter's manoeuvre integration step** is 5 s, against the book's 1 s on printed
+   p. 59. It is a known fidelity gap in the cruise dynamics, its cost is unmeasured, and **it does
+   not constrain you.** The end-of-flight stage runs its own integration.
+2. **Your own step is a parameter, and it must be able to go fine through the flame-out
+   transition.** Thrust loss, RAT deployment and the APU start all happen inside about a minute;
+   a step chosen for cruise will smear them. State the step you used with every result.
+3. **The stored exhaustion-time column in `final.npy` is `float32`**, whose unit in the last place
+   at 1.394 × 10⁹ is exactly 128 s. So the recorded flame-out time is quantised at 128 s, and only
+   a handful of slots carry probability. **Derive flame-out time inside this stage from the handed
+   -off fuel state; do not read the stored column.** That keeps the quantity at the resolution the
+   physics was integrated at. If the hand-off turns out not to carry fuel state at adequate
+   precision, that is a core request — raise it, do not work around it.
+
+### The seed is provisional, and you must say so
+
+`6temper-realloc` is the current best core run and the natural seed. Its **absolute fuel numbers
+are not usable**: `results/fuel-burn-gap.md` records a defect in which `Aircraft::burn_fuel`
+returned without burning anything whenever the flow lookup failed, for 19.55% of every trajectory
+on a mass-weighted average, so the dry fraction, the mean fuel remaining and anything conditioned
+on exhaustion are artefacts of that defect rather than results. A fix has been written and the
+Boeing Appendix 1.6E calibration survives it, but the re-run is not yet done.
+
+Consequences while that is true: do not quote a dry fraction or a fuel-remaining figure from that
+run; treat any flame-out-conditioned subset as a **test fixture rather than a scientific result**;
+and expect the dry fraction to rise substantially once the fix lands, which will make conditioning
+on exhaustion select much less strongly than it appears to now. Re-derive before you report.
 
 ---
 
@@ -238,8 +331,20 @@ the same children**. Required options:
 - `m0011+m0019a`, `m0011+m0019b`, `m0011+both` — the 00:19 bursts singly and together.
 - The R1200 BTO at 00:19:37 is anomalous; the usable set is R600 BTO, R600 BFO, R1200 BFO.
 
-Because both versions branch from 22:41, **00:11 is scored in the terminal stage in both**, which is
-what keeps the V1/V2 comparison attributable.
+**Where 00:11 is scored differs by arm, and that is the point.** In V1a it is scored inside the
+filter, by a population carried through that epoch with tempering. In V1b and V2 it is scored
+inside the terminal stage, off a hand-off that is resampled and spawns children. Declare which,
+per arm, in every result. The V1b-against-V2 comparison is attributable because both score it in
+the same place; the V1a-against-V1b comparison is the one that *measures* what that difference is
+worth.
+
+The risk there is Monte Carlo, not physics. The terminal stage does not carry the filter's
+population forward, and 00:11 sets the autopilot-mode mixture at roughly 20:1 on a problem that is
+not well sampled at current budgets — so the relative magnitudes are unknown and must not be
+guessed. **First smoke test, before any end-of-flight run: measure the terminal stage's effective
+sample size at 00:11 at whatever hand-off and child counts you intend, and compare it against what
+the filter achieves at that epoch.** Choose the counts from that measurement rather than from the
+illustrative values in `config.rs`.
 
 **Axis 2 — `[terminal.bfo_models]`: how to interpret them.** Declared as the alternative
 `final-bfo-model` with a prior each, marginalised jointly across modules:
@@ -325,12 +430,16 @@ analysis is qualified as "not fully conclusive" and is contested in the literatu
 
 1. The calibrated open-baseline aerodynamic model, with its calibration report against the Boeing
    runs and the published range and endurance.
-2. V1 and V2, both branching from 22:41, as config-gated families.
+2. V1a, V1b and V2 as config-gated arms, with the hand-off epoch and the descent-onset support
+   both set by config and empty onset support a legal setting.
 3. The evidence sweep of §7 as a sensitivity page per option × BFO model × family: impact area
    (50/90/99%), distance from flame-out and from the 7th arc, impact time, total and vertical energy,
    and ESS with the population beside it.
-4. **The headline comparison: how the impact PDF differs between V1 and V2**, with the onset-mass
-   boundary diagnostic, and a statement of what the difference does and does not establish.
+4. **The headline comparison: how the impact PDF differs across the three arms**, reported as the
+   two attributable differences rather than one — V1a against V1b for the checkpoint and sampling,
+   V1b against V2 for the descent hypothesis — with the onset-mass boundary diagnostic, the
+   terminal-stage ESS at 00:11 beside the filter's, and a statement of what each difference does
+   and does not establish.
 5. Core requests for the missing `ImpactView` fields.
 6. The tests of §11.
 
@@ -363,6 +472,19 @@ hand-computed fixtures.
   confounded by detection bias. It enters as a likelihood with explicit model error and declared
   alternatives, never as a veto.
 - **Per-engine flame-out.** After the single-event version works.
-- **Paid simulator options.** Revisit when the open baseline is built and tested: 4–8 hours in a
-  rented Level-D 777-200ER simulator with written publication rights, or X-Plane 12 Professional with
-  the FlightFactor 777-200ER for scripted desktop exploration.
+- **Paid simulator options.** Confirmed: build and test the open baseline first, and treat a
+  commercial simulator as a validation target rather than as the generator. Revisit then — 4–8
+  hours in a rented Level-D 777-200ER simulator with written publication rights, or X-Plane 12
+  Professional with the FlightFactor 777-200ER for scripted desktop exploration.
+- **Sink-versus-float prediction** as a secondary input to the drift module. Deferred, hook
+  present. It is the natural output of the same element-class physics settling needs, so it is
+  expected to be a light lift once those classes exist.
+- **An implosion event at depth** as a hydroacoustic prediction. Deferred to keep the first pass
+  simple, and it belongs to settling rather than here, but it is in the queue deliberately: a
+  flooding section imploding at depth would produce an acoustic event *tens of minutes* after the
+  7th arc rather than at it, which is a timing signature nothing else in the evidence set
+  provides.
+
+**Both deferred items above are to be put back in front of Pete once a stable first pass exists.**
+That is an instruction, not a note: he asked to be reminded rather than to have them quietly
+dropped.
