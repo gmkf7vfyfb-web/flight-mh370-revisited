@@ -27,6 +27,11 @@ pub const COLUMNS: [&str; 13] = [
     "bfo_bias_hz", "bfo_bias_variance_hz2", "origin", "final_row", "particle",
 ];
 
+/// `final_row` of a hand-off taken at an intermediate epoch (output.handoff_epochs): the filter
+/// resampled after it, so no final.npy row corresponds. NaN in handoff.npy. i64::MAX so the
+/// TOML round-trip holds it.
+pub const NO_FINAL_ROW: usize = i64::MAX as usize;
+
 /// A particle drawn for the hand-off, equally weighted within its stratum.
 pub struct Candidate {
     /// Index in its stratum's filter at the stop.
@@ -126,7 +131,7 @@ pub fn write(dir: &Path, stop: &Stop, rows: &[Row]) -> Result<(), String> {
                 r.bias.mean_hz,
                 r.bias.variance_hz2,
                 f64::from(r.origin),
-                r.final_row as f64,
+                if r.final_row == NO_FINAL_ROW { f64::NAN } else { r.final_row as f64 },
                 r.particle as f64,
             ]
         })

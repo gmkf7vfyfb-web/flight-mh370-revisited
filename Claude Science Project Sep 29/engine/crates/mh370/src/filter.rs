@@ -206,13 +206,15 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     let mut routes_by_mode = Vec::new();
     let mut runs = Vec::new();
     let mut strata = Vec::new();
+    let mut epoch_draws: Vec<Vec<EpochDraw>> = Vec::new();
     for (m, mode) in Mode::ALL.into_iter().enumerate() {
         let weight = ctx.mode_weights[m];
-        let (r, routes, run, snapshots, h, candidates) = if weight > 0.0 {
+        let (r, routes, run, snapshots, h, candidates, draws) = if weight > 0.0 {
             run_filter(ctx, case, seed, m as u64, mode)?
         } else {
-            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new())
+            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new(), Vec::new())
         };
+        epoch_draws.push(draws);
         strata.push(handoff::Stratum { mode: m, probability: 0.0, final_offset: rows.len(), candidates });
         history.extend(h);
         if !snapshots.is_empty() {
@@ -268,6 +270,46 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         handoff::write(dir, &handoff::Stop { epoch: stop.id.clone(), step: k, unix_s: stop.unix_s }, &handoff_rows)?;
     }
 
+    // Hand-offs at named epochs, written while the filter ran on (output.handoff_epochs). Each
+    // epoch's mode probabilities come from the evidence to that epoch alone, so the snapshot is
+    // P(state | data to the epoch) and carries nothing from the measurements after it.
+    let output = &ctx.config.output;
+    for (e, id) in output.handoff_epochs.iter().enumerate() {
+        let mut found = None;
+        let log_posterior: Vec<f64> = runs
+            .iter()
+            .zip(&epoch_draws)
+            .map(|(run, draws)| match draws.iter().find(|d| d.epoch == *id) {
+                Some(d) => {
+                    found = Some((d.step, d.unix_s));
+                    d.log_evidence + run.prior_weight.ln()
+                }
+                None => f64::NEG_INFINITY,
+            })
+            .collect();
+        let Some((k, unix_s)) = found else { continue };
+        let total = log_sum_exp(&log_posterior);
+        let strata: Vec<handoff::Stratum> = epoch_draws
+            .iter_mut()
+            .zip(&log_posterior)
+            .enumerate()
+            .map(|(m, (draws, lp))| {
+                let candidates = draws.iter_mut().find(|d| d.epoch == *id).map(|d| std::mem::take(&mut d.candidates)).unwrap_or_default();
+                handoff::Stratum { mode: m, probability: (lp - total).exp(), final_offset: 0, candidates }
+            })
+            .collect();
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        rng.set_stream(u64::MAX - 2 - e as u64); // distinct from the route draw and the stop hand-off
+        let mut rows = handoff::select(strata, output.handoff_rows.unwrap_or(0), output.handoff_floor.unwrap_or(1), &mut rng);
+        // The filter resampled after this epoch, so no final.npy row corresponds to these.
+        for row in &mut rows {
+            row.final_row = handoff::NO_FINAL_ROW;
+        }
+        let sub = dir.join(format!("handoff-{id}"));
+        std::fs::create_dir_all(&sub).map_err(|err| err.to_string())?;
+        handoff::write(&sub, &handoff::Stop { epoch: id.clone(), step: k, unix_s }, &rows)?;
+    }
+
     let replicate = Replicate {
         case: case.id.clone(),
         seed,
@@ -299,7 +341,17 @@ impl ModeRun {
 
 type Snapshot = (String, Vec<f64>);
 type History = Vec<[f64; 4]>;
-type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>);
+type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>);
+
+/// One mode's equally weighted draws at one of output.handoff_epochs, with the mode's log
+/// evidence up to and including that epoch.
+struct EpochDraw {
+    epoch: String,
+    step: usize,
+    unix_s: f64,
+    log_evidence: f64,
+    candidates: Vec<handoff::Candidate>,
+}
 
 /// The independent, schedule-free random stream of one (stratum, step, particle).
 fn stream(seed: u64, stratum: u64, step: u64, particle: usize) -> ChaCha8Rng {
@@ -387,6 +439,20 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         }
     }
     let branch_cap = branching.as_ref().map(|b| b.max_particles.unwrap_or(2 * n)).unwrap_or(n);
+    let handoff_epochs = &config.output.handoff_epochs;
+    let epoch_rows = config.output.handoff_rows.unwrap_or(0);
+    if !handoff_epochs.is_empty() {
+        if epoch_rows == 0 {
+            return Err("output.handoff_epochs needs output.handoff_rows of at least 1".into());
+        }
+        if branching.is_some() {
+            return Err("output.handoff_epochs cannot be combined with sampler.branching, whose weights are unnormalised between epochs".into());
+        }
+        if let Some(id) = handoff_epochs.iter().find(|id| !ctx.steps.iter().any(|s| s.id == **id)) {
+            return Err(format!("output.handoff_epochs: {id} is not among the filter's epochs (excluded, or unknown)"));
+        }
+    }
+    let mut epoch_draws = Vec::new();
     let mut rejuvenated = [0u64; 2];
     let mut lookahead_resamples = 0u32;
     let mut log_weights = vec![-(n as f64).ln(); n];
@@ -856,6 +922,18 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 particles = moved.into_iter().map(|(p, _)| p).collect();
             }
         }
+        // A hand-off at this epoch: after its update, tempering and resampling, so the draw is
+        // from the posterior given the data to here and the filter's own state is untouched.
+        if handoff_epochs.iter().any(|e| e == &step.id) {
+            let candidates = systematic_resample(&log_weights, epoch_rows, &mut stream(5100 + k as u64, 0))
+                .into_iter()
+                .map(|j| {
+                    let p = &particles[j];
+                    handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin }
+                })
+                .collect();
+            epoch_draws.push(EpochDraw { epoch: step.id.clone(), step: k, unix_s: step.unix_s, log_evidence, candidates });
+        }
         eprintln!(
             "{} seed {seed} {:?} {:>7}: ESS {:>10.0}{} ({:.1} s)",
             case.id,
@@ -970,7 +1048,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     } else {
         Vec::new()
     };
-    Ok((rows, routes, run, snapshots, history, candidates))
+    Ok((rows, routes, run, snapshots, history, candidates, epoch_draws))
 }
 
 /// Columns of the residual snapshots written when `output.residual_samples > 0`.

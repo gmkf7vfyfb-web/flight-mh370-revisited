@@ -460,6 +460,24 @@ pub struct OutputConfig {
     /// altitude changes and degrees turned after this epoch (e.g. "m1839", 18:40).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub history_after_epoch: Option<String>,
+    /// Epochs at which to write a full-state hand-off WITHOUT stopping the filter, each to
+    /// `<seed dir>/handoff-<epoch>/` in the same format as the stop hand-off. The filter carries
+    /// on to its last epoch, so one run serves every downstream stage that starts at any of
+    /// these epochs as well as the full posterior. Unlike `[terminal]`, this does not require
+    /// the run to stop before the bursts a later stage will score.
+    ///
+    /// Each snapshot is the posterior given the data up to and including that epoch: the
+    /// particles and weights after the epoch's update, tempering and resampling, and the mode
+    /// probabilities from each mode's evidence to date - never from later data. The draws use
+    /// streams no filter step uses, so final.npy is the same with or without them.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub handoff_epochs: Vec<String>,
+    /// Rows per replicate at each of `handoff_epochs`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handoff_rows: Option<usize>,
+    /// The fewest rows any mode with posterior mass keeps at each of `handoff_epochs` (default 1).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handoff_floor: Option<usize>,
 }
 
 /// Load a config and merge any override files over it, in order.
