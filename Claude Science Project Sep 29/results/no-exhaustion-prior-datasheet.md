@@ -102,6 +102,52 @@ weight lighter than the flight started with.
 the 8.5-minute window between the two arcs, and nine tenths of everything that runs dry at all
 lands in that window.
 
+### 5a. How much fuel the other paths had left
+
+43.14 % of the posterior had not run dry by 00:19:37. That does **not** mean those paths had
+fuel to spare. The model stops at 00:19:37, because that is the last measurement. It says
+nothing about 00:19:38. So "never runs dry" only means "had not run dry inside the simulated
+window".
+
+Those paths were almost empty.
+
+| Fuel remaining at 00:19:37, over the 43.14 % that had not run dry | Value |
+|---|---|
+| Median | **521 kg** |
+| Mean | 733 kg |
+| 5 % to 95 % | 39 kg to 2,116 kg |
+
+At the run's own 5,764 kg/h the median is about five and a half minutes of flight. Taking each
+path's own mean burn rate and projecting forward gives these implied flame-out times: 00:20:01
+at the 5th percentile, 00:21:58 at the 25th, **00:25:04 at the median**, 00:30:24 at the 75th
+and 00:42:47 at the 95th.
+
+So the whole posterior divides as follows.
+
+| Condition at 00:19:37 | Share of the posterior |
+|---|---|
+| Already dry | 56.86 % |
+| Still running, less than 10 minutes of fuel left | 30.94 % |
+| Still running, 10 to 30 minutes left | 11.15 % |
+| Still running, more than 30 minutes left | **1.05 %** |
+| Still running, more than one hour left | **0.01 %** |
+
+**98.9 % of the posterior is within 30 minutes of fuel exhaustion at the time of the final
+transmission. 87.8 % is within 10 minutes.**
+
+This is the strongest result the fuel model gives, and it should be the one the paper leads
+with. It needs no window definition, no post-hoc selection and no caveat about storage
+resolution. Nothing in the model asked for it. The 00:17:30 term is absent.
+`require_power_until = "m0011"` only forbids running dry before the 6th arc and says nothing
+about after it. The BTO and BFO data constrain where the aircraft was, not how much fuel it had
+burnt. Even so, flying those arcs for six and a quarter hours on the Boeing tables leaves
+almost the whole feasible set at or near flame-out at 00:19.
+
+It also corrects an earlier claim. The defective model gave a mean of 6,462 kg remaining, which
+is more than an hour of flight. That figure was the defect, not the aircraft.
+
+### 5b. Convergence of the window share
+
 The replicate range on that share is 5.2 points. The density shape disagrees between halves by
 about 9 points. So this quantity is better converged than the posterior shape, which is the
 usual pattern: mass fractions converge faster than shape.
