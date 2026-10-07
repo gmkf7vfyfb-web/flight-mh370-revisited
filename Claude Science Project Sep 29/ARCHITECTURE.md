@@ -246,21 +246,45 @@ reasoning, because a module session needs to know what is decided and what is st
    ruling: three consumers now wait on one producer, so its API must be specified from all three
    sets of requirements before it builds.
 
-### Every full-scale run carries a `[terminal]` block from now on
+### There are two kinds of full-scale run and they are not interchangeable
 
-`handoff.toml` is written only inside the filter's stop branch (`filter.rs:263–265`). A config with
-no `[terminal]` section runs straight through and writes **no hand-off**, so no downstream stage
-can ever use that run — `no-exhaustion-prior`, 15.52 hours and the project's reference run, left
-nothing for end of flight to read for exactly this reason.
+**This corrects an earlier statement in this document, which was wrong.** It said that every
+full-scale run should carry a `[terminal]` block because the block "costs almost nothing during a
+run that is happening anyway". It does not. The core estimator session found why, by trying it:
 
-The hand-off costs almost nothing to write during a run that is happening anyway, and without it
-the only way to get one is another filter run. **So every full-scale core run includes a
-`[terminal]` block**, even when no terminal module is being exercised, with `target = "none"` if
-nothing is to be scored after the stop. The shape already exists and is documented in `config.rs`:
-`handoff`, `handoff_floor`, `children`, `arc`, `target`.
+> `[terminal]: no bursts after the stop; list them in exclude_epochs`
 
-This is the cheapest available insurance against re-running heavy compute, which is the project's
-scarcest resource.
+**A run that writes a hand-off must stop *before* the bursts the terminal stage will handle.** So it
+carries `exclude_epochs = ["m0019a", "m0019b"]` and its posterior is at **00:11**, not 00:19:37.
+The block is not an add-on; it changes what the run is.
+
+That is the four-stage design working as specified rather than a defect — stage 1 stops at 00:11
+for the integrated estimate, and the hand-off resamples its posterior. But it means the two kinds
+of run must be named and kept apart:
+
+| | **core-only run** | **integrated run** |
+|---|---|---|
+| purpose | the posterior at the last transmission | feeding stages 2–4 |
+| last epoch the filter scores | 00:19:37 | the stop epoch, e.g. 00:11 or 22:41 |
+| who scores 00:19:29 and 00:19:37 | the filter | the terminal stage |
+| writes a hand-off | **no, and cannot** | yes |
+| what to quote from it | latitude at 00:19:37 | latitude at the stop, then impacts |
+
+`no-exhaustion-prior` is a core-only run. It is the right thing to quote for the position at the
+last transmission and the **wrong** thing to hand to the end-of-flight module, because that module
+exists to model what happens after the filter stops and this filter did not stop early enough to
+leave it anything to do.
+
+**The convention, corrected.** Every full-scale run *intended to feed a downstream stage* carries a
+`[terminal]` block and stops accordingly, with `target = "none"` when nothing after the stop is to
+be scored — that holds the later bursts out so they become predictions rather than fits. A
+core-only reference run does not carry one and cannot. **Decide which kind a run is before
+launching it**, because converting one into the other afterwards costs a second full run.
+
+The cost this exposed: the descent question needs **two** full filter runs, not one. V1a needs its
+own 00:11-stop run to produce a hand-off; V1b needs the 22:41 branch. About 32 hours at 8 × 7M on
+the fixed fuel model, which is 1.65× the old cost per replicate. V2 and the later variants are
+terminal-stage sweeps off a stored hand-off and cost no filter time.
 
 ### Two classes of core change, and only one of them invalidates a run
 

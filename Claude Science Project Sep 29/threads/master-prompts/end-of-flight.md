@@ -418,17 +418,20 @@ cannot support.
 - **00:11 alone cannot discriminate a descent.** The sensitivity is about 17.5–17.8 Hz per
   1,000 ft/min, so a ~1,100 ft/min descent and a ±20 Hz bias excursion give the same signature, and
   00:11 is a single value rather than a pair.
-  **Which arc the figure 17.50 belongs to is DISPUTED and must be settled before it reaches the
-  paper.** The project previously recorded 17.50 Hz per 1,000 ft/min at the 00:11 geometry
-  (38.16°S 88°E, satellite elevation 38.8°). The end-of-flight session, computing from
-  `data/satellite-ephemeris.csv` with the engine's own `UPLINK_HZ` and `SPEED_OF_LIGHT_KM_S`, gets
-  17.81 at the 00:11 arc (BTO 18,040 µs) and 17.52 at the 00:19a arc (BTO 18,400 µs), and reports
-  the value as nearly constant along each arc — 17.800–17.813 from 30°S to 40°S at 00:11,
-  17.515–17.528 at 00:19a — because the BTO fixes the slant range and hence the elevation angle.
-  The two computations disagree by 1.8% on the attribution, not on the physics. The substance of
-  the argument above survives either way (a ±20 Hz excursion matches 1,123 ft/min at 00:11 against
-  1,143 at 00:19). **`crates/satcom` is core-owned, so the core session settles this**; until it
-  does, quote the range rather than the single figure, and cite neither attribution. Yet 00:11 sets the autopilot-mode mixture at roughly
+  **SETTLED, and the project's earlier record was wrong** (`results/vertical-rate-sensitivity.md`,
+  core request 8). 17.50 Hz per 1,000 ft/min belongs to the **00:19a** arc, not to 00:11:
+
+  | arc | BTO | elevation | Hz per 1,000 ft/min |
+  |---|---|---|---|
+  | 00:11 (`m0011`) | 18,040 µs | 39.64–39.67° | **17.800–17.813** |
+  | 00:19a (`m0019a`) | 18,400 µs | 38.88–38.92° | **17.515–17.528** |
+
+  The sensitivity is `(f_uplink/c)·sin(elevation)`, and a BTO fixes the slant range and hence the
+  elevation, so the figure is a property of the **arc** rather than of position along it — it moves
+  by 0.013 Hz from 30°S to 40°S, a twentieth of the difference between the two arcs. The earlier
+  record attached 17.50 to 00:11 while quoting an elevation of 38.8°, which is the 00:19a figure.
+  **Always quote the arc alongside the number.** The argument above is unaffected in substance: a
+  ±20 Hz excursion is 1,123 ft/min at 00:11 and 1,141 at 00:19a. Yet 00:11 sets the autopilot-mode mixture at roughly
   20:1. So scoring 00:11 mostly re-weights modes, and the descent discrimination lives in the 00:19
   pair — whose 184 Hz step in 8 s is about nine times the largest bias excursion in Davey's own
   Fig. 5.4, and whose interpretation is exactly what is contested. State this tension as a result of
