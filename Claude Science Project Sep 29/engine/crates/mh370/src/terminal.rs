@@ -409,9 +409,13 @@ fn flight_state(a: &Aircraft, p: &Parameters) -> FlightState {
         wind_east_mps: air.wind_east_kt * MPS_PER_KNOT,
         wind_north_mps: air.wind_north_kt * MPS_PER_KNOT,
         mode: a.mode as usize,
-        mass_kg: f64::NAN,
-        fuel_kg: f64::NAN,
-        fuel_exhaustion_unix_s: f64::NAN,
+        // The fuel state the filter is already carrying. NaN is retained when no fuel model is
+        // configured, which means "not computed", not "impossible". `realised_flameout_unix_s`
+        // is the time the tanks actually ran dry and stays NaN for a trajectory still holding
+        // fuel; a terminal module wanting PREDICTED endurance derives it from `fuel_kg`.
+        mass_kg: p.fuel.as_ref().map_or(f64::NAN, |m| m.zfw_kg + a.fuel_kg),
+        fuel_kg: if p.fuel.is_some() { a.fuel_kg } else { f64::NAN },
+        realised_flameout_unix_s: a.fuel_exhausted_unix_s,
     }
 }
 
@@ -445,3 +449,4 @@ fn uniform(seed: u64, purpose: u64, child: usize, row: usize) -> impl FnMut() ->
     let mut rng = child_stream(seed, purpose, child, row);
     move || ((rng.gen::<u64>() >> 11) as f64 + 0.5) / (1u64 << 53) as f64
 }
+

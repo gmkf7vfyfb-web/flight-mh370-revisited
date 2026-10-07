@@ -125,7 +125,7 @@ mod tests {
             mode: 2,
             mass_kg: f64::NAN,
             fuel_kg: f64::NAN,
-            fuel_exhaustion_unix_s: f64::NAN,
+            realised_flameout_unix_s: f64::NAN,
         };
         assert_eq!(terminal.takeover_time(&state, &mut || 0.5).0, 1000.0);
         let mut draws = [0.5, 0.25].into_iter();

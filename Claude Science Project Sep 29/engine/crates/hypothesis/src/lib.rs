@@ -232,12 +232,18 @@ pub struct FlightState {
     pub wind_north_mps: f64,
     /// Index into [`MODES`].
     pub mode: usize,
-    /// Zero-fuel mass plus fuel; NaN until the core models fuel.
+    /// Zero-fuel mass plus fuel. NaN when the configuration has no fuel model, which means
+    /// "not computed" rather than "impossible".
     pub mass_kg: f64,
-    /// NaN until the core models fuel.
+    /// Fuel remaining at this instant, kilograms. NaN when the configuration has no fuel model.
     pub fuel_kg: f64,
-    /// NaN until the core models fuel.
-    pub fuel_exhaustion_unix_s: f64,
+    /// The time the tanks ran dry, if they have. **This is the REALISED flame-out, not a
+    /// prediction**, and it is NaN for any trajectory still holding fuel — 43.14 % of the
+    /// posterior in the reference run, whose median remaining fuel is 521 kg, about five and a
+    /// half minutes of flight. A terminal module that triggers a descent on *predicted*
+    /// endurance must compute that prediction itself from `fuel_kg`, because triggering on a
+    /// realised flame-out assumes foreknowledge no crew had and is circular.
+    pub realised_flameout_unix_s: f64,
 }
 
 /// A SATCOM burst after the filter's stop, at its logged time (00:19:29.416 for the R600,
