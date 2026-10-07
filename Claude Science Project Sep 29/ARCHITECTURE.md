@@ -246,7 +246,38 @@ reasoning, because a module session needs to know what is decided and what is st
    ruling: three consumers now wait on one producer, so its API must be specified from all three
    sets of requirements before it builds.
 
-### Two standing conventions that came out of the same pass
+### Every full-scale run carries a `[terminal]` block from now on
+
+`handoff.toml` is written only inside the filter's stop branch (`filter.rs:263–265`). A config with
+no `[terminal]` section runs straight through and writes **no hand-off**, so no downstream stage
+can ever use that run — `no-exhaustion-prior`, 15.52 hours and the project's reference run, left
+nothing for end of flight to read for exactly this reason.
+
+The hand-off costs almost nothing to write during a run that is happening anyway, and without it
+the only way to get one is another filter run. **So every full-scale core run includes a
+`[terminal]` block**, even when no terminal module is being exercised, with `target = "none"` if
+nothing is to be scored after the stop. The shape already exists and is documented in `config.rs`:
+`handoff`, `handoff_floor`, `children`, `arc`, `target`.
+
+This is the cheapest available insurance against re-running heavy compute, which is the project's
+scarcest resource.
+
+### Two classes of core change, and only one of them invalidates a run
+
+Worth stating plainly, because "core change" has been read as "another 15-hour run" when most core
+changes are nothing of the kind.
+
+- **Changes that alter the filter's numerics** — the fuel-burn fix, a prior, a measurement model,
+  the step loop. These invalidate existing runs and a re-run is the cost of making them.
+- **Changes downstream of the filter** — `terminal.rs`, `impacts.rs`, `crates/hypothesis`,
+  `ImpactView`, and config keys that select a module. These do not change what the filter
+  computes. `make regress` proves it: base output stays byte-identical. Existing runs stay valid
+  and the development loop is `mh370 terminal <run-dir> <config> <out-dir>`, which re-runs stage 2
+  alone off a stored hand-off.
+
+All of the core requests raised by the end-of-flight module are in the second class.
+
+### Two further standing conventions that came out of the same pass
 
 - **A conditional is labelled on every figure.** Conditioning on a latent (exhaustion time) is
   legitimate; selecting trajectories by whether they could reach a hypothesised outcome is not.
