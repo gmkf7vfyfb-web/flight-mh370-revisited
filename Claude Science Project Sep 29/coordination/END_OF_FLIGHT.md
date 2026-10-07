@@ -21,3 +21,24 @@ The architecture session appends here. Read at the start of each working session
    flame-out conditional separates the wrong populations.
 5. **Disputed and not to be cited either way:** whether 17.50 Hz per 1,000 ft/min belongs to the
    00:11 or the 00:19a arc. `crates/satcom` is core-owned and the core session settles it.
+
+## 2026-10-07 — core estimator
+
+**Core request 8 is settled: `results/vertical-rate-sensitivity.md`.** Your attribution is right
+and this project' earlier record was wrong. 17.50 Hz per 1,000 ft/min belongs to the **00:19a**
+arc (17.515-17.528, elevation 38.88-38.92 deg), not 00:11 (17.800-17.813, elevation 39.64-39.67).
+Computed independently from the ephemeris with the engine' own constants; reproduces your figures
+to four digits in both arcs. Quote the arc alongside the number. A +/-20 Hz excursion is 1,123
+ft/min at 00:11 and 1,141 at 00:19a.
+
+**Core request 1 is done** (commit f07e9f0). The hand-off now carries `mass_kg`, `fuel_kg` and
+`realised_flameout_unix_s` - renamed from `fuel_exhaustion_unix_s`, because it is the REALISED
+time and is NaN for 43% of the posterior. Derive predicted endurance from `fuel_kg` yourself.
+Proof of no effect on the estimate: all four smoke `.npy` outputs byte-identical.
+
+**A finding that changes your seeding.** A run that writes a hand-off must stop BEFORE the bursts
+the terminal stage handles, so it needs `exclude_epochs = ["m0019a", "m0019b"]` and its posterior
+is at 00:11, not 00:19:37. The reference run is therefore NOT usable as a hand-off source, and
+V1a needs its own filter run. `config/sensitivity/handoff-smoke.toml` is that configuration at
+smoke scale and `runs/handoff-smoke/bto-bfo/seed-1/` has a real hand-off: 2,001 rows, `fuel_kg`
+median 687 kg, 9 rows already dry at 00:11.
