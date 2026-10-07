@@ -209,8 +209,21 @@ reasoning, because a module session needs to know what is decided and what is st
 1. **Composer before end of flight: reshaped, not adopted as posed.** The composer does not gate
    the end-of-flight *dynamics*, which is the long pole and depends on none of it. It must exist
    before the first end-of-flight impact samples are composed with anything. So it runs as a small
-   parallel track rather than as a gate. It needs no master prompt of its own: `core-stages.txt`
-   §D6 already specifies it — evaluate `impact_log_likelihood` on `impacts.npy` per enabled module
+   parallel track rather than as a gate.
+
+   **Superseded 8 October on the ownership half of this ruling.** This decision originally said
+   the composer needed no master prompt of its own, because `core-stages.txt` §D6 already
+   specifies it and the work would sit with whoever owned core stages. That conflated two things
+   which have now been separated. **The composer is a thread of its own and gets its own brief.
+   The runner stage stays with the core estimator.** The dividing line is which files the work
+   edits: the composer reads `impacts.npy` and writes a new crate, touching no core file, so it
+   is safely owned elsewhere; the runner stage edits `main.rs` and `config.rs`, which the core
+   session owns and regression-gates. One consequence to hold: the composer thread owns its own
+   crate directory but the workspace `Cargo.toml` membership line is a shared file, raised as a
+   core request rather than edited.
+
+   The §D6 specification stands unchanged as the composer's starting content — evaluate
+   `impact_log_likelihood` on `impacts.npy` per enabled module
    and alternative; evidence sets from config; per-(replicate, mode) evidence increments so
    `summary.rs` pooling stays correct; ESS per factor and the posterior probability of each
    alternative; shared alternatives aligned **by name** and marginalised jointly across modules;
