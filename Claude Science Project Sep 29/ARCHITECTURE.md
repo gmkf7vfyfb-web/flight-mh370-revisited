@@ -50,7 +50,7 @@ core, in the `lib.rs` doc comment for a hypothesis — never left implicit.
 | 1 core filter | **built**, 53 tests pass | **built and validated** against Fig. 10.3 |
 | 2 end of flight | **built** — `Terminal` trait (`families`, `latent_columns`, `takeover_time`, `descend`), `handoff.npy`, `terminal.rs`, `impacts.rs` | **placeholder only** — `hypotheses/arc-kernel` is plumbing, not a model; it returns NaN impact energies |
 | 3 impact modules | **built** — `ImpactView`, `impact_log_likelihood`, `predict`, `mh370 evaluate` | **none** |
-| 4 composer | **not built** — `main.rs:71` rejects a `[[compose]]` section | — |
+| 4 composer | **not built** — `main.rs:71` rejects a `[[compose]]` section | **specified**, in `ISO Sept 28 Status/threads/master-prompts/core-stages.txt` §D6; needs no prompt of its own |
 
 So stage 1 is finished science, stages 2 and 3 are empty frames, and stage 4 does not exist. Any
 plan that treats the downstream modules as nearly-done is wrong.
@@ -106,10 +106,11 @@ the failure mode this document exists to prevent. The module set is the one esta
 | **architecture** | this file, `RUNBOOK.md`, merge order, `ImpactView` and hook changes. Writes no module code. | — |
 | **core estimation & sampler** | `engine/crates/{geo,satcom,flight}`, `crates/mh370/src/{filter,config}.rs`, `config/davey2016.toml`, sampler configs | validated; convergence work ongoing |
 | **fuel & performance** | `crates/flight/src/fuel.rs`, `config/sensitivity/{stage2,stage3,endurance,reject,fuel-smoke}*` | complete, validated, used by 16 of 51 configs |
-| **core stages & composer** | `crates/mh370/src/{handoff,terminal,impacts,main}.rs`, `crates/hypothesis` | stages 1–3 built, **stage 4 to build** |
+| **core stages & composer** | `crates/mh370/src/{handoff,terminal,impacts,main}.rs`, `crates/hypothesis` | stages 1–3 built, **stage 4 to build**, plus two core requests: the three `ImpactView` additions, and the wreckage-sample stage of decision 2 |
 | **end of flight** | `hypotheses/end-of-flight` (to create); descent families, breakup | placeholder only |
-| **ocean drift** | shared `crates/ocean`, then `hypotheses/debris-drift` | not started |
-| **impact to seafloor (settling)** | `hypotheses/settling` | not started; brief written |
+| **shared ocean transport** | `crates/ocean` on `core/ocean-transport`. No hypothesis, no likelihood | not started. Created by decision 4; **three consumers wait on it**, so its API is specified from drift, settling and Pleiades together before it builds |
+| **ocean drift** | `hypotheses/debris-drift` only — `crates/ocean` is **no longer** drift's, see decision 4 | not started; brief written, and stale on that ownership |
+| **impact to seafloor (settling)** | `hypotheses/settling` | not started; brief revised as `threads/master-prompts/settling.md`. Emits **wreckage samples**, not summary columns. Uncommitted prior work in `ISO Sept 28 Status/code/uncommitted/settling-untracked.tar.gz` |
 | **searched areas** | `hypotheses/seabed-search` | not started; rulings in `seabed-search-rulings.md` |
 | **hydroacoustics** | `hypotheses/hydroacoustics` | not started |
 | **Pleiades / COSMO-SkyMed** | `hypotheses/pleiades` | not started; sightings note exists |
@@ -264,3 +265,12 @@ reasoning, because a module session needs to know what is decided and what is st
 3. Provisioning of bathymetry and full-depth ocean reanalyses on this machine.
 4. Whether the end-of-flight entry point stays the fuel-exhaustion-window conditional once the
    fuel burn defect is fixed and the dry fraction rises.
+5. **Whether drift and Pleiades are downstream of settling.** Both need the sink-versus-float
+   partition, and so does settling, from the same element-class physics. One partition owned by
+   settling is correct on rules 3 and 4 but makes two modules wait; independent partitions give
+   two incompatible answers to one physical question. A third arrangement — settling delivers the
+   float partition first, ahead of its sinking physics — would unblock drift without splitting the
+   physics. See `results/impact-interface-requirements.md` §6. This changes the merge order, so it
+   is Pete's ruling, not the architect's.
+6. Where seafloor-depth lookup lives in the shared layer: hydroacoustics and settling both need
+   it, from one bathymetry surface, never computed twice.
