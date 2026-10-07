@@ -70,7 +70,9 @@ Three points about this table.
 The posterior is **tighter**, not wider. Both intervals narrow. The defect had kept slow
 southern paths alive on fuel they never burnt, and those paths were widening the distribution.
 
-The median moves 0.42° north. It is now 0.31° south of Davey's −37.532°.
+The median moves 0.42° north. It is now 0.31° **north** of Davey's −37.532°, where
+`6temper-realloc` sat 0.11° south of it. So the fuel model does not simply tighten the book's
+answer. It moves the terminus to the other side of it.
 
 The overlap with Davey falls. **That is expected and is not a fault.** Davey assumes infinite
 fuel. Once a real fuel constraint acts, agreement with a model that has no such constraint

@@ -594,11 +594,28 @@ def main():
     rep_ov = [overlap(r["density"], davey) for r in bfo["reps"]]
     rep_med = [r["stats"]["median"] for r in bfo["reps"]]
     pairwise = [overlap(a["density"], b["density"]) for i, a in enumerate(bfo["reps"]) for b in bfo["reps"][i + 1:]]
-    split = bfo["split_half_overlap"]
-    stability = (f". Pooling half of the replicates against the other half gives {split:.0%} overlap, so the "
-                 "pooled curve does not depend materially on the random seed" if split >= 0.9 else
-                 f". Pooling half of the replicates against the other half gives only {split:.0%} overlap, so "
-                 "the pooled curve is not yet converged at this particle count")
+    # `summary.json`'s `split_half_overlap` is the engine's SINGLE first-half-against-second-half
+    # value, and it is noisy: at eight replicates it is one draw from 35 balanced partitions whose
+    # range can span 0.13. Quoting it against a flat 0.90 has reported runs as converged that the
+    # project's own statistic fails. Use the all-partition mean against the replicate-count
+    # calibrated floor, which is what `report/model_comparison.py` and `results/
+    # split-half-threshold.md` define as the verdict.
+    from model_comparison import SPLIT_HALF_FLOOR, split_half_all
+    n_reps = len(bfo["reps"])
+    sh_all = split_half_all([np.asarray(r["density"]) for r in bfo["reps"]], GRID[1] - GRID[0])
+    if sh_all is None:                      # odd replicate count: no balanced partition exists
+        sh_all = {"mean": bfo["split_half_overlap"], "min": bfo["split_half_overlap"],
+                  "max": bfo["split_half_overlap"], "n_partitions": 1}
+    split, split_lo, split_hi = sh_all["mean"], sh_all["min"], sh_all["max"]
+    floor = SPLIT_HALF_FLOOR.get(n_reps)
+    verdict = floor is None or split >= floor
+    against = f" against the {n_reps}-replicate floor of {floor:.3f}" if floor is not None else ""
+    stability = (f". Over all balanced partitions of the {n_reps} replicates the split-half overlap averages "
+                 f"{split:.1%} (range {split_lo:.1%} to {split_hi:.1%}){against}, so the pooled curve does not "
+                 "depend materially on the random seed" if verdict else
+                 f". Over all balanced partitions of the {n_reps} replicates the split-half overlap averages only "
+                 f"{split:.1%} (range {split_lo:.1%} to {split_hi:.1%}){against}, so the pooled curve is NOT "
+                 "converged at this particle count and quantities read off it carry that caveat")
     shoulder = (GRID > -36.5) & (GRID < -34.5)
     shoulder_ours = float(bfo["density"][shoulder].sum() * (GRID[1] - GRID[0]))
     shoulder_dav = float(davey[shoulder].sum() * (GRID[1] - GRID[0]))
