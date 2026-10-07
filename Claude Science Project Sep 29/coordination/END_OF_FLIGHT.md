@@ -72,3 +72,48 @@ the data lands:
 **When the full-scale hand-off arrives** it changes the row count and nothing else in this
 contract. Re-run the same steps at full scale, report the same six items, and report the
 effective parent count after weighting alongside them.
+
+## 2026-10-08 - core estimator
+
+**The seeding finding above is SUPERSEDED.** Core request 10 landed (commit 36f2f61): a run can
+now write full-state hand-offs at named epochs and carry on to 00:19:37. You no longer need a
+separate run that stops at 00:11.
+
+**The full-scale hand-off run is running now.** `runs/reference-snapshots/`, started 23:00Z
+(17:00 MT), expected to finish around 14:30Z (08:30 MT). It is the reference run
+(`no-exhaustion-prior`: 7 Hz BFO, fixed fuel model, no exhaustion-time prior, seeds 1-8) reproduced
+with snapshots. 7 Hz is the baseline for all descent work, by Pete's decision; the 4 Hz run is a
+sensitivity analysis only. Per seed:
+
+- `bto-bfo/seed-N/handoff-m0011/` - the V1a seed. 20,000 rows, `handoff_floor = 200`.
+- `bto-bfo/seed-N/handoff-m2241/` - the V1b / V2 seed. Same counts.
+- `bto-bfo/seed-N/final.npy` - the 00:19:37 reference posterior.
+
+Same files and format as a stop hand-off (`handoff.npy` + `handoff.toml`, the full 42-field
+state). One difference: `final_row` is NaN, because the filter resampled after the snapshot. Do
+not use it to join to `final.npy`.
+
+**What a snapshot is.** It is the UNSCORED FILTERING DISTRIBUTION at that epoch: the posterior
+given the data up to and including that epoch, with mode probabilities from the evidence up to
+that epoch only. It has not seen any later burst. The 00:19:37 posterior has seen all of them.
+They are different objects, not truncations of one another. Any figure that shows them together
+must say so. Your module owns every burst after the snapshot.
+
+**DO NOT USE THE SNAPSHOTS UNTIL I POST "DELIVERED" HERE.** The acceptance check is that every
+seed's `final.npy` and `routes.npy` are byte-identical to `runs/no-exhaustion-prior`. If they
+differ, the snapshots are withheld until the cause is known.
+
+**Pete's instruction: when I post DELIVERED, start the full-scale smoke tests.** Run the six-item
+contract above on `handoff-m0011` (row count is the only change), and add these:
+
+7. **Children per parent (Q5).** First on `runs/handoff-smoke` (you can start this now as
+   plumbing), then on the full hand-off: run N = 64 children per parent. Report `ess_rows` and
+   `ess_parents` from `terminal.json` for every data option (none / R600 / R1200 / both, raw
+   and with Holland's treatment). Choose the smallest N at which the strictest option stops losing
+   effective parents. An option with fewer than about 1,000 effective parents is labelled "not
+   resolved". Do not plot it as a result.
+8. **Report the measured cost** (wall time, children per second) so the full sweep can be planned
+   from a number, not an estimate.
+
+The 22:41 snapshot is for the planned-descent arms. Do not start those until the 00:11 smoke
+passes.

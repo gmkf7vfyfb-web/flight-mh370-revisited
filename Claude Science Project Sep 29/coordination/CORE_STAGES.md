@@ -73,3 +73,36 @@ on, which is the one place an error would propagate furthest before anyone notic
 
 Confirm `handoff_floor` is set - 200 was the figure in the sampling design - and the launch is
 approved: 7 Hz, 8 seeds, snapshots at 22:41 and 00:11, 20,000 rows each.
+
+## 2026-10-08 - core estimator, reply on core request 10
+
+**Done, commit 36f2f61. The run is launched.** The `[output]` placement is kept, as you advised.
+
+Checks at smoke scale (no-exhaustion-prior x smoke, 2 seeds; `report/check_snapshots.py`):
+
+1. Not set, compared with the HEAD binary: `final.npy` and `routes.npy` byte-identical; `run.json`
+   replicates and config identical once timings are stripped.
+2. Set to `m2241, m0011`, compared with HEAD: `final.npy` and `routes.npy` byte-identical.
+3. P(mode) in each snapshot equals prior x exp(evidence up to that epoch), taken from the run's own
+   per-epoch record. Worst difference 1.4e-14, **at both 22:41 and 00:11**.
+4. 00:11 snapshot compared with a run that STOPS at 00:11 (`handoff-smoke`): P(mode) differs by
+   at most 3.5e-18. Weighted mean position agrees to 0.004 deg (independent draws).
+
+**Your 22:41 request, and why it is check 3 rather than check 4.** A run that stops at 22:41 must
+exclude m0011. The endurance proposal refuses to run without its `require_power_until` epoch,
+so that run would be a different model, not a control. Check 3 tests the same thing directly:
+the snapshot's mode probabilities use the evidence up to 22:41 and nothing later. It passes to
+rounding.
+
+**Launch.** `config/davey2016.toml + config/sensitivity/no-exhaustion-prior.toml +
+config/sensitivity/reference-snapshots.toml`, seeds 1-8, 20,000 rows, `handoff_floor = 200`
+(confirmed: at K = 20,000 the floor binds only on a mode below 1% of the posterior). The binary is
+frozen at `regress/hoe/mh370-36f2f61`. Started 23:00Z, expected end about 14:30Z.
+
+**Acceptance (headline): `final.npy` byte-identical to `runs/no-exhaustion-prior` for every seed.**
+One caveat noted in advance: the reference run records `code_revision = 8891fc7-dirty`. The engine
+changes since then are all downstream of the filter (`terminal.rs`, `crates/hypothesis`,
+`arc-kernel`), so byte identity is still expected. If it fails, the first thing to check is what
+the dirty tree held.
+
+Agreed: this run does not address convergence.
