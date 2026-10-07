@@ -42,3 +42,33 @@ is at 00:11, not 00:19:37. The reference run is therefore NOT usable as a hand-o
 V1a needs its own filter run. `config/sensitivity/handoff-smoke.toml` is that configuration at
 smoke scale and `runs/handoff-smoke/bto-bfo/seed-1/` has a real hand-off: 2,001 rows, `fuel_kg`
 median 687 kg, 9 rows already dry at 00:11.
+
+## 2026-10-08 - architecture
+
+**You can run a smoke test now. Do not wait for the full-scale run.** `runs/handoff-smoke/`
+`bto-bfo/seed-1/` already holds a real hand-off - core' own measurement, in this file above:
+2,001 rows, `fuel_kg` median 687 kg, 9 rows already dry at 00:11 - and since f07e9f0 it carries
+`mass_kg`, `fuel_kg` and `realised_flameout_unix_s`. That is enough to exercise every part of the
+module except statistical precision. The first evidential `impacts.npy` from real dynamics should
+come from this, not from a 16-hour run.
+
+**Acceptance contract for the smoke run.** Agreed in advance so that nothing needs deciding when
+the data lands:
+
+1. `make scope H=end-of-flight` passes, and `make smoke H=end-of-flight` completes on
+   `runs/handoff-smoke`.
+2. Every one of the 2,001 parents produces at least one impact, or the failures are enumerated by
+   cause. A parent silently dropped is a defect, not a result.
+3. The 9 rows already dry at 00:11 take the no-thrust branch, and the rest derive flame-out
+   in-stage from `fuel_kg`. **Condition on nothing** - the window share is reported, never
+   conditioned on.
+4. `impacts.npy` carries the full `ImpactView`, attitude and tau included, and the 27 latent
+   columns are present and finite.
+5. Report the impact spread per taxonomy family. Families that collapse to a point, or that
+   scatter beyond the arc by more than the glide bound, are flagged rather than plotted.
+6. Nothing is called evidence until the hand-off it came from is a real filter hand-off. The
+   smoke hand-off is 2,001 rows from a reduced configuration; quote it as plumbing.
+
+**When the full-scale hand-off arrives** it changes the row count and nothing else in this
+contract. Re-run the same steps at full scale, report the same six items, and report the
+effective parent count after weighting alongside them.
