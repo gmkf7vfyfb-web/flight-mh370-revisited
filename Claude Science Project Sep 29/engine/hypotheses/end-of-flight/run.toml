@@ -1,0 +1,123 @@
+# The integrated estimate with the end-of-flight model.
+#
+# NOTE: selecting this module as the terminal model needs `[terminal] module = "end-of-flight"`
+# in a core-owned config, which a hypothesis may not write (core request 6). Until that is done
+# this file runs the integrated estimate with the existing placeholder terminal module and only
+# supplies the parameter block below, so that `make smoke H=end-of-flight` exercises the build
+# and the parameter parsing. The parameter block is ready to be lifted into config/integrated.toml.
+base = "../../config/integrated.toml"
+name = "end-of-flight"
+
+[hypotheses.end-of-flight]
+# Integration. The step is a parameter and is NOT tied to the core filter's 5 s manoeuvre step;
+# the fine step runs through the flame-out transition.
+step_s = 2.0
+fine_step_s = 0.2
+fine_window_s = 30.0
+max_flight_s = 10800.0
+descents_per_child = 4
+
+# Fallbacks while the hand-off carries NaN for the fuel state (core request 1). Every result that
+# uses them is provisional, and the mass_kg_assumed latent records when they were used.
+# 174 t is the brief's calibration mass and about the 9M-MRO zero-fuel mass.
+fallback_mass_kg = 174000.0
+fallback_fuel_kg = 2000.0
+# 00:17:30 UTC: the project's configured anticipated exhaustion.
+fallback_predicted_exhaustion_unix_s = 1394237850.0
+
+# Prior weights of the propulsion axis (two, one, neither thrusting) and of the control axis
+# (ditching attempt, maintained then lost, no intervention, upset then recovery). Explicit, and
+# reported per family. Equal weights here are a statement of indifference between piloted and
+# unpiloted, not a computational convenience: Monte Carlo allocation is separate.
+propulsion_weights = [1.0, 1.0, 1.0]
+control_weights = [1.0, 1.0, 1.0, 1.0]
+
+# Negative results are kept, not deleted. With this off a descent that never reached the sea is
+# finished on a best glide and the fact recorded in the timed_out latent; with it on the
+# unconverged state is emitted as its own impact sample, for inspection only. Any reported impact
+# PDF must have it off.
+emit_timed_out_descents = false
+
+[hypotheses.end-of-flight.aero]
+# Published 777-200 geometry.
+wing_area_m2 = 427.8
+span_m = 60.93
+oswald_efficiency = [0.76, 0.84]
+# THE calibration target: the Poll-Schumann-derived clean (L/D)max band at 174 t quoted in the
+# brief, against Boeing's ~20.7:1 driftdown (Malaysian SIR App. 1.6E). c_d0 is derived from it.
+ld_max_clean = [20.8, 21.4]
+# MMO, from the type certificate. OpenAP and Poll-Schumann list 0.89.
+mach_crest = 0.87
+# Lock's fourth-power law. EXTRAPOLATED above M0.87: the brief asks for NASA CRM shaping, which
+# is not in this tree.
+wave_drag_coefficient = [10.0, 40.0]
+crest_cl_sensitivity = 0.10
+# Mach tuck. EXTRAPOLATED, same reason.
+tuck_cl_per_mach = [0.0, 0.6]
+c_l_max_clean = 1.30
+# Uncertain parameters, not constants: there are no public Trent 892 figures. With these bands
+# the unpowered glide from 35,000 ft runs 85-105 NM.
+windmilling_per_engine = [0.0020, 0.0060]
+rat_increment = [0.0001, 0.0006]
+# Modelling parameters with a declared sensitivity, chosen so the model's idle descent rates sit
+# near published operational practice. NOT cited: the circulating figures come from unauthorised
+# copies of copyrighted manuals.
+speedbrake_increment = [0.020, 0.045]
+landing_configuration_increment = [0.050, 0.090]
+# Trent 892, 93,400 lbf, type certificate.
+sea_level_static_thrust_n = 415450.0
+idle_thrust_fraction = [0.03, 0.10]
+thrust_density_exponent = 0.7
+# Assumed, swept. NOT the core's calibrated fuel tables (core request 3).
+tsfc_kg_per_n_s = [1.4e-5, 1.8e-5]
+
+[hypotheses.end-of-flight.onset]
+# Support of the anticipatory lead, seconds before the PREDICTED exhaustion under continued
+# cruise. [0.0, 0.0] is the legal empty support and gives arm V1 (flame-out-associated onset
+# only); 5760 s is 96 minutes, which fits inside a 22:41 branch (22:41 is 5,790 s before the
+# 00:17:30 anticipated exhaustion) and covers the 60- and 90-minute alternatives. A 120-minute
+# window needs the 21:41 checkpoint instead. No checkpoint is hard-coded in the code.
+anticipatory_lead_s = [0.0, 5760.0]
+# Prior weights of anticipatory, fuel-cue and flame-out-associated initiation.
+mechanism_weights = [1.0, 1.0, 1.0]
+# Defensive proposal: oversample the long-lead (early) end of the support, with exact importance
+# weights. 30% of the anticipatory draws come from the earliest half of the support.
+early_oversample_weight = 0.3
+early_fraction = 0.5
+# PROVISIONAL (core request 2 in spirit, core request 1 in fact): seconds from the modelled
+# FUEL QTY LOW caution to exhaustion. The citable cue is the FAA rulemaking record of the 777
+# caution appearing below 4,500 lb (~2,040 kg) per main tank; converting that to a time needs the
+# core's fuel tables, including imbalance and unusable fuel, which a hypothesis cannot reach.
+fuel_caution_lead_s = [1800.0, 4200.0]
+recognition_delay_s = [10.0, 300.0]
+response_delay_s = [10.0, 600.0]
+
+[hypotheses.end-of-flight.envelope]
+# The descent envelope is sampled, never assumed. The rate bands bracket the operational idle
+# reference rates (clean and with speedbrakes) used as uncalibrated targets, not citations.
+descent_rate_fpm = [800.0, 3500.0]
+emergency_rate_fpm = [3000.0, 6500.0]
+emergency_mach = [0.80, 0.87]
+descent_mach = [0.50, 0.78]
+transition_altitude_ft = [8000.0, 15000.0]
+# Extra level-off candidates are drawn from this band; 10,000 ft and 4,000 ft are always
+# candidates. 4,000 ft is included because it appears in the recovered simulator data - the
+# reason for including the altitude, not support for its having been flown.
+leveloff_altitude_ft = [1500.0, 30000.0]
+# Up to 40 minutes level: an hour between onset and impact need not be an hour descending.
+leveloff_seconds = [60.0, 2400.0]
+second_leveloff_probability = 0.4
+# Ditching guidance gives 200-300 ft/min on final before the flare. Modelling parameter.
+approach_rate_fpm = [200.0, 300.0]
+approach_altitude_ft = [500.0, 2000.0]
+# Outcomes depend mostly on the starting asymmetry rather than on aerodynamic detail, so the
+# residual bank and the trim offset are explicit uncertain inputs.
+residual_bank_deg = [0.0, 35.0]
+trim_cl_offset = [-0.08, 0.08]
+control_loss_after_s = [30.0, 1800.0]
+# An upset recovery must be dynamically demonstrated: attempted above the floor, inside the Mach
+# limit, with the usable lift for 1.5 g, and the rate actually regained above the floor.
+recovery_altitude_ft = [8000.0, 25000.0]
+recovery_floor_ft = 3000.0
+recovery_rate_fpm = 4000.0
+recovery_mach_limit = 0.92
