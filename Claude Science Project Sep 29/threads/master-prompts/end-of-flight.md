@@ -182,9 +182,17 @@ burn rate.
 
 ### Onset support and the checkpoint
 
-With our configured anticipated exhaustion of 00:17:30 UTC, a 22:41 checkpoint gives a ~96-minute
-onset window, covering the 60- and 90-minute alternatives. **A 120-minute window begins at 22:17:30
-and requires the 21:41 (`m2141`) checkpoint instead.**
+**The 00:17:30 anchor is gone and must not come back.** It was a configured
+`exhaustion_target_utc`, worth 0.168 nats, and the reference run removes it precisely because it
+forced a disputed hypothesis on the ensemble. Predicted exhaustion is now a *per-trajectory*
+quantity computed from the handed-off fuel state under continued cruise — which is what core
+request 1 exists to supply — so the onset window is per-trajectory too, not a single clock time.
+
+For scale only, using the run's own implied flame-out quantiles: a 22:41 checkpoint gives roughly
+a 96- to 104-minute onset window at the median, comfortably covering the 60- and 90-minute
+alternatives. **A 120-minute window reaches back before 22:41 for much of the population and
+requires the 21:41 (`m2141`) checkpoint instead.** Compute the window per trajectory and report the
+distribution of its length; do not quote one number derived from one assumed exhaustion time.
 
 Making the checkpoint *be* the earliest permitted onset removes an arbitrary horizon, but keep the
 diagnostic: **if supported trajectories accumulate against the checkpoint boundary, the boundary is
@@ -283,19 +291,54 @@ Keep these separate; running them together has already caused one wrong diagnosi
    physics was integrated at. If the hand-off turns out not to carry fuel state at adequate
    precision, that is a core request — raise it, do not work around it.
 
-### The seed is provisional, and you must say so
+### The seed, and why you do not condition on flame-out
 
-`6temper-realloc` is the current best core run and the natural seed. Its **absolute fuel numbers
-are not usable**: `results/fuel-burn-gap.md` records a defect in which `Aircraft::burn_fuel`
-returned without burning anything whenever the flow lookup failed, for 19.55% of every trajectory
-on a mass-weighted average, so the dry fraction, the mean fuel remaining and anything conditioned
-on exhaustion are artefacts of that defect rather than results. A fix has been written and the
-Boeing Appendix 1.6E calibration survives it, but the re-run is not yet done.
+**`no-exhaustion-prior` is the seed.** It is the first full-scale run on the corrected fuel model
+and it supersedes `6temper-realloc` for every result — 8 × 7M, 15.52 h, logZ −98.420,
+`fuel_no_flow_s` exactly 0.000 s for every particle in every replicate. It also *removes* the
+00:17:30 exhaustion term, so exhaustion time is an output rather than something the model was told
+to produce. Do not seed from `6temper-realloc`: its fuel state is the burn defect of
+`results/fuel-burn-gap.md`, not the aircraft.
 
-Consequences while that is true: do not quote a dry fraction or a fuel-remaining figure from that
-run; treat any flame-out-conditioned subset as a **test fixture rather than a scientific result**;
-and expect the dry fraction to rise substantially once the fix lands, which will make conditioning
-on exhaustion select much less strongly than it appears to now. Re-derive before you report.
+Carry its limits with anything you derive. It **fails the convergence floor** — split-half mean
+0.9020 over all 35 balanced partitions, range 0.8188 to 0.9495, against 0.924 at 8 replicates,
+replicate median span 0.339°. Quote the median (−37.225°) and the 50% interval ([−37.85, −37.00],
+width 0.85°). Do **not** quote the shoulder mass or the mode probabilities from it as converged.
+
+**Now the part that decides your design: take the whole hand-off and condition on nothing.**
+
+The temptation is to condition on flame-out, so that every particle has the event this module is
+built around. The run says that buys almost nothing and costs real support. At 00:19:37 the
+posterior divides as 56.86% already dry, 30.94% still running with under 10 minutes of fuel,
+11.15% with 10 to 30 minutes, 1.05% with more than 30 and 0.01% with more than an hour — so
+**98.9% is within thirty minutes of fuel exhaustion at the final transmission and 87.8% within
+ten.** Over the 43.14% not yet dry the median remaining is 521 kg, about five and a half minutes
+at the run's own 5,764 kg/h, with implied flame-out at 00:20:01, 00:21:58, 00:25:04, 00:30:24 and
+00:42:47 at the 5th, 25th, 50th, 75th and 95th percentiles.
+
+So a flame-out conditional does not separate a hypothesis from its alternative. It separates
+trajectories that flamed out *before the model stopped looking* from trajectories that flame out a
+few minutes later, and it discards the second group — which is exactly where a glide after
+exhaustion and a descent begun before it differ most. Three further reasons it is the wrong cut:
+
+- the window "between the arcs" is 509 s and `fuel_exhausted_unix_s` is `float32` with a 128 s ulp
+  at this epoch, so the condition's own defining variable has about four distinguishable slots
+  across it, and a straddling slot holds a few per cent of mass that belongs to neither side;
+- 43.14% "never runs dry" only means "had not run dry by 00:19:37", because the model stops at the
+  last measurement and says nothing about 00:19:38;
+- conditioning obliges every figure to carry a condition label for the rest of the project.
+
+**Instead: hand off everything, and let this stage compute flame-out itself.** A trajectory already
+dry at the hand-off takes over at its own exhaustion; one still running burns its remaining fuel
+inside this stage and flames out when it does, at your integration resolution rather than at 128 s.
+That removes the window, the quantisation, the straddling slot and the post-hoc selection in one
+move, and it is the same change as core request 1 — the hand-off must carry the fuel state. Until
+that request lands you are running on configured fallbacks and every onset number is provisional;
+say so on every figure.
+
+The flame-out window remains worth **reporting** — 51.01% of all mass runs dry between the two
+arcs, which is 89.73% of everything that runs dry at all, replicate range 86.7% to 91.9%. That is a
+result of the model, not an assumption in it. Report it; do not condition on it.
 
 ---
 
