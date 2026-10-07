@@ -1,5 +1,25 @@
 # Every full-scale run this project has done, and what separates the converged ones
 
+> **Annotation added 6 October 2026, after the fuel-burn defect was found and fixed.**
+>
+> Every one of the 15 fuel rows in this ledger — of 37 case rows in all — was produced by a
+> fuel model with a defect: the
+> flow tables returned no answer for some ordinary cruise conditions and the step then burnt
+> nothing, and the filter concentrated on the paths that found it. See
+> `results/fuel-burn-gap.md`.
+>
+> This matters for the ledger's central claim — that runs scoring fuel against the satcom data
+> never reach the convergence floor while fuel-free runs almost always do — because the obvious
+> worry is that the defect caused the failure. **The one matched test available says it did
+> not.** A smoke pair differing only in the fix (2 replicates × 999,000 particles, identical
+> configuration) moves split-half from 0.6599 to 0.6660, which is +0.006 against a shortfall of
+> 0.04 to 0.06. The defect was a bias, not a variance problem, and the posteriors it produced
+> were wrong in location rather than unstable between replicates.
+>
+> So the ledger's separation between the fuel and fuel-free groups stands provisionally, and the
+> full-scale `no-exhaustion-prior` run on the fixed model is what settles it. Until then, read
+> the fuel rows as evidence about the sampler, not about the aircraft.
+
 `results/convergence-ledger.csv` is the harvest of every `convergence.json` in the tree — 33
 archived sensitivity runs under `results/<name>/` plus the four live runs under `engine/runs/`,
 37 case rows in all. For each it carries the split-half overlap, the replicate-count-calibrated
@@ -14,7 +34,7 @@ that the full-scale wide-Mach fuel runs were lost. **They were not.** Their post
 with the complete diagnostic record, so the numbers below are read from file rather than from
 prose.
 
-![Split-half overlap for every full-scale run, grouped by whether fuel is scored against the satcom data](convergence-ledger.png)
+![Split-half overlap for every full-scale run, grouped by whether fuel is scored against the satcom data]({{artifact:art_4d215e0a-3b19-4e50-ac99-6f79c83c840e}})
 
 *Figure: `results/convergence-ledger.pdf`. Each row is one run; the dot is its split-half overlap
 at 00:19 and the tick is the convergence floor calibrated for that run's replicate count. Filled

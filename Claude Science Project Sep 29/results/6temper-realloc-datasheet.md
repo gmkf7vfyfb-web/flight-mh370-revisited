@@ -1,5 +1,27 @@
 # Run datasheet: `6temper-realloc`
 
+> **WITHDRAWN IN PART, 6 October 2026. Do not quote the fuel figures.**
+>
+> This run used a fuel model with a defect. The flow tables returned no answer for some
+> ordinary cruise conditions, and the step then burnt nothing. The particle filter concentrated
+> on the paths that found that condition, because a path with fuel left scores better. So the
+> run burnt too little fuel.
+>
+> **Withdrawn:** the last four rows of the table in section 2d — the 36.8 % dry figure, the
+> 63.2 % still-fuelled figure and its 6,462 kg mean, the exhaustion-time distribution, and the
+> dry-against-still-fuelled latitude split. Each is struck through in place, so the banner and
+> the table cannot disagree. The paragraph after the limitations list is rewritten rather than
+> struck, because its conclusion was wrong rather than its arithmetic.
+>
+> **Still valid:** every number about convergence, latitude, mode probability, evidence and
+> runtime is affected only through the fuel model's effect on the posterior, which is large.
+> Treat the whole run as superseded for results and reliable only as a record of the sampler's
+> behaviour. The replacement run is `no-exhaustion-prior` on the fixed model.
+>
+> The cause, the fix and the re-validation against Boeing's own figures are in
+> `results/fuel-burn-gap.md`. The corrected exhaustion-term arithmetic is in
+> `results/exhaustion-prior-is-nearly-inert.md`.
+
 Written in simple English. Short sentences. One idea in each sentence.
 
 The run is the project's current best model. It uses the book's priors, two extensions, and a
@@ -156,10 +178,10 @@ See `results/realloc-trajectory-statistics.pdf`. All shares are posterior-weight
 | Mach changes | 0 for 35 %, 1 for 31 %, 2 for 17 %. Mean 1.33. |
 | Altitude at 00:19:37 | Median 36,800 ft. 5–95 % is 26,900 to 42,000 ft. |
 | Mach at 00:19:37 | Median 0.802. 5–95 % is 0.733 to 0.833. |
-| Fuel exhausted by 00:19:37 | **36.8 % of the probability** |
-| Fuel still aboard | 63.2 %. The mean amount is 6,462 kg over the whole posterior. |
-| Exhaustion time, for the paths that ran dry | 95.4 % within 5 minutes of 00:17:30. 95.4 % between 00:11 and 00:19:29. |
-| Latitude at 00:19:37 | The paths that ran dry sit near −37.7°. The paths that still held fuel sit near −38.07° and are broader. |
+| Fuel exhausted by 00:19:37 | ~~36.8 % of the probability~~ **WITHDRAWN** — defect. On the fixed model, 51.5 %. |
+| Fuel still aboard | ~~63.2 %, mean 6,462 kg over the whole posterior~~ **WITHDRAWN** — defect. The mean is not re-reported, because the figure that replaces it belongs to the replacement run. |
+| Exhaustion time, for the paths that ran dry | ~~95.4 % within 5 minutes of 00:17:30. 95.4 % between 00:11 and 00:19:29.~~ **WITHDRAWN** — defect. On the fixed model, with the 00:17:30 term removed altogether, 91.7 % of the dry mass runs dry between 00:11 and 00:19:29. |
+| Latitude at 00:19:37 | ~~Paths that ran dry sit near −37.7°; paths that still held fuel sit near −38.07° and are broader.~~ **WITHDRAWN** — defect. The split between the two groups was created by the defect. |
 
 Three limits on the last table. State them with the figure.
 
@@ -173,7 +195,13 @@ Three limits on the last table. State them with the figure.
    probability. The filter uses `f64` internally and is not affected. Store the column as an
    offset from a reference epoch to fix it.
 
-A fourth point is a result, not a limit. 63 % of the posterior still holds fuel at 00:19:37. That
-is not consistent with flame-out at 00:17:30. The reason is the shape of the exhaustion term. At
-`exhaustion_sd_s = 300`, a path that never runs dry pays only 0.09 nats. See
-`results/exhaustion-prior-is-nearly-inert.md`.
+A fourth point was written here as a result. It was a defect. The text said that 63 % of the
+posterior still holds fuel at 00:19:37, and blamed the shape of the exhaustion term. The
+exhaustion term is indeed weak, but it is not the reason. The reason is that the flow tables
+returned no answer for some cruise conditions, so those steps burnt nothing.
+
+On the fixed model, 51.5 % of the posterior runs dry by 00:19:37 with the exhaustion term
+removed altogether. Of everything that runs dry, 91.7 % runs dry between the 6th and the 7th
+arc. The exhaustion term is still weak, at 0.168 nats, but for a different reason: the paths
+that run dry land a mean 197 seconds from 00:17:30, which is 0.66 of one standard deviation.
+See `results/fuel-burn-gap.md` and `results/exhaustion-prior-is-nearly-inert.md`.
