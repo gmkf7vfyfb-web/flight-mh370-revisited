@@ -32,7 +32,7 @@ pub const PARTICLE_BYTES: usize = std::mem::size_of::<Particle>();
 /// `mode` is the autopilot mode the particle is flying at the end, which differs from its
 /// stratum once a lateral-navigation path has reverted to heading hold. `stratum` is the
 /// mode filter the particle belongs to: weights and pooling use it.
-pub const FINAL_COLUMNS: [&str; 18] = [
+pub const FINAL_COLUMNS: [&str; 20] = [
     "weight", "latitude_deg", "longitude_deg", "altitude_ft", "mach", "tau_h", "turns", "accelerations", "climbs", "mode",
     "bfo_bias_hz", "origin", "stratum",
     // NaN throughout when the run does not model fuel. `fuel_exhausted_unix_s` is NaN for a
@@ -40,6 +40,9 @@ pub const FINAL_COLUMNS: [&str; 18] = [
     // of the path were flown where the tables needed clamping or extrapolating.
     "fuel_kg", "fuel_exhausted_unix_s", "fuel_below_tables_s", "fuel_extrapolated_s",
     "fuel_above_ceiling_s",
+    // Any nonzero fuel_no_flow_s is a defect: the tables returned no flow and the step burnt
+    // nothing. fuel_no_flow_cause codes why - 1 flight level, 2 Mach, 3 weight, 4 the tables.
+    "fuel_no_flow_s", "fuel_no_flow_cause",
 ];
 
 /// A time at which the filter stops and weights particles: a SATCOM epoch, or an epoch
@@ -923,6 +926,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 a.fuel_below_tables_s,
                 a.fuel_extrapolated_s,
                 a.fuel_above_ceiling_s,
+                a.fuel_no_flow_s,
+                a.fuel_no_flow_cause,
             ]
         })
         .collect();

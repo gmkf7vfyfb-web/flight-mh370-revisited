@@ -1,168 +1,88 @@
-# The fuel exhaustion-time prior is nearly inert, and that changes three conclusions
+# The 00:17:30 exhaustion term is nearly inert — re-measured on the fixed fuel model
 
-Smoke pair, 1,000,000 particles × 2 replicates, one case, `6temper-realloc`'s allocation scaled
-down, everything identical except the presence of `exhaustion_target_utc = 00:17:30` with
-`exhaustion_sd_s = 300`.
+The earlier version of this note reached the right conclusion from a run whose fuel burn was
+defective. This version re-measures it on the fixed binary, where the burn is physical and
+about half the posterior now reaches exhaustion. The conclusion survives, the number moves
+from 0.09 to 0.17 nats, and the reason changes.
 
-| | split-half (1 partition) | median | Fig. 10.3 overlap | shoulder | wall |
-|---|---|---|---|---|---|
-| term present | 0.6599 | −37.842 | 0.6810 | 0.0664 | 1,297 s |
-| term removed | 0.6553 | −37.851 | 0.6759 | 0.0639 | 1,279 s |
+## The measurement
 
-Nothing moves. The median shifts 0.009°, the overlap 0.005, the shoulder 0.0025, and split-half
-0.005 in the direction that would favour keeping the term. Tightest-epoch ESS is 5.663% in both,
-to three decimal places.
+Matched smoke pair, 2 replicates × 999,000 particles, `6temper-realloc` allocation scaled
+down, fixed fuel model, one variable — `exhaustion_target_utc = 00:17:30` with
+`exhaustion_sd_s = 300` present or absent. Nothing else differs.
 
-## Why: the term is worth 0.09 nats
-
-The exhaustion likelihood scores `fuel_exhausted_unix_s` when the tank ran dry, and the time of
-the **last step** when it did not — a lower bound, chosen so that a path still holding fuel is
-penalised smoothly rather than by a cliff. The last step is 00:19:37. The target is 00:17:30.
-The gap is **127 seconds against a 300-second standard deviation, which is 0.42 σ**, so the
-log-penalty for a path that never runs dry at all, relative to one that exhausts exactly on
-target, is
-
-> −½ (127/300)² = **−0.0896 nats**, a weight ratio of 0.91.
-
-A term that can discount the worst-case path by 9% is not shaping the posterior and is not
-shocking the sampler. It is doing almost nothing.
-
-## Three conclusions that change
-
-**1. The posterior does not depend on the fuel-exhaustion hypothesis.** This is the sensitivity
-result, and it is the comfortable one: whether or not the 00:19 log-on is attributed to fuel
-exhaustion, the arc-latitude PDF is the same to within 0.01°. The methodological worry about
-conditioning the ensemble on a disputed cause is real in principle and empirically negligible
-here. Both arms can be reported and they agree.
-
-**2. `results/fuel-path-degeneracy.md` identified the wrong term.** That note argued the terminal
-exhaustion likelihood was the path-degeneracy shock — a sharp window on a whole-path functional,
-arriving after every epoch had been resampled against. The sharpness was asserted from the
-300-second figure without comparing it to the 127-second lever arm it actually acts over. It is
-not sharp. **The proposed fuel look-ahead would therefore be solving a problem that does not
-exist**, and it should not be built. The diagnosis of *where* the fuel degeneracy lives has to
-start again.
-
-**3. The fuel model independently supports the 00:17:30 hypothesis.** With the term removed, so
-the filter is told nothing about when the engines should stop, the predicted exhaustion time of
-the paths that do run dry falls as:
-
-| | with the term | **without it** |
+| | term present | term removed |
 |---|---|---|
-| P(exhaustion within 00:17:30 ± 5 min) | 96.6% | **93.0%** |
-| P(exhaustion between 00:11 and 00:19:29) | 100.0% | **98.5%** |
-| median exhaustion time | 00:14:56 | 00:14:56 |
+| median latitude at 00:19:37 | −37.144° | −37.187° |
+| 50 % interval, shoulder mass | 0.2703 | 0.2571 |
+| overlap with Davey Fig. 10.3 | 0.6968 | 0.6942 |
+| split-half overlap | 0.6660 | 0.6559 |
+| dry by 00:19:37 | 47.83 % | 51.53 % |
+| log evidence | −105.644 | −98.852 |
 
-An unconditioned filter, constrained only by the arcs, the Boeing tables and the requirement that
-the aircraft still had fuel at 00:11, puts 98.5% of its exhausting mass between the 6th and 7th
-arcs and 93% within five minutes of 00:17:30. That is the diagnostic the removal was meant to
-buy, and it comes out in favour of the hypothesis rather than against it.
+The two posteriors differ by L1 = 0.043. The median moves 0.043°, which is **exactly** the
+median's own half-to-half agreement at full scale. In other words the term changes the answer
+by about as much as the sampler's own noise.
 
-## Two things the same measurement exposes
+## Why the 6.79-nat evidence gap is not a 6.79-nat constraint
 
-**Most of the posterior still has fuel at the last step.** At smoke scale, 1M × 2 replicates with
-equal weights across replicates, 53% still holds fuel with a mass-weighted mean of 3,836 kg. On
-the full-scale `6temper-realloc` run — 7M × 8 replicates with the correct per-replicate,
-per-stratum pooling factors applied — the figures are **63.2% still holding fuel and a mean of
-6,462 kg across the whole posterior**, about 68 minutes of cruise. The full-scale pair is the one
-to quote; the smoke pair understates the effect because the two replicates were pooled with equal
-weights rather than by evidence share. Either way the conclusion is the same and the full-scale
-version is stronger.
-If the flame-out hypothesis is right, that half of the posterior is inconsistent with it, and the
-reason it survives is precisely the 0.09-nat penalty computed above. So the hypothesis is *not*
-being imposed on the ensemble; if anything it is barely being expressed. A term that actually
-tested it would have to discriminate at 2–3 nats, not 0.09 — which argues for reshaping rather
-than removing it, as a one-sided constraint anchored on the APU-start and SDU-boot interval
-before 00:19:29 rather than a wide symmetric Gaussian.
+Removing the term raises log evidence by 6.792 nats, which looks like a strong constraint and
+is not. The difference is `log E_posterior-without[L_exhaust]`, and a Gaussian **density** with
+σ = 300 s carries a normalising constant of `−log(300√(2π)) = −6.623` nats that every path pays
+regardless of how well it fits. Evaluating the term directly over the term-removed posterior
+reproduces the observed gap to three decimal places:
 
-**`fuel_exhausted_unix_s` is saved at 128-second resolution.** `final.npy` is `float32`, and the
-unit-in-last-place of a `float32` at 1.394 × 10⁹ is exactly 2⁷ = 128 s. The column takes 19
-distinct values across two million particles, spaced 128 s apart. The filter's internal
-arithmetic is `f64` and unaffected, but **no exhaustion-time analysis read from the saved output
-can resolve better than ±128 s**, which is a quarter of the σ the prior uses. Every exhaustion
-figure in this note inherits that quantisation. The fix is to store the column as an offset in
-seconds from a run-level reference epoch, which is three digits instead of ten and fits `f32`
-comfortably; it affects no other column, since latitudes and fuel masses are nowhere near that
-exponent.
+```
+observed   logZ(on) − logZ(off)              −6.792 nats
+predicted  log E_off[L_exhaust]              −6.791 nats
+  Gaussian density normalisation             −6.623 nats   (a constant, no discrimination)
+  actual misfit                              −0.168 nats
+```
 
-## The one-sided constraint, evaluated exactly without a new run
+So the term discriminates between trajectories by **0.17 nats**, a weight ratio of 0.85. It is
+a nearly flat multiplier, not a constraint.
 
-"The tank ran dry by the last step" is a deterministic function of the particle state, so
-conditioning the posterior on it is exact: keep the subset, keep the weights, renormalise. The PDF
-of the 36.8% that ran dry **is** the posterior under a hard one-sided flame-out constraint. No
-approximation and no re-run. Computed on all eight replicates of `6temper-realloc`
-(`results/realloc-conditioned-on-exhaustion.pdf`):
+The reason has changed from the defective-binary measurement. Then, the term was flat because
+almost nothing ran dry and a never-dry path was scored once, at the last step, 127 s from the
+target — 0.42 σ, −0.0896 nats — so the term could not distinguish 100 kg remaining from 10 t.
+Now half the posterior **does** run dry, and the term is flat for the opposite reason: the dry
+paths land a mean 197 s from 00:17:30, which is 0.66 σ. The satcom arcs have already placed the
+aircraft so precisely that the fuel it has left at 00:19 is nearly determined, and the
+exhaustion term finds almost nothing left to say.
 
-| | unconditioned | **conditioned on flame-out** | conditioned, σ=300 tilt divided out |
-|---|---|---|---|
-| share of mass | 100% | 36.8% | 36.8% |
-| median | −37.64° | **−37.45°** | −37.47° |
-| mode | −37.75° | −37.70° | −37.70° |
-| 50% HDI | [−38.15, −37.05], width 1.10° | **[−37.85, −37.15], width 0.70°** | [−37.90, −37.20], width 0.70° |
-| 90% HDI | [−39.60, −35.90], width 3.70° | **[−38.45, −36.20], width 2.25°** | [−38.50, −36.25], width 2.25° |
-| shoulder, −36.5..−34.5 | 0.1042 | **0.0843** | 0.0794 |
-| split-half, mean over 35 partitions | 0.9109 | **0.9053** | 0.9072 |
-| overlap with Davey Fig. 10.3 | 0.7934 | **0.6043** | 0.6107 |
-| distinct surviving roots, 8 replicates | 40,759 | **31,937 (78%)** | 31,937 |
+## The post hoc test, with an honest denominator
 
-Five things to read off it.
+From the run with the term **removed**, so no hypothesis is forced on the ensemble:
 
-1. **It sharpens the posterior substantially.** The 50% interval narrows by 36% and the 90%
-   interval by 39%. That is a large gain in precision from a constraint that adds no new data —
-   it only removes trajectories inconsistent with the aircraft having been out of fuel.
-2. **It costs almost nothing in replicate agreement**, 0.9109 → 0.9053, and it keeps **78% of the
-   distinct surviving roots while carrying 36.8% of the mass**. The subset is far better resolved
-   than its mass share suggests, because the never-dry paths are concentrated in fewer lineages.
-3. **The median moves north by 0.18°**, from −37.64° to −37.45°, slightly *towards* Davey's
-   Fig. 10.3 median of −37.532° — 0.081° away instead of 0.104°. (All medians in this note are
-   read off the 0.05° grid with the cumulative taken at each bin's upper edge. An earlier version
-   interpolated against the bin centres, which biased every absolute median 0.025° south —
-   exactly half a grid step — and no difference was affected. The corrected estimator reproduces
-   the engine's raw-particle medians exactly and returns Davey's as −37.5323.)
-4. **Overlap with Fig. 10.3 nevertheless falls hard, 0.793 → 0.604, and that is not a
-   deterioration.** Overlap rewards agreement in *shape*, and the conditioned posterior is much
-   narrower than Davey's. Davey has no fuel model — Assumption 4 substitutes a Mach floor for the
-   endurance constraint — so his PDF is necessarily broader than one that knows the aircraft ran
-   out of fuel. A lower overlap here means information has been added, not that the answer got
-   worse. **Overlap with Fig. 10.3 must stop being used as a figure of merit once a constraint
-   Davey did not have is imposed.**
-5. **The residual σ=300 s tilt is doing nothing**, which is the same 0.09-nat conclusion from the
-   other direction: dividing it out moves the median from −37.452° to −37.472°, two hundredths of
-   a degree, and leaves both intervals identical.
+| | share of all mass | share of the dry mass |
+|---|---|---|
+| runs dry by 00:19:37 | 51.53 % | 100 % |
+| dry between the 6th and 7th arcs, 00:11–00:19:29 | **47.22 %** | **91.65 %** |
+| dry within 00:17:30 ± 10 min | 51.22 % | 99.41 % |
 
-The shoulder drops from 0.1042 to 0.0843, which is 35.0% of Davey's 0.2406 against 43.3%
-unconditioned. So the flame-out constraint takes the project *further* from reproducing the
-northern shoulder. That is consistent with the shoulder being carried by the magnetic modes and by
-slower, shorter paths — the ones most likely to still hold fuel at 00:19.
+Unforced, the fuel model puts **nearly half the posterior** running dry inside the 8.5-minute
+window between the sixth and seventh arcs, and **92 % of everything that runs dry at all**
+lands in that window. That is the quantity worth reporting in support of the flame-out
+hypothesis, because it is measured without conditioning on it.
 
-What this does not settle: the fully specified one-sided term would also carry a soft upper tail
-on how long *before* 00:19:29 the tank emptied, anchored on APU auto-start and SDU boot. The hard
-constraint evaluated here admits exhaustion at 00:11 as readily as at 00:19:12. Section 2d of
-`results/6temper-realloc-datasheet.md` shows the exhaustion time is quantised to 128 s in storage,
-so the surviving mass sits in five slots between 00:10:40 and 00:19:12 and the earliest of them
-carries 1.7%. Adding the upper tail would mostly reweight within those five slots.
+Two caveats on the table. First, the ±5 min window returns the same 47.22 % as the arc window
+even though the two windows are not the same interval; that is an artifact of storage
+resolution, not an equality — `fuel_exhausted_unix_s` is a float32 whose ulp at 1.394 × 10⁹ is
+exactly **128 s**, so only 21 distinct times are representable and the populated ones
+(00:10:40, 00:12:48, 00:14:56, 00:17:04, 00:19:12) fall inside both windows except the first.
+This should be stored as an offset from a run-level epoch before the figure goes in the paper.
+Second, this is smoke scale with split-half 0.656; the full-scale run is what gets quoted.
 
-## Where the fuel degeneracy diagnosis goes next
+## The decision
 
-The ledger fact stands: 0 of 14 fuel-bearing runs pass split-half, 13 of 14 fuel-free runs at the
-same Mach prior do, and the ranges do not overlap. What has changed is that the terminal term is
-ruled out as the cause.
+Drop the term, as agreed. The case is now stronger than when the decision was taken:
 
-The surviving candidate is **lineage collapse**, and it is the one the reallocation result points
-at. Per million particles, fuel lowers the number of distinct surviving prior draws in every
-mode: true heading 1136 → 821, magnetic heading 796 → 726, true track 911 → 495, magnetic track
-646 → 577, lateral navigation 824 → 569. Fuel kills whole lineages early — by design, since
-`fuel_doomed` is charged as soon as the deadline is unreachable — so the survivors descend from
-fewer independent prior draws at the same per-epoch ESS. That explains the ESS decoupling, the
-ledger, and why reallocation worked by moving roots into the modes that carry the mass.
+- It is worth 0.17 nats and moves the median by less than the sampler's own noise.
+- It conditions the ensemble on a disputed cause — that the 00:19 log-on followed engine
+  failure rather than Lyne's or another mechanism — for no inferential gain.
+- Removing it turns exhaustion time and position from an input into an **output**, so the
+  00:11–00:19:30 hypothesis can be tested post hoc against a denominator that does not already
+  assume it.
 
-The engine already contains the standard remedy and this project has never used it.
-`sampler.rejuvenate_epochs` applies a Metropolis move that re-simulates the segment with the
-model's own transition, so the acceptance ratio is the likelihood ratio and the target is left
-invariant exactly; the config documents its purpose as buying "path diversity among the children
-that a resample has just made identical". That is lineage collapse by name.
-
-One limit to state before testing it: rejuvenation re-simulates from the parent's pre-epoch state,
-so it diversifies paths *downstream* of a resample but does not create new draws of the initial
-position, track and Mach. It should raise effective path diversity at fixed root count. Whether
-that is enough is the smoke test.
+`require_power_until = "m0011"` is retained. That is an observation, not a hypothesis: the
+aircraft transmitted at 00:11, so a path whose tank ran dry earlier contradicts the data.
