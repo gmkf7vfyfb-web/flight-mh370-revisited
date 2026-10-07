@@ -372,9 +372,20 @@ cannot support.
   reading. The assumption therefore favours the hypothesis under test, so report fit and impact-PDF
   sensitivity under both it and its alternative, and name the pairing a conditional rather than a
   finding.
-- **00:11 alone cannot discriminate a descent.** At that geometry the sensitivity is 17.50 Hz per
+- **00:11 alone cannot discriminate a descent.** The sensitivity is about 17.5–17.8 Hz per
   1,000 ft/min, so a ~1,100 ft/min descent and a ±20 Hz bias excursion give the same signature, and
-  00:11 is a single value rather than a pair. Yet 00:11 sets the autopilot-mode mixture at roughly
+  00:11 is a single value rather than a pair.
+  **Which arc the figure 17.50 belongs to is DISPUTED and must be settled before it reaches the
+  paper.** The project previously recorded 17.50 Hz per 1,000 ft/min at the 00:11 geometry
+  (38.16°S 88°E, satellite elevation 38.8°). The end-of-flight session, computing from
+  `data/satellite-ephemeris.csv` with the engine's own `UPLINK_HZ` and `SPEED_OF_LIGHT_KM_S`, gets
+  17.81 at the 00:11 arc (BTO 18,040 µs) and 17.52 at the 00:19a arc (BTO 18,400 µs), and reports
+  the value as nearly constant along each arc — 17.800–17.813 from 30°S to 40°S at 00:11,
+  17.515–17.528 at 00:19a — because the BTO fixes the slant range and hence the elevation angle.
+  The two computations disagree by 1.8% on the attribution, not on the physics. The substance of
+  the argument above survives either way (a ±20 Hz excursion matches 1,123 ft/min at 00:11 against
+  1,143 at 00:19). **`crates/satcom` is core-owned, so the core session settles this**; until it
+  does, quote the range rather than the single figure, and cite neither attribution. Yet 00:11 sets the autopilot-mode mixture at roughly
   20:1. So scoring 00:11 mostly re-weights modes, and the descent discrimination lives in the 00:19
   pair — whose 184 Hz step in 8 s is about nine times the largest bias excursion in Davey's own
   Fig. 5.4, and whose interpretation is exactly what is contested. State this tension as a result of
@@ -445,10 +456,23 @@ analysis is qualified as "not fully conclusive" and is contested in the literatu
 
 ## 11. Tests
 
-Ballistic energy conservation. Level-flight equilibrium. Phugoid period ≈ π√2·V/g. Still-air glide
-distance = altitude × L/D. BFO vertical-speed sensitivity against a finite difference. One
-synthetic-recovery test: generate the data from a known descent and check coverage. Plus
-hand-computed fixtures.
+Ballistic energy conservation. Level-flight equilibrium. BFO vertical-speed sensitivity against a
+finite difference. One synthetic-recovery test: generate the data from a known descent and check
+coverage. Plus hand-computed fixtures.
+
+**Two of these were stated loosely in earlier versions and are corrected here, because asserting
+them as written would have asserted a ten per cent error in each case.**
+
+- **Phugoid period.** Lanchester's closed form π√2·V/g assumes **constant density**. Under the real
+  ISA gradient the same equations give a period about 10% shorter, because climbing into thinner
+  air removes lift and stiffens the oscillation. So test the closed form against a **frozen
+  atmosphere**, and record the ISA figure separately rather than asserting agreement with it.
+- **Still-air glide distance.** `altitude × L/D` is exact only in the energy-height form
+  `R = (L/D)·(E₀ − E_f)` with `E = h + V²/2g`. From 35,000 ft the altitude term is 93.7 NM and the
+  kinetic energy traded into denser air adds 9.7 NM, giving 103.4 NM. Test the energy-height form.
+
+Both corrections must be carried into the paper's methods in these terms, not quietly fixed in the
+code.
 
 ## 12. Pitfalls
 
