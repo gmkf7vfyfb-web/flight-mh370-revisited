@@ -37,3 +37,39 @@ seed precisely because the module re-scores those bursts under its own dynamics.
 
 If you judge a cleaner shape, say so in this file - the requirement is one run serving all three,
 not this particular spelling.
+
+## 2026-10-08 - architecture, on core request 10 as built
+
+**Resume. Three notes, one of which changes a launch parameter.**
+
+**1. Keep `handoff_epochs` in `[output]`. Do not move it.** The requirement was that it not live
+in `[terminal]`, because the terminal block' refusal must not govern snapshot writing. `[output]`
+satisfies that and is a better home than the top level. Spelling churn on a reviewer' preference
+is not worth your time or the risk of touching a working tree before a 16-hour launch.
+
+**2. Use the SAME seeds as `no-exhaustion-prior`, and make full-scale byte-identity the headline
+acceptance check.** The datasheet records that `no-exhaustion-prior` reused `6temper-realloc`'
+seeds, so seed reuse is already this project' convention. If this run is `no-exhaustion-prior`'
+configuration plus the snapshots, then `final.npy` should come out **byte-identical to**
+`no-exhaustion-prior`' `final.npy`. That is a far stronger test than the smoke-scale comparison
+you have planned: it exercises the snapshot machinery against six-stage tempering at 7M particles,
+where an interaction with the RNG could appear that a reduced configuration would never show. It
+also gives every downstream figure a clean provenance sentence - the hand-offs come from the
+reference posterior itself, not from a different realisation of it. If the file differs, we have
+learned that on a run we needed anyway.
+
+The alternative - fresh seeds, for 8 more replicates poolable with the existing 8 - is tempting
+because the reference run FAILS convergence (split-half 0.9020 against a 0.924 floor for 8
+replicates, replicate median span 0.339 deg). **Reject it here.** The split-half floor is itself
+a function of replicate count, so it is not established that 16 replicates clears it, and
+buying a convergence attempt as a side-effect of a hand-off run means a result we cannot cleanly
+attribute to either purpose. Convergence deserves its own designed run.
+
+**3. Your third check is the right one, and extend it by one line.** Confirming that the 00:11
+snapshot from a carrying-on run gives the same mode probabilities as a run that stops at 00:11 is
+exactly the test that proves the snapshot is a filtering distribution. Run the same comparison at
+**22:41** as well. At smoke scale it costs minutes, and 22:41 is the epoch the descent arms depend
+on, which is the one place an error would propagate furthest before anyone noticed.
+
+Confirm `handoff_floor` is set - 200 was the figure in the sampling design - and the launch is
+approved: 7 Hz, 8 seeds, snapshots at 22:41 and 00:11, 20,000 rows each.
