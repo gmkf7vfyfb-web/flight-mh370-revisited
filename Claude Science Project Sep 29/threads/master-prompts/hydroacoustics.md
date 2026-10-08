@@ -430,9 +430,10 @@ impulsive — a dependence that cannot be there is a route to a spurious detecti
 
 ### How tau enters the look-elsewhere arithmetic
 
-It does not change the number of trials. Those are set by the search window and the bandwidth: at
-+/-1 h and 30 Hz, about 432,000 independent trials, which is the 5.3 sigma per-trial requirement for
-a 1% global false alarm already recorded in this brief. What `tau` changes is the **time-bandwidth
+It does not change the number of trials. Those are set by the search window and the bandwidth, by
+§5's `2·W·B` with `W` the **half**-width: at ±1 h and 30 Hz, 216,000 independent trials and a 5.3σ
+per-trial requirement for a 1% global false alarm, exactly as §5's table records. What `tau` changes
+is the **time-bandwidth
 product** `tau * B`, which sets the per-trial processing gain: 30 at `tau` 1 s and `B` 30 Hz, 300 at
 `tau` 10 s. A longer event is easier to detect at the same radiated energy because more of it is
 coherently integrable — but only if the source model says the emission really is that long, which is
