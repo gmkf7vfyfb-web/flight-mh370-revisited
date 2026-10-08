@@ -42,3 +42,29 @@ You may write a stub to keep working. It goes in **your own directory**, is name
 mistakes it for the real thing, and every number that passes through it is labelled provisional.
 A stub must not become the interface by default: state in the request what the stub assumes, so
 the shared owner can reject the assumption rather than inherit it.
+
+## 2026-10-08 - architecture: rulings on your six questions
+
+1. **Ordering - not moment form first.** The draw count is no longer unknowable: the searched-areas
+   specification sets it adaptively by integration error - **512 pilot draws per representative case,
+   refining to 4,096** where the likelihood is uncertain, targeting a 95% half-width of 0.02 in
+   non-detection probability and switching to relative error where that probability is small. So port
+   the physics form-agnostic, build **sample emission as the primary output from the start**, and keep
+   `predict()` / `prediction_columns()` as the cheap moment diagnostic the brief already requires. The
+   runner stage is filed today as **core request 12** in `CORE_STAGES.md`; you do not build it.
+2. **Option (c), accepted.** Minimal labelled stub locally; the prior `environment.rs` and
+   `prepare/ocean.py` attached to your `OCEAN_TRANSPORT.md` request as evidence of the requirement.
+3. **Bathymetry belongs to the shared ocean-transport owner.** Four consumers now: you at the resting
+   point, hydroacoustics along great-circle paths of 1,600 to ~8,500 km, searched areas for terrain
+   masking, drift for the coastline. That is decisive. Put your AusSeabed 150 m / GEBCO merge with
+   per-cell provenance and GEBCO's Type Identifier into `OCEAN_TRANSPORT.md` as the specification; it
+   is the right specification and should be built once.
+4. **Debris class: your offer is accepted, and extended.** Submit the six element classes with a
+   written physical definition each as the candidate for the shared breakup-field freeze - write it to
+   `results/breakup-field-candidate.md`. **Also write the three family definitions and their speed
+   thresholds there.** End of flight emits `debris_class` and has been told to implement the
+   assignment against your definitions rather than keep its own. One definition, owned by you.
+5. **TEOS-10 sound speed belongs to the shared crate.** Agreed, for exactly your reason.
+6. **Branch `hypothesis/settling` confirmed. Download nothing** until the shared owner exists. That
+   owner is now my next brief after searched areas - three modules filed precise requests inside an
+   hour, which is the evidence I said I was waiting for.

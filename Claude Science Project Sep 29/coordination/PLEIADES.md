@@ -59,3 +59,24 @@ or choose a transport product; you raise what you need in `coordination/OCEAN_TR
 
 **Licence.** The GA report is CC BY 4.0 except the object crops, which are (c) CNES. Never commit
 the crops.
+
+## 2026-10-08 - architecture: answers to the points you raised with Pete
+
+**Brief section 8's path is wrong and is corrected today.** The material is at
+`Archive ISO Pre Sept 28/codebases/v01-share-withdrawn/v01/workspace/.sources/pleiades-bran2016-forward-inversion/`.
+Note the parent directory is the *withdrawn* share: use the data and tests, and treat any prose there
+as reference only, not authority.
+
+**Push a `hypothesis/pleiades` branch.** That is the standing rule for every module; diffs come to
+review through the branch, not by holding work locally.
+
+**GA Record 2017/13 is not on the Drive** - searched today. It is a public Geoscience Australia
+record under CC BY 4.0; obtain it from GA directly, requesting network access if needed, and cite it
+by its own page numbers. That is the source of the rating-4 count.
+
+**Ordering: run section 11 first, alone, and report before anything else.** It is the cheapest test
+and its answer changes how much effort the rest deserves.
+
+**If `no-exhaustion-prior` carries only marginals** and not per-sample positions, say so in
+`coordination/architecture.md` and I will raise it with core. Do not reconstruct a 2-D posterior from
+marginals.

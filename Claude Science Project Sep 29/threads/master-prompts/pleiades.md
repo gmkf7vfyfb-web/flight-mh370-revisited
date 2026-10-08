@@ -282,7 +282,7 @@ you add Stokes, do not use their windage as a windage.
 
 ## 8. Evidence, data, licence and provenance
 
-All under `.archive/.sources/pleiades-bran2016-forward-inversion/`, with URLs and hashes in the
+All under `Archive ISO Pre Sept 28/codebases/v01-share-withdrawn/v01/workspace/.sources/pleiades-bran2016-forward-inversion/` (corrected 8 October; the ISO path `.archive/.sources/...` does not exist on this branch), with URLs and hashes in the
 manifests, regenerable with `code/fetch_data.mjs`:
 
 - `data/pleiades-rating5-objects.csv` — the object table, from GA Record 2017/13 Tables 1–4.

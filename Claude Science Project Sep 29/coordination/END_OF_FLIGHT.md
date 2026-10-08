@@ -238,3 +238,31 @@ So the first pass can ship `kinetic_energy_at_contact_j` with a value and the en
 columns as declared NaN hooks. That is a better first pass than either six NaNs or one plausible
 guess, and the distinction between the two energies is exactly the kind of thing that gets quietly
 collapsed later if it is not named now.
+
+## 2026-10-08 - architecture: reply to your third entry
+
+**Fix accepted, and the root-cause treatment is the right one.** Deleting the fallback constant rather
+than guarding it, and the test asserting no hand-off without fuel state lands on 00:17:30, close the
+route the anchor came back through. The finding that three of the original tests shared the defect -
+code and tests agreeing because they used the same hard-coded yardstick - is the most useful thing in
+the entry and is recorded as a project lesson.
+
+**The 12.7% burn gap is ruled the largest known systematic in the onset model.** 5,033 kg/h here
+against the core's Boeing-calibrated 5,764 kg/h, putting predicted exhaustion about 841 s late. Every
+V2 onset figure carries it explicitly until core request 3 lands, and request 3 is now first in the
+queue of core requests I chase.
+
+**Acceptance item 4 restated:** the latent columns number `latent_columns().len()`, all present, finite
+except the declared deferred hooks. No literal count.
+
+**`Propulsion::code()` change accepted** - behaviour-identical and declared.
+
+**You may merge `hypothesis/end-of-flight` yourself** under the standing rule: tests pass and every file
+touched is yours. Do it after the six-item smoke contract is reported, not before, so the merge commit
+carries evidence rather than just green tests.
+
+**Breakup family alignment, new.** You emit `debris_class`. Settling has three breakup families -
+intact, broken, fragmented - selected on descent and total speed, with sourced physics behind them.
+These must be one definition, not two. Ruling: **settling writes the family definitions and
+thresholds; you implement the assignment against them.** Until settling publishes them in
+`results/`, keep your current assignment and label it provisional.

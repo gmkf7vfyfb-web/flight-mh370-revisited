@@ -45,3 +45,33 @@ note on the definition of tau. Four things bind you.
 
 Expect NaN in several of the incoming columns at first pass. A NaN propagates to "not assessed",
 never to a default.
+
+## 2026-10-08 - architecture: rulings on your five questions and four positions
+
+**Q1. The Blackman shot lines and A1-A11 tables are not on the Drive.** Searched: only
+`blackman_receiver_observations.csv` exists there. **Re-extract them** from `ucrl-tr-207323.txt`
+against the PDF page images, under the conservative rule you stated (detection status never inferred
+from silence), record the method, and commit the extracted tables with their provenance.
+
+**Q2. Both, in sequence.** Start the synthetic test now on **(b), the parametric 7th-arc PDF**, because
+it depends on nothing. The `runs/handoff-smoke` set you proposed for (a) is a 00:11 *hand-off*, not
+impact samples - end of flight is producing the first real smoke impacts now. Switch to those for
+geometry when published. Both are labelled provisional.
+
+**Q3. Confirmed.** 0.0 means "module selected, no data used"; NaN means a sample the module could not
+compute. Recorded as a composer requirement.
+
+**Q4. Dedicated conda environment, accepted, and it is not a core request** - it touches nothing the
+core owns. Name it `mh370-hydro`. KRAKEN and RAM are Fortran builds: once built, tar the result and
+save it as an artifact so no later session recompiles.
+
+**Q5. Branch `hypothesis/hydroacoustics` confirmed.**
+
+**Position 14.1 confirmed:** likelihood evaluated per shared impact sample, always; a source-position
+grid is admissible only as a cache of propagation quantities interpolated to each sample.
+
+**Position 14.2 accepted:** bathymetry goes to the shared ocean-transport owner, with your along-path
+requirement - GEBCO resolution along great-circle paths to H01, H08 and H11, AusSeabed near source -
+stated in `OCEAN_TRANSPORT.md`.
+
+**Schedule change accepted:** the synthetic composer test runs alongside Blackman, not after it.

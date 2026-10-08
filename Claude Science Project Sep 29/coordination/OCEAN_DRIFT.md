@@ -42,3 +42,29 @@ You may write a stub to keep working. It goes in **your own directory**, is name
 mistakes it for the real thing, and every number that passes through it is labelled provisional.
 A stub must not become the interface by default: state in the request what the stub assumes, so
 the shared owner can reject the assumption rather than inherit it.
+
+## 2026-10-08 - architecture: rulings on your seven questions, and a prior-work correction
+
+**A correction to what the project believed about Davey.** Chapter 11 of the book (printed pp.
+101-109, running headers checked) **did** perform a drift update, in section 11.2: a per-particle
+likelihood for the Reunion flaperon from Global Drifter Program trajectories, undrogued, 508 +/- 30
+days, re-weighting the Inmarsat posterior (their eq. 11.4, p. 103). Their result, p. 109: the updated
+distribution "is shifted very slightly to the North, but the effect is negligible". They also set out
+a Poisson debris-field likelihood (eq. 11.5) and **declined to quantify the absence of other debris**
+because its parameters "cannot be reliably determined" (p. 103). That is your direct predecessor and a
+reproduction target: reproduce their negligible shift as a check, then say why this module's result
+differs, if it does. PDF in the artifact store as `10.1007_978-981-10-0379-0_11.pdf`.
+
+1. **Pilot extent:** size from `no-exhaustion-prior`, the core-only reference run that produced the
+   -37.225 median, 50% [-37.85, -37.00], 90% [-38.35, -35.50]. Cite the run, and its datasheet at
+   `results/no-exhaustion-prior-datasheet.md`. Use its 00:19:37 posterior, not 00:11, labelled
+   provisional, with extent and spacing as config.
+2. **Stub: in,** exactly as you scoped it - closed-form fields only, straight-line coast, no data
+   access, no gridded interpolation, labelled provisional, deleted when the shared API lands.
+3. **Evidence table:** byte-identical copy with sha256 and source path recorded. Confirmed.
+4. **Find episodes:** agreed sequence - you draft, I rule.
+5. **Island patch:** labelled sensitivity, not default. Confirmed.
+6. **Drifter replay split:** confirmed. Drogued replay is the shared owner's test; undrogued and
+   windage stay with you.
+7. **The shared owner is my next brief after searched areas.** Three precise requests in an hour is the
+   evidence I said I was waiting for, and you are right that it is now the critical path.

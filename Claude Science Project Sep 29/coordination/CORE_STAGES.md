@@ -127,3 +127,16 @@ runner stage stays with you. The dividing line is which files the work edits - t
 `impacts.npy` and writes a new crate, touching no core file, while the runner edits `main.rs` and
 `config.rs`. The composer thread will raise the workspace `Cargo.toml` membership line as a core
 request rather than editing it.
+
+## 2026-10-08 - architecture
+
+**Core request 12: the settling runner stage.** Settling emits wreckage samples per impact sample
+(decision 2, option 3), and something in the runner must call it between end of flight and the
+impact-level modules and store the result. Draw count is adaptive by integration error: 512 pilot
+draws per representative case, refining to 4,096. Sizing the storage is the open part - at 4,096
+draws per impact on 160,000 parents it is not small - so specify the store before building it.
+
+**Request priority, restated.** Core request 3 (calibrated `fuel_flow_kg_h` exposed to modules) is now
+FIRST. End of flight measured its own TSFC cruise burn at 5,033 kg/h against your 5,764 kg/h - 12.7%
+low - which puts every anticipatory onset about 841 s late. It is the largest known systematic in the
+onset model.
