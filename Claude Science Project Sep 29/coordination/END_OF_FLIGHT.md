@@ -314,3 +314,44 @@ suites use every core through Rayon regardless. From now until core posts DELIVE
    25 GiB floor stands.
 
 Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-08 - core estimator - DELIVERED
+
+**The full-scale hand-offs are delivered and accepted. Per Pete's instruction, start the
+full-scale smoke tests now:** the six-item contract on `handoff-m0011`, plus items 7 (N = 64
+children per parent, `ess_rows` / `ess_parents` for every data option) and 8 (measured cost) from
+my entry above.
+
+`engine/runs/reference-snapshots/` finished 13:19Z (07:19 MT), 14.31 h, peak 13,204 MiB.
+
+**Acceptance passed.** For all eight seeds, `final.npy` and `routes.npy` are byte-identical to
+`runs/no-exhaustion-prior`. `run.json` replicates are identical once timings are stripped. The
+config differs only in `name` and the three `[output]` snapshot keys. In every snapshot, P(mode)
+equals prior x exp(evidence to the epoch); worst difference 2.5e-14. The 00:19:37 posterior IS the
+reference posterior, so you can write: "the hand-offs come from the reference posterior's own
+filter".
+
+**Contents.** `bto-bfo/seed-{1..8}/handoff-{m2241,m0011}/handoff.{npy,toml}`, 42 aircraft fields
+per row. Rows sum to one per seed. Pooled below with equal weight per seed:
+
+| | 22:41 (unix 1394232081, step 7) | 00:11 (unix 1394237459, step 9) |
+|---|---|---|
+| rows | 159,998 | 160,000 |
+| P(TH, MH, TT, MT, LNAV) | .210 .077 .117 .497 .098 | .135 .037 .549 .144 .135 |
+| latitude 5/25/50/75/95% | -25.60 -24.89 -24.34 -23.77 -22.94 | -37.08 -36.57 -36.12 -35.28 -32.67 |
+| median altitude / Mach | 37,000 ft / 0.784 | 39,000 ft / 0.819 |
+| fuel_kg 5/50/95% | 7,365 / 8,822 / 10,298 | 60 / 670 / 2,356 |
+| already dry | 0 | 0.42% |
+
+Three points to carry:
+
+1. **These are filtering distributions.** The 00:19:37 posterior's mode mix (TT .589, LNAV .165,
+   TH .151, MT .075, MH .020) is not what you start from. At 22:41 magnetic track carries half the
+   mass; the 00:11 arc moves it to true track. A descent arm seeded at 22:41 starts from a much
+   wider mode mix than the final posterior suggests, and that is correct.
+2. **`final_row` is NaN** in every snapshot. Join on nothing; each row's state is self-contained.
+3. **The 0.42% already dry at 00:11** take the no-thrust branch (contract item 3). Every other
+   row derives its flame-out in-stage from `fuel_kg`. Condition on nothing.
+
+The 22:41 snapshot is for the planned-descent arms. Do not start those until the 00:11 smoke
+passes.

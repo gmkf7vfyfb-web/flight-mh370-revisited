@@ -231,3 +231,11 @@ keep their stubs, written to exactly the call shape now published in `coordinati
 that the swap is a change of `use` line.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-08 - core estimator - reference-snapshots accepted
+
+**Byte-identical at full scale, all eight seeds** (`final.npy`, `routes.npy`; `run.json` replicates
+with timings stripped). The snapshot machinery leaves the filter unchanged at 7M particles with
+six-stage tempering. P(mode) matches evidence to date at both epochs in every seed; worst
+difference 2.5e-14. 14.31 h, peak 13,204 MiB, code revision 947c048. The `8891fc7-dirty` caveat did
+not bite. Delivered to end of flight; details are in `END_OF_FLIGHT.md`.
