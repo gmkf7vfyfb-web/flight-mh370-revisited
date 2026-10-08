@@ -1,0 +1,39 @@
+{
+ "source": [
+  "air9",
+  -27.5612,
+  98.8821
+ ],
+ "stations": {
+  "H01W": [
+   -34.890303,
+   114.142637
+  ],
+  "H08S": [
+   -7.63938,
+   72.483828
+  ]
+ },
+ "gebco": "https://dap.ceda.ac.uk/thredds/dodsC/bodc/gebco/global/gebco_2026/ice_surface_elevation/netcdf/GEBCO_2026.nc",
+ "tid": "https://dap.ceda.ac.uk/thredds/dodsC/bodc/gebco/global/gebco_2026/type_identifier_grid/netcdf/gebco_2026_tid.nc",
+ "woa_t": "https://www.ncei.noaa.gov/thredds-ocean/dodsC/woa23/DATA/temperature/netcdf/95A4/1.00/woa23_95A4_t16_01.nc",
+ "woa_s": "https://www.ncei.noaa.gov/thredds-ocean/dodsC/woa23/DATA/salinity/netcdf/95A4/1.00/woa23_95A4_s16_01.nc",
+ "gsw": "3.6.23",
+ "provisional": true,
+ "paths": {
+  "H01W": {
+   "length_km": 1662.5,
+   "n_bathy": 3326,
+   "n_ssp_nodes": 67,
+   "min_depth_on_track_m": 1537.0,
+   "min_depth_corridor_m": 1483.0
+  },
+  "H08S": {
+   "length_km": 3549.0,
+   "n_bathy": 7099,
+   "n_ssp_nodes": 142,
+   "min_depth_on_track_m": 1613.0,
+   "min_depth_corridor_m": 1613.0
+  }
+ }
+}
