@@ -29,14 +29,27 @@ NM_PER_DEG = 60.0
 # simulation cases: name -> overrides of dc.CONFIG (plus n_seg / seed)
 SIM_CASES = {
     "joined": dict(JOIN_KM=150.0, JOIN_DOY=30),                          # default, ~30 partners
-    "joined_seed2": dict(JOIN_KM=150.0, JOIN_DOY=30, SEED=2),             # Monte Carlo replicate
+    "joined_seed2": dict(JOIN_KM=150.0, JOIN_DOY=30, SEED=2),             # Monte Carlo replicates
+    "joined_seed3": dict(JOIN_KM=150.0, JOIN_DOY=30, SEED=3),
+    "joined_seed4": dict(JOIN_KM=150.0, JOIN_DOY=30, SEED=4),
     "unjoined": dict(N_SEG=1),                                            # real drifters only
     "joined_tight": dict(JOIN_KM=50.0, JOIN_DOY=15),                      # ~4 partners
     "joined_R100": dict(JOIN_KM=150.0, JOIN_DOY=30, R_KM=100.0),
     "joined_R400": dict(JOIN_KM=150.0, JOIN_DOY=30, R_KM=400.0),
 }
 # likelihood cases: (label, simulation, sigma_deg, eps)
+POOLS = {"joined_pool4": ["joined", "joined_seed2", "joined_seed3", "joined_seed4"]}
 EVAL_CASES = [
+    ("POOLED 4 seeds (40 MC per start): joined, 1.0 deg, eps 1e-4", "joined_pool4", 1.0, 1e-4),
+    ("POOLED 4 seeds: joined, 0.5 deg, eps 1e-4", "joined_pool4", 0.5, 1e-4),
+    ("POOLED 4 seeds: joined, 0.25 deg, eps 1e-4", "joined_pool4", 0.25, 1e-4),
+    ("POOLED 4 seeds: joined, 1.0 deg, eps 1e-6", "joined_pool4", 1.0, 1e-6),
+    ("POOLED 4 seeds: joined, 0.5 deg, eps 1e-6", "joined_pool4", 0.5, 1e-6),
+    ("POOLED 4 seeds: joined, 0.25 deg, eps 1e-6", "joined_pool4", 0.25, 1e-6),
+    ("joined seed 3, 1.0 deg, eps 1e-4", "joined_seed3", 1.0, 1e-4),
+    ("joined seed 4, 1.0 deg, eps 1e-4", "joined_seed4", 1.0, 1e-4),
+    ("seed 3, 0.25 deg, eps 1e-6", "joined_seed3", 0.25, 1e-6),
+    ("seed 4, 0.25 deg, eps 1e-6", "joined_seed4", 0.25, 1e-6),
     ("Davey: joined, 1.0 deg, eps 1e-4", "joined", 1.0, 1e-4),
     ("joined seed 2, 1.0 deg, eps 1e-4", "joined_seed2", 1.0, 1e-4),
     ("joined, 0.5 deg, eps 1e-4", "joined", 0.5, 1e-4),
@@ -118,13 +131,16 @@ def evaluate(post_path, out_path):
     before = summarise(P, P["w"])
     rows, lmaps = [], {}
     for label, sim, sigma, eps in EVAL_CASES:
-        f = os.path.join(DERIVED, f"arrivals_{sim}.npz")
-        if not os.path.exists(f):
+        files = [os.path.join(DERIVED, f"arrivals_{s_}.npz") for s_ in POOLS.get(sim, [sim])]
+        if not all(os.path.exists(f) for f in files):
             rows.append(dict(label=label, sim=sim, missing=True))
             continue
-        z = np.load(f)
+        zs = [np.load(f) for f in files]
+        z = zs[0]
+        assert all(np.array_equal(zz["start_idx"], z["start_idx"]) for zz in zs)
+        arrive = np.mean([zz["arrive"] for zz in zs], axis=0)       # pooled = more MC per start
         cfg = json.loads(str(z["config"]))
-        l, num, den = dc.likelihood(z["lat"], z["lon"], z["arrive"], P["lat"], P["lon"], cfg, sigma=sigma, eps=eps)
+        l, num, den = dc.likelihood(z["lat"], z["lon"], arrive, P["lat"], P["lon"], cfg, sigma=sigma, eps=eps)
         w1 = P["w"] * l
         after = summarise(P, w1)
         m = P["w"] > 0
@@ -137,7 +153,7 @@ def evaluate(post_path, out_path):
                          l_rel_range_over_mass=[float(np.min(lw)), float(np.max(lw))],
                          tv_before_after=float(0.5 * np.sum(np.abs(w1 / w1.sum() - P["w"] / P["w"].sum()))),
                          den_min_over_mass=float(np.min(den[m])), num_max_over_mass=float(np.max(num[m])),
-                         sim_stats=json.loads(str(z["stats"]))))
+                         sim_stats=[json.loads(str(zz["stats"])) for zz in zs]))
         lmaps[label] = l
     res = dict(posterior=post_path, before=before, cases=rows, n_cells=int(len(P["w"])),
                n_cells_positive=int(np.sum(P["w"] > 0)), particles_pooled=P["particles"],
