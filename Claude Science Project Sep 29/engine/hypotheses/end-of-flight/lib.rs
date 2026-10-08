@@ -651,6 +651,24 @@ impl Terminal for EndOfFlight {
         let mut out = Vec::with_capacity(self.params.descents_per_child);
         for _ in 0..self.params.descents_per_child {
             let (mechanism, mechanism_prior) = self.params.onset.classify(lead, uniform);
+            // An aircraft with no fuel at takeover has no power available, whatever was intended:
+            // its propulsion state is NeitherThrusting, not a draw. Before this guard the axis was
+            // drawn regardless, so a dry parent could be labelled two-thrusting and handed a
+            // POWERED profile (a level-off held on thrust, say) that the integrator then flew with
+            // the engines cut at the first step - wrong label and incoherent physics. On the
+            // full-scale 00:11 snapshot that was ~2/3 of the dry-at-hand-off descents, and every
+            // child the core flew dry before takeover (~50% of the weight) was exposed to it.
+            // A fuel-cue RESPONSE is impossible from empty tanks, and FuelCue x NeitherThrusting is
+            // not a legal cell, so a dry fuel-cue label becomes flame-out-associated. The mechanism
+            // label stays provisional until core request 2 regardless.
+            let dry = !(parent.fuel_kg > 0.0);
+            let (mechanism, mechanism_prior) = if dry && mechanism == Initiation::FuelCue {
+                let w = self.params.onset.mechanism_weights;
+                let total: f64 = w.iter().sum();
+                (Initiation::FlameOutAssociated, if total > 0.0 { w[2] / total } else { 0.0 })
+            } else {
+                (mechanism, mechanism_prior)
+            };
             let onset = Onset {
                 unix_s: takeover.unix_s,
                 mechanism,
@@ -659,7 +677,12 @@ impl Terminal for EndOfFlight {
                 support_truncated_fraction: f64::NAN,
                 log_q_correction: 0.0,
             };
-            let (propulsion, control, axes_prior) = self.draw_axes(mechanism, uniform);
+            let (propulsion, control, axes_prior) = if dry {
+                let (control, c_prior) = pick(&self.params.control_weights, &Control::ALL, uniform);
+                (Propulsion::NeitherThrusting, control, c_prior)
+            } else {
+                self.draw_axes(mechanism, uniform)
+            };
             let aero = self.params.aero.draw(uniform);
             let (impact, states, flying, trace, realised_flameout) =
                 self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, uniform);
@@ -985,6 +1008,30 @@ mod tests {
         assert!(breakup_probabilities(60.0, 50.0).is_none(), "descent faster than total speed");
         // A level contact is floored, not refused.
         assert!(breakup_probabilities(0.0, 60.0).is_some());
+    }
+
+    /// Contract item 3: a hand-off already dry takes the no-thrust branch. Found failing on the
+    /// full-scale 00:11 snapshot (9 Oct), where ~2/3 of dry-parent descents were labelled thrusting
+    /// and given powered profiles. The propulsion state of an aircraft with no fuel is not a draw.
+    #[test]
+    fn a_dry_aircraft_takes_the_no_thrust_branch() {
+        let m = module();
+        let t = m.terminal().unwrap();
+        let names = t.latent_columns();
+        let at = |n: &str| names.iter().position(|x| x == n).unwrap();
+        let fams = t.families();
+        let dry = FlightState { fuel_kg: 0.0, mass_kg: ZFW_KG, realised_flameout_unix_s: EXHAUSTION - 120.0, ..handoff(EXHAUSTION) };
+        let mut n = 0;
+        for i in 0..40 {
+            for d in t.descend(&dry, &atmos::Standard, &mut sweep(i as f64 * 0.023 + 0.05), &epochs(), &|_| 0.0) {
+                assert_eq!(d.latents[at("engines_thrusting_at_onset")], 0.0, "a dry aircraft was labelled thrusting");
+                let label = &fams[d.family];
+                assert!(label.contains("none-thrusting"), "dry aircraft in family {label}");
+                assert!(!label.starts_with("fuel-cue"), "fuel-cue response from empty tanks: {label}");
+                n += 1;
+            }
+        }
+        assert!(n > 100);
     }
 
     /// The realised flame-out must never be read as a prediction. Two hand-offs identical except
