@@ -961,7 +961,7 @@ byte-identical before and after the stub refactor.
 1. **Float time before sinking dominates the light classes, more than sink rate.** With the float phase
    removed, cabin contents' p90 resting offset falls to **0.07** of baseline (about 10 km to about
    0.7 km at 4 km depth). Intact wing and fuselage sections float first and rest about 4 km out; broken
-   and fragmented ones rest 0.5-0.6 km out. Sink rate comes next (panels ×1.64 at half speed), then glide
+   and fragmented ones rest 0.46-0.58 km out. Sink rate comes next (panels ×1.64 at half speed), then glide
    (wing box ×0.60 without it). Changing the current moves five of six classes by **8-38%**. Brief §6
    predicted sink rate would dominate. For dense classes it does; for anything that floats first, the
    float time does. **This is surface advection**, so I have filed it in `OCEAN_TRANSPORT.md` as a request
