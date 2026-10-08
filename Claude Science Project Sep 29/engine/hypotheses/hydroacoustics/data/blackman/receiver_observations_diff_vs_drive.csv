@@ -1,0 +1,42 @@
+drive_row,drive_source_id,drive_receiver,drive_status,drive_range_km,new_rows,discrepancy_assessment
+2,air1,H08N / Diego Garcia North,detected,,H08N:SIO:detected,agree (detected). Drive note 'All airgun sites west of DGN (air1-air5) visible' not found in UCRL-TR-207323; new row cites Fig 3 + Fig 23.
+3,air2,H08N / Diego Garcia North,detected_clear,,H08N:SIO:detected,agree (Drive grade 'detected_clear' ~ report 'high SNR in the 5-10 Hz range').
+4,air3,H08N / Diego Garcia North,detected,,H08N:SIO:detected,agree (detected). New evidence is Fig 23 DGN curve + caption; Drive note wording not in UCRL.
+5,air4,H08N / Diego Garcia North,detected,,H08N:SIO:detected,agree (detected). New evidence Fig 23 caption 'air4 loss very similar to air1-air3'.
+6,air5,H08N / Diego Garcia North,detected_clear,,H08N:SIO:detected,agree (Drive grade 'detected_clear' ~ 'high SNR in the 5-40 Hz band').
+7,air6,H08N / Diego Garcia North,no_clear_signal,,H08N:SIO:ambiguous_as_printed,"DISCREPANCY: Drive 'no_clear_signal' for air6 at H08N. Report wording 'last 3 sites (air6-air9)' is internally inconsistent, so new status = ambiguous_as_printed. 'Chagos Bank' is not named in UCRL (probably JASA 2004, not verified)."
+8,air7,H08N / Diego Garcia North,no_clear_signal,,H08N:SIO:not_detected,status agrees in substance (blocked/no signal). New status not_detected (stated 'blocked'). 'Chagos Bank' not in UCRL.
+9,air8,H08N / Diego Garcia North,no_clear_signal,,H08N:SIO:not_detected,as row 8.
+10,air9,H08N / Diego Garcia North,no_clear_signal,,H08N:SIO:not_detected,as row 8.
+11,air1,H08S / Diego Garcia South,blocked_not_detected,,H08S:SIO:not_detected,agree (blocked/not detected). 'Chagos Bank' attribution not in UCRL.
+12,air2,H08S / Diego Garcia South,blocked_not_detected,,H08S:SIO:not_detected,as row 11.
+13,air3,H08S / Diego Garcia South,blocked_not_detected,,H08S:SIO:not_detected,as row 11.
+14,air4,H08S / Diego Garcia South,blocked_not_detected,,H08S:SIO:not_detected,as row 11.
+15,air6,H08S / Diego Garcia South,not_detected,,H08S:none:not_reported,"DISCREPANCY: Drive asserts air6 not_detected at H08S with a seafloor-coupling explanation. UCRL has no statement about air6 at H08S: new status = not_reported. Drive claim probably from JASA 2004 (closed access, not verified)."
+16,air7,H08S / Diego Garcia South,detected_weak,,H08S:SIO:detected,status agrees (detected). Drive grade 'detected_weak' and 'greater loss than air8-air9' are not stated in UCRL text; Fig 23 DGS shows air7 TL above air9 at most frequencies (figure-read).
+17,air8,H08S / Diego Garcia South,detected,,H08S:SIO:detected,agree (detected). UCRL evidence is only the air8 curve in Fig 23 DGS; Drive wording 'Reported among eastern sites with observed signals' not found in UCRL.
+18,air9,H08S / Diego Garcia South,detected_clear,4825.0,H08S:SIO:detected,"agree (detected, range 4825 km)."
+19,air1,H01 / Cape Leeuwin,expected_blocked,,H01:none:not_reported,"DISCREPANCY (attribution): Drive cites 'Saya de Malha Bank'; UCRL names the Ninety East Ridge for the expected H01 blockage. Both treat it as expectation, not detection status; new status = not_reported."
+20,air7,H01 / Cape Leeuwin,detected_weak,,H01:SIO:detected,agree (detected weak). Drive band note '20-90 Hz' comes from a UCRL sentence that does not name the receiver.
+21,air8,H01 / Cape Leeuwin,not_detected,,H01:SIO:not_detected,agree (not detected; negative control).
+22,air9,H01 / Cape Leeuwin,detected_clear,1665.0,H01:SIO:detected,"agree (detected, 1665 km). Drive 'low-SNR stacked 5-10 Hz arrival' is an interpretation of Fig 4d, not a stated finding."
+23,sph1,Diego Garcia IMS station (subarray not specified in extracted text),detected,,H08N:SIO:detected,"PARTIAL: UCRL names H08N for sph1 (Fig 6, 798 km); Drive leaves the subarray unspecified."
+24,sph3,Diego Garcia IMS station (subarray not specified in extracted text),detected,,IMS station(s) not specified:SIO:detected,DISCREPANCY: Drive puts sph3 at Diego Garcia; UCRL says only 'detected at IMS hydrophone stations' (station unspecified).
+25,sph4,Diego Garcia IMS station (subarray not specified in extracted text),detected,,IMS station(s) not specified:SIO:detected,"DISCREPANCY: as row 24, for sph4."
+26,sph2,Diego Garcia IMS station (subarray not specified in extracted text),not_detected,,all IMS stations (not individually named):SIO:not_detected,DISCREPANCY (receiver): UCRL says sph2 'was not detected' with no station named; new receiver = all IMS stations (not individually named).
+27,sph6,Diego Garcia IMS station (subarray not specified in extracted text),detected,4168.0,IMS station(s) not specified:SIO:detected,DISCREPANCY: Drive range 4168 km for sph6 at Diego Garcia is not in UCRL; UCRL names no station for sph6.
+28,sph6,H01 / Cape Leeuwin,detected,1960.0,NO MATCHING ROW,"DISCREPANCY: Drive row sph6 at H01 (detected, 1960 km) has no support in UCRL. No matching new row."
+29,sph7,Diego Garcia IMS station (subarray not specified in extracted text),detected,4397.0,H01:SIO:detected; H08S:SIO:detected,"DISCREPANCY: Drive range 4397 km; UCRL Fig 7 caption prints 4396 km, to H08S01 specifically."
+30,sph7,H01 / Cape Leeuwin,detected,1465.0,H01:SIO:detected,"agree (detected, 1465 km to H0101)."
+31,imp2,IMS Indian Ocean hydrophones,not_detected,,all IMS stations (not individually named):SIO:not_detected,agree.
+32,imp4,IMS Indian Ocean hydrophones,not_detected,,all IMS stations (not individually named):SIO:not_detected,agree.
+33,imp5,IMS Indian Ocean hydrophones,not_detected,,all IMS stations (not individually named):SIO:not_detected,agree.
+34,imp6,IMS Indian Ocean hydrophones,not_detected,,all IMS stations (not individually named):SIO:not_detected,agree.
+35,imp7,IMS Indian Ocean hydrophones,not_detected,,all IMS stations (not individually named):SIO:not_detected,agree.
+36,A4 SUS (two charges),H08N / Diego Garcia North,detected,,H08N:SIO:detected,agree (SIO detected at H08N). New file also carries the LLNL ND rows for the same shots.
+37,A8 SUS 610 m,H04N / Crozet North,detected,,H04N:SIO:detected,agree (which of the two 610 m A8 SUS is not specified in UCRL).
+38,A8 SUS 610 m,H04S / Crozet South,detected,,H04S:SIO:detected,as row 37.
+39,A11 SUS 915 m,H04N / Crozet North,detected,6140.0,H04N:SIO:detected,agree (6140 km).
+40,A11 SUS 915 m,H08S / Diego Garcia South,detected,3577.0,H08S:LLNL:detected; H08S:SIO:detected; H08S:report:detected,agree (3577 km).
+41,A11 SUS 915 m,H01 / Cape Leeuwin,detected,2595.0,H01:LLNL:detected; H01:SIO:detected,agree (2595 km).
+42,A11 five-sphere cluster,H01 / Cape Leeuwin,analysis_disagreement,,H01:Australian:not_detected; H01:LLNL:detected,agree in substance; new file splits the disagreement into an LLNL detected row (App B H01 5918 s) and SIO / Australian not_detected rows.
