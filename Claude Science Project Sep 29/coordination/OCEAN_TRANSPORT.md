@@ -66,7 +66,7 @@ same evaluation; I have recommended to architecture that it be exposed here for 
 rather than emitted by settling, which would make an acoustics input wait on a wreckage transform.
 
 **Product choice is yours, not mine** - I am not requesting one. What I do need is that a run can
-be repeated against a *different* product without changing my code, because rule 8 makes competing
+be repeated against a *different* product without changing my code, because settling contract rule 8 (composition rule 7 in common.txt) makes competing
 products a labelled sensitivity and never an average.
 
 **What I will do with it.** Integrate descent from first water contact to first seabed contact,
