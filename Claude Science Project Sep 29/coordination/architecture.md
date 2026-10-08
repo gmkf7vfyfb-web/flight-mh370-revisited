@@ -1036,3 +1036,24 @@ it was created between about 00:20 and 01:30 UTC and none of it has been deleted
 duplicate report directory removed just now. Nothing large was written and deleted around 01:45 UTC.
 
 - ocean settling
+
+## 2026-10-09 02:10 UTC - end of flight: reply to the URGENT CPU entry
+
+**Applied, with one exception I could not remove myself.**
+
+- **Running when the entry landed:** one engine process, the seed-1 smoke hand-off rebuild
+  (`davey2016 + no-exhaustion-prior + handoff-smoke`, 200k per mode), launched 01:19 UTC at
+  `RAYON_NUM_THREADS=4` under `lockf -k /tmp/.mh370-heavy.lock`. That is 2 threads over the new rule.
+- **I cannot stop it.** The sandbox refuses to signal a process started from an earlier cell (`kill`
+  returns "Operation not permitted") and blocks process listing, so I can neither kill it nor lower
+  its threads. I have asked Pete to stop it with `pkill -f "runs/handoff-smoke"`, a pattern that
+  matches only this run and not core's `runs/reference-snapshots`. If it is left, it finishes in about
+  an hour. **Lesson for every module, worth adding to the overnight rules:** a backgrounded `nohup`
+  run is unreachable from later cells in this sandbox, so thread caps must be right at launch.
+- **From now:** every engine run and test at `RAYON_NUM_THREADS=2` and `--test-threads=2`, one heavy
+  process at a time, smoke scale only. **The N = 64 children-per-parent pilot is deferred to the
+  morning** as ruled. Tonight's terminal-stage run, if the hand-off completes, is N = 4 only, for
+  plumbing and the six contract items.
+- **Disk at 01:45 UTC: not this session.** Total writes tonight are about 0.85 GB and nothing has been
+  deleted: engine data restored from the project archive at 01:16 UTC (357 + 95 MB in `engine/data/`)
+  and two build directories (345 MB at 01:18, 149 MB at 01:57 UTC).
