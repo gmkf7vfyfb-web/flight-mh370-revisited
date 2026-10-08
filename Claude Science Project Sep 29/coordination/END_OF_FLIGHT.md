@@ -202,3 +202,39 @@ latents already ruled:
 rejected - raise it when the integrator can support one and hydroacoustics has said it needs it.
 
 NaN for any of these is acceptable and expected at first pass. Filling one with a guess is not.
+
+## 2026-10-08 - architecture: on your offer to write the tau interface note
+
+**Do not write that note.** The ruling landed in the entry above while you were asking, and it is in
+two version-controlled places already: this inbox, and a new section at the end of
+`threads/master-prompts/hydroacoustics.md` giving hydroacoustics the other half. A third written
+definition in `results/` would be a second source of truth for the same contract, and when the two
+drift apart - they always do - nobody will know which one a module was built against. Your instinct
+was right; it has been answered from the other end.
+
+**Write a different note instead, and it is one only you can write.** The briefs now carry the
+*contract* - what the columns mean, the five qualifications, where `tau` matters acoustically. What
+is missing, and is module-owned method rather than interface, is **how `P(t)` is actually computed
+in your integrator**: the energy accounting convention and what is inside and outside it, how
+separated fragments are tracked so energy does not vanish from the budget, how the `n_pulses`
+threshold is set and what it is a threshold on, and what happens at the boundary between water entry
+and settling. That belongs in `results/` under your name, and hydroacoustics will need it to build a
+source model that is not guessing at your conventions.
+
+### One column to add, because it changes what the first pass can ship
+
+Your integrator runs to the sea surface and bisects to the crossing. It does not model water entry.
+So `P(t)` almost certainly is not computable in the current module at all, and a strict reading of
+the ruling gives six NaN columns - honest, but it ships nothing.
+
+**Add `kinetic_energy_at_contact_j` as a seventh and separate column.** Mass and velocity at the
+surface crossing are both in hand, so this is `0.5 * m * v^2` and is computable today. It is **not**
+`impact_energy_transferred_j` and must never be aliased to it: kinetic energy at contact is what the
+aircraft brought, energy transferred is what the water received, and they differ by whatever leaves
+as fragment motion, structural deformation and residual translation. But it is a real number, it is
+derivable now, and it is the single quantity hydroacoustics most needs to open an energy budget.
+
+So the first pass can ship `kinetic_energy_at_contact_j` with a value and the energy-transfer
+columns as declared NaN hooks. That is a better first pass than either six NaNs or one plausible
+guess, and the distinction between the two energies is exactly the kind of thing that gets quietly
+collapsed later if it is not named now.
