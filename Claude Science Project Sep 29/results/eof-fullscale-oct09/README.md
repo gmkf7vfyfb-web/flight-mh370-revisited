@@ -82,3 +82,64 @@ N = 16 and 3.0 GB at N = 64, so 6.2 GB and 24 GB for 8 seeds. With the 25 GiB fl
 free this morning, a full N = 64 sweep cannot be written at all, and N = 16 only seed by seed with
 deletion. That is a storage question for the composer and core, raised in the coordination entry, not
 solved here.
+
+---
+
+## After core requests 2 and 3 (`ffc3fbe`, then `b3c07f2`)
+
+Requests 2 and 3 were adopted at `ffc3fbe`. The full-scale contract (N = 4, all 8 seeds) and the
+pilot at N = 16 and N = 64 on seed 1 were re-run on that commit. Files: `r23-*.json`. The N = 64
+replicate on seed 2 was **not run** on the new code: free disk fell to 25 GiB during the sequence
+from another session's writing, and the run stopped at its floor check. Seed 2's pre-request N = 64
+count stands as the replicate, which is defensible because seed 1's counts move by -12.4% to +3.2%
+between the two codes (largest R1200/no-offset, 392 against 448), which is the scale of seed-to-seed
+scatter at these counts, not a systematic shift.
+
+**Request 2 works.** In every seed, 100% of samples take their mechanism from the carried draw
+(`mechanism_from_draw`), and none needed the dry relabelling. The mechanism split is now physical:
+**flame-out-associated 46.3% [45.5, 47.2], anticipatory 45.0% [44.2, 45.5], fuel-cue 8.7% [7.3, 10.3]**.
+It was 0 / 96 / 1 when the mechanism was recovered from the propagated state. The former ignored test
+passes as the acceptance test, with a control showing that the legacy path still loses the mechanism.
+
+**Request 3 prices the burn.** No second of powered flight went unpriced. 10.3% of the weight spends
+some time below FL060, where the tables understate flow (mean 27 s per sample), and 29.7% spends some
+time on an extrapolated schedule (mean 128 s). Both are latents.
+
+**The burn gap in the onset trigger is not closed: 50.2% of the weight is still flown dry by the core
+before takeover, median 42 s.** That is expected. `takeover()` receives no fuel model, so the
+exhaustion prediction that triggers onset is still priced by this module's TSFC. Raised as
+**request 3b** (pass `&dyn FuelFlow` to `takeover()`). It amounts to seconds at 00:11 and minutes at
+22:41, so it blocks the 22:41 arms, not this 00:11 contract.
+
+**Effective parents are unchanged to within noise:** at N = 64 on seed 1, R600/no-offset 6,896 (6,880
+before), R1200/inflated 1,135 (1,185), R1200/no-offset 392 (448), `both`/no-offset 17.4 (16.9). The
+item 7 conclusion stands: **N = 16 by the agreed rule; R1200 raw and Holland and `both` are bounded by
+the parent population, not by N.**
+
+**One more label fixed at `b3c07f2`:** an already-dry hand-off (0.42%) drew flame-out-associated with
+a mechanism prior of zero. Given the aircraft is dry, that mechanism is certain, so its prior is now 1.
+This touches the `family_prior` latent only, not the weights. It is not yet re-run at full scale
+because the disk is at its floor.
+
+### Pléiades section 11, now by taxonomy axis (option `none`, `ffc3fbe`, 8 seeds pooled [range])
+
+| axis | value | weight | NW ≥ 30 NM | NW ≥ 50 NM | inside arc ≥ 30 | inside arc ≥ 50 |
+|---|---|---|---|---|---|---|
+| all | | 1.000 | 0.061 [0.060, 0.063] | 0.034 [0.033, 0.034] | 0.227 [0.206, 0.245] | 0.097 [0.089, 0.102] |
+| control | upset then recovery | 0.249 | 0.174 [0.169, 0.180] | 0.095 [0.092, 0.098] | 0.389 [0.372, 0.405] | 0.248 [0.230, 0.267] |
+| | no intervention | 0.250 | 0.046 [0.044, 0.048] | 0.020 [0.019, 0.021] | 0.421 [0.369, 0.474] | 0.083 [0.072, 0.088] |
+| | maintained then lost | 0.250 | 0.016 [0.015, 0.017] | 0.010 [0.009, 0.011] | 0.064 [0.057, 0.073] | 0.030 [0.028, 0.036] |
+| | ditching attempt | 0.250 | 0.010 [0.008, 0.012] | 0.010 [0.008, 0.012] | 0.035 [0.031, 0.043] | 0.028 [0.026, 0.033] |
+| mechanism | flame-out-associated | 0.463 | 0.056 [0.054, 0.059] | 0.030 [0.029, 0.031] | 0.158 [0.135, 0.181] | 0.070 [0.061, 0.076] |
+| | anticipatory | 0.450 | 0.064 [0.063, 0.065] | 0.034 [0.033, 0.035] | 0.264 [0.248, 0.277] | 0.108 [0.102, 0.112] |
+| | fuel-cue | 0.087 | 0.072 [0.070, 0.074] | 0.050 [0.049, 0.052] | 0.403 [0.394, 0.410] | 0.187 [0.182, 0.192] |
+| propulsion | none thrusting | 0.641 | 0.058 [0.056, 0.060] | 0.029 [0.028, 0.030] | 0.183 [0.161, 0.204] | 0.078 [0.069, 0.083] |
+| | one thrusting | 0.179 | 0.067 [0.066, 0.070] | 0.040 [0.040, 0.041] | 0.306 [0.288, 0.316] | 0.131 [0.123, 0.136] |
+| | two thrusting | 0.180 | 0.068 [0.066, 0.069] | 0.041 [0.040, 0.042] | 0.306 [0.293, 0.318] | 0.133 [0.127, 0.138] |
+
+**The control axis carries the north-west reach.** An upset that is dynamically recovered reaches
+≥ 30 NM north-west 17% of the time; a ditching attempt reaches it about 1% of the time. Mechanism and
+propulsion move the north-west reach by a factor of about 1.3, though they matter more for distance
+**inside** the arc (powered 31% against unpowered 18% at ≥ 30 NM). Every "all" figure inherits the
+equal family priors, which are a statement of indifference. The data are held out (option `none`):
+under `both` the effective parents number 2-17 per seed, so no conditioned version is given.
