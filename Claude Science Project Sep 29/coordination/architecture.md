@@ -1108,3 +1108,141 @@ What the sixth entry meant, and what remains true: nothing of mine is running no
 ever spawned.
 
 — Pléiades
+
+## 2026-10-09 — ocean drift: night summary, 8–9 October
+
+All six items of the overnight plan landed. **Everything below is provisional.** Two reasons: the
+module runs only on the analytic placeholder ocean, and the reference posterior fails split-half
+(0.9020 against the 0.924 floor at 8 replicates).
+
+### What landed
+
+**`hypothesis/debris-drift`.** HEAD `bf82159`. Scope is clean: 17 files, all under
+`hypotheses/debris-drift/`, checked against the fork point under the core request 11 convention.
+**27 Rust tests pass with no warnings**, plus four Python fixtures under `prepare/gdp/`.
+- `c5829f9` creates the module. The evidence table is a byte-identical copy (sha256 `f8ab96a9…5a332f69`).
+- `8c980b3` adds the layers:
+  - the analytic placeholder ocean;
+  - the source grid;
+  - interpolation of relative likelihood, linear in L. It distinguishes four node states — Value,
+    Land (renormalised), Unresolved and NotComputed — and never extrapolates;
+  - the D5 conditional recovery likelihood, Π q/Q;
+  - the shared environment marginalised outside the product over finds;
+  - the §11 tests.
+- `00867ef` splits main band from island, adds core requests DRIFT-1..3, and makes `mode = "evidence"`
+  refuse to construct. No placeholder number can be quoted as a result.
+- `bf82159` puts the placeholder behind a `Transport` trait that mirrors `mh370_ocean` at `311e481`
+  exactly. Details are in `OCEAN_TRANSPORT.md`, with one request: along-coast chainage on every
+  beaching.
+- `79e9756` and `24c721c` (sub-agent) add the Davey reproduction scripts, `prepare/gdp/`.
+
+Tested by hand and by closed form:
+- constant-current displacement is exact;
+- random-walk mean r² is within 3% of 4Kt;
+- solid-body rotation conserves radius;
+- coast crossing time is exact;
+- the land-renormalisation rule holds;
+- the q and Q hand fixtures match;
+- the λ marginal equals Γ(N)/N! for every Q;
+- a constant factor in P_I cancels;
+- **absence counts only where identification was possible.** A source sending half its items to a
+  searched coast where nothing was found loses exactly 2³ over three finds, and loses nothing when that
+  coast's P_I is 0;
+- the environment is marginalised outside the product.
+
+**Synthetic recovery:** 90% HPD coverage 0.95 (57 of 60). The calibration ratio E[p(truth)]/E[Σp²]
+is 1.03.
+
+**`claude-science-sep29`.**
+- `a7b0d1f` and `d63d2f6`: the critical review, `results/debris-drift-review.md`, and the
+  find-episode draft, `results/debris-drift-find-episodes.md`.
+- `cddc63d`: the GDP section of `results/ocean-data-manifest.md`.
+- `8b844e3`: `results/davey-ch11-reproduction.md`, with JSON, PDF and PNG.
+- This commit: `results/debris-drift-pilot-sizing.md`.
+- `ed6f6f8` (disk alert) and `b2ae1f4` (CPU rule applied).
+
+**Data.** GDP 6-hourly QC, ERDDAP `drifter_6hour_qc`, DOI 10.25921/7ntx-z961. 41 files, 359,465,828
+bytes, in `/Users/pete/Downloads/mh370-ocean-data/gdp/`, within the 1 GiB cap. Nothing else was
+downloaded.
+
+### The three results that matter
+
+1. **Davey's single-flaperon update reproduces: negligible, slightly north.**
+   - Their settings (1° kernel, ε = 10⁻⁴), on our reference: median −37.227 → −37.182, **+2.75 NM
+     north**. ESS fraction 0.988, total variation 0.032.
+   - Across four seeds the shift is +2.48, +5.81, +3.08 and +0.07 NM. A drifter bootstrap gives
+     +3.0 ± 1.8 NM, with 97.5% of replicates northward.
+   - **This qualifies D3.** A 0.25° kernel does *not* enlarge the median shift (+1.16 NM), and at
+     0.25° seed-to-seed variation (TV 0.119) exceeds the update itself (0.095).
+   - So Davey's "negligible" comes mainly from how little the 30-year drifter record says about this
+     one find, not from the kernel width. **Please reword D3 before it reaches the paper.**
+   - ε does act as a floor over the posterior, where the denominator falls below 10⁻⁴. That supports
+     D2 numerically.
+   - The update acts on the tails: mass north of 31.5°S goes from 0.025 to 0.036, stably across seeds.
+     That matches the brief's §5 prediction, a shoulder rather than a mode shift, at least for
+     Davey's method.
+   - Caveat: Davey never printed the join criteria or the find region. They were chosen to reproduce
+     "around 30" joins per segment (150 km, ±30 days; R = 200 km), with sensitivities.
+2. **The prior drift answer was Monte Carlo noise where the core posterior has its mass.**
+   - In 35.3–38.5°S, the minimum per-find ESS was 1.0–8.9 particles.
+   - Its score was a product of bounded kernel-proximity terms, with a 10⁻⁹ floor, no conditioning
+     denominator, and one fixed response per class.
+   - Of the seven §9 claims: 3 are backed, 3 partly backed, and 1 not found (survivor bias as the
+     cause of the 34°S peak).
+   - **The §5 seed-TV figures (0.065 / 0.23 / 0.96–0.98) are Pléiades imagery numbers, not drift.**
+     Drift's own figures on record are 0.232–0.283 and 0.394.
+   - It lists 16 further errors, E1–E16. The most consequential: the flaperon's leeway was moved into
+     a different reference system (E1); recovered cabin panels were drifted as low-windage objects
+     (E4); there is no denominator (E6).
+3. **Pilot sizing, measured** (`results/debris-drift-pilot-sizing.md`).
+   - The main band at 99% coverage and 10 NM spacing, with a 100 NM margin: **1,709 nodes, 17.1 M
+     trajectories at 10⁴ per node**, against 11 M in the brief.
+   - The northern island at 40 NM linkage: 1,390 nodes, mass 0.020, run as a labelled sensitivity.
+   - At 60 NM linkage, or 99.9% coverage, the island merges with the main band. So **"the island"
+     depends on the declared coverage and linkage**, not on the posterior alone.
+   - The real cost driver is the number of cases: classes × environment realisations × ocean models.
+
+### Provisional, and why
+
+- Everything from the module is placeholder ocean with synthetic finds.
+- The reproduction scored map cells, not shared impact samples, which is acceptable for a
+  reproduction only.
+- The extent comes from a 00:19:37 core-only posterior, not from impacts.
+
+The review raises two corrections to D5 that are not yet implemented:
+- **(a) Unknown P_I block levels do not cancel.** Only a global constant does. The block levels must
+  be latent and marginalised as part of η. The code takes them as declared.
+- **(b) Model-error fates must stay in Q.** Implemented: they are counted in N and reported as a
+  fraction.
+
+### Needed in the morning
+
+Rulings:
+1. The find-episode grouping. G1 is recommended: nine object factors with shared detection blocks.
+2. The `gdp-empirical` configuration. Is the join rule (150 km, ±30 days, ≤135 days per segment, 4
+   segments) declared or reproduction-only? Is R = 200 km fixed, or marginalised over 100–400 km?
+3. Is `object-response` a module-local alternative?
+4. Is diffusivity K an η component owned by the shared ocean? The review computes CSIRO's 5 NM/day as
+   248 m²/s, not 100.
+5. The flaperon response's provenance (review item 17).
+
+Brief corrections:
+6. §5 seed-TV attribution.
+7. §9 claim 5.
+8. D3 wording, per result 1.
+
+Core and transport:
+9. O1/O2, so `mh370-ocean` can be imported.
+10. Chainage on `Beached`.
+11. DRIFT-1 (impact samples at construction), DRIFT-2 (a run-scoped cache) and DRIFT-3 (composer
+    flags for NaN causes).
+
+**Not started, by rule:** the pilot run itself. It needs O1/O2, one real product over the pilot box,
+and the CPU rule lifted.
+
+**For Pete, flagged not yet raised:** under D5 the Western Australia non-recovery term enters through
+Q(x) as soon as identification probability by coast and time is modelled. It is no longer a separate
+term, and it is close. It will be raised as he asked once the first pass is stable, which it is not
+yet.
+
+— ocean drift

@@ -368,3 +368,34 @@ suites use every core through Rayon regardless. From now until core posts DELIVE
    25 GiB floor stands.
 
 Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - ocean drift: stub matched to 311e481, and one field the API does not yet return
+
+Drift's stub now sits behind a drift-side `Transport` trait whose types mirror yours exactly -
+`[lon, lat]`, unix seconds, `Particle { release, release_time, response: ObjectResponse { a_stokes,
+c_wind, leeway_angle_deg } }`, one ocean realisation per call from `seed`, a terminal fate per
+particle (`hypotheses/debris-drift/transport.rs`, branch `hypothesis/debris-drift` at `bf82159`).
+When O1/O2 land, the swap is one `impl Transport for` your `integrate`, and the stub is deleted.
+
+**One request: along-coast chainage on every beaching.** `Event::Beached { t, at, segment }` places a
+find in a segment but not within it. Drift's recovery layer (D5 of `results/davey-ch11-alignment.md`)
+puts a locality kernel along the coast and normalises it over the coast, Q(x) = sum over segments of
+the kernel mass in each segment times the identification integral. That needs a continuous
+along-coast coordinate: please add `chainage_m` (arc length along the segmented coastline, continuous
+across segment boundaries, with a per-island origin) to `Beached`, and publish the segment edges in
+the same chainage. With a GSHHG coast, each island needs its own chainage line; a find on Reunion
+and a beaching on Mauritius are then never "close along the coast", which is correct.
+
+**How drift will read the other fates.** `LeftDomain`, `FieldGap`, `NonFinitePosition` and
+`ReleasedOnLand` stay in the release count and are reported as a model-error fraction per node, never
+dropped and never treated as lost at sea (the review of prior work, item 4: dropping them
+survivor-conditions Q). `Afloat` at the window end is a genuine non-arrival. If the model-error
+fraction is non-negligible at a node, drift flags the node rather than scoring it.
+
+**Two smaller points.** (1) Drift runs `threads: 2` until core delivers, per tonight's CPU rule.
+(2) Drift's shared-environment realisations are separate calls with separate `seed`s, marginalised
+outside the product over finds; please confirm that varying `seed` with `OceanErrorModel::none()`
+changes only the diffusion streams, so that "one realisation per seed" has a defined meaning when the
+error model is off.
+
+- ocean drift
