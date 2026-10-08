@@ -99,3 +99,65 @@ at ISA sea level because `surface_pressure_altitude_ft` is hard-coded to 0.0 in 
 Emitting as ruled otherwise: `impact_heading_deg`, `impact_bank_deg`, and the six energy-transfer
 columns as declared NaN hooks with a method flag, in the same commit as the fuel-state fix.
 
+## 2026-10-08 — end of flight, third entry: the fuel-state fix is landed
+
+`hypothesis/end-of-flight` is at **`7413c8d`**, rebased onto the current working branch. Scope is
+clean at nine files, all under `hypotheses/end-of-flight/`; **60 tests pass, up from 57**, with no
+warnings. Ready for review.
+
+**The defect is fixed at the root rather than patched.** `predicted_exhaustion()` integrates the
+level-cruise burn from `fuel_kg` with the mass it removes, per trajectory, at the nominal aero
+rather than the per-descent draw — `takeover_time` and `descend` must agree on the number, because
+`descend` recovers the onset mechanism from the lead it implies and `takeover_time` has no sampled
+aero in scope. `fallback_predicted_exhaustion_unix_s` is **deleted** from the code and from
+`run.toml`: there is no longer a constant for the anchor to come back through, and
+`no_configured_exhaustion_time_survives_anywhere` asserts a hand-off with no fuel state does not
+land on 00:17:30.
+
+**Three of the original 57 tests carried the same defect**, which is worth recording because it is
+the part a review of the diff would miss. They measured onset leads as `EXHAUSTION - takeover`
+against a hard-coded 00:17:30 constant, so the test suite and the code shared a yardstick and
+agreed with each other. They now read the module's own derived value through its public surface.
+The fixture also now hands over a real fuel state, since request 1 landed, and carries the fuel
+that runs dry at a chosen time — so the synthetic-recovery test exercises the fuel-to-exhaustion
+derivation rather than being handed the answer.
+
+### A measurement that changes a priority
+
+**This module's own cruise burn is 5,033 kg/h at the fixture state, against the reference run's
+Boeing-calibrated 5,764 kg/h — 12.7 % low.** 9,270 kg gives 6,631 s of endurance where the
+reference burn would give 5,790 s, so a predicted exhaustion derived here lands about 841 s — 14
+minutes — later than the core's fuel model would put it.
+
+That is the TSFC approximation (`tsfc_kg_per_n_s`, swept 1.4e-5 to 1.8e-5) standing in for the
+FPPM tables, and it is a one-sided bias on every anticipatory onset: the window opens late and
+the whole descent-onset distribution shifts with it. **Core request 3 is therefore on the critical
+path for the anticipatory arm, not a refinement** — it is now the largest known systematic in the
+onset model. Until it lands, every V2 onset figure should carry the 12.7 % burn gap explicitly.
+
+### Two consequences for the acceptance contract
+
+1. **The latent count is now 37, not 27.** Acceptance item 4 names 27. The additions are
+   `fuel_kg_assumed`, the two attitude columns, the six energy-transfer columns and
+   `impact_tau_method`. Please restate the item against `latent_columns().len()` rather than a
+   literal, so it does not need amending again when request 4 lifts these into `ImpactView`.
+2. **The no-fallback rule is implemented as a test, not a convention.** On the fixture's complete
+   hand-off both `mass_kg_assumed` and `fuel_kg_assumed` must be 0, and a separate test checks
+   that a hand-off without fuel state still flags both rather than quietly supplying numbers.
+
+### One thing I changed outside the fix, declared
+
+`Propulsion::code()` was dead and its `#[cfg_attr(not(test), allow(dead_code))]` claimed it was
+exercised by tests; nothing called it. The warning was invisible because the crate did not compile.
+It is `f64::from(self.engines_thrusting())`, which is exactly what the latent vector was computing
+inline, so the call site now uses the method. Behaviour identical, one duplicated expression fewer,
+and the build is warning-free.
+
+Next from me: provision the gitignored engine data, rebuild the smoke hand-off — `/runs` is
+gitignored so `runs/handoff-smoke` is not in a fresh clone and has to be regenerated from
+`config/sensitivity/handoff-smoke.toml` — and then the six-item contract plus the children-per-parent
+pilot. Note for the record that `mh370 terminal` takes override configs and `config::load` merges
+later files over earlier, so I can select this module from a file inside my own directory;
+**core request 6 is not a blocker for the stage-2 loop**, only for selecting the module inside a
+filter run.
+
