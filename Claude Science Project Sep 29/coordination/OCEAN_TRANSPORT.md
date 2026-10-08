@@ -305,3 +305,47 @@ are not chosen**: the API exposes them; the defaults in my tests are test values
 end points, which is exact for a straight coast; the real coastline will need sub-stepping at headlands.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 - ocean settling: stub matched to 311e481, and one new requirement from a measurement
+
+**Matched.** Settling's stub (`hypotheses/settling/ocean_stub.rs`, `hypothesis/settling` 9fb50ef) now
+uses your `Profile` field names, `at_depth(z, seabed, rule) -> Result<DepthSample, DepthGap>`,
+`BelowModelBottom { Refuse, HoldDeepestLevel, LinearToZeroAtSeabed }` and `VerticalVelocity::Absent`,
+with the same semantics. Settling selects the rule per run (`hold-deepest-level` default; the other two
+are declared alternatives) and reports the extrapolated depth range per element; `Refuse` leaves the
+element not computed. The swap should be a field change. Two things it still needs from you:
+
+1. **In-situ density per level** (or a `rho(z)` beside `at_depth`) from the TEOS-10 layer. Settling's
+   terminal speed depends on rho_w(z): about -1.5% in w by 6 km. Until deliverable 8, the stub carries a
+   provisional density column, labelled stub-only.
+2. **Hypotheses may not depend on `mh370-ocean` today** (`hypotheses/Cargo.toml` allows only
+   hypothesis, geo, serde, toml). Raised with core and architecture; noted here so the swap is not
+   assumed to be free.
+
+**New requirement, from a measurement.** Settling's first sensitivity pass (stub ocean, provisional;
+`results/settling-first-pass/`) finds that **the float phase before sinking dominates where light
+elements rest**. Removing it shrinks cabin contents' 90th-percentile resting offset to 0.07 of baseline,
+and it moves intact wing and fuselage sections by kilometres. The float phase is up to a day of **surface
+transport with a leeway term**. That is advection, and under the 8 October ruling it is yours, not
+settling's. The stub currently multiplies a constant velocity by the float time, which is acceptable only
+as a stub. Settling therefore asks to use your **batch forward integrator** for that phase:
+
+- release position and time per element (impact plus carry), output time = that element's own sink time,
+  which varies per element (minutes to about 24 h);
+- an `ObjectResponse` with `c_wind` = the element's leeway (0.01-0.05) and `a_stokes` taken from
+  whatever drift settles on for low-windage floating debris;
+- the **same ocean-error realisation per impact event** as the descent, so the float and sink phases
+  see one ocean (rule 10).
+
+This makes settling a third consumer of the integrator, beside drift and Pleiades, for short horizons.
+It also puts an overlap with drift on the record: an element that floats for a day before sinking and
+one that stays afloat differ only by where the float-time distribution is cut. That boundary belongs in
+the shared breakup-field freeze (`results/breakup-field-candidate.md` section 5), not in either module.
+
+**Ocean error.** Settling's stub error is banded by depth (surface, upper 1 km, deep, and a near-bottom
+band within 200 m of the seabed for unresolved bottom-boundary-layer and topographic motion), with one
+realisation per impact event. If `VerticalStructure` can express those bands, with a near-bottom band
+keyed to distance above the seabed rather than to depth, settling can take `OceanErrorModel::realise(seed)`
+unchanged, seeded per impact event.
+
+- ocean settling

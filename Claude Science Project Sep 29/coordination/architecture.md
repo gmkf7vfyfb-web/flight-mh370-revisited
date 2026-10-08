@@ -927,3 +927,89 @@ The toolbox (`copernicusmarine` 2.5.0) is installed in the `mh370-rust` environm
 credential parses.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 - ocean settling, overnight entry: what landed, what is provisional, what I need
+
+Worked the 8 October overnight plan in order, at `-j 4` and `nice` while core's run was live. No
+downloads. All five items are done, and all of them are provisional for the reasons below.
+
+### Landed
+
+| item | where | commit |
+|---|---|---|
+| 1. Physics ported form-agnostic; **wreckage-sample emission primary**, `predict()` the moment diagnostic | `hypothesis/settling` | `f32d1c2`, `9fb50ef` |
+| 2. Breakup-field candidate: three families with the selection rule, its constants and three hand fixtures; six element classes with physical definitions; sink-vs-float ownership | `results/breakup-field-candidate.md` on this branch | `38b0ba5` |
+| 3. Analogue and model survey (19 cases, primary sources, a verification column) and the section 11 fixtures | `hypotheses/settling/data/analogues.csv`, `tests.rs` | `9fb50ef` |
+| 4. Labelled analytic ocean stub, then **matched to `core/ocean-transport` 311e481** (`Profile`, `at_depth`, `BelowModelBottom`, `DepthGap`, `VerticalVelocity`) so the swap is a field change | `ocean_stub.rs` | `9fb50ef` |
+| 5. Report page (PNG + PDF + CSV): resting offsets by class and family, depth dependence, and a one-at-a-time sensitivity table | `results/settling-first-pass/` | this commit |
+
+**Tests: 23/23 pass** in `mh370-hypotheses` (15 settling, the rest other modules'), in 1.3 s. These
+include: a hand-computed terminal speed at two densities plus the sphere formula; the directly-below
+limit; uniform-current and two-layer closed forms; a sloping-seabed closed form (contact at 3,931.17 m,
+390.36 m north); all three below-model-bottom rules (100.1274 / 83.5774 m / not computed); the glide mean
+square against 2G²l²(x-1+e^-x) in both integrator regimes; the weight split; mass conservation per draw;
+refinement appending draws; one ocean realisation per draw; and **synthetic-recovery coverage**, where the
+90% interval covers the observed field centroid at the nominal rate over 400 held-out draws. The report
+generator is an ignored test, so the page comes from the same emitter, and its outputs were
+byte-identical before and after the stub refactor.
+
+**Scope.** `make scope H=settling` errors in a single-branch clone exactly as core request 11 describes
+(no `main`). Checked by hand against `claude-science-sep29`: every change is under `hypotheses/settling/`.
+
+### Three findings that change priorities (all on the stub ocean, so provisional)
+
+1. **Float time before sinking dominates the light classes, more than sink rate.** With the float phase
+   removed, cabin contents' p90 resting offset falls to **0.07** of baseline (about 10 km to about
+   0.7 km at 4 km depth). Intact wing and fuselage sections float first and rest about 4 km out; broken
+   and fragmented ones rest 0.5-0.6 km out. Sink rate comes next (panels ×1.64 at half speed), then glide
+   (wing box ×0.60 without it). Changing the current moves five of six classes by **8-38%**. Brief §6
+   predicted sink rate would dominate. For dense classes it does; for anything that floats first, the
+   float time does. **This is surface advection**, so I have filed it in `OCEAN_TRANSPORT.md` as a request
+   to use the shared batch integrator for the float phase. Its overlap with drift (floats-a-day-then-sinks
+   versus stays afloat) belongs in the breakup-field freeze.
+2. **Core request 12 cannot store draws.** Measured: 40 / 57 / 74 element rows per draw (intact / broken
+   / fragmented), 144 B per row. That is 2.9-5.5 MB per impact at 512 draws and 23-44 MB at 4,096. Over
+   160,000 parents it comes to **0.47-0.88 TB at 512 and 3.8-7.0 TB at 4,096**, against about 38 GiB
+   free. Proposal in `hypothesis.toml`: **stream**. The runner calls `Settling::emit` and hands each draw
+   to its consumer, which averages over draws. It stores per-impact results only, plus full draws for a
+   declared handful of representative impacts. That needs a consumer hook that receives wreckage draws,
+   which is a `crates/hypothesis` change and so core's and yours to rule on.
+3. **The family must be drawn once per impact, not once per module.** Hydroacoustics and settling will
+   both condition on it. If each draws it independently, one impact can be intact to the acoustics and
+   fragmented to the wreckage. `results/breakup-field-candidate.md` §3 recommends that end of flight
+   draw `debris_class` once per impact sample on that sample's own stream and emit the three
+   probabilities beside it. Until settling can read it (core request 4), settling draws per wreckage
+   draw from the same rule, labelled provisional.
+
+### Provisional choices made tonight (the more reversible option each time; please rule)
+
+- **A wreckage draw is a whole-field configuration** (one family, one ocean realisation, every class's
+  pieces), as the searched-areas brief defines W. Settling brief §4's "one per element draw" read the
+  other way. A field can always be flattened into element rows with a draw index; the reverse is not
+  possible, so the field reading is the reversible one.
+- **The float phase is a constant-velocity stub** until the shared integrator is available to settling
+  (finding 1).
+- **Recommended that end of flight's `sinks_not_floats` hook be retired** in favour of settling's emitted
+  fates (open item 5): one owner per partition. A recommendation only; nothing has been changed in end of
+  flight.
+- **Piece counts and mass shares are new** and are educated estimates (`breakup.toml`). The family
+  thresholds rest on three anchors (US1549, AF447, Swissair 111), each checked against its primary report
+  tonight.
+- **A source discrepancy:** the brief gives AF447 at about 3,900 m, while ATSB's first-principles review
+  gives the field as 600 × 200 m at **3,980 m**. The CSV carries both.
+
+### Needed in the morning
+
+1. Rulings on core request 12 (stream versus store, and the consumer hook) and on the wreckage-draw
+   definition above.
+2. End of flight to adopt §3 of the candidate (draw once, emit the probabilities, reproduce the three
+   fixtures), and a ruling on `sinks_not_floats`.
+3. Ocean transport: the float phase through the batch integrator, in-situ density per level from
+   TEOS-10, and the core change letting hypotheses depend on `mh370-ocean` (all in `OCEAN_TRANSPORT.md`
+   and `hypothesis.toml`).
+4. Not yet raised with Pete, deliberately: the implosion-at-depth event and the sink-versus-float output
+   (brief §13). Both hooks exist (per-element descent time; fate `afloat`), but a first pass on a stub
+   ocean is not the "stable first pass" the brief sets as the trigger. I will raise them once the
+   shared ocean is swapped in.
+
+- ocean settling
