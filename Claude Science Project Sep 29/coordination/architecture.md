@@ -532,3 +532,67 @@ grid is the prior work's unnormalised-kernel mixture. Direction-robust, magnitud
 3. Requests 1 and 2 of my first entry still stand (per-seed `final.npy`; ruling on the R sweep).
 
 — Pléiades
+
+## 2026-10-08 — Pléiades, third entry: the night's work, what is provisional, what I need in the morning
+
+Your overnight rulings read and taken: R sweep accepted as the §11 stand-in, per-seed `final.npy`
+expected in the morning. Overnight rules observed: no build or run above 4 threads, disk checked
+(37 GiB free), and the only download is the GA Record PDF (18 MB, workspace only, not committed).
+
+### Landed on `hypothesis/pleiades`
+
+| commit | what |
+|---|---|
+| `9a88b2e` | **Deliverable 1**, 2-D tension, histogram-based and provisional: `results/d1-tension.md`. **GA Record 2017/13** object table: `data/ga-rec2017-13-objects.csv`, `data/MANIFEST.md` |
+| `b7ac4c3` | **Object model**, first part: clusters at a declared 3 km threshold with sensitivity, rating-4 arm, matching-space counts: `results/d2-object-model.md` |
+
+**Deliverable 1, in one line each** (all five descent reaches; conditional PDF and tension paired in the figure):
+- H relocates the estimate **150–158 NM (mean), 165–190 NM (mode)** north-east along the arc, from about
+  37.3°S 89.5°E to about 35.3°S 92.2°E.
+- Only **5–7 %** of the unconditional mass lies inside the conditional's 90 % HDR; 55–67 % of the
+  conditional mass lies inside the unconditional's.
+- The conditional HDR (7–29 × 10³ km²) is never wider than H's own transport-only HDR (28,768 km²).
+  It is narrow because H is narrow, not because the two agree.
+- **Suspiciousness ln S = −0.9 to −1.1** at every R: a consistent, moderate tension. The Bayes ratio is
+  near one, but it is prior-volume dependent and quoted only with its volume (439,028 km²).
+- Against brief §4: its 5–35 NM was a distance beyond the 90 % bound, not a displacement. The 2-D shift
+  is consistent with the brief's 121–166 NM cluster-to-median figure.
+
+**GA Record 2017/13**: 70 objects. **Rating 5 = 12**, identical to the archive. **Rating 4 = 27**
+(1,214 m²) per GA's own Tables 1–4; CSIRO's 2017 press release says 28. The table is used and the
+discrepancy recorded. PHR_2 object 12's transposition is corrected and logged. A second anomaly is
+flagged, not corrected: PHR_2 object 11's area is inconsistent with its pixel count (rating 2, out of
+scope).
+
+**Object model**: at 3 km rating 5 reproduces the brief's six clusters exactly. Two findings:
+(a) the ISO brief's "four locations" exists only if rating 4 is carried, since rating 5 alone gives
+three scenes; (b) carrying rating 4 chains two rating-5 clusters in PHR_4 into one 14-object cluster
+under single linkage. Matching spaces confirmed: 1,045 and 18,001; rating 4+5 objects 2,202,409, all
+enumerable.
+
+### Provisional, and why
+
+Everything above uses the 0.25° 00:19 histogram of a run that fails split-half, a uniform-disk descent
+stand-in, and the prior work's unnormalised-kernel mixture grid (no per-family cells, so `ocean-model`
+is not yet separable). No COSMO-SkyMed, no searched areas.
+
+### Choices made tonight that you may reverse (I took the more reversible option)
+
+1. **Cluster weight `w_c`:** no ruling, so both forms are carried, 'equal per cluster' and 'rating-weighted
+   count'. They differ by up to 2.5× for rating 5 at 3 km.
+2. **ρ4 (rating-4 weight):** no source for a value, so it is swept over {0, 0.25, 0.5, 1} rather than
+   fixed.
+3. **Tension statistic:** ln S is added alongside the brief's evidence ratio, because the ratio alone is
+   prior-volume dependent here. Say if you want it removed from the paired set.
+
+### Needed in the morning
+
+1. The path to the per-seed `final.npy` (core, `CORE_STAGES.md`). I will rerun §11 and deliverable 1 on
+   per-particle positions with a replicate spread.
+2. End of flight's displacement-by-family from the smoke impacts, to replace the R sweep.
+3. **COSMO-SkyMed contact positions F1–F4 and their source.** They are not in this project's data that I
+   can find, and deliverable 5 cannot start without them.
+4. Rulings on 1 and 2 above (`w_c` form; ρ4), or confirmation that carrying both is the intended
+   treatment.
+
+— Pléiades
