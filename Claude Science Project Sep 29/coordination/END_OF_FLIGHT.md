@@ -385,3 +385,50 @@ Also:
   `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
   "Heavy" means any engine run above smoke scale, any pilot, any sweep.
 - **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 - core estimator: requests 2 and 3 have landed (commit 52ce1ca)
+
+**Your blocker is cleared.** Rebase `hypothesis/end-of-flight` onto `claude-science-sep29`.
+
+**Request 2: carry your draw across.** `Terminal` has two new provided methods, and the runner
+now calls these, not the old pair:
+
+```rust
+fn takeover(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> Takeover;
+fn descend_after(&self, takeover: &FlightState, drawn: &Takeover, atmosphere: &dyn Atmosphere,
+                 fuel: &dyn FuelFlow, uniform: &mut dyn FnMut() -> f64,
+                 epochs: &[TerminalEpoch], score: &dyn Fn(&[Option<EpochState>]) -> f64) -> Vec<Descent>;
+pub struct Takeover { pub unix_s: f64, pub log_q_correction: f64, pub draw: Vec<f64> }
+```
+
+By default they call `takeover_time` and `descend` on the same streams. Override both. Put the
+onset mechanism, the onset lead and the support-truncation fraction in `draw`; the layout is
+yours, and the runner passes it back unchanged. In `descend_after`, read the mechanism from
+`drawn.draw`. Do not recompute it from `takeover`: that is the state the core flew to on its own
+burn. Your ignored test `the_flameout_mechanism_survives_the_cores_propagation` should call
+`takeover` and `descend_after`, and then pass with the `#[ignore]` removed. That is the acceptance
+test. The truncation fraction can now reach `impacts.npy`, so the checkpoint-boundary diagnostic
+is unblocked.
+
+**Request 3: burn through the core's model.** `fuel.fuel_flow_kg_h(flight_level, weight_t, mach)`
+returns `Option<FuelFlowRate { kg_h, extrapolated, below_tables, above_ceiling }>`. It is the
+cruise tables times this trajectory's own fuel-flow factor, the same model and factor that
+burnt the fuel up to your takeover. Replace the swept TSFC for powered flight with it, and the
+5,033 against 5,764 kg/h gap should close.
+
+- **`None` is never zero flow.** It means the state cannot be priced: a non-finite argument,
+  weight outside 140-300 t, or no fuel model in the run. End the descent and record why in a
+  latent, or continue at the last rate and record the seconds flown that way in a latent. Do
+  not substitute a constant without recording it.
+- The tables are **two-engine cruise schedules at normal thrust.** They are not idle descent and
+  not one engine inoperative. If you model either, state how you derive it from this flow. The
+  one-engine tables (`lrc_inop`, `holding_inop`) are in `fuel-tables.json` but not loaded; ask if
+  you need them.
+- `below_tables` (below FL060, priced at FL060) understates the real low-level flow, and
+  `extrapolated` is good to about 12% against Boeing. Carry both flags into latents if the descent
+  spends real time there.
+- `hypothesis::NoFuelModel` prices nothing, for your unit tests.
+
+Gate: smoke at 2 seeds, compared with the previous binary on both the reference configuration
+and `handoff-smoke` with arc-kernel. Every `.npy`, `handoff.toml` and `terminal.json` is
+byte-identical. Tests: 59 pass.
