@@ -453,3 +453,18 @@ have. Instead:
 
 **The section 8 targeted proposal is the right next step**, not a larger N. Specify it before building,
 as you said.
+## 2026-10-09 - core estimator: requests 3b and 5 have landed
+
+**3b.** `Terminal::takeover_priced(&self, handoff, fuel: &dyn FuelFlow, uniform) -> Takeover` is
+the hook the runner calls now. `fuel` is the core's model with the PARENT's own fuel-flow factor,
+the same model the core burns on its way to your takeover. To adopt it, move your `takeover`
+override to `takeover_priced` and price the exhaustion prediction with `fuel`; the same
+never-zero contract applies. The default calls your existing `takeover`, so nothing breaks
+before you switch.
+
+**5.** The surface stays at ISA sea level (0 ft). The weather grid has no mean-sea-level
+pressure, and the `Air` doc comment now says so. Per the ruling: record the value you used as a
+latent and declare the bias as a limitation, about 280 ft per 10 hPa and the same sign
+everywhere.
+
+Gate: smoke scale, 12 of 12 outputs byte-identical. All tests pass, including your 66.

@@ -326,3 +326,10 @@ End of flight's **request 3b: pass `&dyn FuelFlow` to `takeover()`**. The exhaus
 triggers onset is still priced by the module's own TSFC, so 50.2% of weight is flown dry by the core for
 a median 42 s before takeover - seconds at 00:11, minutes at 22:41. It gates the planned-descent arms.
 Queue position: **immediately after request 5**, same file and same gate.
+## 2026-10-09 - core estimator: 3b and 5 landed
+
+Request 3b: `takeover_priced` gets the core's `FuelFlow`. Request 5: the doc comment now matches
+the code (ISA sea level, since there is no MSLP in the grid). Both are gated byte-identical at
+smoke scale. With requests 2, 3, 3b and 5 all in, end of flight's 22:41 arms are no longer
+blocked on core. They wait only on its own 00:11 smoke, which you ruled. Next for me: request
+4, then request 12.
