@@ -185,13 +185,20 @@ impl OnsetConfig {
         let weights = self.available_weights(earliest_unix_s, predicted_exhaustion_unix_s);
         let total: f64 = weights.iter().sum();
         if !(total > 0.0) {
-            // No mechanism has support: take over at the hand-off and say so through the
-            // mechanism prior, which is then zero. NaN is not used: this is a real state.
+            // No mechanism has support after the hand-off. Two different states share this branch.
+            // ALREADY DRY (predicted exhaustion at or before the hand-off): the flame-out has
+            // happened, and conditional on no major descent before the checkpoint the only
+            // consistent mechanism is flame-out-associated, so its prior is 1 - this is 0.42% of
+            // the reference 00:11 snapshot, which reported 0 here until 9 Oct. Otherwise (for
+            // example the flame-out mechanism configured out): no mechanism is supported, take over
+            // at the hand-off and say so with a prior of 0. NaN is not used: both are real states.
+            let already_dry = predicted_exhaustion_unix_s <= earliest_unix_s;
+            let flameout_allowed = self.mechanism_weights[2] > 0.0;
             return Onset {
                 unix_s: earliest_unix_s,
                 mechanism: Initiation::FlameOutAssociated,
                 predicted_endurance_at_onset_s: predicted_exhaustion_unix_s - earliest_unix_s,
-                mechanism_prior: 0.0,
+                mechanism_prior: if already_dry && flameout_allowed { 1.0 } else { 0.0 },
                 support_truncated_fraction: 1.0,
                 log_q_correction: 0.0,
             };
@@ -585,4 +592,16 @@ mod tests {
         assert!(OnsetConfig { early_fraction: 1.5, ..config() }.check().is_err());
         assert!(OnsetConfig { recognition_delay_s: Range::Uniform([10.0, 1.0]), ..config() }.check().is_err());
     }
+    /// A hand-off already dry: the flame-out has happened, so the draw is flame-out-associated with
+    /// prior ONE, at the hand-off. It reported prior zero until 9 Oct, which made 0.42% of the
+    /// reference snapshot look like an unsupported state.
+    #[test]
+    fn an_already_dry_hand_off_is_flame_out_associated_with_certainty() {
+        let c = config();
+        let o = c.draw(1_000.0, 900.0, &mut || 0.5);
+        assert_eq!(o.mechanism, Initiation::FlameOutAssociated);
+        assert_eq!(o.mechanism_prior, 1.0);
+        assert_eq!(o.unix_s, 1_000.0);
+    }
+
 }
