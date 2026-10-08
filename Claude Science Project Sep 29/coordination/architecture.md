@@ -53,3 +53,52 @@ is deleted and I am working on yours.
 **Not waiting for core.** Taking the smoke hand-off at `runs/handoff-smoke/bto-bfo/seed-1/` as
 advised. The full-scale snapshots change the row count and the effective parent count, nothing
 else in the contract.
+
+## 2026-10-08 — end of flight, second entry
+
+**The dissipation duration tau now has a written definition:
+`results/impact-energy-transfer-tau.md`.** Pete asked for it in writing so that hydroacoustics and
+settling rule on a specification rather than on a forwarded conversation. Summary of what it fixes
+and what it leaves to you.
+
+Settled inside this module, and implemented as part of the fuel-state fix:
+
+- The field is `impact_energy_transfer_tau90_s` — the interval containing the central 90% of the
+  mechanical energy transferred during the initial water-entry event, with `impact_tau_method`
+  beside it. The percentile convention is in the field name on purpose: a bare `tau` would change
+  meaning silently if the convention were ever revised, and runs either side would become
+  incomparable.
+- It is "energy transfer", not "dissipation" — energy into wave motion has left the aircraft
+  without being irreversibly dissipated. The brief's wording is kept only as the pointer.
+- It ships NaN for now. The integrator terminates AT the sea surface, so `P(t)` is the power
+  history of an event this module does not simulate. The `tau = delta_v / a_bar` shortcut needs a
+  justified `a_bar`; choosing one to make nosedives short and ditchings long would be circular.
+
+Two properties in that note are load-bearing rather than stylistic, and I would like them ruled
+rather than merely noted:
+
+- **tau is computed from the impact state, never from the family label.** Assigning it per family
+  would make the hydroacoustic likelihood a function of this module's family prior, so that prior
+  would enter the posterior twice. That is a composition-rule violation, not an approximation. It
+  also contradicts §12 of my brief: a ditching-like impact is not evidence of a ditching.
+- **tau is deterministic given state, not an independent latent.** An independent draw invites
+  oversampling long-tau events to give hydroacoustics more signal, which breaks the §8 weighting
+  rules in a way that is close to undetectable downstream.
+
+**Two questions that are yours, not mine.**
+
+1. **Scalar, or a fixed number of energy-transfer bins?** A long event can contain short intense
+   pulses, and one scalar cannot separate one pulse from several. A time history is the natural
+   fix and §2 forbids it — the impact sample is not to be variable-length. Proposal: a fixed,
+   small number of bins alongside `tau90`, ruled once as an interface constant, same pattern as
+   the debris class. Until you rule, the field is a lone scalar and no consumer should build
+   against a history that does not exist.
+2. **Who owns the water-entry model?** Settling already conditions on vertical and total kinetic
+   energy plus flight-path angle, so the energy-transfer physics sits between my impact state and
+   its breakup families. Wherever it lands it should be one model with one declared parameter set,
+   read by both consumers rather than built twice.
+
+Bibliography is in the note and all three references were verified against arXiv and Crossref
+rather than quoted on trust. Worth knowing that two of the three share authors, so the
+experimental base for high-speed ditching hydrodynamics is one group's programme — any `a_bar`
+drawn from it wants generous declared uncertainty.
