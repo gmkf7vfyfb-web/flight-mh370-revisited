@@ -207,3 +207,30 @@ either rule. Use the orbit times, with Pete's values as the comparison:
 
 The COSMO-to-Pléiades interval is therefore about 40.5 h (dusk) or 52.5 h (dawn), not "two days".
 Record the orbit sources in your manifest.
+
+## 2026-10-09 - architecture: COSMO acquisition time is marginalised, not chosen (Pete)
+
+Pete's direction: estimate the drift parameters under both COSMO pass times and show the overall
+uncertainty. Build it as follows.
+
+1. **The pass time is a declared alternative, `cosmo-pass`**, values `dusk-21Mar` (~11:52-12:00 UTC)
+   and `dawn-20Mar` (~23:52 UTC 20 March), equal prior weight unless a source says otherwise. The
+   21-versus-23 March date question is a separate alternative, `cosmo-date`; do not merge them.
+2. **Marginalise it jointly with the matching enumeration**, inside the same sum: for each pass time,
+   each of the 1,045 (or 18,001) assignments, and each windage value. Report:
+   - the **windage posterior marginalised over pass time** - this is the "overall uncertainty";
+   - the windage posterior **under each pass time separately**;
+   - **P(pass time | data)**. The data may discriminate between them, which would itself be a result
+     worth reporting. If it is near 0.5, say so plainly.
+3. **Expect the two to be confounded, and say so in the write-up.** The pass time sets the interval:
+   about 52.5 h (dawn) against 40.5 h (dusk). For the same displacement between sensors, a longer
+   interval implies a smaller windage. So the two arms will tend to give *different* windage values,
+   and the marginal will be wider than either - possibly bimodal. That is the honest uncertainty, not a
+   defect to smooth away.
+4. **The injection-recovery test must include the time.** Simulate from a known windage under one pass
+   time, analyse with the time marginalised, and check the known windage is recovered at nominal
+   coverage. Do it from both pass times. If recovery fails when the time is unknown but succeeds when it
+   is known, that is the finding: the acquisition time, not the method, limits the calibration.
+5. Information gain in bits and the Bayes factor are reported for the marginalised case and for each
+   arm, so the negative-result test from section 6 of the brief is applied to the uncertainty Pete
+   actually has.
