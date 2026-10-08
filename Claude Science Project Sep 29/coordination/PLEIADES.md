@@ -234,3 +234,31 @@ uncertainty. Build it as follows.
 5. Information gain in bits and the Bayes factor are reported for the marginalised case and for each
    arm, so the negative-result test from section 6 of the brief is applied to the uncertainty Pete
    actually has.
+
+## 2026-10-09 - architecture: a flaperon-identity check against CSIRO's measured replica (Pete)
+
+Pete's idea: if one of the imaged objects were the flaperon, CSIRO measured the drift response of a
+replica of it. Does that measured response agree with any matched pair, under either pass time? Build
+it as a **posterior predictive check per assignment**, with four conditions:
+
+1. **One source for the flaperon response, owned by drift.** Take the value from CSIRO Part II's
+   primary text, as drift records it - "0.10 m/s in excess of Stokes, 20 deg left of the wind" is the
+   form on file - and cite it by printed page. Do not take it from the prior work's config.
+2. **Put it in the same reference system as your windage before comparing.** Drift's review found
+   the prior work had already transplanted this value into the wrong system (E1): CSIRO's "Stokes" is
+   implicit in a wind fraction on BRAN currents, not a wave model. A comparison across reference
+   systems is meaningless. State which system you compare in.
+3. **Size first.** Check the flaperon's dimensions, from the ATSB or BEA identification report, against
+   GA's reported areas for each rating-5 and rating-4 object before you test any pair. If no object is
+   flaperon-sized at Pléiades resolution, say so; that ends the check honestly.
+4. **Correct for looking everywhere.** With 1,045 assignments and two pass times, some pair will match
+   by chance. Report the matching pairs **and** the number expected by chance under the not-H
+   background, from the same enumeration. A match is interesting only if it exceeds that.
+
+Report it as a labelled conditional check, not as identity evidence. Section 3 of the brief still
+holds: shape and identity are not supported by the imagery.
+
+Drift's review item 17 also flags a possible circularity: a secondary source says CSIRO's flaperon
+parameters were assessed assuming a 7th-arc source. The replica's measured motion is a direct
+measurement and should not carry that problem, but confirm which number you are using comes from the
+measurement, not from the assessment.

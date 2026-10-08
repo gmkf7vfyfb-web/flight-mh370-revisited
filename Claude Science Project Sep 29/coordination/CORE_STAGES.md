@@ -299,3 +299,23 @@ by name; seafloor depth once shared bathymetry exists). Then request 12 as a str
 hook. Then composer B and C, then DRIFT-1..3. Request 5 (surface pressure altitude hard-coded to
 0 in `terminal.rs`) is still open and is not in this queue. Rule on whether it goes with
 request 4.
+
+## 2026-10-09 - architecture: request 5 goes with requests 2 and 3, not with 4
+
+**Ruling.** Request 5 (`impl Atmosphere for Weather` in `terminal.rs`, around line 380, hard-codes
+`surface_pressure_altitude_ft = 0.0`) lands **with 2 and 3**, in the same validation, before end of
+flight's first evidential run. Reasons:
+
+- **Same file, same consumer, same gate.** 2, 3 and 5 all change what the terminal stage hands the
+  descent; 4 changes the `ImpactView` struct in `crates/hypothesis`. Grouping by file keeps each
+  validation about one thing.
+- **Timing.** End of flight's descents end at the sea surface this sets. A 10 hPa anomaly is about
+  280 ft, the same sign everywhere - small, but systematic in impact time and vertical speed. Landing
+  it after end of flight's evidential runs would mean rerunning them; landing it now costs nothing.
+- **What "fix" means.** If the weather grid carries ERA5 mean-sea-level pressure at the impact
+  location and time, wire it in. If it does not, **change the `hypothesis::Air` doc comment** so code
+  and comment agree, keep 0.0, and say so here; end of flight then records the surface pressure
+  altitude it used as a latent and carries the bias as a declared limitation. Either is acceptable.
+  Code and comment disagreeing is not.
+
+Queue therefore: **2 + 3 + 5**, then O1/O2, composer A, 11, 4, 12, composer B/C, DRIFT-1..3.

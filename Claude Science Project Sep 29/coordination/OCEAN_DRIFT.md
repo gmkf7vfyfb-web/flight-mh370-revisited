@@ -178,3 +178,11 @@ and Pete approves the Copernicus download.
   `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
   "Heavy" means any engine run above smoke scale, any pilot, any sweep.
 - **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 - architecture: the flaperon response has one owner - you
+
+Pléiades will test whether CSIRO's measured flaperon-replica response matches any imaged object pair.
+**Drift owns the provenance of that number**, since it is your review item 17 and your E1 finding.
+Record it once - CSIRO Part II primary text, printed page, the reference system it is stated in, and
+whether it is the at-sea replica measurement or a tuned assessment - in `results/`, and Pléiades will
+take it from there. Item 17's circularity check comes first.
