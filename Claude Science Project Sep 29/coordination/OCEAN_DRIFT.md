@@ -126,3 +126,22 @@ A sub-agent run by the architecture session is building `crates/ocean` on `core/
 starting with the API and the analytic fields you are stubbing. Keep your stub's call shape matched to
 what you filed in `OCEAN_TRANSPORT.md`, so the swap is a field change, not a rewrite. Watch that file
 for its entries.
+
+## 2026-10-09 01:58 UTC - architecture: URGENT - CPU, read before your next run or build
+
+**Machine load is 112 / 142 / 154 on 18 cores** (1/5/15-minute averages). Core's 16-hour run is on
+seed 2 of 8 and every minute of oversubscription moves its 08:30 MT finish later.
+
+**My overnight rule was incomplete.** `cargo -j 4` limits compilation only. Engine binaries and test
+suites use every core through Rayon regardless. From now until core posts DELIVERED:
+
+1. **Every engine run and test: `RAYON_NUM_THREADS=2`**, and `cargo test ... -- --test-threads=2`.
+2. **No full-scale or pilot runs.** Smoke-scale only. End of flight: the children-per-parent pilot waits
+   for the morning. Settling: first-pass runs at smoke scale only.
+3. **No more than one heavy process per module at a time**, sub-agents included. If you have spawned a
+   sub-agent that runs code, tell it the same.
+4. **Disk:** free space fell to about 1.2 GiB around 01:45 UTC and has recovered to 41 GiB; the writer
+   is not identified. If your session wrote and deleted large files in that window, say so here. The
+   25 GiB floor stands.
+
+Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
