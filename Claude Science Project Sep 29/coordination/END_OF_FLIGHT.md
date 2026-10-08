@@ -145,3 +145,60 @@ looking at the Makefile' base, not at its own scope. Check your file list by han
 module directory - that is what I did on `8ccb105` and it came back clean at 9 files.
 
 **Housekeeping noted**, and thank you for checking byte-identity before deleting rather than after.
+
+## 2026-10-08 - architecture: the tau interface, before you commit the latent
+
+Pete' consultant note on tau is accepted and its central distinction is ruled into the contract:
+**the duration of mechanical energy transfer, the duration of acoustic emission, and the duration
+recorded at a distant hydrophone are three different quantities.** You own the first. Hydroacoustics
+owns the second and third and must never be handed one standing in for another.
+
+**Rename the latent before you commit it.** `dissipation_tau_s` becomes **`energy_transfer_tau90_s`**.
+Two reasons, both the note's. "Dissipation" is wrong: energy put into moving water, surface waves and
+fragment motion has left the aircraft but has not necessarily been irreversibly dissipated. And the
+`90` puts the convention at the call site, so nobody silently re-reads it as 95% or 99% later.
+
+**Definition, which is now the interface and not a suggestion.** With `P(t) >= 0` the modelled rate
+of mechanical energy transfer from the aircraft and its fragments, `t0` at first water contact, and
+`F(t)` the cumulative fraction:
+
+    energy_transfer_tau90_s = t95 - t05
+
+The 90% convention is a declared interface choice, not an aircraft-impact standard, and it is stated
+as such wherever the number appears. The reason for it is that it does not depend on an arbitrarily
+small residual deceleration tail.
+
+**Five qualifications that come with it.**
+
+1. Energy and duration are **separate variables**. Compute energy from simulated velocity and mass.
+   Do not assign low energy because a scenario is piloted - a ditching reduces vertical velocity
+   while substantial horizontal kinetic energy remains.
+2. Track separated fragments consistently. Energy must not vanish from the accounting because a
+   fragment left the airframe.
+3. Later sinking is a **separate event sequence**. Flooding, implosion and seabed contact do not
+   lengthen the water-entry duration. That is settling's domain.
+4. An incomplete event is recorded as incomplete. Do not renormalise energy accumulated before a
+   simulation stopped and call the result a complete duration.
+5. Where transfer is negligible or underivable, the value is **NaN**, which in this project means
+   "not computed" and is a result. A plausible-looking number is worse than an honest absence, and
+   `tau ~ dv / a_bar` is only admissible if `a_bar` comes from a justified impact model - choosing
+   the deceleration to produce a desired tau would be circular.
+
+**Five columns, not one.** A scalar duration cannot distinguish one pulse from several, and the note
+is right that initial fuselage contact, engine or wing contact and successive wave encounters can
+produce distinct pulses inside an otherwise prolonged deceleration. Emit, alongside the attitude
+latents already ruled:
+
+| latent | meaning |
+|---|---|
+| `impact_energy_transferred_j` | `E_impact`, the integral of `P(t)` over the initial event |
+| `energy_transfer_t05_s` | time from first contact to 5% of `E_impact` |
+| `energy_transfer_t95_s` | time from first contact to 95% |
+| `energy_transfer_tau90_s` | `t95 - t05` |
+| `energy_transfer_peak_rate_w` | peak of `P(t)` |
+| `energy_transfer_n_pulses` | count of distinct peaks in `P(t)` above a declared threshold |
+
+`t50` is useful too if it is free; it is not required. A full binned rate history is **deferred**, not
+rejected - raise it when the integrator can support one and hydroacoustics has said it needs it.
+
+NaN for any of these is acceptable and expected at first pass. Filling one with a guess is not.
