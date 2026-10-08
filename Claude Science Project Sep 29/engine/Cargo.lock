@@ -121,6 +121,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "mh370-compose"
+version = "1.0.0"
+dependencies = [
+ "mh370-hypothesis",
+ "rand",
+ "rand_chacha",
+ "rand_distr",
+ "serde",
+]
+
+[[package]]
 name = "mh370-flight"
 version = "1.0.0"
 dependencies = [
