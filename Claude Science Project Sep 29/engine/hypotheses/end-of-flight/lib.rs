@@ -233,6 +233,24 @@ const LATENTS: &[&str] = &[
     "rat_increment",
     "mass_kg_assumed",
     "fuel_kg_assumed",
+    // Seconds the CORE flew this trajectory on powered dynamics after its own tanks ran dry,
+    // between the hand-off and this module's takeover. Non-zero when the module's predicted
+    // exhaustion (its own TSFC burn, 12.7 % below the core's FPPM burn at the fixture state) lands
+    // after the core's realised exhaustion: the core then keeps cruising with nothing in the
+    // tanks, and the module starts from a dry aircraft. This is the measured cost of the burn gap
+    // until core request 3 gives both stages one fuel-flow model. Zero if the core had not run
+    // dry by the takeover. When non-zero, `realised_flameout_unix_s` above is the takeover time,
+    // not the core's exhaustion, which is `onset_unix_s` minus this.
+    "powered_after_core_exhaustion_s",
+    // Ground velocity at takeover, so that a consumer can place the aircraft at a burst that fell
+    // BEFORE the takeover - which the module never flies through and so cannot report directly.
+    "takeover_ground_velocity_east_mps",
+    "takeover_ground_velocity_north_mps",
+    // Position at the last burst this module flew through (the latest requested epoch), when the
+    // aircraft was still airborne then; NaN if it was already down or if the takeover came after
+    // every burst. Used for impact displacement from the 00:19:37 position.
+    "last_burst_latitude_deg",
+    "last_burst_longitude_deg",
     "weather_clamped",
     "timed_out",
     // Attitude at contact, ruled into the interface by architecture on 2026-10-08. Both are
@@ -637,6 +655,15 @@ impl Terminal for EndOfFlight {
                 aero.rat_increment,
                 f64::from(u8::from(parent.mass_assumed)),
                 f64::from(u8::from(parent.fuel_assumed)),
+                if takeover.realised_flameout_unix_s.is_finite() {
+                    (takeover.unix_s - takeover.realised_flameout_unix_s).max(0.0)
+                } else {
+                    0.0
+                },
+                takeover.ground_velocity_east_mps,
+                takeover.ground_velocity_north_mps,
+                states.last().copied().flatten().map_or(f64::NAN, |s| s.latitude_deg),
+                states.last().copied().flatten().map_or(f64::NAN, |s| s.longitude_deg),
                 f64::from(u8::from(trace.clamped)),
                 f64::from(u8::from(trace.timed_out)),
                 trace.impact.heading_rad.to_degrees().rem_euclid(360.0),
@@ -744,6 +771,22 @@ mod tests {
         let text = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/end-of-flight/run.toml")).expect("run.toml");
         let run: toml::Value = toml::from_str(&text).expect("run.toml parses");
         run.get("hypotheses").and_then(|h| h.get("end-of-flight")).expect("[hypotheses.end-of-flight]").clone()
+    }
+
+    /// `smoke/terminal.toml` selects this module for `mh370 terminal` sweeps and has to carry the
+    /// parameter block itself, because an override cannot pull `run.toml` in without also pulling
+    /// its base, `config/integrated.toml`. The copy is guarded here rather than trusted: if the two
+    /// drift, a sweep would quietly run on different physics from the tests.
+    #[test]
+    fn the_smoke_override_carries_run_toml_parameters_verbatim() {
+        let text = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/end-of-flight/smoke/terminal.toml"))
+            .expect("smoke/terminal.toml");
+        let smoke: toml::Value = toml::from_str(&text).expect("smoke/terminal.toml parses");
+        let block = smoke.get("hypotheses").and_then(|h| h.get("end-of-flight")).expect("[hypotheses.end-of-flight]");
+        assert_eq!(block, &params(), "smoke/terminal.toml has drifted from run.toml");
+        let terminal = smoke.get("terminal").expect("[terminal]");
+        assert_eq!(terminal.get("module").and_then(|m| m.as_str()), Some("end-of-flight"));
+        assert_eq!(terminal.get("target").and_then(|m| m.as_str()), Some("none"), "the smoke default is the held-out case");
     }
 
     fn module() -> Box<dyn Hypothesis> {
@@ -1108,6 +1151,11 @@ mod tests {
                 assert!(d.latents[at(name)].is_nan(), "{name} must be NaN until a water-entry model exists");
             }
             assert_eq!(d.latents[at("impact_tau_method")], TAU_METHOD_NOT_COMPUTED);
+            // The burn-gap diagnostic is a duration, never negative and never NaN; the fixture has
+            // not run dry, so it must be exactly zero here.
+            assert_eq!(d.latents[at("powered_after_core_exhaustion_s")], 0.0);
+            assert!(d.latents[at("takeover_ground_velocity_east_mps")].is_finite());
+            assert!(d.latents[at("takeover_ground_velocity_north_mps")].is_finite());
             // Attitude at contact is reported, and is a real outcome of the dynamics.
             let heading = d.latents[at("impact_heading_deg")];
             assert!((0.0..360.0).contains(&heading), "impact heading {heading}");
