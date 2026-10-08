@@ -84,3 +84,36 @@ https://erddap.aoml.noaa.gov/gdp/erddap/tabledap/drifter_6hour_qc.nc?ID,time,lat
 | `gdp6h_io_2023.nc` | 10,372,920 | 8dc3c5fa74844ba09b851ce998bce0ff0d57b0c7a965f78ebf084d8ceb2dee9e | 2026-10-08T01:40:54Z |
 | `gdp6h_io_2024.nc` | 14,131,948 | f2753ac01f79cbc9ae1f215d47957c35afa9e188c6f881201012dcc0733422aa | 2026-10-08T01:41:03Z |
 | `gdp6h_io_2025.nc` | 8,269,280 | c8a5810f33fda51cc5ce1d5fbd8890151df4f961d4224263058df44f08c81587 | 2026-10-08T01:41:09Z |
+
+## GLORYS12V1 surface currents, first slice (shared ocean transport)
+
+Ocean transport (architecture sub-agent). Authorised by the architecture session's message of 9
+October (brief deliverable 4/5; cap 2 GiB for this step, 25 GiB floor). Network access to
+`stac.marine.copernicus.eu` and `s3.waw3-1.cloudferro.com` was approved by Pete. Free disk was
+31.2 GiB before the download and 29 GiB after conversion.
+
+| Item | Value |
+|---|---|
+| Product | GLOBAL_MULTIYEAR_PHY_001_030 (GLORYS12V1), Mercator Ocean International / Copernicus Marine |
+| Dataset | `cmems_mod_glo_phy_my_0.083deg_P1D-m` (daily means), Toolbox service `arco-geo-series` |
+| File attributes | `source` MERCATOR GLORYS12V1; `field_type` mean; `history` 2023/06/01 creation; Toolbox 2.5.0 |
+| Variables | `uo`, `vo` (m s-1), stored as int16, scale 6.1037e-4 m/s (0.6 mm/s quantisation), fill -32767 |
+| Box | 15-120 E, 50-0 S: 1,261 x 601 nodes at 1/12 deg |
+| Depth | top level only, 0.494 m |
+| Period | 2014-03-07 to 2014-04-30, 55 daily means. Time labels are 00:00 UTC ("hours since 1950-01-01") |
+| Time placement | each mean placed at label + 12 h (interval centre). **Provisional**: if the label were the centre, the field shifts 12 h |
+| Retrieved | 2026-10-08T14:22Z (machine clock), 16 s; network transfer 3.52 GB of ARCO chunks, disk footprint below |
+| Local path | `/Users/pete/Downloads/mh370-ocean-data/glorys12/` |
+| Toolbox request | `copernicusmarine.subset(dataset_id="cmems_mod_glo_phy_my_0.083deg_P1D-m", variables=["uo","vo"], minimum_longitude=15, maximum_longitude=120, minimum_latitude=-50, maximum_latitude=0, minimum_depth=0, maximum_depth=1, start_datetime="2014-03-07T00:00:00", end_datetime="2014-04-30T00:00:00", service="arco-geo-series")`, credential `COPERNICUS` |
+| Conversion | `engine/crates/ocean/prepare/netcdf_to_grid.py` (branch `core/ocean-transport`, `f71a7d2`): float32 `[time][lat][lon][east, north]`, NaN at land; land fraction 0.174; max speed 3.07 m/s |
+| Used by | drift (pilot transport), Pleiades (impact to 21 and 23 March), settling's float phase; first real product behind `GridField::load`; throughput measurement |
+
+| File | Bytes | sha256 |
+|---|---|---|
+| `glorys12v1_uo_vo_surface_15-120E_50-0S_20140307-20140430.nc` | 166,764,464 | a1b9122138ddf47ee8da84e77576ba9f415e0e322138497ecc5ebff12af87667 |
+| `glorys12v1_uo_vo_surface_20140307-20140430.f32` (derived) | 333,458,840 | 466ffb32b349e6e4cfac4a559136016be5404d2b6fb0f1e0d2ab7d3b87569bbf |
+| `glorys12v1_uo_vo_surface_20140307-20140430.json` (derived manifest) | 19,662 | 6ec58172158cfba20bf08e9f3883773e1293f3f898f8600025309936dbc334c5 |
+
+Total on disk: 500,242,966 bytes (477 MiB). This slice covers 54 days; drift's full period (8 March
+2014 to 30 September 2016) over the same box is about 5.7 GB as float32, or roughly 2.9 GB as the
+Toolbox's int16 netCDF.

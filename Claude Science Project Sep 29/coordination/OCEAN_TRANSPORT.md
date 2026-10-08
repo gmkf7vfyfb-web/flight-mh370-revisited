@@ -399,3 +399,69 @@ changes only the diffusion streams, so that "one realisation per seed" has a def
 error model is off.
 
 - ocean drift
+
+## 2026-10-09 — ocean transport (architecture sub-agent): first real product, throughput, chainage, K as eta
+
+**Commit `f71a7d2` on `core/ocean-transport`**, 17 of 17 tests pass. Still not importable until O1/O2 land.
+
+**1. Chainage on beaching (drift's request). BREAKING, small.** `Event::Beached { t, at, segment, line,
+chainage_m }` and `Snapshot::Beached { at, segment, line, chainage_m }`. `line` is one continuous chainage
+line: a mainland stretch, or one island with its own origin. `chainage_m` is arc length on the sphere along
+that line from its origin, continuous across segment boundaries. `Coastline::segments() -> Vec<SegmentEdges
+{ segment, line, start_m, end_m }>` publishes the edges in the same chainage. `StraightCoast` gains a `line`
+field and measures chainage from `a`; its end segments extend to plus or minus infinity. Patterns written as
+`Beached { t, at, segment }` without `..` need the two new fields. Tested: chainage = R x (lat + 40 deg) on a
+meridian coast to 1e-6, a find lies within its own segment's edges, edges are contiguous, and an oblique line's
+edges are exact on a parallel.
+
+**2. Diffusivity is an eta component (ruled this morning).** `DiffusivityPrior::{Fixed { k_m2_s },
+LogUniform { k_min_m2_s, k_max_m2_s }}`. `prior.draw(seed) -> Diffusion::Diffusivity { k }` gives **one K per
+run** on its own random stream, so one run seed fixes one eta = (K, ocean-error realisation), shared by every
+particle and every find. `ln_density(k)` is there for reweighting. **Provisional prior:**
+`DiffusivityPrior::provisional(ocean_model)` is log-uniform on **30-1000 m²/s** (one-day 2-D RMS 1.7-9.9 NM)
+for every product. It spans the archive's 100 and CSIRO's 248 m²/s (5 NM/day; drift's correction is right).
+It is conditional on the product because the sub-grid part depends on resolution, and it is to be narrowed
+per product by the drogued-drifter replay (deliverable 9).
+Use: `spec.diffusion = DiffusivityPrior::provisional(&forcing.ocean_model()).draw(seed); spec.seed = seed;`.
+
+**3. Drift's seed question: confirmed and tested.** With `OceanErrorModel::none()` and a fixed diffusion,
+varying `seed` changes only the per-particle diffusion and refloat streams. With no diffusion either, it
+changes nothing (`diffusivity_is_one_eta_draw_per_run`).
+
+**4. First real product: GLORYS12V1 surface `uo`/`vo`**, 15-120 E, 50-0 S, 7 March to 30 April 2014, 55 daily
+means, in `/Users/pete/Downloads/mh370-ocean-data/glorys12/`. Recorded in `results/ocean-data-manifest.md`,
+appended after drift's GDP section. Load it with
+`GridField::load(Path::new(".../glorys12v1_uo_vo_surface_20140307-20140430.json"))`. Its contents and time
+axis come from the catalogue, not the file. Two conventions to know:
+- each daily mean is placed at **label + 12 h** (labels are 00:00 UTC). This is provisional: the other reading
+  shifts the field 12 h;
+- values are int16-quantised at 0.6 mm/s.
+It covers Pléiades' 8-23 March window and drift's first 52 days, not drift's full period.
+
+**5. Throughput (deliverable 5), measured on that product.** `examples/throughput.rs`, run under
+`/tmp/.mh370-heavy.lock` with up to 12 threads. Particles were released on a grid over 92-106 E, 26-40 S at
+12:00 UTC on 8 March 2014 and run 52 days at a 6 h step, current only, K = 248 m²/s; all stayed afloat.
+One evaluation is one 8-node trilinear sample with land renormalisation, wall time over all integrator work.
+
+| threads | particles | field evaluations | wall | evaluations/s | per thread |
+|---|---|---|---|---|---|
+| 1 | 40,000 | 1.66e7 | 2.38 s | 7.0e6 | 7.0e6 |
+| 12 | 480,000 | 2.00e8 | 2.92 s | 6.8e7 | 5.7e6 |
+| 1 (repeat) | 40,000 | 1.66e7 | 2.83 s | 5.9e6 | 5.9e6 |
+
+**Machine load averaged 105-120 on 18 cores during the measurement** (another job was running), so these are
+lower bounds, not a quiet-machine figure. Against drift's assumed **2e7 per second per core**, the achieved
+**5.7-7.0e6 per thread** is 2.9-3.5 times lower. The pilot at 11 M trajectories x 2,920 steps x 2 evaluations is
+6.4e10 evaluations. Current only, at 6.8e7/s on 12 threads, that is about **16 minutes**. With Stokes and wind
+fields as well, roughly three evaluations per stage, it is about **0.8 h**, against the brief's 0.06 h.
+That is still cheap; re-measure on a quiet machine before sizing production.
+
+**6. Settling's three requests: queued, not built today.**
+- Per-element output time for the float phase. Today one output-time list is shared per call; a per-particle
+  end time is the clean form, and changes `Particle`.
+- `VerticalStructure` bands, including one keyed to height above the seabed.
+- In-situ density per level, with TEOS-10 (deliverable 8).
+Until then settling can call `integrate` once per sink-time bin with that bin's own `output_times`, sharing
+one `seed`, so all bins see the same ocean.
+
+— ocean transport (architecture sub-agent)

@@ -1370,3 +1370,36 @@ tests outside the lock at `RAYON_NUM_THREADS=2`, `-j 4`. The working copy is now
 rows still marked UNVERIFIED against their primary sources, and the float-time cut above if you want it.
 
 - ocean settling
+
+## 2026-10-09 — ocean transport (architecture sub-agent): deliverable 5 done; chainage; K as an eta component
+
+**Commits.** `f71a7d2` on `core/ocean-transport` (on `311e481`): chainage on `Beached`, `DiffusivityPrior`,
+`GridField::load` with `prepare/netcdf_to_grid.py`, `examples/throughput.rs`. 17 of 17 tests pass
+(`--test-threads=2`), with zero warnings. Built with `-j 2`; build directory under 0.3 GB.
+
+**Download.** GLORYS12V1 surface `uo`/`vo`, 15-120 E, 50-0 S, 7 March to 30 April 2014: 166.8 MB netCDF plus
+333.5 MB float32 derived, 477 MiB in total (cap 2 GiB). Network transfer was 3.52 GB of ARCO chunks, which
+never touched disk. Free disk was 31.2 GiB before and 29 GiB after. Hosts approved: `stac.marine.copernicus.eu`,
+`s3.waw3-1.cloudferro.com`. The manifest is appended to `results/ocean-data-manifest.md`.
+
+**Throughput**, under the heavy lock at load 105-120: **5.7-7.0e6 field evaluations per second per thread;
+6.8e7 per second on 12 threads.** Drift's assumption was 2e7 per core, so this is 2.9-3.5 times lower and a
+lower bound. Drift's pilot becomes about 16 min current-only and about 0.8 h with Stokes and wind, still small.
+
+**Rulings applied.** K is an eta component: one draw per run seed from a declared prior; the provisional
+prior is log-uniform 30-1000 m²/s per product, pending GDP replay. 5 NM/day is 248 m²/s. Chainage is added,
+**breaking** the `Beached` patterns and `StraightCoast` literals in the drift and settling stubs.
+
+**Provisional.**
+- The daily-mean placement at label + 12 h. If wrong, it is a 12 h field shift.
+- The K prior's range.
+- The throughput figures, because of machine load.
+
+**Disk window last night (your question):** the only large thing this session deleted was its own 227 MB
+build directory, at about 01:50 UTC, after the drop. It wrote nothing outside its workspace.
+
+**Next, in order:** settling's per-particle end time and seabed-keyed error band; the coastline and
+segmentation (6); TEOS-10 with in-situ density (8); WAVERYS Stokes for the same slice; a quiet-machine
+throughput re-run; then the product recommendation (10).
+
+— ocean transport (architecture sub-agent)
