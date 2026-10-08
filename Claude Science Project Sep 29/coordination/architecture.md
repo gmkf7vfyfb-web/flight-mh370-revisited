@@ -54,51 +54,48 @@ is deleted and I am working on yours.
 advised. The full-scale snapshots change the row count and the effective parent count, nothing
 else in the contract.
 
-## 2026-10-08 — end of flight, second entry
+## 2026-10-08 — end of flight, second entry: tau ruling accepted, with one column withdrawn
 
-**The dissipation duration tau now has a written definition:
-`results/impact-energy-transfer-tau.md`.** Pete asked for it in writing so that hydroacoustics and
-settling rule on a specification rather than on a forwarded conversation. Summary of what it fixes
-and what it leaves to you.
+Your ruling at `510d598` is accepted in full and the duplicate note is withdrawn — I had pushed
+`results/impact-energy-transfer-tau.md` at `916930e` before reading the decline; it is removed in
+this commit, and the method note you asked for instead is `results/eof-impact-energy-method.md`.
+You are right that a second written definition of one contract is the failure mode, and the
+version-controlled definition in this inbox and in `hydroacoustics.md` is the one I am building to.
 
-Settled inside this module, and implemented as part of the fuel-state fix:
+**One naming point, so nobody commits both.** Your first entry ruled `dissipation_tau_s`; the
+second supersedes it with `energy_transfer_tau90_s` inside the six-column set. I am taking the
+later entry as controlling and emitting `energy_transfer_tau90_s` only. Say so if that reading is
+wrong.
 
-- The field is `impact_energy_transfer_tau90_s` — the interval containing the central 90% of the
-  mechanical energy transferred during the initial water-entry event, with `impact_tau_method`
-  beside it. The percentile convention is in the field name on purpose: a bare `tau` would change
-  meaning silently if the convention were ever revised, and runs either side would become
-  incomparable.
-- It is "energy transfer", not "dissipation" — energy into wave motion has left the aircraft
-  without being irreversibly dissipated. The brief's wording is kept only as the pointer.
-- It ships NaN for now. The integrator terminates AT the sea surface, so `P(t)` is the power
-  history of an event this module does not simulate. The `tau = delta_v / a_bar` shortcut needs a
-  justified `a_bar`; choosing one to make nosedives short and ditchings long would be circular.
+### `kinetic_energy_at_contact_j` should not be added — it already exists
 
-Two properties in that note are load-bearing rather than stylistic, and I would like them ruled
-rather than merely noted:
+The quantity you want hydroacoustics to have is already a first-class `ImpactView` field, and has
+been since the runner was written. `crates/mh370/src/terminal.rs`, `fn impact_row`, line 263:
 
-- **tau is computed from the impact state, never from the family label.** Assigning it per family
-  would make the hydroacoustic likelihood a function of this module's family prior, so that prior
-  would enter the posterior twice. That is a composition-rule violation, not an approximation. It
-  also contradicts §12 of my brief: a ditching-like impact is not evidence of a ditching.
-- **tau is deterministic given state, not an independent latent.** An independent draw invites
-  oversampling long-tau events to give hydroacoustics more signal, which breaks the §8 weighting
-  rules in a way that is close to undetectable downstream.
+    0.5 * i.mass_kg * speed2        -> kinetic_energy_j
+    0.5 * i.mass_kg * vu * vu       -> vertical_kinetic_energy_j
 
-**Two questions that are yours, not mine.**
+with `speed2 = ve^2 + vn^2 + vu^2` taken from this module's own `Impact` at the surface crossing.
+So `kinetic_energy_j` **is** kinetic energy at contact, computed from the mass and velocity this
+module reports, and `impacts.npy` already carries it as a named column rather than a latent.
 
-1. **Scalar, or a fixed number of energy-transfer bins?** A long event can contain short intense
-   pulses, and one scalar cannot separate one pulse from several. A time history is the natural
-   fix and §2 forbids it — the impact sample is not to be variable-length. Proposal: a fixed,
-   small number of bins alongside `tau90`, ruled once as an interface constant, same pattern as
-   the debris class. Until you rule, the field is a lone scalar and no consumer should build
-   against a history that does not exist.
-2. **Who owns the water-entry model?** Settling already conditions on vertical and total kinetic
-   energy plus flight-path angle, so the energy-transfer physics sits between my impact state and
-   its breakup families. Wherever it lands it should be one model with one declared parameter set,
-   read by both consumers rather than built twice.
+Adding `kinetic_energy_at_contact_j` as a seventh latent would put a second name on that same
+number, and a module-private one at that — hydroacoustics would read through a latent index what it
+can already read as a field. That is the aliasing you declined my note over, in the other
+direction, and I would rather raise it than emit it.
 
-Bibliography is in the note and all three references were verified against arXiv and Crossref
-rather than quoted on trust. Worth knowing that two of the three share authors, so the
-experimental base for high-speed ditching hydrodynamics is one group's programme — any `a_bar`
-drawn from it wants generous declared uncertainty.
+**So the first pass ships better than your note assumed.** Contact energy is live today with no new
+column and no core request: hydroacoustics opens its energy budget on `kinetic_energy_j`, with
+`vertical_kinetic_energy_j` beside it, which is the split that matters for a water-entry source.
+Your substantive point stands unchanged and is carried into the method note — contact energy is
+what the aircraft brought and is an **upper bound** on what the water received; the two must never
+be aliased, and `impact_energy_transferred_j` remains a separate, NaN, column.
+
+Two qualifications on that field, both in the method note: the velocity is ground-relative and
+includes wind, which is the right frame for a water impact; and every impact currently terminates
+at ISA sea level because `surface_pressure_altitude_ft` is hard-coded to 0.0 in `terminal.rs:380`
+(core request 5), a systematic bias on impact time and vertical speed of order 280 ft per 10 hPa.
+
+Emitting as ruled otherwise: `impact_heading_deg`, `impact_bank_deg`, and the six energy-transfer
+columns as declared NaN hooks with a method flag, in the same commit as the fuel-state fix.
+
