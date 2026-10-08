@@ -355,3 +355,33 @@ Three points to carry:
 
 The 22:41 snapshot is for the planned-descent arms. Do not start those until the 00:11 smoke
 passes.
+
+## 2026-10-09 - architecture: morning rulings
+
+**Your night's work is accepted, and withholding the merge was right.** Rulings on your three needs:
+
+1. **Core request 2, not the module-only route.** It is a downstream change (terminal hook), it gives
+   both hooks one state exactly, and the module-only route would fly the cruise segment on a burn 12.7%
+   low. Core is asked to land **requests 2 and 3 together, first**. Until then no family attribution is
+   quoted; the ignored test stays ignored and becomes the acceptance test for request 2.
+2. **Snapshot reading: your symlinked run tree plus `exclude_epochs = ["m0019a","m0019b"]`** is
+   accepted. No core change.
+3. **Run the N = 64 pilot on `handoff-m0011` now**, first heavy job under the lock. Weights and descent
+   physics do not read the mechanism label, so `ess_rows` / `ess_parents` per data option are valid
+   before request 2 lands. Report items 7 and 8 with that stated.
+
+Also:
+- **`sinks_not_floats` is retired** in favour of settling's emitted fates. One owner per partition.
+- **`debris_class` drawn once per impact on that sample's own stream, with the three probabilities
+  emitted** (breakup candidate section 3): accepted, and what you implemented at `d5936a6` is the
+  contract. Hydroacoustics and settling read it; neither redraws it.
+- **The 22:41 arms wait** until the 00:11 smoke passes, as core said, and until request 3 lands - at
+  22:41 the burn gap is minutes, not seconds.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.

@@ -120,3 +120,27 @@ suites use every core through Rayon regardless. From now until core posts DELIVE
    25 GiB floor stands.
 
 Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+1. **Core request 12: stream, do not store.** Your measurement settles it - 0.47-0.88 TB at 512 draws,
+   3.8-7.0 TB at 4,096, against 33 GiB free. The runner hands each wreckage draw to its consumer, which
+   averages; per-impact results are stored, plus full draws for a declared handful of representative
+   impacts. The consumer hook is a `crates/hypothesis` change, downstream of the filter; filed with core.
+2. **A wreckage draw is a whole-field configuration** - one family, one ocean realisation, every class.
+   Accepted, for the reason you gave: a field can be flattened, the reverse cannot. It matches searched
+   areas' W.
+3. **End of flight draws the family once per impact** and has implemented it; `sinks_not_floats` is
+   retired in favour of your fates.
+4. **The float phase goes through the shared batch integrator.** It exists at `311e481`; you can call it
+   once core lands O1/O2. Your finding that float time dominates the light classes is important and
+   goes into the breakup-field freeze.
+5. Raising implosion and sink-versus-float only once the shared ocean is swapped in: agreed.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.

@@ -141,3 +141,28 @@ suites use every core through Rayon regardless. From now until core posts DELIVE
    25 GiB floor stands.
 
 Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+1. **Per-seed `final.npy`** is in core's run tree:
+   `.../workspaces/386151e9-859f-412a-8d9d-b8da48899575/repo/Claude Science Project Sep 29/engine/runs/reference-snapshots/bto-bfo/seed-{1..8}/final.npy`,
+   byte-identical to `no-exhaustion-prior`. If your sandbox cannot read that path, say so and I will ask
+   Pete for a grant. Rerun section 11 and deliverable 1 on per-particle positions with replicate spread.
+2. **End of flight's displacement-by-family is in** (`results/eof-smoke-oct09/`): 6.6% of weight lands
+   >= 30 NM north-west of the 00:19:37 position, 3.4% >= 50 NM; upset-then-recovery carries the reach.
+   **By control axis only** - the mechanism labels are invalid until core request 2. Smoke scale.
+   Replace the R sweep with it, labelled provisional.
+3. **Cluster weight `w_c`: carry both forms** as a declared alternative `cluster-weight`. **rho4 swept**
+   over {0, 0.25, 0.5, 1}: accepted.
+4. **ln S stays** in the paired set, beside the evidence ratio. It is the better statistic here
+   precisely because the ratio depends on prior volume, and you quote the volume. Good call.
+5. **COSMO-SkyMed:** the source, acquisition time, footprint and the identity of F4 are questions for
+   Pete; I have put them to him. Do not assume F4.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.

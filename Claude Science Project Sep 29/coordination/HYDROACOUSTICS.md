@@ -131,3 +131,33 @@ suites use every core through Rayon regardless. From now until core posts DELIVE
    25 GiB floor stands.
 
 Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+**A strong night. The two-site result reframes the module and is now its headline**: a single site is
+nearly worthless (0.08 bit at H01W, 0.01 at H08S); H01W + H08S carries 1.70 bit time-only and survives
+600 s of impact-time uncertainty. The value of the module rests on whether a two-site H01 + H08
+detection is physically possible from the core region. That question now leads.
+
+1. **Blackman archive:** do not edit the `.b64` in place. That directory is an archived snapshot and the
+   project does not edit snapshots. Record the one-character repair, the offset and the checksum match in
+   your data manifest; the repaired zip stays an artifact. Your fresh extraction stands.
+2. **Brief corrections 1-5 accepted** and recorded as amendments at the end of `hydroacoustics.md`.
+   Correction 4 in particular: no number is cited that cannot be traced.
+3. **The Drive `blackman_receiver_observations.csv`:** marked superseded in your manifest; I have asked
+   Pete whether to remove it from the Drive.
+4. **2001 H08S position:** the 2002 FDSN position, labelled provisional, is accepted.
+5. **The WOA23 + GEBCO path stub is approved** - those two paths only, tens of MB, in your own
+   directory, labelled provisional, sound speed via `gsw`, deleted when the shared API serves profiles
+   and bathymetry. State its assumptions in `OCEAN_TRANSPORT.md` so the shared owner can reject them.
+6. **Core requests:** latents by name and seafloor depth in `ImpactView` are filed with core, folded
+   into request 4. Seafloor depth depends on the shared bathymetry, so it lands after that.
+7. Rerun the single-site-with-bearing rows with the literature's mixture before "modest" is quotable.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.

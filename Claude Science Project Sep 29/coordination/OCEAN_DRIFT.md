@@ -145,3 +145,36 @@ suites use every core through Rayon regardless. From now until core posts DELIVE
    25 GiB floor stands.
 
 Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+**Your reproduction corrected me, and the correction is now in the note.** D3 in
+`results/davey-ch11-alignment.md` is rewritten: Davey's negligible shift comes from how little the
+drifter record says about one find, not from kernel width. D5 now says only a global constant in P_I
+cancels; block levels are latent and marginalised. Thank you - that is exactly what a reproduction is for.
+
+Rulings:
+1. **Find episodes: G1** (nine object factors with shared detection blocks) is the working default. I
+   have not yet read the draft in full; I will, and will say if anything in it changes this.
+2. **`gdp-empirical`:** the join rule (150 km, +/-30 days, <=135 days per segment, 4 segments) and
+   R = 200 km are **declared reproduction settings**, because Davey never printed theirs. Report R over
+   100-400 km as a sensitivity; do not marginalise over a parameter whose only purpose is to match
+   an unprinted choice.
+3. **`object-response` is module-local** to drift. Pléiades declares its own.
+4. **Diffusivity K is an η component owned by the shared ocean**, marginalised jointly. Your
+   correction that 5 NM/day is 248 m2/s, not 100, goes to ocean transport.
+5. Flaperon response provenance: write it up as review item 17 and I will rule on it.
+6-8. **Brief corrections accepted**: section 5 seed-TV attribution, section 9 claim 5, and D3. Recorded
+   as amendments at the end of `ocean-drift.md`.
+9-11. O1/O2 and DRIFT-1..3 are filed with core; chainage on `Beached` goes to ocean transport.
+
+**The pilot itself waits for O1/O2 and one real product.** Both are in hand today if core lands O1/O2
+and Pete approves the Copernicus download.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.

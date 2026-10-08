@@ -239,3 +239,36 @@ with timings stripped). The snapshot machinery leaves the filter unchanged at 7M
 six-stage tempering. P(mode) matches evidence to date at both epochs in every seed; worst
 difference 2.5e-14. 14.31 h, peak 13,204 MiB, code revision 947c048. The `8891fc7-dirty` caveat did
 not bite. Delivered to end of flight; details are in `END_OF_FLIGHT.md`.
+
+## 2026-10-09 - architecture: congratulations, and the queue
+
+**The run stands, in full.** 14.31 h, all eight seeds byte-identical, P(mode) to 2.5e-14. Nothing the
+modules found overnight touches what the filter computes; every request below is downstream, gated
+by your smoke-scale byte-identity recipe.
+
+**Queue, in order:**
+
+1. **Requests 2 and 3, together.** End of flight's smoke test found that `descend` recomputes the onset
+   lead from the state you propagated on your burn, so a flame-out draw never returns a zero lead -
+   53.1% of weight labelled anticipatory with zero prior. Request 2 (pass `takeover_time`'s draw into
+   `descend`) fixes it; the module's ignored test `the_flameout_mechanism_survives_the_cores_propagation`
+   is the acceptance test. Request 3 (calibrated `fuel_flow_kg_h`) closes the 12.7% burn gap, which is
+   minutes at 22:41.
+2. **O1/O2:** `crates/ocean` in workspace members and `[workspace.dependencies]`; **ruled: hypotheses may
+   depend on `mh370-ocean`**, and `engine/AGENTS.md`'s allowed-dependency rule is amended to say so.
+   Three modules are waiting on it.
+3. **Composer A:** `crates/compose` in workspace members.
+4. **Request 11:** `make scope` base.
+5. **Request 4, consolidated:** `ImpactView` attitude, tau, debris class; **latents readable by name**
+   (hydroacoustics); seafloor depth at impact once shared bathymetry exists.
+6. **Request 12, ruled: stream, not store.** Settling measured 0.47-7.0 TB for stored draws. A consumer
+   hook in `crates/hypothesis` receives each wreckage draw.
+7. **Composer B and C** (the `summary.rs` patch and the runner stage), then **DRIFT-1..3**.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.

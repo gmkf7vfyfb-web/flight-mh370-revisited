@@ -378,3 +378,17 @@ scale**. Wrap anything expected to exceed ~10 minutes or ~4 GB in
 3. The grouping of debris records into find episodes, which affects how the shared environmental
    uncertainty is marginalised.
 4. Whether the island patch is run by default or only as a labelled sensitivity.
+
+---
+
+## Amendments, 9 October 2026 — accepted from the module's critical review
+
+1. §5's seed-TV figures (0.065 / 0.23 / 0.96–0.98) are **Pléiades imagery numbers, not drift**. Drift's
+   own figures on record are 0.232–0.283 and 0.394.
+2. §9 claim 5 (survivor bias as the cause of the 34°S peak) **could not be found** in the prior work and
+   is withdrawn. Of the seven §9 claims, 2 are backed, 4 partly backed, 1 not found.
+3. Davey's single-flaperon update **reproduces** (+2.75 NM north on our reference) and its smallness is
+   due to the information in one find, **not** to kernel width. See the corrected D3.
+4. Only a global constant in identification probability cancels; **block levels are latent**.
+5. The prior drift answer was Monte Carlo noise where the core posterior has its mass: minimum per-find
+   ESS 1.0–8.9 particles in 35.3–38.5°S.
