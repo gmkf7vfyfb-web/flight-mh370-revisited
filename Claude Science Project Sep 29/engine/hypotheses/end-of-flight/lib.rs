@@ -55,13 +55,19 @@
 //!   treat as established, and importing them would kill the deliberate-descent branch by
 //!   assumption rather than by evidence.
 //!
-//! # Deferred hooks, present and documented
+//! # Breakup family, and the retired sink-versus-float hook
 //!
-//! `debris_class` and `sinks_not_floats` exist as latent and prediction columns and are always
-//! NaN — "not computed", never "impossible". No physics is implemented for either; debris-class
-//! evidence is out of scope by decision until a stable, convergent dynamics and satellite model
-//! exists. The hooks are here so that adding them later is a light lift. They are latents rather
-//! than `ImpactView` fields because adding a field is a core change (core request 4).
+//! `debris_class` is the breakup FAMILY (0 intact, 1 broken, 2 fragmented), assigned here against
+//! settling's definition (`results/breakup-field-candidate.md`) and drawn once per impact sample,
+//! with the three probabilities emitted beside it. Architecture accepted this as the contract on
+//! 2026-10-09: hydroacoustics and settling read the draw and neither redraws it. It is a latent and
+//! a prediction column rather than an `ImpactView` field because adding a field is a core change
+//! (core request 4). Debris-configuration EVIDENCE (flap position, recovered-item energy class) is
+//! still out of scope by decision; this is the impact-level family, not a likelihood.
+//!
+//! The `sinks_not_floats` hook was RETIRED on 2026-10-09 by architecture ruling: the sink-versus-
+//! float partition belongs to settling, which emits each element's fate (settled or afloat). One
+//! owner per partition. This module emits nothing for it.
 
 mod aero;
 mod atmos;
@@ -292,9 +298,8 @@ const LATENTS: &[&str] = &[
     "breakup_p_broken",
     "breakup_p_fragmented",
     "debris_class",
-    // Deferred hook: present, documented, always NaN. Settling recommends retiring it in favour of
-    // its own emitted afloat/sunk fates (one owner per partition); architecture has not ruled.
-    "sinks_not_floats",
+    // `sinks_not_floats` was retired here on 2026-10-09 (architecture ruling): settling owns the
+    // sink-versus-float partition through its emitted element fates.
 ];
 
 /// Settling's breakup-family constants, quoted verbatim from `results/breakup-field-candidate.md`
@@ -359,15 +364,21 @@ impl Hypothesis for EndOfFlight {
         Vec::new()
     }
 
-    /// The deferred hooks, as named prediction columns so they reach the impacts file and the
-    /// composer. Always NaN: "not computed", not "impossible".
+    /// The breakup family as a named prediction column, so it reaches the impacts file and the
+    /// composer under its own name. It is the SAME draw as the `debris_class` latent - read back,
+    /// never redrawn - and NaN where the latent is NaN (the rule refused) or not supplied.
     fn prediction_columns(&self) -> Vec<String> {
-        vec!["debris_class".into(), "sinks_not_floats".into()]
+        vec!["debris_class".into()]
     }
 
-    fn predict(&self, _impact: &ImpactView, out: &mut [f64]) {
-        for slot in out.iter_mut() {
-            *slot = f64::NAN;
+    fn predict(&self, impact: &ImpactView, out: &mut [f64]) {
+        let k = LATENTS.iter().position(|n| *n == "debris_class");
+        let value = match k {
+            Some(k) if impact.latents.len() == LATENTS.len() => impact.latents[k],
+            _ => f64::NAN,
+        };
+        if let Some(slot) = out.first_mut() {
+            *slot = value;
         }
     }
 }
@@ -730,7 +741,6 @@ impl Terminal for EndOfFlight {
                 breakup_p[1],
                 breakup_p[2],
                 debris_class,
-                f64::NAN, // sinks_not_floats: deferred hook, no physics implemented
             ];
             debug_assert_eq!(latents.len(), LATENTS.len());
             let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
@@ -1095,8 +1105,9 @@ mod tests {
         // No observation is consumed in this increment: the runner scores the 00:19 bursts.
         assert!(m.observations().is_empty());
         // The deferred hooks are present as named prediction columns and always NaN.
-        assert_eq!(m.prediction_columns(), vec!["debris_class".to_string(), "sinks_not_floats".to_string()]);
-        let mut out = [0.0, 0.0];
+        assert_eq!(m.prediction_columns(), vec!["debris_class".to_string()]);
+        assert!(!m.terminal().unwrap().latent_columns().iter().any(|n| n == "sinks_not_floats"), "sinks_not_floats is retired");
+        let mut out = [0.0];
         let latents: Vec<f64> = Vec::new();
         let view = ImpactView {
             parent: 0,
@@ -1120,7 +1131,14 @@ mod tests {
             latents: &latents,
         };
         m.predict(&view, &mut out);
-        assert!(out.iter().all(|v| v.is_nan()), "the deferred hooks must be NaN, not zero: {out:?}");
+        assert!(out[0].is_nan(), "with no latents supplied the breakup family is not computed, not zero: {out:?}");
+        // With the module's own latents it reads the drawn family back - the same draw, never redrawn.
+        let mut full = vec![f64::NAN; LATENTS.len()];
+        let k = LATENTS.iter().position(|n| *n == "debris_class").unwrap();
+        full[k] = 2.0;
+        let with = ImpactView { latents: &full, ..view };
+        m.predict(&with, &mut out);
+        assert_eq!(out[0], 2.0, "predict must return the drawn debris_class unchanged");
         // The impact hook returns no likelihood in this increment.
         assert_eq!(m.impact_log_likelihood(&view, &[]), 0.0);
 
@@ -1257,7 +1275,6 @@ mod tests {
             assert!([0.0, 1.0, 2.0].contains(&class), "debris_class must be a drawn family index, got {class}");
             let p: f64 = ["breakup_p_intact", "breakup_p_broken", "breakup_p_fragmented"].iter().map(|n| d.latents[at(n)]).sum();
             assert!((p - 1.0).abs() < 1e-12, "breakup probabilities sum to {p}");
-            assert!(d.latents[at("sinks_not_floats")].is_nan(), "sinks_not_floats must be NaN");
             // Architecture's acceptance rule: on a real hand-off no fallback may fire at all. The
             // fixture carries the fuel state request 1 delivered, so a flag here means the
             // hand-off is defective and that is the finding, not a number to use.

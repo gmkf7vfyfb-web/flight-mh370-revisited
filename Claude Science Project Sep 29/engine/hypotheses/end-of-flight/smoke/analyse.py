@@ -18,7 +18,7 @@ R_EARTH_M = 6_371_008.8
 
 # Latents that are NaN by declaration, never a defect.
 DECLARED_NAN = {
-    "sinks_not_floats",                                                   # deferred hook
+    # sinks_not_floats retired 2026-10-09; nothing declared NaN by design remains but these:
     "impact_energy_transferred_j", "energy_transfer_t05_s", "energy_transfer_t95_s",
     "energy_transfer_tau90_s", "energy_transfer_peak_rate_w", "energy_transfer_n_pulses",
     "onset_support_truncated_fraction",                                   # core request 2
