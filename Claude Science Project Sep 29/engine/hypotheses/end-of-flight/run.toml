@@ -22,8 +22,9 @@ descents_per_child = 4
 # 174 t is the brief's calibration mass and about the 9M-MRO zero-fuel mass.
 fallback_mass_kg = 174000.0
 fallback_fuel_kg = 2000.0
-# 00:17:30 UTC: the project's configured anticipated exhaustion.
-fallback_predicted_exhaustion_unix_s = 1394237850.0
+# There is deliberately no fallback for predicted exhaustion. It is derived per trajectory from
+# fuel_kg under continued cruise; a configured exhaustion time is the 00:17:30 anchor the
+# architecture removed, and it must not come back through a fallback.
 
 # Prior weights of the propulsion axis (two, one, neither thrusting) and of the control axis
 # (ditching attempt, maintained then lost, no intervention, upset then recovery). Explicit, and

@@ -102,6 +102,9 @@ struct Rates {
     d_mass: f64,
     /// Diagnostic of the step, not integrated.
     mach: f64,
+    /// Bank commanded over the step, rad. Diagnostic, not integrated: it is carried so that the
+    /// attitude at the surface crossing can be reported without re-entering the control law.
+    bank_rad: f64,
 }
 
 /// The integrator: aerodynamic model plus step policy.
@@ -124,6 +127,9 @@ pub struct Trace {
     pub impact: Body,
     /// Air-relative vertical speed at impact, m/s (negative descending).
     pub impact_vertical_speed_mps: f64,
+    /// Bank at the surface crossing, rad. Attitude at contact is ruled into the interface and is
+    /// reported as the `impact_bank_deg` latent; heading comes from `impact.heading_rad`.
+    pub impact_bank_rad: f64,
     /// Ground velocity at impact, m/s.
     pub impact_velocity_east_mps: f64,
     pub impact_velocity_north_mps: f64,
@@ -178,6 +184,7 @@ impl Integrator {
         let mut trace = Trace {
             impact: body,
             impact_vertical_speed_mps: f64::NAN,
+            impact_bank_rad: f64::NAN,
             impact_velocity_east_mps: f64::NAN,
             impact_velocity_north_mps: f64::NAN,
             time_descending_s: 0.0,
@@ -214,6 +221,7 @@ impl Integrator {
             }
             trace.max_descent_rate_fpm = trace.max_descent_rate_fpm.max(descent_fpm);
             trace.max_mach = trace.max_mach.max(rates.mach);
+            trace.impact_bank_rad = rates.bank_rad;
             if self.aero.is_extrapolated(rates.mach) {
                 trace.time_extrapolated_s += dt;
             }
@@ -222,9 +230,9 @@ impl Integrator {
             trace.steps += 1;
 
             // Surface crossing inside this step: solve for the crossing rather than quantise to
-            // the step. The first guess is linear in altitude; because RK4 is nonlinear in dt, it
-            // is then refined by the secant method, which converges to under a foot in two or
-            // three iterations even from a 30 s step.
+            // the step. The first guess is linear in altitude; because RK4 is nonlinear in dt,
+            // the guess is then bracketed and bisected to a tolerance of 1e-3 ft, which converges
+            // well inside the 40-iteration cap even from a 30 s step.
             if next.pressure_altitude_ft <= air.surface_pressure_altitude_ft && body.pressure_altitude_ft > air.surface_pressure_altitude_ft {
                 let surface = air.surface_pressure_altitude_ft;
                 let span = body.pressure_altitude_ft - next.pressure_altitude_ft;
@@ -357,6 +365,7 @@ impl Integrator {
                 d_heading: 0.0,
                 d_mass: 0.0,
                 mach,
+                bank_rad: 0.0,
             };
         }
 
@@ -394,6 +403,7 @@ impl Integrator {
             d_heading: lift * bank.sin() / (mass * v * body.gamma_rad.cos().max(0.05)),
             d_mass: if body.fuel_kg > 0.0 { -self.aero.fuel_flow_kg_s(thrust) } else { 0.0 },
             mach,
+            bank_rad: bank,
         }
     }
 

@@ -129,6 +129,17 @@ impl AeroParams {
         }
     }
 
+    /// The midpoint of every sampled band. `Range::draw` is `lo + (hi - lo) * u`, so a uniform
+    /// pinned at 0.5 is exactly the midpoint and a fixed entry is itself.
+    ///
+    /// Used only by [`EndOfFlight::predicted_exhaustion`], which must return the same number from
+    /// `takeover_time` and from `descend`: the two hooks have separate uniform streams, and
+    /// `descend` recovers the onset mechanism from the lead this prediction implies. Drawing the
+    /// aero here would make the two disagree. The descent itself always uses the sampled draw.
+    fn nominal(&self) -> Aero {
+        self.draw(&mut || 0.5)
+    }
+
     fn check(&self) -> Result<(), String> {
         for (name, r) in [
             ("oswald_efficiency", self.oswald_efficiency),
@@ -169,10 +180,13 @@ struct Params {
     /// reference mass of the brief's calibration target and is about the 9M-MRO zero-fuel mass.
     fallback_mass_kg: f64,
     /// Fuel remaining to assume when the hand-off carries NaN (core request 1).
+    ///
+    /// **There is deliberately no `fallback_predicted_exhaustion_unix_s`.** Predicted exhaustion
+    /// is always derived from the fuel state by [`EndOfFlight::predicted_exhaustion`]; a
+    /// configured exhaustion time is the 00:17:30 anchor the architecture removed, and §4 of the
+    /// brief says it must not come back. If the fuel state is missing, this fallback fires and is
+    /// recorded, which is a defect in the hand-off rather than a number to use quietly.
     fallback_fuel_kg: f64,
-    /// Predicted exhaustion under continued cruise to use when the hand-off carries NaN
-    /// (core request 1). Default 00:17:30 UTC, the project's configured anticipated exhaustion.
-    fallback_predicted_exhaustion_unix_s: f64,
     /// Relative prior weights of the propulsion states, in `Propulsion::ALL` order.
     propulsion_weights: [f64; 3],
     /// Relative prior weights of the control states, in `Control::ALL` order.
@@ -218,12 +232,45 @@ const LATENTS: &[&str] = &[
     "windmilling_per_engine",
     "rat_increment",
     "mass_kg_assumed",
+    "fuel_kg_assumed",
     "weather_clamped",
     "timed_out",
+    // Attitude at contact, ruled into the interface by architecture on 2026-10-08. Both are
+    // derived from the integrated state at the solved surface crossing. They are latents rather
+    // than `ImpactView` fields until core request 4 lifts them, which is why request 4 must not
+    // drift: settling and hydroacoustics read them by name in the meantime.
+    "impact_heading_deg",
+    "impact_bank_deg",
+    // The impact energy-transfer columns, ruled 2026-10-08. All NaN at first pass: the integrator
+    // terminates AT the sea surface, so P(t) is the power history of an event this module does not
+    // simulate. Deriving one from `tau ~ dv / a_bar` without a justified deceleration model would
+    // make tau a function of the taxonomy family by the back door, which the ruling forbids.
+    // Conventions, the fragment-tracking rule, the n_pulses threshold and what would remove the
+    // NaN are in `results/eof-impact-energy-method.md`.
+    //
+    // Kinetic energy AT CONTACT is deliberately not among these: it is already a first-class
+    // field, `ImpactView::kinetic_energy_j`, which the runner computes as 0.5 m |v|^2 from this
+    // module's own impact state, with `vertical_kinetic_energy_j` beside it. Contact energy is an
+    // upper bound on `impact_energy_transferred_j` and must never be aliased to it.
+    "impact_energy_transferred_j",
+    "energy_transfer_t05_s",
+    "energy_transfer_t95_s",
+    "energy_transfer_tau90_s",
+    "energy_transfer_peak_rate_w",
+    "energy_transfer_n_pulses",
+    // How the energy-transfer columns were obtained. 0 = not computed, no water-entry model;
+    // non-zero values are reserved for derivations that do not exist yet. Composition rule 4 makes
+    // NaN mean "not computed", and this flag is what lets a consumer tell that from "computed as
+    // zero" mechanically rather than by reading prose.
+    "impact_tau_method",
     // Deferred hooks: present, documented, always NaN. No physics is implemented for either.
     "debris_class",
     "sinks_not_floats",
 ];
+
+/// Value of the `impact_tau_method` latent when no water-entry model exists, which is every sample
+/// at first pass.
+const TAU_METHOD_NOT_COMPUTED: f64 = 0.0;
 
 pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     let params: Params = params.clone().try_into().map_err(|e| format!("end-of-flight: {e}"))?;
@@ -275,25 +322,94 @@ impl Hypothesis for EndOfFlight {
 
 /// Everything about a parent trajectory this module needs, with the fallbacks applied once.
 struct Parent {
+    /// Exhaustion under CONTINUED CRUISE, derived from `fuel_kg` — never a realised flame-out and
+    /// never a configured clock time. See [`EndOfFlight::predicted_exhaustion`].
     predicted_exhaustion_unix_s: f64,
     mass_kg: f64,
     fuel_kg: f64,
+    /// A fallback fired for the mass. On a real hand-off this must be false for every parent.
     mass_assumed: bool,
+    /// A fallback fired for the fuel. On a real hand-off this must be false for every parent.
+    fuel_assumed: bool,
 }
 
 impl EndOfFlight {
     fn parent(&self, state: &FlightState) -> Parent {
         let mass_known = state.mass_kg.is_finite() && state.mass_kg > 1_000.0;
+        let fuel_known = state.fuel_kg.is_finite() && state.fuel_kg >= 0.0;
+        let mass_kg = if mass_known { state.mass_kg } else { self.params.fallback_mass_kg };
+        let fuel_kg = if fuel_known { state.fuel_kg } else { self.params.fallback_fuel_kg };
         Parent {
-            predicted_exhaustion_unix_s: if state.fuel_exhaustion_unix_s.is_finite() {
-                state.fuel_exhaustion_unix_s
-            } else {
-                self.params.fallback_predicted_exhaustion_unix_s
-            },
-            mass_kg: if mass_known { state.mass_kg } else { self.params.fallback_mass_kg },
-            fuel_kg: if state.fuel_kg.is_finite() && state.fuel_kg >= 0.0 { state.fuel_kg } else { self.params.fallback_fuel_kg },
+            predicted_exhaustion_unix_s: self.predicted_exhaustion(state, mass_kg, fuel_kg),
+            mass_kg,
+            fuel_kg,
             mass_assumed: !mass_known,
+            fuel_assumed: !fuel_known,
         }
+    }
+
+    /// Exhaustion time under **continued cruise**, computed per trajectory from the handed-off
+    /// fuel state.
+    ///
+    /// This is deliberately not `FlightState::realised_flameout_unix_s`. That field is an
+    /// *outcome*: it is NaN for every trajectory still holding fuel at the hand-off — 43.14 % of
+    /// the reference posterior — and triggering a descent on it would assume foreknowledge no crew
+    /// had, which §4 of the brief forbids as circular. An earlier version of this function read
+    /// that field and fell through to a configured constant of 00:17:30 UTC whenever it was NaN,
+    /// which silently reinstated for nearly half the posterior the fixed exhaustion anchor the
+    /// architecture had removed. There is no such constant in this module any more: if the fuel
+    /// state is missing, `fallback_fuel_kg` fires and says so in the `fuel_kg_assumed` latent.
+    ///
+    /// Method. Level cruise is held at the hand-off altitude and true airspeed. Lift equals
+    /// weight, so `c_l` follows from the dynamic pressure; `c_d` comes from the module's own polar
+    /// at the hand-off Mach; thrust required equals drag; and the burn is `thrust * tsfc`. The
+    /// integration is explicit in 60 s steps so that the mass lost to the burn feeds back into
+    /// `c_l` — a single-point flow would overestimate endurance, because a lighter aircraft burns
+    /// less. ISA is used rather than the runner's weather: the prediction is a cruise-burn
+    /// estimate, `takeover_time` has no `Atmosphere` in scope, and the ERA5 temperature anomaly is
+    /// small against the TSFC band this model sweeps.
+    ///
+    /// Returns `f64::INFINITY` when there is no fuel to burn and no sensible cruise condition, so
+    /// that an anticipatory onset simply never triggers rather than triggering at an invented time.
+    fn predicted_exhaustion(&self, state: &FlightState, mass_kg: f64, fuel_kg: f64) -> f64 {
+        if !(fuel_kg > 0.0) {
+            // Already dry at the hand-off: exhaustion is the realised time when we have it, and
+            // otherwise the hand-off epoch itself. Either way it is not in the future.
+            return if state.realised_flameout_unix_s.is_finite() { state.realised_flameout_unix_s } else { state.unix_s };
+        }
+        let aero = self.params.aero.nominal();
+        let cfg = Configuration::powered();
+        let air = Atmosphere::at(&atmos::Standard, state.unix_s, state.altitude_ft, state.latitude_deg, state.longitude_deg);
+        let rho = atmos::density_kg_m3(air.pressure_pa, air.temperature_k);
+        let tas = state.true_air_speed_mps;
+        let q = 0.5 * rho * tas * tas;
+        if !(q > 0.0) || !(aero.wing_area_m2 > 0.0) {
+            return f64::INFINITY;
+        }
+        const STEP_S: f64 = 60.0;
+        let mut remaining = fuel_kg;
+        let mut mass = mass_kg;
+        let mut elapsed = 0.0;
+        // 24 h of cruise is far beyond any trajectory this module sees; the cap exists so a
+        // pathological state cannot spin here.
+        while remaining > 0.0 && elapsed < 86_400.0 {
+            let c_l = (mass * atmos::G0) / (q * aero.wing_area_m2);
+            let c_d = aero.c_d(c_l, state.mach, &cfg);
+            let thrust_n = c_d * q * aero.wing_area_m2;
+            let flow = aero.fuel_flow_kg_s(thrust_n);
+            if !(flow > 0.0) {
+                return f64::INFINITY;
+            }
+            let burn = flow * STEP_S;
+            if burn >= remaining {
+                elapsed += remaining / flow;
+                break;
+            }
+            remaining -= burn;
+            mass -= burn;
+            elapsed += STEP_S;
+        }
+        state.unix_s + elapsed
     }
 
     /// Draw the propulsion and control axes, restricted to the cells legal for `mechanism`, and
@@ -503,7 +619,7 @@ impl Terminal for EndOfFlight {
                 f64::NAN, // the truncation fraction is known in takeover_time only: core request 2
                 realised_flameout,
                 realised_flameout - parent.predicted_exhaustion_unix_s,
-                f64::from(propulsion.engines_thrusting()),
+                propulsion.code(),
                 control.code(),
                 realised_control.code(),
                 f64::from(u8::from(flying.recovery_attempted)),
@@ -520,8 +636,21 @@ impl Terminal for EndOfFlight {
                 aero.windmilling_per_engine,
                 aero.rat_increment,
                 f64::from(u8::from(parent.mass_assumed)),
+                f64::from(u8::from(parent.fuel_assumed)),
                 f64::from(u8::from(trace.clamped)),
                 f64::from(u8::from(trace.timed_out)),
+                trace.impact.heading_rad.to_degrees().rem_euclid(360.0),
+                trace.impact_bank_rad.to_degrees(),
+                // The six energy-transfer columns. NaN is a result here, not a gap: the
+                // integrator stops at the surface, so there is no P(t) to integrate. See
+                // `results/eof-impact-energy-method.md`.
+                f64::NAN, // impact_energy_transferred_j
+                f64::NAN, // energy_transfer_t05_s
+                f64::NAN, // energy_transfer_t95_s
+                f64::NAN, // energy_transfer_tau90_s
+                f64::NAN, // energy_transfer_peak_rate_w
+                f64::NAN, // energy_transfer_n_pulses
+                TAU_METHOD_NOT_COMPUTED,
                 f64::NAN, // debris_class: deferred hook, no physics implemented
                 f64::NAN, // sinks_not_floats: deferred hook, no physics implemented
             ];
@@ -626,6 +755,109 @@ mod tests {
     const R600: f64 = 1_394_237_969.416; // 00:19:29.416 UTC
     const R1200: f64 = 1_394_237_977.443; // 00:19:37.443 UTC
 
+    /// The derivation that replaced the 00:17:30 anchor, checked against the only independent
+    /// number available: the reference run's mean burn of 5,764 kg/h over the whole posterior.
+    ///
+    /// The module's cruise burn comes from its own polar and a swept TSFC, not from the core's
+    /// Boeing-calibrated tables (core request 3), so this is a sanity bound rather than a
+    /// calibration. A band of 4,000-8,000 kg/h brackets the reference figure generously; a
+    /// derivation outside it means the polar, the TSFC sweep or the level-flight condition is
+    /// wrong, not that the band is tight.
+    #[test]
+    fn the_derived_cruise_burn_is_near_the_reference_run() {
+        let h = handoff(ONSET_22_41);
+        let predicted = predicted_exhaustion_of(&h);
+        let seconds = predicted - h.unix_s;
+        assert!(seconds > 0.0 && seconds.is_finite(), "endurance {seconds} s");
+        let burn_kg_h = h.fuel_kg / seconds * 3_600.0;
+        println!("fuel {:.1} kg, endurance {:.1} s, derived cruise burn {:.0} kg/h, recovered exhaustion {:+.0} s from the fixture's", h.fuel_kg, seconds, burn_kg_h, predicted - EXHAUSTION);
+        assert!(
+            (4_000.0..8_000.0).contains(&burn_kg_h),
+            "derived cruise burn {burn_kg_h:.0} kg/h is outside the sanity band around the reference run's 5,764"
+        );
+        // And the fixture's scenario is recovered: the fuel load was set to run dry at
+        // EXHAUSTION, so the module must find that time from `fuel_kg` alone. The tolerance is
+        // the difference between the fixture's flat reference burn and the module's own
+        // mass-varying integration, which is the thing being tested.
+        assert!(
+            (predicted - EXHAUSTION).abs() < 900.0,
+            "recovered exhaustion {predicted} is {} s from the fixture's {EXHAUSTION}",
+            predicted - EXHAUSTION
+        );
+    }
+
+    /// The 00:17:30 anchor must not come back, by any route. It was a configured
+    /// `exhaustion_target_utc` worth 0.168 nats, the reference run removes it, and an earlier
+    /// version of `parent()` reinstated it for the ~43 % of the posterior whose realised flame-out
+    /// is NaN. There is now no constant to fall back to: with no fuel state the *fuel* fallback
+    /// fires, says so, and the exhaustion is still derived.
+    #[test]
+    fn no_configured_exhaustion_time_survives_anywhere() {
+        let m = module();
+        let t = m.terminal().unwrap();
+        let names = t.latent_columns();
+        let at = |n: &str| names.iter().position(|x| x == n).unwrap();
+
+        // A hand-off with no fuel state at all, as the core sent before request 1 landed.
+        let bare = handoff_without_fuel_state(ONSET_22_41);
+        let predicted = predicted_exhaustion_of(&bare);
+        assert!(
+            (predicted - EXHAUSTION).abs() > 1.0,
+            "the predicted exhaustion landed exactly on the removed 00:17:30 anchor"
+        );
+        // and the fallbacks announce themselves rather than supplying a number quietly.
+        for d in t.descend(&bare, &atmos::Standard, &mut sweep(0.21), &epochs(), &|_| 0.0) {
+            assert_eq!(d.latents[at("mass_kg_assumed")], 1.0);
+            assert_eq!(d.latents[at("fuel_kg_assumed")], 1.0);
+        }
+    }
+
+    /// The realised flame-out must never be read as a prediction. Two hand-offs identical except
+    /// that one has already run dry at a recorded time must predict the same exhaustion, because
+    /// the prediction comes from `fuel_kg`.
+    #[test]
+    fn the_realised_flameout_does_not_drive_the_prediction() {
+        let a = handoff(ONSET_22_41);
+        let b = FlightState { realised_flameout_unix_s: EXHAUSTION - 7_200.0, ..handoff(ONSET_22_41) };
+        let (pa, pb) = (predicted_exhaustion_of(&a), predicted_exhaustion_of(&b));
+        assert!((pa - pb).abs() < 1e-6, "the realised flame-out moved the prediction: {pa} vs {pb}");
+    }
+
+    /// The module's own predicted exhaustion for a hand-off, read through its public surface
+    /// rather than recomputed in the test. With the anticipatory support empty and all prior
+    /// weight on the flame-out-associated mechanism, the drawn onset **is** the predicted
+    /// exhaustion, for every draw.
+    ///
+    /// This exists because the earlier tests measured onset leads against a hard-coded
+    /// `EXHAUSTION` of 00:17:30, which is the anchor the architecture removed: the test suite was
+    /// carrying the same defect as `parent()`. The yardstick is now whatever the module derives
+    /// from the handed-off fuel state.
+    fn predicted_exhaustion_of(h: &FlightState) -> f64 {
+        let mut v = params();
+        let onset = v.as_table_mut().unwrap().get_mut("onset").unwrap().as_table_mut().unwrap();
+        onset.insert(
+            "anticipatory_lead_s".into(),
+            toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0)]),
+        );
+        onset.insert(
+            "mechanism_weights".into(),
+            toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0), toml::Value::Float(1.0)]),
+        );
+        let h2 = new(&v).unwrap();
+        let t = h2.terminal().unwrap();
+        let (takeover, _) = t.takeover_time(h, &mut sweep(0.37));
+        takeover
+    }
+
+    /// Cruise burn used to build the fixture's fuel load, kg/s. It is close to the reference
+    /// run's 5,764 kg/h mean over the whole posterior, and
+    /// `the_derived_cruise_burn_is_near_the_reference_run` pins the module's own derivation
+    /// against that figure rather than against this constant.
+    const CRUISE_BURN_KG_S: f64 = 5_764.0 / 3_600.0;
+
+    /// Zero-fuel mass, kg. 174 t is the brief's calibration mass and about the 9M-MRO ZFW.
+    const ZFW_KG: f64 = 174_000.0;
+
     fn handoff(unix_s: f64) -> FlightState {
         FlightState {
             unix_s,
@@ -641,11 +873,24 @@ mod tests {
             wind_east_mps: -8.0,
             wind_north_mps: 4.0,
             mode: 2,
-            // As the core hands it over today: core request 1.
-            mass_kg: f64::NAN,
-            fuel_kg: f64::NAN,
-            fuel_exhaustion_unix_s: f64::NAN,
+            // Core request 1 landed in f07e9f0, so the hand-off carries the fuel state and no
+            // fallback should fire. The fuel load is the amount that runs the tanks dry at
+            // `EXHAUSTION` under a reference cruise burn, so the fixture chooses a scenario with a
+            // known exhaustion time and the module has to recover it from `fuel_kg` alone. A
+            // later hand-off therefore carries less fuel and implies a shorter onset lead, which
+            // is what gives the synthetic-recovery test its spread.
+            mass_kg: ZFW_KG + (CRUISE_BURN_KG_S * (EXHAUSTION - unix_s)).max(0.0),
+            fuel_kg: (CRUISE_BURN_KG_S * (EXHAUSTION - unix_s)).max(0.0),
+            // Still holding fuel at the hand-off, like 43.14 % of the reference posterior. The
+            // module must never read this to predict: it is an outcome, not a forecast.
+            realised_flameout_unix_s: f64::NAN,
         }
+    }
+
+    /// A hand-off as the core sent it *before* request 1 landed: no fuel state at all. Used only
+    /// by the test that checks the fallbacks still work and flag themselves.
+    fn handoff_without_fuel_state(unix_s: f64) -> FlightState {
+        FlightState { mass_kg: f64::NAN, fuel_kg: f64::NAN, ..handoff(unix_s) }
     }
 
     /// A deterministic uniform stream for the tests: splitmix64, seeded from the offset.
@@ -745,13 +990,18 @@ mod tests {
         let m = module();
         let t = m.terminal().unwrap();
         let h = handoff(ONSET_22_41);
+        // The onset window is measured against the exhaustion this module DERIVES for this
+        // hand-off, not against a clock constant. The fixture's fuel load is set from a flat
+        // reference burn while the module integrates the mass it loses, so the two differ by
+        // minutes - and the point of the fix is that the module's own number is what governs.
+        let exhaustion = predicted_exhaustion_of(&h);
         let mut early = 0;
         for i in 0..200 {
             let (takeover, q) = t.takeover_time(&h, &mut sweep(i as f64 * 0.013));
             assert!(takeover >= h.unix_s, "takeover before the hand-off: {takeover}");
-            assert!(takeover <= EXHAUSTION + 1e-6, "takeover after the predicted exhaustion: {takeover}");
+            assert!(takeover <= exhaustion + 1e-6, "takeover after the predicted exhaustion: {takeover}");
             assert!(q.is_finite());
-            if EXHAUSTION - takeover > 2_880.0 {
+            if exhaustion - takeover > 2_880.0 {
                 early += 1;
             }
         }
@@ -768,10 +1018,11 @@ mod tests {
             .insert("anticipatory_lead_s".into(), toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0)]));
         let v1 = new(&v).unwrap();
         let t1 = v1.terminal().unwrap();
+        let exhaustion = predicted_exhaustion_of(&h);
         let mut leads = Vec::new();
         for i in 0..100 {
             let (takeover, _) = t1.takeover_time(&h, &mut sweep(i as f64 * 0.017));
-            leads.push(EXHAUSTION - takeover);
+            leads.push(exhaustion - takeover);
         }
         // Only the fuel-cue and flame-out mechanisms remain, so no lead exceeds the cue window's
         // widest reach of 4,200 s - 20 s = 4,180 s, and a good share are exactly zero.
@@ -839,7 +1090,28 @@ mod tests {
         for d in &descents {
             assert!(d.latents[at("debris_class")].is_nan(), "debris_class must be NaN");
             assert!(d.latents[at("sinks_not_floats")].is_nan(), "sinks_not_floats must be NaN");
-            assert_eq!(d.latents[at("mass_kg_assumed")], 1.0, "the assumed mass must be flagged");
+            // Architecture's acceptance rule: on a real hand-off no fallback may fire at all. The
+            // fixture carries the fuel state request 1 delivered, so a flag here means the
+            // hand-off is defective and that is the finding, not a number to use.
+            assert_eq!(d.latents[at("mass_kg_assumed")], 0.0, "no mass fallback may fire on a real hand-off");
+            assert_eq!(d.latents[at("fuel_kg_assumed")], 0.0, "no fuel fallback may fire on a real hand-off");
+            // The energy-transfer columns are declared NaN hooks, not gaps: there is no
+            // water-entry model, and `impact_tau_method` says so mechanically.
+            for name in [
+                "impact_energy_transferred_j",
+                "energy_transfer_t05_s",
+                "energy_transfer_t95_s",
+                "energy_transfer_tau90_s",
+                "energy_transfer_peak_rate_w",
+                "energy_transfer_n_pulses",
+            ] {
+                assert!(d.latents[at(name)].is_nan(), "{name} must be NaN until a water-entry model exists");
+            }
+            assert_eq!(d.latents[at("impact_tau_method")], TAU_METHOD_NOT_COMPUTED);
+            // Attitude at contact is reported, and is a real outcome of the dynamics.
+            let heading = d.latents[at("impact_heading_deg")];
+            assert!((0.0..360.0).contains(&heading), "impact heading {heading}");
+            assert!(d.latents[at("impact_bank_deg")].abs() <= 90.0, "impact bank {}", d.latents[at("impact_bank_deg")]);
             assert!(d.latents[at("time_extrapolated_s")].is_finite());
             assert!(d.latents[at("family_prior")] >= 0.0 && d.latents[at("family_prior")] <= 1.0);
             assert!(d.latents[at("time_descending_s")] >= 0.0);
@@ -1007,8 +1279,8 @@ mod tests {
         for i in 0..260 {
             let mut u = sweep(i as f64 * 0.00731 + 0.07);
             let (takeover_unix, log_q) = t.takeover_time(&handoff(ONSET_22_41), &mut u);
-            let lead = EXHAUSTION - takeover_unix;
             let state = handoff(takeover_unix);
+            let lead = predicted_exhaustion_of(&state) - takeover_unix;
             for d in t.descend(&state, &atmos::Standard, &mut sweep(i as f64 * 0.01117 + 0.31), &eps, &|_| 0.0) {
                 let dlat = (d.impact.latitude_deg - truth_lat) * 111.32;
                 let dlon = (d.impact.longitude_deg - truth_lon) * 111.32 * truth_lat.to_radians().cos();
