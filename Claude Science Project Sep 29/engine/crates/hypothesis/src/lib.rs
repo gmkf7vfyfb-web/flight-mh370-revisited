@@ -200,8 +200,11 @@ pub struct Air {
     pub wind_east_mps: f64,
     pub wind_north_mps: f64,
     pub declination_deg: f64,
-    /// Pressure altitude of the local sea surface, from ERA5 mean-sea-level pressure where the
-    /// grid carries it; 0 (ISA sea level) otherwise. A descent ends here.
+    /// Pressure altitude of the local sea surface. **Always 0 (ISA sea level) at present**: the
+    /// weather grid carries ERA5 wind and temperature only, no mean-sea-level pressure, so the
+    /// runner has nothing to compute it from (core request 5, ruled 9 Oct). A real surface 10 hPa
+    /// below ISA sits about 280 ft from this, the same sign everywhere, so a module ending a
+    /// descent here should record the value it used and carry the bias as a declared limitation.
     pub surface_pressure_altitude_ft: f64,
     /// True where the query lay outside the grid's altitude or time span and was clamped.
     pub clamped: bool,
@@ -404,11 +407,21 @@ pub trait Terminal: Send + Sync {
         score: &dyn Fn(&[Option<EpochState>]) -> f64,
     ) -> Vec<Descent>;
 
-    /// The takeover draw the runner actually calls. The default wraps [`Terminal::takeover_time`]
-    /// with an empty `draw`; override it to keep latents for [`Terminal::descend_after`].
+    /// The takeover draw, fuel-blind. The default wraps [`Terminal::takeover_time`] with an
+    /// empty `draw`; override it to keep latents for [`Terminal::descend_after`].
     fn takeover(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> Takeover {
         let (unix_s, log_q_correction) = self.takeover_time(handoff, uniform);
         Takeover { unix_s, log_q_correction, draw: Vec::new() }
+    }
+
+    /// The takeover draw the runner actually calls (core request 3b): [`Terminal::takeover`] with
+    /// the core's fuel-flow model, so an onset triggered on predicted endurance can price that
+    /// prediction with the model the core will then burn on. Without it the prediction and the
+    /// burn disagree and the core flies the tanks dry before a takeover meant to precede that.
+    /// The default ignores `fuel` and calls `takeover`.
+    fn takeover_priced(&self, handoff: &FlightState, fuel: &dyn FuelFlow, uniform: &mut dyn FnMut() -> f64) -> Takeover {
+        let _ = fuel;
+        self.takeover(handoff, uniform)
     }
 
     /// The descent the runner actually calls: `descend` plus what `takeover` drew, and the

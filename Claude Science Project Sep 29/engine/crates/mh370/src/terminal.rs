@@ -177,7 +177,10 @@ impl<'a, E: Environment> Stage<'a, E> {
         let mut log_weights = Vec::new();
         let mut corrections = Vec::with_capacity(self.children);
         for c in 0..self.children {
-            let drawn = self.module.takeover(&handoff, &mut uniform(seed, 2, c, r));
+            // Priced with the parent's own factor: the fuel the hand-off holds is what the core
+            // will burn on the way to the takeover.
+            let handoff_fuel = CoreFuel { model: self.params.fuel.as_deref(), factor: row.aircraft.fuel_factor() };
+            let drawn = self.module.takeover_priced(&handoff, &handoff_fuel, &mut uniform(seed, 2, c, r));
             let (takeover, q_takeover) = (drawn.unix_s, drawn.log_q_correction);
             if !(takeover.is_finite() && takeover >= handoff.unix_s && q_takeover.is_finite()) {
                 return Err(format!("{r}/{c}: takeover {takeover} (correction {q_takeover}) is not a finite time after the hand-off"));
@@ -389,6 +392,8 @@ impl<E: Environment> Atmosphere for Weather<'_, E> {
             wind_east_mps: w.wind_east_kt * MPS_PER_KNOT,
             wind_north_mps: w.wind_north_kt * MPS_PER_KNOT,
             declination_deg: self.environment.declination_deg(altitude_ft, latitude_deg, longitude_deg),
+            // No mean-sea-level pressure in the weather grid: ISA sea level, as hypothesis::Air
+            // documents (core request 5).
             surface_pressure_altitude_ft: 0.0,
             clamped: self.span.is_some_and(|[time, altitude]| outside(time, unix_s) || outside(altitude, altitude_ft)),
         }
