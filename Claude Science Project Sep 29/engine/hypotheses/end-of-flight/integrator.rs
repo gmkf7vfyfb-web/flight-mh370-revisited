@@ -105,12 +105,32 @@ struct Rates {
     /// Bank commanded over the step, rad. Diagnostic, not integrated: it is carried so that the
     /// attitude at the surface crossing can be reported without re-entering the control law.
     bank_rad: f64,
+    /// How the step's burn was priced, `FUEL_*` bits. Diagnostic, not integrated.
+    fuel_status: u8,
 }
 
+/// Bits of `Rates::fuel_status`: how the burn over a step was priced.
+const FUEL_UNPRICED: u8 = 1;
+const FUEL_BELOW_TABLES: u8 = 2;
+const FUEL_EXTRAPOLATED: u8 = 4;
+const FUEL_ABOVE_CEILING: u8 = 8;
+
 /// The integrator: aerodynamic model plus step policy.
-#[derive(Debug, Clone, Copy)]
-pub struct Integrator {
+#[derive(Clone, Copy)]
+pub struct Integrator<'a> {
     pub aero: Aero,
+    /// The core's fuel-flow model (core request 3): the cruise tables times this trajectory's own
+    /// fuel-flow factor, the same model that burnt the fuel up to the takeover. `None` prices
+    /// powered flight with the module's own swept TSFC, which only the unit tests should use.
+    ///
+    /// The tables are two-engine cruise schedules at normal thrust, not idle and not one engine
+    /// inoperative. The burn at any other thrust is DERIVED: the effective specific consumption at
+    /// this flight level, gross weight and Mach is the table flow divided by the module's own
+    /// level-flight drag there (clean, both engines), and the flow is thrust times that. In level
+    /// cruise this returns the table flow exactly; elsewhere it scales with thrust. It UNDERSTATES
+    /// idle flow, because real specific consumption rises at idle, and it treats one engine at a
+    /// given thrust like two engines sharing that thrust. Both are declared modelling choices.
+    pub fuel: Option<&'a dyn hypothesis::FuelFlow>,
     /// Base step, s. A parameter.
     pub step_s: f64,
     /// Fine step through a transition, s. A parameter.
@@ -119,6 +139,18 @@ pub struct Integrator {
     pub fine_window_s: f64,
     /// Hard ceiling on integrated flight time, s, so a phugoid that never descends terminates.
     pub max_flight_s: f64,
+}
+
+impl std::fmt::Debug for Integrator<'_> {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("Integrator")
+            .field("step_s", &self.step_s)
+            .field("fine_step_s", &self.fine_step_s)
+            .field("fine_window_s", &self.fine_window_s)
+            .field("max_flight_s", &self.max_flight_s)
+            .field("fuel", &self.fuel.is_some())
+            .finish()
+    }
 }
 
 /// What one descent integration produced.
@@ -150,10 +182,17 @@ pub struct Trace {
     pub clamped: bool,
     /// True if the integration hit `max_flight_s` without reaching the surface.
     pub timed_out: bool,
+    /// Seconds of powered flight the core's fuel model could not price, burnt at the module's own
+    /// TSFC instead (core request 3: `None` is never zero flow).
+    pub fuel_unpriced_s: f64,
+    /// Seconds priced below FL060 (at FL060: the real flow is higher) and on an extrapolated
+    /// schedule (good to about 12% against Boeing), as the core asks them carried.
+    pub fuel_below_tables_s: f64,
+    pub fuel_extrapolated_s: f64,
     pub steps: usize,
 }
 
-impl Integrator {
+impl<'a> Integrator<'a> {
     /// The step to use at `t`, given a transition at `transition_unix_s` (for example the
     /// flame-out). The core filter's 5 s manoeuvre step does not constrain this.
     pub fn step_for(&self, t: f64, transition_unix_s: Option<f64>) -> f64 {
@@ -195,6 +234,9 @@ impl Integrator {
             max_altitude_ft: body.pressure_altitude_ft,
             clamped: false,
             timed_out: false,
+            fuel_unpriced_s: 0.0,
+            fuel_below_tables_s: 0.0,
+            fuel_extrapolated_s: 0.0,
             steps: 0,
         };
         let t0 = body.unix_s;
@@ -222,6 +264,15 @@ impl Integrator {
             trace.max_descent_rate_fpm = trace.max_descent_rate_fpm.max(descent_fpm);
             trace.max_mach = trace.max_mach.max(rates.mach);
             trace.impact_bank_rad = rates.bank_rad;
+            if rates.fuel_status & FUEL_UNPRICED != 0 {
+                trace.fuel_unpriced_s += dt;
+            }
+            if rates.fuel_status & FUEL_BELOW_TABLES != 0 {
+                trace.fuel_below_tables_s += dt;
+            }
+            if rates.fuel_status & FUEL_EXTRAPOLATED != 0 {
+                trace.fuel_extrapolated_s += dt;
+            }
             if self.aero.is_extrapolated(rates.mach) {
                 trace.time_extrapolated_s += dt;
             }
@@ -366,6 +417,7 @@ impl Integrator {
                 d_mass: 0.0,
                 mach,
                 bank_rad: 0.0,
+                fuel_status: 0,
             };
         }
 
@@ -396,15 +448,48 @@ impl Integrator {
         let lift = c_l * q * s;
         let drag = self.aero.c_d(c_l, mach, cfg) * q * s;
         let v = body.tas_mps.max(1.0);
+        let (burn_kg_s, fuel_status) =
+            if body.fuel_kg > 0.0 && thrust > 0.0 { self.burn_kg_s(body, thrust, q, mach, mass) } else { (0.0, 0) };
         Rates {
             d_tas: (thrust - drag) / mass - atmos::G0 * body.gamma_rad.sin(),
             d_gamma: (lift * bank.cos() - weight * body.gamma_rad.cos()) / (mass * v),
             d_altitude: body.tas_mps * body.gamma_rad.sin(),
             d_heading: lift * bank.sin() / (mass * v * body.gamma_rad.cos().max(0.05)),
-            d_mass: if body.fuel_kg > 0.0 { -self.aero.fuel_flow_kg_s(thrust) } else { 0.0 },
+            d_mass: -burn_kg_s,
             mach,
             bank_rad: bank,
+            fuel_status,
         }
+    }
+
+    /// Fuel burn at a thrust, kg/s, and how it was priced. See the `fuel` field for the
+    /// derivation from the core's two-engine cruise tables. A state the core cannot price
+    /// (`None`: non-finite argument, weight outside 140-300 t, no fuel model) falls back to the
+    /// module's own TSFC and is flagged `FUEL_UNPRICED`, so the seconds flown that way are
+    /// recorded - never read as zero flow, never substituted silently.
+    fn burn_kg_s(&self, body: &Body, thrust_n: f64, q: f64, mach: f64, mass: f64) -> (f64, u8) {
+        let own = self.aero.fuel_flow_kg_s(thrust_n);
+        let Some(model) = self.fuel else { return (own, 0) };
+        let Some(rate) = model.fuel_flow_kg_h(body.pressure_altitude_ft / 100.0, mass / 1000.0, mach) else {
+            return (own, FUEL_UNPRICED);
+        };
+        let s = self.aero.wing_area_m2;
+        let c_l_level = mass * atmos::G0 / (q * s);
+        let cruise_drag = self.aero.c_d(c_l_level, mach, &Configuration::powered()) * q * s;
+        if !(cruise_drag > 0.0 && rate.kg_h.is_finite() && rate.kg_h > 0.0) {
+            return (own, FUEL_UNPRICED);
+        }
+        let mut status = 0;
+        if rate.below_tables {
+            status |= FUEL_BELOW_TABLES;
+        }
+        if rate.extrapolated {
+            status |= FUEL_EXTRAPOLATED;
+        }
+        if rate.above_ceiling {
+            status |= FUEL_ABOVE_CEILING;
+        }
+        (thrust_n * rate.kg_h / 3600.0 / cruise_drag, status)
     }
 
     /// The trimmed lift coefficient of steady level flight at a mass and dynamic pressure:
@@ -447,8 +532,8 @@ mod tests {
         }
     }
 
-    fn integrator(step_s: f64) -> Integrator {
-        Integrator { aero: reference(), step_s, fine_step_s: step_s / 10.0, fine_window_s: 5.0, max_flight_s: 7_200.0 }
+    fn integrator(step_s: f64) -> Integrator<'static> {
+        Integrator { aero: reference(), fuel: None, step_s, fine_step_s: step_s / 10.0, fine_window_s: 5.0, max_flight_s: 7_200.0 }
     }
 
     fn body(altitude_ft: f64, tas: f64, gamma_deg: f64) -> Body {
@@ -543,7 +628,7 @@ mod tests {
         aero.oswald = 1e9; // k -> 0
         aero.wave_drag_coefficient = 0.0;
         aero.tuck_cl_per_mach = 0.0;
-        let it = Integrator { aero, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 400.0 };
+        let it = Integrator { aero, fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 400.0 };
         let (alt, mass, tas) = (20_000.0, 174_000.0, 200.0);
         let frozen = Frozen { pressure_pa: geo::isa_pressure_pa(alt), temperature_k: atmos::isa_temperature_k(alt) };
         let q = atmos::dynamic_pressure_pa(frozen.pressure_pa, tas / atmos::sound_speed_mps(frozen.temperature_k));

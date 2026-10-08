@@ -21,10 +21,9 @@ DECLARED_NAN = {
     # sinks_not_floats retired 2026-10-09; nothing declared NaN by design remains but these:
     "impact_energy_transferred_j", "energy_transfer_t05_s", "energy_transfer_t95_s",
     "energy_transfer_tau90_s", "energy_transfer_peak_rate_w", "energy_transfer_n_pulses",
-    "onset_support_truncated_fraction",                                   # core request 2
 }
 # NaN by construction in a stated case, checked case by case below.
-CONDITIONAL_NAN = {"last_burst_latitude_deg", "last_burst_longitude_deg",
+CONDITIONAL_NAN = {"last_burst_latitude_deg", "last_burst_longitude_deg", "onset_support_truncated_fraction",
                    "realised_flameout_unix_s", "flameout_minus_predicted_s"}
 
 
@@ -131,6 +130,20 @@ def main(out_dir, handoff_run, out_json):
                            "share_beyond_glide_bound_of_arc": beyond,
                            "flag": "collapsed" if q90 < 0.5 else ("beyond glide bound" if beyond > 0.05 else None)})
         r["item5_spread_by_family"] = spread
+
+        # Core requests 2 and 3: provenance of the mechanism and pricing of the burn.
+        mech = lat("onset_mechanism")
+        r["requests_2_3"] = {
+            "mechanism_from_draw_share": float(w[lat("mechanism_from_draw") == 1].sum() / w.sum()),
+            "mechanism_relabelled_dry_share": float(w[lat("mechanism_relabelled_dry") == 1].sum() / w.sum()),
+            "mechanism_share_anticipatory_fuelcue_flameout": [float(w[mech == k].sum() / w.sum()) for k in (0, 1, 2)],
+            "family_prior_zero_share": float(w[lat("family_prior") == 0].sum() / w.sum()),
+            "fuel_unpriced_s_share_nonzero": float(w[lat("fuel_unpriced_s") > 0].sum() / w.sum()),
+            "fuel_below_tables_s_share_nonzero": float(w[lat("fuel_below_tables_s") > 0].sum() / w.sum()),
+            "fuel_extrapolated_s_share_nonzero": float(w[lat("fuel_extrapolated_s") > 0].sum() / w.sum()),
+            "fuel_extrapolated_s_mean": float((w * lat("fuel_extrapolated_s")).sum() / w.sum()),
+            "fuel_below_tables_s_mean": float((w * lat("fuel_below_tables_s")).sum() / w.sum()),
+        }
 
         # Breakup family (settling's candidate rule, provisional): drawn share and mean probabilities.
         dc = lat("debris_class")

@@ -54,6 +54,13 @@ def main(src, dst):
                 flags.setdefault(s["label"], set()).add(s["flag"])
     out["item5_flagged_families"] = {k: sorted(v) for k, v in flags.items()}
 
+    # Core requests 2 and 3.
+    k23 = reps[0].get("requests_2_3")
+    if k23:
+        out["requests_2_3"] = {k: ([stats([r["requests_2_3"][k][i] for r in reps]) for i in range(3)]
+                                   if isinstance(v, list) else stats([r["requests_2_3"][k] for r in reps]))
+                               for k, v in k23.items()}
+
     # Breakup family.
     out["breakup_drawn_share_intact_broken_fragmented"] = [stats([r["breakup"]["drawn_share_intact_broken_fragmented"][k] for r in reps]) for k in range(3)]
     out["breakup_refused_share"] = stats([r["breakup"]["refused_share"] for r in reps])

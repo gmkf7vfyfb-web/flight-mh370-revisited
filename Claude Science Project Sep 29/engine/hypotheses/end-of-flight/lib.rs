@@ -77,7 +77,8 @@ mod profile;
 mod taxonomy;
 
 use hypothesis::{
-    Atmosphere, Descent, EpochState, FlightState, Hypothesis, Impact, ImpactView, Terminal, TerminalEpoch,
+    Atmosphere, Descent, EpochState, FlightState, FuelFlow, Hypothesis, Impact, ImpactView, Takeover, Terminal,
+    TerminalEpoch,
 };
 use serde::Deserialize;
 
@@ -239,6 +240,20 @@ const LATENTS: &[&str] = &[
     "rat_increment",
     "mass_kg_assumed",
     "fuel_kg_assumed",
+    // 1 when the onset mechanism, lead and truncation fraction came from `takeover`'s own draw,
+    // carried unchanged by the runner (core request 2); 0 when they had to be recovered from the
+    // takeover state, which is only the legacy `descend` path. On a real run this must be 1.
+    "mechanism_from_draw",
+    // 1 when a drawn FUEL-CUE onset met an aircraft already dry at takeover and was relabelled
+    // flame-out-associated: a fuel-cue response is impossible from empty tanks, and FuelCue x
+    // NeitherThrusting is not a legal cell. Counted, not hidden.
+    "mechanism_relabelled_dry",
+    // Core request 3: seconds of powered flight the core's fuel model could not price (burnt at
+    // the module's own TSFC instead, never at zero), and seconds priced below FL060 or on an
+    // extrapolated schedule.
+    "fuel_unpriced_s",
+    "fuel_below_tables_s",
+    "fuel_extrapolated_s",
     // Seconds the CORE flew this trajectory on powered dynamics after its own tanks ran dry,
     // between the hand-off and this module's takeover. Non-zero when the module's predicted
     // exhaustion (its own TSFC burn, 12.7 % below the core's FPPM burn at the fixture state) lands
@@ -328,6 +343,49 @@ fn breakup_probabilities(descent_mps: f64, speed_mps: f64) -> Option<[f64; 3]> {
 /// Value of the `impact_tau_method` latent when no water-entry model exists, which is every sample
 /// at first pass.
 const TAU_METHOD_NOT_COMPUTED: f64 = 0.0;
+
+/// Layout version of `Takeover::draw`. The runner never reads the vector; this module encodes it
+/// in `takeover` and decodes it in `descend_after`, and refuses a vector it did not write.
+const DRAW_VERSION: f64 = 1.0;
+
+/// What `takeover` drew, as `descend_after` needs it again (core request 2).
+#[derive(Debug, Clone, Copy)]
+struct OnsetDraw {
+    mechanism: Initiation,
+    mechanism_prior: f64,
+    /// Lead of the drawn onset before the exhaustion predicted AT THE HAND-OFF, s.
+    lead_s: f64,
+    support_truncated_fraction: f64,
+    /// Exhaustion under continued cruise predicted from the hand-off state.
+    predicted_exhaustion_unix_s: f64,
+}
+
+impl OnsetDraw {
+    fn encode(&self) -> Vec<f64> {
+        vec![
+            self.mechanism.code(),
+            self.mechanism_prior,
+            self.lead_s,
+            self.support_truncated_fraction,
+            self.predicted_exhaustion_unix_s,
+            DRAW_VERSION,
+        ]
+    }
+
+    fn decode(v: &[f64]) -> Option<OnsetDraw> {
+        if v.len() != 6 || v[5] != DRAW_VERSION {
+            return None;
+        }
+        let mechanism = Initiation::ALL.iter().copied().find(|m| m.code() == v[0])?;
+        Some(OnsetDraw {
+            mechanism,
+            mechanism_prior: v[1],
+            lead_s: v[2],
+            support_truncated_fraction: v[3],
+            predicted_exhaustion_unix_s: v[4],
+        })
+    }
+}
 
 pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     let params: Params = params.clone().try_into().map_err(|e| format!("end-of-flight: {e}"))?;
@@ -475,6 +533,162 @@ impl EndOfFlight {
         state.unix_s + elapsed
     }
 
+    /// One child's descents. `drawn` is `takeover`'s carried draw (core request 2); without it the
+    /// mechanism is recovered from the takeover state, which is the legacy path and is flagged.
+    /// `fuel` is the core's fuel-flow model (core request 3); without it powered flight burns the
+    /// module's own TSFC.
+    fn descend_with(
+        &self,
+        takeover: &FlightState,
+        drawn: Option<OnsetDraw>,
+        atmosphere: &dyn Atmosphere,
+        fuel: Option<&dyn FuelFlow>,
+        uniform: &mut dyn FnMut() -> f64,
+        epochs: &[TerminalEpoch],
+    ) -> Vec<Descent> {
+        let parent = self.parent(takeover);
+        // With the carried draw, the lead and the prediction are the ones drawn at the hand-off.
+        // Without it, the legacy recovery: lead from the takeover state, mechanism from its
+        // conditional posterior given that lead - exact only if nothing flew between the hooks.
+        let (lead, truncation, predicted_at_handoff) = match drawn {
+            Some(d) => (d.lead_s, d.support_truncated_fraction, d.predicted_exhaustion_unix_s),
+            None => (parent.predicted_exhaustion_unix_s - takeover.unix_s, f64::NAN, parent.predicted_exhaustion_unix_s),
+        };
+        let mut out = Vec::with_capacity(self.params.descents_per_child);
+        for _ in 0..self.params.descents_per_child {
+            let (mechanism, mechanism_prior) = match drawn {
+                Some(d) => (d.mechanism, d.mechanism_prior),
+                None => self.params.onset.classify(lead, uniform),
+            };
+            // An aircraft with no fuel at takeover has no power available, whatever was intended:
+            // its propulsion state is NeitherThrusting, not a draw. Before this guard the axis was
+            // drawn regardless, so a dry parent could be labelled two-thrusting and handed a
+            // POWERED profile (a level-off held on thrust, say) that the integrator then flew with
+            // the engines cut at the first step - wrong label and incoherent physics. On the
+            // full-scale 00:11 snapshot that was ~2/3 of the dry-at-hand-off descents, and every
+            // child the core flew dry before takeover (~50% of the weight) was exposed to it.
+            // A fuel-cue RESPONSE is impossible from empty tanks, and FuelCue x NeitherThrusting is
+            // not a legal cell, so a dry fuel-cue label becomes flame-out-associated. The mechanism
+            // label stays provisional until core request 2 regardless.
+            let dry = !(parent.fuel_kg > 0.0);
+            let relabelled = dry && mechanism == Initiation::FuelCue;
+            let (mechanism, mechanism_prior) = if relabelled {
+                let w = self.params.onset.mechanism_weights;
+                let total: f64 = w.iter().sum();
+                (Initiation::FlameOutAssociated, if total > 0.0 { w[2] / total } else { 0.0 })
+            } else {
+                (mechanism, mechanism_prior)
+            };
+            let onset = Onset {
+                unix_s: takeover.unix_s,
+                mechanism,
+                predicted_endurance_at_onset_s: lead,
+                mechanism_prior,
+                support_truncated_fraction: f64::NAN,
+                log_q_correction: 0.0,
+            };
+            let (propulsion, control, axes_prior) = if dry {
+                let (control, c_prior) = pick(&self.params.control_weights, &Control::ALL, uniform);
+                (Propulsion::NeitherThrusting, control, c_prior)
+            } else {
+                self.draw_axes(mechanism, uniform)
+            };
+            let aero = self.params.aero.draw(uniform);
+            let (impact, states, flying, trace, realised_flameout) =
+                self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, fuel, uniform);
+
+            // A descent that never reached the sea is a negative result. By default it is
+            // finished on a best glide so the sample is usable, and the fact is recorded;
+            // `emit_timed_out_descents` keeps the unconverged state instead. Nothing is deleted.
+            let (impact, states, trace) = if trace.timed_out && !self.params.emit_timed_out_descents {
+                let glide = self.finish_on_a_glide(&impact, &parent, atmosphere, aero, epochs, states);
+                (glide.0, glide.1, trace)
+            } else {
+                (impact, states, trace)
+            };
+
+            let realised_control = flying.realised_control();
+            // Breakup family from the contact state, drawn once for this impact sample. The speeds
+            // are the ones the runner's kinetic_energy_j and vertical_kinetic_energy_j are made
+            // from, so V and V_d here are exactly sqrt(2e) and sqrt(2e_v) of settling's rule.
+            let contact_speed = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
+            let contact_descent = (-impact.velocity_up_mps).max(0.0);
+            let breakup = if impact.mass_kg > 0.0 { breakup_probabilities(contact_descent, contact_speed) } else { None };
+            let (breakup_p, debris_class) = match breakup {
+                Some(p) => {
+                    let u = uniform();
+                    let class = if u < p[0] { 0.0 } else if u < p[0] + p[1] { 1.0 } else { 2.0 };
+                    (p, class)
+                }
+                None => ([f64::NAN; 3], f64::NAN),
+            };
+            let latents = vec![
+                takeover.unix_s,
+                mechanism.code(),
+                lead,
+                truncation,
+                realised_flameout,
+                realised_flameout - predicted_at_handoff,
+                propulsion.code(),
+                control.code(),
+                realised_control.code(),
+                f64::from(u8::from(flying.recovery_attempted)),
+                f64::from(u8::from(flying.recovery_demonstrated)),
+                flying.profile.shape.code(),
+                mechanism_prior * axes_prior,
+                trace.time_descending_s,
+                trace.max_descent_rate_fpm,
+                trace.time_extrapolated_s,
+                trace.max_mach,
+                trace.max_altitude_ft,
+                impact.velocity_up_mps,
+                aero.ld_max_clean,
+                aero.windmilling_per_engine,
+                aero.rat_increment,
+                f64::from(u8::from(parent.mass_assumed)),
+                f64::from(u8::from(parent.fuel_assumed)),
+                f64::from(u8::from(drawn.is_some())),
+                f64::from(u8::from(relabelled)),
+                trace.fuel_unpriced_s,
+                trace.fuel_below_tables_s,
+                trace.fuel_extrapolated_s,
+                if takeover.realised_flameout_unix_s.is_finite() {
+                    (takeover.unix_s - takeover.realised_flameout_unix_s).max(0.0)
+                } else {
+                    0.0
+                },
+                takeover.ground_velocity_east_mps,
+                takeover.ground_velocity_north_mps,
+                states.last().copied().flatten().map_or(f64::NAN, |s| s.latitude_deg),
+                states.last().copied().flatten().map_or(f64::NAN, |s| s.longitude_deg),
+                f64::from(u8::from(trace.clamped)),
+                f64::from(u8::from(trace.timed_out)),
+                trace.impact.heading_rad.to_degrees().rem_euclid(360.0),
+                trace.impact_bank_rad.to_degrees(),
+                // The six energy-transfer columns. NaN is a result here, not a gap: the
+                // integrator stops at the surface, so there is no P(t) to integrate. See
+                // `results/eof-impact-energy-method.md`.
+                f64::NAN, // impact_energy_transferred_j
+                f64::NAN, // energy_transfer_t05_s
+                f64::NAN, // energy_transfer_t95_s
+                f64::NAN, // energy_transfer_tau90_s
+                f64::NAN, // energy_transfer_peak_rate_w
+                f64::NAN, // energy_transfer_n_pulses
+                TAU_METHOD_NOT_COMPUTED,
+                breakup_p[0],
+                breakup_p[1],
+                breakup_p[2],
+                debris_class,
+            ];
+            debug_assert_eq!(latents.len(), LATENTS.len());
+            let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
+                .or_else(|| taxonomy::index_of(&Family { initiation: mechanism, propulsion, control }))
+                .unwrap_or(0);
+            out.push(Descent { impact, family, at_epochs: states, latents, log_q_correction: 0.0 });
+        }
+        out
+    }
+
     /// Draw the propulsion and control axes, restricted to the cells legal for `mechanism`, and
     /// return them with their joint prior weight.
     fn draw_axes(&self, mechanism: Initiation, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64) {
@@ -501,6 +715,7 @@ impl EndOfFlight {
         control: Control,
         aero: Aero,
         epochs: &[TerminalEpoch],
+        fuel: Option<&dyn FuelFlow>,
         uniform: &mut dyn FnMut() -> f64,
     ) -> (Impact, Vec<Option<EpochState>>, Flying, integrator::Trace, f64) {
         let start = Body {
@@ -518,6 +733,7 @@ impl EndOfFlight {
         let flying = std::cell::RefCell::new(Flying::new(shape, aero, propulsion, &self.params.envelope));
         let it = Integrator {
             aero,
+            fuel,
             step_s: self.params.step_s,
             fine_step_s: self.params.fine_step_s,
             fine_window_s: self.params.fine_window_s,
@@ -628,11 +844,45 @@ impl Terminal for EndOfFlight {
     /// "the first flame-out"; that reading is specific to a flame-out-associated onset and is
     /// raised as core request 2.
     fn takeover_time(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> (f64, f64) {
-        let parent = self.parent(handoff);
-        let onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
-        (onset.unix_s.max(handoff.unix_s), onset.log_q_correction)
+        let t = self.takeover(handoff, uniform);
+        (t.unix_s, t.log_q_correction)
     }
 
+    /// Core request 2: draw the onset here and CARRY it. The mechanism, the lead before the
+    /// exhaustion predicted at the hand-off, the support-truncation fraction and that prediction
+    /// go into `draw`, which the runner hands back to `descend_after` unchanged. Nothing is
+    /// recomputed from the state the core flies to in between.
+    fn takeover(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> Takeover {
+        let parent = self.parent(handoff);
+        let onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
+        let draw = OnsetDraw {
+            mechanism: onset.mechanism,
+            mechanism_prior: onset.mechanism_prior,
+            lead_s: onset.predicted_endurance_at_onset_s,
+            support_truncated_fraction: onset.support_truncated_fraction,
+            predicted_exhaustion_unix_s: parent.predicted_exhaustion_unix_s,
+        };
+        Takeover { unix_s: onset.unix_s.max(handoff.unix_s), log_q_correction: onset.log_q_correction, draw: draw.encode() }
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn descend_after(
+        &self,
+        takeover: &FlightState,
+        drawn: &Takeover,
+        atmosphere: &dyn Atmosphere,
+        fuel: &dyn FuelFlow,
+        uniform: &mut dyn FnMut() -> f64,
+        epochs: &[TerminalEpoch],
+        _score: &dyn Fn(&[Option<EpochState>]) -> f64,
+    ) -> Vec<Descent> {
+        self.descend_with(takeover, OnsetDraw::decode(&drawn.draw), atmosphere, Some(fuel), uniform, epochs)
+    }
+
+    /// The legacy hook: no carried draw and no core fuel model. The mechanism is recovered from the
+    /// takeover state, which is exact only if the core did not fly between the hooks; on a real run
+    /// the runner calls `takeover` and `descend_after` instead, and `mechanism_from_draw` says which
+    /// path produced a sample.
     fn descend(
         &self,
         takeover: &FlightState,
@@ -641,137 +891,7 @@ impl Terminal for EndOfFlight {
         epochs: &[TerminalEpoch],
         _score: &dyn Fn(&[Option<EpochState>]) -> f64,
     ) -> Vec<Descent> {
-        let parent = self.parent(takeover);
-        // The onset mechanism was drawn in `takeover_time`, whose uniform stream is not shared
-        // with this hook. It is recovered exactly rather than redrawn independently: the
-        // mechanism is sampled from its conditional posterior given the realised onset lead,
-        // p(m | lead) proportional to w_m f_m(lead), so the joint law of (lead, mechanism) is the
-        // same as the forward draw's. Core request 2 would remove the need for this.
-        let lead = parent.predicted_exhaustion_unix_s - takeover.unix_s;
-        let mut out = Vec::with_capacity(self.params.descents_per_child);
-        for _ in 0..self.params.descents_per_child {
-            let (mechanism, mechanism_prior) = self.params.onset.classify(lead, uniform);
-            // An aircraft with no fuel at takeover has no power available, whatever was intended:
-            // its propulsion state is NeitherThrusting, not a draw. Before this guard the axis was
-            // drawn regardless, so a dry parent could be labelled two-thrusting and handed a
-            // POWERED profile (a level-off held on thrust, say) that the integrator then flew with
-            // the engines cut at the first step - wrong label and incoherent physics. On the
-            // full-scale 00:11 snapshot that was ~2/3 of the dry-at-hand-off descents, and every
-            // child the core flew dry before takeover (~50% of the weight) was exposed to it.
-            // A fuel-cue RESPONSE is impossible from empty tanks, and FuelCue x NeitherThrusting is
-            // not a legal cell, so a dry fuel-cue label becomes flame-out-associated. The mechanism
-            // label stays provisional until core request 2 regardless.
-            let dry = !(parent.fuel_kg > 0.0);
-            let (mechanism, mechanism_prior) = if dry && mechanism == Initiation::FuelCue {
-                let w = self.params.onset.mechanism_weights;
-                let total: f64 = w.iter().sum();
-                (Initiation::FlameOutAssociated, if total > 0.0 { w[2] / total } else { 0.0 })
-            } else {
-                (mechanism, mechanism_prior)
-            };
-            let onset = Onset {
-                unix_s: takeover.unix_s,
-                mechanism,
-                predicted_endurance_at_onset_s: lead,
-                mechanism_prior,
-                support_truncated_fraction: f64::NAN,
-                log_q_correction: 0.0,
-            };
-            let (propulsion, control, axes_prior) = if dry {
-                let (control, c_prior) = pick(&self.params.control_weights, &Control::ALL, uniform);
-                (Propulsion::NeitherThrusting, control, c_prior)
-            } else {
-                self.draw_axes(mechanism, uniform)
-            };
-            let aero = self.params.aero.draw(uniform);
-            let (impact, states, flying, trace, realised_flameout) =
-                self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, uniform);
-
-            // A descent that never reached the sea is a negative result. By default it is
-            // finished on a best glide so the sample is usable, and the fact is recorded;
-            // `emit_timed_out_descents` keeps the unconverged state instead. Nothing is deleted.
-            let (impact, states, trace) = if trace.timed_out && !self.params.emit_timed_out_descents {
-                let glide = self.finish_on_a_glide(&impact, &parent, atmosphere, aero, epochs, states);
-                (glide.0, glide.1, trace)
-            } else {
-                (impact, states, trace)
-            };
-
-            let realised_control = flying.realised_control();
-            // Breakup family from the contact state, drawn once for this impact sample. The speeds
-            // are the ones the runner's kinetic_energy_j and vertical_kinetic_energy_j are made
-            // from, so V and V_d here are exactly sqrt(2e) and sqrt(2e_v) of settling's rule.
-            let contact_speed = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
-            let contact_descent = (-impact.velocity_up_mps).max(0.0);
-            let breakup = if impact.mass_kg > 0.0 { breakup_probabilities(contact_descent, contact_speed) } else { None };
-            let (breakup_p, debris_class) = match breakup {
-                Some(p) => {
-                    let u = uniform();
-                    let class = if u < p[0] { 0.0 } else if u < p[0] + p[1] { 1.0 } else { 2.0 };
-                    (p, class)
-                }
-                None => ([f64::NAN; 3], f64::NAN),
-            };
-            let latents = vec![
-                takeover.unix_s,
-                mechanism.code(),
-                lead,
-                f64::NAN, // the truncation fraction is known in takeover_time only: core request 2
-                realised_flameout,
-                realised_flameout - parent.predicted_exhaustion_unix_s,
-                propulsion.code(),
-                control.code(),
-                realised_control.code(),
-                f64::from(u8::from(flying.recovery_attempted)),
-                f64::from(u8::from(flying.recovery_demonstrated)),
-                flying.profile.shape.code(),
-                mechanism_prior * axes_prior,
-                trace.time_descending_s,
-                trace.max_descent_rate_fpm,
-                trace.time_extrapolated_s,
-                trace.max_mach,
-                trace.max_altitude_ft,
-                impact.velocity_up_mps,
-                aero.ld_max_clean,
-                aero.windmilling_per_engine,
-                aero.rat_increment,
-                f64::from(u8::from(parent.mass_assumed)),
-                f64::from(u8::from(parent.fuel_assumed)),
-                if takeover.realised_flameout_unix_s.is_finite() {
-                    (takeover.unix_s - takeover.realised_flameout_unix_s).max(0.0)
-                } else {
-                    0.0
-                },
-                takeover.ground_velocity_east_mps,
-                takeover.ground_velocity_north_mps,
-                states.last().copied().flatten().map_or(f64::NAN, |s| s.latitude_deg),
-                states.last().copied().flatten().map_or(f64::NAN, |s| s.longitude_deg),
-                f64::from(u8::from(trace.clamped)),
-                f64::from(u8::from(trace.timed_out)),
-                trace.impact.heading_rad.to_degrees().rem_euclid(360.0),
-                trace.impact_bank_rad.to_degrees(),
-                // The six energy-transfer columns. NaN is a result here, not a gap: the
-                // integrator stops at the surface, so there is no P(t) to integrate. See
-                // `results/eof-impact-energy-method.md`.
-                f64::NAN, // impact_energy_transferred_j
-                f64::NAN, // energy_transfer_t05_s
-                f64::NAN, // energy_transfer_t95_s
-                f64::NAN, // energy_transfer_tau90_s
-                f64::NAN, // energy_transfer_peak_rate_w
-                f64::NAN, // energy_transfer_n_pulses
-                TAU_METHOD_NOT_COMPUTED,
-                breakup_p[0],
-                breakup_p[1],
-                breakup_p[2],
-                debris_class,
-            ];
-            debug_assert_eq!(latents.len(), LATENTS.len());
-            let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
-                .or_else(|| taxonomy::index_of(&Family { initiation: mechanism, propulsion, control }))
-                .unwrap_or(0);
-            out.push(Descent { impact, family, at_epochs: states, latents, log_q_correction: 0.0 });
-        }
-        out
+        self.descend_with(takeover, None, atmosphere, None, uniform, epochs)
     }
 }
 
@@ -803,6 +923,8 @@ impl EndOfFlight {
         };
         let it = Integrator {
             aero,
+            // An unpowered glide burns nothing.
+            fuel: None,
             step_s: self.params.step_s,
             fine_step_s: self.params.fine_step_s,
             fine_window_s: 0.0,
@@ -939,39 +1061,17 @@ mod tests {
         }
     }
 
-    /// KNOWN DEFECT, kept as a failing test rather than deleted (found by the 9 Oct smoke run,
-    /// `runs/eof-term-n4`). Between `takeover_time` and `descend` the CORE propagates the aircraft
-    /// on its own calibrated burn and its own stochastic manoeuvres. `descend` then recomputes the
-    /// onset lead from that propagated state, and `classify` recovers the flame-out-associated
-    /// mechanism only for a lead of exactly zero. After propagation the lead is never exactly
-    /// zero, so every flame-out draw is relabelled: anticipatory if the recomputed lead is
-    /// positive, anticipatory with ZERO prior weight if the core ran the tanks dry first. On the
-    /// smoke hand-off that was 53 % of the weight with an impossible label, and the
-    /// flame-out-associated families were absent altogether.
-    ///
-    /// This could not happen before the fuel-state fix only because both hooks measured the lead
-    /// against the same configured 00:17:30 constant - the anchor that had to go. No module-side
-    /// recomputation can be exact while the two hooks see different states; the fix is core
-    /// request 2, passing `takeover_time`'s draw to `descend`. The test simulates the core's
-    /// propagation with the reference burn and asserts the drawn mechanism survives.
+    /// THE ACCEPTANCE TEST FOR CORE REQUEST 2 (it was an ignored, failing test from 9 Oct until the
+    /// request landed at 52ce1ca). Between the two hooks the CORE propagates the aircraft on its own
+    /// calibrated burn and its own manoeuvres. The old `descend` recomputed the onset lead from that
+    /// propagated state and recovered the flame-out-associated mechanism only for a lead of exactly
+    /// zero, which never happens after propagation, so every flame-out draw came back relabelled:
+    /// 53% of the smoke weight was anticipatory with zero prior and the flame-out families were
+    /// absent. Now `takeover` carries the draw and `descend_after` reads it. The test simulates the
+    /// core's propagation with the reference burn and asserts the drawn mechanism survives - and,
+    /// as a control, that the legacy path still loses it, so the test cannot pass vacuously.
     #[test]
-    #[ignore = "fails until core request 2 passes takeover_time's draw into descend; see coordination/architecture.md 2026-10-09"]
     fn the_flameout_mechanism_survives_the_cores_propagation() {
-        // Flame-out-associated onset only: the drawn takeover IS the predicted exhaustion.
-        let h = handoff(ONSET_22_41);
-        let takeover = predicted_exhaustion_of(&h);
-        // The core flies from the hand-off to the takeover on ITS burn, which is higher than this
-        // module's (5,764 against 5,033 kg/h), so it arrives with less fuel, possibly none.
-        let burnt = CRUISE_BURN_KG_S * (takeover - h.unix_s);
-        let fuel = (h.fuel_kg - burnt).max(0.0);
-        let dry_at = if fuel > 0.0 { f64::NAN } else { h.unix_s + h.fuel_kg / CRUISE_BURN_KG_S };
-        let at = FlightState {
-            unix_s: takeover,
-            fuel_kg: fuel,
-            mass_kg: ZFW_KG + fuel,
-            realised_flameout_unix_s: dry_at,
-            ..handoff(ONSET_22_41)
-        };
         let mut v = params();
         v.as_table_mut().unwrap().get_mut("onset").unwrap().as_table_mut().unwrap().insert(
             "mechanism_weights".into(),
@@ -981,8 +1081,65 @@ mod tests {
         let t = m.terminal().unwrap();
         let names = t.latent_columns();
         let at_mech = names.iter().position(|n| n == "onset_mechanism").unwrap();
-        for d in t.descend(&at, &atmos::Standard, &mut sweep(0.41), &epochs(), &|_| 0.0) {
+        let at_from = names.iter().position(|n| n == "mechanism_from_draw").unwrap();
+
+        let h = handoff(ONSET_22_41);
+        let drawn = t.takeover(&h, &mut sweep(0.37));
+        // The core flies from the hand-off to the takeover on ITS burn, higher than this module's
+        // own estimate, so it arrives with less fuel, possibly none.
+        let burnt = CRUISE_BURN_KG_S * (drawn.unix_s - h.unix_s);
+        let fuel = (h.fuel_kg - burnt).max(0.0);
+        let dry_at = if fuel > 0.0 { f64::NAN } else { h.unix_s + h.fuel_kg / CRUISE_BURN_KG_S };
+        let at = FlightState {
+            unix_s: drawn.unix_s,
+            fuel_kg: fuel,
+            mass_kg: ZFW_KG + fuel,
+            realised_flameout_unix_s: dry_at,
+            ..handoff(ONSET_22_41)
+        };
+        let carried = t.descend_after(&at, &drawn, &atmos::Standard, &hypothesis::NoFuelModel, &mut sweep(0.41), &epochs(), &|_| 0.0);
+        assert!(!carried.is_empty());
+        for d in &carried {
             assert_eq!(d.latents[at_mech], Initiation::FlameOutAssociated.code(), "a flame-out draw came back relabelled");
+            assert_eq!(d.latents[at_from], 1.0, "the mechanism must come from the carried draw");
+        }
+        // Control: the legacy path, which recomputes from the propagated state, still loses it.
+        let legacy = t.descend(&at, &atmos::Standard, &mut sweep(0.41), &epochs(), &|_| 0.0);
+        assert!(
+            legacy.iter().any(|d| d.latents[at_mech] != Initiation::FlameOutAssociated.code()),
+            "the control did not reproduce the defect, so the test above proves nothing"
+        );
+    }
+
+    /// Core request 3: powered flight is priced from the core's cruise tables. With a stub model
+    /// that returns a fixed flow, a level-cruise segment must burn that flow (the derivation is
+    /// exact in level cruise), and an unpriceable state must be recorded, never burnt at zero.
+    #[test]
+    fn powered_flight_burns_through_the_cores_fuel_model() {
+        struct Fixed(f64);
+        impl FuelFlow for Fixed {
+            fn fuel_flow_kg_h(&self, _: f64, _: f64, _: f64) -> Option<hypothesis::FuelFlowRate> {
+                Some(hypothesis::FuelFlowRate { kg_h: self.0, extrapolated: false, below_tables: false, above_ceiling: false })
+            }
+        }
+        let m = module();
+        let t = m.terminal().unwrap();
+        let names = t.latent_columns();
+        let at = |n: &str| names.iter().position(|x| x == n).unwrap();
+        let h = handoff(ONSET_22_41);
+        let drawn = t.takeover(&h, &mut sweep(0.2));
+        let at_state = FlightState { unix_s: drawn.unix_s, ..h };
+        let priced = t.descend_after(&at_state, &drawn, &atmos::Standard, &Fixed(5_764.0), &mut sweep(0.3), &epochs(), &|_| 0.0);
+        for d in &priced {
+            assert_eq!(d.latents[at("fuel_unpriced_s")], 0.0, "a priceable state was recorded as unpriced");
+        }
+        let unpriced = t.descend_after(&at_state, &drawn, &atmos::Standard, &hypothesis::NoFuelModel, &mut sweep(0.3), &epochs(), &|_| 0.0);
+        let powered = unpriced.iter().filter(|d| d.latents[at("engines_thrusting_at_onset")] > 0.0).count();
+        if powered > 0 {
+            assert!(
+                unpriced.iter().any(|d| d.latents[at("fuel_unpriced_s")] > 0.0),
+                "None from the fuel model must be recorded, never read as zero flow"
+            );
         }
     }
 
