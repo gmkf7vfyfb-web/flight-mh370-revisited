@@ -1255,3 +1255,78 @@ found". The review's own §1.3 verdict table gives **2 backed (claims 6 and 7), 
 same error and is corrected in this commit. No verdict changes.
 
 — ocean drift
+
+## 2026-10-09 - end of flight: night summary, 8-9 October
+
+Full write-up and machine-generated numbers: `results/eof-smoke-oct09/` (README plus `contract-n4.json`).
+**Smoke scale throughout. Plumbing, not evidence.**
+
+### Landed
+
+| commit | branch | what |
+|---|---|---|
+| `e54c276` | `hypothesis/end-of-flight` | `smoke/terminal.toml` selects this module for `mh370 terminal` from inside its own directory (a test guards it against drifting from `run.toml`); diagnostic latents for the burn gap and for displacement; `smoke/analyse.py` |
+| `ddee1b5` | `hypothesis/end-of-flight` | 20k smoke overlay; the mechanism defect pinned as an ignored, failing test; `hypothesis.toml` records core request 2 as a blocker |
+| `d5936a6` | `hypothesis/end-of-flight` | `debris_class` from settling's breakup rule, provisional, drawn once per impact sample; settling's three fixtures reproduced. 45 latents, 62 tests pass, 1 ignored |
+| `c8881e0` | working branch | reply to the 01:58 UTC CPU entry |
+| this commit | working branch | `results/eof-smoke-oct09/` |
+
+### Results (seed 1, 20k hand-off, N = 4, 32,000 impacts in 22.3 s at 2 threads)
+
+- **Contract items 2 and 4 pass.** Item 3 is partly assessed: this hand-off has no row dry at 00:11, so
+  the dry-row check was not assessed at this depth; no fallback fired. Items 7 and 8: N = 4 only, at
+  about 360 children/s; **N = 64 waits for the morning** as ruled.
+- **Item 5 fails on the mechanism axis. This defect is mine, from `7413c8d`.** `descend` recomputes the
+  onset lead from the state the **core** has propagated on its own burn, so a flame-out draw never
+  returns a lead of exactly zero. 53.1% of the weight is labelled anticipatory with zero prior, and the
+  flame-out-associated families are absent. Weights and descent physics do not read the mechanism; the
+  labels and the propulsion-cell legality do. **Core request 2 is now a blocker for any family
+  attribution.** The ignored test `the_flameout_mechanism_survives_the_cores_propagation` reproduces
+  it and must pass before families are quoted.
+- **The burn gap shows up in the stage:** 53.1% of the weight was flown powered by the core after its
+  own tanks were dry, median 43 s at 00:11. At 22:41 that scales to minutes, so **core request 3 is on
+  the V2 critical path.**
+- **Strict data options collapse at N = 4:** `both` 1.0-1.1 effective parents, R1200 4.9-12.1. Not
+  resolved. That is what the N = 64 pilot is for.
+- **For Pléiades (section 11), option `none`:** 6.6% of the weight lands ≥ 30 NM north-west of the 00:19:37
+  position and 3.4% ≥ 50 NM; inside the arc, 18.7% ≥ 30 NM and 7.1% ≥ 50 NM. **Upset-then-recovery
+  carries the reach**: 20.1% NW ≥ 30 NM and 21.6% ≥ 50 NM inside the arc. Ditching attempts carry about
+  1%. Given by control axis only, because the mechanism labels are invalid. Not resolved under `both`.
+- **Breakup families** (option `none`, provisional): intact 29.0%, broken 24.5%, fragmented 46.4%.
+
+### Provisional, and why
+
+- `debris_class` stays provisional until settling's candidate is ruled final.
+- `sinks_not_floats` is still a NaN hook. Settling recommends retiring it in favour of its own emitted
+  fates, and I agree: one owner per partition. **Your ruling is needed**; I have not retired it.
+- Displacement from 00:19:37 uses a straight-line back-extrapolation for the 25% of children whose
+  takeover came after the burst.
+
+### Merge withheld
+
+I have **not merged** `hypothesis/end-of-flight`. The contract has been reported, but item 5 failed with
+a defect of my own making, and merging would put mislabelled families on the working branch. The more
+reversible choice is to wait for your view on the fix route below.
+
+### Needed in the morning
+
+1. **Core request 2**, as a blocker, or a ruling on a module-only alternative: take over at the hand-off
+   for every child and let this module fly the cruise to onset itself, so both hooks see one state. That
+   is exact, but the cruise segment then runs on this module's burn (12.7% low) until core request 3
+   lands. I recommend core request 2.
+2. **How `mh370 terminal` reads a snapshot.** It looks for `seed-N/handoff.toml` and takes its later
+   bursts from `exclude_epochs`; core's snapshots are in `seed-N/handoff-m0011/`. Unless core prefers a
+   small change, I will use a symlinked run tree plus `exclude_epochs = ["m0019a", "m0019b"]` in my
+   override, which needs no core change.
+3. **The N = 64 pilot** on `handoff-m0011` once DELIVERED is posted, at whatever thread count you allow.
+
+### Housekeeping
+
+- **The 200k smoke hand-off run was stopped by Pete** with `pkill -f "runs/handoff-smoke"`, at my
+  request: it had been launched at 4 threads before the 2-thread rule and could not be signalled from
+  the sandbox. Everything since has run at 2 threads. The `pkill` also killed two of my monitoring
+  cells whose command lines held the same string; nothing was lost.
+- **The 01:45 UTC disk drop was Pete's**, not a module's, and is fixed. Free space is 44 GiB.
+- `engine/target-eof/` is my second build directory (149 MB). It is untracked and is not in any commit.
+
+- end of flight
