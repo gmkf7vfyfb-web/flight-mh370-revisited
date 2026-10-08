@@ -498,6 +498,12 @@ impl Aircraft {
 
     /// Air data from the same values `kinematics` uses, so air velocity plus wind is the
     /// ground velocity.
+    /// This path's fuel-flow factor, the multiplier its burn applies to the tables. Read-only:
+    /// the terminal stage prices a descent with the same factor the cruise used.
+    pub fn fuel_factor(&self) -> f64 {
+        self.fuel_factor
+    }
+
     pub fn air_data(&self) -> AirData {
         let (vn, ve, air, wn, we) = self.kinematics();
         AirData {

@@ -212,6 +212,70 @@ pub trait Atmosphere: Sync {
     fn at(&self, unix_s: f64, altitude_ft: f64, latitude_deg: f64, longitude_deg: f64) -> Air;
 }
 
+/// One fuel-flow price from the core's calibrated model (core request 3).
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FuelFlowRate {
+    /// Total flow, both engines, kg/h, with this trajectory's own fuel-flow factor applied
+    /// (its draw from N(1.0085, 0.0178), the factor the cruise burn used).
+    pub kg_h: f64,
+    /// The flow rests on an extrapolation or fallback: Mach outside the bracketing schedules,
+    /// a single schedule, or the drag fit replaced by the nearest tabulated flow. Validated
+    /// against Boeing's Appendix 1.6E to within about 12% there, against 1.0086 +/- 0.0178
+    /// inside the schedules.
+    pub extrapolated: bool,
+    /// Below FL060, priced at FL060 (the tables stop there). The real flow is higher.
+    pub below_tables: bool,
+    /// Above the service ceiling for this weight, priced at the highest level that is covered.
+    pub above_ceiling: bool,
+}
+
+/// The core's fuel-flow model, served to terminal modules by the runner exactly as it serves
+/// [`Atmosphere`]. It is the model the cruise burn used up to the takeover, so a descent that
+/// burns through it re-scores the same aircraft rather than extending it with a second model.
+///
+/// The tables are Boeing's two-engine cruise schedules (LRC, MRC, CI 52, M0.84, holding) at
+/// normal thrust. They are not idle-descent or one-engine-inoperative flows; a module that
+/// models either must say how it derives them from this, or ask for the one-engine tables,
+/// which are in `fuel-tables.json` but not loaded.
+pub trait FuelFlow: Sync {
+    /// Flow at a flight level (hundreds of feet, pressure altitude), gross weight (tonnes) and
+    /// Mach.
+    ///
+    /// **`None` is not zero flow and must never be read as zero.** Burning nothing when the
+    /// tables gave no answer is the defect that inflated cruise endurance for weeks
+    /// (results/fuel-burn-gap.md). `None` means the state cannot be priced at all: an argument
+    /// is not finite, the gross weight is outside the tabulated 140-300 t, or the run has no
+    /// fuel model. A module receiving it must either end the descent and record why in a
+    /// latent, or continue at the last rate it was given and record the seconds so flown in a
+    /// latent. Silently substituting a constant is not allowed.
+    fn fuel_flow_kg_h(&self, flight_level: f64, weight_t: f64, mach: f64) -> Option<FuelFlowRate>;
+}
+
+/// A [`FuelFlow`] that prices nothing, for runs without a fuel model and for tests.
+pub struct NoFuelModel;
+
+impl FuelFlow for NoFuelModel {
+    fn fuel_flow_kg_h(&self, _: f64, _: f64, _: f64) -> Option<FuelFlowRate> {
+        None
+    }
+}
+
+/// What [`Terminal::takeover`] drew, handed back unchanged to [`Terminal::descend_after`]
+/// (core request 2). The runner flies the core dynamics between the two calls, so a module that
+/// recomputes its takeover draw from the state it is given in `descend_after` is recomputing it
+/// from a different aircraft - the core burnt its own fuel and flew its own manoeuvres on the
+/// way. Carry what was drawn here instead.
+#[derive(Debug, Clone, PartialEq, Default)]
+pub struct Takeover {
+    /// The module takeover time, unix seconds, not before the hand-off.
+    pub unix_s: f64,
+    /// ln(prior / proposal) of the draw.
+    pub log_q_correction: f64,
+    /// Whatever the module drew and needs again: e.g. the onset mechanism, the onset lead, the
+    /// support-truncation fraction. Its layout is the module's own; the runner never reads it.
+    pub draw: Vec<f64>,
+}
+
 /// The aircraft where the core dynamics hand over: at the hand-off (00:11) and at the takeover.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct FlightState {
@@ -293,7 +357,16 @@ pub struct Descent {
     pub log_q_correction: f64,
 }
 
-/// The end-of-flight model: from the powered state at the first flame-out to impact.
+/// The end-of-flight model: from the powered state at the module takeover to impact.
+///
+/// The takeover is wherever the module's model says the core dynamics stop applying: the
+/// descent onset under an anticipatory or fuel-cue onset, or the first flame-out. It is not
+/// necessarily a flame-out, and is earlier than any flame-out under an anticipatory onset.
+///
+/// The runner calls [`Terminal::takeover`], flies the core dynamics to the drawn time, then
+/// calls [`Terminal::descend_after`] with the draw. A module implements either the two
+/// required hooks (`takeover_time`, `descend`), which the defaults wire together, or overrides
+/// `takeover` and `descend_after` to carry its draw across and use the core's fuel flow.
 ///
 /// Uniform streams yield draws on the open interval (0, 1). Each call gets a fresh stream,
 /// seeded by (seed, hand-off row, child, purpose).
@@ -308,9 +381,10 @@ pub trait Terminal: Send + Sync {
         Vec::new()
     }
 
-    /// The first flame-out for one child of the trajectory handed off at `handoff`. Returns
-    /// (unix time, not before the hand-off; ln(prior / proposal) of the draw). The runner then
-    /// flies the core dynamics to that time.
+    /// The module takeover time for one child of the trajectory handed off at `handoff`: the
+    /// descent onset or the first flame-out, per the module's model. Returns (unix time, not
+    /// before the hand-off; ln(prior / proposal) of the draw). The runner then flies the core
+    /// dynamics to that time.
     fn takeover_time(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> (f64, f64);
 
     /// One or more independent draws from the module's descent proposal, starting from the
@@ -329,6 +403,31 @@ pub trait Terminal: Send + Sync {
         epochs: &[TerminalEpoch],
         score: &dyn Fn(&[Option<EpochState>]) -> f64,
     ) -> Vec<Descent>;
+
+    /// The takeover draw the runner actually calls. The default wraps [`Terminal::takeover_time`]
+    /// with an empty `draw`; override it to keep latents for [`Terminal::descend_after`].
+    fn takeover(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> Takeover {
+        let (unix_s, log_q_correction) = self.takeover_time(handoff, uniform);
+        Takeover { unix_s, log_q_correction, draw: Vec::new() }
+    }
+
+    /// The descent the runner actually calls: `descend` plus what `takeover` drew, and the
+    /// core's fuel-flow model. `takeover` is the state the core flew to; `drawn` is this child's
+    /// draw, unchanged. The default ignores both and calls [`Terminal::descend`].
+    #[allow(clippy::too_many_arguments)]
+    fn descend_after(
+        &self,
+        takeover: &FlightState,
+        drawn: &Takeover,
+        atmosphere: &dyn Atmosphere,
+        fuel: &dyn FuelFlow,
+        uniform: &mut dyn FnMut() -> f64,
+        epochs: &[TerminalEpoch],
+        score: &dyn Fn(&[Option<EpochState>]) -> f64,
+    ) -> Vec<Descent> {
+        let _ = (drawn, fuel);
+        self.descend(takeover, atmosphere, uniform, epochs, score)
+    }
 }
 
 /// One impact sample, as impact modules see it. It carries no weight: modules return
@@ -351,7 +450,7 @@ pub struct ImpactView<'a> {
     pub vertical_kinetic_energy_j: f64,
     /// Index into the terminal module's families.
     pub family: usize,
-    /// The first flame-out: time and place.
+    /// The module takeover (descent onset or first flame-out, per the module): time and place.
     pub takeover_unix_s: f64,
     pub takeover_latitude_deg: f64,
     pub takeover_longitude_deg: f64,
