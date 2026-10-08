@@ -2,4 +2,49 @@
 base = "../../config/davey2016.toml"
 name = "debris-drift"
 
+# PROVISIONAL ANALYTIC OCEAN, SYNTHETIC FINDS. Code path only: nothing this configuration produces
+# is evidence about MH370. `mode = "evidence"` refuses to construct until crates/ocean exists.
 [hypotheses.debris-drift]
+mode = "stub-synthetic"
+# Source grid, derived from the declared posterior (embedded: no-exhaustion-prior at 00:19:37).
+coverage = 0.99
+spacing_nm = 10.0
+# Stand-in for the descent reach until impact samples exist (Pleiades measured up to 103 NM).
+margin_nm = 100.0
+include_island = false
+particles_per_case = 1000
+seed = 1
+# The 00:19:37 epoch (2014-03-08). First pass releases at the impact point at this time.
+release_unix_s = 1394237977.0
+dt_hours = 6.0
+duration_days = 730.0
+ocean_models = ["provisional-analytic-stub"]
+env_current_scales = [0.9, 1.0, 1.1]
+
+[hypotheses.debris-drift.ocean]
+current_east_mps = -0.2
+current_north_mps = 0.02
+stokes_east_mps = -0.05
+stokes_north_mps = 0.02
+wind_east_mps = -3.0
+wind_north_mps = 2.0
+diffusivity_m2s = 100.0
+coast_lon_deg = 80.0
+
+# Declared uniform priors, persistent per particle. c_wind is drag BEYOND Stokes (rule 10).
+[[hypotheses.debris-drift.classes]]
+name = "low_exposure_exterior"
+a_stokes = [0.5, 1.5]
+c_wind = [0.0, 0.01]
+
+[hypotheses.debris-drift.recovery]
+bandwidth_km = 25.0
+delay = "uniform"
+delay_days = 30.0
+segment_edges_km = [-3000.0, -2500.0, -2000.0, -1500.0, -1000.0, -500.0, 0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0, 3000.0]
+
+[hypotheses.debris-drift.synthetic]
+true_lat_deg = -37.2
+true_lon_deg = 95.0
+finds = 9
+seed = 11
