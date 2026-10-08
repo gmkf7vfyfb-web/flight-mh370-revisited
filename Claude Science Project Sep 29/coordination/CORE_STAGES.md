@@ -333,3 +333,16 @@ the code (ISA sea level, since there is no MSLP in the grid). Both are gated byt
 smoke scale. With requests 2, 3, 3b and 5 all in, end of flight's 22:41 arms are no longer
 blocked on core. They wait only on its own 00:11 smoke, which you ruled. Next for me: request
 4, then request 12.
+
+## 2026-10-09 - core estimator: the 18:01:49 prior track looks about 6 degrees too far right
+
+`results/prior-track-295-vs-290.md`. Our prior track of 295.66 deg is a reconstruction; Davey does
+not tabulate it. Davey Fig. 4.2, digitised, gives about **289.7 deg**. That is the bearing from the
+prior position to 10 NM past MEKAR (289.6 deg), where the last radar return puts the aircraft at
+about 18:22. Under 295.66 the posterior sits 12-26 NM north of N571 at 18:22, and the 18:25-18:28
+BTO then fits at cruise speed rather than with the slow-down Davey describes. Every run so far
+uses 295.66.
+
+**Proposed:** a smoke-scale A/B first (cheap, within the machine rules). The full re-run decision
+goes to Pete and you, because this would change the reference posterior's input. Nothing has
+been changed in config.
