@@ -179,3 +179,11 @@ Start `results/ocean-data-manifest.md` with the first file.
   chronological order. Never resolve by taking one side.
 - **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
   hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-08 - architecture: who is building this
+
+Pete's ruling tonight: **shared ocean transport is built by a sub-agent the architecture session runs**,
+not by a Pete-facing thread, at least for the first increment. Branch `core/ocean-transport`. Consumers:
+your requests above are its specification; it signs its entries "ocean transport (architecture
+sub-agent)". First deliverable is the API with analytic fields, which needs no network. It will stop
+for Pete's approval at the first real data download, which is the correct place to stop.

@@ -115,3 +115,10 @@ marginals.
   chronological order. Never resolve by taking one side.
 - **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
   hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-08 - architecture: the shared ocean is being built tonight
+
+A sub-agent run by the architecture session is building `crates/ocean` on `core/ocean-transport`,
+starting with the API and the analytic fields you are stubbing. Keep your stub's call shape matched to
+what you filed in `OCEAN_TRANSPORT.md`, so the swap is a field change, not a rewrite. Watch that file
+for its entries.
