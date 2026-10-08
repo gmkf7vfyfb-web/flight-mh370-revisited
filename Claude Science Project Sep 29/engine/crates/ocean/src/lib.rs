@@ -14,7 +14,8 @@
 //!    [`integrate::ObjectResponse`].
 //! 2. Every field declares what its "current" already contains ([`products::Contents`]); the
 //!    integrator refuses a composition that counts Stokes drift twice.
-//! 3. Diffusion is a declared, variable model ([`stochastic::Diffusion`]), applied per step.
+//! 3. Diffusion is a declared, variable model ([`stochastic::Diffusion`]), applied per step; the
+//!    diffusivity K is an eta component with a declared prior ([`stochastic::DiffusivityPrior`]).
 //! 4. Ocean error is one coherent realisation per run ([`stochastic::OceanErrorRealisation`]),
 //!    shared by every particle; diffusion is the only per-particle randomness.
 //! 5. Land is renormalised away, never filled with zero ([`field::GridField`]).
@@ -39,12 +40,12 @@ pub mod products;
 pub mod profile;
 pub mod stochastic;
 
-pub use coast::{Coastline, NoCoast, SegmentId, StraightCoast};
+pub use coast::{CoastHit, Coastline, LineId, NoCoast, SegmentEdges, SegmentId, StraightCoast};
 pub use field::{Component, FieldGap, FieldMeta, GridField, VectorField};
 pub use integrate::{integrate, Domain, Event, Fate, Forcing, ObjectResponse, Particle, Refloat, RunOutput, RunSpec, Snapshot};
 pub use products::{Contents, Inclusion, TimeAxis};
 pub use profile::{BelowModelBottom, BottomRelation, Profile, ProfileSource};
-pub use stochastic::{Diffusion, OceanErrorModel, OceanErrorRealisation};
+pub use stochastic::{Diffusion, DiffusivityPrior, OceanErrorModel, OceanErrorRealisation};
 
 /// The name under which the ocean product is declared as a discrete alternative, shared by drift
 /// and Pleiades and marginalised jointly by the composer (brief rule 7).

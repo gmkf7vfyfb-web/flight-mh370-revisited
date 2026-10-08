@@ -11,8 +11,15 @@
 //! travelled through the same ocean, so independent errors per particle would let each object
 //! choose its own ocean (brief rule 4).
 //!
-//! Random streams: particle `i` uses ChaCha8 stream `i`; the ocean-error realisation uses stream
-//! `u64::MAX`. Results are therefore identical for any thread count.
+//! Random streams: particle `i` uses ChaCha8 stream `i`; the ocean-error realisation uses streams
+//! `u64::MAX` and `u64::MAX - 1`; the diffusivity draw uses `u64::MAX - 2`. Results are therefore
+//! identical for any thread count. With `OceanErrorModel::none()` and a fixed diffusion, changing
+//! the run seed changes only the per-particle diffusion (and refloat) streams.
+//!
+//! **Diffusivity is a component of the shared-environment parameter eta** (ruled 9 October): like the
+//! ocean error, it is drawn once per run from a declared prior ([`DiffusivityPrior`]), shared by
+//! every particle and every find, and marginalised jointly by the consumers' Monte Carlo over run
+//! seeds. CSIRO's 5 NM/day random walk is K = 248 m^2/s, not 100.
 
 use crate::{dot, enu_basis, LonLat, EARTH_RADIUS_M, METRES_PER_NM, SECONDS_PER_DAY};
 use rand::{Rng, SeedableRng};
@@ -21,6 +28,7 @@ use rand_distr::StandardNormal;
 use serde::Serialize;
 
 pub(crate) const OCEAN_ERROR_STREAM: u64 = u64::MAX;
+pub(crate) const DIFFUSIVITY_STREAM: u64 = u64::MAX - 2;
 
 pub(crate) fn rng(seed: u64, stream: u64) -> ChaCha8Rng {
     let mut r = ChaCha8Rng::seed_from_u64(seed);
@@ -66,6 +74,48 @@ impl Diffusion {
             Diffusion::None => "none",
             Diffusion::RandomFlight { .. } => "per step, per particle: OU velocity added at both RK2 stages",
             _ => "per step, per particle: Gaussian displacement after the RK2 step",
+        }
+    }
+}
+
+/// Prior on the horizontal diffusivity K, an eta component. One K per run, drawn from the run seed.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub enum DiffusivityPrior {
+    Fixed { k_m2_s: f64 },
+    /// ln K uniform on [ln k_min, ln k_max].
+    LogUniform { k_min_m2_s: f64, k_max_m2_s: f64 },
+}
+
+impl DiffusivityPrior {
+    /// PROVISIONAL default, the same for every product until the drogued-drifter replay
+    /// (deliverable 9) constrains it per product: log-uniform on 30-1000 m^2/s, i.e. a one-day 2-D
+    /// RMS of 1.7-9.9 NM. It spans the archive's 100 m^2/s and CSIRO's 248 m^2/s with room either
+    /// side. The sub-grid diffusivity should depend on the product's resolution (0.25 deg OSCAR
+    /// resolves less of the eddy field than 1/12 deg GLORYS12), so the prior is p(K | ocean-model).
+    pub fn provisional(_ocean_model: &str) -> Self {
+        DiffusivityPrior::LogUniform { k_min_m2_s: 30.0, k_max_m2_s: 1000.0 }
+    }
+    /// The run's diffusion model: Fickian diffusivity with this run's K.
+    pub fn draw(&self, seed: u64) -> Diffusion {
+        match *self {
+            DiffusivityPrior::Fixed { k_m2_s } => Diffusion::Diffusivity { k_m2_s },
+            DiffusivityPrior::LogUniform { k_min_m2_s, k_max_m2_s } => {
+                let u: f64 = rng(seed, DIFFUSIVITY_STREAM).gen();
+                Diffusion::Diffusivity { k_m2_s: (k_min_m2_s.ln() + u * (k_max_m2_s / k_min_m2_s).ln()).exp() }
+            }
+        }
+    }
+    /// Log prior density of K (per m^2/s), for consumers that reweight across draws.
+    pub fn ln_density(&self, k_m2_s: f64) -> f64 {
+        match *self {
+            DiffusivityPrior::Fixed { k_m2_s: k0 } => if k_m2_s == k0 { 0.0 } else { f64::NEG_INFINITY },
+            DiffusivityPrior::LogUniform { k_min_m2_s, k_max_m2_s } => {
+                if k_m2_s >= k_min_m2_s && k_m2_s <= k_max_m2_s {
+                    -(k_m2_s * (k_max_m2_s / k_min_m2_s).ln()).ln()
+                } else {
+                    f64::NEG_INFINITY
+                }
+            }
         }
     }
 }

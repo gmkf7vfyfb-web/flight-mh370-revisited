@@ -11,7 +11,7 @@
 //! then a random-walk displacement after the step if that diffusion model is chosen.
 //! RK2 midpoint on the sphere with a fixed step, shortened to land exactly on output times.
 
-use crate::coast::{Coastline, SegmentId};
+use crate::coast::{Coastline, LineId, SegmentId};
 use crate::field::{Component, FieldGap, VectorField};
 use crate::products::Inclusion;
 use crate::stochastic::{rng, Diffusion, OceanErrorModel, OceanErrorRealisation};
@@ -111,7 +111,7 @@ pub struct RunSpec<'a> {
 
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub enum Event {
-    Beached { t: f64, at: LonLat, segment: SegmentId },
+    Beached { t: f64, at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64 },
     Refloated { t: f64, at: LonLat },
     LeftDomain { t: f64, at: LonLat },
     /// A field had no value: `Land` here means stranded in the product's land mask before the
@@ -125,7 +125,7 @@ pub enum Event {
 pub enum Snapshot {
     NotReleased,
     Afloat(LonLat),
-    Beached { at: LonLat, segment: SegmentId },
+    Beached { at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64 },
     /// The trajectory ended for a reason other than beaching; see the events.
     Ended,
 }
@@ -285,13 +285,13 @@ impl Ctx<'_> {
         };
         let mut flight = [flight_sigma * g.sample::<f64, _>(StandardNormal), flight_sigma * g.sample::<f64, _>(StandardNormal)];
         // Some((point, segment, last sea position)) while beached with refloat on.
-        let mut beached: Option<(LonLat, SegmentId, LonLat)> = None;
+        let mut beached: Option<(Snapshot, LonLat)> = None;
         let r = &particle.response;
         while k < times.len() {
             let target = times[k];
             while t < target - 1e-6 {
                 let dt = spec.step_s.min(target - t);
-                if let Some((_, _, sea)) = beached {
+                if let Some((_, sea)) = beached {
                     let Refloat::RatePerDay(rate) = spec.refloat else { unreachable!() };
                     if g.gen::<f64>() < 1.0 - (-rate * dt / 86_400.0).exp() {
                         beached = None;
@@ -329,15 +329,15 @@ impl Ctx<'_> {
                 }
                 if let Some(hit) = spec.coast.first_crossing(p, pn) {
                     let th = t + hit.fraction * dt;
-                    events.push(Event::Beached { t: th, at: hit.point, segment: hit.segment });
+                    events.push(Event::Beached { t: th, at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m });
+                    let snap = Snapshot::Beached { at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m };
                     match spec.refloat {
                         Refloat::Off => {
-                            snapshots.push(Snapshot::Beached { at: hit.point, segment: hit.segment });
-                            let fill = Snapshot::Beached { at: hit.point, segment: hit.segment };
-                            return end(snapshots, fill, events, Fate::Beached);
+                            snapshots.push(snap);
+                            return end(snapshots, snap, events, Fate::Beached);
                         }
                         Refloat::RatePerDay(_) => {
-                            beached = Some((hit.point, hit.segment, p));
+                            beached = Some((snap, p));
                             p = hit.point;
                             t += dt;
                             continue;
@@ -352,7 +352,7 @@ impl Ctx<'_> {
                 t += dt;
             }
             snapshots.push(match beached {
-                Some((at, segment, _)) => Snapshot::Beached { at, segment },
+                Some((snap, _)) => snap,
                 None => Snapshot::Afloat(p),
             });
             k += 1;
