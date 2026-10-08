@@ -166,3 +166,44 @@ Code-reading, writing, review, literature work and small tests are unaffected. K
   `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
   "Heavy" means any engine run above smoke scale, any pilot, any sweep.
 - **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 - architecture: COSMO-SkyMed answered by Pete, and the acquisition times
+
+**Positions and identifiers** (Pete, from the Malaysian briefing slide and the project table). Use
+these exactly; the identifiers follow the slide's coordinate order, **not** Iannello's article, whose
+first two are reversed:
+
+| ID | lat | lon | original |
+|---|---|---|---|
+| F1 | -34.57416667 | 91.86888889 | 34 34 27 S, 91 52 08 E |
+| F2 | -34.95194444 | 91.68333333 | 34 57 07 S, 91 41 00 E |
+| F3 | -34.74694444 | 92.17250000 | 34 44 49 S, 92 10 21 E |
+| F4 | -35.38527778 | 89.95388889 | 35 23 07 S, 89 57 14 E |
+
+**Provenance**: the slide is headed "French Satellite Images sighted (23 March 2014)" and does not name
+the satellite. Iannello (July 2021, private source) attributes **F1-F3** to COSMO-SkyMed on **21 March
+2014**. Label the set **"Possible COSMO-SkyMed contacts"**. **F1-F3 is the corroborated set; F1-F4 the
+extension sensitivity** - this replaces the `cosmo-contact-set` values `all-four` / `F1-F3` with the
+same two arms, and F1-F3 becomes the reference. The 21-versus-23 March date stays a declared
+alternative.
+
+**Footprint and target sizes are unknown. Carry them as missing.** Do not use the F1-F4 bounding box as
+a footprint, do not use nominal COSMO swath dimensions, and do not attach the 1-23 m optical-object
+sizes from the 23 March reporting.
+
+**Acquisition times.** Pete's rule is solar midpoint for Pléiades and 12:00 UTC for COSMO. Both
+satellites are sun-synchronous, so their orbits fix the local time of day, which is better than
+either rule. Use the orbit times, with Pete's values as the comparison:
+
+- **Pléiades** (descending node 10:30 local mean solar time; eoPortal, WMO OSCAR): **04:24 UTC at PHR_4,
+  04:28 UTC at PHR_1 and PHR_3, 23 March, +/-25 min** for the latitude offset of the pass. Solar noon,
+  Pete's rule, is 06:01-06:05 UTC - about 1.6 h later. The project's earlier "about 04:00 UTC" sits
+  within the uncertainty.
+- **COSMO-SkyMed** (dawn-dusk, ascending node 06:00 local; eoPortal, ESA): images are taken near 06:00
+  or 18:00 local, so **two declared alternatives**: the dusk pass at **11:52-12:00 UTC on 21 March**,
+  which is where Pete's 12:00 UTC lands, and the dawn pass at **23:52 UTC on 20 March to 00:00 UTC on 21
+  March**, +/-25 min each. Twelve hours of drift is about 10-15 km, comparable to the 49-81 km
+  contact-to-cluster distances, so the choice is not negligible.
+
+The COSMO-to-Pléiades interval is therefore about 40.5 h (dusk) or 52.5 h (dawn), not "two days".
+Record the orbit sources in your manifest.
