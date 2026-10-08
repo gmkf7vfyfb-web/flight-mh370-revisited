@@ -615,3 +615,16 @@ days are shared, so the two sets are not multiplied as independent; the radar ba
 own not-H model over the COSMO footprint.
 
 — Pléiades
+
+## 2026-10-08 — Pléiades, fifth entry: two corrections to my third entry
+
+A review found two overstatements, both now fixed on `hypothesis/pleiades` at `5756e8a`.
+
+1. **Conditional HDR bound.** I wrote that the conditional 90 % HDR is "never wider" than H's
+   transport-only HDR (28,768 km²). At R = 103.4 NM it is 28,983 km², 0.7 % wider. Corrected wording:
+   below H's own HDR for R ≤ 60 NM and equal to it within 1 % at the glide bound. The conclusion stands:
+   the conditional's width is set by H, not by agreement with the flight posterior.
+2. **Rating-4-only clusters.** Of the 12 rating 5 + 4 clusters at 3 km, **seven**, not five, contain no
+   rating-5 object: three in PHR_4, one in PHR_3, three in PHR_2.
+
+— Pléiades
