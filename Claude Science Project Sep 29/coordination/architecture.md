@@ -370,3 +370,71 @@ No download over a few MB is planned before question 4 is answered. The IMS data
 publicly, and the IMOS set is on the Drive, so nothing here needs disk.
 
 — hydroacoustics
+## 2026-10-08 — ocean drift, first entry: plan check before anything is built
+
+Session opened today as the Ocean Drift specialist. Read on this branch: `threads/master-prompts/ocean-drift.md`
+(23,512 B, identical to the artifact-store copy), `ISO Sept 28 Status/threads/master-prompts/common.txt`,
+`ARCHITECTURE.md`, both entries in `coordination/OCEAN_DRIFT.md` (7 Oct and 8 Oct), `OCEAN_TRANSPORT.md`
+including settling's request, and `results/impact-interface-requirements.md` §2 and §6. Nothing is
+built and nothing is downloaded.
+
+### Taken as already ruled — say so only if a reading is wrong
+
+1. `crates/ocean` is not mine; no product choice; interface requests go to `OCEAN_TRANSPORT.md`
+   (appended today, alongside this entry).
+2. Deliverable order: plan, critical review, then the pilot (99% extent, 10 NM, 1e4 per cell), and no
+   production sizing before the pilot's three numbers exist.
+3. First pass releases at the impact point at impact time, no family-dependent release, no
+   resurfacing — so open item 5 (drift downstream of settling) binds the **refinement**, not the
+   first pass. When it binds, I take settling's float partition; I will not define a second one.
+4. Branch `hypothesis/debris-drift` cut from `claude-science-sep29`; `make scope H=debris-drift`
+   checked against the working branch per core request 11, file list verified by hand.
+5. Downloads: none until the shared transport owner exists — the same default settling proposed in
+   its question 6. Pete is being asked for the two data-service logins now so that provisioning is
+   not then waiting on account creation; holding a login is not the same as downloading.
+6. The critical review is written to the project-level `results/debris-drift-review.md`, not inside
+   `engine/`.
+
+### Seven questions
+
+1. **What does the pilot size its extent from?** §5 derives the grid from the impact posterior, and
+   there is no impact posterior: end of flight is on a smoke hand-off, and `arc-kernel` returns
+   plumbing. Proposal: size the pilot from the **core 00:11 posterior projected onto the 7th arc**,
+   labelled provisional, with extent and spacing as config so the module re-points at real
+   `impacts.npy` without a rewrite. Which run directory is the canonical source of the
+   −37.225° median / [−37.85, −37.00] / [−38.35, −35.50] quoted in my brief? I want to cite the
+   run, not the brief.
+2. **Stub scope.** Your 8 Oct ruling forbids advection "not temporarily", and also permits a stub in
+   my own directory. These meet at one point and I want it ruled rather than inferred. What I
+   propose: `hypotheses/debris-drift/src/provisional_analytic_ocean.rs` — closed-form fields only
+   (uniform current, solid-body gyre, an isotropic random walk with known RMS), a straight-line
+   coast, no data access, no interpolation of gridded fields, every output labelled provisional.
+   It integrates particles, which is advection in the narrow sense; its purpose is the §11 analytic
+   tests and exercising the source-grid, interpolation-of-relative-likelihood and
+   recovery-observation layers so that the pilot becomes a field swap. It never touches a
+   reanalysis product and is deleted when the shared API lands. In or out?
+3. **The evidence table lives only in the frozen tree** —
+   `ISO Sept 28 Status/inputs/recovered-v01/.sources/ocean-drift-input-preparation/inputs/debris-evidence-audit.csv`,
+   41 rows, sha256 `f8ab96a9…5a332f69`, 9 rows flagged `stringent_nine`. Proposal: copy it
+   byte-identical into `hypotheses/debris-drift/data/`, record the sha256 and source path in
+   `lib.rs`, frozen copy untouched. Confirm, or name another home.
+4. **Find episodes (brief §14.3).** The grouping fixes the marginalisation structure of rule 8, so it
+   is not mine to decide alone. Offer: I draft a grouping proposal for the stringent nine — by
+   parent component, coast segment and discovery interval, with the Mossel Bay date conflict
+   carried both ways — as part of the review, for your ruling. Agree that sequence?
+5. **Island patch (§14.4).** Proposal: a labelled sensitivity, not default, as the brief leans —
+   the gap at 31.5–34.5°S holds 0.38% of mass and the patch roughly doubles cell count.
+6. **Drifter replay — whose?** The archive's GDP replay split by drogue state validated the
+   *transport*, and it caught a real bug. Proposal: drogued (water-following) replay belongs to
+   the shared transport owner's test suite, because it tests fields and integrator; the undrogued
+   and windage comparison stays with drift, because it tests object response. Otherwise both
+   modules will write one.
+7. **When does `crates/ocean` get an owner?** The pilot is blocked on it, as are settling and
+   Pleiades. Is there a date, or should I raise it with Pete as the critical-path item it now is?
+
+### Not waiting on any of this
+
+The critical review (deliverable 2) and the §11 hand-computed fixtures depend on none of the above
+and start now.
+
+— ocean drift

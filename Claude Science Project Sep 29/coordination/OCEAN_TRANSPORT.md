@@ -82,3 +82,71 @@ contains `hypotheses/settling/environment.rs` (274 lines, a `Bathymetry` and a d
 They are evidence of the requirement, not a proposed interface, and I am not porting them.
 
 - ocean settling
+
+## 2026-10-08 - interface request from ocean drift (surface transport of floating objects)
+
+What drift needs from `crates/ocean`, per the 8 Oct ruling in my inbox. Written before any code, so
+it states the requirement rather than an implementation. No product is requested.
+
+**The call I need is a batch forward integrator, not a field sampler.** Given N particles, each
+with a release position, release time and a **persistent per-particle object-response vector**,
+integrate forward for up to 730 days and return (a) positions at caller-chosen output times and (b)
+termination events — beaching with a coast-segment ID and time, leaving the domain, and NaN fields
+flagged as such. Since advection is yours, the integrator has to be yours; drift supplies the
+object response and consumes the trajectories.
+
+**Velocity components must reach the integrator separately, never pre-summed.**
+`v = u_current + a_stokes * u_stokes + c_wind * U10 + diffusion`, with `a_stokes` and `c_wind`
+per particle and persistent (or evolving under a declared model — never redrawn per step). Two
+reasons. The measured sensitivity in my inbox: scaling Stokes by 0.5/1/1.5 moved the drift mode
+11.9 -> 18.0 -> 34.9 deg S while changing the current product moved it 1.2 deg, so object response
+is the dominant axis and has to be integrated per object class inside the likelihood. And
+double-counting: an empirically fitted leeway may already absorb Stokes (arXiv:2005.09527), and
+OSCAR v2 carries its own wind-driven term. **So each product needs a metadata declaration of what
+its "current" already contains** — Ekman, Stokes, tides, inertial — so a consumer can refuse a
+composition that counts a component twice.
+
+**Diffusion as a declared, variable model.** The archive used 100 m^2/s; CSIRO used a 5 NM/day
+random walk; neither was tested and the answer is sensitive to it. Expose the diffusivity (or walk
+rate) as a parameter, and say whether it is applied per step or per field cell.
+
+**Coastline and the land rule.** A coastline that keeps Reunion, Mauritius and Rodrigues — the
+1:110m mask dropped Reunion, where the first confirmed piece was found. Beaching returns a segment
+ID on a segmentation I can map the evidence table onto. The archive's field rule carries over:
+**renormalise across land, never fill with zero.** A refloat hook (probability per unit time
+after beaching), off by default, for the refinement.
+
+**Domain, time, resolution.** Source region along the 7th arc, about 26-40 deg S, roughly
+92-106 deg E (to be re-derived from the impact posterior); destination coasts from Tanzania
+(5 deg S) to Mossel Bay (34 deg S, 22 deg E) and the whole Western Australian coast for the
+non-recovery term. So about 15-120 deg E, 0-50 deg S. Time: 8 Mar 2014 to at least 30 Sep 2016
+(the latest stringent-set find is 23 Jun 2016). Daily fields or better; a 6 h step matched to the
+GDP drifter cadence.
+
+**Throughput and footprint.** The pilot is ~11 M trajectories x 2,920 steps (730 d at 6 h, RK2);
+the brief assumed 2e7 field evaluations per second per core over 16 cores. Please report the
+achieved figure — it is one of the three numbers my pilot exists to measure. Indicative
+**uncompressed float32 surface-only** footprint over that box and period (937 days), all cells:
+GLORYS12 u,v daily 5.7 GB; WAVERYS Stokes 3-hourly 7.9 GB; ERA5 10 m wind 6-hourly 2.5 GB;
+BRAN2016 u,v daily 3.9 GB; OSCAR v2 u,v daily 0.6 GB. About 20 GB for all five, against ~45 GiB
+free, before any full-depth fields for settling.
+
+**Repeatability across products.** Same as settling: the product is a run argument, and the
+alternative is declared as `ocean-model`, shared with Pleiades and marginalised jointly by the
+composer. One coherent environmental realisation per run across all particles — every recovered
+object travelled through the same ocean (rule 8 of my brief) — so ocean error must not be
+independent per particle.
+
+**Shared with Pleiades.** Object positions on 23 Mar 2014, and on the 2014 aerial-search dates,
+come from the same call with different output times.
+
+**Proposed split of validation.** Drogued-drifter GDP replay tests fields and integrator, so it is
+yours; undrogued and windage comparisons test object response and stay with drift. Raised with
+architecture for ruling.
+
+**Stub disclosed.** Pending a ruling, I propose a provisional analytic stub in my own directory —
+closed-form fields only, no data, no gridded interpolation — for tests and plumbing. It assumes
+exactly the call shape above: batch release, persistent per-particle (a_stokes, c_wind), separate
+components, segment-ID beaching. Reject any of those assumptions here rather than inherit them.
+
+- ocean drift
