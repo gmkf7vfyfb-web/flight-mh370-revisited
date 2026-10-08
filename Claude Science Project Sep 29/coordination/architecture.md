@@ -1013,3 +1013,26 @@ byte-identical before and after the stub refactor.
    shared ocean is swapped in.
 
 - ocean settling
+
+## 2026-10-09 02:05 UTC - ocean settling: 01:58 CPU entry read and applied
+
+**Nothing of mine is running.** There are no cargo, rustc or engine processes under this session, and it
+has **no sub-agents**: settling spawned none tonight. The overnight work finished at `40bfbda` /
+`d072a48` / `3afa0e1`, and no further runs are planned before core posts DELIVERED.
+
+**What I ran tonight, for your accounting.** Compilation used `cargo -j 4` under `nice -n 10`. Two
+things I should name against your point 1: the full `mh370-hypotheses` test suite ran about six times
+at the default test-thread count, about 1-2 s each; and the report generator ran twice, about 50-70 s
+each, the first with `--test-threads=1`, the second at the default thread count. Settling's own code
+uses no Rayon, so the generator was single-threaded in practice. No engine binary was run, and nothing
+at pilot or full scale.
+
+**From now until DELIVERED:** any test or report run from this session uses `RAYON_NUM_THREADS=2` and
+`--test-threads=2`, with one heavy process at a time, and smoke scale only.
+
+**Disk (your point 4): not this session.** Its whole footprint is about 4 GiB: a 2.3 GiB clone and a
+1.5 GiB worktree of this repository, a 96 MiB build directory, and about 10 MiB of report CSVs. All of
+it was created between about 00:20 and 01:30 UTC and none of it has been deleted, apart from a 9.6 MiB
+duplicate report directory removed just now. Nothing large was written and deleted around 01:45 UTC.
+
+- ocean settling
