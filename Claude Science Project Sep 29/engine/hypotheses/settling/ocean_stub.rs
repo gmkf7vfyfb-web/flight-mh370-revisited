@@ -23,55 +23,139 @@
 
 use serde::Deserialize;
 
-/// One depth level of a profile.
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct Level {
-    pub depth_m: f64,
-    pub east_mps: f64,
-    pub north_mps: f64,
-    /// In-situ density (kg/m3).
-    pub density_kg_m3: f64,
+/// Mirrors `mh370_ocean::profile::VerticalVelocity` on `core/ocean-transport` (311e481).
+/// `Present` is never built by the stub; it exists so the call shape matches the shared crate.
+#[allow(dead_code)]
+#[derive(Debug, Clone, PartialEq)]
+pub enum VerticalVelocity {
+    /// The product has no resolved vertical velocity. Not zero.
+    Absent,
+    /// m/s, positive upward, one per level.
+    Present(Vec<f64>),
 }
 
-/// A water column at one place and time, surface first.
+/// Mirrors `mh370_ocean::profile::BelowModelBottom`: the caller chooses and varies it, and the
+/// choice is reported. No variant fills with zero by default.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum BelowModelBottom {
+    Refuse,
+    /// Hold the deepest model level's velocity down to the seabed.
+    HoldDeepestLevel,
+    /// Deepest level's velocity at the model bottom, decreasing linearly to zero at the seabed.
+    LinearToZeroAtSeabed,
+}
+
+impl BelowModelBottom {
+    pub fn parse(name: &str) -> Result<Self, String> {
+        match name {
+            "refuse" => Ok(Self::Refuse),
+            "hold-deepest-level" => Ok(Self::HoldDeepestLevel),
+            "linear-to-zero-at-seabed" => Ok(Self::LinearToZeroAtSeabed),
+            other => Err(format!("below_model_bottom: unknown rule `{other}`; known: refuse, hold-deepest-level, linear-to-zero-at-seabed")),
+        }
+    }
+}
+
+/// Mirrors `mh370_ocean::profile::DepthSample` (status reduced to a flag).
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct DepthSample {
+    pub u_east: f64,
+    pub v_north: f64,
+    /// `None` when the product has no vertical velocity.
+    pub w_up: Option<f64>,
+    /// True when the value was extrapolated below the model bottom by the caller's rule.
+    pub extrapolated: bool,
+}
+
+/// Mirrors `mh370_ocean::profile::DepthGap`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum DepthGap {
+    AboveSurface,
+    BelowSeabed { seabed_m: f64 },
+    BelowModelBottom { model_bottom_m: f64 },
+}
+
+/// One water column, surface first. Field names follow `mh370_ocean::profile::Profile` so the
+/// swap is a field change. Two STUB-ONLY extras, both to be removed at the swap:
+/// `density_kg_m3` (the shared profile carries T, S and p; in-situ density will come from its
+/// TEOS-10 layer, deliverable 8), and the surface current and wind (the shared crate serves these
+/// through its fields and integrator, not through a profile).
 #[derive(Debug, Clone, PartialEq)]
 pub struct Profile {
-    pub levels: Vec<Level>,
-    /// The ocean model's own bottom at this column (m): below it the current is extrapolated.
+    pub depth_m: Vec<f64>,
+    pub u_east: Vec<f64>,
+    pub v_north: Vec<f64>,
+    pub w_up: VerticalVelocity,
     pub model_bottom_m: f64,
-    /// False: the product resolves no vertical velocity. Never read as zero.
-    pub vertical_velocity_present: bool,
-    /// Surface current and 10 m wind (m/s), for elements that float before sinking.
+    pub density_kg_m3: Vec<f64>,
     pub surface_current_mps: [f64; 2],
     pub wind_mps: [f64; 2],
 }
 
 impl Profile {
-    /// Current and density at depth z, linear between levels and held beyond the last level
-    /// that is not below the model bottom. Returns (current, density, below_model_bottom).
-    pub fn at(&self, z: f64) -> ([f64; 2], f64, bool) {
-        let below = z > self.model_bottom_m;
-        let zq = z.min(self.model_bottom_m);
-        let l = &self.levels;
-        let i = l.partition_point(|v| v.depth_m <= zq);
-        let (a, b) = if i == 0 {
-            (l[0], l[0])
-        } else if i >= l.len() {
-            (l[l.len() - 1], l[l.len() - 1])
-        } else {
-            (l[i - 1], l[i])
+    /// Same semantics as the shared `Profile::at_depth`: linear between levels, nearest level held
+    /// above the first and between the deepest level and the model bottom; below the model bottom
+    /// the caller's rule applies, or the query is refused. (A second copy of that function, which
+    /// is acceptable only because this file is deleted at the swap.)
+    pub fn at_depth(&self, z_m: f64, seabed_m: Option<f64>, rule: BelowModelBottom) -> Result<DepthSample, DepthGap> {
+        if z_m < 0.0 {
+            return Err(DepthGap::AboveSurface);
+        }
+        if let Some(s) = seabed_m {
+            if z_m > s {
+                return Err(DepthGap::BelowSeabed { seabed_m: s });
+            }
+        }
+        let w = match &self.w_up {
+            VerticalVelocity::Absent => None,
+            VerticalVelocity::Present(w) => Some(w.as_slice()),
         };
-        let f = if b.depth_m > a.depth_m { (zq - a.depth_m) / (b.depth_m - a.depth_m) } else { 0.0 };
-        let lerp = |x: f64, y: f64| x + f * (y - x);
-        // Density keeps its pressure trend below the model bottom (z, not zq).
-        let rho = if below && l.len() > 1 {
-            let (p, q) = (l[l.len() - 2], l[l.len() - 1]);
-            q.density_kg_m3 + (z - q.depth_m) * (q.density_kg_m3 - p.density_kg_m3) / (q.depth_m - p.depth_m)
-        } else {
-            lerp(a.density_kg_m3, b.density_kg_m3)
+        if z_m <= self.model_bottom_m {
+            let (i, f) = bracket(&self.depth_m, z_m);
+            let lerp = |v: &[f64]| v[i] + f * (v[(i + 1).min(v.len() - 1)] - v[i]);
+            return Ok(DepthSample { u_east: lerp(&self.u_east), v_north: lerp(&self.v_north), w_up: w.map(lerp), extrapolated: false });
+        }
+        let gap = DepthGap::BelowModelBottom { model_bottom_m: self.model_bottom_m };
+        // The deepest level at or above the model bottom.
+        let last = self.depth_m.partition_point(|&d| d <= self.model_bottom_m).max(1) - 1;
+        let factor = match (rule, seabed_m) {
+            (BelowModelBottom::Refuse, _) => return Err(gap),
+            (BelowModelBottom::HoldDeepestLevel, _) => 1.0,
+            (BelowModelBottom::LinearToZeroAtSeabed, Some(s)) => (s - z_m) / (s - self.model_bottom_m),
+            (BelowModelBottom::LinearToZeroAtSeabed, None) => return Err(gap),
         };
-        ([lerp(a.east_mps, b.east_mps), lerp(a.north_mps, b.north_mps)], rho, below)
+        Ok(DepthSample {
+            u_east: factor * self.u_east[last],
+            v_north: factor * self.v_north[last],
+            w_up: w.map(|w| factor * w[last]),
+            extrapolated: true,
+        })
     }
+
+    /// STUB-ONLY: in-situ density at depth, linear between levels and continued on the deepest
+    /// pair's gradient below the last level.
+    pub fn density_at(&self, z_m: f64) -> f64 {
+        let (d, r) = (&self.depth_m, &self.density_kg_m3);
+        let n = d.len();
+        if n > 1 && z_m > d[n - 1] {
+            return r[n - 1] + (z_m - d[n - 1]) * (r[n - 1] - r[n - 2]) / (d[n - 1] - d[n - 2]);
+        }
+        let (i, f) = bracket(d, z_m);
+        r[i] + f * (r[(i + 1).min(n - 1)] - r[i])
+    }
+}
+
+/// Lower level index and fraction toward the next; clamps above the first and below the last.
+fn bracket(depths: &[f64], z: f64) -> (usize, f64) {
+    let n = depths.len();
+    if n == 1 || z <= depths[0] {
+        return (0, 0.0);
+    }
+    if z >= depths[n - 1] {
+        return (n - 1, 0.0);
+    }
+    let i = depths.partition_point(|&d| d <= z) - 1;
+    (i, (z - depths[i]) / (depths[i + 1] - depths[i]))
 }
 
 /// The declared, variable model of what the product does not resolve: one realisation per
@@ -158,24 +242,17 @@ impl AnalyticStub {
 
 impl ProvisionalOcean for AnalyticStub {
     fn profile(&self, _latitude_deg: f64, _longitude_deg: f64, _unix_s: f64) -> Option<Profile> {
-        // Levels every 50 m to 8 km, each layer constant; a level exactly at the interface takes
-        // the deep value so the step is resolved to within one level.
-        let levels = (0..=160)
-            .map(|k| {
-                let z = 50.0 * k as f64;
-                let c = if z < self.layer_depth_m { self.upper_current_mps } else { self.deep_current_mps };
-                Level {
-                    depth_m: z,
-                    east_mps: c[0],
-                    north_mps: c[1],
-                    density_kg_m3: self.surface_density_kg_m3 + self.density_gradient_kg_m3_per_km * z / 1000.0,
-                }
-            })
-            .collect();
+        // Levels every 50 m to 8 km; a level exactly at the interface takes the deep value, so
+        // with linear interpolation the interface is smeared over the 50 m above it.
+        let depth_m: Vec<f64> = (0..=160).map(|k| 50.0 * k as f64).collect();
+        let layer = |z: f64| if z < self.layer_depth_m { self.upper_current_mps } else { self.deep_current_mps };
         Some(Profile {
-            levels,
+            u_east: depth_m.iter().map(|&z| layer(z)[0]).collect(),
+            v_north: depth_m.iter().map(|&z| layer(z)[1]).collect(),
+            density_kg_m3: depth_m.iter().map(|&z| self.surface_density_kg_m3 + self.density_gradient_kg_m3_per_km * z / 1000.0).collect(),
+            depth_m,
+            w_up: VerticalVelocity::Absent,
             model_bottom_m: self.model_bottom_m,
-            vertical_velocity_present: false,
             surface_current_mps: self.surface_current_mps,
             wind_mps: self.wind_mps,
         })

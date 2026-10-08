@@ -65,9 +65,10 @@
 //!    or bathymetry is PROVISIONAL until `crates/ocean` lands, and every output carries the
 //!    stub's label. The profile is taken at the release point and held for the descent (column
 //!    assumption); time is frozen within a descent.
-//! 8. Below the ocean model's bottom the deepest modelled current is continued times an explicit
-//!    factor (default 1, hold), and the extrapolated depth is reported per element. A zero is
-//!    never substituted silently.
+//! 8. Below the ocean model's bottom one of the shared crate's three explicit rules applies
+//!    (default `hold-deepest-level`; `linear-to-zero-at-seabed` and `refuse` are the declared
+//!    alternatives), and the extrapolated depth range is reported per element. A zero is never
+//!    substituted silently; `refuse` leaves the element not computed.
 //! 9. Vertical velocity: the stub reports none. It is flagged absent and not read as zero; the
 //!    descent uses w alone.
 //!
@@ -81,8 +82,8 @@ mod physics;
 
 use breakup::{Breakup, FAMILIES};
 use hypothesis::{Hypothesis, ImpactView};
-use ocean_stub::{AnalyticStub, ErrorModel, Profile, ProvisionalOcean};
-use physics::{Extrapolation, OceanRealisation, Rng, Sinker, Terms};
+use ocean_stub::{AnalyticStub, BelowModelBottom, ErrorModel, Profile, ProvisionalOcean};
+use physics::{OceanRealisation, Rng, Sinker, Terms};
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -96,8 +97,9 @@ struct Params {
     /// estimate; the report turns them off one at a time.
     #[serde(default = "all_terms")]
     terms: Vec<String>,
-    /// Current below the ocean model's own bottom = deepest modelled current x this factor.
-    below_model_bottom_factor: f64,
+    /// Below the ocean model's own bottom: `hold-deepest-level`, `linear-to-zero-at-seabed` or
+    /// `refuse` (the shared crate's three rules).
+    below_model_bottom: String,
     /// PROVISIONAL. Deleted when crates/ocean lands.
     provisional_ocean_stub: AnalyticStub,
 }
@@ -195,7 +197,7 @@ pub struct Settling {
     breakup: Breakup,
     ocean: Box<dyn ProvisionalOcean>,
     terms: Terms,
-    extrapolation: Extrapolation,
+    rule: BelowModelBottom,
     step_m: f64,
     moment_draws: usize,
 }
@@ -220,19 +222,19 @@ impl Settling {
         let p: Params = params.clone().try_into().map_err(|e| format!("settling: {e}"))?;
         p.provisional_ocean_stub.check()?;
         let breakup = Breakup::parse(include_str!("breakup.toml"))?;
-        Settling::with(breakup, Box::new(p.provisional_ocean_stub), &p.terms, p.below_model_bottom_factor, p.step_m, p.moment_draws)
+        Settling::with(breakup, Box::new(p.provisional_ocean_stub), &p.terms, BelowModelBottom::parse(&p.below_model_bottom)?, p.step_m, p.moment_draws)
     }
 
-    fn with(breakup: Breakup, ocean: Box<dyn ProvisionalOcean>, terms: &[String], below_factor: f64, step_m: f64, moment_draws: usize) -> Result<Settling, String> {
+    fn with(breakup: Breakup, ocean: Box<dyn ProvisionalOcean>, terms: &[String], rule: BelowModelBottom, step_m: f64, moment_draws: usize) -> Result<Settling, String> {
         if let Some(t) = terms.iter().find(|t| !all_terms().contains(t)) {
             return Err(format!("settling: unknown term `{t}`; known: {:?}", all_terms()));
         }
-        if !(step_m > 0.0 && step_m <= 500.0) || moment_draws == 0 || !(below_factor.is_finite()) {
-            return Err("settling: step_m in (0, 500], moment_draws positive, below_model_bottom_factor finite".into());
+        if !(step_m > 0.0 && step_m <= 500.0) || moment_draws == 0 {
+            return Err("settling: step_m in (0, 500] and moment_draws positive".into());
         }
         let has = |name: &str| terms.iter().any(|t| t == name);
         let terms = Terms { carry: has("carry"), float: has("float"), current: has("current"), glide: has("glide"), ocean_error: has("ocean-error") };
-        Ok(Settling { breakup, ocean, terms, extrapolation: Extrapolation { below_model_bottom_factor: below_factor }, step_m, moment_draws })
+        Ok(Settling { breakup, ocean, terms, rule, step_m, moment_draws })
     }
 
     pub fn classes(&self) -> &[String] {
@@ -356,7 +358,7 @@ impl Settling {
                         row.float_s = t;
                     }
                 }
-                if let Some(landing) = physics::sink(at, &sinker, profile, ocean, error, &self.terms, self.extrapolation, self.step_m, &seabed, rng) {
+                if let Some(landing) = physics::sink(at, &sinker, profile, ocean, error, &self.terms, self.rule, self.step_m, &seabed, rng) {
                     let rest = [at[0] + landing.offset_m[0], at[1] + landing.offset_m[1]];
                     let (lat, lon) = position(rest);
                     row.fate = Fate::Settled;

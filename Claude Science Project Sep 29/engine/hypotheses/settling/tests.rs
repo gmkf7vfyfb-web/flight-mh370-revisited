@@ -79,7 +79,7 @@ fn one_sinker(glide_ratio: f64, glide_memory_m: f64) -> Breakup {
 
 fn settling(b: Breakup, ocean: AnalyticStub, terms: &[&str]) -> Settling {
     let terms: Vec<String> = terms.iter().map(|s| s.to_string()).collect();
-    Settling::with(b, Box::new(ocean), &terms, 1.0, 50.0, 64).unwrap()
+    Settling::with(b, Box::new(ocean), &terms, BelowModelBottom::HoldDeepestLevel, 50.0, 64).unwrap()
 }
 
 const W: f64 = 3.021152;
@@ -165,19 +165,22 @@ fn sloping_seabed_is_met_where_the_element_is() {
 
 #[test]
 fn below_model_bottom_is_extrapolated_explicitly_and_recorded() {
-    // Model bottom 3,000 m over a 4,000 m seabed, deep current 0.1 m/s east.
+    // Model bottom 3,000 m over a 4,000 m seabed, deep current 0.1 m/s east (deep layer from
+    // 1,000 m, smeared over 950-1,000 m by the level interpolation: effective interface 975 m).
+    // Hold: 0.1 x (4000 - 975) / w = 100.1274 m.
+    // Linear to zero at the seabed: 0.1 x (3000 - 975) / w + 0.1 x 1000 x 0.5 / w = 83.5774 m
+    // (the mid-step rule integrates a linear ramp exactly).
+    // Refuse: not computed.
     let mut o = stub();
     o.model_bottom_m = 3000.0;
     o.deep_current_mps = [0.1, 0.0];
     let terms: Vec<String> = vec!["current".into()];
-    let hold = Settling::with(one_sinker(0.0, 1.0), Box::new(o.clone()), &terms, 1.0, 50.0, 8).unwrap();
-    let zero = Settling::with(one_sinker(0.0, 1.0), Box::new(o), &terms, 0.0, 50.0, 8).unwrap();
-    let (a, b) = (hold.emit(&impact(5, 50.0, 80.0), 1).unwrap(), zero.emit(&impact(5, 50.0, 80.0), 1).unwrap());
-    // The deep layer starts at 1,000 m in the stub, smeared over 950-1,000 m by the level
-    // interpolation (effective interface 975 m, see the two-layer test). Hold:
-    // 0.1 x (4000 - 975) / w = 100.1274 m; explicit zero: 0.1 x (3000 - 975) / w = 67.0274 m.
-    assert!((a[0].east_m - 100.1274).abs() < 0.001 && (b[0].east_m - 67.0274).abs() < 0.001, "{:?} {:?}", a[0], b[0]);
-    assert!((a[0].below_model_bottom_m - 1000.0).abs() < 1e-9);
+    let run = |rule| Settling::with(one_sinker(0.0, 1.0), Box::new(o.clone()), &terms, rule, 50.0, 8).unwrap().emit(&impact(5, 50.0, 80.0), 1).unwrap();
+    let (hold, ramp, refuse) = (run(BelowModelBottom::HoldDeepestLevel), run(BelowModelBottom::LinearToZeroAtSeabed), run(BelowModelBottom::Refuse));
+    assert!((hold[0].east_m - 100.1274).abs() < 0.001, "{:?}", hold[0]);
+    assert!((ramp[0].east_m - 83.5774).abs() < 0.001, "{:?}", ramp[0]);
+    assert!((hold[0].below_model_bottom_m - 1000.0).abs() < 1e-9);
+    assert!(refuse.iter().all(|r| r.fate == Fate::NotComputed && r.east_m.is_nan()));
 }
 
 /// Mean square glide offset against 2 G^2 l^2 (x - 1 + exp(-x)), x = H / l, in both regimes of
@@ -307,4 +310,101 @@ fn run_toml_constructs_and_predict_fills_or_refuses() {
     bad.mass_kg = f64::NAN;
     h.predict(&bad, &mut out);
     assert!(out.iter().all(|x| x.is_nan()));
+}
+
+/// Report generator, not a test: `SETTLING_REPORT_DIR=<dir> cargo test --release -p
+/// mh370-hypotheses settling::tests::report -- --ignored`. Writes the sensitivity summary and the
+/// baseline element samples behind the report page. Every number depends on the PROVISIONAL
+/// ocean stub (run.toml) and is labelled so in the page.
+#[test]
+#[ignore]
+fn report() {
+    use std::io::Write;
+    let dir = std::path::PathBuf::from(std::env::var("SETTLING_REPORT_DIR").expect("set SETTLING_REPORT_DIR"));
+    std::fs::create_dir_all(&dir).unwrap();
+    let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
+    let base: AnalyticStub = table["hypotheses"]["settling"]["provisional_ocean_stub"].clone().try_into().unwrap();
+    let draws = 256;
+    let imp = impact(1, 60.0, 150.0);
+    let all = ["carry", "float", "current", "glide", "ocean-error"];
+    let scale = |b: &mut Breakup, f: f64| {
+        for row in b.elements.iter_mut() {
+            for e in row.iter_mut() {
+                e.areal_density_kg_m2 = Range { lo: e.areal_density_kg_m2.lo * f, hi: e.areal_density_kg_m2.hi * f, log: e.areal_density_kg_m2.log };
+            }
+        }
+    };
+    // (label, terms, ocean edit, breakup edit)
+    type OceanEdit = fn(&mut AnalyticStub);
+    let variants: Vec<(&str, Vec<&str>, OceanEdit, f64)> = vec![
+        ("baseline", all.to_vec(), |_| {}, 1.0),
+        ("no current", vec!["carry", "float", "glide", "ocean-error"], |_| {}, 1.0),
+        ("current x2", all.to_vec(), |o| {
+            o.upper_current_mps = o.upper_current_mps.map(|x| 2.0 * x);
+            o.deep_current_mps = o.deep_current_mps.map(|x| 2.0 * x);
+        }, 1.0),
+        ("deep current reversed (stub B)", all.to_vec(), |o| o.deep_current_mps = o.deep_current_mps.map(|x| -x), 1.0),
+        ("no ocean error", vec!["carry", "float", "current", "glide"], |_| {}, 1.0),
+        ("no glide", vec!["carry", "float", "current", "ocean-error"], |_| {}, 1.0),
+        ("no float (sink at contact)", vec!["carry", "current", "glide", "ocean-error"], |_| {}, 1.0),
+        ("no carry", vec!["float", "current", "glide", "ocean-error"], |_| {}, 1.0),
+        ("sink rate x0.5 (s x0.25)", all.to_vec(), |_| {}, 0.25),
+        ("sink rate x2 (s x4)", all.to_vec(), |_| {}, 4.0),
+    ];
+    let mut summary = std::fs::File::create(dir.join("sensitivity.csv")).unwrap();
+    writeln!(summary, "variant,depth_m,family,class,settled_share,median_offset_m,p90_offset_m,median_descent_s,p90_descent_s,field_p90_radius_m,rows_per_draw").unwrap();
+    let mut samples = std::fs::File::create(dir.join("baseline_samples.csv")).unwrap();
+    writeln!(samples, "depth_m,family,class,draw,fate,multiplicity,piece_area_m2,east_m,north_m,descent_s,mean_sink_mps").unwrap();
+    for depth in [3000.0, 4000.0, 5000.0] {
+        for (label, terms, edit, s_scale) in &variants {
+            let mut o = base.clone();
+            o.seabed_depth_m = depth;
+            edit(&mut o);
+            let mut b = Breakup::parse(include_str!("breakup.toml")).unwrap();
+            scale(&mut b, *s_scale);
+            let st = settling(b, o, terms);
+            for f in 0..3 {
+                let rows = st.emit_with(&imp, 0..draws, 1.0 / draws as f64, Some(f)).unwrap();
+                let per_draw = rows.len() as f64 / draws as f64;
+                // Field extent: per draw, the piece-weighted 90% radius of settled pieces about
+                // their centroid; reported as the median over draws.
+                let mut radii: Vec<(f64, f64)> = Vec::new();
+                for d in 0..draws as u32 {
+                    let r: Vec<_> = rows.iter().filter(|r| r.draw == d && r.fate == Fate::Settled).collect();
+                    let w: f64 = r.iter().map(|r| r.multiplicity).sum();
+                    if w > 0.0 {
+                        let (ce, cn) = (r.iter().map(|r| r.multiplicity * r.east_m).sum::<f64>() / w, r.iter().map(|r| r.multiplicity * r.north_m).sum::<f64>() / w);
+                        radii.push((quantile(r.iter().map(|r| ((r.east_m - ce).hypot(r.north_m - cn), r.multiplicity)).collect(), 0.9), 1.0));
+                    }
+                }
+                let field = quantile(radii, 0.5);
+                for (c, class) in st.classes().iter().enumerate() {
+                    let cls: Vec<_> = rows.iter().filter(|r| r.class as usize == c).collect();
+                    let all_w: f64 = cls.iter().map(|r| r.multiplicity).sum();
+                    let set: Vec<_> = cls.iter().filter(|r| r.fate == Fate::Settled).collect();
+                    let w: f64 = set.iter().map(|r| r.multiplicity).sum();
+                    let dist: Vec<(f64, f64)> = set.iter().map(|r| (r.east_m.hypot(r.north_m), r.multiplicity)).collect();
+                    let t: Vec<(f64, f64)> = set.iter().map(|r| (r.descent_s, r.multiplicity)).collect();
+                    writeln!(
+                        summary,
+                        "{label},{depth},{},{class},{:.6},{:.3},{:.3},{:.1},{:.1},{:.3},{:.2}",
+                        FAMILIES[f],
+                        w / all_w,
+                        quantile(dist.clone(), 0.5),
+                        quantile(dist, 0.9),
+                        quantile(t.clone(), 0.5),
+                        quantile(t, 0.9),
+                        field,
+                        per_draw
+                    )
+                    .unwrap();
+                }
+                if *label == "baseline" {
+                    for r in &rows {
+                        writeln!(samples, "{depth},{},{},{},{},{:.4},{:.4},{:.3},{:.3},{:.1},{:.4}", FAMILIES[f], st.classes()[r.class as usize], r.draw, r.fate as u8, r.multiplicity, r.piece_area_m2, r.east_m, r.north_m, r.descent_s, r.mean_sink_mps).unwrap();
+                    }
+                }
+            }
+        }
+    }
 }

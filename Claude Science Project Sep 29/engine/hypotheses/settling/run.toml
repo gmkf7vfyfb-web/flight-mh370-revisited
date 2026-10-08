@@ -8,9 +8,9 @@ name = "settling"
 moment_draws = 256
 step_m = 50.0
 terms = ["carry", "float", "current", "glide", "ocean-error"]
-# Current below the ocean model's own bottom = deepest modelled current x this factor.
-# 1 holds it. 0 would be an explicit zero, recorded as such, never a silent default.
-below_model_bottom_factor = 1.0
+# Below the ocean model's own bottom: hold-deepest-level | linear-to-zero-at-seabed | refuse
+# (the shared crate's three rules). Never a silent zero.
+below_model_bottom = "hold-deepest-level"
 
 # ---------------------------------------------------------------------------------------------
 # PROVISIONAL OCEAN STUB. NOT AN OCEAN PRODUCT AND NOT A MEASUREMENT OF THE REGION.

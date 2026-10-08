@@ -9,7 +9,7 @@
 
 use serde::Deserialize;
 
-use super::ocean_stub::{ErrorModel, Profile};
+use super::ocean_stub::{BelowModelBottom, ErrorModel, Profile};
 
 /// Standard gravity (m/s2).
 pub const GRAVITY: f64 = 9.80665;
@@ -175,13 +175,6 @@ impl OceanRealisation {
     }
 }
 
-/// How the current is continued below the ocean model's own bottom: the deepest modelled current
-/// times `factor`. 1 holds it; 0 is an EXPLICIT zero, chosen and recorded, never a default fill.
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct Extrapolation {
-    pub below_model_bottom_factor: f64,
-}
-
 /// Where and when a sinking element first touches the seabed, from its release point.
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Landing {
@@ -243,7 +236,7 @@ pub fn sink(
     ocean: &OceanRealisation,
     error: &ErrorModel,
     terms: &Terms,
-    extrapolation: Extrapolation,
+    rule: BelowModelBottom,
     step_m: f64,
     seabed: &dyn Fn([f64; 2]) -> Option<f64>,
     rng: &mut Rng,
@@ -258,16 +251,20 @@ pub fn sink(
     for _ in 0..100_000 {
         let dz = step_m;
         let mid = z + dz / 2.0;
-        let (current, rho, beyond) = profile.at(mid);
-        let w = sinker.speed(rho);
+        // A refusal (rule `refuse` below the model bottom) leaves the element not computed.
+        let sample = profile.at_depth(mid, Some(floor.max(mid)), rule).ok()?;
+        let beyond = sample.extrapolated;
+        // Descent speed relative to the ground: the element's own w, less any resolved upward
+        // water velocity. Absent is not zero: with no resolved w the element's own speed is used
+        // and the absence is the product's declared property, not a value.
+        let w = sinker.speed(profile.density_at(mid)) - sample.w_up.unwrap_or(0.0);
         if !(w > 0.0) {
             return None;
         }
         let dt = dz / w;
         let mut u = [0.0; 2];
         if terms.current {
-            let factor = if beyond { extrapolation.below_model_bottom_factor } else { 1.0 };
-            u = [factor * current[0], factor * current[1]];
+            u = [sample.u_east, sample.v_north];
         }
         if terms.ocean_error {
             let band = if mid < error.upper_depth_m { ocean.upper } else { ocean.deep };
