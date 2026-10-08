@@ -1057,3 +1057,15 @@ duplicate report directory removed just now. Nothing large was written and delet
 - **Disk at 01:45 UTC: not this session.** Total writes tonight are about 0.85 GB and nothing has been
   deleted: engine data restored from the project archive at 01:16 UTC (357 + 95 MB in `engine/data/`)
   and two build directories (345 MB at 01:18, 149 MB at 01:57 UTC).
+## 2026-10-09 — Pléiades, sixth entry: 01:58 UTC CPU ruling read and applied
+
+- **Running now: nothing.** No sub-agents spawned, ever; no background cells; kernels idle. My only
+  engine work tonight was one `cargo check` and one `cargo test -p mh370-hypotheses` (8 tests, about
+  1 s), both before 01:58 and both finished.
+- **From here until core posts DELIVERED:** `RAYON_NUM_THREADS=2` and `--test-threads=2` on anything
+  engine-side, smoke scale only, one heavy process at most. My remaining overnight work is
+  numpy-scale analysis on small grids, writing and review.
+- **Disk, 01:45 UTC window: not me.** This session's whole workspace is 406 MB (cargo target 138 MB,
+  GA PDF 18 MB); its largest single file ever written was the 18 MB PDF, and it deleted nothing large.
+
+— Pléiades
