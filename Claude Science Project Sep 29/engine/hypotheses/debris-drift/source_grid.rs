@@ -3,9 +3,10 @@
 //!
 //! The extent is DERIVED from an impact (or reference) posterior given as weighted cells, at a
 //! configurable coverage level (brief section 5): cells are ranked by density per unit area and
-//! taken until the coverage is reached (a highest-density region), then every grid node within
-//! `margin_nm` of a selected cell is a release node. Connected groups of nodes are components;
-//! the one carrying most posterior mass is the main band, the others are islands (the detached
+//! taken until the coverage is reached (a highest-density region); the selected cells are grouped
+//! by single linkage at `link_nm` into components, and every grid node within `margin_nm` of a
+//! selected cell is a release node of that cell's component. The component carrying most
+//! posterior mass is the main band, the others are islands (the detached
 //! northern mode), released only when `include_island` is set and labelled as a sensitivity.
 //! The posterior decides WHERE nodes go, never what the likelihood is worth.
 
@@ -56,7 +57,7 @@ impl SourceGrid {
     }
 
     /// `cell_deg` is the side of the input cells; `coverage` in (0, 1].
-    pub fn from_posterior(cells: &[WeightedCell], cell_deg: f64, coverage: f64, spacing_nm: f64, margin_nm: f64, include_island: bool) -> Result<SourceGrid, String> {
+    pub fn from_posterior(cells: &[WeightedCell], cell_deg: f64, coverage: f64, spacing_nm: f64, margin_nm: f64, link_nm: f64, include_island: bool) -> Result<SourceGrid, String> {
         if !(coverage > 0.0 && coverage <= 1.0) || spacing_nm <= 0.0 || margin_nm < 0.0 {
             return Err(format!("source grid: bad coverage {coverage}, spacing {spacing_nm} or margin {margin_nm}"));
         }
@@ -91,58 +92,27 @@ impl SourceGrid {
         let lon0 = lon_min - pad_lon;
         let nlat = ((lat_max + pad_lat - lat0) / dlat).ceil() as usize + 1;
         let nlon = ((lon_max + pad_lon - lon0) / dlon).ceil() as usize + 1;
-        let mut support = vec![false; nlat * nlon];
-        let mut owner = vec![usize::MAX; sel.len()];
-        // A node is in the support if it lies within margin of the selected cell (distance from
-        // the node to the cell rectangle, in NM).
-        for (s, &k) in sel.iter().enumerate() {
-            let c = &cells[k];
-            let cosl = c.lat.to_radians().cos();
-            let reach_lat = half + margin_nm / NM_PER_DEG;
-            let reach_lon = half + margin_nm / (NM_PER_DEG * cosl);
-            let i_lo = (((c.lat - reach_lat - lat0) / dlat).floor().max(0.0)) as usize;
-            let i_hi = (((c.lat + reach_lat - lat0) / dlat).ceil() as usize).min(nlat - 1);
-            let j_lo = (((c.lon - reach_lon - lon0) / dlon).floor().max(0.0)) as usize;
-            let j_hi = (((c.lon + reach_lon - lon0) / dlon).ceil() as usize).min(nlon - 1);
-            let mut best = (f64::INFINITY, usize::MAX);
-            for i in i_lo..=i_hi {
-                for j in j_lo..=j_hi {
-                    let (la, lo) = (lat0 + i as f64 * dlat, lon0 + j as f64 * dlon);
-                    let dy = ((la - c.lat).abs() - half).max(0.0) * NM_PER_DEG;
-                    let dx = ((lo - c.lon).abs() - half).max(0.0) * NM_PER_DEG * cosl;
-                    let d = (dx * dx + dy * dy).sqrt();
-                    if d <= margin_nm + 1e-9 {
-                        support[i * nlon + j] = true;
-                    }
-                    let dc = ((la - c.lat) * NM_PER_DEG).hypot((lo - c.lon) * NM_PER_DEG * cosl);
-                    if dc < best.0 {
-                        best = (dc, i * nlon + j);
-                    }
-                }
-            }
-            support[best.1] = true;
-            owner[s] = best.1;
-        }
-        // 4-connected components.
-        let mut component = vec![-1_i32; nlat * nlon];
-        let mut ncomp = 0;
-        for start in 0..support.len() {
-            if !support[start] || component[start] >= 0 {
+        // Components are formed on the SELECTED CELLS (single linkage at `link_nm`), before the
+        // margin is applied, so that a margin wide enough to bridge the gap cannot merge the
+        // detached northern mode into the main band. Each node then belongs to the component of
+        // its nearest selected cell within the margin.
+        let dist_nm = |a: &WeightedCell, b: &WeightedCell| {
+            let cosl = (0.5 * (a.lat + b.lat)).to_radians().cos();
+            ((a.lat - b.lat) * NM_PER_DEG).hypot((a.lon - b.lon) * NM_PER_DEG * cosl)
+        };
+        let mut cell_comp = vec![-1_i32; sel.len()];
+        let mut ncomp = 0_i32;
+        for s0 in 0..sel.len() {
+            if cell_comp[s0] >= 0 {
                 continue;
             }
-            let mut stack = vec![start];
-            component[start] = ncomp;
-            while let Some(k) = stack.pop() {
-                let (i, j) = (k / nlon, k % nlon);
-                let mut nb = Vec::with_capacity(4);
-                if i > 0 { nb.push(k - nlon); }
-                if i + 1 < nlat { nb.push(k + nlon); }
-                if j > 0 { nb.push(k - 1); }
-                if j + 1 < nlon { nb.push(k + 1); }
-                for n in nb {
-                    if support[n] && component[n] < 0 {
-                        component[n] = ncomp;
-                        stack.push(n);
+            cell_comp[s0] = ncomp;
+            let mut stack = vec![s0];
+            while let Some(s) = stack.pop() {
+                for t in 0..sel.len() {
+                    if cell_comp[t] < 0 && dist_nm(&cells[sel[s]], &cells[sel[t]]) <= link_nm {
+                        cell_comp[t] = ncomp;
+                        stack.push(t);
                     }
                 }
             }
@@ -150,7 +120,33 @@ impl SourceGrid {
         }
         let mut component_mass = vec![0.0; ncomp as usize];
         for (s, &k) in sel.iter().enumerate() {
-            component_mass[component[owner[s]] as usize] += cells[k].mass / total;
+            component_mass[cell_comp[s] as usize] += cells[k].mass / total;
+        }
+        let mut component = vec![-1_i32; nlat * nlon];
+        let mut nearest = vec![f64::INFINITY; nlat * nlon];
+        for (s, &k) in sel.iter().enumerate() {
+            let c = &cells[k];
+            let cosl = c.lat.to_radians().cos();
+            let reach_lat = half + margin_nm / NM_PER_DEG + dlat;
+            let reach_lon = half + margin_nm / (NM_PER_DEG * cosl) + dlon;
+            let i_lo = (((c.lat - reach_lat - lat0) / dlat).floor().max(0.0)) as usize;
+            let i_hi = (((c.lat + reach_lat - lat0) / dlat).ceil() as usize).min(nlat - 1);
+            let j_lo = (((c.lon - reach_lon - lon0) / dlon).floor().max(0.0)) as usize;
+            let j_hi = (((c.lon + reach_lon - lon0) / dlon).ceil() as usize).min(nlon - 1);
+            for i in i_lo..=i_hi {
+                for j in j_lo..=j_hi {
+                    let (la, lo) = (lat0 + i as f64 * dlat, lon0 + j as f64 * dlon);
+                    let dy = ((la - c.lat).abs() - half).max(0.0) * NM_PER_DEG;
+                    let dx = ((lo - c.lon).abs() - half).max(0.0) * NM_PER_DEG * cosl;
+                    let d = dx.hypot(dy);
+                    // Inside the margin, or the node nearest the cell (so no cell is unrepresented).
+                    let within = d <= margin_nm + 1e-9 || (la - c.lat).abs() <= 0.5 * dlat + 1e-12 && (lo - c.lon).abs() <= 0.5 * dlon + 1e-12;
+                    if within && d < nearest[i * nlon + j] {
+                        nearest[i * nlon + j] = d;
+                        component[i * nlon + j] = cell_comp[s];
+                    }
+                }
+            }
         }
         let main_component = (0..component_mass.len())
             .max_by(|&a, &b| component_mass[a].partial_cmp(&component_mass[b]).unwrap())

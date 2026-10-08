@@ -113,13 +113,13 @@ fn blob(lat: f64, lon: f64, n: i32, mass: f64) -> Vec<WeightedCell> {
 fn source_grid_separates_main_band_and_island() {
     let mut cells = blob(-37.0, 95.0, 3, 0.95 / 49.0);
     cells.extend(blob(-29.0, 100.0, 1, 0.05 / 9.0));
-    let g = SourceGrid::from_posterior(&cells, 0.25, 0.99, 10.0, 30.0, false).unwrap();
-    let gi = SourceGrid::from_posterior(&cells, 0.25, 0.99, 10.0, 30.0, true).unwrap();
+    let g = SourceGrid::from_posterior(&cells, 0.25, 0.99, 10.0, 30.0, 60.0, false).unwrap();
+    let gi = SourceGrid::from_posterior(&cells, 0.25, 0.99, 10.0, 30.0, 60.0, true).unwrap();
     assert!(g.component_mass.len() >= 2);
     assert!(g.component_mass[g.main_component] > 0.9);
     assert!(g.covered_mass >= 0.99);
     assert!(gi.n_active() > g.n_active());
-    let g5 = SourceGrid::from_posterior(&cells, 0.25, 0.99, 5.0, 30.0, false).unwrap();
+    let g5 = SourceGrid::from_posterior(&cells, 0.25, 0.99, 5.0, 30.0, 60.0, false).unwrap();
     let ratio = g5.n_active() as f64 / g.n_active() as f64;
     assert!((3.0..5.0).contains(&ratio), "halving spacing gave x{ratio}");
 }
@@ -128,12 +128,13 @@ fn source_grid_separates_main_band_and_island() {
 fn reference_extent_cell_counts() {
     // Pilot sizing table from the provisional extent source (00:19:37 core-only posterior).
     let cells = parse_cells(REFERENCE_MAP).unwrap();
-    println!("coverage spacing_nm margin_nm main_nodes island_nodes components main_mass covered");
-    for (cov, sp, margin) in [(0.5, 10.0, 100.0), (0.9, 10.0, 100.0), (0.95, 10.0, 100.0), (0.99, 5.0, 100.0), (0.99, 10.0, 100.0), (0.99, 20.0, 100.0), (0.99, 10.0, 50.0), (0.99, 10.0, 0.0), (0.999, 10.0, 0.0)] {
+    println!("coverage spacing_nm margin_nm main_nodes island_nodes components main_mass covered main_lat_range");
+    for (cov, sp, margin) in [(0.5, 10.0, 100.0), (0.9, 10.0, 100.0), (0.95, 10.0, 100.0), (0.99, 5.0, 100.0), (0.99, 10.0, 100.0), (0.99, 20.0, 100.0), (0.99, 10.0, 50.0), (0.99, 10.0, 0.0), (0.98, 10.0, 100.0), (0.999, 10.0, 100.0)] {
         {
-            let g = SourceGrid::from_posterior(&cells, 0.25, cov, sp, margin, true).unwrap();
+            let g = SourceGrid::from_posterior(&cells, 0.25, cov, sp, margin, 40.0, true).unwrap();
             let main = g.component_nodes(g.main_component);
-            println!("{cov} {sp} {margin} {main} {} {} {:.4} {:.4}", g.n_active() - main, g.component_mass.len(), g.component_mass[g.main_component], g.covered_mass);
+            let lats: Vec<f64> = (0..g.active.len()).filter(|&k| g.component[k] == g.main_component as i32).map(|k| g.node(k).0).collect();
+            println!("{cov} {sp} {margin} {main} {} {} {:.4} {:.4} {:.2}..{:.2}", g.n_active() - main, g.component_mass.len(), g.component_mass[g.main_component], g.covered_mass, lats.iter().copied().fold(f64::INFINITY, f64::min), lats.iter().copied().fold(f64::NEG_INFINITY, f64::max));
             if cov == 0.99 && sp == 10.0 && margin == 100.0 {
                 assert!((200..20_000).contains(&main), "{main}");
             }

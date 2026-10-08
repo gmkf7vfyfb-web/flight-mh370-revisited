@@ -58,6 +58,7 @@ const REFERENCE_MAP: &str = include_str!("data/reference-map-no-exhaustion-prior
 fn d_coverage() -> f64 { 0.99 }
 fn d_spacing() -> f64 { 10.0 }
 fn d_margin() -> f64 { 100.0 }
+fn d_link() -> f64 { 40.0 }
 fn d_particles() -> usize { 1000 }
 fn d_seed() -> u64 { 1 }
 fn d_release() -> f64 { 1_394_237_977.0 }
@@ -126,6 +127,9 @@ struct Params {
     spacing_nm: f64,
     #[serde(default = "d_margin")]
     margin_nm: f64,
+    /// Single-linkage distance that groups coverage cells into the main band and islands.
+    #[serde(default = "d_link")]
+    island_link_nm: f64,
     #[serde(default)]
     include_island: bool,
     #[serde(default = "d_particles")]
@@ -227,7 +231,7 @@ fn build_stub(p: &Params) -> Result<Built, String> {
         Some(path) => parse_cells(&std::fs::read_to_string(path).map_err(|e| format!("debris-drift: {path}: {e}"))?)?,
         None => parse_cells(REFERENCE_MAP)?,
     };
-    let grid = SourceGrid::from_posterior(&cells, 0.25, p.coverage, p.spacing_nm, p.margin_nm, p.include_island)?;
+    let grid = SourceGrid::from_posterior(&cells, 0.25, p.coverage, p.spacing_nm, p.margin_nm, p.island_link_nm, p.include_island)?;
     let (lat_mid, lon_mid) = grid.node(grid.index(grid.nlat / 2, grid.nlon / 2));
     let plane = LocalPlane { lat0: lat_mid, lon0: lon_mid };
     let (xc, _) = plane.to_xy(lat_mid, p.ocean.coast_lon_deg);

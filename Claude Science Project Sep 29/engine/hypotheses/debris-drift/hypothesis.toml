@@ -3,6 +3,10 @@ question = "How is the impact PDF modified when the recovered western-Indian-Oce
 # open | supported | not-supported | inconclusive
 status = "open"
 # One line, written when the question is answered, citing the run that answered it.
-summary = ""
+summary = "First build on a PROVISIONAL analytic ocean with synthetic finds only (2026-10-09); no evidence result exists. Evidence mode refuses until crates/ocean lands."
 # Changes needed in the core (new hooks, new state fields). Leave empty if none.
-core_requests = []
+core_requests = [
+  "DRIFT-1 Construction-time access to the shared impact samples (e.g. a prepare(&[ImpactView]) hook, or the impacts.npy path) so the source-grid extent is derived from the samples being scored (brief s5), not from a declared density file. Until then the extent comes from data/reference-map-no-exhaustion-prior-m0019b.csv or extent_map_path, and samples outside it return NaN (flagged, never zero).",
+  "DRIFT-2 A run-scoped cache directory passed to impact modules, so per-node ensembles (hours at production scale) are computed once per configuration hash and reused by mh370 evaluate and the composer, instead of being rebuilt in new().",
+  "DRIFT-3 Composer: report the per-sample NaN count of this module separately as 'outside support' and 'Monte Carlo unresolved' (predict column drift_support_flag), and refuse a composed result when either carries non-negligible posterior mass, rather than dropping those samples.",
+]

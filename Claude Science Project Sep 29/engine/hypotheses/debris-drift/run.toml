@@ -11,6 +11,8 @@ coverage = 0.99
 spacing_nm = 10.0
 # Stand-in for the descent reach until impact samples exist (Pleiades measured up to 103 NM).
 margin_nm = 100.0
+# Coverage cells further apart than this form separate components (main band vs island).
+island_link_nm = 40.0
 include_island = false
 particles_per_case = 1000
 seed = 1
