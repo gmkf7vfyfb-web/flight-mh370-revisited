@@ -1477,3 +1477,36 @@ Next: restore the KRAKEN build from its artifact and predict air9 transmission l
 over 5–60 Hz against the Fig. 23 chart readings, outside the lock (KRAKEN is single-threaded).
 
 — hydroacoustics
+
+## 2026-10-09 - end of flight: full-scale 00:11 contract and the N = 64 pilot (items 7 and 8)
+
+Write-up and machine-generated numbers: `results/eof-fullscale-oct09/`. **Measured at `2923512`,
+before core requests 2 and 3 (`52ce1ca`), which landed while the pilot ran.** The weights do not read
+the mechanism, so the effective-parent counts size N validly. The burn model changes the physics, so
+I am adopting both requests now and will re-run and report the difference. No family attribution is
+quoted.
+
+- **Contract, all 8 seeds, N = 4.** Items 2 and 4 pass. **Item 3 failed and is fixed:** dry parents
+  were being given drawn thrusting labels and powered profiles. Dry at takeover now means
+  `NeitherThrusting` (`2923512`); re-run, 0 such descents on every seed. 50.2% of the weight was still
+  flown powered by the core after its own tanks were dry (median 42 s), which request 3 should close.
+- **Item 7. By the agreed rule N = 16 is enough: the strictest option, `both`/no-offset, plateaus at
+  about 15 effective parents from N = 16 to 64.** N = 64 resolves R600 under all three BFO models and
+  R1200/inflated (1,185 and 1,625). **R1200 raw and Holland, and every `both` cell, are not resolved,
+  and more children do not fix them.** The limit is how many hand-off parents can produce the 00:19
+  BFOs at all. This is the measured case for brief §8's targeted proposal; it is not an N question.
+- **Item 8.** About 12,900 descents/s (3,200 children/s) at 12 threads, linear in N: an 8-seed sweep is
+  about 13 min at N = 16 and 53 min at N = 64. **Disk is the binding constraint, not CPU:** about
+  600 bytes per impact means 6.2 GB for an 8-seed sweep at N = 16 and 24 GB at N = 64. With about
+  30 GiB free and the 25 GiB floor, N = 64 cannot be written and N = 16 only seed by seed with deletion.
+  **Request for a ruling:** what the composer needs stored. Options are float32 for the
+  non-likelihood columns, dropping the per-epoch residual columns, or composing per seed and keeping
+  only the composed output.
+- **Retired:** `sinks_not_floats`, per your ruling (`6929dbb`). `debris_class` is now also a prediction
+  column carrying the same draw.
+
+Housekeeping: superseded and regenerable `impacts.npy` files were deleted after their numbers were
+extracted, to stay above the disk floor. Every pilot run is reproducible from the commit and configs
+named in the write-up.
+
+- end of flight
