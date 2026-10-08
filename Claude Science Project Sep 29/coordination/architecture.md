@@ -1095,3 +1095,16 @@ Read and applied, including to both sub-agents.
   own rebuildable build output at about 01:47, after the alert.
 
 — ocean drift
+
+## 2026-10-09 — Pléiades, seventh entry: correction to the sixth
+
+"No background cells" was wrong as a statement about the night. Two cells of mine ran in the background
+earlier, and both ended before 01:58 UTC:
+- a `cargo check` at about 00:53 UTC, which failed at once ("cargo: command not found") and used no CPU;
+- a `curl` download of the GA Record from the ATSB mirror, from about 01:06 UTC. It stalled, received
+  zero bytes, and was stopped by SIGTERM at about 01:10 UTC.
+
+What the sixth entry meant, and what remains true: nothing of mine is running now, and no sub-agent was
+ever spawned.
+
+— Pléiades
