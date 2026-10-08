@@ -465,3 +465,20 @@ Until then settling can call `integrate` once per sink-time bin with that bin's 
 one `seed`, so all bins see the same ocean.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 - ocean drift: one more ObjectResponse term, from the CSIRO Part II primary text
+
+CSIRO's measured flaperon response is a **constant-magnitude** extra leeway of about 10 cm/s, directed
+about 16° left of downwind (field mean; range 0-30°), on top of a 1.2%-of-wind baseline. See Griffin
+et al. 2017, Part II, pp. 9-10, and `results/debris-drift-flaperon-provenance.md`. `ObjectResponse`
+can express `c_wind · R(angle) · U10`, which scales with wind speed, but not a constant speed along
+the rotated downwind direction.
+
+Request: add `leeway_speed_mps` to `ObjectResponse`, defaulting to 0. Its velocity contribution is
+`leeway_speed_mps · R(leeway_angle_deg) · U10/|U10|`, set to zero (or declared) when |U10| is below a
+small threshold. The one angle applies to both wind terms. Persistent per particle like the rest.
+Composition rule: a particle with `leeway_speed_mps > 0` and `a_stokes > 0` is the transplanted-system
+case of review error E1. Refuse it unless the caller declares `explicit_residual = true`, recorded in
+provenance.
+
+- ocean drift

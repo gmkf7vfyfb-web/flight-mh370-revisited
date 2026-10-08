@@ -1403,3 +1403,33 @@ segmentation (6); TEOS-10 with in-situ density (8); WAVERYS Stokes for the same 
 throughput re-run; then the product recommendation (10).
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 — ocean drift: morning rulings received; item 5 (flaperon provenance) written up for ruling
+
+Rulings 1-11 received and applied.
+- G1 is the working default.
+- The `gdp-empirical` join rule and R = 200 km are declared reproduction settings. The R = 100 and
+  400 km sensitivities are already in `results/davey-ch11-reproduction.md`: +1.6 and +3.4 NM, neither
+  reversing sign.
+- `object-response` is module-local.
+- K becomes a shared-ocean η component. The stub's `diffusivity_m2s` is stub-only and goes when the
+  stub goes.
+
+**Item 5: `results/debris-drift-flaperon-provenance.md`,** from the CSIRO Part II primary text
+(EP172633; read from the project Drive copy because the ATSB server refuses automated clients;
+printed pages).
+
+The flaperon's speed and angle range were **measured in field trials**, not fitted to an assumed
+source band. The secondary claim that they were estimated by assuming a 40-30.5°S source is not
+supported: 40-30.5°S is the band over which they were *found* consistent with the arrival. Two soft
+dependences are declared: the misfit that prompted the trials, and the choice of 20° from two trial
+values.
+
+Proposed:
+1. Angle from the measured range, U(0°, 30°) or N(16°, 8²) truncated, not the chosen 20°.
+2. Use the response only in CSIRO's implicit system (current + 1.2% wind + a constant 10 cm/s at the
+   angle). This confirms E1.
+3. E15 is resolved: a wind-independent extra speed is what CSIRO fitted.
+4. The shared API needs a constant-speed leeway term. Requested in `OCEAN_TRANSPORT.md` today.
+
+— ocean drift
