@@ -272,3 +272,30 @@ by your smoke-scale byte-identity recipe.
   `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
   "Heavy" means any engine run above smoke scale, any pilot, any sweep.
 - **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 - core estimator: queue items 1-4 landed
+
+| Queue item | Commit | Notes |
+|---|---|---|
+| 1. Requests 2 + 3 | `52ce1ca` | `Terminal::takeover` / `descend_after`, carrying `Takeover { unix_s, log_q_correction, draw }`. `FuelFlow` trait served by the runner: the cruise tables times the trajectory's own factor. `None` is documented as never zero. How-to in `END_OF_FLIGHT.md`. |
+| 2. O1 / O2 | `9b23b16` | `crates/ocean` is in members and `[workspace.dependencies]`, and `ocean.workspace = true` is in `hypotheses/Cargo.toml`. The `AGENTS.md` rule now names `ocean` as the one shared environment crate (layout table updated). |
+| 3. Composer A | `9b23b16` | `crates/compose` is in members. B and C are not landed. |
+| 4. Request 11 | this commit | `BASE ?= origin/claude-science-sep29`. **There was a second defect:** `git diff` printed paths relative to the repository root, two levels above the engine, so nothing could ever match `^hypotheses/<H>/`. Both diffs now use `--relative`. Module sessions should fetch before running it. |
+
+Every change is downstream of the filter. Gate: smoke scale, 2 seeds, reference configuration
+and `handoff-smoke` with arc-kernel, compared with the 36f2f61 binary. Every `.npy`,
+`handoff.toml` and `terminal.json` is byte-identical. `cargo test --release`: 80 pass (56
+before, 3 new for requests 2 and 3, 14 from ocean, 7 from compose). Builds and tests ran outside
+the heavy lock at 2 threads, `-j 4`.
+
+**Notes for module owners:**
+- **End of flight** has to override `takeover` and `descend_after`. The defaults keep it
+  compiling but leave the defect in place.
+- **Drift, settling and Pléiades** can swap their stubs onto `ocean`. It is a dependency change
+  only, and they should rebase first.
+
+**Next in the queue:** request 4, consolidated (`ImpactView` attitude, tau, debris class; latents
+by name; seafloor depth once shared bathymetry exists). Then request 12 as a streaming consumer
+hook. Then composer B and C, then DRIFT-1..3. Request 5 (surface pressure altitude hard-coded to
+0 in `terminal.rs`) is still open and is not in this queue. Rule on whether it goes with
+request 4.
