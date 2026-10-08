@@ -64,11 +64,6 @@ impl Fixture {
         self
     }
 
-    fn values(&self, name: &str) -> Vec<f64> {
-        let k = self.columns.iter().position(|c| c == name).unwrap();
-        self.rows.iter().map(|row| row[k]).collect()
-    }
-
     fn replicate(&self, seed: u64, modes: [Mode; 5]) -> Replicate {
         Replicate { seed, columns: self.columns.clone(), values: self.rows.concat(), modes }
     }
@@ -261,6 +256,25 @@ fn shared_alternative_is_marginalised_jointly() {
     let swept = compose(&base, &samples, &disagreeing, &overridden, None).unwrap();
     let p = swept.alternatives.iter().find(|x| x.name == "ocean-model").unwrap().posterior.clone().unwrap();
     close(p[0], 0.25 * 0.255 / (0.25 * 0.255 + 0.75 * 0.05), 1e-12, "P(m1 | D) under the overridden prior");
+
+    // An alternative named like the run's trajectory alternative is followed, not marginalised:
+    // r1 flew route p and r2 route q, so the weights are (0.5*1, 0.5*0.4)/0.7, whatever A says
+    // about the other route, and no posterior of the routes is reported here.
+    let routed = Fixture::new(&[0.5, 0.5], &[0, 0], &[-35.0, -36.0])
+        .set(TRAJECTORY_OPTION, |r, _| r as f64)
+        .set("A:loglik:p", ln([1.0, 0.01]))
+        .set("A:loglik:q", ln([0.01, 0.4]));
+    let samples = vec![routed.replicate(1, one_mode())];
+    let base = Product::filter(&samples, vec![]).unwrap();
+    let route = [declaration("A", &["debris:a"], vec![Alternatives::new("route", &[("p", 0.5), ("q", 0.5)])], true)];
+    let followed = compose(&base, &samples, &route, &ungated("A", &["A"]), Some("route")).unwrap();
+    close(followed.replicates[0].weights[0], 0.5 / 0.7, 1e-12, "trajectory option followed");
+    let report = followed.alternatives.iter().find(|x| x.name == "route").unwrap();
+    assert_eq!(report.role, Role::Trajectory);
+    assert!(report.posterior.is_none());
+    let mut fixed = ungated("A", &["A"]);
+    fixed.given.insert("route".into(), "p".into());
+    assert!(compose(&base, &samples, &route, &fixed, Some("route")).is_err(), "a trajectory option cannot be given");
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -654,6 +668,18 @@ fn synthetic_hydroacoustic_detections_move_the_impact_pdf() {
             let moved_north = (lat[i].0 - prior_mean[i].0) * KM_PER_DEG;
             assert!(moved_north.is_finite());
         }
+        let east_km = |lon: f64| (lon - CENTRE.1) * KM_PER_DEG * CENTRE.0.to_radians().cos();
+        eprintln!(
+            "{k} station(s): mean moved {:+.1} km north, {:+.1} km east (truth {:+.1}, {:+.1}); sd {:.1} km north, {:.1} km east; ESS {:.0}; ln D {:.3} (grid {ref_ln_z:.3})",
+            (lat[0].0 - prior_mean[0].0) * KM_PER_DEG,
+            east_km(lon[0].0) - east_km(base.moments(&samples, "longitude_deg").unwrap()[0].0),
+            (truth.0 - CENTRE.0) * KM_PER_DEG,
+            east_km(truth.1),
+            lat[0].1 * KM_PER_DEG,
+            lon[0].1 * KM_PER_DEG * CENTRE.0.to_radians().cos(),
+            product.ess[0].rows,
+            product.replicates[0].log_evidence_increment[0],
+        );
         let min_ess = product.ess.iter().map(|e| e.parents).fold(f64::INFINITY, f64::min);
         assert_eq!(product.status == Status::Converged, min_ess >= 1000.0, "status {:?}, ESS {min_ess}", product.status);
         let area = lat[0].1 * lon[0].1;
