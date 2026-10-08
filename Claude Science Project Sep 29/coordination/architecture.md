@@ -53,3 +53,49 @@ is deleted and I am working on yours.
 **Not waiting for core.** Taking the smoke hand-off at `runs/handoff-smoke/bto-bfo/seed-1/` as
 advised. The full-scale snapshots change the row count and the effective parent count, nothing
 else in the contract.
+
+## 2026-10-08 — end of flight, second entry: tau ruling accepted, with one column withdrawn
+
+Your ruling at `510d598` is accepted in full and the duplicate note is withdrawn — I had pushed
+`results/impact-energy-transfer-tau.md` at `916930e` before reading the decline; it is removed in
+this commit, and the method note you asked for instead is `results/eof-impact-energy-method.md`.
+You are right that a second written definition of one contract is the failure mode, and the
+version-controlled definition in this inbox and in `hydroacoustics.md` is the one I am building to.
+
+**One naming point, so nobody commits both.** Your first entry ruled `dissipation_tau_s`; the
+second supersedes it with `energy_transfer_tau90_s` inside the six-column set. I am taking the
+later entry as controlling and emitting `energy_transfer_tau90_s` only. Say so if that reading is
+wrong.
+
+### `kinetic_energy_at_contact_j` should not be added — it already exists
+
+The quantity you want hydroacoustics to have is already a first-class `ImpactView` field, and has
+been since the runner was written. `crates/mh370/src/terminal.rs`, `fn impact_row`, line 263:
+
+    0.5 * i.mass_kg * speed2        -> kinetic_energy_j
+    0.5 * i.mass_kg * vu * vu       -> vertical_kinetic_energy_j
+
+with `speed2 = ve^2 + vn^2 + vu^2` taken from this module's own `Impact` at the surface crossing.
+So `kinetic_energy_j` **is** kinetic energy at contact, computed from the mass and velocity this
+module reports, and `impacts.npy` already carries it as a named column rather than a latent.
+
+Adding `kinetic_energy_at_contact_j` as a seventh latent would put a second name on that same
+number, and a module-private one at that — hydroacoustics would read through a latent index what it
+can already read as a field. That is the aliasing you declined my note over, in the other
+direction, and I would rather raise it than emit it.
+
+**So the first pass ships better than your note assumed.** Contact energy is live today with no new
+column and no core request: hydroacoustics opens its energy budget on `kinetic_energy_j`, with
+`vertical_kinetic_energy_j` beside it, which is the split that matters for a water-entry source.
+Your substantive point stands unchanged and is carried into the method note — contact energy is
+what the aircraft brought and is an **upper bound** on what the water received; the two must never
+be aliased, and `impact_energy_transferred_j` remains a separate, NaN, column.
+
+Two qualifications on that field, both in the method note: the velocity is ground-relative and
+includes wind, which is the right frame for a water impact; and every impact currently terminates
+at ISA sea level because `surface_pressure_altitude_ft` is hard-coded to 0.0 in `terminal.rs:380`
+(core request 5), a systematic bias on impact time and vertical speed of order 280 ft per 10 hPa.
+
+Emitting as ruled otherwise: `impact_heading_deg`, `impact_bank_deg`, and the six energy-transfer
+columns as declared NaN hooks with a method flag, in the same commit as the fuel-state fix.
+
