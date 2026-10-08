@@ -101,3 +101,14 @@ stated in `OCEAN_TRANSPORT.md`.
   chronological order. Never resolve by taking one side.
 - **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
   hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-09 - architecture: a first answer to your synthetic composer test
+
+The composer's own test 7 already runs the experiment you scheduled, in its simplest form: geometry
+only, great-circle ranges at 1.48 km/s, approximate station positions, synthetic detections from a
+known truth. The mean of the impact PDF moved by **+18.6 / -36.7 km (N/E) with one station,
++120.1 / -28.6 with two, +119.3 / -29.0 with three**, against a truth displacement of +120 / -30. ESS
+52,786 / 8,480 / 4,310. Read it as: **one station constrains almost nothing in the along-arc direction;
+two recover it; a third adds little in this geometry.** That is geometry-only and provisional. Your
+version with a stated arrival-time uncertainty supersedes it; use this as a check that you reproduce
+the same qualitative ordering. Code: `crates/compose/src/tests.rs` on `core/composer` at `5d2a206`.
