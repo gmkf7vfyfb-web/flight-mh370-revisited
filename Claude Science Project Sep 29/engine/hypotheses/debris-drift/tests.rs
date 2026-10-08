@@ -8,6 +8,7 @@ use super::provisional_analytic_ocean::{AnalyticOcean, Coast, Current, Response}
 use super::recovery::{phi, Arrival, Delay, Identification, Observation, Recovery};
 use super::rng::Rng;
 use super::source_grid::{SourceGrid, WeightedCell};
+use super::transport::{Fate, ObjectResponse, Particle, StubTransport, Transport};
 use super::{build_stub, node_ln_likelihood, parse_cells, run_ensemble, stringent_intervals, synthetic_finds, ClassParams, Params, REFERENCE_MAP};
 
 fn ocean(current: Current, k: f64, coast: Option<Coast>) -> AnalyticOcean {
@@ -225,21 +226,21 @@ fn synthetic_recovery_coverage() {
     let plane = super::provisional_analytic_ocean::LocalPlane { lat0: -37.25, lon0: 95.0 };
     let (xc, _) = plane.to_xy(-37.25, 92.0);
     let coast = Coast::through((xc, -5000.0), (xc, 5000.0), (xc + 1.0, 0.0));
-    let oc = ocean(Current::Uniform { east: -0.2, north: 0.0 }, 100.0, Some(coast));
+    let tr = StubTransport { ocean: ocean(Current::Uniform { east: -0.2, north: 0.0 }, 100.0, Some(coast)), plane, step_s: 21_600.0, segment_km: 500.0, label: "test".into() };
     let class = ClassParams { name: "test".into(), a_stokes: [0.0, 0.0], c_wind: [0.0, 0.0] };
     let edges: Vec<f64> = (0..=40).map(|i| -2000.0 + 100.0 * i as f64).collect();
     let r = rec(edges, 10.0, Delay::Uniform { max_days: 10.0 }, 60.0);
-    let (n, dt, steps) = (400, 21_600.0, 240);
-    let nodes: Vec<(f64, f64)> = (0..21).map(|k| { let (la, lo) = grid.node(k); plane.to_xy(la, lo) }).collect();
-    let ens: Vec<Vec<Vec<Vec<Arrival>>>> = nodes.iter().enumerate().map(|(k, &(x, y))| vec![vec![run_ensemble(&oc, x, y, &class, n, dt, steps, &mut Rng::derive(&[1, k as u64]))]]).collect();
+    let (n, t0) = (400, 1_394_237_977.0);
+    let t_end = t0 + 60.0 * 86_400.0;
+    let nodes: Vec<[f64; 2]> = (0..21).map(|k| { let (la, lo) = grid.node(k); [lo, la] }).collect();
+    let ens: Vec<Vec<Vec<Vec<Arrival>>>> = nodes.iter().enumerate().map(|(k, &ll)| vec![vec![run_ensemble(&tr, ll, t0, t_end, &class, n, 5, &mut Rng::derive(&[1, k as u64])).arrivals]]).collect();
     let trials = 60;
     let mut hits = 0;
     let (mut p_truth, mut p_sq) = (0.0, 0.0);
     let mut pick = Rng::new(99);
     for t in 0..trials {
         let truth = (pick.uniform() * 21.0) as usize;
-        let (x, y) = nodes[truth];
-        let o = synthetic_finds(&oc, &r, &class, x, y, 4, dt, steps, &mut Rng::derive(&[777, t as u64])).unwrap();
+        let o = synthetic_finds(&tr, &r, &class, nodes[truth], t0, t_end, 4, 9_000 + t as u64, &mut Rng::derive(&[777, t as u64])).unwrap();
         let ll: Vec<f64> = ens.iter().map(|e| match node_ln_likelihood(&r, &o, e, n).0 { Node::Value(v) => v, _ => f64::NEG_INFINITY }).collect();
         let m = ll.iter().copied().fold(f64::NEG_INFINITY, f64::max);
         let w: Vec<f64> = ll.iter().map(|v| (v - m).exp()).collect();
@@ -303,4 +304,22 @@ fn run_toml_constructs_and_scores_the_stub() {
         b.grid.n_active(), counts[0], counts[1], counts[2], counts[3], b.arrival_fraction, b.steps_per_second, b.ln_l_scale_nm, b.observations.len(),
         b.min_neff.iter().copied().filter(|x| x.is_finite()).fold(f64::INFINITY, f64::min));
     assert!(counts[0] > 0 && b.observations.len() == p.synthetic.as_ref().unwrap().finds);
+}
+
+#[test]
+fn stub_transport_reports_fates_in_the_shared_conventions() {
+    // [lon, lat], unix seconds, persistent response; a release on land is a model-error fate.
+    let plane = super::provisional_analytic_ocean::LocalPlane { lat0: -37.0, lon0: 95.0 };
+    let (xc, _) = plane.to_xy(-37.0, 94.0);
+    let coast = Coast::through((xc, -5000.0), (xc, 5000.0), (xc + 1.0, 0.0));
+    let tr = StubTransport { ocean: ocean(Current::Uniform { east: -0.5, north: 0.0 }, 0.0, Some(coast)), plane, step_s: 21_600.0, segment_km: 500.0, label: "test".into() };
+    let r = ObjectResponse { a_stokes: 0.0, c_wind: 0.0, leeway_angle_deg: 0.0 };
+    let t0 = 1_394_237_977.0;
+    let ps = [Particle { release: [95.0, -37.0], release_time: t0, response: r }, Particle { release: [93.0, -37.0], release_time: t0, response: r }];
+    let f = tr.integrate(&ps, 1, t0 + 30.0 * 86_400.0);
+    let Fate::Beached { t, at, .. } = f[0] else { panic!("{:?}", f[0]) };
+    let dist_km = (95.0 - 94.0) * 111.195 * (-37.0f64).to_radians().cos();
+    assert!((t - t0 - dist_km * 1000.0 / 0.5).abs() < 1e-3, "{}", t - t0);
+    assert!((at[0] - 94.0).abs() < 1e-9 && (at[1] + 37.0).abs() < 1e-9);
+    assert_eq!(f[1], Fate::ReleasedOnLand);
 }

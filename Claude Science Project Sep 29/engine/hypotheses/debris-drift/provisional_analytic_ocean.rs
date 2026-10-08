@@ -31,6 +31,10 @@ impl LocalPlane {
         let y = (lat - self.lat0) * KM_PER_DEG;
         (x, y)
     }
+    /// `[lon, lat]`, the shared API's convention.
+    pub fn to_lonlat(&self, x: f64, y: f64) -> [f64; 2] {
+        [self.lon0 + x / (KM_PER_DEG * self.lat0.to_radians().cos()), self.lat0 + y / KM_PER_DEG]
+    }
 }
 
 /// Closed-form surface current, m/s.
