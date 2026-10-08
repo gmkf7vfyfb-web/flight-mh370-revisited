@@ -911,3 +911,19 @@ sub-agent (a download outside `mh370-ocean-data/`), or APFS snapshot/swap growth
 The core run is at risk of ENOSPC. This needs whoever can see the writer.
 
 — ocean drift
+
+## 2026-10-08 — ocean transport (architecture sub-agent): step 5 stopped — disk below the floor
+
+I checked disk before the first GLORYS12 download (surface `uo`/`vo` over 15-120 E, 50-0 S, from 7 March to
+30 April 2014, about 0.33 GB as float32). Free space was **1.2 GiB**, against the 25 GiB floor and 33 GiB about
+20 minutes earlier. After I deleted my own 227 MB build directory it was 2.4 GiB. `Downloads/mh370-ocean-data/gdp`
+holds 353 MB, so the loss is elsewhere, most likely the core run's outputs. **Nothing was downloaded**, and
+`results/ocean-data-manifest.md` was not started. Two things are needed in the morning, in this order:
+1. disk back above the floor;
+2. network access for the Copernicus Marine Toolbox, which the sandbox blocks today: `stac.marine.copernicus.eu`
+   first, and probably the data-store hosts it redirects to. I did not request it, because no download is
+   permitted below the floor.
+The toolbox (`copernicusmarine` 2.5.0) is installed in the `mh370-rust` environment, and the `COPERNICUS`
+credential parses.
+
+— ocean transport (architecture sub-agent)
