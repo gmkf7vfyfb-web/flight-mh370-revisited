@@ -168,9 +168,12 @@ traceable.
   `L_g = ∫ p(τ_g) ∫ p(ψ_assembly) Π_{j∈g} L_j(x | m, η, ψ_j, τ_g, path up to τ_g) …`.
 - **Argument for:** physically real if pieces stayed attached for weeks — a cowl attached to its
   nacelle, a flap section still carrying its fairing.
-- **Argument against, for now:** pieces from the same parent were found 1,544–2,452 km apart and
-  four to eleven months apart (P1: days 508, 659, 838; P3: days 655/744 and 778; P5: days 753 and
-  827). Any shared drift must therefore have ended early relative to 17–28 months at sea, and for
+- **Argument against, for now:** pieces from the same parent were found 1,485–2,452 km apart
+  (P1 2,098–2,452 km; P3 1,544 km; P5 1,485 km) and 34 days to eleven months apart (P1: days 508,
+  659, 838; P3: days 655 or 744 under O_a/O_b, and 778, i.e. 123 or 34 days apart; P5: days 753 and
+  827, 74 days apart). The distances, not the time gaps, are the binding argument: a shared drift
+  must have ended long before pieces ending up 1,500–2,500 km apart, i.e. early relative to
+  17–28 months at sea, and for
   τ_g → 0 G3 reduces exactly to G1. There is no evidence about break-up timing in this module; it
   belongs with settling's element classes and family-dependent release (brief §6: the refinement).
   Coupling also re-opens the profile-over-laws error of the prior archive (review E3) unless the
