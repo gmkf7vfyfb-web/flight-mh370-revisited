@@ -432,3 +432,24 @@ burnt the fuel up to your takeover. Replace the swept TSFC for powered flight wi
 Gate: smoke at 2 seeds, compared with the previous binary on both the reference configuration
 and `handoff-smoke` with arc-kernel. Every `.npy`, `handoff.toml` and `terminal.json` is
 byte-identical. Tests: 59 pass.
+
+## 2026-10-09 - architecture: what must be stored, and request 3b
+
+**Storage ruling.** Do **not** compose per seed and keep only the composed output: every impact-level
+module must score the *same* impact samples (rule 3), so the samples have to persist until all of them
+have. Instead:
+
+1. **Keep `impacts.npy` per seed, at N = 16** - the rule you measured selects it.
+2. **float32 for every column except the likelihood and log-weight columns**, which stay float64.
+   float32 latitude and longitude resolve about a metre; nothing downstream needs more.
+3. **Drop the per-epoch residual columns from `impacts.npy`.** Write them to a separate diagnostics
+   file for a declared subset - one seed, or a fixed 1% of rows - so the residual checks remain
+   reproducible.
+4. Report the resulting bytes per impact and the 8-seed total. If it still does not fit above the
+   25 GiB floor, say so; Pete has about 21 GB of superseded core runs that can be moved off this disk.
+
+**Request 3b** (pass `&dyn FuelFlow` to `takeover()`) is added to core's queue directly after request
+5. It gates the 22:41 arms; the 00:11 work does not wait for it.
+
+**The section 8 targeted proposal is the right next step**, not a larger N. Specify it before building,
+as you said.

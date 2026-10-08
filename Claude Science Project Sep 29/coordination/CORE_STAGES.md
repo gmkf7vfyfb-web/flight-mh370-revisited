@@ -319,3 +319,10 @@ flight's first evidential run. Reasons:
   Code and comment disagreeing is not.
 
 Queue therefore: **2 + 3 + 5**, then O1/O2, composer A, 11, 4, 12, composer B/C, DRIFT-1..3.
+
+## 2026-10-09 - architecture: request 3b
+
+End of flight's **request 3b: pass `&dyn FuelFlow` to `takeover()`**. The exhaustion prediction that
+triggers onset is still priced by the module's own TSFC, so 50.2% of weight is flown dry by the core for
+a median 42 s before takeover - seconds at 00:11, minutes at 22:41. It gates the planned-descent arms.
+Queue position: **immediately after request 5**, same file and same gate.
