@@ -187,3 +187,121 @@ not by a Pete-facing thread, at least for the first increment. Branch `core/ocea
 your requests above are its specification; it signs its entries "ocean transport (architecture
 sub-agent)". First deliverable is the API with analytic fields, which needs no network. It will stop
 for Pete's approval at the first real data download, which is the correct place to stop.
+
+## 2026-10-08 — ocean transport (architecture sub-agent): the API exists — call shapes, and how to swap your stubs
+
+**What landed.** `crates/ocean` (package `mh370-ocean`) on branch `core/ocean-transport`, commit `311e481`,
+cut from `claude-science-sep29` at `a90044d`. Analytic fields only, no data. 14 of 14 tests pass:
+`cargo test -p mh370-ocean --release -j 2 -- --test-threads=2` (0.1 s of test time). **You cannot import it
+yet:** hypotheses may depend only on `geo`, `hypothesis`, `serde` and `toml`. Core requests O1 (membership)
+and O2 (let `mh370-hypotheses` depend on `ocean`, plus an `AGENTS.md` ruling) are in `CORE_STAGES.md`.
+Until they land, keep your stubs and make them match the shapes below exactly; the swap is then a
+`use mh370_ocean::...` line and deleting the stub.
+
+**Conventions.** Positions `[lon_deg, lat_deg]` (type `LonLat`), east-positive, -180..180. Times are unix
+seconds UTC, as in the hook API. Velocities geographic east/north, m/s. Depth geometric, m, positive down.
+Sphere of radius 6,371,008.8 m; RK2 midpoint; fixed step shortened to land exactly on output times.
+
+### Drift and Pléiades: the batch forward integrator
+
+```rust
+use mh370_ocean::{integrate, Forcing, RunSpec, Particle, ObjectResponse, Domain, Diffusion,
+                  OceanErrorModel, Refloat, StraightCoast, Snapshot, Event, Fate, Component};
+use mh370_ocean::analytic::{Uniform, SolidBodyGyre};
+
+let current = Uniform::current(0.10, -0.02);                      // any VectorField
+let stokes  = Uniform::new(Component::StokesDrift, 0.05, 0.02);
+let wind    = Uniform::new(Component::Wind10m, 6.0, 2.0);
+let coast   = StraightCoast { a: [100.0, -40.0], b: [100.0, -30.0], segments: 10, first_id: 500, land_left: false };
+let spec = RunSpec {
+    forcing: Forcing { current: &current, stokes: Some(&stokes), wind10: Some(&wind) },
+    coast: &coast,                                  // or &NoCoast
+    domain: Domain { lon_min: 15.0, lon_max: 120.0, lat_min: -50.0, lat_max: 0.0 },
+    step_s: 6.0 * 3600.0,
+    output_times: vec![/* ascending unix s; the run ends at the last */],
+    diffusion: Diffusion::random_walk_nm_per_day(5.0),   // or Diffusivity{k_m2_s}, RandomFlight{..}, None
+    ocean_error: OceanErrorModel::none(),                // or uniform_offset(s), eddying(s, L_m, T_s, modes)
+    refloat: Refloat::Off,                               // or RatePerDay(r)
+    seed: 1,
+    leeway_absorbs_stokes: false,      // drift declares this for a fitted leeway (arXiv:2005.09527)
+    accept_partial_stokes_overlap: false,
+    threads: 4,                        // 0 = rayon default; results are identical for any count
+};
+let particles = vec![Particle { release: [96.5, -35.2], release_time: t_impact,
+                                response: ObjectResponse { a_stokes: 1.0, c_wind: 0.02, leeway_angle_deg: 0.0 } }];
+let out = integrate(&spec, &particles)?;   // Err(CompositionError) if a component would be double counted
+// out.tracks[i].snapshots[k]: NotReleased | Afloat(LonLat) | Beached { at, segment } | Ended
+// out.tracks[i].events: Beached { t, at, segment } | Refloated | LeftDomain | FieldGap { t, at, component, gap }
+//                       | NonFinitePosition | ReleasedOnLand
+// out.tracks[i].fate:   Afloat | Beached | LeftDomain | FieldGap | NonFinite | ReleasedOnLand
+// out.provenance.ocean_model: the value of the `ocean-model` alternative for this run (product ids joined by "+")
+```
+
+- `v = u_current + a_stokes*u_stokes + c_wind*R(leeway_angle)*U10 + u_ocean_error + u_random_flight`, formed
+  inside the integrator; a random-walk displacement is added after each step. `ObjectResponse` is fixed for the
+  particle's whole life. `ObjectResponse::new(a_stokes, c_wind)` sets the leeway angle to 0, which is drift's
+  request exactly; the angle (degrees, positive clockwise from downwind) is an addition, off by default.
+- **Composition refusals:** a particle with `a_stokes != 0` and no Stokes field, or `c_wind != 0` and no wind;
+  Stokes with a current whose metadata says it contains Stokes (`Partial`/`Unknown` refused unless
+  `accept_partial_stokes_overlap`, which is recorded in provenance); Stokes with `leeway_absorbs_stokes`.
+- **One ocean per run.** `ocean_error` is realised once from `seed` and shared by every particle; diffusion is
+  the only per-particle randomness (particle i uses its own random stream, so thread count never matters).
+- **Pléiades:** 21 and 23 March come from one call with both in `output_times`.
+- **Field gaps end a trajectory as themselves.** A gridded product's `Land` gap means stranded in the
+  product's land mask before the coastline caught the particle; time outside a field's axis is
+  `OutsideTime`, never clamped (the archive clamped).
+
+### Settling: the profile query
+
+```rust
+use mh370_ocean::profile::{ProfileSource, BelowModelBottom, BottomRelation, DepthStatus, VerticalVelocity};
+use mh370_ocean::analytic::UniformColumn;
+use mh370_ocean::stochastic::{OceanErrorModel, ErrorKind, VerticalStructure};
+
+let col  = UniformColumn::new(0.10, -0.05, None, vec![0.5, 10.0, 100.0, 1000.0, 3000.0], 4000.0); // w absent
+let prof = col.profile(t, [lon, lat])?;          // Profile: depth_m, u_east, v_north, w_up, temperature,
+                                                 // salinity, pressure_dbar, model_bottom_m, time_axis
+match prof.bottom_relation(seabed_m) {           // WithinModel | SeabedDeeperThanModel { model_bottom_m, seabed_m, gap_m }
+    _ => {}
+}
+let s = prof.at_depth(z_m, Some(seabed_m), BelowModelBottom::HoldDeepestLevel)?;
+// s.u_east, s.v_north; s.w_up: Option<f64> (None when the product has none - never 0);
+// s.status: Resolved | Extrapolated { rule, model_bottom_m, seabed_m }
+// rules: Refuse | HoldDeepestLevel | LinearToZeroAtSeabed; Err(DepthGap) for AboveSurface, BelowSeabed, refused
+let err = OceanErrorModel { kind: ErrorKind::Eddying { sigma_m_s: 0.05, length_scale_m: 50e3, time_scale_s: 5.0 * 86400.0, modes: 64 },
+                            vertical: VerticalStructure::Exponential { efold_m: 500.0, deep_ratio: 0.3 } }
+          .realise(impact_event_seed);           // one realisation per impact event, shared by its fragments
+let e = err.velocity(t, [lon, lat], z_m);        // add it yourself: components stay separate
+```
+
+`w_up` is `VerticalVelocity::Absent | Present(Vec<f64>)` on the profile; the type has no way to say zero for
+absent. Temperature keeps its product's kind (`Potential` or `InSitu`) for the TEOS-10 layer to convert once.
+Pressure is Saunders (1981) until TEOS-10 lands (deliverable 8) — provisional.
+
+### Products
+
+`mh370_ocean::products::catalogue()` holds machine-readable records for GLORYS12V1, WAVERYS, OSCAR v2 Final,
+BRAN2016 and ERA5 10 m wind: dataset id, credential, resolution, coverage, time axis, depth convention,
+variables with units, and `Contents { geostrophic, ekman, stokes, tides, inertial }`. Findings worth your
+attention:
+- **BRAN2016 may not reach drift's period end.** CSIRO states it spans January 1994 to August 2016; drift
+  needs 30 September 2016 (latest stringent find 23 June 2016, so a run ending in August loses only the
+  tail). Marked `covers_drift_period: Partial` until the NCI catalogue is checked.
+- **OSCAR v2 already contains the wind-driven term** (geostrophic + Ekman + thermal wind, averaged over the
+  top 30 m; `ug`, `vg` are the geostrophic part). Never add a separate Ekman term to it.
+- **GLORYS12V1 has no Stokes and no tides**; its daily mean attenuates near-inertial motion without removing
+  it. Its multiyear daily dataset carries no vertical velocity, so settling will see `Absent`.
+- **ERA5 `u10` is the actual wind, not the neutral wind `u10n`.** A fitted leeway must say which.
+- The archive's 100 m²/s and CSIRO's 5 NM/day are not the same diffusion: 3.17 NM vs 5 NM RMS after one day
+  (K = 100 vs 248 m²/s).
+
+### Provisional, and what is not done
+
+Throughput (deliverable 5) is **not measured**: the machine is at load ~40 under the core run and a number
+taken now would be wrong. The real coastline and segmentation (6), bathymetry (7), TEOS-10 (8), drogued GDP
+replay (9) and the product recommendation (10) are not started. Diffusion and ocean-error **parameter values
+are not chosen**: the API exposes them; the defaults in my tests are test values. The ocean-error model's form
+(one model for drift and settling, or two) is still the open question of brief §8. Beaching is tested at step
+end points, which is exact for a straight coast; the real coastline will need sub-stepping at headlands.
+
+— ocean transport (architecture sub-agent)

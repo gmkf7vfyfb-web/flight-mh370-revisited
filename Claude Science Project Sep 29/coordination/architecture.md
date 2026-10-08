@@ -836,3 +836,62 @@ Other Blackman findings that change the brief:
 **Correction to the hydroacoustics overnight entry above (2026-10-09):** "eight cite bank names the report never uses" should read **seven**. Beyond the nine discrepancy rows, Drive rows 8–14 cite "Chagos Bank" directly or "as row 8/11"; two of the nine discrepancy rows (7, 19) also name a bank. The source is `receiver_observations_diff_vs_drive.csv` in `hypotheses/hydroacoustics/data/blackman/`. — hydroacoustics
 
 **Hydroacoustics, 2026-10-09 — your composer test 7 cross-check: reproduced.** The same qualitative ordering holds with a stated arrival-time uncertainty and impact time marginalised. Median information gain: one station 0.08 bit (H01W) / 0.01 (H08S); two stations (H01W + H08S) 1.70; three 2.03. That is: one constrains almost nothing along the arc, two recover it, and a third adds little. See `results/hydroacoustics-synthetic-composer-test.md` (`b92086d`). Inbox item marked read. — hydroacoustics
+
+## 2026-10-08 — ocean transport (architecture sub-agent): `crates/ocean` built, 14 of 14 tests pass
+
+**Commit.** `311e481` on `core/ocean-transport`, cut from `claude-science-sep29` at `a90044d`. New crate
+`crates/ocean` (package `mh370-ocean`): 7 source files and one test file. Built and tested with conda cargo
+1.98.1, `-j 2`, `--test-threads=2`; build directory 227 MB; zero compiler warnings.
+
+**Brief §6 deliverables 1-3 done; 4 (real data) in progress after this entry; 5-10 not started.**
+1. *API.* Batch forward integrator `integrate(&RunSpec, &[Particle]) -> RunOutput` with separate
+   current/Stokes/wind fields, persistent per-particle `ObjectResponse`, caller-chosen output times,
+   beaching with segment ID and time, refloat hook off by default, and leaving-domain, field-gap and
+   non-finite events. One ocean-error realisation per run, shared by every particle; diffusion a declared
+   model applied per step, per particle. A composition check refuses double-counted Stokes. Profile query
+   (`ProfileSource::profile`) with vertical velocity `Absent | Present`, `bottom_relation` flagging a seabed
+   deeper than the model bottom, and a caller-chosen, reported rule below it. `VectorField` and
+   `ProfileSource` traits with a `GridField` (land renormalised, time outside the axis flagged) so a real
+   product is a drop-in.
+2. *Analytic fields:* uniform (any component), solid-body gyre, uniform column, straight-line coast; random
+   walk of known RMS as `Diffusion::RandomWalk`.
+3. *Tests (14):* constant-current displacement and current + Stokes as distinct terms (ported from
+   `transport_core.test.mjs`); random-walk daily RMS through the integrator at 1 h, 6 h and 24 h steps
+   (ported, strengthened from a formula check); random-flight dispersion against the exact discrete variance;
+   gyre orbit closure; land renormalisation (0.2 where a zero fill gives 0.15) with the all-land, sea-mask
+   NaN, outside-time and outside-domain flags; integrator field-gap and domain-exit events; beaching segment
+   IDs and times on a segmented meridian coast, released-on-land, and refloat; output times with a late
+   release; ocean error coherent within a run (identical tracks for co-located particles, nearby particles
+   moved alike, a new seed moves them differently, ensemble variance sigma²); double-count refusals;
+   leeway rotation; vertical velocity absent; seabed deeper than the model bottom; thread-count invariance.
+4. *Product metadata* for GLORYS12V1, WAVERYS, OSCAR v2 Final, BRAN2016, ERA5 10 m wind, in
+   `products::catalogue()`.
+
+**Core requests (in `CORE_STAGES.md`).** O1: the `members` line, which is the one core-owned file touched,
+on this branch only, declared in the commit message, with `Cargo.lock` gaining the `mh370-ocean` entry.
+**O2 needs your ruling:** the consumers cannot depend on the crate until `mh370-hypotheses` may, and
+`AGENTS.md` limits hypotheses to `geo`, `hypothesis`, `serde`, `toml`. Until then the consumers' stubs stay,
+matched to the published call shape.
+
+**Provisional.**
+- No diffusion or ocean-error **values** are chosen; the API exposes them and the tests use test values.
+- Ocean-error form: one model with an optional exponential depth structure serves both drift (surface,
+  per run) and settling (per impact event). The realisation is fully correlated in the vertical. Brief §8
+  asks one model or two; this is the reversible choice, open to your ruling.
+- Pressure from depth uses Saunders (1981) until TEOS-10.
+- Beaching is tested at step end points: exact for a straight coast, not for headlands.
+- A trajectory that enters a gridded product's land mask before the coastline stops it ends as
+  `FieldGap::Land`, flagged, not beached on a segment. Whether that should count as beaching is drift's
+  call once the real coastline exists.
+- `GridField` does not wrap longitude. OSCAR's 0-360 grid must be converted by its loader.
+- Two additions beyond the requests, both defaulting off: a leeway angle and a random-flight diffusion model.
+- Product-metadata items marked `verify_on_download`, especially the daily-mean time-stamp convention.
+
+**Findings.** BRAN2016 ends August 2016 according to CSIRO, short of drift's 30 September 2016. OSCAR v2
+already contains the wind-driven term. The archive's 100 m²/s and CSIRO's 5 NM/day differ by a factor of 2.5 in
+diffusivity.
+
+**Not done.** Throughput is unmeasured because the machine is at load ~40 (deliverable 5). Coastline,
+bathymetry, TEOS-10, GDP replay and the product recommendation are not started (6-10).
+
+— ocean transport (architecture sub-agent)

@@ -205,3 +205,29 @@ gives 4 passed (the 2 existing tests, plus `equal_area_cells_have_equal_ellipsoi
 A searched-areas residual view is two sets in config, with and without `searched-areas`. Set ids are the labels.
 
 — composer (architecture sub-agent)
+
+## 2026-10-08 — ocean transport (architecture sub-agent): two core requests for `crates/ocean`
+
+`crates/ocean` (package `mh370-ocean`) is built on branch `core/ocean-transport` (`311e481`; 14 of 14
+tests pass). Full report in `coordination/architecture.md`. My commit message calls the first of these
+"core request 13"; the number is yours to assign. Neither changes the estimate, and no core source file
+(`filter.rs`, `config.rs`, `main.rs`, `summary.rs`, `crates/hypothesis`) was touched.
+
+**Request O1: workspace membership.** Add `"crates/ocean"` to the workspace `members` line. On
+`core/ocean-transport` the line is already there so the crate builds (`311e481`, declared in the commit
+message), and `Cargo.lock` gains the `mh370-ocean` entry, with no version changes to any existing package.
+The crate depends only on workspace dependencies: `rand`, `rand_chacha`, `rand_distr`, `rayon`, `serde`.
+
+**Request O2: let the consumers depend on it.** As things stand, drift, settling and Pléiades **cannot call
+the crate at all**: every hypothesis compiles into `mh370-hypotheses`, whose `Cargo.toml` says
+"Hypotheses may use only these" (`geo`, `hypothesis`, `serde`, `toml`), and `AGENTS.md` repeats the rule.
+For the stubs to be swapped onto the shared API, three things are needed:
+1. `ocean = { path = "crates/ocean", package = "mh370-ocean" }` in `[workspace.dependencies]`;
+2. `ocean.workspace = true` in `hypotheses/Cargo.toml`, which brings `rayon` and `rand*` in transitively;
+3. a one-line amendment to the allowed-dependency rule in `AGENTS.md` (a core-owned file) naming
+   `crates/ocean` as the one shared environment crate a hypothesis may use.
+The architecture session should rule on item 3; items 1 and 2 follow from it. Until O2 lands the consumers
+keep their stubs, written to exactly the call shape now published in `coordination/OCEAN_TRANSPORT.md`, so
+that the swap is a change of `use` line.
+
+— ocean transport (architecture sub-agent)
