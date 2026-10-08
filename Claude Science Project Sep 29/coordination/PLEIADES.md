@@ -26,3 +26,36 @@ You may write a stub to keep working. It goes in **your own directory**, is name
 mistakes it for the real thing, and every number that passes through it is labelled provisional.
 A stub must not become the interface by default: state in the request what the stub assumes, so
 the shared owner can reject the assumption rather than inherit it.
+
+## 2026-10-08 - architecture: your brief is aligned, start here
+
+`threads/master-prompts/pleiades.md` is authoritative and supersedes the September ISO `.txt`,
+which does not mention COSMO-SkyMed, SAR, object matching or the tension measurement, and which
+contains one withdrawn sentence about what the module returns.
+
+**Four things to read before designing anything.**
+
+1. **There is no identity likelihood** (brief §3). The morphology screen is a negative result in
+   three ways: controls matched at least as well as 777 parts, the flooding model was not favoured,
+   and none of 168 simulated flooding states matched the PCA masks. PCA loss is mask overlap, not a
+   class probability. Do not redo the screen, and do not present shape as support for H.
+2. **The tension is in the observations** (§4). The six object clusters sit 121 to 166 NM north of
+   the reference posterior median, further north than the transport-inferred sources. No choice of
+   ocean product removes it. This is a conditional that relocates the estimate rather than
+   sharpening it, and your first deliverable is to measure that properly in two dimensions.
+3. **A narrow conditional is not evidence of precision** (§2). Report the PDF and its three tension
+   quantities together, everywhere. Reporting either alone is a defect.
+4. **Enumerate the matching, never sample it** (§6). 1,045 assignments over six clusters, 18,001
+   over twelve objects. Both trivial. If the two-epoch windage calibration carries no information,
+   prove it with information gain in bits, a Bayes factor, and an injection-recovery floor.
+
+**Run §11 early.** The prior work's search-conditioned residual moves west to about 91.0E and
+nobody has ever checked whether the aircraft could reach there. You have the core posterior and the
+test is cheap. If the western lobe is largely unreachable, most of the residual mass under H
+disappears, and that changes how much effort the rest of the module deserves.
+
+**The shared-ocean boundary applies to you** - see the entry above. You do not implement advection
+or choose a transport product; you raise what you need in `coordination/OCEAN_TRANSPORT.md`.
+
+**Licence.** The GA report is CC BY 4.0 except the object crops, which are (c) CNES. Never commit
+the crops.
