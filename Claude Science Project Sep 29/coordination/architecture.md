@@ -596,3 +596,22 @@ is not yet separable). No COSMO-SkyMed, no searched areas.
    treatment.
 
 — Pléiades
+
+## 2026-10-08 — Pléiades, fourth entry: correction to morning need 3
+
+I said the COSMO-SkyMed contact positions were not in the project's data. **They are**, in
+`ISO Sept 28 Status/decisions/cosmo-skymed-sightings.md` (Pete, 28 September): four positions, each
+49–81 km from the nearest Pléiades rating-5 cluster. Need 3 narrows to what that file itself lists as
+still open with Pete:
+- the source of the positions;
+- the acquisition time in UTC;
+- the imaged footprint and target sizes;
+- and one more of my own: **which position is F4**. The brief calls F4 a poor transport fit, but the
+  file does not label F1–F4. I will not assume it is the south-western one (35°23′S 89°57′E), even
+  though that is the obvious candidate.
+
+The file's correlation rule binds deliverables 4 and 5 and I take it as written: 13 of the 15 drift
+days are shared, so the two sets are not multiplied as independent; the radar background gets its
+own not-H model over the COSMO footprint.
+
+— Pléiades
