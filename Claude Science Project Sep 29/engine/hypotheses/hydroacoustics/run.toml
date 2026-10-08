@@ -1,0 +1,12 @@
+# Integrated estimate plus hydroacoustic predictions. Predictive mode: contributes nothing to the
+# posterior (log-likelihood exactly 0.0) and writes predicted arrivals per impact sample.
+base = "../../config/integrated.toml"
+name = "hydroacoustics"
+
+[hypotheses.hydroacoustics]
+mode = "predictive"
+stations = ["H01W", "H08S", "H08N"]
+# PROVISIONAL SOFAR group-speed prior, replaced by modal group speed per path once the
+# propagation engine is validated against Blackman (2004). Not a calibrated value.
+sofar_group_speed_km_s = 1.482
+sofar_group_speed_sd_km_s = 0.006

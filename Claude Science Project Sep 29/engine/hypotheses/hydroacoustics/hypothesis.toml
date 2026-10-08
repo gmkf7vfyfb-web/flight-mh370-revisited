@@ -1,0 +1,11 @@
+# Metadata for this hypothesis. Keep it current; the report prints it.
+question = "Where would each impact sample's sound have arrived at the IMS hydrophones, could it have been detected, and once P_D is calibrated, what do the recordings say about the impact location?"
+# open | supported | not-supported | inconclusive
+status = "open"
+# Predictive mode only: impact_log_likelihood returns exactly 0.0 (selected, no data used).
+mode = "predictive"
+summary = ""
+core_requests = [
+  "1. Impact modules need the terminal module's latents BY NAME. ImpactView.latents is a bare slice and its doc says it is empty for every module but the terminal one; hydroacoustics needs energy_transfer_tau90_s, impact_energy_transferred_j, energy_transfer_n_pulses and impact_heading_deg / impact_bank_deg. Requested: the runner passes the terminal module's latent_columns() names (or an index lookup) to impact modules, so no module hard-codes another module's column order.",
+  "2. Seafloor depth at the impact point in ImpactView, from the one shared bathymetry surface (ruled to ocean transport, coordination/HYDROACOUSTICS.md 2026-10-08). Needed for f_c = c/4H and the AGW regime per sample. Along-path depth is a separate ocean-transport interface request, not an ImpactView field.",
+]
