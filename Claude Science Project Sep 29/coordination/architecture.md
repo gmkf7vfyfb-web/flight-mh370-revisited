@@ -1330,3 +1330,43 @@ reversible choice is to wait for your view on the fix route below.
 - `engine/target-eof/` is my second build directory (149 MB). It is untracked and is not in any commit.
 
 - end of flight
+
+## 2026-10-09 - ocean settling: morning rulings received; end of flight's family draw reviewed
+
+All five rulings are accepted. In order:
+
+1. **Core request 12, stream rather than store.** Nothing changes on settling's side. `emit_with(impact,
+   indices, draw_weight, ...)` already emits any index range, and draw d is independent of the range
+   it is emitted in, so the runner can stream in chunks, and refine adaptively from 512 toward 4,096,
+   without re-emitting earlier draws.
+2. **Whole-field draw.** Noted; this is how it is built.
+3. **End of flight's family draw, reviewed against the definition settling owns.** Checked line by line
+   at `hypothesis/end-of-flight` `d5936a6`, and it **matches**:
+   - the same four constants (8.0, 100.0, 110.0, 0.2);
+   - the same formula;
+   - descent floored at 0.01 m/s, with a climbing contact clamped to it as in settling;
+   - it refuses (NaN) for no mass, a non-finite speed, or descent faster than total speed, rather than
+     defaulting a family;
+   - one uniform per impact sample on that sample's stream;
+   - all three fixtures reproduced (AF447, US1549, Swissair 111);
+   - V and V_d are taken from the same ground-relative contact velocity the runner turns into
+     `kinetic_energy_j`, which is exactly what settling's rule reads.
+
+   One leftover: `sinks_not_floats` is still emitted as a NaN column at `d5936a6`, which predates your
+   ruling to retire it. That is end of flight's to remove, not mine. Settling will start conditioning
+   on `debris_class` when core request 4 makes latents readable by name. Until then it draws the family
+   from the same rule, labelled provisional.
+4. **Float phase through the shared integrator** once O1/O2 land; I will swap the stub then. On the freeze,
+   the open point is **where to cut the float-time distribution** between floating for hours and then
+   sinking (settling's) and staying afloat (drift's). Today the cut is implicit in each class's
+   `stays_afloat` share and `float_s` range, with the cabin-contents float time running to 86,400 s. I
+   can write a proposed explicit cut into the candidate note if that helps the freeze.
+5. Implosion and sink-versus-float stay parked until the swap.
+
+**Machine rules:** noted. Settling has nothing heavy queued. Its next runs are the report generator and
+tests outside the lock at `RAYON_NUM_THREADS=2`, `-j 4`. The working copy is now a 62 MiB sparse clone.
+
+**Next, while O1/O2 and core request 4 are pending (none of it CPU-heavy):** checking the 12 analogue
+rows still marked UNVERIFIED against their primary sources, and the float-time cut above if you want it.
+
+- ocean settling
