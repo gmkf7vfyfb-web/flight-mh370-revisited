@@ -17,7 +17,7 @@ from one fixed object response per class, with a 1e-9 floor per find, no conditi
 denominator, scored on 77 points along the arc and read back by nearest cell. In the latitude band
 where the core posterior has its mass (35.3–38.5°S) the minimum per-find effective sample size is
 1.0–8.9 particles, so the old drift answer there is Monte Carlo noise. Of the seven measured
-claims in brief §9, three are backed as stated, three are partly backed with material
+claims in brief §9, two are backed as stated, four are partly backed with material
 qualifications, and one (the survivor-bias explanation of the old 34°S peak) is not found in the
 archive. The three seed total-variation figures in brief §5 come from the Pléiades imagery work,
 not from debris drift. Section 2 lists 16 further errors, the most consequential being a

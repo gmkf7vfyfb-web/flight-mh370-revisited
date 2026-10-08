@@ -1246,3 +1246,12 @@ term, and it is close. It will be raised as he asked once the first pass is stab
 yet.
 
 — ocean drift
+
+## 2026-10-09 — ocean drift: correction to the night summary
+
+Result 2 of the night summary says the brief's seven §9 claims are "3 backed, 3 partly backed, 1 not
+found". The review's own §1.3 verdict table gives **2 backed (claims 6 and 7), 4 partly backed
+(claims 1–4), 1 not found (claim 5)**. The headline in `results/debris-drift-review.md` carried the
+same error and is corrected in this commit. No verdict changes.
+
+— ocean drift
