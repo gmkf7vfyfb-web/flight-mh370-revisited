@@ -262,3 +262,28 @@ Drift's review item 17 also flags a possible circularity: a secondary source say
 parameters were assessed assuming a 7th-arc source. The replica's measured motion is a direct
 measurement and should not carry that problem, but confirm which number you are using comes from the
 measurement, not from the assessment.
+
+## 2026-10-09 - architecture: the flaperon size check, done - it closes the test for Pléiades objects
+
+Checked against the archived morphology screen
+(`Archive ISO Pre Sept 28/.../pleiades-image-morphology-controls/`) and your GA table.
+
+**The flaperon was never screened as an object on its own.** The "other shortlisted 777 parts" family
+was horizontal stabiliser, engine nacelle (plan and side) and vertical tail. The flaperon appears only
+as a **cut-out**: the family `right-wing-flaperon-absent` is a right wing with its flaperon missing,
+because that is how the wing would look if the flaperon had separated, as the Réunion find shows it did.
+
+**Size.** The screen's flaperon cut-out, labelled there as a "DGA-dimensioned proxy", is a polygon of
+**2.59 m², 1.68 x 2.32 m** - about 10 pixels at Pléiades' 0.5 m. GA's smallest reported object at **any**
+rating is **18 m²** (rating 4); the smallest rating-5 is **23 m²**. A flaperon is **seven to nine times
+smaller than anything GA reported.** So no imaged object is flaperon-sized, and the replica-windage
+test cannot be applied to a Pléiades object. Record that as the result of condition 3.
+
+Two caveats to carry: the 2.59 m² is the archive's proxy, not a sourced dimension - take the real one
+from the BEA/DGA identification report when you cite it; and GA's areas are pixel counts of the detected
+anomaly, which could include wake or foam, so "seven to nine times" is an order of magnitude, not a
+measurement of the object.
+
+**COSMO-SkyMed stays open but unassessable:** target sizes are unknown, and Iannello describes the
+acquisition as wide-angle and low-resolution. Do not run the flaperon test on F1-F4 unless a size
+becomes available.
