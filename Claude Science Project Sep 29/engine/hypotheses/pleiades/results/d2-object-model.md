@@ -26,8 +26,9 @@ position and exactly in area.
   PHR_4:24 and :25 chain PHR_4 18/19 and 26/27 into a single 14-object cluster. This is single linkage
   doing what single linkage does, and it is why rating 4 is an `object-rating` alternative and is
   never folded silently into the default.
-- Rating 5 + 4 at 3 km gives 12 clusters, of which five contain no rating-5 object. Three of those are in
-  PHR_2, about 35.3°S 91.3°E — a scene the rating-5 analysis never used.
+- Rating 5 + 4 at 3 km gives 12 clusters, of which seven contain no rating-5 object: three in PHR_4,
+  one in PHR_3 and three in PHR_2. The PHR_2 three, about 35.3°S 91.3°E, are in a scene the rating-5
+  analysis never used.
 
 ## Cluster weights: two declared forms, no ruling yet
 

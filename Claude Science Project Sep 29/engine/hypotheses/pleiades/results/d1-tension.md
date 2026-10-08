@@ -27,8 +27,9 @@ HDRs are 90 %. Modes: unconditional about 37.1–37.4°S 89.4–89.8°E; conditi
    unconditional's thin north-eastern tail, not in its bulk. (The second number moves by up to
    12 points with core resolution at R ≤ 30 NM; the first by under 0.2.)
 3. **The conditional HDR is narrow because H is narrow, not because the two agree.** 7,100–29,000 km²
-   against 26,800–200,400 km² unconditional — but never wider than H's own 90 % HDR from transport
-   alone (28,768 km²). Brief §2: a narrow conditional is not precision.
+   against 26,800–200,400 km² unconditional. Its width is bounded by about H's own 90 % HDR from
+   transport alone (28,768 km²): below it for R ≤ 60 NM, and equal to it within 1 % at R = 103.4 NM
+   (28,983 km²). Brief §2: a narrow conditional is not precision.
 4. **Evidence.** The Bayes ratio R = P(D_H | flight) / P(D_H | flat prior over the grid) is near one,
    e^+0.17 to e^−0.32. It depends on the prior volume (A = 439,028 km², ±100 NM of the arc over the
    grid's along-arc span) and so says only that the flight posterior is about as compatible with the
