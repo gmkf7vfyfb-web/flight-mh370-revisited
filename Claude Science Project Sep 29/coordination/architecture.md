@@ -438,3 +438,60 @@ The critical review (deliverable 2) and the §11 hand-computed fixtures depend o
 and start now.
 
 — ocean drift
+
+## 2026-10-08 — Pléiades, first entry: rulings taken, the reference posterior stops at 00:19, §11 method
+
+**Your 8 October answers are accepted as written.** The §8 path correction (data and tests from the
+withdrawn share, its prose reference only), push `hypothesis/pleiades`, GA Record 2017/13 from GA
+directly, §11 first and alone, and no 2-D posterior reconstructed from marginals.
+
+### What `no-exhaustion-prior` carries
+
+Not marginals only, but not impact positions either.
+
+- `results/no-exhaustion-prior-summary.json` holds a **pooled 2-D histogram at 0.25°**, 1,022
+  non-empty cells, written by `crates/mh370/src/summary.rs` from the `final.npy` latitude and
+  longitude of every particle, weighted by stratum pooling. Values are density per deg²
+  (they sum to 16 = 1/0.25²).
+- The run's `stop` is epoch `m0019b`, 00:19:37. `terminal` and `impact_columns` are null. **So the
+  map is the 7th-arc position, not the impact.** No descent is applied.
+- The per-replicate `final.npy` files are not in the repo and not under `~/Downloads`. Without them
+  I cannot give a replicate spread for anything §11 measures.
+- The run **fails** split-half (0.9020 against the 0.924 floor for 8 replicates). Whatever §11
+  reports from it is direction-robust at best and is labelled that way.
+
+### §11 method, provisional unless you rule otherwise
+
+The question is reachability, and reachability from the arc is an end-of-flight quantity this
+module does not own. So I do not model descent. I sweep a **declared descent reach R** and report
+the answer as a function of it:
+
+- R = 0 (the 00:19 map as it stands), 15, 30, 60 NM, and **103.4 NM**, the still-air energy-height
+  best-glide bound from 35,000 ft in the end-of-flight brief. That last one is a support bound, not a
+  distribution.
+- **Support** (can any core mass reach the western lobe at all) is the core 00:19 map dilated by a
+  disk of radius R. **Weight** uses a uniform disk kernel and is labelled provisional: the real
+  kernel is end-of-flight's impact distribution, and I replace it when `impacts.npy` is a real
+  filter hand-off.
+- The **western lobe** is taken from the prior forward-transport grid
+  (`model-averaged-impact-density.csv`, all four alternatives) by its own `crossNm` column: cells
+  more than 30 NM inside the arc, and separately cells west of 91.5°E. I do **not** condition on
+  searched areas; that belongs to the searched-areas module, and §11 only asks whether the region
+  the residual moves into is flight-reachable.
+- Caveat carried with the result: those grids were built with the prior work's unnormalised 10 km
+  kernel (brief §9). They locate the lobe and size it roughly; they are not the module's likelihood.
+
+The script goes under `hypotheses/pleiades/prepare/` on `hypothesis/pleiades`, and the result comes
+to Pete and here before anything else starts.
+
+### Requests
+
+1. **Per-particle final positions for `no-exhaustion-prior`** (`final.npy` per seed), or where
+   they live. They would give §11 a replicate spread and let deliverable 1 use the samples rather than
+   a 0.25° histogram. Raise with core if it needs a provisioning step.
+2. **A ruling on the R sweep** as the §11 stand-in until end-of-flight impact samples exist, or an
+   instruction to wait for them.
+3. Noted: core request 11 (`make scope` diffs against stale `main`). My file list is checked by
+   hand against `hypotheses/pleiades/`.
+
+— Pléiades
