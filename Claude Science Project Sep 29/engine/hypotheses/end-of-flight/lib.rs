@@ -281,10 +281,44 @@ const LATENTS: &[&str] = &[
     // NaN mean "not computed", and this flag is what lets a consumer tell that from "computed as
     // zero" mechanically rather than by reading prose.
     "impact_tau_method",
-    // Deferred hooks: present, documented, always NaN. No physics is implemented for either.
+    // Breakup family, PROVISIONAL, implemented 2026-10-09 against settling's candidate definition
+    // (`results/breakup-field-candidate.md`, sections 2-3). Settling owns the definition and the
+    // constants; this module implements the assignment. The three probabilities come from the
+    // vertical and total contact speeds; `debris_class` is the family index 0 intact, 1 broken,
+    // 2 fragmented, DRAWN ONCE per impact sample so that every consumer conditions on the same
+    // draw and no two modules can disagree about one physical event. NaN where the rule refuses
+    // (no mass, non-finite speed), never a default family.
+    "breakup_p_intact",
+    "breakup_p_broken",
+    "breakup_p_fragmented",
     "debris_class",
+    // Deferred hook: present, documented, always NaN. Settling recommends retiring it in favour of
+    // its own emitted afloat/sunk fates (one owner per partition); architecture has not ruled.
     "sinks_not_floats",
 ];
+
+/// Settling's breakup-family constants, quoted verbatim from `results/breakup-field-candidate.md`
+/// section 2. They live in settling's table; the fixtures test below is what keeps this copy honest.
+const BREAKUP_INTACT_DESCENT_MPS: f64 = 8.0;
+const BREAKUP_INTACT_SPEED_MPS: f64 = 100.0;
+const BREAKUP_FRAGMENTED_SPEED_MPS: f64 = 110.0;
+const BREAKUP_LOG_WIDTH: f64 = 0.2;
+
+/// P(intact), P(broken), P(fragmented) from the descent rate and total speed at contact, m/s.
+/// Settling's rule: with L the logistic and V_d floored at 0.01 m/s,
+/// P(intact) = L(ln(a/V_d)/s) L(ln(c/V)/s); P(fragmented) = (1 - P(intact)) L(ln(V/b)/s).
+/// Refuses (None) outside its domain rather than defaulting a family.
+fn breakup_probabilities(descent_mps: f64, speed_mps: f64) -> Option<[f64; 3]> {
+    if !(speed_mps.is_finite() && speed_mps > 0.0 && descent_mps.is_finite()) || descent_mps > speed_mps + 1e-9 {
+        return None;
+    }
+    let l = |x: f64| 1.0 / (1.0 + (-x).exp());
+    let v_d = descent_mps.abs().max(0.01);
+    let s = BREAKUP_LOG_WIDTH;
+    let intact = l((BREAKUP_INTACT_DESCENT_MPS / v_d).ln() / s) * l((BREAKUP_INTACT_SPEED_MPS / speed_mps).ln() / s);
+    let fragmented = (1.0 - intact) * l((speed_mps / BREAKUP_FRAGMENTED_SPEED_MPS).ln() / s);
+    Some([intact, 1.0 - intact - fragmented, fragmented])
+}
 
 /// Value of the `impact_tau_method` latent when no water-entry model exists, which is every sample
 /// at first pass.
@@ -630,6 +664,20 @@ impl Terminal for EndOfFlight {
             };
 
             let realised_control = flying.realised_control();
+            // Breakup family from the contact state, drawn once for this impact sample. The speeds
+            // are the ones the runner's kinetic_energy_j and vertical_kinetic_energy_j are made
+            // from, so V and V_d here are exactly sqrt(2e) and sqrt(2e_v) of settling's rule.
+            let contact_speed = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
+            let contact_descent = (-impact.velocity_up_mps).max(0.0);
+            let breakup = if impact.mass_kg > 0.0 { breakup_probabilities(contact_descent, contact_speed) } else { None };
+            let (breakup_p, debris_class) = match breakup {
+                Some(p) => {
+                    let u = uniform();
+                    let class = if u < p[0] { 0.0 } else if u < p[0] + p[1] { 1.0 } else { 2.0 };
+                    (p, class)
+                }
+                None => ([f64::NAN; 3], f64::NAN),
+            };
             let latents = vec![
                 takeover.unix_s,
                 mechanism.code(),
@@ -678,7 +726,10 @@ impl Terminal for EndOfFlight {
                 f64::NAN, // energy_transfer_peak_rate_w
                 f64::NAN, // energy_transfer_n_pulses
                 TAU_METHOD_NOT_COMPUTED,
-                f64::NAN, // debris_class: deferred hook, no physics implemented
+                breakup_p[0],
+                breakup_p[1],
+                breakup_p[2],
+                debris_class,
                 f64::NAN, // sinks_not_floats: deferred hook, no physics implemented
             ];
             debug_assert_eq!(latents.len(), LATENTS.len());
@@ -900,6 +951,30 @@ mod tests {
         for d in t.descend(&at, &atmos::Standard, &mut sweep(0.41), &epochs(), &|_| 0.0) {
             assert_eq!(d.latents[at_mech], Initiation::FlameOutAssociated.code(), "a flame-out draw came back relabelled");
         }
+    }
+
+    /// Settling's three analogue fixtures (`results/breakup-field-candidate.md` section 2, also
+    /// `breakup::tests::analogue_anchors` in settling): two implementations checked against one set
+    /// of numbers is the honest form of "one definition" while the constants live in settling's table.
+    #[test]
+    fn breakup_probabilities_reproduce_settlings_fixtures() {
+        let close = |got: [f64; 3], want: [f64; 3], tol: [f64; 3], name: &str| {
+            for k in 0..3 {
+                assert!((got[k] - want[k]).abs() <= tol[k], "{name}[{k}]: {} against {}", got[k], want[k]);
+            }
+        };
+        // AF447: V_d 55, V 78 -> (5.05e-5, 0.8479, 0.1520)
+        close(breakup_probabilities(55.0, 78.0).unwrap(), [5.05e-5, 0.8479, 0.1520], [5e-7, 5e-5, 5e-5], "AF447");
+        // US Airways 1549: V_d 3.8, V 64 -> (0.8817, 0.1109, 0.0074)
+        close(breakup_probabilities(3.8, 64.0).unwrap(), [0.8817, 0.1109, 0.0074], [5e-5, 5e-5, 5e-5], "US1549");
+        // Swissair 111: V 154, 20 deg nose down -> V_d = 154 sin 20 = 52.67 -> (8.4e-6, 0.1568, 0.8432)
+        close(breakup_probabilities(154.0 * 20f64.to_radians().sin(), 154.0).unwrap(), [8.4e-6, 0.1568, 0.8432], [5e-8, 5e-5, 5e-5], "SR111");
+        // Refuses outside the domain rather than defaulting a family.
+        assert!(breakup_probabilities(10.0, 0.0).is_none());
+        assert!(breakup_probabilities(f64::NAN, 50.0).is_none());
+        assert!(breakup_probabilities(60.0, 50.0).is_none(), "descent faster than total speed");
+        // A level contact is floored, not refused.
+        assert!(breakup_probabilities(0.0, 60.0).is_some());
     }
 
     /// The realised flame-out must never be read as a prediction. Two hand-offs identical except
@@ -1178,7 +1253,10 @@ mod tests {
         let at = |name: &str| names.iter().position(|n| n == name).unwrap_or_else(|| panic!("no latent {name}"));
         let descents = t.descend(&handoff(EXHAUSTION - 1_800.0), &atmos::Standard, &mut sweep(0.3), &epochs(), &|_| 0.0);
         for d in &descents {
-            assert!(d.latents[at("debris_class")].is_nan(), "debris_class must be NaN");
+            let class = d.latents[at("debris_class")];
+            assert!([0.0, 1.0, 2.0].contains(&class), "debris_class must be a drawn family index, got {class}");
+            let p: f64 = ["breakup_p_intact", "breakup_p_broken", "breakup_p_fragmented"].iter().map(|n| d.latents[at(n)]).sum();
+            assert!((p - 1.0).abs() < 1e-12, "breakup probabilities sum to {p}");
             assert!(d.latents[at("sinks_not_floats")].is_nan(), "sinks_not_floats must be NaN");
             // Architecture's acceptance rule: on a real hand-off no fallback may fire at all. The
             // fixture carries the fuel state request 1 delivered, so a flag here means the

@@ -18,7 +18,7 @@ R_EARTH_M = 6_371_008.8
 
 # Latents that are NaN by declaration, never a defect.
 DECLARED_NAN = {
-    "debris_class", "sinks_not_floats",                                   # deferred hooks
+    "sinks_not_floats",                                                   # deferred hook
     "impact_energy_transferred_j", "energy_transfer_t05_s", "energy_transfer_t95_s",
     "energy_transfer_tau90_s", "energy_transfer_peak_rate_w", "energy_transfer_n_pulses",
     "onset_support_truncated_fraction",                                   # core request 2
@@ -131,6 +131,15 @@ def main(out_dir, handoff_run, out_json):
                            "share_beyond_glide_bound_of_arc": beyond,
                            "flag": "collapsed" if q90 < 0.5 else ("beyond glide bound" if beyond > 0.05 else None)})
         r["item5_spread_by_family"] = spread
+
+        # Breakup family (settling's candidate rule, provisional): drawn share and mean probabilities.
+        dc = lat("debris_class")
+        r["breakup"] = {
+            "refused_share": float(w[~np.isfinite(dc)].sum() / w.sum()),
+            "drawn_share_intact_broken_fragmented": [float(w[dc == k].sum() / w.sum()) for k in (0, 1, 2)],
+            "mean_probability_intact_broken_fragmented": [float(np.nansum(w * lat(n)) / w.sum()) for n in
+                                                          ("breakup_p_intact", "breakup_p_broken", "breakup_p_fragmented")],
+        }
 
         # Pleiades section 11: displacement from the 00:19:37 position.
         to = X[:, ci["takeover_unix_s"]]
