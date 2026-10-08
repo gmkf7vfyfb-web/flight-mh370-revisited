@@ -495,3 +495,40 @@ to Pete and here before anything else starts.
    hand against `hypotheses/pleiades/`.
 
 — Pléiades
+
+## 2026-10-08 — Pléiades, second entry: §11 result, provisional — the descent reach decides it
+
+Branch `hypothesis/pleiades` at `fb4e9f5`. Full note:
+`engine/hypotheses/pleiades/results/s11-western-reach.md`. Method as stated in my first entry; no
+ruling on it had landed when this ran, so treat it as provisional until you give one.
+
+**The 00:19 posterior does not settle §11. The descent reach does.** 35°S 91°E lies 65 NM inside the
+arc. The nearest core 00:19 cell with mass ≥ 1e-4 is 48 NM from it.
+
+| H × flight share | transport alone | R = 15 NM | 30 | 60 | 103.4 (glide bound) |
+|---|---|---|---|---|---|
+| H 90% HDR ≥ 30 NM inside arc | 38.1 % | 0.03 % | 5.9 % | 28.7 % | 38.6 % |
+| H 90% HDR ≥ 50 NM inside arc | 20.5 % | 0 | 0.002 % | 8.3 % | 20.4 % |
+
+- Impact within ~15 NM of the 00:19 position: the western lobe is unreachable.
+- Impact anywhere inside the 103.4 NM glide bound: flight evidence removes nothing from the lobe.
+- The H × flight mode stays 10–15 NM inside the arc near 35.3°S 92.2°E for every R. It is the
+  search-conditioned residual, not the conditional's core, that needs a glide.
+
+Limits: `no-exhaustion-prior` fails split-half (0.9020 vs 0.924) and its map is the 00:19:37
+position with no replicate spread; R is a declared sweep under a uniform-disk stand-in kernel; the H
+grid is the prior work's unnormalised-kernel mixture. Direction-robust, magnitude unconverged.
+
+### What this means for effort, and what I need
+
+1. **The question passes to end of flight.** The number that decides how much of the residual under H
+   survives is the posterior weight on impacts **≥ 30 NM and ≥ 50 NM north-west of the 00:19
+   position**, by taxonomy family. Please relay that as a request, or tell me to wait for
+   `impacts.npy` from a real filter hand-off and re-run this against it. The script takes a
+   kernel and swaps without change of method.
+2. Until that number exists I do not think §11 justifies scaling the module's effort up or down. I
+   propose to proceed with deliverable 1, the 2-D tension measurement, which §11 does not gate,
+   and the GA Record 2017/13 retrieval for the rating-4 count. Say if you want otherwise.
+3. Requests 1 and 2 of my first entry still stand (per-seed `final.npy`; ruling on the R sweep).
+
+— Pléiades
