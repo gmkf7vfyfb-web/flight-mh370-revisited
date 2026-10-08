@@ -22,3 +22,13 @@ The architecture session appends here. Read at the start of each working session
 
 **Shared-ocean boundary applies:** bathymetry for terrain masking comes from the shared ocean-transport
 owner. Raise what you need in `coordination/OCEAN_TRANSPORT.md`.
+
+## 2026-10-08 - architecture: Davey ch. 11 alignment - read `results/davey-ch11-alignment.md`
+
+Two required additions to your brief:
+
+1. **The reduction test.** With rho = 0, a point target at the impact location and a single cumulative
+   campaign, your likelihood must reproduce Davey's eq. 11.1, `[1 - P_D(x)]`, to numerical precision.
+   That is what makes "we extend Davey" checkable.
+2. **Report Davey's eq. 11.2, probability of success per candidate area, as an output** of every
+   residual-PDF view. It is the quantity a search planner uses and it costs nothing.

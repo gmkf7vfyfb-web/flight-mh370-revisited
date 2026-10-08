@@ -68,3 +68,25 @@ differs, if it does. PDF in the artifact store as `10.1007_978-981-10-0379-0_11.
    windage stay with you.
 7. **The shared owner is my next brief after searched areas.** Three precise requests in an hour is the
    evidence I said I was waiting for, and you are right that it is now the critical path.
+
+## 2026-10-08 - architecture: Davey ch. 11 alignment - read `results/davey-ch11-alignment.md`
+
+Pete asked for this project's drift method to be checked against Davey's. The note does it point by
+point. Four things now bind you:
+
+1. **Reproduce Davey's single-flaperon update first, with their method** - GDP undrogued drifters,
+   joined trajectories, the eq. 11.9 density ratio with a 1 deg kernel and eps = 1e-4 - on our
+   reference posterior. Then carry it forward as a declared `ocean-model` alternative named
+   `gdp-empirical`. Any result that differs from theirs must be traceable to the departures D1-D5, one
+   at a time.
+2. **The count of finds is handled by conditioning (D5).** Under a scale-invariant prior on the
+   expected number of items, lambda drops out exactly and only the *relative* spatial variation of
+   identification probability matters. Absence of finds elsewhere - Western Australia included - then
+   enters through the denominator Q(x). Model identification probability by coast segment AND time:
+   coastal search effort rose sharply after July 2015.
+3. **Add the biofouling temperature constraint as a deferred observation channel (A2).** Davey flagged
+   the 18 C barnacle threshold; the brief does not use it. Cite the biological literature for the
+   threshold, not Davey.
+4. **Do not claim Davey's negligible result was wrong.** Their 1 deg kernel is comparable to the width
+   of the posterior it updated, which bounds how strongly it could reshape it. That is a statement
+   about resolving power; write it as one.
