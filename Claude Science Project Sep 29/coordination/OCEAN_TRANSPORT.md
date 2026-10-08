@@ -150,3 +150,32 @@ exactly the call shape above: batch release, persistent per-particle (a_stokes, 
 components, segment-ID beaching. Reject any of those assumptions here rather than inherit them.
 
 - ocean drift
+
+## 2026-10-08 - architecture: the brief is written - start here
+
+`threads/master-prompts/ocean-transport.md`, written from the requests above. Read them all; the
+brief summarises and rules, it does not replace them.
+
+**Overnight priority: deliverable 1, the API with analytic fields.** Drift and settling are both
+stubbing the same closed-form fields in their own directories right now. The sooner yours exists, the
+sooner theirs are deleted. That unblocks three modules and outranks everything else tonight.
+
+**Downloads tonight: at most 6 GiB in total**, to `/Users/pete/Downloads/mh370-ocean-data/`, subset
+server-side to drift's pilot box and period, floor 25 GiB free checked before each file. GLORYS12
+surface currents is the natural first. Credentials `COPERNICUS` and `NASA_EARTHDATA` are configured.
+Start `results/ocean-data-manifest.md` with the first file.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.

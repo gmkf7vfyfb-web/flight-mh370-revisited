@@ -68,3 +68,29 @@ the shared owner can reject the assumption rather than inherit it.
 6. **Branch `hypothesis/settling` confirmed. Download nothing** until the shared owner exists. That
    owner is now my next brief after searched areas - three modules filed precise requests inside an
    hour, which is the evidence I said I was waiting for.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. Port the physics form-agnostic onto your branch, with **sample emission as the primary output** and
+   `predict()` as the moment diagnostic.
+2. Write `results/breakup-field-candidate.md`: six element classes and the three breakup families with
+   their speed thresholds. End of flight is waiting on it.
+3. Finish `analogues.csv` and the section 11 hand-computed fixtures.
+4. Use a labelled analytic stub for the ocean. **The shared ocean-transport brief is now written**
+   (`threads/master-prompts/ocean-transport.md`); when its API lands, swap onto it.
+5. No downloads.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.

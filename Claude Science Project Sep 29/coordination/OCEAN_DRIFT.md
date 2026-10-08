@@ -90,3 +90,32 @@ point. Four things now bind you:
 4. **Do not claim Davey's negligible result was wrong.** Their 1 deg kernel is comparable to the width
    of the posterior it updated, which bounds how strongly it could reshape it. That is a statement
    about resolving power; write it as one.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. The critical review and the section 11 fixtures, as planned.
+2. The analytic stub, the source-grid layer and the interpolation-of-relative-likelihood layer, so the
+   pilot becomes a field swap.
+3. **The conditional recovery likelihood of D5** in `results/davey-ch11-alignment.md`, on the stub -
+   lambda cancelled, relative identification probability by coast segment and time, the denominator
+   Q(x) explicit.
+4. **Plan the Davey reproduction (A1).** You may download the **GDP 6-hourly drifter data, up to 1 GiB**,
+   to `/Users/pete/Downloads/mh370-ocean-data/gdp/`, record it in `results/ocean-data-manifest.md`, and
+   start the joined-trajectory reproduction. GDP is validation data and yours under the replay split.
+5. The find-episode grouping draft for the stringent nine, for my ruling.
+6. **Nothing else downloaded.** Reanalysis products belong to the shared owner.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.

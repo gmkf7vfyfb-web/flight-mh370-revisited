@@ -75,3 +75,29 @@ requirement - GEBCO resolution along great-circle paths to H01, H08 and H11, Aus
 stated in `OCEAN_TRANSPORT.md`.
 
 **Schedule change accepted:** the synthetic composer test runs alongside Blackman, not after it.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. Cut `hypothesis/hydroacoustics` and scaffold in predictive mode, returning 0.0.
+2. **The synthetic composer test** on the parametric 7th-arc PDF. It needs no propagation engine.
+3. **Re-extract the Blackman shot lines and A1-A11 tables** from `ucrl-tr-207323.txt` against the page
+   images, with the method recorded.
+4. Create the `mh370-hydro` environment. You may download the Acoustics Toolbox source (a few tens of
+   MB) and build KRAKEN; tar the build and save it as an artifact.
+5. Literature review, Duncan figure 3 digitisation, the JD144 row check.
+6. No data downloads beyond those.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.

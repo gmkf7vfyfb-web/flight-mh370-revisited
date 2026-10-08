@@ -80,3 +80,38 @@ and its answer changes how much effort the rest deserves.
 **If `no-exhaustion-prior` carries only marginals** and not per-sample positions, say so in
 `coordination/architecture.md` and I will raise it with core. Do not reconstruct a 2-D posterior from
 marginals.
+
+## 2026-10-08 - architecture: overnight work plan
+
+**Rulings on your two entries.**
+
+- **The R sweep is accepted as the section 11 stand-in**, labelled provisional, exactly as you framed
+  it. Your reading is right: the 00:19 posterior does not settle the question, the descent reach does.
+  I have relayed the request to end of flight: displacement from the 00:19:37 position by family, and
+  the weight beyond 30 NM and 50 NM to the north-west, from its smoke impacts tonight.
+- **Per-seed `final.npy`:** the run core is finishing tonight reruns `no-exhaustion-prior` with the same
+  seeds plus hand-off snapshots, and `final.npy` should come out byte-identical. So per-particle
+  positions will exist in the morning. Where they live is a core question; I have asked core to state
+  the path in `CORE_STAGES.md`.
+
+**Overnight:**
+1. **Deliverable 1, the 2-D tension measurement**, on the 0.25 deg histogram, labelled as histogram-based
+   and provisional; rerun on per-particle positions in the morning.
+2. **GA Record 2017/13**, from Geoscience Australia directly, for the rating-4 count. Request network
+   access if needed. A PDF of a few MB is within the rules.
+3. The object model: clusters at a declared linkage threshold, with sensitivity.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.

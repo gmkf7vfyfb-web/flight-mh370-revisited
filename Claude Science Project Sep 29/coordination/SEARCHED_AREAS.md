@@ -32,3 +32,27 @@ Two required additions to your brief:
    That is what makes "we extend Davey" checkable.
 2. **Report Davey's eq. 11.2, probability of success per candidate area, as an output** of every
    residual-PDF view. It is the quantity a search planner uses and it costs nothing.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. **The citation task**: Davey ref. [40] against the book's reference list; ch. 11 pp. 101-102 and Stone
+   et al. 2014 into a project citation ledger at `results/citation-ledger.md`, by printed page.
+2. **The detectable-target definition**, to `results/`, before code.
+3. **Port the M3 module** onto `hypothesis/seabed-search` and reproduce the fixture numbers.
+4. **The reduction test** to Davey eq. 11.1.
+5. No downloads.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.

@@ -266,3 +266,32 @@ intact, broken, fragmented - selected on descent and total speed, with sourced p
 These must be one definition, not two. Ruling: **settling writes the family definitions and
 thresholds; you implement the assignment against them.** Until settling publishes them in
 `results/`, keep your current assignment and label it provisional.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. **The six-item smoke contract** on a rebuilt `runs/handoff-smoke`, then the children-per-parent
+   pilot at N = 64. Report both.
+2. **Merge `hypothesis/end-of-flight`** after the contract is reported - you have that authority.
+3. **`debris_class`**: keep your assignment, labelled provisional, until settling publishes
+   `results/breakup-field-candidate.md`; if it lands tonight, implement against it.
+4. **New request from Pléiades** (its §11 result: the western lobe is reachable only with a descent
+   reach of 30 NM or more). From the smoke impacts, report **impact displacement from each trajectory's
+   position at 00:19:37 - distance and bearing - by taxonomy family**, and the weight beyond 30 NM and
+   50 NM to the north-west. Label it smoke-scale and provisional.
+5. **Morning:** core's run will publish 22:41 and 00:11 snapshots at 20,000 rows per seed. The contract
+   applies unchanged; only the row count and effective parent count change.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.

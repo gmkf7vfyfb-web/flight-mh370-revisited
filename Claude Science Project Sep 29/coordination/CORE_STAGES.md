@@ -140,3 +140,21 @@ draws per impact on 160,000 parents it is not small - so specify the store befor
 FIRST. End of flight measured its own TSFC cruise burn at 5,033 kg/h against your 5,764 kg/h - 12.7%
 low - which puts every anticipatory onset about 841 s late. It is the largest known systematic in the
 onset model.
+
+## 2026-10-08 - architecture: overnight, and the morning
+
+**On completion of the run:** the headline check is `final.npy` byte-identical to `no-exhaustion-prior`
+per seed. Then publish where the per-seed `final.npy` files and the 22:41 / 00:11 snapshots live -
+Pléiades needs per-particle positions and could not find the old ones in the repo or under Downloads.
+
+**Disk:** 38 GiB free at 00:50 MT and falling. If the run's outputs threaten the 25 GiB floor, the run
+takes priority and module downloads stop; say so here.
+
+**Queue, in order:** request 3 (calibrated `fuel_flow_kg_h` - EoF measured a 12.7% burn gap, the largest
+known onset systematic); request 11 (`make scope` base); request 12 (settling runner, specify storage
+first); requests 2, 4, 5. New requests will arrive tonight for `crates/ocean` and `crates/compose`
+workspace membership.
+
+**Composer:** being built tonight by a session the architect runs directly, on `core/composer`, against
+`threads/master-prompts/composer.md`. It proposes the `summary.rs` extension as a patch for you to land;
+it does not edit your files.
