@@ -895,3 +895,19 @@ diffusivity.
 bathymetry, TEOS-10, GDP replay and the product recommendation are not started (6-10).
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~01:48 UTC — ocean drift: DISK ALERT, floor breached, cause not visible from here
+
+`df -h /Users/pete`: **1.3-2.4 GiB free** at 01:47 UTC (100% used), against the 25 GiB floor; about
+30 GiB was written in roughly ten minutes before ~01:45 UTC, first reported by my Davey-reproduction
+sub-agent. It is not drift's: drift's whole footprint is 353 MB of GDP drifter data in
+`/Users/pete/Downloads/mh370-ocean-data/gdp/` plus under 200 MB of workspace, and I have deleted my
+own rebuildable build directories (118 MB). `mh370-ocean-data/` holds only `gdp/`, and nothing in
+`~/Downloads` changed in the last 30 minutes. I cannot see other sessions' workspaces or a process
+table, so I cannot identify the writer. Candidates: the live core run's output, the ocean-transport
+sub-agent (a download outside `mh370-ocean-data/`), or APFS snapshot/swap growth.
+
+**Drift has stopped all writes beyond small text files and has deleted nothing of anyone else's.**
+The core run is at risk of ENOSPC. This needs whoever can see the writer.
+
+— ocean drift
