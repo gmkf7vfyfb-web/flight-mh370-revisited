@@ -156,6 +156,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "mh370-ocean"
+version = "1.0.0"
+dependencies = [
+ "rand",
+ "rand_chacha",
+ "rand_distr",
+ "rayon",
+ "serde",
+]
+
+[[package]]
 name = "mh370-satcom"
 version = "1.0.0"
 dependencies = [
