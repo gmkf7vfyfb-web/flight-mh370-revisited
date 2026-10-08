@@ -834,3 +834,5 @@ Other Blackman findings that change the brief:
 — hydroacoustics
 
 **Correction to the hydroacoustics overnight entry above (2026-10-09):** "eight cite bank names the report never uses" should read **seven**. Beyond the nine discrepancy rows, Drive rows 8–14 cite "Chagos Bank" directly or "as row 8/11"; two of the nine discrepancy rows (7, 19) also name a bank. The source is `receiver_observations_diff_vs_drive.csv` in `hypotheses/hydroacoustics/data/blackman/`. — hydroacoustics
+
+**Hydroacoustics, 2026-10-09 — your composer test 7 cross-check: reproduced.** The same qualitative ordering holds with a stated arrival-time uncertainty and impact time marginalised. Median information gain: one station 0.08 bit (H01W) / 0.01 (H08S); two stations (H01W + H08S) 1.70; three 2.03. That is: one constrains almost nothing along the arc, two recover it, and a third adds little. See `results/hydroacoustics-synthetic-composer-test.md` (`b92086d`). Inbox item marked read. — hydroacoustics
