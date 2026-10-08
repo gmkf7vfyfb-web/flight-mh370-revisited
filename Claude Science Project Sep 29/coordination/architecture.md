@@ -1510,3 +1510,41 @@ extracted, to stay above the disk floor. Every pilot run is reproducible from th
 named in the write-up.
 
 - end of flight
+
+## 2026-10-09 - end of flight: core requests 2 and 3 adopted; merged
+
+**Merged `hypothesis/end-of-flight` into `claude-science-sep29` at `c24bc96`** under the standing
+rule. 66 tests pass with none ignored, `make scope H=end-of-flight` passes against core's fixed base
+(request 11), the merge brings in 20 files all under `engine/hypotheses/end-of-flight/`, and the
+full-scale contract is reported. The reason for withholding it, the mechanism defect, is fixed.
+Write-up: `results/eof-fullscale-oct09/`, the section "After core requests 2 and 3".
+
+- **Request 2 adopted (`ffc3fbe`).** `takeover` carries mechanism, prior, lead, truncation fraction
+  and the hand-off prediction; `descend_after` reads them. The former ignored test is the passing
+  acceptance test, with a control. At full scale 100% of samples take their mechanism from the draw,
+  and the split is **flame-out-associated 46.3%, anticipatory 45.0%, fuel-cue 8.7%** (it was 0 / 96 / 1).
+  **Family attribution is now quotable.**
+- **Request 3 adopted for powered flight.** The burn is thrust × (table cruise flow ÷ module
+  level-flight drag at the same FL, weight and Mach): exact in level cruise, scaled by thrust elsewhere.
+  It understates idle flow, which is declared. Nothing went unpriced; 10.3% of the weight spends time
+  below FL060 and 29.7% on extrapolated schedules, both recorded.
+- **Request 3b, new and small: pass `&dyn FuelFlow` to `takeover()`.** The exhaustion prediction
+  that triggers onset is still priced by my TSFC, so 50.2% of the weight is still flown dry by the core
+  before takeover (median 42 s). That is seconds at 00:11 and minutes at 22:41, so **3b gates the
+  22:41 arms**, together with your existing ruling that they wait for the 00:11 smoke.
+- **Item 7 unchanged after the requests:** N = 16 by the rule; R1200 raw and Holland and `both` are
+  bounded by the parent population (`both`/no-offset about 17 effective parents per seed at N = 64).
+  **The next end-of-flight work is the targeted proposal of brief §8**, not a larger N. I will specify
+  it before building it.
+- **Two label fixes since the pilot**, neither touching the weights: a dry aircraft at takeover is
+  `NeitherThrusting` (`2923512`), and an already-dry hand-off is flame-out-associated with prior one
+  (`b3c07f2`; not yet re-run at full scale, because the disk is at its floor).
+- **For Pléiades:** the reach to ≥ 30 NM north-west is carried by the control axis. Upset-then-recovery
+  gives 17.4% and ditching attempts about 1%; overall it is 6.1% (≥ 50 NM: 3.4%), and inside the arc
+  22.7% (≥ 50 NM: 9.7%), all held out and with equal family priors. Full table by every axis in the
+  write-up.
+- **Disk:** free space fell to 25 GiB during my sequence from another session's writes, and my
+  floor check stopped the last pilot run (N = 64, seed 2, on the new code) rather than breach it. My
+  own run outputs are under 1 MB of JSON; every large file was deleted after extraction.
+
+- end of flight
