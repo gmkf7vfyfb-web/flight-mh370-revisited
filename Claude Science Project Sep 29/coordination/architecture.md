@@ -628,3 +628,88 @@ A review found two overstatements, both now fixed on `hypothesis/pleiades` at `5
    rating-5 object: three in PHR_4, one in PHR_3, three in PHR_2.
 
 — Pléiades
+
+## 2026-10-08 — composer (architecture sub-agent): `crates/compose` built, all seven tests pass
+
+**Branch `core/composer`** (cut from `claude-science-sep29` at e149ff5), two commits:
+`af07670` the seven acceptance tests against a stubbed API (all seven compiled and failed), then
+`5d2a206` the implementation. `cargo test --release -p mh370-compose -- --test-threads=2`:
+**7 passed, 0 failed, 1.5 s** (built at `-j 2`). Files: `engine/crates/compose/{Cargo.toml,src/lib.rs,src/tests.rs}`,
+plus the workspace `Cargo.toml` members line and `Cargo.lock`, declared in the commit message.
+No other core file was touched on any branch.
+
+### What is built, what is specified, what is intended
+
+- **Built (on `core/composer`):** the composer as a library. It works on in-memory impact samples
+  (impacts.npy columns with the `mh370 evaluate` columns appended) and the per-mode evidence
+  from run.json. It sums factor columns per sample, marginalises shared alternatives jointly,
+  and returns per-replicate composed weights with per-(replicate, mode) evidence for `summary.rs` to pool.
+  It also reports ESS per factor and combined (rows and parents), P(option | D) island-pooled
+  (per replicate and per split half), per-family mass and Bayes factors, and NaN counts and weights per factor,
+  and it records the factors, columns and observations each product contains.
+- **Specified, not landed:** the `summary.rs` extension, as
+  `results/composer-summary-rs.patch` (on `claude-science-sep29`). I checked it in my own clone only:
+  it applies cleanly on `core/composer`, `cargo test -p mh370 summary` gives 4 passed (the two
+  existing tests and two new ones), and `cargo check -p mh370` gives no new warnings. I then reverted it.
+  It is committed nowhere as code.
+- **Intended (core request):** the runner stage that reads `impacts.npy`, runs the impact modules
+  and calls the composer per `[[compose]]` set. It is described in `CORE_STAGES.md`; `main.rs` and `config.rs` are untouched.
+
+### The seven tests (composer.md §3), all on synthetic samples with known answers
+
+| # | test | what it settles |
+|---|---|---|
+| 1 | `analytic_gaussian_factor_on_gaussian_prior` | Two strata on 4,001-point grids: ln D per mode, P(mode \| D), posterior mean and sd and the pooled evidence all match the closed form to 1e-9. Monte Carlo (2 × 100,000 draws): mean and ln D within 4 SE. A 0.0005° factor leaves the product **unconverged** against the 1,000-parent floor. |
+| 2 | `shared_alternative_is_marginalised_jointly` | Hand case: the joint weights are (0.26, 0.045)/0.305 and ln Z = ln 0.1525, against (0.18, 0.045) for separate marginalisation. P(m1 \| D) = 0.1275/0.1525. A conditional on m1 is labelled and carries P(m1 \| D) beside it. Also refused: a relative-scale module across options, mismatched labels, disagreeing priors (unless overridden; the override is hand-checked) and composing B after A already marginalised `ocean-model`. A trajectory alternative is followed per stratum, not marginalised. |
+| 3 | `observation_used_twice_is_refused` | Overlaps between modules, with the base product's filter observations, with an earlier factor (the 00:19 option took `m0019b.bfo`) and within one module. |
+| 4 | `zero_is_exact_and_nan_is_neither_zero_nor_impossible` | A module returning 0.0 everywhere is in the product and leaves the weights **bit for bit** unchanged, with evidence increment exactly 0. Likelihoods (2, 1, NaN, 0.5): the weights are (3/7, 3/14, 1/4, 3/28) and D = 7/6. Reading NaN as 0.0 would give that row 2/9; reading it as −inf would give 0. A NaN weight of 0.25 is refused at the default tolerance of 1e-3. −inf is impossible, not missing. |
+| 5 | `a_factor_is_never_applied_twice` | Composing a factor onto a product that contains it is refused, and so is naming it twice in one set. `contains` and `columns` are exact. One set or two steps give the same product, and the evidence increments add. |
+| 6 | `per_replicate_mode_evidence_pools_like_summary_rs` | 4 replicates, 3 strata run, two children per parent. Pooling the composed product with `summary.rs` `pooling()` equals direct reweighting of the pooled base sample to 1e-12: weights, P(mode \| D), P(option \| D) and evidence. |
+| 7 | `synthetic_hydroacoustic_detections_move_the_impact_pdf` | Detections at 1, 2 and 3 stations, against an independent 2 km grid quadrature, at 4 SE. |
+
+**Test 7 numbers (replicate 1 of 2; 200,000 prior samples; 60 × 150 km prior; truth 30 km W and 120 km N
+of the prior centre; noise-free arrivals, 10 s timing error):**
+
+| stations | mean moved N / E (km) | posterior sd N / E (km) | ESS (rows) | ln D (composer / grid) |
+|---|---|---|---|---|
+| 1 | +18.6 / −36.7 | 150.8 / 22.6 | 52,786 | −4.896 / −4.897 |
+| 2 | +120.1 / −28.6 | 24.8 / 16.7 | 8,480 | −10.271 / −10.270 |
+| 3 | +119.3 / −29.0 | 15.0 / 10.3 | 4,310 | −14.192 / −14.182 |
+
+This is geometry only: great-circle ranges at 1.48 km/s, with station positions near H01, H08 and H04.
+It shows the move is computable. It says nothing about real hydroacoustic resolving power.
+
+### Provisional: design choices awaiting a ruling
+
+1. **NaN rows.** A row that any factor did not compute is carried at the mean likelihood ratio D_im
+   of the computed rows of its (replicate, mode). It therefore neither gains nor loses share within that
+   cell, and the evidence D_im is that of the computed rows. That is my reading of "never zero, never −inf".
+   The other reading, dropping the row, is −inf in disguise.
+2. **Tolerance means refusal**, as the brief says. The `config.rs` doc comment on `ComposeSet.tolerance`
+   says "flagged incomplete"; it should be brought into line.
+3. **ESS floor**: default 1,000 effective *parents* in every replicate, taken from the core's 00:19
+   convention. It is a field of `compose::Set`; `config.rs` has no key for it yet (core request).
+4. **"Per end-of-flight hypothesis first"** is implemented as per descent family within one run
+   (families lead the serialised product). Comparing the end-of-flight arms across runs is left to the report.
+5. **Equal-area grid** in the patch: 0.25° in longitude by equal steps of the WGS-84 authalic q(φ).
+   Every cell is exactly 769.3 km² of ellipsoid, which a test checks against an independent area integral.
+6. **Test 6** compares against a statement-for-statement transcription of `pooling()`, because the
+   composer crate cannot depend on the runner. The patch adds the same check inside `summary.rs`
+   against the real function.
+7. A relative-scale module that declares the run's trajectory alternative is refused outright.
+8. **Not yet exercised on real or smoke impacts, nor on the searched-areas M3 fixture** (44,190
+   arc-kernel impacts). There is no npy reader in the crate; file I/O is `output.rs`'s, in the runner stage.
+
+### Core requests (also in `CORE_STAGES.md`)
+
+1. Workspace membership: `crates/compose` in the members line (and its `Cargo.lock` entry).
+2. Land `results/composer-summary-rs.patch`. It adds `compose = { path = "crates/compose", package =
+   "mh370-compose" }` to `[workspace.dependencies]` and `compose.workspace = true` to `crates/mh370`,
+   plus `summary::composed()` with its two tests.
+3. The runner stage, replacing the `[[compose]]` rejection at `main.rs:71`, with
+   `ComposeSet.ess_floor` added in `config.rs`.
+
+Audit note: `git ls-files` on the shared branch tracks `engine/data/._fuel-tables.json`, a macOS
+AppleDouble file. It is not from this work, but the repo is public.
+
+— composer (architecture sub-agent)

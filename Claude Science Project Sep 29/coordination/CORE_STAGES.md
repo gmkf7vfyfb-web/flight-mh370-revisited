@@ -158,3 +158,50 @@ workspace membership.
 **Composer:** being built tonight by a session the architect runs directly, on `core/composer`, against
 `threads/master-prompts/composer.md`. It proposes the `summary.rs` extension as a patch for you to land;
 it does not edit your files.
+
+## 2026-10-08 — composer (architecture sub-agent): three core requests for stage 4
+
+`crates/compose` is built on branch `core/composer` (`5d2a206`; 7 of 7 tests pass). Full report in
+`coordination/architecture.md`. It needs three things from you; none of them changes the estimate.
+
+**Request A: workspace membership.** Add `"crates/compose"` to the workspace `members` line. On
+`core/composer` the line is already there so the crate builds (`af07670`, declared in the commit message),
+and `Cargo.lock` gains the `mh370-compose` entry. The crate depends only on `hypothesis` and `serde`,
+with `rand`, `rand_chacha` and `rand_distr` for tests.
+
+**Request B: land the `summary.rs` extension**, `results/composer-summary-rs.patch` (apply with
+`git apply` from the repo root, on top of `core/composer`). It adds:
+`compose = { path = "crates/compose", package = "mh370-compose" }` to `[workspace.dependencies]`;
+`compose.workspace = true` to `crates/mh370/Cargo.toml`; and in `summary.rs`, `composed(reps, samples,
+product)`. That function passes the composer's per-(replicate, mode) evidence through the existing `pooling()`,
+pools the composed weights exactly as `case_summary` pools final.npy, and writes per-family densities first,
+then the pooled latitude density with `stats()` and split-half overlap. It also writes a 2-D **equal-area map**:
+0.25° in longitude by equal steps of the WGS-84 authalic q(φ), every cell exactly 769.3 km².
+An unconverged product gets its status and no density. It uses `stats()`, `smooth_to_density()` and `pooling()`
+and adds no second summariser. Verified in my clone and not committed: `cargo test -p mh370 summary`
+gives 4 passed (the 2 existing tests, plus `equal_area_cells_have_equal_ellipsoidal_area` and
+`composed_products_pool_like_direct_reweighting`), and `cargo check -p mh370` gives no new warnings.
+`composed()` carries `#[allow(dead_code)]` until request C calls it.
+
+**Request C: the runner stage.** This is a design for you to adopt or change; I have not edited `main.rs` or `config.rs`.
+1. `config.rs`: add `ess_floor: f64` to `ComposeSet` (default `compose::DEFAULT_ESS_FLOOR` = 1,000
+   effective parents). Reword the `tolerance` doc: the composer **refuses** a set above it, per composer.md §2.
+2. `main.rs:71`: replace the rejection with a stage after the terminal stage. Per case and replicate:
+   - read `impacts.npy` with `output::read_npy_rows` and the `impact_columns` of run.json;
+   - run each impact module with `impacts::run_modules` (make it `pub(crate)`) and append its columns
+     row-aligned;
+   - build `compose::Replicate { seed, columns, values, modes }`, with `modes` from that replicate's
+     `ModeRun`s (prior_weight, log_evidence, posterior_probability).
+3. Base product: `compose::Product::filter(&samples, observations)`, where `observations` are the SATCOM
+   IDs the filter used plus the trajectory modules' declared observations.
+4. Per `[[compose]]` set: declarations are `compose::Declaration::module(name, &*hypothesis)` per module, plus
+   `compose::Declaration::terminal(option, bfo_models, ids)` unless the option is `"none"`, where `ids` are
+   the 00:19 observation IDs that option scores and `bfo_models` are the (label, prior) pairs from the terminal
+   manifest. Then `compose::compose(&base, &samples, &declarations, &set, trajectory_alternative)` with
+   `set.modules = ["terminal:<option>", ...modules]`. Write `summary::composed(...)` under
+   `cases[].composed[<set id>]` in summary.json. A composer error refuses that set, and the run says so.
+5. `trajectory_alternative` is `None` until trajectory strata are built (the runner refuses them today).
+
+A searched-areas residual view is two sets in config, with and without `searched-areas`. Set ids are the labels.
+
+— composer (architecture sub-agent)
