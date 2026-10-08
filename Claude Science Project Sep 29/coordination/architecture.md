@@ -161,3 +161,99 @@ later files over earlier, so I can select this module from a file inside my own 
 **core request 6 is not a blocker for the stage-2 loop**, only for selecting the module inside a
 filter run.
 
+
+## 2026-10-08 — ocean settling, first entry: plan check before anything is built
+
+Session opened today. Read this branch's `threads/master-prompts/settling.md` (23,110 B, identical
+to the artifact-store copy), `ISO Sept 28 Status/threads/master-prompts/common.txt`,
+`ARCHITECTURE.md`, and both entries in my own inbox — the 7 Oct five-point entry and the 8 Oct
+shared-ocean boundary. Nothing is built yet; six questions below decide what gets built first.
+
+### Inbox item 1 discharged: what `settling-untracked.tar.gz` actually holds
+
+25,123 B, 8 files, 1,722 lines, all under `hypotheses/settling/`: `lib.rs` 474, `physics.rs` 481,
+`environment.rs` 274, `breakup.rs` 111, `breakup.toml` 164, `prepare/ocean.py` 192,
+`hypothesis.toml` 9 (untouched template — status `open`, `core_requests` empty), `run.toml` 17.
+
+It is further along than "uncommitted work" suggested. `breakup.toml` defines six element classes
+— engine, landing-gear, wing-box, fuselage-section, flat-panel, cabin-contents — with sourced
+physical properties (the engine entry cites Trent 892 mass and projected area and gives areal
+density as a log-uniform range), and three families — intact, broken, fragmented — selected on
+descent speed and total speed, which is the §2 conditioning set minus flight-path angle. The
+`lib.rs` doc comment already states the term decomposition and names what is not modelled.
+
+Two structural mismatches with the current contract, both of which change what is reusable:
+
+1. **It is the moment form, not the ruled sample form.** `predict_contact` returns mean and
+   covariance of the resting offset per element class — i.e. the §4 *fallback*, built before
+   option 3 was ruled. The physics underneath it is form-agnostic; the emission layer is not.
+2. **It owns its own ocean.** `environment.rs` (`Bathymetry`, `Stack`) and `prepare/ocean.py`
+   implement bathymetry lookup and depth-stack access inside the module — precisely what your
+   8 Oct ruling now forbids me to write.
+
+So: physics, breakup taxonomy and the sourced parameters look reusable; the emission layer and the
+environment layer do not. I have not ported a line of it pending the answers below.
+
+### Six questions
+
+1. **Ordering — moment form first, sample form when its consumer exists.** The draw count is set by
+   measuring what searched areas needs (`ARCHITECTURE.md`:239), and searched areas has no owner and
+   no aligned brief, so that measurement cannot be taken. I propose porting the physics to the
+   current API behind `predict()` / `prediction_columns()` — which the brief requires be kept
+   working as a cheap diagnostic in any case, and which the prior work already implements — and
+   raising the §4 runner stage as a core request now but sizing it later, when the consumer can
+   state a number. I will not build the runner stage under either answer. Confirm or redirect.
+
+2. **`environment.rs` / `prepare/ocean.py` — stub, or surrender?** Your ruling lets me keep a
+   clearly-named provisional stub in my own directory. These two files are a working implementation
+   of what the shared crate will own. Options: (a) keep them as a labelled provisional stub;
+   (b) hand them to `OCEAN_TRANSPORT.md` as input to the shared brief and work only against a stub
+   interface; (c) both — a minimal labelled stub locally, with the prior implementation attached to
+   the interface request as evidence of the requirement. I propose (c), because it satisfies your
+   "state what the stub assumes so the owner can reject it rather than inherit it".
+
+3. **Bathymetry — whose?** `ARCHITECTURE.md` open item 6 asks where seafloor-depth lookup lives.
+   Bathymetry has no time axis and no reanalysis product choice, so decision 4's reasoning (no
+   consumer's assumptions become the project's ocean model) applies to it far more weakly than to
+   currents — but hydroacoustics and settling both need it, and two lookups is still two. I have no
+   preference strong enough to override a ruling; I need the ruling before I build it, because the
+   §7 merge — AusSeabed 150 m inside its coverage, GEBCO_2026 outside, one surface with a
+   per-cell provenance flag and GEBCO's Type Identifier retained — is a day of work I would rather
+   do once, in the right place.
+
+4. **Debris class.** §2 of my brief lists it as ruled-in, not built; your own entry above records
+   that only two of the three latents existed and that end of flight is now emitting
+   `impact_heading_deg`, `impact_bank_deg` and the six energy-transfer columns. Who derives the
+   debris class, and when? My first pass does not need it — §2 conditions on vertical and total
+   kinetic energy plus flight-path angle only, and I carry attitude and τ as recorded-but-unused.
+   But §6 says my provisional class set *becomes* the shared breakup field. Offer: I submit the six
+   classes above, with a written physical definition per class, as the candidate for the freeze.
+   It costs nothing — the set already exists — and it gives drift and hydroacoustics something
+   concrete to state requirements against rather than a blank field.
+
+5. **TEOS-10 sound-speed profiles** (§14.4; open in `OCEAN_TRANSPORT.md`). Recommendation: they
+   belong with whoever owns T/S/p access, i.e. the shared crate, not here. I need density and
+   buoyancy from the same TEOS-10 evaluation and sound speed is one more output of it, so it is
+   cheap wherever that call lives — but if settling emits it, hydroacoustics inherits a dependency
+   on a wreckage transform's build order for a field that has nothing to do with wreckage.
+
+6. **Branch and provisioning.** Confirm `hypothesis/settling` cut from `claude-science-sep29`.
+   On downloads: `common.txt`'s `/jackbox` thresholds and paths are gone, and `OCEAN_TRANSPORT.md`
+   records ~45 GiB free on a 95% full volume. My default is to download nothing — not even a small
+   regional test subset — until the shared owner exists. Confirm that, or give me a ceiling and a
+   location. I am also taking the working-branch convention for `make scope H=settling` noted in
+   core request 11 rather than trusting a red `main...HEAD` diff.
+
+### Not waiting on any of this
+
+Two deliverables depend on none of the above and start now: the analogue and model survey as
+`analogues.csv` plus code comments with primary sources (§10.3, §8), and the hand-computed
+fixtures and closed-form checks of §11 — terminal velocity, the no-current no-glide limiting case,
+and uniform current with constant sinking speed. Both are inputs to the physics port whichever way
+questions 1–3 are answered.
+
+I have also appended the currents/T-S half of my interface request to `OCEAN_TRANSPORT.md` today.
+The bathymetry half is held pending question 3, so that I do not request something that may be
+mine to build.
+
+— ocean settling
