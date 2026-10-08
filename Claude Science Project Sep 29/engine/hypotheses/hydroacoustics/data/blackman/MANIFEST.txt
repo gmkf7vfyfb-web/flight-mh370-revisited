@@ -1,0 +1,38 @@
+Blackman et al. (2004), LLNL UCRL-TR-207323 - data of record for the hydroacoustics module
+==========================================================================================
+
+DATA OF RECORD: the CSVs in this directory, re-extracted 2026-10-08 from
+'ISO Sept 28 Status/inputs/papers/hydroacoustics/ucrl-tr-207323.{txt,pdf}' and verified row by row
+against rendered page images. Method, pages and every judgement call: extraction_method.txt.
+
+  blackman_shot_lines.csv               2001 airgun lines air1-air9 (14 rows)
+  blackman_2003_events.csv              2003 A1-A11 events; JD144 10:54:57.77 printed "A3" is A4 (jd144_check.txt)
+  blackman_2001_nonairgun_events.csv    2001 cylinder and sphere sources
+  blackman_source_classes.csv           source-class characteristics as printed
+  blackman_transmission_loss.csv        READ OFF Fig. 23 (low-resolution greyscale chart), ~ +/-2 dB; NOT printed values
+  blackman_receiver_observations.csv    132 rows; status only from explicit statements, never inferred from silence
+  appendixB_timing_consistency.csv      Appendix B predicted arrivals against table times
+  receiver_observations_diff_vs_drive.csv  row-by-row comparison with the superseded Drive copy (below)
+
+SUPERSEDED - Google Drive 'blackman_receiver_observations.csv' (file id 1xCqnNIVYuH1iF2OIFEnNgbtAMHbzekkU,
+7,392 B). Ruled superseded 2026-10-09 (coordination/HYDROACOUSTICS.md, morning rulings, item 3). Nine of
+its rows state a status, station or range the report does not support, and seven further rows (8-14)
+cite "Chagos Bank" directly or by cross-reference, which the report never names. Do not use it.
+
+ARCHIVED EARLIER SET - not edited, per ruling item 1 (the project does not edit snapshots).
+  Path:      'Sept 27 2026 backup PL ChatGPT instance/Blackman_2004_extracted_data_2026-09-27.zip.b64'
+             on claude-science-sep29 (commit 26e3487)
+  As committed: 16,583 characters, sha256 c01545d7d2b913722772de2f5b90275c1472eb19a182f96f135fd5dee9a72cc7;
+             one character short, does not decode.
+  Repair:    insert 'G' at character offset 13597 (0-based) - the only single-character insertion that
+             makes every zip CRC pass. Decoded zip: 12,436 bytes,
+             sha256 96b0cb89ecbe0de314b90d3a375e46d10e8ed6360450cb13ddce97628570d8f7, 10 entries, all CRCs
+             pass, and its 9 data entries match the bundle's own SHA256SUMS.json. Reproduced independently
+             2026-10-09.
+  Repaired zip kept as a project artifact (version 5821ab6a-dfc9-453f-9cb0-94614a3f6c45), not committed.
+  Agreement: its shot lines and its 35 non-airgun events match the fresh extraction exactly. Only its
+  receiver-observations entry was damaged, and that entry is byte-identical to the superseded Drive copy.
+
+STATION POSITIONS. The report prints no H01 or H08 coordinates. Positions come from ../stations.csv
+(FDSN network IM, epoch valid 2014-03-08). FDSN H08 epochs begin 2002-01-17, so for the 2001 air9
+validation the 2002 H08S position is used, PROVISIONAL (accepted 2026-10-09, ruling item 4).
