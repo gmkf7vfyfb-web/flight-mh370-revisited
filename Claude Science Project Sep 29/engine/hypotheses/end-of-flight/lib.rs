@@ -855,6 +855,53 @@ mod tests {
         }
     }
 
+    /// KNOWN DEFECT, kept as a failing test rather than deleted (found by the 9 Oct smoke run,
+    /// `runs/eof-term-n4`). Between `takeover_time` and `descend` the CORE propagates the aircraft
+    /// on its own calibrated burn and its own stochastic manoeuvres. `descend` then recomputes the
+    /// onset lead from that propagated state, and `classify` recovers the flame-out-associated
+    /// mechanism only for a lead of exactly zero. After propagation the lead is never exactly
+    /// zero, so every flame-out draw is relabelled: anticipatory if the recomputed lead is
+    /// positive, anticipatory with ZERO prior weight if the core ran the tanks dry first. On the
+    /// smoke hand-off that was 53 % of the weight with an impossible label, and the
+    /// flame-out-associated families were absent altogether.
+    ///
+    /// This could not happen before the fuel-state fix only because both hooks measured the lead
+    /// against the same configured 00:17:30 constant - the anchor that had to go. No module-side
+    /// recomputation can be exact while the two hooks see different states; the fix is core
+    /// request 2, passing `takeover_time`'s draw to `descend`. The test simulates the core's
+    /// propagation with the reference burn and asserts the drawn mechanism survives.
+    #[test]
+    #[ignore = "fails until core request 2 passes takeover_time's draw into descend; see coordination/architecture.md 2026-10-09"]
+    fn the_flameout_mechanism_survives_the_cores_propagation() {
+        // Flame-out-associated onset only: the drawn takeover IS the predicted exhaustion.
+        let h = handoff(ONSET_22_41);
+        let takeover = predicted_exhaustion_of(&h);
+        // The core flies from the hand-off to the takeover on ITS burn, which is higher than this
+        // module's (5,764 against 5,033 kg/h), so it arrives with less fuel, possibly none.
+        let burnt = CRUISE_BURN_KG_S * (takeover - h.unix_s);
+        let fuel = (h.fuel_kg - burnt).max(0.0);
+        let dry_at = if fuel > 0.0 { f64::NAN } else { h.unix_s + h.fuel_kg / CRUISE_BURN_KG_S };
+        let at = FlightState {
+            unix_s: takeover,
+            fuel_kg: fuel,
+            mass_kg: ZFW_KG + fuel,
+            realised_flameout_unix_s: dry_at,
+            ..handoff(ONSET_22_41)
+        };
+        let mut v = params();
+        v.as_table_mut().unwrap().get_mut("onset").unwrap().as_table_mut().unwrap().insert(
+            "mechanism_weights".into(),
+            toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0), toml::Value::Float(1.0)]),
+        );
+        let m = new(&v).unwrap();
+        let t = m.terminal().unwrap();
+        let names = t.latent_columns();
+        let at_mech = names.iter().position(|n| n == "onset_mechanism").unwrap();
+        for d in t.descend(&at, &atmos::Standard, &mut sweep(0.41), &epochs(), &|_| 0.0) {
+            assert_eq!(d.latents[at_mech], Initiation::FlameOutAssociated.code(), "a flame-out draw came back relabelled");
+        }
+    }
+
     /// The realised flame-out must never be read as a prediction. Two hand-offs identical except
     /// that one has already run dry at a recorded time must predict the same exhaustion, because
     /// the prediction comes from `fuel_kg`.

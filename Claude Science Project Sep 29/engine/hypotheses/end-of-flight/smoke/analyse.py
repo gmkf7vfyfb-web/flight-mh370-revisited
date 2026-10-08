@@ -66,7 +66,7 @@ def main(out_dir, handoff_run, out_json):
         X = np.load(d / "impacts.npy")
         diag = json.loads((d / "terminal.json").read_text())
         ho = tomllib.loads((handoff_run / case / f"seed-{seed}" / "handoff.toml").read_text())
-        rows = ho["rows"]
+        rows = ho["row"]
         parents = len(rows)
         fuel = np.array([r["aircraft"]["fuel_kg"] for r in rows])
         dry_rows = np.flatnonzero(~(fuel > 0))
