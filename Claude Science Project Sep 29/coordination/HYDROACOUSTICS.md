@@ -21,3 +21,27 @@ The architecture session appends here. Read at the start of each working session
    significance from time slides and burst-preserving surrogates.
 5. **Never copy the Kadri bundle's markdown** — 23 files including a private funding note with staff
    email addresses.
+
+## 2026-10-08 - architecture: the impact source interface is now in your brief
+
+A new section at the end of `threads/master-prompts/hydroacoustics.md`, following Pete' consultant
+note on the definition of tau. Four things bind you.
+
+1. **Three durations, kept distinct.** Mechanical energy-transfer duration belongs to end of flight
+   and arrives as `energy_transfer_tau90_s`. Acoustic source duration and received signal duration
+   are yours, and neither equals the first. Propagation broadening is never read back as impact
+   duration.
+2. **One direction of inference is forbidden.** Never infer a duration from a received signal and
+   return it to end of flight. That calibrates the impact model on the data you are scoring.
+3. **Coupling efficiency is a declared alternative with a prior**, not a constant. It will dominate
+   your predicted received level, and the injection-recovery study that gates whether this module
+   may return a log-likelihood at all must span it - a recovery run at one assumed efficiency does
+   not establish the gate.
+4. **The AGW and SOFAR branches split on tau against the mode cutoff** `f_c = c/4H` - 0.094 Hz,
+   10.7 s period, at 4,000 m. Below that period the impact is impulsive for the AGW band and the
+   excitation depends on total impulse and displaced volume, not on tau. Compute `f_c` at the
+   candidate depth, state the regime per sample, and do not carry a tau dependence into the AGW
+   branch where none can exist.
+
+Expect NaN in several of the incoming columns at first pass. A NaN propagates to "not assessed",
+never to a default.

@@ -342,3 +342,98 @@ code — are a core request for the environment, not something to install ad hoc
 3. The composer's treatment of a module that returns zero until calibrated: it must be selectable
    and contribute nothing, not be absent.
 4. Environment dependencies for the propagation and signal-processing stack.
+
+---
+
+## The impact source interface — added 8 October 2026
+
+### You receive mechanical quantities. You own the conversion to an acoustic source.
+
+The end-of-flight module emits what happened to the aircraft's energy. It does not emit a sound
+source, and it must not be asked to. **Three durations are distinct and this module is the only
+place where all three appear, so it is the only place they can be confused:**
+
+1. **Mechanical energy-transfer duration** — `energy_transfer_tau90_s`, the interval containing the
+   central 90% of mechanical energy transferred during initial water entry and deceleration,
+   defined as `t95 - t05` of the cumulative transfer from first water contact. Owned by end of
+   flight. The 90% convention is a declared interface choice, not a standard.
+2. **Acoustic source duration** — the duration of the radiated pressure signal at the source.
+   **Yours.** It is not equal to (1).
+3. **Received signal duration** at a hydrophone — broadened by multipath, modal dispersion and
+   bottom interaction along a path of thousands of kilometres. **Yours, and never an estimate of
+   either of the others.** The aircraft-crash hydroacoustic literature is explicit that propagation
+   broadening must not be read back as impact duration.
+
+**The feedback is forbidden in one direction.** You may not infer a duration from a received signal
+and return it to end of flight as `energy_transfer_tau90_s`. That is circular: the impact model
+would then be calibrated on the data the module is meant to score.
+
+### What arrives
+
+| latent | meaning |
+|---|---|
+| `impact_energy_transferred_j` | mechanical energy transferred during the initial event |
+| `energy_transfer_t05_s`, `energy_transfer_t95_s` | 5% and 95% times from first water contact |
+| `energy_transfer_tau90_s` | `t95 - t05` |
+| `energy_transfer_peak_rate_w` | peak rate of transfer |
+| `energy_transfer_n_pulses` | distinct peaks above a declared threshold |
+| `impact_heading_deg`, `impact_bank_deg` | attitude at contact |
+
+NaN means not computed, and at first pass several of these will be NaN. A NaN propagates into a
+"not assessed" rather than into a default.
+
+### Coupling efficiency is a declared alternative, not a constant
+
+Mechanical energy loss is not all converted to sound. It also goes into bulk water motion, surface
+waves, structural deformation, fragmentation and heat. The fraction radiated as acoustic energy into
+the water column is **one of the most uncertain numbers in the entire chain and it will dominate your
+predicted received level.** Carry it as a declared alternative with a stated prior, marginalise it,
+and report the received-level prediction's sensitivity to it separately from everything else.
+
+This connects directly to the gate on this module. Hydroacoustics may return a log-likelihood only
+after injection-recovery gives P_D against received level. Coupling-efficiency uncertainty enters
+that curve; a recovery study run at one assumed efficiency does not establish the gate.
+
+**Energy and tau alone do not determine pressure amplitude, spectrum or directivity.** Two events
+with the same energy and the same duration can radiate materially different signals. Your source
+model needs geometry, source depth, contact sequence and attitude as well — which is why the
+attitude latents and the pulse count are in the interface at all.
+
+### Where tau matters, and where it does not — the SOFAR and AGW branches split here
+
+The first acoustic-mode cutoff in a water layer of depth `H` is `f_c = c / 4H`. At the search area:
+
+| H | f_c | period |
+|---|---|---|
+| 3,000 m | 0.125 Hz | 8.0 s |
+| 4,000 m | 0.094 Hz | 10.7 s |
+| 5,000 m | 0.075 Hz | 13.3 s |
+| 6,000 m | 0.063 Hz | 16.0 s |
+
+A source of duration `tau` rolls off above roughly `1 / tau`. So:
+
+- **SOFAR branch.** For any plausible impact, `tau` between about 0.05 s and 10 s puts the roll-off
+  between 20 Hz and 0.1 Hz — squarely inside the band the IMS hydrophones record. **`tau` shapes the
+  source spectrum directly and matters a great deal.** A short, steep entry and a long ditching are
+  materially different sources here, which is the whole reason the parameter exists.
+- **AGW branch.** Below `f_c` the water column does not support a propagating acoustic mode and the
+  physics is different. At 4,000 m the cutoff period is 10.7 s, so for `tau` below about 10 s the
+  impact is **effectively impulsive for the entire AGW band**, and AGW excitation is governed by the
+  total impulse and the displaced volume rather than by `tau`. Only a long event — a well-executed
+  ditching with `tau` approaching or exceeding the cutoff period — makes `tau` shape AGW excitation
+  as well.
+
+**So whether `tau` matters to AGW is itself a function of `tau`, with the threshold set by depth.**
+Compute `f_c` at the candidate impact depth rather than assuming 4,000 m, state which regime each
+sample falls in, and do not carry a `tau`-dependence into the AGW branch where the sample is
+impulsive — a dependence that cannot be there is a route to a spurious detection.
+
+### How tau enters the look-elsewhere arithmetic
+
+It does not change the number of trials. Those are set by the search window and the bandwidth: at
++/-1 h and 30 Hz, about 432,000 independent trials, which is the 5.3 sigma per-trial requirement for
+a 1% global false alarm already recorded in this brief. What `tau` changes is the **time-bandwidth
+product** `tau * B`, which sets the per-trial processing gain: 30 at `tau` 1 s and `B` 30 Hz, 300 at
+`tau` 10 s. A longer event is easier to detect at the same radiated energy because more of it is
+coherently integrable — but only if the source model says the emission really is that long, which is
+(2) above and not (1).
