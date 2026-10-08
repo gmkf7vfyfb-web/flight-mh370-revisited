@@ -46,3 +46,11 @@ on a full re-run. The 18:01:49 prior POSITION is also a reconstruction and shoul
 same way. The waypoint screen of 9 Oct started from the 295.66-propagated 18:21:49 position. Its
 fixed-start results should be re-run from 10 NM past MEKAR; the coverage maps describe the runs
 as they are and stand.
+
+## Relation to the earlier ruling that the prior "needs no correction"
+
+That ruling concerned the prior's STRUCTURE, and it stands: a prior at 18:01:49 at the penultimate
+radar point, position sd 0.5 NM, direction sd 1 deg, and the 18:22 return not used numerically
+(Davey p. 21). This note concerns the prior's MEAN TRACK VALUE. That value is ours, not the book's,
+and Davey's own Fig. 4.2 and their statement that the 18:22 point lies inside the +/-1 deg fan both
+place it near 289.7, not 295.66. Correcting it would be keeping to Davey, not departing from them.
