@@ -1,0 +1,242 @@
+# Element classes and breakup families: the ONE description of the breakup this module uses
+# (breakup.rs reads it), and the candidate for the shared breakup field
+# (results/breakup-field-candidate.md is its written form; this table is authoritative over that
+# note). Each [class.<name>] gives the properties every family shares; [family.<family>.<class>]
+# replaces the ones that differ in that family. Ranges are { uniform = [lo, hi] },
+# { log_uniform = [lo, hi] } (for scale parameters), or a number.
+# Physical meaning of each property: physics.rs, Element. Sources: lib.rs doc comment and
+# data/analogues.csv.
+#
+# STATUS: every number below is an EDUCATED ESTIMATE, declared as such (brief section 8). None is
+# a measurement of MH370. Ported from the previous harness's uncommitted settling work and extended
+# with piece counts and mass shares (new on 2026-10-08/09) so that sample emission can describe a
+# field of pieces rather than one point per class.
+
+classes = ["engine", "landing-gear", "wing-box", "fuselage-section", "flat-panel", "cabin-contents"]
+
+# Families, chosen by the impact (breakup.rs, Selection). The rule reads the vertical and total
+# SPECIFIC kinetic energy at first contact (ImpactView vertical_kinetic_energy_j / mass_kg and
+# kinetic_energy_j / mass_kg), written below as the equivalent speeds V_d = sqrt(2 e_v) and
+# V = sqrt(2 e). The flight-path angle is implied, sin^2(gamma) = e_v / e, so the three quantities
+# the brief names carry two degrees of freedom and the rule uses two.
+# - intact: a ditching-like contact; the airframe stays in a few large pieces and floats first.
+#   Anchor: US Airways 1549 (about 64 m/s, 3.8 m/s down) -> P(intact) 0.88.
+# - broken: a hard contact at high descent rate but modest speed; large sections, engines and
+#   gear separate; debris floats briefly. Anchor: AF447 (about 55 m/s down, 78 m/s total)
+#   -> P(broken) 0.85.
+# - fragmented: a fast contact; everything but the densest parts is in small pieces.
+#   Anchor: Swissair 111 (about 154 m/s, 20 deg nose down) -> P(fragmented) 0.84.
+# The anchors are calibration points, not independent tests (tests in breakup.rs check that the
+# rule reproduces them, which only shows the numbers were transcribed correctly).
+[selection]
+intact_descent_mps = 8.0
+intact_speed_mps = 100.0
+fragmented_speed_mps = 110.0
+log_width = 0.2
+
+# Representative elements emitted per class per wreckage draw. Each stands for pieces / K physical
+# pieces of the class (its multiplicity). A COMPUTATIONAL choice, not a physical one: equal
+# allocation across classes is not a statement of equal prior probability (brief section 9).
+[emission]
+representatives_per_class = 16
+
+# Rolls-Royce Trent 892, two per aircraft: core and fan case, with or without nacelle remnants.
+# Mass 5,000-7,500 kg over 6-11 m2 (fan face 2.8 m across; broadside 2.8 x 3.9 m); a mix of
+# steel and nickel alloys, titanium, aluminium and composite.
+[class.engine]
+areal_density_kg_m2 = { log_uniform = [400.0, 1300.0] }
+material_density_kg_m3 = { uniform = [3500.0, 6000.0] }
+drag_coefficient = { uniform = [0.8, 1.2] }
+descent_factor = 1.0
+glide_ratio = { uniform = [0.0, 0.2] }
+glide_memory_m = { log_uniform = [20.0, 200.0] }
+carry_s = { uniform = [0.0, 1.0] }
+carry_lateral = 0.3
+sinks_at_once = 1.0
+stays_afloat = 0.0
+float_s = 0.0
+leeway = 0.0
+# Two engines; mass share 0.08 of impact mass (2 x 6-7.5 t with nacelle remnants on ~175 t).
+pieces = { uniform = [2.0, 2.0] }
+mass_share = 0.08
+
+# Two six-wheel main gears and a nose gear: steel structure, aluminium wheels, carbon brakes and
+# tyres (buoyant while inflated, compressed below about 140 m).
+[class.landing-gear]
+areal_density_kg_m2 = { log_uniform = [350.0, 1200.0] }
+material_density_kg_m3 = { uniform = [2500.0, 5500.0] }
+drag_coefficient = { uniform = [0.9, 1.3] }
+descent_factor = 1.0
+glide_ratio = { uniform = [0.0, 0.2] }
+glide_memory_m = { log_uniform = [20.0, 200.0] }
+carry_s = { uniform = [0.0, 1.0] }
+carry_lateral = 0.3
+sinks_at_once = 1.0
+stays_afloat = 0.0
+float_s = 0.0
+leeway = 0.0
+# Two main gears and a nose gear; share 0.05 (educated estimate, ~3-5% of MTOW is typical).
+pieces = { uniform = [1.0, 3.0] }
+mass_share = 0.05
+
+# Wing and centre-section structure (spars, ribs, skins, flooded tanks), aluminium with
+# composite control surfaces: about 70-95 kg/m2 of planform on average, heavier inboard.
+[class.wing-box]
+areal_density_kg_m2 = { log_uniform = [40.0, 200.0] }
+material_density_kg_m3 = { uniform = [2300.0, 2800.0] }
+drag_coefficient = { uniform = [1.1, 1.3] }
+descent_factor = { uniform = [1.0, 1.5] }
+glide_ratio = { uniform = [0.1, 0.6] }
+glide_memory_m = { log_uniform = [10.0, 200.0] }
+carry_s = { uniform = [0.0, 1.0] }
+carry_lateral = 0.3
+sinks_at_once = 0.8
+stays_afloat = 0.0
+float_s = { log_uniform = [60.0, 3600.0] }
+leeway = { uniform = [0.01, 0.04] }
+# Share 0.22 of impact mass including the centre section (educated estimate).
+pieces = { uniform = [1.0, 3.0] }
+mass_share = 0.22
+
+# Fuselage pieces with frames and floor structure (skin-only pieces are flat panels). As it
+# falls broadside a section's projected area is its diameter times its length.
+[class.fuselage-section]
+areal_density_kg_m2 = { log_uniform = [60.0, 250.0] }
+material_density_kg_m3 = { uniform = [2000.0, 2800.0] }
+drag_coefficient = { uniform = [0.8, 1.2] }
+descent_factor = { uniform = [1.0, 1.3] }
+glide_ratio = { uniform = [0.0, 0.4] }
+glide_memory_m = { log_uniform = [20.0, 300.0] }
+carry_s = { uniform = [0.0, 1.0] }
+carry_lateral = 0.3
+sinks_at_once = 0.7
+stays_afloat = 0.0
+float_s = { log_uniform = [60.0, 3600.0] }
+leeway = { uniform = [0.01, 0.04] }
+# Share 0.27 including frames, floor beams and the systems carried in them (educated estimate).
+pieces = { uniform = [1.0, 4.0] }
+mass_share = 0.27
+
+# Skin panels, control surfaces, fairings and floor panels that sink: 2-4 mm aluminium skin with
+# stringers, or solid composite laminate. Honeycomb sandwich panels that float for months are
+# the stays_afloat share (drift debris, e.g. the flaperon).
+[class.flat-panel]
+areal_density_kg_m2 = { log_uniform = [5.0, 40.0] }
+material_density_kg_m3 = { uniform = [1500.0, 2800.0] }
+drag_coefficient = { uniform = [1.0, 1.3] }
+descent_factor = { uniform = [1.0, 2.0] }
+glide_ratio = { uniform = [0.2, 1.0] }
+glide_memory_m = { log_uniform = [1.0, 10.0] }
+carry_s = { uniform = [0.0, 2.0] }
+carry_lateral = 0.5
+sinks_at_once = 0.6
+stays_afloat = 0.2
+float_s = { log_uniform = [60.0, 7200.0] }
+leeway = { uniform = [0.01, 0.05] }
+# Share 0.03 in an intact contact (control surfaces, fairings, panels); rises with breakup.
+pieces = { log_uniform = [10.0, 100.0] }
+mass_share = 0.03
+
+# Seats, baggage, cargo and galley equipment: waterlogged soft goods just denser than water,
+# metal frames and carts much denser. Cushions, foam and many bags float for days.
+[class.cabin-contents]
+areal_density_kg_m2 = { log_uniform = [20.0, 200.0] }
+material_density_kg_m3 = { uniform = [1100.0, 2000.0] }
+drag_coefficient = { uniform = [0.9, 1.3] }
+descent_factor = 1.0
+glide_ratio = { uniform = [0.0, 0.5] }
+glide_memory_m = { log_uniform = [1.0, 20.0] }
+carry_s = { uniform = [0.0, 2.0] }
+carry_lateral = 0.5
+sinks_at_once = 0.3
+stays_afloat = 0.4
+float_s = { log_uniform = [600.0, 86400.0] }
+leeway = { uniform = [0.02, 0.05] }
+# Share 0.35: payload, baggage, cargo and cabin furnishings (educated estimate).
+pieces = { log_uniform = [50.0, 500.0] }
+mass_share = 0.35
+
+# Intact: the airframe slides to a stop and floats on its empty tanks and trapped air; the
+# engines tear off. Wing and fuselage sink together, much later, as large pieces.
+[family.intact.engine]
+carry_s = { uniform = [0.0, 3.0] }
+
+[family.intact.landing-gear]
+carry_s = { uniform = [0.0, 3.0] }
+
+[family.intact.wing-box]
+areal_density_kg_m2 = { log_uniform = [60.0, 150.0] }
+descent_factor = { uniform = [1.0, 1.3] }
+glide_ratio = { uniform = [0.0, 0.3] }
+glide_memory_m = { log_uniform = [100.0, 2000.0] }
+carry_s = { uniform = [1.0, 4.0] }
+sinks_at_once = 0.0
+float_s = { log_uniform = [600.0, 21600.0] }
+
+[family.intact.fuselage-section]
+areal_density_kg_m2 = { log_uniform = [150.0, 350.0] }
+material_density_kg_m3 = { uniform = [1800.0, 2700.0] }
+glide_ratio = { uniform = [0.0, 0.3] }
+glide_memory_m = { log_uniform = [100.0, 2000.0] }
+carry_s = { uniform = [1.0, 4.0] }
+sinks_at_once = 0.0
+float_s = { log_uniform = [600.0, 21600.0] }
+
+[family.intact.flat-panel]
+carry_s = { uniform = [0.0, 3.0] }
+
+[family.intact.cabin-contents]
+carry_s = { uniform = [1.0, 4.0] }
+
+# Broken (AF447-like): large sections, engines and gear separate. Mass moves from wing and
+# fuselage into panels. Shares sum to one in every family (checked).
+[family.broken.landing-gear]
+pieces = { uniform = [3.0, 3.0] }
+
+[family.broken.wing-box]
+pieces = { log_uniform = [3.0, 20.0] }
+mass_share = 0.18
+
+[family.broken.fuselage-section]
+pieces = { log_uniform = [5.0, 30.0] }
+mass_share = 0.22
+
+[family.broken.flat-panel]
+pieces = { log_uniform = [100.0, 2000.0] }
+mass_share = 0.12
+
+[family.broken.cabin-contents]
+pieces = { log_uniform = [500.0, 5000.0] }
+
+# Fragmented: small pieces, which sink at once unless they hold air.
+[family.fragmented.wing-box]
+pieces = { log_uniform = [20.0, 500.0] }
+mass_share = 0.1
+areal_density_kg_m2 = { log_uniform = [20.0, 150.0] }
+glide_ratio = { uniform = [0.2, 0.8] }
+glide_memory_m = { log_uniform = [2.0, 50.0] }
+sinks_at_once = 0.95
+float_s = { log_uniform = [60.0, 600.0] }
+
+[family.fragmented.fuselage-section]
+pieces = { log_uniform = [50.0, 2000.0] }
+mass_share = 0.12
+areal_density_kg_m2 = { log_uniform = [30.0, 150.0] }
+glide_ratio = { uniform = [0.1, 0.6] }
+glide_memory_m = { log_uniform = [5.0, 100.0] }
+sinks_at_once = 0.9
+float_s = { log_uniform = [60.0, 1800.0] }
+
+# Swissair 111 recovered about two million pieces; most mass is in small fragments.
+[family.fragmented.engine]
+pieces = { uniform = [2.0, 6.0] }
+
+[family.fragmented.landing-gear]
+pieces = { uniform = [3.0, 10.0] }
+
+[family.fragmented.flat-panel]
+pieces = { log_uniform = [2000.0, 100000.0] }
+mass_share = 0.30
+
+[family.fragmented.cabin-contents]
+pieces = { log_uniform = [2000.0, 50000.0] }

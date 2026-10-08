@@ -1,0 +1,44 @@
+# Settling is a transform, not evidence: it adds no likelihood, so a run with it selected is
+# the base estimate unchanged. Its outputs are wreckage samples (core request 12, the runner stage
+# that stores them, is not built) and the moment diagnostic via `mh370 evaluate`.
+base = "../../config/integrated.toml"
+name = "settling"
+
+[hypotheses.settling]
+moment_draws = 256
+step_m = 50.0
+terms = ["carry", "float", "current", "glide", "ocean-error"]
+# Current below the ocean model's own bottom = deepest modelled current x this factor.
+# 1 holds it. 0 would be an explicit zero, recorded as such, never a silent default.
+below_model_bottom_factor = 1.0
+
+# ---------------------------------------------------------------------------------------------
+# PROVISIONAL OCEAN STUB. NOT AN OCEAN PRODUCT AND NOT A MEASUREMENT OF THE REGION.
+# Closed-form two-layer currents over a planar seabed, so settling can be built and tested before
+# crates/ocean lands. Magnitudes are sensitivity-scale values of the kind the brief's section 6
+# argument uses, chosen to exercise the code, and every result through them is provisional.
+# Delete this table when the shared ocean-transport API arrives.
+# ---------------------------------------------------------------------------------------------
+[hypotheses.settling.provisional_ocean_stub]
+label = "PROVISIONAL analytic stub v0 - not an ocean product"
+reference_latitude_deg = -35.0
+reference_longitude_deg = 92.0
+seabed_depth_m = 4000.0
+seabed_slope_deg = 0.0
+seabed_slope_azimuth_deg = 0.0
+surface_current_mps = [0.10, 0.00]
+wind_mps = [5.0, 0.0]
+upper_current_mps = [0.05, 0.02]
+deep_current_mps = [0.02, 0.01]
+layer_depth_m = 1000.0
+model_bottom_m = 5500.0
+surface_density_kg_m3 = 1025.0
+density_gradient_kg_m3_per_km = 5.0
+
+[hypotheses.settling.provisional_ocean_stub.error]
+surface_mps = 0.10
+upper_mps = 0.05
+upper_depth_m = 1000.0
+deep_mps = 0.02
+near_bottom_mps = 0.03
+near_bottom_m = 200.0

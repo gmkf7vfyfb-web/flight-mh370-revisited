@@ -1,0 +1,13 @@
+# Metadata for this hypothesis. Keep it current; the report prints it.
+question = "Where does the wreckage of each impact sample come to rest on the seabed, by element class and breakup family, and how much does each assumption move it?"
+# open | supported | not-supported | inconclusive
+status = "open"
+# One line, written when the question is answered, citing the run that answered it.
+summary = "First pass 2026-10-09: physics ported, wreckage-sample emission primary, moment diagnostic secondary; ocean is a PROVISIONAL analytic stub, so no resting-offset number from this branch is a regional estimate."
+# Changes needed in the core (new hooks, new state fields). Leave empty if none.
+# A hypothesis agent writes requests here and stops; it never edits core code.
+core_requests = [
+  "CR12 (filed by architecture 2026-10-08): a runner stage between end of flight and the impact-level modules that calls Settling::emit(impact, draws) for every impact sample and stores the rows (WRECKAGE_COLUMNS, 17 f64 per element, plus the parent row index). Unit of probability is the DRAW (draw_weight = 1/draws, every element of a draw shares it); consumers average over draws and never multiply. Draw count adaptive: 512 pilot, refine to 4,096; draw d depends only on (impact, d), so refinement appends. Storage at the first-pass defaults: up to 6 classes x 16 representatives = 96 rows per draw; measured mean rows per draw is reported in coordination/architecture.md. Specify the store before building it.",
+  "ImpactView carries no attitude, debris class or energy-transfer columns to a non-terminal module (latents are empty for every module but the terminal one). Settling does not need them for the first pass (brief section 2); it will when attitude enters as a sensitivity. Raised now so the lift is planned with core request 4.",
+  "crates/ocean (shared ocean transport) replaces ocean_stub.rs: profile query at (lat, lon, t) and seabed depth, per the interface request in coordination/OCEAN_TRANSPORT.md. Not a core-crate change by settling; listed so the dependency is visible here.",
+]
