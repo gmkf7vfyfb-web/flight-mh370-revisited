@@ -119,7 +119,7 @@ def main(out_dir, tl_csv, sa_json, summary):
                     ys = np.array([g[k] for k in qs])
                     mz = zs == z
                     tlb[mz] = np.interp(pr[mz, 0], xs, ys)
-                SE += SE1 * Sb[fc] * 10 ** (-tlb / 10)
+                SE += SE1 * Sb[fc] * np.nan_to_num(10 ** (-tlb / 10), nan=0.0)   # 'no_modes' bands carry no energy
             SE *= 10 ** ((c_site + c_rcv) / 10)
             for key in p_none:
                 det, tn = key.split("|")

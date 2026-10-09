@@ -77,14 +77,25 @@ def main(stub, at_bin, out_dir):
             t0 = time.time()
             for fc in BANDS:
                 tag = f"f{fc:g}".replace(".", "p")
-                r, tl, nm, dt = K.tl_path(out / "work" / name, tag, fc, profiles, rprof, rr, SRC, [rd], A.BOTTOMS["hard"], at_bin, fg=A.FG)
+                try:
+                    r, tl, nm, dt = K.tl_path(out / "work" / name, tag, fc, profiles, rprof, rr, SRC, [rd], A.BOTTOMS["hard"], at_bin, fg=A.FG)
+                except RuntimeError as e:
+                    # DEVIATION (disclosed, 9 Oct): KRAKEN finds NO trapped mode on some profile (shelf below its
+                    # modal cutoff, ~6 Hz at 150 m over the hard bottom). The band does not propagate to the
+                    # receiver: recorded as tl_db = NaN, status 'no_modes', contributing zero received energy.
+                    if "No modes" not in str(e) and "no modes" not in str(e).lower():
+                        raise
+                    for zs in SRC:
+                        rows.append(dict(quantile=q, logger=lg, fc_hz=fc, src_depth_m=zs, rcv_depth_m=rd, range_km=float(L), tl_db=np.nan,
+                                         status="no_modes", n_modes_first=0, n_modes_min=0, min_profile_depth_m=float(min(p[0] for p in profiles))))
+                    continue
                 s = K.read_shd(out / "work" / name / f"{tag}.shd")
                 x = s["rr_m"] / 1000.0 / 6371.0
                 sph = 10 * np.log10(x / np.sin(x))
                 for js, zs in enumerate(s["sz"]):
                     tlz = -20 * np.log10(np.abs(s["p"][0, js, 0])) + sph
                     rows.append(dict(quantile=q, logger=lg, fc_hz=fc, src_depth_m=float(zs), rcv_depth_m=rd, range_km=float(L),
-                                     tl_db=float(tlz[-1]), n_modes_first=nm[0] if nm else -1, n_modes_min=min(nm) if nm else -1,
+                                     tl_db=float(tlz[-1]), status="ok", n_modes_first=nm[0] if nm else -1, n_modes_min=min(nm) if nm else -1,
                                      min_profile_depth_m=float(min(p[0] for p in profiles))))
             wall[name] = round(time.time() - t0, 1)
             print(name, wall[name], "s", flush=True)
