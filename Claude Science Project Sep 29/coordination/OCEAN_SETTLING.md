@@ -166,3 +166,9 @@ Request 4 (`debris_class` in `ImpactView`) is still queued in core. Until it lan
 
 - Modular Architecture
 
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for settling (occupants class; surface-search scope)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture

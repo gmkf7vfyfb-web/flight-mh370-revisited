@@ -310,3 +310,9 @@ A/B. Then run them at once; they take minutes.
 
 - Modular Architecture
 
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for Pleiades (the hold is lifted; deliverable 4)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture

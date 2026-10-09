@@ -218,3 +218,9 @@ The synthetic composer test is done (one site about 0.1 bit; two sites 1.7-3.2 b
 reason item 2 matters: the two-site case is where the information is.
 
 - Modular Architecture
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for hydroacoustics (H4-H6)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture

@@ -2451,3 +2451,95 @@ The same run re-scores the 2b MH370 windows against the larger null, which remov
 Still open: rulings H4 (F-35A path and Metz data) and H5 (IMOS paths).
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings on the night's requests (all modules), CPU reminder, core queue
+
+**CPU.** The load average is about 91 on 18 cores. Outside the lock, everything runs at
+`RAYON_NUM_THREADS=2`, `CARGO_BUILD_JOBS=4` and `--test-threads=2`, and that includes Python
+(numpy/BLAS: set `OMP_NUM_THREADS=2` and `OPENBLAS_NUM_THREADS=2`) and downloads that decompress in
+parallel. Check your own launches.
+
+**Core queue, in order:**
+1. The reference re-run (prior fix, plus request 13 strata per the ~02:50 entry). **Hand-off rows go to
+   100,000 per seed at both snapshot epochs** (ruling E2 below). That is snapshot size only, not filter
+   compute.
+2. **Request 14** (end of flight): in-stage cruise BFO scoring in `terminal.rs`, approved. It blocks
+   the 22:41 arms with BFO, which carry end of flight's headline comparison.
+3. Request 4, consolidated: `ImpactView` attitude/tau/debris class, latents by name, seafloor depth,
+   and hydroacoustics' family-index needs.
+4. Request 12 (the streaming hook).
+5. **Request 15** (searched areas): `compose` as a **dev-dependency only** of `mh370-hypotheses`.
+   Approved: same precedent as O2, no runtime dependency.
+6. Composer B and C; DRIFT-1 to DRIFT-3.
+
+**End of flight.**
+- **E1. Gate (c) is accepted with your conditions,** and they become part of request 13:
+  - the family index passes through to `impacts.npy`;
+  - hand-off parent weights are normalised within each stratum;
+  - each stratum's log Z goes into `run.json`.
+- **E2. The parent-count question: (b) plus (a), with (c) where it still applies.**
+  - Core raises the hand-off to 100,000 rows per seed in the re-run. It costs about 35 MB per snapshot
+    and no filter time.
+  - Judge the 1,000 target **pooled over 8 seeds**, with the per-seed spread shown.
+  - Any case still short is reported as concentration-limited, with the limit.
+- **E3. Request 14 is approved,** with your acceptance tests. Until it lands, the V1b and V2 BTO-only
+  options are labelled NOT THE ARM, as you propose.
+- **E4.** The arm definitions (V1 = flame-out-associated only) and the narrowing of §8 to `both` are
+  recorded. Correct.
+
+**Searched areas.**
+- **S1. The OI 2018 and 2025-26 community tracings** in the frozen snapshots go to Pete as a licence
+  decision. They were never committed by you. Keep reading them by path and committing nothing.
+- **S2. Request 15 is approved,** as above.
+- **S3. The ledger** is your own `results/seabed-search-references.md`; rename `citation-ledger.md`.
+  There is no separate project ledger: the paper work merges the module ledgers. Keep the Davey-[40]
+  rule in yours. I have corrected the [40] line in `results/davey-ch11-alignment.md`.
+- **S4. ATSB 2017:** look for the report on the project Google Drive before trying the website again.
+  The four values stay flagged as inherited until verified.
+- **S5. Your correction to the brief** (the mean-of-ρ property holds only for the shared model) is
+  accepted, and will go into the brief as an amendment.
+
+**Hydroacoustics.**
+- **H4. F-35A:**
+  - First try to fetch Metz et al. 2023 through the article-fulltext tool. It may be reachable via the
+    institutional route.
+  - The stub (or the shared API, see H5) is extended to F-35A to H11 once a position is in hand.
+  - **Contacting the JAMSTEC authors is Pete's decision**, like any outreach; I have put it to him.
+- **H5. The IMOS paths go to the shared ocean transport, not to the stub.**
+  - Its bathymetry and sound-speed API has landed (items 3 and 4: geodesic paths, TID, corridor
+    maximum, WOA23 with spread). Its `examples/ocean_paths.rs` reproduced your air9 paths (1,662.8 and
+    3,549.2 km).
+  - Build the impact to Perth Canyon, Scott Reef and Portland paths with it. Migrate the air9 and air8
+    paths to it as well, and retire the stub once they match.
+- **H6.** C_site as a declared term with ±10 dB is accepted. The sensitivity-label reading is accepted
+  as a declared deviation. The implosion branch is noted, and settling is raising implosion with Pete
+  now.
+
+**Ocean drift.**
+- **D-a is amended:** the 0-30° range is on **p. 17** (CSIRO footers). Your wording for D-b is adopted:
+  BRAN2016 is "our nearest available match", since Part III draws the 1.2% on BRAN2015's 0-5 m layer
+  and Part II names no ocean model.
+- **D-f. Separate angles,** because CSIRO rotates only the extra leeway (Part II p. 13, Fig. 3.1
+  caption). Ocean transport is asked for a distinct angle on the constant-speed term, with the `c_wind`
+  term at its own angle, default 0. The pilot's single-angle departure stays declared until then.
+- The 6σ kernel cut-off (reported as MC unresolved) and the 50 km primary bandwidth with 25/100/200 km
+  computed are accepted.
+
+**Settling.**
+- **The surface-search scope stands from earlier: the 2014 aerial and surface search is drift's
+  observation.** An occupants element class (count by family, buoyancy, refloat time; AF447
+  calibration) is **settling's, approved as config-gated, default off.** It only becomes evidential
+  when drift has a 2014 surface-search observation model, which goes on drift's deferred list as a
+  later deliverable.
+- The implosion and floating-share questions are with Pete. The GLORYS12 `ProfileSource` is passed to
+  ocean transport.
+
+**Pléiades.** The §11 and D1 hold is lifted, because they take minutes. Run them on the current
+reference now, labelled "295.66° prior; superseded on re-run", from a one-command script that re-runs
+on the new reference. Then do deliverable 4. Derived WAVERYS now exists. Ocean transport is asked for
+the transport-error size and a second ocean-model option.
+
+**For any module that runs out of unblocked steps:** draft your methods section for the paper in
+`results/<module>-methods-draft.md`, with every value cited from your ledger. Do not sit idle.
+
+- Modular Architecture

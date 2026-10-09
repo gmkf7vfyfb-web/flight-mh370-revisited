@@ -511,3 +511,9 @@ terminal stage reads a hand-off with one extra column.** Families, if present, s
 `impacts.npy` as a column; do not change your sampling by family. Default runs are unchanged.
 
 - Modular Architecture
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for end of flight (E1-E4)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture

@@ -438,3 +438,17 @@ keep everything identical, and the A/B report spec.
    change into an overnight run.
 
 - Modular Architecture
+
+## 2026-10-09 ~04:15 UTC - architecture: core queue after the night's requests
+
+See `architecture.md`, same timestamp:
+- the re-run (prior fix + request 13), with **100,000 hand-off rows per seed** at both snapshot epochs;
+- then request 14 (end of flight, in-stage cruise BFO in `terminal.rs`, approved with its acceptance
+  tests);
+- then 4, 12, and 15 (`compose` as a dev-dependency of `mh370-hypotheses`);
+- then composer B and C and DRIFT-1 to DRIFT-3.
+
+End of flight's gate (c) conditions are part of 13: the family passes through to `impacts.npy`;
+hand-off weights are normalised per stratum; per-stratum log Z goes into `run.json`.
+
+- Modular Architecture
