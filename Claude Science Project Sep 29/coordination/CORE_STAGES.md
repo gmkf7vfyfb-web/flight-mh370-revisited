@@ -860,3 +860,80 @@ Pete and core design and size it: overnight, or a night plus a morning. Core bri
 S0-S5. A full-scale Davey-only baseline (no fuel, plain sampler) is optional and lower priority.
 
 - Modular Architecture
+
+## 2026-10-10 - fuel model: DELIVERY 1 - internal fuel model `internal-v1` (core request 16 C), ready for integration
+
+Report: `results/fuel-model/internal-model.md`. Code: `engine/fuel-model/`. No `crates/` edits; no filter run.
+**Model file (LOCAL ONLY, git-ignored by `/data/external`):** `engine/data/external/fuel-model/internal-v1.json`
+(8.3 MB, sha256 `c5fe32e3…`). Core can copy it from the fuel session's workspace (readable cross-session)
+or from local artifact `2ee08c24-f528-46f2-b945-c10c7f38dcb8`. It holds the 16 extract grids unchanged
+(`FuelTables::from_json` still parses it), the dense calibrated-shape grid, the INOP grid, a ceiling table,
+the parameters and 300 test vectors. Rebuild: `python fuel-model/build_internal.py` from `engine/` (about 40 s).
+
+**Result.**
+- **FF = κ_traj · τ(ΔISA, M) · G(FL, W, M)**, where:
+  - G: standard-day grid with F3 (zero-weight corners), F4 (back-side rule bounded at 0.95 × holding; close
+    pairs clamped) and a drag-rise term above M0.84;
+  - **τ = 1 + 0.003 · ΔISA · (1 + 0.2 M²)**, the FPPM rule in SAT terms (0.34 %/°C at M0.82);
+  - **κ_traj ~ N(1.0004, 0.0196), a MULTIPLIER.** F1 is gone by construction.
+- **Calibration, κ as a multiplier:**
+
+  | evidence | κ |
+  |---|---|
+  | Boeing only (16 envelope items; standard day, so identical with or without the temperature term) | 0.9893 ± 0.0037, residual s.d. 0.014 |
+  | MH371 measured cruise, with the temperature term | 1.0073 |
+  | MH371 measured cruise, without it | 1.0172 |
+  | **Joint, with the temperature term** | **1.0004 ± 0.0085**, between-group τ 0.014 |
+  | Joint, without it | 1.0030, τ 0.018 |
+
+- **Boeing Table 3 (1.010) and Table 4 (0.985) disagree by 2.5 %.** MH371 sides with Table 3. The
+  tension is carried in the s.d., not resolved.
+- **No weight-dependent factor.** F1b's trend is the Table 3 against Table 4 contrast. MH371 at FL400,
+  186-200 t, shows no trend.
+- **The temperature term is supported by MH371.** A free fit gives 0.0031 ± 0.0012 /°C, against the
+  rule's 0.0034. This is internal and confounded with FL.
+- **Exhaustion against the code as coded,** on constant profiles from 18:01:49 (**provisional**; the
+  cross-check along posterior paths follows):
+
+  | FL | ERA5 route ΔISA | internal minus coded |
+  |---|---|---|
+  | 300 | +11.9 °C | −10 to −12 min |
+  | 350 | +9.1 °C | −8 to −9 min |
+  | 370 | +5.5 °C | −4 min |
+  | 390-400 at M ≥ 0.82 | about 0 °C | +0 to +2 min |
+  | 400 at M ≤ 0.80 | | −10 to −58 min (the F3/F4 pocket removed) |
+
+- **Single engine (Pete's item 3).**
+  - **L − R at 18:01:49 = +221 kg** (L 18,395, R 18,174 kg), range +47 to +421. Sources: Ulich v5.6 tank
+    estimate at 17:06:43 (+146 kg); R/L flow ratio **1.021** (range 1.013-1.035, from Ulich's tank-rate value
+    and the MH371/MH370 EHM per-engine WF); SIR App. 1.6E p. 5.
+  - The right engine runs dry first, and the left runs on for 3-14 min (best 7-8). That is consistent with
+    ATSB AE-2014-054 p. 9.
+  - The INOP grid is in the file. Single-engine flow is 0.79-0.99 of the twin flow, so the pooled
+    exhaustion and the left flame-out differ by only about 0.1-1.5 min (less than the audit's F11
+    estimate of 0-6 min).
+
+**Core requests (16 C-1 to C-8; details in report §7). Schema changes are marked.**
+1. **C-1:** grid reader, with trilinear interpolation and OR'ed corner flags. Config-gated:
+   `fuel.model = "internal-v1"`. Default unchanged; `davey2016.toml` byte-identical. Unit test against
+   `test_vectors`.
+2. **C-2 (schema):** `fuel_flow_kg_h(fl, weight_t, mach, delta_isa_k)`, with ΔISA from the ERA5 temperature
+   already used for TAS. This reaches end of flight's `takeover_priced` through `FuelFlow`.
+3. **C-3:** `factor_mean = 1.0004`, `factor_sd = 0.0196`, as a multiplier. Arms: Boeing-only N(0.9893,
+   0.0143); MH371-only N(1.0073, 0.0110); no-temperature N(1.0030, 0.0236).
+4. **C-4:** `initial_kg = 36,569` when the temperature term is on (36,725 is the standard-day figure), or
+   better `43,800 − κ_traj × 7,228`.
+5. **C-5:** use `ceiling_fl(weight_t)` for F5 (FL430 at ≤ 190 t, FL400 at 215-220 t).
+6. **C-6:** extra s.d. of 0.021 on steps above M0.84 (F6). Elsewhere none is needed.
+7. **C-7 (schema, two fuel states):** initial L − R = +221 kg (s.d. ≈ 120); R : L = 1.021 (s.d. ≈ 0.008);
+   `grid_inop` after the first flame-out.
+8. **C-8 (F10):** the end-of-flight form, flow × (1 + (L/D) sin γ) with the idle floor, and the climb factor
+   capped at climb thrust.
+
+**Restricted use** is recorded in `results/restricted-sources-ledger.md`: the confidential cells; the MH371
+ACARS and EHM data (provenance unverified); Ulich's workbook notes. Committed files are model outputs only.
+
+**Next:** delivery 2 (the cross-check along `reference-289` hand-off states), then delivery 3 (the public
+parametric model).
+
+- Fuel model
