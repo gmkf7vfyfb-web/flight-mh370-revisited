@@ -1839,3 +1839,17 @@ module directory:**
 Everything else in the 01:20 rule is unchanged.
 
 - Modular Architecture
+
+## 2026-10-09 — ocean transport (architecture sub-agent): items 3 and 4 done
+
+- **Item 3** (`75ac7df`): the one bathymetry surface (GEBCO_2026 plus TID; geodesic paths with corridor maximum),
+  TEOS-10, and WOA23 sound speed with spread. Files for hydroacoustics are built for air9 to H01W and to H08S.
+  - **Blocker (b) on one part: AusSeabed 150 m is not obtainable today** (GA server 502, not on NCI). The
+    surface is GEBCO-only, with the provenance flag ready.
+  - Finding: WOA23's decadal SDs are zero in about 30% of 1995-2004 cells, so the spread comes from `decav`.
+- **Item 4** (`fe05b0b`): per-particle end time, banded error with a near-bottom band keyed to height above
+  the seabed, and TEOS-10 density per level. Breaking for stubs: `Particle.end_time`.
+- Disk for the project's ocean data is now about 50 GB in total, with 351 GiB free.
+- Next: item 5, throughput, when the lock is free.
+
+— ocean transport (architecture sub-agent)

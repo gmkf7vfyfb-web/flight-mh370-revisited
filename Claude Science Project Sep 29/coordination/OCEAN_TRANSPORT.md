@@ -681,3 +681,109 @@ the Stokes field omitted.
    it lands, the pilot runs with one angle as a declared departure.
 
 - ocean drift
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 3 landed — one bathymetry surface, sound speed with spread (hydroacoustics, settling, searched areas)
+
+**Code `75ac7df`, merged.** 24 tests pass. Data and sha256 values are in `results/ocean-data-manifest.md`; citations
+are in `results/ocean-references.md` (moved from the crate per the 02:25 ruling).
+
+**Bathymetry: `mh370_ocean::bathy::Bathymetry`, one surface for everyone.**
+- `Bathymetry::load(&[layer manifests, finest first], Some([lon_min, lon_max, lat_min, lat_max]))` reads only
+  the window it needs. The full layer is 2.2 GB.
+- `.at([lon, lat]) -> Option<BathySample { elevation_m, depth_m, source, tid }>` returns the nearest native cell,
+  with its provenance flag (`BathySource`) and the GEBCO Type Identifier.
+- `.path(a, b, spacing_m, half_width_m)` samples along the WGS84 geodesic (Karney, geographiclib-rs). Each
+  `PathSample` has the track sample and the **corridor maximum** (the highest cell within the half-width,
+  sampled on perpendicular geodesics), with its signed cross-track offset (positive to the right) and its TID.
+- `.inverse(a, b) -> (metres, azimuth)`.
+- The layer is GEBCO_2026 at 40-180 E, 60 S-30 N:
+  `/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json`.
+- **AusSeabed (GA MH370 Phase 1, 150 m) is NOT yet in the surface: data not obtained.** The GA geoserver
+  returned 502, and the dataset is not in NCI `rr1`. The layer mechanism is ready (f32, NaN outside
+  coverage, `BathySource::AusSeabed`, first in priority). Until then every answer says `Gebco2026`, and TID
+  10/11 marks where GEBCO already carries multibeam, including GA's MH370 surveys.
+- **Settling:** `bathy.at(impact).depth_m` feeds `profile.bottom_relation(seabed)` and `at_depth(z, Some(seabed), rule)`.
+- **Searched areas:** use the same `at`, or `path` along sonar lines for terrain masking.
+
+**Sound speed: `mh370_ocean::soundspeed::SoundSpeedClimatology`.**
+- **Product:** WOA23, 1 degree. Each epoch uses its own decade: 1995-2004 for October 2001 and May-June
+  2003, 2005-2014 for March 2014, and 2015-2022 for later events, including F-35A at H11. Monthly fields are
+  used above 1,500 m and seasonal ones below.
+- **TEOS-10:** applied once in preparation with official `gsw` (`p_from_z`, `SA_from_SP`, `CT_from_t`,
+  `sound_speed`). At runtime only `p_from_z` is computed, with GSW-rs. The two agree to 1e-9 on fixtures, and
+  re-evaluating exported SA/CT/p with `gsw` reproduces the exported c to 0.012 m/s at most, the residue of
+  interpolating c, SA and CT separately.
+- **Spread:** `c_sd` is linearised from the **all-decade objectively analysed SDs** (`decav` `t_sdo`/`s_sdo`),
+  with T and S deviations treated as independent. This is **declared**: warm-salty correlation would make the
+  true spread larger.
+  - **Finding:** WOA23's decadal `*_sd` exist in only 16-38% of cells, and the 1995-2004 `*_sdo` are exactly
+    zero in about 30% of ocean cells, which would call a sparsely sampled profile certain. With `decav`, the
+    zero-spread fraction is 0.04%. Those cells are reported, never floored.
+- **Lookup:** `clim.profile([lon, lat])` is bilinear, renormalised over corners with data at each level, and a
+  level with no data is NaN, never filled. `woa23_period(unix_t) -> (decade, month)` selects the file.
+
+**Hydroacoustics: files for KRAKEN/RAM.** `examples/ocean_paths.rs <request.json> <out-dir>` writes
+`<name>_bathymetry.csv`, `<name>_soundspeed.csv` and `<name>_meta.json`. They are already built for your two
+paths at 8 October 2001 in `/Users/pete/Downloads/mh370-ocean-data/products/hydro-paths-2001-10/`:
+
+| path | geodesic | samples (250 m) | track depth | corridor max (±2 km) | TIDs on track |
+|---|---|---|---|---|---|
+| air9 to H01W | **1,662.8 km** | 6,653 | 1,537-5,862 m | -1,474 m | 11, 40, 44, 70 |
+| air9 to H08S | **3,549.2 km** | 14,198 | 1,613-5,621 m | -1,576 m | 11, 40, 44 |
+
+Both lengths agree with ruling H1. **Your stub's 1,662.5 km is its last 0.5 km sample, not the geodesic.**
+
+**Your stub assumptions, adopted or rejected:**
+1. *Two paths only:* **extended.** The export takes any list. Send air8's coordinates (ruling H3) and the
+   F-35A event position and time, and I will add them.
+2. *H08S at its 2002 FDSN epoch for a 2001 event:* yours to declare. Not changed.
+3. *GEBCO nearest cell every 0.5 km, corridor ±2 km:* **nearest cell adopted.** The spacing now defaults to
+   **250 m**, because 0.5 km is coarser than GEBCO's native 15 arc-seconds (about 0.46 km north-south and
+   0.40 km east-west at 30 S) and can step over a cell. The half-width stays your choice.
+4. *WOA23 95A4 season 16, t_an/s_an only, bilinear every 25 km:*
+   - **bilinear and 25 km adopted**;
+   - **season-only rejected:** the October monthly field is used above 1,500 m, as WOA itself provides it;
+   - **no-spread rejected:** `c_sd` is supplied.
+5. *gsw at in-situ pressure; NaN never filled:* **adopted.**
+6. *No time interpolation within the period, no mesoscale:* still true here (month resolution, climatology).
+   **Suggested declared alternative:** GLORYS12 T/S (daily, 1/12 deg, 1993 onward, so all your epochs
+   including 2001 and 2003) through the same TEOS-10 path would add the mesoscale. Say if you want it; it is
+   a full-depth download for your path corridors only.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 4 landed — settling's three queued items
+
+**Code `fe05b0b`, merged.** Tests: `per_particle_end_time_stops_each_particle_at_its_own_time`,
+`banded_error_keys_the_bottom_band_to_height_above_seabed` and `teos10_matches_official_gsw`.
+
+1. **Per-particle end time for the float phase.**
+   - `Particle { ..., end_time: Option<f64> }`; `Particle::new(release, release_time, response)` sets `None`.
+   - The state at each element's own sink time is `Track.end: Option<Snapshot>`. Output times after it are
+     `Snapshot::PastEnd`.
+   - One call takes elements with different sink times and shares one ocean. Tested: identical to a run with
+     that single output time under the same seed and eddying error.
+   - **BREAKING:** `Particle` literals need `end_time` (use `Particle::new`), and `Snapshot` has a new variant.
+2. **Bands.**
+   - `VerticalStructure::Banded { surface_to_m, upper_to_m, near_bottom_m, factors: [surface, upper, deep,
+     near_bottom] }`.
+   - The **near-bottom band is keyed to height above the seabed** and takes precedence where the seabed depth
+     is known: `realisation.velocity_with_seabed(t, p, z, Some(seabed_m))`.
+   - **Each band has its own independent realisation** (separate random streams), so correlation holds within
+     a band and not across bands. Surface, interior and bottom-boundary-layer flows are different processes.
+   - Still one draw per impact event: `model.realise(event_seed)`.
+   - Tested: surface-deep correlation below 0.1 over 2,000 draws; band amplitudes within 8%.
+   - If you would rather have one realisation scaled by band, say so; it is a one-line switch, but it is a
+     modelling choice and I made the more conservative one.
+3. **In-situ density per level.**
+   - `profile.teos10()? -> Teos10Profile { depth_m, absolute_salinity_g_kg, conservative_temperature_c,
+     pressure_dbar, in_situ_density_kg_m3, sound_speed_m_s, sa_anomaly_included }`, and `.rho_at(z)` interpolates
+     linearly.
+   - For GLORYS-like profiles (potential temperature, practical salinity), SA is Reference Salinity with the
+     **anomaly set to zero and flagged**. That is under 2e-5 relative in density here.
+   - In-situ temperature is refused at runtime (it must be converted in preparation).
+   - Pressure is now TEOS-10 `p_from_z`, which replaces Saunders.
+   - Tested against official `gsw` to 1e-9 (rho 1041.5724 kg/m3 at 3,000 m, 33 S, potential temperature 2 C,
+     SP 34.7).
+
+— ocean transport (architecture sub-agent)
