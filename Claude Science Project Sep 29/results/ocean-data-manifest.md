@@ -173,7 +173,8 @@ off Réunion and in the Agulhas. Citations and licences are in `engine/crates/oc
 | `era5_u10_v10_3h_15-120E_50-0S_20170101-20170131.f32` | 167,888,064 | d6286a5395e8ca0706992afcb1c6cbcfbda4e3198f47f951256080de92c103e2 | 2026-10-09T00:57:52Z |
 | `era5_u10_v10_3h_15-120E_50-0S_20170101-20170131.json` | 8,227 | 104c787d5d1ed557c6d20f9052173a02b0ba278176b80a0f91c0f08b93ae9c0e | 2026-10-09T00:57:52Z |
 
-### BRAN2016 surface currents: **stopped, not in use**
+### BRAN2016 surface currents: **dropped by Pete (9 October 2026); files removed**
+- **Removed 2026-10-09:** the 15 monthly files below, plus one partial download (`..._v_..._2014_10_daily.nc.part`), were moved to the macOS Trash with Pete's approval (relayed by the architect). None was ever used in a run. `fetch-log.jsonl` stays in `bran2016/` as the record, and the table keeps their sha256 values.
 - NCI THREDDS NetCDF Subset Service, `gb6/BRAN/BRAN_2016/OFAM/ocean_{u,v}_YYYY_MM.nc`, top level 2.5 m,
   every day of each month.
 - The download was stopped after 15 monthly files
@@ -479,3 +480,23 @@ Stored at `/Users/pete/Downloads/mh370-ocean-data/products/gdp-replay/`. The sta
 | `f35a-H11N_soundspeed.csv` | d2cb258fa87dfea99c8faa71180f42a1d8d61596993f1c60458b9a518fc0599d |
 | `f35a-H11S_bathymetry.csv` | 8213395df24e149b6aa1e0b6d51cfd22e85427ee8bc7a3c5c02129f52c80b792 |
 | `f35a-H11S_soundspeed.csv` | 412cb85eb4e155b6d5183ce4b58db3f7afc4a6363ab2c63512c2f07bcaae151e |
+
+## OSCAR v2.0 Final (comparison product only), fetched 2026-10-09
+
+- **Source:** PO.DAAC `OSCAR_L4_OC_FINAL_V2.0` (doi:10.5067/OSCAR-25F20), fetched with the NASA_EARTHDATA credential by `engine/crates/ocean/prepare/fetch_oscar.py`.
+- **Global files:** 1,062 daily files, 7 March 2014 – 31 January 2017, 35,317,209,312 bytes in total.
+  - Each was verified against PO.DAAC's published md5. Per-file md5 and sha256 values are in `oscar/grid/fetch-log.jsonl`, whose own sha256 is given in the table below.
+  - Each was cut to 15–120 E, 50–0 S, and the global file was then discarded.
+  - The md5 matches prior work for all 909 overlapping days.
+- **Series:** `oscar/grid/oscar_v2_final_uv.series.json`, four yearly parts, `[time][lat][lon][east, north]` float32, NaN at land. Each value is placed at 12:00 UTC of the averaged day.
+- **Prior-work md5 list:** `oscar/prior-work-source-md5.json`, taken from the Drive manifest.
+
+| File | Bytes | sha256 |
+|---|---|---|
+| `fetch-log.jsonl` | 378072 | 40df14b9f608c2a49bafd7207778198700d2432a76c5de55789c0a5018bed35d |
+| `oscar_v2_final_uv_2014.f32` | 203090400 | 4975f740d81d1e2bbd8c2c49dc8e38b009ae15a5f6484925535d1f6d0e98760c |
+| `oscar_v2_final_uv_2015.f32` | 247093320 | 5c6319f8f0d317f7703cb362e2f812ee3a49443edd1891763b0bf1e37f8a6ab1 |
+| `oscar_v2_final_uv_2016.f32` | 247770288 | 3efcfac94358cf8bc08e38b1e8b62f11038672da8e5f1c2f31dc71a65d782e8d |
+| `oscar_v2_final_uv_2017.f32` | 20986008 | 3a66ab0fdf19c5c89b7246ec158702655eb32a6d14d1e14c338251bf4839b6e2 |
+| `products/gdp-replay/sep_oscar_v2.f32` | 13,511,040 | 2a52add0cc58aa2f6fb8efb3e04828e4156a8a925b4db90d9946436137a4a4ce |
+| `products/gdp-replay/sep_oscar_v2_era5w01.f32` | 13,511,040 | cc430941e53a21bc1cc7613d3d75e40a87fa4e66fe6bcd09263cdd628560099a |

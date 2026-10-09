@@ -870,3 +870,27 @@ fn long_geodesic_window_holds_the_whole_path() {
     assert!(lost > 1000, "{lost}");
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+#[test]
+fn comparison_products_are_labelled_and_never_an_ocean_model_value() {
+    use mh370_ocean::products::{product, ProductRole};
+    assert_eq!(product("oscar-v2-final").unwrap().role, ProductRole::Comparison);
+    for id in ["glorys12v1", "globcurrent-my-p1d", "globcurrent-my-pt1h"] {
+        assert_eq!(product(id).unwrap().role, ProductRole::OceanModel, "{id}");
+    }
+    for id in ["waverys", "era5-wind10"] {
+        assert_eq!(product(id).unwrap().role, ProductRole::Forcing, "{id}");
+    }
+    let meta = |id: &str, c: Component| {
+        let p = product(id).unwrap();
+        FieldMeta { product: id.into(), component: c, contents: p.contents, time_axis: p.time_axis, description: "test".into() }
+    };
+    let grid = |m| GridField::new(m, vec![90.0, 91.0], vec![-36.0, -35.0], vec![T0, T0 + DAY], vec![0.1; 16], None).unwrap();
+    let (oscar, glorys, wind) = (grid(meta("oscar-v2-final", Component::Current)), grid(meta("glorys12v1", Component::Current)), grid(meta("era5-wind10", Component::Wind10m)));
+    let f = Forcing { current: &oscar, stokes: None, wind10: Some(&wind) };
+    assert!(f.is_comparison());
+    assert_eq!(f.ocean_model(), "comparison:oscar-v2-final+era5-wind10");
+    let g = Forcing { current: &glorys, stokes: None, wind10: Some(&wind) };
+    assert!(!g.is_comparison());
+    assert_eq!(g.ocean_model(), "glorys12v1+era5-wind10");
+}

@@ -65,11 +65,23 @@ pub struct Variable {
     pub units: &'static str,
 }
 
+/// What a product is for. Only `OceanModel` currents are values of the `ocean-model` alternative;
+/// a `Comparison` product is held to compare with prior work and never enters a likelihood.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub enum ProductRole {
+    OceanModel,
+    /// Stokes drift or wind: combined with an ocean model, not an alternative to one.
+    Forcing,
+    /// Comparison only (Pete's decision 9 Oct for OSCAR): no `ocean-model` value for the composer.
+    Comparison,
+}
+
 /// One candidate product.
 #[derive(Clone, Debug, Serialize)]
 pub struct ProductMeta {
     /// Value used for the `ocean-model` alternative and in run provenance.
     pub id: &'static str,
+    pub role: ProductRole,
     pub name: &'static str,
     pub producer: &'static str,
     pub dataset: &'static str,
@@ -101,6 +113,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
     vec![
         ProductMeta {
             id: "glorys12v1",
+            role: ProductRole::OceanModel,
             name: "GLORYS12V1 global ocean physics reanalysis",
             producer: "Mercator Ocean International for the Copernicus Marine Service",
             dataset: "GLOBAL_MULTIYEAR_PHY_001_030 / cmems_mod_glo_phy_my_0.083deg_P1D-m",
@@ -152,6 +165,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
         },
         ProductMeta {
             id: "waverys",
+            role: ProductRole::Forcing,
             name: "WAVERYS global ocean waves reanalysis (MFWAM)",
             producer: "Mercator Ocean International / Meteo-France for the Copernicus Marine Service",
             dataset: "GLOBAL_MULTIYEAR_WAV_001_032 / cmems_mod_glo_wav_my_0.2deg_PT3H-i",
@@ -182,6 +196,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
         },
         ProductMeta {
             id: "oscar-v2-final",
+            role: ProductRole::Comparison,
             name: "OSCAR v2.0 Final 0.25 degree surface currents",
             producer: "Earth & Space Research (ESR), distributed by NASA PO.DAAC",
             dataset: "OSCAR_L4_OC_FINAL_V2.0 (doi:10.5067/OSCAR-25F20)",
@@ -190,7 +205,10 @@ pub fn catalogue() -> Vec<ProductMeta> {
             horizontal_resolution_deg: 0.25,
             coverage: "1993-01-01 onward, final quality level about 1-1.5 years behind real time",
             covers_drift_period: Included,
-            time_axis: TimeAxis::Mean { interval_s: DAY, stamp: "daily average; label to be read from the file".into() },
+            time_axis: TimeAxis::Mean {
+                interval_s: DAY,
+                stamp: "daily average; the file time is \"centered on the day\" (handbook) but reads 00:00 UTC; placed at 12:00 UTC of the averaged day".into(),
+            },
             depth: "average over an assumed well-mixed top 30 m (the geostrophic variables carry depth = 15 m)",
             variables: vec![
                 Variable { name: "u", meaning: "total zonal current", units: "m s-1" },
@@ -204,19 +222,25 @@ pub fn catalogue() -> Vec<ProductMeta> {
                 stokes: Excluded,
                 tides: Excluded,
                 inertial: Excluded,
-                note: "Diagnostic model: geostrophic (DUACS SSH) + quasi-steady wind-driven (ERA5 stress \
-                       with eddy viscosity) + thermal-wind adjustment. The wind-driven term is a 30 m layer \
-                       average, so u - ug is the Ekman part; never add a separate Ekman term."
+                note: "COMPARISON PRODUCT ONLY (Pete, 9 Oct 2026): held to compare with prior work, never a \
+                       value of the ocean-model alternative; Forcing::ocean_model() labels it comparison:. \
+                       Diagnostic model (v2.0 handbook): geostrophic (DUACS SSH) + quasi-steady wind-driven \
+                       (ERA5 10 m wind, eddy viscosity) + thermal-wind adjustment, averaged over the top 30 m. \
+                       u - ug is the wind-driven part; never add a separate Ekman term. Pairing with ERA5 \
+                       windage (declared, not decided here): as with GLORYS12 and GlobCurrent, c_wind and \
+                       leeway_speed then stand for the object's own leeway relative to the 0-30 m water, so \
+                       they do not count the Ekman current twice; the 30 m average carries less near-surface \
+                       shear than a 0.5 m model current, so a leeway fitted on GLORYS12 is not transferable."
                     .into(),
             },
             temperature: "n/a (surface currents only)",
             vertical_velocity: NotApplicable,
-            verify_on_download: vec!["array order (time, longitude, latitude) and longitude 0-360 convention"],
+            verify_on_download: vec!["array order (time, longitude, latitude) and longitude 0-360 convention (verified 9 Oct 2026)"],
             sources: vec![
                 "https://podaac.jpl.nasa.gov/dataset/OSCAR_L4_OC_FINAL_V2.0",
                 "OSCAR v2.0 User's Handbook (oscarv2guide.pdf)",
             ],
-            licence: "NASA Earthdata open data (not downloaded)",
+            licence: "NASA open data via PO.DAAC: the CMR record gives no use constraints; cite per PO.DAAC (ESR; Dohan 2022, doi:10.5067/OSCAR-25F20)",
         },
         globcurrent("globcurrent-my-pt1h", "MULTIOBS_GLO_PHY_MYNRT_015_003 / cmems_obs-mob_glo_phy-cur_my_0.25deg_PT1H-i (v202411)", TimeAxis::Instantaneous { interval_s: 3600.0 }),
         globcurrent(
@@ -226,10 +250,11 @@ pub fn catalogue() -> Vec<ProductMeta> {
         ),
         ProductMeta {
             id: "bran2016",
+            role: ProductRole::OceanModel,
             name: "Bluelink ReANalysis 2016 (OFAM3)",
             producer: "CSIRO Bluelink",
             dataset: "BRAN_2016 daily fields, NCI THREDDS gb6/BRAN/BRAN_2016",
-            access: "NCI THREDDS / OPeNDAP, anonymous",
+            access: "NCI THREDDS / OPeNDAP, anonymous. DROPPED by Pete 9 Oct 2026 (gb6 licence); fetched files removed",
             credential: None,
             horizontal_resolution_deg: 0.1,
             coverage: "January 1994 to August 2016 (CSIRO; NCI catalogue files ocean_u_1994_01 .. ocean_u_2016_08, checked 9 Oct 2026)",
@@ -264,6 +289,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
         },
         ProductMeta {
             id: "era5-wind10",
+            role: ProductRole::Forcing,
             name: "ERA5 single-level 10 m wind",
             producer: "ECMWF for the Copernicus Climate Change Service",
             dataset: "reanalysis-era5-single-levels: 10m_u_component_of_wind, 10m_v_component_of_wind",
@@ -299,6 +325,7 @@ fn globcurrent(id: &'static str, dataset: &'static str, time_axis: TimeAxis) -> 
     use Inclusion::*;
     ProductMeta {
         id,
+        role: ProductRole::OceanModel,
         name: "Copernicus-GlobCurrent total surface current (geostrophic + Ekman + tide), 0 m",
         producer: "CLS for the Copernicus Marine Service",
         dataset,

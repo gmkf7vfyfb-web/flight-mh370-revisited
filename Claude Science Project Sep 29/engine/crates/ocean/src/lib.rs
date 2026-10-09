@@ -50,7 +50,7 @@ pub use gridprofile::GridProfile;
 pub use gshhg::{g1_segments, NamedSegment, PolygonCoast, PolygonCoastOptions};
 pub use field::{Component, FieldGap, FieldMeta, GridField, LoadWindow, VectorField};
 pub use integrate::{integrate, Domain, LEEWAY_CALM_WIND_MPS, Event, Fate, Forcing, ObjectResponse, Particle, Refloat, RunOutput, RunSpec, Snapshot};
-pub use products::{Contents, Inclusion, TimeAxis};
+pub use products::{Contents, Inclusion, ProductRole, TimeAxis};
 pub use profile::{BelowModelBottom, BottomRelation, Profile, ProfileSource};
 pub use stochastic::{Diffusion, DiffusivityPrior, OceanErrorModel, OceanErrorRealisation};
 

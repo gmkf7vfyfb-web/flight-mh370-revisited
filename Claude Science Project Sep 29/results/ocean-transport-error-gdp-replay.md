@@ -55,7 +55,8 @@ first part of the GDP replay (item 5).
   - With the explicit-Stokes compositions of the next section included, the maximum rises to
     15,700 m²/s in the box and 18,400 m²/s over the domain. Both are GLORYS12 + WAVERYS + 1% ERA5 on
     drogued drifters, the composition that counts drift twice.
-  - All values are in `ocean-transport-error-gdp-replay.json`, which now holds all six configurations.
+  - All values are in `ocean-transport-error-gdp-replay.json`, which now holds all eight configurations,
+    including the two OSCAR comparison runs.
 
 ![RMS separation per component against lead time](ocean-transport-error-gdp-replay.png)
 
@@ -87,10 +88,35 @@ Search box, March–May, per-component RMS at 2 days (km):
   (a_stokes, c_wind) refit on undrogued drifters is drift's to specify (item 5, "coordinate with drift").
   The replay tool takes any composition and costs about 15 s per configuration on 2 threads.
 
+## OSCAR v2.0 Final: comparison product only (added 9 October)
+
+Pete decided that OSCAR is held only to compare with prior work. It is **not** a value of the
+`ocean-model` alternative, and its runs are labelled `comparison:` by `Forcing::ocean_model()`.
+OSCAR's currents are averages over the top 30 m, with a nominal depth of 15 m.
+
+Search box, March–May, per-component RMS at 2 days (km), with drifter-block bootstrap 95% intervals:
+
+| Configuration | Undrogued (808 seg / 60) | Drogued (565 seg / 52) |
+|---|---|---|
+| OSCAR v2 current | 19.8 / 16.2 (18.1–21.6 / 15.0–17.5) | **14.3 / 13.7** (12.8–16.0 / 12.3–15.1) |
+| OSCAR v2 + 1% ERA5 | **14.8 / 14.2** (13.7–15.9 / 13.1–15.4) | 17.3 / 15.6 |
+| *for comparison:* GlobCurrent | 14.3 / 14.2 | 18.0 / 15.1 |
+| *for comparison:* GLORYS12 | 21.2 / 19.6 | 20.1 / 19.4 |
+
+- **Drogued drifters (15 m):** OSCAR's 0–30 m average follows them better than any 0–0.5 m current.
+  This fits the layer it represents.
+- **Undrogued drifters:** OSCAR needs about 1% windage to match GlobCurrent; with it, OSCAR equals
+  GlobCurrent. That is the shear between a 30 m average and the surface. GlobCurrent's 0 m Ekman term
+  already carries that shear.
+- **K_equiv at 15 days, OSCAR runs:** 2,700–10,500 m²/s.
+- **Pléiades:** the finding is unchanged even with this product. The smallest bootstrap lower bound at 2 days
+  is 12.3 km (OSCAR, drogued), still above Pléiades' 10 km threshold.
+
 ## What this means for the modules (findings, not rulings)
 
 - **Pléiades.** In the search box in March–May, the per-component transport error at 2 days is 14–21 km.
-  The range covers products and drogue state, and no bootstrap lower bound is below 12.7 km.
+  The range covers products and drogue state, and no bootstrap lower bound is below 12.7 km. With the
+  OSCAR comparison product included, the lowest is 12.3 km (OSCAR, drogued drifters).
   - Pléiades stated that its two-epoch calibration carries information below about 6 km per component over
     40–53 h, and none above about 10 km.
   - On these measurements, then, **the two-epoch calibration carries no information with either product**,
