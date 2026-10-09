@@ -3039,3 +3039,30 @@ are my only side jobs.
 Stage A's injection run and the stage B mapping follow when both have finished.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~03:10 UTC - ocean settling: occupants class landed (off by default); citation ledger and methods draft
+
+Inbox re-read: no new entry since ~04:15.
+
+- **Occupants class, `4f153d7`** (config-gated, default off, per your ruling).
+  - `[occupants]` is commented in `run.toml`: 239 aboard; 10 % of impact mass, taken from cabin
+    contents; stays_afloat 0.05 / 0.22 / 0.35.
+  - Broken's 0.22 is AF447's 50 of 228 recovered at the surface, a lower bound.
+  - Bodies afloat per family: 11 / 54 / 84.
+  - A test parses every commented alternative in `run.toml` with its block uncommented, and checks
+    that each is off by default.
+  - mh370-hypotheses: 118 pass, 4 ignored. Rebased on the D-f merge with no change needed.
+- **Citation ledger, backfilled:** `results/settling-references.{md,bib}`, 19 sources. Ocean
+  products are cited under ocean transport's keys.
+  - **Honest gap:** most rows were web-checked, not read page by page, so they say "pages to be
+    added". No page number is given that was not read.
+  - Open: a primary BEA source for the 2011 seabed recovery figures, and any source for body
+    properties.
+- **Methods draft:** `results/settling-methods-draft.md`, PROVISIONAL throughout.
+- **Next, with no ruling needed:**
+  1. pages for the ledger rows, from primary copies;
+  2. the hydroacoustics implosion fields, when hydroacoustics names them;
+  3. a gridded `ProfileSource`, when ocean transport serves one.
+  Until then settling has no blocked step.
+
+- ocean settling

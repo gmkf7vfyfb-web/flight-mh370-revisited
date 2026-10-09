@@ -67,3 +67,9 @@ by Monte Carlo noise at 256 draws, up to about 10 % for cabin contents.)
    their own longer, wind-driven one. Sections themselves are unchanged, and so is the afloat share
    (buoyant contents still reach the surface, later and from the collapse point). Neither the share
    inside nor the collapse depth has an airliner calibration case.
+
+8. **Occupants class** (config-gated, off; ruling ~04:15), variant "occupants class on" in
+   `settling-d6-sensitivity.csv` (regenerated at `4f153d7`; all other rows are unchanged bit for bit).
+   Bodies afloat 4.8 % / 22.8 % / 35.0 % of 239 (intact / broken / fragmented); median descent about
+   3.8 h; p90 resting offset 1.1 / 1.8 / 3.1 km. The family afloat mass share falls to 0.110 / 0.145 /
+   0.196, because 10 % of impact mass moves from cabin contents (stays_afloat 0.4) to occupants.
