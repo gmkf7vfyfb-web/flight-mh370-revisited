@@ -1,0 +1,10 @@
+# BTO-only option set for the 22:41 arms: what the terminal stage can score from a 22:41 hand-off while
+# core's 00:19 BFO models assume exactly two bursts after the stop (core request 14). Pass AFTER
+# terminal.toml. NOT the arm:
+# without the 00:11 BFO the autopilot-mode mixture is unconstrained after 22:41.
+[terminal]
+options = [
+    { id = "none", use = [] },
+    { id = "m0011.bto", use = ["m0011.bto"] },
+    { id = "m0011+r600.bto", use = ["m0011.bto", "m0019a.bto"] },
+]

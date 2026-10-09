@@ -16,3 +16,6 @@ descent_fpm = [1500.0, 5000.0]
 climb_fpm = [1500.0, 4000.0]
 end_utc = ["2014-03-07T18:13:00Z", "2014-03-07T18:18:00Z"]
 cas_kt = [250.0, 330.0]
+# 777-200ER near 211 t (ZFW 174.2 t + 36.6 t fuel), max climb thrust: engineering estimate,
+# about 4,000 fpm at 5,000 ft falling to 1,000 fpm at FL350 (mean ~2,500 fpm FL050-FL300).
+climb_ceiling_fpm = [4000.0, 1000.0]

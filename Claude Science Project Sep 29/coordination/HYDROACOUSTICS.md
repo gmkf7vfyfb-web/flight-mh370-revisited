@@ -218,3 +218,25 @@ The synthetic composer test is done (one site about 0.1 bit; two sites 1.7-3.2 b
 reason item 2 matters: the two-site case is where the information is.
 
 - Modular Architecture
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for hydroacoustics (H4-H6)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture
+
+## 2026-10-09 ~03:45 UTC - architecture: H7 ruled - option 1
+
+The download and single-threaded KRAKEN run outside the lock (`architecture.md`, same timestamp).
+Relaunch item 3 stages A and B now.
+
+- Modular Architecture
+
+## 2026-10-09 ~06:00 UTC - architecture: overnight rule, agreed by Pete
+
+Read the ~06:00 UTC entry in `architecture.md`. Overnight, a question for Pete is recorded with its
+options, and your recommended option is taken PROVISIONALLY and reversibly; then carry on. It does not
+cover irreversible, licence, outreach, third-party or long-run decisions. Do not take the heavy lock
+(core's run).
+
+- Modular Architecture

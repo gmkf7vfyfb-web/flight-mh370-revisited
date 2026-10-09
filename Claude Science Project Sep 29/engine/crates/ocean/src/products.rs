@@ -89,6 +89,8 @@ pub struct ProductMeta {
     pub vertical_velocity: Inclusion,
     pub verify_on_download: Vec<&'static str>,
     pub sources: Vec<&'static str>,
+    /// Terms of use as read from the distributor; see results/ocean-references.md.
+    pub licence: &'static str,
 }
 
 const DAY: f64 = 86_400.0;
@@ -146,6 +148,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
                 "CMEMS-GLO-PUM-001-030 (product user manual)",
                 "CMEMS-GLO-QUID-001-030 (quality information document)",
             ],
+            licence: "Copernicus Marine Service product licence (free use with attribution)",
         },
         ProductMeta {
             id: "waverys",
@@ -175,6 +178,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
                 "https://data.marine.copernicus.eu/product/GLOBAL_MULTIYEAR_WAV_001_032/description",
                 "CMEMS-GLO-PUM-001-032",
             ],
+            licence: "Copernicus Marine Service product licence (free use with attribution)",
         },
         ProductMeta {
             id: "oscar-v2-final",
@@ -212,6 +216,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
                 "https://podaac.jpl.nasa.gov/dataset/OSCAR_L4_OC_FINAL_V2.0",
                 "OSCAR v2.0 User's Handbook (oscarv2guide.pdf)",
             ],
+            licence: "NASA Earthdata open data (not downloaded)",
         },
         ProductMeta {
             id: "bran2016",
@@ -221,7 +226,7 @@ pub fn catalogue() -> Vec<ProductMeta> {
             access: "NCI THREDDS / OPeNDAP, anonymous",
             credential: None,
             horizontal_resolution_deg: 0.1,
-            coverage: "CSIRO states January 1994 to August 2016; other sources say 1993-2016",
+            coverage: "January 1994 to August 2016 (CSIRO; NCI catalogue files ocean_u_1994_01 .. ocean_u_2016_08, checked 9 Oct 2026)",
             covers_drift_period: Partial,
             time_axis: TimeAxis::Mean { interval_s: DAY, stamp: "daily mean; label to be read from the file".into() },
             depth: "z* levels of MOM (OFAM3), 5 m resolution near the surface (top cell centre 2.5 m)",
@@ -243,23 +248,20 @@ pub fn catalogue() -> Vec<ProductMeta> {
                     .into(),
             },
             temperature: "verify on download whether temp is potential or conservative temperature",
-            vertical_velocity: Unknown,
-            verify_on_download: vec![
-                "exact end date of BRAN_2016 on NCI (drift needs to 30 Sep 2016)",
-                "temperature variable definition",
-                "whether a w field is distributed",
-            ],
+            vertical_velocity: Included,
+            verify_on_download: vec!["temperature variable definition", "licence eligibility (registration, government-funded research only)"],
             sources: vec![
                 "https://research.csiro.au/bluelink/outputs/data-access/",
                 "Chamberlain et al. 2021, ESSD 13, 5663 (BRAN2020, compares BRAN2016)",
             ],
+            licence: "CSIRO Bluelink terms (gb6_license.txt): registration with CSIRO before access; government-funded research use only; acknowledgement required",
         },
         ProductMeta {
             id: "era5-wind10",
             name: "ERA5 single-level 10 m wind",
             producer: "ECMWF for the Copernicus Climate Change Service",
             dataset: "reanalysis-era5-single-levels: 10m_u_component_of_wind, 10m_v_component_of_wind",
-            access: "Copernicus Climate Data Store (separate account from Copernicus Marine)",
+            access: "ARCO-ERA5 public bucket gcp-public-data-arco-era5 (Google Research), anonymous; also the Copernicus Climate Data Store",
             credential: None,
             horizontal_resolution_deg: 0.25,
             coverage: "1940 onward",
@@ -276,8 +278,12 @@ pub fn catalogue() -> Vec<ProductMeta> {
             ),
             temperature: "n/a",
             vertical_velocity: NotApplicable,
-            verify_on_download: vec!["no CDS credential is configured yet: COPERNICUS is the Marine service"],
-            sources: vec!["https://cds.climate.copernicus.eu (reanalysis-era5-single-levels)"],
+            verify_on_download: vec![],
+            sources: vec![
+                "Hersbach et al. 2020, QJRMS 146, 1999-2049",
+                "https://gcp-public-data-arco-era5.storage.googleapis.com/ar/full_37-1h-0p25deg-chunk-1.zarr-v3",
+            ],
+            licence: "Copernicus (C3S) licence for ERA5, as redistributed in ARCO-ERA5",
         },
     ]
 }

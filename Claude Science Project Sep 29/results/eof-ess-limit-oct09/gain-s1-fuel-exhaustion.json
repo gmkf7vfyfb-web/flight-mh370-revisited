@@ -1,0 +1,318 @@
+{
+ "source": "runs/eof-s6-n4-s1",
+ "logon": "fuel-exhaustion",
+ "children": 4,
+ "children_target": 16,
+ "seeds": {
+  "seed-1": {
+   "r600/startup-offset": {
+    "observed": 932.4895435025932,
+    "predicted_plain_N": 1049.4873359088142,
+    "limit": 1664.7174754323967,
+    "plain_at_target": 1451.9299888528483,
+    "designs": {
+     "W120_a0.2": {
+      "at_target": 994.3614404179261,
+      "max_weight_ratio": 5.0
+     },
+     "W120_a0.3": {
+      "at_target": 1147.1782750510326,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W120_a0.5": {
+      "at_target": 1306.9239086156315,
+      "max_weight_ratio": 2.0
+     },
+     "W300_a0.2": {
+      "at_target": 1478.332166911877,
+      "max_weight_ratio": 5.0
+     },
+     "W300_a0.3": {
+      "at_target": 1483.1888817387498,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W300_a0.5": {
+      "at_target": 1481.4472868482617,
+      "max_weight_ratio": 2.0
+     },
+     "W600_a0.2": {
+      "at_target": 1459.449353207224,
+      "max_weight_ratio": 5.0
+     },
+     "W600_a0.3": {
+      "at_target": 1458.9495701605163,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W600_a0.5": {
+      "at_target": 1457.74988577311,
+      "max_weight_ratio": 2.0
+     }
+    }
+   },
+   "r1200/inflated": {
+    "observed": 150.8175421114344,
+    "predicted_plain_N": 154.41208681329053,
+    "limit": 388.7325710476294,
+    "plain_at_target": 281.8178566601273,
+    "designs": {
+     "W120_a0.2": {
+      "at_target": 158.7093231539578,
+      "max_weight_ratio": 5.0
+     },
+     "W120_a0.3": {
+      "at_target": 195.13322467844054,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W120_a0.5": {
+      "at_target": 238.42889050926607,
+      "max_weight_ratio": 2.0
+     },
+     "W300_a0.2": {
+      "at_target": 267.060664684387,
+      "max_weight_ratio": 5.0
+     },
+     "W300_a0.3": {
+      "at_target": 278.5961601510027,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W300_a0.5": {
+      "at_target": 286.4490204032414,
+      "max_weight_ratio": 2.0
+     },
+     "W600_a0.2": {
+      "at_target": 284.605457281796,
+      "max_weight_ratio": 5.0
+     },
+     "W600_a0.3": {
+      "at_target": 284.4054818712563,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W600_a0.5": {
+      "at_target": 283.9388993146314,
+      "max_weight_ratio": 2.0
+     }
+    }
+   },
+   "r1200/no-offset": {
+    "observed": 37.86669562576338,
+    "predicted_plain_N": 37.14923768556266,
+    "limit": 305.4665115204494,
+    "plain_at_target": 108.87465452120367,
+    "designs": {
+     "W120_a0.2": {
+      "at_target": 43.51572802747068,
+      "max_weight_ratio": 5.0
+     },
+     "W120_a0.3": {
+      "at_target": 58.79594315424782,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W120_a0.5": {
+      "at_target": 81.24544727386899,
+      "max_weight_ratio": 2.0
+     },
+     "W300_a0.2": {
+      "at_target": 97.22410840822634,
+      "max_weight_ratio": 5.0
+     },
+     "W300_a0.3": {
+      "at_target": 105.38226664719558,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W300_a0.5": {
+      "at_target": 111.40019580675045,
+      "max_weight_ratio": 2.0
+     },
+     "W600_a0.2": {
+      "at_target": 111.51029510631088,
+      "max_weight_ratio": 5.0
+     },
+     "W600_a0.3": {
+      "at_target": 111.28078242499012,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W600_a0.5": {
+      "at_target": 110.76389064123052,
+      "max_weight_ratio": 2.0
+     }
+    }
+   },
+   "r1200/startup-offset": {
+    "observed": 36.449123647977636,
+    "predicted_plain_N": 44.50064138440801,
+    "limit": 292.86908173857154,
+    "plain_at_target": 122.26780713448915,
+    "designs": {
+     "W120_a0.2": {
+      "at_target": 53.83264536169951,
+      "max_weight_ratio": 5.0
+     },
+     "W120_a0.3": {
+      "at_target": 71.33329950873348,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W120_a0.5": {
+      "at_target": 95.70953967074445,
+      "max_weight_ratio": 2.0
+     },
+     "W300_a0.2": {
+      "at_target": 102.19414405552875,
+      "max_weight_ratio": 5.0
+     },
+     "W300_a0.3": {
+      "at_target": 113.7582371405848,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W300_a0.5": {
+      "at_target": 123.23421160096842,
+      "max_weight_ratio": 2.0
+     },
+     "W600_a0.2": {
+      "at_target": 123.93774378475287,
+      "max_weight_ratio": 5.0
+     },
+     "W600_a0.3": {
+      "at_target": 123.83959056044719,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W600_a0.5": {
+      "at_target": 123.60400241657268,
+      "max_weight_ratio": 2.0
+     }
+    }
+   },
+   "both/inflated": {
+    "observed": 34.824129097456996,
+    "predicted_plain_N": 41.77965136433566,
+    "limit": 261.9052274926982,
+    "plain_at_target": 113.02748617510413,
+    "designs": {
+     "W120_a0.2": {
+      "at_target": 52.389951546175205,
+      "max_weight_ratio": 5.0
+     },
+     "W120_a0.3": {
+      "at_target": 68.40254825541999,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W120_a0.5": {
+      "at_target": 89.92998974494652,
+      "max_weight_ratio": 2.0
+     },
+     "W300_a0.2": {
+      "at_target": 72.88887335201356,
+      "max_weight_ratio": 5.0
+     },
+     "W300_a0.3": {
+      "at_target": 86.63037638133572,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W300_a0.5": {
+      "at_target": 101.46525686758115,
+      "max_weight_ratio": 2.0
+     },
+     "W600_a0.2": {
+      "at_target": 113.97462652465362,
+      "max_weight_ratio": 5.0
+     },
+     "W600_a0.3": {
+      "at_target": 113.91581707274091,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W600_a0.5": {
+      "at_target": 113.77076693916398,
+      "max_weight_ratio": 2.0
+     }
+    }
+   },
+   "both/no-offset": {
+    "observed": 1.9837764550703911,
+    "predicted_plain_N": 2.3043551525537196,
+    "limit": 5.597163606140932e+18,
+    "plain_at_target": 9.217420610214878,
+    "designs": {
+     "W120_a0.2": {
+      "at_target": 11.324048430216875,
+      "max_weight_ratio": 5.0
+     },
+     "W120_a0.3": {
+      "at_target": 11.062335573063354,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W120_a0.5": {
+      "at_target": 10.537723990052978,
+      "max_weight_ratio": 2.0
+     },
+     "W300_a0.2": {
+      "at_target": 10.673858842430068,
+      "max_weight_ratio": 5.0
+     },
+     "W300_a0.3": {
+      "at_target": 10.498066998177054,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W300_a0.5": {
+      "at_target": 10.141245239705988,
+      "max_weight_ratio": 2.0
+     },
+     "W600_a0.2": {
+      "at_target": 9.217429828206503,
+      "max_weight_ratio": 5.0
+     },
+     "W600_a0.3": {
+      "at_target": 9.217428862388637,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W600_a0.5": {
+      "at_target": 9.217426790317752,
+      "max_weight_ratio": 2.0
+     }
+    }
+   },
+   "both/startup-offset": {
+    "observed": 3.7136442176567255,
+    "predicted_plain_N": 4.429832978688772,
+    "limit": 2.117843431350741e+17,
+    "plain_at_target": 17.719331914755088,
+    "designs": {
+     "W120_a0.2": {
+      "at_target": 6.805069888707976,
+      "max_weight_ratio": 5.0
+     },
+     "W120_a0.3": {
+      "at_target": 9.41658664230691,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W120_a0.5": {
+      "at_target": 13.403719604660909,
+      "max_weight_ratio": 2.0
+     },
+     "W300_a0.2": {
+      "at_target": 18.68584115472809,
+      "max_weight_ratio": 5.0
+     },
+     "W300_a0.3": {
+      "at_target": 18.5765291271827,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W300_a0.5": {
+      "at_target": 18.34867727784802,
+      "max_weight_ratio": 2.0
+     },
+     "W600_a0.2": {
+      "at_target": 17.719331914755088,
+      "max_weight_ratio": 5.0
+     },
+     "W600_a0.3": {
+      "at_target": 17.719331914755088,
+      "max_weight_ratio": 3.3333333333333335
+     },
+     "W600_a0.5": {
+      "at_target": 17.719331914755088,
+      "max_weight_ratio": 2.0
+     }
+    }
+   }
+  }
+ }
+}

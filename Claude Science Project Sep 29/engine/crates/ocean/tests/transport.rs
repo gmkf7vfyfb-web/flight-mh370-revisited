@@ -46,7 +46,7 @@ fn final_position(track: &Track) -> LonLat {
 }
 
 fn particle(lon: f64, lat: f64, a_stokes: f64, c_wind: f64) -> Particle {
-    Particle { release: [lon, lat], release_time: T0, response: ObjectResponse::new(a_stokes, c_wind) }
+    Particle::new([lon, lat], T0, ObjectResponse::new(a_stokes, c_wind))
 }
 
 #[test]
@@ -204,8 +204,9 @@ fn beaching_reports_segment_and_time() {
     let out = integrate(&spec(current_only(&c), &coast, 6.0 * 3600.0, times), &parts).unwrap();
     for (tr, (lon, lat, seg)) in out.tracks.iter().zip([(99.9, -34.55, 505), (99.6, -38.05, 501), (99.2, -25.0, 509)]) {
         assert_eq!(tr.fate, Fate::Beached);
-        let Event::Beached { t, at, segment, line, chainage_m } = tr.events[0] else { panic!("{:?}", tr.events) };
+        let Event::Beached { t, at, segment, line, chainage_m, snapped_m } = tr.events[0] else { panic!("{:?}", tr.events) };
         assert_eq!(segment, seg);
+        assert_eq!(snapped_m, 0.0);
         assert_eq!(line, 7);
         // Chainage along the meridian from 40 S: R * (lat + 40 deg), continuous across segments.
         let expected_chainage = EARTH_RADIUS_M * (lat + 40.0f64).to_radians();
@@ -218,7 +219,7 @@ fn beaching_reports_segment_and_time() {
         assert!((at[0] - 100.0).abs() < 1e-9 && (at[1] - lat).abs() < 1e-9);
         for (s, &tout) in tr.snapshots.iter().zip(&out.output_times) {
             if tout >= t {
-                assert_eq!(*s, Snapshot::Beached { at, segment: seg, line, chainage_m });
+                assert_eq!(*s, Snapshot::Beached { at, segment: seg, line, chainage_m, snapped_m });
             } else {
                 assert!(matches!(s, Snapshot::Afloat(_)));
             }
@@ -319,12 +320,17 @@ fn leeway_rotates_clockwise_from_downwind() {
     let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
     let mut p = particle(92.0, -35.0, 0.0, 0.02);
-    p.response.leeway_angle_deg = 90.0;
+    p.response.wind_angle_deg = 90.0;
     let out = integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap();
     let q = final_position(&out.tracks[0]);
-    // Northward wind, leeway rotated 90 degrees clockwise: due east at 0.2 m/s.
+    // Northward wind, c_wind term rotated 90 degrees clockwise: due east at 0.2 m/s.
     assert!(q[0] > 92.0 && (q[1] + 35.0).abs() < 1e-6);
     assert!((distance_m([92.0, -35.0], q) - 0.2 * DAY).abs() < 20.0);
+    // D-f: leeway_angle_deg does not rotate the c_wind term; due north at 0.2 m/s.
+    let mut p = particle(92.0, -35.0, 0.0, 0.02);
+    p.response.leeway_angle_deg = 90.0;
+    let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
+    assert!((q[0] - 92.0).abs() < 1e-9 && (distance_m([92.0, -35.0], q) - 0.2 * DAY).abs() < 20.0);
 }
 
 #[test]
@@ -340,9 +346,9 @@ fn vertical_velocity_absent_is_flagged_never_zero() {
     let col = UniformColumn::new(0.1, -0.05, Some(-1e-4), levels, 4000.0);
     let s = col.profile(T0, [95.0, -33.0]).unwrap().at_depth(500.0, None, BelowModelBottom::Refuse).unwrap();
     assert_eq!(s.w_up, Some(-1e-4));
-    // Pressure: Saunders (1981) gives ~1010 dbar at 1000 m, 30 S.
-    let p = mh370_ocean::profile::pressure_dbar_saunders(1000.0, -30.0);
-    assert!((p - 1009.6).abs() < 0.5, "{p}");
+    // Pressure is TEOS-10 p_from_z: 1008.321764487538 dbar at 1000 m, 15 deg (GSW-rs doc value).
+    let p = mh370_ocean::teos10::pressure_dbar(1000.0, 15.0);
+    assert!((p - 1008.321764487538).abs() < 1e-9, "{p}");
 }
 
 #[test]
@@ -455,14 +461,18 @@ fn constant_magnitude_leeway_follows_rotated_downwind() {
         let east = (q[0] - 92.0).to_radians() * EARTH_RADIUS_M * (35f64).to_radians().cos();
         assert!((east + 0.10 * DAY * 16f64.to_radians().sin()).abs() < 30.0, "east {east}");
     }
-    // Both wind terms share the angle: 1.2% of 10 m/s plus 0.10 m/s, at -16 deg, is 0.22 m/s.
+    // D-f, CSIRO form: 1.2% of 10 m/s downwind (wind_angle_deg 0) plus 0.10 m/s at -16 deg.
+    // Velocity (-0.10 sin 16, 0.12 + 0.10 cos 16) = (-0.02756, 0.21613) m/s, speed 0.21788 m/s.
     let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
     let mut p = particle(92.0, -35.0, 0.0, 0.012);
     p.response.leeway_speed_mps = 0.10;
     p.response.leeway_angle_deg = -16.0;
     let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
-    assert!((distance_m([92.0, -35.0], q) - 0.22 * DAY).abs() < 30.0);
+    let (ve, vn) = (-0.10 * 16f64.to_radians().sin(), 0.12 + 0.10 * 16f64.to_radians().cos());
+    assert!((distance_m([92.0, -35.0], q) - ve.hypot(vn) * DAY).abs() < 30.0);
+    let east = (q[0] - 92.0).to_radians() * EARTH_RADIUS_M * (35f64).to_radians().cos();
+    assert!((east - ve * DAY).abs() < 30.0, "east {east} vs {}", ve * DAY);
     // Calm: below the declared threshold the constant-magnitude term is zero.
     let calm = Uniform::new(Component::Wind10m, 0.0, 0.4 * LEEWAY_CALM_WIND_MPS);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&calm) };
@@ -490,4 +500,284 @@ fn transplanted_response_is_refused_unless_explicit_residual() {
     q.response.leeway_speed_mps = 0.1;
     let r = integrate(&spec(current_only(&c), &NoCoast, 3600.0, vec![T0 + DAY]), &[q]);
     assert_eq!(r.err(), Some(CompositionError::MissingComponent(Component::Wind10m)));
+}
+
+#[test]
+fn per_particle_end_time_stops_each_particle_at_its_own_time() {
+    // Settling's float phase: each element stops at its own sink time; the state there equals a
+    // run with that single output time, and later outputs are PastEnd.
+    let c = Uniform::current(0.1, 0.0);
+    let times = vec![T0 + DAY, T0 + 2.0 * DAY];
+    let mut a = particle(92.0, -35.0, 0.0, 0.0);
+    a.end_time = Some(T0 + 0.37 * DAY); // before the first output
+    let mut b = particle(92.0, -35.0, 0.0, 0.0);
+    b.end_time = Some(T0 + 1.5 * DAY); // between outputs
+    let mut d = particle(92.0, -35.0, 0.0, 0.0);
+    d.end_time = Some(T0 + 3.25 * DAY); // after the last output
+    let out = integrate(&spec(current_only(&c), &NoCoast, 6.0 * 3600.0, times.clone()), &[a, b, d]).unwrap();
+    for (tr, days) in out.tracks.iter().zip([0.37, 1.5, 3.25]) {
+        let Some(Snapshot::Afloat(q)) = tr.end else { panic!("{:?}", tr.end) };
+        assert!((distance_m([92.0, -35.0], q) - 0.1 * days * DAY).abs() < 20.0, "{days}");
+        for (s, &tout) in tr.snapshots.iter().zip(&times) {
+            if tout > T0 + days * DAY {
+                assert_eq!(*s, Snapshot::PastEnd);
+            } else {
+                assert!(matches!(s, Snapshot::Afloat(_)));
+            }
+        }
+    }
+    // Same ocean as a call with that single output time (one seed, one realisation).
+    let eddy = OceanErrorModel::eddying(0.1, 100_000.0, 10.0 * DAY, 32);
+    let mut sp = spec(current_only(&c), &NoCoast, 6.0 * 3600.0, times.clone());
+    sp.ocean_error = eddy;
+    let with_end = integrate(&sp, &[b]).unwrap();
+    let mut sp2 = spec(current_only(&c), &NoCoast, 6.0 * 3600.0, vec![T0 + 1.5 * DAY]);
+    sp2.ocean_error = eddy;
+    let single = integrate(&sp2, &[particle(92.0, -35.0, 0.0, 0.0)]).unwrap();
+    assert_eq!(with_end.tracks[0].end, Some(single.tracks[0].snapshots[0]));
+    // No end time: no end state.
+    let out = integrate(&spec(current_only(&c), &NoCoast, 6.0 * 3600.0, times), &[particle(92.0, -35.0, 0.0, 0.0)]).unwrap();
+    assert_eq!(out.tracks[0].end, None);
+}
+
+#[test]
+fn banded_error_keys_the_bottom_band_to_height_above_seabed() {
+    use mh370_ocean::stochastic::{ErrorKind, VerticalStructure};
+    let model = OceanErrorModel {
+        kind: ErrorKind::Eddying { sigma_m_s: 0.05, length_scale_m: 50e3, time_scale_s: 5.0 * DAY, modes: 64 },
+        vertical: VerticalStructure::Banded { surface_to_m: 50.0, upper_to_m: 1000.0, near_bottom_m: 200.0, factors: [1.0, 0.6, 0.3, 0.5] },
+    };
+    let p = [95.0, -33.0];
+    let n = 2000;
+    let (mut surf_deep, mut ss, mut dd, mut deep_var, mut nb_var) = (0.0, 0.0, 0.0, 0.0, 0.0);
+    for seed in 0..n {
+        let r = model.realise(seed);
+        let s = r.velocity_with_seabed(T0, p, 10.0, Some(4000.0))[0];
+        let d = r.velocity_with_seabed(T0, p, 3000.0, Some(4000.0))[0];
+        let nb = r.velocity_with_seabed(T0, p, 3850.0, Some(4000.0))[0];
+        // Without a seabed, 3850 m is in the deep band.
+        assert_eq!(r.velocity(T0, p, 3850.0), r.velocity_with_seabed(T0, p, 3000.0, Some(4000.0)));
+        surf_deep += s * d;
+        ss += s * s;
+        dd += d * d;
+        deep_var += d * d;
+        nb_var += nb * nb;
+    }
+    let corr = surf_deep / (ss * dd).sqrt();
+    assert!(corr.abs() < 0.1, "surface and deep bands correlated: {corr}");
+    // Amplitudes: deep 0.3 x 0.05, near-bottom 0.5 x 0.05 (SE of a variance from 2000 draws ~3%).
+    assert!(((deep_var / n as f64).sqrt() / 0.015 - 1.0).abs() < 0.08);
+    assert!(((nb_var / n as f64).sqrt() / 0.025 - 1.0).abs() < 0.08);
+    // Within a band one realisation: identical at two depths of the same band, scaled by nothing.
+    let r = model.realise(7);
+    assert_eq!(r.velocity_with_seabed(T0, p, 1500.0, Some(5000.0)), r.velocity_with_seabed(T0, p, 2500.0, Some(5000.0)));
+}
+
+#[test]
+fn teos10_matches_official_gsw() {
+    // Fixtures from the official Python gsw 3.6 (GSW-C), computed independently of this crate.
+    for (sa, ct, p, rho, c) in [
+        (35.0, 2.0, 4000.0, 1045.8327375098308, 1525.9684690292324),
+        (34.7, 1.2, 5500.0, 1052.1128078615443, 1548.8752390707841),
+        (35.5, 20.0, 10.0, 1025.0580725951668, 1521.983199212616),
+    ] {
+        let (r, s) = mh370_ocean::teos10::rho_and_sound_speed(sa, ct, p).unwrap();
+        assert!((r - rho).abs() < 1e-9 && (s - c).abs() < 1e-9, "{r} {s}");
+    }
+    // A GLORYS-like column (potential temperature 2 C, SP 34.7) at 3000 m, 33 S.
+    let col = UniformColumn::new(0.0, 0.0, None, vec![10.0, 3000.0], 4000.0);
+    let t = col.profile(T0, [95.0, -33.0]).unwrap().teos10().unwrap();
+    assert!(!t.sa_anomaly_included);
+    assert!((t.absolute_salinity_g_kg[1] - 34.863625371428576).abs() < 1e-9);
+    assert!((t.conservative_temperature_c[1] - 1.9995246765942478).abs() < 1e-9);
+    assert!((t.pressure_dbar[1] - 3043.0970905327536).abs() < 1e-6);
+    assert!((t.in_situ_density_kg_m3[1] - 1041.5723776365178).abs() < 1e-6);
+    assert!((t.sound_speed_m_s[1] - 1508.9855407336497).abs() < 1e-6);
+    assert!((t.rho_at(1505.0) - 0.5 * (t.in_situ_density_kg_m3[0] + t.in_situ_density_kg_m3[1])).abs() < 1e-9);
+}
+
+fn write_bathy(dir: &std::path::Path) -> std::path::PathBuf {
+    // 0.01-degree grid over 99-101 E, 31-29 S: 4000 m everywhere, a ridge at 100.03 E (-500 m, TID 11).
+    std::fs::create_dir_all(dir).unwrap();
+    let (n, lon0, lat0) = (201usize, 99.0, -31.0);
+    let mut z = Vec::new();
+    let mut tid = Vec::new();
+    for _j in 0..n {
+        for i in 0..n {
+            let ridge = i == 103;
+            z.extend_from_slice(&(if ridge { -500i16 } else { -4000i16 }).to_le_bytes());
+            tid.push(if ridge { 11u8 } else { 40u8 });
+        }
+    }
+    std::fs::write(dir.join("z.i16"), z).unwrap();
+    std::fs::write(dir.join("t.u8"), tid).unwrap();
+    let m = format!(r#"{{"source":"gebco_2026","lon0":{lon0},"lat0":{lat0},"step_deg":0.01,"nlon":{n},"nlat":{n},"elevation_file":"z.i16","elevation_dtype":"i16","tid_file":"t.u8"}}"#);
+    std::fs::write(dir.join("b.json"), m).unwrap();
+    dir.join("b.json")
+}
+
+#[test]
+fn bathymetry_path_reports_track_tid_and_corridor_maximum() {
+    use mh370_ocean::bathy::{BathySource, Bathymetry};
+    let dir = std::env::temp_dir().join(format!("mh370-bathy-{}", std::process::id()));
+    let m = write_bathy(&dir);
+    let b = Bathymetry::load(&[m.as_path()], None).unwrap();
+    let s = b.at([99.5, -30.0]).unwrap();
+    assert_eq!((s.depth_m, s.tid, s.source), (4000.0, Some(40), BathySource::Gebco2026));
+    // Northward along 100.0 E: the ridge is 0.03 deg (about 2.9 km) to the east, i.e. to the right.
+    let wide = b.path([100.0, -30.8], [100.0, -29.2], 250.0, 4000.0);
+    assert!(wide.iter().all(|x| x.is_some()));
+    for x in wide.iter().flatten() {
+        assert_eq!(x.track.depth_m, 4000.0);
+        assert_eq!((x.corridor_max.elevation_m, x.corridor_max.tid), (-500.0, Some(11)));
+        // The ridge cell spans 100.025-100.035 E, 2.41-3.37 km east at 30 S; the first cross-track
+        // sample inside it is reported.
+        assert!(x.corridor_max_offset_m >= 2410.0 && x.corridor_max_offset_m <= 3370.0, "{}", x.corridor_max_offset_m);
+    }
+    let narrow = b.path([100.0, -30.8], [100.0, -29.2], 250.0, 2000.0);
+    assert!(narrow.iter().flatten().all(|x| x.corridor_max.elevation_m == -4000.0));
+    // A window load answers the same inside the window and nothing outside it.
+    let w = Bathymetry::load(&[m.as_path()], Some([99.9, 100.1, -30.1, -29.9])).unwrap();
+    assert_eq!(w.at([100.03, -30.0]).unwrap().elevation_m, -500.0);
+    assert!(w.at([99.5, -30.0]).is_none());
+    // WGS84 geodesic air9 to H01W: 1,662.8 km, as computed in ruling H1 (the stub's 1,662.5 km is
+    // its last 0.5 km sample, not the geodesic length).
+    let (d, _) = b.inverse([98.8821, -27.5612], [114.142637, -34.890303]);
+    assert!((d / 1000.0 - 1662.83).abs() < 0.01, "{d}");
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn sound_speed_climatology_interpolates_without_filling() {
+    use mh370_ocean::soundspeed::{woa23_period, SoundSpeedClimatology};
+    let dir = std::env::temp_dir().join(format!("mh370-woa-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    // 2 x 2 grid, 3 levels; the deepest level exists only at one corner of four... then at none.
+    let (nlat, nlon, nz) = (2usize, 2usize, 3usize);
+    let mut cm = vec![0f32; nlat * nlon * nz];
+    for j in 0..nlat {
+        for i in 0..nlon {
+            for k in 0..nz {
+                cm[(j * nlon + i) * nz + k] = 1500.0 + 10.0 * i as f32 + k as f32;
+            }
+        }
+    }
+    cm[(0 * nlon + 0) * nz + 2] = f32::NAN;
+    cm[(0 * nlon + 1) * nz + 2] = f32::NAN;
+    cm[(1 * nlon + 0) * nz + 2] = f32::NAN;
+    let mut cm_all_nan = cm.clone();
+    cm_all_nan[(1 * nlon + 1) * nz + 2] = f32::NAN;
+    let bytes = |v: &Vec<f32>| v.iter().flat_map(|x| x.to_le_bytes()).collect::<Vec<u8>>();
+    for (name, v) in [("c.f32", &cm), ("sd.f32", &vec![2f32; 12]), ("sa.f32", &vec![35f32; 12]), ("ct.f32", &vec![3f32; 12])] {
+        std::fs::write(dir.join(name), bytes(v)).unwrap();
+    }
+    let man = r#"{"product":"woa23","decade":"A5B4","month":3,"lon0":95.5,"lat0":-33.5,"step_deg":1.0,"nlon":2,"nlat":2,"depth_m":[0.0,100.0,1000.0],"c_mean_file":"c.f32","c_sd_file":"sd.f32","sa_file":"sa.f32","ct_file":"ct.f32"}"#;
+    std::fs::write(dir.join("m.json"), man).unwrap();
+    let w = SoundSpeedClimatology::load(&dir.join("m.json")).unwrap();
+    let p = w.profile([96.0, -33.0]).unwrap();
+    assert!((p.c_mean_m_s[1] - 1506.0).abs() < 1e-4); // midway in lon: 1500 + 5 + 1
+    assert!((p.c_mean_m_s[2] - 1512.0).abs() < 1e-4); // only the (96.5, -32.5) corner has data: renormalised to it
+    assert!((p.pressure_dbar[2] - mh370_ocean::teos10::pressure_dbar(1000.0, -33.0)).abs() < 1e-12);
+    std::fs::write(dir.join("c.f32"), bytes(&cm_all_nan)).unwrap();
+    let w = SoundSpeedClimatology::load(&dir.join("m.json")).unwrap();
+    assert!(w.profile([96.0, -33.0]).unwrap().c_mean_m_s[2].is_nan());
+    assert!(w.profile([99.0, -33.0]).is_none());
+    std::fs::remove_dir_all(&dir).unwrap();
+    // Epochs: Blackman 2001 and 2003 in 95A4, MH370 in A5B4, later events in B5C2.
+    assert_eq!(woa23_period(1_002_499_200.0), ("95A4", 10)); // 2001-10-08
+    assert_eq!(woa23_period(1_054_339_200.0), ("95A4", 5)); // 2003-05-31
+    assert_eq!(woa23_period(T0), ("A5B4", 3));
+    assert_eq!(woa23_period(1_577_836_800.0), ("B5C2", 1)); // 2020-01-01
+}
+
+#[test]
+fn web_mercator_layer_answers_first_inside_its_coverage() {
+    use mh370_ocean::bathy::{BathySource, Bathymetry};
+    // An EPSG:3857 layer of 150 m cells over part of the lon/lat test grid: cell (i, j) holds
+    // -(1000 + i + 1000 j) where valid, NaN in the western half (outside coverage).
+    let dir = std::env::temp_dir().join(format!("mh370-merc-{}", std::process::id()));
+    let gebco = write_bathy(&dir);
+    let a = 6_378_137.0f64;
+    let merc_y = |lat: f64| a * (std::f64::consts::FRAC_PI_4 + 0.5 * lat.to_radians()).tan().ln();
+    let (x0, y0, step, n) = (a * 99.8f64.to_radians(), merc_y(-30.2), 150.0, 200usize);
+    let mut z = Vec::new();
+    for j in 0..n {
+        for i in 0..n {
+            let v = if i < 100 { f32::NAN } else { -(1000.0 + i as f32 + 1000.0 * j as f32) };
+            z.extend_from_slice(&v.to_le_bytes());
+        }
+    }
+    std::fs::write(dir.join("m.f32"), z).unwrap();
+    let m = format!(r#"{{"source":"ausseabed","projection":"epsg3857","x0_m":{x0},"y0_m":{y0},"step_m":{step},"nlon":{n},"nlat":{n},"elevation_file":"m.f32","elevation_dtype":"f32","tid_file":null}}"#);
+    std::fs::write(dir.join("m.json"), m).unwrap();
+    let b = Bathymetry::load(&[dir.join("m.json").as_path(), gebco.as_path()], Some([99.5, 100.5, -30.5, -29.5])).unwrap();
+    // The lon/lat of cell (150, 40)'s centre, by the inverse Mercator.
+    let (i, j) = (150.0, 40.0);
+    let lon = ((x0 + i * step) / a).to_degrees();
+    let lat = (2.0 * ((y0 + j * step) / a).exp().atan() - std::f64::consts::FRAC_PI_2).to_degrees();
+    let s = b.at([lon, lat]).unwrap();
+    assert_eq!((s.source, s.elevation_m, s.tid), (BathySource::AusSeabed, -(1000.0 + 150.0 + 40_000.0), None));
+    // A point 0.4 cell away still answers that cell (nearest cell, no interpolation).
+    let s2 = b.at([lon + (0.4 * step / a).to_degrees(), lat]).unwrap();
+    assert_eq!(s2.elevation_m, s.elevation_m);
+    // NaN cells and points beyond the Mercator layer fall through to the lon/lat layer.
+    let lon_nan = ((x0 + 20.0 * step) / a).to_degrees();
+    assert_eq!(b.at([lon_nan, lat]).unwrap().source, BathySource::Gebco2026);
+    assert_eq!(b.at([100.4, -29.6]).unwrap().source, BathySource::Gebco2026);
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn grid_profile_interpolates_with_per_level_land_renormalisation() {
+    use mh370_ocean::profile::{Salinity, Temperature};
+    // 2 x 2 columns at 92/93 E, 36/35 S; levels 1, 100, 1000 m; two daily means 1 day apart.
+    // Value of variable v at (t, j, i, z) = 10 v + t + 0.1 i + 0.01 j + z; the north-east column
+    // (j = 1, i = 1) has its floor at 500 m, so its 1000 m level is NaN.
+    let dir = std::env::temp_dir().join(format!("mh370-gridprofile-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let (nz, depth) = (3usize, [1.0, 100.0, 1000.0]);
+    let mut bytes = Vec::new();
+    for t in 0..2 {
+        for j in 0..2 {
+            for i in 0..2 {
+                for v in 0..4 {
+                    for z in 0..nz {
+                        let x = if j == 1 && i == 1 && z == 2 { f32::NAN } else { (10 * v + t) as f32 + 0.1 * i as f32 + 0.01 * j as f32 + z as f32 };
+                        bytes.extend_from_slice(&x.to_le_bytes());
+                    }
+                }
+            }
+        }
+    }
+    std::fs::write(dir.join("p.f32"), bytes).unwrap();
+    let deptho: Vec<u8> = [2000.0f32, 2000.0, 2000.0, 500.0].iter().flat_map(|x| x.to_le_bytes()).collect();
+    std::fs::write(dir.join("d.f32"), deptho).unwrap();
+    let m = format!(
+        r#"{{"product":"glorys12v1","description":"test","lon":[92.0,93.0],"lat":[-36.0,-35.0],"depth_m":{depth:?},"time_unix_s":[{T0},{}],"variables":["uo","vo","thetao","so"],"data_file":"p.f32","deptho_file":"d.f32"}}"#,
+        T0 + DAY
+    );
+    std::fs::write(dir.join("p.json"), m).unwrap();
+    let g = GridProfile::load(&dir.join("p.json")).unwrap();
+    // A quarter day in, at the centre of the four columns.
+    let pr = g.profile(T0 + 0.25 * DAY, [92.5, -35.5]).unwrap();
+    assert_eq!(pr.depth_m, depth.to_vec());
+    // Levels 0 and 1: all four corners; level 2: three corners (weights renormalised to 1/3 each).
+    let expect = |v: f64, z: usize| {
+        let corners: &[(f64, f64)] = if z < 2 { &[(0., 0.), (0., 1.), (1., 0.), (1., 1.)] } else { &[(0., 0.), (0., 1.), (1., 0.)] };
+        corners.iter().map(|(j, i)| 10.0 * v + 0.25 + 0.1 * i + 0.01 * j + z as f64).sum::<f64>() / corners.len() as f64
+    };
+    for z in 0..3 {
+        assert!((pr.u_east[z] - expect(0.0, z)).abs() < 1e-5, "u z{z}: {} vs {}", pr.u_east[z], expect(0.0, z));
+        assert!((pr.v_north[z] - expect(1.0, z)).abs() < 1e-5);
+    }
+    let (Temperature::Potential(th), Salinity::Practical(s)) = (&pr.temperature, &pr.salinity) else { panic!() };
+    assert!((th[1] - expect(2.0, 1)).abs() < 1e-5 && (s[2] - expect(3.0, 2)).abs() < 1e-5);
+    assert_eq!(pr.w_up, VerticalVelocity::Absent);
+    assert_eq!(pr.model_bottom_m, 2000.0);
+    // Right on the shallow column: only two levels, its own floor.
+    let ne = g.profile(T0, [93.0, -35.0]).unwrap();
+    assert_eq!((ne.depth_m.len(), ne.model_bottom_m), (2, 500.0));
+    assert!(matches!(g.profile(T0 + 2.0 * DAY, [92.5, -35.5]), Err(FieldGap::OutsideTime)));
+    assert!(matches!(g.profile(T0, [94.0, -35.5]), Err(FieldGap::OutsideDomain)));
+    std::fs::remove_dir_all(&dir).unwrap();
 }

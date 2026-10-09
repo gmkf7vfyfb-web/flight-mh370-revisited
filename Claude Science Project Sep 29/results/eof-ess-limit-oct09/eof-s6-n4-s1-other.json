@@ -1,0 +1,74 @@
+{
+ "source": "runs/eof-s6-n4-s1",
+ "children": 4,
+ "descents_per_child": 4,
+ "logon": "other",
+ "replicates": [
+  {
+   "seed": 1,
+   "parents": 20000,
+   "columns": {
+    "none": {
+     "ess_parents_observed": 19999.999870047624,
+     "ess_parents_limit": 19999.999870047624,
+     "top_100_parent_share": 0.005000840581110365,
+     "top_1pct_parent_share": 0.010001681162220732
+    },
+    "r600/inflated": {
+     "ess_parents_observed": 13453.992909987835,
+     "ess_parents_limit": 15280.698081191731,
+     "top_100_parent_share": 0.019738881594062032,
+     "top_1pct_parent_share": 0.03612375362867956
+    },
+    "r600/no-offset": {
+     "ess_parents_observed": 3650.072232528992,
+     "ess_parents_limit": 7439.08584915863,
+     "top_100_parent_share": 0.07670492828813183,
+     "top_1pct_parent_share": 0.12996508942003807
+    },
+    "r600/startup-offset": {
+     "ess_parents_observed": 2401.258429675755,
+     "ess_parents_limit": 4371.305248102709,
+     "top_100_parent_share": 0.10319508692538082,
+     "top_1pct_parent_share": 0.17803037444815867
+    },
+    "r1200/inflated": {
+     "ess_parents_observed": 486.20726176694217,
+     "ess_parents_limit": 1604.8064294391222,
+     "top_100_parent_share": 0.3239358350226568,
+     "top_1pct_parent_share": 0.5175081865348637
+    },
+    "r1200/no-offset": {
+     "ess_parents_observed": 111.24547582042443,
+     "ess_parents_limit": 862.0829371464371,
+     "top_100_parent_share": 0.8817215651142677,
+     "top_1pct_parent_share": 0.9992829719080357
+    },
+    "r1200/startup-offset": {
+     "ess_parents_observed": 150.96188205517504,
+     "ess_parents_limit": 725.6540967883863,
+     "top_100_parent_share": 0.6532342334926088,
+     "top_1pct_parent_share": 0.9891851661723543
+    },
+    "both/inflated": {
+     "ess_parents_observed": 83.29753858140808,
+     "ess_parents_limit": 1732.799870493065,
+     "top_100_parent_share": 0.79012197652077,
+     "top_1pct_parent_share": 0.9052396765212788
+    },
+    "both/no-offset": {
+     "ess_parents_observed": 3.523090629255581,
+     "ess_parents_limit": 2.219166999218983e+19,
+     "top_100_parent_share": 0.9999999999999999,
+     "top_1pct_parent_share": 0.9999999999999999
+    },
+    "both/startup-offset": {
+     "ess_parents_observed": 6.612280149700262,
+     "ess_parents_limit": 9.889823388106235e+16,
+     "top_100_parent_share": 1.0,
+     "top_1pct_parent_share": 1.0
+    }
+   }
+  }
+ ]
+}

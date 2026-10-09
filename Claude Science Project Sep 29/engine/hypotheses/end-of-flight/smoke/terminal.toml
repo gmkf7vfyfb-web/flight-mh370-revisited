@@ -161,3 +161,26 @@ recovery_altitude_ft = [8000.0, 25000.0]
 recovery_floor_ft = 3000.0
 recovery_rate_fpm = 4000.0
 recovery_mach_limit = 0.92
+
+# Spiral regime of free dynamics (deliverable 1, results/eof-boeing-calibration-oct09). PETE'S RULING,
+# 9 Oct: divergent and neutral spirals at EQUAL prior weight (0.5), with 0.25 and 0.75 as sensitivities.
+# HELD AT 0 here because the spiral mode FAILS acceptance against the Boeing cases (0/54 high-rate: the
+# extrapolated pitch and drag above M0.87 cap the speed). Set 0.5 only once a model passes. At 0 the
+# impact columns are bit-identical to the pre-calibration model.
+spiral_divergent_weight = 0.0
+spiral_doubling_s = [60.0, 120.0]
+spiral_bank_cap_deg = 60.0
+spiral_bank_floor_deg = 1.0
+[hypotheses.end-of-flight.logon]
+# Brief section 6. The 00:19:29 log-on, used once, through a flame-out -> APU -> SDU lag
+# likelihood; the cause is a declared alternative, logon-cause = {fuel-exhaustion, other}.
+# R600 logged time 2014-03-08T00:19:29.416Z (data/satcom-observations.csv, m0019a).
+logon_unix_s = 1394237969.416
+# The archive analyst-declared Erlang(8, 14.875 s): mean 119 s, sd 42 s. A parameter to question:
+# The Malaysian SIR (2018), report pp. 372-373, models about 60 s to APU + 60 s SDU start-up.
+# Page as located by the archive's fuel-performance ledger (ulich-mh370-fuel-performance/citation-ledger.md,
+# status FOUND); not yet read in primary form by this module (results/end-of-flight-references.md).
+lag_shape = 8.0
+lag_scale_s = 14.875
+# Equal prior: a statement of indifference, reported per option, never mixed (absolute_scale false).
+prior_fuel_exhaustion = 0.5

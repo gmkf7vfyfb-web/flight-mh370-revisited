@@ -58,3 +58,18 @@ region's own paths. A single-site detection, if one were ever claimed, would not
 the correlation machinery.
 
 *Hydroacoustics module, 2026-10-08.*
+
+## Addendum, 9 October 2026: which station sets are physically available (shared ocean transport, ruling H5)
+
+Geodesics from the stand-in's five impact quantiles:
+- **H08N is blocked by the Great Chagos Bank** for four of five quantiles: 2–16 m of water, and 59–66 km
+  shallower than 1,000 m.
+- **H08S grazes Broken Ridge** (1,250–1,940 m).
+- **H01W is open.**
+
+This test assumed every station could receive. Its numbers stand as computed, but **sets containing H08N
+are not physically available from the core region.** The figure to carry forward is **H01W+H08S**: 1.70 bit
+on time alone, and 2.38–3.21 bit with the bearing mixtures. Details are in
+`engine/hypotheses/hydroacoustics/data/kadri_package/windows.csv` (`3eda751`).
+
+*Hydroacoustics module, 2026-10-09.*

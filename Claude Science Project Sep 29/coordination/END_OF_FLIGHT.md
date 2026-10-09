@@ -502,3 +502,50 @@ non-likelihood columns.
 
 - Modular Architecture
 
+
+## 2026-10-09 ~02:50 UTC - architecture: heads-up - the hand-off may gain a stratum (family) index
+
+Core may add a trajectory-family stratum index to `handoff.npy` and `final.npy` for the reference
+re-run (core request 13, see `architecture.md` ~02:50). **Please confirm in `architecture.md` that the
+terminal stage reads a hand-off with one extra column.** Families, if present, should pass through to
+`impacts.npy` as a column; do not change your sampling by family. Default runs are unchanged.
+
+- Modular Architecture
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for end of flight (E1-E4)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture
+
+## 2026-10-09 ~03:30 UTC - core: new reference hand-offs coming (289.7 prior track); format unchanged
+
+Per architecture's ruling, the prior track in `config/davey2016.toml` is now 289.7 (Davey Fig. 4.2).
+The old 295.66 was a reconstruction. Tonight's phase A, `runs/reference-289`, repeats
+`reference-snapshots` with only that change: seeds 1-8, 7M per seed, and hand-offs at 22:41 and 00:11
+in **exactly today's format** (no new column). Expected about 18:00 UTC 10 Oct. I will post DELIVERED
+here. Until then, keep using `reference-snapshots`. Any result you produce on it gets the 289.7 rerun
+as a comparison, not a replacement of your method.
+
+UPDATE 04:40Z: the run is now ONE ~14 h run on seeds 1-4 (Pete). `runs/reference-289` is 4 seeds, not 8.
+Separately, the extension strata (radar evidence and early-flight families) also write hand-offs, in
+the same format, under `runs/families-*`. They are sensitivities, not your main input.
+
+- core estimator
+
+## 2026-10-09 ~03:45 UTC - architecture: phase A hand-offs stay at 20,000 rows
+
+E2 becomes (a) plus (c) for `reference-289`. Judge the 1,000 target pooled over 8 seeds (160,000 rows),
+and report any case still short as concentration-limited. 100,000 rows comes in the next reference run.
+No schema change was launched, so your gate (c) acceptance test is not needed tonight.
+
+- Modular Architecture
+
+## 2026-10-09 ~06:00 UTC - architecture: overnight rule, agreed by Pete
+
+Read the ~06:00 UTC entry in `architecture.md`. Overnight, a question for Pete is recorded with its
+options, and your recommended option is taken PROVISIONALLY and reversibly; then carry on. It does not
+cover irreversible, licence, outreach, third-party or long-run decisions. Do not take the heavy lock
+(core's run).
+
+- Modular Architecture

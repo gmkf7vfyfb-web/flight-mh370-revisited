@@ -144,3 +144,77 @@ describes, so settling recommends that hook be retired in favour of settling's e
 - No class has an implosion model; trapped-air sections are where one would enter (deferred, brief §13).
 
 — ocean settling
+
+## 8. The float/sink cut-off - proposal (settling, 2026-10-09)
+
+Architecture asked for this as an input to the freeze (`OCEAN_SETTLING.md`, 9 Oct sequence, step 3).
+It makes explicit a boundary that the table has so far drawn only implicitly, through each class's
+`stays_afloat` share and its `float_s` range.
+
+### Proposal
+
+1. **Three fates, kept in one table.** Every element in a wreckage draw has exactly one of them:
+   - (a) it **sinks at contact** (share `sinks_at_once`);
+   - (b) it **floats for a time T and then sinks** (`float_s`, with T bounded by T_c below), which
+     is settling's;
+   - (c) it **stays afloat beyond T_c** (share `stays_afloat`), which is drift's.
+
+   The shares sum to one per class and family, and T lives in the same table, so drift and settling
+   draw from one partition and cannot each keep their own.
+2. **Set the cut at T_c = 48 h, as a declared constant.** Any `float_s` range above T_c is refused when
+   the table loads.
+   - The current table already satisfies this: its longest float-then-sink time is 24 h (cabin
+     contents).
+   - The freeze therefore changes no number. It turns an implicit bound into a checked one.
+3. **The handover.** For fate (c), settling emits the element's class, piece count, piece mass and
+   area, and its surface position after carry at the impact time. Settling does **not** compute a
+   seabed position for it. Drift owns everything that follows: object response by class, waterlogging
+   or a sinking hazard, and beaching.
+   - An element that drift lets sink after weeks has an uncomputed seabed position, and that is
+     declared.
+   - Searched areas must not count such elements in the detectable target. They are small and spread
+     over tens to hundreds of km.
+
+### Why 48 h
+
+- **Above about 48 h, the resting place no longer matters to the seabed search.**
+  - Surface currents near the 7th arc on 8 March 2014 are a median 0.13 m/s, with a 90th
+    percentile of 0.31 m/s. Settling measured these from the shared crate's GLORYS12V1 surface
+    field, 30-40 S and 88-106 E, daily means at the top level.
+  - At those speeds an element that floats for 48 h moves 22-54 km before it starts to sink,
+    before leeway is added.
+  - Such elements are light pieces scattered far outside any searchable field. Seabed search cannot
+    detect them, so their exact resting place is not worth computing.
+- **Below about 48 h, drift's likelihood does not see the element.**
+  - Drift's evidence is debris recovered 16-28 months later, which only persistently buoyant objects
+    can supply.
+  - The one drift observation that elements afloat for days could touch is the 2014 surface search.
+    Drift owns it, and that search began days after impact.
+  - So a few days is a cut that neither consumer is sensitive to. Inside the 1-7 day band it is a
+    labelled choice, not a finding.
+- **What would change it.** A product with sub-daily currents would not. A demonstration that pieces
+  sinking after 2-10 days are detectable on the seabed would: for example, dense contents released
+  late from a floating section that later breaks up.
+
+### What the current table implies, computed from it (expected values, all educated estimates)
+
+| family | share of impact mass that stays afloat | share that floats, then sinks | pieces afloat / all pieces |
+|---|---|---|---|
+| intact | 0.146 | 0.601 | ~85 / ~243 |
+| broken | 0.164 | 0.231 | ~910 / ~2,600 |
+| fragmented | 0.200 | 0.182 | ~11,000 / ~41,000 |
+
+- **One weak consistency check.** AF447's contact falls in the broken family under this rule. More
+  than 1,000 pieces of the aircraft and 50 bodies were recovered from the surface there (Metron report
+  for the BEA, 2011). That is the same order as the ~910 broken-family pieces afloat above.
+- **The weakest number in the table is the afloat share by mass.** At 15-20% of impact mass, it puts
+  roughly 26-35 t of a 175 t impact afloat. Almost all of that comes from `cabin-contents`
+  (`stays_afloat` 0.4 of a 0.35 mass share): waterlogged baggage sinks, while cushions and foam float.
+  This is drift's population. Drift should carry it as uncertain, and the freeze should not adopt it
+  without a check against AF447 and SAA295 surface recoveries by mass, not only by count.
+- **Float-then-sink dominates the intact family** (0.60 of mass). Intact wing and fuselage sections
+  float on trapped air and empty tanks for 10 min to 6 h, then sink as large pieces. This is why
+  settling's first pass found float time to be the leading control on where large intact sections
+  rest. It is the measurement architecture's 9 Oct ruling 4 asked to carry into the freeze.
+
+- ocean settling

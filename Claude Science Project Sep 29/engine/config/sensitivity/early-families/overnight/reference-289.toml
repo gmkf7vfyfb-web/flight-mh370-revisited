@@ -1,0 +1,10 @@
+# Overnight 9-10 Oct 2026 (one run, ~14 h, Pete's ruling): Davey dynamics with the 289.7 prior
+# track, no radar, at the earlier regime (7M per seed, hand-offs) on seeds 1-4, so it compares
+# seed-for-seed with seeds 1-4 of runs/reference-snapshots (295.66). These are the strata left
+# when the new additions are switched off.
+name = "reference-289"
+seeds = [1, 2, 3, 4]
+
+# Architecture ruling E2 (9 Oct ~03:45Z): 100,000 hand-off rows per seed in the next reference run.
+[output]
+handoff_rows = 100000

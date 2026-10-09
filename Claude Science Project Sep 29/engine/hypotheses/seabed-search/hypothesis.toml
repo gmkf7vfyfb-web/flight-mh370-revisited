@@ -1,0 +1,6 @@
+question = "Where does the aircraft's impact point move once the unsuccessful seabed searches (Phase 2 2014-2017 and Bluefin-21 2014; Ocean Infinity 2018 as an inferred variant) count as negative evidence, P(no find | y) = rho + (1 - rho) prod_k (1 - q_k c_k(y))?"
+# Open until the likelihood is evaluated on a FULL-SCALE end-of-flight run; the smoke-scale arm is
+# done (results/seabed-search-eof-smoke/, split-half 0.812, not converged).
+status = "open"
+summary = "Impact module. On smoke-scale end-of-flight impacts (295.66 deg prior) only 23.2% of the prior mass lies on Phase 2 searched ground, against 66.4% on the arc-kernel placeholder, so Phase 2 removes 0.2197 of the mass at rho 0 rather than 0.6274 and Z at rho 0.05 is 0.7913. The search shifts the median 0.42 deg south (-38.83 to -39.25) and raises the mass south of 39.5 S from 0.33 to 0.44, leaving 3.2% on searched ground. Repeat-search dependence (shared vs independent) is 0.0013 in Z; the inferred OI 2025-26 band is 0.0004. Provisional until full scale."
+core_requests = []

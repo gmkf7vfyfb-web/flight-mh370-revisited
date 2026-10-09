@@ -1,7 +1,7 @@
 //! Coastlines and beaching. A [`Coastline`] answers two questions: is a point land, and where does
 //! a step from sea first cross onto land, on which segment. Segment IDs are what drift maps its
-//! evidence table onto. The real coastline (keeping Reunion, Mauritius and Rodrigues) implements
-//! the same trait in deliverable 6; for now there is the analytic straight coast.
+//! evidence table onto. The real coastline (GSHHG full resolution, keeping Reunion, Mauritius and
+//! Rodrigues) is [`crate::gshhg::PolygonCoast`]; the analytic straight coast stays for tests.
 //!
 //! Chainage (drift's request, 9 October): every hit also carries `chainage_m`, the arc length along
 //! its coast *line* from that line's own origin, continuous across segment boundaries. Each island
@@ -24,6 +24,9 @@ pub struct CoastHit {
     /// Fraction of the step at which the crossing occurs, 0..=1.
     pub fraction: f64,
     pub point: LonLat,
+    /// Distance moved onto the shoreline, m: 0 for a crossing, positive for a land-mask stranding
+    /// snapped to the nearest shore ([`Coastline::snap`]).
+    pub snapped_m: f64,
 }
 
 /// A segment's extent in its line's chainage.
@@ -42,6 +45,16 @@ pub trait Coastline: Send + Sync {
     fn label(&self) -> String;
     /// Every segment's edges in chainage; empty for open ocean.
     fn segments(&self) -> Vec<SegmentEdges>;
+    /// The nearest shoreline point to a sea position at which a product's land mask stranded a
+    /// particle, if the coast converts such strandings to beachings; `None` keeps the stranding a
+    /// `FieldGap::Land` event.
+    fn snap(&self, _p: LonLat) -> Option<CoastHit> {
+        None
+    }
+    /// Names of named segments (IDs without a name are unnamed pieces).
+    fn segment_names(&self) -> Vec<(SegmentId, String)> {
+        vec![]
+    }
 }
 
 /// Open ocean everywhere.
@@ -126,6 +139,7 @@ impl Coastline for StraightCoast {
             chainage_m: self.chainage_at_param(self.param(point)),
             fraction: f,
             point,
+            snapped_m: 0.0,
         })
     }
     fn label(&self) -> String {
