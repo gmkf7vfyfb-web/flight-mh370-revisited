@@ -121,6 +121,43 @@ impl GridField {
         };
         GridField::new(meta, m.lon, m.lat, m.time_unix_s, data, None)
     }
+
+    /// Time axis (unix s), longitudes and latitudes of the grid.
+    pub fn axes(&self) -> (&[f64], &[f64], &[f64]) {
+        (&self.time, &self.lon, &self.lat)
+    }
+
+    /// Load a series manifest (`{"parts": ["a.json", "b.json", ...]}`) whose parts share one grid
+    /// and follow each other in time, as one field. Interpolation runs across part boundaries.
+    pub fn load_series(series: &Path) -> Result<Self, String> {
+        #[derive(Deserialize)]
+        struct Series {
+            parts: Vec<String>,
+        }
+        let text = std::fs::read_to_string(series).map_err(|e| format!("{}: {e}", series.display()))?;
+        let s: Series = serde_json::from_str(&text).map_err(|e| format!("{}: {e}", series.display()))?;
+        let dir = series.parent().unwrap_or(Path::new("."));
+        let mut out: Option<GridField> = None;
+        for part in &s.parts {
+            let g = GridField::load(&dir.join(part))?;
+            out = Some(match out {
+                None => g,
+                Some(mut acc) => {
+                    if acc.lon != g.lon || acc.lat != g.lat || acc.meta.product != g.meta.product || acc.meta.component != g.meta.component {
+                        return Err(format!("{part}: grid, product or component differs from the first part"));
+                    }
+                    if g.time[0] <= *acc.time.last().unwrap() {
+                        return Err(format!("{part}: times do not follow the previous part"));
+                    }
+                    acc.time.extend_from_slice(&g.time);
+                    acc.data.extend_from_slice(&g.data);
+                    acc.meta.description = format!("{}; {}", acc.meta.description, g.meta.description);
+                    acc
+                }
+            });
+        }
+        out.ok_or_else(|| "empty series".into())
+    }
 }
 
 /// Index of the lower bracket and the fractional weight of the upper, or None if outside.

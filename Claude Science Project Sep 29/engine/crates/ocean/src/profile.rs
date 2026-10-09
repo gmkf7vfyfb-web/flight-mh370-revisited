@@ -10,9 +10,9 @@
 //!   (reported in [`DepthStatus::Extrapolated`]) or is refused.
 //!
 //! Depth is geometric depth in metres, positive downward, below the mean sea surface. Pressure is
-//! provisional (Saunders 1981) until the TEOS-10 layer (deliverable 8) replaces it with
-//! `gsw_p_from_z`; temperature keeps its product's kind (potential or in-situ) so the conversion
-//! happens once, in that layer, not at three call sites.
+//! TEOS-10 `p_from_z` ([`crate::teos10::pressure_dbar`]); temperature keeps its product's kind
+//! (potential, conservative or in-situ) so the conversion happens once, in [`crate::teos10`], not at
+//! three call sites. `Profile::teos10()` gives SA, CT, in-situ density and sound speed per level.
 
 use crate::field::{FieldGap, FieldMeta};
 use crate::products::TimeAxis;
@@ -31,8 +31,10 @@ pub enum VerticalVelocity {
 pub enum Temperature {
     /// Potential temperature referenced to 0 dbar, degC (GLORYS12 `thetao`).
     Potential(Vec<f64>),
-    /// In-situ temperature, degC (HYCOM).
+    /// In-situ temperature, degC (HYCOM, WOA). Convert in preparation.
     InSitu(Vec<f64>),
+    /// Conservative Temperature, degC (TEOS-10).
+    Conservative(Vec<f64>),
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize)]
@@ -176,12 +178,4 @@ fn level_bracket(depths: &[f64], z: f64) -> (usize, f64) {
 pub trait ProfileSource: Send + Sync {
     fn profile(&self, t: f64, p: LonLat) -> Result<Profile, FieldGap>;
     fn meta(&self) -> &FieldMeta;
-}
-
-/// Pressure (dbar) from depth (m) and latitude, Saunders (1981), J. Phys. Oceanogr. 11, 573-574.
-/// Provisional: replaced by TEOS-10 `p_from_z` in deliverable 8.
-pub fn pressure_dbar_saunders(z_m: f64, lat_deg: f64) -> f64 {
-    let s = lat_deg.to_radians().sin();
-    let c1 = (5.92 + 5.25 * s * s) * 1e-3;
-    ((1.0 - c1) - ((1.0 - c1).powi(2) - 8.84e-6 * z_m).sqrt()) / 4.42e-6
 }

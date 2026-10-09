@@ -4,7 +4,7 @@
 
 use crate::field::{Component, FieldGap, FieldMeta, VectorField};
 use crate::products::{Contents, TimeAxis};
-use crate::profile::{pressure_dbar_saunders, Profile, ProfileSource, Salinity, Temperature, VerticalVelocity};
+use crate::profile::{Profile, ProfileSource, Salinity, Temperature, VerticalVelocity};
 use crate::{cross, dot, enu_basis, LonLat, EARTH_RADIUS_M};
 
 fn analytic_meta(name: &str, component: Component, description: String) -> FieldMeta {
@@ -122,7 +122,7 @@ impl ProfileSource for UniformColumn {
             },
             temperature: Temperature::Potential(vec![self.potential_temperature_c; n]),
             salinity: Salinity::Practical(vec![self.practical_salinity; n]),
-            pressure_dbar: self.levels_m.iter().map(|&z| pressure_dbar_saunders(z, p[1])).collect(),
+            pressure_dbar: self.levels_m.iter().map(|&z| crate::teos10::pressure_dbar(z, p[1])).collect(),
             model_bottom_m: self.model_bottom_m,
             time_axis: TimeAxis::Steady,
         })
