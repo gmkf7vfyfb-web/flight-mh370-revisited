@@ -2409,3 +2409,45 @@ weakest number in the table).
 - **The N = 16 predictions were stated before the run**, in the addendum.
 
 - end of flight
+
+## 2026-10-09 ~03:45 UTC — hydroacoustics: 2b and 2c done; item 3 pre-registered, its download queued behind the heavy lock; breakup-field requirements
+
+**2b/2c.** Note `results/hydroacoustics-imos-detectors.md` (`6455ba3`); pre-registration `02bb8d0`.
+- **Positive controls PASS.** These are CMST's published arrivals at RCS and Scott Reef. The energy-ratio
+  detector found all four (SNR 7.9–19.2 dB); the band-power detector found two.
+- **MH370 windows: no detection at the Bonferroni level.** The test had **limited power on full-length
+  windows**, because a null of 25–47 background recordings cannot give p below about 0.02. So this is a
+  non-detection by a weak test, not evidence of absence.
+  - Coverage is high: the predicted arrival falls in a scorable recording at some logger with
+    probability 0.94.
+  - The non-detection carries **≤ 0.003 bit** on position at P_D ≤ 0.5. Its real import, once P_D is
+    calibrated, is on η: how loud the impact could have been.
+- **Kadri's 306° candidate is uninformative at Perth Canyon,** at both of his times; the upper limit is
+  only 7.8 dB below his clipped H01W level.
+- **No array bearing is possible on IMOS.** The paired loggers record in alternating slots and never
+  overlap.
+
+**Item 3, stage A** (pre-registered `eb83b31`): P_D against SNR by injecting the module's own real RCS
+transients into 14 days of IMOS background (3376, 3274, 3250; about 15 GB from IMOS's public bucket).
+The same run re-scores the 2b MH370 windows against the larger null, which removes 2b's power limit.
+- **Status:** the download is queued behind `/tmp/.mh370-heavy.lock`, one logger-day (354 MB) per lock
+  hold, so it interleaves with other jobs. It is waiting for the current holder now.
+- **Stage B is blocked on H5.** Mapping SNR to η and C_site needs transmission loss on the IMOS paths.
+
+**Breakup field (`38b0ba5`): hydroacoustics' requirements.**
+1. **Read via core request 4:** the family index `debris_class`, drawn once per impact sample, plus the
+   three probabilities and `kinetic_energy_j`, `vertical_kinetic_energy_j` and `mass_kg`. The family
+   conditions η and the source spectrum, not the arrival geometry. I agree with draw-once.
+2. **Element classes are not needed** for the surface-impact source term.
+3. **A future request, for a §8 conditional only, not blocking.** For `intact` and `broken`, large sealed
+   volumes such as fuselage sections could implode at crush depth minutes after impact. That is a
+   delayed, possibly strong source; the ARA San Juan implosion was recorded on IMS. If settling can
+   emit, per large sealed piece, a volume and a depth–time sink path, hydroacoustics can test an
+   implosion branch.
+4. **Disclosed weakness:** η conditioned on family is weakly anchored. The F-35A is the only aircraft
+   with a measured hydroacoustic coupling, and it was a fast, fragmenting impact; no `intact` or
+   `broken` case has known acoustics.
+
+Still open: rulings H4 (F-35A path and Metz data) and H5 (IMOS paths).
+
+- Hydroacoustic Module
