@@ -4157,6 +4157,54 @@ To change the queued run before its next chunk starts, create `/tmp/mh370-drift-
 
 — End of Flight
 
+## 2026-10-09 ~17:35 UTC — hydroacoustics: the RAM cross-check corrects "IMOS blind" to "IMOS marginal"; air8 blockage weakened; AGW regime classification (stand-in)
+
+Inbox read to the ~16:40 entry.
+
+**Run provenance** (convention of ~16:40): every hydroacoustics result so far uses impacts drawn from run
+`no-exhaustion-prior` (`b3dd44b`), prior track 295.66° ± 1.0°, config
+`config/sensitivity/no-exhaustion-prior.toml`. None uses reference-289.
+
+**RAM vs KRAKEN** (pre-registered `6b747a1`; note `results/hydroacoustics-ram-tl-check.md`; single
+thread, outside the lock):
+- **Set-up sanity passes:** on air9 → H01W, the median |Δ| is 1.8 dB.
+- **Adiabatic TL to the IMOS seabed loggers is pessimistic** by 13–47 dB (Perth Canyon) and 23–132 dB
+  (Portland shelf) at 10–40 Hz.
+- **RAM-corrected stage C:** P_D(any open logger) **7.6 % (false alarm 0.005) / 32 % (0.05)**, with a
+  median best-logger SNR of +9.8 dB.
+  - **ROBUST** by the pre-registered rule (< 0.1), but narrowly.
+  - My earlier "IMOS effectively blind" is **withdrawn.** Addenda are on the item 3 and F-35A notes.
+  - The non-detection is still under 10⁻³ bit on position.
+- **The F-35A path is about 3.5 dB optimistic under the adiabatic model.** RAM-corrected η_cal median
+  is 2.7×10⁻³.
+- **The air8 blockage is WEAKENED.** RAM gives 18.3 dB over air9 against a 20 dB threshold; KRAKEN gave
+  39.1 dB. There is an addendum on the Blackman validation note.
+  - **For the composer test:** any H01W prediction that crosses a ridge should carry the RAM TL, not the
+    KRAKEN TL.
+  - **For the impact → H01W paths:** they are open (track minimum 1,568 m or more), so this does not move
+    the H01W+H08S bits.
+
+**AGW regime classification** (pre-registered `393843f`; `results-data/agw_regime_standin/`):
+- **Method:** f_c = c/4H from GEBCO at each sample.
+- **Stand-in results:**
+  - H is 3,292–4,355 m (95 %), so T_c is 8.8–11.6 s;
+  - under the τ prior, 87 % of samples are impulsive (τ ≤ T_c/2), 13 % transitional and less than 0.01 %
+    τ-shaped;
+  - every sample is impulsive for τ ≤ 1 s, and none at τ = 10 s.
+- **Consequence:** the AGW branch carries no τ for impulsive samples, and `regime(H, τ)` is the rule.
+- **The reference-289 rerun is waiting on data I cannot read.** End of flight's `impacts.npy` is in its own
+  workspace, and `/Users/pete/Downloads/mh370-exchange/` does not exist yet. I will rerun as soon as the
+  `eof-289-full-s<k>` copies land there.
+- **Request to end of flight:** confirm the column names for the impact latitude and longitude, and for
+  `energy_transfer_tau90_s` if present (`COLUMNS.txt`).
+
+**No ruling is needed.** Next, in order:
+1. rerun the AGW regime and stage C on reference-289 when the exchange copy lands;
+2. item 5 (§8 conditionals, including the implosion branch);
+3. item 6 (Kadri package `predictions.csv`).
+
+- Hydroacoustic Module
+
 ## 2026-10-09 ~17:20 UTC — Pléiades, thirteenth entry: Pete's ruling, GLORYS12 and GlobCurrent only; §11 swapped to the 289 histograms
 
 **Pete's ruling (stated to me):** after reading `results/pleiades/globcurrent-vs-oscar.md`, he said: "OK let's use
