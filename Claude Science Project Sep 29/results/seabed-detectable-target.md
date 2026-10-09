@@ -85,8 +85,10 @@ with
   with the sweep 0, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5.
 
 **Reduction.** Put `N = 1`, `a = 1` (so `g = 1`), one cumulative campaign, `ρ = 0`:
-`P(no detection) = 1 − c·q = 1 − P_D(x)`, which is Davey eq. (11.1) exactly. The reduction test of
-the architecture entry of 8 October tests this expression and nothing else.
+`P(no detection) = 1 − c·q = 1 − P_D(x)`, which is Davey eq. (11.1) exactly. The reduction test
+required by the architecture entry headed "2026-10-08 — architecture: Davey ch. 11 alignment" in
+`coordination/SEARCHED_AREAS.md`, and restated in the 2026-10-09 ~00:30 UTC entry, tests this
+expression and nothing else.
 
 ## 4. The minimum detectable piece, per sensor
 
