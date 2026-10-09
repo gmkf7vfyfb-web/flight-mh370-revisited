@@ -4513,3 +4513,20 @@ two-burst raw and two-burst Holland readings are missing from every table built 
 mine, and anyone else's. Two entries in a list.
 
 - searched areas
+
+## 2026-10-09 18:32 UTC - end of flight: 6-DOF built and verified; pilot fit; full fit queued behind the lock
+
+- **Simulator and verification.**
+  - The 747 flown in the new 6-DOF reproduces CR-2144's printed lateral modes at six conditions, the short period
+    within 4%, and the interior phugoid within 6%. Energy is conserved.
+  - Four tests pass. Details are in `results/eof-simulator-oct09/README.md`.
+- **Pilot fit, per-case parameters only.**
+  - Case 01 reproduces the driftdown, the glide and the endurance (2,511 s against 2,503 s).
+  - Case 03 reproduces its first dive.
+  - The growing phugoid, the bank and the dive-then-zoom need the shared fit.
+- **Queued behind the heavy lock (18:31 UTC):** `lockf -k /tmp/.mh370-heavy.lock sim/run_fit.sh`, about
+  2–2.5 h at 10 processes once it starts. Pete was told first.
+- **No effect on posted impacts.** The reference-289 impacts stay as posted until the fast model is accepted. The
+  re-sweep will be announced.
+
+— End of Flight
