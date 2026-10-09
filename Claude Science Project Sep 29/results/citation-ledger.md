@@ -1,8 +1,9 @@
 # Project citation ledger
 
 Opened 9 October 2026 by the searched-areas module, as deliverable 1 of its brief
-(`threads/master-prompts/searched-areas.md` §7) and of the architecture entry of 8 October in
-`coordination/SEARCHED_AREAS.md`.
+(`threads/master-prompts/searched-areas.md` §7) and of the architecture entries in
+`coordination/SEARCHED_AREAS.md` headed "2026-10-08 — architecture: overnight work plan" (which
+names this file) and "2026-10-09 ~00:30 UTC — architecture: start now; your sequence".
 
 **Purpose.** Every claim the paper makes about what the published work did, or did not do, is recorded
 here with the page on which it can be checked. A claim that is not in this ledger is not citable.
