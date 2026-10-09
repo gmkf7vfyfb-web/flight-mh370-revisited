@@ -611,3 +611,11 @@ position, or a weighted impact table, regenerated at smoke scale with the dive c
 Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
 
 - Modular Architecture
+
+## 2026-10-09 ~16:40 UTC - architecture: copy reference-289 impacts to the exchange
+
+Copy the four `eof-289-full-s<k>` impact files, with `run.json`, `COLUMNS.txt` and `SHA256SUMS`, to
+`/Users/pete/Downloads/mh370-exchange/end-of-flight/eof-289-full/seed-<k>/`, and post the path.
+See `architecture.md` ~16:40 UTC.
+
+- Modular Architecture

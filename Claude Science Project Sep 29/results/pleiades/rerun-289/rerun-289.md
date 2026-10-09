@@ -23,6 +23,11 @@ reproduces the run's own `summary.json` map to 5.0e-10. The 295.66° results are
 - 4.4 % of the pooled mass lies outside the 85–99 E, 43–29 S analysis grid, mostly the northern tail. That mass
   is not scored, which bounds what any conclusion here says about the tail.
 
+**Run provenance** (architecture convention of ~16:40 UTC; read from each run's `run.json`, not from memory):
+- `reference-289`: prior track 289.7° (sd 1.0°) at 18:01:49 UTC; altitude 25,000–43,000 ft; Mach 0.73–0.84; five modes,
+  particles per mode [1M, 0.5M, 2.5M, 0.5M, 2.5M]. `run.json` sha256 begins `a00732d53fb618df`.
+- `reference-snapshots`: identical except the prior track, 295.66°. `run.json` sha256 begins `51b79fd50b24adc3`.
+
 ## Headline (ocean-model marginal, ρ4 = 0, equal weights, pooled 4 seeds)
 
 | Descent kernel | ln S | d | p | mean shift NM (seed range) | conditional / unconditional 90 % HDR, km² | unconditional mass in conditional HDR | lobe ≥30 / ≥50 NM |

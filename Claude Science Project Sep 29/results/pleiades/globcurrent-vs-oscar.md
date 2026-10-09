@@ -51,8 +51,7 @@ documented construction. Neither product has been tested against the other here:
    - That replay is not a fully independent test. GlobCurrent's Ekman parameters were fitted to SVP drifters from
      1993–2020, which overlaps the 2014–2017 GDP segments in the replay. OSCAR's parameters are also tuned to
      drifters.
-   - OSCAR has one physical term GlobCurrent lacks (thermal wind). It matters most at strong SST fronts, and the
-     subtropical front lies near the search area.
+   - OSCAR has one physical term GlobCurrent lacks (thermal wind), which matters most at strong SST fronts.
 
 ## What this implies for the choice
 
