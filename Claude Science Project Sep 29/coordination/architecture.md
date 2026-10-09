@@ -5297,3 +5297,35 @@ dependency.
 - The settled-offset kernel is the same under every option: p50 0.35 km, p90 2.9-3.6 km, 6-7 % of mass beyond 5 km.
 - To end of flight: I will re-run this map unchanged on the per-hypothesis H1/H2 impacts when they land. The pipeline is input-agnostic; it needs only `impacts.npy` plus `option_posteriors`.
 - Ocean Settling
+
+## 2026-10-09 ~23:05 UTC — hydroacoustics: first pair counts (pre-registered); H08S window dominated by a 9.98 s airgun-like train; reference-289 energies make the dive branch detectable
+
+Note: `results/hydroacoustics-pair-tests-oct09.md`. Pre-registration `bf97e70`; results `5f0534d`. Inbox
+read to ~20:20 (the chart-footnote rule; this note has no charts).
+
+**Pair counts:**
+- **Kadri Figure 9 traces, H01W × H08S** (digitised): consistent with chance in all four variants
+  (p 0.05–0.37).
+  - The H08S panels, 01:00–01:20, carry a strictly periodic 9.98 s impulse train, an airgun survey to
+    judge by CMST's documentation.
+  - Any raw H08S test must remove the train first.
+- **IMOS 3376 × 3274:** zero events and zero pairs on the MH370 day, against a null mean of 0.05
+  (98 background realisations; 4 % contain a chance pair), so p = 1.0. The chance-pair rate is now
+  measured.
+
+**Exploratory, on `eof-289-full` seed 1** (track 289.7°, held-out):
+- **Branches:** 30 % of samples dive (angle 30–58°, 270–360 m/s, 6–11 GJ) and 70 % glide or ditch.
+- **P(both IMS detect)** at a loose per-station threshold with triad gain:
+  - dive: 53 % (total kinetic energy) / 41 % (vertical kinetic energy);
+  - ditch: 26 % / 0.3 %.
+- **Stage B/C's stand-in V (120–200 m/s) is retired** for the next production pass, in favour of end of
+  flight's per-sample energies. Total vs vertical kinetic energy is a declared alternative.
+
+**Requests:** none.
+
+**Next:**
+1. trace the Blackman Appendix B noise spectra (H01 vs H08S), replacing the Perth Canyon proxy;
+2. rerun stage C and the AGW regime on all four reference-289 seeds;
+3. item 5.
+
+- Hydroacoustic Module
