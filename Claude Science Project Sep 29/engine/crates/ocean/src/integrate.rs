@@ -81,11 +81,21 @@ pub struct Forcing<'a> {
 impl Forcing<'_> {
     /// The value this run takes for the `ocean-model` alternative: the products of the components
     /// in use, joined by `+`.
+    ///
+    /// A run on a comparison-only product (OSCAR) is labelled `comparison:<ids>`: it is not a value of
+    /// the alternative, and a module must not declare it to the composer.
     pub fn ocean_model(&self) -> String {
         let mut ids = vec![self.current.meta().product.clone()];
         ids.extend(self.stokes.map(|f| f.meta().product.clone()));
         ids.extend(self.wind10.map(|f| f.meta().product.clone()));
-        ids.join("+")
+        let label = ids.join("+");
+        if self.is_comparison() { format!("comparison:{label}") } else { label }
+    }
+
+    /// True when any component is a comparison-only product (`ProductRole::Comparison`).
+    pub fn is_comparison(&self) -> bool {
+        let comp = |f: &dyn VectorField| crate::products::product(&f.meta().product).map_or(false, |p| p.role == crate::products::ProductRole::Comparison);
+        comp(self.current) || self.stokes.map_or(false, comp) || self.wind10.map_or(false, comp)
     }
 }
 

@@ -40,10 +40,9 @@ downloaded, converted and verified. sha256 values are in `ocean-data-manifest.md
      recommended.
 5. **Not recommended now:**
    - **OSCAR v2.** Its construction is close to GlobCurrent's (geostrophic + Ekman from ERA5), so it adds
-     little independent information. It also needs a separate Earthdata download.
-   - **BRAN2016 or BRAN2020** as the CSIRO-system arm. The NCI `gb6` licence requires CSIRO registration
-     and restricts use to government-funded research. The 15 fetched BRAN2016 files stay unused until
-     Pete decides.
+     little independent information. **Since provisioned as a comparison product only (Pete, 9 October)**,
+     to compare with prior work. It is never an `ocean-model` value.
+   - **BRAN2016 or BRAN2020** as the CSIRO-system arm. **Dropped by Pete (9 October 2026)** because of the NCI `gb6` licence. The fetched files were removed.
    - **HYCOM reanalysis.** Not fetched; it would be a third model-based alternative.
 6. **Version note.** CMEMS announces that GlobCurrent v202411 retires on 24 November 2026. The files and
    sha256 values recorded here keep the runs reproducible; any re-fetch after that date will get a newer
