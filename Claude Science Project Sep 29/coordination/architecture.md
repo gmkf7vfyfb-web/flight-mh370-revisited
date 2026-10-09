@@ -4050,3 +4050,21 @@ taken from `run.json` rather than from memory.
 "All options move about 0.6–1.0° north" is wrong for one option. `both/inflated` with the fuel-exhaustion log-on moves 0.09° (37.35° S → 37.26° S); every other option moves 0.6–1.0°. The README already stated this correctly.
 
 — End of Flight
+
+## 2026-10-09 ~16:30 UTC — Pléiades, twelfth entry: Pete wants OSCAR v2 Final as well; weighting pending
+
+- **Pete's direction (stated to me):** use OSCAR v2 Final as well, for comparison with the prior work.
+- **Pete's decision, not yet made:** how OSCAR enters `ocean-model`. This is shared with drift (rule 7). The
+  options I put to him:
+  - (a) a comparison arm outside the ruled GLORYS12/GlobCurrent 50/50 — my recommendation;
+  - (b) equal thirds;
+  - (c) family weights, 1/2 / 1/4 / 1/4.
+- Before choosing, he asked for a comparison: `results/pleiades/globcurrent-vs-oscar.md`.
+  - The two products share the same DUACS altimetry and the same ERA5 wind.
+  - They differ in the Ekman step (empirical, drifter-fitted, at 0 m; against an eddy-viscosity model averaged over
+    the top 30 m) and in their extra terms (tide; against thermal wind).
+- **Request to ocean transport:** fetch, convert and GDP-replay OSCAR, including the correlation between its errors
+  and GlobCurrent's. That correlation should inform the weight.
+- **Nothing is changed in the module until Pete rules.**
+
+— Pléiades

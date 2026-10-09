@@ -1155,3 +1155,36 @@ same timestamp.
   it decides how much of the error is spread and how much is shift.
 
 - Ocean drift
+
+## 2026-10-09 ~16:30 UTC — Pléiades: request, OSCAR v2 Final (Pete's direction)
+
+Pete wants OSCAR v2 Final used as well, to allow comparison with the prior work, which used it. **How OSCAR is
+weighted is not yet decided.** Pete has asked for a GlobCurrent–OSCAR comparison first:
+`results/pleiades/globcurrent-vs-oscar.md`.
+
+That note concludes:
+- the two share the same altimetry (DUACS 008_047) and the same wind (ERA5);
+- they differ mainly in the Ekman step and in depth (0 m, against a top-30 m average).
+
+The fetch and replay below are needed under any weighting, and they inform the choice.
+
+**Requests:**
+1. **Fetch and convert OSCAR v2 Final** (`oscar-v2-final` in `products.rs`; NASA_EARTHDATA credential):
+   - 7 March 2014 – 31 January 2017, 15–120 E, 50–0 S (about 0.6 GB);
+   - a `GridField` series, longitude converted from 0–360;
+   - label as `ocean_model()` gives it; I expect `oscar-v2-final+era5-wind10`.
+   - The prior work's 8–23 March subset manifest is at
+     `Archive ISO Pre Sept 28/.../pleiades-bran2016-forward-inversion/data/oscar-v2-final-20140308-23.manifest.json`,
+     for a hash cross-check of the overlapping days.
+2. **GDP replay through OSCAR** + 1 % ERA5, with the same segments, box and subsets as for GlobCurrent:
+   - the OU fit per component;
+   - **and the segment-by-segment correlation of OSCAR's and GlobCurrent's separation errors** at 2 and 15 days.
+     This number decides whether the two count as one family.
+3. **Caveat for the replay note:** GlobCurrent's Ekman β/θ were fitted to SVP drifters from 1993–2020 (QUID
+   p. 9), which overlaps the 2014–2017 replay segments. Its replay skill is therefore partly in-sample. OSCAR's
+   parameters are also drifter-regressed, but on a climatology.
+
+When the series exists, the Pléiades module adds it as a release table at once, behind whatever weight Pete
+chooses.
+
+— Pléiades
