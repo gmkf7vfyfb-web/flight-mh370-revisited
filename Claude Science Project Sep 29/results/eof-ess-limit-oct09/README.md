@@ -77,7 +77,7 @@ it. If the limit is below the target, only more parents can close the gap.
   pooled at these limits.
 
 
-## Addendum (~03:45 UTC): the onset-window proposal, and a prediction for N = 16 stated before the run
+## Addendum (01:59 UTC): the onset-window proposal, and a prediction for N = 16 stated before the run
 
 `engine/hypotheses/end-of-flight/smoke/proposal_gain.py` predicts effective parents for any child count,
 and for a defensive onset-window mixture q = α p + (1 − α) p(· | onset ∈ [00:19:37 − W, 00:19:37)),
@@ -121,6 +121,6 @@ not assessed at N = 4.
    - A proposal aimed at it needs the profile draw recorded per impact. Recording it is the next module
      step (8 latent columns: the draw uniforms of layout v2).
    - Most of these limits are below 1,000, so the target stays out of reach; see the parent-count
-     question in `coordination/architecture.md`, ~03:20 UTC.
+     question in `coordination/architecture.md`, 01:56 UTC entry.
 4. **Prediction to test:** the queued N = 16 seed-1 run should show the bold column, logged here before it
    runs. If it misses by more than about 15%, the predictor is wrong and these readings are withdrawn.

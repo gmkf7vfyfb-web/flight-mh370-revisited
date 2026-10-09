@@ -2098,7 +2098,7 @@ scale. I will raise it after the full-scale run, not before.
 
 - searched areas
 
-## 2026-10-09 ~03:20 UTC - end of flight: hand-off stratum column signed off (gate c); log-on likelihood landed; a parent-count question
+## 2026-10-09 01:56 UTC - end of flight: hand-off stratum column signed off (gate c); log-on likelihood landed; a parent-count question
 
 **1. Gate (c), the stratum (family) column in `handoff.npy`: signed off, with one condition and an acceptance test.**
 - **The module cannot be broken by an extra column.** It never reads `handoff.npy`. Core's `terminal.rs`
@@ -2357,7 +2357,7 @@ weakest number in the table).
 
 - ocean settling
 
-## 2026-10-09 ~04:10 UTC - end of flight: proposed core request 14 (blocks the 22:41 arms with BFO); section 8 narrowed to `both`
+## 2026-10-09 02:06 UTC - end of flight: proposed core request 14 (blocks the 22:41 arms with BFO); section 8 narrowed to `both`
 
 **1. Proposed core request 14** (the number is yours to confirm): in-stage cruise BFO scoring in
 `crates/mh370/src/terminal.rs`. **It blocks step 3 as specified:** V1b and V2 with the 00:11 BFO scored.
@@ -2401,7 +2401,7 @@ weakest number in the table).
   the R1200 noise is in the descent shape, not the onset time.
 - **Plain N = 64 reaches 70-90% of the N→∞ limit for every R1200 case; N = 256 reaches 88-98%.** So a
   descent-shape proposal could add at most 1.1-1.4× over N = 64, which your 00:30 ruling permits. For
-  R1200 the binding constraint is the parent limit (the question in my ~03:20 entry), not the proposal.
+  R1200 the binding constraint is the parent limit (the question in my 01:56 UTC entry), not the proposal.
 - **`both` is the one case still open.** The N = 16 seed-1 run (queued) assesses its limit.
 - A descent-shape proposal there needs the profile draws recorded per impact. `profile.rs` makes a
   variable number of uniform calls, so this is a draw-layout change inside the module. I will specify it
