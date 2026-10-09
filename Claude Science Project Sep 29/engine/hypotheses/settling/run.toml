@@ -37,7 +37,10 @@ deep_ratio = 0.2
 # ---------------------------------------------------------------------------------------------
 [hypotheses.settling.provisional]
 label = "PROVISIONAL analytic column v1 on mh370-ocean - not an ocean product"
-surface_current_mps = [0.10, 0.00]
+# Surface current magnitude = the MEDIAN of the shared crate's GLORYS12V1 top-level daily mean
+# for 8 March 2014 over 30-40 S, 88-106 E (0.13 m/s; p90 0.31 m/s is a report sensitivity).
+# Direction east is arbitrary: a magnitude, not the field.
+surface_current_mps = [0.13, 0.00]
 wind_mps = [5.0, 0.0]
 stokes_mps = [0.05, 0.0]
 upper_current_mps = [0.05, 0.02]

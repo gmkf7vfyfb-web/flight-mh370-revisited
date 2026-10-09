@@ -460,11 +460,6 @@ fn run_toml_constructs_and_predict_fills_or_refuses() {
     assert!(out.iter().all(|x| x.is_nan()));
 }
 
-/// Report generator, not a test: `SETTLING_REPORT_DIR=<dir> cargo test --release -p
-/// mh370-hypotheses settling::tests::report -- --ignored`. Writes the sensitivity summary and the
-/// baseline element samples behind the report page. Every number depends on the PROVISIONAL
-/// ocean stub (run.toml) and is labelled so in the page.
-
 /// Report generator, not a test: `SETTLING_REPORT_DIR=<dir> [SETTLING_REPORT_DEPTHS=3000,4000]
 /// cargo test --release -p mh370-hypotheses settling::tests::report -- --ignored`. Writes the
 /// sensitivity summary and the baseline element samples behind the report page. Every number
@@ -518,6 +513,8 @@ fn report() {
             o.spec.deep_current_mps = o.spec.deep_current_mps.map(|x| 2.0 * x);
         }, 1.0, 1.0, base_float),
         ("deep current reversed", all.to_vec(), |o| o.spec.deep_current_mps = o.spec.deep_current_mps.map(|x| -x), 1.0, 1.0, base_float),
+        ("surface current p90 (0.31 m/s)", all.to_vec(), |o| o.spec.surface_current_mps = [0.31, 0.0], 1.0, 1.0, base_float),
+        ("no wind (leeway off)", all.to_vec(), |o| o.spec.wind_mps = [0.0, 0.0], 1.0, 1.0, base_float),
         ("Stokes on (a = 1)", all.to_vec(), |_| {}, 1.0, 1.0, fp(1.0, None)),
         ("diffusivity 30 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(30.0))),
         ("diffusivity 1000 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(1000.0))),
@@ -580,4 +577,104 @@ fn report() {
             }
         }
     }
+}
+
+// ---------------------------------------------------------------------------------------------
+// Streaming to a consumer (core request 12 stub; stream.rs).
+// ---------------------------------------------------------------------------------------------
+
+use stream::{stream_impact, BoxSearchPlaceholder, StreamPolicy, WreckageConsumerStub};
+
+fn stream_settling() -> Settling {
+    settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), busy(), &["carry", "current", "glide", "ocean-error"])
+}
+
+/// Half-plane east of the impact: pieces land on either side depending on the draw's ocean error.
+fn half_box() -> BoxSearchPlaceholder {
+    BoxSearchPlaceholder { east_m: [0.0, 1.0e9], north_m: [-1.0e9, 1.0e9], min_area_m2: 1.0, q: 0.1 }
+}
+
+fn manual_mean(s: &Settling, imp: &ImpactView, draws: usize, c: &dyn WreckageConsumerStub) -> f64 {
+    let rows = s.emit(imp, draws).unwrap();
+    (0..draws as u32)
+        .map(|d| {
+            let draw: Vec<WreckageElement> = rows.iter().filter(|r| r.draw == d).copied().collect();
+            c.draw_value(imp, &draw)
+        })
+        .sum::<f64>()
+        / draws as f64
+}
+
+#[test]
+fn stream_mean_is_the_plain_average_over_draws_and_chunking_does_not_change_it() {
+    let s = stream_settling();
+    let imp = impact(31, 60.0, 120.0);
+    let c = half_box();
+    // Tolerances unreachable: the driver refines 8 -> 16 -> 32 in three emitted chunks.
+    let p = StreamPolicy { pilot_draws: 8, max_draws: 32, abs_tol: 1e-12, rel_tol: 1e-12, keep_rows: false };
+    let r = stream_impact(&s, &imp, None, &c, &p).unwrap();
+    assert_eq!(r.draws, 32);
+    let m = manual_mean(&s, &imp, 32, &c);
+    assert!((r.mean - m).abs() < 1e-12, "{} vs {}", r.mean, m);
+    // One chunk of 32 gives the same mean as 8 + 8 + 16.
+    let one = stream_impact(&s, &imp, None, &c, &StreamPolicy { pilot_draws: 32, ..p }).unwrap();
+    assert_eq!(one.mean.to_bits(), r.mean.to_bits());
+}
+
+#[test]
+fn stream_empty_box_converges_at_the_pilot() {
+    let s = stream_settling();
+    let imp = impact(32, 60.0, 120.0);
+    let far = BoxSearchPlaceholder { east_m: [5.0e5, 6.0e5], north_m: [5.0e5, 6.0e5], min_area_m2: 0.0, q: 0.9 };
+    let r = stream_impact(&s, &imp, None, &far, &StreamPolicy { pilot_draws: 16, max_draws: 128, ..StreamPolicy::default() }).unwrap();
+    assert_eq!((r.draws, r.converged, r.mean, r.half_width_95), (16, true, 1.0, 0.0));
+}
+
+#[test]
+fn stream_refines_by_doubling_and_its_converged_flag_matches_its_numbers() {
+    let s = stream_settling();
+    let imp = impact(33, 60.0, 120.0);
+    let c = half_box();
+    for (abs_tol, rel_tol) in [(0.02, 0.2), (0.2, 0.5), (1e-6, 1e-6)] {
+        let p = StreamPolicy { pilot_draws: 16, max_draws: 128, abs_tol, rel_tol, keep_rows: false };
+        let r = stream_impact(&s, &imp, None, &c, &p).unwrap();
+        assert!([16, 32, 64, 128].contains(&r.draws), "{}", r.draws);
+        let tol = abs_tol.min(rel_tol * r.mean.abs());
+        assert_eq!(r.converged, r.half_width_95 <= tol || r.half_width_95 == 0.0, "{r:?}");
+        // Stops at the first doubling that meets the target, or at the maximum unconverged.
+        assert!(r.converged || r.draws == 128);
+        assert!((0.0..=1.0).contains(&r.mean));
+    }
+    // The half box genuinely varies between draws, so an unreachable target ends UNCONVERGED.
+    let tight = stream_impact(&s, &imp, None, &c, &StreamPolicy { pilot_draws: 16, max_draws: 128, abs_tol: 1e-6, rel_tol: 1e-6, keep_rows: false }).unwrap();
+    assert!(!tight.converged && tight.draws == 128 && tight.half_width_95 > 0.0, "{tight:?}");
+}
+
+#[test]
+fn stream_kept_rows_carry_the_final_draw_weight_and_policy_is_checked() {
+    let s = stream_settling();
+    let imp = impact(34, 60.0, 120.0);
+    let c = half_box();
+    let p = StreamPolicy { pilot_draws: 8, max_draws: 16, abs_tol: 1e-12, rel_tol: 1e-12, keep_rows: true };
+    let r = stream_impact(&s, &imp, Some(1), &c, &p).unwrap();
+    assert_eq!(r.rows.len() as f64, r.rows_per_draw * r.draws as f64);
+    assert!(r.rows.iter().all(|e| e.draw_weight == 1.0 / 16.0 && e.family == 1));
+    assert!(stream_impact(&s, &imp, None, &c, &StreamPolicy { pilot_draws: 1, ..p }).is_err());
+    assert!(stream_impact(&s, &imp, None, &c, &StreamPolicy { max_draws: 4, ..p }).is_err());
+}
+
+/// Cost probe, not a test: wall time of one impact's pilot (512 draws) through the run.toml
+/// settling with every term on, single-threaded. `cargo test --release -p mh370-hypotheses
+/// settling::tests::stream_cost -- --ignored --nocapture`.
+#[test]
+#[ignore]
+fn stream_cost() {
+    let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
+    let s = Settling::from_params(&table["hypotheses"]["settling"]).unwrap();
+    let imp = impact(35, 60.0, 120.0);
+    let p = StreamPolicy { pilot_draws: 512, max_draws: 512, ..StreamPolicy::default() };
+    let t = std::time::Instant::now();
+    let r = stream_impact(&s, &imp, None, &half_box(), &p).unwrap();
+    let dt = t.elapsed().as_secs_f64();
+    println!("stream_cost: {} draws {:.3} s ({:.2} ms per draw), rows per draw {:.1}, mean {:.4} +- {:.4}", r.draws, dt, 1e3 * dt / r.draws as f64, r.rows_per_draw, r.mean, r.half_width_95);
 }
