@@ -383,6 +383,27 @@ fn ocean_error_config_changes_the_ensemble_and_is_seeded() {
 }
 
 #[test]
+fn island_disc_crossing_is_exact() {
+    // A track due east 2 km south of a 5.9 km disc's centre enters at x = -sqrt(r^2 - y^2); a track
+    // 7 km south misses; a track starting inside is not a crossing.
+    use ocean::Coastline;
+    let d = super::transport::IslandDisc { name: "rodrigues".into(), lon_deg: 63.428, lat_deg: -19.728, radius_km: 5.9 };
+    let c = super::transport::IslandDiscs { discs: vec![d.clone()] };
+    let k = 6_371_008.8 * std::f64::consts::PI / 180.0;
+    let dy = 2_000.0 / k;
+    let h = c.first_crossing([63.0, d.lat_deg - dy], [63.6, d.lat_deg - dy]).expect("hit");
+    let x = -((5_900.0f64).powi(2) - 2_000.0f64.powi(2)).sqrt();
+    let lon_expect = d.lon_deg + x / (k * d.lat_deg.to_radians().cos());
+    assert!((h.point[0] - lon_expect).abs() < 1e-9, "{} vs {}", h.point[0], lon_expect);
+    assert!((h.point[1] - (d.lat_deg - dy)).abs() < 1e-12);
+    assert_eq!(h.line, 1000);
+    let dy7 = 7_000.0 / k;
+    assert!(c.first_crossing([63.0, d.lat_deg - dy7], [63.6, d.lat_deg - dy7]).is_none());
+    assert!(c.first_crossing([d.lon_deg, d.lat_deg], [63.6, d.lat_deg]).is_none());
+    assert!(c.is_land([d.lon_deg + 0.05, d.lat_deg]) && !c.is_land([d.lon_deg + 0.06, d.lat_deg]));
+}
+
+#[test]
 fn synthetic_recovery_coverage() {
     // Finds generated from a node drawn uniformly from a small grid (independent ensembles),
     // scored with the module's own layers and level marginalisation; the 90% HPD set should

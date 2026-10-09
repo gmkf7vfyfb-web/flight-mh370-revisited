@@ -49,7 +49,84 @@ pub enum TransportParams {
         wind10_manifest: Option<String>,
         #[serde(default)]
         stokes_manifest: Option<String>,
+        /// PROVISIONAL stub until the shared coastline lands (ocean transport deliverable 6):
+        /// islands the product's land mask cannot strand on (a single land cell is never a field
+        /// gap under land renormalisation, which needs every corner to be land), as discs of
+        /// equal area. Empty: no coastline, land-mask stranding only.
+        #[serde(default)]
+        island_discs: Vec<IslandDisc>,
     },
+}
+
+#[derive(Deserialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct IslandDisc {
+    pub name: String,
+    pub lon_deg: f64,
+    pub lat_deg: f64,
+    pub radius_km: f64,
+}
+
+/// A coastline made of discs (`IslandDisc`), one coast line each (ids from 1000), chainage =
+/// arc length from due east, anticlockwise. Crossings are solved exactly on the local
+/// equirectangular plane of each disc, which is accurate to well under 1% at these radii.
+pub struct IslandDiscs {
+    pub discs: Vec<IslandDisc>,
+}
+
+const DISC_LINE0: u32 = 1000;
+const R_EARTH_M: f64 = 6_371_008.8;
+
+impl IslandDiscs {
+    fn local(d: &IslandDisc, p: [f64; 2]) -> [f64; 2] {
+        let k = R_EARTH_M * std::f64::consts::PI / 180.0;
+        [(p[0] - d.lon_deg) * k * d.lat_deg.to_radians().cos(), (p[1] - d.lat_deg) * k]
+    }
+}
+
+impl Coastline for IslandDiscs {
+    fn is_land(&self, p: [f64; 2]) -> bool {
+        self.discs.iter().any(|d| {
+            let q = Self::local(d, p);
+            q[0].hypot(q[1]) <= d.radius_km * 1000.0
+        })
+    }
+    fn first_crossing(&self, from: [f64; 2], to: [f64; 2]) -> Option<ocean::coast::CoastHit> {
+        if self.is_land(from) {
+            return None;
+        }
+        let mut best: Option<ocean::coast::CoastHit> = None;
+        for (i, d) in self.discs.iter().enumerate() {
+            let (a, b) = (Self::local(d, from), Self::local(d, to));
+            let (dx, dy) = (b[0] - a[0], b[1] - a[1]);
+            let r = d.radius_km * 1000.0;
+            let qa = dx * dx + dy * dy;
+            if qa == 0.0 {
+                continue;
+            }
+            let qb = 2.0 * (a[0] * dx + a[1] * dy);
+            let qc = a[0] * a[0] + a[1] * a[1] - r * r;
+            let disc = qb * qb - 4.0 * qa * qc;
+            if disc < 0.0 {
+                continue;
+            }
+            let f = (-qb - disc.sqrt()) / (2.0 * qa);
+            if !(0.0..=1.0).contains(&f) || best.as_ref().is_some_and(|h| h.fraction <= f) {
+                continue;
+            }
+            let hit = [a[0] + f * dx, a[1] + f * dy];
+            let ang = hit[1].atan2(hit[0]).rem_euclid(std::f64::consts::TAU);
+            let point = [from[0] + f * (to[0] - from[0]), from[1] + f * (to[1] - from[1])];
+            best = Some(ocean::coast::CoastHit { segment: 0, line: DISC_LINE0 + i as u32, chainage_m: ang * r, fraction: f, point });
+        }
+        best
+    }
+    fn label(&self) -> String {
+        format!("PROVISIONAL island discs: {}", self.discs.iter().map(|d| format!("{} r={} km", d.name, d.radius_km)).collect::<Vec<_>>().join(", "))
+    }
+    fn segments(&self) -> Vec<ocean::coast::SegmentEdges> {
+        vec![]
+    }
 }
 
 pub struct OceanSetup {
@@ -86,11 +163,11 @@ impl OceanSetup {
                 stokes_mps.map(|s| Box::new(Uniform::new(Component::StokesDrift, s[0], s[1])) as Box<dyn VectorField>),
                 Box::new(StraightCoast { a: *coast_a, b: *coast_b, segments: 1, first_id: 0, land_left: *land_left, line: 0 }),
             ),
-            TransportParams::Grid { current_manifest, wind10_manifest, stokes_manifest } => (
+            TransportParams::Grid { current_manifest, wind10_manifest, stokes_manifest, island_discs } => (
                 load(current_manifest)?,
                 wind10_manifest.as_deref().map(load).transpose()?,
                 stokes_manifest.as_deref().map(load).transpose()?,
-                Box::new(NoCoast),
+                if island_discs.is_empty() { Box::new(NoCoast) as Box<dyn Coastline> } else { Box::new(IslandDiscs { discs: island_discs.clone() }) },
             ),
         };
         Ok(OceanSetup { current, wind10, stokes, coast, domain, step_s, threads, leeway_absorbs_stokes, explicit_residual, land_gap_is_beaching, ocean_error: OceanErrorModel::none() })
