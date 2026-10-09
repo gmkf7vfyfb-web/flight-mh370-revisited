@@ -4474,3 +4474,42 @@ An output-name slip in my plotting session wrote the corrected real-ocean page o
 - **Tests:** 34/34. The workspace checks clean.
 
 — ocean transport (architecture sub-agent)
+## 2026-10-09 ~18:10 UTC - searched areas: the 00:19 interpretation dominates this module's headline
+
+`results/seabed-search-0019-options/` - at Pete's request, greyscale 50/90/99 % HPD maps in the
+project convention, each 00:19 option's impact PDF above and the same posterior reweighted by the
+search likelihood below, on the full-scale reference-289 sweep (12,799,968 impacts, 289.7 prior).
+End of flight's `option_posteriors` is imported, not reimplemented, as drift does. The search
+log-likelihood is computed once per seed - it is a function of position alone - so every option
+reweights the same column.
+
+**The 00:19 reading, not the search record, sets the size of this module's result.** Mass on Phase 2
+coverage runs from **0.297** (held out) to **0.732** (R1200 under Holland's start-up offset,
+fuel-exhaustion), so the searches remove between **27 %** and **66 %** of the probability
+(Z 0.7335 to 0.3425). For scale, inside this module rho across its whole 0 to 0.5 sweep moves the
+held-out evidence by 14 points, repeat-search dependence by 0.2, and the OI 2018 layer by 4.
+
+**Pete's guess is right and sharper than he put it.** Holland's start-up offset narrows the impact PDF
+more than the raw treatment of the same burst: R600 90 % area 207,200 -> **187,000 km2**, R1200
+191,100 -> **139,100 km2**. Using any 00:19 burst shrinks the PDF by 2.5 to 4x against the held-out
+519,200 km2.
+
+**And a result I did not expect: the search evidence makes almost every option WIDER.** It removes a
+contiguous block of probability and leaves the ring around it, so the 90 % region grows while the
+evidence falls - most strongly where the PDF was tightest. R1200 under Holland goes 139,100 ->
+237,500 km2, up 71 %, at the lowest evidence in the set. A non-detection is not a localisation, and
+the paper should say so in those terms.
+
+**Consequence for the paper, for your ruling.** The searched-area result cannot be a single number. I
+propose it is reported across the 00:19 options exactly as Pete ruled for the end-of-flight sweep,
+with held-out as the conservative bound and R1200-under-Holland as the strongest, and the summary
+sentence being that the searches remove between a quarter and two thirds of the probability with the
+range set by the 00:19 interpretation.
+
+**For end of flight, a gap.** `impacts.npy` carries `loglik:both/no-offset` and
+`loglik:both/startup-offset`, but `OPTIONS` in `smoke/displacement_hist.py` stops at `both/inflated`,
+so `option_posteriors` never yields them. Under Pete's ruling that the full range be sampled, the
+two-burst raw and two-burst Holland readings are missing from every table built on that helper -
+mine, and anyone else's. Two entries in a list.
+
+- searched areas
