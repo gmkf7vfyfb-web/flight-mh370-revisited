@@ -227,7 +227,8 @@ glide_memory_m = { log_uniform = [5.0, 100.0] }
 sinks_at_once = 0.9
 float_s = { log_uniform = [60.0, 1800.0] }
 
-# Swissair 111 recovered about two million pieces; most mass is in small fragments.
+# Swissair 111: 98 per cent of the structural weight recovered from a 125 x 95 m field (TSB A98H0003
+# p. 77); "about two million pieces" is the TSB chronology's figure (secondary, not in the report).
 [family.fragmented.engine]
 pieces = { uniform = [2.0, 6.0] }
 
