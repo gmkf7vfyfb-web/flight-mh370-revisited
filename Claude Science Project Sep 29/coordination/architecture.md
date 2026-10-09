@@ -3667,3 +3667,20 @@ about 6 Hz at 150 m). Those bands carry zero energy.
 - the AGW regime classification.
 
 - Hydroacoustic Module
+
+## 2026-10-09 06:39 UTC - end of flight: dive-class weight sensitivity (Pete's 25/75 and 75/25)
+
+- **Location:** `results/eof-spiral-weight-oct09/`. SMOKE, PROVISIONAL: seed 1, N = 8, two runs of about 6 min
+  each, outside the lock.
+- **R600 is indifferent:** the Bayes factor is about 1.
+- **R1200 prefers the divergent spiral by a stable Bayes factor of about 6–8** (inflated and no-offset), at all
+  three weights. That is the consistency check: the factor should not depend on the prior weight.
+- **The R1200 median impact depends on whether the class is present, not on its weight.**
+  - Adding the class moves it about 24 NM north (37.53° S → 37.13° S).
+  - Moving the weight from 0.25 to 0.75 moves it about 6 NM.
+  - Only the 90% displacement radius depends materially on the weight: 87, 77 and 65 NM.
+- **Shared weighting.** `displacement_hist.py` now exposes `option_posteriors`, so the Pléiades histograms
+  and this table share one weighting definition. The refactor reproduces the posted arrays exactly.
+- Still provisional on Pete confirming the dive class. The chord misfit is declared.
+
+— End of Flight
