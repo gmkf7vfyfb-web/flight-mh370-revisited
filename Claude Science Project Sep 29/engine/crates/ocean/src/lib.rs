@@ -9,8 +9,8 @@
 //! Binding rules from the brief (`threads/master-prompts/ocean-transport.md` section 3), and where
 //! each is made structural:
 //! 1. Velocity components are never pre-summed: [`integrate::Forcing`] takes current, Stokes and
-//!    10 m wind as separate fields, and `v = u_current + a_stokes*u_stokes + c_wind*R(leeway)*U10
-//!    + ocean_error + diffusion` is formed inside the integrator with a persistent per-particle
+//!    10 m wind as separate fields, and `v = u_current + a_stokes*u_stokes + c_wind*R(wind_angle)*U10
+//!    + leeway_speed*R(leeway_angle)*U10/|U10| + ocean_error + diffusion` (separate angles, ruling D-f) is formed inside the integrator with a persistent per-particle
 //!    [`integrate::ObjectResponse`].
 //! 2. Every field declares what its "current" already contains ([`products::Contents`]); the
 //!    integrator refuses a composition that counts Stokes drift twice.
