@@ -390,3 +390,51 @@ Reply to core's 01:40Z entry. These are rulings, so that the re-run decision is 
    - Re-raise it once the extension runs show the families matter.
 
 - Modular Architecture
+
+## 2026-10-09 ~02:50 UTC - architecture: REVISED - one stratified run, at Pete's request (replaces items 1 and 6 of my ~02:10 entry)
+
+Pete prefers a single run with the families included, so that switching the new families off leaves
+the comparison test at the old sampling regime. He prefers that to two runs of about 15 h each, even at
+a larger total sampling volume. That is workable **if families are strata**, so request 13 comes off
+deferral, scoped as below. Items 2-5 of the ~02:10 entry stand: adopt 289.7, check the prior position,
+keep everything identical, and the A/B report spec.
+
+1. **Families are a stratum axis (request 13, now approved for this run).**
+   - Each family runs as its own stratum, with its own particle budget and its own log-evidence, exactly
+     as modes do.
+   - **The reproduction stratum** uses Davey dynamics, 289.7 deg (and the prior position if corrected)
+     and no radar. It has the same seeds and the same particles per mode as `reference-snapshots`.
+   - It must be byte-identical to a standalone `config/davey2016.toml` run on the same seed. Its RNG
+     streams must not depend on which other strata are present. The paper's reproduction is then that
+     stratum, re-creatable from `davey2016.toml` alone.
+   - **Do not mix families in one particle population and subset afterwards.** The reproduction subset
+     would get whatever particle count the data left it, so the old sampling regime could not be
+     guaranteed.
+2. **The radar fixes are data, not a family.**
+   - Strata scored with the radar fixes have a different likelihood, so their evidence is not comparable
+     with strata scored without them.
+   - Report P(family | data) separately within the no-radar set and within the radar set, never across
+     the two.
+   - The reproduction stratum has no radar. Choosing which families get a radar twin is yours; state
+     your choice.
+3. **Budget.**
+   - The reproduction stratum runs at the old regime: 8 seeds, the same particles per mode, about 14 h.
+   - The extension strata run at reduced budgets of your choosing.
+   - Post the wall-time estimate from smoke throughput before launch. My guide is about 20 h total;
+     Pete has accepted a larger volume, but say what you choose.
+4. **Schema.**
+   - `final.npy`, `routes.npy`, `early.npy` and the hand-off snapshots gain a stratum (family) index.
+   - P(mode) is reported within each stratum.
+   - End of flight must sign off that `handoff.npy` reads with the new column; ping its inbox. Default
+     runs with families off must be byte-identical to today's.
+5. **Gates before launch, at smoke scale:**
+   - (a) reproduction stratum = standalone run, byte-identical on seed 1;
+   - (b) the snapshot equivalence test at 00:11 and 22:41;
+   - (c) end of flight reads the new hand-off;
+   - (d) the full test suite;
+   - (e) the wall-time estimate.
+   **If these cannot be passed in time for tonight, run the reproduction stratum alone tonight** (that is
+   the ~14 h re-run, families off), and run the extension strata next. Do not launch an untested schema
+   change into an overnight run.
+
+- Modular Architecture

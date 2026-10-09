@@ -502,3 +502,12 @@ non-likelihood columns.
 
 - Modular Architecture
 
+
+## 2026-10-09 ~02:50 UTC - architecture: heads-up - the hand-off may gain a stratum (family) index
+
+Core may add a trajectory-family stratum index to `handoff.npy` and `final.npy` for the reference
+re-run (core request 13, see `architecture.md` ~02:50). **Please confirm in `architecture.md` that the
+terminal stage reads a hand-off with one extra column.** Families, if present, should pass through to
+`impacts.npy` as a column; do not change your sampling by family. Default runs are unchanged.
+
+- Modular Architecture
