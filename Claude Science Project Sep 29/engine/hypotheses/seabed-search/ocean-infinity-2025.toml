@@ -1,0 +1,28 @@
+# Separately reported variant, never the base: adds the INFERRED Ocean Infinity 2025-26 layer, which
+# is not in git (the band tracing's licence is unclear; prepare/build_oi_2025_layer.py writes the
+# raster to data/external/search-coverage/). An override of run.toml, e.g.
+#   mh370 evaluate hypotheses/seabed-search/run.toml hypotheses/seabed-search/ocean-infinity-2025.toml <samples> <out>
+# Arrays replace rather than extend, so every campaign is listed again.
+#
+# Ocean Infinity published no geometry for the renewed search. The reported survey is 7,571 km2 and
+# the official residual 7,428.54 km2, against a contract area of about 15,840 km2 in the community
+# tracing of its March 2024 presentation. The reported area is therefore put on the OUTBOARD /
+# south-east band alone (9,696.9 km2 on the authalic sphere), which community vessel tracking says
+# was traversed, as coverage_fraction 7,571 / 9,696.9 = 0.7808. The inboard / north-west band is the
+# residual and is NOT searched ground. The contract area as a whole is NOT searched ground, and the
+# reported area is NOT spread uniformly over it.
+[[hypotheses.seabed-search.campaigns]]
+name = "phase2-2014-2017"
+layer = "phase2"
+detection_probability = 0.945
+
+[[hypotheses.seabed-search.campaigns]]
+name = "bluefin-2014"
+layer = "bluefin-2014"
+detection_probability = 0.9
+
+[[hypotheses.seabed-search.campaigns]]
+name = "ocean-infinity-2025"
+layer_file = "data/external/search-coverage/ocean-infinity-2025.cov"
+detection_probability = 0.9
+coverage_fraction = 0.7808
