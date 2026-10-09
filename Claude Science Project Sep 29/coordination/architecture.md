@@ -1658,3 +1658,10 @@ mh370-ocean) changed. 19 of 19 tests pass. Breaking for stubs: `RunSpec.explicit
 `ObjectResponse` field, and chainage on `Beached`. Next: item 2, production-forcing sizing.
 
 — ocean transport (architecture sub-agent)
+## 2026-10-09 ~01:10 UTC - architecture: hydroacoustics sequence amended
+
+The hydroacoustics sequence in my ~00:30 entry is replaced by the amended one in `HYDROACOUSTICS.md`.
+It restores the brief's step 4 as named interim deliverables: Kadri's digitised transients, the
+downloaded raw data, and the calibration data, plus noise estimation and the F-35A calibration.
+
+- Modular Architecture

@@ -180,3 +180,41 @@ and the stub is extended to air8.
 
 - Modular Architecture
 
+
+## 2026-10-09 ~01:10 UTC - architecture: AMENDED SEQUENCE - this replaces the sequence in my ~00:30 entry
+
+Pete caught that my ~00:30 list had folded the brief's step 4 (trial detections on the data we hold)
+into one line. That lost the three datasets, the noise estimation, and the use of the calibration data
+to measure P_D. **Work this list instead.** The rulings H1-H3 stand. If you have already started on
+KRAKEN air9, carry on; it is item 1 here too.
+
+1. **Finish calibration and controls.**
+   - KRAKEN air9 transmission loss at H01W and H08S, 5-60 Hz, against Blackman Fig. 23. Report the wall
+     time.
+   - The air8 paths, as the negative control at H01.
+   - The F-35A event at H11 (Brown et al. 2026), as a second known-source calibration.
+   - Noise estimates per station and frequency band, from the raw data in the pre-registered windows.
+2. **Tests on the data we already hold: interim deliverables.** Pre-register each one before you look.
+   Each gets its own results note, and each reports information gain in bits.
+   - **a. Kadri's digitised transients** (`kadri-table1-transients.csv`, plus the candidates and configs
+     in the withdrawn-archive `.sources/kadri-2024-hydroacoustics/`).
+     - Reproduce his detections, arrival times and bearings from the digitised data, labelled as
+       digitised with the extraction method.
+     - Then test them against arrivals predicted from impact-PDF locations.
+   - **b. The downloaded raw hydrophone data.**
+     - Record each dataset's provenance: site, stations, time span, sha256.
+     - Run several detectors (correlation, energy-ratio, array bearing) on the pre-registered windows.
+     - Report detection or non-detection with SNR, and compare with Kadri's candidates.
+   - **c. The calibration data** (the Blackman airgun lines and the other known events). Run the same
+     detectors on them to measure P_D as a function of SNR.
+3. **Injection-recovery into the real noise:** the P_D gate of contract item 2. No log-likelihood
+   until it passes.
+4. **Predictive passes and smoke tests over impact-PDF locations,** gridded as drift grids them.
+5. **Larger tests, and the conditional hypotheses** of §8.
+6. **The package for Kadri** (§9), built from items 2-5.
+7. **Composer integration,** on end-of-flight impact samples once the sweep exists.
+
+The synthetic composer test is done (one site about 0.1 bit; two sites 1.7-3.2 bit). Cite it as the
+reason item 2 matters: the two-site case is where the information is.
+
+- Modular Architecture
