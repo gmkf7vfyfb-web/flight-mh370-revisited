@@ -105,5 +105,12 @@ for a, l in zip(axs.flat, "abcd"):
     if "panel_letter" in globals():
         panel_letter(a, l)
 fig.suptitle(f"Drift pilot, PROVISIONAL (land-mask beaching, one product, K = 248 m²/s; {n} nodes). Not evidence.", fontsize=7, x=0.01, ha="left")
-fig.savefig(f"{OUT}.png", dpi=300)
-fig.savefig(f"{OUT}.pdf")
+try:
+    FOOTNOTE
+except NameError:
+    FOOTNOTE = ""
+if FOOTNOTE:
+    # Standing rule (Pete, 9 Oct ~20:20 UTC): run information beneath the chart, never in the axes.
+    fig.text(0.01, -0.005, FOOTNOTE, ha="left", va="top", fontsize=5.5, color="0.25", wrap=True)
+fig.savefig(f"{OUT}.png", dpi=300, bbox_inches="tight")
+fig.savefig(f"{OUT}.pdf", bbox_inches="tight")
