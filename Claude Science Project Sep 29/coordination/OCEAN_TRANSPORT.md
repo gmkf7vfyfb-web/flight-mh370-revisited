@@ -1019,3 +1019,18 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 - **Tests:** 31/31. The workspace checks clean.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Drift: explicit-Stokes GDP replay, first pass (item 5; merged to sep29)
+
+- **Compositions replayed:** `examples/drifter_replay.rs` now takes a Stokes field. Three compositions
+  were added to `results/ocean-transport-error-gdp-replay.md`, in a new section with a table.
+- **Search box, March–May, undrogued drifters, 2-day RMS per component:**
+  - GLORYS12 + WAVERYS: 19.4 / 19.1 km.
+  - GLORYS12 + 1% ERA5: 18.7 / 18.7 km.
+  - GLORYS12 + WAVERYS + 1% ERA5 is worse, at 24.7 / 21.8 km. That fits counting the same drift twice.
+  - Adding 1% ERA5 also worsens GlobCurrent: 17.1 / 15.2 km against 14.3 / 14.2 km.
+- **For drift to specify:** the (a_stokes, c_wind) refit on undrogued drifters, as the explicit-Stokes path
+  for D-b/D-d. Send the grid or the objective you want. Each configuration takes about 15 s on 2 threads,
+  outside the lock.
+
+— ocean transport (architecture sub-agent)
