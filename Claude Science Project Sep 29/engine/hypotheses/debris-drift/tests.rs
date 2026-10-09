@@ -124,7 +124,7 @@ fn lambda_marginal_is_independent_of_q() {
 }
 
 fn two_by_two() -> (Recovery, Vec<Arrival>, Vec<Observation>) {
-    let r = rec(&[-500.0, 0.0, 500.0], vec![50.0], 30.0, Delay::Exponential { mean_days: 20.0 }, 300.0);
+    let r = rec(&[-500.0, 0.0, 500.0], vec![50.0], 100.0, Delay::Exponential { mean_days: 20.0 }, 300.0);
     let a: Vec<Arrival> = (0..40).map(|i| { let s = -400.0 + 20.0 * i as f64; arr(s, 10.0 + 3.0 * i as f64, if s < 0.0 { 0 } else { 1 }) }).collect();
     (r, a, vec![obs(-120.0, 60.0, 61.0, 0), obs(250.0, 30.0, 45.0, 1)])
 }
@@ -146,9 +146,10 @@ fn coefficients_are_linear_in_the_levels() {
     let nu = [1.0, 3.0, 2.0, 0.5];
     let k = r.coefficients(&[&o[0], &o[1]], &a, 100);
     let direct_q0: f64 = a.iter().map(|x| {
-        let z = (o[0].place.s_km - x.place.s_km) / 30.0;
+        let z = (o[0].place.s_km - x.place.s_km) / 100.0;
         let f = |t: f64| Delay::Exponential { mean_days: 20.0 }.cdf(t - x.t_days);
-        k0(30.0) * (-0.5 * z * z).exp() * nu[0 * 2 + 1] * (f(61.0) - f(60.0))
+        if z.abs() > 6.0 || x.t_days >= 61.0 { return 0.0; }
+        k0(100.0) * (-0.5 * z * z).exp() * nu[0 * 2 + 1] * (f(61.0) - f(60.0))
     }).sum::<f64>() / 100.0;
     assert!((dot(&k.a[0], &nu) - direct_q0).abs() < 1e-15, "{} vs {direct_q0}", dot(&k.a[0], &nu));
 }
@@ -212,8 +213,23 @@ fn evidence_table_dates_and_segments() {
     let pilot: toml::Value = toml::from_str(include_str!("pilot.toml")).unwrap();
     let p: Params = pilot["hypotheses"]["debris-drift"].clone().try_into().unwrap();
     let map = SegmentMap::new(p.segments.clone()).unwrap();
-    let names: Vec<&str> = s.iter().map(|r| map.locate([r.longitude_deg, r.latitude_deg]).map(|k| map.segments[k].name.as_str()).unwrap_or("none")).collect();
-    assert_eq!(names, ["S1-reunion", "S4-south-africa-south-coast", "S3-southern-mozambique", "S3-southern-mozambique", "S2-mauritius-rodrigues", "S2-mauritius-rodrigues", "S3-southern-mozambique", "S5-ne-madagascar", "S6-pemba"]);
+    // Keyed by object id, not row order, so the check cannot be satisfied by a reordering.
+    let expect = [
+        ("reunion-right-flaperon", "S1-reunion"),
+        ("mossel-bay-engine-cowling-roy", "S4-south-africa-south-coast"),
+        ("paindane-right-flap-fairing", "S3-southern-mozambique"),
+        ("vilanculos-horizontal-stabilizer-panel", "S3-southern-mozambique"),
+        ("chidenguele-right-fan-cowling", "S3-southern-mozambique"),
+        ("mauritius-left-outboard-flap", "S2-mauritius-rodrigues"),
+        ("rodrigues-door-closet-panel", "S2-mauritius-rodrigues"),
+        ("antsiraka-cabin-interior-panel", "S5-ne-madagascar"),
+        ("pemba-right-outboard-flap", "S6-pemba"),
+    ];
+    for (id, seg) in expect {
+        let r = s.iter().find(|r| r.object_id == id).unwrap_or_else(|| panic!("{id} not in the stringent set"));
+        let got = map.locate([r.longitude_deg, r.latitude_deg]).map(|k| map.segments[k].name.as_str()).unwrap_or("none");
+        assert_eq!(got, seg, "{id}");
+    }
     assert!(great_circle_km([55.649150, -20.916180], [39.868086, -5.056071]) > 2400.0);
 }
 
