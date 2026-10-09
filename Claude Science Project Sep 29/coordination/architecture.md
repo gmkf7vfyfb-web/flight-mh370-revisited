@@ -2161,3 +2161,80 @@ smoke, seeds 1-2, N = 4, provisional; the N = 16 seed-1 run is queued behind the
 not in the repo.
 
 - end of flight
+
+## 2026-10-09 ~03:00 UTC — hydroacoustics: amended sequence items 1 and 2a done, 1d done; two ruling requests (H4, H5)
+
+Branch `hypothesis/hydroacoustics` is at `371a07a`, and the scope check passes. Every test was
+pre-registered and committed before it was run. All results are provisional: they use the stub
+environment and the parametric 7th-arc stand-in until end of flight's impacts exist.
+
+**Item 1, calibration and controls.** Results note `results/hydroacoustics-blackman-validation.md`
+(`e95705a`).
+- **KRAKEN air9, PARTLY VALIDATED at both stations** (hard bottom):
+  - H01W: median residual −0.15 dB, RMS 7.9 dB.
+  - H08S: median +3.2 dB, RMS 7.9 dB.
+  - The soft bottom is rejected (+28 to +36 dB).
+  - The residuals of the two stations correlate (r = 0.988) with a common slope of about −10.6
+    dB/octave, a near-source coupling term. Removing that common mode leaves 1.7 dB RMS.
+  - Wall time 171 s.
+- **air8 negative control, EXPLAINED.** A ridge with its crest at 1,116 m (28.55°S 97.78°E) takes
+  +38 dB out of the H01 path, while H08S shows +0.1 dB.
+  - The result survives deepening the crest: +800 m still leaves 13.8 dB.
+  - This contradicts Blackman's "not known to be significant".
+  - Adiabatic modes overstate magnitudes, so a coupled-mode or RAM cross-check is pending.
+- **Consequence I am adopting inside the module:** near-source coupling is a declared term, C_site,
+  with ±10 dB frequency-dependent uncertainty. It widens the η prior, and injection-recovery will span
+  it.
+- **F-35A at H11: BLOCKED.**
+  - The Arons inversion gives η = 2.1×10⁻⁴. The range is 1.7–2.7×10⁻⁴ for ±200 MJ and 0.85–5.4×10⁻⁴
+    for ±3 dB of peak pressure (Brown 2026, manuscript p. 17).
+  - The crash position and waveform are only in Metz et al. 2023, which is closed and not held.
+- **Item 1d, noise from the IMOS raw data.** Note `results/hydroacoustics-imos-noise.md` (`dd9c99e`;
+  pre-registration `0ffa244`).
+  - **Source:** the primary public copy, `imos-data` S3, not the Drive copy; sha256 recorded.
+  - **Two Portland loggers are included** (3274 and 3275), beyond the three in the brief.
+  - **Clock sign resolved:** the Curtin event at RCS falls 0.24 s from CMST's 01:33:44. CMST's Scott
+    Reef note confirms it independently.
+  - **Noise:** 10–40 Hz is 79–87 dB re 1 µPa²/Hz. Scott Reef is loud and impulsive below 20 Hz.
+  - **Duty-cycle coverage of the predicted arrival is 0.13–0.53 per logger.** That caps any P_D before
+    noise is considered.
+  - **Disclosed deviation:** the metadata sensitivity label "re V²/Pa²" is read as re V²/µPa²; the
+    literal reading puts every level 120 dB above ocean noise.
+
+**Item 2a, Kadri's digitised transients.** Note `results/hydroacoustics-kadri-table1-test.md` (`8ae2534`,
+corrected `cedbf3e`).
+- **The main candidate (306°) is geometrically DISFAVOURED:** log₁₀ BF −2.8 to −4.3, at either of
+  Kadri's two times for it (p. 9 against p. 14).
+- **Two transients are consistent with the core region** (BF about 9.3), but a look-elsewhere null over
+  19 background transients reaches that in 49.5% of sets. One station cannot carry the information.
+- **Of Table 1's 18 distinct times, only 00:54:30 is visible** in his published traces. The other 17
+  are not.
+- I misread p. 9 in the first version of the note and corrected it the same day; the correction is
+  recorded in the note.
+
+**Citation ledger:** done per the ~02:25 correction. `results/hydroacoustics-references.md` and `.bib`
+carry 23 sources, with every DOI verified against CrossRef or DataCite and printed pages throughout.
+
+**Ruling request H4 (F-35A path).** Please rule on two things together:
+1. Extend the provisional stub (as H3 did for air8) to the F-35A → H11 path.
+2. Authorise a §9-style request to Metz/Obana/Fukao (JAMSTEC) for the crash position and the H11
+   waveform.
+
+Without the position the path cannot be built, so the F-35A calibration stays blocked; the rest of the
+sequence does not depend on it.
+
+**Ruling request H5 (IMOS paths).** Either extend the stub to the impact → Perth Canyon, Scott Reef and
+Portland paths, or have those paths served by the shared ocean transport when its bathymetry API exists.
+- Blockage on these paths is unassessed, and the Scott Reef path passes near North West Cape.
+- Until you rule, items 2b and 3 proceed with coverage and noise only. Every P_D will carry
+  "blockage unassessed".
+
+**Next, in order:**
+1. **2b:** pre-register the detectors (energy ratio, matched correlation, and time-difference bearing on
+   the two-logger pairs). The positive controls: the Curtin event at RCS and at Scott Reef, and the
+   **untested prediction at 3376**.
+2. **2c:** P_D against SNR on those controls. The IMS Blackman raw waveforms are not held, so 2c is
+   IMOS-only until they are.
+3. **Item 3:** injection-recovery into the real noise.
+
+- Hydroacoustic Module
