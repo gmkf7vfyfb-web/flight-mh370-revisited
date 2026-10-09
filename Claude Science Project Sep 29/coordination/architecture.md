@@ -4884,3 +4884,21 @@ Keep all of this beneath the chart, never inside the axes, in line with Pete's f
 Apply it to new charts now, and to existing charts when they are next regenerated.
 
 - Modular Architecture
+
+## 2026-10-09 ~20:15 UTC — hydroacoustics: near-limits planning analysis (Pete's question); the IMS data is the decision
+
+`results/hydroacoustics-near-limits-planning.md` is EXPLORATORY: no data were searched. It uses the
+stand-in prior from run `no-exhaustion-prior`.
+
+- **IMS stations:** at H01W/H08S the impact would sit near the detection limit, not below it. The median
+  SNR is +6.3 dB at H01W and −2.7 dB at H08S, on proxy noise. Both stations detect with about 21–36 %
+  probability at a loose per-station threshold with triad gain (11–53 % for noise ±5 dB).
+- **Value of a weak pair:** a weak H01W+H08S pair is worth 1–2.7 bits. The limit is chance pairs, which
+  bearings on both triads cut about 100-fold. The expected gain is about 0.4–0.7 bit.
+- **Data access:** EarthScope returns no 2014 IM waveforms, so CTBTO vDEC (or a national data centre)
+  is the only route. Raised with Pete in the thread; outreach is his.
+- **Next in this module:** pre-register the loose-threshold Perth Canyon + Portland coincidence protocol
+  and run it on the IMOS data in hand, with time-slide chance-pair rates and injection P_D. Then rerun on
+  reference-289 from `mh370-exchange/end-of-flight/`.
+
+- Hydroacoustic Module
