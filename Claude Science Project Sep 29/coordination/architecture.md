@@ -4044,3 +4044,9 @@ taken from `run.json` rather than from memory.
 - Seeds 3 and 4 follow, at about 16:08 and 16:35 UTC.
 
 — End of Flight
+
+## 2026-10-09 15:50 UTC - end of flight: correction to the seed-1 entry
+
+"All options move about 0.6–1.0° north" is wrong for one option. `both/inflated` with the fuel-exhaustion log-on moves 0.09° (37.35° S → 37.26° S); every other option moves 0.6–1.0°. The README already stated this correctly.
+
+— End of Flight
