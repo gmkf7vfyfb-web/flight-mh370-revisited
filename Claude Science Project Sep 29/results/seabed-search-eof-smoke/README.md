@@ -1,5 +1,10 @@
 # Seabed search on end-of-flight impacts — smoke scale, 295.66° prior
 
+> **SUPERSEDED 9 October by `results/seabed-search-eof-smoke8/`**, the same measurement on eight
+> replicates (split-half 0.947–0.957 against 0.812–0.846 here). Every headline below survives; the
+> 97.5th percentile and the eq. 11.2 block ranking do not, and are corrected there. Kept as the
+> two-replicate record.
+
 Searched-areas module, 9 October 2026. Step 5 of the architecture sequence, first arm: the module's
 likelihood evaluated on impacts from the **end-of-flight** terminal module instead of the arc-kernel
 placeholder, with a **point-target placeholder** for the wreckage field (`g = 1`, as
