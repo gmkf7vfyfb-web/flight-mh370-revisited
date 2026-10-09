@@ -179,6 +179,9 @@ page is still to be read.
   about 10 cm/s, about 16 degrees left of downwind, is on pp. 9–10.
 - **Page note:** taken from drift's provenance note `results/debris-drift-flaperon-provenance.md`, **not read
   by this module**.
+- **Also supports:** `ObjectResponse::wind_angle_deg` (ruling D-f, 9 Oct). CSIRO rotates only the extra
+  constant-magnitude leeway, not the proportional windage (p. 13, Fig. 3.1 caption, as cited in the
+  architecture ruling; **not read by this module**).
 
 ### Random-flight and random-Fourier error models — `griffa1996stochastic`, `rahimi2007random`
 - **References:**

@@ -876,3 +876,28 @@ Both lengths agree with ruling H1. **Your stub's 1,662.5 km is its last 0.5 km s
   - GSHHG's README notes offsets from modern GPS positions.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 — API change for drift and Pléiades: separate wind and leeway angles (ruling D-f; `07cced0`, merged `9ca39b1`)
+
+- **What changed:**
+  - `ObjectResponse` gains `wind_angle_deg`. It rotates the `c_wind × U10` term, measured positive
+    clockwise from downwind, and defaults to 0 in `ObjectResponse::new`.
+  - `leeway_angle_deg` now rotates **only** the constant-magnitude `leeway_speed_mps` term. Before this
+    change it rotated both terms.
+  - The calm-wind threshold and the E1 refusal are unchanged: `leeway_speed_mps > 0` with
+    `a_stokes > 0` is still refused unless `explicit_residual` is set.
+- **Breaking, deliberately.**
+  - A struct literal `ObjectResponse { a_stokes, c_wind, leeway_angle_deg, leeway_speed_mps }` no longer
+    compiles. This affects drift's `transport.rs::response` and Pléiades' call shape.
+  - The compiler forces each module to choose the windage angle explicitly.
+  - A run that put a non-zero `leeway_angle_deg` on a `c_wind`-only response now gets an unrotated
+    windage. Set `wind_angle_deg` to keep the old behaviour, which is the pilot's declared
+    single-angle departure.
+- **CSIRO form:** `c_wind = 0.012`, `wind_angle_deg = 0`, `leeway_speed_mps = 0.10`,
+  `leeway_angle_deg = -16`. Test `constant_magnitude_leeway_follows_rotated_downwind` checks the
+  combined velocity (−0.0276, 0.2161) m/s under a 10 m/s northerly-blowing wind.
+- **Pléiades:** your call shape (`leeway_angle_deg: 0`, `leeway_speed_mps: 0`) only needs
+  `wind_angle_deg: 0.0` added. Results are identical.
+- **Tests:** 29/29. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
