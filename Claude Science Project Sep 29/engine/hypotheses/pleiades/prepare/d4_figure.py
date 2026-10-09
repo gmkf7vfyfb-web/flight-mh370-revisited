@@ -16,6 +16,33 @@ import pandas as pd
 
 KERNEL = "eof-2f PROVISIONAL-OVERNIGHT"
 
+from branch_figure import footnote  # noqa: E402  (shared footnote helper)
+
+COMMON_H = (
+    "Under H: ocean models GLORYS12 + ERA5 and GlobCurrent daily + ERA5 at equal weight; measured transport error (GDP-replay OU fit "
+    "per component, no added diffusivity); windage 0-5 % uniform; released 00:20 UTC 8 Mar. Pleiades rating-5 objects in 6 clusters at 3 km, "
+    "equal cluster weights (rho4 = 0). The conditional is p(impact | Pleiades, H); no Bayes factor or P(H | data) is computed or implied."
+)
+
+D4_MEASURED_NOTES = [
+    "Source posterior: core reference-snapshots (prior track 295.66 deg, 8 seeds x 7M particles; fails split-half), per-particle positions at "
+    "00:19:37 UTC, convolved with the PROVISIONAL eof-2f descent kernel (0.934 within 15 NM; 0.032 NW quadrant 30-50 NM; 0.034 NW quadrant "
+    "50-103.4 NM). No 00:19 burst scoring of impacts and no seabed-search evidence. Label: 295.66 deg prior; superseded on re-run.",
+    COMMON_H,
+    "Panel d: Handley & Lemos (2019) tension probability, pooled (dot) and 8-seed range (bar); 'declared' = superseded sigma_e 0.05 m/s, "
+    "T_e 2 d, K 30-1000 m2/s. Orange line: 7th arc (prior-work grid); circles: Pleiades clusters; solid blue: 90 % HDR; dashed grey: "
+    "unconditional 90 % HDR.",
+]
+
+D4_289_NOTES = [
+    "Panels a-b: core reference-289 (prior track 289.7 deg, 4 seeds x 7M particles), per-particle positions at 00:19:37 UTC, convolved with the "
+    "PROVISIONAL eof-2f descent kernel. No 00:19 burst scoring of impacts and no seabed-search evidence.",
+    "Panel c: ln S (Handley & Lemos 2019), pooled (dot) and seed range (bar), per descent kernel: disks; eof-2f; end of flight's displacement "
+    "histograms (Boeing glide, +/-160 NM, SMOKE scale, seed 1, N = 16, made on the 295.66 hand-off; 'none' = 00:19 messages held out, "
+    "r600/r1200 = 00:19:29 / 00:19:37 message scored; 'other' / 'fuel-exhaustion' = log-on cause; dive class (b) on/off, PROVISIONAL).",
+    COMMON_H,
+]
+
 
 def hdr_level(dens, mass, level=0.9):
     o = np.argsort(dens.ravel())[::-1]
@@ -108,6 +135,7 @@ def make(measured, declared, pt1h, targets_csv, out, plt):
     ax.set_ylim(min(ys) - 0.9, max(ys) + 0.9)
     ax.set_xlabel("Tension probability p")
     ax.set_title("No significant tension", loc="left")
+    footnote(fig, D4_MEASURED_NOTES, width=200, y=-0.09)
     ax.yaxis.set_label_position("right")
     ax.yaxis.tick_right()
     for y0, y1, lab in [(5, 7, "declared spread"), (1, 4, "measured spread")]:
@@ -195,6 +223,7 @@ def make_compare(dir_new, dir_old, targets_csv, out, plt, new_label="289.7° pri
     ax.set_title("Tension by descent kernel", loc="left", pad=12)
     ax.legend(loc="lower left", bbox_to_anchor=(0.0, 1.0), ncol=2, frameon=False, fontsize=6, handletextpad=0.3, borderaxespad=0.0)
     ax.margins(x=0.08)
+    footnote(fig, D4_289_NOTES, width=200)
     fig.savefig(str(out) + ".png", dpi=300, bbox_inches="tight")
     fig.savefig(str(out) + ".pdf", bbox_inches="tight")
     return fig, axs, R
