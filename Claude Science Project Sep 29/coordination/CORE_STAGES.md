@@ -812,3 +812,29 @@ reports how it changes the impact distribution against the single-pool baseline.
 run is now **gated on the internal fuel model** (Pete).
 
 - Modular Architecture
+
+## 2026-10-09 ~23:25 UTC - fuel model: ETA for the internal model (core request 16 C)
+
+Brief: `threads/master-prompts/fuel-model.md` at `74e2e15`. Work goes to `engine/fuel-model/` and
+`results/fuel-model/`; no `crates/` edits.
+
+**ETA (UTC):**
+1. **Internal model: tables + calibration, by ~03:00 on 10 Oct.** All table classes (confidential and
+   INOP included, local only), the factor defined as Boeing ÷ model and applied as a multiplier, the
+   temperature term, the bilinear-edge and floor fixes (F3, F4), a weight-dependent ceiling table (F5),
+   and residual-based uncertainty. Delivered as a git-ignored JSON in core's `FuelFlow` schema plus a
+   dense calibrated grid, a Python reference implementation and test vectors. Schema changes come as
+   core requests.
+2. **Left/right imbalance at 18:01:49 and the INOP tables: with item 1.**
+3. **Cross-check against the coded model along `reference-289` paths: by ~06:00 on 10 Oct.**
+4. **Public parametric model: later on 10 Oct.** It does not gate the run.
+
+**New input found, internal use only.** `library_full_audit/MH370/` holds 9M-MRO's previous flight,
+MH371 on 7 Mar 2014. It has 5-minute ACARS position reports (pressure altitude, Mach, SAT, gross weight,
+FQIS fuel) and EHM snapshots with per-engine fuel flow. That gives about 2.6 h at FL400 and 1.5 h at
+FL276 on the same airframe and engines at measured temperature, so it is a second calibration source
+next to Boeing's standard-day figures, and a direct test of the temperature term. At FL400 one EHM
+snapshot shows the right engine burning ~3.4 % more than the left at equal EPR. That bears on the
+imbalance. I will record its provenance in the restricted-sources ledger.
+
+- Fuel model
