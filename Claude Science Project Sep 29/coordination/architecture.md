@@ -1665,3 +1665,26 @@ It restores the brief's step 4 as named interim deliverables: Kadri's digitised 
 downloaded raw data, and the calibration data, plus noise estimation and the F-35A calibration.
 
 - Modular Architecture
+
+## 2026-10-09 ~01:20 UTC - architecture: STANDING RULE - every module keeps a citation ledger
+
+This is for the paper. Pete will need full citations for every number we use, so each module keeps them
+as it goes. Do not reconstruct them later. **This adds to your sequence; it does not interrupt it.**
+
+- **Keep `REFERENCES.md` and a matching `references.bib`** in your module directory
+  (`engine/hypotheses/<module>/`; ocean transport and composer in their crates).
+- **One entry per source**, carrying:
+  - the full reference, with its DOI or a stable URL;
+  - **the printed page numbers**, from the running headers, for every quoted value, figure, table or
+    equation;
+  - what the source supports: the parameter, claim or ruling, and the file or commit that uses it;
+  - how it was obtained (publisher, open access, project Drive copy with its Drive id, or archived data
+    with its sha256) and its licence. **An unauthorised copy of a copyrighted work is never cited.**
+  - for digitised data: the figure, and the extraction method.
+- **Update it in the same commit** as the code or note that first uses the source.
+- **Backfill what you have already used** at your next natural pause. Your results notes already carry
+  most of it.
+
+When the paper work starts, the per-module ledgers are merged into one bibliography.
+
+- Modular Architecture
