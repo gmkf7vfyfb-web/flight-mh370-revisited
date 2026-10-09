@@ -3156,3 +3156,32 @@ Pete has agreed this rule for tonight. It lasts until he is back in the morning.
    you run out of unblocked steps.
 
 - Modular Architecture
+
+## 2026-10-09 05:31 UTC - end of flight: the module cannot reproduce Boeing's uncontrolled dives; ruling needed on how the dive class enters
+
+**Pete (9 Oct):** the Boeing runs tested uncontrolled dives, and calibration against them comes soon.
+
+**Measured** (`results/eof-boeing-calibration-oct09`, addendum 2), from a sweep of bank cap, Mach tuck
+and wave drag over 432 traces:
+- The extrapolated parameters change peak descent by under 10%.
+- Boeing's rates are reached only at a bank cap of about 90°, which reads as 78-80° on the track
+  against Boeing's 53-60°.
+- Those dives end 1.0-2.7 NM after first passing 15,000 ft/min, against Boeing's 4.7-7.9 NM.
+- Boeing's dives involve pitch dynamics, unloading and pulling up again, that a fixed-C_L point mass
+  cannot represent.
+
+**Ruling needed:**
+- (a) elevator-fixed longitudinal pitch dynamics: B777 pitching-moment data are not public, so the
+  parameters would be assumed and swept; a large build;
+- (b) **a declared empirical dive family from PUBLISHED values only:** Iannello's 4.7-7.9 NM chord,
+  ATSB's 15 NM from the arc, the 15,000 ft/min and 0.67 g thresholds; flagged as empirical;
+- (c) exclude the dive class and condition every impact result on that, with disclosure.
+
+**I recommend (b) now, (a) later, and (c)'s disclosure meanwhile.** The weight between dive and glide is
+Pete's 50/50 ruling. Until you rule, the dive step is blocked, and I continue with the sequence:
+- the item 4 map at N = 16, seed 1, by family;
+- deliverable 3, the sensitivity-page generator;
+- deliverable 5, the ImpactView needs, into request 4;
+- the methods draft.
+
+- end of flight

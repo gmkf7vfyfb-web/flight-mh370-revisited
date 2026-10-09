@@ -121,3 +121,50 @@ withdrawn. The fixture now uses the module's own trim, code `free_dynamics_trace
     high-rate class is reachable at all in a point-mass model. If it is not, the dive class has to be
     represented as a declared kinematic family (Boeing's 4.7–7.9 NM chord) rather than as physics; that
     question goes to the architect.
+
+## Addendum 2 (05:31 UTC): what it takes to reach Boeing's dives in this model
+
+Pete, 9 Oct: the Boeing runs were tests of **uncontrolled dives**, so calibration against cases 3, 4, 5, 6
+and 10 comes first. Until it is done, every impact result covers only the stable-glide regime, and must
+say the dive class is absent.
+
+**Sweep** (`calibration-sweep-cap-tuck-kw.json`, 432 divergent traces, measured as above):
+- the divergent-spiral bank cap at 60, 75, 90 and 120°;
+- the two extrapolated parameters, Mach tuck `tuck_cl_per_mach` at 0, 0.3, 0.6 and wave drag
+  `wave_drag_coefficient` at 10, 20, 40;
+- doubling time 85 s; drawn bank 5 and 15°; three trims; two altitudes.
+
+| bank cap | high-rate | peak descent, ft/min | peak downward g | peak bank read from the track | chord after 15,000 ft/min |
+|---|---|---|---|---|---|
+| 60° | 0 / 108 | 12,600–12,700 | 0.25 | 63° | – |
+| 75° | 0 / 108 | 25,000–27,200 | 0.32–0.35 | 77–78° | – |
+| 90° | 99 / 108 | 56,400–58,600 | 0.78–0.80 | 78–80° | 1.0–2.7 NM, all 198 high-rate traces |
+| 120° | 99 / 108 | 65,200–67,700 | 1.03–1.10 | 78–80° | (same pool) |
+| **Boeing, cases 3, 4, 6, 10** | **4 / 4** | **33,500–58,000** | **0.87–1.31** | **53–60°** | **4.7–7.9 NM** |
+
+**Findings:**
+1. **The bank cap governs; the extrapolated parameters do not.** Mach tuck and wave drag move the peak
+   descent by under 10% at every cap.
+2. **The rates come only with too much bank.** The module reaches Boeing's descent rates only by banking
+   to about 90°, which reads as 78–80° on the track. Boeing dives at a track-read 53–60°, and the
+   estimator is consistent: a module cap of 60° reads 63°. My guess that the track formula under-reads
+   Boeing's bank is therefore wrong.
+3. **And the dives are about three times too short.** The chord after 15,000 ft/min is 1.0–2.7 NM against
+   4.7–7.9 NM. Boeing's vertical-speed traces swing from about +20,000 to −58,000 ft/min, which is pitch
+   dynamics: the aircraft unloads and pulls up again. A fixed-C_L point mass cannot represent that.
+4. **Conclusion: the present free-dynamics model cannot reproduce Boeing's uncontrolled dives
+   consistently, for any setting of its declared parameters.** That is a negative result, kept: the
+   spiral flag stays at 0, and the fixture and sweep stay in the tree.
+
+**Options, sent to the architect for a ruling:**
+- (a) Elevator-fixed longitudinal pitch dynamics: angle of attack and pitching moment with Mach, a
+  3-DOF longitudinal model. Physically right, but the B777 pitching-moment data are not public, so the
+  parameters would be assumed and swept. A larger build.
+- (b) A declared empirical dive family, parameterised only from **published** values: Iannello's
+  4.7–7.9 NM after 15,000 ft/min, ATSB's "within 15 NM of the arc", and the published high-rate
+  thresholds. It is flagged as empirical, not physics; the simulator files themselves stay
+  validation-only.
+- (c) Leave the dive class out, and report every impact result as conditional on the non-dive regime,
+  with ATSB's published 15 NM statement alongside.
+- **Recommended: (b) now, so the dive class enters at all; (a) as later work; (c)'s disclosure until (b)
+  lands.**
