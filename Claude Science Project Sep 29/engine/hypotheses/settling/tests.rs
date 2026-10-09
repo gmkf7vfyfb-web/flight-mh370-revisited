@@ -441,10 +441,13 @@ fn a_given_debris_class_fixes_the_family_of_every_draw() {
 
 #[test]
 fn run_toml_constructs_and_predict_fills_or_refuses() {
+    // Without [shared]: the provisional stand-ins, so the test needs no data files (the shared
+    // products are exercised by the ignored `shared_products_load_and_answer`).
     let text = include_str!("run.toml");
     let table: toml::Table = toml::from_str(text).unwrap();
-    let params = &table["hypotheses"]["settling"];
-    let h = new(params).unwrap();
+    let mut params = table["hypotheses"]["settling"].clone();
+    assert!(params.as_table_mut().unwrap().remove("shared").is_some());
+    let h = new(&params).unwrap();
     let columns = h.prediction_columns();
     assert_eq!(columns.len(), 4 + 6 * CLASS_COLUMNS.len());
     assert!(columns.iter().all(|c| !c.contains([',', '/', ':', '\n'])));
@@ -515,6 +518,14 @@ fn report() {
         ("deep current reversed", all.to_vec(), |o| o.spec.deep_current_mps = o.spec.deep_current_mps.map(|x| -x), 1.0, 1.0, base_float),
         ("surface current p90 (0.31 m/s)", all.to_vec(), |o| o.spec.surface_current_mps = [0.31, 0.0], 1.0, 1.0, base_float),
         ("no wind (leeway off)", all.to_vec(), |o| o.spec.wind_mps = [0.0, 0.0], 1.0, 1.0, base_float),
+        ("ocean error fully correlated in depth (exponential)", all.to_vec(), |o| {
+            o.error = OceanErrorModel { kind: ErrorKind::UniformOffset { sigma_m_s: 0.10 }, vertical: VerticalStructure::Exponential { efold_m: 500.0, deep_ratio: 0.2 } };
+        }, 1.0, 1.0, base_float),
+        ("no near-bottom error band", all.to_vec(), |o| {
+            if let VerticalStructure::Banded { surface_to_m, upper_to_m, near_bottom_m, factors } = o.error.vertical {
+                o.error.vertical = VerticalStructure::Banded { surface_to_m, upper_to_m, near_bottom_m, factors: [factors[0], factors[1], factors[2], factors[2]] };
+            }
+        }, 1.0, 1.0, base_float),
         ("Stokes on (a = 1)", all.to_vec(), |_| {}, 1.0, 1.0, fp(1.0, None)),
         ("diffusivity 30 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(30.0))),
         ("diffusivity 1000 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(1000.0))),
@@ -677,4 +688,94 @@ fn stream_cost() {
     let r = stream_impact(&s, &imp, None, &half_box(), &p).unwrap();
     let dt = t.elapsed().as_secs_f64();
     println!("stream_cost: {} draws {:.3} s ({:.2} ms per draw), rows per draw {:.1}, mean {:.4} +- {:.4}", r.draws, dt, 1e3 * dt / r.draws as f64, r.rows_per_draw, r.mean, r.half_width_95);
+}
+
+// ---------------------------------------------------------------------------------------------
+// Shared products adopted 9 Oct (ocean transport items 3 and 4).
+// ---------------------------------------------------------------------------------------------
+
+#[test]
+fn each_floater_stops_at_its_own_sink_time() {
+    // Float times spread over 0.5-2 h in one draw, a uniform surface current, nothing else: each
+    // element leaves the surface at current x its own float time (Particle.end_time), then sinks
+    // straight down through still water.
+    let mut o = stub();
+    o.spec.surface_current_mps = [0.25, -0.04];
+    let mut b = one_floater(1.0, 0.0);
+    for row in b.elements.iter_mut() {
+        for e in row.iter_mut() {
+            e.float_s = Range { lo: 1800.0, hi: 7200.0, log: false };
+        }
+    }
+    let s = settling(b, o, &["float", "current"]);
+    let rows = s.emit(&impact(41, 60.0, 120.0), 2).unwrap();
+    let floats: Vec<f64> = rows.iter().map(|r| r.float_s).collect();
+    assert!(floats.iter().any(|&t| t < 3000.0) && floats.iter().any(|&t| t > 6000.0), "{floats:?}");
+    for r in &rows {
+        assert_eq!(r.fate, Fate::Settled);
+        assert!((r.east_m - 0.25 * r.float_s).abs() < 1e-6 * r.float_s && (r.north_m + 0.04 * r.float_s).abs() < 1e-6 * r.float_s, "{r:?}");
+    }
+}
+
+#[test]
+fn near_bottom_band_acts_only_within_its_height_above_the_seabed() {
+    // Error only in the near-bottom band (factors [0, 0, 0, 1], 200 m), identical sinkers at W:
+    // each draw's offset is that band's velocity x 200 / W, so E|offset|^2 = 2 sigma^2 (200/W)^2.
+    let mut o = stub();
+    o.error = OceanErrorModel { kind: ErrorKind::UniformOffset { sigma_m_s: 0.05 }, vertical: VerticalStructure::Banded { surface_to_m: 100.0, upper_to_m: 1000.0, near_bottom_m: 200.0, factors: [0.0, 0.0, 0.0, 1.0] } };
+    let s = settling(one_sinker(0.0, 1.0), o, &["ocean-error"]);
+    let draws = 400;
+    let rows = s.emit(&impact(42, 60.0, 120.0), draws).unwrap();
+    let mut ms = 0.0;
+    for d in 0..draws as u32 {
+        let r = rows.iter().find(|r| r.draw == d).unwrap();
+        ms += r.east_m * r.east_m + r.north_m * r.north_m;
+    }
+    ms /= draws as f64;
+    let expected = 2.0 * 0.05f64.powi(2) * (200.0 / W).powi(2);
+    assert!((ms / expected - 1.0).abs() < 0.2, "{ms} vs {expected}");
+    // With the band height zero the same error moves nothing.
+    let mut o0 = stub();
+    o0.error = OceanErrorModel { kind: ErrorKind::UniformOffset { sigma_m_s: 0.05 }, vertical: VerticalStructure::Banded { surface_to_m: 100.0, upper_to_m: 1000.0, near_bottom_m: 0.0, factors: [0.0, 0.0, 0.0, 1.0] } };
+    let s0 = settling(one_sinker(0.0, 1.0), o0, &["ocean-error"]);
+    assert!(s0.emit(&impact(42, 60.0, 120.0), 8).unwrap().iter().all(|r| r.east_m.abs() < 1e-9 && r.north_m.abs() < 1e-9));
+}
+
+#[test]
+fn density_levels_interpolate_and_hold_at_the_ends() {
+    let c = RhoColumn::Levels { depth_m: vec![0.0, 1000.0, 3000.0], rho_kg_m3: vec![1025.0, 1032.0, 1042.0] };
+    assert_eq!((c.at(-5.0), c.at(0.0), c.at(500.0), c.at(2000.0), c.at(3000.0), c.at(6000.0)), (1025.0, 1025.0, 1028.5, 1037.0, 1042.0, 1042.0));
+}
+
+#[test]
+fn bands_and_efold_are_exclusive_and_bands_are_checked() {
+    let parse = |t: &str| -> Result<OceanErrorModel, String> { toml::from_str::<ErrorSpec>(t).map_err(|e| e.to_string())?.model() };
+    let bands = "kind = 'uniform-offset'\nsigma_m_s = 0.1\n[bands]\nsurface_to_m = 100.0\nupper_to_m = 1000.0\nnear_bottom_m = 200.0\nfactors = [1.0, 0.5, 0.2, 0.3]\n";
+    assert!(matches!(parse(bands).unwrap().vertical, VerticalStructure::Banded { .. }));
+    assert!(parse(&format!("efold_m = 500.0\n{bands}")).is_err());
+    assert!(parse(&bands.replace("upper_to_m = 1000.0", "upper_to_m = 50.0")).is_err());
+}
+
+/// Needs the shared products on disk (run.toml [shared]); run with `-- --ignored`.
+#[test]
+#[ignore]
+fn shared_products_load_and_answer() {
+    let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
+    let s = Settling::from_params(&table["hypotheses"]["settling"]).unwrap();
+    assert!(matches!(s.ocean.seabed, Seabed::Shared(_)) && matches!(s.ocean.density, Density::Woa23(_)));
+    let imp = impact(43, 60.0, 120.0);
+    let z = s.ocean.seabed.depth_at([imp.longitude_deg, imp.latitude_deg]).unwrap();
+    let rho = s.ocean.density.column(&imp).unwrap();
+    println!("shared: seabed at 92E 35S {z:.0} m; rho 0 m {:.3}, 1000 m {:.3}, 4000 m {:.3} kg/m3", rho.at(0.0), rho.at(1000.0), rho.at(4000.0));
+    assert!((1000.0..7000.0).contains(&z));
+    assert!((1022.0..1028.0).contains(&rho.at(0.0)) && (1040.0..1050.0).contains(&rho.at(4000.0)));
+    // Outside the loaded window: no seabed, never a default depth.
+    assert!(s.ocean.seabed.depth_at([115.0, -35.0]).is_none());
+    // An impact in another month is refused, not given March water.
+    let mut feb = impact(44, 60.0, 120.0);
+    feb.unix_s -= 30.0 * 86_400.0;
+    assert!(s.emit(&feb, 1).is_err());
+    let rows = s.emit(&imp, 16).unwrap();
+    let settled: Vec<_> = rows.iter().filter(|r| r.fate == Fate::Settled).collect();
+    assert!(!settled.is_empty() && settled.iter().all(|r| (1000.0..7000.0).contains(&r.depth_m)));
 }

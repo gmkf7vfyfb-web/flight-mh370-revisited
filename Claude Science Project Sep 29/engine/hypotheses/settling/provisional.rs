@@ -17,7 +17,7 @@
 //!    TEOS-10 layer, deliverable 8, not started. It moves a terminal speed by about 1.5% by 6 km.
 
 use ocean::field::{Component, FieldGap, FieldMeta};
-use ocean::profile::{pressure_dbar_saunders, Profile, ProfileSource, Salinity, Temperature, VerticalVelocity};
+use ocean::profile::{Profile, ProfileSource, Salinity, Temperature, VerticalVelocity};
 use ocean::products::{Contents, TimeAxis};
 use ocean::LonLat;
 use serde::Deserialize;
@@ -62,7 +62,7 @@ impl ProfileSource for LayeredColumn {
             w_up: VerticalVelocity::Absent,
             temperature: Temperature::Potential(vec![2.0; k]),
             salinity: Salinity::Practical(vec![34.7; k]),
-            pressure_dbar: depth_m.iter().map(|&z| pressure_dbar_saunders(z, p[1])).collect(),
+            pressure_dbar: depth_m.iter().map(|&z| ocean::teos10::pressure_dbar(z, p[1])).collect(),
             depth_m,
             model_bottom_m: self.model_bottom_m,
             time_axis: TimeAxis::Steady,

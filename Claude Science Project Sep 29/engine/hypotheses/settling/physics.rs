@@ -252,7 +252,8 @@ pub fn sink(
             u = [sample.u_east, sample.v_north];
         }
         if let (true, Some(e)) = (terms.ocean_error, ocean) {
-            let v = e.velocity(t0 + t + dt / 2.0, lonlat(at), mid);
+            // The seabed depth lets the shared crate's near-bottom band apply (height above seabed).
+            let v = e.velocity_with_seabed(t0 + t + dt / 2.0, lonlat(at), mid, Some(floor));
             u = [u[0] + v[0], u[1] + v[1]];
         }
         let mut step = [u[0] * dt, u[1] * dt];

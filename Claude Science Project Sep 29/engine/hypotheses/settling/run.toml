@@ -12,28 +12,44 @@ terms = ["carry", "float", "current", "glide", "ocean-error", "diffusion"]
 # Below the ocean model's own bottom: hold-deepest-level | linear-to-zero-at-seabed | refuse
 # (the shared crate's three rules). Never a silent zero.
 below_model_bottom = "hold-deepest-level"
-# Float phase through the shared integrator. Step 10 min; outputs land exactly on each element's
-# float-end time. a_stokes 0: floating wreckage moves with the current plus leeway x wind only, a
+# Float phase through the shared integrator. Step 10 min; each element stops at its own sink
+# time (Particle.end_time). a_stokes 0: floating wreckage moves with the current plus leeway x wind only, a
 # DECLARED first-pass choice pending drift's object-response result (Stokes dominated drift's
 # sensitivity). Diffusivity absent: the shared provisional prior, one K per draw.
 float_step_s = 600.0
 float_a_stokes = 0.0
 
 # Ocean-product error, realised ONCE per wreckage draw and shared by the float and sink phases.
-# Uniform offset of 0.10 m/s per component at the surface decaying to 0.02 m/s at depth
-# (e-folding 500 m): the first pass's banded values, in the shared crate's form. PROVISIONAL
-# magnitudes; the error model's form is the shared owner's open question (brief section 8).
+# The shared crate's banded structure (ocean transport item 4) with the first pass's banded
+# magnitudes: 0.10 m/s per component at the surface (to 100 m), 0.05 m/s in the upper ocean (to
+# 1,000 m), 0.02 m/s below, and 0.03 m/s within 200 m of the seabed. Each band is an independent
+# realisation (shared owner's choice). PROVISIONAL magnitudes; the error model's form is the shared
+# owner's open question (brief section 8).
 [hypotheses.settling.ocean_error]
 kind = "uniform-offset"
 sigma_m_s = 0.10
-efold_m = 500.0
-deep_ratio = 0.2
+
+[hypotheses.settling.ocean_error.bands]
+surface_to_m = 100.0
+upper_to_m = 1000.0
+near_bottom_m = 200.0
+factors = [1.0, 0.5, 0.2, 0.3]
+
+# Shared ocean products that replace provisional stand-ins (mh370-ocean items 3 and 4). Paths are
+# the shared owner's prepared products (results/ocean-data-manifest.md). The window covers the
+# 7th-arc posterior mass (39.1-23.9 S) with margin. Density: WOA23 2005-2014 March, the decade-month
+# of 8 March 2014.
+[hypotheses.settling.shared]
+bathymetry_manifests = ["/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json"]
+bathymetry_window = [80.0, 112.0, -45.0, -18.0]
+density_woa23_manifest = "/Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed/woa23_A5B4_m03.json"
 
 # ---------------------------------------------------------------------------------------------
 # PROVISIONAL INPUTS the shared crate does not serve yet (provisional.rs). NOT an ocean product
 # and NOT a measurement of the region: a closed-form two-layer column and uniform surface fields of
-# sensitivity-scale magnitude, a planar seabed, and density linear in depth. Each is deleted when
-# the shared owner serves a product column, bathymetry (deliverable 7) and TEOS-10 (deliverable 8).
+# sensitivity-scale magnitude. The planar seabed and linear density below apply only where
+# [shared] does not give a product (tests and the report's controlled depths); [shared] replaces
+# both in this run. The column is deleted when the shared owner serves a gridded product column.
 # ---------------------------------------------------------------------------------------------
 [hypotheses.settling.provisional]
 label = "PROVISIONAL analytic column v1 on mh370-ocean - not an ocean product"

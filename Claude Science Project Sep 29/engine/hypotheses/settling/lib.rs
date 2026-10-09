@@ -73,16 +73,23 @@
 //!      ~8-11 km grid of the candidate products);
 //!    - the float phase: the shared batch integrator `integrate`, one call per wreckage draw, every
 //!      floating element a particle with `ObjectResponse { a_stokes, c_wind = its leeway }` and
-//!      output times at exactly each element's own float-end time (the per-sink-time pattern ocean
-//!      transport documented; a per-particle end time is its queued item);
+//!      `Particle.end_time` = its own sink time, read from `Track.end` (ocean transport item 4,
+//!      fe05b0b), so one call carries elements with different sink times through one ocean;
 //!    - ocean error: `OceanErrorModel`, realised once per draw from the draw's seed;
 //!    - sub-grid diffusion while afloat: the shared `DiffusivityPrior::provisional` (one K per draw,
 //!      an eta component) unless the run fixes it.
+//!    - the seabed: the shared `Bathymetry` surface (item 3, 75ac7df; GEBCO_2026 at 15 arc-seconds
+//!      today, AusSeabed first in priority when obtained), nearest native cell, land refused;
+//!    - in-situ density: TEOS-10 (`teos10::rho_and_sound_speed`, item 4) on the WOA23 decade-month
+//!      SA/CT climatology of the impact, one column per impact (1 degree does not vary across a
+//!      wreckage field), held at its end levels beyond them; an impact outside the loaded
+//!      decade-month is refused, not given another month's water.
+//!    Both are selected in run.toml `[shared]`; absent, the provisional stand-ins apply.
 //!    What settling still supplies itself is in provisional.rs, each item labelled and each to be
-//!    deleted when the shared crate serves it: a two-layer analytic column (the shared analytic
-//!    column is depth-uniform), a planar seabed (bathymetry, shared deliverable 7), and in-situ
-//!    density linear in depth (TEOS-10, shared deliverable 8). Every result is provisional while any
-//!    of the three is in use, and no current product has been chosen (that is the shared owner's).
+//!    deleted when the shared crate serves it: a two-layer analytic column (no gridded product
+//!    `ProfileSource` exists yet), uniform surface fields, and the planar seabed and linear density
+//!    kept for closed-form tests and the report's controlled depths. Every result is provisional
+//!    while the column is, and no current product has been chosen (that is the shared owner's).
 //! 8. Below the ocean model's bottom one of the shared crate's three explicit rules applies
 //!    (default `hold-deepest-level`; `linear-to-zero-at-seabed` and `refuse` are the declared
 //!    alternatives), and the extrapolated depth range is reported per element. A zero is never
@@ -90,10 +97,10 @@
 //! 9. Vertical velocity: used when the product resolves it (descent speed relative to the ground is
 //!    w - w_up); when the product has none it is `Absent`, never read as zero. GLORYS12V1's daily
 //!    multiyear dataset has none.
-//! 10. Near-bottom unresolved motion: the shared error model's vertical structure is uniform or
-//!    exponential in depth; a band keyed to height above the seabed is ocean transport's queued
-//!    item 3. Until it lands there is NO near-bottom term (the first pass carried one in its own
-//!    stub; it is dropped rather than kept as a second ocean-error model).
+//! 10. Near-bottom unresolved motion: the shared `VerticalStructure::Banded` (item 4), whose
+//!    near-bottom band is keyed to height above the seabed; the descent passes the local seabed
+//!    depth (`velocity_with_seabed`). Each band is its own independent realisation (the shared
+//!    owner's conservative choice), still one draw per wreckage configuration.
 //!
 //! WHAT IS NOT YET HERE, deliberately: the implosion-at-depth event (descent time is computed
 //! and emitted per element, which is the hook), post-contact movement, and the shared breakup
@@ -108,6 +115,8 @@ use breakup::{Breakup, FAMILIES};
 use hypothesis::{Hypothesis, ImpactView};
 use ocean::profile::{BelowModelBottom, ProfileSource};
 use ocean::stochastic::{Diffusion, DiffusivityPrior, ErrorKind, OceanErrorModel, VerticalStructure};
+use ocean::bathy::Bathymetry;
+use ocean::soundspeed::{woa23_period, SoundSpeedClimatology};
 use ocean::{analytic::Uniform, Component, Domain, Forcing, LonLat, NoCoast, ObjectResponse, Particle, Refloat, RunSpec, Snapshot, VectorField};
 use physics::{Rng, Sinker, Terms};
 use provisional::{offset_m, DensityStub, LayeredColumn, PlanarSeabed, ProvisionalSpec};
@@ -137,6 +146,26 @@ struct Params {
     ocean_error: ErrorSpec,
     /// PROVISIONAL inputs the shared crate does not serve yet (provisional.rs).
     provisional: ProvisionalSpec,
+    /// Shared-crate products that REPLACE the provisional seabed and density when given.
+    #[serde(default)]
+    shared: SharedSpec,
+}
+
+/// Shared ocean products (mh370-ocean, ocean transport items 3 and 4). Each one given replaces its
+/// provisional stand-in; each one absent leaves the stand-in, which is reported in the label.
+#[derive(Debug, Clone, Default, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct SharedSpec {
+    /// Bathymetry layer manifests, finest first (`Bathymetry::load`), and the window loaded
+    /// `[lon_min, lon_max, lat_min, lat_max]`.
+    #[serde(default)]
+    bathymetry_manifests: Vec<String>,
+    #[serde(default)]
+    bathymetry_window: Option<[f64; 4]>,
+    /// One WOA23 decade-month (the prepared SA/CT grids behind `SoundSpeedClimatology`): in-situ
+    /// density by TEOS-10 at each level. Impacts outside its decade-month are refused.
+    #[serde(default)]
+    density_woa23_manifest: Option<String>,
 }
 
 /// `OceanErrorModel` in run.toml form.
@@ -158,6 +187,20 @@ pub struct ErrorSpec {
     efold_m: Option<f64>,
     #[serde(default)]
     deep_ratio: f64,
+    /// The shared crate's banded structure (surface, upper, deep and a near-bottom band keyed to
+    /// height above the seabed, each its own realisation). Exclusive with `efold_m`.
+    #[serde(default)]
+    bands: Option<BandSpec>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct BandSpec {
+    surface_to_m: f64,
+    upper_to_m: f64,
+    near_bottom_m: f64,
+    /// Amplitude factors [surface, upper, deep, near-bottom].
+    factors: [f64; 4],
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Deserialize)]
@@ -183,10 +226,17 @@ impl ErrorSpec {
         if !(self.sigma_m_s >= 0.0) || (self.kind == ErrorKindName::Eddying && !(self.length_scale_m > 0.0 && self.time_scale_s > 0.0 && self.modes > 0)) {
             return Err("settling: ocean_error needs sigma >= 0, and for eddying positive length, time and modes".into());
         }
-        let vertical = match self.efold_m {
-            None => VerticalStructure::Uniform,
-            Some(efold_m) if efold_m > 0.0 && (0.0..=1.0).contains(&self.deep_ratio) => VerticalStructure::Exponential { efold_m, deep_ratio: self.deep_ratio },
-            Some(_) => return Err("settling: ocean_error efold_m must be positive and deep_ratio in [0, 1]".into()),
+        let vertical = match (self.efold_m, self.bands) {
+            (Some(_), Some(_)) => return Err("settling: ocean_error takes efold_m or bands, not both".into()),
+            (None, Some(b)) => {
+                if !(b.surface_to_m > 0.0 && b.upper_to_m > b.surface_to_m && b.near_bottom_m >= 0.0 && b.factors.iter().all(|f| *f >= 0.0)) {
+                    return Err("settling: ocean_error bands need 0 < surface_to_m < upper_to_m, near_bottom_m >= 0, factors >= 0".into());
+                }
+                VerticalStructure::Banded { surface_to_m: b.surface_to_m, upper_to_m: b.upper_to_m, near_bottom_m: b.near_bottom_m, factors: b.factors }
+            }
+            (None, None) => VerticalStructure::Uniform,
+            (Some(efold_m), None) if efold_m > 0.0 && (0.0..=1.0).contains(&self.deep_ratio) => VerticalStructure::Exponential { efold_m, deep_ratio: self.deep_ratio },
+            (Some(_), None) => return Err("settling: ocean_error efold_m must be positive and deep_ratio in [0, 1]".into()),
         };
         Ok(OceanErrorModel { kind, vertical })
     }
@@ -288,10 +338,103 @@ pub struct Ocean {
     pub surface_current: Box<dyn VectorField>,
     pub wind: Box<dyn VectorField>,
     pub stokes: Box<dyn VectorField>,
-    pub seabed: PlanarSeabed,
-    pub density: DensityStub,
+    pub seabed: Seabed,
+    pub density: Density,
     pub error: OceanErrorModel,
     pub label: String,
+}
+
+/// The seabed settling stops at: the provisional plane (tests, the report's controlled depths) or
+/// the shared bathymetry surface (GEBCO_2026 today; AusSeabed first in priority when obtained).
+pub enum Seabed {
+    Planar(PlanarSeabed),
+    Shared(Bathymetry),
+}
+
+impl Seabed {
+    /// Depth (m, positive down) at `p`; None outside the surface or on land (not computed).
+    pub fn depth_at(&self, p: LonLat) -> Option<f64> {
+        match self {
+            Seabed::Planar(s) => s.depth_at(p),
+            Seabed::Shared(b) => b.at(p).map(|s| s.depth_m).filter(|d| *d > 0.0),
+        }
+    }
+    pub fn label(&self) -> &'static str {
+        match self {
+            Seabed::Planar(_) => "PROVISIONAL planar seabed",
+            Seabed::Shared(_) => "shared bathymetry (mh370-ocean)",
+        }
+    }
+}
+
+/// In-situ water density: the provisional linear stub, or TEOS-10 on a WOA23 climatology.
+pub enum Density {
+    Stub(DensityStub),
+    Woa23(SoundSpeedClimatology),
+}
+
+/// Density with depth for one impact (the 1-degree climatology does not vary over a wreckage
+/// field, so one column per impact).
+pub enum RhoColumn {
+    Stub(DensityStub),
+    /// Levels with finite SA and CT; held at the end levels beyond them (declared).
+    Levels { depth_m: Vec<f64>, rho_kg_m3: Vec<f64> },
+}
+
+impl RhoColumn {
+    pub fn at(&self, z_m: f64) -> f64 {
+        match self {
+            RhoColumn::Stub(d) => d.at(z_m),
+            RhoColumn::Levels { depth_m, rho_kg_m3 } => {
+                let k = depth_m.partition_point(|&d| d <= z_m);
+                if k == 0 {
+                    rho_kg_m3[0]
+                } else if k == depth_m.len() {
+                    rho_kg_m3[k - 1]
+                } else {
+                    let f = (z_m - depth_m[k - 1]) / (depth_m[k] - depth_m[k - 1]);
+                    rho_kg_m3[k - 1] + f * (rho_kg_m3[k] - rho_kg_m3[k - 1])
+                }
+            }
+        }
+    }
+}
+
+impl Density {
+    pub fn column(&self, impact: &ImpactView) -> Result<RhoColumn, String> {
+        match self {
+            Density::Stub(d) => Ok(RhoColumn::Stub(*d)),
+            Density::Woa23(clim) => {
+                let (decade, month) = woa23_period(impact.unix_s);
+                if clim.period() != (decade, month) {
+                    return Err(format!("settling: density climatology is {:?}, impact needs {decade} month {month}", clim.period()));
+                }
+                let p = [impact.longitude_deg, impact.latitude_deg];
+                let prof = clim.profile(p).ok_or("settling: impact outside the density climatology grid")?;
+                let (mut depth_m, mut rho_kg_m3) = (Vec::new(), Vec::new());
+                for k in 0..prof.depth_m.len() {
+                    let (sa, ct) = (prof.absolute_salinity_g_kg[k], prof.conservative_temperature_c[k]);
+                    if !(sa.is_finite() && ct.is_finite()) {
+                        continue;
+                    }
+                    if let Ok((rho, _c)) = ocean::teos10::rho_and_sound_speed(sa, ct, prof.pressure_dbar[k]) {
+                        depth_m.push(prof.depth_m[k]);
+                        rho_kg_m3.push(rho);
+                    }
+                }
+                if depth_m.is_empty() {
+                    return Err("settling: no density levels in the climatology column".into());
+                }
+                Ok(RhoColumn::Levels { depth_m, rho_kg_m3 })
+            }
+        }
+    }
+    pub fn label(&self) -> &'static str {
+        match self {
+            Density::Stub(_) => "PROVISIONAL linear density",
+            Density::Woa23(_) => "TEOS-10 on WOA23 (mh370-ocean)",
+        }
+    }
 }
 
 impl Ocean {
@@ -302,8 +445,8 @@ impl Ocean {
             surface_current: Box::new(Uniform::current(spec.surface_current_mps[0], spec.surface_current_mps[1])),
             wind: Box::new(Uniform::new(Component::Wind10m, spec.wind_mps[0], spec.wind_mps[1])),
             stokes: Box::new(Uniform::new(Component::StokesDrift, spec.stokes_mps[0], spec.stokes_mps[1])),
-            seabed: spec.seabed,
-            density: spec.density,
+            seabed: Seabed::Planar(spec.seabed),
+            density: Density::Stub(spec.density),
             error,
             label: spec.label.clone(),
         })
@@ -346,7 +489,15 @@ const CLASS_COLUMNS: [&str; 7] = [
 impl Settling {
     pub fn from_params(params: &toml::Value) -> Result<Settling, String> {
         let p: Params = params.clone().try_into().map_err(|e| format!("settling: {e}"))?;
-        let ocean = Ocean::provisional(&p.provisional, p.ocean_error.model()?)?;
+        let mut ocean = Ocean::provisional(&p.provisional, p.ocean_error.model()?)?;
+        if !p.shared.bathymetry_manifests.is_empty() {
+            let paths: Vec<&std::path::Path> = p.shared.bathymetry_manifests.iter().map(std::path::Path::new).collect();
+            ocean.seabed = Seabed::Shared(Bathymetry::load(&paths, p.shared.bathymetry_window)?);
+        }
+        if let Some(m) = &p.shared.density_woa23_manifest {
+            ocean.density = Density::Woa23(SoundSpeedClimatology::load(std::path::Path::new(m))?);
+        }
+        ocean.label = format!("{}; {}; {}", ocean.label, ocean.seabed.label(), ocean.density.label());
         let rule = parse_rule(&p.below_model_bottom)?;
         let float = FloatPhase { step_s: p.float_step_s, a_stokes: p.float_a_stokes, diffusivity_m2_s: p.float_diffusivity_m2_s };
         Settling::with(Breakup::parse(include_str!("breakup.toml"))?, ocean, &p.terms, rule, float, p.step_m, p.moment_draws)
@@ -403,19 +554,20 @@ impl Settling {
         if family.is_some_and(|f| f >= FAMILIES.len()) {
             return Err("settling: debris_class must be 0, 1 or 2".into());
         }
+        let rho = self.ocean.density.column(impact)?;
         let mut out = Vec::new();
         for d in indices {
             let mut rng = Rng::seeded(&seed_words(impact, d));
             let u = rng.uniform();
             let f = family.unwrap_or_else(|| pick(&families, u));
             let seed = rng.next_u64();
-            self.draw_field(impact, d, draw_weight, f, seed, &mut rng, &mut out)?;
+            self.draw_field(impact, d, draw_weight, f, seed, &rho, &mut rng, &mut out)?;
         }
         Ok(out)
     }
 
     #[allow(clippy::too_many_arguments)]
-    fn draw_field(&self, impact: &ImpactView, draw: usize, draw_weight: f64, family: usize, seed: u64, rng: &mut Rng, out: &mut Vec<WreckageElement>) -> Result<(), String> {
+    fn draw_field(&self, impact: &ImpactView, draw: usize, draw_weight: f64, family: usize, seed: u64, rho: &RhoColumn, rng: &mut Rng, out: &mut Vec<WreckageElement>) -> Result<(), String> {
         let origin: LonLat = [impact.longitude_deg, impact.latitude_deg];
         let t0 = impact.unix_s;
         let lonlat = |offset: [f64; 2]| ocean::displace(origin, offset[0], offset[1]);
@@ -488,14 +640,16 @@ impl Settling {
         // Pass 2: the float phase, through the shared integrator, one call for the whole draw.
         let floaters: Vec<usize> = (0..pending.len()).filter(|&i| pending[i].as_ref().is_some_and(|p| p.float_s > 0.0)).collect();
         if !floaters.is_empty() {
-            let mut times: Vec<f64> = floaters.iter().map(|&i| t0 + pending[i].as_ref().unwrap().float_s).collect();
-            times.sort_by(f64::total_cmp);
-            times.dedup();
+            // Each element stops at its own sink time (`Particle.end_time`, ocean transport item 4);
+            // one output time at the last of them, every track read at its own `end`.
+            let last = floaters.iter().map(|&i| t0 + pending[i].as_ref().unwrap().float_s).fold(f64::MIN, f64::max);
             let particles: Vec<Particle> = floaters
                 .iter()
                 .map(|&i| {
                     let p = pending[i].as_ref().unwrap();
-                    Particle { release: lonlat(p.at), release_time: t0, response: ObjectResponse::new(self.float.a_stokes, p.leeway) }
+                    let mut q = Particle::new(lonlat(p.at), t0, ObjectResponse::new(self.float.a_stokes, p.leeway));
+                    q.end_time = Some(t0 + p.float_s);
+                    q
                 })
                 .collect();
             let diffusion = match (self.terms.diffusion, self.float.diffusivity_m2_s) {
@@ -512,7 +666,7 @@ impl Settling {
                 coast: &NoCoast,
                 domain: Domain { lon_min: origin[0] - 10.0, lon_max: origin[0] + 10.0, lat_min: (origin[1] - 10.0).max(-89.0), lat_max: (origin[1] + 10.0).min(89.0) },
                 step_s: self.float.step_s,
-                output_times: times.clone(),
+                output_times: vec![last],
                 diffusion,
                 ocean_error: if self.terms.ocean_error { self.ocean.error } else { OceanErrorModel::none() },
                 refloat: Refloat::Off,
@@ -525,16 +679,15 @@ impl Settling {
             let run = ocean::integrate(&spec, &particles).map_err(|e| format!("settling: float phase refused by the shared integrator: {e:?}"))?;
             for (j, &i) in floaters.iter().enumerate() {
                 let p = pending[i].as_mut().unwrap();
-                let k = times.partition_point(|&t| t < t0 + p.float_s);
-                match run.tracks[j].snapshots.get(k) {
-                    Some(Snapshot::Afloat(q)) => p.at = offset_m(origin, *q),
+                match run.tracks[j].end {
+                    Some(Snapshot::Afloat(q)) => p.at = offset_m(origin, q),
                     // Left the integrator's domain or hit a field gap while afloat: not computed.
                     _ => pending[i] = None,
                 }
             }
         }
         // Pass 3: the descent of every sinking element, from where and when it left the surface.
-        let rho = |z: f64| self.ocean.density.at(z);
+        let rho = |z: f64| rho.at(z);
         for (i, slot) in pending.iter().enumerate() {
             let Some(p) = slot else { continue };
             let row = &mut out[first + i];
