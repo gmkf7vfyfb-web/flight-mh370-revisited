@@ -65,20 +65,32 @@ def stats(m, area, LAT, LON, masks):
     return out
 
 
+BAND_FILL = ["#f3f3f3", "#e0e0e0", "#c4c4c4"]   # 99 / 90 / 50 % (light, so outlines stay legible)
+BAND_LW = [0.45, 0.9, 1.5]                        # black contour weights, 99 / 90 / 50 %
+
+
+def hdr_bands(ax, lon, lat, dn, m):
+    """Light greyscale HDR bands (99/90/50 %) with black contours of increasing weight."""
+    lv = [hdr_level(dn, m, q) for q in (0.99, 0.9, 0.5)]
+    ax.contourf(lon, lat, dn, levels=lv + [dn.max() * 1.0001], colors=BAND_FILL, zorder=0)
+    ax.contour(lon, lat, dn, levels=lv, colors="black", linewidths=BAND_LW, zorder=1)
+    ax.set_aspect(1 / np.cos(np.radians(35)))
+
+
 def draw_outlines(ax, geo):
     for p in polygons(geo, "atsb_phase2_2014_2017"):
-        ax.plot(p[:, 0], p[:, 1], color="#555555", lw=0.5)
+        ax.plot(p[:, 0], p[:, 1], color="#3c3c3c", lw=1.3, zorder=2)
     for fid in ("bluefin21_2014_1", "bluefin21_2014_2"):
         for p in polygons(geo, fid):
-            ax.plot(p[:, 0], p[:, 1], color="#555555", lw=0.4)
+            ax.plot(p[:, 0], p[:, 1], color="#3c3c3c", lw=1.1, zorder=2)
     p = polygons(geo, "oi2018_total_outline_approx")[0]
-    ax.plot(p[:, 0], p[:, 1], color="#7b5ea7", lw=0.8, ls=(0, (5, 3)))
+    ax.plot(p[:, 0], p[:, 1], color="#6a3d9a", lw=1.5, ls=(0, (5, 3)), zorder=2)
     p = polygons(geo, "oi2024_proposed_outboard_southeast")[0]
-    ax.plot(p[:, 0], p[:, 1], color="#c0392b", lw=0.9)
+    ax.plot(p[:, 0], p[:, 1], color="#c0392b", lw=1.7, zorder=2)
     p = polygons(geo, "oi2024_proposed_inboard_northwest")[0]
-    ax.plot(p[:, 0], p[:, 1], color="#1e8449", lw=0.9, ls=(0, (3, 2)))
+    ax.plot(p[:, 0], p[:, 1], color="#1e8449", lw=1.7, ls=(0, (3, 2)), zorder=2)
     a = polygons(geo, "seventh_arc_fl400")[0]
-    ax.plot(a[:, 0], a[:, 1], color="#888888", lw=0.6, ls=":")
+    ax.plot(a[:, 0], a[:, 1], color="#777777", lw=0.8, ls=":", zorder=2)
 
 
 def make(runs, module_dir, geom_dir, out, plt, panel_letter=None):
@@ -131,8 +143,7 @@ def make(runs, module_dir, geom_dir, out, plt, panel_letter=None):
         m = Z[v]["post"] * np.nan_to_num(Z[v][f"L_{f}"])
         m = m / m.sum()
         dn = m / area
-        ax.imshow(dn / dn.max(), origin="lower", extent=ext, cmap="Greys", vmin=0, vmax=1, aspect=1 / np.cos(np.radians(35)), interpolation="nearest")
-        ax.contour(lon, lat, dn, levels=[hdr_level(dn, m, 0.9), hdr_level(dn, m, 0.5)], colors=["#1f5fa8", "#1f5fa8"], linewidths=[0.8, 1.2])
+        hdr_bands(ax, lon, lat, dn, m)
         draw_outlines(ax, geo)
         ax.plot(T5.lon, T5.lat, "x", ms=3, color="#b03030", mew=0.7)
         n = 3 if f == "P+C3" else 4
@@ -153,12 +164,15 @@ def make(runs, module_dir, geom_dir, out, plt, panel_letter=None):
     if panel_letter:
         for a, l in zip(axs.ravel(), "abcd"):
             panel_letter(a, l)
-    h = [plt.Line2D([], [], color="#555555", lw=0.6, label="ATSB Phase 2 2014-17 and Bluefin-21 (official footprints)"),
-         plt.Line2D([], [], color="#7b5ea7", lw=0.8, ls=(0, (5, 3)), label="Ocean Infinity 2018 outline (community tracing, grade C)"),
-         plt.Line2D([], [], color="#c0392b", lw=0.9, label="OI 2025-26 south-east band (likely searched; grade C)"),
-         plt.Line2D([], [], color="#1e8449", lw=0.9, ls=(0, (3, 2)), label="OI inferred remaining north-west band (not searched; grade C)"),
-         plt.Line2D([], [], color="#888888", lw=0.6, ls=":", label="7th arc, FL400 (official)"),
-         plt.Line2D([], [], color="#1f5fa8", lw=1.0, label="50 % and 90 % HDR"),
+    from matplotlib.patches import Patch
+    h = [Patch(fc=BAND_FILL[2], ec="black", lw=BAND_LW[2], label="50 % of probability"),
+         Patch(fc=BAND_FILL[1], ec="black", lw=BAND_LW[1], label="90 % of probability"),
+         Patch(fc=BAND_FILL[0], ec="black", lw=BAND_LW[0], label="99 % of probability"),
+         plt.Line2D([], [], color="#3c3c3c", lw=1.3, label="ATSB Phase 2 2014-17 and Bluefin-21 (official footprints)"),
+         plt.Line2D([], [], color="#6a3d9a", lw=1.5, ls=(0, (5, 3)), label="Ocean Infinity 2018 outline (community tracing, grade C)"),
+         plt.Line2D([], [], color="#c0392b", lw=1.7, label="OI 2025-26 south-east band (likely searched; grade C)"),
+         plt.Line2D([], [], color="#1e8449", lw=1.7, ls=(0, (3, 2)), label="OI inferred remaining north-west band (not searched; grade C)"),
+         plt.Line2D([], [], color="#777777", lw=0.8, ls=":", label="7th arc, FL400 (official)"),
          plt.Line2D([], [], ls="", marker="x", color="#b03030", label="Pléiades rating-5 objects"),
          plt.Line2D([], [], ls="", marker="o", mfc="none", mec="#d35400", label="COSMO-SkyMed contacts F1-F3 (F4 in b-d)"),
          plt.Line2D([], [], ls="", marker="*", color="#f0b030", mec="#333333", label="grid-cell mode")]
@@ -167,13 +181,15 @@ def make(runs, module_dir, geom_dir, out, plt, panel_letter=None):
         "Prior: end of flight's reference-289 impacts (run eof-289-full; core reference-289, prior track 289.7 deg sd 1.0 at 18:01:49 UTC; base config "
         "davey2016 + no-exhaustion-prior + reference-snapshots + early-families/overnight/reference-289 + end-of-flight full/reference-289); 4 seeds x "
         "100,000 parents x 8 children x 4 descents = 12,799,968 impacts; 7 Hz BFO sigma baseline. 00:19 option 'none' (both 00:19 messages held out), "
-        "log-on cause 'other'. End-of-flight dive class (b) and Boeing-calibrated glide: PROVISIONAL.",
+        "log-on cause 'other'. End-of-flight dive class (b) and Boeing-calibrated glide: PROVISIONAL. The core run is tempered "
+        "(temper_epochs m1839-m0011, 16 stages) and so is affected by filter-audit F1 (tempered-move ancestry defect): PROVISIONAL until re-run.",
         "Search: the searched-areas module's per-impact likelihood, point target, rho = 0.05. Phase 2 (q 0.945) and Bluefin-21 (q 0.9) official; "
         "OI 2018 (q 0.9, coverage fraction 0.889) and OI 2025-26 south-east band (q 0.9, coverage fraction 0.7808) are inferred community tracings "
         "(MH370-CAPTION, grade C), used as Pete ruled with this footnote. The north-west band is drawn only: it is not searched and is never negative evidence.",
         "Under H: Pléiades rating-5 clusters (3 km), equal weights; COSMO pass dawn-20 / dusk-21 Mar equally weighted; P+C = both sets debris (product), "
-        "formed per ocean model; GLORYS12 + ERA5 and GlobCurrent daily + ERA5 at equal weight; measured transport error (GDP-replay OU fit), windage 0-5 %.",
-        "Conditional on H; no Bayes factor or P(H | data). Shading normalised per panel. Percentages are of the panel's PDF within the 0.05 deg grid.",
+        "formed per ocean model; GLORYS12 + ERA5 and GlobCurrent daily + ERA5 at equal weight; measured transport error (GDP-replay OU fit: ~100-110 km rms per component at 15 d), windage 0-5 %; Pleiades and COSMO "
+        "transport errors treated as independent (rho = 0; rho 0.5-0.8 widens the 90 % area by 28-38 %, see closeup-289.md).",
+        "Conditional on H; no Bayes factor or P(H | data). Shading: highest-density regions holding 50/90/99 % of each panel's PDF. Percentages are of the panel's PDF within the 0.05 deg grid.",
     ]
     footnote(fig, notes, width=150, y=-0.10)
     fig.savefig(out / "closeup-both-after-search.png", dpi=300, bbox_inches="tight")
@@ -189,8 +205,7 @@ def make(runs, module_dir, geom_dir, out, plt, panel_letter=None):
         m = L * w * area
         m = m / m.sum()
         dn = m / area
-        ax.imshow(dn / dn.max(), origin="lower", extent=ext, cmap="Greys", vmin=0, vmax=1, aspect=1 / np.cos(np.radians(35)), interpolation="nearest")
-        ax.contour(lon, lat, dn, levels=[hdr_level(dn, m, 0.9), hdr_level(dn, m, 0.5)], colors=["#1f5fa8", "#1f5fa8"], linewidths=[0.8, 1.2])
+        hdr_bands(ax, lon, lat, dn, m)
         draw_outlines(ax, geo)
         ax.plot(T5.lon, T5.lat, "x", ms=3, color="#b03030", mew=0.7)
         ax.plot(Cc.longitude, Cc.latitude, "o", ms=3, mfc="none", mec="#d35400", mew=0.7)
@@ -215,7 +230,7 @@ def make(runs, module_dir, geom_dir, out, plt, panel_letter=None):
         "Ocean models GLORYS12 + ERA5 and GlobCurrent daily + ERA5 at equal weight (the prior work: BRAN2016, OSCAR v2, GLORYS12 + WAVERYS); measured "
         "transport error; COSMO passes dawn-20 / dusk-21 Mar equally weighted (the prior work: 21 March). Outlines and grades as in the close-up figure.",
         "No flight posterior, so no 00:19 option applies here. GlobCurrent daily label provisional (P4). Conditional on H; no Bayes factor or "
-        "P(H | data). The grid-cell mode sits on a broad plateau (L_P and L_C4 within 5 % of their local maximum over ~0.15 deg), so read the HDR, not the star.",
+        "P(H | data). The grid-cell mode sits on a broad plateau (L_P and L_C4 within 5 % of their local maximum over ~0.15 deg), so read the HDR, not the star. Shading and line weights as in the close-up figure (50/90/99 % HDR).",
     ], width=150, y=0.0)
     fig.savefig(out / "transport-only-vs-prior-work.png", dpi=300, bbox_inches="tight")
     fig.savefig(out / "transport-only-vs-prior-work.pdf", bbox_inches="tight")
