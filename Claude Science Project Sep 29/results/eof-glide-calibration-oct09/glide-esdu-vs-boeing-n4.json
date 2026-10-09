@@ -1,0 +1,338 @@
+{
+ "esdu": {
+  "run": "runs/eof-dive-n4-s1",
+  "seed": "seed-1",
+  "children": 4,
+  "code_revision": "d567511-dirty",
+  "options": {
+   "none__other": {
+    "ess": 310040.87853295397,
+    "divergent_share": 0.4990916557245306,
+    "median_lat_deg": -37.28261575729016,
+    "median_lon_deg": 89.5396833004985,
+    "displacement_nm_50_90": [
+     42.258365206637706,
+     95.31184015946863
+    ]
+   },
+   "none__fuel-exhaustion": {
+    "ess": 34053.769232767794,
+    "divergent_share": 0.48253254701559256,
+    "median_lat_deg": -37.36559982996995,
+    "median_lon_deg": 89.49702040071631,
+    "displacement_nm_50_90": [
+     41.300142075961155,
+     100.2513825984059
+    ]
+   },
+   "r600_inflated__other": {
+    "ess": 86966.21749397114,
+    "divergent_share": 0.4867681174450039,
+    "median_lat_deg": -38.02844041145765,
+    "median_lon_deg": 89.39228963397844,
+    "displacement_nm_50_90": [
+     52.6264525303292,
+     98.48616888946248
+    ]
+   },
+   "r600_inflated__fuel-exhaustion": {
+    "ess": 14716.84313989254,
+    "divergent_share": 0.4898643918205805,
+    "median_lat_deg": -37.80579054120666,
+    "median_lon_deg": 89.41508179951057,
+    "displacement_nm_50_90": [
+     45.95590326702475,
+     99.70406992572693
+    ]
+   },
+   "r600_no-offset__other": {
+    "ess": 7168.240885584462,
+    "divergent_share": 0.48718512701379574,
+    "median_lat_deg": -37.747558783549955,
+    "median_lon_deg": 89.35479131157412,
+    "displacement_nm_50_90": [
+     39.534755117144506,
+     93.02841144587612
+    ]
+   },
+   "r600_no-offset__fuel-exhaustion": {
+    "ess": 2338.9812210430873,
+    "divergent_share": 0.48031799311260903,
+    "median_lat_deg": -37.551671969819786,
+    "median_lon_deg": 89.4300869867121,
+    "displacement_nm_50_90": [
+     36.94415921851086,
+     96.44734558271145
+    ]
+   },
+   "r600_startup-offset__other": {
+    "ess": 6899.481703690066,
+    "divergent_share": 0.555285258105482,
+    "median_lat_deg": -37.627633915008005,
+    "median_lon_deg": 89.442679270428,
+    "displacement_nm_50_90": [
+     38.87705132101011,
+     100.60033816256625
+    ]
+   },
+   "r600_startup-offset__fuel-exhaustion": {
+    "ess": 2941.892545993244,
+    "divergent_share": 0.5670695767981243,
+    "median_lat_deg": -37.951169238191824,
+    "median_lon_deg": 89.48401902856949,
+    "displacement_nm_50_90": [
+     53.19085094180586,
+     104.79062582678519
+    ]
+   },
+   "r1200_inflated__other": {
+    "ess": 2272.0072111342274,
+    "divergent_share": 0.8446469350281496,
+    "median_lat_deg": -37.05515161371688,
+    "median_lon_deg": 89.4261772079721,
+    "displacement_nm_50_90": [
+     2.360556006627664,
+     55.49745016829837
+    ]
+   },
+   "r1200_inflated__fuel-exhaustion": {
+    "ess": 685.0607735782454,
+    "divergent_share": 0.8642308634525575,
+    "median_lat_deg": -37.151402114440586,
+    "median_lon_deg": 89.51616446931254,
+    "displacement_nm_50_90": [
+     2.2364524275496915,
+     75.50974121785595
+    ]
+   },
+   "r1200_no-offset__other": {
+    "ess": 441.9692634614112,
+    "divergent_share": 0.8466286610286671,
+    "median_lat_deg": -37.11323543206755,
+    "median_lon_deg": 89.29325619040092,
+    "displacement_nm_50_90": [
+     2.085846694951333,
+     49.819892344562895
+    ]
+   },
+   "r1200_no-offset__fuel-exhaustion": {
+    "ess": 130.59052470077305,
+    "divergent_share": 0.869297756831221,
+    "median_lat_deg": -37.225688061141966,
+    "median_lon_deg": 89.29548532348996,
+    "displacement_nm_50_90": [
+     2.0856470856195353,
+     68.71576627080162
+    ]
+   },
+   "r1200_startup-offset__other": {
+    "ess": 1151.1267223137363,
+    "divergent_share": 0.9112468551467033,
+    "median_lat_deg": -36.9548706324115,
+    "median_lon_deg": 89.49448379354548,
+    "displacement_nm_50_90": [
+     1.735246170503051,
+     20.839922384962748
+    ]
+   },
+   "r1200_startup-offset__fuel-exhaustion": {
+    "ess": 330.67918672471706,
+    "divergent_share": 0.9367201446903337,
+    "median_lat_deg": -37.02854116884538,
+    "median_lon_deg": 89.56029814922596,
+    "displacement_nm_50_90": [
+     1.6458871882206745,
+     13.220273597466157
+    ]
+   },
+   "both_inflated__other": {
+    "ess": 154.4018696189212,
+    "divergent_share": 0.5141136703405635,
+    "median_lat_deg": -37.38389020758072,
+    "median_lon_deg": 89.53734840551202,
+    "displacement_nm_50_90": [
+     14.844813118601769,
+     98.01179314372108
+    ]
+   },
+   "both_inflated__fuel-exhaustion": {
+    "ess": 84.01416559473651,
+    "divergent_share": 0.5482579324569863,
+    "median_lat_deg": -37.76029235537396,
+    "median_lon_deg": 89.34315020352543,
+    "displacement_nm_50_90": [
+     36.65465427874282,
+     98.09263728537813
+    ]
+   }
+  }
+ },
+ "boeing": {
+  "run": "runs/eof-glideB-n4-s1",
+  "seed": "seed-1",
+  "children": 4,
+  "code_revision": "800daed-dirty",
+  "options": {
+   "none__other": {
+    "ess": 310040.87853295397,
+    "divergent_share": 0.4990916557245306,
+    "median_lat_deg": -37.312344874281024,
+    "median_lon_deg": 89.51792067114779,
+    "displacement_nm_50_90": [
+     48.18176613683542,
+     113.88725515477176
+    ]
+   },
+   "none__fuel-exhaustion": {
+    "ess": 33695.52495921171,
+    "divergent_share": 0.48179391048126485,
+    "median_lat_deg": -37.39967786236058,
+    "median_lon_deg": 89.47422555584667,
+    "displacement_nm_50_90": [
+     45.41603550240223,
+     122.90031085405883
+    ]
+   },
+   "r600_inflated__other": {
+    "ess": 89838.82512155827,
+    "divergent_share": 0.49019630038828654,
+    "median_lat_deg": -38.23894953733365,
+    "median_lon_deg": 89.32375071282337,
+    "displacement_nm_50_90": [
+     64.19701545293098,
+     117.49964201361294
+    ]
+   },
+   "r600_inflated__fuel-exhaustion": {
+    "ess": 14775.175161353498,
+    "divergent_share": 0.49484227173447026,
+    "median_lat_deg": -37.97779944684294,
+    "median_lon_deg": 89.39101557147603,
+    "displacement_nm_50_90": [
+     54.2368741327769,
+     123.62717230873965
+    ]
+   },
+   "r600_no-offset__other": {
+    "ess": 6899.334170622307,
+    "divergent_share": 0.49534095991439786,
+    "median_lat_deg": -37.88207133720156,
+    "median_lon_deg": 89.33054993991591,
+    "displacement_nm_50_90": [
+     44.65456513419835,
+     112.11853201155948
+    ]
+   },
+   "r600_no-offset__fuel-exhaustion": {
+    "ess": 2089.1738832788033,
+    "divergent_share": 0.49608779697699495,
+    "median_lat_deg": -37.7263334631887,
+    "median_lon_deg": 89.46202417978394,
+    "displacement_nm_50_90": [
+     42.691369059748375,
+     120.07056462741839
+    ]
+   },
+   "r600_startup-offset__other": {
+    "ess": 5989.73724032613,
+    "divergent_share": 0.561875336760093,
+    "median_lat_deg": -37.64684209552854,
+    "median_lon_deg": 89.28306783254699,
+    "displacement_nm_50_90": [
+     37.4833874647913,
+     115.42558635613466
+    ]
+   },
+   "r600_startup-offset__fuel-exhaustion": {
+    "ess": 2322.904083723458,
+    "divergent_share": 0.5809300354668033,
+    "median_lat_deg": -37.90587721877158,
+    "median_lon_deg": 89.47981031239871,
+    "displacement_nm_50_90": [
+     47.076200430907555,
+     122.26607668123245
+    ]
+   },
+   "r1200_inflated__other": {
+    "ess": 1993.8513385419724,
+    "divergent_share": 0.8835275819506523,
+    "median_lat_deg": -37.02663089641755,
+    "median_lon_deg": 89.44440169988006,
+    "displacement_nm_50_90": [
+     2.1060870603021153,
+     26.072529669278445
+    ]
+   },
+   "r1200_inflated__fuel-exhaustion": {
+    "ess": 576.0121562380099,
+    "divergent_share": 0.9033585313735191,
+    "median_lat_deg": -37.115332995850395,
+    "median_lon_deg": 89.51409833950999,
+    "displacement_nm_50_90": [
+     2.1870558858770655,
+     45.87928466475912
+    ]
+   },
+   "r1200_no-offset__other": {
+    "ess": 383.40867335326834,
+    "divergent_share": 0.8844676893955254,
+    "median_lat_deg": -37.028539069294254,
+    "median_lon_deg": 89.44618160748753,
+    "displacement_nm_50_90": [
+     2.044459852772348,
+     18.109396763098854
+    ]
+   },
+   "r1200_no-offset__fuel-exhaustion": {
+    "ess": 103.24212490119797,
+    "divergent_share": 0.9186624188895445,
+    "median_lat_deg": -37.1473789377935,
+    "median_lon_deg": 89.51070749362309,
+    "displacement_nm_50_90": [
+     2.176843057586944,
+     17.72885877122528
+    ]
+   },
+   "r1200_startup-offset__other": {
+    "ess": 1053.6436031096607,
+    "divergent_share": 0.9447627458460941,
+    "median_lat_deg": -36.94903066957089,
+    "median_lon_deg": 89.46556426960065,
+    "displacement_nm_50_90": [
+     1.713238744526155,
+     4.018648336296881
+    ]
+   },
+   "r1200_startup-offset__fuel-exhaustion": {
+    "ess": 297.8267529040354,
+    "divergent_share": 0.9762357986833676,
+    "median_lat_deg": -37.03546017688111,
+    "median_lon_deg": 89.52996686771915,
+    "displacement_nm_50_90": [
+     1.6768855782996248,
+     3.070268982818547
+    ]
+   },
+   "both_inflated__other": {
+    "ess": 125.12116255436393,
+    "divergent_share": 0.5831151721523413,
+    "median_lat_deg": -37.1429506301575,
+    "median_lon_deg": 89.64781071619831,
+    "displacement_nm_50_90": [
+     5.628153964833878,
+     70.78396295285665
+    ]
+   },
+   "both_inflated__fuel-exhaustion": {
+    "ess": 36.449173788905675,
+    "divergent_share": 0.5779222606584125,
+    "median_lat_deg": -37.23981435634951,
+    "median_lon_deg": 89.57266984967853,
+    "displacement_nm_50_90": [
+     8.647742198211352,
+     95.37317012834964
+    ]
+   }
+  }
+ }
+}

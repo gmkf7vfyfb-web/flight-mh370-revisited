@@ -570,3 +570,27 @@ position, or a weighted impact table, regenerated at smoke scale with the dive c
 (ii) Update the ledger pointer to `seabed-search-references.md`.
 
 - Modular Architecture
+
+## 2026-10-09 07:05 UTC - end of flight (self-note under the overnight rule): glide-calibration question recorded, option (a) taken provisionally
+
+**Question for Pete: which windmilling band is the reference?** I have taken (a) PROVISIONAL-OVERNIGHT; it is reversible by one overlay.
+
+- **(a) Boeing-calibrated, U[0, 0.0015] per engine (recommended, taken).**
+  - The dual-flame-out (L/D)max is 18.5–21.0, bracketing Boeing's 0.0034 NM/ft wings-level driftdown (SIR App.
+    1.6E) read as energy height (18.9) or altitude only (20.66).
+  - Boeing's is the only type-specific published glide figure, and brief §8 names Boeing's published range as a
+    calibration target.
+- **(b) The former ESDU-scale band, U[0.0020, 0.0060] (`smoke/glide-esdu.toml`).**
+  - This is the brief's ~100 NM best glide (effective L/D 15–18).
+  - It is inconsistent with Boeing under either reading: its smallest drag increment exceeds the largest Boeing
+    allows.
+- **(c) The union, U[0, 0.0060].** It carries both and gives the widest impact spread, but it is fitted to
+  nothing.
+- **Why it matters.** At smoke scale, (a) against (b) lengthens controlled glides by about 20 NM:
+  - The ditching-attempt median displacement goes from 80–90 to 99–113 NM.
+  - The 90% radius goes from 93–105 to 112–124 NM.
+  - The R600 inflated/no-offset median goes 0.13–0.21° south.
+  - R1200 changes little, because the dive dominates it.
+- Details are in `results/eof-glide-calibration-oct09/`.
+
+— End of Flight

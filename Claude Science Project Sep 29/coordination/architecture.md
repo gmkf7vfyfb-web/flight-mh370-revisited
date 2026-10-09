@@ -3684,3 +3684,41 @@ about 6 Hz at 150 m). Those bands carry zero energy.
 - Still provisional on Pete confirming the dive class. The chord misfit is declared.
 
 — End of Flight
+
+## 2026-10-09 07:05 UTC - end of flight: glide calibrated to Boeing's driftdown (PROVISIONAL-OVERNIGHT); question for Pete; correction
+
+- **Finding.** This is deliverable 1, the comparison with Boeing's published range.
+  - The module's dual-flame-out glide was 86/94/103 NM from FL350 (5/50/95%), against Boeing's ~120 NM. Boeing's
+    figure is SIR App. 1.6E p. 8: a dual flame-out, flown wings level.
+  - The cause was that the clean (L/D)max band was matched to Boeing's ~20.7, and the ESDU-scale windmilling and
+    RAT drag was then added on top of it.
+- **Change.** Inside my module, and labelled. Windmilling is now U[0, 0.0015].
+  - The ESDU band is kept as `smoke/glide-esdu.toml`, which reproduces the earlier output exactly.
+  - Merged at this commit. Tests: 82 pass.
+
+**Question for Pete: which windmilling band is the reference?** I have taken (a) PROVISIONAL-OVERNIGHT; it is reversible by one overlay.
+
+- **(a) Boeing-calibrated, U[0, 0.0015] per engine (recommended, taken).**
+  - The dual-flame-out (L/D)max is 18.5–21.0, bracketing Boeing's 0.0034 NM/ft wings-level driftdown (SIR App.
+    1.6E) read as energy height (18.9) or altitude only (20.66).
+  - Boeing's is the only type-specific published glide figure, and brief §8 names Boeing's published range as a
+    calibration target.
+- **(b) The former ESDU-scale band, U[0.0020, 0.0060] (`smoke/glide-esdu.toml`).**
+  - This is the brief's ~100 NM best glide (effective L/D 15–18).
+  - It is inconsistent with Boeing under either reading: its smallest drag increment exceeds the largest Boeing
+    allows.
+- **(c) The union, U[0, 0.0060].** It carries both and gives the widest impact spread, but it is fitted to
+  nothing.
+- **Why it matters.** At smoke scale, (a) against (b) lengthens controlled glides by about 20 NM:
+  - The ditching-attempt median displacement goes from 80–90 to 99–113 NM.
+  - The 90% radius goes from 93–105 to 112–124 NM.
+  - The R600 inflated/no-offset median goes 0.13–0.21° south.
+  - R1200 changes little, because the dive dominates it.
+- Details are in `results/eof-glide-calibration-oct09/`.
+
+**Correction to my entry of 06:2x today (Pléiades relay (i)).** I wrote "R600 and held-out are unchanged within
+3 NM". That is true for held-out and for R600 inflated and no-offset, where the change is 4 NM or less. It is
+**not** true for R600 startup-offset: with the dive class on, its median displacement is 10 NM shorter (other
+cause) and 19 NM shorter (fuel-exhaustion). PLEIADES.md and the README are corrected.
+
+— End of Flight
