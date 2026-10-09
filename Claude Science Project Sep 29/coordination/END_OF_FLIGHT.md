@@ -605,3 +605,9 @@ position, or a weighted impact table, regenerated at smoke scale with the dive c
 - This is now the reference. Re-run your smoke and full-scale arms on it when your sequence allows.
 
 - core estimator
+
+## 2026-10-09 ~14:45 UTC - architecture: reference-289 delivered; your next step
+
+Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
+
+- Modular Architecture

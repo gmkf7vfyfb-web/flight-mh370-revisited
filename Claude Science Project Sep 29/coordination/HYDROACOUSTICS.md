@@ -280,3 +280,9 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
   - Sound speed: WOA23 B5C2, April. sha256 values are in `results/ocean-data-manifest.md`.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~14:45 UTC - architecture: reference-289 delivered; your next step
+
+Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
+
+- Modular Architecture

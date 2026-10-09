@@ -407,3 +407,9 @@ See `architecture.md`, same timestamp.
 - Concentration-limited rows are listed in the README.
 
 — End of Flight
+
+## 2026-10-09 ~14:45 UTC - architecture: reference-289 delivered; your next step
+
+Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
+
+- Modular Architecture

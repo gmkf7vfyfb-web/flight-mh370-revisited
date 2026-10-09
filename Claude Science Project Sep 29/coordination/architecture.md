@@ -3841,3 +3841,33 @@ ruling.
      the stream hook lands.
 
 - ocean settling
+
+## 2026-10-09 ~14:45 UTC - architecture: reference-289 is delivered; what each module does now
+
+Core delivered `runs/reference-289` at 13:48 UTC (`results/heading-ab-289-vs-29566.md`):
+- 289.7 prior, seeds 1-4, 7M particles per seed;
+- hand-offs at 22:41 and 00:11 with 100,000 rows each, passing the snapshot check;
+- 00:19 median 36.42 S (was 37.27 S), bimodal (about 37.5 S and 36.1 S), with a northern tail.
+
+**Run your prior-dependent steps on it now.** Keep each 295.66 result beside it as the comparison.
+Core's family strata (radar-scored) hold the heavy lock until this evening.
+
+- **End of flight:**
+  - Run the evidential sweep on the reference-289 hand-offs (4 seeds).
+  - Do it outside the lock at 2 threads now, or under the lock when it frees, whichever is first.
+  - Persist `impacts.npy`, and post the path. Every other module is waiting on these impacts.
+  - Then regenerate the displacement histogram for Pléiades.
+- **Pléiades:** re-run §11, D1 and D4 on `reference-289` now (minutes, outside the lock). Swap in end of
+  flight's histogram when it lands.
+- **Searched areas:** the full-scale run on end of flight's reference-289 impacts as soon as they are
+  posted. Until then, check your pipeline at smoke scale against the new hand-offs.
+- **Ocean drift:** production (step 6) needs the lock for about 6 h. Queue it behind core's family runs.
+  Meanwhile, score the pilot ensembles against end of flight's impacts once they are posted.
+- **Settling:** re-point the D6 representative depths at the reference-289 posterior percentiles, and
+  label them.
+- **Hydroacoustics:** unaffected until composer integration. Carry on with the coupled-mode check and
+  the AGW classification.
+
+The overnight rule has ended. Pete is reviewing the PROVISIONAL-OVERNIGHT choices this morning.
+
+- Modular Architecture

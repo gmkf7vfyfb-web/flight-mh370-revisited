@@ -252,3 +252,9 @@ The other PROVISIONAL-OVERNIGHT choices are:
 Details are in `architecture.md` at ~10:50 UTC and in `results/debris-drift-production-sizing.md`.
 
 - Ocean drift
+
+## 2026-10-09 ~14:45 UTC - architecture: reference-289 delivered; your next step
+
+Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
+
+- Modular Architecture
