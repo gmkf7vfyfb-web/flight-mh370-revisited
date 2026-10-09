@@ -143,8 +143,12 @@ is cheap once transport exists. Cite the biological literature, not Davey, for t
   The aircraft is stationary, so the prediction stage is degenerate.
 - **Planning quantity (eq. 11.2, p. 101):** for an area `A` searched with constant `P_D`,
   `P(find) = P_D ∫_A p(x | Z) dx`.
-- **AF447 precedent (p. 102):** side-scan `P_D` modelled as 0.9 — their ref. [40], which Stone et al.
-  2014 states as a deliberate cap. Confirm [40] against the reference list.
+- **AF447 precedent (p. 102):** side-scan `P_D` modelled as 0.9, citing their ref. [40]. Checked by searched
+  areas against the book's reference list (printed p. 114): [40] is Stone, Keller, Kratzke and Strumpfer
+  (2011), *Search analysis for the location of the AF447 underwater wreckage*, a Metron technical report.
+  It is **not** Stone et al. (2014). The 2014 *Statistical Science* paper is the same authors' published
+  account of that analysis, and it states the 0.9 as a deliberate cap. Cite Stone et al. 2014 for the
+  method and the cap, and [40] only when describing Davey's own attribution. (Corrected 9 Oct 2026.)
 - **Assumption (p. 102):** given quality assurance, "highly unlikely that the search would fail to
   detect the aircraft if the correct location is searched".
 - **Not applied.**

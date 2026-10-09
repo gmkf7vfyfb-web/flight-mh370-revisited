@@ -1,0 +1,5 @@
+# Former ESDU-scale windmilling band, kept as a sensitivity (negative result: its dual-flame-out
+# (L/D)max of 15-18 is inconsistent with Boeing's 0.0034 NM/ft driftdown, SIR App. 1.6E).
+# Pass AFTER terminal.toml. See results/eof-glide-calibration-oct09.
+[hypotheses.end-of-flight.aero]
+windmilling_per_engine = [0.0020, 0.0060]

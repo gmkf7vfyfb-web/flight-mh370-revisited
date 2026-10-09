@@ -24,6 +24,7 @@ DECLARED_NAN = {
 }
 # NaN by construction in a stated case, checked case by case below.
 CONDITIONAL_NAN = {"last_burst_latitude_deg", "last_burst_longitude_deg", "onset_support_truncated_fraction",
+                   "onset_prediction_unpriced_s",
                    "realised_flameout_unix_s", "flameout_minus_predicted_s"}
 
 
@@ -143,6 +144,10 @@ def main(out_dir, handoff_run, out_json):
             "fuel_extrapolated_s_share_nonzero": float(w[lat("fuel_extrapolated_s") > 0].sum() / w.sum()),
             "fuel_extrapolated_s_mean": float((w * lat("fuel_extrapolated_s")).sum() / w.sum()),
             "fuel_below_tables_s_mean": float((w * lat("fuel_below_tables_s")).sum() / w.sum()),
+            "onset_prediction_priced_by_core_share": float(w[lat("onset_prediction_priced_by_core") == 1].sum() / w.sum()),
+            "onset_prediction_unpriced_share_nonzero": float(w[np.nan_to_num(lat("onset_prediction_unpriced_s")) > 0].sum() / w.sum()),
+            "already_dry_flameout_prior_one_share": float(w[(np.isin(parent, dry_rows)) & (lat("family_prior") > 0)].sum() / max(w[np.isin(parent, dry_rows)].sum(), 1e-300)),
+            "surface_pressure_altitude_ft_values": sorted({float(x) for x in np.unique(lat("surface_pressure_altitude_ft"))})[:5],
         }
 
         # Breakup family (settling's candidate rule, provisional): drawn share and mean probabilities.

@@ -1,0 +1,23 @@
+# Sensitivity only: the superseded DECLARED spread (sigma_e 0.05 m/s, T_e 2 d, K log-uniform 30-1000),
+# on both ocean-model tables, to show what the measured spread changed. Not a run configuration.
+[hypotheses.pleiades]
+targets = "data/targets-3km.csv"
+sd_target_km = 0.5
+k_nodes = 8
+prior_h = 0.5
+
+[[hypotheses.pleiades.products]]
+release_grid = "../../runs/pleiades/release-grid.toml"
+sigma_e_ms = [0.05, 0.05]
+t_e_days = [2.0, 2.0]
+k_min_m2_s = 30.0
+k_max_m2_s = 1000.0
+source = "declared, superseded"
+
+[[hypotheses.pleiades.products]]
+release_grid = "../../runs/pleiades/release-grid-globcurrent.toml"
+sigma_e_ms = [0.05, 0.05]
+t_e_days = [2.0, 2.0]
+k_min_m2_s = 30.0
+k_max_m2_s = 1000.0
+source = "declared, superseded"

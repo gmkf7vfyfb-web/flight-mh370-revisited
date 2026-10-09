@@ -29,11 +29,15 @@ pub struct ObjectResponse {
     pub a_stokes: f64,
     /// Leeway coefficient on the 10 m wind.
     pub c_wind: f64,
-    /// Deflection of the leeway from downwind, degrees, positive clockwise (to the right of
-    /// downwind; CSIRO's "16 deg left of downwind" is -16). One angle for both wind terms.
+    /// Deflection of the `c_wind` term from downwind, degrees, positive clockwise (to the right of
+    /// downwind). Default 0: CSIRO's proportional windage is downwind (ruling D-f).
+    pub wind_angle_deg: f64,
+    /// Deflection of the constant-magnitude term `leeway_speed_mps` from downwind, degrees, positive
+    /// clockwise; CSIRO's "16 deg left of downwind" is -16. Applies to that term only: CSIRO rotates
+    /// only the extra leeway (Griffin et al. 2017 Part II p. 13, Fig. 3.1 caption; ruling D-f).
     pub leeway_angle_deg: f64,
-    /// Constant-magnitude leeway, m/s, along the rotated downwind direction (CSIRO 2017 Part II
-    /// flaperon response; ruling D-d). Zero when |U10| < [`LEEWAY_CALM_WIND_MPS`].
+    /// Constant-magnitude leeway, m/s, along the downwind direction rotated by `leeway_angle_deg`
+    /// (CSIRO 2017 Part II flaperon response; ruling D-d). Zero when |U10| < [`LEEWAY_CALM_WIND_MPS`].
     pub leeway_speed_mps: f64,
 }
 
@@ -43,7 +47,7 @@ pub const LEEWAY_CALM_WIND_MPS: f64 = 0.5;
 
 impl ObjectResponse {
     pub fn new(a_stokes: f64, c_wind: f64) -> Self {
-        ObjectResponse { a_stokes, c_wind, leeway_angle_deg: 0.0, leeway_speed_mps: 0.0 }
+        ObjectResponse { a_stokes, c_wind, wind_angle_deg: 0.0, leeway_angle_deg: 0.0, leeway_speed_mps: 0.0 }
     }
 }
 
@@ -133,11 +137,12 @@ pub struct RunSpec<'a> {
 
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub enum Event {
-    Beached { t: f64, at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64 },
+    /// `snapped_m > 0`: a land-mask stranding moved that far onto the coastline's shore.
+    Beached { t: f64, at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64, snapped_m: f64 },
     Refloated { t: f64, at: LonLat },
     LeftDomain { t: f64, at: LonLat },
     /// A field had no value: `Land` here means stranded in the product's land mask before the
-    /// coastline was reached.
+    /// coastline was reached, and further than the coastline's snap distance from its shore.
     FieldGap { t: f64, at: LonLat, component: Component, gap: FieldGap },
     NonFinitePosition { t: f64 },
     ReleasedOnLand { t: f64, at: LonLat },
@@ -147,7 +152,7 @@ pub enum Event {
 pub enum Snapshot {
     NotReleased,
     Afloat(LonLat),
-    Beached { at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64 },
+    Beached { at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64, snapped_m: f64 },
     /// The trajectory ended for a reason other than beaching; see the events.
     Ended,
     /// After the particle's own `end_time`.
@@ -279,12 +284,22 @@ impl Ctx<'_> {
         }
         if r.c_wind != 0.0 || r.leeway_speed_mps != 0.0 {
             let w = get(f.wind10.expect("checked"), Component::Wind10m)?;
-            let (sn, cs) = r.leeway_angle_deg.to_radians().sin_cos();
-            let rot = [w[0] * cs + w[1] * sn, -w[0] * sn + w[1] * cs];
+            let rot = |deg: f64| {
+                let (sn, cs) = deg.to_radians().sin_cos();
+                [w[0] * cs + w[1] * sn, -w[0] * sn + w[1] * cs]
+            };
+            if r.c_wind != 0.0 {
+                let a = rot(r.wind_angle_deg);
+                v[0] += r.c_wind * a[0];
+                v[1] += r.c_wind * a[1];
+            }
             let speed = w[0].hypot(w[1]);
-            let k = r.c_wind + if speed >= LEEWAY_CALM_WIND_MPS { r.leeway_speed_mps / speed } else { 0.0 };
-            v[0] += k * rot[0];
-            v[1] += k * rot[1];
+            if r.leeway_speed_mps != 0.0 && speed >= LEEWAY_CALM_WIND_MPS {
+                let b = rot(r.leeway_angle_deg);
+                let k = r.leeway_speed_mps / speed;
+                v[0] += k * b[0];
+                v[1] += k * b[1];
+            }
         }
         let e = self.error.velocity(t, p, 0.0);
         Ok([v[0] + e[0] + flight[0], v[1] + e[1] + flight[1]])
@@ -364,25 +379,30 @@ impl Ctx<'_> {
                     let v2 = self.velocity(r, t + 0.5 * dt, pm, flight)?;
                     Ok(displace(p, v2[0] * dt, v2[1] * dt))
                 })();
-                let mut pn = match step {
-                    Ok(pn) => pn,
-                    Err((component, gap)) => {
-                        events.push(Event::FieldGap { t, at: p, component, gap });
-                        return end(snapshots, Snapshot::Ended, events, Fate::FieldGap);
+                let (pn, hit_at) = match step {
+                    Err((component, gap)) => match (gap, spec.coast.snap(p)) {
+                        (FieldGap::Land, Some(hit)) => (p, Some((hit, t))),
+                        _ => {
+                            events.push(Event::FieldGap { t, at: p, component, gap });
+                            return end(snapshots, Snapshot::Ended, events, Fate::FieldGap);
+                        }
+                    },
+                    Ok(mut pn) => {
+                        let sw = spec.diffusion.walk_sigma_m(dt);
+                        if sw > 0.0 {
+                            pn = displace(pn, sw * g.sample::<f64, _>(StandardNormal), sw * g.sample::<f64, _>(StandardNormal));
+                        }
+                        if !(pn[0].is_finite() && pn[1].is_finite()) {
+                            events.push(Event::NonFinitePosition { t: t + dt });
+                            return end(snapshots, Snapshot::Ended, events, Fate::NonFinite);
+                        }
+                        let hit = spec.coast.first_crossing(p, pn);
+                        (pn, hit.map(|h| (h, t + h.fraction * dt)))
                     }
                 };
-                let sw = spec.diffusion.walk_sigma_m(dt);
-                if sw > 0.0 {
-                    pn = displace(pn, sw * g.sample::<f64, _>(StandardNormal), sw * g.sample::<f64, _>(StandardNormal));
-                }
-                if !(pn[0].is_finite() && pn[1].is_finite()) {
-                    events.push(Event::NonFinitePosition { t: t + dt });
-                    return end(snapshots, Snapshot::Ended, events, Fate::NonFinite);
-                }
-                if let Some(hit) = spec.coast.first_crossing(p, pn) {
-                    let th = t + hit.fraction * dt;
-                    events.push(Event::Beached { t: th, at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m });
-                    let snap = Snapshot::Beached { at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m };
+                if let Some((hit, th)) = hit_at {
+                    events.push(Event::Beached { t: th, at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m, snapped_m: hit.snapped_m });
+                    let snap = Snapshot::Beached { at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m, snapped_m: hit.snapped_m };
                     match spec.refloat {
                         Refloat::Off => {
                             snapshots.push(snap);

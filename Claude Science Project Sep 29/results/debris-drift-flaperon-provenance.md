@@ -107,3 +107,22 @@ the CSIRO template puts them in the **footers**, and the Part II text confirms i
 falls before the footer of page 1. **Every Part II page cited above was one too low and is
 corrected**: 9→10, 10→11, 11→12, 16→17, iii→iv. Part III p. 6 was read from the PDF page by page
 and is unchanged. Ruling D-a quotes the range as "stated on p. 16"; it is on **p. 17**.
+
+## Part I read in primary form, 9 October
+
+Part I (EP167888, project Drive copy; pages checked against the PDF footers) confirms the replica
+summary above and adds three points:
+
+- The replicas were **six life-size wood-and-steel flaperons built by ATSB** to Pengam (2016)'s
+  waterline. Their trailing edge rode lower than the real part's, and they lacked Pengam's preferred
+  extrados-down orientation (p. 4). The trials were in North West Bay, Hobart, in July and August 2016
+  (p. 6).
+- Relative to undrogued drifters, the replicas moved about 10 cm/s downwind in light wind, and within
+  5 cm/s and ±10° of them in strong wind (p. 7).
+- Part I's model is the linear taper: 10 cm/s at 0 m/s of wind, falling to 0 at 10 m/s, **downwind, no
+  angle** (p. 9). Part II cites this as its starting assumption (Part II p. 12).
+
+Consequences for drift: none for the primary response, which stays the ruled genuine-flaperon one
+(Part II). The Part I taper is recorded as a possible labelled sensitivity ("Part I taper"). It needs
+a wind-dependent extra-leeway speed that the shared API does not offer, so it is deferred and not
+requested now.

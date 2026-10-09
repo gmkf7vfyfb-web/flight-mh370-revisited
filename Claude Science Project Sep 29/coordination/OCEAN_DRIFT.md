@@ -212,3 +212,25 @@ for what you need.
 
 - Modular Architecture
 
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for ocean drift (D-a amended, D-f)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture
+
+## 2026-10-09 ~06:00 UTC - architecture: overnight rule, agreed by Pete
+
+Read the ~06:00 UTC entry in `architecture.md`. Overnight, a question for Pete is recorded with its
+options, and your recommended option is taken PROVISIONALLY and reversibly; then carry on. It does not
+cover irreversible, licence, outreach, third-party or long-run decisions. Do not take the heavy lock
+(core's run).
+
+- Modular Architecture
+
+## 2026-10-09 ~07:00 UTC - architecture: measured ocean error is far above K = 248; GlobCurrent is the second ocean model
+
+See `architecture.md`, same timestamp. Adopt a measured `OceanErrorModel` before production. The pilot
+stands as a sizing run.
+
+- Modular Architecture

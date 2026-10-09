@@ -1,0 +1,520 @@
+{
+ "label": "PILOT, PROVISIONAL: land-mask beaching; one ocean model; one diffusivity; 295.66 deg prior extent. Not evidence.",
+ "throughput": {
+  "particle_steps": "4.3850e+10",
+  "wall_s": "25444.6",
+  "particle_steps_per_s": "1.7234e+06",
+  "threads": "2;2;2;2",
+  "trajectories": "17093418"
+ },
+ "fates": {
+  "model_error_fraction": "0.000000",
+  "left_domain_fraction": "0.212238"
+ },
+ "nodes": {
+  "nodes_released": 1709,
+  "nodes_scored": 0,
+  "nodes_unresolved": 1709,
+  "nodes_land": 0
+ },
+ "resolved_fraction": {
+  "ln_l": 0.0,
+  "ln_l_half_a": 0.0,
+  "ln_l_half_b": 0.0,
+  "ln_l_h25": 0.0,
+  "ln_l_h100": 0.272674078408426,
+  "ln_l_h200": 0.409011117612639
+ },
+ "arrival_probability": {
+  "flaperon": {
+   "S1-reunion": {
+    "median": 0.01169766,
+    "p05": 0.00689862,
+    "p95": 0.01529694,
+    "zero_fraction": 0.0
+   },
+   "S2-mauritius-rodrigues": {
+    "median": 0.01409718,
+    "p05": 0.00839832,
+    "p95": 0.01829634,
+    "zero_fraction": 0.0
+   },
+   "S3-southern-mozambique": {
+    "median": 0.00869826,
+    "p05": 0.00269946,
+    "p95": 0.01529694,
+    "zero_fraction": 0.0
+   },
+   "S4-south-africa-south-coast": {
+    "median": 0.00359928,
+    "p05": 0.00089982,
+    "p95": 0.00659868,
+    "zero_fraction": 0.0017554125219426564
+   },
+   "S5-ne-madagascar": {
+    "median": 0.03239352,
+    "p05": 0.0194961,
+    "p95": 0.03887222399999997,
+    "zero_fraction": 0.0
+   },
+   "S6-pemba": {
+    "median": 0.0014997,
+    "p05": 0.00059988,
+    "p95": 0.00359928,
+    "zero_fraction": 0.014628437682855471
+   },
+   "any_beach_incl_outside_segments": {
+    "median": 0.2984403
+   }
+  },
+  "low_exposure_exterior": {
+   "S1-reunion": {
+    "median": 0.00689862,
+    "p05": 0.00179964,
+    "p95": 0.01379724,
+    "zero_fraction": 0.0
+   },
+   "S2-mauritius-rodrigues": {
+    "median": 0.00929814,
+    "p05": 0.0025194960000000017,
+    "p95": 0.01739652,
+    "zero_fraction": 0.0
+   },
+   "S3-southern-mozambique": {
+    "median": 0.00419916,
+    "p05": 0.00059988,
+    "p95": 0.00869826,
+    "zero_fraction": 0.008191925102399064
+   },
+   "S4-south-africa-south-coast": {
+    "median": 0.00029994,
+    "p05": 0.0,
+    "p95": 0.00119976,
+    "zero_fraction": 0.409011117612639
+   },
+   "S5-ne-madagascar": {
+    "median": 0.02819436,
+    "p05": 0.00809838,
+    "p95": 0.0419916,
+    "zero_fraction": 0.0
+   },
+   "S6-pemba": {
+    "median": 0.00239952,
+    "p05": 0.00029994,
+    "p95": 0.0044991,
+    "zero_fraction": 0.018139262726740785
+   },
+   "any_beach_incl_outside_segments": {
+    "median": 0.2603479
+   }
+  },
+  "high_windage_interior": {
+   "S1-reunion": {
+    "median": 0.00689862,
+    "p05": 0.00209958,
+    "p95": 0.01139772,
+    "zero_fraction": 0.0
+   },
+   "S2-mauritius-rodrigues": {
+    "median": 0.00989802,
+    "p05": 0.00269946,
+    "p95": 0.0164967,
+    "zero_fraction": 0.0
+   },
+   "S3-southern-mozambique": {
+    "median": 0.00659868,
+    "p05": 0.00119976,
+    "p95": 0.014997,
+    "zero_fraction": 0.0011702750146284377
+   },
+   "S4-south-africa-south-coast": {
+    "median": 0.00209958,
+    "p05": 0.00029994,
+    "p95": 0.00539892,
+    "zero_fraction": 0.033352837916910474
+   },
+   "S5-ne-madagascar": {
+    "median": 0.02639472,
+    "p05": 0.008218356000000003,
+    "p95": 0.04079184,
+    "zero_fraction": 0.0
+   },
+   "S6-pemba": {
+    "median": 0.00239952,
+    "p05": 0.00029994,
+    "p95": 0.00479904,
+    "zero_fraction": 0.01989467524868344
+   },
+   "any_beach_incl_outside_segments": {
+    "median": 0.3353329
+   }
+  }
+ },
+ "n_eff_median_by_find": {
+  "debris_reunion-right-flaperon": 7.914,
+  "debris_mossel-bay-engine-cowling-roy": 0.0,
+  "debris_paindane-right-flap-fairing": 1.0,
+  "debris_vilanculos-horizontal-stabilizer-panel": 1.699,
+  "debris_mauritius-left-outboard-flap": 9.721,
+  "debris_rodrigues-door-closet-panel": 0.0,
+  "debris_chidenguele-right-fan-cowling": 2.593,
+  "debris_antsiraka-cabin-interior-panel": 7.193,
+  "debris_pemba-right-outboard-flap": 5.425
+ },
+ "split_half": {
+  "nodes": 0,
+  "noise_sd_ln_l_full": null,
+  "ln_l_sd_across_nodes": null
+ },
+ "variogram": {
+  "ln_l": [
+   {
+    "sep_nm": 7.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 20.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 32.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 50.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 75.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 110.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 165.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 250.0,
+    "pairs": 0,
+    "gamma": NaN
+   }
+  ],
+  "ln_l_half_a": [
+   {
+    "sep_nm": 7.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 20.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 32.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 50.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 75.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 110.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 165.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 250.0,
+    "pairs": 0,
+    "gamma": NaN
+   }
+  ],
+  "ln_l_half_b": [
+   {
+    "sep_nm": 7.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 20.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 32.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 50.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 75.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 110.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 165.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 250.0,
+    "pairs": 0,
+    "gamma": NaN
+   }
+  ],
+  "ln_l_h25": [
+   {
+    "sep_nm": 7.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 20.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 32.5,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 50.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 75.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 110.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 165.0,
+    "pairs": 0,
+    "gamma": NaN
+   },
+   {
+    "sep_nm": 250.0,
+    "pairs": 0,
+    "gamma": NaN
+   }
+  ],
+  "ln_l_h100": [
+   {
+    "sep_nm": 7.5,
+    "pairs": 890,
+    "gamma": 15.485836303762012
+   },
+   {
+    "sep_nm": 20.0,
+    "pairs": 1255,
+    "gamma": 14.751154303773356
+   },
+   {
+    "sep_nm": 32.5,
+    "pairs": 2594,
+    "gamma": 16.15246844942214
+   },
+   {
+    "sep_nm": 50.0,
+    "pairs": 5589,
+    "gamma": 15.38748533459829
+   },
+   {
+    "sep_nm": 75.0,
+    "pairs": 10499,
+    "gamma": 16.335135017462385
+   },
+   {
+    "sep_nm": 110.0,
+    "pairs": 17022,
+    "gamma": 16.399104633667616
+   },
+   {
+    "sep_nm": 165.0,
+    "pairs": 29474,
+    "gamma": 17.03862038021972
+   },
+   {
+    "sep_nm": 250.0,
+    "pairs": 25087,
+    "gamma": 20.876648787778286
+   }
+  ],
+  "ln_l_h200": [
+   {
+    "sep_nm": 7.5,
+    "pairs": 1729,
+    "gamma": 35.289070224232304
+   },
+   {
+    "sep_nm": 20.0,
+    "pairs": 2439,
+    "gamma": 36.86952446468973
+   },
+   {
+    "sep_nm": 32.5,
+    "pairs": 5179,
+    "gamma": 36.17435878240056
+   },
+   {
+    "sep_nm": 50.0,
+    "pairs": 11359,
+    "gamma": 37.10066487120805
+   },
+   {
+    "sep_nm": 75.0,
+    "pairs": 21655,
+    "gamma": 37.64406560606637
+   },
+   {
+    "sep_nm": 110.0,
+    "pairs": 35652,
+    "gamma": 37.624587936897285
+   },
+   {
+    "sep_nm": 165.0,
+    "pairs": 61822,
+    "gamma": 38.40487365991649
+   },
+   {
+    "sep_nm": 250.0,
+    "pairs": 57023,
+    "gamma": 39.55922633925319
+   }
+  ]
+ },
+ "per_bandwidth": {
+  "ln_l": {
+   "resolved_fraction": 0.0,
+   "noise": "not measurable (no resolved nodes)"
+  },
+  "ln_l_h25": {
+   "resolved_fraction": 0.0,
+   "noise": "not measurable (no resolved nodes)"
+  },
+  "ln_l_h100": {
+   "resolved_fraction": 0.272674078408426,
+   "noise_method": "variogram nugget (first bin, 7.5 NM)",
+   "noise_sd_ln_l": 3.9352047346690884,
+   "signal_gamma_by_sep_nm": [
+    {
+     "sep_nm": 7.5,
+     "gamma_minus_noise": 0.0
+    },
+    {
+     "sep_nm": 20.0,
+     "gamma_minus_noise": -0.7346819999886556
+    },
+    {
+     "sep_nm": 32.5,
+     "gamma_minus_noise": 0.6666321456601292
+    },
+    {
+     "sep_nm": 50.0,
+     "gamma_minus_noise": -0.09835096916372166
+    },
+    {
+     "sep_nm": 75.0,
+     "gamma_minus_noise": 0.8492987137003727
+    },
+    {
+     "sep_nm": 110.0,
+     "gamma_minus_noise": 0.9132683299056037
+    },
+    {
+     "sep_nm": 165.0,
+     "gamma_minus_noise": 1.5527840764577068
+    },
+    {
+     "sep_nm": 250.0,
+     "gamma_minus_noise": 5.3908124840162746
+    }
+   ],
+   "correlation_length_nm": 75.0,
+   "particles_per_node_now": 10002.0,
+   "particles_per_node_for_noise_sd_0.5": 619557.3388409106
+  },
+  "ln_l_h200": {
+   "resolved_fraction": 0.409011117612639,
+   "noise_method": "variogram nugget (first bin, 7.5 NM)",
+   "noise_sd_ln_l": 5.940460438739771,
+   "signal_gamma_by_sep_nm": [
+    {
+     "sep_nm": 7.5,
+     "gamma_minus_noise": 0.0
+    },
+    {
+     "sep_nm": 20.0,
+     "gamma_minus_noise": 1.5804542404574278
+    },
+    {
+     "sep_nm": 32.5,
+     "gamma_minus_noise": 0.8852885581682557
+    },
+    {
+     "sep_nm": 50.0,
+     "gamma_minus_noise": 1.811594646975749
+    },
+    {
+     "sep_nm": 75.0,
+     "gamma_minus_noise": 2.3549953818340654
+    },
+    {
+     "sep_nm": 110.0,
+     "gamma_minus_noise": 2.3355177126649806
+    },
+    {
+     "sep_nm": 165.0,
+     "gamma_minus_noise": 3.1158034356841853
+    },
+    {
+     "sep_nm": 250.0,
+     "gamma_minus_noise": 4.270156115020889
+    }
+   ],
+   "correlation_length_nm": 20.0,
+   "particles_per_node_now": 10002.0,
+   "particles_per_node_for_noise_sd_0.5": 1411845.121531086
+  }
+ },
+ "reweighting_diagnostic": {
+  "reference_mass_with_scored_surface": 0.0
+ }
+}

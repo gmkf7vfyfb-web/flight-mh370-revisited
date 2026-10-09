@@ -57,9 +57,14 @@ def main(src, dst):
     # Core requests 2 and 3.
     k23 = reps[0].get("requests_2_3")
     if k23:
-        out["requests_2_3"] = {k: ([stats([r["requests_2_3"][k][i] for r in reps]) for i in range(3)]
-                                   if isinstance(v, list) else stats([r["requests_2_3"][k] for r in reps]))
-                               for k, v in k23.items()}
+        out["requests_2_3"] = {}
+        for k, v in k23.items():
+            if k == "surface_pressure_altitude_ft_values":
+                out["requests_2_3"][k] = sorted({x for r in reps for x in r["requests_2_3"][k]})
+            elif isinstance(v, list):
+                out["requests_2_3"][k] = [stats([r["requests_2_3"][k][i] for r in reps]) for i in range(len(v))]
+            else:
+                out["requests_2_3"][k] = stats([r["requests_2_3"][k] for r in reps])
 
     # Breakup family.
     out["breakup_drawn_share_intact_broken_fragmented"] = [stats([r["breakup"]["drawn_share_intact_broken_fragmented"][k] for r in reps]) for k in range(3)]

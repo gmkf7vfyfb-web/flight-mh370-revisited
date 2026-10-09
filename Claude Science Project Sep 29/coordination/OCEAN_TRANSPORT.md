@@ -681,3 +681,447 @@ the Stokes field omitted.
    it lands, the pilot runs with one angle as a declared departure.
 
 - ocean drift
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 3 landed — one bathymetry surface, sound speed with spread (hydroacoustics, settling, searched areas)
+
+**Code `75ac7df`, merged.** 24 tests pass. Data and sha256 values are in `results/ocean-data-manifest.md`; citations
+are in `results/ocean-references.md` (moved from the crate per the 02:25 ruling).
+
+**Bathymetry: `mh370_ocean::bathy::Bathymetry`, one surface for everyone.**
+- `Bathymetry::load(&[layer manifests, finest first], Some([lon_min, lon_max, lat_min, lat_max]))` reads only
+  the window it needs. The full layer is 2.2 GB.
+- `.at([lon, lat]) -> Option<BathySample { elevation_m, depth_m, source, tid }>` returns the nearest native cell,
+  with its provenance flag (`BathySource`) and the GEBCO Type Identifier.
+- `.path(a, b, spacing_m, half_width_m)` samples along the WGS84 geodesic (Karney, geographiclib-rs). Each
+  `PathSample` has the track sample and the **corridor maximum** (the highest cell within the half-width,
+  sampled on perpendicular geodesics), with its signed cross-track offset (positive to the right) and its TID.
+- `.inverse(a, b) -> (metres, azimuth)`.
+- The layer is GEBCO_2026 at 40-180 E, 60 S-30 N:
+  `/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json`.
+- **AusSeabed (GA MH370 Phase 1, 150 m) is NOT yet in the surface: data not obtained.** The GA geoserver
+  returned 502, and the dataset is not in NCI `rr1`. The layer mechanism is ready (f32, NaN outside
+  coverage, `BathySource::AusSeabed`, first in priority). Until then every answer says `Gebco2026`, and TID
+  10/11 marks where GEBCO already carries multibeam, including GA's MH370 surveys.
+- **Settling:** `bathy.at(impact).depth_m` feeds `profile.bottom_relation(seabed)` and `at_depth(z, Some(seabed), rule)`.
+- **Searched areas:** use the same `at`, or `path` along sonar lines for terrain masking.
+
+**Sound speed: `mh370_ocean::soundspeed::SoundSpeedClimatology`.**
+- **Product:** WOA23, 1 degree. Each epoch uses its own decade: 1995-2004 for October 2001 and May-June
+  2003, 2005-2014 for March 2014, and 2015-2022 for later events, including F-35A at H11. Monthly fields are
+  used above 1,500 m and seasonal ones below.
+- **TEOS-10:** applied once in preparation with official `gsw` (`p_from_z`, `SA_from_SP`, `CT_from_t`,
+  `sound_speed`). At runtime only `p_from_z` is computed, with GSW-rs. The two agree to 1e-9 on fixtures, and
+  re-evaluating exported SA/CT/p with `gsw` reproduces the exported c to 0.012 m/s at most, the residue of
+  interpolating c, SA and CT separately.
+- **Spread:** `c_sd` is linearised from the **all-decade objectively analysed SDs** (`decav` `t_sdo`/`s_sdo`),
+  with T and S deviations treated as independent. This is **declared**: warm-salty correlation would make the
+  true spread larger.
+  - **Finding:** WOA23's decadal `*_sd` exist in only 16-38% of cells, and the 1995-2004 `*_sdo` are exactly
+    zero in about 30% of ocean cells, which would call a sparsely sampled profile certain. With `decav`, the
+    zero-spread fraction is 0.04%. Those cells are reported, never floored.
+- **Lookup:** `clim.profile([lon, lat])` is bilinear, renormalised over corners with data at each level, and a
+  level with no data is NaN, never filled. `woa23_period(unix_t) -> (decade, month)` selects the file.
+
+**Hydroacoustics: files for KRAKEN/RAM.** `examples/ocean_paths.rs <request.json> <out-dir>` writes
+`<name>_bathymetry.csv`, `<name>_soundspeed.csv` and `<name>_meta.json`. They are already built for your two
+paths at 8 October 2001 in `/Users/pete/Downloads/mh370-ocean-data/products/hydro-paths-2001-10/`:
+
+| path | geodesic | samples (250 m) | track depth | corridor max (±2 km) | TIDs on track |
+|---|---|---|---|---|---|
+| air9 to H01W | **1,662.8 km** | 6,653 | 1,537-5,862 m | -1,474 m | 11, 40, 44, 70 |
+| air9 to H08S | **3,549.2 km** | 14,198 | 1,613-5,621 m | -1,576 m | 11, 40, 44 |
+
+Both lengths agree with ruling H1. **Your stub's 1,662.5 km is its last 0.5 km sample, not the geodesic.**
+
+**Your stub assumptions, adopted or rejected:**
+1. *Two paths only:* **extended.** The export takes any list. Send air8's coordinates (ruling H3) and the
+   F-35A event position and time, and I will add them.
+2. *H08S at its 2002 FDSN epoch for a 2001 event:* yours to declare. Not changed.
+3. *GEBCO nearest cell every 0.5 km, corridor ±2 km:* **nearest cell adopted.** The spacing now defaults to
+   **250 m**, because 0.5 km is coarser than GEBCO's native 15 arc-seconds (about 0.46 km north-south and
+   0.40 km east-west at 30 S) and can step over a cell. The half-width stays your choice.
+4. *WOA23 95A4 season 16, t_an/s_an only, bilinear every 25 km:*
+   - **bilinear and 25 km adopted**;
+   - **season-only rejected:** the October monthly field is used above 1,500 m, as WOA itself provides it;
+   - **no-spread rejected:** `c_sd` is supplied.
+5. *gsw at in-situ pressure; NaN never filled:* **adopted.**
+6. *No time interpolation within the period, no mesoscale:* still true here (month resolution, climatology).
+   **Suggested declared alternative:** GLORYS12 T/S (daily, 1/12 deg, 1993 onward, so all your epochs
+   including 2001 and 2003) through the same TEOS-10 path would add the mesoscale. Say if you want it; it is
+   a full-depth download for your path corridors only.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 4 landed — settling's three queued items
+
+**Code `fe05b0b`, merged.** Tests: `per_particle_end_time_stops_each_particle_at_its_own_time`,
+`banded_error_keys_the_bottom_band_to_height_above_seabed` and `teos10_matches_official_gsw`.
+
+1. **Per-particle end time for the float phase.**
+   - `Particle { ..., end_time: Option<f64> }`; `Particle::new(release, release_time, response)` sets `None`.
+   - The state at each element's own sink time is `Track.end: Option<Snapshot>`. Output times after it are
+     `Snapshot::PastEnd`.
+   - One call takes elements with different sink times and shares one ocean. Tested: identical to a run with
+     that single output time under the same seed and eddying error.
+   - **BREAKING:** `Particle` literals need `end_time` (use `Particle::new`), and `Snapshot` has a new variant.
+2. **Bands.**
+   - `VerticalStructure::Banded { surface_to_m, upper_to_m, near_bottom_m, factors: [surface, upper, deep,
+     near_bottom] }`.
+   - The **near-bottom band is keyed to height above the seabed** and takes precedence where the seabed depth
+     is known: `realisation.velocity_with_seabed(t, p, z, Some(seabed_m))`.
+   - **Each band has its own independent realisation** (separate random streams), so correlation holds within
+     a band and not across bands. Surface, interior and bottom-boundary-layer flows are different processes.
+   - Still one draw per impact event: `model.realise(event_seed)`.
+   - Tested: surface-deep correlation below 0.1 over 2,000 draws; band amplitudes within 8%.
+   - If you would rather have one realisation scaled by band, say so; it is a one-line switch, but it is a
+     modelling choice and I made the more conservative one.
+3. **In-situ density per level.**
+   - `profile.teos10()? -> Teos10Profile { depth_m, absolute_salinity_g_kg, conservative_temperature_c,
+     pressure_dbar, in_situ_density_kg_m3, sound_speed_m_s, sa_anomaly_included }`, and `.rho_at(z)` interpolates
+     linearly.
+   - For GLORYS-like profiles (potential temperature, practical salinity), SA is Reference Salinity with the
+     **anomaly set to zero and flagged**. That is under 2e-5 relative in density here.
+   - In-situ temperature is refused at runtime (it must be converted in preparation).
+   - Pressure is now TEOS-10 `p_from_z`, which replaces Saunders.
+   - Tested against official `gsw` to 1e-9 (rho 1041.5724 kg/m3 at 3,000 m, 33 S, potential temperature 2 C,
+     SP 34.7).
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Pléiades: how the module uses the integrator, and two requests
+
+- **Call shape used:**
+  - `integrate` with GLORYS12V1 surface current plus ERA5 10 m wind, `stokes: None`;
+  - `ObjectResponse { a_stokes: 0, c_wind: c, leeway_angle_deg: 0, leeway_speed_mps: 0 }`,
+    `leeway_absorbs_stokes: true`;
+  - `Diffusion::None`, `OceanErrorModel::none()`, `NoCoast`, 1 h step, `threads` = 2.
+  - Tracks are deterministic. The module adds the spread **analytically** (2KΔt with your provisional K
+    prior as quadrature nodes, plus a declared OU model error), so its likelihood is normalised and
+    seed-free.
+  - Two tables, written to the gitignored `engine/runs/pleiades/`: COSMO contacts to Pléiades times,
+    and a 0.1° release grid at 00:20 UTC on 8 March to the COSMO and Pléiades times. All 214,221
+    particles stayed afloat.
+- **Request 1: the 15-day and 2-day transport-error size per product** (σ_e and decorrelation time, or
+  the drifter-replay residual statistics they come from). The Pléiades two-epoch calibration is
+  information-limited exactly at that scale: below about 6 km per component over 40-53 h it carries
+  information, above about 10 km it carries none.
+- **Request 2: a derived WAVERYS grid** if the explicit-Stokes system is to be an arm. Until then the
+  module runs the absorbed-Stokes system only, and it says so.
+- **The `ocean-model` label** the hook declares is `Forcing::ocean_model()` verbatim:
+  `glorys12v1+era5-wind10`. Drift and Pléiades must declare the same string for joint
+  marginalisation.
+
+— Pléiades
+
+## 2026-10-09 — Coastline: GSHHG 2.3.7 full resolution, named G1 segments, land-mask snapping (`4eba004`, merged `947c0b4`)
+
+- **Built:** `mh370_ocean::PolygonCoast` (`src/gshhg.rs`), a `Coastline` read directly from GSHHG 2.3.7
+  `gshhs_f.b`, using level-1 polygons (Wessel and Smith 1996, doi:10.1029/96JB00104; LGPL-3.0). The
+  file sha256 is in `results/ocean-data-manifest.md`.
+  - Load: `PolygonCoast::from_gshhg(path, g1_segments(), PolygonCoastOptions::default())`.
+  - Default box: 30 W–140 E, 62 S–12 N.
+  - 20,148 rings and 2,704,797 vertices load in 0.4–0.5 s.
+  - Index: 0.05° cells, of which 36,951 are coastal.
+  - Cost per call on 10⁶ random points and 3 km steps in 15–120 E, 50–0 S: `is_land` 22 ns,
+    `first_crossing` 61 ns.
+- **Lines:** each ring is one line, and `LineId` is the GSHHG polygon id. Africa is line 1 (49,960 km),
+  Madagascar line 10, Réunion line 183, Mauritius line 218, Rodrigues line 1406 and Pemba line 320.
+  - Chainage is great-circle arc length along the ring.
+  - The origin sits on a segment boundary, so no segment straddles it.
+  - On Africa, chainage runs from the west end of S4 eastwards and then north: Mossel Bay find 318 km,
+    Chidenguele 2,754 km, Vilanculos 3,376 km.
+- **Segments:**
+  - Named segments come from **drift's own G1 boxes** (`pilot.toml` at `9a9b0cc`), reproduced in
+    `g1_segments()`, IDs 1–6. A shoreline edge takes the segment whose box holds its midpoint, so islets
+    inside a box join that segment.
+  - Everything else is cut into pieces of about 100 km, numbered from 100 in file order. 24,125 segment
+    runs in total.
+  - New trait method: `segment_names()`. `SegmentEdges` is unchanged.
+  - **For drift to confirm:**
+    - S6's box takes in a 25 km stretch of the Tanzanian mainland as well as Pemba.
+    - S3 has two runs on line 1 (877.8 km and 18.6 km) because the coast wiggles at the box edge.
+    - Kosi Bay, Anvil Bay, Macaneta and Mpame fall outside S3/S4, in unnamed pieces 2245, 2246, 2248 and
+      2236.
+- **Finds:** `PolygonCoast::locate(p, max_m)` maps a coordinate to segment, line and chainage. All
+  stringent-nine finds land on drift's segments, between 66 m and 2.84 km from the GSHHG shore (test
+  `real_gshhg_coast_at_the_stringent_nine_find_sites`).
+- **Land-mask stranding (replaces drift's `land_gap_is_beaching` reading):**
+  - New trait method `Coastline::snap(p)`, which returns `None` by default.
+  - `PolygonCoast` snaps to the nearest shore within `snap_max_m` (25 km by default).
+  - When a field returns `FieldGap::Land` and the coast snaps, the integrator records a
+    `Beached { .., snapped_m }`. Otherwise the `FieldGap::Land` event stays, as before.
+  - `Event::Beached` and `Snapshot::Beached` gain `snapped_m`, which is 0 for a crossing.
+  - `CoastHit` gains `snapped_m`.
+  - Not breaking for drift's `transport.rs`, which matches with `..`. No `RunSpec` field and no new
+    `Event` variant were added, and the workspace checks clean.
+- **Smoke (`examples/coast_smoke.rs`, 2 threads):**
+  - Setup: 15,000 GSHHG-sea particles over 32–60 E, 30–8 S, released 8 Mar 2014 12:00 UTC, 120 days,
+    1 h steps, K = 248 m²/s.
+  - GLORYS12 + 0.02 × ERA5: 7,296 beached by crossing, 37 by snap (p50 0.60 km, max 3.47 km),
+    **0 land gaps left**.
+  - GLORYS12 + WAVERYS + 0.01 × ERA5: 8,348 by crossing, 59 snapped (max 6.39 km), 0 land gaps left.
+  - Land-mask strandings are therefore 0.5–0.7% of beachings, and every one is within a quarter of the
+    snap distance.
+  - The remaining non-beaching ends are `LeftDomain` or `FieldGap:Current:OutsideDomain` (874 / 806), the
+    same physical event as drift reads it.
+- **Tests:** 29/29. That is 5 new in `tests/coastline.rs`:
+  - `is_land` against brute-force ray casting on 50,000 points around a non-convex star and a square;
+  - segment and chainage of a crossing;
+  - segment tiling without gaps;
+  - snap within and beyond the distance;
+  - the real-coast find sites.
+- **Provisional:**
+  - The 25 km snap distance is a declared value, not a fitted one.
+  - The segment extents are drift's.
+  - GSHHG's README notes offsets from modern GPS positions.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — API change for drift and Pléiades: separate wind and leeway angles (ruling D-f; `07cced0`, merged `9ca39b1`)
+
+- **What changed:**
+  - `ObjectResponse` gains `wind_angle_deg`. It rotates the `c_wind × U10` term, measured positive
+    clockwise from downwind, and defaults to 0 in `ObjectResponse::new`.
+  - `leeway_angle_deg` now rotates **only** the constant-magnitude `leeway_speed_mps` term. Before this
+    change it rotated both terms.
+  - The calm-wind threshold and the E1 refusal are unchanged: `leeway_speed_mps > 0` with
+    `a_stokes > 0` is still refused unless `explicit_residual` is set.
+- **Breaking, deliberately.**
+  - A struct literal `ObjectResponse { a_stokes, c_wind, leeway_angle_deg, leeway_speed_mps }` no longer
+    compiles. This affects drift's `transport.rs::response` and Pléiades' call shape.
+  - The compiler forces each module to choose the windage angle explicitly.
+  - A run that put a non-zero `leeway_angle_deg` on a `c_wind`-only response now gets an unrotated
+    windage. Set `wind_angle_deg` to keep the old behaviour, which is the pilot's declared
+    single-angle departure.
+- **CSIRO form:** `c_wind = 0.012`, `wind_angle_deg = 0`, `leeway_speed_mps = 0.10`,
+  `leeway_angle_deg = -16`. Test `constant_magnitude_leeway_follows_rotated_downwind` checks the
+  combined velocity (−0.0276, 0.2161) m/s under a 10 m/s wind blowing towards the north (a southerly).
+- **Pléiades:** your call shape (`leeway_angle_deg: 0`, `leeway_speed_mps: 0`) only needs
+  `wind_angle_deg: 0.0` added. Results are identical.
+- **Tests:** 29/29. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — AusSeabed 150 m obtained; bathymetry is now two layers (`1d99198`, merged `e1513a7`)
+
+- **Obtained:** Geoscience Australia MH370 Phase 1 150 m bathymetry (ga/100315, CC BY 4.0).
+  - Fetched from the download link in GA's eCat record: `files.ausseabed.gov.au`, a 203 MB zip
+    containing one GeoTIFF.
+  - This closes the earlier "not obtained, declared GEBCO-only" item: the architect's acceptance of
+    GEBCO-only is no longer needed.
+  - Grid: EPSG:3857 with 150 m projected cells (about 123 m on the ground at 35 S), covering 79.4–115.8 E
+    and 42.1–9.5 S. 47.05 M valid cells, depths 11–7,013 m.
+- **Kept on its own grid:**
+  - `bathy.rs` reads Web Mercator layers natively with an exact inverse and the nearest distributed cell,
+    so there is no resampling.
+  - Manifest: `/Users/pete/Downloads/mh370-ocean-data/ausseabed/grid/ausseabed_mh370_150m.json`.
+  - Pass it **before** GEBCO: `Bathymetry::load(&[ausseabed, gebco], window)`.
+  - `BathySample.source` says which layer answered. TID is `None` on AusSeabed cells.
+- **Measured against GEBCO_2026:** over 254,015 random valid cells, AusSeabed − GEBCO is +0.3 m mean,
+  20.6 m SD, 5–95% −25 to +27 m. 99.6% of the GEBCO cells there are TID 11 (multibeam).
+  - So GEBCO already carries these surveys. The new layer adds resolution, not new soundings.
+- **For hydroacoustics (H1 paths):** re-exported to `products/hydro-paths-2001-10-ausseabed/`. The original
+  GEBCO-only export is kept.
+  - air9–H01W: AusSeabed answers 1,479 of 6,653 track samples, between 59 and 1,329 km along the path.
+    The track depth changes by −0.9 m mean (7.5 m SD, extremes −74 / +49 m). The corridor maximum is
+    unchanged at −1,474 m, and the track minimum is unchanged at 1,537 m.
+  - air9–H08S: no AusSeabed coverage.
+  - A Rust-versus-Python check of cell values along a 1,129 km test path matched in 3,308 of 3,310
+    samples. The 2 misses are 6-decimal rounding of lon/lat in the CSV at cell edges.
+- **For H5 (IMOS paths):** `examples/ocean_paths.rs` already takes any list of endpoint pairs, each with
+  its own date (`time_unix`), spacing, corridor half-width and profile spacing.
+  - The WOA23 decade is chosen from the date (`A5B4` for March 2014).
+  - Hydro can run it directly. Add the AusSeabed manifest first in `bathymetry`.
+- **Tests:** 30/30, including the new `web_mercator_layer_answers_first_inside_its_coverage`.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~06:00 UTC - architecture: overnight rule, agreed by Pete
+
+Read the ~06:00 UTC entry in `architecture.md`. Overnight, a question for Pete is recorded with its
+options, and your recommended option is taken PROVISIONALLY and reversibly; then carry on. It does not
+cover irreversible, licence, outreach, third-party or long-run decisions. Do not take the heavy lock
+(core's run).
+
+- Modular Architecture
+
+## 2026-10-09 — Settling: GLORYS12 `ProfileSource` built (`GridProfile`; merged `33db82c`)
+
+- **Built:** `mh370_ocean::GridProfile::load(manifest)`, which implements `ProfileSource`. For use in
+  settling's own run, load
+  `/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.json`.
+  - GLORYS12V1 daily uo, vo, thetao and so, all 50 levels from 0.494 to 5,728 m.
+  - Window 80–112 E, 45–18 S: your seabed window.
+  - Daily means for 7–14 March 2014, each at label + 12 h, which is provisional as for the surface series.
+  - The model floor `deptho` comes from the static dataset.
+  - `Temperature::Potential` and `Salinity::Practical`, so `Profile::teos10()` converts once.
+  - `w_up` is `Absent`.
+  - Columns are read from disk on demand: 800 MB on disk, nothing bulk-loaded.
+- **Interpolation (declared in `src/gridprofile.rs`):**
+  - Linear in time.
+  - Bilinear horizontally, with land renormalisation **per level**. The profile stops at the first level
+    where no corner has a value.
+  - `model_bottom_m` is the deepest `deptho` among the contributing corners.
+  - `bottom_relation(seabed)` then flags any GEBCO or AusSeabed seabed below it.
+- **Cross-check at 92 E, 35 S, 00:19:37 UTC on 8 March 2014** (`examples/profile_check.rs` against an
+  independent h5py read of the netCDF): 45 levels, max |Δu| = 0 and max |Δθ| = 0.
+  - `model_bottom_m` = 3,796.5 m (corner floors 3,657.5–3,796.5 m). Your GEBCO seabed there is 3,927 m,
+    so expect `SeabedDeeperThanModel` with a gap of about 130 m. That is the case your
+    `BelowModelBottom` rules exist for.
+  - TEOS-10 ρ is 1,025.350 kg/m³ at the surface and 1,044.457 kg/m³ at 3,597 m. Surface u, v = (−0.054,
+    0.062) m/s; deepest level u, v = (−0.013, 0.015) m/s.
+- **Extending the period** to cover a later impact or a longer float phase:
+  `prepare/fetch_profile.py <dir> <start> <end>`, then `profile_to_grid.py`. About 50 MB of netCDF per day
+  for this window.
+- **Tests:** 31/31, including the new `grid_profile_interpolates_with_per_level_land_renormalisation`.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Pléiades (d) and drift: measured transport error, second ocean model, product recommendation (`24d4b91`, merged `008ad4e`)
+
+- **Second ocean model: Copernicus-GlobCurrent** (MULTIOBS_GLO_PHY_MYNRT_015_003, v202411).
+  - It is observation-based (altimetric geostrophy + empirical Ekman from ERA5 stress + barotropic tide)
+    and independent of GLORYS12's NEMO.
+  - Two series over the transport domain:
+    - `/Users/pete/Downloads/mh370-ocean-data/globcurrent/grid/globcurrent_my_pt1h_uo_vo_0m.series.json`:
+      hourly, 7–31 March 2014, covering the Pléiades/COSMO window.
+    - `.../globcurrent_my_p1d_uo_vo_0m.series.json`: daily, 7 March 2014 – 31 January 2017, covering
+      drift.
+  - Use them as `Forcing.current`. `ocean_model()` is then `globcurrent-my-pt1h+era5-wind10` or
+    `globcurrent-my-p1d+era5-wind10`.
+  - Stokes is declared `Partial`, so the absorbed-Stokes system runs unchanged and an explicit-Stokes arm
+    must opt in. Like GLORYS12, it already contains the wind-driven current.
+- **Transport-model error, measured (Pléiades request 1):** `results/ocean-transport-error-gdp-replay.md`
+  (table, figure and JSON).
+  - Method: 28,148 15-day GDP segments from 761 drifters, 2014–2017, replayed deterministically through
+    the shared integrator.
+  - Search box 80–110 E, 45–20 S, starts in March–May. Per-component RMS separation at 2 days:
+    - GLORYS12: 21.2 / 19.6 km;
+    - GLORYS12 + 1% ERA5: 18.7 / 18.7 km;
+    - GlobCurrent: 14.3 / 14.2 km.
+    - These are undrogued drifters. Drogued: 20.1 / 19.4 km (GLORYS12) and 18.0 / 15.1 km (GlobCurrent).
+  - At 15 days: 85–135 km.
+  - OU fit: σ_e ≈ 0.09–0.13 m/s, T ≈ 4–15 days (sources and intervals in the note).
+  - **Finding for Pléiades:** at your stated threshold (no information above about 10 km per component
+    over 40–53 h), the two-epoch calibration carries no information with either product. No bootstrap
+    lower bound at 2 days is below 12.7 km. This is a negative result, and it is reported as one. The
+    ruling is the architect's.
+- **Finding for drift:** K_equiv at 15 days is 3,400–10,300 m²/s against CSIRO's 248 m²/s.
+  - The deterministic model error is an order of magnitude larger than any diffusion in the K prior, so it
+    belongs in `OceanErrorModel`, with σ and T from this replay, rather than in K.
+  - The 15-day window does not test the long-lag behaviour drift's 500-day runs need.
+- **Product recommendation for the architect:** `results/ocean-product-recommendation.md`.
+  - Reference: GLORYS12 + ERA5, with WAVERYS for explicit Stokes.
+  - Second `ocean-model` value: GlobCurrent, at equal prior weight, with replay skill reported but not used
+    to weight.
+  - OSCAR is not recommended: its construction is close to GlobCurrent's.
+  - BRAN stays with Pete (licence).
+- **Tests:** 31/31. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Drift: explicit-Stokes GDP replay, first pass (item 5; merged to sep29)
+
+- **Compositions replayed:** `examples/drifter_replay.rs` now takes a Stokes field. Three compositions
+  were added to `results/ocean-transport-error-gdp-replay.md`, in a new section with a table.
+- **Search box, March–May, undrogued drifters, 2-day RMS per component:**
+  - GLORYS12 + WAVERYS: 19.4 / 19.1 km.
+  - GLORYS12 + 1% ERA5: 18.7 / 18.7 km.
+  - GLORYS12 + WAVERYS + 1% ERA5 is worse, at 24.7 / 21.8 km. That fits counting the same drift twice.
+  - Adding 1% ERA5 also worsens GlobCurrent: 17.1 / 15.2 km against 14.3 / 14.2 km.
+- **For drift to specify:** the (a_stokes, c_wind) refit on undrogued drifters, as the explicit-Stokes path
+  for D-b/D-d. Send the grid or the objective you want. Each configuration takes about 15 s on 2 threads,
+  outside the lock.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Settling: windowed `GridField` load; corrections to the replay note (merged `5ddfbeb`)
+
+- **Windowed load:**
+  - Call: `GridField::load_window(path, &LoadWindow::new([lon_min, lon_max, lat_min, lat_max], [t_start, t_end]))`.
+    It accepts a part manifest or a `*.series.json`. Each axis can be left whole with `None`, or use
+    `LoadWindow::all()`.
+  - Only the needed rows are read from disk, using positioned reads. The bracketing grid nodes and time
+    slices are kept, so every query inside the window interpolates exactly as on the full grid, including
+    across a part seam. Outside the window the field answers `OutsideDomain` / `OutsideTime`.
+  - The API is plain Rust (`Path`, `LoadWindow`), so hypotheses need no `serde_json`.
+  - `load` and `load_series` are unchanged and are now the whole-axis case.
+  - `data_bytes()` reports memory held.
+- **Measured at settling's window** (80–112 E, 45–18 S, 7–15 March 2014; `examples/window_load.rs`):
+  - GLORYS12 surface: 9.0 MB instead of 333 MB for the part, loaded in 0.01–0.12 s.
+  - ERA5: 7.3 MB instead of 1.62 GB for the part, loaded in 0.01–0.13 s.
+  - 20,000 random queries per product agree exactly with the full load: 0 mismatches for each product.
+- **Corrections, from the reviewer warnings, in `results/ocean-transport-error-gdp-replay.md`:**
+  - GLORYS12 drogued 2-day RMS is 20.1 / 19.4 km. It was given as 19.5 here and in the earlier entry.
+  - K_equiv ranges now state the box maximum: 8,000 m²/s for the three main configurations, and
+    15,700 m²/s if the double-counting explicit-Stokes composition is included.
+  - The figure's x-label spacing is fixed; a fresh render shows no text overlaps.
+  - The GlobCurrent ledger entry now carries the hashes, the retirement date (24 November 2026) and the
+    ruling.
+- **Artifact store:** the store holds no data files from this module. A search for gshhs, gdp,
+  sep_glorys, series.json and segments_2014 finds only the replay note, figure and summary JSON (92 KB)
+  and the product note. Data files stay under `/Users/pete/Downloads/mh370-ocean-data/`, and I will not
+  save any data file as an artifact.
+- **Tests:** 32/32. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~07:15 UTC — Pléiades: measured error and GlobCurrent adopted (thank you)
+
+- **Adopted:** the `undrogued/box_MAM` OU fits for `glorys12+0.01era5` and `globcurrent-p1d+0.01era5`, per
+  component, with K switched off. The GlobCurrent hourly and daily series both load through `GridField::load_series`
+  with no changes.
+- **GlobCurrent hourly against daily** makes no material difference for Pléiades: at most 0.012 in ln S and 0.8 NM
+  in the mean shift. I use the daily table so that the label equals drift's (P4 in architecture.md).
+- **Your two-epoch finding is reproduced:** IG 0.001–0.10 bits at the measured spread, for both products.
+- **No request is outstanding.** An OU fit for the hourly product would only matter if the architect chooses the
+  hourly label.
+
+— Pléiades
+
+## 2026-10-09 ~07:40 UTC — Pléiades: correction
+
+The two-epoch information gain at the measured spread is 0.001–0.07 bits, not 0.001–0.10. See architecture.md,
+same timestamp.
+
+— Pléiades
+
+## 2026-10-09 — From ocean transport: `ocean_paths` window bug fixed; F-35A → H11 paths exported (merged `61b50a5`)
+
+- **Bug fixed** (your ~07:40 report):
+  - The load window now comes from the geodesic itself, through the new
+    `mh370_ocean::bathy::path_extent(a, b, half_width_m, 10 km, 0.1°)`: the path is sampled every 10 km
+    and padded by the corridor and 0.1°. The window is no longer the ±1° box around the endpoints.
+  - Any sample that is off every layer now stops the export with exit code 2. The message gives the
+    path, the gap count and the first s. Nothing is dropped silently.
+  - The window is recorded in each `<name>_meta.json` as `load_window`.
+  - New test: `long_geodesic_window_holds_the_whole_path`. Ends at 38.5 S, 100 and 140 E bow to 40.2 S.
+    The old endpoint box lost more than 1,000 samples; the new window loses none.
+  - Demonstration on an arc-to-Portland-like geodesic, 93.0 E 38.5 S → 141.3 E 38.6 S (not one of your
+    endpoints): 4,160 km, 16,642 of 16,642 samples, reaching 41.14 S.
+  - Regression: the air9 → H01W and air9 → H08S exports are byte-identical to before.
+- **Re-export of your 29 paths:** I could not run it. Your request lists and `prepare/shared_paths.py`
+  (`212e76d`) are not on origin; `hypothesis/hydroacoustics` there is at `59d834d`. Please re-run your
+  adapter against `61b50a5` or later; it takes seconds per path, outside the lock.
+  `prepare/segmented_paths.py` can then retire. Its joined 400 km segments should agree with the new
+  single-geodesic export to within the segment-joint sampling, and checking that is a quick confirmation.
+- **North-west Pacific layers** (ruling H4):
+  - `gebco/grid/gebco_2026_nwpac.json` covers 130–180 E, 30–50 N. It is GEBCO_2026 copied unchanged with
+    its TID, from the same source hashes, and joins the main layer at 30 N.
+  - `woa23/soundspeed_nwpac/` holds B5C2 months 1–12 over 130–180 E, 15–50 N. The main sound-speed grids
+    stop at 30 N, so the F-35A path needs this directory.
+  - Layers a window misses are now skipped, so you can always list both GEBCO layers.
+- **F-35A → H11 exported:** `/Users/pete/Downloads/mh370-ocean-data/products/hydro-paths-f35a-2019-04/`.
+  - Source: 40.64 N 142.96 E at 10:26:32 UTC on 9 April 2019. Receivers: the triad centroids from your
+    `stations.csv`.
+  - Settings: 250 m spacing, ±2 km corridor, profiles every 25 km.
+  - `f35a-H11S`: **3,341.5 km**, which agrees with Metz's 3,341 km. The track crosses the Japan Trench
+    (track depth 1,151–7,473 m). Away from the 50 km at each end, the corridor maximum is −1,677 m at
+    s = 2,593 km (162.21 E, 23.79 N, TID 40).
+  - `f35a-H11N`: 3,248.8 km, track depth 1,403–7,393 m. Away from the ends, the corridor maximum is
+    −1,902 m at s = 52 km (TID 11), on the Japan slope.
+  - Both ends sit on slopes: about 1,527 m at the source and 1,162 / 1,403 m at H11S / H11N.
+  - TIDs on both paths: 11, 17, 40 and 44.
+  - Sound speed: WOA23 B5C2, April. sha256 values are in `results/ocean-data-manifest.md`.
+
+— ocean transport (architecture sub-agent)

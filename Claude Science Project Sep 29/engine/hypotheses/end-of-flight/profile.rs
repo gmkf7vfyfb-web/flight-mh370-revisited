@@ -130,6 +130,38 @@ pub struct EnvelopeConfig {
     /// Mach above which a recovery is not feasible: beyond the extrapolated part of the model
     /// there is nothing to claim a recovery from.
     pub recovery_mach_limit: f64,
+    /// Prior probability that free dynamics (no intervention, and the uncontrolled phase of
+    /// maintained-then-lost and upset-then-recovery) DIVERGE into a spiral dive, rather than hold the
+    /// drawn residual bank. Pete's ruling, 9 Oct: 0.5, a stated indifference prior, with 0.25 and 0.75
+    /// as sensitivities. The ten Boeing engineering-simulator runs split 5/10, but they are chosen
+    /// scenarios, not frequencies (results/eof-boeing-calibration-oct09). 0 (the serde default) is the
+    /// pre-calibration model, byte-identical, because no extra uniform is drawn.
+    #[serde(default)]
+    pub spiral_divergent_weight: f64,
+    /// Bank doubling time of a divergent spiral, s. Calibrated: Boeing cases 3, 4, 6 and 10 grow bank
+    /// by x2.56-2.75 between 60 and 180 s, a doubling time of 82-88 s; the band brackets it.
+    #[serde(default = "default_spiral_doubling_s")]
+    pub spiral_doubling_s: Range,
+    /// Bank at which a divergent spiral stops growing, deg. Boeing's dives read 53-60 deg from the
+    /// track, but this point mass reaches their descent rates only near 90 deg
+    /// (results/eof-boeing-calibration-oct09, addendum 2), so the cap is a calibration knob, not a
+    /// measured bank.
+    #[serde(default = "default_spiral_bank_cap_deg")]
+    pub spiral_bank_cap_deg: f64,
+    /// Smallest bank a divergent spiral grows from, deg: a spiral mode starts from any disturbance,
+    /// so a drawn residual bank of 0 does not freeze it.
+    #[serde(default = "default_spiral_bank_floor_deg")]
+    pub spiral_bank_floor_deg: f64,
+}
+
+fn default_spiral_doubling_s() -> Range {
+    Range::Uniform([60.0, 120.0])
+}
+fn default_spiral_bank_cap_deg() -> f64 {
+    60.0
+}
+fn default_spiral_bank_floor_deg() -> f64 {
+    1.0
 }
 
 impl EnvelopeConfig {
@@ -159,6 +191,21 @@ impl EnvelopeConfig {
         }
         if !(self.recovery_rate_fpm.is_finite() && self.recovery_rate_fpm > 0.0) {
             return Err("envelope.recovery_rate_fpm must be a positive rate".into());
+        }
+        if !(0.0..=1.0).contains(&self.spiral_divergent_weight) {
+            return Err("envelope.spiral_divergent_weight must be in [0, 1]".into());
+        }
+        self.spiral_doubling_s.check("envelope.spiral_doubling_s")?;
+        let lo = match self.spiral_doubling_s { Range::Fixed(v) => v, Range::Uniform([a, _]) => a };
+        if !(lo > 0.0) {
+            return Err("envelope.spiral_doubling_s must be positive".into());
+        }
+        // Up to 135 deg: an uncontrolled spiral dive can overbank past 90 deg (lift below the horizon).
+        if !(self.spiral_bank_cap_deg > 0.0 && self.spiral_bank_cap_deg <= 135.0) {
+            return Err("envelope.spiral_bank_cap_deg must be in (0, 135]".into());
+        }
+        if !(self.spiral_bank_floor_deg >= 0.0 && self.spiral_bank_floor_deg < self.spiral_bank_cap_deg) {
+            return Err("envelope.spiral_bank_floor_deg must be in [0, cap)".into());
         }
         Ok(())
     }
@@ -352,9 +399,31 @@ pub struct Flying {
     /// Why a recovery failed, if it did.
     pub recovery_failure: Option<&'static str>,
     pub engines_thrusting: u8,
+    /// Bank doubling time if this descent's free dynamics diverge (a spiral dive); None holds the
+    /// drawn residual bank. Set by the module after `new`, from `EnvelopeConfig::spiral_*`.
+    pub spiral_doubling_s: Option<f64>,
+    pub spiral_bank_cap_rad: f64,
+    pub spiral_bank_floor_rad: f64,
+    /// Seconds after onset at which free dynamics began, if they did.
+    pub free_since_s: Option<f64>,
 }
 
 impl Flying {
+    /// The bank of free dynamics at `elapsed_s`: the drawn residual bank, or, for a divergent spiral,
+    /// that bank (at least the floor) doubling every `spiral_doubling_s` from the start of free
+    /// flight, capped. The sign of the drawn bank sets the direction; a drawn 0 diverges to the right.
+    fn free_bank(&mut self, bank0_rad: f64, elapsed_s: f64) -> f64 {
+        let since = *self.free_since_s.get_or_insert(elapsed_s);
+        match self.spiral_doubling_s {
+            None => bank0_rad,
+            Some(t2) => {
+                let sign = if bank0_rad < 0.0 { -1.0 } else { 1.0 };
+                let grown = bank0_rad.abs().max(self.spiral_bank_floor_rad) * 2f64.powf((elapsed_s - since).max(0.0) / t2);
+                sign * grown.min(self.spiral_bank_cap_rad)
+            }
+        }
+    }
+
     pub fn new(profile: Profile, aero: Aero, propulsion: Propulsion, cfg: &EnvelopeConfig) -> Self {
         Flying {
             profile,
@@ -369,6 +438,10 @@ impl Flying {
             recovery_demonstrated: false,
             recovery_failure: None,
             engines_thrusting: propulsion.engines_thrusting(),
+            spiral_doubling_s: None,
+            spiral_bank_cap_rad: cfg.spiral_bank_cap_deg.to_radians(),
+            spiral_bank_floor_rad: cfg.spiral_bank_floor_deg.to_radians(),
+            free_since_s: None,
         }
     }
 
@@ -394,6 +467,7 @@ impl Flying {
         if let Some(after) = self.profile.loss_of_control_after_s {
             if elapsed_s >= after {
                 if let Some(Phase::Free { c_l, bank_rad, .. }) = self.profile.phases.last().copied() {
+                    let bank_rad = self.free_bank(bank_rad, elapsed_s);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), 0.0);
                 }
             }
@@ -455,6 +529,7 @@ impl Flying {
                             }
                         }
                     }
+                    let bank_rad = self.free_bank(bank_rad, elapsed_s);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), 0.0);
                 }
             }
@@ -529,7 +604,37 @@ pub(super) mod tests {
             recovery_floor_ft: 3_000.0,
             recovery_rate_fpm: 4_000.0,
             recovery_mach_limit: 0.92,
+            spiral_divergent_weight: 0.0,
+            spiral_doubling_s: Range::Uniform([60.0, 120.0]),
+            spiral_bank_cap_deg: 60.0,
+            spiral_bank_floor_deg: 1.0,
         }
+    }
+
+    /// A divergent spiral doubles its bank every doubling time from the start of free flight, grows from
+    /// the floor when the drawn bank is 0, keeps the drawn direction, and stops at the cap; a neutral
+    /// one holds the drawn bank.
+    #[test]
+    fn a_divergent_spiral_doubles_its_bank_and_stops_at_the_cap() {
+        let e = envelope();
+        let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::NoIntervention, &reference(), &mut || 0.5);
+        let mut f = Flying::new(p, reference(), Propulsion::NeitherThrusting, &e);
+        assert_eq!(f.free_bank(-0.1, 10.0), -0.1, "neutral holds the drawn bank");
+        let mut f2 = f.clone();
+        f2.spiral_doubling_s = Some(80.0);
+        f2.free_since_s = None;
+        let b0 = f2.free_bank(-10f64.to_radians(), 100.0);
+        assert!((b0 + 10f64.to_radians()).abs() < 1e-12, "starts from the drawn bank: {b0}");
+        let b1 = f2.free_bank(-10f64.to_radians(), 180.0);
+        assert!((b1 + 20f64.to_radians()).abs() < 1e-9, "one doubling after 80 s: {}", b1.to_degrees());
+        let capped = f2.free_bank(-10f64.to_radians(), 100.0 + 80.0 * 5.0);
+        assert!((capped + 60f64.to_radians()).abs() < 1e-12, "capped at 60 deg: {}", capped.to_degrees());
+        let mut f3 = f.clone();
+        f3.spiral_doubling_s = Some(80.0);
+        f3.free_since_s = None;
+        let _ = f3.free_bank(0.0, 0.0);
+        assert!((f3.free_bank(0.0, 80.0) - 2f64.to_radians()).abs() < 1e-12, "a drawn 0 grows from the 1 deg floor");
+        f.free_since_s = None;
     }
 
     fn body(altitude_ft: f64) -> Body {

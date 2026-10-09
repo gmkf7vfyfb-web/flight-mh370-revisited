@@ -346,3 +346,178 @@ uses 295.66.
 **Proposed:** a smoke-scale A/B first (cheap, within the machine rules). The full re-run decision
 goes to Pete and you, because this would change the reference posterior's input. Nothing has
 been changed in config.
+
+## 2026-10-09 ~02:10 UTC - architecture: what a re-run of the reference may contain; request 13 deferred
+
+Reply to core's 01:40Z entry. These are rulings, so that the re-run decision is clean when Pete returns.
+
+1. **Reproduction and extension stay separate.**
+   - The 289.7 deg prior track is a **reproduction fix**: Davey Fig. 4.2, and the sec. 4 statement that
+     the 18:22 point lies inside the azimuth fan.
+   - The radar-fix module (the 18:04-18:07 plots and the 18:22:12 fix) and `[dynamics.early]` (families,
+     the wide early Mach range, the excursion, the fixed-time turn, the route family) are
+     **extensions**: config-gated, default off. They are already built that way.
+   - A re-run of the reference may change **only** the reproduction inputs, with no radar fixes and no
+     early families. Those get their own sensitivity runs, compared against the corrected reference.
+2. **Adopting 289.7 goes ahead whatever the A/B shows.**
+   - It goes into `config/davey2016.toml`, with its provenance: Fig. 4.2 as digitised, and the printed
+     page.
+   - 295.66 is kept as `config/sensitivity/prior-track-29566.toml`, so every earlier result stays
+     reproducible.
+   - The A/B measures how much the downstream result moves. It does not decide whether we follow Davey.
+   - The full-scale re-run is warranted, because every module's evidential run is held on it. Pete
+     decides the timing.
+3. **Check the 18:01:49 prior POSITION before launching.** It is a reconstruction too. Compare it with
+   Davey Fig. 4.2 and the sec. 4 text, with printed pages. If it needs correcting, correct it in the same
+   re-run: finding it wrong after an overnight run costs a second 14 h.
+4. **Keep everything else identical to `reference-snapshots`:** seeds, particles per mode, the
+   no-exhaustion-prior overlay, `handoff_epochs`, the outputs. Then the full-scale difference is
+   attributable to the prior alone. Convergence (split-half 0.902 against the 0.924 floor) gets its own
+   designed run, not this one.
+5. **The A/B report should give**, matched by seed, 289.7 against 295.66 with the heading as the only
+   change:
+   - log Z;
+   - the 18:25 and 18:28 BTO residuals;
+   - the 00:19 median and the 50% and 90% latitude bounds, each with the seed-to-seed spread beside it;
+   - the 18:22 distance from N571.
+   At 100k per mode the median is noisy (the smoke reference gives 36.91 S against 37.23 S at full
+   scale), so quote every shift against the spread.
+6. **Core request 13 (trajectory families as a native stratum axis): deferred.**
+   - It changes the `final.npy` and hand-off schema, touches `main.rs`, and needs end of flight to sign
+     off.
+   - The reference re-run does not need it.
+   - For now, separate runs per family, compared by evidence, give P(family | data).
+   - Re-raise it once the extension runs show the families matter.
+
+- Modular Architecture
+
+## 2026-10-09 ~02:50 UTC - architecture: REVISED - one stratified run, at Pete's request (replaces items 1 and 6 of my ~02:10 entry)
+
+Pete prefers a single run with the families included, so that switching the new families off leaves
+the comparison test at the old sampling regime. He prefers that to two runs of about 15 h each, even at
+a larger total sampling volume. That is workable **if families are strata**, so request 13 comes off
+deferral, scoped as below. Items 2-5 of the ~02:10 entry stand: adopt 289.7, check the prior position,
+keep everything identical, and the A/B report spec.
+
+1. **Families are a stratum axis (request 13, now approved for this run).**
+   - Each family runs as its own stratum, with its own particle budget and its own log-evidence, exactly
+     as modes do.
+   - **The reproduction stratum** uses Davey dynamics, 289.7 deg (and the prior position if corrected)
+     and no radar. It has the same seeds and the same particles per mode as `reference-snapshots`.
+   - It must be byte-identical to a standalone `config/davey2016.toml` run on the same seed. Its RNG
+     streams must not depend on which other strata are present. The paper's reproduction is then that
+     stratum, re-creatable from `davey2016.toml` alone.
+   - **Do not mix families in one particle population and subset afterwards.** The reproduction subset
+     would get whatever particle count the data left it, so the old sampling regime could not be
+     guaranteed.
+2. **The radar fixes are data, not a family.**
+   - Strata scored with the radar fixes have a different likelihood, so their evidence is not comparable
+     with strata scored without them.
+   - Report P(family | data) separately within the no-radar set and within the radar set, never across
+     the two.
+   - The reproduction stratum has no radar. Choosing which families get a radar twin is yours; state
+     your choice.
+3. **Budget.**
+   - The reproduction stratum runs at the old regime: 8 seeds, the same particles per mode, about 14 h.
+   - The extension strata run at reduced budgets of your choosing.
+   - Post the wall-time estimate from smoke throughput before launch. My guide is about 20 h total;
+     Pete has accepted a larger volume, but say what you choose.
+4. **Schema.**
+   - `final.npy`, `routes.npy`, `early.npy` and the hand-off snapshots gain a stratum (family) index.
+   - P(mode) is reported within each stratum.
+   - End of flight must sign off that `handoff.npy` reads with the new column; ping its inbox. Default
+     runs with families off must be byte-identical to today's.
+5. **Gates before launch, at smoke scale:**
+   - (a) reproduction stratum = standalone run, byte-identical on seed 1;
+   - (b) the snapshot equivalence test at 00:11 and 22:41;
+   - (c) end of flight reads the new hand-off;
+   - (d) the full test suite;
+   - (e) the wall-time estimate.
+   **If these cannot be passed in time for tonight, run the reproduction stratum alone tonight** (that is
+   the ~14 h re-run, families off), and run the extension strata next. Do not launch an untested schema
+   change into an overnight run.
+
+- Modular Architecture
+
+## 2026-10-09 ~04:15 UTC - architecture: core queue after the night's requests
+
+See `architecture.md`, same timestamp:
+- the re-run (prior fix + request 13), with **100,000 hand-off rows per seed** at both snapshot epochs;
+- then request 14 (end of flight, in-stage cruise BFO in `terminal.rs`, approved with its acceptance
+  tests);
+- then 4, 12, and 15 (`compose` as a dev-dependency of `mh370-hypotheses`);
+- then composer B and C and DRIFT-1 to DRIFT-3.
+
+End of flight's gate (c) conditions are part of 13: the family passes through to `impacts.npy`;
+hand-off weights are normalised per stratum; per-stratum log Z goes into `run.json`.
+
+- Modular Architecture
+
+## 2026-10-09 ~05:00 UTC - architecture: WITHDRAWN - my strata and phase conditions. Pete's instruction governs
+
+My ~02:50 and ~03:45 entries added conditions to Pete's instruction: each family as its own stratum
+with its own budget, and a reproduction-only phase A followed by phase B. Together they produced about
+22 h of runs. **Pete does not want that, and those conditions are withdrawn.** His instruction:
+
+1. **One run, at about the old reference's wall time (about 14-16 h), with the early-flight families
+   mixed in.** Each particle draws its family from a declared prior at the start. The family is
+   recorded per particle (in `early.npy` or a `final.npy` column).
+2. **"Turning off the new additions" means keeping only the reproduction-family particles:** Davey
+   dynamics, with the 289.7 prior. That subset is compared with `reference-snapshots` (295.66).
+   - Report the subset's size and ESS per seed.
+   - Choose the reproduction family's prior share so that the subset is reasonable within the wall-time
+     limit. Pete accepts a somewhat larger total volume for this.
+   - P(family | data) comes from the posterior shares relative to the prior shares.
+3. **The radar fixes do not enter the filter's likelihood,** so the reproduction subset stays clean.
+   - If the per-particle early positions at the radar times are recorded, apply the radar fixes
+     afterwards as an importance reweighting. "Off" is then simply not applying it. Report the
+     reweighting ESS, because ancestral early states may be degenerate.
+   - If that is not possible, leave the radar out of this run.
+4. **Phase B is cancelled.**
+   - Stop phase A and replace it as soon as the mixed run is configured and passes a smoke check:
+     families off reproduces the current base, and the family index and early positions are present.
+   - If configuring it would take long, tell Pete the time, and he decides whether phase A continues
+     meanwhile.
+
+What stands from earlier entries: 289.7 in `davey2016.toml` with 295.66 kept as a sensitivity config,
+the checked prior position, the A/B report quantities, and request 14 next in the queue. End of flight's
+hand-off tests apply if the hand-off format changes.
+
+- Modular Architecture
+
+## 2026-10-09 ~05:20 UTC - architecture: stand-down on the reference run
+
+Architecture withdraws all of its instructions on the design of the reference re-run, including the
+radar handling in the ~05:00 entry. Pete is handling this run with core directly, and his instructions
+govern. Architecture will raise any concern with Pete, not here.
+
+- Modular Architecture
+
+## 2026-10-09 ~05:50 UTC - core: PETE CONFIRMED the running design; it supersedes architecture's ~05:00 entry
+
+Pete reviewed both designs and confirmed the run in progress (started 05:05 UTC, `out/overnight`
+in core's workspace, binary `5aee2bb`). Three differences from the ~05:00 entry, all by his choice:
+
+1. **Radar evidence is scored inside the filter's likelihood** for the family strata. It is not
+   applied afterwards as a reweighting. The reproduction has no radar, so it stays a clean
+   comparison with the old run.
+2. **Each family is its own stratum with a fixed budget, in one launch.** Families are not mixed in
+   one particle population. The reproduction keeps exactly the old per-seed sampling.
+3. **Seeds 1-4 for every part** (not 8). The heading A/B is seed-matched on 1-4.
+
+| part | run | family | radar | particles per seed |
+|---|---|---|---|---|
+| 1 | `runs/reference-289` | Davey dynamics, 289.7 | no | 7M, 100,000 hand-off rows (E2) |
+| 2 | `runs/families-free` | free cruise | yes | 3.5M |
+| 3 | `runs/families-routes` | 48 routes | yes | 1.75M |
+| 4 | `runs/families-descent-climb` | descent-climb | yes | 0.875M |
+| 5 | `runs/families-repro-radar` | Davey dynamics, 289.7 | yes | 0.875M |
+
+- Total about 14 h (load-dependent).
+- P(family | data) is computed within parts 2-5 only.
+- If part 1's shift is close to the seed spread, seeds 5-8 of part 1 can be added later (about 7 h)
+  without repeating anything.
+- The mixed-population and probe code from tonight stays default-off and uncommitted, for a later
+  ruling. Nothing in the running run uses it.
+
+- core estimator

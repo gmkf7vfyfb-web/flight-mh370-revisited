@@ -204,8 +204,9 @@ fn beaching_reports_segment_and_time() {
     let out = integrate(&spec(current_only(&c), &coast, 6.0 * 3600.0, times), &parts).unwrap();
     for (tr, (lon, lat, seg)) in out.tracks.iter().zip([(99.9, -34.55, 505), (99.6, -38.05, 501), (99.2, -25.0, 509)]) {
         assert_eq!(tr.fate, Fate::Beached);
-        let Event::Beached { t, at, segment, line, chainage_m } = tr.events[0] else { panic!("{:?}", tr.events) };
+        let Event::Beached { t, at, segment, line, chainage_m, snapped_m } = tr.events[0] else { panic!("{:?}", tr.events) };
         assert_eq!(segment, seg);
+        assert_eq!(snapped_m, 0.0);
         assert_eq!(line, 7);
         // Chainage along the meridian from 40 S: R * (lat + 40 deg), continuous across segments.
         let expected_chainage = EARTH_RADIUS_M * (lat + 40.0f64).to_radians();
@@ -218,7 +219,7 @@ fn beaching_reports_segment_and_time() {
         assert!((at[0] - 100.0).abs() < 1e-9 && (at[1] - lat).abs() < 1e-9);
         for (s, &tout) in tr.snapshots.iter().zip(&out.output_times) {
             if tout >= t {
-                assert_eq!(*s, Snapshot::Beached { at, segment: seg, line, chainage_m });
+                assert_eq!(*s, Snapshot::Beached { at, segment: seg, line, chainage_m, snapped_m });
             } else {
                 assert!(matches!(s, Snapshot::Afloat(_)));
             }
@@ -319,12 +320,17 @@ fn leeway_rotates_clockwise_from_downwind() {
     let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
     let mut p = particle(92.0, -35.0, 0.0, 0.02);
-    p.response.leeway_angle_deg = 90.0;
+    p.response.wind_angle_deg = 90.0;
     let out = integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap();
     let q = final_position(&out.tracks[0]);
-    // Northward wind, leeway rotated 90 degrees clockwise: due east at 0.2 m/s.
+    // Northward wind, c_wind term rotated 90 degrees clockwise: due east at 0.2 m/s.
     assert!(q[0] > 92.0 && (q[1] + 35.0).abs() < 1e-6);
     assert!((distance_m([92.0, -35.0], q) - 0.2 * DAY).abs() < 20.0);
+    // D-f: leeway_angle_deg does not rotate the c_wind term; due north at 0.2 m/s.
+    let mut p = particle(92.0, -35.0, 0.0, 0.02);
+    p.response.leeway_angle_deg = 90.0;
+    let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
+    assert!((q[0] - 92.0).abs() < 1e-9 && (distance_m([92.0, -35.0], q) - 0.2 * DAY).abs() < 20.0);
 }
 
 #[test]
@@ -455,14 +461,18 @@ fn constant_magnitude_leeway_follows_rotated_downwind() {
         let east = (q[0] - 92.0).to_radians() * EARTH_RADIUS_M * (35f64).to_radians().cos();
         assert!((east + 0.10 * DAY * 16f64.to_radians().sin()).abs() < 30.0, "east {east}");
     }
-    // Both wind terms share the angle: 1.2% of 10 m/s plus 0.10 m/s, at -16 deg, is 0.22 m/s.
+    // D-f, CSIRO form: 1.2% of 10 m/s downwind (wind_angle_deg 0) plus 0.10 m/s at -16 deg.
+    // Velocity (-0.10 sin 16, 0.12 + 0.10 cos 16) = (-0.02756, 0.21613) m/s, speed 0.21788 m/s.
     let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
     let mut p = particle(92.0, -35.0, 0.0, 0.012);
     p.response.leeway_speed_mps = 0.10;
     p.response.leeway_angle_deg = -16.0;
     let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
-    assert!((distance_m([92.0, -35.0], q) - 0.22 * DAY).abs() < 30.0);
+    let (ve, vn) = (-0.10 * 16f64.to_radians().sin(), 0.12 + 0.10 * 16f64.to_radians().cos());
+    assert!((distance_m([92.0, -35.0], q) - ve.hypot(vn) * DAY).abs() < 30.0);
+    let east = (q[0] - 92.0).to_radians() * EARTH_RADIUS_M * (35f64).to_radians().cos();
+    assert!((east - ve * DAY).abs() < 30.0, "east {east} vs {}", ve * DAY);
     // Calm: below the declared threshold the constant-magnitude term is zero.
     let calm = Uniform::new(Component::Wind10m, 0.0, 0.4 * LEEWAY_CALM_WIND_MPS);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&calm) };
@@ -678,4 +688,185 @@ fn sound_speed_climatology_interpolates_without_filling() {
     assert_eq!(woa23_period(1_054_339_200.0), ("95A4", 5)); // 2003-05-31
     assert_eq!(woa23_period(T0), ("A5B4", 3));
     assert_eq!(woa23_period(1_577_836_800.0), ("B5C2", 1)); // 2020-01-01
+}
+
+#[test]
+fn web_mercator_layer_answers_first_inside_its_coverage() {
+    use mh370_ocean::bathy::{BathySource, Bathymetry};
+    // An EPSG:3857 layer of 150 m cells over part of the lon/lat test grid: cell (i, j) holds
+    // -(1000 + i + 1000 j) where valid, NaN in the western half (outside coverage).
+    let dir = std::env::temp_dir().join(format!("mh370-merc-{}", std::process::id()));
+    let gebco = write_bathy(&dir);
+    let a = 6_378_137.0f64;
+    let merc_y = |lat: f64| a * (std::f64::consts::FRAC_PI_4 + 0.5 * lat.to_radians()).tan().ln();
+    let (x0, y0, step, n) = (a * 99.8f64.to_radians(), merc_y(-30.2), 150.0, 200usize);
+    let mut z = Vec::new();
+    for j in 0..n {
+        for i in 0..n {
+            let v = if i < 100 { f32::NAN } else { -(1000.0 + i as f32 + 1000.0 * j as f32) };
+            z.extend_from_slice(&v.to_le_bytes());
+        }
+    }
+    std::fs::write(dir.join("m.f32"), z).unwrap();
+    let m = format!(r#"{{"source":"ausseabed","projection":"epsg3857","x0_m":{x0},"y0_m":{y0},"step_m":{step},"nlon":{n},"nlat":{n},"elevation_file":"m.f32","elevation_dtype":"f32","tid_file":null}}"#);
+    std::fs::write(dir.join("m.json"), m).unwrap();
+    let b = Bathymetry::load(&[dir.join("m.json").as_path(), gebco.as_path()], Some([99.5, 100.5, -30.5, -29.5])).unwrap();
+    // The lon/lat of cell (150, 40)'s centre, by the inverse Mercator.
+    let (i, j) = (150.0, 40.0);
+    let lon = ((x0 + i * step) / a).to_degrees();
+    let lat = (2.0 * ((y0 + j * step) / a).exp().atan() - std::f64::consts::FRAC_PI_2).to_degrees();
+    let s = b.at([lon, lat]).unwrap();
+    assert_eq!((s.source, s.elevation_m, s.tid), (BathySource::AusSeabed, -(1000.0 + 150.0 + 40_000.0), None));
+    // A point 0.4 cell away still answers that cell (nearest cell, no interpolation).
+    let s2 = b.at([lon + (0.4 * step / a).to_degrees(), lat]).unwrap();
+    assert_eq!(s2.elevation_m, s.elevation_m);
+    // NaN cells and points beyond the Mercator layer fall through to the lon/lat layer.
+    let lon_nan = ((x0 + 20.0 * step) / a).to_degrees();
+    assert_eq!(b.at([lon_nan, lat]).unwrap().source, BathySource::Gebco2026);
+    assert_eq!(b.at([100.4, -29.6]).unwrap().source, BathySource::Gebco2026);
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn grid_profile_interpolates_with_per_level_land_renormalisation() {
+    use mh370_ocean::profile::{Salinity, Temperature};
+    // 2 x 2 columns at 92/93 E, 36/35 S; levels 1, 100, 1000 m; two daily means 1 day apart.
+    // Value of variable v at (t, j, i, z) = 10 v + t + 0.1 i + 0.01 j + z; the north-east column
+    // (j = 1, i = 1) has its floor at 500 m, so its 1000 m level is NaN.
+    let dir = std::env::temp_dir().join(format!("mh370-gridprofile-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let (nz, depth) = (3usize, [1.0, 100.0, 1000.0]);
+    let mut bytes = Vec::new();
+    for t in 0..2 {
+        for j in 0..2 {
+            for i in 0..2 {
+                for v in 0..4 {
+                    for z in 0..nz {
+                        let x = if j == 1 && i == 1 && z == 2 { f32::NAN } else { (10 * v + t) as f32 + 0.1 * i as f32 + 0.01 * j as f32 + z as f32 };
+                        bytes.extend_from_slice(&x.to_le_bytes());
+                    }
+                }
+            }
+        }
+    }
+    std::fs::write(dir.join("p.f32"), bytes).unwrap();
+    let deptho: Vec<u8> = [2000.0f32, 2000.0, 2000.0, 500.0].iter().flat_map(|x| x.to_le_bytes()).collect();
+    std::fs::write(dir.join("d.f32"), deptho).unwrap();
+    let m = format!(
+        r#"{{"product":"glorys12v1","description":"test","lon":[92.0,93.0],"lat":[-36.0,-35.0],"depth_m":{depth:?},"time_unix_s":[{T0},{}],"variables":["uo","vo","thetao","so"],"data_file":"p.f32","deptho_file":"d.f32"}}"#,
+        T0 + DAY
+    );
+    std::fs::write(dir.join("p.json"), m).unwrap();
+    let g = GridProfile::load(&dir.join("p.json")).unwrap();
+    // A quarter day in, at the centre of the four columns.
+    let pr = g.profile(T0 + 0.25 * DAY, [92.5, -35.5]).unwrap();
+    assert_eq!(pr.depth_m, depth.to_vec());
+    // Levels 0 and 1: all four corners; level 2: three corners (weights renormalised to 1/3 each).
+    let expect = |v: f64, z: usize| {
+        let corners: &[(f64, f64)] = if z < 2 { &[(0., 0.), (0., 1.), (1., 0.), (1., 1.)] } else { &[(0., 0.), (0., 1.), (1., 0.)] };
+        corners.iter().map(|(j, i)| 10.0 * v + 0.25 + 0.1 * i + 0.01 * j + z as f64).sum::<f64>() / corners.len() as f64
+    };
+    for z in 0..3 {
+        assert!((pr.u_east[z] - expect(0.0, z)).abs() < 1e-5, "u z{z}: {} vs {}", pr.u_east[z], expect(0.0, z));
+        assert!((pr.v_north[z] - expect(1.0, z)).abs() < 1e-5);
+    }
+    let (Temperature::Potential(th), Salinity::Practical(s)) = (&pr.temperature, &pr.salinity) else { panic!() };
+    assert!((th[1] - expect(2.0, 1)).abs() < 1e-5 && (s[2] - expect(3.0, 2)).abs() < 1e-5);
+    assert_eq!(pr.w_up, VerticalVelocity::Absent);
+    assert_eq!(pr.model_bottom_m, 2000.0);
+    // Right on the shallow column: only two levels, its own floor.
+    let ne = g.profile(T0, [93.0, -35.0]).unwrap();
+    assert_eq!((ne.depth_m.len(), ne.model_bottom_m), (2, 500.0));
+    assert!(matches!(g.profile(T0 + 2.0 * DAY, [92.5, -35.5]), Err(FieldGap::OutsideTime)));
+    assert!(matches!(g.profile(T0, [94.0, -35.5]), Err(FieldGap::OutsideDomain)));
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn windowed_load_answers_exactly_as_the_full_series_inside_its_window() {
+    // A two-part series on a 0.5-degree grid over 90-100 E, 40-30 S, 6-hourly, 4 + 4 slices. Values
+    // vary in every axis and one node is land, so any off-by-one in the window shows.
+    let dir = std::env::temp_dir().join(format!("mh370-window-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let lon: Vec<f64> = (0..21).map(|i| 90.0 + 0.5 * i as f64).collect();
+    let lat: Vec<f64> = (0..21).map(|j| -40.0 + 0.5 * j as f64).collect();
+    let mut parts = Vec::new();
+    for part in 0..2 {
+        let times: Vec<f64> = (0..4).map(|k| T0 + (4 * part + k) as f64 * 21_600.0).collect();
+        let mut bytes = Vec::new();
+        for (k, _) in times.iter().enumerate() {
+            for j in 0..lat.len() {
+                for i in 0..lon.len() {
+                    let land = i == 8 && j == 9;
+                    let u = if land { f32::NAN } else { (0.01 * i as f64 + 0.002 * j as f64 + 0.05 * (4 * part + k) as f64) as f32 };
+                    let v = if land { f32::NAN } else { (0.003 * i as f64 - 0.01 * j as f64) as f32 };
+                    bytes.extend_from_slice(&u.to_le_bytes());
+                    bytes.extend_from_slice(&v.to_le_bytes());
+                }
+            }
+        }
+        std::fs::write(dir.join(format!("p{part}.f32")), bytes).unwrap();
+        let m = format!(
+            r#"{{"product":"glorys12v1","component":"Current","description":"test part {part}","lon":{lon:?},"lat":{lat:?},"time_unix_s":{times:?},"data_file":"p{part}.f32"}}"#
+        );
+        std::fs::write(dir.join(format!("p{part}.json")), m).unwrap();
+        parts.push(format!("\"p{part}.json\""));
+    }
+    std::fs::write(dir.join("s.series.json"), format!(r#"{{"parts":[{}]}}"#, parts.join(","))).unwrap();
+    let series = dir.join("s.series.json");
+    let full = GridField::load_series(&series).unwrap();
+    // Window 93.2-95.9 E, 36.1-34.3 S, across the part seam (slices 2..=5 bracket it).
+    let (ta, tb) = (T0 + 0.6 * 21_600.0 * 2.0, T0 + 4.5 * 21_600.0);
+    let w = LoadWindow::new([93.2, 95.9, -36.1, -34.3], [ta, tb]);
+    let win = GridField::load_window(&series, &w).unwrap();
+    let (t, lo, la) = win.axes();
+    assert_eq!((lo[0], lo[lo.len() - 1], la[0], la[la.len() - 1]), (93.0, 96.0, -36.5, -34.0));
+    assert_eq!((t[0], t[t.len() - 1]), (T0 + 21_600.0, T0 + 5.0 * 21_600.0));
+    assert!(win.data_bytes() * 10 < full.data_bytes(), "{} vs {}", win.data_bytes(), full.data_bytes());
+    let mut g = rand_chacha::ChaCha8Rng::seed_from_u64(9);
+    use rand::{Rng, SeedableRng};
+    for _ in 0..5_000 {
+        let p = [g.gen_range(93.2..95.9), g.gen_range(-36.1..-34.3)];
+        let tt = g.gen_range(ta..tb);
+        assert_eq!(win.sample(tt, p), full.sample(tt, p), "{p:?} {tt}");
+    }
+    // The land node at (94.0 E, 35.5 S) is inside the window and renormalised identically.
+    assert_eq!(win.sample(ta, [94.0, -35.5]), full.sample(ta, [94.0, -35.5]));
+    // Outside the window: flagged, never extrapolated.
+    assert_eq!(win.sample(ta, [97.0, -35.0]), Err(FieldGap::OutsideDomain));
+    assert_eq!(win.sample(T0 + 6.5 * 21_600.0, [94.5, -35.0]), Err(FieldGap::OutsideTime));
+    // A single part loads windowed too; a window that misses the grid is refused.
+    let p0 = GridField::load_window(&dir.join("p0.json"), &LoadWindow { lon: Some([91.0, 92.0]), ..LoadWindow::all() }).unwrap();
+    assert_eq!(p0.axes().1, &[91.0, 91.5, 92.0]);
+    assert!(GridField::load_window(&series, &LoadWindow { lon: Some([120.0, 130.0]), ..LoadWindow::all() }).is_err());
+    std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn long_geodesic_window_holds_the_whole_path() {
+    use mh370_ocean::bathy::{path_extent, Bathymetry};
+    // Ends at 38.5 S, 100 and 140 E: the geodesic bows to about 40.2 S, outside the endpoints'
+    // +-1 deg box (the bug in ocean_paths before this fix, which dropped the samples there).
+    let dir = std::env::temp_dir().join(format!("mh370-longpath-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let (nx, ny, step) = (601usize, 201usize, 0.1);
+    let z: Vec<u8> = (0..nx * ny).flat_map(|k| (-(3000 + (k % 7) as i16)).to_le_bytes()).collect();
+    std::fs::write(dir.join("z.i16"), z).unwrap();
+    let m = format!(r#"{{"source":"gebco_2026","lon0":90.0,"lat0":-50.0,"step_deg":{step},"nlon":{nx},"nlat":{ny},"elevation_file":"z.i16","elevation_dtype":"i16","tid_file":null}}"#);
+    std::fs::write(dir.join("b.json"), m).unwrap();
+    let layer = dir.join("b.json");
+    let (a, b) = ([100.0, -38.5], [140.0, -38.5]);
+    let w = path_extent(a, b, 2000.0, 10_000.0, 0.1);
+    assert!(w[2] < -40.2 && w[2] > -40.6, "{w:?}");
+    assert!(w[0] < 100.0 && w[1] > 140.0 && w[3] > -38.5);
+    let full = Bathymetry::load(&[layer.as_path()], Some(w)).unwrap();
+    let samples = full.path(a, b, 1000.0, 2000.0);
+    assert!(samples.iter().all(|s| s.is_some()), "gaps inside the path window");
+    let south = samples.iter().flatten().map(|s| s.track.point[1]).fold(0.0f64, f64::min);
+    assert!(south < -40.0, "{south}");
+    // The old endpoint box loses the middle of the path.
+    let old = Bathymetry::load(&[layer.as_path()], Some([99.0, 141.0, -39.5, -37.5])).unwrap();
+    let lost = old.path(a, b, 1000.0, 2000.0).iter().filter(|s| s.is_none()).count();
+    assert!(lost > 1000, "{lost}");
+    std::fs::remove_dir_all(&dir).unwrap();
 }

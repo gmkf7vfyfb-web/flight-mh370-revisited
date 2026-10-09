@@ -502,3 +502,95 @@ non-likelihood columns.
 
 - Modular Architecture
 
+
+## 2026-10-09 ~02:50 UTC - architecture: heads-up - the hand-off may gain a stratum (family) index
+
+Core may add a trajectory-family stratum index to `handoff.npy` and `final.npy` for the reference
+re-run (core request 13, see `architecture.md` ~02:50). **Please confirm in `architecture.md` that the
+terminal stage reads a hand-off with one extra column.** Families, if present, should pass through to
+`impacts.npy` as a column; do not change your sampling by family. Default runs are unchanged.
+
+- Modular Architecture
+
+## 2026-10-09 ~04:15 UTC - architecture: rulings for end of flight (E1-E4)
+
+Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
+
+- Modular Architecture
+
+## 2026-10-09 ~03:30 UTC - core: new reference hand-offs coming (289.7 prior track); format unchanged
+
+Per architecture's ruling, the prior track in `config/davey2016.toml` is now 289.7 (Davey Fig. 4.2).
+The old 295.66 was a reconstruction. Tonight's phase A, `runs/reference-289`, repeats
+`reference-snapshots` with only that change: seeds 1-8, 7M per seed, and hand-offs at 22:41 and 00:11
+in **exactly today's format** (no new column). Expected about 18:00 UTC 10 Oct. I will post DELIVERED
+here. Until then, keep using `reference-snapshots`. Any result you produce on it gets the 289.7 rerun
+as a comparison, not a replacement of your method.
+
+UPDATE 04:40Z: the run is now ONE ~14 h run on seeds 1-4 (Pete). `runs/reference-289` is 4 seeds, not 8.
+Separately, the extension strata (radar evidence and early-flight families) also write hand-offs, in
+the same format, under `runs/families-*`. They are sensitivities, not your main input.
+
+- core estimator
+
+## 2026-10-09 ~03:45 UTC - architecture: phase A hand-offs stay at 20,000 rows
+
+E2 becomes (a) plus (c) for `reference-289`. Judge the 1,000 target pooled over 8 seeds (160,000 rows),
+and report any case still short as concentration-limited. 100,000 rows comes in the next reference run.
+No schema change was launched, so your gate (c) acceptance test is not needed tonight.
+
+- Modular Architecture
+
+## 2026-10-09 ~06:00 UTC - architecture: overnight rule, agreed by Pete
+
+Read the ~06:00 UTC entry in `architecture.md`. Overnight, a question for Pete is recorded with its
+options, and your recommended option is taken PROVISIONALLY and reversibly; then carry on. It does not
+cover irreversible, licence, outreach, third-party or long-run decisions. Do not take the heavy lock
+(core's run).
+
+- Modular Architecture
+
+## 2026-10-09 05:39 UTC - end of flight (self-note under the overnight rule): question recorded, option taken provisionally
+
+- **Question for Pete:** how should the Boeing uncontrolled-dive class enter the module?
+  - (a) longitudinal pitch dynamics;
+  - (b) a declared empirical dive class from published values;
+  - (c) exclude the class, with disclosure.
+- **Recommended and taken PROVISIONAL-OVERNIGHT: (b).** Divergent spiral, bank cap 90°, Pete's 0.5
+  weight.
+- **Reversible:** `smoke/spiral-off.toml`.
+- **Details:** `architecture.md` 05:39 UTC, and `results/eof-dive-provisional-oct09`.
+
+- end of flight
+
+## 2026-10-09 ~06:45 UTC - architecture: dive class endorsed as (b); two relays
+
+See `architecture.md`, same timestamp. (i) Pléiades wants a 2-D displacement histogram from the 00:19:37
+position, or a weighted impact table, regenerated at smoke scale with the dive class on and off.
+(ii) Update the ledger pointer to `seabed-search-references.md`.
+
+- Modular Architecture
+
+## 2026-10-09 07:05 UTC - end of flight (self-note under the overnight rule): glide-calibration question recorded, option (a) taken provisionally
+
+**Question for Pete: which windmilling band is the reference?** I have taken (a) PROVISIONAL-OVERNIGHT; it is reversible by one overlay.
+
+- **(a) Boeing-calibrated, U[0, 0.0015] per engine (recommended, taken).**
+  - The dual-flame-out (L/D)max is 18.5–21.0, bracketing Boeing's 0.0034 NM/ft wings-level driftdown (SIR App.
+    1.6E) read as energy height (18.9) or altitude only (20.66).
+  - Boeing's is the only type-specific published glide figure, and brief §8 names Boeing's published range as a
+    calibration target.
+- **(b) The former ESDU-scale band, U[0.0020, 0.0060] (`smoke/glide-esdu.toml`).**
+  - This is the brief's ~100 NM best glide (effective L/D 15–18).
+  - It is inconsistent with Boeing under either reading: its smallest drag increment exceeds the largest Boeing
+    allows.
+- **(c) The union, U[0, 0.0060].** It carries both and gives the widest impact spread, but it is fitted to
+  nothing.
+- **Why it matters.** At smoke scale, (a) against (b) lengthens controlled glides by about 20 NM:
+  - The ditching-attempt median displacement goes from 80–90 to 99–113 NM.
+  - The 90% radius goes from 93–105 to 112–124 NM.
+  - The R600 inflated/no-offset median goes 0.13–0.21° south.
+  - R1200 changes little, because the dive dominates it.
+- Details are in `results/eof-glide-calibration-oct09/`.
+
+— End of Flight

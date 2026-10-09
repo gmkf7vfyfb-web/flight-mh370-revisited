@@ -110,6 +110,22 @@ pub struct ExcursionPrior {
     pub end_unix_s: (f64, f64),
     pub cas_kt: (f64, f64),
     pub max_tries: u32,
+    /// Maximum climb rate (fpm) at 5,000 ft and at 35,000 ft, linear in between and constant
+    /// outside. A draw whose climb rate exceeds the mean ceiling over its climb (total height
+    /// over the time the ceiling profile takes) is infeasible and redrawn.
+    pub climb_ceiling_fpm: Option<(f64, f64)>,
+}
+
+impl ExcursionPrior {
+    /// Mean rate (fpm) of a climb from `from_ft` to `to_ft` flown at the ceiling throughout.
+    fn mean_ceiling_fpm(&self, from_ft: f64, to_ft: f64) -> f64 {
+        let Some((r5, r35)) = self.climb_ceiling_fpm else { return f64::INFINITY };
+        let rate = |h: f64| r5 + (r35 - r5) * ((h - 5000.0) / 30000.0).clamp(0.0, 1.0);
+        const N: usize = 64;
+        let dh = (to_ft - from_ft) / N as f64;
+        let minutes: f64 = (0..N).map(|i| dh / rate(from_ft + (i as f64 + 0.5) * dh)).sum();
+        (to_ft - from_ft) / minutes
+    }
 }
 
 /// Prior over a turn at a fixed time to a ground track uniform on `track_deg`.
@@ -214,7 +230,7 @@ fn draw_early<R: Rng>(e: &EarlyPhase, p: &Parameters, from_ft: f64, mach: f64, r
                 let end_ft = levels[rng.gen_range(0..levels.len())].0;
                 let low_s = start_s + (from_ft - low_ft) / descent_fpm * 60.0;
                 let climb_s = end_s - (end_ft - low_ft) / climb_fpm * 60.0;
-                if low_ft < from_ft && low_ft < end_ft && low_s <= climb_s {
+                if low_ft < from_ft && low_ft < end_ft && low_s <= climb_s && climb_fpm <= x.mean_ceiling_fpm(low_ft, end_ft) {
                     rec.excursion = Some(Excursion {
                         start_s,
                         low_s,

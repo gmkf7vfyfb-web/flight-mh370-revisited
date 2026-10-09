@@ -1,7 +1,8 @@
-# crates/ocean — citation ledger
+# Shared ocean transport (`engine/crates/ocean`) — citation ledger
 
 This ledger is kept under the architecture standing rule of 9 October (`coordination/architecture.md`,
-commit 419a760), with `references.bib` beside it. It has one entry per source, giving:
+commit 419a760; location ruled ~02:25 UTC: `results/`, since `AGENTS.md` allows no further `.md` under
+`engine/`), with `ocean-references.bib` beside it. It has one entry per source, giving:
 - what the source supports, and where in this crate it is used;
 - how it was obtained;
 - its licence.
@@ -109,13 +110,23 @@ page is still to be read.
 ### AusSeabed / Geoscience Australia MH370 Phase 1, 150 m — `spinoccia2017mh370`
 - **Reference:** Spinoccia, M. (2017). MH370 Phase 1 150m Bathymetry datasets (GA-4421, GA-4422 & GA-4430).
   Geoscience Australia. https://pid.geoscience.gov.au/dataset/ga/100315.
-- **Intended use:** the finest layer of `src/bathy.rs` inside its coverage.
-- **Status:** **not obtained.**
-  - The GA marine geoserver (`marine.ga.gov.au`) returned 502 on 9 October 2026.
-  - Not found under NCI's GA bathymetry collection `rr1`.
-  - Until it is obtained, the surface is GEBCO_2026 alone. GEBCO's TID marks where GEBCO already carries
-    multibeam soundings, including GA's MH370 surveys.
-- **Licence:** Geoscience Australia, CC BY 4.0. **To verify.**
+- **Use:** the first layer of `src/bathy.rs` inside its coverage, ahead of GEBCO_2026.
+- **Obtained 9 October 2026** from the download link in GA's eCat record d887e71a-71dc-4851-94a9-920f7b7cc7e5
+  (`files.ausseabed.gov.au`, `Southern Indian Ocean (MH370) Bathymetry 2017 150m.zip`, last modified
+  14 April 2022).
+  - The record gives the publication date as 14 July 2017.
+  - Contents: one cloud-optimised GeoTIFF on EPSG:3857 (WGS 84 / Pseudo-Mercator) with 150 m projected
+    cells, float32 elevation relative to MSL. 27,012 × 27,443 cells cover 79.37–115.77 E and 42.14–9.52 S;
+    47,052,808 cells hold values, from −7,013 to −11 m.
+  - sha256 values are in `ocean-data-manifest.md`.
+- **Kept on its own grid** rather than resampled. `bathy.rs` gained EPSG:3857 layers (exact spherical
+  Mercator with a = 6,378,137 m on WGS84 geodetic coordinates, per the EPSG definition), so every answer is
+  a distributed cell value. On this grid, 150 m projected cells are about 123 m on the ground at 35 S.
+- **Relation to GEBCO_2026:** at 254,015 random valid cells, AusSeabed − GEBCO = +0.3 m mean, 20.6 m SD,
+  and 5–95% −25.2 to +26.8 m. 99.6% of those GEBCO cells are TID 11 (multibeam). GEBCO_2026 therefore
+  already carries these surveys at 15 arc-seconds, and the AusSeabed layer adds resolution rather than new
+  soundings.
+- **Licence:** CC BY 4.0, as stated in the eCat record (verified 9 October 2026).
 
 ## Thermodynamics and geodesy
 
@@ -178,6 +189,9 @@ page is still to be read.
   about 10 cm/s, about 16 degrees left of downwind, is on pp. 9–10.
 - **Page note:** taken from drift's provenance note `results/debris-drift-flaperon-provenance.md`, **not read
   by this module**.
+- **Also supports:** `ObjectResponse::wind_angle_deg` (ruling D-f, 9 Oct). CSIRO rotates only the extra
+  constant-magnitude leeway, not the proportional windage (p. 13, Fig. 3.1 caption, as cited in the
+  architecture ruling; **not read by this module**).
 
 ### Random-flight and random-Fourier error models — `griffa1996stochastic`, `rahimi2007random`
 - **References:**
@@ -193,3 +207,43 @@ page is still to be read.
 
 ### Copernicus Marine Toolbox — `copernicusmarine_toolbox`
 - **Software:** `copernicusmarine` 2.5.0, for server-side subsetting of GLORYS12 and WAVERYS.
+
+### GSHHG shoreline database, version 2.3.7 — `wessel1996gshhg`, `gshhg237`
+- **Reference:** Wessel, P. and Smith, W. H. F. (1996). A global, self-consistent, hierarchical,
+  high-resolution shoreline database. *Journal of Geophysical Research: Solid Earth* 101(B4), 8741–8743.
+  doi:10.1029/96JB00104 (verified on Crossref).
+- **Data:** GSHHG 2.3.7 (15 June 2017), binary distribution `gshhg-bin-2.3.7.zip` from the SOEST mirror,
+  full-resolution shorelines `gshhs_f.b`. Licence: GNU LGPL version 3 or later (`LICENSE.TXT` in the
+  distribution). sha256 values are in `ocean-data-manifest.md`.
+- **Supports:** `gshhg::PolygonCoast`, the real coastline. It uses level-1 (ocean/land) polygons, the
+  big-endian header and micro-degree point layout of the distribution's `README.TXT`, and WGS84 geodetic
+  coordinates (README note C, which also says the WDBII-derived lakes may be WGS72 and that offsets from
+  modern GPS positions have been noted).
+
+### Copernicus-GlobCurrent, MULTIOBS_GLO_PHY_MYNRT_015_003 — `cmems_mob_015_003`
+- **Data:** E.U. Copernicus Marine Service Information, *Global Total (COPERNICUS-GLOBCURRENT), Ekman and
+  Geostrophic currents at the Surface and 15m*, MULTIOBS_GLO_PHY_MYNRT_015_003. Datasets used:
+  `cmems_obs-mob_glo_phy-cur_my_0.25deg_P1D-m` and `..._PT1H-i`, version 202411. CMEMS announces that this
+  version retires on 24 November 2026.
+- **Supports:** the `globcurrent-my-p1d` and `globcurrent-my-pt1h` catalogue entries. The total current
+  is altimetric geostrophy plus an empirical Ekman current from ERA5 wind stress plus the barotropic tide
+  (quality information document CMEMS-MOB-QUID-015-003, and the product page). The Stokes content is
+  declared `Partial` by this module, because the Ekman transfer is fitted to drifters; that declaration
+  is a modelling choice, not a statement in the source.
+- **Files used (sha256), fetched 2026-10-09:**
+  - `globcurrent_my_pt1h_uo_vo_0m_20140307-20140331.nc`
+    3664986c503d319e19249ed0abe15363c4a14acf72b8bceb00328f4f4029a513
+  - `globcurrent_my_p1d_uo_vo_err_0m_20140307-20170131.nc`
+    4aa9366d43fc92561c813f914b921b799613842e797fab60f8870e4159b8ee8f
+  - Derived grids are in `ocean-data-manifest.md`.
+  - **Version 202411 retires on 24 November 2026**, as announced in the Toolbox warning. A re-fetch after
+    that date gets a different version and must be re-verified against these hashes.
+- **Ruling (architect, 9 October):** the second `ocean-model` value, a declared alternative at equal
+  prior weight beside GLORYS12 + ERA5.
+- **Licence:** Copernicus Marine Service product licence (free use with attribution).
+
+### Global Drifter Program 6-hourly QC positions — `lumpkin2019gdp`
+- **Reference:** Lumpkin, R. and Centurioni, L. (2019). Global Drifter Program quality-controlled 6-hour
+  interpolated data from ocean surface drifting buoys. NOAA NCEI. doi:10.25921/7ntx-z961. These are drift's
+  files and drift's citation (`debris-drift-references.md`).
+- **Supports:** the transport-error replay `ocean-transport-error-gdp-replay.md`.

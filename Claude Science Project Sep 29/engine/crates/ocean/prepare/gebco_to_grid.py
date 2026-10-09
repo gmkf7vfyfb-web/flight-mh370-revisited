@@ -1,9 +1,14 @@
 """GEBCO_2026 (15 arc-second, global) -> a regional raw layer for `bathy::Bathymetry`:
 int16 elevation (m, positive up) and uint8 Type Identifier, rows south to north, plus a manifest.
-Values are copied unchanged (no resampling). Region 40-180 E, 60 S-30 N: the impact region, the
+Values are copied unchanged (no resampling). The elevation file is netCDF4/HDF5 (h5py); the TID file
+is distributed as classic netCDF3 and is read memory-mapped with scipy. Region 40-180 E, 60 S-30 N: the impact region, the
 hydroacoustic paths to H01, H08 and H11, and the searched areas.
 
-    python gebco_to_grid.py <GEBCO_2026.nc> <gebco_2026_tid.nc> <out-dir>
+    python gebco_to_grid.py <GEBCO_2026.nc> <gebco_2026_tid.nc> <out-dir> [lon0 lon1 lat0 lat1 stem]
+
+The optional region and file stem build an additional layer with the same layout, e.g. the north-west
+Pacific layer for the F-35A -> H11 path (130-180 E, 30-50 N, stem gebco_2026_nwpac). Without them the
+default layer is written exactly as before.
 """
 import hashlib
 import json
@@ -12,6 +17,7 @@ import sys
 
 import h5py
 import numpy as np
+from scipy.io import netcdf_file
 
 LON, LAT = (40.0, 180.0), (-60.0, 30.0)
 
@@ -26,27 +32,34 @@ def sha256(path):
 
 def main():
     elev, tid, out = sys.argv[1], sys.argv[2], sys.argv[3]
+    global LON, LAT
+    stem = "gebco_2026"
+    if len(sys.argv) > 8:
+        LON, LAT, stem = (float(sys.argv[4]), float(sys.argv[5])), (float(sys.argv[6]), float(sys.argv[7])), sys.argv[8]
     os.makedirs(out, exist_ok=True)
-    with h5py.File(elev, "r") as f, h5py.File(tid, "r") as g:
+    g = netcdf_file(tid, "r", mmap=True)
+    gv = g.variables
+    with h5py.File(elev, "r") as f:
         lon, lat = f["lon"][:], f["lat"][:]
-        assert np.array_equal(lon, g["lon"][:]) and np.array_equal(lat, g["lat"][:])
+        assert np.allclose(lon, gv["lon"][:]) and np.allclose(lat, gv["lat"][:])
         i = np.where((lon >= LON[0]) & (lon <= LON[1]))[0]
         j = np.where((lat >= LAT[0]) & (lat <= LAT[1]))[0]
         i0, i1, j0, j1 = i[0], i[-1] + 1, j[0], j[-1] + 1
         assert lat[1] > lat[0], "expected ascending latitude"
-        with open(os.path.join(out, "gebco_2026_elevation.i16"), "wb") as fe, open(os.path.join(out, "gebco_2026_tid.u8"), "wb") as ft:
+        with open(os.path.join(out, stem + "_elevation.i16"), "wb") as fe, open(os.path.join(out, stem + "_tid.u8"), "wb") as ft:
             for a in range(j0, j1, 1200):
                 b = min(j1, a + 1200)
                 f["elevation"][a:b, i0:i1].astype("<i2").tofile(fe)
-                g["tid"][a:b, i0:i1].astype("u1").tofile(ft)
+                np.asarray(gv["tid"][a:b, i0:i1]).astype("u1").tofile(ft)
         step = float(lon[1] - lon[0])
         manifest = dict(source="gebco_2026", lon0=float(lon[i0]), lat0=float(lat[j0]), step_deg=step,
-                        nlon=int(i1 - i0), nlat=int(j1 - j0), elevation_file="gebco_2026_elevation.i16",
-                        elevation_dtype="i16", tid_file="gebco_2026_tid.u8",
-                        description="GEBCO_2026 ice-surface elevation and TID, 15 arc-second, copied unchanged",
+                        nlon=int(i1 - i0), nlat=int(j1 - j0), elevation_file=stem + "_elevation.i16",
+                        elevation_dtype="i16", tid_file=stem + "_tid.u8",
+                        description="GEBCO_2026 ice-surface elevation and TID, 15 arc-second, copied unchanged"
+                                    + ("" if stem == "gebco_2026" else f"; region {LON[0]}-{LON[1]} E, {LAT[0]}-{LAT[1]} N"),
                         doi="10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa",
                         source_sha256={os.path.basename(elev): sha256(elev), os.path.basename(tid): sha256(tid)})
-    json.dump(manifest, open(os.path.join(out, "gebco_2026.json"), "w"), indent=1)
+    json.dump(manifest, open(os.path.join(out, stem + ".json"), "w"), indent=1)
     print(json.dumps({k: manifest[k] for k in ("lon0", "lat0", "step_deg", "nlon", "nlat")}))
 
 
