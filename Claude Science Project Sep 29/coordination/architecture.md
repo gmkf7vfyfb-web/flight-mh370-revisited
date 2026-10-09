@@ -2291,3 +2291,68 @@ noise**, and so set the production particle count.
 it. Until he decides, the pilot is the CSIRO-system arm on GLORYS12, as a declared alternative.
 
 — ocean drift
+
+## 2026-10-09 ~02:00 UTC - ocean settling: sequence steps 1-5 done; ocean transport items 3 and 4 adopted; D6 page; two items for Pete
+
+Inbox `coordination/OCEAN_SETTLING.md` re-read (latest entry ~00:30 UTC). Branch `hypothesis/settling`
+at **`41c1f36`**, rebased on `79008e8`; `make scope H=settling` passes; mh370-hypotheses 109 pass,
+3 ignored.
+
+**Sequence (your ~00:30 entry).**
+1. Float phase, currents and ocean error on `mh370-ocean`: `309ccb1`.
+2. Analogues verified against primary sources: `706edc4`. AF447 from the BEA final report (6.5 NM on
+   radial 019 from the LKP, 3,900 m; last vertical speed 55.4 m/s, total 78.1 m/s). Main field about
+   600 x 200 m. 50 bodies recovered at the surface in June 2009, with the floating debris and 38 NM
+   from the LKP; 104 recovered from the seabed in 2011; 74 never found.
+3. Float/sink cut-off: `results/breakup-field-candidate.md` section 8 (`6de9737`), enforced on table load
+   (`bfba89e`, test fixed at `6533526`). T_c = 48 h; drift owns fate (c).
+4. **D6: `results/settling-d6/`** (this commit). PROVISIONAL (analytic column). Depths 3,500 / 3,830 /
+   4,070 m (posterior p10/p50/p90 under the no-exhaustion-prior map) and 5,800 m (Diamantina).
+   Findings:
+   - depth barely matters;
+   - engines and gear rest within 0.2-0.45 km p90;
+   - **intact-family wing box and fuselage sections rest 5-6 km away because they float for hours**;
+   - cabin contents spread about 11 km in every family;
+   - float time dominates the floated classes; carry and glide set the dense classes;
+   - the near-bottom band changes p90 by under 0.5 %.
+5. **Streaming consumer against a stub of the CR12 hook**: `ee10224`.
+   - `stream::stream_impact`: 512 pilot draws, doubling to 4,096 until the 95 % half-width of the
+     mean is at most min(0.02, 0.2 x mean). Unconverged is reported as such.
+   - Draws are averaged, never multiplied. `BoxSearchPlaceholder` is plumbing only.
+   - **Cost:** 1.24 ms per draw single-threaded with every term on and the shared products, so
+     0.64 s per impact at 512 draws and about 5 s at 4,096.
+   - **For searched areas:** a relative target on a small P(no detection) drives draws to the
+     maximum. Your tolerance is your call; it is a parameter of `StreamPolicy`.
+
+**Ocean transport items 3 and 4 adopted (`41c1f36`).**
+- Seabed: `Bathymetry` (GEBCO_2026, window 80-112 E, 45-18 S). Land and points outside the window
+  are refused.
+- Density: TEOS-10 on the WOA23 A5B4 March SA/CT column, one column per impact. An impact in another
+  month is refused. At 92 E, 35 S: GEBCO 3,927 m; rho 1025.28 / 1046.27 kg/m3 at 0 / 4,000 m (the
+  stub had 1025 / 1045).
+- `Particle.end_time` replaces the exact output times.
+- `Banded` error at the first pass's magnitudes, with the near-bottom band within 200 m of the seabed.
+- **Still provisional:** the current column (no gridded `ProfileSource` exists) and the uniform
+  surface fields.
+- **Request to ocean transport:** a GLORYS12 `ProfileSource` (u, v, thetao, so by depth) when item 5
+  allows. AusSeabed when obtainable.
+
+**Cross-module item: drift and searched areas, ruling wanted on scope.** The breakup families
+differ most in what floats in the first weeks. Settling's table gives about 85 floating pieces for
+intact, about 900 for broken and about 11,000 for fragmented. AF447, which our rule classes as
+broken, gave more than 1,000 pieces and 50 bodies at the surface.
+- The unsuccessful **March-April 2014 aerial surface search** is therefore potentially the one
+  observation that discriminates intact from fragmented, if drift forward-models the first 3-6 weeks
+  against reconstructed 2014 coverage and detection probability.
+- Absence of human remains among the 2015-16 beach finds discriminates nothing: no remains survive
+  16-28 months adrift.
+- Occupants are not an element class. Adding them (count, buoyancy by family, refloat time) would be
+  settling's job. Calibration: AF447, 50 of 228 afloat within days.
+- I will not add the class without a ruling, because it changes what drift's surface-search
+  likelihood sees.
+
+**Two scientific items going to Pete now that the shared ocean is in** (per the morning ruling):
+implosion at depth, and the sink-versus-float split (the 15-20 % floating-mass share is the
+weakest number in the table).
+
+- ocean settling
