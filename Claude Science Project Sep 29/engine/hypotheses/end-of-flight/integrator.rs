@@ -189,6 +189,8 @@ pub struct Trace {
     /// schedule (good to about 12% against Boeing), as the core asks them carried.
     pub fuel_below_tables_s: f64,
     pub fuel_extrapolated_s: f64,
+    /// Sea-surface pressure altitude at the surface crossing, ft, as the atmosphere gave it.
+    pub surface_pressure_altitude_ft: f64,
     pub steps: usize,
 }
 
@@ -237,6 +239,7 @@ impl<'a> Integrator<'a> {
             fuel_unpriced_s: 0.0,
             fuel_below_tables_s: 0.0,
             fuel_extrapolated_s: 0.0,
+            surface_pressure_altitude_ft: f64::NAN,
             steps: 0,
         };
         let t0 = body.unix_s;
@@ -311,6 +314,7 @@ impl<'a> Integrator<'a> {
         }
         let air = atmosphere.at(body.unix_s, body.pressure_altitude_ft, body.latitude_deg, body.longitude_deg);
         trace.impact = body;
+        trace.surface_pressure_altitude_ft = air.surface_pressure_altitude_ft;
         let factor = atmos::geometric_rate_factor(body.pressure_altitude_ft, air.temperature_k);
         trace.impact_vertical_speed_mps = body.vertical_speed_mps() * factor;
         let horizontal = body.tas_mps * body.gamma_rad.cos();

@@ -254,6 +254,15 @@ const LATENTS: &[&str] = &[
     "fuel_unpriced_s",
     "fuel_below_tables_s",
     "fuel_extrapolated_s",
+    // Core request 3b: 1 when the onset-trigger exhaustion prediction was priced by the core's
+    // fuel model (the runner's takeover_priced path), and the seconds of that prediction the
+    // model could not price. On a real run the flag must be 1.
+    "onset_prediction_priced_by_core",
+    "onset_prediction_unpriced_s",
+    // Core request 5, ruled: the sea-surface pressure altitude the descent ended at, ft. The
+    // weather grid has no mean-sea-level pressure, so this is ISA sea level (0) everywhere: a
+    // declared limitation of about 280 ft per 10 hPa of real anomaly, the same sign everywhere.
+    "surface_pressure_altitude_ft",
     // Seconds the CORE flew this trajectory on powered dynamics after its own tanks ran dry,
     // between the hand-off and this module's takeover. Non-zero when the module's predicted
     // exhaustion (its own TSFC burn, 12.7 % below the core's FPPM burn at the fixture state) lands
@@ -346,7 +355,7 @@ const TAU_METHOD_NOT_COMPUTED: f64 = 0.0;
 
 /// Layout version of `Takeover::draw`. The runner never reads the vector; this module encodes it
 /// in `takeover` and decodes it in `descend_after`, and refuses a vector it did not write.
-const DRAW_VERSION: f64 = 1.0;
+const DRAW_VERSION: f64 = 2.0;
 
 /// What `takeover` drew, as `descend_after` needs it again (core request 2).
 #[derive(Debug, Clone, Copy)]
@@ -358,6 +367,10 @@ struct OnsetDraw {
     support_truncated_fraction: f64,
     /// Exhaustion under continued cruise predicted from the hand-off state.
     predicted_exhaustion_unix_s: f64,
+    /// Core request 3b: the prediction was priced by the core's fuel model, and the seconds of it
+    /// that model could not price.
+    prediction_priced_by_core: bool,
+    prediction_unpriced_s: f64,
 }
 
 impl OnsetDraw {
@@ -368,12 +381,14 @@ impl OnsetDraw {
             self.lead_s,
             self.support_truncated_fraction,
             self.predicted_exhaustion_unix_s,
+            f64::from(u8::from(self.prediction_priced_by_core)),
+            self.prediction_unpriced_s,
             DRAW_VERSION,
         ]
     }
 
     fn decode(v: &[f64]) -> Option<OnsetDraw> {
-        if v.len() != 6 || v[5] != DRAW_VERSION {
+        if v.len() != 8 || v[7] != DRAW_VERSION {
             return None;
         }
         let mechanism = Initiation::ALL.iter().copied().find(|m| m.code() == v[0])?;
@@ -383,6 +398,8 @@ impl OnsetDraw {
             lead_s: v[2],
             support_truncated_fraction: v[3],
             predicted_exhaustion_unix_s: v[4],
+            prediction_priced_by_core: v[5] == 1.0,
+            prediction_unpriced_s: v[6],
         })
     }
 }
@@ -452,20 +469,27 @@ struct Parent {
     mass_assumed: bool,
     /// A fallback fired for the fuel. On a real hand-off this must be false for every parent.
     fuel_assumed: bool,
+    /// Whether the exhaustion prediction was priced by the core's fuel model (core request 3b),
+    /// and the seconds of it the model could not price (burnt at the module's TSFC instead).
+    prediction_priced_by_core: bool,
+    prediction_unpriced_s: f64,
 }
 
 impl EndOfFlight {
-    fn parent(&self, state: &FlightState) -> Parent {
+    fn parent(&self, state: &FlightState, fuel: Option<&dyn FuelFlow>) -> Parent {
         let mass_known = state.mass_kg.is_finite() && state.mass_kg > 1_000.0;
         let fuel_known = state.fuel_kg.is_finite() && state.fuel_kg >= 0.0;
         let mass_kg = if mass_known { state.mass_kg } else { self.params.fallback_mass_kg };
         let fuel_kg = if fuel_known { state.fuel_kg } else { self.params.fallback_fuel_kg };
+        let (predicted, unpriced) = self.predicted_exhaustion(state, mass_kg, fuel_kg, fuel);
         Parent {
-            predicted_exhaustion_unix_s: self.predicted_exhaustion(state, mass_kg, fuel_kg),
+            predicted_exhaustion_unix_s: predicted,
             mass_kg,
             fuel_kg,
             mass_assumed: !mass_known,
             fuel_assumed: !fuel_known,
+            prediction_priced_by_core: fuel.is_some(),
+            prediction_unpriced_s: unpriced,
         }
     }
 
@@ -492,11 +516,19 @@ impl EndOfFlight {
     ///
     /// Returns `f64::INFINITY` when there is no fuel to burn and no sensible cruise condition, so
     /// that an anticipatory onset simply never triggers rather than triggering at an invented time.
-    fn predicted_exhaustion(&self, state: &FlightState, mass_kg: f64, fuel_kg: f64) -> f64 {
+    ///
+    /// **Core request 3b.** With `fuel` (the core's model, carrying the parent's own fuel-flow
+    /// factor) the level-cruise flow is the table flow at this flight level, gross weight and
+    /// Mach - the same model the core burns between the hand-off and the takeover, so the
+    /// prediction and the burn agree. A state the model cannot price falls back to the module's
+    /// TSFC for that step and the seconds are returned, never read as zero flow. Without `fuel`
+    /// (the legacy `takeover` path and unit tests) the module's own TSFC prices everything.
+    fn predicted_exhaustion(&self, state: &FlightState, mass_kg: f64, fuel_kg: f64, fuel: Option<&dyn FuelFlow>) -> (f64, f64) {
         if !(fuel_kg > 0.0) {
             // Already dry at the hand-off: exhaustion is the realised time when we have it, and
             // otherwise the hand-off epoch itself. Either way it is not in the future.
-            return if state.realised_flameout_unix_s.is_finite() { state.realised_flameout_unix_s } else { state.unix_s };
+            let t = if state.realised_flameout_unix_s.is_finite() { state.realised_flameout_unix_s } else { state.unix_s };
+            return (t, 0.0);
         }
         let aero = self.params.aero.nominal();
         let cfg = Configuration::powered();
@@ -505,9 +537,10 @@ impl EndOfFlight {
         let tas = state.true_air_speed_mps;
         let q = 0.5 * rho * tas * tas;
         if !(q > 0.0) || !(aero.wing_area_m2 > 0.0) {
-            return f64::INFINITY;
+            return (f64::INFINITY, 0.0);
         }
         const STEP_S: f64 = 60.0;
+        let mut unpriced = 0.0;
         let mut remaining = fuel_kg;
         let mut mass = mass_kg;
         let mut elapsed = 0.0;
@@ -517,9 +550,21 @@ impl EndOfFlight {
             let c_l = (mass * atmos::G0) / (q * aero.wing_area_m2);
             let c_d = aero.c_d(c_l, state.mach, &cfg);
             let thrust_n = c_d * q * aero.wing_area_m2;
-            let flow = aero.fuel_flow_kg_s(thrust_n);
+            let own = aero.fuel_flow_kg_s(thrust_n);
+            let priced = fuel
+                .and_then(|m| m.fuel_flow_kg_h(state.altitude_ft / 100.0, mass / 1000.0, state.mach))
+                .map(|r| r.kg_h / 3600.0)
+                .filter(|f| f.is_finite() && *f > 0.0);
+            let flow = match (fuel, priced) {
+                (Some(_), Some(f)) => f,
+                (Some(_), None) => {
+                    unpriced += STEP_S;
+                    own
+                }
+                (None, _) => own,
+            };
             if !(flow > 0.0) {
-                return f64::INFINITY;
+                return (f64::INFINITY, unpriced);
             }
             let burn = flow * STEP_S;
             if burn >= remaining {
@@ -530,7 +575,22 @@ impl EndOfFlight {
             mass -= burn;
             elapsed += STEP_S;
         }
-        state.unix_s + elapsed
+        (state.unix_s + elapsed, unpriced)
+    }
+
+    fn takeover_with(&self, handoff: &FlightState, fuel: Option<&dyn FuelFlow>, uniform: &mut dyn FnMut() -> f64) -> Takeover {
+        let parent = self.parent(handoff, fuel);
+        let onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
+        let draw = OnsetDraw {
+            mechanism: onset.mechanism,
+            mechanism_prior: onset.mechanism_prior,
+            lead_s: onset.predicted_endurance_at_onset_s,
+            support_truncated_fraction: onset.support_truncated_fraction,
+            predicted_exhaustion_unix_s: parent.predicted_exhaustion_unix_s,
+            prediction_priced_by_core: parent.prediction_priced_by_core,
+            prediction_unpriced_s: parent.prediction_unpriced_s,
+        };
+        Takeover { unix_s: onset.unix_s.max(handoff.unix_s), log_q_correction: onset.log_q_correction, draw: draw.encode() }
     }
 
     /// One child's descents. `drawn` is `takeover`'s carried draw (core request 2); without it the
@@ -546,7 +606,7 @@ impl EndOfFlight {
         uniform: &mut dyn FnMut() -> f64,
         epochs: &[TerminalEpoch],
     ) -> Vec<Descent> {
-        let parent = self.parent(takeover);
+        let parent = self.parent(takeover, fuel);
         // With the carried draw, the lead and the prediction are the ones drawn at the hand-off.
         // Without it, the legacy recovery: lead from the takeover state, mechanism from its
         // conditional posterior given that lead - exact only if nothing flew between the hooks.
@@ -652,6 +712,9 @@ impl EndOfFlight {
                 trace.fuel_unpriced_s,
                 trace.fuel_below_tables_s,
                 trace.fuel_extrapolated_s,
+                f64::from(u8::from(drawn.map_or(false, |d| d.prediction_priced_by_core))),
+                drawn.map_or(f64::NAN, |d| d.prediction_unpriced_s),
+                trace.surface_pressure_altitude_ft,
                 if takeover.realised_flameout_unix_s.is_finite() {
                     (takeover.unix_s - takeover.realised_flameout_unix_s).max(0.0)
                 } else {
@@ -853,16 +916,15 @@ impl Terminal for EndOfFlight {
     /// go into `draw`, which the runner hands back to `descend_after` unchanged. Nothing is
     /// recomputed from the state the core flies to in between.
     fn takeover(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> Takeover {
-        let parent = self.parent(handoff);
-        let onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
-        let draw = OnsetDraw {
-            mechanism: onset.mechanism,
-            mechanism_prior: onset.mechanism_prior,
-            lead_s: onset.predicted_endurance_at_onset_s,
-            support_truncated_fraction: onset.support_truncated_fraction,
-            predicted_exhaustion_unix_s: parent.predicted_exhaustion_unix_s,
-        };
-        Takeover { unix_s: onset.unix_s.max(handoff.unix_s), log_q_correction: onset.log_q_correction, draw: draw.encode() }
+        self.takeover_with(handoff, None, uniform)
+    }
+
+    /// Core request 3b: the hook the runner calls. The exhaustion prediction that triggers the
+    /// onset is priced by the core's model with the parent's own fuel-flow factor, the model the
+    /// core then burns on to the takeover, so the core no longer flies the tanks dry before a
+    /// takeover meant to precede that.
+    fn takeover_priced(&self, handoff: &FlightState, fuel: &dyn FuelFlow, uniform: &mut dyn FnMut() -> f64) -> Takeover {
+        self.takeover_with(handoff, Some(fuel), uniform)
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -1109,6 +1171,51 @@ mod tests {
             legacy.iter().any(|d| d.latents[at_mech] != Initiation::FlameOutAssociated.code()),
             "the control did not reproduce the defect, so the test above proves nothing"
         );
+    }
+
+    /// Core request 3b: through `takeover_priced` the onset-trigger prediction is priced by the
+    /// core's model. With a constant table flow the prediction is exact - fuel / flow - and it
+    /// differs from the module-TSFC prediction of the legacy path, which is the gap 3b closes.
+    /// An unpriceable model is recorded, never read as zero flow.
+    #[test]
+    fn the_onset_prediction_is_priced_by_the_cores_fuel_model() {
+        struct Fixed(f64);
+        impl FuelFlow for Fixed {
+            fn fuel_flow_kg_h(&self, _: f64, _: f64, _: f64) -> Option<hypothesis::FuelFlowRate> {
+                Some(hypothesis::FuelFlowRate { kg_h: self.0, extrapolated: false, below_tables: false, above_ceiling: false })
+            }
+        }
+        let mut v = params();
+        let onset = v.as_table_mut().unwrap().get_mut("onset").unwrap().as_table_mut().unwrap();
+        onset.insert("anticipatory_lead_s".into(), toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0)]));
+        onset.insert(
+            "mechanism_weights".into(),
+            toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0), toml::Value::Float(1.0)]),
+        );
+        let m = new(&v).unwrap();
+        let t = m.terminal().unwrap();
+        let h = handoff(ONSET_22_41);
+        let priced = t.takeover_priced(&h, &Fixed(5_764.0), &mut sweep(0.37));
+        let expected = h.unix_s + h.fuel_kg / (5_764.0 / 3_600.0);
+        // 60 s steps, the last partial: exact for a constant flow.
+        assert!((priced.unix_s - expected).abs() < 1e-6, "priced exhaustion {} against {}", priced.unix_s, expected);
+        let legacy = t.takeover(&h, &mut sweep(0.37));
+        assert!((legacy.unix_s - priced.unix_s).abs() > 60.0, "the legacy TSFC prediction should differ: {} vs {}", legacy.unix_s, priced.unix_s);
+        // The draw records which path priced it.
+        let names = t.latent_columns();
+        let at = |n: &str| names.iter().position(|x| x == n).unwrap();
+        let at_state = FlightState { unix_s: priced.unix_s, ..h };
+        for d in t.descend_after(&at_state, &priced, &atmos::Standard, &Fixed(5_764.0), &mut sweep(0.3), &epochs(), &|_| 0.0) {
+            assert_eq!(d.latents[at("onset_prediction_priced_by_core")], 1.0);
+            assert_eq!(d.latents[at("onset_prediction_unpriced_s")], 0.0);
+            assert_eq!(d.latents[at("surface_pressure_altitude_ft")], 0.0, "ISA sea level, recorded");
+        }
+        // An unpriceable model: the prediction still exists, and the seconds are recorded.
+        let unpriced = t.takeover_priced(&h, &hypothesis::NoFuelModel, &mut sweep(0.37));
+        assert!(unpriced.unix_s.is_finite());
+        for d in t.descend_after(&at_state, &unpriced, &atmos::Standard, &hypothesis::NoFuelModel, &mut sweep(0.3), &epochs(), &|_| 0.0) {
+            assert!(d.latents[at("onset_prediction_unpriced_s")] > 0.0, "None must be recorded, never read as zero flow");
+        }
     }
 
     /// Core request 3: powered flight is priced from the core's cruise tables. With a stub model
