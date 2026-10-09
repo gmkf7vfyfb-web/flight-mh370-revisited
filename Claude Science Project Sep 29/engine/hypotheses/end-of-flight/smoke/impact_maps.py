@@ -146,6 +146,9 @@ def frame(ax, box, major, minor, mid_lat):
     la0, la1, lo0, lo1 = box
     ax.set_xlim(lo0, lo1); ax.set_ylim(la0, la1)
     ax.set_aspect(1 / np.cos(np.deg2rad(mid_lat)))
+    # A wide close-up keeps a 1-degree graticule but labels every 2 degrees, so the labels do not collide.
+    if max(lo1 - lo0, la1 - la0) > 10 and major < 2:
+        major, minor = 2.0, 1.0
     ax.xaxis.set_major_locator(MultipleLocator(major)); ax.yaxis.set_major_locator(MultipleLocator(major))
     ax.xaxis.set_minor_locator(MultipleLocator(minor)); ax.yaxis.set_minor_locator(MultipleLocator(minor))
     ax.grid(True, which="both", color="#dedede", lw=0.5); ax.set_axisbelow(True)
@@ -181,7 +184,7 @@ def main():
     held += ("; log-on caused by fuel exhaustion (section 6 lag likelihood)" if a.logon == "fuel-exhaustion"
              else "; log-on unscored (cause 'other')")
     stamp = (f"end-of-flight impacts, {len(lat):,} samples, seeds {','.join(map(str, seeds))} pooled equally, "
-             f"N = {n_children}.\n{held[0].upper() + held[1:]}.\nSMOKE SCALE, not evidence. {a.label}. Equal family priors. Code {rev}.")
+             f"N = {n_children}.\n{held[0].upper() + held[1:]}.\nSMOKE SCALE, not evidence. Equal family priors. Code {rev}.\n{a.label}.")
     dsp = load_impacts.disp; ok = np.isfinite(dsp)
     own = wq(dsp[ok], w[ok], [0.5, 0.9, 0.99]) if ok.any() else [float("nan")] * 3
     own_share = float(w[ok].sum() / w.sum())
@@ -235,7 +238,8 @@ def main():
         share = float(w[m].sum() / w.sum())
         draw(ax, lat[m], lon[m], w[m], (cbox[0] - 1, cbox[1] + 1, cbox[2] - 1, cbox[3] + 1), 0.025, 0.06, arc6, arc7)
         ax.scatter(fin[:, 1], fin[:, 0], s=0.5, c="#1f4e8c", alpha=0.14, lw=0, zorder=3, rasterized=True)
-        frame(ax, cbox, 1.0, 0.5, mid)
+        # Half-width panels: label every 4 degrees once the span exceeds 14, so the labels do not touch.
+        frame(ax, cbox, 4.0 if (cbox[3] - cbox[2]) > 14 else 1.0, 1.0 if (cbox[3] - cbox[2]) > 14 else 0.5, mid)
         ax.set_title(f"{CONTROL[k].replace('-', ' ')}  (weight {share:.3f})", loc="left", fontsize=9)
         nums["by_control"][CONTROL[k]] = {"weight": share, "lat_5_50_95": wq(lat[m], w[m], [0.05, 0.5, 0.95]),
                                           "lon_5_50_95": wq(lon[m], w[m], [0.05, 0.5, 0.95])}
@@ -244,7 +248,7 @@ def main():
     fig.suptitle("Impact location by the control axis (each panel normalised to its own 50/90/99 %)", x=0.06, ha="left",
                  fontsize=10)
     fig.text(0.06, 0.012, stamp, fontsize=6.3, color="#555555")
-    fig.subplots_adjust(left=0.07, right=0.98, top=0.93, bottom=0.08, hspace=0.22, wspace=0.18)
+    fig.subplots_adjust(left=0.07, right=0.98, top=0.93, bottom=0.115, hspace=0.24, wspace=0.18)
     for e in ("pdf", "png"):
         fig.savefig(out / f"impact-by-control{tag}.{e}", dpi=200)
     plt.close(fig)
