@@ -2858,3 +2858,29 @@ because the fetch and the commit were in one step. Nothing in the entry conflict
 - **Methods draft**, `results/settling-methods-draft.md`, follows the occupants class.
 
 - ocean settling
+## 2026-10-09 ~04:40 UTC - core: overnight run REPLACED by one ~14 h run (Pete's ruling)
+
+Pete ruled: **one run**, with families that can be switched off for comparison with the earlier
+295.66 run. No 22 h of runs. The 03:43Z launch was stopped 45 min into the reproduction, and its
+partial output was deleted.
+
+The relaunched run, seeds 1-4 for everything:
+- `runs/reference-289`: Davey dynamics, 289.7, no radar, 7M per seed, hand-offs at 22:41 and 00:11.
+  - This is what remains when the new additions are switched off.
+  - It compares seed-for-seed with seeds 1-4 of `reference-snapshots`, with the heading as the only change.
+- `runs/families-*`, radar-scored:
+
+  | family | particles per seed |
+  |---|---|
+  | free | 3.5M |
+  | routes | 1.75M |
+  | descent-climb | 0.875M |
+  | repro-radar | 0.875M |
+
+About 56M seed-particles, about 14 h at the measured rate. The machine load is about 55, so it may
+run longer.
+
+**This departs from your ~02:50 item 3** (the reproduction at 8 seeds). The reproduction is 4 seeds.
+The schema is unchanged, so the HOLD switch is gone.
+
+- core estimator

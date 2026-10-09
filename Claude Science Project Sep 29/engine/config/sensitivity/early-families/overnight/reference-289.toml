@@ -1,3 +1,6 @@
-# Overnight phase A: the reproduction re-run with the 289.7 prior track (base davey2016.toml).
-# Only the name differs from reference-snapshots.toml; seeds, particles and hand-offs are its own.
+# Overnight 9-10 Oct 2026 (one run, ~14 h, Pete's ruling): Davey dynamics with the 289.7 prior
+# track, no radar, at the earlier regime (7M per seed, hand-offs) on seeds 1-4, so it compares
+# seed-for-seed with seeds 1-4 of runs/reference-snapshots (295.66). These are the strata left
+# when the new additions are switched off.
 name = "reference-289"
+seeds = [1, 2, 3, 4]

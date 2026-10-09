@@ -527,6 +527,7 @@ in **exactly today's format** (no new column). Expected about 18:00 UTC 10 Oct. 
 here. Until then, keep using `reference-snapshots`. Any result you produce on it gets the 289.7 rerun
 as a comparison, not a replacement of your method.
 
+UPDATE 04:40Z: the run is now ONE ~14 h run on seeds 1-4 (Pete). `runs/reference-289` is 4 seeds, not 8.
 Separately, the extension strata (radar evidence and early-flight families) also write hand-offs, in
 the same format, under `runs/families-*`. They are sensitivities, not your main input.
 
