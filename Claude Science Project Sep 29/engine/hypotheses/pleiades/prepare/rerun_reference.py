@@ -227,6 +227,10 @@ def run(run_dir, module_dir, csp29, out, label=DEFAULT_LABEL):
         fields.append(("marginal: " + " | ".join(models), np.mean([f for _, f in fields], axis=0)))
     oy = int(round((meta["lat0"] - lat[0]) / STEP))
     ox = int(round((meta["lon0"] - lon[0]) / STEP))
+    # crop a surface larger than the analysis grid (exports since 9 Oct evening cover 85-103 E, 43-25 S)
+    nlat, nlon = min(nlat, N - oy), min(nlon, N - ox)
+    S = S[..., :nlat, :nlon]
+    fields = [(m, F[..., :nlat, :nlon]) for m, F in fields]
     sl = (slice(oy, oy + nlat), slice(ox, ox + nlon))
     assert abs(lat[oy] - meta["lat0"]) < 1e-9 and abs(lon[ox] - meta["lon0"]) < 1e-9
     # prior-work grid: H field and the "inside the arc" coordinate
