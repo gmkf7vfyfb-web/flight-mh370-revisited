@@ -404,6 +404,11 @@ const LATENTS: &[&str] = &[
     "debris_class",
     // `sinks_not_floats` was retired here on 2026-10-09 (architecture ruling): settling owns the
     // sink-versus-float partition through its emitted element fates.
+    // Spiral regime of free dynamics: 1 divergent, 0 neutral (the drawn bank held); its bank doubling
+    // time, s (NaN if neutral); seconds after onset at which free dynamics began (NaN if never).
+    "spiral_divergent",
+    "spiral_doubling_s",
+    "free_dynamics_started_s",
 ];
 
 /// Settling's breakup-family constants, quoted verbatim from `results/breakup-field-candidate.md`
@@ -855,6 +860,9 @@ impl EndOfFlight {
                 breakup_p[1],
                 breakup_p[2],
                 debris_class,
+                if flying.spiral_doubling_s.is_some() { 1.0 } else { 0.0 },
+                flying.spiral_doubling_s.unwrap_or(f64::NAN),
+                flying.free_since_s.unwrap_or(f64::NAN),
             ];
             debug_assert_eq!(latents.len(), LATENTS.len());
             let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
@@ -906,7 +914,14 @@ impl EndOfFlight {
             fuel_kg: if propulsion == Propulsion::NeitherThrusting { 0.0 } else { parent.fuel_kg },
         };
         let shape = self.params.envelope.sample(&start, propulsion, control, &aero, uniform);
-        let flying = std::cell::RefCell::new(Flying::new(shape, aero, propulsion, &self.params.envelope));
+        let mut flying = Flying::new(shape, aero, propulsion, &self.params.envelope);
+        // Spiral regime of free dynamics (deliverable 1 calibration; Pete's ruling on the weight). No
+        // uniform is drawn at weight 0, so the pre-calibration stream is reproduced exactly.
+        let env = &self.params.envelope;
+        if env.spiral_divergent_weight > 0.0 && uniform() < env.spiral_divergent_weight {
+            flying.spiral_doubling_s = Some(env.spiral_doubling_s.draw(uniform));
+        }
+        let flying = std::cell::RefCell::new(flying);
         let it = Integrator {
             aero,
             fuel,
