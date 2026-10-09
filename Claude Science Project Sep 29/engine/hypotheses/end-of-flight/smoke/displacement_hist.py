@@ -20,6 +20,35 @@ OPTIONS = ["none", "r600/inflated", "r600/no-offset", "r600/startup-offset", "r1
            "r1200/startup-offset", "both/inflated"]
 
 
+def option_posteriors(run, seed_dir):
+    """Yield (key, normalised posterior weights, columns) per data option x log-on cause for one seed.
+    Weight = hand-off weight x burst likelihood (x the section 6 log-on lag density for fuel-exhaustion)."""
+    meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+    fams = meta["terminal"]["module_families"]; controls = sorted({f.split("/")[2] for f in fams})
+    fam_control = np.array([controls.index(f.split("/")[2]) for f in fams])
+    logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
+    X = np.load(seed_dir / "impacts.npy", mmap_mode="r")
+    g = lambda k: np.asarray(X[:, cols[k]], float)
+    w = g("weight"); lat, lon = g("latitude_deg"), g("longitude_deg")
+    bl, bo = g("latent:last_burst_latitude_deg"), g("latent:last_burst_longitude_deg")
+    c = {"lat": lat, "lon": lon, "dn": (lat - bl) * 60.0, "de": (lon - bo) * 60.0 * np.cos(np.radians(bl)),
+         "ctrl": fam_control[g("family").astype(int)], "controls": controls,
+         "spiral_divergent": g("latent:spiral_divergent") if "latent:spiral_divergent" in cols else np.zeros_like(w)}
+    c["has"] = np.isfinite(c["dn"]) & np.isfinite(c["de"])
+    lag = logon["logon_unix_s"] - g("latent:realised_flameout_unix_s")
+    with np.errstate(divide="ignore", invalid="ignore"):
+        lfe = (logon["lag_shape"] - 1) * np.log(lag) - lag / logon["lag_scale_s"] - logon["lag_shape"] * np.log(logon["lag_scale_s"]) - gammaln(logon["lag_shape"])
+    lfe = np.where(np.isfinite(lag) & (lag > 0), lfe, -np.inf)
+    for o in OPTIONS:
+        if "loglik:" + o not in cols:
+            continue
+        base = g("loglik:" + o)
+        for cause, extra in (("other", 0.0), ("fuel-exhaustion", lfe)):
+            ll = np.where(np.isfinite(base), base, -np.inf) + extra
+            p = w * np.exp(ll - ll[np.isfinite(ll)].max()); p = p / p.sum()
+            yield f"{o.replace('/', '_')}__{cause}", p, c
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("run"); ap.add_argument("out"); ap.add_argument("--tag", default="")
@@ -28,43 +57,24 @@ def main():
     meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
     fams = meta["terminal"]["module_families"]; controls = sorted({f.split("/")[2] for f in fams})
     fam_control = np.array([controls.index(f.split("/")[2]) for f in fams])
-    logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
     seeds = sorted(p for p in (run / "bto-bfo").glob("seed-*") if (p / "impacts.npy").exists())
-    arrays, info = {}, {"source": str(run), "seeds": [p.name for p in seeds], "children": meta["terminal"]["children"],
+    arrays, info = {}, {"source": str(run), "seeds": [seeds[0].name], "children": meta["terminal"]["children"],
                          "bin_edges_nm": EDGES.tolist(), "controls": controls, "code_revision": meta.get("code_revision"),
                          "options": {}}
-    for sd in seeds:
-        X = np.load(sd / "impacts.npy", mmap_mode="r")
-        g = lambda k: np.asarray(X[:, cols[k]], float)
-        w = g("weight"); lat, lon = g("latitude_deg"), g("longitude_deg")
-        bl, bo = g("latent:last_burst_latitude_deg"), g("latent:last_burst_longitude_deg")
-        dn = (lat - bl) * 60.0; de = (lon - bo) * 60.0 * np.cos(np.radians(bl))
-        ctrl = fam_control[g("family").astype(int)]
-        fo = g("latent:realised_flameout_unix_s"); lag = logon["logon_unix_s"] - fo
-        with np.errstate(divide="ignore", invalid="ignore"):
-            lfe = (logon["lag_shape"] - 1) * np.log(lag) - lag / logon["lag_scale_s"] - logon["lag_shape"] * np.log(logon["lag_scale_s"]) - gammaln(logon["lag_shape"])
-        lfe = np.where(np.isfinite(lag) & (lag > 0), lfe, -np.inf)
-        has = np.isfinite(dn) & np.isfinite(de)
-        for o in OPTIONS:
-            if "loglik:" + o not in cols:
-                continue
-            for cause, extra in (("other", 0.0), ("fuel-exhaustion", lfe)):
-                ll = np.where(np.isfinite(g("loglik:" + o)), g("loglik:" + o), -np.inf) + extra
-                p = w * np.exp(ll - ll[np.isfinite(ll)].max()); p = p / p.sum()
-                key = f"{o.replace('/', '_')}__{cause}"
-                rec = {"included_share": float(p[has].sum()), "ess": float(1.0 / np.sum(p ** 2))}
-                inside = has & (np.abs(dn) <= 110) & (np.abs(de) <= 110)
-                rec["outside_range_share"] = float(p[has & ~inside].sum() / max(p[has].sum(), 1e-300))
-                for name, sel in [("pooled", has)] + [(c, has & (ctrl == k)) for k, c in enumerate(controls)]:
-                    H, _, _ = np.histogram2d(dn[sel], de[sel], bins=[EDGES, EDGES], weights=p[sel])
-                    tot = p[sel].sum()
-                    arrays[f"{key}__{name}"] = H / tot if tot > 0 else H
-                    rec[f"{name}_weight_share"] = float(tot)
-                    if tot > 0:
-                        r = np.hypot(dn[sel], de[sel]); o_ = np.argsort(r); c = np.cumsum(p[sel][o_]) / tot
-                        rec[f"{name}_radius_nm_50_90_99"] = [float(np.interp(q, c, r[o_])) for q in (0.5, 0.9, 0.99)]
-                info["options"][key] = rec
-        break  # one seed per relay request (seed 1)
+    for key, p, c in option_posteriors(run, seeds[0]):  # one seed per relay request (seed 1)
+        dn, de, ctrl, has = c["dn"], c["de"], c["ctrl"], c["has"]
+        rec = {"included_share": float(p[has].sum()), "ess": float(1.0 / np.sum(p ** 2))}
+        inside = has & (np.abs(dn) <= 110) & (np.abs(de) <= 110)
+        rec["outside_range_share"] = float(p[has & ~inside].sum() / max(p[has].sum(), 1e-300))
+        for name, sel in [("pooled", has)] + [(cn, has & (ctrl == k)) for k, cn in enumerate(controls)]:
+            H, _, _ = np.histogram2d(dn[sel], de[sel], bins=[EDGES, EDGES], weights=p[sel])
+            tot = p[sel].sum()
+            arrays[f"{key}__{name}"] = H / tot if tot > 0 else H
+            rec[f"{name}_weight_share"] = float(tot)
+            if tot > 0:
+                r = np.hypot(dn[sel], de[sel]); o_ = np.argsort(r); cc = np.cumsum(p[sel][o_]) / tot
+                rec[f"{name}_radius_nm_50_90_99"] = [float(np.interp(q, cc, r[o_])) for q in (0.5, 0.9, 0.99)]
+        info["options"][key] = rec
     tag = f"-{a.tag}" if a.tag else ""
     np.savez_compressed(out / f"displacement{tag}.npz", **arrays)
     (out / f"displacement{tag}.json").write_text(json.dumps(info, indent=1))
