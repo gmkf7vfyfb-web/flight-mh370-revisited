@@ -1,0 +1,22 @@
+# Labelled variant, never the base: adds the INFERRED Ocean Infinity 2018 layer, which is not in
+# git (licence unclear; prepare/build_coverage.py writes it to data/external/search-coverage/).
+# An override of run.toml, e.g.
+#   mh370 evaluate hypotheses/seabed-search/run.toml hypotheses/seabed-search/ocean-infinity-2018.toml <samples> <out>
+# Arrays replace rather than extend, so every campaign is listed again.
+[[hypotheses.seabed-search.campaigns]]
+name = "phase2-2014-2017"
+layer = "phase2"
+detection_probability = 0.945
+
+[[hypotheses.seabed-search.campaigns]]
+name = "bluefin-2014"
+layer = "bluefin-2014"
+detection_probability = 0.9
+
+# OI reported "over 112,000 km2" (29 May 2018) on a layer of 126,009 km2 (the traced outline
+# less Phase 2 ground): coverage_fraction 0.889; 120,000 km2 (data donation) would be 0.952.
+[[hypotheses.seabed-search.campaigns]]
+name = "ocean-infinity-2018"
+layer_file = "data/external/search-coverage/ocean-infinity-2018.cov"
+detection_probability = 0.9
+coverage_fraction = 0.889
