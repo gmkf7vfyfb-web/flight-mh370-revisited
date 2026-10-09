@@ -3,9 +3,10 @@
 //! is a drop-in because the integrator never sees anything but this trait and the field's
 //! declared [`FieldMeta`].
 
-use crate::products::{Contents, TimeAxis};
+use crate::products::{product, Contents, TimeAxis};
 use crate::LonLat;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
+use std::path::Path;
 
 /// Why a field has no value at a query point. Never a silent zero.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -21,7 +22,7 @@ pub enum FieldGap {
 }
 
 /// Which velocity component a field supplies.
-#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum Component {
     Current,
     StokesDrift,
@@ -85,6 +86,40 @@ impl GridField {
             }
         }
         Ok(GridField { meta, lon, lat, time, data, sea })
+    }
+
+    /// Load a grid written by `prepare/netcdf_to_grid.py`: a JSON manifest beside a little-endian
+    /// float32 file laid out `[time][lat][lon][east, north]`, NaN at land, with times already at the
+    /// instants the values represent (interval centres for means). The product must be in
+    /// `products::catalogue()`; its contents and time axis come from there, never from the file.
+    pub fn load(manifest: &Path) -> Result<Self, String> {
+        #[derive(Deserialize)]
+        struct Manifest {
+            product: String,
+            component: Component,
+            description: String,
+            lon: Vec<f64>,
+            lat: Vec<f64>,
+            time_unix_s: Vec<f64>,
+            data_file: String,
+        }
+        let text = std::fs::read_to_string(manifest).map_err(|e| format!("{}: {e}", manifest.display()))?;
+        let m: Manifest = serde_json::from_str(&text).map_err(|e| format!("{}: {e}", manifest.display()))?;
+        let meta = product(&m.product).ok_or_else(|| format!("product {} is not in the catalogue", m.product))?;
+        let path = manifest.parent().unwrap_or(Path::new(".")).join(&m.data_file);
+        let bytes = std::fs::read(&path).map_err(|e| format!("{}: {e}", path.display()))?;
+        if bytes.len() % 4 != 0 {
+            return Err(format!("{}: length is not a multiple of 4", path.display()));
+        }
+        let data = bytes.chunks_exact(4).map(|b| f32::from_le_bytes([b[0], b[1], b[2], b[3]])).collect();
+        let meta = FieldMeta {
+            product: m.product,
+            component: m.component,
+            contents: meta.contents,
+            time_axis: meta.time_axis,
+            description: m.description,
+        };
+        GridField::new(meta, m.lon, m.lat, m.time_unix_s, data, None)
     }
 }
 

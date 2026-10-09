@@ -195,7 +195,7 @@ fn integrator_flags_field_gaps_and_domain_exit() {
 fn beaching_reports_segment_and_time() {
     // Meridian coast at 100 E from 40 S to 30 S, ten 1-degree segments numbered 500..509, land to
     // the east. A 0.5 m/s eastward current carries particles onto it.
-    let coast = StraightCoast { a: [100.0, -40.0], b: [100.0, -30.0], segments: 10, first_id: 500, land_left: false };
+    let coast = StraightCoast { a: [100.0, -40.0], b: [100.0, -30.0], segments: 10, first_id: 500, land_left: false, line: 7 };
     assert!(coast.is_land([100.1, -35.0]) && !coast.is_land([99.9, -35.0]));
     let c = Uniform::current(0.5, 0.0);
     let times = vec![T0 + DAY, T0 + 3.0 * DAY];
@@ -203,14 +203,21 @@ fn beaching_reports_segment_and_time() {
     let out = integrate(&spec(current_only(&c), &coast, 6.0 * 3600.0, times), &parts).unwrap();
     for (tr, (lon, lat, seg)) in out.tracks.iter().zip([(99.9, -34.55, 505), (99.6, -38.05, 501), (99.2, -25.0, 509)]) {
         assert_eq!(tr.fate, Fate::Beached);
-        let Event::Beached { t, at, segment } = tr.events[0] else { panic!("{:?}", tr.events) };
+        let Event::Beached { t, at, segment, line, chainage_m } = tr.events[0] else { panic!("{:?}", tr.events) };
         assert_eq!(segment, seg);
+        assert_eq!(line, 7);
+        // Chainage along the meridian from 40 S: R * (lat + 40 deg), continuous across segments.
+        let expected_chainage = EARTH_RADIUS_M * (lat + 40.0f64).to_radians();
+        assert!((chainage_m - expected_chainage).abs() < 1e-6 * expected_chainage, "{chainage_m} vs {expected_chainage}");
+        let edges = coast.segments();
+        let e = edges.iter().find(|e| e.segment == seg).unwrap();
+        assert!(chainage_m >= e.start_m && chainage_m < e.end_m);
         let expected = distance_m([lon, lat], [100.0, lat]) / 0.5;
         assert!(((t - T0) - expected).abs() < 60.0, "beach time {} vs {expected}", t - T0);
         assert!((at[0] - 100.0).abs() < 1e-9 && (at[1] - lat).abs() < 1e-9);
         for (s, &tout) in tr.snapshots.iter().zip(&out.output_times) {
             if tout >= t {
-                assert_eq!(*s, Snapshot::Beached { at, segment: seg });
+                assert_eq!(*s, Snapshot::Beached { at, segment: seg, line, chainage_m });
             } else {
                 assert!(matches!(s, Snapshot::Afloat(_)));
             }
@@ -369,4 +376,64 @@ fn results_do_not_depend_on_thread_count() {
         integrate(&sp, &parts).unwrap().tracks.iter().map(final_position).collect::<Vec<_>>()
     };
     assert_eq!(run(1), run(2));
+}
+
+#[test]
+fn segment_edges_are_continuous_in_chainage() {
+    // An oblique coast: edges are contiguous, increasing, and the interior edges sum to the
+    // along-line arc length; a parallel coast gives R cos(lat) dlon exactly.
+    let oblique = StraightCoast { a: [40.0, -25.0], b: [35.0, -34.0], segments: 9, first_id: 0, land_left: true, line: 1 };
+    let e = oblique.segments();
+    assert_eq!(e.len(), 9);
+    for w in e.windows(2) {
+        assert_eq!(w[0].end_m, w[1].start_m);
+        assert!(w[1].start_m > w[0].start_m || w[0].start_m == f64::NEG_INFINITY);
+    }
+    let parallel = StraightCoast { a: [20.0, -34.0], b: [30.0, -34.0], segments: 2, first_id: 0, land_left: true, line: 2 };
+    let exact = EARTH_RADIUS_M * 34f64.to_radians().cos() * 5f64.to_radians();
+    assert!((parallel.segments()[0].end_m - exact).abs() < 1e-6 * exact);
+}
+
+#[test]
+fn diffusivity_is_one_eta_draw_per_run() {
+    let prior = DiffusivityPrior::provisional("glorys12v1");
+    let ks: Vec<f64> = (0..4000)
+        .map(|s| match prior.draw(s) {
+            Diffusion::Diffusivity { k_m2_s } => k_m2_s,
+            d => panic!("{d:?}"),
+        })
+        .collect();
+    assert!(ks.iter().all(|&k| (30.0..=1000.0).contains(&k)));
+    // Log-uniform: the fraction below the geometric mean of the bounds is one half (SE 0.8%).
+    let below = ks.iter().filter(|&&k| k < (30.0f64 * 1000.0).sqrt()).count() as f64 / ks.len() as f64;
+    assert!((below - 0.5).abs() < 0.03, "{below}");
+    assert_eq!(prior.draw(17), prior.draw(17));
+    assert!(prior.ln_density(5.0).is_infinite());
+    // Drift's question: with no ocean error and no diffusion, the run seed changes nothing.
+    let c = Uniform::current(0.05, 0.02);
+    let parts = [particle(95.0, -33.0, 0.0, 0.0)];
+    let run = |seed| {
+        let mut sp = spec(current_only(&c), &NoCoast, 6.0 * 3600.0, vec![T0 + 5.0 * DAY]);
+        sp.seed = seed;
+        final_position(&integrate(&sp, &parts).unwrap().tracks[0])
+    };
+    assert_eq!(run(1), run(2));
+}
+
+#[test]
+fn gridded_product_loads_from_manifest() {
+    let dir = std::env::temp_dir().join(format!("mh370-ocean-test-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let vals: Vec<f32> = [0.3f32, -0.1].iter().copied().cycle().take(2 * 2 * 2 * 2).collect();
+    std::fs::write(dir.join("g.f32"), vals.iter().flat_map(|v| v.to_le_bytes()).collect::<Vec<u8>>()).unwrap();
+    let manifest = format!(
+        r#"{{"product":"glorys12v1","component":"Current","description":"test","lon":[100.0,101.0],"lat":[-31.0,-30.0],"time_unix_s":[{T0},{}],"data_file":"g.f32"}}"#,
+        T0 + DAY
+    );
+    std::fs::write(dir.join("g.json"), manifest).unwrap();
+    let g = GridField::load(&dir.join("g.json")).unwrap();
+    let v = g.sample(T0 + 0.3 * DAY, [100.4, -30.2]).unwrap();
+    assert!((v[0] - 0.3).abs() < 1e-6 && (v[1] + 0.1).abs() < 1e-6);
+    assert_eq!(g.meta().contents.stokes, Inclusion::Excluded);
+    std::fs::remove_dir_all(&dir).unwrap();
 }
