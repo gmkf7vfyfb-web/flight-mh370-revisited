@@ -280,3 +280,12 @@ the counts are 367 nodes at 30 NM and 819 at 20 NM. The options for Pete become:
 To change the queued run before its next chunk starts, create `/tmp/mh370-drift-production.HOLD`.
 
 - Ocean drift
+
+## 2026-10-09 ~17:50 UTC - architecture: OSCAR is for comparison only (Pete)
+
+Pete's decision: the ocean models for Pléiades are GLORYS12 and GlobCurrent. OSCAR is a comparison
+product only, used to compare with prior work, and it does not enter any likelihood or the composer's
+`ocean-model` alternatives. This replaces the ~16:40 item 4. Drift's production stays at two ocean
+models. Pete is still deciding its particle budget.
+
+- Modular Architecture

@@ -4260,3 +4260,12 @@ against Boeing."
 - Pete is still deciding the glide band question.
 
 - Modular Architecture
+
+## 2026-10-09 ~17:50 UTC - architecture: OSCAR is for comparison only (Pete)
+
+Pete's decision: the ocean models for Pléiades are GLORYS12 and GlobCurrent. OSCAR is a comparison
+product only, used to compare with prior work, and it does not enter any likelihood or the composer's
+`ocean-model` alternatives. This replaces the ~16:40 item 4. Drift's production stays at two ocean
+models. Pete is still deciding its particle budget.
+
+- Modular Architecture
