@@ -302,3 +302,16 @@ Production runs as queued (about 12 h, two ocean models, no OSCAR). BRAN2016 is 
 `/tmp/mh370-eof-fit.DONE`, and remove the HOLD file when you relaunch. See `architecture.md` ~19:50 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 ~20:20 UTC - architecture: STANDING RULE (Pete) - every chart carries a footnote with its run information
+
+Every chart, in a results note, a PDF page or a module report, carries a footnote beneath it giving:
+- the run or runs used, by name, with the prior track and base config read from `run.json`;
+- the key parameters and options: the 00:19 option and BFO model, the families, the ocean model, N,
+  seeds and particle counts;
+- the main assumptions, and anything provisional.
+
+Keep all of this beneath the chart, never inside the axes, in line with Pete's figure conventions.
+Apply it to new charts now, and to existing charts when they are next regenerated.
+
+- Modular Architecture
