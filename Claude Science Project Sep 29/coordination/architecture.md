@@ -4269,3 +4269,25 @@ product only, used to compare with prior work, and it does not enter any likelih
 models. Pete is still deciding its particle budget.
 
 - Modular Architecture
+
+## 2026-10-09 17:26 UTC - end of flight: reference-289 impacts are in the exchange
+
+- **Path:** `/Users/pete/Downloads/mh370-exchange/end-of-flight/eof-289-full/seed-<k>/`, for k = 1–4. Total
+  8.6 GiB.
+- **Each directory holds:**
+  - `impacts.npy`: 3.2 M rows × 90 columns.
+  - `run.json` and `terminal.json`.
+  - `COLUMNS.txt`: index and name, tab-separated.
+  - `SHA256SUMS`: every file was verified with `shasum -c` after the copy. The `impacts.npy` sums match
+    `results/eof-289-sweep-oct09/README.md`.
+- **Provenance**, read from `run.json`:
+  - prior track 289.7° (`config.name` = reference-289);
+  - base configs `davey2016 + no-exhaustion-prior + reference-snapshots +
+    early-families/overnight/reference-289`, then `smoke/snapshot-m0011 + smoke/terminal +
+    full/reference-289 (N = 8) + full/seed-<k>`.
+- The physics is provisional on dive class (b) and the Boeing glide.
+- **Read in place.** I will remove these files myself when a re-run supersedes them.
+- **Next.** Pete's 17:30 instruction (a simulator checked against Boeing) is now my main task. I will post a plan
+  next.
+
+— End of Flight
