@@ -244,6 +244,40 @@ pub(crate) struct Params {
     /// Write the node table and summary here (pilot and diagnostics).
     #[serde(default)]
     output_dir: Option<String>,
+    /// Importance splitting for finds that forward release alone cannot resolve (off by default).
+    #[serde(default)]
+    splitting: Option<SplittingParams>,
+}
+
+/// Fixed-factor importance splitting (a variance-reduction device, not a model change). A particle
+/// of a listed class whose afloat position, sampled every `snapshot_hours`, first comes within
+/// `radius_km` of a target is replaced at that time and place by `factor` children with the same
+/// response, independent diffusion and weight 1/factor each. Every statistic is a weighted sum
+/// over trajectories, so its expectation is unchanged (the transport is Markov in position and
+/// time given the response); only its Monte Carlo variance changes.
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+pub(crate) struct SplittingParams {
+    pub(crate) targets: Vec<SplitTarget>,
+    pub(crate) factor: usize,
+    #[serde(default = "d_snapshot_hours")]
+    pub(crate) snapshot_hours: f64,
+    /// Class names that split; empty means every class.
+    #[serde(default)]
+    pub(crate) classes: Vec<String>,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+pub(crate) struct SplitTarget {
+    pub(crate) name: String,
+    pub(crate) lon_deg: f64,
+    pub(crate) lat_deg: f64,
+    pub(crate) radius_km: f64,
+}
+
+fn d_snapshot_hours() -> f64 {
+    24.0
 }
 
 pub(crate) fn parse_cells(text: &str) -> Result<Vec<WeightedCell>, String> {
@@ -293,29 +327,74 @@ impl Locator {
             (None, Some(l)) => self.edges.iter().find(|e| e.line == l && place.s_km >= e.start_km && place.s_km < e.end_km).map(|e| e.segment),
             (None, None) => None,
         };
-        Arrival { place, segment, t_days }
+        Arrival { place, segment, t_days, w: 1.0 }
     }
 }
 
 /// One ensemble's beachings, with the particle index of each, and its counts.
 struct Ensemble {
+    /// (released-particle index, arrival); children carry their parent's index.
     arrivals: Vec<(usize, Arrival)>,
-    model_error: usize,
-    left_domain: usize,
+    /// Weighted counts (a child counts 1/factor).
+    model_error: f64,
+    left_domain: f64,
     on_land: usize,
+    /// Released particles that were split, and children integrated.
+    split: usize,
+    children: usize,
 }
 
-fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t_end: f64, responses: &[ObjectResponse], seed: u64, diffusion: Diffusion) -> Result<(Ensemble, f64), String> {
+fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t_end: f64, responses: &[ObjectResponse], seed: u64, diffusion: Diffusion, split: Option<&SplittingParams>) -> Result<(Ensemble, f64), String> {
     let particles: Vec<Particle> = responses.iter().map(|&response| Particle::new(release, t0, response)).collect();
-    let (fates, steps) = setup.run(&particles, seed, diffusion, t_end)?;
-    let mut e = Ensemble { arrivals: Vec::new(), model_error: 0, left_domain: 0, on_land: 0 };
+    let mut e = Ensemble { arrivals: Vec::new(), model_error: 0.0, left_domain: 0.0, on_land: 0, split: 0, children: 0 };
+    let tally = |e: &mut Ensemble, i: usize, f: Fate, w: f64| match f {
+        Fate::Beached { t, at, line, chainage_km } => {
+            let mut a = loc.arrival((t - t0) / 86_400.0, at, line, chainage_km);
+            a.w = w;
+            e.arrivals.push((i, a));
+        }
+        Fate::Afloat => {}
+        Fate::LeftDomain => e.left_domain += w,
+        Fate::ReleasedOnLand => e.on_land += 1,
+        Fate::ModelError => e.model_error += w,
+    };
+    let Some(sp) = split.filter(|s| s.factor > 1 && !s.targets.is_empty()) else {
+        let (fates, steps) = setup.run(&particles, seed, diffusion, t_end)?;
+        for (i, f) in fates.into_iter().enumerate() {
+            tally(&mut e, i, f, 1.0);
+        }
+        return Ok((e, steps));
+    };
+    let dt = sp.snapshot_hours * 3600.0;
+    let mut times: Vec<f64> = (1..).map(|k| t0 + k as f64 * dt).take_while(|&t| t < t_end).collect();
+    times.push(t_end);
+    let (fates, pos, mut steps) = setup.run_tracks(&particles, seed, diffusion, &times)?;
+    let mut kids: Vec<Particle> = Vec::new();
+    let mut parent: Vec<usize> = Vec::new();
     for (i, f) in fates.into_iter().enumerate() {
-        match f {
-            Fate::Beached { t, at, line, chainage_km } => e.arrivals.push((i, loc.arrival((t - t0) / 86_400.0, at, line, chainage_km))),
-            Fate::Afloat => {}
-            Fate::LeftDomain => e.left_domain += 1,
-            Fate::ReleasedOnLand => e.on_land += 1,
-            Fate::ModelError => e.model_error += 1,
+        let entry = pos[i].iter().enumerate().take(times.len() - 1).find_map(|(k, p)| {
+            p.filter(|&at| sp.targets.iter().any(|g| ocean::distance_m(at, [g.lon_deg, g.lat_deg]) <= g.radius_km * 1000.0)).map(|at| (times[k], at))
+        });
+        match entry {
+            // Entered a target zone while afloat: everything after the entry is replaced by the
+            // children, so the parent's own fate (necessarily later) is discarded.
+            Some((te, at)) => {
+                e.split += 1;
+                for _ in 0..sp.factor {
+                    kids.push(Particle::new(at, te, particles[i].response));
+                    parent.push(i);
+                }
+            }
+            None => tally(&mut e, i, f, 1.0),
+        }
+    }
+    if !kids.is_empty() {
+        let w = 1.0 / sp.factor as f64;
+        let (kf, ks) = setup.run(&kids, Rng::derive(&[seed, 0x5_9117]).next_u64(), diffusion, t_end)?;
+        steps += ks;
+        e.children = kids.len();
+        for (k, f) in kf.into_iter().enumerate() {
+            tally(&mut e, parent[k], f, w);
         }
     }
     Ok((e, steps))
@@ -420,7 +499,7 @@ fn synthetic_observations(p: &Params, setup: &OceanSetup, rec: &Recovery, loc: &
     let mut out = Vec::new();
     for batch in 0..200u64 {
         let responses: Vec<ObjectResponse> = (0..1000).map(|_| draw_response(class, &mut rng)).collect();
-        let (e, _) = run_ensemble(setup, loc, [s.true_lon_deg, s.true_lat_deg], p.release_unix_s, t_end, &responses, s.seed ^ ((batch + 1) << 32), diffusion)?;
+        let (e, _) = run_ensemble(setup, loc, [s.true_lon_deg, s.true_lat_deg], p.release_unix_s, t_end, &responses, s.seed ^ ((batch + 1) << 32), diffusion, None)?;
         for (_, a) in e.arrivals {
             if out.len() >= s.finds {
                 return Ok(out);
@@ -513,7 +592,8 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     }
     let clock = std::time::Instant::now();
     let mut steps_total = 0.0;
-    let (mut released, mut model_error, mut left_domain) = (0usize, 0usize, 0usize);
+    let (mut released, mut model_error, mut left_domain) = (0usize, 0.0f64, 0.0f64);
+    let (mut split_total, mut children_total) = (0usize, 0usize);
     let candidates: Vec<usize> = if p.node_subset.is_empty() { (0..nodes.len()).filter(|&k| grid.active[k]).skip(p.node_offset).step_by(p.node_stride.max(1)).collect() } else { p.node_subset.iter().copied().filter(|&k| k < nodes.len() && grid.active[k]).collect() };
     for (count, &k) in candidates.iter().enumerate() {
         let (la, lo) = grid.node(k);
@@ -521,8 +601,8 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         let (mut coef_a, mut coef_b) = (Vec::new(), Vec::new());
         let mut p_seg = vec![vec![0.0; ns + 1]; nc];
         let mut n_eff = vec![f64::NAN; observations.len()];
-        let mut node_err = 0usize;
-        let mut node_left = 0usize;
+        let mut node_err = 0.0f64;
+        let mut node_left = 0.0f64;
         let mut node_released = 0usize;
         let mut on_land = false;
         let nh = p.recovery.extra_bandwidths_km.len();
@@ -546,7 +626,10 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                     fhb.iter_mut().for_each(|v| v.push(None));
                     continue;
                 }
-                let (e, steps) = run_ensemble(&setup, &loc, [lo, la], p.release_unix_s, t_end, &responses[c], seed, diffusion)?;
+                let split = p.splitting.as_ref().filter(|s| s.classes.is_empty() || s.classes.iter().any(|n| *n == p.classes[c].name));
+                let (e, steps) = run_ensemble(&setup, &loc, [lo, la], p.release_unix_s, t_end, &responses[c], seed, diffusion, split)?;
+                split_total += e.split;
+                children_total += e.children;
                 steps_total += steps;
                 node_released += n;
                 node_err += e.model_error;
@@ -556,7 +639,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                 }
                 for (_, a) in &e.arrivals {
                     if a.t_days < rec.window_end_days {
-                        p_seg[c][a.segment.unwrap_or(ns)] += 1.0 / (n * envs.len()) as f64;
+                        p_seg[c][a.segment.unwrap_or(ns)] += a.w / (n * envs.len()) as f64;
                     }
                 }
                 let obs: Vec<&Observation> = by_class[c].iter().map(|&j| &observations[j]).collect();
@@ -603,7 +686,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         let val = |x: Node| match x { Node::Value(v) => format!("{v:.6}"), _ => "nan".into() };
         let (na, nb) = if on_land { (Node::Land, Node::Land) } else { (node_ln_likelihood(&coef_a, &by_class, &levels), node_ln_likelihood(&coef_b, &by_class, &levels)) };
         let state = match node { Node::Value(_) => "value", Node::Land => "land", Node::Unresolved => "unresolved", Node::NotComputed => "not-computed" };
-        let mut row = format!("{k},{la:.5},{lo:.5},{},{state},{},{},{},{:.3},{:.5},{:.5}", grid.component[k], val(node), val(na), val(nb), n_eff.iter().copied().fold(f64::INFINITY, f64::min), node_err as f64 / node_released.max(1) as f64, node_left as f64 / node_released.max(1) as f64);
+        let mut row = format!("{k},{la:.5},{lo:.5},{},{state},{},{},{},{:.3},{:.5},{:.5}", grid.component[k], val(node), val(na), val(nb), n_eff.iter().copied().fold(f64::INFINITY, f64::min), node_err / node_released.max(1) as f64, node_left / node_released.max(1) as f64);
         for ch in &coef_h {
             row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, &levels)) });
         }
@@ -644,8 +727,11 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         ("nodes_unresolved".into(), count(|x| matches!(x, Node::Unresolved)).to_string()),
         ("nodes_land".into(), count(|x| matches!(x, Node::Land)).to_string()),
         ("trajectories".into(), released.to_string()),
-        ("model_error_fraction".into(), format!("{:.6}", model_error as f64 / released.max(1) as f64)),
-        ("left_domain_fraction".into(), format!("{:.6}", left_domain as f64 / released.max(1) as f64)),
+        ("model_error_fraction".into(), format!("{:.6}", model_error / released.max(1) as f64)),
+        ("left_domain_fraction".into(), format!("{:.6}", left_domain / released.max(1) as f64)),
+        ("split_particles".into(), split_total.to_string()),
+        ("split_children".into(), children_total.to_string()),
+        ("splitting".into(), match &p.splitting { Some(s) => format!("factor {} at {} (snapshots {} h; classes {:?})", s.factor, s.targets.iter().map(|g| format!("{} {:.0} km", g.name, g.radius_km)).collect::<Vec<_>>().join(", "), s.snapshot_hours, s.classes), None => "off".into() }),
         ("bandwidth_km".into(), format!("{} (sensitivities {:?})", rec.bandwidth_km, p.recovery.extra_bandwidths_km)),
         ("particle_steps".into(), format!("{steps_total:.4e}")),
         ("wall_s".into(), format!("{wall:.1}")),

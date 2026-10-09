@@ -22,7 +22,7 @@ fn on0(s: f64) -> Place {
     Place::on_line(0, s, [0.0, 0.0])
 }
 fn arr(s: f64, t: f64, seg: usize) -> Arrival {
-    Arrival { place: on0(s), segment: Some(seg), t_days: t }
+    Arrival { place: on0(s), segment: Some(seg), t_days: t, w: 1.0 }
 }
 fn obs(s: f64, a: f64, b: f64, seg: usize) -> Observation {
     Observation { id: "t".into(), class: 0, place: on0(s), segment: seg, t_start_days: a, t_end_days: b }
@@ -320,6 +320,47 @@ fn node_csv_is_rectangular_and_hits_bound_n_eff() {
 }
 
 #[test]
+fn splitting_is_unbiased_and_resolves_a_rare_target() {
+    // Uniform westward current onto a straight coast at 92 E with K = 100 m2/s: arrivals spread
+    // along the coast by diffusion alone. The rare event is beaching inside a 0.1-degree window
+    // 40 km north of the release latitude. Splitting on entry to a 30 km disc upstream of the
+    // window must give the same weighted rate as brute force (within Monte Carlo error) and more
+    // trajectories in the window per released particle.
+    let setup = analytic([-0.2, 0.0], None, 92.0);
+    let loc = super::Locator { map: None, edges: vec![] };
+    let (lat0, lon0) = (-37.5, 94.8);
+    let lat_w = lat0 + 40.0 / 111.195;
+    let t_end = T0 + 40.0 * 86_400.0;
+    let diff = Diffusion::Diffusivity { k_m2_s: 100.0 };
+    let rate = |n: usize, seed: u64, split: Option<&super::SplittingParams>| {
+        let resp: Vec<_> = (0..n).map(|_| response(0.0, 0.0, 0.0, 0.0)).collect();
+        let (e, _) = super::run_ensemble(&setup, &loc, [lon0, lat0], T0, t_end, &resp, seed, diff, split).unwrap();
+        // Per released particle (children summed into their parent): the estimate is the mean of
+        // these, and its standard error is their standard deviation over sqrt(n).
+        let mut per = vec![0.0; n];
+        let mut k = 0;
+        for (i, a) in &e.arrivals {
+            if (a.place.lonlat[1] - lat_w).abs() < 0.05 {
+                per[*i] += a.w;
+                k += 1;
+            }
+        }
+        let m = per.iter().sum::<f64>() / n as f64;
+        let se = (per.iter().map(|x| (x - m).powi(2)).sum::<f64>() / (n * (n - 1)) as f64).sqrt();
+        let total: f64 = e.arrivals.iter().map(|(_, a)| a.w).sum::<f64>() + e.left_domain + e.model_error;
+        (m, se, k, total / n as f64, e.split)
+    };
+    let sp = super::SplittingParams { targets: vec![super::SplitTarget { name: "w".into(), lon_deg: 92.6, lat_deg: lat_w, radius_km: 30.0 }], factor: 20, snapshot_hours: 24.0, classes: vec![] };
+    let (p_b, se_b, k_b, tot_b, _) = rate(40_000, 11, None);
+    let (p_s, se_s, k_s, tot_s, n_split) = rate(4_000, 12, Some(&sp));
+    println!("splitting: brute {p_b:.3e} +- {se_b:.1e} ({k_b} hits), split {p_s:.3e} +- {se_s:.1e} ({k_s} hits, {n_split} parents split)");
+    assert!(k_b >= 10, "brute force too few hits to compare: {k_b}");
+    assert!((p_b - p_s).abs() < 4.0 * (se_b * se_b + se_s * se_s).sqrt(), "brute {p_b} vs split {p_s}");
+    assert!((tot_b - 1.0).abs() < 1e-9 && (tot_s - 1.0).abs() < 1e-9, "weights must conserve mass: {tot_b} {tot_s}");
+    assert!(k_s as f64 / 4_000.0 > 3.0 * k_b as f64 / 40_000.0, "splitting should raise hits per released particle");
+}
+
+#[test]
 fn synthetic_recovery_coverage() {
     // Finds generated from a node drawn uniformly from a small grid (independent ensembles),
     // scored with the module's own layers and level marginalisation; the 90% HPD set should
@@ -334,12 +375,12 @@ fn synthetic_recovery_coverage() {
     let nodes: Vec<[f64; 2]> = (0..21).map(|k| { let (la, lo) = grid.node(k); [lo, la] }).collect();
     let loc = super::Locator { map: None, edges: r.edges.clone() };
     let t_end = T0 + 60.0 * 86_400.0;
-    let ens: Vec<Vec<Arrival>> = nodes.iter().map(|&ll| super::run_ensemble(&setup, &loc, ll, T0, t_end, &resp, 5, Diffusion::Diffusivity { k_m2_s: 100.0 }).unwrap().0.arrivals.into_iter().map(|x| x.1).collect()).collect();
+    let ens: Vec<Vec<Arrival>> = nodes.iter().map(|&ll| super::run_ensemble(&setup, &loc, ll, T0, t_end, &resp, 5, Diffusion::Diffusivity { k_m2_s: 100.0 }, None).unwrap().0.arrivals.into_iter().map(|x| x.1).collect()).collect();
     let trials = 60;
     let (mut hits, mut p_truth, mut p_sq) = (0, 0.0, 0.0);
     for t in 0..trials {
         let truth = (rng.uniform() * 21.0) as usize;
-        let gen = super::run_ensemble(&setup, &loc, nodes[truth], T0, t_end, &resp[..200], 9_000 + t as u64, Diffusion::Diffusivity { k_m2_s: 100.0 }).unwrap().0;
+        let gen = super::run_ensemble(&setup, &loc, nodes[truth], T0, t_end, &resp[..200], 9_000 + t as u64, Diffusion::Diffusivity { k_m2_s: 100.0 }, None).unwrap().0;
         let mut o = Vec::new();
         for (_, a) in gen.arrivals {
             if o.len() == 4 { break; }

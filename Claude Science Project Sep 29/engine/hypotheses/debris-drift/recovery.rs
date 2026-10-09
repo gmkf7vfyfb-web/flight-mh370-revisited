@@ -113,6 +113,9 @@ pub struct Arrival {
     /// Detection segment of the beaching point; None is a coast outside every segment.
     pub segment: Option<usize>,
     pub t_days: f64,
+    /// Statistical weight of the trajectory: 1 for a released particle, 1/M for each of the M
+    /// children of a split particle (`[splitting]`). Sums over released particles stay unbiased.
+    pub w: f64,
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -227,7 +230,7 @@ impl Recovery {
                 let k = norm * (-0.5 * z * z).exp() / width;
                 let mut c = 0.0;
                 for p in 0..np {
-                    let v = k * tmp[p];
+                    let v = ar.w * k * tmp[p];
                     a[j][o.segment * np + p] += v / n;
                     c += v;
                 }
@@ -253,7 +256,7 @@ impl Recovery {
             self.delay_by_period(ar.t_days, 0.0, self.window_end_days, &mut tmp);
             for &(s, m) in &mass {
                 for p in 0..np {
-                    big_a[s * np + p] += m * tmp[p] / n;
+                    big_a[s * np + p] += ar.w * m * tmp[p] / n;
                 }
             }
         }

@@ -10,7 +10,7 @@
 
 use ocean::{
     analytic::Uniform, integrate, Coastline, Component, Diffusion, Domain, Event, FieldGap, Forcing, GridField, NoCoast, ObjectResponse,
-    OceanErrorModel, Particle, Refloat, RunSpec, StraightCoast, VectorField,
+    OceanErrorModel, Particle, Refloat, RunSpec, Snapshot, StraightCoast, VectorField,
 };
 use serde::Deserialize;
 use std::path::Path;
@@ -105,12 +105,20 @@ impl OceanSetup {
     /// Integrate to `end_time` through one ocean realisation (`seed`, `diffusion`). Returns one
     /// fate per particle and the number of integrator steps taken.
     pub fn run(&self, particles: &[Particle], seed: u64, diffusion: Diffusion, end_time: f64) -> Result<(Vec<Fate>, f64), String> {
+        let (fates, _, steps) = self.run_tracks(particles, seed, diffusion, &[end_time])?;
+        Ok((fates, steps))
+    }
+
+    /// As [`run`](Self::run), with the afloat position of every particle at each of `output_times`
+    /// (ascending; the run ends at the last). `None` where the particle was not afloat.
+    pub fn run_tracks(&self, particles: &[Particle], seed: u64, diffusion: Diffusion, output_times: &[f64]) -> Result<(Vec<Fate>, Vec<Vec<Option<[f64; 2]>>>, f64), String> {
+        let end_time = *output_times.last().ok_or("debris-drift: no output times")?;
         let spec = RunSpec {
             forcing: self.forcing(),
             coast: self.coast.as_ref(),
             domain: self.domain,
             step_s: self.step_s,
-            output_times: vec![end_time],
+            output_times: output_times.to_vec(),
             diffusion,
             ocean_error: OceanErrorModel::none(),
             refloat: Refloat::Off,
@@ -121,6 +129,11 @@ impl OceanSetup {
             threads: self.threads,
         };
         let out = integrate(&spec, particles).map_err(|e| format!("debris-drift: transport refused the composition: {e:?}"))?;
+        let positions: Vec<Vec<Option<[f64; 2]>>> = if output_times.len() > 1 {
+            out.tracks.iter().map(|tr| tr.snapshots.iter().map(|s| if let Snapshot::Afloat(at) = s { Some(*at) } else { None }).collect()).collect()
+        } else {
+            Vec::new()
+        };
         let mut steps = 0.0;
         let fates = out
             .tracks
@@ -165,7 +178,7 @@ impl OceanSetup {
                 fate
             })
             .collect();
-        Ok((fates, steps))
+        Ok((fates, positions, steps))
     }
 }
 
