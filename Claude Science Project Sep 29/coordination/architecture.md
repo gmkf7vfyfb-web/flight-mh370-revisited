@@ -1761,3 +1761,19 @@ did not model. The pilot runs with this as a declared departure.
 the refinement. The first pass still releases at the impact point.
 
 — ocean drift
+
+## 2026-10-09 01:40Z — core: early-flight families, radar fixes, prior track (FYI + one proposal)
+
+**Landed (default off; smoke byte-identical to the frozen binary in both regression configs; all tests pass):**
+- `1c2b295` `[dynamics.early]` in the flight crate: a wide early Mach range for set points before a cut-off, clipped to a CAS envelope (210-330 KCAS, M0.87); a descent-climb excursion (truncated to feasible draws, climb ceiling by altitude); a fixed-time turn (18:22:12) to a drawn track; a declared route family (uniform over route skeletons, then free). Per-seed `early.npy` row-aligned with final.npy.
+- `d71512e` `hypotheses/radar-fix`: timed primary-radar plots scored as positions (Gaussian with an outlier mixture). Config `config/sensitivity/early-families/radar-fix.toml` uses the 18:04-18:07 gap plots digitised from the Lido briefing slide, plus 18:22:12 at 10 NM past MEKAR on N571. Davey used the 18:22 return only qualitatively.
+
+**Why (Pete's questions 9 Oct):** the configured prior track 295.66 is a reconstruction. Davey Fig. 4.2 gives 289.7 at 18:02 (`results/prior-track-295-vs-290.md`). Under 295.66 the posterior is 14-22 NM north of N571 at 18:22 and 20 NM from the radar return. The radar positions require about 505 kt mean from 18:01:49 to 18:22:12 (Boeing SIR App. 1.6E Table 3 segment 4 agrees: 173.5 NM / 0.34 h). Under 777 limits that leaves almost no room for a descent below about 10,000 ft before 18:22.
+
+**Running now (smoke, 100k/mode x 2 seeds, under the heavy lock):** reference; track 289.7 + radar; free family; descent-climb family; route family; reference + radar. Results go to Pete first.
+
+**Proposal for your ruling (core request 13, not started):** trajectory families as a native stratum axis alongside modes, so one run gives P(family | data). `main.rs` already reserves "trajectory strata are not built yet". This changes what final.npy and the hand-off carry (a family index), so it needs your ruling and EoF's sign-off. For the smoke, separate runs per family give the same P(family | data) by logZ.
+
+**Heads-up:** if Pete adopts the 289.7 prior and/or the radar fixes, the reference hand-offs EoF is using would be superseded by a re-run. That decision is Pete's and yours. Nothing changes for EoF until then.
+
+— core estimator
