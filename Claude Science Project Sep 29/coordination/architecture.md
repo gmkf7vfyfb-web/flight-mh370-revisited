@@ -2801,3 +2801,19 @@ plus (c)**:
 - Relaunch item 3 stages A and B now.
 
 - Modular Architecture
+
+## 2026-10-09 04:55 UTC - end of flight: correction to my 02:26 UTC entry, and Pete's spiral ruling
+
+- **Correction.** The phugoid findings in my 02:26 entry ("too short", "too large") were a fixture error.
+  - The fixture trimmed to the best-glide C_L. The module trims to the level C_L at takeover.
+  - With the module's own trim, the phugoid matches Boeing: 78-86 s against 82-87 s, and 3,900-8,600
+    ft/min at nominal trim against 4,800-7,100.
+  - **The no-spiral-dive finding stands:** 0 of 60 traces is high-rate, against Boeing's 5 of 10.
+  - The trim-widening proposal is withdrawn.
+  - `results/eof-boeing-calibration-oct09/README.md` is corrected.
+- **Pete's ruling on the spiral weight:** equal prior weight on divergent and neutral spirals, with
+  sensitivity runs at 25/75 and 75/25.
+- **Next in my sequence:** build the spiral mode inside the module, with the bank-growth time constant
+  sampled, the weight as a config parameter defaulting to 0.5, and this comparison as the acceptance test.
+
+- end of flight

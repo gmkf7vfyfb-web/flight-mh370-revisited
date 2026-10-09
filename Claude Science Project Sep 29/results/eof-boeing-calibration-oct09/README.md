@@ -4,7 +4,7 @@
 - Script: `engine/hypotheses/end-of-flight/smoke/boeing_calibration.py`.
 - Module traces: the ignored test `free_dynamics_traces_for_calibration` in `integrator.rs`, module code
   `2b60df4`.
-- Numbers: `calibration.json`. Figure: `eof-boeing-calibration-v0.png`.
+- Numbers: `calibration.json`. Figure: `eof-boeing-calibration-v0.png` (both regenerated with the corrected trim).
 
 ## The data, and what may be done with it
 
@@ -51,21 +51,24 @@
 
 ## Findings
 
+*[Corrected after a fixture error: the first version of this note used C_L at (L/D)max as the free trim. The
+module trims to the LEVEL C_L at the takeover state plus the offset (`profile.rs`, `Shape::FreeTrim`). Its
+findings 2 and 3, "phugoid too short" and "phugoid too large", were artefacts of that error and are
+withdrawn. The fixture now uses the module's own trim, code `free_dynamics_traces_for_calibration` after
+`2b60df4`.]*
+
 1. **The module has no high-rate class.**
    - None of the 60 traces is high-rate; Boeing has 5 of 10.
-   - Module peaks reach 16,947 ft/min and 0.62 g. Boeing's high-rate cases reach 24,000–58,000
-     ft/min and 0.87–1.31 g, ending 4.7–7.9 NM after the first 15,000 ft/min crossing.
+   - Module peaks reach 15,573 ft/min and 0.36 g, at trim offset −0.08. Boeing's high-rate cases reach
+     24,000–58,000 ft/min and 0.87–1.31 g, ending 4.7–7.9 NM after the first 15,000 ft/min crossing.
    - In the 00:11 smoke impacts, `flame-out/none-thrusting/no-intervention` reaches 15,000 ft/min for
      0.6% of its weight.
    - **Cause: a constant bank cannot diverge.** Boeing's dives grow bank to 53–60°; its glides hold
      11–14°. The module holds whatever bank it drew.
-2. **The module's phugoid is too short.** It runs 65–82 s against 82–87 s for
-   Boeing's six non-high-rate cases.
-   - The period rises with trim speed, roughly T ≈ π√2 V/g. A Boeing period of about 85 s implies a
-     faster trim than C_L at (L/D)max gives.
-   - So the trim prior should include the cruise trim at flame-out, not only the best-glide C_L.
-3. **The module's phugoid amplitude is too large.** Even at 0° bank, peak descent reaches
-   10,000–14,800 ft/min. Boeing's glides stay at 4,800–7,100 ft/min, so its phugoid is better damped.
+2. **The phugoid is consistent.** It runs 78–86 s against 82–87 s for Boeing's six non-high-rate cases,
+   with the shortest periods at trim offset +0.08 and small bank.
+3. **The amplitude is consistent at nominal trim.** Peak descent at offset 0 is 3,900–8,600 ft/min,
+   against 4,800–7,100 for Boeing's glides. At offset −0.08 the module reaches 7,400–15,600 ft/min.
 
 ## What this implies, and what is not yet settled
 
@@ -74,9 +77,9 @@
     φ(t) = φ0·exp(t/τ_s), capped where the simulator database ends;
   - τ_s is a sampled uncertain parameter whose range brackets Boeing's neutral behaviour (glides,
     τ_s → ∞) and its divergent behaviour (dives, bank doubling in roughly 60–90 s);
-  - widen the trim prior to include the cruise trim, and check the phugoid damping;
   - re-run this comparison as the acceptance test.
-- **Not settled: how much prior weight goes to divergent against neutral spirals.** ATSB chose the ten
+- **Ruled by Pete (9 Oct): equal prior weight on divergent and neutral spirals,** a stated indifference prior, with sensitivity runs at 25/75 and 75/25. The reasoning below is why it was his call.
+- **Background to the ruling:** ATSB chose the ten
   scenarios, so 5 of 10 is not a frequency. This weight moves impact mass toward the 7th arc, since
   dives end within about 8 NM of their 15,000 ft/min crossing. It is a scientific choice the brief does
   not make, so it goes to Pete with options before any headline uses it.
