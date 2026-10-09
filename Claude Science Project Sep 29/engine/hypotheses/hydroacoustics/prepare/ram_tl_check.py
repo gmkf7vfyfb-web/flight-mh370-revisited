@@ -112,7 +112,7 @@ def kraken_band(e, fc, work, at_bin):
     tag = f"f{fc:g}".replace(".", "p")
     K.tl_path(work, tag, fc, prof, rprof, np.array([rprof[-1]]), SRC, [rd], BOT, at_bin, fg=None)
     s = K.read_shd(work / f"{tag}.shd")
-    return {float(zs): float(-20 * np.log10(np.abs(s["p"][0, js, 0])) + sph(s["rr_m"][-1])) for js, zs in enumerate(s["sz"])}
+    return {float(zs): float(-20 * np.log10(np.abs(np.ravel(s["p"][0, js, 0])[-1])) + sph(np.ravel(s["rr_m"])[-1])) for js, zs in enumerate(s["sz"])}
 
 
 def delta_interp(d, fcs):
@@ -127,7 +127,9 @@ def main(stub, cal_dir, at_bin, out_dir, tl_csv, sa_json, summary):
     envs = {n: env(f35 if n.startswith("f35a") else stub, n) for n in PATHS}
     # convergence, decided before running
     conv = {}
-    for fc in (5.0, 40.0):
+    if (out / "convergence.json").exists():          # implementation (9 Oct): reuse a completed convergence step
+        conv = json.loads((out / "convergence.json").read_text())["cases"]
+    for fc in (5.0, 40.0) if not conv else ():
         for zs in SRC:
             a, b = ram_band(envs["imp500_3376"], fc, zs), ram_band(envs["imp500_3376"], fc, zs, fine=True)
             conv[f"{fc:g}|{zs:g}"] = dict(primary=a, fine=b, diff=b - a)
