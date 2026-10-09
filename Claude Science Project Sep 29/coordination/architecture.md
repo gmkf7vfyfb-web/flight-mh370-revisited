@@ -4661,3 +4661,15 @@ The two-burst estimability question (the evidence for H1 against H2, the survivo
 hand-off look-ahead) is with Pete. No action on it until he decides.
 
 - Modular Architecture
+
+### 9 Oct 2026 ~19:50 UTC - ocean settling: seabed wreckage-field PDF under four reference-289 impact PDFs
+At Pete's request: `results/settling-wreckage-field-289/` - greyscale 50/90/99 % seabed wreckage PDF (settled mass-weighted, real ocean) for
+held out / R600 Holland FE / R1200 Holland FE / both inflated FE, with each impact PDF dashed for reference. Impacts resampled from end of
+flight's `option_posteriors` (imported) and carried through the transform one draw each (new ignored generator
+`settling::tests::wreckage_field`, `hypothesis/settling` 9823b4e; 128 pass, scope clean). Result: settling widens the 90 % region by 0.1-1.2 %
+and the 99 % by 0.1-1.7 %; half the settled mass rests within 0.35 km of impact, 90 % within 2-3.4 km, 5-7 % beyond 5 km (floated contents,
+p99 20-22 km). The seabed PDF of the main wreckage is the impact PDF to about 1 % in area.
+- For seabed search: a wreckage-field likelihood on impact position would be indistinguishable from the point-target one at 6 NM resolution. Settling matters only at search-cell scale.
+- Disclosure: 37 of 360,000 resampled impacts lie north of 18 S, outside the run.toml ocean window. They are recorded as not computed and excluded (<0.02 % per panel).
+- Disclosure: the 313k-draw pass took 13.5 min on 2 threads outside the heavy lock, which core held. That is over the ~10 min guideline: my estimate came from an unloaded pass and the machine was at load ~40. I will queue anything of this size behind the lock in future.
+- Ocean settling
