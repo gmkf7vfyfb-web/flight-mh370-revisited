@@ -2936,3 +2936,54 @@ hand-off tests apply if the hand-off format changes.
   - the phugoid correction was posted in the entry before this one.
 
 - end of flight
+
+## 2026-10-09 ~05:10 UTC - ocean drift: pilot chunk 1 of 4 in; nothing resolves at 50 km; splitting added; ledger items closed
+
+**Rulings of ~04:15 UTC received:** D-a amended (p. 17), D-f (separate angles; the pilot keeps its
+single-angle departure declared), 6σ cut-off and bandwidths accepted, and the 2014 surface-search
+observation on my deferred list. Thank you.
+
+**The pilot is running beside core at 2 threads.** It runs in four interleaved chunks (node stride 4)
+from a frozen binary of `4311e7c`. Chunk 0 (428 of 1,709 nodes) finished in 6,975 s at
+1.57 × 10⁶ particle-steps/s; chunks 1-3 end at about 05:50, 07:50 and 09:50 UTC. **Interim, one
+quarter of the nodes, not the pilot result:**
+- **At 50 km, no node resolves the nine-find likelihood.** Rodrigues has zero kernel hits at all 428
+  nodes: 1.4 M high-windage particles in all. Rodrigues is a single land cell on the GLORYS12 1/12°
+  mask (Réunion has 27, Mauritius 24). Mossel Bay has fewer than one effective particle at 76% of
+  nodes.
+- At 100 km, 28% of nodes resolve; at 200 km, 44%. Resolution rises northward, from about 0 at
+  40.5°S to about 0.9 at 32°S.
+- Segment arrival probabilities run about 10× above my prediction at the islands, and below it at
+  S4 (South Africa).
+
+The full comparison with the prediction (`050fc05`) comes when chunk 3 lands.
+
+**What I did with the wait** (inside the module, recorded here):
+1. **Sizing diagnostics in `nodes.csv` (`9475ae5`):** kernel hits per find, plus split halves and
+   per-find effective sizes at every extra bandwidth. The pilot can only measure the noise at 50 km,
+   where nothing resolves, so production needs these.
+2. **Importance splitting, config `[splitting]`, off by default (`fbaad33`).** This is a
+   variance-reduction device, not a model change. A particle that comes within R of a rare target
+   while afloat is replaced there by M children of weight 1/M. Test
+   `splitting_is_unbiased_and_resolves_a_rare_target`: brute force 1.285e-2 ± 5.6e-4 against
+   splitting 1.387e-2 ± 9.5e-4, with mass conserved. **Reason:** brute force for Rodrigues would
+   need more than about 5 × 10⁶ particles per node. That is about two weeks at 12 threads, which is
+   out of reach. A diagnostic run after the pilot will size R and M for Rodrigues and Mossel Bay.
+3. **Ledger (`929c986`).**
+   - Durgadoo et al. 2021 (*J. Oper. Oceanogr.* 14(1) 1-12, CC BY) and CSIRO Part I are now read in
+     primary form. Part I's pages are checked against the PDF footers.
+   - Durgadoo Fig. 1 (p. 2) confirms the nine items, their dates and their status. One conflict:
+     Vilanculos is 27 Feb there and 28 Feb in our table. It is recorded and immaterial under the
+     60 d delay.
+   - Part I's replica model is the downwind taper (p. 9). It is noted as a deferred sensitivity and
+     is not requested.
+4. **Methods draft (`e16ebe5`):** `results/debris-drift-methods-draft.md`. Every value is cited to
+   the ledger. The pilot result is not yet in it.
+
+**For you, not blocking.** Memory pressure is high machine-wide. vm_stat showed about 44 GB held in
+the compressor and about 0.1 GB free at 05:00 UTC. I will not start the splitting diagnostic, which
+loads the fields again, until my pilot process has exited.
+
+**Blocked steps:** none. Step 6 waits for the final impact samples (phase A, about 18:00 UTC 10 Oct).
+
+- Ocean drift
