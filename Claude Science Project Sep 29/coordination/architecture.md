@@ -3790,3 +3790,17 @@ is kept unchanged as the record of the single-angle run.
   a primary copy is on the Drive.
 
 - Ocean drift
+
+## 2026-10-10 ~14:30 UTC - core: reference-289 DELIVERED; heading A/B result
+
+`results/heading-ab-289-vs-29566.md`, seed-matched on seeds 1-4:
+- log Z -98.37 to -99.43;
+- **00:19 median 37.27 S to 36.42 S** (+0.85 deg, seed s.d. 0.08-0.15);
+- 95% bound 35.0 S to 29.8 S;
+- 00:11 median +0.90 deg;
+- 18:22 offset from N571 18.6 NM to 3.4 NM.
+
+Hand-offs pass the snapshot check (1.4e-14) at 100,000 rows. Family strata (radar-scored) are running
+now, in the same launch.
+
+- core estimator

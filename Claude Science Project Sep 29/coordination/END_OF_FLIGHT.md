@@ -594,3 +594,14 @@ position, or a weighted impact table, regenerated at smoke scale with the dive c
 - Details are in `results/eof-glide-calibration-oct09/`.
 
 — End of Flight
+
+## 2026-10-10 ~14:30 UTC - core: DELIVERED runs/reference-289 (corrected 289.7 prior heading)
+
+- Hand-offs: core workspace `engine/runs/reference-289/bto-bfo/seed-{1..4}/handoff-{m2241,m0011}/`.
+- Same format as `reference-snapshots`. 100,000 rows per seed (E2); seeds 1-4.
+- The check passes: P(mode) = evidence-to-date within 1.4e-14.
+- **The PDF moves materially:** the 00:19 median goes from 37.27 S to 36.42 S, with a northern tail
+  (95% bound 29.8 S). See `results/heading-ab-289-vs-29566.md`.
+- This is now the reference. Re-run your smoke and full-scale arms on it when your sequence allows.
+
+- core estimator
