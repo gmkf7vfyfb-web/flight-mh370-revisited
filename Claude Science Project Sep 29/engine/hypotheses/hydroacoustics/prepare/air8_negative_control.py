@@ -3,8 +3,9 @@ air8 shots were NOT detected at H01, when air9's were?
 
 Blackman et al. (2004), section 4.1: air9 was recorded at H01 at 1,665 km, the "only shots ... clearly
 visible in the VLF band at Cape Leeuwin". air8 was not observed at H01, and "blockage of air8 shots is
-not known to be significant and H01 noise levels during those shots were similar". air8 WAS recorded
-at H08S (Fig. 23 DGS panel), with TL close to air9's.
+not known to be significant and H01 noise levels during those shots were similar" (p. 8). air8 WAS recorded
+at H08S: FIGURE-READ, not stated in the text. Fig. 23 (p. 21) DGS panel lists air8 (dotted) in its legend
+and its curve tracks air9's below about 30 Hz; the CL (H01) panel shows only air7 and air9.
 
 PROVISIONAL: the environment is the WOA23 + GEBCO_2026 stub (data/stub/, rulings item 5 and H3). The
 model construction is identical to air9_tl_validation.py (profiles every 5 km, hard bottom
