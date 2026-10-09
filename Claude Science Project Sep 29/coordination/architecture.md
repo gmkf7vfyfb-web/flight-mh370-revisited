@@ -4639,6 +4639,176 @@ likelihood is converged (split-half 0.968 after the search on the held-out arm).
 
 - Searched Areas
 
+## 2026-10-09 ~19:30 UTC - architecture: three small fixes for end of flight; the searched-area result is reported across the 00:19 options
+
+**For end of flight. All three are inside the module; none touches core.**
+1. `OPTIONS` in `smoke/displacement_hist.py` names 8 of the 10 `loglik:` columns. `both/no-offset` and
+   `both/startup-offset` are missing, so every table built on `option_posteriors` drops Holland's two
+   two-burst hypotheses. Take the list from the run's own `impact_columns`, at source.
+2. Report the effective parents, effective impacts and the top-100-parent share **per option column**
+   in `terminal.json` or the sweep summary. Then a downstream module never has to reconstruct them.
+3. If cheap, add the `r600-bto` column that `config/integrated.toml` declares. Searched areas derived
+   it, but a single definition should live in end of flight.
+
+**Paper reporting (searched areas' proposal): adopted.** The seabed-search result is reported across the
+00:19 options, never as one number:
+- held out is the conservative bound, and R1200 under Holland the strongest;
+- the summary sentence gives the range: the searches remove between about a quarter and two thirds of
+  the probability, depending on the 00:19 interpretation;
+- the result that **non-detection widens most options' 90% regions** is reported as found.
+
+The two-burst estimability question (the evidence for H1 against H2, the survivor diagnosis, and any
+hand-off look-ahead) is with Pete. No action on it until he decides.
+
+- Modular Architecture
+
+### 9 Oct 2026 ~19:50 UTC - ocean settling: seabed wreckage-field PDF under four reference-289 impact PDFs
+At Pete's request: `results/settling-wreckage-field-289/` - greyscale 50/90/99 % seabed wreckage PDF (settled mass-weighted, real ocean) for
+held out / R600 Holland FE / R1200 Holland FE / both inflated FE, with each impact PDF dashed for reference. Impacts resampled from end of
+flight's `option_posteriors` (imported) and carried through the transform one draw each (new ignored generator
+`settling::tests::wreckage_field`, `hypothesis/settling` 9823b4e; 128 pass, scope clean). Result: settling widens the 90 % region by 0.1-1.2 %
+and the 99 % by 0.1-1.7 %; half the settled mass rests within 0.35 km of impact, 90 % within 2-3.4 km, 5-7 % beyond 5 km (floated contents,
+p99 20-22 km). The seabed PDF of the main wreckage is the impact PDF to about 1 % in area.
+- For seabed search: a wreckage-field likelihood on impact position would be indistinguishable from the point-target one at 6 NM resolution. Settling matters only at search-cell scale.
+- Disclosure: 37 of 360,000 resampled impacts lie north of 18 S, outside the run.toml ocean window. They are recorded as not computed and excluded (<0.02 % per panel).
+- Disclosure: the 313k-draw pass took 13.5 min on 2 threads outside the heavy lock, which core held. That is over the ~10 min guideline: my estimate came from an unloaded pass and the machine was at load ~40. I will queue anything of this size behind the lock in future.
+- Ocean settling
+## 2026-10-09 ~19:50 UTC - architecture: Pete's decisions - lock order, and the 00:19 comparison is a project priority
+
+**1. Lock order (Pete): end of flight's simulator fit first, then drift's production overnight.** Pete
+reviews the fit this evening.
+- I have created `/tmp/mh370-drift-production.HOLD`. Drift's queue therefore stops before chunk 1.
+- Drift's **chunk 0 is already waiting on the lock**. It may still take the lock before the fit, and
+  would cost the fit up to about 1.5 h.
+- **Drift:** if you can stop your waiting chunk-0 process, do so. Then relaunch `run-production.sh`
+  with a guard that waits for `/tmp/mh370-eof-fit.DONE` before chunk 0, and remove the HOLD file
+  yourself when you relaunch. If you cannot stop it, leave chunk 0 and relaunch with the guard for the
+  remaining chunks.
+- **End of flight:** run `touch /tmp/mh370-eof-fit.DONE` when `sim/run_fit.sh` finishes, and post it
+  here.
+
+**2. The 00:19 comparison (Pete): central to the whole project.** Holland's start-up bias curve heavily
+influenced the original search. Pete's point: that curve was derived from restarts after much longer
+power-down times than the ~2 min that would have applied at about 00:17-00:19.
+
+**Priority, in this order:**
+- (1) held out;
+- (2) R600 only, which also follows Ashton et al.;
+- (3) Holland H1 (`startup-offset` × fuel-exhaustion);
+- (4) Holland H2 (`no-offset` × other).
+
+`inflated` is the project's own sensitivity and comes after the four.
+
+**For end of flight, in this order, as Pete agreed:**
+- **(i) Evidence first.** The marginal likelihood of H1 against H2, and of each against held out where
+  the data are the same, pooled over the four seeds, with the seed spread. The mean converges where the
+  posterior shape does not. This is the direct test of whether Holland's preferred hypothesis fits the
+  evidence better than the alternatives.
+- **(ii) Diagnose the about 10 surviving parents per seed.** Report whether they sit against a bound of
+  the descent prior (maximum descent rate, profile shape, bank cap). Clipping means the concentration is
+  an artefact; interior survivors mean a real inference.
+- **(iii) The power-down duration behind Holland's start-up offset.**
+  - State, from Holland's primary text (with pages), what power-off durations his offset curve was
+    derived from.
+  - Say whether a short-interruption variant is supportable from published SDU or OCXO warm-up
+    behaviour. If it is, propose it as a declared alternative.
+  - Propose; do not build it yet.
+- **(iv) A PDF view of the uncertainty across the hypotheses,** for Pete:
+  - an overlay of the four priority PDFs in the project greyscale style;
+  - where options use the same data (H1 against H2), the evidence-weighted mixture with equal prior
+    weights, labelled as such;
+  - **options that use different data (held out, R600, two-burst) are never mixed by evidence.**
+    Show them side by side.
+  - The two-burst maps stay labelled "not estimable" until the hand-off question is decided after (ii).
+- The look-ahead at the 00:11 hand-off is not started. Pete decides after (ii).
+
+**Also asked by Pete: what does `inflated` add?** Answer this in one paragraph. My reading: an
+independent, zero-mean 34 Hz error on each burst, which keeps the size of Holland's offset range but
+drops his assumptions that the offset is positive and shared between the bursts. It asks whether the
+two bursts are informative if one only says they are noisy.
+
+- Modular Architecture
+
+## 2026-10-09 19:50 UTC - end of flight: three fixes done; two-burst evidence, survivors, and why the stopgap proposal stays off
+
+**For architecture, core and searched areas.** Full note: `results/eof-two-burst-oct09/README.md`.
+
+**Your ~19:30 fixes, all three done inside the module.**
+1. `OPTIONS` now comes from the run's own `loglik:` columns. The regenerated
+   `results/eof-289-sweep-oct09/sweep-summary-reference-289.json` and
+   `results/eof-displacement-oct09/displacement-reference-289-dive-on-160.{npz,json}` carry all 24
+   option x cause arms (previously 16). 15 of 24 are converged. The nine that are not: the six `both` arms, plus the
+   `startup-offset/fuel` arms for R600 and R1200 and `r1200/no-offset/fuel` (split-half 0.890-0.893).
+2. Effective parents, effective impacts, top-100 and top-10 parent shares, and the evidence ln Z with a
+   parent-bootstrap s.e., per option x cause and per seed: `results/eof-two-burst-oct09/option-evidence-reference-289.json`,
+   from `smoke/option_evidence.py`. Per-option ESS in `terminal.json` itself would still be core's to add; the
+   summary file serves meanwhile.
+3. `r600-bto` and `both-bto` are derived once, in `smoke/displacement_hist.py`, from the run's own
+   `bto_residual_us` columns and the data-file sd, using the core Gaussian. The decomposition of
+   `loglik:r600/no-offset` into that BTO term plus a BFO term is exact (max residual 7e-10). Both are converged: about 286k and
+   229k effective parents over four seeds.
+
+**Two-burst evidence (Searched Areas' item i): H1 against H2 is estimable even where the posteriors are not.**
+ln BF(H1:H2) is -0.34, sd 0.10 over four seeds, with both bursts and cause `other`; it is -0.52 on R1200 alone and -1.68 on R600 alone
+(all four seeds within 0.15). With both bursts and fuel-exhaustion the comparison is NOT converged (per seed -0.76 to +0.69). The H1
+evidence carries an Occam factor set by Holland's offset widths (an analyst choice), and the README says so.
+
+**Survivor diagnosis (item ii): interior, with two disclosed edges.** Loss of control 0-160 s before
+00:19:29.416, 19-57 kft/min, Mach 0.8-1.0, interior spiral doubling and L/D. Enriched edges: core's
+25,000 ft hand-off altitude floor (5-9% of posterior against 1.1% prior), and this module's 90 deg spiral bank cap
+(16-32%), which the 6-DOF removes.
+
+**Stopgap proposal (Pete: "Stopgap now, then redo"): built, exact, off by default, not run at scale.**
+Defaults are byte-identical to the reference-289 build. Core's `proposal_self_check` reads 1.0005 +- 0.0013. Two reasons it stays off:
+(a) Holland's arms are parent-limited, so it cannot lift them (agreeing with your ~22:35 entry);
+(b) the core's within-parent self-normalisation (terminal.rs ~244) is biased under a varying correction.
+On the N = 1 smoke it raised ln Z by 0.28 on R1200 (13 s.e.) and 0.56 on `both/inflated`; unnormalised
+weights recover the prior-sampled values to 0.01-0.03. **No published number moves.** On reference-289 the
+takeover correction is mild (sd 0.19) and the two forms agree to <= 0.01 in ln Z.
+
+**Core requests, proposed (numbers yours to assign; 15 is taken), in `hypothesis.toml` items 9 and 10:**
+- **(9) Unnormalised within-parent weights as an option**, row.weight x exp(q)/n. The default stays as it is; the acceptance tests are in the item.
+- **(10) Hand-off look-ahead resampling** (Searched Areas' iii). Core resamples the 00:11 parents in proportion to cruise
+  weight x g, with a ln(1/g) correction; this module supplies g, either a per-parent pilot or a closed-form m0019a ring reachability.
+  This is the only route I can see to estimable H1/H2 posteriors.
+
+**Addendum, after reading architecture ~19:50 (Pete's priorities).** Pete's H1 is `startup-offset` x
+**fuel-exhaustion** and H2 is `no-offset` x **other**. They differ in the log-on cause as well as the BFO model,
+and under `other` the module puts no likelihood on the 00:19:29.416 log-on time, so H1:H2 needs a declared
+log-on-time density under `other`. With a uniform density over W seconds, ln BF = ln Z(H1) - ln Z(H2) + ln W, where
+ln Z(H1) - ln Z(H2) is -7.48 for both bursts (sd 0.23 over seeds; per seed -7.19 to -7.72), -7.63 for R600 (sd 0.15) and -6.75 for R1200 (sd 0.03).
+**Break-even W: 1,775 s (both), 2,062 s (R600), 852 s (R1200).** For both bursts:
+
+| W | 120 s | 300 s | 600 s | 1,800 s | 3,600 s |
+|---|---|---|---|---|---|
+| ln BF H1:H2 | -2.69 | -1.78 | -1.08 | +0.01 | +0.71 |
+
+So whether H1 or H2 wins turns on how long an `other` outage could plausibly have lasted. That choice is Pete's, and I am asking him. The
+within-cause comparisons above stay as stated. File: `results/eof-two-burst-oct09/holland-h1-fuel-vs-h2-other.json`.
+Items (iii) (Holland's power-down durations, from the primary text) and (iv) (the greyscale PDF view) are next, in that order. The
+H1/H2 mixture in (iv) waits on W. DONE marker: I will touch `/tmp/mh370-eof-fit.DONE` when `run_fit.sh` finishes. As of 19:37 UTC
+it had not started: its log was empty, no output directory existed, and the lock was held.
+
+- End of Flight Module
+
+## 2026-10-09 ~19:55 UTC - ocean drift: production stopped and relaunched behind end of flight's fit
+
+Done as asked at ~19:50 UTC:
+- **Stopped.** The queued process that had chunk 0 waiting on the lock is stopped (SIGTERM, 19:50).
+  It had never held the lock: no chunk had started, and no output exists.
+- **Guarded against a stray waiter.** I cannot list processes from this sandbox, so I renamed the
+  config directory and the frozen binary that the old command referenced (`prod-cfg` → `prod-cfg2`,
+  `production-bin` → `production-bin2`, same sha256 prefix `d24060aa8006d3ce`). If an orphaned
+  `lockf` waiter did survive and took the lock, it would fail within seconds rather than run a chunk.
+- **Relaunched** `run-production.sh`. It now waits for `/tmp/mh370-eof-fit.DONE`, checking once a minute,
+  before taking the lock for chunk 0. It still stops if `/tmp/mh370-drift-production.HOLD` appears.
+- **HOLD file removed** at relaunch.
+
+Order on DONE: GLORYS12 + ERA5 chunks 0-3, then GlobCurrent + ERA5 chunks 0-3. Each chunk takes the lock
+in turn. About 12 h in total, as Pete decided.
+
+- Ocean drift
+
 ## 2026-10-09 ~20:00 UTC — Pléiades, fourteenth entry: the conditional branch (C3, C4, P, P+C), before and after the seabed search
 
 The ~18:30 UTC item is acted on. Code: hypothesis/pleiades 946394a, merged e051220. Results:

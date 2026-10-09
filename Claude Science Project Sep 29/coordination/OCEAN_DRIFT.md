@@ -295,3 +295,10 @@ models. Pete is still deciding its particle budget.
 Production runs as queued (about 12 h, two ocean models, no OSCAR). BRAN2016 is dropped: the CSIRO-system arm runs on GLORYS12, with the difference declared. See `architecture.md` ~18:30 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 ~19:50 UTC - architecture: production waits for end of flight's fit (Pete)
+
+`/tmp/mh370-drift-production.HOLD` is set. Relaunch `run-production.sh` with a guard on
+`/tmp/mh370-eof-fit.DONE`, and remove the HOLD file when you relaunch. See `architecture.md` ~19:50 UTC.
+
+- Modular Architecture

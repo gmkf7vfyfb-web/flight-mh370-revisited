@@ -1,0 +1,20 @@
+# Two-burst stopgap proposal (Pete, 9 Oct 2026: "Stopgap now, then redo"). PROVISIONAL.
+#
+# DO NOT ENABLE FOR ANY REPORTED RESULT until core weights a parent's descents without self-normalising
+# them (core request 15, coordination/architecture.md, 9 Oct). The corrections are exact (core's
+# proposal_self_check: 1.0005 +- 0.0013 on the N = 1 smoke), but core normalises each parent's weights over
+# its own descents, a ratio estimator that is biased when the corrections vary: on the smoke it raised
+# ln Z by 0.28 on R1200 (13 bootstrap s.e.) and 0.56 on both/inflated. Recomputing the weights
+# unnormalised (W_parent exp(q) / n) recovers the prior-sampled evidence to 0.01-0.03.
+# Even unbiased it cannot make Holland's two two-burst arms estimable: they are parent-limited
+# (effective impacts = effective parents), results/eof-two-burst-oct09/README.md.
+#
+# Use with full/reference-289.toml and full/seed-<k>.toml.
+[hypotheses.end-of-flight.proposal]
+maintained_then_lost_boost = 0.4
+# B - 260 s to B + 5 s, B = 00:19:29.416 (the R600 log-on, unix 1394237969.416).
+loss_window_unix_s = [1394237709.416, 1394237974.416]
+loss_window_weight = 0.75
+
+[terminal]
+children = 16

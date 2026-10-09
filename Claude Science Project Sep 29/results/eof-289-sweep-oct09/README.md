@@ -86,3 +86,5 @@ The table is built from `sweep-summary-reference-289.json`, written by
   - A dive-off counterpart on reference-289 was **not run**. It would be another 2 h; say if it is wanted.
   - Under held-out with the other cause, 52.8% of the weight has a 00:19:37 position. The rest was down before
     the burst, and the JSON carries that share.
+
+**Update 9 Oct 19:50 UTC.** The reference-289 summary/histogram files here were regenerated with all 24 option x cause arms (both/no-offset and both/startup-offset had been dropped by a hard-coded OPTIONS list; r600-bto and both-bto added, derived from BTO residual columns). 15 of 24 converge. Evidence per option and Holland H1:H2: results/eof-two-burst-oct09/README.md.

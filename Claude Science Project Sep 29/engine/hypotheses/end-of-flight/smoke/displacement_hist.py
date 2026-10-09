@@ -17,7 +17,31 @@ from scipy.special import gammaln
 
 EDGES = np.arange(-110.0, 110.0 + 1e-9, 5.0)  # default; --extent overrides
 OPTIONS = ["none", "r600/inflated", "r600/no-offset", "r600/startup-offset", "r1200/inflated", "r1200/no-offset",
-           "r1200/startup-offset", "both/inflated"]
+           "r1200/startup-offset", "both/inflated", "both/no-offset", "both/startup-offset"]
+
+
+SATCOM_CSV = pathlib.Path(__file__).resolve().parents[3] / "data" / "satcom-observations.csv"
+# BTO-only options declared in config/integrated.toml but not carried by every run (architecture fix 3, ~19:30
+# UTC 9 Oct). Derived here, once, from the run's own `bto_residual_us:<epoch>` columns and the observation sd in
+# data/satcom-observations.csv, with the core's gaussian_log_likelihood (crates/satcom/src/lib.rs:271). Checked
+# 9 Oct: loglik:r600/no-offset decomposes exactly into this BTO term (sd 63 us) plus a BFO term (max residual
+# 7e-10). A descent already down at the epoch has no residual and scores -inf, as in the core.
+DERIVED_BTO = {"r600-bto": ["m0019a"], "both-bto": ["m0019a", "m0019b"]}
+
+
+def derived_logliks(meta, g, present):
+    import csv
+    sd = {r["epoch_id"]: float(r["bto_sd_us"]) for r in csv.DictReader(open(SATCOM_CSV)) if r["epoch_id"] in ("m0019a", "m0019b")}
+    out = {}
+    for o, epochs in DERIVED_BTO.items():
+        if o in present or not all(f"bto_residual_us:{e}" in meta["impact_columns"] for e in epochs):
+            continue
+        ll = 0.0
+        for e in epochs:
+            r = g(f"bto_residual_us:{e}")
+            ll = ll + np.where(np.isfinite(r), -0.5 * ((r / sd[e]) ** 2 + np.log(2 * np.pi * sd[e] ** 2)), -np.inf)
+        out[o] = ll
+    return out
 
 
 def option_posteriors(run, seed_dir):
@@ -39,10 +63,13 @@ def option_posteriors(run, seed_dir):
     with np.errstate(divide="ignore", invalid="ignore"):
         lfe = (logon["lag_shape"] - 1) * np.log(lag) - lag / logon["lag_scale_s"] - logon["lag_shape"] * np.log(logon["lag_scale_s"]) - gammaln(logon["lag_shape"])
     lfe = np.where(np.isfinite(lag) & (lag > 0), lfe, -np.inf)
-    for o in OPTIONS:
-        if "loglik:" + o not in cols:
-            continue
-        base = g("loglik:" + o)
+    # Every option the run carries, read from its own columns (OPTIONS fixes only the order of the known ones),
+    # so that no loglik column can be silently dropped. Fixed 9 Oct after Searched Areas found both/no-offset and
+    # both/startup-offset missing.
+    present = [c[len("loglik:"):] for c in meta["impact_columns"] if c.startswith("loglik:")]
+    derived = derived_logliks(meta, g, present)
+    for o in [o for o in OPTIONS if o in present] + [o for o in present if o not in OPTIONS] + list(derived):
+        base = derived[o] if o in derived else g("loglik:" + o)
         for cause, extra in (("other", 0.0), ("fuel-exhaustion", lfe)):
             ll = np.where(np.isfinite(base), base, -np.inf) + extra
             p = w * np.exp(ll - ll[np.isfinite(ll)].max()); p = p / p.sum()

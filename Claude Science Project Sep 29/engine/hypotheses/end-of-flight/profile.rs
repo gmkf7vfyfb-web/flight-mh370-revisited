@@ -222,6 +222,7 @@ impl EnvelopeConfig {
         propulsion: Propulsion,
         control: Control,
         aero: &Aero,
+        window: Option<LossWindow>,
         uniform: &mut dyn FnMut() -> f64,
     ) -> Profile {
         let shape = self.sample_shape(propulsion, control, uniform);
@@ -305,13 +306,13 @@ impl EnvelopeConfig {
                 phases.push(Phase::Approach { rate_fpm: self.approach_rate_fpm.draw(uniform), mach: self.descent_mach.draw(uniform) });
             }
             Control::MaintainedThenLost => {
-                let after = self.control_loss_after_s.draw(uniform);
+                let (after, lq) = draw_loss_after(&self.control_loss_after_s, start.unix_s, window, uniform);
                 phases.push(Phase::Free {
                     c_l: level_c_l + self.trim_cl_offset.draw(uniform),
                     bank_rad: self.residual_bank_deg.draw(uniform).to_radians(),
                     recover_at_altitude_ft: None,
                 });
-                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None };
+                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq };
             }
             Control::UpsetThenRecovery => {
                 let recover_at = self.recovery_altitude_ft.draw(uniform);
@@ -332,11 +333,12 @@ impl EnvelopeConfig {
                     control,
                     loss_of_control_after_s: None,
                     recovery_attempt_altitude_ft: Some(recover_at),
+                    log_q_correction: 0.0,
                 };
             }
             Control::NoIntervention => {}
         }
-        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None }
+        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: 0.0 }
     }
 
     fn sample_shape(&self, propulsion: Propulsion, control: Control, uniform: &mut dyn FnMut() -> f64) -> Shape {
@@ -377,6 +379,39 @@ pub struct Profile {
     pub loss_of_control_after_s: Option<f64>,
     /// For `UpsetThenRecovery`: the altitude at which recovery is attempted.
     pub recovery_attempt_altitude_ft: Option<f64>,
+    /// `ln(prior / proposal)` of this profile's draws: non-zero only under the two-burst loss-window
+    /// proposal ([`LossWindow`]), zero otherwise.
+    pub log_q_correction: f64,
+}
+
+/// The two-burst stopgap proposal on the loss of control (9 Oct 2026, Pete's choice; PROVISIONAL, to be
+/// redone on the 6-DOF-fitted fast model). For `MaintainedThenLost`, the delay `control_loss_after_s`
+/// is drawn from the defensive mixture
+///   q(a) = weight 1{a in E} / |E| + (1 - weight) / |S|,  E = [w0 - t0, w1 - t0] cap S,
+/// with t0 the profile's start (takeover) time, so that the ABSOLUTE loss time falls in [w0, w1] with
+/// probability at least `weight`. The correction ln p(a) - ln q(a) is exact, and its mean under q is one.
+/// Off (the default) no extra uniform is drawn, so the earlier stream is reproduced exactly.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct LossWindow {
+    pub unix_s: [f64; 2],
+    pub weight: f64,
+}
+
+/// The loss delay under the optional window proposal: returns (delay, ln prior/proposal).
+pub fn draw_loss_after(range: &Range, start_unix_s: f64, window: Option<LossWindow>, uniform: &mut dyn FnMut() -> f64) -> (f64, f64) {
+    match (*range, window) {
+        (Range::Uniform([lo, hi]), Some(w)) if w.weight > 0.0 && hi > lo => {
+            let (e0, e1) = ((w.unix_s[0] - start_unix_s).max(lo), (w.unix_s[1] - start_unix_s).min(hi));
+            if !(e1 > e0) {
+                return (range.draw(uniform), 0.0);
+            }
+            let a = if uniform() < w.weight { e0 + (e1 - e0) * uniform() } else { lo + (hi - lo) * uniform() };
+            let p = 1.0 / (hi - lo);
+            let q = (1.0 - w.weight) * p + if a >= e0 && a <= e1 { w.weight / (e1 - e0) } else { 0.0 };
+            (a, p.ln() - q.ln())
+        }
+        _ => (range.draw(uniform), 0.0),
+    }
 }
 
 /// The state machine that turns a profile into the integrator's per-step command. Mutable,
@@ -617,7 +652,7 @@ pub(super) mod tests {
     #[test]
     fn a_divergent_spiral_doubles_its_bank_and_stops_at_the_cap() {
         let e = envelope();
-        let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::NoIntervention, &reference(), &mut || 0.5);
+        let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::NoIntervention, &reference(), None, &mut || 0.5);
         let mut f = Flying::new(p, reference(), Propulsion::NeitherThrusting, &e);
         assert_eq!(f.free_bank(-0.1, 10.0), -0.1, "neutral holds the drawn bank");
         let mut f2 = f.clone();
@@ -692,7 +727,7 @@ pub(super) mod tests {
         let mut shapes = std::collections::BTreeSet::new();
         let mut emergency_checked = 0;
         for _ in 0..400 {
-            let p = e.sample(&body(35_000.0), Propulsion::TwoThrusting, Control::MaintainedThenLost, &aero, &mut u);
+            let p = e.sample(&body(35_000.0), Propulsion::TwoThrusting, Control::MaintainedThenLost, &aero, None, &mut u);
             shapes.insert(p.shape.code() as i64);
             if p.shape == Shape::EmergencyThenTransition {
                 emergency_checked += 1;
@@ -716,7 +751,7 @@ pub(super) mod tests {
         let mut u = sweep(600);
         let mut best = 0.0f64;
         for _ in 0..600 {
-            let p = e.sample(&body(35_000.0), Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, &mut u);
+            let p = e.sample(&body(35_000.0), Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u);
             let level: f64 = p.phases.iter().filter_map(|x| if let Phase::Level { seconds, .. } = x { Some(*seconds) } else { None }).sum();
             best = best.max(level);
         }
@@ -731,7 +766,7 @@ pub(super) mod tests {
         let aero = reference();
         let mut u = sweep(100);
         for _ in 0..100 {
-            let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::DitchingAttempt, &aero, &mut u);
+            let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::DitchingAttempt, &aero, None, &mut u);
             match p.phases.last() {
                 Some(Phase::Approach { rate_fpm, .. }) => assert!(*rate_fpm >= 200.0 && *rate_fpm <= 300.0, "{rate_fpm}"),
                 other => panic!("ditching attempt did not end on an approach: {other:?}"),
@@ -748,7 +783,7 @@ pub(super) mod tests {
         let mut u = sweep(50);
         let mut banks = Vec::new();
         for _ in 0..50 {
-            let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::NoIntervention, &aero, &mut u);
+            let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::NoIntervention, &aero, None, &mut u);
             assert_eq!(p.shape, Shape::FreeTrim);
             match p.phases.as_slice() {
                 [Phase::Free { bank_rad, recover_at_altitude_ft: None, .. }] => banks.push(bank_rad.to_degrees()),
@@ -766,7 +801,7 @@ pub(super) mod tests {
         let e = envelope();
         let aero = reference();
         let mut u = sweep(8);
-        let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::UpsetThenRecovery, &aero, &mut u);
+        let p = e.sample(&body(35_000.0), Propulsion::NeitherThrusting, Control::UpsetThenRecovery, &aero, None, &mut u);
         assert_eq!(p.control, Control::UpsetThenRecovery);
         assert!(p.recovery_attempt_altitude_ft.is_some());
         let mut flying = Flying::new(p, aero, Propulsion::NeitherThrusting, &e);
@@ -801,7 +836,7 @@ pub(super) mod tests {
         let e = envelope();
         let aero = reference();
         let mut u = sweep(4);
-        let p = e.sample(&body(35_000.0), Propulsion::TwoThrusting, Control::MaintainedThenLost, &aero, &mut u);
+        let p = e.sample(&body(35_000.0), Propulsion::TwoThrusting, Control::MaintainedThenLost, &aero, None, &mut u);
         let mut flying = Flying::new(p, aero, Propulsion::TwoThrusting, &e);
         let (_, cfg, _) = flying.command(&body(30_000.0), 1.0);
         assert_eq!((cfg.engines_thrusting, cfg.engines_windmilling, cfg.rat_deployed), (2, 0, false));
@@ -820,4 +855,38 @@ pub(super) mod tests {
         assert!(EnvelopeConfig { recovery_floor_ft: 0.0, ..envelope() }.check().is_err());
         assert!(EnvelopeConfig { descent_rate_fpm: Range::Uniform([5.0, 1.0]), ..envelope() }.check().is_err());
     }
+
+    /// The stopgap loss-window proposal is an exact importance correction: under the proposal,
+    /// E[exp(lq)] = 1 and E[after exp(lq)] equals the prior mean; without a window the draw is the
+    /// prior draw, one uniform, unchanged.
+    #[test]
+    fn loss_window_proposal_is_unbiased_and_off_by_default() {
+        let range = Range::Uniform([30.0, 1_800.0]);
+        let start = 1_394_237_459.928;
+        let w = LossWindow { unix_s: [1_394_237_709.416, 1_394_237_974.416], weight: 0.75 };
+        let mut state: u64 = 0x9E37_79B9_7F4A_7C15;
+        let mut u = move || {
+            state = state.wrapping_mul(6_364_136_223_846_793_005).wrapping_add(1_442_695_040_888_963_407);
+            ((state >> 11) as f64) / ((1u64 << 53) as f64)
+        };
+        let (n, mut s0, mut s1, mut inside) = (400_000, 0.0, 0.0, 0usize);
+        for _ in 0..n {
+            let (a, lq) = draw_loss_after(&range, start, Some(w), &mut u);
+            assert!((30.0..=1_800.0).contains(&a));
+            s0 += lq.exp();
+            s1 += a * lq.exp();
+            if start + a >= w.unix_s[0] && start + a <= w.unix_s[1] { inside += 1; }
+        }
+        assert!((s0 / n as f64 - 1.0).abs() < 0.01, "E[w] = {}", s0 / n as f64);
+        assert!((s1 / n as f64 - 915.0).abs() < 10.0, "E[a w] = {}", s1 / n as f64);
+        assert!(inside as f64 / n as f64 > 0.75);
+        let mut calls = 0;
+        let (a, lq) = draw_loss_after(&range, start, None, &mut || { calls += 1; 0.25 });
+        assert_eq!((a, lq, calls), (30.0 + 0.25 * 1_770.0, 0.0, 1));
+        // A window entirely outside the prior support falls back to the prior draw.
+        let far = LossWindow { unix_s: [start + 5_000.0, start + 6_000.0], weight: 0.75 };
+        let (_, lq) = draw_loss_after(&range, start, Some(far), &mut || 0.5);
+        assert_eq!(lq, 0.0);
+    }
+
 }

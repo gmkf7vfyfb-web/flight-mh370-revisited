@@ -150,3 +150,10 @@ note records the prior track and base config from `run.json`. See `architecture.
 Pete's decision: use and commit the OI 2018 and 2025-26 outlines, footnoted with the source (the MH370-CAPTION community tracing, grade C) and as inferred from vessel tracks. The brief's 'never commit' line is withdrawn. See `architecture.md` ~18:30 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 ~19:50 UTC - architecture: 00:19 priority order
+
+Pete's order is held out, R600, Holland H1, Holland H2, with `inflated` after them. Build your panels
+in that order. End of flight supplies the H1 against H2 evidence first.
+
+- Modular Architecture
