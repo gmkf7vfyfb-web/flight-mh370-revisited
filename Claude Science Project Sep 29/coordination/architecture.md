@@ -1688,3 +1688,16 @@ as it goes. Do not reconstruct them later. **This adds to your sequence; it does
 When the paper work starts, the per-module ledgers are merged into one bibliography.
 
 - Modular Architecture
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 2 done, with one licence hold
+
+- **On disk:** GLORYS12, WAVERYS and **genuine ERA5** (from ARCO-ERA5, so there is no substitution), each
+  verified over 7 March 2014 to 31 January 2017. This is about 27 GB of the 300 GB budget, including the
+  derived grids.
+- **BRAN2016 is stopped.** The CSIRO terms require registration before access and limit use to
+  government-funded research. Pete is asked to decide, and D-b's reproduction setting waits on him.
+- **Citation ledger** `crates/ocean/REFERENCES.md` and `references.bib` were added under your 01:20 rule.
+- **Contract conflict:** `AGENTS.md` still says "exactly three markdown files", and the ledger is a fourth
+  `.md` under `engine/`. Your rule takes precedence; the `AGENTS.md` line needs amending.
+
+— ocean transport (architecture sub-agent)

@@ -117,3 +117,86 @@ October (brief deliverable 4/5; cap 2 GiB for this step, 25 GiB floor). Network 
 Total on disk: 500,242,966 bytes (477 MiB). This slice covers 54 days; drift's full period (8 March
 2014 to 30 September 2016) over the same box is about 5.7 GB as float32, or roughly 2.9 GB as the
 Toolbox's int16 netCDF.
+
+## Production surface forcing, 7 March 2014 to 31 January 2017 (shared ocean transport, item 2 of 9 October)
+
+Ocean transport (architecture sub-agent). Fetched 9 October 2026 by
+`engine/crates/ocean/prepare/fetch_forcing.py`, then converted by `prepare/netcdf_to_grid.py` into
+`GridField` series (`<product>/grid/*.series.json`). The box for every product is 15-120 E, 50-0 S. Free
+disk was 401 GiB before and is at least 360 GiB after, against a 100 GiB floor and a 300 GB budget. Every
+series was checked with `examples/forcing_check.rs`: axes, uniform time step, and samples at the 7th arc,
+off Réunion and in the Agulhas. Citations and licences are in `engine/crates/ocean/REFERENCES.md`.
+
+### GLORYS12V1 surface currents (extends the 7 Mar to 30 Apr 2014 slice above)
+- `cmems_mod_glo_phy_my_0.083deg_P1D-m`, version 202311, `uo`/`vo` at 0.494 m, service `arco-geo-series`, credential COPERNICUS.
+- Series: 1,062 daily means placed at label + 12 h (provisional), with a constant 24 h step. Derived
+  float32: 6,438,787,056 bytes in 5 parts.
+- Downloaded: 3,052,804,284 bytes.
+
+| File | Bytes | sha256 | Retrieved (UTC) |
+|---|---|---|---|
+| `glorys12_uo_vo_15-120E_50-0S_20140501-20141231.nc` | 742,738,824 | c376f47bcf36100ba971d64ee71c7f818f6d6fd3dd0762004f25f2357c04a3c7 | 2026-10-09T00:35:05Z |
+| `glorys12_uo_vo_15-120E_50-0S_20150101-20151231.nc` | 1,106,512,104 | 06786a79426c034c76db83c1eaf32d9a617b8f7b6cc4e2812b1c5f06c9324c95 | 2026-10-09T00:36:04Z |
+| `glorys12_uo_vo_15-120E_50-0S_20160101-20161231.nc` | 1,109,543,548 | fc909de6d865df66d0a8d5589defdaf1bf7f38e2b7d1fe26f10e66e07d3f85d6 | 2026-10-09T00:36:56Z |
+| `glorys12_uo_vo_15-120E_50-0S_20170101-20170131.nc` | 94,009,808 | 46cba84c8aa7c2b30a7f5dc068fafc4d260f920427e5bb9616bce9d9d4d46951 | 2026-10-09T00:37:09Z |
+
+### WAVERYS surface Stokes drift
+- `cmems_mod_glo_wav_my_0.2deg_PT3H-i`, version 202411, `VSDX`/`VSDY`, service `arco-time-series`.
+- Series: 8,489 instantaneous 3-hourly fields, 2014-03-07T00 to 2017-01-31T00. Derived float32:
+  8,966,149,712 bytes. Values are quantised at 0.005 m/s. The maximum speed in 2016 is 1.4 m/s, which is
+  unusual and will be checked.
+- Downloaded: 4,483,225,576 bytes.
+
+| File | Bytes | sha256 | Retrieved (UTC) |
+|---|---|---|---|
+| `waverys_VSDX_VSDY_15-120E_50-0S_20140307-20141231.nc` | 1,267,488,632 | 19880a71debe1d8ae801f40cd3f440ca003789539cc382248e0624f9122a41c5 | 2026-10-09T00:39:36Z |
+| `waverys_VSDX_VSDY_15-120E_50-0S_20150101-20151231.nc` | 1,542,104,792 | c1577d83f86c9ff2fc3523832a028fce51043a6ef6b950e76145616264ec6119 | 2026-10-09T00:41:57Z |
+| `waverys_VSDX_VSDY_15-120E_50-0S_20160101-20161231.nc` | 1,546,329,656 | e70e951f1c4b0c1b592bc820539f7a9634fa2fceb5e191c860ea5cc2e5164389 | 2026-10-09T00:46:55Z |
+| `waverys_VSDX_VSDY_15-120E_50-0S_20170101-20170131.nc` | 127,302,496 | 908df8a61bf9e1ca86a0ac26f7067c79edaa46ae4d5e2d264448f8f7177ccdf7 | 2026-10-09T00:49:35Z |
+
+### ERA5 10 m wind (ARCO-ERA5; genuine ERA5, no substitution)
+- `gs://gcp-public-data-arco-era5/ar/full_37-1h-0p25deg-chunk-1.zarr-v3`, `10m_u_component_of_wind` and
+  `10m_v_component_of_wind`, every third hour. The files are written directly as `GridField` parts
+  (`era5/era5_u10_v10_3h.series.json`).
+- Series: 8,496 instantaneous 3-hourly fields, 2014-03-07T00 to 2017-01-31T21, on 0.25 degrees,
+  421 x 201.
+- Total: 5,751,658,092 bytes.
+
+| File | Bytes | sha256 | Retrieved (UTC) |
+|---|---|---|---|
+| `era5_u10_v10_3h_15-120E_50-0S_20140307-20141231.f32` | 1,624,723,200 | 1e5fd870960d90e1e09820eccea36bccd8c0988ef159d45d8b5d071dbe5e84e0 | 2026-10-09T00:40:58Z |
+| `era5_u10_v10_3h_15-120E_50-0S_20140307-20141231.json` | 38,355 | a99b276e605791c238de49bb658dc6e49cac8e82e43d71051d77181fee7636bb | 2026-10-09T00:40:58Z |
+| `era5_u10_v10_3h_15-120E_50-0S_20150101-20151231.f32` | 1,976,746,560 | f7258691d318f6a0527b918ef5521ab6b1636c14c2aac5817580f62aea7c757c | 2026-10-09T00:49:04Z |
+| `era5_u10_v10_3h_15-120E_50-0S_20150101-20151231.json` | 45,635 | 4522ff40056f1b445b93be4e5a5a385b249f0eb21c13a2f414d169e218a190eb | 2026-10-09T00:49:04Z |
+| `era5_u10_v10_3h_15-120E_50-0S_20160101-20161231.f32` | 1,982,162,304 | f7aadb97ad5b3217beba6c15e478f1c67ca7d300bf359f2191cc722832411c24 | 2026-10-09T00:56:52Z |
+| `era5_u10_v10_3h_15-120E_50-0S_20160101-20161231.json` | 45,747 | 6db72d6dbc1f6a82da0e946fff02bd5bc7ed19f07f29a369f1d1ac3ba3c422e4 | 2026-10-09T00:56:52Z |
+| `era5_u10_v10_3h_15-120E_50-0S_20170101-20170131.f32` | 167,888,064 | d6286a5395e8ca0706992afcb1c6cbcfbda4e3198f47f951256080de92c103e2 | 2026-10-09T00:57:52Z |
+| `era5_u10_v10_3h_15-120E_50-0S_20170101-20170131.json` | 8,227 | 104c787d5d1ed557c6d20f9052173a02b0ba278176b80a0f91c0f08b93ae9c0e | 2026-10-09T00:57:52Z |
+
+### BRAN2016 surface currents: **stopped, not in use**
+- NCI THREDDS NetCDF Subset Service, `gb6/BRAN/BRAN_2016/OFAM/ocean_{u,v}_YYYY_MM.nc`, top level 2.5 m,
+  every day of each month.
+- The download was stopped after 15 monthly files
+  (561,197,188 bytes, March to October 2014). The CSIRO
+  Bluelink terms (`gb6_license.txt`) require registration with CSIRO before access and limit use to
+  government-funded research. **These files are not used until Pete decides.**
+- An earlier attempt returned one day per month. Those files were moved to the Trash with approval, and
+  their fetch-log lines are kept for the record.
+
+| File | Bytes | sha256 | Retrieved (UTC) |
+|---|---|---|---|
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_03_daily.nc` | 37,712,278 | b8ea76a3e37ef929ddf14602a645d81d2acb55c21d29989d27c4333f4eb9afbd | 2026-10-09T01:07:57Z |
+| `bran2016_ocean_v_2p5m_15-120E_50-0S_2014_03_daily.nc` | 38,068,643 | 6e859693d66a4b5737c0f398e7d8aa73dd9745ddf16f38511573a143ebdd5ddf | 2026-10-09T01:08:26Z |
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_04_daily.nc` | 36,504,786 | 643b4ac30ad7f13e4e331021439cd7d758d236ee4faa3001840978d19d0d3355 | 2026-10-09T01:08:53Z |
+| `bran2016_ocean_v_2p5m_15-120E_50-0S_2014_04_daily.nc` | 36,745,125 | a44abe2cdb42c55dde69c02efc843589976d940c03a82ce47d87ca70ec2ae676 | 2026-10-09T01:09:21Z |
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_05_daily.nc` | 37,667,698 | 443f30500bc8001f7cfb205146440c1a7effd31e3151c5430228897a52ed9cf3 | 2026-10-09T01:09:48Z |
+| `bran2016_ocean_v_2p5m_15-120E_50-0S_2014_05_daily.nc` | 37,985,718 | 1b81465f3822a49a44944d5db956dd5bdafd19f84fcd20cf2b45245968c7512a | 2026-10-09T01:10:14Z |
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_06_daily.nc` | 36,428,880 | 7224a334f0d9f2ed143ebd27d1b0c150e13e4ff6a01a1de31b82b94904605391 | 2026-10-09T01:10:42Z |
+| `bran2016_ocean_v_2p5m_15-120E_50-0S_2014_06_daily.nc` | 36,732,859 | d1d0e0f7b1b0da023bbe3da5e938c2013d663d9f4a2eab541f7472b0c55ec406 | 2026-10-09T01:11:11Z |
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_07_daily.nc` | 37,653,198 | 93cc81b16a461a1cef1887847bc6a7b4884d251911961edbf1e7c6e2217659ef | 2026-10-09T01:11:39Z |
+| `bran2016_ocean_v_2p5m_15-120E_50-0S_2014_07_daily.nc` | 37,951,802 | d49b3fd20f559a01ca9c306b378c3bc6bd939f9037df7cecb1547a13a66deb19 | 2026-10-09T01:12:11Z |
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_08_daily.nc` | 37,800,770 | 2f04caf52824f51dc84cb5b7a195e1fe2ccda31539a1703e5f70926ff20abae0 | 2026-10-09T01:12:29Z |
+| `bran2016_ocean_v_2p5m_15-120E_50-0S_2014_08_daily.nc` | 38,101,291 | 2898b8ea64d6785472df1e62830b930ab1db214d3f94c0bea2f608705036ffa4 | 2026-10-09T01:12:51Z |
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_09_daily.nc` | 36,748,501 | 9b9d759ac5828be92cf2add161764948500d9708cebc84414f164229c4f3cdc9 | 2026-10-09T01:13:10Z |
+| `bran2016_ocean_v_2p5m_15-120E_50-0S_2014_09_daily.nc` | 37,081,022 | 5b19c12aa53578505e32fe5638de4e70272425fca72439539e3240181f27a10e | 2026-10-09T01:13:36Z |
+| `bran2016_ocean_u_2p5m_15-120E_50-0S_2014_10_daily.nc` | 38,014,617 | 5ef6f5866847064919880a894258fece7fdef11974a5375f312084b4bfddc78d | 2026-10-09T01:13:57Z |

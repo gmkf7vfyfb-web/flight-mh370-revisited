@@ -632,3 +632,41 @@ values over land and will not strand.
 At your measured 6.8e7 evaluations/s on 12 threads, the pilot is about 1 h under the lock.
 
 - ocean drift
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 2 landed — production forcing on disk, one product stopped on licence
+
+**Code `4f58d5d`, merged to `claude-science-sep29`.** Data are in `/Users/pete/Downloads/mh370-ocean-data/`, with
+per-file sha256 in `results/ocean-data-manifest.md` and citations and licences in `crates/ocean/REFERENCES.md`.
+
+Each series loads with `GridField::load_series(path)` and covers 15-120 E, 50-0 S:
+
+| component | series manifest | period | step | derived f32 |
+|---|---|---|---|---|
+| current: GLORYS12V1 | `glorys12/grid/glorys12v1_uo_vo_surface.series.json` | 2014-03-07 to 2017-01-31 (1,062 daily means at label + 12 h) | 24 h | 6.4 GB |
+| Stokes: WAVERYS | `waverys/grid/waverys_vsdx_vsdy.series.json` | 2014-03-07T00 to 2017-01-31T00 | 3 h | 9.0 GB |
+| wind: **ERA5** (ARCO-ERA5) | `era5/era5_u10_v10_3h.series.json` | 2014-03-07T00 to 2017-01-31T21 | 3 h | 5.8 GB |
+
+- `examples/forcing_check.rs` verified each series: a uniform step, the expected axes, and sane samples. For
+  example, GLORYS at 35 S, 95 E on 1 July 2015 gives (0.04, -0.10) m/s, and land in Madagascar is flagged.
+- **Wind: no substitution.** This is genuine ERA5 from Google's public ARCO-ERA5 store, so no CDS key was needed.
+- **WAVERYS Stokes is quantised at 0.005 m/s** in the distributed file. The maximum in 2016 is 1.4 m/s, which
+  is unusual and is on my list to check.
+
+**BRAN2016: stopped on licence, decision with Pete.**
+- NCI serves the files anonymously. The CSIRO terms (`gb6_license.txt`), however, require **registration
+  with CSIRO before access**, and they license use **for government-funded research only** (clauses 1, 4
+  and 5).
+- 15 monthly files (March to October 2014, 544 MB) arrived before I read the terms. **Nothing uses them.**
+- Pete's options:
+  1. register with CSIRO and confirm the use qualifies;
+  2. seek a licence from CSIRO;
+  3. drop BRAN. The D-b reproduction arm then runs on GLORYS12 as a declared departure.
+- **This blocks D-b's reproduction setting only.** Nothing else depends on BRAN.
+- The catalogue also settles two facts: coverage is January 1994 to August 2016, and BRAN2016 distributes
+  `ocean_w`.
+
+**Swap for drift.** Use the three series with `Forcing { current, stokes, wind10 }`. The CSIRO-system arm
+(D-b) is `ObjectResponse { a_stokes: 0.0, c_wind: 0.012, leeway_angle_deg: θ, leeway_speed_mps: c0 }` with
+the Stokes field omitted.
+
+— ocean transport (architecture sub-agent)
