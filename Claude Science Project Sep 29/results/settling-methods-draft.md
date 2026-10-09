@@ -3,11 +3,12 @@
 Ocean settling module, 9 October 2026. This is a first draft of the paper's settling methods
 section, written under the architecture entry of 9 Oct ~04:15 UTC. Source keys in square brackets
 refer to `results/settling-references.md`, and ocean products to `results/ocean-references.md`. Code
-is `engine/hypotheses/settling/` on branch `hypothesis/settling` at `4f153d7`.
+is `engine/hypotheses/settling/` on branch `hypothesis/settling` at `bfb71d5`.
 
-**Status.** Every number below is PROVISIONAL. The water column is an analytic stand-in, because no
-gridded product column is served yet, and the breakup table is a set of declared educated
-estimates. No number here is evidence about where MH370 lies.
+**Status.** Since `bfb71d5` the ocean is real: the GLORYS12V1 column, surface current, ERA5 wind,
+AusSeabed and GEBCO bathymetry, and TEOS-10. The breakup table is still a set of declared educated
+estimates, so every number below remains PROVISIONAL. No number here is evidence about where MH370
+lies.
 
 ## 1. What settling is
 
@@ -79,8 +80,10 @@ per draw:
 - each stops at its own sink time (`Particle.end_time`);
 - the run uses a 600 s step and sub-grid diffusion from the shared provisional prior, one K per draw.
 
-The surface current is 0.13 m/s, the median of GLORYS12V1's top level on 8 March 2014 over 30-40 S,
-88-106 E [lellouche2021glorys12]; the p90, 0.31 m/s, is a variant. The wind is 5 m/s.
+Forcing comes from the GLORYS12V1 daily surface current [lellouche2021glorys12] and ERA5 3-hourly 10 m
+wind [era5 in the drift ledger], through the shared `GridField`. On the provisional controlled-depth
+page, a uniform 0.13 m/s current stands in: the median of GLORYS12V1's top level on 8 March 2014 over
+30-40 S, 88-106 E, with the p90, 0.31 m/s, as a variant.
 
 ## 5. Descent
 
@@ -106,18 +109,34 @@ Below the ocean model's bottom, one of the shared crate's three explicit rules a
 extrapolated depth is recorded for each element.
 
 **Inputs:**
-- **Seabed:** GEBCO_2026 at 15 arc-seconds [gebco2026], loaded through `Bathymetry` for 80-112 E,
+- **Seabed:** AusSeabed MH370 Phase 1 at 150 m where it covers, else GEBCO_2026 at 15 arc-seconds
+  [gebco2026; AusSeabed under ocean transport's ledger], loaded through `Bathymetry` for 80-112 E,
   45-18 S. Land and points outside the window are refused.
-- **In-situ density:** TEOS-10 [ioc2010teos10; mcdougall2011gsw] on the WOA23 2005-2014 March SA/CT
-  climatology at the impact [reagan2024woa23]. At 92 E, 35 S it gives 1025.28 kg/m3 at the surface
-  and 1046.27 kg/m3 at 4,000 m.
+- **In-situ density:** TEOS-10 [ioc2010teos10; mcdougall2011gsw] on the column's own potential
+  temperature and practical salinity at the impact. At 92 E, 35 S it gives 1025.35 kg/m3 at the
+  surface and 1044.46 kg/m3 at the GLORYS floor (3,796.5 m), held below it. WOA23 [reagan2024woa23]
+  is the declared alternative; changing to it moves p90 by under 0.01 %.
 - **Ocean error:** the shared banded model, with one independent realisation per band and one draw
   per wreckage configuration. Per component it is 0.10 m/s in the top 100 m, 0.05 m/s to 1,000 m,
   0.02 m/s below that, and 0.03 m/s within 200 m of the seabed.
-- **Column:** still an analytic two-layer stand-in (upper (0.05, 0.02) m/s and deep (0.02, 0.01) m/s east and
-  north, layer depth 1,000 m).
+- **Column:** GLORYS12V1 daily uo and vo on 50 levels (`GridProfile`), interpolated linearly in time
+  and bilinearly in space, held at the deepest level below the model floor (`hold-deepest-level`;
+  linear-to-zero changes p90 by under 0.2 %). The analytic two-layer column survives only for
+  closed-form tests and the controlled-depth page.
 
 ## 6. Representative results (deliverable 6)
+
+**On the real ocean** (`results/settling-d6-real/`), at four posterior impact points (p10, mode, p50
+and p90 latitude, 37.9-35.6 S), with 1,024 draws per point and family:
+- engines and gear rest within 0.22-0.47 km (p90);
+- broken and fragmented sections within 0.5-0.9 km, but intact sections at 6.5-6.8 km;
+- cabin contents at about 13-14 km.
+
+The real ocean leaves the dense classes within 2 % of the provisional page and spreads the floated
+classes 5-13 % further (17 % at most). Monte Carlo halves at 512 draws differ by a median of 2.4 % in
+p90 (14 % at most, for heavy-tailed classes).
+
+**Provisional controlled-depth page:**
 
 The results are in `results/settling-d6/`, at seabed depths of 3,500, 3,830 and 4,070 m (the p10,
 p50 and p90 under the no-exhaustion-prior impact map) and 5,800 m.

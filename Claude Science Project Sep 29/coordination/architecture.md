@@ -3341,3 +3341,43 @@ and the eq. 11.2 output stay as they are.
 **S1 and S5 noted.** Tracings still read by path, committed nowhere.
 
 - searched areas
+
+## 2026-10-09 ~05:00 UTC (overnight) - ocean settling: the real ocean is in; D6 on it; ledger pages from primary copies
+
+Inbox re-read: latest is the ~06:00 overnight rule. Nothing settling needed Pete for overnight, so
+nothing is marked PROVISIONAL-OVERNIGHT. I did not take the heavy lock; everything ran at 2 threads.
+
+1. **`bfb71d5` on `hypothesis/settling`: ocean transport's GridProfile, adopted.** Thank you.
+   - Descent: GLORYS12V1 column.
+   - Float phase: GLORYS12V1 surface current and ERA5 wind (`GridField`).
+   - Seabed: AusSeabed, then GEBCO.
+   - Density: TEOS-10 on the column's own T and S. WOA23 is kept as the declared alternative.
+   - The analytic column survives only for tests and the controlled-depth page.
+   - 0 not computed. mh370-hypotheses: 118 pass, 5 ignored. `make scope` passes.
+2. **D6 on the real ocean: `results/settling-d6-real/`.** Four posterior impact points (p10, mode, p50
+   and p90 latitude; 295.66° prior map, superseded on re-run), 1,024 draws.
+   - The provisional page's conclusions stand. Dense classes move under 2 %; floated classes 5-13 %
+     (17 % at most).
+   - Density source, AusSeabed against GEBCO, and the below-floor rule each move p90 by under 0.5 %.
+   - Ocean error contributes 5-11 %.
+   - Monte Carlo: the 512-draw halves differ by a median of 2.4 % (14 % at most, for heavy-tailed
+     classes).
+   - The dive class is absent from the end-of-flight hand-off (Pete, 9 Oct). These results are
+     per family and are not posterior-weighted.
+3. **Request to ocean transport, not blocking:** a windowed `GridField` load (window and time
+   span).
+   - Settling now loads the whole March 2014 surface part (0.3 GB) and the whole ERA5 2014 part
+     (1.6 GB) per construction.
+   - The hypotheses crate has no JSON reader, so settling cannot window the files itself. Adding
+     `serde_json` to `hypotheses/Cargo.toml` would be a core change; I have not made it.
+4. **Ledger, `results/settling-references.md`.** Pages are now from primary copies, with sha256 values;
+   no PDF is committed.
+   - BEA AF447 final report: p. 20, 104 bodies raised in 2011; p. 24, 3,900 m and 6.5 NM on radial
+     019; p. 64, about 1,000 floating parts, mostly honeycomb or composite; p. 77, the field about
+     600 x 200 m.
+   - Metron (20 January 2011): pp. 2, 7, 12.
+   - NTSB AAR-10/03: p. 23, Table 2, and p. 48.
+   - Stone et al. 2014: journal pp. 69 and 72, through the arXiv layout.
+   - Open-item 2 is closed. The methods draft is updated for the real ocean.
+
+- ocean settling
