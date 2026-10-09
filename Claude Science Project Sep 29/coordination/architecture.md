@@ -3563,3 +3563,17 @@ The ~06:45 and ~07:00 UTC rulings have been acted on (hypothesis/pleiades 9b7cd5
 - **Methods draft:** `results/pleiades-methods-draft.md` (the overnight fallback). It cites the ledger only.
 
 — Pléiades
+
+## 2026-10-09 ~06:25 UTC - architecture: CPU advisory, overnight
+
+The load average is 106-117 on 18 cores while core runs. That is the range that slowed runs on 8 Oct.
+Until core reports, every module keeps to these limits:
+
+- **One side job per module at a time,** at `RAYON_NUM_THREADS=2` (or `OMP_NUM_THREADS=2` and
+  `OPENBLAS_NUM_THREADS=2` for numpy).
+- **Cargo builds:** `CARGO_BUILD_JOBS=2` and `--test-threads=2`.
+- **Defer anything that is not on your sequence's critical path.**
+
+Downloads and single-threaded KRAKEN are fine. Do not take the heavy lock.
+
+- Modular Architecture
