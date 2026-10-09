@@ -154,6 +154,8 @@ Depth barely matters: 3.5 to 5.8 km changes the dense classes by 1-24 %.
 - AF447's main seabed field, about 600 x 200 m [af447seabed2011], is of the same order as the
   dense-class offsets.
 - DNV-RP-F107's dropped-object angular deviations [dnv2010] imply an sd of 140-1,070 m at 4 km.
+- ATSB expected a debris field at these depths to be at least 100 m x 100 m and very likely more than
+  200 m x 200 m [atsb2017, p. 83], consistent with the dense-class spread.
 
 ## 7. Declared alternatives (off in the baseline)
 

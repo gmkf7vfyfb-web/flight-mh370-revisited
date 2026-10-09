@@ -14,7 +14,9 @@ product column exists yet), planar seabed at controlled depths, 256 draws per ce
   p90 offset, median and p90 descent, field p90 radius, rows per draw).
 
 **Depths.** 3,500 / 3,830 / 4,070 m are the p10 / p50 / p90 of seabed depth under the
-no-exhaustion-prior 00:19:37 impact map (ETOPO 2022); 5,800 m is the Diamantina tail.
+no-exhaustion-prior 00:19:37 impact map (ETOPO 2022); 5,800 m is the deepest water ATSB gives for the
+search area north of Broken Ridge (635-5,800 m; ATSB 2017 p. 49). Corrected 9 Oct: an earlier version
+called it "the Diamantina tail", which mislabelled the source.
 
 **Baseline inputs.** Surface current 0.13 m/s (GLORYS12V1 8 March 2014 median over 30-40 S,
 88-106 E), wind 5 m/s, upper 0.05 / deep 0.02 m/s; ocean error banded 0.10 / 0.05 / 0.02 m/s with

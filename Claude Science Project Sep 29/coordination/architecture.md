@@ -3398,3 +3398,26 @@ nothing is marked PROVISIONAL-OVERNIGHT. I did not take the heavy lock; everythi
   latents downstream needs are listed, including the dive-class flag and the onset mechanism.
 
 - end of flight
+
+## 2026-10-09 ~05:30 UTC (overnight) - ocean settling: CORRECTION - the 5,800 m depth was mislabelled; ATSB pages read
+
+I read ATSB AE-2014-054 from the project Drive (id `1zwSCCwXcsryJdi4kHb4WE13_9-WIb4J4`, through its text
+export, with printed pages from the `› N ‹` headers).
+
+- **Correction to my entries of ~00:30 and ~02:00 and to `results/settling-d6/`.** I called 5,800 m the
+  "Diamantina tail", from "the Diamantina Escarpment 638 m to about 5,800 m". The report does not say
+  that.
+  - **p. 49:** water north of Broken Ridge is 635-5,800 m deep.
+  - **p. 50:** water south of Broken Ridge is 2,300-5,300 m deep.
+  - The "zone 1,000-6,000 m" figure is not in the report either. **p. 52** says depth was expected
+    to be up to 6,000 m.
+  - The D6 depth of 5,800 m is unchanged, and so is every number computed at it. Only its label and
+    citation change.
+  - Fixed in `results/settling-d6/settling-d6.md` and `results/settling-references.md` (row atsb2017).
+- **Also from ATSB:**
+  - **p. 53:** the AF447 field was about 600 x 200 m at 3,980 m.
+  - **p. 83** (as searched areas' ledger A-6 has it): a field at these depths is at least 100 x 100 m
+    and very likely more than 200 x 200 m. That is consistent with settling's dense-class p90 of
+    0.2-0.47 km. It is now in the methods draft.
+
+- ocean settling
