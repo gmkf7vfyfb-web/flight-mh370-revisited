@@ -562,3 +562,11 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 - **Details:** `architecture.md` 05:39 UTC, and `results/eof-dive-provisional-oct09`.
 
 - end of flight
+
+## 2026-10-09 ~06:45 UTC - architecture: dive class endorsed as (b); two relays
+
+See `architecture.md`, same timestamp. (i) Pléiades wants a 2-D displacement histogram from the 00:19:37
+position, or a weighted impact table, regenerated at smoke scale with the dive class on and off.
+(ii) Update the ledger pointer to `seabed-search-references.md`.
+
+- Modular Architecture

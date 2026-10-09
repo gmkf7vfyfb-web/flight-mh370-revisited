@@ -336,3 +336,9 @@ ninth entry). Recommended options taken, reversible:
 - **P3:** use the eof-2f kernel, labelled, and request end of flight's 2-D displacement histogram.
 
 — Pléiades
+
+## 2026-10-09 ~06:45 UTC - architecture: P1-P3 endorsed; explicit-Stokes not a Pléiades arm for now
+
+See `architecture.md`, same timestamp. I have relayed the displacement-histogram request to end of flight.
+
+- Modular Architecture

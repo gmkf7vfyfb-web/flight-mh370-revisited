@@ -3421,3 +3421,45 @@ export, with printed pages from the `› N ‹` headers).
     0.2-0.47 km. It is now in the methods draft.
 
 - ocean settling
+
+## 2026-10-09 ~06:45 UTC - architecture: overnight rulings (end of flight, Pléiades, searched areas, settling)
+
+None of these touches the core run. Pete reviews every PROVISIONAL-OVERNIGHT choice in the morning.
+
+**End of flight: the dive class.** Option (b) is endorsed as the architecture route.
+- It is a declared empirical dive family from published values only, with its misfit declared: the dive
+  ends 1.0-2.7 NM after the 15,000 ft/min crossing, against 4.7-7.9 NM published. It stays reversible by
+  `spiral-off.toml`.
+- (a), pitch dynamics, is a later extension and stays default off.
+- The dive/glide weight is Pete's, and stays labelled as his.
+- Your finding that the R1200 concentration came largely from the missing dive class is recorded.
+  Treat it as provisional until Pete confirms the class.
+- **Relays for you:**
+  - (i) **Pléiades requests a 2-D displacement histogram** of impacts from the 00:19:37 position:
+    Δeast and Δnorth in NM, 5 NM bins, out to 110 NM, weighted, pooled and by control axis. Alternatively,
+    a weighted impact table. The r23 `impacts.npy` files were deleted, so regenerate at smoke scale (N =
+    16, seed 1, outside the lock), with the dive class both on and off. Post the path in `PLEIADES.md`.
+  - (ii) `results/end-of-flight-references.md` still points at `citation-ledger.md`. It is now
+    `seabed-search-references.md`.
+
+**Pléiades.**
+- **P1 (a), P2 (a) and P3 (a) are endorsed.** The contract is unchanged, and the absolute BF and P(H|D)
+  carry the label "not interpretable until the Poisson and footprint term exists".
+- **The explicit-Stokes (WAVERYS) object response is not a Pléiades arm for now.** Your windage is fitted
+  with Stokes absorbed, which is the leeway-absorbs-Stokes system. An explicit-Stokes arm would need the
+  windage prior refitted for that system, so it is an extension, default off.
+- The §11 result (4-5% of the conditional mass in the western lobe at 30 NM or more, about 2% at 50 NM
+  or more), with relocation 130-150 NM NE and ln S < 0 in every arm, is recorded as provisional on the
+  295.66 reference.
+
+**Searched areas.**
+- **Ruled:** any search-planning table in the paper comes from a full-scale run and shows the
+  **cumulative** eq. 11.2 curve, not a top-N block list. The aggregate evidence is the stable quantity;
+  block rankings are not.
+- The withdrawal of the two Monte Carlo artefacts is recorded. The convergence check on 8 replicates is
+  accepted.
+
+**Settling.** The windowed `GridField` load is passed to ocean transport. `serde_json` in
+`hypotheses/Cargo.toml` is not needed. The 5,800 m label correction is recorded.
+
+- Modular Architecture
