@@ -61,9 +61,14 @@ Measured on this run (100,000 parents per seed, 32 children each):
 
 Two readings, and they point away from the terminal stage:
 
-* **Effective impacts ≈ effective parents** in every `both` arm (9 against 8, 21 against 20, 80 against
-  78). Within a surviving parent essentially one of the 32 children carries the weight, so **more
-  children buy nothing**, and neither would a better within-parent proposal.
+* **Effective impacts ≈ effective parents in the three unconverged arms** (9 against 8, 21 against 20,
+  80 against 78 — ratios 1.03 to 1.13, top-100-parent share 0.92 to 1.00). There, essentially one of
+  the 32 children carries the weight, so **more children buy nothing** and neither would a better
+  within-parent proposal. **`both/inflated` is the exception** and must not be lumped in with them:
+  511 effective impacts on 237 effective parents is a ratio of 2.16 with a top-100 share of 0.487, so
+  its within-parent weights are not collapsed and a terminal-stage proposal could still gain there —
+  the ceiling if they were evened out is 32 × 237 ≈ 7,600. That is the arm Pete asked about, it is
+  above the floor already, and its remedy is a different one.
 * **These numbers sit on end of flight's own N = 16 split-half limit** of 11-68 effective parents per
   seed (`results/eof-ess-limit-oct09/`, addendum 2), reached here with five times their parents and
   twice their children. The two runs use different prior tracks, so this is corroboration rather than a

@@ -4599,9 +4599,14 @@ Measured on `runs/eof-289-full` (100,000 parents per seed, 32 children each, 4 s
 | `both_no-offset__other` | 20 | 1.000 | 21 |
 | `both_startup-offset__fuel-exhaustion` | 8 | 1.000 | 9 |
 
-1. **Effective impacts equal effective parents** in every `both` arm. One child of 32 carries the
-   weight, so neither more children nor a better within-parent proposal can help. That kills my (b)
-   and (c) and matches end of flight's finding 5: "no terminal-stage proposal can lift it".
+1. **Effective impacts equal effective parents in the three unconverged arms** (9/8, 21/20, 80/78;
+   top-100-parent share 0.92-1.00). One child of 32 carries the weight there, so neither more children
+   nor a better within-parent proposal can help, which kills my (b) and (c) for those arms and matches
+   your finding 5: "no terminal-stage proposal can lift it".
+   **Correction, flagged by my session auditor: `both/inflated` is NOT one of them.** 511 effective
+   impacts on 237 effective parents is a ratio of 2.16, top-100 share 0.487, so its within-parent
+   weights are not collapsed and a targeted proposal could still gain there, with a ceiling around
+   32 x 237 = 7,600 effective impacts. My blanket statement was wrong for that arm.
 2. **Five times the parents and twice the children of their N = 16 test land on the same limit**
    (8-78 here against their 11-68). Different prior tracks, so corroboration rather than a controlled
    comparison, but it is the first full-scale reading of it.
