@@ -230,6 +230,8 @@ struct LogonParams {
     /// Gamma lag shape and scale. Reference: the archive's Erlang(8, 14.875 s), mean 119 s, sd
     /// 42 s - analyst-declared, a parameter to question, not a constant. The Malaysian SIR (2018),
     /// report pp. 372-373, models about 60 s to the APU and 60 s for SDU start-up.
+    /// That page is as located by the archive's fuel-performance ledger (status FOUND), not yet read in
+    /// primary form here.
     lag_shape: f64,
     lag_scale_s: f64,
     /// Prior of `fuel-exhaustion` in the `logon-cause` alternative; `other` takes the rest.
