@@ -22,6 +22,7 @@ from matplotlib.patches import Patch
 from matplotlib.lines import Line2D
 from matplotlib.ticker import FuncFormatter, MultipleLocator
 from scipy.ndimage import gaussian_filter
+from scipy.special import gammaln
 
 plt.rcParams.update({"font.family": "DejaVu Sans", "font.size": 8, "axes.linewidth": 0.6,
                      "xtick.major.width": 0.6, "ytick.major.width": 0.6, "pdf.fonttype": 42})
@@ -54,8 +55,18 @@ def wq(x, w, q):
     return [float(np.interp(p, c, x[o])) for p in q]
 
 
-def load_impacts(dirs, option):
-    lat, lon, w, ctrl, seeds = [], [], [], [], []
+def logon_loglik(flameout, p):
+    """Brief section 6, the same formula as LogonParams::log_likelihood in lib.rs (and its test):
+    ln gamma(t_logon - t_flameout; shape, scale), -inf for no flame-out or one after the log-on."""
+    lag = p["logon_unix_s"] - flameout
+    k, th = p["lag_shape"], p["lag_scale_s"]
+    with np.errstate(divide="ignore", invalid="ignore"):
+        ll = (k - 1) * np.log(lag) - lag / th - k * np.log(th) - gammaln(k)
+    return np.where(np.isfinite(flameout) & (lag > 0), ll, -np.inf)
+
+
+def load_impacts(dirs, option, logon):
+    lat, lon, w, ctrl, seeds, disp = [], [], [], [], [], []
     for d in dirs:
         d = pathlib.Path(d)
         run = json.loads((d / "run.json").read_text())
@@ -71,14 +82,26 @@ def load_impacts(dirs, option):
                 ll = np.asarray(X[:, cols[f"loglik:{option}"]], float)
                 ll = np.where(np.isfinite(ll), ll, -np.inf)
                 wt = wt * np.exp(ll - ll.max())
+            if logon == "fuel-exhaustion":
+                p = run["config"]["hypotheses"]["end-of-flight"]["logon"]
+                ll = logon_loglik(np.asarray(X[:, cols["latent:realised_flameout_unix_s"]], float), p)
+                wt = wt * np.exp(ll - ll[np.isfinite(ll)].max())
             wt = wt / wt.sum()
             lat.append(np.asarray(X[:, cols["latitude_deg"]], float))
             lon.append(np.asarray(X[:, cols["longitude_deg"]], float))
             w.append(wt)
             fam = np.asarray(X[:, cols["family"]], int)
             ctrl.append(np.array([CONTROL.index(fams[k].split("/")[2]) for k in range(len(fams))])[fam])
+            # Great-circle distance from each trajectory's OWN position at the last burst it flew
+            # through (00:19:37) to its impact; NaN where it took over after that burst.
+            bl = np.asarray(X[:, cols["latent:last_burst_latitude_deg"]], float)
+            bo = np.asarray(X[:, cols["latent:last_burst_longitude_deg"]], float)
+            p1, p2 = np.radians(bl), np.radians(lat[-1]); dl = np.radians(lon[-1] - bo)
+            hv = np.sin((p2 - p1) / 2) ** 2 + np.cos(p1) * np.cos(p2) * np.sin(dl / 2) ** 2
+            disp.append(2 * 6_371_008.8 * np.arcsin(np.sqrt(np.clip(hv, 0, 1))) / 1852.0)
             seeds.append(rep["seed"])
     n = len(seeds)
+    load_impacts.disp = np.concatenate(disp)
     return (np.concatenate(lat), np.concatenate(lon), np.concatenate(w) / n, np.concatenate(ctrl), sorted(seeds),
             json.loads((pathlib.Path(dirs[0]) / "run.json").read_text()))
 
@@ -134,29 +157,38 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("ref"); ap.add_argument("out"); ap.add_argument("dirs", nargs="+")
     ap.add_argument("--option", default="none")
+    ap.add_argument("--logon", default="other", choices=["other", "fuel-exhaustion"],
+                    help="logon-cause alternative: 'other' leaves the log-on unscored; 'fuel-exhaustion' "
+                         "weights by the section 6 lag likelihood")
     ap.add_argument("--label", default="295.66° prior; superseded if core re-runs")
     a = ap.parse_args()
     ref, out = pathlib.Path(a.ref), pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
-    tag = "" if a.option == "none" else "-" + a.option.replace("/", "-")
-    lat, lon, w, ctrl, seeds, run = load_impacts(a.dirs, a.option)
+    tag = ("" if a.option == "none" else "-" + a.option.replace("/", "-")) + ("-logon" if a.logon == "fuel-exhaustion" else "")
+    lat, lon, w, ctrl, seeds, run = load_impacts(a.dirs, a.option, a.logon)
     arc6, arc7 = arcs(ref)
     fin = load_final(ref, seeds)
     rev = run.get("code_revision", "?")
     n_children = run["terminal"]["children"]
     held = "00:19 bursts held out" if a.option == "none" else f"weighted by the 00:19 data, option {a.option}"
+    held += ("; log-on caused by fuel exhaustion (section 6 lag likelihood)" if a.logon == "fuel-exhaustion"
+             else "; log-on unscored (cause 'other')")
     stamp = (f"end-of-flight impacts, {len(lat):,} samples, seeds {','.join(map(str, seeds))} pooled equally, "
-             f"N = {n_children}; {held}\nSMOKE SCALE, not evidence. {a.label}. Equal family priors. Code {rev}.")
-    nums = {"seeds": seeds, "samples": int(len(lat)), "option": a.option, "code_revision": rev, "children": n_children,
+             f"N = {n_children}.\n{held[0].upper() + held[1:]}.\nSMOKE SCALE, not evidence. {a.label}. Equal family priors. Code {rev}.")
+    dsp = load_impacts.disp; ok = np.isfinite(dsp)
+    own = wq(dsp[ok], w[ok], [0.5, 0.9, 0.99]) if ok.any() else [float("nan")] * 3
+    own_share = float(w[ok].sum() / w.sum())
+    nums = {"displacement_from_own_0019_nm_50_90_99": own, "share_with_own_0019_position": own_share,
+            "logon_cause": a.logon, "seeds": seeds, "samples": int(len(lat)), "option": a.option, "code_revision": rev, "children": n_children,
             "lat_5_50_95": wq(lat, w, [0.05, 0.5, 0.95]), "lon_5_50_95": wq(lon, w, [0.05, 0.5, 0.95])}
 
     # 1. Overview, the reference run's frame.
     box = (-42.0, -22.0, 80.0, 104.0)
-    fig = plt.figure(figsize=(6.6, 7.2)); ax = fig.add_axes([0.12, 0.13, 0.84, 0.78])
+    fig = plt.figure(figsize=(6.6, 7.4)); ax = fig.add_axes([0.12, 0.15, 0.84, 0.76])
     draw(ax, lat, lon, w, box, 0.05, 0.12, arc6, arc7)
     frame(ax, box, 5.0, 1.0, -32.0)
     legend(ax, arc6, arc7)
     ax.set_title("Impact location: end-of-flight stage from the 00:11 hand-off", loc="left", fontsize=10)
-    fig.text(0.12, 0.025, stamp, fontsize=6.3, color="#555555")
+    fig.text(0.07, 0.012, stamp, fontsize=6.3, color="#555555")
     for e in ("pdf", "png"):
         fig.savefig(out / f"impact-overview{tag}.{e}", dpi=200)
     plt.close(fig)
@@ -171,15 +203,17 @@ def main():
     cbox = (np.floor(la0 - pad), np.ceil(la1 + pad), np.floor(lo0 - pad / np.cos(np.deg2rad(mid))),
             np.ceil(lo1 + pad / np.cos(np.deg2rad(mid))))
     nums["closeup_box"] = list(map(float, cbox)); nums["hdr90_extent"] = [float(la0), float(la1), float(lo0), float(lo1)]
-    fig = plt.figure(figsize=(7.2, 7.0)); ax = fig.add_axes([0.11, 0.13, 0.85, 0.78])
+    fig = plt.figure(figsize=(7.2, 7.4)); ax = fig.add_axes([0.11, 0.17, 0.85, 0.75])
     draw(ax, lat, lon, w, (cbox[0] - 1, cbox[1] + 1, cbox[2] - 1, cbox[3] + 1), 0.025, 0.06, arc6, arc7)
     ax.scatter(fin[:, 1], fin[:, 0], s=0.8, c="#1f4e8c", alpha=0.18, lw=0, zorder=3, rasterized=True)
     frame(ax, cbox, 1.0, 0.5, mid)
     legend(ax, arc6, arc7, [Line2D([], [], ls="", marker="o", ms=3, color="#1f4e8c", alpha=0.5,
                                     label="aircraft at 00:19:37 (reference posterior)")])
     ax.set_title("Impact location, close-up on the 90 % region", loc="left", fontsize=10)
-    fig.text(0.11, 0.018, stamp + f"\nFaint dots: {len(fin):,} weight-proportional draws from the 00:19:37 reference "
-             "posterior of the same seeds:\nwhere the cruise-only filter places the aircraft at the last transmission.",
+    fig.text(0.07, 0.012, stamp + f"\nFaint dots: {len(fin):,} weight-proportional draws from the 00:19:37 reference "
+             "posterior of the same seeds:\nwhere the cruise-only filter places the aircraft at the last transmission. "
+             f"This module's own trajectories at 00:19:37 need not sit there; impacts lie\n{own[0]:.0f} / {own[1]:.0f} / "
+             f"{own[2]:.0f} NM (50 / 90 / 99 %) from each trajectory's own 00:19:37 position ({own_share:.0%} of weight flew through it).",
              fontsize=6.3, color="#555555")
     for e in ("pdf", "png"):
         fig.savefig(out / f"impact-closeup{tag}.{e}", dpi=220)
