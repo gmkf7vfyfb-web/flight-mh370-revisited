@@ -299,6 +299,9 @@ pub(crate) struct SplitTarget {
     pub(crate) lon_deg: f64,
     pub(crate) lat_deg: f64,
     pub(crate) radius_km: f64,
+    /// Overrides `SplittingParams::factor` for this target.
+    #[serde(default)]
+    pub(crate) factor: Option<usize>,
 }
 
 fn d_snapshot_hours() -> f64 {
@@ -387,7 +390,7 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
         Fate::ReleasedOnLand => e.on_land += 1,
         Fate::ModelError => e.model_error += w,
     };
-    let Some(sp) = split.filter(|s| s.factor > 1 && !s.targets.is_empty()) else {
+    let Some(sp) = split.filter(|s| !s.targets.is_empty() && s.targets.iter().any(|g| g.factor.unwrap_or(s.factor) > 1)) else {
         let (fates, steps) = setup.run(&particles, seed, diffusion, t_end)?;
         for (i, f) in fates.into_iter().enumerate() {
             tally(&mut e, i, f, 1.0);
@@ -400,21 +403,23 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
     let (fates, pos, mut steps) = setup.run_tracks(&particles, seed, diffusion, &times)?;
     let mut kids: Vec<Particle> = Vec::new();
     let mut parent: Vec<usize> = Vec::new();
+    let mut weight: Vec<f64> = Vec::new();
     for (i, f) in fates.into_iter().enumerate() {
         let entry = pos[i].iter().enumerate().take(times.len() - 1).find_map(|(k, p)| {
-            p.filter(|&at| sp.targets.iter().any(|g| ocean::distance_m(at, [g.lon_deg, g.lat_deg]) <= g.radius_km * 1000.0)).map(|at| (times[k], at))
+            p.and_then(|at| sp.targets.iter().find(|g| ocean::distance_m(at, [g.lon_deg, g.lat_deg]) <= g.radius_km * 1000.0).map(|g| (times[k], at, g.factor.unwrap_or(sp.factor).max(1))))
         });
         match entry {
             // Entered a target zone while afloat: everything after the entry is replaced by the
-            // children, so the parent's own fate (necessarily later) is discarded.
-            Some((te, at)) => {
+            // children (weight 1/m each), so the parent's own fate (necessarily later) is discarded.
+            Some((te, at, m)) if m > 1 => {
                 e.split += 1;
-                for _ in 0..sp.factor {
+                for _ in 0..m {
                     kids.push(Particle::new(at, te, particles[i].response));
                     parent.push(i);
+                    weight.push(1.0 / m as f64);
                 }
             }
-            None => tally(&mut e, i, f, 1.0),
+            _ => tally(&mut e, i, f, 1.0),
         }
     }
     if !kids.is_empty() {
@@ -422,7 +427,6 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
         // their parents (one realisation per seed), with diffusion streams that are their own:
         // the integrator keys each particle's stream on (seed, index), so n inert placeholders
         // (ending at release, zero steps) push the children's indices past every parent's.
-        let w = 1.0 / sp.factor as f64;
         let n = particles.len();
         let mut batch: Vec<Particle> = particles.iter().map(|q| Particle { end_time: Some(q.release_time), ..*q }).collect();
         batch.extend(kids.iter().copied());
@@ -430,7 +434,7 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
         steps += ks;
         e.children = kids.len();
         for (k, f) in kf.into_iter().enumerate().skip(n) {
-            tally(&mut e, parent[k - n], f, w);
+            tally(&mut e, parent[k - n], f, weight[k - n]);
         }
     }
     Ok((e, steps))
@@ -439,26 +443,44 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
 /// ln L at one node from per-(environment, class) coefficients, marginalising environment and
 /// levels outside the product over finds. `coef[e][c]` covers the finds `by_class[c]`.
 fn node_ln_likelihood(coef: &[Vec<Option<recovery::Coefficients>>], by_class: &[Vec<usize>], levels: &LevelDraws) -> Node {
+    node_ln_likelihood_zeros(coef, by_class, levels).0
+}
+
+/// As `node_ln_likelihood`, also returning the fraction of environment realisations whose
+/// product is zero (some find with no particle in its kernel). A zero environment term is the
+/// unbiased Monte Carlo estimate of a small positive value and enters the mean over environments
+/// as zero; it is not floored. The node is Unresolved only when every environment's product is
+/// zero (with one environment: whenever any find has no particle, as before).
+fn node_ln_likelihood_zeros(coef: &[Vec<Option<recovery::Coefficients>>], by_class: &[Vec<usize>], levels: &LevelDraws) -> (Node, f64) {
     let mut terms = Vec::with_capacity(coef.len() * levels.draws.len());
+    let mut zero_envs = 0usize;
     for env in coef {
+        let mut env_zero = false;
         for nu in &levels.draws {
             let mut s = 0.0;
-            for (c, finds) in by_class.iter().enumerate() {
+            'classes: for (c, finds) in by_class.iter().enumerate() {
                 let Some(k) = &env[c] else { continue };
                 let q_tot = dot(&k.big_a, nu);
                 for (jj, _) in finds.iter().enumerate() {
                     let q = dot(&k.a[jj], nu);
                     if !(q > 0.0) || !(q_tot > 0.0) {
-                        return Node::Unresolved;
+                        s = f64::NEG_INFINITY;
+                        env_zero = true;
+                        break 'classes;
                     }
                     s += q.ln() - q_tot.ln();
                 }
             }
             terms.push(s);
         }
+        zero_envs += env_zero as usize;
     }
+    let zf = zero_envs as f64 / coef.len().max(1) as f64;
     let m = terms.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-    Node::Value(m + terms.iter().map(|v| (v - m).exp()).sum::<f64>().ln() - (terms.len() as f64).ln())
+    if !m.is_finite() {
+        return (Node::Unresolved, zf);
+    }
+    (Node::Value(m + terms.iter().map(|v| (v - m).exp()).sum::<f64>().ln() - (terms.len() as f64).ln()), zf)
 }
 
 pub(crate) struct Built {
@@ -623,6 +645,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     for j in 0..observations.len() {
         header += &format!(",hits_{}", observations[j].id.replace(':', "_"));
     }
+    header += ",zero_env_fraction";
     for h in &p.recovery.extra_bandwidths_km {
         header += &format!(",ln_l_h{h}_half_a,ln_l_h{h}_half_b");
         for j in 0..observations.len() {
@@ -741,6 +764,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         for v in &hits {
             row += &format!(",{v}");
         }
+        row += &format!(",{:.4}", if on_land { f64::NAN } else { node_ln_likelihood_zeros(&coef_full, &by_class, &levels).1 });
         for hi in 0..nh {
             for ch in [&coef_ha[hi], &coef_hb[hi]] {
                 row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, &levels)) });

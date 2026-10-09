@@ -350,7 +350,7 @@ fn splitting_is_unbiased_and_resolves_a_rare_target() {
         let total: f64 = e.arrivals.iter().map(|(_, a)| a.w).sum::<f64>() + e.left_domain + e.model_error;
         (m, se, k, total / n as f64, e.split)
     };
-    let sp = super::SplittingParams { targets: vec![super::SplitTarget { name: "w".into(), lon_deg: 92.6, lat_deg: lat_w, radius_km: 30.0 }], factor: 20, snapshot_hours: 24.0, classes: vec![] };
+    let sp = super::SplittingParams { targets: vec![super::SplitTarget { name: "w".into(), lon_deg: 92.6, lat_deg: lat_w, radius_km: 30.0, factor: None }], factor: 20, snapshot_hours: 24.0, classes: vec![] };
     let (p_b, se_b, k_b, tot_b, _) = rate(40_000, 11, None);
     let (p_s, se_s, k_s, tot_s, n_split) = rate(4_000, 12, Some(&sp));
     println!("splitting: brute {p_b:.3e} +- {se_b:.1e} ({k_b} hits), split {p_s:.3e} +- {se_s:.1e} ({k_s} hits, {n_split} parents split)");
@@ -412,6 +412,18 @@ fn class_angles_reach_their_own_terms() {
     assert_eq!((r.c_wind, r.wind_angle_deg, r.leeway_angle_deg, r.leeway_speed_mps), (0.012, 20.0, -16.0, 0.1));
     let d: super::ClassParams = toml::from_str("name = \"y\"\na_stokes = { dist = \"fixed\", value = 0.0 }\nc_wind = { dist = \"fixed\", value = 0.012 }\nleeway_angle_deg = { dist = \"fixed\", value = -16.0 }\nleeway_speed_mps = { dist = \"fixed\", value = 0.1 }").unwrap();
     assert_eq!(super::draw_response(&d, &mut Rng::new(1)).wind_angle_deg, 0.0);
+}
+
+#[test]
+fn a_zero_environment_enters_the_mean_but_all_zero_is_unresolved() {
+    use super::recovery::Coefficients;
+    let lv = LevelDraws::new(1, &[0.0], 0.0, 1, 1);
+    let k = |a: f64| Some(Coefficients { a: vec![vec![a]], big_a: vec![0.5], n_eff: vec![1.0], hits: vec![(a > 0.0) as usize] });
+    let by_class = vec![vec![0usize]];
+    let (n, zf) = super::node_ln_likelihood_zeros(&[vec![k(0.2)], vec![k(0.0)]], &by_class, &lv);
+    assert_eq!(n, Node::Value((0.4f64 / 2.0).ln()));
+    assert_eq!(zf, 0.5);
+    assert_eq!(super::node_ln_likelihood(&[vec![k(0.0)]], &by_class, &lv), Node::Unresolved);
 }
 
 #[test]

@@ -55,7 +55,18 @@ pub enum TransportParams {
         /// equal area. Empty: no coastline, land-mask stranding only.
         #[serde(default)]
         island_discs: Vec<IslandDisc>,
+        /// The shared GSHHG 2.3.7 full-resolution coastline (ocean transport deliverable 6,
+        /// `4eba004`): `gshhs_f.b`, named segments from `ocean::g1_segments()` (drift's G1 boxes).
+        /// Land-mask strandings within `gshhg_snap_km` of the shore become beachings there.
+        #[serde(default)]
+        gshhg_path: Option<String>,
+        #[serde(default = "d_snap_km")]
+        gshhg_snap_km: f64,
     },
+}
+
+fn d_snap_km() -> f64 {
+    25.0
 }
 
 #[derive(Deserialize, Clone, Debug, PartialEq)]
@@ -163,11 +174,19 @@ impl OceanSetup {
                 stokes_mps.map(|s| Box::new(Uniform::new(Component::StokesDrift, s[0], s[1])) as Box<dyn VectorField>),
                 Box::new(StraightCoast { a: *coast_a, b: *coast_b, segments: 1, first_id: 0, land_left: *land_left, line: 0 }),
             ),
-            TransportParams::Grid { current_manifest, wind10_manifest, stokes_manifest, island_discs } => (
+            TransportParams::Grid { current_manifest, wind10_manifest, stokes_manifest, island_discs, gshhg_path, gshhg_snap_km } => (
                 load(current_manifest)?,
                 wind10_manifest.as_deref().map(load).transpose()?,
                 stokes_manifest.as_deref().map(load).transpose()?,
-                if island_discs.is_empty() { Box::new(NoCoast) as Box<dyn Coastline> } else { Box::new(IslandDiscs { discs: island_discs.clone() }) },
+                match (gshhg_path, island_discs.is_empty()) {
+                    (Some(_), false) => return Err("debris-drift: give either gshhg_path or island_discs, not both".into()),
+                    (Some(path), true) => {
+                        let opts = ocean::PolygonCoastOptions { snap_max_m: gshhg_snap_km * 1000.0, ..Default::default() };
+                        Box::new(ocean::PolygonCoast::from_gshhg(Path::new(path), ocean::g1_segments(), opts).map_err(|e| format!("debris-drift: {e}"))?) as Box<dyn Coastline>
+                    }
+                    (None, false) => Box::new(IslandDiscs { discs: island_discs.clone() }),
+                    (None, true) => Box::new(NoCoast),
+                },
             ),
         };
         Ok(OceanSetup { current, wind10, stokes, coast, domain, step_s, threads, leeway_absorbs_stokes, explicit_residual, land_gap_is_beaching, ocean_error: OceanErrorModel::none() })

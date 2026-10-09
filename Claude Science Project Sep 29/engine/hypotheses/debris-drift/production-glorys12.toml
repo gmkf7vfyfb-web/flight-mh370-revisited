@@ -2,9 +2,9 @@
 # of any long run is announced first). Sizing from results/debris-drift-production-sizing.md:
 # 30 NM spacing (correlation length not resolved; the surface changes by < ~2 ln units over
 # ~100-165 NM), 10^5 particles per node (4 environment realisations x 3 classes x 8,334), measured
-# ocean error, island-disc coastline stub, importance splitting for Rodrigues and Mossel Bay.
+# ocean error, the shared GSHHG coastline (4eba004), importance splitting for Rodrigues and Mossel Bay.
 # PROVISIONAL-OVERNIGHT (9 Oct overnight rule): the ocean-error length scale (100 km, assumed), the
-# K prior range, the island radii and the splitting settings. Pete reviews these in the morning.
+# K prior range and the splitting settings. Pete reviews these in the morning.
 base = "../../config/davey2016.toml"
 name = "debris-drift-production-glorys12"
 
@@ -25,7 +25,7 @@ release_unix_s = 1394237977.0
 dt_hours = 6.0
 threads = 12
 domain = [15.0, 120.0, -50.0, 0.0]
-land_gap_is_beaching = true
+land_gap_is_beaching = false
 # CSIRO's implicit system (ruling D-b): the wind fraction carries Stokes; no Stokes field.
 leeway_absorbs_stokes = true
 explicit_residual = false
@@ -39,15 +39,12 @@ output_dir = "../runs/debris-drift-production-glorys12"
 kind = "grid"
 current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface.series.json"
 wind10_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h.series.json"
-# PROVISIONAL stub until ocean transport deliverable 6: the three Mascarene islands as equal-area
-# discs (Reunion 2,512 km2, Mauritius 1,865 km2, Rodrigues 108 km2), in BOTH ocean-model arms so
-# the arms differ by ocean model only. Rodrigues is one land cell on the GLORYS12 mask, and one land
-# cell is never a land gap under land renormalisation; the 0.25 deg GlobCurrent mask is coarser.
-island_discs = [
-  { name = "reunion", lon_deg = 55.536, lat_deg = -21.115, radius_km = 28.3 },
-  { name = "mauritius", lon_deg = 57.552, lat_deg = -20.25, radius_km = 24.4 },
-  { name = "rodrigues", lon_deg = 63.428, lat_deg = -19.728, radius_km = 5.9 },
-]
+# The shared GSHHG 2.3.7 full-resolution coastline (ocean transport deliverable 6, 4eba004; Wessel
+# and Smith 1996; LGPL-3.0; sha256 af9215d5... in results/ocean-data-manifest.md). Land-mask
+# strandings within 25 km of the shore snap to it (declared, transport's default); any remaining
+# land gap is model error, not beaching (land_gap_is_beaching = false, above).
+gshhg_path = "/Users/pete/Downloads/mh370-ocean-data/gshhg/gshhs_f.b"
+gshhg_snap_km = 25.0
 
 # K is the sub-mesoscale part only (ruling 4: marginalised under the shared DiffusivityPrior, one
 # draw per environment seed). PROVISIONAL-OVERNIGHT range: log-uniform 100-1,000 m2/s, spanning the
