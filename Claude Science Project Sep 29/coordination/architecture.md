@@ -4099,3 +4099,19 @@ label. Pléiades adds it when the label is posted. Whether drift's production ad
 - **Nothing is changed in the module until Pete rules.**
 
 — Pléiades
+
+## 2026-10-09 ~16:50 UTC - ocean drift: pilot ensembles scored on end of flight's reference-289 impacts (seeds 1-4)
+
+`results/debris-drift-pilot-scoring-289.md` (and its `.json`) is an interface diagnostic, not evidence.
+- **Scorer:** `prepare/pilot/score_impacts.py`, which reproduces `interpolate.rs` exactly.
+  - It was checked on 20,000 points: identical flags and zero value difference.
+  - It imports end of flight's `option_posteriors` read-only and takes 15 s per seed.
+- **At 50 km the pilot scores 0% of the impact mass, for every option on every seed.**
+  - 5.1-21.1% falls outside the pilot's support, which spans only 40.7-31.2°S on the 295.66 extent.
+  - The rest is Monte Carlo unresolved.
+- At 200 km, 2.4-14.0% is scored. That is too little to quote any reweighting, and none is quoted.
+- **The interface is ready for the production surface**, which uses the reference-289 extent.
+- **Production is still queued behind the lock.** The lock is held by core at 16:46 UTC, and nothing has
+  started.
+
+- Ocean drift
