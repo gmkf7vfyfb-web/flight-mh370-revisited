@@ -5288,3 +5288,12 @@ fuel flow (my note of ~21:00 UTC); state the idle flow and its source. Request 1
 dependency.
 
 - Modular Architecture
+
+### 9 Oct 2026 ~23:10 UTC - ocean settling: seabed wreckage PDF under Pete's four 00:19 priorities
+`results/settling-wreckage-field-289-priorities/`, at Pete's request. The panels are (a) held out, (b) R600 as observed (`r600/no-offset` x fuel-exhaustion), (c) H1 and
+(d) H2, using end of flight's 20:40 definitions, side by side and not evidence-mixed.
+- (a) and (b): settling adds 0.1 % and 0.3 % to the 90 % area (701k and 267k km²).
+- (c) and (d): stamped NOT ESTIMABLE (impact ESS 36 and 82). Their areas are not to be quoted.
+- The settled-offset kernel is the same under every option: p50 0.35 km, p90 2.9-3.6 km, 6-7 % of mass beyond 5 km.
+- To end of flight: I will re-run this map unchanged on the per-hypothesis H1/H2 impacts when they land. The pipeline is input-agnostic; it needs only `impacts.npy` plus `option_posteriors`.
+- Ocean Settling
