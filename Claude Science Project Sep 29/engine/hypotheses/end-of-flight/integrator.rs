@@ -750,6 +750,44 @@ mod tests {
         assert!(trace.time_descending_s > 0.0 && trace.max_descent_rate_fpm > 0.0);
     }
 
+    /// Deliverable 1 fixture, not a check: free dynamics (no intervention, unpowered) from Boeing-like
+    /// starts, written as 1 Hz X/Y/altitude traces so `smoke/boeing_calibration.py` can measure them
+    /// exactly as it measures the ten engineering-simulator cases. Run with
+    /// `EOF_CALIB_OUT=<dir> cargo test -p mh370-hypotheses -- --ignored free_dynamics_traces_for_calibration`.
+    #[test]
+    #[ignore]
+    fn free_dynamics_traces_for_calibration() {
+        let Ok(dir) = std::env::var("EOF_CALIB_OUT") else { return };
+        let it = integrator(1.0);
+        let cfg = Configuration::glide();
+        let c_l0 = it.aero.c_l_at_ld_max_in(&cfg);
+        for alt in [35_000.0, 40_000.0] {
+            for bank in [0.0, 2.0, 5.0, 8.0, 12.0, 15.0, 20.0, 25.0, 30.0, 35.0] {
+                for dcl in [-0.08, 0.0, 0.08] {
+                    let start = body(alt, 240.0, 0.0);
+                    let mut rows = String::from("time_s,lat_deg,lon_deg,alt_ft,heading_rad\n");
+                    let mut next = start.unix_s;
+                    let c_l = c_l0 + dcl;
+                    let trace = it.run(
+                        start,
+                        &atmos::Standard,
+                        None,
+                        &mut |_, _| (Command::FixedTrim { c_l, bank_rad: f64::to_radians(bank) }, cfg, 0.0),
+                        &mut |b, _| {
+                            if b.unix_s >= next {
+                                rows.push_str(&format!("{},{},{},{},{}\n", b.unix_s - start.unix_s, b.latitude_deg, b.longitude_deg, b.pressure_altitude_ft, b.heading_rad));
+                                next += 1.0;
+                            }
+                        },
+                    );
+                    rows.push_str(&format!("{},{},{},{},{}\n", trace.impact.unix_s - start.unix_s, trace.impact.latitude_deg, trace.impact.longitude_deg, 0.0, trace.impact.heading_rad));
+                    let name = format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}.csv");
+                    std::fs::write(&name, rows).expect("write trace");
+                }
+            }
+        }
+    }
+
     /// A bank angle under fixed trim turns the aircraft and reduces the vertical component of
     /// lift, so the descending spiral falls out of the same equations as the phugoid.
     #[test]
