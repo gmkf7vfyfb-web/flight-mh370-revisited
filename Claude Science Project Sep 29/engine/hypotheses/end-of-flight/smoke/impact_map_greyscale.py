@@ -38,6 +38,7 @@ def main():
     ap.add_argument("--smooth-deg", type=float, default=0.1)
     ap.add_argument("--not-estimable", default="", help="comma list of options stamped NOT ESTIMABLE (unconverged posterior)")
     ap.add_argument("--titles", default="", help="opt=title;opt=title overrides")
+    ap.add_argument("--assumptions", default="", help="free text appended to the run-information footnote (standing rule, Pete, ~20:20 UTC 9 Oct)")
     a = ap.parse_args(); opts = a.options.split(",")
     arcs = {x["epoch"]: np.asarray(x["lat_lon"], float) for x in json.loads(pathlib.Path(a.arcs).read_text())["reference_arcs"]}
     seeds = [s for d in a.runs for s in sorted(pathlib.Path(d, "bto-bfo").glob("seed-*")) if (s / "impacts.npy").exists()]
@@ -83,6 +84,7 @@ def main():
                 ax.plot(arcs[e][:, 1], arcs[e][:, 0], **st)
         ax.set_xlim(mid_lon - half_lon, mid_lon + half_lon); ax.set_ylim(mid_lat - half_lat, mid_lat + half_lat)
         ax.set_aspect(1 / np.cos(np.radians(mid_lat))); ax.yaxis.set_major_formatter(fmt); ax.tick_params(labelsize=6)
+        ax.set_xlabel("longitude (°E)", fontsize=7); ax.tick_params(labelbottom=True)
         ax.set_title(titles.get(k, TITLES.get(k, k)), fontsize=7.5, loc="left")
         if k in a.not_estimable.split(","):
             ax.text(0.5, 0.97, "NOT ESTIMABLE: posterior unconverged\n(parent-limited; shape not to be read)", transform=ax.transAxes,
@@ -96,6 +98,19 @@ def main():
     hs += [plt.Line2D([], [], **{kk: v for kk, v in st.items()}) for st in ARCS.values()]
     fig.legend(handles=hs, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, -0.06))
     fig.suptitle(a.title, fontsize=8, x=0.02, ha="left", y=1.0)
+    # Run-information footnote, read from the runs (standing rule): beneath the chart, never inside the axes.
+    m = json.loads((pathlib.Path(a.runs[0]) / "run.json").read_text()); cfg = m["config"]; pr = cfg.get("prior", {})
+    eof = cfg.get("hypotheses", {}).get("end-of-flight", {}); n_rows = sum(int(np.load(sd / "impacts.npy", mmap_mode="r").shape[0]) for sd in seeds)
+    kids, dpc = m["terminal"]["children"], eof.get("descents_per_child", 1)
+    foot = (f"Runs: {', '.join(pathlib.Path(r).name for r in a.runs)} (terminal stage on core run '{cfg.get('name')}', hand-off {m['stop']['epoch']} "
+            f"from {m['source_run']}). Prior track {pr.get('track_deg')}° (sd {pr.get('track_sd_deg')}°) from {pr.get('time_utc')}. "
+            f"Configs: {' + '.join(pathlib.Path(c).name for c in m['config_paths'] if 'seed-' not in c)}. "
+            f"{len(seeds)} seeds, {round(n_rows / (kids * dpc) / max(len(seeds), 1)):,} parents/seed x {kids} children x {dpc} descents = {n_rows:,} descents; "
+            f"BFO models {', '.join(b['label'] for b in m['terminal']['bfo_models'])}; {len(m['terminal']['module_families'])} module families "
+            f"(propulsion x control x profile shape). Panels: {'; '.join(opts)} (option__log-on cause). "
+            f"HPD from a {GRID}° weighted histogram smoothed {a.smooth_deg}°, equal weight per seed. Code {m['code_revision']}. {a.assumptions}")
+    import textwrap
+    fig.text(0.02, -0.10, "\n".join(textwrap.wrap(foot, 230)), fontsize=5.2, color="#333333", ha="left", va="top")
     fig.savefig(a.stem + ".pdf", bbox_inches="tight"); fig.savefig(a.stem + ".png", dpi=200, bbox_inches="tight")
     pathlib.Path(a.stem + ".json").write_text(json.dumps({"seeds": [str(s) for s in seeds], "options": info}, indent=1))
     print("wrote", a.stem)
