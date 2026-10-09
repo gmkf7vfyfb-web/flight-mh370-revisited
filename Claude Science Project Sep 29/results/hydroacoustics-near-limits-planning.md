@@ -72,8 +72,9 @@ These values are for π = 1; at π = 0.05 they change by less than 0.3 bit with 
 the 1.70-bit composer-test result.
 
 **Interpretation:**
-- **A second site multiplies the value about twentyfold.** The two-site case carries 1–2.7 bits even at
-  pick errors of 20–40 s. Weak detections lose information slowly, through timing.
+- **A second site multiplies the value about twentyfold.** The two-site case carries 1.8–2.7 bits at
+  pick errors of 5–10 s and 1.0–1.7 bits at 20 s, falling to 0.55–1.0 bit at 40 s. Weak detections lose
+  information gradually, through timing.
 - **H08S does the work.** It looks along the arc; the IMOS pair looks across it (0.3–0.6 bit).
 
 ### The real limit is chance coincidence
