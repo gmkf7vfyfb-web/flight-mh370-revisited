@@ -5,6 +5,14 @@ Ocean drift module, 9 October 2026, ~10:45 UTC. Every run here is a **sizing run
 - there is one environment realisation per run;
 - each run uses 16 to 22 nodes.
 
+**Run provenance (convention of ~16:40 UTC):**
+- **Diagnostics:** they reuse the pilot's configuration (base `config/davey2016.toml`) and extent
+  (`no-exhaustion-prior`, prior track 295.66).
+- **Production configs:** `production-<model>.toml`, base `config/davey2016.toml`. Their extent is
+  re-pointed at core's `reference-289` (`run.json`: `config.name` = `reference-289`, `prior.track_deg` =
+  289.7, `code_revision` = `4f6487a-dirty`; `a205d05`). On that extent the main band is 367 nodes at
+  30 NM.
+
 The pilot is in `results/debris-drift-pilot.md`. The production configs are
 `engine/hypotheses/debris-drift/production-glorys12.toml` and `production-globcurrent.toml`, on
 `hypothesis/debris-drift`. **They have not been run.** Step 6 waits for the final impact samples, and

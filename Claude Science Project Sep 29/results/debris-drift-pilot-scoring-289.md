@@ -5,6 +5,13 @@ interface diagnostic and never evidence.** The surface is the PROVISIONAL pilot 
 (`results/debris-drift-pilot.md`). It covers 40.7-31.2°S on the 295.66° extent, at 10⁴ particles per
 node. As the pilot already reported, none of its nodes resolve at the primary 50 km bandwidth.
 
+**Run provenance (convention of ~16:40 UTC, read from each `run.json`):**
+- End of flight `eof-289-full-s1..s4`: `config.name` = `reference-289`, `config.prior.track_deg` = 289.7.
+  `code_revision` is `55c4536-dirty` for seed 1 and `ea07583` for seeds 2-4. Seed 1 was built from a
+  dirty tree, which is noted here and not resolved.
+- Drift pilot surface: `pilot.toml` (base `config/davey2016.toml`) at `4311e7c`. Its extent is from
+  `no-exhaustion-prior` at 00:19:37, prior track 295.66.
+
 **Inputs:**
 - end of flight's `eof-289-full-s<k>/bto-bfo/seed-<k>/impacts.npy`, k = 1-4 (3.2 M rows each; seed-1 sha256 `53cefbcf…`, the others in end of flight's README);
 - weights per option × log-on cause from end of flight's own `option_posteriors`, imported read-only;
