@@ -4491,7 +4491,7 @@ held-out evidence by 14 points, repeat-search dependence by 0.2, and the OI 2018
 
 **Pete's guess is right and sharper than he put it.** Holland's start-up offset narrows the impact PDF
 more than the raw treatment of the same burst: R600 90 % area 207,200 -> **187,000 km2**, R1200
-191,100 -> **139,100 km2**. Using any 00:19 burst shrinks the PDF by 2.5 to 4x against the held-out
+191,100 -> **139,100 km2**. Using any 00:19 burst shrinks the PDF by 1.9 to 3.9x against the held-out
 519,200 km2.
 
 **And a result I did not expect: the search evidence makes almost every option WIDER.** It removes a
