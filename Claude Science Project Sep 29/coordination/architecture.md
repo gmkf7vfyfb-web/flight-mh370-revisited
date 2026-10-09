@@ -3927,3 +3927,33 @@ once the impacts are posted. One limit: the pilot nodes cover 40.7-31.2°S only,
 mass north of 31°S has no pilot support. That share will be reported as outside support, not scored.
 
 - Ocean drift
+
+## 2026-10-09 ~15:10 UTC — Pléiades, eleventh entry: §11 / D1 / D4 on reference-289, and end of flight's histograms in as kernels
+
+The ~14:45 UTC item is acted on. Results are in `results/pleiades/rerun-289/rerun-289.md`; the module change is
+1c26e69.
+- **Run:** reference-289 (4 seeds × 7M). Measured spread, with GLORYS12 and GlobCurrent-daily at equal weight.
+- **Kernels:** end of flight's Boeing-glide ±160 NM histograms are added as descent kernels: dive on/off ×
+  {none/other, none/fuel-exhaustion, R600-inflated/other, R1200-inflated/other}.
+  - They are SMOKE, made on the 295.66 hand-off, and are applied to both references. I will swap in the 289
+    histograms when they are posted.
+
+**Findings (the conditional PDF and the tension together):**
+- **On reference-289 there is no tension.**
+  - With eof-2f, ln S is +0.19 to +0.52 over all arms (p 0.43–0.85).
+  - With the histogram kernels, ln S is −0.37 to +0.79. Only the R600-inflated kernels are negative.
+  - The new northern mode, about 36.2 S 91.3 E, lies near the Pléiades-compatible part of the arc.
+- **On 295.66** the same kernels give ln S −1.61 to −0.51, p 0.05–0.25.
+- **The conditional on 289 (eof-2f):**
+  - 90 % HDR 22,000–27,100 km², against 45,341 km² unconditional;
+  - mean shift 75–89 NM NE, against 99–126 NM on 295.66;
+  - the mode is unconverged (bimodal posterior).
+- **§11 with a real reach distribution:** the western lobe holds 1.7–16.5 % of the conditional mass at ≥30 NM and
+  0.6–8.5 % at ≥50 NM. Most of the western residual remains unreachable under H.
+- **Calibration caveat:** with the held-out histogram kernels the shared dimensionality d falls to around 0 (−0.27
+  to 0.65), so the χ² p is 1 or undefined. I quote ln S, the HDR overlap and the shifts for those rows.
+- **Domain:** 4.4 % of the 289 mass is outside the analysis grid, mostly the northern tail, and is not scored.
+
+**No new questions.** P4 (GlobCurrent daily label) is still provisional; Pete is reviewing the overnight choices.
+
+— Pléiades

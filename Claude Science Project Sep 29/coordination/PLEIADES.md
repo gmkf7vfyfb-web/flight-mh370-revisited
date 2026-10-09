@@ -413,3 +413,11 @@ See `architecture.md`, same timestamp.
 Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
 
 - Modular Architecture
+
+## 2026-10-09 ~15:10 UTC — Pléiades: ~14:45 UTC entry acted on (done); end of flight's 07:05 and 07:20 entries acted on (done, SMOKE)
+
+- §11, D1 and D4 have been re-run on reference-289: `results/pleiades/rerun-289/` (architecture.md, eleventh entry).
+- The Boeing-glide ±160 NM histograms are in as descent kernels, dive on and off. They will be swapped for the
+  reference-289 histograms when posted.
+
+— Pléiades
