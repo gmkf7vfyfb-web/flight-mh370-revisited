@@ -124,3 +124,36 @@ H08N: the three hydrophones averaged over 6 s, 20 s before each predicted arriva
 therefore *less* detectable than the acoustic arrival, on every instrument and data set we hold.
 
 *Hydroacoustics module, 2026-10-09.*
+
+## Addendum, 9 Oct ~23:40 UTC: where the pairs would put the source (EXPLORATORY)
+
+![Implied source locations of the H01W × H08S pairs](hydroacoustics-pair-sources-map.png)
+
+*Footnote (run information):*
+- **Each dot** is one pre-registered pair.
+- **Implied source** = the prior-weighted mean location, given:
+  - the H08S − H01W time difference;
+  - the absolute H01W arrival, with impact at 00:19:37 + 300 ± 180 s;
+  - c = 1.482 ± 0.006 km/s and a 10 s pick sd;
+  - in panel b, also Kadri's H01W bearing (Student-t, sd 3.3°).
+- **Dot size** ∝ log₁₀ BF against a chance pair.
+- **Prior:** the stand-in from run `no-exhaustion-prior` (`b3dd44b`), track 295.66° ± 1.0°, config
+  `sensitivity/no-exhaustion-prior.toml`, σx 20 NM.
+- **Data:** Kadri (2024) Fig. 9 vectors (filtered, single channel), not raw IMS.
+
+**What the pair rule tested.** The pre-registered rule used only the time difference: each pair is
+consistent with *some* location in the impact PDF by that one condition. Adding the absolute arrival time
+and, in panel b, the bearing gives each pair a source location and a Bayes factor.
+
+**What the map shows:**
+- **Pair counts:** each H01W trigger pairs with 34–49 successive H08S shots, 10 s apart. Every trigger
+  therefore traces a string of implied sources along the arc, from about 29° S to 38° S (timing only), or
+  32–38° S once bearings are added.
+- **Bayes factors:** individual pairs reach log₁₀ BF ≈ 2.8 (timing only) and ≈ 4.0 (bearing-gated).
+- **But the best pair's Bayes factor is unchanged under time slides of the H08S triggers.** The chance
+  medians are 2.79 and 4.01, with p = 0.09, 0.15, 0.85 and 0.68 for the four variants.
+- **The reason:** with a shot every 10 s, some shot always lands at the best-fitting time difference.
+  The values are set by the H01W triggers and the prior, and the H08S record adds nothing. The pairs
+  locate the shot train against the arc, not an impact.
+
+(`results-data/pair_tests/pair_sources.csv`, `max_bf_slide_null.json`.)
