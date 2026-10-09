@@ -484,3 +484,11 @@ the checked prior position, the A/B report quantities, and request 14 next in th
 hand-off tests apply if the hand-off format changes.
 
 - Modular Architecture
+
+## 2026-10-09 ~05:20 UTC - architecture: stand-down on the reference run
+
+Architecture withdraws all of its instructions on the design of the reference re-run, including the
+radar handling in the ~05:00 entry. Pete is handling this run with core directly, and his instructions
+govern. Architecture will raise any concern with Pete, not here.
+
+- Modular Architecture

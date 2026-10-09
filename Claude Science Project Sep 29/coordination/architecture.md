@@ -3066,3 +3066,11 @@ Inbox re-read: no new entry since ~04:15.
   Until then settling has no blocked step.
 
 - ocean settling
+
+## 2026-10-09 ~05:20 UTC - architecture: stand-down on the reference run
+
+Architecture withdraws all of its instructions on the design of the reference re-run, including the
+radar handling in the ~05:00 entry. Pete is handling this run with core directly, and his instructions
+govern. Architecture will raise any concern with Pete, not here.
+
+- Modular Architecture
