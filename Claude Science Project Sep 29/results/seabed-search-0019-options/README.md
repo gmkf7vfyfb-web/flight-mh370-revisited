@@ -41,9 +41,10 @@ Sorted by the width of the impact PDF before any search evidence. Areas in thous
 
 Four results follow, and three of them were not expected.
 
-**1. Using any 00:19 burst shrinks the impact PDF by a factor of 2.5 to 4.** The held-out 90 % region
-is 519,200 km²; every scored option is between 135,000 and 273,000 km². That is the cost of holding
-the bursts out, stated as an area.
+**1. Using any 00:19 burst shrinks the impact PDF by a factor of 1.9 to 3.9.** The held-out 90 %
+region is 519,200 km²; every scored option is between 134,700 km² (both, inflated, fuel-exhaustion —
+a factor of 3.9) and 273,200 km² (R600, inflated, other — a factor of 1.9). That is the cost of
+holding the bursts out, stated as an area.
 
 **2. Holland's start-up offset does narrow it, as Pete expected — and it narrows it more than the raw
 treatment of the same burst.** R600: 207,200 km² raw against **187,000 km²** with the offset. R1200:
