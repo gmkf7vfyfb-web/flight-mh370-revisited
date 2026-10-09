@@ -3,7 +3,7 @@
 Ocean settling module, 9 October 2026. This is a first draft of the paper's settling methods
 section, written under the architecture entry of 9 Oct ~04:15 UTC. Source keys in square brackets
 refer to `results/settling-references.md`, and ocean products to `results/ocean-references.md`. Code
-is `engine/hypotheses/settling/` on branch `hypothesis/settling` at `bfb71d5`.
+is `engine/hypotheses/settling/` on branch `hypothesis/settling` at `8492de7`.
 
 **Status.** Since `bfb71d5` the ocean is real: the GLORYS12V1 column, surface current, ERA5 wind,
 AusSeabed and GEBCO bathymetry, and TEOS-10. The breakup table is still a set of declared educated
@@ -132,7 +132,8 @@ and p90 latitude, 37.9-35.6 S), with 1,024 draws per point and family:
 - broken and fragmented sections within 0.5-0.9 km, but intact sections at 6.5-6.8 km;
 - cabin contents at about 13-14 km.
 
-The real ocean leaves the dense classes within 2 % of the provisional page and spreads the floated
+Copernicus-GlobCurrent, the second ocean-model value, as the float-phase surface current spreads the
+floated classes 4-12 % further (19 % at most) and leaves the dense classes unchanged. The real ocean leaves the dense classes within 2 % of the provisional page and spreads the floated
 classes 5-13 % further (17 % at most). Monte Carlo halves at 512 draws differ by a median of 2.4 % in
 p90 (14 % at most, for heavy-tailed classes).
 
@@ -169,10 +170,18 @@ Depth barely matters: 3.5 to 5.8 km changes the dense classes by 1-24 %.
   per family come to 11 / 54 / 84. The class is evidential only once drift has a 2014 surface-search
   model.
 
+- **Implosion events** for hydroacoustics (`results/settling-implosion-events/`): the time and place
+  where each sealed section reaches its collapse depth. An intact contact's sections collapse 14 min to
+  5 h after impact (median 1.0 h), after floating; a broken contact's within about 34 min (median
+  2.7 min). Depth and trapped-air volume are the declared priors.
+
 ## 8. Limitations
 
 - The column and the breakup table are provisional.
 - No post-contact movement is modelled.
 - Family probabilities rest on three calibration points.
+- The four impact points come from the 295.66° prior map. Core's reference-289 moves the 00:19 median
+  0.85° north (`results/heading-ab-289-vs-29566.md`). Since depth barely matters, the points are to be
+  updated, not the conclusions, once end of flight publishes impacts on the new reference.
 - The afloat share is the least-constrained number in the table.
 - Body properties in the occupants class carry no source yet (ledger, open item 3).
