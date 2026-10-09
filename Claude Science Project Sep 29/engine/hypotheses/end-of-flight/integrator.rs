@@ -758,56 +758,82 @@ mod tests {
     #[ignore]
     fn free_dynamics_traces_for_calibration() {
         let Ok(dir) = std::env::var("EOF_CALIB_OUT") else { return };
-        let it = integrator(1.0);
+        // Optional sweeps (comma lists): divergent-spiral bank caps (deg), Mach-tuck and wave-drag
+        // coefficients, doubling times (s), drawn banks (deg). Defaults reproduce the first-pass set.
+        let list = |k: &str, d: &[f64]| -> Vec<f64> {
+            std::env::var(k).ok().map(|v| v.split(',').filter_map(|x| x.trim().parse().ok()).collect()).unwrap_or_else(|| d.to_vec())
+        };
+        let caps = list("EOF_CALIB_CAPS", &[60.0]);
+        let tucks = list("EOF_CALIB_TUCK", &[reference().tuck_cl_per_mach]);
+        let kws = list("EOF_CALIB_KW", &[reference().wave_drag_coefficient]);
+        let doublings = list("EOF_CALIB_DOUBLING", &[60.0, 85.0, 120.0]);
+        let div_banks = list("EOF_CALIB_DIV_BANKS", &[2.0, 10.0, 20.0]);
+        let neutral = std::env::var("EOF_CALIB_NEUTRAL").map(|v| v != "0").unwrap_or(true);
         let cfg = Configuration::glide();
-        for alt in [35_000.0, 40_000.0] {
-            // The module's own free-trim lift: the LEVEL trim at the start state (profile.rs, Shape::FreeTrim),
-            // plus the sampled offset. Not the best-glide C_L.
-            let st = body(alt, 240.0, 0.0);
-            let t_k = atmos::isa_temperature_k(alt);
-            let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(alt), st.tas_mps / atmos::sound_speed_mps(t_k));
-            let c_l0 = st.mass_kg * atmos::G0 / (q * it.aero.wing_area_m2);
-            for (bank, doubling) in [0.0, 2.0, 5.0, 8.0, 12.0, 15.0, 20.0, 25.0, 30.0, 35.0]
-                .iter()
-                .map(|b| (*b, None))
-                .chain([2.0, 10.0, 20.0].iter().flat_map(|b| [60.0, 85.0, 120.0].iter().map(move |d| (*b, Some(*d)))))
-            {
-                for dcl in [-0.08, 0.0, 0.08] {
-                    let start = body(alt, 240.0, 0.0);
-                    let mut rows = String::from("time_s,lat_deg,lon_deg,alt_ft,heading_rad\n");
-                    let mut next = start.unix_s;
-                    let c_l = c_l0 + dcl;
-                    let trace = it.run(
-                        start,
-                        &atmos::Standard,
-                        None,
-                        // The divergent law of profile.rs `Flying::free_bank` (floor 1 deg, cap 60 deg), restated
-                        // here because the fixture drives the integrator directly.
-                        &mut |b, _| {
-                            let t = b.unix_s - start.unix_s;
-                            let deg = match doubling {
-                                None => bank,
-                                Some(t2) => (f64::max(bank, 1.0) * 2f64.powf(t / t2)).min(60.0),
+        let mut cases: Vec<(f64, Option<(f64, f64)>)> = Vec::new();
+        if neutral {
+            cases.extend([0.0, 2.0, 5.0, 8.0, 12.0, 15.0, 20.0, 25.0, 30.0, 35.0].iter().map(|b| (*b, None)));
+        }
+        for b in &div_banks {
+            for d in &doublings {
+                for c in &caps {
+                    cases.push((*b, Some((*d, *c))));
+                }
+            }
+        }
+        for &tuck in &tucks {
+            for &kw in &kws {
+                let mut it = integrator(1.0);
+                it.aero.tuck_cl_per_mach = tuck;
+                it.aero.wave_drag_coefficient = kw;
+                for alt in [35_000.0, 40_000.0] {
+                    // The module's own free-trim lift: the LEVEL trim at the start state (profile.rs,
+                    // Shape::FreeTrim), plus the sampled offset. Not the best-glide C_L.
+                    let st = body(alt, 240.0, 0.0);
+                    let t_k = atmos::isa_temperature_k(alt);
+                    let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(alt), st.tas_mps / atmos::sound_speed_mps(t_k));
+                    let c_l0 = st.mass_kg * atmos::G0 / (q * it.aero.wing_area_m2);
+                    for &(bank, div) in &cases {
+                        for dcl in [-0.08, 0.0, 0.08] {
+                            let start = body(alt, 240.0, 0.0);
+                            let mut rows = String::from("time_s,lat_deg,lon_deg,alt_ft,heading_rad\n");
+                            let mut next = start.unix_s;
+                            let c_l = c_l0 + dcl;
+                            let trace = it.run(
+                                start,
+                                &atmos::Standard,
+                                None,
+                                // The divergent law of profile.rs `Flying::free_bank` (floor 1 deg), restated
+                                // here because the fixture drives the integrator directly.
+                                &mut |b, _| {
+                                    let t = b.unix_s - start.unix_s;
+                                    let deg = match div {
+                                        None => bank,
+                                        Some((t2, cap)) => (f64::max(bank, 1.0) * 2f64.powf(t / t2)).min(cap),
+                                    };
+                                    (Command::FixedTrim { c_l, bank_rad: deg.to_radians() }, cfg, 0.0)
+                                },
+                                &mut |b, _| {
+                                    if b.unix_s >= next {
+                                        rows.push_str(&format!("{},{},{},{},{}\n", b.unix_s - start.unix_s, b.latitude_deg, b.longitude_deg, b.pressure_altitude_ft, b.heading_rad));
+                                        next += 1.0;
+                                    }
+                                },
+                            );
+                            rows.push_str(&format!("{},{},{},{},{}\n", trace.impact.unix_s - start.unix_s, trace.impact.latitude_deg, trace.impact.longitude_deg, 0.0, trace.impact.heading_rad));
+                            let tag = if tucks.len() > 1 || kws.len() > 1 { format!("-tuck{tuck:.2}-kw{kw:.0}") } else { String::new() };
+                            let name = match div {
+                                None => format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}{tag}.csv"),
+                                Some((t2, cap)) => format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}-div{t2:.0}-cap{cap:.0}{tag}.csv"),
                             };
-                            (Command::FixedTrim { c_l, bank_rad: deg.to_radians() }, cfg, 0.0)
-                        },
-                        &mut |b, _| {
-                            if b.unix_s >= next {
-                                rows.push_str(&format!("{},{},{},{},{}\n", b.unix_s - start.unix_s, b.latitude_deg, b.longitude_deg, b.pressure_altitude_ft, b.heading_rad));
-                                next += 1.0;
-                            }
-                        },
-                    );
-                    rows.push_str(&format!("{},{},{},{},{}\n", trace.impact.unix_s - start.unix_s, trace.impact.latitude_deg, trace.impact.longitude_deg, 0.0, trace.impact.heading_rad));
-                    let name = match doubling {
-                        None => format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}.csv"),
-                        Some(t2) => format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}-div{t2:.0}.csv"),
-                    };
-                    std::fs::write(&name, rows).expect("write trace");
+                            std::fs::write(&name, rows).expect("write trace");
+                        }
+                    }
                 }
             }
         }
     }
+
 
     /// A bank angle under fixed trim turns the aircraft and reduces the vertical component of
     /// lift, so the descending spiral falls out of the same equations as the phugoid.
