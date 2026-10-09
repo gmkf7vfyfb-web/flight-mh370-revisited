@@ -1,0 +1,79 @@
+{
+ "hard": {
+  "delta_H01_by_band": {
+   "16.0": 24.17,
+   "20.0": 28.68,
+   "25.0": 34.27,
+   "31.5": 41.85,
+   "40.0": 50.66,
+   "50.0": 61.28
+  },
+  "delta_H08S_by_band": {
+   "16.0": -0.24,
+   "20.0": 1.97,
+   "25.0": 0.81,
+   "31.5": -0.23,
+   "40.0": 0.26,
+   "50.0": 0.01
+  },
+  "delta_H01_median_db": 38.06,
+  "delta_H08S_median_db": 0.13,
+  "negative_control": "FOLLOWS",
+  "positive_control": "CONSISTENT",
+  "explained": true,
+  "ridge_step_db_by_band": {
+   "16.0": 28.29,
+   "20.0": 32.97,
+   "25.0": 38.57,
+   "31.5": 44.61,
+   "40.0": 54.22,
+   "50.0": 64.55
+  },
+  "ridge_step_median_db": 41.59,
+  "blockage_attribution": true
+ },
+ "soft": {
+  "delta_H01_by_band": {
+   "16.0": 31.49,
+   "20.0": 36.1,
+   "25.0": 41.99,
+   "31.5": 50.64,
+   "40.0": 61.99,
+   "50.0": 76.96
+  },
+  "delta_H08S_by_band": {
+   "16.0": 2.87,
+   "20.0": 4.96,
+   "25.0": 5.78,
+   "31.5": 7.61,
+   "40.0": 13.32,
+   "50.0": 18.3
+  },
+  "delta_H01_median_db": 46.32,
+  "delta_H08S_median_db": 6.69,
+  "negative_control": "FOLLOWS",
+  "positive_control": "INCONSISTENT",
+  "explained": false,
+  "ridge_step_db_by_band": {
+   "16.0": 47.62,
+   "20.0": 56.47,
+   "25.0": 67.96,
+   "31.5": 80.64,
+   "40.0": 96.59,
+   "50.0": 115.83
+  },
+  "ridge_step_median_db": 74.3,
+  "blockage_attribution": true
+ },
+ "wall_s": {
+  "air9_H01W_hard_s": 19.5,
+  "air9_H01W_soft_s": 12.7,
+  "air9_H08S_hard_s": 50.3,
+  "air9_H08S_soft_s": 31.6,
+  "air8_H01W_hard_s": 33.4,
+  "air8_H01W_soft_s": 27.1,
+  "air8_H08S_hard_s": 32.0,
+  "air8_H08S_soft_s": 25.0
+ },
+ "total_wall_s": 233.6
+}
