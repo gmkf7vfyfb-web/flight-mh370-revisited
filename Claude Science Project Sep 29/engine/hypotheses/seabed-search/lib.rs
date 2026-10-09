@@ -400,6 +400,43 @@ mod tests {
         assert!((twice(0.25) - (0.25 + 0.75 * 0.04)).abs() < 1e-12);
     }
 
+    /// Davey et al. (2016) §11.1, printed p. 101, eq. (11.1):
+    ///   p(x_final | S, Z_K)  proportional to  [1 - P_D(x_final)] p(x_final | Z_K)
+    /// with P_D "the probability that the cumulative search effort would have detected the
+    /// aircraft at any particular location". Set rho = 0, take a point target (the impact
+    /// position itself), and collapse the search to one cumulative campaign: this module's
+    /// likelihood must then be exactly [1 - P_D], with P_D = c(x) q. The test computes P_D
+    /// along an independent path and compares it with the full public hook, on the real
+    /// Phase 2 layer, at points inside, outside and on the ragged edge of the coverage.
+    #[test]
+    fn reduces_to_davey_eq_11_1_for_a_point_target_one_campaign_and_rho_zero() {
+        let q = 0.945;
+        let params = format!(
+            "undetectable_probability = 0.0\n\
+             [[campaigns]]\nname = \"cumulative\"\nlayer = \"phase2\"\ndetection_probability = {q}\n"
+        );
+        let module = SeabedSearch::from_params(&toml::from_str(&params).unwrap()).unwrap();
+        let layer = Raster::decode(LAYERS.iter().find(|(n, _)| *n == "phase2").unwrap().1).unwrap();
+        let points = [
+            (-38.0, 89.0),   // inside
+            (-37.5, 88.6),   // inside
+            (-36.0, 91.5),   // near the northern end
+            (-39.9, 86.3),   // near the southern end
+            (-34.0, 93.0),   // off the searched ground
+            (-20.0, 110.0),  // far outside the raster
+            (-38.2345, 88.7654), // between cell centres, where c is bilinear
+        ];
+        let mut covered = 0;
+        for (lat, lon) in points {
+            let p_d = layer.coverage(lat, lon) * q; // Davey's P_D, by an independent path
+            let davey = (1.0 - p_d).ln();
+            let ours = module.impact_log_likelihood(&impact(lat, lon), &[]);
+            assert!((ours - davey).abs() < 1e-15, "({lat}, {lon}): {ours} vs {davey}");
+            covered += usize::from(p_d > 0.0);
+        }
+        assert!(covered >= 4, "the test must exercise searched ground, not only empty raster");
+    }
+
     #[test]
     fn repeat_search_dependence_acts_only_where_campaigns_overlap() {
         // Two campaigns over the same searched cell, q = 0.8, rho = 0.2. Shared: the wreck is
