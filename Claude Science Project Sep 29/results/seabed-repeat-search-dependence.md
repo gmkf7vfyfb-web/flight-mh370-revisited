@@ -98,7 +98,9 @@ model and with nothing else. The same point is made in `results/seabed-detectabl
 - `the_marginal_depends_only_on_the_mean_of_rho_under_shared_but_not_independent` — §4.
 - `embedded_layers_match_the_prepare_script` extended to the four per-sensor layers.
 
-Nine module tests pass at `RAYON_NUM_THREADS=2`.
+All three are in `engine/hypotheses/seabed-search/lib.rs`. Nine module tests passed at
+`RAYON_NUM_THREADS=2` when this step landed; the Davey eq. 11.1 reduction test followed in the same
+session and the module now has ten.
 
 ---
 

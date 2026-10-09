@@ -1979,3 +1979,121 @@ keep everything identical, and the A/B report spec.
    change into an overnight run.
 
 - Modular Architecture
+## 2026-10-09 - searched areas: sequence steps 1-7 complete, with four things for you
+
+Thread started this morning; the brief, `common.txt`, `ARCHITECTURE.md` and this inbox were read
+from `claude-science-sep29` before any work. The sequence in my inbox is worked through.
+
+**1. Citation task — `results/citation-ledger.md` (`85f8b54`).** Davey ch. 11 anchors recorded by
+printed page from the running headers: eq. (11.1) and eq. (11.2) and the first AF447 citation on
+p. 101; the side-scan 0.9 and the rho ~ 0 sentence on p. 102; and verified that the chapter carries
+no search-conditioned posterior anywhere in pp. 101-109.
+
+**Davey's reference [40] is NOT Stone et al. 2014.** The book's reference list, printed p. 114,
+entry 40, reads: "Stone LD, Keller C, Kratzke TL, Strumpfer J (2011) Search analysis for the
+location of the AF447 underwater wreckage. Technical report Metron Scientific Solutions, Reston".
+Stone et al. (2014) cite that same report as their own [10]. So the 2014 Statistical Science paper
+is the published account, by the same four authors, of the analysis Davey cite - the same analysis,
+not the same object. **`results/davey-ch11-alignment.md` says "their ref. [40], which Stone et al.
+2014 states as a deliberate cap"; that line should be corrected now the check is done.** The ledger
+carries the rule: cite Stone 2014 for the method and the cap, cite [40] as the 2011 report only when
+describing Davey's own attribution.
+
+One more thing the ledger adds, in our favour: Davey p. 102 names "sensor drop-out and terrain
+masking" as causes of missed ground in a first pass, and proposes revisiting rather than putting a
+probability on them. Our rho is the same two mechanisms carried into the likelihood. The departure
+to defend is narrower than the brief implies - it is from the rho ~ 0 sentence only.
+
+**2. Detectable target — `results/seabed-detectable-target.md` (`23050e7`), written before code.**
+Detection is defined as a two-part event: at least one piece in the detectable class (piece level),
+then recognition (campaign level, NOT per piece - independent per-piece classification would collapse
+the likelihood to a hard exclusion wherever coverage exists). That gives
+`M_k = 1 - c_k g_k(W) q_k` with `g_k = 1 - prod_i [1 - a_k(L_i)]`, which reduces exactly to Davey
+eq. (11.1) for a point target. A field partly inside a swath is scored coarse-grained (the field is
+in or out as a whole), with the fine-grained arm as a labelled sensitivity, because the coverage gaps
+are at the same scale as the field. Finding: `g_k` saturates, so the target model only earns its
+place for small, low-relief or buried fields - the point-target placeholder is the saturated limit,
+not a crude stand-in.
+
+**3. Port — `714904e`.** The ISO branch diff applies unchanged and compiles against the current hook
+API with no adaptation. Every fixture number in brief sections 4 and 5 reproduces exactly: mass
+removed at rho 0 of 0.0000 / 0.6274 / 0.0125 / 0.6398, the rho sweep Z 0.3726 ... 0.6863, the share
+on Phase 2 coverage 0.104 ... 0.512, and OI coverage 0.889 -> 0.3922 against 0.952 -> 0.3913.
+
+**4. Repeat-search dependence — `results/seabed-repeat-search-dependence.md` (`eeaed8c`).** The
+`phase2` union hides **17,390.6 km2 of repeat coverage over 18,129.6 km2 of ground: 15.0% of Phase 2
+was swept more than once.** Four per-sensor layers built from the existing caches (no download) and a
+`miss_dependence = shared | independent` parameter. Three rungs on the fixture: union 0.4040,
+split+shared 0.4001, split+independent 0.3966. `run.toml` stays on the union as the main estimate -
+the brief's campaign table defines Phase 2 as one campaign and the split moves the headline by less
+than the smallest step of the rho sweep - with the split pair reported as a labelled sensitivity.
+
+**CORRECTION TO THE BRIEF, carried in two results notes.** "The marginal likelihood depends only on
+the mean of rho" is exactly true for the shared model, which is linear in rho, and FALSE for the
+independent model, which is a product of terms each linear in rho. Hand-computed and tested: rho 0 or
+0.4 with equal probability over two overlapping campaigns gives 0.1552 averaged against 0.1296 at the
+mean. The mean-only claim travels with the shared two-state model and with nothing else; any future
+continuous-latent dependent construction inherits the failure.
+
+**The reduction test to Davey eq. 11.1 is in (`3912037`).** rho = 0, point target, one cumulative
+campaign on the real `phase2` layer, at seven points inside, outside and between cell centres, against
+`ln[1 - c(x)q]` computed along an independent path: agreement to 1e-15.
+
+**5. End-of-flight impacts, smoke scale — `results/seabed-search-eof-smoke/` (`3912037`).** This is
+the headline and it reverses the placeholder's picture. On real descents **only 23.2% of the prior
+mass lies on Phase 2 searched ground, against 66.4% for arc-kernel**, so Phase 2 removes 0.2197 of
+the mass at rho 0 rather than 0.6274, and Z at rho 0.05 is 0.7913 rather than 0.4040. What survives
+is a shift, not an exclusion: median -38.83 -> **-39.25** (about 25 NM south), mass south of 39.5 S
+0.33 -> **0.44**, mass left on searched ground **0.032**. Split-half 0.846 before / 0.812 after:
+provisional, not evidence. Full scale waits on the end-of-flight sweep, as you set out.
+
+**6 and 7 - `results/seabed-residual-views-and-oi2025.md`.** The residual-PDF view is built, with the
+**double-application guard** verified (a run whose `run.json` carries `seabed-search:loglik` is
+refused), and **Davey eq. 11.2 is now a standard output**: on the smoke posterior, P(find) 25% needs
+the best 8 blocks of 0.5 deg and 19,092 km2, 50% needs 31 blocks and 74,074 km2, 75% needs 109 blocks
+and 262,354 km2, at a planning P_D of 0.9. The **OI 2025-26 inferred variant** puts the reported
+7,571 km2 on the outboard/south-east band alone (9,696.9 km2, coverage fraction 0.7808), never on the
+contract area and never spread uniformly; the inboard band is the residual and carries no coverage.
+It moves Z by **0.0004** - a negative result worth keeping.
+
+---
+
+### Four things for you
+
+**(a) LICENCE, and it is not mine to fix.** The brief says never commit the OI 2018 traced outline.
+**It is already committed, in the frozen September snapshot**, at
+`ISO Sept 28 Status/inputs/search-coverage/ocean-infinity-2018-outline.geojson`, and its own
+properties identify it: source "MH370-CAPTION 'Search areas' Google Earth KML
+(www.mh370-caption.net)", grade "C: community tracing, not official geometry". Its derived raster
+`ocean-infinity-2018.cov` is committed beside it. The same applies to the 2025-26 band tracing inside
+`Sept 27 2026 backup PL ChatGPT instance/.../search_footprints.geojson`. My module reads both by path
+and commits neither, but the public repository already carries them, and git history would keep them
+even if they were deleted. This needs Pete's decision, not mine.
+
+**(b) CORE REQUEST: `compose` as a dev-dependency of `mh370-hypotheses`.** Your sequence asks for the
+residual views to be built against `crates/compose` in a module-local test. `hypotheses/Cargo.toml`
+permits only `geo`, `hypothesis`, `ocean`, `serde`, `toml`, and it is core-owned, so a dev-dependency
+on `compose` fails `make scope`. I built the views on the `mh370 evaluate` path instead - the same
+likelihood column the composer receives - and disclosed it. If you add the dev-dependency I will move
+the view onto the real composition path and keep the guard.
+
+**(c) THE CITATION LEDGER'S LOCATION, which drift also raised on 9 Oct.** My inbox told me to open a
+**project** ledger at `results/citation-ledger.md`; drift put a **module** reference list at
+`results/debris-drift-references.md` and asked you to rule between that and `REFERENCES.md` in the
+module directory. One rule should cover both: either the project ledger absorbs module reference
+lists, or the two coexist with the project ledger holding only shared sources. I have no preference;
+I will follow whichever you set.
+
+**(d) ATSB 2017 COULD NOT BE FETCHED.** `www.atsb.gov.au` was allowlisted on request and did not
+respond - two attempts, 120 s and 300 s, both timing out at the read with no HTTP status. Four values
+in the module therefore still stand on the M3 header's page citations rather than on my own reading:
+Phase 2 `q` 0.940-0.945 from the Fig. 73 ratings (p. 96), the 25/36/41 NM search widths (pp. 76, 95),
+and the "larger than 200 m by 200 m" debris-field statement (p. 96). They are flagged as inherited in
+`results/seabed-detectable-target.md` section 8. None is load-bearing for the port or the reduction
+test. If someone else has the report in hand, I will verify against it.
+
+**Reminder, not yet due.** The brief defers raising ~500 m coverage resolution with Pete until the
+model is stable on real impact samples. It has now run on real end-of-flight samples once, at smoke
+scale. I will raise it after the full-scale run, not before.
+
+- searched areas
