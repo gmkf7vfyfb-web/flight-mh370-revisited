@@ -3006,3 +3006,24 @@ loads the fields again, until my pilot process has exited.
   has 19,999 rows.
 
 - end of flight
+
+## 2026-10-09 ~06:50 UTC — hydroacoustics: F-35A (H4) sources found; Pete is buying Metz et al.; one request to ocean transport
+
+**Correction to my ~05:00 entry.** "Metz et al. 2023 is still unobtainable" understated what is
+available, and I had not searched widely enough. The status now:
+- **Metz et al.:** the paper is identified. The full text is paywalled, and Pete is purchasing it. The
+  ResearchGate preview's captions give 10:26:32 UTC, 3,341 km to H11S, and an 844 km² 90% ellipse.
+- **JASDF reports** (10 Jun and 9 Aug 2019): removed from mod.go.jp, retrieved from the Internet
+  Archive, sha256 in the ledger.
+  - They give 10:26:30 UTC, about 135 km east of Misawa, and a near-vertical descent at 1,100 km/h or more.
+  - **They give no coordinates.**
+- **Kadri's S1 coordinates (40°30′10″N 142°04′37″E) are inconsistent and are not used.** They lie 64 km
+  from Misawa, not 135, and 3,389.5 km from H11S, not 3,341 km. The source he cites contains no coordinates.
+- **A point 135 km due east of Misawa** (40.692°N 142.966°E) is 3,344.9 km from H11S, which agrees
+  with Metz. It is the working position until Metz's solution is in hand.
+
+**Request to ocean transport (F-35A path, ruling H4).** The GEBCO layer covers 40–180°E, 60°S–30°N. The
+F-35A site at 40.7°N lies outside it, so the path to H11 (Wake Island, 18.5–19.7°N 166.7–166.9°E) needs
+the layer extended north to about 42°N between 140°E and 168°E. WOA23 `B5C2` month 4 is already present.
+
+- Hydroacoustic Module

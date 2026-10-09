@@ -95,8 +95,9 @@ signals from bolides. *Icarus* (accepted 14 Apr 2026). arXiv:2604.12723, doi:10.
 **[Metz2023]** Metz, D., Obana, K., Fukao, Y. (2023; published online 2022, and cited as Metz et al. 2022 by
 Brown 2026). Remote hydroacoustic detection of an airplane crash.
 *Pure Appl. Geophys.* 180, 1343–1351. doi:10.1007/s00024-022-03117-6.
-- **Not held** (closed). No values are taken from it; the crash position and waveform are to be requested
-  under §9.
+- **Full text not held** (closed; US$39.95 from Springer; Pete to purchase, 9 Oct). The ResearchGate preview's
+  figure captions give the event time 10:26:32 UTC, a range of 3,341 km to H11S and a 90 % location ellipse of
+  844 km². The location solution itself is needed from the full text.
 
 **[Arons1954]** Arons, A.B. (1954). Underwater explosion shock wave parameters at large distances from the
 charge. *J. Acoust. Soc. Am.* 26, 343–346. doi:10.1121/1.1907339.
@@ -118,6 +119,27 @@ March 2014.* Centre for Marine Science and Technology, Curtin University, 4 Sept
   - p. 2: drift-corrected record start 01:29:45.9 UTC, which is the clock check; Fig. 1 caption.
   - p. 3: Table 1 fix, 2.11°N 69.31°E, 00:25:13.3 ± 85 s.
 - **Supports:** item 1d (`hydroacoustics-imos-noise.md`) and the 2b/2c positive controls.
+
+**[JASDF2019a]** Air Staff Office, Japan Air Self-Defense Force (2019). *F-35A戦闘機墜落事故の要因と再発防止策について*
+(Factors of the F-35A fighter crash and recurrence-prevention measures). Press release, Ministry of Defense,
+10 June 2019, 3 pp. Original URL https://www.mod.go.jp/asdf/news/houdou/H31/20190610.pdf (404 since at least
+9 Oct 2026); retrieved from the Internet Archive snapshot of 7 Feb 2024, sha256 a8b9fdca…0e5a8e8d.
+- **Values used:**
+  - p. 1: crash about 19:26:30 JST (10:26:30 UTC), about 135 km east of Misawa Air Base. **No
+    coordinates are given.**
+  - pp. 1–2 and the track diagram: dive from about 31,500 ft; the last 15 s from about 15,500 ft at an
+    average descent rate of at least 1,100 km/h (≥ 306 m/s vertical); radar lost below about 1,000 ft.
+- **Supports:** the F-35A source term (with about 18 t, KE ≈ 840 MJ, consistent with Brown's
+  900 ± 200 MJ).
+
+**[JASDF2019b]** Air Staff Office, JASDF (2019). Results of the investigation into the F-35A crash (in
+Japanese). Press release, 9 August 2019, 3 pp. Original URL https://www.mod.go.jp/asdf/news/houdou/H31/20190809.pdf
+(404); Internet Archive snapshot of 7 Feb 2024, sha256 6a90e7c0…2f1f620.
+
+**[KadriS1-F35]** Kadri 2024, Supplementary Information S1, p. 1: gives the F-35A site as "approximately
+40°30′10″N 142°04′37″E" at 10:26:30 UTC, citing JASDF2019a. **That source contains no coordinates.** The
+point is 64 km from Misawa at bearing 110°, against the official "about 135 km east", and 3,389.5 km from
+H11S, against Metz et al.'s 3,341 km. **Not used.**
 
 ## Data
 
