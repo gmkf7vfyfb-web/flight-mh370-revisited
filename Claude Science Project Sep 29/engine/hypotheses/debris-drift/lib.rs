@@ -71,6 +71,7 @@ fn d_threads() -> usize { 2 }
 fn d_true() -> bool { true }
 fn d_domain() -> [f64; 4] { [15.0, 120.0, -50.0, 0.0] }
 fn d_env() -> Vec<u64> { vec![1] }
+fn d_stride() -> usize { 1 }
 
 /// A declared sampling distribution (rule 9: sampling a range is marginalisation only if the
 /// distribution is stated). Truncation is by rejection.
@@ -144,6 +145,9 @@ struct RecoveryParams {
     period_breaks: Vec<String>,
     /// ISO date ending the discovery window.
     window_end: String,
+    /// Further bandwidths reported as sensitivity columns (`ln_l_h<km>`), same ensembles.
+    #[serde(default)]
+    extra_bandwidths_km: Vec<f64>,
     /// Chainage edges on coast line 0 (analytic straight coast only); segments are then the
     /// intervals between consecutive edges.
     #[serde(default)]
@@ -231,6 +235,9 @@ pub(crate) struct Params {
     /// Restrict release to these node indices (smoke tests); empty means every active node.
     #[serde(default)]
     node_subset: Vec<usize>,
+    /// Release every n-th active node only (checks; production uses 1).
+    #[serde(default = "d_stride")]
+    node_stride: usize,
     /// Write the node table and summary here (pilot and diagnostics).
     #[serde(default)]
     output_dir: Option<String>,
@@ -291,16 +298,20 @@ impl Locator {
 struct Ensemble {
     arrivals: Vec<(usize, Arrival)>,
     model_error: usize,
+    left_domain: usize,
+    on_land: usize,
 }
 
 fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t_end: f64, responses: &[ObjectResponse], seed: u64, diffusion: Diffusion) -> Result<(Ensemble, f64), String> {
-    let particles: Vec<Particle> = responses.iter().map(|&response| Particle { release, release_time: t0, response }).collect();
+    let particles: Vec<Particle> = responses.iter().map(|&response| Particle::new(release, t0, response)).collect();
     let (fates, steps) = setup.run(&particles, seed, diffusion, t_end)?;
-    let mut e = Ensemble { arrivals: Vec::new(), model_error: 0 };
+    let mut e = Ensemble { arrivals: Vec::new(), model_error: 0, left_domain: 0, on_land: 0 };
     for (i, f) in fates.into_iter().enumerate() {
         match f {
             Fate::Beached { t, at, line, chainage_km } => e.arrivals.push((i, loc.arrival((t - t0) / 86_400.0, at, line, chainage_km))),
             Fate::Afloat => {}
+            Fate::LeftDomain => e.left_domain += 1,
+            Fate::ReleasedOnLand => e.on_land += 1,
             Fate::ModelError => e.model_error += 1,
         }
     }
@@ -473,7 +484,10 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let mut nodes = vec![Node::NotComputed; grid.nlat * grid.nlon];
     let mut rows: Vec<String> = Vec::new();
     let ns = rec.n_segments;
-    let mut header = "node,lat_deg,lon_deg,component,state,ln_l,ln_l_half_a,ln_l_half_b,min_n_eff,model_error_fraction".to_string();
+    let mut header = "node,lat_deg,lon_deg,component,state,ln_l,ln_l_half_a,ln_l_half_b,min_n_eff,model_error_fraction,left_domain_fraction".to_string();
+    for h in &p.recovery.extra_bandwidths_km {
+        header += &format!(",ln_l_h{h}");
+    }
     for c in 0..nc {
         for s in 0..ns {
             header += &format!(",p_{}_{}", p.classes[c].name, s);
@@ -485,8 +499,8 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     }
     let clock = std::time::Instant::now();
     let mut steps_total = 0.0;
-    let (mut released, mut model_error) = (0usize, 0usize);
-    let candidates: Vec<usize> = if p.node_subset.is_empty() { (0..nodes.len()).filter(|&k| grid.active[k]).collect() } else { p.node_subset.iter().copied().filter(|&k| k < nodes.len() && grid.active[k]).collect() };
+    let (mut released, mut model_error, mut left_domain) = (0usize, 0usize, 0usize);
+    let candidates: Vec<usize> = if p.node_subset.is_empty() { (0..nodes.len()).filter(|&k| grid.active[k]).step_by(p.node_stride.max(1)).collect() } else { p.node_subset.iter().copied().filter(|&k| k < nodes.len() && grid.active[k]).collect() };
     for (count, &k) in candidates.iter().enumerate() {
         let (la, lo) = grid.node(k);
         let mut coef_full: Vec<Vec<Option<recovery::Coefficients>>> = Vec::new();
@@ -494,22 +508,27 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         let mut p_seg = vec![vec![0.0; ns + 1]; nc];
         let mut n_eff = vec![f64::NAN; observations.len()];
         let mut node_err = 0usize;
+        let mut node_left = 0usize;
         let mut node_released = 0usize;
         let mut on_land = false;
+        let mut coef_h: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); p.recovery.extra_bandwidths_km.len()];
         for &(seed, diffusion) in &envs {
             let (mut full, mut ha, mut hb) = (Vec::new(), Vec::new(), Vec::new());
+            let mut fh: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); p.recovery.extra_bandwidths_km.len()];
             for c in 0..nc {
                 if responses[c].is_empty() {
                     full.push(None);
                     ha.push(None);
                     hb.push(None);
+                    fh.iter_mut().for_each(|v| v.push(None));
                     continue;
                 }
                 let (e, steps) = run_ensemble(&setup, &loc, [lo, la], p.release_unix_s, t_end, &responses[c], seed, diffusion)?;
                 steps_total += steps;
                 node_released += n;
                 node_err += e.model_error;
-                if e.model_error == n {
+                node_left += e.left_domain;
+                if e.on_land == n {
                     on_land = true;
                 }
                 for (_, a) in &e.arrivals {
@@ -525,21 +544,32 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                 for (jj, &j) in by_class[c].iter().enumerate() {
                     n_eff[j] = if n_eff[j].is_nan() { kf.n_eff[jj] } else { n_eff[j].min(kf.n_eff[jj]) };
                 }
+                for (hi, &h) in p.recovery.extra_bandwidths_km.iter().enumerate() {
+                    let rh = Recovery { bandwidth_km: h, ..rec.clone() };
+                    fh[hi].push(Some(rh.coefficients(&obs, &all, n)));
+                }
                 full.push(Some(kf));
                 ha.push(Some(rec.coefficients(&obs, &a_half, half)));
                 hb.push(Some(rec.coefficients(&obs, &b_half, n - half)));
             }
             coef_full.push(full);
+            for (hi, v) in fh.into_iter().enumerate() {
+                coef_h[hi].push(v);
+            }
             coef_a.push(ha);
             coef_b.push(hb);
         }
         released += node_released;
         model_error += node_err;
+        left_domain += node_left;
         let node = if on_land { Node::Land } else { node_ln_likelihood(&coef_full, &by_class, &levels) };
         let val = |x: Node| match x { Node::Value(v) => format!("{v:.6}"), _ => "nan".into() };
         let (na, nb) = if on_land { (Node::Land, Node::Land) } else { (node_ln_likelihood(&coef_a, &by_class, &levels), node_ln_likelihood(&coef_b, &by_class, &levels)) };
         let state = match node { Node::Value(_) => "value", Node::Land => "land", Node::Unresolved => "unresolved", Node::NotComputed => "not-computed" };
-        let mut row = format!("{k},{la:.5},{lo:.5},{},{state},{},{},{},{:.3},{:.5}", grid.component[k], val(node), val(na), val(nb), n_eff.iter().copied().fold(f64::INFINITY, f64::min), node_err as f64 / node_released.max(1) as f64);
+        let mut row = format!("{k},{la:.5},{lo:.5},{},{state},{},{},{},{:.3},{:.5},{:.5}", grid.component[k], val(node), val(na), val(nb), n_eff.iter().copied().fold(f64::INFINITY, f64::min), node_err as f64 / node_released.max(1) as f64, node_left as f64 / node_released.max(1) as f64);
+        for ch in &coef_h {
+            row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, &levels)) });
+        }
         for c in 0..nc {
             for s in 0..ns {
                 row += &format!(",{:.6e}", p_seg[c][s]);
@@ -567,6 +597,8 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         ("nodes_land".into(), count(|x| matches!(x, Node::Land)).to_string()),
         ("trajectories".into(), released.to_string()),
         ("model_error_fraction".into(), format!("{:.6}", model_error as f64 / released.max(1) as f64)),
+        ("left_domain_fraction".into(), format!("{:.6}", left_domain as f64 / released.max(1) as f64)),
+        ("bandwidth_km".into(), format!("{} (sensitivities {:?})", rec.bandwidth_km, p.recovery.extra_bandwidths_km)),
         ("particle_steps".into(), format!("{steps_total:.4e}")),
         ("wall_s".into(), format!("{wall:.1}")),
         ("particle_steps_per_s".into(), format!("{:.4e}", steps_total / wall.max(1e-9))),

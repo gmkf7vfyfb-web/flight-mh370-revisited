@@ -225,7 +225,7 @@ fn analytic(current: [f64; 2], wind: Option<[f64; 2]>, coast_lon: f64) -> OceanS
 #[test]
 fn adapter_beaching_time_and_chainage_match_closed_form() {
     let s = analytic([-0.5, 0.0], None, 94.0);
-    let p = [Particle { release: [95.0, -37.0], release_time: T0, response: response(0.0, 0.0, 0.0, 0.0) }];
+    let p = [Particle::new([95.0, -37.0], T0, response(0.0, 0.0, 0.0, 0.0))];
     let (f, _) = s.run(&p, 1, Diffusion::None, T0 + 30.0 * 86_400.0).unwrap();
     let Fate::Beached { t, at, line, chainage_km } = f[0] else { panic!("{:?}", f[0]) };
     let dist_m = 6_371_008.8 * 1f64.to_radians() * (37f64).to_radians().cos();
@@ -239,13 +239,13 @@ fn flaperon_response_and_the_e1_refusal() {
     // 0.10 m/s constant-speed leeway, 16 deg left of a westward wind, nothing else: drift is
     // 8.64 km/day, with a southward share sin 16 deg (left of westward is south).
     let s = analytic([0.0, 0.0], Some([-8.0, 0.0]), 85.0);
-    let p = [Particle { release: [95.0, -37.0], release_time: T0, response: response(0.0, 0.0, -16.0, 0.10) }];
+    let p = [Particle::new([95.0, -37.0], T0, response(0.0, 0.0, -16.0, 0.10))];
     let (f, _) = s.run(&p, 1, Diffusion::None, T0 + 200.0 * 86_400.0).unwrap();
     let Fate::Beached { t, at, .. } = f[0] else { panic!("{:?}", f[0]) };
     let days = (t - T0) / 86_400.0;
     let south_km = (-37.0 - at[1]) * 111.195;
     assert!((south_km / days - 8.64 * 16f64.to_radians().sin()).abs() < 0.05, "{} km/day south", south_km / days);
-    let bad = [Particle { release: [95.0, -37.0], release_time: T0, response: response(1.0, 0.0, -16.0, 0.10) }];
+    let bad = [Particle::new([95.0, -37.0], T0, response(1.0, 0.0, -16.0, 0.10))];
     let t = TransportParams::Analytic { current_mps: [0.0, 0.0], wind10_mps: Some([-8.0, 0.0]), stokes_mps: Some([0.05, 0.0]), coast_a: [60.0, -60.0], coast_b: [60.0, 0.0], land_left: true };
     let s = OceanSetup::new(&t, Domain { lon_min: 15.0, lon_max: 120.0, lat_min: -60.0, lat_max: 0.0 }, 21_600.0, 2, false, false, true).unwrap();
     assert!(s.run(&bad, 1, Diffusion::None, T0 + 86_400.0).is_err(), "constant leeway with explicit Stokes is the transplanted system (E1)");

@@ -33,6 +33,12 @@
 //! outside every segment has nu = 0: absence there carries no information (the Western Australia
 //! term is deferred by brief section 13 and enters only when a segment for it is declared).
 
+/// Kernel contributions beyond this many bandwidths are not computed. A Gaussian tail at 20 sigma
+/// is not a model of anything, and a find supported only by such tails is Monte Carlo unresolved
+/// (more particles are needed), never scored from the tail: "not computed" is not "impossible",
+/// and it is not a pseudo-likelihood either.
+pub const KERNEL_CUTOFF_SIGMA: f64 = 6.0;
+
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Delay {
     /// Uniform on [0, max_days].
@@ -209,7 +215,7 @@ impl Recovery {
             let (mut s1, mut s2) = (0.0, 0.0);
             for ar in arrivals {
                 let z = coast_distance_km(&o.place, &ar.place) / h;
-                if !(z <= 40.0) || ar.t_days >= o.t_end_days {
+                if !(z <= KERNEL_CUTOFF_SIGMA) || ar.t_days >= o.t_end_days {
                     continue;
                 }
                 tmp.iter_mut().for_each(|x| *x = 0.0);

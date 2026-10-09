@@ -25,13 +25,13 @@ explicit_residual = false
 env_seeds = [1]
 output_dir = "../runs/debris-drift-pilot"
 
-# The CSIRO-system arm on GLORYS12 (a declared alternative; BRAN2016 is the reproduction
-# setting and follows when ocean transport delivers it). Requires a manifest spanning 8 Mar 2014
-# to 30 Jun 2016 - requested from ocean transport (OCEAN_TRANSPORT.md, 9 Oct ~01:00 UTC).
+# The CSIRO-system arm on GLORYS12 + ERA5 (a declared alternative; BRAN2016, the reproduction
+# setting, is held on its licence - Pete's decision). Series manifests from ocean transport item 2
+# (`4f58d5d`), 7 Mar 2014 - 31 Jan 2017, joined across file seams by GridField::load_series.
 [hypotheses.debris-drift.transport]
 kind = "grid"
-current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/glorys12v1_uo_vo_surface_20140307-20170131.json"
-wind10_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h_15-120E_50-0S_20140307-20170131.json"
+current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface.series.json"
+wind10_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h.series.json"
 
 # Pilot only: K fixed at CSIRO's 5 NM/day (248 m2/s). Production marginalises K under the shared
 # ocean's DiffusivityPrior (ruling 4, 9 October).
@@ -39,8 +39,9 @@ wind10_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h_1
 kind = "fixed"
 k_m2_s = 248.0
 
-# Ruling D-a: flaperon speed and angle are measurements (CSIRO Part II pp. 9, 16), in CSIRO's
-# system (D-b). Angle sign is the shared API's: positive clockwise, so "left of downwind" < 0.
+# Ruling D-a: flaperon speed and angle are measurements (CSIRO Part II pp. 10, 17), in CSIRO's
+# system (D-b). Declared departure: the shared API applies one angle to both wind terms, so the
+# 1.2% baseline is rotated too (CSIRO rotates only the extra leeway, Part II p. 13). Angle sign is the shared API's: positive clockwise, so "left of downwind" < 0.
 [[hypotheses.debris-drift.classes]]
 name = "flaperon"
 motion_classes = ["flaperon"]
@@ -97,8 +98,13 @@ boxes = [[39.3, 40.3, -5.6, -4.6]]
 
 # G1 periods: I1 before 29 Jul 2015 | I2 to end Feb 2016 | I3 Mar-Jun 2016. Delay exponential,
 # mean 60 d, declared a priori (never chosen to fit); sensitivity at 30 and 120 d.
+# Bandwidth: locality point versus first-beaching point, as explicit model error. 50 km covers the
+# land-mask stranding offset (<= ~10 km at 1/12 deg), locality coordinates that are beach or town
+# points (DEBRIS-EVIDENCE.md), and unmodelled along-shore movement after beaching (no refloat in the
+# first pass). 25, 100 and 200 km are reported from the same ensembles as sensitivities.
 [hypotheses.debris-drift.recovery]
-bandwidth_km = 25.0
+bandwidth_km = 50.0
+extra_bandwidths_km = [25.0, 100.0, 200.0]
 delay = "exponential"
 delay_days = 60.0
 period_breaks = ["2015-07-29", "2016-03-01"]

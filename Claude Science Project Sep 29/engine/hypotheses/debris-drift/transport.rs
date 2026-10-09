@@ -19,6 +19,11 @@ use std::path::Path;
 pub enum Fate {
     Afloat,
     Beached { t: f64, at: [f64; 2], line: Option<u32>, chainage_km: f64 },
+    /// Left the integration domain: a physical non-arrival at the declared segments, kept in the
+    /// release count and reported separately (e.g. east past 120 E along the southern route).
+    LeftDomain,
+    ReleasedOnLand,
+    /// Outside a field's time axis, non-finite, or a non-land field gap.
     ModelError,
 }
 
@@ -60,8 +65,12 @@ pub struct OceanSetup {
     pub land_gap_is_beaching: bool,
 }
 
+/// A `.series.json` manifest is a multi-file time series (`GridField::load_series`, which joins
+/// file seams); any other manifest is one grid file (`GridField::load`).
 fn load(path: &str) -> Result<Box<dyn VectorField>, String> {
-    Ok(Box::new(GridField::load(Path::new(path)).map_err(|e| format!("debris-drift: {e}"))?))
+    let p = Path::new(path);
+    let f = if path.ends_with(".series.json") { GridField::load_series(p) } else { GridField::load(p) };
+    Ok(Box::new(f.map_err(|e| format!("debris-drift: {e}"))?))
 }
 
 impl OceanSetup {
@@ -132,7 +141,19 @@ impl OceanSetup {
                             t_end = t;
                             break;
                         }
-                        Event::FieldGap { t, .. } | Event::LeftDomain { t, .. } | Event::NonFinitePosition { t } | Event::ReleasedOnLand { t, .. } => {
+                        // A field's extent equals the domain, so an RK2 midpoint just outside it
+                        // is the same physical event as leaving the domain.
+                        Event::LeftDomain { t, .. } | Event::FieldGap { t, gap: FieldGap::OutsideDomain, .. } => {
+                            fate = Fate::LeftDomain;
+                            t_end = t;
+                            break;
+                        }
+                        Event::ReleasedOnLand { t, .. } => {
+                            fate = Fate::ReleasedOnLand;
+                            t_end = t;
+                            break;
+                        }
+                        Event::FieldGap { t, .. } | Event::NonFinitePosition { t } => {
                             fate = Fate::ModelError;
                             t_end = t;
                             break;
