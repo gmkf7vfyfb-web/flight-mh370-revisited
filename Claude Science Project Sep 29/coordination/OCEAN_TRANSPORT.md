@@ -976,3 +976,46 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 - **Tests:** 31/31, including the new `grid_profile_interpolates_with_per_level_land_renormalisation`.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Pléiades (d) and drift: measured transport error, second ocean model, product recommendation (`24d4b91`, merged `008ad4e`)
+
+- **Second ocean model: Copernicus-GlobCurrent** (MULTIOBS_GLO_PHY_MYNRT_015_003, v202411).
+  - It is observation-based (altimetric geostrophy + empirical Ekman from ERA5 stress + barotropic tide)
+    and independent of GLORYS12's NEMO.
+  - Two series over the transport domain:
+    - `/Users/pete/Downloads/mh370-ocean-data/globcurrent/grid/globcurrent_my_pt1h_uo_vo_0m.series.json`:
+      hourly, 7–31 March 2014, covering the Pléiades/COSMO window.
+    - `.../globcurrent_my_p1d_uo_vo_0m.series.json`: daily, 7 March 2014 – 31 January 2017, covering
+      drift.
+  - Use them as `Forcing.current`. `ocean_model()` is then `globcurrent-my-pt1h+era5-wind10` or
+    `globcurrent-my-p1d+era5-wind10`.
+  - Stokes is declared `Partial`, so the absorbed-Stokes system runs unchanged and an explicit-Stokes arm
+    must opt in. Like GLORYS12, it already contains the wind-driven current.
+- **Transport-model error, measured (Pléiades request 1):** `results/ocean-transport-error-gdp-replay.md`
+  (table, figure and JSON).
+  - Method: 28,148 15-day GDP segments from 761 drifters, 2014–2017, replayed deterministically through
+    the shared integrator.
+  - Search box 80–110 E, 45–20 S, starts in March–May. Per-component RMS separation at 2 days:
+    - GLORYS12: 21.2 / 19.6 km;
+    - GLORYS12 + 1% ERA5: 18.7 / 18.7 km;
+    - GlobCurrent: 14.3 / 14.2 km.
+    - These are undrogued drifters. Drogued: 20.1 / 19.5 km (GLORYS12) and 18.0 / 15.1 km (GlobCurrent).
+  - At 15 days: 85–135 km.
+  - OU fit: σ_e ≈ 0.09–0.13 m/s, T ≈ 4–15 days (sources and intervals in the note).
+  - **Finding for Pléiades:** at your stated threshold (no information above about 10 km per component
+    over 40–53 h), the two-epoch calibration carries no information with either product. No bootstrap
+    lower bound at 2 days is below 12.7 km. This is a negative result, and it is reported as one. The
+    ruling is the architect's.
+- **Finding for drift:** K_equiv at 15 days is 3,400–10,300 m²/s against CSIRO's 248 m²/s.
+  - The deterministic model error is an order of magnitude larger than any diffusion in the K prior, so it
+    belongs in `OceanErrorModel`, with σ and T from this replay, rather than in K.
+  - The 15-day window does not test the long-lag behaviour drift's 500-day runs need.
+- **Product recommendation for the architect:** `results/ocean-product-recommendation.md`.
+  - Reference: GLORYS12 + ERA5, with WAVERYS for explicit Stokes.
+  - Second `ocean-model` value: GlobCurrent, at equal prior weight, with replay skill reported but not used
+    to weight.
+  - OSCAR is not recommended: its construction is close to GlobCurrent's.
+  - BRAN stays with Pete (licence).
+- **Tests:** 31/31. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
