@@ -14,7 +14,8 @@
 //!   pi_k    uniform windage prior over 0..5 % (the export grid);
 //!   omega_j log-uniform K prior 30-1000 m2/s, Gauss-Legendre nodes in ln K (ONE K for every target:
 //!           K is an eta component of the run, shared, per the ocean-transport ruling);
-//!   v_j     2 K_j dt + 2 sigma_e^2 T_e [dt - T_e(1 - exp(-dt/T_e))] + sd_target^2, per component.
+//!   v_jc    2 K_j dt + 2 sigma_c^2 T_c [dt - T_c(1 - exp(-dt/T_c))] + sd_target^2, per component c
+//!           (east, north; sigma_c and T_c may differ: the GDP-replay OU fit is per component).
 //!
 //! Each term is a normalised density, the weights sum to one, and there is no random number
 //! anywhere, so p integrates to one over the plane and the column is seed-free (tests below).
@@ -128,25 +129,34 @@ pub struct Target {
 
 #[derive(Clone, Debug)]
 pub struct Spread {
-    pub sigma_e_ms: f64,
-    pub t_e_s: f64,
+    /// Velocity-error SD per component [east, north], m/s.
+    pub sigma_e_ms: [f64; 2],
+    /// Decorrelation time per component [east, north], s.
+    pub t_e_s: [f64; 2],
     pub sd_target_km: f64,
     pub k_nodes: Vec<(f64, f64)>,
 }
 
 impl Spread {
+    /// Isotropic: the same sigma_e and T_e on both components.
     pub fn new(sigma_e_ms: f64, t_e_s: f64, sd_target_km: f64, k_min: f64, k_max: f64, n: usize) -> Self {
+        Self::anisotropic([sigma_e_ms; 2], [t_e_s; 2], sd_target_km, k_min, k_max, n)
+    }
+
+    pub fn anisotropic(sigma_e_ms: [f64; 2], t_e_s: [f64; 2], sd_target_km: f64, k_min: f64, k_max: f64, n: usize) -> Self {
         Spread { sigma_e_ms, t_e_s, sd_target_km, k_nodes: log_uniform_nodes(k_min, k_max, n) }
     }
 
-    /// Per-component variance, km^2, for node (K, .) over dt seconds.
-    pub fn var_km2(&self, k_m2_s: f64, dt: f64) -> f64 {
-        let ou = if self.sigma_e_ms > 0.0 {
-            2.0 * self.sigma_e_ms.powi(2) * self.t_e_s * (dt - self.t_e_s * (1.0 - (-dt / self.t_e_s).exp()))
-        } else {
-            0.0
-        };
+    /// Variance of component c (0 east, 1 north), km^2, for node (K, .) over dt seconds.
+    pub fn var_c_km2(&self, c: usize, k_m2_s: f64, dt: f64) -> f64 {
+        let (s, t) = (self.sigma_e_ms[c], self.t_e_s[c]);
+        let ou = if s > 0.0 { 2.0 * s.powi(2) * t * (dt - t * (1.0 - (-dt / t).exp())) } else { 0.0 };
         (2.0 * k_m2_s * dt + ou) / 1e6 + self.sd_target_km.powi(2)
+    }
+
+    /// Per-component variance for the isotropic case (east component).
+    pub fn var_km2(&self, k_m2_s: f64, dt: f64) -> f64 {
+        self.var_c_km2(0, k_m2_s, dt)
     }
 }
 
@@ -201,10 +211,9 @@ pub fn density(endpoints: &[Option<[f64; 2]>], y: [f64; 2], dt: f64, spread: &Sp
     for e in endpoints {
         let x = (*e)?;
         let d = offset_km(x, y);
-        let r2 = d[0] * d[0] + d[1] * d[1];
         for (k, w) in &spread.k_nodes {
-            let v = spread.var_km2(*k, dt);
-            p += w / nk * (-r2 / (2.0 * v)).exp() / (2.0 * std::f64::consts::PI * v);
+            let (ve, vn) = (spread.var_c_km2(0, *k, dt), spread.var_c_km2(1, *k, dt));
+            p += w / nk * (-d[0] * d[0] / (2.0 * ve) - d[1] * d[1] / (2.0 * vn)).exp() / (2.0 * std::f64::consts::PI * (ve * vn).sqrt());
         }
     }
     Some(p)
@@ -276,6 +285,27 @@ mod tests {
         let i4: f64 = x.iter().zip(&w).map(|(x, w)| w * x.powi(4)).sum();
         assert!((i4 - 0.4).abs() < 1e-12, "{i4}");
         assert!((w.iter().sum::<f64>() - 2.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn anisotropic_density_integrates_to_one_and_reduces_to_isotropic() {
+        let sp = Spread::anisotropic([0.115, 0.095], [6.0 * 86400.0, 4.0 * 86400.0], 0.5, 0.0, 0.0, 8);
+        let dt = 15.0 * 86400.0;
+        let x = [91.0, -35.0];
+        let (mut sum, h) = (0.0, 0.02);
+        let dx_km = h * 111.32 * (35.0f64).to_radians().cos();
+        let dy_km = h * 111.32;
+        for i in -300..=300 {
+            for j in -300..=300 {
+                let y = [x[0] + i as f64 * h, x[1] + j as f64 * h];
+                sum += density(&[Some(x)], y, dt, &sp).unwrap() * dx_km * dy_km;
+            }
+        }
+        assert!((sum - 1.0).abs() < 0.02, "{sum}");
+        let iso = Spread::new(0.1, 5.0 * 86400.0, 0.5, 30.0, 1000.0, 8);
+        let ani = Spread::anisotropic([0.1; 2], [5.0 * 86400.0; 2], 0.5, 30.0, 1000.0, 8);
+        let y = [91.3, -35.2];
+        assert_eq!(density(&[Some(x)], y, dt, &iso).unwrap().to_bits(), density(&[Some(x)], y, dt, &ani).unwrap().to_bits());
     }
 
     #[test]

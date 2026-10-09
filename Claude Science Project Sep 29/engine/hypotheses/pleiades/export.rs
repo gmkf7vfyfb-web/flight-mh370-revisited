@@ -49,12 +49,19 @@ pub struct Ocean {
 }
 
 impl Ocean {
+    /// Current product from `PLEIADES_CURRENT` (path under the ocean-data root; a `.series.json`
+    /// is loaded as a series), default GLORYS12V1 surface, March-April 2014. Wind is ERA5.
     pub fn load(root: &Path) -> Result<Self, String> {
-        Ok(Ocean {
-            current: GridField::load(&root.join("glorys12/glorys12v1_uo_vo_surface_20140307-20140430.json"))?,
-            wind: GridField::load(&root.join("era5/era5_u10_v10_3h_15-120E_50-0S_20140307-20141231.json"))?,
-        })
+        let cur = std::env::var("PLEIADES_CURRENT").unwrap_or_else(|_| "glorys12/glorys12v1_uo_vo_surface_20140307-20140430.json".into());
+        let p = root.join(&cur);
+        let current = if cur.ends_with(".series.json") { GridField::load_series(&p)? } else { GridField::load(&p)? };
+        Ok(Ocean { current, wind: GridField::load(&root.join("era5/era5_u10_v10_3h_15-120E_50-0S_20140307-20141231.json"))? })
     }
+}
+
+/// Suffix for the output files of one product (`PLEIADES_EXPORT_TAG`, default empty = GLORYS12).
+pub fn tag() -> String {
+    std::env::var("PLEIADES_EXPORT_TAG").unwrap_or_default()
 }
 
 pub fn spec<'a>(ocean: &'a Ocean, coast: &'a NoCoast, output_times: Vec<f64>, threads: usize) -> RunSpec<'a> {
@@ -146,8 +153,8 @@ mod run {
             }
         }
         assert_eq!(bad, 0, "every COSMO track must stay afloat in the domain");
-        std::fs::write(e.join("cosmo-tracks.csv"), csv).unwrap();
-        std::fs::write(e.join("cosmo-tracks-provenance.json"), serde_json_like(&run.provenance)).unwrap();
+        std::fs::write(e.join(format!("cosmo-tracks{}.csv", tag())), csv).unwrap();
+        std::fs::write(e.join(format!("cosmo-tracks{}-provenance.json", tag())), serde_json_like(&run.provenance)).unwrap();
     }
 
     #[test]
@@ -180,17 +187,17 @@ mod run {
                 buf.extend_from_slice(&(p[1] as f32).to_le_bytes());
             }
         }
-        std::fs::File::create(e.join("release-grid.f32")).unwrap().write_all(&buf).unwrap();
+        std::fs::File::create(e.join(format!("release-grid{}.f32", tag()))).unwrap().write_all(&buf).unwrap();
         let meta = format!(
             "{{\"layout\": \"[lat][lon][windage][out_time][lon_deg, lat_deg] little-endian float32\",\n \"lon0\": {lon0}, \"lat0\": {lat0}, \"step_deg\": {step}, \"nlon\": {nlon}, \"nlat\": {nlat},\n \"windage_step\": {WINDAGE_STEP}, \"windage_n\": {WINDAGE_N},\n \"release_unix_s\": {IMPACT_RELEASE_UNIX_S}, \"out_unix_s\": {outs:?},\n \"non_afloat_snapshots\": {ended},\n \"provenance\": {}}}\n",
             serde_json_like(&run.provenance)
         );
-        std::fs::write(e.join("release-grid.json"), meta).unwrap();
+        std::fs::write(e.join(format!("release-grid{}.json", tag())), meta).unwrap();
         let toml = format!(
-            "layout = \"[lat][lon][windage][out_time][lon_deg, lat_deg] little-endian float32\"\nlon0 = {lon0}\nlat0 = {lat0}\nstep_deg = {step}\nnlon = {nlon}\nnlat = {nlat}\nwindage_step = {WINDAGE_STEP}\nwindage_n = {WINDAGE_N}\nrelease_unix_s = {IMPACT_RELEASE_UNIX_S:.1}\nout_unix_s = {outs:?}\nnon_afloat_snapshots = {ended}\nocean_model = \"{}\"\ndata_file = \"release-grid.f32\"\n",
-            run.provenance.ocean_model
+            "layout = \"[lat][lon][windage][out_time][lon_deg, lat_deg] little-endian float32\"\nlon0 = {lon0}\nlat0 = {lat0}\nstep_deg = {step}\nnlon = {nlon}\nnlat = {nlat}\nwindage_step = {WINDAGE_STEP}\nwindage_n = {WINDAGE_N}\nrelease_unix_s = {IMPACT_RELEASE_UNIX_S:.1}\nout_unix_s = {outs:?}\nnon_afloat_snapshots = {ended}\nocean_model = \"{}\"\ndata_file = \"release-grid{}.f32\"\n",
+            run.provenance.ocean_model, tag()
         );
-        std::fs::write(e.join("release-grid.toml"), toml).unwrap();
+        std::fs::write(e.join(format!("release-grid{}.toml", tag())), toml).unwrap();
     }
 
     /// Minimal JSON for the provenance record (serde_json is not a permitted hypothesis dependency).

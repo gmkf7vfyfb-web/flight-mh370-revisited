@@ -1,6 +1,5 @@
+# Sensitivity only: GlobCurrent HOURLY (pt1h) table in place of the daily one. Not a run configuration.
 # Base estimate plus this hypothesis. Keys here override the base config.
-base = "../../config/davey2016.toml"
-name = "pleiades"
 
 [hypotheses.pleiades]
 targets = "data/targets-3km.csv"
@@ -13,7 +12,7 @@ prior_h = 0.5
 # GlobCurrent enters through its DAILY table so that the option label equals drift's
 # (`globcurrent-my-p1d+era5-wind10`; composition rule 7, joint marginalisation). PROVISIONAL-OVERNIGHT
 # (Pleiades tenth entry, P4): the hourly table (sensitivity-globcurrent-pt1h.toml) changes ln S by
-# <= 0.012 and the mean shift by <= 0.8 NM on the reference (pooled; every kernel and arm).
+# <= 0.011 and the mean shift by <= 0.7 NM on the reference.
 # Release tables: deterministic transport from export.rs (gitignored run tree; regenerate with
 # `cargo test -p mh370-hypotheses --release -- --ignored pleiades_export`, PLEIADES_CURRENT and
 # PLEIADES_EXPORT_TAG selecting the product). Relative to this directory.
@@ -31,9 +30,9 @@ k_max_m2_s = 0.0
 source = "gdp-replay glorys12+0.01era5 undrogued/box_MAM ou_fit"
 
 [[hypotheses.pleiades.products]]
-release_grid = "../../runs/pleiades/release-grid-globcurrent-p1d.toml"
+release_grid = "../../runs/pleiades/release-grid-globcurrent.toml"
 sigma_e_ms = [0.1043, 0.0955]
 t_e_days = [16.02, 7.64]
 k_min_m2_s = 0.0
 k_max_m2_s = 0.0
-source = "gdp-replay globcurrent-p1d+0.01era5 undrogued/box_MAM ou_fit"
+source = "gdp-replay globcurrent-p1d+0.01era5 undrogued/box_MAM ou_fit, applied to the hourly table"

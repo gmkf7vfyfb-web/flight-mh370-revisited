@@ -32,6 +32,7 @@ Outputs (per descent kernel, per H field and option, pooled and per replicate):
 """
 
 import json
+import os
 import math
 import sys
 from pathlib import Path
@@ -156,12 +157,23 @@ def tension(pc, L, area, lat, lon, inside30, inside50, box):
         k = p > 0
         return float((p[k] * np.log(p[k] / q[k])).sum())
     lnI = kl(pcn) + kl(pH) - kl(pj)
+
+    def bmd(p):
+        # Bayesian model dimensionality, Handley & Lemos 2019 (PRD 100, 043504) eq. 3: d/2 = Var_P[log P/pi]
+        k = p > 0
+        info = np.log(p[k] / q[k])
+        return float(2.0 * ((p[k] * info**2).sum() - (p[k] * info).sum() ** 2))
+    dA, dB, dAB = bmd(pcn), bmd(pH), bmd(pj)
+    d_shared = dA + dB - dAB  # Proposition 2: dimensionality of the shared constrained parameters
+    lnS = float(np.log(bf_rel) - lnI)
+    from scipy.stats import chi2
+    p_t = float(chi2.sf(d_shared - 2.0 * lnS, d_shared)) if d_shared > 0 else float("nan")  # eq. 25
     LAT, LON = np.meshgrid(lat, lon, indexing="ij")
     iu, ij = np.unravel_index(np.argmax(dc), dc.shape), np.unravel_index(np.argmax(dj), dj.shape)
     mu = (float((pcn * LAT).sum()), float((pcn * LON).sum()))
     mj = (float((pj * LAT).sum()), float((pj * LON).sum()))
     return dict(uncond_mass_in_domain=float(in_dom), ln_R=float(np.log(bf_rel)), prior_volume_km2=float(A),
-                ln_I=lnI, ln_S=float(np.log(bf_rel) - lnI),
+                ln_I=lnI, ln_S=lnS, d_A=dA, d_B=dB, d_AB=dAB, d_shared=d_shared, tension_p=p_t,
                 uncond_in_cond_hdr90=float(pcn[hJ].sum()), cond_in_uncond_hdr90=float(pj[hC].sum()),
                 uncond_hdr90_km2=float(area[hC].sum()), cond_hdr90_km2=float(area[hJ].sum()), Honly_hdr90_km2=float(area[hH].sum()),
                 uncond_mode=(float(LAT[iu]), float(LON[iu])), cond_mode=(float(LAT[ij]), float(LON[ij])),
@@ -177,13 +189,18 @@ def run(run_dir, module_dir, csp29, out, label=DEFAULT_LABEL):
     LAT, LON = np.meshgrid(lat, lon, indexing="ij")
     area = cell_area_km2(LAT)
     # own likelihood surface
-    surf_dir = module_dir / "../../runs/pleiades"
+    surf_dir = Path(os.environ.get("PLEIADES_SURFACE_DIR", module_dir / "../../runs/pleiades"))
     meta = {}
     for line in (surf_dir / "likelihood-surface.toml").read_text().splitlines():
         k, v = line.split(" = ", 1)
         meta[k] = json.loads(v) if v.startswith("[") else (v.strip('"') if v.startswith('"') else float(v))
     nlat, nlon = int(meta["nlat"]), int(meta["nlon"])
-    S = np.fromfile(surf_dir / "likelihood-surface.f32", dtype="<f4").reshape(len(meta["object_rating"]), 2, nlat, nlon).astype(float)
+    models = meta["ocean_model"] if isinstance(meta["ocean_model"], list) else [meta["ocean_model"]]
+    S = np.fromfile(surf_dir / "likelihood-surface.f32", dtype="<f4").reshape(len(models), len(meta["object_rating"]), 2, nlat, nlon).astype(float)
+    # composer marginal over `ocean-model` at equal prior weight: L = mean_m L_m
+    fields = [(m, np.exp(S[i])) for i, m in enumerate(models)]
+    if len(models) > 1:
+        fields.append(("marginal: " + " | ".join(models), np.mean([f for _, f in fields], axis=0)))
     oy = int(round((meta["lat0"] - lat[0]) / STEP))
     ox = int(round((meta["lon0"] - lon[0]) / STEP))
     sl = (slice(oy, oy + nlat), slice(ox, ox + nlon))
@@ -215,13 +232,21 @@ def run(run_dir, module_dir, csp29, out, label=DEFAULT_LABEL):
                              object_rating="rating5", cluster_weight="equal", **r))
             # (b) the module's own likelihood, every option
             pc = imp[sl]
-            for ri, rl in enumerate(meta["object_rating"]):
-                for wi, wl in enumerate(meta["cluster_weight"]):
-                    Ls = np.exp(S[ri, wi])
-                    r = tension(pc, Ls, area[sl], lat[sl[0]], lon[sl[1]], inside30[sl], inside50[sl], box[sl])
-                    r["bf_H_vs_notH_domain"] = float((pc / pc.sum() * Ls).sum())
-                    rows.append(dict(label=label, run=str(run_dir), kernel=kname, replicate=rep,
-                                     field=f"module D3 ({meta['ocean_model']})", object_rating=rl, cluster_weight=wl, **r))
+            for fl, F in fields:
+                for ri, rl in enumerate(meta["object_rating"]):
+                    for wi, wl in enumerate(meta["cluster_weight"]):
+                        Ls = F[ri, wi]
+                        r = tension(pc, Ls, area[sl], lat[sl[0]], lon[sl[1]], inside30[sl], inside50[sl], box[sl])
+                        r["bf_H_vs_notH_domain"] = float((pc / pc.sum() * Ls).sum())
+                        rows.append(dict(label=label, run=str(run_dir), kernel=kname, replicate=rep,
+                                         field=f"module D3 ({fl})", object_rating=rl, cluster_weight=wl, **r))
+        if kind == "eof-2f":
+            # pooled fields for the figure (prepare/d4_figure.py); gitignored run tree only
+            pooled = np.clip(fftconvolve(P["pooled"], K, mode="same"), 0, None)[sl]
+            out.mkdir(parents=True, exist_ok=True)
+            np.savez_compressed(out / "fields-eof2f.npz", lat=lat[sl[0]], lon=lon[sl[1]], area=area[sl], uncond=pooled,
+                                cross=cross[sl], labels=np.array([f for f, _ in fields]),
+                                L=np.stack([F[0, 0] for _, F in fields]))  # rho4-0, equal
     d = pd.DataFrame(rows)
     for c in ("uncond_mode", "cond_mode"):
         d[c + "_lat"] = d[c].map(lambda x: x[0])

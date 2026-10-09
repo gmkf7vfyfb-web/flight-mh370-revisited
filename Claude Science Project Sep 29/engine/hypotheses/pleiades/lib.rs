@@ -8,8 +8,9 @@
 //! section 3). It must never pre-select or filter impact samples (composition rule 2).
 //!
 //! Status: deliverable 3 (Pléiades positions only). COSMO-SkyMed enters through deliverables 4-5
-//! (prepare/twoepoch.py) and is not yet in this hook. PROVISIONAL throughout: the release-grid table
-//! is one ocean-model option, and the spread parameters are declared, not yet measured.
+//! (prepare/twoepoch.py) and is not yet in this hook. PROVISIONAL throughout. `ocean-model` has two
+//! options (GLORYS12V1, Copernicus-GlobCurrent; one release table each) and the spread is the measured
+//! per-component OU fit of ocean transport's GDP replay (run.toml).
 //!
 //! Notes, results and provenance live outside the engine tree (engine/AGENTS.md: three markdown
 //! files only, generated output never committed): `Claude Science Project Sep 29/results/pleiades/`,
@@ -51,6 +52,24 @@ struct Params {
     /// Prior P(H) for `pleiades-origin`; the composer sweeps it.
     #[serde(default = "default_prior_h")]
     prior_h: f64,
+    /// One entry per `ocean-model` option, in option order, at equal prior weight. When present it
+    /// replaces release_grid / sigma_e_ms / t_e_days (and k_*, if given per product).
+    #[serde(default)]
+    products: Vec<Product>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct Product {
+    release_grid: String,
+    /// [east, north], m/s and days: the OU fit of the GDP replay for this product.
+    sigma_e_ms: [f64; 2],
+    t_e_days: [f64; 2],
+    k_min_m2_s: Option<f64>,
+    k_max_m2_s: Option<f64>,
+    /// Where sigma_e / T_e come from (recorded, not used).
+    #[serde(default)]
+    source: String,
 }
 
 fn default_targets() -> String { "data/targets-3km.csv".into() }
@@ -69,8 +88,8 @@ fn resolve(p: &str) -> PathBuf {
 
 struct Pleiades {
     prior_h: f64,
-    ocean_model: String,
-    lik: Option<PositionLikelihood>,
+    /// Per `ocean-model` option: label and likelihood (None: not computed, NaN).
+    models: Vec<(String, Option<PositionLikelihood>)>,
 }
 
 /// Scene acquisition times (data/acquisition-times.csv).
@@ -129,17 +148,35 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     if !(p.prior_h > 0.0 && p.prior_h < 1.0) {
         return Err("pleiades: prior_h must lie in (0, 1)".into());
     }
-    let (lik, ocean_model) = match &p.release_grid {
-        None => (None, "glorys12v1+era5-wind10".to_string()),
-        Some(g) => {
-            let table = Table::load(&resolve(g))?;
-            let arms = load_targets(&resolve(&p.targets), &table)?;
-            let spread = Spread::new(p.sigma_e_ms, p.t_e_days * 86_400.0, p.sd_target_km, p.k_min_m2_s, p.k_max_m2_s, p.k_nodes);
-            let om = table.ocean_model.clone();
-            (Some(PositionLikelihood { table, spread, arms }), om)
+    let build = |grid: &str, spread: Spread| -> Result<(String, Option<PositionLikelihood>), String> {
+        let table = Table::load(&resolve(grid))?;
+        let arms = load_targets(&resolve(&p.targets), &table)?;
+        Ok((table.ocean_model.clone(), Some(PositionLikelihood { table, spread, arms })))
+    };
+    let models = if !p.products.is_empty() {
+        let mut m = Vec::new();
+        for q in &p.products {
+            let _ = &q.source;
+            let spread = Spread::anisotropic(
+                q.sigma_e_ms, [q.t_e_days[0] * 86_400.0, q.t_e_days[1] * 86_400.0], p.sd_target_km,
+                q.k_min_m2_s.unwrap_or(p.k_min_m2_s), q.k_max_m2_s.unwrap_or(p.k_max_m2_s), p.k_nodes,
+            );
+            m.push(build(&q.release_grid, spread)?);
+        }
+        let mut labels: Vec<&str> = m.iter().map(|x| x.0.as_str()).collect();
+        labels.sort();
+        labels.dedup();
+        if labels.len() != m.len() {
+            return Err("pleiades: two products carry the same ocean_model label".into());
+        }
+        m
+    } else {
+        match &p.release_grid {
+            None => vec![("glorys12v1+era5-wind10".to_string(), None)],
+            Some(g) => vec![build(g, Spread::new(p.sigma_e_ms, p.t_e_days * 86_400.0, p.sd_target_km, p.k_min_m2_s, p.k_max_m2_s, p.k_nodes))?],
         }
     };
-    Ok(Box::new(Pleiades { prior_h: p.prior_h, ocean_model, lik }))
+    Ok(Box::new(Pleiades { prior_h: p.prior_h, models }))
 }
 
 impl Hypothesis for Pleiades {
@@ -156,7 +193,11 @@ impl Hypothesis for Pleiades {
             origin,
             Alternatives::new("object-rating", &rating),
             Alternatives::new("cluster-weight", &[("equal", 0.5), ("count", 0.5)]),
-            Alternatives::new(ocean::OCEAN_MODEL_ALTERNATIVE, &[(self.ocean_model.as_str(), 1.0)]),
+            {
+                let qm = 1.0 / self.models.len() as f64;
+                let om: Vec<(&str, f64)> = self.models.iter().map(|(l, _)| (l.as_str(), qm)).collect();
+                Alternatives::new(ocean::OCEAN_MODEL_ALTERNATIVE, &om)
+            },
         ]
     }
 
@@ -168,7 +209,7 @@ impl Hypothesis for Pleiades {
         if choice[0] == 0 {
             return 0.0; // not-H: the background against which H is measured
         }
-        match &self.lik {
+        match &self.models[choice[3]].1 {
             None => f64::NAN,
             Some(l) => l.ln_l_h(impact.longitude_deg, impact.latitude_deg, impact.unix_s, choice[1], choice[2] == 1),
         }
@@ -187,6 +228,18 @@ mod tests {
         assert!(h.absolute_scale());
         for a in h.alternatives() {
             assert!((a.options.iter().map(|o| o.1).sum::<f64>() - 1.0).abs() < 1e-12, "{}", a.name);
+        }
+    }
+
+    #[test]
+    fn run_toml_parses_with_two_measured_products() {
+        let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve("run.toml")).unwrap()).unwrap();
+        let p: Params = run["hypotheses"]["pleiades"].clone().try_into().unwrap();
+        assert_eq!(p.products.len(), 2);
+        for q in &p.products {
+            assert!(q.sigma_e_ms.iter().all(|s| *s > 0.05 && *s < 0.2), "measured sigma_e out of the replay range");
+            assert!(q.t_e_days.iter().all(|t| *t > 2.0 && *t < 20.0));
+            assert_eq!((q.k_min_m2_s, q.k_max_m2_s), (Some(0.0), Some(0.0)));
         }
     }
 
@@ -214,13 +267,18 @@ mod tests {
     fn pleiades_export_likelihood_surface() {
         use std::io::Write as _;
         let out = std::path::PathBuf::from(std::env::var("PLEIADES_EXPORT_DIR").expect("set PLEIADES_EXPORT_DIR"));
-        let mut t = toml::map::Map::new();
-        t.insert("release_grid".into(), toml::Value::String("../../runs/pleiades/release-grid.toml".into()));
-        let h = new(&toml::Value::Table(t)).unwrap();
+        // The module's own run.toml parameters, so the surface is the configured hook exactly.
+        // PLEIADES_RUN_TOML selects a sensitivity configuration (default: run.toml).
+        let cfg = std::env::var("PLEIADES_RUN_TOML").unwrap_or_else(|_| "run.toml".into());
+        let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve(&cfg)).unwrap()).unwrap();
+        let params = run["hypotheses"]["pleiades"].clone();
+        let h = new(&params).unwrap();
+        let models: Vec<String> = h.alternatives()[3].options.iter().map(|o| o.0.clone()).collect();
         let (lon0, lat0, step, nlon, nlat) = (87.025, -40.975, 0.05, 199usize, 199usize);
         let unix_s = 1_394_238_300.0; // 00:25 UTC 8 Mar: within the impact window
-        let mut buf = Vec::with_capacity(4 * 2 * nlat * nlon * 4);
+        let mut buf = Vec::with_capacity(models.len() * 4 * 2 * nlat * nlon * 4);
         let mut nan = 0usize;
+        for m in 0..models.len() {
         for r in 0..RATING_OPTIONS.len() {
             for w in 0..2 {
                 for j in 0..nlat {
@@ -231,17 +289,18 @@ mod tests {
                             kinetic_energy_j: 0.0, vertical_kinetic_energy_j: 0.0, family: 0, takeover_unix_s: 0.0, takeover_latitude_deg: 0.0,
                             takeover_longitude_deg: 0.0, takeover_altitude_ft: 0.0, mode: 0, alternative: 0, latents: &[],
                         };
-                        let v = h.impact_log_likelihood(&view, &[1, r, w, 0]);
+                        let v = h.impact_log_likelihood(&view, &[1, r, w, m]);
                         nan += usize::from(!v.is_finite());
                         buf.extend_from_slice(&(v as f32).to_le_bytes());
                     }
                 }
             }
         }
+        }
         std::fs::File::create(out.join("likelihood-surface.f32")).unwrap().write_all(&buf).unwrap();
         let labels: Vec<&str> = RATING_OPTIONS.iter().map(|o| o.0).collect();
         let meta = format!(
-            "layout = \"[object-rating][cluster-weight][lat][lon] ln L(s|H) little-endian float32\"\nlon0 = {lon0}\nlat0 = {lat0}\nstep_deg = {step}\nnlon = {nlon}\nnlat = {nlat}\nimpact_unix_s = {unix_s:.1}\nobject_rating = {labels:?}\ncluster_weight = [\"equal\", \"count\"]\nnot_computed = {nan}\nocean_model = \"glorys12v1+era5-wind10\"\n"
+            "layout = \"[ocean-model][object-rating][cluster-weight][lat][lon] ln L(s|H) little-endian float32\"\nlon0 = {lon0}\nlat0 = {lat0}\nstep_deg = {step}\nnlon = {nlon}\nnlat = {nlat}\nimpact_unix_s = {unix_s:.1}\nobject_rating = {labels:?}\ncluster_weight = [\"equal\", \"count\"]\nnot_computed = {nan}\nocean_model = {models:?}\nparams = \"{cfg} [hypotheses.pleiades]\"\n"
         );
         std::fs::write(out.join("likelihood-surface.toml"), meta).unwrap();
         assert_eq!(nan, 0, "every grid point inside the release table must be computed");
