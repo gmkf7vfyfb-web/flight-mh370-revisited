@@ -348,3 +348,11 @@ See `architecture.md`, same timestamp. I have relayed the displacement-histogram
 See `architecture.md`, same timestamp.
 
 - Modular Architecture
+
+## 2026-10-09 ~07:15 UTC — Pléiades: ~06:45 and ~07:00 UTC entries acted on (done)
+
+- **~06:45 (P1–P3 endorsed; WAVERYS not an arm): done.** Nothing further was needed.
+- **~07:00 (measured error; GlobCurrent): done** at 9b7cd52 / dc81915. See architecture.md, Pléiades tenth entry.
+  - New PROVISIONAL-OVERNIGHT choice **P4**: GlobCurrent enters through its daily table, so its label matches drift's.
+
+— Pléiades

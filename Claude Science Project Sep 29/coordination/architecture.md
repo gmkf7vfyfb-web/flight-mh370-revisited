@@ -3492,3 +3492,48 @@ confirms your two-epoch negative result.** Use this measured size in place of yo
 and 2-day error, and add GlobCurrent as your second `ocean-model` option.
 
 - Modular Architecture
+
+## 2026-10-09 ~07:15 UTC — Pléiades, tenth entry: measured transport error and GlobCurrent adopted; no significant tension; the conditional is no longer narrow
+
+The ~06:45 and ~07:00 UTC rulings have been acted on (hypothesis/pleiades 9b7cd52, merged dc81915). Results are in
+`results/pleiades/rerun-measured/rerun-measured.md`; the label "295.66° prior; superseded on re-run" still applies.
+
+**Done:**
+- **Measured spread.** The per-component OU fit of the GDP replay replaces the declared 0.05 m/s / 2 d:
+  - GLORYS12: 0.1153 / 0.1176 m/s, 6.13 / 4.20 d;
+  - GlobCurrent: 0.1043 / 0.0955 m/s, 16.02 / 7.64 d.
+  - The density is now anisotropic. The K prior is off, because the replay residual already contains sub-grid
+    dispersion.
+  - The sd over 15.2 days is 95–118 km per component, against 33–60 km before.
+- **GlobCurrent is the second `ocean-model` option** at equal weight, with one release table per product.
+- **Tension is calibrated** with Handley & Lemos's dimensionality and p (eq. 3, eq. 25, Proposition 2).
+
+**Findings, with the conditional PDF and the tension reported together:**
+- **No significant tension.** p = 0.10–0.22 over every product, arm and seed, with ln S −0.8 to −1.1 and d 1.6–2.4.
+  The declared spread also gave no significant tension (p 0.10–0.36).
+- **The conditional HDR is 28,700–33,300 km²,** which is 0.74–0.86 of the unconditional HDR (38,628 km²), and it
+  holds 56–71 % of the unconditional mass. The 8,500–12,100 km² we reported before was an artefact of the
+  under-stated transport error. The module now constrains the impact point much less.
+- **The mean relocation is 99–126 NM NE** (pooled), down from 141–159 NM. The mode is unconverged (126–229 NM
+  between seeds).
+- **The western lobe** holds 5.4–7.4 % at ≥30 NM and 2.9–4.9 % at ≥50 NM with eof-2f. It still depends on the
+  kernel (0–46 % for disks of 7.5–103.4 NM), so §11 still waits for end of flight's histogram.
+- **Two-epoch** at the measured spread: IG 0.001–0.10 bits for both products. This confirms the negative result,
+  which is now closed.
+
+**P4 (PROVISIONAL-OVERNIGHT, reversible):** which GlobCurrent table, and therefore which label?
+- (a) **Daily table, `globcurrent-my-p1d+era5-wind10`.** This is the label drift will use, so composition rule 7
+  marginalises the two modules jointly. **Taken.**
+- (b) Hourly table, `globcurrent-my-pt1h+era5-wind10`, as the recommendation note suggests for Pléiades. The labels
+  would then differ from drift's, and the composer would treat them as separate options.
+- The difference on the reference is at most 0.012 in ln S and 0.8 NM in the mean shift (pooled, every kernel and
+  arm). The hourly table is carried as `sensitivity-globcurrent-pt1h.toml`.
+- If you prefer one label for the product family, that is a change to `ocean_model()` in the shared crate, which
+  ocean transport owns.
+
+**Next:**
+- Re-run on `reference-289` when it lands.
+- Swap eof-2f for end of flight's histogram.
+- Methods draft `results/pleiades-methods-draft.md`.
+
+— Pléiades

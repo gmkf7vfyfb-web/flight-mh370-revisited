@@ -99,3 +99,26 @@ doi:10.1112/plms/s2-20.1.196.
 north-west of the 00:19:37 position, by control axis, smoke scale. From `coordination/PLEIADES.md`
 (architecture, 9 Oct morning rulings), drawn from `results/eof-smoke-oct09/` and `results/eof-fullscale-oct09/`.
 - Supports: the PROVISIONAL-OVERNIGHT `eof-2f` descent kernel. Stable-glide only (Pete, 9 Oct evening).
+
+## Added 9 Oct 2026, morning (measured transport error; second ocean model)
+
+**[OT-GDP] Ocean transport, GDP drifter replay** `results/ocean-transport-error-gdp-replay.md` and `.json`
+(commit 24d4b91, merged 008ad4e; corrections 277ae2b). Configurations `glorys12+0.01era5` and
+`globcurrent-p1d+0.01era5`, subset `undrogued/box_MAM`, field `ou_fit`.
+- Supports: the measured spread in `engine/hypotheses/pleiades/run.toml`: σ = 0.1153 / 0.1176 m/s,
+  T = 6.13 / 4.20 d (GLORYS12 + 1 % ERA5) and σ = 0.1043 / 0.0955 m/s, T = 16.02 / 7.64 d (GlobCurrent + 1 % ERA5),
+  east / north. Used in `results/pleiades/rerun-measured/`. The underlying drifter data and their citation are
+  ocean transport's.
+
+**[OT-REC] Ocean transport, product recommendation** `results/ocean-product-recommendation.md`; ruled by the
+architect, `coordination/architecture.md` ~07:00 UTC 9 Oct 2026: GLORYS12 + ERA5 reference; Copernicus-GlobCurrent
+(MULTIOBS_GLO_PHY_MYNRT_015_003, v202411) as the second `ocean-model` value at equal prior weight. Product files and
+sha256 values in `results/ocean-data-manifest.md` (ocean transport). Retirement date of v202411: 2026-11-24
+(same ruling).
+
+**[HL2019], further locations** (same paper, PDF pages of the copy in hand):
+- eq. 3, p. 2: Bayesian model dimensionality, d̃/2 = Var_P[log P/π];
+- eq. 25, p. 5: tension probability p from χ²_d at d − 2 log S, and "log S is typically 0 ± √(d/2)";
+- Proposition 2, p. 6: d = d̃_A + d̃_B − d̃_AB; moderate tension at p ≲ 0.05, strong at p ≲ 0.003; for non-Gaussian
+  posteriors p is "only a rough calibration".
+- Used in `prepare/rerun_reference.py` (`tension()`; hypothesis/pleiades 9b7cd52).
