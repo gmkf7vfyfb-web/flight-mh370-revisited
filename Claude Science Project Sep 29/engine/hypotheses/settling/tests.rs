@@ -1151,3 +1151,90 @@ fn implosion_events_real() {
         }
     }
 }
+
+// ---------------------------------------------------------------------------------------------
+// Wreckage-field generator: impact samples in, seabed elements out (the transform on real impacts).
+// ---------------------------------------------------------------------------------------------
+
+/// Generator, not a test: `SETTLING_FIELD_IN=<impacts.f64> SETTLING_FIELD_OUT=<elements.f64>
+/// [SETTLING_THREADS=2] cargo test --release -p mh370-hypotheses settling::tests::wreckage_field --
+/// --ignored`. Input: little-endian f64 rows of 14 columns - unix_s, latitude, longitude, velocity
+/// east, north, up, flight-path angle, mass, kinetic energy, vertical kinetic energy, parent,
+/// debris_class (NaN = draw the family from P(family | impact)), draws, seed. Each row is emitted
+/// with draws 0..draws on the run.toml baseline (real ocean). Output: f64 rows of 8 columns - row,
+/// draw, family, class, fate (-1 = the impact was outside the module's domain), latitude, longitude,
+/// element mass (multiplicity x piece mass, kg).
+#[test]
+#[ignore]
+fn wreckage_field() {
+    let read = std::fs::read(std::env::var("SETTLING_FIELD_IN").expect("set SETTLING_FIELD_IN")).unwrap();
+    let v: Vec<f64> = read.chunks_exact(8).map(|b| f64::from_le_bytes(b.try_into().unwrap())).collect();
+    assert_eq!(v.len() % 14, 0, "input is not 14-column f64");
+    let rows: Vec<&[f64]> = v.chunks_exact(14).collect();
+    let threads: usize = std::env::var("SETTLING_THREADS").ok().and_then(|s| s.parse().ok()).unwrap_or(2);
+    let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
+    let s = Settling::from_params(&table["hypotheses"]["settling"]).unwrap();
+    let total = rows.len();
+    let chunk = total.div_ceil(threads);
+    let done = std::sync::atomic::AtomicUsize::new(0);
+    let parts: Vec<Vec<f64>> = std::thread::scope(|sc| {
+        let hs: Vec<_> = rows
+            .chunks(chunk)
+            .enumerate()
+            .map(|(c, part)| {
+                let (s, done, total) = (&s, &done, total);
+                sc.spawn(move || {
+                    let mut out = Vec::new();
+                    for (j, r) in part.iter().enumerate() {
+                        let k = c * chunk + j;
+                        let imp = ImpactView {
+                            parent: r[10] as usize,
+                            unix_s: r[0],
+                            latitude_deg: r[1],
+                            longitude_deg: r[2],
+                            velocity_east_mps: r[3],
+                            velocity_north_mps: r[4],
+                            velocity_up_mps: r[5],
+                            flight_path_angle_deg: r[6],
+                            mass_kg: r[7],
+                            kinetic_energy_j: r[8],
+                            vertical_kinetic_energy_j: r[9],
+                            family: 0,
+                            takeover_unix_s: f64::NAN,
+                            takeover_latitude_deg: f64::NAN,
+                            takeover_longitude_deg: f64::NAN,
+                            takeover_altitude_ft: f64::NAN,
+                            mode: 0,
+                            alternative: 0,
+                            latents: &[],
+                        };
+                        let fam = if r[11].is_finite() { Some(r[11] as usize) } else { None };
+                        let n = r[12] as usize;
+                        match s.emit_with(&imp, 0..n, 1.0 / n as f64, fam) {
+                            Ok(els) => {
+                                for e in els {
+                                    out.extend_from_slice(&[k as f64, e.draw as f64, e.family as f64, e.class as f64, e.fate as u8 as f64, e.latitude_deg, e.longitude_deg, e.multiplicity * e.piece_mass_kg]);
+                                }
+                            }
+                            Err(_) => out.extend_from_slice(&[k as f64, f64::NAN, f64::NAN, f64::NAN, -1.0, f64::NAN, f64::NAN, f64::NAN]),
+                        }
+                        let d = done.fetch_add(1, std::sync::atomic::Ordering::Relaxed) + 1;
+                        if d % 5000 == 0 {
+                            eprintln!("wreckage_field: {d} / {total}");
+                        }
+                    }
+                    out
+                })
+            })
+            .collect();
+        hs.into_iter().map(|h| h.join().unwrap()).collect()
+    });
+    let mut bytes = Vec::new();
+    for p in parts {
+        for x in p {
+            bytes.extend_from_slice(&x.to_le_bytes());
+        }
+    }
+    std::fs::write(std::env::var("SETTLING_FIELD_OUT").expect("set SETTLING_FIELD_OUT"), bytes).unwrap();
+    eprintln!("wreckage_field: {} impacts, ocean {}", rows.len(), s.ocean_label());
+}
