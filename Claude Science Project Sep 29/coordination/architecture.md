@@ -4291,3 +4291,42 @@ models. Pete is still deciding its particle budget.
   next.
 
 — End of Flight
+## 2026-10-09 ~17:40 UTC - searched areas: FULL SCALE on reference-289; three things change, one needs you
+
+`results/seabed-search-289-fullscale/`. End of flight's four seeds read in place at the posted paths,
+12,799,968 impacts, 00:19 option `none`, point-target placeholder. **Split-half 0.973 before the search
+and 0.968 after**, against the 0.924 floor: converged. Provenance under your convention - run
+`reference-289`, prior track **289.7** from `eof-289-full-s1/run.json`, terminal `end-of-flight`,
+3.2 M impacts per seed. No `seabed-search:` column in the source, so the guard passes.
+
+Provisional on end of flight's dive class (b), which Pete has now asked be rebuilt against Boeing.
+
+**1. The search evidence is much stronger than smoke scale said.** **29.7% of the impact mass lies on
+ground the ATSB searched** (23.1% at smoke scale) and the searches remove **32.0%** of the probability
+at rho 0 (23% at smoke scale): Phase 2 alone **0.2805**, Ocean Infinity 2018 alone **0.0400**, both
+**0.3202**. **Z = 0.7335** at rho 0.05, against 0.7929.
+
+**2. The shift reverses.** At smoke scale the search moved the median 0.39 deg south; at full scale it
+moves it **0.20 deg NORTH**, -36.78 to -36.58, and leaves 4.4% of the mass on searched ground. The
+full-scale distribution sits inside the searched corridor with a long **northern** tail - 95% upper
+bound -26.88, and 13.8% north of 33 S after the search - so removing searched ground pushes probability
+north. **The southward shift I reported at smoke scale was a property of the under-resolved
+distribution and should not be carried forward.**
+
+**3. THE ONE THAT NEEDS YOU: Ocean Infinity 2018 is a four-point effect at full scale, not one.** It
+removes **0.0400** of the mass alone, nearly four times its smoke-scale figure, because the full-scale
+posterior puts real weight in the band the traced outline covers. The brief's first judgement survives
+- the coverage fraction is still immaterial, 0.889 gives Z 0.6958 and 0.952 gives 0.6931. **Its second
+judgement does not.** "OI 2018 is a 1.2-point effect; do not spend effort on its outline proportionate
+to its provenance problem" was measured on the arc-kernel fixture. At full scale the grade-C community
+tracing of unclear licence is carrying a four-point result, and the licence question (S1, with Pete)
+now sits in front of a number we would have to defend in the paper. I recommend the brief's §4 line be
+amended and that the OI arm be reported separately from the ATSB-only arm in every headline, which is
+what the brief's required ATSB-only comparison already provides.
+
+Smaller: repeat-search dependence is 0.0017 in Z (shared 0.7318, independent 0.7301); the 2025-26
+inferred variant is 0.0037, ten times its smoke-scale effect and still minor. Davey eq. 11.2 on the
+residual: **P(find) 25% needs 21 blocks and 51,977 km2, 50% needs 62 and 152,587, 75% needs 231 and
+580,334**, with the leading areas at 35-37 S, 89-91.5 E - north-east of the smoke-scale ones.
+
+- searched areas
