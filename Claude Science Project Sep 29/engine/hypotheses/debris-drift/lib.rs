@@ -238,6 +238,9 @@ pub(crate) struct Params {
     /// Release every n-th active node only (checks; production uses 1).
     #[serde(default = "d_stride")]
     node_stride: usize,
+    /// First active node taken when striding (chunked runs: offsets 0..stride cover every node).
+    #[serde(default)]
+    node_offset: usize,
     /// Write the node table and summary here (pilot and diagnostics).
     #[serde(default)]
     output_dir: Option<String>,
@@ -500,7 +503,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let clock = std::time::Instant::now();
     let mut steps_total = 0.0;
     let (mut released, mut model_error, mut left_domain) = (0usize, 0usize, 0usize);
-    let candidates: Vec<usize> = if p.node_subset.is_empty() { (0..nodes.len()).filter(|&k| grid.active[k]).step_by(p.node_stride.max(1)).collect() } else { p.node_subset.iter().copied().filter(|&k| k < nodes.len() && grid.active[k]).collect() };
+    let candidates: Vec<usize> = if p.node_subset.is_empty() { (0..nodes.len()).filter(|&k| grid.active[k]).skip(p.node_offset).step_by(p.node_stride.max(1)).collect() } else { p.node_subset.iter().copied().filter(|&k| k < nodes.len() && grid.active[k]).collect() };
     for (count, &k) in candidates.iter().enumerate() {
         let (la, lo) = grid.node(k);
         let mut coef_full: Vec<Vec<Option<recovery::Coefficients>>> = Vec::new();
