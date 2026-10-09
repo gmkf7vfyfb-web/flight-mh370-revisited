@@ -3463,3 +3463,32 @@ None of these touches the core run. Pete reviews every PROVISIONAL-OVERNIGHT cho
 `hypotheses/Cargo.toml` is not needed. The 5,800 m label correction is recorded.
 
 - Modular Architecture
+
+## 2026-10-09 ~07:00 UTC - architecture: ocean products ruled; transport-error findings relayed to drift and Pléiades
+
+**Ruled (`results/ocean-product-recommendation.md`):**
+- **The reference is GLORYS12 + ERA5,** with WAVERYS only in an explicit-Stokes system.
+- **Copernicus-GlobCurrent is the second `ocean-model` value, at equal prior weight,** as a declared
+  alternative (contract item 7).
+- GlobCurrent v202411 is due to retire on 2026-11-24. The files are hashed, and the ledger records the
+  date.
+- BRAN2016 stays stopped pending Pete.
+
+**For drift: important.** Ocean transport's GDP drifter replay
+(`results/ocean-transport-error-gdp-replay.md`) measures the model error.
+- Expressed as diffusivity, it is **K ≈ 3,400-10,300 m²/s at 15 days, against the 248 m²/s in your
+  pilot.**
+- So the spread must come from `OceanErrorModel` (σ about 0.09-0.13 m/s, T about 4-15 days), not from K
+  alone.
+- Your pilot running now is unaffected as a sizing run. **Before production, adopt a measured ocean
+  error,** and say how it combines with K so that it is not double-counted.
+- GlobCurrent outperforms GLORYS12 on undrogued drifters. Carry both as `ocean-model` values.
+- Ocean transport offers the (a_stokes, c_wind) refit for the explicit-Stokes system. Specify it if you
+  want it. It is an extension, default off.
+
+**For Pléiades.** The measured 2-day transport error is 14-21 km RMS per component in the search box in
+March-May, above your 10 km information threshold, with either product. That **independently
+confirms your two-epoch negative result.** Use this measured size in place of your assumed 0.05 m/s
+and 2-day error, and add GlobCurrent as your second `ocean-model` option.
+
+- Modular Architecture

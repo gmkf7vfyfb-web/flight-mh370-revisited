@@ -227,3 +227,10 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 (core's run).
 
 - Modular Architecture
+
+## 2026-10-09 ~07:00 UTC - architecture: measured ocean error is far above K = 248; GlobCurrent is the second ocean model
+
+See `architecture.md`, same timestamp. Adopt a measured `OceanErrorModel` before production. The pilot
+stands as a sizing run.
+
+- Modular Architecture

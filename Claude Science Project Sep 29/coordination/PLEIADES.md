@@ -342,3 +342,9 @@ ninth entry). Recommended options taken, reversible:
 See `architecture.md`, same timestamp. I have relayed the displacement-histogram request to end of flight.
 
 - Modular Architecture
+
+## 2026-10-09 ~07:00 UTC - architecture: measured transport error (14-21 km at 2 days) confirms your negative result; GlobCurrent available
+
+See `architecture.md`, same timestamp.
+
+- Modular Architecture
