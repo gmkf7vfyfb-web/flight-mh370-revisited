@@ -206,6 +206,47 @@ mod tests {
         }
     }
 
+    /// Export the module's own ln L(s | H) on a regular impact grid, for every object-rating and
+    /// cluster-weight option, so that analyses outside the engine (prepare/rerun_reference.py) use
+    /// exactly this hook's numbers. Writes PLEIADES_EXPORT_DIR/likelihood-surface.{f32,toml}.
+    #[test]
+    #[ignore]
+    fn pleiades_export_likelihood_surface() {
+        use std::io::Write as _;
+        let out = std::path::PathBuf::from(std::env::var("PLEIADES_EXPORT_DIR").expect("set PLEIADES_EXPORT_DIR"));
+        let mut t = toml::map::Map::new();
+        t.insert("release_grid".into(), toml::Value::String("../../runs/pleiades/release-grid.toml".into()));
+        let h = new(&toml::Value::Table(t)).unwrap();
+        let (lon0, lat0, step, nlon, nlat) = (87.025, -40.975, 0.05, 199usize, 199usize);
+        let unix_s = 1_394_238_300.0; // 00:25 UTC 8 Mar: within the impact window
+        let mut buf = Vec::with_capacity(4 * 2 * nlat * nlon * 4);
+        let mut nan = 0usize;
+        for r in 0..RATING_OPTIONS.len() {
+            for w in 0..2 {
+                for j in 0..nlat {
+                    for i in 0..nlon {
+                        let view = ImpactView {
+                            parent: 0, unix_s, latitude_deg: lat0 + j as f64 * step, longitude_deg: lon0 + i as f64 * step,
+                            velocity_east_mps: 0.0, velocity_north_mps: 0.0, velocity_up_mps: 0.0, flight_path_angle_deg: 0.0, mass_kg: 0.0,
+                            kinetic_energy_j: 0.0, vertical_kinetic_energy_j: 0.0, family: 0, takeover_unix_s: 0.0, takeover_latitude_deg: 0.0,
+                            takeover_longitude_deg: 0.0, takeover_altitude_ft: 0.0, mode: 0, alternative: 0, latents: &[],
+                        };
+                        let v = h.impact_log_likelihood(&view, &[1, r, w, 0]);
+                        nan += usize::from(!v.is_finite());
+                        buf.extend_from_slice(&(v as f32).to_le_bytes());
+                    }
+                }
+            }
+        }
+        std::fs::File::create(out.join("likelihood-surface.f32")).unwrap().write_all(&buf).unwrap();
+        let labels: Vec<&str> = RATING_OPTIONS.iter().map(|o| o.0).collect();
+        let meta = format!(
+            "layout = \"[object-rating][cluster-weight][lat][lon] ln L(s|H) little-endian float32\"\nlon0 = {lon0}\nlat0 = {lat0}\nstep_deg = {step}\nnlon = {nlon}\nnlat = {nlat}\nimpact_unix_s = {unix_s:.1}\nobject_rating = {labels:?}\ncluster_weight = [\"equal\", \"count\"]\nnot_computed = {nan}\nocean_model = \"glorys12v1+era5-wind10\"\n"
+        );
+        std::fs::write(out.join("likelihood-surface.toml"), meta).unwrap();
+        assert_eq!(nan, 0, "every grid point inside the release table must be computed");
+    }
+
     /// Against the real table (gitignored runs/pleiades); run with --ignored after export.rs.
     #[test]
     #[ignore]

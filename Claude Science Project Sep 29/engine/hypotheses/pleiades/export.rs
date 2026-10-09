@@ -76,7 +76,7 @@ pub fn spec<'a>(ocean: &'a Ocean, coast: &'a NoCoast, output_times: Vec<f64>, th
 }
 
 pub fn response(c_wind: f64) -> ObjectResponse {
-    ObjectResponse { a_stokes: 0.0, c_wind, leeway_angle_deg: 0.0, leeway_speed_mps: 0.0 }
+    ObjectResponse { a_stokes: 0.0, c_wind, wind_angle_deg: 0.0, leeway_angle_deg: 0.0, leeway_speed_mps: 0.0 }
 }
 
 /// Afloat position or NaN: anything else (left domain, field gap) is flagged by NaN and counted.
@@ -129,7 +129,7 @@ mod run {
             for (p, t0) in COSMO_PASS_UNIX_S.iter().enumerate() {
                 for off in PASS_OFFSETS_S {
                     for k in 0..WINDAGE_N {
-                        particles.push(Particle { release: [*lon, *lat], release_time: t0 + off, response: response(windage(k)) });
+                        particles.push(Particle { release: [*lon, *lat], release_time: t0 + off, response: response(windage(k)), end_time: None });
                         keys.push((id.clone(), COSMO_PASS_LABEL[p], off, windage(k)));
                     }
                 }
@@ -165,7 +165,7 @@ mod run {
             for i in 0..nlon {
                 for k in 0..WINDAGE_N {
                     let p = [lon0 + i as f64 * step, lat0 + j as f64 * step];
-                    particles.push(Particle { release: p, release_time: IMPACT_RELEASE_UNIX_S, response: response(windage(k)) });
+                    particles.push(Particle { release: p, release_time: IMPACT_RELEASE_UNIX_S, response: response(windage(k)), end_time: None });
                 }
             }
         }
