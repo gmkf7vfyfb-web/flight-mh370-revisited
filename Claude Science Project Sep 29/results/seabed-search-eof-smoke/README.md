@@ -5,6 +5,14 @@ likelihood evaluated on impacts from the **end-of-flight** terminal module inste
 placeholder, with a **point-target placeholder** for the wreckage field (`g = 1`, as
 `results/seabed-detectable-target.md` §6 defines it).
 
+**THE DIVE CLASS IS ABSENT FROM THESE IMPACTS.** Pete, 9 October: the Boeing engineering-simulator
+runs were tests of *uncontrolled* dives, and until the end-of-flight model is calibrated against the
+dive cases (3, 4, 5, 6, 10) its impacts cover the **stable-glide regime only**. The descents used here
+were generated before that calibration. Every number below is therefore conditional on a glide-class
+impact distribution; a dive class would put impacts closer to the 7th arc, which is precisely the
+corridor the ATSB searched, so **the search evidence is likely to be understated here, not
+overstated**. This caveat travels with the numbers, not just with this paragraph.
+
 **PROVISIONAL, smoke scale.** Hand-off `runs/fixture` (`config/integrated.toml` +
 `config/smoke.toml` + `config/fixture.toml`: 20k particles per mode, seeds 1 and 2, 2,000 hand-off
 rows), continued by `mh370 terminal` with `hypotheses/end-of-flight/smoke/terminal.toml` and

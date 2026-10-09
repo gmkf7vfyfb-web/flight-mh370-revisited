@@ -1,12 +1,18 @@
-# Project citation ledger
+# Searched areas — reference ledger
 
-Opened 9 October 2026 by the searched-areas module, as deliverable 1 of its brief
+Opened 9 October 2026 by the searched-areas module as deliverable 1 of its brief
 (`threads/master-prompts/searched-areas.md` §7) and of the architecture entries in
-`coordination/SEARCHED_AREAS.md` headed "2026-10-08 — architecture: overnight work plan" (which
-names this file) and "2026-10-09 ~00:30 UTC — architecture: start now; your sequence".
+`coordination/SEARCHED_AREAS.md` headed "2026-10-08 — architecture: overnight work plan" (which asked
+for it) and "2026-10-09 ~00:30 UTC — architecture: start now; your sequence".
 
-**Purpose.** Every claim the paper makes about what the published work did, or did not do, is recorded
-here with the page on which it can be checked. A claim that is not in this ledger is not citable.
+**Renamed 9 October** from `citation-ledger.md` under architecture ruling S3: this is the
+**searched-areas module's** ledger, not a project-wide one. There is no separate project ledger — the
+paper work merges the module ledgers. Other modules keep their own (`end-of-flight-references.md`,
+`debris-drift-references.md`, and so on); `end-of-flight-references.md` still points at the old name.
+
+**Purpose.** Every claim the paper makes about what the published work did, or did not do, in the
+seabed-search line of argument is recorded here with the page on which it can be checked. A claim
+that is not in this ledger is not citable.
 
 **Convention.** Printed page numbers come from the running headers of the published object, not from
 the position of the page in a PDF. Where only an author preprint is available the preprint page is
