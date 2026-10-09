@@ -52,6 +52,211 @@ pub struct Parameters {
     /// a 7 Hz measurement standard deviation, so the omission is not small for any particle in a
     /// level change. `false` reproduces the published model exactly.
     pub bfo_vertical_rate: bool,
+    /// Optional sampling for the early flight after the 18:01:49 prior (`None`: the published
+    /// model). See [`EarlyPhase`].
+    pub early: Option<EarlyPhase>,
+}
+
+/// Sampling options for the early flight, 18:01 to about 18:40, where the radar record ends and
+/// the 18:25-18:28 arcs and the 18:39 BFO constrain the path. Each widens the prior rather than
+/// asserting a history: the data assign the weight.
+#[derive(Debug, Clone)]
+pub struct EarlyPhase {
+    /// Mach set points drawn before `mach_until_unix_s` - the prior draw and any acceleration
+    /// that starts before then - come from this range instead of `Parameters::mach_range`.
+    pub mach_range: (f64, f64),
+    pub mach_until_unix_s: f64,
+    /// A descent below cruise and a climb back, flown before the radar re-acquisition.
+    pub excursion: Option<ExcursionPrior>,
+    /// A turn to a sampled ground track at a fixed time (e.g. the 18:22:12 last radar return).
+    pub turn: Option<TurnPrior>,
+    /// Calibrated-airspeed envelope (min manoeuvring speed, VMO) that clips the early Mach range
+    /// at the aircraft's altitude when a set point is drawn.
+    pub cas_envelope_kt: Option<(f64, f64)>,
+    /// A flight plan drawn uniformly from a declared list of routes.
+    pub routes: Option<RoutePrior>,
+}
+
+/// Prior over route skeletons: with probability `share`, fly one of `routes` (drawn uniformly)
+/// from `unix_s` on true track, then resume the free model.
+#[derive(Debug, Clone)]
+pub struct RoutePrior {
+    pub share: f64,
+    pub unix_s: f64,
+    pub routes: Vec<Vec<(f64, f64)>>,
+}
+
+/// One drawn route.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct EarlyRoute {
+    pub index: u32,
+    pub unix_s: f64,
+    pub started: bool,
+}
+
+/// Prior over a vertical excursion. Each draw: a descent from the particle's level starting
+/// in `start_unix_s`, at a rate in `descent_fpm`, to a level in `low_ft`; level flight; a
+/// climb at a rate in `climb_fpm` that ends at a time in `end_unix_s` at a cruise level drawn
+/// like any altitude change. Below the Mach/CAS crossover the speed is a CAS in `cas_kt`.
+/// Draws whose descent and climb cannot both fit between start and end are redrawn, so the
+/// prior is uniform over the feasible set; `max_tries` bounds that.
+#[derive(Debug, Clone)]
+pub struct ExcursionPrior {
+    pub share: f64,
+    pub start_unix_s: (f64, f64),
+    pub low_ft: (f64, f64),
+    pub descent_fpm: (f64, f64),
+    pub climb_fpm: (f64, f64),
+    pub end_unix_s: (f64, f64),
+    pub cas_kt: (f64, f64),
+    pub max_tries: u32,
+}
+
+/// Prior over a turn at a fixed time to a ground track uniform on `track_deg`.
+#[derive(Debug, Clone)]
+pub struct TurnPrior {
+    pub share: f64,
+    pub unix_s: f64,
+    pub track_deg: (f64, f64),
+}
+
+/// One drawn vertical excursion. Times are unix seconds.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Excursion {
+    pub start_s: f64,
+    pub low_s: f64,
+    pub climb_s: f64,
+    pub end_s: f64,
+    pub from_ft: f64,
+    pub low_ft: f64,
+    pub end_ft: f64,
+    pub descent_fpm: f64,
+    pub climb_fpm: f64,
+    pub cas_kt: f64,
+    /// The Mach the aircraft resumes at the end, and the cap above the crossover.
+    pub resume_mach: f64,
+    pub started: bool,
+    pub done: bool,
+}
+
+impl Excursion {
+    fn altitude_at(&self, t: f64) -> f64 {
+        if t <= self.start_s {
+            self.from_ft
+        } else if t < self.low_s {
+            self.from_ft - self.descent_fpm / 60.0 * (t - self.start_s)
+        } else if t < self.climb_s {
+            self.low_ft
+        } else if t < self.end_s {
+            self.low_ft + self.climb_fpm / 60.0 * (t - self.climb_s)
+        } else {
+            self.end_ft
+        }
+    }
+
+    fn vertical_fpm_at(&self, t: f64) -> f64 {
+        if t >= self.start_s && t < self.low_s {
+            -self.descent_fpm
+        } else if t >= self.climb_s && t < self.end_s {
+            self.climb_fpm
+        } else {
+            0.0
+        }
+    }
+
+    fn mach_at(&self, alt_ft: f64) -> f64 {
+        cas_to_mach(self.cas_kt, alt_ft).min(self.resume_mach)
+    }
+}
+
+/// One drawn fixed-time turn.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct EarlyTurn {
+    pub unix_s: f64,
+    pub track_deg: f64,
+    pub done: bool,
+}
+
+/// What a particle drew from [`EarlyPhase`]. Present only when the option is configured.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct EarlyRecord {
+    pub initial_mach: f64,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub excursion: Option<Excursion>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub turn: Option<EarlyTurn>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub route: Option<EarlyRoute>,
+    /// Infeasible excursion draws rejected before one fitted (or `max_tries` if none did).
+    pub excursion_rejected: u32,
+}
+
+/// Draw what one particle samples from the early-phase options.
+fn draw_early<R: Rng>(e: &EarlyPhase, p: &Parameters, from_ft: f64, mach: f64, rng: &mut R) -> EarlyRecord {
+    fn u<R: Rng>(r: (f64, f64), rng: &mut R) -> f64 {
+        if r.1 > r.0 {
+            rng.gen_range(r.0..r.1)
+        } else {
+            r.0
+        }
+    }
+    let mut rec = EarlyRecord { initial_mach: mach, excursion: None, turn: None, route: None, excursion_rejected: 0 };
+    if let Some(x) = &e.excursion {
+        if rng.gen_bool(x.share) {
+            let levels = Prior::uniform_altitude_levels(p);
+            for _ in 0..x.max_tries {
+                let start_s = u(x.start_unix_s, rng);
+                let low_ft = u(x.low_ft, rng);
+                let descent_fpm = u(x.descent_fpm, rng);
+                let climb_fpm = u(x.climb_fpm, rng);
+                let end_s = u(x.end_unix_s, rng);
+                let cas_kt = u(x.cas_kt, rng);
+                let end_ft = levels[rng.gen_range(0..levels.len())].0;
+                let low_s = start_s + (from_ft - low_ft) / descent_fpm * 60.0;
+                let climb_s = end_s - (end_ft - low_ft) / climb_fpm * 60.0;
+                if low_ft < from_ft && low_ft < end_ft && low_s <= climb_s {
+                    rec.excursion = Some(Excursion {
+                        start_s,
+                        low_s,
+                        climb_s,
+                        end_s,
+                        from_ft,
+                        low_ft,
+                        end_ft,
+                        descent_fpm,
+                        climb_fpm,
+                        cas_kt,
+                        resume_mach: mach,
+                        started: false,
+                        done: false,
+                    });
+                    break;
+                }
+                rec.excursion_rejected += 1;
+            }
+        }
+    }
+    if let Some(t) = &e.turn {
+        if rng.gen_bool(t.share) {
+            rec.turn = Some(EarlyTurn { unix_s: t.unix_s, track_deg: u(t.track_deg, rng), done: false });
+        }
+    }
+    if let Some(r) = &e.routes {
+        if !r.routes.is_empty() && rng.gen_bool(r.share) {
+            let index = rng.gen_range(0..r.routes.len() as u32);
+            rec.route = Some(EarlyRoute { index, unix_s: r.unix_s, started: false });
+        }
+    }
+    rec
+}
+
+/// Mach for a calibrated airspeed at a pressure altitude (ISA, subsonic compressible flow).
+pub fn cas_to_mach(cas_kt: f64, pressure_altitude_ft: f64) -> f64 {
+    const A0_KT: f64 = 661.478_8;
+    const P0_PA: f64 = 101_325.0;
+    let qc = P0_PA * ((1.0 + 0.2 * (cas_kt / A0_KT).powi(2)).powf(3.5) - 1.0);
+    let p = geo::isa_pressure_pa(pressure_altitude_ft);
+    (5.0 * ((qc / p + 1.0).powf(2.0 / 7.0) - 1.0)).sqrt()
 }
 
 impl Default for Parameters {
@@ -75,6 +280,7 @@ impl Default for Parameters {
             manoeuvre_step_s: 5.0,
             fuel: None,
             bfo_vertical_rate: false,
+            early: None,
         }
     }
 }
@@ -284,6 +490,9 @@ pub struct Aircraft {
     environment_age_s: f64,
     /// Present only for aircraft following a hypothesis's flight plan.
     pub guidance: Option<Box<GuidanceState>>,
+    /// Present only when `Parameters::early` is configured.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub early: Option<Box<EarlyRecord>>,
 }
 
 const ENVIRONMENT_REFRESH_S: f64 = 60.0;
@@ -443,7 +652,11 @@ impl Aircraft {
             declination_rad: 0.0,
             environment_age_s: 0.0,
             guidance: None,
+            early: None,
         };
+        if let Some(e) = &p.early {
+            a.early = Some(Box::new(draw_early(e, p, a.alt_ft, a.mach, rng)));
+        }
         a.refresh_environment(env);
         // The prior direction is a ground track; express it in the mode's control angle.
         let w = a.weather;
@@ -517,6 +730,9 @@ impl Aircraft {
 
     /// Vertical speed, ft/min: plus or minus the climb rate during a level change, else zero.
     pub fn vertical_speed_fpm(&self, p: &Parameters) -> f64 {
+        if let Some(x) = self.active_excursion() {
+            return x.vertical_fpm_at(self.unix_s);
+        }
         if self.alt_ft == self.alt_target_ft {
             0.0
         } else {
@@ -610,11 +826,18 @@ impl Aircraft {
     pub fn propagate<R: Rng>(&mut self, unix_s: f64, p: &Parameters, env: &impl Environment, rng: &mut R) {
         let normal = |rng: &mut R| -> f64 { StandardNormal.sample(rng) };
         while self.unix_s < unix_s {
+            if self.early.is_some() {
+                self.early_events(p, env, rng);
+            }
             self.start_due_manoeuvres(p, env, rng);
             if self.guidance.is_some() {
                 self.steer(env, rng);
             }
-            let manoeuvring = self.turn_remaining != 0.0 || self.mach != self.mach_target || self.alt_ft != self.alt_target_ft;
+            let excursion = self.active_excursion().cloned();
+            let manoeuvring = self.turn_remaining != 0.0
+                || self.mach != self.mach_target
+                || self.alt_ft != self.alt_target_ft
+                || excursion.is_some();
             let mut dt = if manoeuvring { p.manoeuvre_step_s } else { p.cruise_step_s };
             dt = dt.min(unix_s - self.unix_s);
             for event in [self.next_turn, self.next_acceleration, self.next_climb, self.lnav_switch_time()] {
@@ -622,13 +845,20 @@ impl Aircraft {
                     dt = dt.min(event - self.unix_s);
                 }
             }
+            if self.early.is_some() {
+                for event in self.early_event_times() {
+                    if event > self.unix_s {
+                        dt = dt.min(event - self.unix_s);
+                    }
+                }
+            }
 
             // The random-turn clock does not run while a flight plan steers.
             let turn_clock = self.turn_remaining == 0.0 && self.guidance.is_none();
             for (exposure, running) in self.exposure_s.iter_mut().zip([
                 turn_clock,
-                self.mach == self.mach_target,
-                self.alt_ft == self.alt_target_ft,
+                self.mach == self.mach_target && excursion.is_none(),
+                self.alt_ft == self.alt_target_ft && excursion.is_none(),
             ]) {
                 if running {
                     *exposure += dt;
@@ -667,13 +897,20 @@ impl Aircraft {
                     }
                 }
             }
-            if self.mach != self.mach_target {
+            if let Some(x) = &excursion {
+                // The scripted profile replaces the speed and altitude manoeuvres; their clocks
+                // are suspended (and accrue no exposure) until it ends.
+                self.alt_ft = x.altitude_at(self.unix_s + dt);
+                self.alt_target_ft = self.alt_ft;
+                self.mach = x.mach_at(self.alt_ft);
+                self.mach_target = self.mach;
+            } else if self.mach != self.mach_target {
                 self.mach = step_towards(self.mach, self.mach_target, p.mach_rate_per_s * dt);
                 if self.mach == self.mach_target {
                     self.next_acceleration = self.unix_s + dt + self.exp_gap(rng);
                 }
             }
-            if self.alt_ft != self.alt_target_ft {
+            if excursion.is_none() && self.alt_ft != self.alt_target_ft {
                 self.alt_ft = step_towards(self.alt_ft, self.alt_target_ft, p.climb_rate_ft_per_s * dt);
                 if self.alt_ft == self.alt_target_ft {
                     self.next_climb = self.unix_s + dt + self.exp_gap(rng);
@@ -694,6 +931,89 @@ impl Aircraft {
         }
         self.control = wrap_pi(self.control);
         self.update_ground_velocity(env);
+    }
+
+    /// The vertical excursion in progress, if any.
+    pub fn active_excursion(&self) -> Option<&Excursion> {
+        self.early.as_deref()?.excursion.as_ref().filter(|x| x.started && !x.done)
+    }
+
+    /// Times at which a step must end so an early-phase event is applied on time.
+    fn early_event_times(&self) -> [f64; 6] {
+        let mut t = [f64::INFINITY; 6];
+        let Some(rec) = self.early.as_deref() else { return t };
+        if let Some(r) = rec.route.as_ref().filter(|r| !r.started) {
+            t[5] = r.unix_s;
+        }
+        if let Some(turn) = rec.turn.as_ref().filter(|turn| !turn.done) {
+            t[0] = turn.unix_s;
+        }
+        if let Some(x) = rec.excursion.as_ref().filter(|x| !x.done) {
+            t[1..5].copy_from_slice(&[x.start_s, x.low_s, x.climb_s, x.end_s]);
+        }
+        t
+    }
+
+    /// Apply any early-phase event now due: the fixed-time turn, and the start or end of the
+    /// vertical excursion.
+    fn early_events<R: Rng>(&mut self, p: &Parameters, env: &impl Environment, rng: &mut R) {
+        let now = self.unix_s;
+        let Some(rec) = self.early.as_deref() else { return };
+        if let Some(route) = rec.route.clone().filter(|r| !r.started && now >= r.unix_s) {
+            if let Some(routes) = p.early.as_ref().and_then(|e| e.routes.as_ref()) {
+                let waypoints = routes.routes[route.index as usize].clone();
+                self.set_guidance(Guidance { waypoints, after: AfterRoute::Free }, env, rng);
+            }
+            if let Some(r) = self.early.as_mut().and_then(|r| r.route.as_mut()) {
+                r.started = true;
+            }
+        }
+        let Some(rec) = self.early.as_deref() else { return };
+        let turn = rec.turn.clone().filter(|turn| !turn.done && now >= turn.unix_s);
+        let mut excursion = rec.excursion.clone();
+        if let Some(turn) = turn {
+            // Turn from the present ground track to the drawn one, by the shorter way. The
+            // change of ground track stands in for the change of control angle in every mode.
+            self.refresh_environment(env);
+            let (vn, ve, ..) = self.kinematics();
+            self.turn_remaining = wrap_pi(turn.track_deg.to_radians() - ve.atan2(vn));
+            self.next_turn = if self.turn_remaining == 0.0 { now + self.exp_gap(rng) } else { f64::INFINITY };
+            if let Some(t) = self.early.as_mut().and_then(|r| r.turn.as_mut()) {
+                t.done = true;
+            }
+        }
+        if let Some(x) = excursion.as_mut() {
+            if !x.started && now >= x.start_s {
+                // Begin from wherever the aircraft is now; a speed or altitude change already
+                // under way is abandoned. If the level changed since the draw, keep the drawn
+                // rates and slide the climb (and end) later if the descent now takes longer.
+                x.started = true;
+                x.start_s = now;
+                x.from_ft = self.alt_ft.max(x.low_ft);
+                x.low_s = now + (x.from_ft - x.low_ft) / x.descent_fpm * 60.0;
+                if x.low_s > x.climb_s {
+                    x.climb_s = x.low_s;
+                    x.end_s = x.climb_s + (x.end_ft - x.low_ft) / x.climb_fpm * 60.0;
+                }
+                self.next_acceleration = f64::INFINITY;
+                self.next_climb = f64::INFINITY;
+                self.alt_target_ft = self.alt_ft;
+                self.mach = x.mach_at(self.alt_ft);
+                self.mach_target = self.mach;
+            } else if x.started && !x.done && now >= x.end_s {
+                x.done = true;
+                self.alt_ft = x.end_ft;
+                self.alt_target_ft = x.end_ft;
+                self.mach_target = x.resume_mach;
+                self.next_climb = now + self.exp_gap(rng);
+                if self.mach == self.mach_target {
+                    self.next_acceleration = now + self.exp_gap(rng);
+                }
+            }
+            if let Some(r) = self.early.as_mut() {
+                r.excursion = excursion;
+            }
+        }
     }
 
     /// Gibbs update of the static manoeuvre time constant given this path's history.
@@ -896,8 +1216,24 @@ impl Aircraft {
     /// excluded. The returned draw carries its exact log prior-to-proposal ratio into
     /// `fuel_log_weight_correction`, which the filter takes into the particle's weight.
     fn draw_mach_target<R: Rng>(&mut self, p: &Parameters, rng: &mut R) -> f64 {
-        let (lo, hi) = p.mach_range;
-        let uniform = |rng: &mut R| rng.gen_range(lo..hi);
+        let (lo, hi) = match &p.early {
+            Some(e) if self.unix_s < e.mach_until_unix_s => match e.cas_envelope_kt {
+                None => e.mach_range,
+                Some((cas_lo, cas_hi)) => {
+                    let lo = e.mach_range.0.max(cas_to_mach(cas_lo, self.alt_ft));
+                    let hi = e.mach_range.1.min(cas_to_mach(cas_hi, self.alt_ft));
+                    if lo < hi {
+                        (lo, hi)
+                    } else {
+                        // No overlap: the envelope bound nearest the declared range.
+                        let m = hi.max(e.mach_range.0).min(e.mach_range.1);
+                        (m, m)
+                    }
+                }
+            },
+            _ => p.mach_range,
+        };
+        let uniform = |rng: &mut R| if hi > lo { rng.gen_range(lo..hi) } else { lo };
         let Some(model) = &p.fuel else { return uniform(rng) };
         let Some(e) = model.endurance else { return uniform(rng) };
         let remaining_h = (e.deadline_unix_s - self.unix_s) / 3600.0;
