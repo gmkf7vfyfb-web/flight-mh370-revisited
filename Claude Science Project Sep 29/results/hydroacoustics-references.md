@@ -105,6 +105,19 @@ charge. *J. Acoust. Soc. Am.* 26, 343–346. doi:10.1121/1.1907339.
 Search for MH370.* SpringerBriefs in Electrical and Computer Engineering. doi:10.1007/978-981-10-0379-0.
 - **Gold OA.** The project's base reference; this module takes no hydroacoustic values from it.
 
+**[CMST2014ScottReef]** Duncan, A., McCauley, R., Gavrilov, A. (2014). *Results of analysis of Scott Reef IMOS
+underwater sound recorder data for the time of the disappearance of Malaysian Airlines Flight MH370 on 8th
+March 2014.* Centre for Marine Science and Technology, Curtin University, 4 September 2014 (5 pp.).
+- **Obtained:** inside IMOS `MH370.zip`
+  (`MH370/Scott Reef IMOS logger data analysis for 2014_03_08_Release.pdf`); read after pre-registration
+  `0ffa244`.
+- **Values used:**
+  - p. 1: the Curtin event at Scott Reef at 01:32:49 UTC; recordings "dominated by Bryde's whale calls"
+    at 25–50 Hz.
+  - p. 2: drift-corrected record start 01:29:45.9 UTC, which is the clock check; Fig. 1 caption.
+  - p. 3: Table 1 fix, 2.11°N 69.31°E, 00:25:13.3 ± 85 s.
+- **Supports:** item 1d (`hydroacoustics-imos-noise.md`) and the 2b/2c positive controls.
+
 ## Data
 
 **[GEBCO2026]** GEBCO Bathymetric Compilation Group (2026). *The GEBCO_2026 Grid — a continuous terrain model
