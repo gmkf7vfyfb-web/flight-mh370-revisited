@@ -110,13 +110,23 @@ page is still to be read.
 ### AusSeabed / Geoscience Australia MH370 Phase 1, 150 m — `spinoccia2017mh370`
 - **Reference:** Spinoccia, M. (2017). MH370 Phase 1 150m Bathymetry datasets (GA-4421, GA-4422 & GA-4430).
   Geoscience Australia. https://pid.geoscience.gov.au/dataset/ga/100315.
-- **Intended use:** the finest layer of `src/bathy.rs` inside its coverage.
-- **Status:** **not obtained.**
-  - The GA marine geoserver (`marine.ga.gov.au`) returned 502 on 9 October 2026.
-  - Not found under NCI's GA bathymetry collection `rr1`.
-  - Until it is obtained, the surface is GEBCO_2026 alone. GEBCO's TID marks where GEBCO already carries
-    multibeam soundings, including GA's MH370 surveys.
-- **Licence:** Geoscience Australia, CC BY 4.0. **To verify.**
+- **Use:** the first layer of `src/bathy.rs` inside its coverage, ahead of GEBCO_2026.
+- **Obtained 9 October 2026** from the download link in GA's eCat record d887e71a-71dc-4851-94a9-920f7b7cc7e5
+  (`files.ausseabed.gov.au`, `Southern Indian Ocean (MH370) Bathymetry 2017 150m.zip`, last modified
+  14 April 2022).
+  - The record gives the publication date as 14 July 2017.
+  - Contents: one cloud-optimised GeoTIFF on EPSG:3857 (WGS 84 / Pseudo-Mercator) with 150 m projected
+    cells, float32 elevation relative to MSL. 27,012 × 27,443 cells cover 79.37–115.77 E and 42.14–9.52 S;
+    47,052,808 cells hold values, from −7,013 to −11 m.
+  - sha256 values are in `ocean-data-manifest.md`.
+- **Kept on its own grid** rather than resampled. `bathy.rs` gained EPSG:3857 layers (exact spherical
+  Mercator with a = 6,378,137 m on WGS84 geodetic coordinates, per the EPSG definition), so every answer is
+  a distributed cell value. On this grid, 150 m projected cells are about 123 m on the ground at 35 S.
+- **Relation to GEBCO_2026:** at 254,015 random valid cells, AusSeabed − GEBCO = +0.3 m mean, 20.6 m SD,
+  and 5–95% −25.2 to +26.8 m. 99.6% of those GEBCO cells are TID 11 (multibeam). GEBCO_2026 therefore
+  already carries these surveys at 15 arc-seconds, and the AusSeabed layer adds resolution rather than new
+  soundings.
+- **Licence:** CC BY 4.0, as stated in the eCat record (verified 9 October 2026).
 
 ## Thermodynamics and geodesy
 

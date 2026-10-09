@@ -689,3 +689,40 @@ fn sound_speed_climatology_interpolates_without_filling() {
     assert_eq!(woa23_period(T0), ("A5B4", 3));
     assert_eq!(woa23_period(1_577_836_800.0), ("B5C2", 1)); // 2020-01-01
 }
+
+#[test]
+fn web_mercator_layer_answers_first_inside_its_coverage() {
+    use mh370_ocean::bathy::{BathySource, Bathymetry};
+    // An EPSG:3857 layer of 150 m cells over part of the lon/lat test grid: cell (i, j) holds
+    // -(1000 + i + 1000 j) where valid, NaN in the western half (outside coverage).
+    let dir = std::env::temp_dir().join(format!("mh370-merc-{}", std::process::id()));
+    let gebco = write_bathy(&dir);
+    let a = 6_378_137.0f64;
+    let merc_y = |lat: f64| a * (std::f64::consts::FRAC_PI_4 + 0.5 * lat.to_radians()).tan().ln();
+    let (x0, y0, step, n) = (a * 99.8f64.to_radians(), merc_y(-30.2), 150.0, 200usize);
+    let mut z = Vec::new();
+    for j in 0..n {
+        for i in 0..n {
+            let v = if i < 100 { f32::NAN } else { -(1000.0 + i as f32 + 1000.0 * j as f32) };
+            z.extend_from_slice(&v.to_le_bytes());
+        }
+    }
+    std::fs::write(dir.join("m.f32"), z).unwrap();
+    let m = format!(r#"{{"source":"ausseabed","projection":"epsg3857","x0_m":{x0},"y0_m":{y0},"step_m":{step},"nlon":{n},"nlat":{n},"elevation_file":"m.f32","elevation_dtype":"f32","tid_file":null}}"#);
+    std::fs::write(dir.join("m.json"), m).unwrap();
+    let b = Bathymetry::load(&[dir.join("m.json").as_path(), gebco.as_path()], Some([99.5, 100.5, -30.5, -29.5])).unwrap();
+    // The lon/lat of cell (150, 40)'s centre, by the inverse Mercator.
+    let (i, j) = (150.0, 40.0);
+    let lon = ((x0 + i * step) / a).to_degrees();
+    let lat = (2.0 * ((y0 + j * step) / a).exp().atan() - std::f64::consts::FRAC_PI_2).to_degrees();
+    let s = b.at([lon, lat]).unwrap();
+    assert_eq!((s.source, s.elevation_m, s.tid), (BathySource::AusSeabed, -(1000.0 + 150.0 + 40_000.0), None));
+    // A point 0.4 cell away still answers that cell (nearest cell, no interpolation).
+    let s2 = b.at([lon + (0.4 * step / a).to_degrees(), lat]).unwrap();
+    assert_eq!(s2.elevation_m, s.elevation_m);
+    // NaN cells and points beyond the Mercator layer fall through to the lon/lat layer.
+    let lon_nan = ((x0 + 20.0 * step) / a).to_degrees();
+    assert_eq!(b.at([lon_nan, lat]).unwrap().source, BathySource::Gebco2026);
+    assert_eq!(b.at([100.4, -29.6]).unwrap().source, BathySource::Gebco2026);
+    std::fs::remove_dir_all(&dir).unwrap();
+}

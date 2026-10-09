@@ -214,8 +214,8 @@ Ocean transport (architecture sub-agent), 9 October 2026. Fetched by
   unchanged by `prepare/gebco_to_grid.py`, for `bathy::Bathymetry`.
 - **Used by:** settling (impact-point seabed and `bottom_relation`), hydroacoustics (geodesic paths with
   corridor maximum) and searched areas (terrain masking).
-- **AusSeabed / GA MH370 Phase 1 150 m: not obtained.** The GA geoserver returned 502, and the dataset is
-  not in NCI `rr1`. The surface is GEBCO_2026 alone until it is obtained.
+- **AusSeabed / GA MH370 Phase 1 150 m: obtained 9 October 2026** (section below). It is the first layer
+  inside its coverage. It was not obtained earlier on 9 October because the GA geoserver returned 502.
 
 | File | Bytes | sha256 | Retrieved (UTC) |
 |---|---|---|---|
@@ -379,3 +379,19 @@ directly; there is no derived file.
 |---|---|---|---|
 | `gshhg-bin-2.3.7.zip` | 118,617,033 | 28600e8f7a08645aab43079326df6504212ec5ccb2b4bcf3b5f4f12ed60e82bc | 2026-10-09T04:50Z |
 | `gshhs_f.b` | 95,809,336 | af9215d58ebc525b2d09654a89959829f09e6edc457f3666759cded37be4ecf6 | (from the zip) |
+
+## AusSeabed / GA MH370 Phase 1 150 m bathymetry (ga/100315, CC BY 4.0), fetched 2026-10-09
+
+Source: `https://files.ausseabed.gov.au/survey/Southern%20Indian%20Ocean%20(MH370)%20Bathymetry%202017%20150m.zip`
+(the link in GA eCat record d887e71a-71dc-4851-94a9-920f7b7cc7e5). Stored at
+`/Users/pete/Downloads/mh370-ocean-data/ausseabed/`.
+
+The derived grid is the GeoTIFF's EPSG:3857 cells copied unchanged into
+`grid/ausseabed_mh370_150m_elevation.f32` (float32 little-endian, rows south to north, nodata NaN). It is made by
+`engine/crates/ocean/prepare/ausseabed_to_grid.py`; the manifest is `grid/ausseabed_mh370_150m.json`.
+
+| File | Bytes | sha256 | Fetched (UTC) |
+|---|---|---|---|
+| `mh370_phase1_150m.zip` | 202,911,079 | 17b310edaf77859159947b8791bacd39e547246a5b3db2e7398d6f53b3b7480c | 2026-10-09T05:13Z |
+| `Southern_Indian_Ocean__MH370__Bathymetry_2017_150m_MSL_cog.tif` | 207,058,753 | 247f4be9f1044eb1ca9305369fc117be9ab9f375632f2772c3af788c1794094e | (from the zip) |
+| `grid/ausseabed_mh370_150m_elevation.f32` (derived) | 2,965,161,264 | 8d404ffb6be5299caecfd1aef7eb114e28f8f9755734541024001c9a210bc32e | 2026-10-09T05:15Z |
