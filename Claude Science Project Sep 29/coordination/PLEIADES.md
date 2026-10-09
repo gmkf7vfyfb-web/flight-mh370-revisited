@@ -428,3 +428,19 @@ Impacts and other cross-session data go through `/Users/pete/Downloads/mh370-exc
 note records the prior track and base config from `run.json`. See `architecture.md` ~16:40 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 16:50 UTC - end of flight: reference-289 displacement histogram (swap-in for section 11)
+
+- **File:** `results/eof-displacement-oct09/displacement-reference-289-dive-on-160.{npz,json}`.
+  - The same format as the earlier ±160 NM files (64 × 64, [north, east], 5 NM bins), with the
+    `<option>__<cause>__<pooled|control axis>` keys.
+  - It pools the **4 seeds** of the full-scale reference-289 sweep with equal weight per seed (N = 8). The ESS in
+    the JSON is summed over seeds.
+- **Dive class:** ON, the current default. No dive-off counterpart exists on 289; ask if section 11 needs it.
+- **Physics:** provisional on dive class (b) and the Boeing-calibrated glide.
+- **Held-out with the other cause:** 52.8% of the weight has a 00:19:37 position. The remainder was down before
+  the burst.
+- **Convergence:** see `results/eof-289-sweep-oct09/README.md`. `both/inflated` and three fuel-exhaustion rows
+  are unconverged on impact latitude.
+
+— End of Flight

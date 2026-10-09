@@ -1,8 +1,10 @@
 # End of flight on reference-289: evidential sweep (00:11 hand-off)
 
-9 October 2026, End of Flight Module. **FULL SCALE, IN PROGRESS. Seed 1 of 4 so far.** The physics is provisional
-on two PROVISIONAL-OVERNIGHT choices awaiting Pete: dive class (b), and the glide calibrated to Boeing's
-driftdown.
+9 October 2026, End of Flight Module.
+
+- **Scale.** FULL SCALE and COMPLETE: 4 seeds of 4. The run started at 14:45 UTC and finished at 16:42 UTC.
+- **Provisional physics.** The results are provisional on two PROVISIONAL-OVERNIGHT choices awaiting Pete: dive
+  class (b), and the glide calibrated to Boeing's driftdown.
 
 ## Impacts (persisted)
 
@@ -18,37 +20,69 @@ driftdown.
 - **Configs**, in core's order: `davey2016`, `no-exhaustion-prior`, `reference-snapshots`,
   `early-families/overnight/reference-289`, then `smoke/snapshot-m0011`, `smoke/terminal` and
   `full/reference-289` (N = 8).
+- **Seed 3.** Done at 16:08:49 UTC. sha256 `dad15481fd38eadac1d4516adaa3f44af0539c3e1c857c865403e85860cdca30`.
+- **Seed 4.** Done at 16:42:13 UTC. sha256 `10da1612a11d22b7ce7aa0d3e1bba5021f41c6796090947d9095fd82b6bc41d8`.
 
-## Seed 1 summary, against the 295.66° smoke run with the same physics
+## Pooled result (equal weight per seed)
 
-The comparison run is `eof-glideB-n16-s1`: 20,000 parents, N = 16.
+The table is built from `sweep-summary-reference-289.json`, written by
+`engine/hypotheses/end-of-flight/smoke/sweep_summary.py`.
 
-| option × log-on cause | ESS seed 1 (100k × 8) | median impact lat, lon (°) | 295.66 smoke median lat, lon (°) | divergent share | displacement from 00:19:37, 50/90% (NM) |
-|---|---|---|---|---|---|
-| `none__other` | 3,090,011 | -36.71, 91.05 | -37.32, 89.52 | 0.50 | 48/117 |
-| `none__fuel-exhaustion` | 257,497 | -36.82, 90.65 | -37.41, 89.47 | 0.49 | 44/119 |
-| `r600_inflated__other` | 759,248 | -37.49, 90.83 | -38.24, 89.32 | 0.49 | 61/122 |
-| `r600_inflated__fuel-exhaustion` | 95,035 | -37.32, 90.46 | -37.99, 89.39 | 0.50 | 50/120 |
-| `r600_no-offset__other` | 47,906 | -37.15, 90.69 | -37.87, 89.33 | 0.51 | 45/104 |
-| `r600_no-offset__fuel-exhaustion` | 13,886 | -37.11, 90.48 | -37.70, 89.45 | 0.52 | 41/113 |
-| `r600_startup-offset__other` | 41,797 | -37.06, 90.72 | -37.63, 89.30 | 0.57 | 37/110 |
-| `r600_startup-offset__fuel-exhaustion` | 15,151 | -37.31, 90.57 | -37.90, 89.48 | 0.59 | 48/119 |
-| `r1200_inflated__other` | 16,895 | -36.02, 90.87 | -37.03, 89.44 | 0.83 | 2/61 |
-| `r1200_inflated__fuel-exhaustion` | 4,668 | -36.33, 90.68 | -37.07, 89.57 | 0.84 | 3/94 |
-| `r1200_no-offset__other` | 3,275 | -36.01, 90.84 | -37.02, 89.46 | 0.84 | 2/48 |
-| `r1200_no-offset__fuel-exhaustion` | 894 | -36.28, 90.52 | -37.09, 89.54 | 0.86 | 2/87 |
-| `r1200_startup-offset__other` | 9,199 | -35.96, 90.90 | -36.95, 89.44 | 0.91 | 2/10 |
-| `r1200_startup-offset__fuel-exhaustion` | 2,338 | -36.24, 90.67 | -37.02, 89.58 | 0.95 | 2/6 |
-| `both_inflated__other` | 1,121 | -36.64, 90.86 | -37.24, 89.52 | 0.57 | 11/100 |
-| `both_inflated__fuel-exhaustion` | 441 | -37.26, 90.66 | -37.35, 89.52 | 0.62 | 59/103 |
+- **Latitude density.** A weighted 0.1° histogram of impact latitude, Gaussian-smoothed at 0.1°, as in
+  `epoch_map.latitude_density`.
+- **Split-half.** Computed over every balanced partition of the 4 seeds (3 partitions). It is compared with the
+  project's 4-replicate floor of 0.896, which was calibrated on core's 00:19 position density. Applying that floor
+  to impact latitude is an analogy, not a separate calibration.
 
-## Reading (one seed; the pooled four-seed table replaces this)
+| option × log-on cause | ESS, 4 seeds (min per seed) | median impact lat, lon (°) | seed medians, lat (°) | latitude HDI 50 / 90 / 99% | split-half, 3 partitions: mean [min, max] | converged (min ≥ 0.896) | divergent share |
+|---|---|---|---|---|---|---|---|
+| `none__other` | 12,358,800 (3,088,414) | -36.78, 90.99 | -36.91 to -36.71 | 38.2° S–35.6° S / 40.8° S–32.2° S / 41.7° S–24.8° S | 0.975 [0.973, 0.977] | yes | 0.50 |
+| `none__fuel-exhaustion` | 1,069,176 (257,497) | -36.94, 90.46 | -37.08 to -36.82 | 38.0° S–35.8° S / 40.2° S–33.5° S / 40.4° S–25.8° S | 0.959 [0.957, 0.961] | yes | 0.49 |
+| `r600_inflated__other` | 3,055,333 (748,404) | -37.58, 90.71 | -37.67 to -37.49 | 38.7° S–36.8° S / 40.6° S–26.6° S / 41.2° S–24.6° S | 0.969 [0.965, 0.972] | yes | 0.49 |
+| `r600_inflated__fuel-exhaustion` | 402,652 (95,035) | -37.48, 90.20 | -37.60 to -37.32 | 38.5° S–36.6° S / 40.2° S–34.7° S / 40.5° S–25.3° S | 0.953 [0.950, 0.958] | yes | 0.50 |
+| `r600_no-offset__other` | 197,569 (47,906) | -37.25, 90.53 | -37.33 to -37.15 | 38.4° S–36.5° S / 40.1° S–26.8° S / 40.3° S–25.2° S | 0.950 [0.940, 0.960] | yes | 0.51 |
+| `r600_no-offset__fuel-exhaustion` | 59,512 (13,886) | -37.28, 90.26 | -37.37 to -37.11 | 38.3° S–36.4° S / 40.2° S–27.3° S / 40.4° S–25.2° S | 0.938 [0.935, 0.942] | yes | 0.52 |
+| `r600_startup-offset__other` | 173,568 (41,688) | -37.20, 90.50 | -37.39 to -37.06 | 38.2° S–36.2° S / 40.2° S–26.5° S / 40.3° S–25.0° S | 0.931 [0.923, 0.936] | yes | 0.57 |
+| `r600_startup-offset__fuel-exhaustion` | 67,598 (15,151) | -37.54, 90.11 | -37.93 to -37.31 | 38.7° S–36.5° S / 40.3° S–27.1° S / 40.5° S–24.9° S | 0.904 [0.892, 0.921] | **no** | 0.59 |
+| `r1200_inflated__other` | 69,079 (16,895) | -36.16, 90.77 | -36.29 to -36.02 | 37.5° S–35.4° S / 39.2° S–29.0° S / 39.7° S–25.7° S | 0.939 [0.930, 0.947] | yes | 0.83 |
+| `r1200_inflated__fuel-exhaustion` | 19,503 (4,604) | -36.52, 90.51 | -36.60 to -36.33 | 37.7° S–35.6° S / 39.6° S–28.1° S / 39.8° S–24.0° S | 0.916 [0.913, 0.923] | yes | 0.85 |
+| `r1200_no-offset__other` | 13,514 (3,275) | -36.11, 90.80 | -36.25 to -36.01 | 37.5° S–35.3° S / 38.9° S–26.5° S / 39.6° S–25.9° S | 0.927 [0.922, 0.937] | yes | 0.85 |
+| `r1200_no-offset__fuel-exhaustion` | 3,679 (860) | -36.41, 90.50 | -36.50 to -36.28 | 37.7° S–35.6° S / 39.5° S–27.1° S / 39.7° S–26.0° S | 0.898 [0.890, 0.905] | **no** | 0.88 |
+| `r1200_startup-offset__other` | 37,827 (9,199) | -36.08, 90.79 | -36.23 to -35.96 | 37.5° S–35.4° S / 38.4° S–32.2° S / 39.1° S–25.7° S | 0.933 [0.924, 0.946] | yes | 0.90 |
+| `r1200_startup-offset__fuel-exhaustion` | 10,065 (2,338) | -36.42, 90.46 | -36.57 to -36.24 | 37.7° S–35.6° S / 38.5° S–27.1° S / 39.5° S–25.9° S | 0.899 [0.893, 0.907] | **no** | 0.94 |
+| `both_inflated__other` | 4,784 (1,121) | -36.65, 90.96 | -36.72 to -36.59 | 37.8° S–35.7° S / 39.8° S–26.3° S / 40.1° S–24.5° S | 0.902 [0.883, 0.913] | **no** | 0.57 |
+| `both_inflated__fuel-exhaustion` | 2,042 (441) | -37.34, 90.49 | -37.47 to -37.17 | 39.1° S–36.8° S / 39.9° S–26.3° S / 40.3° S–24.4° S | 0.849 [0.835, 0.865] | **no** | 0.60 |
 
-- **Every option moves north and east with the 289.7° prior**, as core's 00:19 median does (37.27° S → 36.42° S).
-  - Held-out, R600 and R1200 move about 0.6–1.0° north and 1.1–1.5° east.
-  - R1200's median is about 36.0–36.3° S.
-  - `both/inflated` moves least: 0.1–0.6°.
-- **ESS on seed 1 already exceeds the per-seed share of the E2 target** (125 of the pooled 1,000) for every
-  option. The smallest is `both/inflated` with fuel-exhaustion, at 441.
-- **The dive-class posterior share is unchanged in character.** It sits at the prior (0.5) for held-out and R600,
-  and at 0.83–0.95 for R1200.
+## Reading
+
+- **Converged.** 11 of the 16 option × cause rows clear the floor on every partition. These include held-out,
+  R600 inflated and no-offset, and R1200 inflated with both causes.
+- **Unconverged, quoted as such.**
+  - `both/inflated`, both causes; with fuel-exhaustion the mean is 0.849.
+  - R1200 no-offset with fuel-exhaustion, R1200 startup-offset with fuel-exhaustion, and R600 startup-offset with
+    fuel-exhaustion. For these three the minimum partition is 0.890–0.893.
+  - **Direction of the shift from 295.66° to 289.7°.** It is robust for three of these rows: R1200 no-offset
+    with fuel-exhaustion, R1200 startup-offset with fuel-exhaustion, and `both/inflated` with the other cause.
+    In each, all four seed medians lie north of the 295.66 value.
+  - It is **not** robust for the other two:
+    - R600 startup-offset with fuel-exhaustion: the seed medians run 37.93–37.31° S against 37.90° S.
+    - `both/inflated` with fuel-exhaustion: 37.47–37.17° S against 37.35° S.
+  - The 295.66 comparator is seed 1 at smoke scale (`eof-glideB-n16-s1`), so it carries its own seed noise.
+  - **Magnitudes are not estimates for any of the five.**
+  - ESS is not the limit: it clears the pooled 1,000 target everywhere, the minimum being 2,042. The limit is
+    seed-to-seed spread in the hand-off itself.
+- **Every option except `both/inflated` with fuel-exhaustion sits north of its 295.66° smoke counterpart.** That row is at 37.34° S against 37.35° S.
+  - The held-out median is 36.78° S, against 37.32° S at 295.66 (seed 1, smoke).
+  - R600 inflated with fuel-exhaustion is at 37.48° S.
+  - R1200 inflated with fuel-exhaustion is at 36.52° S.
+- **The 99% bounds run north to about 24–26° S.** That is the northern tail core reports at 00:19 (95% bound
+  29.8° S), carried through to impact, at the edge of the region. It is not a plausible terminus in its own
+  right, and its mass should be quoted directly rather than read off the contour.
+- **Figures** (project convention: greyscale HPD bands at 50/90/99%):
+  - `impact-map-reference-289-greyscale.pdf`, in latitude and longitude with the 6th and 7th arcs.
+  - `displacement-reference-289-greyscale.pdf`, displacement from the own 00:19:37 position.
+- **For Pléiades.** `results/eof-displacement-oct09/displacement-reference-289-dive-on-160.{npz,json}` holds
+  the 4 seeds pooled at ±160 NM, dive class on (the current default).
+  - A dive-off counterpart on reference-289 was **not run**. It would be another 2 h; say if it is wanted.
+  - Under held-out with the other cause, 52.8% of the weight has a 00:19:37 position. The rest was down before
+    the burst, and the JSON carries that share.

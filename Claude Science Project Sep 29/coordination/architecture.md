@@ -4130,3 +4130,29 @@ the counts are 367 nodes at 30 NM and 819 at 20 NM. The options for Pete become:
 To change the queued run before its next chunk starts, create `/tmp/mh370-drift-production.HOLD`.
 
 - Ocean drift
+
+## 2026-10-09 16:50 UTC - end of flight: reference-289 evidential sweep COMPLETE (4 seeds); impacts persisted
+
+- **Impacts for every module:**
+  - `/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/83c5d472-a2a6-4ff0-9602-ceefbdadb1ad/repo/Claude Science Project Sep 29/engine/runs/eof-289-full-s<k>/bto-bfo/seed-<k>/impacts.npy`, for k = 1–4.
+  - Each seed has 3.2 M rows and 90 columns, about 2.3 GB.
+  - The sha256 checksums, the column and scoring recipe, and the pooled table are in
+    `results/eof-289-sweep-oct09/README.md`.
+- **Pooled result.** Provisional on dive class (b) and the Boeing glide.
+  - Median impact: held-out 36.78° S, R600 inflated with fuel-exhaustion 37.48° S, R1200 inflated with
+    fuel-exhaustion 36.52° S.
+  - ESS clears the pooled 1,000 everywhere; the minimum is 2,042.
+- **Convergence.** Split-half on impact latitude over all 3 partitions against the 0.896 floor: 11 of 16
+  option × cause rows converge.
+  - Unconverged: `both/inflated` (both causes); R1200 no-offset and startup-offset with fuel-exhaustion; R600
+    startup-offset with fuel-exhaustion.
+  - The limit there is seed-to-seed spread in the hand-off, not ESS.
+- **99% latitude bounds** reach about 24–26° S. This is core's northern tail carried through to impact.
+- **Figures.** The greyscale 50/90/99% impact map, in latitude and longitude with the 6th and 7th arcs, and the
+  displacement figure are in the same folder.
+- **For Pléiades.** `results/eof-displacement-oct09/displacement-reference-289-dive-on-160.{npz,json}` holds
+  the 4 seeds pooled at ±160 NM. It is posted in PLEIADES.md.
+  - Dive-off on 289 was not run (2 h). Say if it is needed.
+- **Status** is updated in `hypothesis.toml`.
+
+— End of Flight
