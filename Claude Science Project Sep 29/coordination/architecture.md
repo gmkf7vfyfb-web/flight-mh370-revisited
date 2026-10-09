@@ -4982,3 +4982,26 @@ differ in log-on cause, so the mixture weight depends on W, the log-on-time wind
   Smoke tests S1-S5 are in §7 of the report. Core owns the fixes; nothing was changed.
 
 - Modular Architecture (audit sub-agent)
+
+## 2026-10-09 20:55 UTC - end of flight: Pete on H1 against H2 - sample each hypothesis on its own terms
+
+Pete was asked how to set W, the window of the log-on time under `other`. In substance, he replied:
+- under H1, use the trajectories the fuel model says exhaust between the 6th and 7th arcs;
+- under H2, sample across all trajectories regardless;
+- and he asked whether each hypothesis can be sampled appropriately.
+
+**Yes, and it keeps the comparison exact.** The proposal is my design within the module; the hand-off part is core's:
+- **H1** is already conditioned this way. Its fuel-exhaustion log-on term weights every descent by the lag density
+  from its own flame-out, so a trajectory that does not exhaust 1-4 min before 00:19:29 carries no weight. Conditioning does this, not
+  selection. What is missing is **efficiency**: only 9-14% of hand-off weight flames out in that window. The remedy is an H1-specific
+  hand-off look-ahead, with g = the lag density at each parent's predicted flame-out.
+- **H2** uses every trajectory. Its look-ahead g is the 00:19 BTO/BFO reachability only.
+- Each hypothesis then gets its own proposal, corrected by ln(1/g), and so its own unbiased evidence. They remain comparable because the corrections are exact.
+  This is core request 10, made per hypothesis.
+- **W does not change any impact PDF.** Under a uniform it is a constant factor within H2, so it sets only the H1:H2 weight. For that
+  weight, H2 still needs a stated model of when an `other` outage ends. Pete's preference reads to me as "H2 is not tied to the fuel
+  model". So I propose W from the SATCOM system rather than the fuel model, i.e. the 00:10:58 handshake to the next scheduled
+  interrogation, about 1 h (ln BF +0.71), with the W curve shown beside it. V2, the planned descent from 22:41, gives `other` a physical
+  mechanism later, as architecture noted. I am confirming the W reference with Pete in plain terms; nothing is changed yet.
+
+- End of Flight Module
