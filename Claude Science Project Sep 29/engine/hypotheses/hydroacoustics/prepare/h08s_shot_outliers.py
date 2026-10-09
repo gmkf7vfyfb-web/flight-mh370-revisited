@@ -16,8 +16,13 @@ PHYSICS NOTE, fixed now:
 CYCLES:
   - The trace is resampled at 40 Hz (linear interpolation of the vertices); the envelope is p^2 smoothed by
     a 0.5 s boxcar.
-  - Shot peaks are envelope maxima at least 7 s apart, with prominence >= 10 x the panel's median envelope.
-  - Cycle i runs from peak i to peak i+1; cycles longer than 15 s are flagged 'missed shot' and excluded.
+  - Shot peaks are envelope maxima at least 7 s apart, with prominence >= 2 x the panel's median envelope.
+    AMENDMENT (committed before any outlier or coincidence result was seen): the original 10 x rule found
+    only 9 peaks in panel e (2 usable cycles), because the train stands less far above that panel's
+    background; panel d was unaffected (50 cycles).
+  - Cycle i runs from peak i to peak i+1. Only cycles of 9-11 s are kept (AMENDMENT, replacing '<= 15 s'),
+    so that a mis-picked noise peak is rejected rather than treated as a shot.
+  - An injection run in which no valid cycle contains the injection counts as not detected (AMENDMENT).
   - E_shot = integral of p^2 over [peak - 1 s, peak + 3 s].
   - P_gap = mean p^2 over [peak + 4 s, next peak - 1 s].
 OUTLIERS:
@@ -91,11 +96,11 @@ def load(kd, pnl):
 def cycles(tg, p):
     k = int(0.5 * FS)
     env = np.convolve(p ** 2, np.ones(k) / k, "same")
-    pk, _ = signal.find_peaks(env, distance=int(7 * FS), prominence=10 * np.median(env))
+    pk, _ = signal.find_peaks(env, distance=int(7 * FS), prominence=2 * np.median(env))
     rows = []
     for i in range(len(pk) - 1):
         a, b = tg[pk[i]], tg[pk[i + 1]]
-        if b - a > 15.0:
+        if not (9.0 <= b - a <= 11.0):
             continue
         ms = (tg >= a - 1) & (tg <= a + 3)
         mg = (tg >= a + 4) & (tg <= b - 1)
@@ -103,7 +108,10 @@ def cycles(tg, p):
             continue
         jg = np.flatnonzero(mg)[np.argmax(env[mg])]
         rows.append(dict(t_shot=a, t_next=b, E_shot=float(np.sum(p[ms] ** 2) / FS), P_gap=float(np.mean(p[mg] ** 2)), t_gapmax=float(tg[jg])))
-    c = pd.DataFrame(rows)
+    c = pd.DataFrame(rows, columns=["t_shot", "t_next", "E_shot", "P_gap", "t_gapmax"])
+    if len(c) < 5:
+        c["z_E_shot"] = np.nan; c["z_P_gap"] = np.nan
+        return c, pk, env
     for col in ["E_shot", "P_gap"]:
         lg = np.log10(c[col].values)
         med = pd.Series(lg).rolling(13, center=True, min_periods=5).median().values
@@ -227,7 +235,7 @@ def main(kd, summary, out_dir):
             c1, _, _ = cycles(tg, x)
             tinj = tg[i0 + int(np.argmax(np.convolve(tm ** 2, np.ones(w4), "same")))]
             j = np.flatnonzero((c1.t_shot.values - 1 <= tinj) & (c1.t_next.values - 1 > tinj))
-            if len(j) and ((c1.z_E_shot.values[j[0]] >= 3) or (c1.z_P_gap.values[j[0]] >= 3)):
+            if len(j) and ((np.nan_to_num(c1.z_E_shot.values[j[0]]) >= 3) or (np.nan_to_num(c1.z_P_gap.values[j[0]]) >= 3)):
                 hit += 1
         pdrows.append(dict(snr_gap_db=snr, pd=hit / N_INJ, n=N_INJ))
     ratio_gap_shot_db = float(10 * np.log10(np.median(C.P_gap) * 4.0 / np.median(C.E_shot)))
