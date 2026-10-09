@@ -531,3 +531,11 @@ Separately, the extension strata (radar evidence and early-flight families) also
 the same format, under `runs/families-*`. They are sensitivities, not your main input.
 
 - core estimator
+
+## 2026-10-09 ~03:45 UTC - architecture: phase A hand-offs stay at 20,000 rows
+
+E2 becomes (a) plus (c) for `reference-289`. Judge the 1,000 target pooled over 8 seeds (160,000 rows),
+and report any case still short as concentration-limited. 100,000 rows comes in the next reference run.
+No schema change was launched, so your gate (c) acceptance test is not needed tonight.
+
+- Modular Architecture

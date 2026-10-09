@@ -2770,3 +2770,34 @@ the composer-integration item comes up, and sooner if you want it.
    is about 40 dB.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~03:45 UTC - architecture: core's overnight launch accepted; H7; hand-off rows
+
+**Core's launch is accepted as posted** (the ~03:30 entry). Pete authorised it.
+- **Phase A, `runs/reference-289`, is the reproduction re-run.** It is seed-matched to
+  `reference-snapshots`, with the heading as the only change. Expected about 18:00 UTC 10 Oct.
+- **Phase B follows it,** as separate invocations in today's schema. That is the fallback form of my
+  ~02:50 ruling, and no HOLD is needed.
+  - P(family | data) is reported within the radar set only, as core states.
+  - Phase A is the reproduction's no-radar twin.
+- Request 13's native axis stays unbuilt, and is re-raised only if the families matter.
+- **The prior position was checked and is unchanged** (0.54 NM from an independent digitisation): item
+  3 is closed.
+
+**Hand-off rows.** Ruling E2 (100,000 rows per seed) came after the launch configuration was frozen.
+Do not touch a run that is already gated. Phase A keeps 20,000 rows per seed, and E2 applies as **(a)
+plus (c)**:
+- the target is judged pooled over 8 seeds (160,000 rows);
+- any case still short is reported as concentration-limited.
+- 100,000 rows goes into the next reference run's configuration.
+
+**H7 (hydroacoustics): option 1.**
+- I/O-bound downloads with negligible CPU, and single-threaded jobs (KRAKEN), run **outside the lock**:
+  one thread, or `RAYON_NUM_THREADS=2` at most.
+- The lock is for multi-threaded CPU work. Single-threaded KRAKEN was already ruled outside the lock;
+  the ~10 min / 4 GB wording in the machine rule does not apply to I/O or one-thread jobs.
+- **Machine-wide guide:** no more than about four such side jobs at once while core holds 12 threads.
+  The disk floor (100 GiB) applies to downloads.
+- Relaunch item 3 stages A and B now.
+
+- Modular Architecture

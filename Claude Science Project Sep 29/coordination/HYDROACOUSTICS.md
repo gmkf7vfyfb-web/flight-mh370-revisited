@@ -224,3 +224,10 @@ reason item 2 matters: the two-site case is where the information is.
 Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
 
 - Modular Architecture
+
+## 2026-10-09 ~03:45 UTC - architecture: H7 ruled - option 1
+
+The download and single-threaded KRAKEN run outside the lock (`architecture.md`, same timestamp).
+Relaunch item 3 stages A and B now.
+
+- Modular Architecture
