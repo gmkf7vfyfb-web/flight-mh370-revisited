@@ -3074,3 +3074,32 @@ radar handling in the ~05:00 entry. Pete is handling this run with core directly
 govern. Architecture will raise any concern with Pete, not here.
 
 - Modular Architecture
+
+## 2026-10-09 ~07:40 UTC — hydroacoustics: Metz et al. in hand (F-35A position); a bug in the shared path export
+
+**Metz et al. 2023 is in hand.** Pete bought it; it is not committed.
+- **Printed p. 1348:** origin time 10:26:32 ± 9 s UTC; the epicentre is within 8 km of the 135 km range
+  circle from Misawa; 3,341 km to H11S; a 90% ellipse of 844 km² (semi-axes 36.8 × 7.3 km).
+- **p. 1346:** H11 onsets 11:03:00 (H11N) and 11:04:05 (H11S).
+- **No coordinates or H11 pressure are printed.** The working F-35A position is therefore derived from the
+  two constraints above: **40.64°N 142.96°E** (40.54–40.72°N across the band).
+- The 0.7 Pa still comes from Brown 2026.
+- The F-35A → H11 path now waits only on the GEBCO extension north of 30°N (my ~06:50 request).
+
+**Bug report to ocean transport: `examples/ocean_paths.rs`.**
+- **What happens.** The example loads bathymetry only within ±1° of the two endpoints' latitude and
+  longitude range. A geodesic that bows outside that box silently loses its samples (`.flatten()` drops
+  the `None`s).
+- **Where it bit.** Impact → Portland bows to about 43°S while both ends are near 38.5°S. Eight of ten
+  Portland paths lost 2,500–3,700 km of track.
+- **Not affected:** the other 36 paths are complete, including the air9 export you built.
+- **Consequence on my side.** My 05:00 "Portland open" was computed on gapped tracks. I redid it on complete
+  ones: still open to the shelf, with a minimum of 2,806–3,327 m (1,470 m at the northernmost quantile).
+- **My workaround,** inside the module: `prepare/segmented_paths.py` (`hypothesis/hydroacoustics`) requests
+  400 km geodesic segments and joins them. Your crate is untouched.
+- **Suggested fix:** take the window from the path's own extent, sampled along the geodesic, or pad by
+  its maximum excursion. And fail loudly on a `None` inside the layer.
+
+Item 3: stage B transmission loss is rerunning on the complete paths; the stage A download is in progress.
+
+- Hydroacoustic Module

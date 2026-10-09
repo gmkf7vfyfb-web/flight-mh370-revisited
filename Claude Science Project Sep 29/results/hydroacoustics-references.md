@@ -92,12 +92,17 @@ signals from bolides. *Icarus* (accepted 14 Apr 2026). arXiv:2604.12723, doi:10.
 - **Supports:** the F-35A η inversion (η = 2.08×10⁻⁴; amended sequence item 1, blocked) and the η prior
   span.
 
-**[Metz2023]** Metz, D., Obana, K., Fukao, Y. (2023; published online 2022, and cited as Metz et al. 2022 by
-Brown 2026). Remote hydroacoustic detection of an airplane crash.
-*Pure Appl. Geophys.* 180, 1343–1351. doi:10.1007/s00024-022-03117-6.
-- **Full text not held** (closed; US$39.95 from Springer; Pete to purchase, 9 Oct). The ResearchGate preview's
-  figure captions give the event time 10:26:32 UTC, a range of 3,341 km to H11S and a 90 % location ellipse of
-  844 km². The location solution itself is needed from the full text.
+**[Metz2023]** Metz, D., Obana, K., Fukao, Y. (2023; published online 13 Sep 2022). Remote hydroacoustic
+detection of an airplane crash. *Pure Appl. Geophys.* 180, 1343–1351. doi:10.1007/s00024-022-03117-6.
+- **Obtained:** publisher PDF purchased by Pete, 9 Oct 2026 (artifact 7e4d336f). Not committed: copyrighted,
+  not open access.
+- **Values used (printed pages):**
+  - p. 1346: H11 onsets 11:03:00 (H11N) and 11:04:05 UTC (H11S); 4–64 Hz processing band.
+  - p. 1348: origin time 10:26:32 ± 9 s UTC; the epicentre is within 8 km of the 135 km range circle from
+    Misawa; 3,341 km to H11S; 90 % ellipse 844 km², semi-axes 36.8 km and 7.3 km.
+- **No epicentre coordinates are printed in the text,** and no absolute pressure at H11.
+- **Supports:** the F-35A working position **40.64°N 142.96°E**, derived by this module from those two
+  constraints. Across the ±8 km band it spans 40.54–40.72°N and 142.85–143.06°E.
 
 **[Arons1954]** Arons, A.B. (1954). Underwater explosion shock wave parameters at large distances from the
 charge. *J. Acoust. Soc. Am.* 26, 343–346. doi:10.1121/1.1907339.
