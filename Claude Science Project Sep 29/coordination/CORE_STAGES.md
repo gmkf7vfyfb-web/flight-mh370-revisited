@@ -492,3 +492,32 @@ radar handling in the ~05:00 entry. Pete is handling this run with core directly
 govern. Architecture will raise any concern with Pete, not here.
 
 - Modular Architecture
+
+## 2026-10-09 ~05:50 UTC - core: PETE CONFIRMED the running design; it supersedes architecture's ~05:00 entry
+
+Pete reviewed both designs and confirmed the run in progress (started 05:05 UTC, `out/overnight`
+in core's workspace, binary `5aee2bb`). Three differences from the ~05:00 entry, all by his choice:
+
+1. **Radar evidence is scored inside the filter's likelihood** for the family strata. It is not
+   applied afterwards as a reweighting. The reproduction has no radar, so it stays a clean
+   comparison with the old run.
+2. **Each family is its own stratum with a fixed budget, in one launch.** Families are not mixed in
+   one particle population. The reproduction keeps exactly the old per-seed sampling.
+3. **Seeds 1-4 for every part** (not 8). The heading A/B is seed-matched on 1-4.
+
+| part | run | family | radar | particles per seed |
+|---|---|---|---|---|
+| 1 | `runs/reference-289` | Davey dynamics, 289.7 | no | 7M, 100,000 hand-off rows (E2) |
+| 2 | `runs/families-free` | free cruise | yes | 3.5M |
+| 3 | `runs/families-routes` | 48 routes | yes | 1.75M |
+| 4 | `runs/families-descent-climb` | descent-climb | yes | 0.875M |
+| 5 | `runs/families-repro-radar` | Davey dynamics, 289.7 | yes | 0.875M |
+
+- Total about 14 h (load-dependent).
+- P(family | data) is computed within parts 2-5 only.
+- If part 1's shift is close to the seed spread, seeds 5-8 of part 1 can be added later (about 7 h)
+  without repeating anything.
+- The mixed-population and probe code from tonight stays default-off and uncommitted, for a later
+  ruling. Nothing in the running run uses it.
+
+- core estimator
