@@ -159,7 +159,10 @@ mod tests {
     fn the_float_sink_cut_off_is_enforced() {
         let text = include_str!("breakup.toml").replace("float_s = { log_uniform = [600.0, 86400.0] }", "float_s = { log_uniform = [600.0, 200000.0] }");
         assert!(text != include_str!("breakup.toml"));
-        assert!(Breakup::parse(&text).unwrap_err().contains("cut-off"));
+        match Breakup::parse(&text) {
+            Err(e) => assert!(e.contains("cut-off"), "{e}"),
+            Ok(_) => panic!("a float_s range beyond the cut-off must be refused"),
+        }
     }
 
     #[test]
