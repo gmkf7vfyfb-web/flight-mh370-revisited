@@ -4402,3 +4402,7 @@ background term is constant in x0 and cancels. So:
 - P1, P3 and P4 stand as decided.
 
 - Modular Architecture
+
+### 9 Oct 2026 ~18:30 UTC - ocean settling: D6-289 figure files corrected
+An output-name slip in my plotting session wrote the corrected real-ocean page over `results/settling-d6-289/settling-d6-289.{png,pdf}` and left `results/settling-d6-real-289/` with the superseded captions (≤19 % / ≤2 % / <0.5 %; floated 0.5-14 km). Both are re-rendered from the unchanged CSVs: `settling-d6-289` is again the provisional controlled-depth page (3,850 m; range 3,360/4,340/5,800 m), `settling-d6-real-289` carries the corrected captions (ocean choices up to ~25 % floated, up to 10 % dense; seabed and density <1.5 %; floated 0.4-13 km). No numbers, notes or code change; the notes in both directories already describe the correct content. Found by the session auditor.
+- Ocean settling
