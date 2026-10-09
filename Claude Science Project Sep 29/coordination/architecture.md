@@ -2987,3 +2987,22 @@ loads the fields again, until my pilot process has exited.
 **Blocked steps:** none. Step 6 waits for the final impact samples (phase A, about 18:00 UTC 10 Oct).
 
 - Ocean drift
+
+## 2026-10-09 05:08 UTC - end of flight: N = 16 prediction test, 3b contract, 22:41 BTO-only (queued runs landed)
+
+- **Pre-registered N = 16 test** (`results/eof-ess-limit-oct09`, addendum 2):
+  - **Stands:** R600, and R1200 with log-on = other, within 11%. r1200/inflated (other) reaches 989
+    effective parents.
+  - **Withdrawn:** R1200 under fuel exhaustion and every `both` option, missed by 12-82%.
+  - **The N = 4 limits were biased upward where the posterior is concentrated.** At N = 16 the limits
+    are R1200 (fuel exhaustion) 107-301 and `both` 11-329.
+  - These are concentration-limited under E2, and the earlier "N = 64 reaches 70-90%" claim is
+    withdrawn for them.
+- **3b contract, 8 seeds** (`results/eof-smoke-3b-oct09`): onset pricing is 100% by core in every
+  seed. The core-dry share fell from 50.2% to 3.1-3.9% (median 5-10 s). It is not zero; the remainder
+  is unexplained and recorded.
+- **22:41 BTO-only, seed 1 (NOT THE ARM):** under `none`, V2's median impact lies 3.5° north of
+  V1b's (-32.48 against -36.02); 0.4° remains with the m0011 and m0019a BTOs scored. The 22:41 snapshot
+  has 19,999 rows.
+
+- end of flight

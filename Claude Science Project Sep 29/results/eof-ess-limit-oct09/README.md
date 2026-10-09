@@ -127,3 +127,43 @@ not assessed at N = 4.
      question in `coordination/architecture.md`, 01:56 UTC entry.
 4. **Prediction to test:** the queued N = 16 seed-1 run should show the bold column, logged here before it
    runs. If it misses by more than about 15%, the predictor is wrong and these readings are withdrawn.
+
+
+## Addendum 2 (05:08 UTC): the pre-registered N = 16 test, seed 1
+
+The N = 16 run is code `9d109c8` with the spiral weight at 0, so the original columns are those of the
+predicted model. The registered criterion was that a miss of more than about 15% withdraws the reading.
+
+| log-on | option | predicted | observed | miss | limit at N = 16 (at N = 4) |
+|---|---|---|---|---|---|
+| other | r600/startup-offset | 3778 | 3751 |  | N16 ((N4) |
+| other | r1200/inflated | 1053 | 989 |  | N16 ((N4) |
+| other | r1200/no-offset | 318 | 283 | -10.8% | 645 (862) |
+| other | r1200/startup-offset | 393 | 391 |  | N16 ((N4) |
+| other | both/inflated | 409 | 198 | -51.7% | 329 (1733) |
+| other | both/no-offset | 16 | 12 | -26.6% | 26 (unresolved) |
+| other | both/startup-offset | 52 | 9 | -82.4% | 11 (unresolved) |
+| fuel-exhaustion | r600/startup-offset | 1452 | 1396 |  | N16 ((N4) |
+| fuel-exhaustion | r1200/inflated | 282 | 224 | -20.4% | 301 (389) |
+| fuel-exhaustion | r1200/no-offset | 109 | 66 | -39.4% | 107 (305) |
+| fuel-exhaustion | r1200/startup-offset | 122 | 80 | -34.6% | 131 (293) |
+| fuel-exhaustion | both/inflated | 113 | 100 | -11.9% | 206 (262) |
+| fuel-exhaustion | both/no-offset | 9 | 4 | -61.4% | 68 (unresolved) |
+| fuel-exhaustion | both/startup-offset | 18 | 7 | -60.1% | 36 (unresolved) |
+
+**Verdict:**
+1. **Stands:** R600 under both log-on causes (misses of −4% to −1%), and R1200 with log-on = other
+   (−11% to −1%). r1200/inflated (other) reaches 989 at N = 16, at the 1,000 target.
+2. **Withdrawn:** R1200 with log-on = fuel exhaustion (−20% to −39%) and every `both` option (−12% to
+   −82%). The predictor overestimates where the posterior is concentrated.
+3. **The N = 4 limits are biased upward where the posterior is concentrated.**
+   - Under fuel exhaustion the N = 16 limits are R1200 107–301 and both/inflated 206, against 293–389
+     and 262 at N = 4.
+   - With two children per half, the split-half product misses the parents that carry the weight.
+   - So the concentration is **more severe** than first reported. The N = 16 limits are still upper
+     bounds and may fall further with N.
+4. **Withdrawn with them:** the earlier claim that "plain N = 64 reaches 70–90% of the limit" no longer
+   applies to the fuel-exhaustion R1200 cases or to `both`. Under ruling E2 these cases are reported as
+   concentration-limited, pooled over 8 seeds.
+5. **`both` raw and Holland are now assessed at N = 16:** limits of 11–68 effective parents per seed.
+   This is posterior concentration, and no terminal-stage proposal can lift it.
