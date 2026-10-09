@@ -57,8 +57,11 @@ entry of ~06:45 UTC, 9 Oct.
 
 ## Reading
 
-- **R600 and the held-out option barely move.** Median displacement changes by 3 NM or less, and the 90% radius
-  stays at 93–107 NM.
+- **Held-out, R600 inflated and R600 no-offset barely move.** Their median displacement changes by 4 NM or less.
+  - R600 startup-offset is the exception: with the dive class on, its median is 10 NM shorter (48 → 38 NM,
+    other cause) and 19 NM shorter (71 → 52 NM, fuel-exhaustion). *(Corrected 9 Oct: the first version said
+    "3 NM or less" for all R600.)*
+  - The 90% radius stays at 93–107 NM throughout.
 - **R1200 collapses onto its 00:19:37 position with the dive class on.** The median falls from 11–64 NM to about
   2 NM, and the 90% radius falls from 81–100 NM to 11–77 NM.
   - This is the provisional dive class at work. An R1200 burst sees a descent that the glide-only model can only

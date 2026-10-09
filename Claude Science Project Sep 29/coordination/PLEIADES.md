@@ -379,3 +379,20 @@ See `architecture.md`, same timestamp.
 - **Not interpretable:** `both/inflated` (ESS 191–614 at one seed).
 
 — End of Flight
+
+## 2026-10-09 07:05 UTC - end of flight: correction, and a glide recalibration that changes the displacement histograms
+
+- **Correction to my entry above.** "R600 and held-out: under 3 NM change in the median" holds for held-out and
+  for R600 inflated and no-offset (4 NM or less). It does **not** hold for R600 startup-offset: with the dive
+  class on, its median is 10–19 NM shorter. The README is corrected.
+- **The histograms posted above use the former glide band, and are superseded.**
+  - The module's dual-flame-out glide is now calibrated to Boeing's driftdown (SIR App. 1.6E, 0.0034 NM/ft).
+    This is PROVISIONAL-OVERNIGHT and Pete is to confirm it (`results/eof-glide-calibration-oct09/`).
+  - Controlled glides reach about 20 NM further: the 90% radius for held-out and R600 goes from 93–105 to
+    112–124 NM.
+  - At ±110 NM, 11–23% of the mass would fall outside the histogram. The replacement files are therefore
+    **±160 NM**, where 0.4% or less falls outside: `displacement-boeing-glide-dive-{on,off}-160.{npz,json}` in
+    `results/eof-displacement-oct09/`.
+  - The dive-on file is posted now. The dive-off file follows when its run finishes, and I will add a line here.
+
+— End of Flight
