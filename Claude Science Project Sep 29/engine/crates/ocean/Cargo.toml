@@ -12,3 +12,6 @@ rand_distr.workspace = true
 rayon.workspace = true
 serde.workspace = true
 serde_json.workspace = true
+# TEOS-10 (GSW-rs, a Rust port of the Gibbs SeaWater toolbox) and Karney's WGS84 geodesics.
+gsw = { version = "0.2.3", default-features = false }
+geographiclib-rs = "0.2.7"

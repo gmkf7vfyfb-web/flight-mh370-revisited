@@ -1658,3 +1658,106 @@ mh370-ocean) changed. 19 of 19 tests pass. Breaking for stubs: `RunSpec.explicit
 `ObjectResponse` field, and chainage on `Beached`. Next: item 2, production-forcing sizing.
 
 — ocean transport (architecture sub-agent)
+## 2026-10-09 ~01:10 UTC - architecture: hydroacoustics sequence amended
+
+The hydroacoustics sequence in my ~00:30 entry is replaced by the amended one in `HYDROACOUSTICS.md`.
+It restores the brief's step 4 as named interim deliverables: Kadri's digitised transients, the
+downloaded raw data, and the calibration data, plus noise estimation and the F-35A calibration.
+
+- Modular Architecture
+
+## 2026-10-09 ~01:20 UTC - architecture: STANDING RULE - every module keeps a citation ledger
+
+This is for the paper. Pete will need full citations for every number we use, so each module keeps them
+as it goes. Do not reconstruct them later. **This adds to your sequence; it does not interrupt it.**
+
+- **Keep `REFERENCES.md` and a matching `references.bib`** in your module directory
+  (`engine/hypotheses/<module>/`; ocean transport and composer in their crates).
+- **One entry per source**, carrying:
+  - the full reference, with its DOI or a stable URL;
+  - **the printed page numbers**, from the running headers, for every quoted value, figure, table or
+    equation;
+  - what the source supports: the parameter, claim or ruling, and the file or commit that uses it;
+  - how it was obtained (publisher, open access, project Drive copy with its Drive id, or archived data
+    with its sha256) and its licence. **An unauthorised copy of a copyrighted work is never cited.**
+  - for digitised data: the figure, and the extraction method.
+- **Update it in the same commit** as the code or note that first uses the source.
+- **Backfill what you have already used** at your next natural pause. Your results notes already carry
+  most of it.
+
+When the paper work starts, the per-module ledgers are merged into one bibliography.
+
+- Modular Architecture
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 2 done, with one licence hold
+
+- **On disk:** GLORYS12, WAVERYS and **genuine ERA5** (from ARCO-ERA5, so there is no substitution), each
+  verified over 7 March 2014 to 31 January 2017. This is about 27 GB of the 300 GB budget, including the
+  derived grids.
+- **BRAN2016 is stopped.** The CSIRO terms require registration before access and limit use to
+  government-funded research. Pete is asked to decide, and D-b's reproduction setting waits on him.
+- **Citation ledger** `crates/ocean/REFERENCES.md` and `references.bib` were added under your 01:20 rule.
+- **Contract conflict:** `AGENTS.md` still says "exactly three markdown files", and the ledger is a fourth
+  `.md` under `engine/`. Your rule takes precedence; the `AGENTS.md` line needs amending.
+
+— ocean transport (architecture sub-agent)
+## 2026-10-09 ~02:00 UTC — ocean drift: sequence progress; a page correction that reaches ruling D-a; one rule conflict
+
+**Steps 1 and 2 are done.** Branch `hypothesis/debris-drift` is at `1bea6dd`; scope is clean; 18 drift
+tests pass and the crate has 83.
+- **G1 is implemented.** There are nine object factors. Each detection block is a segment × period
+  pair (S1-S6 × I1-I3). The relative levels ν are latent and drawn from a declared prior, using 256
+  common draws shared by every node. They are marginalised outside the product over finds, together
+  with K. Because q and Q are linear in ν, the coefficients are computed once per ensemble.
+  - Tested: a global constant in ν cancels; a change in one block's level does not; a coast with
+    ν = 0 carries no information.
+  - Synthetic recovery: 90% HPD coverage 0.97; calibration ratio 1.06.
+- **The stub is deleted; transport is `mh370-ocean`.** The flaperon class is as ruled: c0 ~
+  N(0.10, 0.03²) m/s, θ ~ U(−30°, 0°) in the API's sign, on 1.2% wind, with no Stokes field.
+  `leeway_absorbs_stokes` makes the transport refuse a Stokes field. A test checks that the E1
+  combination is refused.
+- **A smoke run on real fields works** (`smoke-fields.toml`): the GLORYS12 slice plus ERA5 2014,
+  with synthetic finds east of Réunion. Land-mask stranding reaches Réunion (up to 91% from adjacent
+  nodes) and north-east Madagascar. Throughput was 1.0 × 10⁶ particle-steps/s per thread at 2
+  threads.
+
+**Step 3 (the pilot)** has its prediction committed at `050fc05`, before any pilot compute. The
+pilot itself waits only for full-period GLORYS12 and ERA5 fields that `GridField` can load across
+file seams (`OCEAN_TRANSPORT.md`, ~01:00 UTC). Ocean transport is converting GLORYS12 into
+`glorys12/grid/` now. This is **not a fundamental blocker**; I will run under the lock as soon as the
+manifests exist.
+
+**Correction that reaches ruling D-a.** My provenance note read CSIRO Part II's page numbers as
+headers. The CSIRO template puts them in the **footers** (verified on the Part III PDF page by page,
+and on Part II's own text). Every Part II page was cited one too low:
+- the 0-30° range is on **p. 17**, not p. 16;
+- the 10 cm/s and 16° measurements are on p. 10;
+- Fig. 2.3.1 is on p. 11.
+
+The note is corrected in this commit, with a correction section. **D-a should read "p. 17".**
+
+The same pass answers the "one owner" entry. **The ruled response is the genuine cut-down flaperon
+measured at sea, not the replica**, and it is a measurement, not a tuned assessment. The 20° trial
+angle and the model surface layer under the 1.2% baseline are modelling choices. Pléiades should take
+the genuine-flaperon numbers. One detail for D-b: Part III's 1.2% figure is drawn on **BRAN2015's
+0-5 m layer** (Part III p. 6), and **Part II names no ocean model**. So the "reproduction setting on
+BRAN2016" is our nearest available match, not CSIRO's documented configuration.
+
+**Rule conflict: the citation ledger location.** The standing rule puts `REFERENCES.md` in the module
+directory. `ARCHITECTURE.md` allows only three `.md` files in `engine/`, and my instructions forbid
+writing new ones there. I took the reversible option:
+- the ledger is at `results/debris-drift-references.md`;
+- `references.bib` is in the module directory.
+
+Please rule which wins, and I will move it.
+
+**One more transport request, small.** `ObjectResponse` uses one angle for both wind terms. CSIRO
+rotates only the *extra* 10 cm/s (Part II p. 13, the Fig. 3.1 caption: "the direction of the 'extra'
+leeway velocity"). Their 1.2% baseline is downwind. With one angle, a flaperon at θ = −20° in 8 m/s
+of wind also turns its 9.6 cm/s baseline by 20°, adding about 3 cm/s of cross-wind drift that CSIRO
+did not model. The pilot runs with this as a declared departure.
+
+**Also used: settling's §8 handover** (T_c = 48 h; drift owns fate (c)). It is acknowledged and fits
+the refinement. The first pass still releases at the impact point.
+
+— ocean drift

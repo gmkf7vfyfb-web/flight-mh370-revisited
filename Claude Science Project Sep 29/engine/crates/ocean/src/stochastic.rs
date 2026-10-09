@@ -12,7 +12,7 @@
 //! choose its own ocean (brief rule 4).
 //!
 //! Random streams: particle `i` uses ChaCha8 stream `i`; the ocean-error realisation uses streams
-//! `u64::MAX` and `u64::MAX - 1`; the diffusivity draw uses `u64::MAX - 2`. Results are therefore
+//! `u64::MAX - 3b` and `u64::MAX - 3b - 1` for band b; the diffusivity draw uses `u64::MAX - 2`. Results are therefore
 //! identical for any thread count. With `OceanErrorModel::none()` and a fixed diffusion, changing
 //! the run seed changes only the per-particle diffusion (and refloat) streams.
 //!
@@ -131,14 +131,28 @@ pub enum ErrorKind {
     Eddying { sigma_m_s: f64, length_scale_m: f64, time_scale_s: f64, modes: usize },
 }
 
-/// How the error amplitude varies with depth (for settling). The realisation is fully correlated
-/// in the vertical; only its amplitude changes.
+/// How the error varies with depth (for settling).
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub enum VerticalStructure {
+    /// One realisation at every depth, same amplitude.
     Uniform,
-    /// factor(z) = deep_ratio + (1 - deep_ratio) exp(-z / efold_m)
+    /// One realisation, fully correlated in the vertical, amplitude
+    /// factor(z) = deep_ratio + (1 - deep_ratio) exp(-z / efold_m).
     Exponential { efold_m: f64, deep_ratio: f64 },
+    /// Settling's bands: surface (0 to `surface_to_m`), upper (to `upper_to_m`), deep (below), and a
+    /// near-bottom band keyed to **height above the seabed** (within `near_bottom_m` of it), which
+    /// takes precedence where the seabed depth is known. Each band has its own amplitude factor and
+    /// its **own independent realisation** (separate random streams): correlated within a band,
+    /// independent across bands, since surface, interior and bottom-boundary-layer flows are
+    /// different processes. Still one draw per run or impact event.
+    Banded { surface_to_m: f64, upper_to_m: f64, near_bottom_m: f64, factors: [f64; 4] },
 }
+
+/// Band indices of [`VerticalStructure::Banded`].
+pub const BAND_SURFACE: usize = 0;
+pub const BAND_UPPER: usize = 1;
+pub const BAND_DEEP: usize = 2;
+pub const BAND_NEAR_BOTTOM: usize = 3;
 
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct OceanErrorModel {
@@ -159,9 +173,16 @@ impl OceanErrorModel {
             vertical: VerticalStructure::Uniform,
         }
     }
-    /// Draw the one realisation for a run (or an impact event) from its seed.
+    /// Draw the one realisation for a run (or an impact event) from its seed. Banded structures
+    /// draw one independent realisation per band.
     pub fn realise(&self, seed: u64) -> OceanErrorRealisation {
-        let mut r = rng(seed, OCEAN_ERROR_STREAM);
+        let nb = if matches!(self.vertical, VerticalStructure::Banded { .. }) { 4 } else { 1 };
+        let bands = (0..nb).map(|b| self.realise_band(seed, b as u64)).collect();
+        OceanErrorRealisation { model: *self, seed, bands }
+    }
+
+    fn realise_band(&self, seed: u64, band: u64) -> BandRealisation {
+        let mut r = rng(seed, OCEAN_ERROR_STREAM - 3 * band);
         let mut n = || -> f64 { r.sample(StandardNormal) };
         let (offset, modes, amplitude) = match self.kind {
             ErrorKind::None => ([0.0; 2], vec![], 0.0),
@@ -177,7 +198,7 @@ impl OceanErrorModel {
                 ([0.0; 2], m, sigma_m_s * length_scale_m * (2.0 / modes as f64).sqrt())
             }
         };
-        let mut r2 = rng(seed, OCEAN_ERROR_STREAM - 1);
+        let mut r2 = rng(seed, OCEAN_ERROR_STREAM - 3 * band - 1);
         let modes = modes
             .into_iter()
             .map(|mut m| {
@@ -185,8 +206,15 @@ impl OceanErrorModel {
                 m
             })
             .collect();
-        OceanErrorRealisation { model: *self, seed, offset, modes, amplitude }
+        BandRealisation { offset, modes, amplitude }
     }
+}
+
+#[derive(Clone, Debug)]
+struct BandRealisation {
+    offset: [f64; 2],
+    modes: Vec<Mode>,
+    amplitude: f64,
 }
 
 #[derive(Clone, Debug)]
@@ -201,33 +229,50 @@ struct Mode {
 pub struct OceanErrorRealisation {
     pub model: OceanErrorModel,
     pub seed: u64,
-    offset: [f64; 2],
-    modes: Vec<Mode>,
-    amplitude: f64,
+    bands: Vec<BandRealisation>,
 }
 
 impl OceanErrorRealisation {
-    /// Error velocity east/north, m/s, at time `t`, position `p` and depth `depth_m` (0 at the surface).
+    /// Error velocity east/north, m/s, at time `t`, position `p` and depth `depth_m` (0 at the
+    /// surface), seabed depth unknown.
     pub fn velocity(&self, t: f64, p: LonLat, depth_m: f64) -> [f64; 2] {
-        let f = match self.model.vertical {
-            VerticalStructure::Uniform => 1.0,
+        self.velocity_with_seabed(t, p, depth_m, None)
+    }
+
+    /// As [`Self::velocity`], with the local seabed depth so the near-bottom band can apply.
+    pub fn velocity_with_seabed(&self, t: f64, p: LonLat, depth_m: f64, seabed_m: Option<f64>) -> [f64; 2] {
+        let (band, f) = match self.model.vertical {
+            VerticalStructure::Uniform => (0, 1.0),
             VerticalStructure::Exponential { efold_m, deep_ratio } => {
-                deep_ratio + (1.0 - deep_ratio) * (-depth_m / efold_m).exp()
+                (0, deep_ratio + (1.0 - deep_ratio) * (-depth_m / efold_m).exp())
+            }
+            VerticalStructure::Banded { surface_to_m, upper_to_m, near_bottom_m, factors } => {
+                let b = if seabed_m.is_some_and(|s| s - depth_m <= near_bottom_m) {
+                    BAND_NEAR_BOTTOM
+                } else if depth_m <= surface_to_m {
+                    BAND_SURFACE
+                } else if depth_m <= upper_to_m {
+                    BAND_UPPER
+                } else {
+                    BAND_DEEP
+                };
+                (b, factors[b])
             }
         };
-        if self.modes.is_empty() {
-            return [f * self.offset[0], f * self.offset[1]];
+        let br = &self.bands[band];
+        if br.modes.is_empty() {
+            return [f * br.offset[0], f * br.offset[1]];
         }
         let (r, e, n) = enu_basis(p);
         let x = [r[0] * EARTH_RADIUS_M, r[1] * EARTH_RADIUS_M, r[2] * EARTH_RADIUS_M];
         let mut g = [0.0f64; 2];
-        for m in &self.modes {
+        for m in &br.modes {
             let s = (dot(m.k, x) + m.omega * t + m.phase).sin();
             g[0] += s * dot(m.k, e);
             g[1] += s * dot(m.k, n);
         }
         // grad psi = -A sum sin(.) k ; u = -d psi/dn, v = d psi/de
-        let a = self.amplitude * f;
+        let a = br.amplitude * f;
         [a * g[1], -a * g[0]]
     }
 }
