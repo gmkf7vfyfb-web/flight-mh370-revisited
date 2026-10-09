@@ -8,6 +8,12 @@ use serde::Deserialize;
 /// The families, in the order the selection rule produces them.
 pub const FAMILIES: [&str; 3] = ["intact", "broken", "fragmented"];
 
+/// The float/sink cut-off T_c (s): an element that would float longer than this before sinking
+/// belongs to the surface-drift branch (its share is `stays_afloat`), not to settling's float
+/// phase. Declared, not measured: results/breakup-field-candidate.md section 8 gives the reasons
+/// (48 h). A table whose `float_s` range exceeds it is refused on load.
+pub const FLOAT_CUTOFF_S: f64 = 48.0 * 3600.0;
+
 pub struct Breakup {
     pub classes: Vec<String>,
     pub selection: Selection,
@@ -119,6 +125,9 @@ impl Breakup {
                     .try_into()
                     .map_err(|e| format!("breakup table: {family} {class}: {e}"))?;
                 element.check().map_err(|e| format!("breakup table: {family} {class}: {e}"))?;
+                if element.float_s.hi > FLOAT_CUTOFF_S {
+                    return Err(format!("breakup table: {family} {class}: float_s reaches {} s, beyond the float/sink cut-off {FLOAT_CUTOFF_S} s; that share is stays_afloat", element.float_s.hi));
+                }
                 row.push(element);
             }
             let total: f64 = row.iter().map(|e| e.mass_share).sum();
@@ -144,6 +153,13 @@ mod tests {
         let b = table();
         assert_eq!(b.classes.len(), 6);
         assert_eq!(b.elements.len(), 3);
+    }
+
+    #[test]
+    fn the_float_sink_cut_off_is_enforced() {
+        let text = include_str!("breakup.toml").replace("float_s = { log_uniform = [600.0, 86400.0] }", "float_s = { log_uniform = [600.0, 200000.0] }");
+        assert!(text != include_str!("breakup.toml"));
+        assert!(Breakup::parse(&text).unwrap_err().contains("cut-off"));
     }
 
     #[test]
