@@ -320,12 +320,17 @@ fn leeway_rotates_clockwise_from_downwind() {
     let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
     let mut p = particle(92.0, -35.0, 0.0, 0.02);
-    p.response.leeway_angle_deg = 90.0;
+    p.response.wind_angle_deg = 90.0;
     let out = integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap();
     let q = final_position(&out.tracks[0]);
-    // Northward wind, leeway rotated 90 degrees clockwise: due east at 0.2 m/s.
+    // Northward wind, c_wind term rotated 90 degrees clockwise: due east at 0.2 m/s.
     assert!(q[0] > 92.0 && (q[1] + 35.0).abs() < 1e-6);
     assert!((distance_m([92.0, -35.0], q) - 0.2 * DAY).abs() < 20.0);
+    // D-f: leeway_angle_deg does not rotate the c_wind term; due north at 0.2 m/s.
+    let mut p = particle(92.0, -35.0, 0.0, 0.02);
+    p.response.leeway_angle_deg = 90.0;
+    let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
+    assert!((q[0] - 92.0).abs() < 1e-9 && (distance_m([92.0, -35.0], q) - 0.2 * DAY).abs() < 20.0);
 }
 
 #[test]
@@ -456,14 +461,18 @@ fn constant_magnitude_leeway_follows_rotated_downwind() {
         let east = (q[0] - 92.0).to_radians() * EARTH_RADIUS_M * (35f64).to_radians().cos();
         assert!((east + 0.10 * DAY * 16f64.to_radians().sin()).abs() < 30.0, "east {east}");
     }
-    // Both wind terms share the angle: 1.2% of 10 m/s plus 0.10 m/s, at -16 deg, is 0.22 m/s.
+    // D-f, CSIRO form: 1.2% of 10 m/s downwind (wind_angle_deg 0) plus 0.10 m/s at -16 deg.
+    // Velocity (-0.10 sin 16, 0.12 + 0.10 cos 16) = (-0.02756, 0.21613) m/s, speed 0.21788 m/s.
     let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
     let mut p = particle(92.0, -35.0, 0.0, 0.012);
     p.response.leeway_speed_mps = 0.10;
     p.response.leeway_angle_deg = -16.0;
     let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
-    assert!((distance_m([92.0, -35.0], q) - 0.22 * DAY).abs() < 30.0);
+    let (ve, vn) = (-0.10 * 16f64.to_radians().sin(), 0.12 + 0.10 * 16f64.to_radians().cos());
+    assert!((distance_m([92.0, -35.0], q) - ve.hypot(vn) * DAY).abs() < 30.0);
+    let east = (q[0] - 92.0).to_radians() * EARTH_RADIUS_M * (35f64).to_radians().cos();
+    assert!((east - ve * DAY).abs() < 30.0, "east {east} vs {}", ve * DAY);
     // Calm: below the declared threshold the constant-magnitude term is zero.
     let calm = Uniform::new(Component::Wind10m, 0.0, 0.4 * LEEWAY_CALM_WIND_MPS);
     let f = Forcing { current: &c, stokes: None, wind10: Some(&calm) };
