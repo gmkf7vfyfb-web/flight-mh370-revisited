@@ -1,7 +1,8 @@
-# crates/ocean — citation ledger
+# Shared ocean transport (`engine/crates/ocean`) — citation ledger
 
 This ledger is kept under the architecture standing rule of 9 October (`coordination/architecture.md`,
-commit 419a760), with `references.bib` beside it. It has one entry per source, giving:
+commit 419a760; location ruled ~02:25 UTC: `results/`, since `AGENTS.md` allows no further `.md` under
+`engine/`), with `ocean-references.bib` beside it. It has one entry per source, giving:
 - what the source supports, and where in this crate it is used;
 - how it was obtained;
 - its licence.

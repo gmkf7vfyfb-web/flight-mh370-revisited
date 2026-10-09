@@ -89,7 +89,7 @@ pub struct ProductMeta {
     pub vertical_velocity: Inclusion,
     pub verify_on_download: Vec<&'static str>,
     pub sources: Vec<&'static str>,
-    /// Terms of use as read from the distributor; see crates/ocean/REFERENCES.md.
+    /// Terms of use as read from the distributor; see results/ocean-references.md.
     pub licence: &'static str,
 }
 
