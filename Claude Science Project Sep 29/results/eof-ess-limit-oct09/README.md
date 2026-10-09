@@ -75,3 +75,52 @@ it. If the limit is below the target, only more parents can close the gap.
   That is a core question (hand-off rows per seed), raised in `coordination/architecture.md` of this date.
   An alternative is to rule the target on effective parents pooled across 8 seeds: about 2,300–5,800
   pooled at these limits.
+
+
+## Addendum (~03:45 UTC): the onset-window proposal, and a prediction for N = 16 stated before the run
+
+`engine/hypotheses/end-of-flight/smoke/proposal_gain.py` predicts effective parents for any child count,
+and for a defensive onset-window mixture q = α p + (1 − α) p(· | onset ∈ [00:19:37 − W, 00:19:37)),
+with weight p/q exact. It uses the per-parent single-draw variance of L, estimated from the plain rows
+already run. **Check:** with q = p it reproduces the observed N = 4 values to within about 10%. Designs
+tried: W = 120, 300, 600 s and α = 0.2, 0.3, 0.5. `both` with no-offset or startup-offset is omitted:
+not assessed at N = 4.
+
+| log-on | seed | option | observed N=4 | predictor at N=4 (q = p) | limit | **predicted plain N=16** | best onset-window design, N=16 |
+|---|---|---|---|---|---|---|---|
+| other | 1 | r600/startup-offset | 2,401 | 2,684 | 4,371 | **3,778** | 3,831 (W300_a0.5) |
+| other | 1 | r1200/inflated | 486 | 519 | 1,605 | **1,053** | 1,077 (W600_a0.2) |
+| other | 1 | r1200/no-offset | 111 | 110 | 862 | **318** | 332 (W600_a0.2) |
+| other | 1 | r1200/startup-offset | 151 | 166 | 726 | **393** | 407 (W600_a0.2) |
+| other | 1 | both/inflated | 83 | 124 | 1,733 | **409** | 430 (W600_a0.2) |
+| other | 2 | r600/startup-offset | 2,688 | 3,008 | 4,801 | **4,178** | 4,244 (W300_a0.5) |
+| other | 2 | r1200/inflated | 555 | 612 | 1,560 | **1,124** | 1,146 (W600_a0.2) |
+| other | 2 | r1200/no-offset | 95 | 106 | 885 | **312** | 330 (W600_a0.2) |
+| other | 2 | r1200/startup-offset | 160 | 174 | 1,029 | **461** | 480 (W600_a0.2) |
+| other | 2 | both/inflated | 98 | 113 | 255 | **194** | 197 (W600_a0.2) |
+| fuel-exhaustion | 1 | r600/startup-offset | 932 | 1,049 | 1,665 | **1,452** | 1,483 (W300_a0.3) |
+| fuel-exhaustion | 1 | r1200/inflated | 151 | 154 | 389 | **282** | 286 (W300_a0.5) |
+| fuel-exhaustion | 1 | r1200/no-offset | 38 | 37 | 305 | **109** | 112 (W600_a0.2) |
+| fuel-exhaustion | 1 | r1200/startup-offset | 36 | 45 | 293 | **122** | 124 (W600_a0.2) |
+| fuel-exhaustion | 1 | both/inflated | 35 | 42 | 262 | **113** | 114 (W600_a0.2) |
+| fuel-exhaustion | 2 | r600/startup-offset | 1,275 | 1,443 | 2,323 | **2,016** | 2,060 (W300_a0.3) |
+| fuel-exhaustion | 2 | r1200/inflated | 207 | 228 | 508 | **388** | 399 (W300_a0.5) |
+| fuel-exhaustion | 2 | r1200/no-offset | 36 | 37 | 578 | **123** | 134 (W300_a0.5) |
+| fuel-exhaustion | 2 | r1200/startup-offset | 51 | 57 | 732 | **184** | 186 (W600_a0.2) |
+| fuel-exhaustion | 2 | both/inflated | 54 | 60 | 435 | **169** | 193 (W300_a0.3) |
+
+**Findings:**
+1. **The onset-window proposal is a negative result.** The best design gains 1–5% over plain at N = 16
+   in every option. Within each parent the R1200 noise sits in the descent shape (the vertical speed at
+   00:19:37), not in the onset time. It is **not built**; the script stays as the record.
+2. **r1200/inflated with log-on = other needs no proposal.** Plain N = 16 is predicted at 1,053 / 1,124,
+   against the 1,000 target. r600/startup-offset under fuel exhaustion is predicted at 1,452 / 2,016.
+3. **R1200 raw and Holland:** plain N = 16 is predicted at about 110–460, against limits of about
+   290–1,030.
+   - The remaining gap is Monte Carlo, in the descent-shape dimension.
+   - A proposal aimed at it needs the profile draw recorded per impact. Recording it is the next module
+     step (8 latent columns: the draw uniforms of layout v2).
+   - Most of these limits are below 1,000, so the target stays out of reach; see the parent-count
+     question in `coordination/architecture.md`, ~03:20 UTC.
+4. **Prediction to test:** the queued N = 16 seed-1 run should show the bold column, logged here before it
+   runs. If it misses by more than about 15%, the predictor is wrong and these readings are withdrawn.
