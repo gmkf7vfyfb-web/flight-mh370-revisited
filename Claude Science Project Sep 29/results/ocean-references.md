@@ -219,3 +219,21 @@ page is still to be read.
   big-endian header and micro-degree point layout of the distribution's `README.TXT`, and WGS84 geodetic
   coordinates (README note C, which also says the WDBII-derived lakes may be WGS72 and that offsets from
   modern GPS positions have been noted).
+
+### Copernicus-GlobCurrent, MULTIOBS_GLO_PHY_MYNRT_015_003 — `cmems_mob_015_003`
+- **Data:** E.U. Copernicus Marine Service Information, *Global Total (COPERNICUS-GLOBCURRENT), Ekman and
+  Geostrophic currents at the Surface and 15m*, MULTIOBS_GLO_PHY_MYNRT_015_003. Datasets used:
+  `cmems_obs-mob_glo_phy-cur_my_0.25deg_P1D-m` and `..._PT1H-i`, version 202411. CMEMS announces that this
+  version retires on 24 November 2026.
+- **Supports:** the `globcurrent-my-p1d` and `globcurrent-my-pt1h` catalogue entries. The total current
+  is altimetric geostrophy plus an empirical Ekman current from ERA5 wind stress plus the barotropic tide
+  (quality information document CMEMS-MOB-QUID-015-003, and the product page). The Stokes content is
+  declared `Partial` by this module, because the Ekman transfer is fitted to drifters; that declaration
+  is a modelling choice, not a statement in the source.
+- **Licence:** Copernicus Marine Service product licence (free use with attribution).
+
+### Global Drifter Program 6-hourly QC positions — `lumpkin2019gdp`
+- **Reference:** Lumpkin, R. and Centurioni, L. (2019). Global Drifter Program quality-controlled 6-hour
+  interpolated data from ocean surface drifting buoys. NOAA NCEI. doi:10.25921/7ntx-z961. These are drift's
+  files and drift's citation (`debris-drift-references.md`).
+- **Supports:** the transport-error replay `ocean-transport-error-gdp-replay.md`.
