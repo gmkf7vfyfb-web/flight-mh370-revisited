@@ -99,6 +99,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
 
     let mut params = config.dynamics.apply(Parameters::default());
     params.fuel = load_fuel(&config, &epochs)?;
+    params.early = config.dynamics.early.as_ref().map(|e| e.resolve()).transpose()?;
     let mut spec = PriorSpec {
         unix_s: satcom::parse_utc(&config.prior.time_utc)?,
         latitude_deg: config.prior.latitude_deg,
@@ -344,6 +345,7 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
     environment.declination_scale = config.environment.declination_scale;
     let mut params = config.dynamics.apply(Parameters::default());
     params.fuel = load_fuel(&config, &epochs)?;
+    params.early = config.dynamics.early.as_ref().map(|e| e.resolve()).transpose()?;
 
     let mut handoffs = Vec::new();
     for case in &config.cases {

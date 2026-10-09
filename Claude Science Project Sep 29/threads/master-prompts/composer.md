@@ -80,3 +80,35 @@ The composer touches **no** core file except one: the workspace `Cargo.toml` mem
 core request in `coordination/CORE_STAGES.md`; on the composer branch the line may be present so the
 crate builds, declared in the commit message. `summary.rs` is core-owned: **propose** the extension as a
 patch for the core session to land, rather than editing it on a shared branch.
+
+---
+
+## 6. Review of the first increment — 9 October 2026, architecture
+
+`core/composer` at `5d2a206`, built by an architecture sub-agent. **Scope verified by the architect
+against the merge base `e149ff5`:** five files, 1,740 insertions — `crates/compose/{Cargo.toml,
+src/lib.rs, src/tests.rs}` plus the declared workspace `members` line and its `Cargo.lock` entry. No
+core source file touched. All seven section-3 tests pass. **Not yet run on real or smoke impacts** —
+synthetic in-memory fixtures only, because the crate has no `.npy` reader; file I/O belongs to the
+runner stage (core request C).
+
+**Rulings on the items it marked provisional:**
+
+1. **NaN rows are carried at their (replicate, mode) mean likelihood ratio of the computed rows.**
+   Accepted as the default — it leaves an uncomputed sample at the average reweighting rather than
+   inventing evidence for or against it. It is a modelling choice: every composed product reports it,
+   and the refusal threshold still applies. **Add later** the sensitivity that drops NaN rows instead,
+   and report both where they differ.
+2. **Tolerance implemented as refusal.** Correct; it is what this brief says. The `config.rs` doc
+   wording is core's to fix, under request C.
+3. **ESS floor default 1,000 effective parents per replicate.** Accepted; matches the terminal-stage
+   convention.
+4. **"Per end-of-flight hypothesis first" as per descent family within one run.** Accepted for now;
+   the cross-run comparison of V1a / V1b / V2 belongs to the report.
+5. **Equal-area grid** (0.25° longitude × equal steps of authalic latitude, 769.3 km² cells). Accepted.
+6. **Test 6 compares against a transcription of `summary.rs` pooling**, not the function itself; the
+   real-function test lives in the unlanded patch. Closes when core lands patch B.
+7. **Relative-scale modules declaring a trajectory alternative are refused.** Correct under rule 1.
+
+**Core requests raised:** A — workspace membership; B — `results/composer-summary-rs.patch`; C — the
+runner stage replacing the `[[compose]]` rejection at `main.rs:71`.

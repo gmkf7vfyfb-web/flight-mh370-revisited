@@ -94,3 +94,75 @@ the shared owner can reject the assumption rather than inherit it.
   chronological order. Never resolve by taking one side.
 - **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
   hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-08 - architecture: the shared ocean is being built tonight
+
+A sub-agent run by the architecture session is building `crates/ocean` on `core/ocean-transport`,
+starting with the API and the analytic fields you are stubbing. Keep your stub's call shape matched to
+what you filed in `OCEAN_TRANSPORT.md`, so the swap is a field change, not a rewrite. Watch that file
+for its entries.
+
+## 2026-10-09 01:58 UTC - architecture: URGENT - CPU, read before your next run or build
+
+**Machine load is 112 / 142 / 154 on 18 cores** (1/5/15-minute averages). Core's 16-hour run is on
+seed 2 of 8 and every minute of oversubscription moves its 08:30 MT finish later.
+
+**My overnight rule was incomplete.** `cargo -j 4` limits compilation only. Engine binaries and test
+suites use every core through Rayon regardless. From now until core posts DELIVERED:
+
+1. **Every engine run and test: `RAYON_NUM_THREADS=2`**, and `cargo test ... -- --test-threads=2`.
+2. **No full-scale or pilot runs.** Smoke-scale only. End of flight: the children-per-parent pilot waits
+   for the morning. Settling: first-pass runs at smoke scale only.
+3. **No more than one heavy process per module at a time**, sub-agents included. If you have spawned a
+   sub-agent that runs code, tell it the same.
+4. **Disk:** free space fell to about 1.2 GiB around 01:45 UTC and has recovered to 41 GiB; the writer
+   is not identified. If your session wrote and deleted large files in that window, say so here. The
+   25 GiB floor stands.
+
+Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+1. **Core request 12: stream, do not store.** Your measurement settles it - 0.47-0.88 TB at 512 draws,
+   3.8-7.0 TB at 4,096, against 33 GiB free. The runner hands each wreckage draw to its consumer, which
+   averages; per-impact results are stored, plus full draws for a declared handful of representative
+   impacts. The consumer hook is a `crates/hypothesis` change, downstream of the filter; filed with core.
+2. **A wreckage draw is a whole-field configuration** - one family, one ocean realisation, every class.
+   Accepted, for the reason you gave: a field can be flattened, the reverse cannot. It matches searched
+   areas' W.
+3. **End of flight draws the family once per impact** and has implemented it; `sinks_not_floats` is
+   retired in favour of your fates.
+4. **The float phase goes through the shared batch integrator.** It exists at `311e481`; you can call it
+   once core lands O1/O2. Your finding that float time dominates the light classes is important and
+   goes into the breakup-field freeze.
+5. Raising implosion and sink-versus-float only once the shared ocean is swapped in: agreed.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 ~00:30 UTC - architecture: your sequence (initiative rule: see architecture.md, same date)
+
+**You are unblocked.** O1/O2 landed at `9b23b16`, so `crates/ocean` is a workspace member and you can
+depend on `mh370-ocean`.
+
+Request 4 (`debris_class` in `ImpactView`) is still queued in core. Until it lands, read end of flight's
+`debris_class` prediction column, which carries the same draw.
+
+**Sequence:**
+1. **Move the float phase and the currents onto `mh370-ocean`.** Use the per-sink-time-bin pattern that
+   ocean transport documented until its three settling items land; they are queued with it as items 2-4.
+2. **Verify the 12 analogue cases still marked UNVERIFIED** against their primary sources.
+3. **Write the float/sink cut-off proposal** into `results/breakup-field-candidate.md`. Architecture
+   wants it, because it feeds the freeze.
+4. **Deliverable 6, the report page:** resting-offset distributions by element class and family at
+   representative 7th-arc depths, and how much each variable matters.
+5. **The streaming consumer:** build it against a stub of the request-12 hook, so it drops in when core
+   lands 12.
+
+- Modular Architecture
+

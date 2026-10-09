@@ -1,7 +1,7 @@
 //! Stage 2, the end of flight: every handed-off trajectory continues to impact.
 //!
 //! For each hand-off row and each of its N children, on the child's own random streams:
-//! 1. the terminal module draws the takeover time (the first flame-out);
+//! 1. the terminal module draws the takeover (descent onset or first flame-out, per the module);
 //! 2. the runner flies the core dynamics to it, recording the state at each 00:19 burst on
 //!    the way (the cruise-model convention, as in the filter: no vertical rate);
 //! 3. the module descends from the takeover state to impact, returning one or more descents
@@ -20,7 +20,7 @@ use crate::impacts::IMPACT_COLUMNS;
 use crate::output::write_npy64;
 use flight::environment::{Environment, MPS_PER_KNOT};
 use flight::{Aircraft, Parameters};
-use hypothesis::{Air, Atmosphere, EpochState, FlightState, Terminal, TerminalEpoch};
+use hypothesis::{Air, Atmosphere, EpochState, FlightState, FuelFlow, FuelFlowRate, Terminal, TerminalEpoch};
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use rayon::prelude::*;
@@ -177,7 +177,11 @@ impl<'a, E: Environment> Stage<'a, E> {
         let mut log_weights = Vec::new();
         let mut corrections = Vec::with_capacity(self.children);
         for c in 0..self.children {
-            let (takeover, q_takeover) = self.module.takeover_time(&handoff, &mut uniform(seed, 2, c, r));
+            // Priced with the parent's own factor: the fuel the hand-off holds is what the core
+            // will burn on the way to the takeover.
+            let handoff_fuel = CoreFuel { model: self.params.fuel.as_deref(), factor: row.aircraft.fuel_factor() };
+            let drawn = self.module.takeover_priced(&handoff, &handoff_fuel, &mut uniform(seed, 2, c, r));
+            let (takeover, q_takeover) = (drawn.unix_s, drawn.log_q_correction);
             if !(takeover.is_finite() && takeover >= handoff.unix_s && q_takeover.is_finite()) {
                 return Err(format!("{r}/{c}: takeover {takeover} (correction {q_takeover}) is not a finite time after the hand-off"));
             }
@@ -192,6 +196,7 @@ impl<'a, E: Environment> Stage<'a, E> {
             }
             aircraft.propagate(takeover, self.params, self.environment, &mut rng);
             let at = flight_state(&aircraft, self.params);
+            let fuel = CoreFuel { model: self.params.fuel.as_deref(), factor: aircraft.fuel_factor() };
 
             let requested: Vec<TerminalEpoch> =
                 self.epochs[later..].iter().map(|e| TerminalEpoch { id: e.id.clone(), unix_s: e.logged_unix_s }).collect();
@@ -204,7 +209,8 @@ impl<'a, E: Environment> Stage<'a, E> {
                 all[later..].copy_from_slice(candidates);
                 self.target_log_likelihood(&all, bias)
             };
-            let descents = self.module.descend(&at, &atmosphere, &mut uniform(seed, 3, c, r), &requested, &score);
+            let descents =
+                self.module.descend_after(&at, &drawn, &atmosphere, &fuel, &mut uniform(seed, 3, c, r), &requested, &score);
             if descents.is_empty() {
                 return Err(format!("{r}/{c}: the terminal module returned no descent"));
             }
@@ -386,9 +392,33 @@ impl<E: Environment> Atmosphere for Weather<'_, E> {
             wind_east_mps: w.wind_east_kt * MPS_PER_KNOT,
             wind_north_mps: w.wind_north_kt * MPS_PER_KNOT,
             declination_deg: self.environment.declination_deg(altitude_ft, latitude_deg, longitude_deg),
+            // No mean-sea-level pressure in the weather grid: ISA sea level, as hypothesis::Air
+            // documents (core request 5).
             surface_pressure_altitude_ft: 0.0,
             clamped: self.span.is_some_and(|[time, altitude]| outside(time, unix_s) || outside(altitude, altitude_ft)),
         }
+    }
+}
+
+/// The runner's fuel-flow service for terminal modules (core request 3): the cruise tables and
+/// this trajectory's own fuel-flow factor, so the descent is priced by the model the cruise
+/// burn used. `None` where the core cannot price the state - see [`FuelFlow`] for what a module
+/// must do then; it is never zero flow.
+struct CoreFuel<'a> {
+    model: Option<&'a flight::FuelModel>,
+    factor: f64,
+}
+
+impl FuelFlow for CoreFuel<'_> {
+    fn fuel_flow_kg_h(&self, flight_level: f64, weight_t: f64, mach: f64) -> Option<FuelFlowRate> {
+        let (flow, cover) = self.model?.tables.fuel_flow_kg_h(flight_level, weight_t, mach)?;
+        let kg_h = flow * self.factor;
+        (kg_h.is_finite() && kg_h > 0.0).then_some(FuelFlowRate {
+            kg_h,
+            extrapolated: cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback,
+            below_tables: cover.below_tables,
+            above_ceiling: cover.above_ceiling,
+        })
     }
 }
 
@@ -450,3 +480,128 @@ fn uniform(seed: u64, purpose: u64, child: usize, row: usize) -> impl FnMut() ->
     move || ((rng.gen::<u64>() >> 11) as f64 + 0.5) / (1u64 << 53) as f64
 }
 
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use hypothesis::{Descent, Impact, NoFuelModel, Takeover};
+    use std::sync::Mutex;
+
+    fn model() -> flight::FuelModel {
+        let p = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/fuel-tables.json");
+        let tables = flight::fuel::FuelTables::from_json(&std::fs::read_to_string(p).expect("fuel tables")).unwrap();
+        flight::FuelModel::new(tables, flight::fuel::FuelPrior::default())
+    }
+
+    /// Core request 3: the descent is priced by the cruise model with the trajectory's own
+    /// factor - not a second model, and never zero.
+    #[test]
+    fn core_fuel_is_the_cruise_tables_times_the_trajectorys_factor() {
+        let m = model();
+        let (fl, w, mach, factor) = (350.0, 200.0, 0.80, 1.0213);
+        let (base, _) = m.tables.fuel_flow_kg_h(fl, w, mach).unwrap();
+        let got = CoreFuel { model: Some(&m), factor }.fuel_flow_kg_h(fl, w, mach).unwrap();
+        assert!((got.kg_h - base * factor).abs() < 1e-9, "{} against {}", got.kg_h, base * factor);
+        assert!(!got.extrapolated && !got.below_tables && !got.above_ceiling);
+        // Ordinary cruise is priced in the range the Boeing validation covers.
+        assert!((4_000.0..9_000.0).contains(&got.kg_h), "{}", got.kg_h);
+        // Low level is priced, and says it was clamped; it is not zero.
+        let low = CoreFuel { model: Some(&m), factor }.fuel_flow_kg_h(20.0, w, 0.45).unwrap();
+        assert!(low.below_tables && low.kg_h > 0.0);
+        // Unpriceable states are None, never Some(0).
+        for (fl, w, mach) in [(f64::NAN, w, mach), (fl, f64::NAN, mach), (fl, w, f64::NAN), (fl, 900.0, mach)] {
+            let r = CoreFuel { model: Some(&m), factor }.fuel_flow_kg_h(fl, w, mach);
+            assert!(r.map_or(true, |r| r.kg_h > 0.0), "({fl}, {w}, {mach}) priced at {r:?}");
+        }
+        assert!(CoreFuel { model: None, factor }.fuel_flow_kg_h(fl, w, mach).is_none());
+    }
+
+    /// A module that overrides neither new hook behaves exactly as before: the defaults call
+    /// `takeover_time` and `descend` with the same streams.
+    struct Plain;
+    impl Terminal for Plain {
+        fn families(&self) -> Vec<String> {
+            vec!["only".into()]
+        }
+        fn takeover_time(&self, h: &FlightState, u: &mut dyn FnMut() -> f64) -> (f64, f64) {
+            (h.unix_s + 100.0 * u(), -0.25)
+        }
+        fn descend(&self, t: &FlightState, _: &dyn Atmosphere, u: &mut dyn FnMut() -> f64, e: &[TerminalEpoch], _: &dyn Fn(&[Option<EpochState>]) -> f64) -> Vec<Descent> {
+            vec![descent(t.unix_s + u(), e.len(), vec![])]
+        }
+    }
+
+    /// Core request 2: a module that does override them gets its own draw back unchanged.
+    struct Carries(Mutex<Vec<Vec<f64>>>);
+    impl Terminal for Carries {
+        fn families(&self) -> Vec<String> {
+            vec!["only".into()]
+        }
+        fn takeover_time(&self, _: &FlightState, _: &mut dyn FnMut() -> f64) -> (f64, f64) {
+            unreachable!("the runner calls takeover")
+        }
+        fn descend(&self, _: &FlightState, _: &dyn Atmosphere, _: &mut dyn FnMut() -> f64, _: &[TerminalEpoch], _: &dyn Fn(&[Option<EpochState>]) -> f64) -> Vec<Descent> {
+            unreachable!("the runner calls descend_after")
+        }
+        fn takeover(&self, h: &FlightState, u: &mut dyn FnMut() -> f64) -> Takeover {
+            Takeover { unix_s: h.unix_s + 60.0, log_q_correction: 0.0, draw: vec![2.0, 0.0, u()] }
+        }
+        fn descend_after(&self, t: &FlightState, drawn: &Takeover, _: &dyn Atmosphere, fuel: &dyn FuelFlow, _: &mut dyn FnMut() -> f64, e: &[TerminalEpoch], _: &dyn Fn(&[Option<EpochState>]) -> f64) -> Vec<Descent> {
+            self.0.lock().unwrap().push(drawn.draw.clone());
+            assert!(fuel.fuel_flow_kg_h(350.0, 200.0, 0.8).is_none(), "NoFuelModel prices nothing");
+            vec![descent(t.unix_s, e.len(), vec![])]
+        }
+    }
+
+    fn descent(unix_s: f64, epochs: usize, latents: Vec<f64>) -> Descent {
+        let impact = Impact { unix_s, latitude_deg: -37.0, longitude_deg: 89.0, velocity_east_mps: 0.0, velocity_north_mps: 0.0, velocity_up_mps: -10.0, mass_kg: 180_000.0 };
+        Descent { impact, family: 0, at_epochs: vec![None; epochs], latents, log_q_correction: 0.0 }
+    }
+
+    fn state() -> FlightState {
+        FlightState {
+            unix_s: 1_394_237_459.0, latitude_deg: -36.0, longitude_deg: 90.0, altitude_ft: 35_000.0,
+            ground_velocity_east_mps: 100.0, ground_velocity_north_mps: -200.0, vertical_speed_mps: 0.0,
+            mach: 0.8, true_air_speed_mps: 240.0, heading_deg: 200.0, wind_east_mps: 0.0, wind_north_mps: 0.0,
+            mode: 2, mass_kg: 175_000.0, fuel_kg: 800.0, realised_flameout_unix_s: f64::NAN,
+        }
+    }
+
+    struct Still;
+    impl Atmosphere for Still {
+        fn at(&self, _: f64, _: f64, _: f64, _: f64) -> Air {
+            Air { temperature_k: 220.0, pressure_pa: 23_800.0, wind_east_mps: 0.0, wind_north_mps: 0.0, declination_deg: 0.0, surface_pressure_altitude_ft: 0.0, clamped: false }
+        }
+    }
+
+    #[test]
+    fn the_default_hooks_are_the_old_pair_on_the_same_streams() {
+        let h = state();
+        let stream = || {
+            let mut k = 0.0;
+            move || {
+                k += 0.125;
+                k
+            }
+        };
+        let (mut a, mut b) = (stream(), stream());
+        let drawn = Plain.takeover(&h, &mut a);
+        assert_eq!((drawn.unix_s, drawn.log_q_correction, drawn.draw.len()), (Plain.takeover_time(&h, &mut b).0, -0.25, 0));
+        let (mut a, mut b) = (stream(), stream());
+        let new = Plain.descend_after(&h, &drawn, &Still, &NoFuelModel, &mut a, &[], &|_| 0.0);
+        let old = Plain.descend(&h, &Still, &mut b, &[], &|_| 0.0);
+        assert_eq!(new, old);
+    }
+
+    #[test]
+    fn an_overriding_module_gets_its_own_draw_back() {
+        let m = Carries(Mutex::new(Vec::new()));
+        let h = state();
+        let mut u = || 0.375;
+        let drawn = m.takeover(&h, &mut u);
+        // The runner flies the core in between; the module must not need to recompute anything.
+        let flown = FlightState { unix_s: drawn.unix_s, fuel_kg: 0.0, realised_flameout_unix_s: h.unix_s + 30.0, ..h };
+        m.descend_after(&flown, &drawn, &Still, &NoFuelModel, &mut u, &[], &|_| 0.0);
+        assert_eq!(m.0.lock().unwrap().as_slice(), &[vec![2.0, 0.0, 0.375]]);
+    }
+}

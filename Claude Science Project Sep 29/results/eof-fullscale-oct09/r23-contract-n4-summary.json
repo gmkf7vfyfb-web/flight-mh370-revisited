@@ -1,0 +1,1083 @@
+{
+ "source": "runs/eof-r23-n4-all",
+ "code_revision": "ffc3fbe-dirty",
+ "runtime_s": 222.915189584,
+ "children": 4,
+ "seeds": [
+  1,
+  2,
+  3,
+  4,
+  5,
+  6,
+  7,
+  8
+ ],
+ "parents_per_seed": [
+  20000,
+  19999,
+  20001,
+  19999,
+  20000,
+  20000,
+  20000,
+  20001
+ ],
+ "descents_per_seed": [
+  320000,
+  319984,
+  320016,
+  319984,
+  320000,
+  320000,
+  320000,
+  320016
+ ],
+ "item2_parents_without_impact_total": 0,
+ "item3": {
+  "hand_off_fuel_kg_median": {
+   "pooled": 665.9942995703188,
+   "min": 606.3559145535819,
+   "max": 751.7354732187448,
+   "seeds": 8
+  },
+  "rows_dry_at_hand_off": {
+   "pooled": 84.75,
+   "min": 18.0,
+   "max": 131.0,
+   "seeds": 8
+  },
+  "dry_parent_descents_labelled_thrusting": {
+   "pooled": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "seeds": 8
+  },
+  "fuel_fallback_fired": {
+   "pooled": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "seeds": 8
+  },
+  "mass_fallback_fired": {
+   "pooled": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "seeds": 8
+  },
+  "share_flown_powered_after_core_exhaustion": {
+   "pooled": 0.5016816169603682,
+   "min": 0.4899813056453329,
+   "max": 0.5103200174672998,
+   "seeds": 8
+  },
+  "median_s_flown_powered_after_core_exhaustion": {
+   "pooled": 42.01779708266258,
+   "min": 36.74512815475464,
+   "max": 47.50031328201294,
+   "seeds": 8
+  }
+ },
+ "item4": {
+  "latent_columns": [
+   49
+  ],
+  "unexpected_nan_any_seed": {},
+  "declared_nan_all_nan_every_seed": true,
+  "impact_fields_finite_every_seed": true
+ },
+ "item7_ess_by_option": {
+  "none": {
+   "ess_parents": {
+    "pooled": 19999.999749155184,
+    "min": 19998.99952387924,
+    "max": 20000.99989380867,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 310268.63285943976,
+    "min": 310145.05156025896,
+    "max": 310424.09454949724,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": 1.3364309658466937e-14,
+    "min": -2.1469492850224324e-12,
+    "max": 9.49684775263908e-13,
+    "seeds": 8
+   },
+   "resolved_every_seed": true
+  },
+  "r600/inflated": {
+   "ess_parents": {
+    "pooled": 13469.288015198246,
+    "min": 12929.833301108578,
+    "max": 13756.437753229115,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 88937.25209269844,
+    "min": 86138.80872628292,
+    "max": 92043.21574355883,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -11.555082485891251,
+    "min": -11.588572304348396,
+    "max": -11.506076187025771,
+    "seeds": 8
+   },
+   "resolved_every_seed": true
+  },
+  "r600/no-offset": {
+   "ess_parents": {
+    "pooled": 3292.0407690455686,
+    "min": 2904.379822688484,
+    "max": 3799.8050294285995,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 6648.7552773945245,
+    "min": 5649.9546563894155,
+    "max": 7522.762152354548,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -12.373359508117105,
+    "min": -12.53691123717012,
+    "max": -12.232550639675425,
+    "seeds": 8
+   },
+   "resolved_every_seed": true
+  },
+  "r600/startup-offset": {
+   "ess_parents": {
+    "pooled": 2141.4608712001937,
+    "min": 1906.7459092978008,
+    "max": 2812.732203310748,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 5260.093744894855,
+    "min": 4530.104913923518,
+    "max": 7140.068602503595,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -14.155282398724616,
+    "min": -14.315132777281764,
+    "max": -13.849966381302234,
+    "seeds": 8
+   },
+   "resolved_every_seed": true
+  },
+  "r1200/inflated": {
+   "ess_parents": {
+    "pooled": 485.84870293559055,
+    "min": 409.69963318285545,
+    "max": 623.6101112953893,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 851.0884491131195,
+    "min": 738.8354400143689,
+    "max": 1071.9515882357387,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -10.789042386551957,
+    "min": -10.914727125071675,
+    "max": -10.581209016135649,
+    "seeds": 8
+   },
+   "resolved_every_seed": false
+  },
+  "r1200/no-offset": {
+   "ess_parents": {
+    "pooled": 106.6616017508786,
+    "min": 84.99256738361596,
+    "max": 145.1353745176023,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 141.71489177246264,
+    "min": 118.01025334333795,
+    "max": 202.2389357099098,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -10.979058737745495,
+    "min": -11.176844072209404,
+    "max": -10.602188503331087,
+    "seeds": 8
+   },
+   "resolved_every_seed": false
+  },
+  "r1200/startup-offset": {
+   "ess_parents": {
+    "pooled": 149.73847214179622,
+    "min": 130.1228093243646,
+    "max": 174.91393900491343,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 220.66928517923742,
+    "min": 201.7771450315674,
+    "max": 243.16041373964958,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -12.086462867029558,
+    "min": -12.168124212778682,
+    "max": -11.981494644466206,
+    "seeds": 8
+   },
+   "resolved_every_seed": false
+  },
+  "both/inflated": {
+   "ess_parents": {
+    "pooled": 98.50204437618966,
+    "min": 82.32881276511615,
+    "max": 116.33993004739597,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 151.2528027462556,
+    "min": 128.92680849406335,
+    "max": 178.0729942083083,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -22.794401722202345,
+    "min": -22.895692519551474,
+    "max": -22.58962215752146,
+    "seeds": 8
+   },
+   "resolved_every_seed": false
+  },
+  "both/no-offset": {
+   "ess_parents": {
+    "pooled": 3.061682729616719,
+    "min": 1.2393396775514114,
+    "max": 4.846918579832708,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 3.7025068026913868,
+    "min": 1.2508712868142837,
+    "max": 5.646322684288102,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -23.15682449530115,
+    "min": -23.881676108103953,
+    "max": -22.775623567440768,
+    "seeds": 8
+   },
+   "resolved_every_seed": false
+  },
+  "both/startup-offset": {
+   "ess_parents": {
+    "pooled": 6.983340886326911,
+    "min": 3.9470794902057182,
+    "max": 11.372166651757201,
+    "seeds": 8
+   },
+   "ess_rows": {
+    "pooled": 8.817794962993421,
+    "min": 4.321786822929359,
+    "max": 13.379765793962997,
+    "seeds": 8
+   },
+   "log_evidence_increment": {
+    "pooled": -24.163819322638254,
+    "min": -24.83708985273165,
+    "max": -23.517844530010564,
+    "seeds": 8
+   },
+   "resolved_every_seed": false
+  }
+ },
+ "proposal_self_check": [
+  {
+   "mean_correction": 1.0006057692312489,
+   "standard_error": 0.0007527465293128963
+  },
+  {
+   "mean_correction": 0.9997346021152047,
+   "standard_error": 0.0007534291172209769
+  },
+  {
+   "mean_correction": 1.0007334798100147,
+   "standard_error": 0.0007515820770913627
+  },
+  {
+   "mean_correction": 0.9990097032329015,
+   "standard_error": 0.0007466321230688893
+  },
+  {
+   "mean_correction": 0.9987122252752195,
+   "standard_error": 0.000750700947820159
+  },
+  {
+   "mean_correction": 0.9999546703301428,
+   "standard_error": 0.0007496207845978738
+  },
+  {
+   "mean_correction": 0.9997090659345593,
+   "standard_error": 0.0007482655251076575
+  },
+  {
+   "mean_correction": 1.0005282702902447,
+   "standard_error": 0.000743742815812869
+  }
+ ],
+ "item5_flagged_families": {
+  "anticipatory/two-thrusting/ditching-attempt": [
+   "beyond glide bound"
+  ],
+  "anticipatory/one-thrusting/ditching-attempt": [
+   "beyond glide bound"
+  ],
+  "anticipatory/none-thrusting/ditching-attempt": [
+   "beyond glide bound"
+  ],
+  "anticipatory/none-thrusting/maintained-then-lost": [
+   "beyond glide bound"
+  ],
+  "fuel-cue/two-thrusting/ditching-attempt": [
+   "beyond glide bound"
+  ],
+  "fuel-cue/two-thrusting/upset-then-recovery": [
+   "beyond glide bound"
+  ],
+  "fuel-cue/one-thrusting/ditching-attempt": [
+   "beyond glide bound"
+  ],
+  "fuel-cue/one-thrusting/upset-then-recovery": [
+   "beyond glide bound"
+  ],
+  "flame-out/none-thrusting/ditching-attempt": [
+   "beyond glide bound"
+  ],
+  "flame-out/none-thrusting/maintained-then-lost": [
+   "beyond glide bound"
+  ],
+  "flame-out/none-thrusting/upset-then-recovery": [
+   "beyond glide bound"
+  ],
+  "anticipatory/two-thrusting/maintained-then-lost": [
+   "beyond glide bound"
+  ],
+  "anticipatory/one-thrusting/maintained-then-lost": [
+   "beyond glide bound"
+  ],
+  "flame-out/none-thrusting/no-intervention": [
+   "beyond glide bound"
+  ]
+ },
+ "requests_2_3": {
+  "mechanism_from_draw_share": {
+   "pooled": 1.0,
+   "min": 1.0,
+   "max": 1.0,
+   "seeds": 8
+  },
+  "mechanism_relabelled_dry_share": {
+   "pooled": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "seeds": 8
+  },
+  "mechanism_share_anticipatory_fuelcue_flameout": [
+   {
+    "pooled": 0.45025130144598524,
+    "min": 0.44206792204844764,
+    "max": 0.45540815213671326,
+    "seeds": 8
+   },
+   {
+    "pooled": 0.08703462940322443,
+    "min": 0.07285799418951588,
+    "max": 0.10318165510083031,
+    "seeds": 8
+   },
+   {
+    "pooled": 0.4627140691507904,
+    "min": 0.45475042285072204,
+    "max": 0.47173385367377096,
+    "seeds": 8
+   }
+  ],
+  "family_prior_zero_share": {
+   "pooled": 0.004237212205085567,
+   "min": 0.0009001092654872917,
+   "max": 0.006549253945405103,
+   "seeds": 8
+  },
+  "fuel_unpriced_s_share_nonzero": {
+   "pooled": 0.0,
+   "min": 0.0,
+   "max": 0.0,
+   "seeds": 8
+  },
+  "fuel_below_tables_s_share_nonzero": {
+   "pooled": 0.10276022962996886,
+   "min": 0.0927991730574327,
+   "max": 0.11783088202267433,
+   "seeds": 8
+  },
+  "fuel_extrapolated_s_share_nonzero": {
+   "pooled": 0.29738923008026646,
+   "min": 0.2879152080040275,
+   "max": 0.31602984204863943,
+   "seeds": 8
+  },
+  "fuel_extrapolated_s_mean": {
+   "pooled": 128.21713190733078,
+   "min": 118.9683859439449,
+   "max": 144.08122577527453,
+   "seeds": 8
+  },
+  "fuel_below_tables_s_mean": {
+   "pooled": 26.765657706996976,
+   "min": 23.630563987396716,
+   "max": 31.19651132039791,
+   "seeds": 8
+  }
+ },
+ "breakup_drawn_share_intact_broken_fragmented": [
+  {
+   "pooled": 0.2730001298650858,
+   "min": 0.27098137095622044,
+   "max": 0.2746863776860096,
+   "seeds": 8
+  },
+  {
+   "pooled": 0.2509143527646249,
+   "min": 0.24952809046271468,
+   "max": 0.2518658473672075,
+   "seeds": 8
+  },
+  {
+   "pooled": 0.47608551737028937,
+   "min": 0.47475690233093354,
+   "max": 0.47787246657106747,
+   "seeds": 8
+  }
+ ],
+ "breakup_refused_share": {
+  "pooled": 0.0,
+  "min": 0.0,
+  "max": 0.0,
+  "seeds": 8
+ },
+ "pleiades_s11": {
+  "none": {
+   "all": {
+    "nw_ge_30nm": {
+     "pooled": 0.06126493742507693,
+     "min": 0.059861665084343145,
+     "max": 0.06281813394405854,
+     "seeds": 8
+    },
+    "nw_ge_50nm": {
+     "pooled": 0.03346089671099911,
+     "min": 0.03250737687449171,
+     "max": 0.03431180302639255,
+     "seeds": 8
+    },
+    "inside_arc_ge_30nm": {
+     "pooled": 0.22698113908615627,
+     "min": 0.20611529922400945,
+     "max": 0.24466745216005173,
+     "seeds": 8
+    },
+    "inside_arc_ge_50nm": {
+     "pooled": 0.097121874279437,
+     "min": 0.08883165714935741,
+     "max": 0.10230924212228149,
+     "seeds": 8
+    },
+    "any_dir_ge_30nm": {
+     "pooled": 0.668485270498052,
+     "min": 0.6613089907188268,
+     "max": 0.6757446054479211,
+     "seeds": 8
+    },
+    "any_dir_ge_50nm": {
+     "pooled": 0.5041844271910974,
+     "min": 0.4935425289386502,
+     "max": 0.5144492441583106,
+     "seeds": 8
+    }
+   },
+   "displacement_nm_50": {
+    "pooled": 50.563016213662266,
+    "min": 49.14919481870074,
+    "max": 51.96010357738372,
+    "seeds": 8
+   },
+   "displacement_nm_90": {
+    "pooled": 132.90339823243724,
+    "min": 126.17713627651622,
+    "max": 140.3283619605021,
+    "seeds": 8
+   },
+   "by_control": {
+    "ditching-attempt": {
+     "weight": {
+      "pooled": 0.2501851459717621,
+      "min": 0.24885088619278123,
+      "max": 0.2509381049931739,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 0.00992363496681236,
+      "min": 0.008384578261981962,
+      "max": 0.012332345826535527,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 0.009637838549653999,
+      "min": 0.008229671036376394,
+      "max": 0.011963486227410792,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 0.034908988278883175,
+      "min": 0.030916543431241925,
+      "max": 0.043382373332642415,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 0.02758218345362819,
+      "min": 0.025766190448865012,
+      "max": 0.033060853921087104,
+      "seeds": 8
+     }
+    },
+    "maintained-then-lost": {
+     "weight": {
+      "pooled": 0.25043093088346546,
+      "min": 0.24878248556541027,
+      "max": 0.2516228742612748,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 0.015772929125650204,
+      "min": 0.01475456119183106,
+      "max": 0.01728353940825844,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 0.009814838055517656,
+      "min": 0.008938734680329989,
+      "max": 0.011415136201547224,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 0.06416637609226442,
+      "min": 0.05653440681435075,
+      "max": 0.07282169766324352,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 0.030177867653395897,
+      "min": 0.02802768325616843,
+      "max": 0.03636834849405291,
+      "seeds": 8
+     }
+    },
+    "no-intervention": {
+     "weight": {
+      "pooled": 0.24996960504017163,
+      "min": 0.24880175199606275,
+      "max": 0.25122445474729393,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 0.04557747254881157,
+      "min": 0.04415693425447336,
+      "max": 0.047522277011834216,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 0.019784668178933616,
+      "min": 0.019040135340903763,
+      "max": 0.020469263592774106,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 0.4208479481455762,
+      "min": 0.36848786348505136,
+      "max": 0.47382106123782414,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 0.0827876367279112,
+      "min": 0.07239769805525763,
+      "max": 0.08808222320773325,
+      "seeds": 8
+     }
+    },
+    "upset-then-recovery": {
+     "weight": {
+      "pooled": 0.24941431810460088,
+      "min": 0.24853910972172322,
+      "max": 0.2500555784989588,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 0.1741705273614257,
+      "min": 0.16941258852291238,
+      "max": 0.17961416242622205,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 0.09481035560507227,
+      "min": 0.09198669954639269,
+      "max": 0.09779787212563036,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 0.388766544808528,
+      "min": 0.37170131092009373,
+      "max": 0.4053835464492338,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 0.24844241729968483,
+      "min": 0.23006989457736202,
+      "max": 0.2664853623794397,
+      "seeds": 8
+     }
+    }
+   },
+   "position_class_share": {
+    "flown": {
+     "pooled": 0.7212941989755559,
+     "min": 0.698435325891269,
+     "max": 0.7425616586360264,
+     "seeds": 8
+    },
+    "back-extrapolated": {
+     "pooled": 0.27649425476208106,
+     "min": 0.2550491270565267,
+     "max": 0.29941399202656527,
+     "seeds": 8
+    },
+    "down before 00:19:37": {
+     "pooled": 0.0022115462623631056,
+     "min": 0.0017175197978447998,
+     "max": 0.0025288100277227232,
+     "seeds": 8
+    }
+   }
+  },
+  "both/no-offset": {
+   "all": {
+    "nw_ge_30nm": {
+     "pooled": 9.02364272586236e-05,
+     "min": 2.293675343725983e-19,
+     "max": 0.000718108092471542,
+     "seeds": 8
+    },
+    "nw_ge_50nm": {
+     "pooled": 2.9632345614994686e-05,
+     "min": 5.161059162201529e-41,
+     "max": 0.00023328934297259257,
+     "seeds": 8
+    },
+    "inside_arc_ge_30nm": {
+     "pooled": 2.982880616530755e-05,
+     "min": 2.0607761934473634e-19,
+     "max": 0.00023328934542246493,
+     "seeds": 8
+    },
+    "inside_arc_ge_50nm": {
+     "pooled": 1.3460111700796984e-13,
+     "min": 1.043572980998549e-31,
+     "max": 1.076639448107479e-12,
+     "seeds": 8
+    },
+    "any_dir_ge_30nm": {
+     "pooled": 0.6111655616962783,
+     "min": 0.2830448313505588,
+     "max": 0.9019009538649727,
+     "seeds": 8
+    },
+    "any_dir_ge_50nm": {
+     "pooled": 0.6005001201537086,
+     "min": 0.2806239531345528,
+     "max": 0.8972470256079258,
+     "seeds": 8
+    }
+   },
+   "displacement_nm_50": {
+    "pooled": 57.6994464736011,
+    "min": 13.894219740101335,
+    "max": 88.09858088897948,
+    "seeds": 8
+   },
+   "displacement_nm_90": {
+    "pooled": 78.40973585389406,
+    "min": 68.22125630166985,
+    "max": 95.24021636896065,
+    "seeds": 8
+   },
+   "by_control": {
+    "ditching-attempt": {
+     "weight": {
+      "pooled": 0.24786308856871528,
+      "min": 0.00012876080885624593,
+      "max": 0.7030909446067619,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 2.281700448962369e-39,
+      "min": 2.3387793508057143e-85,
+      "max": 1.825360359169881e-38,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 2.281700448962369e-39,
+      "min": 2.3387793508057143e-85,
+      "max": 1.825360359169881e-38,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 1.5945100966251046e-13,
+      "min": 1.0709795841587956e-45,
+      "max": 1.2756080773000815e-12,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 1.594510096625102e-13,
+      "min": 3.935669080578198e-67,
+      "max": 1.2756080773000815e-12,
+      "seeds": 8
+     }
+    },
+    "maintained-then-lost": {
+     "weight": {
+      "pooled": 0.7521148752142188,
+      "min": 0.29690905539323836,
+      "max": 0.9998712391911435,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 9.045708742105736e-05,
+      "min": 3.743901669307352e-19,
+      "max": 0.0007195998656508507,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 2.9726760318847696e-05,
+      "min": 2.682254365520843e-55,
+      "max": 0.00023377397027106418,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 3.0081612542259156e-05,
+      "min": 2.9903847900419876e-19,
+      "max": 0.0002337739727260258,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 2.4496817619482814e-13,
+      "min": 1.7033947878855712e-31,
+      "max": 1.959739392320643e-12,
+      "seeds": 8
+     }
+    },
+    "no-intervention": {
+     "weight": {
+      "pooled": 2.203621706576347e-05,
+      "min": 1.0063276152173416e-29,
+      "max": 0.00017628973652608667,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 7.363077906955102e-26,
+      "min": 2.1481968571160223e-44,
+      "max": 5.890462284467557e-25,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 1.2631887941395396e-34,
+      "min": 5.837372661318348e-93,
+      "max": 1.0105501248164681e-33,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 1.1946082817255325e-16,
+      "min": 1.1478319752171776e-41,
+      "max": 5.237978329772844e-16,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 1.1058740115516592e-16,
+      "min": 4.117956626174494e-54,
+      "max": 5.237978329772844e-16,
+      "seeds": 8
+     }
+    },
+    "upset-then-recovery": {
+     "weight": {
+      "pooled": 4.039547946277404e-18,
+      "min": 2.0451011086264322e-29,
+      "max": 3.21229006783514e-17,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 0.24998726828722218,
+      "min": 1.2142904796482115e-27,
+      "max": 0.9999998951939275,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 4.313095204984656e-11,
+      "min": 1.0448071092664925e-29,
+      "max": 3.4405950066633694e-10,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 1.297132231924397e-08,
+      "min": 1.2214901015314622e-27,
+      "max": 1.0342498403813312e-07,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 4.300743786914565e-11,
+      "min": 9.73533736225666e-31,
+      "max": 3.4405950066633694e-10,
+      "seeds": 8
+     }
+    }
+   },
+   "position_class_share": {
+    "flown": {
+     "pooled": 1.0,
+     "min": 0.9999999999999998,
+     "max": 1.0000000000000002,
+     "seeds": 8
+    },
+    "back-extrapolated": {
+     "pooled": 5.130012126401809e-241,
+     "min": 4.1768951125945505e-253,
+     "max": 3.9892943702606656e-240,
+     "seeds": 8
+    },
+    "down before 00:19:37": {
+     "pooled": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "seeds": 8
+    }
+   }
+  },
+  "both/startup-offset": {
+   "all": {
+    "nw_ge_30nm": {
+     "pooled": 0.02968532996786212,
+     "min": 2.2436529196777266e-22,
+     "max": 0.2272190715091582,
+     "seeds": 8
+    },
+    "nw_ge_50nm": {
+     "pooled": 0.0006647288239542185,
+     "min": 1.2403772264183969e-36,
+     "max": 0.0030271975176880636,
+     "seeds": 8
+    },
+    "inside_arc_ge_30nm": {
+     "pooled": 0.0006895900751452853,
+     "min": 6.523398782349786e-13,
+     "max": 0.0030282014766213083,
+     "seeds": 8
+    },
+    "inside_arc_ge_50nm": {
+     "pooled": 1.0906048627025437e-07,
+     "min": 4.1912678936892014e-30,
+     "max": 8.721606986398758e-07,
+     "seeds": 8
+    },
+    "any_dir_ge_30nm": {
+     "pooled": 0.38233454492834495,
+     "min": 0.13657302617314643,
+     "max": 0.7657186811028153,
+     "seeds": 8
+    },
+    "any_dir_ge_50nm": {
+     "pooled": 0.2784400673948519,
+     "min": 0.0010069098527002538,
+     "max": 0.7303293232288885,
+     "seeds": 8
+    }
+   },
+   "displacement_nm_50": {
+    "pooled": 24.25190493518581,
+    "min": 5.345795272502723,
+    "max": 78.01452699701211,
+    "seeds": 8
+   },
+   "displacement_nm_90": {
+    "pooled": 72.81011895078085,
+    "min": 46.86926015920753,
+    "max": 87.43810408758425,
+    "seeds": 8
+   },
+   "by_control": {
+    "ditching-attempt": {
+     "weight": {
+      "pooled": 0.17511197405536813,
+      "min": 0.0005859871168561338,
+      "max": 0.4843750003234217,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 6.869738010672123e-45,
+      "min": 2.9568803156853037e-80,
+      "max": 5.4957612200619e-44,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 6.869738010672123e-45,
+      "min": 2.9568803156853037e-80,
+      "max": 5.4957612200619e-44,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 9.190428330101032e-14,
+      "min": 2.6949538723916097e-64,
+      "max": 7.320697745543778e-13,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 9.190428325003086e-14,
+      "min": 2.046540700295447e-68,
+      "max": 7.320697745543778e-13,
+      "seeds": 8
+     }
+    },
+    "maintained-then-lost": {
+     "weight": {
+      "pooled": 0.8248879775303896,
+      "min": 0.5156249996765783,
+      "max": 0.9994140128831439,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 0.03006936011731748,
+      "min": 2.831951317842935e-22,
+      "max": 0.22943225790800525,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 0.0007367386579944223,
+      "min": 1.505313957710931e-36,
+      "max": 0.0031847186465078065,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 0.000767915262054462,
+      "min": 6.522931301491312e-13,
+      "max": 0.003185774846744611,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 1.1475523915412493e-07,
+      "min": 4.957662505858757e-30,
+      "max": 9.175438416159219e-07,
+      "seeds": 8
+     }
+    },
+    "no-intervention": {
+     "weight": {
+      "pooled": 4.8414242284164324e-08,
+      "min": 9.152561044759501e-30,
+      "max": 3.8731220938213474e-07,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 2.822421432399526e-36,
+      "min": 2.723945525068235e-54,
+      "max": 2.2579339108541135e-35,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 1.1852310260281286e-37,
+      "min": 2.28494500567991e-116,
+      "max": 9.481848202693912e-37,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 1.859794011756193e-07,
+      "min": 5.532447107737816e-46,
+      "max": 1.4878349634716257e-06,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 1.859793705453652e-07,
+      "min": 2.215891573006294e-52,
+      "max": 1.4878349634716257e-06,
+      "seeds": 8
+     }
+    },
+    "upset-then-recovery": {
+     "weight": {
+      "pooled": 8.604166553615874e-19,
+      "min": 4.235312422388136e-30,
+      "max": 6.8820565223022574e-18,
+      "seeds": 8
+     },
+     "nw_ge_30nm": {
+      "pooled": 0.24987328926136101,
+      "min": 1.2921909987061972e-24,
+      "max": 0.999995697785067,
+      "seeds": 8
+     },
+     "nw_ge_50nm": {
+      "pooled": 7.61427578307596e-15,
+      "min": 6.021230791466493e-41,
+      "max": 6.091162144202024e-14,
+      "seeds": 8
+     },
+     "inside_arc_ge_30nm": {
+      "pooled": 5.374082686877313e-07,
+      "min": 3.9783427314402356e-23,
+      "max": 4.299266086778455e-06,
+      "seeds": 8
+     },
+     "inside_arc_ge_50nm": {
+      "pooled": 3.5674464039893536e-22,
+      "min": 1.2289692442141233e-39,
+      "max": 2.7836522959724e-21,
+      "seeds": 8
+     }
+    }
+   },
+   "position_class_share": {
+    "flown": {
+     "pooled": 1.0,
+     "min": 0.9999999999999999,
+     "max": 1.0000000000000002,
+     "seeds": 8
+    },
+    "back-extrapolated": {
+     "pooled": 1.592750809194803e-283,
+     "min": 5.499566592622455e-297,
+     "max": 1.2409865704558866e-282,
+     "seeds": 8
+    },
+    "down before 00:19:37": {
+     "pooled": 0.0,
+     "min": 0.0,
+     "max": 0.0,
+     "seeds": 8
+    }
+   }
+  }
+ }
+}

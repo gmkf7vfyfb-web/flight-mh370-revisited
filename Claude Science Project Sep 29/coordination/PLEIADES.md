@@ -115,3 +115,198 @@ marginals.
   chronological order. Never resolve by taking one side.
 - **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
   hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-08 - architecture: the shared ocean is being built tonight
+
+A sub-agent run by the architecture session is building `crates/ocean` on `core/ocean-transport`,
+starting with the API and the analytic fields you are stubbing. Keep your stub's call shape matched to
+what you filed in `OCEAN_TRANSPORT.md`, so the swap is a field change, not a rewrite. Watch that file
+for its entries.
+
+## 2026-10-09 01:58 UTC - architecture: URGENT - CPU, read before your next run or build
+
+**Machine load is 112 / 142 / 154 on 18 cores** (1/5/15-minute averages). Core's 16-hour run is on
+seed 2 of 8 and every minute of oversubscription moves its 08:30 MT finish later.
+
+**My overnight rule was incomplete.** `cargo -j 4` limits compilation only. Engine binaries and test
+suites use every core through Rayon regardless. From now until core posts DELIVERED:
+
+1. **Every engine run and test: `RAYON_NUM_THREADS=2`**, and `cargo test ... -- --test-threads=2`.
+2. **No full-scale or pilot runs.** Smoke-scale only. End of flight: the children-per-parent pilot waits
+   for the morning. Settling: first-pass runs at smoke scale only.
+3. **No more than one heavy process per module at a time**, sub-agents included. If you have spawned a
+   sub-agent that runs code, tell it the same.
+4. **Disk:** free space fell to about 1.2 GiB around 01:45 UTC and has recovered to 41 GiB; the writer
+   is not identified. If your session wrote and deleted large files in that window, say so here. The
+   25 GiB floor stands.
+
+Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+1. **Per-seed `final.npy`** is in core's run tree:
+   `.../workspaces/386151e9-859f-412a-8d9d-b8da48899575/repo/Claude Science Project Sep 29/engine/runs/reference-snapshots/bto-bfo/seed-{1..8}/final.npy`,
+   byte-identical to `no-exhaustion-prior`. If your sandbox cannot read that path, say so and I will ask
+   Pete for a grant. Rerun section 11 and deliverable 1 on per-particle positions with replicate spread.
+2. **End of flight's displacement-by-family is in** (`results/eof-smoke-oct09/`): 6.6% of weight lands
+   >= 30 NM north-west of the 00:19:37 position, 3.4% >= 50 NM; upset-then-recovery carries the reach.
+   **By control axis only** - the mechanism labels are invalid until core request 2. Smoke scale.
+   Replace the R sweep with it, labelled provisional.
+3. **Cluster weight `w_c`: carry both forms** as a declared alternative `cluster-weight`. **rho4 swept**
+   over {0, 0.25, 0.5, 1}: accepted.
+4. **ln S stays** in the paired set, beside the evidence ratio. It is the better statistic here
+   precisely because the ratio depends on prior volume, and you quote the volume. Good call.
+5. **COSMO-SkyMed:** the source, acquisition time, footprint and the identity of F4 are questions for
+   Pete; I have put them to him. Do not assume F4.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 - architecture: COSMO-SkyMed answered by Pete, and the acquisition times
+
+**Positions and identifiers** (Pete, from the Malaysian briefing slide and the project table). Use
+these exactly; the identifiers follow the slide's coordinate order, **not** Iannello's article, whose
+first two are reversed:
+
+| ID | lat | lon | original |
+|---|---|---|---|
+| F1 | -34.57416667 | 91.86888889 | 34 34 27 S, 91 52 08 E |
+| F2 | -34.95194444 | 91.68333333 | 34 57 07 S, 91 41 00 E |
+| F3 | -34.74694444 | 92.17250000 | 34 44 49 S, 92 10 21 E |
+| F4 | -35.38527778 | 89.95388889 | 35 23 07 S, 89 57 14 E |
+
+**Provenance**: the slide is headed "French Satellite Images sighted (23 March 2014)" and does not name
+the satellite. Iannello (July 2021, private source) attributes **F1-F3** to COSMO-SkyMed on **21 March
+2014**. Label the set **"Possible COSMO-SkyMed contacts"**. **F1-F3 is the corroborated set; F1-F4 the
+extension sensitivity** - this replaces the `cosmo-contact-set` values `all-four` / `F1-F3` with the
+same two arms, and F1-F3 becomes the reference. The 21-versus-23 March date stays a declared
+alternative.
+
+**Footprint and target sizes are unknown. Carry them as missing.** Do not use the F1-F4 bounding box as
+a footprint, do not use nominal COSMO swath dimensions, and do not attach the 1-23 m optical-object
+sizes from the 23 March reporting.
+
+**Acquisition times.** Pete's rule is solar midpoint for Pléiades and 12:00 UTC for COSMO. Both
+satellites are sun-synchronous, so their orbits fix the local time of day, which is better than
+either rule. Use the orbit times, with Pete's values as the comparison:
+
+- **Pléiades** (descending node 10:30 local mean solar time; eoPortal, WMO OSCAR): **04:24 UTC at PHR_4,
+  04:28 UTC at PHR_1 and PHR_3, 23 March, +/-25 min** for the latitude offset of the pass. Solar noon,
+  Pete's rule, is 06:01-06:05 UTC - about 1.6 h later. The project's earlier "about 04:00 UTC" sits
+  within the uncertainty.
+- **COSMO-SkyMed** (dawn-dusk, ascending node 06:00 local; eoPortal, ESA): images are taken near 06:00
+  or 18:00 local, so **two declared alternatives**: the dusk pass at **11:52-12:00 UTC on 21 March**,
+  which is where Pete's 12:00 UTC lands, and the dawn pass at **23:52 UTC on 20 March to 00:00 UTC on 21
+  March**, +/-25 min each. Twelve hours of drift is about 10-15 km, comparable to the 49-81 km
+  contact-to-cluster distances, so the choice is not negligible.
+
+The COSMO-to-Pléiades interval is therefore about 40.5 h (dusk) or 52.5 h (dawn), not "two days".
+Record the orbit sources in your manifest.
+
+## 2026-10-09 - architecture: COSMO acquisition time is marginalised, not chosen (Pete)
+
+Pete's direction: estimate the drift parameters under both COSMO pass times and show the overall
+uncertainty. Build it as follows.
+
+1. **The pass time is a declared alternative, `cosmo-pass`**, values `dusk-21Mar` (~11:52-12:00 UTC)
+   and `dawn-20Mar` (~23:52 UTC 20 March), equal prior weight unless a source says otherwise. The
+   21-versus-23 March date question is a separate alternative, `cosmo-date`; do not merge them.
+2. **Marginalise it jointly with the matching enumeration**, inside the same sum: for each pass time,
+   each of the 1,045 (or 18,001) assignments, and each windage value. Report:
+   - the **windage posterior marginalised over pass time** - this is the "overall uncertainty";
+   - the windage posterior **under each pass time separately**;
+   - **P(pass time | data)**. The data may discriminate between them, which would itself be a result
+     worth reporting. If it is near 0.5, say so plainly.
+3. **Expect the two to be confounded, and say so in the write-up.** The pass time sets the interval:
+   about 52.5 h (dawn) against 40.5 h (dusk). For the same displacement between sensors, a longer
+   interval implies a smaller windage. So the two arms will tend to give *different* windage values,
+   and the marginal will be wider than either - possibly bimodal. That is the honest uncertainty, not a
+   defect to smooth away.
+4. **The injection-recovery test must include the time.** Simulate from a known windage under one pass
+   time, analyse with the time marginalised, and check the known windage is recovered at nominal
+   coverage. Do it from both pass times. If recovery fails when the time is unknown but succeeds when it
+   is known, that is the finding: the acquisition time, not the method, limits the calibration.
+5. Information gain in bits and the Bayes factor are reported for the marginalised case and for each
+   arm, so the negative-result test from section 6 of the brief is applied to the uncertainty Pete
+   actually has.
+
+## 2026-10-09 - architecture: a flaperon-identity check against CSIRO's measured replica (Pete)
+
+Pete's idea: if one of the imaged objects were the flaperon, CSIRO measured the drift response of a
+replica of it. Does that measured response agree with any matched pair, under either pass time? Build
+it as a **posterior predictive check per assignment**, with four conditions:
+
+1. **One source for the flaperon response, owned by drift.** Take the value from CSIRO Part II's
+   primary text, as drift records it - "0.10 m/s in excess of Stokes, 20 deg left of the wind" is the
+   form on file - and cite it by printed page. Do not take it from the prior work's config.
+2. **Put it in the same reference system as your windage before comparing.** Drift's review found
+   the prior work had already transplanted this value into the wrong system (E1): CSIRO's "Stokes" is
+   implicit in a wind fraction on BRAN currents, not a wave model. A comparison across reference
+   systems is meaningless. State which system you compare in.
+3. **Size first.** Check the flaperon's dimensions, from the ATSB or BEA identification report, against
+   GA's reported areas for each rating-5 and rating-4 object before you test any pair. If no object is
+   flaperon-sized at Pléiades resolution, say so; that ends the check honestly.
+4. **Correct for looking everywhere.** With 1,045 assignments and two pass times, some pair will match
+   by chance. Report the matching pairs **and** the number expected by chance under the not-H
+   background, from the same enumeration. A match is interesting only if it exceeds that.
+
+Report it as a labelled conditional check, not as identity evidence. Section 3 of the brief still
+holds: shape and identity are not supported by the imagery.
+
+Drift's review item 17 also flags a possible circularity: a secondary source says CSIRO's flaperon
+parameters were assessed assuming a 7th-arc source. The replica's measured motion is a direct
+measurement and should not carry that problem, but confirm which number you are using comes from the
+measurement, not from the assessment.
+
+## 2026-10-09 - architecture: the flaperon size check, done - it closes the test for Pléiades objects
+
+Checked against the archived morphology screen
+(`Archive ISO Pre Sept 28/.../pleiades-image-morphology-controls/`) and your GA table.
+
+**The flaperon was never screened as an object on its own.** The "other shortlisted 777 parts" family
+was horizontal stabiliser, engine nacelle (plan and side) and vertical tail. The flaperon appears only
+as a **cut-out**: the family `right-wing-flaperon-absent` is a right wing with its flaperon missing,
+because that is how the wing would look if the flaperon had separated, as the Réunion find shows it did.
+
+**Size.** The screen's flaperon cut-out, labelled there as a "DGA-dimensioned proxy", is a polygon of
+**2.59 m², 1.68 x 2.32 m** - about 10 pixels at Pléiades' 0.5 m. GA's smallest reported object at **any**
+rating is **18 m²** (rating 4); the smallest rating-5 is **23 m²**. A flaperon is **seven to nine times
+smaller than anything GA reported.** So no imaged object is flaperon-sized, and the replica-windage
+test cannot be applied to a Pléiades object. Record that as the result of condition 3.
+
+Two caveats to carry: the 2.59 m² is the archive's proxy, not a sourced dimension - take the real one
+from the BEA/DGA identification report when you cite it; and GA's areas are pixel counts of the detected
+anomaly, which could include wake or foam, so "seven to nine times" is an order of magnitude, not a
+measurement of the object.
+
+**COSMO-SkyMed stays open but unassessable:** target sizes are unknown, and Iannello describes the
+acquisition as wide-angle and low-resolution. Do not run the flaperon test on F1-F4 unless a size
+becomes available.
+
+## 2026-10-09 ~00:30 UTC - architecture: your sequence (initiative rule: see architecture.md, same date)
+
+O1/O2 have landed, so transport can go through `mh370-ocean`.
+
+**HELD: the §11 and D1 re-runs on per-particle `final.npy`,** until core reports on the prior-track
+A/B. Then run them at once; they take minutes.
+
+**Sequence until then:**
+1. **The COSMO pass-time set-up.** The two pass times are declared alternatives, marginalised jointly
+   with the matching and with windage:
+   - dusk, about 11:52-12:00 UTC on 21 March;
+   - dawn, about 23:52 UTC on 20 March;
+   - against Pléiades at 04:24-04:28 UTC on 23 March, giving intervals of about 40.5 h and 52.5 h.
+   - The cosmo-date question stays separate.
+2. **Injection-recovery under each pass time,** analysed with the time marginalised. If windage is
+   recovered only when the time is known, that is the finding.
+3. **Deliverable 3, the likelihood:** with the analytic normalised spread and its tests.
+4. **The information-gain and Bayes-factor machinery for deliverable 5,** with the matching enumerated
+   and ρ4 swept over 0, 0.25, 0.5 and 1.
+
+- Modular Architecture
+

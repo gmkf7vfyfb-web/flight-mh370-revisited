@@ -203,17 +203,19 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     let started = Instant::now();
     let mut rows: Rows = Vec::new();
     let mut history: History = Vec::new();
+    let mut early: Early = Vec::new();
     let mut routes_by_mode = Vec::new();
     let mut runs = Vec::new();
     let mut strata = Vec::new();
     let mut epoch_draws: Vec<Vec<EpochDraw>> = Vec::new();
     for (m, mode) in Mode::ALL.into_iter().enumerate() {
         let weight = ctx.mode_weights[m];
-        let (r, routes, run, snapshots, h, candidates, draws) = if weight > 0.0 {
+        let (r, routes, run, snapshots, h, candidates, draws, e) = if weight > 0.0 {
             run_filter(ctx, case, seed, m as u64, mode)?
         } else {
-            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new(), Vec::new())
+            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new())
         };
+        early.extend(e);
         epoch_draws.push(draws);
         strata.push(handoff::Stratum { mode: m, probability: 0.0, final_offset: rows.len(), candidates });
         history.extend(h);
@@ -244,6 +246,10 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     if !history.is_empty() {
         // Row-aligned with final.npy: turns, speed changes, altitude changes, degrees turned after the epoch.
         write_npy(&dir.join("history.npy"), &[history.len(), 4], history.as_flattened())?;
+    }
+    if ctx.config.dynamics.early.is_some() {
+        assert_eq!(early.len(), rows.len(), "early.npy must be row-aligned with final.npy");
+        write_npy(&dir.join("early.npy"), &[early.len(), EARLY_COLUMNS.len()], early.as_flattened())?;
     }
 
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
@@ -341,7 +347,38 @@ impl ModeRun {
 
 type Snapshot = (String, Vec<f64>);
 type History = Vec<[f64; 4]>;
-type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>);
+
+/// Columns of early.npy (written only with `[dynamics.early]`), row-aligned with final.npy.
+/// Times are seconds after the prior epoch; NaN where the particle drew no excursion or turn.
+pub const EARLY_COLUMNS: [&str; 16] = [
+    "excursion", "start_s", "low_s", "climb_s", "end_s", "from_ft", "low_ft", "end_ft",
+    "descent_fpm", "climb_fpm", "cas_kt", "turn", "turn_track_deg", "initial_mach", "excursion_rejected",
+    "route",
+];
+type Early = Vec<[f64; EARLY_COLUMNS.len()]>;
+
+fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len()] {
+    let mut r = [f64::NAN; EARLY_COLUMNS.len()];
+    let Some(rec) = a.early.as_deref() else { return r };
+    r[0] = 0.0;
+    if let Some(x) = &rec.excursion {
+        r[..11].copy_from_slice(&[
+            1.0, x.start_s - t0, x.low_s - t0, x.climb_s - t0, x.end_s - t0, x.from_ft, x.low_ft, x.end_ft,
+            x.descent_fpm, x.climb_fpm, x.cas_kt,
+        ]);
+    }
+    r[11] = 0.0;
+    if let Some(t) = &rec.turn {
+        r[11] = 1.0;
+        r[12] = t.track_deg;
+    }
+    r[13] = rec.initial_mach;
+    r[14] = f64::from(rec.excursion_rejected);
+    r[15] = rec.route.as_ref().map_or(-1.0, |x| f64::from(x.index));
+    r
+}
+
+type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>, Early);
 
 /// One mode's equally weighted draws at one of output.handoff_epochs, with the mode's log
 /// evidence up to and including that epoch.
@@ -1048,7 +1085,12 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     } else {
         Vec::new()
     };
-    Ok((rows, routes, run, snapshots, history, candidates, epoch_draws))
+    let early = if ctx.config.dynamics.early.is_some() {
+        particles.iter().map(|p| early_row(&p.aircraft, ctx.prior.unix_s)).collect()
+    } else {
+        Vec::new()
+    };
+    Ok((rows, routes, run, snapshots, history, candidates, epoch_draws, early))
 }
 
 /// Columns of the residual snapshots written when `output.residual_samples > 0`.
