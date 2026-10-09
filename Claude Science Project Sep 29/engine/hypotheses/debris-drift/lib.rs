@@ -72,6 +72,7 @@ fn d_true() -> bool { true }
 fn d_domain() -> [f64; 4] { [15.0, 120.0, -50.0, 0.0] }
 fn d_env() -> Vec<u64> { vec![1] }
 fn d_stride() -> usize { 1 }
+fn d_fixed_zero() -> Dist { Dist::Fixed { value: 0.0 } }
 
 /// A declared sampling distribution (rule 9: sampling a range is marginalisation only if the
 /// distribution is stated). Truncation is by rejection.
@@ -123,7 +124,12 @@ pub(crate) struct ClassParams {
     motion_classes: Vec<String>,
     a_stokes: Dist,
     c_wind: Dist,
-    /// Positive clockwise from downwind (the shared API's sign): CSIRO's "left" is negative.
+    /// Deflection of the `c_wind` term from downwind, positive clockwise (ruling D-f; default 0,
+    /// CSIRO's proportional windage being downwind).
+    #[serde(default = "d_fixed_zero")]
+    wind_angle_deg: Dist,
+    /// Deflection of the constant-magnitude `leeway_speed_mps` term only, positive clockwise from
+    /// downwind (the shared API's sign): CSIRO's "left" is negative (Part II p. 13; ruling D-f).
     leeway_angle_deg: Dist,
     leeway_speed_mps: Dist,
 }
@@ -320,7 +326,11 @@ fn day_of(release: f64, iso: &str) -> Result<f64, String> {
 }
 
 fn draw_response(c: &ClassParams, rng: &mut Rng) -> ObjectResponse {
-    transport::response(c.a_stokes.draw(rng), c.c_wind.draw(rng), c.leeway_angle_deg.draw(rng), c.leeway_speed_mps.draw(rng))
+    {
+    let (a, w) = (c.a_stokes.draw(rng), c.c_wind.draw(rng));
+    let (la, ls) = (c.leeway_angle_deg.draw(rng), c.leeway_speed_mps.draw(rng));
+    transport::response(a, w, c.wind_angle_deg.draw(rng), la, ls)
+    }
 }
 
 /// The common response draws of class `c` (shared by every node: common random numbers).
@@ -793,7 +803,7 @@ fn validate(p: &Params) -> Result<(), String> {
         return Err("debris-drift: need at least one object class and one environment realisation".into());
     }
     for c in &p.classes {
-        for d in [&c.a_stokes, &c.c_wind, &c.leeway_angle_deg, &c.leeway_speed_mps] {
+        for d in [&c.a_stokes, &c.c_wind, &c.wind_angle_deg, &c.leeway_angle_deg, &c.leeway_speed_mps] {
             d.validate()?;
         }
     }

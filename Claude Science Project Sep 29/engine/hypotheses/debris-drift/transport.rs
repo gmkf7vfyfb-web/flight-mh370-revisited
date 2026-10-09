@@ -117,7 +117,7 @@ impl Coastline for IslandDiscs {
             let hit = [a[0] + f * dx, a[1] + f * dy];
             let ang = hit[1].atan2(hit[0]).rem_euclid(std::f64::consts::TAU);
             let point = [from[0] + f * (to[0] - from[0]), from[1] + f * (to[1] - from[1])];
-            best = Some(ocean::coast::CoastHit { segment: 0, line: DISC_LINE0 + i as u32, chainage_m: ang * r, fraction: f, point });
+            best = Some(ocean::coast::CoastHit { segment: 0, line: DISC_LINE0 + i as u32, chainage_m: ang * r, fraction: f, point, snapped_m: 0.0 });
         }
         best
     }
@@ -262,6 +262,8 @@ impl OceanSetup {
     }
 }
 
-pub fn response(a_stokes: f64, c_wind: f64, leeway_angle_deg: f64, leeway_speed_mps: f64) -> ObjectResponse {
-    ObjectResponse { a_stokes, c_wind, leeway_angle_deg, leeway_speed_mps }
+/// `wind_angle_deg` rotates the `c_wind` term, `leeway_angle_deg` the constant-speed term only
+/// (ruling D-f; both positive clockwise from downwind).
+pub fn response(a_stokes: f64, c_wind: f64, wind_angle_deg: f64, leeway_angle_deg: f64, leeway_speed_mps: f64) -> ObjectResponse {
+    ObjectResponse { a_stokes, c_wind, wind_angle_deg, leeway_angle_deg, leeway_speed_mps }
 }
