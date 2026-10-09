@@ -222,21 +222,23 @@ across to a construction where it fails.
 |---|---|---|
 | coverage `c_k` | 0.01° raster, bilinear, from the GA 5 m Phase 2 mosaics | **measured**, approved under composition rule 3 |
 | Phase 2 areas | deep-tow 103,921.5 km², GO Phoenix 14,627.3, DHJ 3,164.3, AUV 16,164.1, union 120,486.5 km² | **measured** from the mosaics |
-| `q` Phase 2 | 0.940–0.945, from ATSB per-region detection ratings conditional on data present | **inherited** from the M3 header (ATSB 2017, Fig. 73, p. 96); not re-verified |
+| `q` Phase 2 | 0.940–0.945, from ATSB per-region detection ratings conditional on data present | **still inherited.** Figure 73 is verified to be on printed p. 96, and its category definitions (>95% / 70% on average) with it, but the three percentages behind `q` are drawn inside the figure image and are not in the text |
 | `q` Bluefin-21 | 0.9, not rated by ATSB | **assumed**, and the campaign removes no mass on the fixture |
-| swath width about the arc | 25 NM either side, widened to 36 NM north-west and 41 NM south-east | **inherited** (ATSB 2017, pp. 76, 95); not re-verified |
-| debris-field extent | "larger than 200 m by 200 m" | **inherited** (ATSB 2017, p. 96); not re-verified |
+| swath width about the arc | ±25 NM across the whole area (p. 76), with the outermost band running 27.5–36 NM north-west and 25–41 NM south-east (p. 95) | **verified** 9 Oct against the report |
+| debris-field extent | "at least 100 m x 100 m and very likely to be greater than 200 m x 200 m" (p. 83); separately, a 200 m by 200 m low-lying field was shown detectable in side-scan at towfish altitudes under 200 m (p. 89) | **verified** 9 Oct — and the page was wrong: the module header cited p. 96 |
 | ρ | 0.05 reference, swept 0 → 0.5 | **ruled** (Pete, 8 October) |
 | `m`, cells to classify | 3, swept | **assumed** from survey practice |
 | `s_k`, size-response spread | per sensor class, to be set when `g < 1` matters | **not yet set**; irrelevant while `g ≈ 1` |
 | field model | point target now; Gaussian scatter, log-normal sizes later | **placeholder**, labelled in every figure |
 
-**The ATSB report could not be fetched this session.** `www.atsb.gov.au` was allowlisted on request but
-did not respond — two attempts, 120 s and 300 s, both timed out at the read, with no HTTP status. The
-four rows marked *inherited* therefore stand on the M3 module header, which cites them by page. They
-are flagged here rather than silently adopted, and verifying them against the report is an open item;
-none of them is load-bearing for the port or the reduction test, and `q` enters the result only
-through its product with `c`.
+**Verified 9 October, against the copy on the project Google Drive** (architecture ruling S4), after
+`www.atsb.gov.au` did not respond to two attempts. Three of the four rows are now read from the
+report itself and are recorded in `results/seabed-search-references.md` §4 with their printed pages;
+one correction fell out of it — the debris-field statement is on p. 83, not p. 96, and p. 89 carries
+the distinct statement about what the sonar was shown to detect. **`q` remains inherited**: the three
+percentages it is derived from are drawn inside Figure 73, which is an image, so the text carries the
+figure's title and its category definitions but not its numbers. `q` enters the result only through
+its product with `c`.
 
 ## 9. Tests this definition commits the module to
 

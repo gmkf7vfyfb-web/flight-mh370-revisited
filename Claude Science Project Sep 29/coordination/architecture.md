@@ -3156,3 +3156,120 @@ Pete has agreed this rule for tonight. It lasts until he is back in the morning.
    you run out of unblocked steps.
 
 - Modular Architecture
+
+## 2026-10-09 05:31 UTC - end of flight: the module cannot reproduce Boeing's uncontrolled dives; ruling needed on how the dive class enters
+
+**Pete (9 Oct):** the Boeing runs tested uncontrolled dives, and calibration against them comes soon.
+
+**Measured** (`results/eof-boeing-calibration-oct09`, addendum 2), from a sweep of bank cap, Mach tuck
+and wave drag over 432 traces:
+- The extrapolated parameters change peak descent by under 10%.
+- Boeing's rates are reached only at a bank cap of about 90°, which reads as 78-80° on the track
+  against Boeing's 53-60°.
+- Those dives end 1.0-2.7 NM after first passing 15,000 ft/min, against Boeing's 4.7-7.9 NM.
+- Boeing's dives involve pitch dynamics, unloading and pulling up again, that a fixed-C_L point mass
+  cannot represent.
+
+**Ruling needed:**
+- (a) elevator-fixed longitudinal pitch dynamics: B777 pitching-moment data are not public, so the
+  parameters would be assumed and swept; a large build;
+- (b) **a declared empirical dive family from PUBLISHED values only:** Iannello's 4.7-7.9 NM chord,
+  ATSB's 15 NM from the arc, the 15,000 ft/min and 0.67 g thresholds; flagged as empirical;
+- (c) exclude the dive class and condition every impact result on that, with disclosure.
+
+**I recommend (b) now, (a) later, and (c)'s disclosure meanwhile.** The weight between dive and glide is
+Pete's 50/50 ruling. Until you rule, the dive step is blocked, and I continue with the sequence:
+- the item 4 map at N = 16, seed 1, by family;
+- deliverable 3, the sensitivity-page generator;
+- deliverable 5, the ImpactView needs, into request 4;
+- the methods draft.
+
+- end of flight
+
+## 2026-10-09 05:39 UTC - end of flight: PROVISIONAL-OVERNIGHT - the dive class taken as option (b); the R1200 BFO selects it
+
+- **Per the overnight rule** I took my recommended option (b) from the entry before this one.
+  - The dive class enters as the divergent spiral at Pete's 0.5 weight, bank cap 90°. That is where the
+    model meets the published 15,000 ft/min and 0.67 g thresholds.
+  - Declared misfit: the dives end 1.0-2.7 NM after the 15,000 ft/min crossing, against the published
+    4.7-7.9 NM.
+  - Labelled PROVISIONAL-OVERNIGHT in `run.toml`, `smoke/terminal.toml` and the results note.
+  - Reversible bit-identically by `smoke/spiral-off.toml`.
+- **First smoke** (`results/eof-dive-provisional-oct09`; seed 1, N = 4):
+  - R600 is unchanged.
+  - **R1200 effective parents rise 3.2-7×** (r1200/inflated 487 to 1,744; Holland 149 to 1,032).
+  - 84-94% of the R1200 posterior is divergent: the -2 Hz BFO selects the dive class.
+  - The R1200 median impact moves about 0.3° north.
+  - `both` is still unresolved.
+- **Consequence for section 8 and E2:** the N = 16 concentration limits were measured without the dive
+  class. They will be re-measured with it at N = 16, seed 1, at 2 threads outside the lock: about 17 min,
+  a smoke, not a long run.
+
+- end of flight
+
+## 2026-10-09 — Pléiades, ninth entry: §11, D1 and D4 on per-particle positions — the western lobe mostly does not survive
+
+Acting on your ~04:15 UTC rulings. **"295.66° prior; superseded on re-run."**
+- Code: `hypothesis/pleiades` `415f4b8`.
+- Results: `results/pleiades/rerun-295/` (note `rerun-reference-295.md`, the CSV, the figure).
+- One command (`prepare/rerun_reference.py <run dir> ...`), run on `runs/reference-snapshots`, 8 seeds
+  × 7 M particles. Pooling reproduces the run's own map to 5e-10.
+- It ran outside the lock, single-threaded, and took 25 s.
+
+1. **§11.** With a descent kernel built from end of flight's measured reach, **4-5 % of the conditional
+   mass remains in the western lobe (≥ 30 NM inside the arc), and about 2 % ≥ 50 NM.** The 8 Oct
+   histogram numbers are reproduced within ±1.3 points; seed scatter is under ±0.5 points. **Most of the
+   prior work's ~91 E residual under H is not reachable from the flight and fuel evidence.** That is
+   provisional on the two-fraction kernel, and on dives being absent (a dive should only shorten reach).
+2. **D1 and D4, paired, with the module's own normalised likelihood.**
+   - Mean relocation **130-150 NM NE** at every reach (±10 NM across seeds).
+   - **ln S < 0 in every seed, kernel and option** (reference arm −0.3 to −1.1). Direction-robust,
+     magnitude unconverged.
+   - Only 6-8 % of the unconditional mass lies in the conditional's HDR.
+   - **The mode is unconverged** (99-233 NM between seeds), so the mean shift is quoted instead.
+   - ρ4 × cluster-weight arms give the same conclusion.
+   - `ocean-model` still has one option. `cosmo-contact-set`: see P2.
+3. Ledger updated. Derived WAVERYS noted. It belongs to the explicit-Stokes **object-response** system,
+   not to `ocean-model`, so it waits for a ruling on whether that is a Pléiades arm. Not used tonight.
+
+### PROVISIONAL-OVERNIGHT questions (overnight rule; recommended option taken, reversible)
+
+**P1. What the absolute BF(H : not-H) means while the Poisson and footprint term is missing.**
+E_flight[L_H] is 0.6-2.0 × 10⁻³ in every arm. That follows from the brief's q_c = 1/A_scene: a 15-day
+spread of 33-60 km cannot place an object in a given 500 km² scene better than uniform. So it says
+nothing about whether debris was present.
+- (a) **[recommended, taken]** Keep `absolute_scale = true` as the contract says. Label P(H|D) and the
+  BF "not interpretable until the Poisson and footprint term (brief §13)" wherever they appear, and
+  use only the conditional shape and its tension.
+- (b) Set `absolute_scale = false` until that term exists. The composer would then report H only as a
+  labelled conditional. This is a contract change, so it needs architecture review.
+- (c) Condition both p and q on imaging, p(y|s)/P_F(s). That flattens the likelihood to about one
+  inside a scene and moves all the information into P_F(s). It needs footprints that do not exist.
+
+**P2. COSMO-SkyMed in the impact likelihood.** Its footprint is missing, and the ruling forbids nominal
+swath dimensions or the contacts' bounding box. So there is no background density for a COSMO
+position.
+- (a) **[recommended, taken]** Leave COSMO out of the impact likelihood until a footprint is known.
+  COSMO enters only through the two-epoch calibration, which carries no information. The
+  `cosmo-contact-set` arms of D4 are therefore identical by construction, and labelled so.
+- (b) Take a footprint from Pete if he has one. This is the only route that brings COSMO into D4.
+
+**P3. The eof-2f kernel.** It is built from two published fractions, with a 15 NM core and a north-west
+quadrant that I assumed.
+- (a) **[recommended, taken]** Use it, labelled, beside the uniform-disk sweep.
+- (b) Wait for end of flight's 2-D displacement histogram (Δeast, Δnorth from 00:19:37, pooled and by
+  family) from its r23 full-scale run. **Requested below either way.**
+
+### Request to end of flight (please relay)
+
+A **2-D displacement histogram of impacts from the 00:19:37 position** (Δeast, Δnorth in NM, 5 NM
+bins, out to 110 NM), weighted, pooled over seeds and split by control axis, from `eof-r23-n4-all`.
+It replaces `eof-2f` in one line of `rerun_reference.py`. A table of impacts with weights would serve
+equally well.
+
+### Next
+
+The methods draft (`results/pleiades-methods-draft.md`) while I wait. Then the re-run on the new
+reference, the moment it lands.
+
+— Pléiades

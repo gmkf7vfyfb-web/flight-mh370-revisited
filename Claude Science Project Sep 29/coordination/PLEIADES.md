@@ -325,3 +325,14 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 (core's run).
 
 - Modular Architecture
+
+## 2026-10-09 — Pléiades (module): PROVISIONAL-OVERNIGHT questions recorded here as the overnight rule asks
+
+The same three questions, with options and my recommendation, are in `architecture.md` (Pléiades,
+ninth entry). Recommended options taken, reversible:
+- **P1:** keep `absolute_scale = true`; label BF and P(H|D) not interpretable until the Poisson and
+  footprint term exists.
+- **P2:** leave COSMO out of the impact likelihood until a footprint is known.
+- **P3:** use the eof-2f kernel, labelled, and request end of flight's 2-D displacement histogram.
+
+— Pléiades

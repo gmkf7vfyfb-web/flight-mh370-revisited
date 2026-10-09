@@ -9,8 +9,11 @@
 //!   data. It is read from a 0.01 deg raster (`coverage/*.cov`, built by
 //!   `prepare/build_coverage.py`) by bilinear interpolation between cell centres, so it is
 //!   the covered fraction within about 1 km of y. That scale belongs to the data model,
-//!   not to the sampler: a debris field is an extended target ("aircraft debris fields
-//!   typically cover areas larger than 200 m by 200 m", ATSB 2017, p. 96), and averaging
+//!   not to the sampler: a debris field is an extended target (at these depths one "would be at
+//!   least 100 m x 100 m and very likely to be greater than 200 m x 200 m", ATSB 2017, printed
+//!   p. 83; a 200 m by 200 m low-lying field was shown detectable in the side-scan data at towfish
+//!   altitudes under 200 m, p. 89 - verified 9 Oct 2026, see results/seabed-search-references.md),
+//!   and averaging
 //!   at 1 km conserves the uncovered area while the posterior varies over tens of km.
 //!   Outside a raster c_k = 0: nobody searched there.
 //! - q_k: the probability that data over the wreck would have led to it being found.
@@ -42,9 +45,14 @@
 //!   q = (0.974 x 0.95 + 0.021 x 0.70) / 0.995 = 0.945; ATSB also rated terrain-avoidance
 //!   gaps that hold some data at 0%, so the conditional value lies between 0.940 and
 //!   0.945. Regions range from 91.5% to 98.7% high confidence.
-//! - `bluefin-2014`: the Bluefin-21 (Artemis AUV) search from Ocean Shield, April-May
-//!   2014, near 21 S, 104 E: Geoscience Australia's two display polygons, 771 km2 (ATSB
-//!   reports 860 km2), so display geometry, not swaths. q = 0.9, not assessed by ATSB.
+//! - `bluefin-2014`: the Bluefin-21 (Phoenix International Artemis AUV) search from Ocean
+//!   Shield, April-May 2014, near 21 S, 104 E: Geoscience Australia's two display polygons,
+//!   771.41 km2, against the 860 km2 ATSB states (printed p. 42, verified 9 Oct 2026). The
+//!   published display geometry is 10.3% SMALLER than the stated coverage, so it is not an
+//!   upper bound on where the AUV looked and this layer is conservative; the gap cannot be
+//!   closed without AUV track data, and it cannot matter - the search is 2,473 km from the
+//!   posterior's mass and removes 0.0000 of it at every rho. See
+//!   results/seabed-bluefin21-area.md. q = 0.9, not assessed by ATSB.
 //! - Ocean Infinity 2018, INFERRED and not in git (the tracing's licence is unclear). Ocean
 //!   Infinity published no geometry for its 2018 search ("over 112,000 km2", 29 May 2018;
 //!   120,000 km2 in its data donation). The prepare script turns a community tracing of the

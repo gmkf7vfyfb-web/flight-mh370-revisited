@@ -218,6 +218,12 @@ pub fn catalogue() -> Vec<ProductMeta> {
             ],
             licence: "NASA Earthdata open data (not downloaded)",
         },
+        globcurrent("globcurrent-my-pt1h", "MULTIOBS_GLO_PHY_MYNRT_015_003 / cmems_obs-mob_glo_phy-cur_my_0.25deg_PT1H-i (v202411)", TimeAxis::Instantaneous { interval_s: 3600.0 }),
+        globcurrent(
+            "globcurrent-my-p1d",
+            "MULTIOBS_GLO_PHY_MYNRT_015_003 / cmems_obs-mob_glo_phy-cur_my_0.25deg_P1D-m (v202411)",
+            TimeAxis::Mean { interval_s: DAY, stamp: "daily mean labelled 00:00 UTC of the averaged day (as GLORYS12); placed at label + 12 h, PROVISIONAL".into() },
+        ),
         ProductMeta {
             id: "bran2016",
             name: "Bluelink ReANalysis 2016 (OFAM3)",
@@ -286,6 +292,51 @@ pub fn catalogue() -> Vec<ProductMeta> {
             licence: "Copernicus (C3S) licence for ERA5, as redistributed in ARCO-ERA5",
         },
     ]
+}
+
+/// Copernicus-GlobCurrent, the observation-based second ocean model (multi-year, v202411).
+fn globcurrent(id: &'static str, dataset: &'static str, time_axis: TimeAxis) -> ProductMeta {
+    use Inclusion::*;
+    ProductMeta {
+        id,
+        name: "Copernicus-GlobCurrent total surface current (geostrophic + Ekman + tide), 0 m",
+        producer: "CLS for the Copernicus Marine Service",
+        dataset,
+        access: "Copernicus Marine Toolbox subset; prepare/fetch_globcurrent.py",
+        credential: Some("COPERNICUS"),
+        horizontal_resolution_deg: 0.25,
+        coverage: "1993 onward (multi-year); 0 m and 15 m; this version is announced for retirement on 2026-11-24",
+        covers_drift_period: Included,
+        time_axis,
+        depth: "surface (0 m) total current; a 15 m level also exists",
+        variables: vec![
+            Variable { name: "uo", meaning: "eastward total current (geostrophic + Ekman + tide)", units: "m s-1" },
+            Variable { name: "vo", meaning: "northward total current", units: "m s-1" },
+            Variable { name: "err_uo", meaning: "uncertainty of uo (daily dataset only)", units: "m s-1" },
+            Variable { name: "err_vo", meaning: "uncertainty of vo (daily dataset only)", units: "m s-1" },
+        ],
+        contents: Contents {
+            geostrophic: Included,
+            ekman: Included,
+            stokes: Partial,
+            tides: Included,
+            inertial: Partial,
+            note: "Observation-based and independent of GLORYS12's model: altimetric geostrophy + empirical Ekman \
+                   current from ERA5 wind stress + barotropic tide (QUID CMEMS-MOB-QUID-015-003). The Ekman \
+                   transfer is fitted to drifters, and whether residual windage or Stokes drift is absorbed is \
+                   not stated, so Stokes is declared Partial: an explicit-Stokes composition must opt in. Like \
+                   GLORYS12 it already contains the wind-driven current; never add a second Ekman term."
+                .into(),
+        },
+        temperature: "n/a (surface currents only)",
+        vertical_velocity: NotApplicable,
+        verify_on_download: vec!["time label convention of the daily mean", "land and coastal mask (NaN)"],
+        sources: vec![
+            "https://data.marine.copernicus.eu/product/MULTIOBS_GLO_PHY_MYNRT_015_003/description",
+            "CMEMS-MOB-QUID-015-003 (quality information document)",
+        ],
+        licence: "Copernicus Marine Service product licence (free use with attribution)",
+    }
 }
 
 pub fn product(id: &str) -> Option<ProductMeta> {

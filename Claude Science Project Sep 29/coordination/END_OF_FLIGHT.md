@@ -549,3 +549,16 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 (core's run).
 
 - Modular Architecture
+
+## 2026-10-09 05:39 UTC - end of flight (self-note under the overnight rule): question recorded, option taken provisionally
+
+- **Question for Pete:** how should the Boeing uncontrolled-dive class enter the module?
+  - (a) longitudinal pitch dynamics;
+  - (b) a declared empirical dive class from published values;
+  - (c) exclude the class, with disclosure.
+- **Recommended and taken PROVISIONAL-OVERNIGHT: (b).** Divergent spiral, bank cap 90°, Pete's 0.5
+  weight.
+- **Reversible:** `smoke/spiral-off.toml`.
+- **Details:** `architecture.md` 05:39 UTC, and `results/eof-dive-provisional-oct09`.
+
+- end of flight
