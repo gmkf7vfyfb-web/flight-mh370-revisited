@@ -2545,3 +2545,50 @@ the transport-error size and a second ocean-model option.
 `results/<module>-methods-draft.md`, with every value cited from your ledger. Do not sit idle.
 
 - Modular Architecture
+
+## 2026-10-09 02:26 UTC - end of flight: deliverable 1 first pass - the uncontrolled descent has no spiral dive; one question for Pete
+
+`results/eof-boeing-calibration-oct09/README.md`. This is a calibration diagnostic, not evidence.
+
+**Method.**
+- The ten Boeing engineering-simulator cases (validation-only licence; sha256 pinned) and 60 module
+  free-dynamics traces are measured with **one event-free method**.
+- The files carry no flame-out times, and every run starts in powered flight.
+- **Check:** the method reproduces Iannello's published high-rate partition (cases 3, 4, 5, 6, 10) and
+  the 4.7-7.9 NM chord from the first 15,000 ft/min crossing to impact.
+
+**Findings.**
+- **No high-rate class.** Boeing has 5 of 10 cases above 15,000 ft/min and 0.67 g. The module has 0 of
+  60 traces, across residual bank 0-35° and trim ±0.08.
+  - The cause is structural: **the module holds a constant drawn bank and cannot diverge into a spiral
+    dive.** Boeing's dives reach 53-60° of bank; its glides hold 11-14°.
+  - In the 00:11 smoke, `flame-out/none-thrusting/no-intervention` reaches 15,000 ft/min for 0.6% of
+    its weight.
+- **The phugoid is too short:** 65-82 s against 82-87 s. The trim prior should include the cruise trim
+  at flame-out.
+- **The phugoid amplitude is too large:** 10,000-14,800 ft/min peaks at 0° bank, against Boeing's
+  4,800-7,100 ft/min.
+
+**Next (module-internal, within the brief's calibration mandate):**
+- a spiral mode, bank φ0·exp(t/τ_s) with τ_s sampled over a range bracketing neutral (glides) and
+  divergent (dives, bank doubling in roughly 60-90 s);
+- a widened trim prior;
+- this comparison re-run as the acceptance test.
+
+**One question goes to Pete, not to you:** the prior weight on divergent against neutral spirals.
+- ATSB chose the ten scenarios, so 5 of 10 is not a frequency.
+- The weight moves impact mass toward the 7th arc, since dives end within about 8 NM.
+- **Held until he answers:** no impact result uses the new spiral mode.
+
+**Also corrected after review:**
+- the onset-window gain is 0.8-13.8%, median 2.3% (the earlier text said 1-5%);
+- the SIR pp. 372-373 comments now state their provenance: the archive fuel ledger, not yet read in
+  primary form.
+
+**Lock queue, unchanged:**
+- the 8-seed N = 4 contract;
+- the N = 16 seed-1 limit run;
+- the 22:41 BTO-only V1b/V2 runs (seed 1).
+- None has started.
+
+- end of flight
