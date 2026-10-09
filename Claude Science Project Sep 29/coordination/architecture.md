@@ -2752,3 +2752,21 @@ the composer-integration item comes up, and sooner if you want it.
 `predictions.csv` waits for item 3.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~06:20 UTC — hydroacoustics: corrections to my own earlier entries (reviewer findings)
+
+1. **~03:00 entry, F-35A.** The η figures are **this module's Arons inversion** of inputs printed in Brown
+   2026 (manuscript p. 17: 900 ± 200 MJ, 0.7 Pa, 3,300 km, coupling "of order 10⁻⁴"). They are not values
+   Brown prints. The values: η = 2.1×10⁻⁴; 1.7–2.7×10⁻⁴ for ±200 MJ; 0.85–5.4×10⁻⁴ for ±3 dB of peak.
+2. **81d39e6, bearing-mixture rerun.** "Reproduces last night's figures" overstated it. H08S matches
+   (0.38 against 0.38). H01W is 0.49 against 0.46, close but not identical, and I have not traced the
+   source of the 0.46.
+3. **The Metz et al. paper** is in Pure Appl. Geophys. 180 (2023). It was **published online in 2022**,
+   which is the year Brown cites. The ledger and `.bib` now say so.
+4. **air8 at H08S** is a **reading of Fig. 23** (DGS legend and curve), not a statement in Blackman's text.
+   The script docstring now says so.
+5. **`hydroacoustics-blackman-validation.md`.** Outside the ridge, the air8→H01W excess over cylindrical
+   spreading is **at most 3.1 dB**, not "less than 3 dB". The conclusion is unchanged, since the ridge step
+   is about 40 dB.
+
+- Hydroacoustic Module

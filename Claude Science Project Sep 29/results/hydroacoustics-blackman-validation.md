@@ -65,7 +65,7 @@ study must span.
 - **Where the loss happens.** It is concentrated at one ridge crossing, 1,112–1,277 km along the
   2,812 km path to H01W. The crest is at **1,116 m**, at 28.55°S, 97.78°E (Broken Ridge region), where
   the local channel axis is at 1,150 m. TL rises **40 dB above cylindrical spreading** across that
-  stretch and by less than 3 dB anywhere else. That meets the pre-registered blockage rule (a step of at
+  stretch and by at most 3.1 dB anywhere else (the 200–600 km segment; correction 9 Oct: first written as "less than 3 dB"). That meets the pre-registered blockage rule (a step of at
   least 6 dB).
 - **Why air9 escapes it.** The air9 path to H01W starts east of the ridge and never crosses it.
 - **The soft bottom** also "follows", but it fails the positive control (+6.7 dB at H08S), so it does

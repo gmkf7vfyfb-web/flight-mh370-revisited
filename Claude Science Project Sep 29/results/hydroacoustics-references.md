@@ -86,11 +86,14 @@ signals from bolides. *Icarus* (accepted 14 Apr 2026). arXiv:2604.12723, doi:10.
 - **Values used** (manuscript pages):
   - p. 9: Eq. 2 (Arons), P_peak = 52.4×10⁶ (R/W^(1/3))^−1.13.
   - p. 17: F-35A, 9 Apr 2019: impact energy 900 ± 200 MJ; peak 0.7 Pa at H11; range 3,300 km;
-    coupling "of order 10⁻⁴"; shallow SOFAR at 500–700 m.
+    coupling "of order 10⁻⁴"; shallow SOFAR at 500–700 m. These are the INPUTS; the inversion
+    η = 2.08×10⁻⁴ and its ranges (1.7–2.7×10⁻⁴ for ±200 MJ; 0.85–5.4×10⁻⁴ for ±3 dB of peak) are this module's
+    own computation from them with Eq. 2, not values printed by Brown.
 - **Supports:** the F-35A η inversion (η = 2.08×10⁻⁴; amended sequence item 1, blocked) and the η prior
   span.
 
-**[Metz2023]** Metz, D., Obana, K., Fukao, Y. (2023). Remote hydroacoustic detection of an airplane crash.
+**[Metz2023]** Metz, D., Obana, K., Fukao, Y. (2023; published online 2022, and cited as Metz et al. 2022 by
+Brown 2026). Remote hydroacoustic detection of an airplane crash.
 *Pure Appl. Geophys.* 180, 1343–1351. doi:10.1007/s00024-022-03117-6.
 - **Not held** (closed). No values are taken from it; the crash position and waveform are to be requested
   under §9.
