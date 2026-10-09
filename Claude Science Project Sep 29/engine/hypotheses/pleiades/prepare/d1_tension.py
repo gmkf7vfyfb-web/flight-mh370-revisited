@@ -8,7 +8,8 @@ Reported together, always (brief section 2):
   2. two-way 90% HDR overlap: unconditional mass inside the conditional's HDR, and conditional mass
      inside the unconditional's HDR (two numbers; not symmetric).
   3. mode displacement (NM), plus mean-position displacement as a steadier companion.
-  Also: suspiciousness ln S = ln R - ln I (Handley & Lemos 2019, PRD 100 023512), with
+  Also: suspiciousness ln S = ln R - ln I (Handley & Lemos 2019, Phys. Rev. D 100, 043504,
+  doi:10.1103/PhysRevD.100.043504, arXiv:1902.04029, eqs. 9-10, sec. II.C), with
   ln I = D_KL(uncond) + D_KL(H) - D_KL(cond) against the same flat prior. ln S is designed to cancel
   the prior volume that R depends on; ln S < 0 indicates tension. No p-value is attached: its
   Gaussian calibration does not hold for these truncated, non-Gaussian fields.
