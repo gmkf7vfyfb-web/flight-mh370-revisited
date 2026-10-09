@@ -1853,3 +1853,82 @@ Everything else in the 01:20 rule is unchanged.
 - Next: item 5, throughput, when the lock is free.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Pléiades, eighth entry: the 00:30 sequence is done; the two-epoch pair carries no windage information, shown by injection
+
+Sequence steps 1-4 of the ~00:30 UTC entry are done. The §11/D1 per-particle reruns stay **HELD** as
+ruled, until core reports the prior-track A/B. Machine rules kept: everything ran outside the lock,
+at 2 threads or as 2 single-threaded processes. The only download was the GA PDF again (18 MB,
+workspace only), because the workspace was swept.
+
+### Landed
+
+| where | commit | what |
+|---|---|---|
+| `hypothesis/pleiades` | `bfea0a1` | COSMO pass-time set-up (`data/cosmo-contacts.csv`, `data/acquisition-times.csv`); transport export through `mh370-ocean` (`export.rs`); **D3 likelihood** (`likelihood.rs`, `lib.rs`) with tests; two-epoch enumeration, information gain, Bayes factor (`prepare/twoepoch.py`); injection-recovery and floor scan (`prepare/injection.py`); real arms (`prepare/d5_real.py`) |
+| `hypothesis/pleiades` | `4bdd197` | **Self-correction:** my notes, manifest and generated CSVs were under `engine/hypotheses/pleiades/`, against `engine/AGENTS.md` (three markdown files; generated output never committed). Moved out; nothing remains but code, tests, toml and small data files. |
+| `hypothesis/pleiades` | `52e3243` | **Self-correction:** `d1_tension.py` cited the suspiciousness as PRD 100, 023512, which is a different paper. It is PRD 100, 043504, eqs. 9-10. Numbers are unaffected. |
+| `claude-science-sep29` | this commit | `results/pleiades/` (all notes, CSVs, data manifest, figure); `results/pleiades-references.md` and `.bib` under the 01:20/02:25 rule |
+
+Tests: 73 crate tests pass at `--test-threads=2`. The module adds 7, plus 3 ignored that need the
+gitignored tables. `prepare/test_twoepoch.py` checks the enumeration counts against Σ C(m,k)·n!/(n−k)!:
+229, 1,045, 1,753, 18,001, and 2,202,409 for 4 × 39.
+
+### Results, provisional
+
+1. **Injection-recovery (step 2).**
+   - Coverage is nominal (68 %: 0.65-0.76; 90 %: 0.85-0.93) under both error models, both pass times,
+     time known or marginalised. The machinery is calibrated.
+   - At the reference spread (about 10-13 km per component over 40-53 h), **three true counterparts
+     give 0.003-0.008 bits.** That is the floor, and it is a property of the data.
+   - Recovery needs a spread of about 6 km or less **and** π_m = 0.9 (1.7 bits at 3.4 km, 0.6 bits at
+     5.9 km).
+   - Marginalising the pass time costs 24-39 % of that, and P(true pass) reaches 0.80 at best. **So the
+     transport spread limits the calibration first, and the acquisition time second.**
+2. **The real data (step 4).**
+   - Information gain is 0.002-0.14 bits in every arm, and ln BF (free vs fixed windage) runs from
+     −0.047 to −0.007.
+   - P(dawn) = 0.50 in every arm. P(any match) falls from a prior of 0.875 to 0.09-0.17 (π_m 0.5), or
+     from 0.999 to 0.55 (π_m 0.9).
+   - ρ4 swept over {0, 0.25, 0.5, 1}: no change.
+   - **F4 is never matched under any windage** (60-115 km from every target). That is the brief's
+     "poor fit", measured, and it is why the two `cosmo-contact-set` arms agree to the digits shown.
+   - **For drift: there is no calibrated windage from this pair.** That is a result, not a gap.
+3. **D3** (Pléiades positions only).
+   - A mixture of normalised Gaussians around deterministic tracks, over the windage and K priors. It
+     integrates to one (to 2e-3) and contains no seed.
+   - `pleiades-origin` = {not-H, H} with a sweep label. Not-H returns 0; H returns
+     ln Σ w_c p·A_scene with A_scene = 500 km² (GA p. 8).
+   - The 15-day spread is about 33-60 km per component, so p·A_scene peaks at about 0.02-0.08. **A single
+     cluster is weak evidence about s by construction**, and P(H|D) will show it.
+
+### Decisions taken inside the module (reversible; say if you want otherwise)
+
+- **Windage absorbs Stokes** (GLORYS + c·ERA5, a_stokes = 0, no WAVERYS term). That is the CSIRO-style
+  system. Using WAVERYS needs a derived grid, which does not exist yet.
+- **Model error** is OU with σ_e 0.05 m/s and T_e 2 d, independent between pairs (reference) or shared
+  (sensitivity). The size is assumed, as brief §13 says.
+- **Matching prior**: π_m 0.5 (reference) and 0.9; target ∝ its declared weight.
+- **No footprint term**: footprints are not assembled, and COSMO's are missing.
+- **PHR_2 acquisition time assumed 04:24 UTC** (the east pair). The ruling named none. It moves nothing
+  measurable (Pléiades ±25 min is 0.1 km).
+- **The transport driver runs as `#[ignore]` tests inside the module directory**, because a module has
+  no `examples/` or bins without touching the shared `hypotheses/Cargo.toml`. If you would rather this be
+  a core-provided runner, it is a small core request.
+
+### Requests
+
+1. **The size of the transport error** (σ_e, T_e; and K per product) from the drogued-drifter replay
+   (ocean transport, deliverable 9). The two-epoch result sits exactly where it matters: below about 6 km
+   of spread there is information, above about 10 km there is none.
+2. **A second `ocean-model` option for March 2014**, with its label agreed with drift. The hook's label
+   is `glorys12v1+era5-wind10`, taken from `Forcing::ocean_model()`.
+3. Unchanged: COSMO source, footprint and target sizes from Pete.
+
+### Next, in my sequence
+
+Nothing in the 00:30 sequence is left. Deliverable 4 (COSMO in the joint likelihood, without multiplying
+independent likelihoods over 13 shared drift days) and the §11/D1 reruns both wait on the held
+per-particle positions and impact samples. I will run the reruns the moment the A/B lands.
+
+— Pléiades

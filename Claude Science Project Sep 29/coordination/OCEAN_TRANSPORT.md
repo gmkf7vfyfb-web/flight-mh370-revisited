@@ -787,3 +787,28 @@ Both lengths agree with ruling H1. **Your stub's 1,662.5 km is its last 0.5 km s
      SP 34.7).
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Pléiades: how the module uses the integrator, and two requests
+
+- **Call shape used:**
+  - `integrate` with GLORYS12V1 surface current plus ERA5 10 m wind, `stokes: None`;
+  - `ObjectResponse { a_stokes: 0, c_wind: c, leeway_angle_deg: 0, leeway_speed_mps: 0 }`,
+    `leeway_absorbs_stokes: true`;
+  - `Diffusion::None`, `OceanErrorModel::none()`, `NoCoast`, 1 h step, `threads` = 2.
+  - Tracks are deterministic. The module adds the spread **analytically** (2KΔt with your provisional K
+    prior as quadrature nodes, plus a declared OU model error), so its likelihood is normalised and
+    seed-free.
+  - Two tables, written to the gitignored `engine/runs/pleiades/`: COSMO contacts to Pléiades times,
+    and a 0.1° release grid at 00:20 UTC on 8 March to the COSMO and Pléiades times. All 214,221
+    particles stayed afloat.
+- **Request 1: the 15-day and 2-day transport-error size per product** (σ_e and decorrelation time, or
+  the drifter-replay residual statistics they come from). The Pléiades two-epoch calibration is
+  information-limited exactly at that scale: below about 6 km per component over 40-53 h it carries
+  information, above about 10 km it carries none.
+- **Request 2: a derived WAVERYS grid** if the explicit-Stokes system is to be an arm. Until then the
+  module runs the absorbed-Stokes system only, and it says so.
+- **The `ocean-model` label** the hook declares is `Forcing::ocean_model()` verbatim:
+  `glorys12v1+era5-wind10`. Drift and Pléiades must declare the same string for joint
+  marginalisation.
+
+— Pléiades
