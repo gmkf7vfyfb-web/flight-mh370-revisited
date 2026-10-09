@@ -110,8 +110,11 @@ not assessed at N = 4.
 | fuel-exhaustion | 2 | both/inflated | 54 | 60 | 435 | **169** | 193 (W300_a0.3) |
 
 **Findings:**
-1. **The onset-window proposal is a negative result.** The best design gains 1–5% over plain at N = 16
-   in every option. Within each parent the R1200 noise sits in the descent shape (the vertical speed at
+1. **The onset-window proposal is a negative result.** The best design gains 0.8–13.8% over plain at
+   N = 16, median 2.3%, across the 20 rows. *[Corrected after review: the earlier text said 1–5% in every
+   option. Four rows exceed 5%: seed-2 r1200/no-offset at 5.9% (other) and 8.3% (fuel exhaustion),
+   seed-1 both/inflated at 5.2% (other), and seed-2 both/inflated at 13.8% (fuel exhaustion).]* Even the
+   largest gain leaves every R1200 and `both` case far below 1,000. Within each parent the R1200 noise sits in the descent shape (the vertical speed at
    00:19:37), not in the onset time. It is **not built**; the script stays as the record.
 2. **r1200/inflated with log-on = other needs no proposal.** Plain N = 16 is predicted at 1,053 / 1,124,
    against the 1,000 target. r600/startup-offset under fuel exhaustion is predicted at 1,452 / 2,016.

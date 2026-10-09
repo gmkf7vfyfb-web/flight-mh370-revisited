@@ -2397,7 +2397,9 @@ weakest number in the table).
   the next lock slot.
 
 **3. Section 8 narrowed.** `results/eof-ess-limit-oct09/README.md`, addendum:
-- **An onset-window defensive mixture is a negative result.** It gains 1-5% at N = 16 in every option;
+- **An onset-window defensive mixture is a negative result.** It gains 0.8-13.8% at N = 16, median 2.3%
+  *[corrected after review: the earlier text said 1-5%; the largest is seed-2 both/inflated under fuel
+  exhaustion, 169 to 193]*;
   the R1200 noise is in the descent shape, not the onset time.
 - **Plain N = 64 reaches 70-90% of the N→∞ limit for every R1200 case; N = 256 reaches 88-98%.** So a
   descent-shape proposal could add at most 1.1-1.4× over N = 64, which your 00:30 ruling permits. For
