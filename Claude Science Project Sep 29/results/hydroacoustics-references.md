@@ -128,7 +128,7 @@ March 2014.* Centre for Marine Science and Technology, Curtin University, 4 Sept
 **[JASDF2019a]** Air Staff Office, Japan Air Self-Defense Force (2019). *F-35A戦闘機墜落事故の要因と再発防止策について*
 (Factors of the F-35A fighter crash and recurrence-prevention measures). Press release, Ministry of Defense,
 10 June 2019, 3 pp. Original URL https://www.mod.go.jp/asdf/news/houdou/H31/20190610.pdf (404 since at least
-9 Oct 2026); retrieved from the Internet Archive snapshot of 7 Feb 2024, sha256 a8b9fdca…0e5a8e8d.
+9 Oct 2026); retrieved from the Internet Archive snapshot of 7 Feb 2024, sha256 a8b9fdcacbdfa0cb1a90982f17f425ad8a382aab45c4e327983a63818e0a5e8d.
 - **Values used:**
   - p. 1: crash about 19:26:30 JST (10:26:30 UTC), about 135 km east of Misawa Air Base. **No
     coordinates are given.**
@@ -139,7 +139,7 @@ March 2014.* Centre for Marine Science and Technology, Curtin University, 4 Sept
 
 **[JASDF2019b]** Air Staff Office, JASDF (2019). Results of the investigation into the F-35A crash (in
 Japanese). Press release, 9 August 2019, 3 pp. Original URL https://www.mod.go.jp/asdf/news/houdou/H31/20190809.pdf
-(404); Internet Archive snapshot of 7 Feb 2024, sha256 6a90e7c0…2f1f620.
+(404); Internet Archive snapshot of 7 Feb 2024, sha256 6a90e7c0d1b20c0e7eb9d622758b173d4e9110f2be305452a1c688ae2fa1f620.
 
 **[KadriS1-F35]** Kadri 2024, Supplementary Information S1, p. 1: gives the F-35A site as "approximately
 40°30′10″N 142°04′37″E" at 10:26:30 UTC, citing JASDF2019a. **That source contains no coordinates.** The
