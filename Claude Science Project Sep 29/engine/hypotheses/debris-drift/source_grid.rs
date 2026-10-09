@@ -27,6 +27,7 @@ pub struct SourceGrid {
     pub dlon: f64,
     pub nlat: usize,
     pub nlon: usize,
+    #[allow(dead_code)]
     pub spacing_nm: f64,
     /// Release node (main band, plus islands when included).
     pub active: Vec<bool>,
@@ -41,19 +42,13 @@ pub struct SourceGrid {
 }
 
 impl SourceGrid {
-    pub fn index(&self, i: usize, j: usize) -> usize {
-        i * self.nlon + j
-    }
     pub fn node(&self, k: usize) -> (f64, f64) {
         let (i, j) = (k / self.nlon, k % self.nlon);
         (self.lat0 + i as f64 * self.dlat, self.lon0 + j as f64 * self.dlon)
     }
+    #[cfg_attr(not(test), allow(dead_code))]
     pub fn n_active(&self) -> usize {
         self.active.iter().filter(|a| **a).count()
-    }
-    #[cfg_attr(not(test), allow(dead_code))]
-    pub fn component_nodes(&self, c: usize) -> usize {
-        self.component.iter().filter(|&&x| x == c as i32).count()
     }
 
     /// `cell_deg` is the side of the input cells; `coverage` in (0, 1].

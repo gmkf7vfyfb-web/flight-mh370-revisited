@@ -3,57 +3,59 @@
 //! shared impact samples. Brief: threads/master-prompts/ocean-drift.md; rulings in
 //! coordination/OCEAN_DRIFT.md; Davey alignment in results/davey-ch11-alignment.md.
 //!
-//! STATUS: FIRST BUILD ON A PROVISIONAL ANALYTIC OCEAN. `crates/ocean` (the shared transport) has
-//! no owner yet, so the only transport here is `provisional_analytic_ocean` - closed-form fields,
-//! straight coast, no data. In `mode = "stub-synthetic"` (the default and the only mode that runs)
-//! the module scores SYNTHETIC finds generated from a declared source; nothing it returns is
-//! evidence about MH370. `mode = "evidence"` refuses to construct until the shared transport
-//! exists, so no stub number can be mistaken for a result.
+//! STATUS: transport is the shared `ocean` crate (the provisional stub is deleted). Two modes:
+//! `synthetic` scores finds generated from a declared source, through any transport, and is
+//! never evidence; `evidence` scores the stringent nine through gridded products. Every evidence
+//! result is PROVISIONAL until the real coastline exists, because beaching is read from product
+//! land-mask stranding (transport.rs).
 //!
 //! The estimator, and the contract rules each part answers to:
 //! - Forward physics only; reverse inference by Bayes. Returns ln p(finds | impact sample, ocean
 //!   model); the composer applies the weights (rule 1). No source-cell area factor (rule 1).
-//! - One reusable ensemble per (source node, shared-environment realisation, object class);
+//! - One reusable ensemble per (source node, environment realisation, object class);
 //!   `source_grid` places nodes over the coverage region of a declared posterior, `interpolate`
 //!   reads the surface at each impact sample linearly in L, never extrapolating (rules 3, 4).
-//! - Recovery layer: the D5 conditional likelihood prod_j q(y_j|x)/Q(x), lambda cancelled exactly
-//!   under p(lambda) ~ 1/lambda, relative identification probability by coast segment and time,
-//!   arrival time and discovery time distinct with a declared delay (`recovery`).
-//! - Shared environment marginalised ONCE outside the product over objects:
-//!   L_m(x) = (1/E) sum_e prod_j L_j(x | m, e) (rule 8). Ocean models are the declared shared
-//!   alternative `ocean-model`, never rescaled per model (rule 7); until the observation model
-//!   supports comparable likelihoods the combination is a SENSITIVITY MIXTURE.
-//! - Object response per class: (a_stokes, c_wind) drawn once per particle from declared uniform
-//!   priors and persistent along the path (rule 9). Waves: a_stokes multiplies an explicit Stokes
-//!   field and c_wind is drag BEYOND Stokes; a fitted total-leeway coefficient must not be put in
-//!   c_wind alongside a_stokes > 0 (rule 10, arXiv:2005.09527).
-//! - Monte Carlo: a node whose estimate is zero for any find is Unresolved, never zero likelihood;
-//!   per-node minimum effective particle count is kept as a quality flag (rule 6).
+//!   Common random numbers across nodes: every node uses the same object-response draws and the
+//!   same diffusion streams, so differences between nodes are not inflated by sampling noise.
+//! - Recovery layer: the D5 conditional likelihood with the G1 find episodes - nine object
+//!   factors, detection blocks (segment x period) with latent relative levels nu marginalised
+//!   under a declared prior, lambda cancelled exactly (`recovery`).
+//! - Shared environment (diffusivity K, drawn from the shared ocean's DiffusivityPrior) and the
+//!   levels nu marginalised ONCE outside the product over finds (rule 8). The ocean model is the
+//!   shared alternative `ocean-model`, one option per configuration, never rescaled (rule 7).
+//! - Object response per class, drawn once per particle from declared distributions and
+//!   persistent (rule 9). Default system is CSIRO's implicit one (rulings D-a, D-b): current plus a
+//!   wind fraction plus, for the flaperon, a constant 10 cm/s at theta ~ U(0, 30) deg left of
+//!   downwind; no explicit Stokes, declared through `leeway_absorbs_stokes` so the transport
+//!   refuses a Stokes field (rule 10). The explicit-Stokes arm is config-gated, default off.
+//! - Monte Carlo: a node whose ensemble gives zero for any find is Unresolved, never zero
+//!   likelihood; per-find Kish effective counts and a split-half ln L are reported (rule 6).
 //!
-//! First-pass scope (brief section 6): release at the impact point at impact time (the ensemble
-//! release time is `release_unix_s`, the 00:19:37 epoch; impact-time differences of minutes are
-//! neglected against months of drift), initially floating, no family-dependent release, no
-//! resurfacing, no refloating. The first version does not test the mechanisms it assumes away.
+//! First-pass scope (brief section 6): release at the impact point at `release_unix_s`, floating,
+//! no family-dependent release, no resurfacing, no refloating. Coasts outside the declared
+//! segments carry no identification (brief section 13 defers the Western Australia term). The
+//! first version does not test the mechanisms it assumes away.
 //!
 //! Departures from Davey et al. (2016) ch. 11 (printed pp. 101-109) are D1-D5 of
 //! results/davey-ch11-alignment.md; the GDP-empirical arm (A1) is prepared under prepare/gdp/.
 
 mod evidence;
 mod interpolate;
-mod provisional_analytic_ocean;
 mod recovery;
 mod rng;
+mod segments;
 mod source_grid;
 mod transport;
 
 use hypothesis::{Alternatives, Hypothesis, ImpactView};
 use interpolate::{Lookup, Node, Surface};
-use provisional_analytic_ocean::{AnalyticOcean, Coast, Current, LocalPlane};
-use transport::{Fate, ObjectResponse, Particle, StubTransport, Transport};
-use recovery::{Arrival, Delay, Identification, Observation, Recovery};
+use ocean::{Diffusion, DiffusivityPrior, Domain, ObjectResponse, Particle};
+use recovery::{dot, Arrival, Delay, Edge, LevelDraws, Observation, Place, Recovery};
 use rng::Rng;
+use segments::{Segment, SegmentMap};
 use serde::Deserialize;
 use source_grid::{SourceGrid, WeightedCell};
+use transport::{Fate, OceanSetup, TransportParams};
 
 const REFERENCE_MAP: &str = include_str!("data/reference-map-no-exhaustion-prior-m0019b.csv");
 
@@ -65,63 +67,121 @@ fn d_particles() -> usize { 1000 }
 fn d_seed() -> u64 { 1 }
 fn d_release() -> f64 { 1_394_237_977.0 }
 fn d_dt() -> f64 { 6.0 }
-fn d_duration() -> f64 { 730.0 }
-fn d_mode() -> String { "stub-synthetic".into() }
-fn d_models() -> Vec<String> { vec!["provisional-analytic-stub".into()] }
-fn d_scales() -> Vec<f64> { vec![1.0] }
+fn d_threads() -> usize { 2 }
+fn d_true() -> bool { true }
+fn d_domain() -> [f64; 4] { [15.0, 120.0, -50.0, 0.0] }
+fn d_env() -> Vec<u64> { vec![1] }
 
-#[derive(Deserialize, Clone)]
-#[serde(deny_unknown_fields)]
-struct OceanParams {
-    current_east_mps: f64,
-    current_north_mps: f64,
-    #[serde(default)]
-    stokes_east_mps: f64,
-    #[serde(default)]
-    stokes_north_mps: f64,
-    #[serde(default)]
-    wind_east_mps: f64,
-    #[serde(default)]
-    wind_north_mps: f64,
-    diffusivity_m2s: f64,
-    /// Straight coast along this meridian (stub geometry), ocean to the east.
-    coast_lon_deg: f64,
+/// A declared sampling distribution (rule 9: sampling a range is marginalisation only if the
+/// distribution is stated). Truncation is by rejection.
+#[derive(Deserialize, Clone, Debug, PartialEq)]
+#[serde(deny_unknown_fields, tag = "dist", rename_all = "kebab-case")]
+pub(crate) enum Dist {
+    Fixed { value: f64 },
+    Uniform { lo: f64, hi: f64 },
+    Normal { mean: f64, sd: f64, lo: f64, hi: f64 },
+    LogNormal { median: f64, sigma: f64, lo: f64, hi: f64 },
 }
 
-#[derive(Deserialize, Clone)]
+impl Dist {
+    fn validate(&self) -> Result<(), String> {
+        let ok = match *self {
+            Dist::Fixed { value } => value.is_finite(),
+            Dist::Uniform { lo, hi } => lo <= hi,
+            Dist::Normal { mean, sd, lo, hi } => sd >= 0.0 && lo <= hi && mean.is_finite(),
+            Dist::LogNormal { median, sigma, lo, hi } => median > 0.0 && sigma >= 0.0 && lo <= hi,
+        };
+        if ok { Ok(()) } else { Err(format!("debris-drift: bad distribution {self:?}")) }
+    }
+    fn draw(&self, rng: &mut Rng) -> f64 {
+        match *self {
+            Dist::Fixed { value } => value,
+            Dist::Uniform { lo, hi } => lo + (hi - lo) * rng.uniform(),
+            Dist::Normal { mean, sd, lo, hi } => loop {
+                let v = mean + sd * rng.normal();
+                if (lo..=hi).contains(&v) || sd == 0.0 {
+                    return v.clamp(lo, hi);
+                }
+            },
+            Dist::LogNormal { median, sigma, lo, hi } => loop {
+                let v = median * (sigma * rng.normal()).exp();
+                if (lo..=hi).contains(&v) || sigma == 0.0 {
+                    return v.clamp(lo, hi);
+                }
+            },
+        }
+    }
+}
+
+#[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
-struct ClassParams {
+pub(crate) struct ClassParams {
     name: String,
-    a_stokes: [f64; 2],
-    c_wind: [f64; 2],
+    /// Evidence-table `motion_class` values this class serves.
+    #[serde(default)]
+    motion_classes: Vec<String>,
+    a_stokes: Dist,
+    c_wind: Dist,
+    /// Positive clockwise from downwind (the shared API's sign): CSIRO's "left" is negative.
+    leeway_angle_deg: Dist,
+    leeway_speed_mps: Dist,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields, tag = "kind", rename_all = "kebab-case")]
+enum DiffusivityParams {
+    Fixed { k_m2_s: f64 },
+    LogUniform { k_min_m2_s: f64, k_max_m2_s: f64 },
+}
+
+#[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
 struct RecoveryParams {
     bandwidth_km: f64,
     delay: String,
     delay_days: f64,
+    /// ISO dates bounding the discovery periods (G1: I1 | I2 | I3).
+    period_breaks: Vec<String>,
+    /// ISO date ending the discovery window.
+    window_end: String,
+    /// Chainage edges on coast line 0 (analytic straight coast only); segments are then the
+    /// intervals between consecutive edges.
+    #[serde(default)]
     segment_edges_km: Vec<f64>,
-    #[serde(default)]
-    period_breaks_days: Vec<f64>,
-    #[serde(default)]
-    rel_identification: Vec<Vec<f64>>,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+struct LevelParams {
+    /// ln of the relative identification level by period (prior mean), one per period.
+    ln_mean_by_period: Vec<f64>,
+    sigma: f64,
+    draws: usize,
+    seed: u64,
+}
+
+#[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
 struct SyntheticParams {
     true_lat_deg: f64,
     true_lon_deg: f64,
     finds: usize,
     seed: u64,
+    #[serde(default)]
+    class: usize,
 }
 
-#[derive(Deserialize, Clone)]
+#[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields)]
-struct Params {
-    #[serde(default = "d_mode")]
+struct DateOverride {
+    object_id: String,
+    discovery_start: String,
+    discovery_end: String,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+pub(crate) struct Params {
     mode: String,
     #[serde(default = "d_coverage")]
     coverage: f64,
@@ -129,33 +189,51 @@ struct Params {
     spacing_nm: f64,
     #[serde(default = "d_margin")]
     margin_nm: f64,
-    /// Single-linkage distance that groups coverage cells into the main band and islands.
     #[serde(default = "d_link")]
     island_link_nm: f64,
     #[serde(default)]
     include_island: bool,
+    #[serde(default)]
+    extent_map_path: Option<String>,
+    /// Particles per (node, environment realisation, class).
     #[serde(default = "d_particles")]
-    particles_per_case: usize,
+    particles_per_class: usize,
     #[serde(default = "d_seed")]
     seed: u64,
     #[serde(default = "d_release")]
     release_unix_s: f64,
     #[serde(default = "d_dt")]
     dt_hours: f64,
-    #[serde(default = "d_duration")]
-    duration_days: f64,
-    /// Optional runtime path to an extent CSV (lat_deg,lon_deg,mass); default the embedded map.
+    #[serde(default = "d_threads")]
+    threads: usize,
+    #[serde(default = "d_domain")]
+    domain: [f64; 4],
+    #[serde(default = "d_true")]
+    land_gap_is_beaching: bool,
+    #[serde(default = "d_true")]
+    leeway_absorbs_stokes: bool,
     #[serde(default)]
-    extent_map_path: Option<String>,
-    #[serde(default = "d_models")]
-    ocean_models: Vec<String>,
-    /// Shared-environment realisations of the stub: a scale on the current per realisation.
-    #[serde(default = "d_scales")]
-    env_current_scales: Vec<f64>,
-    ocean: OceanParams,
+    explicit_residual: bool,
+    transport: TransportParams,
+    diffusivity: DiffusivityParams,
+    /// One shared-environment realisation per seed (K drawn from the prior with that seed).
+    #[serde(default = "d_env")]
+    env_seeds: Vec<u64>,
     classes: Vec<ClassParams>,
+    #[serde(default)]
+    segments: Vec<Segment>,
     recovery: RecoveryParams,
+    levels: LevelParams,
+    #[serde(default)]
     synthetic: Option<SyntheticParams>,
+    #[serde(default)]
+    date_overrides: Vec<DateOverride>,
+    /// Restrict release to these node indices (smoke tests); empty means every active node.
+    #[serde(default)]
+    node_subset: Vec<usize>,
+    /// Write the node table and summary here (pilot and diagnostics).
+    #[serde(default)]
+    output_dir: Option<String>,
 }
 
 pub(crate) fn parse_cells(text: &str) -> Result<Vec<WeightedCell>, String> {
@@ -174,271 +252,393 @@ pub(crate) fn parse_cells(text: &str) -> Result<Vec<WeightedCell>, String> {
     Ok(out)
 }
 
-/// A class's persistent response, drawn once per particle from the declared uniform prior.
+fn day_of(release: f64, iso: &str) -> Result<f64, String> {
+    Ok((evidence::iso_date_unix_s(iso)? - release) / 86_400.0)
+}
+
 fn draw_response(c: &ClassParams, rng: &mut Rng) -> ObjectResponse {
-    ObjectResponse {
-        a_stokes: c.a_stokes[0] + (c.a_stokes[1] - c.a_stokes[0]) * rng.uniform(),
-        c_wind: c.c_wind[0] + (c.c_wind[1] - c.c_wind[0]) * rng.uniform(),
-        leeway_angle_deg: 0.0,
+    transport::response(c.a_stokes.draw(rng), c.c_wind.draw(rng), c.leeway_angle_deg.draw(rng), c.leeway_speed_mps.draw(rng))
+}
+
+/// The common response draws of class `c` (shared by every node: common random numbers).
+fn class_responses(p: &Params, c: usize) -> Vec<ObjectResponse> {
+    let mut rng = Rng::derive(&[p.seed, 0xC1A5, c as u64]);
+    (0..p.particles_per_class).map(|_| draw_response(&p.classes[c], &mut rng)).collect()
+}
+
+/// Where a beaching sits for the recovery layer.
+struct Locator {
+    map: Option<SegmentMap>,
+    edges: Vec<Edge>,
+}
+
+impl Locator {
+    fn arrival(&self, t_days: f64, at: [f64; 2], line: Option<u32>, chainage_km: f64) -> Arrival {
+        let place = match line {
+            Some(l) if chainage_km.is_finite() => Place::on_line(l, chainage_km, at),
+            _ => Place::at(at),
+        };
+        let segment = match (&self.map, place.line) {
+            (Some(m), _) => m.locate(at),
+            (None, Some(l)) => self.edges.iter().find(|e| e.line == l && place.s_km >= e.start_km && place.s_km < e.end_km).map(|e| e.segment),
+            (None, None) => None,
+        };
+        Arrival { place, segment, t_days }
     }
 }
 
-/// Released particles' beachings (days after release, chainage) and the count of model-error
-/// fates (left domain, field gap, non-finite, released on land), which stay in the release total.
+/// One ensemble's beachings, with the particle index of each, and its counts.
 struct Ensemble {
-    arrivals: Vec<Arrival>,
+    arrivals: Vec<(usize, Arrival)>,
     model_error: usize,
 }
 
-/// Release `n` particles of one class at one node through one ocean realisation (`seed`).
-fn run_ensemble(tr: &dyn Transport, release: [f64; 2], release_time: f64, end_time: f64, class: &ClassParams, n: usize, seed: u64, rng: &mut Rng) -> Ensemble {
-    let particles: Vec<Particle> = (0..n).map(|_| Particle { release, release_time, response: draw_response(class, rng) }).collect();
+fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t_end: f64, responses: &[ObjectResponse], seed: u64, diffusion: Diffusion) -> Result<(Ensemble, f64), String> {
+    let particles: Vec<Particle> = responses.iter().map(|&response| Particle { release, release_time: t0, response }).collect();
+    let (fates, steps) = setup.run(&particles, seed, diffusion, t_end)?;
     let mut e = Ensemble { arrivals: Vec::new(), model_error: 0 };
-    for f in tr.integrate(&particles, seed, end_time) {
+    for (i, f) in fates.into_iter().enumerate() {
         match f {
-            Fate::Beached { t, chainage_km, .. } => e.arrivals.push(Arrival { s_km: chainage_km, t_days: (t - release_time) / 86_400.0 }),
+            Fate::Beached { t, at, line, chainage_km } => e.arrivals.push((i, loc.arrival((t - t0) / 86_400.0, at, line, chainage_km))),
             Fate::Afloat => {}
-            _ => e.model_error += 1,
+            Fate::ModelError => e.model_error += 1,
         }
     }
-    e
+    Ok((e, steps))
 }
 
-/// ln L at one node, environment marginalised outside the product over observations (rule 8).
-/// `arrivals[e][c]` holds the beachings for environment e and class c.
-fn node_ln_likelihood(rec: &Recovery, obs: &[Observation], arrivals: &[Vec<Vec<Arrival>>], n: usize) -> (Node, f64) {
-    let mut per_env = Vec::with_capacity(arrivals.len());
-    let mut min_neff = f64::INFINITY;
-    for env in arrivals {
-        let q_tot: Vec<f64> = env.iter().map(|a| rec.q_total(a, n)).collect();
-        let mut s = 0.0;
-        for o in obs {
-            let f = rec.q(o, &env[o.class], n);
-            min_neff = min_neff.min(f.n_eff);
-            if !(f.q > 0.0) || !(q_tot[o.class] > 0.0) {
-                return (Node::Unresolved, 0.0);
+/// ln L at one node from per-(environment, class) coefficients, marginalising environment and
+/// levels outside the product over finds. `coef[e][c]` covers the finds `by_class[c]`.
+fn node_ln_likelihood(coef: &[Vec<Option<recovery::Coefficients>>], by_class: &[Vec<usize>], levels: &LevelDraws) -> Node {
+    let mut terms = Vec::with_capacity(coef.len() * levels.draws.len());
+    for env in coef {
+        for nu in &levels.draws {
+            let mut s = 0.0;
+            for (c, finds) in by_class.iter().enumerate() {
+                let Some(k) = &env[c] else { continue };
+                let q_tot = dot(&k.big_a, nu);
+                for (jj, _) in finds.iter().enumerate() {
+                    let q = dot(&k.a[jj], nu);
+                    if !(q > 0.0) || !(q_tot > 0.0) {
+                        return Node::Unresolved;
+                    }
+                    s += q.ln() - q_tot.ln();
+                }
             }
-            s += f.q.ln() - q_tot[o.class].ln();
+            terms.push(s);
         }
-        per_env.push(s);
     }
-    let m = per_env.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-    let lse = m + per_env.iter().map(|v| (v - m).exp()).sum::<f64>().ln() - (per_env.len() as f64).ln();
-    (Node::Value(lse), min_neff)
+    let m = terms.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    Node::Value(m + terms.iter().map(|v| (v - m).exp()).sum::<f64>().ln() - (terms.len() as f64).ln())
 }
 
-struct Built {
-    grid: SourceGrid,
-    surface: Surface,
-    min_neff: Vec<f64>,
-    observations: Vec<Observation>,
-    arrival_fraction: f64,
-    /// Fraction of released particles with a model-error fate (left domain, field gap, ...).
-    model_error_fraction: f64,
-    steps_per_second: f64,
-    ln_l_scale_nm: f64,
+pub(crate) struct Built {
+    pub grid: SourceGrid,
+    pub surface: Surface,
+    pub observations: Vec<Observation>,
+    pub ocean_model: String,
+    pub summary: Vec<(String, String)>,
 }
 
-fn build_stub(p: &Params) -> Result<Built, String> {
-    let cells = match &p.extent_map_path {
-        Some(path) => parse_cells(&std::fs::read_to_string(path).map_err(|e| format!("debris-drift: {path}: {e}"))?)?,
-        None => parse_cells(REFERENCE_MAP)?,
-    };
-    let grid = SourceGrid::from_posterior(&cells, 0.25, p.coverage, p.spacing_nm, p.margin_nm, p.island_link_nm, p.include_island)?;
-    let (lat_mid, lon_mid) = grid.node(grid.index(grid.nlat / 2, grid.nlon / 2));
-    let plane = LocalPlane { lat0: lat_mid, lon0: lon_mid };
-    let (xc, _) = plane.to_xy(lat_mid, p.ocean.coast_lon_deg);
-    let coast = Coast::through((xc, -5000.0), (xc, 5000.0), (xc + 1.0, 0.0));
+fn build_recovery(p: &Params) -> Result<(Recovery, Locator), String> {
     let rp = &p.recovery;
     let delay = match rp.delay.as_str() {
         "uniform" => Delay::Uniform { max_days: rp.delay_days },
         "exponential" => Delay::Exponential { mean_days: rp.delay_days },
         d => return Err(format!("debris-drift: unknown delay `{d}`")),
     };
-    let nseg = rp.segment_edges_km.len().saturating_sub(1);
-    let ident = if rp.rel_identification.is_empty() {
-        Identification::uniform(rp.segment_edges_km.clone())
+    let breaks: Vec<f64> = rp.period_breaks.iter().map(|d| day_of(p.release_unix_s, d)).collect::<Result<_, _>>()?;
+    if breaks.windows(2).any(|w| w[1] <= w[0]) {
+        return Err("debris-drift: period breaks must increase".into());
+    }
+    let window_end_days = day_of(p.release_unix_s, &rp.window_end)?;
+    let (n_segments, map, edges) = if !p.segments.is_empty() {
+        let m = SegmentMap::new(p.segments.clone())?;
+        (m.len(), Some(m), Vec::new())
+    } else if rp.segment_edges_km.len() >= 2 {
+        let e = &rp.segment_edges_km;
+        if e.windows(2).any(|w| w[1] <= w[0]) {
+            return Err("debris-drift: segment edges must increase".into());
+        }
+        let edges = e.windows(2).enumerate().map(|(k, w)| Edge { line: 0, start_km: w[0], end_km: w[1], segment: k }).collect();
+        (e.len() - 1, None, edges)
     } else {
-        Identification { edges_km: rp.segment_edges_km.clone(), breaks_days: rp.period_breaks_days.clone(), rel: rp.rel_identification.clone() }
+        return Err("debris-drift: declare `segments` (boxes) or `recovery.segment_edges_km`".into());
     };
-    ident.validate()?;
-    let _ = nseg;
-    let rec = Recovery { ident, delay, bandwidth_km: rp.bandwidth_km, window_end_days: p.duration_days };
-    let dt_s = p.dt_hours * 3600.0;
-    let steps = (p.duration_days * 24.0 / p.dt_hours).round() as usize;
-    let label = p.ocean_models[0].clone();
-    let transports: Vec<StubTransport> = p.env_current_scales.iter().map(|&sc| StubTransport {
-        ocean: AnalyticOcean {
-            current: Current::Uniform { east: p.ocean.current_east_mps, north: p.ocean.current_north_mps },
-            current_scale: sc,
-            stokes: (p.ocean.stokes_east_mps, p.ocean.stokes_north_mps),
-            wind: (p.ocean.wind_east_mps, p.ocean.wind_north_mps),
-            diffusivity_m2s: p.ocean.diffusivity_m2s,
-            coast: Some(coast),
-        },
-        plane,
-        step_s: dt_s,
-        segment_km: 500.0,
-        label: label.clone(),
-    }).collect();
-    let (t0, t_end) = (p.release_unix_s, p.release_unix_s + p.duration_days * 86_400.0);
-    if transports.iter().any(|tr| tr.label() != p.ocean_models[0]) {
-        return Err("debris-drift: transport label differs from the declared ocean-model option".into());
+    if p.levels.ln_mean_by_period.len() != breaks.len() + 1 {
+        return Err(format!("debris-drift: {} periods but {} level means", breaks.len() + 1, p.levels.ln_mean_by_period.len()));
     }
-
-    // Synthetic finds from an INDEPENDENT ensemble at the declared true source (no inverse crime).
-    let syn = p.synthetic.as_ref().ok_or("debris-drift: stub-synthetic mode needs [synthetic]")?;
-    let mut srng = Rng::derive(&[syn.seed, 0xF1_4D5]);
-    let observations = synthetic_finds(&transports[0], &rec, &p.classes[0], [syn.true_lon_deg, syn.true_lat_deg], t0, t_end, syn.finds, syn.seed, &mut srng)?;
-
-    let n = p.particles_per_case;
-    let mut nodes = vec![Node::NotComputed; grid.nlat * grid.nlon];
-    let mut min_neff = vec![f64::NAN; grid.nlat * grid.nlon];
-    let mut beached = 0usize;
-    let mut released = 0usize;
-    let clock = std::time::Instant::now();
-    let mut steps_taken = 0.0;
-    let mut model_error = 0usize;
-    for k in 0..nodes.len() {
-        if !grid.active[k] {
-            continue;
-        }
-        let (la, lo) = grid.node(k);
-        let (x, y) = plane.to_xy(la, lo);
-        if coast.signed(x, y) >= 0.0 {
-            nodes[k] = Node::Land;
-            continue;
-        }
-        let ens: Vec<Vec<Ensemble>> = transports.iter().enumerate().map(|(e, tr)| {
-            p.classes.iter().enumerate().map(|(c, cl)| {
-                let mut r = Rng::derive(&[p.seed, k as u64, e as u64, c as u64]);
-                // One ocean realisation per environment index, shared by every node and class.
-                run_ensemble(tr, [lo, la], t0, t_end, cl, n, p.seed.wrapping_mul(1_000_003).wrapping_add(e as u64), &mut r)
-            }).collect()
-        }).collect();
-        model_error += ens.iter().flatten().map(|x| x.model_error).sum::<usize>();
-        let arrivals: Vec<Vec<Vec<Arrival>>> = ens.into_iter().map(|v| v.into_iter().map(|x| x.arrivals).collect()).collect();
-        beached += arrivals[0][0].len();
-        released += n;
-        steps_taken += arrivals.iter().flatten().flatten().map(|a| a.t_days * 24.0 / p.dt_hours).sum::<f64>()
-            + ((n * transports.len() * p.classes.len()) as f64 - arrivals.iter().flatten().map(|a| a.len() as f64).sum::<f64>()) * steps as f64;
-        let (node, ne) = node_ln_likelihood(&rec, &observations, &arrivals, n);
-        nodes[k] = node;
-        min_neff[k] = ne;
-    }
-    let elapsed = clock.elapsed().as_secs_f64();
-    let surface = Surface { lat0: grid.lat0, lon0: grid.lon0, dlat: grid.dlat, dlon: grid.dlon, nlat: grid.nlat, nlon: grid.nlon, nodes };
-    let ln_l_scale_nm = surface.ln_l_scale_nm(&vec![1.0; surface.nodes.len()], grid.spacing_nm);
-    Ok(Built { grid, surface, min_neff, observations, arrival_fraction: beached as f64 / released.max(1) as f64, model_error_fraction: model_error as f64 / (released * transports.len() * p.classes.len()).max(1) as f64, steps_per_second: steps_taken / elapsed.max(1e-9), ln_l_scale_nm })
+    let rec = Recovery { n_segments, breaks_days: breaks, edges: edges.clone(), delay, bandwidth_km: rp.bandwidth_km, window_end_days };
+    Ok((rec, Locator { map, edges }))
 }
 
-/// Draw synthetic finds: a beached particle is identified with probability proportional to the
-/// relative P_I at its discovery time, discovered after a delay drawn from the declared model,
-/// and reported at a locality displaced by the declared bandwidth.
-#[allow(clippy::too_many_arguments)]
-fn synthetic_finds(tr: &dyn Transport, rec: &Recovery, class: &ClassParams, release: [f64; 2], t0: f64, t_end: f64, finds: usize, seed: u64, rng: &mut Rng) -> Result<Vec<Observation>, String> {
-    let pmax = rec.ident.rel.iter().flatten().copied().fold(0.0, f64::max);
+fn evidence_observations(p: &Params, rec: &Recovery, loc: &Locator) -> Result<Vec<Observation>, String> {
+    let map = loc.map.as_ref().ok_or("debris-drift: evidence mode needs geographic `segments`")?;
     let mut out = Vec::new();
-    let mut batch = 0u64;
-    while out.len() < finds {
-        batch += 1;
-        if batch > 200 {
-            return Err("debris-drift: synthetic source produced too few identifiable finds".into());
+    for r in evidence::parse(evidence::TABLE)?.into_iter().filter(|r| r.stringent) {
+        let (ds, de) = match p.date_overrides.iter().find(|o| o.object_id == r.object_id) {
+            Some(o) => (o.discovery_start.clone(), o.discovery_end.clone()),
+            None => (r.discovery_start.clone(), r.discovery_end.clone()),
+        };
+        let class = p.classes.iter().position(|c| c.motion_classes.contains(&r.motion_class)).ok_or(format!("debris-drift: no class serves motion_class `{}`", r.motion_class))?;
+        let at = [r.longitude_deg, r.latitude_deg];
+        let segment = map.locate(at).ok_or(format!("debris-drift: find `{}` lies in no declared segment", r.object_id))?;
+        let (a, b) = (day_of(p.release_unix_s, &ds)?, day_of(p.release_unix_s, &de)? + 1.0);
+        if b > rec.window_end_days {
+            return Err(format!("debris-drift: find `{}` is discovered after the window end", r.object_id));
         }
-        let particles: Vec<Particle> = (0..1000).map(|_| Particle { release, release_time: t0, response: draw_response(class, rng) }).collect();
-        for f in tr.integrate(&particles, seed ^ (batch << 32), t_end) {
-            if out.len() >= finds {
-                break;
-            }
-            let Fate::Beached { t, chainage_km, .. } = f else { continue };
-            let f = (chainage_km, (t - t0) / 86_400.0);
-
-            let d = match rec.delay {
-                Delay::Uniform { max_days } => max_days * rng.uniform(),
-                Delay::Exponential { mean_days } => -mean_days * (1.0 - rng.uniform()).ln(),
-            };
-            let t = f.1 + d;
-            if t >= rec.window_end_days {
-                continue;
-            }
-            let s = f.0 + rec.bandwidth_km * rng.normal();
-            let Some(k) = rec.ident.segment(s) else { continue };
-            let pidx = rec.ident.breaks_days.partition_point(|&b| b <= t);
-            if rng.uniform() * pmax >= rec.ident.rel[k][pidx] {
-                continue;
-            }
-            let day = t.floor();
-            out.push(Observation { id: format!("synthetic:find-{:02}", out.len() + 1), class: 0, s_km: s, t_start_days: day, t_end_days: day + 1.0 });
-        }
+        out.push(Observation { id: format!("debris:{}", r.object_id), class, place: Place::at(at), segment, t_start_days: a, t_end_days: b });
     }
     Ok(out)
 }
 
+/// Synthetic finds from an INDEPENDENT ensemble at the declared source (no inverse crime): a
+/// beached particle is discovered after a delay from the declared model, reported at a locality
+/// displaced along the coast by the bandwidth (chainage mode; no displacement without chainage),
+/// and identified with probability proportional to the prior-median level of its block.
+fn synthetic_observations(p: &Params, setup: &OceanSetup, rec: &Recovery, loc: &Locator, diffusion: Diffusion) -> Result<Vec<Observation>, String> {
+    let s = p.synthetic.as_ref().ok_or("debris-drift: synthetic mode needs [synthetic]")?;
+    let class = &p.classes[s.class];
+    let mut rng = Rng::derive(&[s.seed, 0x5F1D5]);
+    let level = |seg: usize, t: f64| p.levels.ln_mean_by_period[rec.period(t)].exp() * if seg < rec.n_segments { 1.0 } else { 0.0 };
+    let lmax = p.levels.ln_mean_by_period.iter().copied().fold(f64::NEG_INFINITY, f64::max).exp();
+    let t_end = p.release_unix_s + rec.window_end_days * 86_400.0;
+    let mut out = Vec::new();
+    for batch in 0..200u64 {
+        let responses: Vec<ObjectResponse> = (0..1000).map(|_| draw_response(class, &mut rng)).collect();
+        let (e, _) = run_ensemble(setup, loc, [s.true_lon_deg, s.true_lat_deg], p.release_unix_s, t_end, &responses, s.seed ^ ((batch + 1) << 32), diffusion)?;
+        for (_, a) in e.arrivals {
+            if out.len() >= s.finds {
+                return Ok(out);
+            }
+            let d = match rec.delay {
+                Delay::Uniform { max_days } => max_days * rng.uniform(),
+                Delay::Exponential { mean_days } => -mean_days * (1.0 - rng.uniform()).ln(),
+            };
+            let t = a.t_days + d;
+            if t >= rec.window_end_days {
+                continue;
+            }
+            let place = match a.place.line {
+                Some(l) => Place::on_line(l, a.place.s_km + rec.bandwidth_km * rng.normal(), a.place.lonlat),
+                None => a.place,
+            };
+            let seg = loc.arrival(a.t_days, place.lonlat, place.line, place.s_km).segment;
+            let Some(seg) = seg else { continue };
+            if rng.uniform() * lmax >= level(seg, t) {
+                continue;
+            }
+            let day = t.floor();
+            out.push(Observation { id: format!("synthetic:find-{:02}", out.len() + 1), class: s.class, place, segment: seg, t_start_days: day, t_end_days: day + 1.0 });
+        }
+    }
+    if out.len() < s.finds {
+        return Err("debris-drift: synthetic source produced too few identifiable finds".into());
+    }
+    Ok(out)
+}
+
+fn diffusivity_prior(p: &Params) -> DiffusivityPrior {
+    match p.diffusivity {
+        DiffusivityParams::Fixed { k_m2_s } => DiffusivityPrior::Fixed { k_m2_s },
+        DiffusivityParams::LogUniform { k_min_m2_s, k_max_m2_s } => DiffusivityPrior::LogUniform { k_min_m2_s, k_max_m2_s },
+    }
+}
+
+pub(crate) fn build(p: &Params) -> Result<Built, String> {
+    validate(p)?;
+    let cells = match &p.extent_map_path {
+        Some(path) => parse_cells(&std::fs::read_to_string(path).map_err(|e| format!("debris-drift: {path}: {e}"))?)?,
+        None => parse_cells(REFERENCE_MAP)?,
+    };
+    let grid = SourceGrid::from_posterior(&cells, 0.25, p.coverage, p.spacing_nm, p.margin_nm, p.island_link_nm, p.include_island)?;
+    let (rec, loc) = build_recovery(p)?;
+    let domain = Domain { lon_min: p.domain[0], lon_max: p.domain[1], lat_min: p.domain[2], lat_max: p.domain[3] };
+    let setup = OceanSetup::new(&p.transport, domain, p.dt_hours * 3600.0, p.threads, p.leeway_absorbs_stokes, p.explicit_residual, p.land_gap_is_beaching)?;
+    let prior = diffusivity_prior(p);
+    let envs: Vec<(u64, Diffusion)> = p.env_seeds.iter().map(|&s| (s, prior.draw(s))).collect();
+    let observations = match p.mode.as_str() {
+        "synthetic" => synthetic_observations(p, &setup, &rec, &loc, envs[0].1)?,
+        "evidence" => evidence_observations(p, &rec, &loc)?,
+        m => return Err(format!("debris-drift: unknown mode `{m}`")),
+    };
+    let nc = p.classes.len();
+    let by_class: Vec<Vec<usize>> = (0..nc).map(|c| (0..observations.len()).filter(|&j| observations[j].class == c).collect()).collect();
+    let responses: Vec<Vec<ObjectResponse>> = (0..nc).map(|c| if by_class[c].is_empty() { Vec::new() } else { class_responses(p, c) }).collect();
+    let levels = LevelDraws::new(rec.n_segments, &p.levels.ln_mean_by_period, p.levels.sigma, p.levels.draws, p.levels.seed);
+    let t_end = p.release_unix_s + rec.window_end_days * 86_400.0;
+    let n = p.particles_per_class;
+    let half = n / 2;
+
+    let mut nodes = vec![Node::NotComputed; grid.nlat * grid.nlon];
+    let mut rows: Vec<String> = Vec::new();
+    let ns = rec.n_segments;
+    let mut header = "node,lat_deg,lon_deg,component,state,ln_l,ln_l_half_a,ln_l_half_b,min_n_eff,model_error_fraction".to_string();
+    for c in 0..nc {
+        for s in 0..ns {
+            header += &format!(",p_{}_{}", p.classes[c].name, s);
+        }
+        header += &format!(",p_{}_any_beach", p.classes[c].name);
+    }
+    for j in 0..observations.len() {
+        header += &format!(",n_eff_{}", observations[j].id.replace(':', "_"));
+    }
+    let clock = std::time::Instant::now();
+    let mut steps_total = 0.0;
+    let (mut released, mut model_error) = (0usize, 0usize);
+    let candidates: Vec<usize> = if p.node_subset.is_empty() { (0..nodes.len()).filter(|&k| grid.active[k]).collect() } else { p.node_subset.iter().copied().filter(|&k| k < nodes.len() && grid.active[k]).collect() };
+    for (count, &k) in candidates.iter().enumerate() {
+        let (la, lo) = grid.node(k);
+        let mut coef_full: Vec<Vec<Option<recovery::Coefficients>>> = Vec::new();
+        let (mut coef_a, mut coef_b) = (Vec::new(), Vec::new());
+        let mut p_seg = vec![vec![0.0; ns + 1]; nc];
+        let mut n_eff = vec![f64::NAN; observations.len()];
+        let mut node_err = 0usize;
+        let mut node_released = 0usize;
+        let mut on_land = false;
+        for &(seed, diffusion) in &envs {
+            let (mut full, mut ha, mut hb) = (Vec::new(), Vec::new(), Vec::new());
+            for c in 0..nc {
+                if responses[c].is_empty() {
+                    full.push(None);
+                    ha.push(None);
+                    hb.push(None);
+                    continue;
+                }
+                let (e, steps) = run_ensemble(&setup, &loc, [lo, la], p.release_unix_s, t_end, &responses[c], seed, diffusion)?;
+                steps_total += steps;
+                node_released += n;
+                node_err += e.model_error;
+                if e.model_error == n {
+                    on_land = true;
+                }
+                for (_, a) in &e.arrivals {
+                    if a.t_days < rec.window_end_days {
+                        p_seg[c][a.segment.unwrap_or(ns)] += 1.0 / (n * envs.len()) as f64;
+                    }
+                }
+                let obs: Vec<&Observation> = by_class[c].iter().map(|&j| &observations[j]).collect();
+                let all: Vec<Arrival> = e.arrivals.iter().map(|x| x.1).collect();
+                let a_half: Vec<Arrival> = e.arrivals.iter().filter(|x| x.0 < half).map(|x| x.1).collect();
+                let b_half: Vec<Arrival> = e.arrivals.iter().filter(|x| x.0 >= half).map(|x| x.1).collect();
+                let kf = rec.coefficients(&obs, &all, n);
+                for (jj, &j) in by_class[c].iter().enumerate() {
+                    n_eff[j] = if n_eff[j].is_nan() { kf.n_eff[jj] } else { n_eff[j].min(kf.n_eff[jj]) };
+                }
+                full.push(Some(kf));
+                ha.push(Some(rec.coefficients(&obs, &a_half, half)));
+                hb.push(Some(rec.coefficients(&obs, &b_half, n - half)));
+            }
+            coef_full.push(full);
+            coef_a.push(ha);
+            coef_b.push(hb);
+        }
+        released += node_released;
+        model_error += node_err;
+        let node = if on_land { Node::Land } else { node_ln_likelihood(&coef_full, &by_class, &levels) };
+        let val = |x: Node| match x { Node::Value(v) => format!("{v:.6}"), _ => "nan".into() };
+        let (na, nb) = if on_land { (Node::Land, Node::Land) } else { (node_ln_likelihood(&coef_a, &by_class, &levels), node_ln_likelihood(&coef_b, &by_class, &levels)) };
+        let state = match node { Node::Value(_) => "value", Node::Land => "land", Node::Unresolved => "unresolved", Node::NotComputed => "not-computed" };
+        let mut row = format!("{k},{la:.5},{lo:.5},{},{state},{},{},{},{:.3},{:.5}", grid.component[k], val(node), val(na), val(nb), n_eff.iter().copied().fold(f64::INFINITY, f64::min), node_err as f64 / node_released.max(1) as f64);
+        for c in 0..nc {
+            for s in 0..ns {
+                row += &format!(",{:.6e}", p_seg[c][s]);
+            }
+            row += &format!(",{:.6e}", p_seg[c].iter().sum::<f64>());
+        }
+        for v in &n_eff {
+            row += &format!(",{v:.3}");
+        }
+        rows.push(row);
+        nodes[k] = node;
+        if p.output_dir.is_some() && (count + 1) % 50 == 0 {
+            eprintln!("debris-drift: {} of {} nodes, {:.0} s", count + 1, candidates.len(), clock.elapsed().as_secs_f64());
+        }
+    }
+    let wall = clock.elapsed().as_secs_f64();
+    let surface = Surface { lat0: grid.lat0, lon0: grid.lon0, dlat: grid.dlat, dlon: grid.dlon, nlat: grid.nlat, nlon: grid.nlon, nodes };
+    let count = |f: fn(&Node) -> bool| surface.nodes.iter().filter(|x| f(x)).count();
+    let summary = vec![
+        ("mode".into(), p.mode.clone()),
+        ("ocean_model".into(), setup.ocean_model()),
+        ("nodes_released".into(), candidates.len().to_string()),
+        ("nodes_scored".into(), count(|x| matches!(x, Node::Value(_))).to_string()),
+        ("nodes_unresolved".into(), count(|x| matches!(x, Node::Unresolved)).to_string()),
+        ("nodes_land".into(), count(|x| matches!(x, Node::Land)).to_string()),
+        ("trajectories".into(), released.to_string()),
+        ("model_error_fraction".into(), format!("{:.6}", model_error as f64 / released.max(1) as f64)),
+        ("particle_steps".into(), format!("{steps_total:.4e}")),
+        ("wall_s".into(), format!("{wall:.1}")),
+        ("particle_steps_per_s".into(), format!("{:.4e}", steps_total / wall.max(1e-9))),
+        ("threads".into(), p.threads.to_string()),
+        ("env_realisations".into(), envs.len().to_string()),
+        ("diffusivity_m2_s".into(), envs.iter().map(|e| format!("{:.1}", e.1.long_time_diffusivity_m2_s())).collect::<Vec<_>>().join(";")),
+        ("level_draws".into(), levels.draws.len().to_string()),
+        ("finds".into(), observations.iter().map(|o| format!("{}@seg{}:class{}:day{:.1}-{:.1}", o.id, o.segment, o.class, o.t_start_days, o.t_end_days)).collect::<Vec<_>>().join(";")),
+        ("main_band_mass".into(), format!("{:.4}", grid.component_mass[grid.main_component])),
+        ("coverage_reached".into(), format!("{:.4}", grid.covered_mass)),
+        ("label".into(), "PROVISIONAL: beaching read from product land-mask stranding; extent from no-exhaustion-prior 00:19:37 (295.66 deg prior)".into()),
+    ];
+    if let Some(dir) = &p.output_dir {
+        std::fs::create_dir_all(dir).map_err(|e| format!("debris-drift: {dir}: {e}"))?;
+        let mut csv = header + "\n";
+        csv += &rows.join("\n");
+        csv.push('\n');
+        std::fs::write(format!("{dir}/nodes.csv"), csv).map_err(|e| e.to_string())?;
+        let segnames: Vec<String> = match &loc.map { Some(m) => m.segments.iter().map(|s| s.name.clone()).collect(), None => (0..ns).map(|s| format!("edge-{s}")).collect() };
+        let mut text: String = summary.iter().map(|(k, v)| format!("{k} = {v:?}\n")).collect();
+        text += &format!("segments = {segnames:?}\nclasses = {:?}\ngrid = {{ lat0 = {}, lon0 = {}, dlat = {}, dlon = {}, nlat = {}, nlon = {} }}\n", p.classes.iter().map(|c| c.name.clone()).collect::<Vec<_>>(), grid.lat0, grid.lon0, grid.dlat, grid.dlon, grid.nlat, grid.nlon);
+        std::fs::write(format!("{dir}/summary.toml"), text).map_err(|e| e.to_string())?;
+    }
+    Ok(Built { grid, surface, observations, ocean_model: setup.ocean_model(), summary })
+}
+
 fn validate(p: &Params) -> Result<(), String> {
-    if p.classes.is_empty() || p.env_current_scales.is_empty() {
+    if p.classes.is_empty() || p.env_seeds.is_empty() {
         return Err("debris-drift: need at least one object class and one environment realisation".into());
     }
     for c in &p.classes {
-        if c.name.is_empty() || c.a_stokes[0] > c.a_stokes[1] || c.c_wind[0] > c.c_wind[1] {
-            return Err(format!("debris-drift: class `{}` needs a name and ordered [lo, hi] ranges", c.name));
-        }
-        if c.c_wind[1] > 0.0 && c.a_stokes[1] == 0.0 {
-            // Not an error: a total-leeway coefficient with Stokes off is a legitimate implicit
-            // treatment. The reverse - fitted total leeway in c_wind with a_stokes > 0 - is the
-            // double count (rule 10) and cannot be detected from numbers alone; documented above.
+        for d in [&c.a_stokes, &c.c_wind, &c.leeway_angle_deg, &c.leeway_speed_mps] {
+            d.validate()?;
         }
     }
-    if !(p.release_unix_s.is_finite()) || p.dt_hours <= 0.0 || p.duration_days <= 0.0 || p.particles_per_case == 0 {
-        return Err("debris-drift: release time, dt, duration and particle count must be positive".into());
+    if !p.release_unix_s.is_finite() || p.dt_hours <= 0.0 || p.particles_per_class < 2 {
+        return Err("debris-drift: release time and dt must be positive, and at least 2 particles per class".into());
+    }
+    if p.levels.sigma < 0.0 || p.levels.draws == 0 {
+        return Err("debris-drift: levels need sigma >= 0 and at least one draw".into());
+    }
+    if p.mode == "evidence" && matches!(p.transport, TransportParams::Analytic { .. }) {
+        return Err("debris-drift: evidence mode may not run on analytic fields".into());
     }
     Ok(())
 }
 
 /// The stringent identity set with discovery intervals in days after `release_unix_s`
-/// (a single reported day d is the interval [d, d + 1)). Observation IDs are `debris:<object_id>`,
-/// prefixed by the data source so that two modules using the same datum collide.
+/// (a single reported day d is the interval [d, d + 1)).
+#[cfg_attr(not(test), allow(dead_code))]
 pub(crate) fn stringent_intervals(release_unix_s: f64) -> Result<Vec<(String, f64, f64, String)>, String> {
     let mut out = Vec::new();
     for r in evidence::parse(evidence::TABLE)?.into_iter().filter(|r| r.stringent) {
-        let a = (evidence::iso_date_unix_s(&r.discovery_start)? - release_unix_s) / 86_400.0;
-        let b = (evidence::iso_date_unix_s(&r.discovery_end)? - release_unix_s) / 86_400.0 + 1.0;
+        let a = day_of(release_unix_s, &r.discovery_start)?;
+        let b = day_of(release_unix_s, &r.discovery_end)? + 1.0;
         out.push((format!("debris:{}", r.object_id), a, b, r.motion_class));
     }
     Ok(out)
 }
 
 struct DebrisDrift {
-    models: Vec<String>,
-    surfaces: Vec<Surface>,
+    model: String,
+    surface: Surface,
     observations: Vec<String>,
 }
 
 pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     let p: Params = params.clone().try_into().map_err(|e| format!("debris-drift: {e}"))?;
-    match p.mode.as_str() {
-        "stub-synthetic" => {}
-        "evidence" => {
-            let n = stringent_intervals(p.release_unix_s)?.len();
-            return Err(format!("debris-drift: mode `evidence` ({n} stringent finds) needs the shared ocean transport (crates/ocean), which does not exist yet; the provisional analytic ocean may not score real finds"));
-        }
-        m => return Err(format!("debris-drift: unknown mode `{m}`")),
-    }
-    if p.ocean_models.len() != 1 {
-        return Err("debris-drift: the provisional stub provides exactly one ocean model".into());
-    }
-    validate(&p)?;
-    let b = build_stub(&p)?;
-    let unresolved = b.surface.nodes.iter().filter(|n| matches!(n, Node::Unresolved)).count();
-    eprintln!(
-        "debris-drift PROVISIONAL STUB, synthetic finds, not evidence: {} active nodes ({} unresolved), coverage reached {:.4}, main-band mass {:.4}, arrival fraction {:.3}, model-error fates {:.4}, {:.3e} particle-steps/s, ln L scale {:.1} NM, min n_eff {:.1}",
-        b.grid.n_active(), unresolved, b.grid.covered_mass, b.grid.component_mass[b.grid.main_component], b.arrival_fraction, b.model_error_fraction, b.steps_per_second, b.ln_l_scale_nm,
-        b.min_neff.iter().copied().filter(|x| x.is_finite()).fold(f64::INFINITY, f64::min)
-    );
-    Ok(Box::new(DebrisDrift {
-        models: p.ocean_models.clone(),
-        observations: b.observations.iter().map(|o| o.id.clone()).collect(),
-        surfaces: vec![b.surface],
-    }))
+    let b = build(&p)?;
+    eprintln!("debris-drift ({}): {}", if p.mode == "evidence" { "EVIDENCE, PROVISIONAL" } else { "SYNTHETIC finds, not evidence" }, b.summary.iter().take(12).map(|(k, v)| format!("{k}={v}")).collect::<Vec<_>>().join(", "));
+    let _ = &b.grid;
+    Ok(Box::new(DebrisDrift { model: b.ocean_model, observations: b.observations.iter().map(|o| o.id.clone()).collect(), surface: b.surface }))
 }
 
 impl Hypothesis for DebrisDrift {
@@ -447,13 +647,11 @@ impl Hypothesis for DebrisDrift {
     }
 
     fn alternatives(&self) -> Vec<Alternatives> {
-        let w = 1.0 / self.models.len() as f64;
-        let opts: Vec<(&str, f64)> = self.models.iter().map(|m| (m.as_str(), w)).collect();
-        vec![Alternatives::new("ocean-model", &opts)]
+        vec![Alternatives::new(ocean::OCEAN_MODEL_ALTERNATIVE, &[(self.model.as_str(), 1.0)])]
     }
 
-    /// Same observation space and normalisation under every ocean model (q/Q is a normalised
-    /// density of the finds), so options may be mixed - as a sensitivity mixture (rule 7).
+    /// q/Q is a normalised density of the finds under every ocean model, so options may be
+    /// mixed - as a sensitivity mixture (rule 7).
     fn absolute_scale(&self) -> bool {
         true
     }
@@ -462,16 +660,15 @@ impl Hypothesis for DebrisDrift {
         vec!["drift_support_flag (1 scored 0 outside support 2 MC-unresolved)".into()]
     }
 
-    fn impact_log_likelihood(&self, impact: &ImpactView, choice: &[usize]) -> f64 {
-        let m = choice.first().copied().unwrap_or(0);
-        match self.surfaces[m].ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
+    fn impact_log_likelihood(&self, impact: &ImpactView, _choice: &[usize]) -> f64 {
+        match self.surface.ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
             Lookup::Value(l) => l,
             Lookup::Unresolved | Lookup::OutsideSupport => f64::NAN,
         }
     }
 
     fn predict(&self, impact: &ImpactView, out: &mut [f64]) {
-        out[0] = match self.surfaces[0].ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
+        out[0] = match self.surface.ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
             Lookup::Value(_) => 1.0,
             Lookup::OutsideSupport => 0.0,
             Lookup::Unresolved => 2.0,

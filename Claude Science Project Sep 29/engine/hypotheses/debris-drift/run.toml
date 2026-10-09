@@ -2,48 +2,58 @@
 base = "../../config/davey2016.toml"
 name = "debris-drift"
 
-# PROVISIONAL ANALYTIC OCEAN, SYNTHETIC FINDS. Code path only: nothing this configuration produces
-# is evidence about MH370. `mode = "evidence"` refuses to construct until crates/ocean exists.
+# SYNTHETIC FINDS ON ANALYTIC FIELDS (ocean::analytic). Code path only: never evidence.
+# The evidence configuration is pilot.toml.
 [hypotheses.debris-drift]
-mode = "stub-synthetic"
-# Source grid, derived from the declared posterior (embedded: no-exhaustion-prior at 00:19:37).
+mode = "synthetic"
 coverage = 0.99
 spacing_nm = 10.0
 # Stand-in for the descent reach until impact samples exist (Pleiades measured up to 103 NM).
 margin_nm = 100.0
-# Coverage cells further apart than this form separate components (main band vs island).
 island_link_nm = 40.0
 include_island = false
-particles_per_case = 1000
+particles_per_class = 1000
 seed = 1
 # The 00:19:37 epoch (2014-03-08). First pass releases at the impact point at this time.
 release_unix_s = 1394237977.0
 dt_hours = 6.0
-duration_days = 730.0
-ocean_models = ["provisional-analytic-stub"]
-env_current_scales = [0.9, 1.0, 1.1]
+threads = 2
+env_seeds = [1, 2, 3]
 
-[hypotheses.debris-drift.ocean]
-current_east_mps = -0.2
-current_north_mps = 0.02
-stokes_east_mps = -0.05
-stokes_north_mps = 0.02
-wind_east_mps = -3.0
-wind_north_mps = 2.0
-diffusivity_m2s = 100.0
-coast_lon_deg = 80.0
+[hypotheses.debris-drift.transport]
+kind = "analytic"
+current_mps = [-0.2, 0.02]
+wind10_mps = [-3.0, 2.0]
+# A meridian coast at 80 E, land to the west.
+coast_a = [80.0, -60.0]
+coast_b = [80.0, 0.0]
+land_left = true
 
-# Declared uniform priors, persistent per particle. c_wind is drag BEYOND Stokes (rule 10).
+[hypotheses.debris-drift.diffusivity]
+kind = "fixed"
+k_m2_s = 248.0
+
 [[hypotheses.debris-drift.classes]]
-name = "low_exposure_exterior"
-a_stokes = [0.5, 1.5]
-c_wind = [0.0, 0.01]
+name = "test"
+motion_classes = []
+a_stokes = { dist = "fixed", value = 0.0 }
+c_wind = { dist = "normal", mean = 0.012, sd = 0.003, lo = 0.005, hi = 0.02 }
+leeway_angle_deg = { dist = "fixed", value = 0.0 }
+leeway_speed_mps = { dist = "fixed", value = 0.0 }
 
 [hypotheses.debris-drift.recovery]
 bandwidth_km = 25.0
-delay = "uniform"
-delay_days = 30.0
-segment_edges_km = [-3000.0, -2500.0, -2000.0, -1500.0, -1000.0, -500.0, 0.0, 500.0, 1000.0, 1500.0, 2000.0, 2500.0, 3000.0]
+delay = "exponential"
+delay_days = 60.0
+period_breaks = ["2015-07-29", "2016-03-01"]
+window_end = "2016-06-30"
+segment_edges_km = [0.0, 550.0, 1100.0, 1650.0, 2200.0, 2750.0, 3300.0, 3850.0, 4400.0, 4950.0, 5500.0, 6050.0, 6600.0]
+
+[hypotheses.debris-drift.levels]
+ln_mean_by_period = [-2.302585, -0.693147, 0.0]
+sigma = 1.0
+draws = 64
+seed = 3
 
 [hypotheses.debris-drift.synthetic]
 true_lat_deg = -37.2

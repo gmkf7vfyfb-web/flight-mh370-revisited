@@ -82,33 +82,4 @@ impl Surface {
         let s: f64 = vals[..n].iter().map(|(w, l)| w / wsum * (l - lref).exp()).sum();
         Lookup::Value(lref + s.ln())
     }
-
-    /// Correlation-length diagnostic (brief section 5, pilot number 3): the separation in NM over
-    /// which ln L changes by one unit, from finite differences between evaluated neighbours,
-    /// summarised as the weighted median over nodes with the given weights (e.g. posterior mass).
-    pub fn ln_l_scale_nm(&self, weights: &[f64], spacing_nm: f64) -> f64 {
-        let mut v: Vec<(f64, f64)> = Vec::new();
-        for i in 0..self.nlat {
-            for j in 0..self.nlon {
-                let k = i * self.nlon + j;
-                let Node::Value(l) = self.nodes[k] else { continue };
-                let mut g2 = 0.0;
-                let mut ok = 0;
-                if i + 1 < self.nlat { if let Node::Value(l2) = self.nodes[k + self.nlon] { g2 += (l2 - l).powi(2); ok += 1; } }
-                if j + 1 < self.nlon { if let Node::Value(l2) = self.nodes[k + 1] { g2 += (l2 - l).powi(2); ok += 1; } }
-                if ok == 0 { continue; }
-                let g = (g2 / ok as f64).sqrt() / spacing_nm;
-                v.push((if g > 0.0 { 1.0 / g } else { f64::INFINITY }, weights.get(k).copied().unwrap_or(1.0)));
-            }
-        }
-        if v.is_empty() { return f64::NAN; }
-        v.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
-        let tot: f64 = v.iter().map(|x| x.1).sum();
-        let mut c = 0.0;
-        for (s, w) in &v {
-            c += w;
-            if c >= 0.5 * tot { return *s; }
-        }
-        v.last().unwrap().0
-    }
 }

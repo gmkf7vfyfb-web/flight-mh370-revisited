@@ -1,95 +1,153 @@
-//! The drift side of the shared transport boundary. Types mirror `mh370_ocean` on
-//! `core/ocean-transport` at 311e481 (coordination/OCEAN_TRANSPORT.md, 2026-10-08 entry "the API
-//! exists"): positions `[lon, lat]`, unix seconds, a persistent `ObjectResponse` per particle, one
-//! ocean realisation per run from `seed`, and a terminal fate per particle. Until core requests O1/O2
-//! let hypotheses depend on `mh370-ocean`, the only implementation is the provisional analytic stub;
-//! the swap is one `impl Transport` and deleting the stub.
+//! The drift side of the shared transport boundary: builds the forcing and coastline the run
+//! declares, calls `ocean::integrate`, and reduces each track to a fate. Nothing here advects,
+//! interpolates a field or reads a product beyond `GridField::load`; that is the shared crate's.
 //!
-//! One field drift needs that the shared API does not yet return: `chainage_km`, the along-coast
-//! arc length of the beaching point on the segmented coastline, continuous across segment
-//! boundaries. The recovery layer's locality kernel and its normaliser Q(x) are defined along the
-//! coast (recovery.rs); a segment ID alone cannot place a find within a segment. Requested in
-//! coordination/OCEAN_TRANSPORT.md.
+//! One provisional reading, declared: until the real coastline exists (ocean transport
+//! deliverable 6), a `FieldGap::Land` event - stranding in a product's land mask - is read as a
+//! beaching at the event's position, without chainage (`land_gap_is_beaching`). Every other
+//! non-beaching end (left the domain, outside the time axis, non-finite, released on land) is
+//! model error: it stays in the release count and is reported as a fraction, never dropped.
 
-use super::provisional_analytic_ocean::{AnalyticOcean, LocalPlane, Response};
-use super::rng::Rng;
+use ocean::{
+    analytic::Uniform, integrate, Coastline, Component, Diffusion, Domain, Event, FieldGap, Forcing, GridField, NoCoast, ObjectResponse,
+    OceanErrorModel, Particle, Refloat, RunSpec, StraightCoast, VectorField,
+};
+use serde::Deserialize;
+use std::path::Path;
 
-pub type LonLat = [f64; 2];
-
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct ObjectResponse {
-    pub a_stokes: f64,
-    pub c_wind: f64,
-    /// Degrees, positive clockwise from downwind; 0 in the first pass.
-    pub leeway_angle_deg: f64,
-}
-
-#[derive(Debug, Clone, Copy, PartialEq)]
-pub struct Particle {
-    pub release: LonLat,
-    pub release_time: f64,
-    pub response: ObjectResponse,
-}
-
-/// Terminal fate. Every fate other than `Beached` and `Afloat` is MODEL ERROR, not a non-arrival:
-/// the recovery layer counts such particles in the release total and reports their fraction as a
-/// quality flag rather than silently treating them as lost at sea (review item 4, rule 4).
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub enum Fate {
     Afloat,
-    Beached { t: f64, at: LonLat, segment: u32, chainage_km: f64 },
-    // Constructed by the shared transport; the analytic stub has no domain edge and no field gaps.
-    #[allow(dead_code)]
-    LeftDomain,
-    #[allow(dead_code)]
-    FieldGap,
-    NonFinite,
-    ReleasedOnLand,
+    Beached { t: f64, at: [f64; 2], line: Option<u32>, chainage_km: f64 },
+    ModelError,
 }
 
-pub trait Transport {
-    /// The `ocean-model` label of this transport, for provenance and the shared alternative.
-    fn label(&self) -> &str;
-    /// Integrate every particle to `end_time` (unix s) through one ocean realisation set by `seed`.
-    fn integrate(&self, particles: &[Particle], seed: u64, end_time: f64) -> Vec<Fate>;
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields, tag = "kind", rename_all = "kebab-case")]
+pub enum TransportParams {
+    /// Closed-form fields from `ocean::analytic` and a straight coast: tests and synthetic studies.
+    Analytic {
+        current_mps: [f64; 2],
+        #[serde(default)]
+        wind10_mps: Option<[f64; 2]>,
+        #[serde(default)]
+        stokes_mps: Option<[f64; 2]>,
+        /// Straight coast a -> b, [lon, lat]; land to the left when `land_left`.
+        coast_a: [f64; 2],
+        coast_b: [f64; 2],
+        land_left: bool,
+    },
+    /// Gridded products written by `crates/ocean/prepare/netcdf_to_grid.py`.
+    Grid {
+        current_manifest: String,
+        #[serde(default)]
+        wind10_manifest: Option<String>,
+        #[serde(default)]
+        stokes_manifest: Option<String>,
+    },
 }
 
-/// The provisional analytic ocean behind the `Transport` boundary.
-pub struct StubTransport {
-    pub ocean: AnalyticOcean,
-    pub plane: LocalPlane,
+pub struct OceanSetup {
+    current: Box<dyn VectorField>,
+    wind10: Option<Box<dyn VectorField>>,
+    stokes: Option<Box<dyn VectorField>>,
+    coast: Box<dyn Coastline>,
+    pub domain: Domain,
     pub step_s: f64,
-    /// Segment length along the stub coast (stub-only segmentation), km.
-    pub segment_km: f64,
-    pub label: String,
+    pub threads: usize,
+    pub leeway_absorbs_stokes: bool,
+    pub explicit_residual: bool,
+    pub land_gap_is_beaching: bool,
 }
 
-impl Transport for StubTransport {
-    fn label(&self) -> &str {
-        &self.label
+fn load(path: &str) -> Result<Box<dyn VectorField>, String> {
+    Ok(Box::new(GridField::load(Path::new(path)).map_err(|e| format!("debris-drift: {e}"))?))
+}
+
+impl OceanSetup {
+    #[allow(clippy::too_many_arguments)]
+    pub fn new(p: &TransportParams, domain: Domain, step_s: f64, threads: usize, leeway_absorbs_stokes: bool, explicit_residual: bool, land_gap_is_beaching: bool) -> Result<Self, String> {
+        let (current, wind10, stokes, coast): (Box<dyn VectorField>, Option<Box<dyn VectorField>>, Option<Box<dyn VectorField>>, Box<dyn Coastline>) = match p {
+            TransportParams::Analytic { current_mps, wind10_mps, stokes_mps, coast_a, coast_b, land_left } => (
+                Box::new(Uniform::current(current_mps[0], current_mps[1])),
+                wind10_mps.map(|w| Box::new(Uniform::new(Component::Wind10m, w[0], w[1])) as Box<dyn VectorField>),
+                stokes_mps.map(|s| Box::new(Uniform::new(Component::StokesDrift, s[0], s[1])) as Box<dyn VectorField>),
+                Box::new(StraightCoast { a: *coast_a, b: *coast_b, segments: 1, first_id: 0, land_left: *land_left, line: 0 }),
+            ),
+            TransportParams::Grid { current_manifest, wind10_manifest, stokes_manifest } => (
+                load(current_manifest)?,
+                wind10_manifest.as_deref().map(load).transpose()?,
+                stokes_manifest.as_deref().map(load).transpose()?,
+                Box::new(NoCoast),
+            ),
+        };
+        Ok(OceanSetup { current, wind10, stokes, coast, domain, step_s, threads, leeway_absorbs_stokes, explicit_residual, land_gap_is_beaching })
     }
-    fn integrate(&self, particles: &[Particle], seed: u64, end_time: f64) -> Vec<Fate> {
-        particles
+
+    fn forcing(&self) -> Forcing<'_> {
+        Forcing { current: self.current.as_ref(), stokes: self.stokes.as_deref(), wind10: self.wind10.as_deref() }
+    }
+
+    /// The value of the `ocean-model` alternative for this setup.
+    pub fn ocean_model(&self) -> String {
+        self.forcing().ocean_model()
+    }
+
+    /// Integrate to `end_time` through one ocean realisation (`seed`, `diffusion`). Returns one
+    /// fate per particle and the number of integrator steps taken.
+    pub fn run(&self, particles: &[Particle], seed: u64, diffusion: Diffusion, end_time: f64) -> Result<(Vec<Fate>, f64), String> {
+        let spec = RunSpec {
+            forcing: self.forcing(),
+            coast: self.coast.as_ref(),
+            domain: self.domain,
+            step_s: self.step_s,
+            output_times: vec![end_time],
+            diffusion,
+            ocean_error: OceanErrorModel::none(),
+            refloat: Refloat::Off,
+            seed,
+            leeway_absorbs_stokes: self.leeway_absorbs_stokes,
+            accept_partial_stokes_overlap: false,
+            explicit_residual: self.explicit_residual,
+            threads: self.threads,
+        };
+        let out = integrate(&spec, particles).map_err(|e| format!("debris-drift: transport refused the composition: {e:?}"))?;
+        let mut steps = 0.0;
+        let fates = out
+            .tracks
             .iter()
-            .enumerate()
-            .map(|(i, p)| {
-                let (x, y) = self.plane.to_xy(p.release[1], p.release[0]);
-                if let Some(c) = &self.ocean.coast {
-                    if c.signed(x, y) >= 0.0 {
-                        return Fate::ReleasedOnLand;
+            .zip(particles)
+            .map(|(tr, p)| {
+                let mut fate = Fate::Afloat;
+                let mut t_end = end_time;
+                for ev in &tr.events {
+                    match *ev {
+                        Event::Beached { t, at, line, chainage_m, .. } => {
+                            fate = Fate::Beached { t, at, line: Some(line), chainage_km: chainage_m / 1000.0 };
+                            t_end = t;
+                            break;
+                        }
+                        Event::FieldGap { t, at, gap: FieldGap::Land, .. } if self.land_gap_is_beaching => {
+                            fate = Fate::Beached { t, at, line: None, chainage_km: f64::NAN };
+                            t_end = t;
+                            break;
+                        }
+                        Event::FieldGap { t, .. } | Event::LeftDomain { t, .. } | Event::NonFinitePosition { t } | Event::ReleasedOnLand { t, .. } => {
+                            fate = Fate::ModelError;
+                            t_end = t;
+                            break;
+                        }
+                        Event::Refloated { .. } => {}
                     }
                 }
-                let steps = ((end_time - p.release_time) / self.step_s).ceil().max(0.0) as usize;
-                let mut rng = Rng::derive(&[seed, i as u64]);
-                let r = Response { a_stokes: p.response.a_stokes, c_wind: p.response.c_wind };
-                let f = self.ocean.integrate(x, y, &r, self.step_s, steps, &mut rng);
-                if !f.beached {
-                    return if f.x_km.is_finite() && f.y_km.is_finite() { Fate::Afloat } else { Fate::NonFinite };
-                }
-                let at = self.plane.to_lonlat(f.x_km, f.y_km);
-                let segment = ((f.s_km / self.segment_km).floor() + 1.0e6) as u32;
-                Fate::Beached { t: p.release_time + f.t_days * 86_400.0, at, segment, chainage_km: f.s_km }
+                steps += ((t_end - p.release_time) / self.step_s).max(0.0);
+                fate
             })
-            .collect()
+            .collect();
+        Ok((fates, steps))
     }
+}
+
+pub fn response(a_stokes: f64, c_wind: f64, leeway_angle_deg: f64, leeway_speed_mps: f64) -> ObjectResponse {
+    ObjectResponse { a_stokes, c_wind, leeway_angle_deg, leeway_speed_mps }
 }
