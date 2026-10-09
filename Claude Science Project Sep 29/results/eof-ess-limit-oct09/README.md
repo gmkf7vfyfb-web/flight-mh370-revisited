@@ -136,14 +136,14 @@ predicted model. The registered criterion was that a miss of more than about 15%
 
 | log-on | option | predicted | observed | miss | limit at N = 16 (at N = 4) |
 |---|---|---|---|---|---|
-| other | r600/startup-offset | 3778 | 3751 |  | N16 ((N4) |
-| other | r1200/inflated | 1053 | 989 |  | N16 ((N4) |
+| other | r600/startup-offset | 3,778 | 3,751 | -0.7% | 4,600 (4,371) |
+| other | r1200/inflated | 1,053 | 989 | -6.1% | 1,496 (1,605) |
 | other | r1200/no-offset | 318 | 283 | -10.8% | 645 (862) |
-| other | r1200/startup-offset | 393 | 391 |  | N16 ((N4) |
-| other | both/inflated | 409 | 198 | -51.7% | 329 (1733) |
+| other | r1200/startup-offset | 393 | 391 | -0.5% | 783 (726) |
+| other | both/inflated | 409 | 198 | -51.7% | 329 (1,733) |
 | other | both/no-offset | 16 | 12 | -26.6% | 26 (unresolved) |
 | other | both/startup-offset | 52 | 9 | -82.4% | 11 (unresolved) |
-| fuel-exhaustion | r600/startup-offset | 1452 | 1396 |  | N16 ((N4) |
+| fuel-exhaustion | r600/startup-offset | 1,452 | 1,396 | -3.9% | 1,693 (1,665) |
 | fuel-exhaustion | r1200/inflated | 282 | 224 | -20.4% | 301 (389) |
 | fuel-exhaustion | r1200/no-offset | 109 | 66 | -39.4% | 107 (305) |
 | fuel-exhaustion | r1200/startup-offset | 122 | 80 | -34.6% | 131 (293) |
