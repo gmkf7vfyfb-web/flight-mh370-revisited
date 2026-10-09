@@ -40,13 +40,20 @@ RHO_MEANING = ("rho is the chance that the wreck could not have been found even 
 GRID = np.arange(-50.0, 50.0 + 1e-9, 0.05)  # summary.rs latitude grid
 SMOOTH_DEG = 0.1  # summary.rs display kernel
 RHO_SWEEP = [0.0, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5]
+# Phase 2 as its four sensor campaigns rather than their union, for the repeat-search pair. The
+# ATSB rated detection by region, not by sensor, so each carries run.toml's q: a declared
+# assumption, not a measurement.
+PER_SENSOR = [{"name": f"phase2-{s}", "layer": f"phase2-{s}", "detection_probability": 0.945}
+              for s in ("deep-tow", "go-phoenix", "dhj", "auv")]
 
 
-def override(rho=None, campaigns=None):
-    """TOML text overriding the module's rho and/or its campaign list (arrays replace)."""
+def override(rho=None, campaigns=None, dependence=None):
+    """TOML text overriding the module's rho, miss dependence and/or campaign list (arrays replace)."""
     lines = [f"[hypotheses.{MODULE}]"]
     if rho is not None:
         lines.append(f"undetectable_probability = {rho!r}")
+    if dependence is not None:
+        lines.append(f"miss_dependence = {json.dumps(dependence)}")
     for c in campaigns or []:
         lines.append(f"[[hypotheses.{MODULE}.campaigns]]")
         lines += [f"{k} = {json.dumps(v)}" for k, v in c.items()]  # JSON scalars are valid TOML
@@ -60,6 +67,11 @@ def scenarios(params, oi_campaigns):
     out = [("run.toml", None, "main")]
     out += [(f"rho {r:g}", override(rho=r), "rho") for r in RHO_SWEEP if r != params["undetectable_probability"]]
     out += [("Phase 2 q 0.90", override(campaigns=with_q(0.90)), "q"), ("Phase 2 q 0.98", override(campaigns=with_q(0.98)), "q")]
+    # Repeat search: the same Phase 2 ground as four sensor campaigns instead of one union, so
+    # that the 17,391 km2 the union hides is swept twice. The arms differ only there.
+    split = PER_SENSOR + [c for c in base if c["layer"] != "phase2"]
+    out.append(("Phase 2 split, shared misses", override(campaigns=split, dependence="shared"), "repeat"))
+    out.append(("Phase 2 split, independent misses", override(campaigns=split, dependence="independent"), "repeat"))
     if oi_campaigns:
         out.append(("+ OI 2018 inferred, coverage 0.889", OI_OVERRIDE, "oi"))
         high = [dict(c, coverage_fraction=0.952) if c["name"] == "ocean-infinity-2018" else c for c in oi_campaigns]
@@ -180,7 +192,7 @@ def main():
     lines += ["", f"{'scenario':<36} {'Z':>7} {'median':>7} {'q025':>7} {'q975':>7} {'N of 33S':>8} {'S of 39.5':>9} "
                   f"{'on P2':>6} {'ESS':>9} {'split':>6} {'vs before':>9}"]
     for name, _, kind, r in results:
-        if kind in ("main", "rho", "q", "oi"):
+        if kind in ("main", "rho", "q", "oi", "repeat"):
             lines.append(f"{name:<36} {r['z']:7.4f} {r['stats']['median']:7.2f} {r['stats']['q025']:7.2f} {r['stats']['q975']:7.2f} "
                          f"{r['north_33']:8.3f} {r['south_39_5']:9.3f} {r['on_p2']:6.3f} {r['ess']:9,.0f} "
                          f"{r['split_half']:6.3f} {overlap(r['density'], before['density']):9.3f}")

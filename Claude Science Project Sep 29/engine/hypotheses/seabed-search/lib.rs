@@ -78,16 +78,47 @@ use serde::Deserialize;
 
 /// Embedded coverage layers, derived from CC BY 4.0 Geoscience Australia data (format
 /// documented in `prepare/build_coverage.py::write_cov`).
-const LAYERS: [(&str, &[u8]); 2] = [
+/// `phase2` is the per-cell maximum of the four Phase 2 mosaics: one cumulative campaign, which
+/// is what Davey eq. (11.1) assumes and what hides the ground swept more than once. The four
+/// per-sensor layers are the same cells kept apart, so that repeat search can be modelled
+/// (`prepare/build_per_sensor_layers.py`). Their sum is 137,877.1 km2 against a union of
+/// 120,486.5: 17,390.6 km2 of repeat coverage, over 18,129.6 km2 of ground, is invisible in
+/// `phase2`. Never list `phase2` and a per-sensor layer in the same run: that counts ground twice.
+const LAYERS: [(&str, &[u8]); 6] = [
     ("phase2", include_bytes!("coverage/phase2.cov")),
     ("bluefin-2014", include_bytes!("coverage/bluefin-2014.cov")),
+    ("phase2-deep-tow", include_bytes!("coverage/phase2-deep-tow.cov")),
+    ("phase2-go-phoenix", include_bytes!("coverage/phase2-go-phoenix.cov")),
+    ("phase2-dhj", include_bytes!("coverage/phase2-dhj.cov")),
+    ("phase2-auv", include_bytes!("coverage/phase2-auv.cov")),
 ];
+
+/// How misses on ground that more than one campaign covered are combined.
+#[derive(Deserialize, Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[serde(rename_all = "kebab-case")]
+pub enum Dependence {
+    /// Default. Undetectability is a property of the site, drawn once: terrain that hid the
+    /// wreck from one pass hides it from the next.
+    ///   P(no find) = rho + (1 - rho) prod_k [1 - c_k q_k]
+    #[default]
+    Shared,
+    /// Every campaign draws its own undetectability, so a second sweep of the same ground is a
+    /// fresh chance to see a wreck the first sweep could not have seen.
+    ///   P(no find) = prod_k [rho + (1 - rho)(1 - c_k q_k)]
+    /// Reported beside `shared`, never as the default: it treats burial and terrain masking as
+    /// if they were re-rolled between campaigns.
+    Independent,
+}
 
 #[derive(Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Params {
     /// rho: probability that the wreck was undetectable by every campaign.
     undetectable_probability: f64,
+    /// `shared` (default) or `independent`; see [`Dependence`]. Identical wherever campaigns do
+    /// not overlap, so it only acts on repeat-searched ground.
+    #[serde(default)]
+    miss_dependence: Dependence,
     campaigns: Vec<CampaignParams>,
 }
 
@@ -190,6 +221,7 @@ pub struct Campaign {
 
 pub struct SeabedSearch {
     pub undetectable: f64,
+    pub dependence: Dependence,
     pub campaigns: Vec<Campaign>,
 }
 
@@ -235,7 +267,7 @@ impl SeabedSearch {
             }
             campaigns.push(Campaign { name: c.name, effective_detection: q, raster });
         }
-        Ok(Self { undetectable: rho, campaigns })
+        Ok(Self { undetectable: rho, dependence: params.miss_dependence, campaigns })
     }
 
     /// P(no find | impact at lat, lon, wreck detectable): every campaign misses independently.
@@ -243,9 +275,20 @@ impl SeabedSearch {
         self.campaigns.iter().map(|c| 1.0 - c.effective_detection * c.raster.coverage(lat, lon)).product()
     }
 
-    /// P(no find | impact at lat, lon).
+    /// P(no find | impact at lat, lon). Under `Shared` the wreck is undetectable or not, once,
+    /// and the campaigns then miss independently; under `Independent` each campaign draws its
+    /// own undetectability. A campaign with no coverage here contributes exactly 1 either way,
+    /// so the two agree wherever campaigns do not overlap.
     pub fn miss_probability(&self, lat: f64, lon: f64) -> f64 {
-        self.undetectable + (1.0 - self.undetectable) * self.detectable_miss_probability(lat, lon)
+        let rho = self.undetectable;
+        match self.dependence {
+            Dependence::Shared => rho + (1.0 - rho) * self.detectable_miss_probability(lat, lon),
+            Dependence::Independent => self
+                .campaigns
+                .iter()
+                .map(|c| rho + (1.0 - rho) * (1.0 - c.effective_detection * c.raster.coverage(lat, lon)))
+                .product(),
+        }
     }
 }
 
@@ -311,8 +354,13 @@ mod tests {
     }
 
     fn search(rho: f64, campaigns: Vec<(f64, Raster)>) -> SeabedSearch {
+        with_dependence(rho, Dependence::Shared, campaigns)
+    }
+
+    fn with_dependence(rho: f64, dependence: Dependence, campaigns: Vec<(f64, Raster)>) -> SeabedSearch {
         SeabedSearch {
             undetectable: rho,
+            dependence,
             campaigns: campaigns
                 .into_iter()
                 .enumerate()
@@ -353,6 +401,50 @@ mod tests {
     }
 
     #[test]
+    fn repeat_search_dependence_acts_only_where_campaigns_overlap() {
+        // Two campaigns over the same searched cell, q = 0.8, rho = 0.2. Shared: the wreck is
+        // undetectable once, 0.2 + 0.8 x 0.2 x 0.2. Independent: each campaign re-rolls it,
+        // (0.2 + 0.8 x 0.2)^2, which removes much more mass from doubly searched ground.
+        let both = |d| with_dependence(0.2, d, vec![(0.8, half()), (0.8, half())]).miss_probability(0.5, 0.5);
+        assert!((both(Dependence::Shared) - 0.232).abs() < 1e-12);
+        assert!((both(Dependence::Independent) - 0.1296).abs() < 1e-12);
+        // Disjoint campaigns: a campaign with no coverage contributes exactly 1 under either
+        // rule, so the arms agree. West cell searched by one, east cell by the other.
+        let east = raster(0.0, 0.0, 1.0, 1, 2, vec![0, 255]);
+        let disjoint = |d| with_dependence(0.2, d, vec![(0.8, half()), (0.8, east.clone())]);
+        let (s, i) = (disjoint(Dependence::Shared), disjoint(Dependence::Independent));
+        for (lat, lon) in [(0.5, 0.5), (0.5, 1.5), (0.5, 10.0)] {
+            assert!((s.miss_probability(lat, lon) - i.miss_probability(lat, lon)).abs() < 1e-12);
+        }
+        // On the cell boundary the bilinear coverage gives each campaign a half, so the ground
+        // is modelled as searched twice and the arms separate: 0.2 + 0.8 x 0.6^2 = 0.488 against
+        // (0.2 + 0.8 x 0.6)^2 = 0.4624. The grain of the raster, not the swaths, decides where
+        // this happens, which is why the pair is reported rather than one being preferred here.
+        assert!((s.miss_probability(0.5, 1.0) - 0.488).abs() < 1e-12);
+        assert!((i.miss_probability(0.5, 1.0) - 0.4624).abs() < 1e-12);
+    }
+
+    #[test]
+    fn the_marginal_depends_only_on_the_mean_of_rho_under_shared_but_not_independent() {
+        // rho is 0 or 0.4 with equal probability, mean 0.2, over two overlapping campaigns.
+        let at = |rho, d| with_dependence(rho, d, vec![(0.8, half()), (0.8, half())]).miss_probability(0.5, 0.5);
+        for d in [Dependence::Shared, Dependence::Independent] {
+            let averaged = 0.5 * at(0.0, d) + 0.5 * at(0.4, d);
+            let at_the_mean = at(0.2, d);
+            match d {
+                // Linear in rho: a broad prior gives the same answer as a point mass at its mean.
+                Dependence::Shared => assert!((averaged - at_the_mean).abs() < 1e-12),
+                // Not linear: 0.1552 against 0.1296. The brief's mean-only property belongs to
+                // the shared model and must not be carried across to this one.
+                Dependence::Independent => {
+                    assert!((averaged - 0.1552).abs() < 1e-12);
+                    assert!((at_the_mean - 0.1296).abs() < 1e-12);
+                }
+            }
+        }
+    }
+
+    #[test]
     fn coverage_is_bilinear_between_cell_centres_and_zero_off_the_grid() {
         let r = raster(-1.0, 10.0, 0.5, 2, 2, vec![0, 255, 51, 102]);
         assert_eq!(r.coverage(-0.75, 10.75), 1.0); // centre of the south-east cell
@@ -367,7 +459,14 @@ mod tests {
     #[test]
     fn embedded_layers_match_the_prepare_script() {
         // Areas printed by prepare/build_coverage.py for the committed rasters.
-        for (layer, km2) in [("phase2", 120_489.94), ("bluefin-2014", 771.37)] {
+        for (layer, km2) in [
+            ("phase2", 120_489.94),
+            ("bluefin-2014", 771.37),
+            ("phase2-deep-tow", 103_921.877),
+            ("phase2-go-phoenix", 14_630.442),
+            ("phase2-dhj", 3_164.526),
+            ("phase2-auv", 16_164.232),
+        ] {
             let r = Raster::decode(LAYERS.iter().find(|(n, _)| *n == layer).unwrap().1).unwrap();
             assert!((r.area_km2() - km2).abs() < 0.01, "{layer}: {} km2", r.area_km2());
         }
