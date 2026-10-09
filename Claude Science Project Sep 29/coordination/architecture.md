@@ -2097,3 +2097,67 @@ model is stable on real impact samples. It has now run on real end-of-flight sam
 scale. I will raise it after the full-scale run, not before.
 
 - searched areas
+
+## 2026-10-09 ~03:20 UTC - end of flight: hand-off stratum column signed off (gate c); log-on likelihood landed; a parent-count question
+
+**1. Gate (c), the stratum (family) column in `handoff.npy`: signed off, with one condition and an acceptance test.**
+- **The module cannot be broken by an extra column.** It never reads `handoff.npy`. Core's `terminal.rs`
+  decodes each row into a typed `FlightState` and hands that over. So the column is a core-side reading
+  change only.
+- **My analysis scripts now read by name.** `analyse.py`, `ess_limit.py` and `impact_maps.py` take impact
+  columns from `run.json` `impact_columns`. `impact_maps.py` read `final.npy` columns 0-2 by position;
+  as of `98c2729` it reads them by name from `final_columns`, and its output is byte-identical.
+- **Condition:** the family must pass through to `impacts.npy` as a column. That is core's impacts writer.
+  Parent weights in the hand-off must be **normalised within each stratum**, with each stratum's log Z
+  in `run.json`. I will then report every impact result per stratum, and combine only by evidence within
+  one likelihood set (no-radar or radar, per your ruling 2). I will not change sampling by family.
+- **Acceptance test, which I run as soon as core posts a smoke hand-off with the column:**
+  - (i) families off: `terminal` on seed 1, N = 4, is byte-identical to `runs/eof-s6-n4-s1` on today's
+    snapshot;
+  - (ii) families on: the run completes, the family column is present in `impacts.npy`, and the
+    per-stratum weights each sum to one.
+  - Point me at the run directory in my inbox; this takes about 5 min outside the lock.
+
+**2. Landed (module branch `910a966`, then `98c2729`; merged as `3f7a1bc` and `98c2729`).**
+- Requests 3b and 5 adopted, as `takeover_priced` and the `surface_pressure_altitude_ft` latent.
+- **Brief section 6, the 00:19:29 log-on likelihood**, which was missing:
+  - Declared alternative `logon-cause` = {fuel-exhaustion, other}, 0.5 / 0.5.
+  - Under fuel exhaustion: Gamma(8, 14.875 s) on log-on minus flame-out.
+  - `other` is a residual with no density, so it scores 0.
+  - `absolute_scale` false: reported per alternative, never mixed.
+  - Without it, 38-41% of the held-out weight flamed out *after* the log-on.
+  - Test `the_logon_lag_likelihood_matches_a_hand_computation`.
+- The impact-map script and the split-half effective-parent limit (`smoke/impact_maps.py`,
+  `smoke/ess_limit.py`). Maps went to Pete with the smoke caveats.
+- **Citation ledger** `results/end-of-flight-references.{md,bib}`, per the standing rule. Printed pages
+  so far: SIR Appendix 1.6E p. 8, the 0.0034 NM/ft driftdown (20.66:1), and the ATSB 8 Oct 2014 update
+  PDF p. 12. The other entries are flagged "not yet read in primary form", with the open items listed.
+- **Correction:** my comments attributed "60 s APU + 60 s SDU" to the ATSB. It is the Malaysian SIR,
+  report pp. 372-373 (located by the archive's fuel ledger). Comments only.
+
+**3. Section 8 targeted proposal: what the effective-parent limit says** (`results/eof-ess-limit-oct09/`;
+smoke, seeds 1-2, N = 4, provisional; the N = 16 seed-1 run is queued behind the lock).
+- **R600 under every BFO interpretation:** resolved, or within reach of N = 16. No proposal is needed.
+- **r1200/inflated with log-on = other:** limit about 1,600 per seed against 486-555 observed. A Monte
+  Carlo shortfall, so the targeted proposal is the remedy and I build it next.
+- **R1200 with log-on = fuel exhaustion:** limit about 290-730 per seed for raw, Holland and inflated.
+  **This is posterior concentration. No terminal-stage proposal can reach the brief's 1,000 per seed.**
+  The log-on lag and the R1200 BFO together select a narrow set of 00:11 states.
+- **`both`:** not assessed at N = 4. The split-half estimator collapses with two children per half.
+- **Question for a ruling.** For the R1200 cases under fuel exhaustion, which applies?
+  - (a) the 1,000 target applies **pooled across the 8 seeds** (about 2,300-5,800 at these limits);
+  - (b) core raises hand-off rows per seed for the end-of-flight snapshots (20,000 now; about 50,000
+    would be needed). That is a core cost question for the re-run.
+  - (c) report those cases as concentration-limited and leave them below target.
+  - My preference is (a) with (c)'s disclosure. It costs nothing and the per-seed spread stays visible.
+  - **Step 2 continues meanwhile** for the Monte Carlo cases. Only the target for these cases is blocked.
+
+**4. Running.**
+- The 8-seed N = 4 contract on 3b code, queued on the heavy lock since 19:00 local.
+- The N = 16 seed-1 run with `contract.json` and the effective-parent limits, queued behind it.
+- Neither has started: the lock is held elsewhere.
+
+**Large files:** none committed. Each N = 4 seed run is about 0.6 GB of `impacts.npy` in my workspace,
+not in the repo.
+
+- end of flight
