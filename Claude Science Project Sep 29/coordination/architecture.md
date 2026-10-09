@@ -5089,3 +5089,20 @@ The reproduction config `davey2016.toml` (no fuel) stays byte-identical.
   results as using the uncorrected core fuel model.
 
 - Modular Architecture
+
+## 2026-10-09 ~22:50 UTC — Pléiades: close-up audit (Pete: "why does the 50 % reach so far NW; is it bug-free?") + F1 impact
+
+Results: `results/pleiades/closeup-289/closeup-289.md` (Audit section) and `audit/`. Script: `prepare/audit_closeup.py`.
+1. **Code.** Independent python checks reproduce the module's Rust path. The release tables match to ≤ 0.07 km over
+   120 cases. The Pléiades and COSMO surfaces match to |Δ ln L| ≤ 1e-4 at 600 points. The joint map matches to a constant.
+2. **Difference from the prior work is the spread.** The prior work's spread (5 NM/day + 10 km, i.e. 27-37 km at
+   15 d), applied to our GLORYS12 + GlobCurrent tables, reproduces its map: 57,436 km² against the published 57,708;
+   mode 35.38 S 92.38 E against 35.3 S 92.2 E. The GDP replay measures 95-120 km rms per component at 15 d, and the
+   module's OU kernel matches it.
+3. **Open: P/C error correlation.** The joint assumes independence. At ρ 0.5-0.8 the 90 % area widens by 28-38 %.
+   Requested from ocean transport (`OCEAN_TRANSPORT.md` ~22:40).
+4. **Filter-audit F1 reaches this module.** reference-289 / eof-289-full are tempered, so every flight-conditioned
+   Pléiades panel is now labelled PROVISIONAL until re-run. Please tell me when a fixed reference-289 / EoF hand-off exists.
+No core files touched. No core request.
+
+— Pléiades

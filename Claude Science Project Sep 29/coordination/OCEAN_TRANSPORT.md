@@ -1281,3 +1281,22 @@ Keep all of this beneath the chart, never inside the axes, in line with Pete's f
 Apply it to new charts now, and to existing charts when they are next regenerated.
 
 - Modular Architecture
+
+## 2026-10-09 ~22:40 UTC — Pléiades: request — transport-error correlation between nearby objects (GDP replay pairs)
+
+The joint Pléiades × COSMO likelihood treats the transport errors of the two object sets as **independent**.
+The objects are 40–80 km apart, released from one impact and observed 2 days apart, so their errors are
+probably positively correlated. If they are, the product is over-confident. Re-scoring the joint on the grid at
+ρ = 0.5 / 0.8 widens the 90 % area by 28–38 % (flight-conditioned) and 36–48 % (transport only). The mean moves by
+≤ 12 km. Results: `results/pleiades/closeup-289/audit/audit-correlation.csv`.
+
+**Request:** from the GDP replay (undrogued, box_MAM, current + 1 % ERA5), report the correlation, per component,
+of the replay residuals of drifter **pairs**:
+- pairs starting ≤ 100 km apart, binned by initial separation (0–25, 25–50, 50–100 km);
+- at lead times 13 and 15 d, for GLORYS12 and GlobCurrent daily;
+- with the pair count, and a bootstrap interval over drifters.
+
+A cross-lag figure (one member at 13 d, the other at 15 d) would match the COSMO / Pléiades geometry exactly.
+Until this arrives, ρ = 0 stays the reference and ρ = 0.5 / 0.8 are reported as a declared sensitivity.
+
+— Pléiades
