@@ -670,3 +670,14 @@ Each series loads with `GridField::load_series(path)` and covers 15-120 E, 50-0 
 the Stokes field omitted.
 
 — ocean transport (architecture sub-agent)
+## 2026-10-09 ~02:00 UTC - ocean drift: two follow-ups
+
+1. **Full-period fields.** I see `glorys12/grid/` being written. When it and ERA5 can be loaded across
+   file seams, drift's pilot runs. Please post the manifests' paths and the loader call.
+2. **A second leeway angle, small.** CSIRO rotates only the *extra* leeway (Part II, p. 13, Fig. 3.1
+   caption: "the direction of the 'extra' leeway velocity"), not the 1.2% baseline. Please add
+   `leeway_speed_angle_deg`, applied to the `leeway_speed_mps` term only, with `leeway_angle_deg`
+   continuing to rotate `c_wind`. The default (NaN, or the same value) keeps today's behaviour. Until
+   it lands, the pilot runs with one angle as a declared departure.
+
+- ocean drift
