@@ -2356,3 +2356,56 @@ implosion at depth, and the sink-versus-float split (the 15-20 % floating-mass s
 weakest number in the table).
 
 - ocean settling
+
+## 2026-10-09 ~04:10 UTC - end of flight: proposed core request 14 (blocks the 22:41 arms with BFO); section 8 narrowed to `both`
+
+**1. Proposed core request 14** (the number is yours to confirm): in-stage cruise BFO scoring in
+`crates/mh370/src/terminal.rs`. **It blocks step 3 as specified:** V1b and V2 with the 00:11 BFO scored.
+- **What fails, reproduced** (`smoke/options-m2241.toml`): from the 22:41 hand-off, `Stage::new` refuses
+  any BFO option with *"the 00:19 BFO models cover two bursts"*. From 22:41 the bursts after the stop are
+  m2315 (BFO only), m0011, m0019a and m0019b. `log_likelihood` also indexes the 00:19 contacts by epoch
+  **position** (`contacts[k]`), which is only right while those are the first two bursts.
+- **Asked**, all in `terminal.rs`:
+  - (i) for each in-stage burst with `cruise_bfo` set, run the filter's own sequence on a per-child copy
+    of the handed-off bias: `BfoBias::drift` over the gap when `drift_hz2_per_s` is set, then
+    `BfoBias::update(predicted, z, sd)` adding its marginal log-likelihood, with the vertical rate when
+    `params.bfo_vertical_rate` is set (as `filter.rs` ~l. 636-650);
+  - (ii) pass the bias as updated through the cruise bursts to the 00:19 BFO models;
+  - (iii) identify the 00:19 contacts by epoch id.
+- **Acceptance:**
+  - the 00:11 hand-off is byte-identical to today;
+  - a unit test shows that scoring m0011 in-stage reproduces the filter's m0011 BFO increment for the
+    same state and bias.
+  - Only then does V1a against V1b measure *where 00:11 is scored* and nothing else.
+- **Meanwhile:**
+  - V1b and V2 run from 22:41 with a BTO-only option set ({none, m0011.bto, m0011+r600.bto}),
+    queued under the lock.
+  - V1b against V2 under `none` is a legitimate held-out comparison of the descent hypothesis. The
+    BTO-scored options are labelled **NOT THE ARM**.
+- **Module side, mine:** the m2315 and m0011 transmissions imply SDU power. An option scoring them must
+  treat a dual flame-out before them as contradicting the data, as the filter's fuel-as-evidence rule
+  does. I am adding that to the module's likelihood beside the log-on term. From 00:11 it is
+  automatically satisfied.
+
+**2. Arm definitions (module decision, recorded).**
+- **V1 (`smoke/arm-v1.toml`): anticipatory support [0, 0] and the fuel-cue weight 0.**
+  - A fuel-cue onset is a response 30-70 min *before* exhaustion. It is not flame-out-associated, and
+    the brief's table defines V1 as flame-out-associated only.
+- **V2 (`smoke/arm-v2.toml`): all three mechanisms.**
+- **This also means V1a needs its own 00:11 run with `arm-v1`.** Every 00:11 run so far used the
+  defaults: the V2 onset model at the 00:11 hand-off, which is none of the three arms. I will run V1a at
+  the next lock slot.
+
+**3. Section 8 narrowed.** `results/eof-ess-limit-oct09/README.md`, addendum:
+- **An onset-window defensive mixture is a negative result.** It gains 1-5% at N = 16 in every option;
+  the R1200 noise is in the descent shape, not the onset time.
+- **Plain N = 64 reaches 70-90% of the N→∞ limit for every R1200 case; N = 256 reaches 88-98%.** So a
+  descent-shape proposal could add at most 1.1-1.4× over N = 64, which your 00:30 ruling permits. For
+  R1200 the binding constraint is the parent limit (the question in my ~03:20 entry), not the proposal.
+- **`both` is the one case still open.** The N = 16 seed-1 run (queued) assesses its limit.
+- A descent-shape proposal there needs the profile draws recorded per impact. `profile.rs` makes a
+  variable number of uniform calls, so this is a draw-layout change inside the module. I will specify it
+  only if `both`'s limit shows a Monte Carlo gap worth closing.
+- **The N = 16 predictions were stated before the run**, in the addendum.
+
+- end of flight
