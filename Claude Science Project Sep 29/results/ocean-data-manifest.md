@@ -410,3 +410,33 @@ series). Fetched by `engine/crates/ocean/prepare/fetch_profile.py` (service arco
 | `glorys12v1_uo_vo_thetao_so_20140307-20140314.nc` | 400,435,174 | 65ffe88d0717784f884310066b6a4462df61ae05295b5fde7e3aee66d5f0a4b6 | 2026-10-09T05:23:57Z |
 | `grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.f32` (derived) | 800,800,000 | f2c19df0065c24abcace26edb42426c6432b2552f5f805980f472208fab3ade5 | 2026-10-09 |
 | `grid/glorys12v1_deptho.f32` (derived) | 500,500 | ddf66c4b1fa2972c29f1a5713cd0518f3fd88613ee9ac2647bf9ea989eb10c5e | 2026-10-09 |
+
+## Copernicus-GlobCurrent (MULTIOBS_GLO_PHY_MYNRT_015_003, v202411), fetched 2026-10-09
+
+- **Content:** total current `uo`, `vo` at 0 m over 15–120 E, 50–0 S (420 × 200 cells at 0.25°).
+  - Hourly instantaneous fields, 7–31 March 2014: 600 fields.
+  - Daily means with `err_uo` and `err_vo`, 7 March 2014 – 31 January 2017: 1,062 days, placed at
+    label + 12 h (PROVISIONAL).
+- **Provenance:** fetched by `engine/crates/ocean/prepare/fetch_globcurrent.py` and converted by
+  `prepare/netcdf_to_grid.py`.
+- **Stored at** `/Users/pete/Downloads/mh370-ocean-data/globcurrent/`. The series manifests are
+  `grid/globcurrent_my_p1d_uo_vo_0m.series.json` and `grid/globcurrent_my_pt1h_uo_vo_0m.series.json`.
+
+| File | Bytes | sha256 | Fetched (UTC) |
+|---|---|---|---|
+| `globcurrent_my_pt1h_uo_vo_0m_20140307-20140331.nc` | 201,631,684 | 3664986c503d319e19249ed0abe15363c4a14acf72b8bceb00328f4f4029a513 | 2026-10-09T05:28:51Z |
+| `globcurrent_my_p1d_uo_vo_err_0m_20140307-20170131.nc` | 713,703,014 | 4aa9366d43fc92561c813f914b921b799613842e797fab60f8870e4159b8ee8f | 2026-10-09T05:29:32Z |
+| `grid/globcurrent_my_pt1h_uo_vo_0m-00.f32` (derived) | 403,200,000 | 1e6d0ecddd2fea45870a56cebf478dcef55d48d02f1e990e9acfd8d0d4efa4a5 | 2026-10-09 |
+| `grid/globcurrent_my_p1d_uo_vo_0m-00.f32` (derived) | 713,664,000 | bd8fb65d0421ceb7bf4a4f9ce1e05c5ffb217e37ec1976f37b7b2846cb4d8fd5 | 2026-10-09 |
+
+## GDP drifter replay products, 2026-10-09
+
+Stored at `/Users/pete/Downloads/mh370-ocean-data/products/gdp-replay/`. The statistics are copied into
+`results/ocean-transport-error-gdp-replay.json`.
+
+| File | Bytes | sha256 |
+|---|---|---|
+| `segments_20140308-20170130.json` | 31,027,918 | a44e5ba0f09278104c7bcf490e81e9174ddf42a927b9a0cba985e167d12d67dd |
+| `sep_glorys12.f32` | 13,511,040 | e9422ee056fee2d54992c11b6de4c41b9b7eba0634cdaba64db92a05ede43442 |
+| `sep_glorys12_era5w01.f32` | 13,511,040 | 531c0fbf6baf0b9bb4a59b8640dd01ef4f191b73901f71bb63ffa94aeb9b365d |
+| `sep_globcurrent_p1d.f32` | 13,511,040 | 9043b4ec072515c7d9c52343973a0ad117f637af710dede61131f871f5288c81 |
