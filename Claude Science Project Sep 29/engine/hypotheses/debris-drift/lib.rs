@@ -247,6 +247,25 @@ pub(crate) struct Params {
     /// Importance splitting for finds that forward release alone cannot resolve (off by default).
     #[serde(default)]
     splitting: Option<SplittingParams>,
+    /// Transport-model error as the shared ocean's eddying error field, one realisation per
+    /// environment seed (off by default). Values from ocean transport's GDP replay
+    /// (`results/ocean-transport-error-gdp-replay.md`) once ruled.
+    #[serde(default)]
+    pub(crate) ocean_error: Option<OceanErrorParams>,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+pub(crate) struct OceanErrorParams {
+    pub(crate) sigma_m_s: f64,
+    pub(crate) length_scale_km: f64,
+    pub(crate) time_scale_days: f64,
+    #[serde(default = "d_modes")]
+    pub(crate) modes: usize,
+}
+
+fn d_modes() -> usize {
+    64
 }
 
 /// Fixed-factor importance splitting (a variance-reduction device, not a model change). A particle
@@ -389,12 +408,19 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
         }
     }
     if !kids.is_empty() {
+        // The children run under the SAME seed, so they see the same ocean-error realisation as
+        // their parents (one realisation per seed), with diffusion streams that are their own:
+        // the integrator keys each particle's stream on (seed, index), so n inert placeholders
+        // (ending at release, zero steps) push the children's indices past every parent's.
         let w = 1.0 / sp.factor as f64;
-        let (kf, ks) = setup.run(&kids, Rng::derive(&[seed, 0x5_9117]).next_u64(), diffusion, t_end)?;
+        let n = particles.len();
+        let mut batch: Vec<Particle> = particles.iter().map(|q| Particle { end_time: Some(q.release_time), ..*q }).collect();
+        batch.extend(kids.iter().copied());
+        let (kf, ks) = setup.run(&batch, seed, diffusion, t_end)?;
         steps += ks;
         e.children = kids.len();
-        for (k, f) in kf.into_iter().enumerate() {
-            tally(&mut e, parent[k], f, w);
+        for (k, f) in kf.into_iter().enumerate().skip(n) {
+            tally(&mut e, parent[k - n], f, w);
         }
     }
     Ok((e, steps))
@@ -547,7 +573,10 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let grid = SourceGrid::from_posterior(&cells, 0.25, p.coverage, p.spacing_nm, p.margin_nm, p.island_link_nm, p.include_island)?;
     let (rec, loc) = build_recovery(p)?;
     let domain = Domain { lon_min: p.domain[0], lon_max: p.domain[1], lat_min: p.domain[2], lat_max: p.domain[3] };
-    let setup = OceanSetup::new(&p.transport, domain, p.dt_hours * 3600.0, p.threads, p.leeway_absorbs_stokes, p.explicit_residual, p.land_gap_is_beaching)?;
+    let mut setup = OceanSetup::new(&p.transport, domain, p.dt_hours * 3600.0, p.threads, p.leeway_absorbs_stokes, p.explicit_residual, p.land_gap_is_beaching)?;
+    if let Some(oe) = &p.ocean_error {
+        setup.ocean_error = ocean::OceanErrorModel::eddying(oe.sigma_m_s, oe.length_scale_km * 1000.0, oe.time_scale_days * 86_400.0, oe.modes);
+    }
     let prior = diffusivity_prior(p);
     let envs: Vec<(u64, Diffusion)> = p.env_seeds.iter().map(|&s| (s, prior.draw(s))).collect();
     let observations = match p.mode.as_str() {

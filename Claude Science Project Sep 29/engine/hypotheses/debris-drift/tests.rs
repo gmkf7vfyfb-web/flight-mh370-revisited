@@ -361,6 +361,28 @@ fn splitting_is_unbiased_and_resolves_a_rare_target() {
 }
 
 #[test]
+fn ocean_error_config_changes_the_ensemble_and_is_seeded() {
+    // `[ocean_error]` parses, and the error field reaches the integrator: the same release and
+    // seed give different arrivals with it on, and identical arrivals twice (one realisation per
+    // seed).
+    let run: toml::Value = toml::from_str(include_str!("run.toml")).unwrap();
+    let oe: toml::Value = toml::from_str("sigma_m_s = 0.1\nlength_scale_km = 100.0\ntime_scale_days = 8.0").unwrap();
+    let p = small(run["hypotheses"]["debris-drift"].clone(), &[("ocean_error", oe)]);
+    let o = p.ocean_error.clone().unwrap();
+    let mut setup = analytic([-0.2, 0.0], None, 92.0);
+    let loc = super::Locator { map: None, edges: vec![] };
+    let resp: Vec<_> = (0..300).map(|_| response(0.0, 0.0, 0.0, 0.0)).collect();
+    let t_end = T0 + 40.0 * 86_400.0;
+    let diff = Diffusion::Diffusivity { k_m2_s: 100.0 };
+    let lats = |s: &OceanSetup| super::run_ensemble(s, &loc, [94.8, -37.5], T0, t_end, &resp, 7, diff, None).unwrap().0.arrivals.iter().map(|x| x.1.place.lonlat[1]).collect::<Vec<f64>>();
+    let off = lats(&setup);
+    setup.ocean_error = ocean::OceanErrorModel::eddying(o.sigma_m_s, o.length_scale_km * 1000.0, o.time_scale_days * 86_400.0, o.modes);
+    let (on1, on2) = (lats(&setup), lats(&setup));
+    assert_eq!(on1, on2, "one realisation per seed");
+    assert_ne!(off, on1, "the error field must change the ensemble");
+}
+
+#[test]
 fn synthetic_recovery_coverage() {
     // Finds generated from a node drawn uniformly from a small grid (independent ensembles),
     // scored with the module's own layers and level marginalisation; the 90% HPD set should

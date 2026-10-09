@@ -63,6 +63,9 @@ pub struct OceanSetup {
     pub leeway_absorbs_stokes: bool,
     pub explicit_residual: bool,
     pub land_gap_is_beaching: bool,
+    /// Transport-model error, one realisation per integration seed (environment realisation).
+    /// Default none; see `[ocean_error]` in the run config.
+    pub ocean_error: OceanErrorModel,
 }
 
 /// A `.series.json` manifest is a multi-file time series (`GridField::load_series`, which joins
@@ -90,7 +93,7 @@ impl OceanSetup {
                 Box::new(NoCoast),
             ),
         };
-        Ok(OceanSetup { current, wind10, stokes, coast, domain, step_s, threads, leeway_absorbs_stokes, explicit_residual, land_gap_is_beaching })
+        Ok(OceanSetup { current, wind10, stokes, coast, domain, step_s, threads, leeway_absorbs_stokes, explicit_residual, land_gap_is_beaching, ocean_error: OceanErrorModel::none() })
     }
 
     fn forcing(&self) -> Forcing<'_> {
@@ -120,7 +123,7 @@ impl OceanSetup {
             step_s: self.step_s,
             output_times: output_times.to_vec(),
             diffusion,
-            ocean_error: OceanErrorModel::none(),
+            ocean_error: self.ocean_error,
             refloat: Refloat::Off,
             seed,
             leeway_absorbs_stokes: self.leeway_absorbs_stokes,
@@ -141,7 +144,7 @@ impl OceanSetup {
             .zip(particles)
             .map(|(tr, p)| {
                 let mut fate = Fate::Afloat;
-                let mut t_end = end_time;
+                let mut t_end = p.end_time.unwrap_or(end_time).min(end_time);
                 for ev in &tr.events {
                     match *ev {
                         Event::Beached { t, at, line, chainage_m, .. } => {
