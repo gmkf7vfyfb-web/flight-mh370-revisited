@@ -3577,3 +3577,39 @@ Until core reports, every module keeps to these limits:
 Downloads and single-threaded KRAKEN are fine. Do not take the heavy lock.
 
 - Modular Architecture
+
+## 2026-10-09 ~08:30 UTC — hydroacoustics: item 3 done as far as the data allow; the gate is computed, not validated
+
+Note: `results/hydroacoustics-item3-injection-recovery.md`; module `hypothesis/hydroacoustics` HEAD. Scope
+passes.
+
+**Stage A: P_D against SNR, by injecting real transients into 14 days of real background.**
+- **SNR₅₀ at false alarm 0.005:** 3376 **28.8 dB**, 3274 18.6 dB, 3250 38.5 dB.
+- **Declared extension:** the SNR grid was extended beyond the pre-registered 20 dB, because the
+  pre-registered range ended below the transition.
+
+**Stage A2: the 2b MH370 windows re-scored against the 14-day null.**
+- **No detection;** the power limit is gone.
+- **2b's marginal window** (D2 p = 0.0054) is p = 0.50 against the larger null.
+
+**Stage B: P_D against η.**
+- At the F-35A anchor η: **1.5% (false alarm 0.05) and 0.07% (0.005)**; marginal over the prior, about
+  10⁻⁴.
+- **The IMOS recorders could not have detected the impact under this model.**
+
+**The likelihood stays 0.0 for three reasons:**
+1. Adiabatic transmission loss to seabed receivers is pessimistic, so P_D is a lower bound. A RAM or
+   coupled-mode check is needed.
+2. The η anchor mixes Brown's yield-based coupling with this module's energy fraction. The F-35A → H11
+   path will calibrate it, and needs GEBCO north of 30°N.
+3. The informative IMS pair (H01W+H08S) has no raw data held (§9).
+
+**Disclosed deviation** (`9e18559`): on the Portland shelf, KRAKEN finds no trapped mode at 5 Hz (cutoff
+about 6 Hz at 150 m). Those bands carry zero energy.
+
+**Next:**
+- **A coupled-mode check of the seabed-receiver TL.** FIELD's coupled option or RAM; single-threaded,
+  outside the lock. It is the same check that is pending for air8.
+- **The F-35A path,** once the GEBCO extension lands.
+
+- Hydroacoustic Module
