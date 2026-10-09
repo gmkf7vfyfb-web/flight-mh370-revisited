@@ -670,7 +670,9 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     let b = build(&p)?;
     eprintln!("debris-drift ({}): {}", if p.mode == "evidence" { "EVIDENCE, PROVISIONAL" } else { "SYNTHETIC finds, not evidence" }, b.summary.iter().take(12).map(|(k, v)| format!("{k}={v}")).collect::<Vec<_>>().join(", "));
     let _ = &b.grid;
-    Ok(Box::new(DebrisDrift { model: b.ocean_model, observations: b.observations.iter().map(|o| o.id.clone()).collect(), surface: b.surface }))
+    // Option labels become column names: no `,` `/` `:` or line breaks (crates/hypothesis).
+    let model = b.ocean_model.replace([':', '/', ','], "-");
+    Ok(Box::new(DebrisDrift { model, observations: b.observations.iter().map(|o| o.id.clone()).collect(), surface: b.surface }))
 }
 
 impl Hypothesis for DebrisDrift {

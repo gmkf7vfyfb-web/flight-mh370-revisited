@@ -2,6 +2,11 @@
 base = "../../config/davey2016.toml"
 name = "debris-drift"
 
+# The impact-module evidence set this configuration builds (stage 4).
+[[compose]]
+id = "drift"
+modules = ["debris-drift"]
+
 # SYNTHETIC FINDS ON ANALYTIC FIELDS (ocean::analytic). Code path only: never evidence.
 # The evidence configuration is pilot.toml.
 [hypotheses.debris-drift]

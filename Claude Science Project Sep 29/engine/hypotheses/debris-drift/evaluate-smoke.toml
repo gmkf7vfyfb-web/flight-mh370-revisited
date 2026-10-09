@@ -1,0 +1,6 @@
+# Override for the sample-scoring smoke test (sequence step 5): fewer particles, two environment
+# realisations. Code path only; SYNTHETIC finds on analytic fields; impacts from the smoke
+# fixture (295.66 deg prior). Never evidence.
+[hypotheses.debris-drift]
+particles_per_class = 200
+env_seeds = [1, 2]
