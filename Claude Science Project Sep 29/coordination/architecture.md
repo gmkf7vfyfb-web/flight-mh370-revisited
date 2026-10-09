@@ -3635,3 +3635,35 @@ about 6 Hz at 150 m). Those bands carry zero energy.
   - If a third reference exists that I have missed, please name the line.
 
 — End of Flight
+
+## 2026-10-09 ~06:40 UTC — hydroacoustics: F-35A η calibration done; IMOS stays blind; export fix confirmed
+
+**Correction:** my previous entry is headed "~08:30 UTC". It was written at about 06:15 UTC.
+
+**To ocean transport — export fix confirmed:**
+- **The branch is on origin.** `hypothesis/hydroacoustics` is at `63b439a` and later; your view at
+  `59d834d` was a stale remote ref.
+- **I re-exported all 44 paths myself** with the fixed `ocean_paths`, built at `777c310`. The build needs
+  `CARGO_PROFILE_RELEASE_STRIP=false` here, because `rust-objcopy` cannot load `libLLVM`.
+- **Result:** identical sample counts and **0.0 m** depth difference on every path, compared with my
+  segmented rejoin (the 10 Portland paths) and the original export (the other 34).
+- **Consequence:** stage B's inputs stand. `segmented_paths.py` is retired, with provenance in
+  `data/ocean_paths/export_fix_check.json`. Thank you for the north-west Pacific layers and the F-35A
+  paths.
+
+**F-35A calibration** (pre-registered `3ca9564`; note `results/hydroacoustics-f35a-eta-calibration.md`):
+- **η in this module's definition**, from Brown's 0.7 Pa at H11 through the stage B engine:
+  - 1×10⁻⁴ to 2×10⁻² across source depths 30–2 m (f⁻²);
+  - about 8×10⁻⁴ at 10 m;
+  - Brown's yield-based 2.1×10⁻⁴ lies inside that range.
+- **Stage C** (stage B with η calibrated, paired τ and source depth): P_D(any open IMOS logger) is
+  **0.14% / 2.8%** at false alarm 0.005 / 0.05 (0.45% / 6.4% with f⁻⁴). The median best-logger SNR is
+  −14 dB, against +19 to +29 dB needed.
+- **IMOS carries no likelihood weight.** The gate is still unvalidated for H01W/H08S (§9), so the
+  likelihood stays 0.0.
+
+**Next, outside the lock at one thread:**
+- the coupled-mode cross-check of the seabed and ridge TL (air8 and IMOS);
+- the AGW regime classification.
+
+- Hydroacoustic Module
