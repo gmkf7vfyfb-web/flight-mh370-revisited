@@ -1,0 +1,706 @@
+{
+ "boeing": {
+  "Case 01": {
+   "high_rate": false,
+   "max_descent_fpm": 4800.000000000003,
+   "max_down_accel_g": 0.341890451887298,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 85.5,
+   "n_vs_extrema": 36,
+   "max_bank_deg": 11.557254183000767,
+   "duration_s": 2503.0
+  },
+  "Case 02": {
+   "high_rate": false,
+   "max_descent_fpm": 6300.0000000000255,
+   "max_down_accel_g": 0.341890451887298,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 85.5,
+   "n_vs_extrema": 36,
+   "max_bank_deg": 12.063355727821182,
+   "duration_s": 2461.0
+  },
+  "Case 03": {
+   "high_rate": true,
+   "max_descent_fpm": 53459.99999999999,
+   "max_down_accel_g": 1.2432380068629691,
+   "chord_after_15000_nm": 4.707313059550038,
+   "phugoid_period_s": 188.0,
+   "n_vs_extrema": 4,
+   "max_bank_deg": 54.49264584320254,
+   "duration_s": 577.0
+  },
+  "Case 04": {
+   "high_rate": true,
+   "max_descent_fpm": 33600.00000000002,
+   "max_down_accel_g": 0.8702666048038373,
+   "chord_after_15000_nm": 6.711769460721259,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 2,
+   "max_bank_deg": 60.18014575766036,
+   "duration_s": 453.0
+  },
+  "Case 05": {
+   "high_rate": true,
+   "max_descent_fpm": 24180.000000000015,
+   "max_down_accel_g": 0.9013475549754625,
+   "chord_after_15000_nm": 5.105701730782424,
+   "phugoid_period_s": 87.0,
+   "n_vs_extrema": 22,
+   "max_bank_deg": 12.849183147583444,
+   "duration_s": 1891.0
+  },
+  "Case 06": {
+   "high_rate": true,
+   "max_descent_fpm": 43379.999999999956,
+   "max_down_accel_g": 1.2121570566911353,
+   "chord_after_15000_nm": 7.9234454758708655,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 2,
+   "max_bank_deg": 57.36814465568182,
+   "duration_s": 384.0
+  },
+  "Case 07": {
+   "high_rate": false,
+   "max_descent_fpm": 4920.000000000047,
+   "max_down_accel_g": 0.3108095017157423,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 85.0,
+   "n_vs_extrema": 33,
+   "max_bank_deg": 11.436756475118562,
+   "duration_s": 2434.0
+  },
+  "Case 08": {
+   "high_rate": false,
+   "max_descent_fpm": 7140.000000000026,
+   "max_down_accel_g": 0.3418904518871125,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 82.0,
+   "n_vs_extrema": 35,
+   "max_bank_deg": 13.765386328739465,
+   "duration_s": 2234.0
+  },
+  "Case 09": {
+   "high_rate": false,
+   "max_descent_fpm": 6900.000000000116,
+   "max_down_accel_g": 0.3108095017157423,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 83.0,
+   "n_vs_extrema": 37,
+   "max_bank_deg": 13.776745537178845,
+   "duration_s": 2249.0
+  },
+  "Case 10": {
+   "high_rate": true,
+   "max_descent_fpm": 58019.99999999996,
+   "max_down_accel_g": 1.3053999072057096,
+   "chord_after_15000_nm": 7.321955587977671,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 2,
+   "max_bank_deg": 53.18800245474057,
+   "duration_s": 473.0
+  }
+ },
+ "module": {
+  "free-alt35000-bank0-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 14841.667805314759,
+   "max_down_accel_g": 0.5273048787075525,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 66.0,
+   "n_vs_extrema": 19,
+   "max_bank_deg": 1.4666631530149635e-16,
+   "duration_s": 1588.0
+  },
+  "free-alt35000-bank0-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 16946.873851263914,
+   "max_down_accel_g": 0.6167616413887492,
+   "chord_after_15000_nm": 107.80303521550636,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 1,
+   "max_bank_deg": 1.4512616043489917e-16,
+   "duration_s": 1664.0
+  },
+  "free-alt35000-bank0-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12353.278280753995,
+   "max_down_accel_g": 0.42358402671661355,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.5,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 1.4823145574995961e-16,
+   "duration_s": 1483.0
+  },
+  "free-alt35000-bank12-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 14394.120053127446,
+   "max_down_accel_g": 0.5083854038221549,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 67.0,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 17.647785726769094,
+   "duration_s": 1537.0
+  },
+  "free-alt35000-bank12-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 16510.689222020555,
+   "max_down_accel_g": 0.5980591334793744,
+   "chord_after_15000_nm": 8.136621732417051,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 1,
+   "max_bank_deg": 18.998025043361267,
+   "duration_s": 1611.0
+  },
+  "free-alt35000-bank12-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 11910.137858172302,
+   "max_down_accel_g": 0.4046557876645829,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 70.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 16.241151908579567,
+   "duration_s": 1435.0
+  },
+  "free-alt35000-bank15-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 14139.394951967472,
+   "max_down_accel_g": 0.49761047162206795,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 67.0,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 21.659129492624547,
+   "duration_s": 1509.0
+  },
+  "free-alt35000-bank15-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 16260.735644948902,
+   "max_down_accel_g": 0.5873790378864073,
+   "chord_after_15000_nm": 6.263804662762205,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 1,
+   "max_bank_deg": 23.23775389175646,
+   "duration_s": 1581.0
+  },
+  "free-alt35000-bank15-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 11664.178920583561,
+   "max_down_accel_g": 0.39390958073559545,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 70.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 19.987954988514783,
+   "duration_s": 1409.0
+  },
+  "free-alt35000-bank2-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 14829.331330330871,
+   "max_down_accel_g": 0.5267833865043261,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 66.0,
+   "n_vs_extrema": 19,
+   "max_bank_deg": 3.0445280115644944,
+   "duration_s": 1586.0
+  },
+  "free-alt35000-bank2-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 16934.907154093773,
+   "max_down_accel_g": 0.6162471265617019,
+   "chord_after_15000_nm": 39.536077573908265,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 1,
+   "max_bank_deg": 3.2953008457647424,
+   "duration_s": 1662.0
+  },
+  "free-alt35000-bank2-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12340.906041183589,
+   "max_down_accel_g": 0.423061222142391,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.0,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 2.7847680978574827,
+   "duration_s": 1481.0
+  },
+  "free-alt35000-bank20-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 13583.010891062351,
+   "max_down_accel_g": 0.4742874200969176,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 68.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 27.819334661057315,
+   "duration_s": 1449.0
+  },
+  "free-alt35000-bank20-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 15710.350829409419,
+   "max_down_accel_g": 0.5641384665176109,
+   "chord_after_15000_nm": 4.65623773114023,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 1,
+   "max_bank_deg": 29.681002144256894,
+   "duration_s": 1519.0
+  },
+  "free-alt35000-bank20-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 11130.359563845186,
+   "max_down_accel_g": 0.37057002200713507,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.0,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 25.826437948918958,
+   "duration_s": 1353.0
+  },
+  "free-alt35000-bank25-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 12877.258374979416,
+   "max_down_accel_g": 0.4437034666735124,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.0,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 33.29068188143582,
+   "duration_s": 1374.0
+  },
+  "free-alt35000-bank25-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 14984.970587662374,
+   "max_down_accel_g": 0.5337415625374686,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 65.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 35.29406418613052,
+   "duration_s": 1441.0
+  },
+  "free-alt35000-bank25-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 10442.961045636344,
+   "max_down_accel_g": 0.34008903387242223,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 72.0,
+   "n_vs_extrema": 15,
+   "max_bank_deg": 31.11457934798468,
+   "duration_s": 1282.0
+  },
+  "free-alt35000-bank30-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 12001.448785878076,
+   "max_down_accel_g": 0.4053738449007226,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 70.0,
+   "n_vs_extrema": 15,
+   "max_bank_deg": 38.09409821175952,
+   "duration_s": 1285.0
+  },
+  "free-alt35000-bank30-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 14106.72286780729,
+   "max_down_accel_g": 0.49541663625285914,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 66.5,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 40.15356987660607,
+   "duration_s": 1348.0
+  },
+  "free-alt35000-bank30-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 9610.644455029242,
+   "max_down_accel_g": 0.3020886723198523,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 73.0,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 35.862496359738536,
+   "duration_s": 1199.0
+  },
+  "free-alt35000-bank35-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 10965.169257571944,
+   "max_down_accel_g": 0.3588542307628876,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.5,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 42.33882653966417,
+   "duration_s": 1184.0
+  },
+  "free-alt35000-bank35-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 13042.71704184,
+   "max_down_accel_g": 0.44859982449956626,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 68.0,
+   "n_vs_extrema": 15,
+   "max_bank_deg": 44.36019733585243,
+   "duration_s": 1242.0
+  },
+  "free-alt35000-bank35-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 8661.449531132526,
+   "max_down_accel_g": 0.256258245729688,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 75.5,
+   "n_vs_extrema": 12,
+   "max_bank_deg": 40.141613992976644,
+   "duration_s": 1104.0
+  },
+  "free-alt35000-bank5-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 14764.47251184827,
+   "max_down_accel_g": 0.5240417402145722,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 66.0,
+   "n_vs_extrema": 19,
+   "max_bank_deg": 7.570660911059028,
+   "duration_s": 1579.0
+  },
+  "free-alt35000-bank5-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 16871.937661755695,
+   "max_down_accel_g": 0.6135411950861345,
+   "chord_after_15000_nm": 15.328254894951002,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 1,
+   "max_bank_deg": 8.187303855731352,
+   "duration_s": 1654.0
+  },
+  "free-alt35000-bank5-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12275.910971337313,
+   "max_down_accel_g": 0.42031365568775647,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.5,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 6.931449473956085,
+   "duration_s": 1474.0
+  },
+  "free-alt35000-bank8-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 14643.617653671496,
+   "max_down_accel_g": 0.5189332209474341,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 67.0,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 11.995182216435124,
+   "duration_s": 1565.0
+  },
+  "free-alt35000-bank8-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 16754.360919288756,
+   "max_down_accel_g": 0.608494916802268,
+   "chord_after_15000_nm": 8.529092215728891,
+   "phugoid_period_s": null,
+   "n_vs_extrema": 1,
+   "max_bank_deg": 12.952356153777997,
+   "duration_s": 1640.0
+  },
+  "free-alt35000-bank8-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12155.031737259871,
+   "max_down_accel_g": 0.4151984785740278,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 11.001723644742317,
+   "duration_s": 1461.0
+  },
+  "free-alt40000-bank0-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 10183.147154428683,
+   "max_down_accel_g": 0.3337193030611015,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 70.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 1.4916893189842898e-16,
+   "duration_s": 1722.0
+  },
+  "free-alt40000-bank0-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12420.731594085637,
+   "max_down_accel_g": 0.4258420445485369,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 67.5,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 1.4779691642026428e-16,
+   "duration_s": 1805.0
+  },
+  "free-alt40000-bank0-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 7640.287022745832,
+   "max_down_accel_g": 0.22936035986717937,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 74.0,
+   "n_vs_extrema": 15,
+   "max_bank_deg": 1.505935450639856e-16,
+   "duration_s": 1607.0
+  },
+  "free-alt40000-bank12-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 9750.33401473554,
+   "max_down_accel_g": 0.31515604007625947,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.5,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 15.27493624298035,
+   "duration_s": 1667.0
+  },
+  "free-alt40000-bank12-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 11978.567063671988,
+   "max_down_accel_g": 0.4070837332433263,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 16.41197157803622,
+   "duration_s": 1748.0
+  },
+  "free-alt40000-bank12-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 7227.687058427657,
+   "max_down_accel_g": 0.21139610004717904,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 75.5,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 14.086839344358127,
+   "duration_s": 1555.0
+  },
+  "free-alt40000-bank15-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 9506.866806956297,
+   "max_down_accel_g": 0.30464598828974765,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.5,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 18.837107895005445,
+   "duration_s": 1636.0
+  },
+  "free-alt40000-bank15-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 11728.705348195945,
+   "max_down_accel_g": 0.39643850534298547,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 20.194261947402108,
+   "duration_s": 1716.0
+  },
+  "free-alt40000-bank15-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 7000.059380537661,
+   "max_down_accel_g": 0.20127396245355833,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 75.5,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 17.415997101023304,
+   "duration_s": 1527.0
+  },
+  "free-alt40000-bank2-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 10171.13087066174,
+   "max_down_accel_g": 0.33320586293253546,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 70.0,
+   "n_vs_extrema": 17,
+   "max_bank_deg": 2.609459491613199,
+   "duration_s": 1721.0
+  },
+  "free-alt40000-bank2-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12408.49089076583,
+   "max_down_accel_g": 0.4253239571909846,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 67.5,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 2.816053478354237,
+   "duration_s": 1804.0
+  },
+  "free-alt40000-bank2-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 7628.796306451433,
+   "max_down_accel_g": 0.22886202435458763,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 74.0,
+   "n_vs_extrema": 15,
+   "max_bank_deg": 2.3956029347329486,
+   "duration_s": 1606.0
+  },
+  "free-alt40000-bank20-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 8981.72301173378,
+   "max_down_accel_g": 0.281788428399817,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 73.0,
+   "n_vs_extrema": 15,
+   "max_bank_deg": 24.43433779311051,
+   "duration_s": 1571.0
+  },
+  "free-alt40000-bank20-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 11192.58987714029,
+   "max_down_accel_g": 0.37322454269072375,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 69.5,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 26.08137201599322,
+   "duration_s": 1648.0
+  },
+  "free-alt40000-bank20-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 6514.45631189537,
+   "max_down_accel_g": 0.1796107946360333,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 77.0,
+   "n_vs_extrema": 12,
+   "max_bank_deg": 22.709253700973154,
+   "duration_s": 1466.0
+  },
+  "free-alt40000-bank25-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 8310.514319833872,
+   "max_down_accel_g": 0.2521431501530217,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 73.5,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 29.570112501750874,
+   "duration_s": 1490.0
+  },
+  "free-alt40000-bank25-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 10501.920083621859,
+   "max_down_accel_g": 0.34298714296877925,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.0,
+   "n_vs_extrema": 15,
+   "max_bank_deg": 31.39446632203143,
+   "duration_s": 1563.0
+  },
+  "free-alt40000-bank25-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 5909.974436128222,
+   "max_down_accel_g": 0.15226268937734364,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 77.5,
+   "n_vs_extrema": 12,
+   "max_bank_deg": 27.656410808082505,
+   "duration_s": 1389.0
+  },
+  "free-alt40000-bank30-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 7501.284432072228,
+   "max_down_accel_g": 0.21585131809630645,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 76.0,
+   "n_vs_extrema": 12,
+   "max_bank_deg": 34.23942601575356,
+   "duration_s": 1393.0
+  },
+  "free-alt40000-bank30-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 9654.697348651096,
+   "max_down_accel_g": 0.3055334651030865,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.5,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 36.14530086469176,
+   "duration_s": 1462.0
+  },
+  "free-alt40000-bank30-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 5238.3762553684455,
+   "max_down_accel_g": 0.12092139158326193,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 79.5,
+   "n_vs_extrema": 10,
+   "max_bank_deg": 32.29217023822101,
+   "duration_s": 1299.0
+  },
+  "free-alt40000-bank35-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 6580.631172155837,
+   "max_down_accel_g": 0.17351875699049296,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 76.0,
+   "n_vs_extrema": 12,
+   "max_bank_deg": 38.5095059244717,
+   "duration_s": 1283.0
+  },
+  "free-alt40000-bank35-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 8659.179745278938,
+   "max_down_accel_g": 0.26077149124465643,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 73.5,
+   "n_vs_extrema": 12,
+   "max_bank_deg": 40.40063610687433,
+   "duration_s": 1347.0
+  },
+  "free-alt40000-bank35-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 4666.941311429188,
+   "max_down_accel_g": 0.09172358027976109,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 82.0,
+   "n_vs_extrema": 7,
+   "max_bank_deg": 36.786366910069155,
+   "duration_s": 1196.0
+  },
+  "free-alt40000-bank5-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 10108.036475724037,
+   "max_down_accel_g": 0.33050818041017604,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.5,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 6.498786212149089,
+   "duration_s": 1712.0
+  },
+  "free-alt40000-bank5-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12344.18491025832,
+   "max_down_accel_g": 0.4226011597876204,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 68.5,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 7.00851701531209,
+   "duration_s": 1795.0
+  },
+  "free-alt40000-bank5-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 7568.495002238691,
+   "max_down_accel_g": 0.22624506359073374,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 75.0,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 5.970330328865666,
+   "duration_s": 1598.0
+  },
+  "free-alt40000-bank8-dcl+0.00": {
+   "high_rate": false,
+   "max_descent_fpm": 9990.828628532632,
+   "max_down_accel_g": 0.3254888680908681,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 71.5,
+   "n_vs_extrema": 16,
+   "max_bank_deg": 10.325736107472617,
+   "duration_s": 1697.0
+  },
+  "free-alt40000-bank8-dcl+0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 12224.578788387287,
+   "max_down_accel_g": 0.4175319966447921,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 68.0,
+   "n_vs_extrema": 18,
+   "max_bank_deg": 11.121777940976257,
+   "duration_s": 1780.0
+  },
+  "free-alt40000-bank8-dcl-0.08": {
+   "high_rate": false,
+   "max_descent_fpm": 7456.624773537377,
+   "max_down_accel_g": 0.22138204152495067,
+   "chord_after_15000_nm": null,
+   "phugoid_period_s": 75.0,
+   "n_vs_extrema": 14,
+   "max_bank_deg": 9.498201275698452,
+   "duration_s": 1584.0
+  }
+ }
+}
