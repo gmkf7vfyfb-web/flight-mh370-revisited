@@ -206,6 +206,84 @@ struct Params {
     aero: AeroParams,
     onset: OnsetConfig,
     envelope: EnvelopeConfig,
+    logon: LogonParams,
+}
+
+/// Brief section 6: the 00:19:29 log-on as ONE observation, `m0019a.logon`, used once, through a
+/// flame-out -> APU start -> SDU log-on lag likelihood.
+///
+/// Whether the log-on was caused by fuel exhaustion at all is the declared alternative
+/// `logon-cause` = {fuel-exhaustion, other}, each with an explicit prior here, reported per
+/// option. Under `fuel-exhaustion` the log-likelihood is ln f(t_logon - t_flameout), f a gamma
+/// density on the lag; a flame-out after the log-on, or none before the impact, makes the datum
+/// impossible under that option (negative infinity, which is a statement about the data, never a
+/// floor). Under `other` there is no modelled mechanism - "some other outage" is a residual, not a
+/// mechanism, as the brief says - so the module returns 0 and the option is reported as a labelled
+/// conditional result: `absolute_scale` is false for exactly this reason, so the composer never
+/// mixes the two on an invented scale.
+#[derive(Deserialize, Debug, Clone, PartialEq)]
+#[serde(deny_unknown_fields)]
+struct LogonParams {
+    /// Logged time of the R600 log-on request, unix s: 2014-03-08T00:19:29.416Z
+    /// (data/satcom-observations.csv, m0019a). The .416 matters in a rapid descent.
+    logon_unix_s: f64,
+    /// Gamma lag shape and scale. Reference: the archive's Erlang(8, 14.875 s), mean 119 s, sd
+    /// 42 s - analyst-declared, a parameter to question, not a constant. ATSB gives roughly 60 s
+    /// for the APU and 60 s for the SDU.
+    lag_shape: f64,
+    lag_scale_s: f64,
+    /// Prior of `fuel-exhaustion` in the `logon-cause` alternative; `other` takes the rest.
+    prior_fuel_exhaustion: f64,
+}
+
+impl LogonParams {
+    fn check(&self) -> Result<(), String> {
+        if !(self.logon_unix_s.is_finite() && self.lag_shape > 0.0 && self.lag_scale_s > 0.0) {
+            return Err("end-of-flight: logon needs a finite logon_unix_s and positive lag_shape and lag_scale_s".into());
+        }
+        if !(0.0..=1.0).contains(&self.prior_fuel_exhaustion) {
+            return Err("end-of-flight: logon.prior_fuel_exhaustion must lie in [0, 1]".into());
+        }
+        Ok(())
+    }
+
+    /// ln of the gamma lag density at `t_logon - flameout`, under the fuel-exhaustion cause.
+    fn log_likelihood(&self, flameout_unix_s: f64) -> f64 {
+        if !flameout_unix_s.is_finite() {
+            return f64::NEG_INFINITY; // no flame-out before impact: exhaustion cannot have caused it
+        }
+        let lag = self.logon_unix_s - flameout_unix_s;
+        if lag <= 0.0 {
+            return f64::NEG_INFINITY; // the effect precedes its cause
+        }
+        let (k, th) = (self.lag_shape, self.lag_scale_s);
+        (k - 1.0) * lag.ln() - lag / th - k * th.ln() - ln_gamma(k)
+    }
+}
+
+/// ln Gamma(x) for x > 0, Lanczos (g = 7, n = 9), relative error below 1e-13 on the shapes used.
+fn ln_gamma(x: f64) -> f64 {
+    const G: [f64; 9] = [
+        0.999_999_999_999_809_9,
+        676.520_368_121_885_1,
+        -1_259.139_216_722_402_8,
+        771.323_428_777_653_1,
+        -176.615_029_162_140_6,
+        12.507_343_278_686_905,
+        -0.138_571_095_265_720_12,
+        9.984_369_578_019_572e-6,
+        1.505_632_735_149_311_6e-7,
+    ];
+    if x < 0.5 {
+        return (std::f64::consts::PI / (std::f64::consts::PI * x).sin()).ln() - ln_gamma(1.0 - x);
+    }
+    let x = x - 1.0;
+    let mut a = G[0];
+    let t = x + 7.5;
+    for (i, g) in G.iter().enumerate().skip(1) {
+        a += g / (x + i as f64);
+    }
+    0.5 * (2.0 * std::f64::consts::PI).ln() + (x + 0.5) * t.ln() - t + a.ln()
 }
 
 struct EndOfFlight {
@@ -424,6 +502,7 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     params.aero.check()?;
     params.onset.check()?;
     params.envelope.check()?;
+    params.logon.check()?;
     Ok(Box::new(EndOfFlight { params, families: taxonomy::legal_families() }))
 }
 
@@ -432,11 +511,36 @@ impl Hypothesis for EndOfFlight {
         Some(self)
     }
 
-    /// No observation is consumed by this module. The runner scores the 00:19 bursts with the
-    /// core measurement model; the log-on lag likelihood (`m0019a.logon`) is a later increment
-    /// and will be declared here when it exists.
+    /// The 00:19:29 log-on, used once, through the lag likelihood of brief section 6. The 00:19
+    /// BTO and BFO are scored by the runner with the core measurement model, not here.
     fn observations(&self) -> Vec<String> {
-        Vec::new()
+        vec!["m0019a.logon".into()]
+    }
+
+    fn alternatives(&self) -> Vec<hypothesis::Alternatives> {
+        let p = self.params.logon.prior_fuel_exhaustion;
+        vec![hypothesis::Alternatives::new("logon-cause", &[("fuel-exhaustion", p), ("other", 1.0 - p)])]
+    }
+
+    /// False: under `other` there is no mechanism and no density, so the two options are not on
+    /// one scale and must be reported as labelled conditional results, never mixed.
+    fn absolute_scale(&self) -> bool {
+        false
+    }
+
+    /// ln p(log-on at 00:19:29.416 | impact, cause). Reads this module's own
+    /// `realised_flameout_unix_s` latent: the single flame-out event, at the integration
+    /// resolution, or the core's recorded exhaustion for an aircraft already dry at takeover.
+    /// NaN if the latents are not this module's (not computed, never zero likelihood).
+    fn impact_log_likelihood(&self, impact: &ImpactView, choice: &[usize]) -> f64 {
+        let k = LATENTS.iter().position(|n| *n == "realised_flameout_unix_s").expect("latent declared");
+        if impact.latents.len() != LATENTS.len() {
+            return f64::NAN;
+        }
+        match choice.first().copied().unwrap_or(0) {
+            0 => self.params.logon.log_likelihood(impact.latents[k]),
+            _ => 0.0,
+        }
     }
 
     /// The breakup family as a named prediction column, so it reaches the impacts file and the
@@ -806,7 +910,18 @@ impl EndOfFlight {
         // The realised flame-out emerges from the integration: it is the first time the module's
         // own fuel state reaches zero, which a descent moves away from the predicted exhaustion.
         // Single flame-out event in this increment, per the brief's §5.
-        let realised_flameout = std::cell::Cell::new(if propulsion == Propulsion::NeitherThrusting { onset.unix_s } else { f64::NAN });
+        // An aircraft already dry when the module takes over flamed out when the core says it did
+        // (the hand-off's or the core's own realised exhaustion), not at the takeover: the log-on
+        // lag is measured from that time. A deliberate no-thrust onset with fuel still aboard
+        // (engines shut down) is taken as the flame-out event at the onset.
+        let core_dry = takeover.realised_flameout_unix_s.is_finite() && !(parent.fuel_kg > 0.0);
+        let realised_flameout = std::cell::Cell::new(if core_dry {
+            takeover.realised_flameout_unix_s
+        } else if propulsion == Propulsion::NeitherThrusting {
+            onset.unix_s
+        } else {
+            f64::NAN
+        });
         let states = std::cell::RefCell::new(vec![None; epochs.len()]);
         let previous = std::cell::Cell::new(Option::<(Body, f64)>::None);
 
@@ -1298,6 +1413,50 @@ mod tests {
         assert!(n > 100);
     }
 
+    /// Brief section 6, hand-computed fixture. Erlang(8, 14.875 s) at a lag of 119 s:
+    ///   ln f = 7 ln 119 - 119/14.875 - 8 ln 14.875 - ln 7!
+    ///        = 33.4538645 - 8.0000000 - 21.5974556 - 8.5251614 = -4.6687525
+    /// and ln Gamma against exact factorials. A flame-out after the log-on, or none, is impossible
+    /// under the fuel-exhaustion cause; under `other` the datum carries no information.
+    #[test]
+    fn the_logon_lag_likelihood_matches_a_hand_computation() {
+        for (n, fact) in [(1.0, 1.0), (4.0, 6.0), (8.0, 5_040.0), (11.0, 3_628_800.0)] {
+            assert!((ln_gamma(n) - f64::ln(fact)).abs() < 1e-12, "ln Gamma({n})");
+        }
+        assert!((ln_gamma(0.5) - 0.5 * std::f64::consts::PI.ln()).abs() < 1e-12);
+        let p = LogonParams { logon_unix_s: 1_000.0, lag_shape: 8.0, lag_scale_s: 14.875, prior_fuel_exhaustion: 0.5 };
+        let want = 7.0 * 119f64.ln() - 119.0 / 14.875 - 8.0 * 14.875f64.ln() - 5_040f64.ln();
+        assert!((p.log_likelihood(1_000.0 - 119.0) - want).abs() < 1e-12);
+        assert!((want - (-4.6687525)).abs() < 1e-6, "fixture {want}");
+        assert_eq!(p.log_likelihood(1_000.0 + 5.0), f64::NEG_INFINITY, "flame-out after the log-on");
+        assert_eq!(p.log_likelihood(f64::NAN), f64::NEG_INFINITY, "no flame-out at all");
+        // The density integrates to one: trapezoid over 0..2000 s.
+        let total: f64 = (1..20_000).map(|i| (p.log_likelihood(1_000.0 - i as f64 * 0.1)).exp() * 0.1).sum();
+        assert!((total - 1.0).abs() < 1e-6, "lag density integrates to {total}");
+        // Through the hook, with this module's own latents.
+        let m = module();
+        let t = m.terminal().unwrap();
+        let h = handoff(ONSET_22_41);
+        let drawn = t.takeover(&h, &mut sweep(0.3));
+        let d = &t.descend_after(&FlightState { unix_s: drawn.unix_s, ..h }, &drawn, &atmos::Standard, &hypothesis::NoFuelModel,
+                                 &mut sweep(0.2), &epochs(), &|_| 0.0)[0];
+        let view = ImpactView {
+            parent: 0, unix_s: d.impact.unix_s, latitude_deg: d.impact.latitude_deg, longitude_deg: d.impact.longitude_deg,
+            velocity_east_mps: d.impact.velocity_east_mps, velocity_north_mps: d.impact.velocity_north_mps,
+            velocity_up_mps: d.impact.velocity_up_mps, flight_path_angle_deg: 0.0, mass_kg: d.impact.mass_kg,
+            kinetic_energy_j: 0.0, vertical_kinetic_energy_j: 0.0, family: d.family, takeover_unix_s: drawn.unix_s,
+            takeover_latitude_deg: h.latitude_deg, takeover_longitude_deg: h.longitude_deg, takeover_altitude_ft: h.altitude_ft,
+            mode: 2, alternative: 0, latents: &d.latents,
+        };
+        let names = t.latent_columns();
+        let fo = d.latents[names.iter().position(|n| n == "realised_flameout_unix_s").unwrap()];
+        let want = LogonParams { logon_unix_s: 1_394_237_969.416, lag_shape: 8.0, lag_scale_s: 14.875, prior_fuel_exhaustion: 0.5 }
+            .log_likelihood(fo);
+        let got = m.impact_log_likelihood(&view, &[0]);
+        assert!(got == want || (got.is_infinite() && want.is_infinite()), "{got} vs {want}");
+        assert_eq!(m.impact_log_likelihood(&view, &[1]), 0.0, "the residual cause carries no information");
+    }
+
     /// The realised flame-out must never be read as a prediction. Two hand-offs identical except
     /// that one has already run dry at a recorded time must predict the same exhaustion, because
     /// the prediction comes from `fuel_kg`.
@@ -1414,7 +1573,11 @@ mod tests {
         let m = module();
         assert!(m.terminal().is_some());
         // No observation is consumed in this increment: the runner scores the 00:19 bursts.
-        assert!(m.observations().is_empty());
+        assert_eq!(m.observations(), vec!["m0019a.logon".to_string()], "the log-on is this module's one observation");
+        let alt = m.alternatives();
+        assert_eq!(alt.len(), 1);
+        assert_eq!(alt[0].name, "logon-cause");
+        assert!(!m.absolute_scale(), "the two log-on causes are not on one scale");
         // The deferred hooks are present as named prediction columns and always NaN.
         assert_eq!(m.prediction_columns(), vec!["debris_class".to_string()]);
         assert!(!m.terminal().unwrap().latent_columns().iter().any(|n| n == "sinks_not_floats"), "sinks_not_floats is retired");
@@ -1450,8 +1613,8 @@ mod tests {
         let with = ImpactView { latents: &full, ..view };
         m.predict(&with, &mut out);
         assert_eq!(out[0], 2.0, "predict must return the drawn debris_class unchanged");
-        // The impact hook returns no likelihood in this increment.
-        assert_eq!(m.impact_log_likelihood(&view, &[]), 0.0);
+        // Without this module's latents the log-on likelihood is not computed: NaN, never zero.
+        assert!(m.impact_log_likelihood(&view, &[0]).is_nan());
 
         let t = m.terminal().unwrap();
         assert_eq!(t.families().len(), 24);
