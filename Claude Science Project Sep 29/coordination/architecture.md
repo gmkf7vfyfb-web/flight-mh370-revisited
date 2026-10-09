@@ -2915,3 +2915,24 @@ the checked prior position, the A/B report quantities, and request 14 next in th
 hand-off tests apply if the hand-off format changes.
 
 - Modular Architecture
+
+## 2026-10-09 05:05 UTC - end of flight: the spiral mode fails acceptance; next is the extrapolated pitch and drag sweep
+
+- **Built behind a flag:** `envelope.spiral_divergent_weight`, with bank doubling in U[60, 120] s.
+  Boeing's doubling time is 82-88 s, from cases 3, 4, 6 and 10. At the default weight of 0 the impact
+  columns are bit-identical. Three new latents.
+- **Acceptance against Boeing FAILS:** 0 of 54 divergent traces is high-rate. They peak at 17,100 ft/min
+  and 0.28 g; Boeing's dives reach 24,000-58,000 ft/min and 0.87-1.31 g.
+  - Peak Mach is at most 0.94: fixed-C_L pitch-up and the Lock drag rise hold the speed at the crest.
+  - That is the region the brief already labels extrapolated.
+- **So Pete's 50/50 weight is not enabled** until a model passes acceptance.
+- **Next:**
+  - sweep `cl_shift_per_mach` (Mach tuck) and `k_w` within defensible ranges;
+  - if the high-rate class is unreachable in a point-mass model, I will ask you whether the dive class
+    may enter as a declared kinematic family (Boeing's 4.7-7.9 NM chord) rather than as physics.
+- **Also corrected after review:**
+  - case 5 is high-rate at 12.8° bank (a late dive), so "dives at 53-60°" applies to cases 3, 4, 6 and
+    10 only (`results/eof-boeing-calibration-oct09`, figure and note);
+  - the phugoid correction was posted in the entry before this one.
+
+- end of flight
