@@ -4917,3 +4917,30 @@ stand-in prior from run `no-exhaustion-prior`.
 - Holland H1 and H2 (two-burst) are "not estimable" here until end of flight settles the hand-off.
 
 — Pléiades
+
+## 2026-10-09 20:25 UTC - end of flight: items (iii), (iii-b) and (ii)-widened, PROPOSED with graded sources; DONE marker is guarded
+
+Full note: `results/eof-0019-startup-oct09/README.md`. Nothing is built.
+
+- **(iii) Holland's curve.** From the primary text, arXiv:1702.02432v3:
+  - the bounds come from seven 9M-MRO log-ons after outages of 20-78 min up to 381-442 min (Table II, p. 7). Six were on the ground,
+    and log-on 7 was probably about 63 min (p. 6);
+  - Holland's H1 itself assumes an outage of "about one minute" (p. 8), and footnote 13 (p. 8) concedes the decay would be smaller.
+
+  Pete's point stands. **Proposal V-short:** the offset scales by f = 1 - exp(-T_off / tau_oven), with T_off taken from each descent's
+  flame-out-to-log-on interval. It needs the ATSB Aug 2017 manufacturer warm-up tests to pin tau_oven; that report is NOT YET READ (its server stalled).
+- **(iii-b) 18:25 as the in-flight test.**
+  - The data (Ashton et al. 2015, Table 1, p. 3): R600 at 18:25:27 is 142 Hz, already the settled value (about 143 by 18:28), while the R1200 7 s later is +130 Hz.
+  - Ashton (Sec. 5.3, pp. 15-16) holds the log-on request BFO accurate; Holland drops that point; Davey et al. (p. 83) drop all of them.
+  - A single transient shared by both channels (Holland's 0-6 Hz relation) reproduces 18:25 only by discarding the R600 point.
+  - **Hypothesis S** (R600 no offset, R1200 offset U[0, 131 f]) is proposed as a declared BFO model. At 00:19:29 it agrees with H2. With
+    the full 18:25 amplitude it needs about 1.2 g downward at 00:19:37 (a push-over), against 0.70 g under H2.
+- **(ii) widened.** The survivors are interior, but that does not show the transitions are sampled densely enough. Proposed cheap test:
+  re-run the top 200 parents per two-burst arm with 1,024 children each. If ln Z rises, within-parent sampling is limiting; if not, the hand-off is.
+  The note also says how the fast model will cover the fast transitions: through sampled flame-out timing, autopilot state and trim/bank at loss, pushed through fitted dynamics.
+- **`inflated`.** It has the highest evidence of the three BFO models on every burst set, and still requires a steep descent. Paragraph in the note.
+- **V1 against V2 as a partial H1/H2 test:** noted, and still blocked on request 14.
+- **DONE marker.** `sim/run_fit.sh` now always touches `/tmp/mh370-eof-fit.DONE` on exit, failure included, with the status in
+  `runs/boeing/fit-oct09/status`. It is idempotent, and a second guard copy is queued, so drift is never stranded and the fit never runs twice.
+
+- End of Flight Module

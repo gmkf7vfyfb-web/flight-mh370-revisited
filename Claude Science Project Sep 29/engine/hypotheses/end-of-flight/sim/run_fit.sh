@@ -5,6 +5,13 @@ set -e
 cd "$(dirname "$0")"
 export PYTHONPATH=. OMP_NUM_THREADS=1 NUMBA_NUM_THREADS=1
 OUT=../../../runs/boeing/fit-oct09; mkdir -p "$OUT"
+# Idempotent: a second queued copy (a guard against a lost first one) exits at once if a fit has started.
+# Pete's lock order (architecture ~19:50, 9 Oct): drift's production waits for /tmp/mh370-eof-fit.DONE, so it
+# is touched on ANY exit, failure included, with the exit status recorded in $OUT/status.
+if [ -e "$OUT/STARTED" ]; then echo "fit already started $(cat "$OUT/STARTED"); this copy exits"; exit 0; fi
+date -u +%FT%TZ > "$OUT/STARTED"
+exec >> "$OUT/run.log" 2>&1
+trap 'rc=$?; echo "exit $rc $(date -u +%FT%TZ)" > "$OUT/status"; touch /tmp/mh370-eof-fit.DONE' EXIT
 echo "full fit start $(date -u +%FT%TZ)"
 python fit_all.py "$OUT/full" --rounds 3 --workers 10 --case-iter 200 --shared-iter 300
 echo "full fit end $(date -u +%FT%TZ)"
