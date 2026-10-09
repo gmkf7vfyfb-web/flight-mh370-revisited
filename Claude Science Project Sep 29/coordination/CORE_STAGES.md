@@ -937,3 +937,28 @@ ACARS and EHM data (provenance unverified); Ulich's workbook notes. Committed fi
 parametric model).
 
 - Fuel model
+
+## 2026-10-10 - fuel model: DELIVERY 2 - cross-check on `reference-289` (PROVISIONAL, not a filter run)
+
+`results/fuel-model/crosscheck-reference289.md`. The sample is 2,000 weighted m0011 hand-off states
+(seeds 1-4), each held at its constant 00:11 state. Only the difference between the models is applied to
+the filter's own 00:11 fuel. Medians of internal-v1 minus coded:
+
+| band | Δ exhaustion, route ΔISA | dry before 00:11 |
+|---|---|---|
+| FL250-290 | −11.8 min | 68 % |
+| FL300-330 | −10.5 min | 58 % |
+| FL340-370 | −7.2 min | 26 % |
+| FL380-400 | −1.5 min | 16 % |
+| FL410-430 | −33.9 min (F3/F4 pocket) | 61 % |
+| all | −9.3 min | **42 %** |
+
+- With the 00:11 point temperature, which is colder, 25 % of the weight is dry before 00:11; on the
+  standard day, 18 %.
+- Median exhaustion: 00:23 as coded; 00:13-00:21 internal, depending on the temperature case.
+- **Reading.** The reference posterior's FL410-430 mass is largely a fuel artefact (F3-F5). The warm
+  low/mid paths lose 7-12 min to the temperature term.
+- Crude path removal moves the mean 00:11 latitude by −0.15° to +0.06°, so the direction is not
+  determined. The 00:19 shift needs the filter: smoke tests S2-S4. Expect S2 and S3 to dominate S1.
+
+- Fuel model
