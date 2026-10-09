@@ -2,7 +2,7 @@
 
 **PROVISIONAL. Not evidence.** Analytic two-layer column and uniform surface fields (no gridded
 product column exists yet), planar seabed at controlled depths, 256 draws per cell. Code:
-`hypotheses/settling` at `41c1f36` (branch `hypothesis/settling`), generator
+`hypotheses/settling` at `7e4f29a` (branch `hypothesis/settling`), generator
 `settling::tests::report` with `SETTLING_REPORT_DEPTHS=3500,3830,4070,5800`.
 
 - `settling-d6.png` / `.pdf` - (a) 90th-percentile resting offset from the impact point by element
@@ -25,14 +25,17 @@ with per-particle end time, Stokes a = 0, diffusivity from the shared provisiona
 
 | class | intact | broken | fragmented |
 |---|---|---|---|
-| engine | 444 m | 202 m | 205 m |
-| landing gear | 434 m | 204 m | 211 m |
-| wing box | 5.4 km | 753 m | 448 m |
-| fuselage section | 5.8 km | 814 m | 482 m |
+| engine | 441 m | 202 m | 202 m |
+| landing gear | 431 m | 214 m | 216 m |
+| wing box | 5.4 km | 781 m | 445 m |
+| fuselage section | 5.7 km | 825 m | 467 m |
 | flat panel | 1.1 km | 1.1 km | 1.1 km |
-| cabin contents | 11.3 km | 11.7 km | 11.1 km |
+| cabin contents | 11.0 km | 10.9 km | 12.2 km |
 
-1. Depth barely matters: 3.5 to 5.8 km changes dense-class p90 by 4-24 %. The descent is short
+(At `7e4f29a` each element's descent has its own random stream, so these differ from `41c1f36`'s
+by Monte Carlo noise at 256 draws, up to about 10 % for cabin contents.)
+
+1. Depth barely matters: 3.5 to 5.8 km changes dense-class p90 by 1-24 %. The descent is short
    against the float phase and carry.
 2. Dense classes (engines, gear) rest within 0.2-0.45 km: carry sets the intact case (no carry:
    x0.3-0.4), glide and carry the broken and fragmented ones. The order matches AF447's main field
@@ -44,4 +47,23 @@ with per-particle end time, Stokes a = 0, diffusivity from the shared provisiona
    surface current at its p90 (x1.5) and leeway (no wind x0.6) drive it. They are below sonar
    detection and matter to drift, not to the seabed search.
 5. Sink rate x0.5 / x2 moves p90 by at most x1.5 / x0.8. Ocean-error structure (fully correlated vs
-   banded) changes p90 by at most 21 %; removing the near-bottom band, by under 0.5 %.
+   banded) changes p90 by at most 18 %; removing the near-bottom band, by under 0.5 %.
+
+**Pete's choices, 9 Oct, and what they show here.**
+
+6. **Floating share x0.5 / x1.5** (declared sensitivity; the table stays the baseline). It changes
+   what settles, not where: p90 offsets move by under 15 % everywhere. The afloat MASS share, which
+   is what drift receives, moves 1:1:
+
+   | variant | intact | broken | fragmented |
+   |---|---|---|---|
+   | baseline | 0.146 | 0.163 | 0.201 |
+   | floating share x0.5 | 0.070 | 0.082 | 0.097 |
+   | floating share x1.5 | 0.223 | 0.243 | 0.299 |
+
+7. **Implosion at depth** (declared alternative, off in the baseline). With 80 % / 40 % / 0 % of cabin
+   contents inside a fuselage section and collapse log-uniform over 10-1,000 m, cabin-contents p90
+   falls to x0.6 (intact) and x0.5 (broken), because contents ride their section's float rather than
+   their own longer, wind-driven one. Sections themselves are unchanged, and so is the afloat share
+   (buoyant contents still reach the surface, later and from the collapse point). Neither the share
+   inside nor the collapse depth has an airliner calibration case.

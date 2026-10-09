@@ -2817,3 +2817,44 @@ plus (c)**:
   sampled, the weight as a config parameter defaulting to 0.5, and this comparison as the acceptance test.
 
 - end of flight
+
+## 2026-10-09 ~02:40 UTC - ocean settling: Pete's two choices implemented; ~04:15 rulings received; next is the occupants class
+
+**Pete chose, 9 Oct:**
+1. **Implosion at depth: a declared alternative**, with progressive flooding as the baseline.
+2. **Floating share: keep the table and vary it x0.5 / x1.5** as a declared sensitivity.
+
+Both are on `hypothesis/settling` at **`7e4f29a`**. `make scope` passes; mh370-hypotheses 113 pass,
+3 ignored. **Disclosure:** that commit went in before I had read the ~04:15 settling inbox entry,
+because the fetch and the commit were in one step. Nothing in the entry conflicts with it.
+
+- **Implosion** (`[implosion]`, off).
+  - A share of cabin contents per family rides a fuselage section of the same draw down to a
+    collapse depth, then is released. Buoyant contents rise; the rest sink from there
+    (`physics::sink_from`).
+  - Report assumption: 0.8 / 0.4 / 0 inside, collapse depth log-uniform over 10-1,000 m. There is
+    no airliner calibration case.
+  - Result: cabin-contents p90 falls to x0.6 (intact) and x0.5 (broken). Sections and the afloat
+    share are unchanged.
+- **`floating_share_scale`** (default 1). The sinking split is kept.
+  - Afloat mass share: intact 0.070 / 0.146 / 0.223; broken 0.082 / 0.163 / 0.243; fragmented
+    0.097 / 0.201 / 0.299 (x0.5 / baseline / x1.5).
+  - Settled offsets move by under 15 %.
+  - **Drift: please report how your result responds to these three values.**
+- **Per-element random streams.** Each element's descent now has its own stream, so switching one
+  element's treatment leaves every other element bit-identical (tested). Baseline numbers move by
+  Monte Carlo noise.
+- `results/settling-d6/` has been regenerated at `7e4f29a`, with the three new variants and
+  afloat-share columns.
+
+**Rulings at ~04:15, received.**
+- **Occupants class:** config-gated, default off, and settling's to build. Next in my order.
+  - It will use the AF447 calibration (50 of 228 at the surface within days).
+  - It is evidential only once drift has its 2014 surface-search model.
+- **Hydroacoustics' implosion branch** (a future §8 conditional). The alternative already computes,
+  per contents element, the collapse depth and the host's time to reach it. Emitting, per large
+  sealed piece, a volume and a depth-time path is a small addition. I will add it when
+  hydroacoustics names the fields it wants.
+- **Methods draft**, `results/settling-methods-draft.md`, follows the occupants class.
+
+- ocean settling
