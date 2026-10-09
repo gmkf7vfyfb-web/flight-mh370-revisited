@@ -25,7 +25,8 @@ COMMON_H = (
 )
 
 D4_MEASURED_NOTES = [
-    "Source posterior: core reference-snapshots (prior track 295.66 deg, 8 seeds x 7M particles; fails split-half), per-particle positions at "
+    "Source posterior: core run reference-snapshots (prior track 295.66 deg, sd 1.0, at 18:01:49 UTC; base config davey2016 + "
+    "no-exhaustion-prior + reference-snapshots; 7 Hz BFO sigma baseline; 8 seeds x 7M particles; fails split-half), per-particle positions at "
     "00:19:37 UTC, convolved with the PROVISIONAL eof-2f descent kernel (0.934 within 15 NM; 0.032 NW quadrant 30-50 NM; 0.034 NW quadrant "
     "50-103.4 NM). No 00:19 burst scoring of impacts and no seabed-search evidence. Label: 295.66 deg prior; superseded on re-run.",
     COMMON_H,
@@ -35,7 +36,8 @@ D4_MEASURED_NOTES = [
 ]
 
 D4_289_NOTES = [
-    "Panels a-b: core reference-289 (prior track 289.7 deg, 4 seeds x 7M particles), per-particle positions at 00:19:37 UTC, convolved with the "
+    "Panels a-b: core run reference-289 (prior track 289.7 deg, sd 1.0, at 18:01:49 UTC; base config davey2016 + no-exhaustion-prior + "
+    "reference-snapshots + early-families/overnight/reference-289; 7 Hz BFO sigma baseline; 4 seeds x 7M particles), per-particle positions at 00:19:37 UTC, convolved with the "
     "PROVISIONAL eof-2f descent kernel. No 00:19 burst scoring of impacts and no seabed-search evidence.",
     "Panel c: ln S (Handley & Lemos 2019), pooled (dot) and seed range (bar), per descent kernel: disks; eof-2f; end of flight's displacement "
     "histograms (Boeing glide, +/-160 NM, SMOKE scale, seed 1, N = 16, made on the 295.66 hand-off; 'none' = 00:19 messages held out, "
