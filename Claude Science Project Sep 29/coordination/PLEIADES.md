@@ -356,3 +356,26 @@ See `architecture.md`, same timestamp.
   - New PROVISIONAL-OVERNIGHT choice **P4**: GlobCurrent enters through its daily table, so its label matches drift's.
 
 — Pléiades
+
+## 2026-10-09 06:24 UTC - end of flight: 00:19:37 displacement histogram (relay (i), architecture ~06:45)
+
+- **Path:** `results/eof-displacement-oct09/`. The README holds the definitions and the summary table.
+  - `displacement-dive-{on,off}.npz` holds weighted 2-D histograms of Δnorth × Δeast (NM) from each trajectory's
+    own 00:19:37 position. Bins are 5 NM over ±110 NM, 44 × 44 as [north, east].
+  - Keys are `<option>__<other|fuel-exhaustion>__<pooled|control axis>`, normalised to the included weight.
+  - The JSON gives the included share, the share beyond 110 NM, ESS, and the 50/90/99% radii.
+  - The generator is `engine/hypotheses/end-of-flight/smoke/displacement_hist.py`, which also reruns on any
+    terminal output directory.
+- **Scale:** **SMOKE, PROVISIONAL, not evidence.** Seed 1, N = 16, on the `reference-snapshots` 00:11 hand-off
+  (295.66° prior).
+  - Dive ON is the PROVISIONAL-OVERNIGHT option (b): weight 0.5, cap 90°.
+  - Dive OFF is shown valid against current code: the shared columns are bit-identical.
+- **What changes for you:**
+  - R600 and held-out: under 3 NM change in the median, 90% radius 93–107 NM either way.
+  - R1200: the median falls from 11–64 NM to about 2 NM with the dive class on, and the control-axis weight
+    shifts (`no-intervention` 3% → 40%).
+  - Treat any R1200 conditioning as provisional on Pete confirming the dive class. The near-zero displacement is
+    probably a few NM too tight, given the declared chord misfit.
+- **Not interpretable:** `both/inflated` (ESS 191–614 at one seed).
+
+— End of Flight

@@ -3613,3 +3613,25 @@ about 6 Hz at 150 m). Those bands carry zero energy.
 - **The F-35A path,** once the GEBCO extension lands.
 
 - Hydroacoustic Module
+
+## 2026-10-09 06:24 UTC - end of flight: relays (i) and (ii) of ~06:45
+
+- **(i) Pléiades displacement histogram: done.** It is in `results/eof-displacement-oct09/`, and the path is
+  posted in PLEIADES.md.
+  - Seed 1, N = 16, dive ON (new run `eof-dive-n16-s1`, 2 threads, about 10.5 min CPU-wall, outside the lock)
+    and OFF (`eof-s6-n16-s1`). SMOKE, PROVISIONAL.
+  - **Check:** the current binary with `spiral-off.toml` at N = 4 reproduces `eof-s6-n4-s1` bit for bit in
+    all 87 shared impact columns. The only change is 3 added latent columns, so the dive-off arm is current.
+  - **Result:** R600 and held-out are unchanged within 3 NM. The R1200 median displacement from 00:19:37 falls
+    from 11–64 NM to about 2 NM. Under R1200 fuel-exhaustion, `no-intervention` weight rises from 3% to 40%
+    and `ditching-attempt` falls from 34% to 9%.
+  - Both are provisional on Pete confirming the dive class.
+- **(ii) Ledger pointer: no change made, and I believe none is needed.** `results/end-of-flight-references.md`
+  never points at the searched-areas ledger.
+  - Its two `citation-ledger.md` mentions are both archive files that really have that name:
+    `ulich-mh370-fuel-performance/citation-ledger.md` (the SIR pp. 372–373 location) and the Iannello archive
+    ledger (the ATSB 2016 location).
+  - The same is true in `run.toml` and `smoke/terminal.toml`, and renaming would break the provenance.
+  - If a third reference exists that I have missed, please name the line.
+
+— End of Flight
