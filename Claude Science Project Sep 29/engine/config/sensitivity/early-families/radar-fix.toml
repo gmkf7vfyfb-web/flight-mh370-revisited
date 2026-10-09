@@ -1,0 +1,20 @@
+# Primary-radar plots after the continuous track ends (18:01:49), scored as positions.
+# Gap plots 18:04-18:07 digitised from the Lido briefing slide (Beijing, 21 Mar 2014; Drive
+# "His Res of Lido Radar plot some times visible.jpg"), labels in local time (UTC+8), by a
+# 7-fix homography (VAMPI, MEKAR, TOSOK, BOSTI, TASEK, GIVAL, Pulau Perak; residuals <= 1 NM,
+# leave-one-out <= 3.8 NM). Distances from Pulau Perak vs a steady 505 kt from ~18:02:45:
+# 020442? 12.3 NM (16.4 expected; uncertain digit), 020515 25.2 (21.0), 020706 19.0 (36.6),
+# 020716 37.3 (38.0). 020706 lies 18 NM behind 020716 ten seconds later, which no aircraft can
+# do; it is EXCLUDED (label/plot association error or another target). With it included, the
+# outlier mixture still let the few particles near it take the weight (ESS 24 of 3,000).
+# 18:22:12: 10 NM past MEKAR on N571 (Malaysian SIR 2018; slide digitises to 6.7 NM past).
+# sd: 3 NM for 020716; 5 NM for 020442? and 020515 (about 4 NM scatter); 5 NM for 18:22:12.
+[hypotheses.radar-fix]
+outlier_fraction = 0.1
+outlier_sd_nm = 50.0
+fixes = [
+  { epoch = "r0442", unix_s = 1394215482.0, latitude_deg = 5.7847, longitude_deg = 98.7552, sd_nm = 5.0 },
+  { epoch = "r0515", unix_s = 1394215515.0, latitude_deg = 5.8538, longitude_deg = 98.5485, sd_nm = 5.0 },
+  { epoch = "r0716", unix_s = 1394215636.0, latitude_deg = 5.9331, longitude_deg = 98.3613, sd_nm = 3.0 },
+  { epoch = "r1822", unix_s = 1394216532.0, latitude_deg = 6.5779, longitude_deg = 96.3410, sd_nm = 5.0 },
+]

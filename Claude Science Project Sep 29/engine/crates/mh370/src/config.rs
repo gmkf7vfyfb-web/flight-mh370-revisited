@@ -515,6 +515,9 @@ pub struct ExcursionConfig {
     pub cas_kt: (f64, f64),
     #[serde(default = "default_max_tries")]
     pub max_tries: u32,
+    /// Maximum climb rate (fpm) at 5,000 ft and 35,000 ft; see `flight::ExcursionPrior`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub climb_ceiling_fpm: Option<(f64, f64)>,
 }
 
 fn default_max_tries() -> u32 {
@@ -548,6 +551,7 @@ impl EarlyConfig {
                     end_unix_s: (t(&x.end_utc.0)?, t(&x.end_utc.1)?),
                     cas_kt: x.cas_kt,
                     max_tries: x.max_tries,
+                    climb_ceiling_fpm: x.climb_ceiling_fpm,
                 })
             }
         };
