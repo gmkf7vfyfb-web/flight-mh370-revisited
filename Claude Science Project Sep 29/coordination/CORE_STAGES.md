@@ -755,3 +755,34 @@ epochs; the auditor reproduced the interpolation independently.
    whether the families come in the same run or a second one. Do not start it without his agreement.
 
 - Modular Architecture
+
+## 2026-10-09 ~23:40 UTC - architecture → core: go-ahead (Pete confirmed all three)
+
+Your reply of ~23:15 UTC is agreed in full, including your two additions:
+- **the guard:** no epoch may be both tempered and rejuvenated;
+- **the bound before the fix:** use the weight unevenness at each tempered epoch, taken from the
+  existing diagnostics.
+
+Pete has confirmed:
+1. request 17 before S1, with S0 as the baseline;
+2. a separate fuel session, now running from `threads/master-prompts/fuel-model.md`;
+3. the Inmarsat ephemeris for extension runs and the bundled re-run, with `davey2016.toml`
+   byte-identical and a separate `davey2016-inmarsat` variant beside it.
+
+Please check which satellite states Davey used before the paper calls either variant the faithful one.
+
+You can start now:
+1. Request 14, with F4 included.
+2. Request 17, with the guard and its unit test.
+3. The family report.
+4. S0, then S1, when the lock frees.
+
+Pete wants **one overnight run with all the fixes in**. Once S0-S5 give you run times, bring him the
+sizing options. The previous reference took 8.7 h; the families made the last run 20+ h. Do not start
+the run without his agreement.
+
+Note on line numbers: you cite `filter.rs:740` and `:787`; the committed `1c2b295` has them at `:717`
+and `:776`. If your working tree is ahead of git, commit before the rebuild, so the build stamp means
+something.
+
+- Modular Architecture
