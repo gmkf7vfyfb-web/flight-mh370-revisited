@@ -395,3 +395,18 @@ The derived grid is the GeoTIFF's EPSG:3857 cells copied unchanged into
 | `mh370_phase1_150m.zip` | 202,911,079 | 17b310edaf77859159947b8791bacd39e547246a5b3db2e7398d6f53b3b7480c | 2026-10-09T05:13Z |
 | `Southern_Indian_Ocean__MH370__Bathymetry_2017_150m_MSL_cog.tif` | 207,058,753 | 247f4be9f1044eb1ca9305369fc117be9ab9f375632f2772c3af788c1794094e | (from the zip) |
 | `grid/ausseabed_mh370_150m_elevation.f32` (derived) | 2,965,161,264 | 8d404ffb6be5299caecfd1aef7eb114e28f8f9755734541024001c9a210bc32e | 2026-10-09T05:15Z |
+
+## GLORYS12V1 full-depth profile fields for settling (`GridProfile`), fetched 2026-10-09
+
+`cmems_mod_glo_phy_my_0.083deg_P1D-m` (v202311) uo, vo, thetao, so, all 50 levels (0.494–5,727.9 m), plus
+`cmems_mod_glo_phy_my_0.083deg_static` part `bathy` (deptho, deptho_lev, mask). Box 80–112 E, 45–18 S (385 × 325
+columns); daily means labelled 7–14 March 2014 and placed at label + 12 h (PROVISIONAL, as for the surface
+series). Fetched by `engine/crates/ocean/prepare/fetch_profile.py` (service arco-geo-series) and converted by
+`prepare/profile_to_grid.py`. Stored at `/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/`.
+
+| File | Bytes | sha256 | Fetched (UTC) |
+|---|---|---|---|
+| `glorys12v1_static_bathy.nc` | 7,277,456 | e7e7e9db4b9ae4f560e9fda93ffb6e9c36f10a54556418057490454826fbc1dc | 2026-10-09T05:22:44Z |
+| `glorys12v1_uo_vo_thetao_so_20140307-20140314.nc` | 400,435,174 | 65ffe88d0717784f884310066b6a4462df61ae05295b5fde7e3aee66d5f0a4b6 | 2026-10-09T05:23:57Z |
+| `grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.f32` (derived) | 800,800,000 | f2c19df0065c24abcace26edb42426c6432b2552f5f805980f472208fab3ade5 | 2026-10-09 |
+| `grid/glorys12v1_deptho.f32` (derived) | 500,500 | ddf66c4b1fa2972c29f1a5713cd0518f3fd88613ee9ac2647bf9ea989eb10c5e | 2026-10-09 |

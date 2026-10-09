@@ -161,7 +161,7 @@ impl GridField {
 }
 
 /// Index of the lower bracket and the fractional weight of the upper, or None if outside.
-fn bracket(axis: &[f64], x: f64) -> Option<(usize, f64)> {
+pub(crate) fn bracket(axis: &[f64], x: f64) -> Option<(usize, f64)> {
     let n = axis.len();
     if !(x >= axis[0] && x <= axis[n - 1]) {
         return None;
