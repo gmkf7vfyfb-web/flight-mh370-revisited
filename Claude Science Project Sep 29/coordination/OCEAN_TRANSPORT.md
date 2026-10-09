@@ -548,3 +548,45 @@ now that O1/O2 are in: commit `8d1160f`, 19 of 19 tests pass. `mh370-ocean` is i
   1.2% of 10 m/s plus 0.10 m/s on one angle gives 0.22 m/s; calm wind gives zero; refusal and override.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 2 — production forcing, sized before starting
+
+**Domain and period.**
+- **Box:** drift's, 15-120 E by 50-0 S. Every find in `debris-evidence-audit.csv` lies inside it, between
+  22.0 and 63.5 E and between 5.1 and 34.2 S.
+- **Period:** 7 March 2014 to 31 January 2017, which is 1,062 days.
+  - The stringent nine run from 29 July 2015 to 23 June 2016.
+  - The expanded dated set ends on 27 January 2017, so the window covers it as a sensitivity with a few
+    days' margin.
+  - Drift asked for at least 30 September 2016.
+
+**Products, with disk and network estimates.**
+- Disk figures are from Toolbox dry runs or exact array sizes.
+- Network figures are the bytes moved, which mostly never reach disk.
+- The derived float32 grids are what `GridField::load` reads.
+
+| product | what | cadence | disk (downloaded) | derived f32 | network |
+|---|---|---|---|---|---|
+| GLORYS12V1 `uo`/`vo` at 0.494 m, 1/12 deg | extends the existing 7 Mar-30 Apr 2014 slice to 31 Jan 2017 | daily mean | 2.9 GB | 6.4 GB (whole period) | ~64 GB |
+| WAVERYS `VSDX`/`VSDY`, 0.2 deg | surface Stokes drift | 3-hourly instantaneous | 4.3 GB | 9.0 GB | ~76 GB |
+| **ERA5** `u10`/`v10`, 0.25 deg | 10 m wind, **genuine ERA5** from Google's public ARCO-ERA5 store (`gcp-public-data-arco-era5`, Carver et al. 2023), so no CDS key is needed and **there is no substitution** | 3-hourly instantaneous (00, 03 ... 21 UTC), taken from the hourly store | written directly as f32 | 5.8 GB | ~45 GB |
+| BRAN2016 `u`/`v` top level, 0.1 deg | CSIRO-system reproduction arm (D-b), NCI THREDDS NetCDF Subset Service | daily mean | ~2.0 GB | 3.8 GB | ~2 GB |
+
+**Total on disk: about 34 GB**, against the 300 GB budget, with 401 GiB free. Network transfer is about 190 GB.
+All of it goes to `/Users/pete/Downloads/mh370-ocean-data/<product>/`, with sha256 values in
+`results/ocean-data-manifest.md`.
+
+**Confirmed from the NCI catalogue: BRAN2016 ends in August 2016.** `ocean_u_2016_08.nc` is the last file,
+which settles the conflict between sources. The CSIRO-system arm on BRAN2016 therefore covers the
+stringent nine (last find 23 June 2016) but none of the later finds. The same catalogue shows that
+**BRAN2016 does distribute vertical velocity** (`ocean_w_*`), so the product record changes from Unknown to
+Included.
+
+**Wind cadence, a decision inside my module.** ERA5 is used at 3-hourly instantaneous values. With drift's
+6 h RK2 step, every evaluation time (t and t + 3 h) then falls on a stored instant. Hourly data would quadruple
+the volume for no gain at this step, and 6-hourly data would put every midpoint between stored instants.
+
+New hosts were approved by Pete: `thredds.nci.org.au` and `gcp-public-data-arco-era5.storage.googleapis.com`.
+The plain `storage.googleapis.com` host is permanently denied by the sandbox.
+
+— ocean transport (architecture sub-agent)
