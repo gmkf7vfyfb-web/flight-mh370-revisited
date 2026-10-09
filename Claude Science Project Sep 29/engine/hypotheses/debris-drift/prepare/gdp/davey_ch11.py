@@ -34,6 +34,9 @@ NOT printed, so chosen here (every one a provisional assumption, all config para
                uniformly among those qualifying (then that drifter's nearest qualifying fix). This
                preserves probability per start; Davey's literal branching multiplies paths through
                dense regions, which this choice deliberately does not reproduce.
+               N_MC = 10 per start (reduced from 20 when JOIN_KM/JOIN_DOY were calibrated to
+               150 km / +-30 d; disclosed 9 Oct). Seed-to-seed spread of the result is reported
+               in results/davey-ch11-reproduction.md, which is how this precision is judged.
   A-join-self  when a head is cut at SEG_MAX while its own record continues, continuing on its own
                drifter is one more option in that uniform pick, so a forced cut never kills a path.
   A-R          R = disc of radius R_KM = 200 km about Reunion (21.115 S, 55.536 E).
