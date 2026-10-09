@@ -726,3 +726,58 @@ fn web_mercator_layer_answers_first_inside_its_coverage() {
     assert_eq!(b.at([100.4, -29.6]).unwrap().source, BathySource::Gebco2026);
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+#[test]
+fn grid_profile_interpolates_with_per_level_land_renormalisation() {
+    use mh370_ocean::profile::{Salinity, Temperature};
+    // 2 x 2 columns at 92/93 E, 36/35 S; levels 1, 100, 1000 m; two daily means 1 day apart.
+    // Value of variable v at (t, j, i, z) = 10 v + t + 0.1 i + 0.01 j + z; the north-east column
+    // (j = 1, i = 1) has its floor at 500 m, so its 1000 m level is NaN.
+    let dir = std::env::temp_dir().join(format!("mh370-gridprofile-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let (nz, depth) = (3usize, [1.0, 100.0, 1000.0]);
+    let mut bytes = Vec::new();
+    for t in 0..2 {
+        for j in 0..2 {
+            for i in 0..2 {
+                for v in 0..4 {
+                    for z in 0..nz {
+                        let x = if j == 1 && i == 1 && z == 2 { f32::NAN } else { (10 * v + t) as f32 + 0.1 * i as f32 + 0.01 * j as f32 + z as f32 };
+                        bytes.extend_from_slice(&x.to_le_bytes());
+                    }
+                }
+            }
+        }
+    }
+    std::fs::write(dir.join("p.f32"), bytes).unwrap();
+    let deptho: Vec<u8> = [2000.0f32, 2000.0, 2000.0, 500.0].iter().flat_map(|x| x.to_le_bytes()).collect();
+    std::fs::write(dir.join("d.f32"), deptho).unwrap();
+    let m = format!(
+        r#"{{"product":"glorys12v1","description":"test","lon":[92.0,93.0],"lat":[-36.0,-35.0],"depth_m":{depth:?},"time_unix_s":[{T0},{}],"variables":["uo","vo","thetao","so"],"data_file":"p.f32","deptho_file":"d.f32"}}"#,
+        T0 + DAY
+    );
+    std::fs::write(dir.join("p.json"), m).unwrap();
+    let g = GridProfile::load(&dir.join("p.json")).unwrap();
+    // A quarter day in, at the centre of the four columns.
+    let pr = g.profile(T0 + 0.25 * DAY, [92.5, -35.5]).unwrap();
+    assert_eq!(pr.depth_m, depth.to_vec());
+    // Levels 0 and 1: all four corners; level 2: three corners (weights renormalised to 1/3 each).
+    let expect = |v: f64, z: usize| {
+        let corners: &[(f64, f64)] = if z < 2 { &[(0., 0.), (0., 1.), (1., 0.), (1., 1.)] } else { &[(0., 0.), (0., 1.), (1., 0.)] };
+        corners.iter().map(|(j, i)| 10.0 * v + 0.25 + 0.1 * i + 0.01 * j + z as f64).sum::<f64>() / corners.len() as f64
+    };
+    for z in 0..3 {
+        assert!((pr.u_east[z] - expect(0.0, z)).abs() < 1e-5, "u z{z}: {} vs {}", pr.u_east[z], expect(0.0, z));
+        assert!((pr.v_north[z] - expect(1.0, z)).abs() < 1e-5);
+    }
+    let (Temperature::Potential(th), Salinity::Practical(s)) = (&pr.temperature, &pr.salinity) else { panic!() };
+    assert!((th[1] - expect(2.0, 1)).abs() < 1e-5 && (s[2] - expect(3.0, 2)).abs() < 1e-5);
+    assert_eq!(pr.w_up, VerticalVelocity::Absent);
+    assert_eq!(pr.model_bottom_m, 2000.0);
+    // Right on the shallow column: only two levels, its own floor.
+    let ne = g.profile(T0, [93.0, -35.0]).unwrap();
+    assert_eq!((ne.depth_m.len(), ne.model_bottom_m), (2, 500.0));
+    assert!(matches!(g.profile(T0 + 2.0 * DAY, [92.5, -35.5]), Err(FieldGap::OutsideTime)));
+    assert!(matches!(g.profile(T0, [94.0, -35.5]), Err(FieldGap::OutsideDomain)));
+    std::fs::remove_dir_all(&dir).unwrap();
+}
