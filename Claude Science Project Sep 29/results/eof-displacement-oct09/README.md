@@ -78,3 +78,47 @@ entry of ~06:45 UTC, 9 Oct.
   - Before the dive class existed, an R1200-compatible descent was only reachable through the ditching
     and maintained-then-lost families. The control-axis shares are therefore provisional on the dive class, as is
     the displacement.
+
+
+## Superseding files: Boeing-calibrated glide, ±160 NM (added 9 Oct, later the same day)
+
+- **Why these supersede the files above.** The module's dual-flame-out glide is now calibrated to Boeing's
+  driftdown (SIR App. 1.6E, 0.0034 NM/ft). This is PROVISIONAL-OVERNIGHT and Pete is to confirm it; see
+  `results/eof-glide-calibration-oct09/`.
+  - The files above use the former ESDU-scale band. Under it, controlled glides fell about 20 NM short of Boeing.
+  - With the longer glides, ±110 NM would leave 11–23% of the mass outside the histogram, so these use ±160 NM
+    (64 × 64 bins). That leaves 0.4% or less outside.
+- **Runs.**
+  - Dive ON: `runs/eof-glideB-n16-s1`.
+  - Dive OFF: `runs/eof-glideB-off-n16-s1`, which is `smoke/spiral-off.toml`.
+  - Both are seed 1, N = 16, on the same hand-off.
+- **Files.** `displacement-boeing-glide-dive-{on,off}-160.{npz,json}` and the figure
+  `displacement-boeing-glide-on-off-160.png`.
+  - `displacement-esdu-glide-dive-on-160.*` is the former band at the same extent, for a like-for-like comparison.
+
+| option × log-on cause | ESS off / on | radius 50/90/99% (NM), dive OFF | radius 50/90/99% (NM), dive ON | share beyond 160 NM, off / on |
+|---|---|---|---|---|
+| `none__other` | 1,227,897 / 1,227,897 | 46/111/148 | 48/114/150 | 0.004 / 0.004 |
+| `none__fuel-exhaustion` | 137,316 / 133,698 | 49/122/142 | 46/123/142 | 0.000 / 0.000 |
+| `r600_inflated__other` | 363,091 / 355,627 | 66/118/149 | 64/117/149 | 0.004 / 0.004 |
+| `r600_inflated__fuel-exhaustion` | 58,766 / 58,452 | 59/124/142 | 55/124/141 | 0.000 / 0.000 |
+| `r600_no-offset__other` | 26,835 / 26,942 | 50/113/138 | 45/111/138 | 0.001 / 0.001 |
+| `r600_no-offset__fuel-exhaustion` | 7,911 / 8,266 | 48/121/142 | 43/120/141 | 0.000 / 0.000 |
+| `r600_startup-offset__other` | 20,817 / 23,959 | 50/117/137 | 38/115/136 | 0.000 / 0.000 |
+| `r600_startup-offset__fuel-exhaustion` | 7,361 / 8,969 | 68/124/139 | 48/122/139 | 0.000 / 0.000 |
+| `r1200_inflated__other` | 2,082 / 7,897 | 14/96/121 | 2/26/111 | 0.000 / 0.000 |
+| `r1200_inflated__fuel-exhaustion` | 538 / 2,195 | 43/104/123 | 2/48/114 | 0.000 / 0.000 |
+| `r1200_no-offset__other` | 329 / 1,536 | 14/99/118 | 2/16/106 | 0.000 / 0.000 |
+| `r1200_no-offset__fuel-exhaustion` | 82 / 413 | 33/103/116 | 2/11/106 | 0.000 / 0.000 |
+| `r1200_startup-offset__other` | 563 / 4,279 | 11/61/109 | 2/5/66 | 0.000 / 0.000 |
+| `r1200_startup-offset__fuel-exhaustion` | 102 / 1,238 | 13/97/107 | 2/3/72 | 0.000 / 0.000 |
+| `both_inflated__other` | 341 / 465 | 15/99/129 | 7/91/121 | 0.000 / 0.000 |
+| `both_inflated__fuel-exhaustion` | 98 / 168 | 77/102/121 | 9/98/121 | 0.000 / 0.000 |
+
+- **The R1200 collapse under the dive class survives the recalibration.** The median falls from 11–43 NM to
+  about 2 NM.
+- **The R600 startup-offset median is still 12–20 NM shorter with the dive class on.** Held-out, R600 inflated
+  and R600 no-offset change by 5 NM or less.
+- **Concentration-limited at this seed** (below about 125, the per-seed share of the pooled 1,000):
+  `r1200_no-offset__fuel-exhaustion` with the dive off (ESS 82), `r1200_startup-offset__fuel-exhaustion` with the
+  dive off (102), and `both_inflated__fuel-exhaustion` (98 / 168).

@@ -396,3 +396,14 @@ See `architecture.md`, same timestamp.
   - The dive-on file is posted now. The dive-off file follows when its run finishes, and I will add a line here.
 
 — End of Flight
+
+## 2026-10-09 07:20 UTC - end of flight: Boeing-glide dive-off histogram posted
+
+- `results/eof-displacement-oct09/displacement-boeing-glide-dive-off-160.{npz,json}` is posted, so the ±160 NM
+  dive-on/off pair is complete. The figure is `displacement-boeing-glide-on-off-160.png`, and the table is at
+  the end of the README.
+- SMOKE, PROVISIONAL: seed 1, N = 16, provisional on both overnight choices (dive class (b); Boeing-calibrated
+  glide).
+- Concentration-limited rows are listed in the README.
+
+— End of Flight

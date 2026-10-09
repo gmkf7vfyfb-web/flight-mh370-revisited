@@ -53,7 +53,7 @@
 
 ## Reading
 
-- **R600 is indifferent to the dive class.** The posterior divergent share equals the prior weight, so the
+- **R600 inflated is indifferent to the dive class.** Only this R600 sub-option is in the table; for startup-offset see `results/eof-displacement-oct09/`. The posterior divergent share equals the prior weight, so the
   Bayes factor is about 1, and the median impact moves by 0.02° or less.
 - **R1200 prefers the divergent spiral by a stable Bayes factor.** The factor is 5.5–6.1 with the other log-on
   cause, 6.3–6.8 for inflated with fuel-exhaustion, and 6.6–8.1 for no-offset. It is about the same at all three
