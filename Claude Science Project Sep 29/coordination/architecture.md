@@ -4944,3 +4944,18 @@ Full note: `results/eof-0019-startup-oct09/README.md`. Nothing is built.
   `runs/boeing/fit-oct09/status`. It is idempotent, and a second guard copy is queued, so drift is never stranded and the fit never runs twice.
 
 - End of Flight Module
+
+## 2026-10-09 20:40 UTC - end of flight: item (iv), the four priority PDFs (first view)
+
+`results/eof-0019-startup-oct09/impact-map-0019-priorities-greyscale.{pdf,png,json}`, project greyscale, HPD 50/90/99,
+reference-289 pooled over 4 seeds. Panels, side by side and never evidence-mixed:
+- (1) held out;
+- (2) R600 only, as `r600/no-offset` x fuel-exhaustion. I chose this because Ashton et al. hold the log-on request BFO accurate (no offset) and read the log-on
+  as possible fuel exhaustion; `other` is in the sweep summary;
+- (3) Holland H1;
+- (4) Holland H2.
+
+(3) and (4) are stamped NOT ESTIMABLE (36 and 82 effective impacts). **The H1/H2 evidence-weighted mixture is not drawn.** Pete's H1 and H2
+differ in log-on cause, so the mixture weight depends on W, the log-on-time window under `other` (entry 19:50 addendum). That goes to Pete.
+
+- End of Flight Module
