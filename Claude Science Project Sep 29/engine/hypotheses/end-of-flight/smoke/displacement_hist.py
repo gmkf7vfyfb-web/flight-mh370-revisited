@@ -4,7 +4,7 @@ each trajectory's OWN position at 00:19:37 (the last burst it flew through).
     python3 displacement_hist.py <terminal-out-dir> <out-dir> [--tag dive-on]
 
 Delta-east and delta-north in NM on the local tangent plane at the 00:19:37 position (equirectangular,
-1 NM = 1 arc-minute of latitude); 5 NM bins over [-110, 110] NM. Rows without a 00:19:37 position (the
+1 NM = 1 arc-minute of latitude); 5 NM bins over [-extent, extent] NM (default 110). Rows without a 00:19:37 position (the
 takeover came after the burst, or the aircraft was down before it) are excluded, and their weight share is
 reported. Per data option x log-on cause, pooled and by control axis. Each histogram is normalised to the
 included weight; `included_share` gives the part of the option's posterior it represents, and
@@ -15,7 +15,7 @@ import argparse, json, pathlib
 import numpy as np
 from scipy.special import gammaln
 
-EDGES = np.arange(-110.0, 110.0 + 1e-9, 5.0)
+EDGES = np.arange(-110.0, 110.0 + 1e-9, 5.0)  # default; --extent overrides
 OPTIONS = ["none", "r600/inflated", "r600/no-offset", "r600/startup-offset", "r1200/inflated", "r1200/no-offset",
            "r1200/startup-offset", "both/inflated"]
 
@@ -51,8 +51,10 @@ def option_posteriors(run, seed_dir):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("run"); ap.add_argument("out"); ap.add_argument("--tag", default="")
+    ap.add_argument("run"); ap.add_argument("out"); ap.add_argument("--tag", default=""); ap.add_argument("--extent", type=float, default=110.0)
     a = ap.parse_args()
+    global EDGES
+    EDGES = np.arange(-a.extent, a.extent + 1e-9, 5.0)
     run = pathlib.Path(a.run); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
     fams = meta["terminal"]["module_families"]; controls = sorted({f.split("/")[2] for f in fams})
@@ -64,7 +66,7 @@ def main():
     for key, p, c in option_posteriors(run, seeds[0]):  # one seed per relay request (seed 1)
         dn, de, ctrl, has = c["dn"], c["de"], c["ctrl"], c["has"]
         rec = {"included_share": float(p[has].sum()), "ess": float(1.0 / np.sum(p ** 2))}
-        inside = has & (np.abs(dn) <= 110) & (np.abs(de) <= 110)
+        inside = has & (np.abs(dn) <= a.extent) & (np.abs(de) <= a.extent)
         rec["outside_range_share"] = float(p[has & ~inside].sum() / max(p[has].sum(), 1e-300))
         for name, sel in [("pooled", has)] + [(cn, has & (ctrl == k)) for k, cn in enumerate(controls)]:
             H, _, _ = np.histogram2d(dn[sel], de[sel], bins=[EDGES, EDGES], weights=p[sel])

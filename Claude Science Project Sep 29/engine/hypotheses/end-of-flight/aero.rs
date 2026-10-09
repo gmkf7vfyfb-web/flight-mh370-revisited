@@ -32,7 +32,7 @@
 //! | Oswald efficiency | 0.80 | assumed, swept as a parameter |
 //! | drag rise above M_cc | `k_w (M - M_cc)^4` | Lock's fourth-power law, `k_w` default 20. **EXTRAPOLATED**: the brief calls for the rise to be shaped from NASA Common Research Model data, which is not in this tree. Every model including Boeing's extrapolates beyond M0.87–0.91 |
 //! | Mach tuck | `cl_shift_per_mach` | **EXTRAPOLATED**, same reason. Enters as a nose-down trim shift above M_cc, which is how a pitching-moment change appears in a point-mass model |
-//! | windmilling increment, per engine | 0.0020–0.0060 | **uncertain parameter, not a constant.** There are no public Trent 892 figures; the band is the scale ESDU 81009/84004/84005 methods give for a nacelle of this size. It is sampled and reported, never asserted |
+//! | windmilling increment, per engine | 0.0000–0.0015 | **uncertain parameter, not a constant.** There are no public Trent 892 figures. PROVISIONAL-OVERNIGHT (9 Oct 2026): calibrated so the dual-flame-out (L/D)max, 18.5–21.0 at the band ends, brackets Boeing's 0.0034 NM/ft wings-level driftdown (SIR App. 1.6E) read as energy height (18.9) or altitude only (20.66). The former ESDU 81009/84004/84005-scale band, 0.0020–0.0060, gives 15–18 and is kept as `smoke/glide-esdu.toml` |
 //! | RAT increment | 0.0001–0.0006 | **uncertain parameter**, same reasoning |
 //! | speedbrake increment | 0.020–0.045 | **modelling parameter with a declared sensitivity.** Chosen so that the model's idle descent rates sit near the operational figures the brief quotes for sanity-checking. Those figures circulate in mirrored copies of copyrighted manuals, so they are used as a calibration target and **are not cited** |
 //! | landing-configuration increment | 0.050–0.090 | **modelling parameter**, same provenance rule. Only reachable with power, see `Configuration` |
@@ -353,19 +353,29 @@ pub(super) mod tests {
         assert!((a.configuration_increment(&braked) - (2.0 * 0.0040 + 0.000_35 + 0.032)).abs() < 1e-12);
         let half = Configuration { speedbrake_eighths: 4, ..glide };
         assert!((a.configuration_increment(&half) - (2.0 * 0.0040 + 0.000_35 + 0.016)).abs() < 1e-12);
-        // Two windmilling engines plus the RAT take the re-optimised (L/D)max from 21.1 to
-        // 0.5/sqrt(k (c_d0 + 0.00835)) = 16.270, so a still-air glide from 35,000 ft (5.757 NM)
-        // runs 93.7 NM. That is the ~100 NM the brief records for best glide, which is why the
-        // sampled windmilling band is set where it is rather than to a single figure.
+        // Arithmetic check at the fixture's (former ESDU-scale) increments: two windmilling engines
+        // plus the RAT take the re-optimised (L/D)max from 21.1 to 0.5/sqrt(k (c_d0 + 0.00835)) =
+        // 16.270, so a still-air glide from 35,000 ft (5.757 NM) runs 93.7 NM. That band is
+        // inconsistent with Boeing's driftdown and is no longer the default (see below).
         assert!((a.ld_max_in(&glide) - 16.270).abs() < 1e-3, "glide (L/D)max {}", a.ld_max_in(&glide));
         let distance_nm = 35_000.0 * atmos::M_PER_FT / atmos::M_PER_NM * a.ld_max_in(&glide);
         assert!((distance_nm - 93.7).abs() < 0.5, "{distance_nm} NM");
-        // Across the sampled band of the two increments the glide runs 85-105 NM.
+        // The former ESDU-scale band (smoke/glide-esdu.toml) runs 85-105 NM.
         for (w, r, lo, hi) in [(0.0020, 0.0001, 104.0, 106.0), (0.0060, 0.0006, 84.0, 86.0)] {
             let b = Aero { windmilling_per_engine: w, rat_increment: r, ..reference() };
             let d = 35_000.0 * atmos::M_PER_FT / atmos::M_PER_NM * b.ld_max_in(&glide);
             assert!(d > lo && d < hi, "{w}/{r}: {d} NM");
         }
+        // The default band, calibrated to Boeing's 0.0034 NM/ft dual-flame-out driftdown (SIR App.
+        // 1.6E): the band ends give (L/D)max 21.01 and 18.55, bracketing Boeing read as altitude only
+        // (20.66) and as energy height (120 NM over 35,000 ft plus the 3,623 ft kinetic term: 18.88).
+        let ends: Vec<f64> = [(0.0, 0.0001), (0.0015, 0.0006)].iter()
+            .map(|&(w, r)| Aero { windmilling_per_engine: w, rat_increment: r, ..reference() }.ld_max_in(&glide))
+            .collect();
+        assert!((ends[0] - 21.014).abs() < 2e-3 && (ends[1] - 18.549).abs() < 2e-3, "{ends:?}");
+        assert!(ends[1] < 18.88 && 20.66 < ends[0]);
+        let d = |ld: f64| 35_000.0 * atmos::M_PER_FT / atmos::M_PER_NM * ld;
+        assert!((d(ends[1]) - 106.85).abs() < 0.1 && (d(ends[0]) - 121.05).abs() < 0.1);
         // A landing configuration is unreachable with no engine thrusting.
         assert!(!glide.can_reach_landing_configuration());
         assert!(Configuration::powered().can_reach_landing_configuration());
