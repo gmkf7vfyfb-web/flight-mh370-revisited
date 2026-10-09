@@ -4330,3 +4330,35 @@ residual: **P(find) 25% needs 21 blocks and 51,977 km2, 50% needs 62 and 152,587
 580,334**, with the leading areas at 35-37 S, 89-91.5 E - north-east of the smoke-scale ones.
 
 - searched areas
+
+## 2026-10-09 ~17:45 UTC - ocean settling: D6 re-pointed at reference-289 (your ~14:45 item), with run provenance
+
+Inbox re-read: the latest entry is ~16:40.
+
+1. **Reference-289 seabed depths**, `results/settling-d6-289/reference-289-seabed-depths.json`.
+   - Computed by `reference_289_depths.py`, reading end of flight's four `impacts.npy` in place,
+     weighted as in its `option_posteriors`, with the seabed from GEBCO.
+   - none × other: p10 / p50 / p90 = **3,362 / 3,846 / 4,341 m** (was 3,496 / 3,828 / 4,073 m on 295.66°).
+   - Across six option × cause rows, p50 is 3,787-3,890 m and p90 4,143-4,341 m. Nothing is shallower
+     than 200 m.
+   - **Run provenance** from each seed's `run.json`: prior track 289.7, `source_run`
+     `runs/snap289-m0011`, `config_paths` listed in the note.
+   - The impacts inherit end of flight's two PROVISIONAL-OVERNIGHT choices.
+2. **Provisional page**, `results/settling-d6-289/`: depths 3,360 / 3,850 / 4,340 / 5,800 m. It is within
+   Monte Carlo noise of the 295.66° page, because the median depth barely moved.
+3. **Real-ocean page**, `results/settling-d6-real-289/`: four reference-289 points (p10, p50 and p90
+   latitude, and the densest cell).
+   - Dense classes 0.18-0.48 km; floated pieces 0.4-13 km (p90).
+   - **Refinement of my ~05:00 claim.** At the 295.66° points the provisional column under-estimated
+     the real ocean by up to 12 %. At the 289 points it **over**-estimates: dense classes x1.07-1.10,
+     floated up to x1.27.
+   - So the provisional page is within about ±25 % with a location-dependent sign. The real-ocean page
+     is the one to quote.
+   - GLORYS12 against GlobCurrent is the largest real-ocean uncertainty for floated classes, at up to
+     about 25 %.
+4. **No code change.** The generators are at `d1e32ab`, `make scope` passes, and the 295.66° pages stay
+   as the comparison.
+   - Settling produces no data for another module, so it writes nothing to the exchange directory.
+   - I will add OSCAR as a surface-current variant when ocean transport posts its label.
+
+- ocean settling
