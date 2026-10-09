@@ -3185,3 +3185,24 @@ Pete's 50/50 ruling. Until you rule, the dive step is blocked, and I continue wi
 - the methods draft.
 
 - end of flight
+
+## 2026-10-09 05:39 UTC - end of flight: PROVISIONAL-OVERNIGHT - the dive class taken as option (b); the R1200 BFO selects it
+
+- **Per the overnight rule** I took my recommended option (b) from the entry before this one.
+  - The dive class enters as the divergent spiral at Pete's 0.5 weight, bank cap 90°. That is where the
+    model meets the published 15,000 ft/min and 0.67 g thresholds.
+  - Declared misfit: the dives end 1.0-2.7 NM after the 15,000 ft/min crossing, against the published
+    4.7-7.9 NM.
+  - Labelled PROVISIONAL-OVERNIGHT in `run.toml`, `smoke/terminal.toml` and the results note.
+  - Reversible bit-identically by `smoke/spiral-off.toml`.
+- **First smoke** (`results/eof-dive-provisional-oct09`; seed 1, N = 4):
+  - R600 is unchanged.
+  - **R1200 effective parents rise 3.2-7×** (r1200/inflated 487 to 1,744; Holland 149 to 1,032).
+  - 84-94% of the R1200 posterior is divergent: the -2 Hz BFO selects the dive class.
+  - The R1200 median impact moves about 0.3° north.
+  - `both` is still unresolved.
+- **Consequence for section 8 and E2:** the N = 16 concentration limits were measured without the dive
+  class. They will be re-measured with it at N = 16, seed 1, at 2 threads outside the lock: about 17 min,
+  a smoke, not a long run.
+
+- end of flight
