@@ -44,8 +44,32 @@ if not (EOF_SMOKE / "displacement_hist.py").is_file():
     raise SystemExit(f"{EOF_SMOKE}/displacement_hist.py is missing: the option weighting is end of "
                      "flight's and is imported, not copied. Fix the path rather than duplicating it.")
 sys.path.insert(0, str(EOF_SMOKE))
+import displacement_hist as dh  # noqa: E402
 from displacement_hist import option_posteriors  # noqa: E402
 from displacement_greyscale import hpd_levels, LEVELS, SHADES, EDGE, EDGE_W  # noqa: E402
+
+# End of flight's own OPTIONS list names eight of the ten `loglik:` columns the run actually carries
+# (both/no-offset and both/startup-offset are missing from it). Rather than edit their file - it is
+# theirs - this script sets the list from the run's own columns before calling their function, so the
+# weighting stays their single definition and only the column list widens. Their function already
+# skips any option without a column, so this is safe on older runs.
+def widen_options(meta):
+    dh.OPTIONS = [c[len("loglik:"):] for c in meta["impact_columns"] if c.startswith("loglik:")]
+    return dh.OPTIONS
+
+
+# The R600 log-on-request BTO on its own. config/integrated.toml declares this option ("r600-bto")
+# but the run did not produce a column for it, so it is derived here: the engine's r600/no-offset
+# log-likelihood is exactly -0.5 (bto_residual/63 us)^2 - 0.5 (bfo_innovation/7.3755 Hz)^2 + const
+# (least squares on 4 x 10^5 impacts of seed 1: residual < 3e-10, R^2 = 1), so the BTO term separates
+# cleanly and p(r600-bto) = p(none) x exp(-0.5 (bto_residual/63)^2), renormalised.
+BTO_COL = "bto_residual_us:m0019a"
+BTO_SD_US = 63.0
+
+# Kish effective sample size below which a 50/90/99 % area on a 0.02 deg grid is not estimable.
+# A panel under this floor is drawn, because the speckle is the diagnostic, but it is labelled
+# NOT ESTIMABLE and its numbers are reported as unconverged rather than as results.
+ESS_FLOOR = 1000.0
 
 BINARY = ROOT / "target" / "release" / "mh370"
 GRID = 0.02          # degrees, as the house impact map
@@ -55,20 +79,42 @@ LAT = (-44.0, -26.0)
 LON = (82.0, 100.0)
 ARCS = {"m0011": dict(lw=1.2, color="#b16286", label="6th arc, 00:11 UTC"),
         "m0019a": dict(lw=1.0, color="#4a6fa5", ls="--", label="7th arc, 00:19 UTC")}
-# End of flight's OPTIONS list carries eight of the ten loglik columns in impacts.npy: both/no-offset
-# and both/startup-offset are not among them, so "both" is shown with the inflated model.
-DEFAULT = ["none__other", "r600_no-offset__fuel-exhaustion", "r600_startup-offset__fuel-exhaustion",
-           "r1200_startup-offset__fuel-exhaustion", "both_inflated__fuel-exhaustion"]
-TITLES = {"none__other": "Held out\n(no 00:19 data)",
-          "r600_no-offset__fuel-exhaustion": "R600, raw",
-          "r1200_no-offset__fuel-exhaustion": "R1200, raw",
-          "both_no-offset__fuel-exhaustion": "Both, raw",
-          "r600_startup-offset__fuel-exhaustion": "R600, Holland\nstart-up offset",
-          "r1200_startup-offset__fuel-exhaustion": "R1200, Holland\nstart-up offset",
-          "both_startup-offset__fuel-exhaustion": "Both, Holland\nstart-up offset",
-          "r600_inflated__fuel-exhaustion": "R600, inflated",
-          "r1200_inflated__fuel-exhaustion": "R1200, inflated",
-          "both_inflated__fuel-exhaustion": "Both, inflated"}
+# The four arms of the comparison Pete asked for, in his order. The log-on cause is paired with the
+# BFO model as Holland pairs them: his Hypothesis 1 is the start-up transient after a fuel-exhaustion
+# power interruption, his Hypothesis 2 is some other log-on cause and no transient. Cross terms are
+# computed and reported in the JSON but are not combinations Holland puts forward.
+DEFAULT = ["none__other", "r600_no-offset__other",
+           "both_startup-offset__fuel-exhaustion", "both_no-offset__other"]
+TITLES = {
+    "none__other": "1. Held out\nno 00:19 observation at all",
+    "r600-bto__other": "R600 BTO arc only\n(derived)",
+    "r600_no-offset__other": "2. R600 as observed\nBTO 18,400 µs + BFO 182 Hz",
+    "both_startup-offset__fuel-exhaustion": "3. Holland H1\nstart-up transient, fuel exhaustion",
+    "both_no-offset__other": "4. Holland H2\nboth BFOs raw, other log-on cause",
+    "both_inflated__fuel-exhaustion": "5. Inflated sensitivity\nindependent 34 Hz",
+}
+
+
+FOOTNOTE = """\
+OBSERVATIONS  engine/data/satcom-observations.csv, from the released unredacted SITA/Inmarsat logs.  00:19:29.416 UTC, R600 log-on request: BTO 18,400 µs — the raw 23,000 µs less the standard −4,600 µs R600 log-on-channel
+correction — sd 63 µs; BFO 182 Hz, tabulated sd 7 Hz.  00:19:37.443 UTC, R1200 log-on acknowledge: BFO −2 Hz, tabulated sd 7 Hz.  Its BTO (raw 49,660 µs, corrected by 4 × 7,820 µs after Davey §5.2 to 18,380 µs) is the anomalous
+value and is EXCLUDED from every panel.  The constant BFO bias is Davey's 150 ± 25 Hz prior marginalised per particle, so the two 00:19 BFOs are scored JOINTLY and not as independent readings: ln L(both) − ln L(R600) − ln L(R1200)
+is not a constant, ranging over ≈1,560 nats across seed 1.  The filter's effective BFO sd is 7.38 Hz (the tabulated 7 Hz variance plus a fixed 5.4 Hz²), recovered by exact reconstruction of the engine's log-likelihood (R² = 1).
+
+PANELS, left to right.  (1) No 00:19 observation at all — neither BFO and not the BTO arc; everything up to and including the 00:11 arc, with the fuel, dynamics and control model.  (2) The 00:19:29 BTO and BFO at face value.
+(3) Holland's Hypothesis 1 (arXiv:1702.02432v3 §V, §VI): the SDU oscillator warming up after a power interruption, putting the acknowledge 17–130 Hz and the request a further 0–6 Hz above a steady oscillator — uniform, positive and
+shared between the bursts — paired with the fuel-exhaustion log-on cause, which also applies the §6 log-on lag density.  (4) Holland's Hypothesis 2: some other log-on cause (software failure, loss of a critical SDU input, or attitude
+blocking the line of sight), so both BFOs at face value with no transient, and no lag density.  Panel 2 → panel 4 is the increment from adding the 00:19:37 BFO under H2; panel 3 against panel 4 is Holland's two hypotheses.
+Holland himself used these bounds to bound the DESCENT RATE, not position; the ATSB took that result as the ±25 NM corridor width and a descent kernel, never as a likelihood along the arc, so no panel here reproduces the ATSB's use.
+
+LOWER ROW, the seabed-search evidence.  ATSB Phase 2 union 120,486.5 km² (deep-tow side-scan, GO Phoenix and Dong Hai Jiu SAS, AUV side-scan) plus Bluefin-21/Artemis 771.4 km²; coverage rasterised at 0.01°; detection probability
+q = 0.945 Phase 2 and 0.900 Bluefin-21, conditional on a detectable target; undetectable fraction ρ = 0.05; point target — the size response g(W) is not yet implemented; shared miss dependence where campaigns overlap.
+Ocean Infinity 2018 and 2025–26 are NOT included.  PRIOR  run eof-289-full: 289.7° initial track at 18:01:49 UTC (Davey Fig. 4.2), 4 seeds × 3.2 × 10⁶ impacts.  Bands are 50/90/99 % highest-posterior-density regions on a
+0.02° grid smoothed at 0.1° (6 NM); areas on the authalic sphere.
+
+CONVERGENCE  Each panel is an importance-weighted reading of the SAME 12.8 x 10^6 impacts, which were not drawn with the 00:19 bursts in hand, so a sharp 00:19 likelihood collapses the weights.  ESS is the Kish effective
+sample size of those weights.  A panel below 1,000 effective impacts is labelled NOT ESTIMABLE: its bands are the few surviving particles, not a posterior, and its area, median and evidence are reported as unconverged, not as
+results.  Fixing it needs a proposal that already carries the 00:19 data, which is end of flight's to build, not a longer run of this one."""
 
 
 def search_loglik(run, seed_dir, scratch):
@@ -82,6 +128,15 @@ def search_loglik(run, seed_dir, scratch):
     ll = np.asarray(v[:, idx["seabed-search:loglik"]], float)
     cov = np.asarray(v[:, idx["seabed-search:covered_fraction_phase2-2014-2017"]], float)
     return ll, cov
+
+
+def derived(stream, bto_ll):
+    """Pass end of flight's options through, adding the BTO-arc-only arm built off `none`."""
+    for key, p, c in stream:
+        yield key, p, c
+        if bto_ll is not None and key.startswith("none__"):
+            q = p * np.exp(bto_ll - bto_ll[np.isfinite(bto_ll)].max())
+            yield key.replace("none__", "r600-bto__"), q / q.sum(), c
 
 
 def density(lat, lon, w):
@@ -136,12 +191,18 @@ def main():
     # Every option end of flight's helper yields is accumulated, so the table covers the full range
     # Pete asked for; --columns chooses only which of them are drawn.
     blank = lambda: {"before": None, "after": None, "z": 0.0, "on_p2_before": 0.0, "on_p2_after": 0.0,
-                     "lat_b": [], "lat_a": [], "w_b": [], "w_a": []}
+                     "ess_b": 0.0, "ess_a": 0.0, "lat_b": [], "lat_a": [], "w_b": [], "w_a": []}
     acc = {}
+    widen_options(meta)
+    ci = {c: i for i, c in enumerate(meta["impact_columns"])}
     for seed in seeds:
         ll, cov = search_loglik(a.run, seed, scratch)
         like = np.exp(ll)
-        for key, p, c in option_posteriors(a.run, seed):
+        bto_ll = None
+        if BTO_COL in ci:
+            r = np.asarray(np.load(seed / "impacts.npy", mmap_mode="r")[:, ci[BTO_COL]], float)
+            bto_ll = np.where(np.isfinite(r), -0.5 * (r / BTO_SD_US) ** 2, -np.inf)
+        for key, p, c in derived(option_posteriors(a.run, seed), bto_ll):
             acc.setdefault(key, blank())
             after = p * like
             z = float(after.sum())
@@ -150,6 +211,10 @@ def main():
             s["z"] += z / len(seeds)
             s["on_p2_before"] += float((p * cov).sum()) / len(seeds)
             s["on_p2_after"] += float((after * cov).sum()) / len(seeds)
+            # Kish effective sample size of the importance weights, summed over seeds: the honest
+            # measure of how many of the 3.2e6 impacts per seed actually carry this option's posterior.
+            s["ess_b"] += float(1.0 / np.sum(p ** 2))
+            s["ess_a"] += float(1.0 / np.sum(after ** 2))
             for tag, w in (("before", p), ("after", after)):
                 d = density(c["lat"], c["lon"], w) / len(seeds)
                 s[tag] = d if s[tag] is None else s[tag] + d
@@ -175,12 +240,14 @@ def main():
             "median_lat_after": weighted_quantile(lat_a, w_a, 0.5),
             "hpd_km2_before": dict(zip(["99", "90", "50"], hpd_areas(s["before"], lv_b))),
             "hpd_km2_after": dict(zip(["99", "90", "50"], hpd_areas(s["after"], lv_a))),
+            "ess_before": s["ess_b"], "ess_after": s["ess_a"],
+            "converged": bool(s["ess_a"] >= ESS_FLOOR),
         }
 
     ny, nx = acc[keys[0]]["before"].shape
     lat_c = LAT[0] + (np.arange(ny) + 0.5) * GRID
     lon_c = LON[0] + (np.arange(nx) + 0.5) * GRID
-    fig, axs = plt.subplots(2, len(keys), figsize=(3.1 * len(keys), 7.4), sharex=True, sharey=True)
+    fig, axs = plt.subplots(2, len(keys), figsize=(3.55 * len(keys), 8.9), sharex=True, sharey=True)
     axs = np.atleast_2d(axs)
     for j, k in enumerate(keys):
         for i, tag in enumerate(["before", "after"]):
@@ -204,8 +271,17 @@ def main():
             r = report[k]
             area = r["hpd_km2_after" if tag == "after" else "hpd_km2_before"]["90"]
             med = r["median_lat_after" if tag == "after" else "median_lat_before"]
-            ax.text(0.97, 0.03, f"90 % area {area/1000:,.0f}k km²\nmedian {abs(med):.2f}°S",
-                    transform=ax.transAxes, fontsize=6, color="#444444", ha="right", va="bottom")
+            e = r["ess_after" if tag == "after" else "ess_before"]
+            bad = e < ESS_FLOOR
+            ax.text(0.97, 0.03, f"90 % area {area/1000:,.0f}k km²\nmedian {abs(med):.2f}°S\n"
+                                f"ESS {e:,.0f} of 12,800,000",
+                    transform=ax.transAxes, fontsize=6, color="#b02418" if bad else "#444444",
+                    ha="right", va="bottom")
+            if bad:
+                for sp in ax.spines.values():
+                    sp.set_color("#b02418"); sp.set_linewidth(1.4)
+                ax.text(0.5, 0.955, "NOT ESTIMABLE FROM THIS SAMPLE", transform=ax.transAxes,
+                        fontsize=6.5, color="#b02418", ha="center", va="top", weight="bold")
             if i == 0:
                 ax.set_title(TITLES.get(k, k), fontsize=7.5)
             if j == 0:
@@ -216,8 +292,10 @@ def main():
     for e, st in ARCS.items():
         if e in arcs:
             bands.append(plt.Line2D([], [], color=st["color"], lw=st["lw"], ls=st.get("ls", "-"), label=st["label"]))
-    fig.legend(handles=bands, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, -0.005))
-    fig.tight_layout(rect=(0, 0.03, 1, 1))
+    fig.legend(handles=bands, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, 0.182))
+    fig.text(0.008, 0.172, FOOTNOTE, fontsize=5.4, color="#333333", ha="left", va="top",
+             linespacing=1.45, family="DejaVu Sans")
+    fig.tight_layout(rect=(0, 0.20, 1, 1))
     fig.savefig(a.stem + ".pdf", bbox_inches="tight")
     fig.savefig(a.stem + ".png", dpi=200, bbox_inches="tight")
     pathlib.Path(a.stem + ".json").write_text(json.dumps(report, indent=1) + "\n")
@@ -225,7 +303,9 @@ def main():
         r = report[k]
         print(f"{k:44s} Z {r['evidence_z']:.4f}  median {r['median_lat_before']:7.2f} -> {r['median_lat_after']:7.2f}"
               f"  90% area {r['hpd_km2_before']['90']/1000:7.1f}k -> {r['hpd_km2_after']['90']/1000:7.1f}k km2"
-              f"  on P2 {r['on_phase2_before']:.3f} -> {r['on_phase2_after']:.3f}")
+              f"  on P2 {r['on_phase2_before']:.3f} -> {r['on_phase2_after']:.3f}"
+              f"  ESS {r['ess_before']:11,.0f} -> {r['ess_after']:11,.0f}"
+              f"{'' if r['converged'] else '   UNCONVERGED'}")
     print("wrote", a.stem)
 
 

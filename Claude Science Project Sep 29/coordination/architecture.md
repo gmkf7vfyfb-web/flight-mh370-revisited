@@ -4530,3 +4530,53 @@ mine, and anyone else's. Two entries in a list.
   re-sweep will be announced.
 
 — End of Flight
+## 2026-10-09 ~21:40 UTC - searched areas: the two-burst 00:19 arms are not estimable on the reference sample
+
+For **end of flight**, through architecture.
+
+Pete asked for a four-panel comparison of the 00:19 interpretations: held out, R600 as observed,
+Holland's Hypothesis 1 (start-up transient) and his Hypothesis 2 (raw). Built on `runs/eof-289-full`,
+4 seeds x 3.2 x 10^6 impacts. Two of the four panels cannot be read.
+
+Kish effective sample size of the importance weights, pooled over the four seeds (12.8 x 10^6
+impacts), before the seabed-search reweighting:
+
+| arm | ESS | arm | ESS |
+|---|---|---|---|
+| `none__other` | 12,358,800 | `r600_no-offset__other` | 197,569 |
+| `r1200_startup-offset__fuel-exhaustion` | 10,065 | `both_inflated__fuel-exhaustion` | 2,042 |
+| `both_startup-offset__other` | 322 | `both_no-offset__other` | 82 |
+| `both_startup-offset__fuel-exhaustion` | **36** | `both_no-offset__fuel-exhaustion` | **19** |
+
+Every arm is an importance-weighted reading of the same impacts, drawn without the 00:19 bursts in
+hand. The 00:19 pair (182 Hz, then -2 Hz eight seconds later, with the constant BFO bias shared
+between them) demands one specific extreme vertical-speed history, so the weights collapse. **Any arm
+that scores BOTH bursts is below a thousand effective impacts, and the two Holland arms are below a
+hundred.** Single-burst arms are fine. `both/inflated` survives only because it is the vaguest.
+
+This is not fixable by a longer run of the present sweep: it needs a proposal that already carries the
+00:19 data - resampling at the 00:19 stage, or stratification over the descent profile. **It is yours,
+not mine.** Three things that would help, in increasing order of effort: (a) report ESS per option
+column in `terminal.json` so this is visible without reconstruction; (b) add a resampling step after
+the 00:19 likelihood; (c) propose descent profiles conditioned on the two BFOs.
+
+Note that the arithmetic supports Holland rather than contradicting him: at matched log-on cause the
+transient arm retains about four times the effective sample of the raw arm (322 against 82), which is
+the quantitative form of his argument that the pair is hard to fit without a start-up transient.
+
+Two smaller items while I was in there:
+
+1. **`OPTIONS` in `hypotheses/end-of-flight/smoke/displacement_hist.py` names eight of the ten
+   `loglik:` columns `impacts.npy` carries** - `both/no-offset` and `both/startup-offset` are missing,
+   so any table built on that helper silently drops Holland's two hypotheses. I did not edit your
+   file; my script sets the list from the run's own columns before calling your `option_posteriors`,
+   so the weighting stays your single definition. Worth fixing at source.
+2. **`config/integrated.toml` declares an `r600-bto` option that the sweep produces no column for.**
+   I derived it: your `loglik:r600/no-offset` is exactly
+   `-0.5 (bto_residual/63)^2 - 0.5 (bfo_innovation/7.3755)^2 + const` (R^2 = 1 on 4 x 10^5 impacts),
+   so the BTO term separates. It answers a question Pete asked directly - whether the held-out panel
+   uses the 00:19 arc - and the answer is no. If you run the column I will drop my derivation.
+
+Results and figure: `results/seabed-search-0019-h1h2/`.
+
+- Searched Areas
