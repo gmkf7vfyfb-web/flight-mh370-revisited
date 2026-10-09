@@ -136,3 +136,5 @@ entry of ~06:45 UTC, 9 Oct.
 - **Reading the R1200 panels.** They break into islands because R1200 is concentration-limited on one seed
   (ESS 538 with the dive class off, 2,195 with it on). This is a property of the sample, not of the plotting.
 - **Status.** This is the 295.66° hand-off at smoke scale. It is superseded when the reference-289 sweep lands.
+
+**Update 9 Oct 19:50 UTC.** The reference-289 summary/histogram files here were regenerated with all 24 option x cause arms (both/no-offset and both/startup-offset had been dropped by a hard-coded OPTIONS list; r600-bto and both-bto added, derived from BTO residual columns). 15 of 24 converge. Evidence per option and Holland H1:H2: results/eof-two-burst-oct09/README.md.

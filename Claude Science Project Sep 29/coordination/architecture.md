@@ -4728,3 +4728,65 @@ drops his assumptions that the offset is positive and shared between the bursts.
 two bursts are informative if one only says they are noisy.
 
 - Modular Architecture
+
+## 2026-10-09 19:50 UTC - end of flight: three fixes done; two-burst evidence, survivors, and why the stopgap proposal stays off
+
+**For architecture, core and searched areas.** Full note: `results/eof-two-burst-oct09/README.md`.
+
+**Your ~19:30 fixes, all three done inside the module.**
+1. `OPTIONS` now comes from the run's own `loglik:` columns. The regenerated
+   `results/eof-289-sweep-oct09/sweep-summary-reference-289.json` and
+   `results/eof-displacement-oct09/displacement-reference-289-dive-on-160.{npz,json}` carry all 24
+   option x cause arms (previously 16). 15 of 24 are converged. The nine that are not: the six `both` arms, plus the
+   `startup-offset/fuel` arms for R600 and R1200 and `r1200/no-offset/fuel` (split-half 0.890-0.893).
+2. Effective parents, effective impacts, top-100 and top-10 parent shares, and the evidence ln Z with a
+   parent-bootstrap s.e., per option x cause and per seed: `results/eof-two-burst-oct09/option-evidence-reference-289.json`,
+   from `smoke/option_evidence.py`. Per-option ESS in `terminal.json` itself would still be core's to add; the
+   summary file serves meanwhile.
+3. `r600-bto` and `both-bto` are derived once, in `smoke/displacement_hist.py`, from the run's own
+   `bto_residual_us` columns and the data-file sd, using the core Gaussian. The decomposition of
+   `loglik:r600/no-offset` into that BTO term plus a BFO term is exact (max residual 7e-10). Both are converged: about 286k and
+   229k effective parents over four seeds.
+
+**Two-burst evidence (Searched Areas' item i): H1 against H2 is estimable even where the posteriors are not.**
+ln BF(H1:H2) is -0.34, sd 0.10 over four seeds, with both bursts and cause `other`; it is -0.52 on R1200 alone and -1.68 on R600 alone
+(all four seeds within 0.15). With both bursts and fuel-exhaustion the comparison is NOT converged (per seed -0.76 to +0.69). The H1
+evidence carries an Occam factor set by Holland's offset widths (an analyst choice), and the README says so.
+
+**Survivor diagnosis (item ii): interior, with two disclosed edges.** Loss of control 0-160 s before
+00:19:29.416, 19-57 kft/min, Mach 0.8-1.0, interior spiral doubling and L/D. Enriched edges: core's
+25,000 ft hand-off altitude floor (5-9% of posterior against 1.1% prior), and this module's 90 deg spiral bank cap
+(16-32%), which the 6-DOF removes.
+
+**Stopgap proposal (Pete: "Stopgap now, then redo"): built, exact, off by default, not run at scale.**
+Defaults are byte-identical to the reference-289 build. Core's `proposal_self_check` reads 1.0005 +- 0.0013. Two reasons it stays off:
+(a) Holland's arms are parent-limited, so it cannot lift them (agreeing with your ~22:35 entry);
+(b) the core's within-parent self-normalisation (terminal.rs ~244) is biased under a varying correction.
+On the N = 1 smoke it raised ln Z by 0.28 on R1200 (13 s.e.) and 0.56 on `both/inflated`; unnormalised
+weights recover the prior-sampled values to 0.01-0.03. **No published number moves.** On reference-289 the
+takeover correction is mild (sd 0.19) and the two forms agree to <= 0.01 in ln Z.
+
+**Core requests, proposed (numbers yours to assign; 15 is taken), in `hypothesis.toml` items 9 and 10:**
+- **(9) Unnormalised within-parent weights as an option**, row.weight x exp(q)/n. The default stays as it is; the acceptance tests are in the item.
+- **(10) Hand-off look-ahead resampling** (Searched Areas' iii). Core resamples the 00:11 parents in proportion to cruise
+  weight x g, with a ln(1/g) correction; this module supplies g, either a per-parent pilot or a closed-form m0019a ring reachability.
+  This is the only route I can see to estimable H1/H2 posteriors.
+
+**Addendum, after reading architecture ~19:50 (Pete's priorities).** Pete's H1 is `startup-offset` x
+**fuel-exhaustion** and H2 is `no-offset` x **other**. They differ in the log-on cause as well as the BFO model,
+and under `other` the module puts no likelihood on the 00:19:29.416 log-on time, so H1:H2 needs a declared
+log-on-time density under `other`. With a uniform density over W seconds, ln BF = ln Z(H1) - ln Z(H2) + ln W, where
+ln Z(H1) - ln Z(H2) is -7.48 for both bursts (sd 0.23 over seeds; per seed -7.19 to -7.72), -7.63 for R600 (sd 0.15) and -6.75 for R1200 (sd 0.03).
+**Break-even W: 1,775 s (both), 2,062 s (R600), 852 s (R1200).** For both bursts:
+
+| W | 120 s | 300 s | 600 s | 1,800 s | 3,600 s |
+|---|---|---|---|---|---|
+| ln BF H1:H2 | -2.69 | -1.78 | -1.08 | +0.01 | +0.71 |
+
+So whether H1 or H2 wins turns on how long an `other` outage could plausibly have lasted. That choice is Pete's, and I am asking him. The
+within-cause comparisons above stay as stated. File: `results/eof-two-burst-oct09/holland-h1-fuel-vs-h2-other.json`.
+Items (iii) (Holland's power-down durations, from the primary text) and (iv) (the greyscale PDF view) are next, in that order. The
+H1/H2 mixture in (iv) waits on W. DONE marker: I will touch `/tmp/mh370-eof-fit.DONE` when `run_fit.sh` finishes. As of 19:37 UTC
+it had not started: its log was empty, no output directory existed, and the lock was held.
+
+- End of Flight Module
