@@ -536,6 +536,7 @@ fn report() {
         ("floating share x0.5", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
         ("floating share x1.5", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
         ("implosion at depth (declared alternative)", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
+        ("occupants class on", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
         ("Stokes on (a = 1)", all.to_vec(), |_| {}, 1.0, 1.0, fp(1.0, None)),
         ("diffusivity 30 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(30.0))),
         ("diffusivity 1000 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(1000.0))),
@@ -553,6 +554,10 @@ fn report() {
             let mut b = Breakup::parse(include_str!("breakup.toml")).unwrap();
             scale(&mut b, *s_scale);
             float_scale(&mut b, *f_scale);
+            if *label == "occupants class on" {
+                let spec: OccupantSpec = run_toml_with("occupants")["hypotheses"]["settling"]["occupants"].clone().try_into().unwrap();
+                b.add_occupants(&spec).unwrap();
+            }
             if let Some(f) = label.strip_prefix("floating share x") {
                 b.scale_floating_share(f.parse().unwrap()).unwrap();
             }
@@ -900,4 +905,82 @@ fn floating_share_scale_keeps_the_sinking_split() {
         }
     }
     assert!(t.clone().scale_floating_share(-1.0).is_err());
+}
+
+// ---------------------------------------------------------------------------------------------
+// Occupants class (ruling 9 Oct ~04:15: config-gated, default off) and the commented run.toml
+// alternatives, which must parse when uncommented.
+// ---------------------------------------------------------------------------------------------
+
+/// run.toml with its commented `[hypotheses.settling.<section>]` block (and sub-tables) uncommented.
+fn run_toml_with(section: &str) -> toml::Table {
+    let text = include_str!("run.toml");
+    let mut out = String::new();
+    let mut on = false;
+    for line in text.lines() {
+        if let Some(rest) = line.strip_prefix("# [hypotheses.settling.") {
+            on = rest.starts_with(section);
+        } else if !line.starts_with("# ") || line.starts_with("# --") {
+            on = false;
+        }
+        if on {
+            out.push_str(&line[2..]);
+        } else {
+            out.push_str(line);
+        }
+        out.push('\n');
+    }
+    toml::from_str(&out).unwrap()
+}
+
+#[test]
+fn run_toml_alternatives_parse_and_default_off() {
+    let base: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
+    let p = &base["hypotheses"]["settling"];
+    assert!(p.get("implosion").is_none() && p.get("occupants").is_none());
+    let without_shared = |t: toml::Table| {
+        let mut v = t["hypotheses"]["settling"].clone();
+        v.as_table_mut().unwrap().remove("shared");
+        v
+    };
+    let s = Settling::from_params(&without_shared(run_toml_with("implosion"))).unwrap();
+    assert!(s.implosion.is_some() && !s.classes().contains(&"occupants".to_string()));
+    let s = Settling::from_params(&without_shared(run_toml_with("occupants"))).unwrap();
+    assert!(s.implosion.is_none() && s.classes().last().unwrap() == "occupants");
+}
+
+#[test]
+fn occupants_take_their_mass_from_cabin_contents_and_keep_the_fates_given() {
+    let p = without_shared_occupants();
+    let s = Settling::from_params(&p).unwrap();
+    let cabin = s.classes().iter().position(|c| c == "cabin-contents").unwrap();
+    let occ = s.classes().iter().position(|c| c == "occupants").unwrap();
+    let base = Breakup::parse(include_str!("breakup.toml")).unwrap();
+    for f in 0..3 {
+        let row = &s.breakup.elements[f];
+        assert!((row.iter().map(|e| e.mass_share).sum::<f64>() - 1.0).abs() < 1e-12);
+        assert!((row[cabin].mass_share - (base.elements[f][cabin].mass_share - 0.10)).abs() < 1e-12);
+        assert_eq!((row[occ].stays_afloat, row[occ].pieces.lo), ([0.05, 0.22, 0.35][f], 239.0));
+    }
+    // Emission: 239 people per draw, as representatives, in every family; mass conserved.
+    let imp = impact(61, 60.0, 120.0);
+    for f in 0..3 {
+        let rows = s.emit_with(&imp, 0..4, 0.25, Some(f)).unwrap();
+        for d in 0..4u32 {
+            let people: f64 = rows.iter().filter(|r| r.draw == d && r.class as usize == occ).map(|r| r.multiplicity).sum();
+            assert!((people - 239.0).abs() < 1e-9, "{people}");
+            let m: f64 = rows.iter().filter(|r| r.draw == d).map(|r| r.multiplicity * r.piece_mass_kg).sum();
+            assert!((m / imp.mass_kg - 1.0).abs() < 1e-9);
+        }
+    }
+    // Too large a share is refused, never silently clipped.
+    let mut bad = p.clone();
+    bad["occupants"]["mass_share"] = toml::Value::Float(0.9);
+    assert!(Settling::from_params(&bad).is_err());
+}
+
+fn without_shared_occupants() -> toml::Value {
+    let mut v = run_toml_with("occupants")["hypotheses"]["settling"].clone();
+    v.as_table_mut().unwrap().remove("shared");
+    v
 }

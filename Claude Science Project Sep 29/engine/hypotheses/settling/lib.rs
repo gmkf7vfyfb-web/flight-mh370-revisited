@@ -111,7 +111,7 @@ mod physics;
 mod provisional;
 pub mod stream;
 
-use breakup::{Breakup, FAMILIES};
+use breakup::{Breakup, OccupantSpec, FAMILIES};
 use hypothesis::{Hypothesis, ImpactView};
 use ocean::profile::{BelowModelBottom, ProfileSource};
 use ocean::stochastic::{Diffusion, DiffusivityPrior, ErrorKind, OceanErrorModel, VerticalStructure};
@@ -157,6 +157,9 @@ struct Params {
     /// the baseline.
     #[serde(default)]
     implosion: Option<Implosion>,
+    /// The occupants class (ruling 9 Oct ~04:15): config-gated, absent = off.
+    #[serde(default)]
+    occupants: Option<OccupantSpec>,
 }
 
 fn unit_scale() -> f64 {
@@ -534,6 +537,9 @@ impl Settling {
         let rule = parse_rule(&p.below_model_bottom)?;
         let float = FloatPhase { step_s: p.float_step_s, a_stokes: p.float_a_stokes, diffusivity_m2_s: p.float_diffusivity_m2_s };
         let mut breakup = Breakup::parse(include_str!("breakup.toml"))?;
+        if let Some(o) = &p.occupants {
+            breakup.add_occupants(o)?;
+        }
         breakup.scale_floating_share(p.floating_share_scale)?;
         Settling::with(breakup, ocean, &p.terms, rule, float, p.step_m, p.moment_draws)?.with_implosion(p.implosion)
     }

@@ -85,7 +85,53 @@ struct Table {
     family: toml::Table,
 }
 
+/// The occupants element class (architecture ruling 9 Oct ~04:15: settling's, config-gated,
+/// default off; evidential only once drift has a 2014 surface-search model). Appended as class
+/// `occupants`, its mass taken out of `cabin-contents`. Per-family fates are the declared
+/// assumptions; AF447 (broken family) is the one calibration point: 50 of 228 recovered at the
+/// surface within days, so stays_afloat >= 0.22 there (a lower bound: not every floating body was
+/// recovered). Bodies are not modelled as carried inside sections (see `Implosion`).
+#[derive(Debug, Clone, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct OccupantSpec {
+    /// Share of impact mass in occupants, removed from cabin contents.
+    pub mass_share: f64,
+    /// Per family [intact, broken, fragmented].
+    pub stays_afloat: [f64; 3],
+    pub sinks_at_once: [f64; 3],
+    /// Every other `Element` field (physics.rs), shared by the families; `pieces` = people aboard.
+    pub element: toml::Table,
+}
+
+pub const OCCUPANTS_CLASS: &str = "occupants";
+
 impl Breakup {
+    /// Append the occupants class (see `OccupantSpec`).
+    pub fn add_occupants(&mut self, spec: &OccupantSpec) -> Result<(), String> {
+        if self.classes.iter().any(|c| c == OCCUPANTS_CLASS) {
+            return Err("settling: occupants already present".into());
+        }
+        let cabin = self.classes.iter().position(|c| c == "cabin-contents").ok_or("settling: occupants need a cabin-contents class to take their mass from")?;
+        for (f, row) in self.elements.iter_mut().enumerate() {
+            let mut t = spec.element.clone();
+            t.insert("mass_share".into(), toml::Value::Float(spec.mass_share));
+            t.insert("stays_afloat".into(), toml::Value::Float(spec.stays_afloat[f]));
+            t.insert("sinks_at_once".into(), toml::Value::Float(spec.sinks_at_once[f]));
+            let e: Element = toml::Value::Table(t).try_into().map_err(|e| format!("settling: occupants: {e}"))?;
+            e.check().map_err(|e| format!("settling: occupants {}: {e}", FAMILIES[f]))?;
+            if e.float_s.hi > FLOAT_CUTOFF_S {
+                return Err("settling: occupants float_s beyond the float/sink cut-off".into());
+            }
+            if row[cabin].mass_share < spec.mass_share {
+                return Err(format!("settling: occupants mass share {} exceeds cabin contents' {} in {}", spec.mass_share, row[cabin].mass_share, FAMILIES[f]));
+            }
+            row[cabin].mass_share -= spec.mass_share;
+            row.push(e);
+        }
+        self.classes.push(OCCUPANTS_CLASS.into());
+        Ok(())
+    }
+
     /// Scale every element's `stays_afloat` share by `f` (Pete, 9 Oct: keep the table, vary the
     /// floating share x0.5 and x1.5 as a declared sensitivity). The sinking remainder keeps its
     /// split between sinking at once and floating first. Shares are capped at one.
