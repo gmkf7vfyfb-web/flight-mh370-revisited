@@ -4,3 +4,7 @@
 # when the new additions are switched off.
 name = "reference-289"
 seeds = [1, 2, 3, 4]
+
+# Architecture ruling E2 (9 Oct ~03:45Z): 100,000 hand-off rows per seed in the next reference run.
+[output]
+handoff_rows = 100000
