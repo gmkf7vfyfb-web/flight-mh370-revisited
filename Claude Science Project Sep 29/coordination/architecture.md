@@ -5016,3 +5016,76 @@ two footnoted figures). Option `none`, P+C4 + OI 2018 + 2025-26: 90 % HDR 59,316
 5.2 % in the NW band; 88.3 % outside past envelopes. No core files touched. No request.
 
 — Pléiades
+## 2026-10-09 ~21:00 UTC - architecture: CORE REQUEST 16 - fuel-model corrections from the independent audit (Pete approved sending it)
+
+Source: `results/fuel-model-audit-architecture.md` (commit `bffbe1a`), a read-only audit against SIR
+Appendix 1.6E and the reference runs. **Pete sets the timing, and this does not disturb the family runs
+now in progress.** Start once they finish, or earlier only if Pete says so. Your ladder found that the
+fuel model alone moves the 00:19 median about 2° north. The audit finds the direction is physics (Boeing
+Table 4 puts the fast pairs out of fuel before 00:11), but the size is not yet trustworthy.
+
+**A. Corrections, in this order:**
+1. **F1. The calibration factor is inverted.** `validate.py` defines it as model ÷ Boeing (1.0085), but
+   `lib.rs:799` multiplies flow by N(1.0085, 0.0178). Use N(1/1.0085, ·), that is mean 0.9916, or invert
+   it in the code. S1 needs only the config change.
+2. **F2. Fuel flow has no temperature correction.** Apply the FPPM +3% per +10 °C TAT to flow, with the
+   ERA5 temperature you already use for TAS. Then refit the factor, because Boeing's figures are on a
+   standard day.
+3. **F3 and F4.**
+   - Fix the bilinear lookup, which returns `None` when a corner has zero weight (`fuel.rs:93-114`).
+   - Clamp extrapolation below the lowest schedule at `min_flow_kg_h`.
+   - Add the precondition test: no state the filter can fly undercuts `min_flow_kg_h`.
+4. **F5. Above-ceiling states are excluded, or charged as a declared alternative.** Today 44-47% of the
+   posterior weight flies above the service ceiling.
+5. **F7. The 00:11 power requirement must be a true rejection (−∞),** not a −50 nat penalty. Isolate the
+   leak mechanism.
+6. **F9.** Fuel at 18:01:49 is 36,725 kg segment-wise from Boeing's Table 3, against the configured
+   36,609 kg. Fix the stale 43,800 kg docstring in `config.rs`.
+7. **F10. Climbs and descents are not charged at cruise flow.**
+   - A descent at reduced or idle thrust burns far less than cruise.
+   - A climb burns more.
+   - Use a thrust-scaled or energy-based burn, consistent with end of flight's `takeover_priced`.
+8. **F6.** Carry the extrapolated-Mach uncertainty (−11.5% to +3.7%) explicitly, or limit the time spent
+   there. Correct the 8% docstring.
+9. **F11. Single-engine phase.** The evidence concerns the left engine flaming out, up to 15 min after the
+   right (ATSB AE-2014-054 p. 9), but the model has a single fuel pool. **Write a design note first;
+   do not build yet.** It touches the 00:11 and 00:17:30 terms and end of flight's onset.
+10. **F12, F13 and F19.**
+    - F12: store the exhaustion time as float64.
+    - F13: fix the tests that skip extrapolated cells.
+    - F19: guard against `exhaustion_target_utc` and an end-of-flight stage that scores 00:19 both being
+      active.
+
+**B. Acceptance:** the audit's smoke tests S1-S5 at 1M particles × 2 seeds against `reference-289` at the
+same scale. Compare the mean 00:19 latitude, P(34.5-36.5°S) and the weight dry before 00:11, each step
+adding one fix as specified in section 7 of the report. Re-run the ladder's R3 rung, with fuel, after S5.
+The reproduction config `davey2016.toml` (no fuel) stays byte-identical.
+
+**C. Two fuel models (Pete's direction on provenance).**
+- **Internal model, using all data, for fidelity.**
+  - Every table class in Ulich's workbook, including the confidential cells, the INOP tables for the
+    single-engine phase, and the temperature correction;
+  - calibrated to all 27 Boeing numbers in SIR Appendix 1.6E Tables 3 and 4 and the ACARS state;
+  - weight-dependent if the residuals need it (F1b).
+  - It is used locally, and the tables are never redistributed.
+- **Public model, for publication.** A small parametric law FF(FL, W, M, ΔISA) fitted to the same
+  public Boeing numbers.
+- **Each is checked against the other.** Report their difference in exhaustion time and in the 00:19
+  latitude. The paper uses the public model, with the internal model as its validation.
+
+- Modular Architecture
+
+## 2026-10-09 ~21:00 UTC - architecture: fuel in descent (Pete); the audit's findings that reach end of flight
+
+- **Pete: the descent hypotheses must consume fuel correctly in the descent, not at the cruise rate.** He
+  expects that to push fuel-exhaustion times out.
+  - In V2 (planned descent from 22:41), compute the exhaustion time from the descent's own burn:
+    reduced or idle thrust, and the low-altitude flow. Do not use the core's cruise-based prediction at
+    takeover.
+  - State the idle flow you use and its source, and report how FE times move against cruise burn.
+  - Check that `takeover_priced` does not inherit a cruise-burn exhaustion time in V2.
+- **Audit findings F1-F4 propagate into your predicted exhaustion** through `FuelFlow` (F19 in
+  `results/fuel-model-audit-architecture.md`). Core request 16 corrects them. Until it lands, label FE-time
+  results as using the uncorrected core fuel model.
+
+- Modular Architecture

@@ -671,3 +671,18 @@ Keep all of this beneath the chart, never inside the axes, in line with Pete's f
 Apply it to new charts now, and to existing charts when they are next regenerated.
 
 - Modular Architecture
+
+## 2026-10-09 ~21:00 UTC - architecture: fuel in descent (Pete); the audit's findings that reach end of flight
+
+- **Pete: the descent hypotheses must consume fuel correctly in the descent, not at the cruise rate.** He
+  expects that to push fuel-exhaustion times out.
+  - In V2 (planned descent from 22:41), compute the exhaustion time from the descent's own burn:
+    reduced or idle thrust, and the low-altitude flow. Do not use the core's cruise-based prediction at
+    takeover.
+  - State the idle flow you use and its source, and report how FE times move against cruise burn.
+  - Check that `takeover_priced` does not inherit a cruise-burn exhaustion time in V2.
+- **Audit findings F1-F4 propagate into your predicted exhaustion** through `FuelFlow` (F19 in
+  `results/fuel-model-audit-architecture.md`). Core request 16 corrects them. Until it lands, label FE-time
+  results as using the uncorrected core fuel model.
+
+- Modular Architecture
