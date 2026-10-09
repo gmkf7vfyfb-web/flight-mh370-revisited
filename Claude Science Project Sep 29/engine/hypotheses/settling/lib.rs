@@ -201,6 +201,20 @@ struct SharedSpec {
     /// density by TEOS-10 at each level. Impacts outside its decade-month are refused.
     #[serde(default)]
     density_woa23_manifest: Option<String>,
+    /// GLORYS12V1 full-depth column (`GridProfile`, ocean transport's settling deliverable).
+    #[serde(default)]
+    column_manifest: Option<String>,
+    /// Gridded surface current and 10 m wind for the float phase: one `GridField` part each
+    /// (`GridField::load`, whole part in memory: 0.3 GB and 1.6 GB for the March 2014 parts). A
+    /// windowed load is requested from ocean transport (settling has no JSON reader of its own).
+    #[serde(default)]
+    surface_current_manifest: Option<String>,
+    #[serde(default)]
+    wind_manifest: Option<String>,
+    /// "column": TEOS-10 on the column's own T and S (consistent with its currents; the default
+    /// when the column is a product); "woa23": the climatology above; absent: whichever is given.
+    #[serde(default)]
+    density_source: Option<String>,
 }
 
 /// `OceanErrorModel` in run.toml form.
@@ -377,6 +391,9 @@ pub struct Ocean {
     pub density: Density,
     pub error: OceanErrorModel,
     pub label: String,
+    pub column_label: &'static str,
+    pub surface_label: &'static str,
+    pub wind_label: &'static str,
 }
 
 /// The seabed settling stops at: the provisional plane (tests, the report's controlled depths) or
@@ -406,6 +423,8 @@ impl Seabed {
 pub enum Density {
     Stub(DensityStub),
     Woa23(SoundSpeedClimatology),
+    /// TEOS-10 on the water column's own temperature and salinity at the impact.
+    Column,
 }
 
 /// Density with depth for one impact (the 1-degree climatology does not vary over a wreckage
@@ -436,9 +455,25 @@ impl RhoColumn {
 }
 
 impl Density {
-    pub fn column(&self, impact: &ImpactView) -> Result<RhoColumn, String> {
+    pub fn column(&self, impact: &ImpactView, water: &dyn ProfileSource) -> Result<RhoColumn, String> {
         match self {
             Density::Stub(d) => Ok(RhoColumn::Stub(*d)),
+            Density::Column => {
+                let p = [impact.longitude_deg, impact.latitude_deg];
+                let prof = water.profile(impact.unix_s, p).map_err(|e| format!("settling: no column for density at the impact: {e:?}"))?;
+                let t = prof.teos10().map_err(|e| format!("settling: TEOS-10 on the column: {e:?}"))?;
+                let (mut depth_m, mut rho_kg_m3) = (Vec::new(), Vec::new());
+                for (z, r) in t.depth_m.iter().zip(&t.in_situ_density_kg_m3) {
+                    if r.is_finite() {
+                        depth_m.push(*z);
+                        rho_kg_m3.push(*r);
+                    }
+                }
+                if depth_m.is_empty() {
+                    return Err("settling: no density levels in the column".into());
+                }
+                Ok(RhoColumn::Levels { depth_m, rho_kg_m3 })
+            }
             Density::Woa23(clim) => {
                 let (decade, month) = woa23_period(impact.unix_s);
                 if clim.period() != (decade, month) {
@@ -468,6 +503,7 @@ impl Density {
         match self {
             Density::Stub(_) => "PROVISIONAL linear density",
             Density::Woa23(_) => "TEOS-10 on WOA23 (mh370-ocean)",
+            Density::Column => "TEOS-10 on the column's T and S (mh370-ocean)",
         }
     }
 }
@@ -484,6 +520,9 @@ impl Ocean {
             density: Density::Stub(spec.density),
             error,
             label: spec.label.clone(),
+            column_label: "PROVISIONAL analytic column",
+            surface_label: "PROVISIONAL uniform surface current",
+            wind_label: "PROVISIONAL uniform wind",
         })
     }
 }
@@ -533,7 +572,31 @@ impl Settling {
         if let Some(m) = &p.shared.density_woa23_manifest {
             ocean.density = Density::Woa23(SoundSpeedClimatology::load(std::path::Path::new(m))?);
         }
-        ocean.label = format!("{}; {}; {}", ocean.label, ocean.seabed.label(), ocean.density.label());
+        let sh = &p.shared;
+        if let Some(m) = &sh.column_manifest {
+            ocean.column = Box::new(ocean::GridProfile::load(std::path::Path::new(m))?);
+            ocean.column_label = "GLORYS12V1 column (mh370-ocean GridProfile)";
+        }
+        if let Some(m) = &sh.surface_current_manifest {
+            ocean.surface_current = Box::new(ocean::GridField::load(std::path::Path::new(m))?);
+            ocean.surface_label = "GLORYS12V1 surface current";
+        }
+        if let Some(m) = &sh.wind_manifest {
+            ocean.wind = Box::new(ocean::GridField::load(std::path::Path::new(m))?);
+            ocean.wind_label = "ERA5 10 m wind";
+        }
+        match sh.density_source.as_deref() {
+            Some("column") => ocean.density = Density::Column,
+            Some("woa23") if matches!(ocean.density, Density::Woa23(_)) => {}
+            Some("woa23") => return Err("settling: density_source woa23 needs density_woa23_manifest".into()),
+            Some(other) => return Err(format!("settling: density_source `{other}`: column or woa23")),
+            None => {}
+        }
+        ocean.label = if ocean.column_label.starts_with("PROVISIONAL") {
+            format!("{}; {}; {}", ocean.label, ocean.seabed.label(), ocean.density.label())
+        } else {
+            format!("{}; {}; {}; {}; {}; {}", ocean.column_label, ocean.surface_label, ocean.wind_label, ocean.seabed.label(), ocean.density.label(), "Stokes field provisional (unused at a_stokes 0)")
+        };
         let rule = parse_rule(&p.below_model_bottom)?;
         let float = FloatPhase { step_s: p.float_step_s, a_stokes: p.float_a_stokes, diffusivity_m2_s: p.float_diffusivity_m2_s };
         let mut breakup = Breakup::parse(include_str!("breakup.toml"))?;
@@ -609,7 +672,7 @@ impl Settling {
         if family.is_some_and(|f| f >= FAMILIES.len()) {
             return Err("settling: debris_class must be 0, 1 or 2".into());
         }
-        let rho = self.ocean.density.column(impact)?;
+        let rho = self.ocean.density.column(impact, self.ocean.column.as_ref())?;
         let mut out = Vec::new();
         for d in indices {
             let mut rng = Rng::seeded(&seed_words(impact, d));

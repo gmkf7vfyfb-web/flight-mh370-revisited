@@ -784,10 +784,11 @@ fn bands_and_efold_are_exclusive_and_bands_are_checked() {
 fn shared_products_load_and_answer() {
     let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
     let s = Settling::from_params(&table["hypotheses"]["settling"]).unwrap();
-    assert!(matches!(s.ocean.seabed, Seabed::Shared(_)) && matches!(s.ocean.density, Density::Woa23(_)));
+    assert!(matches!(s.ocean.seabed, Seabed::Shared(_)) && matches!(s.ocean.density, Density::Column));
+    assert!(!s.ocean_label().contains("PROVISIONAL analytic"), "{}", s.ocean_label());
     let imp = impact(43, 60.0, 120.0);
     let z = s.ocean.seabed.depth_at([imp.longitude_deg, imp.latitude_deg]).unwrap();
-    let rho = s.ocean.density.column(&imp).unwrap();
+    let rho = s.ocean.density.column(&imp, s.ocean.column.as_ref()).unwrap();
     println!("shared: seabed at 92E 35S {z:.0} m; rho 0 m {:.3}, 1000 m {:.3}, 4000 m {:.3} kg/m3", rho.at(0.0), rho.at(1000.0), rho.at(4000.0));
     assert!((1000.0..7000.0).contains(&z));
     assert!((1022.0..1028.0).contains(&rho.at(0.0)) && (1040.0..1050.0).contains(&rho.at(4000.0)));
@@ -800,6 +801,10 @@ fn shared_products_load_and_answer() {
     let rows = s.emit(&imp, 16).unwrap();
     let settled: Vec<_> = rows.iter().filter(|r| r.fate == Fate::Settled).collect();
     assert!(!settled.is_empty() && settled.iter().all(|r| (1000.0..7000.0).contains(&r.depth_m)));
+    let not_computed = rows.iter().filter(|r| r.fate == Fate::NotComputed).count();
+    let below: f64 = settled.iter().map(|r| r.below_model_bottom_m).fold(0.0, f64::max);
+    println!("shared: {} rows, {} settled, {} not computed; max below model bottom {below:.0} m; label: {}", rows.len(), settled.len(), not_computed, s.ocean_label());
+    assert_eq!(not_computed, 0);
 }
 
 // ---------------------------------------------------------------------------------------------
@@ -983,4 +988,101 @@ fn without_shared_occupants() -> toml::Value {
     let mut v = run_toml_with("occupants")["hypotheses"]["settling"].clone();
     v.as_table_mut().unwrap().remove("shared");
     v
+}
+
+// ---------------------------------------------------------------------------------------------
+// Real-ocean report (deliverable 6 on the shared products) with its Monte Carlo check.
+// ---------------------------------------------------------------------------------------------
+
+/// Report generator on the REAL ocean, not a test: `SETTLING_REPORT_DIR=<dir>
+/// SETTLING_REPORT_POINTS="lat,lon;lat,lon;..." cargo test --release -p mh370-hypotheses
+/// settling::tests::report_real -- --ignored`. Needs the shared products on disk (run.toml
+/// [shared]). Writes `real_sensitivity.csv` (variant x point x family x class) and
+/// `real_convergence.csv` (the baseline's statistics from draws 0-511, 512-1023 and all 1,024).
+#[test]
+#[ignore]
+fn report_real() {
+    use std::io::Write;
+    let dir = std::path::PathBuf::from(std::env::var("SETTLING_REPORT_DIR").expect("set SETTLING_REPORT_DIR"));
+    let points: Vec<(f64, f64)> = std::env::var("SETTLING_REPORT_POINTS")
+        .expect("set SETTLING_REPORT_POINTS")
+        .split(';')
+        .map(|p| {
+            let v: Vec<f64> = p.split(',').map(|x| x.trim().parse().unwrap()).collect();
+            (v[0], v[1])
+        })
+        .collect();
+    std::fs::create_dir_all(&dir).unwrap();
+    let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
+    let base = table["hypotheses"]["settling"].clone();
+    type Edit = fn(&mut toml::Table);
+    let variants: Vec<(&str, usize, Edit)> = vec![
+        ("real ocean (baseline)", 1024, |_| {}),
+        ("provisional column and uniform surface fields", 512, |p| {
+            let sh = p["shared"].as_table_mut().unwrap();
+            for k in ["column_manifest", "surface_current_manifest", "wind_manifest"] {
+                sh.remove(k);
+            }
+            sh.insert("density_source".into(), "woa23".into());
+        }),
+        ("density from WOA23", 512, |p| {
+            p["shared"].as_table_mut().unwrap().insert("density_source".into(), "woa23".into());
+        }),
+        ("GEBCO only (no AusSeabed)", 512, |p| {
+            let g = toml::Value::Array(vec!["/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json".into()]);
+            p["shared"].as_table_mut().unwrap().insert("bathymetry_manifests".into(), g);
+        }),
+        ("below model bottom: linear to zero at seabed", 512, |p| {
+            p.insert("below_model_bottom".into(), "linear-to-zero-at-seabed".into());
+        }),
+        ("no ocean error", 512, |p| {
+            p.insert("terms".into(), toml::Value::Array(["carry", "float", "current", "glide", "diffusion"].iter().map(|s| toml::Value::from(*s)).collect()));
+        }),
+    ];
+    let mut out = std::fs::File::create(dir.join("real_sensitivity.csv")).unwrap();
+    writeln!(out, "variant,lat,lon,family,class,draws,settled_share,afloat_share,not_computed_share,median_offset_m,p90_offset_m,median_depth_m,median_descent_s,median_below_model_bottom_m,ocean").unwrap();
+    let mut conv = std::fs::File::create(dir.join("real_convergence.csv")).unwrap();
+    writeln!(conv, "lat,lon,family,class,half,draws,p50_offset_m,p90_offset_m").unwrap();
+    for (label, draws, edit) in &variants {
+        let mut p = base.as_table().unwrap().clone();
+        edit(&mut p);
+        let s = Settling::from_params(&toml::Value::Table(p)).unwrap();
+        for &(lat, lon) in &points {
+            let mut imp = impact(900, 60.0, 150.0);
+            (imp.latitude_deg, imp.longitude_deg) = (lat, lon);
+            for f in 0..3 {
+                let rows = s.emit_with(&imp, 0..*draws, 1.0 / *draws as f64, Some(f)).unwrap();
+                for (c, class) in s.classes().iter().enumerate() {
+                    let cls: Vec<&WreckageElement> = rows.iter().filter(|r| r.class as usize == c).collect();
+                    let all: f64 = cls.iter().map(|r| r.multiplicity).sum();
+                    let share = |fate: Fate| cls.iter().filter(|r| r.fate == fate).map(|r| r.multiplicity).sum::<f64>() / all;
+                    let set: Vec<&&WreckageElement> = cls.iter().filter(|r| r.fate == Fate::Settled).collect();
+                    let wq = |g: &dyn Fn(&WreckageElement) -> f64, q: f64| quantile(set.iter().map(|r| (g(r), r.multiplicity)).collect(), q);
+                    let off = |r: &WreckageElement| r.east_m.hypot(r.north_m);
+                    writeln!(
+                        out,
+                        "{label},{lat},{lon},{},{class},{draws},{:.6},{:.6},{:.6},{:.3},{:.3},{:.1},{:.1},{:.1},\"{}\"",
+                        FAMILIES[f],
+                        share(Fate::Settled),
+                        share(Fate::Afloat),
+                        share(Fate::NotComputed),
+                        wq(&off, 0.5),
+                        wq(&off, 0.9),
+                        wq(&|r| r.depth_m, 0.5),
+                        wq(&|r| r.descent_s, 0.5),
+                        wq(&|r| r.below_model_bottom_m, 0.5),
+                        s.ocean_label()
+                    )
+                    .unwrap();
+                    if label.starts_with("real ocean") {
+                        for (half, range) in [("first", 0..512u32), ("second", 512..1024u32), ("all", 0..1024u32)] {
+                            let h: Vec<(f64, f64)> = set.iter().filter(|r| range.contains(&r.draw)).map(|r| (off(r), r.multiplicity)).collect();
+                            writeln!(conv, "{lat},{lon},{},{class},{half},{},{:.3},{:.3}", FAMILIES[f], range.len(), quantile(h.clone(), 0.5), quantile(h, 0.9)).unwrap();
+                        }
+                    }
+                }
+            }
+        }
+        eprintln!("report_real: {label} done");
+    }
 }

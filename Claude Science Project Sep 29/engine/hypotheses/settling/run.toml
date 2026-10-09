@@ -69,14 +69,24 @@ upper_to_m = 1000.0
 near_bottom_m = 200.0
 factors = [1.0, 0.5, 0.2, 0.3]
 
-# Shared ocean products that replace provisional stand-ins (mh370-ocean items 3 and 4). Paths are
-# the shared owner's prepared products (results/ocean-data-manifest.md). The window covers the
-# 7th-arc posterior mass (39.1-23.9 S) with margin. Density: WOA23 2005-2014 March, the decade-month
-# of 8 March 2014.
+# Shared ocean products that replace the provisional stand-ins (mh370-ocean; manifests and sha256 in
+# results/ocean-data-manifest.md). Window 80-112 E, 45-18 S covers the 7th-arc posterior mass
+# (39.1-23.9 S) with margin; time 7-14 March 2014 is the GridProfile's period, which covers impact
+# plus the 48 h float cut-off.
+# - column: GLORYS12V1 daily uo, vo, thetao, so on all 50 levels (GridProfile);
+# - surface current and wind for the float phase: GLORYS12V1 surface (7 Mar-30 Apr 2014 part) and
+#   ERA5 10 m (2014 part), each loaded whole (0.3 and 1.6 GB);
+# - seabed: AusSeabed MH370 Phase 1 150 m first, GEBCO_2026 elsewhere;
+# - density: TEOS-10 on the column's own T and S ("column"), so density and currents come from one
+#   product; the WOA23 climatology is kept loaded as the declared alternative ("woa23").
 [hypotheses.settling.shared]
-bathymetry_manifests = ["/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json"]
+bathymetry_manifests = ["/Users/pete/Downloads/mh370-ocean-data/ausseabed/grid/ausseabed_mh370_150m.json", "/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json"]
 bathymetry_window = [80.0, 112.0, -45.0, -18.0]
 density_woa23_manifest = "/Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed/woa23_A5B4_m03.json"
+density_source = "column"
+column_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.json"
+surface_current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface-00.json"
+wind_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h_15-120E_50-0S_20140307-20141231.json"
 
 # ---------------------------------------------------------------------------------------------
 # PROVISIONAL INPUTS the shared crate does not serve yet (provisional.rs). NOT an ocean product
