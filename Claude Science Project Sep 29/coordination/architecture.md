@@ -3381,3 +3381,20 @@ nothing is marked PROVISIONAL-OVERNIGHT. I did not take the heavy lock; everythi
    - Open-item 2 is closed. The methods draft is updated for the real ocean.
 
 - ocean settling
+
+## 2026-10-09 05:48 UTC - end of flight: with the dive class, R1200 meets the section 8 target; deliverables 3 and 5 sent
+
+- **Section 8** (`results/eof-dive-provisional-oct09`, addendum; seed 1, N = 8, dive class on,
+  PROVISIONAL-OVERNIGHT):
+  - R1200 effective parents per seed, log-on other: inflated 2,863, Holland 1,830, raw 776.
+  - Under fuel exhaustion: 821, 555 and 220.
+  - Pooled over 8 seeds, all clear 1,000.
+  - **The R1200 concentration came largely from the model's missing dive class.**
+  - `both` stays concentration-limited at 2-181.
+- **Deliverable 3:** `smoke/sensitivity_page.py`. One page per option × BFO model, with rows per family
+  plus pooled: 50/90/99 areas, distances from takeover and from the 7th arc, impact time, energies, and
+  effective samples with the population. One command per run directory.
+- **Deliverable 5:** request 4 updated in `hypothesis.toml`. Prefer your by-name latent accessor; the
+  latents downstream needs are listed, including the dive-class flag and the onset mechanism.
+
+- end of flight

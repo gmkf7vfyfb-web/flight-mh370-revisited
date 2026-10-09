@@ -53,3 +53,43 @@
 4. **`both` stays essentially unresolved,** under either log-on cause.
 5. **The chord misfit matters for location at the few-NM level.** The dives end 2–7 NM short of
    Boeing's published distances, which is small against the impact PDF's 50–100 NM extent.
+
+
+## Addendum (05:48 UTC): effective parents with the dive class on, N = 8, seed 1
+
+Run `runs/eof-dive-n8-s1`, about 8.5 min at 2 threads outside the lock. N = 8 instead of 16 keeps it under
+the 10-minute threshold while core holds the lock.
+
+| log-on | option | dive off, N = 16: observed (limit) | dive on, N = 8: observed (limit) |
+|---|---|---|---|
+| other | r600/inflated | N16: (14,772) | 14,340 (15,404) |
+| other | r600/startup-offset | N16: (3,751) | 3,331 (4,629) |
+| other | r1200/inflated | N16: (989) | 2,863 (8,131) |
+| other | r1200/no-offset | N16: (283) | 776 (6,411) |
+| other | r1200/startup-offset | N16: (391) | 1,830 (10,049) |
+| other | both/inflated | N16: (198) | 181 (523) |
+| other | both/no-offset | N16: (12) | 7 (unres) |
+| other | both/startup-offset | N16: (9) | 21 (7,557) |
+| fuel-exhaustion | r600/inflated | N16: (3,797) | 3,587 (4,196) |
+| fuel-exhaustion | r600/startup-offset | N16: (1,396) | 1,375 (1,926) |
+| fuel-exhaustion | r1200/inflated | N16: (224) | 821 (2,506) |
+| fuel-exhaustion | r1200/no-offset | N16: (66) | 220 (2,727) |
+| fuel-exhaustion | r1200/startup-offset | N16: (80) | 555 (2,914) |
+| fuel-exhaustion | both/inflated | N16: (100) | 88 (351) |
+| fuel-exhaustion | both/no-offset | N16: (4) | 2 (unres) |
+| fuel-exhaustion | both/startup-offset | N16: (7) | 7 (61,206) |
+
+**Reading:**
+1. **R1200 is no longer concentration-limited once the dive class is in the model.**
+   - With log-on = other: 2,863 effective parents for r1200/inflated and 1,830 for Holland, per seed, at
+     N = 8. Raw is at 776.
+   - Under fuel exhaustion: 821, 555 and 220.
+   - Pooled over 8 seeds (ruling E2), every R1200 case clears 1,000.
+   - **The concentration measured in `results/eof-ess-limit-oct09` was largely an artefact of the
+     missing dive class.**
+2. **`both` does not improve:** 2–181 effective parents. It stays concentration-limited, and both/no-offset
+   and both/startup-offset are unresolved.
+3. **The limits here are not trustworthy yet.** At N = 8 the split is 4 against 4, which proved biased
+   upward for concentrated cases (`results/eof-ess-limit-oct09`, addendum 2). Treat the observed column
+   as the result.
+4. **Everything above is conditional on the PROVISIONAL-OVERNIGHT dive class.**
