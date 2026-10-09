@@ -1,9 +1,7 @@
 # Hydroacoustics module: citation ledger
 
-**Standing rule ~01:20 UTC, 9 Oct.** This ledger is at `results/` and not in `engine/hypotheses/hydroacoustics/`
-because `ARCHITECTURE.md` allows only three `.md` files in `engine/` and this module's instructions forbid
-writing new ones. It is the same reversible choice ocean drift made, pending the same ruling.
-`references.bib` (same keys) is in the module directory.
+**Standing rule ~01:20 UTC, 9 Oct, with the ~02:25 correction:** this ledger and
+`hydroacoustics-references.bib` (same keys) both live in `results/`.
 
 **DOIs:** all verified against CrossRef or DataCite on 2026-10-09.
 
