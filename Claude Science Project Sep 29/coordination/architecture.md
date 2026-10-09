@@ -3273,3 +3273,71 @@ The methods draft (`results/pleiades-methods-draft.md`) while I wait. Then the r
 reference, the moment it lands.
 
 — Pléiades
+
+## 2026-10-09 (evening) - searched areas: S1-S5 acted on; ATSB verified; convergence measured
+
+**S3 done.** `results/citation-ledger.md` is now `results/seabed-search-references.md`, retitled as
+the module's own ledger with the Davey-[40] rule kept. **`results/end-of-flight-references.md` still
+points at the old name** - end of flight should update it.
+
+**S4 done, and it worked.** The report is on the Drive
+(`operational-search-for-mh370_final_3oct2017.pdf`, 41.7 MB). The connector's 10 MB download cap
+blocks the file, but its text extraction carries the body with the running headers, so printed pages
+are readable. Three of the four inherited rows are now verified, in the ledger's new section 4:
+`+25 NM and -25 NM from 7th arc across entire search area` (p. 76); the outermost band
+`27.5 NM to 36 NM to the northwest and 25 NM to 41 NM to the southeast` (p. 95); Figure 73 and its
+category definitions, `>95 per cent` and `on average a 70 per cent` (p. 96); and `in excess of
+120,000 square kilometres` (executive summary).
+
+**One correction fell out of it.** The module header attributed the debris-field size statement to
+p. 96. It is on **p. 83** - "at least 100 m x 100 m and very likely to be greater than 200 m x 200 m"
+- and p. 89 carries the different and more useful statement, that a 200 m by 200 m low-lying field was
+shown detectable in the side-scan data at towfish altitudes under 200 m. `lib.rs` and the
+detectable-target table are corrected.
+
+**`q` stays inherited, and now for a stated reason**: the 97.4 / 2.1 / 0.5 percentages it is derived
+from are drawn *inside* Figure 73, which is an image. The text gives the figure's title and its
+category definitions but not its numbers. Someone reading the figure itself would close this.
+
+**Bluefin-21 reconciled or reported** (`results/seabed-bluefin21-area.md`), which brief section 4
+asked for. Measured 771.41 km2 from GA's two display polygons against the 860 km2 ATSB states
+(printed p. 42, verified). The gap is 88.6 km2, 10.3%, and it runs the informative way: the published
+display geometry is SMALLER than the stated coverage, where a display envelope normally overstates it,
+so the layer is conservative and the polygons are not an upper bound. It cannot be closed without AUV
+track data. It also cannot matter - the search is at 21 S, 104 E, the impact support is 34-42 S, and
+the centre is 2,473 km from the residual posterior's leading block, which is why the campaign removes
+exactly 0.0000 at every rho.
+
+**Convergence measured, composition rule 6** (`results/seabed-search-eof-smoke8/`). Eight smoke
+replicates, 265,936 impacts, 4.5 minutes at 4 threads. **Split-half 0.957 before the search and 0.947
+after**, against 0.846 / 0.812 on two replicates and the 0.924 floor. Every headline reproduces:
+prior mass on searched ground 0.231, Phase 2 removes 0.2180 at rho 0, Z 0.7929, 0.031 left on searched
+ground, repeat-search gap 0.0016.
+
+**Two numbers I reported this morning were Monte Carlo artefacts and are withdrawn.**
+
+1. The 97.5th percentile moved -33.78 -> -30.08. The northern tail is not determined at this scale and
+   should not be quoted from either run.
+2. **The eq. 11.2 planning ranking was over-concentrated.** P(find) 25% needs 19 blocks and
+   45,502 km2, not the 8 blocks and 19,092 km2 I posted; 50% needs 56 blocks, 134,092 km2; 75% needs
+   175 blocks, 423,002 km2. The leading block changes, though the leading cluster - 39 to 40.5 S,
+   87.5 to 89 E - does not.
+
+   The general point is worth a ruling if you want one: **the ranked planning output needs more
+   samples than the aggregate evidence does.** Z and the mass-removed figures were stable to three
+   decimals on two replicates while the block ordering was not, because a 0.5 deg block carries about
+   2% of the mass. Any search-planning table in the paper should come from a full-scale run and should
+   show the cumulative curve rather than a top-N list.
+
+**Pete's dive-class instruction is applied.** Both end-of-flight results notes and the module's
+`hypothesis.toml` now say the impacts are **glide class only** until end of flight is calibrated
+against Boeing cases 3, 4, 5, 6 and 10, and say which way it biases: a dive class lands nearer the 7th
+arc, inside the searched corridor, so the search evidence reported here is likely **understated**.
+
+**S2 / request 15 noted, not yet actionable.** `compose` is not in `hypotheses/Cargo.toml` yet. When
+core lands the dev-dependency I will move the residual view onto the real composition path; the guard
+and the eq. 11.2 output stay as they are.
+
+**S1 and S5 noted.** Tracings still read by path, committed nowhere.
+
+- searched areas
