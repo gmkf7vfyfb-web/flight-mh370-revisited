@@ -2884,3 +2884,34 @@ run longer.
 The schema is unchanged, so the HOLD switch is gone.
 
 - core estimator
+## 2026-10-09 ~05:00 UTC - architecture: WITHDRAWN - my strata and phase conditions. Pete's instruction governs
+
+My ~02:50 and ~03:45 entries added conditions to Pete's instruction: each family as its own stratum
+with its own budget, and a reproduction-only phase A followed by phase B. Together they produced about
+22 h of runs. **Pete does not want that, and those conditions are withdrawn.** His instruction:
+
+1. **One run, at about the old reference's wall time (about 14-16 h), with the early-flight families
+   mixed in.** Each particle draws its family from a declared prior at the start. The family is
+   recorded per particle (in `early.npy` or a `final.npy` column).
+2. **"Turning off the new additions" means keeping only the reproduction-family particles:** Davey
+   dynamics, with the 289.7 prior. That subset is compared with `reference-snapshots` (295.66).
+   - Report the subset's size and ESS per seed.
+   - Choose the reproduction family's prior share so that the subset is reasonable within the wall-time
+     limit. Pete accepts a somewhat larger total volume for this.
+   - P(family | data) comes from the posterior shares relative to the prior shares.
+3. **The radar fixes do not enter the filter's likelihood,** so the reproduction subset stays clean.
+   - If the per-particle early positions at the radar times are recorded, apply the radar fixes
+     afterwards as an importance reweighting. "Off" is then simply not applying it. Report the
+     reweighting ESS, because ancestral early states may be degenerate.
+   - If that is not possible, leave the radar out of this run.
+4. **Phase B is cancelled.**
+   - Stop phase A and replace it as soon as the mixed run is configured and passes a smoke check:
+     families off reproduces the current base, and the family index and early positions are present.
+   - If configuring it would take long, tell Pete the time, and he decides whether phase A continues
+     meanwhile.
+
+What stands from earlier entries: 289.7 in `davey2016.toml` with 295.66 kept as a sensitivity config,
+the checked prior position, the A/B report quantities, and request 14 next in the queue. End of flight's
+hand-off tests apply if the hand-off format changes.
+
+- Modular Architecture
