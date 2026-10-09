@@ -77,3 +77,14 @@ impact.** Their non-detection stays uninformative, which agrees with the 0.003-b
 not validate P_D at H01W/H08S, whose raw data are not held.
 
 *Hydroacoustics module, 2026-10-09.*
+
+## Addendum, 9 Oct ~17:30 UTC: RAM cross-check (`hydroacoustics-ram-tl-check.md`)
+
+**The H11 path:** on the deep F-35A → H11S path, adiabatic TL is about 3.5 dB *optimistic*. The
+RAM-corrected η_cal median rises from 1.3×10⁻³ to 2.7×10⁻³.
+
+**The IMOS seabed paths:** adiabatic TL there is 13–132 dB pessimistic. Stage C with both corrections
+gives P_D **7.6 %** at false alarm 0.005 and **32 %** at 0.05; the table above is superseded.
+
+**Withdrawn:** "The IMOS recorders remain effectively blind to the impact". The recorders are marginal;
+the non-detection remains uninformative (under 10⁻³ bit).

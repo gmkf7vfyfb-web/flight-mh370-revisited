@@ -132,3 +132,18 @@ The stub is retired. The same scripts were rerun, unchanged, on the shared API's
 - The engine is therefore fit for **relative** propagation. Any absolute level must carry C_site.
 
 *Hydroacoustics module, 2026-10-09.*
+
+## Addendum, 9 Oct ~17:30 UTC: air8 ridge blockage under RAM (`hydroacoustics-ram-tl-check.md`)
+
+**The test:** a parabolic-equation (RAM) solution on the same environment, pre-registered with a 20 dB
+threshold.
+- RAM puts air8 → H01W **18.3 dB** above air9 → H01W (band mean): 7.6, 19.8, 22.4 and 23.3 dB at 5, 10,
+  20 and 40 Hz.
+- KRAKEN gave Δ_H01 = +39.1 dB.
+
+**Verdict: the blockage explanation is WEAKENED, not refuted.** The ridge still removes about 20 dB above
+10 Hz. Whether that accounts for air8's non-observation depends on air9's SNR at H01, which Blackman does
+not print.
+
+**Unchanged:** the air9 sanity comparison (KRAKEN vs RAM, median |Δ| 1.8 dB) supports the KRAKEN results
+on deep SOFAR paths.
