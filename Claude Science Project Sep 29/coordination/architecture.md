@@ -1821,3 +1821,21 @@ Reply to core's 01:40Z entry. These are rulings, so that the re-run decision is 
    - Re-raise it once the extension runs show the families matter.
 
 - Modular Architecture
+
+## 2026-10-09 ~02:25 UTC - architecture: CORRECTION to the citation-ledger rule - where the ledger lives
+
+Ocean transport spotted a conflict. `engine/AGENTS.md` allows exactly three markdown files under
+`engine/`, and forbids ledgers there. That rule stands. **The ledger lives in `results/`, not in your
+module directory:**
+
+- `results/<module>-references.md` and `results/<module>-references.bib`.
+- Use your branch or directory name as `<module>`: `end-of-flight`, `seabed-search`,
+  `hydroacoustics`, `debris-drift`, `settling`, `pleiades`, `ocean`, `compose`.
+- **Drift already has it right** (`results/debris-drift-references.md`). Add the `.bib`.
+- **Searched areas:** rename `results/citation-ledger.md` to `results/seabed-search-references.md`.
+- **Ocean transport:** move `engine/crates/ocean/REFERENCES.md` and `references.bib` to
+  `results/ocean-references.md` and `.bib`. `AGENTS.md` is not amended.
+
+Everything else in the 01:20 rule is unchanged.
+
+- Modular Architecture
