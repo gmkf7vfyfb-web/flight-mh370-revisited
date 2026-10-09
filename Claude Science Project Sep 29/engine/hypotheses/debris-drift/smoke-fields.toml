@@ -1,0 +1,83 @@
+# SMOKE ONLY - code path on real gridded fields; never evidence. Synthetic finds from a source
+# east of Reunion, on the first GLORYS12 slice (7 Mar-30 Apr 2014) and ERA5 2014.
+base = "../../config/davey2016.toml"
+name = "debris-drift-smoke-fields"
+
+[hypotheses.debris-drift]
+mode = "synthetic"
+coverage = 0.99
+spacing_nm = 10.0
+margin_nm = 20.0
+island_link_nm = 40.0
+extent_map_path = "debris-drift/data/smoke-extent-reunion.csv"
+particles_per_class = 500
+seed = 1
+release_unix_s = 1394237977.0
+dt_hours = 6.0
+threads = 2
+domain = [15.0, 120.0, -50.0, 0.0]
+land_gap_is_beaching = true
+leeway_absorbs_stokes = true
+env_seeds = [1]
+output_dir = "../runs/debris-drift-smoke-fields"
+
+[hypotheses.debris-drift.transport]
+kind = "grid"
+current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/glorys12v1_uo_vo_surface_20140307-20140430.json"
+wind10_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h_15-120E_50-0S_20140307-20141231.json"
+
+[hypotheses.debris-drift.diffusivity]
+kind = "fixed"
+k_m2_s = 248.0
+
+[[hypotheses.debris-drift.classes]]
+name = "flaperon"
+motion_classes = ["flaperon"]
+a_stokes = { dist = "fixed", value = 0.0 }
+c_wind = { dist = "fixed", value = 0.012 }
+leeway_angle_deg = { dist = "uniform", lo = -30.0, hi = 0.0 }
+leeway_speed_mps = { dist = "normal", mean = 0.10, sd = 0.03, lo = 0.0, hi = 1.0 }
+
+[[hypotheses.debris-drift.segments]]
+name = "S1-reunion"
+boxes = [[55.1, 56.0, -21.5, -20.7]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S2-mauritius-rodrigues"
+boxes = [[57.2, 57.9, -20.7, -19.8], [63.2, 63.65, -19.9, -19.55]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S3-southern-mozambique"
+boxes = [[33.5, 36.0, -25.3, -21.3]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S4-south-africa-south-coast"
+boxes = [[20.0, 26.5, -34.9, -33.6]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S5-ne-madagascar"
+boxes = [[49.0, 50.8, -18.0, -15.4]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S6-pemba"
+boxes = [[39.3, 40.3, -5.6, -4.6]]
+
+
+[hypotheses.debris-drift.recovery]
+bandwidth_km = 25.0
+delay = "exponential"
+delay_days = 5.0
+period_breaks = ["2014-03-20", "2014-04-01"]
+window_end = "2014-04-28"
+
+[hypotheses.debris-drift.levels]
+ln_mean_by_period = [-2.302585, -0.693147, 0.0]
+sigma = 1.0
+draws = 64
+seed = 3
+
+[hypotheses.debris-drift.synthetic]
+true_lat_deg = -20.875
+true_lon_deg = 56.425
+finds = 3
+seed = 11
