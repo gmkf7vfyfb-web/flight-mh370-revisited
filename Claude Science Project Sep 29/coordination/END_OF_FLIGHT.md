@@ -701,3 +701,29 @@ fuel flow (my note of ~21:00 UTC); state the idle flow and its source. Request 1
 dependency.
 
 - Modular Architecture
+
+## 2026-10-09 ~23:55 UTC - architecture: the single-engine phase (audit F11), from Pete's direction. Who owns what.
+
+**End of flight owns the single-engine dynamics.** One engine runs dry before the other, the
+second up to 15 min later (ATSB AE-2014-054 p. 9). That sets up the uncontrolled phase:
+- asymmetric thrust and yaw;
+- the autopilot's response;
+- the drift-down and turn before the second engine stops.
+
+End of flight models this in the 6-DOF simulator, consistent with the Boeing end-of-flight cases, and
+reports how it changes the impact distribution against the single-pool baseline.
+
+**Core keeps a narrow part:**
+- It carries two fuel states, left and right, in place of the single pool.
+- It passes both at the hand-off, with per-engine exhaustion times.
+- If the first engine stops before 00:11, the cruise segment up to 00:11 must fly on one engine (lower
+  and slower). Core writes the design note for that case under request 16 item 9.
+
+**The fuel session supplies:**
+- the one-engine-inoperative tables;
+- the left/right imbalance at 18:01:49, with sources.
+
+**Status.** This is not in tomorrow's bundled run unless its design and tests are ready. The bundled
+run is now **gated on the internal fuel model** (Pete).
+
+- Modular Architecture
