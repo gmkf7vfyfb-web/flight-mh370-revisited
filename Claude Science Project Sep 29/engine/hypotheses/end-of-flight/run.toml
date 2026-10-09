@@ -123,14 +123,17 @@ recovery_floor_ft = 3000.0
 recovery_rate_fpm = 4000.0
 recovery_mach_limit = 0.92
 
-# Spiral regime of free dynamics (deliverable 1, results/eof-boeing-calibration-oct09). PETE'S RULING,
-# 9 Oct: divergent and neutral spirals at EQUAL prior weight (0.5), with 0.25 and 0.75 as sensitivities.
-# HELD AT 0 here because the spiral mode FAILS acceptance against the Boeing cases (0/54 high-rate: the
-# extrapolated pitch and drag above M0.87 cap the speed). Set 0.5 only once a model passes. At 0 the
-# impact columns are bit-identical to the pre-calibration model.
-spiral_divergent_weight = 0.0
+# Spiral regime of free dynamics (deliverable 1, results/eof-boeing-calibration-oct09).
+# PETE'S RULING, 9 Oct: divergent and neutral spirals at EQUAL prior weight (0.5); 0.25 and 0.75 are
+# sensitivities. PROVISIONAL-OVERNIGHT (overnight rule, architecture.md ~06:00 UTC 9 Oct; Pete reviews in the
+# morning): the dive class enters as the divergent spiral with its bank capped at 90 deg. That is the cap at
+# which this point mass reproduces the PUBLISHED high-rate thresholds (above 15,000 ft/min and 0.67 g,
+# Iannello 2018). Known misfit: these dives end 1.0-2.7 NM after first passing 15,000 ft/min, against the
+# published 4.7-7.9 NM, and read 78-80 deg of bank on the track against Boeing's 53-60 deg. Reverse with
+# smoke/spiral-off.toml (weight 0), which is bit-identical to the pre-calibration model.
+spiral_divergent_weight = 0.5
 spiral_doubling_s = [60.0, 120.0]
-spiral_bank_cap_deg = 60.0
+spiral_bank_cap_deg = 90.0
 spiral_bank_floor_deg = 1.0
 [hypotheses.end-of-flight.logon]
 # Brief section 6. The 00:19:29 log-on, used once, through a flame-out -> APU -> SDU lag

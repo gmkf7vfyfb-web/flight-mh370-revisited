@@ -142,8 +142,10 @@ pub struct EnvelopeConfig {
     /// by x2.56-2.75 between 60 and 180 s, a doubling time of 82-88 s; the band brackets it.
     #[serde(default = "default_spiral_doubling_s")]
     pub spiral_doubling_s: Range,
-    /// Bank at which a divergent spiral stops growing, deg. Boeing's dives peak at 53-60 deg, where
-    /// the simulator itself warns that motion left its database.
+    /// Bank at which a divergent spiral stops growing, deg. Boeing's dives read 53-60 deg from the
+    /// track, but this point mass reaches their descent rates only near 90 deg
+    /// (results/eof-boeing-calibration-oct09, addendum 2), so the cap is a calibration knob, not a
+    /// measured bank.
     #[serde(default = "default_spiral_bank_cap_deg")]
     pub spiral_bank_cap_deg: f64,
     /// Smallest bank a divergent spiral grows from, deg: a spiral mode starts from any disturbance,
@@ -198,8 +200,9 @@ impl EnvelopeConfig {
         if !(lo > 0.0) {
             return Err("envelope.spiral_doubling_s must be positive".into());
         }
-        if !(self.spiral_bank_cap_deg > 0.0 && self.spiral_bank_cap_deg < 90.0) {
-            return Err("envelope.spiral_bank_cap_deg must be in (0, 90)".into());
+        // Up to 135 deg: an uncontrolled spiral dive can overbank past 90 deg (lift below the horizon).
+        if !(self.spiral_bank_cap_deg > 0.0 && self.spiral_bank_cap_deg <= 135.0) {
+            return Err("envelope.spiral_bank_cap_deg must be in (0, 135]".into());
         }
         if !(self.spiral_bank_floor_deg >= 0.0 && self.spiral_bank_floor_deg < self.spiral_bank_cap_deg) {
             return Err("envelope.spiral_bank_floor_deg must be in [0, cap)".into());
