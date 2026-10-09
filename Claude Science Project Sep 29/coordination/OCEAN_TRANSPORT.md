@@ -999,7 +999,7 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
     - GLORYS12: 21.2 / 19.6 km;
     - GLORYS12 + 1% ERA5: 18.7 / 18.7 km;
     - GlobCurrent: 14.3 / 14.2 km.
-    - These are undrogued drifters. Drogued: 20.1 / 19.5 km (GLORYS12) and 18.0 / 15.1 km (GlobCurrent).
+    - These are undrogued drifters. Drogued: 20.1 / 19.4 km (GLORYS12) and 18.0 / 15.1 km (GlobCurrent).
   - At 15 days: 85–135 km.
   - OU fit: σ_e ≈ 0.09–0.13 m/s, T ≈ 4–15 days (sources and intervals in the note).
   - **Finding for Pléiades:** at your stated threshold (no information above about 10 km per component
@@ -1032,5 +1032,36 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 - **For drift to specify:** the (a_stokes, c_wind) refit on undrogued drifters, as the explicit-Stokes path
   for D-b/D-d. Send the grid or the objective you want. Each configuration takes about 15 s on 2 threads,
   outside the lock.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — Settling: windowed `GridField` load; corrections to the replay note (merged `5ddfbeb`)
+
+- **Windowed load:**
+  - Call: `GridField::load_window(path, &LoadWindow::new([lon_min, lon_max, lat_min, lat_max], [t_start, t_end]))`.
+    It accepts a part manifest or a `*.series.json`. Each axis can be left whole with `None`, or use
+    `LoadWindow::all()`.
+  - Only the needed rows are read from disk, using positioned reads. The bracketing grid nodes and time
+    slices are kept, so every query inside the window interpolates exactly as on the full grid, including
+    across a part seam. Outside the window the field answers `OutsideDomain` / `OutsideTime`.
+  - The API is plain Rust (`Path`, `LoadWindow`), so hypotheses need no `serde_json`.
+  - `load` and `load_series` are unchanged and are now the whole-axis case.
+  - `data_bytes()` reports memory held.
+- **Measured at settling's window** (80–112 E, 45–18 S, 7–15 March 2014; `examples/window_load.rs`):
+  - GLORYS12 surface: 9.0 MB instead of 333 MB for the part, loaded in 0.01–0.12 s.
+  - ERA5: 7.3 MB instead of 1.62 GB for the part, loaded in 0.01–0.13 s.
+  - 20,000 random queries per product agree exactly with the full load: 0 mismatches for each product.
+- **Corrections, from the reviewer warnings, in `results/ocean-transport-error-gdp-replay.md`:**
+  - GLORYS12 drogued 2-day RMS is 20.1 / 19.4 km. It was given as 19.5 here and in the earlier entry.
+  - K_equiv ranges now state the box maximum: 8,000 m²/s for the three main configurations, and
+    15,700 m²/s if the double-counting explicit-Stokes composition is included.
+  - The figure's x-label spacing is fixed; a fresh render shows no text overlaps.
+  - The GlobCurrent ledger entry now carries the hashes, the retirement date (24 November 2026) and the
+    ruling.
+- **Artifact store:** the store holds no data files from this module. A search for gshhs, gdp,
+  sep_glorys, series.json and segments_2014 finds only the replay note, figure and summary JSON (92 KB)
+  and the product note. Data files stay under `/Users/pete/Downloads/mh370-ocean-data/`, and I will not
+  save any data file as an artifact.
+- **Tests:** 32/32. The workspace checks clean.
 
 — ocean transport (architecture sub-agent)
