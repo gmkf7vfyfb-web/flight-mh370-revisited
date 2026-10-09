@@ -32,6 +32,10 @@ cls_col = {"flaperon": "#1b6ca8", "low_exposure_exterior": "#e08214", "high_wind
 segs = ["S1 Réunion", "S2 Mauritius-Rodrigues", "S3 S. Mozambique", "S4 S. Africa", "S5 NE Madagascar", "S6 Pemba"]
 predicted = {0: (1e-4, 1e-3), 1: (1e-4, 1e-3), 2: (1e-3, 1e-2), 3: (1e-3, 1e-2), 4: (1e-4, 1e-3), 5: (1e-4, 1e-3)}
 n = len(d)
+try:
+    NOISE_TITLE
+except NameError:
+    NOISE_TITLE = "Resolved ln L: spread is mostly Monte Carlo noise"
 
 fig, axs = plt.subplots(2, 2, figsize=(7.2, 6.2), constrained_layout=True)
 
@@ -57,14 +61,14 @@ ax = axs[0, 1]
 bins = np.arange(np.floor(d.lat_deg.min()), np.ceil(d.lat_deg.max()) + 1, 1.0)
 mid = 0.5 * (bins[1:] + bins[:-1])
 cut = pd.cut(d.lat_deg, bins)
-for col, lab, c in [("ln_l_h25", "25 km", "#c6dbef"), ("ln_l", "50 km (primary)", "#6baed6"), ("ln_l_h100", "100 km", "#2171b5"), ("ln_l_h200", "200 km", "#08306b")]:
+for col, lab, c in [("ln_l", "25 and 50 km (primary): none", "#6baed6"), ("ln_l_h100", "100 km", "#2171b5"), ("ln_l_h200", "200 km", "#08306b")]:
     fr = d.groupby(cut, observed=False)[col].apply(lambda x: x.notna().mean()).values
     ax.plot(mid, fr, marker="o", ms=3, color=c, label=lab)
 ax.set_xlabel("node latitude (°)")
 ax.set_ylabel("fraction of nodes resolved")
 ax.set_ylim(-0.04, 1.04)
 ax.legend(frameon=False, loc="upper left", fontsize=6)
-ax.set_title("Resolution needs a wide kernel, and fails in the south", loc="left")
+ax.set_title("Only wide kernels resolve, and fewer nodes in the south", loc="left")
 
 ax = axs[1, 0]
 for col, lab, c in [("ln_l_h100", "100 km", "#2171b5"), ("ln_l_h200", "200 km", "#08306b")]:
@@ -74,8 +78,8 @@ for col, lab, c in [("ln_l_h100", "100 km", "#2171b5"), ("ln_l_h200", "200 km", 
         ax.scatter(d.lat_deg[ok], v[ok] - v[ok].max(), s=5, alpha=0.6, color=c, label=f"{lab} (n = {ok.sum()})", linewidths=0)
 ax.set_xlabel("node latitude (°)")
 ax.set_ylabel("ln L − max (resolved nodes)")
-ax.legend(frameon=False, loc="lower left", fontsize=6)
-ax.set_title("Where resolved, ln L spans tens of units", loc="left")
+ax.legend(frameon=True, framealpha=0.92, edgecolor="none", loc="lower left", fontsize=6, markerscale=2)
+ax.set_title(NOISE_TITLE, loc="left")
 
 ax = axs[1, 1]
 w = 0.25
@@ -93,9 +97,9 @@ ax.set_ylim(5e-6, 0.2)
 ax.set_xticks(range(6))
 ax.set_xticklabels([s.split(" ", 1)[0] for s in segs])
 ax.set_ylabel("arrival probability by window end")
-ax.legend(frameon=False, loc="upper right", fontsize=6)
-ax.text(5.45, 1.2e-4, "grey: predicted range", ha="right", fontsize=6, color="0.4")
-ax.set_title("Islands receive more, S. Africa less, than predicted", loc="left")
+ax.legend(frameon=False, loc="lower left", fontsize=6, bbox_to_anchor=(0.0, 0.0))
+ax.text(5.45, 6e-5, "grey: predicted range", ha="right", fontsize=6, color="0.4")
+ax.set_title("Islands and Madagascar arrive far above prediction", loc="left")
 
 for a, l in zip(axs.flat, "abcd"):
     if "panel_letter" in globals():

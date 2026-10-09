@@ -107,6 +107,37 @@ def main(run, refmap, out):
         res["variogram_noise_corrected_ln_l"] = [{"sep_nm": a, "gamma_minus_noise": g} for a, g in corr]
         cross = [a for a, g in corr if g >= 0.5]
         res["correlation_length_nm"] = cross[0] if cross else f"> {corr[-1][0] if corr else 'n/a'} (RMS change < 1 ln unit at all measured separations)"
+    # Every bandwidth: Monte Carlo noise and correlation length. Split halves where the run wrote
+    # them (`ln_l_h<km>_half_a/_b`, from 9475ae5); otherwise the variogram nugget, i.e. gamma in the
+    # smallest separation bin, which over-states noise by the true change over that bin (declared).
+    per_bw = {}
+    for c in lcols:
+        if "half" in c:
+            continue
+        ha, hb = (f"{c}_half_a", f"{c}_half_b") if c != "ln_l" else ("ln_l_half_a", "ln_l_half_b")
+        rows = [r for r in vg[c] if r["pairs"] > 20 and r["gamma"] == r["gamma"]]
+        ok = df[c].notna() & df.get(ha, pd.Series(np.nan, index=df.index)).notna() & df.get(hb, pd.Series(np.nan, index=df.index)).notna()
+        if ok.sum() > 2:
+            nv, how = float(np.var(df[ha][ok] - df[hb][ok]) / 4), "split-half"
+        elif rows:
+            nv, how = rows[0]["gamma"], f"variogram nugget (first bin, {rows[0]['sep_nm']} NM)"
+        else:
+            per_bw[c] = {"resolved_fraction": float(df[c].notna().mean()), "noise": "not measurable (no resolved nodes)"}
+            continue
+        corr = [(r["sep_nm"], r["gamma"] - nv) for r in rows]
+        # Sustained crossing: the first separation from which every larger bin has noise-corrected
+        # gamma >= 0.5 (RMS change >= 1 ln unit). Single-bin crossings are noise at this depth.
+        cross = [corr[i][0] for i in range(len(corr)) if all(g_ >= 0.5 for _, g_ in corr[i:])]
+        n_now = int(s["trajectories"]) / max(int(s["nodes_released"]), 1)
+        per_bw[c] = {"resolved_fraction": float(df[c].notna().mean()), "noise_method": how, "noise_sd_ln_l": float(np.sqrt(nv)),
+                     "signal_gamma_by_sep_nm": [{"sep_nm": a_, "gamma_minus_noise": g_} for a_, g_ in corr],
+                     "correlation_length_nm": cross[0] if cross else f"> {corr[-1][0]}",
+                     "particles_per_node_now": n_now,
+                     "particles_per_node_for_noise_sd_0.5": n_now * nv / 0.25}
+    res["per_bandwidth"] = per_bw
+    hit_cols = [c for c in df.columns if c.startswith("hits_")]
+    if hit_cols:
+        res["hits_by_find"] = {c[5:]: {"median": float(df[c].median()), "p05": float(df[c].quantile(0.05)), "zero_fraction": float((df[c] == 0).mean())} for c in hit_cols}
     # Diagnostic reweighting of the reference map.
     g = s["grid"]
     k = df.node.values
