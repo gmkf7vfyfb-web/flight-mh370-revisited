@@ -51,7 +51,7 @@ def option_posteriors(run, seed_dir):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("run"); ap.add_argument("out"); ap.add_argument("--tag", default=""); ap.add_argument("--extent", type=float, default=110.0)
+    ap.add_argument("run"); ap.add_argument("out"); ap.add_argument("--tag", default=""); ap.add_argument("--extent", type=float, default=110.0); ap.add_argument("--runs", nargs="*", default=[], help="extra terminal dirs to pool (equal weight per seed)")
     a = ap.parse_args()
     global EDGES
     EDGES = np.arange(-a.extent, a.extent + 1e-9, 5.0)
@@ -60,12 +60,21 @@ def main():
     fams = meta["terminal"]["module_families"]; controls = sorted({f.split("/")[2] for f in fams})
     fam_control = np.array([controls.index(f.split("/")[2]) for f in fams])
     seeds = sorted(p for p in (run / "bto-bfo").glob("seed-*") if (p / "impacts.npy").exists())
-    arrays, info = {}, {"source": str(run), "seeds": [seeds[0].name], "children": meta["terminal"]["children"],
+    arrays, info = {}, {"source": str(run), "children": meta["terminal"]["children"],
                          "bin_edges_nm": EDGES.tolist(), "controls": controls, "code_revision": meta.get("code_revision"),
                          "options": {}}
-    for key, p, c in option_posteriors(run, seeds[0]):  # one seed per relay request (seed 1)
+    sources = [(run, seeds[0])] + [(pathlib.Path(d), s) for d in a.runs for s in sorted(pathlib.Path(d, "bto-bfo").glob("seed-*"))
+                                   if (s / "impacts.npy").exists()]
+    info["seeds"] = [f"{r.name}/{s.name}" for r, s in sources]
+    gens = [option_posteriors(r, s) for r, s in sources]
+    for parts in zip(*gens):  # same option order in every seed
+        key = parts[0][0]
+        assert all(q[0] == key for q in parts)
+        n = len(parts)
+        p = np.concatenate([q[1] for q in parts]) / n
+        c = {f: np.concatenate([q[2][f] for q in parts]) for f in ("dn", "de", "ctrl", "has")}
         dn, de, ctrl, has = c["dn"], c["de"], c["ctrl"], c["has"]
-        rec = {"included_share": float(p[has].sum()), "ess": float(1.0 / np.sum(p ** 2))}
+        rec = {"included_share": float(p[has].sum()), "ess": float(sum(1.0 / np.sum(q[1] ** 2) for q in parts))}
         inside = has & (np.abs(dn) <= a.extent) & (np.abs(de) <= a.extent)
         rec["outside_range_share"] = float(p[has & ~inside].sum() / max(p[has].sum(), 1e-300))
         for name, sel in [("pooled", has)] + [(cn, has & (ctrl == k)) for k, cn in enumerate(controls)]:
