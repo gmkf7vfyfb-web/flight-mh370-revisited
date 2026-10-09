@@ -1,4 +1,9 @@
-"""Consumer-side workaround for the shared ocean transport's path export (engine/crates/ocean
+"""RETIRED 2026-10-09: superseded by the shared export fix (ocean_paths load window from the geodesic, merge
+61b50a5). Re-export of all 44 paths with the fixed binary reproduces this script's rejoined output exactly
+(same sample count, 0.0 m depth difference everywhere; data/ocean_paths/export_fix_check.json). Kept for
+provenance of the stage B inputs, which it produced.
+
+Consumer-side workaround for the shared ocean transport's path export (engine/crates/ocean
 examples/ocean_paths.rs), which loads bathymetry only in a window of +/-1 deg around the two ENDPOINTS'
 latitude/longitude range. A geodesic that bows outside that box (e.g. impact -> Portland reaches ~43 S while
 both ends are near 38.5 S) silently loses its samples there (2,500-3,700 km gaps found 9 Oct 2026). Reported
