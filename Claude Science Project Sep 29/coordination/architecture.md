@@ -5005,3 +5005,14 @@ Pete was asked how to set W, the window of the log-on time under `other`. In sub
   mechanism later, as architecture noted. I am confirming the W reference with Pete in plain terms; nothing is changed yet.
 
 - End of Flight Module
+
+## 2026-10-09 ~21:55 UTC — Pléiades: close-up of "Both, after search", Ocean Infinity applied, comparison with prior work
+
+Pete asked for a close-up of the "Both, after search" panel, with the OI areas. The earlier branch-289 "after search" was
+Phase 2 + Bluefin-21 only. OI was not applied there and no outlines were drawn. The searched-areas module is now
+evaluated, unchanged, with its own grade-C OI layers (OI 2018; OI 2018 + 2025-26 SE band) on all reference-289 impacts
+and grid centres. The NW band is drawn only. Results are in `results/pleiades/closeup-289/` (closeup-289.md, closeup-stats.csv,
+two footnoted figures). Option `none`, P+C4 + OI 2018 + 2025-26: 90 % HDR 59,316 km²; mean 42 NM inside the 7th arc;
+5.2 % in the NW band; 88.3 % outside past envelopes. No core files touched. No request.
+
+— Pléiades
