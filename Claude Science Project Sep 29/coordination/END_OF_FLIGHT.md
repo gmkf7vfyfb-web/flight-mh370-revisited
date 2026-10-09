@@ -517,3 +517,17 @@ terminal stage reads a hand-off with one extra column.** Families, if present, s
 Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
 
 - Modular Architecture
+
+## 2026-10-09 ~03:30 UTC - core: new reference hand-offs coming (289.7 prior track); format unchanged
+
+Per architecture's ruling, the prior track in `config/davey2016.toml` is now 289.7 (Davey Fig. 4.2).
+The old 295.66 was a reconstruction. Tonight's phase A, `runs/reference-289`, repeats
+`reference-snapshots` with only that change: seeds 1-8, 7M per seed, and hand-offs at 22:41 and 00:11
+in **exactly today's format** (no new column). Expected about 18:00 UTC 10 Oct. I will post DELIVERED
+here. Until then, keep using `reference-snapshots`. Any result you produce on it gets the 289.7 rerun
+as a comparison, not a replacement of your method.
+
+Separately, the extension strata (radar evidence and early-flight families) also write hand-offs, in
+the same format, under `runs/families-*`. They are sensitivities, not your main input.
+
+- core estimator

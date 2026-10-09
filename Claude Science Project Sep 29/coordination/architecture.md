@@ -2620,3 +2620,72 @@ the transport-error size and a second ocean-model option.
   pre-register it next.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~03:30 UTC - core: overnight launch against your ~02:50 ruling (correction to my earlier citation)
+
+Pete authorised the launch without a further prompt. Correction first: earlier tonight I cited your
+~02:10 item 6 (separate runs per family) as authority. Your ~02:50 entry replaced that item. What
+follows is measured against ~02:50.
+
+**Your gate (c) cannot pass tonight** (End of Flight idle), so **no schema change is launched**.
+- Every stratum is a separate invocation writing today's schema. No family column, no new hand-off
+  field. Request 13's native axis stays unbuilt until End of Flight signs off.
+- **Phase A runs alone first.** Phase B (the extension strata) starts only after phase A ends, and it
+  does not start at all if `out/overnight/HOLD` exists in core's workspace.
+- I read "run the extension strata next" as allowing phase B straight after phase A without a
+  schema change. **If you disagree, tell Pete before about 18:00 UTC 10 Oct** and core creates HOLD.
+
+**Phase A, `runs/reference-289`** (the reproduction re-run):
+- `davey2016.toml` + no-exhaustion-prior + reference-snapshots, seeds 1-8, 7M per seed, hand-offs at
+  22:41 and 00:11.
+- Identical to `reference-snapshots` except the prior track: seed-matched A/B, heading the only change.
+- Item 2 done in `5aee2bb`. `davey2016.toml` now has track 289.7 with provenance (Fig. 4.2 digitised,
+  book p. 21, PDF p. 34). `config/sensitivity/prior-track-29566.toml` restores 295.66.
+- Item 3: **prior position checked, unchanged.**
+  - An independent radar-track digitisation (Drive `radar-map.dat`) gives 5.616 N 99.050 E at 18:01:49,
+    0.54 NM away, inside the 0.5 NM sd.
+  - The Lido caption "02:02H PERAK ISLAND 279R 89nm from Butterworth AB" lies 1.1 NM from Pulau Perak.
+  - The implied Pulau Perak passage at 505 kt is 18:02:44, against 18:02:48 read from the slide.
+
+**Phase B** (all strata scored with the radar data; seeds 1-4):
+
+| run | stratum | particles per seed |
+|---|---|---|
+| `runs/families-free` | free cruise | 3.5M |
+| `runs/families-repro-radar` | reproduction + radar (the twin) | 1.75M |
+| `runs/families-routes` | 48 declared routes | 1.75M |
+| `runs/families-descent-climb` | descent-climb, 777 limits | 0.875M |
+
+- **Radar twins (my choice, as you asked):** only the reproduction has a no-radar twin, and that twin
+  is phase A. P(family | data) is reported within the radar set only.
+
+**Radar set:** `config/sensitivity/early-families/radar-full.toml` (notes in
+`results/early-families-configs.md`).
+- Gap plots 18:04:14 / 18:05:15 / 18:07:16 (18:07:06 excluded as an error).
+- 18:13:36 near VAMPI.
+- The VAMPI-MEKAR band, scored across track at four times (sd 1.5 NM).
+- 18:22:12 at 10 NM past MEKAR (sd 5 NM).
+
+**Gates passed:**
+- (a) The new base config is byte-identical to the old binary + 289.7 overlay: no-exhaustion-prior
+  smoke and handoff-smoke, every .npy, handoff.toml and terminal.json.
+- (a) again, on the rebuilt binary after merging tonight's End of Flight and ocean commits:
+  byte-identical to the gated binary.
+- (b) Hand-off code unchanged (handoff-smoke byte-identical).
+- (d) All tests pass.
+- (e) Wall time: phase A about 14.3 h (measured on reference-snapshots); phase B 31.5M seed-particles
+  at the measured 0.255 h/M, about 8 h. **About 22 h in total.**
+- The run queues behind tonight's smoke runs (lock), so it starts about 03:45-04:15 UTC.
+  - Phase A ends about 18:00 UTC 10 Oct.
+  - Phase B ends about 02:00 UTC 11 Oct.
+
+**Smoke indications so far** (100k/mode x 2; radar strata not yet comparable with one another, because
+the first free run used a superseded radar set):
+- Reference (295.66, no radar): 00:19 median 36.91 S. Its paths are 18.6 NM right of N571 at 18:22.
+- Routes: 94.6% of the posterior is VAMPI-MEKAR-NILAM-NOPEK-ISBIX; 00:19 median 37.25 S.
+- Free: the 18:22 turn is taken in 67% of the posterior (prior 50%), to a median track of 303.6 deg
+  (5-95%: 294-316).
+- Both radar strata lag the 18:22:12 fix by 11-13 NM: the radar point and the 18:25-18:28 BTO are in
+  tension.
+
+- core estimator
