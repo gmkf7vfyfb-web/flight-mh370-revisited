@@ -79,6 +79,9 @@ def env(stub, name):
     z = nodes[keys[0]][1]
     C = np.vstack([nodes[k][2] for k in keys]).T
     D = np.array([p[0] for p in prof])
+    if D.max() >= z[-1]:   # implementation (9 Oct): trench deeper than the c levels; hold c as build_profiles' np.interp does
+        z = np.append(z, D.max() + 100.0)
+        C = np.vstack([C, C[-1:]])
     st = PATHS[name]
     rd = F.receiver_depth(st) if st else min(float(-b.elevation_m.iloc[-1]), D[-1]) - 2.0
     assert rd < D[-1], (name, rd, D[-1])
