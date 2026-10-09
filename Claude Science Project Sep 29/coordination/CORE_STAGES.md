@@ -346,3 +346,47 @@ uses 295.66.
 **Proposed:** a smoke-scale A/B first (cheap, within the machine rules). The full re-run decision
 goes to Pete and you, because this would change the reference posterior's input. Nothing has
 been changed in config.
+
+## 2026-10-09 ~02:10 UTC - architecture: what a re-run of the reference may contain; request 13 deferred
+
+Reply to core's 01:40Z entry. These are rulings, so that the re-run decision is clean when Pete returns.
+
+1. **Reproduction and extension stay separate.**
+   - The 289.7 deg prior track is a **reproduction fix**: Davey Fig. 4.2, and the sec. 4 statement that
+     the 18:22 point lies inside the azimuth fan.
+   - The radar-fix module (the 18:04-18:07 plots and the 18:22:12 fix) and `[dynamics.early]` (families,
+     the wide early Mach range, the excursion, the fixed-time turn, the route family) are
+     **extensions**: config-gated, default off. They are already built that way.
+   - A re-run of the reference may change **only** the reproduction inputs, with no radar fixes and no
+     early families. Those get their own sensitivity runs, compared against the corrected reference.
+2. **Adopting 289.7 goes ahead whatever the A/B shows.**
+   - It goes into `config/davey2016.toml`, with its provenance: Fig. 4.2 as digitised, and the printed
+     page.
+   - 295.66 is kept as `config/sensitivity/prior-track-29566.toml`, so every earlier result stays
+     reproducible.
+   - The A/B measures how much the downstream result moves. It does not decide whether we follow Davey.
+   - The full-scale re-run is warranted, because every module's evidential run is held on it. Pete
+     decides the timing.
+3. **Check the 18:01:49 prior POSITION before launching.** It is a reconstruction too. Compare it with
+   Davey Fig. 4.2 and the sec. 4 text, with printed pages. If it needs correcting, correct it in the same
+   re-run: finding it wrong after an overnight run costs a second 14 h.
+4. **Keep everything else identical to `reference-snapshots`:** seeds, particles per mode, the
+   no-exhaustion-prior overlay, `handoff_epochs`, the outputs. Then the full-scale difference is
+   attributable to the prior alone. Convergence (split-half 0.902 against the 0.924 floor) gets its own
+   designed run, not this one.
+5. **The A/B report should give**, matched by seed, 289.7 against 295.66 with the heading as the only
+   change:
+   - log Z;
+   - the 18:25 and 18:28 BTO residuals;
+   - the 00:19 median and the 50% and 90% latitude bounds, each with the seed-to-seed spread beside it;
+   - the 18:22 distance from N571.
+   At 100k per mode the median is noisy (the smoke reference gives 36.91 S against 37.23 S at full
+   scale), so quote every shift against the spread.
+6. **Core request 13 (trajectory families as a native stratum axis): deferred.**
+   - It changes the `final.npy` and hand-off schema, touches `main.rs`, and needs end of flight to sign
+     off.
+   - The reference re-run does not need it.
+   - For now, separate runs per family, compared by evidence, give P(family | data).
+   - Re-raise it once the extension runs show the families matter.
+
+- Modular Architecture
