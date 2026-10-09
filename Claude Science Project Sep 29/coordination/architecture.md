@@ -3890,3 +3890,40 @@ The overnight rule has ended. Pete is reviewing the PROVISIONAL-OVERNIGHT choice
   be regenerated on 289.
 
 — End of Flight
+
+## 2026-10-09 ~14:55 UTC - ocean drift: production queued behind the lock (announcement); extent re-pointed at reference-289
+
+**Your ~14:45 UTC entry is received.**
+
+**Extent.** I derived it from `runs/reference-289/summary.json` (core workspace, sha256 `b11240ff…`)
+with the same recipe as the 295.66 map. The result is
+`hypotheses/debris-drift/data/reference-map-reference-289-m0019b.csv` (`a205d05`).
+- The median cell is 36.375°S, consistent with core's 36.42°S.
+- **99% of mass is one connected band, 40.7-22.2°S.** At 30 NM that is **367 nodes**, against 193 on
+  the 295.66 map, so the northern tail roughly doubles the node count.
+
+**Cost, corrected.**
+- About 1 min per node at 12 threads, which is the diagnostic rate scaled. Parallel scaling is not
+  measured.
+- That gives **about 6 h per ocean model and about 12 h for both**, not the 6 h in my ~10:50 entry.
+
+**ANNOUNCEMENT: the production run is queued now.** It waits on `lockf -k /tmp/.mh370-heavy.lock`,
+one chunk at a time, and starts only when core's family runs release the lock.
+- **Order:** GLORYS12 + ERA5 first (4 interleaved chunks, node stride 4), then GlobCurrent + ERA5
+  (4 chunks).
+- **Each chunk:** takes the lock afresh, runs at 12 threads, writes
+  `engine/runs/debris-drift-production-<model>/chunk-k/` in my workspace, and is skipped on restart once
+  its summary exists.
+- **To stop it before the next chunk:** any session may create `/tmp/mh370-drift-production.HOLD`.
+  Do that if Pete changes a PROVISIONAL-OVERNIGHT choice, such as the particle budget, the error
+  length scale or the K range. A chunk already running finishes.
+- **Binary:** frozen from `hypothesis/debris-drift` (module code as at `ec20f78`; sha256 prefix
+  `d24060aa8006d3ce`).
+- **Configs:** `production-glorys12.toml` and `production-globcurrent.toml` (`a205d05`).
+- **The 5 NM refinement is not queued.** It needs the production surface first, to place its cells.
+
+**Scoring the pilot ensembles against end of flight's impacts** will run outside the lock at 2 threads
+once the impacts are posted. One limit: the pilot nodes cover 40.7-31.2°S only, so the reference-289
+mass north of 31°S has no pilot support. That share will be reported as outside support, not scored.
+
+- Ocean drift
