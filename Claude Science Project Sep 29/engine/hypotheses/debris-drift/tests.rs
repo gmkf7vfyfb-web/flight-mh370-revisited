@@ -286,6 +286,40 @@ fn run_toml_builds_and_scores_synthetic_finds() {
 }
 
 #[test]
+fn node_csv_is_rectangular_and_hits_bound_n_eff() {
+    // The sizing diagnostics (hits per find, split halves and effective sizes at the extra
+    // bandwidths) are appended to every row; a find with zero hits has zero effective size, and
+    // the Kish size never exceeds the hit count.
+    let run: toml::Value = toml::from_str(include_str!("run.toml")).unwrap();
+    let dir = std::env::temp_dir().join(format!("drift-csv-{}", std::process::id()));
+    let p = small(run["hypotheses"]["debris-drift"].clone(), &[("particles_per_class", toml::Value::Integer(60)), ("node_subset", toml::Value::Array((0..6).map(|i| toml::Value::Integer(4000 + 37 * i)).collect())), ("output_dir", toml::Value::String(dir.to_string_lossy().into()))]);
+    build(&p).unwrap();
+    let text = std::fs::read_to_string(dir.join("nodes.csv")).unwrap();
+    let mut lines = text.lines();
+    let head: Vec<&str> = lines.next().unwrap().split(',').collect();
+    let col = |name: &str| head.iter().position(|h| *h == name);
+    let mut rows = 0;
+    for l in lines {
+        let v: Vec<&str> = l.split(',').collect();
+        assert_eq!(v.len(), head.len(), "row width");
+        for (k, h) in head.iter().enumerate() {
+            if let Some(id) = h.strip_prefix("hits_") {
+                let hits: f64 = v[k].parse().unwrap();
+                let ne: f64 = v[col(&format!("n_eff_{id}")).unwrap()].parse().unwrap();
+                assert!(ne <= hits + 1e-9, "{id}: n_eff {ne} > hits {hits}");
+                if hits == 0.0 {
+                    assert_eq!(ne, 0.0);
+                }
+            }
+        }
+        rows += 1;
+    }
+    assert!(rows > 0);
+    assert!(head.iter().any(|h| h.starts_with("ln_l_h") && h.ends_with("_half_a")));
+    std::fs::remove_dir_all(&dir).ok();
+}
+
+#[test]
 fn synthetic_recovery_coverage() {
     // Finds generated from a node drawn uniformly from a small grid (independent ensembles),
     // scored with the module's own layers and level marginalisation; the 90% HPD set should

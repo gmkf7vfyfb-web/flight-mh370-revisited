@@ -500,6 +500,17 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     for j in 0..observations.len() {
         header += &format!(",n_eff_{}", observations[j].id.replace(':', "_"));
     }
+    // Sizing diagnostics (step 4): kernel hits per find at the primary bandwidth, and split halves
+    // and per-find effective sizes at each extra bandwidth.
+    for j in 0..observations.len() {
+        header += &format!(",hits_{}", observations[j].id.replace(':', "_"));
+    }
+    for h in &p.recovery.extra_bandwidths_km {
+        header += &format!(",ln_l_h{h}_half_a,ln_l_h{h}_half_b");
+        for j in 0..observations.len() {
+            header += &format!(",n_eff_h{h}_{}", observations[j].id.replace(':', "_"));
+        }
+    }
     let clock = std::time::Instant::now();
     let mut steps_total = 0.0;
     let (mut released, mut model_error, mut left_domain) = (0usize, 0usize, 0usize);
@@ -514,16 +525,25 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         let mut node_left = 0usize;
         let mut node_released = 0usize;
         let mut on_land = false;
-        let mut coef_h: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); p.recovery.extra_bandwidths_km.len()];
+        let nh = p.recovery.extra_bandwidths_km.len();
+        let mut coef_h: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); nh];
+        let mut coef_ha: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); nh];
+        let mut coef_hb: Vec<Vec<Vec<Option<recovery::Coefficients>>>> = vec![Vec::new(); nh];
+        let mut hits = vec![0usize; observations.len()];
+        let mut n_eff_h = vec![vec![f64::NAN; observations.len()]; nh];
         for &(seed, diffusion) in &envs {
             let (mut full, mut ha, mut hb) = (Vec::new(), Vec::new(), Vec::new());
-            let mut fh: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); p.recovery.extra_bandwidths_km.len()];
+            let mut fh: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); nh];
+            let mut fha: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); nh];
+            let mut fhb: Vec<Vec<Option<recovery::Coefficients>>> = vec![Vec::new(); nh];
             for c in 0..nc {
                 if responses[c].is_empty() {
                     full.push(None);
                     ha.push(None);
                     hb.push(None);
                     fh.iter_mut().for_each(|v| v.push(None));
+                    fha.iter_mut().for_each(|v| v.push(None));
+                    fhb.iter_mut().for_each(|v| v.push(None));
                     continue;
                 }
                 let (e, steps) = run_ensemble(&setup, &loc, [lo, la], p.release_unix_s, t_end, &responses[c], seed, diffusion)?;
@@ -546,10 +566,18 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                 let kf = rec.coefficients(&obs, &all, n);
                 for (jj, &j) in by_class[c].iter().enumerate() {
                     n_eff[j] = if n_eff[j].is_nan() { kf.n_eff[jj] } else { n_eff[j].min(kf.n_eff[jj]) };
+                    hits[j] += kf.hits[jj];
                 }
                 for (hi, &h) in p.recovery.extra_bandwidths_km.iter().enumerate() {
                     let rh = Recovery { bandwidth_km: h, ..rec.clone() };
-                    fh[hi].push(Some(rh.coefficients(&obs, &all, n)));
+                    let kh = rh.coefficients(&obs, &all, n);
+                    for (jj, &j) in by_class[c].iter().enumerate() {
+                        let v = &mut n_eff_h[hi][j];
+                        *v = if v.is_nan() { kh.n_eff[jj] } else { v.min(kh.n_eff[jj]) };
+                    }
+                    fh[hi].push(Some(kh));
+                    fha[hi].push(Some(rh.coefficients(&obs, &a_half, half)));
+                    fhb[hi].push(Some(rh.coefficients(&obs, &b_half, n - half)));
                 }
                 full.push(Some(kf));
                 ha.push(Some(rec.coefficients(&obs, &a_half, half)));
@@ -558,6 +586,12 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
             coef_full.push(full);
             for (hi, v) in fh.into_iter().enumerate() {
                 coef_h[hi].push(v);
+            }
+            for (hi, v) in fha.into_iter().enumerate() {
+                coef_ha[hi].push(v);
+            }
+            for (hi, v) in fhb.into_iter().enumerate() {
+                coef_hb[hi].push(v);
             }
             coef_a.push(ha);
             coef_b.push(hb);
@@ -581,6 +615,17 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         }
         for v in &n_eff {
             row += &format!(",{v:.3}");
+        }
+        for v in &hits {
+            row += &format!(",{v}");
+        }
+        for hi in 0..nh {
+            for ch in [&coef_ha[hi], &coef_hb[hi]] {
+                row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, &levels)) });
+            }
+            for v in &n_eff_h[hi] {
+                row += &format!(",{v:.3}");
+            }
         }
         rows.push(row);
         nodes[k] = node;

@@ -154,6 +154,9 @@ pub struct Coefficients {
     pub big_a: Vec<f64>,
     /// Kish effective number of particles contributing to each find (levels all 1).
     pub n_eff: Vec<f64>,
+    /// Number of particles with non-zero kernel weight for each find (inside the cut-off and
+    /// before the find's interval ends). A sizing diagnostic: hits are Poisson in the particle count.
+    pub hits: Vec<usize>,
 }
 
 impl Recovery {
@@ -209,6 +212,7 @@ impl Recovery {
         let norm = 1.0 / (h * std::f64::consts::TAU.sqrt());
         let mut a = vec![vec![0.0; nb]; obs.len()];
         let mut n_eff = vec![0.0; obs.len()];
+        let mut hits = vec![0usize; obs.len()];
         let mut tmp = vec![0.0; np];
         for (j, o) in obs.iter().enumerate() {
             let width = o.t_end_days - o.t_start_days;
@@ -229,6 +233,9 @@ impl Recovery {
                 }
                 s1 += c;
                 s2 += c * c;
+                if c > 0.0 {
+                    hits[j] += 1;
+                }
             }
             n_eff[j] = if s2 > 0.0 { s1 * s1 / s2 } else { 0.0 };
         }
@@ -250,7 +257,7 @@ impl Recovery {
                 }
             }
         }
-        Coefficients { a, big_a, n_eff }
+        Coefficients { a, big_a, n_eff, hits }
     }
 }
 
