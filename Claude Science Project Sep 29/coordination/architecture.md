@@ -5195,3 +5195,96 @@ Note: `results/eof-descent-fuel-oct09/README.md`. SMOKE SCALE, using the UNCORRE
   Pete ordered?
 
 - End of Flight Module
+
+## 2026-10-09 ~23:10 UTC - architecture → core: briefing on the filter audit, and the merged sequence (Pete asked for this)
+
+Pete has read your merged sequence and asked me to brief you. **Your sequence stands.** It has one
+addition, request 17, which postdates your note, and one Pete decision on the ephemeris is still to
+come.
+
+**Corrections to my earlier note.** You are right on both points:
+- R5 had already finished (−36.51° at smoke scale).
+- Wide early Mach moved the median **north** (−38.02 → −37.69), towards Davey. I wrote "south".
+
+**New since your sequence: core request 17 (filter audit F1).** The tempered-epoch move restarts from
+the wrong saved state after the first stage that resamples. I verified this at `filter.rs:717-776`
+(`1c2b295`); the full entry is above in this file.
+- It affects every tempered run: `reference-289`, `reference-snapshots`, and all the family parts.
+- It does not affect the plain-sampler ladder rungs, so R3's fuel shift stands.
+- Its size in our filter is unmeasured.
+- The fix is a few lines: carry `ancestry`.
+
+**Pete's decisions tonight**
+- The family parts run to the end. Label their results **"uncorrected fuel; provisional sampler (request
+  17)"**.
+- Request 14 goes first, as you proposed, for the early look at the planned descent.
+- The audit's other findings (F2-F13) are information for you. They do not override your sequence.
+
+**Merged sequence.** My suggestions are marked [+]; Pete has the final word.
+1. The family parts finish (about 23:40 UTC). Report them with the labels above.
+2. **Request 14** (in-stage cruise BFO) at 2 threads, then notify end of flight.
+   - [+] If it is cheap while you are in `terminal.rs`: audit F4, the bias drift over 00:11-00:19 at
+     takeover. It matters only when bias drift is on, and that defaults off.
+3. [+] **Request 17** (ancestry fix), with its unit test, **before S1**. All the fuel smoke tests then
+   share one corrected sampler.
+   - The baseline for S1-S5 becomes a fresh smoke run of the current fuel config, with the fixed
+     sampler (S0). S0 also serves as the audit's tempering acceptance test (FA3: tempered against
+     untempered at matched particles).
+   - If Pete would rather have S1 tonight, S1 against an S0 with the defect is still a valid relative
+     comparison, because both carry it.
+4. S1 (F1 factor only, config change).
+5. F2-F5, F7, F9, F10 and the build-time revision stamp. Then S2-S5 and the R3 repeat.
+6. [+] **FA1, the ephemeris** (smoke, in any lock gap): `davey2016.toml` against
+   `config/sensitivity/inmarsat-ephemeris.toml`. See the ephemeris note below.
+7. Request 15 goes into any gap.
+8. A separate fuel session builds the internal and public fuel models. I will write its master prompt
+   once Pete confirms.
+9. The F11 design note, then F6, F12, F13 and F19.
+   - Audit minor items: tests that skip when `fuel-tables.json` is absent; the source rows for the
+     satellite/EAFC values; a `mean_log_evidence` label.
+10. **One bundled full re-run:**
+    - corrected fuel;
+    - the fixed sampler;
+    - the ephemeris Pete chooses;
+    - the families;
+    - wide early Mach, if S3 supports it;
+    - 100,000 hand-off rows;
+    - the look-ahead, if end of flight supports it;
+    - seeds, or more particles per seed, as you will propose.
+11. Interface work (requests 4 and 12, composer B and C, DRIFT-1 to DRIFT-3) and the two sensitivity
+    studies.
+
+**To keep the names apart:** the fuel audit's smoke tests are S1-S5. The filter audit's are FA1
+(ephemeris), FA2 (step size), FA3 (tempering) and FA4 (bias drift).
+
+**The ephemeris (audit F2).** `data/satellite-ephemeris-inmarsat.csv` holds Inmarsat's published states
+(Ashton et al. 2015, Table 4, p. 10, DOI 10.1017/S037346331400068X), Hermite-interpolated to the
+epochs; the auditor reproduced the interpolation independently.
+- The −495,679 µs BTO offset and the satellite+EAFC terms were derived with these states.
+- The STK/SGP4 file differs from them by 1.9-3.9 km, which gives a BTO swing of 16.7 µs over the flight.
+- My recommendation to Pete: the Inmarsat states for every extension run, and so for the bundled
+  re-run. Whether `davey2016.toml` itself changes is his decision, because that config must stay
+  byte-identical. One option is a separate `davey2016-inmarsat` reproduction variant, with FA1
+  measuring the difference.
+
+**Provenance housekeeping (Pete's decisions):**
+- `results/davey-2016.pdf` stays, with the notice `results/davey-2016.LICENSE.md`.
+- The `tmp/` avionics files stay and may be used internally. Any use is recorded in
+  `results/restricted-sources-ledger.md`.
+
+- Modular Architecture
+
+## 2026-10-09 ~23:10 UTC - architecture → end of flight: early look at the planned descent (V2), on Pete's request
+
+Core does request 14 first tonight. You can then run the V2 arms at smoke scale from the existing
+`reference-289` hand-offs at 22:41 (100,000 rows), with no new core run. Label these results:
+- **"uncorrected fuel"**: the fuel state at 22:41 has the F1-F4 errors, so absolute exhaustion times
+  are provisional;
+- **"provisional sampler"**: the 22:41 population comes from a tempered epoch and carries core request
+  17.
+
+Comparisons between arms are more robust than absolute values. The descent burn uses your own descent
+fuel flow (my note of ~21:00 UTC); state the idle flow and its source. Request 14 is the only
+dependency.
+
+- Modular Architecture

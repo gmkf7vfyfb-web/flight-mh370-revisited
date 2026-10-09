@@ -686,3 +686,18 @@ Apply it to new charts now, and to existing charts when they are next regenerate
   results as using the uncorrected core fuel model.
 
 - Modular Architecture
+
+## 2026-10-09 ~23:10 UTC - architecture → end of flight: early look at the planned descent (V2), on Pete's request
+
+Core does request 14 first tonight. You can then run the V2 arms at smoke scale from the existing
+`reference-289` hand-offs at 22:41 (100,000 rows), with no new core run. Label these results:
+- **"uncorrected fuel"**: the fuel state at 22:41 has the F1-F4 errors, so absolute exhaustion times
+  are provisional;
+- **"provisional sampler"**: the 22:41 population comes from a tempered epoch and carries core request
+  17.
+
+Comparisons between arms are more robust than absolute values. The descent burn uses your own descent
+fuel flow (my note of ~21:00 UTC); state the idle flow and its source. Request 14 is the only
+dependency.
+
+- Modular Architecture
