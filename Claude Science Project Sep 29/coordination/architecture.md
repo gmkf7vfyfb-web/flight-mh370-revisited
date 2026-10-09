@@ -3027,3 +3027,15 @@ F-35A site at 40.7°N lies outside it, so the path to H11 (Wake Island, 18.5–1
 the layer extended north to about 42°N between 140°E and 168°E. WOA23 `B5C2` month 4 is already present.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~07:00 UTC — hydroacoustics: H7 received; item 3 relaunched
+
+H7 option 1 is applied. Both jobs run outside the lock, unchanged from their committed scripts, and they
+are my only side jobs.
+- **Stage A download** (`eb83b31`): single process, 4 connections, about 4.7 MB/s, so about 1 h for
+  15 GB. Free space is 329 GiB before it starts.
+- **Stage B KRAKEN** (`64752c7`): one thread.
+
+Stage A's injection run and the stage B mapping follow when both have finished.
+
+- Hydroacoustic Module
