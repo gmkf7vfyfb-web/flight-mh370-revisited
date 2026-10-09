@@ -443,3 +443,39 @@ Stored at `/Users/pete/Downloads/mh370-ocean-data/products/gdp-replay/`. The sta
 | `sep_glorys12_waverys.f32` | 13,511,040 | 6ec06771ac09c7706fd73510921501b263ec6ba32096b69b707779eeb92aac57 |
 | `sep_glorys12_waverys_era5w01.f32` | 13,511,040 | 9a9472842dfe53d1f4506c900a36ca6aa96c60b134c081d7e7ed9c2e9dd61e3c |
 | `sep_globcurrent_p1d_era5w01.f32` | 13,511,040 | cebc38234ee5d9226e5f5f0044b88fbf8e42d893450e2a63b4d35034c0bd8c09 |
+
+## North-west Pacific layers for the F-35A → H11 path (ruling H4), built 2026-10-09
+
+- **GEBCO_2026 layer `gebco/grid/gebco_2026_nwpac.json`:** 130–180 E, 30–50 N, 12,000 × 4,800 cells.
+  - Elevation and TID are copied unchanged from the same `GEBCO_2026.nc` and `gebco_2026_tid.nc` as the
+    main layer; the manifest's `source_sha256` is identical.
+  - It is contiguous with the main layer, which ends at 30 N; there is no overlap.
+  - Built by `prepare/gebco_to_grid.py ... 130 180 30 50 gebco_2026_nwpac`.
+- **WOA23 sound speed `woa23/soundspeed_nwpac/`:** 130–180 E, 15–50 N, decade B5C2, months 1–12, with the
+  same method as the main grids.
+  - Built by `prepare/woa23_to_soundspeed.py <woa23> <out> 130 180 15 50 B5C2` from the global WOA23 files
+    already fetched.
+  - The main `soundspeed/` grids stop at 30 N.
+
+| File | Bytes | sha256 |
+|---|---|---|
+| `gebco/grid/gebco_2026_nwpac_elevation.i16` | 115,200,000 | 2b8c602df16f07791ffb8f4f196c5e59d38143118bed03dde1db389d937b7fa3 |
+| `gebco/grid/gebco_2026_nwpac_tid.u8` | 57,600,000 | 3816d2e5aa05b945ec695cbd813d8faeba76062768b6c979d56d9a6a8299ca57 |
+| `woa23/soundspeed_nwpac/woa23_B5C2_m04.json` | — | 9e1d849c98d65a26cc57c340438fdf22b2f3e0b9a658977d39e26ec50de043fe |
+| `woa23/soundspeed_nwpac/woa23_B5C2_m04_c_mean.f32` | — | 64ee3d997f74baddcc821f36895edf6597e7e28678db51c00daf8bd748119d27 |
+| `woa23/soundspeed_nwpac/woa23_B5C2_m04_c_sd.f32` | — | 0a44c89bcc5040154fe05bf2f079a2403edd3c664b73f60e637bf73be3773513 |
+| `woa23/soundspeed_nwpac/woa23_B5C2_m04_sa.f32` | — | 9a6c7d9f2e1a10eca4038cf315fc07bfe4a7a8b7a19f620eb807a9d6ca647a0a |
+| `woa23/soundspeed_nwpac/woa23_B5C2_m04_ct.f32` | — | c0cb476d63f6b951da6ebe147f476420bb3a5f2d1db2f76410b25275e36affe6 |
+
+**F-35A → H11 path files** are in `products/hydro-paths-f35a-2019-04/` (request.json, CSVs and meta).
+
+- Source: 40.64 N 142.96 E (hydro's working position from Metz et al.), at 10:26:32 UTC on
+  9 April 2019.
+- Receivers: the H11N and H11S triad centroids, taken from hydro's `stations.csv` (EarthScope FDSN).
+
+| File | sha256 |
+|---|---|
+| `f35a-H11N_bathymetry.csv` | 31d62e5655556a1eabb5056d529f61fe406503555cfe1c037caed7647a6dbea2 |
+| `f35a-H11N_soundspeed.csv` | d2cb258fa87dfea99c8faa71180f42a1d8d61596993f1c60458b9a518fc0599d |
+| `f35a-H11S_bathymetry.csv` | 8213395df24e149b6aa1e0b6d51cfd22e85427ee8bc7a3c5c02129f52c80b792 |
+| `f35a-H11S_soundspeed.csv` | 412cb85eb4e155b6d5183ce4b58db3f7afc4a6363ab2c63512c2f07bcaae151e |

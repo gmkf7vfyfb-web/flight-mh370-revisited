@@ -66,6 +66,7 @@ enum Proj {
 }
 
 const WEB_MERCATOR_A: f64 = 6_378_137.0;
+const NO_OVERLAP: &str = "window does not overlap the grid";
 
 impl Proj {
     fn native(self, p: LonLat) -> [f64; 2] {
@@ -153,7 +154,7 @@ impl Layer {
         let j0 = idx(lo[1], y0, m.nlat).saturating_sub(1);
         let j1 = (idx(hi[1], y0, m.nlat) + 2).min(m.nlat);
         if i1 <= i0 || j1 <= j0 {
-            return Err("window does not overlap the grid".into());
+            return Err(NO_OVERLAP.into());
         }
         let w = (i0, i1, j0, j1);
         let z = match m.elevation_dtype.as_str() {
@@ -197,6 +198,35 @@ impl Layer {
     }
 }
 
+/// Bounding box `[lon_min, lon_max, lat_min, lat_max]` that holds the whole WGS84 geodesic from `a` to
+/// `b` and its corridor: the geodesic sampled every `step_m` (and at both ends), padded by the corridor
+/// half-width plus `pad_deg`. Load windows must come from this, not from the endpoints: a long geodesic
+/// bows poleward of both of its ends (impact to Portland reaches about 43 S from ends near 38.5 S).
+/// Longitudes stay continuous along the path (no wrap at 180), so a path across the antimeridian
+/// returns longitudes beyond 180 and must be split by the caller.
+pub fn path_extent(a: LonLat, b: LonLat, half_width_m: f64, step_m: f64, pad_deg: f64) -> [f64; 4] {
+    let g = Geodesic::wgs84();
+    let (s12, azi1, _azi2, _a12): (f64, f64, f64, f64) = g.inverse(a[1], a[0], b[1], b[0]);
+    let n = (s12 / step_m).ceil().max(1.0) as usize;
+    let (mut lo, mut hi) = ([a[0], a[1]], [a[0], a[1]]);
+    let mut prev = a[0];
+    for k in 0..=n {
+        let (lat, mut lon): (f64, f64) = g.direct(a[1], a[0], azi1, (k as f64 * step_m).min(s12));
+        while lon - prev > 180.0 {
+            lon -= 360.0;
+        }
+        while lon - prev < -180.0 {
+            lon += 360.0;
+        }
+        prev = lon;
+        lo = [lo[0].min(lon), lo[1].min(lat)];
+        hi = [hi[0].max(lon), hi[1].max(lat)];
+    }
+    let dlat = half_width_m / 111_000.0 + pad_deg;
+    let cos = lo[1].abs().max(hi[1].abs()).min(89.0).to_radians().cos();
+    [lo[0] - dlat / cos, hi[0] + dlat / cos, lo[1] - dlat, hi[1] + dlat]
+}
+
 /// The layered surface.
 pub struct Bathymetry {
     layers: Vec<Layer>,
@@ -207,7 +237,19 @@ impl Bathymetry {
     /// Load layers from manifests in priority order (finest first), each cut to `window`
     /// `[lon_min, lon_max, lat_min, lat_max]` if given.
     pub fn load(manifests: &[&Path], window: Option<[f64; 4]>) -> Result<Self, String> {
-        let layers = manifests.iter().map(|m| Layer::load(m, window)).collect::<Result<Vec<_>, _>>()?;
+        // A regional layer that the window misses entirely is skipped; any other failure is an error,
+        // and so is a window that no layer covers.
+        let mut layers = Vec::new();
+        for m in manifests {
+            match Layer::load(m, window) {
+                Ok(l) => layers.push(l),
+                Err(e) if e == NO_OVERLAP => {}
+                Err(e) => return Err(e),
+            }
+        }
+        if layers.is_empty() {
+            return Err(format!("window {window:?} overlaps none of the bathymetry layers"));
+        }
         Ok(Bathymetry { layers, geodesic: Geodesic::wgs84() })
     }
 

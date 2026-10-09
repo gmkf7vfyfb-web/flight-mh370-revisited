@@ -841,3 +841,32 @@ fn windowed_load_answers_exactly_as_the_full_series_inside_its_window() {
     assert!(GridField::load_window(&series, &LoadWindow { lon: Some([120.0, 130.0]), ..LoadWindow::all() }).is_err());
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+#[test]
+fn long_geodesic_window_holds_the_whole_path() {
+    use mh370_ocean::bathy::{path_extent, Bathymetry};
+    // Ends at 38.5 S, 100 and 140 E: the geodesic bows to about 40.2 S, outside the endpoints'
+    // +-1 deg box (the bug in ocean_paths before this fix, which dropped the samples there).
+    let dir = std::env::temp_dir().join(format!("mh370-longpath-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let (nx, ny, step) = (601usize, 201usize, 0.1);
+    let z: Vec<u8> = (0..nx * ny).flat_map(|k| (-(3000 + (k % 7) as i16)).to_le_bytes()).collect();
+    std::fs::write(dir.join("z.i16"), z).unwrap();
+    let m = format!(r#"{{"source":"gebco_2026","lon0":90.0,"lat0":-50.0,"step_deg":{step},"nlon":{nx},"nlat":{ny},"elevation_file":"z.i16","elevation_dtype":"i16","tid_file":null}}"#);
+    std::fs::write(dir.join("b.json"), m).unwrap();
+    let layer = dir.join("b.json");
+    let (a, b) = ([100.0, -38.5], [140.0, -38.5]);
+    let w = path_extent(a, b, 2000.0, 10_000.0, 0.1);
+    assert!(w[2] < -40.2 && w[2] > -40.6, "{w:?}");
+    assert!(w[0] < 100.0 && w[1] > 140.0 && w[3] > -38.5);
+    let full = Bathymetry::load(&[layer.as_path()], Some(w)).unwrap();
+    let samples = full.path(a, b, 1000.0, 2000.0);
+    assert!(samples.iter().all(|s| s.is_some()), "gaps inside the path window");
+    let south = samples.iter().flatten().map(|s| s.track.point[1]).fold(0.0f64, f64::min);
+    assert!(south < -40.0, "{south}");
+    // The old endpoint box loses the middle of the path.
+    let old = Bathymetry::load(&[layer.as_path()], Some([99.0, 141.0, -39.5, -37.5])).unwrap();
+    let lost = old.path(a, b, 1000.0, 2000.0).iter().filter(|s| s.is_none()).count();
+    assert!(lost > 1000, "{lost}");
+    std::fs::remove_dir_all(&dir).unwrap();
+}

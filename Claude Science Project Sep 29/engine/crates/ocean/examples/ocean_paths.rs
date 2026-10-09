@@ -15,7 +15,7 @@
 //! geodesic length, the WOA23 decade and month used, and the inputs.
 
 use geographiclib_rs::{DirectGeodesic, Geodesic};
-use mh370_ocean::bathy::Bathymetry;
+use mh370_ocean::bathy::{path_extent, Bathymetry};
 use mh370_ocean::soundspeed::{woa23_period, SoundSpeedClimatology};
 use serde::Deserialize;
 use std::fmt::Write as _;
@@ -50,12 +50,20 @@ fn main() {
     std::fs::create_dir_all(out).unwrap();
     let layers: Vec<&Path> = req.bathymetry.iter().map(|p| p.as_path()).collect();
     for p in &req.paths {
-        let lon = [p.a[0].min(p.b[0]) - 1.0, p.a[0].max(p.b[0]) + 1.0];
-        let lat = [p.a[1].min(p.b[1]) - 1.0, p.a[1].max(p.b[1]) + 1.0];
-        let bathy = Bathymetry::load(&layers, Some([lon[0], lon[1], lat[0], lat[1]])).expect("bathymetry");
+        // The window comes from the geodesic itself (sampled every 10 km, padded by the corridor and
+        // 0.1 deg), never from the endpoints: long paths bow poleward of both ends.
+        let window = path_extent(p.a, p.b, p.half_width_m, 10_000.0, 0.1);
+        let bathy = Bathymetry::load(&layers, Some(window)).expect("bathymetry");
         let (len, azi) = bathy.inverse(p.a, p.b);
+        let samples = bathy.path(p.a, p.b, p.spacing_m, p.half_width_m);
+        // Fail loudly on any sample off every layer: a gap is never dropped silently.
+        let gaps: Vec<usize> = samples.iter().enumerate().filter(|(_, x)| x.is_none()).map(|(k, _)| k).collect();
+        if let Some(&k) = gaps.first() {
+            eprintln!("{}: {} of {} samples are off every bathymetry layer, the first at s = {:.1} km; window {window:?}", p.name, gaps.len(), samples.len(), (k as f64 * p.spacing_m).min(len) / 1e3);
+            std::process::exit(2);
+        }
         let mut csv = String::from("s_m,lon,lat,depth_m,source,tid,corridor_max_elevation_m,corridor_max_offset_m,corridor_max_tid,corridor_max_source\n");
-        for s in bathy.path(p.a, p.b, p.spacing_m, p.half_width_m).into_iter().flatten() {
+        for s in samples.into_iter().flatten() {
             let t = &s.track;
             let c = &s.corridor_max;
             writeln!(csv, "{:.1},{:.6},{:.6},{},{:?},{},{},{:.1},{},{:?}", s.s_m, t.point[0], t.point[1], t.depth_m, t.source, opt(t.tid), c.elevation_m, s.corridor_max_offset_m, opt(c.tid), c.source).unwrap();
@@ -81,7 +89,7 @@ fn main() {
             "name": p.name, "a": p.a, "b": p.b, "geodesic_length_m": len, "initial_azimuth_deg": azi,
             "spacing_m": p.spacing_m, "half_width_m": p.half_width_m, "profile_every_m": p.profile_every_m,
             "time_unix": p.time_unix, "woa23_decade": decade, "woa23_month": month,
-            "bathymetry_layers": req.bathymetry, "soundspeed_dir": req.soundspeed_dir,
+            "bathymetry_layers": req.bathymetry, "load_window": window, "soundspeed_dir": req.soundspeed_dir,
             "crate": "mh370-ocean", "spread": "decav t_sdo/s_sdo, linearised, T and S independent"
         });
         std::fs::write(out.join(format!("{}_meta.json", p.name)), serde_json::to_string_pretty(&meta).unwrap()).unwrap();

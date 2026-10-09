@@ -18,7 +18,11 @@ levels, as WOA distributes them. Then, with official TEOS-10 (`gsw`):
 WOA temperature is in-situ (ITS-90) and salinity practical. No value is filled: a level WOA has no data
 for stays NaN. Region 40-180 E, 60 S-30 N (Indian Ocean paths and H11).
 
-    python woa23_to_soundspeed.py <woa23-dir> <out-dir>
+    python woa23_to_soundspeed.py <woa23-dir> <out-dir> [lon0 lon1 lat0 lat1 [decade ...]]
+
+The optional region (and decades) build the same files for another area into their own directory, e.g.
+the north-west Pacific for the F-35A -> H11 path (130-180 E, 15-50 N, decade B5C2). Without them the
+default region and all three decades are written exactly as before.
 """
 import json
 import os
@@ -50,9 +54,14 @@ def read(path, names):
 
 
 def main():
+    global LON, LAT
     src, out = sys.argv[1], sys.argv[2]
+    decades = ("95A4", "A5B4", "B5C2")
+    if len(sys.argv) > 6:
+        LON, LAT = (float(sys.argv[3]), float(sys.argv[4])), (float(sys.argv[5]), float(sys.argv[6]))
+        decades = tuple(sys.argv[7:]) or decades
     os.makedirs(out, exist_ok=True)
-    for dec in ("95A4", "A5B4", "B5C2"):
+    for dec in decades:
         for month in range(1, 13):
             f = lambda v, tt: os.path.join(src, f"woa23_{dec}_{v}{tt:02d}_01.nc")
             g = lambda v, tt: os.path.join(src, f"woa23_decav_{v}{tt:02d}_01.nc")
