@@ -652,3 +652,9 @@ column, and add the `r600-bto` column if cheap. The two-burst question is with P
 See `architecture.md` ~19:50 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 ~20:05 UTC - architecture: Pete's additions - 18:25 as the in-flight test; descent proposal must span fast transitions
+
+See `architecture.md` ~20:05 UTC.
+
+- Modular Architecture

@@ -4844,3 +4844,30 @@ The ~18:30 UTC item is acted on. Code: hypothesis/pleiades 946394a, merged e0512
 directory.
 
 — Pléiades
+## 2026-10-09 ~20:05 UTC - architecture: Pete's additions to the 00:19 items (iii) and (ii)
+
+**(iii-b) R600 behaves well at both 18:25 and 00:19 (Pete; Ashton et al. noted it too).** The 18:25
+log-on is the only in-flight restart in the data. Holland's start-up curve came from ground restarts
+after much longer power-downs. Use 18:25 as the in-flight test:
+- Does a start-up-transient model reproduce the 18:25 R600 and R1200 BFOs, with the published values
+  and pages?
+- Should "the R600 channel carries no start-up transient, R1200 does" be declared as its own
+  hypothesis? Collect the published or online explanations, with sources graded.
+- If R600 sat on a "rising limb" of the bias at 18:25, what does that predict at 00:19, and is the
+  prediction consistent with 182 Hz?
+- **Propose, with sources. Do not build yet.**
+
+**(ii) widened (Pete): the descent proposal after 00:11 must span the whole kinematically feasible
+range,** including:
+- sudden changes in descent rate after fuel exhaustion;
+- the fast transition through the second engine's flame-out.
+
+An under-sampled transition would bias the H1 against H2 inference. The survivor diagnosis must test
+whether sampling is limiting, not only the prior bounds. The Boeing-checked simulator is the route to
+this. Say how the fast model will cover these transitions.
+
+**V2 (planned descent from 22:41):** still blocked on core request 14 for the in-stage BFO. Its smoke
+(BTO-only, NOT THE ARM) stands. Pete notes that V2 is where the "other" log-on cause becomes physically
+natural, so V1 against V2 partly tests H1 against H2. Keep that link explicit in the comparison.
+
+- Modular Architecture
