@@ -39,10 +39,10 @@
 //!   20.8–21.4 at 174 t, against Boeing's ~20.7:1 from the Malaysian SIR Appendix 1.6E driftdown.
 //!   This is a declared departure, not a silent substitution.
 //! - **Windmilling-engine and RAT drag increments are uncertain parameters, not constants**:
-//!   there are no public Trent 892 figures. PROVISIONAL-OVERNIGHT (9 Oct 2026): the windmilling band is
+//!   there are no public Trent 892 figures. Ruled by Pete (9 Oct 2026): the windmilling band is
 //!   calibrated to Boeing's dual-flame-out driftdown (0.0034 NM/ft, SIR App. 1.6E), so the altitude
 //!   term of the unpowered glide from 35,000 ft runs 107–121 NM. The former ESDU-scale band gave
-//!   85–105 NM, inconsistent with Boeing; it is kept as `smoke/glide-esdu.toml`.
+//!   85–105 NM, inconsistent with Boeing; it is kept as `smoke/glide-esdu.toml`, a labelled sensitivity.
 //! - **Drag rise and pitch above M0.87 are labelled extrapolated.** The brief calls for them to
 //!   be shaped from NASA Common Research Model data, which is not in this tree; Lock's
 //!   fourth-power law stands in, with its coefficient a swept parameter. Every model including
