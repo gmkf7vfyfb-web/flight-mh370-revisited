@@ -1,0 +1,24 @@
+# The integrated estimate (filter to 00:11, end of flight to impact) with the seabed searches as
+# impact-level evidence: Phase 2 (2014-2017, measured valid-data coverage) and Bluefin-21 (2014,
+# display polygons). Check it on the fixture's impacts with `make evaluate H=seabed-search`.
+base = "../../config/integrated.toml"
+name = "seabed-search"
+
+[[compose]]
+id = "seabed-search"
+modules = ["seabed-search"]
+
+[hypotheses.seabed-search]
+# rho: the chance the wreck could not have been found even where the sonar looked. No published
+# value; report.py sweeps it.
+undetectable_probability = 0.05
+
+[[hypotheses.seabed-search.campaigns]]
+name = "phase2-2014-2017"
+layer = "phase2"
+detection_probability = 0.945
+
+[[hypotheses.seabed-search.campaigns]]
+name = "bluefin-2014"
+layer = "bluefin-2014"
+detection_probability = 0.9
