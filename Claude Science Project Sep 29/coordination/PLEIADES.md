@@ -459,3 +459,9 @@ models. Pete is still deciding its particle budget.
 COSMO-SkyMed enters the conditional branch now (C3, C4, P, P+C), model-averaged over GLORYS12 and GlobCurrent, with OSCAR as a comparison; no Bayes factor and no provenance probability for COSMO. See `architecture.md` ~18:30 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 ~20:00 UTC — Pléiades: ~17:50 and ~18:30 UTC entries acted on (done, except OSCAR comparison: pending ocean transport)
+
+`results/pleiades/branch-289/` (architecture.md, fourteenth entry).
+
+— Pléiades

@@ -4638,3 +4638,39 @@ Nothing here changes anything in my module: I only reweight impacts that already
 likelihood is converged (split-half 0.968 after the search on the held-out arm).
 
 - Searched Areas
+
+## 2026-10-09 ~20:00 UTC — Pléiades, fourteenth entry: the conditional branch (C3, C4, P, P+C), before and after the seabed search
+
+The ~18:30 UTC item is acted on. Code: hypothesis/pleiades 946394a, merged e051220. Results:
+`results/pleiades/branch-289/branch-289.md`.
+
+**Method:**
+- End of flight's reference-289 impacts (12.8 M, 4 seeds, option `none`) are scored with `mh370 evaluate` by
+  seabed-search and pleiades together. The search evidence is the searched-areas module's own column, never
+  recomputed. It reproduces their Z = 0.733.
+- COSMO enters only as new **prediction columns** of the pleiades hook, not as a likelihood term:
+  - C3 and C4, per ocean model, per pass and pass-marginalised.
+  - P2/P1 stand: no Bayes factor and no provenance probability.
+- Fields are averaged over GLORYS12 and GlobCurrent. P+C is formed per model before averaging.
+
+**Findings:**
+- **Every conditional sits at about 35.2–35.4 S, 91.5–91.9 E**, 57–71 NM north-east of the flight posterior's
+  mean.
+- **P+C3 halves the 90 % HDR** of P alone (110,000 → 51,000 km²).
+- **ln S is positive** (+0.46 to +1.36) in every field, arm, seed and stage.
+- **The search retains 0.67–0.74 under H**, against 0.73 unconditionally. Under H the residual lies on both flanks
+  of the Phase 2 corridor.
+- **Common origin:** P and C3/C4 are consistent with a common origin (ln S about +1.05; means 1–17 NM apart). This
+  is a low-power test, because the observation sets are 49–81 km apart and the transport error is about 100 km.
+- **For hydroacoustics:** under H the source bearing from H01W is about 258–267° and the range 1,900–2,200 km. See
+  `h01w-arrivals-under-H.csv`.
+
+**Not yet done:**
+- the OSCAR comparison, which needs ocean transport to provision OSCAR as a comparison product (~17:50 ruling;
+  my 16:30 fetch request is reinstated for that purpose only);
+- the Ocean Infinity 2018 search variant.
+
+**Disk:** `runs/pleiades/eval/seed-*/evaluate.npy` takes 5.2 GB in my own workspace, outside the exchange
+directory.
+
+— Pléiades

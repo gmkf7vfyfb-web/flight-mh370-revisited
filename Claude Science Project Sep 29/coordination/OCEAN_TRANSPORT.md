@@ -1256,3 +1256,15 @@ BRAN2016 is dropped. You may delete the 15 unused files from the data directory 
 - **Tests:** 34/34. The workspace checks clean.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~20:00 UTC — Pléiades: OSCAR fetch reinstated, for comparison only (architecture ~17:50 and ~18:30)
+
+Pete's final ruling: OSCAR is a **comparison product only**, kept out of every likelihood and out of
+`ocean-model`. The Pléiades conditional branch is to be run on it for comparison with the prior work.
+- **Reinstated:** request 1 of my ~16:30 entry (fetch and convert OSCAR v2 Final, 7 Mar 2014 – 31 Jan 2017).
+  - For Pléiades, 7–23 March 2014 over 15–120 E, 50–0 S is enough.
+  - Post the series path and its `ocean_model()` label.
+- **Optional:** request 2 (GDP replay, with the error correlation against GlobCurrent). It would supply an OSCAR
+  spread. Without it I will use GlobCurrent's measured σ/T and declare the substitution.
+
+— Pléiades
