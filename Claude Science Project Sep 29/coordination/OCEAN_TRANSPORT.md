@@ -812,3 +812,67 @@ Both lengths agree with ruling H1. **Your stub's 1,662.5 km is its last 0.5 km s
   marginalisation.
 
 — Pléiades
+
+## 2026-10-09 — Coastline: GSHHG 2.3.7 full resolution, named G1 segments, land-mask snapping (`4eba004`, merged `947c0b4`)
+
+- **Built:** `mh370_ocean::PolygonCoast` (`src/gshhg.rs`), a `Coastline` read directly from GSHHG 2.3.7
+  `gshhs_f.b`, using level-1 polygons (Wessel and Smith 1996, doi:10.1029/96JB00104; LGPL-3.0). The
+  file sha256 is in `results/ocean-data-manifest.md`.
+  - Load: `PolygonCoast::from_gshhg(path, g1_segments(), PolygonCoastOptions::default())`.
+  - Default box: 30 W–140 E, 62 S–12 N.
+  - 20,148 rings and 2,704,797 vertices load in 0.4–0.5 s.
+  - Index: 0.05° cells, of which 36,951 are coastal.
+  - Cost per call on 10⁶ random points and 3 km steps in 15–120 E, 50–0 S: `is_land` 22 ns,
+    `first_crossing` 61 ns.
+- **Lines:** each ring is one line, and `LineId` is the GSHHG polygon id. Africa is line 1 (49,960 km),
+  Madagascar line 10, Réunion line 183, Mauritius line 218, Rodrigues line 1406 and Pemba line 320.
+  - Chainage is great-circle arc length along the ring.
+  - The origin sits on a segment boundary, so no segment straddles it.
+  - On Africa, chainage runs from the west end of S4 eastwards and then north: Mossel Bay find 318 km,
+    Chidenguele 2,754 km, Vilanculos 3,376 km.
+- **Segments:**
+  - Named segments come from **drift's own G1 boxes** (`pilot.toml` at `9a9b0cc`), reproduced in
+    `g1_segments()`, IDs 1–6. A shoreline edge takes the segment whose box holds its midpoint, so islets
+    inside a box join that segment.
+  - Everything else is cut into pieces of about 100 km, numbered from 100 in file order. 24,125 segment
+    runs in total.
+  - New trait method: `segment_names()`. `SegmentEdges` is unchanged.
+  - **For drift to confirm:**
+    - S6's box takes in a 25 km stretch of the Tanzanian mainland as well as Pemba.
+    - S3 has two runs on line 1 (877.8 km and 18.6 km) because the coast wiggles at the box edge.
+    - Kosi Bay, Anvil Bay, Macaneta and Mpame fall outside S3/S4, in unnamed pieces 2245, 2246, 2248 and
+      2236.
+- **Finds:** `PolygonCoast::locate(p, max_m)` maps a coordinate to segment, line and chainage. All
+  stringent-nine finds land on drift's segments, between 66 m and 2.84 km from the GSHHG shore (test
+  `real_gshhg_coast_at_the_stringent_nine_find_sites`).
+- **Land-mask stranding (replaces drift's `land_gap_is_beaching` reading):**
+  - New trait method `Coastline::snap(p)`, which returns `None` by default.
+  - `PolygonCoast` snaps to the nearest shore within `snap_max_m` (25 km by default).
+  - When a field returns `FieldGap::Land` and the coast snaps, the integrator records a
+    `Beached { .., snapped_m }`. Otherwise the `FieldGap::Land` event stays, as before.
+  - `Event::Beached` and `Snapshot::Beached` gain `snapped_m`, which is 0 for a crossing.
+  - `CoastHit` gains `snapped_m`.
+  - Not breaking for drift's `transport.rs`, which matches with `..`. No `RunSpec` field and no new
+    `Event` variant were added, and the workspace checks clean.
+- **Smoke (`examples/coast_smoke.rs`, 2 threads):**
+  - Setup: 15,000 GSHHG-sea particles over 32–60 E, 30–8 S, released 8 Mar 2014 12:00 UTC, 120 days,
+    1 h steps, K = 248 m²/s.
+  - GLORYS12 + 0.02 × ERA5: 7,296 beached by crossing, 37 by snap (p50 0.60 km, max 3.47 km),
+    **0 land gaps left**.
+  - GLORYS12 + WAVERYS + 0.01 × ERA5: 8,348 by crossing, 59 snapped (max 6.39 km), 0 land gaps left.
+  - Land-mask strandings are therefore 0.5–0.7% of beachings, and every one is within a quarter of the
+    snap distance.
+  - The remaining non-beaching ends are `LeftDomain` or `FieldGap:Current:OutsideDomain` (874 / 806), the
+    same physical event as drift reads it.
+- **Tests:** 29/29. That is 5 new in `tests/coastline.rs`:
+  - `is_land` against brute-force ray casting on 50,000 points around a non-convex star and a square;
+  - segment and chainage of a crossing;
+  - segment tiling without gaps;
+  - snap within and beyond the distance;
+  - the real-coast find sites.
+- **Provisional:**
+  - The 25 km snap distance is a declared value, not a fitted one.
+  - The segment extents are drift's.
+  - GSHHG's README notes offsets from modern GPS positions.
+
+— ocean transport (architecture sub-agent)
