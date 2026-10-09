@@ -106,3 +106,47 @@ impact time is not narrowed, because it comes from end of flight's glide and des
   with a descent kernel, on a smaller domain. These impact-based results supersede them for reference-289.
 
 — Pléiades module
+
+
+## Across the 00:19 options (added 9 Oct ~20:30 UTC; Pete's priority order, architecture ~19:50)
+
+The options are shown side by side and are **never mixed by evidence**, because they use different data.
+- Priority (1), held out, is the headline above.
+- Priority (2), R600 only (raw), is `r600/no-offset`. Its ESS is 197,569, so its contours are noisier.
+- Holland H1 and H2, priorities (3) and (4), use both bursts. They stay "not estimable" until end of flight
+  settles the hand-off question.
+- `inflated` is the project's sensitivity.
+
+The table shows the ρ4 = 0, equal-weight arm, averaged over both ocean models and pooled over the seeds
+(`branch-by-0019-option.csv`; full tables in `r600-no-offset-branch.csv` and in `runs/` for the inflated options).
+
+| 00:19 option | Field | Stage | Median lat | Mean lat, lon | Shift, NM | Conditional 90 % HDR, km² | Flight 90 % HDR, km² | ln S | Search retained under H |
+|---|---|---|---|---|---|---|---|---|---|
+| none (held out) | P | before search | -35.37 | -35.38, 91.59 | 62 | 109,681 | 620,510 | 0.77 | 1.000 |
+| none (held out) | P | after search | -35.24 | -35.22, 91.52 | 62 | 99,508 | 730,427 | 1.07 | 0.730 |
+| none (held out) | P+C3 | before search | -35.28 | -35.27, 91.83 | 71 | 50,821 | 620,510 | 1.01 | 1.000 |
+| none (held out) | P+C3 | after search | -35.20 | -35.18, 91.66 | 62 | 49,925 | 730,427 | 1.30 | 0.709 |
+| r600/no-offset (R600 only, raw) | P | before search | -35.72 | -35.78, 91.95 | 63 | 65,069 | 235,099 | 0.14 | 1.000 |
+| r600/no-offset (R600 only, raw) | P | after search | -35.83 | -35.79, 92.08 | 21 | 74,270 | 296,548 | -0.21 | 0.392 |
+| r600/no-offset (R600 only, raw) | P+C3 | before search | -35.52 | -35.53, 92.22 | 83 | 34,543 | 235,099 | 0.39 | 1.000 |
+| r600/no-offset (R600 only, raw) | P+C3 | after search | -35.57 | -35.61, 92.24 | 33 | 41,724 | 296,548 | -0.34 | 0.346 |
+| r600/inflated | P | before search | -35.84 | -35.86, 92.03 | 85 | 72,394 | 339,856 | 0.01 | 1.000 |
+| r600/inflated | P | after search | -35.98 | -35.89, 92.22 | 73 | 83,537 | 426,730 | -0.45 | 0.435 |
+| r600/inflated | P+C3 | before search | -35.58 | -35.60, 92.28 | 105 | 39,205 | 339,856 | 0.16 | 1.000 |
+| r600/inflated | P+C3 | after search | -35.71 | -35.70, 92.35 | 86 | 46,492 | 426,730 | -0.64 | 0.385 |
+| r1200/inflated | P | before search | -35.36 | -35.36, 91.66 | 24 | 52,538 | 171,654 | 0.52 | 1.000 |
+| r1200/inflated | P | after search | -35.22 | -35.15, 91.62 | 59 | 49,557 | 204,819 | 1.18 | 0.559 |
+| r1200/inflated | P+C3 | before search | -35.28 | -35.23, 91.93 | 39 | 22,888 | 171,654 | 0.77 | 1.000 |
+| r1200/inflated | P+C3 | after search | -35.19 | -35.12, 91.74 | 53 | 22,364 | 204,819 | 1.34 | 0.546 |
+
+**Reading.**
+- **The 00:19 option changes the post-search answer under H much more than any Pléiades or COSMO choice does.**
+- **With R600 scored (raw):**
+  - The flight posterior is narrower (90 % HDR 235,000 against 621,000 km²).
+  - The seabed search removes **61–65 %** of the conditional mass under H, against 27–29 % when the 00:19 messages
+    are held out. Retained: 0.35–0.39, against 0.71–0.73.
+  - ln S turns slightly negative after the search (−0.21 for P, −0.34 for P+C3). This is not significant tension,
+    but it is the only option in which the search pushes H against the flight posterior.
+- **With R1200 inflated:** the search retains 0.55–0.56, and ln S stays positive.
+- So whether "Pléiades debris, not yet found" is still plausible on unsearched ground depends chiefly on how the
+  00:19:29 R600 message is treated.

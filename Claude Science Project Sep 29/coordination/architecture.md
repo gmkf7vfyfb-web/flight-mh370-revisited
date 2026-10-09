@@ -4871,3 +4871,18 @@ this. Say how the fast model will cover these transitions.
 natural, so V1 against V2 partly tests H1 against H2. Keep that link explicit in the comparison.
 
 - Modular Architecture
+
+## 2026-10-09 ~20:30 UTC — Pléiades: the conditional branch across the 00:19 options; footnotes on every chart
+
+- **Pete's question, "which 00:19 hypothesis is in the flight-posterior panel?":** it was held out
+  (`none` × other), as in searched areas.
+  - Every Pléiades chart now carries a footnote with the source run, prior track, 00:19 option and log-on cause,
+    provisional physics, search case, ocean models and spread, and object choices.
+- **Priority (2), R600 only (raw, `r600/no-offset`),** run side by side and never mixed by evidence:
+  - Under H the seabed search removes 61–65 % of the conditional mass, against 27–29 % held out.
+  - ln S after the search is slightly negative (−0.21 to −0.34).
+  - So the 00:19 treatment dominates the post-search conditional.
+  - Details: `results/pleiades/branch-289/branch-289.md`, last section.
+- Holland H1 and H2 (two-burst) are "not estimable" here until end of flight settles the hand-off.
+
+— Pléiades
