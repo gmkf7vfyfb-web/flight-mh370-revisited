@@ -440,3 +440,6 @@ Stored at `/Users/pete/Downloads/mh370-ocean-data/products/gdp-replay/`. The sta
 | `sep_glorys12.f32` | 13,511,040 | e9422ee056fee2d54992c11b6de4c41b9b7eba0634cdaba64db92a05ede43442 |
 | `sep_glorys12_era5w01.f32` | 13,511,040 | 531c0fbf6baf0b9bb4a59b8640dd01ef4f191b73901f71bb63ffa94aeb9b365d |
 | `sep_globcurrent_p1d.f32` | 13,511,040 | 9043b4ec072515c7d9c52343973a0ad117f637af710dede61131f871f5288c81 |
+| `sep_glorys12_waverys.f32` | 13,511,040 | 6ec06771ac09c7706fd73510921501b263ec6ba32096b69b707779eeb92aac57 |
+| `sep_glorys12_waverys_era5w01.f32` | 13,511,040 | 9a9472842dfe53d1f4506c900a36ca6aa96c60b134c081d7e7ed9c2e9dd61e3c |
+| `sep_globcurrent_p1d_era5w01.f32` | 13,511,040 | cebc38234ee5d9226e5f5f0044b88fbf8e42d893450e2a63b4d35034c0bd8c09 |

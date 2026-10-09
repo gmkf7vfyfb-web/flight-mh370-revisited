@@ -3,7 +3,10 @@
 //! no diffusion and no ocean-error draw, so the separation is the deterministic model error.
 //!
 //! cargo run --release -p mh370-ocean --example drifter_replay -- <segments.json> <gshhs_f.b> <out.f32> \
-//!     <current manifest> [<wind manifest> <c_wind>]
+//!     <current manifest> [<wind manifest> <c_wind> [<stokes manifest> <a_stokes>]]
+//!
+//! With a Stokes field the composition is the explicit-Stokes system (`leeway_absorbs_stokes` false);
+//! without one it is the absorbed-Stokes system.
 //!
 //! Output: little-endian f32 `[segment][lead 1..=60][east_km, north_km]`, NaN after the model track
 //! ends (beached on GSHHG, left the domain, or a field gap). Separation is measured in the local
@@ -34,6 +37,8 @@ fn main() {
     let current = open(&a[4]);
     let wind = (a.len() > 6).then(|| open(&a[5]));
     let c_wind: f64 = if a.len() > 6 { a[6].parse().unwrap() } else { 0.0 };
+    let stokes = (a.len() > 8).then(|| open(&a[7]));
+    let a_stokes: f64 = if a.len() > 8 { a[8].parse().unwrap() } else { 0.0 };
     let leads = s.fixes - 1;
     let mut out = vec![f32::NAN; s.segments.len() * leads * 2];
     let mut groups: BTreeMap<i64, Vec<usize>> = BTreeMap::new();
@@ -46,10 +51,10 @@ fn main() {
         let t0 = t0 as f64;
         let particles: Vec<Particle> = members
             .iter()
-            .map(|&k| Particle::new([s.segments[k].lon[0], s.segments[k].lat[0]], t0, ObjectResponse::new(0.0, c_wind)))
+            .map(|&k| Particle::new([s.segments[k].lon[0], s.segments[k].lat[0]], t0, ObjectResponse::new(a_stokes, c_wind)))
             .collect();
         let spec = RunSpec {
-            forcing: Forcing { current: &current, stokes: None, wind10: wind.as_ref().map(|w| w as &dyn VectorField) },
+            forcing: Forcing { current: &current, stokes: stokes.as_ref().map(|w| w as &dyn VectorField), wind10: wind.as_ref().map(|w| w as &dyn VectorField) },
             coast: &coast,
             domain: Domain { lon_min: 15.0, lon_max: 120.0, lat_min: -50.0, lat_max: 0.0 },
             step_s: 3600.0,
@@ -58,7 +63,7 @@ fn main() {
             ocean_error: OceanErrorModel::none(),
             refloat: Refloat::Off,
             seed: 1,
-            leeway_absorbs_stokes: true,
+            leeway_absorbs_stokes: stokes.is_none(),
             accept_partial_stokes_overlap: false,
             explicit_residual: false,
             threads: 2,
@@ -86,10 +91,10 @@ fn main() {
     let bytes: Vec<u8> = out.iter().flat_map(|x| x.to_le_bytes()).collect();
     std::fs::write(&a[3], bytes).unwrap();
     println!(
-        "{{\"segments\":{},\"start_groups\":{},\"ended_early\":{ended},\"released_on_land\":{released_on_land},\"wall_s\":{:.1},\"ocean_model\":{:?},\"c_wind\":{c_wind}}}",
+        "{{\"segments\":{},\"start_groups\":{},\"ended_early\":{ended},\"released_on_land\":{released_on_land},\"wall_s\":{:.1},\"ocean_model\":{:?},\"c_wind\":{c_wind},\"a_stokes\":{a_stokes}}}",
         s.segments.len(),
         groups.len(),
         start.elapsed().as_secs_f64(),
-        Forcing { current: &current, stokes: None, wind10: wind.as_ref().map(|w| w as &dyn VectorField) }.ocean_model()
+        Forcing { current: &current, stokes: stokes.as_ref().map(|w| w as &dyn VectorField), wind10: wind.as_ref().map(|w| w as &dyn VectorField) }.ocean_model()
     );
 }

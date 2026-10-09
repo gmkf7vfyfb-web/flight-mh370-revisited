@@ -54,6 +54,34 @@ first part of the GDP replay (item 5).
 
 ![RMS separation per component against lead time](ocean-transport-error-gdp-replay.png)
 
+## Explicit Stokes, and wind on top of an Ekman-bearing current (GDP replay, item 5, first pass)
+
+The same segments were replayed through three more compositions:
+- GLORYS12 + 1.0 × WAVERYS Stokes, the explicit-Stokes system with no windage;
+- the same + 0.01 × ERA5;
+- GlobCurrent + 0.01 × ERA5.
+
+Search box, March–May, per-component RMS at 2 days (km):
+
+| Configuration | Undrogued (808 seg / 60) | Drogued (565 seg / 52) |
+|---|---|---|
+| GLORYS12 + WAVERYS | 19.4 / 19.1 | 27.2 / 23.7 |
+| GLORYS12 + WAVERYS + 1% ERA5 | 24.7 / 21.8 | 35.5 / 28.6 |
+| GlobCurrent + 1% ERA5 | 17.1 / 15.2 | 26.3 / 19.6 |
+| *for comparison:* GLORYS12 + 1% ERA5 | 18.7 / 18.7 | 24.2 / 21.9 |
+| *for comparison:* GlobCurrent alone | 14.3 / 14.2 | 18.0 / 15.1 |
+
+- **Undrogued drifters:** explicit WAVERYS Stokes does about as well as a 1% windage on GLORYS12
+  (19.4 / 19.1 against 18.7 / 18.7 km). Adding the windage on top of the Stokes term makes the error
+  worse, consistent with counting the same wave- and wind-driven drift twice.
+- **GlobCurrent:** adding 1% windage worsens it (17.1 / 15.2 against 14.3 / 14.2 km). This fits its
+  Ekman term being fitted to drifters and supports the `Partial` Stokes declaration.
+- **Drogued drifters:** every added surface term worsens the fit. This is expected for a 15 m drogue, and
+  it checks the sign of the comparison.
+- **Scope:** this is a check of the compositions at drifter scale, not a leeway fit for debris. The
+  (a_stokes, c_wind) refit on undrogued drifters is drift's to specify (item 5, "coordinate with drift").
+  The replay tool takes any composition and costs about 15 s per configuration on 2 threads.
+
 ## What this means for the modules (findings, not rulings)
 
 - **Pléiades.** In the search box in March–May, the per-component transport error at 2 days is 14–21 km.
