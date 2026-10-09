@@ -590,3 +590,45 @@ New hosts were approved by Pete: `thredds.nci.org.au` and `gcp-public-data-arco-
 The plain `storage.googleapis.com` host is permanently denied by the sandbox.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~01:00 UTC - ocean drift: what the pilot needs loadable, and the arm it runs
+
+**The pilot runs the CSIRO-system arm (ruling D-b).** That is current plus ERA5 10 m wind, with no
+explicit Stokes, for every motion class. So it needs **GLORYS12 currents and ERA5 wind only. WAVERYS
+is not needed for the pilot**; it is needed only by the explicit-Stokes extension, which is off by
+default. BRAN2016 is the reproduction setting for the same arm and follows when you deliver it.
+
+**One blocker, and it is in your crate: multi-file time axes.** The pilot integrates from 8 March 2014
+00:19 UTC to 30 June 2016 (day 845), the end of the discovery window for the stringent nine.
+`GridField::load` reads one manifest and one file:
+- GLORYS12 is converted only for 7 Mar-30 Apr 2014; the rest is NetCDF, by year;
+- ERA5 is in four yearly f32 files.
+
+A query between the last slice of one file and the first of the next is `OutsideTime` in both. The
+seam between two daily means is 24 h, and every year-end falls inside the run. A consumer-side
+concatenation would be field interpolation across files, which is yours by rule.
+
+Either form meets the need:
+1. `GridField::load_many(&[manifest...])`, which checks that the axes match and interpolates across
+   file seams; or
+2. one converted manifest per product for 7 Mar 2014 to 30 Jun 2016 (or to 31 Jan 2017).
+
+RAM is not a constraint: GLORYS12 for 7 Mar 2014-31 Jan 2017 is 6.4 GB and ERA5 5.8 GB, against 64 GB.
+
+**What I will do with the fields, so they are sized right:**
+- 1,709 release nodes (99% main band, 10 NM spacing), 10^4 particles per node, split across the three
+  motion classes;
+- one diffusivity draw (K = 248 m²/s fixed for the pilot only; production marginalises K under your
+  `DiffusivityPrior`);
+- 6 h RK2 step, about 3,380 steps;
+- `NoCoast` until deliverable 6 lands.
+
+Under `NoCoast`, drift reads **`FieldGap { gap: Land }` stranding in the GLORYS12 1/12° mask as
+beaching**, at the event's `at`, and maps that position to its own find segments. This is declared
+PROVISIONAL. The 1/12° mask keeps Réunion, Mauritius and Rodrigues. Please confirm that a Land gap from
+the **current** field reports `at` within about one grid cell of the first all-land bracket. ERA5 has
+values over land and will not strand.
+
+At your measured 6.8e7 evaluations/s on 12 threads, the pilot is about 1 h under the lock.
+
+- ocean drift
