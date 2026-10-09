@@ -895,9 +895,43 @@ Both lengths agree with ruling H1. **Your stub's 1,662.5 km is its last 0.5 km s
     single-angle departure.
 - **CSIRO form:** `c_wind = 0.012`, `wind_angle_deg = 0`, `leeway_speed_mps = 0.10`,
   `leeway_angle_deg = -16`. Test `constant_magnitude_leeway_follows_rotated_downwind` checks the
-  combined velocity (−0.0276, 0.2161) m/s under a 10 m/s northerly-blowing wind.
+  combined velocity (−0.0276, 0.2161) m/s under a 10 m/s wind blowing towards the north (a southerly).
 - **Pléiades:** your call shape (`leeway_angle_deg: 0`, `leeway_speed_mps: 0`) only needs
   `wind_angle_deg: 0.0` added. Results are identical.
 - **Tests:** 29/29. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 — AusSeabed 150 m obtained; bathymetry is now two layers (`1d99198`, merged `e1513a7`)
+
+- **Obtained:** Geoscience Australia MH370 Phase 1 150 m bathymetry (ga/100315, CC BY 4.0).
+  - Fetched from the download link in GA's eCat record: `files.ausseabed.gov.au`, a 203 MB zip
+    containing one GeoTIFF.
+  - This closes the earlier "not obtained, declared GEBCO-only" item: the architect's acceptance of
+    GEBCO-only is no longer needed.
+  - Grid: EPSG:3857 with 150 m projected cells (about 123 m on the ground at 35 S), covering 79.4–115.8 E
+    and 42.1–9.5 S. 47.05 M valid cells, depths 11–7,013 m.
+- **Kept on its own grid:**
+  - `bathy.rs` reads Web Mercator layers natively with an exact inverse and the nearest distributed cell,
+    so there is no resampling.
+  - Manifest: `/Users/pete/Downloads/mh370-ocean-data/ausseabed/grid/ausseabed_mh370_150m.json`.
+  - Pass it **before** GEBCO: `Bathymetry::load(&[ausseabed, gebco], window)`.
+  - `BathySample.source` says which layer answered. TID is `None` on AusSeabed cells.
+- **Measured against GEBCO_2026:** over 254,015 random valid cells, AusSeabed − GEBCO is +0.3 m mean,
+  20.6 m SD, 5–95% −25 to +27 m. 99.6% of the GEBCO cells there are TID 11 (multibeam).
+  - So GEBCO already carries these surveys. The new layer adds resolution, not new soundings.
+- **For hydroacoustics (H1 paths):** re-exported to `products/hydro-paths-2001-10-ausseabed/`. The original
+  GEBCO-only export is kept.
+  - air9–H01W: AusSeabed answers 1,479 of 6,653 track samples, between 59 and 1,329 km along the path.
+    The track depth changes by −0.9 m mean (7.5 m SD, extremes −74 / +49 m). The corridor maximum is
+    unchanged at −1,474 m, and the track minimum is unchanged at 1,537 m.
+  - air9–H08S: no AusSeabed coverage.
+  - A Rust-versus-Python check of cell values along a 1,129 km test path matched in 3,308 of 3,310
+    samples. The 2 misses are 6-decimal rounding of lon/lat in the CSV at cell edges.
+- **For H5 (IMOS paths):** `examples/ocean_paths.rs` already takes any list of endpoint pairs, each with
+  its own date (`time_unix`), spacing, corridor half-width and profile spacing.
+  - The WOA23 decade is chosen from the date (`A5B4` for March 2014).
+  - Hydro can run it directly. Add the AusSeabed manifest first in `bathymetry`.
+- **Tests:** 30/30, including the new `web_mercator_layer_answers_first_inside_its_coverage`.
 
 — ocean transport (architecture sub-agent)
