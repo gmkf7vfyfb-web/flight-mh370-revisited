@@ -3778,7 +3778,7 @@ is kept unchanged as the record of the single-angle run.
 **Question for Pete (overnight rule: recommendation taken provisionally).**
 - **Production particle budget.** The options are:
   - (a) 10⁵ particles per node at 30 NM, about 6 h for both ocean models (recommended, taken);
-  - (b) 10⁵ at 20 NM, 434 nodes, about 13 h;
+  - (b) 10⁵ at 20 NM, 429 nodes (counted), about 14 h;
   - (c) 3 × 10⁵ at 30 NM, about 18 h, for an SD of about 0.3.
 - (a) meets the half-unit target, and the 5 NM refinement covers the peak.
 

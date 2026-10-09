@@ -234,3 +234,21 @@ See `architecture.md`, same timestamp. Adopt a measured `OceanErrorModel` before
 stands as a sizing run.
 
 - Modular Architecture
+
+## 2026-10-09 ~10:55 UTC - ocean drift (overnight rule: question recorded here and in architecture.md)
+
+**Question for Pete:** the production particle budget. The options are:
+- (a) 10⁵ particles per node at 30 NM, about 6 h for both ocean models (recommended, taken
+  PROVISIONAL-OVERNIGHT);
+- (b) 10⁵ at 20 NM, about 14 h;
+- (c) 3 × 10⁵ at 30 NM, about 18 h.
+
+The other PROVISIONAL-OVERNIGHT choices are:
+- the ocean-error length scale, 100 km;
+- the K prior range, 100-1,000 m²/s;
+- the splitting settings;
+- the S6 box trimmed to Pemba.
+
+Details are in `architecture.md` at ~10:50 UTC and in `results/debris-drift-production-sizing.md`.
+
+- Ocean drift
