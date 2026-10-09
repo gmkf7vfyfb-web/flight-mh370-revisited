@@ -53,6 +53,16 @@ pub struct Particle {
     /// Unix seconds UTC.
     pub release_time: f64,
     pub response: ObjectResponse,
+    /// The particle's own stopping time (settling's float phase ends at each element's sink time).
+    /// `None`: run to the last output time. The state at this time is [`Track::end`]; output
+    /// times after it are [`Snapshot::PastEnd`].
+    pub end_time: Option<f64>,
+}
+
+impl Particle {
+    pub fn new(release: LonLat, release_time: f64, response: ObjectResponse) -> Self {
+        Particle { release, release_time, response, end_time: None }
+    }
 }
 
 /// The separate velocity components. The product is a run argument: swap these fields and nothing
@@ -140,6 +150,8 @@ pub enum Snapshot {
     Beached { at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64 },
     /// The trajectory ended for a reason other than beaching; see the events.
     Ended,
+    /// After the particle's own `end_time`.
+    PastEnd,
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
@@ -157,6 +169,8 @@ pub struct Track {
     pub snapshots: Vec<Snapshot>,
     pub events: Vec<Event>,
     pub fate: Fate,
+    /// State at the particle's own `end_time`, when it has one (`Ended` if it terminated first).
+    pub end: Option<Snapshot>,
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -287,12 +301,20 @@ impl Ctx<'_> {
             snapshots.push(Snapshot::NotReleased);
             k += 1;
         }
+        let stop = particle.end_time.unwrap_or(f64::INFINITY);
+        let own_end = |fill: Snapshot| particle.end_time.map(|_| if matches!(fill, Snapshot::NotReleased) { Snapshot::NotReleased } else { fill });
         let end = |mut snaps: Vec<Snapshot>, fill: Snapshot, events: Vec<Event>, fate: Fate| {
+            let n0 = snaps.len();
             snaps.resize(times.len(), fill);
-            Track { snapshots: snaps, events, fate }
+            for (k, s) in snaps.iter_mut().enumerate().skip(n0) {
+                if times[k] > stop {
+                    *s = Snapshot::PastEnd;
+                }
+            }
+            Track { snapshots: snaps, events, fate, end: own_end(fill) }
         };
         let (mut t, mut p) = (particle.release_time, particle.release);
-        if k == times.len() {
+        if k == times.len() && particle.end_time.is_none() {
             return end(snapshots, Snapshot::NotReleased, events, Fate::Afloat);
         }
         if spec.coast.is_land(p) {
@@ -311,8 +333,14 @@ impl Ctx<'_> {
         // Some((point, segment, last sea position)) while beached with refloat on.
         let mut beached: Option<(Snapshot, LonLat)> = None;
         let r = &particle.response;
-        while k < times.len() {
-            let target = times[k];
+        let horizon = particle.end_time.unwrap_or(times[times.len() - 1]);
+        let mut end_state: Option<Snapshot> = None;
+        loop {
+            let out_t = if k < times.len() { times[k] } else { f64::INFINITY };
+            let target = out_t.min(horizon);
+            if target < t - 1e-6 {
+                break;
+            }
             while t < target - 1e-6 {
                 let dt = spec.step_s.min(target - t);
                 if let Some((_, sea)) = beached {
@@ -375,14 +403,27 @@ impl Ctx<'_> {
                 p = pn;
                 t += dt;
             }
-            snapshots.push(match beached {
+            let here = match beached {
                 Some((snap, _)) => snap,
                 None => Snapshot::Afloat(p),
-            });
+            };
+            if k < times.len() && out_t <= target + 1e-6 {
+                snapshots.push(here);
+                k += 1;
+            }
+            if t >= horizon - 1e-6 {
+                if particle.end_time.is_some() {
+                    end_state = Some(here);
+                }
+                break;
+            }
+        }
+        while k < times.len() {
+            snapshots.push(if times[k] > stop { Snapshot::PastEnd } else { Snapshot::NotReleased });
             k += 1;
         }
         let fate = if beached.is_some() { Fate::Beached } else { Fate::Afloat };
-        Track { snapshots, events, fate }
+        Track { snapshots, events, fate, end: end_state }
     }
 }
 

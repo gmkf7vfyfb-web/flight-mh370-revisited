@@ -7,7 +7,11 @@
 //! 12:00 UTC on 29 April 2014, with K = 248 m^2/s diffusion and no coast (product land ends a
 //! trajectory as a flagged field gap).
 //!
-//! cargo run -p mh370-ocean --release --example throughput -- <manifest.json> <threads> <particles>
+//! cargo run -p mh370-ocean --release --example throughput -- <current> <threads> <particles> [<stokes> <wind>]
+//!
+//! Each field argument is a part manifest (`*.json`) or a series manifest (`*.series.json`). With Stokes
+//! and wind given, every particle carries a_stokes = 1 and c_wind = 0.02, so each RK2 stage samples three
+//! fields; the reported evaluations then count all three.
 
 use mh370_ocean::*;
 use std::time::Instant;
@@ -17,22 +21,30 @@ fn main() {
     let manifest = std::path::Path::new(&args[1]);
     let threads: usize = args[2].parse().unwrap();
     let n: usize = args[3].parse().unwrap();
+    let open = |p: &std::path::Path| {
+        if p.to_string_lossy().ends_with(".series.json") { GridField::load_series(p) } else { GridField::load(p) }.expect("load")
+    };
     let t_load = Instant::now();
-    let field = GridField::load(manifest).expect("load");
+    let field = open(manifest);
+    let extra = (args.len() >= 6).then(|| (open(std::path::Path::new(&args[4])), open(std::path::Path::new(&args[5]))));
     let load_s = t_load.elapsed().as_secs_f64();
+    let (a_s, c_w, per_stage) = if extra.is_some() { (1.0, 0.02, 3.0) } else { (0.0, 0.0, 1.0) };
     let t0 = 1_394_280_000.0; // 2014-03-08T12:00:00Z
     let t1 = t0 + 52.0 * SECONDS_PER_DAY;
     let side = (n as f64).sqrt().ceil() as usize;
     let particles: Vec<Particle> = (0..n)
-        .map(|i| Particle {
-            release: [92.0 + 14.0 * ((i % side) as f64 + 0.5) / side as f64, -40.0 + 14.0 * ((i / side) as f64 + 0.5) / side as f64],
-            release_time: t0,
-            response: ObjectResponse::new(0.0, 0.0),
+        .map(|i| {
+            let p = [92.0 + 14.0 * ((i % side) as f64 + 0.5) / side as f64, -40.0 + 14.0 * ((i / side) as f64 + 0.5) / side as f64];
+            Particle::new(p, t0, ObjectResponse::new(a_s, c_w))
         })
         .collect();
     let step_s = 6.0 * 3600.0;
     let spec = RunSpec {
-        forcing: Forcing { current: &field, stokes: None, wind10: None },
+        forcing: Forcing {
+            current: &field,
+            stokes: extra.as_ref().map(|e| &e.0 as &dyn VectorField),
+            wind10: extra.as_ref().map(|e| &e.1 as &dyn VectorField),
+        },
         coast: &NoCoast,
         domain: Domain { lon_min: 15.0, lon_max: 120.0, lat_min: -50.0, lat_max: 0.0 },
         step_s,
@@ -62,7 +74,7 @@ fn main() {
         }
         steps += ((t_end - t0) / step_s).ceil() as u64;
     }
-    let evals = 2.0 * steps as f64;
+    let evals = 2.0 * per_stage * steps as f64;
     println!(
         "{{\"threads\":{threads},\"particles\":{n},\"afloat_at_end\":{afloat},\"particle_steps\":{steps},\"field_evaluations\":{evals},\"load_s\":{load_s:.2},\"wall_s\":{wall:.3},\"evals_per_s\":{:.4e},\"evals_per_s_per_thread\":{:.4e}}}",
         evals / wall,

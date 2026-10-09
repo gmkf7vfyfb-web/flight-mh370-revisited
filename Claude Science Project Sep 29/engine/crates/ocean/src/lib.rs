@@ -33,12 +33,15 @@
 //! model change.
 
 pub mod analytic;
+pub mod bathy;
 pub mod coast;
 pub mod field;
 pub mod integrate;
 pub mod products;
 pub mod profile;
 pub mod stochastic;
+pub mod soundspeed;
+pub mod teos10;
 
 pub use coast::{CoastHit, Coastline, LineId, NoCoast, SegmentEdges, SegmentId, StraightCoast};
 pub use field::{Component, FieldGap, FieldMeta, GridField, VectorField};
