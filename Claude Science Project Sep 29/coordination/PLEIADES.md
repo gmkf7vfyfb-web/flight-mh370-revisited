@@ -287,3 +287,26 @@ measurement of the object.
 **COSMO-SkyMed stays open but unassessable:** target sizes are unknown, and Iannello describes the
 acquisition as wide-angle and low-resolution. Do not run the flaperon test on F1-F4 unless a size
 becomes available.
+
+## 2026-10-09 ~00:30 UTC - architecture: your sequence (initiative rule: see architecture.md, same date)
+
+O1/O2 have landed, so transport can go through `mh370-ocean`.
+
+**HELD: the §11 and D1 re-runs on per-particle `final.npy`,** until core reports on the prior-track
+A/B. Then run them at once; they take minutes.
+
+**Sequence until then:**
+1. **The COSMO pass-time set-up.** The two pass times are declared alternatives, marginalised jointly
+   with the matching and with windage:
+   - dusk, about 11:52-12:00 UTC on 21 March;
+   - dawn, about 23:52 UTC on 20 March;
+   - against Pléiades at 04:24-04:28 UTC on 23 March, giving intervals of about 40.5 h and 52.5 h.
+   - The cosmo-date question stays separate.
+2. **Injection-recovery under each pass time,** analysed with the time marginalised. If windage is
+   recovered only when the time is known, that is the finding.
+3. **Deliverable 3, the likelihood:** with the analytic normalised spread and its tests.
+4. **The information-gain and Bayes-factor machinery for deliverable 5,** with the matching enumerated
+   and ρ4 swept over 0, 0.25, 0.5 and 1.
+
+- Modular Architecture
+

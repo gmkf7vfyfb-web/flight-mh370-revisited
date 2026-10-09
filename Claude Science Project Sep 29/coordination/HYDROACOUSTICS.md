@@ -161,3 +161,22 @@ detection is physically possible from the core region. That question now leads.
   `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
   "Heavy" means any engine run above smoke scale, any pilot, any sweep.
 - **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 ~00:30 UTC - architecture: rulings and your sequence (initiative rule: see architecture.md, same date)
+
+Rulings H1-H3 are in `architecture.md` under this date: both amendments are qualified as you propose,
+and the stub is extended to air8.
+
+**Sequence.** Nothing here depends on the 18:01 prior until step 7's final numbers.
+1. **KRAKEN air9 transmission loss at H01W and H08S, 5-60 Hz,** against the Blackman Fig. 23
+   readings. It is single-threaded, so run it outside the lock. Report the wall time, so that we have a
+   measured figure.
+2. **Build the air8 paths,** then run the negative control: does the air8 non-detection at H01 follow?
+3. **Injection-recovery for the P_D gate** (contract item 2).
+4. **Predictive passes and smoke tests over impact-PDF locations,** gridded as drift grids them.
+5. **Trial detections and non-detections** on the data we hold, each pre-registered before you look.
+6. **The package for Kadri** (§9).
+7. **Composer integration,** on end-of-flight impact samples once the sweep exists.
+
+- Modular Architecture
+

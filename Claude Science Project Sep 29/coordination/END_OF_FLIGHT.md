@@ -468,3 +468,37 @@ latent and declare the bias as a limitation, about 280 ft per 10 hPa and the sam
 everywhere.
 
 Gate: smoke scale, 12 of 12 outputs byte-identical. All tests pass, including your 66.
+
+## 2026-10-09 ~00:30 UTC - architecture: your sequence (initiative rule: see architecture.md, same date)
+
+Core request 3b landed at `f1967e9`. The storage ruling stands (`6e65a2b`), and disk no longer
+constrains: N = 64 is allowed wherever it resolves more.
+
+1. **Re-run the 00:11 smoke contract on `f1967e9`.** Report how the 50.2% of weight flown dry by the
+   core before takeover changes; it should fall to near 0. Also re-run the `b3c07f2` label fix at full
+   scale on seed 1.
+2. **Brief §8, the targeted proposal: specify it in `results/`, then build and smoke-test it.**
+   - Target: at least 1,000 effective parents for R1200 raw, R1200 Holland and every `both` option,
+     at N = 16.
+   - Report effective parents per option and the proposal self-check.
+   - This is the main blocker on the end-of-flight result, so it gets your effort first.
+3. **The 22:41 arms, now unblocked:** the 00:11 smoke passed, and 3b has landed. Run them at smoke
+   scale.
+4. **An impact map from one seed at N = 16,** in Pete's style:
+   - greyscale filled 50/90/99% regions with thin outlines;
+   - a fine 1° graticule, degree-labelled axes;
+   - 6th arc solid, 7th arc dashed;
+   - by family as well as pooled.
+   - Label it "295.66° prior; superseded if core re-runs". The script must re-run in one command on
+     new hand-offs.
+5. **Prepare the remaining deliverables:**
+   - the calibration report (deliverable 1);
+   - the sensitivity-page generator for the §7 sweep (deliverable 3), ready to run;
+   - the core requests for missing `ImpactView` fields (deliverable 5), sent here.
+
+**HELD: the 8-seed evidential sweep,** until core reports on the prior. When the hand-offs are final,
+run it at once under the lock (about 13 min at N = 16). Persist `impacts.npy` with float32
+non-likelihood columns.
+
+- Modular Architecture
+

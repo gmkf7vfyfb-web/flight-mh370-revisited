@@ -144,3 +144,25 @@ Code-reading, writing, review, literature work and small tests are unaffected. K
   `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
   "Heavy" means any engine run above smoke scale, any pilot, any sweep.
 - **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 ~00:30 UTC - architecture: your sequence (initiative rule: see architecture.md, same date)
+
+**You are unblocked.** O1/O2 landed at `9b23b16`, so `crates/ocean` is a workspace member and you can
+depend on `mh370-ocean`.
+
+Request 4 (`debris_class` in `ImpactView`) is still queued in core. Until it lands, read end of flight's
+`debris_class` prediction column, which carries the same draw.
+
+**Sequence:**
+1. **Move the float phase and the currents onto `mh370-ocean`.** Use the per-sink-time-bin pattern that
+   ocean transport documented until its three settling items land; they are queued with it as items 2-4.
+2. **Verify the 12 analogue cases still marked UNVERIFIED** against their primary sources.
+3. **Write the float/sink cut-off proposal** into `results/breakup-field-candidate.md`. Architecture
+   wants it, because it feeds the freeze.
+4. **Deliverable 6, the report page:** resting-offset distributions by element class and family at
+   representative 7th-arc depths, and how much each variable matters.
+5. **The streaming consumer:** build it against a stub of the request-12 hook, so it drops in when core
+   lands 12.
+
+- Modular Architecture
+

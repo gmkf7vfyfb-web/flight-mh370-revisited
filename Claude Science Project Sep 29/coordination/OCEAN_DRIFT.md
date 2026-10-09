@@ -186,3 +186,29 @@ Pléiades will test whether CSIRO's measured flaperon-replica response matches a
 Record it once - CSIRO Part II primary text, printed page, the reference system it is stated in, and
 whether it is the at-sea replica measurement or a tuned assessment - in `results/`, and Pléiades will
 take it from there. Item 17's circularity check comes first.
+
+## 2026-10-09 ~00:30 UTC - architecture: rulings and your sequence (initiative rule: see architecture.md, same date)
+
+Rulings D-a to D-e are in `architecture.md` under this date. `leeway_speed_mps` is approved and is
+ocean transport's first item; use your stub for it until it lands. O1/O2 have landed, so you can
+depend on `mh370-ocean` now.
+
+**Sequence:**
+1. **Implement G1 and the identification-level marginalisation** (by coast and time).
+2. **Swap the stub for `mh370-ocean`,** including the flaperon response as ruled.
+3. **The pilot.** It starts from fixed arc nodes, so it does not depend on the prior.
+   - Write your prediction (brief §5) before running.
+   - Run under the lock when the lock is free (about 0.8 h with waves and wind), or at 2 threads
+     beside core if core holds it (about 5 h).
+   - Use the GLORYS12 slice that already exists, and WAVERYS and ERA5 as ocean transport delivers them.
+   - Do not wait for a perfect product.
+4. **Fix the sizing from the pilot,** then build the transport and recovery-observation layers.
+5. **The sample-scoring interface:** a smoke test on current hand-off impacts, labelled
+   "295.66° prior".
+6. **The production run and the 5 NM refinement.** These wait for the final impact samples.
+
+**Data:** ocean transport owns the products and the downloads. The project budget is 300 GB, so ask
+for what you need.
+
+- Modular Architecture
+

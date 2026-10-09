@@ -1548,3 +1548,104 @@ Write-up: `results/eof-fullscale-oct09/`, the section "After core requests 2 and
   own run outputs are under 1 MB of JSON; every large file was deleted after extraction.
 
 - end of flight
+
+## 2026-10-09 ~00:30 UTC - architecture: work without waiting; standing schedule; disk budget; rulings
+
+**To every module, read this first.** It replaces the habit of ending a turn to ask permission.
+
+### 1. The initiative rule
+
+- **Work your sequence in order without asking.** Your sequence is in your own inbox file, under this
+  date. It runs to your brief's deliverables.
+- **Decide inside your own module.** Make the decision, write the reason into your results note or your
+  entry, and carry on.
+- **If a step needs a ruling,** post the request here, mark that step blocked, and go straight on to the
+  next step that does not depend on it. A pending ruling is not a reason to stop.
+- **Do not end a turn with "shall I go ahead?"** when the next step is already in your sequence.
+- **Stop only on a fundamental blocker:**
+  - (a) it needs a core-owned change you cannot route around with a disclosed stub or module-local code;
+  - (b) it needs data you cannot obtain;
+  - (c) it would break the contract or the eight composition rules;
+  - (d) it is a scientific choice your brief does not settle and it would change your headline result.
+    In that case ask Pete in your thread, with the options.
+- **While your own background compute runs, wait for it in the same turn.** Do not end the turn.
+- **When a turn does end, end with three lines:** done / next / blocker (or "none").
+- **Scope is unchanged.** Work in your own directory, on your own branch, and merge under the standing
+  rule. Anything that touches `filter.rs`, `config.rs`, `main.rs` or `crates/hypothesis` comes to me.
+
+### 2. Machine
+
+- **Disk.** 401 GiB is free. **The project budget is now 300 GB, and the floor is 100 GiB free.**
+  - Stop deleting regenerable outputs to save space. Keep them while they are useful, and list large
+    files in your entry.
+  - Data still never goes into the artifact store.
+- **CPU, unchanged.**
+  - One heavy job at a time, under `lockf -k /tmp/.mh370-heavy.lock`, with up to 12 threads.
+  - Outside the lock: `RAYON_NUM_THREADS=2`, `-j 4`, `--test-threads=2`.
+  - Core may hold the lock tonight for a re-run of about 14 h (see section 4). If it does, your
+    outside-lock work carries on at 2 threads, so nothing in your sequence needs to stop for it.
+
+### 3. Landed since most of you last looked
+
+- **Core requests 3b and 5 (`f1967e9`).**
+  - `takeover()` now receives the core's fuel model.
+  - The sea-surface pressure altitude is documented as ISA.
+- **O1 and O2 (`9b23b16`).** `crates/ocean` is a workspace member, and hypotheses may depend on
+  `mh370-ocean`.
+  - **Settling: you are no longer blocked on O1/O2.**
+- **Request 11.** `make scope` now has its BASE variable.
+
+### 4. The prior-track finding, and what is held
+
+Core found that the 18:01:49 prior track, **295.66°**, is a reconstruction. Davey Fig. 4.2 gives
+**289.7°** (`results/prior-track-295-vs-290.md`). Core is running a smoke A/B now.
+
+If the 00:19 posterior moves:
+- the correction goes into `config/davey2016.toml` as a reproduction fix, with Fig. 4.2 as its
+  provenance;
+- 295.66° is kept as a named sensitivity config, so earlier results stay reproducible;
+- core re-runs the reference, which takes about 14 h.
+
+**Held until core reports:**
+- the end-of-flight 8-seed evidential sweep;
+- the Pléiades §11 and D1 re-runs on per-particle data.
+
+**Everything else proceeds,** including:
+- all development work;
+- smoke tests on the current hand-offs, labelled "295.66° prior";
+- drift's pilot, which starts from fixed arc nodes, not posterior samples.
+
+### 5. Rulings
+
+**Hydroacoustics.**
+- **H1. Amendment 2 is qualified.** air9 to H08S is **3,549 km**, the geodesic from Blackman's own
+  coordinates. The printed "about 4825 km" (section 4.1) is recorded as a report error. The H01 check
+  in the same paragraph (1,662.8 km computed, 1,665 km printed) is cited as the control.
+- **H2. Amendment 6 is qualified as you propose:**
+  - a single site is nearly worthless **for arrival time alone**;
+  - a single triad with a well-measured bearing carries **0.62-1.32 bit** under the pre-registered
+    literature mixture;
+  - whether a 0.5° core is attainable at marginal SNR is for injection-recovery to measure.
+- **H3. The stub is extended** to air8 to H01W and air8 to H08S. It uses the same construction, the
+  same PROVISIONAL label and the same deletion rule.
+
+**Ocean drift, item 5 (the flaperon response).**
+- **D-a. Speed and angle are measurements.**
+  - Reference: θ ~ U(0°, 30°) left of downwind, the measured range stated on p. 16.
+  - N(16°, 8²) truncated to [0°, 30°] is a declared sensitivity.
+  - Speed: c0 ~ N(0.10, 0.03²) m/s, truncated at 0.
+- **D-b. Use the response only in the system it was measured in:** current + 1.2% wind + c0 at θ, with
+  no explicit Stokes.
+  - One addition: CSIRO calibrated the 1.2% baseline on BRAN (Part III, p. 6). So the CSIRO-system arm
+    **on BRAN2016 is the reproduction setting**, and the same arm on GLORYS12 is a declared alternative.
+  - An explicit-Stokes arm needs its own fitted residual (undrogued-drifter replay against GDP). It is
+    an extension: config-gated, default off.
+- **D-c. E15 is resolved,** as you state.
+- **D-d. `leeway_speed_mps` is approved,** including the refusal of `leeway_speed_mps > 0` together with
+  `a_stokes > 0` unless `explicit_residual = true`. I have given it to ocean transport as its first
+  item.
+- **D-e. For the paper:** the Réunion arrival is consistent with the whole 30.5-40°S band. It is not a
+  latitude constraint.
+
+- Modular Architecture
+

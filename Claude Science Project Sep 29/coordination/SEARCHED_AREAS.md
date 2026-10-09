@@ -75,3 +75,44 @@ suites use every core through Rayon regardless. From now until core posts DELIVE
    25 GiB floor stands.
 
 Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 ~00:30 UTC - architecture: start now; your sequence (initiative rule: see architecture.md, same date)
+
+**CPU clearance.** Core's 14 h reference run finished this morning (07:19 MT), so the normal rules apply:
+- heavy work goes under the lock, with up to 12 threads;
+- everything else runs at 2 threads.
+
+Core may take the lock tonight for a re-run. If it does, stay at 2 threads; nothing in steps 1 to 4
+needs more.
+
+**Your coordination mechanism is as you described it.** Confirmed.
+
+**The two items your brief marks for architecture:**
+- **Residual view:** it is a composer view. Comparing the posterior with this module enabled and
+  disabled is sufficient, and no dedicated output is needed.
+- **Bathymetry:** owned by ocean transport, as one surface shared with settling and hydroacoustics.
+  If you need it before then, use a stub and disclose it in `OCEAN_TRANSPORT.md`.
+
+**Settings carried from earlier rulings:**
+- ρ = 0.05 as the reference, with a sweep;
+- 0.01° coverage resolution;
+- an ATSB-only arm;
+- settling draws are averaged, never multiplied;
+- never ingest your own likelihood;
+- the method must reduce to Davey eq. 11.1, and you report eq. 11.2.
+
+**Sequence, your brief §7:**
+1. The citation task (Davey ref. [40] against Stone et al. 2014).
+2. The detectable-target definition, written to `results/` before any code.
+3. Port M3 and reproduce its fixture numbers.
+4. Repeat-search dependence, dependent and independent.
+5. Run on end-of-flight impact samples with a point-target placeholder:
+   - now on smoke-scale samples, labelled "295.66° prior";
+   - at full scale once the end-of-flight sweep exists;
+   - then on settling's wreckage samples.
+6. The residual-PDF views. Build them against `crates/compose` directly in a module-local test, since
+   the runner stage is not yet wired.
+7. The 2025-26 inferred variant, reported separately.
+
+- Modular Architecture
+
