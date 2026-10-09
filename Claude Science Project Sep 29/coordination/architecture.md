@@ -3957,3 +3957,64 @@ The ~14:45 UTC item is acted on. Results are in `results/pleiades/rerun-289/reru
 **No new questions.** P4 (GlobCurrent daily label) is still provisional; Pete is reviewing the overnight choices.
 
 — Pléiades
+
+## 2026-10-09 ~15:00 UTC - searched areas: 289.7 vs 295.66 at smoke scale; one claim withdrawn; a transfer blocker
+
+**Your item for me was the full-scale run on end of flight's reference-289 impacts, and failing that,
+to check the pipeline at smoke scale against the new hand-offs.** The second is done. The first has a
+blocker that is not about timing, below.
+
+**A correction first, because I published the wrong attribution overnight.** The two runs I compared
+as a convergence test differ in BOTH the replicate count and the prior: core adopted 289.7 in
+`config/davey2016.toml` between them and my clone took it on its next fetch, so `runs/eof-smoke-4` is
+295.66 and `runs/eof-smoke8-4` is 289.7. I have run the missing cell - eight replicates at 295.66 via
+`config/sensitivity/prior-track-29566.toml` - and the effects separate cleanly in
+`results/seabed-search-prior-289-vs-29566.md`.
+
+- **Convergence** (2 -> 8 replicates at 295.66): split-half 0.812 -> 0.903; Z +0.020; the ground needed
+  for P(find) 25% **doubles**, 8 -> 16 blocks, 19,092 -> 38,523 km2.
+- **Prior** (295.66 -> 289.7 at 8 replicates): split-half 0.903 -> **0.947**, so 289.7 is the
+  better-resolved posterior at the same cost; Z -0.019; the 97.5th percentile moves **2.9-3.4 deg**.
+
+**WITHDRAWN: "the northern tail is not determined at this scale".** The convergence effect on the
+97.5th percentile is 0.17-0.29 deg and the prior effect is 2.9-3.4 deg - more than ten times larger.
+It is 289.7's bimodal posterior and its northern tail, exactly as core described: **prior-dependent,
+not unresolved.** It should be quoted with its prior attached. The eq. 11.2 over-concentration claim
+stands and is now quantified above.
+
+**The prior-dependent result you asked for: 289.7 STRENGTHENS the seabed-search evidence.** It puts
+more impact mass where the ATSB looked - **0.231 of the prior mass on Phase 2 ground against 0.210** -
+so Phase 2 removes **0.2180** of it rather than 0.1983, and Z falls from 0.8116 to 0.7929 at rho 0.05.
+The southward shift survives and is marginally smaller (0.39 deg against 0.40 deg); about 3% of the
+mass is left on searched ground either way. **Ocean Infinity 2018 doubles**, 0.0049 -> 0.0109 removed,
+because 289.7 puts more weight in the band the traced outline covers - still a one-point effect.
+
+Both 295.66 arms are kept beside the 289.7 one, as you asked: `results/seabed-search-eof-smoke8-29566/`
+(8 replicates) and `results/seabed-search-eof-smoke/` (2, superseded and marked).
+
+### The blocker: I cannot read another session's runs
+
+**`runs/reference-289` is in core's workspace and end of flight's impacts will be in theirs.** Module
+sessions have separate sandboxes, `runs/` is gitignored, and nothing of either is in the artifact
+store (I checked: only `reference-289-map-0011/0019` figures). `~/Downloads/flight-mh370-revisited` is
+an August tree with no `runs/`. So "the full-scale run as soon as the impacts are posted" cannot
+happen on a posted *path* alone - I need the bytes.
+
+**Options, with my recommendation.**
+
+1. **(recommended) A named exchange directory**, e.g. `~/Downloads/mh370-exchange/<run>/<seed>/`, with
+   `impacts.npy`, `run.json` and the impact column list; the producing module posts the path, the
+   consumer copies and deletes its copy when done. `~/Downloads` is already the de-facto exchange and
+   is granted to every session. Needs a size cap and a disk-floor rule from you.
+2. End of flight saves `impacts.npy` as an artifact. Cross-session by construction, but it reverses
+   the standing "data never goes into the artifact store" line and the files are large.
+3. End of flight runs `make evaluate H=seabed-search` itself and posts the small evaluate output. That
+   inverts ownership, and my report needs the impact table, not only the likelihood column.
+
+**A smaller thing worth a rule.** A module clone picks up core config changes on every fetch, so two
+runs separated by a fetch can differ in more than the thing under test - which is precisely how I got
+this wrong. I now read `track_deg` out of each `run.json` and state it in the note. If you want that
+as a convention, every results note should record the prior and the base config it was produced under,
+taken from `run.json` rather than from memory.
+
+- searched areas
