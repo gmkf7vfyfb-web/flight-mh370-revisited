@@ -39,7 +39,7 @@ first part of the GDP replay (item 5).
 | GLORYS12 current | undrogued, 808 seg / 60 | 21.2 / 19.6 | 19.5–23.0 / 18.3–21.1 | 134.9 / 108.3 | 0.128 / 0.126 | 9.0 / 4.0 |
 | GLORYS12 + 1% ERA5 | undrogued | 18.7 / 18.7 | 17.1–20.5 / 17.1–20.4 | 110.4 / 101.5 | 0.115 / 0.118 | 6.1 / 4.2 |
 | GlobCurrent daily | undrogued | 14.3 / 14.2 | 13.3–15.3 / 12.8–15.4 | 102.1 / 85.5 | 0.087 / 0.090 | 14.8 / 5.5 |
-| GLORYS12 current | drogued, 565 seg / 52 | 20.1 / 19.5 | 17.7–22.3 / 17.3–21.4 | 110.3 / 107.0 | 0.125 / 0.122 | 4.5 / 4.6 |
+| GLORYS12 current | drogued, 565 seg / 52 | 20.1 / 19.4 | 17.7–22.3 / 17.3–21.4 | 110.3 / 107.0 | 0.125 / 0.122 | 4.5 / 4.6 |
 | GlobCurrent daily | drogued | 18.0 / 15.1 | 16.7–19.4 / 13.5–16.5 | 124.2 / 99.9 | 0.107 / 0.092 | 17.7 / 10.7 |
 
 - **The whole box, all seasons** (undrogued, 3,964 segments, 120 drifters), RMS E / N at 2 days:
@@ -49,8 +49,13 @@ first part of the GDP replay (item 5).
 - **The whole domain:** errors are larger, with GLORYS12 undrogued at 29.6 / 27.4 km.
 - **At 6 h** every configuration shows 2.6–3.8 km per component. This includes the GDP interpolation error
   and is the floor of the method.
-- **Diffusivity-equivalent spread:** K_equiv at 15 days is 3,400–10,300 m²/s across configurations and
-  subsets, and 3,400–7,400 m²/s inside the search box. That is 14–42 times CSIRO's 248 m²/s.
+- **Diffusivity-equivalent spread:** for the three configurations in the main table, K_equiv at 15 days
+  is 3,400–10,300 m²/s across all subsets and 3,400–8,000 m²/s inside the search box (the box maximum is
+  GLORYS12 + 1% ERA5 on drogued drifters). That is 14–42 times CSIRO's 248 m²/s.
+  - With the explicit-Stokes compositions of the next section included, the maximum rises to
+    15,700 m²/s in the box and 18,400 m²/s over the domain. Both are GLORYS12 + WAVERYS + 1% ERA5 on
+    drogued drifters, the composition that counts drift twice.
+  - All values are in `ocean-transport-error-gdp-replay.json`, which now holds all six configurations.
 
 ![RMS separation per component against lead time](ocean-transport-error-gdp-replay.png)
 

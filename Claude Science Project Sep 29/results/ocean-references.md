@@ -230,6 +230,16 @@ page is still to be read.
   (quality information document CMEMS-MOB-QUID-015-003, and the product page). The Stokes content is
   declared `Partial` by this module, because the Ekman transfer is fitted to drifters; that declaration
   is a modelling choice, not a statement in the source.
+- **Files used (sha256), fetched 2026-10-09:**
+  - `globcurrent_my_pt1h_uo_vo_0m_20140307-20140331.nc`
+    3664986c503d319e19249ed0abe15363c4a14acf72b8bceb00328f4f4029a513
+  - `globcurrent_my_p1d_uo_vo_err_0m_20140307-20170131.nc`
+    4aa9366d43fc92561c813f914b921b799613842e797fab60f8870e4159b8ee8f
+  - Derived grids are in `ocean-data-manifest.md`.
+  - **Version 202411 retires on 24 November 2026**, as announced in the Toolbox warning. A re-fetch after
+    that date gets a different version and must be re-verified against these hashes.
+- **Ruling (architect, 9 October):** the second `ocean-model` value, a declared alternative at equal
+  prior weight beside GLORYS12 + ERA5.
 - **Licence:** Copernicus Marine Service product licence (free use with attribution).
 
 ### Global Drifter Program 6-hourly QC positions — `lumpkin2019gdp`
