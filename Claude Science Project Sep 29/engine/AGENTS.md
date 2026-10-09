@@ -13,6 +13,8 @@ crates/satcom      BTO/BFO measurement model, observation loading
 crates/flight      cruise + manoeuvre dynamics, ERA5/IGRF environment
 crates/hypothesis  the fixed hook API between core and hypotheses
 crates/mh370       runner: config, filter, hypotheses, artifacts, local app (ui/)
+crates/ocean       shared ocean transport: fields, integrator, coast and beaching (hypotheses may use)
+crates/compose     stage 4: composes the flight posterior with impact-level modules
 hypotheses/<name>/ one directory per hypothesis (discovered automatically)
 config/            base config (davey2016.toml), smoke override, sensitivity/ overrides
 report/            build_report.py: run artifacts -> PDF
@@ -22,8 +24,10 @@ data/              measured inputs (README lists provenance)
 ```
 
 The core spokes (`satcom`, `flight`) depend only on `geo`. Hypotheses depend
-only on `hypothesis`, `geo`, `serde` and `toml`. They never depend on core
-crates or on each other, and the build fails if a hypothesis references
+only on `hypothesis`, `geo`, `ocean`, `serde` and `toml`. `ocean` is the one
+shared environment crate a hypothesis may use (ruled 9 Oct): drift, settling and
+Pléiades share its transport, coast and beaching code rather than keeping three
+copies. They never depend on any other core crate or on each other, and the build fails if a hypothesis references
 another. The runner composes everything and holds no scientific equations.
 
 ## Two kinds of work

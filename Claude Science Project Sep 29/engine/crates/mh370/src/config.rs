@@ -432,6 +432,152 @@ pub struct DynamicsConfig {
     /// which reproduces the published model (Davey sec. 7.2 carries no cruise vertical rate).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub bfo_vertical_rate: Option<bool>,
+    /// Early-flight sampling options (absent: the published model). When set, each seed also
+    /// writes early.npy, row-aligned with final.npy (columns `filter::EARLY_COLUMNS`).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub early: Option<EarlyConfig>,
+}
+
+/// `[dynamics.early]`: widen the prior over the first minutes after 18:01:49. Times are UTC.
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct EarlyConfig {
+    /// Mach range for set points drawn before `mach_until_utc` (prior draw and accelerations).
+    pub mach_range: (f64, f64),
+    pub mach_until_utc: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub excursion: Option<ExcursionConfig>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub turn: Option<TurnConfig>,
+    /// Clip the early Mach range at each set point to this calibrated-airspeed envelope.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cas_envelope_kt: Option<(f64, f64)>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub routes: Option<RoutesConfig>,
+}
+
+/// `[dynamics.early.routes]`: fly a route drawn uniformly from the list built from `first`
+/// (each a list of fix names, in order) times `then` (each a list of fix names, possibly
+/// empty), starting at `start_utc`, then resume the free model. Fix names resolve through
+/// `waypoints_csv` (name, lat, lon).
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct RoutesConfig {
+    pub share: f64,
+    pub start_utc: String,
+    pub waypoints_csv: String,
+    pub first: Vec<Vec<String>>,
+    pub then: Vec<Vec<String>>,
+}
+
+impl RoutesConfig {
+    /// The route names and coordinates, in the order the index column of early.npy uses.
+    pub fn expand(&self) -> Result<(Vec<String>, Vec<Vec<(f64, f64)>>), String> {
+        let text = std::fs::read_to_string(&self.waypoints_csv).map_err(|e| format!("{}: {e}", self.waypoints_csv))?;
+        let mut fixes = std::collections::BTreeMap::new();
+        for line in text.lines().skip(1) {
+            let f: Vec<&str> = line.split(',').map(str::trim).collect();
+            if f.len() >= 3 {
+                if let (Ok(lat), Ok(lon)) = (f[1].parse::<f64>(), f[2].parse::<f64>()) {
+                    fixes.insert(f[0].to_string(), (lat, lon));
+                }
+            }
+        }
+        let (mut names, mut routes) = (Vec::new(), Vec::new());
+        for a in &self.first {
+            for b in &self.then {
+                let seq: Vec<&String> = a.iter().chain(b.iter()).collect();
+                let pts = seq
+                    .iter()
+                    .map(|n| fixes.get(n.as_str()).copied().ok_or_else(|| format!("unknown fix {n} in dynamics.early.routes")))
+                    .collect::<Result<Vec<_>, _>>()?;
+                names.push(seq.iter().map(|s| s.as_str()).collect::<Vec<_>>().join("-"));
+                routes.push(pts);
+            }
+        }
+        Ok((names, routes))
+    }
+}
+
+/// `[dynamics.early.excursion]`: a descent and climb back before radar re-acquisition.
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct ExcursionConfig {
+    /// Prior probability that a trajectory flies the excursion.
+    pub share: f64,
+    pub start_utc: (String, String),
+    pub low_ft: (f64, f64),
+    pub descent_fpm: (f64, f64),
+    pub climb_fpm: (f64, f64),
+    /// Window in which the climb ends (back at a cruise level).
+    pub end_utc: (String, String),
+    /// Calibrated airspeed below the Mach/CAS crossover.
+    pub cas_kt: (f64, f64),
+    #[serde(default = "default_max_tries")]
+    pub max_tries: u32,
+}
+
+fn default_max_tries() -> u32 {
+    1000
+}
+
+/// `[dynamics.early.turn]`: a turn at a fixed time to a ground track drawn uniformly.
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct TurnConfig {
+    pub share: f64,
+    pub at_utc: String,
+    pub track_deg: (f64, f64),
+}
+
+impl EarlyConfig {
+    pub fn resolve(&self) -> Result<flight::EarlyPhase, String> {
+        let t = |s: &str| satcom::parse_utc(s);
+        let excursion = match &self.excursion {
+            None => None,
+            Some(x) => {
+                if !(0.0..=1.0).contains(&x.share) {
+                    return Err("dynamics.early.excursion.share must be in [0, 1]".into());
+                }
+                Some(flight::ExcursionPrior {
+                    share: x.share,
+                    start_unix_s: (t(&x.start_utc.0)?, t(&x.start_utc.1)?),
+                    low_ft: x.low_ft,
+                    descent_fpm: x.descent_fpm,
+                    climb_fpm: x.climb_fpm,
+                    end_unix_s: (t(&x.end_utc.0)?, t(&x.end_utc.1)?),
+                    cas_kt: x.cas_kt,
+                    max_tries: x.max_tries,
+                })
+            }
+        };
+        let turn = match &self.turn {
+            None => None,
+            Some(x) => {
+                if !(0.0..=1.0).contains(&x.share) {
+                    return Err("dynamics.early.turn.share must be in [0, 1]".into());
+                }
+                Some(flight::TurnPrior { share: x.share, unix_s: t(&x.at_utc)?, track_deg: x.track_deg })
+            }
+        };
+        let routes = match &self.routes {
+            None => None,
+            Some(r) => {
+                if !(0.0..=1.0).contains(&r.share) {
+                    return Err("dynamics.early.routes.share must be in [0, 1]".into());
+                }
+                Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes: r.expand()?.1 })
+            }
+        };
+        Ok(flight::EarlyPhase {
+            mach_range: self.mach_range,
+            mach_until_unix_s: t(&self.mach_until_utc)?,
+            excursion,
+            turn,
+            cas_envelope_kt: self.cas_envelope_kt,
+            routes,
+        })
+    }
 }
 
 impl DynamicsConfig {

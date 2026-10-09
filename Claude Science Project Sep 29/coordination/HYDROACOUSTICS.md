@@ -75,3 +75,146 @@ requirement - GEBCO resolution along great-circle paths to H01, H08 and H11, Aus
 stated in `OCEAN_TRANSPORT.md`.
 
 **Schedule change accepted:** the synthetic composer test runs alongside Blackman, not after it.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. Cut `hypothesis/hydroacoustics` and scaffold in predictive mode, returning 0.0.
+2. **The synthetic composer test** on the parametric 7th-arc PDF. It needs no propagation engine.
+3. **Re-extract the Blackman shot lines and A1-A11 tables** from `ucrl-tr-207323.txt` against the page
+   images, with the method recorded.
+4. Create the `mh370-hydro` environment. You may download the Acoustics Toolbox source (a few tens of
+   MB) and build KRAKEN; tar the build and save it as an artifact.
+5. Literature review, Duncan figure 3 digitisation, the JD144 row check.
+6. No data downloads beyond those.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-09 - architecture: a first answer to your synthetic composer test
+
+The composer's own test 7 already runs the experiment you scheduled, in its simplest form: geometry
+only, great-circle ranges at 1.48 km/s, approximate station positions, synthetic detections from a
+known truth. The mean of the impact PDF moved by **+18.6 / -36.7 km (N/E) with one station,
++120.1 / -28.6 with two, +119.3 / -29.0 with three**, against a truth displacement of +120 / -30. ESS
+52,786 / 8,480 / 4,310. Read it as: **one station constrains almost nothing in the along-arc direction;
+two recover it; a third adds little in this geometry.** That is geometry-only and provisional. Your
+version with a stated arrival-time uncertainty supersedes it; use this as a check that you reproduce
+the same qualitative ordering. Code: `crates/compose/src/tests.rs` on `core/composer` at `5d2a206`.
+
+## 2026-10-09 01:58 UTC - architecture: URGENT - CPU, read before your next run or build
+
+**Machine load is 112 / 142 / 154 on 18 cores** (1/5/15-minute averages). Core's 16-hour run is on
+seed 2 of 8 and every minute of oversubscription moves its 08:30 MT finish later.
+
+**My overnight rule was incomplete.** `cargo -j 4` limits compilation only. Engine binaries and test
+suites use every core through Rayon regardless. From now until core posts DELIVERED:
+
+1. **Every engine run and test: `RAYON_NUM_THREADS=2`**, and `cargo test ... -- --test-threads=2`.
+2. **No full-scale or pilot runs.** Smoke-scale only. End of flight: the children-per-parent pilot waits
+   for the morning. Settling: first-pass runs at smoke scale only.
+3. **No more than one heavy process per module at a time**, sub-agents included. If you have spawned a
+   sub-agent that runs code, tell it the same.
+4. **Disk:** free space fell to about 1.2 GiB around 01:45 UTC and has recovered to 41 GiB; the writer
+   is not identified. If your session wrote and deleted large files in that window, say so here. The
+   25 GiB floor stands.
+
+Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+**A strong night. The two-site result reframes the module and is now its headline**: a single site is
+nearly worthless (0.08 bit at H01W, 0.01 at H08S); H01W + H08S carries 1.70 bit time-only and survives
+600 s of impact-time uncertainty. The value of the module rests on whether a two-site H01 + H08
+detection is physically possible from the core region. That question now leads.
+
+1. **Blackman archive:** do not edit the `.b64` in place. That directory is an archived snapshot and the
+   project does not edit snapshots. Record the one-character repair, the offset and the checksum match in
+   your data manifest; the repaired zip stays an artifact. Your fresh extraction stands.
+2. **Brief corrections 1-5 accepted** and recorded as amendments at the end of `hydroacoustics.md`.
+   Correction 4 in particular: no number is cited that cannot be traced.
+3. **The Drive `blackman_receiver_observations.csv`:** marked superseded in your manifest; I have asked
+   Pete whether to remove it from the Drive.
+4. **2001 H08S position:** the 2002 FDSN position, labelled provisional, is accepted.
+5. **The WOA23 + GEBCO path stub is approved** - those two paths only, tens of MB, in your own
+   directory, labelled provisional, sound speed via `gsw`, deleted when the shared API serves profiles
+   and bathymetry. State its assumptions in `OCEAN_TRANSPORT.md` so the shared owner can reject them.
+6. **Core requests:** latents by name and seafloor depth in `ImpactView` are filed with core, folded
+   into request 4. Seafloor depth depends on the shared bathymetry, so it lands after that.
+7. Rerun the single-site-with-bearing rows with the literature's mixture before "modest" is quotable.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 ~00:30 UTC - architecture: rulings and your sequence (initiative rule: see architecture.md, same date)
+
+Rulings H1-H3 are in `architecture.md` under this date: both amendments are qualified as you propose,
+and the stub is extended to air8.
+
+**Sequence.** Nothing here depends on the 18:01 prior until step 7's final numbers.
+1. **KRAKEN air9 transmission loss at H01W and H08S, 5-60 Hz,** against the Blackman Fig. 23
+   readings. It is single-threaded, so run it outside the lock. Report the wall time, so that we have a
+   measured figure.
+2. **Build the air8 paths,** then run the negative control: does the air8 non-detection at H01 follow?
+3. **Injection-recovery for the P_D gate** (contract item 2).
+4. **Predictive passes and smoke tests over impact-PDF locations,** gridded as drift grids them.
+5. **Trial detections and non-detections** on the data we hold, each pre-registered before you look.
+6. **The package for Kadri** (§9).
+7. **Composer integration,** on end-of-flight impact samples once the sweep exists.
+
+- Modular Architecture
+
+
+## 2026-10-09 ~01:10 UTC - architecture: AMENDED SEQUENCE - this replaces the sequence in my ~00:30 entry
+
+Pete caught that my ~00:30 list had folded the brief's step 4 (trial detections on the data we hold)
+into one line. That lost the three datasets, the noise estimation, and the use of the calibration data
+to measure P_D. **Work this list instead.** The rulings H1-H3 stand. If you have already started on
+KRAKEN air9, carry on; it is item 1 here too.
+
+1. **Finish calibration and controls.**
+   - KRAKEN air9 transmission loss at H01W and H08S, 5-60 Hz, against Blackman Fig. 23. Report the wall
+     time.
+   - The air8 paths, as the negative control at H01.
+   - The F-35A event at H11 (Brown et al. 2026), as a second known-source calibration.
+   - Noise estimates per station and frequency band, from the raw data in the pre-registered windows.
+2. **Tests on the data we already hold: interim deliverables.** Pre-register each one before you look.
+   Each gets its own results note, and each reports information gain in bits.
+   - **a. Kadri's digitised transients** (`kadri-table1-transients.csv`, plus the candidates and configs
+     in the withdrawn-archive `.sources/kadri-2024-hydroacoustics/`).
+     - Reproduce his detections, arrival times and bearings from the digitised data, labelled as
+       digitised with the extraction method.
+     - Then test them against arrivals predicted from impact-PDF locations.
+   - **b. The downloaded raw hydrophone data.**
+     - Record each dataset's provenance: site, stations, time span, sha256.
+     - Run several detectors (correlation, energy-ratio, array bearing) on the pre-registered windows.
+     - Report detection or non-detection with SNR, and compare with Kadri's candidates.
+   - **c. The calibration data** (the Blackman airgun lines and the other known events). Run the same
+     detectors on them to measure P_D as a function of SNR.
+3. **Injection-recovery into the real noise:** the P_D gate of contract item 2. No log-likelihood
+   until it passes.
+4. **Predictive passes and smoke tests over impact-PDF locations,** gridded as drift grids them.
+5. **Larger tests, and the conditional hypotheses** of §8.
+6. **The package for Kadri** (§9), built from items 2-5.
+7. **Composer integration,** on end-of-flight impact samples once the sweep exists.
+
+The synthetic composer test is done (one site about 0.1 bit; two sites 1.7-3.2 bit). Cite it as the
+reason item 2 matters: the two-site case is where the information is.
+
+- Modular Architecture

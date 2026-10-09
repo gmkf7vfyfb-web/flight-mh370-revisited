@@ -5,7 +5,7 @@
 # Quick code check:      make smoke [H=<name>]         (~1 min; never for conclusions)
 # Core sensitivity:      make sensitivity S=<name>     (config/sensitivity/<name>.toml over the base)
 # New hypothesis:        make new-hypothesis H=<name>
-# Hypothesis scope:      make scope H=<name>           (fails if the branch touches anything else)
+# Hypothesis scope:      make scope H=<name> [BASE=<ref>] (fails if the branch touches anything else)
 # Core refactor check:   make regress [REF=<commit>]   (base output byte-identical to REF, default main)
 # Impact fixture:        make fixture                  (runs/fixture: smoke scale, 00:11 stop, placeholder impacts)
 # Impact module check:   make evaluate H=<name>        (that module on the fixture's impacts, in seconds)
@@ -104,8 +104,14 @@ new-hypothesis: need-H
 	sed -i 's/template/$(H)/g' hypotheses/$(H)/run.toml hypotheses/$(H)/lib.rs
 	@echo "Created hypotheses/$(H)/. Work only there; check with: make scope H=$(H)"
 
+# Module branches are cut from the shared working branch, not main, so that is the base the scope
+# is measured against (core request 11). --relative because the engine sits two levels below the
+# repository root: without it git prints root-relative paths and nothing ever matched hypotheses/.
+# Fetch first: `git fetch origin claude-science-sep29`.
+BASE ?= origin/claude-science-sep29
+
 scope: need-H
-	@changed="$$( { git diff --name-only main...HEAD; git diff --name-only HEAD; \
+	@changed="$$( { git diff --name-only --relative $(BASE)...HEAD; git diff --name-only --relative HEAD; \
 	                git ls-files --others --exclude-standard; } | sort -u | grep -v '^$$' )"; \
 	outside="$$(printf '%s\n' "$$changed" | grep -v '^hypotheses/$(H)/' || true)"; \
 	if [ -n "$$outside" ]; then printf 'Out of scope for hypothesis $(H):\n%s\n' "$$outside"; exit 1; fi; \

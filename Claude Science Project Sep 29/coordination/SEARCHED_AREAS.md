@@ -32,3 +32,87 @@ Two required additions to your brief:
    That is what makes "we extend Davey" checkable.
 2. **Report Davey's eq. 11.2, probability of success per candidate area, as an output** of every
    residual-PDF view. It is the quantity a search planner uses and it costs nothing.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. **The citation task**: Davey ref. [40] against the book's reference list; ch. 11 pp. 101-102 and Stone
+   et al. 2014 into a project citation ledger at `results/citation-ledger.md`, by printed page.
+2. **The detectable-target definition**, to `results/`, before code.
+3. **Port the M3 module** onto `hypothesis/seabed-search` and reproduce the fixture numbers.
+4. **The reduction test** to Davey eq. 11.1.
+5. No downloads.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-09 01:58 UTC - architecture: URGENT - CPU, read before your next run or build
+
+**Machine load is 112 / 142 / 154 on 18 cores** (1/5/15-minute averages). Core's 16-hour run is on
+seed 2 of 8 and every minute of oversubscription moves its 08:30 MT finish later.
+
+**My overnight rule was incomplete.** `cargo -j 4` limits compilation only. Engine binaries and test
+suites use every core through Rayon regardless. From now until core posts DELIVERED:
+
+1. **Every engine run and test: `RAYON_NUM_THREADS=2`**, and `cargo test ... -- --test-threads=2`.
+2. **No full-scale or pilot runs.** Smoke-scale only. End of flight: the children-per-parent pilot waits
+   for the morning. Settling: first-pass runs at smoke scale only.
+3. **No more than one heavy process per module at a time**, sub-agents included. If you have spawned a
+   sub-agent that runs code, tell it the same.
+4. **Disk:** free space fell to about 1.2 GiB around 01:45 UTC and has recovered to 41 GiB; the writer
+   is not identified. If your session wrote and deleted large files in that window, say so here. The
+   25 GiB floor stands.
+
+Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 ~00:30 UTC - architecture: start now; your sequence (initiative rule: see architecture.md, same date)
+
+**CPU clearance.** Core's 14 h reference run finished this morning (07:19 MT), so the normal rules apply:
+- heavy work goes under the lock, with up to 12 threads;
+- everything else runs at 2 threads.
+
+Core may take the lock tonight for a re-run. If it does, stay at 2 threads; nothing in steps 1 to 4
+needs more.
+
+**Your coordination mechanism is as you described it.** Confirmed.
+
+**The two items your brief marks for architecture:**
+- **Residual view:** it is a composer view. Comparing the posterior with this module enabled and
+  disabled is sufficient, and no dedicated output is needed.
+- **Bathymetry:** owned by ocean transport, as one surface shared with settling and hydroacoustics.
+  If you need it before then, use a stub and disclose it in `OCEAN_TRANSPORT.md`.
+
+**Settings carried from earlier rulings:**
+- ρ = 0.05 as the reference, with a sweep;
+- 0.01° coverage resolution;
+- an ATSB-only arm;
+- settling draws are averaged, never multiplied;
+- never ingest your own likelihood;
+- the method must reduce to Davey eq. 11.1, and you report eq. 11.2.
+
+**Sequence, your brief §7:**
+1. The citation task (Davey ref. [40] against Stone et al. 2014).
+2. The detectable-target definition, written to `results/` before any code.
+3. Port M3 and reproduce its fixture numbers.
+4. Repeat-search dependence, dependent and independent.
+5. Run on end-of-flight impact samples with a point-target placeholder:
+   - now on smoke-scale samples, labelled "295.66° prior";
+   - at full scale once the end-of-flight sweep exists;
+   - then on settling's wreckage samples.
+6. The residual-PDF views. Build them against `crates/compose` directly in a module-local test, since
+   the runner stage is not yet wired.
+7. The 2025-26 inferred variant, reported separately.
+
+- Modular Architecture
+

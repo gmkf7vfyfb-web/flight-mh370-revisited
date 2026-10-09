@@ -64,12 +64,21 @@ consistent with contract rule 4 (no floors).
 
 **D3. Resolution.** Davey's kernel has a 1° standard deviation, about 60 NM, against a posterior
 whose 95% width was about 4.5° (digitised from their Fig. 10.3). This project's reference posterior has
-a 50% width of 0.85° (51 NM) and a 90% width of 2.85°. **A likelihood smoothed at a scale comparable
-to the posterior it updates can only reshape it weakly**, so the negligible shift Davey found is in
-part a consequence of the kernel, not only of the 508-day transit, which is the reason they give.
-Our source grid at 10 NM then 5 NM resolves likelihood structure within the posterior. State this
-carefully in the paper: it is an observation about resolving power, not a claim that their result was
-wrong.
+a 50% width of 0.85° (51 NM) and a 90% width of 2.85°.
+
+**Corrected 9 October by measurement — the original argument here was wrong.** This note first argued
+that Davey's negligible shift was "in part a consequence of the kernel". The drift module tested that
+directly (`results/davey-ch11-reproduction.md`, `8b844e3`). Davey's settings on our reference posterior
+reproduce their result — median −37.227° → −37.182°, **+2.75 NM north**, ESS fraction 0.988, across four
+seeds +0.07 to +5.81 NM, bootstrap +3.0 ± 1.8 NM. **Narrowing the kernel to 0.25° does not enlarge the
+shift** (+1.16 NM), and at 0.25° the seed-to-seed variation (TV 0.119) exceeds the update itself (0.095).
+So **Davey's negligible result comes mainly from how little the thirty-year drifter record says about a
+single find**, which is the reason they give, and not from kernel width. The update acts on the tails —
+mass north of 31.5°S rises from 0.025 to 0.036, stably across seeds — a shoulder, not a mode shift.
+
+What survives of D3: a finer source grid is still needed when **many** finds are combined, because their
+joint likelihood can have structure that no single find has. That is an argument about D4, not about
+Davey's one-item result, and the paper must not imply their kernel caused their answer.
 
 **D4. Many objects, with a shared ocean.** Davey's one item avoids the question of how several items
 combine. With many, contract rule 8 applies: the ocean is marginalised once, outside the product over
@@ -89,8 +98,12 @@ With the scale-invariant prior `p(λ) ∝ 1/λ`, the count term integrates to `�
 
 1. **λ drops out exactly.** The marginal likelihood equals the likelihood conditional on the number of
    finds.
-2. **Only the spatial variation of `P_I` matters, not its level**, because a constant factor in `P_I`
-   cancels between numerator and `Q(x)`.
+2. **A single global constant in `P_I` cancels** between numerator and `Q(x)`. *Corrected 9 October,
+   from the drift review:* that is all that cancels. The **relative levels between coast-and-time
+   blocks are unknown and do not cancel**; they must be latent parameters marginalised as part of η,
+   not declared values. Absence of finds is only informative where identification was possible — the
+   drift module's test confirms a source sending half its items to a searched coast with nothing found
+   loses exactly 2³ over three finds, and loses nothing when that coast's `P_I` is 0.
 3. **The absence of finds elsewhere enters automatically, through `Q(x)`.** A source that would have
    sent most items to a coast with high identification probability — Western Australia is the case
    Pete has queued — is penalised when nothing was found there. That is Davey's qualitative argument
@@ -175,7 +188,7 @@ what chance", which is Davey's own stated purpose for §11.1.
 
 | | aligned | departs, defended | adopt from Davey |
 |---|---|---|---|
-| Drift | update form; debris as observation; undrogued analogue; thinning and timing | D1 2014–16 forward transport; D2 no density denominator or ε; D3 resolution; D4 many objects with shared ocean; D5 λ removed exactly by conditioning | A1 `gdp-empirical` arm and reproduction of their result; A2 biofouling temperature constraint |
+| Drift | update form; debris as observation; undrogued analogue; thinning and timing | D1 2014–16 forward transport; D2 no density denominator or ε; D3 resolution (corrected 9 Oct: not the cause of Davey's small shift); D4 many objects with shared ocean; D5 λ removed exactly by conditioning | A1 `gdp-empirical` arm and reproduction of their result; A2 biofouling temperature constraint |
 | Searched areas | eq. 11.1 is the reducible special case | S1 settled field; S2 explicit campaigns and dependence; S3 ρ = 0.05; S4 field average | A3 probability of success per area |
 
 The required tests that make the alignment checkable rather than asserted: **drift must reproduce

@@ -121,6 +121,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "mh370-compose"
+version = "1.0.0"
+dependencies = [
+ "mh370-hypothesis",
+ "rand",
+ "rand_chacha",
+ "rand_distr",
+ "serde",
+]
+
+[[package]]
 name = "mh370-flight"
 version = "1.0.0"
 dependencies = [
@@ -143,6 +154,7 @@ version = "1.0.0"
 dependencies = [
  "mh370-geo",
  "mh370-hypothesis",
+ "mh370-ocean",
  "serde",
  "toml",
 ]
@@ -153,6 +165,18 @@ version = "1.0.0"
 dependencies = [
  "serde",
  "toml",
+]
+
+[[package]]
+name = "mh370-ocean"
+version = "1.0.0"
+dependencies = [
+ "rand",
+ "rand_chacha",
+ "rand_distr",
+ "rayon",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

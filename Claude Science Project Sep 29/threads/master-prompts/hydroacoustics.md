@@ -438,3 +438,22 @@ product** `tau * B`, which sets the per-trial processing gain: 30 at `tau` 1 s a
 `tau` 10 s. A longer event is easier to detect at the same radiated energy because more of it is
 coherently integrable — but only if the source model says the emission really is that long, which is
 (2) above and not (1).
+
+---
+
+## Amendments, 9 October 2026 — accepted from the module's overnight review
+
+1. §3's "20–30 dB worse" refers to Duncan & Dall'Osto's **301.6° HA01 bearing**, crossing the arc near
+   24–26°S. It is one comparison case, **not** the core-region path and not a prior.
+2. §3's transmission-loss figures are **read off Blackman Fig. 23, approximately ±2 dB**: H01 about
+   116–134 dB over 13–60 Hz, H08S about 120–136 dB over 5–60 Hz. Printed range only for air9 (H01
+   1,665 km; H08S about 4,825 km).
+3. §3: coupling efficiency η is swept over **at least four decades**.
+4. §5–§6: "p = 0.0025" and the ATSB "likely geological" wording are **withdrawn**: neither could be traced.
+   Cite p ≈ 0.001 under one surrogate against 0.63–0.91 under burst-preserving surrogates, or attribute
+   the wording to Curtin or Duncan by page.
+5. §4: the Blackman set is at `Sept 27 2026 backup PL ChatGPT instance/Blackman_2004_extracted_data_2026-09-27.zip.b64`
+   (one character short; repair recorded in the module manifest). The module's own re-extraction is the
+   data of record. JD144 10:54:57.77 is **A4**, not A3 — a typo in the report itself.
+6. **Headline from the synthetic composer test:** the module's value rests on **two-site H01 + H08
+   detectability from the core region**. One site carries almost no information.

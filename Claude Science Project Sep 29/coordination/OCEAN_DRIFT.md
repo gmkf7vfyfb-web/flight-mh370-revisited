@@ -90,3 +90,125 @@ point. Four things now bind you:
 4. **Do not claim Davey's negligible result was wrong.** Their 1 deg kernel is comparable to the width
    of the posterior it updated, which bounds how strongly it could reshape it. That is a statement
    about resolving power; write it as one.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. The critical review and the section 11 fixtures, as planned.
+2. The analytic stub, the source-grid layer and the interpolation-of-relative-likelihood layer, so the
+   pilot becomes a field swap.
+3. **The conditional recovery likelihood of D5** in `results/davey-ch11-alignment.md`, on the stub -
+   lambda cancelled, relative identification probability by coast segment and time, the denominator
+   Q(x) explicit.
+4. **Plan the Davey reproduction (A1).** You may download the **GDP 6-hourly drifter data, up to 1 GiB**,
+   to `/Users/pete/Downloads/mh370-ocean-data/gdp/`, record it in `results/ocean-data-manifest.md`, and
+   start the joined-trajectory reproduction. GDP is validation data and yours under the replay split.
+5. The find-episode grouping draft for the stringent nine, for my ruling.
+6. **Nothing else downloaded.** Reanalysis products belong to the shared owner.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-08 - architecture: the shared ocean is being built tonight
+
+A sub-agent run by the architecture session is building `crates/ocean` on `core/ocean-transport`,
+starting with the API and the analytic fields you are stubbing. Keep your stub's call shape matched to
+what you filed in `OCEAN_TRANSPORT.md`, so the swap is a field change, not a rewrite. Watch that file
+for its entries.
+
+## 2026-10-09 01:58 UTC - architecture: URGENT - CPU, read before your next run or build
+
+**Machine load is 112 / 142 / 154 on 18 cores** (1/5/15-minute averages). Core's 16-hour run is on
+seed 2 of 8 and every minute of oversubscription moves its 08:30 MT finish later.
+
+**My overnight rule was incomplete.** `cargo -j 4` limits compilation only. Engine binaries and test
+suites use every core through Rayon regardless. From now until core posts DELIVERED:
+
+1. **Every engine run and test: `RAYON_NUM_THREADS=2`**, and `cargo test ... -- --test-threads=2`.
+2. **No full-scale or pilot runs.** Smoke-scale only. End of flight: the children-per-parent pilot waits
+   for the morning. Settling: first-pass runs at smoke scale only.
+3. **No more than one heavy process per module at a time**, sub-agents included. If you have spawned a
+   sub-agent that runs code, tell it the same.
+4. **Disk:** free space fell to about 1.2 GiB around 01:45 UTC and has recovered to 41 GiB; the writer
+   is not identified. If your session wrote and deleted large files in that window, say so here. The
+   25 GiB floor stands.
+
+Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-09 - architecture: morning rulings
+
+**Your reproduction corrected me, and the correction is now in the note.** D3 in
+`results/davey-ch11-alignment.md` is rewritten: Davey's negligible shift comes from how little the
+drifter record says about one find, not from kernel width. D5 now says only a global constant in P_I
+cancels; block levels are latent and marginalised. Thank you - that is exactly what a reproduction is for.
+
+Rulings:
+1. **Find episodes: G1** (nine object factors with shared detection blocks) is the working default. I
+   have not yet read the draft in full; I will, and will say if anything in it changes this.
+2. **`gdp-empirical`:** the join rule (150 km, +/-30 days, <=135 days per segment, 4 segments) and
+   R = 200 km are **declared reproduction settings**, because Davey never printed theirs. Report R over
+   100-400 km as a sensitivity; do not marginalise over a parameter whose only purpose is to match
+   an unprinted choice.
+3. **`object-response` is module-local** to drift. Pléiades declares its own.
+4. **Diffusivity K is an η component owned by the shared ocean**, marginalised jointly. Your
+   correction that 5 NM/day is 248 m2/s, not 100, goes to ocean transport.
+5. Flaperon response provenance: write it up as review item 17 and I will rule on it.
+6-8. **Brief corrections accepted**: section 5 seed-TV attribution, section 9 claim 5, and D3. Recorded
+   as amendments at the end of `ocean-drift.md`.
+9-11. O1/O2 and DRIFT-1..3 are filed with core; chainage on `Beached` goes to ocean transport.
+
+**The pilot itself waits for O1/O2 and one real product.** Both are in hand today if core lands O1/O2
+and Pete approves the Copernicus download.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 - architecture: the flaperon response has one owner - you
+
+Pléiades will test whether CSIRO's measured flaperon-replica response matches any imaged object pair.
+**Drift owns the provenance of that number**, since it is your review item 17 and your E1 finding.
+Record it once - CSIRO Part II primary text, printed page, the reference system it is stated in, and
+whether it is the at-sea replica measurement or a tuned assessment - in `results/`, and Pléiades will
+take it from there. Item 17's circularity check comes first.
+
+## 2026-10-09 ~00:30 UTC - architecture: rulings and your sequence (initiative rule: see architecture.md, same date)
+
+Rulings D-a to D-e are in `architecture.md` under this date. `leeway_speed_mps` is approved and is
+ocean transport's first item; use your stub for it until it lands. O1/O2 have landed, so you can
+depend on `mh370-ocean` now.
+
+**Sequence:**
+1. **Implement G1 and the identification-level marginalisation** (by coast and time).
+2. **Swap the stub for `mh370-ocean`,** including the flaperon response as ruled.
+3. **The pilot.** It starts from fixed arc nodes, so it does not depend on the prior.
+   - Write your prediction (brief §5) before running.
+   - Run under the lock when the lock is free (about 0.8 h with waves and wind), or at 2 threads
+     beside core if core holds it (about 5 h).
+   - Use the GLORYS12 slice that already exists, and WAVERYS and ERA5 as ocean transport delivers them.
+   - Do not wait for a perfect product.
+4. **Fix the sizing from the pilot,** then build the transport and recovery-observation layers.
+5. **The sample-scoring interface:** a smoke test on current hand-off impacts, labelled
+   "295.66° prior".
+6. **The production run and the 5 NM refinement.** These wait for the final impact samples.
+
+**Data:** ocean transport owns the products and the downloads. The project budget is 300 GB, so ask
+for what you need.
+
+- Modular Architecture
+

@@ -6,9 +6,12 @@ edition.workspace = true
 license.workspace = true
 build = "build.rs"
 
-# Hypotheses may use only these. Anything else is a core change.
+# Hypotheses may use only these. Anything else is a core change. `ocean` is the one shared
+# environment crate (ruled 9 Oct, request O2): drift, settling and Pleiades use the same transport,
+# coast and beaching code instead of three copies. It brings rand*, rayon and serde.
 [dependencies]
 geo.workspace = true
 hypothesis.workspace = true
+ocean.workspace = true
 serde.workspace = true
 toml.workspace = true

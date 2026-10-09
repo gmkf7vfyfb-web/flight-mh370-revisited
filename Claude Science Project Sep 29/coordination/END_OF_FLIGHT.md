@@ -266,3 +266,239 @@ intact, broken, fragmented - selected on descent and total speed, with sourced p
 These must be one definition, not two. Ruling: **settling writes the family definitions and
 thresholds; you implement the assignment against them.** Until settling publishes them in
 `results/`, keep your current assignment and label it provisional.
+
+## 2026-10-08 - architecture: overnight work plan
+
+1. **The six-item smoke contract** on a rebuilt `runs/handoff-smoke`, then the children-per-parent
+   pilot at N = 64. Report both.
+2. **Merge `hypothesis/end-of-flight`** after the contract is reported - you have that authority.
+3. **`debris_class`**: keep your assignment, labelled provisional, until settling publishes
+   `results/breakup-field-candidate.md`; if it lands tonight, implement against it.
+4. **New request from Pléiades** (its §11 result: the western lobe is reachable only with a descent
+   reach of 30 NM or more). From the smoke impacts, report **impact displacement from each trajectory's
+   position at 00:19:37 - distance and bearing - by taxonomy family**, and the weight beyond 30 NM and
+   50 NM to the north-west. Label it smoke-scale and provisional.
+5. **Morning:** core's run will publish 22:41 and 00:11 snapshots at 20,000 rows per seed. The contract
+   applies unchanged; only the row count and effective parent count change.
+
+### Overnight rules for every module, 8-9 October (binding until Pete is back, ~08:30 MT)
+
+- **CPU:** core's 16-hour run is live until about 08:30 MT. Build with `cargo ... -j 4` and run nothing
+  heavier than 4 threads. If the core run is slowed, everything downstream waits on it.
+- **Disk:** 38 GiB free and falling while core writes. **Download nothing** unless your entry below
+  says you may, and then only within the stated cap. Never save a multi-GB file as an artifact. Never
+  let free space fall below 25 GiB - check `df` before each file.
+- **Nobody can answer you tonight.** If you hit a question only Pete or the architect can answer,
+  write it in `coordination/architecture.md`, choose the more reversible option, label the work
+  provisional, and keep going. Do not stop and wait.
+- **Concurrent appends:** if a push conflicts on a coordination file, keep BOTH entries in
+  chronological order. Never resolve by taking one side.
+- **Finish the night with a dated entry in `coordination/architecture.md`**: what landed, with commit
+  hashes; what is provisional and why; what you need in the morning.
+
+## 2026-10-09 01:58 UTC - architecture: URGENT - CPU, read before your next run or build
+
+**Machine load is 112 / 142 / 154 on 18 cores** (1/5/15-minute averages). Core's 16-hour run is on
+seed 2 of 8 and every minute of oversubscription moves its 08:30 MT finish later.
+
+**My overnight rule was incomplete.** `cargo -j 4` limits compilation only. Engine binaries and test
+suites use every core through Rayon regardless. From now until core posts DELIVERED:
+
+1. **Every engine run and test: `RAYON_NUM_THREADS=2`**, and `cargo test ... -- --test-threads=2`.
+2. **No full-scale or pilot runs.** Smoke-scale only. End of flight: the children-per-parent pilot waits
+   for the morning. Settling: first-pass runs at smoke scale only.
+3. **No more than one heavy process per module at a time**, sub-agents included. If you have spawned a
+   sub-agent that runs code, tell it the same.
+4. **Disk:** free space fell to about 1.2 GiB around 01:45 UTC and has recovered to 41 GiB; the writer
+   is not identified. If your session wrote and deleted large files in that window, say so here. The
+   25 GiB floor stands.
+
+Code-reading, writing, review, literature work and small tests are unaffected. Keep going on those.
+
+## 2026-10-08 - core estimator - DELIVERED
+
+**The full-scale hand-offs are delivered and accepted. Per Pete's instruction, start the
+full-scale smoke tests now:** the six-item contract on `handoff-m0011`, plus items 7 (N = 64
+children per parent, `ess_rows` / `ess_parents` for every data option) and 8 (measured cost) from
+my entry above.
+
+`engine/runs/reference-snapshots/` finished 13:19Z (07:19 MT), 14.31 h, peak 13,204 MiB.
+
+**Acceptance passed.** For all eight seeds, `final.npy` and `routes.npy` are byte-identical to
+`runs/no-exhaustion-prior`. `run.json` replicates are identical once timings are stripped. The
+config differs only in `name` and the three `[output]` snapshot keys. In every snapshot, P(mode)
+equals prior x exp(evidence to the epoch); worst difference 2.5e-14. The 00:19:37 posterior IS the
+reference posterior, so you can write: "the hand-offs come from the reference posterior's own
+filter".
+
+**Contents.** `bto-bfo/seed-{1..8}/handoff-{m2241,m0011}/handoff.{npy,toml}`, 42 aircraft fields
+per row. Rows sum to one per seed. Pooled below with equal weight per seed:
+
+| | 22:41 (unix 1394232081, step 7) | 00:11 (unix 1394237459, step 9) |
+|---|---|---|
+| rows | 159,998 | 160,000 |
+| P(TH, MH, TT, MT, LNAV) | .210 .077 .117 .497 .098 | .135 .037 .549 .144 .135 |
+| latitude 5/25/50/75/95% | -25.60 -24.89 -24.34 -23.77 -22.94 | -37.08 -36.57 -36.12 -35.28 -32.67 |
+| median altitude / Mach | 37,000 ft / 0.784 | 39,000 ft / 0.819 |
+| fuel_kg 5/50/95% | 7,365 / 8,822 / 10,298 | 60 / 670 / 2,356 |
+| already dry | 0 | 0.42% |
+
+Three points to carry:
+
+1. **These are filtering distributions.** The 00:19:37 posterior's mode mix (TT .589, LNAV .165,
+   TH .151, MT .075, MH .020) is not what you start from. At 22:41 magnetic track carries half the
+   mass; the 00:11 arc moves it to true track. A descent arm seeded at 22:41 starts from a much
+   wider mode mix than the final posterior suggests, and that is correct.
+2. **`final_row` is NaN** in every snapshot. Join on nothing; each row's state is self-contained.
+3. **The 0.42% already dry at 00:11** take the no-thrust branch (contract item 3). Every other
+   row derives its flame-out in-stage from `fuel_kg`. Condition on nothing.
+
+The 22:41 snapshot is for the planned-descent arms. Do not start those until the 00:11 smoke
+passes.
+
+## 2026-10-09 - architecture: morning rulings
+
+**Your night's work is accepted, and withholding the merge was right.** Rulings on your three needs:
+
+1. **Core request 2, not the module-only route.** It is a downstream change (terminal hook), it gives
+   both hooks one state exactly, and the module-only route would fly the cruise segment on a burn 12.7%
+   low. Core is asked to land **requests 2 and 3 together, first**. Until then no family attribution is
+   quoted; the ignored test stays ignored and becomes the acceptance test for request 2.
+2. **Snapshot reading: your symlinked run tree plus `exclude_epochs = ["m0019a","m0019b"]`** is
+   accepted. No core change.
+3. **Run the N = 64 pilot on `handoff-m0011` now**, first heavy job under the lock. Weights and descent
+   physics do not read the mechanism label, so `ess_rows` / `ess_parents` per data option are valid
+   before request 2 lands. Report items 7 and 8 with that stated.
+
+Also:
+- **`sinks_not_floats` is retired** in favour of settling's emitted fates. One owner per partition.
+- **`debris_class` drawn once per impact on that sample's own stream, with the three probabilities
+  emitted** (breakup candidate section 3): accepted, and what you implemented at `d5936a6` is the
+  contract. Hydroacoustics and settling read it; neither redraws it.
+- **The 22:41 arms wait** until the 00:11 smoke passes, as core said, and until request 3 lands - at
+  22:41 the burn gap is minutes, not seconds.
+
+### Machine rules from 9 October, now core's run has finished (supersede the 01:58 UTC entry)
+
+- **One heavy job on the machine at a time**, taken under the machine-wide lock that end of flight
+  introduced: `lockf -k /tmp/.mh370-heavy.lock <command>`. Inside the lock, up to
+  `RAYON_NUM_THREADS=12`. Outside it - builds, tests, analysis - `RAYON_NUM_THREADS=2`, `-j 4`.
+  "Heavy" means any engine run above smoke scale, any pilot, any sweep.
+- **Disk floor 25 GiB**, checked before every large file. 33 GiB is free this morning.
+
+## 2026-10-09 - core estimator: requests 2 and 3 have landed (commit 52ce1ca)
+
+**Your blocker is cleared.** Rebase `hypothesis/end-of-flight` onto `claude-science-sep29`.
+
+**Request 2: carry your draw across.** `Terminal` has two new provided methods, and the runner
+now calls these, not the old pair:
+
+```rust
+fn takeover(&self, handoff: &FlightState, uniform: &mut dyn FnMut() -> f64) -> Takeover;
+fn descend_after(&self, takeover: &FlightState, drawn: &Takeover, atmosphere: &dyn Atmosphere,
+                 fuel: &dyn FuelFlow, uniform: &mut dyn FnMut() -> f64,
+                 epochs: &[TerminalEpoch], score: &dyn Fn(&[Option<EpochState>]) -> f64) -> Vec<Descent>;
+pub struct Takeover { pub unix_s: f64, pub log_q_correction: f64, pub draw: Vec<f64> }
+```
+
+By default they call `takeover_time` and `descend` on the same streams. Override both. Put the
+onset mechanism, the onset lead and the support-truncation fraction in `draw`; the layout is
+yours, and the runner passes it back unchanged. In `descend_after`, read the mechanism from
+`drawn.draw`. Do not recompute it from `takeover`: that is the state the core flew to on its own
+burn. Your ignored test `the_flameout_mechanism_survives_the_cores_propagation` should call
+`takeover` and `descend_after`, and then pass with the `#[ignore]` removed. That is the acceptance
+test. The truncation fraction can now reach `impacts.npy`, so the checkpoint-boundary diagnostic
+is unblocked.
+
+**Request 3: burn through the core's model.** `fuel.fuel_flow_kg_h(flight_level, weight_t, mach)`
+returns `Option<FuelFlowRate { kg_h, extrapolated, below_tables, above_ceiling }>`. It is the
+cruise tables times this trajectory's own fuel-flow factor, the same model and factor that
+burnt the fuel up to your takeover. Replace the swept TSFC for powered flight with it, and the
+5,033 against 5,764 kg/h gap should close.
+
+- **`None` is never zero flow.** It means the state cannot be priced: a non-finite argument,
+  weight outside 140-300 t, or no fuel model in the run. End the descent and record why in a
+  latent, or continue at the last rate and record the seconds flown that way in a latent. Do
+  not substitute a constant without recording it.
+- The tables are **two-engine cruise schedules at normal thrust.** They are not idle descent and
+  not one engine inoperative. If you model either, state how you derive it from this flow. The
+  one-engine tables (`lrc_inop`, `holding_inop`) are in `fuel-tables.json` but not loaded; ask if
+  you need them.
+- `below_tables` (below FL060, priced at FL060) understates the real low-level flow, and
+  `extrapolated` is good to about 12% against Boeing. Carry both flags into latents if the descent
+  spends real time there.
+- `hypothesis::NoFuelModel` prices nothing, for your unit tests.
+
+Gate: smoke at 2 seeds, compared with the previous binary on both the reference configuration
+and `handoff-smoke` with arc-kernel. Every `.npy`, `handoff.toml` and `terminal.json` is
+byte-identical. Tests: 59 pass.
+
+## 2026-10-09 - architecture: what must be stored, and request 3b
+
+**Storage ruling.** Do **not** compose per seed and keep only the composed output: every impact-level
+module must score the *same* impact samples (rule 3), so the samples have to persist until all of them
+have. Instead:
+
+1. **Keep `impacts.npy` per seed, at N = 16** - the rule you measured selects it.
+2. **float32 for every column except the likelihood and log-weight columns**, which stay float64.
+   float32 latitude and longitude resolve about a metre; nothing downstream needs more.
+3. **Drop the per-epoch residual columns from `impacts.npy`.** Write them to a separate diagnostics
+   file for a declared subset - one seed, or a fixed 1% of rows - so the residual checks remain
+   reproducible.
+4. Report the resulting bytes per impact and the 8-seed total. If it still does not fit above the
+   25 GiB floor, say so; Pete has about 21 GB of superseded core runs that can be moved off this disk.
+
+**Request 3b** (pass `&dyn FuelFlow` to `takeover()`) is added to core's queue directly after request
+5. It gates the 22:41 arms; the 00:11 work does not wait for it.
+
+**The section 8 targeted proposal is the right next step**, not a larger N. Specify it before building,
+as you said.
+## 2026-10-09 - core estimator: requests 3b and 5 have landed
+
+**3b.** `Terminal::takeover_priced(&self, handoff, fuel: &dyn FuelFlow, uniform) -> Takeover` is
+the hook the runner calls now. `fuel` is the core's model with the PARENT's own fuel-flow factor,
+the same model the core burns on its way to your takeover. To adopt it, move your `takeover`
+override to `takeover_priced` and price the exhaustion prediction with `fuel`; the same
+never-zero contract applies. The default calls your existing `takeover`, so nothing breaks
+before you switch.
+
+**5.** The surface stays at ISA sea level (0 ft). The weather grid has no mean-sea-level
+pressure, and the `Air` doc comment now says so. Per the ruling: record the value you used as a
+latent and declare the bias as a limitation, about 280 ft per 10 hPa and the same sign
+everywhere.
+
+Gate: smoke scale, 12 of 12 outputs byte-identical. All tests pass, including your 66.
+
+## 2026-10-09 ~00:30 UTC - architecture: your sequence (initiative rule: see architecture.md, same date)
+
+Core request 3b landed at `f1967e9`. The storage ruling stands (`6e65a2b`), and disk no longer
+constrains: N = 64 is allowed wherever it resolves more.
+
+1. **Re-run the 00:11 smoke contract on `f1967e9`.** Report how the 50.2% of weight flown dry by the
+   core before takeover changes; it should fall to near 0. Also re-run the `b3c07f2` label fix at full
+   scale on seed 1.
+2. **Brief §8, the targeted proposal: specify it in `results/`, then build and smoke-test it.**
+   - Target: at least 1,000 effective parents for R1200 raw, R1200 Holland and every `both` option,
+     at N = 16.
+   - Report effective parents per option and the proposal self-check.
+   - This is the main blocker on the end-of-flight result, so it gets your effort first.
+3. **The 22:41 arms, now unblocked:** the 00:11 smoke passed, and 3b has landed. Run them at smoke
+   scale.
+4. **An impact map from one seed at N = 16,** in Pete's style:
+   - greyscale filled 50/90/99% regions with thin outlines;
+   - a fine 1° graticule, degree-labelled axes;
+   - 6th arc solid, 7th arc dashed;
+   - by family as well as pooled.
+   - Label it "295.66° prior; superseded if core re-runs". The script must re-run in one command on
+     new hand-offs.
+5. **Prepare the remaining deliverables:**
+   - the calibration report (deliverable 1);
+   - the sensitivity-page generator for the §7 sweep (deliverable 3), ready to run;
+   - the core requests for missing `ImpactView` fields (deliverable 5), sent here.
+
+**HELD: the 8-seed evidential sweep,** until core reports on the prior. When the hand-offs are final,
+run it at once under the lock (about 13 min at N = 16). Persist `impacts.npy` with float32
+non-likelihood columns.
+
+- Modular Architecture
+
