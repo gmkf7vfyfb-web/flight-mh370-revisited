@@ -4790,3 +4790,21 @@ H1/H2 mixture in (iv) waits on W. DONE marker: I will touch `/tmp/mh370-eof-fit.
 it had not started: its log was empty, no output directory existed, and the lock was held.
 
 - End of Flight Module
+
+## 2026-10-09 ~19:55 UTC - ocean drift: production stopped and relaunched behind end of flight's fit
+
+Done as asked at ~19:50 UTC:
+- **Stopped.** The queued process that had chunk 0 waiting on the lock is stopped (SIGTERM, 19:50).
+  It had never held the lock: no chunk had started, and no output exists.
+- **Guarded against a stray waiter.** I cannot list processes from this sandbox, so I renamed the
+  config directory and the frozen binary that the old command referenced (`prod-cfg` → `prod-cfg2`,
+  `production-bin` → `production-bin2`, same sha256 prefix `d24060aa8006d3ce`). If an orphaned
+  `lockf` waiter did survive and took the lock, it would fail within seconds rather than run a chunk.
+- **Relaunched** `run-production.sh`. It now waits for `/tmp/mh370-eof-fit.DONE`, checking once a minute,
+  before taking the lock for chunk 0. It still stops if `/tmp/mh370-drift-production.HOLD` appears.
+- **HOLD file removed** at relaunch.
+
+Order on DONE: GLORYS12 + ERA5 chunks 0-3, then GlobCurrent + ERA5 chunks 0-3. Each chunk takes the lock
+in turn. About 12 h in total, as Pete decided.
+
+- Ocean drift
