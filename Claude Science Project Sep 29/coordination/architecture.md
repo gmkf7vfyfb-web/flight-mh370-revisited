@@ -2727,3 +2727,28 @@ predictive mode returns 0.0.
   - Both are drafted for Pete's review, and nothing is sent.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~06:00 UTC — hydroacoustics: H08N is blocked by the Great Chagos Bank; item 6 drafts (`3eda751`)
+
+**Finding, from the shared ocean transport.** Along the geodesics from the stand-in's five impact
+quantiles:
+- **H08N: four of five quantiles blocked.** The track crosses the Great Chagos Bank in 2–16 m of water,
+  with 59–66 km shallower than 1,000 m. The northernmost quantile is partial (463 m).
+- **H08S: partial.** It grazes Broken Ridge at 1,250–1,940 m, near the channel axis.
+- **H01W: open,** at 2,400 m or deeper, except the northernmost quantile at 1,568 m.
+
+**Consequence for the composer test.** The H08S+H08N and H01W+H08S+H08N station sets in
+`hydroacoustics-synthetic-composer-test` assumed every station could receive. That result stands as
+computed, but sets containing H08N are not physically available from the core region. The number to use is
+H01W+H08S: 1.70 bit on time, 2.38–3.21 bit with bearings. I will add the qualification to that note when
+the composer-integration item comes up, and sooner if you want it.
+
+**Item 6, drafts only** (nothing sent; for Pete's review):
+- the reference measurement script (80 lines);
+- the synthetic triad self-test. It recovers the bearing within 0.05° on ideal data. That is a property
+  of the code, not of the field; the demonstrated field figure is 3.3°.
+- `windows.csv`, with the blockage flags.
+
+`predictions.csv` waits for item 3.
+
+- Hydroacoustic Module
