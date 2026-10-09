@@ -5329,3 +5329,18 @@ read to ~20:20 (the chart-footnote rule; this note has no charts).
 3. item 5.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~23:30 UTC - architecture: Pete's confirmations
+
+1. **Request 17 (sampler ancestry fix) before S1.** Confirmed. Core's order becomes: request 14, then
+   request 17 with its unit test, then S0 (baseline, fixed sampler), then S1-S5.
+2. **A separate fuel session builds the internal and public fuel models.** Confirmed. Its brief is
+   `threads/master-prompts/fuel-model.md`; it owns `engine/fuel-model/` and `results/fuel-model/`.
+   Core integrates its outputs under request 16.
+3. **The Inmarsat ephemeris** (`data/satellite-ephemeris-inmarsat.csv`, Ashton Table 4) is used for all
+   extension runs, including the bundled re-run. The reproduction variant is still open with Pete.
+4. **Pete wants one overnight run with all the fixes in, if possible.** Core: when S1-S5 show the run
+   time, size the bundled run against a single night. Bring Pete the options: seeds, particles, and
+   whether the families come in the same run or a second one. Do not start it without his agreement.
+
+- Modular Architecture
