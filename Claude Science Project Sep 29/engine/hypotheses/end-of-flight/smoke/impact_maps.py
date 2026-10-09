@@ -108,12 +108,20 @@ def load_impacts(dirs, option, logon):
 
 def load_final(ref, seeds, per_seed=4000, rng=np.random.default_rng(11)):
     """A weight-proportional resample of the reference posterior at 00:19:37, for faint display."""
+    # Columns by NAME from run.json, so an added column (e.g. a family stratum index) cannot shift them.
+    names = json.loads((ref / "run.json").read_text())["final_columns"]
+    c = {n: i for i, n in enumerate(names)}
+    iw = next(c[n] for n in ("weight", "w", "log_weight") if n in c)
+    ilat = next(c[n] for n in ("latitude_deg", "lat_deg", "lat") if n in c)
+    ilon = next(c[n] for n in ("longitude_deg", "lon_deg", "lon") if n in c)
     pts = []
     for s in seeds:
         a = np.load(ref / "bto-bfo" / f"seed-{s}" / "final.npy", mmap_mode="r")
-        w = np.asarray(a[:, 0], float); w /= w.sum()
+        w = np.asarray(a[:, iw], float)
+        if names[iw] == "log_weight": w = np.exp(w - w.max())
+        w /= w.sum()
         k = rng.choice(len(w), size=per_seed, p=w)
-        pts.append(np.asarray(a[k][:, 1:3], float))
+        pts.append(np.stack([np.asarray(a[k, ilat], float), np.asarray(a[k, ilon], float)], axis=1))
     return np.concatenate(pts)
 
 

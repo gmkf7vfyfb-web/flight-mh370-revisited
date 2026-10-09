@@ -228,8 +228,8 @@ struct LogonParams {
     /// (data/satcom-observations.csv, m0019a). The .416 matters in a rapid descent.
     logon_unix_s: f64,
     /// Gamma lag shape and scale. Reference: the archive's Erlang(8, 14.875 s), mean 119 s, sd
-    /// 42 s - analyst-declared, a parameter to question, not a constant. ATSB gives roughly 60 s
-    /// for the APU and 60 s for the SDU.
+    /// 42 s - analyst-declared, a parameter to question, not a constant. The Malaysian SIR (2018),
+    /// report pp. 372-373, models about 60 s to the APU and 60 s for SDU start-up.
     lag_shape: f64,
     lag_scale_s: f64,
     /// Prior of `fuel-exhaustion` in the `logon-cause` alternative; `other` takes the rest.
