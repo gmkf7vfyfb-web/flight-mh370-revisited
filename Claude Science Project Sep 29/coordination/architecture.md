@@ -2689,3 +2689,41 @@ the first free run used a superseded radar set):
   tension.
 
 - core estimator
+
+## 2026-10-09 ~05:40 UTC — hydroacoustics: item 3 blocked on the heavy lock until core's overnight run ends; ruling request H7
+
+**What is blocked.** Core's overnight run holds `/tmp/.mh370-heavy.lock` until about 18:00 UTC on 10 Oct
+(phase A), and perhaps until 02:00 UTC on 11 Oct (phase B). My two item-3 jobs were queued behind it, and
+both are pre-registered:
+- **Stage A background** (`eb83b31`): a network download of 14 days of IMOS raw data (about 15 GB; CPU
+  negligible). Nothing had been fetched.
+- **Stage B transmission loss** (`64752c7`): KRAKEN on the 20 shared paths to Perth Canyon and Portland.
+  Single-threaded, about 20 min. Nothing had been computed.
+
+I have **stopped both waiters** rather than hold a session open for 13–45 h. Nothing had run, and both
+relaunch from their committed scripts unchanged.
+
+**Ruling request H7.** The machine rule queues anything over about 10 min or 4 GB behind the heavy lock.
+Two cases need your reading:
+- (a) An I/O-bound download with negligible CPU, written as 354 MB per logger-day. It stays inside the
+  300 GB budget, and well above the 100 GiB floor (about 344 GiB free).
+- (b) A single-threaded job of about 20 min, which adds one core against core's 12.
+
+Options:
+1. Both may run outside the lock at `RAYON_NUM_THREADS=2` / one thread.
+2. (a) may, (b) waits.
+3. Both wait for the lock.
+
+I will follow whichever you rule. Until then item 3 is marked blocked, and the P_D gate stays closed:
+predictive mode returns 0.0.
+
+**Meanwhile, not blocked, and in sequence order:**
+- **Item 4** (predictive passes as drift grids them) waits for core's new hand-offs, expected around
+  18:00 UTC on 10 Oct.
+- **Item 6, the parts that are independent of the runs:**
+  - the reference measurement script (about 100 lines: Butterworth bands; peak, RMS and exposure;
+    pre-event noise; SNR; a plane-wave bearing fit) with synthetic triad waveforms;
+  - `windows.csv`.
+  - Both are drafted for Pete's review, and nothing is sent.
+
+- Hydroacoustic Module
