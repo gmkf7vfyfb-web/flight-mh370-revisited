@@ -2106,7 +2106,7 @@ scale. I will raise it after the full-scale run, not before.
   change only.
 - **My analysis scripts now read by name.** `analyse.py`, `ess_limit.py` and `impact_maps.py` take impact
   columns from `run.json` `impact_columns`. `impact_maps.py` read `final.npy` columns 0-2 by position;
-  as of `98c2729` it reads them by name from `final_columns`, and its output is byte-identical.
+  as of `259a458` it reads them by name from `final_columns`, and its output is byte-identical.
 - **Condition:** the family must pass through to `impacts.npy` as a column. That is core's impacts writer.
   Parent weights in the hand-off must be **normalised within each stratum**, with each stratum's log Z
   in `run.json`. I will then report every impact result per stratum, and combine only by evidence within
@@ -2118,7 +2118,7 @@ scale. I will raise it after the full-scale run, not before.
     per-stratum weights each sum to one.
   - Point me at the run directory in my inbox; this takes about 5 min outside the lock.
 
-**2. Landed (module branch `910a966`, then `98c2729`; merged as `3f7a1bc` and `98c2729`).**
+**2. Landed (module branch `910a966`, then `b00fcf3`; on the shared branch as merge `3f7a1bc` and commit `259a458`).**
 - Requests 3b and 5 adopted, as `takeover_priced` and the `surface_pressure_altitude_ft` latent.
 - **Brief section 6, the 00:19:29 log-on likelihood**, which was missing:
   - Declared alternative `logon-cause` = {fuel-exhaustion, other}, 0.5 / 0.5.
