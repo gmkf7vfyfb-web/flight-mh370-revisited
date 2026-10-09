@@ -56,9 +56,14 @@ crest_cl_sensitivity = 0.10
 # Mach tuck. EXTRAPOLATED, same reason.
 tuck_cl_per_mach = [0.0, 0.6]
 c_l_max_clean = 1.30
-# Uncertain parameters, not constants: there are no public Trent 892 figures. With these bands
-# the unpowered glide from 35,000 ft runs 85-105 NM.
-windmilling_per_engine = [0.0020, 0.0060]
+# Uncertain parameters, not constants: there are no public Trent 892 figures.
+# PROVISIONAL-OVERNIGHT (9 Oct 2026, results/eof-glide-calibration-oct09): windmilling calibrated to
+# Boeing's published dual-flame-out driftdown, 0.0034 NM/ft wings level (Malaysian SIR App. 1.6E p. 8),
+# as brief section 8 asks. Effective (L/D)max 18.5-21.0 at the band ends brackets Boeing read either as
+# energy height (18.9) or altitude only (20.66); the altitude term from 35,000 ft runs 107-121 NM.
+# The former ESDU-scale band [0.0020, 0.0060] (85-105 NM, effective 15-18, inconsistent with Boeing)
+# is kept as smoke/glide-esdu.toml.
+windmilling_per_engine = [0.0000, 0.0015]
 rat_increment = [0.0001, 0.0006]
 # Modelling parameters with a declared sensitivity, chosen so the model's idle descent rates sit
 # near published operational practice. NOT cited: the circulating figures come from unauthorised
