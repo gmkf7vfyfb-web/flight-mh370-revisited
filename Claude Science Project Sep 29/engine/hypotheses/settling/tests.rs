@@ -468,7 +468,7 @@ fn run_toml_constructs_and_predict_fills_or_refuses() {
 /// depth log-uniform 10-1,000 m (a fuselage built for internal overpressure resists external
 /// pressure poorly, so a trapped volume may fail within tens of metres; part-flooded compartments
 /// may hold longer).
-const REPORT_IMPLOSION: Implosion = Implosion { inside_share: [0.8, 0.4, 0.0], collapse_depth_m: Range { lo: 10.0, hi: 1000.0, log: true } };
+const REPORT_IMPLOSION: Implosion = Implosion { inside_share: [0.8, 0.4, 0.0], collapse_depth_m: Range { lo: 10.0, hi: 1000.0, log: true }, sealed_volume_m3: None };
 
 /// Report generator, not a test: `SETTLING_REPORT_DIR=<dir> [SETTLING_REPORT_DEPTHS=3000,4000]
 /// cargo test --release -p mh370-hypotheses settling::tests::report -- --ignored`. Writes the
@@ -831,7 +831,7 @@ fn upper_current() -> TestOcean {
 }
 
 fn implosion_at(z: f64) -> Option<Implosion> {
-    Some(Implosion { inside_share: [1.0; 3], collapse_depth_m: fixed(z) })
+    Some(Implosion { inside_share: [1.0; 3], collapse_depth_m: fixed(z), sealed_volume_m3: None })
 }
 
 #[test]
@@ -866,7 +866,7 @@ fn implosion_with_nothing_inside_is_the_baseline_bit_for_bit() {
     let mk = || settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), busy(), &["carry", "float", "current", "glide", "ocean-error", "diffusion"]);
     let imp = impact(52, 60.0, 120.0);
     let base = mk().emit(&imp, 8).unwrap();
-    let none_inside = mk().with_implosion(Some(Implosion { inside_share: [0.0; 3], collapse_depth_m: fixed(300.0) })).unwrap().emit(&imp, 8).unwrap();
+    let none_inside = mk().with_implosion(Some(Implosion { inside_share: [0.0; 3], collapse_depth_m: fixed(300.0), sealed_volume_m3: None })).unwrap().emit(&imp, 8).unwrap();
     assert_eq!(base.len(), none_inside.len());
     for (a, b) in base.iter().zip(&none_inside) {
         assert_eq!((a.east_m.to_bits(), a.north_m.to_bits(), a.fate), (b.east_m.to_bits(), b.north_m.to_bits(), b.fate));
@@ -890,7 +890,7 @@ fn a_section_that_stays_afloat_keeps_its_contents_afloat() {
     let s = settling(b, upper_current(), &["current"]).with_implosion(implosion_at(500.0)).unwrap();
     let c = s.classes().iter().position(|c| c == "cabin-contents").unwrap() as u8;
     assert!(s.emit_with(&impact(53, 60.0, 120.0), 0..2, 0.5, Some(0)).unwrap().iter().filter(|r| r.class == c).all(|r| r.fate == Fate::Afloat));
-    assert!(settling(contents_apart(150.0), stub(), &[]).with_implosion(Some(Implosion { inside_share: [1.5, 0.0, 0.0], collapse_depth_m: fixed(1.0) })).is_err());
+    assert!(settling(contents_apart(150.0), stub(), &[]).with_implosion(Some(Implosion { inside_share: [1.5, 0.0, 0.0], collapse_depth_m: fixed(1.0), sealed_volume_m3: None })).is_err());
 }
 
 #[test]
@@ -1025,6 +1025,10 @@ fn report_real() {
             }
             sh.insert("density_source".into(), "woa23".into());
         }),
+        ("GlobCurrent surface current (second ocean-model value)", 512, |p| {
+            let g = toml::Value::from("/Users/pete/Downloads/mh370-ocean-data/globcurrent/grid/globcurrent_my_pt1h_uo_vo_0m.series.json");
+            p["shared"].as_table_mut().unwrap().insert("surface_current_manifest".into(), g);
+        }),
         ("density from WOA23", 512, |p| {
             p["shared"].as_table_mut().unwrap().insert("density_source".into(), "woa23".into());
         }),
@@ -1084,5 +1088,66 @@ fn report_real() {
             }
         }
         eprintln!("report_real: {label} done");
+    }
+}
+
+#[test]
+fn implosion_events_give_where_and_when_each_section_collapses() {
+    // Uniform 0.1 m/s east, sections at W, no float, glide or carry: a section reaches 500 m at
+    // t = 500 / W, 0.1 x 500 / W east of the impact. 100 m3 of trapped air at the surface is
+    // compressed isothermally to 100 x 10.1325 / (10.1325 + p).
+    let mut imp_spec = implosion_at(500.0).unwrap();
+    imp_spec.sealed_volume_m3 = Some(fixed(100.0));
+    imp_spec.inside_share = [1.0, 1.0, 0.0];
+    let s = settling(contents_apart(150.0), upper_current(), &["current"]).with_implosion(Some(imp_spec)).unwrap();
+    let imp = impact(71, 60.0, 120.0);
+    let (rows, events) = s.emit_with_events(&imp, 0..3, 1.0 / 3.0, Some(0)).unwrap();
+    let sections = rows.iter().filter(|r| s.classes()[r.class as usize] == "fuselage-section").count();
+    assert_eq!(events.len(), sections);
+    for e in &events {
+        assert!((e.depth_m - 500.0).abs() < 1e-9 && (e.time_since_impact_s - 500.0 / W).abs() < 1e-3, "{e:?}");
+        assert!((e.east_m - 0.1 * 500.0 / W).abs() < 1e-4 && e.north_m.abs() < 1e-9);
+        assert!((e.pressure_dbar - ocean::teos10::pressure_dbar(500.0, e.latitude_deg)).abs() < 1e-9 && (495.0..515.0).contains(&e.pressure_dbar));
+        assert!((e.volume_at_depth_m3 - 100.0 * 10.1325 / (10.1325 + e.pressure_dbar)).abs() < 1e-12);
+    }
+    // The rows are those of emit_with, bit for bit.
+    let plain = s.emit_with(&imp, 0..3, 1.0 / 3.0, Some(0)).unwrap();
+    assert!(plain.iter().zip(&rows).all(|(a, b)| a.east_m.to_bits() == b.east_m.to_bits() && a.fate == b.fate));
+    // No sealed sections in the family (share 0), or collapse below the seabed: no events.
+    assert!(s.emit_with_events(&imp, 0..3, 1.0 / 3.0, Some(2)).unwrap().1.is_empty());
+    let deep = settling(contents_apart(150.0), upper_current(), &["current"]).with_implosion(implosion_at(5000.0)).unwrap();
+    assert!(deep.emit_with_events(&imp, 0..3, 1.0 / 3.0, Some(0)).unwrap().1.is_empty());
+}
+
+/// Generator, not a test: implosion events on the REAL ocean for hydroacoustics' implosion branch.
+/// `SETTLING_REPORT_DIR=<dir> SETTLING_REPORT_POINTS="lat,lon;..." cargo test --release -p
+/// mh370-hypotheses settling::tests::implosion_events_real -- --ignored`. The implosion alternative
+/// as the report runs it, with trapped air log-uniform 10-500 m3 per section (declared, no source);
+/// 1,024 draws per point for intact and broken (fragmented has no sealed sections).
+#[test]
+#[ignore]
+fn implosion_events_real() {
+    use std::io::Write;
+    let dir = std::path::PathBuf::from(std::env::var("SETTLING_REPORT_DIR").expect("set SETTLING_REPORT_DIR"));
+    let points: Vec<(f64, f64)> = std::env::var("SETTLING_REPORT_POINTS").expect("set SETTLING_REPORT_POINTS").split(';').map(|p| {
+        let v: Vec<f64> = p.split(',').map(|x| x.trim().parse().unwrap()).collect();
+        (v[0], v[1])
+    }).collect();
+    std::fs::create_dir_all(&dir).unwrap();
+    let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
+    let mut spec = REPORT_IMPLOSION;
+    spec.sealed_volume_m3 = Some(Range { lo: 10.0, hi: 500.0, log: true });
+    let s = Settling::from_params(&table["hypotheses"]["settling"]).unwrap().with_implosion(Some(spec)).unwrap();
+    let mut out = std::fs::File::create(dir.join("implosion_events.csv")).unwrap();
+    writeln!(out, "impact_lat,impact_lon,family,draw,multiplicity,east_m,north_m,lat,lon,depth_m,time_since_impact_s,pressure_dbar,surface_volume_m3,volume_at_depth_m3,mean_sink_mps").unwrap();
+    for &(lat, lon) in &points {
+        let mut imp = impact(901, 60.0, 150.0);
+        (imp.latitude_deg, imp.longitude_deg) = (lat, lon);
+        for f in 0..2 {
+            let (_, ev) = s.emit_with_events(&imp, 0..1024, 1.0 / 1024.0, Some(f)).unwrap();
+            for e in ev {
+                writeln!(out, "{lat},{lon},{},{},{:.3},{:.2},{:.2},{:.6},{:.6},{:.1},{:.1},{:.2},{:.3},{:.5},{:.4}", FAMILIES[f], e.draw, e.multiplicity, e.east_m, e.north_m, e.latitude_deg, e.longitude_deg, e.depth_m, e.time_since_impact_s, e.pressure_dbar, e.surface_volume_m3, e.volume_at_depth_m3, e.mean_sink_mps).unwrap();
+            }
+        }
     }
 }

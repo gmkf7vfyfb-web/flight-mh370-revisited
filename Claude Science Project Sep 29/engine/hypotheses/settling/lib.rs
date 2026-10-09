@@ -179,9 +179,44 @@ fn unit_scale() -> f64 {
 pub struct Implosion {
     /// Share of cabin contents inside a section, per family [intact, broken, fragmented].
     pub inside_share: [f64; 3],
-    /// Collapse depth (m), e.g. `{ log_uniform = [10.0, 1000.0] }`.
+    /// Collapse depth (m), e.g. `{ log_uniform = [10.0, 1000.0] }`. Drawn once per SECTION, so all
+    /// contents of one section are released together.
     pub collapse_depth_m: Range,
+    /// Trapped-air volume per section representative at the surface (m3), for the implosion
+    /// events hydroacoustics asked for. Absent: events carry NaN volumes. A declared assumption.
+    #[serde(default)]
+    pub sealed_volume_m3: Option<Range>,
 }
+
+/// One section collapse (implosion alternative), for hydroacoustics' implosion branch (its entry
+/// of 9 Oct ~04:15: "per large sealed piece, a volume and a depth-time sink path"). The sink path
+/// is the section's descent at constant terminal speed in its own water column; the event is where
+/// and when it reaches its collapse depth.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ImplosionEvent {
+    pub draw: u32,
+    pub family: u8,
+    /// Physical sections this representative stands for.
+    pub multiplicity: f64,
+    pub east_m: f64,
+    pub north_m: f64,
+    pub latitude_deg: f64,
+    pub longitude_deg: f64,
+    pub depth_m: f64,
+    /// From the impact: float time plus descent to the collapse depth (s).
+    pub time_since_impact_s: f64,
+    /// Sea pressure at the collapse depth (dbar, TEOS-10 p_from_z).
+    pub pressure_dbar: f64,
+    /// Trapped air at the surface, and isothermally compressed to the collapse pressure (m3).
+    pub surface_volume_m3: f64,
+    pub volume_at_depth_m3: f64,
+    /// Mean descent speed of the section from the surface to the collapse depth (m/s).
+    pub mean_sink_mps: f64,
+}
+
+/// Per-section random stream of the implosion alternative (collapse depth, volume): separate from
+/// the draw's main stream so switching the alternative changes nothing else.
+const IMPLOSION_STREAM: u64 = 0x494d_504c_4f53_494f;
 
 const HOST_CLASS: &str = "fuselage-section";
 const CONTENTS_CLASS: &str = "cabin-contents";
@@ -204,13 +239,17 @@ struct SharedSpec {
     /// GLORYS12V1 full-depth column (`GridProfile`, ocean transport's settling deliverable).
     #[serde(default)]
     column_manifest: Option<String>,
-    /// Gridded surface current and 10 m wind for the float phase: one `GridField` part each
-    /// (`GridField::load`, whole part in memory: 0.3 GB and 1.6 GB for the March 2014 parts). A
-    /// windowed load is requested from ocean transport (settling has no JSON reader of its own).
+    /// Gridded surface current and 10 m wind for the float phase (part or series manifests), read
+    /// through ocean transport's `GridField::load_window` for `fields_window` x `fields_time_unix_s`
+    /// only (about 16 MB for both, against 1.9 GB whole).
     #[serde(default)]
     surface_current_manifest: Option<String>,
     #[serde(default)]
     wind_manifest: Option<String>,
+    #[serde(default)]
+    fields_window: Option<[f64; 4]>,
+    #[serde(default)]
+    fields_time_unix_s: Option<[f64; 2]>,
     /// "column": TEOS-10 on the column's own T and S (consistent with its currents; the default
     /// when the column is a product); "woa23": the climatology above; absent: whichever is given.
     #[serde(default)]
@@ -577,12 +616,20 @@ impl Settling {
             ocean.column = Box::new(ocean::GridProfile::load(std::path::Path::new(m))?);
             ocean.column_label = "GLORYS12V1 column (mh370-ocean GridProfile)";
         }
+        let window = match (sh.fields_window, sh.fields_time_unix_s) {
+            (Some(b), Some(t)) => ocean::field::LoadWindow::new(b, t),
+            _ if sh.surface_current_manifest.is_some() || sh.wind_manifest.is_some() => {
+                return Err("settling: gridded surface fields need fields_window and fields_time_unix_s".into())
+            }
+            _ => ocean::field::LoadWindow::all(),
+        };
         if let Some(m) = &sh.surface_current_manifest {
-            ocean.surface_current = Box::new(ocean::GridField::load(std::path::Path::new(m))?);
-            ocean.surface_label = "GLORYS12V1 surface current";
+            let f = ocean::GridField::load_window(std::path::Path::new(m), &window)?;
+            ocean.surface_label = if f.meta().product.starts_with("globcurrent") { "Copernicus-GlobCurrent surface current" } else { "GLORYS12V1 surface current" };
+            ocean.surface_current = Box::new(f);
         }
         if let Some(m) = &sh.wind_manifest {
-            ocean.wind = Box::new(ocean::GridField::load(std::path::Path::new(m))?);
+            ocean.wind = Box::new(ocean::GridField::load_window(std::path::Path::new(m), &window)?);
             ocean.wind_label = "ERA5 10 m wind";
         }
         match sh.density_source.as_deref() {
@@ -679,13 +726,32 @@ impl Settling {
             let u = rng.uniform();
             let f = family.unwrap_or_else(|| pick(&families, u));
             let seed = rng.next_u64();
-            self.draw_field(impact, d, draw_weight, f, seed, &rho, &mut rng, &mut out)?;
+            self.draw_field(impact, d, draw_weight, f, seed, &rho, &mut rng, &mut out, None)?;
         }
         Ok(out)
     }
 
+    /// As `emit_with`, also returning the implosion alternative's section collapses (empty when
+    /// the alternative is off or the family has no sealed sections, inside_share = 0).
+    pub fn emit_with_events(&self, impact: &ImpactView, indices: std::ops::Range<usize>, draw_weight: f64, family: Option<usize>) -> Result<(Vec<WreckageElement>, Vec<ImplosionEvent>), String> {
+        let families = self.family_probabilities(impact).ok_or("settling: impact outside the family-selection domain (mass, energy)")?;
+        if family.is_some_and(|f| f >= FAMILIES.len()) {
+            return Err("settling: debris_class must be 0, 1 or 2".into());
+        }
+        let rho = self.ocean.density.column(impact, self.ocean.column.as_ref())?;
+        let (mut out, mut events) = (Vec::new(), Vec::new());
+        for d in indices {
+            let mut rng = Rng::seeded(&seed_words(impact, d));
+            let u = rng.uniform();
+            let f = family.unwrap_or_else(|| pick(&families, u));
+            let seed = rng.next_u64();
+            self.draw_field(impact, d, draw_weight, f, seed, &rho, &mut rng, &mut out, Some(&mut events))?;
+        }
+        Ok((out, events))
+    }
+
     #[allow(clippy::too_many_arguments)]
-    fn draw_field(&self, impact: &ImpactView, draw: usize, draw_weight: f64, family: usize, seed: u64, rho: &RhoColumn, rng: &mut Rng, out: &mut Vec<WreckageElement>) -> Result<(), String> {
+    fn draw_field(&self, impact: &ImpactView, draw: usize, draw_weight: f64, family: usize, seed: u64, rho: &RhoColumn, rng: &mut Rng, out: &mut Vec<WreckageElement>, events: Option<&mut Vec<ImplosionEvent>>) -> Result<(), String> {
         let origin: LonLat = [impact.longitude_deg, impact.latitude_deg];
         let t0 = impact.unix_s;
         let lonlat = |offset: [f64; 2]| ocean::displace(origin, offset[0], offset[1]);
@@ -754,7 +820,8 @@ impl Settling {
                 if let (Some(imp), false) = (self.implosion, hosts.is_empty()) {
                     if Some(c) == contents_class && inside_u < imp.inside_share[family] {
                         let h = hosts[((host_u * hosts.len() as f64) as usize).min(hosts.len() - 1)];
-                        let z_c = imp.collapse_depth_m.quantile(zc_u);
+                        let _ = zc_u;
+                        let z_c = imp.collapse_depth_m.quantile(Rng::seeded(&[seed, h as u64, IMPLOSION_STREAM]).uniform());
                         let host_row = out[first + h];
                         match &pending[h] {
                             // The section stays afloat: so do its contents, with it.
@@ -900,6 +967,46 @@ impl Settling {
                 (row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) = (rest[0], rest[1], r[0], r[1]);
                 (row.depth_m, row.descent_s, row.mean_sink_mps, row.below_model_bottom_m) =
                     (landing.depth_m, descent, landing.depth_m / descent, part.below_model_bottom_m + landing.below_model_bottom_m);
+            }
+        }
+        // Pass 3c: the sections' own collapses, when asked for (hydroacoustics' implosion branch).
+        if let (Some(events), Some(imp)) = (events, self.implosion) {
+            if imp.inside_share[family] > 0.0 {
+                for &h in &hosts {
+                    let Some(host) = &pending[h] else { continue };
+                    if out[first + h].fate == Fate::Afloat {
+                        continue;
+                    }
+                    let mut r = Rng::seeded(&[seed, h as u64, IMPLOSION_STREAM]);
+                    let z_c = imp.collapse_depth_m.quantile(r.uniform());
+                    let v0 = imp.sealed_volume_m3.map_or(f64::NAN, |v| v.quantile(r.uniform()));
+                    let start = lonlat(host.at);
+                    let t_start = t0 + host.float_s;
+                    let Ok(profile) = self.ocean.column.profile(t_start, start) else { continue };
+                    let to_collapse = |o: [f64; 2]| seabed(o).map(|d| d.min(z_c));
+                    let Some(part) = physics::sink(host.at, t_start, &host.sinker, &profile, &rho, error, &self.terms, self.rule, self.step_m, &to_collapse, &lonlat, &mut erng(h)) else { continue };
+                    if part.depth_m < z_c - 1e-6 {
+                        continue; // reached the seabed first: no collapse in the water column
+                    }
+                    let at = [host.at[0] + part.offset_m[0], host.at[1] + part.offset_m[1]];
+                    let q = lonlat(at);
+                    let p = ocean::teos10::pressure_dbar(part.depth_m, q[1]);
+                    events.push(ImplosionEvent {
+                        draw: draw as u32,
+                        family: family as u8,
+                        multiplicity: out[first + h].multiplicity,
+                        east_m: at[0],
+                        north_m: at[1],
+                        latitude_deg: q[1],
+                        longitude_deg: q[0],
+                        depth_m: part.depth_m,
+                        time_since_impact_s: host.float_s + part.descent_s,
+                        pressure_dbar: p,
+                        surface_volume_m3: v0,
+                        volume_at_depth_m3: v0 * 10.1325 / (10.1325 + p),
+                        mean_sink_mps: part.mean_sink_mps,
+                    });
+                }
             }
         }
         Ok(())

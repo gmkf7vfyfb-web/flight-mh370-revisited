@@ -74,8 +74,10 @@ factors = [1.0, 0.5, 0.2, 0.3]
 # (39.1-23.9 S) with margin; time 7-14 March 2014 is the GridProfile's period, which covers impact
 # plus the 48 h float cut-off.
 # - column: GLORYS12V1 daily uo, vo, thetao, so on all 50 levels (GridProfile);
-# - surface current and wind for the float phase: GLORYS12V1 surface (7 Mar-30 Apr 2014 part) and
-#   ERA5 10 m (2014 part), each loaded whole (0.3 and 1.6 GB);
+# - surface current and wind for the float phase: GLORYS12V1 surface and ERA5 10 m, read for the
+#   window and 7-15 March 2014 only (GridField::load_window; about 16 MB). Copernicus-GlobCurrent is
+#   the ruled second ocean-model value at equal prior weight (architecture ~07:00, 9 Oct): set
+#   surface_current_manifest to its series to run it;
 # - seabed: AusSeabed MH370 Phase 1 150 m first, GEBCO_2026 elsewhere;
 # - density: TEOS-10 on the column's own T and S ("column"), so density and currents come from one
 #   product; the WOA23 climatology is kept loaded as the declared alternative ("woa23").
@@ -85,8 +87,10 @@ bathymetry_window = [80.0, 112.0, -45.0, -18.0]
 density_woa23_manifest = "/Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed/woa23_A5B4_m03.json"
 density_source = "column"
 column_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.json"
-surface_current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface-00.json"
-wind_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h_15-120E_50-0S_20140307-20141231.json"
+surface_current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface.series.json"
+wind_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h.series.json"
+fields_window = [80.0, 112.0, -45.0, -18.0]
+fields_time_unix_s = [1394150400.0, 1394841600.0]
 
 # ---------------------------------------------------------------------------------------------
 # PROVISIONAL INPUTS the shared crate does not serve yet (provisional.rs). NOT an ocean product
