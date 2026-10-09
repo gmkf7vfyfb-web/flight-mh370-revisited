@@ -118,7 +118,7 @@ use ocean::stochastic::{Diffusion, DiffusivityPrior, ErrorKind, OceanErrorModel,
 use ocean::bathy::Bathymetry;
 use ocean::soundspeed::{woa23_period, SoundSpeedClimatology};
 use ocean::{analytic::Uniform, Component, Domain, Forcing, LonLat, NoCoast, ObjectResponse, Particle, Refloat, RunSpec, Snapshot, VectorField};
-use physics::{Rng, Sinker, Terms};
+use physics::{Range, Rng, Sinker, Terms};
 use provisional::{offset_m, DensityStub, LayeredColumn, PlanarSeabed, ProvisionalSpec};
 use serde::Deserialize;
 
@@ -149,7 +149,39 @@ struct Params {
     /// Shared-crate products that REPLACE the provisional seabed and density when given.
     #[serde(default)]
     shared: SharedSpec,
+    /// Multiplier on every element's `stays_afloat` share (1 = the table; 0.5 and 1.5 are the
+    /// declared sensitivities, Pete 9 Oct).
+    #[serde(default = "unit_scale")]
+    floating_share_scale: f64,
+    /// The implosion-at-depth DECLARED ALTERNATIVE (Pete 9 Oct). Absent = progressive flooding,
+    /// the baseline.
+    #[serde(default)]
+    implosion: Option<Implosion>,
 }
+
+fn unit_scale() -> f64 {
+    1.0
+}
+
+/// Implosion at depth, a declared alternative to progressive flooding. A share of each family's
+/// cabin-contents representatives is carried INSIDE a fuselage-section representative of the same
+/// draw (chosen uniformly): it shares that section's fate, float and descent down to the
+/// collapse depth z_c, drawn per contents element from `collapse_depth_m`, and is released there.
+/// Released contents that would stay afloat rise (fate afloat, at the release point); the rest
+/// sink from z_c with their own properties. If the section reaches the seabed above z_c, the
+/// contents rest with it. The section itself continues unchanged. No airliner calibration case
+/// exists: the share and the depth range are assumptions, reported as such.
+#[derive(Debug, Clone, Copy, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Implosion {
+    /// Share of cabin contents inside a section, per family [intact, broken, fragmented].
+    pub inside_share: [f64; 3],
+    /// Collapse depth (m), e.g. `{ log_uniform = [10.0, 1000.0] }`.
+    pub collapse_depth_m: Range,
+}
+
+const HOST_CLASS: &str = "fuselage-section";
+const CONTENTS_CLASS: &str = "cabin-contents";
 
 /// Shared ocean products (mh370-ocean, ocean transport items 3 and 4). Each one given replaces its
 /// provisional stand-in; each one absent leaves the stand-in, which is reported in the label.
@@ -469,6 +501,7 @@ pub struct Settling {
     float: FloatPhase,
     step_m: f64,
     moment_draws: usize,
+    implosion: Option<Implosion>,
 }
 
 pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
@@ -500,7 +533,9 @@ impl Settling {
         ocean.label = format!("{}; {}; {}", ocean.label, ocean.seabed.label(), ocean.density.label());
         let rule = parse_rule(&p.below_model_bottom)?;
         let float = FloatPhase { step_s: p.float_step_s, a_stokes: p.float_a_stokes, diffusivity_m2_s: p.float_diffusivity_m2_s };
-        Settling::with(Breakup::parse(include_str!("breakup.toml"))?, ocean, &p.terms, rule, float, p.step_m, p.moment_draws)
+        let mut breakup = Breakup::parse(include_str!("breakup.toml"))?;
+        breakup.scale_floating_share(p.floating_share_scale)?;
+        Settling::with(breakup, ocean, &p.terms, rule, float, p.step_m, p.moment_draws)?.with_implosion(p.implosion)
     }
 
     pub fn with(breakup: Breakup, ocean: Ocean, terms: &[String], rule: BelowModelBottom, float: FloatPhase, step_m: f64, moment_draws: usize) -> Result<Settling, String> {
@@ -519,7 +554,21 @@ impl Settling {
             ocean_error: has("ocean-error"),
             diffusion: has("diffusion"),
         };
-        Ok(Settling { breakup, ocean, terms, rule, float, step_m, moment_draws })
+        Ok(Settling { breakup, ocean, terms, rule, float, step_m, moment_draws, implosion: None })
+    }
+
+    /// Switch the implosion alternative on (Some) or off (None).
+    pub fn with_implosion(mut self, implosion: Option<Implosion>) -> Result<Settling, String> {
+        if let Some(i) = implosion {
+            if !i.inside_share.iter().all(|x| (0.0..=1.0).contains(x)) || !(i.collapse_depth_m.lo > 0.0) {
+                return Err("settling: implosion inside_share in [0, 1] and a positive collapse depth".into());
+            }
+            if !(self.breakup.classes.iter().any(|c| c == HOST_CLASS) && self.breakup.classes.iter().any(|c| c == CONTENTS_CLASS)) {
+                return Err(format!("settling: implosion needs classes `{HOST_CLASS}` and `{CONTENTS_CLASS}`"));
+            }
+        }
+        self.implosion = implosion;
+        Ok(self)
     }
 
     pub fn classes(&self) -> &[String] {
@@ -582,8 +631,14 @@ impl Settling {
             at: [f64; 2],
             float_s: f64,
             leeway: f64,
+            /// Carried inside a section (implosion alternative): (host index, collapse depth,
+            /// rises when released).
+            inside: Option<(usize, f64, bool)>,
         }
         let mut pending: Vec<Option<Pending>> = Vec::new();
+        let host_class = self.breakup.classes.iter().position(|c| c == HOST_CLASS);
+        let contents_class = self.breakup.classes.iter().position(|c| c == CONTENTS_CLASS);
+        let mut hosts: Vec<usize> = Vec::new();
         for (c, element) in self.breakup.elements[family].iter().enumerate() {
             let pieces = element.pieces.draw(rng).round().max(1.0);
             let k = (pieces as usize).min(self.breakup.representatives_per_class);
@@ -602,6 +657,9 @@ impl Settling {
                 }
                 let fate_u = rng.uniform();
                 let (float_t, leeway) = (element.float_s.draw(rng), element.leeway.draw(rng));
+                // Drawn for every contents element whether or not the alternative is on (common
+                // random numbers).
+                let (inside_u, zc_u, host_u) = if Some(c) == contents_class { (rng.uniform(), rng.uniform(), rng.uniform()) } else { (1.0, 0.0, 0.0) };
                 let mut row = WreckageElement {
                     draw: draw as u32,
                     draw_weight,
@@ -621,6 +679,32 @@ impl Settling {
                     mean_sink_mps: f64::NAN,
                     below_model_bottom_m: f64::NAN,
                 };
+                if Some(c) == host_class {
+                    hosts.push(pending.len());
+                }
+                if let (Some(imp), false) = (self.implosion, hosts.is_empty()) {
+                    if Some(c) == contents_class && inside_u < imp.inside_share[family] {
+                        let h = hosts[((host_u * hosts.len() as f64) as usize).min(hosts.len() - 1)];
+                        let z_c = imp.collapse_depth_m.quantile(zc_u);
+                        let host_row = out[first + h];
+                        match &pending[h] {
+                            // The section stays afloat: so do its contents, with it.
+                            None => {
+                                (row.fate, row.float_s, row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) =
+                                    (host_row.fate, host_row.float_s, host_row.east_m, host_row.north_m, host_row.longitude_deg, host_row.latitude_deg);
+                                out.push(row);
+                                pending.push(None);
+                            }
+                            Some(hp) => {
+                                row.float_s = hp.float_s;
+                                let (at, float_s) = (hp.at, hp.float_s);
+                                out.push(row);
+                                pending.push(Some(Pending { sinker, at, float_s, leeway, inside: Some((h, z_c, fate_u < element.stays_afloat)) }));
+                            }
+                        }
+                        continue;
+                    }
+                }
                 if fate_u < element.stays_afloat {
                     // Surface-drift debris: its position after carry; drift owns what happens next.
                     let p = lonlat(at);
@@ -634,11 +718,11 @@ impl Settling {
                 let floats = fate_u >= element.stays_afloat + element.sinks_at_once && self.terms.float;
                 row.float_s = if floats { float_t } else { 0.0 };
                 out.push(row);
-                pending.push(Some(Pending { sinker, at, float_s: row.float_s, leeway }));
+                pending.push(Some(Pending { sinker, at, float_s: row.float_s, leeway, inside: None }));
             }
         }
         // Pass 2: the float phase, through the shared integrator, one call for the whole draw.
-        let floaters: Vec<usize> = (0..pending.len()).filter(|&i| pending[i].as_ref().is_some_and(|p| p.float_s > 0.0)).collect();
+        let floaters: Vec<usize> = (0..pending.len()).filter(|&i| pending[i].as_ref().is_some_and(|p| p.float_s > 0.0 && p.inside.is_none())).collect();
         if !floaters.is_empty() {
             // Each element stops at its own sink time (`Particle.end_time`, ocean transport item 4);
             // one output time at the last of them, every track read at its own `end`.
@@ -687,24 +771,66 @@ impl Settling {
             }
         }
         // Pass 3: the descent of every sinking element, from where and when it left the surface.
+        // Each element has its own random stream (seed, index), so switching one element's
+        // treatment leaves every other element's draws unchanged.
         let rho = |z: f64| rho.at(z);
+        let error = self.terms.ocean_error.then_some(&realisation);
+        let erng = |i: usize| Rng::seeded(&[seed, i as u64]);
         for (i, slot) in pending.iter().enumerate() {
             let Some(p) = slot else { continue };
             let row = &mut out[first + i];
-            if row.fate == Fate::Afloat {
+            if row.fate == Fate::Afloat || p.inside.is_some() {
                 continue;
             }
             let start = lonlat(p.at);
             let t_start = t0 + p.float_s;
             let Ok(profile) = self.ocean.column.profile(t_start, start) else { continue };
-            let error = self.terms.ocean_error.then_some(&realisation);
-            if let Some(landing) = physics::sink(p.at, t_start, &p.sinker, &profile, &rho, error, &self.terms, self.rule, self.step_m, &seabed, &lonlat, rng) {
+            if let Some(landing) = physics::sink(p.at, t_start, &p.sinker, &profile, &rho, error, &self.terms, self.rule, self.step_m, &seabed, &lonlat, &mut erng(i)) {
                 let rest = [p.at[0] + landing.offset_m[0], p.at[1] + landing.offset_m[1]];
                 let q = lonlat(rest);
                 row.fate = Fate::Settled;
                 (row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) = (rest[0], rest[1], q[0], q[1]);
                 (row.depth_m, row.descent_s, row.mean_sink_mps, row.below_model_bottom_m) =
                     (landing.depth_m, landing.descent_s, landing.mean_sink_mps, landing.below_model_bottom_m);
+            }
+        }
+        // Pass 3b (implosion alternative): contents follow their host's own path (same stream) to
+        // the collapse depth, then are released.
+        for (i, slot) in pending.iter().enumerate() {
+            let Some(Pending { sinker, inside: Some((h, z_c, rises)), .. }) = slot else { continue };
+            let Some(host) = &pending[*h] else { continue };
+            let start = lonlat(host.at);
+            let t_start = t0 + host.float_s;
+            let Ok(profile) = self.ocean.column.profile(t_start, start) else { continue };
+            let to_collapse = |o: [f64; 2]| seabed(o).map(|d| d.min(*z_c));
+            let Some(part) = physics::sink(host.at, t_start, &host.sinker, &profile, &rho, error, &self.terms, self.rule, self.step_m, &to_collapse, &lonlat, &mut erng(*h)) else { continue };
+            let release = [host.at[0] + part.offset_m[0], host.at[1] + part.offset_m[1]];
+            let q = lonlat(release);
+            let row = &mut out[first + i];
+            if part.depth_m < z_c - 1e-6 {
+                // The section met the seabed above its collapse depth: the contents rest with it.
+                row.fate = Fate::Settled;
+                (row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) = (release[0], release[1], q[0], q[1]);
+                (row.depth_m, row.descent_s, row.mean_sink_mps, row.below_model_bottom_m) = (part.depth_m, part.descent_s, part.mean_sink_mps, part.below_model_bottom_m);
+                continue;
+            }
+            if *rises {
+                // Buoyant contents rise from the collapse point: surface-drift debris, for drift.
+                row.fate = Fate::Afloat;
+                row.float_s = f64::INFINITY;
+                (row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) = (release[0], release[1], q[0], q[1]);
+                continue;
+            }
+            let t_release = t_start + part.descent_s;
+            let Ok(profile) = self.ocean.column.profile(t_release, q) else { continue };
+            if let Some(landing) = physics::sink_from(release, part.depth_m, t_release, sinker, &profile, &rho, error, &self.terms, self.rule, self.step_m, &seabed, &lonlat, &mut erng(i)) {
+                let rest = [release[0] + landing.offset_m[0], release[1] + landing.offset_m[1]];
+                let r = lonlat(rest);
+                let descent = part.descent_s + landing.descent_s;
+                row.fate = Fate::Settled;
+                (row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) = (rest[0], rest[1], r[0], r[1]);
+                (row.depth_m, row.descent_s, row.mean_sink_mps, row.below_model_bottom_m) =
+                    (landing.depth_m, descent, landing.depth_m / descent, part.below_model_bottom_m + landing.below_model_bottom_m);
             }
         }
         Ok(())

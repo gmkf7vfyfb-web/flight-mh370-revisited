@@ -463,6 +463,13 @@ fn run_toml_constructs_and_predict_fills_or_refuses() {
     assert!(out.iter().all(|x| x.is_nan()));
 }
 
+/// The implosion alternative as the report runs it (declared assumptions, no calibration case):
+/// 80 % / 40 % / 0 % of cabin contents inside a section for intact / broken / fragmented, collapse
+/// depth log-uniform 10-1,000 m (a fuselage built for internal overpressure resists external
+/// pressure poorly, so a trapped volume may fail within tens of metres; part-flooded compartments
+/// may hold longer).
+const REPORT_IMPLOSION: Implosion = Implosion { inside_share: [0.8, 0.4, 0.0], collapse_depth_m: Range { lo: 10.0, hi: 1000.0, log: true } };
+
 /// Report generator, not a test: `SETTLING_REPORT_DIR=<dir> [SETTLING_REPORT_DEPTHS=3000,4000]
 /// cargo test --release -p mh370-hypotheses settling::tests::report -- --ignored`. Writes the
 /// sensitivity summary and the baseline element samples behind the report page. Every number
@@ -526,13 +533,16 @@ fn report() {
                 o.error.vertical = VerticalStructure::Banded { surface_to_m, upper_to_m, near_bottom_m, factors: [factors[0], factors[1], factors[2], factors[2]] };
             }
         }, 1.0, 1.0, base_float),
+        ("floating share x0.5", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
+        ("floating share x1.5", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
+        ("implosion at depth (declared alternative)", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
         ("Stokes on (a = 1)", all.to_vec(), |_| {}, 1.0, 1.0, fp(1.0, None)),
         ("diffusivity 30 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(30.0))),
         ("diffusivity 1000 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(1000.0))),
         ("no ocean error", without("ocean-error"), |_| {}, 1.0, 1.0, base_float),
     ];
     let mut summary = std::fs::File::create(dir.join("sensitivity.csv")).unwrap();
-    writeln!(summary, "variant,depth_m,family,class,settled_share,median_offset_m,p90_offset_m,median_descent_s,p90_descent_s,field_p90_radius_m,rows_per_draw").unwrap();
+    writeln!(summary, "variant,depth_m,family,class,settled_share,median_offset_m,p90_offset_m,median_descent_s,p90_descent_s,field_p90_radius_m,rows_per_draw,afloat_share,family_afloat_mass_share").unwrap();
     let mut samples = std::fs::File::create(dir.join("baseline_samples.csv")).unwrap();
     writeln!(samples, "depth_m,family,class,draw,fate,multiplicity,piece_area_m2,east_m,north_m,float_s,descent_s,mean_sink_mps").unwrap();
     for &depth in &depths {
@@ -543,7 +553,10 @@ fn report() {
             let mut b = Breakup::parse(include_str!("breakup.toml")).unwrap();
             scale(&mut b, *s_scale);
             float_scale(&mut b, *f_scale);
-            let st = settling_f(b, o, terms, *float);
+            if let Some(f) = label.strip_prefix("floating share x") {
+                b.scale_floating_share(f.parse().unwrap()).unwrap();
+            }
+            let st = settling_f(b, o, terms, *float).with_implosion(label.starts_with("implosion").then_some(REPORT_IMPLOSION)).unwrap();
             for f in 0..3 {
                 let rows = st.emit_with(&imp, 0..draws, 1.0 / draws as f64, Some(f)).unwrap();
                 let per_draw = rows.len() as f64 / draws as f64;
@@ -559,6 +572,8 @@ fn report() {
                     }
                 }
                 let field = quantile(radii, 0.5);
+                let mass = |r: &&WreckageElement| r.multiplicity * r.piece_mass_kg;
+                let fam_afloat = rows.iter().filter(|r| r.fate == Fate::Afloat).map(|r| mass(&r)).sum::<f64>() / rows.iter().map(|r| mass(&r)).sum::<f64>();
                 for (c, class) in st.classes().iter().enumerate() {
                     let cls: Vec<_> = rows.iter().filter(|r| r.class as usize == c).collect();
                     let all_w: f64 = cls.iter().map(|r| r.multiplicity).sum();
@@ -568,7 +583,7 @@ fn report() {
                     let t: Vec<(f64, f64)> = set.iter().map(|r| (r.descent_s, r.multiplicity)).collect();
                     writeln!(
                         summary,
-                        "{label},{depth},{},{class},{:.6},{:.3},{:.3},{:.1},{:.1},{:.3},{:.2}",
+                        "{label},{depth},{},{class},{:.6},{:.3},{:.3},{:.1},{:.1},{:.3},{:.2},{:.6},{:.6}",
                         FAMILIES[f],
                         w / all_w,
                         quantile(dist.clone(), 0.5),
@@ -576,7 +591,9 @@ fn report() {
                         quantile(t.clone(), 0.5),
                         quantile(t, 0.9),
                         field,
-                        per_draw
+                        per_draw,
+                        cls.iter().filter(|r| r.fate == Fate::Afloat).map(|r| r.multiplicity).sum::<f64>() / all_w,
+                        fam_afloat
                     )
                     .unwrap();
                 }
@@ -778,4 +795,109 @@ fn shared_products_load_and_answer() {
     let rows = s.emit(&imp, 16).unwrap();
     let settled: Vec<_> = rows.iter().filter(|r| r.fate == Fate::Settled).collect();
     assert!(!settled.is_empty() && settled.iter().all(|r| (1000.0..7000.0).contains(&r.depth_m)));
+}
+
+// ---------------------------------------------------------------------------------------------
+// Pete's 9 Oct choices: implosion at depth as a declared alternative; floating share x0.5 / x1.5.
+// ---------------------------------------------------------------------------------------------
+
+/// one_sinker everywhere, with cabin contents given their own areal density (so their own speed)
+/// and every element sinking at once.
+fn contents_apart(contents_s: f64) -> Breakup {
+    let mut b = one_sinker(0.0, 1.0);
+    let c = b.classes.iter().position(|c| c == "cabin-contents").unwrap();
+    for row in b.elements.iter_mut() {
+        row[c].areal_density_kg_m2 = fixed(contents_s);
+    }
+    b
+}
+
+/// 0.1 m/s east at every depth above the seabed (the upper layer extends below it).
+fn upper_current() -> TestOcean {
+    let mut o = stub();
+    o.spec.upper_current_mps = [0.1, 0.0];
+    o.spec.layer_depth_m = 6000.0;
+    o
+}
+
+fn implosion_at(z: f64) -> Option<Implosion> {
+    Some(Implosion { inside_share: [1.0; 3], collapse_depth_m: fixed(z) })
+}
+
+#[test]
+fn imploded_contents_ride_their_section_to_the_collapse_depth_then_sink_alone() {
+    // 0.1 m/s east at every depth; sections at W, contents at W2; no glide or carry. Released at
+    // 500 m: east = 0.1 (500 / W + 3,500 / W2), descent 500 / W + 3,500 / W2.
+    let w2 = terminal_speed(150.0, 5000.0, 1.0, 1025.0);
+    let s = settling(contents_apart(150.0), upper_current(), &["current"]).with_implosion(implosion_at(500.0)).unwrap();
+    let c = s.classes().iter().position(|c| c == "cabin-contents").unwrap() as u8;
+    let h = s.classes().iter().position(|c| c == "fuselage-section").unwrap() as u8;
+    let rows = s.emit_with(&impact(51, 60.0, 120.0), 0..4, 0.25, Some(0)).unwrap();
+    let contents: Vec<_> = rows.iter().filter(|r| r.class == c).collect();
+    assert!(!contents.is_empty());
+    for r in &contents {
+        assert_eq!(r.fate, Fate::Settled);
+        assert!((r.east_m - 0.1 * (500.0 / W + 3500.0 / w2)).abs() < 1e-3, "{r:?}");
+        assert!(r.north_m.abs() < 1e-9 && (r.descent_s - (500.0 / W + 3500.0 / w2)).abs() < 1e-3);
+    }
+    // The section itself is unchanged by the alternative.
+    for r in rows.iter().filter(|r| r.class == h) {
+        assert!((r.east_m - 0.1 * 4000.0 / W).abs() < 1e-3, "{r:?}");
+    }
+    // Collapse below the seabed: the contents rest with their section.
+    let deep = settling(contents_apart(150.0), upper_current(), &["current"]).with_implosion(implosion_at(5000.0)).unwrap();
+    for r in deep.emit_with(&impact(51, 60.0, 120.0), 0..2, 0.5, Some(0)).unwrap().iter().filter(|r| r.class == c) {
+        assert!((r.east_m - 0.1 * 4000.0 / W).abs() < 1e-3 && (r.depth_m - 4000.0).abs() < 1e-6, "{r:?}");
+    }
+}
+
+#[test]
+fn implosion_with_nothing_inside_is_the_baseline_bit_for_bit() {
+    let mk = || settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), busy(), &["carry", "float", "current", "glide", "ocean-error", "diffusion"]);
+    let imp = impact(52, 60.0, 120.0);
+    let base = mk().emit(&imp, 8).unwrap();
+    let none_inside = mk().with_implosion(Some(Implosion { inside_share: [0.0; 3], collapse_depth_m: fixed(300.0) })).unwrap().emit(&imp, 8).unwrap();
+    assert_eq!(base.len(), none_inside.len());
+    for (a, b) in base.iter().zip(&none_inside) {
+        assert_eq!((a.east_m.to_bits(), a.north_m.to_bits(), a.fate), (b.east_m.to_bits(), b.north_m.to_bits(), b.fate));
+    }
+    // Contents inside change only the contents: every other element is unchanged (own streams).
+    let all_inside = mk().with_implosion(implosion_at(300.0)).unwrap().emit(&imp, 8).unwrap();
+    let c = mk().classes().iter().position(|c| c == "cabin-contents").unwrap() as u8;
+    assert_eq!(base.len(), all_inside.len());
+    for (a, b) in base.iter().zip(&all_inside).filter(|(a, _)| a.class != c) {
+        assert_eq!((a.east_m.to_bits(), a.north_m.to_bits()), (b.east_m.to_bits(), b.north_m.to_bits()));
+    }
+}
+
+#[test]
+fn a_section_that_stays_afloat_keeps_its_contents_afloat() {
+    let mut b = contents_apart(150.0);
+    let h = b.classes.iter().position(|c| c == "fuselage-section").unwrap();
+    for row in b.elements.iter_mut() {
+        (row[h].sinks_at_once, row[h].stays_afloat) = (0.0, 1.0);
+    }
+    let s = settling(b, upper_current(), &["current"]).with_implosion(implosion_at(500.0)).unwrap();
+    let c = s.classes().iter().position(|c| c == "cabin-contents").unwrap() as u8;
+    assert!(s.emit_with(&impact(53, 60.0, 120.0), 0..2, 0.5, Some(0)).unwrap().iter().filter(|r| r.class == c).all(|r| r.fate == Fate::Afloat));
+    assert!(settling(contents_apart(150.0), stub(), &[]).with_implosion(Some(Implosion { inside_share: [1.5, 0.0, 0.0], collapse_depth_m: fixed(1.0) })).is_err());
+}
+
+#[test]
+fn floating_share_scale_keeps_the_sinking_split() {
+    let t = Breakup::parse(include_str!("breakup.toml")).unwrap();
+    for f in [0.0, 0.5, 1.5] {
+        let mut b = t.clone();
+        b.scale_floating_share(f).unwrap();
+        for (r0, r1) in t.elements.iter().zip(&b.elements) {
+            for (e0, e1) in r0.iter().zip(r1) {
+                assert!((e1.stays_afloat - (e0.stays_afloat * f).min(1.0)).abs() < 1e-12);
+                assert!(e1.sinks_at_once + e1.stays_afloat <= 1.0 + 1e-12);
+                if e0.stays_afloat < 1.0 && e1.stays_afloat < 1.0 {
+                    assert!((e1.sinks_at_once / (1.0 - e1.stays_afloat) - e0.sinks_at_once / (1.0 - e0.stays_afloat)).abs() < 1e-12);
+                }
+            }
+        }
+    }
+    assert!(t.clone().scale_floating_share(-1.0).is_err());
 }

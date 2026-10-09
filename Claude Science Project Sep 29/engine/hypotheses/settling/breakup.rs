@@ -14,6 +14,7 @@ pub const FAMILIES: [&str; 3] = ["intact", "broken", "fragmented"];
 /// (48 h). A table whose `float_s` range exceeds it is refused on load.
 pub const FLOAT_CUTOFF_S: f64 = 48.0 * 3600.0;
 
+#[derive(Clone)]
 pub struct Breakup {
     pub classes: Vec<String>,
     pub selection: Selection,
@@ -85,6 +86,24 @@ struct Table {
 }
 
 impl Breakup {
+    /// Scale every element's `stays_afloat` share by `f` (Pete, 9 Oct: keep the table, vary the
+    /// floating share x0.5 and x1.5 as a declared sensitivity). The sinking remainder keeps its
+    /// split between sinking at once and floating first. Shares are capped at one.
+    pub fn scale_floating_share(&mut self, f: f64) -> Result<(), String> {
+        if !(f >= 0.0 && f.is_finite()) {
+            return Err("settling: floating_share_scale must be finite and non-negative".into());
+        }
+        for row in self.elements.iter_mut() {
+            for e in row.iter_mut() {
+                let afloat = (e.stays_afloat * f).min(1.0);
+                let rest = 1.0 - e.stays_afloat;
+                e.sinks_at_once = if rest > 0.0 { e.sinks_at_once * (1.0 - afloat) / rest } else { 0.0 };
+                e.stays_afloat = afloat;
+            }
+        }
+        Ok(())
+    }
+
     pub fn parse(text: &str) -> Result<Breakup, String> {
         let table: Table = toml::from_str(text).map_err(|e| format!("breakup table: {e}"))?;
         let s = table.selection;

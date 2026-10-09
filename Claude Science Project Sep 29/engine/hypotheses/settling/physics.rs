@@ -229,8 +229,30 @@ pub fn sink(
     lonlat: &dyn Fn([f64; 2]) -> LonLat,
     rng: &mut Rng,
 ) -> Option<Landing> {
+    sink_from(start, 0.0, t0, sinker, profile, density, ocean, terms, rule, step_m, seabed, lonlat, rng)
+}
+
+/// As [`sink`], starting at depth `z0` (m) rather than at the surface: contents released where
+/// their host section collapses (the implosion alternative). `descent_s` and `mean_sink_mps`
+/// then cover the descent from `z0` only.
+#[allow(clippy::too_many_arguments)]
+pub fn sink_from(
+    start: [f64; 2],
+    z0: f64,
+    t0: f64,
+    sinker: &Sinker,
+    profile: &Profile,
+    density: &dyn Fn(f64) -> f64,
+    ocean: Option<&OceanErrorRealisation>,
+    terms: &Terms,
+    rule: BelowModelBottom,
+    step_m: f64,
+    seabed: &dyn Fn([f64; 2]) -> Option<f64>,
+    lonlat: &dyn Fn([f64; 2]) -> LonLat,
+    rng: &mut Rng,
+) -> Option<Landing> {
     let mut at = start;
-    let mut z = 0.0;
+    let mut z = z0;
     let mut t = 0.0;
     let mut below = 0.0;
     let mut heading = std::f64::consts::TAU * rng.uniform();
@@ -294,7 +316,7 @@ pub fn sink(
                 depth_m: depth,
                 descent_s,
                 below_model_bottom_m: below,
-                mean_sink_mps: if descent_s > 0.0 { depth / descent_s } else { f64::NAN },
+                mean_sink_mps: if descent_s > 0.0 { (depth - z0) / descent_s } else { f64::NAN },
             });
         }
         if beyond {

@@ -19,6 +19,17 @@ below_model_bottom = "hold-deepest-level"
 float_step_s = 600.0
 float_a_stokes = 0.0
 
+# Floating share: multiplier on every element's stays-afloat share (Pete 9 Oct: keep the table,
+# vary x0.5 and x1.5 as a declared sensitivity; drift reports how its result responds).
+floating_share_scale = 1.0
+
+# Implosion at depth: a DECLARED ALTERNATIVE (Pete 9 Oct), off in the baseline (progressive
+# flooding). Uncomment to run it. Share of cabin contents carried inside a fuselage section per
+# family [intact, broken, fragmented], and the collapse depth. Assumptions, no calibration case.
+# [hypotheses.settling.implosion]
+# inside_share = [0.8, 0.4, 0.0]
+# collapse_depth_m = { log_uniform = [10.0, 1000.0] }
+
 # Ocean-product error, realised ONCE per wreckage draw and shared by the float and sink phases.
 # The shared crate's banded structure (ocean transport item 4) with the first pass's banded
 # magnitudes: 0.10 m/s per component at the surface (to 100 m), 0.05 m/s in the upper ocean (to
