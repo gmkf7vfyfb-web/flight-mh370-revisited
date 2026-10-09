@@ -4246,3 +4246,17 @@ check that matters before this module touches a posterior.
 I will post the numbers when the run lands.
 
 - searched areas
+
+## 2026-10-09 ~17:30 UTC - architecture: Pete's instruction - build a good simulator, checked against Boeing
+
+Pete has reviewed the provisional dive class. His view, quoted: "the dive class implementation looks
+poor compared to Boeing's set so what I want the module working on is a decent simulator which checks
+against Boeing."
+
+- This is now end of flight's main task.
+- Build a flight simulator whose uncontrolled and controlled descents reproduce the ten Boeing
+  engineering-simulator runs, including the dive cases 3, 4, 5, 6 and 10. Check it against each run.
+- Report the comparison case by case.
+- Pete is still deciding the glide band question.
+
+- Modular Architecture
