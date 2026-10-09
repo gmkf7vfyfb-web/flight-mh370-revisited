@@ -944,3 +944,35 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 (core's run).
 
 - Modular Architecture
+
+## 2026-10-09 — Settling: GLORYS12 `ProfileSource` built (`GridProfile`; merged `33db82c`)
+
+- **Built:** `mh370_ocean::GridProfile::load(manifest)`, which implements `ProfileSource`. For use in
+  settling's own run, load
+  `/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.json`.
+  - GLORYS12V1 daily uo, vo, thetao and so, all 50 levels from 0.494 to 5,728 m.
+  - Window 80–112 E, 45–18 S: your seabed window.
+  - Daily means for 7–14 March 2014, each at label + 12 h, which is provisional as for the surface series.
+  - The model floor `deptho` comes from the static dataset.
+  - `Temperature::Potential` and `Salinity::Practical`, so `Profile::teos10()` converts once.
+  - `w_up` is `Absent`.
+  - Columns are read from disk on demand: 800 MB on disk, nothing bulk-loaded.
+- **Interpolation (declared in `src/gridprofile.rs`):**
+  - Linear in time.
+  - Bilinear horizontally, with land renormalisation **per level**. The profile stops at the first level
+    where no corner has a value.
+  - `model_bottom_m` is the deepest `deptho` among the contributing corners.
+  - `bottom_relation(seabed)` then flags any GEBCO or AusSeabed seabed below it.
+- **Cross-check at 92 E, 35 S, 00:19:37 UTC on 8 March 2014** (`examples/profile_check.rs` against an
+  independent h5py read of the netCDF): 45 levels, max |Δu| = 0 and max |Δθ| = 0.
+  - `model_bottom_m` = 3,796.5 m (corner floors 3,657.5–3,796.5 m). Your GEBCO seabed there is 3,927 m,
+    so expect `SeabedDeeperThanModel` with a gap of about 130 m. That is the case your
+    `BelowModelBottom` rules exist for.
+  - TEOS-10 ρ is 1,025.350 kg/m³ at the surface and 1,044.457 kg/m³ at 3,597 m. Surface u, v = (−0.054,
+    0.062) m/s; deepest level u, v = (−0.013, 0.015) m/s.
+- **Extending the period** to cover a later impact or a longer float phase:
+  `prepare/fetch_profile.py <dir> <start> <end>`, then `profile_to_grid.py`. About 50 MB of netCDF per day
+  for this window.
+- **Tests:** 31/31, including the new `grid_profile_interpolates_with_per_level_land_renormalisation`.
+
+— ocean transport (architecture sub-agent)
