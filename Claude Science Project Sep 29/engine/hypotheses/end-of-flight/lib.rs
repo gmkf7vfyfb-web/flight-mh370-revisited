@@ -209,6 +209,58 @@ struct Params {
     onset: OnsetConfig,
     envelope: EnvelopeConfig,
     logon: LogonParams,
+    /// The two-burst stopgap proposal (9 Oct 2026, Pete's choice). Absent, every field is off and
+    /// the earlier stream is reproduced exactly.
+    #[serde(default)]
+    proposal: ProposalParams,
+}
+
+/// The two-burst stopgap proposal: PROVISIONAL, to be redone on the 6-DOF-fitted fast model.
+/// Searched Areas (architecture.md ~21:40 UTC, 9 Oct) found every arm that scores BOTH 00:19 bursts below
+/// 1,000 effective impacts on the reference-289 sweep and Holland's two arms below 100 (19-36 with the
+/// fuel-exhaustion log-on). On that sweep the weight under those arms sits on maintained-then-lost
+/// descents (73-98%) that lose control 0-190 s before 00:19:29. Both draws are importance-sampled with
+/// exact corrections, ln(prior / proposal), carried in each descent's `log_q_correction`:
+/// - `maintained_then_lost_boost` a: the control draw from q = (1 - a) p + a 1{MaintainedThenLost};
+/// - `loss_window_unix_s` and `loss_window_weight`: [`profile::LossWindow`].
+#[derive(Deserialize, Debug, Clone, PartialEq, Default)]
+#[serde(deny_unknown_fields)]
+struct ProposalParams {
+    #[serde(default)]
+    maintained_then_lost_boost: f64,
+    #[serde(default)]
+    loss_window_unix_s: [f64; 2],
+    #[serde(default)]
+    loss_window_weight: f64,
+}
+
+impl ProposalParams {
+    fn check(&self) -> Result<(), String> {
+        let ok = (0.0..1.0).contains(&self.maintained_then_lost_boost)
+            && (0.0..1.0).contains(&self.loss_window_weight)
+            && self.loss_window_unix_s[1] >= self.loss_window_unix_s[0];
+        if ok { Ok(()) } else { Err("proposal: boost and weight in [0, 1), window [lo, hi] with hi >= lo".into()) }
+    }
+
+    fn window(&self) -> Option<profile::LossWindow> {
+        (self.loss_window_weight > 0.0).then_some(profile::LossWindow { unix_s: self.loss_window_unix_s, weight: self.loss_window_weight })
+    }
+}
+
+/// Draw the control axis from the optional maintained-then-lost boost. Returns (control, prior
+/// probability, ln prior/proposal). With the boost at 0 this is exactly `pick` on the prior weights.
+fn pick_control(weights: &[f64; 4], boost: f64, uniform: &mut dyn FnMut() -> f64) -> (Control, f64, f64) {
+    if !(boost > 0.0) {
+        let (c, p) = pick(weights, &Control::ALL, uniform);
+        return (c, p, 0.0);
+    }
+    let total: f64 = weights.iter().sum();
+    let prior: Vec<f64> = weights.iter().map(|w| w / total).collect();
+    let q: Vec<f64> = Control::ALL.iter().zip(&prior)
+        .map(|(c, p)| (1.0 - boost) * p + if *c == Control::MaintainedThenLost { boost } else { 0.0 }).collect();
+    let (c, qc) = pick(&q, &Control::ALL, uniform);
+    let i = Control::ALL.iter().position(|x| *x == c).unwrap();
+    (c, prior[i], prior[i].ln() - qc.ln())
 }
 
 /// Brief section 6: the 00:19:29 log-on as ONE observation, `m0019a.logon`, used once, through a
@@ -512,6 +564,7 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     params.onset.check()?;
     params.envelope.check()?;
     params.logon.check()?;
+    params.proposal.check()?;
     Ok(Box::new(EndOfFlight { params, families: taxonomy::legal_families() }))
 }
 
@@ -760,14 +813,15 @@ impl EndOfFlight {
                 support_truncated_fraction: f64::NAN,
                 log_q_correction: 0.0,
             };
-            let (propulsion, control, axes_prior) = if dry {
-                let (control, c_prior) = pick(&self.params.control_weights, &Control::ALL, uniform);
-                (Propulsion::NeitherThrusting, control, c_prior)
+            let boost = self.params.proposal.maintained_then_lost_boost;
+            let (propulsion, control, axes_prior, axes_lq) = if dry {
+                let (control, c_prior, lq) = pick_control(&self.params.control_weights, boost, uniform);
+                (Propulsion::NeitherThrusting, control, c_prior, lq)
             } else {
                 self.draw_axes(mechanism, uniform)
             };
             let aero = self.params.aero.draw(uniform);
-            let (impact, states, flying, trace, realised_flameout) =
+            let (impact, states, flying, trace, realised_flameout, profile_lq) =
                 self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, fuel, uniform);
 
             // A descent that never reached the sea is a negative result. By default it is
@@ -870,14 +924,14 @@ impl EndOfFlight {
             let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
                 .or_else(|| taxonomy::index_of(&Family { initiation: mechanism, propulsion, control }))
                 .unwrap_or(0);
-            out.push(Descent { impact, family, at_epochs: states, latents, log_q_correction: 0.0 });
+            out.push(Descent { impact, family, at_epochs: states, latents, log_q_correction: axes_lq + profile_lq });
         }
         out
     }
 
     /// Draw the propulsion and control axes, restricted to the cells legal for `mechanism`, and
     /// return them with their joint prior weight.
-    fn draw_axes(&self, mechanism: Initiation, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64) {
+    fn draw_axes(&self, mechanism: Initiation, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64, f64) {
         let mut weights = self.params.propulsion_weights;
         for (i, p) in Propulsion::ALL.iter().enumerate() {
             if !(Family { initiation: mechanism, propulsion: *p, control: Control::NoIntervention }).is_legal() {
@@ -885,8 +939,8 @@ impl EndOfFlight {
             }
         }
         let (propulsion, p_prior) = pick(&weights, &Propulsion::ALL, uniform);
-        let (control, c_prior) = pick(&self.params.control_weights, &Control::ALL, uniform);
-        (propulsion, control, p_prior * c_prior)
+        let (control, c_prior, lq) = pick_control(&self.params.control_weights, self.params.proposal.maintained_then_lost_boost, uniform);
+        (propulsion, control, p_prior * c_prior, lq)
     }
 
     /// Integrate one descent from the takeover state.
@@ -903,7 +957,7 @@ impl EndOfFlight {
         epochs: &[TerminalEpoch],
         fuel: Option<&dyn FuelFlow>,
         uniform: &mut dyn FnMut() -> f64,
-    ) -> (Impact, Vec<Option<EpochState>>, Flying, integrator::Trace, f64) {
+    ) -> (Impact, Vec<Option<EpochState>>, Flying, integrator::Trace, f64, f64) {
         let start = Body {
             unix_s: takeover.unix_s,
             latitude_deg: takeover.latitude_deg,
@@ -915,7 +969,8 @@ impl EndOfFlight {
             mass_kg: parent.mass_kg,
             fuel_kg: if propulsion == Propulsion::NeitherThrusting { 0.0 } else { parent.fuel_kg },
         };
-        let shape = self.params.envelope.sample(&start, propulsion, control, &aero, uniform);
+        let shape = self.params.envelope.sample(&start, propulsion, control, &aero, self.params.proposal.window(), uniform);
+        let profile_lq = shape.log_q_correction;
         let mut flying = Flying::new(shape, aero, propulsion, &self.params.envelope);
         // Spiral regime of free dynamics (deliverable 1 calibration; Pete's ruling on the weight). No
         // uniform is drawn at weight 0, so the pre-calibration stream is reproduced exactly.
@@ -995,7 +1050,7 @@ impl EndOfFlight {
             velocity_up_mps: trace.impact_vertical_speed_mps,
             mass_kg: trace.impact.mass_kg,
         };
-        (impact, states.into_inner(), flying.into_inner(), trace, realised_flameout.get())
+        (impact, states.into_inner(), flying.into_inner(), trace, realised_flameout.get(), profile_lq)
     }
 }
 
@@ -2116,4 +2171,28 @@ mod tests {
         // Finished on a glide by default, so the sample is still at the sea surface.
         assert!(descents.iter().all(|d| d.impact.latitude_deg.is_finite()));
     }
+
+    /// The maintained-then-lost boost: sum over controls of q(c) exp(lq(c)) = 1, the recorded
+    /// probability is the prior's, and at boost 0 the draw is exactly `pick`.
+    #[test]
+    fn control_boost_is_an_exact_importance_correction() {
+        let weights = [0.25, 0.25, 0.25, 0.25];
+        let mut total = 0.0;
+        let mut seen = 0;
+        for k in 0..10_000 {
+            let u0 = (k as f64 + 0.5) / 10_000.0;
+            let (c, prior, lq) = pick_control(&weights, 0.4, &mut || u0);
+            total += lq.exp() / 10_000.0;
+            assert!((prior - 0.25).abs() < 1e-12);
+            if c == Control::MaintainedThenLost { seen += 1; }
+        }
+        assert!((total - 1.0).abs() < 1e-3, "{total}");
+        assert!((seen as f64 / 10_000.0 - (0.6 * 0.25 + 0.4)).abs() < 1e-3);
+        for k in 0..100 {
+            let u0 = (k as f64 + 0.5) / 100.0;
+            let (c, p, lq) = pick_control(&weights, 0.0, &mut || u0);
+            assert_eq!((c, p, lq), { let (c2, p2) = pick(&weights, &Control::ALL, &mut || u0); (c2, p2, 0.0) });
+        }
+    }
+
 }
