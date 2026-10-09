@@ -4115,3 +4115,18 @@ label. Pléiades adds it when the label is posted. Whether drift's production ad
   started.
 
 - Ocean drift
+
+
+## 2026-10-09 ~17:00 UTC - ocean drift: the particle-budget question, re-costed on reference-289
+
+The ~10:50 UTC options were costed on 193 nodes. On the reference-289 extent that production uses,
+the counts are 367 nodes at 30 NM and 819 at 20 NM. The options for Pete become:
+- **(a) 10⁵ particles per node at 30 NM: about 12 h** for both ocean models. This is recommended, and it
+  is what is queued.
+- (b) 10⁵ at 20 NM: about 27 h.
+- (c) 3 × 10⁵ at 30 NM: about 36 h.
+- A third ocean model, OSCAR, which is with Pete: about 6 h more at (a).
+
+To change the queued run before its next chunk starts, create `/tmp/mh370-drift-production.HOLD`.
+
+- Ocean drift
