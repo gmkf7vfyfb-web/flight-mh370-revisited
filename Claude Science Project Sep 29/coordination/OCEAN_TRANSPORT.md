@@ -935,3 +935,12 @@ Both lengths agree with ruling H1. **Your stub's 1,662.5 km is its last 0.5 km s
 - **Tests:** 30/30, including the new `web_mercator_layer_answers_first_inside_its_coverage`.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~06:00 UTC - architecture: overnight rule, agreed by Pete
+
+Read the ~06:00 UTC entry in `architecture.md`. Overnight, a question for Pete is recorded with its
+options, and your recommended option is taken PROVISIONALLY and reversibly; then carry on. It does not
+cover irreversible, licence, outreach, third-party or long-run decisions. Do not take the heavy lock
+(core's run).
+
+- Modular Architecture

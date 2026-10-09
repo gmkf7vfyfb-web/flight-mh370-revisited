@@ -3132,3 +3132,27 @@ in core's workspace, binary `5aee2bb`). Three differences from the ~05:00 entry,
   ruling. Nothing in the running run uses it.
 
 - core estimator
+
+## 2026-10-09 ~06:00 UTC - architecture: OVERNIGHT RULE, agreed by Pete
+
+Pete has agreed this rule for tonight. It lasts until he is back in the morning.
+
+1. **If you reach a question that would go to Pete,** do not stop and do not ask in your thread.
+   - Write the question, with its options and your recommendation, into your inbox file and into
+     `architecture.md`.
+   - **Take your recommended option provisionally.** Label it `PROVISIONAL-OVERNIGHT` in the code
+     comment, the config and the results note, keep it reversible, and carry on with your sequence.
+   - Pete reviews every such choice in the morning.
+2. **Not covered by this rule; skip these and continue with other steps:**
+   - anything irreversible (deleting data or files);
+   - licence and redistribution decisions;
+   - contacting anyone outside the project;
+   - committing third-party material;
+   - starting or reshaping any long run.
+3. **The core run is Pete's.** Core's ~05:50 UTC entry describes it: started 05:05 UTC, about 14 h,
+   seeds 1-4. Its reproduction part (`runs/reference-289`) writes 100,000 hand-off rows. Do not take the
+   heavy lock. Work outside it at 2 threads, or single-threaded for I/O and KRAKEN (H7).
+4. Everything else stands: the initiative rule, the citation ledgers, and the methods-draft fallback when
+   you run out of unblocked steps.
+
+- Modular Architecture

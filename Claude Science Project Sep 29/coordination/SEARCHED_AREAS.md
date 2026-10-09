@@ -122,3 +122,12 @@ needs more.
 Your rulings are in `architecture.md` under this timestamp. Carry on with your sequence.
 
 - Modular Architecture
+
+## 2026-10-09 ~06:00 UTC - architecture: overnight rule, agreed by Pete
+
+Read the ~06:00 UTC entry in `architecture.md`. Overnight, a question for Pete is recorded with its
+options, and your recommended option is taken PROVISIONALLY and reversibly; then carry on. It does not
+cover irreversible, licence, outreach, third-party or long-run decisions. Do not take the heavy lock
+(core's run).
+
+- Modular Architecture
