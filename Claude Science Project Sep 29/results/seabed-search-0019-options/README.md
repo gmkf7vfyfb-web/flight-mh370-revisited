@@ -74,6 +74,30 @@ conservative bound and R1200-under-Holland as the strongest. The honest summary 
 seabed searches remove between a quarter and two thirds of the probability, and that the range is set
 by the 00:19 interpretation rather than by anything in the search record.
 
+## What the labels mean, and which rows are Holland's
+
+Verified against Holland, arXiv:1702.02432v3, and ATSB (2017) — see
+`results/seabed-search-references.md` §5.
+
+- **Option** = which 00:19 observations are scored. `r600` = the 00:19:29Z log-on request BTO and BFO;
+  `r1200` = the 00:19:37Z acknowledge BFO only; `both` = both BFOs plus the R600 BTO. **The R1200 BTO
+  is excluded everywhere** as the anomalous value.
+- **BFO model** = how the 00:19 BFO measurement is interpreted. `startup-offset` **is Holland's
+  Hypothesis 1** — the SDU oscillator warming up after a power interruption, 17–136 Hz high on the
+  log-on request and 17–130 Hz on the acknowledge. `no-offset` **is his Hypothesis 2** — some other
+  log-on cause, so the recorded BFO with noise and no drift. **`inflated` is neither**: it is this
+  project's declared sensitivity, independent zero-mean 34 Hz errors — (136 − 17)/√12, the spread of
+  the *width* of Holland's interval — which keeps his scale but drops his two structural assumptions,
+  that the offset is positive and that it is shared between the bursts.
+- The log-on cause column is the same H1/H2 distinction, so **`startup-offset` × `fuel-exhaustion` and
+  `no-offset` × `other` are Holland's two coherent cases**; the cross terms are combinations he does
+  not put forward, and `both, inflated` is ours rather than his or the ATSB's.
+- **The ATSB did not use the 00:19 BFOs as a position likelihood at all.** They took Holland's
+  descent-rate bounds — 2,900–15,200 ft/min at the arc, 13,800–25,300 eight seconds later (ATSB 2017,
+  p. 101) — which ruled out a controlled glide and set the **±25 NM corridor width** (p. 76), with the
+  position PDF along the arc coming from DST Group's analysis to 00:11 plus a descent kernel. No row
+  in the table above reproduces that use.
+
 ## Two notes on scope
 
 - **Two of the ten 00:19 likelihood columns are not covered.** `impacts.npy` carries
