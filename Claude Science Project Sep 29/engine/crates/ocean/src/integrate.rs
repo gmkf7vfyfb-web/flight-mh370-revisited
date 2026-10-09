@@ -133,11 +133,12 @@ pub struct RunSpec<'a> {
 
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub enum Event {
-    Beached { t: f64, at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64 },
+    /// `snapped_m > 0`: a land-mask stranding moved that far onto the coastline's shore.
+    Beached { t: f64, at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64, snapped_m: f64 },
     Refloated { t: f64, at: LonLat },
     LeftDomain { t: f64, at: LonLat },
     /// A field had no value: `Land` here means stranded in the product's land mask before the
-    /// coastline was reached.
+    /// coastline was reached, and further than the coastline's snap distance from its shore.
     FieldGap { t: f64, at: LonLat, component: Component, gap: FieldGap },
     NonFinitePosition { t: f64 },
     ReleasedOnLand { t: f64, at: LonLat },
@@ -147,7 +148,7 @@ pub enum Event {
 pub enum Snapshot {
     NotReleased,
     Afloat(LonLat),
-    Beached { at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64 },
+    Beached { at: LonLat, segment: SegmentId, line: LineId, chainage_m: f64, snapped_m: f64 },
     /// The trajectory ended for a reason other than beaching; see the events.
     Ended,
     /// After the particle's own `end_time`.
@@ -364,25 +365,30 @@ impl Ctx<'_> {
                     let v2 = self.velocity(r, t + 0.5 * dt, pm, flight)?;
                     Ok(displace(p, v2[0] * dt, v2[1] * dt))
                 })();
-                let mut pn = match step {
-                    Ok(pn) => pn,
-                    Err((component, gap)) => {
-                        events.push(Event::FieldGap { t, at: p, component, gap });
-                        return end(snapshots, Snapshot::Ended, events, Fate::FieldGap);
+                let (pn, hit_at) = match step {
+                    Err((component, gap)) => match (gap, spec.coast.snap(p)) {
+                        (FieldGap::Land, Some(hit)) => (p, Some((hit, t))),
+                        _ => {
+                            events.push(Event::FieldGap { t, at: p, component, gap });
+                            return end(snapshots, Snapshot::Ended, events, Fate::FieldGap);
+                        }
+                    },
+                    Ok(mut pn) => {
+                        let sw = spec.diffusion.walk_sigma_m(dt);
+                        if sw > 0.0 {
+                            pn = displace(pn, sw * g.sample::<f64, _>(StandardNormal), sw * g.sample::<f64, _>(StandardNormal));
+                        }
+                        if !(pn[0].is_finite() && pn[1].is_finite()) {
+                            events.push(Event::NonFinitePosition { t: t + dt });
+                            return end(snapshots, Snapshot::Ended, events, Fate::NonFinite);
+                        }
+                        let hit = spec.coast.first_crossing(p, pn);
+                        (pn, hit.map(|h| (h, t + h.fraction * dt)))
                     }
                 };
-                let sw = spec.diffusion.walk_sigma_m(dt);
-                if sw > 0.0 {
-                    pn = displace(pn, sw * g.sample::<f64, _>(StandardNormal), sw * g.sample::<f64, _>(StandardNormal));
-                }
-                if !(pn[0].is_finite() && pn[1].is_finite()) {
-                    events.push(Event::NonFinitePosition { t: t + dt });
-                    return end(snapshots, Snapshot::Ended, events, Fate::NonFinite);
-                }
-                if let Some(hit) = spec.coast.first_crossing(p, pn) {
-                    let th = t + hit.fraction * dt;
-                    events.push(Event::Beached { t: th, at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m });
-                    let snap = Snapshot::Beached { at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m };
+                if let Some((hit, th)) = hit_at {
+                    events.push(Event::Beached { t: th, at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m, snapped_m: hit.snapped_m });
+                    let snap = Snapshot::Beached { at: hit.point, segment: hit.segment, line: hit.line, chainage_m: hit.chainage_m, snapped_m: hit.snapped_m };
                     match spec.refloat {
                         Refloat::Off => {
                             snapshots.push(snap);

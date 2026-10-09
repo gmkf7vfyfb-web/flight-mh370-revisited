@@ -194,3 +194,15 @@ page is still to be read.
 
 ### Copernicus Marine Toolbox — `copernicusmarine_toolbox`
 - **Software:** `copernicusmarine` 2.5.0, for server-side subsetting of GLORYS12 and WAVERYS.
+
+### GSHHG shoreline database, version 2.3.7 — `wessel1996gshhg`, `gshhg237`
+- **Reference:** Wessel, P. and Smith, W. H. F. (1996). A global, self-consistent, hierarchical,
+  high-resolution shoreline database. *Journal of Geophysical Research: Solid Earth* 101(B4), 8741–8743.
+  doi:10.1029/96JB00104 (verified on Crossref).
+- **Data:** GSHHG 2.3.7 (15 June 2017), binary distribution `gshhg-bin-2.3.7.zip` from the SOEST mirror,
+  full-resolution shorelines `gshhs_f.b`. Licence: GNU LGPL version 3 or later (`LICENSE.TXT` in the
+  distribution). sha256 values are in `ocean-data-manifest.md`.
+- **Supports:** `gshhg::PolygonCoast`, the real coastline. It uses level-1 (ocean/land) polygons, the
+  big-endian header and micro-degree point layout of the distribution's `README.TXT`, and WGS84 geodetic
+  coordinates (README note C, which also says the WDBII-derived lakes may be WGS72 and that offsets from
+  modern GPS positions have been noted).
