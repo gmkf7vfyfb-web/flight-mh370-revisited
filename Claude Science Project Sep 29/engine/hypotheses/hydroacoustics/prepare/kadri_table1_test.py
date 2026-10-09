@@ -128,11 +128,14 @@ def part_b(table, summary_path):
     n = len(pr)
     az_bk, _, d = GEOD.inv(np.full(n, H01W[1]), np.full(n, H01W[0]), pr[:, 1], pr[:, 0])
     d = d / 1000.0; baz = np.mod(az_bk, 360.0)
-    t_imp = T_IMPACT_REF + sct.BASE["mu_t_s"] + sct.BASE["sigma_t_s"] * rng.normal(size=n)
-    t_arr = t_imp + d / C
-    sd_t = np.hypot(PICK_S, d * SD_C / C ** 2)
+    # Impact time is a nuisance: marginalised analytically (as in the composer test), so the information
+    # gain is on POSITION only. (v1 drew one impact time per sample, which put the nuisance into the KL;
+    # corrected 2026-10-09 to match the pre-registered definition. v1 output kept as superseded.)
+    t_arr = T_IMPACT_REF + sct.BASE["mu_t_s"] + d / C
+    sd_t = np.sqrt(PICK_S ** 2 + (d * SD_C / C ** 2) ** 2 + sct.BASE["sigma_t_s"] ** 2)
+    t_arr_draw = t_arr + sct.BASE["sigma_t_s"] * rng.normal(size=n)   # for the reported prediction quantiles only
     q3 = lambda x: [float(v) for v in np.quantile(x, [0.025, 0.5, 0.975])]
-    pred = dict(arrival_utc_q=[str(DAY0 + pd.Timedelta(seconds=v))[11:19] for v in q3(t_arr)],
+    pred = dict(arrival_utc_q=[str(DAY0 + pd.Timedelta(seconds=v))[11:19] for v in q3(t_arr_draw)],
                 backazimuth_deg_q=q3(baz), range_km_q=q3(d))
     t0, t1 = table.t_s.min(), table.t_s.max()
     b0, b1 = table.bearing_deg.min(), table.bearing_deg.max()
