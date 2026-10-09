@@ -8,7 +8,8 @@ radiated as acoustic energy into the water (SE_1m = eta E rho c / 2 pi, physics.
 module's own eta on the one aircraft impact with a published far-field level, through the same engine.
 
 PART 1 (calibration)
-  Source: 40.64 N 142.96 E (Metz, Obana & Fukao 2023, p. 1348 epicentre on the 135 km circle from Misawa;
+  Source: 40.64 N 142.96 E, the module's working point derived from Metz, Obana & Fukao 2023, p. 1348 (the
+     epicentre falls within 8 km of the 135 km range circle from Misawa; 40.54-40.72 N across that band;
      results/hydroacoustics-references.md), 10:26:32 UTC 9 Apr 2019. Kadri's S1 coordinates are not used.
   Paths: shared ocean transport export f35a-H11S, f35a-H11N (merge 61b50a5; GEBCO_2026 + NW Pacific layer,
      WOA23 B5C2 April, soundspeed_nwpac), converted by shared_paths.convert.
