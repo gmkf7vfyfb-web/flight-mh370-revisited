@@ -164,7 +164,8 @@ mod run {
         let ocean = Ocean::load(&o).unwrap();
         let coast = NoCoast;
         // 0.1 deg grid over 87-97 E, 41-31 S: covers the impact samples' reach around the arc.
-        let (lon0, lat0, step, nlon, nlat) = (87.0, -41.0, 0.1, 101usize, 101usize);
+        // 85-103 E, 43-25 S: covers the reference-289 impacts north to 25 S (was 87-97 E, 41-31 S)
+        let (lon0, lat0, step, nlon, nlat) = (85.0, -43.0, 0.1, 181usize, 181usize);
         let mut outs: Vec<f64> = COSMO_PASS_UNIX_S.iter().chain(PLEIADES_UNIX_S.iter()).copied().collect();
         outs.sort_by(|a, b| a.partial_cmp(b).unwrap());
         let mut particles = Vec::with_capacity(nlon * nlat * WINDAGE_N);

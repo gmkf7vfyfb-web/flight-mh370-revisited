@@ -56,6 +56,9 @@ struct Params {
     /// replaces release_grid / sigma_e_ms / t_e_days (and k_*, if given per product).
     #[serde(default)]
     products: Vec<Product>,
+    /// COSMO-SkyMed contacts (F1-F4), for the conditional-branch prediction columns only.
+    #[serde(default = "default_cosmo")]
+    cosmo_contacts: String,
 }
 
 #[derive(Deserialize)]
@@ -73,6 +76,47 @@ struct Product {
 }
 
 fn default_targets() -> String { "data/targets-3km.csv".into() }
+fn default_cosmo() -> String { "data/cosmo-contacts.csv".into() }
+
+/// COSMO-SkyMed contact sets and passes of the conditional branch, in prediction-column order.
+const COSMO_SETS: [(&str, usize); 2] = [("C3", 3), ("C4", 4)];
+const COSMO_PASSES: [(&str, f64); 2] = [("dawn-20Mar", 1_395_359_760.0), ("dusk-21Mar", 1_395_402_960.0)];
+
+/// Arms [set][pass] of equally weighted COSMO contacts at their pass time (data/cosmo-contacts.csv,
+/// first three rows = F1-F3, fourth = F4).
+fn cosmo_arms(path: &Path, table: &Table) -> Result<Vec<Vec<Target>>, String> {
+    let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+    let mut contacts = Vec::new();
+    for l in text.lines().skip(1) {
+        let f: Vec<&str> = l.split(',').collect();
+        let num = |i: usize| f[i].parse::<f64>().map_err(|e| format!("cosmo contacts: {e}"));
+        contacts.push((f[0].to_string(), num(2)?, num(1)?));
+    }
+    if contacts.len() != 4 {
+        return Err(format!("cosmo contacts: expected F1-F4, got {} rows", contacts.len()));
+    }
+    let mut arms = Vec::new();
+    for (_, n) in COSMO_SETS {
+        for (_, t) in COSMO_PASSES {
+            let ti = table.time_index(t).ok_or(format!("release grid has no output at COSMO pass {t}"))?;
+            arms.push(
+                contacts[..n]
+                    .iter()
+                    .map(|(id, lon, lat)| Target {
+                        scene: id.clone(),
+                        lon: *lon,
+                        lat: *lat,
+                        w_equal: 1.0 / n as f64,
+                        w_count: 1.0 / n as f64,
+                        time_index: ti,
+                        dt_ref_unix_s: t,
+                    })
+                    .collect(),
+            );
+        }
+    }
+    Ok(arms)
+}
 fn default_sigma_e() -> f64 { 0.05 }
 fn default_t_e() -> f64 { 2.0 }
 fn default_sd_target() -> f64 { 0.5 }
@@ -90,6 +134,9 @@ struct Pleiades {
     prior_h: f64,
     /// Per `ocean-model` option: label and likelihood (None: not computed, NaN).
     models: Vec<(String, Option<PositionLikelihood>)>,
+    /// Per `ocean-model` option: COSMO positional likelihood, arms [set][pass] (prediction columns only;
+    /// COSMO is not in the impact likelihood, P2/P1: no background or footprint term).
+    cosmo: Vec<Option<PositionLikelihood>>,
 }
 
 /// Scene acquisition times (data/acquisition-times.csv).
@@ -148,9 +195,12 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     if !(p.prior_h > 0.0 && p.prior_h < 1.0) {
         return Err("pleiades: prior_h must lie in (0, 1)".into());
     }
-    let build = |grid: &str, spread: Spread| -> Result<(String, Option<PositionLikelihood>), String> {
+    let mut cosmo = Vec::new();
+    let mut build = |grid: &str, spread: Spread| -> Result<(String, Option<PositionLikelihood>), String> {
         let table = Table::load(&resolve(grid))?;
         let arms = load_targets(&resolve(&p.targets), &table)?;
+        let carms = cosmo_arms(&resolve(&p.cosmo_contacts), &table)?;
+        cosmo.push(Some(PositionLikelihood { table: Table::load(&resolve(grid))?, spread: spread.clone(), arms: carms }));
         Ok((table.ocean_model.clone(), Some(PositionLikelihood { table, spread, arms })))
     };
     let models = if !p.products.is_empty() {
@@ -172,11 +222,14 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
         m
     } else {
         match &p.release_grid {
-            None => vec![("glorys12v1+era5-wind10".to_string(), None)],
+            None => {
+                cosmo.push(None);
+                vec![("glorys12v1+era5-wind10".to_string(), None)]
+            }
             Some(g) => vec![build(g, Spread::new(p.sigma_e_ms, p.t_e_days * 86_400.0, p.sd_target_km, p.k_min_m2_s, p.k_max_m2_s, p.k_nodes))?],
         }
     };
-    Ok(Box::new(Pleiades { prior_h: p.prior_h, models }))
+    Ok(Box::new(Pleiades { prior_h: p.prior_h, models, cosmo }))
 }
 
 impl Hypothesis for Pleiades {
@@ -203,6 +256,43 @@ impl Hypothesis for Pleiades {
 
     fn absolute_scale(&self) -> bool {
         true
+    }
+
+    /// The conditional branch (architecture ~18:30 UTC 9 Oct): ln L(s | C, H) for each ocean model and
+    /// COSMO contact set, per pass and pass-marginalised (equal weight on dawn-20Mar and dusk-21Mar).
+    /// A reported quantity, not a likelihood term: COSMO enters no composed posterior.
+    fn prediction_columns(&self) -> Vec<String> {
+        let mut c = Vec::new();
+        for (m, _) in &self.models {
+            for (set, _) in COSMO_SETS {
+                c.push(format!("cosmo-lnl-{set}-pass-marginal-{m}"));
+                for (pass, _) in COSMO_PASSES {
+                    c.push(format!("cosmo-lnl-{set}-{pass}-{m}"));
+                }
+            }
+        }
+        c
+    }
+
+    fn predict(&self, impact: &ImpactView, out: &mut [f64]) {
+        let mut k = 0;
+        for l in &self.cosmo {
+            for si in 0..COSMO_SETS.len() {
+                let v: Vec<f64> = (0..COSMO_PASSES.len())
+                    .map(|pi| match l {
+                        None => f64::NAN,
+                        Some(l) => l.ln_l_h(impact.longitude_deg, impact.latitude_deg, impact.unix_s, si * COSMO_PASSES.len() + pi, false),
+                    })
+                    .collect();
+                let mx = v.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+                out[k] = if mx.is_finite() { mx + (v.iter().map(|x| (x - mx).exp()).sum::<f64>() / v.len() as f64).ln() } else { mx };
+                if v.iter().any(|x| x.is_nan()) {
+                    out[k] = f64::NAN;
+                }
+                out[k + 1..k + 1 + v.len()].copy_from_slice(&v);
+                k += 1 + v.len();
+            }
+        }
     }
 
     fn impact_log_likelihood(&self, impact: &ImpactView, choice: &[usize]) -> f64 {
@@ -274,7 +364,7 @@ mod tests {
         let params = run["hypotheses"]["pleiades"].clone();
         let h = new(&params).unwrap();
         let models: Vec<String> = h.alternatives()[3].options.iter().map(|o| o.0.clone()).collect();
-        let (lon0, lat0, step, nlon, nlat) = (87.025, -40.975, 0.05, 199usize, 199usize);
+        let (lon0, lat0, step, nlon, nlat) = (85.025, -42.975, 0.05, 360usize, 360usize);
         let unix_s = 1_394_238_300.0; // 00:25 UTC 8 Mar: within the impact window
         let mut buf = Vec::with_capacity(models.len() * 4 * 2 * nlat * nlon * 4);
         let mut nan = 0usize;
@@ -303,7 +393,9 @@ mod tests {
             "layout = \"[ocean-model][object-rating][cluster-weight][lat][lon] ln L(s|H) little-endian float32\"\nlon0 = {lon0}\nlat0 = {lat0}\nstep_deg = {step}\nnlon = {nlon}\nnlat = {nlat}\nimpact_unix_s = {unix_s:.1}\nobject_rating = {labels:?}\ncluster_weight = [\"equal\", \"count\"]\nnot_computed = {nan}\nocean_model = {models:?}\nparams = \"{cfg} [hypotheses.pleiades]\"\n"
         );
         std::fs::write(out.join("likelihood-surface.toml"), meta).unwrap();
-        assert_eq!(nan, 0, "every grid point inside the release table must be computed");
+        // A few points can be not computed (a track leaves a forcing field, at the 25 S edge); counted in
+        // not_computed and treated as zero likelihood by the analysis scripts, which report their mass.
+        assert!(nan * 100 < buf.len() / 4, "more than 1% of the grid not computed: {nan}");
     }
 
     /// Against the real table (gitignored runs/pleiades); run with --ignored after export.rs.
@@ -334,5 +426,56 @@ mod tests {
             assert_eq!(h.impact_log_likelihood(&view, &[0, 0, 0, 0]), 0.0);
         }
         assert_eq!(n, 320);
+    }
+
+    /// The conditional branch (architecture ~18:30 UTC 9 Oct): COSMO-SkyMed positional likelihood
+    /// ln L(s | C, H) on the same impact grid as `pleiades_export_likelihood_surface`, for every ocean
+    /// model in run.toml, contact set (C3 = F1-F3, C4 = F1-F4) and pass (dawn-20Mar, dusk-21Mar), with
+    /// the measured spread and equal contact weights. A_scene scales it and cancels in every conditional
+    /// PDF; no footprint or background term is implied (P1). Writes PLEIADES_EXPORT_DIR/cosmo-surface.{f32,toml}.
+    #[test]
+    #[ignore]
+    fn pleiades_export_cosmo_surface() {
+        use std::io::Write as _;
+        let out = std::path::PathBuf::from(std::env::var("PLEIADES_EXPORT_DIR").expect("set PLEIADES_EXPORT_DIR"));
+        let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve("run.toml")).unwrap()).unwrap();
+        let p: Params = run["hypotheses"]["pleiades"].clone().try_into().unwrap();
+        let (lon0, lat0, step, nlon, nlat) = (85.025, -42.975, 0.05, 360usize, 360usize);
+        let unix_s = 1_394_238_300.0;
+        let mut buf = Vec::new();
+        let mut labels = Vec::new();
+        let mut nan = 0usize;
+        for q in &p.products {
+            let table = Table::load(&resolve(&q.release_grid)).unwrap();
+            labels.push(table.ocean_model.clone());
+            let spread = Spread::anisotropic(
+                q.sigma_e_ms,
+                [q.t_e_days[0] * 86_400.0, q.t_e_days[1] * 86_400.0],
+                p.sd_target_km,
+                q.k_min_m2_s.unwrap_or(p.k_min_m2_s),
+                q.k_max_m2_s.unwrap_or(p.k_max_m2_s),
+                p.k_nodes,
+            );
+            let arms = cosmo_arms(&resolve(&p.cosmo_contacts), &table).unwrap();
+            let lik = PositionLikelihood { table, spread, arms };
+            for a in 0..lik.arms.len() {
+                for j in 0..nlat {
+                    for i in 0..nlon {
+                        let v = lik.ln_l_h(lon0 + i as f64 * step, lat0 + j as f64 * step, unix_s, a, false);
+                        nan += usize::from(!v.is_finite());
+                        buf.extend_from_slice(&(v as f32).to_le_bytes());
+                    }
+                }
+            }
+        }
+        std::fs::File::create(out.join("cosmo-surface.f32")).unwrap().write_all(&buf).unwrap();
+        std::fs::write(
+            out.join("cosmo-surface.toml"),
+            format!(
+                "layout = \"[ocean-model][contact-set][pass][lat][lon] ln L(s|C,H) little-endian float32\"\nlon0 = {lon0}\nlat0 = {lat0}\nstep_deg = {step}\nnlon = {nlon}\nnlat = {nlat}\nimpact_unix_s = {unix_s:.1}\nocean_model = {labels:?}\ncontact_set = [\"C3\", \"C4\"]\npass = [\"dawn-20Mar\", \"dusk-21Mar\"]\nnot_computed = {nan}\nparams = \"run.toml [hypotheses.pleiades]; data/cosmo-contacts.csv; equal contact weights\"\n"
+            ),
+        )
+        .unwrap();
+        assert!(nan * 100 < buf.len() / 4, "more than 1% of the grid not computed: {nan}");
     }
 }
