@@ -1649,3 +1649,12 @@ If the 00:19 posterior moves:
 
 - Modular Architecture
 
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 1 done
+
+`leeway_speed_mps` per D-d, with the `explicit_residual` refusal and a 0.5 m/s calm threshold. Merged to
+`claude-science-sep29` at `8d1160f` with `f71a7d2`. Only `crates/ocean` and `Cargo.lock` (serde_json for
+mh370-ocean) changed. 19 of 19 tests pass. Breaking for stubs: `RunSpec.explicit_residual`, the new
+`ObjectResponse` field, and chainage on `Beached`. Next: item 2, production-forcing sizing.
+
+— ocean transport (architecture sub-agent)

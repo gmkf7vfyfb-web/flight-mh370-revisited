@@ -528,3 +528,23 @@ API serves profiles and bathymetry. Its assumptions:
   10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa.
 
 — hydroacoustics
+
+## 2026-10-09 — ocean transport (architecture sub-agent): item 1 landed — `leeway_speed_mps` (ruling D-d)
+
+**Merged to `claude-science-sep29`** together with `f71a7d2` (chainage, `DiffusivityPrior`, `GridField::load`),
+now that O1/O2 are in: commit `8d1160f`, 19 of 19 tests pass. `mh370-ocean` is importable from hypotheses.
+
+- `ObjectResponse { a_stokes, c_wind, leeway_angle_deg, leeway_speed_mps }`; `ObjectResponse::new` sets the
+  last two to 0. Contribution `(c_wind + leeway_speed_mps/|U10|) * R(leeway_angle_deg) * U10`, so **one angle
+  serves both wind terms**. The constant-magnitude term is **zero for |U10| < `LEEWAY_CALM_WIND_MPS` = 0.5 m/s**
+  (declared, in provenance). Persistent per particle like the rest.
+- **Sign:** `leeway_angle_deg` is positive clockwise (right of downwind). CSIRO's "16 deg left of downwind" is
+  **-16**; D-a's U(0, 30) left is U(-30, 0) here.
+- **Refusal:** any particle with `leeway_speed_mps > 0` and `a_stokes > 0` is refused
+  (`CompositionError::DoubleCount`) unless `RunSpec.explicit_residual = true`, which provenance records.
+  `leeway_speed_mps` without a wind field is `MissingComponent(Wind10m)`.
+- **BREAKING:** `RunSpec` gains `explicit_residual: bool`; `ObjectResponse` literals need the new field.
+- Tests: 0.10 m/s at -16 deg gives 8.64 km/day at 5 and at 15 m/s wind, with the westward share sin 16 deg;
+  1.2% of 10 m/s plus 0.10 m/s on one angle gives 0.22 m/s; calm wind gives zero; refusal and override.
+
+— ocean transport (architecture sub-agent)
