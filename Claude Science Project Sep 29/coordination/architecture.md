@@ -3722,3 +3722,71 @@ about 6 Hz at 150 m). Those bands carry zero energy.
 cause) and 19 NM shorter (fuel-exhaustion). PLEIADES.md and the README are corrected.
 
 — End of Flight
+
+## 2026-10-09 ~10:50 UTC - ocean drift: pilot done (step 3), sizing fixed (step 4), production configured, not run
+
+**Your ~07:00 UTC entry is received.** The measured ocean error is adopted for production. How it
+combines with K is set out below, and GlobCurrent is the second arm.
+
+**Step 3, the pilot (`results/debris-drift-pilot.md`, `0b01eaf`).**
+- **Scale:** 1,709 nodes and 1.7 × 10⁷ trajectories, 7.1 h at 2 threads beside core. It is labelled
+  PROVISIONAL and is not evidence.
+- **Throughput:** 1.72 × 10⁶ particle-steps/s at 2 threads, against a prediction of about
+  1.5 × 10⁶ per thread.
+- **Arrival probabilities:** 7-30× above my predicted range at Réunion, Mauritius-Rodrigues and NE
+  Madagascar. South Africa is below the range for low-exposure parts.
+- **No node resolved at 50 km.** The correlation length is not resolved: noise SD is 3.9-5.9 ln units
+  at 10⁴ particles per node, and the RMS signal is under ~2 units out to ~165 NM.
+- **The scientific prediction is untested,** neither confirmed nor falsified. The note says so.
+
+**Root cause, which matters beyond drift.**
+- Rodrigues is one land cell on the GLORYS12 mask. The shared field reports a land gap only when
+  every stencil corner is land, so **a one-cell island can never strand a particle**.
+- The pilot's Rodrigues term was a structural zero, not rarity.
+- Transport's GSHHG coastline (`4eba004`) fixes this, and production uses it. Any module that reads
+  land-mask stranding as beaching has the same blind spot for small islands. Settling and Pléiades may
+  want to check.
+
+**Step 4, sizing (`results/debris-drift-production-sizing.md`).** It rests on six diagnostics on 16 pilot
+nodes and a 22-node transect at 95.5°E.
+- **Coastline:** the GSHHG coast, as above.
+- **Importance splitting:** Rodrigues within 150 km at ×20; Mossel Bay within 500 km at ×100.
+- **Environment mixture:** a zero environment term enters the mean as zero, and a node is Unresolved
+  only when all are zero (`ec20f78`, tested).
+- **Particles and spacing:** 10⁵ particles per node over 4 environment realisations, at 30 NM spacing
+  (193 nodes), giving a split-half SD of about 0.5 in ln L.
+- **Cost:** about 3 h per ocean model at 12 threads, behind the lock. This is an estimate, and I will
+  announce before starting.
+- **Measured ocean error, per product, without double-counting:** σ_eff² = σ² − K_ref/T with
+  K_ref = 248 m²/s, so the single-particle spread equals the replay's. K becomes a sub-mesoscale prior,
+  log-uniform 100-1,000.
+- **Result:** with these settings, 94% of diagnostic nodes resolved at 50 km with the disc stub, and
+  81% with GSHHG.
+- **What stays unresolved:** the southern nodes, where Mossel Bay is reached by at most a few
+  particles. That is physics, since few particles from south of ~36°S reach South Africa in the
+  window. It is reported per node.
+
+**PROVISIONAL-OVERNIGHT choices (overnight rule; Pete reviews):**
+- the ocean-error length scale, 100 km assumed (asked of transport);
+- the K prior range;
+- the splitting settings;
+- the S6 box trimmed to Pemba (39.45°E).
+
+I also adopted D-f now that it has landed (`d126258`); that is not overnight-provisional. `pilot.toml`
+is kept unchanged as the record of the single-angle run.
+
+**Question for Pete (overnight rule: recommendation taken provisionally).**
+- **Production particle budget.** The options are:
+  - (a) 10⁵ particles per node at 30 NM, about 6 h for both ocean models (recommended, taken);
+  - (b) 10⁵ at 20 NM, 434 nodes, about 13 h;
+  - (c) 3 × 10⁵ at 30 NM, about 18 h, for an SD of about 0.3.
+- (a) meets the half-unit target, and the 5 NM refinement covers the peak.
+
+**Sequence:**
+- Steps 1-5 are done.
+- **Step 6 (production and refinement) is blocked**, waiting on the final impact samples (core phase A)
+  and the lock.
+- Meanwhile: update the methods draft with the pilot and sizing, and close the ledger's MOT 2018 item if
+  a primary copy is on the Drive.
+
+- Ocean drift
