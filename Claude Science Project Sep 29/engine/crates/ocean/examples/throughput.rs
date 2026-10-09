@@ -43,6 +43,7 @@ fn main() {
         seed: 1,
         leeway_absorbs_stokes: false,
         accept_partial_stokes_overlap: false,
+        explicit_residual: false,
         threads,
     };
     let start = Instant::now();

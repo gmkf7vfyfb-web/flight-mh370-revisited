@@ -29,6 +29,7 @@ fn spec<'a>(forcing: Forcing<'a>, coast: &'a dyn Coastline, step_s: f64, output_
         seed: 37_003_801,
         leeway_absorbs_stokes: false,
         accept_partial_stokes_overlap: false,
+        explicit_residual: false,
         threads: 2,
     }
 }
@@ -436,4 +437,57 @@ fn gridded_product_loads_from_manifest() {
     assert!((v[0] - 0.3).abs() < 1e-6 && (v[1] + 0.1).abs() < 1e-6);
     assert_eq!(g.meta().contents.stokes, Inclusion::Excluded);
     std::fs::remove_dir_all(&dir).unwrap();
+}
+
+#[test]
+fn constant_magnitude_leeway_follows_rotated_downwind() {
+    // CSIRO flaperon form: 0.10 m/s, 16 deg left of downwind (angle -16), independent of wind speed.
+    let c = Uniform::current(0.0, 0.0);
+    for wind in [5.0, 15.0] {
+        let w = Uniform::new(Component::Wind10m, 0.0, wind);
+        let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
+        let mut p = particle(92.0, -35.0, 0.0, 0.0);
+        p.response.leeway_speed_mps = 0.10;
+        p.response.leeway_angle_deg = -16.0;
+        let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
+        assert!((distance_m([92.0, -35.0], q) - 0.10 * DAY).abs() < 20.0, "wind {wind}");
+        // Left of a northward wind: westward component sin(16 deg) of the displacement.
+        let east = (q[0] - 92.0).to_radians() * EARTH_RADIUS_M * (35f64).to_radians().cos();
+        assert!((east + 0.10 * DAY * 16f64.to_radians().sin()).abs() < 30.0, "east {east}");
+    }
+    // Both wind terms share the angle: 1.2% of 10 m/s plus 0.10 m/s, at -16 deg, is 0.22 m/s.
+    let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
+    let f = Forcing { current: &c, stokes: None, wind10: Some(&w) };
+    let mut p = particle(92.0, -35.0, 0.0, 0.012);
+    p.response.leeway_speed_mps = 0.10;
+    p.response.leeway_angle_deg = -16.0;
+    let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
+    assert!((distance_m([92.0, -35.0], q) - 0.22 * DAY).abs() < 30.0);
+    // Calm: below the declared threshold the constant-magnitude term is zero.
+    let calm = Uniform::new(Component::Wind10m, 0.0, 0.4 * LEEWAY_CALM_WIND_MPS);
+    let f = Forcing { current: &c, stokes: None, wind10: Some(&calm) };
+    let mut p = particle(92.0, -35.0, 0.0, 0.0);
+    p.response.leeway_speed_mps = 0.10;
+    let q = final_position(&integrate(&spec(f, &NoCoast, 3600.0, vec![T0 + DAY]), &[p]).unwrap().tracks[0]);
+    assert_eq!(q, [92.0, -35.0]);
+}
+
+#[test]
+fn transplanted_response_is_refused_unless_explicit_residual() {
+    let c = Uniform::current(0.0, 0.0);
+    let s = Uniform::new(Component::StokesDrift, 0.05, 0.0);
+    let w = Uniform::new(Component::Wind10m, 0.0, 10.0);
+    let f = Forcing { current: &c, stokes: Some(&s), wind10: Some(&w) };
+    let mut p = particle(92.0, -35.0, 1.0, 0.0);
+    p.response.leeway_speed_mps = 0.10;
+    let mut sp = spec(f, &NoCoast, 3600.0, vec![T0 + DAY]);
+    assert!(matches!(integrate(&sp, &[p]), Err(CompositionError::DoubleCount(_))));
+    sp.explicit_residual = true;
+    let out = integrate(&sp, &[p]).unwrap();
+    assert!(out.provenance.explicit_residual);
+    // Constant-magnitude leeway without a wind field is a missing component.
+    let mut q = particle(92.0, -35.0, 0.0, 0.0);
+    q.response.leeway_speed_mps = 0.1;
+    let r = integrate(&spec(current_only(&c), &NoCoast, 3600.0, vec![T0 + DAY]), &[q]);
+    assert_eq!(r.err(), Some(CompositionError::MissingComponent(Component::Wind10m)));
 }

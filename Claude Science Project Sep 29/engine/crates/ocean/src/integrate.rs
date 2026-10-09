@@ -7,7 +7,8 @@
 //! outside the time axis, non-finite values), each flagged as itself.
 //!
 //! Velocity, never pre-summed by a product:
-//! `v = u_current + a_stokes*u_stokes + c_wind*R(leeway_angle)*U10 + u_ocean_error + u_random_flight`,
+//! `v = u_current + a_stokes*u_stokes + c_wind*R(leeway_angle)*U10
+//!      + leeway_speed*R(leeway_angle)*U10/|U10| + u_ocean_error + u_random_flight`,
 //! then a random-walk displacement after the step if that diffusion model is chosen.
 //! RK2 midpoint on the sphere with a fixed step, shortened to land exactly on output times.
 
@@ -29,13 +30,20 @@ pub struct ObjectResponse {
     /// Leeway coefficient on the 10 m wind.
     pub c_wind: f64,
     /// Deflection of the leeway from downwind, degrees, positive clockwise (to the right of
-    /// downwind). Zero gives the pure downwind leeway of drift's request.
+    /// downwind; CSIRO's "16 deg left of downwind" is -16). One angle for both wind terms.
     pub leeway_angle_deg: f64,
+    /// Constant-magnitude leeway, m/s, along the rotated downwind direction (CSIRO 2017 Part II
+    /// flaperon response; ruling D-d). Zero when |U10| < [`LEEWAY_CALM_WIND_MPS`].
+    pub leeway_speed_mps: f64,
 }
+
+/// Below this 10 m wind speed the downwind direction is undefined and the constant-magnitude
+/// leeway is zero (declared; recorded in provenance).
+pub const LEEWAY_CALM_WIND_MPS: f64 = 0.5;
 
 impl ObjectResponse {
     pub fn new(a_stokes: f64, c_wind: f64) -> Self {
-        ObjectResponse { a_stokes, c_wind, leeway_angle_deg: 0.0 }
+        ObjectResponse { a_stokes, c_wind, leeway_angle_deg: 0.0, leeway_speed_mps: 0.0 }
     }
 }
 
@@ -105,6 +113,10 @@ pub struct RunSpec<'a> {
     pub leeway_absorbs_stokes: bool,
     /// Accept a current whose Stokes content is `Partial` or `Unknown`. Recorded in provenance.
     pub accept_partial_stokes_overlap: bool,
+    /// A constant-magnitude leeway was fitted as a residual on top of explicit Stokes drift, so
+    /// `leeway_speed_mps > 0` with `a_stokes > 0` is allowed. Otherwise that combination is the
+    /// transplanted-system error (drift review E1) and is refused. Recorded in provenance.
+    pub explicit_residual: bool,
     /// Worker threads; 0 lets rayon choose. Results do not depend on it.
     pub threads: usize,
 }
@@ -162,6 +174,8 @@ pub struct Provenance {
     pub refloat: Refloat,
     pub seed: u64,
     pub accept_partial_stokes_overlap: bool,
+    pub explicit_residual: bool,
+    pub leeway_calm_wind_mps: f64,
     pub integrator: &'static str,
 }
 
@@ -195,7 +209,14 @@ fn check(spec: &RunSpec, particles: &[Particle]) -> Result<(), CompositionError>
         return Err(CompositionError::BadSpec("step must be positive and output times non-empty and ascending".into()));
     }
     let uses_stokes = particles.iter().any(|p| p.response.a_stokes != 0.0);
-    let uses_wind = particles.iter().any(|p| p.response.c_wind != 0.0);
+    let uses_wind = particles.iter().any(|p| p.response.c_wind != 0.0 || p.response.leeway_speed_mps != 0.0);
+    if !spec.explicit_residual && particles.iter().any(|p| p.response.leeway_speed_mps > 0.0 && p.response.a_stokes > 0.0) {
+        return Err(CompositionError::DoubleCount(
+            "leeway_speed_mps > 0 with a_stokes > 0: a response measured without explicit Stokes is being \
+             transplanted; set explicit_residual only for a residual fitted on top of explicit Stokes"
+                .into(),
+        ));
+    }
     if uses_stokes && f.stokes.is_none() {
         return Err(CompositionError::MissingComponent(Component::StokesDrift));
     }
@@ -242,11 +263,14 @@ impl Ctx<'_> {
             v[0] += r.a_stokes * s[0];
             v[1] += r.a_stokes * s[1];
         }
-        if r.c_wind != 0.0 {
+        if r.c_wind != 0.0 || r.leeway_speed_mps != 0.0 {
             let w = get(f.wind10.expect("checked"), Component::Wind10m)?;
             let (sn, cs) = r.leeway_angle_deg.to_radians().sin_cos();
-            v[0] += r.c_wind * (w[0] * cs + w[1] * sn);
-            v[1] += r.c_wind * (-w[0] * sn + w[1] * cs);
+            let rot = [w[0] * cs + w[1] * sn, -w[0] * sn + w[1] * cs];
+            let speed = w[0].hypot(w[1]);
+            let k = r.c_wind + if speed >= LEEWAY_CALM_WIND_MPS { r.leeway_speed_mps / speed } else { 0.0 };
+            v[0] += k * rot[0];
+            v[1] += k * rot[1];
         }
         let e = self.error.velocity(t, p, 0.0);
         Ok([v[0] + e[0] + flight[0], v[1] + e[1] + flight[1]])
@@ -395,6 +419,8 @@ pub fn integrate(spec: &RunSpec, particles: &[Particle]) -> Result<RunOutput, Co
             refloat: spec.refloat,
             seed: spec.seed,
             accept_partial_stokes_overlap: spec.accept_partial_stokes_overlap,
+            explicit_residual: spec.explicit_residual,
+            leeway_calm_wind_mps: LEEWAY_CALM_WIND_MPS,
             integrator: "RK2 midpoint on the sphere, fixed step shortened to output times",
         },
     })
