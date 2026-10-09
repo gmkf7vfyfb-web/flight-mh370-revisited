@@ -767,7 +767,11 @@ mod tests {
             let t_k = atmos::isa_temperature_k(alt);
             let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(alt), st.tas_mps / atmos::sound_speed_mps(t_k));
             let c_l0 = st.mass_kg * atmos::G0 / (q * it.aero.wing_area_m2);
-            for bank in [0.0, 2.0, 5.0, 8.0, 12.0, 15.0, 20.0, 25.0, 30.0, 35.0] {
+            for (bank, doubling) in [0.0, 2.0, 5.0, 8.0, 12.0, 15.0, 20.0, 25.0, 30.0, 35.0]
+                .iter()
+                .map(|b| (*b, None))
+                .chain([2.0, 10.0, 20.0].iter().flat_map(|b| [60.0, 85.0, 120.0].iter().map(move |d| (*b, Some(*d)))))
+            {
                 for dcl in [-0.08, 0.0, 0.08] {
                     let start = body(alt, 240.0, 0.0);
                     let mut rows = String::from("time_s,lat_deg,lon_deg,alt_ft,heading_rad\n");
@@ -777,7 +781,16 @@ mod tests {
                         start,
                         &atmos::Standard,
                         None,
-                        &mut |_, _| (Command::FixedTrim { c_l, bank_rad: f64::to_radians(bank) }, cfg, 0.0),
+                        // The divergent law of profile.rs `Flying::free_bank` (floor 1 deg, cap 60 deg), restated
+                        // here because the fixture drives the integrator directly.
+                        &mut |b, _| {
+                            let t = b.unix_s - start.unix_s;
+                            let deg = match doubling {
+                                None => bank,
+                                Some(t2) => (f64::max(bank, 1.0) * 2f64.powf(t / t2)).min(60.0),
+                            };
+                            (Command::FixedTrim { c_l, bank_rad: deg.to_radians() }, cfg, 0.0)
+                        },
                         &mut |b, _| {
                             if b.unix_s >= next {
                                 rows.push_str(&format!("{},{},{},{},{}\n", b.unix_s - start.unix_s, b.latitude_deg, b.longitude_deg, b.pressure_altitude_ft, b.heading_rad));
@@ -786,7 +799,10 @@ mod tests {
                         },
                     );
                     rows.push_str(&format!("{},{},{},{},{}\n", trace.impact.unix_s - start.unix_s, trace.impact.latitude_deg, trace.impact.longitude_deg, 0.0, trace.impact.heading_rad));
-                    let name = format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}.csv");
+                    let name = match doubling {
+                        None => format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}.csv"),
+                        Some(t2) => format!("{dir}/free-alt{alt:.0}-bank{bank:.0}-dcl{dcl:+.2}-div{t2:.0}.csv"),
+                    };
                     std::fs::write(&name, rows).expect("write trace");
                 }
             }
