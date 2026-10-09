@@ -98,7 +98,36 @@ probability of 0.1 on fully searched ground and apply it as a per-sample reweigh
 posterior. Our `P(no detection | W) = ρ + (1 − ρ)·Π_k [1 − c_k q_k]` reduces to exactly that for a
 point target, one campaign, `c = 1`, `q = 0.9`, `ρ = 0`.
 
-## 4. What this settles for the searched-areas module
+## 4. ATSB (2017), *The Operational Search for MH370*
+
+ATSB Transport Safety Report, External Aviation Investigation **AE-2014-054**, Final, 3 October 2017.
+**Verified 9 October 2026** against the copy on the project Google Drive
+(`operational-search-for-mh370_final_3oct2017.pdf`, 41,685,870 bytes), under architecture ruling S4
+after `www.atsb.gov.au` did not respond. Printed pages are read from the running headers, which the
+report prints as `› N ‹`.
+
+| ref | claim | printed page | status |
+|---|---|---|---|
+| A-1 | The high-resolution sonar search "covered an area in excess of 120,000 square kilometres" | executive summary (unnumbered front matter, PDF p. 3) | **verified** |
+| A-2 | Planning used "+25 NM and −25 NM from 7th arc across entire search area"; the completed underwater search area is "≈ 120,000 km²" | 76 | **verified** |
+| A-3 | The outermost ("Purple") area runs "Outside 27.5 NM to 36 NM to the northwest and 25 NM to 41 NM to the southeast of the 7th arc", and is mainly deep-tow side-scan | 95 | **verified** |
+| A-4 | **Figure 73**, "Coverage statistics and associated confidence of detection, using 100 m x 100 m data gap metric" | 96 | **verified that the figure is there** |
+| A-5 | "'High Confidence Coverage' means a >95 per cent confidence of detection; 'Lower Confidence Coverage' means on average a 70 per cent confidence of detection" | 96 | **verified** |
+| A-6 | A debris field at these depths "would be at least 100 m x 100 m and very likely to be greater than 200 m x 200 m" | 83 | **verified, and the module cited the wrong page** |
+| A-7 | Testing showed "a 200 m by 200 m low lying debris field could be detected in the SSS data at an altitude of up to 200 m with a high degree of confidence", which is how long thin nadir data gaps were discounted | 89 | **verified** |
+| A-8 | The per-area coverage percentages behind `q` — 97.4% rated >95%, 2.1% at 70% on average, 0.5% gaps at 0% | 96, inside Figure 73 | **NOT verified** |
+
+**A-8 is the one that matters and it cannot be verified from the text.** Those three percentages are
+drawn inside Figure 73, which is an image; the text extraction carries the figure's title and the
+definitions of its categories (A-4, A-5) but not its numbers. The module's `q = 0.945` is derived
+from them, so `q` stays flagged as inherited until someone reads the figure itself.
+
+**A-6 corrects the module.** The module header attributed the debris-field size statement to p. 96;
+it is on **p. 83**, and p. 89 carries the separate and more useful statement about what the sonar was
+shown to detect. The two are different claims — how big a field is, and how big a field the sensor
+could see — and the module's own detectable-target definition depends on keeping them apart.
+
+## 5. What this settles for the searched-areas module
 
 1. **The method is not new, and the paper must not say it is.** Stone et al. applied search-conditioned
    Bayesian updating to AF447 and found the wreck (S-1 to S-7); Davey set out the same update for MH370

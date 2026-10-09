@@ -9,8 +9,11 @@
 //!   data. It is read from a 0.01 deg raster (`coverage/*.cov`, built by
 //!   `prepare/build_coverage.py`) by bilinear interpolation between cell centres, so it is
 //!   the covered fraction within about 1 km of y. That scale belongs to the data model,
-//!   not to the sampler: a debris field is an extended target ("aircraft debris fields
-//!   typically cover areas larger than 200 m by 200 m", ATSB 2017, p. 96), and averaging
+//!   not to the sampler: a debris field is an extended target (at these depths one "would be at
+//!   least 100 m x 100 m and very likely to be greater than 200 m x 200 m", ATSB 2017, printed
+//!   p. 83; a 200 m by 200 m low-lying field was shown detectable in the side-scan data at towfish
+//!   altitudes under 200 m, p. 89 - verified 9 Oct 2026, see results/seabed-search-references.md),
+//!   and averaging
 //!   at 1 km conserves the uncovered area while the posterior varies over tens of km.
 //!   Outside a raster c_k = 0: nobody searched there.
 //! - q_k: the probability that data over the wreck would have led to it being found.
