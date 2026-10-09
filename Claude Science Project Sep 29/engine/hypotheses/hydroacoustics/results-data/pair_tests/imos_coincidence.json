@@ -1,0 +1,84 @@
+{
+ "meta": {
+  "dt_span_s": [
+   1332.8449307432768,
+   1622.0365929055226
+  ],
+  "dt_prior_q": [
+   1362.8449307432768,
+   1406.4644884084069,
+   1592.0365929055226
+  ],
+  "windows_s": {
+   "3250": [
+    2909.178151,
+    4754.039758
+   ],
+   "3274": [
+    3831.653485,
+    5098.565697
+   ],
+   "3275": [
+    3830.425824,
+    5097.215623
+   ],
+   "3315": [
+    2234.030998,
+    3704.877968
+   ],
+   "3376": [
+    2234.452753,
+    3706.311272
+   ]
+  },
+  "n_null": 98,
+  "descriptive_mh370_events": {
+   "3376": {
+    "loose": 0,
+    "strict": 0,
+    "covered_s": 450.49084466666636
+   },
+   "3274": {
+    "loose": 0,
+    "strict": 0,
+    "covered_s": 350.4824616666665
+   },
+   "3315": {
+    "loose": 0,
+    "strict": 0,
+    "covered_s": 372.49872333333315
+   },
+   "3275": {
+    "loose": 2,
+    "strict": 0,
+    "covered_s": 550.0523333333331
+   }
+  },
+  "prior": "no-exhaustion-prior stand-in (synthetic_composer_test)",
+  "agw": "NOT ASSESSABLE on IMOS (8 Hz high-pass)"
+ },
+ "results": {
+  "loose": {
+   "alpha": 0.05,
+   "n_pairs": 0,
+   "n_events_3376": 0,
+   "n_events_3274": 0,
+   "null_mean": 0.05102040816326531,
+   "null_q95": 0.0,
+   "null_max": 2,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  },
+  "strict": {
+   "alpha": 0.005,
+   "n_pairs": 0,
+   "n_events_3376": 0,
+   "n_events_3274": 0,
+   "null_mean": 0.0,
+   "null_q95": 0.0,
+   "null_max": 0,
+   "p": 1.0,
+   "reading": "consistent with chance"
+  }
+ }
+}

@@ -1,0 +1,59 @@
+{
+ "meta": {
+  "dt_span_s": [
+   855.931070003758,
+   1346.5021262693213
+  ],
+  "dt_prior_q": [
+   885.931070003758,
+   1011.2976887020404,
+   1316.5021262693213
+  ],
+  "h01w_bearing_gate_deg": [
+   246.0292583572936,
+   284.2513029849235
+  ],
+  "n_table1_gated": 7,
+  "h08s_usable_s": 1156.0000000042055,
+  "prior": "no-exhaustion-prior stand-in (synthetic_composer_test)",
+  "agw": "NOT ASSESSABLE: traces high-passed at 5 Hz by Kadri"
+ },
+ "results": {
+  "strict_x_strict": {
+   "n_h01w": 1,
+   "n_h08s": 84,
+   "n_pairs": 38,
+   "null_mean": 34.04761904761905,
+   "null_q95": 47.0,
+   "p": 0.36764705882352944,
+   "reading": "consistent with chance"
+  },
+  "loose_x_loose": {
+   "n_h01w": 21,
+   "n_h08s": 104,
+   "n_pairs": 489,
+   "null_mean": 464.1593073593074,
+   "null_q95": 491.0,
+   "p": 0.10813148788927336,
+   "reading": "consistent with chance"
+  },
+  "table1_gated_x_strict": {
+   "n_h01w": 7,
+   "n_h08s": 84,
+   "n_pairs": 159,
+   "null_mean": 136.46233766233766,
+   "null_q95": 163.0,
+   "p": 0.11418685121107267,
+   "reading": "consistent with chance"
+  },
+  "table1_gated_x_loose": {
+   "n_h01w": 7,
+   "n_h08s": 104,
+   "n_pairs": 186,
+   "null_mean": 168.93246753246754,
+   "null_q95": 186.0,
+   "p": 0.05190311418685121,
+   "reading": "consistent with chance"
+  }
+ }
+}
