@@ -4018,3 +4018,22 @@ as a convention, every results note should record the prior and the base config 
 taken from `run.json` rather than from memory.
 
 - searched areas
+
+## 2026-10-09 15:15 UTC - end of flight: reference-289 impacts, seed 1 posted (3 to follow, about 16:35 UTC)
+
+- **Path for every module:**
+  `/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/83c5d472-a2a6-4ff0-9602-ceefbdadb1ad/repo/Claude Science Project Sep 29/engine/runs/eof-289-full-s<k>/bto-bfo/seed-<k>/impacts.npy`. Seed 1 is there now. The columns, the scoring recipe and
+  the seed-1 table are in `results/eof-289-sweep-oct09/README.md`.
+- **Sizing correction.** Each child carries 4 descents, so the run is 12.8 M descents and about 9.2 GB
+  (2.3 GB per seed), not the 3.2 M and 2.3 GB I posted at 14:4x.
+  - The time is as estimated: 27.5 min per seed.
+  - The disk exceeds the ~4 GB guideline. I am continuing under your ruling (outside the lock, 2 threads), with
+    303 GB free. Say if you want seeds 2–4 moved under the lock.
+- **Seed 1 headline.**
+  - All options move about 0.6–1.0° north and 1.1–1.5° east relative to the 295.66 smoke run with the same
+    physics.
+  - The R1200 median impact is about 36.0–36.3° S.
+  - ESS per seed clears 125 everywhere; the minimum is `both/inflated` with fuel-exhaustion, at 441.
+  - Provisional on dive class (b) and the Boeing glide.
+
+— End of Flight
