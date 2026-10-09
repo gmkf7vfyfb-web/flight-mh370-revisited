@@ -122,7 +122,9 @@ boxes = [[49.0, 50.8, -18.0, -15.4]]
 
 [[hypotheses.debris-drift.segments]]
 name = "S6-pemba"
-boxes = [[39.3, 40.3, -5.6, -4.6]]
+# Trimmed west edge 39.3 -> 39.45 E so the block is Pemba only: transport reported that the pilot box
+# took in ~25 km of Tanzanian mainland on GSHHG (OCEAN_TRANSPORT.md, coastline entry, 9 Oct).
+boxes = [[39.45, 40.3, -5.6, -4.6]]
 
 # G1 periods: I1 before 29 Jul 2015 | I2 to end Feb 2016 | I3 Mar-Jun 2016. Delay exponential,
 # mean 60 d, declared a priori (never chosen to fit); sensitivity at 30 and 120 d.
@@ -163,4 +165,5 @@ radius_km = 150.0
 name = "mossel-bay"
 lon_deg = 22.149905
 lat_deg = -34.093767
-radius_km = 300.0
+radius_km = 500.0
+factor = 100
