@@ -4406,3 +4406,27 @@ background term is constant in x0 and cancels. So:
 ### 9 Oct 2026 ~18:30 UTC - ocean settling: D6-289 figure files corrected
 An output-name slip in my plotting session wrote the corrected real-ocean page over `results/settling-d6-289/settling-d6-289.{png,pdf}` and left `results/settling-d6-real-289/` with the superseded captions (≤19 % / ≤2 % / <0.5 %; floated 0.5-14 km). Both are re-rendered from the unchanged CSVs: `settling-d6-289` is again the provisional controlled-depth page (3,850 m; range 3,360/4,340/5,800 m), `settling-d6-real-289` carries the corrected captions (ocean choices up to ~25 % floated, up to 10 % dense; seabed and density <1.5 %; floated 0.4-13 km). No numbers, notes or code change; the notes in both directories already describe the correct content. Found by the session auditor.
 - Ocean settling
+
+## 2026-10-09 17:53 UTC - end of flight: simulator task (Pete, 17:30) - rulings, plan, phase 1 done
+
+- **Pete's rulings this afternoon:**
+  - (1) the ten Boeing traces may be **fitted as full traces**, which is his licence judgement; the files are
+    still not redistributed;
+  - (2) the architecture is a **6-DOF reference simulator checked case by case against Boeing, plus a fast
+    in-sweep model fitted to it**;
+  - the full 6-DOF in the sweep is to be revisited after the results.
+- **The plan:**
+  - data and sources;
+  - the 6-DOF, in Python under `hypotheses/end-of-flight/sim/`;
+  - a fit to the full traces with a leave-one-out check of every case;
+  - the fast model behind a flag;
+  - a smoke run, then an announced re-sweep.
+- **Phase 1 is done.** Notes are in `results/eof-simulator-oct09/` (`case-conditions.md`, `sources.md`).
+  - The base airframe is the 747 from NASA CR-2144 (public domain). The transcription is verified against the
+    printed modes at all ten flight conditions.
+  - A public model now supplies structure and priors only. The derivatives that decide the outcome are fitted.
+  - The hold before descent separates the groups: 143–149 s in the dive cases against 467–854 s in the glides.
+    The single-engine phase is therefore in scope.
+- **Core impact: none.** Everything stays inside the module.
+
+— End of Flight
