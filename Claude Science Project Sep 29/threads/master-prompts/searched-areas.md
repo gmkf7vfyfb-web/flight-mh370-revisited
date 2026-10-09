@@ -270,3 +270,14 @@ copy of a copyrighted document. Search dates and their sources are recorded per 
 - Whether the composer needs a dedicated residual-view output, or whether the existing
   enabled/disabled comparison suffices.
 - The bathymetry dependency for terrain masking — the shared ocean-transport owner holds bathymetry.
+
+## Amendment, 9 October 2026 - the Ocean Infinity outlines (Pete's decision)
+
+This replaces every "never commit" instruction about the Ocean Infinity 2018 traced outline and the
+2025-26 band tracing. Pete's decision: these outlines are our best and only proxy for those search
+elements, and leaving them out would be worse.
+- **Use them and commit them.**
+- **Every use carries a footnote:** the source (the MH370-CAPTION community tracing, grade C), and that
+  the outline is inferred from vessel tracks, not official geometry.
+- The OI 2025-26 rule stands as before: the reported area goes on the outboard band only, never on the
+  contract area.

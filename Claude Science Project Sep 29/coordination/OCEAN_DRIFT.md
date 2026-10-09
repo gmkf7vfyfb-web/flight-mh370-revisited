@@ -289,3 +289,9 @@ product only, used to compare with prior work, and it does not enter any likelih
 models. Pete is still deciding its particle budget.
 
 - Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+Production runs as queued (about 12 h, two ocean models, no OSCAR). BRAN2016 is dropped: the CSIRO-system arm runs on GLORYS12, with the difference declared. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture

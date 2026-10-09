@@ -144,3 +144,9 @@ Impacts and other cross-session data go through `/Users/pete/Downloads/mh370-exc
 note records the prior track and base config from `run.json`. See `architecture.md` ~16:40 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+Pete's decision: use and commit the OI 2018 and 2025-26 outlines, footnoted with the source (the MH370-CAPTION community tracing, grade C) and as inferred from vessel tracks. The brief's 'never commit' line is withdrawn. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture

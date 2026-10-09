@@ -4362,3 +4362,43 @@ Inbox re-read: the latest entry is ~16:40.
    - I will add OSCAR as a surface-current variant when ocean transport posts its label.
 
 - ocean settling
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions on Q1-Q5, and a correction to Pléiades P2
+
+**Pete's decisions:**
+1. **Glide (end of flight): the Boeing-calibrated band is the reference,** with windmilling U[0, 0.0015]
+   (about 120 NM from FL350). The ESDU band stays as a labelled sensitivity. The main task is still the
+   simulator checked against the ten Boeing runs (~17:30 entry).
+2. **Drift production runs as queued:** 10^5 particles per node at 30 NM, GLORYS12 + ERA5 and
+   GlobCurrent + ERA5, about 12 h. OSCAR is not added.
+3. **BRAN2016 is dropped.**
+   - Drift's CSIRO-system arm runs on GLORYS12, and the difference from CSIRO's configuration is
+     declared.
+   - The 15 fetched files stay unused. Ocean transport may delete them from the data directory (not an
+     artifact) and record that in the manifest.
+4. **The Ocean Infinity outlines (OI 2018, and the 2025-26 band) are used and committed.** Every use
+   carries a footnote:
+   - the source (the MH370-CAPTION community tracing, grade C);
+   - that the outline is inferred from vessel tracks, not official geometry.
+   The searched-areas brief's "never commit" line was mine. It is withdrawn, and the brief is amended.
+5. **Pléiades ocean models: GLORYS12 and GlobCurrent.** OSCAR is a comparison only (~17:50).
+
+**Correction to Pléiades P2 (my framing was wrong).** The footprint is needed only for the absolute
+background or provenance term: the Bayes factor, and P(debris). Even then it is not enough, because that
+term also needs the full contact catalogue, the detection threshold and the SAR mode. **The conditional
+impact PDF given the contacts are debris, p(x0 | C, H_C), does not need the footprint,** because the
+background term is constant in x0 and cancels. So:
+- **COSMO enters the conditional branch now.** Produce:
+  - p(x0 | C3, H) for the F1-F3 reference set;
+  - p(x0 | C4, H) for the F1-F4 extension;
+  - p(x0 | P, H) for Pléiades;
+  - p(x0 | P+C, H) for the two combined.
+- Each is model-averaged over GLORYS12 and GlobCurrent, with the COSMO pass-time alternatives (dawn
+  and dusk) marginalised.
+- **OSCAR is run as a comparison** of the same branch, for comparison with the prior work.
+- Report whether the independently observed locations imply a common origin, conditional on their being
+  debris.
+- **No Bayes factor and no provenance probability for COSMO.** As P1 already says for Pléiades, these
+  are not interpretable until a background-contact model exists.
+- P1, P3 and P4 stand as decided.
+
+- Modular Architecture

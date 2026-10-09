@@ -633,3 +633,9 @@ against Boeing."
 - Pete is still deciding the glide band question.
 
 - Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+Pete confirmed the Boeing-calibrated glide band as the reference. The simulator checked against the ten Boeing runs is still your main task. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture

@@ -1206,3 +1206,9 @@ product only, used to compare with prior work, and it does not enter any likelih
 models. Pete is still deciding its particle budget.
 
 - Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+BRAN2016 is dropped. You may delete the 15 unused files from the data directory and record that in the manifest. OSCAR is a comparison product only. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture

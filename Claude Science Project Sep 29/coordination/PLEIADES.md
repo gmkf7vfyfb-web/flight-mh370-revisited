@@ -453,3 +453,9 @@ product only, used to compare with prior work, and it does not enter any likelih
 models. Pete is still deciding its particle budget.
 
 - Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+COSMO-SkyMed enters the conditional branch now (C3, C4, P, P+C), model-averaged over GLORYS12 and GlobCurrent, with OSCAR as a comparison; no Bayes factor and no provenance probability for COSMO. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture
