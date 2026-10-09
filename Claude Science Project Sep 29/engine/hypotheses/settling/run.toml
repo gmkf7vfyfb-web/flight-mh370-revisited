@@ -1,44 +1,55 @@
 # Settling is a transform, not evidence: it adds no likelihood, so a run with it selected is
-# the base estimate unchanged. Its outputs are wreckage samples (core request 12, the runner stage
-# that stores them, is not built) and the moment diagnostic via `mh370 evaluate`.
+# the base estimate unchanged. Its outputs are wreckage draws, streamed to their consumer (core
+# request 12, ruled 9 Oct; stream.rs is the stub of the hook) and the moment diagnostic via
+# `mh370 evaluate`.
 base = "../../config/integrated.toml"
 name = "settling"
 
 [hypotheses.settling]
 moment_draws = 256
 step_m = 50.0
-terms = ["carry", "float", "current", "glide", "ocean-error"]
+terms = ["carry", "float", "current", "glide", "ocean-error", "diffusion"]
 # Below the ocean model's own bottom: hold-deepest-level | linear-to-zero-at-seabed | refuse
 # (the shared crate's three rules). Never a silent zero.
 below_model_bottom = "hold-deepest-level"
+# Float phase through the shared integrator. Step 10 min; outputs land exactly on each element's
+# float-end time. a_stokes 0: floating wreckage moves with the current plus leeway x wind only, a
+# DECLARED first-pass choice pending drift's object-response result (Stokes dominated drift's
+# sensitivity). Diffusivity absent: the shared provisional prior, one K per draw.
+float_step_s = 600.0
+float_a_stokes = 0.0
+
+# Ocean-product error, realised ONCE per wreckage draw and shared by the float and sink phases.
+# Uniform offset of 0.10 m/s per component at the surface decaying to 0.02 m/s at depth
+# (e-folding 500 m): the first pass's banded values, in the shared crate's form. PROVISIONAL
+# magnitudes; the error model's form is the shared owner's open question (brief section 8).
+[hypotheses.settling.ocean_error]
+kind = "uniform-offset"
+sigma_m_s = 0.10
+efold_m = 500.0
+deep_ratio = 0.2
 
 # ---------------------------------------------------------------------------------------------
-# PROVISIONAL OCEAN STUB. NOT AN OCEAN PRODUCT AND NOT A MEASUREMENT OF THE REGION.
-# Closed-form two-layer currents over a planar seabed, so settling can be built and tested before
-# crates/ocean lands. Magnitudes are sensitivity-scale values of the kind the brief's section 6
-# argument uses, chosen to exercise the code, and every result through them is provisional.
-# Delete this table when the shared ocean-transport API arrives.
+# PROVISIONAL INPUTS the shared crate does not serve yet (provisional.rs). NOT an ocean product
+# and NOT a measurement of the region: a closed-form two-layer column and uniform surface fields of
+# sensitivity-scale magnitude, a planar seabed, and density linear in depth. Each is deleted when
+# the shared owner serves a product column, bathymetry (deliverable 7) and TEOS-10 (deliverable 8).
 # ---------------------------------------------------------------------------------------------
-[hypotheses.settling.provisional_ocean_stub]
-label = "PROVISIONAL analytic stub v0 - not an ocean product"
-reference_latitude_deg = -35.0
-reference_longitude_deg = 92.0
-seabed_depth_m = 4000.0
-seabed_slope_deg = 0.0
-seabed_slope_azimuth_deg = 0.0
+[hypotheses.settling.provisional]
+label = "PROVISIONAL analytic column v1 on mh370-ocean - not an ocean product"
 surface_current_mps = [0.10, 0.00]
 wind_mps = [5.0, 0.0]
+stokes_mps = [0.05, 0.0]
 upper_current_mps = [0.05, 0.02]
 deep_current_mps = [0.02, 0.01]
 layer_depth_m = 1000.0
+level_spacing_m = 50.0
 model_bottom_m = 5500.0
-surface_density_kg_m3 = 1025.0
-density_gradient_kg_m3_per_km = 5.0
 
-[hypotheses.settling.provisional_ocean_stub.error]
-surface_mps = 0.10
-upper_mps = 0.05
-upper_depth_m = 1000.0
-deep_mps = 0.02
-near_bottom_mps = 0.03
-near_bottom_m = 200.0
+[hypotheses.settling.provisional.seabed]
+reference = [92.0, -35.0]
+depth_m = 4000.0
+
+[hypotheses.settling.provisional.density]
+surface_kg_m3 = 1025.0
+gradient_kg_m3_per_km = 5.0

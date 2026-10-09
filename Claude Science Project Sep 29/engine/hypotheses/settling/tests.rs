@@ -1,29 +1,61 @@
 //! Brief section 11: a hand-computed terminal velocity; the limiting case (no current, no glide:
 //! directly below); closed-form checks (uniform current at constant sink speed, a two-layer
-//! current, a sloping seabed); one synthetic-recovery coverage test; plus the weighting, mass,
-//! coherence and determinism fixtures that the sample contract depends on.
+//! current, a sloping seabed, the float phase through the shared integrator); one
+//! synthetic-recovery coverage test; plus the weighting, mass, coherence and determinism fixtures
+//! the sample contract depends on. Since 9 Oct every ocean quantity comes through `ocean`
+//! (mh370-ocean) types; provisional.rs supplies only the column, seabed and density.
 
 use super::*;
+use ocean::analytic::UniformColumn;
 use physics::{terminal_speed, Range, GRAVITY};
+use provisional::{DensityStub, PlanarSeabed};
 
-fn stub() -> AnalyticStub {
-    AnalyticStub {
-        label: "test stub".into(),
-        reference_latitude_deg: -35.0,
-        reference_longitude_deg: 92.0,
-        seabed_depth_m: 4000.0,
-        seabed_slope_deg: 0.0,
-        seabed_slope_azimuth_deg: 0.0,
-        surface_current_mps: [0.0; 2],
-        wind_mps: [0.0; 2],
-        upper_current_mps: [0.0; 2],
-        deep_current_mps: [0.0; 2],
-        layer_depth_m: 1000.0,
-        model_bottom_m: 7000.0,
-        surface_density_kg_m3: 1025.0,
-        density_gradient_kg_m3_per_km: 0.0,
-        error: ErrorModel { surface_mps: 0.0, upper_mps: 0.0, upper_depth_m: 1000.0, deep_mps: 0.0, near_bottom_mps: 0.0, near_bottom_m: 0.0 },
+/// A test ocean: still water at every depth, 4 km flat seabed, uniform density, no error.
+#[derive(Clone)]
+struct TestOcean {
+    spec: ProvisionalSpec,
+    error: OceanErrorModel,
+}
+
+impl TestOcean {
+    fn ocean(&self) -> Ocean {
+        Ocean::provisional(&self.spec, self.error).unwrap()
     }
+}
+
+fn stub() -> TestOcean {
+    TestOcean {
+        spec: ProvisionalSpec {
+            label: "test".into(),
+            surface_current_mps: [0.0; 2],
+            wind_mps: [0.0; 2],
+            stokes_mps: [0.0; 2],
+            upper_current_mps: [0.0; 2],
+            deep_current_mps: [0.0; 2],
+            layer_depth_m: 1000.0,
+            level_spacing_m: 50.0,
+            model_bottom_m: 7000.0,
+            seabed: PlanarSeabed { reference: [92.0, -35.0], depth_m: 4000.0, slope_deg: 0.0, slope_azimuth_deg: 0.0 },
+            density: DensityStub { surface_kg_m3: 1025.0, gradient_kg_m3_per_km: 0.0 },
+        },
+        error: OceanErrorModel::none(),
+    }
+}
+
+/// A test ocean with everything moving, for the weighting and determinism fixtures.
+fn busy() -> TestOcean {
+    let mut o = stub();
+    o.spec.surface_current_mps = [0.1, 0.02];
+    o.spec.wind_mps = [6.0, -2.0];
+    o.spec.upper_current_mps = [0.05, 0.02];
+    o.spec.deep_current_mps = [0.02, 0.01];
+    o.error = OceanErrorModel::uniform_offset(0.05);
+    o
+}
+
+/// Float phase with no diffusion: closed-form fixtures stay deterministic.
+fn still_float() -> FloatPhase {
+    FloatPhase { step_s: 600.0, a_stokes: 0.0, diffusivity_m2_s: Some(0.0) }
 }
 
 fn impact(parent: usize, vd: f64, vh: f64) -> ImpactView<'static> {
@@ -77,9 +109,26 @@ fn one_sinker(glide_ratio: f64, glide_memory_m: f64) -> Breakup {
     b
 }
 
-fn settling(b: Breakup, ocean: AnalyticStub, terms: &[&str]) -> Settling {
+/// As `one_sinker`, but every element floats for exactly `float_s` with leeway `leeway` first.
+fn one_floater(float_s: f64, leeway: f64) -> Breakup {
+    let mut b = one_sinker(0.0, 1.0);
+    for row in b.elements.iter_mut() {
+        for e in row.iter_mut() {
+            e.sinks_at_once = 0.0;
+            e.float_s = fixed(float_s);
+            e.leeway = fixed(leeway);
+        }
+    }
+    b
+}
+
+fn settling_f(b: Breakup, o: TestOcean, terms: &[&str], float: FloatPhase) -> Settling {
     let terms: Vec<String> = terms.iter().map(|s| s.to_string()).collect();
-    Settling::with(b, Box::new(ocean), &terms, BelowModelBottom::HoldDeepestLevel, 50.0, 64).unwrap()
+    Settling::with(b, o.ocean(), &terms, BelowModelBottom::HoldDeepestLevel, float, 50.0, 64).unwrap()
+}
+
+fn settling(b: Breakup, o: TestOcean, terms: &[&str]) -> Settling {
+    settling_f(b, o, terms, still_float())
 }
 
 const W: f64 = 3.021152;
@@ -122,8 +171,8 @@ fn uniform_current_constant_speed_closed_form() {
     // U = (0.1, -0.05) m/s at every depth, w = 3.021152 m/s, H = 4,000 m:
     // T = H / w = 1,323.99 s; offset = U T = (132.399, -66.200) m.
     let mut o = stub();
-    o.upper_current_mps = [0.1, -0.05];
-    o.deep_current_mps = [0.1, -0.05];
+    o.spec.upper_current_mps = [0.1, -0.05];
+    o.spec.deep_current_mps = [0.1, -0.05];
     let s = settling(one_sinker(0.0, 1.0), o, &["current"]);
     for r in s.emit(&impact(2, 50.0, 80.0), 3).unwrap() {
         assert!((r.east_m - 132.399).abs() < 0.01 && (r.north_m + 66.200).abs() < 0.01, "{r:?}");
@@ -139,8 +188,8 @@ fn two_layer_current_closed_form() {
     // property of any level-based product, not of the stub: a sharp interface is smeared over
     // one level spacing.)
     let mut o = stub();
-    o.upper_current_mps = [0.2, 0.0];
-    o.deep_current_mps = [0.0, 0.02];
+    o.spec.upper_current_mps = [0.2, 0.0];
+    o.spec.deep_current_mps = [0.0, 0.02];
     let s = settling(one_sinker(0.0, 1.0), o, &["current"]);
     for r in s.emit(&impact(3, 50.0, 80.0), 2).unwrap() {
         assert!((r.east_m - 64.5449).abs() < 0.001 && (r.north_m - 20.0255).abs() < 0.001, "{r:?}");
@@ -153,10 +202,10 @@ fn sloping_seabed_is_met_where_the_element_is() {
     // Current 0.3 m/s north, w = 3.021152: n(z) = 0.3 z / w, so contact at
     // z = 4000 / (1 + 0.3 tan(10 deg) / w) = 4000 / 1.0175097 = 3931.17 m, n = 390.36 m.
     let mut o = stub();
-    o.seabed_slope_deg = 10.0;
-    o.seabed_slope_azimuth_deg = 180.0;
-    o.upper_current_mps = [0.0, 0.3];
-    o.deep_current_mps = [0.0, 0.3];
+    o.spec.seabed.slope_deg = 10.0;
+    o.spec.seabed.slope_azimuth_deg = 180.0;
+    o.spec.upper_current_mps = [0.0, 0.3];
+    o.spec.deep_current_mps = [0.0, 0.3];
     let s = settling(one_sinker(0.0, 1.0), o, &["current"]);
     for r in s.emit(&impact(4, 50.0, 80.0), 2).unwrap() {
         assert!((r.depth_m - 3931.17).abs() < 0.5 && (r.north_m - 390.36).abs() < 0.5, "{r:?}");
@@ -172,10 +221,10 @@ fn below_model_bottom_is_extrapolated_explicitly_and_recorded() {
     // (the mid-step rule integrates a linear ramp exactly).
     // Refuse: not computed.
     let mut o = stub();
-    o.model_bottom_m = 3000.0;
-    o.deep_current_mps = [0.1, 0.0];
+    o.spec.model_bottom_m = 3000.0;
+    o.spec.deep_current_mps = [0.1, 0.0];
     let terms: Vec<String> = vec!["current".into()];
-    let run = |rule| Settling::with(one_sinker(0.0, 1.0), Box::new(o.clone()), &terms, rule, 50.0, 8).unwrap().emit(&impact(5, 50.0, 80.0), 1).unwrap();
+    let run = |rule| Settling::with(one_sinker(0.0, 1.0), o.ocean(), &terms, rule, still_float(), 50.0, 8).unwrap().emit(&impact(5, 50.0, 80.0), 1).unwrap();
     let (hold, ramp, refuse) = (run(BelowModelBottom::HoldDeepestLevel), run(BelowModelBottom::LinearToZeroAtSeabed), run(BelowModelBottom::Refuse));
     assert!((hold[0].east_m - 100.1274).abs() < 0.001, "{:?}", hold[0]);
     assert!((ramp[0].east_m - 83.5774).abs() < 0.001, "{:?}", ramp[0]);
@@ -208,7 +257,7 @@ fn glide_matches_its_closed_form_mean_square() {
 
 #[test]
 fn draws_split_the_parent_weight_and_conserve_mass() {
-    let s = settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), stub(), &["carry", "float", "current", "glide", "ocean-error"]);
+    let s = settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), busy(), &["carry", "float", "current", "glide", "ocean-error", "diffusion"]);
     let imp = impact(7, 60.0, 120.0);
     let draws = 32;
     let rows = s.emit(&imp, draws).unwrap();
@@ -227,7 +276,7 @@ fn draws_split_the_parent_weight_and_conserve_mass() {
 
 #[test]
 fn refinement_appends_draws_and_is_deterministic() {
-    let s = settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), stub(), &["carry", "float", "current", "glide", "ocean-error"]);
+    let s = settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), busy(), &["carry", "float", "current", "glide", "ocean-error", "diffusion"]);
     let imp = impact(8, 60.0, 120.0);
     let few = s.emit(&imp, 8).unwrap();
     let many = s.emit(&imp, 32).unwrap();
@@ -245,8 +294,7 @@ fn one_ocean_realisation_per_draw() {
     // the same error vector times its descent time, so all offsets in a draw are parallel, while
     // different draws point different ways.
     let mut o = stub();
-    o.error = ErrorModel { surface_mps: 0.0, upper_mps: 0.05, upper_depth_m: 1000.0, deep_mps: 0.05, near_bottom_mps: 0.0, near_bottom_m: 0.0 };
-    o.upper_current_mps = [0.0; 2];
+    o.error = OceanErrorModel::uniform_offset(0.05);
     let s = settling(one_sinker(0.0, 1.0), o, &["ocean-error"]);
     let rows = s.emit(&impact(9, 60.0, 120.0), 6).unwrap();
     let mut headings = Vec::new();
@@ -268,10 +316,12 @@ fn one_ocean_realisation_per_draw() {
 #[test]
 fn synthetic_recovery_coverage() {
     let mut o = stub();
-    o.upper_current_mps = [0.05, 0.02];
-    o.deep_current_mps = [0.02, 0.01];
-    o.error = ErrorModel { surface_mps: 0.1, upper_mps: 0.05, upper_depth_m: 1000.0, deep_mps: 0.02, near_bottom_mps: 0.03, near_bottom_m: 200.0 };
-    let s = settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), o, &["carry", "float", "current", "glide", "ocean-error"]);
+    o.spec.upper_current_mps = [0.05, 0.02];
+    o.spec.deep_current_mps = [0.02, 0.01];
+    o.error = OceanErrorModel { kind: ErrorKind::UniformOffset { sigma_m_s: 0.1 }, vertical: VerticalStructure::Exponential { efold_m: 500.0, deep_ratio: 0.2 } };
+    o.spec.surface_current_mps = [0.1, 0.0];
+    o.spec.wind_mps = [5.0, 0.0];
+    let s = settling_f(Breakup::parse(include_str!("breakup.toml")).unwrap(), o, &["carry", "float", "current", "glide", "ocean-error", "diffusion"], FloatPhase { step_s: 600.0, a_stokes: 0.0, diffusivity_m2_s: None });
     let imp = impact(10, 60.0, 120.0);
     // Engine-class centroid east (m), piece-weighted, per draw.
     let centroid = |rows: &[WreckageElement], d: u32| {
@@ -289,6 +339,104 @@ fn synthetic_recovery_coverage() {
     let rate = covered as f64 / 400.0;
     // Nominal 0.90; binomial sd sqrt(0.09 / 400) = 0.015, plus the interval's own sampling error.
     assert!((rate - 0.90).abs() < 0.05, "coverage {rate}");
+}
+
+
+#[test]
+fn float_phase_through_the_shared_integrator_closed_form() {
+    // Floats 3,600 s in a uniform surface current (0.10, 0.02) m/s with leeway 0.03 of a
+    // (5, -2) m/s wind: drift velocity (0.25, -0.04) m/s, so (900, -144) m afloat, then sinks
+    // 4,000 m in still water straight down. Offsets are on the shared crate's sphere; RK2 on a
+    // uniform field over 3.6 km is exact to well under a metre.
+    let mut o = stub();
+    o.spec.surface_current_mps = [0.10, 0.02];
+    o.spec.wind_mps = [5.0, -2.0];
+    let s = settling(one_floater(3600.0, 0.03), o, &["float", "current"]);
+    for r in s.emit(&impact(20, 50.0, 80.0), 2).unwrap() {
+        assert_eq!(r.fate, Fate::Settled);
+        assert!((r.float_s - 3600.0).abs() < 1e-9);
+        assert!((r.east_m - 900.0).abs() < 0.5 && (r.north_m + 144.0).abs() < 0.5, "{r:?}");
+        assert!((r.descent_s - 4000.0 / W).abs() < 1e-3);
+    }
+    // Float switched off: the element sinks at the contact point.
+    let mut o = stub();
+    o.spec.surface_current_mps = [0.10, 0.02];
+    let s = settling(one_floater(3600.0, 0.03), o, &["current"]);
+    for r in s.emit(&impact(20, 50.0, 80.0), 1).unwrap() {
+        assert!(r.east_m.abs() < 1e-9 && r.north_m.abs() < 1e-9 && r.float_s == 0.0);
+    }
+}
+
+#[test]
+fn one_ocean_across_float_and_descent() {
+    // Ocean error only (uniform offset, uniform in depth). Elements float for different times
+    // then sink; every element of a draw is displaced by the SAME error vector e times its total
+    // time in the water, (float + H / w). So within a draw all offsets are parallel and their
+    // lengths scale with total time: the float phase (inside the shared integrator) and the
+    // descent (OceanErrorModel::realise with the same seed) see one ocean.
+    let mut o = stub();
+    o.error = OceanErrorModel::uniform_offset(0.05);
+    let mut b = one_floater(1.0, 0.0);
+    for (c, e) in b.elements[1].iter_mut().enumerate() {
+        e.float_s = fixed(600.0 * (c + 1) as f64);
+    }
+    let s = settling(b, o, &["float", "ocean-error"]);
+    let rows = s.emit_with(&impact(21, 50.0, 80.0), 0..4, 0.25, Some(1)).unwrap();
+    let mut directions = Vec::new();
+    for d in 0..4u32 {
+        let draw: Vec<_> = rows.iter().filter(|r| r.draw == d).collect();
+        let e = [draw[0].east_m / (draw[0].float_s + draw[0].descent_s), draw[0].north_m / (draw[0].float_s + draw[0].descent_s)];
+        for r in &draw {
+            let t = r.float_s + r.descent_s;
+            assert!((r.east_m - e[0] * t).abs() < 0.5 && (r.north_m - e[1] * t).abs() < 0.5, "draw {d}: {r:?} against e {e:?}");
+        }
+        directions.push(e[1].atan2(e[0]));
+    }
+    assert!(directions.windows(2).any(|w| (w[0] - w[1]).abs() > 0.1), "draws must see different oceans");
+}
+
+#[test]
+fn float_diffusion_matches_its_variance() {
+    // Fixed K = 200 m2/s for T = 7,200 s: each component has variance 2 K T = 2.88e6 m2
+    // (sd 1,697 m), drawn by the shared integrator's per-particle walk.
+    let s = settling_f(one_floater(7200.0, 0.0), stub(), &["float", "diffusion"], FloatPhase { step_s: 600.0, a_stokes: 0.0, diffusivity_m2_s: Some(200.0) });
+    let mut sum = 0.0;
+    let mut n = 0.0;
+    for p in 0..100 {
+        for r in s.emit(&impact(300 + p, 50.0, 80.0), 10).unwrap() {
+            sum += r.east_m * r.east_m + r.north_m * r.north_m;
+            n += 2.0;
+        }
+    }
+    // 6,000 elements, 12,000 components: relative standard error sqrt(2 / 12,000) = 1.3%.
+    assert!((sum / n / 2.88e6 - 1.0).abs() < 0.05, "{}", sum / n);
+    // The provisional prior path draws one K per draw and runs.
+    let s = settling_f(one_floater(7200.0, 0.0), stub(), &["float", "diffusion"], FloatPhase { step_s: 600.0, a_stokes: 0.0, diffusivity_m2_s: None });
+    assert!(s.emit(&impact(400, 50.0, 80.0), 2).unwrap().iter().all(|r| r.fate == Fate::Settled));
+}
+
+#[test]
+fn resolved_vertical_velocity_is_used_and_absence_is_not_zero() {
+    // The shared crate's analytic column with an upwelling w_up = +0.5 m/s: ground-relative
+    // descent speed 3.021152 - 0.5 = 2.521152 m/s, so 4,000 m takes 1,586.58 s, not 1,324.00 s.
+    let mut o = stub().ocean();
+    o.column = Box::new(UniformColumn::new(0.0, 0.0, Some(0.5), (0..=140).map(|k| 50.0 * k as f64).collect(), 7000.0));
+    let terms: Vec<String> = vec!["current".into()];
+    let s = Settling::with(one_sinker(0.0, 1.0), o, &terms, BelowModelBottom::HoldDeepestLevel, still_float(), 50.0, 8).unwrap();
+    for r in s.emit(&impact(22, 50.0, 80.0), 1).unwrap() {
+        assert!((r.descent_s - 4000.0 / (W - 0.5)).abs() < 0.01, "{r:?}");
+    }
+    // Absent (the layered column): the element's own speed.
+    let s = settling(one_sinker(0.0, 1.0), stub(), &["current"]);
+    assert!((s.emit(&impact(22, 50.0, 80.0), 1).unwrap()[0].descent_s - 4000.0 / W).abs() < 1e-3);
+}
+
+#[test]
+fn a_given_debris_class_fixes_the_family_of_every_draw() {
+    let s = settling(Breakup::parse(include_str!("breakup.toml")).unwrap(), busy(), &["carry", "current"]);
+    let rows = s.emit_with(&impact(23, 60.0, 120.0), 0..16, 1.0 / 16.0, Some(2)).unwrap();
+    assert!(rows.iter().all(|r| r.family == 2));
+    assert!(s.emit_with(&impact(23, 60.0, 120.0), 0..1, 1.0, Some(3)).is_err());
 }
 
 #[test]
@@ -316,17 +464,28 @@ fn run_toml_constructs_and_predict_fills_or_refuses() {
 /// mh370-hypotheses settling::tests::report -- --ignored`. Writes the sensitivity summary and the
 /// baseline element samples behind the report page. Every number depends on the PROVISIONAL
 /// ocean stub (run.toml) and is labelled so in the page.
+
+/// Report generator, not a test: `SETTLING_REPORT_DIR=<dir> [SETTLING_REPORT_DEPTHS=3000,4000]
+/// cargo test --release -p mh370-hypotheses settling::tests::report -- --ignored`. Writes the
+/// sensitivity summary and the baseline element samples behind the report page. Every number
+/// depends on the PROVISIONAL inputs (run.toml) and is labelled so in the page.
 #[test]
 #[ignore]
 fn report() {
     use std::io::Write;
     let dir = std::path::PathBuf::from(std::env::var("SETTLING_REPORT_DIR").expect("set SETTLING_REPORT_DIR"));
+    let depths: Vec<f64> = std::env::var("SETTLING_REPORT_DEPTHS").unwrap_or("3000,4000,5000".into()).split(',').map(|x| x.trim().parse().unwrap()).collect();
     std::fs::create_dir_all(&dir).unwrap();
     let table: toml::Table = toml::from_str(include_str!("run.toml")).unwrap();
-    let base: AnalyticStub = table["hypotheses"]["settling"]["provisional_ocean_stub"].clone().try_into().unwrap();
+    let p = &table["hypotheses"]["settling"];
+    let spec: ProvisionalSpec = p["provisional"].clone().try_into().unwrap();
+    let error: ErrorSpec = p["ocean_error"].clone().try_into().unwrap();
+    let base = TestOcean { spec, error: error.model().unwrap() };
+    let base_float = FloatPhase { step_s: 600.0, a_stokes: 0.0, diffusivity_m2_s: None };
     let draws = 256;
     let imp = impact(1, 60.0, 150.0);
-    let all = ["carry", "float", "current", "glide", "ocean-error"];
+    let all = ["carry", "float", "current", "glide", "ocean-error", "diffusion"];
+    let without = |t: &str| all.iter().copied().filter(|x| *x != t).collect::<Vec<_>>();
     let scale = |b: &mut Breakup, f: f64| {
         for row in b.elements.iter_mut() {
             for e in row.iter_mut() {
@@ -334,35 +493,49 @@ fn report() {
             }
         }
     };
-    // (label, terms, ocean edit, breakup edit)
-    type OceanEdit = fn(&mut AnalyticStub);
-    let variants: Vec<(&str, Vec<&str>, OceanEdit, f64)> = vec![
-        ("baseline", all.to_vec(), |_| {}, 1.0),
-        ("no current", vec!["carry", "float", "glide", "ocean-error"], |_| {}, 1.0),
+    let float_scale = |b: &mut Breakup, f: f64| {
+        for row in b.elements.iter_mut() {
+            for e in row.iter_mut() {
+                e.float_s = Range { lo: e.float_s.lo * f, hi: e.float_s.hi * f, log: e.float_s.log };
+            }
+        }
+    };
+    type OceanEdit = fn(&mut TestOcean);
+    // (label, terms, ocean edit, areal-density scale, float-time scale, float settings)
+    let fp = |a: f64, k: Option<f64>| FloatPhase { step_s: 600.0, a_stokes: a, diffusivity_m2_s: k };
+    let variants: Vec<(&str, Vec<&str>, OceanEdit, f64, f64, FloatPhase)> = vec![
+        ("baseline", all.to_vec(), |_| {}, 1.0, 1.0, base_float),
+        ("no float (sink at contact)", without("float"), |_| {}, 1.0, 1.0, base_float),
+        ("float time x0.5", all.to_vec(), |_| {}, 1.0, 0.5, base_float),
+        ("float time x2", all.to_vec(), |_| {}, 1.0, 2.0, base_float),
+        ("sink rate x0.5 (s x0.25)", all.to_vec(), |_| {}, 0.25, 1.0, base_float),
+        ("sink rate x2 (s x4)", all.to_vec(), |_| {}, 4.0, 1.0, base_float),
+        ("no glide", without("glide"), |_| {}, 1.0, 1.0, base_float),
+        ("no carry", without("carry"), |_| {}, 1.0, 1.0, base_float),
+        ("no current", without("current"), |_| {}, 1.0, 1.0, base_float),
         ("current x2", all.to_vec(), |o| {
-            o.upper_current_mps = o.upper_current_mps.map(|x| 2.0 * x);
-            o.deep_current_mps = o.deep_current_mps.map(|x| 2.0 * x);
-        }, 1.0),
-        ("deep current reversed (stub B)", all.to_vec(), |o| o.deep_current_mps = o.deep_current_mps.map(|x| -x), 1.0),
-        ("no ocean error", vec!["carry", "float", "current", "glide"], |_| {}, 1.0),
-        ("no glide", vec!["carry", "float", "current", "ocean-error"], |_| {}, 1.0),
-        ("no float (sink at contact)", vec!["carry", "current", "glide", "ocean-error"], |_| {}, 1.0),
-        ("no carry", vec!["float", "current", "glide", "ocean-error"], |_| {}, 1.0),
-        ("sink rate x0.5 (s x0.25)", all.to_vec(), |_| {}, 0.25),
-        ("sink rate x2 (s x4)", all.to_vec(), |_| {}, 4.0),
+            o.spec.upper_current_mps = o.spec.upper_current_mps.map(|x| 2.0 * x);
+            o.spec.deep_current_mps = o.spec.deep_current_mps.map(|x| 2.0 * x);
+        }, 1.0, 1.0, base_float),
+        ("deep current reversed", all.to_vec(), |o| o.spec.deep_current_mps = o.spec.deep_current_mps.map(|x| -x), 1.0, 1.0, base_float),
+        ("Stokes on (a = 1)", all.to_vec(), |_| {}, 1.0, 1.0, fp(1.0, None)),
+        ("diffusivity 30 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(30.0))),
+        ("diffusivity 1000 m2/s", all.to_vec(), |_| {}, 1.0, 1.0, fp(0.0, Some(1000.0))),
+        ("no ocean error", without("ocean-error"), |_| {}, 1.0, 1.0, base_float),
     ];
     let mut summary = std::fs::File::create(dir.join("sensitivity.csv")).unwrap();
     writeln!(summary, "variant,depth_m,family,class,settled_share,median_offset_m,p90_offset_m,median_descent_s,p90_descent_s,field_p90_radius_m,rows_per_draw").unwrap();
     let mut samples = std::fs::File::create(dir.join("baseline_samples.csv")).unwrap();
-    writeln!(samples, "depth_m,family,class,draw,fate,multiplicity,piece_area_m2,east_m,north_m,descent_s,mean_sink_mps").unwrap();
-    for depth in [3000.0, 4000.0, 5000.0] {
-        for (label, terms, edit, s_scale) in &variants {
+    writeln!(samples, "depth_m,family,class,draw,fate,multiplicity,piece_area_m2,east_m,north_m,float_s,descent_s,mean_sink_mps").unwrap();
+    for &depth in &depths {
+        for (label, terms, edit, s_scale, f_scale, float) in &variants {
             let mut o = base.clone();
-            o.seabed_depth_m = depth;
+            o.spec.seabed.depth_m = depth;
             edit(&mut o);
             let mut b = Breakup::parse(include_str!("breakup.toml")).unwrap();
             scale(&mut b, *s_scale);
-            let st = settling(b, o, terms);
+            float_scale(&mut b, *f_scale);
+            let st = settling_f(b, o, terms, *float);
             for f in 0..3 {
                 let rows = st.emit_with(&imp, 0..draws, 1.0 / draws as f64, Some(f)).unwrap();
                 let per_draw = rows.len() as f64 / draws as f64;
@@ -401,7 +574,7 @@ fn report() {
                 }
                 if *label == "baseline" {
                     for r in &rows {
-                        writeln!(samples, "{depth},{},{},{},{},{:.4},{:.4},{:.3},{:.3},{:.1},{:.4}", FAMILIES[f], st.classes()[r.class as usize], r.draw, r.fate as u8, r.multiplicity, r.piece_area_m2, r.east_m, r.north_m, r.descent_s, r.mean_sink_mps).unwrap();
+                        writeln!(samples, "{depth},{},{},{},{},{:.4},{:.4},{:.3},{:.3},{:.1},{:.1},{:.4}", FAMILIES[f], st.classes()[r.class as usize], r.draw, r.fate as u8, r.multiplicity, r.piece_area_m2, r.east_m, r.north_m, r.float_s, r.descent_s, r.mean_sink_mps).unwrap();
                     }
                 }
             }

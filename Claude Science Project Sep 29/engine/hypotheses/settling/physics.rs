@@ -9,7 +9,9 @@
 
 use serde::Deserialize;
 
-use super::ocean_stub::{BelowModelBottom, ErrorModel, Profile};
+use ocean::profile::{BelowModelBottom, DepthStatus, Profile};
+use ocean::stochastic::OceanErrorRealisation;
+use ocean::LonLat;
 
 /// Standard gravity (m/s2).
 pub const GRAVITY: f64 = 9.80665;
@@ -142,8 +144,8 @@ impl Element {
 }
 
 /// Which terms of the resting offset are on. All of them for the estimate; the report turns
-/// them off one at a time to show what each contributes. `ocean_error` switches the per-event
-/// realisation of unresolved motion.
+/// them off one at a time to show what each contributes. `ocean_error` switches the per-draw
+/// realisation of the ocean-product error (one realisation shared by the float and sink phases).
 #[derive(Debug, Clone, Copy, PartialEq)]
 pub struct Terms {
     pub carry: bool,
@@ -151,28 +153,8 @@ pub struct Terms {
     pub current: bool,
     pub glide: bool,
     pub ocean_error: bool,
-}
-
-/// One realisation of the ocean's unresolved motion for a whole impact event (rule 10): every
-/// element of one wreckage draw sees the same values.
-#[derive(Debug, Clone, Copy, PartialEq, Default)]
-pub struct OceanRealisation {
-    pub surface: [f64; 2],
-    pub upper: [f64; 2],
-    pub deep: [f64; 2],
-    pub near_bottom: [f64; 2],
-}
-
-impl OceanRealisation {
-    pub fn draw(model: &ErrorModel, rng: &mut Rng) -> OceanRealisation {
-        let mut pair = |sd: f64| [sd * rng.normal(), sd * rng.normal()];
-        OceanRealisation {
-            surface: pair(model.surface_mps),
-            upper: pair(model.upper_mps),
-            deep: pair(model.deep_mps),
-            near_bottom: pair(model.near_bottom_mps),
-        }
-    }
+    /// Sub-grid diffusion during the float phase (the shared integrator's per-particle walk).
+    pub diffusion: bool,
 }
 
 /// Where and when a sinking element first touches the seabed, from its release point.
@@ -217,28 +199,34 @@ impl Sinker {
     }
 }
 
-/// Integrate one element down the water column from `start` (m, local east/north of the
-/// release point's origin) until it first meets the seabed.
+/// Integrate one element down the water column from `start` (m, east/north of the impact point)
+/// at time `t0` until it first meets the seabed.
 ///
 /// Each step of `step_m` of depth takes dt = dz / w(z) and moves the element by the current at
-/// mid-step (plus the event's error realisation) times dt, and by the glide: speed G w in a
-/// heading that diffuses with depth so that E[cos(heading change over dz)] = exp(-dz / l). When
-/// a step is longer than the memory l, the heading forgets itself within the step and the glide
-/// is added as its diffusive limit, an isotropic Gaussian of variance G^2 l dz per component;
-/// otherwise the heading walk is followed in sub-steps of at most l / 10. The seabed is found by testing depth after each step against `seabed(position)`
-/// and interpolating linearly within the step. Returns None if the column has no seabed
-/// (land, outside the grid) or the element cannot sink (water denser than the element).
+/// mid-step from the shared `Profile::at_depth` (plus the draw's ocean-error realisation from the
+/// shared `OceanErrorRealisation::velocity`, evaluated at the element's time, position and depth)
+/// times dt, and by the glide: speed G w in a heading that diffuses with depth so that
+/// E[cos(heading change over dz)] = exp(-dz / l). When a step is longer than the memory l, the
+/// heading forgets itself within the step and the glide is added as its diffusive limit, an
+/// isotropic Gaussian of variance G^2 l dz per component; otherwise the heading walk is followed in
+/// sub-steps of at most l / 10. w is the element's own speed in water of density `density(z)`,
+/// less any RESOLVED upward water velocity; an absent vertical velocity is used as absent, not as
+/// zero. The seabed is found by testing depth after each step against `seabed(offset)` and
+/// interpolating linearly within the step. Returns None if the column has no seabed, the element
+/// cannot sink, or the below-model-bottom rule refuses.
 #[allow(clippy::too_many_arguments)]
 pub fn sink(
     start: [f64; 2],
+    t0: f64,
     sinker: &Sinker,
     profile: &Profile,
-    ocean: &OceanRealisation,
-    error: &ErrorModel,
+    density: &dyn Fn(f64) -> f64,
+    ocean: Option<&OceanErrorRealisation>,
     terms: &Terms,
     rule: BelowModelBottom,
     step_m: f64,
     seabed: &dyn Fn([f64; 2]) -> Option<f64>,
+    lonlat: &dyn Fn([f64; 2]) -> LonLat,
     rng: &mut Rng,
 ) -> Option<Landing> {
     let mut at = start;
@@ -251,13 +239,10 @@ pub fn sink(
     for _ in 0..100_000 {
         let dz = step_m;
         let mid = z + dz / 2.0;
-        // A refusal (rule `refuse` below the model bottom) leaves the element not computed.
+        // A refusal (rule `Refuse` below the model bottom) leaves the element not computed.
         let sample = profile.at_depth(mid, Some(floor.max(mid)), rule).ok()?;
-        let beyond = sample.extrapolated;
-        // Descent speed relative to the ground: the element's own w, less any resolved upward
-        // water velocity. Absent is not zero: with no resolved w the element's own speed is used
-        // and the absence is the product's declared property, not a value.
-        let w = sinker.speed(profile.density_at(mid)) - sample.w_up.unwrap_or(0.0);
+        let beyond = matches!(sample.status, DepthStatus::Extrapolated { .. });
+        let w = sinker.speed(density(mid)) - sample.w_up.unwrap_or(0.0);
         if !(w > 0.0) {
             return None;
         }
@@ -266,12 +251,9 @@ pub fn sink(
         if terms.current {
             u = [sample.u_east, sample.v_north];
         }
-        if terms.ocean_error {
-            let band = if mid < error.upper_depth_m { ocean.upper } else { ocean.deep };
-            u = [u[0] + band[0], u[1] + band[1]];
-            if floor - mid < error.near_bottom_m {
-                u = [u[0] + ocean.near_bottom[0], u[1] + ocean.near_bottom[1]];
-            }
+        if let (true, Some(e)) = (terms.ocean_error, ocean) {
+            let v = e.velocity(t0 + t + dt / 2.0, lonlat(at), mid);
+            u = [u[0] + v[0], u[1] + v[1]];
         }
         let mut step = [u[0] * dt, u[1] * dt];
         // The same random numbers are drawn whether or not a term is on (common random numbers),
@@ -287,8 +269,6 @@ pub fn sink(
             // Heading walk in sub-steps h of at most l / 10, each straight in the heading at its
             // START. Segment headings then correlate as exp(-k h / l), exactly the continuous
             // law at lag k h, and the mean square differs from the continuous one by O((h/l)^2).
-            // (A mid-step heading inflates every lag by exp(h / 2l): +4.6% at h/l = 0.09, which
-            // the closed-form test caught.)
             let n = (10.0 * dz / l).ceil().max(1.0) as usize;
             let h = dz / n as f64;
             for _ in 0..n {
@@ -341,6 +321,12 @@ impl Rng {
     pub fn uniform(&mut self) -> f64 {
         self.0 = self.0.wrapping_add(0x9E37_79B9_7F4A_7C15);
         ((mix(self.0) >> 11) as f64 + 0.5) / (1u64 << 53) as f64
+    }
+
+    /// 64 random bits (seeds for the shared crate's ChaCha streams).
+    pub fn next_u64(&mut self) -> u64 {
+        self.0 = self.0.wrapping_add(0x9E37_79B9_7F4A_7C15);
+        mix(self.0)
     }
 
     pub fn normal(&mut self) -> f64 {

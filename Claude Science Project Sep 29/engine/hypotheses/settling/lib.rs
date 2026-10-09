@@ -52,38 +52,65 @@
 //!    ranges, float times, piece counts, mass shares) is an educated estimate. Analogue anchors
 //!    for the family selection are in breakup.toml's comments; the analogue and model survey is
 //!    data/analogues.csv with primary sources.
-//! 3. One family per draw: a field breaks up coherently. Families are mixed across draws in
-//!    proportion to P(family | impact), never averaged within a draw.
-//! 4. One ocean-error realisation per draw, shared by every element of that draw (rule 10).
-//!    Independent per-fragment noise would shrink the field artificially.
+//! 3. One family per draw: a field breaks up coherently. When the impact sample carries end of
+//!    flight's `debris_class` (drawn once per impact sample, ruled 9 Oct), every draw of that impact
+//!    uses it, so every consumer conditions on one draw. Until core request 4 makes it readable from
+//!    `ImpactView`, the caller passes it in (`emit_with`, from the impacts file's `debris_class`
+//!    column); without it settling draws the family per wreckage draw from the same rule
+//!    (breakup.rs), labelled provisional. Families are never averaged within a draw.
+//! 4. One ocean-error realisation per draw, shared by every element of that draw and by both
+//!    phases (rule 10): the shared integrator realises `OceanErrorModel` from the draw's seed for
+//!    the float phase, and the descent evaluates `OceanErrorModel::realise(seed)` with that same
+//!    seed. Independent per-fragment noise would shrink the field artificially.
 //! 5. Element properties are independent across representatives: pieces of one class are not
 //!    identical. Pieces represented by one representative sit at its point; the within-class
 //!    spread is carried by the K representatives (a computational choice).
 //! 6. Piece area follows from mass conservation: area = mass_share x impact mass / (pieces x s).
-//! 7. THE OCEAN IS A PROVISIONAL STUB (ocean_stub.rs). No reanalysis, no product choice, no field
-//!    interpolation (inbox ruling of 8 Oct 2026). Every number that depends on currents, density
-//!    or bathymetry is PROVISIONAL until `crates/ocean` lands, and every output carries the
-//!    stub's label. The profile is taken at the release point and held for the descent (column
-//!    assumption); time is frozen within a descent.
+//! 7. THE OCEAN COMES FROM `mh370-ocean` (merged 77109b7 / 8d1160f), not from settling:
+//!    - currents by depth: the shared `ProfileSource` and `Profile::at_depth`, queried once per
+//!      element at the point and time it leaves the surface, and held for its descent (column
+//!      assumption: a 4 km descent at 0.15-5 m/s moves an element 0.1-10 km, small against the
+//!      ~8-11 km grid of the candidate products);
+//!    - the float phase: the shared batch integrator `integrate`, one call per wreckage draw, every
+//!      floating element a particle with `ObjectResponse { a_stokes, c_wind = its leeway }` and
+//!      output times at exactly each element's own float-end time (the per-sink-time pattern ocean
+//!      transport documented; a per-particle end time is its queued item);
+//!    - ocean error: `OceanErrorModel`, realised once per draw from the draw's seed;
+//!    - sub-grid diffusion while afloat: the shared `DiffusivityPrior::provisional` (one K per draw,
+//!      an eta component) unless the run fixes it.
+//!    What settling still supplies itself is in provisional.rs, each item labelled and each to be
+//!    deleted when the shared crate serves it: a two-layer analytic column (the shared analytic
+//!    column is depth-uniform), a planar seabed (bathymetry, shared deliverable 7), and in-situ
+//!    density linear in depth (TEOS-10, shared deliverable 8). Every result is provisional while any
+//!    of the three is in use, and no current product has been chosen (that is the shared owner's).
 //! 8. Below the ocean model's bottom one of the shared crate's three explicit rules applies
 //!    (default `hold-deepest-level`; `linear-to-zero-at-seabed` and `refuse` are the declared
 //!    alternatives), and the extrapolated depth range is reported per element. A zero is never
 //!    substituted silently; `refuse` leaves the element not computed.
-//! 9. Vertical velocity: the stub reports none. It is flagged absent and not read as zero; the
-//!    descent uses w alone.
+//! 9. Vertical velocity: used when the product resolves it (descent speed relative to the ground is
+//!    w - w_up); when the product has none it is `Absent`, never read as zero. GLORYS12V1's daily
+//!    multiyear dataset has none.
+//! 10. Near-bottom unresolved motion: the shared error model's vertical structure is uniform or
+//!    exponential in depth; a band keyed to height above the seabed is ocean transport's queued
+//!    item 3. Until it lands there is NO near-bottom term (the first pass carried one in its own
+//!    stub; it is dropped rather than kept as a second ocean-error model).
 //!
 //! WHAT IS NOT YET HERE, deliberately: the implosion-at-depth event (descent time is computed
 //! and emitted per element, which is the hook), post-contact movement, and the shared breakup
 //! field freeze (results/breakup-field-candidate.md is the candidate).
 
 mod breakup;
-mod ocean_stub;
 mod physics;
+mod provisional;
+pub mod stream;
 
 use breakup::{Breakup, FAMILIES};
 use hypothesis::{Hypothesis, ImpactView};
-use ocean_stub::{AnalyticStub, BelowModelBottom, ErrorModel, Profile, ProvisionalOcean};
-use physics::{OceanRealisation, Rng, Sinker, Terms};
+use ocean::profile::{BelowModelBottom, ProfileSource};
+use ocean::stochastic::{Diffusion, DiffusivityPrior, ErrorKind, OceanErrorModel, VerticalStructure};
+use ocean::{analytic::Uniform, Component, Domain, Forcing, LonLat, NoCoast, ObjectResponse, Particle, Refloat, RunSpec, Snapshot, VectorField};
+use physics::{Rng, Sinker, Terms};
+use provisional::{offset_m, DensityStub, LayeredColumn, PlanarSeabed, ProvisionalSpec};
 use serde::Deserialize;
 
 #[derive(Deserialize)]
@@ -93,19 +120,80 @@ struct Params {
     moment_draws: usize,
     /// Integration step in depth (m).
     step_m: f64,
-    /// Terms of the offset: carry, float, current, glide, ocean-error. All of them for the
-    /// estimate; the report turns them off one at a time.
+    /// Terms: carry, float, current, glide, ocean-error, diffusion. All of them for the estimate;
+    /// the report turns them off one at a time.
     #[serde(default = "all_terms")]
     terms: Vec<String>,
     /// Below the ocean model's own bottom: `hold-deepest-level`, `linear-to-zero-at-seabed` or
     /// `refuse` (the shared crate's three rules).
     below_model_bottom: String,
-    /// PROVISIONAL. Deleted when crates/ocean lands.
-    provisional_ocean_stub: AnalyticStub,
+    /// Float phase: integrator step (s), Stokes response of floating elements, and a fixed sub-grid
+    /// diffusivity (m2/s; absent = the shared provisional prior, one K per draw; 0 = none).
+    float_step_s: f64,
+    #[serde(default)]
+    float_a_stokes: f64,
+    #[serde(default)]
+    float_diffusivity_m2_s: Option<f64>,
+    ocean_error: ErrorSpec,
+    /// PROVISIONAL inputs the shared crate does not serve yet (provisional.rs).
+    provisional: ProvisionalSpec,
+}
+
+/// `OceanErrorModel` in run.toml form.
+#[derive(Debug, Clone, Copy, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ErrorSpec {
+    /// "none", "uniform-offset" or "eddying".
+    kind: ErrorKindName,
+    #[serde(default)]
+    sigma_m_s: f64,
+    #[serde(default)]
+    length_scale_m: f64,
+    #[serde(default)]
+    time_scale_s: f64,
+    #[serde(default)]
+    modes: usize,
+    /// Exponential decay of the amplitude with depth; absent = uniform.
+    #[serde(default)]
+    efold_m: Option<f64>,
+    #[serde(default)]
+    deep_ratio: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+enum ErrorKindName {
+    None,
+    UniformOffset,
+    Eddying,
+}
+
+impl ErrorSpec {
+    pub fn model(&self) -> Result<OceanErrorModel, String> {
+        let kind = match self.kind {
+            ErrorKindName::None => ErrorKind::None,
+            ErrorKindName::UniformOffset => ErrorKind::UniformOffset { sigma_m_s: self.sigma_m_s },
+            ErrorKindName::Eddying => ErrorKind::Eddying {
+                sigma_m_s: self.sigma_m_s,
+                length_scale_m: self.length_scale_m,
+                time_scale_s: self.time_scale_s,
+                modes: self.modes,
+            },
+        };
+        if !(self.sigma_m_s >= 0.0) || (self.kind == ErrorKindName::Eddying && !(self.length_scale_m > 0.0 && self.time_scale_s > 0.0 && self.modes > 0)) {
+            return Err("settling: ocean_error needs sigma >= 0, and for eddying positive length, time and modes".into());
+        }
+        let vertical = match self.efold_m {
+            None => VerticalStructure::Uniform,
+            Some(efold_m) if efold_m > 0.0 && (0.0..=1.0).contains(&self.deep_ratio) => VerticalStructure::Exponential { efold_m, deep_ratio: self.deep_ratio },
+            Some(_) => return Err("settling: ocean_error efold_m must be positive and deep_ratio in [0, 1]".into()),
+        };
+        Ok(OceanErrorModel { kind, vertical })
+    }
 }
 
 fn all_terms() -> Vec<String> {
-    ["carry", "float", "current", "glide", "ocean-error"].map(String::from).to_vec()
+    ["carry", "float", "current", "glide", "ocean-error", "diffusion"].map(String::from).to_vec()
 }
 
 /// Where an emitted element ended up.
@@ -193,11 +281,49 @@ impl WreckageElement {
     }
 }
 
+/// The ocean settling sees: shared-crate types throughout, with the provisional pieces of
+/// provisional.rs behind them.
+pub struct Ocean {
+    pub column: Box<dyn ProfileSource>,
+    pub surface_current: Box<dyn VectorField>,
+    pub wind: Box<dyn VectorField>,
+    pub stokes: Box<dyn VectorField>,
+    pub seabed: PlanarSeabed,
+    pub density: DensityStub,
+    pub error: OceanErrorModel,
+    pub label: String,
+}
+
+impl Ocean {
+    pub fn provisional(spec: &ProvisionalSpec, error: OceanErrorModel) -> Result<Ocean, String> {
+        spec.check()?;
+        Ok(Ocean {
+            column: Box::new(LayeredColumn::new(spec.upper_current_mps, spec.deep_current_mps, spec.layer_depth_m, spec.level_spacing_m, spec.model_bottom_m)),
+            surface_current: Box::new(Uniform::current(spec.surface_current_mps[0], spec.surface_current_mps[1])),
+            wind: Box::new(Uniform::new(Component::Wind10m, spec.wind_mps[0], spec.wind_mps[1])),
+            stokes: Box::new(Uniform::new(Component::StokesDrift, spec.stokes_mps[0], spec.stokes_mps[1])),
+            seabed: spec.seabed,
+            density: spec.density,
+            error,
+            label: spec.label.clone(),
+        })
+    }
+}
+
+/// Float-phase settings.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FloatPhase {
+    pub step_s: f64,
+    pub a_stokes: f64,
+    pub diffusivity_m2_s: Option<f64>,
+}
+
 pub struct Settling {
     breakup: Breakup,
-    ocean: Box<dyn ProvisionalOcean>,
+    ocean: Ocean,
     terms: Terms,
     rule: BelowModelBottom,
+    float: FloatPhase,
     step_m: f64,
     moment_draws: usize,
 }
@@ -220,21 +346,29 @@ const CLASS_COLUMNS: [&str; 7] = [
 impl Settling {
     pub fn from_params(params: &toml::Value) -> Result<Settling, String> {
         let p: Params = params.clone().try_into().map_err(|e| format!("settling: {e}"))?;
-        p.provisional_ocean_stub.check()?;
-        let breakup = Breakup::parse(include_str!("breakup.toml"))?;
-        Settling::with(breakup, Box::new(p.provisional_ocean_stub), &p.terms, BelowModelBottom::parse(&p.below_model_bottom)?, p.step_m, p.moment_draws)
+        let ocean = Ocean::provisional(&p.provisional, p.ocean_error.model()?)?;
+        let rule = parse_rule(&p.below_model_bottom)?;
+        let float = FloatPhase { step_s: p.float_step_s, a_stokes: p.float_a_stokes, diffusivity_m2_s: p.float_diffusivity_m2_s };
+        Settling::with(Breakup::parse(include_str!("breakup.toml"))?, ocean, &p.terms, rule, float, p.step_m, p.moment_draws)
     }
 
-    fn with(breakup: Breakup, ocean: Box<dyn ProvisionalOcean>, terms: &[String], rule: BelowModelBottom, step_m: f64, moment_draws: usize) -> Result<Settling, String> {
+    pub fn with(breakup: Breakup, ocean: Ocean, terms: &[String], rule: BelowModelBottom, float: FloatPhase, step_m: f64, moment_draws: usize) -> Result<Settling, String> {
         if let Some(t) = terms.iter().find(|t| !all_terms().contains(t)) {
             return Err(format!("settling: unknown term `{t}`; known: {:?}", all_terms()));
         }
-        if !(step_m > 0.0 && step_m <= 500.0) || moment_draws == 0 {
-            return Err("settling: step_m in (0, 500] and moment_draws positive".into());
+        if !(step_m > 0.0 && step_m <= 500.0) || moment_draws == 0 || !(float.step_s > 0.0) || !(float.a_stokes >= 0.0) || float.diffusivity_m2_s.is_some_and(|k| !(k >= 0.0)) {
+            return Err("settling: step_m in (0, 500], moment_draws and float_step_s positive, a_stokes and diffusivity non-negative".into());
         }
         let has = |name: &str| terms.iter().any(|t| t == name);
-        let terms = Terms { carry: has("carry"), float: has("float"), current: has("current"), glide: has("glide"), ocean_error: has("ocean-error") };
-        Ok(Settling { breakup, ocean, terms, rule, step_m, moment_draws })
+        let terms = Terms {
+            carry: has("carry"),
+            float: has("float"),
+            current: has("current"),
+            glide: has("glide"),
+            ocean_error: has("ocean-error"),
+            diffusion: has("diffusion"),
+        };
+        Ok(Settling { breakup, ocean, terms, rule, float, step_m, moment_draws })
     }
 
     pub fn classes(&self) -> &[String] {
@@ -242,7 +376,7 @@ impl Settling {
     }
 
     pub fn ocean_label(&self) -> &str {
-        self.ocean.label()
+        &self.ocean.label
     }
 
     /// P(family | impact), or None outside the selection rule's domain.
@@ -254,65 +388,60 @@ impl Settling {
     }
 
     /// The wreckage draws of one impact sample: `draws` settled configurations, each with weight
-    /// 1 / draws. Err if the impact is outside the module's domain (no mass or energy, or no
-    /// ocean profile at the contact point); the caller then records NaN, not an empty field.
+    /// 1 / draws, the family drawn per wreckage draw (provisional; see `emit_with`). Err if the
+    /// impact is outside the module's domain; the caller then records NaN, not an empty field.
     pub fn emit(&self, impact: &ImpactView, draws: usize) -> Result<Vec<WreckageElement>, String> {
         self.emit_with(impact, 0..draws, 1.0 / draws as f64, None)
     }
 
-    /// Draws `indices` of an impact, each with `draw_weight`, optionally forcing the family (for
-    /// the report's per-family panels). Draw d is the same whatever range it is emitted in, so
-    /// adaptive refinement emits only the new indices.
-    pub fn emit_with(&self, impact: &ImpactView, indices: std::ops::Range<usize>, draw_weight: f64, force_family: Option<usize>) -> Result<Vec<WreckageElement>, String> {
+    /// Draws `indices` of an impact, each with `draw_weight`. `family`: the impact sample's
+    /// `debris_class` (end of flight's single draw) when the caller has it, used by every draw; None
+    /// draws it per wreckage draw from P(family | impact). Draw d is the same whatever range it is
+    /// emitted in, so adaptive refinement emits only the new indices.
+    pub fn emit_with(&self, impact: &ImpactView, indices: std::ops::Range<usize>, draw_weight: f64, family: Option<usize>) -> Result<Vec<WreckageElement>, String> {
         let families = self.family_probabilities(impact).ok_or("settling: impact outside the family-selection domain (mass, energy)")?;
-        let profile = self
-            .ocean
-            .profile(impact.latitude_deg, impact.longitude_deg, impact.unix_s)
-            .ok_or("settling: no ocean profile at the contact point")?;
-        let error = self.ocean.error_model();
+        if family.is_some_and(|f| f >= FAMILIES.len()) {
+            return Err("settling: debris_class must be 0, 1 or 2".into());
+        }
         let mut out = Vec::new();
         for d in indices {
             let mut rng = Rng::seeded(&seed_words(impact, d));
             let u = rng.uniform();
-            let family = force_family.unwrap_or_else(|| pick(&families, u));
-            let realised = OceanRealisation::draw(&error, &mut rng);
-            let ocean = if self.terms.ocean_error { realised } else { OceanRealisation::default() };
-            self.draw_field(impact, d, draw_weight, family, &profile, &ocean, &error, &mut rng, &mut out);
+            let f = family.unwrap_or_else(|| pick(&families, u));
+            let seed = rng.next_u64();
+            self.draw_field(impact, d, draw_weight, f, seed, &mut rng, &mut out)?;
         }
         Ok(out)
     }
 
     #[allow(clippy::too_many_arguments)]
-    fn draw_field(
-        &self,
-        impact: &ImpactView,
-        draw: usize,
-        draw_weight: f64,
-        family: usize,
-        profile: &Profile,
-        ocean: &OceanRealisation,
-        error: &ErrorModel,
-        rng: &mut Rng,
-        out: &mut Vec<WreckageElement>,
-    ) {
-        let (lat0, lon0) = (impact.latitude_deg, impact.longitude_deg);
-        let position = |offset: [f64; 2]| geo::advance(lat0, lon0, 0.0, offset[1] / geo::M_PER_KT_S, offset[0] / geo::M_PER_KT_S, 1.0);
-        let seabed = |offset: [f64; 2]| {
-            let (lat, lon) = position(offset);
-            self.ocean.seabed_depth_m(lat, lon)
-        };
+    fn draw_field(&self, impact: &ImpactView, draw: usize, draw_weight: f64, family: usize, seed: u64, rng: &mut Rng, out: &mut Vec<WreckageElement>) -> Result<(), String> {
+        let origin: LonLat = [impact.longitude_deg, impact.latitude_deg];
+        let t0 = impact.unix_s;
+        let lonlat = |offset: [f64; 2]| ocean::displace(origin, offset[0], offset[1]);
+        let seabed = |offset: [f64; 2]| self.ocean.seabed.depth_at(lonlat(offset));
         let velocity = [impact.velocity_east_mps, impact.velocity_north_mps];
         let speed = velocity[0].hypot(velocity[1]);
+        let realisation = self.ocean.error.realise(seed);
+        let first = out.len();
+        // Pass 1: every element's properties, carry and fate, in a fixed order of draws.
+        struct Pending {
+            sinker: Sinker,
+            at: [f64; 2],
+            float_s: f64,
+            leeway: f64,
+        }
+        let mut pending: Vec<Option<Pending>> = Vec::new();
         for (c, element) in self.breakup.elements[family].iter().enumerate() {
             let pieces = element.pieces.draw(rng).round().max(1.0);
             let k = (pieces as usize).min(self.breakup.representatives_per_class);
             for _ in 0..k {
                 let sinker = Sinker::draw(element, rng);
                 let piece_mass = element.mass_share * impact.mass_kg / pieces;
-                let mut at = [0.0; 2];
                 // Drawn whether or not the term is on (common random numbers across the report's
                 // term-by-term runs).
                 let (carry_t, carry_x) = (element.carry_s.draw(rng), 2.0 * rng.uniform() - 1.0);
+                let mut at = [0.0; 2];
                 if self.terms.carry && speed > 0.0 {
                     let along = [velocity[0] / speed, velocity[1] / speed];
                     let d = speed * carry_t;
@@ -320,6 +449,7 @@ impl Settling {
                     at = [d * along[0] - lateral * along[1], d * along[1] + lateral * along[0]];
                 }
                 let fate_u = rng.uniform();
+                let (float_t, leeway) = (element.float_s.draw(rng), element.leeway.draw(rng));
                 let mut row = WreckageElement {
                     draw: draw as u32,
                     draw_weight,
@@ -340,35 +470,101 @@ impl Settling {
                     below_model_bottom_m: f64::NAN,
                 };
                 if fate_u < element.stays_afloat {
-                    let (lat, lon) = position(at);
+                    // Surface-drift debris: its position after carry; drift owns what happens next.
+                    let p = lonlat(at);
                     row.fate = Fate::Afloat;
                     row.float_s = f64::INFINITY;
-                    (row.east_m, row.north_m, row.latitude_deg, row.longitude_deg) = (at[0], at[1], lat, lon);
+                    (row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) = (at[0], at[1], p[0], p[1]);
                     out.push(row);
+                    pending.push(None);
                     continue;
                 }
-                // Floats first unless it is among the share that sinks at once.
-                if fate_u >= element.stays_afloat + element.sinks_at_once {
-                    let t = element.float_s.draw(rng);
-                    let a = element.leeway.draw(rng);
-                    if self.terms.float {
-                        let (s, w) = (profile.surface_current_mps, profile.wind_mps);
-                        let e = if self.terms.ocean_error { ocean.surface } else { [0.0; 2] };
-                        at = [at[0] + t * (s[0] + e[0] + a * w[0]), at[1] + t * (s[1] + e[1] + a * w[1])];
-                        row.float_s = t;
-                    }
-                }
-                if let Some(landing) = physics::sink(at, &sinker, profile, ocean, error, &self.terms, self.rule, self.step_m, &seabed, rng) {
-                    let rest = [at[0] + landing.offset_m[0], at[1] + landing.offset_m[1]];
-                    let (lat, lon) = position(rest);
-                    row.fate = Fate::Settled;
-                    (row.east_m, row.north_m, row.latitude_deg, row.longitude_deg) = (rest[0], rest[1], lat, lon);
-                    (row.depth_m, row.descent_s, row.mean_sink_mps, row.below_model_bottom_m) =
-                        (landing.depth_m, landing.descent_s, landing.mean_sink_mps, landing.below_model_bottom_m);
-                }
+                let floats = fate_u >= element.stays_afloat + element.sinks_at_once && self.terms.float;
+                row.float_s = if floats { float_t } else { 0.0 };
                 out.push(row);
+                pending.push(Some(Pending { sinker, at, float_s: row.float_s, leeway }));
             }
         }
+        // Pass 2: the float phase, through the shared integrator, one call for the whole draw.
+        let floaters: Vec<usize> = (0..pending.len()).filter(|&i| pending[i].as_ref().is_some_and(|p| p.float_s > 0.0)).collect();
+        if !floaters.is_empty() {
+            let mut times: Vec<f64> = floaters.iter().map(|&i| t0 + pending[i].as_ref().unwrap().float_s).collect();
+            times.sort_by(f64::total_cmp);
+            times.dedup();
+            let particles: Vec<Particle> = floaters
+                .iter()
+                .map(|&i| {
+                    let p = pending[i].as_ref().unwrap();
+                    Particle { release: lonlat(p.at), release_time: t0, response: ObjectResponse::new(self.float.a_stokes, p.leeway) }
+                })
+                .collect();
+            let diffusion = match (self.terms.diffusion, self.float.diffusivity_m2_s) {
+                (false, _) | (true, Some(0.0)) => Diffusion::None,
+                (true, Some(k)) => Diffusion::Diffusivity { k_m2_s: k },
+                (true, None) => DiffusivityPrior::provisional(&self.ocean.label).draw(seed),
+            };
+            let spec = RunSpec {
+                forcing: Forcing {
+                    current: self.ocean.surface_current.as_ref(),
+                    stokes: (self.float.a_stokes != 0.0).then_some(self.ocean.stokes.as_ref()),
+                    wind10: Some(self.ocean.wind.as_ref()),
+                },
+                coast: &NoCoast,
+                domain: Domain { lon_min: origin[0] - 10.0, lon_max: origin[0] + 10.0, lat_min: (origin[1] - 10.0).max(-89.0), lat_max: (origin[1] + 10.0).min(89.0) },
+                step_s: self.float.step_s,
+                output_times: times.clone(),
+                diffusion,
+                ocean_error: if self.terms.ocean_error { self.ocean.error } else { OceanErrorModel::none() },
+                refloat: Refloat::Off,
+                seed,
+                leeway_absorbs_stokes: false,
+                accept_partial_stokes_overlap: false,
+                explicit_residual: false,
+                threads: 1,
+            };
+            let run = ocean::integrate(&spec, &particles).map_err(|e| format!("settling: float phase refused by the shared integrator: {e:?}"))?;
+            for (j, &i) in floaters.iter().enumerate() {
+                let p = pending[i].as_mut().unwrap();
+                let k = times.partition_point(|&t| t < t0 + p.float_s);
+                match run.tracks[j].snapshots.get(k) {
+                    Some(Snapshot::Afloat(q)) => p.at = offset_m(origin, *q),
+                    // Left the integrator's domain or hit a field gap while afloat: not computed.
+                    _ => pending[i] = None,
+                }
+            }
+        }
+        // Pass 3: the descent of every sinking element, from where and when it left the surface.
+        let rho = |z: f64| self.ocean.density.at(z);
+        for (i, slot) in pending.iter().enumerate() {
+            let Some(p) = slot else { continue };
+            let row = &mut out[first + i];
+            if row.fate == Fate::Afloat {
+                continue;
+            }
+            let start = lonlat(p.at);
+            let t_start = t0 + p.float_s;
+            let Ok(profile) = self.ocean.column.profile(t_start, start) else { continue };
+            let error = self.terms.ocean_error.then_some(&realisation);
+            if let Some(landing) = physics::sink(p.at, t_start, &p.sinker, &profile, &rho, error, &self.terms, self.rule, self.step_m, &seabed, &lonlat, rng) {
+                let rest = [p.at[0] + landing.offset_m[0], p.at[1] + landing.offset_m[1]];
+                let q = lonlat(rest);
+                row.fate = Fate::Settled;
+                (row.east_m, row.north_m, row.longitude_deg, row.latitude_deg) = (rest[0], rest[1], q[0], q[1]);
+                (row.depth_m, row.descent_s, row.mean_sink_mps, row.below_model_bottom_m) =
+                    (landing.depth_m, landing.descent_s, landing.mean_sink_mps, landing.below_model_bottom_m);
+            }
+        }
+        Ok(())
+    }
+}
+
+/// The shared crate's below-model-bottom rule by its run.toml name.
+pub fn parse_rule(name: &str) -> Result<BelowModelBottom, String> {
+    match name {
+        "refuse" => Ok(BelowModelBottom::Refuse),
+        "hold-deepest-level" => Ok(BelowModelBottom::HoldDeepestLevel),
+        "linear-to-zero-at-seabed" => Ok(BelowModelBottom::LinearToZeroAtSeabed),
+        other => Err(format!("settling: unknown below_model_bottom `{other}`; known: refuse, hold-deepest-level, linear-to-zero-at-seabed")),
     }
 }
 
@@ -435,7 +631,7 @@ impl Hypothesis for Settling {
         out.fill(f64::NAN);
         let Some(families) = self.family_probabilities(impact) else { return };
         out[..3].copy_from_slice(&families);
-        out[3] = self.ocean.seabed_depth_m(impact.latitude_deg, impact.longitude_deg).unwrap_or(f64::NAN);
+        out[3] = self.ocean.seabed.depth_at([impact.longitude_deg, impact.latitude_deg]).unwrap_or(f64::NAN);
         let Ok(rows) = self.emit(impact, self.moment_draws) else { return };
         for (c, slot) in out[4..].chunks_exact_mut(CLASS_COLUMNS.len()).enumerate() {
             let class: Vec<&WreckageElement> = rows.iter().filter(|r| r.class as usize == c).collect();
