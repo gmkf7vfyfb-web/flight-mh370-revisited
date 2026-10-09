@@ -62,22 +62,22 @@ the 10-minute threshold while core holds the lock.
 
 | log-on | option | dive off, N = 16: observed (limit) | dive on, N = 8: observed (limit) |
 |---|---|---|---|
-| other | r600/inflated | N16: (14,772) | 14,340 (15,404) |
-| other | r600/startup-offset | N16: (3,751) | 3,331 (4,629) |
-| other | r1200/inflated | N16: (989) | 2,863 (8,131) |
-| other | r1200/no-offset | N16: (283) | 776 (6,411) |
-| other | r1200/startup-offset | N16: (391) | 1,830 (10,049) |
-| other | both/inflated | N16: (198) | 181 (523) |
-| other | both/no-offset | N16: (12) | 7 (unres) |
-| other | both/startup-offset | N16: (9) | 21 (7,557) |
-| fuel-exhaustion | r600/inflated | N16: (3,797) | 3,587 (4,196) |
-| fuel-exhaustion | r600/startup-offset | N16: (1,396) | 1,375 (1,926) |
-| fuel-exhaustion | r1200/inflated | N16: (224) | 821 (2,506) |
-| fuel-exhaustion | r1200/no-offset | N16: (66) | 220 (2,727) |
-| fuel-exhaustion | r1200/startup-offset | N16: (80) | 555 (2,914) |
-| fuel-exhaustion | both/inflated | N16: (100) | 88 (351) |
-| fuel-exhaustion | both/no-offset | N16: (4) | 2 (unres) |
-| fuel-exhaustion | both/startup-offset | N16: (7) | 7 (61,206) |
+| other | r600/inflated | 14,772 (15,302) | 14,340 (15,404) |
+| other | r600/startup-offset | 3,751 (4,600) | 3,331 (4,629) |
+| other | r1200/inflated | 989 (1,496) | 2,863 (8,131) |
+| other | r1200/no-offset | 283 (645) | 776 (6,411) |
+| other | r1200/startup-offset | 391 (783) | 1,830 (10,049) |
+| other | both/inflated | 198 (329) | 181 (523) |
+| other | both/no-offset | 12 (26) | 7 (unresolved) |
+| other | both/startup-offset | 9 (11) | 21 (7,557) |
+| fuel-exhaustion | r600/inflated | 3,797 (4,120) | 3,587 (4,196) |
+| fuel-exhaustion | r600/startup-offset | 1,396 (1,693) | 1,375 (1,926) |
+| fuel-exhaustion | r1200/inflated | 224 (301) | 821 (2,506) |
+| fuel-exhaustion | r1200/no-offset | 66 (107) | 220 (2,727) |
+| fuel-exhaustion | r1200/startup-offset | 80 (131) | 555 (2,914) |
+| fuel-exhaustion | both/inflated | 100 (206) | 88 (351) |
+| fuel-exhaustion | both/no-offset | 4 (68) | 2 (unresolved) |
+| fuel-exhaustion | both/startup-offset | 7 (36) | 7 (61,206) |
 
 **Reading:**
 1. **R1200 is no longer concentration-limited once the dive class is in the model.**
