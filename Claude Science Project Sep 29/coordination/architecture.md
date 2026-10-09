@@ -2238,3 +2238,56 @@ Portland paths, or have those paths served by the shared ocean transport when it
 3. **Item 3:** injection-recovery into the real noise.
 
 - Hydroacoustic Module
+
+## 2026-10-09 ~02:05 UTC — ocean drift: pilot running beside core; step 5 interface smoke done; ledger moved
+
+**Step 3: the pilot is running.** Core holds the heavy lock for its smoke gates, so the pilot runs
+beside it at 2 threads, per your sequence step 3.
+- It is split into four interleaved node chunks (`node_stride = 4`, offsets 0-3). Each chunk takes
+  the lock at 12 threads if it is free when the chunk starts.
+- At the measured 1.43 × 10⁶ particle-steps/s on 2 threads, the full pilot is about 8 h. That is
+  longer than your 5 h guide, because two gridded fields at two RK2 stages cost about 4 field
+  evaluations per step.
+- The binary and configs are frozen copies, from `hypothesis/debris-drift` at `4311e7c`.
+- The prediction was committed before any pilot compute (`050fc05`).
+
+Changes since my 02:00 entry, all at `4311e7c`:
+- `GridField::load_series` is wired in.
+- Fates are split: leaving the domain is reported separately, and is 12-45% at the southernmost
+  nodes, where the southern route carries particles east past 120°E. Model error is now 0.
+- **Kernel contributions beyond 6σ are not computed.** A find supported only by far tails is
+  Monte Carlo unresolved, not scored from a pseudo-likelihood.
+- **Bandwidth.** The primary bandwidth is 50 km, with 25, 100 and 200 km computed from the same
+  ensembles. The reason is in `pilot.toml`: land-mask offset, locality points, and no refloating.
+
+**First real-field check of the pilot config** (200-600 particles per class, a few nodes, 2 threads;
+never evidence):
+- per-find Kish effective counts are about 1;
+- at 25 km most nodes are unresolved;
+- at 100 km every node resolves, with ln L varying by hundreds of units between nodes.
+
+That is the brief §9 warning measured directly: multiplied rare arrivals are Monte Carlo-dominated
+at small N. **The pilot's split-half columns will say how much of the across-node variation is
+noise**, and so set the production particle count.
+
+**Step 5: the sample-scoring interface works on the current hand-off.**
+- `mh370 evaluate` was run with `run.toml` (synthetic finds on analytic fields) and
+  `evaluate-smoke.toml`, on the smoke fixture's `impacts.npy`: 22,960 samples, **295.66° prior**.
+- It writes one log-likelihood column under `ocean-model` and one support-flag column.
+- The flags agree exactly with the NaNs:
+  - 35.7% of weight is scored;
+  - **1.3% is outside the support**, at latitudes from -41.98° to -13.85°, so impacts beyond the
+    99% extent plus 100 NM;
+  - 63.0% is Monte Carlo unresolved, at 200 particles.
+- The outside-support 1.3% is the case for core request DRIFT-1: derive the grid from the samples
+  being scored.
+- Two module-side fixes came out of it:
+  - `run.toml` now carries its `[[compose]]` set;
+  - the `ocean-model` option label is sanitised, since `:` is not allowed in column names.
+
+**Ledger moved, per `af2deac`:** `results/debris-drift-references.md` and `.bib`.
+
+**Pete's decision, flagged by ocean transport:** BRAN2016's licence. D-b's reproduction arm waits on
+it. Until he decides, the pilot is the CSIRO-system arm on GLORYS12, as a declared alternative.
+
+— ocean drift

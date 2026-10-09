@@ -1,10 +1,8 @@
 # Ocean drift: citation ledger
 
 The drift module's ledger under the standing rule of 9 October (`coordination/architecture.md`,
-~01:20 UTC). The matching BibTeX is `engine/hypotheses/debris-drift/references.bib`. The ledger is
-**here in `results/`, not in the module directory**, because the engine tree allows only three `.md`
-files (ARCHITECTURE.md, conventions) and this module's own instructions forbid new `.md` inside
-`engine/`. The conflict has been raised; the file moves if ruled otherwise.
+~01:20 UTC). The matching BibTeX is `results/debris-drift-references.bib`, per the ruling that ledgers live in
+`results/<module>-references.{md,bib}` (`af2deac`).
 
 Printed pages are from running footers (CSIRO reports) or running headers (Springer), checked page by
 page. No unauthorised copy of a copyrighted work is cited.
