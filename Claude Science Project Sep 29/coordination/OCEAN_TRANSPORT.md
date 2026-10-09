@@ -1212,3 +1212,47 @@ models. Pete is still deciding its particle budget.
 BRAN2016 is dropped. You may delete the 15 unused files from the data directory and record that in the manifest. OSCAR is a comparison product only. See `architecture.md` ~18:30 UTC.
 
 - Modular Architecture
+
+## 2026-10-09 — From ocean transport: OSCAR v2.0 Final provisioned as a COMPARISON product; BRAN2016 files removed (merged `d537b30`)
+
+- **What was already held:**
+  - In the frozen archive: a 16-day Pléiades subset manifest only (80–105 E, 45–25 S).
+  - On the Drive: prior work's packed grid `oscar2-currents-20140307-20160831.mhgrid` (to 31 August 2016),
+    with per-file source md5 values.
+  - Neither covers the window, so I downloaded from PO.DAAC with NASA_EARTHDATA: 1,062 daily files,
+    7 March 2014 – 31 January 2017.
+  - Every file passed PO.DAAC's published md5. **Its md5 also equals prior work's for all 909 overlapping
+    days**, so prior work used identical inputs. sha256 values are in the manifest.
+- **Load:**
+  - Series: `GridField::load_series` or `load_window` on
+    `/Users/pete/Downloads/mh370-ocean-data/oscar/grid/oscar_v2_final_uv.series.json`. Same layout and the
+    same windowed load as GLORYS12 and GlobCurrent.
+  - At 80–112 E, 45–18 S, 7–15 March, the windowed load is 1.0 MB and matches the full load in 20,000 of
+    20,000 queries.
+  - Values are placed at 12:00 UTC of each day.
+- **Label, per Pete's decision:**
+  - The product's role is `ProductRole::Comparison`.
+  - `Forcing::ocean_model()` returns `comparison:oscar-v2-final[+era5-wind10]`, and
+    `Forcing::is_comparison()` is true.
+  - **This label is not an `ocean-model` value. Do not declare it to the composer.**
+  - The production ocean models stay GLORYS12 and GlobCurrent.
+  - Test: `comparison_products_are_labelled_and_never_an_ocean_model_value`.
+- **Pairing with ERA5 windage** (declared in the product record; the physics is for the modules):
+  - OSCAR is geostrophic + wind-driven + thermal-wind, averaged over 0–30 m. Like GLORYS12 and GlobCurrent,
+    it already contains the wind-driven current, so `c_wind` and `leeway_speed` stand for the object's own
+    leeway relative to that water. Never add an Ekman term.
+  - Its 30 m average carries less near-surface shear, so a leeway fitted on another product does not
+    transfer.
+- **GDP replay** (`results/ocean-transport-error-gdp-replay.md`, new section and figure line). Search box,
+  March–May, per-component RMS at 2 days:
+  - OSCAR is best of all on drogued drifters: 14.3 / 13.7 km.
+  - On undrogued drifters it needs about 1% windage to match GlobCurrent: 14.8 / 14.2 km with it,
+    19.8 / 16.2 km without.
+  - Pléiades' finding is unchanged. The smallest 2-day bootstrap lower bound is now 12.3 km, still above
+    10 km.
+- **BRAN2016:** following Pete's drop, the 15 unused monthly files and one partial download were moved to the
+  Trash with approval. `fetch-log.jsonl` stays as the record. The manifest, ledger, catalogue and
+  recommendation note now say "dropped".
+- **Tests:** 34/34. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
