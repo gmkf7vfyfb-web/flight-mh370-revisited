@@ -49,9 +49,21 @@ def main():
                             sharex=True, sharey=True, squeeze=False, gridspec_kw=dict(wspace=0.06, hspace=0.10))
     check = {}
     for i, spec in enumerate(a.rows):
-        label, d = spec.split("=", 1); run = pathlib.Path(d)
-        seed = sorted(p for p in (run / "bto-bfo").glob("seed-*") if (p / "impacts.npy").exists())[0]
-        post = {k: (p, cc) for k, p, cc in option_posteriors(run, seed) if k in opts}
+        label, d = spec.split("=", 1)
+        dirs = [pathlib.Path(x) for x in d.split(",")]
+        if len(dirs) == 1:  # one directory: its first seed (the relay convention)
+            srcs = [(dirs[0], sorted(p for p in (dirs[0] / "bto-bfo").glob("seed-*") if (p / "impacts.npy").exists())[0])]
+        else:               # several: every seed, equal weight per seed
+            srcs = [(r, p) for r in dirs for p in sorted((r / "bto-bfo").glob("seed-*")) if (p / "impacts.npy").exists()]
+        acc = {}
+        for r, sd in srcs:
+            for k, p, cc in option_posteriors(r, sd):
+                if k in opts:
+                    acc.setdefault(k, []).append((p, {f: cc[f] for f in ("dn", "de", "has")}))
+        post = {k: (np.concatenate([q[0] for q in v]) / len(v),
+                    {f: np.concatenate([q[1][f] for q in v]) for f in ("dn", "de", "has")}) for k, v in acc.items()}
+        ess_of = {k: float(sum(1.0 / np.sum(q[0] ** 2) for q in v)) for k, v in acc.items()}
+        seed = type("S", (), {"name": ",".join(f"{r.name}/{p.name}" for r, p in srcs)})
         for j, k in enumerate(opts):
             ax = axs[i, j]; p, cc = post[k]; h = cc["has"]
             H, _, _ = np.histogram2d(cc["dn"][h], cc["de"][h], bins=[edges, edges], weights=p[h])
@@ -62,7 +74,7 @@ def main():
             ax.contourf(c, c, dens, levels=lv + [dens.max()], colors=SHADES, antialiased=True)
             ax.contour(c, c, dens, levels=lv, colors=EDGE, linewidths=EDGE_W)
             ax.plot(0, 0, marker="+", color="black", ms=7, mew=1.0, zorder=5)
-            ess = 1.0 / np.sum(p ** 2)
+            ess = ess_of[k]
             ax.text(0.97, 0.03, f"ESS {ess:,.0f}", transform=ax.transAxes, fontsize=6, color="#555555", ha="right", va="bottom")
             ax.set_aspect("equal"); ax.set_xlim(-a.extent, a.extent); ax.set_ylim(-a.extent, a.extent)
             ax.set_xticks([-100, -50, 0, 50, 100]); ax.set_yticks([-100, -50, 0, 50, 100]); ax.tick_params(labelsize=6)
