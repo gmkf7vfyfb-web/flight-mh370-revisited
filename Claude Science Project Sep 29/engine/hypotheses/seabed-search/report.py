@@ -34,7 +34,9 @@ OUT = ROOT / "runs" / "seabed-search-analysis"
 BINARY = ROOT / "target" / "release" / "mh370"
 MODULE = "seabed-search"
 OI_OVERRIDE = HERE / "ocean-infinity-2018.toml"
+OI25_OVERRIDE = HERE / "ocean-infinity-2025.toml"
 OI_LAYER = ROOT / "data" / "external" / "search-coverage" / "ocean-infinity-2018.cov"
+OI25_LAYER = ROOT / "data" / "external" / "search-coverage" / "ocean-infinity-2025.cov"
 RHO_MEANING = ("rho is the chance that the wreck could not have been found even where the sonar looked: hidden by "
                "terrain, buried, or imaged but dismissed. ATSB's detection ratings (q) cover data quality; rho is what they do not.")
 GRID = np.arange(-50.0, 50.0 + 1e-9, 0.05)  # summary.rs latitude grid
@@ -45,6 +47,11 @@ RHO_SWEEP = [0.0, 0.02, 0.05, 0.1, 0.2, 0.3, 0.5]
 # assumption, not a measurement.
 PER_SENSOR = [{"name": f"phase2-{s}", "layer": f"phase2-{s}", "detection_probability": 0.945}
               for s in ("deep-tow", "go-phoenix", "dhj", "auv")]
+R_KM = 6371.0072  # authalic radius, as in prepare/build_coverage.py
+# Planning detection probability for Davey eq. (11.2). 0.9 is Stone et al. (2014)'s deliberate cap
+# on sensor detection probabilities, because estimates from specifications and operators "tend to be
+# optimistic"; it is a planning assumption for ground not yet searched, not this module's q.
+PLANNING_PD = 0.9
 
 
 def override(rho=None, campaigns=None, dependence=None):
@@ -60,7 +67,7 @@ def override(rho=None, campaigns=None, dependence=None):
     return "\n".join(lines) + "\n"
 
 
-def scenarios(params, oi_campaigns):
+def scenarios(params, oi_campaigns, oi25=False):
     """(label, override text or path or None, kind). The first is run.toml itself."""
     base = params["campaigns"]
     with_q = lambda q: [dict(c, detection_probability=q) if c["layer"] == "phase2" else c for c in base]
@@ -72,6 +79,8 @@ def scenarios(params, oi_campaigns):
     split = PER_SENSOR + [c for c in base if c["layer"] != "phase2"]
     out.append(("Phase 2 split, shared misses", override(campaigns=split, dependence="shared"), "repeat"))
     out.append(("Phase 2 split, independent misses", override(campaigns=split, dependence="independent"), "repeat"))
+    if oi25:
+        out.append(("+ OI 2025-26 inferred, outboard band only", OI25_OVERRIDE, "oi25"))
     if oi_campaigns:
         out.append(("+ OI 2018 inferred, coverage 0.889", OI_OVERRIDE, "oi"))
         high = [dict(c, coverage_fraction=0.952) if c["name"] == "ocean-infinity-2018" else c for c in oi_campaigns]
@@ -101,6 +110,33 @@ def evaluate(impacts, extra, scratch):
     return {c[len(MODULE) + 1:]: values[:, i] for i, c in enumerate(columns) if c.startswith(MODULE + ":")}
 
 
+def candidate_areas(hist, bins, block=5, p_d=None):
+    """Davey eq. (11.2), printed p. 101: for an area A searched with constant P_D,
+
+        P(find during search of A) = P_D * integral_A p(x_final | Z) dx_final
+
+    `hist` is a weighted 2-D histogram of the impacts (longitude, latitude) on the 0.1 deg
+    `bins`; areas are square blocks of `block` cells. Returns the blocks sorted by probability
+    of success, with their area on the authalic sphere, so the cumulative curve answers the
+    planner's question: what chance of finding it, for how much ground.
+    """
+    p_d = PLANNING_PD if p_d is None else p_d
+    xe, ye = bins
+    nx, ny = (len(xe) - 1) // block, (len(ye) - 1) // block
+    mass = hist[:nx * block, :ny * block].reshape(nx, block, ny, block).sum(axis=(1, 3))
+    mass = mass / hist.sum()
+    step = float(np.round(np.diff(ye)[0] * block, 6))
+    south = ye[:ny * block:block]
+    row_area = R_KM**2 * np.radians(step) * (np.sin(np.radians(south + step)) - np.sin(np.radians(south)))
+    order = np.argsort(mass, axis=None)[::-1]
+    out = []
+    for flat in order[: (mass > 0).sum()]:
+        i, j = np.unravel_index(flat, mass.shape)
+        out.append({"west": float(xe[i * block]), "south": float(south[j]), "degrees": step,
+                    "mass": float(mass[i, j]), "p_find": float(p_d * mass[i, j]), "km2": float(row_area[j])})
+    return out
+
+
 def smooth(hist):
     """summary.rs smooth_to_density: 0.05 deg histogram, 0.1 deg Gaussian, normalised."""
     k = np.arange(-8, 9) * 0.05
@@ -126,6 +162,13 @@ def main():
     args = parser.parse_args()
     run = json.loads((args.run / "run.json").read_text())
     columns = run["impact_columns"]
+    # Double-application guard (brief section 8). The residual PDF is a view over a source
+    # posterior; applying this module to a posterior that already carries its own likelihood would
+    # count the search evidence twice, and the result would look entirely normal.
+    already = [c for c in columns if c.startswith(MODULE + ":")]
+    if already:
+        raise SystemExit(f"{args.run} already carries this module's likelihood ({', '.join(already)}): "
+                         "it is a composed posterior, not a source. Refusing to apply the search evidence twice.")
     terminal = run["config"]["terminal"]["module"]
     label = (f"{terminal} impacts, a placeholder: plumbing, not evidence" if terminal == "arc-kernel"
              else f"impacts from end-of-flight module {terminal}")
@@ -135,7 +178,7 @@ def main():
     oi = tomllib.loads(OI_OVERRIDE.read_text())["hypotheses"][MODULE]["campaigns"] if OI_LAYER.is_file() else None
     if oi is None:
         print(f"no {OI_LAYER}: the inferred Ocean Infinity 2018 variants are left out (run prepare/build_coverage.py)")
-    cases = scenarios(params, oi)
+    cases = scenarios(params, oi, OI25_LAYER.is_file())
     subprocess.run(["cargo", "build", "--release", "-q"], check=True, cwd=ROOT)
     scratch = OUT / "scratch"
     scratch.mkdir(parents=True, exist_ok=True)
@@ -192,21 +235,41 @@ def main():
     lines += ["", f"{'scenario':<36} {'Z':>7} {'median':>7} {'q025':>7} {'q975':>7} {'N of 33S':>8} {'S of 39.5':>9} "
                   f"{'on P2':>6} {'ESS':>9} {'split':>6} {'vs before':>9}"]
     for name, _, kind, r in results:
-        if kind in ("main", "rho", "q", "oi", "repeat"):
+        if kind in ("main", "rho", "q", "oi", "oi25", "repeat"):
             lines.append(f"{name:<36} {r['z']:7.4f} {r['stats']['median']:7.2f} {r['stats']['q025']:7.2f} {r['stats']['q975']:7.2f} "
                          f"{r['north_33']:8.3f} {r['south_39_5']:9.3f} {r['on_p2']:6.3f} {r['ess']:9,.0f} "
                          f"{r['split_half']:6.3f} {overlap(r['density'], before['density']):9.3f}")
+    # The residual-PDF view: the same source posterior with the search evidence disabled and
+    # applied, and Davey eq. (11.2) for every candidate area of either, ranked.
+    areas = {"disabled": candidate_areas(maps["before"], map_bins),
+             "residual": candidate_areas(maps["run.toml"], map_bins)}
+    lines.append("")
+    lines.append(f"Residual PDF view. Source posterior: {args.run.name}, 00:19 option {args.option}; search evidence")
+    lines.append(f"applied with run.toml. Davey eq. 11.2 at a planning P_D of {PLANNING_PD:g} on {areas['residual'][0]['degrees']:g} deg blocks:")
+    lines.append("rank  candidate area            residual mass  P(find)   km2   | same block, search disabled")
+    disabled = {(a["west"], a["south"]): a for a in areas["disabled"]}
+    for k, a in enumerate(areas["residual"][:8], 1):
+        was = disabled.get((a["west"], a["south"]), {"mass": 0.0})["mass"]
+        lines.append(f"{k:4d}  {a['south']:+6.2f} {a['west']:7.2f} E {a['degrees']:4.2f} deg "
+                     f"{a['mass']:13.4f} {a['p_find']:8.4f} {a['km2']:6.0f}   | {was:.4f}")
+    cum = np.cumsum([a["p_find"] for a in areas["residual"]])
+    km2 = np.cumsum([a["km2"] for a in areas["residual"]])
+    for target in (0.25, 0.5, 0.75):
+        i = int(np.searchsorted(cum, target))
+        if i < len(cum):
+            lines.append(f"      P(find) {target:.0%} needs the best {i + 1} blocks, {km2[i]:,.0f} km2")
     print("\n".join(lines))
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "search-evidence.json").write_text(json.dumps({
-        "label": label, "run": str(args.run), "option": args.option,
+        "label": label, "run": str(args.run), "option": args.option, "planning_p_d": PLANNING_PD,
         "before": {k: v for k, v in before.items() if k != "density"},
         "scenarios": [{"label": n, "kind": kind, **{k: v for k, v in r.items() if k != "density"}} for n, _, kind, r in results],
+        "candidate_areas": {k: v[:40] for k, v in areas.items()},
     }, indent=1) + "\n")
-    pages(label, params, maps, map_bins, results, before, lines)
+    pages(label, params, maps, map_bins, results, before, lines, areas)
 
 
-def pages(label, params, maps, map_bins, results, before, lines):
+def pages(label, params, maps, map_bins, results, before, lines, areas):
     import matplotlib
 
     matplotlib.use("Agg")
@@ -291,7 +354,40 @@ def pages(label, params, maps, map_bins, results, before, lines):
         fig.suptitle(label, **warn)
         save(fig, "map", pdf)
 
-        fig = plt.figure(figsize=(12, 6))
+        # Page 4, the residual-PDF view: what the search leaves, and Davey eq. (11.2) over it.
+        fig, axs = plt.subplots(1, 2, figsize=(13, 5.6))
+        ax = axs[0]
+        for key, colour, name in [("disabled", "#52514e", "search evidence disabled"),
+                                  ("residual", "#2a78d6", "residual (search evidence applied)")]:
+            cum = np.cumsum([a["p_find"] for a in areas[key]])
+            km2 = np.cumsum([a["km2"] for a in areas[key]])
+            ax.plot(km2 / 1000.0, cum, color=colour, lw=1.8 if key == "residual" else 1.2,
+                    ls="-" if key == "residual" else (0, (1, 1.5)), label=name)
+        ax.set(xlim=(0, 400), ylim=(0, 1), xlabel="Ground searched, best areas first (thousand km2)",
+               ylabel="P(find)", title=f"Davey eq. 11.2: probability of success, planning P_D {PLANNING_PD:g}")
+        ax.legend(fontsize=7.5, loc="lower right")
+        ax.grid(alpha=0.25, lw=0.5)
+        ax = axs[1]
+        top = areas["residual"][:12]
+        disabled = {(a["west"], a["south"]): a["mass"] for a in areas["disabled"]}
+        y = np.arange(len(top))[::-1]
+        ax.barh(y + 0.18, [disabled.get((a["west"], a["south"]), 0.0) for a in top], height=0.36,
+                color="#b9b8b4", label="before (search disabled)")
+        ax.barh(y - 0.18, [a["mass"] for a in top], height=0.36, color="#2a78d6", label="residual")
+        ax.set_yticks(y)
+        ax.set_yticklabels([f"{a['south']:+.1f} {a['west']:.1f}E" for a in top], fontsize=7)
+        ax.set(xlabel=f"Share of the probability in a {top[0]['degrees']:g} deg block",
+               title="The best candidate areas, and what the search did to them")
+        ax.legend(fontsize=7.5, loc="lower right")
+        ax.grid(alpha=0.25, lw=0.5, axis="x")
+        fig.suptitle(label, **warn)
+        fig.text(0.5, 0.005, "A residual view, not a second pipeline: the same source posterior with this module's "
+                 "likelihood column applied and withheld. It names its source and must never be run on a posterior "
+                 "that already carries the column.", ha="center", va="bottom", fontsize=8, color="#52514e")
+        fig.tight_layout(rect=(0, 0.05, 1, 0.95))
+        save(fig, "residual", pdf)
+
+        fig = plt.figure(figsize=(12, 7.5))
         fig.text(0.02, 0.97, "Seabed search evidence: numbers", fontsize=12, va="top")
         fig.text(0.02, 0.91, "\n".join(lines), family="monospace", fontsize=7.2, va="top")
         save(fig, "numbers", pdf)
