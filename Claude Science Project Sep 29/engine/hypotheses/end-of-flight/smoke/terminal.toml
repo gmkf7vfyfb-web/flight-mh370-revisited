@@ -161,3 +161,15 @@ recovery_altitude_ft = [8000.0, 25000.0]
 recovery_floor_ft = 3000.0
 recovery_rate_fpm = 4000.0
 recovery_mach_limit = 0.92
+
+[hypotheses.end-of-flight.logon]
+# Brief section 6. The 00:19:29 log-on, used once, through a flame-out -> APU -> SDU lag
+# likelihood; the cause is a declared alternative, logon-cause = {fuel-exhaustion, other}.
+# R600 logged time 2014-03-08T00:19:29.416Z (data/satcom-observations.csv, m0019a).
+logon_unix_s = 1394237969.416
+# The archive analyst-declared Erlang(8, 14.875 s): mean 119 s, sd 42 s. A parameter to question:
+# ATSB gives roughly 60 s APU + 60 s SDU.
+lag_shape = 8.0
+lag_scale_s = 14.875
+# Equal prior: a statement of indifference, reported per option, never mixed (absolute_scale false).
+prior_fuel_exhaustion = 0.5
