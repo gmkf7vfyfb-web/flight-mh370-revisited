@@ -63,8 +63,10 @@ withdrawn. The fixture now uses the module's own trim, code `free_dynamics_trace
      24,000–58,000 ft/min and 0.87–1.31 g, ending 4.7–7.9 NM after the first 15,000 ft/min crossing.
    - In the 00:11 smoke impacts, `flame-out/none-thrusting/no-intervention` reaches 15,000 ft/min for
      0.6% of its weight.
-   - **Cause: a constant bank cannot diverge.** Boeing's dives grow bank to 53–60°; its glides hold
-     11–14°. The module holds whatever bank it drew.
+   - **A constant bank cannot diverge.** Four of Boeing's five high-rate cases (3, 4, 6, 10) grow bank
+     to 53–60°. Case 5 is high-rate at only 12.8° peak bank: a late dive after a long phugoid. The
+     non-high-rate cases hold 11–14°. The module holds whatever bank it drew.
+   - **But bank is not the whole cause;** see the addendum.
 2. **The phugoid is consistent.** It runs 78–86 s against 82–87 s for Boeing's six non-high-rate cases,
    with the shortest periods at trim offset +0.08 and small bank.
 3. **The amplitude is consistent at nominal trim.** Peak descent at offset 0 is 3,900–8,600 ft/min,
@@ -88,3 +90,34 @@ withdrawn. The fixture now uses the module's own trim, code `free_dynamics_trace
   - "up to about 20 minutes airborne after the second flame-out": not measurable without the
     flame-out times.
   - Both may refer to the December 2015 set.
+
+
+## Addendum: the spiral mode, built and tested, FAILS acceptance (not enabled)
+
+- **Built:** module `envelope.spiral_divergent_weight`, `spiral_doubling_s`, `spiral_bank_cap_deg` and
+  `spiral_bank_floor_deg`.
+  - A divergent descent doubles its bank every T₂ from the start of free flight, to a 60° cap.
+  - T₂ ~ U[60, 120] s brackets the Boeing doubling times of 82–88 s. Those come from the bank ratio
+    between 60 and 180 s in cases 3, 4, 6 and 10, which does not depend on where the flame-out falls.
+  - At weight 0, which is the default, the original impact columns are bit-identical (00:11, seed 1,
+    N = 4).
+- **Tested:** 54 divergent fixture traces (`calibration-with-spiral.json`, the `-div` traces).
+  - Starts: 35,000 and 40,000 ft; drawn bank 2, 10, 20°; T₂ 60, 85, 120 s; trim offset −0.08, 0, +0.08.
+  - Result: **0 of 54 high-rate.**
+  - Peak descent 6,900–17,100 ft/min and at most 0.28 g, against Boeing's 24,000–58,000 ft/min and
+    0.87–1.31 g. Durations of 4.9–14.4 min and peak bank of 63–65° are in Boeing's range.
+- **Why:** peak Mach in these traces is 0.81–0.94, median 0.85.
+  - Boeing's dives at up to 58,000 ft/min imply about M0.92–1.0 in thick air.
+  - The module's fixed-C_L free dynamics pitch up as speed builds, and the Lock drag rise above the
+    M0.87 crest holds the speed near the crest.
+  - This is exactly the region the brief labels **extrapolated** (drag rise and pitch above M0.87, NASA
+    CRM data not in this tree). Boeing's own simulator left its database there.
+- **Consequence:**
+  - Pete's 50/50 ruling is recorded in `run.toml` comments, but the weight stays **0** until a model
+    passes acceptance. A spiral that cannot reach the dive class would move impact mass without
+    reproducing the behaviour it stands for.
+  - **Next:** sweep the two declared extrapolated parameters, the Mach-tuck shift `cl_shift_per_mach`
+    and the drag-rise coefficient `k_w`, within ranges that can be defended. Then report whether the
+    high-rate class is reachable at all in a point-mass model. If it is not, the dive class has to be
+    represented as a declared kinematic family (Boeing's 4.7–7.9 NM chord) rather than as physics; that
+    question goes to the architect.

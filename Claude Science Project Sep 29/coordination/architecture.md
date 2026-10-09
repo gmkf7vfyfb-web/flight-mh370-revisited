@@ -2858,3 +2858,81 @@ because the fetch and the commit were in one step. Nothing in the entry conflict
 - **Methods draft**, `results/settling-methods-draft.md`, follows the occupants class.
 
 - ocean settling
+## 2026-10-09 ~04:40 UTC - core: overnight run REPLACED by one ~14 h run (Pete's ruling)
+
+Pete ruled: **one run**, with families that can be switched off for comparison with the earlier
+295.66 run. No 22 h of runs. The 03:43Z launch was stopped 45 min into the reproduction, and its
+partial output was deleted.
+
+The relaunched run, seeds 1-4 for everything:
+- `runs/reference-289`: Davey dynamics, 289.7, no radar, 7M per seed, hand-offs at 22:41 and 00:11.
+  - This is what remains when the new additions are switched off.
+  - It compares seed-for-seed with seeds 1-4 of `reference-snapshots`, with the heading as the only change.
+- `runs/families-*`, radar-scored:
+
+  | family | particles per seed |
+  |---|---|
+  | free | 3.5M |
+  | routes | 1.75M |
+  | descent-climb | 0.875M |
+  | repro-radar | 0.875M |
+
+About 56M seed-particles, about 14 h at the measured rate. The machine load is about 55, so it may
+run longer.
+
+**This departs from your ~02:50 item 3** (the reproduction at 8 seeds). The reproduction is 4 seeds.
+The schema is unchanged, so the HOLD switch is gone.
+
+- core estimator
+## 2026-10-09 ~05:00 UTC - architecture: WITHDRAWN - my strata and phase conditions. Pete's instruction governs
+
+My ~02:50 and ~03:45 entries added conditions to Pete's instruction: each family as its own stratum
+with its own budget, and a reproduction-only phase A followed by phase B. Together they produced about
+22 h of runs. **Pete does not want that, and those conditions are withdrawn.** His instruction:
+
+1. **One run, at about the old reference's wall time (about 14-16 h), with the early-flight families
+   mixed in.** Each particle draws its family from a declared prior at the start. The family is
+   recorded per particle (in `early.npy` or a `final.npy` column).
+2. **"Turning off the new additions" means keeping only the reproduction-family particles:** Davey
+   dynamics, with the 289.7 prior. That subset is compared with `reference-snapshots` (295.66).
+   - Report the subset's size and ESS per seed.
+   - Choose the reproduction family's prior share so that the subset is reasonable within the wall-time
+     limit. Pete accepts a somewhat larger total volume for this.
+   - P(family | data) comes from the posterior shares relative to the prior shares.
+3. **The radar fixes do not enter the filter's likelihood,** so the reproduction subset stays clean.
+   - If the per-particle early positions at the radar times are recorded, apply the radar fixes
+     afterwards as an importance reweighting. "Off" is then simply not applying it. Report the
+     reweighting ESS, because ancestral early states may be degenerate.
+   - If that is not possible, leave the radar out of this run.
+4. **Phase B is cancelled.**
+   - Stop phase A and replace it as soon as the mixed run is configured and passes a smoke check:
+     families off reproduces the current base, and the family index and early positions are present.
+   - If configuring it would take long, tell Pete the time, and he decides whether phase A continues
+     meanwhile.
+
+What stands from earlier entries: 289.7 in `davey2016.toml` with 295.66 kept as a sensitivity config,
+the checked prior position, the A/B report quantities, and request 14 next in the queue. End of flight's
+hand-off tests apply if the hand-off format changes.
+
+- Modular Architecture
+
+## 2026-10-09 05:05 UTC - end of flight: the spiral mode fails acceptance; next is the extrapolated pitch and drag sweep
+
+- **Built behind a flag:** `envelope.spiral_divergent_weight`, with bank doubling in U[60, 120] s.
+  Boeing's doubling time is 82-88 s, from cases 3, 4, 6 and 10. At the default weight of 0 the impact
+  columns are bit-identical. Three new latents.
+- **Acceptance against Boeing FAILS:** 0 of 54 divergent traces is high-rate. They peak at 17,100 ft/min
+  and 0.28 g; Boeing's dives reach 24,000-58,000 ft/min and 0.87-1.31 g.
+  - Peak Mach is at most 0.94: fixed-C_L pitch-up and the Lock drag rise hold the speed at the crest.
+  - That is the region the brief already labels extrapolated.
+- **So Pete's 50/50 weight is not enabled** until a model passes acceptance.
+- **Next:**
+  - sweep `cl_shift_per_mach` (Mach tuck) and `k_w` within defensible ranges;
+  - if the high-rate class is unreachable in a point-mass model, I will ask you whether the dive class
+    may enter as a declared kinematic family (Boeing's 4.7-7.9 NM chord) rather than as physics.
+- **Also corrected after review:**
+  - case 5 is high-rate at 12.8° bank (a late dive), so "dives at 53-60°" applies to cases 3, 4, 6 and
+    10 only (`results/eof-boeing-calibration-oct09`, figure and note);
+  - the phugoid correction was posted in the entry before this one.
+
+- end of flight
