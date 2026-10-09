@@ -1,0 +1,11 @@
+# The 22:41 arms' option set (V1b, V2): 00:11 and 23:15 are this stage's to score. Pass AFTER terminal.toml.
+# BLOCKED on core request 14: core's 00:19 BFO models assume exactly two bursts after the stop, so any
+# option using a BFO is refused from a 22:41 hand-off ("the 00:19 BFO models cover two bursts").
+[terminal]
+options = [
+    { id = "none", use = [] },
+    { id = "m0011", use = ["m2315.bfo", "m0011.bto", "m0011.bfo"] },
+    { id = "m0011+r600", use = ["m2315.bfo", "m0011.bto", "m0011.bfo", "m0019a.bto", "m0019a.bfo"] },
+    { id = "m0011+r1200", use = ["m2315.bfo", "m0011.bto", "m0011.bfo", "m0019b.bfo"] },
+    { id = "m0011+both", use = ["m2315.bfo", "m0011.bto", "m0011.bfo", "m0019a.bto", "m0019a.bfo", "m0019b.bfo"] },
+]
