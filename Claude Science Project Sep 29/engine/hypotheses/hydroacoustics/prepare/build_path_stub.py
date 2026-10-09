@@ -1,12 +1,12 @@
 """PROVISIONAL ocean-environment stub for the Blackman engine validation: two paths only.
 
-Approved 2026-10-09 (coordination/HYDROACOUSTICS.md, morning rulings, item 5): WOA23 + GEBCO on the
-air9 -> H01W and air9 -> H08S paths, tens of MB, in this module's own directory, sound speed via gsw,
+Approved 2026-10-09 (coordination/HYDROACOUSTICS.md, morning rulings, item 5; extended to air8 by ruling
+H3): WOA23 + GEBCO on the air9 and air8 -> H01W and -> H08S paths, tens of MB, in this module's own directory, sound speed via gsw,
 DELETED when the shared ocean-transport API serves profiles and bathymetry. Its assumptions are stated
 in coordination/OCEAN_TRANSPORT.md so the shared owner can reject rather than inherit them.
 
-SOURCE: the air9 line midpoint from data/blackman/blackman_shot_lines.csv (both segments, 19 Oct 2001,
-02:10-02:46 UTC): -27.5612, 98.8821. RECEIVERS: FDSN triad centroids (data/stations.csv). H08S uses the
+SOURCES: line midpoints from data/blackman/blackman_shot_lines.csv (both segments of each line):
+air9 (19 Oct 2001, 02:10-02:46 UTC) -27.5612, 98.8821; air8 (16 Oct 2001, 12:28-13:04 UTC) -23.4246, 88.2167. RECEIVERS: FDSN triad centroids (data/stations.csv). H08S uses the
 2002 FDSN position for a 2001 event, PROVISIONAL (ruling item 4).
 
 PATH: WGS84 geodesic, sampled every 0.5 km for bathymetry and every 25 km for sound speed.
@@ -23,7 +23,7 @@ monthly fields stop at 1,500 m. Bilinear in latitude and longitude at each node,
 TEOS-10 (gsw 3.6): SA from SP, CT from in-situ t, then gsw.sound_speed at in-situ pressure. A level is
 NaN where WOA has no data (below the local seafloor); never filled.
 
-Run: python prepare/build_path_stub.py <out_dir>
+Run: python prepare/build_path_stub.py <out_dir> [air9|air8]   (default air9)
 """
 
 import json
@@ -37,7 +37,7 @@ import xarray as xr
 from pyproj import Geod
 
 GEOD = Geod(ellps="WGS84")
-SRC = ("air9", -27.5612, 98.8821)
+SOURCES = {"air9": (-27.5612, 98.8821), "air8": (-23.4246, 88.2167)}
 STATIONS = {"H01W": (-34.890303, 114.142637), "H08S": (-7.639380, 72.483828)}
 GEBCO = "https://dap.ceda.ac.uk/thredds/dodsC/bodc/gebco/global/gebco_2026/ice_surface_elevation/netcdf/GEBCO_2026.nc"
 TID = "https://dap.ceda.ac.uk/thredds/dodsC/bodc/gebco/global/gebco_2026/type_identifier_grid/netcdf/gebco_2026_tid.nc"
@@ -94,7 +94,8 @@ def sound_speed(lat, lon, woa):
     return rows
 
 
-def main(out_dir):
+def main(out_dir, source="air9"):
+    SRC = (source,) + SOURCES[source]
     out = pathlib.Path(out_dir); out.mkdir(parents=True, exist_ok=True)
     woa = None
     meta = {"source": SRC, "stations": STATIONS, "gebco": GEBCO, "tid": TID, "woa_t": WOA_T, "woa_s": WOA_S,
@@ -104,24 +105,24 @@ def main(out_dir):
         az = np.array(GEOD.inv(lo[:-1], la[:-1], lo[1:], la[1:])[0]); az = np.append(az, az[-1])
         b = bathymetry(la, lo, az)
         pd.DataFrame({"range_km": s, "lat": la, "lon": lo, "elevation_m": b[:, 0], "tid": b[:, 1],
-                      "corridor_max_elevation_m": b[:, 2]}).to_csv(out / f"bathy_air9_{name}.csv", index=False,
+                      "corridor_max_elevation_m": b[:, 2]}).to_csv(out / f"bathy_{source}_{name}.csv", index=False,
                                                                      float_format="%.5f")
         if woa is None:
             box = dict(lat=slice(-37, -4), lon=slice(68, 117))
             woa = (xr.open_dataset(WOA_T, decode_times=False)[["t_an"]].sel(**box).load(),
                    xr.open_dataset(WOA_S, decode_times=False)[["s_an"]].sel(**box).load())
-            xr.merge([woa[0], woa[1]]).to_netcdf(out / "woa23_95A4_season16_box.nc")
+            xr.merge([woa[0], woa[1]]).to_netcdf(out / f"woa23_95A4_season16_box_{source}.nc")
         ss, sla_, slo_, _ = path_points(SRC[1], SRC[2], sla, slo, DS_SSP_KM)
         rows = sound_speed(sla_, slo_, woa)
         df = pd.DataFrame(rows, columns=["node", "lat", "lon", "depth_m", "t_insitu_c", "sp_psu", "c_m_s"])
         df.insert(1, "range_km", ss[df["node"].values])
-        df.to_csv(out / f"ssp_air9_{name}.csv", index=False, float_format="%.4f")
+        df.to_csv(out / f"ssp_{source}_{name}.csv", index=False, float_format="%.4f")
         meta["paths"][name] = {"length_km": float(s[-1]), "n_bathy": int(len(s)), "n_ssp_nodes": int(len(ss)),
                                "min_depth_on_track_m": float(-np.nanmax(b[:, 0])),
                                "min_depth_corridor_m": float(-np.nanmax(b[:, 2]))}
         print(name, json.dumps(meta["paths"][name]), flush=True)
-    json.dump(meta, open(out / "stub-manifest.json", "w"), indent=1)
+    json.dump(meta, open(out / f"stub-manifest_{source}.json", "w"), indent=1)
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main(sys.argv[1], sys.argv[2] if len(sys.argv) > 2 else "air9")
