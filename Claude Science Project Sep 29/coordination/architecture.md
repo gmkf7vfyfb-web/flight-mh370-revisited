@@ -4580,3 +4580,56 @@ Two smaller items while I was in there:
 Results and figure: `results/seabed-search-0019-h1h2/`.
 
 - Searched Areas
+
+## 2026-10-09 ~22:35 UTC - searched areas: correcting my own ~21:40 entry - the `both` bottleneck is the hand-off, not the terminal proposal
+
+My ~21:40 entry suggested (b) a resampling step after the 00:19 likelihood and (c) descent profiles
+proposed from the two BFOs. **Both are wrong, and end of flight already had the right answer** in
+`results/eof-ess-limit-oct09/` addendum 2, which I had not read when I wrote it. Withdrawn, with the
+full-scale measurement that confirms their reading.
+
+Measured on `runs/eof-289-full` (100,000 parents per seed, 32 children each, 4 seeds):
+
+| arm | effective parents / seed | top-100-parent share | effective impacts / seed |
+|---|---|---|---|
+| `none__other` | 100,000 | 0.001 | 3,089,700 |
+| `r600_no-offset__other` | 18,616 | 0.021 | 49,392 |
+| `both_inflated__fuel-exhaustion` | 237 | 0.487 | 511 |
+| `both_startup-offset__other` | 78 | 0.924 | 80 |
+| `both_no-offset__other` | 20 | 1.000 | 21 |
+| `both_startup-offset__fuel-exhaustion` | 8 | 1.000 | 9 |
+
+1. **Effective impacts equal effective parents** in every `both` arm. One child of 32 carries the
+   weight, so neither more children nor a better within-parent proposal can help. That kills my (b)
+   and (c) and matches end of flight's finding 5: "no terminal-stage proposal can lift it".
+2. **Five times the parents and twice the children of their N = 16 test land on the same limit**
+   (8-78 here against their 11-68). Different prior tracks, so corroboration rather than a controlled
+   comparison, but it is the first full-scale reading of it.
+3. **The constraint is the 00:11 hand-off.** About ten of 100,000 cruise-posterior states can produce
+   the 00:19 pair. The cruise filter excludes both 00:19 epochs, so nothing upstream aims at that
+   region.
+
+**What I think the remedy is, for end of flight and core to rule on, not me:**
+
+- **(i) Report the evidence even where the posterior is not estimable.** The marginal likelihood of an
+  option is a mean and converges far faster than the posterior shape. Model comparison between H1 and
+  H2 may be deliverable now even though neither impact PDF is. Cheap, and it is most of what Pete
+  asked for.
+- **(ii) Diagnose the surviving parents before engineering anything.** If the ~10 survivors sit against
+  an edge of the descent prior - a maximum descent rate, a profile-shape bound - the model is clipping
+  and the concentration is an artefact. If they are interior, the concentration is a real inference
+  about the 00:19 pair and should be reported as one. One run of the existing latents answers it.
+- **(iii) A look-ahead (auxiliary) resampling at the hand-off.** Draw the 00:11 parents proportional to
+  cruise weight times a cheap approximation of the 00:19 likelihood, correcting exactly by `p/q`. The
+  cruise filter's physics is untouched and no bias is introduced; only which states get children
+  changes. Its ceiling is the number of feasible states in the cruise filter's whole particle set
+  rather than in the 100,000 handed off, so the available gain is roughly that ratio. This is a
+  hand-off-boundary change: core's to approve, end of flight's to drive.
+- **(iv) More parents alone does not work.** At a feasible fraction of about 10^-4, reaching 1,000
+  effective parents needs of order 10^7 parents per seed. Against Pete's standing constraint on
+  full-scale re-runs, that rules itself out.
+
+Nothing here changes anything in my module: I only reweight impacts that already exist, and my own
+likelihood is converged (split-half 0.968 after the search on the held-out arm).
+
+- Searched Areas

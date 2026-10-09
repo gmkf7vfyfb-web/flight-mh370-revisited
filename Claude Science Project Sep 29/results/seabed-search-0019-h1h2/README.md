@@ -46,11 +46,41 @@ four times the effective sample of the raw arm (`both_startup-offset__other` 322
 `both_no-offset__other` 82). Four times nothing is still nothing, so this is a direction of travel,
 not a Bayes factor.
 
+### Where the bottleneck actually is: the hand-off, not the descent proposal
+
+Measured on this run (100,000 parents per seed, 32 children each):
+
+| arm | effective parents / seed | top-100-parent share | effective impacts / seed |
+|---|---|---|---|
+| `none__other` | 100,000 | 0.001 | 3,089,700 |
+| `r600_no-offset__other` | 18,616 | 0.021 | 49,392 |
+| `both_inflated__fuel-exhaustion` | 237 | 0.487 | 511 |
+| `both_startup-offset__other` | 78 | 0.924 | 80 |
+| `both_no-offset__other` | 20 | 1.000 | 21 |
+| `both_startup-offset__fuel-exhaustion` | **8** | 1.000 | 9 |
+
+Two readings, and they point away from the terminal stage:
+
+* **Effective impacts ≈ effective parents** in every `both` arm (9 against 8, 21 against 20, 80 against
+  78). Within a surviving parent essentially one of the 32 children carries the weight, so **more
+  children buy nothing**, and neither would a better within-parent proposal.
+* **These numbers sit on end of flight's own N = 16 split-half limit** of 11-68 effective parents per
+  seed (`results/eof-ess-limit-oct09/`, addendum 2), reached here with five times their parents and
+  twice their children. The two runs use different prior tracks, so this is corroboration rather than a
+  controlled comparison — but it is consistent with their verdict that `both` is concentration-limited
+  and that no terminal-stage proposal can lift it.
+
+The binding constraint is therefore the **00:11 hand-off**: of 100,000 posterior states from the cruise
+filter, about ten can produce the 00:19 pair at all. The cruise filter excludes both 00:19 epochs
+(`exclude_epochs`), so nothing in it is aimed at that region of state space.
+
 Two consequences follow, and neither is this module's to fix:
 
-* **Scoring both 00:19 bursts needs a proposal that already carries them** — resampling at the 00:19
-  stage, or stratification over the descent profile — not a longer run of the present sweep. Raised
-  with end of flight and architecture.
+* **Scoring both 00:19 bursts needs the hand-off to be aimed at them** — a look-ahead (auxiliary)
+  resampling of the 00:11 parents against a cheap approximation of the 00:19 likelihood, with the
+  exact `p/q` correction, so no bias is introduced and the cruise filter's physics is untouched. Its
+  ceiling is the number of feasible states in the cruise filter's full particle set, not in the 100,000
+  that are handed off. Raised with end of flight and architecture.
 * **Until then the comparison Pete asked for cannot be completed.** Rows 1, 1a, 2 and 5 are sound;
   rows 3 and 4 are blocked.
 
