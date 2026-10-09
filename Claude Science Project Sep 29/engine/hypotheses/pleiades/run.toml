@@ -3,3 +3,15 @@ base = "../../config/davey2016.toml"
 name = "pleiades"
 
 [hypotheses.pleiades]
+# Deterministic transport table from export.rs (gitignored run tree; regenerate with
+# `cargo test -p mh370-hypotheses -- --ignored pleiades_export`). Relative to this directory.
+release_grid = "../../runs/pleiades/release-grid.toml"
+targets = "data/targets-3km.csv"
+# Declared, PROVISIONAL spread (brief section 9; section 13 lists the transport-error size as assumed):
+sigma_e_ms = 0.05
+t_e_days = 2.0
+sd_target_km = 0.5
+k_min_m2_s = 30.0
+k_max_m2_s = 1000.0
+k_nodes = 8
+prior_h = 0.5
