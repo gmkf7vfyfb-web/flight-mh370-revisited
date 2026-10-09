@@ -93,33 +93,72 @@ impl GridField {
     /// instants the values represent (interval centres for means). The product must be in
     /// `products::catalogue()`; its contents and time axis come from there, never from the file.
     pub fn load(manifest: &Path) -> Result<Self, String> {
-        #[derive(Deserialize)]
-        struct Manifest {
-            product: String,
-            component: Component,
-            description: String,
-            lon: Vec<f64>,
-            lat: Vec<f64>,
-            time_unix_s: Vec<f64>,
-            data_file: String,
+        Self::load_part(manifest, &LoadWindow::all())
+    }
+
+    /// Load a part manifest or a series manifest (`*.series.json`) cut to `window`. Only the
+    /// needed rows are read from disk. The window keeps the bracketing grid nodes and slices, so
+    /// every query inside it interpolates exactly as on the full grid; outside it the field
+    /// answers `OutsideDomain` / `OutsideTime`.
+    pub fn load_window(path: &Path, window: &LoadWindow) -> Result<Self, String> {
+        if path.to_string_lossy().ends_with(".series.json") {
+            Self::load_series_window(path, window)
+        } else {
+            Self::load_part(path, window)
         }
+    }
+
+    fn read_manifest(manifest: &Path) -> Result<PartManifest, String> {
         let text = std::fs::read_to_string(manifest).map_err(|e| format!("{}: {e}", manifest.display()))?;
-        let m: Manifest = serde_json::from_str(&text).map_err(|e| format!("{}: {e}", manifest.display()))?;
+        serde_json::from_str(&text).map_err(|e| format!("{}: {e}", manifest.display()))
+    }
+
+    fn load_part(manifest: &Path, w: &LoadWindow) -> Result<Self, String> {
+        let m = Self::read_manifest(manifest)?;
+        let (t0, t1) = keep(&m.time_unix_s, w.time).ok_or_else(|| format!("{}: time window outside the part", manifest.display()))?;
+        Self::load_part_slices(manifest, m, w, t0, t1)
+    }
+
+    /// Read time slices `t0..=t1` of one part, cut horizontally to `w`.
+    fn load_part_slices(manifest: &Path, m: PartManifest, w: &LoadWindow, t0: usize, t1: usize) -> Result<Self, String> {
         let meta = product(&m.product).ok_or_else(|| format!("product {} is not in the catalogue", m.product))?;
+        let (nx, ny) = (m.lon.len(), m.lat.len());
+        let (i0, i1) = keep(&m.lon, w.lon).ok_or_else(|| format!("{}: longitude window outside the grid", manifest.display()))?;
+        let (j0, j1) = keep(&m.lat, w.lat).ok_or_else(|| format!("{}: latitude window outside the grid", manifest.display()))?;
         let path = manifest.parent().unwrap_or(Path::new(".")).join(&m.data_file);
-        let bytes = std::fs::read(&path).map_err(|e| format!("{}: {e}", path.display()))?;
-        if bytes.len() % 4 != 0 {
-            return Err(format!("{}: length is not a multiple of 4", path.display()));
+        let file = std::fs::File::open(&path).map_err(|e| format!("{}: {e}", path.display()))?;
+        let len = file.metadata().map_err(|e| e.to_string())?.len();
+        if len != (m.time_unix_s.len() * ny * nx * 8) as u64 {
+            return Err(format!("{}: {len} bytes, axes imply {}", path.display(), m.time_unix_s.len() * ny * nx * 8));
         }
-        let data = bytes.chunks_exact(4).map(|b| f32::from_le_bytes([b[0], b[1], b[2], b[3]])).collect();
+        let wx = i1 - i0 + 1;
+        let mut data = Vec::with_capacity((t1 - t0 + 1) * (j1 - j0 + 1) * wx * 2);
+        if (i0, i1, j0, j1) == (0, nx - 1, 0, ny - 1) {
+            let mut buf = vec![0u8; (t1 - t0 + 1) * ny * nx * 8];
+            read_at(&file, &mut buf, (t0 * ny * nx * 8) as u64, &path)?;
+            data.extend(buf.chunks_exact(4).map(|b| f32::from_le_bytes([b[0], b[1], b[2], b[3]])));
+        } else {
+            let mut buf = vec![0u8; wx * 8];
+            for t in t0..=t1 {
+                for j in j0..=j1 {
+                    read_at(&file, &mut buf, (((t * ny + j) * nx + i0) * 8) as u64, &path)?;
+                    data.extend(buf.chunks_exact(4).map(|b| f32::from_le_bytes([b[0], b[1], b[2], b[3]])));
+                }
+            }
+        }
         let meta = FieldMeta {
             product: m.product,
             component: m.component,
             contents: meta.contents,
             time_axis: meta.time_axis,
-            description: m.description,
+            description: if w.is_all() { m.description } else { format!("{} (window {:?})", m.description, w) },
         };
-        GridField::new(meta, m.lon, m.lat, m.time_unix_s, data, None)
+        GridField::new(meta, m.lon[i0..=i1].to_vec(), m.lat[j0..=j1].to_vec(), m.time_unix_s[t0..=t1].to_vec(), data, None)
+    }
+
+    /// Bytes of field data held in memory.
+    pub fn data_bytes(&self) -> usize {
+        self.data.len() * 4
     }
 
     /// Time axis (unix s), longitudes and latitudes of the grid.
@@ -130,6 +169,10 @@ impl GridField {
     /// Load a series manifest (`{"parts": ["a.json", "b.json", ...]}`) whose parts share one grid
     /// and follow each other in time, as one field. Interpolation runs across part boundaries.
     pub fn load_series(series: &Path) -> Result<Self, String> {
+        Self::load_series_window(series, &LoadWindow::all())
+    }
+
+    fn load_series_window(series: &Path, w: &LoadWindow) -> Result<Self, String> {
         #[derive(Deserialize)]
         struct Series {
             parts: Vec<String>,
@@ -137,17 +180,28 @@ impl GridField {
         let text = std::fs::read_to_string(series).map_err(|e| format!("{}: {e}", series.display()))?;
         let s: Series = serde_json::from_str(&text).map_err(|e| format!("{}: {e}", series.display()))?;
         let dir = series.parent().unwrap_or(Path::new("."));
+        let manifests = s.parts.iter().map(|p| Self::read_manifest(&dir.join(p)).map(|m| (p, m))).collect::<Result<Vec<_>, _>>()?;
+        // The window's slices on the joined time axis, so a bracket across a part seam is kept.
+        let joined: Vec<f64> = manifests.iter().flat_map(|(_, m)| m.time_unix_s.iter().copied()).collect();
+        if !joined.windows(2).all(|x| x[1] > x[0]) {
+            return Err(format!("{}: part times do not follow each other", series.display()));
+        }
+        let (g0, g1) = keep(&joined, w.time).ok_or_else(|| format!("{}: time window outside the series", series.display()))?;
         let mut out: Option<GridField> = None;
-        for part in &s.parts {
-            let g = GridField::load(&dir.join(part))?;
+        let mut offset = 0;
+        for (part, m) in manifests {
+            let n = m.time_unix_s.len();
+            let (a, b) = (g0.max(offset), g1.min(offset + n - 1));
+            offset += n;
+            if a > b {
+                continue;
+            }
+            let g = Self::load_part_slices(&dir.join(part), m, w, a - (offset - n), b - (offset - n))?;
             out = Some(match out {
                 None => g,
                 Some(mut acc) => {
                     if acc.lon != g.lon || acc.lat != g.lat || acc.meta.product != g.meta.product || acc.meta.component != g.meta.component {
                         return Err(format!("{part}: grid, product or component differs from the first part"));
-                    }
-                    if g.time[0] <= *acc.time.last().unwrap() {
-                        return Err(format!("{part}: times do not follow the previous part"));
                     }
                     acc.time.extend_from_slice(&g.time);
                     acc.data.extend_from_slice(&g.data);
@@ -158,6 +212,58 @@ impl GridField {
         }
         out.ok_or_else(|| "empty series".into())
     }
+}
+
+/// A load window: longitude, latitude (degrees) and time (unix s) ranges, each `None` for the whole
+/// axis. Bounds are inclusive; the loaded grid extends to the nodes that bracket them.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Serialize)]
+pub struct LoadWindow {
+    pub lon: Option<[f64; 2]>,
+    pub lat: Option<[f64; 2]>,
+    pub time: Option<[f64; 2]>,
+}
+
+impl LoadWindow {
+    pub fn all() -> Self {
+        Self::default()
+    }
+    /// `[lon_min, lon_max, lat_min, lat_max]` and `[t_start, t_end]`.
+    pub fn new(bbox: [f64; 4], time: [f64; 2]) -> Self {
+        LoadWindow { lon: Some([bbox[0], bbox[1]]), lat: Some([bbox[2], bbox[3]]), time: Some(time) }
+    }
+    fn is_all(&self) -> bool {
+        self.lon.is_none() && self.lat.is_none() && self.time.is_none()
+    }
+}
+
+#[derive(Deserialize)]
+struct PartManifest {
+    product: String,
+    component: Component,
+    description: String,
+    lon: Vec<f64>,
+    lat: Vec<f64>,
+    time_unix_s: Vec<f64>,
+    data_file: String,
+}
+
+/// Inclusive index range of an ascending axis that brackets `[lo, hi]`: from the last node at or
+/// below `lo` to the first node at or above `hi`, clamped to the axis. `None` if the range misses
+/// the axis or is inverted.
+fn keep(axis: &[f64], range: Option<[f64; 2]>) -> Option<(usize, usize)> {
+    let n = axis.len();
+    let Some([lo, hi]) = range else { return Some((0, n - 1)) };
+    if !(hi >= lo) || hi < axis[0] || lo > axis[n - 1] {
+        return None;
+    }
+    let a = axis.partition_point(|&x| x <= lo).saturating_sub(1);
+    let b = axis.partition_point(|&x| x < hi).min(n - 1);
+    Some((a, b))
+}
+
+fn read_at(file: &std::fs::File, buf: &mut [u8], offset: u64, path: &Path) -> Result<(), String> {
+    use std::os::unix::fs::FileExt;
+    file.read_exact_at(buf, offset).map_err(|e| format!("{}: {e}", path.display()))
 }
 
 /// Index of the lower bracket and the fractional weight of the upper, or None if outside.

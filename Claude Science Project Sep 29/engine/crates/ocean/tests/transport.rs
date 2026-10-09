@@ -781,3 +781,63 @@ fn grid_profile_interpolates_with_per_level_land_renormalisation() {
     assert!(matches!(g.profile(T0, [94.0, -35.5]), Err(FieldGap::OutsideDomain)));
     std::fs::remove_dir_all(&dir).unwrap();
 }
+
+#[test]
+fn windowed_load_answers_exactly_as_the_full_series_inside_its_window() {
+    // A two-part series on a 0.5-degree grid over 90-100 E, 40-30 S, 6-hourly, 4 + 4 slices. Values
+    // vary in every axis and one node is land, so any off-by-one in the window shows.
+    let dir = std::env::temp_dir().join(format!("mh370-window-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let lon: Vec<f64> = (0..21).map(|i| 90.0 + 0.5 * i as f64).collect();
+    let lat: Vec<f64> = (0..21).map(|j| -40.0 + 0.5 * j as f64).collect();
+    let mut parts = Vec::new();
+    for part in 0..2 {
+        let times: Vec<f64> = (0..4).map(|k| T0 + (4 * part + k) as f64 * 21_600.0).collect();
+        let mut bytes = Vec::new();
+        for (k, _) in times.iter().enumerate() {
+            for j in 0..lat.len() {
+                for i in 0..lon.len() {
+                    let land = i == 8 && j == 9;
+                    let u = if land { f32::NAN } else { (0.01 * i as f64 + 0.002 * j as f64 + 0.05 * (4 * part + k) as f64) as f32 };
+                    let v = if land { f32::NAN } else { (0.003 * i as f64 - 0.01 * j as f64) as f32 };
+                    bytes.extend_from_slice(&u.to_le_bytes());
+                    bytes.extend_from_slice(&v.to_le_bytes());
+                }
+            }
+        }
+        std::fs::write(dir.join(format!("p{part}.f32")), bytes).unwrap();
+        let m = format!(
+            r#"{{"product":"glorys12v1","component":"Current","description":"test part {part}","lon":{lon:?},"lat":{lat:?},"time_unix_s":{times:?},"data_file":"p{part}.f32"}}"#
+        );
+        std::fs::write(dir.join(format!("p{part}.json")), m).unwrap();
+        parts.push(format!("\"p{part}.json\""));
+    }
+    std::fs::write(dir.join("s.series.json"), format!(r#"{{"parts":[{}]}}"#, parts.join(","))).unwrap();
+    let series = dir.join("s.series.json");
+    let full = GridField::load_series(&series).unwrap();
+    // Window 93.2-95.9 E, 36.1-34.3 S, across the part seam (slices 2..=5 bracket it).
+    let (ta, tb) = (T0 + 0.6 * 21_600.0 * 2.0, T0 + 4.5 * 21_600.0);
+    let w = LoadWindow::new([93.2, 95.9, -36.1, -34.3], [ta, tb]);
+    let win = GridField::load_window(&series, &w).unwrap();
+    let (t, lo, la) = win.axes();
+    assert_eq!((lo[0], lo[lo.len() - 1], la[0], la[la.len() - 1]), (93.0, 96.0, -36.5, -34.0));
+    assert_eq!((t[0], t[t.len() - 1]), (T0 + 21_600.0, T0 + 5.0 * 21_600.0));
+    assert!(win.data_bytes() * 10 < full.data_bytes(), "{} vs {}", win.data_bytes(), full.data_bytes());
+    let mut g = rand_chacha::ChaCha8Rng::seed_from_u64(9);
+    use rand::{Rng, SeedableRng};
+    for _ in 0..5_000 {
+        let p = [g.gen_range(93.2..95.9), g.gen_range(-36.1..-34.3)];
+        let tt = g.gen_range(ta..tb);
+        assert_eq!(win.sample(tt, p), full.sample(tt, p), "{p:?} {tt}");
+    }
+    // The land node at (94.0 E, 35.5 S) is inside the window and renormalised identically.
+    assert_eq!(win.sample(ta, [94.0, -35.5]), full.sample(ta, [94.0, -35.5]));
+    // Outside the window: flagged, never extrapolated.
+    assert_eq!(win.sample(ta, [97.0, -35.0]), Err(FieldGap::OutsideDomain));
+    assert_eq!(win.sample(T0 + 6.5 * 21_600.0, [94.5, -35.0]), Err(FieldGap::OutsideTime));
+    // A single part loads windowed too; a window that misses the grid is refused.
+    let p0 = GridField::load_window(&dir.join("p0.json"), &LoadWindow { lon: Some([91.0, 92.0]), ..LoadWindow::all() }).unwrap();
+    assert_eq!(p0.axes().1, &[91.0, 91.5, 92.0]);
+    assert!(GridField::load_window(&series, &LoadWindow { lon: Some([120.0, 130.0]), ..LoadWindow::all() }).is_err());
+    std::fs::remove_dir_all(&dir).unwrap();
+}

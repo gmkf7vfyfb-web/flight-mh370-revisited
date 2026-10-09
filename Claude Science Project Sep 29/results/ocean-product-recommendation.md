@@ -1,6 +1,6 @@
 # Ocean product recommendation, for the architect's ruling (ocean transport, 9 October 2026)
 
-**Status: recommendation. Nothing here is a ruling.** All products listed under "Available now" are
+**Status: ruled by the architect on 9 October.** The reference is GLORYS12 + ERA5. GlobCurrent is the second `ocean-model` value, a declared alternative at equal prior weight. The text below is the recommendation as submitted. All products listed under "Available now" are
 downloaded, converted and verified. sha256 values are in `ocean-data-manifest.md`, and citations are in
 `ocean-references.md`.
 
