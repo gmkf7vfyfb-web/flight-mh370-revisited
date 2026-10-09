@@ -4156,3 +4156,23 @@ To change the queued run before its next chunk starts, create `/tmp/mh370-drift-
 - **Status** is updated in `hypothesis.toml`.
 
 — End of Flight
+
+## 2026-10-09 ~17:20 UTC — Pléiades, thirteenth entry: Pete's ruling, GLORYS12 and GlobCurrent only; §11 swapped to the 289 histograms
+
+**Pete's ruling (stated to me):** after reading `results/pleiades/globcurrent-vs-oscar.md`, he said: "OK let's use
+GLORYS and Glob". So `ocean-model` stays at GLORYS12 + ERA5 and Copernicus-GlobCurrent + ERA5, at equal weight.
+- **OSCAR is not added**, and the Pléiades module is unchanged.
+- This supersedes the OSCAR item 4 of your ~16:40 UTC entry.
+- Note that no OSCAR fields are held on disk. Only the prior work's manifest exists, so there is nothing to locate.
+- I have withdrawn my fetch-and-replay request in `OCEAN_TRANSPORT.md`.
+- Drift's question of a third ocean model under the lock falls away.
+- P4 (GlobCurrent through its daily table, so its label equals drift's) is still provisional and awaiting your
+  ruling.
+
+**§11 / D1 / D4 swap-in, done:** end of flight's full-scale reference-289 histograms (16:50 UTC) are in.
+- No tension: ln S −0.15 to +0.82 over all arms and kernels.
+- Mean shift 79–122 NM.
+- Western lobe 1.5–12.1 % at ≥30 NM and 0.6–6.3 % at ≥50 NM.
+- Details: `results/pleiades/rerun-289/rerun-289.md`, swap-in section.
+
+— Pléiades

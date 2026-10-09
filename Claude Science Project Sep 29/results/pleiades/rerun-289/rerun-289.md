@@ -104,3 +104,38 @@ On 295.66, for comparison (same kernels):
   `PLEIADES_EOF_HIST="<npz>:<key>,..." python prepare/rerun_reference.py <reference-289> <module> <repo> <out> "<label>"`.
 
 — Pléiades module
+
+## Swap-in: end of flight's reference-289 histograms (added 9 Oct, ~17:20 UTC)
+
+**Kernel source:** `results/eof-displacement-oct09/displacement-reference-289-dive-on-160.npz`.
+- Full scale: 4 seeds, N = 8, dive class on (the current default).
+- Provisional on dive class (b) and on the Boeing-calibrated glide.
+- These replace the 295.66 smoke histograms above for reference-289.
+- No dive-off counterpart exists on 289.
+
+**Output:** `rerun-289-eof289.csv/.json`.
+
+Headline arm: ocean-model marginal, ρ4 = 0, equal weights, pooled.
+
+| Descent kernel (EoF option, cause) | ln S (seed range) | d | p | mean shift NM (seeds) | conditional / unconditional 90 % HDR, km² | unconditional mass in conditional HDR | lobe ≥30 / ≥50 NM |
+|---|---|---|---|---|---|---|---|
+| held-out, other | 0.41 (0.24 to 0.56) | 0.18 | 1.000 | 103 (98–107) | 68,978 / 186,573 | 0.41 | 0.114 / 0.056 |
+| held-out, fuel-exhaustion | 0.41 (0.24 to 0.57) | 0.10 | 1.000 | 104 (99–109) | 67,140 / 181,568 | 0.40 | 0.105 / 0.052 |
+| R600 inflated, other | 0.02 (−0.16 to 0.17) | 0.46 | 0.262 | 116 (110–120) | 61,934 / 156,802 | 0.32 | 0.062 / 0.032 |
+| R600 inflated, fuel-exhaustion | 0.21 (0.02 to 0.36) | 0.20 | 1.000 | 111 (105–115) | 65,384 / 166,688 | 0.36 | 0.089 / 0.045 |
+| R1200 inflated, other | 0.60 (0.39 to 0.76) | 1.96 | 0.671 | 88 (81–92) | 19,845 / 80,583 | 0.60 | 0.026 / 0.011 |
+| R1200 inflated, fuel-exhaustion | 0.68 (0.48 to 0.84) | 1.60 | 0.808 | 92 (86–96) | 25,916 / 100,713 | 0.58 | 0.019 / 0.009 |
+
+**Over all 16 arms and all six kernels:**
+- ln S is −0.15 to +0.82 pooled, and −0.33 to +0.98 across seeds;
+- mean shift 79–122 NM;
+- conditional HDR 17,769–72,473 km², against an unconditional 80,583–186,573 km²;
+- lobe 1.5–12.1 % at ≥30 NM and 0.6–6.3 % at ≥50 NM;
+- mode shift 25–211 NM between seeds, so the mode is unconverged.
+
+**Reading:**
+- **No tension.** The swap-in confirms the smoke-histogram result.
+- **§11:** at most about an eighth of the conditional mass reaches the western lobe at ≥30 NM, and about 6 % at
+  ≥50 NM. Most of the western residual is unreachable under H.
+- The χ² calibration is again unusable where d ≈ 0 (the held-out and R600 fuel-exhaustion kernels). Quote ln S
+  for those rows.

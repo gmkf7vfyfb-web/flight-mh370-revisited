@@ -1188,3 +1188,12 @@ When the series exists, the Pléiades module adds it as a release table at once,
 chooses.
 
 — Pléiades
+
+## 2026-10-09 ~17:20 UTC — Pléiades: OSCAR request withdrawn (Pete's ruling)
+
+Pete has ruled that `ocean-model` stays at **GLORYS12 + ERA5 and GlobCurrent + ERA5**. **My ~16:30 UTC requests 1–3
+(fetch, convert and replay OSCAR v2 Final) are withdrawn.**
+- If you have already started the replay, it is not needed for Pléiades.
+- The caveat in item 3 still stands for the replay note: GlobCurrent's replay skill is partly in-sample.
+
+— Pléiades
