@@ -110,14 +110,20 @@ def ram_band(e, fc, zs, fine=False):
 def kraken_band(e, fc, work, at_bin):
     rprof, prof, *_, rd = e
     tag = f"f{fc:g}".replace(".", "p")
-    K.tl_path(work, tag, fc, prof, rprof, np.array([rprof[-1]]), SRC, [rd], BOT, at_bin, fg=None)
+    try:
+        K.tl_path(work, tag, fc, prof, rprof, np.array([rprof[-1]]), SRC, [rd], BOT, at_bin, fg=None)
+    except RuntimeError as e:   # the disclosed stage-B 'no_modes' case (9e18559): no trapped mode on a shelf profile
+        if "no modes" not in str(e).lower():
+            raise
+        return {float(z): np.nan for z in SRC}
     s = K.read_shd(work / f"{tag}.shd")
     return {float(zs): float(-20 * np.log10(np.abs(np.ravel(s["p"][0, js, 0])[-1])) + sph(np.ravel(s["rr_m"])[-1])) for js, zs in enumerate(s["sz"])}
 
 
 def delta_interp(d, fcs):
-    lf = np.log10(BANDS)
-    return np.interp(np.log10(fcs), lf, [d[b] for b in BANDS])
+    """Linear in log f over the bands where the value is defined (a KRAKEN 'no_modes' band has none), clamped."""
+    ok = [b for b in BANDS if np.isfinite(d[b])]
+    return np.interp(np.log10(fcs), np.log10(ok), [d[b] for b in ok])
 
 
 def main(stub, cal_dir, at_bin, out_dir, tl_csv, sa_json, summary):
@@ -138,12 +144,18 @@ def main(stub, cal_dir, at_bin, out_dir, tl_csv, sa_json, summary):
     rows = []
     for n, e in envs.items():
         t0 = time.time()
+        part = out / f"part_{n}.csv"            # implementation (9 Oct): per-path cache so a restart repeats no finished path
+        if part.exists():
+            rows += pd.read_csv(part).to_dict("records")
+            continue
+        n0 = len(rows)
         for fc in BANDS:
             kt = kraken_band(e, fc, out / "work" / n, at_bin)
             for zs in SRC:
                 rt = ram_band(e, fc, zs, fine)
                 rows.append(dict(path=n, fc_hz=fc, src_depth_m=zs, rcv_depth_m=e[-1], range_km=float(e[0][-1]), tl_kraken_db=kt[zs],
                                  tl_ram_db=rt, delta_db=kt[zs] - rt))
+        pd.DataFrame(rows[n0:]).to_csv(part, index=False)
         print(n, round(time.time() - t0, 1), "s", flush=True)
     cmp_ = pd.DataFrame(rows)
     cmp_.to_csv(out / "ram_vs_kraken.csv", index=False)
