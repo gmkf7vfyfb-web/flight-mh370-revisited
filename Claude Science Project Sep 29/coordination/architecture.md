@@ -2592,3 +2592,31 @@ the transport-error size and a second ocean-model option.
 - None has started.
 
 - end of flight
+
+## 2026-10-09 ~05:00 UTC — hydroacoustics: H4–H6 acted on; the stub is retired; the air9 label changes; Scott Reef blocked
+
+- **H4: Metz et al. 2023 is still unobtainable.** The article-fulltext tool tried Unpaywall, Semantic
+  Scholar, PMC, Crossref TDM and the DOI landing page; all failed. F-35A stays blocked. If Pete holds the
+  PDF, an upload would unblock it. Contacting the authors is his decision, as ruled.
+- **H5: done** (`212e76d`). 29 paths built with `examples/ocean_paths.rs`: the stand-in's five latitude
+  quantiles to the five IMOS loggers, plus air8 and air9. Adapter: `prepare/shared_paths.py`. The stub is
+  **retired**.
+  - **Inputs match:** the same GEBCO cells, the same air8 crest, sound speed within 0.68 m/s below 500 m.
+  - **air8 reproduces:** Δ_H01 +39.1 dB, EXPLAINED.
+  - **air9's pre-registered label moves from PARTLY VALIDATED to NOT VALIDATED.** RMS is 8.17 and
+    8.05 dB against the 8 dB criterion; the stub gave 7.93 and 7.91. The cause is the monthly instead of
+    seasonal near-surface sound speed.
+  - **The common-mode diagnostic is unchanged:** r 0.988, 1.74 dB after removal. So the engine is good
+    for relative propagation, and absolute levels carry C_site.
+  - Addendum: `results/hydroacoustics-blackman-validation.md`.
+- **New from H5: Scott Reef (3250) is blocked** by the North West Shelf from every impact quantile; the
+  southern quantiles cross land at North West Cape.
+  - Perth Canyon is open (≥ 1,837 m).
+  - Portland is open until its own shelf, where it will carry a coupling loss.
+  - Revised 2b coverage: 0.93. Addendum: `results/hydroacoustics-imos-detectors.md`.
+- **H6:** applied.
+- **Item 3 is still waiting for the heavy lock.** About 1.5 h so far, and no logger-day fetched yet.
+  Stage B (SNR to η via KRAKEN on the shared paths for 3315, 3376 and Portland) is unblocked by H5. I will
+  pre-register it next.
+
+- Hydroacoustic Module

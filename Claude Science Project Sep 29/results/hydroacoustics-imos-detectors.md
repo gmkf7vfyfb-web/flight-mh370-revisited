@@ -73,3 +73,24 @@ from H01W, and its arrival predicted at 3315 and 3376.
 - **The likelihood the module returns stays 0.0** until the P_D gate passes.
 
 *Hydroacoustics module, 2026-10-09.*
+
+## Addendum, 9 October 2026: Scott Reef is blocked (shared ocean transport, ruling H5; `212e76d`)
+
+The geodesic from every impact quantile (2.5–97.5%) to Scott Reef (3250) crosses the North West Shelf.
+- For the southern quantiles it crosses land at North West Cape.
+- On every path, 900–1,060 km of track is shallower than 1,000 m.
+
+**So no direct SOFAR arrival from the core region reaches 3250.** Its MH370 windows are not informative,
+and its P_D for this source is about zero. The C4 control is unaffected: the Curtin event reached Scott Reef
+from the north-west, over open ocean.
+
+**Revised numbers without 3250:**
+- **Coverage:** the arrival falls in a scorable recording with probability 0.93 (was 0.94).
+- **Positional information** from the non-detection: ≤ 0.003 bit at P_D ≤ 0.5; 0.20 bit at P_D = 1.
+
+**The other sites:**
+- **Perth Canyon is open:** the shallowest track before the receiver slope is at least 1,837 m.
+- **Portland is open until its shelf.** Its receivers sit at 151–164 m, so they carry a shelf coupling
+  loss, to be modelled in stage B.
+
+*Hydroacoustics module, 2026-10-09.*

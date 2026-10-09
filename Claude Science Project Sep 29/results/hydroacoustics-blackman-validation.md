@@ -102,3 +102,33 @@ bounds until a coupled-mode or PE cross-check (RAM) is run.
   a known aircraft source, and noise estimates from the raw data held.
 
 *Hydroacoustics module, 2026-10-09.*
+
+## Addendum, 9 October 2026: rerun on the shared ocean transport (ruling H5; `212e76d`)
+
+The stub is retired. The same scripts were rerun, unchanged, on the shared API's paths:
+- **Inputs:** the same GEBCO_2026 cells, now at 250 m spacing, and WOA23 October monthly fields above
+  1,500 m instead of the Oct–Dec season.
+- **How close they are:**
+  - path lengths agree to 0.5 km;
+  - median depth difference 0 m (95th percentile 10–13 m);
+  - the air8 crest is identical (−1,116 m);
+  - sound speed differs by ≤ 0.68 m/s (95th percentile) below 500 m and by 2.5–3.2 m/s near the surface.
+
+| result | stub | shared | label |
+|---|---|---|---|
+| air9 H01W, hard, 10 m: median / RMS | −0.15 / 7.93 dB | −0.10 / **8.17 dB** | PARTLY → **NOT VALIDATED** |
+| air9 H08S, hard, 10 m: median / RMS | +3.17 / 7.91 dB | +3.33 / **8.05 dB** | PARTLY → **NOT VALIDATED** |
+| air8 Δ_H01 / Δ_H08S | +38.1 / +0.1 dB | +39.1 / +0.5 dB | EXPLAINED (unchanged) |
+| inter-station correlation of residuals (exploratory) | 0.988 | 0.988 | |
+| RMS after removing the common mode (exploratory) | 1.71 dB | 1.74 dB | |
+
+**What this means.**
+- The pre-registered criterion is RMS ≤ 8 dB, so on the authoritative environment **the air9 absolute
+  verdict is NOT VALIDATED**, by 0.05–0.17 dB. The earlier "PARTLY VALIDATED" was marginal, and it does
+  not survive a sub-dB change in near-surface sound speed.
+- **The substance is unchanged.** The model reproduces the *difference* between the two stations to
+  about 1.7 dB. The absolute misfit is a common, frequency-dependent near-source term of about
+  −10.9 dB/octave, now carried as C_site with ±10 dB (ruling H6).
+- The engine is therefore fit for **relative** propagation. Any absolute level must carry C_site.
+
+*Hydroacoustics module, 2026-10-09.*
