@@ -18,7 +18,7 @@ Declared configuration (reported with every result, brief section 5):
 Matching-space size for the two-epoch enumeration: injective partial assignments of the 4 COSMO-SkyMed
 contacts to n targets, sum_k C(4,k) n!/(n-k)!  (1,045 for n = 6; 18,001 for n = 12).
 
-Usage: python d2_object_model.py <module dir> <outdir>
+Usage: python d2_object_model.py <module dir> <outdir>  (also rewrites <module dir>/data/targets-3km.csv)
 """
 
 import sys
@@ -92,6 +92,10 @@ def run(module_dir: Path, out: Path):
     out.mkdir(parents=True, exist_ok=True)
     sens.to_csv(out / "d2-cluster-sensitivity.csv", index=False)
     clusters.to_csv(out / "d2-clusters-3km.csv", index=False)
+    # the hook's input (data/targets-3km.csv): one row per (arm, rho4, cluster), no quoted fields
+    tg = clusters[["arm", "rho4", "scenes", "mean_lon", "mean_lat", "w_equal", "w_count", "n", "n_rating5", "n_rating4"]]
+    tg = tg.rename(columns={"scenes": "scene", "mean_lon": "lon", "mean_lat": "lat"})
+    tg.to_csv(module_dir / "data/targets-3km.csv", index=False, float_format="%.6f")
     return sens, clusters
 
 

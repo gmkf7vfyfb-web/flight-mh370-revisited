@@ -23,15 +23,15 @@ import twoepoch as te  # noqa: E402
 
 
 def target_sets(module_dir: Path):
-    cl = pd.read_csv(module_dir / "results/d2-clusters-3km.csv")
+    tg = pd.read_csv(module_dir / "data/targets-3km.csv")
     obj = pd.read_csv(module_dir / "data/ga-rec2017-13-objects.csv")
     sets = {}
     for wform in ("equal", "count"):
-        c5 = cl[cl.arm == "rating5"]
-        sets[("rating5-clusters", wform)] = pd.DataFrame({"scene": c5.scenes, "lon": c5.mean_lon, "lat": c5.mean_lat, "w": c5[f"w_{wform}"]})
+        c5 = tg[tg.arm == "rating5"]
+        sets[("rating5-clusters", wform)] = pd.DataFrame({"scene": c5.scene, "lon": c5.lon, "lat": c5.lat, "w": c5[f"w_{wform}"]})
         for rho in (0.25, 0.5, 1.0):
-            c = cl[(cl.arm == "rating45") & (cl.rho4 == rho)]
-            sets[(f"rating45-clusters-rho4-{rho:g}", wform)] = pd.DataFrame({"scene": c.scenes, "lon": c.mean_lon, "lat": c.mean_lat, "w": c[f"w_{wform}"]})
+            c = tg[(tg.arm == "rating45") & (tg.rho4 == rho)]
+            sets[(f"rating45-clusters-rho4-{rho:g}", wform)] = pd.DataFrame({"scene": c.scene, "lon": c.lon, "lat": c.lat, "w": c[f"w_{wform}"]})
     o5 = obj[obj.rating == 5]
     sets[("rating5-objects", "equal")] = pd.DataFrame({"scene": o5.scene, "lon": o5.longitude, "lat": o5.latitude, "w": 1.0 / len(o5)})
     return {k: v.reset_index(drop=True) for k, v in sets.items()}

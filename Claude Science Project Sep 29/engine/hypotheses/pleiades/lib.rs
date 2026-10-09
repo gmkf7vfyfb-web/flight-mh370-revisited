@@ -10,6 +10,11 @@
 //! Status: deliverable 3 (Pléiades positions only). COSMO-SkyMed enters through deliverables 4-5
 //! (prepare/twoepoch.py) and is not yet in this hook. PROVISIONAL throughout: the release-grid table
 //! is one ocean-model option, and the spread parameters are declared, not yet measured.
+//!
+//! Notes, results and provenance live outside the engine tree (engine/AGENTS.md: three markdown
+//! files only, generated output never committed): `Claude Science Project Sep 29/results/pleiades/`,
+//! `results/pleiades-references.md` and `.bib`. The GA Record 2017/13 object crops are (c) CNES and are
+//! never committed anywhere; the PDF is read by path.
 
 mod export;
 mod likelihood;

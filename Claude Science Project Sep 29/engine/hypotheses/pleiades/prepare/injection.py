@@ -12,7 +12,7 @@ Reported per (true pass, k, error model): coverage of the 68 % and 90 % central 
 (randomised PIT on the discrete grid), mean information gain in bits, median |posterior mean - truth|,
 correlation of posterior mean with truth, P(true pass | D).
 
-Usage: python injection.py <cosmo-tracks.csv> <d2-clusters-3km.csv> <outdir> [n_rep]
+Usage: python injection.py <cosmo-tracks.csv> <data/targets-3km.csv> <outdir> [n_rep]
 """
 
 import sys
@@ -63,7 +63,7 @@ def run(tracks_csv, clusters_csv, out, n_rep=200, seed=20261009, configs=None):
     tr = te.Tracks.load(Path(tracks_csv))
     cl = pd.read_csv(clusters_csv)
     c5 = cl[cl.arm == "rating5"].copy()
-    real = pd.DataFrame({"scene": c5.scenes, "lon": c5.mean_lon, "lat": c5.mean_lat, "w": 1.0})
+    real = pd.DataFrame({"scene": c5.scene, "lon": c5.lon, "lat": c5.lat, "w": 1.0})
     rows = []
     configs = configs or [te.Config(shared_error=False), te.Config(shared_error=True, label="shared-error")]
     for cfg in configs:
@@ -116,7 +116,7 @@ def floor_scan(tracks_csv, clusters_csv, out, n_rep=30, k=3):
     tr = te.Tracks.load(Path(tracks_csv))
     cl = pd.read_csv(clusters_csv)
     c5 = cl[cl.arm == "rating5"]
-    real = pd.DataFrame({"scene": c5.scenes, "lon": c5.mean_lon, "lat": c5.mean_lat, "w": 1.0})
+    real = pd.DataFrame({"scene": c5.scene, "lon": c5.lon, "lat": c5.lat, "w": 1.0})
     rows = []
     for cfg in cfgs:
         for true_pass in te.PASSES:
