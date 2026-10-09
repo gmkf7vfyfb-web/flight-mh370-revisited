@@ -760,8 +760,13 @@ mod tests {
         let Ok(dir) = std::env::var("EOF_CALIB_OUT") else { return };
         let it = integrator(1.0);
         let cfg = Configuration::glide();
-        let c_l0 = it.aero.c_l_at_ld_max_in(&cfg);
         for alt in [35_000.0, 40_000.0] {
+            // The module's own free-trim lift: the LEVEL trim at the start state (profile.rs, Shape::FreeTrim),
+            // plus the sampled offset. Not the best-glide C_L.
+            let st = body(alt, 240.0, 0.0);
+            let t_k = atmos::isa_temperature_k(alt);
+            let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(alt), st.tas_mps / atmos::sound_speed_mps(t_k));
+            let c_l0 = st.mass_kg * atmos::G0 / (q * it.aero.wing_area_m2);
             for bank in [0.0, 2.0, 5.0, 8.0, 12.0, 15.0, 20.0, 25.0, 30.0, 35.0] {
                 for dcl in [-0.08, 0.0, 0.08] {
                     let start = body(alt, 240.0, 0.0);
