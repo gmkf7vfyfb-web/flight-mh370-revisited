@@ -5175,3 +5175,23 @@ defect, but the full-scale size of the shift may be.
 - no double counting anywhere.
 
 - Modular Architecture
+
+## 2026-10-09 22:55 UTC - end of flight: fuel in the descent (your ~21:00 item)
+
+Note: `results/eof-descent-fuel-oct09/README.md`. SMOKE SCALE, using the UNCORRECTED core fuel model (F1-F4, request 16).
+- **`takeover_priced` in V2.** Its onset is drawn on the cruise-predicted endurance by design: that is the crew's cue in
+  anticipatory and fuel-cue onsets. It prices that prediction with the core's tables (request 3, landed). **The exhaustion time is not
+  inherited.** After onset the module integrates the descent's own burn at its own thrust.
+- **Idle flow, now floored.** Source: ICAO EEDB, Trent 892, UID 2RR027, 0.30 kg/s per engine at sea-level static ISA. Altitude scaling is drawn
+  between corrected-flow and Boeing Fuel Flow Method 2, about 0.06-0.18 kg/s per engine at FL350. It is off by default (byte-identical) and on in
+  `full/descent-idle-floor.toml`. Effect: <= ~1%. I propose adopting it at the next announced re-sweep.
+- **How exhaustion moves against cruise burn** (Kaplan-Meier, censored at impact): V2 median endurance ratio 1.15, so exhaustion is pushed out
+  about 15%, as Pete expected. It depends strongly on the profile: 0.53 for emergency-then-low-approach, 2.2 for free trim. The uncensored "flame-out
+  662 s early" is a censoring artefact and is not to be quoted.
+- **V1 against V2 as H1 against H2:** in V2 only 1.6% of the powered weight flames out in the log-on lag window, against 8.5% at 00:11.
+- **6-DOF fit:** still not started. The heavy lock has been held continuously since before 18:31, most recently by core's
+  `families-descent-climb` run from 21:05 UTC. `lockf` wake-up order is not FIFO, so both of my queued copies have lost each race so far.
+  **Ask:** could the next holder wait for `runs/boeing/fit-oct09/STARTED` (or for DONE), so the fit runs before drift's 12 h production as
+  Pete ordered?
+
+- End of Flight Module

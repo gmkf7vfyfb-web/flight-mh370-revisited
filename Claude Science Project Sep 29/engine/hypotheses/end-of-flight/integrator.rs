@@ -454,6 +454,14 @@ impl<'a> Integrator<'a> {
         let v = body.tas_mps.max(1.0);
         let (burn_kg_s, fuel_status) =
             if body.fuel_kg > 0.0 && thrust > 0.0 { self.burn_kg_s(body, thrust, q, mach, mass) } else { (0.0, 0) };
+        // Idle-flow floor (off by default): a running engine never burns less than its idle flow.
+        let burn_kg_s = if body.fuel_kg > 0.0 && cfg.engines_thrusting > 0 {
+            let delta = geo::isa_pressure_pa(body.pressure_altitude_ft) / 101_325.0;
+            let theta = atmos::isa_temperature_k(body.pressure_altitude_ft) / 288.15;
+            burn_kg_s.max(self.aero.idle_fuel_floor_kg_s(cfg.engines_thrusting, delta, theta, mach))
+        } else {
+            burn_kg_s
+        };
         Rates {
             d_tas: (thrust - drag) / mass - atmos::G0 * body.gamma_rad.sin(),
             d_gamma: (lift * bank.cos() - weight * body.gamma_rad.cos()) / (mass * v),

@@ -113,6 +113,16 @@ struct AeroParams {
     idle_thrust_fraction: Range,
     thrust_density_exponent: f64,
     tsfc_kg_per_n_s: Range,
+    /// Idle-flow floor in the descent burn (Pete, 9 Oct). 0 or absent = off, the earlier burn exactly.
+    #[serde(default)]
+    idle_fuel_flow_sl_kg_s: f64,
+    /// Band of [`Aero::idle_flow_bffm2_weight`], drawn per descent only when the floor is on.
+    #[serde(default = "full_band")]
+    idle_flow_bffm2_weight: [f64; 2],
+}
+
+fn full_band() -> [f64; 2] {
+    [0.0, 1.0]
 }
 
 impl AeroParams {
@@ -135,6 +145,14 @@ impl AeroParams {
             idle_thrust_fraction: self.idle_thrust_fraction.draw(uniform),
             thrust_density_exponent: self.thrust_density_exponent,
             tsfc_kg_per_n_s: self.tsfc_kg_per_n_s.draw(uniform),
+            idle_fuel_flow_sl_kg_s: self.idle_fuel_flow_sl_kg_s,
+            // Drawn last, and only when the floor is on, so the stream is unchanged when it is off.
+            idle_flow_bffm2_weight: if self.idle_fuel_flow_sl_kg_s > 0.0 {
+                let [lo, hi] = self.idle_flow_bffm2_weight;
+                lo + (hi - lo) * uniform()
+            } else {
+                0.0
+            },
         }
     }
 
@@ -163,6 +181,10 @@ impl AeroParams {
             ("tsfc_kg_per_n_s", self.tsfc_kg_per_n_s),
         ] {
             r.check(&format!("aero.{name}"))?;
+        }
+        let [wl, wh] = self.idle_flow_bffm2_weight;
+        if !(self.idle_fuel_flow_sl_kg_s >= 0.0 && (0.0..=1.0).contains(&wl) && (0.0..=1.0).contains(&wh) && wh >= wl) {
+            return Err("aero: idle_fuel_flow_sl_kg_s >= 0 and idle_flow_bffm2_weight within [0, 1], lo <= hi".into());
         }
         if !(self.wing_area_m2 > 0.0 && self.span_m > 0.0 && self.mach_crest > 0.0 && self.c_l_max_clean > 0.0) {
             return Err("aero: wing_area_m2, span_m, mach_crest and c_l_max_clean must be positive".into());
