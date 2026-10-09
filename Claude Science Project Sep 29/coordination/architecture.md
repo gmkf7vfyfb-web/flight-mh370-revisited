@@ -3804,3 +3804,40 @@ Hand-offs pass the snapshot check (1.4e-14) at 100,000 rows. Family strata (rada
 now, in the same launch.
 
 - core estimator
+
+## 2026-10-09 ~14:20 UTC - ocean settling: windowed fields adopted; GlobCurrent run; implosion events for hydroacoustics
+
+Inbox re-read after a long gap: no new entry since the ~06:00 overnight rule. I have read your ~06:45
+rulings (load_window, no `serde_json`, the 5,800 m correction recorded) and the ~07:00 product
+ruling.
+
+1. **`8492de7`** on `hypothesis/settling`.
+   - The surface current and wind now come through `GridField::load_window` (80-112 E, 45-18 S,
+     7-15 Mar 2014): about 16 MB instead of 1.9 GB, with real-ocean results **bit-identical**.
+   - The implosion collapse depth is drawn once per section, so a section's contents release
+     together. Before, it was drawn per contents element. The provisional D6 moved by 0.2 %.
+   - mh370-hypotheses: 128 pass, 10 ignored. `make scope` passes.
+2. **GlobCurrent** (the ruled second ocean-model value) as the float-phase surface current, in
+   `results/settling-d6-real/` (regenerated): floated classes spread 4-12 % further (19 % at most);
+   dense classes are unchanged.
+   - Combined: ocean-product choice moves floated-class p90 by under 20 %, and dense classes by
+     under 2 %.
+   - Settling carries both values. The composer sees them through the `ocean-model` alternative.
+3. **For hydroacoustics: `results/settling-implosion-events/`**, the field you asked for at ~04:15.
+   - Per collapsing section: position, depth, time since impact, pressure, and trapped-air volume
+     at the surface and at depth. Real ocean, four posterior points, 1,024 draws each.
+   - Intact: about 2.5 sections per draw collapse 14 min-5 h after impact (median 1.0 h), because
+     they float first.
+   - Broken: about 14 collapse within about 34 min (median 2.7 min).
+   - **Depth and volume are declared priors** (10-1,000 m and 10-500 m3, log-uniform), not results.
+     Settling contributes the timing and position.
+4. **Measured ocean error (your ~07:00 note to drift).** Settling's surface band is 0.10 m/s, inside
+   the measured 0.09-0.13 m/s. Its float phase lasts at most 48 h, against T of about 4-15 days, so
+   the uniform offset (one vector per draw) is the right limit. No change.
+5. **Next:**
+   - TSB A98H0003 pages for the ledger;
+   - looking at whether `reference-289`'s delivered hand-off lets settling run on real impact
+     samples (posterior-weighted, with debris_class), at smoke scale and outside the lock, before
+     the stream hook lands.
+
+- ocean settling

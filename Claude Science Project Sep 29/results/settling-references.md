@@ -35,8 +35,8 @@ transport's keys in `results/ocean-references.md` and are not duplicated here.
 Ocean data and standards, under ocean transport's keys (`results/ocean-references.md`):
 `gebco2026` (seabed, `run.toml` [shared]); `reagan2024woa23`, `locarnini2024woa23t`, `reagan2024woa23s`
 (density climatology); `ioc2010teos10`, `mcdougall2011gsw` (in-situ density); `lellouche2021glorys12`,
-`cmems_glo_phy_001_030` (the 8 March 2014 surface-current percentiles behind `run.toml`'s 0.13 m/s and the
-0.31 m/s variant). ETOPO 2022 (NOAA NCEI, doi:10.25921/fd45-gt74) underlies the posterior-weighted depth
+`cmems_glo_phy_001_030` (the column and surface current since `bfb71d5`, and the 8 March 2014 surface-current percentiles behind `run.toml`'s 0.13 m/s and the
+0.31 m/s variant); ERA5 and Copernicus-GlobCurrent (float-phase wind and the second ocean-model surface current) under ocean transport's keys; AusSeabed MH370 Phase 1 150 m (seabed) likewise. ETOPO 2022 (NOAA NCEI, doi:10.25921/fd45-gt74) underlies the posterior-weighted depth
 percentiles; it is to be added to the ocean ledger or here.
 
 **Open items:**
