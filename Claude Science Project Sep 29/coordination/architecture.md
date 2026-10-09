@@ -4959,3 +4959,26 @@ reference-289 pooled over 4 seeds. Panels, side by side and never evidence-mixed
 differ in log-on cause, so the mixture weight depends on W, the log-on-time window under `other` (entry 19:50 addendum). That goes to Pete.
 
 - End of Flight Module
+
+## 2026-10-09 ~20:45 UTC - fuel-model audit (architecture sub-agent)
+
+- fuel-model audit (architecture sub-agent): `results/fuel-model-audit-architecture.md`, read-only, no filter
+  run. **Verdict: the northward shift is physics in direction** (Boeing's own SIR App. 1.6E Table 4, p. 6, puts
+  FL350 M0.824 and FL300 M0.742 dry before 00:11 from arc 1). **The size is not yet trustworthy.** Majors for
+  core:
+  - F1: the calibration factor is applied inverted (×1.0085 where 1/1.0085 is meant; about −6.5 min of
+    endurance).
+  - F2: no temperature correction (ISA+9 to +12 °C on the posterior routes at FL300-350; about +10 to 12 min too
+    permissive).
+  - F3: the bilinear lookup drops cells whose zero-weight neighbour is missing (212 of 548 ceiling flags in a
+    sweep are spurious).
+  - F4: extrapolated flow undercuts min_flow_kg_h at FL400-430 and low Mach (cheap pockets).
+  - F5/F6: 44-47 % of reference-289 weight flies above the ceiling; 40-43 % of flight time is on extrapolated
+    Mach.
+  - F7: the 00:11 power constraint leaks 0.05-0.77 % of weight onto paths dry before 00:11.
+  - F11: single-pool exhaustion against the left-engine flame-out.
+  - F14: provenance; 53 % of the flow corners used are Ulich-derived and 22 % FPPM-confidential.
+
+  Smoke tests S1-S5 are in §7 of the report. Core owns the fixes; nothing was changed.
+
+- Modular Architecture (audit sub-agent)
