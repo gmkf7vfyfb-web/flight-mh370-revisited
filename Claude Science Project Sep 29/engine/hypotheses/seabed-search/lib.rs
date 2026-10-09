@@ -45,9 +45,14 @@
 //!   q = (0.974 x 0.95 + 0.021 x 0.70) / 0.995 = 0.945; ATSB also rated terrain-avoidance
 //!   gaps that hold some data at 0%, so the conditional value lies between 0.940 and
 //!   0.945. Regions range from 91.5% to 98.7% high confidence.
-//! - `bluefin-2014`: the Bluefin-21 (Artemis AUV) search from Ocean Shield, April-May
-//!   2014, near 21 S, 104 E: Geoscience Australia's two display polygons, 771 km2 (ATSB
-//!   reports 860 km2), so display geometry, not swaths. q = 0.9, not assessed by ATSB.
+//! - `bluefin-2014`: the Bluefin-21 (Phoenix International Artemis AUV) search from Ocean
+//!   Shield, April-May 2014, near 21 S, 104 E: Geoscience Australia's two display polygons,
+//!   771.41 km2, against the 860 km2 ATSB states (printed p. 42, verified 9 Oct 2026). The
+//!   published display geometry is 10.3% SMALLER than the stated coverage, so it is not an
+//!   upper bound on where the AUV looked and this layer is conservative; the gap cannot be
+//!   closed without AUV track data, and it cannot matter - the search is 2,473 km from the
+//!   posterior's mass and removes 0.0000 of it at every rho. See
+//!   results/seabed-bluefin21-area.md. q = 0.9, not assessed by ATSB.
 //! - Ocean Infinity 2018, INFERRED and not in git (the tracing's licence is unclear). Ocean
 //!   Infinity published no geometry for its 2018 search ("over 112,000 km2", 29 May 2018;
 //!   120,000 km2 in its data donation). The prepare script turns a community tracing of the
