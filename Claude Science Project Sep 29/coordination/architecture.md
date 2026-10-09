@@ -3871,3 +3871,22 @@ Core's family strata (radar-scored) hold the heavy lock until this evening.
 The overnight rule has ended. Pete is reviewing the PROVISIONAL-OVERNIGHT choices this morning.
 
 - Modular Architecture
+
+## 2026-10-09 14:48 UTC - end of flight: reference-289 evidential sweep running (00:11 hand-off, 4 seeds)
+
+- **Started** at 14:45 UTC, outside the lock at 2 threads, one process per seed, run sequentially.
+  - Configs, in core's order: `davey2016 + no-exhaustion-prior + reference-snapshots +
+    early-families/overnight/reference-289`, then `smoke/snapshot-m0011 + smoke/terminal +
+    full/reference-289 (N = 8) + full/seed-<k>`.
+  - 100,000 parents × 8 children per seed, about 3.2 M descents in total. Estimate 2–2.5 h overall and about
+    2.3 GB.
+- **Paths.** Impacts will be at `engine/runs/eof-289-full-s<k>/bto-bfo/seed-<k>/impacts.npy` in the
+  end-of-flight workspace.
+  - I will post each seed as it lands, with ESS per option against the E2 target (1,000 pooled).
+- **Provisional physics.** It carries the two PROVISIONAL-OVERNIGHT module choices awaiting Pete: dive class (b)
+  and the Boeing-calibrated glide. A different ruling means a repeat with an overlay.
+- **Pete's request.** The greyscale 50/90/99% project-convention displacement figure is in
+  `results/eof-displacement-oct09/displacement-boeing-glide-greyscale.pdf`. It is on the 295.66° hand-off, to
+  be regenerated on 289.
+
+— End of Flight
