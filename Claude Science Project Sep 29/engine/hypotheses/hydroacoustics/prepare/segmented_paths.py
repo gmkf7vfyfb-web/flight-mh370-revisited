@@ -44,16 +44,21 @@ def main(req_path, binary, work, out, names):
         nm, n = p["name"], plan[p["name"]]["n"]
         bs, ss, per = [], [], int(SEG_M / p["profile_every_m"])
         for k in range(n):
-            b = pd.read_csv(work / "seg" / f"{nm}__{k:03d}_bathymetry.csv")
-            s = pd.read_csv(work / "seg" / f"{nm}__{k:03d}_soundspeed.csv")
-            b["s_m"] += k * SEG_M
-            s["s_m"] += k * SEG_M
-            s["node"] += k * per
-            if k > 0:
-                b = b.iloc[1:]
-                s = s[s.node != k * per]
+            b = pd.read_csv(work / "seg" / f"{nm}__{k:03d}_bathymetry.csv").copy()
+            s = pd.read_csv(work / "seg" / f"{nm}__{k:03d}_soundspeed.csv").copy()
+            if k < n - 1:                       # float length can add a node past SEG_M; keep 0..per only
+                s = s[s.node <= per].copy()
+                b = b[b.s_m <= SEG_M + 1.0].copy()
+            b["s_m"] = b["s_m"] + k * SEG_M
+            s["s_m"] = s["s_m"] + k * SEG_M
+            s["node"] = s["node"] + k * per
             bs.append(b); ss.append(s)
-        b, s = pd.concat(bs), pd.concat(ss)
+        b = pd.concat(bs, ignore_index=True).sort_values("s_m", kind="stable")
+        b = b[~b.s_m.round(0).duplicated(keep="first")].reset_index(drop=True)
+        s = pd.concat(ss, ignore_index=True).sort_values(["node", "depth_m"], kind="stable")
+        s = s[~s.duplicated(["node", "depth_m"], keep="first")].reset_index(drop=True)
+        assert not s.duplicated(["node", "depth_m"]).any(), nm
+        assert np.all(np.diff(b.s_m.values) > 0), nm
         g = np.diff(b.s_m.values)
         assert g.max() <= 1000.0 and abs(b.s_m.max() - plan[nm]["L"]) < 1000.0, (nm, g.max(), b.s_m.max(), plan[nm]["L"])
         b.to_csv(out / f"{nm}_bathymetry.csv", index=False)
