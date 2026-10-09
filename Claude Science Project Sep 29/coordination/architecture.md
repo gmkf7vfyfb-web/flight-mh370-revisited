@@ -5106,3 +5106,72 @@ Results: `results/pleiades/closeup-289/closeup-289.md` (Audit section) and `audi
 No core files touched. No core request.
 
 — Pléiades
+
+## 2026-10-09 ~22:45 UTC - architecture: CORE REQUEST 17 - tempered-move ancestry defect (filter audit F1). For Pete to schedule.
+
+Source: `results/filter-audit-architecture.md` (the second independent audit, at Pete's request). I
+verified the defect myself in `filter.rs` at commit `1c2b295`, lines 717-776.
+
+**The defect.**
+- `before_step` is cloned once at the start of a tempered epoch, indexed by the population as it stood
+  then.
+- After the first stage that resamples, `particles` is replaced by `kids`, so its indexing changes.
+- Every later stage still re-simulates from `before_step[anc]`, with `anc` an index into the new
+  population. That is a different particle's pre-epoch history.
+- The Metropolis ratio scores only the epoch's likelihood, so the pre-epoch weight and the
+  prior/proposal ratio of the history being swapped in are lost.
+
+**What the audit measured.**
+- In a 1-D toy, 16 stages, 200 replicates (`results/filter-audit-tempering-toy.csv`):
+  - bias z = −15.9 with non-uniform pre-epoch weights;
+  - z = −0.3 with the ancestry fixed;
+  - z = 1.6 with uniform pre-epoch weights.
+- The size in our filter is **unmeasured**.
+
+**Which runs it affects.** Every run with `temper_epochs`, including:
+- `reference-289`;
+- `reference-snapshots`;
+- the `families-*` runs now in progress (all six epochs, 16 stages);
+- the end-of-flight, searched-area and Pleiades results built on those runs.
+
+Not affected:
+- `davey2016.toml` itself;
+- the ladder rungs that use the plain sampler: R0-R3, R6 and R7.
+
+R3 found the fuel shift of about 2° **without** tempering. So the fuel finding is not caused by this
+defect, but the full-scale size of the shift may be.
+
+**Fix.** Carry `ancestry: Vec<usize>`:
+- identity at the start of the epoch;
+- on each stage resample, `ancestry = parents.map(|a| ancestry[a])`;
+- re-simulate from `before_step[ancestry[anc]]`.
+
+**Acceptance.**
+- Add a unit test comparing a tempered and an untempered run on `CalmAir`: evidence and posterior mean
+  must agree within Monte Carlo error.
+- Run audit smoke S3: `tempered-1839-1941` against the untempered run at matched particles.
+- Run the ladder rung R4 (our sampler) again, with fuel.
+
+**Pete decides:**
+- whether the running family parts continue (their results would be labelled PROVISIONAL-SAMPLER);
+- when the fix goes in. It fits into the same rebuild as core request 16.
+
+**Other filter-audit items for core,** smaller and Davey-fidelity:
+- **F2 (ephemeris).** The −495,679 µs offset was calibrated with Inmarsat's states. The reproduction uses
+  the STK/SGP4 ephemeris, and the BTO difference swings 16.7 µs over the flight (up to a third of σ),
+  so it is not a constant offset. Audit smoke S1.
+- **F3.** Manoeuvre step 5 s (Davey 1 s) and LNAV step 10 s (Davey 60 s); add an override. The ladder
+  found 0.06° for the manoeuvre step.
+- **F4.** Drift of the BFO bias over 00:11-00:19 is missing at end-of-flight takeover.
+- **F9.** Tests fail when `fuel-tables.json` is absent.
+- **F10.** 00:19 and 23:15 satellite/EAFC values: record the source rows.
+- **F11.** Rename `log_evidence` to the mean of log Z, or report log of the mean Z beside it.
+- **F13.** Optional extensions: an 18:25 R600 BTO and dropping the 18:28 BFOs, default off.
+
+**Checked and correct:**
+- BTO and BFO against Ashton's tarmac and example-path tables (≤10.5 µs, ≤1.3 Hz);
+- the observation table against Davey Table 10.1;
+- look-ahead, proposals, the Gibbs τ step, pooling, hand-off and rejuvenation;
+- no double counting anywhere.
+
+- Modular Architecture
