@@ -72,10 +72,10 @@ conclusion still rests on end of flight's 2-D displacement histogram, which repl
 
 ## Two-epoch COSMO → Pléiades windage calibration at the measured spread
 
-`d5-two-epoch-measured-spread.csv`. Isotropic approximation (rms σ, mean T per product), K off, rating-5 clusters,
+`d5-two-epoch-measured-spread.csv`. Isotropic approximation (rms σ, mean T per product: 0.1165 m/s, 5.17 d; 0.1000 m/s, 11.83 d), K off, rating-5 clusters,
 equal weights. The per-component sd over 40.5 h is 16.1 km (GLORYS12) and 13.4–15.0 km (GlobCurrent).
-- IG 0.001–0.10 bits, ln BF(free vs fixed windage) −0.12 to −0.01, P(dawn pass) 0.50–0.53, for F1–F3 and F1–F4,
-  π_m 0.5 and 0.9.
+- IG 0.001–0.07 bits, ln BF(free vs fixed windage) −0.12 to −0.01, P(dawn pass) 0.50–0.53, for F1–F3 and F1–F4,
+  π_m 0.5 and 0.9, on the GLORYS12 and daily GlobCurrent tracks (hourly tracks as a sensitivity: same ranges).
 - This confirms, independently of ocean transport's own finding [OT-GDP], that the calibration carries no information.
   The injection-recovery floor (`results/pleiades/d5-two-epoch.md`) needs sd ≲ 6 km; both products are above 13 km.
   **Negative result, closed for both products.**

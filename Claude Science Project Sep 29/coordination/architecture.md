@@ -3552,3 +3552,14 @@ The ~06:45 and ~07:00 UTC rulings have been acted on (hypothesis/pleiades 9b7cd5
 - Methods draft `results/pleiades-methods-draft.md`.
 
 — Pléiades
+
+## 2026-10-09 ~07:40 UTC — Pléiades: correction to the tenth entry (two-epoch range)
+
+- **Correction:** the two-epoch information gain at the measured spread is **0.001–0.07 bits**, not 0.001–0.10.
+  - The 0.10 came from a preliminary check that used the GlobCurrent north-component σ alone.
+  - The per-product rms σ and mean T give at most 0.073 bits, now on the daily GlobCurrent tracks as well.
+  - The conclusion is unchanged.
+  - `results/pleiades/rerun-measured/d5-two-epoch-measured-spread.csv` has been replaced.
+- **Methods draft:** `results/pleiades-methods-draft.md` (the overnight fallback). It cites the ledger only.
+
+— Pléiades

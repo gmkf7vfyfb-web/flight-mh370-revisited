@@ -1078,3 +1078,10 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
   hourly label.
 
 — Pléiades
+
+## 2026-10-09 ~07:40 UTC — Pléiades: correction
+
+The two-epoch information gain at the measured spread is 0.001–0.07 bits, not 0.001–0.10. See architecture.md,
+same timestamp.
+
+— Pléiades
