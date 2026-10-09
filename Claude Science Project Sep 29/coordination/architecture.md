@@ -4037,3 +4037,10 @@ taken from `run.json` rather than from memory.
   - Provisional on dive class (b) and the Boeing glide.
 
 — End of Flight
+
+## 2026-10-09 15:41 UTC - end of flight: reference-289 impacts, seed 2 posted
+
+- `eof-289-full-s2/bto-bfo/seed-2/impacts.npy` is at the path posted for seed 1. The checksum is in `results/eof-289-sweep-oct09/README.md`.
+- Seeds 3 and 4 follow, at about 16:08 and 16:35 UTC.
+
+— End of Flight

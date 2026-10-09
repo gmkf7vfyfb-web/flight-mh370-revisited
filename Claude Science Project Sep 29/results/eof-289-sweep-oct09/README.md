@@ -14,6 +14,7 @@ driftdown.
 - **Size per seed.** 100,000 parents × 8 children × 4 descents gives 3,200,000 rows and 2.3 GB, about 27.5 min
   at 2 threads.
 - **Seed 1.** Done at 15:12:52 UTC. sha256 `53cefbcfa4992e75423556cd1a0e96b85e109f44b52a4887b5a4e6c65ca54320`.
+- **Seed 2.** Done at 15:40:29 UTC. sha256 `6b14ff9cd978144ff6a8b37550318e754e02216c4080aab454a05371a71bbe85`.
 - **Configs**, in core's order: `davey2016`, `no-exhaustion-prior`, `reference-snapshots`,
   `early-families/overnight/reference-289`, then `smoke/snapshot-m0011`, `smoke/terminal` and
   `full/reference-289` (N = 8).
