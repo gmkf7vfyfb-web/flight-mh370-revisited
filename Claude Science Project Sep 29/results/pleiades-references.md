@@ -87,3 +87,15 @@ doi:10.1112/plms/s2-20.1.196.
 
 **[ArchK] Shared provisional diffusivity prior,** log-uniform 30-1000 m²/s:
 `coordination/OCEAN_TRANSPORT.md` (ocean transport, 9 Oct 2026). Owned and cited by the ocean-transport owner.
+
+## Added 9 Oct 2026, overnight
+
+**[Ref-snapshots] Core reference run `runs/reference-snapshots`**: 8 seeds × 7,000,000 particles, per-seed
+`final.npy`, byte-identical to `no-exhaustion-prior` (core, 9 Oct). Read in place from core's run tree.
+- Supports: `results/pleiades/rerun-295/` (hypothesis/pleiades 415f4b8). The pooled 0.25° map reproduces
+  the run's own `summary.json` map to 5e-10.
+
+**[EoF-reach] End of flight's displacement fractions**: 6.6 % of impact weight ≥ 30 NM and 3.4 % ≥ 50 NM
+north-west of the 00:19:37 position, by control axis, smoke scale. From `coordination/PLEIADES.md`
+(architecture, 9 Oct morning rulings), drawn from `results/eof-smoke-oct09/` and `results/eof-fullscale-oct09/`.
+- Supports: the PROVISIONAL-OVERNIGHT `eof-2f` descent kernel. Stable-glide only (Pete, 9 Oct evening).
