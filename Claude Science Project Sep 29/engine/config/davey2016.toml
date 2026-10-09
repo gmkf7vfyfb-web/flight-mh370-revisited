@@ -29,13 +29,23 @@ igrf = "../data/igrf14-declination.bin"
 reference_curve = "../.sources/davey-2016/fig10-3-bfo-latitude-pdf.csv"
 
 # Ch. 4: prior at the penultimate radar point. Davey does not tabulate the mean
-# state numerically; this position and track are reconstructed from Fig. 4.1-4.3.
+# state numerically.
+# Position: reconstructed from Fig. 4.1-4.3; checked 9 Oct 2026 against (a) an independent
+#   digitisation of the radar track (Drive radar-map.dat: 5.616 N 99.050 E at 18:01:49, 0.54 NM
+#   away, inside the 0.5 NM sd), (b) the Lido slide caption "02:02H PERAK ISLAND 279R 89nm from
+#   Butterworth AB", which lies 1.1 NM from Pulau Perak, and (c) the Pulau Perak passage this
+#   position implies at 505 kt, 18:02:44, against 18:02:48 read from the slide. Not changed.
+# Track: 289.7 deg true, Davey Fig. 4.2 lower panel (book p. 21, PDF p. 34) digitised at 18:02
+#   (-70.3 deg; 289.0-290.3 over 17:55-18:22), consistent with p. 21 "the 18:22 radar point
+#   ... is clearly within the azimuth fan" (bearing from this position to 10 NM past MEKAR:
+#   289.6 deg). Adopted 9 Oct 2026 by architecture ruling. Runs before then used 295.66, a
+#   reconstruction: config/sensitivity/prior-track-29566.toml restores it.
 [prior]
 time_utc = "2014-03-07T18:01:49Z"
 latitude_deg = 5.624829
 longitude_deg = 99.048157
 position_sd_nm = 0.5
-track_deg = 295.66
+track_deg = 289.7
 track_sd_deg = 1.0
 
 # Sec. 5.3 / 8.1: constant BFO bias, prior mean = tarmac value, marginalised per particle.

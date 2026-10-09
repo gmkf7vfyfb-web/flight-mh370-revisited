@@ -11,6 +11,13 @@
 # outlier mixture still let the few particles near it take the weight (ESS 24 of 3,000).
 # 18:22:12: 10 NM past MEKAR on N571 (Malaysian SIR 2018; slide digitises to 6.7 NM past).
 # sd: 3 NM for 020716; 5 NM for 020414? and 020515 (about 4 NM scatter); 5 NM for 18:22:12.
+# Full radar set for the overnight run: the point fixes above plus
+# - 18:13:36 just past VAMPI (6.196413N 97.530141E): reading of the Reuters image by "Richard"
+#   (comment on V. Iannello, mh370.radiantphysics.com, 3 Mar 2017); 511 kt to 18:22:12. sd 5 NM.
+# - the dense VAMPI-MEKAR band (labels unreadable), scored across track only at four times
+#   between 18:13:36 and the MEKAR passage (~18:21:30 at 500 kt). Digitised band: plots and labels
+#   within -2..+3 NM of the line, IQR 0..1.5 NM (Reuters 2982x2286 image, 7-fix homography).
+#   sd 1.5 NM (plot scatter ~1 NM plus georeference).
 [hypotheses.radar-fix]
 outlier_fraction = 0.1
 outlier_sd_nm = 50.0
@@ -18,5 +25,12 @@ fixes = [
   { epoch = "r0414", unix_s = 1394215454.0, latitude_deg = 5.7847, longitude_deg = 98.7552, sd_nm = 5.0 },
   { epoch = "r0515", unix_s = 1394215515.0, latitude_deg = 5.8538, longitude_deg = 98.5485, sd_nm = 5.0 },
   { epoch = "r0716", unix_s = 1394215636.0, latitude_deg = 5.9331, longitude_deg = 98.3613, sd_nm = 3.0 },
+  { epoch = "r1336", unix_s = 1394216016.0, latitude_deg = 6.196413, longitude_deg = 97.530141, sd_nm = 5.0 },
   { epoch = "r1822", unix_s = 1394216532.0, latitude_deg = 6.5779, longitude_deg = 96.3410, sd_nm = 5.0 },
+]
+tracks = [
+  { epoch = "b1815", unix_s = 1394216100.0, from = [6.1822222, 97.5855556], to = [6.5038889, 96.4911111], sd_nm = 1.5 },
+  { epoch = "b1817", unix_s = 1394216220.0, from = [6.1822222, 97.5855556], to = [6.5038889, 96.4911111], sd_nm = 1.5 },
+  { epoch = "b1819", unix_s = 1394216340.0, from = [6.1822222, 97.5855556], to = [6.5038889, 96.4911111], sd_nm = 1.5 },
+  { epoch = "b1821", unix_s = 1394216460.0, from = [6.1822222, 97.5855556], to = [6.5038889, 96.4911111], sd_nm = 1.5 },
 ]
