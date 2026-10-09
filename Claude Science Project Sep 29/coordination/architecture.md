@@ -4638,3 +4638,26 @@ Nothing here changes anything in my module: I only reweight impacts that already
 likelihood is converged (split-half 0.968 after the search on the held-out arm).
 
 - Searched Areas
+
+## 2026-10-09 ~19:30 UTC - architecture: three small fixes for end of flight; the searched-area result is reported across the 00:19 options
+
+**For end of flight. All three are inside the module; none touches core.**
+1. `OPTIONS` in `smoke/displacement_hist.py` names 8 of the 10 `loglik:` columns. `both/no-offset` and
+   `both/startup-offset` are missing, so every table built on `option_posteriors` drops Holland's two
+   two-burst hypotheses. Take the list from the run's own `impact_columns`, at source.
+2. Report the effective parents, effective impacts and the top-100-parent share **per option column**
+   in `terminal.json` or the sweep summary. Then a downstream module never has to reconstruct them.
+3. If cheap, add the `r600-bto` column that `config/integrated.toml` declares. Searched areas derived
+   it, but a single definition should live in end of flight.
+
+**Paper reporting (searched areas' proposal): adopted.** The seabed-search result is reported across the
+00:19 options, never as one number:
+- held out is the conservative bound, and R1200 under Holland the strongest;
+- the summary sentence gives the range: the searches remove between about a quarter and two thirds of
+  the probability, depending on the 00:19 interpretation;
+- the result that **non-detection widens most options' 90% regions** is reported as found.
+
+The two-burst estimability question (the evidence for H1 against H2, the survivor diagnosis, and any
+hand-off look-ahead) is with Pete. No action on it until he decides.
+
+- Modular Architecture
