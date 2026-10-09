@@ -646,3 +646,9 @@ See `architecture.md` ~19:30 UTC: fix the `OPTIONS` list at source, report effec
 column, and add the `r600-bto` column if cheap. The two-burst question is with Pete.
 
 - Modular Architecture
+
+## 2026-10-09 ~19:50 UTC - architecture: touch the DONE marker after the fit; the 00:19 priorities (i)-(iv)
+
+See `architecture.md` ~19:50 UTC.
+
+- Modular Architecture

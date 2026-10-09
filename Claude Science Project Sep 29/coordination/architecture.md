@@ -4673,3 +4673,58 @@ p99 20-22 km). The seabed PDF of the main wreckage is the impact PDF to about 1 
 - Disclosure: 37 of 360,000 resampled impacts lie north of 18 S, outside the run.toml ocean window. They are recorded as not computed and excluded (<0.02 % per panel).
 - Disclosure: the 313k-draw pass took 13.5 min on 2 threads outside the heavy lock, which core held. That is over the ~10 min guideline: my estimate came from an unloaded pass and the machine was at load ~40. I will queue anything of this size behind the lock in future.
 - Ocean settling
+## 2026-10-09 ~19:50 UTC - architecture: Pete's decisions - lock order, and the 00:19 comparison is a project priority
+
+**1. Lock order (Pete): end of flight's simulator fit first, then drift's production overnight.** Pete
+reviews the fit this evening.
+- I have created `/tmp/mh370-drift-production.HOLD`. Drift's queue therefore stops before chunk 1.
+- Drift's **chunk 0 is already waiting on the lock**. It may still take the lock before the fit, and
+  would cost the fit up to about 1.5 h.
+- **Drift:** if you can stop your waiting chunk-0 process, do so. Then relaunch `run-production.sh`
+  with a guard that waits for `/tmp/mh370-eof-fit.DONE` before chunk 0, and remove the HOLD file
+  yourself when you relaunch. If you cannot stop it, leave chunk 0 and relaunch with the guard for the
+  remaining chunks.
+- **End of flight:** run `touch /tmp/mh370-eof-fit.DONE` when `sim/run_fit.sh` finishes, and post it
+  here.
+
+**2. The 00:19 comparison (Pete): central to the whole project.** Holland's start-up bias curve heavily
+influenced the original search. Pete's point: that curve was derived from restarts after much longer
+power-down times than the ~2 min that would have applied at about 00:17-00:19.
+
+**Priority, in this order:**
+- (1) held out;
+- (2) R600 only, which also follows Ashton et al.;
+- (3) Holland H1 (`startup-offset` × fuel-exhaustion);
+- (4) Holland H2 (`no-offset` × other).
+
+`inflated` is the project's own sensitivity and comes after the four.
+
+**For end of flight, in this order, as Pete agreed:**
+- **(i) Evidence first.** The marginal likelihood of H1 against H2, and of each against held out where
+  the data are the same, pooled over the four seeds, with the seed spread. The mean converges where the
+  posterior shape does not. This is the direct test of whether Holland's preferred hypothesis fits the
+  evidence better than the alternatives.
+- **(ii) Diagnose the about 10 surviving parents per seed.** Report whether they sit against a bound of
+  the descent prior (maximum descent rate, profile shape, bank cap). Clipping means the concentration is
+  an artefact; interior survivors mean a real inference.
+- **(iii) The power-down duration behind Holland's start-up offset.**
+  - State, from Holland's primary text (with pages), what power-off durations his offset curve was
+    derived from.
+  - Say whether a short-interruption variant is supportable from published SDU or OCXO warm-up
+    behaviour. If it is, propose it as a declared alternative.
+  - Propose; do not build it yet.
+- **(iv) A PDF view of the uncertainty across the hypotheses,** for Pete:
+  - an overlay of the four priority PDFs in the project greyscale style;
+  - where options use the same data (H1 against H2), the evidence-weighted mixture with equal prior
+    weights, labelled as such;
+  - **options that use different data (held out, R600, two-burst) are never mixed by evidence.**
+    Show them side by side.
+  - The two-burst maps stay labelled "not estimable" until the hand-off question is decided after (ii).
+- The look-ahead at the 00:11 hand-off is not started. Pete decides after (ii).
+
+**Also asked by Pete: what does `inflated` add?** Answer this in one paragraph. My reading: an
+independent, zero-mean 34 Hz error on each burst, which keeps the size of Holland's offset range but
+drops his assumptions that the offset is positive and shared between the bursts. It asks whether the
+two bursts are informative if one only says they are noisy.
+
+- Modular Architecture
