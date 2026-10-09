@@ -20,14 +20,24 @@ This test shows what the 19 transients carry once their own background rate is t
 
 - **The detector** (fixed in advance): STA/LTA on squared pressure, STA 1 s, LTA 20 s, ratio ≥ 3. It
   fired once across panels b and c (00:37–00:57), at **00:52:03**.
-- **The ratio at Table 1's own times** (exploratory diagnostic): 0.9–2.9.
-- **Panel b (00:37–00:47) is flat**, with a maximum ratio of 2.1. That agrees with Kadri's text ("no
-  observed signals") but not with the **seven** Table 1 events listed in that span.
-- **Panel c's one dominant transient is at 00:52:03.** That agrees with Kadri's text ("recorded at
-  00:52 UTC"), but Table 1 has **no event within 13 s of it**, and at Table 1's 00:54:30 the ratio is 2.9.
+- **The ratio at Table 1's own times** (exploratory diagnostic): 0.9–2.9. Table 1's 19 rows have 18
+  distinct times; 00:52:36 appears twice.
+- **Panel b (00:37–00:47) is flat**, with a maximum ratio of 2.1. That agrees with Kadri's text (p. 9:
+  "no observed signals") but not with the **seven** Table 1 events listed in that span.
+- **Panel c (00:47–00:57) has a dominant transient at 00:52:03** (ratio 5.0) **and a weaker one at
+  00:54:30** (ratio 2.9, just under the threshold). That matches the Table 1 caption (p. 14): "two major
+  signals", at 00:52 UTC (bearing 57°) and at 00:54:30 UTC (bearing 306.18°).
+- **Kadri disagrees with himself on which signal is the 306° one.** The text (p. 9) says Fig. 9c shows
+  only two signals: the first at 57° ("cannot be related to MH370") and the second, "recorded at 00:52
+  UTC", at 306°. The caption puts 306.18° at 00:54:30. No 57° row appears in Table 1.
+- **Of the 18 distinct Table 1 times, only 00:54:30 shows at all,** and below the threshold. The other
+  17 are not visible in the published traces at this detector setting.
 
-The digitised traces therefore support the **text's** timing and not Table 1's. Bearings need the triad,
-so they cannot be reproduced from one plotted channel; Table 1's bearings are taken as published.
+Bearings need the triad, so they cannot be reproduced from one plotted channel; Table 1's bearings are
+taken as published. Section B scores the 306° signal at both of Kadri's times.
+
+*Correction, same day: the first version of this note said the traces support the text's timing and not
+Table 1's. That misread p. 9. The traces show both of the caption's two signals.*
 
 ## B. Geometry test at H01W
 
@@ -65,8 +75,10 @@ so they cannot be reproduced from one plotted channel; Table 1's bearings are ta
 1. Kadri's main candidate is **inconsistent in bearing** with an impact in the core region. It needs a
    source near 25.8°S. That is a conditional hypothesis (brief §8), to be scored as one, not a detection
    in the core region.
-2. Table 1's times are not reproducible from Kadri's own published traces. The traces and the text agree
-   on 00:52; Table 1 says 00:54:30.
+2. Table 1 is mostly not reproducible from Kadri's own published traces. Only 00:54:30 shows, weakly;
+   the other 17 distinct times do not. The 00:52 transient is the caption's 57° signal, which is not in
+   Table 1. Which signal carries 306° is inconsistent inside the paper (p. 9 against p. 14), but point 1
+   holds at either time.
 3. The transients that are consistent with the core region are **indistinguishable from background** at
    one station. This is the composer test's conclusion again, on real candidates: only two-site
    coincidence can carry information.
