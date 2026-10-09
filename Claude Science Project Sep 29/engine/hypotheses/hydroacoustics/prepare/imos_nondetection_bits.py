@@ -2,7 +2,8 @@
 non-detection, as a function of an ASSUMED P_D inside recordings (P_D is uncalibrated until item 3).
 Coverage per stand-in sample = arrival (true UTC, convention A clock) inside a recording at a logger,
 for the D1-scorable part (from 32 s after recording start). Impact time and celerity are marginalised
-within latitude bins (0.25 deg). Posterior weight per bin = mean over its samples of
+within latitude bins (0.25 deg). Optional third argument: loggers to exclude (e.g. 3250, whose geodesic
+paths from every impact quantile are blocked by the North West Shelf; shared ocean transport, ruling H5). Posterior weight per bin = mean over its samples of
 prod_loggers (1 - P_D * covered). Information gain = KL(posterior || prior) over bins, bits."""
 import json, sys
 from pathlib import Path
@@ -11,7 +12,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 import imos_preregistration as P  # noqa: E402
 import imos_detectors as D  # noqa: E402
 
-def main(summary, out):
+def main(summary, out, exclude=()):
     recs = pd.read_csv(Path(__file__).parent.parent / "data/imos/recordings.csv", parse_dates=["start_logger"])
     meta = P.parse_meta()
     rng = np.random.default_rng(P.sct.SEED)
@@ -23,7 +24,7 @@ def main(summary, out):
     c = rng.normal(P.C_G, P.SD_C, n)
     ref = (P.T_IMPACT_REF - D.DAY0).total_seconds()
     cov = {}
-    for cid in D.LOGGERS:
+    for cid in [c for c in D.LOGGERS if c not in exclude]:
         m = meta[str(cid)]
         _, _, d = P.GEOD.inv(np.full(n, m["lon"]), np.full(n, m["lat"]), pr[:, 1], pr[:, 0])
         ta = ref + t_imp + d / 1000 / c
@@ -48,4 +49,4 @@ def main(summary, out):
     Path(out).write_text(json.dumps(res, indent=1)); print(json.dumps(res, indent=1))
 
 if __name__ == "__main__":
-    main(sys.argv[1], sys.argv[2])
+    main(sys.argv[1], sys.argv[2], tuple(int(x) for x in sys.argv[3].split(",")) if len(sys.argv) > 3 else ())
