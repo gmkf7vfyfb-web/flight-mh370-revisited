@@ -101,6 +101,15 @@ detection of an airplane crash. *Pure Appl. Geophys.* 180, 1343–1351. doi:10.1
   - p. 1348: origin time 10:26:32 ± 9 s UTC; the epicentre is within 8 km of the 135 km range circle from
     Misawa; 3,341 km to H11S; 90 % ellipse 844 km², semi-axes 36.8 km and 7.3 km.
 - **No epicentre coordinates are printed in the text,** and no absolute pressure at H11.
+- **Caveats** (pp. 1345–1349; independent review supplied by Pete, 9 Oct):
+  - The 844 km² ellipse is a joint solution with four nearby cabled hydrophones. H11 alone gives a
+    semi-major extent over 1,500 km.
+  - The 0.3° per-triplet bearing standard error is an assumed error model, not a measurement.
+  - "Up to 20 dB above noise" refers to the nearby observatory, not H11.
+  - 11:03:00 and 11:04:05 are narrative onsets, not the inversion's RMS-peak picks.
+  - Source depth is assumed to be 0 m.
+  - Reading errors range from 1.4 s (H11S1) to 5.7 s (KSP2).
+  - The IMS model error is 1 s per 10° of geodesic distance.
 - **Supports:** the F-35A working position **40.64°N 142.96°E**, derived by this module from those two
   constraints. Across the ±8 km band it spans 40.54–40.72°N and 142.85–143.06°E.
 
