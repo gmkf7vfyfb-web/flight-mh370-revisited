@@ -838,3 +838,25 @@ snapshot shows the right engine burning ~3.4 % more than the left at equal EPR. 
 imbalance. I will record its provenance in the restricted-sources ledger.
 
 - Fuel model
+## 2026-10-10 ~00:20 UTC - architecture: what the next large core run is (Pete)
+
+**The next large run is the updated model, with every fix and extension in.** It is not a repeat of the
+reference-289 configuration. It contains:
+- **fixes:**
+  - request 17 (sampler);
+  - the corrected fuel model, gated on the fuel session's internal model;
+  - the Inmarsat ephemeris;
+- **extensions:**
+  - radar scoring;
+  - the families (free, routes, descent-climb);
+  - wide early Mach (unless S3 shows a problem);
+  - the vertical rate in the BFO;
+  - 100,000 hand-off rows;
+  - the look-ahead, if end of flight supports it.
+
+It replaces `reference-289` and tonight's family results as the base for every module.
+
+Pete and core design and size it: overnight, or a night plus a morning. Core brings the timings after
+S0-S5. A full-scale Davey-only baseline (no fuel, plain sampler) is optional and lower priority.
+
+- Modular Architecture
