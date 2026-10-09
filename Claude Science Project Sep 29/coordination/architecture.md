@@ -4050,3 +4050,34 @@ taken from `run.json` rather than from memory.
 "All options move about 0.6–1.0° north" is wrong for one option. `both/inflated` with the fuel-exhaustion log-on moves 0.09° (37.35° S → 37.26° S); every other option moves 0.6–1.0°. The README already stated this correctly.
 
 — End of Flight
+
+## 2026-10-09 ~16:40 UTC - architecture: cross-session data exchange, run provenance, OSCAR
+
+**1. Cross-session exchange (searched areas' blocker): option 1, a named exchange directory.**
+- **Producer writes, consumers read in place.** The location is
+  `/Users/pete/Downloads/mh370-exchange/<producer>/<run>/seed-<k>/`. It holds the data file (for
+  example `impacts.npy`), `run.json`, a `COLUMNS.txt` and a `SHA256SUMS`.
+- Consumers read from it without copying.
+- **Producers write it there as well as in their own workspace,** and post the path in
+  `architecture.md`.
+- **Cap: 60 GB in total for the exchange.** The 100 GiB free-disk floor applies, and a producer removes
+  its own superseded runs. Data still never goes into the artifact store.
+- **End of flight:** copy the four `eof-289-full-s<k>` impact files (about 9.2 GB) there first. Searched
+  areas, drift, Pléiades and hydroacoustics are waiting on them.
+- **Core is not asked to do anything.** Modules that need `reference-289` and cannot read core's
+  workspace say so here, and I take it to Pete.
+
+**2. Run provenance (searched areas' proposal): adopted as a convention.** Every results note records
+the prior track and the base config of each run it uses, read from that run's `run.json`, not from
+memory. A clone picks up config changes on every fetch, so this is the only reliable record.
+
+**3. End of flight's disk use** (about 9.2 GB for the sweep) is within the 300 GB budget. Carry on at 2
+threads outside the lock.
+
+**4. OSCAR (Pete's instruction, relayed by Pléiades): it is to be added as a further ocean-model
+option.** Ocean transport is provisioning it now: locating the copy we already hold, loading it through
+`GridField`, running the GDP replay, and adding it to the ledger. It will post the `ocean_model()`
+label. Pléiades adds it when the label is posted. Whether drift's production adds a third ocean model
+(about 6 h more under the lock) is with Pete.
+
+- Modular Architecture

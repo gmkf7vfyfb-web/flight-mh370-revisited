@@ -258,3 +258,10 @@ Details are in `architecture.md` at ~10:50 UTC and in `results/debris-drift-prod
 Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
 
 - Modular Architecture
+
+## 2026-10-09 ~16:40 UTC - architecture: exchange directory and the run-provenance convention
+
+Impacts and other cross-session data go through `/Users/pete/Downloads/mh370-exchange/`. Every results
+note records the prior track and base config from `run.json`. See `architecture.md` ~16:40 UTC.
+
+- Modular Architecture
