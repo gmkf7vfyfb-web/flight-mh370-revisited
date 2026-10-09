@@ -770,6 +770,13 @@ impl EndOfFlight {
             } else {
                 (impact, states, trace)
             };
+            // A burst logged before the 00:19:29 log-on needs the SDU logged on throughout: the only
+            // aircraft-initiated log-on request after 18:25 is the one at 00:19:29 (ATSB 2014 update,
+            // PDF p. 5, the handshake list). So a realised dual flame-out before such a burst makes it
+            // impossible, and the burst gets no state, which core scores as minus infinity for every
+            // option that uses it. Bursts at or after the log-on are untouched, so a 00:11 hand-off is
+            // unaffected by construction. Bites from a 22:41 hand-off (m2315, m0011).
+            let states = unpowered_bursts_removed(epochs, states, realised_flameout, self.params.logon.logon_unix_s);
 
             let realised_control = flying.realised_control();
             // Breakup family from the contact state, drawn once for this impact sample. The speeds
@@ -971,6 +978,25 @@ impl EndOfFlight {
         };
         (impact, states.into_inner(), flying.into_inner(), trace, realised_flameout.get())
     }
+}
+
+/// Remove the state of every burst logged before `logon_unix_s` that falls after a finite realised
+/// flame-out: the SDU could not have answered it without first logging on again, and no such log-on
+/// is in the record. A NaN flame-out (still powered at impact) removes nothing.
+fn unpowered_bursts_removed(
+    epochs: &[TerminalEpoch],
+    mut states: Vec<Option<EpochState>>,
+    realised_flameout_unix_s: f64,
+    logon_unix_s: f64,
+) -> Vec<Option<EpochState>> {
+    if realised_flameout_unix_s.is_finite() {
+        for (k, e) in epochs.iter().enumerate() {
+            if e.unix_s < logon_unix_s && e.unix_s > realised_flameout_unix_s {
+                states[k] = None;
+            }
+        }
+    }
+    states
 }
 
 /// Linear interpolation of a body state onto a burst time, with the wind of the bracketing step.
@@ -1560,6 +1586,28 @@ mod tests {
                 u
             }
         }
+    }
+
+    /// A dual flame-out before a pre-log-on burst (22:41 hand-off: m0011) removes that burst's state;
+    /// one after it, or a still-powered descent, removes nothing; the 00:19 bursts are never touched.
+    #[test]
+    fn a_burst_before_the_logon_needs_power() {
+        let s = |lat: f64| Some(EpochState { latitude_deg: lat, longitude_deg: 90.0, altitude_ft: 35_000.0, velocity_north_mps: -200.0, velocity_east_mps: 50.0, velocity_up_mps: 0.0 });
+        let logon = 1394237969.416;
+        let eps = vec![
+            TerminalEpoch { id: "m0011".into(), unix_s: 1394237459.928 },
+            TerminalEpoch { id: "m0019a".into(), unix_s: logon },
+            TerminalEpoch { id: "m0019b".into(), unix_s: 1394237977.443 },
+        ];
+        let all = vec![s(-36.0), s(-37.0), s(-37.1)];
+        let before = unpowered_bursts_removed(&eps, all.clone(), 1394237400.0, logon);
+        assert!(before[0].is_none() && before[1].is_some() && before[2].is_some(), "flame-out before m0011 removes m0011 only");
+        let after = unpowered_bursts_removed(&eps, all.clone(), 1394237500.0, logon);
+        assert!(after.iter().all(|x| x.is_some()), "flame-out after m0011 removes nothing");
+        let powered = unpowered_bursts_removed(&eps, all.clone(), f64::NAN, logon);
+        assert!(powered.iter().all(|x| x.is_some()), "no flame-out removes nothing");
+        let late = unpowered_bursts_removed(&eps[1..], all[1..].to_vec(), 1394237900.0, logon);
+        assert!(late.iter().all(|x| x.is_some()), "the 00:19 bursts are never removed");
     }
 
     fn epochs() -> Vec<TerminalEpoch> {
