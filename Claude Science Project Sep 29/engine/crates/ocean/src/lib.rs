@@ -36,6 +36,7 @@ pub mod analytic;
 pub mod bathy;
 pub mod coast;
 pub mod field;
+pub mod gshhg;
 pub mod integrate;
 pub mod products;
 pub mod profile;
@@ -44,6 +45,7 @@ pub mod soundspeed;
 pub mod teos10;
 
 pub use coast::{CoastHit, Coastline, LineId, NoCoast, SegmentEdges, SegmentId, StraightCoast};
+pub use gshhg::{g1_segments, NamedSegment, PolygonCoast, PolygonCoastOptions};
 pub use field::{Component, FieldGap, FieldMeta, GridField, VectorField};
 pub use integrate::{integrate, Domain, LEEWAY_CALM_WIND_MPS, Event, Fate, Forcing, ObjectResponse, Particle, Refloat, RunOutput, RunSpec, Snapshot};
 pub use products::{Contents, Inclusion, TimeAxis};

@@ -368,3 +368,14 @@ Ocean transport (architecture sub-agent), 9 October 2026. Fetched by
 | `woa23_decav_s14_01.nc` | 79,553,930 | a750de497f7b04b747b53c9313016fa1ecb3b18d8ba257362c3d99f2bc4552e8 | 2026-10-09T01:11:52Z |
 | `woa23_decav_s15_01.nc` | 79,537,903 | b903f847df0be8308c9222108ee41ad2a6cee8cb30fa630a1f3cbf24b384c4e3 | 2026-10-09T01:12:13Z |
 | `woa23_decav_s16_01.nc` | 78,983,581 | e46097cad0547e28bee6551083590027970517a50429c4757348dd498532bb44 | 2026-10-09T01:12:17Z |
+
+## GSHHG 2.3.7 (coastline), fetched 2026-10-09
+
+Source: `https://www.soest.hawaii.edu/pwessel/gshhg/gshhg-bin-2.3.7.zip`. Stored at
+`/Users/pete/Downloads/mh370-ocean-data/gshhg/` (unzipped beside the archive). The crate reads `gshhs_f.b`
+directly; there is no derived file.
+
+| File | Bytes | sha256 | Fetched (UTC) |
+|---|---|---|---|
+| `gshhg-bin-2.3.7.zip` | 118,617,033 | 28600e8f7a08645aab43079326df6504212ec5ccb2b4bcf3b5f4f12ed60e82bc | 2026-10-09T04:50Z |
+| `gshhs_f.b` | 95,809,336 | af9215d58ebc525b2d09654a89959829f09e6edc457f3666759cded37be4ecf6 | (from the zip) |

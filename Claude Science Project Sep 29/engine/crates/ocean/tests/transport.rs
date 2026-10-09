@@ -204,8 +204,9 @@ fn beaching_reports_segment_and_time() {
     let out = integrate(&spec(current_only(&c), &coast, 6.0 * 3600.0, times), &parts).unwrap();
     for (tr, (lon, lat, seg)) in out.tracks.iter().zip([(99.9, -34.55, 505), (99.6, -38.05, 501), (99.2, -25.0, 509)]) {
         assert_eq!(tr.fate, Fate::Beached);
-        let Event::Beached { t, at, segment, line, chainage_m } = tr.events[0] else { panic!("{:?}", tr.events) };
+        let Event::Beached { t, at, segment, line, chainage_m, snapped_m } = tr.events[0] else { panic!("{:?}", tr.events) };
         assert_eq!(segment, seg);
+        assert_eq!(snapped_m, 0.0);
         assert_eq!(line, 7);
         // Chainage along the meridian from 40 S: R * (lat + 40 deg), continuous across segments.
         let expected_chainage = EARTH_RADIUS_M * (lat + 40.0f64).to_radians();
@@ -218,7 +219,7 @@ fn beaching_reports_segment_and_time() {
         assert!((at[0] - 100.0).abs() < 1e-9 && (at[1] - lat).abs() < 1e-9);
         for (s, &tout) in tr.snapshots.iter().zip(&out.output_times) {
             if tout >= t {
-                assert_eq!(*s, Snapshot::Beached { at, segment: seg, line, chainage_m });
+                assert_eq!(*s, Snapshot::Beached { at, segment: seg, line, chainage_m, snapped_m });
             } else {
                 assert!(matches!(s, Snapshot::Afloat(_)));
             }
