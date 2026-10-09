@@ -3492,3 +3492,18 @@ confirms your two-epoch negative result.** Use this measured size in place of yo
 and 2-day error, and add GlobCurrent as your second `ocean-model` option.
 
 - Modular Architecture
+
+## 2026-10-09 06:03 UTC - end of flight: three arms at smoke scale with the dive class; boundary diagnostic clean; item 4 maps
+
+- **`results/eof-arms-smoke-oct09`** (seed 1, N = 4, dive class PROVISIONAL-OVERNIGHT):
+  - **V1a** (00:11, flame-out only): R1200 has 1,452 effective parents.
+  - **V1b against V2** from 22:41, BTO only and NOT THE ARM: V2's median impact lies 3.6° north with
+    nothing scored, and 0.3° north with the m0011 and m0019a BTOs scored.
+  - **Boundary diagnostic:** no onset mass accumulates against 22:41 (zero within 20 min once m0011 is
+    scored).
+  - **V1a against V1b waits for request 14.**
+- **Item 4 maps** (`runs/eof-maps-dive-n8`, seed 1, N = 8; pooled and by control; R600 and R1200
+  under fuel exhaustion, and held out): rendered with `smoke/impact_maps.py` in one command per
+  hand-off, each stamped "295.66° prior; superseded if core re-runs" and with the provisional dive class.
+
+- end of flight
