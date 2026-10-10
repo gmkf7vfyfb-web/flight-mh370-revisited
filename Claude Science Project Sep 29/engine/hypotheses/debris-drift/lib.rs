@@ -798,7 +798,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         ("left_domain_fraction".into(), format!("{:.6}", left_domain / released.max(1) as f64)),
         ("split_particles".into(), split_total.to_string()),
         ("split_children".into(), children_total.to_string()),
-        ("splitting".into(), match &p.splitting { Some(s) => format!("factor {} at {} (snapshots {} h; classes {:?})", s.factor, s.targets.iter().map(|g| format!("{} {:.0} km", g.name, g.radius_km)).collect::<Vec<_>>().join(", "), s.snapshot_hours, s.classes), None => "off".into() }),
+        ("splitting".into(), match &p.splitting { Some(s) => format!("factor {} at {} (snapshots {} h; classes {:?})", s.factor, s.targets.iter().map(|g| format!("{} {:.0} km x{}", g.name, g.radius_km, g.factor.unwrap_or(s.factor))).collect::<Vec<_>>().join(", "), s.snapshot_hours, s.classes), None => "off".into() }),
         ("bandwidth_km".into(), format!("{} (sensitivities {:?})", rec.bandwidth_km, p.recovery.extra_bandwidths_km)),
         ("particle_steps".into(), format!("{steps_total:.4e}")),
         ("wall_s".into(), format!("{wall:.1}")),
