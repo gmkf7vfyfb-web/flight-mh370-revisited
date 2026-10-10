@@ -138,11 +138,20 @@ Per stratum, the +alive SOFAR window is (free / Davey dynamics + radar / descent
 | H08S | 00:45–02:30 | 00:45–02:20 | 00:45–02:20 | 00:50–02:20 |
 | H08N | 00:50–02:35 | 00:50–02:25 | 00:50–02:25 | 00:50–02:20 |
 
-Per-stratum windows lie inside the reference-289 windows, with two exceptions:
-- **AGW start edges.** The free-stratum AGW windows start 5 min before reference-289's: at H08S under +alive and
-  +silent, and at 3274/3275 under +alive.
-- **Routes, IMOS 3250 under +silent:** the window starts at 00:30, against reference-289's 00:35. Routes carries
-  P(family) 0.0149.
+Per-stratum windows lie inside the reference-289 windows except in **7 of 128** stratum × variant × receiver × branch
+rows. Every exception is a start edge 5 min earlier; no end edge is later:
+
+| stratum | variant | receiver | branch | window | ref-289 |
+|---|---|---|---|---|---|
+| free | +alive | H08S | AGW | 00:45–02:30 | 00:50–02:50 |
+| free | +alive | 3274 | AGW | 00:50–02:30 | 00:55–02:45 |
+| free | +alive | 3275 | AGW | 00:50–02:30 | 00:55–02:45 |
+| free | +silent | H08S | AGW | 00:45–02:20 | 00:50–02:20 |
+| Davey dynamics + radar | +silent | H08S | AGW | 00:45–02:10 | 00:50–02:20 |
+| routes | +silent | 3250 | SOFAR | 00:30–02:15 | 00:35–02:20 |
+| routes | +silent | 3250 | AGW | 00:30–02:15 | 00:35–02:20 |
+
+Routes carries P(family) 0.0149. Descent-climb has no exceptions.
 
 All per-stratum outputs are in `hydroacoustics-next-run-b-standin/<stratum>/`.
 
