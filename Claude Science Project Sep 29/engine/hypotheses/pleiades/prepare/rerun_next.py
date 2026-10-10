@@ -13,7 +13,8 @@ Steps (cargo env from the caller: toolchain on PATH, CARGO_TARGET_DIR, RAYON_NUM
   2. branch_eof289.py per 00:19 option (loglik:<option> columns in COLUMNS.txt) and per search variant, with this
      module's exported surfaces (runs/pleiades/{likelihood,cosmo}-surface).
   3. branch_figure.py per option (base search), footnote built from run.json.
-  4. close-ups for every option (option_closeups.py), strata mixed by --pfamily when present
+  4. the standard close-ups for every option (closeup_styles.standard: colour and seabed, all four COSMO contacts),
+     strata mixed by --pfamily when present
   5. results/pleiades/<tag>/by-0019-option.csv: P, C3, C4, P+C3, P+C4 before/after search per option and variant.
 Generated output goes to the gitignored run tree; only the summary, figures and the note go to results/.
 """
@@ -25,6 +26,7 @@ from pathlib import Path
 import pandas as pd
 
 HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE))
 MOD = HERE.parent
 ENGINE = MOD.parents[1]
 CSP = ENGINE.parent
@@ -42,7 +44,7 @@ def options(root):
     return [c.split(":", 1)[1] for c in cols if c.startswith("loglik:")]
 
 
-def main(root, tag, labels=""):
+def main(root, tag, labels="", only=None):
     root = Path(root).resolve()
     seeds = sorted(root.glob("seed-*"))
     assert seeds, f"no seed-* under {root}"
@@ -58,6 +60,8 @@ def main(root, tag, labels=""):
                 RUNS / "eval-oi" / f"{v}.toml", s / "impacts.npy", d], cwd=ENGINE)
     # every 00:19 option plain, and under end of flight's provisional reference constraint `+alive` (10 Oct ~04:05 UTC)
     opts = [o + c for o in options(root) for c in ("", "+alive")]
+    if only:
+        opts = list(only)
     rows = []
     for o in opts:
         safe = o.replace("/", "-")
@@ -86,14 +90,15 @@ def main(root, tag, labels=""):
     print(S[(S.field.isin(["P+C3", "P+C4"]))].to_string(index=False))
 
 
-def main_all(root, tag, labels="", pfamily="", geom=None):
+def main_all(root, tag, labels="", pfamily="", geom=None, only=None):
     """Strata-aware entry point. If <impacts root> holds strata (<stratum>/seed-*), run main() per stratum and mix by
     --pfamily (required then); then ALWAYS draw the close-ups for every option (Pete, 10 Oct: close-ups every time)."""
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
     matplotlib.rcParams.update({"font.size": 6, "axes.titlesize": 6.5, "axes.labelsize": 6, "xtick.labelsize": 5.5, "ytick.labelsize": 5.5})
-    import option_closeups
+    import closeup_styles
+    gebco = str(Path("/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json"))
     root = Path(root).resolve()
     strata = sorted(d.name for d in root.iterdir() if d.is_dir() and any(d.glob("seed-*/impacts.npy")))
     geom = geom or str(CSP.parents[1] / "geom")
@@ -101,13 +106,13 @@ def main_all(root, tag, labels="", pfamily="", geom=None):
         pf = {k: float(v) for k, v in (x.split("=") for x in pfamily.split(",") if x)}
         assert set(pf) == set(strata), f"--pfamily must name every stratum {strata}"
         for st in strata:
-            main(root / st, f"{tag}/{st}", f"{labels}; stratum {st}" if labels else f"stratum {st}")
+            main(root / st, f"{tag}/{st}", f"{labels}; stratum {st}" if labels else f"stratum {st}", only)
         opts = json.loads((CSP / "results" / "pleiades" / tag / strata[0] / "provenance.json").read_text())["options"]
-        option_closeups.make(RUNS / tag, root, geom, CSP / "results" / "pleiades" / tag / "closeups", plt, pf, opts, labels)
+        closeup_styles.standard(RUNS / tag, root, geom, gebco, CSP / "results" / "pleiades" / tag / "closeups", plt, pf, opts, labels)
     else:
-        main(root, tag, labels)
+        main(root, tag, labels, only)
         opts = json.loads((CSP / "results" / "pleiades" / tag / "provenance.json").read_text())["options"]
-        option_closeups.make(RUNS / tag, root, geom, CSP / "results" / "pleiades" / tag / "closeups", plt, None, opts, labels)
+        closeup_styles.standard(RUNS / tag, root, geom, gebco, CSP / "results" / "pleiades" / tag / "closeups", plt, None, opts, labels)
 
 
 if __name__ == "__main__":
@@ -116,5 +121,6 @@ if __name__ == "__main__":
     ap.add_argument("root"); ap.add_argument("tag"); ap.add_argument("labels", nargs="?", default="")
     ap.add_argument("--pfamily", default="", help="stratum=P(family),... when the impacts come in strata")
     ap.add_argument("--geom", default=None, help="directory with search_footprints.geojson")
+    ap.add_argument("--options", default="", help="comma-separated end-of-flight arms to run (default: every loglik column, plain and +alive)")
     a = ap.parse_args()
-    main_all(a.root, a.tag, a.labels, a.pfamily, a.geom)
+    main_all(a.root, a.tag, a.labels, a.pfamily, a.geom, [x for x in a.options.split(",") if x] or None)

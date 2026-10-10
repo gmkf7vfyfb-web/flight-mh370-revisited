@@ -38,12 +38,14 @@ SHORT = {  # short panel-title forms
 FIELD = {
     "P": "Pléiades objects only (12 rating-5 objects in 6 clusters, 23 Mar)",
     "C3": "COSMO-SkyMed radar contacts F1–F3 only (20/21 Mar)",
-    "C4": "COSMO-SkyMed radar contacts F1–F4 only (20/21 Mar)",
+    "C4": "all four COSMO-SkyMed radar contacts only (20/21 Mar)",
     "P+C3": "Pléiades objects and COSMO contacts F1–F3, all from one debris field",
-    "P+C4": "Pléiades objects and COSMO contacts F1–F4, all from one debris field",
+    "P+C4": "Pléiades objects and all four COSMO-SkyMed contacts, all from one debris field",
 }
-FIELD_SHORT = {"P": "Pléiades", "C3": "COSMO F1–F3", "C4": "COSMO F1–F4",
-               "P+C3": "Pléiades + COSMO F1–F3", "P+C4": "Pléiades + COSMO F1–F4"}
+FIELD_SHORT = {"P": "Pléiades", "C3": "three COSMO-SkyMed contacts", "C4": "all four COSMO-SkyMed contacts",
+               "P+C3": "Pléiades + three COSMO-SkyMed contacts", "P+C4": "Pléiades + all four COSMO-SkyMed contacts"}
+# Pete, 10 Oct 2026: the three-contact COSMO set is dropped from reporting; all four contacts are used (it makes little
+# difference to the PDF). C3 stays computable for sensitivity only.
 SEARCH = {
     "none": "before any seabed search",
     "base": "after ATSB Phase 2 and Bluefin-21 (official)",

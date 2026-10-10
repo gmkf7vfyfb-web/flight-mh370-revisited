@@ -54,17 +54,20 @@ def panel_mass(maps, v, f):
 
 
 # ---------------------------------------------------------------- A: colour small multiples + table
-def style_a(maps, geo, T5, Cc, opt, notes, out, plt):
+PANELS_A = [("base", "P+C4"), ("oi2018-2025", "P+C4")]
+
+
+def style_a(maps, geo, T5, Cc, opt, notes, out, plt, stem="style-A-colour"):
     from matplotlib.colors import LinearSegmentedColormap
     from matplotlib.patches import Patch, Polygon
     cmap = LinearSegmentedColormap.from_list("dens", ["#ffffff", "#c6dbef", "#6baed6", "#2171b5", "#08306b"])
     lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
     LAT, LON = np.meshgrid(lat, lon, indexing="ij")
-    fig = plt.figure(figsize=(7.1, 7.6))
-    gs = fig.add_gridspec(3, 2, height_ratios=[1, 1, 0.42], hspace=0.22, wspace=0.06)
-    axs = [fig.add_subplot(gs[i // 2, i % 2]) for i in range(4)]
+    fig = plt.figure(figsize=(7.1, 4.9))
+    gs = fig.add_gridspec(2, 2, height_ratios=[1, 0.36], hspace=0.30, wspace=0.06)
+    axs = [fig.add_subplot(gs[0, i]) for i in range(2)]
     rows = []
-    for ax, (v, f), let in zip(axs, PANELS, "abcd"):
+    for ax, (v, f), let in zip(axs, PANELS_A, "ab"):
         m = panel_mass(maps, v, f); dn = m / area
         ax.pcolormesh(lon, lat, dn / dn.max(), cmap=cmap, vmin=0, vmax=1, shading="auto", rasterized=True, zorder=0)
         for fid, col, al, _ in SEARCH_FILL:
@@ -77,38 +80,34 @@ def style_a(maps, geo, T5, Cc, opt, notes, out, plt):
         lv = [hdr_level(dn, m, q) for q in (0.9, 0.5)]
         ax.contour(lon, lat, dn, levels=lv, colors=["#08306b", "#08306b"], linewidths=[0.7, 1.4], zorder=4)
         ax.plot(T5.lon, T5.lat, "x", ms=3.5, color="#d62728", mew=0.9, zorder=5)
-        n = 3 if f == "P+C3" else 4
-        ax.plot(Cc.longitude[:n], Cc.latitude[:n], "o", ms=3.5, mfc="white", mec="#e6550d", mew=0.9, zorder=5)
+        ax.plot(Cc.longitude, Cc.latitude, "o", ms=3.5, mfc="white", mec="#e6550d", mew=0.9, zorder=5)
         ax.set_xlim(88, 96); ax.set_ylim(-38, -32); ax.set_aspect(1 / np.cos(np.radians(35)))
-        ax.set_title(f"{let}  {describe_field(f, short=True)}\n    {SEARCH_SHORT[v]}", loc="left", fontsize=6)
+        ax.set_title(f"{let}  {SEARCH_SHORT[v]}", loc="left", fontsize=6)
         ax.tick_params(labelsize=5.5)
-        if let in "ab":
-            ax.set_xticklabels([])
-        if let in "bd":
+        if let == "b":
             ax.set_yticklabels([])
         s = cf.stats(m, area, LAT, LON, {})
         rows.append([let, f"{area[dn >= lv[1]].sum():,.0f}", f"{s['hdr90_km2']:,.0f}", f"{abs(s['mean_lat']):.2f} S {s['mean_lon']:.2f} E"])
-    for ax in (axs[0], axs[2]):
-        ax.set_ylabel("Latitude (°)", fontsize=6)
-    for ax in axs[2:]:
+    axs[0].set_ylabel("Latitude (°)", fontsize=6)
+    for ax in axs:
         ax.set_xlabel("Longitude (°E)", fontsize=6)
-    tab = fig.add_subplot(gs[2, 0]); tab.axis("off")
+    tab = fig.add_subplot(gs[1, 0]); tab.axis("off")
     t = tab.table(cellText=rows, colLabels=["panel", "50 % area km²", "90 % area km²", "mean"], loc="upper left",
-                  colLoc="left", cellLoc="left", edges="horizontal")
+                  colLoc="left", cellLoc="left", edges="horizontal", colWidths=[0.12, 0.27, 0.27, 0.34])
     t.auto_set_font_size(False); t.set_fontsize(5.8); t.scale(1, 1.15)
-    lg = fig.add_subplot(gs[2, 1]); lg.axis("off")
+    lg = fig.add_subplot(gs[1, 1]); lg.axis("off")
     h = [Patch(fc="#2171b5", label="probability density (relative)"),
          plt.Line2D([], [], color="#08306b", lw=1.4, label="50 % region"), plt.Line2D([], [], color="#08306b", lw=0.7, label="90 % region")]
     h += [Patch(fc=c, alpha=a, ec=c, label=l) for _, c, a, l in SEARCH_FILL if l]
     h += [plt.Line2D([], [], color="#1e8449", lw=1.4, ls=(0, (3, 2)), label="OI north-west band (not searched; grade C)"),
           plt.Line2D([], [], color="#333333", lw=0.7, ls=":", label="7th arc, FL400"),
           plt.Line2D([], [], ls="", marker="x", color="#d62728", label="Pléiades rating-5 objects"),
-          plt.Line2D([], [], ls="", marker="o", mfc="white", mec="#e6550d", label="COSMO-SkyMed contacts")]
-    lg.legend(handles=h, loc="upper left", frameon=False, fontsize=5.6, ncol=1)
-    fig.suptitle(f"A. If the imaged objects are from 9M-MRO: where the debris entered the sea — {describe_option(opt, short=True)}",
-                 x=0.01, ha="left", y=0.995, fontsize=7)
-    footnote(fig, notes, width=165, y=0.06)
-    fig.savefig(out / "style-A-colour.png", dpi=300, bbox_inches="tight"); fig.savefig(out / "style-A-colour.pdf", bbox_inches="tight")
+          plt.Line2D([], [], ls="", marker="o", mfc="white", mec="#e6550d", label="COSMO-SkyMed radar contacts (all four)")]
+    lg.legend(handles=h, loc="upper left", frameon=False, fontsize=5.6, ncol=2)
+    fig.suptitle(f"If the imaged objects are from 9M-MRO: where the debris entered the sea — {describe_option(opt, short=True)}\n"
+                 f"Pléiades objects + all four COSMO-SkyMed contacts, one debris field", x=0.01, ha="left", y=1.0, fontsize=7)
+    footnote(fig, notes, width=165, y=0.10)
+    fig.savefig(out / f"{stem}.png", dpi=300, bbox_inches="tight"); fig.savefig(out / f"{stem}.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -123,14 +122,16 @@ def gebco_subset(meta_path, lon_rng=(88, 96), lat_rng=(-38, -32), stride=6):
     return lo, la, z
 
 
-def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco):
+def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed"):
     from matplotlib.colors import LightSource
     from matplotlib.patches import Patch
     lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
     lo, la, z = gebco_subset(gebco)
     fig = plt.figure(figsize=(7.1, 5.2))
-    gs = fig.add_gridspec(1, 2, width_ratios=[3.2, 1], wspace=0.05)
-    ax = fig.add_subplot(gs[0]); ax2 = fig.add_subplot(gs[1], sharey=ax)
+    # map on the left; the latitude strip is placed after the map's aspect is applied, at exactly the map's height,
+    # with its own latitude labels on its right (Pete, 10 Oct 2026: the shared axis did not line up)
+    ax = fig.add_axes([0.07, 0.10, 0.66, 0.80])
+    ax2 = fig.add_axes([0.80, 0.10, 0.15, 0.80])
     ls = LightSource(azdeg=315, altdeg=35)
     shade = ls.hillshade(z, vert_exag=0.02, dx=1, dy=1)
     ax.imshow(shade, extent=[lo[0], lo[-1], la[0], la[-1]], origin="lower", cmap="Greys_r", vmin=0.0, vmax=1.6, alpha=0.55,
@@ -155,24 +156,31 @@ def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco):
     ax.set_xlabel("Longitude (°E)"); ax.set_ylabel("Latitude (°)")
     ax.set_title(f"{describe_field(f, short=True)}, one debris field\n{SEARCH_SHORT[v]}", loc="left", fontsize=6.5)
     # latitude strip: probability per degree for the four variants
-    for (vv, ff), col, lsty in zip(PANELS, ["#fdae6b", "#e6550d", "#9ecae1", "#08519c"], ["-", "-", "-", "-"]):
+    for (vv, ff), col in zip(PANELS_A, ["#e6550d", "#08519c"]):
         mm = panel_mass(maps, vv, ff)
         pl = mm.sum(axis=1) / (lat[1] - lat[0])
-        ax2.plot(pl, lat, color=col, lw=1.1, ls=lsty, label=("F1–F3" if ff == "P+C3" else "F1–F4") + (", Phase 2 + Bluefin-21" if vv == "base" else ", + OI 2018 + 2025-26"))
-    ax2.set_xlabel("Probability per degree of latitude"); ax2.tick_params(labelleft=False)
-    ax2.legend(frameon=False, fontsize=4.6, loc="upper right", title="Pléiades + COSMO", title_fontsize=4.8)
-    for s in ("top", "right"):
+        ax2.plot(pl, lat, color=col, lw=1.1, label="after Phase 2\n+ Bluefin-21" if vv == "base" else "+ OI 2018\n+ 2025-26")
+    ax2.set_xlabel("Probability per\ndegree of latitude")
+    ax2.set_ylim(-38, -32); ax2.set_yticks(range(-38, -31))
+    ax2.yaxis.tick_right(); ax2.yaxis.set_label_position("right"); ax2.set_ylabel("Latitude (°)")
+    ax2.grid(axis="y", color="#dddddd", lw=0.4)
+    fig.canvas.draw()
+    b = ax.get_position()                      # the map's box after its fixed aspect is applied
+    ax2.set_position([b.x1 + 0.025, b.y0, 0.15, b.height])
+    ax2.legend(frameon=False, fontsize=4.6, loc="upper right")
+    for s in ("top", "left"):
         ax2.spines[s].set_visible(False)
     h = [Patch(fc="#e34a33", alpha=0.55, label="50 %"), Patch(fc="#fdbb84", alpha=0.55, label="90 %"), Patch(fc="#fee8c8", alpha=0.55, label="99 %"),
          plt.Line2D([], [], color="#222222", lw=1.0, label="Phase 2 + Bluefin-21"), plt.Line2D([], [], color="#4a1486", lw=1.3, ls=(0, (5, 3)), label="OI 2018"),
          plt.Line2D([], [], color="#1f4e9e", lw=1.5, label="OI 2025-26 SE band"), plt.Line2D([], [], color="#006d2c", lw=1.5, ls=(0, (3, 2)), label="OI NW band (not searched)"),
          plt.Line2D([], [], color="black", lw=0.6, ls=(0, (2, 2)), label="7th arc"),
-         plt.Line2D([], [], ls="", marker="x", color="black", label="Pléiades"), plt.Line2D([], [], ls="", marker="o", mfc="white", mec="black", label="COSMO F1-F4")]
+         plt.Line2D([], [], ls="", marker="x", color="black", label="Pléiades objects"), plt.Line2D([], [], ls="", marker="o", mfc="white", mec="black", label="COSMO-SkyMed contacts")]
     ax.legend(handles=h, loc="lower left", fontsize=4.8, frameon=True, framealpha=0.85, ncol=2)
-    fig.suptitle(f"B. On the seabed (GEBCO 2026 relief): {describe_option(opt, short=True)}", x=0.01, ha="left", y=0.99, fontsize=7)
+    fig.suptitle(f"If the imaged objects are from 9M-MRO: where the debris entered the sea, on GEBCO 2026 relief — {describe_option(opt, short=True)}",
+                 x=0.01, ha="left", y=0.99, fontsize=7)
     footnote(fig, notes + ["Relief: GEBCO 2026 15-arcsecond grid (doi:10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa), shown at 0.025 deg; "
-                           "contours every 1 km depth. Right: latitude PDF of each variant within the plotted longitudes' grid."], width=165, y=0.0)
-    fig.savefig(out / "style-B-seabed.png", dpi=300, bbox_inches="tight"); fig.savefig(out / "style-B-seabed.pdf", bbox_inches="tight")
+                           "contours every 1 km depth. Right: probability per degree of latitude, after each search case."], width=165, y=0.0)
+    fig.savefig(out / f"{stem}.png", dpi=300, bbox_inches="tight"); fig.savefig(out / f"{stem}.pdf", bbox_inches="tight")
     plt.close(fig)
 
 
@@ -270,6 +278,44 @@ def style_c(maps, geo, T5, Cc, opt, notes, out, plt):
              width=165, y=-0.06)
     fig.savefig(out / "style-C-arc-frame.png", dpi=300, bbox_inches="tight"); fig.savefig(out / "style-C-arc-frame.pdf", bbox_inches="tight")
     plt.close(fig)
+
+
+def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), labels=""):
+    """The standard close-ups (Pete, 10 Oct 2026): colour (A) and seabed (B) for every option, all four COSMO-SkyMed
+    contacts only. Writes closeup-<option>-colour.{png,pdf}, closeup-<option>-seabed.{png,pdf} and closeup-stats.csv."""
+    out = Path(out); out.mkdir(parents=True, exist_ok=True)
+    geo = json.loads((Path(geom) / "search_footprints.geojson").read_text())
+    M = HERE.parent
+    T5 = pd.read_csv(M / "data/targets-3km.csv").query("arm == 'rating5'"); Cc = pd.read_csv(M / "data/cosmo-contacts.csv")
+    prov = Path(impacts_root) / next(iter(pfam)) if pfam else Path(impacts_root)
+    src = run_provenance(prov) or f"Source: {impacts_root}"
+    if pfam:
+        src = src.replace(f"impacts {prov.name}", f"impacts {Path(impacts_root).name} (strata {', '.join(pfam)}; provenance read from {prov.name})")
+    rows = []
+    for opt in options:
+        maps = {v: load_mixture(root, opt, v, pfam) for v in ("base", "oi2018-2025")}
+        notes = notes_for(opt, src, pfam, labels)
+        safe = opt.replace("/", "-")
+        style_a(maps, geo, T5, Cc, opt, notes, out, plt, stem=f"closeup-{safe}-colour")
+        style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem=f"closeup-{safe}-seabed")
+        lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
+        LAT, LON = np.meshgrid(lat, lon, indexing="ij")
+        masks = {"oi_northwest_band": cf.mask_of(cf.polygons(geo, "oi2024_proposed_inboard_northwest"), LON, LAT),
+                 "past": cf.mask_of(cf.polygons(geo, "atsb_phase2_2014_2017"), LON, LAT)
+                 | cf.mask_of(cf.polygons(geo, "oi2018_total_outline_approx"), LON, LAT)
+                 | cf.mask_of(cf.polygons(geo, "oi2024_proposed_outboard_southeast"), LON, LAT)}
+        for v in ("base", "oi2018-2025"):
+            m = panel_mass(maps, v, "P+C4"); dn = m / area; s_ = cf.stats(m, area, LAT, LON, masks)
+            Lf = np.nan_to_num(maps[v]["L_P+C4"])
+            rows.append(dict(option=opt, option_name=describe_option(opt, short=True), option_described=describe_option(opt),
+                             field="Pléiades + all four COSMO-SkyMed contacts, one debris field", search=SEARCH_SHORT[v],
+                             hdr50_km2=round(float(area[dn >= hdr_level(dn, m, 0.5)].sum())), hdr90_km2=round(s_["hdr90_km2"]),
+                             mean_lat=round(s_["mean_lat"], 3), mean_lon=round(s_["mean_lon"], 3),
+                             share_in_nw_band=round(s_["mass_in_oi_northwest_band"], 4), share_outside_past_searches=round(1 - s_["mass_in_past"], 4),
+                             search_retains_under_H=round(float((maps[v]["post"] * Lf).sum() / (maps[v]["pre"] * Lf).sum()), 3),
+                             search_retains_flight_only=round(float(maps[v]["post"].sum() / maps[v]["pre"].sum()), 3)))
+    T = pd.DataFrame(rows); T.to_csv(out / "closeup-stats.csv", index=False)
+    return T
 
 
 if __name__ == "__main__":

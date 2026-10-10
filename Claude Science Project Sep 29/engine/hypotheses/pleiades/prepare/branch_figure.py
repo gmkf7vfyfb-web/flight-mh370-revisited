@@ -6,6 +6,9 @@ Every chart from this module carries a footnote naming: the source posterior and
 00:19 data option and log-on cause, the end-of-flight physics status, the search case, the ocean models
 and spread, the object and contact choices, and what is excluded (Pete, 9 Oct 2026).
 """
+import sys as _sys
+from pathlib import Path as _P
+_sys.path.insert(0, str(_P(__file__).resolve().parent))
 import json
 import sys
 import textwrap
@@ -40,10 +43,10 @@ BRANCH_NOTES = [
     "undetectable probability rho = 0.05; Ocean Infinity 2018 not applied.",
     "Under H (columns 2-4): ocean models GLORYS12 + ERA5 and GlobCurrent daily + ERA5, equal weight (P+C formed per model, then averaged); "
     "measured transport error (GDP-replay OU fit per component, no added diffusivity); windage 0-5 % uniform; released 00:20 UTC 8 Mar.",
-    "Pleiades: rating-5 objects merged into 6 clusters at 3 km, equal cluster weights (rho4 = 0). COSMO-SkyMed: F1-F3, equal weights, dawn-20 Mar "
+    "Pleiades: rating-5 objects merged into 6 clusters at 3 km, equal cluster weights (rho4 = 0). COSMO-SkyMed: all four contacts, equal weights, dawn-20 Mar "
     "and dusk-21 Mar passes equally weighted; source, time and footprint unverified.",
     "Shading: density normalised to its maximum. Solid blue: 90 % HDR of the panel's PDF. Dashed grey: 90 % HDR of the flight posterior at the same stage. "
-    "Circles: Pleiades rating-5 clusters; triangles: COSMO F1-F3. Grid 0.05 deg; 1.5-2.0 % of impact weight lies outside 85-103 E, 43-25 S and is not shown.",
+    "Circles: Pleiades rating-5 clusters; triangles: COSMO-SkyMed contacts. Grid 0.05 deg; 1.5-2.0 % of impact weight lies outside 85-103 E, 43-25 S and is not shown.",
     "Every PDF in columns 2-4 is conditional on H (the objects are debris from 9M-MRO); no Bayes factor or P(H | data) is computed or implied.",
 ]
 
@@ -90,7 +93,7 @@ def make(branch_dir, module_dir, out, plt, panel_letter=None, labels=None):
     T5 = T[T.arm == "rating5"]
     Cc = pd.read_csv(M / "data/cosmo-contacts.csv")
     fields = [("Flight posterior alone\n(no Pléiades or COSMO)", None), ("Pléiades objects only\n(12 rating-5, 23 Mar)", "L_P"),
-              ("COSMO-SkyMed radar\ncontacts F1–F3 only", "L_C3"), ("Pléiades + COSMO F1–F3,\none debris field", "L_P+C3")]
+              ("all four COSMO-SkyMed\nradar contacts only", "L_C4"), ("Pléiades + all four COSMO\ncontacts, one debris field", "L_P+C4")]
     fig, axs = plt.subplots(2, 4, figsize=(7.1, 4.0), sharex=True, sharey=True, gridspec_kw=dict(wspace=0.06, hspace=0.12))
     ext = [lon[0] - 0.025, lon[-1] + 0.025, lat[0] - 0.025, lat[-1] + 0.025]
     for r, (stage, pc) in enumerate([("before search", pre), ("after search", post)]):
@@ -109,7 +112,7 @@ def make(branch_dir, module_dir, out, plt, panel_letter=None, labels=None):
             if key in ("L_P", "L_P+C3"):
                 ax.plot(T5.lon, T5.lat, "o", ms=2, mfc="none", mec="#b03030", mew=0.6)
             if key in ("L_C3", "L_P+C3"):
-                ax.plot(Cc.longitude[:3], Cc.latitude[:3], "^", ms=2.5, mfc="none", mec="#7a3fb0", mew=0.6)
+                ax.plot(Cc.longitude, Cc.latitude, "^", ms=2.5, mfc="none", mec="#7a3fb0", mew=0.6)
             ax.set_xlim(86, 100)
             ax.set_ylim(-41, -28)
             ax.set_yticks(range(-40, -27, 2))
