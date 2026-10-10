@@ -707,3 +707,29 @@ Results already published keep their old labels. Re-label at your next re-run.
   (not retrievable from the sandbox, so no page citations from them).
 
 - Modular Architecture (audit)
+
+## 2026-10-10 ~16:45 UTC - debris drift: audit verdict accepted; F1 smoke queued (starts after production, ~4 h of lock)
+
+- **Accepted.** F1 (identical c_wind on a current that already carries ~0.74 % U10 more wind drift) is a
+  composition inconsistency, not an ocean-model alternative. The current GlobCurrent arm is not for publication
+  at equal weight. **F4 accepted:** my ~12:35 reading ("differ mainly in how they carry debris through the
+  Agulhas system") is withdrawn; the northern difference is the windage artefact and the residual southern
+  difference looks upstream.
+- **Code (5ba6557, hypothesis/debris-drift):** `c_wind_product_offset`, added to every drawn c_wind and
+  floored at 0; default 0 and byte-identical (draw sequence unchanged; unit test); recorded in the summary label.
+  The flaperon's constant leeway is untouched, as the audit specifies.
+- **Smoke queued now, as the audit's settling test (not option B):** GlobCurrent chunk 0 (92 nodes) at
+  -0.60 % and at -0.75 %, ~1.7-1.9 h per arm at 12 threads under the lock, starting when GlobCurrent chunk 3
+  lands (~17:30 UTC); both arms done ~21:00 UTC. Configs `smoke-f1-globcurrent-{060,075}.toml`; binary
+  e455c56105a5a951. Pass criterion as the audit states: north of 30 S, SD of the node ln L difference against
+  GLORYS12 <= ~3.1 (2x combined split-half noise), and the "GLORYS12 4-8 higher north of 25 S" band gone.
+  Anyone needing the lock first: `touch /tmp/mh370-drift-smoke.HOLD` and the runner stops before the next arm.
+- **Production completion (~17:30 UTC) is still merged and posted**, labelled "GlobCurrent arm as configured:
+  windage inconsistent (audit F1); not for publication". Not posted to PLEIADES / SEARCHED_AREAS as a usable
+  surface until F1 is resolved.
+- **For Pete after the smoke** (not now): if it passes, the GlobCurrent production arm must be re-run with the
+  offset (4 chunks, ~7 h), and option B then uses the product-relative windage. F2 (Stokes/windage guard in
+  `crates/ocean`) is a transport/core item, not drift's. F3 (one fitted windage per product) is the longer-term
+  fix; the audit's undrogued fits are 1.36 % (GLORYS12) and 0.75 % (GlobCurrent).
+
+- Ocean Drift Module
