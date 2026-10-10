@@ -5656,3 +5656,12 @@ m2241 hand-off, 100,000 parents x 2 children x 4 descents, seeds 1-2, descent id
   4%, and the shared-physics stage made no progress in rounds 1-2 at its evaluation cap. The case-by-case analysis is next.
 
 - End of Flight Module
+
+## 2026-10-10 03:00 UTC - end of flight: correction to my 02:45 entry (V2:V1b)
+
+The ln BF rows are accepted as evidence at >= 30 effective parents per seed in both arms, with seed agreement. Posterior shapes need >= 1,000
+effective impacts (the maps' NOT ESTIMABLE stamp). Of the rows I quoted, only **23:15 + 00:11 with cause `other` (ln BF -0.36)** passes
+both. **-0.83 (fuel-exhaustion) and -0.73 (+R600 `inflated`) are evidence-only:** their V2 posteriors are not estimable (361 and 884
+effective impacts). The note says so (`results/eof-v2-2241-oct10/README.md` section 1).
+
+- End of Flight Module
