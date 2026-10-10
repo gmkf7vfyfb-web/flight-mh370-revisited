@@ -89,7 +89,7 @@ def eof_option_weights(seed_dir, base, cause, con=""):
     raise KeyError(f"{key} not produced by end of flight's option_posteriors for {seed_dir}")
 
 
-def eof_constraint(seed_dir, A, cols, which):
+def eof_constraint(seed_dir, g, which):
     """End of flight's declared existence constraint (`alive` / `silent`, PROVISIONAL-OVERNIGHT, 10 Oct ~04:05 UTC),
     called read-only from its own code (hypotheses/end-of-flight/smoke/displacement_hist.py) so that the factor is
     theirs, passed straight through, never re-implemented. Log-on cause `other`, as everywhere in this branch."""
@@ -99,7 +99,6 @@ def eof_constraint(seed_dir, A, cols, which):
     m = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(m)
     logon = json.loads((seed_dir / "run.json").read_text())["config"]["hypotheses"]["end-of-flight"]["logon"]
-    g = lambda k: np.asarray(A[:, cols.index(k)], float)
     return m.constraint_log_factor(g, logon, "other", which)
 
 
@@ -108,25 +107,25 @@ def histograms(imp_root, eval_root, mp, option):
     elon = lon0 - STEP / 2 + STEP * np.arange(nlon + 1)
     elat = lat0 - STEP / 2 + STEP * np.arange(nlat + 1)
     pre, post, seeds, outside, total = [], [], [], [], []
-    for sd in sorted(Path(imp_root).glob("seed-*")):
-        cols = [l.split("\t")[1] for l in (sd / "COLUMNS.txt").read_text().splitlines()]
-        A = np.load(sd / "impacts.npy", mmap_mode="r")
+    from compact_eval import seed_dirs, seed_reader  # full or run C compact format (end of flight's reader)
+    for sd in seed_dirs(imp_root):
+        cols, g, _ = seed_reader(sd)
         ev_dir = Path(eval_root) / sd.name
         ej = json.loads((ev_dir / "evaluate.json").read_text())
         E = np.load(ev_dir / "evaluate.npy", mmap_mode="r")
         ec = ej["columns"]
         ks = [i for i, c in enumerate(ec) if c.startswith("seabed-search:loglik")]
         assert len(ks) == 1, ec[:10]
-        lat, lon = np.asarray(A[:, cols.index("latitude_deg")]), np.asarray(A[:, cols.index("longitude_deg")])
+        lat, lon = g("latitude_deg"), g("longitude_deg")
         opt_, _, cause = option.partition("@")
         base, _, con = opt_.partition("+")
         if (cause and cause != "other") or f"loglik:{base}" not in cols:
             # a non-default log-on cause, or an option end of flight derives rather than stores (e.g. r600-bto)
             w = eof_option_weights(sd, base, cause or "other", con)
         else:
-            w = np.asarray(A[:, cols.index("weight")]) * np.exp(np.asarray(A[:, cols.index(f"loglik:{base}")]))
+            w = g("weight") * np.exp(g(f"loglik:{base}"))
             if con:
-                w = w * np.exp(eof_constraint(sd, A, cols, con))
+                w = w * np.exp(eof_constraint(sd, g, con))
         w = np.where(np.isfinite(w), w, 0.0)
         s = np.exp(np.asarray(E[:, ks[0]]))
         s = np.where(np.isfinite(s), s, 1.0)

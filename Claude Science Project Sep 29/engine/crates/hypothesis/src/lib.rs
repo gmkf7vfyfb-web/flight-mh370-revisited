@@ -146,6 +146,16 @@ pub trait Hypothesis: Send + Sync {
         false
     }
 
+    /// Core request 4: the terminal module's latents this IMPACT module reads, by name (the
+    /// names of [`Terminal::latent_columns`], without the `latent:` prefix), e.g.
+    /// `["debris_class", "impact_energy_transferred_j"]`. The runner fills
+    /// [`ImpactView::latents`] with exactly these, in this order, so `impact.latents[k]` is the
+    /// k-th name here. A latent the samples do not carry is NaN ("not computed", never zero),
+    /// and the run manifest lists it under `latents_missing`. Default: none.
+    fn latents_read(&self) -> Vec<String> {
+        Vec::new()
+    }
+
     /// Names, with units, of what [`Hypothesis::predict`] writes, in order. Names (like
     /// alternative names and option labels) become column names: no `,` `/` `:` or line breaks.
     fn prediction_columns(&self) -> Vec<String> {
@@ -223,8 +233,9 @@ pub struct FuelFlowRate {
     pub kg_h: f64,
     /// The flow rests on an extrapolation or fallback: Mach outside the bracketing schedules,
     /// a single schedule, or the drag fit replaced by the nearest tabulated flow. Validated
-    /// against Boeing's Appendix 1.6E to within about 12% there, against 1.0086 +/- 0.0178
-    /// inside the schedules.
+    /// against Boeing's Appendix 1.6E to -11.5 % .. +3.7 % there (fuel audit F6), against a
+    /// factor of 1.0086 +/- 0.0178 (s.d.) inside the schedules. That wider error is not in
+    /// the factor, so a module that cares should treat flagged prices as less certain.
     pub extrapolated: bool,
     /// Below FL060, priced at FL060 (the tables stop there). The real flow is higher.
     pub below_tables: bool,
@@ -260,6 +271,15 @@ pub trait FuelFlow: Sync {
     fn fuel_flow_kg_h_at(&self, flight_level: f64, weight_t: f64, mach: f64, delta_isa_k: f64) -> Option<FuelFlowRate> {
         let _ = delta_isa_k;
         self.fuel_flow_kg_h(flight_level, weight_t, mach)
+    }
+
+    /// The live engine's flow with ONE engine inoperative (requested by end of flight, 10 Oct),
+    /// with the same temperature term and the same per-trajectory factor as the twin flow. The
+    /// core prices it from the internal model's `grid_inop` times `inop_flow_scale`. The
+    /// default, and any run without the INOP grid, is `None`, which as above is not zero flow.
+    fn fuel_flow_inop_kg_h_at(&self, flight_level: f64, weight_t: f64, mach: f64, delta_isa_k: f64) -> Option<FuelFlowRate> {
+        let _ = (flight_level, weight_t, mach, delta_isa_k);
+        None
     }
 }
 
@@ -320,6 +340,16 @@ pub struct FlightState {
     /// endurance must compute that prediction itself from `fuel_kg`, because triggering on a
     /// realised flame-out assumes foreknowledge no crew had and is circular.
     pub realised_flameout_unix_s: f64,
+    /// Two-tank runs only (core request 16 C-7(b)): fuel in the left and right tanks, kilograms.
+    /// `fuel_kg` stays their sum. NaN for a single pool and when there is no fuel model.
+    pub fuel_left_kg: f64,
+    pub fuel_right_kg: f64,
+    /// The time the FIRST engine stopped because its tank ran dry, unix seconds; NaN while
+    /// both run. Single pool: equal to `realised_flameout_unix_s`. With two tanks, an aircraft
+    /// that has this finite and `realised_flameout_unix_s` NaN is flying on one engine, and its
+    /// live pool is the non-empty one of `fuel_left_kg` / `fuel_right_kg`. Realised, like the
+    /// final flame-out: a module that triggers on a PREDICTED flame-out computes it itself.
+    pub first_flameout_unix_s: f64,
 }
 
 /// A SATCOM burst after the filter's stop, at its logged time (00:19:29.416 for the R600,
@@ -388,7 +418,8 @@ pub trait Terminal: Send + Sync {
     fn families(&self) -> Vec<String>;
 
     /// Names of the latent variables each descent records, e.g. the second flame-out time or
-    /// the gap between engines. Only this module's own impact hook reads them.
+    /// the gap between engines. This module's own impact hook reads all of them by position;
+    /// any other impact module reads the ones it names in [`Hypothesis::latents_read`].
     fn latent_columns(&self) -> Vec<String> {
         Vec::new()
     }
@@ -480,6 +511,9 @@ pub struct ImpactView<'a> {
     /// The parent trajectory's autopilot mode and trajectory-level option.
     pub mode: usize,
     pub alternative: usize,
-    /// The terminal module's latents; empty for every other module.
+    /// Latents of the terminal module, by position. For the terminal module itself they are its
+    /// own [`Terminal::latent_columns`], in that order. For any other module they are the ones it
+    /// named in [`Hypothesis::latents_read`], in that order, NaN where the samples lack one
+    /// (core request 4). Empty when a module names none.
     pub latents: &'a [f64],
 }

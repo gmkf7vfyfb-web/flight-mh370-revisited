@@ -76,6 +76,29 @@ trajectory to impact. This is the integrated estimate, not the base estimate.
   posterior, stratified by autopilot mode (each mode with posterior mass keeps
   at least `handoff_floor`). `handoff.toml` holds each one's full state, which
   continues bit-identically; `handoff.npy` is a row-aligned numeric index.
+- **Hand-off look-ahead (optional, off by default).** The overlay
+  `config/sensitivity/handoff-lookahead.toml` sets
+  `[output.handoff_lookahead]`. At the hand-off epoch the filter draws
+  `oversample` × K candidates from the filtered posterior. At the stated
+  horizon (a later epoch, for example m0011 for the 22:41 hand-off and the
+  00:19 BTO for the 00:11 hand-off) it computes g = smoothed / filtered
+  weight for each candidate. It then draws the K rows with probability
+  proportional to (1−ε)g + ε, where ε is `defensive`. Each row then carries
+  `log_correction = ln Z − ln((1−ε)g + ε)`, with Z the normalising sum.
+  The rows are then an importance sample: **multiply each row's weight by
+  exp(log_correction)**, and the corrected weights estimate the unproposed
+  hand-off exactly in expectation. `handoff.toml` gets a `[lookahead]`
+  table with `version` (now 1), `horizon`, `defensive`, `oversample`,
+  `g_source` and `rule`, and `handoff.npy` gets a 14th column that holds
+  `log_correction`. The contract is that a consumer which ignores the
+  correction is wrong, so `handoff::read` refuses a look-ahead hand-off.
+  Use `handoff::read_corrected`, which applies the correction and checks
+  the version. With `oversample = 1, defensive = 1` the hand-off is the
+  same as with the look-ahead off, row for row, and the 14th column is
+  zero. `g_files` (with `{seed}`/`{mode}` in the path) takes g from an
+  external module instead of from smoothing. This is the hook for
+  conditioning on later evidence, for example the end-of-flight
+  likelihood.
 - **End of flight.** For each trajectory and each of `children` draws, the
   terminal module picks the takeover time (the first flame-out), the core
   dynamics fly the aircraft to it, and the module descends to impact.

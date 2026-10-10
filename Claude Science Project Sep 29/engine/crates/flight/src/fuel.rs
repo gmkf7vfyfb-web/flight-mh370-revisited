@@ -7,8 +7,11 @@
 //!
 //! This is a port of `.sources/fuel-performance/validate.py`, which is the version calibrated
 //! against Boeing's own figures in the Malaysian safety report (Appendix 1.6E): factor
-//! 1.0085 +/- 0.0178 (s.d.) over 11 in-range items. The port is deliberately literal so the
-//! calibration carries over; `fuel_flow_kg_h` reproduces `validate.fuel_flow` cell for cell.
+//! 1.0085 +/- 0.0178 (s.d.) over 11 in-range items. The port was literal so the calibration
+//! carries over, with one deliberate departure: schedule points within `MACH_MERGE_TOL` of each
+//! other are merged (the degenerate CI 52 / LRC pair), so `fuel_flow_kg_h` no longer reproduces
+//! `validate.fuel_flow` cell for cell. With the merge the in-range calibration is 1.0086 +/-
+//! 0.0178 over the same 11 items (fuel audit, results/fuel-model-audit-architecture.md).
 //!
 //! Two coverage limits are inherent to the tables and are reported rather than hidden:
 //!
@@ -18,10 +21,11 @@
 //!     FL015 against 2,946 at FL060), inside the 1.8 % spread of the calibration itself.
 //!   * Above M0.84, and below the holding Mach, the flow is extrapolated on the fitted drag
 //!     law and the step is flagged. Validation against Boeing's own figures outside the
-//!     schedules gave -8.1 % to +0.9 % on the four items above M0.84, and -8.5 % to +3.7 % on
-//!     the eight below the holding schedule, the worst being FL400 at M0.727 (-8.5 %) and
-//!     FL150 at M0.399 (+3.7 %). So an extrapolated step can be wrong by up to about 8 %,
-//!     against 1.8 % for the calibration inside the schedules.
+//!     schedules, with the merge, gives -11.5 % to +3.7 % (fuel audit F6; before the merge the
+//!     range was -8.5 % to +3.7 %, the worst then being FL400 at M0.727). So an extrapolated
+//!     step can be wrong by up to about 12 %, against 1.8 % (s.d.) for the calibration inside
+//!     the schedules. This uncertainty is NOT carried by the path's fuel-flow factor, and in
+//!     the reference runs 17-43 % of flight time is flown on extrapolated flow (audit F6).
 //!
 //! `lrc_mach`, `mrc_*` and `ci52_*` are Ulich's reconstruction, not Boeing data; the tables
 //! carry that in `source_class` and the run manifest repeats it.
@@ -902,8 +906,12 @@ mod tests {
             for fl in (60..=430).step_by(10) {
                 for m in (40..=86).step_by(2) {
                     if let Some((ff, cover)) = t.fuel_flow_kg_h(f64::from(fl), w, f64::from(m) / 100.0) {
-                        // Extrapolations off the end of the drag law are not states the
-                        // aircraft can hold; the bound is over the tabulated envelope.
+                        // Fuel audit F13/F4: THIS TABLES-ONLY PATH IS KNOWN TO UNDERCUT ITS FLOOR
+                        // on extrapolated cells (205 t, FL400, M0.73: 4,674 against 5,395 kg/h),
+                        // so the check here is over the tabulated envelope only. Production runs
+                        // price with the internal model, whose floor is asserted over every
+                        // flyable state, extrapolated cells included, in
+                        // `internal_floor_holds_over_every_flyable_state`.
                         if !cover.extrapolated_mach {
                             assert!(ff >= floor - 1e-6, "{ff} at FL{fl} M{m} undercuts floor {floor} at {w} t");
                         }
@@ -911,6 +919,35 @@ mod tests {
                 }
             }
         }
+    }
+
+    /// Fuel audit F13: the doomed test prunes on `min_flow_kg_h`, so no state the filter can
+    /// fly may burn less, extrapolated or not. Swept over FL060-430, M0.41-0.90 (the widest
+    /// Mach prior to the top of the grid) and the weights the flight passes through. Skipped
+    /// when the local-only internal model is absent.
+    #[test]
+    fn internal_floor_holds_over_every_flyable_state() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let g = InternalGrid::from_json(&text).unwrap();
+        let (mut checked, mut extrapolated) = (0usize, 0usize);
+        for w in [175.0, 185.0, 195.0, 205.0, 215.0] {
+            let floor = g.min_flow_kg_h(w).expect("a floor at a reachable weight");
+            for fl in (60..=430).step_by(5) {
+                for m in (41..=90).map(|m| f64::from(m) / 100.0) {
+                    if let Some((ff, cover)) = g.flow_kg_h(f64::from(fl), w, m) {
+                        assert!(ff >= floor - 1e-6, "{ff} kg/h at FL{fl} M{m} {w} t undercuts the floor {floor}");
+                        checked += 1;
+                        extrapolated += usize::from(cover.extrapolated_mach);
+                    }
+                }
+            }
+        }
+        // The sweep must actually reach the cells the filter flies on extrapolated flow.
+        assert!(checked > 10_000 && extrapolated > 1_000, "{checked} states, {extrapolated} extrapolated");
     }
 
     #[test]

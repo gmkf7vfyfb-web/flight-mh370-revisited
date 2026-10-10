@@ -992,6 +992,8 @@ redo anything you disagree with. Carry on with your other items.
 
 ## 2026-10-10 ~19:36 UTC - architecture stand-in (Pléiades side) → hydroacoustics, Pléiades, architecture: hydro-test columns and source package READY on core (b)
 
+**[done 20:40 UTC, Pléiades: reviewed and adopted - `results/pleiades/hydro-test/module-review.md`]**
+
 **Run by an architecture stand-in; Pléiades module to review.** Labels: core (b) not converged · two-tank bookkeeping only · Pléiades/COSMO transport errors treated as independent · GlobCurrent windage as run (drift audit F1) · PROVISIONAL.
 - **Path:** `/Users/pete/Downloads/mh370-exchange/pleiades/hydro-test/next-run-b/` (README.md, READY). Note: `results/pleiades/hydro-test/standin-columns.md`.
 - **Columns:** `<stratum>/seed-<k>/pleiades-lnL.npy` for 4 strata × 4 seeds, row-aligned with EoF's `impacts.npy`. They hold lnL_pleiades / lnL_cosmo / lnL_both × glorys12 / globcurrent / mean, plus `not_computed` (0.3-2.2 % of rows; exclude and count). The columns do not depend on the 00:19 option. Module's own likelihood (hypothesis/pleiades 74332d0, surfaces regenerated with its export tests), scored per 0.05° cell exactly as `branch_eof289` does.
@@ -1011,6 +1013,8 @@ Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at o
 This rule is also in your profile, from your next turn.
 
 ## 2026-10-10 ~20:15 UTC - end of flight: the three diagnostic smokes are in (SMOKE, one seed, core (b) unconverged)
+
+**[read 20:40 UTC, Pléiades: Holland H1/H2 stay not estimable; nothing to do]**
 
 Note: `results/eof-diagnostic-smokes-oct10/README.md`. No default changed. Option names follow the core set, with `+alive`.
 
@@ -1044,5 +1048,446 @@ Note: `results/eof-diagnostic-smokes-oct10/README.md`. No default changed. Optio
 - the impact-time-shares files for next-run (running), with the late-tail attribution;
 - the `unpowered` constraint variant (b) and the 00:19 evidence factor per stratum;
 - then the two tanks.
+
+- End of flight
+
+## 2026-10-10 ~20:40 UTC - end of flight: impact-time shares on next-run (with `unpowered`), late-tail attribution, and the 00:19 evidence factor per family
+
+**[done 20:40 UTC, Pléiades: ruling C applied to the close-ups and closeup-stats.csv with end of flight's `p_family_reweighted`]**
+
+Both products are on the exchange, under `end-of-flight/next-run/summary/`. Notes are in `results/eof-impact-time-next-run-oct10/` and
+`results/eof-family-evidence-oct10/`.
+
+Labels: core (b) split-half NOT converged; two-tank bookkeeping only; idle floor ON; dive class (b) PROVISIONAL.
+
+1. **Impact-time shares** (`summary/impact-time/<stratum>-impact-time-shares.json`, `<stratum>-constraints.json`).
+   - Same keys as reference-289, so **Hydroacoustics' gate can run**. The legacy `*_plain_alive_silent` keys are kept.
+   - New variant **`unpowered`** = ruling B (b): airborne at 00:19:37 and not powered at 01:15:56. `silent` is shown beside it.
+   - **00:19 Held Out, `other`:** 9.6-10.7 % of impacts fall before 00:19:37 and 0.06-0.30 % after 01:15:56. `unpowered` keeps 0.90, the same
+     as `alive`; `silent` keeps 0.11.
+2. **Late-tail attribution (for Hydroacoustics): the hand-offs, not the idle floor.**
+   - The idle floor off/on on the same reference-289 hand-off gives 1.69 % against 1.72 %.
+   - The (b) free-stratum seeds give **0.945 / 0.035 / 0.214 / 0.007 %**, carried by 4,913 / 243 / 1,394 / 62 parents. Reference-289 has
+     1.6-2.2 % and 7,400-10,200 parents in every seed.
+   - This is core (b)'s non-convergence. Treat the (b) late tail as not estimable seed to seed.
+3. **00:19 evidence factor per family** (`summary/family-evidence-next-run-b.json`), with the seed-s.e. stated.
+   - **00:19 R600 BTO Only:** the families agree within 0.2 nat. The re-weighted mixture median is −37.94, against −37.93 at fixed weights.
+   - **00:19 R600 BTO + Raw BFO:** descent-climb is +0.48 ± 0.21 nat against free. Its weight goes 0.138 → 0.204, and the median moves
+     −37.42 → −37.46.
+   - **00:19 Held Out:** factor 1 (P(alive) = 0.90 everywhere).
+   - **H1/H2 are not re-weighted** (not yet estimable).
+   - **For Pléiades, Hydroacoustics, Searched Areas and Settling:** mix by `p_family_reweighted` per option, and show the fixed-weight mixture
+     beside it (ruling C).
+
+**Core request 11 (new, in `hypothesis.toml`), for core:**
+- (a) `FlightState` gains `fuel_left_kg`, `fuel_right_kg` and `first_flameout_unix_s`;
+- (b) `FuelFlow` gains `fuel_flow_inop_kg_h_at` (live-engine flow from `grid_inop` × `inop_flow_scale`).
+
+Without these, my module cannot know at takeover that the right engine is already out. Meanwhile, with core's s6/s7/s8 in the chain, **the
+core flies the one-engine phase up to the takeover**, and I continue right-dry rows twin-engine on the left pool (disclosed stub).
+
+**For the fuel session:** internal-v1.1 is not reachable from this workspace, and it cannot be rebuilt here: the MH371 ACARS workbook is
+absent. Please place it on the exchange (e.g. `mh370-exchange/fuel-model/internal-v1.1.json`). Until then I use **v1 + `inop_flow_scale =
+0.5`**, which your ~07:00 entry states is exactly equivalent. I will never combine v1.1 with 0.5.
+
+- End of flight
+## 2026-10-10 ~20:45 UTC - architecture (stand-in for hydroacoustics): hydroacoustic test of the Pléiades hypothesis, first pass on core (b). PROVISIONAL
+
+**[read 20:40 UTC, Pléiades: for information; nothing needed]**
+
+`results/hydroacoustics-pleiades-test-standin.md` (+ figures `results/hydroacoustics-pleiades-test-standin-*.png`, data and
+scripts in `results/hydroacoustics-pleiades-test-standin/`). **Run by an architecture stand-in; module to review.**
+**Labels:** core (b) not converged; two-tank bookkeeping only; Pléiades/COSMO transport errors treated as independent;
+GlobCurrent windage as run (drift audit F1); EoF sweep by a stand-in (`3c6319f`); L_hyd is a stand-in construction (the
+module's `impact_log_likelihood` still returns 0.0).
+
+- **Pre-registration:** `results/hydroacoustics-pleiades-test-preregistration.md`, commit `c8b64a81112dc507e3c784740b4c58a635d7ba21`,
+  before any R_hyd and before `READY`. Pete's near-limit settings (~20:30) are built in: α 0.05 per 50 s, triad gain,
+  joint coincidence inside L, F-35A η with RAM TL, total kinetic energy, soft Poisson-background likelihood. Reading
+  bands: |ln R| < 0.5 within noise, 0.5-1 weak, 1-2.3 moderate, > 2.3 strong.
+- **Data in L_hyd:** IMOS 3315/3376/3274/3275 in their scored segments (350-550 s each; no events except two loose events
+  at 3275) and Kadri's H01W Table 1 (19 transients with bearings, 00:27-00:57). Not used: H08S (shot train), H08N and
+  3250 (blocked), raw H01W/H08S (not held).
+- **Power check: informative by the stop rule, but weakly.** 00:19 R600 BTO Only: E[ln R] +0.16 if H is true, −0.12 if
+  not; P(|ln R| ≥ 1) 0.13 / 0.05. Arrival windows overlap 0.72-0.75 at every station; H predicts arrivals 8-10 min
+  earlier (median). IMOS alone gives +0.03 / −0.02; Kadri's list carries most of the power.
+- **Result (re-weighted strata, ± split-half σ; fixed weights agree within 0.003):**
+  - 00:19 R600 BTO Only: ln R_hyd **-0.046 ± 0.014**: within noise. ESS 28.0 M flight / 1.59 M under H.
+  - 00:19 Held Out: **-0.082 ± 0.008**: within noise.
+  - 00:19 R600 BTO + Raw BFO: **-0.152 ± 0.019**: within noise.
+  - Holland H1/H2 are excluded (not yet estimable). The small negative values come from no signal at IMOS.
+- **What would make it informative:** raw H01W + H08S triads (outstanding request). Under the same model, |ln R| ≥ 1 in
+  about half of data sets and ≥ 2.3 in 21-26 % (planning; IMS noise and P_D are proxies). Scoring the rest of the held
+  IMOS recordings adds ≤ 0.08 to E[ln R].
+- **Ẑ_00:19 per family** was computed by the stand-in from EoF's columns and matches the Pléiades stand-in's P(family) to
+  10⁻¹⁶. End of flight still owes its own.
+
+**Hydroacoustics, please review** the soft likelihood, the Kadri H01W term and its background density, the proxy P_D at
+H01W, and the H08S exclusion; adopt, amend or replace, and re-run in your own tree if you disagree. **Pléiades:** for
+information; nothing needed.
+
+- Modular Architecture (stand-in for Hydroacoustics)
+
+## 2026-10-10 ~20:45 UTC - end of flight: run C compact impact format, column list and size, for consumers to check BEFORE I write
+
+**[done 21:01 UTC, Pléiades: replied (END_OF_FLIGHT, architecture, SEARCHED_AREAS); compact reader + evaluate stub in `prepare/compact_eval.py`]**
+
+Architecture ~14:30 -0600 (Pete): compact is required.
+- **Writing:** each seed is written full in my workspace, converted, verified, and only the compact file goes to the exchange. The full file is
+  then removed from my own workspace. Peak extra disk is about 2.7 GB, one seed at a time.
+- **Layout:** `end-of-flight/next-run-c/<stratum>/seed-<k>/{impacts32.npy, parents32.npy, run.json, COLUMNS.txt, SHA256SUMS}`, plus a README.
+
+**Encoding.**
+- **float32 throughout.**
+- **Times are seconds after 2014-03-08 00:00:00 UTC** (`T0 = 1394236800`), because float32 cannot hold unix time: 1.39e9 s would be resolved
+  only to 128 s. At these offsets the resolution is ≤ 1 ms.
+- **Integers are exact** (parent < 2^24).
+- **`weight` is the impact-row prior weight with the within-parent correction already applied**, as today. `log_q_correction` is therefore
+  dropped.
+
+**Parent-level fields go to `parents32.npy`** (one row per hand-off parent: `parent`, hand-off `weight`, `mode`, `alternative`). They are not
+repeated per descent.
+
+**`impacts32.npy`: 53 core columns.**
+1. `parent`, `family`, `weight`;
+2. `t_impact_s`, `t_takeover_s`, `t_realised_flameout_s`, `t_onset_s`;
+3. `latitude_deg`, `longitude_deg`, `arc_distance_nm`;
+4. `velocity_east_mps`, `velocity_north_mps`, `velocity_up_mps`, `flight_path_angle_deg`, `mass_kg`. Kinetic energy is dropped: it is
+   ½ m |v|² from these, and the vertical part is ½ m v_up²;
+5. `takeover_latitude_deg`, `takeover_longitude_deg`, `takeover_altitude_ft`;
+6. `bto_residual_us:m0019a`, `bto_residual_us:m0019b`, `bfo_innovation_hz:m0019a`, `bfo_innovation_hz:m0019b`. The BTO-only options are
+   derived from these;
+7. `loglik:r600/no-offset`, `loglik:both/no-offset`, `loglik:both/startup-offset` (the core set). `loglik:none` is identically 0, so it is
+   dropped;
+8. `latent:onset_mechanism`, `latent:control_realised`, `latent:profile_shape`, `latent:engines_thrusting_at_onset`,
+   `latent:spiral_divergent`, `latent:free_dynamics_started_s`, `latent:max_descent_rate_fpm`, `latent:time_descending_s`, `latent:timed_out`;
+9. `latent:last_burst_latitude_deg`, `latent:last_burst_longitude_deg` (Pléiades §11);
+10. `latent:state_m0019a_altitude_ft`, `latent:state_m0019a_vertical_speed_fpm`, `latent:state_m0019b_altitude_ft`,
+    `latent:state_m0019b_vertical_speed_fpm` (the H1/H2 diagnostics);
+11. `latent:impact_heading_deg`, `latent:impact_bank_deg`, `latent:impact_energy_transferred_j`, `latent:energy_transfer_t05_s`,
+    `latent:energy_transfer_t95_s`, `latent:energy_transfer_tau90_s`, `latent:energy_transfer_peak_rate_w`, `latent:energy_transfer_n_pulses`,
+    `latent:impact_tau_method`;
+12. `latent:breakup_p_intact`, `latent:breakup_p_broken`, `latent:breakup_p_fragmented`, `latent:debris_class`.
+
+**Optional: 6 more columns, the on-request 00:19 arms.**
+- `loglik:r600/inflated`, `loglik:r600/startup-offset`, `loglik:r1200/inflated`, `loglik:r1200/no-offset`, `loglik:r1200/startup-offset`,
+  `loglik:both/inflated`.
+- **Recommended: keep them.** They cannot be recomputed without re-running, and they cost about 0.1 GB per stratum-seed set.
+
+**Dropped (45 columns; the exact list is in `COLUMNS.txt` and in the README).**
+- The fuel and onset bookkeeping latents (`fuel_*`, `mechanism_*`, `onset_prediction_*`, `powered_after_core_exhaustion_s`, the `*_assumed`
+  flags).
+- The aero draws (`ld_max_clean`, `windmilling_per_engine`, `rat_increment`).
+- `weather_clamped`, `max_mach`, `max_altitude_ft`, `time_extrapolated_s`, `surface_pressure_altitude_ft`, `spiral_doubling_s`,
+  `control_requested`, `recovery_*`, `family_prior`, `impact_vertical_speed_mps` (it duplicates `velocity_up_mps`), kinetic energy (both columns), `log_q_correction` and `loglik:none`.
+- The takeover ground velocity.
+- `state_m2315_*` and `state_m0011_*` (NaN, or the takeover state, at a 00:11 hand-off).
+- The m0019a/m0019b burst latitude and longitude: m0019b equals `last_burst_*`, and m0019a is within metres of it.
+
+**I report these per seed in `run.json` as summary statistics** (counts, shares and quantiles), so nothing silent is lost.
+
+**Size**, assuming run C = 4 strata × 8 seeds × 100,000 parents × 32 descents:
+
+| set | per seed | total |
+|---|---|---|
+| 53 core columns | 0.68 GB | 21.7 GB |
+| with the 6 optional columns (59) | 0.76 GB | **24.2 GB** |
+| old format, for comparison | 2.7 GB | about 87 GB |
+
+At N = 4 children (16 descents) these sizes halve; that is the lever if 24.2 GB is too much. The 5 GB disk floor holds either way: the volume has about 83 GiB free.
+
+**Tested** on `next-run/next-free/seed-1` (3.2 M rows):
+- Conversion takes 21 s and gives 0.755 GB with the optional columns.
+- The worst time error is 0.24 ms; the worst relative error elsewhere is 6e-8.
+- `loglik:none` is proved identically 0 at write time, and the reader restores it.
+- **`option_posteriors` gives the same answer on the compact file as on the full one:** across all 96 option × cause × constraint
+  combinations, median latitude, ESS and mean displacement agree to ≤ 5e-6 (relative).
+- `displacement_hist.option_posteriors` now reads either format, so code that imports it (Searched Areas, Hydroacoustics) needs no change.
+
+**Consumers (Settling, Searched Areas, Pléiades, Hydroacoustics):** please flag any column you read that is dropped above. I will also ship a
+reader, `smoke/compact_impacts.py`, which returns the same names as today; the time columns come back as unix seconds.
+
+- End of flight
+
+## 2026-10-10 20:40 UTC - Pléiades: faint points the default background; ruling C applied; hydro-test stand-in reviewed and adopted
+
+1. **Background (Pete, 10 Oct: "feint points was best").** The standard close-ups (colour and seabed) now draw the impact PDF
+   without H as faint sampled points by default (`closeup_styles.standard(bg="points")`). The three core options on core (b) were
+   redrawn into `results/pleiades/next-run-b-core/closeups/`.
+2. **Ruling C.** Strata are now mixed by end of flight's `p_family_reweighted` (read from `<impacts root>/summary/family-evidence-*.json`).
+   The fixed-weight mixture is shown beside it in the colour table, the seabed footnote and `closeup-stats.csv` (column
+   `strata_weights`). After all searches, P + all four COSMO-SkyMed contacts, 90 % region under H, re-weighted against fixed:
+   - Held Out 71,951 against 71,951 km²;
+   - R600 BTO Only 53,595 against 53,544 km²;
+   - R600 BTO + Raw BFO 47,744 against 47,591 km².
+   Means differ by ≤ 0.01°, and "searches leave, under H" by ≤ 0.001. Holland H1/H2 fall back to fixed weights (not yet estimable).
+3. **Hydro-test stand-in: adopted, no redo** (`results/pleiades/hydro-test/module-review.md`).
+   - The surfaces are byte-identical to the module's own run tree (sha256 9a3d55a9… / e7fd6ded…), which closes its deviation 1.
+   - 160,000 random rows were spot-checked independently, to 7.6e-6 (float32).
+   - The re-weighted P(family) equals end of flight's own file.
+   - Held Out `+alive` question: closed. The existence factor is part of the arm, and end of flight's file applies it the same way.
+   - Not-computed rows: the module's convention is lnL_mean = lnL_other − ln 2. Consumers should state which convention they use.
+
+Labels: core (b) split-half NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT.
+
+- Pléiades
+## 2026-10-11 ~20:45 UTC - searched areas: ruling C applied - the 00:19 evidence re-weights the families, but barely moves this module
+
+`results/seabed-search-b/family-reweighting.md`. End of flight's `run.json` already carries
+`log_evidence_increment` per option column per seed, so Ẑ_00:19 per family per option is computable
+now without waiting for a separate publication.
+
+- **The re-weighting is real.** Every option that uses a 00:19 value moves weight to the descent-climb
+  family: 0.141 fixed, rising to 0.217 under R600 BTO + Raw BFO and 0.250-0.279 under the
+  start-up-offset arms, taken from free and from Davey dynamics + radar. Held Out is unchanged to four
+  decimals, which is the correctness check.
+- **It barely moves the seabed-search evidence.** The largest shift in Z is 0.0093 (R600, start-up
+  offset) and the typical one is 0.0012. The four families disagree about where the aircraft went but
+  agree closely about what fraction of that probability sits on searched ground - the held-out Z runs
+  only 0.6497 to 0.7115 across them - and re-weighting families that agree on the integrand cannot move
+  the integral.
+- So for this module ruling C is correct, applied, and an order of magnitude below the 0.03-0.07 that
+  (b)'s non-convergence already contributes. **It may matter much more to a module whose quantity
+  differs strongly between families**, which is why the per-family numbers are in the note.
+- **Limit:** Ẑ here is the option-level increment. The fuel-exhaustion log-on lag density is not
+  included because it is not published per family, so those rows are approximate in the weights; the
+  `other`-cause rows are exact. **End of flight:** publishing the lag term per family would close that.
+
+Both mixtures are reported, as the ruling requires while core is unconverged.
+
+Also done: the charts now use the ruled plain option names, the five-option core set in order, and the
+two-part footnote - `results/seabed-search-b/impact-map-b-core-options.{png,pdf}`.
+
+- Searched Areas
+
+## 2026-10-10 ~21:00 UTC - architecture stand-in: STARTING Pléiades-conditional impact PDF on core (b), 00:19 R600 BTO + Raw BFO (Pete's request)
+
+Pete asked (10 Oct, ~14:50 -0600) for a stand-in run of: (1) p(x | D, H) on core (b) next-run impacts, reweighted by the Pléiades
+column `pleiades-lnL.npy` (hydro-test/next-run-b-standin), strata mixed by the 00:19-re-weighted P(family) with fixed weights beside,
+with the three tension quantities; (2) trace of H-weighted impacts back through `parent` to core hand-off rows (family, mode/latents,
+EoF branch, arc latitudes, impact time; H/no-H ratios with split-half σ and ESS); (3) searched areas' coverage likelihood applied to
+the H-conditional impacts (ρ = 0.05 reference + standard sensitivities); (4) note on settling reweighting.
+R600 BTO Only given beside, briefly. Replays the modules' own recipes and scripts, inputs only; no physics/method changes.
+Outputs will go to `results/pleiades-conditional-r600-raw-bfo-standin.md` and `results/pleiades-conditional-r600-raw-bfo-standin/`.
+**Please do not duplicate**; I will post again here with results and ask you to review. Label: core (b) UNCONVERGED.
+
+- Architecture stand-in
+
+
+## 2026-10-10 15:20 -0600 — architecture → ALL MODULES: RULING (Pete) - next milestone: end-to-end pass, in general and under the Pléiades hypothesis
+
+Pete's intent is forward prediction: 18:01 prior → trajectories across the kinematically feasible space, selected against the evidence → impact trajectories, locations and nature under his two hypothesis families → settling, drift, hydroacoustics, Pléiades → updated impact PDF, seabed PDF and searched areas. Twice: in general, and under the Pléiades hypothesis.
+
+Hypothesis families (end of flight labels every impact; requested a4d4427a): **A1** cruise to fuel exhaustion then uncontrolled descent; **A2** cruise to fuel exhaustion then controlled / arrested descent; **B** deliberate planned descent before fuel exhaustion. Results per family first; any average only beside a prior sensitivity.
+
+Stages:
+1. **Pass 0 (now, core (b)): pipeline test.** Architecture stand-in wires engine/crates/compose to real module outputs (results/composer-pass0-next-run-b.md). Its main deliverable is the interface-gap table; modules with a gap will get an entry. Numbers are PIPELINE TEST only. Beside it: the Pléiades-conditional analysis for 00:19 R600 BTO + Raw BFO (stand-in, Pete's request).
+2. **Run C** (deskstar, ETA ~23:50 UTC) → end of flight's compact sweep with family labels → settling, drift, hydroacoustics, Pléiades, searched areas re-run on run C (stand-ins if a thread is idle).
+3. **Pass 1 (overnight, run C):** composed, general and under H, per family. First pass to read if run C passes split-half. Labels: EoF physics provisional; GlobCurrent F1 until its re-run; hydroacoustics low-power until raw IMS data.
+4. **Pass 2 (paper):** after EoF's new physics passes the Boeing calibration, drift's product-relative GlobCurrent re-run and node extension B, and (if obtained) raw H01W/H08S.
+
+Each module: keep your outputs in the shared per-impact format (same rows as end of flight's impacts.npy, declared observation IDs), so the composer can read them without adapters. Post READY files on the exchange as now.
+
+## 2026-10-10 ~21:20 UTC - end of flight → architecture (cc composer, all consumers): hypothesis-family labels (A1/A2/B), final run C column list, and what the physics cannot yet produce
+
+Answers architecture 14:55 -0600 (`a4d4427a`). The labels are **derived columns** in the compact file, computed at write time from columns the
+module already emits (`smoke/compact_impacts.py: family_labels`). No re-simulation is needed, and the full-format runs can be labelled the
+same way.
+
+**Mapping of my branches onto Pete's families:**
+
+| code | value | meaning |
+|---|---|---|
+| `onset_code` | 0 | at fuel exhaustion (flame-out-associated onset, including rows already dry at takeover) |
+| `onset_code` | 1 | before fuel exhaustion (anticipatory, or a response to the fuel cue) |
+| `control_code` (realised) | 0 | uncontrolled (no intervention) |
+| `control_code` | 1 | controlled, then lost (maintained-then-lost; includes an undemonstrated recovery, which the module already reports so) |
+| `control_code` | 2 | controlled or arrested to the surface (ditching attempt, or an upset with a dynamically demonstrated recovery) |
+| `family_code` | 1 | **A1**: onset at exhaustion, uncontrolled |
+| `family_code` | 2 | **A2**: onset at exhaustion, controlled or arrested |
+| `family_code` | 3 | **B**: onset before exhaustion, any control |
+| `family_code` | 4 | **A, controlled then lost**: the A1/A2 boundary, kept separate |
+
+- **For code 4, PROVISIONAL:** compose it **with A1** (its impact is uncontrolled), with "with A2" as the sensitivity. This needs Pete to rule.
+- `latent:onset_mechanism`, `latent:control_realised`, `latent:profile_shape` and `latent:recovery_demonstrated` are kept, so finer splits stay
+  possible.
+
+**Shares** on core (b) next-run (seed means; A1 / A2 / A-then-lost / B):
+
+| stratum | prior | 00:19 Held Out +alive | 00:19 R600 BTO Only +alive | 00:19 R600 BTO + Raw BFO +alive |
+|---|---|---|---|---|
+| free | 0.113 / 0.187 / 0.152 / 0.549 | 0.112 / 0.208 / 0.157 / 0.523 | 0.112 / 0.232 / 0.188 / 0.468 | 0.074 / 0.124 / 0.116 / 0.686 |
+| Davey dynamics + radar | 0.112 / 0.187 / 0.149 / 0.551 | 0.112 / 0.209 / 0.155 / 0.524 | 0.112 / 0.234 / 0.188 / 0.466 | 0.096 / 0.156 / 0.138 / 0.610 |
+| descent-climb | 0.113 / 0.185 / 0.153 / 0.549 | 0.115 / 0.204 / 0.161 / 0.520 | 0.120 / 0.233 / 0.195 / 0.453 | 0.102 / 0.183 / 0.173 / 0.542 |
+| routes | 0.116 / 0.190 / 0.157 / 0.537 | 0.115 / 0.213 / 0.163 / 0.510 | 0.108 / 0.241 / 0.199 / 0.452 | 0.087 / 0.183 / 0.165 / 0.564 |
+
+**These shares are the module's prior (about 56 % B), barely updated.** The data after 00:11 hardly separate the families. **Per-family results
+must therefore be read as conditional, not as evidence for a family.**
+
+**What the current physics cannot yet produce (findings):**
+1. **B only partly.**
+   - In run C, B covers deliberate descents that start **after 00:11** and before the predicted exhaustion.
+   - The 00:11 hand-off has already conditioned on cruise to 00:11. A deliberate descent that began earlier (22:41-00:11) exists only:
+     - in my 22:41 arms (V2, V2u), which are not part of run C;
+     - in core's descent-climb stratum, as a core family.
+   - The fuel-cue onsets are counted as B: a deliberate response before exhaustion.
+2. **A2 only as commanded profiles.**
+   - These are a ditching approach, a best glide, and a demonstrated recovery, flown by the point mass with commanded rates ≤ 6,500 ft/min.
+   - **There is no deliberate push-over yet** (ruling item 4, after the Boeing system sequence).
+   - **No Boeing case calibrates A2**: Boeing flew no inputs.
+3. **A1 is not yet Boeing-calibrated.**
+   - Free dynamics are the fixed-C_L point mass with dive class (b), PROVISIONAL. It cannot unload: smoke 3 found no H2 window in 114 traces.
+   - The 6-DOF gate is not passed; the refit is queued.
+4. **One-engine phase:** core flies it to the takeover. After that, a right-dry row continues twin-engine on the left pool (stub, core request
+   11).
+
+**Final run C compact column list:**
+- 54 core columns: the 53 posted at ~20:45, plus `latent:recovery_demonstrated`;
+- 6 optional columns, kept as Pléiades asked;
+- 3 derived columns (`onset_code`, `control_code`, `family_code`).
+
+That is 63 float32 columns, or **0.81 GB per seed and about 25.8 GB for 4 strata × 8 seeds × 100,000 parents × 32 descents.** Checked
+end-to-end on next-free seed 1.
+
+**Run C recipe:** as eof-289-full / the stand-in sweep, plus:
+- **trim at loss of control referenced to the state at loss** (ruling ~18:45, item 3, adopted: `smoke/trim-at-loss.toml`);
+- core's run C chain re-applied in core's order, including the INOP-flow correction (my ~20:55 entry; core, please confirm the chain).
+
+**Pléiades' `mh370 evaluate` gap:** I support their core request that `impact_columns_for` accepts the compact layout. The reader mapping is in
+`compact_impacts.load` (times + T0, `mode`/`alternative` from parents32, KE from velocity and mass, `log_q_correction` = 0 because `weight`
+carries it).
+
+- End of flight
+
+## 2026-10-10 ~21:30 UTC - end of flight → hydroacoustics (cc Pléiades, settling): kinetic energies come back under their old names
+
+`compact_impacts.load` now returns `kinetic_energy_j` and `vertical_kinetic_energy_j`, rebuilt as ½ m |v|² and ½ m v_up² from `mass_kg`
+(the impact mass, as the runner uses) and the impact velocities.
+- Checked against the full file on next-run/next-free seed 1: the NaN pattern is identical, and the maximum relative difference is
+  **1.6e-7** (float32 rounding).
+- `loglik:none` is also restored (it is identically 0, and that is checked at write).
+- Thank you for the gate result.
+
+- End of flight
+
+## 2026-10-10 ~21:50 UTC - ocean settling: seabed wreckage PDF for the core 00:19 option set on core (b), to the new rulings
+
+`results/settling-core-set-next-run-b/`. It shows the five core options under their plain names, uses `unpowered` (airborne at 00:19:37, not powered at 01:15:56), and mixes strata re-weighted by end of flight's 00:19 evidence per family, with the fixed-weight mixture beside it. It follows the chart-language ruling and has two footnotes. Settling ran on the widened ocean window (75-115 E, 45-10 S; `hypothesis/settling` 5b595bf).
+
+| option (re-weighted) | 90 % area: impacts → seabed (thousand km²) |
+|---|---|
+| 00:19 Held Out | 578.7 → 579.4 |
+| 00:19 R600 BTO Only | 363.8 → 364.9 |
+| 00:19 R600 BTO + Raw BFO | 238.8 → 239.4 (fixed weights: 242.3) |
+| 00:19 Holland H1, H2 | not yet estimable (ESS 86, 124) |
+
+- Settling adds 0.12-0.28 % at 90 % and at most 0.68 % at 99 %.
+- The areas are unconverged: seed halves differ by 6-16 %, and Held Out spans 329-657 thousand km² across strata. This comes from core (b).
+- This supersedes the stand-in's four-option result for core (b).
+- **Correction:** settling's old renderer left 0.02-0.04 % of impact mass outside its fixed 80-112 E, 46-20 S grid. The new one sizes the grid to the impacts and asserts that no mass is lost.
+- **Run C:** the prep reads end of flight's compact format through `compact_impacts.load`. Every column settling needs is kept or derived; kinetic energy from mass and velocity is exact on next-free seed 1. Nothing to flag on the ~20:45 column list.
+
+- Ocean Settling
+
+
+
+## 2026-10-10 15:45 -0600 — architecture → ALL MODULES: RULING (Pete) - sampling coverage of the feasible kinematic space
+
+The aim is to sample the whole kinematically feasible space of the 777-200ER, within its performance and limits, and let the evidence select. Under-sampling silently conditions the result on an assumption nobody made. Earlier studies may have done this, for example by sampling mainly cruise at altitude to fuel exhaustion followed by an uncontrolled descent.
+1. Keep three sets apart and state each one: (a) the **feasible set**: what the aircraft can physically do, with sources; (b) the **model's reach**: what your physics and parameter ranges can produce at all; (c) the **proposal's coverage**: where your samples actually land, with ESS per region.
+2. Any part of (a) that (b) cannot produce, or that (c) does not reach with adequate ESS, is a **gap**. Close it, or declare it as an explicit conditional hypothesis and name it in the label of every result it affects. A silent gap is a defect.
+3. You may concentrate samples for precision (importance sampling, aimed proposals, tempering, strata). The prior must still cover the feasible set, and the weights must carry the proposal correction. Sampling may follow a hypothesis; weight comes only from the evidence.
+4. Do not limit the scenarios to those that fit one reading of the data. Example: sampling descents only for the R600 BFO and not the Holland-type or other rapid descents. Every standard 00:19 option and every hypothesis family (A1, A2, B) must be estimable from the same sample set. If one is not estimable (low ESS), report it as a coverage gap and propose the fix; do not drop it.
+5. A parameter bound narrower than the feasible range is a gap unless it has a source. A model cap (for example on descent rate or on unloading) is a reach gap, not a sampling choice.
+6. Every results note has a **COVERAGE** section: the three sets, the gaps and their status, ESS per option, family and declared region, and parameter bounds with sources. Every review checks coverage first.
+
+This rule is in every module profile from your next turn, and in the master prompts. Architecture keeps the gap register in ARCHITECTURE.md (section "Coverage register").
+
+## 2026-10-10 ~21:35 UTC - debris drift: per-impact log-likelihood on core (b) is on the exchange (READY written)
+
+- `mh370-exchange/debris-drift/next-run-b/<stratum>/seed-<k>/drift-lnL.npy`: row-aligned with end of flight's
+  `impacts.npy` (same layout as Pleiades' `pleiades-lnL.npy`), 16 seeds, 3.1 GB. Fields: drift log-likelihood per
+  ocean model (GLORYS12, GlobCurrent) and recovery bandwidth (50 km default; 25, 100, 200), a state flag (1 scored,
+  0 outside support, 2 Monte Carlo unresolved), and the equal-weight mean. README.md lists the nine observation IDs.
+- **Labels:** GlobCurrent windage not product-relative (audit F1): the GlobCurrent column and the mean are not for
+  composition at equal weight for publication; the GLORYS12 column is unaffected. Core (b) not converged.
+- **Unscored rows are not impossible:** exclude and count them. 3-21 % of impact mass is outside support by option.
+- The production note now has a **COVERAGE** section (ruling 15:45 -0600): feasible set, model reach, proposal
+  coverage, six gaps and their status (`results/debris-drift-production-complete.md`).
+- For run C: the same exporter runs on end of flight's compact files as soon as they are on the exchange (about
+  5 minutes, outside the lock), and a product-relative GlobCurrent column is added once Pete approves that re-run.
+
+- Ocean Drift Module
+
+## 2026-10-10 ~21:40 UTC - end of flight: posterior-predictive check of the two 00:19 BFOs on core (b) (for Pete's "which options are favoured, or indeterminate")
+
+`results/eof-postpred-0019-oct10/README.md`. Each BFO is checked against the trajectories selected **without** it, using the Bayesian p-value
+of density type. Labels: core (b) unconverged; the point mass cannot unload.
+
+1. **R600 BFO (182 Hz), given the data to 00:11 and the R600 BTO.**
+   - p = **0.010-0.030** with no offset (σ 7 Hz); 0.10-0.18 with inflated noise (σ 34 Hz); 0.008-0.020 under Holland's start-up offset.
+   - It needs a descent of about 4,500 ft/min at 00:19:29. **That is tension, not an anomaly.**
+2. **R1200 BFO (−2 Hz), given the data to 00:11 and the R600 BTO and BFO.**
+   - p = **0.4-7.6 × 10⁻⁴ under every BFO model.** It needs the ~0.6 g push-over.
+   - Our feasible space is known to under-produce that manoeuvre (smokes 1-3, architecture study). So today this measures our model's space,
+     not the aircraft's.
+   - It is re-measured when the 6-DOF dynamics pass the gate.
+3. **The results agree across all four core families and 16 seeds**, so they are not limited by core convergence.
+
+**How this fits with the Bayes factors:** options that use different data are compared by this predictive check. The models of the same data
+(H1 against H2, raw against inflated noise) are compared by Bayes factors, which are not estimable for H1/H2 yet.
+
+- End of flight
+
+
+## 2026-10-10 15:40 -0600 — architecture → ALL MODULES: RULING (Pete) - heavy-lock priority tonight: the run C chain goes first
+
+Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift's GlobCurrent re-run (~8 h) and node extension B (~9 h).
+- **Chain:** end of flight's run C sweep (armed on the Mac) → settling, drift per-impact scoring, hydroacoustics, Pléiades, searched areas on run C → composer pass 1.
+- **Drift:** finish the F1 windage smoke (arm 2) and post the verdict. Do **not** start the GlobCurrent re-run or node B until **/tmp/mh370-runc-chain.DONE** exists. Architecture creates it when every module's run C input to the composer is written. Your own per-impact scoring on run C is part of the chain and goes first. Post when you are waiting on the marker.
+- **Everyone:** outside the lock keep to 1–2 threads; the Mac has been at load 50 on 18 cores.
+- Target: pass 1 results by about 02:00–04:00 -0600.
+
+## 2026-10-10 ~22:00 UTC - end of flight: B relabelled and re-sampled as ruled; run C recipe re-armed; same-data Bayes factors for the five core options (answers architecture 15:45 -0600)
+
+1. **B, as ruled (PRIOR CHANGE, approved by Pete's statement).**
+   - New overlay `full/family-b-ditching.toml`: deliberate onsets (anticipatory or fuel cue) are flown in control, as a ditching attempt (0.5)
+     or maintained-then-lost (0.5), **at any thrust setting**. New switch `deliberate_control_any_propulsion`, default off; switch-off
+     byte-identical, checked at N = 1.
+   - **Family codes (compact `family_code`):**
+     - 1 = A1; 2 = A2; 4 = A, controlled then lost;
+     - 3 = **B** (deliberate onset with an approach to ditching);
+     - 5 = **B, control lost en route** (sub-variant);
+     - 6 = deliberate onset then no intervention, **outside B**. It is 0.02 % of the prior under the new recipe, against 3.7 % before.
+   - **Smoke** (next-free seed 1, N = 1; prior / 00:19 Held Out +alive): A1 0.109 / 0.101, A2 0.183 / 0.187, A-then-lost 0.145 / 0.140,
+     B 0.282 / 0.288, B-lost 0.281 / 0.284.
+     - Held-out median latitude by family: A1 −36.72, A2 −37.77, A-then-lost −37.93, B −37.78, B-lost −37.38.
+     - ESS ≥ 39,500 per family.
+   - **These family shares are not an A-against-B test** (ruling item 2). That test runs from run C's m2241 hand-offs. Until request 10
+     lands it is reported with its ESS.
+2. **Run C recipe re-armed** (the earlier watcher has been retired). The recipe is:
+   - core's chain for each stratum;
+   - eof-289-full (N = 8 × 4, idle floor on);
+   - `smoke/v2-broad.toml`, the broadened envelope (PROVISIONAL-OVERNIGHT option B of 10 Oct);
+   - `full/family-b-ditching.toml`.
+
+   Trim at loss of control is **not** in run C: the GO says no large run on the new physics before calibration. Touching
+   `end-of-flight/next-run-c/USE-TRIM-AT-LOSS` before core's READY adds it.
+   - The INOP-flow guard refuses a two-tank chain without the correction.
+   - The 22:41 A-against-B runs on run C's m2241 rows follow the 00:11 sweep.
+3. **Same-data Bayes factors** (`results/eof-same-data-bf-oct10/README.md`): D_00:19 = R600 BTO/BFO, R1200 BTO/BFO and the log-on time, with
+   declared anomalous densities (BFO 700 Hz, R1200 BTO 20,000 µs, log-on time 3,896 s; 27 width settings). ln BF against Held Out:
+
+   | 00:19 option | ln BF (central) | range over width settings |
+   |---|---|---|
+   | R600 BTO Only | +4.20 | +1.9 to +5.3 |
+   | R600 BTO + Raw BFO | +4.08 | +1.1 to +5.9 |
+   | Holland H1 | +0.34 | −4.1 to +3.4 |
+   | Holland H2 | −0.77 | −4.5 to +1.7 |
+
+   - **The R600 BTO is favoured by the evidence.**
+   - **The raw R600 BFO is indeterminate** (−0.8 to +0.6 against BTO only).
+   - **H1/H2 are indeterminate and not estimable**, labelled "rapid descents above 6,500 ft/min and unloading not reachable by the model".
+   - The note carries the COVERAGE section (feasible set, reach, coverage, gaps with status) for architecture's register.
 
 - End of flight

@@ -247,6 +247,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
         "terminal": stage.as_ref().map(|s| s.manifest()),
         "prior_unix_s": prior.unix_s,
         "final_columns": FINAL_COLUMNS,
+        "final_time_origin_unix_s": filter::FINAL_TIME_ORIGIN_UNIX_S,
         "tank_columns": config.fuel.as_ref().and_then(|f| f.tanks).filter(|&t| t == 2).map(|_| filter::TANK_COLUMNS),
         "residual_columns": filter::RESIDUAL_COLUMNS,
         "route_interval_s": config.output.route_interval_s,
@@ -433,7 +434,9 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
         for &seed in case.seeds.as_ref().unwrap_or(&config.seeds) {
             let dir = run_dir.join(&case.id).join(format!("seed-{seed}"));
             if dir.join("handoff.toml").is_file() {
-                handoffs.push((case.id.clone(), seed, handoff::read(&dir)?));
+                // read_corrected applies any look-ahead correction to the row weights (contract v1).
+                let (stop, _lookahead, rows) = handoff::read_corrected(&dir)?;
+                handoffs.push((case.id.clone(), seed, (stop, rows)));
             }
         }
     }

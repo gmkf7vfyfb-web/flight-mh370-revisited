@@ -225,8 +225,11 @@ struct Module {
     hypothesis: Box<dyn Hypothesis>,
     combinations: Vec<(Vec<usize>, String)>,
     predictions: Vec<String>,
-    /// Sample columns holding this module's latents (the terminal module only).
+    /// Sample columns holding the latents this module reads: the terminal module's own
+    /// `latent_columns`, or for an impact module the names in `latents_read` (core request 4).
     latents: Vec<Option<usize>>,
+    /// Those of them the samples lack (read as NaN), for the manifest.
+    latents_missing: Vec<String>,
 }
 
 pub fn evaluate(args: &[String]) -> Result<(), String> {
@@ -264,6 +267,8 @@ pub fn evaluate(args: &[String]) -> Result<(), String> {
                 "alternatives": m.hypothesis.alternatives().iter().map(|a| json!({"name": a.name, "options": a.options, "sweep_label": a.sweep_label})).collect::<Vec<_>>(),
                 "absolute_scale": m.hypothesis.absolute_scale(),
                 "prediction_columns": m.predictions,
+                "latents_read": m.hypothesis.latents_read(),
+                "latents_missing": m.latents_missing,
             })).collect::<Vec<_>>(),
         }),
     )?;
@@ -353,9 +358,12 @@ fn module(config: &Config, name: &str, terminal: bool, columns: &[String]) -> Re
     let latent_names = match (terminal, hypothesis.terminal()) {
         (true, Some(t)) => t.latent_columns(),
         (true, None) => return Err(format!("{name} is named in [terminal] but has no terminal model")),
-        (false, _) => Vec::new(),
+        (false, _) => hypothesis.latents_read(),
     };
-    let latents = latent_names.iter().map(|l| columns.iter().position(|c| *c == format!("latent:{l}"))).collect();
+    let (latents, latents_missing) = latent_map(name, &latent_names, columns)?;
+    if !latents_missing.is_empty() {
+        eprintln!("{name}: the samples carry no column for latent(s) {}; they read as NaN", latents_missing.join(", "));
+    }
     let predictions = hypothesis.prediction_columns();
     for (i, p) in predictions.iter().enumerate() {
         check_name(&format!("{name}: prediction"), p)?;
@@ -363,7 +371,20 @@ fn module(config: &Config, name: &str, terminal: bool, columns: &[String]) -> Re
             return Err(format!("{name}: prediction {p} is reserved or declared twice"));
         }
     }
-    Ok(Module { name: name.to_string(), combinations: combinations(&alternatives)?, predictions, latents, hypothesis })
+    Ok(Module { name: name.to_string(), combinations: combinations(&alternatives)?, predictions, latents, latents_missing, hypothesis })
+}
+
+/// Sample columns for latents named without the `latent:` prefix, and the names the samples
+/// lack (core request 4).
+fn latent_map(module: &str, names: &[String], columns: &[String]) -> Result<(Vec<Option<usize>>, Vec<String>), String> {
+    for (i, l) in names.iter().enumerate() {
+        if l.is_empty() || l.starts_with("latent:") || names[..i].contains(l) {
+            return Err(format!("{module}: latent {l:?} is empty, carries the latent: prefix, or is named twice"));
+        }
+    }
+    let at: Vec<Option<usize>> = names.iter().map(|l| columns.iter().position(|c| *c == format!("latent:{l}"))).collect();
+    let missing = names.iter().zip(&at).filter(|(_, c)| c.is_none()).map(|(l, _)| l.clone()).collect();
+    Ok((at, missing))
 }
 
 #[cfg(test)]
@@ -393,7 +414,7 @@ mod tests {
 
     fn probe() -> Module {
         let alternatives = Probe.alternatives();
-        Module { name: "probe".into(), combinations: combinations(&alternatives).unwrap(), predictions: Probe.prediction_columns(), latents: Vec::new(), hypothesis: Box::new(Probe) }
+        Module { name: "probe".into(), combinations: combinations(&alternatives).unwrap(), predictions: Probe.prediction_columns(), latents: Vec::new(), latents_missing: Vec::new(), hypothesis: Box::new(Probe) }
     }
 
     #[test]
@@ -411,6 +432,43 @@ mod tests {
         let swept = Alternatives { sweep_label: Some("odds".into()), ..Alternatives::new("x", &[("p", 0.2), ("q", 0.3), ("r", 0.5)]) };
         assert!(check_alternatives("m", &[swept]).is_err(), "a sweep needs two options");
         assert!(check_alternatives("m", &[a.clone(), a]).is_err(), "names must be unique");
+    }
+
+    /// Core request 4: an impact module reads the terminal module's latents by name, in the
+    /// order it asked for them, NaN for one the samples lack, and bad names are refused.
+    #[test]
+    fn impact_modules_read_terminal_latents_by_name() {
+        struct Reader;
+        impl Hypothesis for Reader {
+            fn latents_read(&self) -> Vec<String> {
+                vec!["debris_class".into(), "not_emitted".into(), "impact_bank_deg".into()]
+            }
+            fn prediction_columns(&self) -> Vec<String> {
+                vec!["first".into(), "second".into(), "third".into()]
+            }
+            fn predict(&self, impact: &ImpactView, out: &mut [f64]) {
+                out.copy_from_slice(impact.latents);
+            }
+        }
+        let columns: Vec<String> = ["weight", "latitude_deg", "latent:impact_bank_deg", "latent:spiral_divergent", "latent:debris_class"].iter().map(|c| c.to_string()).collect();
+        let (at, missing) = latent_map("reader", &Reader.latents_read(), &columns).unwrap();
+        assert_eq!(at, [Some(4), None, Some(2)]);
+        assert_eq!(missing, ["not_emitted"]);
+        for bad in [vec!["latent:debris_class".to_string()], vec!["a".into(), "a".into()], vec![String::new()]] {
+            assert!(latent_map("reader", &bad, &columns).is_err(), "{bad:?}");
+        }
+        let dir = std::env::temp_dir().join(format!("latents-test-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let csv = dir.join("samples.csv");
+        std::fs::write(&csv, format!("{}\n0.5,-35.0,12.5,1,2\n", columns.join(","))).unwrap();
+        let samples = Samples::read(&csv).unwrap();
+        std::fs::remove_dir_all(&dir).unwrap();
+        let m = Module { name: "reader".into(), combinations: combinations(&[]).unwrap(), predictions: Reader.prediction_columns(), latents: at, latents_missing: missing, hypothesis: Box::new(Reader) };
+        let (_, results) = run_modules(&[m], &samples).unwrap();
+        // CSV samples: no weight column is led; the row is loglik (NaN default) then predictions.
+        let tail = &results[results.len() - 3..];
+        assert_eq!((tail[0], tail[2]), (2.0, 12.5));
+        assert!(tail[1].is_nan(), "a latent the samples lack must read as NaN");
     }
 
     /// CSV samples pass through with their text columns; npy samples lead with their weight.

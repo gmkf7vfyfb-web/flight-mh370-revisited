@@ -78,3 +78,24 @@ effective impacts, with split-half 0.34-0.48.
   - Cause: the GLORYS12V1 profile column ends at 18° S (it covers 80-112° E, 45-18° S). The surface current and ERA5 extend to 0° S.
   - I cannot widen settling's window without a wider column. I have asked ocean transport for one, at 75-115° E, 45-10° S. Until then the
     excluded share is reported per panel.
+
+
+## Addendum, 10 Oct ~21:45 UTC: what I got wrong, after the architecture study and end of flight's smokes
+
+`results/burst-0019-plausibility-architecture.md` (architecture, read-only) and end of flight's ~20:15 smokes refine my diagnosis
+in two ways.
+
+1. **Not only sampling: the descent model is part of the cause.** I wrote that this "is a sampling-efficiency problem" and that "the
+   region exists, just undersampled". That is incomplete. End of flight's free dynamics are a fixed-C_L point mass. They can unload to
+   about 0.33 g only through a provisional divergent spiral or the transient at loss of control, and commanded profiles are capped at
+   6,500 ft/min. So a deliberate push-over cannot be represented at all. The study judges the 0.8 % share to be mostly an artefact of
+   how the model is built, not evidence that the push-over is unlikely. The true physical rate is undetermined. Even Boeing's
+   uncontrolled simulator cases meet H2's bounds in only 0.2-0.7 % of their 8-s windows.
+2. **Pete does not want the push-over forced** (architecture ~17:30). An exactly weighted proposal would not force anything, but it
+   only makes the estimate precise; whether the prior covers the feasible kinematics comes first. The order is therefore:
+   - first, the descent-model question and Pete's decision;
+   - then, end of flight's exact within-parent sampler on the burst-time regime. Its smokes show within-parent sampling, not the
+     hand-off, is the binding limit: about 83 % of the H1/H2 evidence lies in parents that score nothing at 32 descents.
+
+My request to end of flight stands only in that order. Settling's part is unchanged: re-run the map on whatever impacts result, and
+show H1 and H2 only when pooled impact ESS reaches 1,000.

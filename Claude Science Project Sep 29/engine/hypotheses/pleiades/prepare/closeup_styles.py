@@ -34,9 +34,35 @@ SEARCH_FILL = [("atsb_phase2_2014_2017", "#7f7f7f", 0.30, "ATSB Phase 2 2014-17 
                ("oi2024_proposed_outboard_southeast", "#c0392b", 0.28, "OI 2025-26 south-east band (grade C)")]
 
 
-def notes_for(opt, src, pfam, labels):
-    mix = (f"Strata mixed by core's P(family), held fixed ({', '.join(f'{k} {v:.4f}' for k, v in pfam.items())}); the search "
-           f"re-weights strata by their own evidence, the 00:19 data do not.") if pfam else "Single impact set."
+def eof_family_key(opt):
+    """end of flight's key in family-evidence-*.json for a module option string."""
+    base = opt.split("@")[0]
+    name = describe_option(base.replace("+alive", "").replace("+silent", ""), short=True).replace(" (unconstrained)", "")
+    return name + (" +alive" if "+alive" in base else "")
+
+
+def reweighted_pfam(fam_json, opt):
+    """Ruling C (architecture, 10 Oct 2026): P(family) re-weighted by the 00:19 evidence, from end of flight's own file.
+    Returns None where end of flight gives no re-weighting (Holland H1/H2: not yet estimable)."""
+    if not fam_json:
+        return None
+    d = json.loads(Path(fam_json).read_text())["mixtures"]
+    k = eof_family_key(opt)
+    if k not in d or "Holland" in k:
+        return None
+    return {s: float(v) for s, v in d[k]["p_family_reweighted"].items()}
+
+
+def notes_for(opt, src, pfam, labels, pfam_rw=None, fam_json=None):
+    if pfam and pfam_rw:
+        mix = (f"Strata mixed by P(family) re-weighted by the 00:19 evidence (ruling C; end of flight's "
+               f"{Path(fam_json).name}: {', '.join(f'{k} {pfam_rw[k]:.4f}' for k in pfam)}); the core's fixed P(family) "
+               f"({', '.join(f'{k} {v:.4f}' for k, v in pfam.items())}) is shown beside it. The search then re-weights strata by their own evidence.")
+    elif pfam:
+        mix = (f"Strata mixed by core's P(family), held fixed ({', '.join(f'{k} {v:.4f}' for k, v in pfam.items())}); the search "
+               f"re-weights strata by their own evidence, the 00:19 data do not.")
+    else:
+        mix = "Single impact set."
     return [src, "What was run: " + describe_option(opt) + ". " + mix, "Labels: " + (labels or "none") + ".",
             "Search: the searched-areas module's own per-impact likelihood (point target, rho = 0.05, shared). Phase 2 (q 0.945), "
             "Bluefin-21 (q 0.9) official; OI 2018 (q 0.9, coverage 0.889) and OI 2025-26 south-east band (q 0.9, coverage 0.7808) are "
@@ -162,7 +188,7 @@ def frame_share(maps, v):
 
 
 # ---------------------------------------------------------------- colour, one panel (the old panel b), with table
-def colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem, bg=None, v="oi2018-2025", f="P+C4"):
+def colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem, bg=None, v="oi2018-2025", f="P+C4", cmp=None):
     from matplotlib.colors import LinearSegmentedColormap
     from matplotlib.patches import Patch, Polygon
     cmap = LinearSegmentedColormap.from_list("dens", [(1, 1, 1, 0), (0.776, 0.859, 0.937, 0.75), "#6baed6", "#2171b5", "#08306b"])
@@ -192,15 +218,26 @@ def colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem, bg=None, v="oi2
                  "past": cf.mask_of(cf.polygons(geo, "atsb_phase2_2014_2017"), LON, LAT)
                  | cf.mask_of(cf.polygons(geo, "oi2018_total_outline_approx"), LON, LAT)
                  | cf.mask_of(cf.polygons(geo, "oi2024_proposed_outboard_southeast"), LON, LAT)}
-    s = cf.stats(m, area, LAT, LON, geo_masks)
-    Lf = np.nan_to_num(maps[v][f"L_{f}"])
-    ret = float((maps[v]["post"] * Lf).sum() / (maps[v]["pre"] * Lf).sum())
-    rows = [["50 % region", f"{area[dn >= lv[1]].sum():,.0f} km²"], ["90 % region", f"{s['hdr90_km2']:,.0f} km²"],
-            ["mean", f"{abs(s['mean_lat']):.2f} S {s['mean_lon']:.2f} E"],
-            ["outside past searches", f"{100 * (1 - s['mass_in_past']):.1f} %"], ["in OI north-west band", f"{100 * s['mass_in_nw']:.1f} %"],
-            ["searches leave, under H", f"{ret:.3f}"]]
-    t = side.table(cellText=rows, loc="upper left", cellLoc="left", edges="horizontal", colWidths=[0.64, 0.36], bbox=[0.0, 0.62, 1.0, 0.38])
-    t.auto_set_font_size(False); t.set_fontsize(5.8)
+    def col(mp):
+        mm = panel_mass(mp, v, f); dd = mm / area; ss = cf.stats(mm, area, LAT, LON, geo_masks)
+        Lf = np.nan_to_num(mp[v][f"L_{f}"]); ret = float((mp[v]["post"] * Lf).sum() / (mp[v]["pre"] * Lf).sum())
+        return [f"{area[dd >= hdr_level(dd, mm, 0.5)].sum():,.0f} km²", f"{ss['hdr90_km2']:,.0f} km²",
+                f"{abs(ss['mean_lat']):.2f} S {ss['mean_lon']:.2f} E", f"{100 * (1 - ss['mass_in_past']):.1f} %",
+                f"{100 * ss['mass_in_nw']:.1f} %", f"{ret:.3f}"]
+    lab = ["50 % region", "90 % region", "mean", "outside past searches", "in OI north-west band", "searches leave, under H"]
+    if cmp is None:
+        rows = [[a, b] for a, b in zip(lab, col(maps))]
+        t = side.table(cellText=rows, loc="upper left", cellLoc="left", edges="horizontal", colWidths=[0.64, 0.36], bbox=[0.0, 0.62, 1.0, 0.38])
+    else:
+        rows = [[a, b, c] for a, b, c in zip(lab, col(maps), col(cmp))]
+        t = side.table(cellText=rows, colLabels=["strata weights", "re-weighted\n(drawn)", "fixed"], loc="upper left", cellLoc="left",
+                       edges="horizontal", colWidths=[0.40, 0.30, 0.30], bbox=[0.0, 0.60, 1.0, 0.40])
+    if cmp is not None:
+        t.auto_set_font_size(False); t.set_fontsize(5.1)
+        for (r_, c_), cell in t.get_celld().items():
+            cell.PAD = 0.03
+    if cmp is None:
+        t.auto_set_font_size(False); t.set_fontsize(5.8)
     h = [Patch(fc="#2171b5", label="probability density under H (relative)"),
          plt.Line2D([], [], color="#08306b", lw=1.4, label="50 % region under H"), plt.Line2D([], [], color="#08306b", lw=0.7, label="90 % region under H")]
     h += hb
@@ -390,7 +427,8 @@ def style_c(maps, geo, T5, Cc, opt, notes, out, plt):
     plt.close(fig)
 
 
-def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), labels="", bg=None, suffix=""):
+def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), labels="", bg="points", suffix="", fam_json=None):
+    # Pete, 10 Oct 2026: faint points of the impact PDF without H are the default background ("feint points was best")
     """The standard close-ups (Pete, 10 Oct 2026): colour (A) and seabed (B) for every option, all four COSMO-SkyMed
     contacts only. Writes closeup-<option>-colour.{png,pdf}, closeup-<option>-seabed.{png,pdf} and closeup-stats.csv."""
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
@@ -403,28 +441,42 @@ def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), l
         src = src.replace(f"impacts {prov.name}", f"impacts {Path(impacts_root).name} (strata {', '.join(pfam)}; provenance read from {prov.name})")
     rows = []
     for opt in options:
-        maps = {v: load_mixture(root, opt, v, pfam) for v in ("base", "oi2018-2025")}
-        notes = notes_for(opt, src, pfam, labels)
+        # ruling C: draw the 00:19-re-weighted mixture; the fixed-weight mixture is shown beside it
+        pfam_rw = reweighted_pfam(fam_json, opt) if pfam else None
+        fixed = {v: load_mixture(root, opt, v, pfam) for v in ("base", "oi2018-2025")}
+        maps = {v: load_mixture(root, opt, v, pfam_rw) for v in ("base", "oi2018-2025")} if pfam_rw else fixed
+        notes = notes_for(opt, src, pfam, labels, pfam_rw, fam_json)
         safe = opt.replace("/", "-")
         # Pete, 10 Oct 2026: only the after-all-searches panel (old panel b); panel a added little
-        colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem=f"closeup-{safe}-colour{suffix}", bg=bg)
-        style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem=f"closeup-{safe}-seabed{suffix}", bg=bg)
+        colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem=f"closeup-{safe}-colour{suffix}", bg=bg,
+                      cmp=fixed if pfam_rw else None)
+        nb = notes
+        if pfam_rw:
+            T_ = []
+            for nm, mp in (("re-weighted", maps), ("fixed", fixed)):
+                mm = panel_mass(mp, "oi2018-2025", "P+C4"); a_ = mp["base"]["area"]
+                LA, LO = np.meshgrid(mp["base"]["lat"], mp["base"]["lon"], indexing="ij")
+                ss = cf.stats(mm, a_, LA, LO, {})
+                T_.append(f"{nm} {ss['hdr90_km2']:,.0f} km², mean {abs(ss['mean_lat']):.2f} S {ss['mean_lon']:.2f} E")
+            nb = notes + ["Strata weights, after all searches, 90 % region under H: " + "; ".join(T_) + " (drawn: re-weighted)."]
+        style_b(maps, geo, T5, Cc, opt, nb, out, plt, gebco, stem=f"closeup-{safe}-seabed{suffix}", bg=bg)
         lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
         LAT, LON = np.meshgrid(lat, lon, indexing="ij")
         masks = {"oi_northwest_band": cf.mask_of(cf.polygons(geo, "oi2024_proposed_inboard_northwest"), LON, LAT),
                  "past": cf.mask_of(cf.polygons(geo, "atsb_phase2_2014_2017"), LON, LAT)
                  | cf.mask_of(cf.polygons(geo, "oi2018_total_outline_approx"), LON, LAT)
                  | cf.mask_of(cf.polygons(geo, "oi2024_proposed_outboard_southeast"), LON, LAT)}
-        for v in ("base", "oi2018-2025"):
-            m = panel_mass(maps, v, "P+C4"); dn = m / area; s_ = cf.stats(m, area, LAT, LON, masks)
-            Lf = np.nan_to_num(maps[v]["L_P+C4"])
-            rows.append(dict(option=opt, option_name=describe_option(opt, short=True), option_described=describe_option(opt),
+        for wname, MP in ((("reweighted-0019", maps), ("fixed", fixed)) if pfam_rw else (("fixed" if pfam else "single", maps),)):
+          for v in ("base", "oi2018-2025"):
+            m = panel_mass(MP, v, "P+C4"); dn = m / area; s_ = cf.stats(m, area, LAT, LON, masks)
+            Lf = np.nan_to_num(MP[v]["L_P+C4"])
+            rows.append(dict(option=opt, strata_weights=wname, option_name=describe_option(opt, short=True), option_described=describe_option(opt),
                              field="Pléiades + all four COSMO-SkyMed contacts, one debris field", search=SEARCH_SHORT[v],
                              hdr50_km2=round(float(area[dn >= hdr_level(dn, m, 0.5)].sum())), hdr90_km2=round(s_["hdr90_km2"]),
                              mean_lat=round(s_["mean_lat"], 3), mean_lon=round(s_["mean_lon"], 3),
                              share_in_nw_band=round(s_["mass_in_oi_northwest_band"], 4), share_outside_past_searches=round(1 - s_["mass_in_past"], 4),
-                             search_retains_under_H=round(float((maps[v]["post"] * Lf).sum() / (maps[v]["pre"] * Lf).sum()), 3),
-                             search_retains_flight_only=round(float(maps[v]["post"].sum() / maps[v]["pre"].sum()), 3)))
+                             search_retains_under_H=round(float((MP[v]["post"] * Lf).sum() / (MP[v]["pre"] * Lf).sum()), 3),
+                             search_retains_flight_only=round(float(MP[v]["post"].sum() / MP[v]["pre"].sum()), 3)))
     T = pd.DataFrame(rows); T.to_csv(out / f"closeup-stats{suffix}.csv", index=False)
     return T
 

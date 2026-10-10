@@ -189,7 +189,28 @@ position likelihood combined with the end-of-flight module's own dynamic reach c
 (3,900–14,800 and 14,800–25,300 across both tracks). The ATSB cites the November 2016 flap-analysis
 report; v3 is January 2018. Quote whichever source a claim is attributed to, and do not merge them.
 
-## 6. What this settles for the searched-areas module
+## 6. The 00:19 BTO treatments, and why only the R600 one is in the core set
+
+Architecture's ruling of 10 October 2026 ~19:25 UTC, which this module applies. **These entries are
+carried from that ruling and are NOT yet verified in primary form by this module** — the distinction
+matters, and the ledger says so rather than implying a reading it has not made.
+
+| ref | claim | source given | status |
+|---|---|---|---|
+| I-1 | The R600 log-on request BTO carries a fixed 4,600 µs offset, found from the terminal's own history; this is Inmarsat's recommended treatment | Ashton, Shuster Bruce, Colledge, Dickinson (2015), §3.3, printed pp. 7 and 16 | **cited from the ruling, not yet read here** |
+| I-2 | Inmarsat states that the later log-on-sequence BTOs "should be ignored" | Ashton et al. (2015), printed p. 7 | **cited from the ruling, not yet read here** |
+| D-13 | The alternative treatment — R600 BTO (σ 63 µs) with the anomalous R1200 BTO (σ 43 µs) corrected by −4 × 7,820 µs, no BFOs — is Davey's | Davey et al. (2016), Table 10.1, printed p. 88 | **cited from the ruling** |
+| D-14 | The 7,820 µs correction is empirical, from logs that are not published, and its origin is not fully determined | Davey et al. (2016), printed pp. 26–27 | **cited from the ruling** |
+| D-15 | 7,812.5 µs instead of 7,820 µs would shift the corrected value by about 30 µs, roughly 0.7σ | the ruling | **cited from the ruling** |
+| D-16 | Under those σ values the R1200 BTO carries more weight than the R600 BTO, and the two residuals have opposite signs | Davey et al. (2016), printed p. 93 | **cited from the ruling** |
+
+**Consequence for this module.** "00:19 R600 BTO Only" is a core option and is reported by default.
+"00:19 Both BTOs (Davey)" is used only for comparisons with Davey and for the reproduction section,
+and whenever it is shown it carries D-14 to D-16 as a technical footnote. This module's own derivation
+of the R600-BTO-only arm (from the engine's exact decomposition of `loglik:r600/no-offset`) has been
+superseded: end of flight now supplies the column, so the derivation is retired.
+
+## 7. What this settles for the searched-areas module
 
 1. **The method is not new, and the paper must not say it is.** Stone et al. applied search-conditioned
    Bayesian updating to AF447 and found the wreck (S-1 to S-7); Davey set out the same update for MH370
