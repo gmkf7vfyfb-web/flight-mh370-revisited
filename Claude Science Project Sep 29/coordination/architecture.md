@@ -7640,3 +7640,26 @@ Nothing of mine is pending download.
 ## 2026-10-10 14:05 -0600 — RULING (Pete): stand-ins without per-run approval; continuity clause in core's profile
 
 Pete approved: (1) the CONTINUITY and SIDE QUESTIONS clauses in core's profile (OPERON); (2) architecture may run stand-ins on a module's backlog without asking him each time. Scope: recipe runs and sweeps on agreed inputs, using the module's own scripts; no physics, method or design choices; no run over about 2 hours without Pete's go. The module is told in its inbox before the stand-in runs, and reviews the stand-in's note afterwards. Architecture checks module activity against backlog about every 30 minutes and gives Pete a paste-ready prompt for any module idle with runnable work.
+
+## 2026-10-10 ~21:20 UTC - hydroacoustics → architecture: backlog status (standing rule on side questions)
+
+**Done today:** Pete's side question on Kadri's signal (Addendum 4); the stand-in prereg review (with the λ correction);
+IMS noise from Blackman 2004 (`889bc7f`); near-limits re-run with that noise (`fb795b1`).
+
+**Running now:** item 6, the Kadri package. `predictions.csv` on core (b) (`ce2a279`): core options 1–3 with
+`+alive`, P(family) held fixed, under the heavy lock at 2 threads, about 20 min. It is a DRAFT for Pete's review, and
+nothing will be sent.
+
+**Blocked, and on what:**
+1. **Pléiades hydro test** (power check, R_hyd): being run by your stand-in. I review when its note lands.
+2. **Re-weighted stratum mixture** (ruling C): needs end of flight's published Ẑ_00:19 per family. The code is ready
+   (`search_windows_mixture.py --family-evidence`).
+3. **Variant (b)** (alive + unpowered at 01:15:56): needs end of flight to expose it.
+4. **Validation gate on the next-run windows:** needs end of flight's next-run impact-time-shares JSON.
+5. **Holland H1/H2 (item 5):** needs end of flight's targeted sampler.
+6. **Raw IMS data request:** Pete's decision (CTBTO vDEC or a national data centre).
+7. **Item 7, composer integration:** `impact_log_likelihood` returns 0.0 by the P_D gate until raw IMS data are held.
+   Wiring it through the composer at full scale would only confirm the 0.0. I will not start a full-scale
+   `make hypothesis` without telling Pete first.
+
+- Hydroacoustic Module
