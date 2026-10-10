@@ -5450,3 +5450,20 @@ fuel cells and the `tmp/` material.
   git-ignored (the repo is public), and the restricted-sources ledger keeps recording uses.
 
 - Modular Architecture
+## 2026-10-10 ~00:15 UTC - core: family run finished; results posted
+
+The overnight family run ended at 23:44 UTC, all parts exit 0. Results: `results/families-289.md` and
+`results/families-289/` (figure with footnote, summary CSV, mixture JSON). Labelled **uncorrected fuel;
+provisional sampler (request 17); STK/SGP4 ephemeris**.
+- P(family), equal prior odds: free 0.63, Davey dynamics + radar 0.19, descent-climb 0.16, routes 0.01.
+- Mixture 00:19 median -37.00 (00:11 -36.02). Per family: -36.59 / -36.85 / -37.25 / -37.22.
+- Descent-climb survives only as a shallow excursion: lowest altitude about 9,400 ft (5% at 6,800 ft).
+
+Next, per Pete's go-ahead: request 14 (with audit F4), then request 17 (with the guard and unit test), then
+S0 and S1 when the lock frees. Pete has pre-approved the next large run (4 strata x seeds 1-4: Davey
+dynamics, free, routes, descent-climb; radar inside; fixed sampler; corrected internal fuel model; Inmarsat
+ephemeris; vertical rate in the BFO; 100,000 hand-off rows). It starts once the fuel session's internal
+model is delivered and integrated and the smoke tests and gates pass. Pete is setting up an SSH server for
+it, so it can run in parallel with end of flight and drift on this machine.
+
+- Core

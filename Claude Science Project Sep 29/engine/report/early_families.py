@@ -67,6 +67,12 @@ def load(arm_dir):
     return run, cols, np.vstack(F), (np.vstack(E) if E else None), np.concatenate(Ro), logz, run["prior_unix_s"]
 
 
+def _log_mean_exp(x):
+    x = np.asarray(x, float)
+    m = x.max()
+    return float(m + np.log(np.mean(np.exp(x - m))))
+
+
 def main():
     runs, out = sys.argv[1], sys.argv[2]
     arms = [a.split("=") if "=" in a else (a, a) for a in sys.argv[3:]]
@@ -118,6 +124,23 @@ def main():
                         fh.write(f"{i},{n},{post[i]:.6f}\n")
         rows.append(r)
         curves[label] = (kde(lat, w, g19, 0.1), kde(lat11, np.ones_like(lat11), g11, 0.1))
+    # Posterior probability of each family under equal prior odds, from log of the mean
+    # evidence over seeds (the pooled estimator; the mean of log Z is Jensen-biased low).
+    lmz = {r["label"]: _log_mean_exp([float(v) for v in str(r["logZ_seeds"]).split()])
+           for r in rows}
+    top = max(lmz.values())
+    pf = {k: np.exp(v - top) for k, v in lmz.items()}
+    tot = sum(pf.values())
+    pf = {k: v / tot for k, v in pf.items()}
+    for r in rows:
+        r["log_mean_Z"] = float(lmz[r["label"]])
+        r["P_family_equal_prior"] = float(pf[r["label"]])
+    mix19 = sum(pf[k] * curves[k][0] for k in curves)
+    mix11 = sum(pf[k] * curves[k][1] for k in curves)
+    with open(os.path.join(out, "early-families-mixture.json"), "w") as fh:
+        json.dump({"P_family": pf, "log_mean_Z": lmz,
+                   "mixture_0019_median": float(np.interp(0.5, np.cumsum(mix19) / np.sum(mix19), g19)),
+                   "mixture_0011_median": float(np.interp(0.5, np.cumsum(mix11) / np.sum(mix11), g11))}, fh, indent=1)
     keys = []
     for r in rows:
         keys += [k for k in r if k not in keys]
@@ -125,10 +148,16 @@ def main():
         fh.write(",".join(keys) + "\n")
         for r in rows:
             fh.write(",".join(f"{r[k]:.4f}" if isinstance(r.get(k), float) else f"\"{r.get(k, '')}\"" if isinstance(r.get(k), str) else str(r.get(k, "")) for k in keys) + "\n")
-    fig, ax = plt.subplots(1, 2, figsize=(11, 4.2), constrained_layout=True)
+    foot = os.environ.get("FOOTNOTE", "")
+    fig, ax = plt.subplots(1, 2, figsize=(11, 4.6 if foot else 4.2), constrained_layout=True)
     for label, (c19, c11) in curves.items():
-        ax[0].plot(g11, c11, lw=1.3, label=label)
-        ax[1].plot(g19, c19, lw=1.3, label=label)
+        ax[0].plot(g11, c11, lw=1.3, label=f"{label} (P={pf[label]:.2f})")
+        ax[1].plot(g19, c19, lw=1.3, label=f"{label} (P={pf[label]:.2f})")
+    ax[0].plot(g11, mix11, lw=2.0, color="k", label="mixture, equal prior odds")
+    ax[1].plot(g19, mix19, lw=2.0, color="k", label="mixture, equal prior odds")
+    if foot:
+        fig.get_layout_engine().set(rect=(0, 0.13, 1, 0.87))
+        fig.text(0.01, 0.01, foot, fontsize=6.3, va="bottom", ha="left", wrap=True)
     ax[0].set(title="00:11:49 (posterior routes, 6th arc)", xlabel="latitude (deg)", ylabel="density (per deg)")
     ax[1].set(title="00:19:37 (final posterior, 7th arc)", xlabel="latitude (deg)")
     ax[1].legend(fontsize=7, frameon=False)
