@@ -32,8 +32,9 @@ def write(run, sd, out, optional=True):
     meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
     X = np.load(sd / "impacts.npy", mmap_mode="r")
     names = SPEC["core"] + (SPEC["optional"] if optional else [])
+    derived = list(SPEC.get("derived", {}))
     out.mkdir(parents=True, exist_ok=True)
-    Y = np.lib.format.open_memmap(out / "impacts32.npy", mode="w+", dtype=np.float32, shape=(X.shape[0], len(names)))
+    Y = np.lib.format.open_memmap(out / "impacts32.npy", mode="w+", dtype=np.float32, shape=(X.shape[0], len(names) + len(derived)))
     step = 500_000; worst = {}
     for a in range(0, X.shape[0], step):
         B = np.array(X[a:a + step])
@@ -47,6 +48,10 @@ def write(run, sd, out, optional=True):
                 rel = np.abs(back[ok] - B[ok, cols[n]]) / np.maximum(np.abs(B[ok, cols[n]]), 1e-30)
                 ab = np.abs(back[ok] - B[ok, cols[n]])
                 worst[n] = max(worst.get(n, 0.0), float(ab.max() if n in TIME else rel.max()))
+        if derived:
+            fam = family_labels(B[:, cols["latent:onset_mechanism"]], B[:, cols["latent:control_realised"]])
+            for j, n in enumerate(derived):
+                Y[a:a + step, len(names) + j] = fam[n].astype(np.float32)
     Y.flush(); del Y
     if "loglik:none" in cols and "loglik:none" not in names:   # dropped because identically 0: prove it
         for a in range(0, X.shape[0], step):
@@ -57,8 +62,8 @@ def write(run, sd, out, optional=True):
     first = np.unique(par, return_index=True)[1]
     P[par[first], 2] = np.array(X[first, cols["mode"]]); P[par[first], 3] = np.array(X[first, cols["alternative"]])
     np.save(out / "parents32.npy", P)
-    cm = dict(meta); cm["impact_columns"] = [TIME.get(n, n) for n in names]
-    cm["compact"] = {"format": "float32 v1", "T0_unix_s": T0, "time_columns": INV, "source_columns": meta["impact_columns"],
+    cm = dict(meta); cm["impact_columns"] = [TIME.get(n, n) for n in names] + derived
+    cm["compact"] = {"format": "float32 v1", "derived_columns": SPEC.get("derived", {}), "T0_unix_s": T0, "time_columns": INV, "source_columns": meta["impact_columns"],
                      "dropped": [c for c in meta["impact_columns"] if c not in names + ["mode", "alternative"]],
                      "parents_columns": ["parent", "weight_handoff", "mode", "alternative"],
                      "max_abs_error_time_s_or_max_rel_error": worst, "rows": int(X.shape[0])}
@@ -66,6 +71,19 @@ def write(run, sd, out, optional=True):
     (out / "COLUMNS.txt").write_text("\n".join(cm["impact_columns"]) + "\n")
     (out / "SHA256SUMS").write_text("".join(f"{sha(out / f)}  {f}\n" for f in ("impacts32.npy", "parents32.npy", "run.json", "COLUMNS.txt")))
     return cm
+
+
+def family_labels(onset_mechanism, control_realised):
+    """Pete's end-to-end hypothesis families (architecture 14:55 -0600 10 Oct). Codes: compact-columns.json `derived`.
+    onset_mechanism: 0 anticipatory, 1 fuel cue, 2 flame-out-associated (taxonomy Initiation::ALL).
+    control_realised: 0 ditching attempt, 1 maintained-then-lost, 2 no intervention, 3 upset then (demonstrated) recovery
+    (taxonomy Control::ALL; an undemonstrated recovery is already reported as 1)."""
+    om = np.asarray(onset_mechanism); cr = np.asarray(control_realised)
+    onset = np.where(om == 2, 0.0, np.where((om == 0) | (om == 1), 1.0, np.nan))
+    control = np.select([cr == 2, cr == 1, (cr == 0) | (cr == 3)], [0.0, 1.0, 2.0], np.nan)
+    fam = np.where(onset == 1, 3.0, np.select([control == 0, control == 2, control == 1], [1.0, 2.0, 4.0], np.nan))
+    fam = np.where(np.isnan(onset), np.nan, fam)
+    return {"onset_code": onset, "control_code": control, "family_code": fam}
 
 
 def load(sd):

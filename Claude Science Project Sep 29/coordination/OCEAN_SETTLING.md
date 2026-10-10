@@ -823,3 +823,74 @@ Stages:
 4. **Pass 2 (paper):** after EoF's new physics passes the Boeing calibration, drift's product-relative GlobCurrent re-run and node extension B, and (if obtained) raw H01W/H08S.
 
 Each module: keep your outputs in the shared per-impact format (same rows as end of flight's impacts.npy, declared observation IDs), so the composer can read them without adapters. Post READY files on the exchange as now.
+
+## 2026-10-10 ~21:20 UTC - end of flight → architecture (cc composer, all consumers): hypothesis-family labels (A1/A2/B), final run C column list, and what the physics cannot yet produce
+
+Answers architecture 14:55 -0600 (`a4d4427a`). The labels are **derived columns** in the compact file, computed at write time from columns the
+module already emits (`smoke/compact_impacts.py: family_labels`). No re-simulation is needed, and the full-format runs can be labelled the
+same way.
+
+**Mapping of my branches onto Pete's families:**
+
+| code | value | meaning |
+|---|---|---|
+| `onset_code` | 0 | at fuel exhaustion (flame-out-associated onset, including rows already dry at takeover) |
+| `onset_code` | 1 | before fuel exhaustion (anticipatory, or a response to the fuel cue) |
+| `control_code` (realised) | 0 | uncontrolled (no intervention) |
+| `control_code` | 1 | controlled, then lost (maintained-then-lost; includes an undemonstrated recovery, which the module already reports so) |
+| `control_code` | 2 | controlled or arrested to the surface (ditching attempt, or an upset with a dynamically demonstrated recovery) |
+| `family_code` | 1 | **A1**: onset at exhaustion, uncontrolled |
+| `family_code` | 2 | **A2**: onset at exhaustion, controlled or arrested |
+| `family_code` | 3 | **B**: onset before exhaustion, any control |
+| `family_code` | 4 | **A, controlled then lost**: the A1/A2 boundary, kept separate |
+
+- **For code 4, PROVISIONAL:** compose it **with A1** (its impact is uncontrolled), with "with A2" as the sensitivity. This needs Pete to rule.
+- `latent:onset_mechanism`, `latent:control_realised`, `latent:profile_shape` and `latent:recovery_demonstrated` are kept, so finer splits stay
+  possible.
+
+**Shares** on core (b) next-run (seed means; A1 / A2 / A-then-lost / B):
+
+| stratum | prior | 00:19 Held Out +alive | 00:19 R600 BTO Only +alive | 00:19 R600 BTO + Raw BFO +alive |
+|---|---|---|---|---|
+| free | 0.113 / 0.187 / 0.152 / 0.549 | 0.112 / 0.208 / 0.157 / 0.523 | 0.112 / 0.232 / 0.188 / 0.468 | 0.074 / 0.124 / 0.116 / 0.686 |
+| Davey dynamics + radar | 0.112 / 0.187 / 0.149 / 0.551 | 0.112 / 0.209 / 0.155 / 0.524 | 0.112 / 0.234 / 0.188 / 0.466 | 0.096 / 0.156 / 0.138 / 0.610 |
+| descent-climb | 0.113 / 0.185 / 0.153 / 0.549 | 0.115 / 0.204 / 0.161 / 0.520 | 0.120 / 0.233 / 0.195 / 0.453 | 0.102 / 0.183 / 0.173 / 0.542 |
+| routes | 0.116 / 0.190 / 0.157 / 0.537 | 0.115 / 0.213 / 0.163 / 0.510 | 0.108 / 0.241 / 0.199 / 0.452 | 0.087 / 0.183 / 0.165 / 0.564 |
+
+**These shares are the module's prior (about 56 % B), barely updated.** The data after 00:11 hardly separate the families. **Per-family results
+must therefore be read as conditional, not as evidence for a family.**
+
+**What the current physics cannot yet produce (findings):**
+1. **B only partly.**
+   - In run C, B covers deliberate descents that start **after 00:11** and before the predicted exhaustion.
+   - The 00:11 hand-off has already conditioned on cruise to 00:11. A deliberate descent that began earlier (22:41-00:11) exists only:
+     - in my 22:41 arms (V2, V2u), which are not part of run C;
+     - in core's descent-climb stratum, as a core family.
+   - The fuel-cue onsets are counted as B: a deliberate response before exhaustion.
+2. **A2 only as commanded profiles.**
+   - These are a ditching approach, a best glide, and a demonstrated recovery, flown by the point mass with commanded rates ≤ 6,500 ft/min.
+   - **There is no deliberate push-over yet** (ruling item 4, after the Boeing system sequence).
+   - **No Boeing case calibrates A2**: Boeing flew no inputs.
+3. **A1 is not yet Boeing-calibrated.**
+   - Free dynamics are the fixed-C_L point mass with dive class (b), PROVISIONAL. It cannot unload: smoke 3 found no H2 window in 114 traces.
+   - The 6-DOF gate is not passed; the refit is queued.
+4. **One-engine phase:** core flies it to the takeover. After that, a right-dry row continues twin-engine on the left pool (stub, core request
+   11).
+
+**Final run C compact column list:**
+- 54 core columns: the 53 posted at ~20:45, plus `latent:recovery_demonstrated`;
+- 6 optional columns, kept as Pléiades asked;
+- 3 derived columns (`onset_code`, `control_code`, `family_code`).
+
+That is 63 float32 columns, or **0.81 GB per seed and about 25.8 GB for 4 strata × 8 seeds × 100,000 parents × 32 descents.** Checked
+end-to-end on next-free seed 1.
+
+**Run C recipe:** as eof-289-full / the stand-in sweep, plus:
+- **trim at loss of control referenced to the state at loss** (ruling ~18:45, item 3, adopted: `smoke/trim-at-loss.toml`);
+- core's run C chain re-applied in core's order, including the INOP-flow correction (my ~20:55 entry; core, please confirm the chain).
+
+**Pléiades' `mh370 evaluate` gap:** I support their core request that `impact_columns_for` accepts the compact layout. The reader mapping is in
+`compact_impacts.load` (times + T0, `mode`/`alternative` from parents32, KE from velocity and mass, `log_q_correction` = 0 because `weight`
+carries it).
+
+- End of flight
