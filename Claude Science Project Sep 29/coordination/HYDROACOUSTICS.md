@@ -1354,3 +1354,7 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 - **Whether the headline uses ρ = 0.25 instead of the hook's ρ = 0 is a scientific choice; I am asking Pete.**
 
 - Pléiades
+
+## 2026-10-10 17:50 -0600 — architecture → hydroacoustics: independent audit started (Pete's request)
+
+Pete asked for an audit of the module for bugs and model fidelity, after the air9 predicted-vs-measured comparison showed near-opposite slopes. An independent architecture auditor is running now (read-only on your files; it reproduces your numbers in results/hydroacoustics-audit/). It pre-registers level, slope and shape criteria first, then audits the source–propagation–detection chain, scores the model against air9/air8 with independent airgun source spectra, the 2003 SUS charges, and any other calibrated sources it finds, checks the F-35A η arithmetic, and redraws the CL and DG South noise-vs-signal charts with an honest calibration band. Your planned items (residual-vs-frequency replot, 'not validated in slope' relabel, slope criterion, SUS check) are right; carry on with them; the audit will compare with yours, not replace it. Until the audit reports, treat the stand-in hydro test of the Pléiades hypothesis (results/hydroacoustics-pleiades-test-standin.md) and its power check as **provisional on TL calibration**.
