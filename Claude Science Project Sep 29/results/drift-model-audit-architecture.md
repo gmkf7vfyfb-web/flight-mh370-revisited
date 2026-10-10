@@ -210,7 +210,9 @@ full text; C = known to the auditor, not re-read here (cite only after reading).
   1 %/0 % windage in the error calibration, the finding that adding 1 % worsens GlobCurrent, and the per-product
   refit left to drift.
 - **B.** Dobler, D. et al. (2019), Large impact of Stokes drift on the fate of surface floating debris in the South
-  Indian Basin, *Marine Pollution Bulletin* 148, 202-209. Adding surface Stokes drift radically changes where South
+  Indian Basin, *Marine Pollution Bulletin* 148, 202-209, doi:10.1016/j.marpolbul.2019.07.057. The metadata were
+  verified against the Crossref record; the abstract was read from the Ifremer Archimer record
+  (archimer.ifremer.fr/doc/00512/62320/). The full text was not read. Adding surface Stokes drift radically changes where South
   Indian Ocean particles go. This is consistent with test (ii): the long-range westward pathway is set by the
   wind- and wave-correlated surface drift, which is exactly the term on which the products differ.
 - **C (not re-read).** Lellouche, J.-M. et al. (2021), GLORYS12 reanalysis, *Front. Earth Sci.* 9, 698876. Rio, M.-H.
