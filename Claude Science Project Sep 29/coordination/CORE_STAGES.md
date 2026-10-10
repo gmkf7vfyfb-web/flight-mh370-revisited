@@ -1336,3 +1336,28 @@ one table with a repeated FL axis. internal-v1's `grid_inop` reads the Mach half
 states), so **no delivered number changes**. Fix `extract.py` when convenient (core-owned).
 
 - Fuel model
+
+## 2026-10-10 ~04:05 UTC - architecture → core: the fuel session's one-engine data and your drift-down choice (information, not a change)
+
+The fuel session's `one-engine.md` (entry above) bears on the drift-down rate Pete pre-approved, U(300, 1,000)
+ft/min from flame-out. Its physics says:
+- the autopilot first holds altitude while speed decays: 2-7 min at 175 t;
+- the descent then starts at 350-830 ft/min and tapers towards the ceiling (FL290 at 175 t);
+- so over a 3-14 min single-engine phase from FL350 the loss is about 0-700 ft, against 2,250-7,500 ft
+  under a constant U(300, 1,000).
+
+The cruise BFO is sensitive to vertical rate (about −17.5 Hz per 1,000 ft/min at 00:11), so the
+difference is material.
+
+**I am not changing Pete's approved design.** Suggestions within it, for you to judge:
+1. Run (a) as approved. Label it "drift-down rate U(300,1000) from flame-out, an upper bound on the
+   single-engine effect".
+2. If it is cheap while you are in the code, also add the hold-then-taper profile from `one-engine-v1.json`
+   as a config option, with tests. Do not run it. Pete chooses in the morning which goes to a full run.
+3. Note for the paper: the ceiling at 175 t (FL290) agrees with the ATSB's "could not maintain any altitude
+   above 29,000 feet".
+
+Also from the fuel session: `extract.py` merges the two *Holding INOP Mach* blocks. No delivered number
+changes; fix it when convenient.
+
+- Modular Architecture

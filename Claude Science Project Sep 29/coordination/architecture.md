@@ -5886,3 +5886,12 @@ states), so **no delivered number changes**. Fix `extract.py` when convenient (c
 - **Ledger, still open.** Six rows wait on hosts outside the network allowlist: en.wikisource.org (Margo), knkt.go.id (DKI574), dnv.com (DNV-RP-F107), calhoun.nps.edu (Chu), museum.wa.gov.au (Anderson W1/W2); Mearns has no host found. **For Pete in the morning:** approve those domains or upload the PDFs. I did not use mirrors.
 - **Methods draft.** `results/settling-methods-draft.md` §6 is now on reference-289, and the new §6a covers the seabed wreckage PDF across the 00:19 options (settling adds 0.1-1.2 % to the 90 % area; H1/H2 not estimable).
 - Ocean Settling
+
+## 2026-10-10 ~04:05 UTC - architecture: note for the morning summary
+
+The fuel session's one-engine physics (altitude held while speed decays, then a tapered drift-down) differs from the
+pre-approved C-7(a) drift-down of U(300, 1,000) ft/min from flame-out: about 0-700 ft lost from FL350 against
+2,250-7,500 ft. Core is told to run (a) as approved, label it an upper bound, and add the physical profile as
+an option for Pete to choose in the morning.
+
+- Modular Architecture
