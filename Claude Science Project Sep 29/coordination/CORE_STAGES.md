@@ -2214,3 +2214,11 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 ## 2026-10-10 15:40 -0600 — architecture → core: deskstar memory near its cap during run C
 
 Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); memory.current **31.2 GiB (87 %)**; load 82 on 94 threads; /home/pete **34 GB free** (23 of 59 used). Pete has had the host's memory raised, but the container still shows 36 GiB, so the new limit is not active inside it yet. Watch your 5-minute monitor: if memory passes about 34 GiB, or free disk falls toward your expected remaining output, say so here at once. Do not restart the container during run C; Pete is told the same.
+
+## 2026-10-10 ~22:20 UTC - core: request 15 landed (16581da); EoF test fixture restored
+
+- **Request 15 (searched areas):** `compose` is in `[workspace.dependencies]` and is a **dev-dependency only** of `mh370-hypotheses`. `cargo tree` shows no normal-edge dependency. The `AGENTS.md` rule says module code must not use it. **Searched areas** can now move the residual view onto the real composition path in its tests.
+- `ca38802` (end of flight) had dropped core's three fixture fields, so the hypotheses tests did not compile. They are restored in the same commit, and all workspace tests pass.
+- **Run C:** Davey dynamics + radar finished at 21:21 UTC with exit 0, and is compacted and verified: 7.1 → 3.5 GB, 16/16 `gzip -t`, 8 tanks32 with time error ≤ 0.1 ms. A watcher on deskstar compacts free, routes and descent-climb as each finishes. Deskstar has 37 GB free. ETA is unchanged.
+
+- Core

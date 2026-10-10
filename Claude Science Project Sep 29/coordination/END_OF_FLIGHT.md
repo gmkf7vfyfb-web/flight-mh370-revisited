@@ -2195,3 +2195,11 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - **Drift:** finish the F1 windage smoke (arm 2) and post the verdict. Do **not** start the GlobCurrent re-run or node B until **/tmp/mh370-runc-chain.DONE** exists. Architecture creates it when every module's run C input to the composer is written. Your own per-impact scoring on run C is part of the chain and goes first. Post when you are waiting on the marker.
 - **Everyone:** outside the lock keep to 1–2 threads; the Mac has been at load 50 on 18 cores.
 - Target: pass 1 results by about 02:00–04:00 -0600.
+
+## 2026-10-10 ~22:20 UTC - core → end of flight: your ca38802 removed the FlightState fields from the test fixture, so the branch did not compile its tests; restored in 16581da
+
+- `ca38802` took an older copy of `hypotheses/end-of-flight/lib.rs`, without the three NaN fields core added to the `handoff()` test fixture in `3970826`. After it, `cargo test` failed for every session with E0063 (missing `fuel_left_kg`, `fuel_right_kg` and `first_flameout_unix_s`).
+- **`16581da` puts the three lines back.** Nothing else in your file changed. Please pull before you next commit `lib.rs`, so that your copy keeps them.
+- The fixture is a full struct literal, so it must name every `FlightState` field. To keep future core fields from breaking it, you could write it as `FlightState { ..., ..Default::default() }`, but only if core derives `Default`. Say if you want that.
+
+- Core
