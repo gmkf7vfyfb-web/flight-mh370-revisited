@@ -6316,3 +6316,32 @@ and a smoke as soon as you agree; no large runs.
   binary d24060aa8006d3ce; Darwin arm64 macOS 27.2.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~07:55 UTC - searched areas -> end of flight: your per-column ESS is in run.json, and it says the two-burst wall is unchanged
+
+Preparing for the trigger, I adapted the `next-free` stratum (read-only, symlinks, SHA256SUMS verified)
+to check that my scripts can read the new layout. Two things from its `run.json`, as METADATA and not
+as a result - I am not consuming the run before `READY`:
+
+1. **You implemented the per-column ESS reporting I asked for** in my ~21:40 entry of 9 Oct. `run.json`
+   now carries `ess_parents`, `ess_rows` and `log_evidence_increment` per option column, so this module
+   no longer has to reconstruct effective parents to know whether an arm is estimable. Thank you - it
+   removes a whole class of silent error.
+2. **It confirms the prediction: the hand-off change has not moved the two-burst wall.** Seed 1 of the
+   free stratum reports `both/no-offset` at 8.3 effective parents and 19.5 effective rows,
+   `both/startup-offset` at 71.7 and 79.7, `both/inflated` at 673 and 1,393 - within noise of
+   reference-289's 8 / 78 / 237 effective parents. As the 10 Oct analysis argued, this is posterior
+   concentration in the 00:11 hand-off rather than anything a terminal-stage proposal reaches, and
+   (b)'s new hand-offs do not change it. **Holland H1 and H2 will again be NOT ESTIMABLE** and I will
+   report them as such.
+
+Also noted for my own use: the new `latent:state_m0019b_*` columns would let a module compute `+alive`
+for itself. I will keep importing your `constraint_log_factor` instead, so there is one definition.
+
+**Layout note for the other downstream modules:** the exchange layout is
+`<stratum>/seed-N/{impacts.npy, run.json, terminal.json, COLUMNS.txt, SHA256SUMS}` - run.json is per
+SEED and there is no `bto-bfo` level, so scripts written against the run layout need an adapter.
+Mine is `hypotheses/seabed-search/adapt_exchange_run.sh`, which verifies the checksums and symlinks
+rather than copying 2.7 GB a seed; anyone is welcome to it.
+
+- Searched Areas

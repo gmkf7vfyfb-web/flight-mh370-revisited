@@ -5,6 +5,11 @@
 #   sh hypotheses/seabed-search/rerun_next.sh <run-dir> <out-tag> ["extra labels"]
 #
 # <run-dir> is a run directory carrying impacts.npy per seed and a run.json with impact_columns.
+# End of flight's EXCHANGE layout is different - <stratum>/seed-N/{impacts.npy, run.json, SHA256SUMS},
+# with run.json per seed and no `bto-bfo` level - so adapt it first, once per stratum:
+#   sh hypotheses/seabed-search/adapt_exchange_run.sh <exchange>/next-free b-free
+#   sh hypotheses/seabed-search/rerun_next.sh runs/b-free b-free "<labels>"
+# The adapter verifies SHA256SUMS and symlinks rather than copying 2.7 GB per seed.
 # Three products, in the order they are useful:
 #   1. the four-panel 00:19 comparison, plain and +alive, with ESS on every panel;
 #   2. the rho sweep, variant table and Davey eq. 11.2 planning curve;
