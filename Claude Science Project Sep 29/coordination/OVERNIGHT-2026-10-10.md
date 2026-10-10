@@ -56,7 +56,7 @@ full. It ends when Pete is back and says so.
 
 | Producer | What it posts | Post to (besides `architecture.md` and your own inbox) |
 |---|---|---|
-| core | large-run results, hand-offs, two-tank diagnostic | END_OF_FLIGHT, OCEAN_DRIFT, SEARCHED_AREAS, PLEIADES, OCEAN_SETTLING, HYDROACOUSTICS |
+| core | (b) large-run results, hand-offs, two-tank diagnostic; later the (a) against (b) comparison | END_OF_FLIGHT, OCEAN_DRIFT, SEARCHED_AREAS, PLEIADES, OCEAN_SETTLING, HYDROACOUSTICS |
 | end of flight | new impacts, the impact-time answer, H1/H2 evidence | SEARCHED_AREAS, PLEIADES, OCEAN_SETTLING, HYDROACOUSTICS, OCEAN_DRIFT |
 | drift | production complete, merged surfaces | PLEIADES, SEARCHED_AREAS |
 | settling | wreckage-field update | SEARCHED_AREAS, HYDROACOUSTICS, PLEIADES |
@@ -73,15 +73,35 @@ full. It ends when Pete is back and says so.
      mode and stratum).
    - Copy the hand-offs (m2241, m0011), the impacts' parents and `tanks.npy` to
      `mh370-exchange/core/next-run/`, then write `READY`.
-2. **If the diagnostic is 5% of weight or more,** start C-7(a): single-engine drift-down and speed before
-   00:11.
-   - Write the design note, then code it config-gated, with tests and a deskstar smoke at ladder scale.
-   - **No large run with (a)** until Pete has read the diagnostic.
-   - The one-engine ceiling and speed schedule come from the fuel session; architecture is commissioning
-     them tonight.
-3. **Pre-approved on deskstar after the large run:** the full-scale Davey-only baseline. That is
-   `davey2016-inmarsat`, seeds 1-4, 7M per seed, at the same scale as reference-289, with no extensions.
-   It is the paper's without-fuel comparison.
+   - This is the **(b)** run, with two tanks as bookkeeping only.
+2. **Pre-approved (Pete, ~03:50 UTC, core's proposal): build C-7(a) tonight, and run it if it passes the gates.**
+   - **Model.** When the first engine stops before 00:11:
+     - the aircraft drifts down to the one-engine ceiling for its weight, at one-engine speed;
+     - the lateral autopilot mode is unchanged;
+     - the live engine burns `grid_inop`.
+   - **Pre-approved design choices:**
+     - drift-down rate drawn per path, U(300, 1,000) ft/min;
+     - speed from the one-engine schedule in `internal-v1`. Where a state cannot be priced, use a
+       uniform Mach band around it, stated as such;
+     - ceiling and speed derived by core from `grid_inop` and its ceiling flags, marked PROVISIONAL. The
+       fuel session verifies them; architecture has already commissioned that work.
+     - The autopilot behaviour is stated in the paper as an assumption, not a fact.
+   - **Config-gated** (default off). Gates:
+     - unit tests;
+     - the byte-identity gate on the default runs;
+     - a deskstar smoke;
+     - the automatic preflight.
+   - **If every gate passes:** launch the **second large run with (a)**, same strata, seeds and sizes as
+     (b). Write outputs to `mh370-exchange/core/next-run-a/` and its own `READY` there.
+   - **If any gate fails:** do not run it. Post why, and move to item 3.
+   - **The (b) run stays the base for every module tonight.** (a) is compared at core level only:
+     post (a) against (b) on the 00:19 and 00:11 medians and PDFs, P(family), log Z, and the share of
+     weight on one engine at 00:11.
+   - End of flight later accepts hand-off rows with a stopped engine. It models the one-engine phase only
+     when the first flame-out comes after 00:11. Not tonight.
+3. **Pre-approved on deskstar after (a), or after (b) if (a) does not run:** the full-scale Davey-only
+   baseline. That is `davey2016-inmarsat`, seeds 1-4, 7M per seed, at the same scale as reference-289,
+   with no extensions. It is the paper's without-fuel comparison.
 4. **Code only, each with tests and smokes, no large runs:**
    - request 10, the look-ahead at m2241 and m0011, which end of flight needs: only 800-900 effective
      parents per seed survive 22:41;

@@ -809,3 +809,23 @@ their triggers, the routing table for posting, and the inbox watcher (`threads/i
 sessions awake. Pete's paste of the overnight instruction into your thread is his approval of it.
 
 - Modular Architecture
+
+## 2026-10-10 ~03:55 UTC - architecture → core (cc end of flight): Pete has approved your proposal ("approve both")
+
+`OVERNIGHT-2026-10-10.md` §3 (core) is updated with your plan:
+- (b) finishes, and is the base for every module tonight.
+- You build C-7(a) with the design choices you listed:
+  - drift-down rate U(300, 1,000) ft/min, drawn per path;
+  - speed from the one-engine schedule, with a stated Mach-band fallback;
+  - lateral mode unchanged;
+  - provisional ceiling and speed from `grid_inop`.
+- Gates: tests, byte identity, a deskstar smoke and the preflight. If all pass, launch the second large
+  run at the same strata, seeds and sizes, with outputs to `mh370-exchange/core/next-run-a/` and its own
+  `READY`.
+- Then the Davey-only baseline.
+- Post (a) against (b) at core level.
+
+The fuel session will verify your ceiling and speed derivation against its one-engine work and post to
+this inbox. End of flight: nothing changes tonight. Run your sweep on the **(b)** `READY` only.
+
+- Modular Architecture
