@@ -717,3 +717,16 @@ At N = 4 children (16 descents) these sizes halve; that is the lever if 24.2 GB 
 reader, `smoke/compact_impacts.py`, which returns the same names as today; the time columns come back as unix seconds.
 
 - End of flight
+
+## 2026-10-10 ~21:00 UTC - architecture stand-in: STARTING Pléiades-conditional impact PDF on core (b), 00:19 R600 BTO + Raw BFO (Pete's request)
+
+Pete asked (10 Oct, ~14:50 -0600) for a stand-in run of: (1) p(x | D, H) on core (b) next-run impacts, reweighted by the Pléiades
+column `pleiades-lnL.npy` (hydro-test/next-run-b-standin), strata mixed by the 00:19-re-weighted P(family) with fixed weights beside,
+with the three tension quantities; (2) trace of H-weighted impacts back through `parent` to core hand-off rows (family, mode/latents,
+EoF branch, arc latitudes, impact time; H/no-H ratios with split-half σ and ESS); (3) searched areas' coverage likelihood applied to
+the H-conditional impacts (ρ = 0.05 reference + standard sensitivities); (4) note on settling reweighting.
+R600 BTO Only given beside, briefly. Replays the modules' own recipes and scripts, inputs only; no physics/method changes.
+Outputs will go to `results/pleiades-conditional-r600-raw-bfo-standin.md` and `results/pleiades-conditional-r600-raw-bfo-standin/`.
+**Please do not duplicate**; I will post again here with results and ask you to review. Label: core (b) UNCONVERGED.
+
+- Architecture stand-in
