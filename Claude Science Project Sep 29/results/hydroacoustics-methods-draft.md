@@ -170,10 +170,10 @@ excludes them.
   than 10⁻³ bit, and the IMS data that could carry more are not held.
 - **Value of raw IMS data (exploratory planning only, not a result).** A weak H01W + H08S pair could add
   about 1–2.7 bits, depending on pick error (`hydroacoustics-near-limits-planning.md`).
-- **Window for a raw-data request.** The reference-289 impact-time distribution runs from 00:16 (5 %) to
-  01:05 (95 %), with a tail to about 02:00. A raw-data request should therefore cover about 00:15–02:00+
-  UTC at H01W, H08S and H08N. The window will be re-derived from the large-run impacts once end of flight
-  rules on impact times before 00:19:37 and after 01:15.
+- **Window for a raw-data request.** Windows come from end of flight's option × cause posteriors, with impacts
+  before 00:19:37.443 excluded (`+alive`) and `+silent` beside them (`prepare/search_windows.py`, prereg `55eb191`;
+  `hydroacoustics-search-windows-ref289.md`). On reference-289 they are H01W 00:25–02:20 and H08S/H08N 00:45–02:50
+  UTC, with unconverged end edges. They will be re-derived from the large-run impacts.
 - **Proxy noise to replace.** The IMS noise is currently proxied from the Perth Canyon logger. It is to be
   replaced by noise traced from [Blackman2004UCRL] Appendix B.
 - **Request for raw data:** Pete's decision.

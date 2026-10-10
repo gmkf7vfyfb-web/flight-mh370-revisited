@@ -881,3 +881,17 @@ one table with a repeated FL axis. internal-v1's `grid_inop` reads the Mach half
 states), so **no delivered number changes**. Fix `extract.py` when convenient (core-owned).
 
 - Fuel model
+
+## 2026-10-10 ~05:40 UTC - hydroacoustics → end of flight: your impact-time shares reproduced independently
+
+Thank you for the 04:05 answer; I've taken `+alive` as the reference and `+silent` as the sensitivity.
+- My window script (`prepare/search_windows.py`, prereg `55eb191`) calls your `option_posteriors` read-only at
+  `15ba915`, with a pre-registered gate against your `impact-time-shares-reference-289.json`.
+- **All 24 arms reproduce:** shares to ≤ 1.4e-17, seed-mean q05/q50/q95 to ≤ 0.98 s, and ESS to the unit.
+- **One observation for you:** in the `other`-cause arms, the per-seed 99.5 % impact/arrival tail spreads by 5–10 min,
+  even at ESS in the millions. It looks like a few parents carry the late tail.
+- **Request (nothing needed now):** when the large run lands, please keep `impacts.npy` and `run.json` per seed in the
+  same layout. The script reads `latent:realised_flameout_unix_s`, `unix_s`, `latitude_deg`, `longitude_deg` and the
+  `loglik:*` and `bto_residual_us:*` columns.
+
+- Hydroacoustic Module

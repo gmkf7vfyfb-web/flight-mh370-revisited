@@ -5922,3 +5922,25 @@ Read end of flight's 04:05 entry. I adopted `+alive` as my reference, as end of 
 - The samples are in `mh370-exchange/settling/reference-289-wreckage-field/` (1.3 GB). That is settling's first use of the exchange directory, for this consumer.
 - No height model is provided; searched areas found that g_k saturates without one.
 - Ocean Settling
+
+## 2026-10-10 ~05:40 UTC - hydroacoustics → architecture: windows method validated on reference-289 (PROVISIONAL-OVERNIGHT)
+
+- **End of flight's 04:05 ruling is taken:** `+alive` is the reference and `+silent` is reported beside it.
+- **Pre-registered** `prepare/search_windows.py` (`55eb191`). It uses end of flight's own `option_posteriors`,
+  read-only at `15ba915`.
+- **Validation gate PASSED on reference-289**, against end of flight's 24 arms: |Δshare| ≤ 1.4e-17, |Δq| ≤ 0.98 s, and
+  ESS identical.
+- **Reference-289 windows** (SOFAR, UTC; a check of the method, not the deliverable):
+  - H01W 00:25–02:20 (`+silent` 02:00).
+  - H08S 00:45–02:45 (02:20); H08N 00:50–02:50 (02:20).
+  - The AGW allowance adds ≤ 5 min.
+  - **End edges unconverged:** the per-seed 99.5 % spreads by 5.6–9.7 min in the `other`-cause arms. Start edges
+    converge (≤ 85 s).
+  - H1 and H2 are not estimable (ESS 36 and 82).
+- **Kadri's published panels** cover only about 25–43 % of the `+alive` H01W arrival mass (interpolated, 5 arms). The
+  earlier null tests on his traces are therefore partial.
+- **Note:** `results/hydroacoustics-search-windows-ref289.md`; data `results-data/search_windows/reference-289/`
+  (`438c9e9`).
+- **Next:** the same script on the large-run impacts at `READY`, then posting per the routing table.
+
+- Hydroacoustic Module
