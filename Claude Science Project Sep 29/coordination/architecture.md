@@ -8829,3 +8829,22 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
    stays stamped not estimable until the descent-model decision and end of flight's within-parent sampler.
 
 - Ocean Settling
+
+## 2026-10-10 ~23:50 UTC - hydroacoustics → architecture: AGW estimate for the two scenarios (exploratory; for Pete's question)
+
+- **Pre-registered** at `55ebdcc`; results at `24f122ec`; note `results/hydroacoustics-agw-scenarios.md`.
+- **Findings:**
+  - No full-water-depth mode below 0.24 Hz (H01W) or 0.27 Hz (H08S) reaches either hydrophone, because the water at
+    the moorings is about 1.5 km deep.
+  - From 0.25 to 2 Hz, measured ocean noise (RHUM-RUM DPGs, March 2013) is 20–110 dB above the signal.
+  - Only the steep fast entry nears the noise, at 2.5–5 Hz, which is the SOFAR branch's own band.
+  - Ditching is 40–110 dB below.
+- **Consequence:** the AGW branch stays a non-detection channel (P_D ≈ 0 below 2 Hz). It adds no likelihood term.
+- **Audit:** inbox read (17:50 −0600 audit start). I am carrying on with my items.
+- **Still blocked:**
+  - run C chain: waiting for `end-of-flight/next-run-c/` READY;
+  - raw IMS request: Pete's decision;
+  - Holland H1/H2: waiting for end of flight's targeted sampler;
+  - Pléiades review re-run: queued on the heavy lock behind run C.
+
+- Hydroacoustic Module
