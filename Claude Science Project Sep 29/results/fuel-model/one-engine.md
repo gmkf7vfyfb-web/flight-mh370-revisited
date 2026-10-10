@@ -161,8 +161,7 @@ Both keep the lateral mode.
 
 Core's design (architecture, ~03:55 UTC): a drift-down rate U(300, 1,000) ft/min per path; speed from the
 one-engine schedule with a Mach-band fallback; lateral mode unchanged; ceiling and speed from `grid_inop`.
-**Core's numbers were not yet posted when this note was written.** The comparison will be added as §5.1 and
-posted to `CORE_STAGES.md` once core's C-7(a) entry appears. Points to check:
+Core's code is `4b67733` and `7d42052`. The comparison is §5.1; the points it checks:
 
 1. **The ceiling.** The `grid_inop` frontier should give FL280–290 at 175–180 t (holding FL300 at
    ≤ 180 t). If core uses the holding-INOP nodes (FL250/300 only), the ceiling can be off by up to 50 FL
@@ -174,3 +173,64 @@ posted to `CORE_STAGES.md` once core's C-7(a) entry appears. Points to check:
      FL400 it loses the same 2,250–7,500 ft, against ~3,000–4,500 ft here.
 3. **The speed.** The LRC-INOP Mach (≈ M0.64–0.68) is the one-engine cruise speed. The drift-down speed is
    lower (M0.51–0.61).
+
+### 5.1 Comparison with core's C-7(a) as built (`4b67733`, `7d42052`; `one-engine-vs-core-c7a.csv`)
+
+Core's ceiling was reproduced exactly from `grid_inop`: the highest FL node with any Mach cell not flagged
+above the ceiling, linear between 1-t weight nodes. Core's speed comes from `lrc_inop_mach` at
+min(altitude, ceiling); above the frontier it takes the nearest covered level below, ± 0.02. At 176 t that is
+the FL280 value, M0.678.
+
+**Ceiling.**
+
+| weight t | core | fuel, LRC INOP | fuel, level-off at minimum drag | core − fuel (ft) |
+|---|---|---|---|---|
+| 174 | FL300 | FL292 | FL301 | +830 / −120 |
+| 176 | FL300 | FL289 | FL298 | +1,120 / +170 |
+| 178 | FL300 | FL286 | FL295 | +1,410 / +460 |
+| 180 | FL300 | FL283 | FL293 | +1,700 / +740 |
+| 185 | FL270 | FL276 | FL286 | −590 / −1,550 |
+| 190 | FL270 | FL269 | FL279 | +100 / −870 |
+| 200 | FL260 | FL256 | FL265 | +450 / −530 |
+
+- Core's FL300 at ≤ 180 t is the holding-INOP node at FL300, which is also the grid's top. It equals the
+  level-off at minimum-drag speed (within −120 to +740 ft) and is about 1,000 ft above the ATSB's FL290.
+- The step from FL300 to FL270 at 181–182 t is an artefact of the grid nodes: holding INOP is tabulated only
+  every 50 FL.
+- **Whether it matters:** no. At the first flame-out the total fuel is ~0.3–1.0 t (§4 of delivery 1), so the
+  weight is ~174.5–175.2 t and the ceilings agree to within about 1,000 ft.
+
+**Drift-down and speed.** Physics (§3) against core's constant U(300, 1,000) ft/min at M0.678, at 176 t:
+
+| start | single-engine phase | altitude lost: physics / core at 300 · 650 · 1,000 ft/min | along-track distance, core − physics | vertical rate at the end: physics / core |
+|---|---|---|---|---|
+| FL350 | 4 min | 0 / 1,200 · 2,600 · 4,000 ft | −3 NM | 0 / 300-1,000 ft/min |
+| FL350 | 7.5 min | 270 / 2,250 · 4,875 · 5,000 ft | −3 NM | 340 / 300 · 650 · 0 ft/min |
+| FL350 | 14 min | 2,040 / 4,200 · 5,000 · 5,000 ft | −1 to −2 NM | 215 / 300 · 0 · 0 ft/min |
+| FL370 | 7.5 min | 1,560 / 2,250 · 4,875 · 7,000 ft | −3 NM | 390 / 300 · 650 · 0 ft/min |
+| FL400 | 7.5 min | 3,450 / 2,250 · 4,875 · 7,500 ft | −4 NM | 465 / 300 · 650 · 1,000 ft/min |
+| FL400 | 14 min | 5,880 / 4,200 · 9,100 · 10,000 ft | −3 to −4 NM | 295 / 300 · 650 · 0 ft/min |
+
+**Whether it matters.**
+1. **Along-track distance: no.** Core − physics is −1 to −4 NM over 4–14 min. The one-engine aircraft is
+   8–15 NM behind twin cruise either way, and core captures most of that.
+2. **Altitude at the second flame-out: moderately.** Core's draw puts the aircraft 1,000–5,400 ft lower
+   from FL350–370. From FL400 it is −1,700 to +4,000 ft. At Boeing's driftdown ratio of 0.0034 NM/ft that is
+   ≤ 18 NM of glide reach for a piloted glide. For the uncontrolled descents the end-of-flight module flies,
+   it is a few NM.
+3. **The BFO, if 00:11 falls inside the single-engine phase: yes.** A vertical rate of 1,000 ft/min is
+   about 18 Hz of BFO (5.1 m/s × f/c, with sin(elevation) ≈ 0.64 near the 7th arc). In the first 2–7 min
+   physics has 0 ft/min, against core's 300–1,000 ft/min: a 5–18 Hz bias in the 00:11 BFO for those paths,
+   comparable to the BFO noise.
+
+**Recommendation to core (for after tonight's run; the run itself is not affected unless the two-tank
+diagnostic shows weight with the first flame-out before 00:11):**
+- (i) Add a constant-altitude deceleration phase of t_A = (KCAS_cruise − KCAS_dd)/a. Here
+  a ≈ g/(L/D)·(D/D_min − c W_c/W): about 7–11 kt/min (Ulich's simulator figure is 10 kt/min), and
+  KCAS_dd = holding-INOP KIAS (`driftdown_kcas` in the local JSON).
+- (ii) Then descend at ROD(h) = V_TAS/20.7 × (1 − 1.038 W_c(h)/W), with
+  W_c(h) = exp(lnA) δ(h)^0.864 (lnA in the local JSON). This tapers to 0 at the ceiling.
+- (iii) Or, keeping the simple form, draw the rate from U(0, 600) ft/min and start it after t_A. That
+  matches the physics mean of 200–340 ft/min to within the draw.
+- (iv) Speed during the descent is the drift-down KCAS (M0.55–0.61), not the LRC-INOP Mach. The distance
+  effect is ≤ 4 NM.
