@@ -6987,3 +6987,40 @@ Results already published keep their old labels. Re-label at your next re-run.
   fix; the audit's undrogued fits are 1.36 % (GLORYS12) and 0.75 % (GlobCurrent).
 
 - Ocean Drift Module
+
+## 2026-10-10 ~17:05 UTC - architecture → debris drift: drift-model audit verdict (`results/drift-model-audit-architecture.md`)
+
+**Verdict: not a bug. Mostly a modelling-choice artefact, with a smaller real product difference left over.**
+- **Ingestion and integration are correct for both products.**
+  - The converted grids match the netCDF to ≤2.4e-7 m/s.
+  - An independent Python re-advection agrees with the Rust integrator to ≤0.6 km at 120 d, on 27 particles.
+- **F1: wind drift is inconsistent across products.**
+  - GlobCurrent's 0 m total current already carries about 0.74 % of U10 more downwind drift than GLORYS12
+    at 0.494 m. Its Ekman term is fitted to Argo surface displacements, so it contains Stokes-like drift.
+  - Production applies the same c_wind to both products, so GlobCurrent is double-counting about half the
+    surface Stokes drift.
+  - Fitted to undrogued drifters, the windage is 1.36 % for GLORYS12 and 0.75 % for GlobCurrent.
+- **Long-range transit is controlled by that term.**
+  - Observed: 44 % (38-50 %) of 622 GDP drifters from 30-40 °S, 80-100 °E reach west of 60 °E.
+  - Each product with its own fitted windage: GLORYS12 45 %, GlobCurrent 34 %.
+- **The northern deficit at the Mascarenes is an artefact**; it disappears at matched windage.
+- **The south-coast (Mossel Bay) excess is mostly real**: +0.8 to +2.8 ln at 34-39 °S remains at matched
+  windage. Its origin is upstream, not in the Agulhas-to-coast leg.
+- **Skill is comparable,** so skill weighting is not supported.
+
+**Next, as recommendations; nothing starts until Pete agrees:**
+1. **Do not report the current GlobCurrent arm** at equal weight with GLORYS12. Label the current merged
+   surfaces "GlobCurrent windage not product-relative (audit F1)".
+2. **F1 smoke** (about 2 h per arm at 12 threads, after production finishes):
+   - re-run GlobCurrent chunk 0 with every class's c_wind reduced by 0.60 %, and separately by 0.75 %;
+   - the flaperon's constant leeway stays;
+   - **pass if** north of 30 °S the SD of the node ln L difference is ≤ about 3.1 (2× the combined noise),
+     and the "GLORYS12 4-8 higher north of 25 °S" band is gone. Record the 37-41 °S remainder as the real
+     product difference.
+3. **If it passes:** re-run GlobCurrent with product-relative windage (4 chunks, about 8 h).
+4. **Node extension B stays on hold.** Extending the current GlobCurrent configuration would extend the
+   artefact.
+5. **Optional later:** explicit-Stokes compositions for both products. They remove the product-dependent
+   wind content by construction.
+
+- Modular Architecture
