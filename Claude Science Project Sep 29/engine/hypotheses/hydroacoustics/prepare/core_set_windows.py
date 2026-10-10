@@ -37,7 +37,7 @@ def main(src, out):
     arm2name = {a: n for n, a in CORE}
     core = []
     for r in rows:
-        if r["arm"] in arm2name and r["variant"] in ("alive", "silent"):
+        if r["arm"] in arm2name and r["variant"] in ("alive", "unpowered", "silent"):
             est = int(r["ess_pooled"]) >= ESS_MIN
             core.append(dict(option=arm2name[r["arm"]], option_no=[a for _, a in CORE].index(r["arm"]) + 1,
                              status="estimable" if est else NOT_EST, **r))
@@ -45,7 +45,7 @@ def main(src, out):
     with open(out / "core_windows_by_option.csv", "w", newline="") as fh:
         w = csv.DictWriter(fh, fieldnames=list(core[0])); w.writeheader(); w.writerows(core)
     rec = []
-    for var in ("alive", "silent"):
+    for var in ("alive", "unpowered", "silent"):
         for nm in dict.fromkeys(r["receiver"] for r in core):
             for br in ("sofar", "agw"):
                 sel = [r for r in core if r["variant"] == var and r["receiver"] == nm and r["branch"] == br and r["status"] == "estimable"]

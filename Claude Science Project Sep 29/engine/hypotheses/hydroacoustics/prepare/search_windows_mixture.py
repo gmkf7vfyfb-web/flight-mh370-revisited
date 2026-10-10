@@ -22,6 +22,12 @@ ADDITIONS.
 REGRESSION GATE (pre-registered): run with fixed weights on end-of-flight/next-run, the per-arm table must reproduce
   the stand-in's `mixture/windows_by_arm.csv` exactly, every column of every row as a string (--regress-against).
   A failure is reported as FAILED-REGRESSION, and nothing from that run is posted as a result.
+AMENDMENT 1 (10 Oct, before its run on these inputs): end of flight exposed ruling B's variant (b) as `unpowered`
+  (EoF 43262c3) and published Ẑ_00:19 per family (summary/family-evidence-next-run-b.json, keyed by plain names).
+  --variants sets the constraint list (here alive, unpowered, silent). --family-evidence also accepts EoF's file: the
+  core options 1-3 map to none__other, r600-bto__other, r600_no-offset__other; their "+alive" ln Ẑ is applied to the
+  `+alive` arms AND to the `+unpowered` arms (declared approximation: the 01:15:56 factor keeps the same 0.90 as
+  alive to within 0.003, EoF ~20:40); `+silent` and H1/H2 are reported fixed-weight only.
 LABELS: carried from the inputs: core split-half state, two-tank bookkeeping, uncorrected fuel, provisional sampler,
   PROVISIONAL-OVERNIGHT where they apply; "P(family) held fixed" or "P(family) re-weighted by 00:19 evidence".
 
@@ -87,6 +93,7 @@ def main():
     ap.add_argument("--exchange", required=True); ap.add_argument("--mixture-json", required=True)
     ap.add_argument("--eof-module", required=True); ap.add_argument("--out", required=True)
     ap.add_argument("--family-evidence"); ap.add_argument("--regress-against")
+    ap.add_argument("--variants", nargs="+", default=list(sw.VARIANTS))
     a = ap.parse_args()
     import importlib.util
     from pyproj import Geod
@@ -95,6 +102,15 @@ def main():
     geod = Geod(ellps="WGS84"); rx = sw.receivers(); out = pathlib.Path(a.out)
     PF = json.load(open(a.mixture_json))["p_family"]
     LZ = json.load(open(a.family_evidence)) if a.family_evidence else {}
+    if "strata" in LZ:                       # end of flight's published format (amendment 1)
+        MAP = {"00:19 Held Out +alive": "none__other", "00:19 R600 BTO Only +alive": "r600-bto__other",
+               "00:19 R600 BTO + Raw BFO +alive": "r600_no-offset__other"}
+        lz2 = {}
+        for plain, arm in MAP.items():
+            for var in ("alive", "unpowered"):
+                lz2[f"{arm}+{var}"] = {s_: LZ["strata"][s_][plain]["ln_Zhat"] for s_ in LZ["strata"]}
+        LZ = lz2
+    VARIANTS = tuple(a.variants)
 
     def w_fixed(key):
         return dict(PF)
@@ -124,7 +140,7 @@ def main():
                     series[f"{name}|{br}"] = np.where(ok, t + d / 1000.0 / c, np.inf)
             srt = {k: (x[o], o, np.searchsorted(x[o], GRID, side="right")) for k, x in series.items() for o in [np.argsort(x)]}
             del series
-            for key, p, _c in dh.option_posteriors(sd, sd, constraints=sw.VARIANTS):
+            for key, p, _c in dh.option_posteriors(sd, sd, constraints=VARIANTS):
                 p = np.where(ok, p, 0.0)
                 if p.sum() <= 0:
                     continue
