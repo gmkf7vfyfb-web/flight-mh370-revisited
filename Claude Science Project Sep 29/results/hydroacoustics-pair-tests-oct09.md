@@ -309,3 +309,42 @@ reference-289 impact-time range.**
 - An impact at the median (00:38:34) arrives at H01W at about 01:03 and at H08S at about 01:20.
 - Any raw-data request should cover about 00:15–02:00 UTC at H01W, and about 00:15–02:00 UTC or later at
   H08S.
+
+## Addendum 4 (10 Oct, at Pete's request): was Kadri's preferred signal among the pairs and outliers? EXPLORATORY, post hoc
+
+**Kadri's preferred signal** is at H01W, bearing 306.18° [Kadri2024]:
+- Table 1 and its caption (p. 14) give it at 00:54:30; the body text (p. 9) gives it at "00:52 UTC".
+- Kadri states that it "was not observed at H08S" (p. 10), and expects H08S to be hard because of the airgun noise and
+  a mid-path bathymetric rise (p. 9).
+
+**It was not found as a pair or an outlier coincidence, for three reasons. Each follows from how the tests were
+defined: they were conditioned on the impact PDF (location and time), not on Kadri's direction.**
+1. **The traces carry no bearing.** On the digitised single-channel traces, the strict detector's only H01W trigger
+   is 00:52:03, the dominant transient (ratio 5.0). 00:54:30 appears only as a loose trigger at 00:54:27 (ratio 2.9,
+   under the 3.0 threshold). Both were paired:
+   - best log₁₀ BF 2.67 for 00:52:03 and 2.30 for 00:54:27, both at chance against the slide null;
+   - their implied sources lie at about 37.5 °S 89 °E, a back-azimuth of about 254° from H01W, **not 306°**. The pair
+     statistic places the source by timing and the impact PDF, so these pairs used Kadri's times but not his
+     direction.
+2. **The Table-1-gated variants used bearings, and excluded 306° by design.** The gate was 246–284° (the impact PDF's
+   back-azimuth span at H01W).
+3. **The lag that Kadri's source needs is outside the tested lag window.**
+   - The 306.18° line crosses the 7th arc at 25.78 °S 101.43 °E: 1,583 km from H01W and 3,666 km from H08S.
+   - So H08S − H01W ≈ 1,405 s. The impact PDF allowed only 856–1,347 s, so no H08S outlier could pair with it.
+   - This crossing holds about 0.8 % of the stand-in impact PDF's mass (note 2a).
+
+**Checked now, outside the pre-registration.**
+- **Prediction.** Kadri's 00:54:30 signal, from the arc crossing, predicts an H08S arrival at **01:17:53 (95 %:
+  01:17:14–01:18:29)**. That carries bearing error Student-t ν = 3, sd 3.3°; c ~ N(1.482, 0.006) km/s; and a 10 s
+  pick at each station. The text's 00:52 version predicts about 01:15:28.
+- **One H08S outlier lies in the 00:54:30 band: 01:18:00.8,** 7.5 s after the median, from the energy-only test.
+  It is a **LOW-energy** pulse (an energy deficit), not an excess. Under the pre-registration, deficits are
+  secondary, because an unrelated added source raises energy on average.
+- **Chance.** Ten outliers fall in 1,156 s of usable H08S record. The probability that at least one lands in a band
+  of this width (about 75 s) is **about 0.49**; within ±5.5 s of the median it is about 0.09. **Consistent with
+  chance.** No outlier lies near the 00:52 version's 01:15:28.
+- **Reading.** The digitised traces give no support at H08S for Kadri's signal. This agrees with Kadri's own
+  statement. It cannot rule the signal out: a weak arrival over the mid-path rise, under the shot train, would be
+  below every injection-recovery P_D measured here (≤ 0.46 for timing, and 0.007–0.18 below −6 dB for shape).
+
+- Hydroacoustic Module, 10 Oct 2026

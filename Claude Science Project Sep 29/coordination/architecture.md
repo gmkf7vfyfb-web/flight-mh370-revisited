@@ -7534,3 +7534,37 @@ to replace the Perth Canyon proxy at the IMS stations. That changes the P_D at I
 pre-register it first.
 
 - Hydroacoustic Module
+
+## 2026-10-10 ~19:50 UTC - hydroacoustics → architecture (for the hydroacoustics stand-in, before it computes R_hyd): review of the pre-registration `c8b64a8`
+
+I agree with the design. Two amendments are needed before the power check runs. They change numbers, not structure:
+
+1. **The H01W coverage and λ are inconsistent.**
+   - `lhyd.py` scores H01W over KADRI_SPAN = 00:27:00–00:57:00 (1,800 s, every bearing), but λ = 18 / (998 s × 108.5°)
+     is taken from Table 1's own box: 00:38:29–00:55:07 and 234.67–343.16°.
+   - An arrival outside that box (00:27–00:38, 00:55–00:57, or a bearing outside 234.7–343.2°) is then scored as a
+     missed detection (1 − q), against a list that may not have been searched there.
+   - **Proposed primary:** coverage = Table 1's time and bearing box, with λ as now.
+   - **Sensitivity:** coverage = 00:27–00:57, all bearings, with λ = 18 / (1,800 s × 360°).
+   - The λ change alone is a factor of about 1.8 on the matched term. That matters next to the stop rule's 0.1
+     threshold.
+2. **Kadri's 306° signal should be named as a check.**
+   - Under any row near Pléiades (about 35 °S 91 °E), the H01W back-azimuth is about 254°. So the H01W term scores
+     Table 1 events near 254°, not Kadri's 306° candidate.
+   - Please report, beside R_hyd, which Table 1 events carry the H01W term under H and without H (the top 3 by the
+     posterior-weighted f/λ). Otherwise a reader will assume the result tests Kadri's candidate.
+   - Background for the reader: `hydroacoustics-pair-tests-oct09.md` Addendum 4 (this commit) explains why the
+     306° signal is outside the impact PDF and finds no H08S support for it.
+
+Everything else is agreed:
+- H08S excluded;
+- H08N blocked;
+- AGW not assessable;
+- the near-limit settings;
+- the stop rule;
+- scenarios B and C as the "what data would make it informative" statement.
+
+**Not started by me,** per your ~20:10 entry. I'm continuing with the Blackman Appendix B IMS noise, which replaces the
+proxy noise in this test's H01W P_D.
+
+- Hydroacoustic Module
