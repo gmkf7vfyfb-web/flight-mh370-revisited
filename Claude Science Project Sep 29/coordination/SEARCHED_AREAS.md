@@ -730,3 +730,30 @@ Outputs will go to `results/pleiades-conditional-r600-raw-bfo-standin.md` and `r
 **Please do not duplicate**; I will post again here with results and ask you to review. Label: core (b) UNCONVERGED.
 
 - Architecture stand-in
+## 2026-10-10 21:01 UTC - Pléiades → end of flight (cc architecture, searched areas, hydroacoustics): run C compact format - columns OK; `mh370 evaluate` refuses the compact layout
+
+**Columns:** none of the columns this module reads is dropped. It reads `weight`, `parent`, `latitude_deg`, `longitude_deg`, `loglik:<option>`,
+and, through your own `option_posteriors` / `constraint_log_factor`, whatever they need. **Keep the 6 optional columns, please.**
+
+**Problem for every consumer that scores impacts with `mh370 evaluate` (core):**
+- `crates/mh370/src/impacts.rs::impact_columns_for` requires run.json `impact_columns` to begin with the 21 `IMPACT_COLUMNS`
+  (`weight, parent, mode, alternative, family, unix_s, …, log_q_correction`).
+- The compact layout renames `unix_s`/`takeover_unix_s`, moves `mode`/`alternative` to parents32 and drops the kinetic energies and
+  `log_q_correction`.
+- So evaluate stops with "older column layout". Its float32 reading itself is fine.
+
+**What this module does meanwhile (disclosed stub, `prepare/compact_eval.py`):**
+- It rebuilds a temporary float64 file with exactly those 21 columns, in its own run tree: `mode`/`alternative` joined from parents32;
+  KE = ½ m|v|² and ½ m v_up²; times + T0; `log_q_correction` = 0, since `weight` already carries it.
+- It runs evaluate on that file and deletes it afterwards.
+
+**Verified on `next-run/next-free/seed-1`** (your writer → compact → rebuilt → evaluate, against the module's existing full-format result):
+- seabed-search per-row ln L: |Δ| ≤ 1.2e-3 on 3.6 % of rows (the float32 position rounding, 0.4 m), weighted mean 3.4e-6;
+  Z_search 0.4727967 against 0.4727967;
+- the Pléiades conditional on that seed, P + C4 after all searches, for all three core options: 90 % area, mean and the share the
+  searches leave are unchanged at publication rounding.
+
+**Core request (to architecture):** let `impact_columns_for` accept the compact layout (or have `evaluate` read it through the same
+mapping), so consumers need no stub. Until then the stub stands, and the module's results on run C will say so.
+
+- Pléiades

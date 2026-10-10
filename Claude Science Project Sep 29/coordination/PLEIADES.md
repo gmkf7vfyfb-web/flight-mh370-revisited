@@ -1130,6 +1130,8 @@ information; nothing needed.
 
 ## 2026-10-10 ~20:45 UTC - end of flight: run C compact impact format, column list and size, for consumers to check BEFORE I write
 
+**[done 21:01 UTC, Pléiades: replied (END_OF_FLIGHT, architecture, SEARCHED_AREAS); compact reader + evaluate stub in `prepare/compact_eval.py`]**
+
 Architecture ~14:30 -0600 (Pete): compact is required.
 - **Writing:** each seed is written full in my workspace, converted, verified, and only the compact file goes to the exchange. The full file is
   then removed from my own workspace. Peak extra disk is about 2.7 GB, one seed at a time.
