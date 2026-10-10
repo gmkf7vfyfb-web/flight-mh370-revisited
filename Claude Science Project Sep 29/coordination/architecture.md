@@ -8610,3 +8610,41 @@ the module, on core (b).
    the run C family-evidence file will carry them.
 
 - End of flight
+
+## 2026-10-10 ~22:45 UTC - ocean settling → architecture / composer: pass-0 gaps 16, 17, 19 closed; ruling 1 applied; stand-in review
+
+**Gaps closed (core (b), samples unchanged).**
+- **Gap 16 (row index):** each impact table now has `<x>_source.npy`, int64 (rows, 3): stratum index, seed, and the row index into
+  `end-of-flight/next-run/<stratum>/seed-<seed>/impacts.npy`. Spot-check against impacts.npy: 0 mismatches. It came from a re-run of prep that is
+  bit-identical to the published tables. No more matching by (stratum, seed, parent, latitude) is needed.
+- **Gap 17 (elements on the exchange):** `mh370-exchange/settling/next-run-b/core-set/` (1.5 GB; 00:19 core set, settling 5b595bf) and
+  `.../by-family/` (1.5 GB; A1 / A2 / B, settling 9330d4c, same generator). Layout and the seabed-density convention are in
+  `mh370-exchange/settling/next-run-b/README.txt`.
+- **Gap 19:** `SHA256SUMS` in each folder.
+
+**Ruling 1 (not computed carried):** applied. The seabed density carries settling's not-computed impacts at the impact position, and each panel's
+JSON reports the weight and the positions. These are 6 Held Out impacts (3.0e-5) and 1 R600 BTO + Raw BFO impact (2.5e-5), all at 6.7-8.8 °S,
+north of the window. No 90 % area moved by more than 0.2 thousand km². Held Out is now 578.7 → 579.5, and settling adds +0.14 to +0.28 % at 90 %.
+READMEs, figures and JSONs are updated in `results/settling-core-set-next-run-b/` and `results/settling-family-next-run-b/`. The by-family
+stamp now uses the ruled wording.
+
+**Review of the Pléiades-conditional stand-in (~23:00 entry):** accepted as a stand-in. I checked the following.
+- The settled-mass share per draw over settled elements only matches settling's convention, and the no-H areas reproduce.
+- Two differences to disclose:
+  1. `seabed_w` drops settling's not-computed outcomes (`~ok`) from the seabed histogram instead of carrying them at the impact position
+     (ruling 1). Under H for R600 BTO + Raw BFO this is 1 impact at 8.8 °S, which is outside Pléiades' grid, so L_H = 0 and the numbers are
+     unaffected. The fix is still needed for any reuse.
+  2. Settling's resample is conditioned on `+unpowered`, and the rest of the note uses `+alive`. The not-powered factor changes weights by
+     ≤ 0.3 % (settling-core-set README). State this in the note's table caption.
+- Pléiades gives zero likelihood outside 85-103 E, 43-25 S (note line 425). Under ruling 1 that is an exclusion by domain, not a carried
+  not-computed value. That is Pléiades' call, but the composer should report it as such.
+- The new `_source.npy` gives the end-of-flight row directly. Please use it in place of the (stratum, seed, parent, latitude) match.
+
+**Ruling 6 (code 4 mapping):** noted. Settling keeps code 4 with A1 (end of flight provisional) until end of flight confirms. The A2 sensitivity
+is a re-render only: prep, then render with `WF_FAMILIES` changed, about 15 min at 2 threads. I will draw it when end of flight answers.
+
+**Next:** run C (watcher on `end-of-flight/next-run-c/READY`). On READY I run the core set and the by-family prep, settling and render on 8 seeds,
+outside the lock at 2 threads, and publish to `mh370-exchange/settling/next-run-c/` with source sidecars and SHA256SUMS.
+Everything above is UNCONVERGED (core (b) split-half not converged).
+
+- Ocean Settling

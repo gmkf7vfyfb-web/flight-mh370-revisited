@@ -53,9 +53,9 @@ Every panel shows the settled-mass seabed density in grey, at 50 / 90 / 99 %, an
 
 | option | impact ESS (re-weighted) | 90 % impact, all impacts | 90 %: same impacts → seabed (re-weighted) | settling adds, 90 % / 99 % | 90 %: same impacts → seabed (fixed) | 90 % impact, seeds 1-2 / 3-4 | 90 % impact by stratum: free / repro-radar / descent-climb / routes | estimable |
 |---|---|---|---|---|---|---|---|---|
-| (a) 00:19 Held Out | 20,980,512 | 582.1 | 578.7 → 579.4 | +0.12 % / +0.16 % | 578.7 → 579.3 | 592.9 / 558.6 | 573.9 / 657.1 / 484.7 / 328.8 | yes |
+| (a) 00:19 Held Out | 20,980,512 | 582.1 | 578.7 → 579.5 | +0.14 % / +0.24 % | 578.7 → 579.5 | 592.9 / 558.6 | 573.9 / 657.1 / 484.7 / 328.8 | yes |
 | (b) 00:19 R600 BTO Only | 13,004,630 | 371.4 | 363.8 → 364.9 | +0.28 % / +0.68 % | 366.0 → 367.1 | 391.4 / 337.7 | 362.5 / 437.2 / 290.1 / 209.3 | yes |
-| (c) 00:19 R600 BTO + Raw BFO | 509,632 | 239.1 | 238.8 → 239.4 | +0.24 % / +0.44 % | 241.7 → 242.3 | 253.6 / 215.6 | 240.5 / 289.5 / 171.3 / 140.2 | yes |
+| (c) 00:19 R600 BTO + Raw BFO | 509,632 | 239.1 | 238.8 → 239.4 | +0.25 % / +0.50 % | 241.7 → 242.3 | 253.6 / 215.6 | 240.5 / 289.5 / 171.3 / 140.2 | yes |
 | (d) 00:19 Holland H1 | 86 | 67.2 | 67.2 → 69.4 | +3.29 % / +4.76 % | 67.2 → 69.4 | 48.3 / 49.5 | 42.3 / 42.4 / 35.1 / 28.8 | **not yet estimable - targeted sampler in progress** |
 | (e) 00:19 Holland H2 | 124 | 68.6 | 68.7 → 70.7 | +2.96 % / +4.54 % | 68.7 → 70.7 | 54.3 / 50.9 | 50.2 / 52.9 / 43.6 / 37.6 | **not yet estimable - targeted sampler in progress** |
 
@@ -69,7 +69,7 @@ Every panel shows the settled-mass seabed density in grey, at 50 / 90 / 99 %, an
 
 ## What it shows
 
-1. **Settling still adds under 1 % to every estimable area:** +0.12 to +0.28 % at 90 %, and +0.16 to +0.68 % at 99 %. The settled-offset kernel
+1. **Settling still adds under 1 % to every estimable area:** +0.14 to +0.28 % at 90 %, and +0.24 to +0.68 % at 99 %. The settled-offset kernel
    is unchanged: p50 0.36 km, p90 3.6-3.9 km. The seabed PDF of the main wreckage is the impact PDF to under 1 % in area, as on reference-289.
 2. **The 00:19 treatment sets the area.** The 90 % region is 579,000 km² with the 00:19 data held out, 364,000 km² with the R600 BTO alone, and
    239,000 km² with the R600 BTO and its raw BFO. These differences come from end of flight and core, not from settling.
@@ -84,8 +84,10 @@ Every panel shows the settled-mass seabed density in grey, at 50 / 90 / 99 %, an
    - The cause is measured: within-parent sampling of the 00:19 push-over (end of flight ~20:15; `results/settling-h1h2-estimability.md`).
    - Pete has asked first for an investigation of whether the low push-over share is physical or an artefact of the descent model (architecture
      ~17:30). Any sampler change waits on that and on his approval.
-6. **Not computed:** 6 of 200,000 Held Out impacts and 1 of 40,000 R600 BTO + Raw BFO impacts lie north of 10 °S, at 6.7-8.8 °S. They are outside
-   the widened window and are excluded, not treated as impossible.
+6. **Not computed:** 6 of 200,000 Held Out impacts and 1 of 40,000 R600 BTO + Raw BFO impacts lie north of 10 °S, at 6.7-8.8 °S, outside
+   the widened window. As ruled (architecture 16:25 -0600, item 1) they are **carried at the impact position** in the seabed density, never
+   excluded; their weight is 3.0e-5 (Held Out) and 2.5e-5 (R600 BTO + Raw BFO) and is reported per panel in the JSON
+   (`not_computed_weight_carried_at_impact`, `not_computed_impact_positions`). This moved no 90 % area by more than 0.2 thousand km².
 
 ## COVERAGE (ruling ~15:45 -0600)
 
@@ -121,7 +123,7 @@ flight (several release points, as for SAA295 [margo1990, pp. 45-47]). Sealed se
 | in-flight breakup (two or more release points) | reach | declared conditional: "single release point at water contact" | none on areas at 6 NM; a second release point 1-3 km away is below the kernel |
 | post-contact movement (sliding, burial, turbidity) | reach | declared conditional: "first seabed contact" (methods §8). Burial is searched areas' ρ | none on areas; matters for detectability, not position |
 | floating > 48 h | reach, by design | handed to drift (afloat share 17.8-18.6 % by option, excluded from the seabed density) | excluded mass is reported per panel |
-| ocean window 75-115 °E × 45-10 °S | reach | closed today for all but 7 of 280,000 impacts (north of 10 °S); those are excluded and counted | under 0.003 % per panel |
+| ocean window 75-115 °E × 45-10 °S | reach | closed today for all but 7 of 280,000 impacts (north of 10 °S); those are carried at the impact position and counted | under 0.003 % per panel |
 | breakup table and family selection | parameter bounds | PROVISIONAL, from 3 calibration points; bounds sourced in `data/analogues.csv` and the ledger | the dense/floated split sets the 5-7 % tail; floating-share x0.5 / x1.5 bracket it |
 | H1 / H2 impacts (inherited) | proposal and reach, end of flight | coverage gap: "not yet estimable - targeted sampler in progress"; descent model and sampler await Pete | panels (d), (e) not posteriors |
 | core (b) not converged (inherited) | proposal, core | labelled; seed halves differ 6-16 % in 90 % area | quote the areas as unconverged |
@@ -135,10 +137,20 @@ flight (several release points, as for SAA295 [margo1990, pp. 45-47]). Sealed se
   are next re-run.
 - Earlier panels were titled with arm codes and stamped "NOT ESTIMABLE"; they are re-labelled at their next re-run, as the ruling allows.
 
+## Published samples (composer gaps 16, 17, 19)
+
+`mh370-exchange/settling/next-run-b/core-set/` (1.5 GB) holds `nrb{A,B}_impacts.f64`, `nrb{A,B}_elements.f64`, `nrb{A,B}_source.npy`,
+`nrb_draws.npz`, `nrb_info.json` and `SHA256SUMS`; the layout is in `mh370-exchange/settling/next-run-b/README.txt`.
+- **Gap 16 (row index):** `<x>_source.npy` is int64 (rows, 3): stratum index, seed, and the row index into
+  `end-of-flight/next-run/<stratum>/seed-<seed>/impacts.npy`, one line per impact-table row. Checked against impacts.npy: 0 mismatches.
+  It was written by a re-run of prep that is bit-identical to these tables, so `nrb*` and the sidecars belong together.
+- **Gap 17 (elements on the exchange):** done, as above. Element files are not in the repo.
+- **Gap 19 (checksums):** SHA256SUMS in each folder.
+
 ## Reproduce
 
     python3 wf_standard.py prep   <EoF smoke dir> <mh370-exchange/end-of-flight/next-run> <summary/family-evidence-next-run-b.json> nrb
     SETTLING_FIELD_IN=field/nrbA_impacts.f64 SETTLING_FIELD_OUT=field/nrbA_elements.f64 cargo test --release -p mh370-hypotheses settling::tests::wreckage_field -- --ignored   (and B)
-    python3 wf_standard.py render <EoF smoke dir> <core runs/reference-289/run.json> nrb next-run-b 5b595bf 43262c31
+    python3 wf_standard.py render <EoF smoke dir> <core runs/reference-289/run.json> nrb next-run-b 5b595bf 43262c31   # renderer carries not-computed rows at the impact position (10 Oct ~22:30 UTC)
 
 `wreckage_map_standard.py` is the renderer. The element files (1.2 GB) stay in settling's workspace and are not committed.

@@ -72,7 +72,7 @@ def prep(SM, root, evid, tag):
     le, oe = grid_axes(ext)
     H = {key: {st: {} for st in strata} for _, key, _ in OPTS}; ESS = {key: {st: {} for st in strata} for _, key, _ in OPTS}
     sets = {"A": [OPTS[0]], "B": OPTS[1:]}
-    tabs = {"A": [], "B": []}; occ = {key: {"rows": [], "draws": [], "stratum": [], "seed": [], "fixed": [], "reweighted": []} for _, key, _ in OPTS}
+    tabs = {"A": [], "B": []}; src = {"A": [], "B": []}; occ = {key: {"rows": [], "draws": [], "stratum": [], "seed": [], "fixed": [], "reweighted": []} for _, key, _ in OPTS}
     for si, st in enumerate(strata):
         for s in SEEDS:
             d = root / st / f"seed-{s}"; _, gg = columns(d)
@@ -100,13 +100,16 @@ def prep(SM, root, evid, tag):
                 if V is None: V = np.column_stack([gg(c) for c in VCOLS])
                 ii = np.array(sorted(need)); A = V[ii]
                 base_row = len(tabs[setname]); where = {i: base_row + j for j, i in enumerate(ii.tolist())}
-                for r, i in zip(A, ii): tabs[setname].append(np.r_[r, need[i], si * 10 + s])
+                for r, i in zip(A, ii): tabs[setname].append(np.r_[r, need[i], si * 10 + s]); src[setname].append((si, s, i))
                 for _, key, _ in opts:
                     occ[key]["rows"] += [where[i] for i, _ in seen_by[key]]; occ[key]["draws"] += [dd for _, dd in seen_by[key]]
                     occ[key]["stratum"] += [si] * len(seen_by[key]); occ[key]["seed"] += [s] * len(seen_by[key])
             print(st, s, flush=True)
     pathlib.Path("field").mkdir(exist_ok=True)
-    for setname in sets: np.array(tabs[setname]).astype("<f8").tofile(f"field/{tag}{setname}_impacts.f64")
+    for setname in sets:
+        np.array(tabs[setname]).astype("<f8").tofile(f"field/{tag}{setname}_impacts.f64")
+        # source of each table row: stratum index (info["strata"]), seed, and the row index in that seed's impacts file (composer gap 16)
+        np.save(f"field/{tag}{setname}_source.npy", np.array(src[setname], dtype=np.int64))
     arrays, info = {}, {"strata": strata, "extent_lon_lon_lat_lat": ext, "constraint": CON, "options": {}}
     for j, (name, key, N) in enumerate(OPTS):
         for f in ("rows", "draws", "stratum", "seed"): arrays[f"{f}_{j}"] = np.array(occ[key][f])
