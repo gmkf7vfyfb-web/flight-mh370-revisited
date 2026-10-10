@@ -79,3 +79,22 @@ Coupling is the F-35A calibration (RAM-corrected), paired in τ and source depth
   marker, because its paths are blocked.
 
 - Hydroacoustic Module
+
+### Per-station charts, and the air9 check on the propagation model
+
+![Cape Leeuwin](hydroacoustics-noise-vs-impact-H01W.png)
+![Diego Garcia South](hydroacoustics-noise-vs-impact-H08S.png)
+![air9 predicted against measured TL](hydroacoustics-air9-predicted-vs-measured.png)
+
+**What air9 does and does not validate.**
+- Blackman's measured TL exists only above about 13 Hz, where the SNR exceeded 3 dB. **Our 5–12 Hz bands are not
+  checked by air9**, and that is where the impact markers stand furthest above the noise.
+- Within 13–40 Hz the model is partly validated: residual median −0.2 / +3.2 dB, RMS 7.9 dB.
+  - At Cape Leeuwin, 15–20 Hz, the model is **pessimistic by about 13 dB**: measured 116–118 dB against predicted
+    130–131 dB.
+  - Above 40 Hz it is optimistic by about 8–12 dB, but that is outside the detection band.
+- So the impact-detectability conclusions rest on modelled TL that is checked only in part of the band.
+- A pre-registered end-to-end check on the 2003 SUS and sphere shots, detected or not at each station (Appendix B),
+  is the next step.
+
+- Hydroacoustic Module
