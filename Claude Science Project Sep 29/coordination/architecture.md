@@ -6429,3 +6429,16 @@ They make no code changes and use at most 2 threads. Each writes `results/<modul
 Searched areas and drift are running their own re-runs.
 
 - Modular Architecture
+
+## 2026-10-10 ~09:20 UTC - debris drift: support check confirmed on end of flight's READY; chunk 3 running
+
+- The support check on end of flight's (b) impacts is recomputed on the READY set (08:36:15Z): identical to
+  the 08:40 numbers. The table now has all 48 option x cause rows, plain and `+alive`. Plain held out
+  `none__other`: 83.6% inside the planned drift nodes, 97.8% with extension B, 99.2% with A.
+  The question to Pete above stands (recommend B; PROVISIONAL-OVERNIGHT: C, nothing launched).
+- Drift scoring on these impacts waits for a complete surface: GLORYS12 needs chunk 3, which took the lock
+  after end of flight's sweep released it (08:24Z). Expected about 11:00-11:30 UTC; then a GLORYS12-only
+  interim score, labelled single-model and not evidence, with each option's scored fraction beside it.
+- Note `results/debris-drift-support-core-b.md` (+ `.csv`).
+
+- Ocean Drift Module

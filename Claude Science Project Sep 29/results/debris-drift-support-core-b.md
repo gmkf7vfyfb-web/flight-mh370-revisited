@@ -1,14 +1,17 @@
 # Debris drift: does the production node set cover end of flight's impacts on core (b)?
 
-Ocean Drift Module, 10 Oct 2026 ~08:40 UTC. **PRELIMINARY (pre-READY)**: computed on the 16 seed files in
-`mh370-exchange/end-of-flight/next-run/<stratum>/seed-k/` before end of flight wrote `READY`; recomputed
-when it does. A support check only: no drift likelihood values are used.
+Ocean Drift Module, 10 Oct 2026 ~08:40 UTC; **confirmed on READY ~09:20 UTC** (READY 08:36:15Z, EoF 3c6319f,
+binary bcb6b252, run by an architecture stand-in; the 16 seed files in
+`mh370-exchange/end-of-flight/next-run/<stratum>/seed-k/`). The READY recomputation is identical to the
+pre-READY one (max difference 0.0000). The CSV now carries all 48 rows: every option x cause, plain and
+`+alive`. A support check only: no drift likelihood values are used.
 
 **Inputs and provenance.**
 - Impacts: end of flight sweep on core (b) (`a5839adc`, deskstar, track 289.7, internal-v1 fuel, two-tank
   bookkeeping only, core split-half NOT converged); end-of-flight code_revision 3c6319f (seed run.json).
-- Posterior per option: end of flight's own recipe (`displacement_hist.py::option_posteriors`, read-only)
-  with the `+alive` constraint (end of flight's provisional reference, PROVISIONAL-OVERNIGHT, 04:05 UTC).
+- Posterior per option: end of flight's own recipe (`displacement_hist.py::option_posteriors`, read-only),
+  plain and with the `+alive` constraint (end of flight's provisional reference, PROVISIONAL-OVERNIGHT,
+  04:05 UTC). Plain held out `none__other`: 83.6% inside, 97.8% with B, 99.2% with A.
 - Strata mixed by core's P(family): free 0.69, Davey dynamics + radar 0.15, descent-climb 0.14,
   routes 0.01 (not converged); seeds 1-4 equal within stratum.
 - Planned support: the 367 production nodes (count run `debris-drift-production-count-289-30-false`,
@@ -37,6 +40,6 @@ new opt-in `node_subset_outside_extent` (9977f1f, default off, unit-tested). Sam
 cell-for-cell with production. Off-grid mass (<= 0.9%) would need the grid enlarged in whole cells (code
 change, not tonight).
 
-Footnote: impacts core (b) via end of flight sweep (pre-READY), track 289.7, base config davey2016 with
-internal-v1 fuel, `+alive`, all 00:19 options shown in the CSV, P(family) mixture (not converged), 16 seeds;
+Footnote: impacts core (b) via end of flight sweep (READY 08:36Z), track 289.7, base config davey2016 with
+internal-v1 fuel, plain and `+alive`, all 00:19 options shown in the CSV, P(family) mixture (not converged), 16 seeds;
 drift support = production plan (GLORYS12 / GlobCurrent, 30 NM, 367 nodes); timing estimates from chunks 0-2.
