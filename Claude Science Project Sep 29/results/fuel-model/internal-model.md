@@ -153,6 +153,26 @@ initial_kg = 43,800 − κ_traj × 7,228 kg, where 7,228 kg is the burn at κ = 
 ## 4. Single engine: INOP data and the left/right imbalance (Pete's item 3)
 
 **INOP data.**
+
+> **Correction, 10 Oct 2026 (PROVISIONAL-OVERNIGHT): internal-v1's `grid_inop` is 2× too high; use internal-v1.1.**
+> Core found it (CORE_STAGES, ~06:10 UTC) and this session confirmed it independently: at all 215 tabulated
+> LRC INOP states inside the grid (150–250 t), internal-v1 `grid_inop` ÷ `lrc_inop_ff` = 2.0000–2.0001
+> (e.g. 180 t, FL250, M0.642: 10,950 against the table's 5,475 kg/h). Cause: `tables.py` multiplied every
+> lookup by 2 (the twin tables are per engine), including the INOP set, which already gives the one live
+> engine's flow. Fix: the ×2 now applies to the twin set only (`Tables.engines`).
+> - **internal-v1.1** (local only, git-ignored; `engine/data/external/fuel-model/internal-v1.1.json`,
+>   sha256 bbb64773…ea002): `grid_inop` = 0.5 × v1 at all 229,068 finite cells (max deviation 1.4×10⁻⁶,
+>   JSON rounding); `grid`, its flags, κ, the calibration, the test vectors and the `grid_inop` flags are
+>   identical to v1. internal-v1.json is kept unchanged for reproducibility.
+> - Test: `engine/fuel-model/test_internal.py` — v1.1 `grid_inop` ÷ `lrc_inop_ff` = 1.0000–1.00004 at the
+>   215 states (tolerance 2 %); twin grid and flags identical to v1.
+> - **Unaffected:** every number quoted in this section (the INOP flows, 0.79–0.99 of twin flow, the 3–14 min
+>   between flame-outs) came from the raw tables, not from `grid_inop`. The ceiling derived from the
+>   `grid_inop` flags is unaffected. Deliveries 2 and 3 use only the twin grid.
+> - **Affected:** any engine run that burned `grid_inop` flow after the first flame-out (core C-7(b) with
+>   tanks = 2, and C-7(a)): the one-engine phase was half its correct length. Core's overlay
+>   `config/sensitivity/fuel-fixes/inop-flow-fix.toml` (`inop_flow_scale = 0.5` on internal-v1, commit
+>   808a5c5) is exactly equivalent to v1.1. **Use v1 + 0.5, or v1.1 + 1.0 — never v1.1 + 0.5.**
 - `grid_inop` in the model file holds the flow of the live engine with one engine inoperative,
   kg/h, at FL015–300, 150–250 t, M0.35–0.75. It comes from LRC INOP and from holding INOP ÷ 1.05,
   uncalibrated.

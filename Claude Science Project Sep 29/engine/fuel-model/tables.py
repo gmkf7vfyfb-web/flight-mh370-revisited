@@ -18,7 +18,7 @@ never committed or uploaded) and prices a state (FL, gross weight t, Mach) on th
 Below FL060 (only holding is tabulated) the fixed model scales the FL060 Mach curve by the holding
 flow ratio hold(FL)/hold(FL060) instead of evaluating at FL060.
 
-Flows are per aircraft (both engines, or the one live engine for the INOP set), kg/h, standard day,
+Flows are per aircraft (both engines; for the INOP set, the one live engine, not doubled), kg/h, standard day,
 before calibration and temperature.
 """
 
@@ -99,6 +99,9 @@ class Tables:
         sched = INOP if inop else SCHEDULES
         self.schedules = [(self.grids[m] if m else None, self.grids[f], s, f) for m, f, s in sched]
         self.hold = self.schedules[0][1]
+        # The twin tables are per engine (x2 for the aircraft); the INOP tables already give the one live
+        # engine's flow, so they are NOT doubled (internal-v1 doubled them: fixed in internal-v1.1).
+        self.engines = 1.0 if inop else 2.0
         self.fl_grid = sorted({float(x) for _, g, _, _ in self.schedules for x in g.fls})
 
     def points_at(self, fl, w, fixed=True, names=False):
@@ -196,7 +199,7 @@ class Tables:
             flags["pts"] = pts
             flags["fl_eval"] = fl_eval
             flags["k"] = k
-        return 2.0 * per * scale, flags
+        return self.engines * per * scale, flags
 
     def ceiling_fl(self, w, fixed=True, step=1.0, lo=200.0):
         """Highest FL (to `step`) at which any schedule prices this weight (the tables' frontier)."""

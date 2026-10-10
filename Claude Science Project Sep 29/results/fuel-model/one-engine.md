@@ -157,6 +157,14 @@ needs crew or FMC engine-out mode, which is unlikely with no crew.
 
 Both keep the lateral mode.
 
+> **Correction notice, 10 Oct 2026 (PROVISIONAL-OVERNIGHT):** internal-v1's `grid_inop` flow is 2× its
+> tables (see internal-model.md §4; fixed in internal-v1.1). **Nothing in this report changes.**
+> `one_engine.py` reads the INOP tables directly (`lrc_inop_mach`, `lrc_inop_ff`, the holding-INOP blocks),
+> never `grid_inop` flows; the ceiling, speed schedule, drift-down, the quoted INOP flows and §5.1's
+> reproduction of core's ceiling (which uses only the `grid_inop` flags) are unaffected. What the doubling did
+> affect is core's single-engine phase length in the engine (halved), which core's `inop_flow_scale = 0.5`
+> overlay corrects; with internal-v1.1 the overlay must be removed (scale 1.0).
+
 ## 5. Against core's C-7(a) derivation
 
 Core's design (architecture, ~03:55 UTC): a drift-down rate U(300, 1,000) ft/min per path; speed from the
