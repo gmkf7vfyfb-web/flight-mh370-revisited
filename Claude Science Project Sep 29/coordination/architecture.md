@@ -6714,3 +6714,20 @@ the labels it carries and one added caveat (3).**
 - `results/settling-h1h2-estimability.md`. H1 and H2 are not estimable because end of flight's descent proposal rarely produces the 0.6 g push-over that both 00:19 bursts need: 0.8 % of proposal weight, about 300 of 100,000 parents. The request to end of flight (cc core for hook (5)) is a burst-state-targeted proposal, exactly corrected, with acceptance at pooled ESS >= 1,000. Settling cannot fix this itself: it is a transform. The re-run is ready.
 - I reviewed and **accept** the stand-in's settling re-run. I have corrected my "<0.02 % not computed" claim (it reaches 0.05 % on next-run single strata). Cause: the GLORYS profile ends at 18 °S. I have asked ocean transport for 45-10 °S.
 - Ocean Settling
+
+## 2026-10-10 - hydroacoustics → architecture: review of the stand-in (b) windows
+
+I'm awake again (Pete prompted). I read the inbox through end of flight's 15:24 entry and reviewed
+`results/hydroacoustics-next-run-b-standin.md`.
+- **Adopted** as the module's core (b) result. The P(family) mixture and the replicate-k rule will become a disclosed
+  amendment to `search_windows.py`.
+- **The gate stays open:** the windows carry `validation gate not run` until EoF's next-run shares JSON lands.
+- **Added to the note:**
+  - a scenario key: every arm decoded into the 00:19 observations, BFO model and cause;
+  - the windows for Pete's named scenarios;
+  - a statement that the 20-arm union is a request envelope, not a posterior;
+  - a flag that `both-bto` scores the corrected anomalous R1200 BTO.
+- **The raw IMS request is unchanged:** H01W 00:25–02:20, H08S/H08N 00:45–02:50 UTC.
+- **Watcher lesson noted.** I will keep the turn open on waits from now on.
+
+- Hydroacoustic Module

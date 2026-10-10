@@ -211,3 +211,59 @@ The module's reading stands: Kadri's traces test a quarter to four-fifths of the
 - `results/hydroacoustics-search-windows-next-run-b-standin.{png,pdf}`: the figure.
 
 - Modular Architecture (stand-in for Hydroacoustics), 10 Oct 2026 ~10:10 UTC
+
+## Module review (Hydroacoustic Module, 10 Oct 2026, after waking)
+
+**Verdict:** I adopt the stand-in run as the module's core (b) result, with its labels and the additions below.
+Thank you to the architecture stand-in.
+
+1. **The P(family) mixture and the replicate rule are adopted.** Replicate k is seed k of every stratum, mixed by
+   P(family). Both are fixed by the overnight plan and are the natural extension of the script's per-seed rule. They will
+   enter `search_windows.py` as a disclosed amendment, not a silent edit.
+2. **The validation gate remains open.** Every window here carries `validation gate not run` until end of flight's
+   next-run impact-time-shares JSON lands (owed, EoF 15:24). The ESS cross-checks confirm the weights, not the shares.
+3. **The union is an envelope over interpretations, not a posterior.** The plotted 20 arms are mutually exclusive
+   readings of the 00:19 data and of the log-on cause. Their union is right for a raw-data request, because it misses
+   none of them. It is not a probability of arrival time. Any likelihood must use one arm, or a declared mixture of
+   arms.
+4. **`both-bto` uses the R1200 BTO**, the anomalous value as corrected (18,380 µs, sd 43 µs; raw 49,660). It is
+   included because end of flight declares it in `config/integrated.toml`. Pete may want it shown separately or
+   dropped. Its windows lie inside the union either way.
+
+### Scenario key (from `config/integrated.toml` and `data/satcom-observations.csv`)
+
+Each arm is a **00:19 data option × BFO model × log-on cause**. Each is drawn in two variants: `+alive` (airborne at
+00:19:37.443) and `+silent` (`+alive`, unpowered at 01:15:56, and no second log-on after a later flame-out).
+
+| arm prefix | 00:19 data scored | BFO model |
+|---|---|---|
+| `none` | nothing at 00:19 (held out) | — |
+| `r600-bto` | R600 BTO only (18,400 µs, sd 63) | — |
+| `both-bto` | R600 BTO + R1200 BTO (corrected, 18,380 µs, sd 43) | — |
+| `r600_<m>` | R600 BTO + R600 BFO (182 Hz) | `<m>` |
+| `r1200_<m>` | R1200 BFO only (−2 Hz) | `<m>` |
+| `both_<m>` | R600 BTO + R600 BFO + R1200 BFO | `<m>` |
+
+- **BFO model `<m>`:**
+  - `no-offset`: the BFO at face value, zero offset, sd 7 Hz.
+  - `startup-offset`: Holland 2018. The R1200 BFO sits 17–130 Hz above a steady oscillator, and the R600 BFO 0–6 Hz
+    above that (uniform).
+  - `inflated`: independent 34 Hz errors. This is a sensitivity that drops the positive, shared offset.
+- **Cause:**
+  - `other`: the 00:19:29 log-on is not tied to fuel exhaustion, so there is no lag term.
+  - `fuel-exhaustion`: the log-on is the APU restart after flame-out, with an Erlang(8, 14.875 s) lag, a mean of
+    about 2 min.
+- **Not in this run:** `r1200-with-bto` and `all`.
+- **Not estimable (ESS < 1,000):** all four `both_no-offset` and `both_startup-offset` arms.
+
+**Pete's named scenarios** (mixture, SOFAR, `+alive`; `+silent` in brackets where it differs):
+
+| scenario | arm | ESS | H01W 0.5 / 50 / 99.5 % | H08S 0.5 / 50 / 99.5 % |
+|---|---|---|---|---|
+| Held out, cause other | `none__other` | 21.0 M | 00:41 / 01:04 / 01:35 † (00:39 / 00:54 / 01:27 †) | 01:01 / 01:22 / 01:57 † (01:00 / 01:13 / 01:46 †) |
+| Held out, fuel exhaustion | `none__fuel-exhaustion` | 1.9 M | 00:39 / 01:00 / 01:17 | 01:01 / 01:18 / 01:35 |
+| R600 as observed | `r600_no-offset__fuel-exhaustion` | 136 k | 00:39 / 00:59 / 01:17 | 01:02 / 01:17 / 01:36 |
+| H1 | `both_startup-offset__fuel-exhaustion` | **86, not estimable** | (00:38 / 00:52 / 01:12) | (01:01 / 01:09 / 01:29) |
+| H2 | `both_no-offset__other` | **124, not estimable** | (00:37 / 00:56 / 01:26 †) | (01:01 / 01:13 / 01:41 †) |
+
+† The late tail is unconverged (replicate spread > 5 min). The H1 and H2 figures are shown for orientation only.
