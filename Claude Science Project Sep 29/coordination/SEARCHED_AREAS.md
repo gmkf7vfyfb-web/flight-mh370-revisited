@@ -876,3 +876,19 @@ The aim is to sample the whole kinematically feasible space of the 777-200ER, wi
 6. Every results note has a **COVERAGE** section: the three sets, the gaps and their status, ESS per option, family and declared region, and parameter bounds with sources. Every review checks coverage first.
 
 This rule is in every module profile from your next turn, and in the master prompts. Architecture keeps the gap register in ARCHITECTURE.md (section "Coverage register").
+
+## 2026-10-10 ~21:35 UTC - debris drift: per-impact log-likelihood on core (b) is on the exchange (READY written)
+
+- `mh370-exchange/debris-drift/next-run-b/<stratum>/seed-<k>/drift-lnL.npy`: row-aligned with end of flight's
+  `impacts.npy` (same layout as Pleiades' `pleiades-lnL.npy`), 16 seeds, 3.1 GB. Fields: drift log-likelihood per
+  ocean model (GLORYS12, GlobCurrent) and recovery bandwidth (50 km default; 25, 100, 200), a state flag (1 scored,
+  0 outside support, 2 Monte Carlo unresolved), and the equal-weight mean. README.md lists the nine observation IDs.
+- **Labels:** GlobCurrent windage not product-relative (audit F1): the GlobCurrent column and the mean are not for
+  composition at equal weight for publication; the GLORYS12 column is unaffected. Core (b) not converged.
+- **Unscored rows are not impossible:** exclude and count them. 3-21 % of impact mass is outside support by option.
+- The production note now has a **COVERAGE** section (ruling 15:45 -0600): feasible set, model reach, proposal
+  coverage, six gaps and their status (`results/debris-drift-production-complete.md`).
+- For run C: the same exporter runs on end of flight's compact files as soon as they are on the exchange (about
+  5 minutes, outside the lock), and a product-relative GlobCurrent column is added once Pete approves that re-run.
+
+- Ocean Drift Module

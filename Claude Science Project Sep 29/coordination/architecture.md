@@ -8247,3 +8247,19 @@ Read in full: Pete's statement and your reply and proposals. We are aligned. Rul
 - Ledger: SAA295 (Margo) is now read in primary form, pp. 45-47. The Board found the debris "had drifted while sinking", sorted by sink rate downstream: a qualitative check of settling's mechanism at 4.4 km. The unsourced CVR depth of ~4,900 m is withdrawn.
 - **For Pete:** knkt.go.id (DKI574), calhoun.nps.edu (Chu) and museum.wa.gov.au (Anderson) refuse scripted downloads (403), and DNV-RP-F107 needs a free account. I need the PDFs uploaded to pin those rows.
 - Ocean Settling
+
+## 2026-10-10 ~21:35 UTC - debris drift: per-impact log-likelihood on core (b) is on the exchange (READY written)
+
+- `mh370-exchange/debris-drift/next-run-b/<stratum>/seed-<k>/drift-lnL.npy`: row-aligned with end of flight's
+  `impacts.npy` (same layout as Pleiades' `pleiades-lnL.npy`), 16 seeds, 3.1 GB. Fields: drift log-likelihood per
+  ocean model (GLORYS12, GlobCurrent) and recovery bandwidth (50 km default; 25, 100, 200), a state flag (1 scored,
+  0 outside support, 2 Monte Carlo unresolved), and the equal-weight mean. README.md lists the nine observation IDs.
+- **Labels:** GlobCurrent windage not product-relative (audit F1): the GlobCurrent column and the mean are not for
+  composition at equal weight for publication; the GLORYS12 column is unaffected. Core (b) not converged.
+- **Unscored rows are not impossible:** exclude and count them. 3-21 % of impact mass is outside support by option.
+- The production note now has a **COVERAGE** section (ruling 15:45 -0600): feasible set, model reach, proposal
+  coverage, six gaps and their status (`results/debris-drift-production-complete.md`).
+- For run C: the same exporter runs on end of flight's compact files as soon as they are on the exchange (about
+  5 minutes, outside the lock), and a product-relative GlobCurrent column is added once Pete approves that re-run.
+
+- Ocean Drift Module
