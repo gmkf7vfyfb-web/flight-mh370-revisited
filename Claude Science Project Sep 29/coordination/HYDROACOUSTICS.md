@@ -1246,3 +1246,47 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - **Drift:** finish the F1 windage smoke (arm 2) and post the verdict. Do **not** start the GlobCurrent re-run or node B until **/tmp/mh370-runc-chain.DONE** exists. Architecture creates it when every module's run C input to the composer is written. Your own per-impact scoring on run C is part of the chain and goes first. Post when you are waiting on the marker.
 - **Everyone:** outside the lock keep to 1–2 threads; the Mac has been at load 50 on 18 cores.
 - Target: pass 1 results by about 02:00–04:00 -0600.
+
+## 2026-10-10 ~22:00 UTC - end of flight: B relabelled and re-sampled as ruled; run C recipe re-armed; same-data Bayes factors for the five core options (answers architecture 15:45 -0600)
+
+1. **B, as ruled (PRIOR CHANGE, approved by Pete's statement).**
+   - New overlay `full/family-b-ditching.toml`: deliberate onsets (anticipatory or fuel cue) are flown in control, as a ditching attempt (0.5)
+     or maintained-then-lost (0.5), **at any thrust setting**. New switch `deliberate_control_any_propulsion`, default off; switch-off
+     byte-identical, checked at N = 1.
+   - **Family codes (compact `family_code`):**
+     - 1 = A1; 2 = A2; 4 = A, controlled then lost;
+     - 3 = **B** (deliberate onset with an approach to ditching);
+     - 5 = **B, control lost en route** (sub-variant);
+     - 6 = deliberate onset then no intervention, **outside B**. It is 0.02 % of the prior under the new recipe, against 3.7 % before.
+   - **Smoke** (next-free seed 1, N = 1; prior / 00:19 Held Out +alive): A1 0.109 / 0.101, A2 0.183 / 0.187, A-then-lost 0.145 / 0.140,
+     B 0.282 / 0.288, B-lost 0.281 / 0.284.
+     - Held-out median latitude by family: A1 −36.72, A2 −37.77, A-then-lost −37.93, B −37.78, B-lost −37.38.
+     - ESS ≥ 39,500 per family.
+   - **These family shares are not an A-against-B test** (ruling item 2). That test runs from run C's m2241 hand-offs. Until request 10
+     lands it is reported with its ESS.
+2. **Run C recipe re-armed** (the earlier watcher has been retired). The recipe is:
+   - core's chain for each stratum;
+   - eof-289-full (N = 8 × 4, idle floor on);
+   - `smoke/v2-broad.toml`, the broadened envelope (PROVISIONAL-OVERNIGHT option B of 10 Oct);
+   - `full/family-b-ditching.toml`.
+
+   Trim at loss of control is **not** in run C: the GO says no large run on the new physics before calibration. Touching
+   `end-of-flight/next-run-c/USE-TRIM-AT-LOSS` before core's READY adds it.
+   - The INOP-flow guard refuses a two-tank chain without the correction.
+   - The 22:41 A-against-B runs on run C's m2241 rows follow the 00:11 sweep.
+3. **Same-data Bayes factors** (`results/eof-same-data-bf-oct10/README.md`): D_00:19 = R600 BTO/BFO, R1200 BTO/BFO and the log-on time, with
+   declared anomalous densities (BFO 700 Hz, R1200 BTO 20,000 µs, log-on time 3,896 s; 27 width settings). ln BF against Held Out:
+
+   | 00:19 option | ln BF (central) | range over width settings |
+   |---|---|---|
+   | R600 BTO Only | +4.20 | +1.9 to +5.3 |
+   | R600 BTO + Raw BFO | +4.08 | +1.1 to +5.9 |
+   | Holland H1 | +0.34 | −4.1 to +3.4 |
+   | Holland H2 | −0.77 | −4.5 to +1.7 |
+
+   - **The R600 BTO is favoured by the evidence.**
+   - **The raw R600 BFO is indeterminate** (−0.8 to +0.6 against BTO only).
+   - **H1/H2 are indeterminate and not estimable**, labelled "rapid descents above 6,500 ft/min and unloading not reachable by the model".
+   - The note carries the COVERAGE section (feasible set, reach, coverage, gaps with status) for architecture's register.
+
+- End of flight
