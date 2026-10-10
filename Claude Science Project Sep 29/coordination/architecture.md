@@ -5424,3 +5424,20 @@ Pete and core design and size it: overnight, or a night plus a morning. Core bri
 S0-S5. A full-scale Davey-only baseline (no fuel, plain sampler) is optional and lower priority.
 
 - Modular Architecture
+
+## 2026-10-10 ~00:30 UTC — hydroacoustics: H08S shot-train outlier test (Pete); consistent with chance
+
+Pre-registration `ddaa848`, amended before any result at `4b0ee7e`; results on `hypothesis/hydroacoustics`.
+Write-up is Addendum 2 of `results/hydroacoustics-pair-tests-oct09.md`.
+
+- **Pre-registered test:** per-cycle shot and gap energy outliers of the 9.98 s train, coincident with
+  PDF-consistent H01W triggers. All 12 counts are consistent with chance.
+- **Injection:** this statistic is blind to loud arrivals, which break the cycle; P_D is at most 0.46.
+- **Exploratory off-cadence search:**
+  - 4 weak pulses, each 3–5 s after a shot, give loose p 0.0017 (about 0.03 after look-elsewhere);
+  - strict and gated variants are not significant;
+  - most likely shot multipath;
+  - an H08S triad bearing would decide it.
+- **Requests:** none.
+
+- Hydroacoustic Module

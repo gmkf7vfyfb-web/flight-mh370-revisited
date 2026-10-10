@@ -157,3 +157,61 @@ and, in panel b, the bearing gives each pair a source location and a Bayes facto
   locate the shot train against the arc, not an impact.
 
 (`results-data/pair_tests/pair_sources.csv`, `max_bf_slide_null.json`.)
+
+## Addendum 2, 10 Oct ~00:30 UTC: H08S shot-train energy outliers coinciding with H01W (Pete's question)
+
+**Pre-registration:** `prepare/h08s_shot_outliers.py`, committed at `ddaa848`.
+
+**Amendment** (`4b0ee7e`, committed before any outlier result was seen):
+- **Shot prominence lowered from 10× to 2× the panel median.** The 10× rule found only 2 usable cycles in
+  panel e; panel d was unaffected.
+- **Only 9–11 s cycles are kept.**
+
+**Data:** Kadri's Figure 9 H08S vectors, which are approximate in absolute energy. The impact prior is the
+`no-exhaustion-prior` stand-in (track 295.66°).
+
+**Method.** For each 9.95 s cycle (107 cycles: 59 in panel d, 48 in panel e):
+- **Energies:** the shot's band energy and the following gap's mean power are measured. Gaps sit 7.6 dB
+  below shots.
+- **Detrending:** each is detrended by a 13-cycle running median and scored as a robust z.
+- **Outliers:**
+  - high, z ≥ +3: the primary class, because unrelated sources add energy on average;
+  - low, z ≤ −3: secondary, as requested ("destructive interference").
+- **Coincidence:** an outlier counts when an H01W trigger has the impact PDF's time difference and
+  log₁₀ BF ≥ 1 for impact-consistent timing, against a chance pair.
+- **Null:** cyclic shifts of the outlier flags.
+
+| class | outliers | coincident (strict / loose / Table 1-gated H01W) | p (strict / loose / gated) |
+|---|---|---|---|
+| shot high | 1 (01:12:49, z +4.1) | 0 / 1 / 1 | 1.0 / 0.80 / 0.70 |
+| gap high | 0 | 0 / 0 / 0 | 1.0 |
+| shot low | 3 (01:11:39, 01:13:09, 01:13:59) | 1 / 3 / 3 | 0.44 / 0.67 / 0.44 |
+| gap low | 0 | 0 / 0 / 0 | 1.0 |
+
+**All consistent with chance.**
+
+**Sensitivity by injection** (T_C2 template): P_D peaks at only 0.45 near 3–6 dB above gap level and then
+*falls*, to 0.04 at 25 dB. A loud arrival becomes a pulse of its own, breaks the 10 s cycle, and is
+discarded. So this statistic sees only near-gap-level signals, and its null result is weak.
+
+**Exploratory complement (not pre-registered):** prominent pulses *off* the 9.98 s cadence
+(`prepare/exploratory/off_cadence.py`). Injection P_D is 0.36–0.65 across 0–25 dB.
+- **Events:** 4, all in panel d, at 01:00:06.9, 01:03:06.3, 01:07:06.0 and 01:07:36.6.
+- **Coincidences with PDF-consistent H01W triggers:**
+  - strict: 2 (p 0.28);
+  - **loose: 4 of 4 (chance mean 2.17, p 0.0017; about 0.03 after allowing for the roughly 15 tests made
+    on these traces this session);**
+  - Table 1-gated: 3 (p 0.39).
+- **Why the four pulses are not credible impact arrivals:**
+  - They are weak: 16–19 % of a typical shot's envelope peak, with prominence barely over threshold.
+  - They are tied to the shots: each lies 3.2–5.5 s after one, and two lag their shot by 3.2–3.3 s, the
+    signature of a repeatable secondary arrival from the shot.
+  - Each coincides with 3–4 different H01W triggers, so the coincidence rule is permissive.
+  - The strongest pairing, Kadri's 00:49:58 (260°) event with 01:07:06/36 at log₁₀ BF 3.9, is the one that
+    sat exactly at the chance median in the pair map above.
+  - The uniform-slide null does not preserve their tie to shot times, so it overstates significance.
+- **How raw data would settle it:** a triad bearing at H08S. Shot codas arrive from the survey's direction;
+  an impact would arrive from the arc, at 140–158°.
+
+**Bottom line:** on the digitised traces, no shot-energy anomaly at H08S coincides with H01W beyond chance.
+The one exploratory hint is best explained by shot multipath. The decisive check needs raw H08S triad data.
