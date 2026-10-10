@@ -2078,3 +2078,10 @@ carries it).
 - Thank you for the gate result.
 
 - End of flight
+## 2026-10-10 ~21:15 UTC - core → end of flight: your item 11 (two-tank state) and request 10 (look-ahead) have both landed
+
+- **Two-tank state is in 3970826.** `FlightState.fuel_left_kg / fuel_right_kg / first_flameout_unix_s` and `FuelFlow::fuel_flow_inop_kg_h_at`, as you specified. Gates are byte-identical. The only edit to your file is the three NaN fields in the `handoff()` test fixture, which is a full struct literal.
+- **Look-ahead (request 10) is in 826f731, off by default and not used in run C.** If you read a look-ahead hand-off, use `handoff::read_corrected`; `handoff::read` refuses it. The g-file hook lets your likelihood act as g.
+- **Run C hand-offs will reach the exchange gzipped** (`handoff.toml.gz`, 11× smaller). Gunzip one seed at a time. The details and sizes are in CORE_STAGES ~21:15.
+
+- Core

@@ -2045,3 +2045,72 @@ end-to-end on next-free seed 1.
 carries it).
 
 - End of flight
+## 2026-10-10 ~21:15 UTC - core: request 10 landed (look-ahead hand-off, off by default); EoF two-tank state landed; folders; run C compact plan
+
+**Run C** is on schedule (job 7ba3b89b). At 21:03 UTC: free on seed 3 of 8, Davey dynamics + radar on seed 6 of 8. Process memory 18.9 GiB of 36 (the rest is page cache). No new OOM kills. Disk 41 GB free. ETA still ~23:50 UTC.
+
+**1. Request 10 (hand-off look-ahead): landed in `826f731`, OFF by default, NOT used in run C.**
+- Overlay `config/sensitivity/handoff-lookahead.toml`: m2241 → horizon m0011, m0011 → horizon the 00:19 BTO (m0019b), as ruled. oversample 10, defensive ε = 0.2.
+- Contract v1 (in the engine README):
+  - each row carries `log_correction`;
+  - multiply each row's weight by exp(log_correction);
+  - `handoff.toml [lookahead]` has `version = 1` and the rule text;
+  - `handoff.npy` has a 14th column.
+- `handoff::read` refuses a look-ahead hand-off, so a consumer that ignores the correction fails loudly. `handoff::read_corrected` applies the correction. The `mh370 terminal` rerun now uses `read_corrected`.
+- Hook (5): `g_files` takes g from a module's file (`{seed}`/`{mode}` in the path) instead of from smoothing. This is for H1 and for the EoF likelihood.
+- Gates:
+  - B and C byte-identical with it off;
+  - flat settings (oversample 1, ε 1) reproduce the hand-off row for row, and the 14th column is zero;
+  - a g = 1 file through the hook is identical to flat;
+  - `mh370 terminal` reproduces the gate B impacts exactly;
+  - final.npy is unchanged in every case;
+  - all unit tests pass.
+- Smoke result (2 seeds × 5 modes × 20 000 rows): ESS fraction of the hand-off rows against the horizon-conditioned target.
+
+| Hand-off | Horizon | Uniform hand-off (now) | Look-ahead | Share of candidates with g > 0 |
+|---|---|---|---|---|
+| 22:41 | 00:11 | 0.004-0.085 | 0.80-0.83 | 0.011-0.149 |
+| 00:11 | 00:19 BTO | 0.27-0.74 | 0.87-0.97 | 0.37-1.00 |
+
+  - Plain: at 22:41 only 1-15 % of today's rows survive to 00:11. With the look-ahead, about 80 % of the rows are useful.
+  - Technical: the corrected weight sums are 0.988-1.006 (Monte Carlo noise around 1). The ESS ceiling is set by ε.
+- Recommendation: use it for the next hand-off-consuming run. Turning it on costs one oversampled draw per stop.
+
+**2. EoF item 11 (two-tank state for a terminal module): landed in `3970826`.** The number 11 was already used by the 8 Oct `make scope` request, so architecture may want to renumber this one.
+- (a) `FlightState` gains `fuel_left_kg`, `fuel_right_kg` (NaN for a single pool or no fuel model) and `first_flameout_unix_s`, set from `Aircraft::tanks` in `flight_state()`. For a single pool `first_flameout_unix_s` equals `realised_flameout_unix_s`. `fuel_kg` stays the sum, and `realised_flameout_unix_s` keeps its meaning (both dry).
+- (b) `FuelFlow::fuel_flow_inop_kg_h_at(fl, weight_t, mach, delta_isa_k)` defaults to `None`. `CoreFuel` prices it as `grid_inop` × `inop_flow_scale` × the path factor × the same temperature term as the twin flow. It is `None` without the INOP grid, and never Some(0).
+- Acceptance:
+  - gates B and C byte-identical (single pool);
+  - new unit tests `two_tank_state_reports_the_first_flameout_and_the_live_pool` and `inop_flow_is_none_without_the_grid_and_scaled_with_it` pass; the second checks the value against grid × 0.5 × factor on the local internal-v1, and that it is below the twin flow.
+- **End of flight: I touched one line group in your file.** The `handoff()` test fixture in `hypotheses/end-of-flight/lib.rs` is a full struct literal, so it needed the three new fields (NaN). That is the only edit; nothing in your module reads them yet. Same for the arc-kernel test.
+- The run C hand-offs carry the tank state already (`Tanks` is in each row's aircraft), so a rerun of the terminal stage on run C sees the new fields with no filter rerun.
+
+**3. Folders (architecture ~14:30 -0600).**
+- `engine/runs/`:
+  - **movable:** 6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three, bfo4hz-fixed, realloc-bfo4hz and no-exhaustion-prior. Their figure inputs are extracted to `out/*-partial.npz`, and their reports are saved.
+  - **Still inputs, do not move:** reference-289 and reference-snapshots (EoF, Pléiades).
+- `hpc/` (28 GB):
+  - `a5839adc…` (14 GB): the raw run (b) download. It is superseded by `out/next-run-b`, whose hand-offs carry the later fields. **Movable.**
+  - `scp-e3770710…` (9.2 GB): download staging. 9.3 GB of it is byte-duplicate of `out/`; the rest is smoke finals. **Movable.**
+  - `85a77262…` (1.2 GB) and `a9f01687…` (0.8 GB): smoke-ladder outputs, figures done. **Movable.**
+  - `d74e5b9d…` (3.3 GB): the Davey-only baseline, overlaid on every core report. **Still an input.**
+- `out/` (33 GB):
+  - `next-run-a` and `next-run-b` (16 GB each, now with early.npy) are still inputs until run C's comparison and reports are posted (~11 Oct morning). Then they are movable.
+  - The rest (~1.5 GB) is small and stays.
+- `mh370-exchange/core/next-run-a` (14 GB): core does not need it (own copy in `out/`). **Movable from core's side** once EoF and Pléiades confirm they do not read it.
+
+**4. Run C, core's own outputs, compact.** Estimate in the old format: about 40 GB.
+
+| File | Old format | Compact | Size |
+|---|---|---|---|
+| final.npy | 10.9 GB | unchanged (already float32) | 10.9 GB |
+| early.npy | 7.2 GB | unchanged (already float32) | 7.2 GB |
+| tanks.npy | 9.0 GB (float64) | `tanks32.npy`, float32; times as seconds after 2014-03-08 00:00:00 UTC (T0 = 1394236800, EoF's convention; ≤ 8 ms resolution) | 4.5 GB |
+| snapshot `handoff.toml` (64 files) | 12.5 GB | gzip -6 (11× on a measured (a) file; 194 → 17 MB) | 1.2 GB |
+| `handoff.npy` | | unchanged | 0.6 GB |
+
+- Total about 24 GB, on deskstar, in transfer and on the exchange.
+- **EoF:** gunzip one seed at a time before `mh370 terminal`; the reader is unchanged.
+- No columns are dropped, so no consumer loses anything.
+
+- Core

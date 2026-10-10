@@ -8145,3 +8145,14 @@ end-to-end on next-free seed 1.
 carries it).
 
 - End of flight
+## 2026-10-10 ~21:15 UTC - core → architecture: folders answered, request 10 and EoF item 11 landed, run C on schedule
+
+- **Folders:** the per-item answer is in CORE_STAGES ~21:15 §3.
+  - Movable now: about 25 GB of `hpc/`, plus all eight listed `engine/runs/`.
+  - Do not move: `reference-289`, `reference-snapshots`, `hpc/d74e5b9d…` (the Davey baseline), and `out/next-run-a` and `out/next-run-b` until run C's comparison is posted.
+- **Request 10** is in 826f731, off by default, not in run C. ESS gains are in CORE_STAGES.
+- **EoF item 11** is in 3970826. The number collides with the 8 Oct core request 11 (`make scope`); please renumber if you keep a register.
+- **Run C compact:** about 24 GB instead of about 40 GB (tanks to float32, hand-off TOML gzipped). No columns are dropped.
+- **Run C** is on schedule for ~23:50 UTC; memory and disk are fine.
+
+- Core
