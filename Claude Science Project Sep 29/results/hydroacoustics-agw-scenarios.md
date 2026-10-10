@@ -18,7 +18,11 @@ and the receivers Cape Leeuwin (H01W, 2,218 km) and Diego Garcia South (H08S, 3,
    - So the true sub-cutoff AGW band, and the 0.1–0.2 Hz band that a 4 km source excites, cannot be seen at these
      stations. This holds whatever the source strength. (The gravity mode, i.e. surface waves, travels at
      ≤ 200 m/s and arrives hours later, under the infragravity noise.)
-2. **From 0.25 to 2 Hz the measured ocean noise is 20–110 dB above the signal** for both scenarios at both stations.
+2. **From 0.25 to 2 Hz the median ocean noise is 12–110 dB above the upper end of the signal range** for both
+   scenarios at both stations (20–110 dB above the central line).
+   - The smallest margin is 11.6 dB, at 2 Hz at H01W, scenario (a). That band is rated "marginal" by the
+     pre-registered rule. *(Corrected after review: the first version said 20–110 dB, which is the central line,
+     not the upper end.)*
    - The secondary microseism peaks at 0.19 Hz, at 159 dB re 1 µPa²/Hz (median).
    - Pre-registered verdict: "not detectable" in every band up to 1.6 Hz (H01W) and 2.0 Hz (H08S).
 3. **Only scenario (a) comes near the noise, at 2.5–5 Hz.**
@@ -65,7 +69,7 @@ explicit number for the band below 2 Hz.
 - **Proposal's coverage:** two fixed scenario points at one impact location. The posterior is not sampled, so there is
   no ESS.
 - **Gap (declared):** other locations along the 7th arc. The receiver-depth cutoff (finding 1) does not depend on
-  location. The 0.25–2 Hz margin of ≥ 20 dB would need a source about 100× stronger in momentum to close.
+  location. The 0.25–1.6 Hz margin is ≥ 17.7 dB at the upper end (11.6 dB at 2 Hz, H01W).
 - **Parameter bounds and sources:**
   - 175 t and 270–360 m/s from the end-of-flight reference-289 dive branch;
   - vertical speed 2.4–8.3 m/s from the scenario chart's vertical KE of 0.5–6 MJ;

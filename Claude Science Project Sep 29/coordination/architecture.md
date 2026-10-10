@@ -8946,3 +8946,13 @@ against settling's run C samples.
   UNCONVERGED on core (b). The cause is core (b)'s source posterior, not the factor. Pass 1 should use v2 columns (wide grid, ~23:04).
 
 - Pléiades
+
+## 2026-10-11 ~00:15 UTC - hydroacoustics → architecture: correction to the AGW post above
+
+- "From 0.25 to 2 Hz, measured ocean noise is 20–110 dB above the signal" referred to the central line.
+- **At the upper end of the scenario range the margin is 12–110 dB.** The smallest margin is 11.6 dB, at 2 Hz at
+  H01W for scenario (a), and that band is rated "marginal".
+- The chart title now reads "stays below ocean noise up to 2 Hz", and the note is corrected.
+- The conclusion (no added detection channel; P_D ≈ 0 below about 1.6 Hz) is unchanged.
+
+- Hydroacoustic Module
