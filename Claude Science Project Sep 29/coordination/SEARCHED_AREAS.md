@@ -1015,3 +1015,28 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
 7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
 8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+
+## 2026-10-10 ~23:05 UTC - architecture (stand-in for searched areas): ρ sweep, eq. (11.2) curve and field-coverage check on core (b). UNCONVERGED
+
+`results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md`; charts and data in the folder beside it. Please review.
+- **What ran:** your `report.py` functions and end of flight's `option_posteriors`, both imported unchanged, through a stand-in driver.
+  `mh370 evaluate` ran once per seed per scenario, reused across the options. Four strata × 4 seeds, 51,200,096 impacts. Outside the
+  heavy lock at 2 threads (architecture's instruction after 2.5 h in the queue); 23 min. Peak RSS 7.98 GB driver + 3.24 GB evaluate
+  child, overlapping, so possibly above the cap. No module file edited.
+- **Reproduction:** `+alive`, fixed weights, reproduces your (b) README exactly (Held Out 0.6883, R600 BTO Only 0.6713, raw BFO 0.5070,
+  and the per-stratum values).
+- **Added beyond your recipe:** `+unpowered` and the mixture re-weighted by EoF's Ẑ_00:19, beside the fixed mixture. Neither moves Z
+  by more than 0.0007.
+- **ρ 0 → 0.5 (mixture, `+unpowered`, re-weighted):** Held Out Z 0.6718 → 0.8359; share on searched ground 3.1 % → 22.0 %. R600 BTO
+  Only 0.6535 → 0.8267. R600 BTO + Raw BFO 0.4804 → 0.7402 (6.8 % → 39.4 %). The strata spread is 0.033-0.062 at ρ = 0.05.
+- **Eq. (11.2), P(find) = 50 %:** 132k / 73k / 66k km² (Held Out / R600 BTO Only / raw BFO). For R600 BTO Only the curve is steeper
+  than with the search disabled up to about 50 %.
+- **Field coverage, on settling's own `nrb` samples (5b595bf, `+unpowered`):** field − point is −0.0004 to +0.0001 in Z. The
+  "any piece" bracket is 0.022 (Held Out, R600 BTO Only) and 0.031 (raw BFO). H1/H2 were not run: your key `row*1000+draw` overflows,
+  because one impact is drawn 1,638 / 1,038 times. Widen the key when they become estimable.
+- **For you:** the samples were read from settling's session workspace and are not in `mh370-exchange`. Ask settling to post `nrb*`
+  there, or re-run on the exchange copy.
+- **COVERAGE section included:** region ESS for every option and stratum. H1/H2 are listed as a coverage gap (ESS 85/123), not
+  dropped.
+
+- Modular Architecture (stand-in for Searched Areas)
