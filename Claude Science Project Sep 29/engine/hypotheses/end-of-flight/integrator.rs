@@ -139,6 +139,8 @@ pub struct Integrator<'a> {
     pub fine_window_s: f64,
     /// Hard ceiling on integrated flight time, s, so a phugoid that never descends terminates.
     pub max_flight_s: f64,
+    /// Load-factor floor (g) for `Command::Track` while it pitches down; `None` = no floor (the C_L limit only).
+    pub track_load_factor_floor_g: Option<f64>,
 }
 
 impl std::fmt::Debug for Integrator<'_> {
@@ -440,6 +442,11 @@ impl<'a> Integrator<'a> {
                 let tau = 8.0;
                 let d_gamma_wanted = (target_gamma - body.gamma_rad) / tau;
                 let needed = (mass * (body.tas_mps * d_gamma_wanted + atmos::G0 * body.gamma_rad.cos())) / (q * s * bank_rad.cos().max(0.05));
+                let needed = match self.track_load_factor_floor_g {
+                    // n = L / W: a push-over unloads to the floor and no further (the descent then builds more slowly).
+                    Some(n_min) => needed.max(n_min * weight / (q * s)),
+                    None => needed,
+                };
                 let c_l = needed.clamp(-self.aero.c_l_max_clean, self.aero.c_l_max_clean);
                 // Thrust: hold the target Mach against the drag at this lift.
                 let drag = self.aero.c_d(c_l, mach, cfg) * q * s;
@@ -545,7 +552,7 @@ mod tests {
     }
 
     fn integrator(step_s: f64) -> Integrator<'static> {
-        Integrator { aero: reference(), fuel: None, step_s, fine_step_s: step_s / 10.0, fine_window_s: 5.0, max_flight_s: 7_200.0 }
+        Integrator { aero: reference(), fuel: None, step_s, fine_step_s: step_s / 10.0, fine_window_s: 5.0, max_flight_s: 7_200.0, track_load_factor_floor_g: None }
     }
 
     fn body(altitude_ft: f64, tas: f64, gamma_deg: f64) -> Body {
@@ -625,6 +632,38 @@ mod tests {
         assert!(last.gamma_rad.abs() < 1e-3, "gamma drift {}", last.gamma_rad);
     }
 
+    /// `track_load_factor_floor_g`: a push-over to a large commanded rate unloads below 0 g with no floor (the C_L limit
+    /// only), and stops at the floor with one; the floor does not change a gentle descent.
+    #[test]
+    fn a_push_over_unloads_no_further_than_the_floor() {
+        let (alt, tas) = (35_000.0, 240.0);
+        let frozen = Frozen { pressure_pa: geo::isa_pressure_pa(alt), temperature_k: atmos::isa_temperature_k(alt) };
+        let cfg = Configuration { engines_thrusting: 2, engines_windmilling: 0, rat_deployed: false, speedbrake_eighths: 0, landing_configuration: false };
+        let min_n = |floor: Option<f64>, rate_fpm: f64| {
+            let it = Integrator { aero: reference(), fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 20.0, track_load_factor_floor_g: floor };
+            let vs = -rate_fpm * 0.3048 / 60.0;
+            let mut prev: Option<(f64, f64, f64)> = None;
+            let mut n_min = f64::INFINITY;
+            it.run(body(alt, tas, 0.0), &frozen, None, &mut |_, _| (Command::Track { vertical_speed_mps: vs, target_mach: 0.84, bank_rad: 0.0 }, cfg, 0.0), &mut |b, _| {
+                if let Some((t0, g0, v0)) = prev {
+                    let dt = b.unix_s - t0;
+                    if dt > 0.0 {
+                        let n = (0.5 * (v0 + b.tas_mps) * (b.gamma_rad - g0) / dt + atmos::G0 * b.gamma_rad.cos()) / atmos::G0;
+                        n_min = n_min.min(n);
+                    }
+                }
+                prev = Some((b.unix_s, b.gamma_rad, b.tas_mps));
+            });
+            n_min
+        };
+        let free = min_n(None, 20_000.0);
+        let floored = min_n(Some(0.3), 20_000.0);
+        assert!(free < 0.0, "no floor: min n {free}");
+        assert!(floored > 0.29 && floored < 0.32, "floor 0.3: min n {floored}");
+        let gentle = (min_n(None, 2_000.0), min_n(Some(0.3), 2_000.0));
+        assert_eq!(gentle.0, gentle.1);
+    }
+
     /// §11 test 3 — the free-dynamics oscillation has Lanchester's period pi sqrt(2) V / g.
     ///
     /// Lanchester's closed form assumes **constant density**, so it is tested against a frozen
@@ -640,7 +679,7 @@ mod tests {
         aero.oswald = 1e9; // k -> 0
         aero.wave_drag_coefficient = 0.0;
         aero.tuck_cl_per_mach = 0.0;
-        let it = Integrator { aero, fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 400.0 };
+        let it = Integrator { aero, fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 400.0, track_load_factor_floor_g: None };
         let (alt, mass, tas) = (20_000.0, 174_000.0, 200.0);
         let frozen = Frozen { pressure_pa: geo::isa_pressure_pa(alt), temperature_k: atmos::isa_temperature_k(alt) };
         let q = atmos::dynamic_pressure_pa(frozen.pressure_pa, tas / atmos::sound_speed_mps(frozen.temperature_k));

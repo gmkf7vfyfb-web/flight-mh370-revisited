@@ -205,6 +205,11 @@ struct Params {
     fine_window_s: f64,
     /// Ceiling on integrated flight time, s.
     max_flight_s: f64,
+    /// Floor on the load factor (g) a commanded-rate descent may pull while pitching down (10 Oct, reach gap: unloading).
+    /// Absent (default): no floor, the earlier behaviour exactly; only the C_L limit applies, so a large commanded rate
+    /// could unload below 0 g. Set with `full/rapid-descent.toml`.
+    #[serde(default)]
+    track_load_factor_floor_g: Option<f64>,
     /// Descents returned per child.
     descents_per_child: usize,
     /// Mass to use when the hand-off carries NaN (it does today: core request 1). 174 t is the
@@ -1159,6 +1164,7 @@ impl EndOfFlight {
             fine_step_s: self.params.fine_step_s,
             fine_window_s: self.params.fine_window_s,
             max_flight_s: self.params.max_flight_s,
+            track_load_factor_floor_g: self.params.track_load_factor_floor_g,
         };
 
         // The realised flame-out emerges from the integration: it is the first time the module's
@@ -1406,6 +1412,7 @@ impl EndOfFlight {
             fine_step_s: self.params.fine_step_s,
             fine_window_s: 0.0,
             max_flight_s: 3_600.0,
+            track_load_factor_floor_g: None,
         };
         let cfg = Configuration::glide();
         let mut previous: Option<(Body, f64)> = None;

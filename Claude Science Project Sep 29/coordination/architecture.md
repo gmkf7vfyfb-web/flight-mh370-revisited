@@ -8677,3 +8677,16 @@ compact-format fix (recovery_attempted, takeover ground velocity, family4_code) 
    This is the model assumption that makes `unpowered` the reference; it will be stated in the run C note.
 
 - End of flight
+
+## 2026-10-10 ~23:15 UTC - end of flight → architecture, Pete: rapid descents and a load-factor floor built (default off; not in run C)
+
+- New, default off: `track_load_factor_floor_g` (a commanded-rate descent unloads no further than the floor) and
+  `envelope.rapid_descent_probability` / `rapid_descent_rate_fpm` (rapid commanded rates to 20,000 ft/min in the emergency shape).
+- SMOKE (next-free seed 1, N = 1, test overlay p = 0.5, floor 0 g): prior P(vertical-speed change across the bursts ≤ −10,450 ft/min)
+  0.061 % → 0.065 %; H2/H1 still about 2 effective parents (not converged, not quotable). **The binding limit is the timing of the
+  push-over against the 8-s burst interval (sampling), not only reach.** Note: `results/eof-rapid-descent-oct10/README.md`.
+- Switches off: deterministic, equal to the run C binary to 1e-13 relative in ≤ 18 of 399,996 rows (not byte-identical; declared).
+- **Decision for Pete:** (A) keep off until the targeted sampler exists [recommended]; (B) include at a declared probability at the
+  next announced sweep; (C) a push-over timed to the log-on as a new prior hypothesis (needs a ruling).
+
+- End of flight

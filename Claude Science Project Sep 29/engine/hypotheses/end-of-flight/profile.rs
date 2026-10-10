@@ -171,6 +171,19 @@ pub struct EnvelopeConfig {
     /// track on average). When set, one extra uniform is drawn for the sign.
     #[serde(default)]
     pub residual_bank_left_probability: Option<f64>,
+    /// Probability that the emergency descent of `EmergencyThenTransition` is flown at a RAPID commanded rate drawn from
+    /// `rapid_descent_rate_fpm` instead of `emergency_rate_fpm` (10 Oct; the reach gap "rapid descents above 6,500 ft/min
+    /// and unloading"). 0 (the default): never, and no extra draw - the earlier behaviour exactly. A prior choice for Pete
+    /// (architecture push-over study: "whether a deliberate push-over belongs in the control prior").
+    #[serde(default)]
+    pub rapid_descent_probability: f64,
+    /// Commanded rate of a rapid descent, ft/min (used only when `rapid_descent_probability` > 0).
+    #[serde(default = "default_rapid_rate")]
+    pub rapid_descent_rate_fpm: Range,
+}
+
+fn default_rapid_rate() -> Range {
+    Range::Uniform([6_500.0, 20_000.0])
 }
 
 fn default_spiral_doubling_s() -> Range {
@@ -188,6 +201,7 @@ impl EnvelopeConfig {
         for (name, r) in [
             ("descent_rate_fpm", self.descent_rate_fpm),
             ("emergency_rate_fpm", self.emergency_rate_fpm),
+            ("rapid_descent_rate_fpm", self.rapid_descent_rate_fpm),
             ("emergency_mach", self.emergency_mach),
             ("descent_mach", self.descent_mach),
             ("transition_altitude_ft", self.transition_altitude_ft),
@@ -228,6 +242,9 @@ impl EnvelopeConfig {
         }
         if !(self.spiral_bank_floor_deg >= 0.0 && self.spiral_bank_floor_deg < self.spiral_bank_cap_deg) {
             return Err("envelope.spiral_bank_floor_deg must be in [0, cap)".into());
+        }
+        if !(0.0..=1.0).contains(&self.rapid_descent_probability) {
+            return Err("envelope.rapid_descent_probability must be in [0, 1]".into());
         }
         if let Some(p) = self.residual_bank_left_probability {
             if !(0.0..=1.0).contains(&p) {
@@ -285,8 +302,13 @@ impl EnvelopeConfig {
             }
             Shape::EmergencyThenTransition => {
                 let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
+                let rate_fpm = if self.rapid_descent_probability > 0.0 && uniform() < self.rapid_descent_probability {
+                    self.rapid_descent_rate_fpm.draw(uniform)
+                } else {
+                    self.emergency_rate_fpm.draw(uniform)
+                };
                 phases.push(Phase::Descend {
-                    rate_fpm: self.emergency_rate_fpm.draw(uniform),
+                    rate_fpm,
                     mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
                     until_altitude_ft: transition.max(1_000.0),
                     speedbrake_eighths: 8,
@@ -711,6 +733,8 @@ pub(super) mod tests {
             spiral_bank_floor_deg: 1.0,
             trim_reference_at_loss: false,
             residual_bank_left_probability: None,
+            rapid_descent_probability: 0.0,
+            rapid_descent_rate_fpm: default_rapid_rate(),
         }
     }
 
