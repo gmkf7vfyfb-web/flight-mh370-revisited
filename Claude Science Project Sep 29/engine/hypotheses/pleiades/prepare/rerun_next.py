@@ -1,7 +1,7 @@
 """Overnight 10-11 Oct (OVERNIGHT-2026-10-10.md, Searched areas / Pleiades / settling): the Pleiades standard
 result on end of flight's NEW impacts, across every 00:19 option present, never as one number.
 
-    python rerun_next.py <impacts root> <tag> [labels]
+    python rerun_next.py <impacts root> <tag> [labels] [--pfamily s1=p1,s2=p2,...] [--geom <dir>]
 
 <impacts root>/seed-<k>/{impacts.npy,COLUMNS.txt,run.json}  e.g. mh370-exchange/end-of-flight/next-run
 <tag>                                                       output name (each option run plain and +alive): runs/pleiades/<tag>/, results/pleiades/<tag>/
@@ -13,7 +13,8 @@ Steps (cargo env from the caller: toolchain on PATH, CARGO_TARGET_DIR, RAYON_NUM
   2. branch_eof289.py per 00:19 option (loglik:<option> columns in COLUMNS.txt) and per search variant, with this
      module's exported surfaces (runs/pleiades/{likelihood,cosmo}-surface).
   3. branch_figure.py per option (base search), footnote built from run.json.
-  4. results/pleiades/<tag>/by-0019-option.csv: P, C3, C4, P+C3, P+C4 before/after search per option and variant.
+  4. close-ups for every option (option_closeups.py), strata mixed by --pfamily when present
+  5. results/pleiades/<tag>/by-0019-option.csv: P, C3, C4, P+C3, P+C4 before/after search per option and variant.
 Generated output goes to the gitignored run tree; only the summary, figures and the note go to results/.
 """
 import json
@@ -85,5 +86,35 @@ def main(root, tag, labels=""):
     print(S[(S.field.isin(["P+C3", "P+C4"]))].to_string(index=False))
 
 
+def main_all(root, tag, labels="", pfamily="", geom=None):
+    """Strata-aware entry point. If <impacts root> holds strata (<stratum>/seed-*), run main() per stratum and mix by
+    --pfamily (required then); then ALWAYS draw the close-ups for every option (Pete, 10 Oct: close-ups every time)."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    matplotlib.rcParams.update({"font.size": 6, "axes.titlesize": 6.5, "axes.labelsize": 6, "xtick.labelsize": 5.5, "ytick.labelsize": 5.5})
+    import option_closeups
+    root = Path(root).resolve()
+    strata = sorted(d.name for d in root.iterdir() if d.is_dir() and any(d.glob("seed-*/impacts.npy")))
+    geom = geom or str(CSP.parents[1] / "geom")
+    if strata:
+        pf = {k: float(v) for k, v in (x.split("=") for x in pfamily.split(",") if x)}
+        assert set(pf) == set(strata), f"--pfamily must name every stratum {strata}"
+        for st in strata:
+            main(root / st, f"{tag}/{st}", f"{labels}; stratum {st}" if labels else f"stratum {st}")
+        opts = json.loads((CSP / "results" / "pleiades" / tag / strata[0] / "provenance.json").read_text())["options"]
+        option_closeups.make(RUNS / tag, root, geom, CSP / "results" / "pleiades" / tag / "closeups", plt, pf, opts, labels)
+    else:
+        main(root, tag, labels)
+        opts = json.loads((CSP / "results" / "pleiades" / tag / "provenance.json").read_text())["options"]
+        option_closeups.make(RUNS / tag, root, geom, CSP / "results" / "pleiades" / tag / "closeups", plt, None, opts, labels)
+
+
 if __name__ == "__main__":
-    main(*sys.argv[1:4])
+    import argparse
+    ap = argparse.ArgumentParser()
+    ap.add_argument("root"); ap.add_argument("tag"); ap.add_argument("labels", nargs="?", default="")
+    ap.add_argument("--pfamily", default="", help="stratum=P(family),... when the impacts come in strata")
+    ap.add_argument("--geom", default=None, help="directory with search_footprints.geojson")
+    a = ap.parse_args()
+    main_all(a.root, a.tag, a.labels, a.pfamily, a.geom)
