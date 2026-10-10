@@ -194,6 +194,12 @@ the seabed PDF of the main wreckage is the impact PDF to about 1 % in area. Sett
 cell, not at the scale of the impact PDF: the 00:19 interpretation sets the search area, and settling does not.
 Impacts north of 18° S (under 0.02 % of any panel) lie outside the ocean window and are excluded as not computed.
 
+Searched areas checked this with the settling samples (`results/seabed-field-coverage-289/`, held out, 40,000 outcomes).
+Reading search coverage over the settled field instead of at the impact point changes the evidence by 0.0003 when the
+field counts as one object with a covered fraction. It changes it by 2.3 points only if any single settled element on
+searched ground counts as a detection; that case arises from fields straddling the corridor edge in 2.3 % of outcomes.
+The impact point is therefore an adequate stand-in for the seabed field in the search likelihood.
+
 ## 7. Declared alternatives (off in the baseline)
 
 - **Implosion at depth** (Pete, 9 Oct). A share of cabin contents rides a fuselage section to a
