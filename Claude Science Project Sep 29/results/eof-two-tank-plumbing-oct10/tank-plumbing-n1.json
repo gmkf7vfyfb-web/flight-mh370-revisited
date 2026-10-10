@@ -1,0 +1,44 @@
+{
+ "pre-merge build (single pool, as the stand-in sweep)": {
+  "flameout_min_after_0011_q05_50_95": [
+   0.66,
+   10.07,
+   32.42
+  ],
+  "share_flameout_before_001929": 0.3623111346341418,
+  "share_impact_after_011556": 0.009465194789818037,
+  "share_down_before_001937": 0.10543106229705473,
+  "none__other+alive median lat": -36.94,
+  "none__fuel-exhaustion+alive median lat": -36.9,
+  "r600_no-offset__other+alive median lat": -37.21,
+  "r600-bto__other+alive median lat": -37.72
+ },
+ "merged build, base configs (two tanks read, doubled one-engine flow)": {
+  "flameout_min_after_0011_q05_50_95": [
+   0.46,
+   7.68,
+   30.85
+  ],
+  "share_flameout_before_001929": 0.4579544930199635,
+  "share_impact_after_011556": 0.009587697399506342,
+  "share_down_before_001937": 0.10526355758295056,
+  "none__other+alive median lat": -36.94,
+  "none__fuel-exhaustion+alive median lat": -36.99,
+  "r600_no-offset__other+alive median lat": -37.21,
+  "r600-bto__other+alive median lat": -37.73
+ },
+ "merged build + s6/s7/s8 + inop fix (one-engine dynamics, corrected flow)": {
+  "flameout_min_after_0011_q05_50_95": [
+   0.67,
+   10.21,
+   32.63
+  ],
+  "share_flameout_before_001929": 0.35586107928656624,
+  "share_impact_after_011556": 0.009547695998170938,
+  "share_down_before_001937": 0.10529356158160041,
+  "none__other+alive median lat": -36.94,
+  "none__fuel-exhaustion+alive median lat": -36.91,
+  "r600_no-offset__other+alive median lat": -37.23,
+  "r600-bto__other+alive median lat": -37.72
+ }
+}
