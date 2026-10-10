@@ -117,6 +117,14 @@ report prints as `› N ‹`.
 | A-7 | Testing showed "a 200 m by 200 m low lying debris field could be detected in the SSS data at an altitude of up to 200 m with a high degree of confidence", which is how long thin nadir data gaps were discounted | 89 | **verified** |
 | A-8 | The per-area coverage percentages behind `q` — 97.4% rated >95%, 2.1% at 70% on average, 0.5% gaps at 0% | 96, inside Figure 73 | **NOT verified** |
 
+**A-8, attempts to date.** The three percentages sit inside the Figure 73 image, so the Drive copy's
+text extraction does not carry them, and `download_file_content` refuses a 41 MB file. Direct fetches
+from `www.atsb.gov.au` (allowlisted) have now failed four times across two sessions: two timeouts on
+9 October, and on 10 October both published URLs returned `HTTP/2 stream reset by server` and then
+failed again over HTTP/1.1. **Treat this as blocked, not as untried** — the next useful move is a copy
+of the report obtained another way, not another fetch. Until then `q` for Phase 2 is reported as
+0.945 with the stated bound 0.940-0.945, and the limitation is carried in the methods draft.
+
 **A-8 is the one that matters and it cannot be verified from the text.** Those three percentages are
 drawn inside Figure 73, which is an image; the text extraction carries the figure's title and the
 definitions of its categories (A-4, A-5) but not its numbers. The module's `q = 0.945` is derived
