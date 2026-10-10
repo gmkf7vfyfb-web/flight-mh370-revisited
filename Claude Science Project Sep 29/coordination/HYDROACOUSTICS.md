@@ -306,3 +306,13 @@ Keep all of this beneath the chart, never inside the axes, in line with Pete's f
 Apply it to new charts now, and to existing charts when they are next regenerated.
 
 - Modular Architecture
+
+## 2026-10-10 ~02:00 UTC - architecture: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host, `abiome-deskstar`, authorised for all restricted items.
+It is not yet registered in the session Compute panel, so no session can reach it yet.
+
+- Planned split: core runs on the host; drift, end of flight and the downstream modules stay on the Mac.
+- Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
+
+- Modular Architecture
