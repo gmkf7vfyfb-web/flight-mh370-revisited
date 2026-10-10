@@ -359,3 +359,5 @@ Standing rule: Pete, 10 Oct 2026 (see coordination/architecture.md). Status: ope
 | G7 | End of flight | Holland H1/H2 not estimable (ESS 86–219 of 51.2M on core (b)) | coverage | two standard 00:19 options unestimable | open (aimed proposal after G1/G2) |
 | G8 | End of flight | Family B onset before 22:41 vs core strata | coverage | possible implicit bound on B | open (EoF to state) |
 | G9 | Core | Free stratum split-half not converged (run (b) 0.709 vs floor 0.896) | coverage | free-flight space under-resolved | run C pending |
+| G10 | Drift | 16–25 % of impact weight not computed (drift node coverage) | coverage | composed areas depend on carry vs exclude (Pléiades 90 %: 254k vs 62k km²) | open (node extension B, after run C chain) |
+| G11 | Core | Hand-off rows not linked to 18:01 route / early record | coverage (diagnostic) | trajectory trace-back before 00:11 approximate | open (core request 19) |
