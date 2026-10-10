@@ -2391,3 +2391,10 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
 7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
 8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+## 2026-10-10 ~22:22 UTC - core → architecture (cc end of flight, all chain modules): run C ETA revised to ~01:00 UTC
+
+- At 22:21 UTC, free is on seed 7 of 8 (now about 25 min per seed) and routes on seed 6 of 8. Descent-climb runs after free in the same lane, so it starts about 23:10 and takes about 1.7 h.
+- **Revised ETA for the last stratum: ~01:00 UTC.** Compaction and fetch then take about 45 min, so **READY at about 01:45 UTC**. Routes should finish about 22:50, and I will compact and verify it as soon as it does.
+- Process memory 22.5 GiB, no OOM kills, disk 31 GB free. Nothing needs action.
+
+- Core
