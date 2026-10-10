@@ -30,3 +30,61 @@ production-globcurrent.toml (hypothesis/debris-drift, d4dc2fd code); binary d240
 27.2; merged with merge_chunks.py (labels rebuilt from config). Equal-weight sensitivity mixture written for
 diagnostics only (`debris-drift-production-mixture-asconfigured`, combine_models.py); the composer marginalises
 `ocean-model`.
+
+## COVERAGE (ruling 15:45 -0600, 10 Oct)
+
+The drift term samples two things: **where debris starts** (the source nodes) and **how each object responds** to
+wind and current (the object classes). The three sets for each:
+
+**(a) Feasible set.**
+- Start points: any point of the end-of-flight impact posterior, in every 00:19 option and every hypothesis family.
+- Object response: the physical range of wind fraction and leeway for the nine identified parts. The sources are
+  CSIRO's flaperon trials [griffin2017partii, pp. 10, 17] and CSIRO's 1.2 % / 3 % classes [griffin2017partiii, pp. 6, 8].
+- Ocean: the true 2014-2016 surface currents. These are represented by two reanalysis products, with a measured
+  ocean-error field.
+
+**(b) Model's reach.**
+- Start points: 367 nodes at 30 NM, on the grid built from the reference-289 00:19 position map (99.03 % band,
+  40.7-22.2 S). The grid cannot represent a start point outside it.
+- Object classes:
+  - flaperon: 1.2 % fixed, plus leeway N(0.10, 0.03) m/s at U(-30, 0) deg (sourced);
+  - low-exposure exterior parts: N(1.2 %, 0.3 %) truncated to 0.5-2 % (PROVISIONAL bound);
+  - high-windage interior parts: log-normal, median 2.5 %, sigma 0.35, truncated to 1-5 % (PROVISIONAL bound;
+    brackets CSIRO's 3 %).
+- Sub-mesoscale diffusivity K: log-uniform 100-1000 m2/s (PROVISIONAL prior).
+- Ocean-error length scale L = 100 km is assumed. It waits for ocean transport's GDP-pair answer, with 50 and
+  200 km as sensitivities.
+- **GlobCurrent windage is not product-relative** (audit F1). This is a reach defect, not an alternative.
+
+**(c) Proposal coverage.**
+- Monte Carlo resolution per node, at the 50 km bandwidth:
+  - All 367 nodes are resolved on both models.
+  - At 25 km, 6 GLORYS12 nodes are unresolved.
+  - On GLORYS12, 61 nodes (34.7-40.7 S) have at least one ocean-error realisation with zero hits for a find
+    (Mossel Bay). On GlobCurrent, none do.
+  - The weakest find is Paindane: median n_eff 2.4 on GLORYS12 and 6.3 on GlobCurrent.
+  - Split-half noise is 1.42 log-likelihood units on GLORYS12 and 0.68 on GlobCurrent.
+- Impact mass inside the planned nodes, per standard option, on core (b) with `+alive` and fixed P(family):
+
+| 00:19 option | inside planned nodes | off the grid | with extension B | ESS ratio of drift weighting (GLORYS12) |
+|---|---|---|---|---|
+| 00:19 Held Out | 0.818 | 0.006 | 0.975 | 0.54 |
+| 00:19 R600 BTO Only | 0.793 | 0.009 | 0.983 | 0.53 |
+| 00:19 R600 BTO + Raw BFO | 0.967 | 0.001 | 0.999 | 0.54 |
+| 00:19 Holland H1 | 0.994 | 0.000 | 1.000 | 0.52 (not yet estimable upstream) |
+| 00:19 Holland H2 | 0.987 | 0.000 | 1.000 | 0.66 (not yet estimable upstream) |
+
+**Gaps and status.**
+1. **Support gap**: 3-21 % of impact mass lies outside the planned nodes, most for 00:19 Held Out and R600 BTO Only.
+   The fix is extension B (186 nodes, about 9 h; held for the windage smoke test and Pete). Meanwhile the scored
+   fraction is shown beside every number and the unscored mass is excluded, never set to zero.
+2. **Off-grid mass** (up to 0.9 %, south of 41.2 S or east of 105.6 E): the grid would need enlarging, which is a
+   code change. Declared.
+3. **GlobCurrent windage** (audit F1): smoke arm 1 at -0.60 % passes the audit criterion on its 92 nodes; arm 2 is
+   running. The fix is a GlobCurrent re-run with product-relative windage, after Pete's review.
+4. **Mossel Bay resolution south of 34.7 S on GLORYS12**: zero-hit realisations bias those nodes low and inflate
+   the GLORYS12 split-half noise. The proposed fix is targeted extra particles at the 61 nodes (a new run, for Pete).
+5. **PROVISIONAL bounds** (low-exposure and high-windage windage ranges, K, L): sensitivities are planned
+   (methods draft §8); each is declared in every result's label.
+6. **Hypothesis families A1/A2/B**: the drift term is evaluated per start point, so it covers every family whose
+   impacts fall inside the nodes. The family split is inherited from end of flight, with the same support caveat.
