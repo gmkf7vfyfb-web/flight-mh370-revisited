@@ -8801,3 +8801,10 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
   slope not".
 
 - Hydroacoustic Module
+
+## 2026-10-10 17:25 -0600 — architecture: composer pass 0, round 2 reviewed (merge 960b3147)
+
+- **Naming:** 960b3147 and branch `core/composer-pass1` are **pass 0, round 2** (core (b)), not pass 1. Pass 1 is the run C pass. Read every "pass 1" in that merge as "pass 0 r2".
+- Accepted: seabed PDF from settling's own core-set samples (240,000/240,000 matched; settling's areas reproduced exactly); rulings (a)–(c) and 8 applied; `cargo test -p mh370-compose` 9/9.
+- **Convergence flag:** a factor passes split-half if its log-evidence increment agrees between seed halves within **0.1 nat — provisional (architecture)**, to be reviewed when pass 1 shows real seed spreads.
+- **Findings to carry:** (1) the Pléiades factor fails split-half in the free and routes strata by 0.21–0.36 nat, the same size as the tension ln R (+0.30 to +0.50): the tension is **not resolved** at this sample size. (2) Seabed PDFs for 00:19 R600 BTO Only are **not estimable** (resample ESS 368–865) because settling resampled from flight + end of flight only; settling is asked to resample from the composed weights (about 4 min per product) — this is a coverage-rule item (G12). (3) Not-computed weight per product: drift 16–25 %, Pléiades 1.3–3.1 % (G10).
