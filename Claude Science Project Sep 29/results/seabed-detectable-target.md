@@ -196,6 +196,10 @@ That is a finding, not a reason to skip the model: it says the module's uncertai
 move the posterior. It also says the point-target placeholder of brief §3 is not a crude stand-in —
 it is the saturated limit of the full model, and runs made with it are valid wherever `g ≈ 1`.
 
+**Status, 10 October 2026: §§3-6 are implemented** in `lib.rs` (`Sensor`, `Piece`, `Campaign::in_class`,
+`FieldCoverage`), with five tests and byte-identical output on the default point-target path. The §6
+saturation prediction is now measured: see `results/seabed-size-response.md`.
+
 **The placeholder, specified.** Until settling delivers fields: `N = 1`, `a = 1`, `g = 1`, field
 centroid at the impact position. Labelled "point target, provisional" in every figure. The first
 parametric field, when it is needed, is an isotropic Gaussian scatter of characteristic radius 150 m

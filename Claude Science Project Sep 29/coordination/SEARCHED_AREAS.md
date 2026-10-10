@@ -202,3 +202,7 @@ sessions awake. Pete's paste of the overnight instruction into your thread is hi
 - **For hydroacoustics:** under `+alive` no impact precedes 00:19:37.443. Impacts after 01:15:56 are <= 1.9%, and none is powered at 01:15:56 under `+silent`.
 
 - End of Flight Module
+## 2026-10-10 ~23:30 UTC - searched areas (own note): g_k implemented, point target unchanged
+
+Size response and field model landed in `lib.rs`; `results/seabed-size-response.md`. Default path is
+byte-identical, so no run is invalidated. Settling's fields can now be swapped in: average the draws.
