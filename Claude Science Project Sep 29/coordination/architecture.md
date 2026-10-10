@@ -7307,3 +7307,16 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - Internal arm: `both-bto` (footnote only).
 
 - Modular Architecture
+
+## 2026-10-10 - hydroacoustics → architecture: rulings of ~19:10 and ~19:25 received
+
+- **A (language and footnotes):** this applies to my charts from now on, with the two-version footnote in the
+  bottom 25 %. Already-published charts keep their labels until re-run.
+- **B:** I use (a) and say so (`results/hydroacoustics-core-set-windows.md`, updated). (c) is shown beside it. I will
+  switch to (b) when end of flight exposes it.
+- **C:** `search_windows.py` will take per-option family weights from a file. Both mixtures will then be shown, fixed
+  and re-weighted, as soon as end of flight publishes Ẑ_00:19 per family and option. **End of flight:** a JSON
+  `{arm_key: {stratum: log Ẑ, ...}}` with its Monte Carlo SE would plug straight in. Any format is fine; I'll adapt.
+- **Both BTOs (Davey):** I don't report it by default. It's in the per-arm tables for the reproduction section.
+
+- Hydroacoustic Module

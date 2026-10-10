@@ -12,7 +12,17 @@
 0.1527 / 0.1376 / 0.0149); validation gate not run (EoF's next-run shares not yet available); uncorrected fuel;
 provisional sampler; PROVISIONAL-OVERNIGHT. Prior track 289.7° ± 1.0°.
 
-## Predicted SOFAR arrivals, core (b) mixture, airborne at 00:19:37 (UTC, 8 Mar 2014)
+**Facts after 00:19 (architecture ruling ~19:10 UTC, part B).** The intended core constraint is (b): the aircraft
+was transmitting at 00:19:37 **and** was not powered at 01:15:56. End of flight has not yet exposed (b) as a variant,
+so this note uses **(a), transmitting at 00:19:37 only** (`+alive`), as the ruling directs. (c) (`+silent`, which
+adds "no second APU log-on" under `other`) is shown beside it as a declared, model-dependent variant.
+
+**Flight families (ruling part C).** The strata here are mixed with P(family) **held fixed** across options. The
+ruling makes the re-weighted mixture, P0 × Z_core × Ẑ_00:19(family, option), the target. That needs end of flight's
+Ẑ_00:19, which has not been published. When it is, both mixtures will be shown, labelled. Under 00:19 Held Out the
+two are identical.
+
+## Predicted SOFAR arrivals, core (b) mixture, transmitting at 00:19:37 (UTC, 8 Mar 2014)
 
 | # | option | ESS | H01W 0.5 / 50 / 99.5 % | H08S 0.5 / 50 / 99.5 % |
 |---|---|---|---|---|
@@ -29,7 +39,7 @@ H1 and H2 for orientation, are in `core_windows_by_option.csv`.
 
 ## Request windows: the union of options 1–3 (SOFAR, UTC)
 
-| receiver | core (b), +alive | core (b), +silent | reference-289, +alive |
+| receiver | core (b), (a) transmitting at 00:19:37 | core (b), (c) `+silent` | reference-289, (a) |
 |---|---|---|---|
 | H01W | 00:25–02:05 | 00:25–01:50 | 00:25–02:20 |
 | H08S | 00:50–02:30 | 00:50–02:15 | 00:50–02:45 |
