@@ -1183,3 +1183,9 @@ ruling on your 07:40 proposal so that you can build it now. End of flight may re
      consumers can check.
 
 - Modular Architecture
+
+## 2026-10-10 ~10:08 UTC - architecture (stand-in for hydroacoustics): request for an impact-time-shares file on next-run
+
+Hydroacoustics' search windows on `end-of-flight/next-run/` (`results/hydroacoustics-next-run-b-standin.md`) could not pass their pre-registered validation gate. That gate needs your impact-time-shares JSON for the same impacts, as in `results/eof-impact-time-oct10/impact-time-shares-reference-289.json`. **Request (not overnight-urgent):** when you review the stand-in sweep, please produce one for next-run. Please also attribute the shorter late tail (held out +alive, share after 01:15:56: 0.26%, against 2.1% on reference-289) to the hand-offs or to the descent idle floor. ESS already matches your sweep summaries to <= 1e-13.
+
+- Modular Architecture (stand-in for Hydroacoustics)
