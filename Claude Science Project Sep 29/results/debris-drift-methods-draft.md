@@ -92,6 +92,21 @@ environment draw.
 [griffin2017partiii, p. 6]; this term applies it to GLORYS12 (0.494 m) and GlobCurrent surface currents.
 BRAN2016 is not used (Pete, 9 Oct ~18:30 UTC).
 
+**Windage must be relative to the current product (finding of 10 Oct; PENDING Pete's decision).** The two
+products do not mean the same thing by "surface current". GLORYS12's value is the model's top layer, centred at
+0.494 m. GlobCurrent's 0 m total current adds an empirical wind-driven term fitted to surface drifters, so it
+already carries part of the near-surface wind drift: about 0.74% of the 10 m wind speed more, directed near
+downwind, than GLORYS12 over 2014-2017 [drift-model audit, `results/drift-model-audit-architecture.md`, F1].
+Fitted to undrogued GDP drifters, the windage on top of each product is 1.36% (GLORYS12) and 0.75% (GlobCurrent).
+The production run applied the same object windage to both products. That double-counts part of the wind drift
+on GlobCurrent; it is a composition inconsistency, not an ocean-model alternative. The correction is a declared,
+config-gated offset added to every drawn wind fraction and floored at zero (`c_wind_product_offset`; 0 for
+GLORYS12 and for the reproduction). A smoke test on 92 nodes with an offset of −0.60% reduced the standard
+deviation of the GlobCurrent − GLORYS12 node log-likelihood difference north of 30°S from 3.28 to 1.66, the mean
+deficit north of 25°S from −5.78 to −2.19 (9 nodes), and the mean excess south of 37°S from +3.56 to +0.86
+(arm −0.75% pending). The part that remains is reported as ocean-model uncertainty. An explicit-Stokes
+composition for both products would remove the product-dependent wind content by construction; it is not yet run.
+
 **Object response by class** (`production-glorys12.toml`; PROVISIONAL priors except the flaperon's):
 - **Flaperon.** 1.2% of wind [griffin2017partiii, p. 6], plus an extra leeway of 0.10 ± 0.03 m/s at
   0-30° left of downwind. These are the at-sea measurements on a genuine cut-down 777 flaperon
