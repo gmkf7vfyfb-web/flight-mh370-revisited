@@ -19,6 +19,7 @@ import json, sys, pathlib
 import numpy as np
 from scipy.special import logsumexp, gammaln
 from displacement_hist import derived_logliks, constraint_log_factor
+from compact_impacts import open_seed
 
 CORE = [("00:19 Held Out", "none", "other"), ("00:19 R600 BTO Only", "r600-bto", "other"),
         ("00:19 R600 BTO + Raw BFO", "r600/no-offset", "other"),
@@ -27,8 +28,7 @@ EDGES = np.arange(-50.0, -15.0 + 1e-9, 0.001)
 
 
 def per_seed(sd):
-    meta = json.loads((sd / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
-    X = np.load(sd / "impacts.npy", mmap_mode="r"); g = lambda k: np.array(X[:, cols[k]], float)
+    meta, g = open_seed(sd, sd)
     logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
     w = g("weight"); lw = np.log(w) - np.log(w.sum()); lat = g("latitude_deg"); par = g("parent").astype(np.int64)
     present = [c[len("loglik:"):] for c in meta["impact_columns"] if c.startswith("loglik:")]
@@ -59,7 +59,7 @@ def main(root, outp, pcore):
     root = pathlib.Path(root); res = {"p_core": pcore, "strata": {}, "mixtures": {}}
     H = {}
     for s in pcore:
-        seeds = sorted(d for d in (root / s).glob("seed-*") if (d / "impacts.npy").exists())
+        seeds = sorted(d for d in (root / s).glob("seed-*") if (d / "impacts.npy").exists() or (d / "impacts32.npy").exists())
         rows = [per_seed(d) for d in seeds]
         res["strata"][s] = {}
         for key in rows[0]:

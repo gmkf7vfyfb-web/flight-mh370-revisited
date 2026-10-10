@@ -17,8 +17,9 @@ import json, sys, pathlib
 import numpy as np
 from scipy.stats import norm
 from displacement_hist import option_posteriors
+from compact_impacts import open_seed
 
-CORE = pathlib.Path("/Users/pete/Downloads/mh370-exchange/core/next-run")
+CORE = pathlib.Path(__import__("os").environ.get("EOF_CORE_RUN", "/Users/pete/Downloads/mh370-exchange/core/next-run"))
 SD = 7.0
 RNG = np.random.default_rng(20261010)
 
@@ -45,10 +46,8 @@ def pvalue(mean_nodes, var_nodes, w_nodes, obs, ndraw=1):
 
 
 def seed_check(sd, core_sd):
-    meta = json.loads((sd / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
-    X = np.load(sd / "impacts.npy", mmap_mode="r")
-    ia = np.array(X[:, cols["bfo_innovation_hz:m0019a"]]); ib = np.array(X[:, cols["bfo_innovation_hz:m0019b"]])
-    par = np.array(X[:, cols["parent"]]).astype(np.int64)
+    meta, g = open_seed(sd, sd)
+    ia = g("bfo_innovation_hz:m0019a"); ib = g("bfo_innovation_hz:m0019b"); par = g("parent").astype(np.int64)
     H = np.load(core_sd / "handoff-m0011" / "handoff.npy"); P = H[par, 9]          # bfo_bias_variance_hz2 per row
     sd_by = {"no-offset": SD, "startup-offset": SD, "inflated": float(meta["config"]["terminal"]["bfo_models"]["inflated"]["sd_hz"])}
     post = {}
@@ -81,7 +80,7 @@ def seed_check(sd, core_sd):
 def main(root, outp, strata):
     res = {}
     for st in strata:
-        seeds = sorted(d for d in (pathlib.Path(root) / st).glob("seed-*") if (d / "impacts.npy").exists())
+        seeds = sorted(d for d in (pathlib.Path(root) / st).glob("seed-*") if (d / "impacts.npy").exists() or (d / "impacts32.npy").exists())
         r = [seed_check(d, CORE / st / "bto-bfo" / d.name) for d in seeds]
         res[st] = {m: {k: [x[m][k] for x in r] for k in r[0][m]} for m in r[0]}
         for m in res[st]:

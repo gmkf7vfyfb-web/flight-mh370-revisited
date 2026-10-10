@@ -12,6 +12,7 @@ Usage: python impact_time_shares.py SRC OUT_PREFIX     -> OUT_PREFIX-impact-time
 import json, pathlib, sys, datetime
 import numpy as np
 from displacement_hist import option_posteriors, constraint_log_factor, T_M0019B, T_LOI_0115
+from compact_impacts import open_seed
 
 CONS = ("alive", "unpowered", "silent")
 
@@ -19,8 +20,8 @@ CONS = ("alive", "unpowered", "silent")
 def seeds_of(src):
     src = pathlib.Path(src)
     if (src / "run.json").exists() and (src / "bto-bfo").exists():
-        return [(src, d) for d in sorted((src / "bto-bfo").glob("seed-*")) if (d / "impacts.npy").exists()]
-    return [(d, d) for d in sorted(src.glob("seed-*")) if (d / "impacts.npy").exists()]
+        return [(src, d) for d in sorted((src / "bto-bfo").glob("seed-*")) if (d / "impacts.npy").exists() or (d / "impacts32.npy").exists()]
+    return [(d, d) for d in sorted(src.glob("seed-*")) if (d / "impacts.npy").exists() or (d / "impacts32.npy").exists()]
 
 
 def wq(x, w, qs):
@@ -35,12 +36,10 @@ def utc(t):
 def main(src, prefix):
     per = {}
     for run, sd in seeds_of(src):
-        meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
-        X = np.load(sd / "impacts.npy", mmap_mode="r")
-        t = np.asarray(X[:, cols["unix_s"]], float); fo = np.asarray(X[:, cols["latent:realised_flameout_unix_s"]], float)
-        lat = np.asarray(X[:, cols["latitude_deg"]], float)
+        meta, g = open_seed(run, sd)
+        t = g("unix_s"); fo = g("latent:realised_flameout_unix_s"); lat = g("latitude_deg")
         powered = (t > T_LOI_0115) & (~np.isfinite(fo) | (fo > T_LOI_0115))
-        g = lambda k: np.asarray(X[:, cols[k]], float); logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
+        logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
         factors = {(cause, c): np.exp(constraint_log_factor(g, logon, cause, c)) for cause in ("other", "fuel-exhaustion") for c in CONS}
         for key, p, _ in option_posteriors(run, sd, constraints=CONS):
             base, _, con = key.partition("+")

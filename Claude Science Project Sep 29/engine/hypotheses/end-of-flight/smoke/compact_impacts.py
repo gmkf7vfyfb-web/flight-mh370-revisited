@@ -119,3 +119,15 @@ if __name__ == "__main__":
         for line in (d / "SHA256SUMS").read_text().splitlines():
             h, f = line.split(); assert sha(d / f) == h, f
         print("ok")
+
+
+def open_seed(run, sd):
+    """(meta with original column names, g) for either layout: compact (impacts32.npy) or full (impacts.npy + run.json in
+    `run`, or in the seed dir for the exchange layout). g(name) returns float64; unix times are unix seconds."""
+    sd = pathlib.Path(sd); run = pathlib.Path(run)
+    if (sd / "impacts32.npy").exists():
+        return load(sd)
+    meta = json.loads(((run / "run.json") if (run / "run.json").exists() else (sd / "run.json")).read_text())
+    cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+    X = np.load(sd / "impacts.npy", mmap_mode="r")
+    return meta, (lambda name: np.asarray(X[:, cols[name]], np.float64))
