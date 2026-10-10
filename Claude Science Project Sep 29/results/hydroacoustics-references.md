@@ -210,7 +210,7 @@ equation for total absorption. *J. Acoust. Soc. Am.* 72, 1879–1890. doi:10.112
 - **Used:** the RAM cross-check of the KRAKEN transmission loss (`ram_tl_check.py`, prereg `6b747a1`;
   `hydroacoustics-ram-tl-check.md`), through [pyram].
 
-**[pyram]** Donnelly, M. (2024). *pyram 1.3.0: Python adaptation of the Range-dependent Acoustic Model
+**[pyram]** Donnelly, M. (2025). *pyram 1.3.0: Python adaptation of the Range-dependent Acoustic Model
 (RAM).* PyPI, BSD licence. https://github.com/marcuskd/pyram
 - **Used:** `ram_tl_check.py`, `prepare/exploratory/run_ims_tl.py`.
 
