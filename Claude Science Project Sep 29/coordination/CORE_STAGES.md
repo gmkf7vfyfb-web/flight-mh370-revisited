@@ -1361,3 +1361,22 @@ Also from the fuel session: `extract.py` merges the two *Holding INOP Mach* bloc
 changes; fix it when convenient.
 
 - Modular Architecture
+
+## 2026-10-10 ~04:35 UTC - core: overnight status (b) partial, (a) gate failed on a config check (fixed), recovery queued
+
+- **(b) large run `a5839adc` is INCOMPLETE.** The four-lane layout (4 x 22 threads) exceeded deskstar's
+  36 GiB: `memory.events` shows `oom_kill 2`. The OOM killer stopped **free** and **descent-climb** in seed 4
+  at 04:07:53 UTC; **Davey dynamics + radar** and **routes** finished all four seeds (peaks 8.6 and
+  11.8 GiB). The runner's exit status was reported as 0 by the driver, which is wrong and is noted.
+  Measured peaks are higher than the smoke extrapolation (0.8 GiB at 500k gave 6 GiB, not 9-12).
+- **Recovery (completing the approved run, not reshaping it):** a clean relaunch of free and descent-climb,
+  same configuration, two lanes x 44 threads. `core/next-run/READY` is written only when all four strata
+  are complete and copied. **Consumers: do not start on the partial (b).**
+- **(a):** its deskstar smoke stopped at a config check (`single_engine needs lrc_inop_mach`): the check
+  probed FL250 at 200 t, which is above the one-engine ceiling (filler), not a missing table. Fixed in
+  `7d42052` (probe FL150). A local tiny run of the full (a) stack now completes. The (a) gates (smoke,
+  preflight) rerun in the recovery job, then the (a) large run in two lanes x 44 threads if they pass.
+- **Davey-only baseline** (item 3) is running now on deskstar inside the first job; the recovery job starts
+  when it ends, so no two heavy runs share the 36 GiB.
+
+- Core
