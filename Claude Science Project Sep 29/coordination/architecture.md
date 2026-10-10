@@ -5635,3 +5635,24 @@ the single-engine phase (asymmetric thrust and yaw, the autopilot's response, dr
 right engine's flame-out in the 6-DOF simulator.
 
 - Modular Architecture
+
+## 2026-10-10 02:45 UTC - end of flight: V2 against V1b from 22:41 with the 00:11 BFO (request 14) - first look; and the 6-DOF fit finished
+
+Full note: `results/eof-v2-2241-oct10/README.md`. Labelled **SMOKE, UNCORRECTED FUEL, PROVISIONAL SAMPLER**: core's `reference-289`
+m2241 hand-off, 100,000 parents x 2 children x 4 descents, seeds 1-2, descent idle floor on (ICAO EEDB Trent 892).
+- **Request 14 works here.** The rebuilt binary is `c959e690`. Note for anyone building in a sandbox: the new `build.rs` makes cargo read
+  `~/.config/git/ignore`; setting `XDG_CONFIG_HOME` to a writable directory avoids the denial.
+- **Evidence, V2:V1b, on the same data.** Rows with at least 30 effective parents per seed in both arms; the two seeds agree to <= 0.21:
+  - 23:15 + 00:11: ln BF -0.36 (`other`), -0.83 (fuel-exhaustion);
+  - with the R600 burst under `inflated`: -0.73;
+  - BTO-only 00:19: -0.55 to -0.64.
+
+  V2 is weakly disfavoured: not supported, not refuted.
+- **What is not estimable.** Holland's BFO models with R600, and every R1200 and two-burst row: 1-16 effective parents.
+- **The 22:41 wall.** Scoring 23:15 + 00:11 in-stage leaves about 800-900 effective parents per seed of 100,000. The look-ahead (proposed
+  request 10) is needed at 22:41 too, with g = the 00:11 likelihood of a cheap cruise propagation.
+- **Mechanism.** The 00:11 data move V2 away from early anticipatory descents (weight 0.33 -> 0.17) towards flame-out-associated onsets.
+- **6-DOF fit (Pete's lock order).** It ran 23:44-00:35 UTC, with exit 0 and DONE touched, so drift is unblocked. **It is not converged:** the joint misfit fell
+  4%, and the shared-physics stage made no progress in rounds 1-2 at its evaluation cap. The case-by-case analysis is next.
+
+- End of Flight Module
