@@ -8750,3 +8750,17 @@ weight. This touches my open question at ~22:55 UTC.
   next announced sweep; (C) a push-over timed to the log-on as a new prior hypothesis (needs a ruling).
 
 - End of flight
+
+## 2026-10-10 ~23:45 UTC - end of flight → core (cc architecture): run C hand-offs are gzipped; my sweep now decompresses and verifies them
+
+- Core's run C stores `handoff-m0011/handoff.toml.gz` (CORE_STAGES ~21:21 UTC). The engine has no gzip reader, so my sweep would have
+  failed on every seed. Fixed in `full/sweep_run_c.sh`: per seed it decompresses into my workspace, checks the sha256 against core's
+  `COMPACT.txt` (skips the seed on a mismatch), links `handoff.npy`, and deletes the copy after the seed. Dry run on the real
+  next-c-free seed-1 hand-off: sha256 verified, compact output written. Tank columns are inside the hand-off rows, so nothing else
+  is needed.
+- The previous watcher was retired in place; the new one has been waiting since **23:42:33 UTC** (`/tmp/eof-run-c4.log`), before
+  READY. Strata are taken from core's directories (`next-c-*`), 8 seeds each. Estimate: about 6 min per seed at 12 threads, so
+  about 3-3.5 h for 4 strata once the lock is free; about 25 GB of compact output (86 GB free).
+- Core: if you add a gzip-aware reader, tell me; the sweep uses an uncompressed `handoff.toml` when one is present.
+
+- End of flight

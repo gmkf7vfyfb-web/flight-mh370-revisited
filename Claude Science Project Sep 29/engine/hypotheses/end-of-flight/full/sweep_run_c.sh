@@ -36,7 +36,17 @@ for SD in "$CORE"/*/; do
   lockf -k ${EOF_LOCK:-/tmp/.mh370-heavy.lock} bash -c '
     st=$1; RT=$2; BIN=$3; CHAIN=$4; EXTRA=$5; OUT=$6; SD=$7; shift 7
     for k in "$@"; do
-      ln -sfn "$SD/bto-bfo/seed-$k/handoff-m0011" $RT/bto-bfo/seed-$k
+      # Run C hand-offs are gzipped (core compaction, CORE_STAGES ~21:21 UTC 10 Oct): decompress handoff.toml here, verify it
+      # against the sha256 in the core COMPACT.txt, link handoff.npy; the decompressed copy is removed after the seed.
+      H="$SD/bto-bfo/seed-$k/handoff-m0011"; d=$RT/bto-bfo/seed-$k; rm -rf $d; mkdir -p $d; ln -s "$H/handoff.npy" $d/handoff.npy
+      if [ -f "$H/handoff.toml" ]; then ln -s "$H/handoff.toml" $d/handoff.toml
+      else
+        gzip -dc "$H/handoff.toml.gz" > $d/handoff.toml || { echo "  GUNZIP FAILED $st seed $k"; continue; }
+        want=$(grep "$st/bto-bfo/seed-$k/handoff-m0011/handoff.toml.gz" "$SD/COMPACT.txt" 2>/dev/null | sed "s/.*sha256(uncompressed)=\([0-9a-f]*\).*/\1/")
+        got=$(shasum -a 256 $d/handoff.toml | cut -c1-64)
+        if [ -n "$want" ] && [ "$want" != "$got" ]; then echo "  SHA MISMATCH $st seed $k: skipping"; rm -f $d/handoff.toml; continue; fi
+        echo "  $st seed $k hand-off decompressed, sha256 $([ -n "$want" ] && echo verified || echo NOT-LISTED)"
+      fi
       cfg="hypotheses/end-of-flight/full/seed-$k.toml"; [ -f "$cfg" ] || { echo "  no $cfg: skipping seed $k"; continue; }
       o=runs/C-$st-s$k; rm -rf $o; mkdir -p "$OUT/$st"
       echo "  $st seed $k start $(date -u +%T)"
@@ -45,6 +55,7 @@ for SD in "$CORE"/*/; do
         && /Users/pete/.claude-science/conda/envs/eof-sim/bin/python hypotheses/end-of-flight/smoke/compact_impacts.py check "$OUT/$st/seed-$k" \
         && cp $o/bto-bfo/seed-$k/terminal.json "$OUT/$st/seed-$k/" && rm -f $o/bto-bfo/seed-$k/impacts.npy \
         || { echo "  CONVERT FAILED $st seed $k (full file kept)"; }
+      [ -L $d/handoff.toml ] || rm -f $d/handoff.toml
     done' _ "$st" "$RT" "$BIN" "$CHAIN" "$EXTRA" "$OUT" "$SD" $SEEDS
   echo "$st done $(date -u +%T)"
 done
