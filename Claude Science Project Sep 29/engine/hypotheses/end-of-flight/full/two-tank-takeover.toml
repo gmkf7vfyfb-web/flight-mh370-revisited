@@ -1,0 +1,5 @@
+# Core request 11 adopted on the module side (10 Oct): read the two-tank state at the takeover (one-engine prediction and
+# propulsion). Default off in run.toml; this overlay turns it on. Not in run C (its binary predates it); the base from the
+# next announced sweep.
+[hypotheses.end-of-flight]
+two_tank_takeover = true

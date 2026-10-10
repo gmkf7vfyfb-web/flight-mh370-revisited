@@ -233,6 +233,15 @@ struct Params {
     /// V2-broad behaviour exactly.
     #[serde(default)]
     deliberate_control_any_propulsion: bool,
+    /// Read core's two-tank state at the takeover (core request 11, `3970826`; Pete's two-tank instruction 10 Oct). With it on:
+    /// the exhaustion prediction burns the right and left pools at the twin flow split by `tank_flow_ratio` (R:L) until one is
+    /// dry, then the live pool at the core's one-engine (INOP) flow; and a takeover with exactly one live pool cannot draw
+    /// `TwoThrusting`. Single-pool hand-offs (NaN tank fields) are unaffected. Default false: the single-pool behaviour exactly.
+    #[serde(default)]
+    two_tank_takeover: bool,
+    /// Right-to-left engine flow ratio for the two-tank prediction. Default 1.021 (fuel session, N(1.021, 0.008^2)).
+    #[serde(default = "default_tank_flow_ratio")]
+    tank_flow_ratio: f64,
     /// Keep a descent that never reached the sea as its own impact sample instead of finishing it
     /// on a best-glide. **Default off.** A negative result is kept, not deleted: with the flag
     /// off the fact is still recorded in the `timed_out` latent, and with it on the unconverged
@@ -699,6 +708,20 @@ impl Hypothesis for EndOfFlight {
     }
 }
 
+fn default_tank_flow_ratio() -> f64 {
+    1.021
+}
+
+/// The two pools, when the hand-off carries them (core request 11), as (left, right) kg.
+fn tank_pools(state: &FlightState) -> Option<(f64, f64)> {
+    (state.fuel_left_kg.is_finite() && state.fuel_right_kg.is_finite()).then(|| (state.fuel_left_kg.max(0.0), state.fuel_right_kg.max(0.0)))
+}
+
+/// Exactly one pool still holds fuel: one engine has already flamed out.
+fn one_engine_out(state: &FlightState) -> bool {
+    tank_pools(state).is_some_and(|(l, r)| (l > 0.0) != (r > 0.0))
+}
+
 /// Everything about a parent trajectory this module needs, with the fallbacks applied once.
 struct Parent {
     /// Exhaustion under CONTINUED CRUISE, derived from `fuel_kg` — never a realised flame-out and
@@ -785,6 +808,9 @@ impl EndOfFlight {
         let mut remaining = fuel_kg;
         let mut mass = mass_kg;
         let mut elapsed = 0.0;
+        // Two pools (switch `two_tank_takeover`): only when the hand-off carries them and the fuel is the real one.
+        let mut pools = if self.params.two_tank_takeover && (state.fuel_kg - fuel_kg).abs() < 1e-6 { tank_pools(state) } else { None };
+        let ratio = self.params.tank_flow_ratio;
         // 24 h of cruise is far beyond any trajectory this module sees; the cap exists so a
         // pathological state cannot spin here.
         while remaining > 0.0 && elapsed < 86_400.0 {
@@ -792,8 +818,15 @@ impl EndOfFlight {
             let c_d = aero.c_d(c_l, state.mach, &cfg);
             let thrust_n = c_d * q * aero.wing_area_m2;
             let own = aero.fuel_flow_kg_s(thrust_n);
+            let both_live = pools.map_or(true, |(l, r)| l > 0.0 && r > 0.0);
             let priced = fuel
-                .and_then(|m| m.fuel_flow_kg_h(state.altitude_ft / 100.0, mass / 1000.0, state.mach))
+                .and_then(|m| {
+                    if both_live {
+                        m.fuel_flow_kg_h(state.altitude_ft / 100.0, mass / 1000.0, state.mach)
+                    } else {
+                        m.fuel_flow_inop_kg_h_at(state.altitude_ft / 100.0, mass / 1000.0, state.mach, 0.0)
+                    }
+                })
                 .map(|r| r.kg_h / 3600.0)
                 .filter(|f| f.is_finite() && *f > 0.0);
             let flow = match (fuel, priced) {
@@ -807,6 +840,35 @@ impl EndOfFlight {
             if !(flow > 0.0) {
                 return (f64::INFINITY, unpriced);
             }
+            if let Some((l, r)) = pools {
+                if l > 0.0 && r > 0.0 {
+                    // Both engines: the twin flow split R:L = ratio. Step to the first pool's exhaustion at most.
+                    let (fr, fl) = (flow * ratio / (1.0 + ratio), flow / (1.0 + ratio));
+                    let dt = STEP_S.min(r / fr).min(l / fl);
+                    let (l2, r2) = ((l - fl * dt).max(0.0), (r - fr * dt).max(0.0));
+                    let (l2, r2) = (if l2 < 1e-9 { 0.0 } else { l2 }, if r2 < 1e-9 { 0.0 } else { r2 });
+                    pools = Some((l2, r2));
+                    remaining = l2 + r2;
+                    mass -= flow * dt;
+                    elapsed += dt;
+                    if remaining <= 0.0 {
+                        break;
+                    }
+                    continue;
+                }
+                // One engine: the live pool at the one-engine flow.
+                let live = l.max(r);
+                let burn = flow * STEP_S;
+                if burn >= live {
+                    elapsed += live / flow;
+                    break;
+                }
+                pools = Some(if l > 0.0 { (l - burn, 0.0) } else { (0.0, r - burn) });
+                remaining = live - burn;
+                mass -= burn;
+                elapsed += STEP_S;
+                continue;
+            }
             let burn = flow * STEP_S;
             if burn >= remaining {
                 elapsed += remaining / flow;
@@ -816,6 +878,7 @@ impl EndOfFlight {
             mass -= burn;
             elapsed += STEP_S;
         }
+        let _ = remaining;
         (state.unix_s + elapsed, unpriced)
     }
 
@@ -893,7 +956,7 @@ impl EndOfFlight {
                 let (control, c_prior, lq) = pick_control(&self.params.control_weights, boost, uniform);
                 (Propulsion::NeitherThrusting, control, c_prior, lq)
             } else {
-                self.draw_axes(mechanism, uniform)
+                self.draw_axes(mechanism, self.params.two_tank_takeover && one_engine_out(takeover), uniform)
             };
             let aero = self.params.aero.draw(uniform);
             let record = !self.params.trace.path.is_empty() && trace_selected(takeover, descent_index, self.params.trace.every_n);
@@ -1022,12 +1085,17 @@ impl EndOfFlight {
 
     /// Draw the propulsion and control axes, restricted to the cells legal for `mechanism`, and
     /// return them with their joint prior weight.
-    fn draw_axes(&self, mechanism: Initiation, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64, f64) {
+    fn draw_axes(&self, mechanism: Initiation, one_engine_out: bool, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64, f64) {
         let mut weights = self.params.propulsion_weights;
         for (i, p) in Propulsion::ALL.iter().enumerate() {
             if !(Family { initiation: mechanism, propulsion: *p, control: Control::NoIntervention }).is_legal() {
                 weights[i] = 0.0;
             }
+        }
+        // One engine already out at the takeover (two-tank state): two engines cannot thrust. The physical state
+        // conditions the axis; the remaining cells keep their relative prior weights.
+        if one_engine_out && weights[1] + weights[2] > 0.0 {
+            weights[0] = 0.0;
         }
         let (propulsion, p_prior) = pick(&weights, &Propulsion::ALL, uniform);
         let deliberate = matches!(mechanism, Initiation::Anticipatory | Initiation::FuelCue)
@@ -1375,6 +1443,68 @@ mod tests {
 
     /// The parameter block of `run.toml`, so the tests exercise the configuration that would be
     /// lifted into a core config rather than a private one.
+    /// Core request 11 (two-tank state at the takeover, switch `two_tank_takeover`). With constant table flows the
+    /// prediction is exact: two pools burn R:L at the twin flow until the right is dry, then the left at the one-engine flow;
+    /// a single live pool burns at the one-engine flow. A takeover with one engine out never draws two thrusting engines.
+    /// With the switch off, the same two-tank state is read as one pool (the single-pool prediction).
+    #[test]
+    fn two_tanks_at_takeover_predict_the_final_flame_out_and_bar_two_thrusting_engines() {
+        struct TwoFlows(f64, f64);
+        impl FuelFlow for TwoFlows {
+            fn fuel_flow_kg_h(&self, _: f64, _: f64, _: f64) -> Option<hypothesis::FuelFlowRate> {
+                Some(hypothesis::FuelFlowRate { kg_h: self.0, extrapolated: false, below_tables: false, above_ceiling: false })
+            }
+            fn fuel_flow_inop_kg_h_at(&self, _: f64, _: f64, _: f64, _: f64) -> Option<hypothesis::FuelFlowRate> {
+                Some(hypothesis::FuelFlowRate { kg_h: self.1, extrapolated: false, below_tables: false, above_ceiling: false })
+            }
+        }
+        let flows = TwoFlows(6_000.0, 5_000.0);
+        let build = |on: bool, weights: [f64; 3]| {
+            let mut v = params();
+            let t = v.as_table_mut().unwrap();
+            t.insert("two_tank_takeover".into(), toml::Value::Boolean(on));
+            let onset = t.get_mut("onset").unwrap().as_table_mut().unwrap();
+            onset.insert("anticipatory_lead_s".into(), toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0)]));
+            onset.insert("mechanism_weights".into(), toml::Value::Array(weights.iter().map(|w| toml::Value::Float(*w)).collect()));
+            new(&v).unwrap()
+        };
+        let base = handoff(ONSET_22_41);
+        // One live pool (right dry): 500 kg at 5,000 kg/h.
+        let one = FlightState { fuel_kg: 500.0, fuel_left_kg: 500.0, fuel_right_kg: 0.0, first_flameout_unix_s: base.unix_s - 60.0, ..base };
+        let m = build(true, [0.0, 0.0, 1.0]);
+        let t = m.terminal().unwrap();
+        let got = t.takeover_priced(&one, &flows, &mut sweep(0.37)).unix_s;
+        let want = one.unix_s + 500.0 / (5_000.0 / 3_600.0);
+        assert!((got - want).abs() < 1e-6, "one live pool: {got} vs {want}");
+        // Two pools: right 1,000 kg and left 1,100 kg, R:L = 1.021.
+        let two = FlightState { fuel_kg: 2_100.0, fuel_left_kg: 1_100.0, fuel_right_kg: 1_000.0, first_flameout_unix_s: f64::NAN, ..base };
+        let r = 1.021;
+        let (fr, fl) = (6_000.0 * r / (1.0 + r) / 3_600.0, 6_000.0 / (1.0 + r) / 3_600.0);
+        let t1 = 1_000.0 / fr;
+        let want2 = two.unix_s + t1 + (1_100.0 - fl * t1) / (5_000.0 / 3_600.0);
+        let got2 = t.takeover_priced(&two, &flows, &mut sweep(0.37)).unix_s;
+        assert!((got2 - want2).abs() < 1e-3, "two pools: {got2} vs {want2}");
+        // Switch off: the same state is one pool at the twin flow.
+        let off = build(false, [0.0, 0.0, 1.0]);
+        let got3 = off.terminal().unwrap().takeover_priced(&two, &flows, &mut sweep(0.37)).unix_s;
+        assert!((got3 - (two.unix_s + 2_100.0 / (6_000.0 / 3_600.0))).abs() < 1e-6, "switch off reads one pool: {got3}");
+        // One engine out at the takeover: anticipatory onsets never draw two thrusting engines.
+        let ant = build(true, [1.0, 0.0, 0.0]);
+        let ta = ant.terminal().unwrap();
+        let names = ta.latent_columns();
+        let at = names.iter().position(|n| n == "engines_thrusting_at_onset").unwrap();
+        let mut seen = std::collections::BTreeSet::new();
+        for u in [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95] {
+            let drawn = ta.takeover_priced(&one, &flows, &mut sweep(u));
+            let at_state = FlightState { unix_s: drawn.unix_s.max(one.unix_s), ..one };
+            for d in ta.descend_after(&at_state, &drawn, &atmos::Standard, &flows, &mut sweep(u), &epochs(), &|_| 0.0) {
+                assert!(d.latents[at] < 2.0, "two engines drawn with one engine out (u = {u})");
+                seen.insert(d.latents[at] as i64);
+            }
+        }
+        assert!(!seen.is_empty());
+    }
+
     fn params() -> toml::Value {
         let text = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/end-of-flight/run.toml")).expect("run.toml");
         let run: toml::Value = toml::from_str(&text).expect("run.toml parses");
