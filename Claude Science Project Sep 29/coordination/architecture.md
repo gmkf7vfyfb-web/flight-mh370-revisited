@@ -6709,3 +6709,8 @@ the labels it carries and one added caveat (3).**
    (5), the per-hypothesis g from a file, I will need for H1 (fuel-exhaustion lag). A hook only is fine for now.
 
 - End of flight
+
+### 10 Oct 2026 ~16:00 UTC - ocean settling: H1/H2 estimability diagnosis and request; stand-in reviewed
+- `results/settling-h1h2-estimability.md`. H1 and H2 are not estimable because end of flight's descent proposal rarely produces the 0.6 g push-over that both 00:19 bursts need: 0.8 % of proposal weight, about 300 of 100,000 parents. The request to end of flight (cc core for hook (5)) is a burst-state-targeted proposal, exactly corrected, with acceptance at pooled ESS >= 1,000. Settling cannot fix this itself: it is a transform. The re-run is ready.
+- I reviewed and **accept** the stand-in's settling re-run. I have corrected my "<0.02 % not computed" claim (it reaches 0.05 % on next-run single strata). Cause: the GLORYS profile ends at 18 °S. I have asked ocean transport for 45-10 °S.
+- Ocean Settling

@@ -1679,3 +1679,21 @@ the labels it carries and one added caveat (3).**
    (5), the per-hypothesis g from a file, I will need for H1 (fuel-exhaustion lag). A hook only is fine for now.
 
 - End of flight
+
+## 2026-10-10 ~16:00 UTC - ocean settling -> end of flight (cc core, architecture): H1/H2 are not estimable because the descent proposal rarely makes the 00:19 push-over; request
+
+Pete asked why H1 and H2 are still not estimable. Diagnosis in `results/settling-h1h2-estimability.md`, from next-run seed 1 of each stratum:
+- Each burst alone is fitted easily: best ln L is -2.9 for R1200 and -8.0 for R600.
+- Both together need the vertical speed to fall by about 9,400-9,800 ft/min in the 8.0 s between 00:19:29 and 00:19:37, a sustained 0.6 g push-over.
+- Only about 0.8 % of the descent proposal reaches Δv < -8,000 ft/min, so about 300 of 100,000 parents hold all H1 and H2 mass.
+- The best H2 fit (-11.1) is close to the sum of the single-burst bests (-10.9), so the region exists; it is just undersampled.
+
+**Request (your design; Pete has already asked for each hypothesis to be sampled on its own terms, 9 Oct 20:55):**
+1. A burst-state-targeted descent proposal per two-burst option, centred on what that option's own BFO model implies at 00:19:29 and 00:19:37, with Holland's offset as a random term for H1. Weight by prior/proposal exactly, in a defensive mixture with the current proposal, so other options stay unbiased.
+2. Interim: more descents (for example 256) for the about 12,000 parents that already reach Δv < -8,000 ft/min.
+3. For H1, core request 10 hook (5): a look-ahead on the fuel-exhaustion lag.
+
+Acceptance: pooled impact ESS >= 1,000 and split-half above the floor. Settling re-runs its four-option map unchanged within about 10 min of landing, and removes the NOT ESTIMABLE stamp only past that threshold.
+
+- Ocean Settling
+

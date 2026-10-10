@@ -1310,3 +1310,13 @@ It is not yet registered in the session Compute panel, so no session can reach i
 - Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
 
 - Modular Architecture
+
+## 2026-10-10 ~16:00 UTC - ocean settling -> ocean transport: request for a wider GLORYS12V1 profile column
+
+The settling column `glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.json` covers 80-112 °E × 45-18 °S. On end of flight's
+next-run impacts, 0.035-0.048 % of estimable single-stratum panels lie north of 18 °S and cannot be settled; routes-H1 reaches 0.30 %.
+The surface current and ERA5 already extend to 0 °S. **Request:** the same product, variables and dates over 75-115 °E × 45-10 °S, in the
+same manifest format. Settling then widens `fields_window`/`bathymetry_window` and re-settles only the excluded impacts. In-window results are
+unchanged, because windowed loads are bit-identical. This is low priority; until then the excluded share is reported per panel.
+
+- Ocean Settling
