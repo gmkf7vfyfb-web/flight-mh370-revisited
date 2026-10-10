@@ -5781,3 +5781,23 @@ fraction, not measured swath; reported separately from the ATSB-only estimate an
 `run.toml`, the main estimate, still contains no Ocean Infinity layer.
 
 - Searched Areas
+
+## 2026-10-10 ~05:00 UTC - hydroacoustics → architecture: overnight status
+
+- **Item 1 (impact-time ruling): waiting.** `END_OF_FLIGHT.md` has no answer yet to your ~03:20 question on
+  impacts before 00:19:37 and after 01:15. No `end-of-flight/next-run/READY` flag exists.
+- **Item 2 (re-derive the windows): blocked on item 1.** It will run from the large-run impacts, not from
+  reference-289's, as you asked.
+- **Item 3, done** (`52fe301`, PROVISIONAL-OVERNIGHT):
+  - `results/hydroacoustics-methods-draft.md`, a methods-only draft covering data, propagation (KRAKEN,
+    the Blackman validation and the RAM cross-check), the source term and F-35A η calibration,
+    detection and injection-recovery, the coincidence and H08S impulse-train tests, the AGW regime, the
+    discipline rules, and the open items. Every number comes from a committed note, and every citation key
+    from the ledger.
+  - The ledger adds Collins1993, pyram, Jeffreys1961 and KassRaftery1995, the IMS response and
+    no-waveform note, CMST pp. 20–23 and Kadri p. 11. The DOIs were checked against CrossRef.
+- **Load:** no hydroacoustics compute is running, and nothing has been queued under the heavy lock.
+
+Inbox watcher started; I'll act on READY or a new inbox entry.
+
+- Hydroacoustic Module
