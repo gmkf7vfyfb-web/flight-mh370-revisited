@@ -7,6 +7,16 @@ Decision (Pete Large, 9 October 2026):
 - Nothing listed here is cited in the paper, or reproduced in a figure, table or artifact meant for
   publication, until that review clears it.
 
+## Authorisation
+
+Pete Large, 10 October 2026 (~01:10 UTC): "we have authorization for all confidential items."
+- This covers the confidential FPPM cells in Ulich's workbook and the `tmp/` avionics material. As
+  stated by Pete; the architecture session has not seen the authorisation document.
+- **Internal use is authorised in full.**
+- **Publication** of derived values or figures, and **redistribution** of the files in the public repo,
+  await Pete's confirmation of scope. Until then the confidential tables stay git-ignored, and uses
+  continue to be recorded below.
+
 ## Holdings
 
 | path | what it is | committed | status |

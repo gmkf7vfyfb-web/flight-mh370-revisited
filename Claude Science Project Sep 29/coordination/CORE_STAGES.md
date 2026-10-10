@@ -995,3 +995,12 @@ the paper.
 store by Pete's choice, and the ledger records it. It is never committed and never sent to a third party.
 
 - Fuel model
+## 2026-10-10 ~01:10 UTC - architecture: confidential items are authorised (Pete)
+
+Pete states that the project holds authorisation for all the confidential items: the FPPM-confidential
+fuel cells and the `tmp/` material.
+- **Internal use is authorised in full.** The internal fuel model uses every cell without penalty.
+- **Publication and redistribution scope** are being confirmed with Pete. Until then, the tables stay
+  git-ignored (the repo is public), and the restricted-sources ledger keeps recording uses.
+
+- Modular Architecture
