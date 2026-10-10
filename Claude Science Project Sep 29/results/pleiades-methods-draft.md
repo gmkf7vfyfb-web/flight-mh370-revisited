@@ -1,17 +1,19 @@
 # Methods draft: the Pléiades / COSMO-SkyMed conditional hypothesis
 
-Pléiades module, 9 October 2026. This is a first draft of the paper's methods text for the Pléiades conditional
-hypothesis, written under the overnight fallback in the architecture entry of 9 Oct ~04:15 UTC. Keys in square
-brackets refer to `results/pleiades-references.md`. Code is in `engine/hypotheses/pleiades/` on branch
-`hypothesis/pleiades` at `9b7cd52`; results are in `results/pleiades/`.
+Pléiades module. First draft 9 October 2026; revised overnight 10 October 2026 (OVERNIGHT-2026-10-10.md, "until then:
+work the methods draft and the citation ledger"). Keys in square brackets refer to `results/pleiades-references.md`.
+Code is in `engine/hypotheses/pleiades/` on branch `hypothesis/pleiades`; results are in `results/pleiades/`.
 
-**Status.** Every number is PROVISIONAL. Three things make it so:
-- the reference posterior fails split-half [Ref-run];
-- the descent kernel is a provisional stand-in for end of flight's displacement histogram [EoF-reach];
-- the COSMO-SkyMed source, time and footprint are unverified [COSMO-pos].
+**Status.** Every number is PROVISIONAL. Five things make it so:
+- the flight posterior (`reference-289`, end of flight's `eof-289-full` impacts) uses the tempered sampler with the
+  ancestry defect found by the filter audit (F1, core request 17) and the uncorrected fuel model. Both are replaced
+  by the overnight run of 10-11 October, and every flight-conditioned number here is superseded when it lands;
+- end of flight's dive class (b) and the Boeing-calibrated glide are provisional;
+- the COSMO-SkyMed source, time and footprint are unverified [COSMO-pos];
+- the Ocean Infinity 2018 and 2025-26 layers are community tracings (grade C);
+- the Pléiades-COSMO transport-error correlation is unmeasured (§6.4).
 
-Every result carries the label "295.66° prior; superseded on re-run". **Nothing here is evidence that any imaged
-object came from 9M-MRO.**
+**Nothing here is evidence that any imaged object came from 9M-MRO.** Every PDF is conditional on H.
 
 ## 1. The hypothesis and what the module returns
 
@@ -68,8 +70,12 @@ H states that at least one object imaged by Pléiades-1A on 23 March 2014 [GA201
   - Copernicus-GlobCurrent, daily total current [OT-REC].
 - Using the daily GlobCurrent table makes the option label equal drift's, so the two are marginalised jointly
   (rule 7). The hourly table is a sensitivity (§6).
-- Tracks are tabulated on a 0.1° release grid over 87–97 E, 41–31 S, at 21 windage nodes from 0 to 5 %
+- Tracks are tabulated on a 0.1° release grid over 85–103 E, 43–25 S, at 21 windage nodes from 0 to 5 %
   (`export.rs`). They are interpolated bilinearly in release position.
+- **Verification.** An independent RK4 oracle (1 h step, bilinear in space, linear in time) on the raw daily
+  current fields plus c·ERA5 reproduces the tables to a median 0.007 km and at most 0.073 km, over 60 random
+  origin / windage / output-time cases per product (`results/pleiades/closeup-289/audit/audit-integrator.csv`).
+  At these step sizes, integration error is therefore negligible against a transport spread of about 100 km.
 - The explicit-Stokes (WAVERYS) object response is **not** an arm. It would need a windage prior refitted for that
   system (ruled 9 Oct ~06:45 UTC).
 
@@ -86,14 +92,21 @@ where x_k is the deterministic endpoint under windage node k. Each component var
 the dispersion of a displacement with exponentially correlated velocity error [Taylor1921; equation location to
 be checked].
 
-**Measured parameters.** σ_i and T_i come from ocean transport's replay of 28,148 GDP drifter segments through the
-same integrator [OT-GDP]: undrogued drifters, box 80–110 E 45–20 S, March–May starts, current + 1 % ERA5.
+**Measured parameters.** σ_i and T_i are ocean transport's OU fit to its replay of GDP drifters through the same
+integrator [OT-GDP], subset undrogued, box 80–110 E 45–20 S, March–May starts, current + 1 % ERA5: 808 segments
+from 60 drifters.
 - GLORYS12: σ = 0.1153 / 0.1176 m/s and T = 6.13 / 4.20 d (east / north).
 - GlobCurrent: σ = 0.1043 / 0.0955 m/s and T = 16.02 / 7.64 d.
 - The replay residual against real drifters already contains sub-grid dispersion, so no separate diffusivity
   is added.
 - Over the 15.2 days from impact to Pléiades, the per-component sd is 95–118 km.
+- **Check against the replay.** At every lead time from 1 to 15 days the fitted variance reproduces the replay's
+  empirical rms to within about 5 %; it runs about 20 % low at 6–12 h. At 15 d the replay gives 95–120 km rms per
+  component; the bootstrap 95 % range over drifters is 81–137 km (`audit-spread-vs-gdp.csv`).
 - sd_target = 0.5 km.
+- **Verification.** An independent evaluation of p(y|s) from the release tables reproduces the hook's exported
+  surfaces to |Δ ln L| ≤ 8 × 10⁻⁵ (Pléiades) and ≤ 1 × 10⁻⁴ (COSMO) at 300 random grid points each
+  (`audit-summary.json`).
 
 **Likelihood under H.**
 
@@ -137,6 +150,8 @@ their windage.
 **The two are always reported together.** A narrow conditional PDF can be a symptom of tension rather than of
 precision.
 
+### 6.1 First run: reference-snapshots and the provisional descent kernel (superseded by §6.2)
+
 **Unconditional input.** The impact distribution is the reference flight posterior: per-particle positions at
 00:19:37, 8 seeds × 7,000,000 particles [Ref-snapshots]. It is convolved with a descent kernel, the provisional
 eof-2f [EoF-reach]:
@@ -172,13 +187,86 @@ cluster-weight arms, pooled seeds, eof-2f):
     conditional: an HDR of 8,500–12,100 km² holding only 6–10 % of the unconditional mass. Its p was still
     0.10–0.36. That precision was an artefact of the under-stated transport error.
 
+### 6.2 The conditional branch on end of flight's impacts
+
+**Input.** End of flight's reference-289 impacts (`eof-289-full`): 4 seeds × 100,000 parents × 8 children × 4
+descents, 12,799,968 impacts. Each impact is weighted by its weight × exp(loglik:<option>), where <option> is the
+00:19 data option. Options are never mixed by evidence. The log-on cause is "other".
+
+**Fields** (`prepare/branch_eof289.py`). The fields are P (Pléiades), C3 (COSMO F1–F3), C4 (F1–F4), and the joint
+P+C3 and P+C4. The COSMO likelihood marginalises the dawn-20 / dusk-21 March pass with equal weight inside each
+ocean model. Each joint is formed per ocean model (L_P,m · L_C,m), because one ocean drives both, and then averaged
+over models with equal weight. COSMO enters only as these prediction fields: it has no Bayes factor and no
+provenance probability.
+
+**Search evidence.** We use the searched-areas module's own per-impact column from `mh370 evaluate`, never a
+recomputation. That column is the miss probability ρ + (1 − ρ) Π_k (1 − q_k c_k), with ρ = 0.05 shared between
+campaigns. Three variants are run:
+- base: Phase 2, q = 0.945; Bluefin-21, q = 0.9;
+- + OI 2018: q = 0.9, coverage fraction 0.889;
+- + OI 2025-26 south-east band: q = 0.9, coverage fraction 0.7808.
+
+The OI layers are grade-C community tracings. The inferred north-west band is drawn but is never negative evidence.
+
+**Results, 00:19 held out** (`branch-289/branch-289.md`, `closeup-289/closeup-289.md`):
+- Unconditional 90 % HDR: 620,510 km² before the search, 730,426 km² after; the search retains Z = 0.733.
+- P+C3: 90 % HDR 50,821 → 49,925 km². P+C4: 58,900 → 57,306 km² (base search), then 59,316 km² with both OI layers.
+- Under H with OI applied, 87–88 % of the conditional mass lies outside every past search envelope. 4.5–5.2 % lies in
+  the inferred north-west band.
+- The 50 % region of P+C4 is 4,698 km². It lies around 35.1 S 91.3 E, about 49 NM inside the 7th arc.
+- ln S is +0.46 to +1.36 in every arm, so there is no tension.
+- Common origin of P and C: ln S ≈ +1.04 to +1.09, a low-power test.
+
+**The 00:19 option dominates the after-search result** (`branch-289/branch-by-0019-option.csv`):
+- R600 only, raw: the search keeps only 0.35–0.39 of the conditional mass, against 0.70–0.73 with 00:19 held out.
+- r600/inflated: 0.385–0.435. r1200/inflated: 0.546–0.559.
+- The results are reported by option, never pooled.
+
+### 6.3 Comparison with the prior work
+
+The prior work's residual origin density [Prior-Pleiades] had:
+- a 90 % area of 57,708 km² and a mode near 35.3 S 92.2 E;
+- a 50:50 sensor pool, the 21 March pass and windages 0 / 1.25 / 3 %;
+- a 5 NM/day random walk plus a 10 km endpoint kernel, which gives 27–37 km per component at 15 d.
+
+Putting those settings on our two ocean models (`prepare/audit_closeup.py`) gives a 90 % area of 57,436 km²
+(52,823–69,465 km² across 27–37 km) and a mode at 35.38 S 92.38 E. **The prior map is reproduced to within its
+spread setting.** Changing only the spread to the measured one gives 233,802 km², with the mode at 35.08 S 91.38 E.
+
+The difference between the two analyses is therefore the transport error, not the ocean models. The measured
+error is 3–4 times the prior work's assumption. With an error of about 105 km per component against a drift of
+60–120 km, origins north-west of the objects remain compatible. That is why the measured conditional is broad.
+
+### 6.4 Correlated transport errors (open)
+
+The joint P × C treats the transport errors of the two object sets as independent. The objects are 40–80 km apart,
+come from one impact and are observed about 2 days apart, so their errors are probably positively correlated.
+
+Re-scoring the joint with a per-component correlation ρ between the two residuals:
+- the flight-conditioned 90 % area grows from 59,316 km² to 75,821 km² at ρ = 0.5 and 82,106 km² at ρ = 0.8;
+- the mean moves ≤ 12 km;
+- the share outside past searches changes by ≤ 1 point (`audit-correlation.csv`).
+
+ρ = 0 is the reference until ocean transport measures pair correlations from the GDP replay (requested 9 Oct
+~22:40 UTC).
+
+### 6.5 Debris drift under H
+
+Inside the 50 % region the model drift to the scene time is 52–114 km (q10–q90; median 63 km). None of the mass
+moves less than 30 km. The tracks end a median 31 km from a rating-5 cluster (`audit-drift.csv`). The conditional
+therefore does not place origins where the debris would have barely moved.
+
 ## 7. Not done, and why
 
-- **Deliverable 4's joint COSMO kernel** and the **Poisson / scene-footprint term** both need footprints that do not
-  exist. Without them the absolute BF stays uninterpretable.
-- **D7, the residual search PDF under H,** needs settling and searched-area outputs under H.
+- **The overnight re-run** on the new impacts (`prepare/rerun_next.py`), across every 00:19 option, when end of flight
+  writes `next-run/READY`. It replaces every flight-conditioned number in §6.2.
+- **Holland H1 / H2** (the two-burst 00:19 options) are not estimable until end of flight settles the hand-off.
+- **OSCAR comparison**: fields not yet provisioned by ocean transport. OSCAR is a comparison only.
+- **The P-C correlation** (§6.4) awaits ocean transport.
+- **The Poisson / scene-footprint term** needs footprints that do not exist. Without it the absolute Bayes factor
+  stays uninterpretable, so P(H | D) is never reported.
+- **D7, the residual search PDF under H**, beyond the searched-area factor above, needs settling outputs under H.
 - **The correlated multi-object likelihood** is not done: the targets enter as a mixture, so at most one object is
   treated as wreckage at a time.
-- **Re-run on `reference-289`** with end of flight's histogram in place of eof-2f, when both land.
 
 — Pléiades module
