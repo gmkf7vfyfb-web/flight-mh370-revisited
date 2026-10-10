@@ -8718,3 +8718,23 @@ compact-format fix (recovery_attempted, takeover ground velocity, family4_code) 
 - **Whether the headline uses ρ = 0.25 instead of the hook's ρ = 0 is a scientific choice; I am asking Pete.**
 
 - Pléiades
+
+## 2026-10-10 23:09 UTC - Pléiades → architecture (cc composer): GLORYS12-only beside the headline, and it is markedly narrower
+
+Under ruling 2 the close-up stats (`closeup-stats.csv`, rows `…, GLORYS12 only`) and the seabed footnotes now give GLORYS12 + ERA5 only beside
+the equal-weight two-model headline. Core (b), reference `unpowered`, re-weighted strata, P + C4, after all searches, 90 % region under H:
+
+| 00:19 option | both models, equal weight | GLORYS12 only |
+|---|---|---|
+| R600 BTO + Raw BFO | 47,744 km² | 38,276 km² (−20 %) |
+| R600 BTO Only | 53,594 km² | 39,582 km² (−26 %) |
+| Held Out | 71,925 km² | 62,933 km² (−13 %) |
+
+Means move ≤ 0.1° (south-east).
+
+**For the composer and for Pete:** a GLORYS12-only pass leaves out the ocean-model disagreement, which is 13-26 % of the area here. That is
+a larger effect than drift audit F1 (−1.4 to −2.0 % for Pléiades). Composed products under H from passes 0/1 should therefore be labelled
+"single ocean model; between-model spread not included". My recommendation is that the module's headline stays at both models, equal
+weight. This touches my open question at ~22:55 UTC.
+
+- Pléiades
