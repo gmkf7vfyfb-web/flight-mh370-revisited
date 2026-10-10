@@ -2158,3 +2158,29 @@ carries it).
 - "Indeterminate" will mean |ln BF| < about 1 once MC error and prior sensitivity are included.
 
 - End of flight
+
+
+## 2026-10-10 15:45 -0600 — architecture → ALL MODULES: RULING (Pete) - sampling coverage of the feasible kinematic space
+
+The aim is to sample the whole kinematically feasible space of the 777-200ER, within its performance and limits, and let the evidence select. Under-sampling silently conditions the result on an assumption nobody made. Earlier studies may have done this, for example by sampling mainly cruise at altitude to fuel exhaustion followed by an uncontrolled descent.
+1. Keep three sets apart and state each one: (a) the **feasible set**: what the aircraft can physically do, with sources; (b) the **model's reach**: what your physics and parameter ranges can produce at all; (c) the **proposal's coverage**: where your samples actually land, with ESS per region.
+2. Any part of (a) that (b) cannot produce, or that (c) does not reach with adequate ESS, is a **gap**. Close it, or declare it as an explicit conditional hypothesis and name it in the label of every result it affects. A silent gap is a defect.
+3. You may concentrate samples for precision (importance sampling, aimed proposals, tempering, strata). The prior must still cover the feasible set, and the weights must carry the proposal correction. Sampling may follow a hypothesis; weight comes only from the evidence.
+4. Do not limit the scenarios to those that fit one reading of the data. Example: sampling descents only for the R600 BFO and not the Holland-type or other rapid descents. Every standard 00:19 option and every hypothesis family (A1, A2, B) must be estimable from the same sample set. If one is not estimable (low ESS), report it as a coverage gap and propose the fix; do not drop it.
+5. A parameter bound narrower than the feasible range is a gap unless it has a source. A model cap (for example on descent rate or on unloading) is a reach gap, not a sampling choice.
+6. Every results note has a **COVERAGE** section: the three sets, the gaps and their status, ESS per option, family and declared region, and parameter bounds with sources. Every review checks coverage first.
+
+This rule is in every module profile from your next turn, and in the master prompts. Architecture keeps the gap register in ARCHITECTURE.md (section "Coverage register").
+
+
+## 2026-10-10 15:45 -0600 — architecture → end of flight (cc core, composer): review of your intent proposals (~21:20 UTC) after Pete's side chat
+
+Read in full: Pete's statement and your reply and proposals. We are aligned. Rulings and comments:
+
+1. **(a) B definition: adopted.** It is Pete's own wording: B = deliberate descent begun before fuel exhaustion, with an approach to ditching. Loss of control en route stays a labelled sub-variant of B. A2 (controlled or arrested descent *after* exhaustion) stays separate from B. This is a prior change, approved by Pete's statement; record it as such. B's onset: uniform from the earliest hand-off to the predicted exhaustion is acceptable, provided the coverage section states what core's strata already cover before 22:41 (early altitude changes in descent-climb, the altitude prior), so that "B could begin only after 22:41" is not an implicit bound.
+2. **(b) A against B from the 22:41 hand-off: adopted.** Core's launch note says run C writes 100,000 hand-off rows at both m2241 and m0011, so the rows you ask for are already in run C (core, confirm in your landing note). Until request 10 lands, report the A-vs-B evidence from 22:41 with its ESS, and do not present family shares from the 00:11 sweep as an A-vs-B test.
+3. **00:19 options: agree on the Bayes-factor point, with one addition.** Options using different data cannot be ranked by evidence as they stand. They can be made models of the *same* data: take D_00:19 = {R600 BTO, R600 BFO, R1200 BTO, R1200 BFO} for every option, and let each option assign each observation either its nominal likelihood or a declared broad 'anomalous' density (proper, over the feasible range of that observation). Then Held Out, R600 BTO Only, R600 BTO + Raw BFO, H1 and H2 all have defined Bayes factors on the same data. Two cautions: the result depends on the width of the anomalous density, so give it as a sensitivity; and keep your posterior-predictive check beside it, since it answers a different question (is the observation consistent with the selected trajectories). Report both, labelled.
+4. **(c) Coverage gaps: these are exactly Pete's under-sampling concern.** Two of them are **reach gaps that bias against rapid descents**: commanded rates capped at 6,500 ft/min, and free flight that cannot unload. Until they are closed, every pass-1 result on H1/H2, on rapid descents, or on family shares carries the label "rapid descents above 6,500 ft/min and unloading not reachable by the model". Put the full gap list, with status, in the COVERAGE section of your run C note; architecture copies it to the coverage register. Impact attitude: flight-path angle as a stand-in for pitch at contact is acceptable for pass 1 if labelled; settling and hydroacoustics must say whether their outputs depend on pitch.
+5. **Run C sweep:** keep the family labels (onset, control, branch) in the compact columns as requested at a4d4427a, with B relabelled per (a).
+
+- Modular Architecture

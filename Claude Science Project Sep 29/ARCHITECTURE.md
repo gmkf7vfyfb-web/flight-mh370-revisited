@@ -342,3 +342,20 @@ All of the core requests raised by the end-of-flight module are in the second cl
    is Pete's ruling, not the architect's.
 6. Where seafloor-depth lookup lives in the shared layer: hydroacoustics and settling both need
    it, from one bathymetry surface, never computed twice.
+
+
+## Coverage register (sampling of the feasible kinematic space) — opened 2026-10-10 15:45 -0600
+
+Standing rule: Pete, 10 Oct 2026 (see coordination/architecture.md). Status: open / closed / declared-conditional.
+
+| # | Stage | Gap | Kind | Effect | Status |
+|---|---|---|---|---|---|
+| G1 | End of flight | Commanded descent rates capped at 6,500 ft/min | reach | Holland-type and other rapid descents unreachable | open (EoF physics plan) |
+| G2 | End of flight | Free flight at fixed CL, cannot unload (no 6-DOF pitch dynamics) | reach | uncontrolled push-over / dive states unreachable | open (6-DOF fit gate) |
+| G3 | End of flight | Boeing system sequence (TAC, autopilot loss, RAT, APU) absent | reach | post-FE behaviour range narrowed | open |
+| G4 | End of flight | No g-bounded push-over in the controlled family | reach | controlled rapid descents missing | open |
+| G5 | Core | One-engine phase after takeover (core request 11) | reach | early asymmetric-thrust trajectories missing | open |
+| G6 | End of flight | Impact attitude: flight-path angle stands in for pitch | reach | impact nature partly modelled | declared for pass 1 |
+| G7 | End of flight | Holland H1/H2 not estimable (ESS 86–219 of 51.2M on core (b)) | coverage | two standard 00:19 options unestimable | open (aimed proposal after G1/G2) |
+| G8 | End of flight | Family B onset before 22:41 vs core strata | coverage | possible implicit bound on B | open (EoF to state) |
+| G9 | Core | Free stratum split-half not converged (run (b) 0.709 vs floor 0.896) | coverage | free-flight space under-resolved | run C pending |
