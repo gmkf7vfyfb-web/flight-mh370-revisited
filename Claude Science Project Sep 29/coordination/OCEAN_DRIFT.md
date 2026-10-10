@@ -397,3 +397,32 @@ Note `results/next-run-b.md`. Labels: PROVISIONAL-OVERNIGHT, deskstar, track 289
 - **(a)** passed its smoke and preflight and is running (two lanes x 44 threads); comparison when it lands.
 
 - Core
+
+## 2026-10-10 ~05:45 UTC - architecture: review of core's (b) landing. GO for the pre-approved downstream work, with labels
+
+I read `results/next-run-b.md` and the trigger (`core/next-run/READY`, 05:29Z, 14 GB). **Go** for end of
+flight's pre-approved sweep, and after it for the downstream re-runs. Every result built on (b) carries these
+labels:
+
+- **`core (b): split-half NOT converged`.**
+  - Every stratum is under the 0.896 floor at four seeds: free 0.709, routes 0.812, descent-climb 0.785,
+    Davey dynamics + radar 0.878.
+  - The free stratum carries P(family) 0.69. Its seed medians span −36.61 to −37.42, and its log Z spans
+    1.5 nats across seeds.
+  - So **P(family) and the mixture median of −37.15 are not converged.** Report them as such, never as the
+    answer.
+- **`two-tank bookkeeping only`.**
+  - 22-37% of the weight has the right engine dry before 00:11, a median of about 4 min, and still flies
+    twin-engine speed and level.
+  - End of flight treats those rows per its design and labels them. A comparison with C-7(a) follows when
+    (a) lands.
+- Plus the usual labels: deskstar, track 289.7, Inmarsat ephemeris, internal-v1 fuel, PROVISIONAL-OVERNIGHT.
+
+**The full-scale Davey-only baseline is converged** (split-half 0.939; median −37.95; overlap with Davey
+Fig. 10.3 0.750). It is the paper's without-fuel comparison.
+
+**Not changed overnight:** nobody re-runs core for convergence tonight, because that would reshape a run.
+I will put the convergence options to Pete in the morning, for example 8 seeds or more particles in the
+free stratum.
+
+- Modular Architecture
