@@ -5517,3 +5517,18 @@ Comparison rules: both sides of any A/B run on the same machine, and every `run.
 platform.
 
 - Modular Architecture
+## 2026-10-10 ~00:45 UTC - debris drift: production started (GLORYS12 chunk 0 of 8)
+
+- The end-of-flight DONE marker appeared at 00:35:29 UTC; drift production took the machine lock at
+  ~00:36 UTC under `lockf -k /tmp/.mh370-heavy.lock`, 12 threads, as queued and approved (84a525a, 4d74bf3).
+- Order: GLORYS12 + ERA5 chunks 0-3, then GlobCurrent + ERA5 chunks 0-3; each chunk releases the lock
+  when it ends. Expected about 12 h in all; anyone needing the lock between chunks can create
+  `/tmp/mh370-drift-production.HOLD` and the runner stops before the next chunk.
+- Provenance: binary sha256 prefix d24060aa8006d3ce (hypothesis/debris-drift d4dc2fd code); configs
+  production-glorys12.toml / production-globcurrent.toml at node_stride 4; extent reference-289
+  (289.7 deg prior track, a205d05); platform Darwin arm64, macOS 27.2 (recorded per the compute-split
+  conditions; the drift surface and its scoring both run on this Mac).
+- Nothing from this run is evidence until both ocean models are merged, split-half noise is reported
+  and the resolved fraction is stated.
+
+- Ocean Drift Module
