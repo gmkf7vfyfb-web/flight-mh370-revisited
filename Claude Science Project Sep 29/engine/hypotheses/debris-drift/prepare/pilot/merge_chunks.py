@@ -6,7 +6,12 @@ unchunked run would have produced. Summary counts are summed; fractions are weig
 trajectories; throughput is total particle-steps over total chunk wall time, with the per-chunk
 values and thread counts kept, since chunks may have run at different thread counts.
 
-Usage: python merge_chunks.py <pilot-dir> [<out-dir>]   (default out-dir: <pilot-dir>/merged)
+Usage: python merge_chunks.py <pilot-dir> [<out-dir>] [<config.toml>]   (default out-dir: <pilot-dir>/merged)
+
+With a config, the merged `label` is rebuilt from it exactly as lib.rs `run_label` does (d20f34b).
+Binaries built before d20f34b wrote a hard-coded pilot-era label (land-mask stranding, 295.66 deg
+extent) into every chunk summary, including the production run on the reference-289 extent with the
+GSHHG coastline; the chunk label is then kept as `label_as_written`.
 """
 import os
 import sys
@@ -15,7 +20,24 @@ import tomllib
 import pandas as pd
 
 
-def main(pilot, out=None):
+def run_label(cfg_path):
+    with open(cfg_path, "rb") as f:
+        c = tomllib.load(f)
+    c = c.get("hypotheses", {}).get("debris-drift", c)
+    t = c.get("transport", {})
+    if t.get("gshhg_path"):
+        coast = f"GSHHG coastline (snap {float(t.get('gshhg_snap_km', 25.0))} km)"
+    elif t.get("island_discs"):
+        coast = "PROVISIONAL island-disc stub plus product land-mask stranding"
+    elif "current_manifest" in t:
+        coast = "PROVISIONAL product land-mask stranding only"
+    else:
+        coast = "synthetic transport"
+    gap = "land gap counted as beaching" if c.get("land_gap_is_beaching", False) else "land gap is model error"
+    return f"beaching: {coast}; {gap}; extent map: {c.get('extent_map_path', 'synthetic extent (no map)')}"
+
+
+def main(pilot, out=None, cfg=None):
     out = out or os.path.join(pilot, "merged")
     chunks = sorted(d for d in os.listdir(pilot) if d.startswith("chunk-"))
     frames, sums = [], []
@@ -33,8 +55,14 @@ def main(pilot, out=None):
     steps = [float(s["particle_steps"]) for s in sums]
     wall = [float(s["wall_s"]) for s in sums]
     m = dict(s0)
-    for k in ("nodes_released", "nodes_scored", "nodes_unresolved", "trajectories"):
-        m[k] = str(sum(int(s[k]) for s in sums))
+    if cfg:
+        new = run_label(cfg)
+        if s0.get("label") != new:
+            m["label_as_written"] = s0.get("label", "")
+        m["label"] = new
+        m["config"] = cfg
+    for k in ("nodes_released", "nodes_scored", "nodes_unresolved", "trajectories", "split_particles", "split_children"):
+        m[k] = str(sum(int(s.get(k, 0)) for s in sums))
     # Land counts in a chunk summary include nodes the chunk never released; recount from rows.
     m["nodes_land"] = str(int((df.state == "land").sum())) if "state" in df else "n/a"
     for k in ("model_error_fraction", "left_domain_fraction"):
@@ -58,4 +86,4 @@ def main(pilot, out=None):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:3])
+    main(*sys.argv[1:4])
