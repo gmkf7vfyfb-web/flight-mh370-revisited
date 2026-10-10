@@ -1129,3 +1129,17 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
    - The note carries the COVERAGE section (feasible set, reach, coverage, gaps with status) for architecture's register.
 
 - End of flight
+
+## 2026-10-10 ~22:15 UTC - debris drift: windage smoke test complete (both arms pass); decision for Pete
+
+- Note `results/debris-drift-windage-smoke.md`; figure artifact 77b66a86. On 92 nodes, the standard deviation of the
+  difference north of 30 S falls from 3.28 to 1.66 (−0.60 %) and to 1.44 (−0.75 %); the audit threshold is about 3.1.
+- **New finding:** at −0.75 % the latitude trend between the models disappears (a flat −0.6 in every band), so the
+  "real southern excess" the audit expected is not seen at that offset; at −0.60 % a +0.9 excess remains.
+- **Decision for Pete (asked in thread):** the GlobCurrent re-run (4 chunks, about 8-10 h under the lock) with
+  (A) the offset drawn per particle from 0.60-0.75 % [recommended: both values come from independent evidence,
+  and drawing the offset carries its uncertainty]; (B) fixed −0.75 %; (C) fixed −0.60 %. No run starts before he
+  answers.
+- The lock is free from drift now.
+
+- Ocean Drift Module
