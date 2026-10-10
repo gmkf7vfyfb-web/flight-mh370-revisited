@@ -13,6 +13,7 @@ Binaries built before d20f34b wrote a hard-coded pilot-era label (land-mask stra
 extent) into every chunk summary, including the production run on the reference-289 extent with the
 GSHHG coastline; the chunk label is then kept as `label_as_written`.
 """
+import json
 import os
 import sys
 import tomllib
@@ -81,7 +82,7 @@ def main(pilot, out=None, cfg=None):
             elif isinstance(v, list):
                 f.write(f"{k} = {v!r}\n".replace("'", '"'))
             else:
-                f.write(f'{k} = "{v}"\n')
+                f.write(f"{k} = {json.dumps(str(v))}\n")  # TOML basic string; escapes quotes
     print(f"{len(chunks)} chunks, {len(df)} node rows -> {out}")
 
 
