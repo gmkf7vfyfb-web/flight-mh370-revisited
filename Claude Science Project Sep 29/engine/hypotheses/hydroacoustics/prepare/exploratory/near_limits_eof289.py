@@ -96,23 +96,29 @@ summ = {"e_case": E_CASE, "branch_share": {k: float(v.mean()) for k, v in BR.ite
     "coverage_any": float(np.mean(np.any([res[lg]["cov"] for lg in B.LOGGERS], axis=0)))}}
 ims_out = {}
 Cs = c_site + rng.normal(0, 3, n)       # IMS receivers are SOFAR-axis like the calibration: C_rcv replaced by a 3 dB term (declared)
+# AMENDMENT 10 Oct (exploratory): station-specific IMS noise from Blackman 2004 App. B (prereg e137521, results 889bc7f):
+# offset = traced 5-40 Hz SPL median minus the 3376 proxy, per station; variant key "blackman2003".
+_bn = json.loads((HERE / "results-data/blackman_noise/blackman_noise_offsets.json").read_text())
+NOFF = {"H01W": _bn["H01W"], "H08S": _bn["H08S"]}
+VARS = [(f"noise{v:+d}", {"H01W": v, "H08S": v}) for v in (-5, 0, 5)] + [("blackman2003", NOFF)]
 for stn in ["H01W", "H08S"]:
     o = {}
-    for nv in [-5, 0, 5]:
-        snr = res[stn]["snr0"] + Cs - nv
-        o[f"noise{nv:+d}"] = dict(snr_q={k: float(np.quantile(snr, v)) for k, v in [("p05", .05), ("p25", .25), ("p50", .5), ("p75", .75), ("p95", .95)]},
+    for key, offs in VARS:
+        snr = res[stn]["snr0"] + Cs - offs[stn]
+        o[key] = dict(snr_q={k: float(np.quantile(snr, v)) for k, v in [("p05", .05), ("p25", .25), ("p50", .5), ("p75", .75), ("p95", .95)]},
                                   p_snr_gt={str(x): float((snr > x).mean()) for x in [0, 5, 10, 15, 20]},
                                   pd_proxy3274={f"{a}|gain{gn}": float(pdv(snr + gn, "3274", a).mean()) for a in (0.005, 0.05) for gn in (0.0, 4.8)})
     ims_out[stn] = o
 both = {}
-for nv in [-5, 0, 5]:
-    s1 = res["H01W"]["snr0"] + Cs - nv; s2 = res["H08S"]["snr0"] + Cs - nv
-    both[f"noise{nv:+d}"] = {f"{a}|gain{gn}": float((pdv(s1 + gn, "3274", a) * pdv(s2 + gn, "3274", a)).mean()) for a in (0.005, 0.05) for gn in (0.0, 4.8)}
-    both[f"noise{nv:+d}"]["p_both_snr_gt_10"] = float(((s1 > 10) & (s2 > 10)).mean())
+for key, offs in VARS:
+    nvk = key
+    s1 = res["H01W"]["snr0"] + Cs - offs["H01W"]; s2 = res["H08S"]["snr0"] + Cs - offs["H08S"]
+    both[nvk] = {f"{a}|gain{gn}": float((pdv(s1 + gn, "3274", a) * pdv(s2 + gn, "3274", a)).mean()) for a in (0.005, 0.05) for gn in (0.0, 4.8)}
+    both[nvk]["p_both_snr_gt_10"] = float(((s1 > 10) & (s2 > 10)).mean())
     for b, m in BR.items():
-        both[f"noise{nv:+d}"][f"{b}|0.05|gain4.8"] = float((pdv(s1[m] + 4.8, "3274", 0.05) * pdv(s2[m] + 4.8, "3274", 0.05)).mean())
-        both[f"noise{nv:+d}"][f"{b}|0.005|gain4.8"] = float((pdv(s1[m] + 4.8, "3274", 0.005) * pdv(s2[m] + 4.8, "3274", 0.005)).mean())
-        both[f"noise{nv:+d}"][f"{b}|median_snr_H01W"] = float(np.median(s1[m])); both[f"noise{nv:+d}"][f"{b}|median_snr_H08S"] = float(np.median(s2[m]))
+        both[nvk][f"{b}|0.05|gain4.8"] = float((pdv(s1[m] + 4.8, "3274", 0.05) * pdv(s2[m] + 4.8, "3274", 0.05)).mean())
+        both[nvk][f"{b}|0.005|gain4.8"] = float((pdv(s1[m] + 4.8, "3274", 0.005) * pdv(s2[m] + 4.8, "3274", 0.005)).mean())
+        both[nvk][f"{b}|median_snr_H01W"] = float(np.median(s1[m])); both[nvk][f"{b}|median_snr_H08S"] = float(np.median(s2[m]))
 summ["ims"] = ims_out; summ["ims_both_pd_proxy"] = both
 summ["notes"] = "EXPLORATORY; IMS noise and IMS P_D are proxies; C_site shared between H01W and H08S (same source)"
 (out / f"near_limits_eof289_{E_CASE}.json").write_text(json.dumps(summ, indent=1)); print(json.dumps(summ, indent=1))
