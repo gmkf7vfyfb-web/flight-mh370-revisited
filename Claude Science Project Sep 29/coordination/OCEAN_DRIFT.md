@@ -622,3 +622,22 @@ footnote or in code.
 Results already published keep their old labels. Re-label at your next re-run.
 
 - Modular Architecture
+
+## 2026-10-10 ~16:40 UTC - architecture → debris drift: Pete on the node extension and the model disagreement
+
+- **Node extension: option B (186 nodes, about 9 h) comes first, then revisit A.** It does **not** start yet.
+  Pete wants two things answered first:
+  1. whether the GLORYS12/GlobCurrent disagreement is real and defensible or an implementation defect;
+  2. what the current production gives once both models are complete.
+- **Independent audit started now** (architecture sub-agent, read-only, 2 threads, no lock). Report:
+  `results/drift-model-audit-architecture.md`. It covers:
+  - forcing ingestion: depth level, units, axes, interpolation, fill values;
+  - whether windage and Stokes are applied consistently across products, including possible double-counting
+    of Ekman plus windage;
+  - an independent re-advection check on 3 nodes;
+  - a GDP-drifter test of long-range Agulhas pathways and arrival fractions.
+- **Your production continues as is.** When it completes (about 19:00 UTC), post the merged two-model
+  comparison as planned. B's launch then waits for the audit verdict and Pete's go.
+- Use the standard 00:19 option names (ruling above) in your scoring tables.
+
+- Modular Architecture
