@@ -32,13 +32,42 @@ pub const COLUMNS: [&str; 13] = [
 /// TOML round-trip holds it.
 pub const NO_FINAL_ROW: usize = i64::MAX as usize;
 
-/// A particle drawn for the hand-off, equally weighted within its stratum.
+/// A particle drawn for the hand-off, equally weighted within its stratum (times
+/// exp(`log_correction`) when the hand-off look-ahead drew it).
+#[derive(Clone)]
 pub struct Candidate {
     /// Index in its stratum's filter at the stop.
     pub particle: usize,
     pub aircraft: Aircraft,
     pub bias: BfoBias,
     pub origin: u32,
+    /// Core request 10: ln of the importance correction p/q for a candidate drawn by the
+    /// hand-off look-ahead; zero otherwise.
+    pub log_correction: f64,
+}
+
+/// Core request 10, the hand-off look-ahead, as recorded in handoff.toml. Its presence means
+/// every consumer must multiply each row's weight by exp(log_correction).
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+pub struct Lookahead {
+    /// Contract version; consumers check it.
+    pub version: u32,
+    /// Epoch whose data the look-ahead g anticipates (the smoothing horizon), or "file".
+    pub horizon: String,
+    /// Defensive mixture weight: q is proportional to (1 - defensive) g + defensive.
+    pub defensive: f64,
+    /// Candidates drawn per hand-off row before the look-ahead draw.
+    pub oversample: usize,
+    /// "smoothing" (fixed-lag smoothing on candidate tags) or "file" (g supplied per candidate).
+    pub g_source: String,
+    pub rule: String,
+}
+
+pub const LOOKAHEAD_VERSION: u32 = 1;
+pub const LOOKAHEAD_RULE: &str = "multiply each row's weight by exp(log_correction); the corrected weights estimate the unproposed hand-off exactly in expectation";
+
+fn is_zero(x: &f64) -> bool {
+    *x == 0.0
 }
 
 /// One stratum's draws, with its posterior probability and its first row in final.npy.
@@ -79,11 +108,16 @@ pub struct Row {
     pub origin: u32,
     pub bias: Bias,
     pub aircraft: Aircraft,
+    /// Core request 10: see [`Lookahead`]. Absent (zero) without the look-ahead.
+    #[serde(default, skip_serializing_if = "is_zero")]
+    pub log_correction: f64,
 }
 
 #[derive(Serialize, Deserialize)]
 struct File {
     stop: Stop,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    lookahead: Option<Lookahead>,
     row: Vec<Row>,
 }
 
@@ -108,6 +142,7 @@ pub fn select(strata: Vec<Stratum>, k: usize, floor: usize, rng: &mut impl Rng) 
                 origin: c.origin,
                 bias: Bias { mean_hz: c.bias.mean_hz, variance_hz2: c.bias.variance_hz2 },
                 aircraft: c.aircraft.clone(),
+                log_correction: c.log_correction,
             });
         }
     }
@@ -115,6 +150,13 @@ pub fn select(strata: Vec<Stratum>, k: usize, floor: usize, rng: &mut impl Rng) 
 }
 
 pub fn write(dir: &Path, stop: &Stop, rows: &[Row]) -> Result<(), String> {
+    write_with(dir, stop, rows, None)
+}
+
+/// As `write`; with the look-ahead, handoff.npy gains a 14th column `log_correction` (so a
+/// reader expecting [`COLUMNS`] fails on the shape) and handoff.toml records the contract.
+pub fn write_with(dir: &Path, stop: &Stop, rows: &[Row], lookahead: Option<&Lookahead>) -> Result<(), String> {
+    let extra = lookahead.is_some();
     let values: Vec<f64> = rows
         .iter()
         .flat_map(|r| {
@@ -134,17 +176,51 @@ pub fn write(dir: &Path, stop: &Stop, rows: &[Row]) -> Result<(), String> {
                 if r.final_row == NO_FINAL_ROW { f64::NAN } else { r.final_row as f64 },
                 r.particle as f64,
             ]
+            .into_iter()
+            .chain(extra.then_some(r.log_correction))
         })
         .collect();
-    write_npy64(&dir.join("handoff.npy"), &[rows.len(), COLUMNS.len()], &values)?;
-    let text = toml::to_string(&File { stop: stop.clone(), row: rows.to_vec() }).map_err(|e| format!("handoff.toml: {e}"))?;
+    write_npy64(&dir.join("handoff.npy"), &[rows.len(), COLUMNS.len() + usize::from(extra)], &values)?;
+    let file = File { stop: stop.clone(), lookahead: lookahead.cloned(), row: rows.to_vec() };
+    let text = toml::to_string(&file).map_err(|e| format!("handoff.toml: {e}"))?;
     let path = dir.join("handoff.toml");
     std::fs::write(&path, text).map_err(|e| format!("{}: {e}", path.display()))
 }
 
+/// Read a hand-off. A hand-off drawn with the look-ahead is refused here (a consumer that
+/// ignored the correction would be biased): use [`read_corrected`].
 pub fn read(dir: &Path) -> Result<(Stop, Vec<Row>), String> {
     let path = dir.join("handoff.toml");
-    let text = std::fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
-    let file: File = toml::from_str(&text).map_err(|e| format!("{}: {e}", path.display()))?;
+    let file = read_file(&path)?;
+    if file.lookahead.is_some() {
+        return Err(format!("{}: drawn with the hand-off look-ahead; read it with read_corrected", path.display()));
+    }
     Ok((file.stop, file.row))
+}
+
+/// Read a hand-off with or without the look-ahead; each row's weight comes back multiplied by
+/// exp(log_correction) and the correction set to zero, so the rows are used as usual.
+pub fn read_corrected(dir: &Path) -> Result<(Stop, Option<Lookahead>, Vec<Row>), String> {
+    let path = dir.join("handoff.toml");
+    let file = read_file(&path)?;
+    if let Some(l) = &file.lookahead {
+        if l.version != LOOKAHEAD_VERSION {
+            return Err(format!("{}: look-ahead contract version {} (this build reads {LOOKAHEAD_VERSION})", path.display(), l.version));
+        }
+    }
+    let rows = file
+        .row
+        .into_iter()
+        .map(|mut r| {
+            r.weight *= r.log_correction.exp();
+            r.log_correction = 0.0;
+            r
+        })
+        .collect();
+    Ok((file.stop, file.lookahead, rows))
+}
+
+fn read_file(path: &Path) -> Result<File, String> {
+    let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+    toml::from_str(&text).map_err(|e| format!("{}: {e}", path.display()))
 }

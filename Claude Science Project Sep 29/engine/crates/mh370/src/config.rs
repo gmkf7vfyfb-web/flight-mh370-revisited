@@ -673,6 +673,9 @@ impl DynamicsConfig {
 #[derive(Deserialize, Serialize, Clone)]
 #[serde(deny_unknown_fields)]
 pub struct OutputConfig {
+    /// Core request 10: the hand-off look-ahead (see [`HandoffLookahead`]). Off when absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handoff_lookahead: Option<HandoffLookahead>,
     pub route_interval_s: f64,
     pub route_samples: usize,
     /// Particles per mode and SATCOM step saved with their residuals (0 = off).
@@ -700,6 +703,35 @@ pub struct OutputConfig {
     /// The fewest rows any mode with posterior mass keeps at each of `handoff_epochs` (default 1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_floor: Option<usize>,
+}
+
+/// Core request 10 (architecture ruling 10 Oct 2026 ~08:55 UTC; Pete ~16:30 UTC): draw the rows of
+/// a `handoff_epochs` hand-off in proportion to a look-ahead g, with an exact importance
+/// correction, so that the stage that continues from the hand-off gets more parents that can
+/// explain its later data. The filter's own physics and posterior are untouched.
+///
+/// At the hand-off epoch the filter draws `oversample` x `handoff_rows` candidates from its
+/// posterior and tags every particle with its index. At the horizon epoch, g of a candidate is
+/// the smoothed share of its tag over the filtered share (fixed-lag smoothing: the likelihood of
+/// the data between the two epochs under cruise continuation). The rows are then drawn from
+/// q proportional to (1 - defensive) g + defensive, and each carries
+/// log_correction = ln mean(q-weights) - ln((1 - defensive) g + defensive).
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+pub struct HandoffLookahead {
+    /// Hand-off epoch -> horizon epoch, e.g. { m2241 = "m0011", m0011 = "m0019b" }. At most two.
+    pub horizons: BTreeMap<String, String>,
+    /// Candidates per hand-off row (default 10).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub oversample: Option<usize>,
+    /// Defensive mixture weight in (0, 1] (default 0.2).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub defensive: Option<f64>,
+    /// Core request 10 hook (5): hand-off epoch -> path of a per-candidate g (npy, float64, one
+    /// row per candidate in draw order), with "{seed}" and "{mode}" replaced. Used instead of
+    /// smoothing for that epoch; its horizon entry is then ignored.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub g_files: Option<BTreeMap<String, String>>,
 }
 
 /// Load a config and merge any override files over it, in order.

@@ -433,7 +433,9 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
         for &seed in case.seeds.as_ref().unwrap_or(&config.seeds) {
             let dir = run_dir.join(&case.id).join(format!("seed-{seed}"));
             if dir.join("handoff.toml").is_file() {
-                handoffs.push((case.id.clone(), seed, handoff::read(&dir)?));
+                // read_corrected applies any look-ahead correction to the row weights (contract v1).
+                let (stop, _lookahead, rows) = handoff::read_corrected(&dir)?;
+                handoffs.push((case.id.clone(), seed, (stop, rows)));
             }
         }
     }

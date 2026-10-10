@@ -107,6 +107,9 @@ struct Particle {
     /// At the latest SATCOM step: BTO residual (us), BFO innovation (Hz) and its
     /// predictive s.d. (Hz), and this step's log-likelihood. Output-only; NaN if absent.
     residual: [f32; 4],
+    /// Core request 10: this particle's ancestor index at up to two look-ahead hand-off epochs
+    /// (u32::MAX: none). Inherited through resampling, tempering and rejuvenation.
+    tags: [u32; 2],
     /// Manoeuvre counters (turns, speed changes, altitude changes, degrees turned) at
     /// `output.history_after_epoch`. Output-only.
     history_start: [f32; 4],
@@ -157,6 +160,24 @@ struct StepDiagnostics {
     seconds: f64,
 }
 
+/// Core request 10 diagnostics for one look-ahead hand-off in one mode. The ESS fractions say how
+/// many of the rows would be effective if the continuing stage's likelihood were g itself:
+/// without the look-ahead (rows drawn uniformly) and with it (rows drawn from q).
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct LookaheadDiagnostics {
+    pub epoch: String,
+    pub horizon: String,
+    pub g_source: String,
+    pub candidates: usize,
+    pub rows: usize,
+    /// Mean of (1 - defensive) g + defensive over the candidates (the normaliser of q).
+    pub mean_mixture: f64,
+    /// Share of candidates with g > 0.
+    pub g_positive_fraction: f64,
+    pub ess_fraction_uniform: f64,
+    pub ess_fraction_lookahead: f64,
+}
+
 #[derive(Serialize, Deserialize)]
 pub struct ModeRun {
     pub mode: String,
@@ -170,6 +191,9 @@ pub struct ModeRun {
     /// Times the auxiliary look-ahead triggered a resample of its own, ahead of a BTO epoch.
     #[serde(default)]
     pub lookahead_resamples: u32,
+    /// Core request 10: the hand-off look-ahead at each of its epochs (empty when off).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub handoff_lookahead: Vec<LookaheadDiagnostics>,
     /// Rejuvenation moves accepted, and proposed.
     #[serde(default)]
     pub rejuvenation_accepted: u64,
@@ -319,7 +343,20 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         }
         let sub = dir.join(format!("handoff-{id}"));
         std::fs::create_dir_all(&sub).map_err(|err| err.to_string())?;
-        handoff::write(&sub, &handoff::Stop { epoch: id.clone(), step: k, unix_s }, &rows)?;
+        let lookahead = output.handoff_lookahead.as_ref().and_then(|l| {
+            l.horizons.get(id).map(|h| {
+                let file = l.g_files.as_ref().is_some_and(|m| m.contains_key(id));
+                handoff::Lookahead {
+                    version: handoff::LOOKAHEAD_VERSION,
+                    horizon: if file { "file".into() } else { h.clone() },
+                    defensive: l.defensive.unwrap_or(0.2),
+                    oversample: l.oversample.unwrap_or(10),
+                    g_source: if file { "file".into() } else { "smoothing".into() },
+                    rule: handoff::LOOKAHEAD_RULE.into(),
+                }
+            })
+        });
+        handoff::write_with(&sub, &handoff::Stop { epoch: id.clone(), step: k, unix_s }, &rows, lookahead.as_ref())?;
     }
 
     let replicate = Replicate {
@@ -343,6 +380,7 @@ impl ModeRun {
             final_ess: 0.0,
             distinct_origins: 0,
             lookahead_resamples: 0,
+            handoff_lookahead: Vec::new(),
             rejuvenation_accepted: 0,
             rejuvenation_proposed: 0,
             epochs: Vec::new(),
@@ -402,6 +440,64 @@ struct EpochDraw {
     unix_s: f64,
     log_evidence: f64,
     candidates: Vec<handoff::Candidate>,
+}
+
+/// A look-ahead hand-off waiting for its horizon (core request 10).
+struct PendingLookahead {
+    slot: usize,
+    epoch: String,
+    horizon: String,
+    step: usize,
+    unix_s: f64,
+    log_evidence: f64,
+    /// Normalised filtered weight of each particle at the hand-off epoch.
+    filtered: Vec<f64>,
+    candidates: Vec<handoff::Candidate>,
+    g_file: Option<String>,
+}
+
+/// ESS of positive weights as a fraction of their count.
+fn ess_fraction(w: &[f64]) -> f64 {
+    let (s, s2) = w.iter().fold((0.0, 0.0), |(a, b), x| (a + x, b + x * x));
+    if s2 > 0.0 { s * s / s2 / w.len() as f64 } else { 0.0 }
+}
+
+/// The look-ahead draw on g alone: `rows` indices from q = ((1 - eps) g + eps) / (M Z), each
+/// with its correction ln Z - ln((1 - eps) g + eps), so E_q[exp(correction) f] is the uniform
+/// mean of f over the M candidates. Also returns Z, the share of g > 0, and the ESS fractions
+/// of g over the candidates (uniform) and of g x exp(correction) over the rows (look-ahead).
+fn lookahead_plan(g: &[f64], eps: f64, rows: usize, rng: &mut impl Rng) -> (Vec<usize>, Vec<f64>, f64, f64, f64, f64) {
+    let mix: Vec<f64> = g.iter().map(|&x| (1.0 - eps) * x.max(0.0) + eps).collect();
+    let z = mix.iter().sum::<f64>() / mix.len() as f64;
+    let total = z * mix.len() as f64;
+    let log_q: Vec<f64> = mix.iter().map(|a| (a / total).ln()).collect();
+    let picks = systematic_resample(&log_q, rows, rng);
+    let corrections: Vec<f64> = picks.iter().map(|&c| z.ln() - mix[c].ln()).collect();
+    let corrected: Vec<f64> = picks.iter().zip(&corrections).map(|(&c, lc)| g[c] * lc.exp()).collect();
+    let positive = g.iter().filter(|&&x| x > 0.0).count() as f64 / g.len() as f64;
+    (picks, corrections, z, positive, ess_fraction(g), ess_fraction(&corrected))
+}
+
+/// `lookahead_plan` applied to the candidates themselves.
+fn lookahead_draw(
+    candidates: &[handoff::Candidate],
+    g: &[f64],
+    eps: f64,
+    rows: usize,
+    rng: &mut impl Rng,
+) -> (Vec<handoff::Candidate>, f64, f64, f64, f64) {
+    assert_eq!(candidates.len(), g.len());
+    let (picks, corrections, z, positive, ess_uniform, ess_lookahead) = lookahead_plan(g, eps, rows, rng);
+    let drawn = picks
+        .iter()
+        .zip(corrections)
+        .map(|(&c, lc)| {
+            let mut x = candidates[c].clone();
+            x.log_correction = lc;
+            x
+        })
+        .collect();
+    (drawn, z, positive, ess_uniform, ess_lookahead)
 }
 
 /// The independent, schedule-free random stream of one (stratum, step, particle).
@@ -471,7 +567,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             let mut route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
             route[0] = [aircraft.lat as f32, aircraft.lon as f32];
             let bias = BfoBias { mean_hz: config.bfo_bias.mean_hz, variance_hz2: config.bfo_bias.sd_hz.powi(2) };
-            Particle { aircraft, bias, origin: i as u32, route, residual: [f32::NAN; 4], history_start: [0.0; 4], fuel_penalised: false }
+            Particle { aircraft, bias, origin: i as u32, route, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false }
         })
         .collect();
     // Auxiliary look-ahead: extra standard deviation, in microseconds, added in quadrature to
@@ -516,6 +612,42 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             return Err(format!("output.handoff_epochs: {id} is not among the filter's epochs (excluded, or unknown)"));
         }
     }
+    // Core request 10: the hand-off look-ahead.
+    let lookahead = config.output.handoff_lookahead.as_ref();
+    let mut lookahead_slots: Vec<(String, String, Option<String>)> = Vec::new();
+    let (lookahead_oversample, lookahead_eps) = match lookahead {
+        Some(l) => (l.oversample.unwrap_or(10), l.defensive.unwrap_or(0.2)),
+        None => (1, 1.0),
+    };
+    if let Some(l) = lookahead {
+        if l.horizons.len() > 2 {
+            return Err("output.handoff_lookahead: at most two hand-off epochs".into());
+        }
+        if !(lookahead_eps > 0.0 && lookahead_eps <= 1.0) || lookahead_oversample == 0 {
+            return Err("output.handoff_lookahead: defensive must be in (0, 1] and oversample at least 1".into());
+        }
+        for (epoch, horizon) in &l.horizons {
+            if !handoff_epochs.contains(epoch) {
+                return Err(format!("output.handoff_lookahead: {epoch} is not one of output.handoff_epochs"));
+            }
+            let g_file = l.g_files.as_ref().and_then(|m| m.get(epoch)).cloned();
+            let ke = ctx.steps.iter().position(|s| s.id == *epoch).unwrap();
+            if g_file.is_none() {
+                match ctx.steps.iter().position(|s| s.id == *horizon) {
+                    Some(kh) if kh > ke => {}
+                    _ => return Err(format!("output.handoff_lookahead: horizon {horizon} of {epoch} is not a later epoch of this filter")),
+                }
+            }
+            lookahead_slots.push((epoch.clone(), horizon.clone(), g_file));
+        }
+        if let Some(files) = &l.g_files {
+            if let Some(e) = files.keys().find(|e| !l.horizons.contains_key(*e)) {
+                return Err(format!("output.handoff_lookahead.g_files: {e} has no entry in horizons"));
+            }
+        }
+    }
+    let mut pending: Vec<PendingLookahead> = Vec::new();
+    let mut lookahead_diagnostics: Vec<LookaheadDiagnostics> = Vec::new();
     let mut epoch_draws = Vec::new();
     let mut rejuvenated = [0u64; 2];
     let mut lookahead_resamples = 0u32;
@@ -995,15 +1127,67 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         }
         // A hand-off at this epoch: after its update, tempering and resampling, so the draw is
         // from the posterior given the data to here and the filter's own state is untouched.
+        // Core request 10: look-ahead hand-offs whose horizon is this epoch draw their rows now,
+        // from the candidates taken at their own epoch, with g from the tags' smoothed shares.
+        let mut i = 0;
+        while i < pending.len() {
+            if pending[i].g_file.is_some() || pending[i].horizon != step.id {
+                i += 1;
+                continue;
+            }
+            let p = pending.remove(i);
+            let mut smoothed = vec![0.0f64; p.filtered.len()];
+            for (part, lw) in particles.iter().zip(&log_weights) {
+                let t = part.tags[p.slot];
+                if t != u32::MAX {
+                    smoothed[t as usize] += lw.exp();
+                }
+            }
+            let g: Vec<f64> = p.candidates.iter().map(|c| if p.filtered[c.particle] > 0.0 { smoothed[c.particle] / p.filtered[c.particle] } else { 0.0 }).collect();
+            let (candidates, z, pos, eu, el) = lookahead_draw(&p.candidates, &g, lookahead_eps, epoch_rows, &mut stream(5150 + p.step as u64, 0));
+            lookahead_diagnostics.push(LookaheadDiagnostics {
+                epoch: p.epoch.clone(), horizon: p.horizon.clone(), g_source: "smoothing".into(), candidates: p.candidates.len(), rows: epoch_rows,
+                mean_mixture: z, g_positive_fraction: pos, ess_fraction_uniform: eu, ess_fraction_lookahead: el,
+            });
+            epoch_draws.push(EpochDraw { epoch: p.epoch, step: p.step, unix_s: p.unix_s, log_evidence: p.log_evidence, candidates });
+        }
         if handoff_epochs.iter().any(|e| e == &step.id) {
-            let candidates = systematic_resample(&log_weights, epoch_rows, &mut stream(5100 + k as u64, 0))
+            let slot = lookahead_slots.iter().position(|(e, ..)| e == &step.id);
+            let draw_count = if slot.is_some() { epoch_rows * lookahead_oversample } else { epoch_rows };
+            let candidates: Vec<handoff::Candidate> = systematic_resample(&log_weights, draw_count, &mut stream(5100 + k as u64, 0))
                 .into_iter()
                 .map(|j| {
                     let p = &particles[j];
-                    handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin }
+                    handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0 }
                 })
                 .collect();
-            epoch_draws.push(EpochDraw { epoch: step.id.clone(), step: k, unix_s: step.unix_s, log_evidence, candidates });
+            match slot {
+                None => epoch_draws.push(EpochDraw { epoch: step.id.clone(), step: k, unix_s: step.unix_s, log_evidence, candidates }),
+                Some(slot) => {
+                    let (_, horizon, g_file) = lookahead_slots[slot].clone();
+                    if let Some(pattern) = g_file {
+                        // Hook (5): g supplied per candidate by the continuing stage.
+                        let path = pattern.replace("{seed}", &seed.to_string()).replace("{mode}", &format!("{mode:?}"));
+                        let mut g = Vec::with_capacity(candidates.len());
+                        crate::output::read_npy_rows(std::path::Path::new(&path), |row| g.push(row[0]))?;
+                        if g.len() != candidates.len() || g.iter().any(|x| !(x.is_finite() && *x >= 0.0)) {
+                            return Err(format!("{path}: needs {} finite non-negative g values, one per candidate", candidates.len()));
+                        }
+                        let (drawn, z, pos, eu, el) = lookahead_draw(&candidates, &g, lookahead_eps, epoch_rows, &mut stream(5150 + k as u64, 0));
+                        lookahead_diagnostics.push(LookaheadDiagnostics {
+                            epoch: step.id.clone(), horizon: "file".into(), g_source: "file".into(), candidates: candidates.len(), rows: epoch_rows,
+                            mean_mixture: z, g_positive_fraction: pos, ess_fraction_uniform: eu, ess_fraction_lookahead: el,
+                        });
+                        epoch_draws.push(EpochDraw { epoch: step.id.clone(), step: k, unix_s: step.unix_s, log_evidence, candidates: drawn });
+                    } else {
+                        particles.par_iter_mut().enumerate().for_each(|(j, p)| p.tags[slot] = j as u32);
+                        let filtered: Vec<f64> = log_weights.iter().map(|lw| lw.exp()).collect();
+                        pending.push(PendingLookahead {
+                            slot, epoch: step.id.clone(), horizon, step: k, unix_s: step.unix_s, log_evidence, filtered, candidates, g_file: None,
+                        });
+                    }
+                }
+            }
         }
         eprintln!(
             "{} seed {seed} {:?} {:>7}: ESS {:>10.0}{} ({:.1} s)",
@@ -1083,6 +1267,9 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let chosen = systematic_resample(&log_weights, config.output.route_samples, &mut stream(3000, 0));
     let routes = chosen.iter().map(|&j| particles[j].route[..ctx.route_points].to_vec()).collect();
     let origins: Vec<usize> = particles.iter().map(|p| p.origin as usize).collect();
+    if let Some(p) = pending.first() {
+        return Err(format!("output.handoff_lookahead: the filter stopped before horizon {} of {}", p.horizon, p.epoch));
+    }
     let run = ModeRun {
         mode: format!("{mode:?}"),
         prior_weight: f64::NAN,
@@ -1091,6 +1278,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         final_ess: effective_sample_size(&log_weights),
         distinct_origins: count_distinct(&origins),
         lookahead_resamples,
+        handoff_lookahead: lookahead_diagnostics,
         rejuvenation_accepted: rejuvenated[0],
         rejuvenation_proposed: rejuvenated[1],
         epochs: diagnostics,
@@ -1102,7 +1290,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             .into_iter()
             .map(|j| {
                 let p = &particles[j];
-                handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin }
+                handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0 }
             })
             .collect()
     } else {
@@ -1239,6 +1427,57 @@ fn count_distinct(indices: &[usize]) -> usize {
 
 #[cfg(test)]
 mod tests {
+
+    /// Core request 10: with g = 1 everywhere and a fully defensive mixture, the look-ahead draw of
+    /// K rows from K candidates returns each candidate once, in order, with zero correction - the
+    /// current hand-off exactly.
+    #[test]
+    fn lookahead_with_flat_g_is_the_current_handoff() {
+        let g = vec![1.0; 500];
+        for eps in [1.0, 0.2] {
+            let (picks, corr, z, pos, eu, el) = lookahead_plan(&g, eps, 500, &mut ChaCha8Rng::seed_from_u64(7));
+            assert_eq!(picks, (0..500).collect::<Vec<_>>());
+            assert!(corr.iter().all(|c| c.abs() < 1e-12));
+            assert!((z - 1.0).abs() < 1e-12 && pos == 1.0 && (eu - 1.0).abs() < 1e-12 && (el - 1.0).abs() < 1e-12);
+        }
+    }
+
+    /// Core request 10: on a toy, the corrected weighted mean of a statistic over the look-ahead
+    /// rows matches its uniform mean over the candidates within Monte Carlo error, while the
+    /// rows concentrate where g is large (the ESS gain).
+    #[test]
+    fn lookahead_correction_is_unbiased_and_concentrates() {
+        let m = 20_000;
+        let mut rng = ChaCha8Rng::seed_from_u64(11);
+        // g: about 2% of candidates explain the later data; f is correlated with g.
+        let x: Vec<f64> = (0..m).map(|_| rng.gen::<f64>()).collect();
+        let g: Vec<f64> = x.iter().map(|&u| if u > 0.98 { 50.0 * (u - 0.98) / 0.02 } else { 0.0 }).collect();
+        let f: Vec<f64> = x.iter().map(|&u| u * u).collect();
+        let truth = f.iter().zip(&g).map(|(a, b)| a * b).sum::<f64>() / g.iter().sum::<f64>();
+        let uniform_mean = f.iter().sum::<f64>() / m as f64;
+        let (mut est_f, mut est_fg) = (Vec::new(), Vec::new());
+        let mut el_last = 0.0;
+        let mut eu_last = 0.0;
+        for rep in 0..200 {
+            let (picks, corr, _z, _p, eu, el) = lookahead_plan(&g, 0.2, 2_000, &mut ChaCha8Rng::seed_from_u64(1000 + rep));
+            let w: Vec<f64> = corr.iter().map(|c| c.exp()).collect();
+            let sw: f64 = w.iter().sum();
+            est_f.push(picks.iter().zip(&w).map(|(&c, wi)| wi * f[c]).sum::<f64>() / sw);
+            let num: f64 = picks.iter().zip(&w).map(|(&c, wi)| wi * g[c] * f[c]).sum();
+            let den: f64 = picks.iter().zip(&w).map(|(&c, wi)| wi * g[c]).sum();
+            est_fg.push(num / den);
+            el_last = el;
+            eu_last = eu;
+        }
+        let mean = |v: &[f64]| v.iter().sum::<f64>() / v.len() as f64;
+        let sd = |v: &[f64]| { let mu = mean(v); (v.iter().map(|x| (x - mu).powi(2)).sum::<f64>() / (v.len() - 1) as f64).sqrt() };
+        // The unproposed mean of f is recovered (self-normalised: within 4 standard errors).
+        assert!((mean(&est_f) - uniform_mean).abs() < 4.0 * sd(&est_f) / (est_f.len() as f64).sqrt() + 2e-3, "{} vs {}", mean(&est_f), uniform_mean);
+        // The continuing stage's g-weighted mean is recovered too.
+        assert!((mean(&est_fg) - truth).abs() < 4.0 * sd(&est_fg) / (est_fg.len() as f64).sqrt() + 1e-3, "{} vs {}", mean(&est_fg), truth);
+        // ESS gain: g alone has ESS about 1.3% of uniform rows; the look-ahead lifts it many-fold.
+        assert!(eu_last < 0.02 && el_last > 10.0 * eu_last, "uniform {eu_last} look-ahead {el_last}");
+    }
     use super::*;
     use flight::environment::CalmAir;
     use geo::Vec3;
@@ -1330,7 +1569,7 @@ mod tests {
             for row in rows.iter().filter(|r| r.mode == m) {
                 let bias = BfoBias { mean_hz: row.bias.mean_hz, variance_hz2: row.bias.variance_hz2 };
                 let route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
-                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, residual: [f32::NAN; 4], history_start: [0.0; 4], fuel_penalised: false };
+                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false };
                 advance(&mut p, 7200.0, &straight, &mut stream(seed, m as u64, stop.step as u64 + 2, row.particle));
                 let a = &p.aircraft;
                 let e = &expected[row.particle];
