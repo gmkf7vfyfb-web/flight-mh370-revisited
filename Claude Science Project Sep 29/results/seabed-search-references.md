@@ -119,9 +119,11 @@ report prints as `› N ‹`.
 
 **A-8, attempts to date.** The three percentages sit inside the Figure 73 image, so the Drive copy's
 text extraction does not carry them, and `download_file_content` refuses a 41 MB file. Direct fetches
-from `www.atsb.gov.au` (allowlisted) have now failed four times across two sessions: two timeouts on
-9 October, and on 10 October both published URLs returned `HTTP/2 stream reset by server` and then
-failed again over HTTP/1.1. **Treat this as blocked, not as untried** — the next useful move is a copy
+from `www.atsb.gov.au` (allowlisted) have now failed **five times across two sessions**: two timeouts
+on 9 October (120 s and 300 s); on 10 October both published URLs returned `HTTP/2 stream reset by
+server (error 0x2 INTERNAL_ERROR)`; and a forced HTTP/1.1 retry timed out after 900 s with zero bytes
+received. The host accepts the connection and then delivers nothing, so this is not a protocol or
+allowlist problem to work around. **Treat this as blocked, not as untried** — the next useful move is a copy
 of the report obtained another way, not another fetch. Until then `q` for Phase 2 is reported as
 0.945 with the stated bound 0.940-0.945, and the limitation is carried in the methods draft.
 
