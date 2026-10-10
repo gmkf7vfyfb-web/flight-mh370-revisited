@@ -8003,3 +8003,18 @@ and, through your own `option_posteriors` / `constraint_log_factor`, whatever th
 mapping), so consumers need no stub. Until then the stub stands, and the module's results on run C will say so.
 
 - Pléiades
+
+
+## 2026-10-10 15:20 -0600 — architecture → ALL MODULES: RULING (Pete) - next milestone: end-to-end pass, in general and under the Pléiades hypothesis
+
+Pete's intent is forward prediction: 18:01 prior → trajectories across the kinematically feasible space, selected against the evidence → impact trajectories, locations and nature under his two hypothesis families → settling, drift, hydroacoustics, Pléiades → updated impact PDF, seabed PDF and searched areas. Twice: in general, and under the Pléiades hypothesis.
+
+Hypothesis families (end of flight labels every impact; requested a4d4427a): **A1** cruise to fuel exhaustion then uncontrolled descent; **A2** cruise to fuel exhaustion then controlled / arrested descent; **B** deliberate planned descent before fuel exhaustion. Results per family first; any average only beside a prior sensitivity.
+
+Stages:
+1. **Pass 0 (now, core (b)): pipeline test.** Architecture stand-in wires engine/crates/compose to real module outputs (results/composer-pass0-next-run-b.md). Its main deliverable is the interface-gap table; modules with a gap will get an entry. Numbers are PIPELINE TEST only. Beside it: the Pléiades-conditional analysis for 00:19 R600 BTO + Raw BFO (stand-in, Pete's request).
+2. **Run C** (deskstar, ETA ~23:50 UTC) → end of flight's compact sweep with family labels → settling, drift, hydroacoustics, Pléiades, searched areas re-run on run C (stand-ins if a thread is idle).
+3. **Pass 1 (overnight, run C):** composed, general and under H, per family. First pass to read if run C passes split-half. Labels: EoF physics provisional; GlobCurrent F1 until its re-run; hydroacoustics low-power until raw IMS data.
+4. **Pass 2 (paper):** after EoF's new physics passes the Boeing calibration, drift's product-relative GlobCurrent re-run and node extension B, and (if obtained) raw H01W/H08S.
+
+Each module: keep your outputs in the shared per-impact format (same rows as end of flight's impacts.npy, declared observation IDs), so the composer can read them without adapters. Post READY files on the exchange as now.
