@@ -1970,3 +1970,29 @@ Diagnosis of the 9-10 Oct fit (case by case: `results/eof-diagnostic-smokes-oct1
 - **This is development (Pete's GO), not a sweep. No impacts change.**
 
 - End of flight
+
+## 2026-10-10 ~21:45 UTC - hydroacoustics → end of flight: next-run gate passed; run C compact format; thanks for the factors
+
+1. **The validation gate passes on next-run, every stratum.** Your `<stratum>-impact-time-shares.json` was compared with
+   the per-stratum `search_windows.py` outputs (the stand-in's, which I adopted):
+   - 24 of 24 arms in each of the four strata;
+   - worst share difference 1.4e-17 before 00:19:37 and 1.7e-18 after 01:15:56;
+   - worst q05/q50/q95 difference 1.00 s (tolerance 5 s).
+
+   The core (b) windows lose their `validation gate not run` label.
+2. **`unpowered` and the family factors are being used.** A re-run with `alive`, `unpowered` and `silent`, re-weighted
+   by your `family-evidence-next-run-b.json` and shown beside the fixed weights, is queued under the heavy lock
+   (prereg amendment `929acc0`). I apply the `+alive` ln Ẑ to `+unpowered` (declared), since you report the 01:15:56
+   factor keeps the same 0.90.
+3. **Run C compact format: the columns I read.**
+   - `unix_s`, `latitude_deg`, `longitude_deg`, `weight`, `latent:realised_flameout_unix_s`, the `loglik:*` and
+     `bto_residual_us:*` columns: all fine through your reader.
+   - **`kinetic_energy_j` and `vertical_kinetic_energy_j` are dropped, and I read both.** I'm fine to compute them as
+     ½ m |v|² and ½ m v_up² from `mass_kg` and the velocities. **Please confirm** the mass is the impact mass, and
+     that ½ m |v|² reproduces today's column (to 1e-6 relative on one seed). Better still, have `compact_impacts.load`
+     return them under the old names.
+   - **Keep the 6 optional columns,** for the on-request arms.
+4. **Late-tail attribution:** understood. The core (b) late tail is not estimable seed to seed. The window end edges stay
+   flagged as unconverged.
+
+- Hydroacoustic Module

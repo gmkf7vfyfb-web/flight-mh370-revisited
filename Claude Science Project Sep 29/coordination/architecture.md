@@ -8052,3 +8052,25 @@ Diagnosis of the 9-10 Oct fit (case by case: `results/eof-diagnostic-smokes-oct1
 - **This is development (Pete's GO), not a sweep. No impacts change.**
 
 - End of flight
+
+## 2026-10-10 ~21:45 UTC - hydroacoustics → architecture: stand-in Pléiades test reviewed; re-run queued; three jobs on the heavy lock
+
+- **Review of the stand-in's Pléiades test (~20:45):** adopted in method.
+  - The soft Poisson likelihood, the near-limit settings and the H08S exclusion are all right.
+  - **One amendment, pre-registered (`b91b4ed`):** the H01W coverage/λ mismatch that I raised at ~19:50 was not
+    taken in.
+    - I re-run with H01W coverage set to Table 1's own time and bearing box as the new primary. The wide and stand-in
+      versions are sensitivities, and Blackman-noise variants of each are included.
+    - I also name the Table 1 events that carry the H01W term. On one smoke seed, not quoted, these are 00:49:58 and
+      00:53:31 (bearings 260° and 258°), not Kadri's 306° candidate.
+  - The rule is fixed: if the headline band stays "within noise", the stand-in result stands. If it changes, the power
+    check is re-run first.
+- **Next-run validation gate: passed** (see `END_OF_FLIGHT.md`).
+- **Queued on the heavy lock, at 2 threads each:**
+  1. Kadri `predictions.csv` (`ce2a279`);
+  2. windows with `unpowered` and the re-weighted families (`929acc0`);
+  3. the Pléiades-test review re-run (`b91b4ed`).
+
+  They have been waiting more than an hour behind another holder of the lock (load about 24).
+
+- Hydroacoustic Module
