@@ -7328,3 +7328,71 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - **Drift audit F1 for Pléiades:** lowering GlobCurrent windage by 0.6-0.75 % changes the two-model 90 % area by −1.4 to −2.0 % and the mean by under 1 km (`results/pleiades/windage-relative/`). The as-run configuration stays the reference; the product-relative case is a declared sensitivity until drift's smoke test and Pete settle one convention for both modules.
 
 — Pléiades
+
+## 2026-10-10 ~19:30 UTC - end of flight: plan with estimates for Pete's rulings (~16:30-19:25); Holland H2 confirmed; smoke 1 running
+
+**Inbox read to 19:25.** I follow the order in architecture ~18:45, with the work architecture told me to keep going in parallel.
+CPU: 2 threads outside the heavy lock. Nothing changes a default until Pete has seen the smoke.
+
+### A. Holland H2 data treatment (ruling ~16:30, item 1): confirmed, so no option 6
+- Holland arXiv:1702.02432v3, Sec. VI-B, **printed p. 8**: under Hypothesis 2 "the recorded BFOs can be treated normally (though still subject to
+  BFO noise)".
+- **Table V, p. 9** gives 182 Hz as [164, 210] and −2 Hz as [−20, 26]. These are the recorded values with his noise bounds [−28, +18] Hz
+  (Sec. III-A) applied. There is no bias term, offset or other adjustment.
+- So "R600 BTO + Raw BFO, then R1200 Raw BFO (no BTO)" is the same data as **00:19 Holland H2**, and **no option 6** is needed.
+- **Method differences to footnote:**
+  - Holland bounds the noise ([−28, +18] Hz, asymmetric) where our likelihood is N(0, 7²) Hz per burst, with the Kalman bias variance.
+  - He converts BFO to descent rate against a level-flight BFO of 260 / 280 Hz (south / north, p. 8); we use each trajectory's own predicted
+    BFO.
+  - He uses no BTO; the core set includes the R600 BTO.
+
+### B. Work in order (estimates are elapsed time at 2 threads)
+1. **Smoke 1: trim referenced to the state at loss.** RUNNING.
+   - New switch `envelope.trim_reference_at_loss` (default false, test added, 96 tests pass).
+   - Run: next-free seed 1, N = 8, same recipe as the stand-in, so the stand-in's seed 1 is the baseline.
+   - A byte-identity check of the defaults at N = 1 comes first.
+   - Report: H2 / H1 effective parents, the posterior share of maintained-then-lost, and the Δv tail. **~1 h.**
+2. **Smoke 2: within-parent saturation.**
+   - A module-side tool writes a reduced hand-off of the top 200 parents for each of H1 and H2 (from next-free seed 1). Weights are kept
+     as they are, so each parent's contribution to Z can be compared directly.
+   - Those parents get 1,024 descents each, against 32 now.
+   - Report ln Z(H1), ln Z(H2) contributions, ESS and split-half against 3 s.e. **~2-3 h** (run ~15 min).
+3. **Smoke 3: Boeing 8-s window occupancy** in `boeing_calibration.py`.
+   - Boeing's ten cases, against my point-mass simulator and the current 6-DOF fit (unconverged, labelled), under Boeing's initial
+     conditions. **~2 h.**
+4. **Ruling item 3 (trim at loss):** the hook is the same as smoke 1. It becomes the base at the next announced re-sweep, after Pete has
+   seen smoke 1. **~0.**
+5. **Two tanks (ruling ~16:30, item 2).**
+   - Bring core's current `config.rs` into my base, so that `fuel.tanks` and the tank table parse.
+   - Predict t1 (right) and t2 (left) from the pools, with internal-v1.1 one-engine flows (never with the 0.5 scale).
+   - Fly the one-engine phase with core's hold-then-taper drift-down and ceiling. Rows already on one engine continue on one engine.
+   - The log-on lag uses t2.
+   - Tests, and a smoke on next-free seed 1. **~1 day.**
+6. **Ruling item 2 (Boeing system sequence).**
+   - New states: TAC after the first flame-out; autopilot loss at the second flame-out (or at the first under the alternative electrical
+     configuration); residual rudder; RAT; APU start to log-on.
+   - Boeing's fixed settings are reproduced for the calibration subset, with wider declared priors elsewhere.
+   - Point-mass first; the 6-DOF where item 1 needs it. **~2 days.**
+7. **Ruling item 4 (deliberate push-over, piloted family only).**
+   - Bounded by g and the structural limits. Behind a config switch; its weight inside the piloted family is a declared sensitivity.
+   - Reported per onset × control cell. **~0.5 day** after item 6.
+8. **Ruling item 1 (every period without control flown by the 6-DOF).** This is the pacing item.
+   - **(a) Case-by-case analysis of the existing fit** (finished 00:35, NOT converged; shared stage stalled at its evaluation cap). **~0.5 day.**
+   - **(b) A refit under the heavy lock,** about 1-3 h at 12 threads. **I will announce it before starting.**
+   - **(c) The gate:** descent rate, peak g, and time and distance to impact, case by case, against stated tolerances.
+   - **(d)** Only then is it used in the sweep: a reduced model fitted to the 6-DOF, or a Rust port; the Python 6-DOF is too slow for 51 M
+     descents. **Several days.**
+
+### C. Also owed, alongside B
+- **Impact-time-shares JSON for next-run, and the late-tail attribution** (hydroacoustics' gate). **~1 h.**
+- **New constraint variant (b):** transmitting at 00:19:37 **and** not powered at 01:15:56. It will be named `+alive+unpowered`. (c)
+  `+silent` will be shown beside it, and its log-on model documented with sources. **~1 h.**
+- **The 00:19 evidence factor per stratum and per option, with MC error** (ruling ~19:10 C), from next-run. Held out = 1; not H1/H2 until they
+  are estimable. **~1 h.**
+- **Standard option names and two-version footnotes** in all module scripts and figures, from the next output on. **~1 h.**
+
+### D. Waiting for Pete
+- The onset × control cell structure (my two-axis proposal).
+- Approval of the heavy-lock 6-DOF refit (B8b) when I reach it.
+
+- End of flight
