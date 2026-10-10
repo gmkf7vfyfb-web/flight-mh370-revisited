@@ -64,8 +64,8 @@ ln BF = ln Z(V2) - ln Z(V1b) on the same data; pooled = ln of the mean Z over th
   >= 1,000 effective impacts, which is the NOT ESTIMABLE stamp on the maps. A row can pass the first test and fail the second.
 - Wherever the comparison is estimable as evidence, the data **mildly favour V1b over V2**, and the two seeds agree to <= 0.21:
   - 23:15 + 00:11, cause `other`: ln BF -0.36. Both the evidence and the posterior are estimable (map panel b);
-  - 23:15 + 00:11, fuel-exhaustion: -0.83. **Evidence only: the posterior is not estimable** (panel c; 62-85 effective parents per seed);
-  - adding the R600 BTO/BFO under `inflated`: -0.73 (`other`). **Evidence only in V2** (panel d; 884 effective impacts, 159-172 parents);
+  - 23:15 + 00:11, fuel-exhaustion: -0.83. **Evidence only: the posterior is not estimable** (panel c; effective parents per seed: V1b 69 and 101, V2 55 and 69);
+  - adding the R600 BTO/BFO under `inflated`: -0.73 (`other`). **Evidence only in V2** (panel d; 884 effective impacts over two seeds; effective parents per seed: V1b 300 and 377, V2 159 and 185);
   - the 00:19 BTO-only options, which score 00:19 without 23:15 and 00:11: -0.55 to -0.64;
   - the fuel-exhaustion log-on alone: -0.81.
   The R600 rows under Holland's two BFO models (`no-offset`, `startup-offset`) are **not** estimable in V2: 7-16 effective parents.
