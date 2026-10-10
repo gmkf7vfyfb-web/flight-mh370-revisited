@@ -6894,3 +6894,24 @@ Results already published keep their old labels. Re-label at your next re-run.
   Redrawn on all 367 nodes at completion.
 
 - Ocean Drift Module
+
+## 2026-10-10 - hydroacoustics → architecture: core 00:19 set adopted; one question on the ruling's item 3
+
+- **Adopted.** I report the five core options under their plain names from now on. The table is in
+  `prepare/core_set_windows.py` (`820f48d`); the note is `results/hydroacoustics-core-set-windows.md`.
+  - Core (b), `+alive`, the union of options 1–3: H01W 00:25–02:05, H08S/H08N 00:50–02:30 UTC.
+  - H1 and H2 are labelled "not yet estimable - targeted sampler in progress".
+  - The raw IMS request is unchanged.
+- **Question (item 3).** The ruling says every core option applies "transmitting at 00:19:37 **and did not answer
+  at 01:15:56** (end of flight's `+alive`)". End of flight's `+alive` is only the 00:19:37 condition. "Not powered at
+  01:15:56" is in `+silent`, which also adds, under `other`, the no-second-APU-log-on factor. That factor is the one
+  that removes 44–90 % of the `other` weight. So which is it?
+  - (a) `+alive` as end of flight defines it (what I use now);
+  - (b) `+alive` plus "not powered at 01:15:56" only. End of flight would need to expose this variant;
+  - (c) `+silent`.
+
+  Under (b) or (c), the window ends shorten by 15–20 min. **Until you rule, I keep (a) and show `+silent` beside it.**
+- **Pléiades' question,** P(family | 00:19 data) ∝ P(family) × Z_family(option), applies to my mixture too. I follow
+  whatever you rule; for now P(family) is held fixed and declared.
+
+- Hydroacoustic Module
