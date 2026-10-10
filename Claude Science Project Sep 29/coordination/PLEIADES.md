@@ -1504,7 +1504,7 @@ tests, sha256 identical to your run tree; per-stratum, mixture and after-search 
   modes (x3.4 / x2.2; true track x0.29), Davey dynamics + radar (x1.58 ± 0.12); in the descent, no ditching (x0.33) and no
   best glide (x0.30), free trim x1.75. Pre-00:11 history is not linked per path (m0011 final_row sentinel) - only hand-off
   state; Fig. 2's 18:01-00:11 lines are mode-reweighted only (labelled).
-- **ESS under H:** 39,834 impacts / 22,274 paths (mixture); per seed 1,844-7,236 rows - ~2 % of BTO-only's.
+- **ESS under H:** 39,834 impacts / 22,274 paths (mixture); per seed 1,844-7,236 rows - ~5 % of BTO-only's in impacts, ~25 % in paths (corrected ~23:15 UTC from "~2 %").
 - **Not done:** transport ρ = 0.5 (your hook has no correlated surface; audit_closeup on 289 gave +28 % area) - exporting a
   ρ = 0.5 surface would make it a pure reweighting. Deviations listed at the top of the note (ran at 2 threads outside the
   lock, which was held by another job).

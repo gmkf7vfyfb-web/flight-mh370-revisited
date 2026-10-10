@@ -435,8 +435,8 @@ module: exporting a ρ = 0.5 surface would make this a pure reweighting of the s
 | published routes | 3,794 (1,999) | 4,220 (2,275) | 4,267 (2,222) | 1,844 (910) |
 
 - **Mixture:** 39,834 impacts / 22,274 paths with re-weighted P(family), 36,837 / 20,622 with fixed.
-- **R600 BTO Only:** 771,077 / 89,595, about 20 times larger. **The primary option's conditional rests on about 2 % of the
-  BTO-only effective sample.** Its HDR contours are visibly grainy (Fig. 1a).
+- **R600 BTO Only:** 771,077 / 89,595, about 19 times larger in impacts and 4 times in paths. **The primary option's conditional rests on about 5 % of the
+  BTO-only effective sample in impacts (39,834 / 771,077) and 25 % in 00:11 paths (22,274 / 89,595).** Its HDR contours are visibly grainy (Fig. 1a).
 - **Per region:** the ESS by 00:11 latitude band and by category is the last column of the trace-back table. Categories under
   100 paths or 1,000 impacts are flagged and are coverage gaps (§2, item 6).
 - **After the searches, under H:** the base search leaves an ESS of
