@@ -74,12 +74,17 @@ def constraint_log_factor(g, logon, cause, which):
 def option_posteriors(run, seed_dir, constraints=()):
     """Yield (key, normalised posterior weights, columns) per data option x log-on cause for one seed.
     Weight = hand-off weight x burst likelihood (x the section 6 log-on lag density for fuel-exhaustion)."""
-    meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+    if (pathlib.Path(seed_dir) / "impacts32.npy").exists():
+        # Run C compact format (smoke/compact_impacts.py): same column names, unix times restored.
+        from compact_impacts import load as _load_compact
+        meta, g = _load_compact(seed_dir); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+    else:
+        meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+        X = np.load(seed_dir / "impacts.npy", mmap_mode="r")
+        g = lambda k: np.asarray(X[:, cols[k]], float)
     fams = meta["terminal"]["module_families"]; controls = sorted({f.split("/")[2] for f in fams})
     fam_control = np.array([controls.index(f.split("/")[2]) for f in fams])
     logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
-    X = np.load(seed_dir / "impacts.npy", mmap_mode="r")
-    g = lambda k: np.asarray(X[:, cols[k]], float)
     w = g("weight"); lat, lon = g("latitude_deg"), g("longitude_deg")
     bl, bo = g("latent:last_burst_latitude_deg"), g("latent:last_burst_longitude_deg")
     c = {"lat": lat, "lon": lon, "dn": (lat - bl) * 60.0, "de": (lon - bo) * 60.0 * np.cos(np.radians(bl)),
