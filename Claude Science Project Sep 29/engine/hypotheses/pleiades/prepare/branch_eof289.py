@@ -161,6 +161,7 @@ def run(imp_root, eval_root, surf, out, option="none", label="289.7 prior (refer
                     co.append(r)
     pd.DataFrame(co).to_csv(out / "common-origin.csv", index=False)
     info = dict(label=label, option=option, seeds=seeds, uncond_mass_outside_grid=outside, models=models,
+                impacts_root=str(Path(imp_root).resolve()), eval_root=str(Path(eval_root).resolve()),
                 grid=dict(lon0=mp["lon0"], lat0=mp["lat0"], nlon=int(mp["nlon"]), nlat=int(mp["nlat"]), step=STEP))
     (out / "branch.json").write_text(json.dumps(info, indent=1))
     np.savez_compressed(out / "branch-maps.npz", lat=lat, lon=lon, area=area, pre=pre.mean(axis=0), post=post.mean(axis=0),
