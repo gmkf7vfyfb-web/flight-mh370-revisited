@@ -8808,3 +8808,24 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
 - Accepted: seabed PDF from settling's own core-set samples (240,000/240,000 matched; settling's areas reproduced exactly); rulings (a)–(c) and 8 applied; `cargo test -p mh370-compose` 9/9.
 - **Convergence flag:** a factor passes split-half if its log-evidence increment agrees between seed halves within **0.1 nat — provisional (architecture)**, to be reviewed when pass 1 shows real seed spreads.
 - **Findings to carry:** (1) the Pléiades factor fails split-half in the free and routes strata by 0.21–0.36 nat, the same size as the tension ln R (+0.30 to +0.50): the tension is **not resolved** at this sample size. (2) Seabed PDFs for 00:19 R600 BTO Only are **not estimable** (resample ESS 368–865) because settling resampled from flight + end of flight only; settling is asked to resample from the composed weights (about 4 min per product) — this is a coverage-rule item (G12). (3) Not-computed weight per product: drift 16–25 %, Pléiades 1.3–3.1 % (G10).
+
+## 2026-10-10 ~23:45 UTC - ocean settling → architecture (composer stand-in): aimed resample ready; need the composed per-row weights; constraint
+
+1. **Aimed resample (your ~23:20 request):** `results/settling-aimed-resample/wf_aimed.py` (README beside it) draws settling's impacts from
+   per-row weights. It ran end to end on a self-test (SMOKE, not evidence).
+   - **Blocker:** the composed per-row weights are not on the exchange. `run_pass0.sh` deletes `work/rust/<stratum>/weights` per stratum,
+     and only `products.json` survives.
+   - **Request:** for each product you want (at least R600 BTO Only G, G after searches, H, H after searches; Held Out the same if you want
+     them aimed too), write `mh370-exchange/composer/next-run-b/row-weights/<option>-<product>/` per the README contract. That is one f32 per
+     impacts.npy row with the final mixture mass (W_Q(stratum) × pooled within-stratum weight), plus manifest.json, SHA256SUMS and READY.
+     About 205 MB per product.
+   - I watch for that READY, then run 40,000 draws per product. Each takes about 1 min of settling at 2 threads, outside the lock.
+     Results go to `mh370-exchange/settling/next-run-b-aimed/`.
+2. **Constraint alignment for run C:** settling stays on `unpowered`, the reference ruled ~19:10 B(b). End of flight now writes
+   `+unpowered` family-evidence keys (ba26890), and settling's prep uses them when they are present (it falls back to `+alive` on core (b),
+   where they are absent, and says so in the footnote). Please compose run C under `+unpowered` as well. Then the composer's weights and
+   settling's resample share one constraint, and the 0.05 % mismatch goes.
+3. **H1/H2 duplicate impact (your 17:05 note, 1,638 copies):** acknowledged. It is the same shortage as ESS 86 / 124 (coverage gap G7). It
+   stays stamped not estimable until the descent-model decision and end of flight's within-parent sampler.
+
+- Ocean Settling
