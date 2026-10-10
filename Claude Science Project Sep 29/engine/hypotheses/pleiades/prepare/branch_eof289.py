@@ -68,6 +68,27 @@ def build_branch(models, P, Cm, rating=0, weight=0):
     return out
 
 
+def _eof_module():
+    import importlib.util
+    f = Path(__file__).resolve().parents[2] / "end-of-flight" / "smoke" / "displacement_hist.py"
+    spec = importlib.util.spec_from_file_location("eof_displacement_hist", f)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def eof_option_weights(seed_dir, base, cause, con=""):
+    """Impact weights for an end-of-flight arm with a log-on cause other than `other` (e.g. `fuel-exhaustion`, which
+    adds EoF's Erlang APU log-on lag density), taken from EoF's own `option_posteriors` (read-only), so the arm is
+    exactly theirs. Option syntax here: `<option>[+<constraint>]@<cause>`."""
+    m = _eof_module()
+    key = f"{base.replace('/', '_')}__{cause}" + (f"+{con}" if con else "")
+    for k, p, _ in m.option_posteriors(Path(seed_dir), Path(seed_dir), constraints=((con,) if con else ())):
+        if k == key:
+            return p
+    raise KeyError(f"{key} not produced by end of flight's option_posteriors for {seed_dir}")
+
+
 def eof_constraint(seed_dir, A, cols, which):
     """End of flight's declared existence constraint (`alive` / `silent`, PROVISIONAL-OVERNIGHT, 10 Oct ~04:05 UTC),
     called read-only from its own code (hypotheses/end-of-flight/smoke/displacement_hist.py) so that the factor is
@@ -97,10 +118,15 @@ def histograms(imp_root, eval_root, mp, option):
         ks = [i for i, c in enumerate(ec) if c.startswith("seabed-search:loglik")]
         assert len(ks) == 1, ec[:10]
         lat, lon = np.asarray(A[:, cols.index("latitude_deg")]), np.asarray(A[:, cols.index("longitude_deg")])
-        base, _, con = option.partition("+")
-        w = np.asarray(A[:, cols.index("weight")]) * np.exp(np.asarray(A[:, cols.index(f"loglik:{base}")]))
-        if con:
-            w = w * np.exp(eof_constraint(sd, A, cols, con))
+        opt_, _, cause = option.partition("@")
+        base, _, con = opt_.partition("+")
+        if (cause and cause != "other") or f"loglik:{base}" not in cols:
+            # a non-default log-on cause, or an option end of flight derives rather than stores (e.g. r600-bto)
+            w = eof_option_weights(sd, base, cause or "other", con)
+        else:
+            w = np.asarray(A[:, cols.index("weight")]) * np.exp(np.asarray(A[:, cols.index(f"loglik:{base}")]))
+            if con:
+                w = w * np.exp(eof_constraint(sd, A, cols, con))
         w = np.where(np.isfinite(w), w, 0.0)
         s = np.exp(np.asarray(E[:, ks[0]]))
         s = np.where(np.isfinite(s), s, 1.0)

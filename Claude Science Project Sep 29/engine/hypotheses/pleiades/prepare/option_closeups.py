@@ -127,7 +127,7 @@ def make(root, impacts_root, geom_dir, out, plt, pfam=None, options=None, labels
         mix = (f"Strata mixed by core's P(family), held fixed ({', '.join(f'{k} {v:.4f}' for k, v in pfam.items())}); the search re-weights "
                f"strata by their own evidence, the 00:19 data do not.") if pfam else "Single impact set (no strata)."
         notes = [src,
-                 "What was run: " + describe_option(opt) + "; log-on cause 'other'. " + mix,
+                 "What was run: " + describe_option(opt) + ". " + mix,
                  "Labels: " + (labels or "none") + ".",
                  "Search: the searched-areas module's own per-impact likelihood (point target, undetectable probability rho = 0.05, shared between "
                  "campaigns). Phase 2 (q 0.945) and Bluefin-21 (q 0.9) official; OI 2018 (q 0.9, coverage 0.889) and OI 2025-26 south-east band "
