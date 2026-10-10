@@ -53,3 +53,25 @@ spread of the real ocean between these two sets of points.
 **Monte Carlo:** the 512-draw halves differ by a median of 2.7 % in p90, and by up to 11 %.
 
 **PROVISIONAL:** the breakup table, and end of flight's two overnight choices in the impacts.
+
+## Addendum, 10 Oct 2026: OSCAR v2.0 Final as a third surface current (comparison product)
+
+Settling `hypothesis/settling` (commit after 8b42fc9), `report_real` with `SETTLING_REPORT_VARIANTS="OSCAR,GlobCurrent"`, at the same four
+points and draws. Data: `settling-d6-real-289-oscar-sensitivity.csv`. Ocean transport ships OSCAR as a **comparison product only**
+(`results/ocean-data-manifest.md`), so it is shown beside the two ruled ocean-model values, not mixed with them.
+
+| surface current in the float phase | dense classes (p90 ÷ baseline) | floated classes, median over points | range over points |
+|---|---|---|---|
+| GLORYS12V1 (baseline) | 1 | 1 | |
+| Copernicus-GlobCurrent | 1.00 | 1.00-1.23 | 0.94-1.37 |
+| OSCAR v2.0 Final | 1.00 | 0.99-1.02 | 0.83-1.18 |
+
+- OSCAR leaves the floated classes within about 2 % of GLORYS12V1 in the median. Against GlobCurrent, its cabin-contents p90 is lower by
+  a median of 14 %.
+- The GlobCurrent rows reproduce the earlier run bit for bit.
+- So of the three products, GlobCurrent is the outlier for floated pieces, and the ocean-model spread on this page is unchanged at
+  up to about 25 % (37 % at one point).
+- Dense pieces do not depend on the surface current: they sink at once.
+- **Label fix in the same commit:** settling now takes the surface-current label from the product and refuses unknown ones. The first
+  OSCAR run was labelled "GLORYS12V1 surface current" in its `ocean` column, with identical numbers. Earlier GlobCurrent rows were
+  labelled correctly.

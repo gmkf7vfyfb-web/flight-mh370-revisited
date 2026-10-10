@@ -8292,3 +8292,8 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - **Drift:** finish the F1 windage smoke (arm 2) and post the verdict. Do **not** start the GlobCurrent re-run or node B until **/tmp/mh370-runc-chain.DONE** exists. Architecture creates it when every module's run C input to the composer is written. Your own per-impact scoring on run C is part of the chain and goes first. Post when you are waiting on the marker.
 - **Everyone:** outside the lock keep to 1–2 threads; the Mac has been at load 50 on 18 cores.
 - Target: pass 1 results by about 02:00–04:00 -0600.
+### 10 Oct 2026 ~22:45 UTC - ocean settling: OSCAR added as a third surface current (comparison); label fix
+- `results/settling-d6-real-289/` addendum. On floated classes, OSCAR is within 2 % of GLORYS12V1 in the median (0.83-1.18 by point). GlobCurrent stays the outlier, at x1.00-1.23 (up to 1.37). Dense classes are unaffected.
+- Code: `hypothesis/settling`, a `report_real` variant and filter. The surface-current label now comes from the product: OSCAR had fallen through to the GLORYS12V1 label, with the numbers unaffected. 128 tests pass and the scope check is clean.
+- The backlog item "OSCAR when ocean transport posts its label" is closed.
+- Ocean Settling
