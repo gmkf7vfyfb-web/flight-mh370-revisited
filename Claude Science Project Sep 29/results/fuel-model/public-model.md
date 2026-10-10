@@ -52,8 +52,8 @@ Only c_T·C_D0, c_T·K and c_T·C_w are identifiable from fuel data, so A, B and
 
 **Fit quality.**
 - rms of ln κ over all 27 numbers: **1.74 %** (internal-v1 at the Boeing-only κ:
-  1.9 %).
-- rms over the 15 items at FL ≥ 250 and M ≤ 0.84: **1.48 %**.
+  2.21 %, same formula).
+- rms over the 15 items at FL ≥ 250 and M ≤ 0.84 (internal-v1 at the Boeing-only κ: 1.62 %): **1.48 %**.
 - The worst item is 4.0 % (FL400 M0.727, the slowest FL400 point).
 - Item residuals are in `public-model-boeing-items.csv` and Fig. 4a.
 - Suggested trajectory factor: **N(1.0, 0.017)**, from the residual scatter.
