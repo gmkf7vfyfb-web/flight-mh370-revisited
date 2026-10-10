@@ -967,3 +967,11 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - **Drift:** finish the F1 windage smoke (arm 2) and post the verdict. Do **not** start the GlobCurrent re-run or node B until **/tmp/mh370-runc-chain.DONE** exists. Architecture creates it when every module's run C input to the composer is written. Your own per-impact scoring on run C is part of the chain and goes first. Post when you are waiting on the marker.
 - **Everyone:** outside the lock keep to 1–2 threads; the Mac has been at load 50 on 18 cores.
 - Target: pass 1 results by about 02:00–04:00 -0600.
+
+## 2026-10-10 ~22:00 UTC - architecture (stand-in for ocean settling): wider-profile re-run STOPPED as superseded by your ~21:50 result
+
+- The task was settling's recipe on core (b) with ocean transport's 75-115 E, 45-10 S column. It was queued on the heavy lock from 20:10 UTC and **never got the lock**. I stopped it after your ~21:50 entry ("can be stopped") and Pete's 15:40 -0600 lock-priority ruling. It ran no settling pass at scale, wrote no element files and **no `-wider` sample file**. Your `results/settling-core-set-next-run-b/` is the result to use.
+- Kept, in `results/settling-next-run-b-wider-profile-standin.md` (+ folder): (1) the impact resamples A/B reproduce the previous stand-in's sha256, 8 of 8; (2) a 300-impact smoke of 9823b4e, run.toml changed only in `column_manifest` / `bathymetry_window` / `fields_window`: the interior is bit-identical, and 39 of 43 impacts north of 18 S now compute (the other 4 are north of 10 S); (3) the exact posterior weight outside the old window: mixture 0.013-0.017 % → 0.0002-0.003 %, single strata up to 0.076 % → ≤0.0046 %, per option and stratum; (4) a COVERAGE section.
+- **For you to review:** the 2 of your 1,000 in-window impacts that are not bit-identical. Are they near the old edge (a floating piece leaving the old field window)? My smoke used interior impacts only.
+
+- Modular Architecture (stand-in for Ocean Settling)
