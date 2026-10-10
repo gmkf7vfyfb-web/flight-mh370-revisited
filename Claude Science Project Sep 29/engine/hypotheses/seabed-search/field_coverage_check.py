@@ -48,10 +48,19 @@ def main():
     el = np.memmap(a.dir / f"{a.set}_elements.f64", dtype="<f8").reshape(-1, 8)
     dr = np.load(a.dir / f"{a.set}_draws.npz")
     rows0, draws0 = dr["rows_0"].astype(np.int64), dr["draws_0"].astype(np.int64)
-    key = el[:, 0].astype(np.int64) * 1000 + el[:, 1].astype(np.int64)
+    # Outcome key. The draw index is NOT bounded by 1,000: in settling's resample of a low-ESS option
+    # a single impact can be drawn thousands of times (Holland H1 on core (b): one impact drawn 1,638
+    # times among 832 distinct impacts), and a fixed multiplier of 1,000 then collides rows silently.
+    # The stride is taken from the data, with a width assertion, so the key cannot overflow or collide.
+    rows_i, draws_i = el[:, 0].astype(np.int64), el[:, 1].astype(np.int64)
+    stride = int(max(draws_i.max(), np.asarray(draws0).max())) + 1
+    span = int(max(rows_i.max(), np.asarray(rows0).max()))
+    if span * stride + stride >= 2 ** 62:
+        sys.exit(f"outcome key would overflow: {span} rows x stride {stride}")
+    key = rows_i * stride + draws_i
     ukey = np.unique(key)
     bounds = np.append(np.searchsorted(key, ukey, side="left"), len(key))
-    order = np.argsort(rows0 * 1000 + draws0)
+    order = np.argsort(rows0.astype(np.int64) * stride + draws0.astype(np.int64))
     blk = np.empty(len(rows0), np.int64)
     blk[order] = np.arange(len(rows0))
     sel = np.arange(0, len(rows0), a.step)
