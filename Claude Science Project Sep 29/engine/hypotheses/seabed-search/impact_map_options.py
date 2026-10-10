@@ -62,8 +62,15 @@ BINARY = ROOT / "target" / "release" / "mh370"
 GRID = 0.02          # degrees, as the house impact map
 SMOOTH_DEG = 0.1     # 6 NM
 R_KM = 6371.0072
+# Latitude quantile histogram. Its range is deliberately WIDER than the plotted window: impacts lie
+# outside LAT and a histogram clipped to the window would silently condition the median on what is
+# drawn. 0.005 deg bins, far finer than the 0.1 deg smoothing.
+QRANGE = (-70.0, -5.0)
+QN = 13000
 LAT = (-44.0, -26.0)
 LON = (82.0, 100.0)
+QLAT = None          # bin centres, set once LAT is known
+QLAT = QRANGE[0] + (np.arange(QN) + 0.5) * (QRANGE[1] - QRANGE[0]) / QN
 ARCS = {"m0011": dict(lw=1.2, color="#b16286", label="6th arc, 00:11 UTC"),
         "m0019a": dict(lw=1.0, color="#4a6fa5", ls="--", label="7th arc, 00:19 UTC")}
 # The four arms of the comparison Pete asked for, in his order. The log-on cause is paired with the
@@ -100,11 +107,11 @@ Holland himself used these bounds to bound the DESCENT RATE, not position; the A
 
 LOWER ROW, the seabed-search evidence.  ATSB Phase 2 union 120,486.5 km² (deep-tow side-scan, GO Phoenix and Dong Hai Jiu SAS, AUV side-scan) plus Bluefin-21/Artemis 771.4 km²; coverage rasterised at 0.01°; detection probability
 q = 0.945 Phase 2 and 0.900 Bluefin-21, conditional on a detectable target; undetectable fraction ρ = 0.05; point target — the size response g(W) is not yet implemented; shared miss dependence where campaigns overlap.
-Ocean Infinity 2018 and 2025–26 are NOT included.  PRIOR  run eof-289-full: 289.7° initial track at 18:01:49 UTC (Davey Fig. 4.2), 4 seeds × 3.2 × 10⁶ impacts.  Bands are 50/90/99 % highest-posterior-density regions on a
+Ocean Infinity 2018 and 2025–26 are NOT included.  {PRIOR}  Bands are 50/90/99 % highest-posterior-density regions on a
 0.02° grid smoothed at 0.1° (6 NM); areas on the authalic sphere.  **+alive**: end of flight's declared existence constraint, PROVISIONAL-OVERNIGHT, that the aircraft was airborne at 00:19:37.443 so
 that the log-on acknowledge could be sent at all — a datum separate from that burst's BTO and BFO values.  It binds only on the held-out arm, which otherwise puts 10.2 % of its weight before that burst.
 
-CONVERGENCE  Each panel is an importance-weighted reading of the SAME 12.8 x 10^6 impacts, which were not drawn with the 00:19 bursts in hand, so a sharp 00:19 likelihood collapses the weights.  ESS is the Kish effective
+CONVERGENCE  Each panel is an importance-weighted reading of the SAME impacts (count in the PRIOR line above), which were not drawn with the 00:19 bursts in hand, so a sharp 00:19 likelihood collapses the weights.  ESS is the Kish effective
 sample size of those weights.  A panel below 1,000 effective impacts is labelled NOT ESTIMABLE: its bands are the few surviving particles, not a posterior, and its area, median and evidence are reported as unconverged, not as
 results.  Fixing it needs a proposal that already carries the 00:19 data, which is end of flight's to build, not a longer run of this one."""
 
@@ -151,7 +158,10 @@ def weighted_quantile(x, p, q):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("run", type=pathlib.Path)
+    ap.add_argument("run", type=str,
+                    help="a run directory, or several as `dir:weight,dir:weight,...` to pool strata by "
+                         "P(family). Pooling is the only correct way to get a mixture median or area: "
+                         "Z and the mass shares combine linearly across strata, densities do not.")
     ap.add_argument("stem")
     ap.add_argument("--columns", default=",".join(DEFAULT))
     ap.add_argument("--arcs", type=pathlib.Path, default=None, help="run.json carrying reference_arcs")
@@ -163,7 +173,14 @@ def main():
                          "(alive, silent); each adds a `+<name>` key beside the plain one")
     a = ap.parse_args()
     keys = a.columns.split(",")
-    meta = json.loads((a.run / "run.json").read_text())
+    parts = []
+    for spec in a.run.split(","):
+        d, _, w = spec.partition(":")
+        parts.append((pathlib.Path(d), float(w) if w else 1.0))
+    tw = sum(w for _, w in parts)
+    parts = [(d, w / tw) for d, w in parts]
+    a.run = parts[0][0]
+    meta = json.loads((parts[0][0] / "run.json").read_text())
     if any(c.startswith("seabed-search:") for c in meta["impact_columns"]):
         raise SystemExit(f"{a.run} already carries this module's likelihood: refusing to apply it twice.")
     arcs = {}
@@ -174,36 +191,39 @@ def main():
     except Exception:
         arcs = {}
 
-    seeds = sorted((a.run / "bto-bfo").glob("seed-*"))
+    seeds = [(s, w) for d, w in parts for s in sorted((d / "bto-bfo").glob("seed-*"))]
+    nseed = {d: len(sorted((d / "bto-bfo").glob("seed-*"))) for d, _ in parts}
     scratch = ROOT / "runs" / "seabed-search-analysis" / "scratch-maps"
     scratch.mkdir(parents=True, exist_ok=True)
     # Every option end of flight's helper yields is accumulated, so the table covers the full range
     # Pete asked for; --columns chooses only which of them are drawn.
     blank = lambda: {"before": None, "after": None, "z": 0.0, "on_p2_before": 0.0, "on_p2_after": 0.0,
-                     "ess_b": 0.0, "ess_a": 0.0, "lat_b": [], "lat_a": [], "w_b": [], "w_a": []}
+                     "ess_b": 0.0, "ess_a": 0.0,
+                     "lat_b": np.zeros(QN), "lat_a": np.zeros(QN)}
     acc = {}
     cons = tuple(x for x in a.constraints.split(",") if x)
-    for seed in seeds:
-        ll, cov = search_loglik(a.run, seed, scratch)
+    for seed, wfam in seeds:
+        share = wfam / nseed[seed.parent.parent]   # family weight spread over that stratum's seeds
+        ll, cov = search_loglik(seed.parent.parent, seed, scratch)
         like = np.exp(ll)
-        for key, p, c in option_posteriors(a.run, seed, constraints=cons):
+        for key, p, c in option_posteriors(seed.parent.parent, seed, constraints=cons):
             acc.setdefault(key, blank())
             after = p * like
             z = float(after.sum())
             after = after / z
             s = acc[key]
-            s["z"] += z / len(seeds)
-            s["on_p2_before"] += float((p * cov).sum()) / len(seeds)
-            s["on_p2_after"] += float((after * cov).sum()) / len(seeds)
+            s["z"] += z * share
+            s["on_p2_before"] += float((p * cov).sum()) * share
+            s["on_p2_after"] += float((after * cov).sum()) * share
             # Kish effective sample size of the importance weights, summed over seeds: the honest
             # measure of how many of the 3.2e6 impacts per seed actually carry this option's posterior.
             s["ess_b"] += float(1.0 / np.sum(p ** 2))
             s["ess_a"] += float(1.0 / np.sum(after ** 2))
             for tag, w in (("before", p), ("after", after)):
-                d = density(c["lat"], c["lon"], w) / len(seeds)
+                d = density(c["lat"], c["lon"], w) * share
                 s[tag] = d if s[tag] is None else s[tag] + d
-            s["lat_b"].append(c["lat"]); s["w_b"].append(p / len(seeds))
-            s["lat_a"].append(c["lat"]); s["w_a"].append(after / len(seeds))
+            for tag, w in (("lat_b", p), ("lat_a", after)):
+                s[tag] += np.histogram(c["lat"], bins=QN, range=QRANGE, weights=w * share)[0]
         print(f"  {seed.name} done", flush=True)
 
     missing = [k for k in keys if k not in acc]
@@ -213,8 +233,8 @@ def main():
     report = {}
     for k in sorted(acc):
         s = acc[k]
-        lat_b = np.concatenate(s["lat_b"]); w_b = np.concatenate(s["w_b"])
-        lat_a = np.concatenate(s["lat_a"]); w_a = np.concatenate(s["w_a"])
+        lat_b, w_b = QLAT, s["lat_b"]
+        lat_a, w_a = QLAT, s["lat_a"]
         lv_b = hpd_levels(s["before"], LEVELS)
         lv_a = hpd_levels(s["after"], LEVELS)
         report[k] = {
@@ -228,6 +248,7 @@ def main():
             "converged": bool(s["ess_a"] >= ESS_FLOOR),
         }
 
+    rows = sum(np.load(s / "impacts.npy", mmap_mode="r").shape[0] for s, _ in seeds)
     ny, nx = acc[keys[0]]["before"].shape
     lat_c = LAT[0] + (np.arange(ny) + 0.5) * GRID
     lon_c = LON[0] + (np.arange(nx) + 0.5) * GRID
@@ -258,7 +279,7 @@ def main():
             e = r["ess_after" if tag == "after" else "ess_before"]
             bad = e < ESS_FLOOR
             ax.text(0.97, 0.03, f"90 % area {area/1000:,.0f}k km²\nmedian {abs(med):.2f}°S\n"
-                                f"ESS {e:,.0f} of 12,800,000",
+                                f"ESS {e:,.0f} of {rows:,}",
                     transform=ax.transAxes, fontsize=6, color="#b02418" if bad else "#444444",
                     ha="right", va="bottom")
             if bad:
@@ -277,7 +298,15 @@ def main():
         if e in arcs:
             bands.append(plt.Line2D([], [], color=st["color"], lw=st["lw"], ls=st.get("ls", "-"), label=st["label"]))
     fig.legend(handles=bands, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, 0.182))
-    note = FOOTNOTE + ("\n\nLABELS  " + a.labels if a.labels else "")
+    src = (", ".join(f"{d.name} ({w:.1%})" for d, w in parts) + " — the supplied stratum weights renormalised to 1"
+           if len(parts) > 1 else parts[0][0].name)
+    prior = meta.get("config", {}).get("prior", {})
+    track = prior.get("track_deg")
+    tzero = prior.get("time_utc", "")
+    prior_line = (f"PRIOR  {src}: "
+                  + (f"{track}° initial track at {tzero}, " if track else "")
+                  + f"{len(seeds)} seed files, {rows:,} impacts in all.")
+    note = FOOTNOTE.replace("{PRIOR}", prior_line) + ("\n\nLABELS  " + a.labels if a.labels else "")
     fig.text(0.008, 0.172, note, fontsize=5.4, color="#333333", ha="left", va="top",
              linespacing=1.45, family="DejaVu Sans")
     fig.tight_layout(rect=(0, 0.20, 1, 1))
