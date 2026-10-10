@@ -103,10 +103,18 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     }))
 }
 
+/// Observation IDs, prefixed by data source (crates/hypothesis convention).
+pub const OBSERVATION_IDS: [&str; 5] =
+    ["imos:3315", "imos:3376", "imos:3274", "imos:3275", "ims:H01W:kadri2024-table1"];
+
 impl Hypothesis for Hydroacoustics {
-    /// No data are consumed in predictive mode.
+    /// The data this module's per-impact products use (architecture ruling 4 on composer pass 0, 10 Oct 2026), so that
+    /// the composer can refuse double use. The hook's own likelihood is identically 0 in predictive mode (the P_D gate
+    /// is not passed), but the exported exploratory column `lnL_soft` (`prepare/per_impact_lnl.py`) scores these data:
+    /// the four IMOS loggers' scored segments of 8 Mar 2014 and Kadri (2024) Table 1 at H01W. No raw IMS triad record
+    /// is held, so none is declared. IDs match those the composer stand-in used in pass 0.
     fn observations(&self) -> Vec<String> {
-        Vec::new()
+        OBSERVATION_IDS.iter().map(|s| s.to_string()).collect()
     }
 
     /// A constant likelihood of one is exact for "no data used", so it is on an absolute scale.
@@ -188,7 +196,7 @@ mod tests {
     fn predictive_mode_contributes_exactly_nothing() {
         let h = new(&params("predictive")).unwrap();
         assert_eq!(h.impact_log_likelihood(&impact(-37.225, 88.9), &[]), 0.0);
-        assert!(h.observations().is_empty());
+        assert_eq!(h.observations(), OBSERVATION_IDS.iter().map(|s| s.to_string()).collect::<Vec<_>>());
         assert!(h.alternatives().is_empty());
     }
 
