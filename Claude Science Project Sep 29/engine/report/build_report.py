@@ -564,8 +564,8 @@ def save_page(pdf, fig, out):
     foot = os.environ.get("REPORT_FOOTNOTE", "").strip()
     if foot:
         # Squeeze the page's content into the top (1 - band) so the footnote never overlaps it.
-        lines = textwrap.wrap(foot, 190)
-        band = (0.22 + 0.095 * len(lines)) / fig.get_size_inches()[1]  # physical height, whatever the page size
+        lines = [l for para in foot.split("\n\n") for l in textwrap.wrap(para, 190)]
+        band = (0.34 + 0.095 * len(lines)) / fig.get_size_inches()[1]  # physical height, whatever the page size
         for ax in fig.axes:
             p = ax.get_position()
             ax.set_position([p.x0, band + p.y0 * (1 - band), p.width, p.height * (1 - band)])
@@ -717,10 +717,26 @@ def main():
         # rather than shrunk, which silently truncates what the run actually varied. The
         # body below starts one line lower per extra subtitle line, so a long deviation
         # list pushes the text down instead of overprinting it.
-        cond_lines = textwrap.wrap(conditions, 112) or [""]
-        fig.text(0.08, 0.920, "\n".join(cond_lines), fontsize=9, va="top",
-                 linespacing=1.5, color=INK if variant else MUTED, style="italic")
-        y = text_block(fig, 0.08, 0.893 - 0.0155 * (len(cond_lines) - 1), f"""
+        # REPORT_WHAT: one plain-language (ASD-STE100) statement of what this run is, so the reader
+        # does not have to decode the configuration. The technical conditions follow in smaller type.
+        what = os.environ.get("REPORT_WHAT", "").strip()
+        y0 = 0.920
+        if what:
+            what_lines = textwrap.wrap(what, 100)
+            fig.text(0.08, y0, "\n".join(what_lines), fontsize=9.5, va="top", linespacing=1.35, color=INK, weight="bold")
+            y0 -= 0.0145 * len(what_lines) + 0.006
+            c_size, c_wrap, c_spacing, c_step = 8, 130, 1.3, 0.0125
+        else:
+            c_size, c_wrap, c_spacing, c_step = 9, 112, 1.5, 0.0155
+        if what:
+            # The technical conditions are already on page 7 ("Run.") and in the technical footnote.
+            start = y0 - 0.008
+        else:
+            cond_lines = textwrap.wrap(conditions, c_wrap) or [""]
+            fig.text(0.08, y0, "\n".join(cond_lines), fontsize=c_size, va="top",
+                     linespacing=c_spacing, color=INK if variant else MUTED, style="italic")
+            start = y0 - 0.027 - c_step * (len(cond_lines) - 1)
+        y = text_block(fig, 0.08, start, f"""
             This report recreates the probability density function (pdf) of the aircraft's latitude at the final
             satellite handshake, 00:19 UTC on 8 March 2014, from the model published by Davey, Gordon, Holland,
             Rutten and Williams, Bayesian Methods in the Search for MH370 (Springer, 2016). The aircraft state is
@@ -765,6 +781,14 @@ def main():
             ax.set_ylim(bottom=0)
             ax.grid(axis="y", color="#e9e8e4", lw=0.5)
         ax2.set_xlim(-42, -32)
+        # Finer latitude ticks (1 deg labelled, 0.25 deg minor) with faint vertical grid lines.
+        from matplotlib.ticker import MultipleLocator
+        ax2.xaxis.set_major_locator(MultipleLocator(1.0))
+        ax2.xaxis.set_minor_locator(MultipleLocator(0.25))
+        ax2.tick_params(axis="x", which="minor", length=2.5, width=0.5)
+        ax2.set_axisbelow(True)
+        ax2.grid(axis="x", which="major", color="#e4e3df", lw=0.55)
+        ax2.grid(axis="x", which="minor", color="#f1f0ec", lw=0.45)
         ax2.set_xlabel("Latitude at 00:19 UTC (°)")
         text_block(fig, 0.08, 0.085, f"""
             Figure 1. Latitude pdf of the aircraft at 00:19:37 UTC, the form of Davey et al. Fig. 10.3. (a) BTO only.
