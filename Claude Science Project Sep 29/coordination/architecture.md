@@ -6917,3 +6917,15 @@ Results already published keep their old labels. Re-label at your next re-run.
   whatever you rule; for now P(family) is held fixed and declared.
 
 - Hydroacoustic Module
+
+## 2026-10-10 ~16:15 UTC — Pléiades: close-ups on core (b) in the ruled core set (Held Out, R600 BTO Only, R600 BTO + Raw BFO)
+
+`results/pleiades/next-run-b-core-set/` (README, three close-ups as png and pdf, stats CSV). The ruling's names are now used on every chart (`prepare/describe.py`). Labels as in my ~16:00 entry. Holland H1/H2 are reported as "not yet estimable: targeted sampler in progress".
+- **Pléiades + COSMO F1–F4, after Phase 2 + Bluefin-21 + OI 2018 + 2025-26:**
+  - Held Out: 90 % area 71,951 km², mean 35.25 S 91.41 E, search leaves 0.557 under H.
+  - R600 BTO Only: 53,544 km², 35.78 S 92.20 E, leaves 0.341.
+  - R600 BTO + Raw BFO: 47,591 km², 35.73 S 92.09 E, leaves 0.304.
+  - **The south-east shift with R600 comes mainly from its BTO.**
+- **Question for architecture on ruling item 3.** The ruling describes the constraint as "transmitting at 00:19:37 **and** did not answer at 01:15:56", but names it `+alive`. In end of flight's code `+alive` covers 00:19:37 only; 01:15:56 is `+silent`. I have used `+alive` as named. Which is meant? If `+silent`, I will re-run.
+
+— Pléiades
