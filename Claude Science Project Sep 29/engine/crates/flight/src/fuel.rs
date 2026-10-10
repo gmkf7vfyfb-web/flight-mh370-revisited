@@ -353,6 +353,9 @@ pub struct InternalGrid {
     flags: Vec<u8>,
     ceiling_weight_t: Vec<f64>,
     ceiling_fl: Vec<f64>,
+    /// Least positive finite flow over every level and Mach at each weight node, for the
+    /// doomed test's bound (computed once at load; the test runs every step for every path).
+    min_at_weight: Vec<f64>,
     pub version: String,
 }
 
@@ -422,14 +425,30 @@ impl InternalGrid {
         if raw.ceiling_fl.weight_t.len() != raw.ceiling_fl.fl.len() || raw.ceiling_fl.fl.len() < 2 {
             return Err("internal fuel model: ceiling_fl needs matching weight_t and fl, two or more".into());
         }
+        let flat: Vec<f64> = flow.into_iter().flatten().flatten().collect();
+        let min_at_weight = (0..nw)
+            .map(|j| {
+                let mut best = f64::INFINITY;
+                for i in 0..nf {
+                    for k in 0..nm {
+                        let v = flat[(i * nw + j) * nm + k];
+                        if v.is_finite() && v > 0.0 {
+                            best = best.min(v);
+                        }
+                    }
+                }
+                best
+            })
+            .collect();
         Ok(Self {
             fl: g.fl_nodes,
             weight_t: g.weight_t,
             mach: g.mach,
-            flow: flow.into_iter().flatten().flatten().collect(),
+            flow: flat,
             flags: g.flags.into_iter().flatten().flatten().collect(),
             ceiling_weight_t: raw.ceiling_fl.weight_t,
             ceiling_fl: raw.ceiling_fl.fl,
+            min_at_weight,
             version: raw.model.version,
         })
     }
@@ -484,30 +503,24 @@ impl InternalGrid {
     }
 
     /// A lower bound on the standard-day flow at this weight over every level and Mach the
-    /// lookup can return: at fixed weight the trilinear value is bilinear in level and Mach
-    /// within a cell, so it never falls below the least corner of the weight slice.
+    /// lookup can return. At fixed weight w between nodes j and j+1 a slice value is
+    /// (1-y) f[i,j,k] + y f[i,j+1,k] >= (1-y) min_j + y min_{j+1}, and within a cell the
+    /// trilinear value is bilinear in level and Mach, so it never falls below the least slice
+    /// corner. O(1): the per-node minima are computed at load.
     pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
         if !weight_t.is_finite() {
             return None;
         }
         let (j, y, _) = bracket(&self.weight_t, weight_t);
-        let mut best = f64::INFINITY;
-        for i in 0..self.fl.len() {
-            for k in 0..self.mach.len() {
-                let (a, b) = (self.flow[self.at(i, j, k)], self.flow[self.at(i, j + 1, k)]);
-                let v = if y == 0.0 {
-                    a
-                } else if y == 1.0 {
-                    b
-                } else {
-                    (1.0 - y) * a + y * b
-                };
-                if v.is_finite() && v > 0.0 {
-                    best = best.min(v);
-                }
-            }
-        }
-        best.is_finite().then_some(best)
+        let (a, b) = (self.min_at_weight[j], self.min_at_weight[j + 1]);
+        let v = if y == 0.0 {
+            a
+        } else if y == 1.0 {
+            b
+        } else {
+            (1.0 - y) * a + y * b
+        };
+        (v.is_finite() && v > 0.0).then_some(v)
     }
 }
 
