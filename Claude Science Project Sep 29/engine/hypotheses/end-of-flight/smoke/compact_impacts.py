@@ -81,7 +81,9 @@ def family_labels(onset_mechanism, control_realised):
     om = np.asarray(onset_mechanism); cr = np.asarray(control_realised)
     onset = np.where(om == 2, 0.0, np.where((om == 0) | (om == 1), 1.0, np.nan))
     control = np.select([cr == 2, cr == 1, (cr == 0) | (cr == 3)], [0.0, 1.0, 2.0], np.nan)
-    fam = np.where(onset == 1, 3.0, np.select([control == 0, control == 2, control == 1], [1.0, 2.0, 4.0], np.nan))
+    a_fam = np.select([control == 0, control == 2, control == 1], [1.0, 2.0, 4.0], np.nan)
+    b_fam = np.select([control == 2, control == 1, control == 0], [3.0, 5.0, 6.0], np.nan)   # B as ruled 15:45 -0600 10 Oct
+    fam = np.where(onset == 1, b_fam, a_fam)
     fam = np.where(np.isnan(onset), np.nan, fam)
     return {"onset_code": onset, "control_code": control, "family_code": fam}
 

@@ -227,6 +227,12 @@ struct Params {
     /// onset, the earlier behaviour exactly.
     #[serde(default)]
     deliberate_control_weights: Option<[f64; 4]>,
+    /// Apply `deliberate_control_weights` to EVERY deliberate onset (anticipatory or fuel cue), also when the drawn
+    /// propulsion is an idle descent (`NeitherThrusting`). Family B as ruled 15:45 -0600 10 Oct is a planned descent with
+    /// an approach to ditching whatever the thrust setting. Default false: only thrusting deliberate onsets, the 10 Oct
+    /// V2-broad behaviour exactly.
+    #[serde(default)]
+    deliberate_control_any_propulsion: bool,
     /// Keep a descent that never reached the sea as its own impact sample instead of finishing it
     /// on a best-glide. **Default off.** A negative result is kept, not deleted: with the flag
     /// off the fact is still recorded in the `timed_out` latent, and with it on the unconverged
@@ -1024,7 +1030,8 @@ impl EndOfFlight {
             }
         }
         let (propulsion, p_prior) = pick(&weights, &Propulsion::ALL, uniform);
-        let deliberate = matches!(mechanism, Initiation::Anticipatory | Initiation::FuelCue) && propulsion != Propulsion::NeitherThrusting;
+        let deliberate = matches!(mechanism, Initiation::Anticipatory | Initiation::FuelCue)
+            && (self.params.deliberate_control_any_propulsion || propulsion != Propulsion::NeitherThrusting);
         let control_weights = match self.params.deliberate_control_weights {
             Some(w) if deliberate => w,
             _ => self.params.control_weights,

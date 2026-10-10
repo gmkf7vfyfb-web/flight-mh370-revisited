@@ -17,7 +17,11 @@ export PYTHONPATH=$S/smoke OMP_NUM_THREADS=2
 echo "waiting for $CORE/READY $(date -u +%FT%TZ)"
 while [ ! -e "$CORE/READY" ]; do sleep 60; done
 echo "core READY seen $(date -u +%FT%TZ)"; mkdir -p "$OUT"
-EXTRA=""; [ -e "$OUT/USE-TRIM-AT-LOSS" ] && EXTRA="$S/smoke/trim-at-loss.toml" && echo "trim at loss ON"
+# Recipe additions (architecture 15:45 -0600 10 Oct): the broadened descent envelope (PROVISIONAL-OVERNIGHT option B of 10 Oct)
+# and family B as ruled (deliberate onset + approach to ditching; loss en route as a sub-variant).
+EXTRA="$S/smoke/v2-broad.toml $S/full/family-b-ditching.toml"
+[ -e "$OUT/USE-TRIM-AT-LOSS" ] && EXTRA="$EXTRA $S/smoke/trim-at-loss.toml" && echo "trim at loss ON"
+echo "module overlays: $EXTRA"
 for SD in "$CORE"/*/; do
   st=$(basename "$SD"); [ -f "$SD/run.json" ] || continue
   CHAIN=$($PY -c "import json,sys;print(' '.join(json.load(open(sys.argv[1]))['config_paths']))" "$SD/run.json")
