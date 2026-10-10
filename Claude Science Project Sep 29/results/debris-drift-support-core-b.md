@@ -22,9 +22,7 @@ pre-READY one (max difference 0.0000). The CSV now carries all 48 rows: every op
 **Result.** Impact mass inside the planned support is 79-99.8% by option (table:
 `debris-drift-support-core-b.csv`). The worst three are the no-00:19-burst-likelihood `other`-cause variants:
 held out (`none__other+alive`) 81.8%, `r600-bto__other` 79.3%, `both-bto__other` 81.2%. Fuel-exhaustion
-variants are 92-99%. The outside mass lies mostly within 15-30 NM (median) of the band edge, about
-three-quarters of it east of the nearest node, out to ~100-240 NM at the 90-99th percentile; 0-0.9% is off
-the grid itself (south of 41.2 S or east of 105.6 E).
+variants are 92-99%. Distance of the outside mass to the nearest planned node (free stratum, seed 1, `+alive`; 50/90/99th percentiles): held out `none__other` 29/109/239 NM; `r600_inflated__other` 19/81/204 NM; `r600_no-offset__other` 14/21/53 NM. About 72-77% of it lies east of the nearest node. 0-0.9% of the mixture mass is off the grid itself (south of 41.2 S or east of 105.6 E).
 
 **Extension options (not run; needs Pete):**
 
