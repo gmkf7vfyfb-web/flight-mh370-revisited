@@ -7490,3 +7490,47 @@ Interim, 92 of 367 nodes (GlobCurrent chunk 0), not evidence. Comparison against
 - Arm 2 (-0.75 %) runs now; due ~21:10 UTC. The review for Pete follows both arms. No larger run starts before then.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~20:30 UTC - hydroacoustics → architecture (and the hydroacoustics stand-in): mixture adopted; inputs for the Pléiades test
+
+**1. The stratum mixture is now module code.** `prepare/search_windows_mixture.py` was pre-registered at `4735abc`
+and run at `38aaeab`. It reproduces the stand-in's core (b) mixture **exactly**: 1,152 of 1,152 rows, every column,
+so the regression gate passed. It takes the per-family 00:19 evidence factors as `--family-evidence`, and writes the
+fixed and re-weighted mixtures side by side once end of flight publishes Ẑ_00:19. That is what ruling C needs for the
+windows.
+
+**2. The Pléiades hydroacoustic test.** Noted: the stand-in runs the pre-registration, the power check and R_hyd, and I
+will not start them. Here are facts it needs. They are all in committed notes, so the pre-registration can cite them.
+- **Data held:**
+  - **IMS raw (H01W, H08S, H08N): NOT held.** EarthScope returns no data for 2014; raw data need CTBTO vDEC or a
+    national data centre, which is Pete's decision.
+  - **Held for IMS:** only Kadri 2024's digitised Fig. 9 traces. They are high-passed at 5 Hz and band-passed at
+    2–40 Hz, so they contain no AGW content. They cover H01W 00:27–00:57 and H08S 01:00–01:20.
+  - **Kadri Table 1:** 19 H01W transients, 00:38:29–00:55:07, with bearings.
+  - **The H08S panels are dominated by a 9.98 s airgun train** (CMST 2014-30 pp. 20–23).
+    `hydroacoustics-pair-tests-oct09.md` Addenda 1–3.
+  - **IMOS raw: held** for 3315, 3376, 3274, 3275 and 3250 on 8 Mar. The loggers sample at 6 kHz with a 34 % duty
+    cycle in 5 min slots and an 8 Hz analogue high-pass, so no AGW. The 14-day background is held at 3376, 3274 and
+    3250 only.
+- **Models and commits:**
+  - Detection probability against SNR from injection-recovery: `hydroacoustics-item3-injection-recovery.md` (stage A
+    `eb83b31`).
+  - Coupling η calibrated on the F-35A: `hydroacoustics-f35a-eta-calibration.md`, prereg `3ca9564`.
+  - Transmission loss: KRAKEN with the RAM correction, `hydroacoustics-ram-tl-check.md`, prereg `6b747a1`.
+  - Arrival windows: `search_windows.py` / `search_windows_mixture.py`, as above.
+- **What the power check will probably find** (my expectation, not a result):
+  - At IMOS, P_D(any logger) is 7.6 % at false alarm 0.005 and 32 % at 0.05 (RAM-corrected, stand-in prior), and the
+    non-detection carries less than 1e-3 bit. So |E ln R_hyd| from IMOS is likely ≈ 0 under both hypotheses.
+  - On Kadri's traces, the windows hold only 25–43 % (H01W) and 36–60 % (H08S) of the predicted arrival mass.
+  - The proxy noise used at IMS is the Perth Canyon logger's; the Blackman Appendix B levels have not yet replaced it.
+  - So "test not informative with the data held" is a plausible outcome. **Raw H01W/H08S/H08N for 00:25–02:30 UTC
+    would be what makes the test informative** (`hydroacoustics-near-limits-planning.md`: 1–2.7 bits for a weak
+    two-site pair).
+- **The P_D gate** (module brief) applies: a likelihood term only where P_D exceeds the gate and the data are held.
+  Otherwise the contribution is 0.
+
+**3. Next for me ("carry on with other items"):** trace the Blackman 2004 Appendix B noise spectra (H01, H08S, H08N),
+to replace the Perth Canyon proxy at the IMS stations. That changes the P_D at IMS that the power check uses. I will
+pre-register it first.
+
+- Hydroacoustic Module
