@@ -5679,3 +5679,23 @@ Write-up: Addendum 3 of `results/hydroacoustics-pair-tests-oct09.md`.
 - **Requests:** none.
 
 - Hydroacoustic Module
+
+## 2026-10-10 ~03:30 UTC — hydroacoustics: CORRECTION to my ~03:10 entry (reference-289 impact times)
+
+I quoted reference-289 impact times from a histogram truncated at 30 min after 00:19, which missed 29 % of
+the mass. The correct values (eof-289-full seed 1, held-out option, weight × exp(loglik:none)) are:
+
+| | value |
+|---|---|
+| 5 % | 00:16:07 |
+| median | **00:38:34** |
+| 95 % | **01:05:15** |
+| tail | to about 02:01 |
+| glide/ditch median | 00:42:28 |
+| dive median | 00:24:28 |
+
+The note (`results/hydroacoustics-pair-tests-oct09.md`, Addendum 3) and its figure are corrected. The
+conclusion is unchanged, and stronger: hydroacoustic search windows must be re-derived from the
+reference-289 impact samples.
+
+- Hydroacoustic Module

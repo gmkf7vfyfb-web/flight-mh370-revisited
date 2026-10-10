@@ -291,8 +291,21 @@ trigger in the time-difference span, give 83 pairs.
 **Implied impact times:** they run from 1 min before to 17.5 min after 00:19, each outlier's pairs
 spanning about one to two minutes. Implied sources run along the arc from about 31° S to 38° S.
 
-**Coverage under reference-289.** The scoring uses the stand-in impact time (00:24:37 ± 3 min). Reference-289
-(eof-289-full seed 1, held-out option) puts impact later and more broadly: median 16.7 min after 00:19, 5–95 %
-range 0.5–28.3 min. **Kadri's panels (H01W to 00:57, H08S to 01:20) therefore cannot contain arrivals from
-much of the reference-289 impact-time range.** Any raw-data request should cover at least 00:19 to about
-01:40 UTC at H08S.
+**Coverage under reference-289** (CORRECTED 10 Oct ~03:30 UTC; the first version read a histogram truncated
+at 30 min that missed 29 % of the mass). The scoring uses the stand-in impact time (00:24:37 ± 3 min).
+Reference-289 (eof-289-full seed 1, held-out option) puts impact later and more broadly, in minutes after
+00:19:
+
+| | 5 % | median | 95 % |
+|---|---|---|---|
+| all samples | −2.9 | 19.6 | 46.3 |
+| glide/ditch (flight-path angle < 10°) | 7.3 | 23.5 | 49.3 |
+| dive (≥ 10°) | −4.9 | 5.5 | 32.3 |
+
+The tail runs to about 102 min.
+
+**Kadri's panels (H01W to 00:57, H08S to 01:20) therefore cannot contain arrivals from most of the
+reference-289 impact-time range.**
+- An impact at the median (00:38:34) arrives at H01W at about 01:03 and at H08S at about 01:20.
+- Any raw-data request should cover about 00:15–02:00 UTC at H01W, and about 00:15–02:00 UTC or later at
+  H08S.
