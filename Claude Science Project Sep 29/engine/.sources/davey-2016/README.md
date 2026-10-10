@@ -12,11 +12,10 @@ adaptation, distribution and reproduction are permitted with attribution. Note t
 
 ## Where the PDF lives
 
-`paper.pdf` in this directory is **deliberately gitignored** and is not in the repository: the
-non-commercial clause makes redistribution of the binary from a public repository a question
-not worth leaving to interpretation, and the publisher serves it free to anyone. The copy the
-project works from is on the shared Drive, in `Claude Science Project Sep 29`, as
-*Davey et al 2016 - Bayesian Methods in the Search for MH370 (CC BY-NC 4.0).pdf*.
+`paper.pdf` in this directory is gitignored. The same file (identical sha256) **is committed** at
+`results/davey-2016.pdf`, with its licence notice in `results/davey-2016.LICENSE.md`. Pete Large
+decided on 9 October 2026 to keep it and use it: CC BY-NC 4.0 permits non-commercial redistribution
+with attribution. The shared Drive copy in `Claude Science Project Sep 29` is the same file.
 
 To obtain it directly from the publisher:
 

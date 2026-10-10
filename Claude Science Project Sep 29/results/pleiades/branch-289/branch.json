@@ -1,0 +1,27 @@
+{
+ "label": "289.7 prior (reference-289); EoF impacts, 00:19 option none",
+ "option": "none",
+ "seeds": [
+  "seed-1",
+  "seed-2",
+  "seed-3",
+  "seed-4"
+ ],
+ "uncond_mass_outside_grid": [
+  0.017919311569906116,
+  0.015143740236424397,
+  0.020381125517463405,
+  0.02000663172645578
+ ],
+ "models": [
+  "glorys12v1+era5-wind10",
+  "globcurrent-my-p1d+era5-wind10"
+ ],
+ "grid": {
+  "lon0": 85.025,
+  "lat0": -42.975,
+  "nlon": 360,
+  "nlat": 360,
+  "step": 0.05
+ }
+}

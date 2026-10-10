@@ -1,0 +1,5 @@
+# Wide Mach for speed changes before 18:40 within 210-330 KCAS (no families, no turn, no radar).
+[dynamics.early]
+mach_range = [0.45, 0.87]
+mach_until_utc = "2014-03-07T18:40:00Z"
+cas_envelope_kt = [210.0, 330.0]

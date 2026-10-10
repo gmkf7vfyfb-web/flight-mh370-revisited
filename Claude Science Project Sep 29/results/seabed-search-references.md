@@ -127,7 +127,59 @@ it is on **p. 83**, and p. 89 carries the separate and more useful statement abo
 shown to detect. The two are different claims — how big a field is, and how big a field the sensor
 could see — and the module's own detectable-target definition depends on keeping them apart.
 
-## 5. What this settles for the searched-areas module
+## 5. Holland (2018), and what the ATSB actually did with the 00:19 BFOs
+
+Ian D. Holland, "MH370 Burst Frequency Offset Analysis and Implications on Descent Rate at
+End-of-Flight", Defence Science and Technology Group, **arXiv:1702.02432v3** (15 January 2018).
+Verified 9 October 2026 against the arXiv copy; anchors are preprint pages.
+
+| ref | claim | page | status |
+|---|---|---|---|
+| H-1 | The SDU is believed to have undergone a power outage between 00:11Z and 00:19Z, immediately preceding the last two SATCOM transmissions | 1 | **verified** |
+| H-2 | End of §V: the 00:19:29Z log-on BFO was "between 17 and 136 Hz higher than it would have been if the OCXO in the SDU was in a steady state"; the 00:19:37Z log-on acknowledge was "between 17 and 130 Hz higher" | 7 | **verified** |
+| H-3 | §VI bounds the **descent rate**, not the position: "Lower and upper bounds on its descent rate at this time were then derived" | 7–8 | **verified** |
+| H-4 | **Hypothesis 1** — the log-on was a power interruption from fuel exhaustion and an APU reboot, so the oscillator was warming up and H-2's offsets apply. Table IV descent rates: 00:19:29Z 3,900 fpm (south) / 5,100 (north) to 13,600 / 14,800; 00:19:37Z 14,800 / 15,900 to 24,100 / 25,300 | 8–9 | **verified** |
+| H-5 | **Hypothesis 2** — some other cause (software failure, loss of critical SDU input, or attitude blocking the line of sight), so no start-up drift and the BFOs are the recorded values with noise: 00:19:29Z [164, 210] Hz, 00:19:37Z [−20, 26] Hz | 9 | **verified** |
+| H-6 | The downward acceleration over the 8 s between the two messages is about **0.68 g**, consistent with simulations of an uncontrolled descent | 9 | **verified** |
+| H-7 | In-flight BFO error is assumed strictly bounded on [−28, +18] Hz, from all 2,501 valid in-flight BFO errors over the preceding 20 flights of 9M-MRO | 2 | **verified** |
+
+**What this settles about the project's own BFO alternatives.** `config/integrated.toml` declares three
+00:19 measurement models. Read against Holland:
+
+- **`startup-offset` is Holland's Hypothesis 1.** Its parameters (`second_hz = [17, 130]`,
+  `first_minus_second_hz = [0, 6]`) reconstruct H-2 exactly: 17–130 Hz on the acknowledge and 17–136 Hz
+  on the log-on request.
+- **`no-offset` is Holland's Hypothesis 2** — the recorded BFO with measurement noise and no start-up
+  drift.
+- **`inflated` is neither.** It is this project's declared sensitivity: independent zero-mean errors of
+  34 Hz, which is (136 − 17)/√12, the standard deviation of a uniform distribution across the *width*
+  of Holland's interval. It keeps the scale of his uncertainty and **drops his two structural
+  assumptions — that the offset is positive, and that it is shared between the two bursts.** Holland
+  asserts both.
+- The log-on cause axis (`fuel-exhaustion` against `other`) is Holland's H1/H2 by another name, so
+  `startup-offset` × `fuel-exhaustion` and `no-offset` × `other` are his two coherent cases; the cross
+  terms are not combinations he puts forward.
+
+**And what the ATSB used it for — which is not a position likelihood.** ATSB (2017), printed p. 101,
+records that the flap-analysis report carried the summary of this work "performed by DST Group
+scientists on the final two satellite transmissions", and that it "quantified the range of possible
+rates of descent": **2,900 to 15,200 ft/min at the 7th arc, rising to 13,800 to 25,300 ft/min eight
+seconds later**, which "ruled out a controlled unpowered glide with the intent to extend range".
+Printed p. 76 records the consequence: with the flap examination and "the completion of DST Group's
+BFO analysis indicating that the aircraft was probably in a high and increasing rate of descent the
+SSWG recommended the search be limited to a width of **25 NM either side of the 7th arc**".
+
+So the 00:19 BFOs entered the ATSB's search design **through the corridor width and the descent
+kernel applied to DST Group's PDF**, not as a measurement likelihood reweighting positions along the
+arc. No option in this project's sweep reproduces that use; the nearest analogue is the held-out
+position likelihood combined with the end-of-flight module's own dynamic reach constraint.
+
+*One discrepancy, reported not reconciled.* The ATSB's quoted rates (2,900–15,200 and
+13,800–25,300 ft/min) have lower bounds about 1,000 ft/min below Holland's arXiv v3 Table IV
+(3,900–14,800 and 14,800–25,300 across both tracks). The ATSB cites the November 2016 flap-analysis
+report; v3 is January 2018. Quote whichever source a claim is attributed to, and do not merge them.
+
+## 6. What this settles for the searched-areas module
 
 1. **The method is not new, and the paper must not say it is.** Stone et al. applied search-conditioned
    Bayesian updating to AF447 and found the wreck (S-1 to S-7); Davey set out the same update for MH370

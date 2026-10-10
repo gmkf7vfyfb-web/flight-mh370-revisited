@@ -1155,3 +1155,158 @@ same timestamp.
   it decides how much of the error is spread and how much is shift.
 
 - Ocean drift
+
+## 2026-10-09 ~16:30 UTC — Pléiades: request, OSCAR v2 Final (Pete's direction)
+
+Pete wants OSCAR v2 Final used as well, to allow comparison with the prior work, which used it. **How OSCAR is
+weighted is not yet decided.** Pete has asked for a GlobCurrent–OSCAR comparison first:
+`results/pleiades/globcurrent-vs-oscar.md`.
+
+That note concludes:
+- the two share the same altimetry (DUACS 008_047) and the same wind (ERA5);
+- they differ mainly in the Ekman step and in depth (0 m, against a top-30 m average).
+
+The fetch and replay below are needed under any weighting, and they inform the choice.
+
+**Requests:**
+1. **Fetch and convert OSCAR v2 Final** (`oscar-v2-final` in `products.rs`; NASA_EARTHDATA credential):
+   - 7 March 2014 – 31 January 2017, 15–120 E, 50–0 S (about 0.6 GB);
+   - a `GridField` series, longitude converted from 0–360;
+   - label as `ocean_model()` gives it; I expect `oscar-v2-final+era5-wind10`.
+   - The prior work's 8–23 March subset manifest is at
+     `Archive ISO Pre Sept 28/.../pleiades-bran2016-forward-inversion/data/oscar-v2-final-20140308-23.manifest.json`,
+     for a hash cross-check of the overlapping days.
+2. **GDP replay through OSCAR** + 1 % ERA5, with the same segments, box and subsets as for GlobCurrent:
+   - the OU fit per component;
+   - **and the segment-by-segment correlation of OSCAR's and GlobCurrent's separation errors** at 2 and 15 days.
+     This number decides whether the two count as one family.
+3. **Caveat for the replay note:** GlobCurrent's Ekman β/θ were fitted to SVP drifters from 1993–2020 (QUID
+   p. 9), which overlaps the 2014–2017 replay segments. Its replay skill is therefore partly in-sample. OSCAR's
+   parameters are also drifter-regressed, but on a climatology.
+
+When the series exists, the Pléiades module adds it as a release table at once, behind whatever weight Pete
+chooses.
+
+— Pléiades
+
+## 2026-10-09 ~17:20 UTC — Pléiades: OSCAR request withdrawn (Pete's ruling)
+
+Pete has ruled that `ocean-model` stays at **GLORYS12 + ERA5 and GlobCurrent + ERA5**. **My ~16:30 UTC requests 1–3
+(fetch, convert and replay OSCAR v2 Final) are withdrawn.**
+- If you have already started the replay, it is not needed for Pléiades.
+- The caveat in item 3 still stands for the replay note: GlobCurrent's replay skill is partly in-sample.
+
+— Pléiades
+
+## 2026-10-09 ~17:50 UTC - architecture: OSCAR is for comparison only (Pete)
+
+Pete's decision: the ocean models for Pléiades are GLORYS12 and GlobCurrent. OSCAR is a comparison
+product only, used to compare with prior work, and it does not enter any likelihood or the composer's
+`ocean-model` alternatives. This replaces the ~16:40 item 4. Drift's production stays at two ocean
+models. Pete is still deciding its particle budget.
+
+- Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+BRAN2016 is dropped. You may delete the 15 unused files from the data directory and record that in the manifest. OSCAR is a comparison product only. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 — From ocean transport: OSCAR v2.0 Final provisioned as a COMPARISON product; BRAN2016 files removed (merged `d537b30`)
+
+- **What was already held:**
+  - In the frozen archive: a 16-day Pléiades subset manifest only (80–105 E, 45–25 S).
+  - On the Drive: prior work's packed grid `oscar2-currents-20140307-20160831.mhgrid` (to 31 August 2016),
+    with per-file source md5 values.
+  - Neither covers the window, so I downloaded from PO.DAAC with NASA_EARTHDATA: 1,062 daily files,
+    7 March 2014 – 31 January 2017.
+  - Every file passed PO.DAAC's published md5. **Its md5 also equals prior work's for all 909 overlapping
+    days**, so prior work used identical inputs. sha256 values are in the manifest.
+- **Load:**
+  - Series: `GridField::load_series` or `load_window` on
+    `/Users/pete/Downloads/mh370-ocean-data/oscar/grid/oscar_v2_final_uv.series.json`. Same layout and the
+    same windowed load as GLORYS12 and GlobCurrent.
+  - At 80–112 E, 45–18 S, 7–15 March, the windowed load is 1.0 MB and matches the full load in 20,000 of
+    20,000 queries.
+  - Values are placed at 12:00 UTC of each day.
+- **Label, per Pete's decision:**
+  - The product's role is `ProductRole::Comparison`.
+  - `Forcing::ocean_model()` returns `comparison:oscar-v2-final[+era5-wind10]`, and
+    `Forcing::is_comparison()` is true.
+  - **This label is not an `ocean-model` value. Do not declare it to the composer.**
+  - The production ocean models stay GLORYS12 and GlobCurrent.
+  - Test: `comparison_products_are_labelled_and_never_an_ocean_model_value`.
+- **Pairing with ERA5 windage** (declared in the product record; the physics is for the modules):
+  - OSCAR is geostrophic + wind-driven + thermal-wind, averaged over 0–30 m. Like GLORYS12 and GlobCurrent,
+    it already contains the wind-driven current, so `c_wind` and `leeway_speed` stand for the object's own
+    leeway relative to that water. Never add an Ekman term.
+  - Its 30 m average carries less near-surface shear, so a leeway fitted on another product does not
+    transfer.
+- **GDP replay** (`results/ocean-transport-error-gdp-replay.md`, new section and figure line). Search box,
+  March–May, per-component RMS at 2 days:
+  - OSCAR is best of all on drogued drifters: 14.3 / 13.7 km.
+  - On undrogued drifters it needs about 1% windage to match GlobCurrent: 14.8 / 14.2 km with it,
+    19.8 / 16.2 km without.
+  - Pléiades' finding is unchanged. The smallest 2-day bootstrap lower bound is now 12.3 km, still above
+    10 km.
+- **BRAN2016:** following Pete's drop, the 15 unused monthly files and one partial download were moved to the
+  Trash with approval. `fetch-log.jsonl` stays as the record. The manifest, ledger, catalogue and
+  recommendation note now say "dropped".
+- **Tests:** 34/34. The workspace checks clean.
+
+— ocean transport (architecture sub-agent)
+
+## 2026-10-09 ~20:00 UTC — Pléiades: OSCAR fetch reinstated, for comparison only (architecture ~17:50 and ~18:30)
+
+Pete's final ruling: OSCAR is a **comparison product only**, kept out of every likelihood and out of
+`ocean-model`. The Pléiades conditional branch is to be run on it for comparison with the prior work.
+- **Reinstated:** request 1 of my ~16:30 entry (fetch and convert OSCAR v2 Final, 7 Mar 2014 – 31 Jan 2017).
+  - For Pléiades, 7–23 March 2014 over 15–120 E, 50–0 S is enough.
+  - Post the series path and its `ocean_model()` label.
+- **Optional:** request 2 (GDP replay, with the error correlation against GlobCurrent). It would supply an OSCAR
+  spread. Without it I will use GlobCurrent's measured σ/T and declare the substitution.
+
+— Pléiades
+
+## 2026-10-09 ~20:20 UTC - architecture: STANDING RULE (Pete) - every chart carries a footnote with its run information
+
+Every chart, in a results note, a PDF page or a module report, carries a footnote beneath it giving:
+- the run or runs used, by name, with the prior track and base config read from `run.json`;
+- the key parameters and options: the 00:19 option and BFO model, the families, the ocean model, N,
+  seeds and particle counts;
+- the main assumptions, and anything provisional.
+
+Keep all of this beneath the chart, never inside the axes, in line with Pete's figure conventions.
+Apply it to new charts now, and to existing charts when they are next regenerated.
+
+- Modular Architecture
+
+## 2026-10-09 ~22:40 UTC — Pléiades: request — transport-error correlation between nearby objects (GDP replay pairs)
+
+The joint Pléiades × COSMO likelihood treats the transport errors of the two object sets as **independent**.
+The objects are 40–80 km apart, released from one impact and observed 2 days apart, so their errors are
+probably positively correlated. If they are, the product is over-confident. Re-scoring the joint on the grid at
+ρ = 0.5 / 0.8 widens the 90 % area by 28–38 % (flight-conditioned) and 36–48 % (transport only). The mean moves by
+≤ 12 km. Results: `results/pleiades/closeup-289/audit/audit-correlation.csv`.
+
+**Request:** from the GDP replay (undrogued, box_MAM, current + 1 % ERA5), report the correlation, per component,
+of the replay residuals of drifter **pairs**:
+- pairs starting ≤ 100 km apart, binned by initial separation (0–25, 25–50, 50–100 km);
+- at lead times 13 and 15 d, for GLORYS12 and GlobCurrent daily;
+- with the pair count, and a bootstrap interval over drifters.
+
+A cross-lag figure (one member at 13 d, the other at 15 d) would match the COSMO / Pléiades geometry exactly.
+Until this arrives, ρ = 0 stays the reference and ρ = 0.5 / 0.8 are reported as a declared sensitivity.
+
+— Pléiades
+
+## 2026-10-10 ~02:00 UTC - architecture: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host, `abiome-deskstar`, authorised for all restricted items.
+It is not yet registered in the session Compute panel, so no session can reach it yet.
+
+- Planned split: core runs on the host; drift, end of flight and the downstream modules stay on the Mac.
+- Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
+
+- Modular Architecture

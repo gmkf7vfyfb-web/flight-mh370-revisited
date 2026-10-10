@@ -1,0 +1,503 @@
+{
+ "label": "INTERFACE DIAGNOSTIC: drift node surface scored on end-of-flight impacts. Never evidence.",
+ "drift_run": "repo/Claude Science Project Sep 29/engine/runs/debris-drift-pilot/merged",
+ "eof_seed": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/83c5d472-a2a6-4ff0-9602-ceefbdadb1ad/repo/Claude Science Project Sep 29/engine/runs/eof-289-full-s1/bto-bfo/seed-1",
+ "options": {
+  "none__other": {
+   "impact_median_lat": -36.709662788731634,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.2040627213076719,
+     "mc_unresolved": 0.7959372786923281
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.2040627213076719,
+     "mc_unresolved": 0.7959372786923281
+    },
+    "ln_l_h100": {
+     "scored": 0.012020301268783729,
+     "outside_support": 0.20661288836552444,
+     "mc_unresolved": 0.7813668103656919,
+     "scored_median_lat_before": -34.49907309087382,
+     "scored_median_lat_after_diagnostic": -35.03441369641878,
+     "scored_ess_fraction": 0.3158881188027641
+    },
+    "ln_l_h200": {
+     "scored": 0.07001906731625279,
+     "outside_support": 0.2081982367452388,
+     "mc_unresolved": 0.7217826959385085,
+     "scored_median_lat_before": -34.66421610301484,
+     "scored_median_lat_after_diagnostic": -34.60039723460629,
+     "scored_ess_fraction": 0.4260711563981486
+    }
+   }
+  },
+  "none__fuel-exhaustion": {
+   "impact_median_lat": -36.81564217309081,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.09990045054876644,
+     "mc_unresolved": 0.9000995494512336
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.09990045054876644,
+     "mc_unresolved": 0.9000995494512336
+    },
+    "ln_l_h100": {
+     "scored": 0.013548264967049403,
+     "outside_support": 0.10193895350842275,
+     "mc_unresolved": 0.884512781524528,
+     "scored_median_lat_before": -34.56927155556322,
+     "scored_median_lat_after_diagnostic": -35.231430405934375,
+     "scored_ess_fraction": 0.35932045098177673
+    },
+    "ln_l_h200": {
+     "scored": 0.06534326793837628,
+     "outside_support": 0.10378466043771944,
+     "mc_unresolved": 0.8308720716239044,
+     "scored_median_lat_before": -35.00607720788871,
+     "scored_median_lat_after_diagnostic": -35.0462675775899,
+     "scored_ess_fraction": 0.4308931561696015
+    }
+   }
+  },
+  "r600_inflated__other": {
+   "impact_median_lat": -37.49045283157858,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.14550341604917516,
+     "mc_unresolved": 0.8544965839508247
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.14550341604917516,
+     "mc_unresolved": 0.8544965839508247
+    },
+    "ln_l_h100": {
+     "scored": 0.005966515669959651,
+     "outside_support": 0.1462554045763017,
+     "mc_unresolved": 0.8477780797537385,
+     "scored_median_lat_before": -34.79710039710527,
+     "scored_median_lat_after_diagnostic": -35.30798173639627,
+     "scored_ess_fraction": 0.324031109039325
+    },
+    "ln_l_h200": {
+     "scored": 0.03275834959267006,
+     "outside_support": 0.1470227421708858,
+     "mc_unresolved": 0.8202189082364439,
+     "scored_median_lat_before": -35.44151541722492,
+     "scored_median_lat_after_diagnostic": -35.462275593313855,
+     "scored_ess_fraction": 0.378301424940048
+    }
+   }
+  },
+  "r600_inflated__fuel-exhaustion": {
+   "impact_median_lat": -37.31521520360479,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.08497994060478109,
+     "mc_unresolved": 0.9150200593952189
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.08497994060478109,
+     "mc_unresolved": 0.9150200593952189
+    },
+    "ln_l_h100": {
+     "scored": 0.0076686612440350285,
+     "outside_support": 0.08624816386650477,
+     "mc_unresolved": 0.9060831748894601,
+     "scored_median_lat_before": -34.71339655313101,
+     "scored_median_lat_after_diagnostic": -35.29717987662279,
+     "scored_ess_fraction": 0.4384841726744555
+    },
+    "ln_l_h200": {
+     "scored": 0.042903087859696376,
+     "outside_support": 0.08776260139442832,
+     "mc_unresolved": 0.8693343107458753,
+     "scored_median_lat_before": -35.38383527572479,
+     "scored_median_lat_after_diagnostic": -35.381213298884354,
+     "scored_ess_fraction": 0.43191723439148766
+    }
+   }
+  },
+  "r600_no-offset__other": {
+   "impact_median_lat": -37.14907771302438,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.10114347092534068,
+     "mc_unresolved": 0.8988565290746593
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.10114347092534068,
+     "mc_unresolved": 0.8988565290746593
+    },
+    "ln_l_h100": {
+     "scored": 0.008710430420613847,
+     "outside_support": 0.1023628732838078,
+     "mc_unresolved": 0.8889266962955784,
+     "scored_median_lat_before": -34.831980653617,
+     "scored_median_lat_after_diagnostic": -35.330193412361375,
+     "scored_ess_fraction": 0.3358938633518563
+    },
+    "ln_l_h200": {
+     "scored": 0.047655130275736604,
+     "outside_support": 0.10320768966082522,
+     "mc_unresolved": 0.8491371800634381,
+     "scored_median_lat_before": -35.38929397505833,
+     "scored_median_lat_after_diagnostic": -35.396816454160636,
+     "scored_ess_fraction": 0.389060033214621
+    }
+   }
+  },
+  "r600_no-offset__fuel-exhaustion": {
+   "impact_median_lat": -37.105150631134315,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.09305984826947471,
+     "mc_unresolved": 0.9069401517305253
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.09305984826947471,
+     "mc_unresolved": 0.9069401517305253
+    },
+    "ln_l_h100": {
+     "scored": 0.008829763538110939,
+     "outside_support": 0.09545415904690764,
+     "mc_unresolved": 0.8957160774149814,
+     "scored_median_lat_before": -34.647339664083,
+     "scored_median_lat_after_diagnostic": -35.299172747263,
+     "scored_ess_fraction": 0.40786742176653873
+    },
+    "ln_l_h200": {
+     "scored": 0.05232018564082934,
+     "outside_support": 0.09700881713104444,
+     "mc_unresolved": 0.8506709972281262,
+     "scored_median_lat_before": -35.37975870648837,
+     "scored_median_lat_after_diagnostic": -35.357520536338896,
+     "scored_ess_fraction": 0.47357541275722875
+    }
+   }
+  },
+  "r600_startup-offset__other": {
+   "impact_median_lat": -37.06093167707024,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.1084928300450196,
+     "mc_unresolved": 0.8915071699549804
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.1084928300450196,
+     "mc_unresolved": 0.8915071699549804
+    },
+    "ln_l_h100": {
+     "scored": 0.012362220646555885,
+     "outside_support": 0.10977294606013825,
+     "mc_unresolved": 0.8778648332933059,
+     "scored_median_lat_before": -35.073975049668235,
+     "scored_median_lat_after_diagnostic": -35.357019229993305,
+     "scored_ess_fraction": 0.3949847412915443
+    },
+    "ln_l_h200": {
+     "scored": 0.06368109010406285,
+     "outside_support": 0.11098723588000144,
+     "mc_unresolved": 0.8253316740159358,
+     "scored_median_lat_before": -35.39123451640299,
+     "scored_median_lat_after_diagnostic": -35.383493883188876,
+     "scored_ess_fraction": 0.44925903737376627
+    }
+   }
+  },
+  "r600_startup-offset__fuel-exhaustion": {
+   "impact_median_lat": -37.30584515330498,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.10758449742032059,
+     "mc_unresolved": 0.8924155025796794
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.10758449742032059,
+     "mc_unresolved": 0.8924155025796794
+    },
+    "ln_l_h100": {
+     "scored": 0.008915221499675342,
+     "outside_support": 0.10946899596804745,
+     "mc_unresolved": 0.8816157825322772,
+     "scored_median_lat_before": -35.21487945509209,
+     "scored_median_lat_after_diagnostic": -35.36754423107126,
+     "scored_ess_fraction": 0.478972818637084
+    },
+    "ln_l_h200": {
+     "scored": 0.04720537835475733,
+     "outside_support": 0.1115421017813605,
+     "mc_unresolved": 0.841252519863882,
+     "scored_median_lat_before": -35.415720139564804,
+     "scored_median_lat_after_diagnostic": -35.376721126412434,
+     "scored_ess_fraction": 0.4580755116641705
+    }
+   }
+  },
+  "r1200_inflated__other": {
+   "impact_median_lat": -36.023724834283136,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.10281772254116657,
+     "mc_unresolved": 0.8971822774588334
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.10281772254116657,
+     "mc_unresolved": 0.8971822774588334
+    },
+    "ln_l_h100": {
+     "scored": 0.02658454475623789,
+     "outside_support": 0.10480922663915959,
+     "mc_unresolved": 0.8686062286046025,
+     "scored_median_lat_before": -34.64161111912841,
+     "scored_median_lat_after_diagnostic": -35.2489255704271,
+     "scored_ess_fraction": 0.3643042772632549
+    },
+    "ln_l_h200": {
+     "scored": 0.1183576694755796,
+     "outside_support": 0.1067523190128071,
+     "mc_unresolved": 0.7748900115116133,
+     "scored_median_lat_before": -35.07002887495714,
+     "scored_median_lat_after_diagnostic": -35.07650616670647,
+     "scored_ess_fraction": 0.4565697860389052
+    }
+   }
+  },
+  "r1200_inflated__fuel-exhaustion": {
+   "impact_median_lat": -36.33406641680296,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.11566774628780482,
+     "mc_unresolved": 0.8843322537121953
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.11566774628780482,
+     "mc_unresolved": 0.8843322537121953
+    },
+    "ln_l_h100": {
+     "scored": 0.018776100072917554,
+     "outside_support": 0.11854408864676372,
+     "mc_unresolved": 0.8626798112803188,
+     "scored_median_lat_before": -34.600553381257384,
+     "scored_median_lat_after_diagnostic": -35.29111841511942,
+     "scored_ess_fraction": 0.35910072328379433
+    },
+    "ln_l_h200": {
+     "scored": 0.0938468150046976,
+     "outside_support": 0.12097180711499543,
+     "mc_unresolved": 0.785181377880307,
+     "scored_median_lat_before": -35.22969045265819,
+     "scored_median_lat_after_diagnostic": -35.244022633635005,
+     "scored_ess_fraction": 0.3790765465338716
+    }
+   }
+  },
+  "r1200_no-offset__other": {
+   "impact_median_lat": -36.00768267300958,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.09835198320351751,
+     "mc_unresolved": 0.9016480167964824
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.09835198320351751,
+     "mc_unresolved": 0.9016480167964824
+    },
+    "ln_l_h100": {
+     "scored": 0.025511813992064578,
+     "outside_support": 0.10052010199839692,
+     "mc_unresolved": 0.8739680840095385,
+     "scored_median_lat_before": -34.73323583167515,
+     "scored_median_lat_after_diagnostic": -35.24962722327519,
+     "scored_ess_fraction": 0.46426460564494104
+    },
+    "ln_l_h200": {
+     "scored": 0.11782389436932958,
+     "outside_support": 0.10289569788191347,
+     "mc_unresolved": 0.779280407748757,
+     "scored_median_lat_before": -35.12445721163505,
+     "scored_median_lat_after_diagnostic": -35.175723399909266,
+     "scored_ess_fraction": 0.44941425790698863
+    }
+   }
+  },
+  "r1200_no-offset__fuel-exhaustion": {
+   "impact_median_lat": -36.27835366421063,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.10931272176542749,
+     "mc_unresolved": 0.8906872782345726
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.10931272176542749,
+     "mc_unresolved": 0.8906872782345726
+    },
+    "ln_l_h100": {
+     "scored": 0.019903199487589143,
+     "outside_support": 0.11103476875307641,
+     "mc_unresolved": 0.8690620317593345,
+     "scored_median_lat_before": -35.27551563055791,
+     "scored_median_lat_after_diagnostic": -35.31636694758456,
+     "scored_ess_fraction": 0.6445492261728949
+    },
+    "ln_l_h200": {
+     "scored": 0.09719058783357207,
+     "outside_support": 0.11556791911858691,
+     "mc_unresolved": 0.7872414930478411,
+     "scored_median_lat_before": -35.28805664877017,
+     "scored_median_lat_after_diagnostic": -35.25518969966245,
+     "scored_ess_fraction": 0.4022778610119032
+    }
+   }
+  },
+  "r1200_startup-offset__other": {
+   "impact_median_lat": -35.9579383395267,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.09568423767772025,
+     "mc_unresolved": 0.9043157623222797
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.09568423767772025,
+     "mc_unresolved": 0.9043157623222797
+    },
+    "ln_l_h100": {
+     "scored": 0.0303020018742518,
+     "outside_support": 0.09707062805908628,
+     "mc_unresolved": 0.8726273700666618,
+     "scored_median_lat_before": -34.65578466854142,
+     "scored_median_lat_after_diagnostic": -35.270068664775806,
+     "scored_ess_fraction": 0.3521771920673056
+    },
+    "ln_l_h200": {
+     "scored": 0.12049800144036146,
+     "outside_support": 0.0982904571086373,
+     "mc_unresolved": 0.7812115414510012,
+     "scored_median_lat_before": -35.02018933494613,
+     "scored_median_lat_after_diagnostic": -35.07650616670647,
+     "scored_ess_fraction": 0.4802224473870407
+    }
+   }
+  },
+  "r1200_startup-offset__fuel-exhaustion": {
+   "impact_median_lat": -36.236983309623255,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.09321111897405156,
+     "mc_unresolved": 0.9067888810259486
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.09321111897405156,
+     "mc_unresolved": 0.9067888810259486
+    },
+    "ln_l_h100": {
+     "scored": 0.024090219557150183,
+     "outside_support": 0.09430101536929816,
+     "mc_unresolved": 0.8816087650735518,
+     "scored_median_lat_before": -35.03706507872781,
+     "scored_median_lat_after_diagnostic": -35.30858637125024,
+     "scored_ess_fraction": 0.46738891325545784
+    },
+    "ln_l_h200": {
+     "scored": 0.09808664372642997,
+     "outside_support": 0.09473256970794407,
+     "mc_unresolved": 0.8071807865656262,
+     "scored_median_lat_before": -35.272650841130286,
+     "scored_median_lat_after_diagnostic": -35.30031021026826,
+     "scored_ess_fraction": 0.4547742420537433
+    }
+   }
+  },
+  "both_inflated__other": {
+   "impact_median_lat": -36.639265397223696,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.10237926681766936,
+     "mc_unresolved": 0.8976207331823307
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.10237926681766936,
+     "mc_unresolved": 0.8976207331823307
+    },
+    "ln_l_h100": {
+     "scored": 0.021690382574064478,
+     "outside_support": 0.10804453343741867,
+     "mc_unresolved": 0.8702650839885169,
+     "scored_median_lat_before": -35.3240918803585,
+     "scored_median_lat_after_diagnostic": -35.357279425146224,
+     "scored_ess_fraction": 0.3436064292979248
+    },
+    "ln_l_h200": {
+     "scored": 0.10983506842633065,
+     "outside_support": 0.11240938364330706,
+     "mc_unresolved": 0.7777555479303624,
+     "scored_median_lat_before": -35.3240918803585,
+     "scored_median_lat_after_diagnostic": -35.38577262950179,
+     "scored_ess_fraction": 0.3610675953360539
+    }
+   }
+  },
+  "both_inflated__fuel-exhaustion": {
+   "impact_median_lat": -37.256912781839965,
+   "by_bandwidth": {
+    "ln_l": {
+     "scored": 0.0,
+     "outside_support": 0.10739877803229464,
+     "mc_unresolved": 0.8926012219677052
+    },
+    "ln_l_h25": {
+     "scored": 0.0,
+     "outside_support": 0.10739877803229464,
+     "mc_unresolved": 0.8926012219677052
+    },
+    "ln_l_h100": {
+     "scored": 0.007448628835268621,
+     "outside_support": 0.1263832849751633,
+     "mc_unresolved": 0.8661680861895679,
+     "scored_median_lat_before": -33.37858934515371,
+     "scored_median_lat_after_diagnostic": -35.31375555028523,
+     "scored_ess_fraction": 0.5214757425410252
+    },
+    "ln_l_h200": {
+     "scored": 0.09638862925675246,
+     "outside_support": 0.1424082925367914,
+     "mc_unresolved": 0.761203078206456,
+     "scored_median_lat_before": -34.35920100211957,
+     "scored_median_lat_after_diagnostic": -35.78439838977366,
+     "scored_ess_fraction": 0.11668101306643062
+    }
+   }
+  }
+ }
+}

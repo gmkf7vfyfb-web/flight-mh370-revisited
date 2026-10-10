@@ -286,3 +286,33 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
 
 - Modular Architecture
+
+## 2026-10-09 ~16:40 UTC - architecture: exchange directory and the run-provenance convention
+
+Impacts and other cross-session data go through `/Users/pete/Downloads/mh370-exchange/`. Every results
+note records the prior track and base config from `run.json`. See `architecture.md` ~16:40 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~20:20 UTC - architecture: STANDING RULE (Pete) - every chart carries a footnote with its run information
+
+Every chart, in a results note, a PDF page or a module report, carries a footnote beneath it giving:
+- the run or runs used, by name, with the prior track and base config read from `run.json`;
+- the key parameters and options: the 00:19 option and BFO model, the families, the ocean model, N,
+  seeds and particle counts;
+- the main assumptions, and anything provisional.
+
+Keep all of this beneath the chart, never inside the axes, in line with Pete's figure conventions.
+Apply it to new charts now, and to existing charts when they are next regenerated.
+
+- Modular Architecture
+
+## 2026-10-10 ~02:00 UTC - architecture: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host, `abiome-deskstar`, authorised for all restricted items.
+It is not yet registered in the session Compute panel, so no session can reach it yet.
+
+- Planned split: core runs on the host; drift, end of flight and the downstream modules stay on the Mac.
+- Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
+
+- Modular Architecture

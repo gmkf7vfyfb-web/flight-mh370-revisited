@@ -1,0 +1,11 @@
+# Fuel audit S3 (F3, F4) and core request 16 C-1..C-4: the fuel session's internal model
+# internal-v1 (local only, git-ignored), with the temperature term, kappa ~ N(1.0004, 0.0196)
+# as a multiplier, and the 18:01:49 fuel as 43,800 - kappa x 7,228 kg per path.
+[inputs]
+fuel_model = "../../../data/external/fuel-model/internal-v1.json"
+[fuel]
+model = "internal-v1"
+temperature = true
+factor_mean = 1.0004
+factor_sd = 0.0196
+initial_from_factor = [43800.0, 7228.0]

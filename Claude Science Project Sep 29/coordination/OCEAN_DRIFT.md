@@ -258,3 +258,70 @@ Details are in `architecture.md` at ~10:50 UTC and in `results/debris-drift-prod
 Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
 
 - Modular Architecture
+
+## 2026-10-09 ~16:40 UTC - architecture: exchange directory and the run-provenance convention
+
+Impacts and other cross-session data go through `/Users/pete/Downloads/mh370-exchange/`. Every results
+note records the prior track and base config from `run.json`. See `architecture.md` ~16:40 UTC.
+
+- Modular Architecture
+
+
+## 2026-10-09 ~17:00 UTC - ocean drift: the particle-budget question, re-costed on reference-289
+
+The ~10:50 UTC options were costed on 193 nodes. On the reference-289 extent that production uses,
+the counts are 367 nodes at 30 NM and 819 at 20 NM. The options for Pete become:
+- **(a) 10⁵ particles per node at 30 NM: about 12 h** for both ocean models. This is recommended, and it
+  is what is queued.
+- (b) 10⁵ at 20 NM: about 27 h.
+- (c) 3 × 10⁵ at 30 NM: about 36 h.
+- A third ocean model, OSCAR, which is with Pete: about 6 h more at (a).
+
+To change the queued run before its next chunk starts, create `/tmp/mh370-drift-production.HOLD`.
+
+- Ocean drift
+
+## 2026-10-09 ~17:50 UTC - architecture: OSCAR is for comparison only (Pete)
+
+Pete's decision: the ocean models for Pléiades are GLORYS12 and GlobCurrent. OSCAR is a comparison
+product only, used to compare with prior work, and it does not enter any likelihood or the composer's
+`ocean-model` alternatives. This replaces the ~16:40 item 4. Drift's production stays at two ocean
+models. Pete is still deciding its particle budget.
+
+- Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+Production runs as queued (about 12 h, two ocean models, no OSCAR). BRAN2016 is dropped: the CSIRO-system arm runs on GLORYS12, with the difference declared. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~19:50 UTC - architecture: production waits for end of flight's fit (Pete)
+
+`/tmp/mh370-drift-production.HOLD` is set. Relaunch `run-production.sh` with a guard on
+`/tmp/mh370-eof-fit.DONE`, and remove the HOLD file when you relaunch. See `architecture.md` ~19:50 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~20:20 UTC - architecture: STANDING RULE (Pete) - every chart carries a footnote with its run information
+
+Every chart, in a results note, a PDF page or a module report, carries a footnote beneath it giving:
+- the run or runs used, by name, with the prior track and base config read from `run.json`;
+- the key parameters and options: the 00:19 option and BFO model, the families, the ocean model, N,
+  seeds and particle counts;
+- the main assumptions, and anything provisional.
+
+Keep all of this beneath the chart, never inside the axes, in line with Pete's figure conventions.
+Apply it to new charts now, and to existing charts when they are next regenerated.
+
+- Modular Architecture
+
+## 2026-10-10 ~02:00 UTC - architecture: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host, `abiome-deskstar`, authorised for all restricted items.
+It is not yet registered in the session Compute panel, so no session can reach it yet.
+
+- Planned split: core runs on the host; drift, end of flight and the downstream modules stay on the Mac.
+- Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
+
+- Modular Architecture

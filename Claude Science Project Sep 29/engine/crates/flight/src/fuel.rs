@@ -321,6 +321,207 @@ impl FuelTables {
     }
 }
 
+/// Bits of the `internal-v1` grid flags (`fuel-model/internal.py`, `flag_mask`).
+pub mod grid_flags {
+    pub const EXTRAP_HIGH: u8 = 1;
+    pub const EXTRAP_LOW: u8 = 2;
+    pub const BELOW_TABLES: u8 = 4;
+    pub const ABOVE_CEILING: u8 = 8;
+    pub const SINGLE_SCHEDULE: u8 = 16;
+    pub const FIT_FALLBACK: u8 = 32;
+    pub const FLOOR_CLAMPED: u8 = 64;
+}
+
+/// The fuel session's internal model (`internal-v1`; core request 16 C-1, C-5).
+///
+/// A dense standard-day grid of total flow (kg/h, both engines) over flight level, gross
+/// weight and Mach, built from every table class with the audit's F3 (zero-weight corner) and
+/// F4 (sub-floor pocket) fixes and a drag-rise term above M0.84 baked in; and a
+/// weight-dependent service ceiling. Calibration (kappa) and the temperature term are applied
+/// by the caller: FF = kappa * tau(dISA, M) * grid(FL, W, M).
+///
+/// Lookup is trilinear on the stored values, which ARE the model (the fuel session calibrated
+/// and tested on them). A corner with non-zero weight that is not finite makes the state
+/// unpriceable; the flags of the corners with non-zero weight are OR'ed. Outside the grid the
+/// coordinate is clamped to the edge and the step is flagged.
+#[derive(Clone, Debug)]
+pub struct InternalGrid {
+    fl: Vec<f64>,
+    weight_t: Vec<f64>,
+    mach: Vec<f64>,
+    flow: Vec<f64>,
+    flags: Vec<u8>,
+    ceiling_weight_t: Vec<f64>,
+    ceiling_fl: Vec<f64>,
+    pub version: String,
+}
+
+#[derive(Deserialize)]
+struct RawInternal {
+    model: RawInternalModel,
+    grid: RawGrid,
+    ceiling_fl: RawCeiling,
+}
+
+#[derive(Deserialize)]
+struct RawInternalModel {
+    version: String,
+}
+
+#[derive(Deserialize)]
+struct RawGrid {
+    fl_nodes: Vec<f64>,
+    weight_t: Vec<f64>,
+    mach: Vec<f64>,
+    flow_kg_h: Vec<Vec<Vec<Option<f64>>>>,
+    flags: Vec<Vec<Vec<u8>>>,
+}
+
+#[derive(Deserialize)]
+struct RawCeiling {
+    weight_t: Vec<f64>,
+    fl: Vec<f64>,
+}
+
+/// Index of the cell holding `x` and the fraction across it, as numpy's
+/// `searchsorted(nodes, x, side="right") - 1` clipped to the cells; the fraction is clamped to
+/// the cell and the clamp reported.
+fn bracket(nodes: &[f64], x: f64) -> (usize, f64, bool) {
+    let k = nodes.partition_point(|&v| v <= x).saturating_sub(1).min(nodes.len() - 2);
+    let t = (x - nodes[k]) / (nodes[k + 1] - nodes[k]);
+    if t < 0.0 {
+        (k, 0.0, true)
+    } else if t > 1.0 {
+        (k, 1.0, true)
+    } else {
+        (k, t, false)
+    }
+}
+
+impl InternalGrid {
+    pub fn from_json(text: &str) -> Result<Self, String> {
+        let raw: RawInternal = serde_json::from_str(text).map_err(|e| format!("internal fuel model: {e}"))?;
+        let g = raw.grid;
+        let (nf, nw, nm) = (g.fl_nodes.len(), g.weight_t.len(), g.mach.len());
+        if nf < 2 || nw < 2 || nm < 2 {
+            return Err("internal fuel model: each grid axis needs at least two nodes".into());
+        }
+        for axis in [&g.fl_nodes, &g.weight_t, &g.mach, &raw.ceiling_fl.weight_t] {
+            if axis.windows(2).any(|w| !(w[1] > w[0])) {
+                return Err("internal fuel model: grid axes must increase strictly".into());
+            }
+        }
+        let shape_ok = |v: &Vec<Vec<Vec<f64>>>| v.len() == nf && v.iter().all(|a| a.len() == nw && a.iter().all(|b| b.len() == nm));
+        let flow: Vec<Vec<Vec<f64>>> =
+            g.flow_kg_h.into_iter().map(|a| a.into_iter().map(|b| b.into_iter().map(|c| c.unwrap_or(f64::NAN)).collect()).collect()).collect();
+        let flags: Vec<Vec<Vec<f64>>> =
+            g.flags.iter().map(|a| a.iter().map(|b| b.iter().map(|&c| f64::from(c)).collect()).collect()).collect();
+        if !shape_ok(&flow) || !shape_ok(&flags) {
+            return Err(format!("internal fuel model: flow and flags must be {nf} x {nw} x {nm}"));
+        }
+        if raw.ceiling_fl.weight_t.len() != raw.ceiling_fl.fl.len() || raw.ceiling_fl.fl.len() < 2 {
+            return Err("internal fuel model: ceiling_fl needs matching weight_t and fl, two or more".into());
+        }
+        Ok(Self {
+            fl: g.fl_nodes,
+            weight_t: g.weight_t,
+            mach: g.mach,
+            flow: flow.into_iter().flatten().flatten().collect(),
+            flags: g.flags.into_iter().flatten().flatten().collect(),
+            ceiling_weight_t: raw.ceiling_fl.weight_t,
+            ceiling_fl: raw.ceiling_fl.fl,
+            version: raw.model.version,
+        })
+    }
+
+    fn at(&self, i: usize, j: usize, k: usize) -> usize {
+        (i * self.weight_t.len() + j) * self.mach.len() + k
+    }
+
+    /// Standard-day total flow (kg/h) before calibration, and how it was obtained. `None` when
+    /// an argument is not finite or a corner the lookup uses is not priced.
+    pub fn flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64) -> Option<(f64, Coverage)> {
+        if !(fl.is_finite() && weight_t.is_finite() && mach.is_finite()) {
+            return None;
+        }
+        let (i, x, clamp_fl) = bracket(&self.fl, fl);
+        let (j, y, clamp_w) = bracket(&self.weight_t, weight_t);
+        let (k, z, clamp_m) = bracket(&self.mach, mach);
+        let (mut acc, mut bits) = (0.0, 0u8);
+        for (di, wx) in [(0, 1.0 - x), (1, x)] {
+            for (dj, wy) in [(0, 1.0 - y), (1, y)] {
+                for (dk, wz) in [(0, 1.0 - z), (1, z)] {
+                    let w = wx * wy * wz;
+                    if w == 0.0 {
+                        continue;
+                    }
+                    let n = self.at(i + di, j + dj, k + dk);
+                    let v = self.flow[n];
+                    if !v.is_finite() {
+                        return None;
+                    }
+                    acc += w * v;
+                    bits |= self.flags[n];
+                }
+            }
+        }
+        use grid_flags::*;
+        let cover = Coverage {
+            extrapolated_mach: bits & (EXTRAP_HIGH | EXTRAP_LOW) != 0 || clamp_m,
+            below_tables: bits & BELOW_TABLES != 0 || (clamp_fl && fl < self.fl[0]),
+            single_schedule: bits & SINGLE_SCHEDULE != 0,
+            above_ceiling: bits & ABOVE_CEILING != 0 || (clamp_fl && fl > self.fl[self.fl.len() - 1]),
+            fit_fallback: bits & (FIT_FALLBACK | FLOOR_CLAMPED) != 0 || clamp_w,
+        };
+        (acc > 0.0).then_some((acc, cover))
+    }
+
+    /// The service ceiling at this gross weight, flight level (linear in weight, clamped).
+    pub fn ceiling_fl(&self, weight_t: f64) -> f64 {
+        let (w, f) = (&self.ceiling_weight_t, &self.ceiling_fl);
+        let (k, t, _) = bracket(w, weight_t);
+        f[k] + t * (f[k + 1] - f[k])
+    }
+
+    /// A lower bound on the standard-day flow at this weight over every level and Mach the
+    /// lookup can return: at fixed weight the trilinear value is bilinear in level and Mach
+    /// within a cell, so it never falls below the least corner of the weight slice.
+    pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
+        if !weight_t.is_finite() {
+            return None;
+        }
+        let (j, y, _) = bracket(&self.weight_t, weight_t);
+        let mut best = f64::INFINITY;
+        for i in 0..self.fl.len() {
+            for k in 0..self.mach.len() {
+                let (a, b) = (self.flow[self.at(i, j, k)], self.flow[self.at(i, j + 1, k)]);
+                let v = if y == 0.0 {
+                    a
+                } else if y == 1.0 {
+                    b
+                } else {
+                    (1.0 - y) * a + y * b
+                };
+                if v.is_finite() && v > 0.0 {
+                    best = best.min(v);
+                }
+            }
+        }
+        best.is_finite().then_some(best)
+    }
+}
+
+/// The FPPM temperature rule in SAT terms (internal-v1 `model.temperature`): flow at a static
+/// air temperature `delta_isa_k` above ISA, relative to the standard day. 0.34 %/K at M0.82.
+pub fn temperature_factor(delta_isa_k: f64, mach: f64) -> f64 {
+    1.0 + 0.003 * delta_isa_k * (1.0 + 0.2 * mach * mach)
+}
+
+/// ISA static temperature (K) at a pressure altitude (ft), troposphere and lower stratosphere.
+pub fn isa_temperature_k(pressure_altitude_ft: f64) -> f64 {
+    (288.15 - 0.0019812 * pressure_altitude_ft).max(216.65)
+}
+
 /// Declared fuel state at the prior epoch and the model's own uncertainty.
 #[derive(Clone, Copy, Debug)]
 pub struct FuelPrior {
@@ -344,6 +545,65 @@ impl Default for FuelPrior {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The internal model is local only (git-ignored); tests that need it say so and pass.
+    fn internal() -> Option<(InternalGrid, serde_json::Value)> {
+        let p = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(p) else {
+            eprintln!("SKIPPED: {p} is absent (local-only fuel model)");
+            return None;
+        };
+        Some((InternalGrid::from_json(&text).unwrap(), serde_json::from_str(&text).unwrap()))
+    }
+
+    /// Core request 16 C-1 acceptance: the fuel session's 300 off-node test vectors, matched to
+    /// 1e-9 relative on the grid flow, and the full flow kappa * tau * grid.
+    #[test]
+    fn internal_grid_reproduces_the_fuel_sessions_test_vectors() {
+        let Some((g, doc)) = internal() else { return };
+        let vectors = doc["test_vectors"].as_array().unwrap();
+        assert_eq!(vectors.len(), 300);
+        for t in vectors {
+            let f = |k: &str| t[k].as_f64().unwrap();
+            let (got, _) = g.flow_kg_h(f("fl"), f("weight_t"), f("mach")).unwrap();
+            let want = f("flow_grid_kg_h");
+            assert!((got / want - 1.0).abs() < 1e-9, "grid {got} against {want} at {t}");
+            let tau = temperature_factor(f("delta_isa_k"), f("mach"));
+            assert!((tau / f("tau") - 1.0).abs() < 1e-12);
+            let full = f("kappa") * tau * got;
+            assert!((full / f("flow_full_kg_h") - 1.0).abs() < 1e-9);
+        }
+    }
+
+    /// The doomed test's floor (audit F8/F13): no state the lookup can return, at any level or
+    /// Mach, undercuts `min_flow_kg_h`; and the ceiling falls with weight.
+    #[test]
+    fn internal_min_flow_is_a_true_lower_bound_and_the_ceiling_falls_with_weight() {
+        let Some((g, _)) = internal() else { return };
+        let mut x = 0.5f64;
+        let mut next = || {
+            x = (x * 3.9 * (1.0 - x)).clamp(1e-6, 1.0 - 1e-6);
+            x
+        };
+        for _ in 0..20_000 {
+            let (fl, w, m) = (10.0 + 430.0 * next(), 150.0 + 100.0 * next(), 0.35 + 0.6 * next());
+            let floor = g.min_flow_kg_h(w).unwrap();
+            if let Some((f, _)) = g.flow_kg_h(fl, w, m) {
+                assert!(f >= floor * (1.0 - 1e-12), "{f} below the floor {floor} at FL{fl} {w} t M{m}");
+            }
+        }
+        assert!(g.ceiling_fl(190.0) >= g.ceiling_fl(220.0));
+        assert!((g.ceiling_fl(220.0) - 400.0).abs() < 1e-9 && (g.ceiling_fl(190.0) - 430.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn isa_and_the_temperature_rule() {
+        assert!((isa_temperature_k(0.0) - 288.15).abs() < 1e-12);
+        assert!((isa_temperature_k(45_000.0) - 216.65).abs() < 1e-12);
+        // 0.34 %/K at M0.82, as the fuel session states.
+        assert!(((temperature_factor(1.0, 0.82) - 1.0) - 0.003 * (1.0 + 0.2 * 0.82 * 0.82)).abs() < 1e-15);
+        assert_eq!(temperature_factor(0.0, 0.8), 1.0);
+    }
 
     fn tables() -> FuelTables {
         let p = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/fuel-tables.json");

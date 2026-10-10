@@ -521,3 +521,649 @@ in core's workspace, binary `5aee2bb`). Three differences from the ~05:00 entry,
   ruling. Nothing in the running run uses it.
 
 - core estimator
+
+## 2026-10-09 ~20:20 UTC - architecture: STANDING RULE (Pete) - every chart carries a footnote with its run information
+
+Every chart, in a results note, a PDF page or a module report, carries a footnote beneath it giving:
+- the run or runs used, by name, with the prior track and base config read from `run.json`;
+- the key parameters and options: the 00:19 option and BFO model, the families, the ocean model, N,
+  seeds and particle counts;
+- the main assumptions, and anything provisional.
+
+Keep all of this beneath the chart, never inside the axes, in line with Pete's figure conventions.
+Apply it to new charts now, and to existing charts when they are next regenerated.
+
+- Modular Architecture
+
+## 2026-10-09 ~21:00 UTC - architecture: CORE REQUEST 16 - fuel-model corrections from the independent audit (Pete approved sending it)
+
+Source: `results/fuel-model-audit-architecture.md` (commit `bffbe1a`), a read-only audit against SIR
+Appendix 1.6E and the reference runs. **Pete sets the timing, and this does not disturb the family runs
+now in progress.** Start once they finish, or earlier only if Pete says so. Your ladder found that the
+fuel model alone moves the 00:19 median about 2° north. The audit finds the direction is physics (Boeing
+Table 4 puts the fast pairs out of fuel before 00:11), but the size is not yet trustworthy.
+
+**A. Corrections, in this order:**
+1. **F1. The calibration factor is inverted.** `validate.py` defines it as model ÷ Boeing (1.0085), but
+   `lib.rs:799` multiplies flow by N(1.0085, 0.0178). Use N(1/1.0085, ·), that is mean 0.9916, or invert
+   it in the code. S1 needs only the config change.
+2. **F2. Fuel flow has no temperature correction.** Apply the FPPM +3% per +10 °C TAT to flow, with the
+   ERA5 temperature you already use for TAS. Then refit the factor, because Boeing's figures are on a
+   standard day.
+3. **F3 and F4.**
+   - Fix the bilinear lookup, which returns `None` when a corner has zero weight (`fuel.rs:93-114`).
+   - Clamp extrapolation below the lowest schedule at `min_flow_kg_h`.
+   - Add the precondition test: no state the filter can fly undercuts `min_flow_kg_h`.
+4. **F5. Above-ceiling states are excluded, or charged as a declared alternative.** Today 44-47% of the
+   posterior weight flies above the service ceiling.
+5. **F7. The 00:11 power requirement must be a true rejection (−∞),** not a −50 nat penalty. Isolate the
+   leak mechanism.
+6. **F9.** Fuel at 18:01:49 is 36,725 kg segment-wise from Boeing's Table 3, against the configured
+   36,609 kg. Fix the stale 43,800 kg docstring in `config.rs`.
+7. **F10. Climbs and descents are not charged at cruise flow.**
+   - A descent at reduced or idle thrust burns far less than cruise.
+   - A climb burns more.
+   - Use a thrust-scaled or energy-based burn, consistent with end of flight's `takeover_priced`.
+8. **F6.** Carry the extrapolated-Mach uncertainty (−11.5% to +3.7%) explicitly, or limit the time spent
+   there. Correct the 8% docstring.
+9. **F11. Single-engine phase.** The evidence concerns the left engine flaming out, up to 15 min after the
+   right (ATSB AE-2014-054 p. 9), but the model has a single fuel pool. **Write a design note first;
+   do not build yet.** It touches the 00:11 and 00:17:30 terms and end of flight's onset.
+10. **F12, F13 and F19.**
+    - F12: store the exhaustion time as float64.
+    - F13: fix the tests that skip extrapolated cells.
+    - F19: guard against `exhaustion_target_utc` and an end-of-flight stage that scores 00:19 both being
+      active.
+
+**B. Acceptance:** the audit's smoke tests S1-S5 at 1M particles × 2 seeds against `reference-289` at the
+same scale. Compare the mean 00:19 latitude, P(34.5-36.5°S) and the weight dry before 00:11, each step
+adding one fix as specified in section 7 of the report. Re-run the ladder's R3 rung, with fuel, after S5.
+The reproduction config `davey2016.toml` (no fuel) stays byte-identical.
+
+**C. Two fuel models (Pete's direction on provenance).**
+- **Internal model, using all data, for fidelity.**
+  - Every table class in Ulich's workbook, including the confidential cells, the INOP tables for the
+    single-engine phase, and the temperature correction;
+  - calibrated to all 27 Boeing numbers in SIR Appendix 1.6E Tables 3 and 4 and the ACARS state;
+  - weight-dependent if the residuals need it (F1b).
+  - It is used locally, and the tables are never redistributed.
+- **Public model, for publication.** A small parametric law FF(FL, W, M, ΔISA) fitted to the same
+  public Boeing numbers.
+- **Each is checked against the other.** Report their difference in exhaustion time and in the 00:19
+  latitude. The paper uses the public model, with the internal model as its validation.
+
+- Modular Architecture
+
+## 2026-10-09 ~22:45 UTC - architecture: CORE REQUEST 17 - tempered-move ancestry defect (filter audit F1). For Pete to schedule.
+
+Source: `results/filter-audit-architecture.md` (the second independent audit, at Pete's request). I
+verified the defect myself in `filter.rs` at commit `1c2b295`, lines 717-776.
+
+**The defect.**
+- `before_step` is cloned once at the start of a tempered epoch, indexed by the population as it stood
+  then.
+- After the first stage that resamples, `particles` is replaced by `kids`, so its indexing changes.
+- Every later stage still re-simulates from `before_step[anc]`, with `anc` an index into the new
+  population. That is a different particle's pre-epoch history.
+- The Metropolis ratio scores only the epoch's likelihood, so the pre-epoch weight and the
+  prior/proposal ratio of the history being swapped in are lost.
+
+**What the audit measured.**
+- In a 1-D toy, 16 stages, 200 replicates (`results/filter-audit-tempering-toy.csv`):
+  - bias z = −15.9 with non-uniform pre-epoch weights;
+  - z = −0.3 with the ancestry fixed;
+  - z = 1.6 with uniform pre-epoch weights.
+- The size in our filter is **unmeasured**.
+
+**Which runs it affects.** Every run with `temper_epochs`, including:
+- `reference-289`;
+- `reference-snapshots`;
+- the `families-*` runs now in progress (all six epochs, 16 stages);
+- the end-of-flight, searched-area and Pleiades results built on those runs.
+
+Not affected:
+- `davey2016.toml` itself;
+- the ladder rungs that use the plain sampler: R0-R3, R6 and R7.
+
+R3 found the fuel shift of about 2° **without** tempering. So the fuel finding is not caused by this
+defect, but the full-scale size of the shift may be.
+
+**Fix.** Carry `ancestry: Vec<usize>`:
+- identity at the start of the epoch;
+- on each stage resample, `ancestry = parents.map(|a| ancestry[a])`;
+- re-simulate from `before_step[ancestry[anc]]`.
+
+**Acceptance.**
+- Add a unit test comparing a tempered and an untempered run on `CalmAir`: evidence and posterior mean
+  must agree within Monte Carlo error.
+- Run audit smoke S3: `tempered-1839-1941` against the untempered run at matched particles.
+- Run the ladder rung R4 (our sampler) again, with fuel.
+
+**Pete decides:**
+- whether the running family parts continue (their results would be labelled PROVISIONAL-SAMPLER);
+- when the fix goes in. It fits into the same rebuild as core request 16.
+
+**Other filter-audit items for core,** smaller and Davey-fidelity:
+- **F2 (ephemeris).** The −495,679 µs offset was calibrated with Inmarsat's states. The reproduction uses
+  the STK/SGP4 ephemeris, and the BTO difference swings 16.7 µs over the flight (up to a third of σ),
+  so it is not a constant offset. Audit smoke S1.
+- **F3.** Manoeuvre step 5 s (Davey 1 s) and LNAV step 10 s (Davey 60 s); add an override. The ladder
+  found 0.06° for the manoeuvre step.
+- **F4.** Drift of the BFO bias over 00:11-00:19 is missing at end-of-flight takeover.
+- **F9.** Tests fail when `fuel-tables.json` is absent.
+- **F10.** 00:19 and 23:15 satellite/EAFC values: record the source rows.
+- **F11.** Rename `log_evidence` to the mean of log Z, or report log of the mean Z beside it.
+- **F13.** Optional extensions: an 18:25 R600 BTO and dropping the 18:28 BFOs, default off.
+
+**Checked and correct:**
+- BTO and BFO against Ashton's tarmac and example-path tables (≤10.5 µs, ≤1.3 Hz);
+- the observation table against Davey Table 10.1;
+- look-ahead, proposals, the Gibbs τ step, pooling, hand-off and rejuvenation;
+- no double counting anywhere.
+
+- Modular Architecture
+
+## 2026-10-09 ~23:10 UTC - architecture → core: briefing on the filter audit, and the merged sequence (Pete asked for this)
+
+Pete has read your merged sequence and asked me to brief you. **Your sequence stands.** It has one
+addition, request 17, which postdates your note, and one Pete decision on the ephemeris is still to
+come.
+
+**Corrections to my earlier note.** You are right on both points:
+- R5 had already finished (−36.51° at smoke scale).
+- Wide early Mach moved the median **north** (−38.02 → −37.69), towards Davey. I wrote "south".
+
+**New since your sequence: core request 17 (filter audit F1).** The tempered-epoch move restarts from
+the wrong saved state after the first stage that resamples. I verified this at `filter.rs:717-776`
+(`1c2b295`); the full entry is above in this file.
+- It affects every tempered run: `reference-289`, `reference-snapshots`, and all the family parts.
+- It does not affect the plain-sampler ladder rungs, so R3's fuel shift stands.
+- Its size in our filter is unmeasured.
+- The fix is a few lines: carry `ancestry`.
+
+**Pete's decisions tonight**
+- The family parts run to the end. Label their results **"uncorrected fuel; provisional sampler (request
+  17)"**.
+- Request 14 goes first, as you proposed, for the early look at the planned descent.
+- The audit's other findings (F2-F13) are information for you. They do not override your sequence.
+
+**Merged sequence.** My suggestions are marked [+]; Pete has the final word.
+1. The family parts finish (about 23:40 UTC). Report them with the labels above.
+2. **Request 14** (in-stage cruise BFO) at 2 threads, then notify end of flight.
+   - [+] If it is cheap while you are in `terminal.rs`: audit F4, the bias drift over 00:11-00:19 at
+     takeover. It matters only when bias drift is on, and that defaults off.
+3. [+] **Request 17** (ancestry fix), with its unit test, **before S1**. All the fuel smoke tests then
+   share one corrected sampler.
+   - The baseline for S1-S5 becomes a fresh smoke run of the current fuel config, with the fixed
+     sampler (S0). S0 also serves as the audit's tempering acceptance test (FA3: tempered against
+     untempered at matched particles).
+   - If Pete would rather have S1 tonight, S1 against an S0 with the defect is still a valid relative
+     comparison, because both carry it.
+4. S1 (F1 factor only, config change).
+5. F2-F5, F7, F9, F10 and the build-time revision stamp. Then S2-S5 and the R3 repeat.
+6. [+] **FA1, the ephemeris** (smoke, in any lock gap): `davey2016.toml` against
+   `config/sensitivity/inmarsat-ephemeris.toml`. See the ephemeris note below.
+7. Request 15 goes into any gap.
+8. A separate fuel session builds the internal and public fuel models. I will write its master prompt
+   once Pete confirms.
+9. The F11 design note, then F6, F12, F13 and F19.
+   - Audit minor items: tests that skip when `fuel-tables.json` is absent; the source rows for the
+     satellite/EAFC values; a `mean_log_evidence` label.
+10. **One bundled full re-run:**
+    - corrected fuel;
+    - the fixed sampler;
+    - the ephemeris Pete chooses;
+    - the families;
+    - wide early Mach, if S3 supports it;
+    - 100,000 hand-off rows;
+    - the look-ahead, if end of flight supports it;
+    - seeds, or more particles per seed, as you will propose.
+11. Interface work (requests 4 and 12, composer B and C, DRIFT-1 to DRIFT-3) and the two sensitivity
+    studies.
+
+**To keep the names apart:** the fuel audit's smoke tests are S1-S5. The filter audit's are FA1
+(ephemeris), FA2 (step size), FA3 (tempering) and FA4 (bias drift).
+
+**The ephemeris (audit F2).** `data/satellite-ephemeris-inmarsat.csv` holds Inmarsat's published states
+(Ashton et al. 2015, Table 4, p. 10, DOI 10.1017/S037346331400068X), Hermite-interpolated to the
+epochs; the auditor reproduced the interpolation independently.
+- The −495,679 µs BTO offset and the satellite+EAFC terms were derived with these states.
+- The STK/SGP4 file differs from them by 1.9-3.9 km, which gives a BTO swing of 16.7 µs over the flight.
+- My recommendation to Pete: the Inmarsat states for every extension run, and so for the bundled
+  re-run. Whether `davey2016.toml` itself changes is his decision, because that config must stay
+  byte-identical. One option is a separate `davey2016-inmarsat` reproduction variant, with FA1
+  measuring the difference.
+
+**Provenance housekeeping (Pete's decisions):**
+- `results/davey-2016.pdf` stays, with the notice `results/davey-2016.LICENSE.md`.
+- The `tmp/` avionics files stay and may be used internally. Any use is recorded in
+  `results/restricted-sources-ledger.md`.
+
+- Modular Architecture
+
+## 2026-10-09 ~23:30 UTC - architecture: Pete's confirmations
+
+1. **Request 17 (sampler ancestry fix) before S1.** Confirmed. Core's order becomes: request 14, then
+   request 17 with its unit test, then S0 (baseline, fixed sampler), then S1-S5.
+2. **A separate fuel session builds the internal and public fuel models.** Confirmed. Its brief is
+   `threads/master-prompts/fuel-model.md`; it owns `engine/fuel-model/` and `results/fuel-model/`.
+   Core integrates its outputs under request 16.
+3. **The Inmarsat ephemeris** (`data/satellite-ephemeris-inmarsat.csv`, Ashton Table 4) is used for all
+   extension runs, including the bundled re-run. The reproduction variant is still open with Pete.
+4. **Pete wants one overnight run with all the fixes in, if possible.** Core: when S1-S5 show the run
+   time, size the bundled run against a single night. Bring Pete the options: seeds, particles, and
+   whether the families come in the same run or a second one. Do not start it without his agreement.
+
+- Modular Architecture
+
+## 2026-10-09 ~23:40 UTC - architecture → core: go-ahead (Pete confirmed all three)
+
+Your reply of ~23:15 UTC is agreed in full, including your two additions:
+- **the guard:** no epoch may be both tempered and rejuvenated;
+- **the bound before the fix:** use the weight unevenness at each tempered epoch, taken from the
+  existing diagnostics.
+
+Pete has confirmed:
+1. request 17 before S1, with S0 as the baseline;
+2. a separate fuel session, now running from `threads/master-prompts/fuel-model.md`;
+3. the Inmarsat ephemeris for extension runs and the bundled re-run, with `davey2016.toml`
+   byte-identical and a separate `davey2016-inmarsat` variant beside it.
+
+Please check which satellite states Davey used before the paper calls either variant the faithful one.
+
+You can start now:
+1. Request 14, with F4 included.
+2. Request 17, with the guard and its unit test.
+3. The family report.
+4. S0, then S1, when the lock frees.
+
+Pete wants **one overnight run with all the fixes in**. Once S0-S5 give you run times, bring him the
+sizing options. The previous reference took 8.7 h; the families made the last run 20+ h. Do not start
+the run without his agreement.
+
+Note on line numbers: you cite `filter.rs:740` and `:787`; the committed `1c2b295` has them at `:717`
+and `:776`. If your working tree is ahead of git, commit before the rebuild, so the build stamp means
+something.
+
+- Modular Architecture
+
+## 2026-10-09 ~23:55 UTC - architecture: the single-engine phase (audit F11), from Pete's direction. Who owns what.
+
+**End of flight owns the single-engine dynamics.** One engine runs dry before the other, the
+second up to 15 min later (ATSB AE-2014-054 p. 9). That sets up the uncontrolled phase:
+- asymmetric thrust and yaw;
+- the autopilot's response;
+- the drift-down and turn before the second engine stops.
+
+End of flight models this in the 6-DOF simulator, consistent with the Boeing end-of-flight cases, and
+reports how it changes the impact distribution against the single-pool baseline.
+
+**Core keeps a narrow part:**
+- It carries two fuel states, left and right, in place of the single pool.
+- It passes both at the hand-off, with per-engine exhaustion times.
+- If the first engine stops before 00:11, the cruise segment up to 00:11 must fly on one engine (lower
+  and slower). Core writes the design note for that case under request 16 item 9.
+
+**The fuel session supplies:**
+- the one-engine-inoperative tables;
+- the left/right imbalance at 18:01:49, with sources.
+
+**Status.** This is not in tomorrow's bundled run unless its design and tests are ready. The bundled
+run is now **gated on the internal fuel model** (Pete).
+
+- Modular Architecture
+
+## 2026-10-09 ~23:25 UTC - fuel model: ETA for the internal model (core request 16 C)
+
+Brief: `threads/master-prompts/fuel-model.md` at `74e2e15`. Work goes to `engine/fuel-model/` and
+`results/fuel-model/`; no `crates/` edits.
+
+**ETA (UTC):**
+1. **Internal model: tables + calibration, by ~03:00 on 10 Oct.** All table classes (confidential and
+   INOP included, local only), the factor defined as Boeing ÷ model and applied as a multiplier, the
+   temperature term, the bilinear-edge and floor fixes (F3, F4), a weight-dependent ceiling table (F5),
+   and residual-based uncertainty. Delivered as a git-ignored JSON in core's `FuelFlow` schema plus a
+   dense calibrated grid, a Python reference implementation and test vectors. Schema changes come as
+   core requests.
+2. **Left/right imbalance at 18:01:49 and the INOP tables: with item 1.**
+3. **Cross-check against the coded model along `reference-289` paths: by ~06:00 on 10 Oct.**
+4. **Public parametric model: later on 10 Oct.** It does not gate the run.
+
+**New input found, internal use only.** `library_full_audit/MH370/` holds 9M-MRO's previous flight,
+MH371 on 7 Mar 2014. It has 5-minute ACARS position reports (pressure altitude, Mach, SAT, gross weight,
+FQIS fuel) and EHM snapshots with per-engine fuel flow. That gives about 2.6 h at FL400 and 1.5 h at
+FL276 on the same airframe and engines at measured temperature, so it is a second calibration source
+next to Boeing's standard-day figures, and a direct test of the temperature term. At FL400 one EHM
+snapshot shows the right engine burning ~3.4 % more than the left at equal EPR. That bears on the
+imbalance. I will record its provenance in the restricted-sources ledger.
+
+- Fuel model
+## 2026-10-10 ~00:20 UTC - architecture: what the next large core run is (Pete)
+
+**The next large run is the updated model, with every fix and extension in.** It is not a repeat of the
+reference-289 configuration. It contains:
+- **fixes:**
+  - request 17 (sampler);
+  - the corrected fuel model, gated on the fuel session's internal model;
+  - the Inmarsat ephemeris;
+- **extensions:**
+  - radar scoring;
+  - the families (free, routes, descent-climb);
+  - wide early Mach (unless S3 shows a problem);
+  - the vertical rate in the BFO;
+  - 100,000 hand-off rows;
+  - the look-ahead, if end of flight supports it.
+
+It replaces `reference-289` and tonight's family results as the base for every module.
+
+Pete and core design and size it: overnight, or a night plus a morning. Core brings the timings after
+S0-S5. A full-scale Davey-only baseline (no fuel, plain sampler) is optional and lower priority.
+
+- Modular Architecture
+
+## 2026-10-10 - fuel model: DELIVERY 1 - internal fuel model `internal-v1` (core request 16 C), ready for integration
+
+Report: `results/fuel-model/internal-model.md`. Code: `engine/fuel-model/`. No `crates/` edits; no filter run.
+**Model file (LOCAL ONLY, git-ignored by `/data/external`):** `engine/data/external/fuel-model/internal-v1.json`
+(8.3 MB, sha256 `c5fe32e3…`). Core can copy it from the fuel session's workspace (readable cross-session)
+or from local artifact `2ee08c24-f528-46f2-b945-c10c7f38dcb8`. It holds the 16 extract grids unchanged
+(`FuelTables::from_json` still parses it), the dense calibrated-shape grid, the INOP grid, a ceiling table,
+the parameters and 300 test vectors. Rebuild: `python fuel-model/build_internal.py` from `engine/` (about 40 s).
+
+**Result.**
+- **FF = κ_traj · τ(ΔISA, M) · G(FL, W, M)**, where:
+  - G: standard-day grid with F3 (zero-weight corners), F4 (back-side rule bounded at 0.95 × holding; close
+    pairs clamped) and a drag-rise term above M0.84;
+  - **τ = 1 + 0.003 · ΔISA · (1 + 0.2 M²)**, the FPPM rule in SAT terms (0.34 %/°C at M0.82);
+  - **κ_traj ~ N(1.0004, 0.0196), a MULTIPLIER.** F1 is gone by construction.
+- **Calibration, κ as a multiplier:**
+
+  | evidence | κ |
+  |---|---|
+  | Boeing only (16 envelope items; standard day, so identical with or without the temperature term) | 0.9893 ± 0.0037, residual s.d. 0.014 |
+  | MH371 measured cruise, with the temperature term | 1.0073 |
+  | MH371 measured cruise, without it | 1.0172 |
+  | **Joint, with the temperature term** | **1.0004 ± 0.0085**, between-group τ 0.014 |
+  | Joint, without it | 1.0030, τ 0.018 |
+
+- **Boeing Table 3 (1.010) and Table 4 (0.985) disagree by 2.5 %.** MH371 sides with Table 3. The
+  tension is carried in the s.d., not resolved.
+- **No weight-dependent factor.** F1b's trend is the Table 3 against Table 4 contrast. MH371 at FL400,
+  186-200 t, shows no trend.
+- **The temperature term is supported by MH371.** A free fit gives 0.0031 ± 0.0012 /°C, against the
+  rule's 0.0034. This is internal and confounded with FL.
+- **Exhaustion against the code as coded,** on constant profiles from 18:01:49 (**provisional**; the
+  cross-check along posterior paths follows):
+
+  | FL | ERA5 route ΔISA | internal minus coded |
+  |---|---|---|
+  | 300 | +11.9 °C | −10 to −12 min |
+  | 350 | +9.1 °C | −8 to −9 min |
+  | 370 | +5.5 °C | −4 min |
+  | 390-400 at M ≥ 0.82 | about 0 °C | +0 to +2 min |
+  | 400 at M ≤ 0.80 | | −10 to −58 min (the F3/F4 pocket removed) |
+
+- **Single engine (Pete's item 3).**
+  - **L − R at 18:01:49 = +221 kg** (L 18,395, R 18,174 kg), range +47 to +421. Sources: Ulich v5.6 tank
+    estimate at 17:06:43 (+146 kg); R/L flow ratio **1.021** (range 1.013-1.035, from Ulich's tank-rate value
+    and the MH371/MH370 EHM per-engine WF); SIR App. 1.6E p. 5.
+  - The right engine runs dry first, and the left runs on for 3-14 min (best 7-8). That is consistent with
+    ATSB AE-2014-054 p. 9.
+  - The INOP grid is in the file. Single-engine flow is 0.79-0.99 of the twin flow, so the pooled
+    exhaustion and the left flame-out differ by only about 0.1-1.5 min (less than the audit's F11
+    estimate of 0-6 min).
+
+**Core requests (16 C-1 to C-8; details in report §7). Schema changes are marked.**
+1. **C-1:** grid reader, with trilinear interpolation and OR'ed corner flags. Config-gated:
+   `fuel.model = "internal-v1"`. Default unchanged; `davey2016.toml` byte-identical. Unit test against
+   `test_vectors`.
+2. **C-2 (schema):** `fuel_flow_kg_h(fl, weight_t, mach, delta_isa_k)`, with ΔISA from the ERA5 temperature
+   already used for TAS. This reaches end of flight's `takeover_priced` through `FuelFlow`.
+3. **C-3:** `factor_mean = 1.0004`, `factor_sd = 0.0196`, as a multiplier. Arms: Boeing-only N(0.9893,
+   0.0143); MH371-only N(1.0073, 0.0110); no-temperature N(1.0030, 0.0236).
+4. **C-4:** `initial_kg = 36,569` when the temperature term is on (36,725 is the standard-day figure), or
+   better `43,800 − κ_traj × 7,228`.
+5. **C-5:** use `ceiling_fl(weight_t)` for F5 (FL430 at ≤ 190 t, FL400 at 215-220 t).
+6. **C-6:** extra s.d. of 0.021 on steps above M0.84 (F6). Elsewhere none is needed.
+7. **C-7 (schema, two fuel states):** initial L − R = +221 kg (s.d. ≈ 120); R : L = 1.021 (s.d. ≈ 0.008);
+   `grid_inop` after the first flame-out.
+8. **C-8 (F10):** the end-of-flight form, flow × (1 + (L/D) sin γ) with the idle floor, and the climb factor
+   capped at climb thrust.
+
+**Restricted use** is recorded in `results/restricted-sources-ledger.md`: the confidential cells; the MH371
+ACARS and EHM data (provenance unverified); Ulich's workbook notes. Committed files are model outputs only.
+
+**Next:** delivery 2 (the cross-check along `reference-289` hand-off states), then delivery 3 (the public
+parametric model).
+
+- Fuel model
+
+## 2026-10-10 - fuel model: DELIVERY 2 - cross-check on `reference-289` (PROVISIONAL, not a filter run)
+
+`results/fuel-model/crosscheck-reference289.md`. The sample is 2,000 weighted m0011 hand-off states
+(seeds 1-4), each held at its constant 00:11 state. Only the difference between the models is applied to
+the filter's own 00:11 fuel. Medians of internal-v1 minus coded:
+
+| band | Δ exhaustion, route ΔISA | dry before 00:11 |
+|---|---|---|
+| FL250-290 | −11.8 min | 68 % |
+| FL300-330 | −10.5 min | 58 % |
+| FL340-370 | −7.2 min | 26 % |
+| FL380-400 | −1.5 min | 16 % |
+| FL410-430 | −33.9 min (F3/F4 pocket) | 61 % |
+| all | −9.3 min | **42 %** |
+
+- With the 00:11 point temperature, which is colder, 25 % of the weight is dry before 00:11; on the
+  standard day, 18 %.
+- Median exhaustion: 00:23 as coded; 00:13-00:21 internal, depending on the temperature case.
+- **Reading.** The reference posterior's FL410-430 mass is largely a fuel artefact (F3-F5). The warm
+  low/mid paths lose 7-12 min to the temperature term.
+- Crude path removal moves the mean 00:11 latitude by −0.15° to +0.06°, so the direction is not
+  determined. The 00:19 shift needs the filter: smoke tests S2-S4. Expect S2 and S3 to dominate S1.
+
+- Fuel model
+
+## 2026-10-10 - fuel model: DELIVERY 3 - the public parametric law, and internal against public (does not gate the run)
+
+`results/fuel-model/public-model.md`; `engine/fuel-model/public.py`; `results/fuel-model/public-model.json`.
+
+**The law.** FF = TSFC · D, made of:
+- a parabolic polar;
+- Lock's wave drag with a Korn C_L term (sweep 31.6°);
+- TSFC = c_T (1 + b_M M)(T_ISA/288.15)^a (T/T_ISA)^0.5.
+
+It is fitted to Boeing's 27 numbers only and needs no tables.
+- **rms 1.74 % over all 27 numbers, 1.48 % over the 15 envelope items.**
+- Factor N(1.0, 0.017).
+- 36,609 kg at 18:01:49 with temperature.
+
+**Internal against public, along the same 2,000 `reference-289` states with route ΔISA** (provisional):
+- median exhaustion **−11.5 min [−19.9, +5.6]**, internal earlier (00:13 against 00:21);
+- 42 % against 25 % of the weight dry before 00:11.
+
+The difference has three parts:
+1. **Calibration level, about −5 min.** MH371's measured burn is in the internal model; the public law sees
+   Boeing only.
+2. **Temperature coefficient, −3 to −5 min** at ISA +5 to +12 °C. The FPPM rule is 0.34 %/°C; √θ is
+   0.23 %/°C.
+3. **Shape at FL400,** −17 to +14 min, slow to fast.
+
+**Core request 16 C-9 (low priority, not for tonight):** add a `fuel.model = "public-v1"` closed-form arm for
+the paper.
+
+**Correction to delivery 1.** The local artifact `2ee08c24…` (internal-v1.json) stays in the local artifact
+store by Pete's choice, and the ledger records it. It is never committed and never sent to a third party.
+
+- Fuel model
+## 2026-10-10 ~01:10 UTC - architecture: confidential items are authorised (Pete)
+
+Pete states that the project holds authorisation for all the confidential items: the FPPM-confidential
+fuel cells and the `tmp/` material.
+- **Internal use is authorised in full.** The internal fuel model uses every cell without penalty.
+- **Publication and redistribution scope** are being confirmed with Pete. Until then, the tables stay
+  git-ignored (the repo is public), and the restricted-sources ledger keeps recording uses.
+
+- Modular Architecture
+
+## 2026-10-10 ~01:30 UTC - architecture: authorisation scope (Pete)
+
+Pete: **"that authorization applies to all confidential items in the repo."** Any session may use any
+confidential item in the repo internally.
+- Publication and public redistribution are settled at the paper's provenance review.
+- Until then, confidential tables stay git-ignored, and uses are recorded in
+  `results/restricted-sources-ledger.md`.
+
+- Modular Architecture
+
+## 2026-10-10 ~01:40 UTC - architecture: SSH host coming (Pete)
+
+Pete is adding an SSH host so that the core and ocean big runs can go in parallel. My proposal to
+Pete: core's S0-S5 and the bundled run go to the host, and drift stays on the Mac. Details are in
+`architecture.md`. Wait for the host details and Pete's agreement before moving anything.
+
+- Modular Architecture
+
+## 2026-10-10 ~02:00 UTC - architecture → all modules: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host on his premises: `abiome-deskstar`, port 2222.
+- It is authorised for all restricted items, including the confidential fuel cells and the internal
+  fuel model. The restricted-sources concern applies only to third-party or metered compute.
+- **Credentials are not recorded here.** Use the platform's Compute panel connection once Pete has added
+  it. Never write a password into the repo, the notes or memory.
+- **Status:** the host is up, but it is not yet registered in the session Compute panel, and its name
+  does not resolve from inside the session sandboxes. Until it is registered, no session can reach it.
+
+**Planned split** (proposal; nothing moves until the host is listed and Pete agrees):
+- **Host:** core's S0-S5 and the bundled updated-model run.
+- **This Mac:** drift production, end of flight, and the downstream re-runs.
+
+Comparison rules: both sides of any A/B run on the same machine, and every `run.json` records its
+platform.
+
+- Modular Architecture
+
+## 2026-10-10 ~01:00 UTC - architecture → core (cc all): `ssh:deskstar` is live and probed
+
+The host is registered as compute target **`ssh:deskstar`**. Use `host.compute.create("ssh:deskstar")`
+from the repl. Login is by password, and the platform prompts Pete. The provider notes (read them with
+`compute_details`) hold the full probe.
+
+**What the probe found:**
+- Ubuntu 24.04 container, x86_64.
+- 2× Xeon Platinum 8168, 94 usable threads, 2 NUMA nodes, no CPU quota.
+- **Memory is capped at 24 GiB by the cgroup.** `free` shows 183 GB, but that is the host's, not ours.
+- `~` is a 59 GB volume.
+- The host is shared: load about 28 from outside the container.
+- No GPU, no scheduler.
+
+**Done:** Rust installed. Both the pinned **1.98.0** and stable are present; activate with
+`. ~/.cargo/env`. git, python3 and rsync are there. Outbound HTTPS (crates.io, GitHub) works.
+
+**For core, when Pete says go:**
+1. **Commit your working tree first.** It is ahead of git (`filter.rs` line numbers). The host then
+   builds the same code the build stamp records.
+2. **Shallow-clone** branch `claude-science-sep29` into `~`. Ship the git-ignored data as job inputs:
+   - artifact `3e09de5b-b0ab-4e7d-be65-a6181756a37c` (`engine-data.tar.gz`, about 420 MB);
+   - the fuel session's `internal-v1.json`.
+   The host is authorised for restricted items (Pete).
+3. **Run S0 first, and measure.** Record peak RSS and wall time at several `RAYON_NUM_THREADS` values
+   (for example 24, 46 and 90), all inside the 24 GiB cap.
+   - The last full run peaked at about 13 GiB on 12 threads on the Mac, so one full run fits.
+   - Two concurrent full runs probably do not.
+   - Use the measured values for the bundled-run sizing you bring to Pete.
+4. Record `platform = x86_64-linux (deskstar)` in every `run.json`. Any A/B stays on one machine.
+5. Copy outputs back to `/Users/pete/Downloads/mh370-exchange/core/<run>/`.
+
+**Everyone else:** nothing moves. Drift production, end of flight and the downstream modules stay on
+the Mac.
+
+- Modular Architecture
+## 2026-10-10 ~01:45 UTC - core: requests 14, 17 and 16 (fuel) DELIVERED in code (`34ef6bc`, `b60cbb7`)
+
+**Request 14 (end of flight), in `terminal.rs`.** From a 22:41 stop, the cruise BFOs after it (m2315,
+m0011) are scored in-stage by the filter's own sequence: drift over the gap when
+`bfo_bias.drift_hz2_per_s` is set, then the Kalman update's marginal log-likelihood, with the vertical rate
+when `bfo_vertical_rate` is set. The bias so updated goes to the 00:19 BFO models, and the 00:19 contacts are
+found by epoch, not by position. **Audit F4 included:** the bias is drifted from the last cruise BFO to the
+first 00:19 burst. An option that uses only cruise BFOs needs no `bfo_models`.
+- Test `in_stage_cruise_bfo_reproduces_the_filters_increment`: m0011 alone, and the chain m2315 -> m0011 ->
+  00:19a, against the filter's sequence written out, with and without drift (1e-9).
+- The 00:11 hand-off and every existing terminal run are unchanged: davey2016 + handoff-smoke + smoke, 12/12
+  files byte-identical against `regress/hoe/mh370-head`.
+- **End of flight: the V2 arms from 22:41 with the 00:11 BFO can run now** from the `reference-289`
+  m2241 hand-offs (label: uncorrected fuel; provisional sampler). Rebuild first.
+
+**Request 17 (sampler).** Moves in a tempered epoch re-simulate from `before_step[ancestry[anc]]`, with the
+ancestry composed through each stage resample. Guard: an epoch cannot be both tempered and rejuvenated (config
+error). Tests: `ancestry_follows_the_stage_resamples`, and `a_tempered_epoch_agrees_with_the_plain_update`
+(an invariance guard; this toy is NOT sensitive to the defect, which I state in the test). The size in our
+filter is measured by smoke S0 against ladder rung R5 at the same scale (running).
+- **A likely mechanism for fuel audit F7 (the leak), pre-registered in `out/smoke/PREDICTIONS.md`:** the
+  defect re-simulated moved particles from other particles' pre-epoch histories, including histories already
+  charged the -50 fuel penalty, which `fuel_penalised` then never charges again. If so, S0's weight on paths
+  dry before 00:11 falls to < 0.01%.
+
+**Request 16 (fuel), all config-gated, defaults unchanged** (davey2016 + ladder/fuel + smoke: 4/4 files
+identical):
+- C-1: `fuel.model = "internal-v1"` reads `inputs.fuel_model` (local only, git-ignored); trilinear, flags
+  OR'ed, clamp flagged; the 300 test vectors match to 1e-9 (`internal_grid_reproduces_...`).
+- C-2: `fuel.temperature = true`: tau = 1 + 0.003 dISA (1 + 0.2 M^2), dISA from the ERA5 temperature at the
+  aircraft. **Schema for modules:** new `FuelFlow::fuel_flow_kg_h_at(fl, w, m, delta_isa_k)`; the default is
+  the standard-day value, and the core's `CoreFuel` applies tau when the run has the term on. End of flight:
+  please call `_at` where you know the temperature.
+- C-3/C-4: kappa N(1.0004, 0.0196) as a multiplier; `initial_from_factor = [43800, 7228]` per path.
+- C-5: `fuel.ceiling = true`: the prior and every new level target are drawn uniformly from the levels at or
+  below `ceiling_fl(weight)`.
+- F7: `fuel.hard_reject = true` (log weight -1e6: zero weight, finite evidence if a mode is eliminated).
+- The doomed test uses the grid's exact lower bound times 0.95 when the temperature term is on.
+- Not done for the run: C-6, C-7 (two tanks; design note to follow), C-8 (climb pricing; to be bounded in the
+  paper: about 42-44 kg per 1,000 ft, 1.9-2.1 level changes per path, mostly offsetting).
+- Configs: `config/sensitivity/fuel-fixes/s1..s5`.
+
+**Revision stamp.** `build.rs` stamps the revision the binary was built from; frozen run binary
+`regress/next-run/mh370` = `b60cbb7`.
+
+**Ephemeris.** `config/davey2016-inmarsat.toml` (base davey2016, Inmarsat states). On Davey's own source:
+Davey (2016) printed p. 24 says only that Inmarsat-3F1 "moves in a known way", citing [2] = Ashton et al.
+(2014), J. Navig. 68(1), DOI 10.1017/S037346331400068X, whose Table 4 holds the Inmarsat states. Davey does
+not name the ephemeris file, so the Inmarsat variant is the closer reading, not a documented one.
+
+**Smoke tests running now** (2 threads each, ladder scale, seeds 1-2): FA1 (Inmarsat), S0 (fixed sampler,
+current fuel), S5-full (all fixes). The full ladder S1-S4 goes to the SSH server when it is connected.
+
+**The next large run** is configured in `config/sensitivity/next-run/` (README, driver, local and server
+sizes). All four strata ran end to end at tiny scale. Pete has pre-approved it; it starts when S0 and S5-full
+are read and show no fault.
+
+- Core
+
+## 2026-10-10 ~02:15 UTC - architecture → core: move to deskstar (Pete), and hold the large run for a C-7 decision
+
+1. **Run on deskstar (Pete).**
+   - Send all further smoke tests, S1-S4 and anything after them, to `ssh:deskstar`, not to the Mac.
+   - Let the three local 2-thread smoke tests (FA1, S0, S5-full) finish. Do not kill them.
+   - The large run goes to deskstar with the `server-*` sizes.
+   - The Mac then belongs to drift production. It was oversubscribed, with load averages of 54-80 on
+     18 cores.
+2. **deskstar now has 36 GiB** (cgroup `memory.max` = 38,654,705,664; Pete raised it). It has 94
+   threads, and load was about 10 at 02:08 UTC.
+   - Measure peak RSS per stratum in S1-S4.
+   - If each stratum is about 7 GiB, as I estimate, three or four strata can run at once inside 36 GiB.
+     Size the run on what you measure.
+3. **Pete asks whether two fuel tanks (C-7) can go in before the large run.**
+   - **Do not start the large run until Pete has answered.** Keep the smoke tests going meanwhile.
+   - The data are ready: initial L − R = +221 kg (s.d. ≈ 120) and R:L flow = 1.021 (s.d. ≈ 0.008), in
+     `results/fuel-model/engine-imbalance-180149.csv`. The live-engine flow comes from `grid_inop`.
+   - **Please post your estimate of the work for two levels:**
+     - **(b) bookkeeping:**
+       - two pools, each engine burning half the flow scaled by the ratio;
+       - after the right engine runs dry, the left burns at `grid_inop`;
+       - the 00:11 requirement becomes "at least one engine running";
+       - both exhaustion times passed at hand-off;
+       - one diagnostic: the weight whose right engine is dry before 00:11.
+     - **(a) the same plus single-engine dynamics before 00:11:** drift-down to the one-engine ceiling,
+       at INOP speed, inside each autopilot mode.
+   - I recommend (b) to Pete for this run, and (a) only if (b)'s diagnostic shows real weight with the
+     right engine dry before 00:11.
+
+- Modular Architecture

@@ -122,3 +122,19 @@ entry of ~06:45 UTC, 9 Oct.
 - **Concentration-limited at this seed** (below about 125, the per-seed share of the pooled 1,000):
   `r1200_no-offset__fuel-exhaustion` with the dive off (ESS 82), `r1200_startup-offset__fuel-exhaustion` with the
   dive off (102), and `both_inflated__fuel-exhaustion` (98 / 168).
+
+## Project-convention figure (added 9 Oct, Pete's request)
+
+- **Files.** `displacement-boeing-glide-greyscale.{pdf,png}`, with `.json` holding the per-panel ESS and an
+  enclosed-mass check. The generator is `engine/hypotheses/end-of-flight/smoke/displacement_greyscale.py`.
+- **Convention.** The figure follows `report/epoch_map.py`: greyscale highest-posterior-density bands at
+  50/90/99% with dark contour edges.
+  - The density is a weighted 1 NM histogram, Gaussian-smoothed at σ = 2 NM, and the levels are taken on the
+    smoothed density.
+  - The axes are displacement from each trajectory's own 00:19:37 position, not latitude and longitude, so no
+    arcs are drawn.
+- **Reading the R1200 panels.** They break into islands because R1200 is concentration-limited on one seed
+  (ESS 538 with the dive class off, 2,195 with it on). This is a property of the sample, not of the plotting.
+- **Status.** This is the 295.66° hand-off at smoke scale. It is superseded when the reference-289 sweep lands.
+
+**Update 9 Oct 19:50 UTC.** The reference-289 summary/histogram files here were regenerated with all 24 option x cause arms (both/no-offset and both/startup-offset had been dropped by a hard-coded OPTIONS list; r600-bto and both-bto added, derived from BTO residual columns). 15 of 24 converge. Evidence per option and Holland H1:H2: results/eof-two-burst-oct09/README.md.

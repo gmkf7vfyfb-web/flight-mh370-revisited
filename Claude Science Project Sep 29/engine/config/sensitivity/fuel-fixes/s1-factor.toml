@@ -1,0 +1,6 @@
+# Fuel audit S1 (F1): the calibration factor as a multiplier on the tables' flow.
+# validate.py's 1.0085 is model / Boeing, so the multiplier that makes the tables match Boeing is
+# 1 / 1.0085 = 0.9916 (sd scaled alike). Stack on no-exhaustion-prior.toml.
+[fuel]
+factor_mean = 0.9916
+factor_sd = 0.0175

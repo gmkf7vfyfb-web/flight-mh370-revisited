@@ -106,19 +106,10 @@ pub fn write_json(path: &Path, value: &impl Serialize) -> Result<(), String> {
 }
 
 pub fn code_revision() -> String {
-    let git = |args: &[&str]| {
-        std::process::Command::new("git")
-            .args(args)
-            .output()
-            .ok()
-            .filter(|o| o.status.success())
-            .map(|o| String::from_utf8_lossy(&o.stdout).trim().to_string())
-    };
-    match git(&["rev-parse", "--short", "HEAD"]) {
-        Some(rev) if git(&["status", "--porcelain"]).is_some_and(|s| s.is_empty()) => rev,
-        Some(rev) => format!("{rev}-dirty"),
-        None => "unversioned".into(),
-    }
+    // The revision the binary was built from, stamped by build.rs ("-dirty" if tracked engine
+    // files differed from HEAD at build time). The working tree at run time says nothing about
+    // the code that ran.
+    env!("MH370_BUILD_REVISION").to_string()
 }
 
 /// Peak resident-set size of this process, or `None` where the platform does not report one.

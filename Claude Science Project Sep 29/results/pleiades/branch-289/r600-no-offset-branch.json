@@ -1,0 +1,27 @@
+{
+ "label": "289.7 prior (reference-289); EoF impacts, 00:19 option r600/no-offset (R600 only, raw)",
+ "option": "r600/no-offset",
+ "seeds": [
+  "seed-1",
+  "seed-2",
+  "seed-3",
+  "seed-4"
+ ],
+ "uncond_mass_outside_grid": [
+  0.009292222473769929,
+  0.008983311951099693,
+  0.0088060096219994,
+  0.008789447891580981
+ ],
+ "models": [
+  "glorys12v1+era5-wind10",
+  "globcurrent-my-p1d+era5-wind10"
+ ],
+ "grid": {
+  "lon0": 85.025,
+  "lat0": -42.975,
+  "nlon": 360,
+  "nlat": 360,
+  "step": 0.05
+ }
+}

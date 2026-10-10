@@ -351,6 +351,16 @@ impl Prior {
         (0..=levels).map(|k| (p.altitude_range_ft.0 + p.altitude_step_ft * f64::from(k), 1.0)).collect()
     }
 
+    /// The prior restricted to the levels at or below `ceiling_ft` (C-5), renormalised; the
+    /// lowest level if none is.
+    fn sample_altitude_below<R: Rng>(&self, ceiling_ft: f64, rng: &mut R) -> f64 {
+        let kept: Vec<(f64, f64)> = self.altitude_levels.iter().copied().filter(|(l, _)| *l <= ceiling_ft + 1e-9).collect();
+        if kept.is_empty() {
+            return self.altitude_levels.iter().map(|l| l.0).fold(f64::INFINITY, f64::min);
+        }
+        Prior { altitude_levels: kept, ..self.clone() }.sample_altitude(rng)
+    }
+
     fn sample_altitude<R: Rng>(&self, rng: &mut R) -> f64 {
         let levels = &self.altitude_levels;
         if levels.iter().all(|(_, w)| *w == levels[0].1) {
@@ -540,7 +550,24 @@ pub struct FuelModel {
     ///    mixture keeps the proposal's support equal to the prior's, so the correction is
     ///    bounded and the target distribution is unchanged.
     pub endurance: Option<EnduranceProposal>,
+    /// The fuel session's internal model (core request 16 C-1). When set it replaces the
+    /// tables for every flow this crate reads; the tables stay loaded for diagnostics.
+    pub internal: Option<fuel::InternalGrid>,
+    /// Apply the temperature term tau(dISA, M) with dISA from the weather temperature at the
+    /// aircraft (C-2, fuel audit F2). Off is the standard day, as before.
+    pub temperature: bool,
+    /// Initial fuel per path as `a - factor * b` kg (C-4: 43,800 at 17:06:43 less the factor
+    /// times the 7,228 kg standard-day burn to 18:01:49). None uses `initial_kg` for every path.
+    pub initial_from_factor: Option<(f64, f64)>,
+    /// Hold every altitude level at or below the weight-dependent service ceiling of the
+    /// internal model (C-5, fuel audit F5): the prior and each new level target are drawn
+    /// uniformly from the levels the aircraft can reach at its present weight.
+    pub ceiling: bool,
 }
+
+/// The lowest temperature factor the doomed test allows for, so that it stays a lower bound
+/// with the temperature term on: dISA of -15 K at M0.73 gives 0.950.
+pub const MIN_TEMPERATURE_FACTOR: f64 = 0.95;
 
 /// Where the next arc is, expressed as pure geometry so this crate need not know the
 /// measurement model. The filter converts the epoch's BTO into a required aircraft-to-satellite
@@ -592,7 +619,66 @@ impl FuelModel {
             factor_mean: prior.factor_mean,
             factor_sd: prior.factor_sd,
             endurance: None,
+            internal: None,
+            temperature: false,
+            initial_from_factor: None,
+            ceiling: false,
         }
+    }
+
+    /// Standard-day total flow before the path's factor: the internal model when loaded,
+    /// otherwise the tables.
+    pub fn flow_isa_kg_h(&self, fl: f64, weight_t: f64, mach: f64) -> Option<(f64, fuel::Coverage)> {
+        match &self.internal {
+            Some(g) => g.flow_kg_h(fl, weight_t, mach),
+            None => self.tables.fuel_flow_kg_h(fl, weight_t, mach),
+        }
+    }
+
+    /// The temperature factor at this level, Mach and static air temperature; exactly one when
+    /// the term is off or the temperature is unknown.
+    pub fn temperature_factor(&self, fl: f64, mach: f64, temperature_k: f64) -> f64 {
+        if !self.temperature || !(temperature_k > 0.0) {
+            return 1.0;
+        }
+        fuel::temperature_factor(temperature_k - fuel::isa_temperature_k(fl * 100.0), mach)
+    }
+
+    /// Total flow at the air temperature, before the path's factor.
+    pub fn flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64, temperature_k: f64) -> Option<(f64, fuel::Coverage)> {
+        let (f, cover) = self.flow_isa_kg_h(fl, weight_t, mach)?;
+        let tau = self.temperature_factor(fl, mach, temperature_k);
+        Some((if tau == 1.0 { f } else { f * tau }, cover))
+    }
+
+    /// A lower bound on the flow at this weight over every state, for the doomed test.
+    pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
+        let base = match &self.internal {
+            Some(g) => g.min_flow_kg_h(weight_t)?,
+            None => self.tables.min_flow_kg_h(weight_t)?,
+        };
+        Some(if self.temperature { base * MIN_TEMPERATURE_FACTOR } else { base })
+    }
+
+    /// Flow on the endurance proposal's Mach cells, at the air temperature.
+    pub fn flow_cells(&self, fl: f64, weight_t: f64, range: (f64, f64), cells: usize, temperature_k: f64) -> Vec<Option<f64>> {
+        if self.internal.is_none() && !self.temperature {
+            return self.tables.flow_grid(fl, weight_t, range, cells);
+        }
+        (0..cells)
+            .map(|i| {
+                let m = range.0 + (range.1 - range.0) * (i as f64 + 0.5) / cells as f64;
+                self.flow_kg_h(fl, weight_t, m, temperature_k).map(|(f, _)| f)
+            })
+            .collect()
+    }
+
+    /// The service ceiling at this weight, ft, when the ceiling bound is on.
+    pub fn ceiling_ft(&self, weight_t: f64) -> Option<f64> {
+        if !self.ceiling {
+            return None;
+        }
+        self.internal.as_ref().map(|g| g.ceiling_fl(weight_t) * 100.0)
     }
 }
 
@@ -605,7 +691,13 @@ impl Aircraft {
         let lat = prior.lat + (normal(rng) * sd_km / m).to_degrees();
         let lon = prior.lon + (normal(rng) * sd_km / (n * prior.lat.to_radians().cos())).to_degrees();
         let track = (prior.track_deg + prior.track_sd_deg * normal(rng)).to_radians();
-        let alt_ft = prior.sample_altitude(rng);
+        let alt_ft = match p.fuel.as_ref().and_then(|m| {
+            let initial = m.initial_from_factor.map_or(m.initial_kg, |(a, b)| a - b * m.factor_mean);
+            m.ceiling_ft((m.zfw_kg + initial) / 1000.0)
+        }) {
+            None => prior.sample_altitude(rng),
+            Some(c) => prior.sample_altitude_below(c, rng),
+        };
         let mach = match prior.mach_gaussian {
             None => rng.gen_range(prior.mach_range.0..prior.mach_range.1),
             Some((mean, sd)) => mean + sd * normal(rng),
@@ -670,6 +762,11 @@ impl Aircraft {
             guidance: None,
             early: None,
         };
+        // C-4: the fuel at the prior epoch follows the path's own factor, drawn above, so the
+        // burn from 17:06:43 and the burn after 18:01:49 are priced consistently.
+        if let Some((base, burn)) = p.fuel.as_ref().and_then(|m| m.initial_from_factor) {
+            a.fuel_kg = base - burn * a.fuel_factor;
+        }
         if let Some(e) = &p.early {
             a.early = Some(Box::new(draw_early(e, p, a.alt_ft, a.mach, rng)));
         }
@@ -769,7 +866,7 @@ impl Aircraft {
             return;
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
-        let Some((flow_kg_h, cover)) = model.tables.fuel_flow_kg_h(self.alt_ft / 100.0, weight_t, self.mach) else {
+        let Some((flow_kg_h, cover)) = model.flow_kg_h(self.alt_ft / 100.0, weight_t, self.mach, self.weather.temperature_k) else {
             // The tables gave no flow. This is counted separately from the FL060 clamp because
             // the two have OPPOSITE effects on the burn - the clamp burns at a much higher flow
             // than cruise, this burns nothing - and pooling them hid a defect for weeks. A
@@ -824,7 +921,7 @@ impl Aircraft {
             return;
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
-        let Some(min_flow) = model.tables.min_flow_kg_h(weight_t) else { return };
+        let Some(min_flow) = model.min_flow_kg_h(weight_t) else { return };
         let needed = min_flow * self.fuel_factor * (e.deadline_unix_s - self.unix_s) / 3600.0;
         if self.fuel_kg < needed {
             self.fuel_doomed = true;
@@ -1258,7 +1355,7 @@ impl Aircraft {
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
         let budget_kg_h = self.fuel_kg / (self.fuel_factor * remaining_h);
-        let flows = model.tables.flow_grid(self.alt_ft / 100.0, weight_t, (lo, hi), e.cells);
+        let flows = model.flow_cells(self.alt_ft / 100.0, weight_t, (lo, hi), e.cells, self.weather.temperature_k);
         let affordable: Vec<bool> = flows.iter().map(|f| f.is_some_and(|f| f <= budget_kg_h)).collect();
         let n_aff = affordable.iter().filter(|&&a| a).count();
         if n_aff == 0 || n_aff == e.cells {
@@ -1303,7 +1400,12 @@ impl Aircraft {
             self.next_acceleration = if self.mach_target == self.mach { now + self.exp_gap(rng) } else { f64::INFINITY };
         }
         if self.next_climb <= now {
-            let levels = ((p.altitude_range_ft.1 - p.altitude_range_ft.0) / p.altitude_step_ft).round() as u32;
+            let ceiling = p.fuel.as_ref().and_then(|m| m.ceiling_ft((m.zfw_kg + self.fuel_kg.max(0.0)) / 1000.0));
+            let levels = match ceiling {
+                None => ((p.altitude_range_ft.1 - p.altitude_range_ft.0) / p.altitude_step_ft).round() as u32,
+                // Only the levels the aircraft can reach at its present weight (C-5).
+                Some(c) => ((c.min(p.altitude_range_ft.1) - p.altitude_range_ft.0) / p.altitude_step_ft + 1e-9).floor().max(0.0) as u32,
+            };
             self.alt_target_ft = p.altitude_range_ft.0 + p.altitude_step_ft * f64::from(rng.gen_range(0..=levels));
             self.climbs += 1;
             self.next_climb = if self.alt_target_ft == self.alt_ft { now + self.exp_gap(rng) } else { f64::INFINITY };

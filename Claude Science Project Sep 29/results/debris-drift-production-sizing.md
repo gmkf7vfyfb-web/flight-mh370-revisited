@@ -5,6 +5,14 @@ Ocean drift module, 9 October 2026, ~10:45 UTC. Every run here is a **sizing run
 - there is one environment realisation per run;
 - each run uses 16 to 22 nodes.
 
+**Run provenance (convention of ~16:40 UTC):**
+- **Diagnostics:** they reuse the pilot's configuration (base `config/davey2016.toml`) and extent
+  (`no-exhaustion-prior`, prior track 295.66).
+- **Production configs:** `production-<model>.toml`, base `config/davey2016.toml`. Their extent is
+  re-pointed at core's `reference-289` (`run.json`: `config.name` = `reference-289`, `prior.track_deg` =
+  289.7, `code_revision` = `4f6487a-dirty`; `a205d05`). On that extent the main band is 367 nodes at
+  30 NM.
+
 The pilot is in `results/debris-drift-pilot.md`. The production configs are
 `engine/hypotheses/debris-drift/production-glorys12.toml` and `production-globcurrent.toml`, on
 `hypothesis/debris-drift`. **They have not been run.** Step 6 waits for the final impact samples, and
@@ -94,14 +102,16 @@ every node; Mossel Bay's median was 28.
 4. **Particles: 10⁵ per node,** as 4 environment realisations × 3 classes × 8,334. On the transect's
    noise, and assuming variance scales as 1/N, that gives a split-half SD of about 0.5 in ln L. This is
    the brief's "a fraction of a unit" target.
-5. **Spacing: 30 NM (193 main-band nodes)**, against 1,709 at 10 NM.
+5. **Spacing: 30 NM**: 193 main-band nodes on the 295.66 extent (against 1,709 at 10 NM), and **367 on
+   the reference-289 extent** that production uses (`a205d05`; 819 at 20 NM).
    - The correlation length is not resolved, but the change is at most ~2 ln units over ~100 NM, so
      linear interpolation in likelihood at 30 NM costs well under one unit.
    - The 5 NM refinement in step 6 covers the high-density region.
 6. **Environment realisations:** each draws its own ocean-error field and its own K.
 7. **Cost estimate:** 34 s per node at 10⁴ and 2 threads (diagnostic), so about 340 s per node at 10⁵.
    - That is about 1 min per node at 12 threads under the lock, if scaling is near-linear (unmeasured).
-   - **About 3 h per ocean model and about 6 h for both**, with the refinement on top.
+   - **About 6 h per ocean model and about 12 h for both on the 367 reference-289 nodes** (about 3 h
+     and 6 h on the superseded 193), with the refinement on top.
    - This sits behind core's run, and it is announced before it starts.
 
 ## Choices taken under the overnight rule (PROVISIONAL-OVERNIGHT; for Pete in the morning)

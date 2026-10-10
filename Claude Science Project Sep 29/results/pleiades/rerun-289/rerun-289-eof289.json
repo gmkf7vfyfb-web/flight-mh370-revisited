@@ -1,0 +1,44 @@
+{
+ "label": "289.7 prior (reference-289); measured spread; EoF reference-289 histograms",
+ "run": "/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/386151e9-859f-412a-8d9d-b8da48899575/repo/Claude Science Project Sep 29/engine/runs/reference-289",
+ "seeds": [
+  1,
+  2,
+  3,
+  4
+ ],
+ "particles_per_replicate": 7000000,
+ "map_check_max_abs_density": 4.9900536958242e-10,
+ "pooled_mass_outside_fine_grid": 0.044290856154736394,
+ "replicate_mass_outside_fine_grid": [
+  0.04504476959178238,
+  0.036622395978694294,
+  0.048309937552624076,
+  0.04747035350528597
+ ],
+ "surface": {
+  "layout": "[ocean-model][object-rating][cluster-weight][lat][lon] ln L(s|H) little-endian float32",
+  "lon0": 87.025,
+  "lat0": -40.975,
+  "step_deg": 0.05,
+  "nlon": 199.0,
+  "nlat": 199.0,
+  "impact_unix_s": 1394238300.0,
+  "object_rating": [
+   "rho4-0",
+   "rho4-0.25",
+   "rho4-0.5",
+   "rho4-1"
+  ],
+  "cluster_weight": [
+   "equal",
+   "count"
+  ],
+  "not_computed": 0.0,
+  "ocean_model": [
+   "glorys12v1+era5-wind10",
+   "globcurrent-my-p1d+era5-wind10"
+  ],
+  "params": "run.toml [hypotheses.pleiades]"
+ }
+}

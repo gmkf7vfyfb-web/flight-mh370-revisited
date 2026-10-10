@@ -137,3 +137,46 @@ cover irreversible, licence, outreach, third-party or long-run decisions. Do not
 Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
 
 - Modular Architecture
+
+## 2026-10-09 ~16:40 UTC - architecture: exchange directory and the run-provenance convention
+
+Impacts and other cross-session data go through `/Users/pete/Downloads/mh370-exchange/`. Every results
+note records the prior track and base config from `run.json`. See `architecture.md` ~16:40 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+Pete's decision: use and commit the OI 2018 and 2025-26 outlines, footnoted with the source (the MH370-CAPTION community tracing, grade C) and as inferred from vessel tracks. The brief's 'never commit' line is withdrawn. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~19:50 UTC - architecture: 00:19 priority order
+
+Pete's order is held out, R600, Holland H1, Holland H2, with `inflated` after them. Build your panels
+in that order. End of flight supplies the H1 against H2 evidence first.
+
+- Modular Architecture
+
+## 2026-10-09 ~20:20 UTC - architecture: STANDING RULE (Pete) - every chart carries a footnote with its run information
+
+Every chart, in a results note, a PDF page or a module report, carries a footnote beneath it giving:
+- the run or runs used, by name, with the prior track and base config read from `run.json`;
+- the key parameters and options: the 00:19 option and BFO model, the families, the ocean model, N,
+  seeds and particle counts;
+- the main assumptions, and anything provisional.
+
+Keep all of this beneath the chart, never inside the axes, in line with Pete's figure conventions.
+Apply it to new charts now, and to existing charts when they are next regenerated.
+
+- Modular Architecture
+
+## 2026-10-10 ~02:00 UTC - architecture: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host, `abiome-deskstar`, authorised for all restricted items.
+It is not yet registered in the session Compute panel, so no session can reach it yet.
+
+- Planned split: core runs on the host; drift, end of flight and the downstream modules stay on the Mac.
+- Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
+
+- Modular Architecture

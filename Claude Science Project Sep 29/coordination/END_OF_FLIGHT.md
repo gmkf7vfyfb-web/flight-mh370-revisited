@@ -611,3 +611,138 @@ position, or a weighted impact table, regenerated at smoke scale with the dive c
 Read the ~14:45 UTC entry in `architecture.md`. Your item is listed there by module.
 
 - Modular Architecture
+
+## 2026-10-09 ~16:40 UTC - architecture: copy reference-289 impacts to the exchange
+
+Copy the four `eof-289-full-s<k>` impact files, with `run.json`, `COLUMNS.txt` and `SHA256SUMS`, to
+`/Users/pete/Downloads/mh370-exchange/end-of-flight/eof-289-full/seed-<k>/`, and post the path.
+See `architecture.md` ~16:40 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~17:30 UTC - architecture: Pete's instruction - build a good simulator, checked against Boeing
+
+Pete has reviewed the provisional dive class. His view, quoted: "the dive class implementation looks
+poor compared to Boeing's set so what I want the module working on is a decent simulator which checks
+against Boeing."
+
+- This is now end of flight's main task.
+- Build a flight simulator whose uncontrolled and controlled descents reproduce the ten Boeing
+  engineering-simulator runs, including the dive cases 3, 4, 5, 6 and 10. Check it against each run.
+- Report the comparison case by case.
+- Pete is still deciding the glide band question.
+
+- Modular Architecture
+
+## 2026-10-09 ~18:30 UTC - architecture: Pete's decisions
+
+Pete confirmed the Boeing-calibrated glide band as the reference. The simulator checked against the ten Boeing runs is still your main task. See `architecture.md` ~18:30 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~19:30 UTC - architecture: three small fixes
+
+See `architecture.md` ~19:30 UTC: fix the `OPTIONS` list at source, report effective samples per option
+column, and add the `r600-bto` column if cheap. The two-burst question is with Pete.
+
+- Modular Architecture
+
+## 2026-10-09 ~19:50 UTC - architecture: touch the DONE marker after the fit; the 00:19 priorities (i)-(iv)
+
+See `architecture.md` ~19:50 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~20:05 UTC - architecture: Pete's additions - 18:25 as the in-flight test; descent proposal must span fast transitions
+
+See `architecture.md` ~20:05 UTC.
+
+- Modular Architecture
+
+## 2026-10-09 ~20:20 UTC - architecture: STANDING RULE (Pete) - every chart carries a footnote with its run information
+
+Every chart, in a results note, a PDF page or a module report, carries a footnote beneath it giving:
+- the run or runs used, by name, with the prior track and base config read from `run.json`;
+- the key parameters and options: the 00:19 option and BFO model, the families, the ocean model, N,
+  seeds and particle counts;
+- the main assumptions, and anything provisional.
+
+Keep all of this beneath the chart, never inside the axes, in line with Pete's figure conventions.
+Apply it to new charts now, and to existing charts when they are next regenerated.
+
+- Modular Architecture
+
+## 2026-10-09 ~21:00 UTC - architecture: fuel in descent (Pete); the audit's findings that reach end of flight
+
+- **Pete: the descent hypotheses must consume fuel correctly in the descent, not at the cruise rate.** He
+  expects that to push fuel-exhaustion times out.
+  - In V2 (planned descent from 22:41), compute the exhaustion time from the descent's own burn:
+    reduced or idle thrust, and the low-altitude flow. Do not use the core's cruise-based prediction at
+    takeover.
+  - State the idle flow you use and its source, and report how FE times move against cruise burn.
+  - Check that `takeover_priced` does not inherit a cruise-burn exhaustion time in V2.
+- **Audit findings F1-F4 propagate into your predicted exhaustion** through `FuelFlow` (F19 in
+  `results/fuel-model-audit-architecture.md`). Core request 16 corrects them. Until it lands, label FE-time
+  results as using the uncorrected core fuel model.
+
+- Modular Architecture
+
+## 2026-10-09 ~23:10 UTC - architecture → end of flight: early look at the planned descent (V2), on Pete's request
+
+Core does request 14 first tonight. You can then run the V2 arms at smoke scale from the existing
+`reference-289` hand-offs at 22:41 (100,000 rows), with no new core run. Label these results:
+- **"uncorrected fuel"**: the fuel state at 22:41 has the F1-F4 errors, so absolute exhaustion times
+  are provisional;
+- **"provisional sampler"**: the 22:41 population comes from a tempered epoch and carries core request
+  17.
+
+Comparisons between arms are more robust than absolute values. The descent burn uses your own descent
+fuel flow (my note of ~21:00 UTC); state the idle flow and its source. Request 14 is the only
+dependency.
+
+- Modular Architecture
+
+## 2026-10-09 ~23:55 UTC - architecture: the single-engine phase (audit F11), from Pete's direction. Who owns what.
+
+**End of flight owns the single-engine dynamics.** One engine runs dry before the other, the
+second up to 15 min later (ATSB AE-2014-054 p. 9). That sets up the uncontrolled phase:
+- asymmetric thrust and yaw;
+- the autopilot's response;
+- the drift-down and turn before the second engine stops.
+
+End of flight models this in the 6-DOF simulator, consistent with the Boeing end-of-flight cases, and
+reports how it changes the impact distribution against the single-pool baseline.
+
+**Core keeps a narrow part:**
+- It carries two fuel states, left and right, in place of the single pool.
+- It passes both at the hand-off, with per-engine exhaustion times.
+- If the first engine stops before 00:11, the cruise segment up to 00:11 must fly on one engine (lower
+  and slower). Core writes the design note for that case under request 16 item 9.
+
+**The fuel session supplies:**
+- the one-engine-inoperative tables;
+- the left/right imbalance at 18:01:49, with sources.
+
+**Status.** This is not in tomorrow's bundled run unless its design and tests are ready. The bundled
+run is now **gated on the internal fuel model** (Pete).
+
+- Modular Architecture
+
+## 2026-10-10 ~02:00 UTC - architecture → all modules: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host on his premises: `abiome-deskstar`, port 2222.
+- It is authorised for all restricted items, including the confidential fuel cells and the internal
+  fuel model. The restricted-sources concern applies only to third-party or metered compute.
+- **Credentials are not recorded here.** Use the platform's Compute panel connection once Pete has added
+  it. Never write a password into the repo, the notes or memory.
+- **Status:** the host is up, but it is not yet registered in the session Compute panel, and its name
+  does not resolve from inside the session sandboxes. Until it is registered, no session can reach it.
+
+**Planned split** (proposal; nothing moves until the host is listed and Pete agrees):
+- **Host:** core's S0-S5 and the bundled updated-model run.
+- **This Mac:** drift production, end of flight, and the downstream re-runs.
+
+Comparison rules: both sides of any A/B run on the same machine, and every `run.json` records its
+platform.
+
+- Modular Architecture

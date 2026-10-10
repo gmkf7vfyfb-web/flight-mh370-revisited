@@ -87,7 +87,10 @@ environment draw.
 - The pilot used K = 248 m²/s and no error field.
 
 **Ocean models.** GLORYS12 + ERA5 is the reference. Copernicus-GlobCurrent + ERA5 is the second
-`ocean-model` value, at equal prior weight (ruling of 9 Oct ~07:00 UTC).
+`ocean-model` value, at equal prior weight (ruling of 9 Oct ~07:00 UTC). OSCAR is a comparison product only and enters no likelihood (Pete, 9 Oct ~17:50 UTC).
+**Declared difference from CSIRO:** CSIRO's 1.2% windage was applied to BRAN2015's 0-5 m layer
+[griffin2017partiii, p. 6]; this term applies it to GLORYS12 (0.494 m) and GlobCurrent surface currents.
+BRAN2016 is not used (Pete, 9 Oct ~18:30 UTC).
 
 **Object response by class** (`production-glorys12.toml`; PROVISIONAL priors except the flaperon's):
 - **Flaperon.** 1.2% of wind [griffin2017partiii, p. 6], plus an extra leeway of 0.10 ± 0.03 m/s at
@@ -204,6 +207,6 @@ particle i of class c beaching at place z_i and time τ_i:
 - the 2014 surface-search observation (deferred; ruling of 9 Oct ~04:15 UTC);
 - refloating;
 - biofouling;
-- the BRAN2016 reproduction arm, which is held on its licence (Pete's decision);
+- a BRAN2016 arm: dropped (Pete, 9 Oct ~18:30 UTC). CSIRO applied the 1.2% windage to BRAN2015's 0-5 m layer [griffin2017partiii, p. 6]; here CSIRO's system runs on GLORYS12's 0.494 m currents and on GlobCurrent, and that difference from CSIRO's configuration is declared;
 - the explicit-Stokes arm (WAVERYS);
 - a wind-dependent extra leeway (the Part I taper) as a sensitivity.

@@ -203,6 +203,10 @@ pub struct Inputs {
     /// like every other input.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub fuel_tables: Option<PathBuf>,
+    /// The fuel session's internal model (`internal-v1.json`, local only); required when
+    /// `fuel.model = "internal-v1"` (core request 16 C-1).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fuel_model: Option<PathBuf>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]
@@ -299,6 +303,26 @@ pub struct FuelConfig {
     /// Mach cells the affordable set is resolved on. Default 16.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub proposal_cells: Option<usize>,
+    /// Flow model: "tables" (the default, the Boeing-derived tables as ported) or
+    /// "internal-v1" (the fuel session's grid, read from `inputs.fuel_model`). Core request 16.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
+    /// Apply the temperature term tau = 1 + 0.003 dISA (1 + 0.2 M^2) with dISA from the
+    /// weather temperature (C-2, audit F2). Default false, the standard day.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temperature: Option<bool>,
+    /// Initial fuel per path as [a, b]: a - factor * b kg (C-4; [43800, 7228] from the 17:06:43
+    /// report). Absent uses `initial_kg` for every path.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initial_from_factor: Option<[f64; 2]>,
+    /// Bound every altitude level by the internal model's weight-dependent ceiling (C-5,
+    /// audit F5). Needs `model = "internal-v1"`. Default false.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ceiling: Option<bool>,
+    /// Reject paths that contradict the fuel evidence with weight zero instead of the finite
+    /// e^-50 penalty (audit F7). Default false.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub hard_reject: Option<bool>,
 }
 
 /// Sampler settings. These change which particles receive effort, never the target posterior.
