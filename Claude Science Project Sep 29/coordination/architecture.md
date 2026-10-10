@@ -6156,3 +6156,49 @@ What the stand-in will and will not do:
 anything in it.
 
 - Modular Architecture
+## 2026-10-10 ~06:10 UTC - core → fuel model (cc architecture, end of flight): FINDING - internal-v1 `grid_inop` is DOUBLED (2.00x its source tables)
+
+Found while building the hold-then-taper option (next entry). PROVISIONAL-OVERNIGHT; evidence below is
+reproducible from the local `internal-v1.json` alone.
+
+- `tables.lrc_ff` is "kg/h per engine"; `grid` is 1.99-2.01x it (correct: both engines).
+- `tables.lrc_inop_ff` / `holding_inop_ff` are "kg/h, one engine inoperative" (the live engine), but
+  **`grid_inop` is 1.99-2.01x `lrc_inop_ff` at every tabulated state I checked** (170-200 t, FL150-270, at
+  the table's own LRC INOP Mach). E.g. 180 t FL250 M0.642: table 5,475, grid_inop 10,910 kg/h. Likely cause:
+  `tables.py` line 199 `return 2.0 * per * scale` (per-engine to both engines) is applied to the INOP set too.
+- Physics check: the live engine should burn about the twin total at the same state (5,110 kg/h twin at FL250
+  M0.60 176 t), not twice it. internal-model.md itself quotes LRC INOP 5,312-5,498 kg/h at FL200-280.
+- **Effect: every one-engine phase is about half as long as it should be.** In core (b) and (a) the live
+  engine burns ~10 t/h, so the median ~4 min between flame-outs should be ~8 min, and the last flame-out
+  comes ~4 min too early in the runs. The two-tank diagnostic (22-37 % of weight with the
+  right engine dry before 00:11) is therefore biased LOW, and the hard reject (both dry before 00:11) removes
+  some paths it should not. The twin-engine burn, P(family) machinery and the 00:19 likelihood are unaffected
+  except through those paths. Size: smoke numbers in the next entry.
+- **Fuel model:** please confirm and rebuild (internal-v1.1?). **End of flight:** if your single-engine
+  phase prices the live engine from `grid_inop`, halve it.
+- **Core, meanwhile:** `[fuel] inop_flow_scale` (default 1.0, as delivered), overlay
+  `config/sensitivity/fuel-fixes/inop-flow-fix.toml` sets 0.5. Not used in any large run tonight; (a) is
+  running with the doubled grid and will be labelled so.
+
+- Core
+
+## 2026-10-10 ~06:45 UTC - core: hold-then-taper built (not run); INOP-flow correction smoke; (a) landed except two seeds
+
+1. **Hold-then-taper drift-down** (architecture suggestion 2) is built as a config option, with tests, and NOT
+   run at scale: `[fuel] single_engine_profile = "hold-taper"`, overlay `fuel-fixes/s8-hold-taper.toml`. It
+   follows the fuel session's one-engine.md 5.1 (altitude held while KCAS decays at U(7,11) kt/min to
+   U(207,227) KCAS; then V_TAS/20.7 x (1 - 1.038 (delta/delta_c)^0.864), anchored on core's ceiling). The
+   approved constant profile is byte-identical to `e65b0e7`; gates B and C byte-identical.
+2. **The doubled `grid_inop` (entry above) matters.** Smoke (2 seeds, Mac): correcting it (x0.5) doubles the
+   median one-engine time, 3.3 -> 6.7 min under (b) and 3.6 -> 7.3 min under (a), and raises the weight whose
+   first flame-out precedes 00:11 from 0.34 to 0.46 (b) and 0.28 to 0.54 (a). Evidence moves < 1 nat; the
+   00:19 median is not separable from seed noise at this scale. `results/c7-options-smoke.md`.
+3. **(a) large run:** free and routes complete. Seed 4 of Davey dynamics and descent-climb **failed on a full
+   deskstar scratch disk** (os error 28; the transfer split files had filled it). Space freed (core's own split
+   parts only); the two seeds are being re-run with the same binary and configs as completion of the approved
+   run (job `ae844ba2`, ~15 min). Early (a) vs (b), free / routes, 4 seeds: median 00:19 -37.13 -> -36.72 /
+   -37.32 -> -37.21; seed medians tighter in free (-36.41..-36.89 against -36.59..-37.43); weight with first
+   flame-out before 00:11 0.26 -> 0.18 / 0.37 -> 0.28. Full comparison when the seeds land. Both (a) and (b)
+   used the doubled INOP flow and will be labelled so.
+
+- Core

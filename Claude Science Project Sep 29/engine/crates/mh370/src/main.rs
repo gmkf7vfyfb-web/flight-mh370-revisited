@@ -322,6 +322,15 @@ fn load_fuel(
         }
         n => return Err(format!("[fuel] tanks = {n}: must be 1 or 2")),
     }
+    if let Some(k) = f.inop_flow_scale {
+        if !(k > 0.0 && k <= 2.0) {
+            return Err("[fuel] inop_flow_scale must be in (0, 2]".into());
+        }
+        if model.tanks.is_none() {
+            return Err("[fuel] inop_flow_scale needs tanks = 2".into());
+        }
+        model.inop_flow_scale = k;
+    }
     if f.single_engine == Some(true) {
         if model.tanks.is_none() {
             return Err("[fuel] single_engine = true needs tanks = 2".into());
@@ -335,7 +344,29 @@ fn load_fuel(
         if !(lo > 0.0 && hi >= lo) {
             return Err("[fuel] single_engine_descent_fpm must be 0 < lo <= hi".into());
         }
-        model.single_engine = Some(flight::SingleEngine { descent_fpm: (lo, hi), mach_band: f.single_engine_mach_band.unwrap_or(0.02) });
+        let profile = match f.single_engine_profile.as_deref() {
+            None | Some("constant") => flight::DriftDown::Constant,
+            Some("hold-taper") => {
+                let [dlo, dhi] = f.single_engine_decel_kt_per_min.unwrap_or([7.0, 11.0]);
+                let [klo, khi] = f.single_engine_driftdown_kcas.unwrap_or([207.0, 227.0]);
+                let lift_drag = f.single_engine_lift_drag.unwrap_or(20.7);
+                let min_drag_factor = f.single_engine_min_drag_factor.unwrap_or(1.038);
+                let exponent = f.single_engine_ceiling_exponent.unwrap_or(0.864);
+                let level_off_fpm = f.single_engine_level_off_fpm.unwrap_or(30.0);
+                if !(dlo > 0.0 && dhi >= dlo) {
+                    return Err("[fuel] single_engine_decel_kt_per_min must be 0 < lo <= hi".into());
+                }
+                if !(klo >= 150.0 && khi >= klo && khi <= 300.0) {
+                    return Err("[fuel] single_engine_driftdown_kcas must be 150 <= lo <= hi <= 300".into());
+                }
+                if !(lift_drag > 1.0 && min_drag_factor >= 1.0 && exponent > 0.0 && level_off_fpm > 0.0) {
+                    return Err("[fuel] hold-taper needs lift_drag > 1, min_drag_factor >= 1, ceiling_exponent > 0, level_off_fpm > 0".into());
+                }
+                flight::DriftDown::HoldTaper { decel_kt_per_min: (dlo, dhi), driftdown_kcas: (klo, khi), lift_drag, min_drag_factor, exponent, level_off_fpm }
+            }
+            Some(x) => return Err(format!("[fuel] single_engine_profile = {x:?}: must be \"constant\" or \"hold-taper\"")),
+        };
+        model.single_engine = Some(flight::SingleEngine { descent_fpm: (lo, hi), mach_band: f.single_engine_mach_band.unwrap_or(0.02), profile });
     }
     match f.proposal.as_deref() {
         None | Some("reject") => {}

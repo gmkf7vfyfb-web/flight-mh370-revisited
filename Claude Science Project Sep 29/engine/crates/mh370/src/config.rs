@@ -344,6 +344,33 @@ pub struct FuelConfig {
     /// Half-width of the fallback Mach band. Default 0.02.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub single_engine_mach_band: Option<f64>,
+    /// Multiplier on the INOP grid's live-engine flow. Default 1.0 (as delivered). internal-v1's
+    /// grid_inop is 2.00x its source tables (core finding, 10 Oct 2026); 0.5 corrects it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub inop_flow_scale: Option<f64>,
+    /// Drift-down profile: "constant" (default; the approved C-7(a) form, rate from
+    /// `single_engine_descent_fpm`) or "hold-taper" (fuel session one-engine.md 5.1: altitude held
+    /// while the speed decays, then a descent tapering to the ceiling). PROVISIONAL.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_profile: Option<String>,
+    /// hold-taper: speed decay with altitude held, kt/min, drawn per path. Default [7, 11].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_decel_kt_per_min: Option<[f64; 2]>,
+    /// hold-taper: drift-down KCAS, drawn per path. Default [207, 227].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_driftdown_kcas: Option<[f64; 2]>,
+    /// hold-taper: L/D in the drift-down. Default 20.7.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_lift_drag: Option<f64>,
+    /// hold-taper: D(LRC INOP)/D_min. Default 1.038.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_min_drag_factor: Option<f64>,
+    /// hold-taper: exponent of the ceiling frontier W_c ~ delta^n. Default 0.864.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_ceiling_exponent: Option<f64>,
+    /// hold-taper: descent rate below which the aircraft levels off, ft/min. Default 30.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_level_off_fpm: Option<f64>,
 }
 
 /// Sampler settings. These change which particles receive effort, never the target posterior.
