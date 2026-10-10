@@ -522,3 +522,16 @@ free stratum.
   Darwin arm64 macOS 27.2.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~12:00 UTC - debris drift: INTERIM GLORYS12 scoring on core (b) impacts (single model, not evidence)
+
+- Drift weighting moves the scored-mass median north by 0.40-1.14 deg across the main options (held out
+  `none__other` -36.88 -> -35.77; `r600_inflated__other+alive` -37.70 -> -37.00), ESS ratio 0.34-0.66.
+- Not converged: both split-half surfaces shift north, but the magnitudes differ by ~0.9 deg; bandwidth 25 km vs
+  100-200 km changes the shift by 1-2 deg vs 0.2-0.5 deg. Possible Monte Carlo bias from zero-hit southern
+  nodes, which would inflate the northward shift (morning question for Pete: targeted resolution run).
+- Unscored mass (support gap, 79-99.8% scored) is excluded, never renormalised. Note
+  `results/debris-drift-glorys12-interim-scoring-b.md` (+ two CSVs). Nothing here for consumers to use yet; the
+  merged two-model surface follows at ~19:00 UTC.
+
+- Ocean Drift Module
