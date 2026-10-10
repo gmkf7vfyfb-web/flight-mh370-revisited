@@ -302,6 +302,42 @@ def run_summary_lines(run_json, case, arc_summary):
     return lines
 
 
+# The right-hand column on the 00:19 close-up page must stop above the caption (which starts at
+# y = 0.225), so long "differences" lists no longer run into it.
+SIDE_COLUMN_FLOOR = 0.245
+
+
+def side_column_height(lines):
+    """Figure-fraction height the column drawing loop below uses for these lines."""
+    h = 0.0
+    for kind, text in lines:
+        if kind == "gap":
+            h += 0.016
+            continue
+        h += 0.0125 * len(textwrap.wrap(text, 34 if kind != "sub" else 33) or [""])
+        h += 0.004 if kind == "sub" else 0.006
+    return h
+
+
+def fit_side_column(lines, top, floor):
+    """Shorten the column to fit between `top` and `floor`. First drop the "book:" sub-lines,
+    then keep as many difference items as fit and say how many more the parameter page lists.
+    The posterior block (from the first "gap") is always kept whole."""
+    if side_column_height(lines) <= top - floor:
+        return lines
+    split = next((i for i, (k, _) in enumerate(lines) if k == "gap"), len(lines))
+    head, items, tail = lines[:1], [l for l in lines[1:split] if l[0] != "sub"], lines[split:]
+    if side_column_height(head + items + tail) <= top - floor:
+        return head + items + [("sub", "book values: see the parameter page")] + tail
+    n = len([l for l in items if l[0] == "item"])
+    for keep in range(n, -1, -1):
+        more = [("sub", f"+ {n - keep} more on the parameter page")]
+        trial = head + items[:keep] + more + tail
+        if side_column_height(trial) <= top - floor:
+            return trial
+    return head + more + tail
+
+
 def page_arc_closeup(pdf, case, arcs, out, run_json=None, bin_deg=0.05, fractions=(0.5, 0.9, 0.95, 0.99)):
     """Close-up of the 00:19 (7th) arc over the region holding 99.9% of the posterior.
 
@@ -391,7 +427,7 @@ def page_arc_closeup(pdf, case, arcs, out, run_json=None, bin_deg=0.05, fraction
     if run_json is not None:
         summary = {"fractions": sorted(fractions, reverse=True), "area_nm2": sorted(area_nm2, reverse=True)}
         y = 0.935
-        for kind, text in run_summary_lines(run_json, case, summary):
+        for kind, text in fit_side_column(run_summary_lines(run_json, case, summary), y, SIDE_COLUMN_FLOOR):
             if kind == "gap":
                 y -= 0.016
                 continue
