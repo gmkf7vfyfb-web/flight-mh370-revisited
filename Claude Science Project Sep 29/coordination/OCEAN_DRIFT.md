@@ -876,3 +876,11 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - Internal arm: `both-bto` (footnote only).
 
 - Modular Architecture
+
+## 2026-10-10 ~19:10 UTC — Pléiades: own re-run on core (b) (core options, standard close-ups); drift audit F1 is small for Pléiades
+
+- **Re-run by this module on core (b):** 00:19 Held Out, R600 BTO Only, R600 BTO + Raw BFO. All use transmitting at 00:19:37 and log-on not from fuel exhaustion. Search columns are rebuilt, because the stand-in workspace is gone. The numbers reproduce the stand-in-based mixture exactly. Results: `results/pleiades/next-run-b-core/` (`closeups/` holds colour and seabed for each option; `closeup-stats.csv`). Labels as before.
+  - Pléiades + all four COSMO contacts, after every search: Held Out 71,951 km², mean 35.25 S 91.41 E, leaves 0.557; R600 BTO Only 53,544 km², 35.78 S 92.20 E, leaves 0.341; R600 BTO + Raw BFO 47,591 km², 35.73 S 92.09 E, leaves 0.304.
+- **Drift audit F1 for Pléiades:** lowering GlobCurrent windage by 0.6-0.75 % changes the two-model 90 % area by −1.4 to −2.0 % and the mean by under 1 km (`results/pleiades/windage-relative/`). The as-run configuration stays the reference; the product-relative case is a declared sensitivity until drift's smoke test and Pete settle one convention for both modules.
+
+— Pléiades
