@@ -486,6 +486,23 @@ impl FuelFlow for CoreFuel<'_> {
         }
         Some(rate)
     }
+
+    fn fuel_flow_inop_kg_h_at(&self, flight_level: f64, weight_t: f64, mach: f64, delta_isa_k: f64) -> Option<FuelFlowRate> {
+        let model = self.model?;
+        // Standard day from the INOP grid times inop_flow_scale (NaN temperature: factor 1),
+        // then the same temperature term and path factor as the twin flow above.
+        let (flow, cover) = model.inop_flow_kg_h(flight_level, weight_t, mach, f64::NAN)?;
+        let mut kg_h = flow * self.factor;
+        if model.temperature && delta_isa_k.is_finite() {
+            kg_h *= flight::fuel::temperature_factor(delta_isa_k, mach);
+        }
+        (kg_h.is_finite() && kg_h > 0.0).then_some(FuelFlowRate {
+            kg_h,
+            extrapolated: cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback,
+            below_tables: cover.below_tables,
+            above_ceiling: cover.above_ceiling,
+        })
+    }
 }
 
 /// The core aircraft state as a terminal module sees it.
@@ -512,6 +529,9 @@ fn flight_state(a: &Aircraft, p: &Parameters) -> FlightState {
         mass_kg: p.fuel.as_ref().map_or(f64::NAN, |m| m.zfw_kg + a.fuel_kg),
         fuel_kg: if p.fuel.is_some() { a.fuel_kg } else { f64::NAN },
         realised_flameout_unix_s: a.fuel_exhausted_unix_s,
+        fuel_left_kg: if p.fuel.is_some() { a.tanks.map_or(f64::NAN, |t| t.left_kg) } else { f64::NAN },
+        fuel_right_kg: if p.fuel.is_some() { a.tanks.map_or(f64::NAN, |t| t.right_kg) } else { f64::NAN },
+        first_flameout_unix_s: a.tanks.map_or(a.fuel_exhausted_unix_s, |t| t.first_exhausted_unix_s()),
     }
 }
 
@@ -695,6 +715,70 @@ mod tests {
         assert!(CoreFuel { model: None, factor }.fuel_flow_kg_h(fl, w, mach).is_none());
     }
 
+    /// End of flight's two-tank request (10 Oct): with the right tank dry the hand-off reports
+    /// the first flame-out and the live left pool; a single pool reports NaN tanks and its own
+    /// flame-out as the first one.
+    #[test]
+    fn two_tank_state_reports_the_first_flameout_and_the_live_pool() {
+        let q = flight::Parameters::default();
+        let mut p = q.clone();
+        p.fuel = Some(std::sync::Arc::new(model()));
+        let prior = flight::Prior {
+            unix_s: 1_394_236_909.0,
+            lat: 6.65,
+            lon: 96.34,
+            position_sd_nm: 0.0,
+            track_deg: 180.0,
+            track_sd_deg: 0.0,
+            mach_range: (0.73, 0.84),
+            mach_gaussian: None,
+            altitude_levels: flight::Prior::uniform_altitude_levels(&q),
+        };
+        let mut a = flight::Aircraft::sample(&prior, flight::Mode::TrueTrack, &q, &flight::environment::CalmAir, &mut ChaCha8Rng::seed_from_u64(3));
+        a.fuel_kg = 1_200.0;
+        let single = flight_state(&a, &p);
+        assert!(single.fuel_left_kg.is_nan() && single.fuel_right_kg.is_nan());
+        assert!(single.first_flameout_unix_s.is_nan() && single.realised_flameout_unix_s.is_nan());
+        a.tanks = Some(flight::Tanks {
+            left_kg: 1_200.0, right_kg: 0.0, ratio: 1.0,
+            left_exhausted_unix_s: f64::NAN, right_exhausted_unix_s: 1_394_237_100.0,
+            single_engine_s: 359.0, single_engine_above_ceiling_s: 0.0,
+            driftdown_fpm: 0.0, mach_u: 0.0, decel_kt_per_min: 0.0, driftdown_kcas: 0.0,
+        });
+        let s = flight_state(&a, &p);
+        assert_eq!((s.fuel_left_kg, s.fuel_right_kg, s.fuel_kg), (1_200.0, 0.0, 1_200.0));
+        assert_eq!(s.first_flameout_unix_s, 1_394_237_100.0);
+        assert!(s.realised_flameout_unix_s.is_nan(), "one engine still runs, so no final flame-out");
+        // Without a fuel model the tanks are not reported.
+        let none = flight_state(&a, &q);
+        assert!(none.fuel_left_kg.is_nan() && none.fuel_right_kg.is_nan());
+    }
+
+    /// The live-engine flow service: None without the INOP grid (the tables-only model here),
+    /// never Some(0); with internal-v1 present it is grid_inop x inop_flow_scale x the factor.
+    #[test]
+    fn inop_flow_is_none_without_the_grid_and_scaled_with_it() {
+        let m = model();
+        let fuel = CoreFuel { model: Some(&m), factor: 1.02 };
+        assert!(fuel.fuel_flow_inop_kg_h_at(350.0, 200.0, 0.8, 0.0).is_none());
+        assert!(CoreFuel { model: None, factor: 1.0 }.fuel_flow_inop_kg_h_at(350.0, 200.0, 0.8, 0.0).is_none());
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let mut m = model();
+        m.internal = Some(flight::fuel::InternalGrid::from_json(&text).unwrap());
+        m.inop_flow_scale = 0.5;
+        let (fl, w, mach) = (250.0, 190.0, 0.62);
+        let (raw, _) = m.internal.as_ref().unwrap().inop.as_ref().unwrap().flow_kg_h(fl, w, mach).expect("an INOP cell");
+        let got = CoreFuel { model: Some(&m), factor: 1.02 }.fuel_flow_inop_kg_h_at(fl, w, mach, 0.0).unwrap();
+        assert!((got.kg_h - raw * 0.5 * 1.02).abs() < 1e-9, "{} against {}", got.kg_h, raw * 0.5 * 1.02);
+        // One live engine burns less than two.
+        let twin = CoreFuel { model: Some(&m), factor: 1.02 }.fuel_flow_kg_h_at(fl, w, mach, 0.0).unwrap();
+        assert!(got.kg_h < twin.kg_h, "INOP {} against twin {}", got.kg_h, twin.kg_h);
+    }
+
     /// A module that overrides neither new hook behaves exactly as before: the defaults call
     /// `takeover_time` and `descend` with the same streams.
     struct Plain;
@@ -743,6 +827,7 @@ mod tests {
             ground_velocity_east_mps: 100.0, ground_velocity_north_mps: -200.0, vertical_speed_mps: 0.0,
             mach: 0.8, true_air_speed_mps: 240.0, heading_deg: 200.0, wind_east_mps: 0.0, wind_north_mps: 0.0,
             mode: 2, mass_kg: 175_000.0, fuel_kg: 800.0, realised_flameout_unix_s: f64::NAN,
+            fuel_left_kg: f64::NAN, fuel_right_kg: f64::NAN, first_flameout_unix_s: f64::NAN,
         }
     }
 

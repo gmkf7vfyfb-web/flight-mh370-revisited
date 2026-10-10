@@ -261,6 +261,15 @@ pub trait FuelFlow: Sync {
         let _ = delta_isa_k;
         self.fuel_flow_kg_h(flight_level, weight_t, mach)
     }
+
+    /// The live engine's flow with ONE engine inoperative (requested by end of flight, 10 Oct),
+    /// with the same temperature term and the same per-trajectory factor as the twin flow. The
+    /// core prices it from the internal model's `grid_inop` times `inop_flow_scale`. The
+    /// default, and any run without the INOP grid, is `None`, which as above is not zero flow.
+    fn fuel_flow_inop_kg_h_at(&self, flight_level: f64, weight_t: f64, mach: f64, delta_isa_k: f64) -> Option<FuelFlowRate> {
+        let _ = (flight_level, weight_t, mach, delta_isa_k);
+        None
+    }
 }
 
 /// A [`FuelFlow`] that prices nothing, for runs without a fuel model and for tests.
@@ -320,6 +329,16 @@ pub struct FlightState {
     /// endurance must compute that prediction itself from `fuel_kg`, because triggering on a
     /// realised flame-out assumes foreknowledge no crew had and is circular.
     pub realised_flameout_unix_s: f64,
+    /// Two-tank runs only (core request 16 C-7(b)): fuel in the left and right tanks, kilograms.
+    /// `fuel_kg` stays their sum. NaN for a single pool and when there is no fuel model.
+    pub fuel_left_kg: f64,
+    pub fuel_right_kg: f64,
+    /// The time the FIRST engine stopped because its tank ran dry, unix seconds; NaN while
+    /// both run. Single pool: equal to `realised_flameout_unix_s`. With two tanks, an aircraft
+    /// that has this finite and `realised_flameout_unix_s` NaN is flying on one engine, and its
+    /// live pool is the non-empty one of `fuel_left_kg` / `fuel_right_kg`. Realised, like the
+    /// final flame-out: a module that triggers on a PREDICTED flame-out computes it itself.
+    pub first_flameout_unix_s: f64,
 }
 
 /// A SATCOM burst after the filter's stop, at its logged time (00:19:29.416 for the R600,
