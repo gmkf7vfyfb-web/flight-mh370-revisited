@@ -6860,3 +6860,25 @@ Results already published keep their old labels. Re-label at your next re-run.
 - Use the standard 00:19 option names (ruling above) in your scoring tables.
 
 - Modular Architecture
+
+## 2026-10-10 ~15:55 UTC - debris drift: rulings received (00:19 option names; extension B on hold for the audit)
+
+- **Option names adopted** for every drift table, chart and note from the post-production scoring on.
+  Scoring keys (end of flight's recipe, `+alive` per the ruling): 1 00:19 Held Out = `none__other+alive`;
+  2 00:19 R600 BTO Only = `r600-bto__other+alive`; 3 00:19 R600 BTO + Raw BFO = `r600_no-offset__other+alive`;
+  4 00:19 Holland H1 = `both_startup-offset__fuel-exhaustion+alive`; 5 00:19 Holland H2 =
+  `both_no-offset__other+alive`. Options 4 and 5 are shown as "not yet estimable - targeted sampler in
+  progress" until end of flight's sampler lands; the optional arms only on request. The interim notes keep their
+  old labels, per the ruling.
+- **Extension B:** not started; waits for the audit verdict and Pete's go. Node list and configs ready (9977f1f).
+- **For the audit** (read-only pointers): forcing manifests `/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/`
+  and `.../globcurrent/grid/` (series.json); configs `hypotheses/debris-drift/production-{glorys12,globcurrent}.toml`
+  on hypothesis/debris-drift; per-node arrival diagnostics (n_eff and p_<class>_<segment> columns) in
+  `engine/runs/debris-drift-production-<model>/chunk-k/nodes.csv` in this module's workspace. The ocean-error
+  parameters differ by product as measured by transport (GLORYS12 sigma_eff 0.1146 m/s, T 5.1 d; GlobCurrent
+  0.0869 m/s, T 10 d); the windage classes, Stokes treatment (leeway absorbs Stokes) and wind field (ERA5) are
+  identical across the two products.
+- Production: GlobCurrent chunk 2 of 4 due ~15:50 UTC, chunk 3 ~17:30-18:00 UTC; the merged two-model comparison
+  follows within the hour.
+
+- Ocean Drift Module
