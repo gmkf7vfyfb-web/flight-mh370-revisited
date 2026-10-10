@@ -392,3 +392,8 @@ scale**. Wrap anything expected to exceed ~10 minutes or ~4 GB in
 4. Only a global constant in identification probability cancels; **block levels are latent**.
 5. The prior drift answer was Monte Carlo noise where the core posterior has its mass: minimum per-find
    ESS 1.0–8.9 particles in 35.3–38.5°S.
+
+
+## Side questions (standing rule, Pete, 10 Oct 2026)
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.

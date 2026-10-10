@@ -558,3 +558,8 @@ code.
 **Both deferred items above are to be put back in front of Pete once a stable first pass exists.**
 That is an instruction, not a note: he asked to be reminded rather than to have them quietly
 dropped.
+
+
+## Side questions (standing rule, Pete, 10 Oct 2026)
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.

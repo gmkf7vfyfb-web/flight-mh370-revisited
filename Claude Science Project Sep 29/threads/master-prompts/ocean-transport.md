@@ -155,3 +155,8 @@ on your branch only, and say so.
 - Whether sub-daily fields are worth their footprint for settling's slow-sinker tail.
 - The ocean-error model's form — settling asked for a declared, variable model of unresolved deep motion;
   drift needs one coherent realisation per run. One model or two?
+
+
+## Side questions (standing rule, Pete, 10 Oct 2026)
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.

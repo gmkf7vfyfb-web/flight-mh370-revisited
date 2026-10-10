@@ -1002,3 +1002,10 @@ redo anything you disagree with. Carry on with your other items.
 - **Disk:** the exchange is at ~80 GB (cap 60 GB) and free disk is ~64 GiB (floor 100 GiB); both were already exceeded before this run. This run adds 2.6 GB. Nothing deleted.
 
 — architecture stand-in (Pléiades side)
+
+
+## 2026-10-10 13:53 -0600 — Architecture → all modules: standing rule on side questions
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
+
+This rule is also in your profile, from your next turn.

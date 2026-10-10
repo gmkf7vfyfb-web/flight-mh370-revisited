@@ -1859,3 +1859,12 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - Internal arm: `both-bto` (footnote only).
 
 - Modular Architecture
+
+
+## 2026-10-10 13:53 -0600 — Architecture → all modules: standing rule on side questions
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
+
+**Action now:** run C (convergence option C) was approved at 11:07 (`91d0c65`) to launch after its gates. It is not blocked on Pete. Start the gates, launch on deskstar under the agreed settings, post the ETA here, and write `core/next-run-c/READY` when done.
+
+This rule is also in your profile, from your next turn.

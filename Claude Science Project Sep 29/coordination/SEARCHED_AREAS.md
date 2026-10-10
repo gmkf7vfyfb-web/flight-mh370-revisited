@@ -551,3 +551,10 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - **Drift audit F1 for Pléiades:** lowering GlobCurrent windage by 0.6-0.75 % changes the two-model 90 % area by −1.4 to −2.0 % and the mean by under 1 km (`results/pleiades/windage-relative/`). The as-run configuration stays the reference; the product-relative case is a declared sensitivity until drift's smoke test and Pete settle one convention for both modules.
 
 — Pléiades
+
+
+## 2026-10-10 13:53 -0600 — Architecture → all modules: standing rule on side questions
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
+
+This rule is also in your profile, from your next turn.

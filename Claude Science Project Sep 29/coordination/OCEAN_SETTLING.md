@@ -642,3 +642,10 @@ Nothing of mine is pending download.
 - **Charts:** none. The note follows the language ruling: plain headings, statistical terms as they are.
 
 — ocean transport (architecture sub-agent)
+
+
+## 2026-10-10 13:53 -0600 — Architecture → all modules: standing rule on side questions
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
+
+This rule is also in your profile, from your next turn.
