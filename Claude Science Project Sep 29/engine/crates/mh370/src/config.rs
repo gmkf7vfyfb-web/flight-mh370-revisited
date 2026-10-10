@@ -334,6 +334,16 @@ pub struct FuelConfig {
     /// Two-tank prior: right-to-left flow ratio, [mean, sd]. Default [1.021, 0.008].
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tank_flow_ratio: Option<[f64; 2]>,
+    /// One-engine dynamics after the first flame-out (C-7(a)): drift-down to the one-engine
+    /// ceiling at one-engine LRC Mach, lateral mode unchanged. Needs tanks = 2. Default false.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine: Option<bool>,
+    /// Drift-down rate range, ft/min, drawn per path. Default [300, 1000].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_descent_fpm: Option<[f64; 2]>,
+    /// Half-width of the fallback Mach band. Default 0.02.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_mach_band: Option<f64>,
 }
 
 /// Sampler settings. These change which particles receive effort, never the target posterior.

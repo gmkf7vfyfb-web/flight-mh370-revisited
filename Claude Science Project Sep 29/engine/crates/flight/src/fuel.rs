@@ -63,6 +63,7 @@ struct RawFile {
     tables: HashMap<String, RawTable>,
 }
 
+#[derive(Clone, Debug)]
 struct Table {
     fls: Vec<f64>,
     ws: Vec<f64>,
@@ -360,6 +361,10 @@ pub struct InternalGrid {
     /// (`grid_inop`; holding_inop / 1.05 and LRC INOP). Used after the first flame-out when the
     /// run carries two tanks (core request 16 C-7(b)).
     pub inop: Option<SimpleGrid>,
+    /// The one-engine long-range-cruise Mach schedule (`tables.lrc_inop_mach`, FPPM open
+    /// cells), for C-7(a)'s one-engine speed. Filler cells (above the one-engine ceiling) are
+    /// dropped, so the lookup is None there.
+    inop_mach: Option<Table>,
     pub version: String,
 }
 
@@ -372,6 +377,10 @@ pub struct SimpleGrid {
     flow: Vec<f64>,
     flags: Vec<u8>,
     min_at_weight: Vec<f64>,
+    /// Per weight node, the highest flight-level node at which some Mach cell is not flagged
+    /// above the ceiling: for the INOP grid, the one-engine ceiling (C-7(a), PROVISIONAL, derived
+    /// by core from the flags; capped at the grid's top level).
+    ceiling_fl: Vec<f64>,
 }
 
 impl SimpleGrid {
@@ -408,12 +417,27 @@ impl SimpleGrid {
                 best
             })
             .collect();
-        Ok(Self { fl: g.fl_nodes, weight_t: g.weight_t, mach: g.mach, flow, flags, min_at_weight })
+        let ceiling_fl = (0..nw)
+            .map(|j| {
+                (0..nf)
+                    .filter(|&i| (0..nm).any(|k| flags[(i * nw + j) * nm + k] & grid_flags::ABOVE_CEILING == 0 && flow[(i * nw + j) * nm + k].is_finite()))
+                    .map(|i| g.fl_nodes[i])
+                    .fold(f64::NAN, f64::max)
+            })
+            .collect();
+        Ok(Self { fl: g.fl_nodes, weight_t: g.weight_t, mach: g.mach, flow, flags, min_at_weight, ceiling_fl })
     }
 
     /// Trilinear flow and coverage, with the same rules as `InternalGrid::flow_kg_h`.
     pub fn flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64) -> Option<(f64, Coverage)> {
         trilinear(&self.fl, &self.weight_t, &self.mach, &self.flow, &self.flags, fl, weight_t, mach)
+    }
+
+    /// The ceiling at this weight (linear between weight nodes), flight level.
+    pub fn ceiling_fl(&self, weight_t: f64) -> f64 {
+        let (j, t, _) = bracket(&self.weight_t, weight_t);
+        let (a, b) = (self.ceiling_fl[j], self.ceiling_fl[j + 1]);
+        a + t * (b - a)
     }
 
     /// Exact lower bound at this weight (see `InternalGrid::min_flow_kg_h`).
@@ -494,6 +518,8 @@ struct RawInternal {
     ceiling_fl: RawCeiling,
     #[serde(default)]
     grid_inop: Option<RawGrid>,
+    #[serde(default)]
+    tables: Option<HashMap<String, RawTable>>,
 }
 
 #[derive(Deserialize)]
@@ -580,6 +606,7 @@ impl InternalGrid {
             ceiling_fl: raw.ceiling_fl.fl,
             min_at_weight,
             inop: raw.grid_inop.map(SimpleGrid::from_raw).transpose()?,
+            inop_mach: raw.tables.as_ref().and_then(|t| t.get("lrc_inop_mach")).map(Table::from_raw),
             version: raw.model.version,
         })
     }
@@ -624,6 +651,12 @@ impl InternalGrid {
             fit_fallback: bits & (FIT_FALLBACK | FLOOR_CLAMPED) != 0 || clamp_w,
         };
         (acc > 0.0).then_some((acc, cover))
+    }
+
+    /// The one-engine LRC Mach at this level and weight; None above the one-engine ceiling,
+    /// outside the table, or without the table.
+    pub fn inop_mach(&self, fl: f64, weight_t: f64) -> Option<f64> {
+        self.inop_mach.as_ref()?.bilinear(fl, weight_t)
     }
 
     /// The service ceiling at this gross weight, flight level (linear in weight, clamped).

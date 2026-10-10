@@ -322,6 +322,19 @@ fn load_fuel(
         }
         n => return Err(format!("[fuel] tanks = {n}: must be 1 or 2")),
     }
+    if f.single_engine == Some(true) {
+        if model.tanks.is_none() {
+            return Err("[fuel] single_engine = true needs tanks = 2".into());
+        }
+        if model.internal.as_ref().and_then(|g| g.inop_mach(250.0, 200.0)).is_none() {
+            return Err("[fuel] single_engine = true needs internal-v1's lrc_inop_mach table".into());
+        }
+        let [lo, hi] = f.single_engine_descent_fpm.unwrap_or([300.0, 1000.0]);
+        if !(lo > 0.0 && hi >= lo) {
+            return Err("[fuel] single_engine_descent_fpm must be 0 < lo <= hi".into());
+        }
+        model.single_engine = Some(flight::SingleEngine { descent_fpm: (lo, hi), mach_band: f.single_engine_mach_band.unwrap_or(0.02) });
+    }
     match f.proposal.as_deref() {
         None | Some("reject") => {}
         Some("endurance") => {
