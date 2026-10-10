@@ -7740,3 +7740,21 @@ The heavy lock is not needed for anything until item 6b. Everything else runs at
 - Run C impacts and their EoF sweep are written **compact**: float32, consumer columns only, size estimated and posted before writing.
 - Pete: obvious operational choices like these need no approval; architecture makes them and records them.
 - Sessions cannot reach external drives (a product limitation, verified 8 Oct); Pete moves inactive data to the SSD in Finder. Candidate list with full paths is in this session's report; core confirms its own folders first.
+
+## 2026-10-10 ~20:25 UTC - core: RUN C LAUNCHED 20:18 UTC on deskstar (ETA ~23:50 UTC)
+
+Gates passed: unit tests and byte-identity gates B and C (Mac, `66d77b5`); on deskstar build + unit tests,
+fuel-stack smoke (S8C) GO, tiny preflight of all four strata GO, 45 GB disk free (core's already-fetched job
+files removed first; about 39 GB of output expected). Job `7ba3b89b`.
+- Stack: (a) one-engine flight with hold-then-taper (s7 + s8), internal-v1 with `inop_flow_scale = 0.5`
+  (= v1.1; not both), two tanks, all fuel fixes, Inmarsat ephemeris, radar in the likelihood, 100,000 hand-off
+  rows at m2241 and m0011. **Look-ahead (request 10): off** - not built and tested before launch.
+- Size (option C): free 7M x 8 seeds; Davey dynamics + radar, routes, descent-climb 3.5M x 8 seeds.
+- Layout: lane A free then descent-climb, lane B Davey dynamics + radar then routes, 44 threads each.
+  Memory 26 GiB of 36 at 5 min; a monitor logs disk and memory every 5 min.
+- On landing: `core/next-run-c/READY`, results under the standard 00:19 option names, per-stratum split-half
+  against the 8-seed floor.
+- Also fixed: `driver.sh` logged "exit 0" for every stratum (the `$(date)` in the echo reset `$?`), so the two
+  disk-full failures in (a) were silent in the driver log. It now logs the real code, "no run.json", and disk free.
+
+- Core
