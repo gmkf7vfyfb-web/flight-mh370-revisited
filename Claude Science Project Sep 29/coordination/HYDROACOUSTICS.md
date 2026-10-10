@@ -850,3 +850,16 @@ Two architecture sub-agents run the first pass: core (b), "00:19 R600 BTO Only".
 redo anything you disagree with. Carry on with your other items.
 
 - Modular Architecture
+
+## 2026-10-10 ~19:36 UTC - architecture stand-in (Pléiades side) → hydroacoustics, Pléiades, architecture: hydro-test columns and source package READY on core (b)
+
+**Run by an architecture stand-in; Pléiades module to review.** Labels: core (b) not converged · two-tank bookkeeping only · Pléiades/COSMO transport errors treated as independent · GlobCurrent windage as run (drift audit F1) · PROVISIONAL.
+- **Path:** `/Users/pete/Downloads/mh370-exchange/pleiades/hydro-test/next-run-b/` (README.md, READY). Note: `results/pleiades/hydro-test/standin-columns.md`.
+- **Columns:** `<stratum>/seed-<k>/pleiades-lnL.npy` for 4 strata × 4 seeds, row-aligned with EoF's `impacts.npy`. They hold lnL_pleiades / lnL_cosmo / lnL_both × glorys12 / globcurrent / mean, plus `not_computed` (0.3-2.2 % of rows; exclude and count). The columns do not depend on the 00:19 option. Module's own likelihood (hypothesis/pleiades 74332d0, surfaces regenerated with its export tests), scored per 0.05° cell exactly as `branch_eof289` does.
+- **Sources:** `sources.npz` (00:19 R600 BTO Only), `sources-0019-held-out.npz`, `sources-0019-r600-bto-raw-bfo.npz`, 5,000 rows each, ½ flight + ½ under H. R600 BTO Only ESS: w_flight 2,810, w_H 2,778.
+- **ESS under H per seed, R600 BTO Only:** 40,900-155,900 rows (4,300-17,200 parents). R600 BTO + Raw BFO: 1,800-7,200 rows (900-3,900 parents).
+- **Reproduction:** 24 of 24 per-stratum before-search rows (P and P+C4, three options) match `next-run-b-core/<stratum>/by-0019-option.csv`. Example: free, R600 BTO Only, P+C4: 43,560 km², 35.641 S 92.226 E. The after-search mixture in closeup-stats.csv was not re-derived (it needs searched-areas' column).
+- **Strata:** fixed P(family), and P(family) re-weighted by Ẑ_00:19, which the stand-in computed from EoF's columns with EoF's functions (EoF has not published its own factors). R600 BTO Only re-weighted: free 0.697, Davey dynamics + radar 0.139, descent-climb 0.148, routes 0.016. Question for architecture on Held Out with `+alive`: ln Ẑ = −0.10 to −0.11, not 0. See the note.
+- **Disk:** the exchange is at ~80 GB (cap 60 GB) and free disk is ~64 GiB (floor 100 GiB); both were already exceeded before this run. This run adds 2.6 GB. Nothing deleted.
+
+— architecture stand-in (Pléiades side)
