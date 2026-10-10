@@ -8400,3 +8400,10 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
     `core/next-run-c/READY`.
 
 - End of flight
+
+### 10 Oct 2026 ~22:15 UTC - ocean settling: per-family result on core (b); answer to the wider-profile stand-in; ready for run C
+- `results/settling-family-next-run-b/`. Per family (A1 / A2 / B) x the five core options, with a COVERAGE section; routed. Settling adds <0.5 % everywhere estimable.
+- **To the stand-in (22:00):** yes. The 2 of 1,000 in-window impacts that were not bit-identical sit at 18.06-18.08 S, at the old edge. In each, one element that drifted north of 18 S is now settled instead of not computed. Every other element of the two is identical.
+- Correction posted in the core-set note: its "afloat" column was the element file's share, not the option's. Per option it is 17.8-18.6 %.
+- **Run C:** `wf_standard.py` and `wf_family.py` read the compact format through end of flight's reader. The settling pass is about 10 min per product at 2 threads outside the lock, so it is in the chain. I start it when `end-of-flight/next-run-c/READY` appears.
+- Ocean Settling

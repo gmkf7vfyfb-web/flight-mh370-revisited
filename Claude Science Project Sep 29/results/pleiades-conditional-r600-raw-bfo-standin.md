@@ -17,7 +17,7 @@ Tables: `…/conditional-headline.csv`, `traceback-shares.csv`, `traceback-conti
 ## Deviations (declared)
 1. **Ran outside the heavy lock, at ≤ 2 threads.** `/tmp/.mh370-heavy.lock` was held by another job for > 25 min; every
    step here is light at 2 threads (search evaluation 38 s for all 16 seeds; one accumulation pass ≈ 20 s per seed,
-   run twice; surface export 4.4 min). Peak RAM ≈ 1.1 GB per process. New data written ≈ 1.1 GB (workspace only; nothing
+   run twice; surface export 4.4 min). Peak RAM ≈ 1.1 GB per process (4.8 GB in the settling reweighting, §4). New data written ≈ 1.1 GB (workspace only; nothing
    written to the exchange).
 2. **Engine binary rebuilt** from the working branch (engine identical to fed85b3; build label e9cca3b), and the **Pléiades
    surfaces regenerated** with the module's own export tests (`results/pleiades/hydro-test/standin-scripts/export_surfaces.sh`).
@@ -42,7 +42,8 @@ Tables: `…/conditional-headline.csv`, `traceback-shares.csv`, `traceback-conti
    averaged. This is the module's `build_branch` convention (≡ lnL_other − ln 2).
 7. **P(family)** re-weighted values were read from end of flight's `summary/family-evidence-next-run-b.json`, not derived.
    Fixed P(family) is given beside them throughout.
-8. **Settling: nothing reweighted.** No per-impact settling samples exist on (b) (§4).
+8. **Settling: reweighted, not re-run.** Settling's own (b) core-set samples (its workspace, `field/nrb*`, read-only) were
+   reweighted by L_H with a weighted copy of its `seabed_density` (§4). Its constraint is `unpowered`, not `+alive`.
 9. **Transport ρ = 0.5: not run on (b)** (§5).
 
 ## Reproduction checks (all pass)
@@ -356,22 +357,45 @@ and the 90 % region after is 52,558 km² (without H 396,142).
 - **Independent misses equal shared misses here.** Phase 2 and Bluefin-21 do not overlap at these impacts. The repeat-search
   case (per-sensor split) was not computed.
 
-## 4. What the impact-PDF update means downstream (settling / seabed)
+## 4. What the impact-PDF update means downstream (settling / seabed) — done, as a pure reweighting
 
-The H-conditional impact PDF above (fig. 1a; after searches, fig. 4a) is what end-to-end would carry to settling and seabed.
-**On (b) no per-impact settling samples are available to reweight.**
-- Settling's (b) stand-in element files (≈ 5.3 GB) were kept only in that stand-in's workspace, which is cleared.
-- The exchange holds only `settling/reference-289-wreckage-field/`, which covers different impacts (reference-289) and cannot
-  be applied here.
-- Settling's set B is `r600_no-offset__fuel-exhaustion`, a different log-on cause from the arm used here. Even its key lists
-  would need re-weighting across causes, which is not a pure reweighting where the fuel-exhaustion lag density is zero.
+The H-conditional impact PDF (Fig. 1a; after the searches, Fig. 4a) is what end-to-end would carry to settling and seabed.
 
-**What is needed:** settling runs its own `wreckage_field_prep_keys.py` + `settling::tests::wreckage_field` on an H-conditional
-resample of these impacts. The resample is keyed by (stratum, seed, row), drawn ∝ w · exp(ll_r600/no-offset + alive) · L_H,
-at about 40,000 per stratum (set-B scale). By the settling stand-in's timing this takes ≈ 4 min per stratum at 2 threads.
-**Expectation (inference, not computed):** settling widened the estimable (b) panels' 90 % area by only +0.13 to +0.34 %, and
-its settled-offset kernel is p50 0.34–0.37 km and p90 3.4–3.9 km. The H-conditional seabed PDF should therefore be the impact
-PDF here to within about 1 % in area.
+**Settling's own core-set run on (b) has per-impact samples that can be reweighted.** That run is
+`results/settling-core-set-next-run-b/`, at hypothesis/settling 5b595bf. Its files are in settling's workspace, `field/nrb*`,
+and were read without change:
+- each element carries its input row and draw;
+- `nrb_draws.npz` gives every resampled impact of each option;
+- `nrbB_impacts.f64` carries (stratum, seed, parent, position).
+
+Each resampled impact was matched to its end-of-flight row by (stratum, seed, `parent`, latitude): 84,978 of 84,978 matched,
+exactly. It was then weighted by L_H of that row. The mass-weighted seabed density is settling's `seabed_density` with that
+one weight added. Grid and HPD follow settling's convention: 0.02°, Gaussian 0.1°, `hpd_levels`. Without H, settling's
+published areas reproduce exactly: 238.8 → 239.4 thousand km² (Raw BFO, re-weighted P(family)), and 363.8 → 364.9 (BTO Only).
+
+| 00:19 option (re-weighted P(family)) | case | 90 % region: impacts → seabed (km²) | 50 % region: impacts → seabed (km²) | settling adds, 90 % | settled offset p50 / p90 / p99 (km) | ESS of the 40,000 resampled impacts |
+|---|---|---|---|---|---|---|
+| R600 BTO + Raw BFO | without H | 238,787 → 239,351 | 40,908 → 41,134 | +0.24 % | 0.36 / 3.83 / 21.57 | 40,000 |
+| R600 BTO + Raw BFO | **under H** | **41,902 → 42,085** | 8,123 → 8,180 | +0.44 % | 0.37 / 2.97 / 20.28 | **2,963** |
+| R600 BTO Only | under H | 45,007 → 45,189 | 9,661 → 9,698 | +0.40 % | 0.36 / 2.91 / 20.62 | 2,225 |
+
+Fixed-weight rows are in `settling-reweighted-under-H.csv`.
+
+**Reading.**
+- **Under H, settling still does not widen the PDF materially:** the 90 % region grows by +0.4 %.
+- The settled offset is slightly tighter (p90 3.0 km against 3.8 km). The H-selected descents end closer to the arc, with
+  fewer glides and ditchings.
+- **The H-conditional seabed PDF is, to < 1 %, the H-conditional impact PDF.**
+- **Caveats:**
+  - The ESS is 2,963 of 40,000: estimable, above settling's floor of 1,000, but thin. A dedicated H-conditional resample would
+    be better.
+  - Settling's run uses EoF's `unpowered` constraint (alive + not powered at 01:15:56) rather than `+alive`. Settling reports
+    that this removes ≤ 0.3 % of weight in any stratum.
+  - Settling's 0.02° smoothed grid gives 41,902 km² for the impact 90 % region under H, against 38,309 km² on the Pléiades
+    unsmoothed 0.05° grid (§1). This difference is the grid and smoothing convention, not the physics.
+  - Searches are not applied in this table.
+- **To carry it further:** settling's seabed-search field-coverage check under H would be the same reweighting applied to
+  `field_coverage_check.py`. It was not run here.
 
 ## 5. Transport-error correlation ρ = 0.5 (Pléiades/COSMO)
 
@@ -427,7 +451,7 @@ module: exporting a ρ = 0.5 surface would make this a pure reweighting of the s
 - **Searched areas:**
   - Check the arithmetic variants against `report.py` on one stratum.
   - Add the per-sensor repeat-search case if wanted.
-- **Settling:** the H-conditional resample (§4) is ready to specify on request.
+- **Settling:** check the §4 reweighting of your `nrb` samples (one weight added to `seabed_density`). Consider a dedicated H-conditional resample for more ESS.
 - **Core:** a hand-off that kept the 18:01 route per row (or a linked `early` record) would let §2 trace the full path.
 
 — architecture stand-in (for Pléiades and searched areas), to be reviewed by the modules

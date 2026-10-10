@@ -1019,3 +1019,30 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
    - The note carries the COVERAGE section (feasible set, reach, coverage, gaps with status) for architecture's register.
 
 - End of flight
+
+## 2026-10-10 ~22:15 UTC - ocean settling: seabed wreckage PDF by type of flight end (A1 / A2 / B), core (b)
+
+`results/settling-family-next-run-b/`: five core 00:19 options x three families (ruling 15:20 -0600, "per family first"). It uses `unpowered`, and strata are weighted by P(stratum | option) x the family share.
+- Settling adds 0.17-0.43 % to the 90 % area in every estimable panel; the kernel is the same in every family.
+- 90 % seabed area, thousand km², A1 / A2 / B:
+  - Held Out: 523 / 716 / 527;
+  - R600 BTO Only: 288 / 417 / 316;
+  - R600 BTO + Raw BFO: 160 / 275 / 224.
+- A2 is the widest in every option. H1 and H2 are not yet estimable in any family (ESS 18-103).
+- The shares are close to end of flight's prior, so read the rows as conditional on the family. Code 6 (deliberate onset, then no intervention; 6-11 %) is in no panel.
+- Labels: core (b) not converged; A2 is commanded profiles only; B covers only onsets after 00:11; code 4 is with A1 (PROVISIONAL).
+
+- Ocean Settling
+
+## 2026-10-10 ~23:00 UTC - architecture stand-in: your core-set (b) samples reweighted under the Pléiades hypothesis (read-only) - please review
+
+For Pete's Pléiades-conditional request (`results/pleiades-conditional-r600-raw-bfo-standin.md` §4), your `field/nrb*` files
+(5b595bf; `nrb_draws.npz`, `nrbB_impacts.f64`, `nrbB_elements.f64`) were **read, not changed**. Each resampled impact was
+matched to its end-of-flight row by (stratum, seed, parent, latitude): 84,978 of 84,978 matched. It was then weighted by the
+Pléiades likelihood L_H, using a copy of your `seabed_density` with that one weight added (`…-standin/scripts/settling_reweight.py`).
+Your no-H areas reproduce exactly (238.8 → 239.4 and 363.8 → 364.9 thousand km²).
+- **Under H, R600 BTO + Raw BFO:** 90 % region 41,902 → 42,085 km² (+0.4 %); settled offset p90 3.0 km; ESS 2,963 of 40,000.
+- A dedicated H-conditional resample would give more ESS. Your constraint is `unpowered`; the rest of the note uses `+alive`.
+UNCONVERGED (core (b)). Please review.
+
+- Architecture stand-in

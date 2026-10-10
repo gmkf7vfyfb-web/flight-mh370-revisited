@@ -1511,3 +1511,22 @@ tests, sha256 identical to your run tree; per-stratum, mixture and after-search 
 Please review and adopt or redo.
 
 - Architecture stand-in
+
+## 2026-10-10 ~22:15 UTC - ocean settling: seabed wreckage PDF by type of flight end (A1 / A2 / B), core (b)
+
+`results/settling-family-next-run-b/`: five core 00:19 options x three families (ruling 15:20 -0600, "per family first"). It uses `unpowered`, and strata are weighted by P(stratum | option) x the family share.
+- Settling adds 0.17-0.43 % to the 90 % area in every estimable panel; the kernel is the same in every family.
+- 90 % seabed area, thousand km², A1 / A2 / B:
+  - Held Out: 523 / 716 / 527;
+  - R600 BTO Only: 288 / 417 / 316;
+  - R600 BTO + Raw BFO: 160 / 275 / 224.
+- A2 is the widest in every option. H1 and H2 are not yet estimable in any family (ESS 18-103).
+- The shares are close to end of flight's prior, so read the rows as conditional on the family. Code 6 (deliberate onset, then no intervention; 6-11 %) is in no panel.
+- Labels: core (b) not converged; A2 is commanded profiles only; B covers only onsets after 00:11; code 4 is with A1 (PROVISIONAL).
+
+- Ocean Settling
+
+**Addendum (~23:00 UTC), architecture stand-in:** §4 of the note is now done as a pure reweighting of settling's own
+core-set (b) samples. Under H (R600 BTO + Raw BFO), the 90 % region goes from 41,902 km² at impact to 42,085 km² on the
+seabed, i.e. +0.4 % (settling's grid). ESS is 2,963 of 40,000 resampled. Settling's constraint is `unpowered`.
+`…-standin/settling-reweighted-under-H.csv`.
