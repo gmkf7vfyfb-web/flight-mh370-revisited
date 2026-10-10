@@ -44,10 +44,12 @@ def load_arm(run, trace_name, option):
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument("stem"); ap.add_argument("v1b"); ap.add_argument("v2")
     ap.add_argument("--trace", default="traces-dense.csv"); ap.add_argument("--option", default="m0011__other"); ap.add_argument("--n", type=int, default=40)
+    ap.add_argument("--labels", default="V1b,V2", help="panel labels for the two runs"); ap.add_argument("--note", default="", help="extra footnote text (envelope overlays etc.)")
     a = ap.parse_args(); rng = np.random.default_rng(20261010)
     fig, axs = plt.subplots(2, 2, figsize=(10.5, 6.6), sharex=True, sharey=True, gridspec_kw=dict(hspace=0.22, wspace=0.06))
     info = {}
-    for col, (arm, run) in enumerate((("V1b", a.v1b), ("V2", a.v2))):
+    labels = a.labels.split(","); assert len(labels) == 2, a.labels
+    for col, (arm, run) in enumerate(((labels[0], a.v1b), (labels[1], a.v2))):
         m, tr, j = load_arm(run, a.trace, a.option)
         ep = {e["id"]: e["logged_unix_s"] for e in m["terminal"]["epochs"]}; t0 = m["stop"]["unix_s"]
         groups = dict(tuple(tr.groupby(["imp_t", "imp_lat"])))
@@ -77,9 +79,9 @@ def main():
             f"{m['config']['prior']['track_deg']} deg). 100,000 parents x {m['terminal']['children']} children x 4 descents per arm; traces from a hash-selected subset "
             f"({a.trace}), joined to their impact rows. Labels: SMOKE; UNCORRECTED FUEL (22:41 fuel state, audit F1-F4); PROVISIONAL SAMPLER (22:41 population "
             f"before core request 17). Descent burn with the ICAO EEDB Trent 892 idle floor. Point-mass descent; PROVISIONAL dive class; Boeing-calibrated glide band. "
-            f"Code {m['code_revision']}.")
+            f"Code {m['code_revision']}." + ((" " + a.note) if a.note else ""))
     fig.text(0.02, -0.07, "\n".join(textwrap.wrap(foot, 210)), fontsize=5.6, color="#333333", ha="left", va="top")
-    fig.suptitle("Altitude from the 22:41 hand-off to impact: representative descents, V1b and V2", fontsize=8.5, x=0.02, ha="left", y=0.995)
+    fig.suptitle(f"Altitude from the 22:41 hand-off to impact: representative descents, {labels[0]} and {labels[1]}", fontsize=8.5, x=0.02, ha="left", y=0.995)
     fig.savefig(a.stem + ".png", dpi=200, bbox_inches="tight"); fig.savefig(a.stem + ".pdf", bbox_inches="tight")
     pathlib.Path(a.stem + ".json").write_text(json.dumps(info, indent=1)); print(json.dumps(info))
 

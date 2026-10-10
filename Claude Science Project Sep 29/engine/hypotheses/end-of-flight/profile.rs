@@ -110,6 +110,10 @@ pub struct EnvelopeConfig {
     pub leveloff_seconds: Range,
     /// Probability of a second level-off given a first.
     pub second_leveloff_probability: f64,
+    /// Shares of the powered, controlled shapes [continuous, stepped level-offs, emergency then transition]. Default
+    /// [0.4, 0.3, 0.3], the earlier hard-coded split: with it the single uniform drawn here maps to the same shape.
+    #[serde(default = "default_powered_shape_weights")]
+    pub powered_shape_weights: [f64; 3],
     /// Final-approach rate band for a ditching attempt, ft/min.
     pub approach_rate_fpm: Range,
     /// Altitude at which a ditching attempt begins its final approach, ft.
@@ -182,6 +186,9 @@ impl EnvelopeConfig {
             ("recovery_altitude_ft", self.recovery_altitude_ft),
         ] {
             r.check(&format!("envelope.{name}"))?;
+        }
+        if !(self.powered_shape_weights.iter().all(|w| *w >= 0.0) && self.powered_shape_weights.iter().sum::<f64>() > 0.0) {
+            return Err("envelope.powered_shape_weights must be non-negative with a positive sum".into());
         }
         if !(0.0..=1.0).contains(&self.second_leveloff_probability) {
             return Err("envelope.second_leveloff_probability must be in [0, 1]".into());
@@ -349,12 +356,18 @@ impl EnvelopeConfig {
             // Unpowered but controlled: a glide, or a glide flown at a chosen rate.
             return if uniform() < 0.5 { Shape::BestGlide } else { Shape::Continuous };
         }
+        let [c, st, e] = self.powered_shape_weights;
+        let total = c + st + e;
         match uniform() {
-            u if u < 0.40 => Shape::Continuous,
-            u if u < 0.70 => Shape::SteppedLevelOffs,
+            u if u < c / total => Shape::Continuous,
+            u if u < (c + st) / total => Shape::SteppedLevelOffs,
             _ => Shape::EmergencyThenTransition,
         }
     }
+}
+
+fn default_powered_shape_weights() -> [f64; 3] {
+    [0.4, 0.3, 0.3]
 }
 
 /// Drop phases below `altitude_ft` and make the last remaining descent end there.
@@ -630,6 +643,7 @@ pub(super) mod tests {
             leveloff_altitude_ft: Range::Uniform([1_500.0, 30_000.0]),
             leveloff_seconds: Range::Uniform([60.0, 2_400.0]),
             second_leveloff_probability: 0.4,
+            powered_shape_weights: [0.4, 0.3, 0.3],
             approach_rate_fpm: Range::Uniform([200.0, 300.0]),
             approach_altitude_ft: Range::Uniform([500.0, 2_000.0]),
             residual_bank_deg: Range::Uniform([0.0, 35.0]),

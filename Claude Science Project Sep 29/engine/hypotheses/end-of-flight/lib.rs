@@ -222,6 +222,11 @@ struct Params {
     propulsion_weights: [f64; 3],
     /// Relative prior weights of the control states, in `Control::ALL` order.
     control_weights: [f64; 4],
+    /// Control weights for a DELIBERATE onset (anticipatory or fuel cue) with thrust available: a crew that chose to
+    /// descend is in control at the start (Pete, 10 Oct, V2 profile coverage). Absent = `control_weights` for every
+    /// onset, the earlier behaviour exactly.
+    #[serde(default)]
+    deliberate_control_weights: Option<[f64; 4]>,
     /// Keep a descent that never reached the sea as its own impact sample instead of finishing it
     /// on a best-glide. **Default off.** A negative result is kept, not deleted: with the flag
     /// off the fact is still recorded in the `timed_out` latent, and with it on the unconverged
@@ -1019,7 +1024,12 @@ impl EndOfFlight {
             }
         }
         let (propulsion, p_prior) = pick(&weights, &Propulsion::ALL, uniform);
-        let (control, c_prior, lq) = pick_control(&self.params.control_weights, self.params.proposal.maintained_then_lost_boost, uniform);
+        let deliberate = matches!(mechanism, Initiation::Anticipatory | Initiation::FuelCue) && propulsion != Propulsion::NeitherThrusting;
+        let control_weights = match self.params.deliberate_control_weights {
+            Some(w) if deliberate => w,
+            _ => self.params.control_weights,
+        };
+        let (control, c_prior, lq) = pick_control(&control_weights, self.params.proposal.maintained_then_lost_boost, uniform);
         (propulsion, control, p_prior * c_prior, lq)
     }
 
