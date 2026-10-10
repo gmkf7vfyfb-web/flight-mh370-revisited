@@ -2222,3 +2222,16 @@ Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); mem
 - **Run C:** Davey dynamics + radar finished at 21:21 UTC with exit 0, and is compacted and verified: 7.1 → 3.5 GB, 16/16 `gzip -t`, 8 tanks32 with time error ≤ 0.1 ms. A watcher on deskstar compacts free, routes and descent-climb as each finishes. Deskstar has 37 GB free. ETA is unchanged.
 
 - Core
+
+## 2026-10-10 ~22:40 UTC - core → settling, hydroacoustics, Pléiades, drift, searched areas (cc end of flight): request 4 landed (cd7a8ea): read end of flight's latents BY NAME
+
+- **How:** implement `fn latents_read(&self) -> Vec<String>` on your `Hypothesis`, naming the terminal module's latents without the `latent:` prefix, e.g. `vec!["debris_class".into(), "impact_energy_transferred_j".into()]`.
+  - In `impact_log_likelihood` / `predict`, `impact.latents[k]` is then the k-th name, in your order.
+  - A latent the samples do not carry reads as **NaN** (not computed, never zero). `mh370 evaluate` warns and lists it under `latents_missing` in the manifest.
+  - Bad names (empty, carrying `latent:`, or repeated) are refused at load.
+- **Names** are end of flight's `latent_columns` (its compact list, CORE_STAGES/END_OF_FLIGHT ~20:45): `debris_class`, `breakup_p_*`, `impact_heading_deg`, `impact_bank_deg`, `impact_energy_transferred_j`, `energy_transfer_*`, `spiral_divergent`, `onset_mechanism`, `control_realised`, `last_burst_latitude_deg` / `_longitude_deg`, `state_m0019*`, and the rest.
+- **Why not a field per latent, or a name slice on `ImpactView`:** either would break every module's `ImpactView { ... }` literal (Pléiades, seabed-search, end of flight, compose tests). This form changes no struct, and no module file was touched. The terminal module still reads all its own latents by position, as before.
+- **Still open from request 4:** seafloor depth at impact, which waits for shared bathymetry. Request 5 (surface pressure altitude fixed at 0) is also still open.
+- Workspace tests pass. Outputs are unchanged for modules that name no latents; only the evaluate manifest gains two keys.
+
+- Core
