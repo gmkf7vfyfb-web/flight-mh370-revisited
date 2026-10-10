@@ -48,23 +48,10 @@ import displacement_hist as dh  # noqa: E402
 from displacement_hist import option_posteriors  # noqa: E402
 from displacement_greyscale import hpd_levels, LEVELS, SHADES, EDGE, EDGE_W  # noqa: E402
 
-# End of flight's own OPTIONS list names eight of the ten `loglik:` columns the run actually carries
-# (both/no-offset and both/startup-offset are missing from it). Rather than edit their file - it is
-# theirs - this script sets the list from the run's own columns before calling their function, so the
-# weighting stays their single definition and only the column list widens. Their function already
-# skips any option without a column, so this is safe on older runs.
-def widen_options(meta):
-    dh.OPTIONS = [c[len("loglik:"):] for c in meta["impact_columns"] if c.startswith("loglik:")]
-    return dh.OPTIONS
-
-
-# The R600 log-on-request BTO on its own. config/integrated.toml declares this option ("r600-bto")
-# but the run did not produce a column for it, so it is derived here: the engine's r600/no-offset
-# log-likelihood is exactly -0.5 (bto_residual/63 us)^2 - 0.5 (bfo_innovation/7.3755 Hz)^2 + const
-# (least squares on 4 x 10^5 impacts of seed 1: residual < 3e-10, R^2 = 1), so the BTO term separates
-# cleanly and p(r600-bto) = p(none) x exp(-0.5 (bto_residual/63)^2), renormalised.
-BTO_COL = "bto_residual_us:m0019a"
-BTO_SD_US = 63.0
+# End of flight's `option_posteriors` now reads every `loglik:` column from the run itself and derives
+# the BTO-only arms (`derived_logliks`), so this script no longer widens their list or derives anything
+# of its own: there is one definition of each, and it is theirs. It also takes the declared existence
+# constraints (`+alive`, `+silent`), which are passed straight through.
 
 # Kish effective sample size below which a 50/90/99 % area on a 0.02 deg grid is not estimable.
 # A panel under this floor is drawn, because the speckle is the diagnostic, but it is labelled
@@ -83,9 +70,13 @@ ARCS = {"m0011": dict(lw=1.2, color="#b16286", label="6th arc, 00:11 UTC"),
 # BFO model as Holland pairs them: his Hypothesis 1 is the start-up transient after a fuel-exhaustion
 # power interruption, his Hypothesis 2 is some other log-on cause and no transient. Cross terms are
 # computed and reported in the JSON but are not combinations Holland puts forward.
-DEFAULT = ["none__other", "r600_no-offset__other",
-           "both_startup-offset__fuel-exhaustion", "both_no-offset__other"]
+DEFAULT = ["none__other+alive", "r600_no-offset__other+alive",
+           "both_startup-offset__fuel-exhaustion+alive", "both_no-offset__other+alive"]
 TITLES = {
+    "none__other+alive": "1. Held out\nno 00:19 observation, +alive",
+    "r600_no-offset__other+alive": "2. R600 as observed\nBTO 18,400 µs + BFO 182 Hz, +alive",
+    "both_startup-offset__fuel-exhaustion+alive": "3. Holland H1\nstart-up transient, fuel exhaustion, +alive",
+    "both_no-offset__other+alive": "4. Holland H2\nboth BFOs raw, other cause, +alive",
     "none__other": "1. Held out\nno 00:19 observation at all",
     "r600-bto__other": "R600 BTO arc only\n(derived)",
     "r600_no-offset__other": "2. R600 as observed\nBTO 18,400 µs + BFO 182 Hz",
@@ -110,7 +101,8 @@ Holland himself used these bounds to bound the DESCENT RATE, not position; the A
 LOWER ROW, the seabed-search evidence.  ATSB Phase 2 union 120,486.5 km² (deep-tow side-scan, GO Phoenix and Dong Hai Jiu SAS, AUV side-scan) plus Bluefin-21/Artemis 771.4 km²; coverage rasterised at 0.01°; detection probability
 q = 0.945 Phase 2 and 0.900 Bluefin-21, conditional on a detectable target; undetectable fraction ρ = 0.05; point target — the size response g(W) is not yet implemented; shared miss dependence where campaigns overlap.
 Ocean Infinity 2018 and 2025–26 are NOT included.  PRIOR  run eof-289-full: 289.7° initial track at 18:01:49 UTC (Davey Fig. 4.2), 4 seeds × 3.2 × 10⁶ impacts.  Bands are 50/90/99 % highest-posterior-density regions on a
-0.02° grid smoothed at 0.1° (6 NM); areas on the authalic sphere.
+0.02° grid smoothed at 0.1° (6 NM); areas on the authalic sphere.  **+alive**: end of flight's declared existence constraint, PROVISIONAL-OVERNIGHT, that the aircraft was airborne at 00:19:37.443 so
+that the log-on acknowledge could be sent at all — a datum separate from that burst's BTO and BFO values.  It binds only on the held-out arm, which otherwise puts 10.2 % of its weight before that burst.
 
 CONVERGENCE  Each panel is an importance-weighted reading of the SAME 12.8 x 10^6 impacts, which were not drawn with the 00:19 bursts in hand, so a sharp 00:19 likelihood collapses the weights.  ESS is the Kish effective
 sample size of those weights.  A panel below 1,000 effective impacts is labelled NOT ESTIMABLE: its bands are the few surviving particles, not a posterior, and its area, median and evidence are reported as unconverged, not as
@@ -128,15 +120,6 @@ def search_loglik(run, seed_dir, scratch):
     ll = np.asarray(v[:, idx["seabed-search:loglik"]], float)
     cov = np.asarray(v[:, idx["seabed-search:covered_fraction_phase2-2014-2017"]], float)
     return ll, cov
-
-
-def derived(stream, bto_ll):
-    """Pass end of flight's options through, adding the BTO-arc-only arm built off `none`."""
-    for key, p, c in stream:
-        yield key, p, c
-        if bto_ll is not None and key.startswith("none__"):
-            q = p * np.exp(bto_ll - bto_ll[np.isfinite(bto_ll)].max())
-            yield key.replace("none__", "r600-bto__"), q / q.sum(), c
 
 
 def density(lat, lon, w):
@@ -172,6 +155,9 @@ def main():
     ap.add_argument("stem")
     ap.add_argument("--columns", default=",".join(DEFAULT))
     ap.add_argument("--arcs", type=pathlib.Path, default=None, help="run.json carrying reference_arcs")
+    ap.add_argument("--constraints", default="alive",
+                    help="comma-separated existence constraints from end of flight's displacement_hist "
+                         "(alive, silent); each adds a `+<name>` key beside the plain one")
     a = ap.parse_args()
     keys = a.columns.split(",")
     meta = json.loads((a.run / "run.json").read_text())
@@ -193,16 +179,11 @@ def main():
     blank = lambda: {"before": None, "after": None, "z": 0.0, "on_p2_before": 0.0, "on_p2_after": 0.0,
                      "ess_b": 0.0, "ess_a": 0.0, "lat_b": [], "lat_a": [], "w_b": [], "w_a": []}
     acc = {}
-    widen_options(meta)
-    ci = {c: i for i, c in enumerate(meta["impact_columns"])}
+    cons = tuple(x for x in a.constraints.split(",") if x)
     for seed in seeds:
         ll, cov = search_loglik(a.run, seed, scratch)
         like = np.exp(ll)
-        bto_ll = None
-        if BTO_COL in ci:
-            r = np.asarray(np.load(seed / "impacts.npy", mmap_mode="r")[:, ci[BTO_COL]], float)
-            bto_ll = np.where(np.isfinite(r), -0.5 * (r / BTO_SD_US) ** 2, -np.inf)
-        for key, p, c in derived(option_posteriors(a.run, seed), bto_ll):
+        for key, p, c in option_posteriors(a.run, seed, constraints=cons):
             acc.setdefault(key, blank())
             after = p * like
             z = float(after.sum())

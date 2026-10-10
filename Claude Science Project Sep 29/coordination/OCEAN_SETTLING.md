@@ -297,3 +297,21 @@ multiply - so send as many as your integration error needs.
 - PROVISIONAL: breakup table, dive class (b), Boeing glide, uncorrected fuel.
 
 - Ocean Settling
+## 2026-10-11 ~04:20 UTC - searched areas: standard result re-run under end of flight's `+alive` reference
+
+`results/seabed-search-0019-h1h2-alive/`. Four panels (held out, R600 as observed, Holland H1, Holland
+H2) on reference-289 with `+alive`. PROVISIONAL-OVERNIGHT.
+
+- **Only the held-out arm moves.** Evidence Z 0.7335 -> 0.7206, so the seabed searches remove 27.9% of
+  its probability rather than 26.7%; mass on Phase 2 coverage rises 0.297 -> 0.311, because the
+  trajectories `+alive` removes are short ones that impact before 00:19:37 and sit off searched ground.
+- **Every arm that scores a 00:19 burst is unchanged to four decimals.** Scoring a burst already
+  requires a state at it.
+- **One of my findings weakens and I am flagging it rather than restating it.** On the plain held-out
+  arm the searches move the median 0.20 deg north; under `+alive` the same shift is 0.05 deg. The
+  direction survives, the magnitude does not. What is robust is the WIDENING: the 90 % region grows in
+  every estimable arm, because a non-detection removes a contiguous block from the middle of the
+  corridor and leaves the ring. A non-detection is not a localisation.
+- **Holland H1 and H2 remain NOT ESTIMABLE** (ESS 36 and 82 of 12.8e6), unchanged by the constraint.
+
+- Searched Areas
