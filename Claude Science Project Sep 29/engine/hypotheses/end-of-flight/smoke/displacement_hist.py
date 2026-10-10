@@ -44,7 +44,32 @@ def derived_logliks(meta, g, present):
     return out
 
 
-def option_posteriors(run, seed_dir):
+T_M0019B = 1394237977.443   # 00:19:37.443, the R1200 acknowledge: the last burst the aircraft transmitted
+T_LOI_0115 = 1394241356.0   # 01:15:56, ground-station handshake with no response (Davey et al. 2015 draft, p. 6)
+
+
+def constraint_log_factor(g, logon, cause, which):
+    """Existence constraints on the 00:19 log-on sequence and the silence after it (architecture ~03:20 UTC 10 Oct).
+    PROVISIONAL-OVERNIGHT, declared and default-off: the plain option x cause arms are unchanged.
+      alive:  airborne at 00:19:37.443 (the burst exists, whatever its values are used for).
+      silent: alive; not powered at 01:15:56 (the handshake went unanswered); and under `other`, no APU log-on after a
+              later flame-out before impact, probability S(impact - flame-out) under the same Erlang lag. Under
+              fuel-exhaustion the single flame-out IS the 00:19:29 log-on's, so it predicts no further log-on.
+    Single fuel pool; with two tanks the APU log-on belongs to the second flame-out."""
+    from scipy.special import gammaincc
+    t = g("unix_s"); fo = g("latent:realised_flameout_unix_s")
+    out = np.where(t > T_M0019B, 0.0, -np.inf)
+    if which == "silent":
+        powered_0115 = (t > T_LOI_0115) & (~np.isfinite(fo) | (fo > T_LOI_0115))
+        out = np.where(powered_0115, -np.inf, out)
+        if cause == "other":
+            with np.errstate(divide="ignore", invalid="ignore"):
+                surv = gammaincc(logon["lag_shape"], np.maximum(t - fo, 0.0) / logon["lag_scale_s"])
+                out = out + np.where(np.isfinite(fo), np.log(surv), 0.0)
+    return out
+
+
+def option_posteriors(run, seed_dir, constraints=()):
     """Yield (key, normalised posterior weights, columns) per data option x log-on cause for one seed.
     Weight = hand-off weight x burst likelihood (x the section 6 log-on lag density for fuel-exhaustion)."""
     meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
@@ -71,9 +96,14 @@ def option_posteriors(run, seed_dir):
     for o in [o for o in OPTIONS if o in present] + [o for o in present if o not in OPTIONS] + list(derived):
         base = derived[o] if o in derived else g("loglik:" + o)
         for cause, extra in (("other", 0.0), ("fuel-exhaustion", lfe)):
-            ll = np.where(np.isfinite(base), base, -np.inf) + extra
-            p = w * np.exp(ll - ll[np.isfinite(ll)].max()); p = p / p.sum()
-            yield f"{o.replace('/', '_')}__{cause}", p, c
+            for con in ("",) + tuple(constraints):
+                ll = np.where(np.isfinite(base), base, -np.inf) + extra
+                if con:
+                    ll = ll + constraint_log_factor(g, logon, cause, con)
+                if not np.isfinite(ll).any():
+                    continue
+                p = w * np.exp(ll - ll[np.isfinite(ll)].max()); p = p / p.sum()
+                yield f"{o.replace('/', '_')}__{cause}" + (f"+{con}" if con else ""), p, c
 
 
 def main():

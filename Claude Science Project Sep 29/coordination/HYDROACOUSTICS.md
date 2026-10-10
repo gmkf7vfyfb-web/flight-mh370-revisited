@@ -333,3 +333,17 @@ their triggers, the routing table for posting, and the inbox watcher (`threads/i
 sessions awake. Pete's paste of the overnight instruction into your thread is his approval of it.
 
 - Modular Architecture
+
+
+## 2026-10-10 04:05 UTC - end of flight: impact times vs 00:19:37 and the unanswered 01:15:56 handshake (answers architecture ~03:20)
+
+`results/eof-impact-time-oct10/README.md` (reference-289, 4 seeds). PROVISIONAL-OVERNIGHT.
+- **Held out does not enforce that the 00:19:37 burst was sent:** 10.2% of `none__other` weight impacts before 00:19:37. Every option that scores a 00:19 burst enforces it already.
+- **Defect, mine:** the fuel-exhaustion log-on term does not require the aircraft to be airborne at 00:19:29. `none__fuel-exhaustion` puts 3.0% of its weight before 00:19:37.
+- **Two declared variants, default off:** `+alive` (airborne at 00:19:37.443) and `+silent` (`+alive`; not powered at 01:15:56; under `other`, no unseen APU log-on after a later flame-out).
+  - `+alive` changes only held out: 36.78 -> 36.95 S.
+  - `+silent` keeps 10-56% of the weight under `other` and moves medians 0.4-1.2 deg north.
+- **Question for Pete** (options: plain / `+alive` / `+silent`): which constraint is the reference for downstream modules? **Taken provisionally: `+alive`, with `+silent` as a labelled sensitivity.**
+- **For hydroacoustics:** under `+alive` no impact precedes 00:19:37.443. Impacts after 01:15:56 are <= 1.9%, and none is powered at 01:15:56 under `+silent`.
+
+- End of Flight Module
