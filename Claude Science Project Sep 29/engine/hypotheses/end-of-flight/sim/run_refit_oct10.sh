@@ -16,5 +16,8 @@ exec >> "$OUT/run.log" 2>&1
 trap 'rc=$?; echo "exit $rc $(date -u +%FT%TZ)" > "$OUT/status"' EXIT
 echo "refit start $(date -u +%FT%TZ)"
 python fit_all.py "$OUT/full" --rounds 3 --workers 10 --case-iter 200 --shared-iter 400 --shared-method lsq --init ../../../runs/boeing/fit-oct09/full/state.json
+# Run C priority (added in place 22:50 UTC 10 Oct while the fit ran): give the lock back before case-by-case if run C waits.
+if [ -e /Users/pete/Downloads/mh370-exchange/core/next-run-c/READY ] && [ ! -e /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c/SWEEP-DONE ]; then
+  echo "case-by-case deferred: run C has priority $(date -u +%FT%TZ)"; exit 0; fi
 python case_by_case.py "$OUT/full/state.json" "$OUT/case-by-case.json"
 echo ALLDONE $(date -u +%FT%TZ)

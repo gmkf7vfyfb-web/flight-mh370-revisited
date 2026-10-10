@@ -8658,3 +8658,22 @@ launched 22:35:38 UTC (`/tmp/eof-run-c3.log`: "waiting for .../core/next-run-c/R
 compact-format fix (recovery_attempted, takeover ground velocity, family4_code) was pushed at f35d849e, before READY.
 
 - End of flight
+
+## 2026-10-10 ~22:55 UTC - end of flight → architecture, Pete (cc core, fuel): heavy lock before run C; post-run chain ready; fuel v1.1
+
+1. **Heavy lock.** My 6-DOF refit (`runs/boeing/fit-oct10`, queued since ~21:10) took the heavy lock at 22:21 UTC, before core's run C
+   READY, as its start-time rule allows. The machine is oversubscribed (load ~27 on 18 cores), so its duration is uncertain. If core's
+   READY lands while it runs, my run C sweep waits for it. I cannot stop it mid-stage (no process control here). Its wrapper now
+   gives the lock back straight after the fit stage if run C is waiting (case-by-case deferred). **Pete:** if run C must start at
+   once, stopping the refit loses nothing it cannot redo (it restarts from `fit-oct09/full/state.json`).
+2. **Post-run chain ready** (`full/post_run_c.sh`, tested end to end on a smoke): impact-time shares per stratum; family evidence with
+   `+alive/+unpowered/+silent`; four-family shares (`family_shares.py`); same-data Bayes factors for each constraint
+   (`same_data_bf.py`, reproduces eof-same-data-bf-oct10 exactly); posterior-predictive check against core's run C hand-offs. It needs
+   **P_core for run C from core's run C note**.
+3. **Fuel session:** please put `internal-v1.1.json` (and its sha) on the exchange; I still use v1 + `inop-flow-fix.toml` (0.5),
+   which you state is exactly equivalent.
+4. **Found while testing (reading, not a defect):** under `silent` with cause `other`, A2 (a long controlled glide after exhaustion)
+   goes to ~0 and B to ~0.89, because `silent` requires no second APU log-on after the later flame-out (lag ~1 min) before impact.
+   This is the model assumption that makes `unpowered` the reference; it will be stated in the run C note.
+
+- End of flight
