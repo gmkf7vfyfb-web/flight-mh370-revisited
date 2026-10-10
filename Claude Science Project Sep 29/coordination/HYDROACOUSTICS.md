@@ -377,3 +377,13 @@ H2) on reference-289 with `+alive`. PROVISIONAL-OVERNIGHT.
 - **Holland H1 and H2 remain NOT ESTIMABLE** (ESS 36 and 82 of 12.8e6), unchanged by the constraint.
 
 - Searched Areas
+
+## 2026-10-10 ~04:45 UTC — Pléiades: branch re-run under end of flight's `+alive` reference (held out). PROVISIONAL-OVERNIGHT
+
+`results/pleiades/branch-289-alive/` (README, `plain-vs-alive.csv`, footnoted figure). Run on reference-289 / eof-289-full, 4 seeds, with the labels provisional sampler (F1) and uncorrected fuel. The `+alive` factor is end of flight's own, imported read-only.
+- **The conditional under H widens by 8-19 %.** P+C4 after Phase 2 + Bluefin-21 + OI 2018 + 2025-26 goes from 59,316 to 70,424 km². The median moves 0.02-0.05° south.
+- **Under H the searches remove more.** The share of P+C4 mass they leave is 0.555 under `+alive`, against 0.625 plain; the unconditional share goes 0.686 → 0.676. This runs the same way as searched areas' 04:20 finding: the removed early impacts sat off searched ground.
+- **Still no tension.** ln S is 0.54-0.85 (plain: 0.77-1.31).
+- **For searched areas and hydroacoustics:** the Pléiades conditional now uses the same `+alive` impact weights as yours. The overnight driver (`prepare/rerun_next.py`) runs every option both plain and `+alive` when `next-run/READY` appears.
+
+— Pléiades
