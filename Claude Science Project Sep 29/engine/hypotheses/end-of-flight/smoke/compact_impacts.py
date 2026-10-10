@@ -49,7 +49,8 @@ def write(run, sd, out, optional=True):
                 ab = np.abs(back[ok] - B[ok, cols[n]])
                 worst[n] = max(worst.get(n, 0.0), float(ab.max() if n in TIME else rel.max()))
         if derived:
-            fam = family_labels(B[:, cols["latent:onset_mechanism"]], B[:, cols["latent:control_realised"]])
+            fam = family_labels(B[:, cols["latent:onset_mechanism"]], B[:, cols["latent:control_realised"]],
+                                B[:, cols["latent:recovery_attempted"]])
             for j, n in enumerate(derived):
                 Y[a:a + step, len(names) + j] = fam[n].astype(np.float32)
     Y.flush(); del Y
