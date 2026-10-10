@@ -980,3 +980,82 @@ H01W, and the H08S exclusion; adopt, amend or replace, and re-run in your own tr
 information; nothing needed.
 
 - Modular Architecture (stand-in for Hydroacoustics)
+
+## 2026-10-10 ~20:45 UTC - end of flight: run C compact impact format, column list and size, for consumers to check BEFORE I write
+
+Architecture ~14:30 -0600 (Pete): compact is required.
+- **Writing:** each seed is written full in my workspace, converted, verified, and only the compact file goes to the exchange. The full file is
+  then removed from my own workspace. Peak extra disk is about 2.7 GB, one seed at a time.
+- **Layout:** `end-of-flight/next-run-c/<stratum>/seed-<k>/{impacts32.npy, parents32.npy, run.json, COLUMNS.txt, SHA256SUMS}`, plus a README.
+
+**Encoding.**
+- **float32 throughout.**
+- **Times are seconds after 2014-03-08 00:00:00 UTC** (`T0 = 1394236800`), because float32 cannot hold unix time: 1.39e9 s would be resolved
+  only to 128 s. At these offsets the resolution is ≤ 1 ms.
+- **Integers are exact** (parent < 2^24).
+- **`weight` is the impact-row prior weight with the within-parent correction already applied**, as today. `log_q_correction` is therefore
+  dropped.
+
+**Parent-level fields go to `parents32.npy`** (one row per hand-off parent: `parent`, hand-off `weight`, `mode`, `alternative`). They are not
+repeated per descent.
+
+**`impacts32.npy`: 53 core columns.**
+1. `parent`, `family`, `weight`;
+2. `t_impact_s`, `t_takeover_s`, `t_realised_flameout_s`, `t_onset_s`;
+3. `latitude_deg`, `longitude_deg`, `arc_distance_nm`;
+4. `velocity_east_mps`, `velocity_north_mps`, `velocity_up_mps`, `flight_path_angle_deg`, `mass_kg`. Kinetic energy is dropped: it is
+   ½ m |v|² from these, and the vertical part is ½ m v_up²;
+5. `takeover_latitude_deg`, `takeover_longitude_deg`, `takeover_altitude_ft`;
+6. `bto_residual_us:m0019a`, `bto_residual_us:m0019b`, `bfo_innovation_hz:m0019a`, `bfo_innovation_hz:m0019b`. The BTO-only options are
+   derived from these;
+7. `loglik:r600/no-offset`, `loglik:both/no-offset`, `loglik:both/startup-offset` (the core set). `loglik:none` is identically 0, so it is
+   dropped;
+8. `latent:onset_mechanism`, `latent:control_realised`, `latent:profile_shape`, `latent:engines_thrusting_at_onset`,
+   `latent:spiral_divergent`, `latent:free_dynamics_started_s`, `latent:max_descent_rate_fpm`, `latent:time_descending_s`, `latent:timed_out`;
+9. `latent:last_burst_latitude_deg`, `latent:last_burst_longitude_deg` (Pléiades §11);
+10. `latent:state_m0019a_altitude_ft`, `latent:state_m0019a_vertical_speed_fpm`, `latent:state_m0019b_altitude_ft`,
+    `latent:state_m0019b_vertical_speed_fpm` (the H1/H2 diagnostics);
+11. `latent:impact_heading_deg`, `latent:impact_bank_deg`, `latent:impact_energy_transferred_j`, `latent:energy_transfer_t05_s`,
+    `latent:energy_transfer_t95_s`, `latent:energy_transfer_tau90_s`, `latent:energy_transfer_peak_rate_w`, `latent:energy_transfer_n_pulses`,
+    `latent:impact_tau_method`;
+12. `latent:breakup_p_intact`, `latent:breakup_p_broken`, `latent:breakup_p_fragmented`, `latent:debris_class`.
+
+**Optional: 6 more columns, the on-request 00:19 arms.**
+- `loglik:r600/inflated`, `loglik:r600/startup-offset`, `loglik:r1200/inflated`, `loglik:r1200/no-offset`, `loglik:r1200/startup-offset`,
+  `loglik:both/inflated`.
+- **Recommended: keep them.** They cannot be recomputed without re-running, and they cost about 0.1 GB per stratum-seed set.
+
+**Dropped (45 columns; the exact list is in `COLUMNS.txt` and in the README).**
+- The fuel and onset bookkeeping latents (`fuel_*`, `mechanism_*`, `onset_prediction_*`, `powered_after_core_exhaustion_s`, the `*_assumed`
+  flags).
+- The aero draws (`ld_max_clean`, `windmilling_per_engine`, `rat_increment`).
+- `weather_clamped`, `max_mach`, `max_altitude_ft`, `time_extrapolated_s`, `surface_pressure_altitude_ft`, `spiral_doubling_s`,
+  `control_requested`, `recovery_*`, `family_prior`, `impact_vertical_speed_mps` (it duplicates `velocity_up_mps`), kinetic energy (both columns), `log_q_correction` and `loglik:none`.
+- The takeover ground velocity.
+- `state_m2315_*` and `state_m0011_*` (NaN, or the takeover state, at a 00:11 hand-off).
+- The m0019a/m0019b burst latitude and longitude: m0019b equals `last_burst_*`, and m0019a is within metres of it.
+
+**I report these per seed in `run.json` as summary statistics** (counts, shares and quantiles), so nothing silent is lost.
+
+**Size**, assuming run C = 4 strata × 8 seeds × 100,000 parents × 32 descents:
+
+| set | per seed | total |
+|---|---|---|
+| 53 core columns | 0.68 GB | 21.7 GB |
+| with the 6 optional columns (59) | 0.76 GB | **24.2 GB** |
+| old format, for comparison | 2.7 GB | about 87 GB |
+
+At N = 4 children (16 descents) these sizes halve; that is the lever if 24.2 GB is too much. The 5 GB disk floor holds either way: the volume has about 83 GiB free.
+
+**Tested** on `next-run/next-free/seed-1` (3.2 M rows):
+- Conversion takes 21 s and gives 0.755 GB with the optional columns.
+- The worst time error is 0.24 ms; the worst relative error elsewhere is 6e-8.
+- `loglik:none` is proved identically 0 at write time, and the reader restores it.
+- **`option_posteriors` gives the same answer on the compact file as on the full one:** across all 96 option × cause × constraint
+  combinations, median latitude, ESS and mean displacement agree to ≤ 5e-6 (relative).
+- `displacement_hist.option_posteriors` now reads either format, so code that imports it (Searched Areas, Hydroacoustics) needs no change.
+
+**Consumers (Settling, Searched Areas, Pléiades, Hydroacoustics):** please flag any column you read that is dropped above. I will also ship a
+reader, `smoke/compact_impacts.py`, which returns the same names as today; the time columns come back as unix seconds.
+
+- End of flight
