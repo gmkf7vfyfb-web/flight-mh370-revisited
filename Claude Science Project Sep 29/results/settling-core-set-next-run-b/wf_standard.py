@@ -28,6 +28,17 @@ VCOLS = ['unix_s', 'latitude_deg', 'longitude_deg', 'velocity_east_mps', 'veloci
 GRID, R_AUTH = 0.02, 6371.0072
 
 
+def foot_subs(text, info):
+    """Run-specific footnote text: the end-of-flight evidence key actually used (info["evidence_suffix"], "+alive" for files written
+    before it was recorded), the seed count, and WF_FOOT_SUBS, a JSON list of [old, new] pairs (e.g. the run C labels)."""
+    suf = info.get("evidence_suffix", "+alive")
+    text = text.replace("Z_00:19 (+alive)", f"Z_00:19 ({suf})").replace("(+alive)", f"({suf})")
+    text = text.replace("4 strata x 4 seeds", f"{len(info['strata'])} strata x {len(SEEDS)} seeds")
+    for old, new in json.loads(os.environ.get("WF_FOOT_SUBS", "[]")):
+        assert old in text, f"WF_FOOT_SUBS: {old!r} not in footnote"; text = text.replace(old, new)
+    return text
+
+
 def grid_axes(ext):
     le = np.arange(ext[2], ext[3] + GRID / 2, GRID); oe = np.arange(ext[0], ext[1] + GRID / 2, GRID)
     return le, oe
@@ -57,9 +68,9 @@ def prep(SM, root, evid, tag):
     ev = json.loads(pathlib.Path(evid).read_text()); strata = list(ev["p_core"])
     P = {}
     for name, key, _ in OPTS:
-        fixed = ev["p_core"]; m = ev["mixtures"].get(f"{name} +alive", {})
+        fixed = ev["p_core"]; ck = f"{name} +{CON}" if f"{name} +{CON}" in ev["mixtures"] else f"{name} +alive"; m = ev["mixtures"].get(ck, {})
         rew = m.get("p_family_reweighted") if name not in ("00:19 Holland H1", "00:19 Holland H2") else None
-        P[key] = {"fixed": fixed, "reweighted": rew or fixed, "reweighted_source": f"{name} +alive" if rew else "not re-weighted (fixed)"}
+        P[key] = {"fixed": fixed, "reweighted": rew or fixed, "reweighted_source": ck if rew else "not re-weighted (fixed)"}
     rng = np.random.default_rng(20261010)
     # pass 1: extent of every impact (map grid covers all mass)
     lat_min, lat_max, lon_min, lon_max = 90, -90, 360, -360
@@ -110,7 +121,8 @@ def prep(SM, root, evid, tag):
         np.array(tabs[setname]).astype("<f8").tofile(f"field/{tag}{setname}_impacts.f64")
         # source of each table row: stratum index (info["strata"]), seed, and the row index in that seed's impacts file (composer gap 16)
         np.save(f"field/{tag}{setname}_source.npy", np.array(src[setname], dtype=np.int64))
-    arrays, info = {}, {"strata": strata, "extent_lon_lon_lat_lat": ext, "constraint": CON, "options": {}}
+    arrays, info = {}, {"strata": strata, "extent_lon_lon_lat_lat": ext, "constraint": CON, "options": {},
+                    "evidence_suffix": "+" + CON if any(f"{n} +{CON}" in ev["mixtures"] for n, _, _ in OPTS) else "+alive"}
     for j, (name, key, N) in enumerate(OPTS):
         for f in ("rows", "draws", "stratum", "seed"): arrays[f"{f}_{j}"] = np.array(occ[key][f])
         for mix in ("fixed", "reweighted"):
@@ -168,6 +180,7 @@ def render(SM, arcs_json, tag, label, settling_commit, eof_commit):
                           f"Log-on cause: other (H1: fuel exhaustion). Systematic resample, one settling draw each: 200,000 (a), 40,000 (b-e). 0.02 deg grid, Gaussian 0.1 deg, HPD. "
                           f"Mixture ESS by Kish; below {g['ESS_MIN']:,} not estimable (H1/H2: descent-model and sampler changes await Pete; architecture burst study). Labels: core (b) split-half NOT converged; two-tank bookkeeping only; internal-v1 one-engine flow 2x; "
                           f"dive class (b) and Boeing glide PROVISIONAL-OVERNIGHT; Mac, 2 threads.")
+        g["FOOT_TECH"] = foot_subs(g["FOOT_TECH"], info)
         exec(open(pathlib.Path(__file__).with_name("wreckage_map_standard.py")).read(), g)
         print(mix, {n: (round(g["stats"][n]["area_km2_99_90_50"]["impact_resampled"][1] / 1e3, 1), round(g["stats"][n]["area_km2_99_90_50"]["wreckage_field"][1] / 1e3, 1),
                         g["stats"][n]["not_computed_impacts"], g["stats"][n]["resampled_impacts"]) for n in names})

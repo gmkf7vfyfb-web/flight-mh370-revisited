@@ -139,8 +139,8 @@ flight (several release points, as for SAA295 [margo1990, pp. 45-47]). Sealed se
 
 ## Published samples (composer gaps 16, 17, 19)
 
-`mh370-exchange/settling/next-run-b/core-set/` (1.5 GB) holds `nrb{A,B}_impacts.f64`, `nrb{A,B}_elements.f64`, `nrb{A,B}_source.npy`,
-`nrb_draws.npz`, `nrb_info.json` and `SHA256SUMS`; the layout is in `mh370-exchange/settling/next-run-b/README.txt`.
+`mh370-exchange/settling/next-run-b-core-set/` (1.5 GB) holds `nrb{A,B}_impacts.f64`, `nrb{A,B}_elements.f64`, `nrb{A,B}_source.npy`,
+`nrb_draws.npz`, `nrb_info.json` and `SHA256SUMS`; the layout is in `mh370-exchange/settling/next-run-b-core-set/README.txt`.
 - **Gap 16 (row index):** `<x>_source.npy` is int64 (rows, 3): stratum index, seed, and the row index into
   `end-of-flight/next-run/<stratum>/seed-<seed>/impacts.npy`, one line per impact-table row. Checked against impacts.npy: 0 mismatches.
   It was written by a re-run of prep that is bit-identical to these tables, so `nrb*` and the sidecars belong together.

@@ -147,3 +147,21 @@ not print.
 
 **Unchanged:** the air9 sanity comparison (KRAKEN vs RAM, median |Δ| 1.8 dB) supports the KRAKEN results
 on deep SOFAR paths.
+
+## Correction (10 Oct 2026, ~23:40 UTC): the air9 verdict does not cover the frequency slope
+
+**The pre-registered verdict "PARTLY VALIDATED" (median and RMS of residuals over 13–40 Hz) stands as computed, but
+it is not a validation of the frequency dependence.**
+- Measured − predicted tilts by +12.7 dB per octave (H01W) and +7.4 dB per octave (H08S). It runs from about −10 dB
+  at the low end to +14/+15 dB at 63 Hz.
+- The near-zero median arises because the curves cross near 25–35 Hz.
+- The tilt is common to both stations, so it is more likely in the source spectrum than in the path.
+- Chart: `hydroacoustics-air9-residual-vs-frequency.png`. A slope criterion is added for future validation.
+- Raised by Pete.
+
+- Hydroacoustic Module
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: air9 covers 13-63 Hz at H01W and 5-63 Hz at H08S. Outside that span nothing is calibrated (G2, G5).

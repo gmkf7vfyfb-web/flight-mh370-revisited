@@ -72,3 +72,8 @@ H1 and H2 for orientation, are in `core_windows_by_option.csv`.
 - The end edges are still unconverged for 00:19 Held Out and 00:19 R600 BTO Only.
 
 - Hydroacoustic Module
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: Windows are the union over the arms with ESS ≥ 1,000 (options 1-3). Holland H1/H2 (G1) are NOT estimable; their provisional impact ranges end by 02:25 at H08S, inside the request windows. Families are fixed and re-weighted as stated above.

@@ -134,3 +134,8 @@ already the limiting station. The planning values of a raw-data request therefor
 logger's fit, used as a proxy.
 
 - Hydroacoustic Module
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: The energies come from reference-289 (both branches: dive and ditching). The P_D values depend on TL (G2) and coupling (G3).

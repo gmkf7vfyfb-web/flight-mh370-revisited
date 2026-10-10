@@ -1,7 +1,7 @@
 # Methods draft: wreckage settling
 
 Ocean settling module, 9 October 2026; updated 10 October (overnight) with the reference-289 results and the seabed
-wreckage PDFs. This is a first draft of the paper's settling methods
+wreckage PDFs, and late on 10 October with core run (b) (§6b). This is a first draft of the paper's settling methods
 section, written under the architecture entry of 9 Oct ~04:15 UTC. Source keys in square brackets
 refer to `results/settling-references.md`, and ocean products to `results/ocean-references.md`. Code
 is `engine/hypotheses/settling/` on branch `hypothesis/settling` (`8492de7` for §§1-5; `d1e32ab` for the
@@ -199,6 +199,40 @@ Reading search coverage over the settled field instead of at the impact point ch
 field counts as one object with a covered fraction. It changes it by 2.3 points only if any single settled element on
 searched ground counts as a detection; that case arises from fields straddling the corridor edge in 2.3 % of outcomes.
 The impact point is therefore an adequate stand-in for the seabed field in the search likelihood.
+
+## 6b. Core run (b): the five standard 00:19 options, and by type of flight end
+
+`results/settling-core-set-next-run-b/` and `results/settling-family-next-run-b/`; samples in `mh370-exchange/settling/next-run-b-*`. The
+construction is that of §6a, with these changes:
+- impacts come from end of flight's next-run on core (b): four core strata × four seeds;
+- the constraint is `unpowered` (airborne at 00:19:37 and not powered at 01:15:56; ruling ~19:10 B(b));
+- strata are mixed by core's P(family), re-weighted by end of flight's Z_00:19 for each option (fixed weights are shown beside);
+- the ocean window is widened to 75-115° E, 45-10° S on the wider GLORYS12V1 column;
+- impacts that settling cannot compute (north of 10° S) are carried at the impact position, not excluded (architecture ruling 16:25 -0600).
+
+| 00:19 option | impact ESS | 90 % area, impacts → seabed (thousand km²) | settling, 90 % / 99 % |
+|---|---|---|---|
+| 00:19 Held Out | 21.0 M | 578.7 → 579.5 | +0.14 % / +0.24 % |
+| 00:19 R600 BTO Only | 13.0 M | 363.8 → 364.9 | +0.28 % / +0.68 % |
+| 00:19 R600 BTO + Raw BFO | 509,632 | 238.8 → 239.4 | +0.25 % / +0.50 % |
+| 00:19 Holland H1 | 86 | not yet estimable | — |
+| 00:19 Holland H2 | 124 | not yet estimable | — |
+
+**Kernel.** The settled-offset kernel is unchanged from §6a: p50 0.36 km, p90 3.6-3.9 km, 7-8 % of settled mass beyond 5 km, and p99
+about 21-22 km. About 18 % of mass stays afloat.
+
+**Holland H1/H2.** They are not estimable because the descent proposal almost never contains the push-over that both 00:19 bursts
+need (Δv ≈ −9,400 to −9,800 ft/min in 8 s). Settling cannot repair this. The panels are stamped until end of flight's descent model and
+sampler change (`results/settling-h1h2-estimability.md`).
+
+**By type of flight end.** End of flight's `family4_code` gives the families, with ruling 6 as amended: code 4 maintained-then-lost goes to
+A2, and an undemonstrated recovery goes to A1. The 90 % seabed areas for Held Out are A1 393, A2 673 and B 529 thousand km². For R600
+BTO + Raw BFO they are A1 86, A2 245 and B 221. A2 (a controlled or arrested phase) is the widest under every estimable option. Settling
+adds 0.18-0.77 % in every family. The family shares stay close to end of flight's prior (Held Out: A1 15 %, A2 33 %, B 42 %, code 6
+outside B 10.8 %). Read each family as a conditional result, not as evidence for that family. Two independent resamples of the same B
+posterior differ by up to 2.1 % in 90 % area, which sets the resample noise at 20,000 draws.
+
+**Status.** Core (b) does not pass split-half; every area here inherits that, and none is evidence about where MH370 lies.
 
 ## 7. Declared alternatives (off in the baseline)
 

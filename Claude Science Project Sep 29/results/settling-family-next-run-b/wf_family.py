@@ -7,6 +7,12 @@ Families are end of flight's labels (`compact_impacts.family_labels` on latent:o
 Code 6 (deliberate onset then no intervention) is outside B as ruled; its share is reported, it is in no family panel.
 Override with WF_FAMILIES="A1:1,4;A2:2;B:3,5".
 
+WF_FAMILY_MAP selects the code set (default "ruling6"):
+    ruling6   ruling 6 as confirmed and amended by end of flight (~22:45 UTC 10 Oct): family4_code from
+              family_labels(..., latent:recovery_attempted): code 4 maintained-then-lost -> A2 ('lost'); code 4 with an attempted but
+              undemonstrated recovery -> A1. Groups A1:1; A2:2; B:3 (3 includes lost en route); 6 outside B.
+    code4-A1  the earlier PROVISIONAL grouping (A1 = {1, 4}), kept as a labelled sensitivity.
+
 Within an option, family F's posterior is p restricted to F and renormalised. Strata are mixed by
 P(stratum | data, option, F) ∝ P(stratum | data, option) × share_F(stratum), share_F = seed mean of the posterior mass on F,
 with P(stratum | data, option) end of flight's re-weighted P(family) (fixed for Held Out, H1 and H2).
@@ -18,11 +24,13 @@ with P(stratum | data, option) end of flight's re-weighted P(family) (fixed for 
 import sys, os, json, math, pathlib, numpy as np
 from collections import Counter
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
-from wf_standard import OPTS, CON, SEEDS, VCOLS, GRID, grid_axes, area90, columns
+from wf_standard import OPTS, CON, SEEDS, VCOLS, GRID, grid_axes, area90, columns, foot_subs
 
 N_FAM = {"00:19 Held Out": 60000}
 N_DEFAULT = 20000
-FAMS = [(f.split(":")[0], {float(x) for x in f.split(":")[1].split(",")}) for f in os.environ.get("WF_FAMILIES", "A1:1,4;A2:2;B:3,5").split(";")]
+FAMILY_MAP = os.environ.get("WF_FAMILY_MAP", "ruling6"); assert FAMILY_MAP in ("ruling6", "code4-A1"), FAMILY_MAP
+_DEF_FAMS = "A1:1;A2:2;B:3" if FAMILY_MAP == "ruling6" else "A1:1,4;A2:2;B:3,5"
+FAMS = [(f.split(":")[0], {float(x) for x in f.split(":")[1].split(",")}) for f in os.environ.get("WF_FAMILIES", _DEF_FAMS).split(";")]
 FAM_TEXT = {"A1": "A1: fuel exhaustion, then no control", "A2": "A2: fuel exhaustion, then controlled to the surface",
             "B": "B: deliberate descent before fuel exhaustion"}
 
@@ -32,7 +40,7 @@ def prep(SM, root, evid, tag):
     ev = json.loads(pathlib.Path(evid).read_text()); strata = list(ev["p_core"])
     P0 = {}
     for name, key, _ in OPTS:
-        m = ev["mixtures"].get(f"{name} +alive", {})
+        m = ev["mixtures"].get(f"{name} +{CON}") or ev["mixtures"].get(f"{name} +alive", {})
         rew = m.get("p_family_reweighted") if name not in ("00:19 Holland H1", "00:19 Holland H2") else None
         P0[key] = rew or ev["p_core"]
     rng = np.random.default_rng(20261011)
@@ -47,7 +55,10 @@ def prep(SM, root, evid, tag):
     ext = [math.floor(lon_min) - 1.0, math.ceil(lon_max) + 1.0, math.floor(lat_min) - 1.0, math.ceil(lat_max) + 1.0]; le, oe = grid_axes(ext)
     def posteriors(st, s):
         d = root / st / f"seed-{s}"; _, gg = columns(d)
-        fam = family_labels(gg("latent:onset_mechanism"), gg("latent:control_realised"))["family_code"]
+        if FAMILY_MAP == "ruling6":
+            fam = family_labels(gg("latent:onset_mechanism"), gg("latent:control_realised"), gg("latent:recovery_attempted"))["family4_code"]
+        else:
+            fam = family_labels(gg("latent:onset_mechanism"), gg("latent:control_realised"))["family_code"]
         masks = {F: np.isin(fam, list(codes)) for F, codes in FAMS}
         for k, p, c in option_posteriors(d, d, constraints=(CON,)):
             base = k[: -len("+" + CON)] if k.endswith("+" + CON) else None
@@ -66,7 +77,8 @@ def prep(SM, root, evid, tag):
             PF[(key, F)] = {st: (w_[st] / t if t > 0 else 0.0) for st in strata}
     # pass 2: per (option, family, stratum, seed) a systematic resample of N * P / n_seeds; mixture histograms and Kish ESS on the fly
     pathlib.Path("field").mkdir(exist_ok=True)
-    info = {"strata": strata, "extent_lon_lon_lat_lat": ext, "constraint": CON, "families": {F: sorted(c) for F, c in FAMS}, "entries": {}}
+    info = {"strata": strata, "extent_lon_lon_lat_lat": ext, "constraint": CON, "families": {F: sorted(c) for F, c in FAMS}, "family_map": FAMILY_MAP, "entries": {},
+            "evidence_suffix": "+" + CON if any(f"{n} +{CON}" in ev["mixtures"] for n, _, _ in OPTS) else "+alive"}
     Hm = {(key, F): np.zeros((len(le) - 1, len(oe) - 1)) for _, key, _ in OPTS for F, _ in FAMS}; inv_ess = {(key, F): 0.0 for _, key, _ in OPTS for F, _ in FAMS}
     tabs = {F: [] for F, _ in FAMS}; src = {F: [] for F, _ in FAMS}; occ = {(key, F): {"rows": [], "draws": []} for _, key, _ in OPTS for F, _ in FAMS}
     for st in strata:
@@ -146,10 +158,11 @@ def render(SM, arcs_json, tag, label, settling_commit, eof_commit):
                       f"AusSeabed then GEBCO_2026), settling {settling_commit}, breakup table PROVISIONAL, afloat pieces excluded. Impacts: end of flight on "
                       f"core ({label}), {len(info['strata'])} strata x {len(SEEDS)} seeds, prior track 289.7 deg, EoF {eof_commit}, option_posteriors +{CON}; "
                       f"family codes (end of flight family_labels) " + ", ".join(f"{F} = {info['families'][F]}" for F in fams) +
-                      " (code 4 with A1 PROVISIONAL; code 6 outside B, share " + ", ".join(f"{v * 100:.1f} %" for v in out.values()) + " by column). "
-                      "Strata: P(stratum | option) x share of the family. Systematic resample, one settling draw each: 60,000 (Held Out), 20,000 (others) per "
+                      (" (family4_code, ruling 6 as amended: code 4 lost -> A2, undemonstrated recovery -> A1; code 6 outside B, share " if FAMILY_MAP == "ruling6" else " (code 4 with A1 PROVISIONAL; code 6 outside B, share ") + ", ".join(f"{v * 100:.1f} %" for v in out.values()) + " by column). "
+                      "Strata: P(stratum | option) (+alive) x share of the family. Systematic resample, one settling draw each: 60,000 (Held Out), 20,000 (others) per "
                       "family. 0.02 deg grid, Gaussian 0.1 deg, HPD. Below 1,000 Kish ESS not estimable. Labels: core split-half NOT converged; two-tank "
                       "bookkeeping only; dive class (b) PROVISIONAL; point mass cannot unload; Mac, 2 threads.")
+    g["FOOT_TECH"] = foot_subs(g["FOOT_TECH"], info)
     exec(open(pathlib.Path(__file__).with_name("wreckage_map_standard.py")).read(), g)
     res = {k: {"impact90": g["stats"][k]["area_km2_99_90_50"]["impact_resampled"][1], "seabed90": g["stats"][k]["area_km2_99_90_50"]["wreckage_field"][1],
                "ess": g["ESS"][k], "estimable": g["stats"][k]["estimable"], "share": info["entries"][k]["posterior_share_of_family"]} for k in g["KEYS"]}

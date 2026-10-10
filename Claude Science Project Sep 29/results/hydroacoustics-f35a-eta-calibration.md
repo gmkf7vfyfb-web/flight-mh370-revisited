@@ -88,3 +88,8 @@ gives P_D **7.6 %** at false alarm 0.005 and **32 %** at 0.05; the table above i
 
 **Withdrawn:** "The IMOS recorders remain effectively blind to the impact". The recorders are marginal;
 the non-detection remains uninformative (under 10⁻³ bit).
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: One calibration event (near-vertical, about 19 t). The ditching extrapolation is G3.

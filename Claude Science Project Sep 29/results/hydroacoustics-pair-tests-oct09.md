@@ -348,3 +348,8 @@ defined: they were conditioned on the impact PDF (location and time), not on Kad
   below every injection-recovery P_D measured here (≤ 0.46 for timing, and 0.007–0.18 below −6 dB for shape).
 
 - Hydroacoustic Module, 10 Oct 2026
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: The tests are conditioned on the impact PDF of that day (reference-289). Bearing gate 246-284 deg and lag window 856-1,347 s. Kadri's 306 deg source lies outside both (Addendum 4). Not a test of the whole feasible set.

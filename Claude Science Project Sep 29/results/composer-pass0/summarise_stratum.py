@@ -21,6 +21,10 @@ GRID_MIN, GRID_MAX, GRID_STEP = -50.0, 50.0, 0.05
 MAP_STEP, MAP_LAT, MAP_LON = 0.25, (-50.0, 10.0), (55.0, 125.0)
 A_KM, F = 6378.137, 1.0 / 298.257223563
 E2 = F * (2.0 - F)
+# EoF family_code (compact_impacts.family_labels): 1 A1, 2 A2, 4 A then lost; B split 15:45 -0600 10 Oct into
+# 3 B controlled, 5 B controlled then lost, 6 B uncontrolled. Pass 1 ran with range(5), so codes 5 and 6 were not
+# histogrammed; report.py recovers B as the complement (see there).
+NFAM = 7
 BANDS = [(-90.0, -39.0), (-39.0, -36.0), (-36.0, -33.0), (-33.0, -30.0), (-30.0, 0.0)]
 NPTS = int(round((GRID_MAX - GRID_MIN) / GRID_STEP)) + 1
 SETTLING = pathlib.Path("/Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/d5fc8d7c-15e5-4858-b15e-9553989a6413/work")
@@ -112,7 +116,7 @@ def main(stratum, ind, rout, outd):
         fac, mp = pooling(modes)
         halves = [pooling(modes[:2])[0], pooling(modes[2:])[0]]
         lat_h = np.zeros(NPTS); lat_hh = [np.zeros(NPTS), np.zeros(NPTS)]
-        fam_h = np.zeros((5, NPTS)); fam_m = np.zeros(5)
+        fam_h = np.zeros((NFAM, NPTS)); fam_m = np.zeros(NFAM)
         cell_h = np.zeros(NY * NX); cell_hh = [np.zeros(NY * NX), np.zeros(NY * NX)]
         mass = 0.0
         seabed = {}
@@ -130,13 +134,13 @@ def main(stratum, ind, rout, outd):
             lat_hh[i // 2] += np.bincount(b[okb], weights=hw[okb], minlength=NPTS)
             cell_h += np.bincount(c[okc], weights=w[okc], minlength=NY * NX)
             cell_hh[i // 2] += np.bincount(c[okc], weights=hw[okc], minlength=NY * NX)
-            for f in range(5):
+            for f in range(NFAM):
                 sel = okb & (fm == f)
                 fam_h[f] += np.bincount(b[sel], weights=w[sel], minlength=NPTS); fam_m[f] += w[fm == f].sum()
             mass += w.sum()
             # coverage: Kish ESS (rows) of this seed's composed weights, per EoF family and per latitude band
             lat = d["latitude_deg"]
-            for f in range(5):
+            for f in range(NFAM):
                 sw = wq[fm == f]; ess_fam.setdefault(str(f), []).append(float(sw.sum() ** 2 / (sw ** 2).sum()) if (sw ** 2).sum() > 0 else 0.0)
             for lo, hi in BANDS:
                 sw = wq[(lat >= lo) & (lat < hi)]
