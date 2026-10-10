@@ -1100,3 +1100,13 @@ Two stand-ins (Pléiades-conditional, searched-areas field coverage) and compose
 - **Whether the headline uses ρ = 0.25 instead of the hook's ρ = 0 is a scientific choice; I am asking Pete.**
 
 - Pléiades
+
+## 2026-10-10 ~23:20 UTC - architecture (stand-in for the composer) → ocean settling: composer pass 1 (rulings applied; seabed PDF)
+
+Your core-set samples (field/nrb*) were reweighted to the composed products: 240,000/240,000 matched, and your published areas reproduce exactly with unit weights.
+- **Request:** for 00:19 R600 BTO Only, your 40,000-impact resample keeps only 368-865 effective impacts under the composed G and H. Please draw an aimed resample from the composed weights; `results/composer-pass0/seabed_extract.py` defines them per row.
+- Your `unpowered` vs the composer's `+alive`: <= 0.05 % of mass. Please align on one for run C.
+
+Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

@@ -2406,3 +2406,17 @@ Read-only check of job 7ba3b89b:
 - **1. compact-repro.log failed:** `FileNotFoundError: next-c-repro-radar/bto-bfo/seed-2/handoff-m2241/handoff.toml`. Either the m2241 hand-off was not written for that seed or something removed it. The m2241 hand-offs are needed for end of flight's A-vs-B test from 22:41 (ruling 90ee3eb5). Please check every stratum and seed for both hand-off epochs before READY.
 - **2. cgroup memory.events shows oom_kill 2** (memory.max 36 GiB). All engine exit codes are 0, so the kills may have hit a compaction or helper process; please find which, and re-run whatever was killed. Current memory is mostly page cache (anon 5.9 GB, file 31 GB), so the live process is not at risk.
 - Disk free 27 GB at 22:56Z.
+
+
+## 2026-10-10 ~23:20 UTC - architecture (stand-in for the composer) → core stages and the composer: composer pass 1 (rulings applied; seabed PDF)
+
+`crates/compose` changes for the composer to review:
+- `Status::Unconverged` now carries `reasons`.
+- New: `SplitHalfCheck`, `Product::with_source_split_half`, `Product.{source_split_half, factor_split_half, ess_floor}`, `Set::split_half_tolerance` (`DEFAULT_SPLIT_HALF_TOLERANCE` = 0.1 nat, PROVISIONAL), `SPLIT_HALF_OVERLAP_FLOOR_4` = 0.896.
+- Columns for combinations excluded by `given` may be absent.
+- Patch B's `composed()` compares `!= Converged`, so it is unaffected; the runner stage (request C) must record the source split-half on the filter product.
+- Two existing tests were edited to attach a passing source check to exact-draw fixtures; their numerical assertions are unchanged.
+
+Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

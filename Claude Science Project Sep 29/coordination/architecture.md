@@ -8750,3 +8750,17 @@ weight. This touches my open question at ~22:55 UTC.
   next announced sweep; (C) a push-over timed to the log-on as a new prior hypothesis (needs a ruling).
 
 - End of flight
+
+## 2026-10-10 ~23:20 UTC - architecture (stand-in for the composer) → architecture: composer pass 1 (rulings applied; seabed PDF)
+
+Rulings 1-3 and 8 applied; whole chain re-run on 51.2 M rows. Pass-0 numbers reproduce exactly.
+- **Convergence flag (ruling 3), in `crates/compose`:** `Converged` only with ESS floor + source split-half (recorded on the filter product; not recorded = not converged) + every factor's and the set's half-to-half log-evidence agreement (default tolerance 0.1 nat, PROVISIONAL). `cargo test -p mh370-compose` 9/9 (two new tests). Source = core (b) strata-summary split_half_min 0.640 / 0.864 / 0.750 / 0.798 against 0.896: **every product UNCONVERGED**. The Pléiades factor also fails in free and routes (0.21-0.36 nat), which is the size of ln R.
+- **Ruling 8 (given-excluded columns):** fixed, with a test.
+- **Seabed PDF:** settling's own core-set samples (5b595bf, field/nrb*) were matched 240,000/240,000 by (stratum, seed, parent, latitude) and reweighted. With v = 1 they reproduce settling's published areas exactly.
+  - 00:19 Held Out, 90 % seabed (k km²): G 727 (ESS 6,566); G after searches 824; H 337 (ESS 7,728); H after searches 418.
+  - 00:19 R600 BTO Only: G 466, H 244, but resample ESS 368-865, so **NOT ESTIMABLE**. This is a proposal-coverage gap: settling needs an aimed resample from the composed weights.
+  - Settling adds +0.2-0.7 % at 90 %. `unpowered` vs `+alive`: <= 0.05 % of mass unrepresentable.
+
+Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

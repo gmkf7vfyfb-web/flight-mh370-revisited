@@ -138,7 +138,10 @@ def main(work, out):
                        "ln_evidence_vs_flight": cum_inc(D, st, tag, key),
                        "split_half_increment_seeds12": (sh.get("log_evidence_increment") or [None, None])[0],
                        "split_half_increment_seeds34": (sh.get("log_evidence_increment") or [None, None])[1],
-                       "composer_status": p["status"], "min_ess_parents_per_seed": min(e[1] for e in p["ess_rows_parents"]),
+                       "composer_status": p["status"], "composer_status_reasons": " | ".join(p.get("status_reasons", [])),
+                       "source_split_half": (p.get("source_split_half") or {}).get("statistic"),
+                       "factor_split_half": "; ".join(f"{c['what'].split(',')[0]}: {c['statistic']:.3f} ({'pass' if c['passed'] else 'FAIL'})" for c in p.get("factor_split_half", []) if c["statistic"] is not None),
+                       "min_ess_parents_per_seed": min(e[1] for e in p["ess_rows_parents"]),
                        "sum_ess_rows_4_seeds": sum(e[0] for e in p["ess_rows_parents"])}
                 for f in p["factors"]:
                     row[f"not_computed_weight_max[{f['name']}]"] = max(f["not_computed_weight"]) if f["not_computed_weight"] else 0.0
@@ -149,7 +152,8 @@ def main(work, out):
                     cell = D[st]["npz"][f"{pid}|cell"].astype(float); row["hdr90_area_km2"] = float(hdr_mask(cell / cell.sum(), 0.9).sum() * S.CELL_KM2)
                     cov = D[st]["summary"]["products"][pid]
                     for f, v in cov["ess_rows_per_seed_by_family"].items():
-                        rows_cov.append({"option": ONAME[tag], "product": key, "stratum": SNAME[st], "by": "EoF family code", "value": f, "ess_rows_per_seed": json.dumps([round(x) for x in v])})
+                        rows_cov.append({"option": ONAME[tag], "product": key, "stratum": SNAME[st], "by": "EoF family code",
+                                         "value": f + (" (B controlled only: EoF split B into codes 3, 5, 6 at 15:45 -0600; 5 and 6 not recorded in pass 1; all-B values are pass 0's, commit 258e894)" if f == "3" else ""), "ess_rows_per_seed": json.dumps([round(x) for x in v])})
                     for b, v in cov["ess_rows_per_seed_by_latitude_band"].items():
                         rows_cov.append({"option": ONAME[tag], "product": key, "stratum": SNAME[st], "by": "impact latitude band", "value": b, "ess_rows_per_seed": json.dumps([round(x) for x in v])})
                 rows_prod.append(row)
@@ -164,11 +168,16 @@ def main(work, out):
                 h0, _ = mixture(D, tag, key, sc, "lat_h0"); h1, _ = mixture(D, tag, key, sc, "lat_h1")
                 cell, _ = mixture(D, tag, key, sc, "cell"); cell = cell / cell.sum()
                 fam, _ = mixture(D, tag, key, sc, "fam")
-                fm = {f: sum(w[s] * D[s]["summary"]["products"][f"{tag}-{key}"]["family_mass"][f] for s in STRATA) for f in range(5)}
+                nf = len(D[STRATA[0]]["summary"]["products"][f"{tag}-{key}"]["family_mass"])
+                fm = {f: sum(w[s] * D[s]["summary"]["products"][f"{tag}-{key}"]["family_mass"][f] for s in STRATA) for f in range(nf)}
+                # EoF split B on 15:45 -0600 (codes 3, 5, 6). If the summaries hold only codes 0-4 (pass 1), B is the
+                # complement of the A codes and the unlabelled rows, in probability and in the latitude histogram.
+                b_total = 1.0 - fm[0] - fm[1] - fm[2] - fm[4]
+                b_hist = h - fam[0] - fam[1] - fam[2] - fam[4]
                 e = {"stratum_weights": w, **stats(d), "split_half_overlap": overlap(smooth_to_density(h0), smooth_to_density(h1)),
                      "hdr50_area_km2": float(hdr_mask(cell, 0.5).sum() * S.CELL_KM2), "hdr90_area_km2": float(hdr_mask(cell, 0.9).sum() * S.CELL_KM2),
-                     "smoothed_map_mode_lat_lon": smoothed_mode(cell), "family_probability": {"A1 (with A-then-lost)": fm[1] + fm[4], "A2": fm[2], "B": fm[3], "A-then-lost alone": fm[4], "unlabelled": fm[0]}}
-                fams = {"A1 (with A-then-lost)": fam[1] + fam[4], "A2": fam[2], "B": fam[3], "A2 (with A-then-lost, sensitivity)": fam[2] + fam[4], "A1 alone (sensitivity)": fam[1]}
+                     "smoothed_map_mode_lat_lon": smoothed_mode(cell), "family_probability": {"A1 (with A-then-lost)": fm[1] + fm[4], "A2": fm[2], "B": b_total, "A-then-lost alone": fm[4], "B controlled (code 3)": fm[3], "unlabelled": fm[0]}}
+                fams = {"A1 (with A-then-lost)": fam[1] + fam[4], "A2": fam[2], "B": b_hist, "A2 (with A-then-lost, sensitivity)": fam[2] + fam[4], "A1 alone (sensitivity)": fam[1], "B controlled (code 3)": fam[3]}
                 e["family_stats"] = {k: (stats(smooth_to_density(v)) if v.sum() > 0 else None) for k, v in fams.items()}
                 O["products"][key][sc] = e
                 rows_mix.append({"option": ONAME[tag], "product": key, "mixture": sc, **{k: e[k] for k in ("q025", "median", "q975", "mode", "split_half_overlap", "hdr50_area_km2", "hdr90_area_km2")},

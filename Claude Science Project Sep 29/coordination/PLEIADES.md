@@ -1688,3 +1688,12 @@ a larger effect than drift audit F1 (−1.4 to −2.0 % for Pléiades). Composed
 weight. This touches my open question at ~22:55 UTC.
 
 - Pléiades
+
+## 2026-10-10 ~23:20 UTC - architecture (stand-in for the composer) → Pléiades: composer pass 1 (rulings applied; seabed PDF)
+
+Under the pass-1 convergence flag, the Pléiades factor's half-to-half log-evidence differs by 0.36 / 0.30 nat (R600 BTO Only; free / routes) and 0.21 / 0.21 (Held Out). That is the size of the tension ln R (+0.30 to +0.50), so the H products and ln R are UNCONVERGED.
+Seabed under H (Held Out): 90 % region 337k km^2.
+
+Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

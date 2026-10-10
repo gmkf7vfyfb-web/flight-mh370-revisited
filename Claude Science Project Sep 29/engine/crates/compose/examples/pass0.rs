@@ -9,9 +9,10 @@
 //! library unchanged, and writes every product's bookkeeping as JSON plus the composed weights of selected
 //! products as little-endian f32. It draws no densities. It also runs the refusal cases a pass 0 must record.
 //!
-//! Usage: cargo run --release -p mh370-compose --example pass0 -- <stratum input dir> <out dir>
+//! Usage: cargo run --release -p mh370-compose --example pass0 -- <stratum input dir> <out dir> [<source split-half overlap> <description>]
+//! The source split-half (core run's minimum over balanced partitions) is recorded on the filter product (ruling 3).
 
-use compose::{compose, Declaration, Mode, Product, Replicate, Set, Status, MODE_COUNT};
+use compose::{compose, Declaration, Mode, Product, Replicate, Set, SplitHalfCheck, Status, MODE_COUNT, SPLIT_HALF_OVERLAP_FLOOR_4};
 use hypothesis::Alternatives;
 use std::collections::BTreeMap;
 use std::fmt::Write as _;
@@ -186,10 +187,18 @@ fn product_json(p: &Product, label: &str) -> String {
     write!(s, "\"conditional_on\":{{{}}},\"log_evidence_increment\":{},", cond.join(","), num(p.log_evidence_increment)).unwrap();
     match &p.status {
         Status::Converged => write!(s, "\"status\":\"converged\",").unwrap(),
-        Status::Unconverged { ess_parents, floor } => {
-            write!(s, "\"status\":\"unconverged\",\"status_ess_parents\":{},\"status_floor\":{},", num(*ess_parents), num(*floor)).unwrap()
-        }
+        Status::Unconverged { ess_parents, floor, reasons } => write!(
+            s,
+            "\"status\":\"unconverged\",\"status_ess_parents\":{},\"status_floor\":{},\"status_reasons\":{},",
+            num(*ess_parents),
+            num(*floor),
+            strs(reasons)
+        )
+        .unwrap(),
     }
+    let chk = |c: &SplitHalfCheck| format!("{{\"what\":{:?},\"statistic\":{},\"threshold\":{},\"at_least\":{},\"passed\":{}}}", c.what, num(c.statistic), num(c.threshold), c.at_least, c.passed);
+    write!(s, "\"source_split_half\":{},", p.source_split_half.as_ref().map_or("null".into(), chk)).unwrap();
+    write!(s, "\"factor_split_half\":[{}],", p.factor_split_half.iter().map(chk).collect::<Vec<_>>().join(",")).unwrap();
     write!(s, "\"ess_rows_parents\":{},", ess_json(&p.ess)).unwrap();
     let factors: Vec<String> = p
         .factors
@@ -307,6 +316,7 @@ impl Ctx<'_> {
 fn main() {
     let args: Vec<String> = std::env::args().collect();
     let (input, out) = (PathBuf::from(&args[1]), PathBuf::from(&args[2]));
+    let source = args.get(3).map(|v| SplitHalfCheck::overlap(args.get(4).map_or("source posterior split-half overlap", |s| s.as_str()), v.parse().expect("source overlap"), SPLIT_HALF_OVERLAP_FLOOR_4));
     fs::create_dir_all(&out).unwrap();
     let seeds: Vec<Seed> = (1..=4).map(|k| read_seed(&input, k)).collect();
     let core_modes: Vec<[Mode; MODE_COUNT]> = seeds.iter().map(|s| s.core_final_modes).collect();
@@ -339,14 +349,20 @@ fn main() {
     // Base: the filter posterior on the impact samples. Observations: core's run.json assignment restricted to the
     // epochs at or before the m0011 hand-off (PASS-0; run.json lists every observation through its m0019b stop).
     let base_obs: Vec<String> = CORE_ALL.iter().filter(|o| !o.starts_with("m0019")).map(|s| s.to_string()).collect();
-    let p0 = Product::filter(&samples, base_obs).expect("filter product");
+    let mut p0 = Product::filter(&samples, base_obs).expect("filter product");
+    if let Some(c) = &source {
+        p0 = p0.with_source_split_half(c.clone());
+    }
     // R1: the filter's own final per-mode evidence (core run.json) against the m0011 hand-off rows.
     let with_core: Vec<Replicate> = samples.iter().zip(&core_modes).map(|(s, m)| Replicate { seed: s.seed, columns: vec!["weight".into(), "mode".into()], values: s.values.chunks(s.columns.len()).flat_map(|row| [row[0], row[2]]).collect(), modes: *m }).collect();
     if let Err(e) = Product::filter(&with_core, CORE_ALL.iter().map(|s| s.to_string()).collect()) {
         cx.refusals.push(format!("{{\"case\":\"R1 filter product with core run.json final per-mode evidence\",\"error\":{e:?}}}"));
     }
     drop(with_core);
-    let p0_full = Product::filter(&samples, CORE_ALL.iter().map(|s| s.to_string()).collect()).expect("filter product, full list");
+    let mut p0_full = Product::filter(&samples, CORE_ALL.iter().map(|s| s.to_string()).collect()).expect("filter product, full list");
+    if let Some(c) = &source {
+        p0_full = p0_full.with_source_split_half(c.clone());
+    }
     cx.products.push(product_json(&p0, "flight (filter hand-off weights)"));
     let h = [("pleiades-origin", "H")];
 

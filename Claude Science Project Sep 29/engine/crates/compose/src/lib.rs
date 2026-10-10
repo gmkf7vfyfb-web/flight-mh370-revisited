@@ -46,8 +46,16 @@
 //!   exceeds the set's tolerance in any replicate;
 //! - conditionals are labelled: a product with `given` alternatives is conditional on them,
 //!   says so, and carries P(option | D) beside p(x | D, option) where the scale allows it;
-//! - a product whose effective number of parents falls below the set's floor in any
-//!   replicate is marked unconverged, and summary.rs draws no PDF for it.
+//! - a product is `Converged` only if (i) its effective number of parents reaches the set's
+//!   floor in every replicate, (ii) the source posterior's own split-half check is recorded on
+//!   the base product and passed ([`Product::with_source_split_half`]), and (iii) every factor
+//!   composed into it passes its split-half check: the factor's log-evidence increment, alone on
+//!   its base and pooled over each half of the replicates, agrees between the halves within the
+//!   set's `split_half_tolerance`; so does the set's joint increment. Anything else is
+//!   `Unconverged`, with every failed reason listed, and summary.rs draws no PDF for it
+//!   (architecture ruling 3, 10 Oct 2026, after composer pass 0);
+//! - a column for an option combination that `given` excludes may be absent: it is read as
+//!   not computed, and only the posterior of that alternative is then not reported (ruling 8).
 //!
 //! Results per descent family come first: per replicate, each family's prior and posterior
 //! mass and its Bayes factor ln(sum_family w L / sum_family w), which is independent of the
@@ -82,6 +90,15 @@ pub const DEFAULT_ESS_FLOOR: f64 = 1000.0;
 /// Default refusal threshold on the share of pre-composition weight that a factor did not
 /// compute, as `[[compose]] tolerance` defaults in config.rs.
 pub const DEFAULT_TOLERANCE: f64 = 1e-3;
+
+/// Default largest difference, in nats, between the two replicate halves' log-evidence
+/// increments of one factor (or of a set). PROVISIONAL (composer pass 1 stand-in, 10 Oct 2026):
+/// 0.1 nat is a 10 % difference in the evidence ratio, the precision at which tension ratios are
+/// quoted. The composer module to confirm or replace with a Monte Carlo-calibrated rule.
+pub const DEFAULT_SPLIT_HALF_TOLERANCE: f64 = 0.1;
+
+/// The project's split-half overlap floor for four replicates (results/split-half-threshold.md).
+pub const SPLIT_HALF_OVERLAP_FLOOR_4: f64 = 0.896;
 
 /// What one factor declared: an impact module (as evaluate.json records it), or the terminal
 /// stage's data option.
@@ -182,6 +199,8 @@ pub struct Set {
     pub tolerance: f64,
     /// Smallest effective number of parents, per replicate, of a converged product.
     pub ess_floor: f64,
+    /// Largest half-to-half difference of a factor's log-evidence increment, nats.
+    pub split_half_tolerance: f64,
 }
 
 impl Set {
@@ -193,6 +212,7 @@ impl Set {
             priors: BTreeMap::new(),
             tolerance: DEFAULT_TOLERANCE,
             ess_floor: DEFAULT_ESS_FLOOR,
+            split_half_tolerance: DEFAULT_SPLIT_HALF_TOLERANCE,
         }
     }
 }
@@ -260,11 +280,59 @@ pub struct SplitHalf {
     pub max_probability_difference: f64,
 }
 
+/// One split-half agreement check and its verdict.
+#[derive(Debug, Clone, PartialEq, Serialize)]
+pub struct SplitHalfCheck {
+    /// What was compared, e.g. "source: core (b) next-free latitude overlap, min over partitions".
+    pub what: String,
+    pub statistic: f64,
+    pub threshold: f64,
+    /// True for an overlap (passes at or above the threshold); false for a difference (passes at
+    /// or below it).
+    pub at_least: bool,
+    pub passed: bool,
+}
+
+impl SplitHalfCheck {
+    /// An overlap-type statistic (e.g. the split-half PDF overlap) against a floor.
+    pub fn overlap(what: &str, statistic: f64, floor: f64) -> Self {
+        SplitHalfCheck { what: what.to_string(), statistic, threshold: floor, at_least: true, passed: statistic.is_finite() && statistic >= floor }
+    }
+
+    /// A difference-type statistic against a tolerance. NaN (not measurable) fails.
+    pub fn difference(what: &str, statistic: f64, tolerance: f64) -> Self {
+        SplitHalfCheck { what: what.to_string(), statistic, threshold: tolerance, at_least: false, passed: statistic.is_finite() && statistic <= tolerance }
+    }
+
+    fn reason(&self) -> String {
+        format!("split-half failed: {} = {:.4} against {} {}", self.what, self.statistic, if self.at_least { "floor" } else { "tolerance" }, self.threshold)
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Serialize)]
 pub enum Status {
     Converged,
-    /// Smallest effective number of parents in any replicate, and the floor it fell below.
-    Unconverged { ess_parents: f64, floor: f64 },
+    /// Smallest effective number of parents in any replicate, the floor it is held to, and every
+    /// reason the product is not converged (ESS floor, source split-half, factor split-half).
+    Unconverged { ess_parents: f64, floor: f64, reasons: Vec<String> },
+}
+
+fn status_of(least: f64, floor: f64, source: &Option<SplitHalfCheck>, checks: &[SplitHalfCheck]) -> Status {
+    let mut reasons = Vec::new();
+    if least < floor {
+        reasons.push(format!("effective parents {least:.1} below the floor {floor} in some replicate"));
+    }
+    match source {
+        None => reasons.push("the source posterior's split-half is not recorded on the base product".to_string()),
+        Some(c) if !c.passed => reasons.push(format!("source {}", c.reason())),
+        Some(_) => {}
+    }
+    reasons.extend(checks.iter().filter(|c| !c.passed).map(|c| c.reason()));
+    if reasons.is_empty() {
+        Status::Converged
+    } else {
+        Status::Unconverged { ess_parents: least, floor, reasons }
+    }
 }
 
 /// One replicate of a product.
@@ -305,11 +373,27 @@ pub struct Product {
     /// Per replicate: ESS of the composed weights.
     pub ess: Vec<Ess>,
     pub split_half: Option<SplitHalf>,
+    /// The source posterior's split-half check, recorded on the filter product and inherited.
+    pub source_split_half: Option<SplitHalfCheck>,
+    /// Split-half checks of every factor and set composed into this product, in order.
+    pub factor_split_half: Vec<SplitHalfCheck>,
+    /// The ESS floor this product's status was judged against.
+    pub ess_floor: f64,
     pub status: Status,
     pub replicates: Vec<ReplicateProduct>,
 }
 
 impl Product {
+    /// Record the source posterior's split-half check (e.g. the core run's split-half overlap,
+    /// minimum over balanced partitions, against its floor) and re-judge the status. Composed
+    /// products inherit it from their base; without it no product is `Converged`.
+    pub fn with_source_split_half(mut self, check: SplitHalfCheck) -> Product {
+        self.source_split_half = Some(check);
+        let least = self.ess.iter().map(|e| e.parents).fold(f64::INFINITY, f64::min);
+        self.status = status_of(least, self.ess_floor, &self.source_split_half, &self.factor_split_half);
+        self
+    }
+
     /// The filter posterior on the impact samples: the hand-off weights, nothing composed.
     /// `observations` are those the filter used. Checks that each replicate's weights sum to
     /// one and that each stratum's rows carry its posterior probability.
@@ -363,7 +447,8 @@ impl Product {
                 not_computed_rows: 0,
             });
         }
-        let ess = samples.iter().zip(&replicates).map(|(s, r)| ess(&r.weights, s)).collect();
+        let ess: Vec<Ess> = samples.iter().zip(&replicates).map(|(s, r)| ess(&r.weights, s)).collect();
+        let least = ess.iter().map(|e| e.parents).fold(f64::INFINITY, f64::min);
         Ok(Product {
             id: FILTER.to_string(),
             contains: vec![FILTER.to_string()],
@@ -376,7 +461,10 @@ impl Product {
             ess,
             families: Vec::new(),
             split_half: None,
-            status: Status::Converged,
+            source_split_half: None,
+            factor_split_half: Vec::new(),
+            ess_floor: 0.0,
+            status: status_of(least, 0.0, &None, &[]),
             replicates,
         })
     }
@@ -508,6 +596,8 @@ struct Pass {
     log_z: [f64; MODE_COUNT],
     ln_d: [f64; MODE_COUNT],
     ln_dc: Vec<[f64; MODE_COUNT]>,
+    /// Per factor: ln D_im of that factor alone on the base (its computed rows).
+    ln_d_factor: Vec<[f64; MODE_COUNT]>,
     ess: Ess,
     /// family -> (base mass, composed mass, ln Bayes factor), relative to the base.
     families: BTreeMap<usize, (f64, f64, f64)>,
@@ -786,7 +876,26 @@ fn compose_checked(base: &Product, samples: &[Replicate], declarations: &[Declar
         .collect();
     let ess: Vec<Ess> = passes.iter().map(|p| p.ess).collect();
     let least = ess.iter().map(|e| e.parents).fold(f64::INFINITY, f64::min);
-    let status = if least < set.ess_floor { Status::Unconverged { ess_parents: least, floor: set.ess_floor } } else { Status::Converged };
+    // Split-half checks: each factor alone on the base, and the set's joint increment, pooled over
+    // each half of the replicates as summary.rs pools them.
+    let half_increment = |which: &[&Pass], pick: &dyn Fn(&Pass) -> [f64; MODE_COUNT]| {
+        let after: Vec<[f64; MODE_COUNT]> = which.iter().map(|p| composed_z(p, &pick(p))).collect();
+        let before: Vec<[f64; MODE_COUNT]> = which.iter().map(|p| p.log_z).collect();
+        island(&prior, &after) - island(&prior, &before)
+    };
+    let mut factor_split_half = base.factor_split_half.clone();
+    let halves = (passes.len() >= 2).then(|| all.split_at(passes.len() / 2));
+    let check = |what: String, pick: &dyn Fn(&Pass) -> [f64; MODE_COUNT]| match halves {
+        Some((a, b)) => SplitHalfCheck::difference(&what, (half_increment(a, pick) - half_increment(b, pick)).abs(), set.split_half_tolerance),
+        None => SplitHalfCheck::difference(&format!("{what} (fewer than two replicates)"), f64::NAN, set.split_half_tolerance),
+    };
+    for (k, f) in factors.iter().enumerate() {
+        factor_split_half.push(check(format!("factor {} alone, |ln D(half 1) - ln D(half 2)|", f.name), &|p: &Pass| p.ln_d_factor[k]));
+    }
+    if factors.len() > 1 {
+        factor_split_half.push(check(format!("set {}, |ln D(half 1) - ln D(half 2)|", set.id), &|p: &Pass| p.ln_d));
+    }
+    let status = status_of(least, set.ess_floor, &base.source_split_half, &factor_split_half);
     Ok(Product {
         id: set.id.clone(),
         contains: base.contains.iter().cloned().chain(factors.iter().map(|f| f.name.clone())).collect(),
@@ -799,6 +908,9 @@ fn compose_checked(base: &Product, samples: &[Replicate], declarations: &[Declar
         ess,
         families,
         split_half,
+        source_split_half: base.source_split_half.clone(),
+        factor_split_half,
+        ess_floor: set.ess_floor,
         status,
         replicates: passes.into_iter().map(|p| p.product).collect(),
     })
@@ -827,7 +939,9 @@ fn compose_replicate(
     for (k, by_combo) in index.iter_mut().enumerate() {
         for (c, by_option) in by_combo.iter_mut().enumerate() {
             for (t, slot) in by_option.iter_mut().enumerate() {
-                *slot = find(&column_name(k, &combos[c], t))?;
+                let name = column_name(k, &combos[c], t);
+                // A combination excluded by `given` may have no column: it is read as not computed.
+                *slot = if consistent[c] { find(&name)? } else { s.column(&name).unwrap_or(usize::MAX) };
             }
         }
     }
@@ -864,7 +978,7 @@ fn compose_replicate(
         for k in 0..nf {
             let mut missing = false;
             for c in 0..nc {
-                let v = s.get(r, index[k][c][t]);
+                let v = if index[k][c][t] == usize::MAX { f64::NAN } else { s.get(r, index[k][c][t]) };
                 if v == f64::INFINITY {
                     return Err(format!("{} returned +inf at replicate seed {seed}, row {r}", factors[k].name));
                 }
@@ -988,11 +1102,43 @@ fn compose_replicate(
             (not_computed[k].0, not_computed[k].1, ess(&w, s))
         })
         .collect();
+    // Each factor alone: ln D_im = ln (sum w L_k / sum w) over the rows it computed.
+    let ln_d_factor: Vec<[f64; MODE_COUNT]> = (0..nf)
+        .map(|k| {
+            let ln_l = &factor_ln_l[k];
+            let mut top = [f64::NEG_INFINITY; MODE_COUNT];
+            for r in 0..rows {
+                if b.weights[r] > 0.0 && !ln_l[r].is_nan() {
+                    let m = s.get(r, mc) as usize;
+                    top[m] = top[m].max(ln_l[r]);
+                }
+            }
+            let (mut num, mut den) = ([0.0; MODE_COUNT], [0.0; MODE_COUNT]);
+            for r in 0..rows {
+                if b.weights[r] > 0.0 && !ln_l[r].is_nan() {
+                    let m = s.get(r, mc) as usize;
+                    den[m] += b.weights[r];
+                    if top[m] > f64::NEG_INFINITY {
+                        num[m] += b.weights[r] * (ln_l[r] - top[m]).exp();
+                    }
+                }
+            }
+            std::array::from_fn(|m| {
+                if mass[m] <= 0.0 || den[m] <= 0.0 {
+                    f64::NAN
+                } else if top[m] == f64::NEG_INFINITY {
+                    f64::NEG_INFINITY
+                } else {
+                    top[m] + (num[m] / den[m]).ln()
+                }
+            })
+        })
+        .collect();
     let not_computed_rows = b.not_computed_rows + row_ln_l.iter().filter(|v| v.is_nan()).count();
     let prior_ln_z: [f64; MODE_COUNT] = std::array::from_fn(|m| b.modes[m].log_evidence);
     let composed_ess = ess(&weights, s);
     let product = ReplicateProduct { seed, weights, modes, log_evidence_increment: ln_d, log_evidence: b.log_evidence + ln_total, not_computed_rows };
-    Ok(Pass { ess: composed_ess, product, factors: factors_out, log_z: prior_ln_z, ln_d, ln_dc, families, reportable })
+    Ok(Pass { ess: composed_ess, product, factors: factors_out, log_z: prior_ln_z, ln_d, ln_dc, ln_d_factor, families, reportable })
 }
 
 #[cfg(test)]
