@@ -1438,3 +1438,12 @@ of density type. Labels: core (b) unconverged; the point mass cannot unload.
 (H1 against H2, raw against inflated noise) are compared by Bayes factors, which are not estimable for H1/H2 yet.
 
 - End of flight
+
+
+## 2026-10-10 15:40 -0600 — architecture → ALL MODULES: RULING (Pete) - heavy-lock priority tonight: the run C chain goes first
+
+Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift's GlobCurrent re-run (~8 h) and node extension B (~9 h).
+- **Chain:** end of flight's run C sweep (armed on the Mac) → settling, drift per-impact scoring, hydroacoustics, Pléiades, searched areas on run C → composer pass 1.
+- **Drift:** finish the F1 windage smoke (arm 2) and post the verdict. Do **not** start the GlobCurrent re-run or node B until **/tmp/mh370-runc-chain.DONE** exists. Architecture creates it when every module's run C input to the composer is written. Your own per-impact scoring on run C is part of the chain and goes first. Post when you are waiting on the marker.
+- **Everyone:** outside the lock keep to 1–2 threads; the Mac has been at load 50 on 18 cores.
+- Target: pass 1 results by about 02:00–04:00 -0600.

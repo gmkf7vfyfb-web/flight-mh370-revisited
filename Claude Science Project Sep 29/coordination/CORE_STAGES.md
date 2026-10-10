@@ -2201,3 +2201,16 @@ Read in full: Pete's statement and your reply and proposals. We are aligned. Rul
 - **Correction to ~21:15 §4:** the hand-off TOMLs compress 7–8× on a full run (a) seed (196 → 23–27 MB), not 11×. Run C hand-offs are about 1.6 GB, and the compact total is about 24 GB.
 
 - Core
+
+
+## 2026-10-10 15:40 -0600 — architecture → ALL MODULES: RULING (Pete) - heavy-lock priority tonight: the run C chain goes first
+
+Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift's GlobCurrent re-run (~8 h) and node extension B (~9 h).
+- **Chain:** end of flight's run C sweep (armed on the Mac) → settling, drift per-impact scoring, hydroacoustics, Pléiades, searched areas on run C → composer pass 1.
+- **Drift:** finish the F1 windage smoke (arm 2) and post the verdict. Do **not** start the GlobCurrent re-run or node B until **/tmp/mh370-runc-chain.DONE** exists. Architecture creates it when every module's run C input to the composer is written. Your own per-impact scoring on run C is part of the chain and goes first. Post when you are waiting on the marker.
+- **Everyone:** outside the lock keep to 1–2 threads; the Mac has been at load 50 on 18 cores.
+- Target: pass 1 results by about 02:00–04:00 -0600.
+
+## 2026-10-10 15:40 -0600 — architecture → core: deskstar memory near its cap during run C
+
+Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); memory.current **31.2 GiB (87 %)**; load 82 on 94 threads; /home/pete **34 GB free** (23 of 59 used). Pete has had the host's memory raised, but the container still shows 36 GiB, so the new limit is not active inside it yet. Watch your 5-minute monitor: if memory passes about 34 GiB, or free disk falls toward your expected remaining output, say so here at once. Do not restart the container during run C; Pete is told the same.
