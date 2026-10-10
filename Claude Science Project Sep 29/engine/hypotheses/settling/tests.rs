@@ -997,7 +997,8 @@ fn without_shared_occupants() -> toml::Value {
 /// Report generator on the REAL ocean, not a test: `SETTLING_REPORT_DIR=<dir>
 /// SETTLING_REPORT_POINTS="lat,lon;lat,lon;..." cargo test --release -p mh370-hypotheses
 /// settling::tests::report_real -- --ignored`. Needs the shared products on disk (run.toml
-/// [shared]). Writes `real_sensitivity.csv` (variant x point x family x class) and
+/// [shared]). `SETTLING_REPORT_VARIANTS="OSCAR,GlobCurrent"` runs only the matching variants beside the baseline.
+/// Writes `real_sensitivity.csv` (variant x point x family x class) and
 /// `real_convergence.csv` (the baseline's statistics from draws 0-511, 512-1023 and all 1,024).
 #[test]
 #[ignore]
@@ -1029,6 +1030,10 @@ fn report_real() {
             let g = toml::Value::from("/Users/pete/Downloads/mh370-ocean-data/globcurrent/grid/globcurrent_my_pt1h_uo_vo_0m.series.json");
             p["shared"].as_table_mut().unwrap().insert("surface_current_manifest".into(), g);
         }),
+        ("OSCAR v2.0 Final surface current (comparison product)", 512, |p| {
+            let g = toml::Value::from("/Users/pete/Downloads/mh370-ocean-data/oscar/grid/oscar_v2_final_uv.series.json");
+            p["shared"].as_table_mut().unwrap().insert("surface_current_manifest".into(), g);
+        }),
         ("density from WOA23", 512, |p| {
             p["shared"].as_table_mut().unwrap().insert("density_source".into(), "woa23".into());
         }),
@@ -1047,7 +1052,14 @@ fn report_real() {
     writeln!(out, "variant,lat,lon,family,class,draws,settled_share,afloat_share,not_computed_share,median_offset_m,p90_offset_m,median_depth_m,median_descent_s,median_below_model_bottom_m,ocean").unwrap();
     let mut conv = std::fs::File::create(dir.join("real_convergence.csv")).unwrap();
     writeln!(conv, "lat,lon,family,class,half,draws,p50_offset_m,p90_offset_m").unwrap();
+    // Optional SETTLING_REPORT_VARIANTS: comma-separated substrings; only matching variants run (the baseline always runs).
+    let only: Option<Vec<String>> = std::env::var("SETTLING_REPORT_VARIANTS").ok().map(|v| v.split(',').map(|x| x.trim().to_string()).collect());
     for (label, draws, edit) in &variants {
+        if let Some(o) = &only {
+            if !label.starts_with("real ocean") && !o.iter().any(|x| label.contains(x.as_str())) {
+                continue;
+            }
+        }
         let mut p = base.as_table().unwrap().clone();
         edit(&mut p);
         let s = Settling::from_params(&toml::Value::Table(p)).unwrap();

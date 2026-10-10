@@ -625,7 +625,18 @@ impl Settling {
         };
         if let Some(m) = &sh.surface_current_manifest {
             let f = ocean::GridField::load_window(std::path::Path::new(m), &window)?;
-            ocean.surface_label = if f.meta().product.starts_with("globcurrent") { "Copernicus-GlobCurrent surface current" } else { "GLORYS12V1 surface current" };
+            // Label from the product itself; an unknown product is refused rather than mislabelled (fixed 10 Oct 2026:
+            // OSCAR had fallen through to the GLORYS12V1 label).
+            let product = f.meta().product.to_ascii_lowercase();
+            ocean.surface_label = if product.starts_with("glorys12") {
+                "GLORYS12V1 surface current"
+            } else if product.starts_with("globcurrent") {
+                "Copernicus-GlobCurrent surface current"
+            } else if product.starts_with("oscar") {
+                "OSCAR v2.0 Final surface current (comparison product)"
+            } else {
+                return Err(format!("settling: surface current product `{}` has no label here; add it", f.meta().product));
+            };
             ocean.surface_current = Box::new(f);
         }
         if let Some(m) = &sh.wind_manifest {
