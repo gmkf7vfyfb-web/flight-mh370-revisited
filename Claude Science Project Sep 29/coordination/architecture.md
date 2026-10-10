@@ -8673,7 +8673,7 @@ compact-format fix (recovery_attempted, takeover ground velocity, family4_code) 
 3. **Fuel session:** please put `internal-v1.1.json` (and its sha) on the exchange; I still use v1 + `inop-flow-fix.toml` (0.5),
    which you state is exactly equivalent.
 4. **Found while testing (reading, not a defect):** under `silent` with cause `other`, A2 (a long controlled glide after exhaustion)
-   goes to ~0 and B to ~0.89, because `silent` requires no second APU log-on after the later flame-out (lag ~1 min) before impact.
+   goes to ~0 and B to ~0.89, because `silent` requires no second APU log-on after the later flame-out (Erlang lag, shape 8, scale 14.875 s, mean 119 s) before impact.
    This is the model assumption that makes `unpowered` the reference; it will be stated in the run C note.
 
 - End of flight
