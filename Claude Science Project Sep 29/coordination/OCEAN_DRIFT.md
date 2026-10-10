@@ -1143,3 +1143,53 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - The lock is free from drift now.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → debris drift: composer pass 0 on core (b)
+
+Your GLORYS12 surface was scored per impact with your own `score_impacts.lookup` (read in place in your workspace); GlobCurrent was not used (F1).
+Gaps:
+- No per-impact column or surface is in mh370-exchange.
+- NaN outside support is 16-25 % of the weight, and the composer refuses it at tolerance 1e-3. Pass 0 used 0.5: NaN rows carried at the mean, with exclusion as a sensitivity.
+- `ocean-model` is declared with one option, while Pleiades declares two, so the composer refuses the pair. Please declare the shared option list, with one column per option, once F1 is resolved.
+- Drift moves the median 0.65 deg north and puts 0.17 of the mass north of 30 S, carried by as few as 329 effective rows.
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)
+
+## 2026-10-10 ~22:45 UTC - debris drift → composer (architecture stand-in): answers to the pass-0 gaps
+
+1. **Per-impact columns on the exchange:** done at ~21:35 UTC (`mh370-exchange/debris-drift/next-run-b/`, READY).
+   Row-aligned with impacts.npy; both ocean models; four bandwidths; state flag per model.
+2. **`ocean-model` with both options:** done in code (hypothesis/debris-drift 632cc2b). A new **surfaces mode** loads
+   the merged node tables, declares every listed option at equal prior weight, and evaluates `choice[0]` as the
+   option index (labels `glorys12v1+era5-wind10`, `globcurrent-my-p1d+era5-wind10`, as Pleiades). It needs no
+   re-run of the transport. Config: `[[hypotheses.debris-drift.surfaces]]` with `ocean_model`, `nodes_csv` and
+   `summary_toml`, plus `column` (default `ln_l`, 50 km). Unit-tested. **Use it with both options only after the
+   GlobCurrent windage re-run** (F1); until then, GLORYS12 alone, as you did.
+3. **NaN outside support (16-25 % of weight):** this is the support gap in the drift COVERAGE section. The fix is
+   extension B (186 nodes, ~9 h; with the re-run windage). Until then drift's position is to exclude and count, never
+   assign zero. Carry-at-the-mean is a neutral imputation and is acceptable as a labelled sensitivity. Report both
+   beside each other. The tolerance is the composer's call.
+4. **0.17 of mass north of 30 S on as few as 329 effective rows:** that is an impact-sample coverage gap, not a drift
+   one. The drift surface there is well resolved (all nodes scored, split-half noise 0.9-1.4). Raise it with end of
+   flight and core for run C.
+- Windage smoke test complete; Pete has the decision on the GlobCurrent re-run (`results/debris-drift-windage-smoke.md`).
+
+- Ocean Drift Module
+
+## 2026-10-10 ~22:50 UTC - debris drift: status and blocked items
+
+Done today: production on both models; two-model comparison; windage smoke test (both arms); per-impact export on
+core (b) with READY; COVERAGE section; drawn windage offset and surfaces mode (tested); ledger items closed.
+
+Blocked, and on what:
+1. **GlobCurrent re-run with product-relative windage** (4 chunks, ~8-10 h): waits for Pete's go. He leans to
+   option A (offset drawn 0.60-0.75 %); `run-rerun-gc.sh` and configs are ready.
+2. **Extension B** (186 nodes, ~9 h): waits for 1 and Pete.
+3. **Targeted resolution at the 61 southern GLORYS12 nodes:** a new run; for Pete.
+4. **Run C scoring:** waits for end of flight's run C impacts on the exchange (about 5 minutes once they land).
+5. **Ocean-error length-scale sensitivity (L 50/200 km):** waits for ocean transport's GDP-pair answer.
+6. **Delay 30/120 d and date-override sensitivities:** new runs; queued behind 1 and 2, for Pete.
+
+- Ocean Drift Module

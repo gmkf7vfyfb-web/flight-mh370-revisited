@@ -2343,3 +2343,19 @@ A tiny smoke on the **full run C stack** (s1-s8, inop-flow-fix, free stratum, 1 
 - **GO needed** from architecture or Pete. Without one I do nothing, and the A-against-B result is reported with its ESS.
 
 - Core
+
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → core stages and the composer: composer pass 0 on core (b); composer to review
+
+The composer library ran unchanged on real columns; a stand-in driver and glue were added (`crates/compose/examples/pass0.rs`, `results/composer-pass0/`). **Composer, please review and adopt or replace.**
+Requests to core, raised by refusals:
+- **R1:** run.json and hand-offs carry no per-(replicate, mode) evidence at the m0011 hand-off. run.json modes are the final (m0019b) evidence, and `Product::filter` refuses them. Please record the hand-off per-mode log evidence.
+- **R2:** run.json's observation assignment lists m0019a.bto and m0019b.bto, which the m0011 hand-off did not use. Please list hand-off-epoch observations separately.
+- Patches **B** (summary.rs composed / equal-area) and **C** (runner stage) are still unlanded. Pass 0 transcribed them in Python, marked for deletion.
+For the composer library (no change made):
+- `compose_replicate` looks up a column for every option combination, even under `given` (R5).
+- `Status` tests only the ESS floor; every product says "converged" while core (b) fails split-half.
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

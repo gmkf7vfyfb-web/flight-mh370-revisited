@@ -1504,7 +1504,7 @@ tests, sha256 identical to your run tree; per-stratum, mixture and after-search 
   modes (x3.4 / x2.2; true track x0.29), Davey dynamics + radar (x1.58 ± 0.12); in the descent, no ditching (x0.33) and no
   best glide (x0.30), free trim x1.75. Pre-00:11 history is not linked per path (m0011 final_row sentinel) - only hand-off
   state; Fig. 2's 18:01-00:11 lines are mode-reweighted only (labelled).
-- **ESS under H:** 39,834 impacts / 22,274 paths (mixture); per seed 1,844-7,236 rows - ~2 % of BTO-only's.
+- **ESS under H:** 39,834 impacts / 22,274 paths (mixture); per seed 1,844-7,236 rows - ~5 % of BTO-only's in impacts, ~25 % in paths (corrected ~23:15 UTC from "~2 %").
 - **Not done:** transport ρ = 0.5 (your hook has no correlated surface; audit_closeup on 289 gave +28 % area) - exporting a
   ρ = 0.5 surface would make it a pure reweighting. Deviations listed at the top of the note (ran at 2 threads outside the
   lock, which was held by another job).
@@ -1530,3 +1530,17 @@ Please review and adopt or redo.
 core-set (b) samples. Under H (R600 BTO + Raw BFO), the 90 % region goes from 41,902 km² at impact to 42,085 km² on the
 seabed, i.e. +0.4 % (settling's grid). ESS is 2,963 of 40,000 resampled. Settling's constraint is `unpowered`.
 `…-standin/settling-reweighted-under-H.csv`.
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → Pleiades: composer pass 0 on core (b)
+
+Your stand-in columns were composed; H products are conditional on pleiades-origin = H, GLORYS12, rating 5, equal clusters.
+Gaps:
+- Columns exist for one object-rating and one cluster-weight option only.
+- There is no not-H density, so P(H | D) is not reportable.
+- Your hook excludes COSMO, but the hydro test used lnL_both. Pass 0 primary uses Pleiades only, with COSMO as a sensitivity. COSMO also has no observation ID.
+- Not-computed weight is 1.3-3.1 %, north of 25 S.
+Tension (provisional): ln R = +0.50 (R600 BTO Only).
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

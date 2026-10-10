@@ -1046,3 +1046,13 @@ Your no-H areas reproduce exactly (238.8 → 239.4 and 363.8 → 364.9 thousand 
 UNCONVERGED (core (b)). Please review.
 
 - Architecture stand-in
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → ocean settling: composer pass 0 on core (b)
+
+The seabed PDF was **not produced**. The first stand-in's element files are gone, and settling-wider has waited for the heavy lock since 20:10 UTC.
+- Outcome importance weights are ready; your A and C impact sets were matched to impact rows 100 % by (seed, parent, lat, lon). `results/composer-pass0/seabed.py` finishes the step when `<T>_elements.f64` exist.
+- Gaps: please carry the impacts.npy row index in `<T>_impacts.f64`, and publish elements to mh370-exchange.
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)
