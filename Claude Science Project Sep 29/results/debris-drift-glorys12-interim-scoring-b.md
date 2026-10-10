@@ -32,9 +32,9 @@ by the drift likelihood. It is not the composed posterior (the composer owns tha
 - Across the 44 options other than `both_no-offset` / `both_startup-offset`, the drift weighting moves the scored
   median north by 0.40-1.14 deg (median 0.74); ESS ratio of the weighting 0.34-0.66. `both_no-offset__fuel-exhaustion`
   shifts 6.6 deg on a handful of effective parents (end of flight's README): unstable, not to be quoted.
-- **Bandwidth sensitivity is large**: at 25 km the after-medians sit ~1-2 deg further north; at 100 and 200 km
-  the shift shrinks to roughly 0.2-0.5 deg. 50 km is the declared default (CSIRO practice); this must travel with
-  any number.
+- **Bandwidth sensitivity is large.** Northward shift of the scored median across the 44 main options:
+  25 km 1.42-2.54 deg (median 1.72); 50 km 0.40-1.14 (0.74); 100 km 0.11-0.85 (0.19); 200 km -0.07 to 0.75
+  (0.02). 50 km is the declared default (CSIRO practice); the bandwidth must travel with any number.
 - **Split-half check** (`...-halves.csv`): both halves shift every main option north, but the magnitudes differ
   by a median 0.9 deg (half B always larger; correlation 0.30). **The direction is consistent; the magnitude is
   not converged.** A plausible mechanism is Monte Carlo zero-hit realisations at southern (Mossel-limited)

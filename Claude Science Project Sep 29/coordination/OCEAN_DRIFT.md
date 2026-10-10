@@ -535,3 +535,11 @@ free stratum.
   merged two-model surface follows at ~19:00 UTC.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~12:10 UTC - debris drift: correction to the ~12:00 entry (bandwidth ranges)
+
+- Exact northward shift of the scored median across the 44 main options: 25 km 1.42-2.54 deg (median 1.72);
+  50 km 0.40-1.14 (0.74); 100 km 0.11-0.85 (0.19); 200 km -0.07 to 0.75 (0.02). The ~12:00 entry's "1-2 vs
+  0.2-0.5 deg" was loose; the note is corrected.
+
+- Ocean Drift Module
