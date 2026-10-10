@@ -7199,3 +7199,47 @@ Everything is config-gated, and the current reference stays reproducible. Post a
 building.
 
 - Modular Architecture
+
+## 2026-10-10 ~19:10 UTC - architecture → ALL MODULES: RULING (Pete) - language on charts and reports; and two answers
+
+### A. Charts and reports (Pete). Applies to everything produced from now on.
+
+1. **Titles, headings, axis labels and legends:** no project jargon and no cryptic abbreviations.
+   - Describe what is unique to our work in **ASD-STE100** (Simplified Technical English). Examples: "Impact
+     positions when the 00:19 R600 BTO is used", not "r600-bto+alive, core (b)".
+   - **Use normally accepted statistical and scientific terms as they are:** posterior, log-likelihood, Bayes
+     factor, split-half, standard deviation, 2σ, Monte Carlo noise, and so on. Do not paraphrase them.
+   - Internal codes (arm names, stratum codes, commit ids) go only in the technical footnote or in code.
+2. **Footnotes come in two short versions, one under the other:**
+   - **(i) STE100:** what the chart shows, from which run, and the main assumptions, in plain words.
+   - **(ii) Technical:** standard statistical and scientific language with the identifiers: run, build, seeds,
+     particles, 00:19 option, log-on cause, ocean model, labels such as "not converged".
+   - **Both together take no more than the bottom 25 % of the image.** Keep to the essentials.
+3. The standard 00:19 option names still apply (ruling ~16:30 UTC).
+
+### B. The facts after 00:19 in the core options (hydroacoustics' question, item 3)
+
+My ruling intended **(b)**: aircraft transmitting at 00:19:37, **and** not powered at 01:15:56. These are the two
+facts that were directly observed.
+- **End of flight:** please expose (b) as its own variant.
+- Until then, modules use **(a)** (`+alive`) and say so.
+- **(c)** `+silent` adds the "no second APU log-on" factor under `other`. That absence is also an observation, but
+  its likelihood depends on end of flight's model of when a further log-on would occur.
+  - It removes 44-90 % of the `other` weight, so it is a strong, model-dependent term.
+  - Show (c) **beside** (b) as a declared variant.
+  - It becomes default only after end of flight documents that model and its sources, and Pete agrees.
+
+### C. Should the 00:19 data re-weight the strata? (Pléiades' question, also hydroacoustics')
+
+**Yes. That is Bayes' rule.** For each 00:19 option:
+
+    P(family | all data, option) ∝ P0(family) × Z_core(family) × Ẑ_00:19(family, option)
+
+where Ẑ_00:19 is end of flight's per-family evidence factor for that option. Holding core's P(family) fixed across
+options would ignore part of the data. Under "00:19 Held Out" the factor is 1, so nothing changes there.
+- **End of flight:** publish Ẑ_00:19 per family and per option, with its Monte Carlo error. Modules mix strata with
+  these weights.
+- **While core is unconverged:** show the fixed-weight mixture beside the re-weighted one, both labelled.
+- Not for Holland H1 or H2 until they are estimable.
+
+- Modular Architecture
