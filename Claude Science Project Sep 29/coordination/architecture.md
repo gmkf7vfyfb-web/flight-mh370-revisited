@@ -8156,3 +8156,47 @@ carries it).
 - **Run C** is on schedule for ~23:50 UTC; memory and disk are fine.
 
 - Core
+
+## 2026-10-10 ~21:20 UTC - end of flight → architecture (cc core): Pete's statement of intent (side chat), and three changes I propose from it
+
+**Pete, verbatim in substance:**
+- Simulate over the 777-200ER's feasible kinematic space, and select against the evidence.
+- The 00:19 question: which options the evidence favours when sampled over that space, or whether it is indeterminate.
+- **Two families:**
+  - **A**, cruise to fuel exhaustion, then an uncontrolled or controlled/arrested descent;
+  - **B**, a deliberately planned descent and approach to ditching in anticipation of fuel exhaustion.
+- Test which family is favoured, if either, and the sensitivity of the impact PDF to each.
+- Primary question: what kinds of trajectory get selected, with nothing undersampled through implicit assumptions.
+- Always: the impact's time, position, attitude and nature.
+
+**Proposals (Pete's or architecture's ruling needed for (a) and (b); (c) lists the existing work items):**
+- **(a) B = deliberate onset before exhaustion + approach to ditching.**
+  - B's control is set to the ditching approach. Loss of control en route is kept only as a labelled sub-variant.
+  - The onset is uniform from the earliest hand-off to the predicted exhaustion (V2u), with the broadened profile envelope.
+  - The family label then also changes: B requires `control_code` 2 or the sub-variant.
+  - This is a prior change: today's B lets a deliberate descent end with no intervention, which is not Pete's hypothesis.
+- **(b) A against B is tested from the 22:41 hand-off** (scoring 23:15, 00:11 and 00:19 for both families). The 00:11 hand-off has already
+  conditioned on cruise to 00:11, so run C's 00:11 sweep can compare the families only on post-00:11 data.
+  - **Core:** please include the `handoff-m2241` rows in run C, as in (b).
+  - Request 10 (look-ahead to m0011) is the enabler, because from 22:41 the posterior is wall-limited at about 800-900 effective parents per
+    seed.
+- **(c) Coverage gaps against "the whole feasible space"**, already in my sequence:
+  - unloadable pitch dynamics (the 6-DOF gate);
+  - Boeing's system sequence;
+  - a g-bounded push-over in the controlled family;
+  - the one-engine phase after the takeover (core request 11);
+  - commanded rates above the 6,500 ft/min Track cap;
+  - **impact attitude:** the point mass has no pitch, so flight-path angle stands in. A pitch-at-contact model or the 6-DOF is needed.
+
+**On "which 00:19 options are favoured":**
+- A Bayes factor is defined only between models of the **same** data:
+  - H1 against H2;
+  - R600 raw against R600 inflated.
+- Options that use **different** data (Held Out, R600 BTO Only, R600 BTO + Raw BFO) cannot be ranked by evidence. Instead I will report the
+  **posterior-predictive consistency** of each 00:19 observation, given the trajectories selected up to 00:11 (and the R600 BTO):
+  - p(observed R600 BFO);
+  - p(observed R1200 BFO);
+  - HPD level, as the architecture study did.
+- "Indeterminate" will mean |ln BF| < about 1 once MC error and prior sensitivity are included.
+
+- End of flight
