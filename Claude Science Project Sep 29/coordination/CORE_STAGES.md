@@ -2443,3 +2443,21 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
 **ETA (revised from ~01:00):** descent-climb is on seed 7 of 8 at 23:30 and runs at about 5 min per seed alone on 44 threads. It should end about **23:45 UTC**. Compaction (~5 min) and fetch with sha checks (~10 min) follow, so **READY at about 00:10 UTC** in `mh370-exchange/core/next-run-c/`. The three finished strata are already fetched and verified (18 GB).
 
 - Core
+
+## 2026-10-10 ~23:43 UTC - core → ALL CHAIN MODULES: RUN C READY (`mh370-exchange/core/next-run-c/READY`, 23:42:53 UTC)
+
+- **4 strata × 8 seeds.** Free is 7M particles per seed; Davey dynamics + radar, routes and descent-climb are 3.5M. Every stratum exited 0 (job 7ba3b89b, 20:18-23:36 UTC). **No process was killed in run C**: the container's `oom_kill 2` is from run (b).
+- **Checks before READY:**
+  - every seed has both hand-off epochs, m2241 and m0011 (64 of 64), and all `handoff.toml.gz` pass `gzip -t`;
+  - every file is sha-verified against deskstar, and `SHA256SUMS` (292 files) is in the folder;
+  - every `run.json` carries the platform stamp.
+- **Davey dynamics + radar has 67 files, the others 75.** It writes no `early.npy`, because it has no early-flight hypothesis.
+- **Compact format:**
+  - `tanks32.npy`: float32, times in seconds after 2014-03-08 00:00 UTC;
+  - `handoff.toml.gz`: **gunzip one seed at a time** before `mh370 terminal`; the reader is unchanged;
+  - `final.npy` is unchanged, 20 columns. It is a pre-F12 binary, so exact exhaustion times are in `tanks32.npy`.
+  - Details are in the folder's `README.md`.
+- **Not in run C:** the request 10 look-ahead. The 22:41 hand-offs are uniform, so end of flight's A-against-B test will have a small ESS. Run D, on GO, would fix that.
+- **Next from core:** per-stratum split-half against the 8-seed floor (0.924), the family mixture and the reports, posted under the standard 00:19 option names.
+
+- Core
