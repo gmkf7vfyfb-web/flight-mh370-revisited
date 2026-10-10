@@ -223,8 +223,9 @@ pub struct FuelFlowRate {
     pub kg_h: f64,
     /// The flow rests on an extrapolation or fallback: Mach outside the bracketing schedules,
     /// a single schedule, or the drag fit replaced by the nearest tabulated flow. Validated
-    /// against Boeing's Appendix 1.6E to within about 12% there, against 1.0086 +/- 0.0178
-    /// inside the schedules.
+    /// against Boeing's Appendix 1.6E to -11.5 % .. +3.7 % there (fuel audit F6), against a
+    /// factor of 1.0086 +/- 0.0178 (s.d.) inside the schedules. That wider error is not in
+    /// the factor, so a module that cares should treat flagged prices as less certain.
     pub extrapolated: bool,
     /// Below FL060, priced at FL060 (the tables stop there). The real flow is higher.
     pub below_tables: bool,

@@ -32,7 +32,7 @@ pub const PARTICLE_BYTES: usize = std::mem::size_of::<Particle>();
 /// `mode` is the autopilot mode the particle is flying at the end, which differs from its
 /// stratum once a lateral-navigation path has reverted to heading hold. `stratum` is the
 /// mode filter the particle belongs to: weights and pooling use it.
-pub const FINAL_COLUMNS: [&str; 20] = [
+pub const FINAL_COLUMNS: [&str; 21] = [
     "weight", "latitude_deg", "longitude_deg", "altitude_ft", "mach", "tau_h", "turns", "accelerations", "climbs", "mode",
     "bfo_bias_hz", "origin", "stratum",
     // NaN throughout when the run does not model fuel. `fuel_exhausted_unix_s` is NaN for a
@@ -43,7 +43,15 @@ pub const FINAL_COLUMNS: [&str; 20] = [
     // Any nonzero fuel_no_flow_s is a defect: the tables returned no flow and the step burnt
     // nothing. fuel_no_flow_cause codes why - 1 flight level, 2 Mach, 3 weight, 4 the tables.
     "fuel_no_flow_s", "fuel_no_flow_cause",
+    // Fuel audit F12: final.npy is float32, which holds `fuel_exhausted_unix_s` only to 128 s.
+    // This is the same instant as seconds after FINAL_TIME_ORIGIN_UNIX_S (2014-03-08 00:00:00
+    // UTC; negative before midnight), resolved to better than 1 ms. Use it for any timing.
+    "fuel_exhausted_s_after_0000",
 ];
+
+/// Origin of final.npy's `*_s_after_0000` columns: 2014-03-08 00:00:00 UTC, the convention of
+/// the compact run C files (end of flight's impacts32, core's tanks32).
+pub const FINAL_TIME_ORIGIN_UNIX_S: f64 = 1_394_236_800.0;
 
 /// A time at which the filter stops and weights particles: a SATCOM epoch, or an epoch
 /// requested by a hypothesis.
@@ -1261,6 +1269,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 a.fuel_above_ceiling_s,
                 a.fuel_no_flow_s,
                 a.fuel_no_flow_cause,
+                a.fuel_exhausted_unix_s - FINAL_TIME_ORIGIN_UNIX_S,
             ]
         })
         .collect();
@@ -1427,6 +1436,23 @@ fn count_distinct(indices: &[usize]) -> usize {
 
 #[cfg(test)]
 mod tests {
+    /// Fuel audit F12: as float32 the unix exhaustion time is quantised to 128 s; the offset
+    /// column holds the same instant to better than 1 ms over the whole end of flight.
+    #[test]
+    fn exhaustion_offset_column_resolves_better_than_a_millisecond() {
+        assert_eq!(FINAL_COLUMNS.last(), Some(&"fuel_exhausted_s_after_0000"));
+        let mut worst_unix: f64 = 0.0;
+        let mut worst_offset: f64 = 0.0;
+        for k in 0..20_000 {
+            let t = FINAL_TIME_ORIGIN_UNIX_S - 7_200.0 + k as f64 * 0.537;
+            worst_unix = worst_unix.max((f64::from(t as f32) - t).abs());
+            let off = t - FINAL_TIME_ORIGIN_UNIX_S;
+            worst_offset = worst_offset.max((f64::from(off as f32) - off).abs());
+        }
+        assert!(worst_unix > 30.0, "float32 unix time should be coarse, got {worst_unix}");
+        assert!(worst_offset < 1e-3, "offset column error {worst_offset} s");
+    }
+
 
     /// Core request 10: with g = 1 everywhere and a fully defensive mixture, the look-ahead draw of
     /// K rows from K candidates returns each candidate once, in order, with zero correction - the

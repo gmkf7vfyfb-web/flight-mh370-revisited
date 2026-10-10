@@ -247,6 +247,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
         "terminal": stage.as_ref().map(|s| s.manifest()),
         "prior_unix_s": prior.unix_s,
         "final_columns": FINAL_COLUMNS,
+        "final_time_origin_unix_s": filter::FINAL_TIME_ORIGIN_UNIX_S,
         "tank_columns": config.fuel.as_ref().and_then(|f| f.tanks).filter(|&t| t == 2).map(|_| filter::TANK_COLUMNS),
         "residual_columns": filter::RESIDUAL_COLUMNS,
         "route_interval_s": config.output.route_interval_s,

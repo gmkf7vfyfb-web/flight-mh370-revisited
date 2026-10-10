@@ -287,6 +287,12 @@ pub struct FuelConfig {
     /// Standard deviation of that Gaussian, seconds.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub exhaustion_sd_s: Option<f64>,
+    /// Fuel audit F19: `exhaustion_target_utc` already encodes the 00:19 log-on as evidence of
+    /// the flame-out time. A `[terminal]` stage that scores a 00:19 burst counts that timing
+    /// evidence a second time, so `load` refuses the pair unless this is set, which declares
+    /// the double count as a deliberate sensitivity.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub allow_double_counted_0019_timing: bool,
     /// How the speed and altitude profile is proposed against the fuel state.
     ///
     /// `"reject"` (the default, and what the published model does) proposes the profile from
@@ -749,7 +755,29 @@ pub fn load_with(paths: &[PathBuf], last: Option<toml::Table>) -> Result<Config,
     if let Some(last) = last {
         merge(&mut table, last);
     }
-    toml::Value::Table(table).try_into().map_err(|e| format!("{}: {e}", paths[0].display()))
+    let config: Config = toml::Value::Table(table).try_into().map_err(|e| format!("{}: {e}", paths[0].display()))?;
+    check_double_counted_timing(&config)?;
+    Ok(config)
+}
+
+/// Fuel audit F19: refuse a core exhaustion Gaussian together with a terminal stage that
+/// scores a 00:19 burst, unless the configuration declares it.
+fn check_double_counted_timing(config: &Config) -> Result<(), String> {
+    let (Some(fuel), Some(terminal)) = (&config.fuel, &config.terminal) else { return Ok(()) };
+    if fuel.exhaustion_target_utc.is_none() || fuel.allow_double_counted_0019_timing {
+        return Ok(());
+    }
+    let scored: Vec<&str> = terminal.options.iter().flat_map(|o| o.observations.iter()).filter(|id| id.starts_with("m0019")).map(String::as_str).collect();
+    if scored.is_empty() {
+        return Ok(());
+    }
+    Err(format!(
+        "fuel.exhaustion_target_utc ({}) already treats the 00:19 log-on as evidence of the flame-out time, and \
+         [terminal] scores {} as well, which counts that timing evidence twice (fuel audit F19). Remove \
+         fuel.exhaustion_target_utc, or set fuel.allow_double_counted_0019_timing = true to declare it as a sensitivity.",
+        fuel.exhaustion_target_utc.as_deref().unwrap_or(""),
+        scored.join(", ")
+    ))
 }
 
 fn load_table(path: &Path, depth: usize) -> Result<toml::Table, String> {
@@ -792,6 +820,25 @@ fn merge(base: &mut toml::Table, over: toml::Table) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Fuel audit F19: a core exhaustion Gaussian and a terminal stage scoring 00:19 count the
+    /// timing evidence twice, so the pair is refused unless declared.
+    #[test]
+    fn exhaustion_gaussian_with_terminal_0019_scoring_is_refused_unless_declared() {
+        let dir = concat!(env!("CARGO_MANIFEST_DIR"), "/../../config/");
+        let paths = |ps: &[&str]| -> Vec<PathBuf> { ps.iter().map(|p| PathBuf::from(format!("{dir}{p}"))).collect() };
+        let scoring = "[terminal]\noptions = [{ id = \"none\", use = [] }, { id = \"bto\", use = [\"m0019b.bto\"] }]\n";
+        let with = |extra: &str| -> toml::Table { toml::from_str(&format!("{scoring}{extra}")).unwrap() };
+        let fuelled = paths(&["davey2016.toml", "sensitivity/fuel-smoke.toml", "sensitivity/handoff-smoke.toml"]);
+        let err = load_with(&fuelled, Some(with(""))).err().expect("the double count must be refused");
+        assert!(err.contains("F19") && err.contains("m0019b.bto"), "{err}");
+        assert!(load_with(&fuelled, Some(with("[fuel]\nallow_double_counted_0019_timing = true\n"))).is_ok());
+        // A terminal stage that scores nothing at 00:19 is not double counting.
+        assert!(load(&fuelled).is_ok());
+        // Without the exhaustion Gaussian the scoring stage loads.
+        assert!(load_with(&paths(&["davey2016.toml", "sensitivity/handoff-smoke.toml"]), Some(with(""))).is_ok());
+    }
+
 
     /// The module in [terminal] acts there even when a set lists it (for its own data); modules
     /// in sets are impact modules; every other enabled one is a trajectory module.
