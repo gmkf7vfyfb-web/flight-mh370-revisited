@@ -69,14 +69,22 @@ def runs(v):
 
 
 def frames(dark):
+    """Boxes whose four sides are continuous dark lines (bug fix 2, before any result was read: the first version
+    paired every long dark row, including crosshair and text rows, and produced spurious boxes)."""
     H, W = dark.shape
     rows = [int((a + b) / 2) for a, b in runs(dark.sum(1) > W * 0.25)]
     cols = [int((a + b) / 2) for a, b in runs(dark.sum(0) > H * 0.25)]
-    tb = [(t, b) for t in rows for b in rows if 600 <= b - t <= 760]
-    lr = [(l, r) for l in cols for r in cols if 900 <= r - l <= 1000]
-    tb = [p for p in tb if not any(q != p and q[0] == p[0] and q[1] < p[1] for q in tb)]
-    lr = [p for p in lr if not any(q != p and q[0] == p[0] and q[1] < p[1] for q in lr)]
-    return sorted(tb), sorted(lr)
+    boxes = []
+    for l in cols:
+        for r in cols:
+            if not 900 <= r - l <= 1000:
+                continue
+            lines = [y for y in rows if dark[max(0, y - 2):y + 3, l:r + 1].any(0).mean() > 0.95]
+            for t, b in zip(lines, lines[1:]):
+                if 600 <= b - t <= 760 and dark[t:b + 1, max(0, l - 2):l + 3].any(1).mean() > 0.95 \
+                        and dark[t:b + 1, max(0, r - 2):r + 3].any(1).mean() > 0.95:
+                    boxes.append((t, b, l, r))
+    return sorted(set(boxes))
 
 
 def y_cal(dark, t, b, l):
@@ -112,7 +120,7 @@ def trace(img, t, b, l, r, cal):
     cand = [x for x in range(w) if 40 <= fx[x] <= 60 and len(cents[x]) == 1]
     if not cand:
         return None
-    x0 = int(np.median(cand)); yv = np.full(w, np.nan); yv[x0] = cents[x0][0]
+    x0 = cand[len(cand) // 2]; yv = np.full(w, np.nan); yv[x0] = cents[x0][0]   # median candidate (bug fix: np.median could fall between candidates)
     for step in (1, -1):
         prev = yv[x0]; x = x0 + step
         while 0 <= x < w:
@@ -163,9 +171,16 @@ def main(pdf, resp_dir, out):
                 pix = fitz.Pixmap(fitz.csRGB, pix)
             img = np.frombuffer(pix.samples, np.uint8).reshape(pix.h, pix.w, pix.n)[..., :3]
             dark = img.astype(int).sum(2) < 250
-            tb, lr = frames(dark)
-            for ri, (t, b) in enumerate(tb):
-                for ci, (l, r) in enumerate(lr[:3]):
+            boxes, seen = frames(dark), set()
+            tops = sorted({bx[0] for bx in boxes})
+            row_of = {t_: sum(1 for u in tops if u < t_ - 15 and all(abs(u - v) > 15 for v in tops if v < u)) for t_ in tops}
+            for (t, b, l, r) in boxes:
+                ci = min(2, int(l / (dark.shape[1] / 3.0)))            # column by position (p. 27 has H01 only)
+                ri = sorted({min(u for u in tops if abs(u - t_) <= 15) for t_ in tops}).index(min(u for u in tops if abs(u - t) <= 15))
+                if (ri, ci) in seen:                                   # the same box found from adjacent line pixels
+                    continue
+                seen.add((ri, ci))
+                if True:
                     st = STATIONS[ci]; rec = dict(page=pn, image=k, row=ri, col=ci, station=st, status="ok")
                     cal = y_cal(dark, t, b, l)
                     if cal is None or cal["resid_px"] > 2.0 or abs(cal["log_at_bottom"]) > 0.05:
