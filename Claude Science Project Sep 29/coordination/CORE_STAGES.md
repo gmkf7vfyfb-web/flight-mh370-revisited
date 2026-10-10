@@ -1078,3 +1078,61 @@ from the repl. Login is by password, and the platform prompts Pete. The provider
 the Mac.
 
 - Modular Architecture
+## 2026-10-10 ~01:45 UTC - core: requests 14, 17 and 16 (fuel) DELIVERED in code (`34ef6bc`, `b60cbb7`)
+
+**Request 14 (end of flight), in `terminal.rs`.** From a 22:41 stop, the cruise BFOs after it (m2315,
+m0011) are scored in-stage by the filter's own sequence: drift over the gap when
+`bfo_bias.drift_hz2_per_s` is set, then the Kalman update's marginal log-likelihood, with the vertical rate
+when `bfo_vertical_rate` is set. The bias so updated goes to the 00:19 BFO models, and the 00:19 contacts are
+found by epoch, not by position. **Audit F4 included:** the bias is drifted from the last cruise BFO to the
+first 00:19 burst. An option that uses only cruise BFOs needs no `bfo_models`.
+- Test `in_stage_cruise_bfo_reproduces_the_filters_increment`: m0011 alone, and the chain m2315 -> m0011 ->
+  00:19a, against the filter's sequence written out, with and without drift (1e-9).
+- The 00:11 hand-off and every existing terminal run are unchanged: davey2016 + handoff-smoke + smoke, 12/12
+  files byte-identical against `regress/hoe/mh370-head`.
+- **End of flight: the V2 arms from 22:41 with the 00:11 BFO can run now** from the `reference-289`
+  m2241 hand-offs (label: uncorrected fuel; provisional sampler). Rebuild first.
+
+**Request 17 (sampler).** Moves in a tempered epoch re-simulate from `before_step[ancestry[anc]]`, with the
+ancestry composed through each stage resample. Guard: an epoch cannot be both tempered and rejuvenated (config
+error). Tests: `ancestry_follows_the_stage_resamples`, and `a_tempered_epoch_agrees_with_the_plain_update`
+(an invariance guard; this toy is NOT sensitive to the defect, which I state in the test). The size in our
+filter is measured by smoke S0 against ladder rung R5 at the same scale (running).
+- **A likely mechanism for fuel audit F7 (the leak), pre-registered in `out/smoke/PREDICTIONS.md`:** the
+  defect re-simulated moved particles from other particles' pre-epoch histories, including histories already
+  charged the -50 fuel penalty, which `fuel_penalised` then never charges again. If so, S0's weight on paths
+  dry before 00:11 falls to < 0.01%.
+
+**Request 16 (fuel), all config-gated, defaults unchanged** (davey2016 + ladder/fuel + smoke: 4/4 files
+identical):
+- C-1: `fuel.model = "internal-v1"` reads `inputs.fuel_model` (local only, git-ignored); trilinear, flags
+  OR'ed, clamp flagged; the 300 test vectors match to 1e-9 (`internal_grid_reproduces_...`).
+- C-2: `fuel.temperature = true`: tau = 1 + 0.003 dISA (1 + 0.2 M^2), dISA from the ERA5 temperature at the
+  aircraft. **Schema for modules:** new `FuelFlow::fuel_flow_kg_h_at(fl, w, m, delta_isa_k)`; the default is
+  the standard-day value, and the core's `CoreFuel` applies tau when the run has the term on. End of flight:
+  please call `_at` where you know the temperature.
+- C-3/C-4: kappa N(1.0004, 0.0196) as a multiplier; `initial_from_factor = [43800, 7228]` per path.
+- C-5: `fuel.ceiling = true`: the prior and every new level target are drawn uniformly from the levels at or
+  below `ceiling_fl(weight)`.
+- F7: `fuel.hard_reject = true` (log weight -1e6: zero weight, finite evidence if a mode is eliminated).
+- The doomed test uses the grid's exact lower bound times 0.95 when the temperature term is on.
+- Not done for the run: C-6, C-7 (two tanks; design note to follow), C-8 (climb pricing; to be bounded in the
+  paper: about 42-44 kg per 1,000 ft, 1.9-2.1 level changes per path, mostly offsetting).
+- Configs: `config/sensitivity/fuel-fixes/s1..s5`.
+
+**Revision stamp.** `build.rs` stamps the revision the binary was built from; frozen run binary
+`regress/next-run/mh370` = `b60cbb7`.
+
+**Ephemeris.** `config/davey2016-inmarsat.toml` (base davey2016, Inmarsat states). On Davey's own source:
+Davey (2016) printed p. 24 says only that Inmarsat-3F1 "moves in a known way", citing [2] = Ashton et al.
+(2014), J. Navig. 68(1), DOI 10.1017/S037346331400068X, whose Table 4 holds the Inmarsat states. Davey does
+not name the ephemeris file, so the Inmarsat variant is the closer reading, not a documented one.
+
+**Smoke tests running now** (2 threads each, ladder scale, seeds 1-2): FA1 (Inmarsat), S0 (fixed sampler,
+current fuel), S5-full (all fixes). The full ladder S1-S4 goes to the SSH server when it is connected.
+
+**The next large run** is configured in `config/sensitivity/next-run/` (README, driver, local and server
+sizes). All four strata ran end to end at tiny scale. Pete has pre-approved it; it starts when S0 and S5-full
+are read and show no fault.
+
+- Core
