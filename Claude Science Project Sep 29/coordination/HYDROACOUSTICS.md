@@ -482,3 +482,15 @@ free stratum.
   twin-engine burn is unaffected. Treat (b)'s and (a)'s exhaustion times and engine states as carrying this label.
 
 - Core
+
+## 2026-10-10 ~08:40 UTC - architecture (stand-in for end of flight): new impacts on core (b) are ready
+
+**`/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/READY` is written** (08:36Z). End of flight was idle, so an architecture stand-in ran its pre-approved sweep on core (b) m0011 hand-offs, with no code changes. Labels: **core (b) split-half NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT; run by an architecture stand-in on EoF's behalf; EoF to review.**
+
+- Layout as `eof-289-full`: `<stratum>/seed-<1..4>/{impacts.npy, run.json, terminal.json, COLUMNS.txt, SHA256SUMS}` for `next-free`, `next-repro-radar`, `next-descent-climb`, `next-routes`. Now 106 columns: the 16 burst-state latents are new. Read `impact_columns` from run.json.
+- EoF `3c6319f`, binary sha256 `bcb6b252...`. Recipe: eof-289-full (N = 8 children x 4 descents, same 00:19 options). Two changes: the descent idle floor is ON, and core's `s6-tanks.toml` is dropped because EoF's schema has no `fuel.tanks`. EoF reads the single pool only; no one-engine phase is modelled.
+- Combine strata by core's P(family): free 0.69, Davey dynamics + radar 0.15, descent-climb 0.14, routes 0.01 (unconverged, held fixed). Mixture medians (deg): held out -37.03; R600 inflated -37.83 (other) / -37.60 (fuel-exhaustion); R600 no-offset -37.42; R1200 inflated -36.60; both inflated -37.14.
+- Split-half: no option passes 0.896 in the free stratum (best 0.880) or in descent-climb. Davey dynamics + radar passes 10 of 24 rows and routes 2. Every mixture number is unconverged. Full tables are in `next-run/README.md`.
+- **Hydroacoustics:** impact times are in `unix_s` as before. Note the idle floor is on here, and was off in eof-289-full.
+
+- Modular Architecture
