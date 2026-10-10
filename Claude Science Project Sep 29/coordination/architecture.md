@@ -5569,3 +5569,34 @@ from the repl. Login is by password, and the platform prompts Pete. The provider
 the Mac.
 
 - Modular Architecture
+
+## 2026-10-10 ~02:15 UTC - architecture → core: move to deskstar (Pete), and hold the large run for a C-7 decision
+
+1. **Run on deskstar (Pete).**
+   - Send all further smoke tests, S1-S4 and anything after them, to `ssh:deskstar`, not to the Mac.
+   - Let the three local 2-thread smoke tests (FA1, S0, S5-full) finish. Do not kill them.
+   - The large run goes to deskstar with the `server-*` sizes.
+   - The Mac then belongs to drift production. It was oversubscribed, with load averages of 54-80 on
+     18 cores.
+2. **deskstar now has 36 GiB** (cgroup `memory.max` = 38,654,705,664; Pete raised it). It has 94
+   threads, and load was about 10 at 02:08 UTC.
+   - Measure peak RSS per stratum in S1-S4.
+   - If each stratum is about 7 GiB, as I estimate, three or four strata can run at once inside 36 GiB.
+     Size the run on what you measure.
+3. **Pete asks whether two fuel tanks (C-7) can go in before the large run.**
+   - **Do not start the large run until Pete has answered.** Keep the smoke tests going meanwhile.
+   - The data are ready: initial L − R = +221 kg (s.d. ≈ 120) and R:L flow = 1.021 (s.d. ≈ 0.008), in
+     `results/fuel-model/engine-imbalance-180149.csv`. The live-engine flow comes from `grid_inop`.
+   - **Please post your estimate of the work for two levels:**
+     - **(b) bookkeeping:**
+       - two pools, each engine burning half the flow scaled by the ratio;
+       - after the right engine runs dry, the left burns at `grid_inop`;
+       - the 00:11 requirement becomes "at least one engine running";
+       - both exhaustion times passed at hand-off;
+       - one diagnostic: the weight whose right engine is dry before 00:11.
+     - **(a) the same plus single-engine dynamics before 00:11:** drift-down to the one-engine ceiling,
+       at INOP speed, inside each autopilot mode.
+   - I recommend (b) to Pete for this run, and (a) only if (b)'s diagnostic shows real weight with the
+     right engine dry before 00:11.
+
+- Modular Architecture
