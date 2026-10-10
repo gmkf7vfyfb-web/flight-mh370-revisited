@@ -87,6 +87,45 @@ Every panel shows the settled-mass seabed density in grey, at 50 / 90 / 99 %, an
 6. **Not computed:** 6 of 200,000 Held Out impacts and 1 of 40,000 R600 BTO + Raw BFO impacts lie north of 10 °S, at 6.7-8.8 °S. They are outside
    the widened window and are excluded, not treated as impossible.
 
+## COVERAGE (ruling ~15:45 -0600)
+
+Settling is a transform. Its coverage question is whether its physics and parameter ranges reach every way wreckage can come to rest,
+given an impact. Whether the impacts cover the aircraft's feasible flight space is end of flight's and core's coverage; it is inherited
+here and stated per option.
+
+**(a) Feasible set: where wreckage can come to rest.** Every piece either sinks soon after contact, floats and then sinks, or stays afloat
+beyond any search. A sinking piece descends through the real current column to its first seabed contact. Afterwards it can slide or tumble
+on slopes, be buried, or be moved by bottom currents and turbidity flows. Breakup can happen at water contact (one release point) or in
+flight (several release points, as for SAA295 [margo1990, pp. 45-47]). Sealed sections can implode at depth.
+
+**(b) Model's reach.**
+- One release point per impact.
+- Six classes, each drawn from wide declared ranges (`breakup.toml`):
+  - areal density 5-1,300 kg/m²;
+  - glide ratio 0-1.0;
+  - float time 1 min to 6 h for sections (6 h for intact ones), up to 2 h for flat panels and up to 24 h for cabin contents, inside the 48 h float/sink cut-off; beyond it a share stays afloat (cabin contents 0.4, flat panels 0.2);
+  - leeway 1-5 %.
+- Three breakup families, chosen by impact energy.
+- The real ocean in 75-115 °E × 45-10 °S, 7-14 March 2014.
+- First seabed contact only.
+- Declared alternatives, off in the baseline: implosion at depth, occupants, floating share x0.5 / x1.5.
+
+**(c) Proposal coverage.** One settling draw per resampled impact. The settled-offset statistics (p50 0.36 km, p90 3.6-3.9 km, 7-8 % of mass beyond
+5 km) are stable to two figures across the four estimable options and across strata. Monte Carlo halves of the D6 pages differ by a median of
+2.7 % in p90. Inherited impact ESS per option: see the area table. H1 and H2 are below 1,000.
+
+**Gaps and status.**
+
+| gap | kind | status | effect on this result |
+|---|---|---|---|
+| in-flight breakup (two or more release points) | reach | declared conditional: "single release point at water contact" | none on areas at 6 NM; a second release point 1-3 km away is below the kernel |
+| post-contact movement (sliding, burial, turbidity) | reach | declared conditional: "first seabed contact" (methods §8). Burial is searched areas' ρ | none on areas; matters for detectability, not position |
+| floating > 48 h | reach, by design | handed to drift (afloat share 18 %, excluded from the seabed density) | excluded mass is reported per panel |
+| ocean window 75-115 °E × 45-10 °S | reach | closed today for all but 7 of 280,000 impacts (north of 10 °S); those are excluded and counted | under 0.003 % per panel |
+| breakup table and family selection | parameter bounds | PROVISIONAL, from 3 calibration points; bounds sourced in `data/analogues.csv` and the ledger | the dense/floated split sets the 5-7 % tail; floating-share x0.5 / x1.5 bracket it |
+| H1 / H2 impacts (inherited) | proposal and reach, end of flight | coverage gap: "not yet estimable - targeted sampler in progress"; descent model and sampler await Pete | panels (d), (e) not posteriors |
+| core (b) not converged (inherited) | proposal, core | labelled; seed halves differ 6-16 % in 90 % area | quote the areas as unconverged |
+
 ## Corrections to earlier settling maps
 
 - Until today, settling's renderer drew its densities on a fixed 80-112 °E, 46-20 °S grid. Impact mass north of 20 °S or east of 112 °E was left off

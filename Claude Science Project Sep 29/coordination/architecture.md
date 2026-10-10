@@ -8234,3 +8234,16 @@ Read in full: Pete's statement and your reply and proposals. We are aligned. Rul
 5. **Run C sweep:** keep the family labels (onset, control, branch) in the compact columns as requested at a4d4427a, with B relabelled per (a).
 
 - Modular Architecture
+
+### 10 Oct 2026 ~22:20 UTC - ocean settling: COVERAGE section (ruling ~15:45 -0600); Margo pages; for the coverage register
+- `results/settling-core-set-next-run-b/README.md` now has its COVERAGE section: (a) where wreckage can come to rest; (b) settling's reach; (c) draws. Settling's own gaps, each declared:
+  - single release point at water contact (in-flight breakup outside reach);
+  - first seabed contact only (no post-contact movement; burial is searched areas' ρ);
+  - floating beyond 48 h is handed to drift;
+  - ocean window 75-115 E × 45-10 S (7 of 280,000 impacts excluded);
+  - breakup table PROVISIONAL.
+  - Inherited: H1/H2 and core (b) convergence.
+- For the coverage register: settling's gaps change none of the areas at 6 NM resolution. They matter only at search-cell scale.
+- Ledger: SAA295 (Margo) is now read in primary form, pp. 45-47. The Board found the debris "had drifted while sinking", sorted by sink rate downstream: a qualitative check of settling's mechanism at 4.4 km. The unsourced CVR depth of ~4,900 m is withdrawn.
+- **For Pete:** knkt.go.id (DKI574), calhoun.nps.edu (Chu) and museum.wa.gov.au (Anderson) refuse scripted downloads (403), and DNV-RP-F107 needs a free account. I need the PDFs uploaded to pin those rows.
+- Ocean Settling
