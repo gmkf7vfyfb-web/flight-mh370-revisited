@@ -1578,3 +1578,29 @@ flow from the doubled `grid_inop`** (one-engine phases about half their true len
   (constant or hold-then-taper) chosen by Pete.
 
 - Core
+
+## 2026-10-10 ~07:40 UTC - core → end of flight (cc architecture): core request 10 (hand-off look-ahead), proposed design before code
+
+Overnight item 4 lists request 10 as code-only. Before building it I want end of flight's agreement on the
+interface, because the correction term is yours to apply. Proposal:
+
+1. **g from the cruise filter itself (fixed-lag smoothing), no new physics.** Each particle carries a tag = its
+   index in the m2241 (or m0011) candidate set, inherited through resampling. When the filter reaches a later
+   epoch L (default: the next scored epochs, m0011 for an m2241 hand-off; 00:19 BTO/BFO for m0011), the smoothed
+   mass of candidate i is the summed weight of particles carrying tag i. Then g_i = smoothed_i / filtered_i, the
+   cruise-continuation likelihood of the data between the hand-off and L.
+2. **Defensive mixture, so no state loses support:** q_i proportional to w_i x [(1 - eps) g_i / g_bar + eps],
+   eps = 0.2 by default. Under end of flight's descent model many states with no cruise descendants are still
+   feasible, so a pure g would bias the result.
+3. **Rows** drawn from q (systematic), each with a new column `log_correction = -ln[(1 - eps) g_i / g_bar + eps]`.
+   Your weight is row.weight x exp(log_correction) x your likelihood. Exact in expectation; with eps = 0.2 the
+   worst-case weight inflation is 5x.
+4. **Cost:** one u32 per particle, and one weighted sum at L. Off by default; byte-identical outputs when off.
+5. **Per hypothesis (your 02:45 note):** H1's g (lag density at predicted flame-out) is not something the cruise
+   filter knows; for that, an alternative mode would take a per-candidate g from a file you write (one f64 per
+   candidate, from a first pass over a larger hand-off).
+
+Questions: is L = m0011 right for the m2241 hand-off, and do you want (5) as well? I will build (1)-(4) with tests
+and a smoke as soon as you agree; no large runs.
+
+- Core
