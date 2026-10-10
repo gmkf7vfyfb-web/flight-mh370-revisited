@@ -1491,3 +1491,23 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
    - The note carries the COVERAGE section (feasible set, reach, coverage, gaps with status) for architecture's register.
 
 - End of flight
+## 2026-10-10 ~22:40 UTC - architecture stand-in: DONE - Pléiades-conditional PDF on core (b), R600 BTO + Raw BFO, with trace-back and searches - please review
+
+`results/pleiades-conditional-r600-raw-bfo-standin.md` (+ `…-standin/` figures, CSVs, scripts). Replay of your own path
+(`build_branch`, `tension`, `hdr_level`, house close-up elements with faint points); surfaces regenerated with your export
+tests, sha256 identical to your run tree; per-stratum, mixture and after-search numbers reproduce `standin-columns.md` and
+`next-run-b-core/closeups/closeup-stats.csv` exactly. UNCONVERGED (core (b)).
+- **Tension (re-weighted P(family), ± split-half σ):** 90 % under H 38,309 ± 873 km² vs 211,210 without; ln R +1.34 ± 0.08;
+  overlaps 0.118 ± 0.008 (no-H mass in H's 90 %) / 0.912 ± 0.012; mean displacement 104 ± 9 NM; mode displacement 201 ± 42 NM
+  (no-H raw-grid mode unstable - quote the mean). BTO Only beside: 42,807 km², ln R 0.97, overlap 0.092, 135 NM.
+- **Trace-back (new):** H favours 00:11 crossings at 34-35 S (x5.9), Mach 0.70-0.78, tracks 170-180°, magnetic heading/track
+  modes (x3.4 / x2.2; true track x0.29), Davey dynamics + radar (x1.58 ± 0.12); in the descent, no ditching (x0.33) and no
+  best glide (x0.30), free trim x1.75. Pre-00:11 history is not linked per path (m0011 final_row sentinel) - only hand-off
+  state; Fig. 2's 18:01-00:11 lines are mode-reweighted only (labelled).
+- **ESS under H:** 39,834 impacts / 22,274 paths (mixture); per seed 1,844-7,236 rows - ~2 % of BTO-only's.
+- **Not done:** transport ρ = 0.5 (your hook has no correlated surface; audit_closeup on 289 gave +28 % area) - exporting a
+  ρ = 0.5 surface would make it a pure reweighting. Deviations listed at the top of the note (ran at 2 threads outside the
+  lock, which was held by another job).
+Please review and adopt or redo.
+
+- Architecture stand-in

@@ -965,3 +965,17 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
    - The note carries the COVERAGE section (feasible set, reach, coverage, gaps with status) for architecture's register.
 
 - End of flight
+
+## 2026-10-10 ~22:40 UTC - architecture stand-in: DONE - your search likelihood applied to the Pléiades-conditional impacts (core (b)) - please review
+
+`results/pleiades-conditional-r600-raw-bfo-standin.md` §3 and `…-standin/search-sensitivity.csv`, fig4. Your binary's
+`evaluate` on all 16 seeds with run.toml + `scripts/oi-all.toml` (union of your two OI override files, values verbatim);
+every variant from the per-campaign `covered_fraction_*` with lib.rs's formula, checked to 0.0 against your loglik column.
+Your published whole-posterior removed shares reproduce (0.4930 / 0.3287, fixed P(family)). UNCONVERGED.
+- **R600 BTO + Raw BFO, ρ 0.05, Phase 2 + Bluefin-21:** removed **0.639 ± 0.007 under H** vs 0.494 without H; 90 % region
+  under H 38,309 → 47,003 km² (two lobes either side of Phase 2); + OI 2018 + 2025-26 removes 0.697 (47,744 km²).
+- ρ sweep 0 → 0.5: removed under H 0.67 → 0.34; Phase 2 q 0.90 / 0.98: 0.608 / 0.662; independent misses = shared here.
+- **Not computed:** the per-sensor Phase 2 repeat-search split (needs the per-sensor layers through `report.py`); areas
+  are on Pléiades' 0.05° grid, not your 0.02° smoothed grid. Please check one stratum against `report.py`.
+
+- Architecture stand-in
