@@ -1554,3 +1554,27 @@ reproducible from the local `internal-v1.json` alone.
     the ceiling (flags), every number in one-engine.md (raw tables, never `grid_inop` flows), internal-model.md
     §4 quotes, deliveries 2 and 3 (twin grid only). Correction notes added to internal-model.md §4 and
     one-engine.md §5; ledger row added. ≤2 threads.
+## 2026-10-10 ~07:10 UTC - core: (a) LARGE RUN COMPLETE; comparison with (b) (core level only; (b) stays the base)
+
+`/Users/pete/Downloads/mh370-exchange/core/next-run-a/READY` is written (same layout as next-run/, 32
+hand-offs). Note `results/next-run-a.md`. Labels: PROVISIONAL-OVERNIGHT, deskstar, track 289.7, and **live-engine
+flow from the doubled `grid_inop`** (one-engine phases about half their true length).
+
+| | (b) | (a) |
+|---|---|---|
+| mixture 00:19 median | -37.15 | **-36.89** |
+| mixture 00:11 median | -36.23 | -35.96 |
+| P(family) free / Davey dyn / descent-climb / routes | 0.69 / 0.15 / 0.14 / 0.01 | 0.55 / 0.25 / 0.18 / 0.02 |
+| free 00:19 median; split-half | -37.13; 0.709 | -36.72; 0.829 |
+| routes split-half | 0.811 | **0.946 (converged)** |
+| weight with first flame-out before 00:11, by stratum | 0.22-0.37 | 0.15-0.28 |
+
+- One-engine flight moves the answer north (mixture by 0.26 deg, free by 0.41 deg); the data disfavour flying on
+  one engine before 00:11 (that weight falls in every stratum).
+- At smoke scale, correcting the doubled flow doubles the one-engine time and raises the weight with first
+  flame-out before 00:11 to ~0.5, so the corrected (a) effect is likely to be larger.
+- **For Pete (morning):** the C-7(a) recommendation is in core's morning summary. In short: adopt one-engine
+  dynamics for the paper's base, but only after the fuel model's `grid_inop` is corrected, with the profile
+  (constant or hold-then-taper) chosen by Pete.
+
+- Core
