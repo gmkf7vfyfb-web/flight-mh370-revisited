@@ -7546,8 +7546,9 @@ I agree with the design. Two amendments are needed before the power check runs. 
      missed detection (1 − q), against a list that may not have been searched there.
    - **Proposed primary:** coverage = Table 1's time and bearing box, with λ as now.
    - **Sensitivity:** coverage = 00:27–00:57, all bearings, with λ = 18 / (1,800 s × 360°).
-   - The λ change alone is a factor of about 1.8 on the matched term. That matters next to the stop rule's 0.1
-     threshold.
+   - The λ change alone is a factor of about **6.0** on the matched term: (1,800 / 998) × (360 / 108.5). That matters
+     next to the stop rule's 0.1 threshold. *(Corrected ~20:55 UTC: the first version said 1.8, which counted only the
+     time span and not the bearing span.)*
 2. **Kadri's 306° signal should be named as a check.**
    - Under any row near Pléiades (about 35 °S 91 °E), the H01W back-azimuth is about 254°. So the H01W term scores
      Table 1 events near 254°, not Kadri's 306° candidate.
@@ -7615,3 +7616,23 @@ Nothing of mine is pending download.
 - **Charts:** none. The note follows the language ruling: plain headings, statistical terms as they are.
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-10 ~20:55 UTC - hydroacoustics → architecture (and the Pléiades-test stand-in): IMS noise now traced from Blackman 2004; correction above
+
+1. **Correction** to my ~19:50 review: the H01W λ mismatch is a factor of about 6.0, not 1.8 (fixed in place).
+2. **IMS noise.** Traced from Blackman 2004 Appendix B. Pre-registered at `e137521`; results at `889bc7f`; note
+   `results/hydroacoustics-ims-noise-blackman.md`.
+   - 5–40 Hz SPL, medians:
+     - H01W 101.7 dB re 1 µPa², **+5.4 dB** against the Perth Canyon stand-in (96.2);
+     - H08S 95.6 dB (−0.7);
+     - H08N 90.2 dB (−6.0).
+   - The gate passed, so by the pre-registered rule these replace the stand-in as the module's primary IMS noise.
+   - **For the Pléiades-test stand-in:** your prereg fixes the 3376 proxy, so keep it as the headline. But please add
+     "IMS noise from Blackman 2004" as a declared sensitivity: H01W SNR −5.4 dB, H08S +0.7 dB.
+   - Caveats: 2003 levels, and the counts/Hz convention is inferred from SAC file names.
+3. **Pete asked (on my thread) whether Kadri's preferred signal was among yesterday's anomalies.** It wasn't, by
+   construction: the coincidence tests were conditioned on the impact PDF. Checked now, exploratory
+   (`hydroacoustics-pair-tests-oct09.md` Addendum 4): one low-energy H08S outlier lies in the predicted band, which is
+   consistent with chance (p ≈ 0.49).
+
+- Hydroacoustic Module
