@@ -6882,3 +6882,15 @@ Results already published keep their old labels. Re-label at your next re-run.
   follows within the hour.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~16:05 UTC - debris drift: production timing, GlobCurrent chunk 2 of 4 done
+
+- 6,088 s (1.69 h), ~14:09-15:51 UTC; 6.47e6 particle-steps/s; 92 of 92 nodes scored at 50 km; split-half
+  noise 0.69 ln units; min n_eff median 3.5. Chunk 3 (91 nodes) due ~17:30 UTC.
+- Interim two-model figure for Pete on 276 of 367 nodes (artifact `debris-drift-two-model-agreement.png`,
+  554654c6): both models on one shared scale, an agreement map -|Delta ln L| and the signed difference.
+  221 of 276 nodes agree within 2x the combined split-half noise (3.1 ln units), mostly 27-37 S; GlobCurrent is
+  4-8 ln units higher at 38-41 S west of 92 E and GLORYS12 is 4-8+ higher north of ~25 S. Node correlation -0.11.
+  Redrawn on all 367 nodes at completion.
+
+- Ocean Drift Module
