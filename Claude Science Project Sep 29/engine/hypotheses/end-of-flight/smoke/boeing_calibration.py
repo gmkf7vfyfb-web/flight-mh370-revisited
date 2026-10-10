@@ -17,6 +17,33 @@ import numpy as np
 from scipy.signal import savgol_filter, find_peaks
 
 G, NM, FT = 9.80665, 1852.0, 0.3048
+# Holland arXiv:1702.02432v3 descent-rate bounds (ft/min, negative down) at 00:19:29 and 8.027 s later:
+# H1 Table IV p. 9, H2 Table VI p. 9 (rounded to 100 ft/min by Holland).
+HOLLAND = {"H1": ((-14800.0, -3900.0), (-25300.0, -14800.0)), "H2": ((-6800.0, -2900.0), (-17600.0, -13800.0))}
+
+
+def window_occupancy(t, alt_ft, lag_s=8):
+    """Diagnostic smoke 3 (Pete, 10 Oct ~18:10 UTC): the fraction of 8-s windows during the descent whose (start, end)
+    vertical speeds fall inside Holland's H1 and H2 bounds. Same estimator as the architecture 00:19 study, Table 6
+    (reproduced exactly on the ten Boeing cases): 1-Hz altitude, 3-s moving average, central differences; windows
+    from the first sample 200 ft below the starting altitude to the end of the record."""
+    t = np.asarray(t, float); h = np.asarray(alt_ft, float)
+    keep = np.r_[True, np.diff(t) > 0]; t, h = t[keep], h[keep]
+    tt = np.arange(t[0], t[-1] + 1e-9, 1.0); h = np.interp(tt, t, h)
+    if len(h) < lag_s + 4:
+        return None
+    vs = np.gradient(np.convolve(h, np.ones(3) / 3, mode="same")) * 60.0; vs[0] = vs[1]; vs[-1] = vs[-2]
+    i0 = int(np.argmax(h < h[0] - 200.0)) if (h < h[0] - 200.0).any() else len(h)
+    a, b = vs[i0:-lag_s], vs[i0 + lag_s:]
+    out = {"windows": int(len(a)), "min_8s_dv_fpm": float((b - a).min()) if len(a) else None,
+           "windows_dv_le_9400": int(((b - a) <= -9400).sum())}
+    for k, ((a0, a1), (b0, b1)) in HOLLAND.items():
+        m = (a >= a0) & (a <= a1) & (b >= b0) & (b <= b1)
+        out[f"windows_{k}"] = int(m.sum()); out[f"fraction_{k}"] = float(m.mean()) if len(a) else None
+        idx = np.where(m)[0]
+        out[f"first_{k}_s_before_end"] = float(tt[-1] - tt[i0 + idx[0]]) if len(idx) else None
+        out[f"first_{k}_altitude_ft"] = float(h[i0 + idx[0]]) if len(idx) else None
+    return out
 
 
 def measure(t, x_nm, y_nm, alt_ft):
@@ -44,7 +71,7 @@ def measure(t, x_nm, y_nm, alt_ft):
         max_bank = None
     return {"high_rate": high, "max_descent_fpm": float(-fpm.min()), "max_down_accel_g": float(-acc.min() / G),
             "chord_after_15000_nm": chord, "phugoid_period_s": period, "n_vs_extrema": int(len(pk) + len(tr)),
-            "max_bank_deg": max_bank, "duration_s": float(t[-1] - t[0])}
+            "max_bank_deg": max_bank, "duration_s": float(t[-1] - t[0]), "windows_8s": window_occupancy(t, h / FT)}
 
 
 def main():
@@ -62,7 +89,11 @@ def main():
         json.dump(res, fh, indent=1)
     for k in ("boeing", "module"):
         v = list(res[k].values())
-        print(k, "n", len(v), "high-rate", sum(r["high_rate"] for r in v))
+        w = [r["windows_8s"] for r in v if r["windows_8s"]]
+        print(k, "n", len(v), "high-rate", sum(r["high_rate"] for r in v),
+              "pooled 8-s window fraction H1 %.4f H2 %.4f" % (sum(x["windows_H1"] for x in w) / max(1, sum(x["windows"] for x in w)),
+                                                              sum(x["windows_H2"] for x in w) / max(1, sum(x["windows"] for x in w))),
+              "mean per-trace fraction H1 %.4f H2 %.4f" % (np.mean([x["fraction_H1"] for x in w]), np.mean([x["fraction_H2"] for x in w])))
 
 
 if __name__ == "__main__":

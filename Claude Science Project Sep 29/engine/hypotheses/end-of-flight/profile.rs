@@ -156,6 +156,13 @@ pub struct EnvelopeConfig {
     /// so a drawn residual bank of 0 does not freeze it.
     #[serde(default = "default_spiral_bank_floor_deg")]
     pub spiral_bank_floor_deg: f64,
+    /// Where the fixed-trim lift coefficient of a maintained-then-lost descent is referenced (Pete's
+    /// ruling 10 Oct 2026, item 3, after the architecture 00:19 study). `false` (the default, the earlier
+    /// behaviour): the level C_L of the TAKEOVER state plus the drawn trim offset, fixed at sampling time.
+    /// `true`: the level C_L of the state AT THE LOSS (mass, altitude and speed then) plus the same
+    /// drawn offset, latched at the first step after the loss. Draws are unchanged either way.
+    #[serde(default)]
+    pub trim_reference_at_loss: bool,
 }
 
 fn default_spiral_doubling_s() -> Range {
@@ -319,7 +326,7 @@ impl EnvelopeConfig {
                     bank_rad: self.residual_bank_deg.draw(uniform).to_radians(),
                     recover_at_altitude_ft: None,
                 });
-                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq };
+                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq, takeover_level_c_l: level_c_l };
             }
             Control::UpsetThenRecovery => {
                 let recover_at = self.recovery_altitude_ft.draw(uniform);
@@ -341,11 +348,12 @@ impl EnvelopeConfig {
                     loss_of_control_after_s: None,
                     recovery_attempt_altitude_ft: Some(recover_at),
                     log_q_correction: 0.0,
+                    takeover_level_c_l: level_c_l,
                 };
             }
             Control::NoIntervention => {}
         }
-        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: 0.0 }
+        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: 0.0, takeover_level_c_l: level_c_l }
     }
 
     fn sample_shape(&self, propulsion: Propulsion, control: Control, uniform: &mut dyn FnMut() -> f64) -> Shape {
@@ -395,6 +403,8 @@ pub struct Profile {
     /// `ln(prior / proposal)` of this profile's draws: non-zero only under the two-burst loss-window
     /// proposal ([`LossWindow`]), zero otherwise.
     pub log_q_correction: f64,
+    /// The level C_L of the takeover state, from which the free phases' trim was set.
+    pub takeover_level_c_l: f64,
 }
 
 /// The two-burst stopgap proposal on the loss of control (9 Oct 2026, Pete's choice; PROVISIONAL, to be
@@ -454,6 +464,10 @@ pub struct Flying {
     pub spiral_bank_floor_rad: f64,
     /// Seconds after onset at which free dynamics began, if they did.
     pub free_since_s: Option<f64>,
+    /// `EnvelopeConfig::trim_reference_at_loss`.
+    pub trim_reference_at_loss: bool,
+    /// The trim C_L latched at the loss of control when it is referenced to the state at loss.
+    pub loss_c_l: Option<f64>,
 }
 
 impl Flying {
@@ -490,6 +504,8 @@ impl Flying {
             spiral_bank_cap_rad: cfg.spiral_bank_cap_deg.to_radians(),
             spiral_bank_floor_rad: cfg.spiral_bank_floor_deg.to_radians(),
             free_since_s: None,
+            trim_reference_at_loss: cfg.trim_reference_at_loss,
+            loss_c_l: None,
         }
     }
 
@@ -515,6 +531,20 @@ impl Flying {
         if let Some(after) = self.profile.loss_of_control_after_s {
             if elapsed_s >= after {
                 if let Some(Phase::Free { c_l, bank_rad, .. }) = self.profile.phases.last().copied() {
+                    let c_l = if self.trim_reference_at_loss {
+                        match self.loss_c_l {
+                            Some(v) => v,
+                            None => {
+                                let t = atmos::isa_temperature_k(body.pressure_altitude_ft);
+                                let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(body.pressure_altitude_ft), body.tas_mps / atmos::sound_speed_mps(t));
+                                let v = body.mass_kg * atmos::G0 / (q * self.aero.wing_area_m2) + (c_l - self.profile.takeover_level_c_l);
+                                self.loss_c_l = Some(v);
+                                v
+                            }
+                        }
+                    } else {
+                        c_l
+                    };
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), 0.0);
                 }
@@ -657,6 +687,37 @@ pub(super) mod tests {
             spiral_doubling_s: Range::Uniform([60.0, 120.0]),
             spiral_bank_cap_deg: 60.0,
             spiral_bank_floor_deg: 1.0,
+            trim_reference_at_loss: false,
+        }
+    }
+
+    /// With `trim_reference_at_loss`, the trim after a loss of control is the level C_L of the state AT
+    /// the loss plus the drawn offset, latched; without it, the takeover-referenced C_L is held.
+    #[test]
+    fn the_trim_at_loss_can_be_referenced_to_the_state_at_loss() {
+        let mut e = envelope();
+        let start = body(35_000.0);
+        let p = e.sample(&start, Propulsion::TwoThrusting, Control::MaintainedThenLost, &reference(), None, &mut || 0.5);
+        let after = p.loss_of_control_after_s.unwrap();
+        let offset = match p.phases.last().copied() { Some(Phase::Free { c_l, .. }) => c_l - p.takeover_level_c_l, _ => panic!("no free phase") };
+        let lower = body(12_000.0);
+        let mut old = Flying::new(p.clone(), reference(), Propulsion::TwoThrusting, &e);
+        let (c_old, _, _) = old.command(&lower, after + 1.0);
+        e.trim_reference_at_loss = true;
+        let mut new = Flying::new(p.clone(), reference(), Propulsion::TwoThrusting, &e);
+        let (c_new, _, _) = new.command(&lower, after + 1.0);
+        let (c_again, _, _) = new.command(&start, after + 2.0);
+        let t = atmos::isa_temperature_k(lower.pressure_altitude_ft);
+        let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(lower.pressure_altitude_ft), lower.tas_mps / atmos::sound_speed_mps(t));
+        let want = lower.mass_kg * atmos::G0 / (q * reference().wing_area_m2) + offset;
+        match (c_old, c_new, c_again) {
+            (Command::FixedTrim { c_l: a, .. }, Command::FixedTrim { c_l: b, .. }, Command::FixedTrim { c_l: c, .. }) => {
+                assert!((a - (p.takeover_level_c_l + offset)).abs() < 1e-12, "default holds the takeover trim");
+                assert!((b - want).abs() < 1e-12, "referenced to the state at loss: {b} vs {want}");
+                assert_eq!(b, c, "latched at the first step after the loss");
+                assert!((a - b).abs() > 1e-3, "the two references differ at a different altitude");
+            }
+            other => panic!("expected fixed trim after the loss, got {other:?}"),
         }
     }
 
