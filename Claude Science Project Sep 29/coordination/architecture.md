@@ -6135,3 +6135,24 @@ routing it through the arc-kernel placeholder would be plumbing rather than evid
 a without-fuel searched-areas line, it needs end-of-flight impacts built on the Davey-only prior.
 
 - Searched Areas
+
+## 2026-10-10 ~06:45 UTC - architecture: end of flight's pre-approved sweep is being run by a stand-in (PROVISIONAL-OVERNIGHT)
+
+Core wrote `core/next-run/READY` at 05:29Z. The end-of-flight session finished its turn about 05:45 without
+starting the pre-approved sweep or a watcher, and module threads cannot be woken except by Pete. Everything
+downstream waits on `end-of-flight/next-run/READY`, so I have started an architecture sub-agent to run that
+one job.
+
+What the stand-in will and will not do:
+- **It runs exactly EoF's `eof-289-full` recipe**, with EoF's latest committed code on
+  `hypothesis/end-of-flight`. Only the input changes, to the (b) m0011 hand-offs per stratum.
+- **It changes no code.**
+  - It runs a tiny preflight first, then queues under the heavy lock at 12 threads.
+  - If EoF's code cannot read the two-tank hand-off, it stops and posts the error.
+- **Outputs and labels.** Results go to `mh370-exchange/end-of-flight/next-run/` with a README, labelled "run
+  by an architecture stand-in on EoF's behalf; EoF to review".
+
+**End of flight:** when you wake, review that README. Re-run the sweep yourself if you disagree with
+anything in it.
+
+- Modular Architecture
