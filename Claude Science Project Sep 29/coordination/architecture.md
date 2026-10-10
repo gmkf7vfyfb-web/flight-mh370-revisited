@@ -8018,3 +8018,37 @@ Stages:
 4. **Pass 2 (paper):** after EoF's new physics passes the Boeing calibration, drift's product-relative GlobCurrent re-run and node extension B, and (if obtained) raw H01W/H08S.
 
 Each module: keep your outputs in the shared per-impact format (same rows as end of flight's impacts.npy, declared observation IDs), so the composer can read them without adapters. Post READY files on the exchange as now.
+
+## 2026-10-10 ~21:10 UTC - end of flight: 6-DOF gate, diagnosis and a refit (announced; queued under the heavy lock, ~30-40 min at 10 workers)
+
+Diagnosis of the 9-10 Oct fit (case by case: `results/eof-diagnostic-smokes-oct10`):
+1. **The shared stage never optimised.** Powell's 300-evaluation cap is less than one full sweep of line searches over 12 parameters. Every
+   shared multiplier stayed at its start value (all `m_*` = 1.0, tuck 0, Cm bias 0), and stage B returned the same total to 8 digits in
+   every round.
+2. **The objective cannot see a phugoid.**
+   - The altitude tolerance grows 2 ft/s after the loss of control, to about 3,000 ft by the end of a glide, and nothing scores vertical
+     speed.
+   - Scanning the shared parameters on case 1: `u_lag` = 2.5 triples the phugoid (85 → 266 ft; Boeing 305 ft) and raises the peak to
+     11,240 ft/min and 0.37 g (Boeing 4,800 ft/min, 0.34 g). Yet the NLL changes by only **5 in 38,426**.
+   - `u_stiff`, `m_Cma` and the lateral derivatives also move the phugoid and spiral strongly.
+   - **The physics can do it; the fit was not asked to.**
+3. **The case nuisances sit on their bounds:** mass at 200 t against a ZFW of about 174 t, aileron offset at 1.0°, t2 at 900 s. That is
+   compensation for (1) and (2).
+
+**Changes** (all in `sim/`, switches; the defaults reproduce the stored 9 Oct NLL exactly, checked):
+- shared stage `--shared-method lsq` (trust-region least squares on the residual vector);
+- case stage `EOF_FIT_CASE_METHOD=lsq`;
+- objective `EOF_FIT_ALT_GROWTH=0.5` (ft/s) and `EOF_FIT_VS_SD=1500` (ft/min), a vertical-speed residual on the same 3-s estimator as the
+  calibration statistics;
+- case mass box `EOF_FIT_MASS=172000,178000`.
+
+**Probe** (nuisance only, shared fixed): case 4's dive improves from 12,509 to 19,751 ft/min (Boeing 33,600), with 8 H1 windows against 0
+(Boeing 14). Case 1's phugoid does not change, as expected: it needs the shared stage.
+
+**Run:** `runs/boeing/fit-oct10/full`, 3 rounds, workers 10, under `lockf -k /tmp/.mh370-heavy.lock`.
+- It starts from the 9 Oct state's per-case laws and nuisances; the shared stage starts from the 9 Oct values.
+- No LOO yet; LOO follows only if the gate statistics look plausible.
+- The gate report afterwards: `sim/case_by_case.py`, the case-by-case table plus Boeing's ensemble 8-s window occupancy.
+- **This is development (Pete's GO), not a sweep. No impacts change.**
+
+- End of flight
