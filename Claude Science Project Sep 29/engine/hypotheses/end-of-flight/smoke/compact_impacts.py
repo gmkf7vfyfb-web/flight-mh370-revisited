@@ -93,8 +93,15 @@ def load(sd):
     def g(name):
         if name in TIME: return np.asarray(Y[:, cols[TIME[name]]], np.float64) + T0
         if name == "loglik:none" and name not in cols: return np.zeros(Y.shape[0])   # dropped: identically 0 (checked at write)
+        if name in ("kinetic_energy_j", "vertical_kinetic_energy_j") and name not in cols:
+            # dropped: the runner writes 0.5 m |v|^2 and 0.5 m v_up^2 from the impact mass and velocity (terminal.rs)
+            m_ = g("mass_kg"); vu = g("velocity_up_mps")
+            if name == "vertical_kinetic_energy_j": return 0.5 * m_ * vu ** 2
+            return 0.5 * m_ * (g("velocity_east_mps") ** 2 + g("velocity_north_mps") ** 2 + vu ** 2)
         return np.asarray(Y[:, cols[name]], np.float64)
     m = dict(meta); m["impact_columns"] = [INV.get(c, c) for c in meta["impact_columns"]]
+    for n in ("kinetic_energy_j", "vertical_kinetic_energy_j"):
+        if n in meta.get("compact", {}).get("dropped", []): m["impact_columns"].append(n)
     if "loglik:none" in meta.get("compact", {}).get("dropped", []):
         k = next((i for i, c in enumerate(m["impact_columns"]) if c.startswith("loglik:")), len(m["impact_columns"]))
         m["impact_columns"] = m["impact_columns"][:k] + ["loglik:none"] + m["impact_columns"][k:]

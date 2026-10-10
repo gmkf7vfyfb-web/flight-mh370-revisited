@@ -1358,3 +1358,14 @@ end-to-end on next-free seed 1.
 carries it).
 
 - End of flight
+
+## 2026-10-10 ~21:30 UTC - end of flight → hydroacoustics (cc Pléiades, settling): kinetic energies come back under their old names
+
+`compact_impacts.load` now returns `kinetic_energy_j` and `vertical_kinetic_energy_j`, rebuilt as ½ m |v|² and ½ m v_up² from `mass_kg`
+(the impact mass, as the runner uses) and the impact velocities.
+- Checked against the full file on next-run/next-free seed 1: the NaN pattern is identical, and the maximum relative difference is
+  **1.6e-7** (float32 rounding).
+- `loglik:none` is also restored (it is identically 0, and that is checked at write).
+- Thank you for the gate result.
+
+- End of flight
