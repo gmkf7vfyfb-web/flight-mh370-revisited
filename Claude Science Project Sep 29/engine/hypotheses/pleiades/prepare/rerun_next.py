@@ -31,6 +31,9 @@ MOD = HERE.parent
 ENGINE = MOD.parents[1]
 CSP = ENGINE.parent
 RUNS = ENGINE / "runs" / "pleiades"
+# Surfaces the branch reads: default the module's run tree (85-103 E, 43-25 S); `--surfaces runs/pleiades/wide` for the coverage grid
+# (78-115 E, 45-5 S; composer ruling 1), which run C uses.
+SURF = RUNS
 VARIANTS = {"base": "Phase 2 + Bluefin-21", "oi2018-2025": "+ OI 2018 + OI 2025-26 SE band"}
 
 
@@ -74,7 +77,7 @@ def main(root, tag, labels="", only=None):
         for v, vlab in VARIANTS.items():
             b = out / f"branch-{safe}-{v}"
             if not (b / "branch.csv").exists():
-                sh([sys.executable, HERE / "branch_eof289.py", root, out / f"eval-{v}", RUNS, b, o,
+                sh([sys.executable, HERE / "branch_eof289.py", root, out / f"eval-{v}", SURF, b, o,
                     f"{root.name}; 00:19 option {o}; search {vlab}" + (f"; {labels}" if labels else "")], cwd=HERE)
             t = pd.read_csv(b / "branch.csv")
             t = t[(t.ocean_model == "both models") & (t.object_rating == "rho4-0") & (t.cluster_weight == "equal") & (t.replicate == "pooled")]
@@ -96,7 +99,10 @@ def main(root, tag, labels="", only=None):
     print(S[(S.field.isin(["P+C3", "P+C4"]))].to_string(index=False))
 
 
-def main_all(root, tag, labels="", pfamily="", geom=None, only=None, family_evidence=None):
+def main_all(root, tag, labels="", pfamily="", geom=None, only=None, family_evidence=None, surfaces=None):
+    global SURF
+    if surfaces:
+        SURF = Path(surfaces).resolve()
     """Strata-aware entry point. If <impacts root> holds strata (<stratum>/seed-*), run main() per stratum and mix by
     --pfamily (required then); then ALWAYS draw the close-ups for every option (Pete, 10 Oct: close-ups every time)."""
     import matplotlib
@@ -123,7 +129,7 @@ def main_all(root, tag, labels="", pfamily="", geom=None, only=None, family_evid
         if fe is None:
             print("NOTE: no end-of-flight family-evidence file; strata mixed at fixed P(family) only")
         closeup_styles.standard(RUNS / tag, root, geom, gebco, CSP / "results" / "pleiades" / tag / "closeups", plt, pf, opts, labels,
-                                fam_json=str(fe) if fe else None)
+                                fam_json=str(fe) if fe else None, surf=SURF)
     else:
         main(root, tag, labels, only)
         opts = json.loads((CSP / "results" / "pleiades" / tag / "provenance.json").read_text())["options"]
@@ -137,6 +143,7 @@ if __name__ == "__main__":
     ap.add_argument("--pfamily", default="", help="stratum=P(family),... when the impacts come in strata")
     ap.add_argument("--geom", default=None, help="directory with search_footprints.geojson")
     ap.add_argument("--family-evidence", default=None, help="end of flight's family-evidence-*.json (default: <root>/summary/)")
+    ap.add_argument("--surfaces", default=None, help="surface dir for the branch (default runs/pleiades; run C: runs/pleiades/wide)")
     ap.add_argument("--options", default="", help="comma-separated end-of-flight arms to run (default: every loglik column, plain and +alive)")
     a = ap.parse_args()
-    main_all(a.root, a.tag, a.labels, a.pfamily, a.geom, [x for x in a.options.split(",") if x] or None, a.family_evidence)
+    main_all(a.root, a.tag, a.labels, a.pfamily, a.geom, [x for x in a.options.split(",") if x] or None, a.family_evidence, a.surfaces)

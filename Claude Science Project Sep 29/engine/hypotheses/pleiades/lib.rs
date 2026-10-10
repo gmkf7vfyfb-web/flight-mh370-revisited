@@ -323,7 +323,8 @@ mod tests {
 
     #[test]
     fn run_toml_parses_with_two_measured_products() {
-        let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve("run.toml")).unwrap()).unwrap();
+        let cfg = std::env::var("PLEIADES_RUN_TOML").unwrap_or_else(|_| "run.toml".into());
+        let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve(&cfg)).unwrap()).unwrap();
         let p: Params = run["hypotheses"]["pleiades"].clone().try_into().unwrap();
         assert_eq!(p.products.len(), 2);
         for q in &p.products {
@@ -395,7 +396,8 @@ mod tests {
         std::fs::write(out.join("likelihood-surface.toml"), meta).unwrap();
         // A few points can be not computed (a track leaves a forcing field, at the 25 S edge); counted in
         // not_computed and treated as zero likelihood by the analysis scripts, which report their mass.
-        assert!(nan * 100 < buf.len() / 4, "more than 1% of the grid not computed: {nan}");
+        let max_pct: usize = std::env::var("PLEIADES_SURFACE_MAX_NAN_PCT").ok().and_then(|v| v.parse().ok()).unwrap_or(1); // wide coverage grid holds land (Java, Sumatra, W Australia)
+        assert!(nan * 100 < max_pct * (buf.len() / 4), "more than {max_pct}% of the grid not computed: {nan}");
     }
 
     /// Against the real table (gitignored runs/pleiades); run with --ignored after export.rs.
@@ -438,7 +440,8 @@ mod tests {
     fn pleiades_export_cosmo_surface() {
         use std::io::Write as _;
         let out = std::path::PathBuf::from(std::env::var("PLEIADES_EXPORT_DIR").expect("set PLEIADES_EXPORT_DIR"));
-        let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve("run.toml")).unwrap()).unwrap();
+        let cfg = std::env::var("PLEIADES_RUN_TOML").unwrap_or_else(|_| "run.toml".into());
+        let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve(&cfg)).unwrap()).unwrap();
         let p: Params = run["hypotheses"]["pleiades"].clone().try_into().unwrap();
         let (lon0, lat0, step, nlon, nlat) = export::grid_box("PLEIADES_SURFACE_BOX", (85.025, -42.975, 0.05, 360usize, 360usize));
         let unix_s = 1_394_238_300.0;
@@ -476,6 +479,7 @@ mod tests {
             ),
         )
         .unwrap();
-        assert!(nan * 100 < buf.len() / 4, "more than 1% of the grid not computed: {nan}");
+        let max_pct: usize = std::env::var("PLEIADES_SURFACE_MAX_NAN_PCT").ok().and_then(|v| v.parse().ok()).unwrap_or(1); // wide coverage grid holds land (Java, Sumatra, W Australia)
+        assert!(nan * 100 < max_pct * (buf.len() / 4), "more than {max_pct}% of the grid not computed: {nan}");
     }
 }

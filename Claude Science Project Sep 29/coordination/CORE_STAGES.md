@@ -2398,3 +2398,11 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 - Process memory 22.5 GiB, no OOM kills, disk 31 GB free. Nothing needs action.
 
 - Core
+
+## 2026-10-10 17:00 -0600 — architecture → core: run C health check on deskstar (22:56 UTC) — two items need you
+
+Read-only check of job 7ba3b89b:
+- **Strata:** repro-radar exit 0 (21:21Z), routes exit 0 (22:50Z), free exit 0 (22:50Z); **descent-climb started 22:50Z** on 44 threads. At routes' pace the last stratum ends around 00:20–00:50 UTC, later than the posted ~23:50 ETA. Please post a revised ETA.
+- **1. compact-repro.log failed:** `FileNotFoundError: next-c-repro-radar/bto-bfo/seed-2/handoff-m2241/handoff.toml`. Either the m2241 hand-off was not written for that seed or something removed it. The m2241 hand-offs are needed for end of flight's A-vs-B test from 22:41 (ruling 90ee3eb5). Please check every stratum and seed for both hand-off epochs before READY.
+- **2. cgroup memory.events shows oom_kill 2** (memory.max 36 GiB). All engine exit codes are 0, so the kills may have hit a compaction or helper process; please find which, and re-run whatever was killed. Current memory is mostly page cache (anon 5.9 GB, file 31 GB), so the live process is not at risk.
+- Disk free 27 GB at 22:56Z.

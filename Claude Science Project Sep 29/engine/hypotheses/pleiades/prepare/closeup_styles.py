@@ -28,6 +28,19 @@ from option_closeups import load_mixture  # noqa: E402
 from rerun_reference import tension  # noqa: E402
 
 
+def single_model(maps, surf, mi=0):
+    """Copy of the mixture maps with L_P+C4 for ONE ocean model (0 = GLORYS12 + ERA5), from the module's surfaces on the same grid.
+    Composer ruling 2 (10 Oct 16:25 -0600): passes 0 and 1 use GLORYS12 only; shown beside the equal-weight headline."""
+    from branch_eof289 import load_fields, build_branch
+    mp, models, P, Cm = load_fields(Path(surf))
+    L = build_branch(models, P, Cm)["P+C4"][models[mi]]
+    out = {}
+    for v, m in maps.items():
+        assert L.shape == m["L_P+C4"].shape, (L.shape, m["L_P+C4"].shape)
+        out[v] = dict(m); out[v]["L_P+C4"] = L
+    return out, models[mi]
+
+
 def mix_tension(mp, v, f="P+C4"):
     """Tension of H against the flight posterior on this map (brief: the conditional and the tension go TOGETHER):
     the module's own measure (rerun_reference.tension: ln S, Handley-Lemos p, mean shift)."""
@@ -446,7 +459,7 @@ def style_c(maps, geo, T5, Cc, opt, notes, out, plt):
     plt.close(fig)
 
 
-def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), labels="", bg="points", suffix="", fam_json=None):
+def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), labels="", bg="points", suffix="", fam_json=None, surf=None):
     # Pete, 10 Oct 2026: faint points of the impact PDF without H are the default background ("feint points was best")
     """The standard close-ups (Pete, 10 Oct 2026): colour (A) and seabed (B) for every option, all four COSMO-SkyMed
     contacts only. Writes closeup-<option>-colour.{png,pdf}, closeup-<option>-seabed.{png,pdf} and closeup-stats.csv."""
@@ -478,6 +491,11 @@ def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), l
                 ss = cf.stats(mm, a_, LA, LO, {})
                 T_.append(f"{nm} {ss['hdr90_km2']:,.0f} km², mean {abs(ss['mean_lat']):.2f} S {ss['mean_lon']:.2f} E")
             nb = notes + ["Strata weights, after all searches, 90 % region under H: " + "; ".join(T_) + " (drawn: re-weighted)."]
+        g12, g12name = single_model(maps, surf or Path(root).parent, 0)
+        mg = panel_mass(g12, "oi2018-2025", "P+C4"); LAg, LOg = np.meshgrid(g12["base"]["lat"], g12["base"]["lon"], indexing="ij")
+        sg = cf.stats(mg, g12["base"]["area"], LAg, LOg, {})
+        nb = nb + [f"GLORYS12 + ERA5 only (composer passes 0-1, ruling 2), after all searches: 90 % region under H {sg['hdr90_km2']:,.0f} km², "
+                   f"mean {abs(sg['mean_lat']):.2f} S {sg['mean_lon']:.2f} E (drawn: both ocean models, equal weight)."]
         tt = mix_tension(maps, "oi2018-2025")
         nb = nb + [f"Tension of H against the flight PDF, after all searches (the module's measure; reported with the conditional): ln S "
                    f"{tt['ln_S']:+.2f}, p {tt['tension_p']:.2f} (Handley-Lemos), mean shift {tt['mean_shift_nm']:.0f} NM; flight PDF mass "
@@ -489,7 +507,8 @@ def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), l
                  "past": cf.mask_of(cf.polygons(geo, "atsb_phase2_2014_2017"), LON, LAT)
                  | cf.mask_of(cf.polygons(geo, "oi2018_total_outline_approx"), LON, LAT)
                  | cf.mask_of(cf.polygons(geo, "oi2024_proposed_outboard_southeast"), LON, LAT)}
-        for wname, MP in ((("reweighted-0019", maps), ("fixed", fixed)) if pfam_rw else (("fixed" if pfam else "single", maps),)):
+        for wname, MP in ((("reweighted-0019", maps), ("fixed", fixed), ("reweighted-0019, GLORYS12 only", g12)) if pfam_rw
+                          else (("fixed" if pfam else "single", maps), ("fixed, GLORYS12 only" if pfam else "single, GLORYS12 only", g12))):
           for v in ("base", "oi2018-2025"):
             m = panel_mass(MP, v, "P+C4"); dn = m / area; s_ = cf.stats(m, area, LAT, LON, masks)
             Lf = np.nan_to_num(MP[v]["L_P+C4"])

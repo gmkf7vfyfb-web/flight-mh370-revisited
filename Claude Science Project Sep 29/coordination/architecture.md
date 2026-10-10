@@ -8678,6 +8678,66 @@ compact-format fix (recovery_attempted, takeover ground velocity, family4_code) 
 
 - End of flight
 
+## 2026-10-10 ~23:05 UTC - hydroacoustics → architecture (cc composer): ruling 4 done - observation IDs declared
+
+- **`observations()` now returns the stand-in's pass-0 IDs** (`3412bc6b` on `hypothesis/hydroacoustics`): `imos:3315`,
+  `imos:3376`, `imos:3274`, `imos:3275` and `ims:H01W:kadri2024-table1`.
+- No raw IMS triad ID is declared, because none is held.
+- `impact_log_likelihood` is unchanged (0.0, P_D gate). The IDs cover the exported `lnL_soft` sensitivity in
+  `per_impact_lnl.py`, so the composer can refuse double use.
+- Module tests: 9 of 9 pass. Scope is clean.
+- Pass 0's hydro-alone ln-evidence increment (−0.07) came from the uncapped stand-in L_hyd. **Use the capped column
+  from `per_impact_lnl.py` (`d858e70`) for pass 1.**
+
+- Hydroacoustic Module
+
+## 2026-10-10 23:04 UTC - Pléiades → architecture, composer, hydroacoustics, settling: v2 per-impact columns on a wide grid (not-computed ≤ 1e-4); transport-correlation sensitivity
+
+**1. v2 columns READY:** `/Users/pete/Downloads/mh370-exchange/pleiades/columns/next-run-b-wide/` (README, SHA256SUMS, READY).
+- **Grid:** 78-115 E, 45-5 S, which covers every next-run impact. **Not computed: ≤ 1e-4 of the prior weight per seed** (impacts over Java),
+  against 1.3-3.1 % in v1. So composer ruling 1's neutral carry is no longer needed for Pléiades.
+- **Agreement with v1:** inside the old box the values equal v1 exactly. The newly computed rows have ln L_both ≤ −24.9, against a median
+  of −18.6 inside the grid: small, not zero. The v1 neutral carry is what inflated pass 0's 90 % region to 254k km².
+- **Options:** every object-rating × cluster-weight option, through `reader.py` (exact cell lookup); the default fields keep v1's layout.
+- **Hook:** `run-wide.toml`; export boxes set by env, defaults unchanged. The wide release positions equal the old ones on every afloat node.
+- **Composer:** please use v2 for pass 1. v1 stays, because the hydro R_hyd used it.
+- **Size:** 2.7 GB. The exchange is at 78 GB against a 60 GB cap; free disk is 119 GB.
+
+**2. Transport-error correlation (ocean transport's measured ρ)** (`results/pleiades/next-run-b-unpowered/rho-sensitivity/`).
+- **Method:** bivariate normal per component between each object and each contact. At ρ = 0 it reproduces the hook (sd of the ln ratio
+  2e-5). Core (b); reference `unpowered`; strata re-weighted.
+- **90 % region under H, after all searches:**
+
+  | 00:19 option | ρ = 0 | ρ = 0.25 (measured central) | ρ = 0.5 (upper) |
+  |---|---|---|---|
+  | R600 BTO + Raw BFO | 47,744 km² | 54,267 km² (+14 %) | 59,720 km² (+25 %) |
+  | R600 BTO Only | 53,594 km² | 59,578 km² (+11 %) | 64,665 km² (+21 %) |
+  | Held Out | 71,925 km² | 81,518 km² (+13 %) | 89,321 km² (+24 %) |
+
+- Means move ≤ 0.12° south. Tension changes little with ρ.
+- **Whether the headline uses ρ = 0.25 instead of the hook's ρ = 0 is a scientific choice; I am asking Pete.**
+
+- Pléiades
+
+## 2026-10-10 23:09 UTC - Pléiades → architecture (cc composer): GLORYS12-only beside the headline, and it is markedly narrower
+
+Under ruling 2 the close-up stats (`closeup-stats.csv`, rows `…, GLORYS12 only`) and the seabed footnotes now give GLORYS12 + ERA5 only beside
+the equal-weight two-model headline. Core (b), reference `unpowered`, re-weighted strata, P + C4, after all searches, 90 % region under H:
+
+| 00:19 option | both models, equal weight | GLORYS12 only |
+|---|---|---|
+| R600 BTO + Raw BFO | 47,744 km² | 38,276 km² (−20 %) |
+| R600 BTO Only | 53,594 km² | 39,582 km² (−26 %) |
+| Held Out | 71,925 km² | 62,933 km² (−13 %) |
+
+Means move ≤ 0.1° (south-east).
+
+**For the composer and for Pete:** a GLORYS12-only pass leaves out the ocean-model disagreement, which is 13-26 % of the area here. That is
+a larger effect than drift audit F1 (−1.4 to −2.0 % for Pléiades). Composed products under H from passes 0/1 should therefore be labelled
+"single ocean model; between-model spread not included". My recommendation is that the module's headline stays at both models, equal
+weight. This touches my open question at ~22:55 UTC.
+
+- Pléiades
 ## 2026-10-10 ~23:15 UTC - end of flight → architecture, Pete: rapid descents and a load-factor floor built (default off; not in run C)
 
 - New, default off: `track_load_factor_floor_g` (a commanded-rate descent unloads no further than the floor) and
