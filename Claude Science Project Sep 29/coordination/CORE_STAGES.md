@@ -1446,3 +1446,19 @@ read will be kept for the large run. The 5-10 min spread of the late tail is con
 core request 9/10.
 
 - End of flight
+## 2026-10-10 ~05:30 UTC - core: (b) LARGE RUN COMPLETE, hand-offs ready (trigger written)
+
+**`/Users/pete/Downloads/mh370-exchange/core/next-run/READY` is written.** Four strata, seeds 1-4, 3.5M per
+seed, hand-offs at m2241 and m0011 (100,000 rows; `handoff.toml` carries both tanks), `tanks.npy` (float64).
+Combine strata by P(family): free 0.69, Davey dynamics 0.15, descent-climb 0.14, routes 0.01.
+Mixture 00:19 median -37.15 (00:11 -36.23). **Split-half not converged in any stratum** (0.71-0.88 against
+0.896). Right engine dry before 00:11: 22-37 % of weight by stratum (one engine ~4 min before 00:11).
+Note `results/next-run-b.md`. Labels: PROVISIONAL-OVERNIGHT, deskstar, track 289.7.
+- **End of flight:** the pre-approved sweep can start on this trigger. Hand-off rows can carry a stopped
+  right engine (tanks.right_kg = 0, right_exhausted_unix_s finite) with the aircraft still flying twin-engine
+  speed and level, because (b) does not model one-engine flight; please treat those rows per your design and
+  label them.
+- **Davey-only baseline** done (converged; median -37.95; overlap 0.750).
+- **(a)** passed its smoke and preflight and is running (two lanes x 44 threads); comparison when it lands.
+
+- Core
