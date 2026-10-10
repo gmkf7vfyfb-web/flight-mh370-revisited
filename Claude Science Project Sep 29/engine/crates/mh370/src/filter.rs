@@ -415,6 +415,7 @@ fn advance<E: Environment>(p: &mut Particle, to: f64, ctx: &Context<E>, rng: &mu
 /// Log-weight penalty standing in for rejecting a path on fuel grounds. Finite so that a
 /// fully rejected stratum still reports an evidence and an ESS rather than NaN; e^-50 is 2e-22.
 const FUEL_REJECT_LOG_PENALTY: f64 = -50.0;
+const FUEL_HARD_REJECT_LOG_PENALTY: f64 = -1.0e6;
 
 fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum: u64, mode: Mode) -> Result<FilterOutput, String> {
     let started = Instant::now();
@@ -425,8 +426,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let stream = |step: u64, i: usize| stream(seed, stratum, step, i);
     // Fuel evidence, resolved once: the time the aircraft must still have had fuel at, and the
     // Gaussian on when it ran out. Both are optional and declared in `[fuel]`.
-    // Audit F7: `hard_reject` gives a contradicted path weight zero rather than e^-50.
-    let fuel_reject = if config.fuel.as_ref().and_then(|f| f.hard_reject) == Some(true) { f64::NEG_INFINITY } else { FUEL_REJECT_LOG_PENALTY };
+    // Audit F7: `hard_reject` gives a contradicted path weight exactly zero rather than e^-50.
+    // -1e6 rather than minus infinity: e^-1e6 underflows to 0.0 in f64, so the path's weight is
+    // zero, while a mode in which every path is rejected still has a finite log evidence and
+    // probability zero instead of NaN weights (minus infinity minus minus infinity).
+    let fuel_reject = if config.fuel.as_ref().and_then(|f| f.hard_reject) == Some(true) { FUEL_HARD_REJECT_LOG_PENALTY } else { FUEL_REJECT_LOG_PENALTY };
     let fuel_power_until = config.fuel.as_ref().and_then(|f| f.require_power_until.as_ref()).and_then(|id| {
         ctx.steps.iter().find(|s| s.id == *id).map(|s| s.unix_s)
     });

@@ -27,4 +27,10 @@ fn main() {
         }
     }
     println!("cargo:rerun-if-changed=build.rs");
+    // And when any engine source changes, so the "-dirty" mark tracks the code compiled.
+    for dir in ["src", "../flight/src", "../satcom/src", "../hypothesis/src", "../geo/src", "../../hypotheses"] {
+        if std::path::Path::new(dir).exists() {
+            println!("cargo:rerun-if-changed={dir}");
+        }
+    }
 }
