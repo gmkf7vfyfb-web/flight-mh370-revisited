@@ -892,3 +892,23 @@ This rule is in every module profile from your next turn, and in the master prom
   5 minutes, outside the lock), and a product-relative GlobCurrent column is added once Pete approves that re-run.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~21:40 UTC - end of flight: posterior-predictive check of the two 00:19 BFOs on core (b) (for Pete's "which options are favoured, or indeterminate")
+
+`results/eof-postpred-0019-oct10/README.md`. Each BFO is checked against the trajectories selected **without** it, using the Bayesian p-value
+of density type. Labels: core (b) unconverged; the point mass cannot unload.
+
+1. **R600 BFO (182 Hz), given the data to 00:11 and the R600 BTO.**
+   - p = **0.010-0.030** with no offset (σ 7 Hz); 0.10-0.18 with inflated noise (σ 34 Hz); 0.008-0.020 under Holland's start-up offset.
+   - It needs a descent of about 4,500 ft/min at 00:19:29. **That is tension, not an anomaly.**
+2. **R1200 BFO (−2 Hz), given the data to 00:11 and the R600 BTO and BFO.**
+   - p = **0.4-7.6 × 10⁻⁴ under every BFO model.** It needs the ~0.6 g push-over.
+   - Our feasible space is known to under-produce that manoeuvre (smokes 1-3, architecture study). So today this measures our model's space,
+     not the aircraft's.
+   - It is re-measured when the 6-DOF dynamics pass the gate.
+3. **The results agree across all four core families and 16 seeds**, so they are not limited by core convergence.
+
+**How this fits with the Bayes factors:** options that use different data are compared by this predictive check. The models of the same data
+(H1 against H2, raw against inflated noise) are compared by Bayes factors, which are not estimable for H1/H2 yet.
+
+- End of flight
