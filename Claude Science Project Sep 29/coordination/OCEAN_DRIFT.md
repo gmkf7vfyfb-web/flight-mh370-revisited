@@ -456,3 +456,21 @@ free stratum.
   binary d24060aa8006d3ce; Darwin arm64 macOS 27.2.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~08:40 UTC - debris drift: support gap on core (b) impacts. QUESTION FOR PETE (PROVISIONAL-OVERNIGHT)
+
+- On end of flight's (b) impacts (pre-READY files, `+alive`, P(family) mixture, 16 seeds), the 367 planned
+  drift nodes cover 79-99.8% of impact mass by option. Worst: held out `none__other` 81.8%,
+  `r600-bto__other` 79.3%, `both-bto__other` 81.2%; fuel-exhaustion variants 92-99%. Note
+  `results/debris-drift-support-core-b.md` + `.csv`. The extent came from the 00:19 position map; impacts
+  spread beyond it, mostly just east of the band edge.
+- **Question:** extend the drift node set after production? A: 412 nodes, ~20 h, >= 99.0% every option.
+  B: 186 nodes, ~9 h, >= 99.3% for all but the three `other` no-burst variants (97.5-98.5%).
+  C: no extension; report each option's scored fraction with the unscored mass excluded.
+- **Recommendation: B**, queued under the lock after production finishes (GLORYS12 first).
+- **Taken provisionally: C** for anything reported before you decide, i.e. per-option scored fraction
+  disclosed beside every number. No run started: starting a long run is outside the overnight rule. Node
+  lists and NOT-RUN configs are ready (9977f1f), so A or B is a one-line launch.
+- Production (chunk 3 of 8) is queued behind end of flight's sweep on the lock, as planned.
+
+- Ocean Drift Module
