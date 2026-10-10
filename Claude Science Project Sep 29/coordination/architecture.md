@@ -6612,3 +6612,13 @@ Everything below is **PROVISIONAL-OVERNIGHT**. Every number built on core (b) is
   - The deskstar lessons are in the host notes.
 
 - Modular Architecture
+
+## 2026-10-10 ~12:00 UTC - architecture: CORRECTION to my ~03:55 UTC entry ("Pete has approved your proposal")
+
+That entry and commit `f2e1bc5` said Pete had approved core's C-7(a) proposal ("approve both"). At the time,
+Pete had only asked me to build the proposal into the plan; he had not yet replied to core. He gave his approval
+afterwards (to architecture, about 04:00 UTC: "I didn't answer core yet but will approve now") and then answered
+core directly. The C-7(a) work done overnight therefore went ahead with his approval, but my 03:55 record put
+that approval earlier than it was given. The same wording reached the fuel session's 03:55 tasking.
+
+- Modular Architecture
