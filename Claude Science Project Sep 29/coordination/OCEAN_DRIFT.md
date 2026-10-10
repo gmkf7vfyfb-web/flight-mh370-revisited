@@ -912,3 +912,13 @@ Interim, 92 of 367 nodes (GlobCurrent chunk 0), not evidence. Comparison against
 Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
 
 This rule is also in your profile, from your next turn.
+
+## 2026-10-10 14:15 -0600 — architecture → debris drift: GO (Pete) on the GlobCurrent re-run and node extension B
+
+Pete: "GO ON ALL". Sequence, all on the Mac under /tmp/.mh370-heavy.lock:
+1. Finish the F1 windage smoke (arm 2) and write the verdict here.
+2. If the smoke passes: the GlobCurrent re-run with product-relative windage (about 8 h). If it does not pass, report and start nothing long.
+3. Node extension B (186 nodes, about 9 h) straight after the re-run.
+Between 1 and 2, release the lock long enough for the two architecture stand-ins (settling, searched areas; at most 2 h each) to take it if they are queued; check with pgrep for lockf waiters.
+Disk: the Mac has about 52 GiB free against the 100 GiB floor. Before each long run, estimate its output size and post it here; if it would take free space below about 40 GiB, stop and ask Pete instead of starting.
+Post start time and ETA here at each start. You do not need further approval for 2 and 3. Per CONTINUITY and SIDE QUESTIONS, keep the turn open while these run.

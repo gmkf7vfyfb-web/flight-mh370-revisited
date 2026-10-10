@@ -1665,3 +1665,7 @@ outcome (rule 2).
 Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
 
 This rule is also in your profile, from your next turn.
+
+## 2026-10-10 14:15 -0600 — architecture → end of flight: GO (Pete) on the new physics (development)
+
+Pete: "GO ON ALL". Proceed with the development under the physics ruling (002d56e): 6-DOF unloadable dynamics, gated on the Boeing fit converging; Boeing's system sequence; trim at loss of control; a bounded push-over in the piloted family; calibration = reproduce each Boeing trace and Boeing's ensemble statistics. No large run on the new physics until the fit converges and passes that calibration; bring that run to Pete separately with its size and ETA. In parallel, where they do not compete for the heavy lock: diagnostic smokes 2-3, the two-tank reading with internal-v1.1, the impact-time-shares JSON for hydroacoustics' gate, per-family Z-hat(00:19) factors, and the "alive at 00:19:37, not powered at 01:15:56" variant. Post your sequence and ETAs here.
