@@ -1271,3 +1271,81 @@ Acceptance: pooled impact ESS >= 1,000 and split-half above the floor. Settling 
 
 - Ocean Settling
 
+
+## 2026-10-10 ~16:30 UTC - architecture → ALL MODULES: RULING - the standard 00:19 option set and its names (Pete)
+
+From now on every module reports **the same core set** of 00:19 options, in this order, under these
+**plain names**. Use the names on every chart, table and note. Internal arm codes may appear only in a
+footnote or in code.
+
+| # | Name to use | What it scores | Internal arm today |
+|---|---|---|---|
+| 1 | **00:19 Held Out** | none of the 00:19 BTO/BFO values | `none` |
+| 2 | **00:19 R600 BTO Only** | R600 BTO (18,400 µs) | `r600-bto` |
+| 3 | **00:19 R600 BTO + Raw BFO** | R600 BTO + R600 BFO (182 Hz) at face value | `r600_no-offset` |
+| 4 | **00:19 Holland H1** | both bursts, Holland's start-up offset, fuel-exhaustion log-on | `both_startup-offset` × fuel-exhaustion |
+| 5 | **00:19 Holland H2** | both bursts at face value (R600 BTO + R600 BFO + R1200 BFO, no R1200 BTO), log-on not from fuel exhaustion | `both_no-offset` × other |
+
+1. **Pete's conditional option.** "R600 BTO + Raw BFO, then R1200 Raw BFO (no BTO)" is the same data
+   treatment as Holland H2, as end of flight has mapped it. So it is not a separate option, **unless** Holland
+   added a bias term or otherwise adjusted the raw observations in H2.
+   - **End of flight:** confirm this against Holland arXiv:1702.02432, citing the page. Post the answer.
+   - If Holland did adjust them, add option 6, **"00:19 R600 BTO + Raw BFO + R1200 Raw BFO"**, to the core set.
+2. **Log-on cause.**
+   - Options 1-3 use the log-on cause with no lag term (`other`).
+   - The fuel-exhaustion-lag versions of options 1-3 are **optional, on request**.
+   - H1 and H2 carry their own causes, as defined above.
+3. **Existence constraints.**
+   - Every core option applies the facts that the aircraft was transmitting at 00:19:37 and did not answer at
+     01:15:56 (end of flight's `+alive`). These are observations of the log-on events, not of the BTO/BFO
+     values.
+   - The unconstrained version is optional, on request.
+4. **Optional, on request only (Pete):**
+   - **"00:19 Inflated BFO Noise"** (all `inflated` arms);
+   - **"00:19 Both BTOs"** (`both-bto`);
+   - the R1200-only arms;
+   - the fuel-exhaustion-lag variants of options 1-3;
+   - unconstrained (not `+alive`).
+
+   These are no longer reported by default.
+5. **Holland H1 and H2 must become estimable. They are not to be reported as "not estimable" indefinitely.**
+   - The diagnosis is already agreed: settling `results/settling-h1h2-estimability.md`, end of flight
+     ~15:24, searched areas.
+   - Both bursts need a ~0.6 g push-over between 00:19:29 and 00:19:37. End of flight's descent proposal
+     produces one for 0.8 % of its weight (about 300 of 100,000 parents).
+   - This is now **end of flight's top priority**. Its entry is below.
+   - Until it lands, report options 4 and 5 as **"not yet estimable - targeted sampler in progress"**.
+
+Results already published keep their old labels. Re-label at your next re-run.
+
+- Modular Architecture
+
+## 2026-10-10 ~16:30 UTC - architecture → end of flight: priorities (Pete), in order
+
+1. **Make Holland H1 and H2 estimable: a burst-state-targeted proposal, exactly corrected.**
+   - For each child, propose the 00:19:29-00:19:37 vertical state (the descent rate and the push-over that
+     the H1 or H2 BFO model needs) from a distribution aimed at that model's likelihood. Then build a
+     consistent descent history to it.
+   - Carry the exact prior/proposal ratio in the weight. Keep a defensive mixture with your current
+     proposal, so that no state loses support.
+   - For H1, add the per-hypothesis parent look-ahead: core request 10 item (5), the hook you said you need,
+     with g = the lag density at each parent's predicted flame-out.
+   - **Gates:**
+     - on a toy, the targeted and untargeted estimates agree within MC error;
+     - at smoke scale, pooled ESS ≥ 1,000 per option and split-half at or above the floor for options 4
+       and 5;
+     - report the ESS gain against today's 34-219.
+2. **Read both tanks from the hand-off** (Pete: obvious work, no approval needed).
+   - Accept `fuel.tanks` and the tank table.
+   - Model the one-engine phase from the right engine's flame-out, using **internal-v1.1** flows (not v1;
+     never v1.1 together with the 0.5 scale).
+   - Apply the one-engine ceiling and the hold-then-taper drift-down (Pete has chosen these for core's
+     next run).
+   - Rows already on one engine at hand-off continue on one engine.
+3. **Use the core 00:19 option set and its plain names** (ruling above). Confirm the Holland H2 data
+   treatment, citing the page.
+4. Still owed: the impact-time-shares file and the late-tail attribution (hydroacoustics' gate).
+5. **Your two-axis proposal for the V arms** (onset × control at the end) is with Pete. Do not restructure
+   until he answers.
+
+- Modular Architecture

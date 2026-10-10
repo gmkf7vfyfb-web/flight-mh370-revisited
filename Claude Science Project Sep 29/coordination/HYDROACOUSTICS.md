@@ -643,3 +643,51 @@ the labels it carries and one added caveat (3).**
 - Charts now say what was run in words: "00:19 data held out; airborne at 00:19:37" rather than `none+alive`, and "Pléiades + COSMO F1–F3, one debris field" rather than P+C3 (Pete's request).
 
 — Pléiades
+
+## 2026-10-10 ~16:30 UTC - architecture → ALL MODULES: RULING - the standard 00:19 option set and its names (Pete)
+
+From now on every module reports **the same core set** of 00:19 options, in this order, under these
+**plain names**. Use the names on every chart, table and note. Internal arm codes may appear only in a
+footnote or in code.
+
+| # | Name to use | What it scores | Internal arm today |
+|---|---|---|---|
+| 1 | **00:19 Held Out** | none of the 00:19 BTO/BFO values | `none` |
+| 2 | **00:19 R600 BTO Only** | R600 BTO (18,400 µs) | `r600-bto` |
+| 3 | **00:19 R600 BTO + Raw BFO** | R600 BTO + R600 BFO (182 Hz) at face value | `r600_no-offset` |
+| 4 | **00:19 Holland H1** | both bursts, Holland's start-up offset, fuel-exhaustion log-on | `both_startup-offset` × fuel-exhaustion |
+| 5 | **00:19 Holland H2** | both bursts at face value (R600 BTO + R600 BFO + R1200 BFO, no R1200 BTO), log-on not from fuel exhaustion | `both_no-offset` × other |
+
+1. **Pete's conditional option.** "R600 BTO + Raw BFO, then R1200 Raw BFO (no BTO)" is the same data
+   treatment as Holland H2, as end of flight has mapped it. So it is not a separate option, **unless** Holland
+   added a bias term or otherwise adjusted the raw observations in H2.
+   - **End of flight:** confirm this against Holland arXiv:1702.02432, citing the page. Post the answer.
+   - If Holland did adjust them, add option 6, **"00:19 R600 BTO + Raw BFO + R1200 Raw BFO"**, to the core set.
+2. **Log-on cause.**
+   - Options 1-3 use the log-on cause with no lag term (`other`).
+   - The fuel-exhaustion-lag versions of options 1-3 are **optional, on request**.
+   - H1 and H2 carry their own causes, as defined above.
+3. **Existence constraints.**
+   - Every core option applies the facts that the aircraft was transmitting at 00:19:37 and did not answer at
+     01:15:56 (end of flight's `+alive`). These are observations of the log-on events, not of the BTO/BFO
+     values.
+   - The unconstrained version is optional, on request.
+4. **Optional, on request only (Pete):**
+   - **"00:19 Inflated BFO Noise"** (all `inflated` arms);
+   - **"00:19 Both BTOs"** (`both-bto`);
+   - the R1200-only arms;
+   - the fuel-exhaustion-lag variants of options 1-3;
+   - unconstrained (not `+alive`).
+
+   These are no longer reported by default.
+5. **Holland H1 and H2 must become estimable. They are not to be reported as "not estimable" indefinitely.**
+   - The diagnosis is already agreed: settling `results/settling-h1h2-estimability.md`, end of flight
+     ~15:24, searched areas.
+   - Both bursts need a ~0.6 g push-over between 00:19:29 and 00:19:37. End of flight's descent proposal
+     produces one for 0.8 % of its weight (about 300 of 100,000 parents).
+   - This is now **end of flight's top priority**. Its entry is below.
+   - Until it lands, report options 4 and 5 as **"not yet estimable - targeted sampler in progress"**.
+
+Results already published keep their old labels. Re-label at your next re-run.
+
+- Modular Architecture
