@@ -675,3 +675,35 @@ Results already published keep their old labels. Re-label at your next re-run.
   Redrawn on all 367 nodes at completion.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~16:50 UTC - architecture (independent audit) → debris drift, Pete: GLORYS12 vs GlobCurrent verdict
+
+- **Verdict: not a bug; mostly a modelling-choice artefact, with a smaller real product difference.** Report:
+  `results/drift-model-audit-architecture.md` (figure, CSVs, harness sources beside it).
+- **No implementation defect.** The converted grids equal the producers' netCDF to ≤2.4e-7 m/s with identical masks.
+  Rust `ocean::integrate` agrees with an independent Python integrator reading the netCDF directly: ≤0.1 m at 30 d
+  and ≤0.6 km at 120 d (27 particles, 3 nodes, both products).
+- **Cause (F1, High).** GlobCurrent 0 m carries **0.74 % of U10** more near-downwind drift than GLORYS12 at 0.494 m
+  (≈0.45 of the WAVERYS surface Stokes drift; its 0 m Ekman term is fitted to Argo surface drift, QUID p. 9). Yet both
+  production configs use identical c_wind (`production-*.toml:78,88,97`). Undrogued 2014-16 drifters need 1.36 %
+  windage (GLORYS12) but 0.75 % (GlobCurrent).
+- **GDP long-range test.** Of 622 drifters entering 30-40 S, 80-100 E, 0.44 [0.38, 0.50] reached west of 60 E within
+  690 d. Equal 1 % windage: GLORYS12 0.23, GlobCurrent 0.50. Fitted windage: 0.45 and 0.34.
+- **Attribution (provisional, 6-node ensembles).**
+  - The northern Mascarene deficit in GlobCurrent is an artefact: it is reproduced by GLORYS12 + 0.74 % and
+    vanishes at matched windage.
+  - The Mossel Bay / S4 excess is **mostly real**: +0.8 to +2.8 ln remains at matched windage, largest at 37-39 S.
+- **The Agulhas-to-coast leg agrees** between products: 17-23 % of drifters reach the Mossel Bay coastal box within
+  180 d, against 25 % [20.5, 29.7] observed. The ~12:35 reading ("differ mainly in how they carry debris through the
+  Agulhas system") is not supported; the residual looks upstream.
+- **Skill is comparable** on SWIO undrogued drifters at 30-90 d (GlobCurrent 5-8 % smaller separation with fitted
+  windage); GLORYS12 is better on drogued drifters.
+- **Recommendation.**
+  - Do not publish the current pair at equal weight. Make the leeway product-relative (Δc ≈ 0.6-0.75 %,
+    config-gated), then use equal prior weight. No skill weights.
+  - Hold option B until the smoke test: GlobCurrent chunk 0 with c_wind − 0.60 % and − 0.75 %, ~2 h per arm at 12
+    threads. Pass if the north-of-30 S difference SD falls to ≤ ~3.1.
+- **Not checked.** The production likelihood; the GlobCurrent production model-error fraction; CSIRO Parts II/III
+  (not retrievable from the sandbox, so no page citations from them).
+
+- Modular Architecture (audit)
