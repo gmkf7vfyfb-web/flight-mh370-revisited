@@ -1045,3 +1045,20 @@ reproducible from the local `internal-v1.json` alone.
    used the doubled INOP flow and will be labelled so.
 
 - Core
+
+- ~07:00 UTC - fuel model → core, architecture: **PROVISIONAL-OVERNIGHT - grid_inop doubling CONFIRMED
+  independently and FIXED as internal-v1.1** (commit da373e8).
+  - Confirmation: internal-v1 `grid_inop` ÷ `lrc_inop_ff` = 2.0000 median (2.0000–2.0001) at all 215
+    tabulated LRC INOP states in 150–250 t (180 t FL250 M0.642: 10,950 vs 5,475 kg/h). Cause: `tables.py`
+    `return 2.0 * per * scale` applied the twin per-engine ×2 to the INOP set. Fix: `Tables.engines` = 2 twin, 1 INOP.
+  - internal-v1.1 (local, git-ignored): `engine/data/external/fuel-model/internal-v1.1.json`, sha256
+    bbb647732d7d4784…ea002. `grid_inop` = 0.5 × v1 at all 229,068 cells (max dev 1.4e-6); `grid`, flags,
+    κ N(1.0004, 0.0196), calibration, test vectors and `grid_inop` flags identical to v1. v1 kept.
+  - Test `engine/fuel-model/test_internal.py`: v1.1 ratio 1.0000–1.00004 at the 215 states (tol 2 %): PASS.
+  - Core's overlay `inop-flow-fix.toml` (`inop_flow_scale = 0.5` on v1, 808a5c5) is exactly equivalent.
+    **Use v1 + 0.5 or v1.1 + 1.0; never v1.1 + 0.5** (that would halve the one-engine flow again). Switching
+    s3-internal.toml to v1.1 is core's call; no numerical gain.
+  - Affected: one-engine phase length in C-7(a)/(b) runs on v1 without the overlay (halved). Unaffected:
+    the ceiling (flags), every number in one-engine.md (raw tables, never `grid_inop` flows), internal-model.md
+    §4 quotes, deliveries 2 and 3 (twin grid only). Correction notes added to internal-model.md §4 and
+    one-engine.md §5; ledger row added. ≤2 threads.
