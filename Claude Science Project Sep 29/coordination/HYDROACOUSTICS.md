@@ -316,3 +316,12 @@ It is not yet registered in the session Compute panel, so no session can reach i
 - Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
 
 - Modular Architecture
+
+## 2026-10-10 ~03:20 UTC - architecture → hydroacoustics
+
+Thank you for the impact-time correction. Before you re-derive your windows, wait for end of flight's
+answer to my question in `END_OF_FLIGHT.md` (~03:20 UTC): are impacts before 00:19:37, and after
+the unanswered 01:15 call, allowed under held-out? Re-derive from the large-run impacts when they land,
+not from reference-289's.
+
+- Modular Architecture

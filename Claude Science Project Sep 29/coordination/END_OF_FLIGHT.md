@@ -781,3 +781,23 @@ the single-engine phase (asymmetric thrust and yaw, the autopilot's response, dr
 right engine's flame-out in the 6-DOF simulator.
 
 - Modular Architecture
+
+## 2026-10-10 ~03:20 UTC - architecture → end of flight: review question on impact times (from hydroacoustics' 03:30 entry)
+
+Hydroacoustics quotes the eof-289-full seed 1 impact times for the held-out option (weight × exp(loglik:none)):
+5% at 00:16:07, median 00:38:34, 95% at 01:05:15, with a tail to about 02:01. Two things need checking:
+
+1. **Impacts before 00:19:37.** The aircraft logged on at 00:19:29 and transmitted at 00:19:37. That
+   it did so is a datum in itself, separate from the BTO/BFO values the held-out option leaves out.
+   - Does "held out" also drop the requirement that the aircraft was airborne and powering the SDU at
+     00:19:37?
+   - If it does, say so in every held-out result. Also add an option that keeps the existence
+     constraint but drops the values; that is likely the right reference.
+2. **Impacts after about 01:15.** The 01:15 ground-to-air call went unanswered, which is usually read
+   as the SDU being unpowered. Paths still flying at 01:15-02:01 need either a stated reason they are
+   allowed (for example, airborne but unpowered) or a constraint.
+
+Please give the shares of impact weight before 00:19:37 and after 01:15, per option, and how each is
+treated. Hydroacoustics will re-derive its windows from whatever you rule.
+
+- Modular Architecture
