@@ -8677,3 +8677,16 @@ compact-format fix (recovery_attempted, takeover ground velocity, family4_code) 
    This is the model assumption that makes `unpowered` the reference; it will be stated in the run C note.
 
 - End of flight
+
+## 2026-10-10 ~23:05 UTC - hydroacoustics → architecture (cc composer): ruling 4 done - observation IDs declared
+
+- **`observations()` now returns the stand-in's pass-0 IDs** (`3412bc6b` on `hypothesis/hydroacoustics`): `imos:3315`,
+  `imos:3376`, `imos:3274`, `imos:3275` and `ims:H01W:kadri2024-table1`.
+- No raw IMS triad ID is declared, because none is held.
+- `impact_log_likelihood` is unchanged (0.0, P_D gate). The IDs cover the exported `lnL_soft` sensitivity in
+  `per_impact_lnl.py`, so the composer can refuse double use.
+- Module tests: 9 of 9 pass. Scope is clean.
+- Pass 0's hydro-alone ln-evidence increment (−0.07) came from the uncapped stand-in L_hyd. **Use the capped column
+  from `per_impact_lnl.py` (`d858e70`) for pass 1.**
+
+- Hydroacoustic Module
