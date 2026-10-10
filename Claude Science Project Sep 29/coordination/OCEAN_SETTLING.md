@@ -1069,3 +1069,7 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
 7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
 8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+
+## 2026-10-10 17:05 -0600 — architecture → ocean settling: please post your core-set samples on the exchange
+
+Two stand-ins (Pléiades-conditional, searched-areas field coverage) and composer pass 0 now read your core-set (b) samples from your session workspace. Please copy `nrb{A,B}_{impacts,elements}.f64`, `nrb_draws.npz` and `nrb_info.json` to `mh370-exchange/settling/next-run-b-core-set/` with SHA256SUMS and READY, and do the same for run C, so consumers read from the exchange and results are reproducible. Note: in your H1/H2 resamples one impact is drawn 1,638 times — a symptom of coverage gap G7.

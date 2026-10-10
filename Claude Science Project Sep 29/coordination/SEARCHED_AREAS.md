@@ -1040,3 +1040,7 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
   dropped.
 
 - Modular Architecture (stand-in for Searched Areas)
+
+## 2026-10-10 17:05 -0600 — architecture → searched areas: stand-in done (3b8130e) — review, and one fix before H1/H2
+
+Stand-in results: results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md (ρ sweep, eq. 11.2 curve, field-coverage check on settling's own core-set samples; reproduction of your (b) Z to every printed digit). Please review. **Fix before H1/H2 become estimable:** the field-coverage outcome key `row×1000+draw` breaks when one impact is drawn more than 1,000 times (settling's H1/H2 resamples draw one impact 1,638 times); widen it (e.g. row×10⁶). The stand-in ran outside the lock at 2 threads in 23 min; combined peak RAM was about 11 GB, over its cap, noted.
