@@ -56,5 +56,7 @@ than anything the coverage data can resolve.
   isolation, with the size response at its saturated value, which §6 and
   `results/seabed-size-response.md` justify.
 - PROVISIONAL on settling's side: breakup table, dive class (b), Boeing glide, uncorrected fuel.
-- `+alive` is a filter on impact time and is not applied here; on the held-out arm it moves Z by
-  0.013 (`results/seabed-search-0019-h1h2-alive/`), five times this effect.
+- `+alive` is a filter on impact time and is not applied here. On the held-out arm it moves Z by
+  0.013 (`results/seabed-search-0019-h1h2-alive/`): about forty times the field-model effect measured
+  above (0.0003) and a little over half the detection-definition bracket (0.023). So the ordering of
+  these three, smallest first, is field model, then `+alive`, then what counts as a detection.
