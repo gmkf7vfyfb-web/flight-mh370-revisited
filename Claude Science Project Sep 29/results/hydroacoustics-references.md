@@ -183,6 +183,11 @@ acoustic loggers; Curtin University CMST.
 **[FDSN-IM]** IMS hydroacoustic stations, FDSN network code IM; station metadata from the EarthScope FDSN
 station service (`https://service.earthscope.org/fdsnws/station/1/query`), epoch valid 2014-03-08.
 - **Used:** H01W, H08S, H08N, H11N and H11S positions (`fetch_stations.py`, `data/stations.csv`).
+- **Also used (10 Oct):** the instrument response of IM.H01W1 and IM.H08S1, channel EDH, epoch 2014-03-08
+  (`data/ims_response_H08S1.xml`). Sensitivity 1,839 and 1,845 counts/Pa at 10 Hz; relative to 10 Hz the
+  response is −47 dB at 0.1 Hz and −58 dB at 0.05 Hz.
+- **Waveforms not available:** EarthScope dataselect returns 204 (no data) for IM.H01W1, H08S1 and H08N1 on
+  2014-03-08 (checked 9 Oct 2026). Raw IMS data require the CTBTO vDEC or a national data centre.
 
 ## Software and standards
 
@@ -200,6 +205,15 @@ doi:10.1121/1.388170.
 equation for total absorption. *J. Acoust. Soc. Am.* 72, 1879–1890. doi:10.1121/1.388673.
 - **Used:** volume attenuation inside KRAKEN (T 4 °C, S 34.7, pH 8, z̄ 1000 m).
 
+**[Collins1993]** Collins, M.D. (1993). A split-step Padé solution for the parabolic equation method.
+*J. Acoust. Soc. Am.* 93(4), 1736–1742. doi:10.1121/1.406739.
+- **Used:** the RAM cross-check of the KRAKEN transmission loss (`ram_tl_check.py`, prereg `6b747a1`;
+  `hydroacoustics-ram-tl-check.md`), through [pyram].
+
+**[pyram]** Donnelly, M. (2024). *pyram 1.3.0: Python adaptation of the Range-dependent Acoustic Model
+(RAM).* PyPI, BSD licence. https://github.com/marcuskd/pyram
+- **Used:** `ram_tl_check.py`, `prepare/exploratory/run_ims_tl.py`.
+
 **[TEOS10]** IOC, SCOR, IAPSO (2010). *The International Thermodynamic Equation of Seawater 2010.*
 Intergovernmental Oceanographic Commission, Manuals and Guides No. 56, UNESCO.
 - **Implementation:** McDougall, T.J., Barker, P.M. (2011), *Getting started with TEOS-10 and the Gibbs
@@ -215,3 +229,25 @@ doi:10.1007/s00190-012-0578-z.
 - **Used:** the reference check of `physics.rs`; GeographicLib/pyproj in the prepare scripts.
 
 *Hydroacoustics module, 2026-10-09. Update in the same commit as any new use.*
+
+## Statistics
+
+**[Jeffreys1961]** Jeffreys, H. (1961). *Theory of Probability*, 3rd ed. Oxford University Press (Appendix
+B, the grades of evidence for a Bayes factor). No DOI.
+- **Not held** (closed). Cited for the conventional "strong" boundary, a Bayes factor of 10, used as the
+  pre-registered per-pair threshold in `h08s_shot_outliers.py`, `h08s_pulse_energy.py` and
+  `h08s_shot_template.py`. The threshold is swept in `results-data/h08s_pulse/bf_threshold_sweep_table.csv`.
+
+**[KassRaftery1995]** Kass, R.E., Raftery, A.E. (1995). Bayes factors. *J. Am. Stat. Assoc.* 90(430),
+773–795. doi:10.1080/01621459.1995.10476572.
+- **Not held** (closed). Cited for the alternative evidence scale (3, 20 and 150) considered for the same
+  threshold.
+
+## Additional pages cited (10 Oct)
+
+- **[CMST2014]** pp. 20–23: seismic surveys during the period, off Sri Lanka and off north-west Australia
+  (Woodside lines, Fig. 9 on p. 23). Cited for the attribution of the 9.98 s impulse train in Kadri's H08S
+  panels (`hydroacoustics-pair-tests-oct09.md`).
+- **[Kadri2024]** p. 11 (Methods): the 5 Hz high-pass and 2–40 Hz band-pass applied to the Figure 9
+  traces. This is why sub-cutoff AGW content is absent from them.
+
