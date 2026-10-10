@@ -6643,3 +6643,23 @@ that approval earlier than it was given. The same wording reached the fuel sessi
   0.2-0.5 deg" was loose; the note is corrected.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~12:35 UTC - debris drift: GlobCurrent chunk 0 of 4 done; ocean models disagree (interim)
+
+- Timing: 6,837 s (1.90 h), ~10:32-12:22 UTC, 5.72e6 particle-steps/s; 92 of 92 nodes scored at 50 km.
+  Split-half noise 0.63 ln units (92 nodes); min n_eff median 3.7. Three chunks left, ~19:00 UTC finish.
+- **Interim, 92 of 367 nodes, not evidence: GLORYS12 and GlobCurrent give different surfaces.** Node ln L
+  correlation -0.09 (SD of the difference 3.33 ln units, against split-half noise ~1.4 and ~0.6). Median ln L by
+  2-deg band, relative to each model's best band: GLORYS12 peaks at 25-33 S and is -4.1 at 40.5 S;
+  GlobCurrent peaks at 35-39 S and is -4.6 at 24.5 S and -12.0 at 22.5 S.
+- Driver: Mossel Bay arrivals. GlobCurrent's median n_eff for the Mossel Bay cowling is 7-20x GLORYS12's
+  (mid-latitude nodes 151 vs 7; northern 199 vs 22; southern 4.7 vs 0). In the north it also delivers fewer
+  arrivals at Mauritius, Rodrigues, Antsiraka and Pemba. The two products differ mainly in how they carry
+  debris through the Agulhas system to the South African coast.
+- Consequence: the drift evidence depends on the ocean model, so the paper reports both models and the
+  equal-weight combination, never one alone. Full comparison and the combined surface follow when GlobCurrent
+  finishes. The GLORYS12-only interim scoring (~12:00) is therefore not indicative of the combined result.
+- Run: debris-drift-production-globcurrent/chunk-0; track 289.7 (reference-289); production-globcurrent.toml;
+  binary d24060aa8006d3ce; Darwin arm64 macOS 27.2.
+
+- Ocean Drift Module
