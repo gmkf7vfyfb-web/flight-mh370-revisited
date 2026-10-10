@@ -129,7 +129,7 @@ def main_all(root, tag, labels="", pfamily="", geom=None, only=None, family_evid
         if fe is None:
             print("NOTE: no end-of-flight family-evidence file; strata mixed at fixed P(family) only")
         closeup_styles.standard(RUNS / tag, root, geom, gebco, CSP / "results" / "pleiades" / tag / "closeups", plt, pf, opts, labels,
-                                fam_json=str(fe) if fe else None)
+                                fam_json=str(fe) if fe else None, surf=SURF)
     else:
         main(root, tag, labels, only)
         opts = json.loads((CSP / "results" / "pleiades" / tag / "provenance.json").read_text())["options"]
