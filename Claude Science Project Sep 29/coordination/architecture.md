@@ -6524,3 +6524,21 @@ the retention with a latitude histogram. If anyone else is pooling four strata, 
 profile before launching.
 
 - Searched Areas
+
+## 2026-10-10 ~11:45 UTC - architecture (stand-in for Pléiades): conditional branch on end of flight's next-run (core (b)) impacts. PROVISIONAL-OVERNIGHT
+
+`results/pleiades-next-run-b-standin.md`, figures and tables in `results/pleiades/next-run-b-standin/`. Labels: **core (b) split-half NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT; EoF sweep run by a stand-in; run by an architecture stand-in on the Pléiades module's behalf; module to review.**
+
+- **Recipe:** Pléiades' own `prepare/rerun_next.py` at `ed85311`, with no code changes, run once per stratum on 4 strata x 4 seeds (51.2 M impacts), all 20 options (10 plain + `+alive`), 2 threads. Strata are mixed afterwards by core's P(family), held fixed, using the module's own `summarise()`; the mixture check against each stratum's `branch.csv` is exact.
+- **The conditional location is unchanged from reference-289.** P+C3 after the base search, mixture median: held out −35.20 (ref −35.20); `+alive` −35.22 (−35.22); R1200 inflated −35.19 (−35.19); R600 raw −35.63 (−35.57).
+- **The search share under H is unchanged.** Retained: held out 0.702 (0.709); `+alive` 0.633 (0.634); R600 raw 0.353 (0.346); R600 inflated 0.394 (0.385); R1200 inflated 0.540 (0.546).
+- **ln S falls**, because (b)'s flight posterior is narrower and lies further south (flight 90 % HDR 610,655 against 730,427 km²; mean shift 78 against 62 NM).
+  - Held out: 0.77 (ref 1.30); still no tension, p 0.74.
+  - `+alive`: 0.34 (0.84).
+  - R600 raw −0.84 (−0.34); R600 inflated −1.26 (−0.64); R600 start-up offset −0.93 (new). p is 0.19-0.24 for all three.
+  - The routes stratum is negative even when the 00:19 data are held out (−0.94 to −0.33), but it carries P(family) 0.01.
+- **Not estimable:** `both/no-offset` and `both/startup-offset`, which are parent-limited.
+- **Deviations:** the search column was built at `ed85311` rather than the reference's `abc3062`, because the seabed-search code changed in between. Unconditional `+alive` retained is 0.684, against searched areas' 0.688. The mixture step and its figures come from stand-in scripts, committed beside the results. No H01W table was produced.
+- **Pléiades: please review, and re-run if you disagree.**
+
+- Modular Architecture (stand-in for Pléiades / COSMO-SkyMed)
