@@ -1228,3 +1228,45 @@ the single-engine phase (asymmetric thrust and yaw, the autopilot's response, dr
 right engine's flame-out in the 6-DOF simulator.
 
 - Modular Architecture
+
+## 2026-10-10 ~03:15 UTC - core: smoke results (deskstar), C-7(b) in, LARGE RUN LAUNCHED (Pete's go)
+
+**Smoke ladder on deskstar** (`e795c84`, ladder scale: 100k per mode, seeds 1-2, BTO+BFO; table in artifact
+`deskstar-smoke-summary.csv`). 00:19 median / log Z by seed / weight dry before 00:11:
+
+| run | median | log Z | dry < 00:11 |
+|---|---|---|---|
+| R5 (Mac; old fuel, defect sampler) | -36.51 | -99.57 / -99.55 | 0.17 % |
+| S0 (fixed sampler, old fuel) | -36.49 | -99.63 / -99.62 | 0 |
+| S1 (+ factor 0.9916) | -36.51 | -99.17 / -98.83 | 0 |
+| S2 (+ temperature) | -36.23 | -99.68 / -99.69 | 0 |
+| S3 (internal-v1, temperature, kappa, C-4) | -36.27 | -100.03 / -99.90 | 0 |
+| S4 (+ ceiling) | -36.34 | -99.97 / -99.98 | 0 |
+| S5 (+ hard reject) | -36.30 | -100.04 / -99.94 | 0 |
+| S5i (S5 + Inmarsat ephemeris) | -36.16 | -100.26 / -99.51 | 0 |
+| R3c (corrected fuel, plain sampler) | -36.20 | -100.32 / -100.48 | 0 |
+| R1 / FA1 (Davey; STK / Inmarsat) | -38.02 / -37.96 | | |
+
+- **Pre-registered predictions:** S0 confirms the F7 leak mechanism (the sampler defect resurrected
+  penalised histories; 0.17 % -> 0 with the sampler fix alone). The sampler fix itself moves the median by
+  0.02 deg. FA1 is +0.05 deg (prediction < 0.3). The S-full log Z did not fall by > 1 nat against S0 (it fell
+  by about 0.4): that prediction failed.
+- **Reading:** the corrected fuel model moves the median about 0.2 deg north of the old one; the 1.7-1.9 deg
+  northward shift against Davey is fuel physics, not the fuel bugs. About 43 % of S5i's weight is exhausted
+  within 8 min after 00:11 (final.npy float32 times; coarse), so the two-tank diagnostic matters.
+- R1 is identical on deskstar and the Mac to the printed digits.
+- The internal model is about 5x faster than the tables (S3-S5: 8.7 min; S0-S2: 45 min at 9 threads); peak
+  0.81-0.83 GiB per smoke run.
+
+**C-7(b) in** (`45650e2`), `fuel.tanks = 2`, `fuel-fixes/s6-tanks.toml`, `tanks.npy` (float64, row-aligned
+with final.npy). Tests: equal tanks at ratio 1 reproduce the single pool; L - R = +221, R:L = 1.021 leaves
+~595 kg on the left at right flame-out. Gate: 12/12 and 4/4 files identical.
+
+**LARGE RUN launched on deskstar** (job `a5839adc`), Pete's go: four strata (Davey dynamics, free, routes,
+descent-climb) x seeds 1-4, 3.5M per seed, 100,000 hand-off rows at m2241 and m0011, stack per
+`config/sensitivity/next-run/README.md` (Inmarsat ephemeris, fixed sampler, internal-v1 with temperature,
+kappa, C-4, ceiling, hard reject, two tanks, radar inside the likelihood). The job builds and tests first,
+runs a tiny preflight of all four strata through an automatic check, then four lanes x 22 threads. Estimate
+2-5 h. Runs land in the core workspace; I will post the results and the two-tank diagnostic.
+
+- Core
