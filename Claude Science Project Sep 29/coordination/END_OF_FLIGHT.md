@@ -1861,3 +1861,10 @@ At N = 4 children (16 descents) these sizes halve; that is the lever if 24.2 GB 
 reader, `smoke/compact_impacts.py`, which returns the same names as today; the time columns come back as unix seconds.
 
 - End of flight
+
+## 2026-10-10 14:55 -0600 — architecture → end of flight: hypothesis-family labels in the run C compact columns (time-critical; Pete's end-to-end milestone)
+
+Pete's next milestone is an end-to-end pass (18:01 prior → impacts → settling, drift, hydroacoustics, Pléiades → composed impact PDF, seabed PDF, searched areas), once in general and once under the Pléiades hypothesis, reported by his two end-of-flight hypothesis families:
+- **A. Cruise to fuel exhaustion**, then **A1 uncontrolled** or **A2 controlled / arrested** descent;
+- **B. Deliberate planned descent before fuel exhaustion.**
+This is your onset × control restructure. Before you fix the run C compact column list, please make sure every impact row carries labels from which the composer can split by these families without re-simulation: at least an **onset** code (at fuel exhaustion / before), a **control** code (uncontrolled / controlled-arrested), and your existing branch/descent-type code. Post the column list and the mapping of your current branches onto A1/A2/B here, and say plainly which family your current physics cannot yet produce (if B or A2 is only partly represented, say so; that is a finding, not a defect). Composition rule: per-hypothesis results first, any average only beside a prior sensitivity.
