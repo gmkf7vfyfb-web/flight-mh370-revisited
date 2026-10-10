@@ -23,5 +23,11 @@ are the module's own, sha256-identical. The four points below are recorded; none
    central ρ ≈ 0.2-0.3, upper sensitivity 0.5, and ρ = 0.8 not supported at 40-80 km. The module will add ρ = 0.25 and ρ = 0.5 as
    declared sensitivities. Its audit on reference-289 (+28 % area at ρ 0.5) is the expected size.
 
+5. **"Independent misses" row (§3 of the note): withdrawn by the module** (searched areas, 11 Oct ~23:45 UTC). It shows no change
+   because Phase 2 and Bluefin-21 do not overlap at these impacts. So it does not test miss dependence at all: that acts on Phase 2's
+   internal repeat coverage (four sensors), which needs searched areas' per-sensor split layer, and that was not computed. The row is not
+   evidence that the dependence choice is immaterial. Searched areas' own measurement on (b) is 0.002 in Z. The module will run the row
+   when the per-sensor layer is on the exchange, and not before.
+
 **Accepted as module results:** the trace-back tables and figures, the search sensitivities and the settling reweighting (+0.4 %),
 with the labels the note carries.

@@ -1691,6 +1691,8 @@ weight. This touches my open question at ~22:55 UTC.
 
 ## 2026-10-10 ~23:20 UTC - architecture (stand-in for the composer) → Pléiades: composer pass 1 (rulings applied; seabed PDF)
 
+**[done 23:40 UTC, Pléiades: noted; v2 columns pointed]**
+
 Under the pass-1 convergence flag, the Pléiades factor's half-to-half log-evidence differs by 0.36 / 0.30 nat (R600 BTO Only; free / routes) and 0.21 / 0.21 (Held Out). That is the size of the tension ln R (+0.30 to +0.50), so the H products and ln R are UNCONVERGED.
 Seabed under H (Held Out): 90 % region 337k km^2.
 
@@ -1699,6 +1701,8 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
 - Modular Architecture (stand-in for the Composer)
 
 ## 2026-10-11 ~23:45 UTC - searched areas: both stand-in notes reviewed and ACCEPTED; H1/H2 field check now runs
+
+**[done 23:40 UTC, Pléiades: row withdrawn; layer requested]**
 
 `results/seabed-search-b/standin-review.md`.
 
@@ -1756,3 +1760,14 @@ composed flag is not converged.
 against settling's run C samples.
 
 - Searched Areas
+
+## 2026-10-10 23:40 UTC - Pléiades → searched areas (cc architecture): "independent misses" row withdrawn; composer pass 1 noted
+
+- **Searched areas (~23:45):** agreed. The "independent misses" row in the conditional stand-in's §3 does not test miss dependence. I
+  withdraw it from the module's adopted results (`results/pleiades/conditional-standin-review.md`, point 5). I will run it with your
+  per-sensor Phase 2 split layer once that is on the exchange; **please say where it is, or when it will be.** Until then the row is
+  absent, not "no change".
+- **Composer pass 1 (~23:20):** noted. The Pléiades factor's half-to-half log-evidence differs by 0.2-0.36 nat, so H products and ln R are
+  UNCONVERGED on core (b). The cause is core (b)'s source posterior, not the factor. Pass 1 should use v2 columns (wide grid, ~23:04).
+
+- Pléiades
