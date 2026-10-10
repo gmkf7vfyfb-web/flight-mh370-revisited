@@ -12,7 +12,7 @@ Quantiles come from a 0.001 deg weighted latitude histogram (end of flight's con
 
 Usage: python score_mixture.py <merged-drift-run> <eof next-run dir> <out.json> --recipe <eof smoke dir>
          [--constraints alive] [--pfamily free=0.6948,repro-radar=0.1527,descent-climb=0.1376,routes=0.0149]
-         [--seeds 1,2,3,4]
+         [--seeds 1,2,3,4] [--columns ln_l,ln_l_half_a,ln_l_half_b]
 """
 import argparse
 import json
@@ -34,12 +34,13 @@ def quantiles(h, qs=(0.05, 0.5, 0.95)):
     return [round(float(EDGES[min(np.searchsorted(c, q * c[-1]) + 1, EDGES.size - 1)]), 3) for q in qs]
 
 
-def main(drift_run, nextrun, out, recipe, constraints, pfamily, seeds):
+def main(drift_run, nextrun, out, recipe, constraints, pfamily, seeds, columns=None):
     sys.path.insert(0, recipe)
     from displacement_hist import option_posteriors  # end of flight's recipe, read-only
 
     import pandas as pd
-    cols = [c for c in ("ln_l", "ln_l_h25", "ln_l_h100", "ln_l_h200") if c in pd.read_csv(f"{drift_run}/nodes.csv", nrows=1).columns]
+    have = pd.read_csv(f"{drift_run}/nodes.csv", nrows=1).columns
+    cols = [c for c in (columns or ("ln_l", "ln_l_h25", "ln_l_h100", "ln_l_h200")) if c in have]
     surfs = {c: surface_arrays(drift_run, c) for c in cols}
     lref = {c: float(np.nanmax(surfs[c][4])) for c in cols}  # one constant per surface, so strata pool on one scale
     acc = {}
@@ -93,6 +94,7 @@ if __name__ == "__main__":
     ap.add_argument("--recipe", required=True); ap.add_argument("--constraints", default="")
     ap.add_argument("--pfamily", default="free=0.6948,repro-radar=0.1527,descent-climb=0.1376,routes=0.0149")
     ap.add_argument("--seeds", default="1,2,3,4")
+    ap.add_argument("--columns", default="", help="surface columns, e.g. ln_l_half_a,ln_l_half_b (split-half check)")
     a = ap.parse_args()
     pf = {kv.split("=")[0]: float(kv.split("=")[1]) for kv in a.pfamily.split(",")}
-    main(a.drift_run, a.nextrun, a.out, a.recipe, [c for c in a.constraints.split(",") if c], pf, [int(s) for s in a.seeds.split(",")])
+    main(a.drift_run, a.nextrun, a.out, a.recipe, [c for c in a.constraints.split(",") if c], pf, [int(s) for s in a.seeds.split(",")], [c for c in a.columns.split(",") if c] or None)
