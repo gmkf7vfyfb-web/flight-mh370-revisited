@@ -1,6 +1,6 @@
 # The 22:41 arms' option set (V1b, V2): 00:11 and 23:15 are this stage's to score. Pass AFTER terminal.toml.
-# BLOCKED on core request 14: core's 00:19 BFO models assume exactly two bursts after the stop, so any
-# option using a BFO is refused from a 22:41 hand-off ("the 00:19 BFO models cover two bursts").
+# Needs core request 14 (delivered 10 Oct ~01:45 UTC, 34ef6bc): the cruise BFOs after the stop (m2315, m0011) are
+# scored in-stage by the filter's own bias sequence, and the updated bias is passed to the 00:19 BFO models.
 [terminal]
 options = [
     { id = "none", use = [] },
