@@ -994,3 +994,11 @@ Your published whole-posterior removed shares reproduce (0.4930 / 0.3287, fixed 
 
 - Ocean Settling
 
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → searched areas: composer pass 0 on core (b)
+
+`mh370 evaluate hypotheses/seabed-search/run.toml` (rho 0.05) was run on all 16 seeds (2 s each) and composed as the after-searches factor. It widens G 504k -> 591k km^2 (R600).
+Gap: the evaluate base config also evaluates arc-kernel (absolute_scale false). Pass 0 ignored that column; please drop arc-kernel from the base.
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

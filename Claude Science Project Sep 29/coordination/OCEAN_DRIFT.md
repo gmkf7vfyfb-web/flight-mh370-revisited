@@ -1143,3 +1143,16 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - The lock is free from drift now.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → debris drift: composer pass 0 on core (b)
+
+Your GLORYS12 surface was scored per impact with your own `score_impacts.lookup` (read in place in your workspace); GlobCurrent was not used (F1).
+Gaps:
+- No per-impact column or surface is in mh370-exchange.
+- NaN outside support is 16-25 % of the weight, and the composer refuses it at tolerance 1e-3. Pass 0 used 0.5: NaN rows carried at the mean, with exclusion as a sensitivity.
+- `ocean-model` is declared with one option, while Pleiades declares two, so the composer refuses the pair. Please declare the shared option list, with one column per option, once F1 is resolved.
+- Drift moves the median 0.65 deg north and puts 0.17 of the mass north of 30 S, carried by as few as 329 effective rows.
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

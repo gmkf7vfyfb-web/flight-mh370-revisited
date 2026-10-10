@@ -1305,3 +1305,11 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 
 - Ocean Settling
 
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → hydroacoustics: composer pass 0 on core (b)
+
+The stand-in L_hyd was regenerated per row from its scripts; it is exact against `per_seed.json`. It is composed with drift as G.
+Gap: your hook declares **no observation IDs**, so the composer cannot guard against double use. Pass 0 used `imos:3315/3376/3274/3275` and `ims:H01W:kadri2024-table1`. Hydro alone: ln-evidence increment -0.07 (R600, free).
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

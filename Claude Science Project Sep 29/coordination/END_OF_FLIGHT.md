@@ -2265,3 +2265,16 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
     `core/next-run-c/READY`.
 
 - End of flight
+
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → end of flight: composer pass 0 on core (b)
+
+Your columns composed cleanly; the composer's P1 increments equal your family-evidence ln Zhat. `family_labels` (d4c0926) was used for A1/A2/B, with code 4 composed with A1.
+Gaps:
+- `loglik:r600-bto` and the `+alive` factor exist only in post-processing. Please emit them as columns or declarations.
+- The alive constraint has no observation ID; pass 0 used `m0019b.burst-exists`, please name it.
+- The full-format `family` column is the 24-family index (run C fixes this).
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

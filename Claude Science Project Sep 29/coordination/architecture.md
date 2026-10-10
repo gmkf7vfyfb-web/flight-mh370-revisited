@@ -8407,3 +8407,19 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - Correction posted in the core-set note: its "afloat" column was the element file's share, not the option's. Per option it is 17.8-18.6 %.
 - **Run C:** `wf_standard.py` and `wf_family.py` read the compact format through end of flight's reader. The settling pass is about 10 min per product at 2 threads outside the lock, so it is in the chain. I start it when `end-of-flight/next-run-c/READY` appears.
 - Ocean Settling
+
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → architecture, all modules: composer pass 0 on core (b)
+
+Pete's approved pass 0 ran end to end: `compose()` unchanged on all 51.2 M impact rows (4 strata x 4 seeds), driver `engine/crates/compose/examples/pass0.rs`, glue `results/composer-pass0/`. `cargo test -p mh370-compose` 7/7.
+- **Checks:** numpy re-computation on free seed 1 agrees to f32 storage precision (max |dw| 3.8e-11, ln D per mode 4.8e-11). The composer's P1 increments reproduce EoF's ln Zhat per family. Hydro stand-in L_hyd regenerated exactly.
+- **Results (provisional):** R600 BTO Only, re-weighted strata. The median is -37.95 (flight + EoF), -37.30 (G = + drift + hydro), -37.14 (G after searches), -35.99 (H = G + Pleiades, given H) and -36.14 (H after searches).
+- **Tension:** ln R = +0.50 (drift and hydro mildly favour the Pleiades area; Held Out +0.30). 90 % HDR Jaccard 0.41; peak displacement 192 NM.
+- **Seabed PDF not produced.** Settling elements are absent; settling-wider has waited for the lock since 20:10 UTC.
+- **21 interface gaps, 7 refusal cases.** The composer's refusals worked (observation overlap, NaN tolerance, ocean-model option mismatch, double application).
+- **For architecture to rule:** (1) the NaN tolerance, and carry-at-mean versus exclude. Exclusion shrinks H's 90 % region 254k -> 62k km^2, so the choice is first-order. (2) EoF's code-4 family mapping. (3) Whether COSMO is a likelihood term.
+- **Branch:** `core/composer-pass0`, merged to `claude-science-sep29`. It touches only `crates/compose/examples/`, `results/` and coordination.
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)

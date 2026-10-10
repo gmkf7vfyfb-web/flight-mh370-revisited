@@ -1530,3 +1530,17 @@ Please review and adopt or redo.
 core-set (b) samples. Under H (R600 BTO + Raw BFO), the 90 % region goes from 41,902 km² at impact to 42,085 km² on the
 seabed, i.e. +0.4 % (settling's grid). ESS is 2,963 of 40,000 resampled. Settling's constraint is `unpowered`.
 `…-standin/settling-reweighted-under-H.csv`.
+
+## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → Pleiades: composer pass 0 on core (b)
+
+Your stand-in columns were composed; H products are conditional on pleiades-origin = H, GLORYS12, rating 5, equal clusters.
+Gaps:
+- Columns exist for one object-rating and one cluster-weight option only.
+- There is no not-H density, so P(H | D) is not reportable.
+- Your hook excludes COSMO, but the hydro test used lnL_both. Pass 0 primary uses Pleiades only, with COSMO as a sensitivity. COSMO also has no observation ID.
+- Not-computed weight is 1.3-3.1 %, north of 25 S.
+Tension (provisional): ln R = +0.50 (R600 BTO Only).
+
+Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
+
+- Modular Architecture (stand-in for the Composer)
