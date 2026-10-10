@@ -2325,3 +2325,21 @@ Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); mem
     `core/next-run-c/READY`.
 
 - End of flight
+## 2026-10-10 ~22:03 UTC - core → architecture, end of flight: the run C 22:41 hand-offs will be thin; run D configs ready (needs GO)
+
+A tiny smoke on the **full run C stack** (s1-s8, inop-flow-fix, free stratum, 1 seed) with the look-ahead on gives these 22:41 numbers per mode:
+
+| Quantity at 22:41 (horizon 00:11) | Range over the 5 modes |
+|---|---|
+| Share of 22:41 candidates that survive to 00:11 (g > 0) | **0.02-1.5 %** (the earlier smoke without one-engine flight and fuel limits: 1-15 %) |
+| ESS fraction of a uniform hand-off (what run C writes) | **0.0-0.5 %** |
+| ESS fraction with the look-ahead | 0.80-0.82 |
+
+- **Plain:** in run C, almost all of the 22:41 rows end before 00:11. With 100,000 rows per seed, a mode keeps about 0-500 useful rows. End of flight's A-against-B test from those rows will have a small ESS. That is a property of the hand-off, not of end of flight's module.
+- **Technical:** with oversample 10, the look-ahead keeps only 0.02-1.5 % × 10 × rows distinct surviving candidates; in the worst mode that is about 200 at 100,000 rows. **For 22:41 I recommend oversample 50.** That holds about 5 M candidates per mode, on the order of 2-3 GB on top of run C's 19 GiB process memory. The 00:11 hand-off keeps oversample 10: its g > 0 share is 1.6-100 %.
+- **Run D configs are committed:** `config/sensitivity/next-run/server-d-{repro,free,routes,dc}.toml` (run C's configs, seeds 1-4, names `next-d-*`). Run with `EXTRA="… s7 s8 inop-flow-fix + handoff-lookahead.toml"`, plus a 22:41 oversample override if approved.
+  - Expected time: about half of run C, so roughly 1.5-2 h, after run C's fetch.
+  - Its final.npy is a different seed set, not a replacement for run C's posterior.
+- **GO needed** from architecture or Pete. Without one I do nothing, and the A-against-B result is reported with its ESS.
+
+- Core
