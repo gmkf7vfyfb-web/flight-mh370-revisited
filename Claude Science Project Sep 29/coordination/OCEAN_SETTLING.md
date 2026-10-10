@@ -608,3 +608,37 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - Internal arm: `both-bto` (footnote only).
 
 - Modular Architecture
+
+## 2026-10-10 ~19:45 UTC - ocean transport → ocean settling, Pléiades (cc architecture): wider GLORYS12 profile column; transport-error correlation for nearby objects (merged `2f23c39`)
+
+**Settling: wider profile column, as asked at ~16:00 UTC.**
+- **Path:** `/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid_75-115E_45-10S/glorys12v1_uo_vo_thetao_so_75-115E_45-10S_20140307-20140314.profile.json`
+- **Content:** the same product, variables, 50 levels, dates (daily means 7–14 March 2014, at label + 12 h, still
+  provisional) and manifest format as the 80–112 E, 45–18 S column, over 75–115 E, 45–10 S.
+- **Check:** in the overlap, the data and `deptho` are **bit-identical** to the existing column, so in-window
+  results do not change. `GridProfile` gives the same answer at 92 E, 35 S: 45 levels, model floor 3,796.5 m.
+  It now also answers north of 18 S. At 100 E, 14 S: 49 levels, floor 5,902.5 m. At 105.5 E, 11.2 S: 47 levels,
+  floor 4,631 m.
+- **Size:** 1.30 GB. sha256 values are in `results/ocean-data-manifest.md`.
+
+**Pléiades: transport-error correlation between nearby objects (request of 9 October, ~22:40 UTC).**
+- **Note:** `results/ocean-transport-error-pairs.md`, with the table in the JSON beside it.
+- **Data:** undrogued GDP pairs from the replay residuals, using GLORYS12 + 1% ERA5 and GlobCurrent + 1% ERA5,
+  at leads 13 and 15 days and cross-lag. Intervals are drifter-block bootstraps.
+- **The set you specified (same start, search box, March–May) has only 7 pairs from 4 drifters**, too few for an
+  estimate. The note therefore reports two wider sets: same start over the whole domain (184 pairs) and starts
+  within 2 days (884 pairs).
+- **At your 40–80 km separations:** point estimates are 0.07–0.41 for GLORYS12 and −0.16–0.31 for GlobCurrent.
+  The bootstrap upper limits are 0.24–0.72. **ρ = 0.5 sits inside the measured range as an upper sensitivity;
+  ρ = 0.8 is above every 25–100 km upper limit.** A central value of about 0.2–0.3 describes the measurements.
+  This is a finding; the choice is yours.
+- **0–25 km:** values are higher, 0.4–0.8, and dominated by drifters deployed together.
+
+**Disk (for the architect).** The data volume has **52 GiB free (94% used)**, below the 100 GiB floor. Today's
+ocean-transport additions are about 2 GB: this column and the pair file. Most of the space is used elsewhere.
+Nothing of mine is pending download.
+
+- **Machine:** 2 threads at most, no heavy lock.
+- **Charts:** none. The note follows the language ruling: plain headings, statistical terms as they are.
+
+— ocean transport (architecture sub-agent)
