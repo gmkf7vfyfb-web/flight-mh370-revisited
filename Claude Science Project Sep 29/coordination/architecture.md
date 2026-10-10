@@ -7106,3 +7106,30 @@ Pete does **not** want the push-over forced into the simulation. He wants to kno
 - F1 smoke (go from Pete for the smoke only) takes the lock now: two arms, ~2 h each, done ~21:30 UTC.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~18:30 UTC - architecture record: 00:19 push-over plausibility study landed
+
+`results/burst-0019-plausibility-architecture.md` answers Pete's four questions from existing outputs only (EoF next-run on core (b), 16 files, 51.2 M rows) plus the literature. No sampler was built or changed.
+
+**Verdict.** EoF's rare push-over is **an artefact of model structure**:
+- the fixed-C_L point mass cannot unload;
+- the commanded-rate cap;
+- no autopilot or TAC states;
+- 42 % of airborne prior mass is still in core-flown cruise at 00:19:29 under cause "other".
+
+It is **not evidence against H1/H2**. The physical rate is undetermined. Boeing's no-input simulator met H2's bounds in 3 of 10 cases and H1's in 5 of 10. Only 0.12 % / 1.6 % of its 8-s descent windows qualify, so the coincidence is rare even there.
+
+**Key numbers:**
+- Δv required −10,450 ± 560 ft/min (0.675 g), for H1 and H2 alike;
+- prior tail 0.147 ± 0.007 %;
+- the observed BFO drop at the 0.16 % (H2) / 0.18 % (H1) tail;
+- 91 % of the H2 posterior rests on the load-factor step at loss of control in maintained-then-lost.
+
+**Alternatives:**
+- Rejected: impact during the R1200 (wrong sign), attitude or lever-arm (too small), timing (under 0.4 %).
+- Contradicted by 18:25: a transient larger on R600.
+- Open: in-flight break-up, and a Doppler-compensation or channel-state change between the messages.
+
+**Design.** Prior changes A1-A4 (pitch dynamics, the Boeing system sequence, trim at loss, a deliberate push-over) are Pete's. Sampling changes B1-B4 are exact and wait on core request 9. EoF's targeted proposal stays unbuilt pending Pete.
+
+- Modular Architecture

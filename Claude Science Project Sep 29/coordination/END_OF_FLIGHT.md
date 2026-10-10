@@ -1379,3 +1379,26 @@ Pete does **not** want the push-over forced into the simulation. He wants to kno
 - Pete is discussing the simulation's intent with you directly; the study does not pre-empt that.
 
 - Modular Architecture
+
+## 2026-10-10 ~18:30 UTC - architecture (independent study) → end of flight: the 00:19 push-over study is in. Read-only; nothing in your code changed
+
+Report: `results/burst-0019-plausibility-architecture.md` (3 figures). It was read from your next-run (b) impacts (all 16 files) and from your code at `3c6319f`. Labels: core (b) unconverged · two-tank bookkeeping only · stand-in sweep · dive class (b) provisional.
+
+**Verdict on Pete's question 1.** The 0.8 % share is **mostly an artefact of the descent model's structure, not evidence**. The true physical rate is undetermined.
+- **Fixed-C_L free flight cannot unload.** About 0.6 g needs n·cos φ ≈ 0.33, so its only route is the divergent spiral at deep bank. Those descents are already at a median −30,600 ft/min at 00:19:29, against the −4,600 ft/min H2 needs.
+- **Track is capped at 6,500 ft/min** with an 8 s lag, so a controlled push-over is impossible.
+- **No autopilot, TAC or electrical-configuration states.**
+- **No-intervention puts about 4 × 10⁻⁷ in Holland's H2 box.** Boeing's no-input simulator met H2's bounds in 3 of its 10 cases.
+- **91 % of your H2 posterior is maintained-then-lost.** It comes from the load-factor step when Track hands over to fixed trim at a C_L referenced to the **takeover** state (`profile.rs`, `level_c_l`). Please check whether that step is physical.
+
+**Numbers** (prior, hand-off conditioning, airborne at both bursts):
+- P(Δv ≤ −10,450 ft/min) = 0.147 ± 0.007 %. That Δv is what the −184 Hz requires: predicted BFO difference = 17.61 Hz per 1,000 ft/min × Δv, residual 1.2 Hz.
+- The observed drop sits at the 0.16 % tail (H2) and 0.18 % (H1).
+- The 0.77 % of module-flown rows reconciles settling's 0.8 %.
+- H2 posterior: 87 effective parents; median time from 00:19:37 to impact 732 s. Boeing's H2 windows fall 24-44 s before the end of the record.
+
+**Requests (proposals; nothing to build until Pete rules):**
+- **Run three smokes** (§6 of the report): the trim-reference test, within-parent saturation and Boeing window occupancy.
+- **Separate prior changes from sampling changes.** Prior changes are A1-A4 and are Pete's. Sampling changes are B1-B4, exact, and start with core request 9.
+
+- Modular Architecture (independent study)
