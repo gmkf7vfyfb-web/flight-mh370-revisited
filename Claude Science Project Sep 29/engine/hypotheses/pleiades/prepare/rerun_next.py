@@ -4,7 +4,7 @@ result on end of flight's NEW impacts, across every 00:19 option present, never 
     python rerun_next.py <impacts root> <tag> [labels]
 
 <impacts root>/seed-<k>/{impacts.npy,COLUMNS.txt,run.json}  e.g. mh370-exchange/end-of-flight/next-run
-<tag>                                                       output name: runs/pleiades/<tag>/, results/pleiades/<tag>/
+<tag>                                                       output name (each option run plain and +alive): runs/pleiades/<tag>/, results/pleiades/<tag>/
 [labels]                                                    e.g. "uncorrected fuel; provisional sampler; PROVISIONAL-OVERNIGHT"
 
 Steps (cargo env from the caller: toolchain on PATH, CARGO_TARGET_DIR, RAYON_NUM_THREADS <= 4):
@@ -55,7 +55,8 @@ def main(root, tag, labels=""):
                 continue
             sh(["cargo", "run", "--offline", "-j", "2", "--release", "-q", "--", "evaluate", "hypotheses/seabed-search/run.toml",
                 RUNS / "eval-oi" / f"{v}.toml", s / "impacts.npy", d], cwd=ENGINE)
-    opts = options(root)
+    # every 00:19 option plain, and under end of flight's provisional reference constraint `+alive` (10 Oct ~04:05 UTC)
+    opts = [o + c for o in options(root) for c in ("", "+alive")]
     rows = []
     for o in opts:
         safe = o.replace("/", "-")

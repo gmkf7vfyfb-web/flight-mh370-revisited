@@ -121,7 +121,12 @@ def make(branch_dir, module_dir, out, plt, panel_letter=None, labels=None):
             panel_letter(a, l)
     info = json.loads((B / "branch.json").read_text())
     opt = info["option"]
-    line = OPTION_TEXT.get(opt, f"00:19 data option '{opt}'") + f"; log-on cause 'other' (no fuel-exhaustion log-on density). Weight = impact weight x exp(loglik:{opt})."
+    base, _, con = opt.partition("+")
+    line = OPTION_TEXT.get(base, f"00:19 data option '{base}'") + f"; log-on cause 'other' (no fuel-exhaustion log-on density). Weight = impact weight x exp(loglik:{base})"
+    if con:
+        line += (f" x end of flight's existence constraint '{con}' (its own constraint_log_factor; 'alive' = airborne at 00:19:37.443, "
+                 "PROVISIONAL-OVERNIGHT, 10 Oct ~04:05 UTC)")
+    line += "."
     notes = [n.replace("{OPTION_LINE}", line) for n in BRANCH_NOTES]
     src = run_provenance(info["impacts_root"]) if "impacts_root" in info else None
     if src:
@@ -143,4 +148,5 @@ if __name__ == "__main__":
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
+    matplotlib.rcParams.update({"font.size": 6, "axes.titlesize": 6.5, "axes.labelsize": 6, "xtick.labelsize": 5.5, "ytick.labelsize": 5.5})
     make(*sys.argv[1:4], plt=plt, labels=(sys.argv[4] if len(sys.argv) > 4 else None))

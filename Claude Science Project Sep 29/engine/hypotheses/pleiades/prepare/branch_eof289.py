@@ -10,7 +10,7 @@ between the Pléiades and COSMO-SkyMed likelihoods.
 <surface dir>/{likelihood,cosmo}-surface.{f32,toml}  this module's hook exported on a 0.05 deg grid
 
 Weights: impact weight x exp(loglik:<option>) (end of flight's 00:19 data option, default `none`, as
-searched areas uses). The search evidence is the searched-areas module's own per-impact column
+searched areas uses). `<option>+alive` / `+silent` adds end of flight's existence constraint (its own code). The search evidence is the searched-areas module's own per-impact column
 (`seabed-search:loglik`, run.toml base: Phase 2 + Bluefin-21, rho 0.05), never recomputed here.
 Model averaging: L_F = mean_m L_F,m, with P+C formed per ocean model (L_P,m x L_C,m) before averaging,
 because one ocean drives both. COSMO pass: equal weight on dawn-20Mar and dusk-21Mar, inside each model.
@@ -68,6 +68,20 @@ def build_branch(models, P, Cm, rating=0, weight=0):
     return out
 
 
+def eof_constraint(seed_dir, A, cols, which):
+    """End of flight's declared existence constraint (`alive` / `silent`, PROVISIONAL-OVERNIGHT, 10 Oct ~04:05 UTC),
+    called read-only from its own code (hypotheses/end-of-flight/smoke/displacement_hist.py) so that the factor is
+    theirs, passed straight through, never re-implemented. Log-on cause `other`, as everywhere in this branch."""
+    import importlib.util
+    f = Path(__file__).resolve().parents[2] / "end-of-flight" / "smoke" / "displacement_hist.py"
+    spec = importlib.util.spec_from_file_location("eof_displacement_hist", f)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    logon = json.loads((seed_dir / "run.json").read_text())["config"]["hypotheses"]["end-of-flight"]["logon"]
+    g = lambda k: np.asarray(A[:, cols.index(k)], float)
+    return m.constraint_log_factor(g, logon, "other", which)
+
+
 def histograms(imp_root, eval_root, mp, option):
     lon0, lat0, nlat, nlon = mp["lon0"], mp["lat0"], int(mp["nlat"]), int(mp["nlon"])
     elon = lon0 - STEP / 2 + STEP * np.arange(nlon + 1)
@@ -83,7 +97,10 @@ def histograms(imp_root, eval_root, mp, option):
         ks = [i for i, c in enumerate(ec) if c.startswith("seabed-search:loglik")]
         assert len(ks) == 1, ec[:10]
         lat, lon = np.asarray(A[:, cols.index("latitude_deg")]), np.asarray(A[:, cols.index("longitude_deg")])
-        w = np.asarray(A[:, cols.index("weight")]) * np.exp(np.asarray(A[:, cols.index(f"loglik:{option}")]))
+        base, _, con = option.partition("+")
+        w = np.asarray(A[:, cols.index("weight")]) * np.exp(np.asarray(A[:, cols.index(f"loglik:{base}")]))
+        if con:
+            w = w * np.exp(eof_constraint(sd, A, cols, con))
         w = np.where(np.isfinite(w), w, 0.0)
         s = np.exp(np.asarray(E[:, ks[0]]))
         s = np.where(np.isfinite(s), s, 1.0)
