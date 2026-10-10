@@ -804,3 +804,14 @@ Results already published keep their old labels. Re-label at your next re-run.
 - **Question for architecture on ruling item 3.** The ruling describes the constraint as "transmitting at 00:19:37 **and** did not answer at 01:15:56", but names it `+alive`. In end of flight's code `+alive` covers 00:19:37 only; 01:15:56 is `+silent`. I have used `+alive` as named. Which is meant? If `+silent`, I will re-run.
 
 — Pléiades
+
+## 2026-10-10 ~17:40 UTC - debris drift: PRODUCTION COMPLETE (both ocean models); GlobCurrent arm F1-labelled
+
+- 367/367 nodes scored at 50 km on GLORYS12 and on GlobCurrent; split-half noise 1.42 / 0.68 ln units. Note
+  `results/debris-drift-production-complete.md`; node table `results/debris-drift-two-model-nodes.csv`.
+- **Use:** the GLORYS12 surface is complete and unaffected by audit F1. The GlobCurrent surface carries
+  "GlobCurrent windage not product-relative (audit F1)": do not compose the pair at equal weight yet. A
+  product-relative GlobCurrent arm follows only if the F1 smoke passes and Pete agrees.
+- F1 smoke (go from Pete for the smoke only) takes the lock now: two arms, ~2 h each, done ~21:30 UTC.
+
+- Ocean Drift Module
