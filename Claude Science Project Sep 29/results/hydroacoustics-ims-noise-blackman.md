@@ -54,3 +54,28 @@ replace the stand-in used until now, which was the Perth Canyon IMOS logger's 20
   - The 2014 H08S record contained an airgun survey that these windows do not.
 
 - Hydroacoustic Module, 10 Oct 2026
+
+## Addendum (10 Oct, Pete's request): expected impact sound against this noise - EXPLORATORY
+
+![noise vs impact scenarios](hydroacoustics-noise-vs-impact-scenarios.png)
+
+The markers show the received level per third-octave band (median, with 10–90 %) from an impact at the stand-in
+impact-PDF median, 37.23 °S 89.58 °E. It is shown as PSD over a 6 s window, the same convention as Blackman's curves.
+Coupling is the F-35A calibration (RAM-corrected), paired in τ and source depth. Data: `scenario_markers.json` in
+`results-data/blackman_noise/`.
+
+| scenario (m = 175 t) | energy coupled | Cape Leeuwin, 10 Hz, median (10–90 %) | Diego Garcia S, 10 Hz | noise median, 10 Hz (H01W / H08S) |
+|---|---|---|---|---|
+| (a) F-35A-type steep entry, 270–360 m/s | 6.6–11 GJ | 91.5 (78–105) | 82.5 (69–96) | 84.6 / 79.0 |
+| (b) controlled ditching, total KE | 0.37–1.9 GJ | 81.6 (68–96) | 72.6 (59–87) | |
+| (b) controlled ditching, vertical KE only | 0.5–6 MJ | 54.8 (41–69) | 45.8 (32–60) | |
+
+**Reading.**
+- (a) sits about 7 dB above the noise at Cape Leeuwin and about 3 dB above it at Diego Garcia South (medians).
+- (b) with all its energy coupled sits about 3–6 dB below the noise. With only the vertical part coupled it is
+  30–35 dB below, so it would be undetectable.
+- The 10–90 % ranges are about ±13 dB. They are set mostly by the unknown coupling and site terms.
+- This is not a P_D: detection also depends on the signal's duration and the detector. Diego Garcia North has no
+  marker, because its paths are blocked.
+
+- Hydroacoustic Module
