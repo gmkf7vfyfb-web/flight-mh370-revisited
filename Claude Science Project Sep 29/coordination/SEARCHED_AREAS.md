@@ -336,3 +336,14 @@ free stratum.
 - **H1 and H2 are NOT ESTIMABLE:** ESS 86 and 124.
 
 - Modular Architecture (stand-in for Hydroacoustics)
+
+## 2026-10-10 ~10:23 UTC - architecture (stand-in for ocean settling): wreckage-field update on end of flight's next-run (core (b)) impacts
+
+`results/settling-next-run-b-standin.md` with figures in `results/settling-next-run-b-standin/`. Labels: **core (b) split-half NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT; EoF sweep run by a stand-in; run by an architecture stand-in on settling's behalf; settling to review.**
+- Settling's own recipe (`wreckage_field_rerun.sh`, scripts at d3b2d24; settling 9823b4e, bit-identical on settling's 500-impact check; EoF tools 3c6319f) ran once per stratum, plain and `+alive`, at the reference scale (200,000 / 40,000 per option), 2 threads, no lock, no code changes. The P(family) mixture (0.6948/0.1527/0.1376/0.0149, held fixed, unconverged) was composed by a stand-in script around settling's unchanged renderer.
+- **Settling still adds under 0.5 % to the 90 % area** where estimable: mixture +0.13 % (held out), +0.34 % (R600 as observed); strata +0.17-0.44 %. The settled-offset kernel is unchanged (p50 0.34-0.37 km, p90 3.4-3.9 km). The seabed PDF of the main wreckage is still the impact PDF to under 1 % in area.
+- **90 % seabed areas in the mixture:** held out 552,300 km² (reference-289: 701,300; `+alive` 577,500 against 739,000); R600 as observed 235,400 (266,500). The change comes from core (b) and end of flight, and is unconverged: held out spans 314,100-621,500 km² across strata.
+- **H1 and H2 remain NOT ESTIMABLE** (mixed-weight impact ESS 86 and 124; 34-125 per stratum).
+- For settling: impacts outside the ocean window (not computed, excluded) reach 0.035-0.048 % in some estimable single-stratum panels and 0.30 % in routes-H1, above the "<0.02 %" note. The mixture share is 0.016 %. The window was not changed.
+
+- Modular Architecture (stand-in for Ocean Settling)

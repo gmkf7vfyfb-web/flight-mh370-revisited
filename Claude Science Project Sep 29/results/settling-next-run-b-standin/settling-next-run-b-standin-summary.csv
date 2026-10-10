@@ -1,0 +1,49 @@
+set,constraint,key,ess,est,n,distinct,nc,gt5,afloat,a90_imp,a90_sea,grow90%,grow99%,a90_impact_full,a99_imp,a99_sea,off_p50,off_p90,off_p99
+reference-289,plain,none__other,12358800,True,200000,200000,36,7.06,18.25,700.6,701.3,0.1,0.11,711.6,2029.2,2031.5,0.36,3.42,20.97
+reference-289,plain,r600_no-offset__fuel-exhaustion,59512,True,40000,37693,0,7.41,18.32,265.7,266.5,0.3,0.54,266.8,687.5,691.2,0.36,3.64,21.1
+reference-289,plain,both_startup-offset__fuel-exhaustion,36,False,40000,281,0,6.52,18.32,41.2,42.6,3.4,5.74,41.3,101.0,106.8,0.36,3.1,20.53
+reference-289,plain,both_no-offset__other,82,False,40000,427,0,6.25,18.32,57.5,59.3,3.13,4.59,57.5,137.3,143.6,0.35,2.88,20.06
+next-run-b free,plain,none__other,12337220,True,200000,200000,22,7.11,18.22,542.9,543.9,0.18,0.29,548.1,1597.1,1601.7,0.35,3.44,20.99
+next-run-b free,plain,r600_no-offset__fuel-exhaustion,71056,True,40000,38679,1,7.61,18.41,233.6,234.4,0.34,0.58,234.2,607.3,610.8,0.36,3.77,21.42
+next-run-b free,plain,both_startup-offset__fuel-exhaustion,50,False,40000,240,0,6.39,18.41,42.3,44.0,4.02,6.54,42.3,96.3,102.6,0.34,2.86,22.14
+next-run-b free,plain,both_no-offset__other,67,False,40000,342,0,7.05,18.41,50.2,52.0,3.59,5.52,50.2,110.6,116.7,0.36,3.41,21.46
+next-run-b repro-radar,plain,none__other,12339414,True,200000,200000,70,7.0,18.22,620.4,621.5,0.18,0.25,626.8,1571.5,1575.5,0.36,3.4,20.77
+next-run-b repro-radar,plain,r600_no-offset__fuel-exhaustion,77173,True,40000,39057,19,7.47,18.32,270.0,271.1,0.41,0.67,271.8,661.5,665.9,0.36,3.71,21.4
+next-run-b repro-radar,plain,both_startup-offset__fuel-exhaustion,34,False,40000,293,0,7.03,18.32,42.4,44.2,4.25,6.93,42.4,99.6,106.5,0.39,3.45,21.1
+next-run-b repro-radar,plain,both_no-offset__other,64,False,40000,324,0,6.03,18.32,52.8,54.9,3.98,6.64,52.9,115.9,123.6,0.35,2.69,20.96
+next-run-b descent-climb,plain,none__other,12336817,True,200000,200000,34,7.2,18.19,461.8,462.9,0.24,0.26,467.6,1449.4,1453.2,0.35,3.48,21.18
+next-run-b descent-climb,plain,r600_no-offset__fuel-exhaustion,151138,True,40000,39568,1,7.75,18.01,160.5,161.1,0.37,0.62,160.1,515.5,518.7,0.34,3.8,21.85
+next-run-b descent-climb,plain,both_startup-offset__fuel-exhaustion,125,False,40000,368,0,6.74,18.01,35.1,36.0,2.56,3.69,35.1,75.9,78.7,0.32,3.16,20.92
+next-run-b descent-climb,plain,both_no-offset__other,106,False,40000,458,0,6.88,18.01,43.5,44.7,2.76,4.87,43.6,96.5,101.2,0.35,3.3,21.18
+next-run-b routes,plain,none__other,12325581,True,200000,200000,43,7.22,18.27,313.3,314.1,0.26,0.26,312.4,1284.2,1287.5,0.34,3.49,21.27
+next-run-b routes,plain,r600_no-offset__fuel-exhaustion,125244,True,40000,39681,4,7.85,18.3,136.5,137.1,0.44,0.68,136.4,483.0,486.3,0.35,3.87,22.0
+next-run-b routes,plain,both_startup-offset__fuel-exhaustion,46,False,40000,332,120,5.91,18.3,28.3,29.5,4.24,7.02,28.3,76.9,82.3,0.34,2.5,21.71
+next-run-b routes,plain,both_no-offset__other,73,False,40000,348,0,6.5,18.3,37.6,38.6,2.66,5.61,37.6,89.1,94.1,0.32,2.95,21.8
+reference-289,-alive,none__other,11042105,True,179558,179558,36,7.31,18.25,738.3,739.0,0.09,0.12,750.1,2087.8,2090.4,0.36,3.58,21.33
+reference-289,-alive,r600_no-offset__fuel-exhaustion,59511,True,39999,37692,0,7.41,18.32,265.7,266.5,0.3,0.54,266.8,687.5,691.2,0.36,3.64,21.1
+reference-289,-alive,both_startup-offset__fuel-exhaustion,36,False,40000,281,0,6.52,18.32,41.2,42.6,3.4,5.74,41.3,101.0,106.8,0.36,3.1,20.53
+reference-289,-alive,both_no-offset__other,82,False,40000,427,0,6.25,18.32,57.5,59.3,3.13,4.59,57.5,137.3,143.6,0.35,2.88,20.06
+next-run-b free,-alive,none__other,11022154,True,179665,179665,21,7.37,18.22,568.2,569.2,0.18,0.3,573.0,1643.0,1647.9,0.36,3.61,21.31
+next-run-b free,-alive,r600_no-offset__fuel-exhaustion,71056,True,40000,38679,1,7.61,18.41,233.6,234.4,0.34,0.58,234.2,607.3,610.8,0.36,3.77,21.42
+next-run-b free,-alive,both_startup-offset__fuel-exhaustion,50,False,40000,240,0,6.39,18.41,42.3,44.0,4.02,6.54,42.3,96.3,102.6,0.34,2.86,22.14
+next-run-b free,-alive,both_no-offset__other,67,False,40000,342,0,7.05,18.41,50.2,52.0,3.59,5.52,50.2,110.6,116.7,0.36,3.41,21.46
+next-run-b repro-radar,-alive,none__other,10997088,True,179158,179158,64,7.26,18.22,648.3,649.4,0.17,0.27,655.4,1610.3,1614.6,0.37,3.56,21.06
+next-run-b repro-radar,-alive,r600_no-offset__fuel-exhaustion,77173,True,40000,39057,19,7.47,18.32,270.0,271.1,0.41,0.67,271.8,661.5,665.9,0.36,3.71,21.4
+next-run-b repro-radar,-alive,both_startup-offset__fuel-exhaustion,34,False,40000,293,0,7.03,18.32,42.4,44.2,4.25,6.93,42.4,99.6,106.5,0.39,3.45,21.1
+next-run-b repro-radar,-alive,both_no-offset__other,64,False,40000,324,0,6.03,18.32,52.8,54.9,3.98,6.64,52.9,115.9,123.6,0.35,2.69,20.96
+next-run-b descent-climb,-alive,none__other,11080469,True,180562,180562,34,7.45,18.19,477.3,478.4,0.23,0.26,483.7,1488.2,1492.1,0.35,3.64,21.49
+next-run-b descent-climb,-alive,r600_no-offset__fuel-exhaustion,151138,True,40000,39568,1,7.75,18.01,160.5,161.1,0.37,0.62,160.1,515.5,518.7,0.34,3.8,21.85
+next-run-b descent-climb,-alive,both_startup-offset__fuel-exhaustion,125,False,40000,368,0,6.74,18.01,35.1,36.0,2.56,3.69,35.1,75.9,78.7,0.32,3.16,20.92
+next-run-b descent-climb,-alive,both_no-offset__other,106,False,40000,458,0,6.88,18.01,43.5,44.7,2.76,4.87,43.6,96.5,101.2,0.35,3.3,21.18
+next-run-b routes,-alive,none__other,10934420,True,178749,178749,41,7.5,18.27,329.0,329.8,0.24,0.26,327.6,1323.5,1327.0,0.34,3.67,21.61
+next-run-b routes,-alive,r600_no-offset__fuel-exhaustion,125244,True,40000,39681,4,7.85,18.3,136.5,137.1,0.44,0.68,136.4,483.0,486.3,0.35,3.87,22.0
+next-run-b routes,-alive,both_startup-offset__fuel-exhaustion,46,False,40000,332,120,5.91,18.3,28.3,29.5,4.24,7.02,28.3,76.9,82.3,0.34,2.5,21.71
+next-run-b routes,-alive,both_no-offset__other,73,False,40000,348,0,6.5,18.3,37.6,38.6,2.66,5.61,37.6,89.1,94.1,0.32,2.95,21.8
+next-run-b mixture,plain,none__other,23489730,True,287853,287853,45,7.1,18.23,551.6,552.3,0.13,0.21,556.3,1600.4,1603.7,0.35,3.44,20.96
+next-run-b mixture,plain,r600_no-offset__fuel-exhaustion,136062,True,57571,56250,6,7.6,18.26,234.6,235.4,0.34,0.54,235.8,625.6,629.0,0.36,3.77,21.46
+next-run-b mixture,plain,both_startup-offset__fuel-exhaustion,86,False,57571,891,2,6.52,18.26,67.1,69.4,3.43,4.69,67.2,149.3,156.3,0.34,2.99,21.73
+next-run-b mixture,plain,both_no-offset__other,124,False,57571,1110,0,6.87,18.26,68.6,70.6,2.92,4.61,68.6,164.8,172.4,0.36,3.29,21.35
+next-run-b mixture,-alive,none__other,20975500,True,258585,258585,42,7.38,18.23,576.7,577.5,0.14,0.21,581.0,1644.0,1647.5,0.36,3.61,21.32
+next-run-b mixture,-alive,r600_no-offset__fuel-exhaustion,136062,True,57571,56250,6,7.6,18.26,234.6,235.4,0.34,0.54,235.8,625.6,629.0,0.36,3.77,21.46
+next-run-b mixture,-alive,both_startup-offset__fuel-exhaustion,86,False,57571,891,2,6.52,18.26,67.1,69.4,3.43,4.69,67.2,149.3,156.3,0.34,2.99,21.73
+next-run-b mixture,-alive,both_no-offset__other,124,False,57571,1110,0,6.87,18.26,68.6,70.6,2.92,4.61,68.6,164.8,172.4,0.36,3.29,21.35
