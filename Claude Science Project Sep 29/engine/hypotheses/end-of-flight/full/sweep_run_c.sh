@@ -10,7 +10,7 @@
 set -u
 CORE=${EOF_CORE:-/Users/pete/Downloads/mh370-exchange/core/next-run-c}
 OUT=${EOF_OUT:-/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c}
-BIN=${EOF_BIN:-/tmp/mh370-eof-merge}
+BIN=${EOF_BIN:-/tmp/mh370-eof-runc4}
 S=hypotheses/end-of-flight
 PY=/Users/pete/.claude-science/conda/envs/eof-sim/bin/python
 export PYTHONPATH=$S/smoke OMP_NUM_THREADS=2
@@ -19,7 +19,9 @@ while [ ! -e "$CORE/READY" ]; do sleep 60; done
 echo "core READY seen $(date -u +%FT%TZ)"; mkdir -p "$OUT"
 # Recipe additions (architecture 15:45 -0600 10 Oct): the broadened descent envelope (PROVISIONAL-OVERNIGHT option B of 10 Oct)
 # and family B as ruled (deliberate onset + approach to ditching; loss en route as a sub-variant).
-EXTRA="$S/smoke/v2-broad.toml $S/full/family-b-ditching.toml"
+# Boeing's residual roll direction, P(left) = 0.8 (PROVISIONAL, 22:40 UTC 10 Oct; options posted to Pete): before it every
+# free-flight descent turned right. Re-weight exactly with latent:residual_bank_sign.
+EXTRA="$S/smoke/v2-broad.toml $S/full/family-b-ditching.toml $S/full/residual-bank-boeing.toml"
 [ -e "$OUT/USE-TRIM-AT-LOSS" ] && EXTRA="$EXTRA $S/smoke/trim-at-loss.toml" && echo "trim at loss ON"
 echo "module overlays: $EXTRA"
 for SD in "$CORE"/*/; do

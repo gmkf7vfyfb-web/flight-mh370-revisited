@@ -27,11 +27,13 @@
   "loglik:both/startup-offset",
   "latent:onset_mechanism",
   "latent:control_realised",
+  "latent:recovery_attempted",
   "latent:recovery_demonstrated",
   "latent:profile_shape",
   "latent:engines_thrusting_at_onset",
   "latent:spiral_divergent",
   "latent:free_dynamics_started_s",
+  "latent:residual_bank_sign",
   "latent:max_descent_rate_fpm",
   "latent:time_descending_s",
   "latent:timed_out",
@@ -118,6 +120,7 @@
  "derived": {
   "onset_code": "0 = at fuel exhaustion (onset_mechanism 2, flame-out-associated, incl. already dry at takeover); 1 = before fuel exhaustion (onset_mechanism 0 anticipatory or 1 fuel cue)",
   "control_code": "realised control: 0 = uncontrolled (no-intervention); 1 = controlled then lost (maintained-then-lost, incl. an undemonstrated recovery, which the module reports as maintained-then-lost); 2 = controlled or arrested to the surface (ditching attempt, or upset with a dynamically demonstrated recovery)",
-  "family_code": "1 = A1 (onset at exhaustion, uncontrolled); 2 = A2 (onset at exhaustion, controlled/arrested to the surface); 4 = A, controlled then lost (onset at exhaustion; the A1/A2 boundary, kept separate; PROVISIONAL default for composition: A1, sensitivity A2); 3 = B (deliberate onset before exhaustion with an approach to ditching, or a demonstrated recovery to it); 5 = B, control lost en route (labelled sub-variant of B); 6 = deliberate onset then no intervention: OUTSIDE B as ruled (absent from samples made with full/family-b-ditching.toml; present in older runs)"
+  "family_code": "1 = A1 (onset at exhaustion, uncontrolled); 2 = A2 (onset at exhaustion, controlled/arrested to the surface); 4 = A, controlled then lost (onset at exhaustion; the A1/A2 boundary, kept separate; PROVISIONAL default for composition: A1, sensitivity A2); 3 = B (deliberate onset before exhaustion with an approach to ditching, or a demonstrated recovery to it); 5 = B, control lost en route (labelled sub-variant of B); 6 = deliberate onset then no intervention: OUTSIDE B as ruled (absent from samples made with full/family-b-ditching.toml; present in older runs)",
+  "family4_code": "Four families, architecture ruling 6 (16:25 -0600 10 Oct) as amended by end of flight: 1 = A1 (onset at exhaustion; no controlled phase: no intervention, or an upset whose recovery was attempted but not demonstrated); 2 = A2 (onset at exhaustion; a controlled or arrested phase: ditching attempt, demonstrated recovery, or control maintained then lost, sub-label 'lost'); 3 = B (deliberate onset with an approach to ditching, incl. control lost en route); 6 = outside B. Needs latent:recovery_attempted."
  }
 }

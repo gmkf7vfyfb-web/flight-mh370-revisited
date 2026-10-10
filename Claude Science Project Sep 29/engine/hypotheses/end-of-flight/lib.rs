@@ -507,6 +507,9 @@ const LATENTS: &[&str] = &[
     "spiral_divergent",
     "spiral_doubling_s",
     "free_dynamics_started_s",
+    // Sign of the drawn residual bank of the free phase: -1 left, +1 right, NaN when the profile has no free phase. Lets the
+    // left/right prior of `residual_bank_left_probability` be re-weighted exactly afterwards (10 Oct).
+    "residual_bank_sign",
     // The module's own physical state at each burst it flew through (10 Oct, Pete's questions on the 22:41 arms):
     // NaN when the burst came before this descent's onset (core's cruise) or after its impact. Recorded BEFORE
     // `unpowered_bursts_removed`, so a burst the SDU could not answer still shows where the aircraft was.
@@ -1071,6 +1074,10 @@ impl EndOfFlight {
                 if flying.spiral_doubling_s.is_some() { 1.0 } else { 0.0 },
                 flying.spiral_doubling_s.unwrap_or(f64::NAN),
                 flying.free_since_s.unwrap_or(f64::NAN),
+                flying.profile.phases.iter().rev().find_map(|ph| match ph {
+                    profile::Phase::Free { bank_rad, .. } => Some(if *bank_rad < 0.0 { -1.0 } else { 1.0 }),
+                    _ => None,
+                }).unwrap_or(f64::NAN),
             ];
             let mut latents = latents;
             latents.extend_from_slice(&physical);

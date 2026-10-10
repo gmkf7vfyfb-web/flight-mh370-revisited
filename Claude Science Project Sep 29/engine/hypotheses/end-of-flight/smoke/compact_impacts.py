@@ -73,7 +73,7 @@ def write(run, sd, out, optional=True):
     return cm
 
 
-def family_labels(onset_mechanism, control_realised):
+def family_labels(onset_mechanism, control_realised, recovery_attempted=None):
     """Pete's end-to-end hypothesis families (architecture 14:55 -0600 10 Oct). Codes: compact-columns.json `derived`.
     onset_mechanism: 0 anticipatory, 1 fuel cue, 2 flame-out-associated (taxonomy Initiation::ALL).
     control_realised: 0 ditching attempt, 1 maintained-then-lost, 2 no intervention, 3 upset then (demonstrated) recovery
@@ -85,7 +85,16 @@ def family_labels(onset_mechanism, control_realised):
     b_fam = np.select([control == 2, control == 1, control == 0], [3.0, 5.0, 6.0], np.nan)   # B as ruled 15:45 -0600 10 Oct
     fam = np.where(onset == 1, b_fam, a_fam)
     fam = np.where(np.isnan(onset), np.nan, fam)
-    return {"onset_code": onset, "control_code": control, "family_code": fam}
+    out = {"onset_code": onset, "control_code": control, "family_code": fam}
+    if recovery_attempted is not None:
+        # Ruling 6 as amended: code 4 splits. Maintained-then-lost flew a controlled phase -> A2 ('lost'); an upset whose
+        # recovery was attempted but not demonstrated (realised 1, recovery_attempted 1) flew none -> A1.
+        undem = (cr == 1) & (np.asarray(recovery_attempted) == 1)
+        f4 = np.select([fam == 1, fam == 2, (fam == 4) & undem, fam == 4, (fam == 3) | (fam == 5), fam == 6],
+                       [1.0, 2.0, 1.0, 2.0, 3.0, 6.0], np.nan)
+        out["family4_code"] = f4
+        out["a2_lost"] = ((fam == 4) & ~undem).astype(float)
+    return out
 
 
 def load(sd):

@@ -163,6 +163,14 @@ pub struct EnvelopeConfig {
     /// drawn offset, latched at the first step after the loss. Draws are unchanged either way.
     #[serde(default)]
     pub trim_reference_at_loss: bool,
+    /// Probability that the residual bank of free flight is to the LEFT (Boeing's system sequence, Pete's ruling 10 Oct
+    /// item 2). Boeing App. 1.6E p. 8: the right engine runs dry first, TAC applies left rudder, and about 0.2 deg of left
+    /// rudder remains after the left engine spools down and the autopilot disconnects, so the aircraft rolls slowly left
+    /// (8 of Boeing's 10 cases turned left; cases 4 and 10 turned right). Absent (the default): the drawn bank is always
+    /// positive, a RIGHT turn, the earlier behaviour exactly - a direction bias found 10 Oct (A1 impacts 7.6 NM right of
+    /// track on average). When set, one extra uniform is drawn for the sign.
+    #[serde(default)]
+    pub residual_bank_left_probability: Option<f64>,
 }
 
 fn default_spiral_doubling_s() -> Range {
@@ -221,7 +229,21 @@ impl EnvelopeConfig {
         if !(self.spiral_bank_floor_deg >= 0.0 && self.spiral_bank_floor_deg < self.spiral_bank_cap_deg) {
             return Err("envelope.spiral_bank_floor_deg must be in [0, cap)".into());
         }
+        if let Some(p) = self.residual_bank_left_probability {
+            if !(0.0..=1.0).contains(&p) {
+                return Err("envelope.residual_bank_left_probability must be in [0, 1]".into());
+            }
+        }
         Ok(())
+    }
+
+    /// The residual bank of free flight, deg: the drawn magnitude, signed left with `residual_bank_left_probability`.
+    pub fn draw_residual_bank_deg(&self, uniform: &mut dyn FnMut() -> f64) -> f64 {
+        let b = self.residual_bank_deg.draw(uniform);
+        match self.residual_bank_left_probability {
+            Some(p) => if uniform() < p { -b } else { b },
+            None => b,
+        }
     }
 
     /// The level-off candidate set: 10,000 ft and 4,000 ft always, plus one sampled altitude.
@@ -250,7 +272,7 @@ impl EnvelopeConfig {
             Shape::BestGlide => phases.push(Phase::Glide),
             Shape::FreeTrim => phases.push(Phase::Free {
                 c_l: level_c_l + self.trim_cl_offset.draw(uniform),
-                bank_rad: self.residual_bank_deg.draw(uniform).to_radians(),
+                bank_rad: self.draw_residual_bank_deg(uniform).to_radians(),
                 recover_at_altitude_ft: None,
             }),
             Shape::Continuous => {
@@ -323,7 +345,7 @@ impl EnvelopeConfig {
                 let (after, lq) = draw_loss_after(&self.control_loss_after_s, start.unix_s, window, uniform);
                 phases.push(Phase::Free {
                     c_l: level_c_l + self.trim_cl_offset.draw(uniform),
-                    bank_rad: self.residual_bank_deg.draw(uniform).to_radians(),
+                    bank_rad: self.draw_residual_bank_deg(uniform).to_radians(),
                     recover_at_altitude_ft: None,
                 });
                 return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq, takeover_level_c_l: level_c_l };
@@ -332,7 +354,7 @@ impl EnvelopeConfig {
                 let recover_at = self.recovery_altitude_ft.draw(uniform);
                 let upset = Phase::Free {
                     c_l: level_c_l + self.trim_cl_offset.draw(uniform),
-                    bank_rad: self.residual_bank_deg.draw(uniform).to_radians(),
+                    bank_rad: self.draw_residual_bank_deg(uniform).to_radians(),
                     recover_at_altitude_ft: Some(recover_at),
                 };
                 let tail = Phase::Descend {
@@ -688,7 +710,24 @@ pub(super) mod tests {
             spiral_bank_cap_deg: 60.0,
             spiral_bank_floor_deg: 1.0,
             trim_reference_at_loss: false,
+            residual_bank_left_probability: None,
         }
+    }
+
+    /// `residual_bank_left_probability`: absent, the residual bank is the drawn magnitude (positive, a right turn), with no
+    /// extra draw; set to 1 it is always left, set to 0 always right, and the magnitude is the same draw.
+    #[test]
+    fn the_residual_bank_direction_follows_its_probability() {
+        let mut e = envelope();
+        let mut u = || 0.25;
+        let b0 = e.draw_residual_bank_deg(&mut u);
+        assert!(b0 >= 0.0);
+        e.residual_bank_left_probability = Some(1.0);
+        assert_eq!(e.draw_residual_bank_deg(&mut u), -b0);
+        e.residual_bank_left_probability = Some(0.0);
+        assert_eq!(e.draw_residual_bank_deg(&mut u), b0);
+        e.residual_bank_left_probability = Some(1.5);
+        assert!(e.check().is_err());
     }
 
     /// With `trim_reference_at_loss`, the trim after a loss of control is the level C_L of the state AT

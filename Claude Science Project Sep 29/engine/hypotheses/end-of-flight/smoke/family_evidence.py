@@ -24,6 +24,9 @@ from compact_impacts import open_seed
 CORE = [("00:19 Held Out", "none", "other"), ("00:19 R600 BTO Only", "r600-bto", "other"),
         ("00:19 R600 BTO + Raw BFO", "r600/no-offset", "other"),
         ("00:19 Holland H1", "both/startup-offset", "fuel-exhaustion"), ("00:19 Holland H2", "both/no-offset", "other")]
+# Existence constraints (displacement_hist.constraint_log_factor). `unpowered` is the reference (ruling ~19:10 B(b));
+# `silent` beside it; `+unpowered`/`+silent` keys added for run C at Pleiades' request (22:22 UTC 10 Oct).
+CONSTRAINTS = ("", "alive", "unpowered", "silent")
 EDGES = np.arange(-50.0, -15.0 + 1e-9, 0.001)
 
 
@@ -41,7 +44,7 @@ def per_seed(sd):
     for name, o, cause in CORE:
         base = der[o] if o in der else g("loglik:" + o)
         ll = np.where(np.isfinite(base), base, -np.inf) + (lfe if cause == "fuel-exhaustion" else 0.0)
-        for con in ("", "alive"):
+        for con in CONSTRAINTS:
             l2 = ll + (constraint_log_factor(g, logon, cause, con) if con else 0.0)
             lz = float(logsumexp(lw + l2))
             p = np.exp(lw + l2 - lz); mass = np.bincount(par, weights=p)
@@ -70,7 +73,7 @@ def main(root, outp, pcore):
                 "eff_parents_per_seed": [r[key]["eff_parents"] for r in rows], "eff_impacts_per_seed": [r[key]["eff_impacts"] for r in rows],
                 "median_lat": qs(hist)[1]}
     for name, _, _ in CORE:
-        for con in ("", "alive"):
+        for con in CONSTRAINTS:
             k = f"{name}{' +' + con if con else ''}"
             lz = {s: res["strata"][s][k]["ln_Zhat"] for s in pcore}
             fixed = {s: pcore[s] for s in pcore}

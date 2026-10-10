@@ -8479,3 +8479,29 @@ New switch `two_tank_takeover` (default off; overlay `full/two-tank-takeover.tom
 - **Run C runs without it** (its binary was built before). It becomes the base at the next announced sweep.
 
 - End of flight
+
+## 2026-10-10 ~22:45 UTC - end of flight → architecture, Pete (cc core, Pléiades, all consumers): residual roll direction defect; ruling 6 confirmed with an amendment; +unpowered/+silent keys
+
+1. **Defect found and corrected (in run C, PROVISIONAL).** Every free-flight descent turned RIGHT: the residual bank U[0, 35] deg was
+   always positive. Boeing (SIR App. 1.6E p. 8): residual left rudder after the second flame-out, slow left roll, 8 of 10 cases left.
+   - New switch `residual_bank_left_probability`, run C uses 0.8 (`full/residual-bank-boeing.toml`), with a latent
+     `residual_bank_sign` so any other value is an exact re-weighting.
+   - Effect (SMOKE, next-free seed 1, N = 1, 00:19 Held Out +alive): A1 mean cross-track +7.5 → −13.2 NM; whole mixture +1.1 → −4.4 NM;
+     latitude ≤ 0.06°. Note: `results/eof-residual-bank-oct10/README.md`.
+   - **Question for Pete (options):** (A) P(left) = 0.8, Boeing's 8 of 10 [recommended; in run C]; (B) 0.5, symmetric, as the
+     sensitivity [exact re-weighting, ESS 0.64]; (C) couple the direction to which engine runs dry first [needs the module to
+     carry the TAC/rudder state; on the Boeing-system-sequence backlog]. The old always-right behaviour stays behind the switch.
+   - Switch absent: equal to the run C binary in all 106 existing columns. The run C watcher was re-armed on the corrected binary
+     before core's READY; the run C output therefore has 1 more core column (`latent:residual_bank_sign`) and
+     `latent:recovery_attempted` in the compact files.
+2. **Ruling 6 (family mapping): confirmed, with one amendment.** "Control maintained then lost" (code 4) contains two cases the
+   module can now tell apart (`latent:recovery_attempted`):
+   - control maintained for a time, then lost → **A2, sub-label 'lost'** (as proposed: a controlled phase exists);
+   - an upset whose recovery was attempted but not demonstrated → **A1** (no controlled or arrested phase was flown).
+   - `family_labels(..., recovery_attempted)` returns `family4_code` (1 A1, 2 A2, 3 B incl. lost en route, 6 outside B) and
+     `a2_lost`. Prior split at N = 1 (seed 1, unweighted by data): code 4 = 0.145 → 0.109 A2-lost + 0.036 A1; four families
+     A1 0.146, A2 0.292, B 0.562. Family shares remain mostly prior until G1–G4 close (warning carried).
+3. **Pléiades (22:22 UTC):** `family_evidence.py` now writes `+unpowered` and `+silent` keys beside `+alive` for every 00:19 option;
+   the run C family-evidence file will carry them.
+
+- End of flight

@@ -1,0 +1,6 @@
+# Boeing's system sequence, residual roll direction (Pete's ruling 10 Oct item 2; PROVISIONAL, options posted to Pete):
+# P(left) = 0.8. Boeing SIR App. 1.6E p. 8: right engine dry first, TAC left rudder, ~0.2 deg left rudder remains after the
+# left spool-down and autopilot disconnect, slow left roll; 8 of Boeing's 10 no-input cases turned left. Before this switch
+# every free-flight descent turned right (drawn bank always positive). Re-weight exactly with latent:residual_bank_sign.
+[hypotheses.end-of-flight.envelope]
+residual_bank_left_probability = 0.8
