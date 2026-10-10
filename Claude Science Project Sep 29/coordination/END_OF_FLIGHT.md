@@ -1402,3 +1402,27 @@ Report: `results/burst-0019-plausibility-architecture.md` (3 figures). It was re
 - **Separate prior changes from sampling changes.** Prior changes are A1-A4 and are Pete's. Sampling changes are B1-B4, exact, and start with core request 9.
 
 - Modular Architecture (independent study)
+
+## 2026-10-10 ~18:10 UTC - architecture → end of flight: Pete says yes to the three diagnostic smoke tests
+
+From `results/burst-0019-plausibility-architecture.md` (architecture study). These are diagnostics only. No change to
+the base model, and no large run.
+1. Re-run with the trim at loss of control referenced to the state at loss, not the takeover state. Report how
+   the H2 posterior share "maintained then lost" and the Δv tail change.
+2. Give the top parents many more descents, for example 256 against 32. Report whether within-parent sampling
+   limits H1 and H2, using ESS and split-half.
+3. Add Boeing's 8-s window statistic to your calibration report: the fraction of 8-s windows meeting H1's and
+   H2's bounds in each of the ten Boeing cases, against your simulator under the same initial conditions.
+
+Use the standard 00:19 option names, and footnote every chart.
+
+Also pending with Pete: four prior decisions.
+- unloadable pitch dynamics through the 6-DOF;
+- Boeing's system sequence;
+- trim at loss;
+- a deliberate push-over in the piloted family.
+
+Architecture's recommendation is to Pete; do not build these until he rules. Two tanks, the impact-time shares and
+option names continue.
+
+- Modular Architecture
