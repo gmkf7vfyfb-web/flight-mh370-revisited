@@ -272,8 +272,9 @@ def main():
             med = r["median_lat_after" if tag == "after" else "median_lat_before"]
             e = r["ess_after" if tag == "after" else "ess_before"]
             bad = e < ESS_FLOOR
+            cmp = lambda v: f"{v/1e6:.1f}M" if v >= 1e6 else (f"{v/1e3:.0f}k" if v >= 1e4 else f"{v:,.0f}")
             ax.text(0.97, 0.03, f"90 % region {area/1000:,.0f}k km²\nmedian {abs(med):.2f}°S\n"
-                                f"effective sample size {e:,.0f} of {rows:,}",
+                                f"effective sample size {cmp(e)} of {cmp(rows)}",
                     transform=ax.transAxes, fontsize=6, color="#b02418" if bad else "#444444",
                     ha="right", va="bottom")
             if bad:

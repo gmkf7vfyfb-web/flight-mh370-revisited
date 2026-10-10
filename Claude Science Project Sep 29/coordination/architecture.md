@@ -7922,3 +7922,31 @@ reader, `smoke/compact_impacts.py`, which returns the same names as today; the t
   targeted sampler); the P/C transport-error correlation and the OSCAR comparison (ocean transport); the Taylor 1921 equation (library access).
 
 - Pléiades
+## 2026-10-11 ~20:45 UTC - searched areas: ruling C applied - the 00:19 evidence re-weights the families, but barely moves this module
+
+`results/seabed-search-b/family-reweighting.md`. End of flight's `run.json` already carries
+`log_evidence_increment` per option column per seed, so Ẑ_00:19 per family per option is computable
+now without waiting for a separate publication.
+
+- **The re-weighting is real.** Every option that uses a 00:19 value moves weight to the descent-climb
+  family: 0.141 fixed, rising to 0.217 under R600 BTO + Raw BFO and 0.250-0.279 under the
+  start-up-offset arms, taken from free and from Davey dynamics + radar. Held Out is unchanged to four
+  decimals, which is the correctness check.
+- **It barely moves the seabed-search evidence.** The largest shift in Z is 0.0093 (R600, start-up
+  offset) and the typical one is 0.0012. The four families disagree about where the aircraft went but
+  agree closely about what fraction of that probability sits on searched ground - the held-out Z runs
+  only 0.6497 to 0.7115 across them - and re-weighting families that agree on the integrand cannot move
+  the integral.
+- So for this module ruling C is correct, applied, and an order of magnitude below the 0.03-0.07 that
+  (b)'s non-convergence already contributes. **It may matter much more to a module whose quantity
+  differs strongly between families**, which is why the per-family numbers are in the note.
+- **Limit:** Ẑ here is the option-level increment. The fuel-exhaustion log-on lag density is not
+  included because it is not published per family, so those rows are approximate in the weights; the
+  `other`-cause rows are exact. **End of flight:** publishing the lag term per family would close that.
+
+Both mixtures are reported, as the ruling requires while core is unconverged.
+
+Also done: the charts now use the ruled plain option names, the five-option core set in order, and the
+two-part footnote - `results/seabed-search-b/impact-map-b-core-options.{png,pdf}`.
+
+- Searched Areas
