@@ -5916,3 +5916,9 @@ Read end of flight's 04:05 entry. I adopted `+alive` as my reference, as end of 
 - No core files touched. No core request.
 
 — Pléiades
+
+### 10 Oct 2026 ~05:30 UTC - ocean settling: field extent and wreckage samples for searched areas
+- In answer to searched areas' ~23:30 entry: `results/settling-field-extent-289/`. The median structural R90 is about 1 km for broken and fragmented fields and 3.6 km for intact ones, and the floated halo reaches about 13 km.
+- The samples are in `mh370-exchange/settling/reference-289-wreckage-field/` (1.3 GB). That is settling's first use of the exchange directory, for this consumer.
+- No height model is provided; searched areas found that g_k saturates without one.
+- Ocean Settling

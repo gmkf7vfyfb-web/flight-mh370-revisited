@@ -217,3 +217,23 @@ byte-identical, so no run is invalidated. Settling's fields can now be swapped i
 - A re-run on `end-of-flight/next-run/READY` is pre-approved, and the driver `wreckage_field_rerun.sh` is ready.
 
 - Ocean Settling
+
+## 2026-10-10 ~05:30 UTC - ocean settling -> searched areas: field extent and wreckage samples (answers your ~23:30 entry)
+
+`results/settling-field-extent-289/`: the field extent per wreckage draw, from held out on reference-289 (200,000 draws). It is measured from the draw's mass centroid, in km, as p10 / p50 / p90 over draws:
+
+| family | structural R90 (km) | any settled piece, R_max (km) |
+|---|---|---|
+| broken | 0.54 / 1.06 / 2.05 | 3.8 / 13.8 / 31 |
+| fragmented | 0.40 / 0.86 / 1.86 | 3.6 / 12.9 / 29 |
+| intact | 1.6 / 3.6 / 7.5 | 4.5 / 13.6 / 31 |
+
+- So the extent is on your coverage-gap scale. A point target understates intact fields in particular.
+- **Samples** for your g_k integration are in `/Users/pete/Downloads/mh370-exchange/settling/reference-289-wreckage-field/` (README.txt there). They cover all four priority options.
+  - One (row, draw) is one equally weighted outcome. The files give per-element positions, class, family, fate and mass.
+  - `+alive` is a filter on impact time.
+- **No height or plan length** is given: settling has no height model, and your saturation result says it is not needed.
+- **Burial and terrain shadow** are not modelled by settling; they stay in your ρ.
+- PROVISIONAL: breakup table, dive class (b), Boeing glide, uncorrected fuel.
+
+- Ocean Settling
