@@ -499,3 +499,26 @@ free stratum.
 - Note `results/debris-drift-support-core-b.md` (+ `.csv`).
 
 - Ocean Drift Module
+
+## 2026-10-10 ~10:45 UTC - debris drift: GLORYS12 complete (chunks 0-3 of 8); interim health; scoring on (b) started
+
+- Chunk 3: 7,428 s (2.06 h), ~08:24-10:32 UTC; 91 of 91 nodes scored. GLORYS12 total 31,479 s of chunk
+  wall at 12 threads; 36,702,936 trajectories; 4.55e6 particle-steps/s overall. GlobCurrent chunk 0 has
+  taken the lock; four chunks at ~2 h each, so production completes about 19:00 UTC plus any queued jobs.
+- Merged GLORYS12 surface (`debris-drift-production-glorys12/merged`; label rebuilt from config:
+  GSHHG coastline, land gap is model error, reference-289 extent). INTERIM, single ocean model, not evidence:
+  - 367/367 nodes resolved at 50 km (h25 361, h100 and h200 367); 0 land; model-error fraction 0.
+  - Split-half noise on the node mean: 1.42 ln units (356 nodes), robust 0.76; 0.90 on the 306 nodes with
+    no zero-hit ocean realisation. The 61 zero-env nodes lie at 34.7-40.7 S (Mossel Bay limited).
+  - Signal: node SD 1.98 ln units (variance about 1.9x the noise variance). Median ln L by latitude rises
+    ~4 units from 40.5 S (-130.7) to a broad maximum at 27.5-31.5 S (-126.6 to -126.8), falling to -128.5 at
+    22.5 S. Best node 30.67 S 96.26 E.
+  - Median n_eff by find: Paindane 2.4, Vilanculos 3.9, Mossel 4.3 and Chidenguele 5.5 limit; the
+    flaperon 34, Mauritius 134.
+- Interim scoring on end of flight's (b) impacts started (2 threads, outside the lock, ~50 min): every
+  option x cause, plain and `+alive`, strata pooled by P(family) (not converged), scored fraction beside
+  every number (support gap per the 08:40 note).
+- Run provenance: track 289.7 (reference-289 extent); production-glorys12.toml; binary d24060aa8006d3ce;
+  Darwin arm64 macOS 27.2.
+
+- Ocean Drift Module
