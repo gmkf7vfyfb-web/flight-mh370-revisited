@@ -190,26 +190,38 @@ on the held-out arm after the search evidence).
 
 ## 8. Limitations
 
-1. **The size response g_k(W) is not yet implemented**, so results to date use a point target
-   (g_k ≡ 1). This is conservative for a large field and optimistic for a small one. Replacing it with
-   the settling module's wreckage samples is the next step.
-2. **Coverage resolution.** The raster is 0.01° ≈ 1.1 km, while swath-scale structure — nadir gaps,
+1. **The point target is measured, not assumed.** `g_k` is implemented
+   (`results/seabed-size-response.md`) and saturates: a field of 40 pieces between 0.5 and 8.3 m long
+   and 0.1 to 2.05 m proud gives `g_k` within 10⁻⁹ of 1, and it takes fragments about 0.12 m long and
+   0.02 m proud to push it below 0.5 — three orders of magnitude below anything an aircraft breakup
+   produces. Reading coverage at the impact position rather than over settling's whole settled field
+   is likewise worth **0.0003 in Z** (`results/seabed-field-coverage-289/`, 40,000 outcomes and
+   2.2 × 10⁶ settled elements). Runs made with the point target are the saturated limit of the full
+   model, not a provisional stand-in.
+2. **What counts as a detection is the live assumption, and it is worth 2.3 points.** Treating the
+   field as one object with a covered fraction removes 26.6% of the probability; treating it as
+   detected if *any* settled element fell on valid data removes 28.9%. This module reports the first,
+   because recognition is a campaign-level event on a recognisable signature rather than on one imaged
+   element, and publishes the second as the optimistic bound. The difference is carried entirely by
+   the 2.3% of outcomes whose impact lies off searched ground while part of the field reaches onto it.
+   Nothing in the coverage data resolves it.
+3. **Coverage resolution.** The raster is 0.01° ≈ 1.1 km, while swath-scale structure — nadir gaps,
    terrain-avoidance holes — is at a few hundred metres. Averaging at 1 km conserves the uncovered
-   *area*, which is what (1) needs, but it cannot represent the geometry of a gap. A target smaller
-   than the cell sitting inside a sub-cell gap is treated as partly covered.
-3. **Ocean Infinity coverage is inferred**, as §3 states, and the 2018 layer is a four-point effect on
+   *area*, which is what (1) needs, but it cannot represent the geometry of a gap.
+4. **Ocean Infinity coverage is inferred**, as §3 states, and the 2018 layer is a four-point effect on
    the evidence, so the grade-C provenance is load-bearing rather than cosmetic.
-4. **The Bluefin-21 layer is display geometry**, 771.41 km² against the ATSB's stated 860 km². The
+5. **The Bluefin-21 layer is display geometry**, 771.41 km² against the ATSB's stated 860 km². The
    published polygons are 10.3% *smaller* than the stated coverage, where a display envelope would
    normally overstate it, so the layer is conservative. It cannot matter either way: that search is
    2,473 km from the posterior's mass and removes 0.0000 of it at every ρ.
-5. **q for Phase 2 rests on three percentages read from inside a figure image** (A-8), not yet verified
+6. **q for Phase 2 rests on three percentages read from inside a figure image** (A-8), not yet verified
    in primary form. The ATSB report is not reachable from this environment at present.
-6. **The surface search is not here.** It is strong evidence and belongs to ocean drift.
+7. **The surface search is not here.** It is strong evidence and belongs to ocean drift.
 
 ## 9. Open items
 
 - Verify A-8 against the figure itself and retire the last inherited value.
-- Implement g_k and re-run on settling's wreckage samples.
+- Re-run the field-coverage comparison across all four 00:19 options on the next impacts; set A here
+  is the held-out arm only.
 - Re-run on the end-of-flight impacts built with the Boeing-checked dive class, and on whichever 00:19
   arms become estimable once the hand-off carries the 00:19 data.
