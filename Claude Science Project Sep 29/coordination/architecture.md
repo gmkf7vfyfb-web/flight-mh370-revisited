@@ -6023,3 +6023,41 @@ exactly from `grid_inop`.
   production-glorys12.toml; binary d24060aa8006d3ce; platform Darwin arm64 macOS 27.2.
 
 - Ocean Drift Module
+
+## 2026-10-10 05:45 UTC - end of flight: V2 envelope broadened, uniform-onset arm V2u, and the single-engine design (PROVISIONAL-OVERNIGHT)
+
+**1. V2 envelope (Pete ~03:50 UTC: the onsets are "very concentrated later" and the 10,000 / 4,000 ft level-offs are undersampled).**
+SMOKE: 2 seeds at 22:41 on `reference-289`, UNCORRECTED FUEL, PROVISIONAL SAMPLER.
+`results/eof-v2-broad-oct10/README.md`.
+
+- The new overlay `smoke/v2-broad.toml` is on both arms. Deliberate onsets start in control; the onset is uniform on [22:41, predicted
+  exhaustion]; there are more stepped descents, with candidate levels at 10,000 and 4,000 ft.
+- It raises the share of descents with a level segment from 16% to 40%. The level-offs at 10,000 ft go from 2.8% to 9.6%, and at 4,000 ft
+  from 1.7% to 8.1%.
+- The late concentration is **structural**. Fuel-cue and flame-out onsets are tied to exhaustion (99.5 min after 22:41), so a new arm, **V2u**,
+  isolates "a deliberate descent at a random time after 22:41". It puts 18% of onsets in 22:41-22:56, against 4% before.
+- **ln BF against V1b** (23:15 BFO + 00:11 BTO/BFO, cause `other`):
+  - V2 old: -0.36;
+  - **V2-broad: -0.21** (-0.19 / -0.22);
+  - **V2u: -0.70** (-0.70 / -0.70). It is driven by the 00:11 BFO, which alone gives -1.57.
+- These are estimable (776-1,164 effective parents per seed). R600 + fuel-exhaustion and 00:11 + R600 are not estimable from 22:41.
+- The impact median moves north as the arm favours earlier descents: V1b 37.4-37.7°S, V2-broad 36.2-36.3°S, V2u 35.8°S.
+- **Question for Pete, with options:**
+  - (A) the old envelope;
+  - (B) the v2-broad overlay plus V2u reported beside it. **Recommended and taken**; reversible by dropping the overlay;
+  - (C) an explicit preferred-level mixture, not built.
+
+  No downstream product changes: the reference stays the 00:11 hand-off.
+
+**2. Single-engine phase, design only** (`results/eof-single-engine-design-oct10/README.md`).
+- The 6-DOF already flies separate right and left flame-outs, with the thrust asymmetry and rudder compensation.
+- The point-mass sweep gets a one-engine phase between t1 and t2 (both predicted from the two pools), and uses the fuel session's hold-then-taper
+  drift-down (~05:30 UTC). The constant U(300, 1,000) ft/min would overstate the altitude lost by 2,000-7,000 ft.
+- The log-on and lag terms move to t2.
+- A smoke run comes next, at 2 threads.
+
+**3. Hydroacoustics (~05:40).** Thanks for the independent reproduction. The `impacts.npy` / `run.json` per-seed layout and the columns you
+read will be kept for the large run. The 5-10 min spread of the late tail is consistent with the parent-limited weights; it is the same issue as
+core request 9/10.
+
+- End of flight

@@ -1,0 +1,8 @@
+# Arm V2u, PROVISIONAL-OVERNIGHT (10 Oct): a deliberate descent started at a uniformly random time after the 22:41
+# hand-off. Anticipatory mechanism only, onset uniform on [22:41, cruise-predicted exhaustion]. Use with v2-broad.toml,
+# which supplies the 150-min nominal lead and the in-control start. Answers Pete's ~03:50 UTC point that the V2 onsets
+# are "very concentrated later": in V2 that concentration is structural (two of its three mechanisms, fuel cue and
+# flame-out, are tied to exhaustion by definition), so this arm isolates "randomly initiated post 22:41".
+[hypotheses.end-of-flight.onset]
+anticipatory_lead_s = [0.0, 9000.0]
+mechanism_weights = [1.0, 0.0, 0.0]
