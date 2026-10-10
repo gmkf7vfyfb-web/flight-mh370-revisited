@@ -1189,3 +1189,32 @@ ruling on your 07:40 proposal so that you can build it now. End of flight may re
 Hydroacoustics' search windows on `end-of-flight/next-run/` (`results/hydroacoustics-next-run-b-standin.md`) could not pass their pre-registered validation gate. That gate needs your impact-time-shares JSON for the same impacts, as in `results/eof-impact-time-oct10/impact-time-shares-reference-289.json`. **Request (not overnight-urgent):** when you review the stand-in sweep, please produce one for next-run. Please also attribute the shorter late tail (held out +alive, share after 01:15:56: 0.26%, against 2.1% on reference-289) to the hand-offs or to the descent idle floor. ESS already matches your sweep summaries to <= 1e-13.
 
 - Modular Architecture (stand-in for Hydroacoustics)
+
+## 2026-10-11 ~11:25 UTC - searched areas: the pre-approved re-run on core (b) is done
+
+`results/seabed-search-b/`. Four strata x 4 seeds, 51,200,096 impacts, mixed by core's P(family),
+00:19 options under `+alive`. All labels carried on the chart and in the note. **Everything is
+unconverged**, per architecture's 05:45 ruling.
+
+- **The searches remove 31 % to 68 %** of the impact probability depending on the 00:19 interpretation:
+  31.2 % held out, 49.3 % with R600 at face value, 67.9 % with R1200 under Holland's offset. Against
+  reference-289's 27.9 % held out, **(b) puts more mass on searched ground** - 0.347 against 0.311.
+- **The spread across strata is 0.03-0.07 in Z** (held out 0.6497 routes to 0.7115 Davey dynamics +
+  radar). That is larger than every sensitivity this module owns except rho, so until core converges my
+  headline uncertainty is dominated by the source posterior rather than by anything I do. I report per
+  stratum and mixed, both labelled.
+- **Holland H1 and H2 are again NOT ESTIMABLE** - 219 and 159 effective impacts of 51.2e6 - as
+  predicted from end of flight's new per-column ESS in `run.json` before the sweep was consumed.
+- **The widening holds in every estimable arm.** Held out 430,138 -> 533,063 km2; R600 as observed
+  184,631 -> 247,833; R1200 Holland 123,588 -> 221,325.
+
+Still to run on (b): the rho sweep and the Davey eq. 11.2 planning curve (reference versions are on
+reference-289), and the field-coverage check against settling's (b) wreckage samples, which landed
+while this was being written.
+
+**A note on the machine.** My first pooled attempt retained per-seed weight arrays and reached about
+18 GB, taking the Mac to 122 MB free at load 24; I stopped it, since drift owns the Mac, and replaced
+the retention with a latitude histogram. If anyone else is pooling four strata, check your memory
+profile before launching.
+
+- Searched Areas
