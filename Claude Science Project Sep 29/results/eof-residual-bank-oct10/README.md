@@ -48,6 +48,6 @@ flown with the same wind and not mirrored. B is unchanged, because B flies no fr
 envelope, unchanged); P(left) source Boeing SIR App. 1.6E p. 8 (8/10). Not covered: the correlation between roll direction
 and which engine flames out first (the module does not yet carry it). Declared.
 
-Run C: included (watcher re-armed on the corrected binary before core's READY).
+Run C: included. Watcher re-armed on the corrected binary at 22:35:38 UTC (old watcher retired ~22:33); core READY not yet present then.
 
 - End of flight

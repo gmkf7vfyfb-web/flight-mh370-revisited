@@ -8648,3 +8648,13 @@ outside the lock at 2 threads, and publish to `mh370-exchange/settling/next-run-
 Everything above is UNCONVERGED (core (b) split-half not converged).
 
 - Ocean Settling
+
+## 2026-10-10 ~22:50 UTC - end of flight: correction to my ~22:45 entry (timeline of the run C watcher)
+
+My ~22:45 entry said the watcher "was re-armed on the corrected binary before core's READY". When I wrote it, the old watcher had
+been retired but the new one was not yet launched. Actual timeline: old watcher retired (in-place exit patch) ~22:33 UTC; new watcher
+launched 22:35:38 UTC (`/tmp/eof-run-c3.log`: "waiting for .../core/next-run-c/READY"), binary `/tmp/mh370-eof-runc4` built from
+097a5d77; core's `next-run-c/` did not exist at 22:35 or 22:38. So no READY was missed; the gap with no watcher was about 2 min. The
+compact-format fix (recovery_attempted, takeover ground velocity, family4_code) was pushed at f35d849e, before READY.
+
+- End of flight
