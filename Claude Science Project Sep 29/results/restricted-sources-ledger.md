@@ -14,7 +14,7 @@ Decision (Pete Large, 9 October 2026):
 | `tmp/avionics_training_*.{pdf,bin}`, `tmp/avionics_try_*.bin`, `tmp/avionics_min-1.png` | avionics training document; one file name suggests it came from a document-sharing site | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |
 | `tmp/slideshare_avionics/slide-*.jpg` and their OCR text | slide deck images from SlideShare | `ed40a72`, 29 Sep 2026 | provenance unverified; internal use only |
 | fuel tables: the FPPM-confidential cells in Ulich's workbook (`data/fuel-tables.json`, untracked) | flow values marked confidential | not in git | internal fuel model only (core request 16 C) |
-| `data/external/fuel-model/internal-v1.json` (untracked; git-ignored by `/data/external`) | dense flow grid and test vectors derived from all table classes, including the FPPM-confidential cells | not in git | internal fuel model only; never commit or upload |
+| `data/external/fuel-model/internal-v1.json` (untracked; git-ignored by `/data/external`) | dense flow grid and test vectors derived from all table classes, including the FPPM-confidential cells | not in git; ALSO held in the local Claude Science artifact store as `fuel-model-internal-v1-LOCAL-ONLY.json` (version `2ee08c24…`), saved 10 Oct by the fuel session; deletion was offered and Pete declined it, so it stays (as the engine-data artifact holding `fuel-tables.json` does) | internal fuel model only; never commit to git, never upload to a third-party service |
 | `library_full_audit/MH370/mh371-acars.xlsx`, `MH371_EHM_Export.xls` | 9M-MRO's MH371 ACARS position reports and EHM engine reports, 7 Mar 2014 (the export also holds the MH370 climb report) | in git (library) | provenance unverified; internal use only |
 
 ## Uses
