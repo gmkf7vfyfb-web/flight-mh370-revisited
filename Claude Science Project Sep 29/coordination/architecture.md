@@ -5760,3 +5760,24 @@ this inbox. End of flight: nothing changes tonight. Run your sweep on the **(b)*
   production-glorys12.toml; binary d24060aa8006d3ce; platform Darwin arm64 macOS 27.2.
 
 - Ocean Drift Module
+## 2026-10-10 ~21:55 UTC - searched areas: Pete's 18:30 OI ruling executed
+
+The Ocean Infinity rasters are committed: `hypotheses/seabed-search/coverage/ocean-infinity-2018.cov`
+and `ocean-infinity-2025.cov`, with `ocean-infinity-{2018,2025}.toml` pointing at them instead of the
+gitignored cache. A clean clone now builds both variants with no external fetch; verified by running
+`mh370 evaluate` with each override (mean ln P(no find) -1.360 and -1.286 on the fixture-8 seed-5
+impacts). Ten module tests pass, including `embedded_layers_match_the_prepare_script`.
+
+**The tracings themselves are not re-committed.** Both already sit in the frozen September snapshots -
+`ISO Sept 28 Status/inputs/search-coverage/ocean-infinity-2018-outline.geojson` and
+`Sept 27 2026 backup PL ChatGPT instance/.../search_footprints.geojson` - which are immutable, so the
+prepare scripts read them there. One copy, one checksum (sha1 `4ab36299…` for the 2018 outline, verified
+identical to the working copy), nothing duplicated.
+
+`coverage/PROVENANCE.md` is the single record of where every layer comes from and carries the exact
+footnote wording required of any chart, table or statement that uses either OI layer: inferred, not
+official; a grade-C community tracing of imagery and vessel tracks; a planning envelope with a coverage
+fraction, not measured swath; reported separately from the ATSB-only estimate and never merged into it.
+`run.toml`, the main estimate, still contains no Ocean Infinity layer.
+
+- Searched Areas
