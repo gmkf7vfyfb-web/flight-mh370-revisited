@@ -1450,6 +1450,8 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 
 ## 2026-10-10 ~22:00 UTC - end of flight: B relabelled and re-sampled as ruled; run C recipe re-armed; same-data Bayes factors for the five core options (answers architecture 15:45 -0600)
 
+**[done 22:30 UTC, Pléiades: read; nothing for Pléiades]**
+
 1. **B, as ruled (PRIOR CHANGE, approved by Pete's statement).**
    - New overlay `full/family-b-ditching.toml`: deliberate onsets (anticipatory or fuel cue) are flown in control, as a ditching attempt (0.5)
      or maintained-then-lost (0.5), **at any thrust setting**. New switch `deliberate_control_any_propulsion`, default off; switch-off
@@ -1493,6 +1495,8 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - End of flight
 ## 2026-10-10 ~22:40 UTC - architecture stand-in: DONE - Pléiades-conditional PDF on core (b), R600 BTO + Raw BFO, with trace-back and searches - please review
 
+**[done 22:30 UTC, Pléiades: reviewed, adopted - results/pleiades/conditional-standin-review.md]**
+
 `results/pleiades-conditional-r600-raw-bfo-standin.md` (+ `…-standin/` figures, CSVs, scripts). Replay of your own path
 (`build_branch`, `tension`, `hdr_level`, house close-up elements with faint points); surfaces regenerated with your export
 tests, sha256 identical to your run tree; per-stratum, mixture and after-search numbers reproduce `standin-columns.md` and
@@ -1514,6 +1518,8 @@ Please review and adopt or redo.
 
 ## 2026-10-10 ~22:15 UTC - ocean settling: seabed wreckage PDF by type of flight end (A1 / A2 / B), core (b)
 
+**[done 22:30 UTC, Pléiades: read; for information]**
+
 `results/settling-family-next-run-b/`: five core 00:19 options x three families (ruling 15:20 -0600, "per family first"). It uses `unpowered`, and strata are weighted by P(stratum | option) x the family share.
 - Settling adds 0.17-0.43 % to the 90 % area in every estimable panel; the kernel is the same in every family.
 - 90 % seabed area, thousand km², A1 / A2 / B:
@@ -1533,6 +1539,8 @@ seabed, i.e. +0.4 % (settling's grid). ESS is 2,963 of 40,000 resampled. Settlin
 
 ## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → Pleiades: composer pass 0 on core (b)
 
+**[done 22:30 UTC, Pléiades: answered in architecture.md]**
+
 Your stand-in columns were composed; H products are conditional on pleiades-origin = H, GLORYS12, rating 5, equal clusters.
 Gaps:
 - Columns exist for one object-rating and one cluster-weight option only.
@@ -1547,6 +1555,8 @@ Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-
 
 
 ## 2026-10-10 16:25 -0600 — architecture → ALL MODULES: rulings on composer pass 0 (results/composer-pass0-next-run-b.md, merge 258e894 reviewed)
+
+**[done 22:30 UTC, Pléiades: rulings 1, 2, 7 acted on / answered]**
 
 Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21 interface gaps logged (interface-gaps.csv). Merge touched only crates/compose/examples/pass0.rs and results: accepted. Rulings (architecture; Pete informed, may overrule):
 1. **Not-computed rows are carried at the neutral value by default.** Excluding them gives them zero likelihood, which silently conditions on 'impact inside this module's domain' — against Pete's coverage rule. Exclusion appears only as a labelled sensitivity. Every composed product reports the not-computed weight per module. Pass 0 showed it is first order (Pléiades 90 % region 254k km² carried vs 62k km² excluded), so it is a coverage gap to close, not a setting: **drift leaves 16–25 % of the weight not computed** → coverage register G10; node extension B is the fix and keeps its place after the run C chain.
@@ -1582,5 +1592,51 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
    - the driver defaults to `""`, `+alive`, `+unpowered` and `+silent` for every option;
    - P(family) is read from end of flight's `p_core` when not given.
    - A watcher is waiting for `end-of-flight/next-run-c/READY`.
+
+- Pléiades
+
+## 2026-10-10 22:30 UTC - Pléiades → architecture (cc composer): composer pass 0 gaps and rulings 1, 2 and 7; review of the conditional stand-in
+
+**Conditional stand-in (R600 BTO + Raw BFO, trace-back, searches): adopted, no redo** (`results/pleiades/conditional-standin-review.md`).
+Recorded points:
+- ln R is relative to a flat prior over the **grid**, so quote it with its reference area. Use ln S, the overlaps and the mean displacement
+  as the tension measures.
+- Trace-back ratios are conditional associations, not evidence for H.
+- The reference constraint is now `unpowered`, which is identical on (b).
+
+**Ruling 1 (not-computed carried at neutral), for Pléiades:**
+- Pléiades' not-computed rows are impacts outside its export grid (north of 25 S, east of 103 E). There L_H is physically near zero: they are
+  far from every object.
+- Carrying them at the mean ratio is what gave 254k km² against 62k km². For this module it is a coverage gap of its own, and the module is
+  closing it. Release grids are being exported on **78-115 E, 45-5 S**, which covers every next-run impact (latitude to −6.5, longitude
+  80.2-113.9; `PLEIADES_RELEASE_BOX` / `PLEIADES_SURFACE_BOX`, defaults unchanged).
+- Then the surfaces and the per-impact columns are regenerated with no not-computed rows. These columns cover **every object-rating ×
+  cluster-weight option** (gap: one option only), for both ocean models.
+- I will post when the columns are on the exchange.
+
+**Ruling 2 (ocean model):** complied.
+- `hypotheses/pleiades/run-glorys12.toml` declares the GLORYS12 + ERA5 product only, for composer passes 0 and 1.
+- `run.toml` keeps both models for the module's own figures.
+- The columns carry `_glorys12`, `_globcurrent` and `_mean`.
+- **Please confirm the exact option label drift declares** (the composer showed "GLORYS12"; this module's table label is
+  `glorys12v1+era5-wind10`), and I will match it.
+- **Question:** should the module's close-ups switch to GLORYS12 only as their headline, to match the composed products? Drift audit F1
+  is small for Pléiades: −1.4 to −2.0 % area, < 1 km mean. Until ruled, the close-ups stay at equal weight, with GLORYS12 only beside them
+  in the stats.
+
+**Ruling 7 / gap 12 (COSMO):**
+- The COSMO-SkyMed contacts are an **independent observation**: different sensor, 20/21 March, different objects. They are not part of
+  the Pléiades object set. Proposed ID: `cosmo-skymed:2014-03-20-21:F1-F4`.
+- In the hook, COSMO is **prediction-only** (P1/P2). There is no footprint or background term, and the source, time and footprint are
+  unverified. So a Pléiades-only primary is what the hook implies, and P + all four COSMO is the declared conditional branch Hc.
+- Pete's standard close-ups show P + C4. They are conditional-branch figures, and their titles say so.
+- If Pete wants the composed headline to be P + C4, COSMO needs ruling as a likelihood term, with the ID above. That is Pete's decision.
+
+**Gap 11 (no not-H density):** this is by design.
+- ln L(s | not-H) = 0 is the hook's background. There is no identity likelihood (brief §3), so P(H | D) is not a product of this module.
+- Every product under H is conditional, as the composer labels it.
+
+**Transport correlation:** ocean transport has measured it (central ρ ≈ 0.2-0.3, upper 0.5). ρ = 0.25 and 0.5 sensitivities are next in
+the module, on core (b).
 
 - Pléiades

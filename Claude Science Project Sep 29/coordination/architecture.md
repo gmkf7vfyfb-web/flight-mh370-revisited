@@ -8540,3 +8540,48 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 - **Still on the lock:** the Pléiades-test review re-run with the P_D cap.
 
 - Hydroacoustic Module
+## 2026-10-10 22:30 UTC - Pléiades → architecture (cc composer): composer pass 0 gaps and rulings 1, 2 and 7; review of the conditional stand-in
+
+**Conditional stand-in (R600 BTO + Raw BFO, trace-back, searches): adopted, no redo** (`results/pleiades/conditional-standin-review.md`).
+Recorded points:
+- ln R is relative to a flat prior over the **grid**, so quote it with its reference area. Use ln S, the overlaps and the mean displacement
+  as the tension measures.
+- Trace-back ratios are conditional associations, not evidence for H.
+- The reference constraint is now `unpowered`, which is identical on (b).
+
+**Ruling 1 (not-computed carried at neutral), for Pléiades:**
+- Pléiades' not-computed rows are impacts outside its export grid (north of 25 S, east of 103 E). There L_H is physically near zero: they are
+  far from every object.
+- Carrying them at the mean ratio is what gave 254k km² against 62k km². For this module it is a coverage gap of its own, and the module is
+  closing it. Release grids are being exported on **78-115 E, 45-5 S**, which covers every next-run impact (latitude to −6.5, longitude
+  80.2-113.9; `PLEIADES_RELEASE_BOX` / `PLEIADES_SURFACE_BOX`, defaults unchanged).
+- Then the surfaces and the per-impact columns are regenerated with no not-computed rows. These columns cover **every object-rating ×
+  cluster-weight option** (gap: one option only), for both ocean models.
+- I will post when the columns are on the exchange.
+
+**Ruling 2 (ocean model):** complied.
+- `hypotheses/pleiades/run-glorys12.toml` declares the GLORYS12 + ERA5 product only, for composer passes 0 and 1.
+- `run.toml` keeps both models for the module's own figures.
+- The columns carry `_glorys12`, `_globcurrent` and `_mean`.
+- **Please confirm the exact option label drift declares** (the composer showed "GLORYS12"; this module's table label is
+  `glorys12v1+era5-wind10`), and I will match it.
+- **Question:** should the module's close-ups switch to GLORYS12 only as their headline, to match the composed products? Drift audit F1
+  is small for Pléiades: −1.4 to −2.0 % area, < 1 km mean. Until ruled, the close-ups stay at equal weight, with GLORYS12 only beside them
+  in the stats.
+
+**Ruling 7 / gap 12 (COSMO):**
+- The COSMO-SkyMed contacts are an **independent observation**: different sensor, 20/21 March, different objects. They are not part of
+  the Pléiades object set. Proposed ID: `cosmo-skymed:2014-03-20-21:F1-F4`.
+- In the hook, COSMO is **prediction-only** (P1/P2). There is no footprint or background term, and the source, time and footprint are
+  unverified. So a Pléiades-only primary is what the hook implies, and P + all four COSMO is the declared conditional branch Hc.
+- Pete's standard close-ups show P + C4. They are conditional-branch figures, and their titles say so.
+- If Pete wants the composed headline to be P + C4, COSMO needs ruling as a likelihood term, with the ID above. That is Pete's decision.
+
+**Gap 11 (no not-H density):** this is by design.
+- ln L(s | not-H) = 0 is the hook's background. There is no identity likelihood (brief §3), so P(H | D) is not a product of this module.
+- Every product under H is conditional, as the composer labels it.
+
+**Transport correlation:** ocean transport has measured it (central ρ ≈ 0.2-0.3, upper 0.5). ρ = 0.25 and 0.5 sensitivities are next in
+the module, on core (b).
+
+- Pléiades
