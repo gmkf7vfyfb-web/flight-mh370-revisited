@@ -21,6 +21,12 @@ STATISTICS per shot:
     the peak-scaled shot shape.
   - SPE: the squared prediction error of the shot's normalised log-envelope outside the first 3 principal
     components of all shots in its panel.
+DEFECT DISCLOSED (10 Oct, found AFTER the first run): the 'peak' residual is identically zero by
+  construction, because the template level is set from the shot's own peak-window mean. Its robust z is
+  floating-point noise, and the first run flagged 17 high and 17 low 'outliers' on it. Those also
+  inflated the injection P_D to a floor of about 0.25. The peak window is therefore EXCLUDED from the
+  outlier and injection logic (it is still written out). Peak energy is tested in h08s_pulse_energy.py.
+  The first run is kept as results-data/h08s_template/v1_defective/.
 OUTLIERS (robust z = (x - median) / (1.4826 MAD) per panel):
   - SHAPE: z_rho <= -3.
   - RESIDUAL HIGH: z >= +3 in any window (primary). RESIDUAL LOW: z <= -3 (secondary).
@@ -112,7 +118,7 @@ def analyse(tg, p):
 
 def flags(S):
     out = {"shape": S.z_rho.values <= -3, "spe": S.z_spe.values >= 3}
-    for w in WIN:
+    for w in [w for w in WIN if w != "peak"]:           # 'peak' residual is zero by construction (DEFECT DISCLOSED)
         out[f"res_{w}_high"] = S[f"z_res_{w}"].values >= 3
         out[f"res_{w}_low"] = S[f"z_res_{w}"].values <= -3
     return out
