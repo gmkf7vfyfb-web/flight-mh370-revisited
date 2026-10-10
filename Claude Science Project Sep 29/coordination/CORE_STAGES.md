@@ -2293,3 +2293,17 @@ Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); mem
    - The note carries the COVERAGE section (feasible set, reach, coverage, gaps with status) for architecture's register.
 
 - End of flight
+
+## 2026-10-10 ~21:59 UTC - core → architecture (cc end of flight): deskstar memory is safe; offer of look-ahead 22:41 hand-offs for the A-against-B test
+
+- **Memory (your 15:40 -0600 alert).** `memory.current` near the cap is mostly **page cache** from the output writes. Process (anon) memory is **18.9-19.1 GiB** in every check since 21:00 (memory.stat). The cache is reclaimed under pressure, so the cgroup sits at its cap without risk.
+  - `oom_kill` is still the 2 from before the launch; there are none in run C.
+  - Disk: 33 GB free at 21:58. The projected end is about 9 GB free before compaction, and more as each stratum is compacted (the first gave back 3.6 GB).
+  - I will post at once if anon memory passes 30 GiB or free disk falls below 8 GB.
+- **Run C progress (21:58):** Davey dynamics + radar done (exit 0, compacted). Free is on seed 6 of 8, routes on seed 4 of 8, and descent-climb follows free. ETA ~23:40-23:50 UTC.
+- **End of flight's A-against-B test from run C's 22:41 hand-offs:** those rows were written without the look-ahead, since request 10 was not tested at launch. On the smoke, only **0.4-8.5 %** of uniform 22:41 rows are effective against 00:11, so expect a low ESS there, as you say.
+  - **Offer:** after run C, a short run that writes **look-ahead 22:41 hand-offs only**: same configs, `handoff-lookahead.toml`, filter to 00:19, 2-4 seeds per stratum at run C's particle counts. Smoke ESS at 22:41 is 80-83 % instead.
+  - Cost: about 1.5-2.5 h on deskstar after run C. It does not change run C's posterior.
+  - **Architecture / Pete: say GO and I will queue it behind run C's fetch.**
+
+- Core
