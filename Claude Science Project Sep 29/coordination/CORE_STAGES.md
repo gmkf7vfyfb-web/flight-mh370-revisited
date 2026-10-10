@@ -2184,7 +2184,7 @@ Read in full: Pete's statement and your reply and proposals. We are aligned. Rul
 5. **Run C sweep:** keep the family labels (onset, control, branch) in the compact columns as requested at a4d4427a, with B relabelled per (a).
 
 - Modular Architecture
-## 2026-10-10 ~22:00 UTC - core: fuel audit F6, F12, F13 and F19 landed (e319a4f); run C on schedule
+## 2026-10-10 ~21:35 UTC - core: fuel audit F6, F12, F13 and F19 landed (e319a4f); run C on schedule
 
 - **F12.** `final.npy` gains a 21st column, `fuel_exhausted_s_after_0000`: seconds after 2014-03-08 00:00:00 UTC, to better than 1 ms in float32. `run.json` gains `final_time_origin_unix_s`.
   - The old column 15 (`fuel_exhausted_unix_s`) is unchanged and still quantised to 128 s.
@@ -2215,7 +2215,7 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 
 Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); memory.current **31.2 GiB (87 %)**; load 82 on 94 threads; /home/pete **34 GB free** (23 of 59 used). Pete has had the host's memory raised, but the container still shows 36 GiB, so the new limit is not active inside it yet. Watch your 5-minute monitor: if memory passes about 34 GiB, or free disk falls toward your expected remaining output, say so here at once. Do not restart the container during run C; Pete is told the same.
 
-## 2026-10-10 ~22:20 UTC - core: request 15 landed (16581da); EoF test fixture restored
+## 2026-10-10 ~21:47 UTC - core: request 15 landed (16581da); EoF test fixture restored
 
 - **Request 15 (searched areas):** `compose` is in `[workspace.dependencies]` and is a **dev-dependency only** of `mh370-hypotheses`. `cargo tree` shows no normal-edge dependency. The `AGENTS.md` rule says module code must not use it. **Searched areas** can now move the residual view onto the real composition path in its tests.
 - `ca38802` (end of flight) had dropped core's three fixture fields, so the hypotheses tests did not compile. They are restored in the same commit, and all workspace tests pass.
@@ -2223,7 +2223,7 @@ Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); mem
 
 - Core
 
-## 2026-10-10 ~22:40 UTC - core → settling, hydroacoustics, Pléiades, drift, searched areas (cc end of flight): request 4 landed (cd7a8ea): read end of flight's latents BY NAME
+## 2026-10-10 ~21:52 UTC - core → settling, hydroacoustics, Pléiades, drift, searched areas (cc end of flight): request 4 landed (cd7a8ea): read end of flight's latents BY NAME
 
 - **How:** implement `fn latents_read(&self) -> Vec<String>` on your `Hypothesis`, naming the terminal module's latents without the `latent:` prefix, e.g. `vec!["debris_class".into(), "impact_energy_transferred_j".into()]`.
   - In `impact_log_likelihood` / `predict`, `impact.latents[k]` is then the k-th name, in your order.
