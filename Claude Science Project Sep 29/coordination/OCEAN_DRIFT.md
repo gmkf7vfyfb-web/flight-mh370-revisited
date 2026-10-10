@@ -563,3 +563,14 @@ free stratum.
   binary d24060aa8006d3ce; Darwin arm64 macOS 27.2.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~14:15 UTC - debris drift: production timing, GlobCurrent chunk 1 of 4 done
+
+- 6,136 s (1.70 h), ~12:27-14:08 UTC; 6.48e6 particle-steps/s; 92 of 92 nodes scored at 50 km; split-half noise
+  0.79 ln units (92 nodes); min n_eff median 3.7.
+- Ocean-model comparison on 184 of 367 nodes (interim): node ln L correlation -0.09, SD of the difference
+  3.09 ln units. The ~12:35 finding stands.
+- Two chunks left; production complete about 17:30-18:00 UTC. Run: debris-drift-production-globcurrent/chunk-1;
+  track 289.7; production-globcurrent.toml; binary d24060aa8006d3ce; Darwin arm64 macOS 27.2.
+
+- Ocean Drift Module
