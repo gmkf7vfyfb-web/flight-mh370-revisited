@@ -6542,3 +6542,73 @@ profile before launching.
 - **Pléiades: please review, and re-run if you disagree.**
 
 - Modular Architecture (stand-in for Pléiades / COSMO-SkyMed)
+
+## MORNING SUMMARY 11 Oct (written 10 Oct ~11:50 UTC) - architecture, for Pete
+
+Everything below is **PROVISIONAL-OVERNIGHT**. Every number built on core (b) is **unconverged**.
+
+### 1. What ran
+
+| Item | Where | Result | Note |
+|---|---|---|---|
+| Core (b): all fixes, two tanks as bookkeeping only, 4 strata x 4 seeds | deskstar | mixture 00:19 median **-37.15** (00:11 -36.23). P(family): free 0.69, Davey dynamics 0.15, descent-climb 0.14, routes 0.01. **Split-half not converged** in any stratum (free 0.709). | `results/next-run-b.md` |
+| Core (a): + one-engine flight before 00:11 (constant U(300,1000) ft/min) | deskstar | mixture **-36.89** (0.26 deg north of (b)). Routes converged (0.946); free 0.829. The weight on one engine at 00:11 falls in every stratum. | `results/next-run-a.md` |
+| Davey-only baseline, full scale | deskstar | **converged** (0.939). Median **-37.95**; overlap with Davey Fig. 10.3 0.750. This is the paper's without-fuel comparison. | `results/next-run-b.md` |
+| End-of-flight sweep on (b) | Mac, stand-in | Held out -37.03. R600 inflated -37.83. R1200 inflated -36.60. Both inflated -37.14. H1/H2 not estimable (ESS 86 / 124). | `mh370-exchange/end-of-flight/next-run/README.md` |
+| Searched areas on (b) | Mac, module | The searches remove 31 % (held out) to 68 % (R1200 Holland). (b) puts more mass on searched ground than reference-289 did (0.347 against 0.311). | `results/seabed-search-b/` |
+| Settling on (b) | Mac, stand-in | Adds < 0.5 % to the 90 % area; unchanged. | `results/settling-next-run-b-standin.md` |
+| Pleiades on (b) | Mac, stand-in | Conditional location unchanged (-35.20). ln S falls (held out 0.77, against 1.30 on reference-289); no tension. R600 arms are -0.84 to -1.26 (p 0.19-0.24). | `results/pleiades-next-run-b-standin.md` |
+| Hydroacoustics windows on (b) | Mac, stand-in | Starts unchanged; ends 5-20 min earlier. The raw IMS request still covers everything. End edges unconverged. | `results/hydroacoustics-next-run-b-standin.md` |
+| Drift production | Mac, lock | GLORYS12 done (367/367 nodes resolved). GlobCurrent running, done about **19:00 UTC**. Interim scoring on (b) started. | OCEAN_DRIFT.md |
+| Fuel session | sub-agent | One-engine ceiling and speed (ceiling FL290 at 175 t, matching the ATSB). **Confirmed core's finding: `grid_inop` was doubled; fixed as internal-v1.1.** | `results/fuel-model/` |
+
+### 2. Findings that matter
+
+1. **The one-engine flow was doubled** in internal-v1 (`grid_inop` = 2x its tables). Every one-engine phase in
+   (a) and (b) is about half its true length. The twin-engine burn is unaffected. The fix is internal-v1.1, or
+   v1 with `inop_flow_scale = 0.5`, never both. At smoke scale, the corrected flow puts about 0.5 of the weight
+   on one engine at 00:11.
+2. **The approved drift-down rate overstates altitude loss.** Physics: altitude is held for 2-7 min while
+   speed decays, then a tapered descent. That loses about 0-700 ft from FL350, against 2,250-7,500 ft under
+   the constant rate, and biases the 00:11 BFO by 5-18 Hz. Core has built hold-then-taper as an option; it
+   has not been run.
+3. **Convergence.** The free stratum, which carries P(family) 0.69, is unconverged: its seed medians span
+   0.8 deg and its log Z spans 1.5 nats. P(family) and the mixture are not yet trustworthy.
+4. **End of flight cannot read the two tanks.** Its schema rejected `fuel.tanks`. The stand-in dropped that
+   one config file, so end of flight used the single pool. Rows with the right engine dry ran as twin-engine
+   on the left tank's fuel. The idle floor was ON (it was off in eof-289-full).
+5. **The 00:19 data move the answer by option:** R600 is south (about -37.8) and R1200 north (about -36.6).
+   The held-out result is about -37.0.
+
+### 3. Decisions for you
+
+1. **C-7(a).** Adopt one-engine dynamics for the base? Core recommends it. If so, which profile:
+   (i) the approved constant U(300,1000) ft/min, or (ii) **hold-then-taper**, the physics, which core and I
+   prefer? Run it with internal-v1.1. That is one large run of about 70 min on deskstar, and it becomes the
+   base for every module.
+2. **Convergence, in the same run.** Strengthen the free stratum with 8 seeds or more particles. Core will
+   size it.
+3. **Drift node extension** (drift's question):
+   - A: 412 nodes, about 20 h;
+   - B: 186 nodes, about 9 h, recommended, queued after production;
+   - C: none, reporting the scored fraction (currently 79-99.8 %).
+4. **End of flight** must read the two tanks before the next sweep. That is a schema change; with your agreement
+   I will post it as an interface ruling.
+5. **Request 10 (look-ahead).** I ruled on the interface overnight (provisional) so that core could build it,
+   with L = m0011 for the m2241 hand-off and the 00:19 BTO for the m0011 hand-off. Core went idle before
+   building it. End of flight may reopen the ruling.
+
+### 4. Process
+
+- **The inbox watcher failed** for threads that ended their turn: the platform clears their background cell.
+  Only searched areas and drift, which kept their turns open, woke on their own.
+  - I ran **stand-ins** (architecture sub-agents, with no code changes) for end of flight's sweep and for the
+    Pleiades, settling and hydroacoustics re-runs. Each module should review its stand-in note.
+  - **Threads to prompt with "check your inbox": core, end of flight, Pleiades, settling, hydroacoustics.**
+- **Incidents:**
+  - deskstar OOM-killed two (b) lanes; they were relaunched at two lanes x 44 threads.
+  - deskstar's scratch disk filled during (a), and two seeds were re-run.
+  - Searched areas briefly took the Mac to 122 MB free, then fixed its own job.
+  - The deskstar lessons are in the host notes.
+
+- Modular Architecture
