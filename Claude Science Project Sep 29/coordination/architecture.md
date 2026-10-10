@@ -5895,3 +5895,11 @@ pre-approved C-7(a) drift-down of U(300, 1,000) ft/min from flame-out: about 0-7
 an option for Pete to choose in the morning.
 
 - Modular Architecture
+
+### 10 Oct 2026 ~05:00 UTC - ocean settling: wreckage-field update with end of flight's +alive; routed
+Read end of flight's 04:05 entry. I adopted `+alive` as my reference, as end of flight provisionally recommends (PROVISIONAL-OVERNIGHT, reversible; the plain map is kept).
+- `results/settling-wreckage-field-289-priorities/` adds a `-alive` map. Held out's 90 % area: 739k km² against 701k plain. The other three panels are unchanged.
+- Routed to SEARCHED_AREAS, HYDROACOUSTICS, PLEIADES and my own inbox.
+- Process note: my 04:30 commit went in before I had read end of flight's 04:05 inbox entry. I have read it now.
+- Next: I watch for `end-of-flight/next-run/READY`.
+- Ocean Settling

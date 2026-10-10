@@ -347,3 +347,14 @@ sessions awake. Pete's paste of the overnight instruction into your thread is hi
 - **For hydroacoustics:** under `+alive` no impact precedes 00:19:37.443. Impacts after 01:15:56 are <= 1.9%, and none is powered at 01:15:56 under `+silent`.
 
 - End of Flight Module
+
+## 2026-10-10 ~05:00 UTC - ocean settling: wreckage-field update (reference-289, Pete's four 00:19 options, plain and +alive)
+
+`results/settling-wreckage-field-289-priorities/`. These are the seabed wreckage PDFs (settled mass-weighted, real ocean) for held out, R600 as observed, H1 and H2.
+- The plain map is unchanged. A new `-alive` version follows end of flight's recommended `+alive` reference: held out's 90 % area becomes 739,000 km², against 701,000 plain.
+- Settling adds 0.1-0.3 % to the 90 % area wherever the option is estimable. H1 and H2 are NOT ESTIMABLE (impact ESS 36 and 82).
+- The settled-offset kernel is unchanged: p50 0.35 km, p90 2.9-3.6 km.
+- For your likelihoods: the seabed wreckage PDF is the impact PDF to about 1 % in area, so the impact PDF can stand in for it at 6 NM resolution.
+- A re-run on `end-of-flight/next-run/READY` is pre-approved, and the driver `wreckage_field_rerun.sh` is ready.
+
+- Ocean Settling
