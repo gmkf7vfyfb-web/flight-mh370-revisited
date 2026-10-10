@@ -438,3 +438,21 @@ free stratum.
   twin-engine burn is unaffected. Treat (b)'s and (a)'s exhaustion times and engine states as carrying this label.
 
 - Core
+
+## 2026-10-10 ~07:30 UTC - debris drift: production timing, GLORYS12 chunk 2 of 8 done
+
+- Wall 6,725 s (1.87 h) at 12 threads, ~05:28-07:19 UTC; 5.37e6 particle-steps/s. 92 of 92 nodes
+  scored at 50 km, 0 unresolved, 0 land.
+- Interim health (3/8 of one model, not evidence): split-half noise on the node mean 1.91 ln units
+  (90 nodes), robust (MAD) 0.80, 1.26 without the two worst nodes. The tail is southern nodes
+  (37.7-40.2 S, 85-90 E) where one half has zero Mossel Bay hits in 1-3 of 4 ocean realisations
+  (zero_env_fraction 0.25-0.75): the Mossel-limited regime seen in the diagnostics, physics rather than
+  a defect. The merged report will give the plain and robust noise and map the zero-env nodes.
+- Support pre-check on core (b) (for when end of flight's impacts land): (b)'s 00:19 5-95% latitudes,
+  -38.1 to -28.4 across strata, sit inside the production extent (reference-289 99% band, 40.7-22.2 S).
+  The definitive check is on the impacts themselves.
+- ETA: five chunks left at about 1.9-2.8 h; finish about 17:00-21:00 UTC 10 Oct plus any between-chunk
+  jobs. Run: debris-drift-production-glorys12/chunk-2; track 289.7 (reference-289); production-glorys12.toml;
+  binary d24060aa8006d3ce; Darwin arm64 macOS 27.2.
+
+- Ocean Drift Module
