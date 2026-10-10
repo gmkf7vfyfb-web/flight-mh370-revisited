@@ -40,13 +40,15 @@ def sh(cmd, cwd):
 
 
 def options(root):
-    cols = (sorted(Path(root).glob("seed-*"))[0] / "COLUMNS.txt").read_text().split()
+    from compact_eval import seed_dirs, seed_reader
+    cols, _, _ = seed_reader(seed_dirs(root)[0])
     return [c.split(":", 1)[1] for c in cols if c.startswith("loglik:")]
 
 
 def main(root, tag, labels="", only=None):
     root = Path(root).resolve()
-    seeds = sorted(root.glob("seed-*"))
+    from compact_eval import seed_dirs, eval_input
+    seeds = seed_dirs(root)
     assert seeds, f"no seed-* under {root}"
     out = RUNS / tag
     res = CSP / "results" / "pleiades" / tag
@@ -56,8 +58,11 @@ def main(root, tag, labels="", only=None):
             d = out / f"eval-{v}" / s.name
             if (d / "evaluate.npy").exists():
                 continue
+            src = eval_input(s, out / "eval-input")  # run C compact: rebuilt 21-column file (compact_eval.py), deleted below
             sh(["cargo", "run", "--offline", "-j", "2", "--release", "-q", "--", "evaluate", "hypotheses/seabed-search/run.toml",
-                RUNS / "eval-oi" / f"{v}.toml", s / "impacts.npy", d], cwd=ENGINE)
+                RUNS / "eval-oi" / f"{v}.toml", src, d], cwd=ENGINE)
+            if src != s / "impacts.npy":
+                src.unlink()
     # every 00:19 option plain, and under end of flight's provisional reference constraint `+alive` (10 Oct ~04:05 UTC)
     opts = [o + c for o in options(root) for c in ("", "+alive")]
     if only:
@@ -100,7 +105,7 @@ def main_all(root, tag, labels="", pfamily="", geom=None, only=None, family_evid
     import closeup_styles
     gebco = str(Path("/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json"))
     root = Path(root).resolve()
-    strata = sorted(d.name for d in root.iterdir() if d.is_dir() and any(d.glob("seed-*/impacts.npy")))
+    strata = sorted(d.name for d in root.iterdir() if d.is_dir() and (any(d.glob("seed-*/impacts.npy")) or any(d.glob("seed-*/impacts32.npy"))))
     geom = geom or str(CSP.parents[1] / "geom")
     if strata:
         pf = {k: float(v) for k, v in (x.split("=") for x in pfamily.split(",") if x)}
