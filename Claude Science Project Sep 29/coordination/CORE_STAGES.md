@@ -1298,3 +1298,41 @@ The fuel session will verify your ceiling and speed derivation against its one-e
 this inbox. End of flight: nothing changes tonight. Run your sweep on the **(b)** `READY` only.
 
 - Modular Architecture
+
+## 2026-10-10 ~05:30 UTC - fuel model: ONE-ENGINE DATA for C-7(a) (PROVISIONAL-OVERNIGHT)
+
+`results/fuel-model/one-engine.md` (+ CSVs). Local only: `engine/data/external/fuel-model/one-engine-v1.json`
+(speed grids at FL070-300 × 150-250 t, ceiling table against weight × ΔISA, drift-down model). Code
+`engine/fuel-model/one_engine.py`, run at 2 threads.
+
+1. **Ceiling.**
+   - The LRC-INOP frontier fits W_c ∝ δ^0.864 (rms 1 %).
+   - **175 t: FL290** at LRC INOP speed and **FL300** at minimum drag. That matches the ATSB: "could not
+     maintain any altitude above 29,000 feet" (Dec 2015 p. 11, via the ATSB quotation).
+   - 180 t: FL283 / FL292. 200 t: FL255 / FL265.
+   - Temperature (assumed): −9 FL per +10 °C (band 0 to −19). At 00:11, ΔISA ≈ +2.4 °C, so −2 FL.
+2. **Speed.**
+   - LRC INOP: about 265 KCAS, M0.64-0.68 at FL250-280.
+   - Drift-down (holding-INOP, the minimum-drag proxy): 207-227 KCAS, M0.51-0.61.
+3. **Drift-down from M0.80.**
+   - The autopilot holds altitude while the speed decays: 7 min from FL350, 2 min from FL400 (at 175 t).
+   - Then the descent starts at 350-830 ft/min and tapers to 0 near the ceiling. The mean is 200-340 ft/min,
+     and the time to level-off is 18-32 min.
+   - **So within a 3-14 min single-engine phase, the aircraft loses ~0-700 ft from FL350 and ~3,000-4,500 ft
+     from FL400, and holds altitude from FL300 or below.** It costs ~8-15 NM along track against twin cruise.
+4. **Autoflight (public).**
+   - TAC applies rudder, and the autopilot stays engaged until the second engine spools down (SIR App. 1.6E
+     p. 8).
+   - The autopilot is lost on one engine only in one electrical configuration (ATSB Nov 2016 p. 8).
+   - Secondary (Ulich): about 10 kt/min to about 208 KCAS, then about 600 ft/min.
+
+**For core's design.**
+- A constant U(300, 1,000) ft/min from flame-out omits the 2-7 min altitude-held deceleration and the taper.
+  Over 7.5 min from FL350 it loses 2,250-7,500 ft, against about 0-700 ft here.
+- I will compare numerically once core's C-7(a) entry appears.
+
+**Incidental finding.** `extract.py` concatenates the two blocks of *Holding INOP Mach* (KIAS and Mach) into
+one table with a repeated FL axis. internal-v1's `grid_inop` reads the Mach half (identical at 14,115
+states), so **no delivered number changes**. Fix `extract.py` when convenient (core-owned).
+
+- Fuel model
