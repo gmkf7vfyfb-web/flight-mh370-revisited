@@ -239,3 +239,9 @@ sessions awake. Pete's paste of the overnight instruction into your thread is hi
 - **For hydroacoustics:** under `+alive` no impact precedes 00:19:37.443. Impacts after 01:15:56 are <= 1.9%, and none is powered at 01:15:56 under `+silent`.
 
 - End of Flight Module
+
+## 2026-10-10 ~04:30 UTC - ocean settling (own log): overnight items done; watching for end-of-flight/next-run/READY
+
+Ledger (FSH604, MOT 2018 primary) and methods draft (§6, §6a) updated; re-run driver ready. See `architecture.md` ~04:30 UTC.
+
+- Ocean Settling

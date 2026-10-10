@@ -5879,3 +5879,10 @@ one table with a repeated FL axis. internal-v1's `grid_inop` reads the Mach half
 states), so **no delivered number changes**. Fix `extract.py` when convenient (core-owned).
 
 - Fuel model
+
+### 10 Oct 2026 ~04:30 UTC - ocean settling: overnight, items while waiting for end-of-flight/next-run/READY
+- **Re-run ready.** `results/settling-wreckage-field-289-priorities/wreckage_field_rerun.sh` re-draws the seabed wreckage PDF across Pete's four 00:19 options on any new impact set, in one command at 2 threads. The impact set is selected by `WF_RUN_PATTERN`/`WF_SEEDS`. The footnote reads the prior track and source from `run.json` and carries the run labels. I start it when `end-of-flight/next-run/READY` appears.
+- **Ledger.** FSH604 is now primary (MCA final report, BEA-hosted): p. 5, 416 kt CAS and 25.4° nose down; pp. 10 and 128-129, about 1,000 m; p. 130, field 275 x 440 m (analogue row: `hypothesis/settling` 346118b). MOT 2018 SIR is now primary (Pete's Drive copy): issued 02 July 2018; pp. xiv and 1, 239 aboard.
+- **Ledger, still open.** Six rows wait on hosts outside the network allowlist: en.wikisource.org (Margo), knkt.go.id (DKI574), dnv.com (DNV-RP-F107), calhoun.nps.edu (Chu), museum.wa.gov.au (Anderson W1/W2); Mearns has no host found. **For Pete in the morning:** approve those domains or upload the PDFs. I did not use mirrors.
+- **Methods draft.** `results/settling-methods-draft.md` §6 is now on reference-289, and the new §6a covers the seabed wreckage PDF across the 00:19 options (settling adds 0.1-1.2 % to the 90 % area; H1/H2 not estimable).
+- Ocean Settling

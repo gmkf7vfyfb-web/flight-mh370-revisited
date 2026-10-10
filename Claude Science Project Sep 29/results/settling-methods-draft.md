@@ -1,9 +1,11 @@
 # Methods draft: wreckage settling
 
-Ocean settling module, 9 October 2026. This is a first draft of the paper's settling methods
+Ocean settling module, 9 October 2026; updated 10 October (overnight) with the reference-289 results and the seabed
+wreckage PDFs. This is a first draft of the paper's settling methods
 section, written under the architecture entry of 9 Oct ~04:15 UTC. Source keys in square brackets
 refer to `results/settling-references.md`, and ocean products to `results/ocean-references.md`. Code
-is `engine/hypotheses/settling/` on branch `hypothesis/settling` at `8492de7`.
+is `engine/hypotheses/settling/` on branch `hypothesis/settling` (`8492de7` for §§1-5; `d1e32ab` for the
+D6 pages; `9823b4e` for the wreckage-field generator).
 
 **Status.** Since `bfb71d5` the ocean is real: the GLORYS12V1 column, surface current, ERA5 wind,
 AusSeabed and GEBCO bathymetry, and TEOS-10. The breakup table is still a set of declared educated
@@ -126,37 +128,71 @@ extrapolated depth is recorded for each element.
 
 ## 6. Representative results (deliverable 6)
 
-**On the real ocean** (`results/settling-d6-real/`), at four posterior impact points (p10, mode, p50
-and p90 latitude, 37.9-35.6 S), with 1,024 draws per point and family:
-- engines and gear rest within 0.22-0.47 km (p90);
-- broken and fragmented sections within 0.5-0.9 km, but intact sections at 6.5-6.8 km;
-- cabin contents at about 13-14 km.
+All impacts below come from end of flight's `reference-289` sweep (`eof-289-full-s1..s4`; prior track 289.7°;
+source run `runs/snap289-m0011`), with its dive class (b) and Boeing-calibrated glide PROVISIONAL-OVERNIGHT and
+fuel uncorrected (fuel-model audit F1-F14 open). The 295.66° pages (`results/settling-d6/`, `settling-d6-real/`)
+stay as the comparison.
 
-Copernicus-GlobCurrent, the second ocean-model value, as the float-phase surface current spreads the
-floated classes 4-12 % further (19 % at most) and leaves the dense classes unchanged. The real ocean leaves the dense classes within 2 % of the provisional page and spreads the floated
-classes 5-13 % further (17 % at most). Monte Carlo halves at 512 draws differ by a median of 2.4 % in
-p90 (14 % at most, for heavy-tailed classes).
+**Seabed depth under the impacts** (`results/settling-d6-289/`; GEBCO_2026 nearest cell, `option_posteriors`
+weights, equal weight per seed). With the 00:19 bursts held out and no log-on cause, p10 / p50 / p90 are 3,362 /
+3,846 / 4,341 m. Across six option × cause rows the median is 3,787-3,890 m and p90 4,143-4,341 m. No mass lies
+shallower than 200 m or on land. Against the 295.66° map, p90 is about 270 m deeper.
 
-**Provisional controlled-depth page:**
+**On the real ocean** (`results/settling-d6-real-289/`), at four impact points (p10, p50 and p90 latitude and
+the densest cell, 39.1-32.9 S), 1,024 draws per point and family:
+- engines and gear rest within 0.18-0.48 km (p90);
+- broken and fragmented sections within 0.4-0.8 km, intact sections at about 5.6 km;
+- cabin contents at about 9-13 km.
 
-The results are in `results/settling-d6/`, at seabed depths of 3,500, 3,830 and 4,070 m (the p10,
-p50 and p90 under the no-exhaustion-prior impact map) and 5,800 m.
+The analytic column with uniform surface fields over-estimates here (dense classes x1.07-1.10, floated up to
+x1.27); at the 295.66° points it under-estimated (x0.88-0.96). It is within about ±25 % of the real ocean with a
+location-dependent sign, so the real-ocean numbers are the ones to quote. Copernicus-GlobCurrent as the
+float-phase surface current moves floated classes by x1.00-1.23 (x1.37 at one point) and leaves dense classes
+unchanged: the ocean-model choice is the largest real-ocean uncertainty for floated classes. Density source,
+GEBCO-only seabed and the below-floor rule each change p90 by under 1.5 %. Monte Carlo halves at 512 draws
+differ by a median of 2.7 % (11 % at most).
 
-At 3,830 m, engines and gear rest within 0.20-0.44 km (p90). Wing box and fuselage sections rest
-within 0.45-0.83 km for broken and fragmented impacts but 5.4-5.7 km for intact ones, which float
-for hours first. Cabin contents spread about 11-12 km in every family.
-
-Depth barely matters: 3.5 to 5.8 km changes the dense classes by 1-24 %.
-
+**Provisional controlled-depth page** (`results/settling-d6-289/`, depths 3,360 / 3,850 / 4,340 m and 5,800 m,
+the ATSB maximum north of Broken Ridge [atsb2017, p. 49]). At 3,850 m engines and gear rest within 0.20-0.44 km
+(p90); wing box and fuselage sections within 0.45-0.82 km for broken and fragmented impacts but 5.4-5.7 km for
+intact ones, which float for hours first; cabin contents about 11-12 km. From 3,360 to 5,800 m the dense classes
+change by 2-28 %.
 - Float time is the largest lever for floated classes: no float gives x0.05-0.07 for cabin contents.
-- Carry is the largest lever for intact dense classes (x0.4), and glide for broken and fragmented
-  ones (x0.7-0.8).
-- The near-bottom band changes p90 by under 0.5 %.
-- AF447's main seabed field, about 600 x 200 m [af447seabed2011], is of the same order as the
-  dense-class offsets.
-- DNV-RP-F107's dropped-object angular deviations [dnv2010] imply an sd of 140-1,070 m at 4 km.
-- ATSB expected a debris field at these depths to be at least 100 m x 100 m and very likely more than
-  200 m x 200 m [atsb2017, p. 83], consistent with the dense-class spread.
+- Carry is the largest lever for intact dense classes (x0.4), and glide for broken and fragmented ones
+  (x0.7-0.8).
+
+**Analogue fields.** AF447's main seabed field, about 600 x 200 m at 3,900 m [af447seabed2011]; Flash 604's,
+within about 275 x 440 m at about 1,000 m after a 416 kt, 25° nose-down entry [mca2006fsh604, pp. 5, 130];
+Swissair 111's, about 125 x 95 m at about 55 m [tsb2003, p. 77]. ATSB expected a field at these depths to be
+at least 100 m x 100 m and very likely more than 200 m x 200 m [atsb2017, p. 83]. All are of the order of the
+dense-class offsets. DNV-RP-F107's dropped-object angular deviations [dnv2010] imply an sd of 140-1,070 m at 4 km.
+
+## 6a. The seabed wreckage PDF under the 00:19 interpretations
+
+`results/settling-wreckage-field-289/` and `results/settling-wreckage-field-289-priorities/`. Impacts are
+systematically resampled from each option's posterior (end of flight's `option_posteriors`, seeds pooled with
+equal weight). Each resampled impact is carried through the transform once on the real ocean
+(`settling::tests::wreckage_field`). The seabed density gives each draw's settled elements the impact's
+probability in proportion to element mass, so it is dominated by the dense, sonar-detectable pieces. Pieces still
+afloat (about 18 % of mass) have no seabed position and are excluded. Grid 0.02°, Gaussian 0.1° (6 NM), HPD
+50/90/99 %, areas on the authalic sphere. Each impact field is compared with the same resampled impacts, smoothed
+identically, so that the difference is settling alone.
+
+| impact PDF (00:19 option × log-on cause) | impact ESS | 90 % area, impacts → seabed (km²) | settling |
+|---|---|---|---|
+| held out × none | 12.4 M | 700,600 → 701,300 | +0.1 % |
+| R600 as observed (no offset) × fuel exhaustion | 59,512 | 265,700 → 266,500 | +0.3 % |
+| R600, Holland offset × fuel exhaustion | 67,598 | 246,200 → 247,500 | +0.5 % |
+| R1200, Holland offset × fuel exhaustion | 10,065 | 166,200 → 167,300 | +0.7 % |
+| both bursts, inflated × fuel exhaustion | 2,042 | 170,100 → 172,100 | +1.2 % |
+| Holland H1: both, start-up offset × fuel exhaustion | 36 | not estimable | — |
+| Holland H2: both, no offset × other | 82 | not estimable | — |
+
+The settled-offset kernel is the same under every option: half the settled mass rests within 0.34-0.36 km of its
+impact and 90 % within 2-3.6 km. About 5-7 % lies more than 5 km away (p99 20-22 km); this is floated contents. So
+the seabed PDF of the main wreckage is the impact PDF to about 1 % in area. Settling matters at the scale of a search
+cell, not at the scale of the impact PDF: the 00:19 interpretation sets the search area, and settling does not.
+Impacts north of 18° S (under 0.02 % of any panel) lie outside the ocean window and are excluded as not computed.
 
 ## 7. Declared alternatives (off in the baseline)
 
@@ -180,8 +216,10 @@ Depth barely matters: 3.5 to 5.8 km changes the dense classes by 1-24 %.
 - The column and the breakup table are provisional.
 - No post-contact movement is modelled.
 - Family probabilities rest on three calibration points.
-- The four impact points come from the 295.66° prior map. Core's reference-289 moves the 00:19 median
-  0.85° north (`results/heading-ab-289-vs-29566.md`). Since depth barely matters, the points are to be
-  updated, not the conclusions, once end of flight publishes impacts on the new reference.
+- The impacts are reference-289's, which carry uncorrected fuel and two PROVISIONAL-OVERNIGHT end-of-flight
+  choices. Settling's conclusions depend on them only through depth and location, which barely matter; the
+  pages are re-run unchanged on each new impact set.
+- Holland's H1 and H2 are not estimable on reference-289 (impact ESS 36 and 82). Their seabed PDFs wait on end
+  of flight's per-hypothesis sampling.
 - The afloat share is the least-constrained number in the table.
 - Body properties in the occupants class carry no source yet (ledger, open item 3).
