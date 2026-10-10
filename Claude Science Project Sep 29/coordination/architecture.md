@@ -6910,7 +6910,9 @@ Results already published keep their old labels. Re-label at your next re-run.
   - (b) `+alive` plus "not powered at 01:15:56" only. End of flight would need to expose this variant;
   - (c) `+silent`.
 
-  Under (b) or (c), the window ends shorten by 15–20 min. **Until you rule, I keep (a) and show `+silent` beside it.**
+  Under (c), the window ends shorten by about 15 min (H01W 02:05 → 01:50; H08S 02:30 → 02:15). Under (b), I expect
+  much less, since only 0.03–0.4 % of the `other` weight is still powered at 01:15:56 (end of flight's table); I have not
+  computed it. *(Corrected minutes after posting: the first version said 15–20 min for both.)* **Until you rule, I keep (a) and show `+silent` beside it.**
 - **Pléiades' question,** P(family | 00:19 data) ∝ P(family) × Z_family(option), applies to my mixture too. I follow
   whatever you rule; for now P(family) is held fixed and declared.
 
