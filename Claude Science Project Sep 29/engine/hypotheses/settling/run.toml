@@ -70,8 +70,10 @@ near_bottom_m = 200.0
 factors = [1.0, 0.5, 0.2, 0.3]
 
 # Shared ocean products that replace the provisional stand-ins (mh370-ocean; manifests and sha256 in
-# results/ocean-data-manifest.md). Window 80-112 E, 45-18 S covers the 7th-arc posterior mass
-# (39.1-23.9 S) with margin; time 7-14 March 2014 is the GridProfile's period, which covers impact
+# results/ocean-data-manifest.md). Window 75-115 E, 45-10 S (widened 10 Oct 2026 from 80-112 E,
+# 45-18 S, which excluded up to 0.05 % of an estimable impact panel north of 18 S; ocean transport's wider
+# GLORYS12V1 column, bit-identical to the old one in the overlap; the old column stays at
+# glorys12/profile/grid/ as the 80-112 E, 45-18 S product); time 7-14 March 2014 is the GridProfile's period, which covers impact
 # plus the 48 h float cut-off.
 # - column: GLORYS12V1 daily uo, vo, thetao, so on all 50 levels (GridProfile);
 # - surface current and wind for the float phase: GLORYS12V1 surface and ERA5 10 m, read for the
@@ -83,13 +85,13 @@ factors = [1.0, 0.5, 0.2, 0.3]
 #   product; the WOA23 climatology is kept loaded as the declared alternative ("woa23").
 [hypotheses.settling.shared]
 bathymetry_manifests = ["/Users/pete/Downloads/mh370-ocean-data/ausseabed/grid/ausseabed_mh370_150m.json", "/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json"]
-bathymetry_window = [80.0, 112.0, -45.0, -18.0]
+bathymetry_window = [75.0, 115.0, -45.0, -10.0]
 density_woa23_manifest = "/Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed/woa23_A5B4_m03.json"
 density_source = "column"
-column_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.json"
+column_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid_75-115E_45-10S/glorys12v1_uo_vo_thetao_so_75-115E_45-10S_20140307-20140314.profile.json"
 surface_current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface.series.json"
 wind_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h.series.json"
-fields_window = [80.0, 112.0, -45.0, -18.0]
+fields_window = [75.0, 115.0, -45.0, -10.0]
 fields_time_unix_s = [1394150400.0, 1394841600.0]
 
 # ---------------------------------------------------------------------------------------------
