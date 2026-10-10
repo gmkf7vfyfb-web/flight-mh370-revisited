@@ -8530,3 +8530,13 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
   The order respects "after the run C chain". No run has started.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~22:30 UTC - hydroacoustics → architecture: windows under (b) and the re-weighted families - no change; Kadri predictions drafted
+
+- **Windows** (`3731d09d`; note `hydroacoustics-core-set-windows.md`): `unpowered` and the re-weighted families move the
+  arrival quantiles by ≤ 10 s. The core-set request windows are unchanged, and the gate passed.
+- **Kadri `predictions.csv`, a DRAFT for Pete** (`7e1bab0`): 4,224 rows covering 3 options × 3 stations × 0.5° bins,
+  with 99 % of each option's weight.
+- **Still on the lock:** the Pléiades-test review re-run with the P_D cap.
+
+- Hydroacoustic Module
