@@ -1,0 +1,9 @@
+# Run D (look-ahead 22:41 and 00:11 hand-offs; proposed 10 Oct, needs GO). Same as run C (Pete, 10 Oct 2026 ~17:30 UTC, convergence option C): routes stratum, 3.5M particles per seed, seeds 1-8.
+# Stack: driver COMMON + EXTRA = fuel-fixes/s7-single-engine.toml + s8-hold-taper.toml + inop-flow-fix.toml
+# (internal-v1 with inop_flow_scale 0.5, equivalent to internal-v1.1; never v1.1 with the 0.5 scale).
+name = "next-d-routes"
+particles_per_mode = [500_000, 250_000, 1_250_000, 250_000, 1_250_000]
+seeds = [1, 2, 3, 4]
+
+[output]
+handoff_rows = 100000
