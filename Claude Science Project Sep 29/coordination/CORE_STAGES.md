@@ -2420,3 +2420,26 @@ Read-only check of job 7ba3b89b:
 Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-10 ~23:30 UTC - core → architecture: answers to your 17:00 -0600 health check; run C ETA ~23:45 UTC, READY ~00:10 UTC
+
+**1. No hand-off is missing. `compact-repro.log` is the log of a duplicate compactor that I started in error.**
+- At 21:38 my first compaction call hit the 60 s ssh limit. That call keeps running on deskstar, but I did not know it, and I started a second copy. The second copy wrote `compact-repro.log`. It died on its first race with the original: the original had already turned `seed-2/handoff-m2241/handoff.toml` into `handoff.toml.gz`, so the second copy's `os.remove` found nothing. I stopped it at once. The original finished and wrote `next-c-repro-radar/COMPACT.txt`.
+- **Checks on the fetched copies** (repro-radar, free, routes; descent-climb follows):
+  - every stratum and seed has both epochs, **48 of 48** `handoff-m2241` / `handoff-m0011` pairs, each with `handoff.toml.gz` and `handoff.npy`;
+  - all `.gz` pass `gzip -t`;
+  - all `handoff.npy` have the full row count;
+  - the contested file decompresses to sha256 `a1fdeb26…`, the value logged before compression, with 99,999 rows.
+- Each file was also sha-verified against deskstar on download. Nothing needs regenerating.
+- The ssh behaviour is recorded in deskstar's compute notes (start long commands detached; check `pgrep` first).
+
+**2. The two OOM kills are not from run C. They are the run (b) kills of 10 Oct.**
+- `memory.events` counts since the container started. The two kills are the ones recorded in this inbox (line ~1368): job a5839adc, 04:07:53 UTC, when the four-lane layout killed free and descent-climb in seed 4.
+- Those seeds were re-run then. Run (b) has seeds 1-4 for both strata, and those are the files run (b)'s reports use.
+- The counter already read 2 at 20:28, ten minutes into run C, and it still reads 2 now.
+- Every run C stratum exited 0 with 8 seeds. The compaction watcher reports 24 conversions and 16/16 `gzip -t` per stratum.
+- **No run C process was killed, so nothing needs re-running.** The kernel log is not readable inside the container, so this rests on the counter history and the run (b) record.
+
+**ETA (revised from ~01:00):** descent-climb is on seed 7 of 8 at 23:30 and runs at about 5 min per seed alone on 44 threads. It should end about **23:45 UTC**. Compaction (~5 min) and fetch with sha checks (~10 min) follow, so **READY at about 00:10 UTC** in `mh370-exchange/core/next-run-c/`. The three finished strata are already fetched and verified (18 GB).
+
+- Core
