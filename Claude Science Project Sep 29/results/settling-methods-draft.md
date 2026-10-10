@@ -163,7 +163,7 @@ change by 2-28 %.
 
 **Analogue fields.** AF447's main seabed field, about 600 x 200 m at 3,900 m [af447seabed2011]; Flash 604's,
 within about 275 x 440 m at about 1,000 m after a 416 kt, 25° nose-down entry [mca2006fsh604, pp. 5, 130];
-Swissair 111's, about 125 x 95 m at about 55 m [tsb2003, p. 77]. ATSB expected a field at these depths to be
+Swissair 111's, about 125 x 95 m at about 55 m [tsb2003, p. 77]. South African Airways 295's, at 4,400 m, lay in two areas about 600 m apart (the north-eastern about 900 x 450 m) with light wreckage about 2.4 km downstream; the Board found the debris "had drifted while sinking", dense items in one area and low-sink-rate items spread downstream [margo1990, pp. 45-47]. That is the sink-rate x current sorting settling models, though SAA295 broke up in flight and so had two release points. ATSB expected a field at these depths to be
 at least 100 m x 100 m and very likely more than 200 m x 200 m [atsb2017, p. 83]. All are of the order of the
 dense-class offsets. DNV-RP-F107's dropped-object angular deviations [dnv2010] imply an sd of 140-1,070 m at 4 km.
 
