@@ -1747,6 +1747,11 @@ mod tests {
             // Still holding fuel at the hand-off, like 43.14 % of the reference posterior. The
             // module must never read this to predict: it is an outcome, not a forecast.
             realised_flameout_unix_s: f64::NAN,
+            // Single pool (core's two-tank fields, 3970826; NaN = not two tanks). This literal
+            // must name every FlightState field, so it fails to compile without these.
+            fuel_left_kg: f64::NAN,
+            fuel_right_kg: f64::NAN,
+            first_flameout_unix_s: f64::NAN,
         }
     }
 

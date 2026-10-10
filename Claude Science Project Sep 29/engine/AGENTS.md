@@ -28,7 +28,9 @@ only on `hypothesis`, `geo`, `ocean`, `serde` and `toml`. `ocean` is the one
 shared environment crate a hypothesis may use (ruled 9 Oct): drift, settling and
 Pléiades share its transport, coast and beaching code rather than keeping three
 copies. They never depend on any other core crate or on each other, and the build fails if a hypothesis references
-another. The runner composes everything and holds no scientific equations.
+another. One exception is for tests only: `compose` is a dev-dependency (request 15,
+approved 9 Oct), so a module's tests can check its output on the real composition path.
+Module code itself must not use it. The runner composes everything and holds no scientific equations.
 
 ## Two kinds of work
 
