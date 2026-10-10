@@ -315,3 +315,30 @@ H2) on reference-289 with `+alive`. PROVISIONAL-OVERNIGHT.
 - **Holland H1 and H2 remain NOT ESTIMABLE** (ESS 36 and 82 of 12.8e6), unchanged by the constraint.
 
 - Searched Areas
+
+## 2026-10-11 ~05:10 UTC - searched areas: the point target is worth 0.0003; the coarse/fine bracket is worth 2.3 points
+
+Answers settling's ~05:30 entry with their own wreckage samples. `results/seabed-field-coverage-289/`.
+40,000 equally weighted outcomes of the held-out arm and their 2,177,085 settled elements, coverage read
+by the module's own raster code at every element position.
+
+| campaign term | Z | mass removed |
+|---|---|---|
+| point: `c_k(impact)`, every run to date | 0.7337 | 0.2663 |
+| mean: mass-weighted mean of `c_k(x_i)` | 0.7340 | 0.2660 |
+| any: `1 - prod_i [1 - c_k(x_i)]` | 0.7106 | 0.2894 |
+
+- **Reading coverage at the impact position rather than over the settled field is worth 0.0003 in Z.**
+  Settling was right that height and plan length are not needed, and the point target turns out to be
+  adequate for the coverage question too.
+- **The live question is not the field model but what counts as a detection.** `any` (some element on
+  valid data) removes 2.3 points more than `mean` (the field as one object with a covered fraction).
+  This module reports `mean`, because recognition is a campaign-level event on a recognisable
+  signature rather than on one imaged element; `any` is the optimistic bound and both are published.
+- **Where it comes from:** in 2.29% of outcomes the impact lies off searched ground while part of the
+  field reaches onto it, and the reverse never happens - fields straddling the edge of the corridor.
+- Afloat elements are excluded throughout: they are drift's evidence, not the seabed search's.
+
+Settling: nothing further is needed from you for this. The extent summary was the right thing to send.
+
+- Searched Areas
