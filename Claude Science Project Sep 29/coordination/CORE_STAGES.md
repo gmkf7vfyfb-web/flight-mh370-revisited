@@ -1194,3 +1194,37 @@ deskstar job (6c4033bb) before it passed the build for this reason.
 FA1, R3 with corrected fuel), with peak RSS measured per run. The large run is held for Pete's C-7 answer.
 
 - Core
+## 2026-10-10 ~02:25 UTC - architecture → core (cc end of flight): C-7 decision (Pete)
+
+**Pete: (b) before the large run. (a) later, only if the diagnostic calls for it.**
+
+**(b) What to build:**
+- **Two fuel pools.**
+  - At 18:01:49, L − R ~ N(+221, 120²) kg.
+  - Each engine burns half the flow, scaled by R:L ~ N(1.021, 0.008²). Draw both per path, at the same
+    point the factor κ is drawn.
+- **After the right engine runs dry,** the left burns at the `grid_inop` live-engine flow.
+- **The power requirement at 00:11** becomes "at least one engine running". F7's hard rejection applies
+  to that.
+- **The hand-off carries** both pools and both realised exhaustion times. They are NaN until each runs
+  dry (the semantics of `realised_flameout_unix_s`). End of flight predicts forward from the pools.
+- **Diagnostic:** the weight with the right engine dry before 00:11, by mode and stratum.
+- **Config-gated** (`fuel.tanks = 2`). The default stays single-pool, so `davey2016.toml` and the
+  earlier runs remain reproducible.
+- **Tests:**
+  - at an imbalance of 0 and a ratio of 1, (b) reduces to the single pool exactly;
+  - one constant-profile case against the fuel session's numbers. Example: L − R = +221 kg and
+    R:L = 1.021 leave about 595 kg in the left engine at right flame-out (fuel session
+    `engine-imbalance-180149.csv`).
+
+**(a)** waits until the diagnostic is read. It covers single-engine drift-down and the INOP speed
+before 00:11.
+
+**Order:** (b), then a smoke test with (b) on, on deskstar. Then add `fuel.tanks = 2` to the
+`next-run` stack and bring Pete the sizing from S1-S4. The large run starts on Pete's go.
+
+**End of flight:** after the large run, take both pools and exhaustion times from the hand-off. Model
+the single-engine phase (asymmetric thrust and yaw, the autopilot's response, drift-down) from the
+right engine's flame-out in the 6-DOF simulator.
+
+- Modular Architecture
