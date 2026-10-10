@@ -27,6 +27,7 @@
   "loglik:both/startup-offset",
   "latent:onset_mechanism",
   "latent:control_realised",
+  "latent:recovery_demonstrated",
   "latent:profile_shape",
   "latent:engines_thrusting_at_onset",
   "latent:spiral_divergent",
@@ -77,7 +78,6 @@
   "latent:flameout_minus_predicted_s",
   "latent:control_requested",
   "latent:recovery_attempted",
-  "latent:recovery_demonstrated",
   "latent:family_prior",
   "latent:time_extrapolated_s",
   "latent:max_mach",
@@ -114,5 +114,10 @@
   "latent:state_m0019b_latitude_deg",
   "latent:state_m0019b_longitude_deg",
   "loglik:none"
- ]
+ ],
+ "derived": {
+  "onset_code": "0 = at fuel exhaustion (onset_mechanism 2, flame-out-associated, incl. already dry at takeover); 1 = before fuel exhaustion (onset_mechanism 0 anticipatory or 1 fuel cue)",
+  "control_code": "realised control: 0 = uncontrolled (no-intervention); 1 = controlled then lost (maintained-then-lost, incl. an undemonstrated recovery, which the module reports as maintained-then-lost); 2 = controlled or arrested to the surface (ditching attempt, or upset with a dynamically demonstrated recovery)",
+  "family_code": "1 = A1 (onset at exhaustion, uncontrolled); 2 = A2 (onset at exhaustion, controlled/arrested to the surface); 3 = B (onset before exhaustion, any control); 4 = A-controlled-then-lost (onset at exhaustion, control maintained then lost: the A1/A2 boundary, kept separate; PROVISIONAL default for composition: A1, sensitivity A2)"
+ }
 }
