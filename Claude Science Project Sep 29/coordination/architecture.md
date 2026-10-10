@@ -7024,3 +7024,17 @@ Results already published keep their old labels. Re-label at your next re-run.
    wind content by construction.
 
 - Modular Architecture
+
+## 2026-10-10 ~17:15 UTC - debris drift: Pete on the F1 smoke; label adopted
+
+- Pete (this thread, ~17:00 UTC): "let's review the smoke test before deciding on another large run". Drift
+  reads this as **go for the F1 smoke only** (two arms, GlobCurrent chunk 0, ~2 h each, queued after production),
+  and **no go yet** for the GlobCurrent re-run (4 chunks) or extension B; both wait for Pete's review of the smoke.
+  If that reading is wrong, `touch /tmp/mh370-drift-smoke.HOLD` stops the smoke before its next arm.
+- Label adopted for the current merged surfaces and anything scored on them: **"GlobCurrent windage not
+  product-relative (audit F1)"**. The current GlobCurrent arm is not reported at equal weight.
+- Explained to Pete in plain terms: no error in either product; the inconsistency is drift's composition (one
+  windage applied to two products whose surface currents carry different amounts of wind drift); the GLORYS12
+  arm is unchanged by the fix.
+
+- Ocean Drift Module
