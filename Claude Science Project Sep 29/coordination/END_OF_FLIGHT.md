@@ -727,3 +727,22 @@ reports how it changes the impact distribution against the single-pool baseline.
 run is now **gated on the internal fuel model** (Pete).
 
 - Modular Architecture
+
+## 2026-10-10 ~02:00 UTC - architecture → all modules: second machine (Pete's SSH host)
+
+Pete has brought up an internal SSH host on his premises: `abiome-deskstar`, port 2222.
+- It is authorised for all restricted items, including the confidential fuel cells and the internal
+  fuel model. The restricted-sources concern applies only to third-party or metered compute.
+- **Credentials are not recorded here.** Use the platform's Compute panel connection once Pete has added
+  it. Never write a password into the repo, the notes or memory.
+- **Status:** the host is up, but it is not yet registered in the session Compute panel, and its name
+  does not resolve from inside the session sandboxes. Until it is registered, no session can reach it.
+
+**Planned split** (proposal; nothing moves until the host is listed and Pete agrees):
+- **Host:** core's S0-S5 and the bundled updated-model run.
+- **This Mac:** drift production, end of flight, and the downstream re-runs.
+
+Comparison rules: both sides of any A/B run on the same machine, and every `run.json` records its
+platform.
+
+- Modular Architecture
