@@ -323,6 +323,17 @@ pub struct FuelConfig {
     /// e^-50 penalty (audit F7). Default false.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub hard_reject: Option<bool>,
+    /// Fuel pools: 1 (the default) or 2 (core request 16 C-7(b): left and right tanks, the
+    /// live engine on the INOP flow after the first flame-out; needs model = "internal-v1").
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tanks: Option<u8>,
+    /// Two-tank prior: left minus right fuel at the prior epoch, [mean, sd] kg. Default
+    /// [221, 120] (fuel session, engine-imbalance-180149.csv).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tank_imbalance_kg: Option<[f64; 2]>,
+    /// Two-tank prior: right-to-left flow ratio, [mean, sd]. Default [1.021, 0.008].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tank_flow_ratio: Option<[f64; 2]>,
 }
 
 /// Sampler settings. These change which particles receive effort, never the target posterior.

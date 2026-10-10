@@ -1,0 +1,7 @@
+# Core request 16 C-7(b): two fuel tanks per path. L - R ~ N(221, 120) kg at the prior epoch,
+# R : L flow ~ N(1.021, 0.008); after the first flame-out the live engine burns internal-v1's
+# grid_inop flow (x factor x temperature term). Bookkeeping only: the dynamics do not change
+# on one engine (level (a), drift-down, is deferred). The 00:11 requirement is "at least one
+# engine running". Writes tanks.npy. Needs s3-internal.toml.
+[fuel]
+tanks = 2

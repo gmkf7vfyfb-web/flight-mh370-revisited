@@ -482,6 +482,10 @@ pub struct Aircraft {
     /// Seconds flown above the service ceiling for the aircraft's weight, where the tables are
     /// empty because the airframe could not sustain the state.
     pub fuel_above_ceiling_s: f64,
+    /// Two-tank state when the run carries it (core request 16 C-7(b)); absent otherwise, and
+    /// then not serialised, so single-pool hand-offs are unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tanks: Option<Tanks>,
     /// Set once the remaining fuel cannot reach the endurance deadline even on the cheapest
     /// continuation the tables allow, so the path is certain to be rejected there.
     pub fuel_doomed: bool,
@@ -563,6 +567,43 @@ pub struct FuelModel {
     /// internal model (C-5, fuel audit F5): the prior and each new level target are drawn
     /// uniformly from the levels the aircraft can reach at its present weight.
     pub ceiling: bool,
+    /// Two tanks per path (C-7(b)); needs the internal model's INOP grid.
+    pub tanks: Option<fuel::TankPrior>,
+}
+
+/// Left and right fuel and engine state (core request 16 C-7(b), bookkeeping only: the dynamics
+/// do not change when one engine stops; level (a) would add the drift-down).
+///
+/// While both engines run, the total flow is shared R : L = `ratio` : 1. When one tank runs
+/// dry, that engine stops and the other burns the one-engine-inoperative live-engine flow (the
+/// internal model's `grid_inop`, times the path's factor and the temperature term) until its
+/// own tank is empty. `Aircraft::fuel_kg` stays the total, and `fuel_exhausted_unix_s` the time
+/// the last engine stopped, so every consumer of those keeps its meaning.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct Tanks {
+    pub left_kg: f64,
+    pub right_kg: f64,
+    /// Right-to-left flow ratio while both engines run.
+    pub ratio: f64,
+    /// When each engine stopped; NaN while it runs.
+    pub left_exhausted_unix_s: f64,
+    pub right_exhausted_unix_s: f64,
+    /// Seconds flown on one engine, and of those, seconds the INOP lookup flagged above its
+    /// ceiling (the state level (a) would have drifted down from).
+    pub single_engine_s: f64,
+    pub single_engine_above_ceiling_s: f64,
+}
+
+impl Tanks {
+    /// The time the first engine stopped, NaN while both run.
+    pub fn first_exhausted_unix_s(&self) -> f64 {
+        match (self.left_exhausted_unix_s.is_finite(), self.right_exhausted_unix_s.is_finite()) {
+            (true, true) => self.left_exhausted_unix_s.min(self.right_exhausted_unix_s),
+            (true, false) => self.left_exhausted_unix_s,
+            (false, true) => self.right_exhausted_unix_s,
+            (false, false) => f64::NAN,
+        }
+    }
 }
 
 /// The lowest temperature factor the doomed test allows for, so that it stays a lower bound
@@ -623,7 +664,15 @@ impl FuelModel {
             temperature: false,
             initial_from_factor: None,
             ceiling: false,
+            tanks: None,
         }
+    }
+
+    /// Live-engine flow with one engine inoperative, at the air temperature, before the path's
+    /// factor. None without the INOP grid or where it cannot price the state.
+    pub fn inop_flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64, temperature_k: f64) -> Option<(f64, fuel::Coverage)> {
+        let (f, cover) = self.internal.as_ref()?.inop.as_ref()?.flow_kg_h(fl, weight_t, mach)?;
+        Some((f * self.temperature_factor(fl, mach, temperature_k), cover))
     }
 
     /// Standard-day total flow before the path's factor: the internal model when loaded,
@@ -653,10 +702,16 @@ impl FuelModel {
 
     /// A lower bound on the flow at this weight over every state, for the doomed test.
     pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
-        let base = match &self.internal {
+        let mut base = match &self.internal {
             Some(g) => g.min_flow_kg_h(weight_t)?,
             None => self.tables.min_flow_kg_h(weight_t)?,
         };
+        // With two tanks the total flow can fall to one live engine's after a flame-out.
+        if self.tanks.is_some() {
+            if let Some(inop) = self.internal.as_ref().and_then(|g| g.inop.as_ref()).and_then(|i| i.min_flow_kg_h(weight_t)) {
+                base = base.min(inop);
+            }
+        }
         Some(if self.temperature { base * MIN_TEMPERATURE_FACTOR } else { base })
     }
 
@@ -749,6 +804,7 @@ impl Aircraft {
             fuel_no_flow_cause: 0.0,
             fuel_extrapolated_s: 0.0,
             fuel_above_ceiling_s: 0.0,
+            tanks: None,
             turns: 0,
             accelerations: 0,
             climbs: 0,
@@ -766,6 +822,21 @@ impl Aircraft {
         // burn from 17:06:43 and the burn after 18:01:49 are priced consistently.
         if let Some((base, burn)) = p.fuel.as_ref().and_then(|m| m.initial_from_factor) {
             a.fuel_kg = base - burn * a.fuel_factor;
+        }
+        // C-7(b): the split and the flow ratio, drawn per path after the factor.
+        if let Some(t) = p.fuel.as_ref().and_then(|m| m.tanks) {
+            let imbalance = t.imbalance_mean_kg + t.imbalance_sd_kg * normal(rng);
+            let ratio = (t.ratio_mean + t.ratio_sd * normal(rng)).max(0.5);
+            let half = (imbalance / 2.0).clamp(-a.fuel_kg / 2.0, a.fuel_kg / 2.0);
+            a.tanks = Some(Tanks {
+                left_kg: a.fuel_kg / 2.0 + half,
+                right_kg: a.fuel_kg / 2.0 - half,
+                ratio,
+                left_exhausted_unix_s: f64::NAN,
+                right_exhausted_unix_s: f64::NAN,
+                single_engine_s: 0.0,
+                single_engine_above_ceiling_s: 0.0,
+            });
         }
         if let Some(e) = &p.early {
             a.early = Some(Box::new(draw_early(e, p, a.alt_ft, a.mach, rng)));
@@ -893,6 +964,10 @@ impl Aircraft {
         if cover.above_ceiling {
             self.fuel_above_ceiling_s += dt;
         }
+        if self.tanks.is_some() {
+            self.burn_two_tanks(model, flow_kg_h, weight_t, dt);
+            return;
+        }
         let burn = flow_kg_h * self.fuel_factor * dt / 3600.0;
         if burn >= self.fuel_kg {
             // Exhaustion inside this step: interpolate the moment linearly in the step.
@@ -902,6 +977,92 @@ impl Aircraft {
             self.fuel_kg -= burn;
         }
         self.mark_doomed_if_short(model);
+    }
+
+    /// C-7(b) burn over `dt`, given the twin-engine total flow at the step's state (before the
+    /// factor). Phases within the step are resolved exactly: both engines until the first tank
+    /// is empty, then the other engine alone at the INOP live-engine flow.
+    fn burn_two_tanks(&mut self, model: &FuelModel, twin_kg_h: f64, weight_t: f64, dt: f64) {
+        let Some(mut t) = self.tanks else { return };
+        let k = self.fuel_factor;
+        let (mut now, mut left_s) = (self.unix_s, dt);
+        for _ in 0..3 {
+            if left_s <= 0.0 {
+                break;
+            }
+            let (l_on, r_on) = (t.left_kg > 0.0, t.right_kg > 0.0);
+            if l_on && r_on {
+                let total = twin_kg_h * k / 3600.0;
+                let (rate_l, rate_r) = (total / (1.0 + t.ratio), total * t.ratio / (1.0 + t.ratio));
+                let (tl, tr) = (t.left_kg / rate_l, t.right_kg / rate_r);
+                let first = tl.min(tr);
+                if first >= left_s {
+                    t.left_kg -= rate_l * left_s;
+                    t.right_kg -= rate_r * left_s;
+                    left_s = 0.0;
+                } else {
+                    if tr == tl {
+                        // Both tanks empty at the same instant: both engines stop together.
+                        t.right_kg = 0.0;
+                        t.left_kg = 0.0;
+                        t.right_exhausted_unix_s = now + first;
+                        t.left_exhausted_unix_s = now + first;
+                        self.fuel_exhausted_unix_s = now + first;
+                        break;
+                    } else if tr < tl {
+                        t.right_kg = 0.0;
+                        t.left_kg -= rate_l * first;
+                        t.right_exhausted_unix_s = now + first;
+                    } else {
+                        t.left_kg = 0.0;
+                        t.right_kg -= rate_r * first;
+                        t.left_exhausted_unix_s = now + first;
+                    }
+                    now += first;
+                    left_s -= first;
+                }
+            } else if l_on || r_on {
+                let fl = self.alt_ft / 100.0;
+                let (live_kg_h, above) = match model.inop_flow_kg_h(fl, weight_t, self.mach, self.weather.temperature_k) {
+                    Some((f, cover)) => (f, cover.above_ceiling),
+                    // Unpriceable on one engine: burn the twin share it had, and say so.
+                    None => {
+                        self.fuel_extrapolated_s += left_s;
+                        (twin_kg_h / 2.0, false)
+                    }
+                };
+                let rate = live_kg_h * k / 3600.0;
+                let tank = if l_on { &mut t.left_kg } else { &mut t.right_kg };
+                let empty_in = *tank / rate;
+                let flown = empty_in.min(left_s);
+                t.single_engine_s += flown;
+                if above {
+                    t.single_engine_above_ceiling_s += flown;
+                }
+                if empty_in >= left_s {
+                    *tank -= rate * left_s;
+                    left_s = 0.0;
+                } else {
+                    *tank = 0.0;
+                    let at = now + empty_in;
+                    if l_on {
+                        t.left_exhausted_unix_s = at;
+                    } else {
+                        t.right_exhausted_unix_s = at;
+                    }
+                    self.fuel_exhausted_unix_s = at;
+                    left_s = 0.0;
+                }
+            } else {
+                break;
+            }
+        }
+        // A remainder the arithmetic left at the last flame-out is not fuel an engine can burn.
+        if !(t.left_kg > 0.0) && !(t.right_kg > 0.0) && self.fuel_exhausted_unix_s.is_nan() {
+            self.fuel_exhausted_unix_s = t.left_exhausted_unix_s.max(t.right_exhausted_unix_s);
+        }
+        self.fuel_kg = (t.left_kg + t.right_kg).max(0.0);
+        self.tanks = Some(t);
     }
 
     /// Flag the path once no continuation can reach the endurance deadline.
@@ -1490,6 +1651,91 @@ mod tests {
         let mut m = FuelModel::new(tables, fuel::FuelPrior::default());
         m.endurance = Some(EnduranceProposal { deadline_unix_s, prior_mix: 0.15, cells: 16 });
         m
+    }
+
+    /// A constant-state aircraft carrying `fuel_kg` on the tables, for the two-tank tests.
+    fn level_aircraft(p: &Parameters, fuel_kg: f64) -> Aircraft {
+        let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(5));
+        a.alt_ft = 35_000.0;
+        a.alt_target_ft = 35_000.0;
+        a.mach = 0.80;
+        a.mach_target = 0.80;
+        a.fuel_kg = fuel_kg;
+        a.fuel_factor = 1.0;
+        a
+    }
+
+    fn two_tanks(left_kg: f64, right_kg: f64, ratio: f64) -> Tanks {
+        Tanks {
+            left_kg,
+            right_kg,
+            ratio,
+            left_exhausted_unix_s: f64::NAN,
+            right_exhausted_unix_s: f64::NAN,
+            single_engine_s: 0.0,
+            single_engine_above_ceiling_s: 0.0,
+        }
+    }
+
+    /// C-7(b): with no imbalance and a ratio of one the two tanks are the single pool.
+    #[test]
+    fn two_equal_tanks_at_ratio_one_are_the_single_pool() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        p.fuel = Some(std::sync::Arc::new(model));
+        let mut one = level_aircraft(&p, 20_000.0);
+        let mut two = one.clone();
+        two.tanks = Some(two_tanks(10_000.0, 10_000.0, 1.0));
+        for k in 1..=40 {
+            let t = one.unix_s + 600.0;
+            one.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            two.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            assert!((one.fuel_kg - two.fuel_kg).abs() < 1e-6, "step {k}: {} against {}", one.fuel_kg, two.fuel_kg);
+        }
+        assert!(one.fuel_exhausted_unix_s.is_finite(), "the test must run the tank dry");
+        assert!((one.fuel_exhausted_unix_s - two.fuel_exhausted_unix_s).abs() < 1e-3);
+    }
+
+    /// C-7(b) against the fuel session's arithmetic (engine-imbalance-180149.csv): L - R = +221 kg
+    /// and R : L = 1.021 leave about 595 kg in the left tank when the right runs dry.
+    #[test]
+    fn the_right_engine_stops_first_with_595_kg_left() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        p.fuel = Some(std::sync::Arc::new(model));
+        let total = 36_569.0;
+        let (l0, r0) = ((total + 221.0) / 2.0, (total - 221.0) / 2.0);
+        let mut a = level_aircraft(&p, total);
+        a.tanks = Some(two_tanks(l0, r0, 1.021));
+        let mut k = 0;
+        while !a.tanks.unwrap().right_exhausted_unix_s.is_finite() {
+            k += 1;
+            assert!(k < 2_000, "the right tank never ran dry");
+            let t = a.unix_s + 60.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let t = a.tanks.unwrap();
+        assert!(!t.left_exhausted_unix_s.is_finite() && a.fuel_exhausted_unix_s.is_nan());
+        // Left at right flame-out = L0 - R0 / ratio, less whatever the left alone burnt in the
+        // rest of the step it happened in.
+        let want = l0 - r0 / 1.021;
+        assert!((594.0..=596.0).contains(&want), "{want}");
+        let one_engine = t.single_engine_s;
+        assert!(t.left_kg <= want + 1e-6 && t.left_kg > want - 40.0, "left {} against {want} (one engine {one_engine} s)", t.left_kg);
+        assert_eq!(t.first_exhausted_unix_s(), t.right_exhausted_unix_s);
+        // Then the left runs on alone until it stops, and that is the last engine.
+        while a.fuel_kg > 0.0 {
+            k += 1;
+            assert!(k < 4_000);
+            let t = a.unix_s + 60.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let t = a.tanks.unwrap();
+        assert!(t.left_exhausted_unix_s > t.right_exhausted_unix_s);
+        assert_eq!(a.fuel_exhausted_unix_s, t.left_exhausted_unix_s);
+        assert!(t.single_engine_s > 0.0);
     }
 
     #[test]

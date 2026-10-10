@@ -247,6 +247,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
         "terminal": stage.as_ref().map(|s| s.manifest()),
         "prior_unix_s": prior.unix_s,
         "final_columns": FINAL_COLUMNS,
+        "tank_columns": config.fuel.as_ref().and_then(|f| f.tanks).filter(|&t| t == 2).map(|_| filter::TANK_COLUMNS),
         "residual_columns": filter::RESIDUAL_COLUMNS,
         "route_interval_s": config.output.route_interval_s,
         "reference_arcs": arcs,
@@ -309,6 +310,18 @@ fn load_fuel(
     model.temperature = f.temperature.unwrap_or(false);
     model.initial_from_factor = f.initial_from_factor.map(|[a, b]| (a, b));
     model.ceiling = f.ceiling.unwrap_or(false);
+    match f.tanks.unwrap_or(1) {
+        1 => {}
+        2 => {
+            if model.internal.as_ref().and_then(|g| g.inop.as_ref()).is_none() {
+                return Err("[fuel] tanks = 2 needs model = \"internal-v1\" with its grid_inop".into());
+            }
+            let [im, isd] = f.tank_imbalance_kg.unwrap_or([221.0, 120.0]);
+            let [rm, rsd] = f.tank_flow_ratio.unwrap_or([1.021, 0.008]);
+            model.tanks = Some(flight::fuel::TankPrior { imbalance_mean_kg: im, imbalance_sd_kg: isd, ratio_mean: rm, ratio_sd: rsd });
+        }
+        n => return Err(format!("[fuel] tanks = {n}: must be 1 or 2")),
+    }
     match f.proposal.as_deref() {
         None | Some("reject") => {}
         Some("endurance") => {

@@ -204,18 +204,20 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     let mut rows: Rows = Vec::new();
     let mut history: History = Vec::new();
     let mut early: Early = Vec::new();
+    let mut tanks: TankRows = Vec::new();
     let mut routes_by_mode = Vec::new();
     let mut runs = Vec::new();
     let mut strata = Vec::new();
     let mut epoch_draws: Vec<Vec<EpochDraw>> = Vec::new();
     for (m, mode) in Mode::ALL.into_iter().enumerate() {
         let weight = ctx.mode_weights[m];
-        let (r, routes, run, snapshots, h, candidates, draws, e) = if weight > 0.0 {
+        let (r, routes, run, snapshots, h, candidates, draws, e, t) = if weight > 0.0 {
             run_filter(ctx, case, seed, m as u64, mode)?
         } else {
-            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new())
+            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new())
         };
         early.extend(e);
+        tanks.extend(t);
         epoch_draws.push(draws);
         strata.push(handoff::Stratum { mode: m, probability: 0.0, final_offset: rows.len(), candidates });
         history.extend(h);
@@ -250,6 +252,10 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     if ctx.config.dynamics.early.is_some() {
         assert_eq!(early.len(), rows.len(), "early.npy must be row-aligned with final.npy");
         write_npy(&dir.join("early.npy"), &[early.len(), EARLY_COLUMNS.len()], early.as_flattened())?;
+    }
+    if ctx.config.fuel.as_ref().and_then(|f| f.tanks) == Some(2) {
+        assert_eq!(tanks.len(), rows.len(), "tanks.npy must be row-aligned with final.npy");
+        crate::output::write_npy64(&dir.join("tanks.npy"), &[tanks.len(), TANK_COLUMNS.len()], tanks.as_flattened())?;
     }
 
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
@@ -378,7 +384,15 @@ fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len()] {
     r
 }
 
-type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>, Early);
+type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>, Early, TankRows);
+
+/// Columns of tanks.npy (float64, row-aligned with final.npy), written when the run carries two
+/// fuel tanks (core request 16 C-7(b)). Times are unix seconds, NaN while the engine runs.
+pub const TANK_COLUMNS: [&str; 8] = [
+    "left_kg", "right_kg", "flow_ratio_r_to_l", "left_exhausted_unix_s", "right_exhausted_unix_s",
+    "first_exhausted_unix_s", "single_engine_s", "single_engine_above_ceiling_s",
+];
+type TankRows = Vec<[f64; TANK_COLUMNS.len()]>;
 
 /// One mode's equally weighted draws at one of output.handoff_epochs, with the mode's log
 /// evidence up to and including that epoch.
@@ -1110,7 +1124,27 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     } else {
         Vec::new()
     };
-    Ok((rows, routes, run, snapshots, history, candidates, epoch_draws, early))
+    let tank_rows = if ctx.config.fuel.as_ref().and_then(|f| f.tanks) == Some(2) {
+        particles
+            .iter()
+            .map(|p| match &p.aircraft.tanks {
+                Some(t) => [
+                    t.left_kg,
+                    t.right_kg,
+                    t.ratio,
+                    t.left_exhausted_unix_s,
+                    t.right_exhausted_unix_s,
+                    t.first_exhausted_unix_s(),
+                    t.single_engine_s,
+                    t.single_engine_above_ceiling_s,
+                ],
+                None => [f64::NAN; TANK_COLUMNS.len()],
+            })
+            .collect()
+    } else {
+        Vec::new()
+    };
+    Ok((rows, routes, run, snapshots, history, candidates, epoch_draws, early, tank_rows))
 }
 
 /// Columns of the residual snapshots written when `output.residual_samples > 0`.

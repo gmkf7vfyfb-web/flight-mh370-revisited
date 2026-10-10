@@ -7,7 +7,7 @@ STRATA=${*:-"repro free routes dc"}
 S=config/sensitivity; F=$S/early-families; X=$S/fuel-fixes; R=$S/next-run
 L=$RUNS/next-run-driver.log
 mkdir -p $RUNS
-COMMON="config/davey2016-inmarsat.toml $S/no-exhaustion-prior.toml $X/s1-factor.toml $X/s2-temperature.toml $X/s3-internal.toml $X/s4-ceiling.toml $X/s5-hard-reject.toml $S/reference-snapshots.toml $F/radar-full.toml"
+COMMON="config/davey2016-inmarsat.toml $S/no-exhaustion-prior.toml $X/s1-factor.toml $X/s2-temperature.toml $X/s3-internal.toml $X/s4-ceiling.toml $X/s5-hard-reject.toml $X/s6-tanks.toml $S/reference-snapshots.toml $F/radar-full.toml"
 for s in $STRATA; do
   case $s in
     repro) fam="" ;;

@@ -356,7 +356,135 @@ pub struct InternalGrid {
     /// Least positive finite flow over every level and Mach at each weight node, for the
     /// doomed test's bound (computed once at load; the test runs every step for every path).
     min_at_weight: Vec<f64>,
+    /// One engine inoperative: the live engine's flow (kg/h), standard day, uncalibrated
+    /// (`grid_inop`; holding_inop / 1.05 and LRC INOP). Used after the first flame-out when the
+    /// run carries two tanks (core request 16 C-7(b)).
+    pub inop: Option<SimpleGrid>,
     pub version: String,
+}
+
+/// A plain trilinear grid of flow with flags, as `InternalGrid` reads it, for the INOP table.
+#[derive(Clone, Debug)]
+pub struct SimpleGrid {
+    fl: Vec<f64>,
+    weight_t: Vec<f64>,
+    mach: Vec<f64>,
+    flow: Vec<f64>,
+    flags: Vec<u8>,
+    min_at_weight: Vec<f64>,
+}
+
+impl SimpleGrid {
+    fn from_raw(g: RawGrid) -> Result<Self, String> {
+        let (nf, nw, nm) = (g.fl_nodes.len(), g.weight_t.len(), g.mach.len());
+        if nf < 2 || nw < 2 || nm < 2 {
+            return Err("fuel grid: each axis needs at least two nodes".into());
+        }
+        for axis in [&g.fl_nodes, &g.weight_t, &g.mach] {
+            if axis.windows(2).any(|w| !(w[1] > w[0])) {
+                return Err("fuel grid: axes must increase strictly".into());
+            }
+        }
+        let ok = g.flow_kg_h.len() == nf
+            && g.flow_kg_h.iter().all(|a| a.len() == nw && a.iter().all(|b| b.len() == nm))
+            && g.flags.len() == nf
+            && g.flags.iter().all(|a| a.len() == nw && a.iter().all(|b| b.len() == nm));
+        if !ok {
+            return Err(format!("fuel grid: flow and flags must be {nf} x {nw} x {nm}"));
+        }
+        let flow: Vec<f64> = g.flow_kg_h.into_iter().flatten().flatten().map(|c| c.unwrap_or(f64::NAN)).collect();
+        let flags: Vec<u8> = g.flags.into_iter().flatten().flatten().collect();
+        let min_at_weight = (0..nw)
+            .map(|j| {
+                let mut best = f64::INFINITY;
+                for i in 0..nf {
+                    for k in 0..nm {
+                        let v = flow[(i * nw + j) * nm + k];
+                        if v.is_finite() && v > 0.0 {
+                            best = best.min(v);
+                        }
+                    }
+                }
+                best
+            })
+            .collect();
+        Ok(Self { fl: g.fl_nodes, weight_t: g.weight_t, mach: g.mach, flow, flags, min_at_weight })
+    }
+
+    /// Trilinear flow and coverage, with the same rules as `InternalGrid::flow_kg_h`.
+    pub fn flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64) -> Option<(f64, Coverage)> {
+        trilinear(&self.fl, &self.weight_t, &self.mach, &self.flow, &self.flags, fl, weight_t, mach)
+    }
+
+    /// Exact lower bound at this weight (see `InternalGrid::min_flow_kg_h`).
+    pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
+        weight_bound(&self.weight_t, &self.min_at_weight, weight_t)
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn trilinear(fls: &[f64], ws: &[f64], ms: &[f64], flow: &[f64], flags: &[u8], fl: f64, weight_t: f64, mach: f64) -> Option<(f64, Coverage)> {
+    if !(fl.is_finite() && weight_t.is_finite() && mach.is_finite()) {
+        return None;
+    }
+    let (i, x, clamp_fl) = bracket(fls, fl);
+    let (j, y, clamp_w) = bracket(ws, weight_t);
+    let (k, z, clamp_m) = bracket(ms, mach);
+    let (nw, nm) = (ws.len(), ms.len());
+    let (mut acc, mut bits) = (0.0, 0u8);
+    for (di, wx) in [(0, 1.0 - x), (1, x)] {
+        for (dj, wy) in [(0, 1.0 - y), (1, y)] {
+            for (dk, wz) in [(0, 1.0 - z), (1, z)] {
+                let w = wx * wy * wz;
+                if w == 0.0 {
+                    continue;
+                }
+                let n = ((i + di) * nw + (j + dj)) * nm + k + dk;
+                let v = flow[n];
+                if !v.is_finite() {
+                    return None;
+                }
+                acc += w * v;
+                bits |= flags[n];
+            }
+        }
+    }
+    use grid_flags::*;
+    let cover = Coverage {
+        extrapolated_mach: bits & (EXTRAP_HIGH | EXTRAP_LOW) != 0 || clamp_m,
+        below_tables: bits & BELOW_TABLES != 0 || (clamp_fl && fl < fls[0]),
+        single_schedule: bits & SINGLE_SCHEDULE != 0,
+        above_ceiling: bits & ABOVE_CEILING != 0 || (clamp_fl && fl > fls[fls.len() - 1]),
+        fit_fallback: bits & (FIT_FALLBACK | FLOOR_CLAMPED) != 0 || clamp_w,
+    };
+    (acc > 0.0).then_some((acc, cover))
+}
+
+fn weight_bound(ws: &[f64], minima: &[f64], weight_t: f64) -> Option<f64> {
+    if !weight_t.is_finite() {
+        return None;
+    }
+    let (j, y, _) = bracket(ws, weight_t);
+    let (a, b) = (minima[j], minima[j + 1]);
+    let v = if y == 0.0 {
+        a
+    } else if y == 1.0 {
+        b
+    } else {
+        (1.0 - y) * a + y * b
+    };
+    (v.is_finite() && v > 0.0).then_some(v)
+}
+
+/// Two-tank prior (core request 16 C-7(b); fuel session `engine-imbalance-180149.csv`): left
+/// minus right fuel at the prior epoch ~ N(mean, sd) kg, and the right-to-left flow ratio while
+/// both engines run ~ N(mean, sd).
+#[derive(Clone, Copy, Debug)]
+pub struct TankPrior {
+    pub imbalance_mean_kg: f64,
+    pub imbalance_sd_kg: f64,
+    pub ratio_mean: f64,
+    pub ratio_sd: f64,
 }
 
 #[derive(Deserialize)]
@@ -364,6 +492,8 @@ struct RawInternal {
     model: RawInternalModel,
     grid: RawGrid,
     ceiling_fl: RawCeiling,
+    #[serde(default)]
+    grid_inop: Option<RawGrid>,
 }
 
 #[derive(Deserialize)]
@@ -449,6 +579,7 @@ impl InternalGrid {
             ceiling_weight_t: raw.ceiling_fl.weight_t,
             ceiling_fl: raw.ceiling_fl.fl,
             min_at_weight,
+            inop: raw.grid_inop.map(SimpleGrid::from_raw).transpose()?,
             version: raw.model.version,
         })
     }

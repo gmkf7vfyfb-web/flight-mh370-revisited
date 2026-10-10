@@ -12,11 +12,12 @@ Stack for every stratum, in order:
     config/sensitivity/fuel-fixes/s3-internal.toml internal-v1, kappa N(1.0004, 0.0196), 43,800 - kappa x 7,228 kg
     config/sensitivity/fuel-fixes/s4-ceiling.toml  weight-dependent service ceiling
     config/sensitivity/fuel-fixes/s5-hard-reject.toml
+    config/sensitivity/fuel-fixes/s6-tanks.toml    two tanks (C-7(b), bookkeeping; tanks.npy)
     config/sensitivity/reference-snapshots.toml    hand-offs at m2241 and m0011
     config/sensitivity/early-families/radar-full.toml
     <family overlay>                               none | free.toml | waypoints.toml | descent-climb.toml
     config/sensitivity/next-run/<size>-<stratum>.toml
 
 The binary includes core request 17 (sampler ancestry) and request 14 (in-stage cruise BFO).
-Not in this run: C-6 (extrapolation s.d.), C-7 (two fuel tanks; design note), C-8 (climb pricing,
+Not in this run: C-6 (extrapolation s.d.), C-7(a) (single-engine drift-down; decided after (b)), C-8 (climb pricing,
 bounded in the paper), wide early Mach beyond the free family's own range.
