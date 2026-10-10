@@ -252,6 +252,15 @@ pub trait FuelFlow: Sync {
     /// latent, or continue at the last rate it was given and record the seconds so flown in a
     /// latent. Silently substituting a constant is not allowed.
     fn fuel_flow_kg_h(&self, flight_level: f64, weight_t: f64, mach: f64) -> Option<FuelFlowRate>;
+
+    /// The same flow at a static air temperature `delta_isa_k` kelvin above ISA (core request
+    /// 16 C-2). The core prices it with the temperature term when the run has it on; the
+    /// default ignores the temperature, which is the standard-day value `fuel_flow_kg_h`
+    /// returns. A module that knows its temperature should call this one.
+    fn fuel_flow_kg_h_at(&self, flight_level: f64, weight_t: f64, mach: f64, delta_isa_k: f64) -> Option<FuelFlowRate> {
+        let _ = delta_isa_k;
+        self.fuel_flow_kg_h(flight_level, weight_t, mach)
+    }
 }
 
 /// A [`FuelFlow`] that prices nothing, for runs without a fuel model and for tests.

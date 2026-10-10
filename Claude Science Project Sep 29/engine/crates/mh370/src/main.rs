@@ -134,7 +134,9 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
     let stage = match (&config.terminal, &terminal_module) {
         (Some(t), Some(module)) => {
             let later = excluded.iter().filter(|e| e.unix_s > stop.unix_s).cloned().collect();
-            Some(terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), &t.module)?, later)?)
+            let mut stage = terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), &t.module)?, later)?;
+            stage.bfo_drift_hz2_per_s = config.bfo_bias.drift_hz2_per_s;
+            Some(stage)
         }
         _ => None,
     };
@@ -287,6 +289,26 @@ fn load_fuel(
             factor_sd: f.factor_sd,
         },
     );
+    match f.model.as_deref() {
+        None | Some("tables") => {
+            if f.ceiling == Some(true) {
+                return Err("[fuel] ceiling = true needs model = \"internal-v1\" (the ceiling table is in that model)".into());
+            }
+        }
+        Some("internal-v1") => {
+            let path = config.inputs.fuel_model.as_ref().ok_or("[fuel] model = \"internal-v1\" needs inputs.fuel_model")?;
+            let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+            let grid = flight::fuel::InternalGrid::from_json(&text)?;
+            if grid.version != "internal-v1" {
+                return Err(format!("{}: model version {} is not internal-v1", path.display(), grid.version));
+            }
+            model.internal = Some(grid);
+        }
+        Some(other) => return Err(format!("[fuel] model = \"{other}\" is not tables or internal-v1")),
+    }
+    model.temperature = f.temperature.unwrap_or(false);
+    model.initial_from_factor = f.initial_from_factor.map(|[a, b]| (a, b));
+    model.ceiling = f.ceiling.unwrap_or(false);
     match f.proposal.as_deref() {
         None | Some("reject") => {}
         Some("endurance") => {
@@ -361,7 +383,8 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
         None => return Err(format!("{}: no handoff.toml for the configuration's cases and seeds", run_dir.display())),
     };
     let later = epochs.iter().filter(|e| config.exclude_epochs.contains(&e.id) && e.unix_s > stop.unix_s).cloned().collect();
-    let stage = terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), name)?, later)?;
+    let mut stage = terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), name)?, later)?;
+    stage.bfo_drift_hz2_per_s = config.bfo_bias.drift_hz2_per_s;
     let mut replicates = Vec::new();
     for (case, seed, (s, rows)) in handoffs {
         if s != stop {

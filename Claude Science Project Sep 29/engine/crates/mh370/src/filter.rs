@@ -425,6 +425,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let stream = |step: u64, i: usize| stream(seed, stratum, step, i);
     // Fuel evidence, resolved once: the time the aircraft must still have had fuel at, and the
     // Gaussian on when it ran out. Both are optional and declared in `[fuel]`.
+    // Audit F7: `hard_reject` gives a contradicted path weight zero rather than e^-50.
+    let fuel_reject = if config.fuel.as_ref().and_then(|f| f.hard_reject) == Some(true) { f64::NEG_INFINITY } else { FUEL_REJECT_LOG_PENALTY };
     let fuel_power_until = config.fuel.as_ref().and_then(|f| f.require_power_until.as_ref()).and_then(|id| {
         ctx.steps.iter().find(|s| s.id == *id).map(|s| s.unix_s)
     });
@@ -460,6 +462,13 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let rejuvenate: Vec<String> = config.sampler.as_ref().map(|s| s.rejuvenate_epochs.clone()).unwrap_or_default();
     let temper_epochs: Vec<String> = config.sampler.as_ref().map(|s| s.temper_epochs.clone()).unwrap_or_default();
     let temper_stages = config.sampler.as_ref().and_then(|s| s.temper_stages).unwrap_or(4).max(1);
+    // Core request 17 guard: the rejuvenation move after a resample re-simulates from
+    // `before_step` by the resample's parents, which index the population as it stood before
+    // the epoch. A tempered epoch has replaced that population by then, so the two must not
+    // share an epoch.
+    if let Some(e) = temper_epochs.iter().find(|e| rejuvenate.contains(e)) {
+        return Err(format!("sampler: epoch {e} is in both temper_epochs and rejuvenate_epochs; choose one"));
+    }
     let bridge = config.sampler.as_ref().and_then(|s| s.bridge_prior_mix.map(|mix| {
         (mix, s.bridge_window_sd.unwrap_or(3.0), s.bridge_cells.unwrap_or(24))
     }));
@@ -616,7 +625,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             // explore. Charged once; the deadline test below then skips it.
             if a.fuel_doomed && !p.fuel_penalised {
                 p.fuel_penalised = true;
-                delta += FUEL_REJECT_LOG_PENALTY;
+                delta += fuel_reject;
             }
             if let Some(epoch) = &step.satcom {
                 let before = delta;
@@ -658,7 +667,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 if let Some(until) = fuel_power_until {
                     if epoch.unix_s <= until && a.fuel_exhausted_unix_s < epoch.unix_s && !p.fuel_penalised {
                         p.fuel_penalised = true;
-                        delta += FUEL_REJECT_LOG_PENALTY;
+                        delta += fuel_reject;
                     }
                 }
                 p.residual[3] = (delta - before) as f32;
@@ -742,6 +751,12 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         let mut tempered_ess = f64::INFINITY;
         if let Some(stages) = tempering {
             let share = 1.0 / stages as f64;
+            // Core request 17: which pre-epoch state each member of the current population
+            // descends from. `before_step` is indexed by the population as it stood at the
+            // start of the epoch; after a stage resamples, member c descends from
+            // ancestry[parents[c]], and a move must re-simulate from that history, not from
+            // before_step[c] (another particle's history, which drops its pre-epoch weight).
+            let mut ancestry: Vec<usize> = (0..n).collect();
             for j in 0..stages {
                 log_weights.par_iter_mut().zip(&deltas).for_each(|(lw, d)| *lw += d * share);
                 let inc = log_sum_exp(&log_weights);
@@ -762,7 +777,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                     .par_iter()
                     .enumerate()
                     .map(|(c, &anc)| {
-                        let mut cand = before_step[anc].clone();
+                        let mut cand = before_step[ancestry[anc]].clone();
                         cand.aircraft.refresh_manoeuvre_rate(params, &mut stream(9600 + tag, c));
                         let d_new = step_update(&mut cand, c, 9700 + tag);
                         let u: f64 = stream(9800 + tag, c).gen();
@@ -782,6 +797,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 let (kids, d): (Vec<Particle>, Vec<f64>) = moved.into_iter().unzip();
                 particles = kids;
                 deltas = d;
+                ancestry = compose_ancestry(&ancestry, &parents);
                 log_weights.fill(-(n as f64).ln());
             }
         }
@@ -1170,6 +1186,12 @@ pub fn systematic_resample(log_weights: &[f64], count: usize, rng: &mut impl Rng
     parents
 }
 
+/// Ancestry after a resample: member c of the new population descends from the pre-epoch
+/// state its parent descended from.
+fn compose_ancestry(ancestry: &[usize], parents: &[usize]) -> Vec<usize> {
+    parents.iter().map(|&a| ancestry[a]).collect()
+}
+
 fn count_distinct(indices: &[usize]) -> usize {
     let mut v = indices.to_vec();
     v.par_sort_unstable();
@@ -1279,6 +1301,116 @@ mod tests {
                 assert_eq!(got.map(f64::to_bits), want.map(f64::to_bits), "mode {m}, particle {}", row.particle);
             }
         }
+    }
+
+    /// Core request 17 (filter audit F1). A tempered epoch must leave the evidence and the
+    /// posterior unchanged against the plain update; tempering only changes how the population
+    /// gets there. Still air, one mode, three BTO epochs; the first is mild and does not
+    /// resample, so the weights entering the tempered epoch are uneven; the tempered epoch is
+    /// sharper, so its stages resample and move; the third scores the moved population.
+    /// This toy is well conditioned and is NOT sensitive to the ancestry defect (it passes
+    /// before and after the fix, |z| < 0.3): it guards the invariance the fix must keep. The
+    /// bookkeeping itself is tested in `ancestry_follows_the_stage_resamples`, and the size in
+    /// the real filter is measured by smoke S0 against the same configuration with the defect.
+    #[test]
+    fn a_tempered_epoch_agrees_with_the_plain_update() {
+        let base = "name = \"temper\"\nparticles_per_mode = [4000, 0, 0, 0, 0]\nseeds = [1]\nresample_ess_fraction = {frac}\n\
+             [[cases]]\nid = \"bto\"\nuse_bfo = false\n\
+             [inputs]\nobservations = \"-\"\nephemeris = \"-\"\nera5 = \"-\"\nigrf = \"-\"\n\
+             [prior]\ntime_utc = \"-\"\nlatitude_deg = 0.0\nlongitude_deg = 90.0\nposition_sd_nm = 0.5\ntrack_deg = 180.0\ntrack_sd_deg = 1.0\n\
+             [bfo_bias]\nmean_hz = 150.0\nsd_hz = 25.0\n[output]\nroute_interval_s = 600\nroute_samples = 10\n";
+        let base = base.replace("{frac}", "0.5");
+        let base = base.as_str();
+        let plain: Config = toml::from_str(base).unwrap();
+        let stages = 8;
+        let tempered: Config = toml::from_str(&format!("{base}[sampler]\ntemper_epochs = [\"b\"]\ntemper_stages = {stages}\n")).unwrap();
+        let params = Parameters::default();
+        let prior = Prior {
+            unix_s: 0.0,
+            lat: 0.0,
+            lon: 90.0,
+            position_sd_nm: 0.5,
+            track_deg: 180.0,
+            track_sd_deg: 1.0,
+            mach_range: params.mach_range,
+            mach_gaussian: None,
+            altitude_levels: Prior::uniform_altitude_levels(&params),
+        };
+        let satellite = Vec3::new(18_161.9, 38_060.5, 1_029.9);
+        let measured = |id: &str, unix_s: f64, lat: f64, sd: f64| Step {
+            id: id.into(),
+            unix_s,
+            satcom: Some(Epoch {
+                id: id.into(),
+                unix_s,
+                logged_unix_s: unix_s,
+                bto_us: Some(bto_us(satellite, lat, 90.0, 35_000.0)),
+                bto_sd_us: sd,
+                bfo_hz: None,
+                bfo_sd_hz: f64::NAN,
+                cruise_bto: true,
+                cruise_bfo: false,
+                events: Vec::new(),
+                satellite_afc_hz: 0.0,
+                satellite_km: satellite,
+                satellite_velocity_km_s: Vec3::default(),
+            }),
+        };
+        let steps: &'static [Step] = Box::leak(Box::new([measured("a", 3600.0, -7.0, 120.0), measured("b", 5400.0, -11.9, 20.0), measured("c", 7200.0, -15.9, 29.0)]));
+        let none: [Box<dyn Hypothesis>; 0] = [];
+        let context = |config: &'static Config| Context {
+            config,
+            params: &params,
+            prior: &prior,
+            mode_weights: [1.0, 0.0, 0.0, 0.0, 0.0],
+            steps,
+            environment: &CalmAir,
+            hypotheses: &none,
+            route_points: 10,
+            progress: None,
+            cancel: None,
+            handoff: 0,
+            handoff_floor: 0,
+        };
+        let (plain, tempered): (&'static Config, &'static Config) = (Box::leak(Box::new(plain)), Box::leak(Box::new(tempered)));
+        // Per seed: log evidence and the posterior mean latitude.
+        let summary = |config: &'static Config, seed: u64| {
+            let ctx = context(config);
+            let (rows, _, run, ..) = run_filter(&ctx, &config.cases[0], seed, 0, Mode::TrueHeading).unwrap();
+            let w: f64 = rows.iter().map(|r| r[0]).sum();
+            (run.log_evidence, rows.iter().map(|r| r[0] * r[1]).sum::<f64>() / w)
+        };
+        let seeds: Vec<u64> = (1..=12).collect();
+        let stats = |config: &'static Config| {
+            let v: Vec<(f64, f64)> = seeds.iter().map(|&s| summary(config, s)).collect();
+            let k = v.len() as f64;
+            let mean = |f: &dyn Fn(&(f64, f64)) -> f64| v.iter().map(f).sum::<f64>() / k;
+            let (mz, ml) = (mean(&|x| x.0), mean(&|x| x.1));
+            let se = |f: &dyn Fn(&(f64, f64)) -> f64, m: f64| (v.iter().map(|x| (f(x) - m).powi(2)).sum::<f64>() / (k - 1.0) / k).sqrt();
+            (mz, se(&|x| x.0, mz), ml, se(&|x| x.1, ml))
+        };
+        let (pz, pzs, pl, pls) = stats(plain);
+        let (tz, tzs, tl, tls) = stats(tempered);
+        let zz = (tz - pz) / (pzs * pzs + tzs * tzs).sqrt();
+        let zl = (tl - pl) / (pls * pls + tls * tls).sqrt();
+        eprintln!("log Z plain {pz:.4} +/- {pzs:.4}, tempered {tz:.4} +/- {tzs:.4} (z {zz:.2}); lat plain {pl:.5} +/- {pls:.5}, tempered {tl:.5} +/- {tls:.5} (z {zl:.2})");
+        assert!(zz.abs() < 4.0 && zl.abs() < 4.0, "tempered and plain disagree: z(log Z) {zz:.2}, z(lat) {zl:.2}");
+    }
+
+    /// Core request 17: two stages that resample in turn. Member c of the final population
+    /// descends from parents2[c] of stage 2, which descends from parents1[parents2[c]].
+    #[test]
+    fn ancestry_follows_the_stage_resamples() {
+        let start: Vec<usize> = (0..6).collect();
+        let parents1 = [0, 0, 2, 3, 3, 5];
+        let parents2 = [1, 1, 1, 4, 5, 5];
+        let once = compose_ancestry(&start, &parents1);
+        assert_eq!(once, parents1);
+        let twice = compose_ancestry(&once, &parents2);
+        assert_eq!(twice, [0, 0, 0, 3, 5, 5]);
+        // The defect re-simulated member c from before_step[parents2[c]]: [1, 1, 1, 4, 5, 5],
+        // which names states 1 and 4 that no member descends from.
+        assert_ne!(twice, parents2);
     }
 
     #[test]
