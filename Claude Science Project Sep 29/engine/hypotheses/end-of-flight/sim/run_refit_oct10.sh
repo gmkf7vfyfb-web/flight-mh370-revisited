@@ -7,6 +7,10 @@ export PYTHONPATH=. OMP_NUM_THREADS=1 NUMBA_NUM_THREADS=1
 export EOF_FIT_ALT_GROWTH=0.5 EOF_FIT_VS_SD=1500 EOF_FIT_MASS=172000,178000 EOF_FIT_CASE_METHOD=lsq
 OUT=../../../runs/boeing/fit-oct10; mkdir -p "$OUT"
 if [ -e "$OUT/STARTED" ]; then echo "refit already started $(cat "$OUT/STARTED")"; exit 0; fi
+# Pete's lock priority (architecture 15:40 -0600 10 Oct): the run C chain goes first. If core's run C has landed and end of
+# flight's sweep on it is not done, give the lock back at once; the module session re-queues the refit afterwards.
+if [ -e /Users/pete/Downloads/mh370-exchange/core/next-run-c/READY ] && [ ! -e /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c/SWEEP-DONE ]; then
+  echo "run C has priority: refit deferred $(date -u +%FT%TZ)" >> /tmp/eof-refit-deferred.log; exit 0; fi
 date -u +%FT%TZ > "$OUT/STARTED"
 exec >> "$OUT/run.log" 2>&1
 trap 'rc=$?; echo "exit $rc $(date -u +%FT%TZ)" > "$OUT/status"' EXIT
