@@ -146,6 +146,16 @@ pub trait Hypothesis: Send + Sync {
         false
     }
 
+    /// Core request 4: the terminal module's latents this IMPACT module reads, by name (the
+    /// names of [`Terminal::latent_columns`], without the `latent:` prefix), e.g.
+    /// `["debris_class", "impact_energy_transferred_j"]`. The runner fills
+    /// [`ImpactView::latents`] with exactly these, in this order, so `impact.latents[k]` is the
+    /// k-th name here. A latent the samples do not carry is NaN ("not computed", never zero),
+    /// and the run manifest lists it under `latents_missing`. Default: none.
+    fn latents_read(&self) -> Vec<String> {
+        Vec::new()
+    }
+
     /// Names, with units, of what [`Hypothesis::predict`] writes, in order. Names (like
     /// alternative names and option labels) become column names: no `,` `/` `:` or line breaks.
     fn prediction_columns(&self) -> Vec<String> {
@@ -408,7 +418,8 @@ pub trait Terminal: Send + Sync {
     fn families(&self) -> Vec<String>;
 
     /// Names of the latent variables each descent records, e.g. the second flame-out time or
-    /// the gap between engines. Only this module's own impact hook reads them.
+    /// the gap between engines. This module's own impact hook reads all of them by position;
+    /// any other impact module reads the ones it names in [`Hypothesis::latents_read`].
     fn latent_columns(&self) -> Vec<String> {
         Vec::new()
     }
@@ -500,6 +511,9 @@ pub struct ImpactView<'a> {
     /// The parent trajectory's autopilot mode and trajectory-level option.
     pub mode: usize,
     pub alternative: usize,
-    /// The terminal module's latents; empty for every other module.
+    /// Latents of the terminal module, by position. For the terminal module itself they are its
+    /// own [`Terminal::latent_columns`], in that order. For any other module they are the ones it
+    /// named in [`Hypothesis::latents_read`], in that order, NaN where the samples lack one
+    /// (core request 4). Empty when a module names none.
     pub latents: &'a [f64],
 }
