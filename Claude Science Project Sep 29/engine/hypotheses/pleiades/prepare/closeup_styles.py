@@ -111,6 +111,113 @@ def style_a(maps, geo, T5, Cc, opt, notes, out, plt, stem="style-A-colour"):
     plt.close(fig)
 
 
+
+# ---------------------------------------------------------------- flight-posterior background (Pete, 10 Oct 2026)
+BG_TEXT = {
+    None: "",
+    "contours": "Background: the impact PDF without H (flight posterior alone, after the same searches), as its 50 % and 90 % "
+                "regions (dashed lines). Its regions are computed over the whole grid, 85-103 E, 43-25 S.",
+    "points": "Background: the impact PDF without H (flight posterior alone, after the same searches), as 6,000 points drawn "
+              "in proportion to its probability from 0.05 deg grid cells and jittered within each cell.",
+    "shade": "Background: the impact PDF without H (flight posterior alone, after the same searches), as shading of its "
+             "density, scaled to its 99th percentile inside this frame.",
+}
+
+
+def flight_background(ax, maps, v, mode, colour, zorder=1, cmap=None):
+    """Draw the flight posterior alone (after the same searches) behind the conditional. Returns legend handles."""
+    if not mode:
+        return []
+    lat, lon, area = maps[v]["lat"], maps[v]["lon"], maps[v]["area"]
+    m = maps[v]["post"] / maps[v]["post"].sum(); dn = m / area
+    import matplotlib.pyplot as plt
+    if mode == "contours":
+        lv = [hdr_level(dn, m, q) for q in (0.9, 0.5)]
+        ax.contour(lon, lat, dn, levels=lv, colors=[colour, colour], linewidths=[0.7, 1.1], linestyles=[(0, (4, 2)), (0, (4, 2))], zorder=zorder)
+        return [plt.Line2D([], [], color=colour, lw=0.9, ls=(0, (4, 2)), label="impact PDF without H: 50 % / 90 % regions")]
+    if mode == "points":
+        rng = np.random.default_rng(0)
+        k = rng.choice(m.size, size=6000, p=m.ravel())
+        i, j = np.unravel_index(k, m.shape)
+        step = float(lat[1] - lat[0])
+        y = lat[i] + rng.uniform(-step / 2, step / 2, len(k)); x = lon[j] + rng.uniform(-step / 2, step / 2, len(k))
+        ax.scatter(x, y, s=1.2, c=colour, alpha=0.55, linewidths=0, zorder=zorder, rasterized=True)
+        return [plt.Line2D([], [], ls="", marker="o", ms=1.5, color=colour, alpha=0.6, label="impact PDF without H (sampled points)")]
+    if mode == "shade":
+        from matplotlib.colors import LinearSegmentedColormap
+        cm = cmap or LinearSegmentedColormap.from_list("bg", [(1, 1, 1, 0), colour])
+        la_ = (lat >= -38) & (lat <= -32); lo_ = (lon >= 88) & (lon <= 96)
+        ref = np.quantile(dn[np.ix_(la_, lo_)], 0.99) or dn.max()
+        ax.pcolormesh(lon, lat, np.clip(dn / ref, 0, 1), cmap=cm, vmin=0, vmax=1, alpha=0.6, shading="auto", rasterized=True, zorder=zorder)
+        from matplotlib.patches import Patch
+        return [Patch(fc=colour, alpha=0.35, label="impact PDF without H (shading)")]
+    raise ValueError(mode)
+
+
+def frame_share(maps, v):
+    lat, lon = maps[v]["lat"], maps[v]["lon"]
+    m = maps[v]["post"] / maps[v]["post"].sum()
+    la = (lat >= -38) & (lat <= -32); lo = (lon >= 88) & (lon <= 96)
+    return float(m[np.ix_(la, lo)].sum())
+
+
+# ---------------------------------------------------------------- colour, one panel (the old panel b), with table
+def colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem, bg=None, v="oi2018-2025", f="P+C4"):
+    from matplotlib.colors import LinearSegmentedColormap
+    from matplotlib.patches import Patch, Polygon
+    cmap = LinearSegmentedColormap.from_list("dens", [(1, 1, 1, 0), (0.776, 0.859, 0.937, 0.75), "#6baed6", "#2171b5", "#08306b"])
+    lat, lon, area = maps[v]["lat"], maps[v]["lon"], maps[v]["area"]
+    LAT, LON = np.meshgrid(lat, lon, indexing="ij")
+    fig = plt.figure(figsize=(7.1, 4.6))
+    ax = fig.add_axes([0.07, 0.12, 0.56, 0.80])
+    side = fig.add_axes([0.66, 0.12, 0.33, 0.80]); side.axis("off")
+    for fid, col, al, _ in SEARCH_FILL:
+        for p in cf.polygons(geo, fid):
+            ax.add_patch(Polygon(p[:, :2], closed=True, fc=col, ec=col, alpha=al, lw=0.8, zorder=1))
+    hb = flight_background(ax, maps, v, bg, "#222222", zorder=2)
+    m = panel_mass(maps, v, f); dn = m / area
+    ax.pcolormesh(lon, lat, dn / dn.max(), cmap=cmap, vmin=0, vmax=1, shading="auto", rasterized=True, zorder=3)
+    nw = cf.polygons(geo, "oi2024_proposed_inboard_northwest")[0]
+    ax.plot(nw[:, 0], nw[:, 1], color="#1e8449", lw=1.4, ls=(0, (3, 2)), zorder=4)
+    arc = cf.polygons(geo, "seventh_arc_fl400")[0]
+    ax.plot(arc[:, 0], arc[:, 1], color="#333333", lw=0.7, ls=":", zorder=4)
+    lv = [hdr_level(dn, m, q) for q in (0.9, 0.5)]
+    ax.contour(lon, lat, dn, levels=lv, colors=["#08306b", "#08306b"], linewidths=[0.7, 1.4], zorder=5)
+    ax.plot(T5.lon, T5.lat, "x", ms=3.5, color="#d62728", mew=0.9, zorder=6)
+    ax.plot(Cc.longitude, Cc.latitude, "o", ms=3.5, mfc="white", mec="#e6550d", mew=0.9, zorder=6)
+    ax.set_xlim(88, 96); ax.set_ylim(-38, -32); ax.set_aspect(1 / np.cos(np.radians(35)))
+    ax.set_xlabel("Longitude (°E)"); ax.set_ylabel("Latitude (°)")
+    ax.set_title(SEARCH_SHORT[v], loc="left", fontsize=6.3)
+    geo_masks = {"nw": cf.mask_of(cf.polygons(geo, "oi2024_proposed_inboard_northwest"), LON, LAT),
+                 "past": cf.mask_of(cf.polygons(geo, "atsb_phase2_2014_2017"), LON, LAT)
+                 | cf.mask_of(cf.polygons(geo, "oi2018_total_outline_approx"), LON, LAT)
+                 | cf.mask_of(cf.polygons(geo, "oi2024_proposed_outboard_southeast"), LON, LAT)}
+    s = cf.stats(m, area, LAT, LON, geo_masks)
+    Lf = np.nan_to_num(maps[v][f"L_{f}"])
+    ret = float((maps[v]["post"] * Lf).sum() / (maps[v]["pre"] * Lf).sum())
+    rows = [["50 % region", f"{area[dn >= lv[1]].sum():,.0f} km²"], ["90 % region", f"{s['hdr90_km2']:,.0f} km²"],
+            ["mean", f"{abs(s['mean_lat']):.2f} S {s['mean_lon']:.2f} E"],
+            ["outside past searches", f"{100 * (1 - s['mass_in_past']):.1f} %"], ["in OI north-west band", f"{100 * s['mass_in_nw']:.1f} %"],
+            ["searches leave, under H", f"{ret:.3f}"]]
+    t = side.table(cellText=rows, loc="upper left", cellLoc="left", edges="horizontal", colWidths=[0.64, 0.36], bbox=[0.0, 0.62, 1.0, 0.38])
+    t.auto_set_font_size(False); t.set_fontsize(5.8)
+    h = [Patch(fc="#2171b5", label="probability density under H (relative)"),
+         plt.Line2D([], [], color="#08306b", lw=1.4, label="50 % region under H"), plt.Line2D([], [], color="#08306b", lw=0.7, label="90 % region under H")]
+    h += hb
+    h += [Patch(fc=c, alpha=a, ec=c, label=l) for _, c, a, l in SEARCH_FILL if l]
+    h += [plt.Line2D([], [], color="#1e8449", lw=1.4, ls=(0, (3, 2)), label="OI north-west band (not searched; grade C)"),
+          plt.Line2D([], [], color="#333333", lw=0.7, ls=":", label="7th arc, FL400"),
+          plt.Line2D([], [], ls="", marker="x", color="#d62728", label="Pléiades rating-5 objects"),
+          plt.Line2D([], [], ls="", marker="o", mfc="white", mec="#e6550d", label="COSMO-SkyMed radar contacts (all four)")]
+    side.legend(handles=h, loc="upper left", bbox_to_anchor=(0.0, 0.58), frameon=False, fontsize=5.6)
+    fig.suptitle(f"If the imaged objects are from 9M-MRO: where the debris entered the sea — {describe_option(opt, short=True)}\n"
+                 f"Pléiades objects + all four COSMO-SkyMed contacts, one debris field", x=0.01, ha="left", y=1.0, fontsize=7)
+    extra = [BG_TEXT[bg] + (f" {100 * frame_share(maps, v):.0f} % of it lies inside this frame." if bg else "")] if bg else []
+    footnote(fig, notes + extra, width=165, y=0.02)
+    fig.savefig(out / f"{stem}.png", dpi=300, bbox_inches="tight"); fig.savefig(out / f"{stem}.pdf", bbox_inches="tight")
+    plt.close(fig)
+
+
 # ---------------------------------------------------------------- B: one map on shaded relief + latitude strip
 def gebco_subset(meta_path, lon_rng=(88, 96), lat_rng=(-38, -32), stride=6):
     m = json.loads(Path(meta_path).read_text())
@@ -122,7 +229,7 @@ def gebco_subset(meta_path, lon_rng=(88, 96), lat_rng=(-38, -32), stride=6):
     return lo, la, z
 
 
-def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed"):
+def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed", bg=None):
     from matplotlib.colors import LightSource
     from matplotlib.patches import Patch
     lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
@@ -139,6 +246,7 @@ def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed
     cs = ax.contour(lo, la, z, levels=[-5000, -4000, -3000, -2000], colors="#9a9a9a", linewidths=0.3, zorder=1)
     ax.clabel(cs, fmt=lambda x: f"{-x/1000:.0f} km", fontsize=4.5, inline=True)
     v, f = "oi2018-2025", "P+C4"
+    hb = flight_background(ax, maps, v, bg, "#00525a" if bg == "points" else "#00727a", zorder=2)
     m = panel_mass(maps, v, f); dn = m / area
     lv = [hdr_level(dn, m, q) for q in (0.99, 0.9, 0.5)]
     ax.contourf(lon, lat, dn, levels=lv + [dn.max() * 1.0001], colors=["#fee8c8", "#fdbb84", "#e34a33"], alpha=0.55, zorder=2)
@@ -156,10 +264,11 @@ def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed
     ax.set_xlabel("Longitude (°E)"); ax.set_ylabel("Latitude (°)")
     ax.set_title(f"{describe_field(f, short=True)}, one debris field\n{SEARCH_SHORT[v]}", loc="left", fontsize=6.5)
     # latitude strip: probability per degree for the four variants
-    for (vv, ff), col in zip(PANELS_A, ["#e6550d", "#08519c"]):
-        mm = panel_mass(maps, vv, ff)
-        pl = mm.sum(axis=1) / (lat[1] - lat[0])
-        ax2.plot(pl, lat, color=col, lw=1.1, label="after Phase 2\n+ Bluefin-21" if vv == "base" else "+ OI 2018\n+ 2025-26")
+    mm = panel_mass(maps, v, f)
+    ax2.plot(mm.sum(axis=1) / (lat[1] - lat[0]), lat, color="#b30000", lw=1.2, label="under H")
+    if bg:
+        fm = maps[v]["post"] / maps[v]["post"].sum()
+        ax2.plot(fm.sum(axis=1) / (lat[1] - lat[0]), lat, color="#00727a", lw=1.0, ls=(0, (4, 2)), label="without H")
     ax2.set_xlabel("Probability per\ndegree of latitude")
     ax2.set_ylim(-38, -32); ax2.set_yticks(range(-38, -31))
     ax2.yaxis.tick_right(); ax2.yaxis.set_label_position("right"); ax2.set_ylabel("Latitude (°)")
@@ -175,11 +284,12 @@ def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed
          plt.Line2D([], [], color="#1f4e9e", lw=1.5, label="OI 2025-26 SE band"), plt.Line2D([], [], color="#006d2c", lw=1.5, ls=(0, (3, 2)), label="OI NW band (not searched)"),
          plt.Line2D([], [], color="black", lw=0.6, ls=(0, (2, 2)), label="7th arc"),
          plt.Line2D([], [], ls="", marker="x", color="black", label="Pléiades objects"), plt.Line2D([], [], ls="", marker="o", mfc="white", mec="black", label="COSMO-SkyMed contacts")]
-    ax.legend(handles=h, loc="lower left", fontsize=4.8, frameon=True, framealpha=0.85, ncol=2)
+    ax.legend(handles=h + hb, loc="lower left", fontsize=4.8, frameon=True, framealpha=0.85, ncol=2)
     fig.suptitle(f"If the imaged objects are from 9M-MRO: where the debris entered the sea, on GEBCO 2026 relief — {describe_option(opt, short=True)}",
                  x=0.01, ha="left", y=0.99, fontsize=7)
     footnote(fig, notes + ["Relief: GEBCO 2026 15-arcsecond grid (doi:10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa), shown at 0.025 deg; "
-                           "contours every 1 km depth. Right: probability per degree of latitude, after each search case."], width=165, y=0.0)
+                           "contours every 1 km depth. Right: probability per degree of latitude over 85-103 E, after all searches."]
+             + ([BG_TEXT[bg] + f" {100 * frame_share(maps, v):.0f} % of it lies inside this frame."] if bg else []), width=165, y=0.0)
     fig.savefig(out / f"{stem}.png", dpi=300, bbox_inches="tight"); fig.savefig(out / f"{stem}.pdf", bbox_inches="tight")
     plt.close(fig)
 
@@ -280,7 +390,7 @@ def style_c(maps, geo, T5, Cc, opt, notes, out, plt):
     plt.close(fig)
 
 
-def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), labels=""):
+def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), labels="", bg=None, suffix=""):
     """The standard close-ups (Pete, 10 Oct 2026): colour (A) and seabed (B) for every option, all four COSMO-SkyMed
     contacts only. Writes closeup-<option>-colour.{png,pdf}, closeup-<option>-seabed.{png,pdf} and closeup-stats.csv."""
     out = Path(out); out.mkdir(parents=True, exist_ok=True)
@@ -296,8 +406,9 @@ def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), l
         maps = {v: load_mixture(root, opt, v, pfam) for v in ("base", "oi2018-2025")}
         notes = notes_for(opt, src, pfam, labels)
         safe = opt.replace("/", "-")
-        style_a(maps, geo, T5, Cc, opt, notes, out, plt, stem=f"closeup-{safe}-colour")
-        style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem=f"closeup-{safe}-seabed")
+        # Pete, 10 Oct 2026: only the after-all-searches panel (old panel b); panel a added little
+        colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem=f"closeup-{safe}-colour{suffix}", bg=bg)
+        style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem=f"closeup-{safe}-seabed{suffix}", bg=bg)
         lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
         LAT, LON = np.meshgrid(lat, lon, indexing="ij")
         masks = {"oi_northwest_band": cf.mask_of(cf.polygons(geo, "oi2024_proposed_inboard_northwest"), LON, LAT),
@@ -314,7 +425,7 @@ def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), l
                              share_in_nw_band=round(s_["mass_in_oi_northwest_band"], 4), share_outside_past_searches=round(1 - s_["mass_in_past"], 4),
                              search_retains_under_H=round(float((maps[v]["post"] * Lf).sum() / (maps[v]["pre"] * Lf).sum()), 3),
                              search_retains_flight_only=round(float(maps[v]["post"].sum() / maps[v]["pre"].sum()), 3)))
-    T = pd.DataFrame(rows); T.to_csv(out / "closeup-stats.csv", index=False)
+    T = pd.DataFrame(rows); T.to_csv(out / f"closeup-stats{suffix}.csv", index=False)
     return T
 
 
