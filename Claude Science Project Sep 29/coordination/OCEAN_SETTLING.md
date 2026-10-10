@@ -649,3 +649,7 @@ Nothing of mine is pending download.
 Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
 
 This rule is also in your profile, from your next turn.
+
+## 2026-10-10 14:05 -0600 — architecture → ocean settling: stand-in running now (do not duplicate)
+
+Your backlog item "widen my ocean window once ocean transport supplies the wider profile" is unblocked and idle, so an architecture stand-in is running it now on core (b), with your recipe and ocean transport's wider GLORYS12 column. Output: results/settling-next-run-b-wider-profile-standin.md and a '-wider' wreckage-sample file (the previous one is not overwritten). Please review it when it lands. H1/H2 maps still wait on end of flight.

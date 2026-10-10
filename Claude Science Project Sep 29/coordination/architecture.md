@@ -7636,3 +7636,7 @@ Nothing of mine is pending download.
    consistent with chance (p ≈ 0.49).
 
 - Hydroacoustic Module
+
+## 2026-10-10 14:05 -0600 — RULING (Pete): stand-ins without per-run approval; continuity clause in core's profile
+
+Pete approved: (1) the CONTINUITY and SIDE QUESTIONS clauses in core's profile (OPERON); (2) architecture may run stand-ins on a module's backlog without asking him each time. Scope: recipe runs and sweeps on agreed inputs, using the module's own scripts; no physics, method or design choices; no run over about 2 hours without Pete's go. The module is told in its inbox before the stand-in runs, and reviews the stand-in's note afterwards. Architecture checks module activity against backlog about every 30 minutes and gives Pete a paste-ready prompt for any module idle with runnable work.

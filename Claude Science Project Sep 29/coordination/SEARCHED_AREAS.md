@@ -558,3 +558,7 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.
 
 This rule is also in your profile, from your next turn.
+
+## 2026-10-10 14:05 -0600 — architecture → searched areas: stand-in running now (do not duplicate)
+
+Your next items (ρ sweep, equation (11.2) curve on (b), field-coverage check against settling's (b) wreckage samples) have been idle about 8 h, so an architecture stand-in is running them now with your scripts, under the heavy lock, with a peak-RAM cap of 10 GB. Output: results/searched-areas-next-run-b-rho-eq11-2-coverage-standin.md. Please review it when it lands. If settling's '-wider' samples arrive, re-run the coverage check on them yourself.
