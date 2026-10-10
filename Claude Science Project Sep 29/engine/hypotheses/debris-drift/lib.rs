@@ -241,6 +241,10 @@ pub(crate) struct Params {
     /// Restrict release to these node indices (smoke tests); empty means every active node.
     #[serde(default)]
     node_subset: Vec<usize>,
+    /// Let `node_subset` name grid nodes outside the extent map (component -1): coverage extensions on the
+    /// SAME grid, so their values merge cell-for-cell with the main run. Off by default (byte-identical).
+    #[serde(default)]
+    node_subset_outside_extent: bool,
     /// Release every n-th active node only (checks; production uses 1).
     #[serde(default = "d_stride")]
     node_stride: usize,
@@ -656,7 +660,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let mut steps_total = 0.0;
     let (mut released, mut model_error, mut left_domain) = (0usize, 0.0f64, 0.0f64);
     let (mut split_total, mut children_total) = (0usize, 0usize);
-    let candidates: Vec<usize> = if p.node_subset.is_empty() { (0..nodes.len()).filter(|&k| grid.active[k]).skip(p.node_offset).step_by(p.node_stride.max(1)).collect() } else { p.node_subset.iter().copied().filter(|&k| k < nodes.len() && grid.active[k]).collect() };
+    let candidates = select_candidates(&grid.active, &p.node_subset, p.node_stride, p.node_offset, p.node_subset_outside_extent);
     for (count, &k) in candidates.iter().enumerate() {
         let (la, lo) = grid.node(k);
         let mut coef_full: Vec<Vec<Option<recovery::Coefficients>>> = Vec::new();
@@ -820,6 +824,16 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         std::fs::write(format!("{dir}/summary.toml"), text).map_err(|e| e.to_string())?;
     }
     Ok(Built { grid, surface, observations, ocean_model: setup.ocean_model(), summary })
+}
+
+/// Nodes a run releases: every `stride`-th active node from `offset`, or the named subset (active nodes
+/// only, unless `outside_extent`, which admits any in-grid node, for coverage extensions).
+fn select_candidates(active: &[bool], subset: &[usize], stride: usize, offset: usize, outside_extent: bool) -> Vec<usize> {
+    if subset.is_empty() {
+        (0..active.len()).filter(|&k| active[k]).skip(offset).step_by(stride.max(1)).collect()
+    } else {
+        subset.iter().copied().filter(|&k| k < active.len() && (outside_extent || active[k])).collect()
+    }
 }
 
 /// Run label for `summary.toml`, derived from the configuration (the coastline and the extent map

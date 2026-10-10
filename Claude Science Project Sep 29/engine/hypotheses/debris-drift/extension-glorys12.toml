@@ -1,0 +1,180 @@
+# NOT RUN. Coverage extension (option A, 412 nodes) for production-glorys12.toml, prepared overnight
+# 10 Oct (PROVISIONAL-OVERNIGHT question to Pete, architecture ~09:00 UTC): end of flight's sweep on core (b)
+# (+alive, P(family) mixture, 16 seeds) puts 0.2-21% of impact mass, by option, outside the 367 planned nodes.
+# Same grid and extent map as production, so values merge cell-for-cell; nodes from
+# data/coverage-extension-core-b-alive.csv (in_option_A). Option B = the in_option_B subset (186 nodes).
+# Starting this run needs Pete's go-ahead (the overnight rule does not cover starting or reshaping long runs).
+# PRODUCTION (step 4 sizing; NOT YET RUN - step 6 waits for the final impact samples, and the start
+# of any long run is announced first). Sizing from results/debris-drift-production-sizing.md:
+# 30 NM spacing (correlation length not resolved; the surface changes by < ~2 ln units over
+# ~100-165 NM; 367 nodes on reference-289), 10^5 particles per node (4 environment realisations x 3 classes x 8,334), measured
+# ocean error, the shared GSHHG coastline (4eba004), importance splitting for Rodrigues and Mossel Bay.
+# PROVISIONAL-OVERNIGHT (9 Oct overnight rule): the ocean-error length scale (100 km, assumed), the
+# K prior range and the splitting settings. Pete reviews these in the morning.
+base = "../../config/davey2016.toml"
+name = "debris-drift-extension-glorys12"
+
+[[compose]]
+id = "drift"
+modules = ["debris-drift"]
+
+[hypotheses.debris-drift]
+mode = "evidence"
+# Extent from reference-289 (289.7 deg prior, delivered 13:48 UTC; architecture entry ~14:45 UTC):
+# 99% of 00:19:37 mass, one connected band, 367 nodes at 30 NM (193 on the superseded 295.66 map).
+extent_map_path = "debris-drift/data/reference-map-reference-289-m0019b.csv"
+coverage = 0.99
+spacing_nm = 30.0
+margin_nm = 100.0
+island_link_nm = 40.0
+include_island = false
+particles_per_class = 8334
+seed = 1
+release_unix_s = 1394237977.0
+dt_hours = 6.0
+threads = 12
+domain = [15.0, 120.0, -50.0, 0.0]
+land_gap_is_beaching = false
+# CSIRO's implicit system (ruling D-b): the wind fraction carries Stokes; no Stokes field.
+leeway_absorbs_stokes = true
+explicit_residual = false
+env_seeds = [1, 2, 3, 4]
+output_dir = "../runs/debris-drift-extension-glorys12"
+node_subset = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 40, 41, 42, 44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 77, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94, 95, 96, 125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 203, 204, 205, 206, 207, 208, 209, 210, 211, 212, 213, 243, 244, 245, 246, 247, 248, 249, 250, 251, 267, 282, 283, 284, 285, 286, 287, 288, 289, 306, 321, 322, 323, 324, 325, 326, 327, 328, 329, 344, 345, 346, 360, 361, 362, 363, 364, 365, 366, 367, 382, 383, 384, 385, 399, 400, 401, 402, 403, 404, 405, 406, 420, 421, 422, 423, 424, 438, 439, 440, 441, 442, 443, 444, 445, 458, 459, 460, 461, 462, 463, 464, 477, 478, 479, 480, 481, 482, 483, 497, 498, 499, 500, 501, 502, 503, 516, 517, 518, 519, 520, 521, 522, 535, 536, 537, 538, 539, 540, 541, 542, 555, 556, 557, 558, 559, 560, 561, 574, 575, 576, 577, 578, 579, 580, 581, 594, 595, 596, 597, 598, 599, 613, 614, 615, 616, 617, 618, 619, 620, 621, 633, 634, 635, 636, 637, 652, 653, 654, 655, 656, 657, 658, 659, 660, 672, 673, 674, 675, 676, 690, 691, 692, 693, 694, 695, 696, 697, 698, 699, 710, 711, 712, 713, 714, 715, 729, 730, 731, 732, 733, 734, 735, 736, 737, 738, 749, 750, 751, 752, 753, 754, 769, 770, 771, 772, 773, 774, 775, 776, 777, 788, 789, 790, 791, 792, 793, 809, 810, 811, 812, 813, 814, 815, 816, 827, 828, 829, 830, 831, 832, 833, 850, 851, 852, 853, 854, 855, 865, 866, 867, 868, 869, 870, 871, 872, 889, 890, 891, 892, 893, 894, 904, 905, 906, 907, 908, 909, 910, 930, 931, 932, 943, 944, 945, 946, 947, 948, 969, 970, 971, 981, 982, 983, 984, 985, 986, 987, 1009, 1010, 1020, 1021, 1022, 1023, 1024, 1025, 1046, 1047, 1048, 1049, 1059, 1060, 1061, 1062, 1063, 1084, 1085, 1086, 1087, 1097, 1098, 1099, 1100, 1101, 1124, 1125, 1126, 1136, 1137, 1138, 1139, 1174, 1175, 1176, 1177, 1212, 1213, 1214, 1215, 1242, 1251, 1252, 1253, 1289, 1290, 1291, 1328, 1329, 1366, 1367, 1403, 1404, 1405, 1441, 1442, 1443, 1478, 1479, 1480, 1481, 1515, 1516, 1517, 1518, 1554, 1555, 1556]
+node_subset_outside_extent = true
+
+# The CSIRO-system arm on GLORYS12 + ERA5 (a declared alternative; BRAN2016, the reproduction
+# setting, is held on its licence - Pete's decision). Series manifests from ocean transport item 2
+# (`4f58d5d`), 7 Mar 2014 - 31 Jan 2017, joined across file seams by GridField::load_series.
+[hypotheses.debris-drift.transport]
+kind = "grid"
+current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface.series.json"
+wind10_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h.series.json"
+# The shared GSHHG 2.3.7 full-resolution coastline (ocean transport deliverable 6, 4eba004; Wessel
+# and Smith 1996; LGPL-3.0; sha256 af9215d5... in results/ocean-data-manifest.md). Land-mask
+# strandings within 25 km of the shore snap to it (declared, transport's default); any remaining
+# land gap is model error, not beaching (land_gap_is_beaching = false, above).
+gshhg_path = "/Users/pete/Downloads/mh370-ocean-data/gshhg/gshhs_f.b"
+gshhg_snap_km = 25.0
+
+# K is the sub-mesoscale part only (ruling 4: marginalised under the shared DiffusivityPrior, one
+# draw per environment seed). PROVISIONAL-OVERNIGHT range: log-uniform 100-1,000 m2/s, spanning the
+# old code's 100 and CSIRO's 248 (Part III p. 6).
+[hypotheses.debris-drift.diffusivity]
+kind = "log-uniform"
+k_min_m2_s = 100.0
+k_max_m2_s = 1000.0
+
+# Measured transport error (ruling of 9 Oct ~07:00 UTC; results/ocean-transport-error-gdp-replay.md,
+# GLORYS12 + 1% ERA5 on undrogued drifters in the search box, March-May: sigma E/N 0.115/0.118 m/s,
+# T 6.1/4.2 d). Not double-counted with K: sigma_eff^2 = sigma^2 - K_ref/T with K_ref = 248 m2/s,
+# so the single-particle spread at the reference K equals the replay's (K is 4% of sigma^2 T).
+# Length scale: NOT measured by the replay; 100 km assumed (PROVISIONAL-OVERNIGHT), sensitivity 50/200.
+[hypotheses.debris-drift.ocean_error]
+sigma_m_s = 0.1146
+length_scale_km = 100.0
+time_scale_days = 5.1
+
+# Ruling D-a: flaperon speed and angle are measurements (CSIRO Part II pp. 10, 17), in CSIRO's
+# system (D-b). Ruling D-f (landed in the shared API, wind_angle_deg): the measured angle rotates
+# only the extra leeway (Part II p. 13, Fig. 3.1 caption); the 1.2% term is downwind
+# (wind_angle_deg default 0). Angle sign is the shared API's: positive clockwise, so "left" < 0.
+[[hypotheses.debris-drift.classes]]
+name = "flaperon"
+motion_classes = ["flaperon"]
+a_stokes = { dist = "fixed", value = 0.0 }
+c_wind = { dist = "fixed", value = 0.012 }
+leeway_angle_deg = { dist = "uniform", lo = -30.0, hi = 0.0 }
+leeway_speed_mps = { dist = "normal", mean = 0.10, sd = 0.03, lo = 0.0, hi = 1.0 }
+
+# Review section 4.1, implicit form; CSIRO Part III p. 6 (1.2% items "subject to Stokes Drift but
+# not direct wind forcing"). PROVISIONAL priors.
+[[hypotheses.debris-drift.classes]]
+name = "low_exposure_exterior"
+motion_classes = ["low_exposure_exterior"]
+a_stokes = { dist = "fixed", value = 0.0 }
+c_wind = { dist = "normal", mean = 0.012, sd = 0.003, lo = 0.005, hi = 0.02 }
+wind_angle_deg = { dist = "normal", mean = 0.0, sd = 10.0, lo = -90.0, hi = 90.0 }
+leeway_angle_deg = { dist = "fixed", value = 0.0 }
+leeway_speed_mps = { dist = "fixed", value = 0.0 }
+
+[[hypotheses.debris-drift.classes]]
+name = "high_windage_interior"
+motion_classes = ["high_windage_interior"]
+a_stokes = { dist = "fixed", value = 0.0 }
+c_wind = { dist = "log-normal", median = 0.025, sigma = 0.35, lo = 0.01, hi = 0.05 }
+wind_angle_deg = { dist = "normal", mean = 0.0, sd = 15.0, lo = -90.0, hi = 90.0 }
+leeway_angle_deg = { dist = "fixed", value = 0.0 }
+leeway_speed_mps = { dist = "fixed", value = 0.0 }
+
+# Detection segments S1-S6 of results/debris-drift-find-episodes.md, as lon/lat boxes
+# [lon_min, lon_max, lat_min, lat_max] wide enough to hold land-mask stranding points. PROVISIONAL
+# until the transport's real coastline and segmentation exist. Coasts outside every box carry no
+# identification (brief section 13 defers the Western Australia term).
+[[hypotheses.debris-drift.segments]]
+name = "S1-reunion"
+boxes = [[55.1, 56.0, -21.5, -20.7]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S2-mauritius-rodrigues"
+boxes = [[57.2, 57.9, -20.7, -19.8], [63.2, 63.65, -19.9, -19.55]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S3-southern-mozambique"
+boxes = [[33.5, 36.0, -25.3, -21.3]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S4-south-africa-south-coast"
+boxes = [[20.0, 26.5, -34.9, -33.6]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S5-ne-madagascar"
+boxes = [[49.0, 50.8, -18.0, -15.4]]
+
+[[hypotheses.debris-drift.segments]]
+name = "S6-pemba"
+# Trimmed west edge 39.3 -> 39.45 E so the block is Pemba only: transport reported that the pilot box
+# took in ~25 km of Tanzanian mainland on GSHHG (OCEAN_TRANSPORT.md, coastline entry, 9 Oct).
+boxes = [[39.45, 40.3, -5.6, -4.6]]
+
+# G1 periods: I1 before 29 Jul 2015 | I2 to end Feb 2016 | I3 Mar-Jun 2016. Delay exponential,
+# mean 60 d, declared a priori (never chosen to fit); sensitivity at 30 and 120 d.
+# Bandwidth: locality point versus first-beaching point, as explicit model error. 50 km covers the
+# land-mask stranding offset (<= ~10 km at 1/12 deg), locality coordinates that are beach or town
+# points (DEBRIS-EVIDENCE.md), and unmodelled along-shore movement after beaching (no refloat in the
+# first pass). 25, 100 and 200 km are reported from the same ensembles as sensitivities.
+[hypotheses.debris-drift.recovery]
+bandwidth_km = 50.0
+extra_bandwidths_km = [25.0, 100.0, 200.0]
+delay = "exponential"
+delay_days = 60.0
+period_breaks = ["2015-07-29", "2016-03-01"]
+window_end = "2016-06-30"
+
+# G1 level prior, PROVISIONAL pending the architect's values: ln nu ~ N(mu_I, 1), mu = ln 0.1,
+# ln 0.5, ln 1 for I1, I2, I3 (effort rising after the flaperon), independent by block.
+[hypotheses.debris-drift.levels]
+ln_mean_by_period = [-2.302585, -0.693147, 0.0]
+sigma = 1.0
+draws = 256
+seed = 3
+
+# Importance splitting (fbaad33, 84b6f85): unbiased; sized on the 9 Oct diagnostics
+# (results/debris-drift-production-sizing.md). PROVISIONAL-OVERNIGHT settings.
+[hypotheses.debris-drift.splitting]
+factor = 20
+snapshot_hours = 24.0
+classes = ["low_exposure_exterior", "high_windage_interior"]
+
+[[hypotheses.debris-drift.splitting.targets]]
+name = "rodrigues"
+lon_deg = 63.471632
+lat_deg = -19.738711
+radius_km = 150.0
+
+[[hypotheses.debris-drift.splitting.targets]]
+name = "mossel-bay"
+lon_deg = 22.149905
+lat_deg = -34.093767
+radius_km = 500.0
+factor = 100

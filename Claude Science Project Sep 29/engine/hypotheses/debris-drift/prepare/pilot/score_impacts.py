@@ -13,6 +13,14 @@ multiplying by the drift likelihood. That is a DIAGNOSTIC of the interface, not 
 unscored mass is excluded, and a pilot surface is never evidence.
 
 Usage: python score_impacts.py <drift-run-dir> <eof-run-dir> <seed-dir> <out.json>
+           [--recipe <end-of-flight smoke dir>] [--constraints alive,silent] [--support-only]
+
+--recipe: where end of flight's `displacement_hist.py` lives (default <eof-run>/../../hypotheses/end-of-flight/smoke;
+  the exchange layout, mh370-exchange/end-of-flight/next-run/<stratum>/seed-k with run.json in the seed dir,
+  needs it given explicitly, and <eof-run-dir> may then be the seed dir itself).
+--constraints: end of flight's declared variants passed to option_posteriors (keys gain "+<name>").
+--support-only: treat every node in <drift-run-dir>/nodes.csv as scored with ln L = 0 (e.g. the count run's
+  planned node list), so "scored" reads "inside the planned support" before the surface is complete.
 """
 import json
 import pathlib
@@ -36,6 +44,16 @@ def surface_arrays(run, col):
     v = df[col].values
     state[k] = np.where(land, 2, np.where(np.isfinite(v), 1, 3))
     val[k] = v
+    return g, nlat, nlon, state, val
+
+
+def support_arrays(run):
+    g, nlat, nlon, state, val = surface_arrays(run, "ln_l")
+    df = pd.read_csv(f"{run}/nodes.csv")
+    k = df.node.values.astype(int)
+    land = (df.state == "land").values
+    state[k] = np.where(land, 2, 1)
+    val[k] = np.where(land, np.nan, 0.0)
     return g, nlat, nlon, state, val
 
 
@@ -84,16 +102,22 @@ def wmedian(x, w):
     return float(x[o][np.searchsorted(c, 0.5 * c[-1])])
 
 
-def main(drift_run, eof_run, seed_dir, out):
-    sys.path.insert(0, str(pathlib.Path(eof_run).parents[1] / "hypotheses" / "end-of-flight" / "smoke"))
+def main(drift_run, eof_run, seed_dir, out, recipe=None, constraints=(), support_only=False):
+    sys.path.insert(0, recipe or str(pathlib.Path(eof_run).parents[1] / "hypotheses" / "end-of-flight" / "smoke"))
     from displacement_hist import option_posteriors  # end of flight's recipe, read-only
 
     cols = [c for c in ("ln_l", "ln_l_h25", "ln_l_h100", "ln_l_h200") if c in pd.read_csv(f"{drift_run}/nodes.csv", nrows=1).columns]
-    surfs = {c: surface_arrays(drift_run, c) for c in cols}
-    res = {"label": "INTERFACE DIAGNOSTIC: drift node surface scored on end-of-flight impacts. Never evidence.",
-           "drift_run": str(drift_run), "eof_seed": str(seed_dir), "options": {}}
+    if support_only:
+        cols = ["ln_l"]
+        surfs = {"ln_l": support_arrays(drift_run)}
+    else:
+        surfs = {c: surface_arrays(drift_run, c) for c in cols}
+    res = {"label": ("SUPPORT CHECK: planned drift nodes (ln L = 0) on end-of-flight impacts; 'scored' = inside planned support."
+                     if support_only else "INTERFACE DIAGNOSTIC: drift node surface scored on end-of-flight impacts. Never evidence."),
+           "drift_run": str(drift_run), "eof_seed": str(seed_dir), "constraints": list(constraints), "options": {}}
     cache = {}
-    for key, p, c in option_posteriors(pathlib.Path(eof_run), pathlib.Path(seed_dir)):
+    kw = {"constraints": tuple(constraints)} if constraints else {}
+    for key, p, c in option_posteriors(pathlib.Path(eof_run), pathlib.Path(seed_dir), **kw):
         lat, lon = c["lat"], c["lon"]
         r = {"impact_median_lat": wmedian(lat[p > 0], p[p > 0]), "by_bandwidth": {}}
         for col in cols:
@@ -113,4 +137,10 @@ def main(drift_run, eof_run, seed_dir, out):
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:5])
+    import argparse
+    ap = argparse.ArgumentParser()
+    for a in ("drift_run", "eof_run", "seed_dir", "out"):
+        ap.add_argument(a)
+    ap.add_argument("--recipe"); ap.add_argument("--constraints", default=""); ap.add_argument("--support-only", action="store_true")
+    a = ap.parse_args()
+    main(a.drift_run, a.eof_run, a.seed_dir, a.out, a.recipe, [c for c in a.constraints.split(",") if c], a.support_only)

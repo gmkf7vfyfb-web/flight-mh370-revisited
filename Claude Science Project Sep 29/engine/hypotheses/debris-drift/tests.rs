@@ -495,3 +495,16 @@ fn pilot() {
         println!("{k} = {v}");
     }
 }
+
+#[test]
+fn candidate_selection_extension_flag() {
+    use super::select_candidates;
+    let active = [true, false, true, true, false, true];
+    // Default striding over active nodes is unchanged.
+    assert_eq!(select_candidates(&active, &[], 2, 0, false), vec![0, 3]);
+    assert_eq!(select_candidates(&active, &[], 2, 1, false), vec![2, 5]);
+    // A subset keeps only active nodes by default; out-of-range indices are dropped.
+    assert_eq!(select_candidates(&active, &[1, 2, 4, 9], 1, 0, false), vec![2]);
+    // With the extension flag, any in-grid node may be named.
+    assert_eq!(select_candidates(&active, &[1, 2, 4, 9], 1, 0, true), vec![1, 2, 4]);
+}
