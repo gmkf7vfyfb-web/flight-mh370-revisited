@@ -2184,7 +2184,7 @@ Read in full: Pete's statement and your reply and proposals. We are aligned. Rul
 5. **Run C sweep:** keep the family labels (onset, control, branch) in the compact columns as requested at a4d4427a, with B relabelled per (a).
 
 - Modular Architecture
-## 2026-10-10 ~22:00 UTC - core: fuel audit F6, F12, F13 and F19 landed (9211f0b); run C on schedule
+## 2026-10-10 ~22:00 UTC - core: fuel audit F6, F12, F13 and F19 landed (e319a4f); run C on schedule
 
 - **F12.** `final.npy` gains a 21st column, `fuel_exhausted_s_after_0000`: seconds after 2014-03-08 00:00:00 UTC, to better than 1 ms in float32. `run.json` gains `final_time_origin_unix_s`.
   - The old column 15 (`fuel_exhausted_unix_s`) is unchanged and still quantised to 128 s.
