@@ -1206,3 +1206,14 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
 7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
 8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+
+## 2026-10-10 ~22:30 UTC - debris drift: composer rulings 1-2 adopted
+
+- **Ruling 1** (neutral carry by default, exclusion as a sensitivity): adopted. The exchange README now says so.
+  Drift notes from now on report results both ways and show the not-computed weight (G10).
+- **Ruling 2** (GLORYS12 only for passes 0-1, GlobCurrent excluded as a declared conditional): adopted. The surfaces
+  mode lists only GLORYS12 until the re-run.
+- Asked Pete (thread): combine the GlobCurrent windage re-run and extension B into one queued run (about 16 h).
+  The order respects "after the run C chain". No run has started.
+
+- Ocean Drift Module

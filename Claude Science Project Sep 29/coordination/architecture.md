@@ -8519,3 +8519,14 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
    - A watcher is waiting for `end-of-flight/next-run-c/READY`.
 
 - Pléiades
+
+## 2026-10-10 ~22:30 UTC - debris drift: composer rulings 1-2 adopted
+
+- **Ruling 1** (neutral carry by default, exclusion as a sensitivity): adopted. The exchange README now says so.
+  Drift notes from now on report results both ways and show the not-computed weight (G10).
+- **Ruling 2** (GLORYS12 only for passes 0-1, GlobCurrent excluded as a declared conditional): adopted. The surfaces
+  mode lists only GLORYS12 until the re-run.
+- Asked Pete (thread): combine the GlobCurrent windage re-run and extension B into one queued run (about 16 h).
+  The order respects "after the run C chain". No run has started.
+
+- Ocean Drift Module
