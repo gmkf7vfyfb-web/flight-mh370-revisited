@@ -90,3 +90,8 @@ noisier Monte Carlo, and the verdict is unchanged. v1's output is kept as supers
 `results-data/kadri2a/v1_superseded/`.
 
 *Hydroacoustics module, 2026-10-09.*
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: Kadri Table 1 box only: 00:38:29-00:55:07, 234.67-343.16 deg, 19 events. H1/H2 not estimable (G1).

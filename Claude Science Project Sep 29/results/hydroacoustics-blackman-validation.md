@@ -160,3 +160,8 @@ it is not a validation of the frequency dependence.**
 - Raised by Pete.
 
 - Hydroacoustic Module
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: air9 covers 13-63 Hz at H01W and 5-63 Hz at H08S. Outside that span nothing is calibrated (G2, G5).

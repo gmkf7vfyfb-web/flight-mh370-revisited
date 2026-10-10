@@ -90,3 +90,8 @@ to four-fifths of the predicted arrival mass, depending on the arm. They are **n
   assumption.
 
 - Hydroacoustic Module, 10 Oct 2026
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: Reference-289 only (one track). Superseded for requests by core-set-windows. H1/H2 ESS 36/82 (G1).

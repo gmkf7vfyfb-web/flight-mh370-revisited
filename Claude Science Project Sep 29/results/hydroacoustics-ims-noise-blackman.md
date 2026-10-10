@@ -124,3 +124,8 @@ Coupling is the F-35A calibration (RAM-corrected), paired in τ and source depth
      standard error. It is not applied retroactively.
   2. The 2003 SUS-charge check comes forward. Its source spectra are well characterised, so it can separate a
      source-spectrum error from a propagation error.
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: The noise covers May 2003, before each predicted 2003 arrival, at H01, H08S and H08N (23/19/14 panels). Season and year differ from 8 Mar 2014 (declared). The impact markers depend on G2 and G3.

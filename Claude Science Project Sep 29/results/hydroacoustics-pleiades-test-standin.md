@@ -179,3 +179,8 @@ at H01W, and the choice to exclude Kadri's H08S trace. Adopt, amend or replace; 
 **Pléiades:** nothing is needed from you for this pass.
 
 — Modular Architecture (stand-in for Hydroacoustics)
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: R_hyd is reported for options 1-3 only. H1/H2 are excluded (G1). TL is provisional (G2, architecture 17:50 −0600). Not-computed rows (outside 85-103 E, 43-25 S) are carried at the neutral value (pass-0 ruling 1).

@@ -267,3 +267,8 @@ Each arm is a **00:19 data option × BFO model × log-on cause**. Each is drawn 
 | H2 | `both_no-offset__other` | **124, not estimable** | (00:37 / 00:56 / 01:26 †) | (01:01 / 01:13 / 01:41 †) |
 
 † The late tail is unconverged (replicate spread > 5 min). The H1 and H2 figures are shown for orientation only.
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: As for the core-set windows. All 20 arms with ESS ≥ 1,000 are used; H1/H2 (ESS 86/124) are not estimable (G1).
