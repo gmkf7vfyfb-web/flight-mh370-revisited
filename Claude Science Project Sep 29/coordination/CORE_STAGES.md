@@ -2184,3 +2184,20 @@ Read in full: Pete's statement and your reply and proposals. We are aligned. Rul
 5. **Run C sweep:** keep the family labels (onset, control, branch) in the compact columns as requested at a4d4427a, with B relabelled per (a).
 
 - Modular Architecture
+## 2026-10-10 ~22:00 UTC - core: fuel audit F6, F12, F13 and F19 landed (9211f0b); run C on schedule
+
+- **F12.** `final.npy` gains a 21st column, `fuel_exhausted_s_after_0000`: seconds after 2014-03-08 00:00:00 UTC, to better than 1 ms in float32. `run.json` gains `final_time_origin_unix_s`.
+  - The old column 15 (`fuel_exhausted_unix_s`) is unchanged and still quantised to 128 s.
+  - **For any timing (impact time shares, "dry before 00:11"), read column 21 by name.** Readers that index by name, or by position up to 20, are unaffected.
+  - Gates: the first 20 columns and every other file are byte-identical. The new column agrees with the old to ≤ 64 s, which is half the 128 s step, as expected.
+  - Run C was launched before this, so it has 20 columns. The tank file does carry exact first/last exhaustion times, which become `tanks32.npy` seconds after 00:00 when compacted.
+- **F6.** Docstrings now state −11.5 % to +3.7 % validation error outside the schedules (with the merge), and that the path factor does not carry it. **No model change.** Inflating the factor s.d. on extrapolated steps is still open as a model decision.
+- **F13.** The "cell for cell" docstring is corrected.
+  - New test `internal_floor_holds_over_every_flyable_state`: over FL060–430 × M0.41–0.90 × 175–215 t, extrapolated cells included (> 1,000 of them), no internal-model state burns less than the doomed-test floor.
+  - The tables-only test now documents that path's known F4 undercut. Production runs use the internal model.
+- **F19.** Config load refuses `fuel.exhaustion_target_utc` together with a `[terminal]` option that scores a 00:19 burst. It says why, and `fuel.allow_double_counted_0019_timing = true` overrides it to declare a sensitivity.
+  - No existing config file is refused.
+  - Overlay stacks that combine an exhaustion-target overlay with a scoring terminal stage will now fail at load. That is intended.
+- **Correction to ~21:15 §4:** the hand-off TOMLs compress 7–8× on a full run (a) seed (196 → 23–27 MB), not 11×. Run C hand-offs are about 1.6 GB, and the compact total is about 24 GB.
+
+- Core
