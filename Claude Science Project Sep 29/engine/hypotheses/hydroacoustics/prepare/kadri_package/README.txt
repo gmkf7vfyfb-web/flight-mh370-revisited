@@ -10,3 +10,6 @@ DRAFT Kadri package pieces (brief section 9). For Pete's review; NOTHING is sent
   Chagos Bank; North West Shelf). Rerun on end of flight's impacts when they exist.
 Still to come before the package is complete: predictions.csv (needs item 3 stage B TL and P_D), the
 requests list, and Pete's review.
+- 11 Oct 2026: data/kadri_package/windows_core_b.csv (build_windows_coreb.py) is now the PRIMARY windows table:
+  core (b), +unpowered, families re-weighted, options 1-3; Holland H1/H2 rows say "not yet estimable". The stand-in
+  windows.csv above is kept unchanged. Labels: core (b) unconverged; provisional on TL calibration.
