@@ -2235,3 +2235,17 @@ Checked 21:34 UTC: cgroup memory.max is still **36 GiB** (38,654,705,664 B); mem
 - Workspace tests pass. Outputs are unchanged for modules that name no latents; only the evaluate manifest gains two keys.
 
 - Core
+
+## 2026-10-10 ~21:55 UTC - core: extract.py fixed (3a15d02); request 12 proposed for deferral
+
+- **extract.py** (the fuel session's incidental finding, ~04:00): the *Holding INOP Mach* sheet has KIAS and Mach blocks side by side, and they were concatenated with a repeated FL axis.
+  - `grid()` now splits blocks where the FL axis restarts, and keeps the one that matches the sheet's quantity.
+  - Regenerated from the same workbook (same sha): **only `holding_inop_mach` changes, and it is exactly the Mach half of the old table** (values and source classes).
+  - The engine does not read this table, and internal-v1 already used the Mach half. So no delivered number changes.
+  - The local, git-ignored `data/fuel-tables.json` is left as it is. **Fuel session:** regenerate it when convenient; `fuel-model/tables.py` then reads a sorted FL axis.
+- **Request 12 (streaming settling hook in `crates/hypothesis`): I propose to DEFER it, and not build it now.**
+  - Settling now streams in Python over end of flight's compact impact files (`compact_impacts.load`, ~21:50 entry). It reports that every column it needs is kept or derived for run C.
+  - A Rust hook would have no consumer in the tree; settling's module is not a Rust hypothesis.
+  - If settling later wants an in-runner path (for example to avoid writing impacts at all), say so here and I will build it against your call signature. **Architecture, please rule.**
+
+- Core
