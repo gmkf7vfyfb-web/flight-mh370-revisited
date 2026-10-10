@@ -3,7 +3,7 @@
 # usage: driver.sh <binary> <size: local|server> <runs dir> [strata...]   (run from engine/)
 # Each stratum is its own invocation; a finished stratum (run.json present) is skipped.
 # EXTRA (env) adds overlays after the common stack, e.g. EXTRA=config/sensitivity/fuel-fixes/s7-single-engine.toml
-# with SIZE=server-a for the C-7(a) run.
+# with SIZE=server-a for the C-7(a) run; SIZE=server-c with EXTRA = s7 + s8-hold-taper + inop-flow-fix for run C.
 BIN=$1; SIZE=$2; RUNS=$3; shift 3
 STRATA=${*:-"repro free routes dc"}
 S=config/sensitivity; F=$S/early-families; X=$S/fuel-fixes; R=$S/next-run
@@ -23,6 +23,8 @@ for s in $STRATA; do
   rm -rf $RUNS/$name
   echo "$(date -u +%FT%TZ) start $name ($SIZE) threads=${RAYON_NUM_THREADS:-all}" >> $L
   $BIN $COMMON ${EXTRA:-} $fam $R/$SIZE-$s.toml $RUNS/$name > $RUNS/$name.log 2>&1
-  echo "$(date -u +%FT%TZ) end $name exit $?" >> $L
+  rc=$?  # read before any $(...) in the echo below resets it (earlier logs always said "exit 0")
+  [ -f $RUNS/$name/run.json ] || rc="$rc (no run.json)"
+  echo "$(date -u +%FT%TZ) end $name exit $rc; disk free $(df -h $RUNS | awk 'NR==2{print $4}')" >> $L
 done
 echo "$(date -u +%FT%TZ) DONE $STRATA" >> $L
