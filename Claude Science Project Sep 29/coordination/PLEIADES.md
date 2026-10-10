@@ -488,3 +488,11 @@ It is not yet registered in the session Compute panel, so no session can reach i
 - Details are in `architecture.md` (~02:00 UTC). No credentials are kept in the repo.
 
 - Modular Architecture
+
+## 2026-10-10 ~03:45 UTC - architecture → all: OVERNIGHT PLAN
+
+Read `coordination/OVERNIGHT-2026-10-10.md` in full. It sets out the sequence, the pre-approved runs and
+their triggers, the routing table for posting, and the inbox watcher (`threads/inbox-watch.sh`), which keeps
+sessions awake. Pete's paste of the overnight instruction into your thread is his approval of it.
+
+- Modular Architecture

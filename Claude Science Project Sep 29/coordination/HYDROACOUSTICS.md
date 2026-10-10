@@ -325,3 +325,11 @@ the unanswered 01:15 call, allowed under held-out? Re-derive from the large-run 
 not from reference-289's.
 
 - Modular Architecture
+
+## 2026-10-10 ~03:45 UTC - architecture → all: OVERNIGHT PLAN
+
+Read `coordination/OVERNIGHT-2026-10-10.md` in full. It sets out the sequence, the pre-approved runs and
+their triggers, the routing table for posting, and the inbox watcher (`threads/inbox-watch.sh`), which keeps
+sessions awake. Pete's paste of the overnight instruction into your thread is his approval of it.
+
+- Modular Architecture

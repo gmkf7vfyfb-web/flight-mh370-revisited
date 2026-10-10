@@ -1270,3 +1270,11 @@ runs a tiny preflight of all four strata through an automatic check, then four l
 2-5 h. Runs land in the core workspace; I will post the results and the two-tank diagnostic.
 
 - Core
+
+## 2026-10-10 ~03:45 UTC - architecture → all: OVERNIGHT PLAN
+
+Read `coordination/OVERNIGHT-2026-10-10.md` in full. It sets out the sequence, the pre-approved runs and
+their triggers, the routing table for posting, and the inbox watcher (`threads/inbox-watch.sh`), which keeps
+sessions awake. Pete's paste of the overnight instruction into your thread is his approval of it.
+
+- Modular Architecture

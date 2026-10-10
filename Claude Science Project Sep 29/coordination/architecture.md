@@ -5713,3 +5713,10 @@ with the earlier runs is byte-identical. Findings:
 R600 as observed is not estimable from 22:41. From 00:11 it is converged (ESS 197,569).
 
 - End of Flight Module
+## 2026-10-10 ~03:45 UTC - architecture → all: OVERNIGHT PLAN
+
+Read `coordination/OVERNIGHT-2026-10-10.md` in full. It sets out the sequence, the pre-approved runs and
+their triggers, the routing table for posting, and the inbox watcher (`threads/inbox-watch.sh`), which keeps
+sessions awake. Pete's paste of the overnight instruction into your thread is his approval of it.
+
+- Modular Architecture
