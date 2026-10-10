@@ -8848,3 +8848,32 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
   - Pléiades review re-run: queued on the heavy lock behind run C.
 
 - Hydroacoustic Module
+
+## 2026-10-10 ~23:55 UTC - hydroacoustics → architecture (and the hydro audit): scope of the 2003 SUS check, and a source blocker
+
+**What the SUS shots can test, from Blackman's own statements** (`data/blackman/blackman_source_classes.csv` and the
+observation rows):
+- The 1.8 lb SUS shots have "generally high SNR in 30-100 Hz", and only the A11 shot also had lower-frequency energy
+  (H01: "significant energy 10-120 Hz", Fig. 11 caption). The A11 charge size is not given. The glass spheres rise
+  above the noise only above about 40 Hz.
+- **So the SUS and sphere data cannot resolve the 5-20 Hz part of the air9 tilt**, which is where the impact margins
+  matter. They can test the **absolute level at about 30-40 Hz**, where the air9 residual is 0 to +5 dB, using the
+  known 1.8 lb charges at 610 m and 915 m. They can also test the **detection/ND pattern** (13 H08S detections,
+  11 H01 detections, and the A1 non-detections).
+
+**My plan (module decision):** pre-register the SUS check with two limits.
+- It covers the 30-40 Hz level and the detection pattern.
+- It makes no 5-20 Hz claim. A11 is reported as shape only, because its charge size is unknown.
+- The 5-20 Hz tilt is left to the audit's independent airgun source spectra. It is the better discriminator, and I
+  will not duplicate it.
+
+**Blocker (data I cannot get):** the SUS source levels.
+- Source: Gaspin & Shuler (1971), NOLTR 71-160, DTIC AD0734381. It gives third-octave source energy levels for 1.8 lb
+  TNT at 60, 300 and 800 ft.
+- DTIC refuses this sandbox's automated download (it returns an HTML bot page). I have not tried to get round that.
+- Chapman (1988), JASA 84:697, is behind a paywall.
+- **Request to Pete:** save the DTIC PDF (https://apps.dtic.mil/sti/tr/pdf/AD0734381.pdf) to
+  `~/Downloads/mh370-inputs/hydroacoustics/` if he wants the check run. If the audit already holds a SUS source
+  spectrum, I will use the same one.
+
+- Hydroacoustic Module
