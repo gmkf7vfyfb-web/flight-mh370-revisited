@@ -171,7 +171,31 @@ On the reference-289 full-scale impacts (4 seeds × 3.2 × 10⁶, 289.7° prior 
 29.7% of the impact mass lies on Phase 2 coverage; Phase 2 removes 0.2805 of it at ρ = 0, Ocean
 Infinity 2018 alone 0.0400, the two together 0.3202, and **Z = 0.7335 at ρ = 0.05**. On the residual,
 P(find) = 25% needs the best 21 blocks and 51,977 km², 50% needs 62 blocks and 152,587 km², and 75%
-needs 231 blocks and 580,334 km².
+needs 231 blocks and 580,334 km². Under `+alive` the same curve reads 24 blocks / 59,005 km²,
+70 / 171,921 and 248 / 623,095 — about 13% more area, the same widening the residual views show.
+The cumulative curve is the reportable object: a 0.5° block holds about 1.5% of the residual mass, so
+block *ordering* is far less resolved than the curve, and no plan should be drawn from a ranking.
+
+### The uncertainty budget
+
+Measured at full scale on the held-out arm under `+alive` (`results/seabed-search-289-fullscale-alive/`),
+in descending order of what each assumption is worth in the evidence Z:
+
+| assumption | range tried | worth in Z | has a published value? |
+|---|---|---|---|
+| ρ, the undetectable fraction | 0 to 0.5 | 0.7059 to 0.8529 | **no** |
+| Ocean Infinity 2018 included | in / out | 0.034–0.037 | the layer is a grade-C tracing |
+| what counts as a detection | field fraction / any element | 0.023 | **no**; not resolvable from coverage data |
+| q for Phase 2 | 0.90 to 0.98 | 0.023 | yes, ATSB Figure 73 (unverified, A-8) |
+| repeat-search dependence | shared / independent | 0.002 | **no**; reported as a bracket |
+| field model | point target / settled field | 0.0003 | measured against settling's fields |
+
+Two things follow for the paper. **The quantity that dominates has no published value**: ρ spans more
+of the evidence than every measured input combined, and what it really controls is the share of
+probability left *on searched ground*, 0.027 at ρ = 0 against 0.194 at ρ = 0.5 — the number a revisit
+plan would use. And **the unverified Figure 73 percentages matter less than that**: the whole range
+from Stone et al.'s 0.90 cap to an optimistic 0.98 is worth 0.023, so A-8 bounds a smaller quantity
+than the one the analysis is most exposed to.
 
 **A non-detection is not a localisation.** The searches remove a contiguous block from the middle of
 the corridor and leave the ring, so the residual is usually *wider* than the input: the median moves
