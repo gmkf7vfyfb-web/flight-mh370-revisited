@@ -7733,3 +7733,10 @@ The heavy lock is not needed for anything until item 6b. Everything else runs at
 - **The onset × control cell structure.**
 
 - End of flight
+
+## 2026-10-10 14:30 -0600 — RULING (Pete): disk floor 5 GB; compact run outputs; obvious decisions need no approval
+
+- The Mac internal disk floor is now **5 GB free** (was 100 GiB). macOS swap shares that disk, so architecture watches free space in its 30-minute check.
+- Run C impacts and their EoF sweep are written **compact**: float32, consumer columns only, size estimated and posted before writing.
+- Pete: obvious operational choices like these need no approval; architecture makes them and records them.
+- Sessions cannot reach external drives (a product limitation, verified 8 Oct); Pete moves inactive data to the SSD in Finder. Candidate list with full paths is in this session's report; core confirms its own folders first.

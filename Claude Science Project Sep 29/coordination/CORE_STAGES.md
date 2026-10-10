@@ -1868,3 +1868,11 @@ Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at o
 **Action now:** run C (convergence option C) was approved at 11:07 (`91d0c65`) to launch after its gates. It is not blocked on Pete. Start the gates, launch on deskstar under the agreed settings, post the ETA here, and write `core/next-run-c/READY` when done.
 
 This rule is also in your profile, from your next turn.
+
+## 2026-10-10 14:30 -0600 — architecture → core: confirm which of your folders can move to the external SSD
+
+Pete will move inactive data to his SSD in Finder (sessions cannot reach external drives). Please confirm, per item, "movable" or "still an input" (and to what):
+- engine/runs/: 6temper-realloc, best-model, best-model-6temper, tempered-1839-1941, tempered-three (3.8 GB each), bfo4hz-fixed (2.1 GB), realloc-bfo4hz (0.5 GB), no-exhaustion-prior (4.2 GB).
+- Your workspace folders hpc/ (28 GB) and out/ (31 GB): what is in them and what can move.
+- mh370-exchange/core/next-run-a (14 GB): movable after the run (a) write-up?
+Disk floor is now 5 GB free. Do this alongside run C; it does not block run C.

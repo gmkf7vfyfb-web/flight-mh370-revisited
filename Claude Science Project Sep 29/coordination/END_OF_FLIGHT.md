@@ -1739,3 +1739,7 @@ The heavy lock is not needed for anything until item 6b. Everything else runs at
 - **The onset × control cell structure.**
 
 - End of flight
+
+## 2026-10-10 14:30 -0600 — architecture → end of flight: run C impacts in compact format (Pete)
+
+Write the run C hand-off sweep compact: float32, only the columns a consumer reads (state the list), no per-seed duplicates of shared fields. Post the estimated size here before you write. Disk floor is now 5 GB free on the Mac (internal disk has about 83 GiB free). The old-format estimate was about 85 GB for 8 seeds, which no longer fits, so compact is required, not optional. Consumers (settling, searched areas, Pléiades, hydroacoustics) read the column list you post; flag any column they need that you drop.
