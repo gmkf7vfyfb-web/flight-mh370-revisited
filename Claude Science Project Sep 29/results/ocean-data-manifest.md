@@ -500,3 +500,21 @@ Stored at `/Users/pete/Downloads/mh370-ocean-data/products/gdp-replay/`. The sta
 | `oscar_v2_final_uv_2017.f32` | 20986008 | 3a66ab0fdf19c5c89b7246ec158702655eb32a6d14d1e14c338251bf4839b6e2 |
 | `products/gdp-replay/sep_oscar_v2.f32` | 13,511,040 | 2a52add0cc58aa2f6fb8efb3e04828e4156a8a925b4db90d9946436137a4a4ce |
 | `products/gdp-replay/sep_oscar_v2_era5w01.f32` | 13,511,040 | cc430941e53a21bc1cc7613d3d75e40a87fa4e66fe6bcd09263cdd628560099a |
+
+## GLORYS12V1 full-depth profile column, wider box 75–115 E, 45–10 S (settling's request, 10 October 2026)
+
+- **Content:** the same dataset, variables, levels and dates as the 80–112 E, 45–18 S column: daily means
+  labelled 7–14 March 2014, uo, vo, thetao and so, all 50 levels, with deptho from the static dataset.
+  Grid: 481 × 421 columns.
+- **Fetch and conversion:** fetched by `prepare/fetch_profile.py <dir> 2014-03-07T00:00:00 2014-03-14T00:00:00 75 115 -45 -10`
+  and converted by `prepare/profile_to_grid.py` into `glorys12/profile/grid_75-115E_45-10S/`.
+- **Check against the existing column:** in the overlap, the data and deptho arrays are **bit-identical** to the
+  80–112 E column. At 92 E, 35 S the `GridProfile` answer is identical: 45 levels, model floor 3,796.5 m.
+
+| File | Bytes | sha256 |
+|---|---|---|
+| `glorys12v1_static_bathy_75-115E_45-10S.nc` | 11,765,272 | 98ce04d040148df1a1e79def57c73d9e26f9b440303fb9bb73b8f95e45b4b4f1 |
+| `glorys12v1_uo_vo_thetao_so_75-115E_45-10S_20140307-20140314.nc` | 648,038,354 | 864ebb0c5f3397ea1a67b37eb76960b327dd65000a3a525e56db1788ece772da |
+| `grid_75-115E_45-10S/glorys12v1_uo_vo_thetao_so_75-115E_45-10S_20140307-20140314.profile.f32` | 1,296,006,400 | 1884e91006ee1b1e58afe93ba6e383a59513c5398dcaf618f5211b6b6597f487 |
+| `grid_75-115E_45-10S/glorys12v1_deptho.f32` | 810004 | 10576b578d065addacac940fe30a90936874e846dc0f7ed79e343b6ee94e94b2 |
+| `products/gdp-replay/replay_pairs.json` (also `results/ocean-transport-error-pairs.json`) | 19898 | 4550e675fa4c37a0cca070ee6e9eb423f5770a4ee571037a2f12df32b1f91bff |
