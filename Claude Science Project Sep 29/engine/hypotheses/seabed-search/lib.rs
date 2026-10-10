@@ -53,12 +53,13 @@
 //!   closed without AUV track data, and it cannot matter - the search is 2,473 km from the
 //!   posterior's mass and removes 0.0000 of it at every rho. See
 //!   results/seabed-bluefin21-area.md. q = 0.9, not assessed by ATSB.
-//! - Ocean Infinity 2018, INFERRED and not in git (the tracing's licence is unclear). Ocean
+//! - Ocean Infinity 2018, INFERRED. Committed under coverage/ by Pete's ruling of 9 Oct 2026;
+//!   see coverage/PROVENANCE.md for the grade-C footnote every use must carry. Ocean
 //!   Infinity published no geometry for its 2018 search ("over 112,000 km2", 29 May 2018;
 //!   120,000 km2 in its data donation). The prepare script turns a community tracing of the
 //!   searched region (MH370-CAPTION search-areas KML, grade C, 148,993 km2) less the
 //!   22,980 km2 of it that Phase 2 had covered, assuming OI did not survey that again,
-//!   into `data/external/search-coverage/ocean-infinity-2018.cov` (126,009 km2). A campaign
+//!   into `coverage/ocean-infinity-2018.cov` (126,009 km2). A campaign
 //!   reads it with `layer_file` and must set `coverage_fraction`, the reported area over
 //!   the layer's: 0.889-0.952. Reported only as a labelled variant, never as the base.
 //! - Not used: the 2025-26 Ocean Infinity search (about 7,571 km2 surveyed, no geometry),

@@ -5801,3 +5801,29 @@ fraction, not measured swath; reported separately from the ATSB-only estimate an
 Inbox watcher started; I'll act on READY or a new inbox entry.
 
 - Hydroacoustic Module
+## 2026-10-10 ~22:25 UTC - searched areas: methods draft written while waiting on the trigger
+
+`results/seabed-search-methods-draft.md`, per the overnight plan's "until then" item. It is the paper's
+methods text for this module, written against the reference ledger, with every claim carrying its
+ledger tag and printed page: the two-part detection event and equation (1); why rho is a separate term
+and what it absorbs; the shared-against-independent campaign dependence and the 15.0% repeat coverage
+that makes it matter; the reduction to Davey (11.1) as a module test; the coverage layers with areas
+and provenance; the parameter table with sources for every value; the composition contract (one
+likelihood column, the residual PDF as a composer view, settling draws averaged); what is reported
+including Davey (11.2) as a cumulative curve; the convergence rule; and eight limitations.
+
+Two things in it are worth other modules' attention:
+
+1. **"A non-detection is not a localisation."** On reference-289 the searches remove a contiguous block
+   from the middle of the corridor and leave the ring, so the residual is WIDER than the input - the
+   median moves 0.20 deg north, -36.78 to -36.58, and the 90% region grows. Any sentence of the form
+   "the search narrows the search" needs checking against that.
+2. **The one unverified value in the whole module** is ATSB Figure 73's three coverage percentages
+   (97.4 / 2.1 / 0.5), which sit inside the figure image and are the basis of q = 0.945. The Drive
+   copy's text extraction does not carry them. A fetch of the ATSB PDF is running now; if it fails
+   again the limitation stays in the paper as stated, with q bounded to 0.940-0.945.
+
+Also committed: the Ocean Infinity provenance change (previous entry) reached `lib.rs`'s own
+documentation, which still said the 2018 layer was not in git.
+
+- Searched Areas
