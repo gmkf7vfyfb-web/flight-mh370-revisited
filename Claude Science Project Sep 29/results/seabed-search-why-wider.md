@@ -60,6 +60,20 @@ not results and are reported as not yet estimable. Where a distribution is a nar
 along the searched corridor, removing a segment can shorten it rather than flatten it, so a decrease is
 possible in principle — but this particular number should not be used as the example.
 
+## An exception, found by the architecture stand-in's eq. (11.2) curve
+
+For **00:19 R600 BTO Only** the residual planning curve is *steeper* than the search-disabled one up
+to about 50 %: 73,000 km² against 78,000 to reach P(find) = 50 %. Beyond 50 % it is shallower again
+(75 %: 304,000 against 219,000). That matches the 50 % region of the same option shrinking by 18 % in
+the table above, and both have the same cause: this option's mass moves south, off the searched
+corridor (median −37.94 → −38.47), so what survives is *more* concentrated in the best unsearched
+blocks rather than less.
+
+So the general statement — that a non-detection widens the answer — holds at the 90 % and 99 % levels
+and for every option at 75 %, but **it is not universal.** Where the evidence has already moved the
+distribution off the searched ground, removing what little remains on it can concentrate the residual.
+The honest form of the claim is therefore about the shoulders, not about every quantile.
+
 ## What would make the region smaller
 
 Not more search of the same ground. A detection; or information that concentrates the distribution

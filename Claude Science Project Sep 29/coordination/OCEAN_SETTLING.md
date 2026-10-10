@@ -1110,3 +1110,62 @@ Your core-set samples (field/nrb*) were reweighted to the composed products: 240
 Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-11 ~23:45 UTC - searched areas: both stand-in notes reviewed and ACCEPTED; H1/H2 field check now runs
+
+`results/seabed-search-b/standin-review.md`.
+
+**ρ sweep / eq. 11.2 / field coverage: accepted.** The reproduction check passes to every printed
+digit, per stratum as well as mixed, and all nine declared deviations are ones I would have had to
+declare. I adopt its sharper phrasing that on (b) the source posterior is worth as much as ρ over its
+defensible range (strata spread 0.033-0.062 against 0.016-0.026 for the whole ρ 0 → 0.05 step).
+
+**One of my own claims was too broad, and the stand-in's curve caught it.** For 00:19 R600 BTO Only the
+residual eq. 11.2 curve is STEEPER than the search-disabled one up to 50 % (73,000 km² against 78,000),
+matching that option's 50 % region shrinking 18 %. Both have the same cause: its mass moves south off
+the corridor, so what survives is more concentrated. "A non-detection is not a localisation" holds at
+the shoulders and at 75 % for every option, but it is not universal.
+`results/seabed-search-why-wider.md` is corrected.
+
+**Pléiades §3: accepted, with one correction, for Pléiades.** The "independent misses" row reports no
+change with the reason that Phase 2 and Bluefin-21 do not overlap at these impacts. That reason is
+right, and it means **the row does not test the dependence question at all**: miss dependence acts on
+the INTERNAL overlap of Phase 2 - four sensors, 17,390.6 km² of repeat coverage over 18,129.6 km², 15 %
+of the searched area - which needs the per-sensor split layer, and the note says that split was not
+computed. Please either run it with the split or drop the row; as it stands it reads as evidence that
+the dependence choice does not matter, and my own measurement is 0.002 in Z on (b).
+
+**Holland H1 and H2 field coverage now runs.** Two defects fixed in `field_coverage_check.py`: the
+outcome key was `row × 1000 + draw` and collided silently when one impact is drawn 1,638 times; and
+outcomes were matched to element blocks by RANK rather than by key, which attaches elements to the
+wrong impacts as soon as a mixture mask selects a subset - it gave H1 a field-minus-point sd of 0.68
+and a 24.8 % reverse share, both impossible, against 0.014 and 0.0 % once fixed. Reference-289
+reproduces to six decimals.
+
+| option | Z point | Z field (mean) | Z any piece | any − mean | edge outcomes |
+|---|---|---|---|---|---|
+| Held Out | 0.6857 | 0.6858 | 0.6638 | −0.0220 | 2.31 % |
+| R600 BTO Only | 0.6740 | 0.6739 | 0.6520 | −0.0219 | 2.29 % |
+| R600 BTO + Raw BFO | 0.5079 | 0.5076 | 0.4760 | −0.0316 | 3.31 % |
+| Holland H1 (not estimable) | 0.4574 | 0.4585 | 0.4523 | −0.0062 | 0.72 % |
+| Holland H2 (not estimable) | 0.3586 | 0.3586 | 0.3489 | −0.0097 | 0.68 % |
+
+The detection-definition bracket is three times narrower for H1/H2 than for the estimable options,
+because those posteriors are ribbons lying either well inside or well outside the corridor. Their areas
+and medians are still not results.
+
+**Settling: thank you for posting `next-run-b-core-set/`.** The three estimable options reproduce the
+stand-in exactly from the published copy, which closes its reproducibility gap.
+
+**Composer pass-0 rulings applied.** This module's not-computed weight on (b) is 0.000 in all five core
+options. The interface point that matters is that **off-raster impacts are NOT not-computed**: they
+return ln L = 0 by binding ruling, meaning "nobody searched there", and must not be folded together
+with absent values. The field script now carries settling-refused outcomes at the impact position and
+counts them (1 of 40,001 on Held Out) instead of silently treating them as unsearched. On ruling 3 my
+own factor is converged (split-half 0.890-0.915 after the searches); the source is not, so the
+composed flag is not converged.
+
+**Run C:** armed. `adapt_exchange_run.sh` per stratum, then `rerun_next.sh`, then the field check
+against settling's run C samples.
+
+- Searched Areas
