@@ -250,6 +250,11 @@ pub(crate) struct Params {
     /// (byte-identical; the reproduction and GLORYS12 arms leave it at 0).
     #[serde(default)]
     c_wind_product_offset: f64,
+    /// Product-relative windage drawn per particle, uniform in [lo, hi] (fractions of U10, e.g. [-0.0075, -0.0060]),
+    /// from its own random stream so every other response draw is identical to a fixed-offset run. Replaces
+    /// `c_wind_product_offset` when set (validation refuses both). Default None (byte-identical).
+    #[serde(default)]
+    c_wind_product_offset_range: Option<[f64; 2]>,
     /// Release every n-th active node only (checks; production uses 1).
     #[serde(default = "d_stride")]
     node_stride: usize,
@@ -357,7 +362,13 @@ fn draw_response_offset(c: &ClassParams, rng: &mut Rng, c_wind_offset: f64) -> O
 /// The common response draws of class `c` (shared by every node: common random numbers).
 fn class_responses(p: &Params, c: usize) -> Vec<ObjectResponse> {
     let mut rng = Rng::derive(&[p.seed, 0xC1A5, c as u64]);
-    (0..p.particles_per_class).map(|_| draw_response_offset(&p.classes[c], &mut rng, p.c_wind_product_offset)).collect()
+    match p.c_wind_product_offset_range {
+        None => (0..p.particles_per_class).map(|_| draw_response_offset(&p.classes[c], &mut rng, p.c_wind_product_offset)).collect(),
+        Some([lo, hi]) => {
+            let mut off_rng = Rng::derive(&[p.seed, 0x0FF5E7, c as u64]);
+            (0..p.particles_per_class).map(|_| draw_response_offset(&p.classes[c], &mut rng, lo + (hi - lo) * off_rng.uniform())).collect()
+        }
+    }
 }
 
 /// Where a beaching sits for the recovery layer.
@@ -861,11 +872,23 @@ fn run_label(p: &Params) -> String {
     };
     let gap = if p.land_gap_is_beaching { "land gap counted as beaching" } else { "land gap is model error" };
     let extent = p.extent_map_path.as_deref().unwrap_or("synthetic extent (no map)");
-    let wind = if p.c_wind_product_offset == 0.0 { String::new() } else { format!("; c_wind product offset {:+.4}", p.c_wind_product_offset) };
+    let wind = match p.c_wind_product_offset_range {
+        Some([lo, hi]) => format!("; c_wind product offset U({lo:+.4}, {hi:+.4}) per particle"),
+        None if p.c_wind_product_offset != 0.0 => format!("; c_wind product offset {:+.4}", p.c_wind_product_offset),
+        None => String::new(),
+    };
     format!("beaching: {coast}; {gap}; extent map: {extent}{wind}")
 }
 
 fn validate(p: &Params) -> Result<(), String> {
+    if let Some([lo, hi]) = p.c_wind_product_offset_range {
+        if p.c_wind_product_offset != 0.0 {
+            return Err("debris-drift: set c_wind_product_offset or c_wind_product_offset_range, not both".into());
+        }
+        if !(lo.is_finite() && hi.is_finite() && lo <= hi && lo > -0.05 && hi < 0.05) {
+            return Err(format!("debris-drift: c_wind_product_offset_range [{lo}, {hi}] must be finite, ordered and within +/-5% of U10"));
+        }
+    }
     if p.classes.is_empty() || p.env_seeds.is_empty() {
         return Err("debris-drift: need at least one object class and one environment realisation".into());
     }

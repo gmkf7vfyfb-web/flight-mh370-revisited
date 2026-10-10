@@ -527,3 +527,28 @@ fn product_windage_offset() {
         }
     }
 }
+
+#[test]
+fn product_windage_offset_range() {
+    use super::class_responses;
+    let run: toml::Value = toml::from_str(include_str!("production-globcurrent.toml")).unwrap();
+    let mut p: Params = run["hypotheses"]["debris-drift"].clone().try_into().unwrap();
+    p.particles_per_class = 2000;
+    let base = class_responses(&p, 1);
+    p.c_wind_product_offset_range = Some([-0.0075, -0.0060]);
+    let drawn = class_responses(&p, 1);
+    let mut offs = Vec::new();
+    for (a, b) in base.iter().zip(&drawn) {
+        // Only c_wind moves; every other response term is the same draw.
+        assert_eq!((a.a_stokes, a.wind_angle_deg, a.leeway_angle_deg, a.leeway_speed_mps), (b.a_stokes, b.wind_angle_deg, b.leeway_angle_deg, b.leeway_speed_mps));
+        if b.c_wind > 0.0 {
+            offs.push(b.c_wind - a.c_wind);
+        }
+    }
+    assert!(offs.iter().all(|d| *d >= -0.0075 - 1e-12 && *d <= -0.0060 + 1e-12));
+    let mean = offs.iter().sum::<f64>() / offs.len() as f64;
+    assert!((mean + 0.00675).abs() < 0.0001, "mean offset {mean}");
+    // Both forms together are refused.
+    p.c_wind_product_offset = -0.006;
+    assert!(super::validate(&p).is_err());
+}
