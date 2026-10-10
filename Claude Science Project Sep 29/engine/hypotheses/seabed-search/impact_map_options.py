@@ -77,43 +77,37 @@ ARCS = {"m0011": dict(lw=1.2, color="#b16286", label="6th arc, 00:11 UTC"),
 # BFO model as Holland pairs them: his Hypothesis 1 is the start-up transient after a fuel-exhaustion
 # power interruption, his Hypothesis 2 is some other log-on cause and no transient. Cross terms are
 # computed and reported in the JSON but are not combinations Holland puts forward.
-DEFAULT = ["none__other+alive", "r600_no-offset__other+alive",
+DEFAULT = ["none__other+alive", "r600-bto__other+alive", "r600_no-offset__other+alive",
            "both_startup-offset__fuel-exhaustion+alive", "both_no-offset__other+alive"]
-TITLES = {
-    "none__other+alive": "1. Held out\nno 00:19 observation, +alive",
-    "r600_no-offset__other+alive": "2. R600 as observed\nBTO 18,400 µs + BFO 182 Hz, +alive",
-    "both_startup-offset__fuel-exhaustion+alive": "3. Holland H1\nstart-up transient, fuel exhaustion, +alive",
-    "both_no-offset__other+alive": "4. Holland H2\nboth BFOs raw, other cause, +alive",
-    "none__other": "1. Held out\nno 00:19 observation at all",
-    "r600-bto__other": "R600 BTO arc only\n(derived)",
-    "r600_no-offset__other": "2. R600 as observed\nBTO 18,400 µs + BFO 182 Hz",
-    "both_startup-offset__fuel-exhaustion": "3. Holland H1\nstart-up transient, fuel exhaustion",
-    "both_no-offset__other": "4. Holland H2\nboth BFOs raw, other log-on cause",
-    "both_inflated__fuel-exhaustion": "5. Inflated sensitivity\nindependent 34 Hz",
-}
+# The plain names are architecture's ruling of ~16:30 UTC 10 Oct and are used verbatim. Internal arm
+# codes appear only in the technical footnote and in this file, as that ruling requires.
+TITLES = {"none__other+alive": "1. 00:19 Held Out",
+          "r600-bto__other+alive": "2. 00:19 R600 BTO Only",
+          "r600_no-offset__other+alive": "3. 00:19 R600 BTO + Raw BFO",
+          "both_startup-offset__fuel-exhaustion+alive": "4. 00:19 Holland H1",
+          "both_no-offset__other+alive": "5. 00:19 Holland H2",
+          "both_inflated__fuel-exhaustion+alive": "00:19 Inflated BFO Noise",
+          "r1200_startup-offset__fuel-exhaustion+alive": "00:19 R1200 only, start-up offset"}
+SUBTITLES = {"none__other+alive": "none of the 00:19 values are used",
+             "r600-bto__other+alive": "the 00:19:29 arc measurement only",
+             "r600_no-offset__other+alive": "the 00:19:29 arc and frequency, as recorded",
+             "both_startup-offset__fuel-exhaustion+alive": "both transmissions, with a warm-up frequency shift",
+             "both_no-offset__other+alive": "both transmissions, as recorded"}
 
 
-FOOTNOTE = """\
-OBSERVATIONS  engine/data/satcom-observations.csv, from the released unredacted SITA/Inmarsat logs.  00:19:29.416 UTC, R600 log-on request: BTO 18,400 µs — the raw 23,000 µs less the standard −4,600 µs R600 log-on-channel
-correction — sd 63 µs; BFO 182 Hz, tabulated sd 7 Hz.  00:19:37.443 UTC, R1200 log-on acknowledge: BFO −2 Hz, tabulated sd 7 Hz.  Its BTO (raw 49,660 µs, corrected by 4 × 7,820 µs after Davey §5.2 to 18,380 µs) is the anomalous
-value and is EXCLUDED from every panel.  The constant BFO bias is Davey's 150 ± 25 Hz prior marginalised per particle, so the two 00:19 BFOs are scored JOINTLY and not as independent readings: ln L(both) − ln L(R600) − ln L(R1200)
-is not a constant, ranging over ≈1,560 nats across seed 1.  The filter's effective BFO sd is 7.38 Hz (the tabulated 7 Hz variance plus a fixed 5.4 Hz²), recovered by exact reconstruction of the engine's log-likelihood (R² = 1).
+FOOTNOTE_PLAIN = """\
+WHAT THIS SHOWS.  Each column makes a different choice about the two radio transmissions from the aircraft at 00:19 UTC.  The top row shows where the aircraft hit the water before the seabed searches.  The bottom row shows the same
+after the searches, which found nothing.  Dark to light, the three bands hold 50, 90 and 99 per cent of the probability.  The searches usually make the area LARGER, not smaller: they take away a block in the middle of the corridor and
+leave a ring around it.  A search that finds nothing tells you where the aircraft is not; it does not tell you where it is.  Columns 4 and 5 cannot be calculated correctly from this set of flight paths yet, and a better method is being
+prepared, so their shapes and numbers are not results.  Every number on this page comes from a chain of models that is not yet stable, so treat all of it as provisional."""
 
-PANELS, left to right.  (1) No 00:19 observation at all — neither BFO and not the BTO arc; everything up to and including the 00:11 arc, with the fuel, dynamics and control model.  (2) The 00:19:29 BTO and BFO at face value.
-(3) Holland's Hypothesis 1 (arXiv:1702.02432v3 §V, §VI): the SDU oscillator warming up after a power interruption, putting the acknowledge 17–130 Hz and the request a further 0–6 Hz above a steady oscillator — uniform, positive and
-shared between the bursts — paired with the fuel-exhaustion log-on cause, which also applies the §6 log-on lag density.  (4) Holland's Hypothesis 2: some other log-on cause (software failure, loss of a critical SDU input, or attitude
-blocking the line of sight), so both BFOs at face value with no transient, and no lag density.  Panel 2 → panel 4 is the increment from adding the 00:19:37 BFO under H2; panel 3 against panel 4 is Holland's two hypotheses.
-Holland himself used these bounds to bound the DESCENT RATE, not position; the ATSB took that result as the ±25 NM corridor width and a descent kernel, never as a likelihood along the arc, so no panel here reproduces the ATSB's use.
-
-LOWER ROW, the seabed-search evidence.  ATSB Phase 2 union 120,486.5 km² (deep-tow side-scan, GO Phoenix and Dong Hai Jiu SAS, AUV side-scan) plus Bluefin-21/Artemis 771.4 km²; coverage rasterised at 0.01°; detection probability
-q = 0.945 Phase 2 and 0.900 Bluefin-21, conditional on a detectable target; undetectable fraction ρ = 0.05; point target — the size response g(W) is not yet implemented; shared miss dependence where campaigns overlap.
-Ocean Infinity 2018 and 2025–26 are NOT included.  {PRIOR}  Bands are 50/90/99 % highest-posterior-density regions on a
-0.02° grid smoothed at 0.1° (6 NM); areas on the authalic sphere.  **+alive**: end of flight's declared existence constraint, PROVISIONAL-OVERNIGHT, that the aircraft was airborne at 00:19:37.443 so
-that the log-on acknowledge could be sent at all — a datum separate from that burst's BTO and BFO values.  It binds only on the held-out arm, which otherwise puts 10.2 % of its weight before that burst.
-
-CONVERGENCE  Each panel is an importance-weighted reading of the SAME impacts (count in the PRIOR line above), which were not drawn with the 00:19 bursts in hand, so a sharp 00:19 likelihood collapses the weights.  ESS is the Kish effective
-sample size of those weights.  A panel below 1,000 effective impacts is labelled NOT ESTIMABLE: its bands are the few surviving particles, not a posterior, and its area, median and evidence are reported as unconverged, not as
-results.  Fixing it needs a proposal that already carries the 00:19 data, which is end of flight's to build, not a longer run of this one."""
+FOOTNOTE_TECH = """\
+TECHNICAL.  Observations (engine/data/satcom-observations.csv, released unredacted SITA/Inmarsat logs): 00:19:29.416 UTC R600 log-on request, BTO 18,400 us (raw 23,000 less the standard 4,600 us log-on-channel correction, sd 63 us) and
+BFO 182 Hz (tabulated sd 7 Hz); 00:19:37.443 UTC R1200 log-on acknowledge, BFO -2 Hz.  The R1200 BTO is excluded as anomalous.  The constant BFO bias is Davey's 150 +/- 25 Hz prior, marginalised per particle, so the two 00:19 BFOs are
+scored jointly.  Internal arms, in column order: none, r600-bto, r600_no-offset, both_startup-offset x fuel-exhaustion, both_no-offset x other, all with end of flight's +alive existence constraint.  Holland's start-up offset is
+arXiv:1702.02432v3 section V: 17-130 Hz on the acknowledge and a further 0-6 Hz on the request.  Seabed-search likelihood: ATSB Phase 2 union 120,486.5 km2 plus Bluefin-21/Artemis 771.4 km2, coverage rasterised at 0.01 deg, detection
+probability 0.945 and 0.900 conditional on a detectable target, undetectable fraction rho = 0.05, point target, shared miss dependence; Ocean Infinity layers excluded.  {PRIOR}  Bands are 50/90/99 % highest-posterior-density regions on a
+0.02 deg grid smoothed at 0.1 deg (6 NM); areas on the authalic sphere.  ESS is the Kish effective sample size of the importance weights; below 1,000 the region is not estimable and is reported as such."""
 
 
 def search_loglik(run, seed_dir, scratch):
@@ -278,26 +272,28 @@ def main():
             med = r["median_lat_after" if tag == "after" else "median_lat_before"]
             e = r["ess_after" if tag == "after" else "ess_before"]
             bad = e < ESS_FLOOR
-            ax.text(0.97, 0.03, f"90 % area {area/1000:,.0f}k km²\nmedian {abs(med):.2f}°S\n"
-                                f"ESS {e:,.0f} of {rows:,}",
+            ax.text(0.97, 0.03, f"90 % region {area/1000:,.0f}k km²\nmedian {abs(med):.2f}°S\n"
+                                f"effective sample size {e:,.0f} of {rows:,}",
                     transform=ax.transAxes, fontsize=6, color="#b02418" if bad else "#444444",
                     ha="right", va="bottom")
             if bad:
                 for sp in ax.spines.values():
                     sp.set_color("#b02418"); sp.set_linewidth(1.4)
-                ax.text(0.5, 0.955, "NOT ESTIMABLE FROM THIS SAMPLE", transform=ax.transAxes,
-                        fontsize=6.5, color="#b02418", ha="center", va="top", weight="bold")
+                ax.text(0.5, 0.955, "not yet estimable — targeted sampler in progress",
+                        transform=ax.transAxes, fontsize=6.5, color="#b02418", ha="center", va="top",
+                        weight="bold")
             if i == 0:
-                ax.set_title(TITLES.get(k, k), fontsize=7.5)
+                ax.set_title(TITLES.get(k, k) + ("\n" + SUBTITLES[k] if k in SUBTITLES else ""),
+                             fontsize=7.5)
             if j == 0:
-                ax.set_ylabel(("Impact PDF\n(no search evidence)" if tag == "before"
-                               else "After the seabed searches\n(Phase 2 + Bluefin-21, ρ = 0.05)"), fontsize=7)
+                ax.set_ylabel(("Where the aircraft hit the water,\nbefore the seabed searches" if tag == "before"
+                               else "After the seabed searches,\nwhich found nothing"), fontsize=7)
     bands = [Patch(facecolor=s, edgecolor=EDGE, lw=0.6, label=f"{int(f * 100)} % of probability")
              for s, f in zip(SHADES[::-1], LEVELS[::-1])]
     for e, st in ARCS.items():
         if e in arcs:
             bands.append(plt.Line2D([], [], color=st["color"], lw=st["lw"], ls=st.get("ls", "-"), label=st["label"]))
-    fig.legend(handles=bands, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, 0.182))
+    fig.legend(handles=bands, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, 0.198))
     src = (", ".join(f"{d.name} ({w:.1%})" for d, w in parts) + " — the supplied stratum weights renormalised to 1"
            if len(parts) > 1 else parts[0][0].name)
     prior = meta.get("config", {}).get("prior", {})
@@ -306,10 +302,12 @@ def main():
     prior_line = (f"PRIOR  {src}: "
                   + (f"{track}° initial track at {tzero}, " if track else "")
                   + f"{len(seeds)} seed files, {rows:,} impacts in all.")
-    note = FOOTNOTE.replace("{PRIOR}", prior_line) + ("\n\nLABELS  " + a.labels if a.labels else "")
-    fig.text(0.008, 0.172, note, fontsize=5.4, color="#333333", ha="left", va="top",
-             linespacing=1.45, family="DejaVu Sans")
-    fig.tight_layout(rect=(0, 0.20, 1, 1))
+    tech = FOOTNOTE_TECH.replace("{PRIOR}", prior_line) + ("  LABELS  " + a.labels if a.labels else "")
+    fig.text(0.008, 0.188, FOOTNOTE_PLAIN, fontsize=5.6, color="#222222", ha="left", va="top",
+             linespacing=1.5, family="DejaVu Sans")
+    fig.text(0.008, 0.098, tech, fontsize=5.0, color="#555555", ha="left", va="top",
+             linespacing=1.5, family="DejaVu Sans")
+    fig.tight_layout(rect=(0, 0.215, 1, 1))
     fig.savefig(a.stem + ".pdf", bbox_inches="tight")
     fig.savefig(a.stem + ".png", dpi=200, bbox_inches="tight")
     pathlib.Path(a.stem + ".json").write_text(json.dumps(report, indent=1) + "\n")
