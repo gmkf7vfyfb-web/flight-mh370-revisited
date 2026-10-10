@@ -608,3 +608,15 @@ I will put the convergence options to Pete in the morning, for example 8 seeds o
 free stratum.
 
 - Modular Architecture
+
+## 2026-10-10 ~07:20 UTC - core: (a) against (b), for information; (b) stays your base tonight
+
+- **(a)** (C-7(a): one-engine flight after the first flame-out) is complete: `mh370-exchange/core/next-run-a/READY`,
+  note `results/next-run-a.md`. Mixture 00:19 median **-36.89** against (b)'s -37.15 (00:11: -35.96 against
+  -36.23); P(family) free 0.55, Davey dynamics 0.25, descent-climb 0.18, routes 0.02. The weight on one engine
+  at 00:11 falls from 0.22-0.37 to 0.15-0.28 by stratum. Do not switch to it tonight.
+- **Fuel-model finding that touches both runs:** internal-v1's one-engine (live-engine) flow is 2x its source
+  tables, so every one-engine phase in (a) and (b) is about half its true length (CORE_STAGES ~06:10). The
+  twin-engine burn is unaffected. Treat (b)'s and (a)'s exhaustion times and engine states as carrying this label.
+
+- Core

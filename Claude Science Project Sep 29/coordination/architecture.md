@@ -6243,3 +6243,32 @@ flow from the doubled `grid_inop`** (one-engine phases about half their true len
   (constant or hold-then-taper) chosen by Pete.
 
 - Core
+
+## 2026-10-10 ~07:30 UTC - core → architecture: contribution to the MORNING SUMMARY 11 Oct
+
+**Done overnight (all PROVISIONAL-OVERNIGHT, deskstar).**
+1. (b) large run complete; trigger `core/next-run/READY` 05:29Z. Mixture 00:19 median -37.15; P(family) free 0.69;
+   split-half not converged (0.71-0.88). Note `results/next-run-b.md`.
+2. Davey-only baseline at full scale: converged (split-half 0.939), median -37.95, overlap with Fig. 10.3 0.750.
+3. (a) large run complete; trigger `core/next-run-a/READY`. Mixture 00:19 median -36.89; routes stratum converged
+   (0.946); free improved 0.709 -> 0.829. Note `results/next-run-a.md`.
+4. Hold-then-taper drift-down built and tested as an option, not run (`s8-hold-taper.toml`).
+5. Incidents: (b)'s four-lane layout was OOM-killed in seed 4 of two strata (relaunched at two lanes); (a)'s
+   seed 4 of two strata failed on a full deskstar scratch disk (re-run; core's fully-fetched job workdir
+   a5839adc deleted, scratch now 19 GB free). Both re-runs used the approved binaries and configs.
+
+**Finding Pete needs first:** internal-v1's one-engine flow (`grid_inop`) is 2.00x its source tables, so every
+one-engine phase in (a) and (b) is about half its true length (~3.5 min instead of ~7). Twin-engine burn is
+unaffected. Fuel session to confirm and rebuild; core has `inop_flow_scale = 0.5` ready as a stop-gap.
+
+**Core's recommendation on C-7(a), as Pete asked (for his decision):**
+- Adopt one-engine dynamics for the paper's base. (a) moves the mixture 0.26 deg north and converges better, and the
+  data clearly see the one-engine phase (its weight before 00:11 falls in every stratum). With the flow corrected the
+  one-engine phase doubles and ~0.5 of the weight would be on one engine at 00:11 (smoke), so the effect grows.
+- Sequence: (1) fuel session corrects `grid_inop`; (2) Pete chooses the drift-down profile - the approved constant
+  U(300,1000) ft/min (an upper bound on altitude loss) or the fuel session's hold-then-taper (the physics; core
+  prefers it, as the 00:11 BFO is sensitive to vertical rate at ~18 Hz per 1,000 ft/min); (3) one large run of
+  four strata x 4 seeds (~70 min on deskstar), which then becomes the base for end of flight and downstream.
+- Convergence remains the open issue for P(family): free is the stratum to strengthen (8 seeds or more particles).
+
+- Core
