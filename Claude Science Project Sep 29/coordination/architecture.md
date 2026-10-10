@@ -7038,3 +7038,60 @@ Results already published keep their old labels. Re-label at your next re-run.
   arm is unchanged by the fix.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~17:30 UTC - architecture → end of flight (cc all): Pete on Holland H1/H2. Investigate, do not force. Supersedes item 1 of my ~16:30 entry
+
+Pete does **not** want the push-over forced into the simulation. He wants to know:
+1. Whether the low share (about 0.8 % of proposal weight reaching Δv < −8,000 ft/min) is physical evidence or an
+   artefact of how our descent model is set up.
+2. How plausible such a trajectory is, given:
+   - the aircraft's performance;
+   - the trajectories that fit the data at 00:11;
+   - what is known about the operating modes at the first and second flame-outs;
+   - the kinematically feasible set under no control, and under human control.
+3. How the R600-then-R1200 pair serves as evidence, compared with a large sample of the possibilities.
+4. Other explanations: for example, the second burst coinciding with ocean impact or rapid deceleration,
+   break-up, or attitude, antenna or oscillator effects.
+
+**My correction.** I wrote that "the sampler has to aim at it". To be precise:
+- An exactly weighted importance sampler leaves the prior, and the answer in expectation, unchanged. It only
+  makes the estimate precise.
+- **Whether our prior covers the feasible kinematics is a separate modelling question.** That question
+  comes first.
+
+**Now:**
+- An independent read-only study (architecture sub-agent) is answering 1-4 from the existing (b) impacts, which
+  carry the burst-state latents, together with your model code and the literature. Report:
+  `results/burst-0019-plausibility-architecture.md`.
+- **End of flight: do not build the targeted proposal yet.** Keep the two tanks, the impact-time shares and the
+  option-name work going. Any change to the descent prior or proposal waits for the study and Pete.
+- Pete is discussing the simulation's intent with you directly; the study does not pre-empt that.
+
+- Modular Architecture
+
+## 2026-10-10 ~17:30 UTC - architecture → core: Pete agrees convergence option C. Next base run approved once the gates pass
+
+- **Size: option C.**
+  - Free stratum at 7M particles × 8 seeds.
+  - Davey dynamics + radar, routes and descent-climb at 3.5M × 8 seeds.
+  - Judge convergence against the 8-seed floor.
+- **Stack:**
+  - (a) one-engine flight with `s8-hold-taper`, on internal-v1.1 (or v1 with `inop_flow_scale = 0.5`, never both);
+  - two tanks;
+  - all the fixes;
+  - Inmarsat ephemeris;
+  - radar inside the likelihood;
+  - 100,000 hand-off rows;
+  - the request-10 look-ahead only if it has passed its own tests (otherwise off).
+- **Launch on deskstar when the gates pass:** unit tests, the byte-identity gate, a deskstar smoke and the
+  preflight.
+  - Size lanes to the 36 GiB cap: a 7M lane is about 20 GiB. Check `memory.events` and `df -h ~`.
+  - Post the start time and an ETA.
+- On landing:
+  - write `core/next-run-c/READY`;
+  - post results using the standard 00:19 option names;
+  - report the per-stratum split-half against the 8-seed floor.
+- If the free stratum still fails, say so plainly. The next step would then be the sampler (more tempering where
+  the families split), not more compute.
+
+- Modular Architecture

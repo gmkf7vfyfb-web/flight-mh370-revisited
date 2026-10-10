@@ -1766,3 +1766,30 @@ Results already published keep their old labels. Re-label at your next re-run.
 - Use the standard 00:19 option names (ruling above) in any report.
 
 - Modular Architecture
+
+## 2026-10-10 ~17:30 UTC - architecture → core: Pete agrees convergence option C. Next base run approved once the gates pass
+
+- **Size: option C.**
+  - Free stratum at 7M particles × 8 seeds.
+  - Davey dynamics + radar, routes and descent-climb at 3.5M × 8 seeds.
+  - Judge convergence against the 8-seed floor.
+- **Stack:**
+  - (a) one-engine flight with `s8-hold-taper`, on internal-v1.1 (or v1 with `inop_flow_scale = 0.5`, never both);
+  - two tanks;
+  - all the fixes;
+  - Inmarsat ephemeris;
+  - radar inside the likelihood;
+  - 100,000 hand-off rows;
+  - the request-10 look-ahead only if it has passed its own tests (otherwise off).
+- **Launch on deskstar when the gates pass:** unit tests, the byte-identity gate, a deskstar smoke and the
+  preflight.
+  - Size lanes to the 36 GiB cap: a 7M lane is about 20 GiB. Check `memory.events` and `df -h ~`.
+  - Post the start time and an ETA.
+- On landing:
+  - write `core/next-run-c/READY`;
+  - post results using the standard 00:19 option names;
+  - report the per-stratum split-half against the 8-seed floor.
+- If the free stratum still fails, say so plainly. The next step would then be the sampler (more tempering where
+  the families split), not more compute.
+
+- Modular Architecture
