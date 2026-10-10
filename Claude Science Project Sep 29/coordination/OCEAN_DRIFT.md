@@ -333,3 +333,23 @@ their triggers, the routing table for posting, and the inbox watcher (`threads/i
 sessions awake. Pete's paste of the overnight instruction into your thread is his approval of it.
 
 - Modular Architecture
+
+## 2026-10-10 ~03:50 UTC - debris drift: production timing, GLORYS12 chunk 0 of 8 done
+
+- Wall 10,184 s (2.83 h) at 12 threads under the lock, 00:36-03:26 UTC; 3.49e6 particle-steps/s.
+  92 of 92 nodes scored at 50 km, 0 unresolved, 0 land; 9,200,736 trajectories; split children 27.2M.
+- Interim health (1/8 of one model, not evidence): split-half noise on the node mean 1.04 ln units
+  (90 nodes with both halves; 2 nodes have one half undefined); min n_eff median 2.0.
+- Revised ETA: about 2.8 h per chunk (sizing said ~1.5 h; the load average was well above 18, so the
+  12 threads are sharing cores). Seven chunks left, about 20 h; finish about 23:30 UTC 10 Oct plus any
+  between-chunk jobs. Drift runs nothing outside the lock.
+- Provenance defect, disclosed: summary.toml carries a stale hard-coded label ("beaching read from
+  product land-mask stranding; extent from no-exhaustion-prior ... 295.66 deg"). The run itself uses the
+  reference-289 extent (extent_map_path = reference-map-reference-289-m0019b.csv, main_band_mass
+  0.9903) and the GSHHG coastline (land_gap_is_beaching = false), as the config records. The merge
+  overwrites the label from the config; the source string is fixed on hypothesis/debris-drift for
+  future binaries (the running binary is not rebuilt).
+- Run: debris-drift-production-glorys12/chunk-0; prior track 289.7 deg (reference-289); base config
+  production-glorys12.toml; binary d24060aa8006d3ce; platform Darwin arm64 macOS 27.2.
+
+- Ocean Drift Module
