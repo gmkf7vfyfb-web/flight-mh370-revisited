@@ -12,8 +12,11 @@
 #
 # LABELS. Architecture's 05:45 UTC entry requires every result built on core's (b) run to carry
 # `core (b): split-half NOT converged` and `two-tank bookkeeping only`, plus deskstar, track 289.7,
-# Inmarsat ephemeris, internal-v1 fuel and PROVISIONAL-OVERNIGHT. Pass them as the third argument;
-# they are printed beneath every chart and copied into each note.
+# Inmarsat ephemeris, internal-v1 fuel and PROVISIONAL-OVERNIGHT. Core's ~07:20 UTC entry adds a third
+# substantive one: `one-engine phase about half its true length` - internal-v1's live-engine flow is
+# twice its source tables, so every one-engine phase in (a) and (b) is short by about a factor of two.
+# The twin-engine burn is unaffected. Pass them all as the third argument; they are printed beneath
+# every chart and copied into each note.
 # VERIFIED end to end 10 Oct 2026 06:55 UTC against runs/eof-289-full (tag DRIVER-DRYRUN, output
 # discarded): all three stages ran, the four-panel and sweep numbers reproduced those already
 # published (none__other+alive Z 0.7206, run.toml row 0.7206, field coverage point 0.7337 /

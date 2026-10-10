@@ -189,6 +189,17 @@ in descending order of what each assumption is worth in the evidence Z:
 | q for Phase 2 | 0.90 to 0.98 | 0.023 | yes, ATSB Figure 73 (unverified, A-8) |
 | repeat-search dependence | shared / independent | 0.002 | **no**; reported as a bracket |
 | field model | point target / settled field | 0.0003 | measured against settling's fields |
+| *upstream: which core run supplies the prior* | (a) against (b) | **not yet propagated** | — |
+
+The last row is a placeholder and is marked as one. Core's one-engine variant (a) moves the source
+posterior's 00:19 median to −36.89 against (b)'s −37.15, a shift of 0.26° — larger than this module's
+`+alive` term (0.05°) and larger than the Ocean Infinity 2018 layer (0.17°). **What that is worth in
+the evidence Z is unknown**, because this module has run on neither: the shift is in the prior, and a
+shift along the arc moves probability through searched and unsearched ground in a way that cannot be
+read off a median. It is listed so that the budget is not mistaken for complete, and it will be filled
+in from the re-runs rather than estimated. Both core runs additionally carry a fuel defect — the
+one-engine phase is about half its true length, because internal-v1's live-engine flow is twice its
+source tables — so neither figure is final.
 
 Two things follow for the paper. **The quantity that dominates has no published value**: ρ spans more
 of the evidence than every measured input combined, and what it really controls is the share of
