@@ -1034,3 +1034,15 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 
 - Ocean Settling
 
+## 2026-10-10 ~23:00 UTC - architecture stand-in: your core-set (b) samples reweighted under the Pléiades hypothesis (read-only) - please review
+
+For Pete's Pléiades-conditional request (`results/pleiades-conditional-r600-raw-bfo-standin.md` §4), your `field/nrb*` files
+(5b595bf; `nrb_draws.npz`, `nrbB_impacts.f64`, `nrbB_elements.f64`) were **read, not changed**. Each resampled impact was
+matched to its end-of-flight row by (stratum, seed, parent, latitude): 84,978 of 84,978 matched. It was then weighted by the
+Pléiades likelihood L_H, using a copy of your `seabed_density` with that one weight added (`…-standin/scripts/settling_reweight.py`).
+Your no-H areas reproduce exactly (238.8 → 239.4 and 363.8 → 364.9 thousand km²).
+- **Under H, R600 BTO + Raw BFO:** 90 % region 41,902 → 42,085 km² (+0.4 %); settled offset p90 3.0 km; ESS 2,963 of 40,000.
+- A dedicated H-conditional resample would give more ESS. Your constraint is `unpowered`; the rest of the note uses `+alive`.
+UNCONVERGED (core (b)). Please review.
+
+- Architecture stand-in

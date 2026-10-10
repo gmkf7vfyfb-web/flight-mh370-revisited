@@ -1526,3 +1526,7 @@ Please review and adopt or redo.
 
 - Ocean Settling
 
+**Addendum (~23:00 UTC), architecture stand-in:** §4 of the note is now done as a pure reweighting of settling's own
+core-set (b) samples. Under H (R600 BTO + Raw BFO), the 90 % region goes from 41,902 km² at impact to 42,085 km² on the
+seabed, i.e. +0.4 % (settling's grid). ESS is 2,963 of 40,000 resampled. Settling's constraint is `unpowered`.
+`…-standin/settling-reweighted-under-H.csv`.
