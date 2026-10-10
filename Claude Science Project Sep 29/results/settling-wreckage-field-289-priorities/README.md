@@ -55,3 +55,22 @@ exhaustion between the 6th and 7th arcs, H2 on all trajectories). This map is re
 **Reproduce.** The commands are in the docstring of `wreckage_map_priorities_run.py`: `wreckage_field_prep_keys.py` for sets A and B, the
 `settling::tests::wreckage_field` generator, then the run script. A re-run reproduces the JSON byte for byte. Run cost: 6.5 min on 2
 threads for set B, outside the heavy lock (core holds it). Set A was not re-run.
+
+## Addendum, 10 Oct ~05:00 UTC: end of flight's `+alive` constraint (PROVISIONAL-OVERNIGHT)
+
+End of flight (`results/eof-impact-time-oct10/`, 04:05 UTC) recommends `+alive` as the downstream reference: the
+aircraft was airborne at 00:19:37.443. `settling-wreckage-field-289-priorities-alive.{pdf,png,json}` applies it.
+The impact contours come from `option_posteriors(..., constraints=("alive",))`, imported. The seabed field keeps the
+resampled impacts after 00:19:37.443; this rejection from the plain systematic resample needs no new settling draws.
+`WF_CONSTRAINT=alive` in `wreckage_map_priorities_run.py`. `+silent` reweights rather than truncates, so it needs its
+own resample and is not drawn.
+
+| panel | kept by +alive | 90 % area, impacts → seabed (km²), +alive | plain |
+|---|---|---|---|
+| (a) held out | 179,558 of 200,000 (89.8 %) | 738,300 → 739,000 | 700,600 → 701,300 |
+| (b) R600 as observed | 39,999 of 40,000 | 265,700 → 266,500 | unchanged |
+| (c) H1, (d) H2 | all | NOT ESTIMABLE, unchanged | |
+
+**Effect.** `+alive` removes the 10 % of held-out weight that hit the water before the 00:19:37 burst was sent. Those
+impacts lie close to the arc, so removing them widens held out's 90 % region by about 5 %, from 701,000 to
+739,000 km². Settling still adds 0.1 %. Options that score a 00:19 burst already enforce `+alive`. The plain map is kept.

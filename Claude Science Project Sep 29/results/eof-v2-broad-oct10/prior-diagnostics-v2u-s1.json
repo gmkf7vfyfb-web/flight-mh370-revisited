@@ -1,0 +1,76 @@
+{
+ "run": "runs/eof-2241-broad-v2u-s1",
+ "handoff_unix_s": 1394232081.0,
+ "predicted_exhaustion_min_q05_50_95": [
+  73.6,
+  99.5,
+  126.8
+ ],
+ "onset": {
+  "anticipatory": {
+   "share": 1.0,
+   "min_after_handoff_q05_25_50_75_95": [
+    4.2,
+    20.8,
+    41.8,
+    67.9,
+    98.2
+   ]
+  }
+ },
+ "onset_hist_15min": [
+  0.18,
+  0.18,
+  0.175,
+  0.147,
+  0.126,
+  0.102,
+  0.062,
+  0.021,
+  0.005,
+  0.001,
+  0.0,
+  0.0
+ ],
+ "shape_shares": {
+  "0": 0.249,
+  "1": 0.165,
+  "2": 0.328,
+  "3": 0.086,
+  "4": 0.172
+ },
+ "shape_shares_powered": {
+  "0": 0.249,
+  "1": 0.251,
+  "2": 0.5,
+  "3": 0.0,
+  "4": 0.0
+ },
+ "shape_codes": "0 continuous, 1 emergency+transition, 2 stepped, 3 best glide, 4 free trim",
+ "levels": {
+  "traced_descents": 31657,
+  "share_with_level_segment": 0.467,
+  "leveloff_alt_hist_2000ft": {
+   "0": 3636,
+   "2000": 3471,
+   "4000": 36,
+   "6000": 483,
+   "8000": 4546,
+   "10000": 1442,
+   "12000": 1642,
+   "14000": 514,
+   "16000": 352,
+   "18000": 331,
+   "20000": 308,
+   "22000": 329,
+   "24000": 300,
+   "26000": 314,
+   "28000": 264,
+   "30000": 0,
+   "32000": 0
+  },
+  "share_leveloff_10000ft_pm500": 0.118,
+  "share_leveloff_4000ft_pm500": 0.101,
+  "median_level_duration_min": 10.0
+ }
+}

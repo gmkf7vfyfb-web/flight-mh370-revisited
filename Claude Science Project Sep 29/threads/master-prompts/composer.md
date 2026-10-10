@@ -112,3 +112,8 @@ runner stage (core request C).
 
 **Core requests raised:** A — workspace membership; B — `results/composer-summary-rs.patch`; C — the
 runner stage replacing the `[[compose]]` rejection at `main.rs:71`.
+
+
+## Side questions (standing rule, Pete, 10 Oct 2026)
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.

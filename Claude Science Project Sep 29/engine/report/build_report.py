@@ -71,8 +71,13 @@ def describe_deviations(cfg, deviations, n_seeds, base_n_seeds):
     # themselves are dropped: they are long and carry nothing extra.
     # "to" rather than an arrow: the report's serif font has no U+2192 glyph, so an
     # arrow renders as a missing-character box in the PDF.
-    parts = [f"{p.rsplit('.', 1)[-1]} {show(a)} to {show(b)}"
-             for p, a, b in deviations if p != "seeds"]
+    def clip(t, n=60):
+        return t if len(t) <= n else t[:n - 3] + "..."
+    hyp_paths = sorted({p.split(".")[1] for p, a, b in deviations if p.startswith("hypotheses.")})
+    parts = [f"{p.rsplit('.', 1)[-1]} {clip(show(a))} to {clip(show(b))}"
+             for p, a, b in deviations if p != "seeds" and not p.startswith("hypotheses")]
+    if hyp_paths:
+        parts.append("hypotheses " + ", ".join(hyp_paths))
     if n_seeds != base_n_seeds:
         parts.append(f"replicates {base_n_seeds} to {n_seeds}")
     if not parts:
@@ -523,8 +528,51 @@ def page_parameters(pdf, run_json, out):
     plt.close(fig)
 
 
+def added_evidence(run_json):
+    """What this run adds beyond the satellite data, read from its own configuration (not assumed)."""
+    cfg = (run_json or {}).get("config", {})
+    added = []
+    hyps = cfg.get("hypotheses") or {}
+    if "radar-fix" in hyps:
+        added.append("primary-radar positions and track segments 18:04-18:22 scored as measurements")
+    for name in sorted(hyps):
+        if name != "radar-fix":
+            added.append(f"hypothesis overlay '{name}'")
+    f = cfg.get("fuel")
+    if f:
+        bits = [f"fuel model {f.get('model') or 'tables'}"]
+        if f.get("tanks") == 2:
+            bits.append("two tanks")
+        if f.get("single_engine"):
+            bits.append(f"one-engine flight after the first flame-out ({f.get('single_engine_profile') or 'constant'} drift-down)")
+        if f.get("hard_reject"):
+            bits.append("paths dry before 00:11 rejected")
+        added.append(", ".join(bits))
+    return added
+
+
+def evidence_sentence(run_json):
+    added = added_evidence(run_json)
+    if not added:
+        return "No fuel, debris, drift, search or end-of-flight evidence is used."
+    return "This run also uses: " + "; ".join(added) + ". No debris, drift, search or end-of-flight evidence is used."
+
+
 def save_page(pdf, fig, out):
-    """Each page goes to the PDF and, for viewers that cannot open PDFs, to <out>-png/page-<n>.png."""
+    """Each page goes to the PDF and, for viewers that cannot open PDFs, to <out>-png/page-<n>.png.
+    With REPORT_FOOTNOTE set, every page carries it at the foot (run, platform, stack, labels)."""
+    foot = os.environ.get("REPORT_FOOTNOTE", "").strip()
+    if foot:
+        # Squeeze the page's content into the top (1 - band) so the footnote never overlaps it.
+        lines = [l for para in foot.split("\n\n") for l in textwrap.wrap(para, 190)]
+        band = (0.34 + 0.095 * len(lines)) / fig.get_size_inches()[1]  # physical height, whatever the page size
+        for ax in fig.axes:
+            p = ax.get_position()
+            ax.set_position([p.x0, band + p.y0 * (1 - band), p.width, p.height * (1 - band)])
+        for t in fig.texts:
+            x, y = t.get_position()
+            t.set_position((x, band + y * (1 - band)))
+        fig.text(0.06, 0.04 / fig.get_size_inches()[1], "\n".join(lines), fontsize=5.4, color="#6b6b6b", va="bottom", ha="left")
     pdf.savefig(fig)
     pages = Path(out).parent / f"{Path(out).stem}-png"
     pages.mkdir(exist_ok=True)
@@ -542,7 +590,12 @@ def main():
     out = args.output or run_dir / "report.pdf"
     run = json.loads((run_dir / "run.json").read_text())
     hyps = run.get("hypotheses", [])
-    hyp_text = "; ".join(f"{h['name']} ({', '.join(f'{k} = {v}' for k, v in h['parameters'].items())})" for h in hyps)
+    def _short(v, n=48):
+        t = str(v)
+        return t if len(t) <= n else t[:n - 3] + "..."
+    hyp_text = "; ".join(f"{h['name']} ({', '.join(f'{k} = {_short(v)}' for k, v in h['parameters'].items())})" for h in hyps)
+    if len(hyp_text) > 120:  # long parameter lists (radar fixes, waypoint tables) name only
+        hyp_text = "; ".join(h["name"] for h in hyps) + " (parameters in run.json)"
     wind_scale = run["config"].get("environment", {}).get("wind_scale", 1.0)
     sensitivity = wind_scale != 1.0
     COLUMNS = run["final_columns"]
@@ -638,7 +691,7 @@ def main():
         s_base = base["stats"]
         shoulder_base = float(base["density"][shoulder].sum() * (GRID[1] - GRID[0]))
         shift = s_ours["median"] - s_base["median"]
-        base_text = (f"\n\nRelative to the base estimate, the median moves {abs(shift):.2f}° "
+        base_text = (f"\n\nRelative to {os.environ.get('BASELINE_NAME', 'the base estimate')}, the median moves {abs(shift):.2f}° "
                      f"{'north' if shift > 0 else 'south'}, the 34.5–36.5°S shoulder holds {shoulder_ours:.0%} of probability "
                      f"(base {shoulder_base:.0%}), and the two curves overlap by {overlap(bfo['density'], base['density']):.0%}.")
     bto_text = ("" if not bto else
@@ -664,10 +717,26 @@ def main():
         # rather than shrunk, which silently truncates what the run actually varied. The
         # body below starts one line lower per extra subtitle line, so a long deviation
         # list pushes the text down instead of overprinting it.
-        cond_lines = textwrap.wrap(conditions, 112) or [""]
-        fig.text(0.08, 0.920, "\n".join(cond_lines), fontsize=9, va="top",
-                 linespacing=1.5, color=INK if variant else MUTED, style="italic")
-        y = text_block(fig, 0.08, 0.893 - 0.0155 * (len(cond_lines) - 1), f"""
+        # REPORT_WHAT: one plain-language (ASD-STE100) statement of what this run is, so the reader
+        # does not have to decode the configuration. The technical conditions follow in smaller type.
+        what = os.environ.get("REPORT_WHAT", "").strip()
+        y0 = 0.920
+        if what:
+            what_lines = textwrap.wrap(what, 100)
+            fig.text(0.08, y0, "\n".join(what_lines), fontsize=9.5, va="top", linespacing=1.35, color=INK, weight="bold")
+            y0 -= 0.0145 * len(what_lines) + 0.006
+            c_size, c_wrap, c_spacing, c_step = 8, 130, 1.3, 0.0125
+        else:
+            c_size, c_wrap, c_spacing, c_step = 9, 112, 1.5, 0.0155
+        if what:
+            # The technical conditions are already on page 7 ("Run.") and in the technical footnote.
+            start = y0 - 0.008
+        else:
+            cond_lines = textwrap.wrap(conditions, c_wrap) or [""]
+            fig.text(0.08, y0, "\n".join(cond_lines), fontsize=c_size, va="top",
+                     linespacing=c_spacing, color=INK if variant else MUTED, style="italic")
+            start = y0 - 0.027 - c_step * (len(cond_lines) - 1)
+        y = text_block(fig, 0.08, start, f"""
             This report recreates the probability density function (pdf) of the aircraft's latitude at the final
             satellite handshake, 00:19 UTC on 8 March 2014, from the model published by Davey, Gordon, Holland,
             Rutten and Williams, Bayesian Methods in the Search for MH370 (Springer, 2016). The aircraft state is
@@ -704,7 +773,7 @@ def main():
         ax2.plot(GRID, bfo["density"], color=OURS, label=f"This recreation, pooled over {len(seeds)} replicates (thin: each)")
         ax2.plot(GRID, davey, color=DAVEY, ls=(0, (5, 2)), label="Davey et al. (2016) Fig. 10.3, digitised")
         if base:
-            ax2.plot(GRID, base["density"], color=MUTED, ls=(0, (1, 1.5)), lw=1.2, label="Base estimate (no hypotheses)")
+            ax2.plot(GRID, base["density"], color=MUTED, ls=(0, (1, 1.5)), lw=1.2, label=os.environ.get("BASELINE_LABEL", "Base estimate (no hypotheses)"))
         ax2.set_title("(b) BTO and BFO, compared with the published curve (note expanded scale)", loc="left", color=INK)
         ax2.legend(loc="upper right")
         for ax in (ax1, ax2):
@@ -712,13 +781,20 @@ def main():
             ax.set_ylim(bottom=0)
             ax.grid(axis="y", color="#e9e8e4", lw=0.5)
         ax2.set_xlim(-42, -32)
+        # Finer latitude ticks (1 deg labelled, 0.25 deg minor) with faint vertical grid lines.
+        from matplotlib.ticker import MultipleLocator
+        ax2.xaxis.set_major_locator(MultipleLocator(1.0))
+        ax2.xaxis.set_minor_locator(MultipleLocator(0.25))
+        ax2.tick_params(axis="x", which="minor", length=2.5, width=0.5)
+        ax2.set_axisbelow(True)
+        ax2.grid(axis="x", which="major", color="#e4e3df", lw=0.55)
+        ax2.grid(axis="x", which="minor", color="#f1f0ec", lw=0.45)
         ax2.set_xlabel("Latitude at 00:19 UTC (°)")
         text_block(fig, 0.08, 0.085, f"""
             Figure 1. Latitude pdf of the aircraft at 00:19:37 UTC, the form of Davey et al. Fig. 10.3. (a) BTO only.
             (b) BTO and BFO, with the published curve. Densities are weighted particle histograms smoothed with a {SMOOTH_DEG}° Gaussian;
             each particle carries its own altitude. Evidence: BTO at every epoch except the 18:39 and 23:15 C-channel
-            calls; BFO (bottom only) at 18:28, 18:39, 19:41–22:41, 23:15 and 00:11. No fuel, debris, drift, search
-            or end-of-flight evidence is used. {conditions}""", size=8, colour=MUTED, width=128)
+            calls; BFO (bottom only) at 18:28, 18:39, 19:41–22:41, 23:15 and 00:11. {evidence_sentence(run)} {conditions if len(conditions) < 160 else "Run conditions as stated at the top of this page."}""", size=8, colour=MUTED, width=128)
         save_page(pdf, fig, out)
         plt.close(fig)
 

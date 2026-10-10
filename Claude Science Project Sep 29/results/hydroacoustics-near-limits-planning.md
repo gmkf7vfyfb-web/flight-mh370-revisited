@@ -113,3 +113,24 @@ transient rates are unmeasured: Kadri's Table 1 implies about 67 /h at his own t
 | reference-289 impacts | in `mh370-exchange/end-of-flight/` | rerun this analysis and the AGW regime on them |
 
 *Hydroacoustics module, 2026-10-09. Exploratory; supersedes no pre-registered result.*
+
+## Addendum (10 Oct): IMS noise from Blackman 2004 replaces the Perth Canyon proxy - EXPLORATORY
+
+- **Noise source:** `hydroacoustics-ims-noise-blackman.md` (prereg `e137521`, results `889bc7f`). The offsets against the
+  proxy are H01W +5.44 dB, H08S −0.65 dB (and H08N −6.01 dB).
+- **Re-run:** reference-289 seed 1, held out, at module commit `fb795b1`, variant `blackman2003` in
+  `near_limits_eof289_{KE,VKE}.json`.
+
+| quantity (α = 0.05 per 50 s, triad gain 4.8 dB) | proxy noise | Blackman 2003 noise |
+|---|---|---|
+| H01W median SNR, full KE | +4.7 dB | −0.8 dB |
+| H01W P_D, full KE | 0.61 | 0.43 |
+| H08S P_D, full KE | 0.35 | 0.37 |
+| P(both detect), full KE: all / glide-ditch / dive | 0.34 / 0.26 / 0.53 | 0.33 / 0.25 / 0.52 |
+| P(both detect), vertical KE: all / dive | 0.13 / 0.41 | 0.12 / 0.40 |
+
+**Reading.** H01W loses about a third of its P_D. But P(both) barely moves, because H08S, which is unchanged, was
+already the limiting station. The planning values of a raw-data request therefore stand. IMS P_D is still the 3274
+logger's fit, used as a proxy.
+
+- Hydroacoustic Module

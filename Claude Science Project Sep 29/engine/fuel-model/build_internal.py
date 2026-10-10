@@ -34,7 +34,7 @@ import internal  # noqa: E402
 
 ENGINE = HERE.parent
 TABLES = ENGINE / "data/fuel-tables.json"
-OUT = ENGINE / "data/external/fuel-model/internal-v1.json"
+OUT = ENGINE / "data/external/fuel-model/internal-v1.1.json"  # v1.1: grid_inop no longer doubled
 
 FL_NODES = [15.0, 30.0, 50.0] + [float(x) for x in range(60, 431, 10)]
 W_NODES = [float(x) for x in range(150, 251)]
@@ -111,7 +111,7 @@ def main():
                     note="LOCAL USE ONLY. Derived from FPPM-confidential cells; never commit or upload."),
         tables=json.loads(TABLES.read_text())["tables"],
         model=dict(
-            version="internal-v1", formula="FF = kappa_traj * tau(dISA, M) * grid(FL, W, M)",
+            version="internal-v1.1", changes="v1.1 (10 Oct 2026): grid_inop was 2x the INOP tables in v1 (tables.py doubled the one-engine flow); grid and calibration unchanged", formula="FF = kappa_traj * tau(dISA, M) * grid(FL, W, M)",
             kappa=dict(mean=j["kappa"], sd=prior_sd, sd_components=dict(se_mean=j["se"], tau_between_groups=j["tau_between"],
                        state_residual=resid_sd), convention="multiplier on flow; > 1 burns more than the tables"),
             kappa_alternatives=dict(
@@ -128,7 +128,7 @@ def main():
         grid=dict(fl_nodes=FL_NODES, weight_t=W_NODES, mach=M_NODES, flow_kg_h=np.round(flow, 2).tolist(), flags=flag.tolist(),
                   flag_bits=internal.FLAG_BITS, median_grid_vs_table_lookup=err),
         grid_inop=dict(fl_nodes=FL_INOP, weight_t=W_NODES, mach=M_INOP, flow_kg_h=np.round(flow_i, 2).tolist(), flags=flag_i.tolist(),
-                       note="one engine inoperative: flow of the live engine, kg/h; holding_inop / 1.05 and LRC INOP; no calibration applied"),
+                       note="one engine inoperative: flow of the ONE live engine, kg/h (not doubled; v1 was 2x); holding_inop / 1.05 and LRC INOP; no calibration applied"),
         ceiling_fl=dict(weight_t=W_NODES, fl=ceiling),
         test_vectors=tv)
     text = json.dumps(doc, allow_nan=True).replace("NaN", "null")

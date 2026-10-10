@@ -1,0 +1,43 @@
+{
+ "crossimpl_max_km": {
+  "30": 0.00010910645644439104,
+  "60": 0.0033700175802483744,
+  "90": 0.05202950327923904,
+  "120": 0.5960176590756909
+ },
+ "f32_vs_netcdf_max_abs_ms": 2.4e-07,
+ "gridded_excess_wind_pct_median": 0.742,
+ "gridded_excess_angle_left_deg": 11.7,
+ "stokes_pct_U10": 1.41,
+ "excess_over_stokes": 0.45,
+ "undrogued_windage_fit_pct": {
+  "GLORYS12": 1.364,
+  "GlobCurrent": 0.752
+ },
+ "longrange_w60_690d": {
+  "glorys+0": 0.008106863196683523,
+  "glorys+0.01": 0.23187579879083475,
+  "glorys+0.01364": 0.4525774878205473,
+  "globc+0": 0.08486230796607586,
+  "globc+0.01": 0.5035270254591623,
+  "globc+0.00752": 0.3361558221457589,
+  "OBSERVED GDP": 0.442071991432776
+ },
+ "longrange_obs_ci": [
+  0.381,
+  0.503
+ ],
+ "agulhas_P180": {
+  "glorys+0": 0.2136,
+  "glorys+0.01": 0.2264,
+  "glorys+0.01364": 0.1764,
+  "globc+0": 0.1695,
+  "globc+0.01": 0.191,
+  "globc+0.00752": 0.1757,
+  "OBSERVED GDP (n=369; 84 events)": 0.25
+ },
+ "agulhas_obs_ci": [
+  0.205,
+  0.297
+ ]
+}

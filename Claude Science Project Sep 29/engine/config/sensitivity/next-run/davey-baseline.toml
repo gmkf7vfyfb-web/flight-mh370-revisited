@@ -1,0 +1,5 @@
+# Full-scale Davey-only baseline (overnight plan item 3, pre-approved): davey2016-inmarsat with no
+# extensions, seeds 1-4, 7M per seed as reference-289. The paper's without-fuel comparison.
+name = "davey-inmarsat-baseline"
+particles_per_mode = [1_000_000, 500_000, 2_500_000, 500_000, 2_500_000]
+seeds = [1, 2, 3, 4]

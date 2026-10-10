@@ -355,3 +355,8 @@ instruction: he asked to be reminded, not to have them quietly dropped.
 2. The freeze of the shared breakup field, once three consumers have stated requirements.
 3. Provisioning of bathymetry and full-depth reanalyses, with the shared ocean transport session.
 4. Whether TEOS-10 sound-speed profiles are emitted here for hydroacoustics or built there.
+
+
+## Side questions (standing rule, Pete, 10 Oct 2026)
+
+Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at once to the work you were doing. If that work is complete, start the next item in your backlog. Do not end your turn after a side answer while you have work in progress or a backlog. End your turn only when the backlog is empty or every item is blocked on something you cannot do yourself. Before you end it, write here which items are blocked and on what. An approved run whose gates you can execute is not blocked: start it.

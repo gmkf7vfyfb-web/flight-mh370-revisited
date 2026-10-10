@@ -266,6 +266,24 @@ fn draw_early<R: Rng>(e: &EarlyPhase, p: &Parameters, from_ft: f64, mach: f64, r
     rec
 }
 
+/// Calibrated airspeed (kt) for a Mach at a pressure altitude; the inverse of `cas_to_mach`.
+pub fn mach_to_cas(mach: f64, pressure_altitude_ft: f64) -> f64 {
+    const A0_KT: f64 = 661.478_8;
+    const P0_PA: f64 = 101_325.0;
+    let p = geo::isa_pressure_pa(pressure_altitude_ft);
+    let qc = p * ((1.0 + 0.2 * mach * mach).powf(3.5) - 1.0);
+    A0_KT * (5.0 * ((qc / P0_PA + 1.0).powf(2.0 / 7.0) - 1.0)).sqrt()
+}
+
+/// One-engine drift-down rate, ft/min (fuel session, one-engine.md 5.1): V_TAS / (L/D) x
+/// (1 - c (delta(h)/delta(h_c))^n), with the frontier anchored on the ceiling `ceiling_ft` at the
+/// present weight. Negative at and just above the ceiling (no descent there).
+pub fn drift_down_rate_fpm(tas_kt: f64, alt_ft: f64, ceiling_ft: f64, lift_drag: f64, min_drag_factor: f64, exponent: f64) -> f64 {
+    const FT_PER_MIN_PER_KT: f64 = 1_852.0 / 0.3048 / 60.0;
+    let ratio = geo::isa_pressure_pa(alt_ft) / geo::isa_pressure_pa(ceiling_ft);
+    tas_kt * FT_PER_MIN_PER_KT / lift_drag * (1.0 - min_drag_factor * ratio.powf(exponent))
+}
+
 /// Mach for a calibrated airspeed at a pressure altitude (ISA, subsonic compressible flow).
 pub fn cas_to_mach(cas_kt: f64, pressure_altitude_ft: f64) -> f64 {
     const A0_KT: f64 = 661.478_8;
@@ -482,6 +500,10 @@ pub struct Aircraft {
     /// Seconds flown above the service ceiling for the aircraft's weight, where the tables are
     /// empty because the airframe could not sustain the state.
     pub fuel_above_ceiling_s: f64,
+    /// Two-tank state when the run carries it (core request 16 C-7(b)); absent otherwise, and
+    /// then not serialised, so single-pool hand-offs are unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tanks: Option<Tanks>,
     /// Set once the remaining fuel cannot reach the endurance deadline even on the cheapest
     /// continuation the tables allow, so the path is certain to be rejected there.
     pub fuel_doomed: bool,
@@ -563,6 +585,118 @@ pub struct FuelModel {
     /// internal model (C-5, fuel audit F5): the prior and each new level target are drawn
     /// uniformly from the levels the aircraft can reach at its present weight.
     pub ceiling: bool,
+    /// Two tanks per path (C-7(b)); needs the internal model's INOP grid.
+    pub tanks: Option<fuel::TankPrior>,
+    /// One-engine dynamics (C-7(a)): after the first flame-out the aircraft drifts down to the
+    /// one-engine ceiling for its weight at a per-path rate, and flies the one-engine LRC Mach;
+    /// the lateral autopilot mode is unchanged. Needs `tanks`.
+    pub single_engine: Option<SingleEngine>,
+    /// Multiplier on the INOP grid's live-engine flow. 1.0 (default) uses the grid as delivered.
+    /// internal-v1's `grid_inop` is 2.00x its own source tables (LRC INOP FF / holding INOP FF,
+    /// "kg/h, one engine inoperative"): the per-engine x2 of the twin tables was applied to the
+    /// INOP set too (core finding, 10 Oct 2026). 0.5 corrects it until the fuel model is rebuilt.
+    pub inop_flow_scale: f64,
+}
+
+/// C-7(a) settings (pre-approved by Pete, 10 Oct 2026; ceiling and speed PROVISIONAL, derived by
+/// core from internal-v1's grid_inop flags and lrc_inop_mach).
+#[derive(Clone, Copy, Debug)]
+pub struct SingleEngine {
+    /// Drift-down rate drawn per path, uniform on this range, ft/min (constant profile only).
+    pub descent_fpm: (f64, f64),
+    /// Half-width of the uniform Mach band used where the one-engine schedule has no value.
+    pub mach_band: f64,
+    /// How the aircraft leaves altitude on one engine.
+    pub profile: DriftDown,
+}
+
+/// The one-engine drift-down profile.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum DriftDown {
+    /// The approved C-7(a) form: from flame-out, descend at the path's constant rate to the
+    /// one-engine ceiling at the LRC INOP Mach.
+    Constant,
+    /// The fuel session's physics (`results/fuel-model/one-engine.md` 5.1, 10 Oct 2026;
+    /// PROVISIONAL, built but not run). Above the one-engine ceiling the autopilot first holds
+    /// altitude while the calibrated airspeed decays at the path's rate to its drift-down KCAS;
+    /// then it descends at that KCAS with ROD = V_TAS / (L/D) x (1 - c W_c(h)/W), where
+    /// W_c(h)/W = (delta(h)/delta(h_c))^n anchors the frontier W_c ~ delta^n on core's ceiling
+    /// h_c at the present weight. The rate tapers to zero slightly above h_c (c > 1: level-off
+    /// at minimum-drag speed); below `level_off_fpm` the aircraft levels and keeps the KCAS. At
+    /// or below the ceiling at flame-out it holds altitude and slows at the same rate to the
+    /// LRC INOP Mach.
+    HoldTaper {
+        /// Speed decay while altitude is held, kt/min, drawn per path.
+        decel_kt_per_min: (f64, f64),
+        /// Drift-down calibrated airspeed, kt, drawn per path.
+        driftdown_kcas: (f64, f64),
+        /// Lift-to-drag ratio in the drift-down (Boeing driftdown ratio 0.0034 NM/ft).
+        lift_drag: f64,
+        /// D(LRC INOP) / D_min.
+        min_drag_factor: f64,
+        /// Exponent n of the ceiling frontier W_c ~ delta^n.
+        exponent: f64,
+        /// Rate below which the descent ends in a level-off, ft/min.
+        level_off_fpm: f64,
+    },
+}
+
+/// What one-engine flight commands this step (C-7(a)).
+#[derive(Clone, Copy, Debug)]
+struct OneEngine {
+    alt_target_ft: f64,
+    mach_target: f64,
+    /// Rate while descending, ft/min (positive).
+    descent_fpm: f64,
+    /// Speed decay towards `mach_target` in kt (CAS) per second, when it is not the Mach rate.
+    decel_kt_per_s: Option<f64>,
+}
+
+/// Left and right fuel and engine state (core request 16 C-7(b), bookkeeping only: the dynamics
+/// do not change when one engine stops; level (a) would add the drift-down).
+///
+/// While both engines run, the total flow is shared R : L = `ratio` : 1. When one tank runs
+/// dry, that engine stops and the other burns the one-engine-inoperative live-engine flow (the
+/// internal model's `grid_inop`, times the path's factor and the temperature term) until its
+/// own tank is empty. `Aircraft::fuel_kg` stays the total, and `fuel_exhausted_unix_s` the time
+/// the last engine stopped, so every consumer of those keeps its meaning.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct Tanks {
+    pub left_kg: f64,
+    pub right_kg: f64,
+    /// Right-to-left flow ratio while both engines run.
+    pub ratio: f64,
+    /// When each engine stopped; NaN while it runs.
+    pub left_exhausted_unix_s: f64,
+    pub right_exhausted_unix_s: f64,
+    /// Seconds flown on one engine, and of those, seconds the INOP lookup flagged above its
+    /// ceiling (the state level (a) would have drifted down from).
+    pub single_engine_s: f64,
+    pub single_engine_above_ceiling_s: f64,
+    /// C-7(a), per path: the drift-down rate on one engine (ft/min) and the position in the
+    /// fallback Mach band (-1..1). Zero when the run has no one-engine dynamics.
+    #[serde(default)]
+    pub driftdown_fpm: f64,
+    #[serde(default)]
+    pub mach_u: f64,
+    /// C-7(a) hold-then-taper profile, per path: speed decay (kt/min) and drift-down KCAS.
+    /// Zero under the constant profile.
+    #[serde(default)]
+    pub decel_kt_per_min: f64,
+    #[serde(default)]
+    pub driftdown_kcas: f64,
+}
+
+impl Tanks {
+    /// The time the first engine stopped, NaN while both run.
+    pub fn first_exhausted_unix_s(&self) -> f64 {
+        match (self.left_exhausted_unix_s.is_finite(), self.right_exhausted_unix_s.is_finite()) {
+            (true, true) => self.left_exhausted_unix_s.min(self.right_exhausted_unix_s),
+            (true, false) => self.left_exhausted_unix_s,
+            (false, true) => self.right_exhausted_unix_s,
+            (false, false) => f64::NAN,
+        }
+    }
 }
 
 /// The lowest temperature factor the doomed test allows for, so that it stays a lower bound
@@ -623,7 +757,17 @@ impl FuelModel {
             temperature: false,
             initial_from_factor: None,
             ceiling: false,
+            tanks: None,
+            single_engine: None,
+            inop_flow_scale: 1.0,
         }
+    }
+
+    /// Live-engine flow with one engine inoperative, at the air temperature, before the path's
+    /// factor. None without the INOP grid or where it cannot price the state.
+    pub fn inop_flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64, temperature_k: f64) -> Option<(f64, fuel::Coverage)> {
+        let (f, cover) = self.internal.as_ref()?.inop.as_ref()?.flow_kg_h(fl, weight_t, mach)?;
+        Some((f * self.inop_flow_scale * self.temperature_factor(fl, mach, temperature_k), cover))
     }
 
     /// Standard-day total flow before the path's factor: the internal model when loaded,
@@ -653,10 +797,16 @@ impl FuelModel {
 
     /// A lower bound on the flow at this weight over every state, for the doomed test.
     pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
-        let base = match &self.internal {
+        let mut base = match &self.internal {
             Some(g) => g.min_flow_kg_h(weight_t)?,
             None => self.tables.min_flow_kg_h(weight_t)?,
         };
+        // With two tanks the total flow can fall to one live engine's after a flame-out.
+        if self.tanks.is_some() {
+            if let Some(inop) = self.internal.as_ref().and_then(|g| g.inop.as_ref()).and_then(|i| i.min_flow_kg_h(weight_t)) {
+                base = base.min(inop);
+            }
+        }
         Some(if self.temperature { base * MIN_TEMPERATURE_FACTOR } else { base })
     }
 
@@ -749,6 +899,7 @@ impl Aircraft {
             fuel_no_flow_cause: 0.0,
             fuel_extrapolated_s: 0.0,
             fuel_above_ceiling_s: 0.0,
+            tanks: None,
             turns: 0,
             accelerations: 0,
             climbs: 0,
@@ -766,6 +917,38 @@ impl Aircraft {
         // burn from 17:06:43 and the burn after 18:01:49 are priced consistently.
         if let Some((base, burn)) = p.fuel.as_ref().and_then(|m| m.initial_from_factor) {
             a.fuel_kg = base - burn * a.fuel_factor;
+        }
+        // C-7(b): the split and the flow ratio, drawn per path after the factor.
+        if let Some(t) = p.fuel.as_ref().and_then(|m| m.tanks) {
+            let imbalance = t.imbalance_mean_kg + t.imbalance_sd_kg * normal(rng);
+            let ratio = (t.ratio_mean + t.ratio_sd * normal(rng)).max(0.5);
+            let half = (imbalance / 2.0).clamp(-a.fuel_kg / 2.0, a.fuel_kg / 2.0);
+            a.tanks = Some(Tanks {
+                left_kg: a.fuel_kg / 2.0 + half,
+                right_kg: a.fuel_kg / 2.0 - half,
+                ratio,
+                left_exhausted_unix_s: f64::NAN,
+                right_exhausted_unix_s: f64::NAN,
+                single_engine_s: 0.0,
+                single_engine_above_ceiling_s: 0.0,
+                driftdown_fpm: 0.0,
+                mach_u: 0.0,
+                decel_kt_per_min: 0.0,
+                driftdown_kcas: 0.0,
+            });
+            if let (Some(se), Some(t)) = (p.fuel.as_ref().and_then(|m| m.single_engine), a.tanks.as_mut()) {
+                match se.profile {
+                    DriftDown::Constant => {
+                        t.driftdown_fpm = rng.gen_range(se.descent_fpm.0..=se.descent_fpm.1);
+                        t.mach_u = rng.gen_range(-1.0..=1.0);
+                    }
+                    DriftDown::HoldTaper { decel_kt_per_min: (dlo, dhi), driftdown_kcas: (klo, khi), .. } => {
+                        t.mach_u = rng.gen_range(-1.0..=1.0);
+                        t.decel_kt_per_min = rng.gen_range(dlo..=dhi);
+                        t.driftdown_kcas = rng.gen_range(klo..=khi);
+                    }
+                }
+            }
         }
         if let Some(e) = &p.early {
             a.early = Some(Box::new(draw_early(e, p, a.alt_ft, a.mach, rng)));
@@ -843,6 +1026,16 @@ impl Aircraft {
 
     /// Vertical speed, ft/min: plus or minus the climb rate during a level change, else zero.
     pub fn vertical_speed_fpm(&self, p: &Parameters) -> f64 {
+        if let Some(t) = &self.tanks {
+            let one = (t.left_kg > 0.0) != (t.right_kg > 0.0);
+            if one && self.alt_target_ft < self.alt_ft && self.active_excursion().is_none() {
+                if let Some(o) = self.one_engine_schedule(p) {
+                    if o.descent_fpm > 0.0 && o.alt_target_ft < self.alt_ft {
+                        return -o.descent_fpm;
+                    }
+                }
+            }
+        }
         if let Some(x) = self.active_excursion() {
             return x.vertical_fpm_at(self.unix_s);
         }
@@ -893,6 +1086,10 @@ impl Aircraft {
         if cover.above_ceiling {
             self.fuel_above_ceiling_s += dt;
         }
+        if self.tanks.is_some() {
+            self.burn_two_tanks(model, flow_kg_h, weight_t, dt);
+            return;
+        }
         let burn = flow_kg_h * self.fuel_factor * dt / 3600.0;
         if burn >= self.fuel_kg {
             // Exhaustion inside this step: interpolate the moment linearly in the step.
@@ -902,6 +1099,167 @@ impl Aircraft {
             self.fuel_kg -= burn;
         }
         self.mark_doomed_if_short(model);
+    }
+
+    /// C-7(b) burn over `dt`, given the twin-engine total flow at the step's state (before the
+    /// factor). Phases within the step are resolved exactly: both engines until the first tank
+    /// is empty, then the other engine alone at the INOP live-engine flow.
+    fn burn_two_tanks(&mut self, model: &FuelModel, twin_kg_h: f64, weight_t: f64, dt: f64) {
+        let Some(mut t) = self.tanks else { return };
+        let k = self.fuel_factor;
+        let (mut now, mut left_s) = (self.unix_s, dt);
+        for _ in 0..3 {
+            if left_s <= 0.0 {
+                break;
+            }
+            let (l_on, r_on) = (t.left_kg > 0.0, t.right_kg > 0.0);
+            if l_on && r_on {
+                let total = twin_kg_h * k / 3600.0;
+                let (rate_l, rate_r) = (total / (1.0 + t.ratio), total * t.ratio / (1.0 + t.ratio));
+                let (tl, tr) = (t.left_kg / rate_l, t.right_kg / rate_r);
+                let first = tl.min(tr);
+                if first >= left_s {
+                    t.left_kg -= rate_l * left_s;
+                    t.right_kg -= rate_r * left_s;
+                    left_s = 0.0;
+                } else {
+                    if tr == tl {
+                        // Both tanks empty at the same instant: both engines stop together.
+                        t.right_kg = 0.0;
+                        t.left_kg = 0.0;
+                        t.right_exhausted_unix_s = now + first;
+                        t.left_exhausted_unix_s = now + first;
+                        self.fuel_exhausted_unix_s = now + first;
+                        break;
+                    } else if tr < tl {
+                        t.right_kg = 0.0;
+                        t.left_kg -= rate_l * first;
+                        t.right_exhausted_unix_s = now + first;
+                    } else {
+                        t.left_kg = 0.0;
+                        t.right_kg -= rate_r * first;
+                        t.left_exhausted_unix_s = now + first;
+                    }
+                    now += first;
+                    left_s -= first;
+                }
+            } else if l_on || r_on {
+                let fl = self.alt_ft / 100.0;
+                // Hold-then-taper flies slower than the INOP grid covers (M0.51-0.61 drift-down KCAS at
+                // high level): price it at the LRC INOP Mach of the same weight instead of falling back
+                // to half the extrapolated twin flow (which can be ~2x the live-engine flow). Gated to
+                // that profile so the constant profile is unchanged.
+                let hold_taper_mach = || -> Option<f64> {
+                    let se = model.single_engine?;
+                    if se.profile == DriftDown::Constant {
+                        return None;
+                    }
+                    let g = model.internal.as_ref()?;
+                    let c = g.inop.as_ref()?.ceiling_fl(weight_t);
+                    g.inop_mach(fl.min(c), weight_t)
+                };
+                let priced = model.inop_flow_kg_h(fl, weight_t, self.mach, self.weather.temperature_k).or_else(|| {
+                    hold_taper_mach().and_then(|m| model.inop_flow_kg_h(fl, weight_t, m, self.weather.temperature_k))
+                });
+                let (live_kg_h, above) = match priced {
+                    Some((f, cover)) => (f, cover.above_ceiling),
+                    // Unpriceable on one engine: burn the twin share it had, and say so.
+                    None => {
+                        self.fuel_extrapolated_s += left_s;
+                        (twin_kg_h / 2.0, false)
+                    }
+                };
+                let rate = live_kg_h * k / 3600.0;
+                let tank = if l_on { &mut t.left_kg } else { &mut t.right_kg };
+                let empty_in = *tank / rate;
+                let flown = empty_in.min(left_s);
+                t.single_engine_s += flown;
+                if above {
+                    t.single_engine_above_ceiling_s += flown;
+                }
+                if empty_in >= left_s {
+                    *tank -= rate * left_s;
+                    left_s = 0.0;
+                } else {
+                    *tank = 0.0;
+                    let at = now + empty_in;
+                    if l_on {
+                        t.left_exhausted_unix_s = at;
+                    } else {
+                        t.right_exhausted_unix_s = at;
+                    }
+                    self.fuel_exhausted_unix_s = at;
+                    left_s = 0.0;
+                }
+            } else {
+                break;
+            }
+        }
+        // A remainder the arithmetic left at the last flame-out is not fuel an engine can burn.
+        if !(t.left_kg > 0.0) && !(t.right_kg > 0.0) && self.fuel_exhausted_unix_s.is_nan() {
+            self.fuel_exhausted_unix_s = t.left_exhausted_unix_s.max(t.right_exhausted_unix_s);
+        }
+        self.fuel_kg = (t.left_kg + t.right_kg).max(0.0);
+        self.tanks = Some(t);
+    }
+
+    /// C-7(a): (one-engine ceiling ft, one-engine Mach) while exactly one engine runs and the run
+    /// has one-engine dynamics; None otherwise. The Mach is the LRC INOP schedule at the lower of
+    /// the present level and the ceiling; where the schedule has no value there, the value at the
+    /// nearest covered level below plus this path's draw in a uniform band (stated as such).
+    fn one_engine_schedule(&self, p: &Parameters) -> Option<OneEngine> {
+        let m = p.fuel.as_ref()?;
+        let se = m.single_engine?;
+        let t = self.tanks?;
+        if (t.left_kg > 0.0) == (t.right_kg > 0.0) {
+            return None;
+        }
+        let g = m.internal.as_ref()?;
+        let weight_t = (m.zfw_kg + self.fuel_kg) / 1000.0;
+        let ceiling_fl = g.inop.as_ref()?.ceiling_fl(weight_t);
+        let ceiling_ft = ceiling_fl * 100.0;
+        let fl = (self.alt_ft / 100.0).min(ceiling_fl);
+        let lrc_inop_mach = || -> Option<f64> { Some(match g.inop_mach(fl, weight_t) {
+            Some(x) => x,
+            None => {
+                let mut f = (fl / 10.0).floor() * 10.0;
+                let mut found = None;
+                while f >= 70.0 {
+                    if let Some(x) = g.inop_mach(f, weight_t) {
+                        found = Some(x);
+                        break;
+                    }
+                    f -= 10.0;
+                }
+                found? + se.mach_band * t.mach_u
+            }
+        }) };
+        match se.profile {
+            DriftDown::Constant => Some(OneEngine {
+                alt_target_ft: self.alt_ft.min(ceiling_ft),
+                mach_target: lrc_inop_mach()?,
+                descent_fpm: t.driftdown_fpm,
+                decel_kt_per_s: None,
+            }),
+            DriftDown::HoldTaper { lift_drag, min_drag_factor, exponent, level_off_fpm, .. } => {
+                let decel = Some(t.decel_kt_per_min / 60.0);
+                if self.alt_ft <= ceiling_ft {
+                    // At or below the ceiling: hold altitude and slow to the LRC INOP Mach.
+                    return Some(OneEngine { alt_target_ft: self.alt_ft, mach_target: lrc_inop_mach()?, descent_fpm: 0.0, decel_kt_per_s: decel });
+                }
+                let dd_mach = cas_to_mach(t.driftdown_kcas, self.alt_ft);
+                if mach_to_cas(self.mach, self.alt_ft) > t.driftdown_kcas + 0.5 && self.alt_target_ft >= self.alt_ft {
+                    // Altitude held while the speed decays to the drift-down KCAS.
+                    return Some(OneEngine { alt_target_ft: self.alt_ft, mach_target: dd_mach, descent_fpm: 0.0, decel_kt_per_s: decel });
+                }
+                let rod = drift_down_rate_fpm(self.air_speed_kt(self.weather.speed_of_sound_kt()), self.alt_ft, ceiling_ft, lift_drag, min_drag_factor, exponent);
+                if rod >= level_off_fpm {
+                    Some(OneEngine { alt_target_ft: ceiling_ft, mach_target: dd_mach, descent_fpm: rod, decel_kt_per_s: None })
+                } else {
+                    Some(OneEngine { alt_target_ft: self.alt_ft, mach_target: dd_mach, descent_fpm: 0.0, decel_kt_per_s: None })
+                }
+            }
+        }
     }
 
     /// Flag the path once no continuation can reach the endurance deadline.
@@ -947,6 +1305,13 @@ impl Aircraft {
                 self.steer(env, rng);
             }
             let excursion = self.active_excursion().cloned();
+            // C-7(a): on one engine the speed and altitude follow the one-engine schedule; the
+            // manoeuvre targets are overridden (drift down to the ceiling, or hold below it).
+            let one_engine = if excursion.is_none() { self.one_engine_schedule(p) } else { None };
+            if let Some(o) = one_engine {
+                self.alt_target_ft = o.alt_target_ft;
+                self.mach_target = o.mach_target;
+            }
             let manoeuvring = self.turn_remaining != 0.0
                 || self.mach != self.mach_target
                 || self.alt_ft != self.alt_target_ft
@@ -1018,13 +1383,24 @@ impl Aircraft {
                 self.mach = x.mach_at(self.alt_ft);
                 self.mach_target = self.mach;
             } else if self.mach != self.mach_target {
-                self.mach = step_towards(self.mach, self.mach_target, p.mach_rate_per_s * dt);
+                self.mach = match one_engine.and_then(|o| o.decel_kt_per_s) {
+                    // C-7(a) hold-then-taper: the speed decays in calibrated airspeed.
+                    Some(rate) if self.mach > self.mach_target => {
+                        let cas = mach_to_cas(self.mach, self.alt_ft) - rate * dt;
+                        cas_to_mach(cas.max(0.0), self.alt_ft).max(self.mach_target)
+                    }
+                    _ => step_towards(self.mach, self.mach_target, p.mach_rate_per_s * dt),
+                };
                 if self.mach == self.mach_target {
                     self.next_acceleration = self.unix_s + dt + self.exp_gap(rng);
                 }
             }
             if excursion.is_none() && self.alt_ft != self.alt_target_ft {
-                self.alt_ft = step_towards(self.alt_ft, self.alt_target_ft, p.climb_rate_ft_per_s * dt);
+                let rate = match one_engine {
+                    Some(o) if self.alt_target_ft < self.alt_ft => o.descent_fpm / 60.0,
+                    _ => p.climb_rate_ft_per_s,
+                };
+                self.alt_ft = step_towards(self.alt_ft, self.alt_target_ft, rate * dt);
                 if self.alt_ft == self.alt_target_ft {
                     self.next_climb = self.unix_s + dt + self.exp_gap(rng);
                 }
@@ -1490,6 +1866,241 @@ mod tests {
         let mut m = FuelModel::new(tables, fuel::FuelPrior::default());
         m.endurance = Some(EnduranceProposal { deadline_unix_s, prior_mix: 0.15, cells: 16 });
         m
+    }
+
+    /// A constant-state aircraft carrying `fuel_kg` on the tables, for the two-tank tests.
+    fn level_aircraft(p: &Parameters, fuel_kg: f64) -> Aircraft {
+        let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(5));
+        a.alt_ft = 35_000.0;
+        a.alt_target_ft = 35_000.0;
+        a.mach = 0.80;
+        a.mach_target = 0.80;
+        a.fuel_kg = fuel_kg;
+        a.fuel_factor = 1.0;
+        a
+    }
+
+    fn two_tanks(left_kg: f64, right_kg: f64, ratio: f64) -> Tanks {
+        Tanks {
+            left_kg,
+            right_kg,
+            ratio,
+            left_exhausted_unix_s: f64::NAN,
+            right_exhausted_unix_s: f64::NAN,
+            single_engine_s: 0.0,
+            single_engine_above_ceiling_s: 0.0,
+            driftdown_fpm: 0.0,
+            mach_u: 0.0,
+            decel_kt_per_min: 0.0,
+            driftdown_kcas: 0.0,
+        }
+    }
+
+    /// C-7(b): with no imbalance and a ratio of one the two tanks are the single pool.
+    #[test]
+    fn two_equal_tanks_at_ratio_one_are_the_single_pool() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        p.fuel = Some(std::sync::Arc::new(model));
+        let mut one = level_aircraft(&p, 20_000.0);
+        let mut two = one.clone();
+        two.tanks = Some(two_tanks(10_000.0, 10_000.0, 1.0));
+        for k in 1..=40 {
+            let t = one.unix_s + 600.0;
+            one.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            two.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            assert!((one.fuel_kg - two.fuel_kg).abs() < 1e-6, "step {k}: {} against {}", one.fuel_kg, two.fuel_kg);
+        }
+        assert!(one.fuel_exhausted_unix_s.is_finite(), "the test must run the tank dry");
+        assert!((one.fuel_exhausted_unix_s - two.fuel_exhausted_unix_s).abs() < 1e-3);
+    }
+
+    /// C-7(b) against the fuel session's arithmetic (engine-imbalance-180149.csv): L - R = +221 kg
+    /// and R : L = 1.021 leave about 595 kg in the left tank when the right runs dry.
+    #[test]
+    fn the_right_engine_stops_first_with_595_kg_left() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        p.fuel = Some(std::sync::Arc::new(model));
+        let total = 36_569.0;
+        let (l0, r0) = ((total + 221.0) / 2.0, (total - 221.0) / 2.0);
+        let mut a = level_aircraft(&p, total);
+        a.tanks = Some(two_tanks(l0, r0, 1.021));
+        let mut k = 0;
+        while !a.tanks.unwrap().right_exhausted_unix_s.is_finite() {
+            k += 1;
+            assert!(k < 2_000, "the right tank never ran dry");
+            let t = a.unix_s + 60.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let t = a.tanks.unwrap();
+        assert!(!t.left_exhausted_unix_s.is_finite() && a.fuel_exhausted_unix_s.is_nan());
+        // Left at right flame-out = L0 - R0 / ratio, less whatever the left alone burnt in the
+        // rest of the step it happened in.
+        let want = l0 - r0 / 1.021;
+        assert!((594.0..=596.0).contains(&want), "{want}");
+        let one_engine = t.single_engine_s;
+        assert!(t.left_kg <= want + 1e-6 && t.left_kg > want - 40.0, "left {} against {want} (one engine {one_engine} s)", t.left_kg);
+        assert_eq!(t.first_exhausted_unix_s(), t.right_exhausted_unix_s);
+        // Then the left runs on alone until it stops, and that is the last engine.
+        while a.fuel_kg > 0.0 {
+            k += 1;
+            assert!(k < 4_000);
+            let t = a.unix_s + 60.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let t = a.tanks.unwrap();
+        assert!(t.left_exhausted_unix_s > t.right_exhausted_unix_s);
+        assert_eq!(a.fuel_exhausted_unix_s, t.left_exhausted_unix_s);
+        assert!(t.single_engine_s > 0.0);
+    }
+
+    /// C-7(a): after the right engine stops, the aircraft drifts down at its own rate to the
+    /// one-engine ceiling for its weight, at the one-engine LRC Mach, and the BFO's vertical rate
+    /// is the drift-down rate meanwhile. Needs the local-only internal model; skips without it.
+    #[test]
+    fn one_engine_drift_down_to_the_ceiling() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        model.internal = Some(fuel::InternalGrid::from_json(&text).unwrap());
+        model.tanks = Some(fuel::TankPrior { imbalance_mean_kg: 0.0, imbalance_sd_kg: 0.0, ratio_mean: 1.0, ratio_sd: 0.0 });
+        model.single_engine = Some(SingleEngine { descent_fpm: (600.0, 600.0), mach_band: 0.02, profile: DriftDown::Constant });
+        let p_fuel = std::sync::Arc::new(model);
+        p.fuel = Some(p_fuel.clone());
+        let mut a = level_aircraft(&p, 26_000.0);
+        let mut t = two_tanks(25_950.0, 50.0, 1.0);
+        t.driftdown_fpm = 600.0;
+        a.tanks = Some(t);
+        // Twin flight until the right runs dry (50 kg: well under a minute), then one engine.
+        let mut k = 0;
+        while !a.tanks.unwrap().right_exhausted_unix_s.is_finite() {
+            k += 1;
+            assert!(k < 100);
+            let t = a.unix_s + 10.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let weight = (p_fuel.zfw_kg + a.fuel_kg) / 1000.0;
+        let ceiling_ft = p_fuel.internal.as_ref().unwrap().inop.as_ref().unwrap().ceiling_fl(weight) * 100.0;
+        assert!((24_000.0..=30_000.0).contains(&ceiling_ft), "one-engine ceiling {ceiling_ft} ft at {weight} t");
+        let start_ft = a.alt_ft;
+        assert!(start_ft > ceiling_ft + 3_000.0, "test needs room to drift down");
+        // One minute later: down by the drift-down rate, and the BFO sees it.
+        let t0 = a.unix_s;
+        a.propagate(t0 + 60.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(1000));
+        assert!((start_ft - a.alt_ft - 600.0).abs() < 1.0, "descended {} ft in a minute", start_ft - a.alt_ft);
+        assert_eq!(a.vertical_speed_fpm(&p), -600.0);
+        // After long enough: at the (slowly rising, as fuel burns) ceiling, level, on the schedule.
+        a.propagate(t0 + 3_600.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(1001));
+        let weight = (p_fuel.zfw_kg + a.fuel_kg) / 1000.0;
+        let g = p_fuel.internal.as_ref().unwrap();
+        let ceiling_now = g.inop.as_ref().unwrap().ceiling_fl(weight) * 100.0;
+        assert!(a.alt_ft <= ceiling_now + 1e-6 && a.alt_ft > ceiling_ft - 1e-6, "{} against ceiling {ceiling_now}", a.alt_ft);
+        let want = g.inop_mach(a.alt_ft / 100.0, weight).unwrap();
+        assert!((a.mach - want).abs() < 0.01, "Mach {} against the one-engine schedule {want}", a.mach);
+        assert_eq!(a.vertical_speed_fpm(&p), 0.0);
+        assert!(a.tanks.unwrap().single_engine_s > 3_000.0);
+    }
+
+    /// The airspeed conversions invert each other, and the hold-then-taper rate is negative at
+    /// the ceiling and zero about 1,000 ft above it (level-off at minimum drag, c > 1).
+    #[test]
+    fn drift_down_rate_tapers_to_zero_just_above_the_ceiling() {
+        for (m, h) in [(0.80, 35_000.0), (0.58, 31_000.0), (0.40, 10_000.0)] {
+            let back = cas_to_mach(mach_to_cas(m, h), h);
+            assert!((back - m).abs() < 1e-9, "{m} at {h}: {back}");
+        }
+        assert!((mach_to_cas(0.80, 35_000.0) - 272.0).abs() < 2.0);
+        let r = |h: f64| drift_down_rate_fpm(340.0, h, 29_000.0, 20.7, 1.038, 0.864);
+        assert!(r(29_000.0) < 0.0);
+        let mut lo = 29_000.0;
+        let mut hi = 35_000.0;
+        for _ in 0..60 {
+            let mid = 0.5 * (lo + hi);
+            if r(mid) > 0.0 { hi = mid } else { lo = mid }
+        }
+        assert!((800.0..1_200.0).contains(&(lo - 29_000.0)), "level-off {} ft above the ceiling", lo - 29_000.0);
+        // Fuel session table, FL350 at 175 t (ceiling ~FL290): descent starts at about 350 ft/min.
+        let start = drift_down_rate_fpm(cas_to_mach(215.0, 35_000.0) * 576.4, 35_000.0, 29_000.0, 20.7, 1.038, 0.864);
+        assert!((250.0..450.0).contains(&start), "initial rate {start}");
+    }
+
+    /// C-7(a) hold-then-taper: after the right engine stops at FL350 the autopilot holds altitude
+    /// while KCAS decays at the path's rate to its drift-down KCAS, then descends at a rate that
+    /// starts near 350 ft/min and tapers, levelling just above the one-engine ceiling. Needs the
+    /// local-only internal model; skips without it.
+    #[test]
+    fn one_engine_hold_then_taper() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        model.internal = Some(fuel::InternalGrid::from_json(&text).unwrap());
+        model.tanks = Some(fuel::TankPrior { imbalance_mean_kg: 0.0, imbalance_sd_kg: 0.0, ratio_mean: 1.0, ratio_sd: 0.0 });
+        // internal-v1's grid_inop is doubled (see `inop_flow_scale`); correct it here.
+        model.inop_flow_scale = 0.5;
+        model.single_engine = Some(SingleEngine {
+            descent_fpm: (300.0, 1000.0),
+            mach_band: 0.02,
+            profile: DriftDown::HoldTaper { decel_kt_per_min: (9.0, 9.0), driftdown_kcas: (215.0, 215.0), lift_drag: 20.7, min_drag_factor: 1.038, exponent: 0.864, level_off_fpm: 30.0 },
+        });
+        let p_fuel = std::sync::Arc::new(model);
+        p.fuel = Some(p_fuel.clone());
+        // Enough left fuel to outlast the test.
+        let mut a = level_aircraft(&p, 5_550.0);
+        let mut t = two_tanks(5_500.0, 50.0, 1.0);
+        t.decel_kt_per_min = 9.0;
+        t.driftdown_kcas = 215.0;
+        a.tanks = Some(t);
+        let mut k = 0;
+        while !a.tanks.unwrap().right_exhausted_unix_s.is_finite() {
+            k += 1;
+            assert!(k < 100);
+            let t = a.unix_s + 5.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let g = p_fuel.internal.as_ref().unwrap();
+        let ceiling = |a: &Aircraft| g.inop.as_ref().unwrap().ceiling_fl((p_fuel.zfw_kg + a.fuel_kg) / 1000.0) * 100.0;
+        let c0 = ceiling(&a);
+        assert!((27_000.0..=31_000.0).contains(&c0), "one-engine ceiling {c0} ft");
+        assert_eq!(a.alt_ft, 35_000.0);
+        let cas0 = mach_to_cas(a.mach, a.alt_ft);
+        let t0 = a.unix_s;
+        let left0 = a.tanks.unwrap().left_kg;
+        // Three minutes on: altitude held, 27 kt slower, no vertical rate for the BFO.
+        a.propagate(t0 + 180.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(500));
+        assert_eq!(a.alt_ft, 35_000.0);
+        assert_eq!(a.vertical_speed_fpm(&p), 0.0);
+        let cas = mach_to_cas(a.mach, a.alt_ft);
+        assert!((cas0 - cas - 27.0).abs() < 1.5, "slowed {} kt in 3 min", cas0 - cas);
+        // After the hold ((cas0 - 215)/9 min) plus a minute: descending at about 350 ft/min.
+        let hold_s = (cas0 - 215.0) / 9.0 * 60.0;
+        a.propagate(t0 + hold_s + 60.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(501));
+        let vs = a.vertical_speed_fpm(&p);
+        assert!((-500.0..=-250.0).contains(&vs), "vertical speed {vs} after the hold");
+        // The live engine burns a one-engine flow, not half an extrapolated twin flow.
+        let kg_h = (left0 - a.tanks.unwrap().left_kg) / (a.unix_s - t0) * 3600.0;
+        assert!((2_500.0..5_500.0).contains(&kg_h), "live-engine flow {kg_h} kg/h");
+        assert!((mach_to_cas(a.mach, a.alt_ft) - 215.0).abs() < 1.0);
+        assert!(a.alt_ft < 35_000.0 && a.alt_ft > 34_000.0, "alt {}", a.alt_ft);
+        // Twenty-five minutes later: levelled (or nearly), above the ceiling and within ~1,500 ft.
+        a.propagate(t0 + hold_s + 1_560.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(502));
+        let c1 = ceiling(&a);
+        let vs = a.vertical_speed_fpm(&p);
+        assert!(vs > -120.0 && vs <= 0.0, "vertical speed {vs} late in the drift-down");
+        assert!(a.alt_ft > c1 && a.alt_ft < c1 + 2_500.0, "alt {} against ceiling {c1}", a.alt_ft);
+        assert!(a.tanks.unwrap().left_kg > 0.0, "left tank ran dry inside the test");
     }
 
     #[test]

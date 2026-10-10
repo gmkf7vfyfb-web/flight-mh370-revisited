@@ -10,7 +10,7 @@ between the Pléiades and COSMO-SkyMed likelihoods.
 <surface dir>/{likelihood,cosmo}-surface.{f32,toml}  this module's hook exported on a 0.05 deg grid
 
 Weights: impact weight x exp(loglik:<option>) (end of flight's 00:19 data option, default `none`, as
-searched areas uses). The search evidence is the searched-areas module's own per-impact column
+searched areas uses). `<option>+alive` / `+silent` adds end of flight's existence constraint (its own code). The search evidence is the searched-areas module's own per-impact column
 (`seabed-search:loglik`, run.toml base: Phase 2 + Bluefin-21, rho 0.05), never recomputed here.
 Model averaging: L_F = mean_m L_F,m, with P+C formed per ocean model (L_P,m x L_C,m) before averaging,
 because one ocean drives both. COSMO pass: equal weight on dawn-20Mar and dusk-21Mar, inside each model.
@@ -68,6 +68,41 @@ def build_branch(models, P, Cm, rating=0, weight=0):
     return out
 
 
+def _eof_module():
+    import importlib.util
+    f = Path(__file__).resolve().parents[2] / "end-of-flight" / "smoke" / "displacement_hist.py"
+    spec = importlib.util.spec_from_file_location("eof_displacement_hist", f)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    return m
+
+
+def eof_option_weights(seed_dir, base, cause, con=""):
+    """Impact weights for an end-of-flight arm with a log-on cause other than `other` (e.g. `fuel-exhaustion`, which
+    adds EoF's Erlang APU log-on lag density), taken from EoF's own `option_posteriors` (read-only), so the arm is
+    exactly theirs. Option syntax here: `<option>[+<constraint>]@<cause>`."""
+    m = _eof_module()
+    key = f"{base.replace('/', '_')}__{cause}" + (f"+{con}" if con else "")
+    for k, p, _ in m.option_posteriors(Path(seed_dir), Path(seed_dir), constraints=((con,) if con else ())):
+        if k == key:
+            return p
+    raise KeyError(f"{key} not produced by end of flight's option_posteriors for {seed_dir}")
+
+
+def eof_constraint(seed_dir, A, cols, which):
+    """End of flight's declared existence constraint (`alive` / `silent`, PROVISIONAL-OVERNIGHT, 10 Oct ~04:05 UTC),
+    called read-only from its own code (hypotheses/end-of-flight/smoke/displacement_hist.py) so that the factor is
+    theirs, passed straight through, never re-implemented. Log-on cause `other`, as everywhere in this branch."""
+    import importlib.util
+    f = Path(__file__).resolve().parents[2] / "end-of-flight" / "smoke" / "displacement_hist.py"
+    spec = importlib.util.spec_from_file_location("eof_displacement_hist", f)
+    m = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(m)
+    logon = json.loads((seed_dir / "run.json").read_text())["config"]["hypotheses"]["end-of-flight"]["logon"]
+    g = lambda k: np.asarray(A[:, cols.index(k)], float)
+    return m.constraint_log_factor(g, logon, "other", which)
+
+
 def histograms(imp_root, eval_root, mp, option):
     lon0, lat0, nlat, nlon = mp["lon0"], mp["lat0"], int(mp["nlat"]), int(mp["nlon"])
     elon = lon0 - STEP / 2 + STEP * np.arange(nlon + 1)
@@ -83,7 +118,15 @@ def histograms(imp_root, eval_root, mp, option):
         ks = [i for i, c in enumerate(ec) if c.startswith("seabed-search:loglik")]
         assert len(ks) == 1, ec[:10]
         lat, lon = np.asarray(A[:, cols.index("latitude_deg")]), np.asarray(A[:, cols.index("longitude_deg")])
-        w = np.asarray(A[:, cols.index("weight")]) * np.exp(np.asarray(A[:, cols.index(f"loglik:{option}")]))
+        opt_, _, cause = option.partition("@")
+        base, _, con = opt_.partition("+")
+        if (cause and cause != "other") or f"loglik:{base}" not in cols:
+            # a non-default log-on cause, or an option end of flight derives rather than stores (e.g. r600-bto)
+            w = eof_option_weights(sd, base, cause or "other", con)
+        else:
+            w = np.asarray(A[:, cols.index("weight")]) * np.exp(np.asarray(A[:, cols.index(f"loglik:{base}")]))
+            if con:
+                w = w * np.exp(eof_constraint(sd, A, cols, con))
         w = np.where(np.isfinite(w), w, 0.0)
         s = np.exp(np.asarray(E[:, ks[0]]))
         s = np.where(np.isfinite(s), s, 1.0)
@@ -161,6 +204,7 @@ def run(imp_root, eval_root, surf, out, option="none", label="289.7 prior (refer
                     co.append(r)
     pd.DataFrame(co).to_csv(out / "common-origin.csv", index=False)
     info = dict(label=label, option=option, seeds=seeds, uncond_mass_outside_grid=outside, models=models,
+                impacts_root=str(Path(imp_root).resolve()), eval_root=str(Path(eval_root).resolve()),
                 grid=dict(lon0=mp["lon0"], lat0=mp["lat0"], nlon=int(mp["nlon"]), nlat=int(mp["nlat"]), step=STEP))
     (out / "branch.json").write_text(json.dumps(info, indent=1))
     np.savez_compressed(out / "branch-maps.npz", lat=lat, lon=lon, area=area, pre=pre.mean(axis=0), post=post.mean(axis=0),

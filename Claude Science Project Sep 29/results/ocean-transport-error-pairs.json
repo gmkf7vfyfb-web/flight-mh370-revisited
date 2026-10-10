@@ -1,0 +1,1240 @@
+{
+ "definition": "Correlation of GDP-replay residuals between drifter PAIRS (Pleiades request, 9 Oct ~22:40 UTC).\n\nPairs are two segments of different drifters with the same start time (the replay starts every segment on\nthe 6-hourly grid, so \"same start\" means the same 6 h fix), both undrogued, both starting in the search\nbox 80-110 E, 45-20 S in March-May, initial separation <= 100 km. The residual (model minus drifter, km)\nof each member is taken per component at leads 13 and 15 d. Same-lead correlation pools both member\norders; the cross-lag value pairs one member at 13 d with the other at 15 d, both orders. Pearson r per\ncomponent and separation bin (0-25, 25-50, 50-100 km), with pair counts and a drifter-block bootstrap\n(resample drifters with replacement; a pair enters with the product of its members' multiplicities).\nTwo wider sets are reported because the strict set is small: undrogued pairs anywhere in the domain with\nthe same start, and with starts within 2 days.",
+ "lead_days": [
+  13,
+  15
+ ],
+ "strict_pairs": 7,
+ "same_start_domain_pairs": 184,
+ "relaxed_pairs": 884,
+ "configs": {
+  "glorys12+0.01era5": {
+   "strict_undrogued_boxMAM_same_start": {
+    "0-25km": {
+     "pairs": 4,
+     "drifters": 2,
+     "same_13d_east": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "same_13d_north": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "same_15d_east": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "same_15d_north": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.977,
+      "n": 8,
+      "boot95": [
+       0.977,
+       0.977
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.825,
+      "n": 8,
+      "boot95": [
+       0.825,
+       0.825
+      ]
+     }
+    },
+    "25-50km": {
+     "pairs": 1,
+     "drifters": 2,
+     "same_13d_east": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "same_13d_north": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "same_15d_east": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "same_15d_north": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "cross_13_15d_east": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "cross_13_15d_north": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     }
+    },
+    "50-100km": {
+     "pairs": 2,
+     "drifters": 2,
+     "same_13d_east": {
+      "r": -0.644,
+      "n": 4,
+      "boot95": [
+       -0.644,
+       -0.644
+      ]
+     },
+     "same_13d_north": {
+      "r": -0.96,
+      "n": 4,
+      "boot95": [
+       -0.96,
+       -0.96
+      ]
+     },
+     "same_15d_east": {
+      "r": -0.995,
+      "n": 4,
+      "boot95": [
+       -0.995,
+       -0.995
+      ]
+     },
+     "same_15d_north": {
+      "r": -0.996,
+      "n": 4,
+      "boot95": [
+       -0.996,
+       -0.996
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": -0.92,
+      "n": 4,
+      "boot95": [
+       -0.92,
+       -0.92
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": -0.948,
+      "n": 4,
+      "boot95": [
+       -0.948,
+       -0.948
+      ]
+     }
+    },
+    "0-100km": {
+     "pairs": 7,
+     "drifters": 4,
+     "same_13d_east": {
+      "r": 0.766,
+      "n": 14,
+      "boot95": [
+       -0.052,
+       1.0
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.182,
+      "n": 14,
+      "boot95": [
+       0.103,
+       1.0
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.889,
+      "n": 14,
+      "boot95": [
+       0.239,
+       1.0
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.715,
+      "n": 14,
+      "boot95": [
+       0.647,
+       1.0
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.806,
+      "n": 14,
+      "boot95": [
+       0.056,
+       0.977
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.518,
+      "n": 14,
+      "boot95": [
+       0.479,
+       0.825
+      ]
+     }
+    }
+   },
+   "domain_undrogued_same_start": {
+    "0-25km": {
+     "pairs": 46,
+     "drifters": 16,
+     "same_13d_east": {
+      "r": 0.874,
+      "n": 92,
+      "boot95": [
+       -0.976,
+       1.0
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.87,
+      "n": 92,
+      "boot95": [
+       -1.0,
+       0.999
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.855,
+      "n": 92,
+      "boot95": [
+       -0.992,
+       0.999
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.907,
+      "n": 92,
+      "boot95": [
+       -1.0,
+       0.998
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.824,
+      "n": 92,
+      "boot95": [
+       -1.0,
+       0.959
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.814,
+      "n": 92,
+      "boot95": [
+       -0.731,
+       0.907
+      ]
+     }
+    },
+    "25-50km": {
+     "pairs": 32,
+     "drifters": 25,
+     "same_13d_east": {
+      "r": 0.131,
+      "n": 64,
+      "boot95": [
+       -0.694,
+       0.707
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.33,
+      "n": 64,
+      "boot95": [
+       -0.606,
+       0.609
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.348,
+      "n": 64,
+      "boot95": [
+       -0.515,
+       0.812
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.234,
+      "n": 64,
+      "boot95": [
+       -0.611,
+       0.571
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.231,
+      "n": 64,
+      "boot95": [
+       -0.581,
+       0.724
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.269,
+      "n": 64,
+      "boot95": [
+       -0.607,
+       0.569
+      ]
+     }
+    },
+    "50-100km": {
+     "pairs": 106,
+     "drifters": 63,
+     "same_13d_east": {
+      "r": 0.32,
+      "n": 212,
+      "boot95": [
+       -0.164,
+       0.665
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.364,
+      "n": 212,
+      "boot95": [
+       0.016,
+       0.594
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.288,
+      "n": 212,
+      "boot95": [
+       -0.217,
+       0.622
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.291,
+      "n": 212,
+      "boot95": [
+       -0.02,
+       0.524
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.3,
+      "n": 212,
+      "boot95": [
+       -0.183,
+       0.635
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.322,
+      "n": 212,
+      "boot95": [
+       0.003,
+       0.568
+      ]
+     }
+    },
+    "0-100km": {
+     "pairs": 184,
+     "drifters": 64,
+     "same_13d_east": {
+      "r": 0.44,
+      "n": 368,
+      "boot95": [
+       -0.088,
+       0.786
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.437,
+      "n": 368,
+      "boot95": [
+       0.154,
+       0.662
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.426,
+      "n": 368,
+      "boot95": [
+       -0.052,
+       0.749
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.404,
+      "n": 368,
+      "boot95": [
+       0.04,
+       0.717
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.42,
+      "n": 368,
+      "boot95": [
+       -0.085,
+       0.741
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.4,
+      "n": 368,
+      "boot95": [
+       0.067,
+       0.645
+      ]
+     }
+    }
+   },
+   "relaxed_undrogued_domain_start_within_2d": {
+    "0-25km": {
+     "pairs": 100,
+     "drifters": 62,
+     "same_13d_east": {
+      "r": 0.703,
+      "n": 200,
+      "boot95": [
+       0.182,
+       0.909
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.389,
+      "n": 200,
+      "boot95": [
+       -0.444,
+       0.819
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.614,
+      "n": 200,
+      "boot95": [
+       0.082,
+       0.885
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.48,
+      "n": 200,
+      "boot95": [
+       -0.454,
+       0.879
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.645,
+      "n": 200,
+      "boot95": [
+       0.12,
+       0.861
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.398,
+      "n": 200,
+      "boot95": [
+       -0.441,
+       0.79
+      ]
+     }
+    },
+    "25-50km": {
+     "pairs": 175,
+     "drifters": 100,
+     "same_13d_east": {
+      "r": 0.366,
+      "n": 348,
+      "boot95": [
+       -0.044,
+       0.646
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.359,
+      "n": 348,
+      "boot95": [
+       -0.224,
+       0.696
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.451,
+      "n": 348,
+      "boot95": [
+       0.059,
+       0.702
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.361,
+      "n": 348,
+      "boot95": [
+       -0.064,
+       0.674
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.413,
+      "n": 348,
+      "boot95": [
+       0.034,
+       0.7
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.369,
+      "n": 348,
+      "boot95": [
+       -0.102,
+       0.681
+      ]
+     }
+    },
+    "50-100km": {
+     "pairs": 609,
+     "drifters": 185,
+     "same_13d_east": {
+      "r": 0.069,
+      "n": 1216,
+      "boot95": [
+       -0.102,
+       0.232
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.122,
+      "n": 1216,
+      "boot95": [
+       -0.06,
+       0.291
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.081,
+      "n": 1216,
+      "boot95": [
+       -0.109,
+       0.262
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.087,
+      "n": 1216,
+      "boot95": [
+       -0.08,
+       0.263
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.071,
+      "n": 1216,
+      "boot95": [
+       -0.108,
+       0.246
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.099,
+      "n": 1216,
+      "boot95": [
+       -0.077,
+       0.258
+      ]
+     }
+    },
+    "0-100km": {
+     "pairs": 884,
+     "drifters": 187,
+     "same_13d_east": {
+      "r": 0.209,
+      "n": 1764,
+      "boot95": [
+       0.001,
+       0.393
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.189,
+      "n": 1764,
+      "boot95": [
+       0.002,
+       0.359
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.22,
+      "n": 1764,
+      "boot95": [
+       0.02,
+       0.424
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.171,
+      "n": 1764,
+      "boot95": [
+       -0.017,
+       0.356
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.211,
+      "n": 1764,
+      "boot95": [
+       -0.019,
+       0.406
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.173,
+      "n": 1764,
+      "boot95": [
+       -0.012,
+       0.345
+      ]
+     }
+    }
+   }
+  },
+  "globcurrent-p1d+0.01era5": {
+   "strict_undrogued_boxMAM_same_start": {
+    "0-25km": {
+     "pairs": 4,
+     "drifters": 2,
+     "same_13d_east": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "same_13d_north": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "same_15d_east": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "same_15d_north": {
+      "r": 1.0,
+      "n": 8,
+      "boot95": [
+       1.0,
+       1.0
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.942,
+      "n": 8,
+      "boot95": [
+       0.942,
+       0.942
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.407,
+      "n": 8,
+      "boot95": [
+       0.407,
+       0.407
+      ]
+     }
+    },
+    "25-50km": {
+     "pairs": 1,
+     "drifters": 2,
+     "same_13d_east": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "same_13d_north": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "same_15d_east": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "same_15d_north": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "cross_13_15d_east": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     },
+     "cross_13_15d_north": {
+      "r": null,
+      "n": 2,
+      "boot95": null
+     }
+    },
+    "50-100km": {
+     "pairs": 2,
+     "drifters": 2,
+     "same_13d_east": {
+      "r": -0.992,
+      "n": 4,
+      "boot95": [
+       -0.992,
+       -0.992
+      ]
+     },
+     "same_13d_north": {
+      "r": -0.094,
+      "n": 4,
+      "boot95": [
+       -0.094,
+       -0.094
+      ]
+     },
+     "same_15d_east": {
+      "r": -0.621,
+      "n": 4,
+      "boot95": [
+       -0.621,
+       -0.621
+      ]
+     },
+     "same_15d_north": {
+      "r": -0.391,
+      "n": 4,
+      "boot95": [
+       -0.391,
+       -0.391
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": -0.486,
+      "n": 4,
+      "boot95": [
+       -0.486,
+       -0.486
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": -0.242,
+      "n": 4,
+      "boot95": [
+       -0.242,
+       -0.242
+      ]
+     }
+    },
+    "0-100km": {
+     "pairs": 7,
+     "drifters": 4,
+     "same_13d_east": {
+      "r": 0.564,
+      "n": 14,
+      "boot95": [
+       0.351,
+       1.0
+      ]
+     },
+     "same_13d_north": {
+      "r": -0.236,
+      "n": 14,
+      "boot95": [
+       -0.348,
+       1.0
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.387,
+      "n": 14,
+      "boot95": [
+       -0.018,
+       1.0
+      ]
+     },
+     "same_15d_north": {
+      "r": -0.177,
+      "n": 14,
+      "boot95": [
+       -0.219,
+       1.0
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.489,
+      "n": 14,
+      "boot95": [
+       0.305,
+       0.942
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": -0.233,
+      "n": 14,
+      "boot95": [
+       -0.273,
+       0.407
+      ]
+     }
+    }
+   },
+   "domain_undrogued_same_start": {
+    "0-25km": {
+     "pairs": 46,
+     "drifters": 16,
+     "same_13d_east": {
+      "r": 0.735,
+      "n": 90,
+      "boot95": [
+       -1.0,
+       0.995
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.751,
+      "n": 90,
+      "boot95": [
+       -1.0,
+       0.999
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.721,
+      "n": 90,
+      "boot95": [
+       -1.0,
+       0.994
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.787,
+      "n": 90,
+      "boot95": [
+       -0.996,
+       0.998
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.684,
+      "n": 90,
+      "boot95": [
+       -0.997,
+       0.938
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.603,
+      "n": 90,
+      "boot95": [
+       -0.952,
+       0.92
+      ]
+     }
+    },
+    "25-50km": {
+     "pairs": 32,
+     "drifters": 25,
+     "same_13d_east": {
+      "r": -0.167,
+      "n": 64,
+      "boot95": [
+       -0.781,
+       0.464
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.108,
+      "n": 64,
+      "boot95": [
+       -0.618,
+       0.579
+      ]
+     },
+     "same_15d_east": {
+      "r": -0.107,
+      "n": 64,
+      "boot95": [
+       -0.751,
+       0.594
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.025,
+      "n": 64,
+      "boot95": [
+       -0.605,
+       0.529
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": -0.161,
+      "n": 64,
+      "boot95": [
+       -0.763,
+       0.43
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.049,
+      "n": 64,
+      "boot95": [
+       -0.624,
+       0.523
+      ]
+     }
+    },
+    "50-100km": {
+     "pairs": 106,
+     "drifters": 63,
+     "same_13d_east": {
+      "r": 0.174,
+      "n": 212,
+      "boot95": [
+       -0.272,
+       0.536
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.17,
+      "n": 212,
+      "boot95": [
+       -0.192,
+       0.515
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.124,
+      "n": 212,
+      "boot95": [
+       -0.315,
+       0.476
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.176,
+      "n": 212,
+      "boot95": [
+       -0.225,
+       0.505
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.136,
+      "n": 212,
+      "boot95": [
+       -0.291,
+       0.48
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.167,
+      "n": 212,
+      "boot95": [
+       -0.196,
+       0.497
+      ]
+     }
+    },
+    "0-100km": {
+     "pairs": 184,
+     "drifters": 64,
+     "same_13d_east": {
+      "r": 0.277,
+      "n": 366,
+      "boot95": [
+       -0.212,
+       0.685
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.237,
+      "n": 366,
+      "boot95": [
+       -0.121,
+       0.592
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.244,
+      "n": 366,
+      "boot95": [
+       -0.264,
+       0.666
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.249,
+      "n": 366,
+      "boot95": [
+       -0.174,
+       0.675
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.24,
+      "n": 366,
+      "boot95": [
+       -0.255,
+       0.599
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.211,
+      "n": 366,
+      "boot95": [
+       -0.171,
+       0.533
+      ]
+     }
+    }
+   },
+   "relaxed_undrogued_domain_start_within_2d": {
+    "0-25km": {
+     "pairs": 100,
+     "drifters": 62,
+     "same_13d_east": {
+      "r": 0.5,
+      "n": 198,
+      "boot95": [
+       -0.1,
+       0.848
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.497,
+      "n": 198,
+      "boot95": [
+       -0.218,
+       0.823
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.494,
+      "n": 198,
+      "boot95": [
+       -0.111,
+       0.854
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.48,
+      "n": 198,
+      "boot95": [
+       -0.393,
+       0.823
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.477,
+      "n": 198,
+      "boot95": [
+       -0.096,
+       0.804
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.433,
+      "n": 198,
+      "boot95": [
+       -0.264,
+       0.736
+      ]
+     }
+    },
+    "25-50km": {
+     "pairs": 175,
+     "drifters": 100,
+     "same_13d_east": {
+      "r": 0.308,
+      "n": 346,
+      "boot95": [
+       -0.042,
+       0.585
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.197,
+      "n": 346,
+      "boot95": [
+       -0.113,
+       0.464
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.329,
+      "n": 346,
+      "boot95": [
+       -0.038,
+       0.615
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.161,
+      "n": 346,
+      "boot95": [
+       -0.093,
+       0.399
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.314,
+      "n": 346,
+      "boot95": [
+       -0.018,
+       0.607
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.17,
+      "n": 346,
+      "boot95": [
+       -0.071,
+       0.45
+      ]
+     }
+    },
+    "50-100km": {
+     "pairs": 609,
+     "drifters": 185,
+     "same_13d_east": {
+      "r": 0.147,
+      "n": 1212,
+      "boot95": [
+       -0.057,
+       0.318
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.066,
+      "n": 1212,
+      "boot95": [
+       -0.143,
+       0.257
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.131,
+      "n": 1208,
+      "boot95": [
+       -0.053,
+       0.307
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.081,
+      "n": 1208,
+      "boot95": [
+       -0.099,
+       0.268
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.135,
+      "n": 1210,
+      "boot95": [
+       -0.06,
+       0.303
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.069,
+      "n": 1210,
+      "boot95": [
+       -0.119,
+       0.25
+      ]
+     }
+    },
+    "0-100km": {
+     "pairs": 884,
+     "drifters": 187,
+     "same_13d_east": {
+      "r": 0.204,
+      "n": 1756,
+      "boot95": [
+       0.006,
+       0.382
+      ]
+     },
+     "same_13d_north": {
+      "r": 0.131,
+      "n": 1756,
+      "boot95": [
+       -0.049,
+       0.297
+      ]
+     },
+     "same_15d_east": {
+      "r": 0.198,
+      "n": 1752,
+      "boot95": [
+       0.004,
+       0.369
+      ]
+     },
+     "same_15d_north": {
+      "r": 0.135,
+      "n": 1752,
+      "boot95": [
+       -0.044,
+       0.321
+      ]
+     },
+     "cross_13_15d_east": {
+      "r": 0.196,
+      "n": 1754,
+      "boot95": [
+       -0.001,
+       0.359
+      ]
+     },
+     "cross_13_15d_north": {
+      "r": 0.123,
+      "n": 1754,
+      "boot95": [
+       -0.046,
+       0.297
+      ]
+     }
+    }
+   }
+  }
+ }
+}

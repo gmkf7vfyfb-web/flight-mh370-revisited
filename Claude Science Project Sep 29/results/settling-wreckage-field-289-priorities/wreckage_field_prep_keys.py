@@ -1,4 +1,5 @@
-"""Resample impacts for chosen 00:19 options (settling wreckage-field maps; settling module, 9 Oct 2026).
+"""(Env: WF_RUN_PATTERN default eof-289-full-s{s}, WF_SEED_PATTERN default bto-bfo/seed-{s}, WF_SEEDS default 1,2,3,4.)
+Resample impacts for chosen 00:19 options (settling wreckage-field maps; settling module, 9 Oct 2026).
 
     python3 wreckage_field_prep_keys.py <end-of-flight smoke dir> <end-of-flight engine/runs> <tag> <key,key,...> <n per seed> <rng seed>
 
@@ -7,7 +8,7 @@ one numpy Generator(<rng seed>) consumed in seed order then option_posteriors or
 settling draws 0, 1, 2, ... Writes field/<tag>_impacts.f64 (14 f64 columns: the input of settling::tests::wreckage_field)
 and field/<tag>_draws.npz (per key: input row and draw index of every resampled impact; pooled ESS).
 """
-import sys, json, pathlib, numpy as np
+import sys, os, json, pathlib, numpy as np
 from collections import Counter
 SM, E, TAG, KEYS, NPER, SEED = sys.argv[1], pathlib.Path(sys.argv[2]), sys.argv[3], sys.argv[4].split(","), int(sys.argv[5]), int(sys.argv[6])
 sys.path.insert(0, SM)
@@ -15,9 +16,11 @@ from displacement_hist import option_posteriors
 VCOLS = ['unix_s', 'latitude_deg', 'longitude_deg', 'velocity_east_mps', 'velocity_north_mps', 'velocity_up_mps', 'flight_path_angle_deg',
          'mass_kg', 'kinetic_energy_j', 'vertical_kinetic_energy_j', 'parent', 'latent:debris_class']
 rng = np.random.default_rng(SEED); tab, out = [], {}
+RUN = os.environ.get("WF_RUN_PATTERN", "eof-289-full-s{s}"); SEEDDIR = os.environ.get("WF_SEED_PATTERN", "bto-bfo/seed-{s}")
+SEEDS = [int(x) for x in os.environ.get("WF_SEEDS", "1,2,3,4").split(",")]
 ESS = {k: 0.0 for k in KEYS}; rows = {k: [] for k in KEYS}; draws = {k: [] for k in KEYS}
-for s in (1, 2, 3, 4):
-    run = E / f"eof-289-full-s{s}"; sd = run / "bto-bfo" / f"seed-{s}"
+for s in SEEDS:
+    run = E / RUN.format(s=s); sd = run / SEEDDIR.format(s=s)
     meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
     picks = {}
     for k, p, c in option_posteriors(run, sd):

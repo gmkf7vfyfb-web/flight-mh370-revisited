@@ -215,3 +215,136 @@ discarded. So this statistic sees only near-gap-level signals, and its null resu
 
 **Bottom line:** on the digitised traces, no shot-energy anomaly at H08S coincides with H01W beyond chance.
 The one exploratory hint is best explained by shot multipath. The decisive check needs raw H08S triad data.
+
+## Addendum 3, 10 Oct ~03:10 UTC: energy-only and template-shape tests, implied sources, threshold sweep
+
+**Pre-registrations:**
+- `h08s_pulse_energy.py` (`8ff37fb`): energy only, with no cadence or timing rule, following Pete's point
+  that received shot timing varies with the vessel's range.
+- `h08s_shot_template.py` (`360bf14`): local stacked templates.
+
+**A defect disclosed after the template test's first run.** The "peak" residual is zero by construction,
+so its z was floating-point noise. The first run flagged 17 + 17 spurious outliers on it and showed a
+spurious injection floor of about 0.25. The window is now excluded; the first run is kept as
+`v1_defective`.
+
+### Energy-only test
+
+**Measures:** 116 pulses; energy on the peak (±1 s), the leading shoulder (−3 to −1 s) and the trailing
+shoulder (1–4 s), each detrended by a 13-pulse running median.
+
+**Result: every measure, sign and H01W variant is consistent with chance** (log₁₀ BF ≥ 1, p ≥ 0.20).
+
+**Sensitivity:** P_D is 0.76 for an injected signal with the energy of a median shot, and 1.0 from +3 dB.
+
+**The four "off-cadence" pulses** of Addendum 2 appear here as LOW-energy outliers (z −5.9 to −7.8):
+weak secondary arrivals, not loud independent events.
+
+![H08S pulse energy](hydroacoustics-h08s-pulse-energy.png)
+
+*Footnote:*
+- **Data:** Kadri (2024) Fig. 9 H08S vectors (filtered, single channel, vertex-simplified).
+- **Pulse energy:** ∫p² over ±1 s about each envelope peak.
+- **All 116 pulses:** mode −4.3, median −3.0, mean −0.6 dB re 1 Pa² s.
+- **Per panel** (mode / median / mean): panel d −4.4 / −4.6 / −4.5; panel e 0.2 / 1.3 / 1.8.
+- **Spread about the running trend:** robust σ is 0.95 dB (d) and 0.51 dB (e).
+- **No impact-PDF input.**
+
+### Template shape test
+
+**Method:** 110 shots. Each shot's 0.25 s log-envelope is aligned and compared with the median of its ±6
+neighbours. The statistics are shape correlation ρ (median 0.79), the residuals in the pre, post and tail
+windows, and the PCA squared prediction error.
+
+**Result:**
+- no shape, shoulder or tail outliers;
+- one PCA outlier (01:01:33.8), whose H01W coincidences are at chance (p 0.68–1.0).
+
+**Sensitivity:**
+
+| SNR vs median shot | −20 dB | −10 dB | −6 dB | −3 dB | 0 dB | +3 dB |
+|---|---|---|---|---|---|---|
+| P_D | 0.007 | 0.03 | 0.18 | 0.50 | 0.63 | 0.78 |
+
+**On these digitised envelopes a coincident signal must be within about 3 dB of a shot to be seen half the
+time.** Raw triad waveforms would do far better.
+
+![H08S shot gather and template residuals](hydroacoustics-h08s-shot-gather.png)
+
+### The Bayes-factor threshold (why 10:1)
+
+**The choice:** log₁₀ BF ≥ 1 was fixed at pre-registration, as Jeffreys' "strong" boundary.
+
+**Alternatives considered:** span only, BF > 1, 3:1, 20:1 and 100:1.
+
+**The sweep** (`results-data/h08s_pulse/bf_threshold_sweep_table.csv`) covers every outlier class with any
+outliers, each H01W variant, and both tests. **The smallest p is 0.14**, for trailing-shoulder low with the
+loose H01W triggers at ≥ 100:1, with 3 coincident against 1.7 expected. **No threshold gives an excess.**
+
+### Implied sources and impact times of every outlier
+
+![Implied sources and impact times](hydroacoustics-h08s-outlier-sources.png)
+
+**Coverage:** 10 outlier times from the cycle, energy-only and off-cadence tests, paired with every H01W
+trigger in the time-difference span, give 83 pairs.
+
+**Implied impact times:** they run from 1 min before to 17.5 min after 00:19, each outlier's pairs
+spanning about one to two minutes. Implied sources run along the arc from about 31° S to 38° S.
+
+**Coverage under reference-289** (CORRECTED 10 Oct ~03:30 UTC; the first version read a histogram truncated
+at 30 min that missed 29 % of the mass). The scoring uses the stand-in impact time (00:24:37 ± 3 min).
+Reference-289 (eof-289-full seed 1, held-out option) puts impact later and more broadly, in minutes after
+00:19:
+
+| | 5 % | median | 95 % |
+|---|---|---|---|
+| all samples | −2.9 | 19.6 | 46.3 |
+| glide/ditch (flight-path angle < 10°) | 7.3 | 23.5 | 49.3 |
+| dive (≥ 10°) | −4.9 | 5.5 | 32.3 |
+
+The tail runs to about 102 min.
+
+**Kadri's panels (H01W to 00:57, H08S to 01:20) therefore cannot contain arrivals from most of the
+reference-289 impact-time range.**
+- An impact at the median (00:38:34) arrives at H01W at about 01:03 and at H08S at about 01:20.
+- Any raw-data request should cover about 00:15–02:00 UTC at H01W, and about 00:15–02:00 UTC or later at
+  H08S.
+
+## Addendum 4 (10 Oct, at Pete's request): was Kadri's preferred signal among the pairs and outliers? EXPLORATORY, post hoc
+
+**Kadri's preferred signal** is at H01W, bearing 306.18° [Kadri2024]:
+- Table 1 and its caption (p. 14) give it at 00:54:30; the body text (p. 9) gives it at "00:52 UTC".
+- Kadri states that it "was not observed at H08S" (p. 10), and expects H08S to be hard because of the airgun noise and
+  a mid-path bathymetric rise (p. 9).
+
+**It was not found as a pair or an outlier coincidence, for three reasons. Each follows from how the tests were
+defined: they were conditioned on the impact PDF (location and time), not on Kadri's direction.**
+1. **The traces carry no bearing.** On the digitised single-channel traces, the strict detector's only H01W trigger
+   is 00:52:03, the dominant transient (ratio 5.0). 00:54:30 appears only as a loose trigger at 00:54:27 (ratio 2.9,
+   under the 3.0 threshold). Both were paired:
+   - best log₁₀ BF 2.67 for 00:52:03 and 2.30 for 00:54:27, both at chance against the slide null;
+   - their implied sources lie at about 37.5 °S 89 °E, a back-azimuth of about 254° from H01W, **not 306°**. The pair
+     statistic places the source by timing and the impact PDF, so these pairs used Kadri's times but not his
+     direction.
+2. **The Table-1-gated variants used bearings, and excluded 306° by design.** The gate was 246–284° (the impact PDF's
+   back-azimuth span at H01W).
+3. **The lag that Kadri's source needs is outside the tested lag window.**
+   - The 306.18° line crosses the 7th arc at 25.78 °S 101.43 °E: 1,583 km from H01W and 3,666 km from H08S.
+   - So H08S − H01W ≈ 1,405 s. The impact PDF allowed only 856–1,347 s, so no H08S outlier could pair with it.
+   - This crossing holds about 0.8 % of the stand-in impact PDF's mass (note 2a).
+
+**Checked now, outside the pre-registration.**
+- **Prediction.** Kadri's 00:54:30 signal, from the arc crossing, predicts an H08S arrival at **01:17:53 (95 %:
+  01:17:14–01:18:29)**. That carries bearing error Student-t ν = 3, sd 3.3°; c ~ N(1.482, 0.006) km/s; and a 10 s
+  pick at each station. The text's 00:52 version predicts about 01:15:28.
+- **One H08S outlier lies in the 00:54:30 band: 01:18:00.8,** 7.5 s after the median, from the energy-only test.
+  It is a **LOW-energy** pulse (an energy deficit), not an excess. Under the pre-registration, deficits are
+  secondary, because an unrelated added source raises energy on average.
+- **Chance.** Ten outliers fall in 1,156 s of usable H08S record. The probability that at least one lands in a band
+  of this width (about 75 s) is **about 0.49**; within ±5.5 s of the median it is about 0.09. **Consistent with
+  chance.** No outlier lies near the 00:52 version's 01:15:28.
+- **Reading.** The digitised traces give no support at H08S for Kadri's signal. This agrees with Kadri's own
+  statement. It cannot rule the signal out: a weak arrival over the mid-path rise, under the shot train, would be
+  below every injection-recovery P_D measured here (≤ 0.46 for timing, and 0.007–0.18 below −6 dB for shape).
+
+- Hydroacoustic Module, 10 Oct 2026

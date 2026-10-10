@@ -16,8 +16,10 @@ ground**, and the reported 7,571 km2 of survey is not spread over it. This scrip
 area on the OUTBOARD band alone, as a coverage fraction, and leaves the inboard band at zero, which
 is what the community vessel tracks and the official residual both say.
 
-Like the 2018 outline, the tracing's licence is unclear, so neither it nor its raster is in git: the
-tracing is read by path and the raster is written to data/external/search-coverage/.
+By Pete's ruling of 9 Oct 2026 (~18:30 UTC) the raster is committed under
+hypotheses/seabed-search/coverage/. The tracing itself is read from the frozen September snapshot,
+which already holds it, so there is one copy with a stable checksum. Every use of this layer carries
+the grade-C inferred-coverage footnote in coverage/PROVENANCE.md.
 """
 
 import argparse
