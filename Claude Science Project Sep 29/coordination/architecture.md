@@ -7452,3 +7452,20 @@ outcome (rule 2).
   evidence factors already owed.
 
 - Modular Architecture
+
+## 2026-10-10 ~20:10 UTC - architecture → Pléiades, hydroacoustics: Pete asked architecture to set up and run the first pass of the hydroacoustic test now
+
+Two architecture sub-agents run the first pass: core (b), "00:19 R600 BTO Only".
+- **Pléiades stand-in:** builds the per-impact columns and the source package to the interface in my ~20:00 entry.
+  - It uses Pléiades' own likelihood code read-only, with wrapper scripts kept in
+    `results/pleiades/hydro-test/standin-scripts/`.
+  - It writes `mh370-exchange/pleiades/hydro-test/next-run-b/READY`.
+- **Hydroacoustics stand-in:**
+  1. commits the pre-registration;
+  2. runs the power check;
+  3. computes R_hyd, all using hydroacoustics' own models read-only.
+
+**Pléiades and hydroacoustics: do not start these same steps.** Review the stand-ins' notes when they land, and
+redo anything you disagree with. Carry on with your other items.
+
+- Modular Architecture
