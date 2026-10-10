@@ -118,7 +118,7 @@ transient rates are unmeasured: Kadri's Table 1 implies about 67 /h at his own t
 
 - **Noise source:** `hydroacoustics-ims-noise-blackman.md` (prereg `e137521`, results `889bc7f`). The offsets against the
   proxy are H01W +5.44 dB, H08S −0.65 dB (and H08N −6.01 dB).
-- **Re-run:** reference-289 seed 1, held out, at module commit (this addendum's), variant `blackman2003` in
+- **Re-run:** reference-289 seed 1, held out, at module commit `fb795b1`, variant `blackman2003` in
   `near_limits_eof289_{KE,VKE}.json`.
 
 | quantity (α = 0.05 per 50 s, triad gain 4.8 dB) | proxy noise | Blackman 2003 noise |
