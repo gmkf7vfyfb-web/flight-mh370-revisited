@@ -55,7 +55,10 @@ def seabed_density(T, rows, draws, el):
     il, io = np.repeat(imp[ok, 0], n_el), np.repeat(imp[ok, 1], n_el)
     off = np.hypot((lat[idx] - il) * 111.2, (lon[idx] - io) * 111.2 * np.cos(np.radians(il)))
     oo = np.argsort(off); c = np.cumsum(w[oo]) / w.sum()
-    return Hw, Hs, {"resampled_impacts": int(len(want)), "distinct_impacts": int(len(np.unique(rows))), "not_computed_impacts": int((~ok).sum()),
+    ka = el[:, 0].astype(np.int64) * 1048576 + np.nan_to_num(el[:, 1], nan=-1).astype(np.int64)
+    inp = np.isin(ka, want); fa = el[inp, 4]; ma = el[inp, 7]
+    afloat = float(ma[fa == 1].sum() / ma[fa >= 0].sum()) if (fa >= 0).any() else float("nan")
+    return Hw, Hs, {"afloat_mass_share": afloat, "resampled_impacts": int(len(want)), "distinct_impacts": int(len(np.unique(rows))), "not_computed_impacts": int((~ok).sum()),
                     "not_computed_impact_positions": imp[~ok].tolist(),
                     "settled_offset_km_p50_p90_p99_mass_weighted": [float(off[oo][np.searchsorted(c, q)]) for q in (0.5, 0.9, 0.99)],
                     "mass_share_offset_gt_5km": float(w[off > 5].sum() / w.sum())}
@@ -64,6 +67,12 @@ def seabed_density(T, rows, draws, el):
 dens, stats = {}, {}
 for k in KEYS:
     T, rows, draws, el = SRC[k]
+    if len(rows) == 0 or not full[k] or len(full[k][0][2]) == 0:   # no posterior mass in this panel (e.g. a family absent under an option)
+        z_ = np.zeros((len(le) - 1, len(oe) - 1)); dens[k] = None
+        stats[k] = {"ess_pooled": ESS[k], "estimable": False, "resampled_impacts": 0, "distinct_impacts": 0, "not_computed_impacts": 0,
+                    "not_computed_impact_positions": [], "settled_offset_km_p50_p90_p99_mass_weighted": None, "mass_share_offset_gt_5km": None,
+                    "area_km2_99_90_50": {"impact_full_weights": [0, 0, 0], "impact_resampled": [0, 0, 0], "wreckage_field": [0, 0, 0]}}
+        continue
     Hi = sum(np.histogram2d(la, lo, bins=[le, oe], weights=p)[0] for la, lo, p in full[k])  # full[k] weights already sum to 1 over strata and seeds
     off_grid = 1.0 - float(Hi.sum()); assert abs(off_grid) < 1e-5, f"{k}: {off_grid:.3g} of impact mass off the map grid"
     Hw, Hs, st = seabed_density(T, rows, draws, el)
@@ -74,20 +83,25 @@ for k in KEYS:
                 "area_km2_99_90_50": {"impact_full_weights": hpd_area(dI, lI), "impact_resampled": hpd_area(dS, lS), "wreckage_field": hpd_area(dW, lW)}}
 
 # common frame: union of 99 % regions
-inside = np.zeros_like(dens[KEYS[0]][0], bool)
+inside = np.zeros_like(next(v for v in dens.values() if v is not None)[0], bool)
 for k in KEYS:
+    if dens[k] is None: continue
     inside |= dens[k][2] >= dens[k][3][0]; inside |= dens[k][0] >= dens[k][1][0]
 r, cc = np.where(inside); mid_lat = 0.5 * (lc[r.min()] + lc[r.max()]); mid_lon = 0.5 * (oc[cc.min()] + oc[cc.max()])
 half_lat = 0.55 * (lc[r.max()] - lc[r.min()]); half_lon = 0.55 * (oc[cc.max()] - oc[cc.min()])
 half_lat = max(half_lat, half_lon * np.cos(np.radians(mid_lat))); half_lon = half_lat / np.cos(np.radians(mid_lat))
 fmt = FuncFormatter(lambda v, _: f"{abs(v):.0f}°{'S' if v < 0 else 'N' if v > 0 else ''}")
-n = len(KEYS); ncol = 2 if n == 4 else 3 if n in (5, 6) else n; nrow = int(np.ceil(n / ncol))
+n = len(KEYS); ncol = globals().get("NCOL") or (2 if n == 4 else 3 if n in (5, 6) else n); nrow = int(np.ceil(n / ncol))
 FIG_H = 3.55 * nrow + (1.75 if n < nrow * ncol else 2.4)
 fig, axs = plt.subplots(nrow, ncol, figsize=(3.3 * ncol, FIG_H), squeeze=False, sharex=True, sharey=True,
                         gridspec_kw=dict(wspace=0.06, hspace=0.20))
 fmt_ess = lambda e: f"{e / 1e6:.1f} M" if e >= 1e6 else f"{e:,.0f}"
 for j, k in enumerate(KEYS):
-    ax = axs.flat[j]; dI, lI, dW, lW = dens[k]
+    ax = axs.flat[j]
+    if dens[k] is None:
+        ax.set_title(TITLES_W[k], fontsize=7.3, loc="left"); ax.text(0.5, 0.5, "no samples in this family", transform=ax.transAxes, ha="center", fontsize=7, color="#777777")
+        ax.set_xticks([]); ax.set_yticks([]); continue
+    dI, lI, dW, lW = dens[k]
     step = 1.0 if 2 * half_lat < 6 else 2.0 if 2 * half_lat < 14 else 5.0
     ax.xaxis.set_major_locator(MultipleLocator(step)); ax.yaxis.set_major_locator(MultipleLocator(step))
     ax.set_axisbelow(True); ax.grid(True, color="#e3e3e3", lw=0.6)
@@ -101,7 +115,8 @@ for j, k in enumerate(KEYS):
     ax.set_title(TITLES_W[k], fontsize=7.3, loc="left")
     a = stats[k]["area_km2_99_90_50"]
     ax.text(0.97, 0.03, f"90 % area (thousand km²): seabed {a['wreckage_field'][1]/1e3:,.0f}; impacts {a['impact_resampled'][1]/1e3:,.0f}\n"
-            f"{stats[k]['resampled_impacts']:,} draws, {stats[k]['distinct_impacts']:,} impacts; ESS {fmt_ess(ESS[k])}",
+            f"{stats[k]['resampled_impacts']:,} draws, {stats[k]['distinct_impacts']:,} impacts; ESS {fmt_ess(ESS[k])}"
+            + (f"\n{globals().get('PANEL_NOTE', {}).get(k)}" if globals().get('PANEL_NOTE', {}).get(k) else ""),
             transform=ax.transAxes, fontsize=5.8, color="#333333", ha="right", va="bottom",
             bbox=dict(facecolor="white", edgecolor="none", alpha=0.8, pad=1.5))
     if not stats[k]["estimable"]:
@@ -133,4 +148,4 @@ foot_top = t1.get_window_extent(rr).y1 / fig.bbox.height; foot_bot = t2.get_wind
 assert foot_top <= 0.25 and foot_bot >= 0.0 and (foot_top < leg_bot or n < nrow * ncol), f"footnotes span {foot_bot:.3f}-{foot_top:.3f}; legend bottom {leg_bot:.3f}"
 fig.savefig(OUTSTEM + ".pdf"); fig.savefig(OUTSTEM + ".png", dpi=220)
 pathlib.Path(OUTSTEM + ".json").write_text(json.dumps({"options": stats, "smooth_deg": SMOOTH, "grid_deg": GRID, "ess_min": ESS_MIN,
-    "afloat_mass_share": {k: float(SRC[k][3][SRC[k][3][:, 4] == 1, 7].sum() / SRC[k][3][SRC[k][3][:, 4] >= 0, 7].sum()) for k in KEYS}}, indent=1))
+    "afloat_mass_share_of_element_file": {k: float(SRC[k][3][SRC[k][3][:, 4] == 1, 7].sum() / SRC[k][3][SRC[k][3][:, 4] >= 0, 7].sum()) for k in KEYS}}, indent=1))

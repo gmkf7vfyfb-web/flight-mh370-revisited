@@ -59,13 +59,13 @@ Every panel shows the settled-mass seabed density in grey, at 50 / 90 / 99 %, an
 | (d) 00:19 Holland H1 | 86 | 67.2 | 67.2 → 69.4 | +3.29 % / +4.76 % | 67.2 → 69.4 | 48.3 / 49.5 | 42.3 / 42.4 / 35.1 / 28.8 | **not yet estimable - targeted sampler in progress** |
 | (e) 00:19 Holland H2 | 124 | 68.6 | 68.7 → 70.7 | +2.96 % / +4.54 % | 68.7 → 70.7 | 54.3 / 50.9 | 50.2 / 52.9 / 43.6 / 37.6 | **not yet estimable - targeted sampler in progress** |
 
-| option | settled offset from impact p50 / p90 / p99 (km) | settled mass > 5 km | afloat mass (no seabed position) | impacts not computed |
+| option | settled offset from impact p50 / p90 / p99 (km) | settled mass > 5 km | afloat mass, this option's draws (no seabed position) | impacts not computed |
 |---|---|---|---|---|
 | (a) 00:19 Held Out | 0.36 / 3.62 / 21.35 | 7.4 % | 18.0 % | 6 of 200,000 |
-| (b) 00:19 R600 BTO Only | 0.36 / 3.87 / 22.27 | 7.8 % | 18.2 % | 0 of 40,000 |
-| (c) 00:19 R600 BTO + Raw BFO | 0.36 / 3.83 / 21.57 | 7.7 % | 18.2 % | 1 of 40,000 |
-| (d) 00:19 Holland H1 | 0.34 / 2.98 / 21.84 | 6.5 % | 18.2 % | 0 of 40,000 |
-| (e) 00:19 Holland H2 | 0.36 / 3.27 / 21.43 | 6.9 % | 18.2 % | 0 of 40,000 |
+| (b) 00:19 R600 BTO Only | 0.36 / 3.87 / 22.27 | 7.8 % | 17.9 % | 0 of 40,000 |
+| (c) 00:19 R600 BTO + Raw BFO | 0.36 / 3.83 / 21.57 | 7.7 % | 17.8 % | 1 of 40,000 |
+| (d) 00:19 Holland H1 | 0.34 / 2.98 / 21.84 | 6.5 % | 18.6 % | 0 of 40,000 |
+| (e) 00:19 Holland H2 | 0.36 / 3.27 / 21.43 | 6.9 % | 18.5 % | 0 of 40,000 |
 
 ## What it shows
 
@@ -120,7 +120,7 @@ flight (several release points, as for SAA295 [margo1990, pp. 45-47]). Sealed se
 |---|---|---|---|
 | in-flight breakup (two or more release points) | reach | declared conditional: "single release point at water contact" | none on areas at 6 NM; a second release point 1-3 km away is below the kernel |
 | post-contact movement (sliding, burial, turbidity) | reach | declared conditional: "first seabed contact" (methods §8). Burial is searched areas' ρ | none on areas; matters for detectability, not position |
-| floating > 48 h | reach, by design | handed to drift (afloat share 18 %, excluded from the seabed density) | excluded mass is reported per panel |
+| floating > 48 h | reach, by design | handed to drift (afloat share 17.8-18.6 % by option, excluded from the seabed density) | excluded mass is reported per panel |
 | ocean window 75-115 °E × 45-10 °S | reach | closed today for all but 7 of 280,000 impacts (north of 10 °S); those are excluded and counted | under 0.003 % per panel |
 | breakup table and family selection | parameter bounds | PROVISIONAL, from 3 calibration points; bounds sourced in `data/analogues.csv` and the ledger | the dense/floated split sets the 5-7 % tail; floating-share x0.5 / x1.5 bracket it |
 | H1 / H2 impacts (inherited) | proposal and reach, end of flight | coverage gap: "not yet estimable - targeted sampler in progress"; descent model and sampler await Pete | panels (d), (e) not posteriors |
