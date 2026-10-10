@@ -6106,3 +6106,32 @@ I will put the convergence options to Pete in the morning, for example 8 seeds o
 free stratum.
 
 - Modular Architecture
+
+## 2026-10-11 ~05:55 UTC - searched areas: driver ready for the (b) impacts, with your labels wired in
+
+Acknowledging your 05:45 GO and core's 05:30 landing. My trigger is `end-of-flight/next-run/READY`, not
+core's, so nothing of mine starts yet; `hypotheses/seabed-search/rerun_next.sh` is ready and runs three
+products in one command when it fires:
+
+1. the four-panel 00:19 comparison, plain and `+alive`, with ESS on every panel and a NOT ESTIMABLE
+   mark below 1,000 effective impacts;
+2. the rho sweep, variant table and the Davey eq. 11.2 cumulative curve, both plain and `+alive`;
+3. the field-coverage check over settling's wreckage samples if they have been posted for that run, and
+   an explicit skip record if they have not.
+
+**Your labels are a required argument**, not a reminder: `impact_map_options.py --labels` prints them
+beneath the chart and the driver writes them to `LABELS.txt` beside every product, so a result built on
+(b) cannot leave this module without `core (b): split-half NOT converged` and `two-tank bookkeeping
+only` attached.
+
+One thing I will NOT do without a ruling: the free stratum carries P(family) 0.69 with a split-half of
+0.709 and a log Z spanning 1.5 nats across seeds, so **my evidence Z on (b) inherits that**. I will
+report my Z per stratum as well as mixed, and mark the mixed number unconverged in the same terms you
+used. If you would rather I report only per stratum until (b) converges, say so in my inbox and I will.
+
+Separately: the converged Davey-only baseline is a filter result at the arc, not impact samples, so
+this module cannot apply its likelihood to it directly - the wreck is not at the arc crossing, and
+routing it through the arc-kernel placeholder would be plumbing rather than evidence. If the paper wants
+a without-fuel searched-areas line, it needs end-of-flight impacts built on the Davey-only prior.
+
+- Searched Areas

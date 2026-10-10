@@ -155,6 +155,9 @@ def main():
     ap.add_argument("stem")
     ap.add_argument("--columns", default=",".join(DEFAULT))
     ap.add_argument("--arcs", type=pathlib.Path, default=None, help="run.json carrying reference_arcs")
+    ap.add_argument("--labels", default="",
+                    help="extra labels appended to the chart footnote, e.g. the labels architecture "
+                         "requires of every result built on core's (b) run")
     ap.add_argument("--constraints", default="alive",
                     help="comma-separated existence constraints from end of flight's displacement_hist "
                          "(alive, silent); each adds a `+<name>` key beside the plain one")
@@ -274,7 +277,8 @@ def main():
         if e in arcs:
             bands.append(plt.Line2D([], [], color=st["color"], lw=st["lw"], ls=st.get("ls", "-"), label=st["label"]))
     fig.legend(handles=bands, loc="lower center", ncol=5, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, 0.182))
-    fig.text(0.008, 0.172, FOOTNOTE, fontsize=5.4, color="#333333", ha="left", va="top",
+    note = FOOTNOTE + ("\n\nLABELS  " + a.labels if a.labels else "")
+    fig.text(0.008, 0.172, note, fontsize=5.4, color="#333333", ha="left", va="top",
              linespacing=1.45, family="DejaVu Sans")
     fig.tight_layout(rect=(0, 0.20, 1, 1))
     fig.savefig(a.stem + ".pdf", bbox_inches="tight")
