@@ -90,7 +90,7 @@ def main(root, tag, labels="", only=None):
     print(S[(S.field.isin(["P+C3", "P+C4"]))].to_string(index=False))
 
 
-def main_all(root, tag, labels="", pfamily="", geom=None, only=None):
+def main_all(root, tag, labels="", pfamily="", geom=None, only=None, family_evidence=None):
     """Strata-aware entry point. If <impacts root> holds strata (<stratum>/seed-*), run main() per stratum and mix by
     --pfamily (required then); then ALWAYS draw the close-ups for every option (Pete, 10 Oct: close-ups every time)."""
     import matplotlib
@@ -108,7 +108,12 @@ def main_all(root, tag, labels="", pfamily="", geom=None, only=None):
         for st in strata:
             main(root / st, f"{tag}/{st}", f"{labels}; stratum {st}" if labels else f"stratum {st}", only)
         opts = json.loads((CSP / "results" / "pleiades" / tag / strata[0] / "provenance.json").read_text())["options"]
-        closeup_styles.standard(RUNS / tag, root, geom, gebco, CSP / "results" / "pleiades" / tag / "closeups", plt, pf, opts, labels)
+        # ruling C: mix by end of flight's 00:19-re-weighted P(family) when it has published it; fixed weights beside
+        fe = family_evidence or next(iter(sorted((root / "summary").glob("family-evidence-*.json"))), None)
+        if fe is None:
+            print("NOTE: no end-of-flight family-evidence file; strata mixed at fixed P(family) only")
+        closeup_styles.standard(RUNS / tag, root, geom, gebco, CSP / "results" / "pleiades" / tag / "closeups", plt, pf, opts, labels,
+                                fam_json=str(fe) if fe else None)
     else:
         main(root, tag, labels, only)
         opts = json.loads((CSP / "results" / "pleiades" / tag / "provenance.json").read_text())["options"]
@@ -121,6 +126,7 @@ if __name__ == "__main__":
     ap.add_argument("root"); ap.add_argument("tag"); ap.add_argument("labels", nargs="?", default="")
     ap.add_argument("--pfamily", default="", help="stratum=P(family),... when the impacts come in strata")
     ap.add_argument("--geom", default=None, help="directory with search_footprints.geojson")
+    ap.add_argument("--family-evidence", default=None, help="end of flight's family-evidence-*.json (default: <root>/summary/)")
     ap.add_argument("--options", default="", help="comma-separated end-of-flight arms to run (default: every loglik column, plain and +alive)")
     a = ap.parse_args()
-    main_all(a.root, a.tag, a.labels, a.pfamily, a.geom, [x for x in a.options.split(",") if x] or None)
+    main_all(a.root, a.tag, a.labels, a.pfamily, a.geom, [x for x in a.options.split(",") if x] or None, a.family_evidence)
