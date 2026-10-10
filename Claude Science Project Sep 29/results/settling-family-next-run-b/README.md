@@ -27,9 +27,9 @@ computed from the full-format columns:
 
 | 00:19 option | A1: exhaustion, no control | A2: exhaustion, controlled to the surface | B: deliberate, before exhaustion | outside A1/A2/B (code 6) |
 |---|---|---|---|---|
-| 00:19 Held Out | 522 → 523 (+0.21 %); share 27 %; ESS 5.9 M | 714 → 716 (+0.32 %); share 21 %; ESS 4.5 M | 526 → 527 (+0.17 %); share 42 %; ESS 8.5 M | 10.8 % |
+| 00:19 Held Out | 522 → 524 (+0.24 %); share 27 %; ESS 5.9 M | 714 → 716 (+0.35 %); share 21 %; ESS 4.5 M | 526 → 527 (+0.20 %); share 42 %; ESS 8.5 M | 10.8 % |
 | 00:19 R600 BTO Only | 287 → 288 (+0.36 %); share 30 %; ESS 4.1 M | 416 → 417 (+0.40 %); share 23 %; ESS 3.1 M | 315 → 316 (+0.38 %); share 41 %; ESS 5.1 M | 6.0 % |
-| 00:19 R600 BTO + Raw BFO | 159 → 160 (+0.42 %); share 21 %; ESS 107,703 | 273 → 275 (+0.43 %); share 14 %; ESS 66,614 | 223 → 224 (+0.27 %); share 57 %; ESS 279,970 | 7.6 % |
+| 00:19 R600 BTO + Raw BFO | 159 → 160 (+0.42 %); share 21 %; ESS 107,703 | 273 → 275 (+0.43 %); share 14 %; ESS 66,614 | 223 → 224 (+0.30 %); share 57 %; ESS 279,970 | 7.6 % |
 | 00:19 Holland H1 | not yet estimable (ESS 32; share 37 %) | not yet estimable (ESS 29; share 14 %) | not yet estimable (ESS 44; share 49 %) | 0.0 % |
 | 00:19 Holland H2 | not yet estimable (ESS 21; share 25 %) | not yet estimable (ESS 18; share 7 %) | not yet estimable (ESS 103; share 68 %) | 0.7 % |
 
@@ -39,7 +39,7 @@ family, and not as evidence for that family.**
 
 ## What it shows
 
-1. **Settling is the same small kernel in every family:** it adds 0.17-0.43 % to the 90 % area. Half the settled mass rests within
+1. **Settling is the same small kernel in every family:** it adds 0.20-0.43 % to the 90 % area. Half the settled mass rests within
    0.31-0.42 km of its impact and 90 % within 2.4-4.7 km. Family changes the impact PDF, not the settling.
 2. **A2 gives the widest impact PDF in every estimable option**: 714,000 km² for Held Out, against 522,000 for A1 and 526,000 for B.
    A controlled or arrested descent can carry the aircraft further from the 7th arc. A1 is the narrowest when the R600 BFO is used:
@@ -60,6 +60,15 @@ The family-specific gaps are inherited from end of flight (~21:20 UTC), and each
 - **A1** is not yet Boeing-calibrated (fixed-C_L point mass; it cannot unload).
 - **Code 4 → A1** is PROVISIONAL; its sensitivity (with A2) is not yet drawn.
 - **Code 6** (10.8 % of Held Out, 6.0 % of R600 BTO Only, 7.6 % of R600 BTO + Raw BFO) is in no family panel.
+
+## Not computed, and published samples
+
+Impacts north of 10 °S (outside settling's window) are **carried at the impact position** (architecture 16:25 -0600, item 1): 2 per family
+under Held Out (weight 3.3e-5 each family) and 1 for B under R600 BTO + Raw BFO (5.0e-5); none elsewhere. They are reported per panel in the JSON.
+
+`mh370-exchange/settling/next-run-b/by-family/` (1.5 GB) holds `nrbfF{0,1,2}_{impacts,elements}.f64`, `nrbfF{0,1,2}_source.npy` (stratum
+index, seed, impacts.npy row; composer gap 16), `nrbf_draws.npz`, `nrbf_info.json` and `SHA256SUMS`. F0 = A1, F1 = A2, F2 = B.
+Layout: `mh370-exchange/settling/next-run-b/README.txt`.
 
 ## Reproduce
 

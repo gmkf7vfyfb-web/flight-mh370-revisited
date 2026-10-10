@@ -68,7 +68,7 @@ def prep(SM, root, evid, tag):
     pathlib.Path("field").mkdir(exist_ok=True)
     info = {"strata": strata, "extent_lon_lon_lat_lat": ext, "constraint": CON, "families": {F: sorted(c) for F, c in FAMS}, "entries": {}}
     Hm = {(key, F): np.zeros((len(le) - 1, len(oe) - 1)) for _, key, _ in OPTS for F, _ in FAMS}; inv_ess = {(key, F): 0.0 for _, key, _ in OPTS for F, _ in FAMS}
-    tabs = {F: [] for F, _ in FAMS}; occ = {(key, F): {"rows": [], "draws": []} for _, key, _ in OPTS for F, _ in FAMS}
+    tabs = {F: [] for F, _ in FAMS}; src = {F: [] for F, _ in FAMS}; occ = {(key, F): {"rows": [], "draws": []} for _, key, _ in OPTS for F, _ in FAMS}
     for st in strata:
         for s in SEEDS:
             seen_by = {}; V = None
@@ -94,13 +94,14 @@ def prep(SM, root, evid, tag):
                     for i, d_ in lst: need[i] = max(need.get(i, 0), d_ + 1)
                 if not need: continue
                 ii = np.array(sorted(need)); base_row = len(tabs[F]); where = {i: base_row + q for q, i in enumerate(ii.tolist())}
-                for r, i in zip(V[ii], ii): tabs[F].append(np.r_[r, need[i], strata.index(st) * 10 + s])
+                for r, i in zip(V[ii], ii): tabs[F].append(np.r_[r, need[i], strata.index(st) * 10 + s]); src[F].append((strata.index(st), s, i))
                 for (b_, F_), lst in seen_by.items():
                     if F_ == F: occ[(b_, F)]["rows"] += [where[i] for i, _ in lst]; occ[(b_, F)]["draws"] += [d_ for _, d_ in lst]
             print("pass2", st, s, flush=True)
     arrays = {}
     for j, (F, _) in enumerate(FAMS):
         np.array(tabs[F]).astype("<f8").tofile(f"field/{tag}F{j}_impacts.f64")
+        np.save(f"field/{tag}F{j}_source.npy", np.array(src[F], dtype=np.int64))   # stratum index, seed, impacts row (composer gap 16)
         for q, (name, key, _) in enumerate(OPTS):
             arrays[f"rows_{j}_{q}"] = np.array(occ[(key, F)]["rows"], dtype=np.int64); arrays[f"draws_{j}_{q}"] = np.array(occ[(key, F)]["draws"], dtype=np.int64)
             np.save(f"field/{tag}_H_{j}_{q}.npy", Hm[(key, F)].astype(np.float32))
@@ -123,7 +124,7 @@ def render(SM, arcs_json, tag, label, settling_commit, eof_commit):
     ext = info["extent_lon_lon_lat_lat"]; le, oe = grid_axes(ext); lc, oc = 0.5 * (le[1:] + le[:-1]), 0.5 * (oe[1:] + oe[:-1]); LC, OC = np.meshgrid(lc, oc, indexing="ij")
     fams = list(info["families"]); names = [n for n, _, _ in OPTS]
     g = {"KEYS": [], "SMOOTH": 0.1, "ESS_MIN": 1000, "GRID_EXTENT": ext, "ARCS_JSON": arcs_json, "NCOL": len(names),
-         "OUTSTEM": f"settling-seabed-wreckage-{label}-by-family", "STAMP": "Not yet estimable",
+         "OUTSTEM": f"settling-seabed-wreckage-{label}-by-family", "STAMP": "Not yet estimable -\ntargeted sampler in progress",
          "TITLES_W": {}, "SRC": {}, "full": {}, "ESS": {}, "PANEL_NOTE": {}}
     for j, F in enumerate(fams):
         T = np.fromfile(f"field/{tag}F{j}_impacts.f64", "<f8").reshape(-1, 14); EL = np.fromfile(f"field/{tag}F{j}_elements.f64", "<f8").reshape(-1, 8)

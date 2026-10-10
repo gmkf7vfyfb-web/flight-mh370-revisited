@@ -51,6 +51,10 @@ def seabed_density(T, rows, draws, el):
     idx = np.concatenate([np.arange(a, b) for a, b in zip(start[pos[ok]], stop[pos[ok]])])
     w = share[idx] / len(want)
     Hw = np.histogram2d(lat[idx], lon[idx], bins=[le, oe], weights=w)[0]
+    # Not-computed impacts (outside settling's ocean window) are CARRIED at their impact position, as a point target, with their
+    # full weight (architecture ruling 16:25 -0600, 10 Oct: neutral by default, never silently excluded). Their weight is reported.
+    imp_nc = T[rows[~ok], 1:3]
+    if len(imp_nc): Hw = Hw + np.histogram2d(imp_nc[:, 0], imp_nc[:, 1], bins=[le, oe])[0] / len(want)
     imp = T[rows, 1:3]; Hs = np.histogram2d(imp[:, 0], imp[:, 1], bins=[le, oe])[0]
     il, io = np.repeat(imp[ok, 0], n_el), np.repeat(imp[ok, 1], n_el)
     off = np.hypot((lat[idx] - il) * 111.2, (lon[idx] - io) * 111.2 * np.cos(np.radians(il)))
@@ -58,7 +62,7 @@ def seabed_density(T, rows, draws, el):
     ka = el[:, 0].astype(np.int64) * 1048576 + np.nan_to_num(el[:, 1], nan=-1).astype(np.int64)
     inp = np.isin(ka, want); fa = el[inp, 4]; ma = el[inp, 7]
     afloat = float(ma[fa == 1].sum() / ma[fa >= 0].sum()) if (fa >= 0).any() else float("nan")
-    return Hw, Hs, {"afloat_mass_share": afloat, "resampled_impacts": int(len(want)), "distinct_impacts": int(len(np.unique(rows))), "not_computed_impacts": int((~ok).sum()),
+    return Hw, Hs, {"afloat_mass_share": afloat, "not_computed_weight_carried_at_impact": float((~ok).sum() / len(want)), "resampled_impacts": int(len(want)), "distinct_impacts": int(len(np.unique(rows))), "not_computed_impacts": int((~ok).sum()),
                     "not_computed_impact_positions": imp[~ok].tolist(),
                     "settled_offset_km_p50_p90_p99_mass_weighted": [float(off[oo][np.searchsorted(c, q)]) for q in (0.5, 0.9, 0.99)],
                     "mass_share_offset_gt_5km": float(w[off > 5].sum() / w.sum())}
@@ -92,7 +96,7 @@ half_lat = 0.55 * (lc[r.max()] - lc[r.min()]); half_lon = 0.55 * (oc[cc.max()] -
 half_lat = max(half_lat, half_lon * np.cos(np.radians(mid_lat))); half_lon = half_lat / np.cos(np.radians(mid_lat))
 fmt = FuncFormatter(lambda v, _: f"{abs(v):.0f}°{'S' if v < 0 else 'N' if v > 0 else ''}")
 n = len(KEYS); ncol = globals().get("NCOL") or (2 if n == 4 else 3 if n in (5, 6) else n); nrow = int(np.ceil(n / ncol))
-FIG_H = 3.55 * nrow + (1.75 if n < nrow * ncol else 2.4)
+FIG_H = 3.55 * nrow + (1.75 if n < nrow * ncol else 2.7)
 fig, axs = plt.subplots(nrow, ncol, figsize=(3.3 * ncol, FIG_H), squeeze=False, sharex=True, sharey=True,
                         gridspec_kw=dict(wspace=0.06, hspace=0.20))
 fmt_ess = lambda e: f"{e / 1e6:.1f} M" if e >= 1e6 else f"{e:,.0f}"
@@ -129,12 +133,12 @@ hs = [Patch(facecolor=s, edgecolor=EDGE, lw=0.6, label=f"wreckage on the seabed,
 hs += [Line2D([], [], color=REF["color"], lw=0.8, ls="--", label="impact on the water, 50/90/99 % of probability")]
 hs += [Line2D([], [], **sty) for sty in ARCSTY.values()]
 # layout: title and subtitle, panels, legend, then the two footnotes in at most the bottom 25 % of the image
-foot_in = (1.75 if n < nrow * ncol else 2.4) / FIG_H
+foot_in = (1.75 if n < nrow * ncol else 2.7) / FIG_H
 fig.subplots_adjust(top=1 - 0.75 / FIG_H, bottom=foot_in, left=0.07, right=0.98)
 if n < nrow * ncol:   # legend in the empty panel slot
     bb = axs.flat[n].get_position(); fig.legend(handles=hs, loc="center", ncol=1, frameon=False, fontsize=7, bbox_to_anchor=(bb.x0 + bb.width / 2, bb.y0 + bb.height / 2))
 else:
-    fig.legend(handles=hs, loc="upper center", ncol=3, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, foot_in - 0.25 / FIG_H))
+    fig.legend(handles=hs, loc="upper center", ncol=3, frameon=False, fontsize=6.5, bbox_to_anchor=(0.5, foot_in - 0.50 / FIG_H))
 fig.text(0.07, 1 - 0.18 / FIG_H, TITLE, fontsize=9.5, ha="left", va="top")
 fig.text(0.07, 1 - 0.42 / FIG_H, SUBTITLE, fontsize=7.5, ha="left", va="top", color="#333333")
 fig.canvas.draw(); rr = fig.canvas.get_renderer()
