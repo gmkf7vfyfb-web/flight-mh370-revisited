@@ -326,7 +326,9 @@ fn load_fuel(
         if model.tanks.is_none() {
             return Err("[fuel] single_engine = true needs tanks = 2".into());
         }
-        if model.internal.as_ref().and_then(|g| g.inop_mach(250.0, 200.0)).is_none() {
+        // Probe well inside the one-engine envelope (FL150, 200 t): at FL250 and 200 t the LRC INOP
+        // table is already filler (above the one-engine ceiling), which is not a missing table.
+        if model.internal.as_ref().and_then(|g| g.inop_mach(150.0, 200.0)).is_none() {
             return Err("[fuel] single_engine = true needs internal-v1's lrc_inop_mach table".into());
         }
         let [lo, hi] = f.single_engine_descent_fpm.unwrap_or([300.0, 1000.0]);
