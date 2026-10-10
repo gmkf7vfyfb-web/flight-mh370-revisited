@@ -923,19 +923,85 @@ pub(crate) fn stringent_intervals(release_unix_s: f64) -> Result<Vec<(String, f6
 }
 
 struct DebrisDrift {
-    model: String,
-    surface: Surface,
+    /// One (option label, surface) per `ocean-model` option, in declaration order.
+    models: Vec<(String, Surface)>,
     observations: Vec<String>,
 }
 
+/// Composer-facing mode (composer pass 0 gap, 10 Oct): load merged production node tables instead of re-running the
+/// transport. `[[hypotheses.debris-drift.surfaces]]` entries give `ocean_model` (the shared option label),
+/// `nodes_csv` and `summary_toml` (from merge_chunks.py); `column` picks the bandwidth (default `ln_l`, 50 km).
+#[derive(serde::Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+struct SurfaceFile {
+    ocean_model: String,
+    nodes_csv: String,
+    summary_toml: String,
+}
+
+#[derive(serde::Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+struct SurfacesParams {
+    surfaces: Vec<SurfaceFile>,
+    #[serde(default = "d_column")]
+    column: String,
+}
+
+fn d_column() -> String {
+    "ln_l".into()
+}
+
+/// Read a merged node table into a `Surface`: `state` land -> Land; a finite value in `column` -> Value; otherwise
+/// Unresolved; nodes absent from the table -> NotComputed (outside support, never zero).
+fn load_surface(f: &SurfaceFile, column: &str) -> Result<Surface, String> {
+    let sum: toml::Value = toml::from_str(&std::fs::read_to_string(&f.summary_toml).map_err(|e| format!("debris-drift: {}: {e}", f.summary_toml))?)
+        .map_err(|e| format!("debris-drift: {}: {e}", f.summary_toml))?;
+    let g = sum.get("grid").ok_or("debris-drift: summary has no grid")?;
+    let num = |k: &str| g.get(k).and_then(|v| v.as_float().or_else(|| v.as_integer().map(|i| i as f64))).ok_or(format!("debris-drift: grid.{k} missing"));
+    let (nlat, nlon) = (num("nlat")? as usize, num("nlon")? as usize);
+    let mut nodes = vec![Node::NotComputed; nlat * nlon];
+    let text = std::fs::read_to_string(&f.nodes_csv).map_err(|e| format!("debris-drift: {}: {e}", f.nodes_csv))?;
+    let mut lines = text.lines();
+    let head: Vec<&str> = lines.next().ok_or("debris-drift: empty nodes table")?.split(',').collect();
+    let col = |name: &str| head.iter().position(|h| *h == name).ok_or(format!("debris-drift: column {name} not in {}", f.nodes_csv));
+    let (ik, is, iv) = (col("node")?, col("state")?, col(column)?);
+    for line in lines.filter(|l| !l.is_empty()) {
+        let v: Vec<&str> = line.split(',').collect();
+        let k: usize = v[ik].parse().map_err(|e| format!("debris-drift: node index: {e}"))?;
+        if k >= nodes.len() {
+            return Err(format!("debris-drift: node {k} outside the {nlat} x {nlon} grid"));
+        }
+        let x: f64 = v[iv].parse().unwrap_or(f64::NAN);
+        nodes[k] = if v[is] == "land" { Node::Land } else if x.is_finite() { Node::Value(x) } else { Node::Unresolved };
+    }
+    Ok(Surface { lat0: num("lat0")?, lon0: num("lon0")?, dlat: num("dlat")?, dlon: num("dlon")?, nlat, nlon, nodes })
+}
+
+/// The stringent debris observation IDs (the evidence-mode set), without building the transport.
+fn stringent_ids() -> Result<Vec<String>, String> {
+    Ok(evidence::parse(evidence::TABLE)?.iter().filter(|r| r.stringent).map(|r| format!("debris:{}", r.object_id)).collect())
+}
+
 pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
+    if params.get("surfaces").is_some() {
+        let sp: SurfacesParams = params.clone().try_into().map_err(|e| format!("debris-drift (surfaces): {e}"))?;
+        if sp.surfaces.is_empty() {
+            return Err("debris-drift: surfaces mode needs at least one surface".into());
+        }
+        let mut models = Vec::new();
+        for f in &sp.surfaces {
+            models.push((f.ocean_model.replace([':', '/', ','], "-"), load_surface(f, &sp.column)?));
+        }
+        eprintln!("debris-drift (SURFACES, PROVISIONAL): {} ocean-model options, column {}", models.len(), sp.column);
+        return Ok(Box::new(DebrisDrift { models, observations: stringent_ids()? }));
+    }
     let p: Params = params.clone().try_into().map_err(|e| format!("debris-drift: {e}"))?;
     let b = build(&p)?;
     eprintln!("debris-drift ({}): {}", if p.mode == "evidence" { "EVIDENCE, PROVISIONAL" } else { "SYNTHETIC finds, not evidence" }, b.summary.iter().take(12).map(|(k, v)| format!("{k}={v}")).collect::<Vec<_>>().join(", "));
     let _ = &b.grid;
     // Option labels become column names: no `,` `/` `:` or line breaks (crates/hypothesis).
     let model = b.ocean_model.replace([':', '/', ','], "-");
-    Ok(Box::new(DebrisDrift { model, observations: b.observations.iter().map(|o| o.id.clone()).collect(), surface: b.surface }))
+    Ok(Box::new(DebrisDrift { models: vec![(model, b.surface)], observations: b.observations.iter().map(|o| o.id.clone()).collect() }))
 }
 
 impl Hypothesis for DebrisDrift {
@@ -944,7 +1010,10 @@ impl Hypothesis for DebrisDrift {
     }
 
     fn alternatives(&self) -> Vec<Alternatives> {
-        vec![Alternatives::new(ocean::OCEAN_MODEL_ALTERNATIVE, &[(self.model.as_str(), 1.0)])]
+        // Equal prior weight across the declared ocean-model options (ruling of 9 Oct; sensitivity mixture, rule 7).
+        let w = 1.0 / self.models.len() as f64;
+        let opts: Vec<(&str, f64)> = self.models.iter().map(|(m, _)| (m.as_str(), w)).collect();
+        vec![Alternatives::new(ocean::OCEAN_MODEL_ALTERNATIVE, &opts)]
     }
 
     /// q/Q is a normalised density of the finds under every ocean model, so options may be
@@ -954,22 +1023,30 @@ impl Hypothesis for DebrisDrift {
     }
 
     fn prediction_columns(&self) -> Vec<String> {
-        vec!["drift_support_flag (1 scored 0 outside support 2 MC-unresolved)".into()]
+        // One support flag per ocean-model option (1 scored, 0 outside support, 2 Monte Carlo unresolved). With a single
+        // option the column name is unchanged from earlier runs.
+        if self.models.len() == 1 {
+            return vec!["drift_support_flag (1 scored 0 outside support 2 MC-unresolved)".into()];
+        }
+        self.models.iter().map(|(m, _)| format!("drift_support_flag {m} (1 scored 0 outside support 2 MC-unresolved)")).collect()
     }
 
-    fn impact_log_likelihood(&self, impact: &ImpactView, _choice: &[usize]) -> f64 {
-        match self.surface.ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
+    fn impact_log_likelihood(&self, impact: &ImpactView, choice: &[usize]) -> f64 {
+        let m = choice.first().copied().unwrap_or(0).min(self.models.len() - 1);
+        match self.models[m].1.ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
             Lookup::Value(l) => l,
             Lookup::Unresolved | Lookup::OutsideSupport => f64::NAN,
         }
     }
 
     fn predict(&self, impact: &ImpactView, out: &mut [f64]) {
-        out[0] = match self.surface.ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
-            Lookup::Value(_) => 1.0,
-            Lookup::OutsideSupport => 0.0,
-            Lookup::Unresolved => 2.0,
-        };
+        for (o, (_, surface)) in out.iter_mut().zip(&self.models) {
+            *o = match surface.ln_likelihood(impact.latitude_deg, impact.longitude_deg) {
+                Lookup::Value(_) => 1.0,
+                Lookup::OutsideSupport => 0.0,
+                Lookup::Unresolved => 2.0,
+            };
+        }
     }
 }
 

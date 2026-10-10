@@ -552,3 +552,39 @@ fn product_windage_offset_range() {
     p.c_wind_product_offset = -0.006;
     assert!(super::validate(&p).is_err());
 }
+
+#[test]
+fn surfaces_mode_declares_both_ocean_models() {
+    use super::{load_surface, SurfaceFile};
+    let dir = std::env::temp_dir().join(format!("drift-surfaces-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let grid = "grid = { lat0 = -40.0, lon0 = 90.0, dlat = 0.5, dlon = 0.5, nlat = 3, nlon = 3 }\n";
+    let mk = |name: &str, centre: f64| {
+        let (c, s) = (dir.join(format!("{name}.csv")), dir.join(format!("{name}.toml")));
+        let mut t = String::from("node,lat_deg,lon_deg,component,state,ln_l\n");
+        for k in 0..9 {
+            let state = if k == 8 { "land" } else if k == 7 { "unresolved" } else { "value" };
+            let v = if k == 7 { "nan".to_string() } else { format!("{}", centre - k as f64) };
+            t += &format!("{k},0,0,0,{state},{v}\n");
+        }
+        std::fs::write(&c, t).unwrap();
+        std::fs::write(&s, grid).unwrap();
+        SurfaceFile { ocean_model: name.into(), nodes_csv: c.to_string_lossy().into(), summary_toml: s.to_string_lossy().into() }
+    };
+    let (a, b) = (mk("glorys12v1+era5-wind10", -100.0), mk("globcurrent-my-p1d+era5-wind10", -110.0));
+    let sa = load_surface(&a, "ln_l").unwrap();
+    assert_eq!(sa.nodes[0], Node::Value(-100.0));
+    assert_eq!(sa.nodes[7], Node::Unresolved);
+    assert_eq!(sa.nodes[8], Node::Land);
+    let params: toml::Value = toml::from_str(&format!(
+        "[[surfaces]]\nocean_model = \"{}\"\nnodes_csv = \"{}\"\nsummary_toml = \"{}\"\n[[surfaces]]\nocean_model = \"{}\"\nnodes_csv = \"{}\"\nsummary_toml = \"{}\"\n",
+        a.ocean_model, a.nodes_csv, a.summary_toml, b.ocean_model, b.nodes_csv, b.summary_toml)).unwrap();
+    let h = super::new(&params).unwrap();
+    let alt = h.alternatives();
+    assert_eq!(alt.len(), 1);
+    assert_eq!(alt[0].name, ocean::OCEAN_MODEL_ALTERNATIVE);
+    assert_eq!(alt[0].options, vec![("glorys12v1+era5-wind10".to_string(), 0.5), ("globcurrent-my-p1d+era5-wind10".to_string(), 0.5)]);
+    assert_eq!(h.observations().len(), 9);
+    assert_eq!(h.prediction_columns().len(), 2);
+    let _ = std::fs::remove_dir_all(&dir);
+}
