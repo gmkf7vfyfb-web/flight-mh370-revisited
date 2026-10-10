@@ -1364,3 +1364,59 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - Not for Holland H1 or H2 until they are estimable.
 
 - Modular Architecture
+
+## 2026-10-10 ~20:00 UTC - architecture → Pléiades, hydroacoustics (cc end of flight): COORDINATION (Pete) - hydroacoustic test of the Pléiades hypothesis
+
+Design: `results/pleiades/hydro-conditional-test-design.md`, approved by Pete with the changes below.
+Statistic: R_hyd = p(hydro data | flight data, H) / p(hydro data | flight data), from end of flight's own impact samples.
+Report it as a Bayes-factor component, never as P(H | data). No subsetting by HPD region, which would be selection on the
+outcome (rule 2).
+
+### Interface (ruled)
+- **Location:** `/Users/pete/Downloads/mh370-exchange/pleiades/hydro-test/<core-run>/`, with `<core-run>` = `next-run-b`
+  first and `next-run-c` later.
+- **Per-impact columns:** one file per stratum and seed, `<stratum>/seed-<k>/pleiades-lnL.npy`, row-aligned with end of
+  flight's `impacts.npy`.
+  - Keys: `stratum`, `seed`, `row`, `parent`.
+  - Values: `lnL_pleiades`, `lnL_cosmo` and `lnL_both` ("one debris field"), each `_glorys12`, `_globcurrent` and
+    `_mean` (equal-weight average over ocean models).
+  - `not_computed` flag. A not-computed row is excluded and counted; it is never treated as impossible.
+  - Plus `COLUMNS.txt`.
+- **Source package:** `sources.npz`, about 5,000 rows.
+  - A defensive mixture: half from the flight posterior, half from the posterior under H.
+  - Each row carries end of flight's key and full state vector, `w_flight` and `w_H` (importance weights relative to
+    the mixture), and the ESS for each weight.
+- **README:** provenance, including the end-of-flight run, the Pléiades commit, the ocean models and windage
+  convention, the object set and the COSMO set. Two-version footnotes apply to charts.
+- **`READY`** is written last.
+
+### Order of work
+1. **Pléiades:** build the columns and the source package on core (b), "00:19 R600 BTO Only" first, then write `READY`.
+   Add "00:19 Held Out" and "00:19 R600 BTO + Raw BFO" next. Light compute, 2 threads or fewer.
+2. **Hydroacoustics: start now, in parallel. Pre-register before computing any R_hyd.** Commit
+   `results/hydroacoustics-pleiades-test-preregistration.md`, stating:
+   - which observations enter L_hyd: stations, detection or non-detection, time windows, and which raw data are
+     actually held (H01W, H08S, H08N, IMOS recorders, others);
+   - the detection-probability and propagation models, with sources;
+   - how R_hyd will be read: thresholds for "favours H", "favours no H", and "uninformative".
+3. **Hydroacoustics: power check,** on the source package, before the result:
+   - predicted arrival windows at each station with H and without H, on one chart;
+   - the expected distribution of ln R_hyd under each hypothesis, from synthetic data drawn under each.
+
+   If the windows overlap everywhere and the expected ln R_hyd is near 0 under both, report **"test not
+   informative with the data held"**. That is a valid result; stop there and say what data would make the test
+   informative.
+4. **Hydroacoustics:** R_hyd per option, with its split-half error over seeds and the ESS of both weights. Also the
+   windows comparison chart.
+5. **Repeat on core run C** when `core/next-run-c/READY` and end of flight's sweep on it land.
+
+### Rules for the numbers
+- **Strata.** Mix by the 00:19-re-weighted P(family) (ruling C, ~19:10 UTC). Use end of flight's per-family evidence
+  factors when published. Show the fixed-weight mixture beside it while core is unconverged. Label both.
+- **Labels:** core (b) not converged; two-tank bookkeeping only; Pléiades/COSMO transport errors treated as independent
+  (correlation pending from ocean transport); GlobCurrent windage convention as run (debris-drift audit F1).
+- **Holland H1/H2:** not until they are estimable.
+- **End of flight:** nothing new beyond keeping the `impacts.npy` and `run.json` layout, plus the per-family 00:19
+  evidence factors already owed.
+
+- Modular Architecture
