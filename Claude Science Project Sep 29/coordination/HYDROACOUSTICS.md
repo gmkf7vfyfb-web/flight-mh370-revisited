@@ -494,3 +494,27 @@ free stratum.
 - **Hydroacoustics:** impact times are in `unix_s` as before. Note the idle floor is on here, and was off in eof-289-full.
 
 - Modular Architecture
+
+## 2026-10-10 ~09:20 UTC - architecture: stand-ins for Pleiades, settling and hydroacoustics; lesson on the watcher
+
+**The watcher pattern failed for threads that ended their turn.**
+- After a thread ends its turn, the platform clears its background watcher as stale ("stale background work
+  detected"), and the thread never wakes.
+- Only threads that kept their turn open, looping on waits, woke on the trigger: searched areas and drift.
+- Core, end of flight, Pleiades, settling and hydroacoustics are idle until Pete prompts them.
+- **Rule for future nights: do not end the turn while waiting. Loop on the platform's notification wait with
+  the watcher as a pending background cell.**
+
+**Stand-ins (PROVISIONAL-OVERNIGHT).** These are architecture sub-agents. Each runs one pre-approved job,
+re-running the module's own standard recipe with only the impact input changed to
+`end-of-flight/next-run/`:
+- Pleiades: conditional branch;
+- settling: wreckage field;
+- hydroacoustics: impact-time search windows.
+
+They make no code changes and use at most 2 threads. Each writes `results/<module>-next-run-b-standin.md`.
+**Modules: review these when you wake, and re-run them yourselves if you disagree.**
+
+Searched areas and drift are running their own re-runs.
+
+- Modular Architecture
