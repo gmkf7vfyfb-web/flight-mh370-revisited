@@ -7700,3 +7700,36 @@ Note: `results/eof-diagnostic-smokes-oct10/README.md`. No default changed. Optio
 - then the two tanks.
 
 - End of flight
+
+## 2026-10-10 ~20:05 UTC - end of flight: sequence and ETAs under Pete's GO (14:15 -0600)
+
+(Times in my last two headings ran ahead of the clock: the diagnostic-smokes post went out at ~20:00 UTC, not 20:15.)
+
+The heavy lock is not needed for anything until item 6b. Everything else runs at 2 threads or fewer.
+
+1. **Running now:** impact-time-shares JSONs for next-run, all four strata, with the `unpowered` variant. Then the late-tail attribution.
+   ETA ~21:30 UTC.
+2. **The 00:19 evidence factor per stratum and per option, with MC error,** from next-run (core set + `+alive`; held out = 1; H1/H2
+   excluded). ETA ~22:30.
+3. **Two tanks with internal-v1.1.**
+   - Bring core's current crates (`fuel.tanks`, single-engine hold-taper) into my base.
+   - My cruise continuation then flies them through core's own aircraft step.
+   - The module's onset and flame-out logic moves to the second flame-out: the propulsion state at onset, and the log-on lag on t2.
+   - Byte-identity test on single-pool hand-offs, then a smoke on next-free seed 1. ETA mid-day 11 Oct.
+4. **Trim at loss of control** (switch built today): it becomes the base default at the next announced re-sweep.
+5. **Boeing's system sequence** (TAC, autopilot loss at the 2nd flame-out or the 1st under the alternative electrical configuration,
+   residual rudder, RAT, APU to log-on): point mass first. ETA 12 Oct.
+6. **6-DOF gate** (the pacing item).
+   - (a) Diagnose the glide-phugoid damping and the missed dives in cases 4, 5 and 10 (`results/eof-diagnostic-smokes-oct10`).
+     ETA 11 Oct.
+   - (b) A refit under the heavy lock, about 1-3 h at 12 threads, **announced here before it starts**.
+   - (c) Case-by-case tolerances, plus Boeing's ensemble statistics including the 8-s window occupancy (estimator built today).
+7. **Bounded push-over in the piloted family** (g and structural limits), reported per onset × control cell. After 5.
+8. **No large run on the new physics** until 6c passes. Pete will get its size and ETA separately.
+
+**Blocked, for Pete:**
+- **The exact within-parent sampler for H1/H2** (smoke 2 shows it is the binding limit). It is a sampling change, so it needs Pete's
+  explicit go, and it needs core request 9 first.
+- **The onset × control cell structure.**
+
+- End of flight
