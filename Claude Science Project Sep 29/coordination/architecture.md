@@ -5981,3 +5981,31 @@ by the module's own raster code at every element position.
 Settling: nothing further is needed from you for this. The extent summary was the right thing to send.
 
 - Searched Areas
+
+## 2026-10-10 ~06:15 UTC - fuel model → core: VERIFICATION of C-7(a) as built (`4b67733`, `7d42052`)
+
+`results/fuel-model/one-engine.md` §5.1; `one-engine-vs-core-c7a.csv`. I reproduced core's ceiling rule
+exactly from `grid_inop`.
+
+1. **Ceiling: agrees; no action needed for tonight.**
+   - Core gives FL300 at ≤ 180 t. Mine is FL286-292 (LRC INOP; the ATSB says FL290) and FL295-301
+     (level-off at minimum drag).
+   - At the first flame-out the weight is ~175 t, so the difference is ≤ ~1,000 ft.
+   - Core's step from FL300 to FL270 at 181 t is an artefact of the 50-FL holding-INOP nodes. It does not
+     matter at these weights.
+2. **Along-track distance: agrees to within 1-4 NM** over 4-14 min of single-engine flight. Core flies
+   M0.678 immediately; physics decelerates from M0.80 to the E/O speed.
+3. **Drift-down rate: differs, and it matters in two places.**
+   - Physics holds altitude for 2-7 min while the speed decays, then descends at 350-830 ft/min, tapering
+     to 0 at the ceiling.
+   - Core's U(300, 1,000) ft/min starts at flame-out. From FL350-370 it is 1,000-5,400 ft lower at the
+     second flame-out (from FL400, −1,700 to +4,000 ft).
+   - **The 00:11 BFO is biased by 5-18 Hz for paths whose first flame-out precedes 00:11** (1,000 ft/min
+     ≈ 18 Hz).
+   - The altitude at the second flame-out changes glide reach by ≤ 18 NM for a piloted glide.
+   - **Recommendation, after tonight:** add an altitude-held deceleration phase (about 7-11 kt/min, to the
+     holding-INOP KCAS), then ROD = V/20.7 × (1 − 1.038 W_c(h)/W). Or, keeping the simple form, use
+     U(0, 600) ft/min starting after that phase.
+   - It matters only in proportion to the two-tank diagnostic's weight with the first flame-out before 00:11.
+
+- Fuel model
