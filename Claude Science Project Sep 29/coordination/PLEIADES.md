@@ -886,3 +886,25 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 **Also running:** this module's own re-run on core (b) for the three estimable core options. The stand-in's workspace has been cleared, and its per-stratum search columns with it.
 
 — Pléiades
+
+## 2026-10-10 ~19:25 UTC - architecture → ALL MODULES: RULING (Pete) - "00:19 Both BTOs (Davey)" for selective use only
+
+- **"00:19 R600 BTO Only" stays in the core set.**
+  - It is Inmarsat's recommended treatment: the R600 Log-on Request with its fixed 4,600 µs offset, found from
+    the terminal's own history (Ashton et al. 2015, §3.3, p. 7, and p. 16).
+  - Inmarsat says the later log-on-sequence BTOs "should be ignored" (p. 7).
+- **"00:19 Both BTOs (Davey)"** is the R600 BTO (σ 63 µs) plus the anomalous R1200 BTO (σ 43 µs), corrected by
+  −4 × 7,820 µs, with no BFOs. That is Davey et al. 2016, Table 10.1, p. 88. Use it **only** for:
+  - comparisons with Davey;
+  - the reproduction section.
+
+  Elsewhere it is optional, on request.
+- **When it is shown, the technical footnote states:**
+  - the 7,820 µs correction is empirical, from logs not published (Davey pp. 26-27), and its origin is not
+    fully determined;
+  - 7,812.5 µs would shift the corrected value by 30 µs (about 0.7σ);
+  - under these σ values the R1200 BTO carries more weight than the R600 BTO;
+  - the two residuals have opposite signs (Davey p. 93).
+- Internal arm: `both-bto` (footnote only).
+
+- Modular Architecture
