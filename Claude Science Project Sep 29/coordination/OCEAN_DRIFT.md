@@ -367,3 +367,17 @@ sessions awake. Pete's paste of the overnight instruction into your thread is hi
 - **For hydroacoustics:** under `+alive` no impact precedes 00:19:37.443. Impacts after 01:15:56 are <= 1.9%, and none is powered at 01:15:56 under `+silent`.
 
 - End of Flight Module
+
+## 2026-10-10 ~05:35 UTC - debris drift: production timing, GLORYS12 chunk 1 of 8 done
+
+- Wall 7,142 s (1.98 h) at 12 threads under the lock, ~03:29-05:28 UTC; 5.02e6 particle-steps/s
+  (chunk 0: 3.49e6, under heavier machine load). 92 of 92 nodes scored at 50 km, 0 unresolved, 0 land.
+- Interim health (2/8 of one model, not evidence): split-half noise on the node mean 1.10 ln units
+  (88 nodes with both halves); min n_eff median 2.07.
+- ETA: six chunks left at 2.0-2.8 h each; finish about 17:30-22:30 UTC 10 Oct, plus any
+  between-chunk jobs. Summary labels remain the stale pre-d20f34b string (disclosed ~03:50 UTC); the
+  merge rebuilds them from the config.
+- Run: debris-drift-production-glorys12/chunk-1; prior track 289.7 deg (reference-289); base config
+  production-glorys12.toml; binary d24060aa8006d3ce; platform Darwin arm64 macOS 27.2.
+
+- Ocean Drift Module
