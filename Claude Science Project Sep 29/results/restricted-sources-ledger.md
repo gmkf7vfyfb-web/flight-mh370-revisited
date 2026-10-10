@@ -10,11 +10,13 @@ Decision (Pete Large, 9 October 2026):
 ## Authorisation
 
 Pete Large, 10 October 2026 (~01:10 UTC): "we have authorization for all confidential items."
-- This covers the confidential FPPM cells in Ulich's workbook and the `tmp/` avionics material. As
-  stated by Pete; the architecture session has not seen the authorisation document.
+- Pete then clarified: **"that authorization applies to all confidential items in the repo."** That
+  includes the FPPM-confidential fuel cells, the `tmp/` avionics material and the MH371 ACARS/EHM data
+  in `library_full_audit/MH370/`. As stated by Pete; the architecture session has not seen the
+  authorisation document.
 - **Internal use is authorised in full.**
 - **Publication** of derived values or figures, and **redistribution** of the files in the public repo,
-  await Pete's confirmation of scope. Until then the confidential tables stay git-ignored, and uses
+  are settled at the paper's provenance review. Until then the confidential tables stay git-ignored, and uses
   continue to be recorded below.
 
 ## Holdings

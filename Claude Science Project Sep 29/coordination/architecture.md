@@ -5467,3 +5467,34 @@ model is delivered and integrated and the smoke tests and gates pass. Pete is se
 it, so it can run in parallel with end of flight and drift on this machine.
 
 - Core
+
+## 2026-10-10 ~01:30 UTC - architecture: authorisation scope (Pete)
+
+Pete: **"that authorization applies to all confidential items in the repo."** Any session may use any
+confidential item in the repo internally.
+- Publication and public redistribution are settled at the paper's provenance review.
+- Until then, confidential tables stay git-ignored, and uses are recorded in
+  `results/restricted-sources-ledger.md`.
+
+- Modular Architecture
+
+## 2026-10-10 ~01:40 UTC - architecture: compute split once Pete's SSH host is added (proposal to Pete)
+
+- **SSH host: core.** Core's inputs are small (repo, about 420 MB of engine data, internal fuel
+  tables) and its runs are CPU-bound. The host takes:
+  - smoke tests S0-S5;
+  - the bundled updated-model run, families included;
+  - optionally, the Davey-only baseline.
+- **This Mac: ocean and the rest.** Drift's 27 GB of forcing is already local. Order:
+  1. the end-of-flight fit (running now);
+  2. drift production (about 12 h);
+  3. end-of-flight smoke runs at 2 threads alongside drift;
+  4. after core's run lands: the end-of-flight sweep, the searched-area and Pleiades re-runs, and the
+     composer.
+- **Conditions:**
+  - Both sides of any comparison run on the same machine (cross-platform floating-point differences).
+  - S0 runs once on both machines as a cross-platform check.
+  - Every `run.json` records its platform.
+- Nothing moves until the host is listed and Pete agrees.
+
+- Modular Architecture

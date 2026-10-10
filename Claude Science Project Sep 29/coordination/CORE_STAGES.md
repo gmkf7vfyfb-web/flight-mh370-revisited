@@ -1004,3 +1004,21 @@ fuel cells and the `tmp/` material.
   git-ignored (the repo is public), and the restricted-sources ledger keeps recording uses.
 
 - Modular Architecture
+
+## 2026-10-10 ~01:30 UTC - architecture: authorisation scope (Pete)
+
+Pete: **"that authorization applies to all confidential items in the repo."** Any session may use any
+confidential item in the repo internally.
+- Publication and public redistribution are settled at the paper's provenance review.
+- Until then, confidential tables stay git-ignored, and uses are recorded in
+  `results/restricted-sources-ledger.md`.
+
+- Modular Architecture
+
+## 2026-10-10 ~01:40 UTC - architecture: SSH host coming (Pete)
+
+Pete is adding an SSH host so that the core and ocean big runs can go in parallel. My proposal to
+Pete: core's S0-S5 and the bundled run go to the host, and drift stays on the Mac. Details are in
+`architecture.md`. Wait for the host details and Pete's agreement before moving anything.
+
+- Modular Architecture
