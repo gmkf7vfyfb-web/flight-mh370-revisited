@@ -235,6 +235,8 @@ struct Params {
     /// the earlier stream is reproduced exactly.
     #[serde(default)]
     proposal: ProposalParams,
+    #[serde(default)]
+    trace: TraceParams,
 }
 
 /// The two-burst stopgap proposal: PROVISIONAL, to be redone on the 6-DOF-fitted fast model.
@@ -485,7 +487,47 @@ const LATENTS: &[&str] = &[
     "spiral_divergent",
     "spiral_doubling_s",
     "free_dynamics_started_s",
+    // The module's own physical state at each burst it flew through (10 Oct, Pete's questions on the 22:41 arms):
+    // NaN when the burst came before this descent's onset (core's cruise) or after its impact. Recorded BEFORE
+    // `unpowered_bursts_removed`, so a burst the SDU could not answer still shows where the aircraft was.
+    "state_m2315_altitude_ft", "state_m2315_vertical_speed_fpm", "state_m2315_latitude_deg", "state_m2315_longitude_deg",
+    "state_m0011_altitude_ft", "state_m0011_vertical_speed_fpm", "state_m0011_latitude_deg", "state_m0011_longitude_deg",
+    "state_m0019a_altitude_ft", "state_m0019a_vertical_speed_fpm", "state_m0019a_latitude_deg", "state_m0019a_longitude_deg",
+    "state_m0019b_altitude_ft", "state_m0019b_vertical_speed_fpm", "state_m0019b_latitude_deg", "state_m0019b_longitude_deg",
 ];
+
+/// Epochs whose module-flown state is emitted as latents, in `LATENTS` order.
+const STATE_EPOCHS: [&str; 4] = ["m2315", "m0011", "m0019a", "m0019b"];
+
+/// Altitude-trace recorder for plotting (10 Oct). Off unless `path` is set. A descent is recorded when a hash of
+/// its takeover state and index is divisible by `every_n`: deterministic, and no uniform is drawn, so the
+/// sampled stream and every impact row are unchanged. Rows: impact_unix_s, impact_latitude_deg,
+/// impact_longitude_deg, unix_s, altitude_ft, vertical_speed_fpm, one per `step_s` of module-flown time from onset.
+#[derive(Deserialize, Debug, Clone, PartialEq, Default)]
+#[serde(deny_unknown_fields)]
+struct TraceParams {
+    #[serde(default)]
+    path: String,
+    #[serde(default)]
+    every_n: u64,
+    #[serde(default)]
+    step_s: f64,
+}
+
+static TRACE_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+fn trace_selected(t: &FlightState, i: usize, every_n: u64) -> bool {
+    if every_n == 0 {
+        return false;
+    }
+    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
+    for x in [t.unix_s.to_bits(), t.latitude_deg.to_bits(), t.longitude_deg.to_bits(), i as u64] {
+        h ^= x;
+        h = h.wrapping_mul(0x0000_0100_0000_01b3);
+        h ^= h >> 29;
+    }
+    h % every_n == 0
+}
 
 /// Settling's breakup-family constants, quoted verbatim from `results/breakup-field-candidate.md`
 /// section 2. They live in settling's table; the fixtures test below is what keeps this copy honest.
@@ -803,7 +845,7 @@ impl EndOfFlight {
             None => (parent.predicted_exhaustion_unix_s - takeover.unix_s, f64::NAN, parent.predicted_exhaustion_unix_s),
         };
         let mut out = Vec::with_capacity(self.params.descents_per_child);
-        for _ in 0..self.params.descents_per_child {
+        for descent_index in 0..self.params.descents_per_child {
             let (mechanism, mechanism_prior) = match drawn {
                 Some(d) => (d.mechanism, d.mechanism_prior),
                 None => self.params.onset.classify(lead, uniform),
@@ -843,8 +885,9 @@ impl EndOfFlight {
                 self.draw_axes(mechanism, uniform)
             };
             let aero = self.params.aero.draw(uniform);
-            let (impact, states, flying, trace, realised_flameout, profile_lq) =
-                self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, fuel, uniform);
+            let record = !self.params.trace.path.is_empty() && trace_selected(takeover, descent_index, self.params.trace.every_n);
+            let (impact, states, flying, trace, realised_flameout, profile_lq, points) =
+                self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, fuel, record, uniform);
 
             // A descent that never reached the sea is a negative result. By default it is
             // finished on a best glide so the sample is usable, and the fact is recorded;
@@ -861,6 +904,19 @@ impl EndOfFlight {
             // impossible, and the burst gets no state, which core scores as minus infinity for every
             // option that uses it. Bursts at or after the log-on are untouched, so a 00:11 hand-off is
             // unaffected by construction. Bites from a 22:41 hand-off (m2315, m0011).
+            let physical: Vec<f64> = STATE_EPOCHS
+                .iter()
+                .flat_map(|id| {
+                    let s = epochs.iter().position(|e| e.id == *id).and_then(|k| states.get(k).copied().flatten());
+                    match s {
+                        Some(s) => [s.altitude_ft, s.velocity_up_mps / 0.3048 * 60.0, s.latitude_deg, s.longitude_deg],
+                        None => [f64::NAN; 4],
+                    }
+                })
+                .collect();
+            if record {
+                self.write_trace(&impact, &points);
+            }
             let states = unpowered_bursts_removed(epochs, states, realised_flameout, self.params.logon.logon_unix_s);
 
             let realised_control = flying.realised_control();
@@ -942,6 +998,8 @@ impl EndOfFlight {
                 flying.spiral_doubling_s.unwrap_or(f64::NAN),
                 flying.free_since_s.unwrap_or(f64::NAN),
             ];
+            let mut latents = latents;
+            latents.extend_from_slice(&physical);
             debug_assert_eq!(latents.len(), LATENTS.len());
             let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
                 .or_else(|| taxonomy::index_of(&Family { initiation: mechanism, propulsion, control }))
@@ -978,8 +1036,9 @@ impl EndOfFlight {
         aero: Aero,
         epochs: &[TerminalEpoch],
         fuel: Option<&dyn FuelFlow>,
+        record: bool,
         uniform: &mut dyn FnMut() -> f64,
-    ) -> (Impact, Vec<Option<EpochState>>, Flying, integrator::Trace, f64, f64) {
+    ) -> (Impact, Vec<Option<EpochState>>, Flying, integrator::Trace, f64, f64, Vec<[f64; 3]>) {
         let start = Body {
             unix_s: takeover.unix_s,
             latitude_deg: takeover.latitude_deg,
@@ -1027,6 +1086,8 @@ impl EndOfFlight {
         });
         let states = std::cell::RefCell::new(vec![None; epochs.len()]);
         let previous = std::cell::Cell::new(Option::<(Body, f64)>::None);
+        let points = std::cell::RefCell::new(Vec::<[f64; 3]>::new());
+        let trace_step = if self.params.trace.step_s > 0.0 { self.params.trace.step_s } else { 30.0 };
 
         let transition = if realised_flameout.get().is_finite() {
             Some(realised_flameout.get())
@@ -1051,6 +1112,12 @@ impl EndOfFlight {
                 let factor = atmos::geometric_rate_factor(body.pressure_altitude_ft, air.temperature_k);
                 let up = body.vertical_speed_mps() * factor;
                 flying.borrow_mut().observe(body, up);
+                if record {
+                    let mut p = points.borrow_mut();
+                    if p.last().map_or(true, |l: &[f64; 3]| body.unix_s - l[0] >= trace_step) {
+                        p.push([body.unix_s, body.pressure_altitude_ft, up / 0.3048 * 60.0]);
+                    }
+                }
                 if let Some((prev, prev_up)) = previous.get() {
                     let mut states = states.borrow_mut();
                     for (k, epoch) in epochs.iter().enumerate() {
@@ -1072,7 +1139,26 @@ impl EndOfFlight {
             velocity_up_mps: trace.impact_vertical_speed_mps,
             mass_kg: trace.impact.mass_kg,
         };
-        (impact, states.into_inner(), flying.into_inner(), trace, realised_flameout.get(), profile_lq)
+        let mut points = points.into_inner();
+        if record {
+            points.push([trace.impact.unix_s, 0.0, trace.impact_vertical_speed_mps / 0.3048 * 60.0]);
+        }
+        (impact, states.into_inner(), flying.into_inner(), trace, realised_flameout.get(), profile_lq, points)
+    }
+
+    /// Append one recorded descent to the trace file (see [`TraceParams`]). A write failure is reported on
+    /// stderr and never changes a sample.
+    fn write_trace(&self, impact: &Impact, points: &[[f64; 3]]) {
+        use std::io::Write;
+        let mut text = String::new();
+        for p in points {
+            text.push_str(&format!("{:.6},{:.9},{:.9},{:.3},{:.1},{:.1}\n", impact.unix_s, impact.latitude_deg, impact.longitude_deg, p[0], p[1], p[2]));
+        }
+        let _guard = TRACE_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let result = std::fs::OpenOptions::new().create(true).append(true).open(&self.params.trace.path).and_then(|mut f| f.write_all(text.as_bytes()));
+        if let Err(e) = result {
+            eprintln!("end-of-flight trace: {e}");
+        }
     }
 }
 

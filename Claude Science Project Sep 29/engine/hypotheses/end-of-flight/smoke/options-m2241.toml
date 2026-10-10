@@ -8,4 +8,9 @@ options = [
     { id = "m0011+r600", use = ["m2315.bfo", "m0011.bto", "m0011.bfo", "m0019a.bto", "m0019a.bfo"] },
     { id = "m0011+r1200", use = ["m2315.bfo", "m0011.bto", "m0011.bfo", "m0019b.bfo"] },
     { id = "m0011+both", use = ["m2315.bfo", "m0011.bto", "m0011.bfo", "m0019a.bto", "m0019a.bfo", "m0019b.bfo"] },
+    # 10 Oct: the 00:11 evidence split into its parts (what does each datum select?), and R600 without 00:11.
+    { id = "m2315-bfo", use = ["m2315.bfo"] },
+    { id = "m0011-bto", use = ["m0011.bto"] },
+    { id = "m0011-bfo", use = ["m2315.bfo", "m0011.bfo"] },
+    { id = "r600", use = ["m0019a.bto", "m0019a.bfo"] },
 ]

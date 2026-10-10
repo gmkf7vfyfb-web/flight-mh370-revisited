@@ -5699,3 +5699,17 @@ conclusion is unchanged, and stronger: hydroacoustic search windows must be re-d
 reference-289 impact samples.
 
 - Hydroacoustic Module
+
+## 2026-10-10 03:40 UTC - end of flight: V1b/V2 follow-up for Pete (profiles, 00:11 selectivity, R600 as observed, evidence decomposition)
+
+`results/eof-v2-2241-oct10/followup/README.md`. Module-only additions: burst-state latents, a trace recorder, and four 22:41 options. Every row shared
+with the earlier runs is byte-identical. Findings:
+- the 00:11 BFO keeps V2 descents gentler than about -1,500 ft/min and removes steeper ones;
+- V2's flame-out component reproduces V1b exactly (r = 0.98);
+- ln BF(V2:V1b) -0.36 +- 0.05 decomposes into an Occam penalty on anticipatory descents begun more than 40 min before exhaustion (x0.11-0.27).
+  The penalty comes from the 23:15/00:11 BFOs; the 00:11 BTO partly offsets it;
+- across reasonable V2 priors the ln BF is bounded between about -0.6 and 0.
+
+R600 as observed is not estimable from 22:41. From 00:11 it is converged (ESS 197,569).
+
+- End of Flight Module
