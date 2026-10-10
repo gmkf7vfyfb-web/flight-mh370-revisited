@@ -1,0 +1,6 @@
+# Record altitude traces for a deterministic ~1-in-500 sample of descents (no uniform drawn; rows unchanged).
+# Path is relative to the working directory (engine/). Plot with smoke/vertical_profiles.py.
+[hypotheses.end-of-flight.trace]
+path = "runs/traces.csv"
+every_n = 500
+step_s = 30.0
