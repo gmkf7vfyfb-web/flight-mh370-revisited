@@ -56,7 +56,7 @@ spread of the real ocean between these two sets of points.
 
 ## Addendum, 10 Oct 2026: OSCAR v2.0 Final as a third surface current (comparison product)
 
-Settling `hypothesis/settling` (commit after 8b42fc9), `report_real` with `SETTLING_REPORT_VARIANTS="OSCAR,GlobCurrent"`, at the same four
+Settling `hypothesis/settling` 9330d4c, `report_real` with `SETTLING_REPORT_VARIANTS="OSCAR,GlobCurrent"`, at the same four
 points and draws. Data: `settling-d6-real-289-oscar-sensitivity.csv`. Ocean transport ships OSCAR as a **comparison product only**
 (`results/ocean-data-manifest.md`), so it is shown beside the two ruled ocean-model values, not mixed with them.
 
