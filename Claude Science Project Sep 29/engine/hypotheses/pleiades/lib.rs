@@ -364,7 +364,7 @@ mod tests {
         let params = run["hypotheses"]["pleiades"].clone();
         let h = new(&params).unwrap();
         let models: Vec<String> = h.alternatives()[3].options.iter().map(|o| o.0.clone()).collect();
-        let (lon0, lat0, step, nlon, nlat) = (85.025, -42.975, 0.05, 360usize, 360usize);
+        let (lon0, lat0, step, nlon, nlat) = export::grid_box("PLEIADES_SURFACE_BOX", (85.025, -42.975, 0.05, 360usize, 360usize));
         let unix_s = 1_394_238_300.0; // 00:25 UTC 8 Mar: within the impact window
         let mut buf = Vec::with_capacity(models.len() * 4 * 2 * nlat * nlon * 4);
         let mut nan = 0usize;
@@ -440,7 +440,7 @@ mod tests {
         let out = std::path::PathBuf::from(std::env::var("PLEIADES_EXPORT_DIR").expect("set PLEIADES_EXPORT_DIR"));
         let run: toml::Value = toml::from_str(&std::fs::read_to_string(resolve("run.toml")).unwrap()).unwrap();
         let p: Params = run["hypotheses"]["pleiades"].clone().try_into().unwrap();
-        let (lon0, lat0, step, nlon, nlat) = (85.025, -42.975, 0.05, 360usize, 360usize);
+        let (lon0, lat0, step, nlon, nlat) = export::grid_box("PLEIADES_SURFACE_BOX", (85.025, -42.975, 0.05, 360usize, 360usize));
         let unix_s = 1_394_238_300.0;
         let mut buf = Vec::new();
         let mut labels = Vec::new();

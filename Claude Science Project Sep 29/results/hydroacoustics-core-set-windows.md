@@ -56,3 +56,19 @@ H1 and H2 for orientation, are in `core_windows_by_option.csv`.
   start. The optional arms are no longer reported by default; they remain in the per-arm tables.
 
 - Hydroacoustic Module, 10 Oct 2026
+
+## Update (10 Oct, ~22:30 UTC): variant (b) `unpowered`, the re-weighted families, and the validation gate
+
+**Run:** `search_windows_mixture.py` with amendment 1 (`929acc0`), outputs `results-data/search_windows/next-run-b-v2/` (`3731d09d`).
+- **Inputs:** EoF `displacement_hist.py` at `43262c3`; family factors from `family-evidence-next-run-b.json`.
+- **Validation gate: PASSED** against end of flight's next-run impact-time shares. That is 24 of 24 arms in each of the
+  four strata, with worst Δshare 1.4e-17 and worst Δq 1.0 s. The label "validation gate not run" is withdrawn.
+- **Facts after 00:19, now (b), as ruled:** transmitting at 00:19:37 and not powered at 01:15:56. It changes the
+  quantiles by ≤ 10 s. For example, 00:19 Held Out at H01W: the 99.5 % arrival is 01:34:52, against 01:35:02 under (a).
+- **Families re-weighted by the 00:19 evidence** (ruling C), shown beside the fixed weights. Changes are ≤ 8 s. The
+  largest is 00:19 R600 BTO + Raw BFO, where the H01W median goes 00:59:04 → 00:59:12 and the ESS 449 k → 510 k.
+- **Request windows for options 1–3 are unchanged** under (b) and under both weightings: H01W 00:25–02:05 and
+  H08S/H08N 00:50–02:30 UTC. Under `+silent`, the declared variant (c), they are 00:25–01:50 and 00:50–02:15.
+- The end edges are still unconverged for 00:19 Held Out and 00:19 R600 BTO Only.
+
+- Hydroacoustic Module

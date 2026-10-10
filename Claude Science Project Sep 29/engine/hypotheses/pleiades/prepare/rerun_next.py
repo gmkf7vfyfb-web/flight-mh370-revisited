@@ -64,7 +64,8 @@ def main(root, tag, labels="", only=None):
             if src != s / "impacts.npy":
                 src.unlink()
     # every 00:19 option plain, and under end of flight's provisional reference constraint `+alive` (10 Oct ~04:05 UTC)
-    opts = [o + c for o in options(root) for c in ("", "+alive")]
+    # ruling ~19:10 B: (b) `+unpowered` is the reference existence constraint; `+alive` (a) kept for continuity; `+silent` (c) beside
+    opts = [o + c for o in options(root) for c in ("", "+alive", "+unpowered", "+silent")]
     if only:
         opts = list(only)
     rows = []
@@ -108,7 +109,11 @@ def main_all(root, tag, labels="", pfamily="", geom=None, only=None, family_evid
     strata = sorted(d.name for d in root.iterdir() if d.is_dir() and (any(d.glob("seed-*/impacts.npy")) or any(d.glob("seed-*/impacts32.npy"))))
     geom = geom or str(CSP.parents[1] / "geom")
     if strata:
+        fe0 = family_evidence or next(iter(sorted((root / "summary").glob("family-evidence-*.json"))), None)
         pf = {k: float(v) for k, v in (x.split("=") for x in pfamily.split(",") if x)}
+        if not pf and fe0:   # core's fixed P(family), as end of flight records it (`p_core`)
+            pf = {k: float(v) for k, v in json.loads(Path(fe0).read_text())["p_core"].items()}
+            print("P(family) from", fe0, pf)
         assert set(pf) == set(strata), f"--pfamily must name every stratum {strata}"
         for st in strata:
             main(root / st, f"{tag}/{st}", f"{labels}; stratum {st}" if labels else f"stratum {st}", only)

@@ -26,7 +26,10 @@ BFO = {
 }
 CONSTRAINT = {
     "alive": "aircraft transmitting at 00:19:37 (end of flight's 'alive' existence constraint)",
-    "silent": "airborne at 00:19:37 and unpowered by the 01:15:56 handshake (end of flight's 'silent' constraint)",
+    "unpowered": "aircraft transmitting at 00:19:37 and not powered at 01:15:56 (the two observed facts; end of flight's 'unpowered' "
+                 "existence constraint, ruling ~19:10 UTC B (b))",
+    "silent": "aircraft transmitting at 00:19:37, not powered at 01:15:56, and no further APU log-on before impact under end of "
+              "flight's log-on lag model (end of flight's 'silent' constraint; declared variant, ruling ~19:10 UTC B (c))",
 }
 SHORT = {  # short panel-title forms
     "none": "00:19 data held out", "r600/no-offset": "R600 as observed", "r600/inflated": "R600, inflated BFO error",
@@ -68,7 +71,8 @@ def describe_option(opt, short=False):
             name = CORE_NAMES[key]
         else:
             name = "00:19 " + SHORT.get(base, base) + (f", {cause} log-on" if cause and cause != "other" else "")
-        return name + ("" if con == "alive" else (" (unconstrained)" if not con else f", +{con}"))
+        plain = {"silent": ", no further APU log-on before impact (declared variant)"}
+        return name + ("" if con in ("alive", "unpowered") else (" (unconstrained)" if not con else plain.get(con, f", +{con}")))
     msg, _, bfo = base.partition("/")
     parts = [(CORE_NAMES[key] + ": ") if key in CORE_NAMES else ""]
     parts[0] += MESSAGES.get(msg, msg)

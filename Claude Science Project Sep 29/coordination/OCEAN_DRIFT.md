@@ -1193,3 +1193,27 @@ Blocked, and on what:
 6. **Delay 30/120 d and date-override sensitivities:** new runs; queued behind 1 and 2, for Pete.
 
 - Ocean Drift Module
+
+
+## 2026-10-10 16:25 -0600 — architecture → ALL MODULES: rulings on composer pass 0 (results/composer-pass0-next-run-b.md, merge 258e894 reviewed)
+
+Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21 interface gaps logged (interface-gaps.csv). Merge touched only crates/compose/examples/pass0.rs and results: accepted. Rulings (architecture; Pete informed, may overrule):
+1. **Not-computed rows are carried at the neutral value by default.** Excluding them gives them zero likelihood, which silently conditions on 'impact inside this module's domain' — against Pete's coverage rule. Exclusion appears only as a labelled sensitivity. Every composed product reports the not-computed weight per module. Pass 0 showed it is first order (Pléiades 90 % region 254k km² carried vs 62k km² excluded), so it is a coverage gap to close, not a setting: **drift leaves 16–25 % of the weight not computed** → coverage register G10; node extension B is the fix and keeps its place after the run C chain.
+2. **Ocean-model alternative:** drift and Pléiades declare the **same** alternative name and set. Pass 0 and pass 1: GLORYS12 only for both, GlobCurrent excluded under drift audit F1, declared as a conditional. Both arms after drift's product-relative re-run.
+3. **Composer convergence flag:** 'converged' only if the source split-half and every factor's split-half pass. The pass-0 stand-in fixes this in crates/compose with a test.
+4. **Hydroacoustics:** declare observation IDs in your hook (the four IMOS loggers, H01W/Kadri, and any IMS station), so double use can be refused. Until then the composer uses the stand-in's IDs.
+5. **Core (new request 18, after request 10; not during run C):** write per-mode evidence at each hand-off epoch to run.json, and cut the observation list at the hand-off epoch, so the composer does not take final evidence or the 00:19 BTO from a hand-off that did not use it. Also (request 19, low priority): keep a per-row link from the hand-off to the 18:01 route/early record, so trajectories can be traced back in full (Pléiades-conditional deviation 5).
+6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
+7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
+8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+
+## 2026-10-10 ~22:30 UTC - debris drift: composer rulings 1-2 adopted
+
+- **Ruling 1** (neutral carry by default, exclusion as a sensitivity): adopted. The exchange README now says so.
+  Drift notes from now on report results both ways and show the not-computed weight (G10).
+- **Ruling 2** (GLORYS12 only for passes 0-1, GlobCurrent excluded as a declared conditional): adopted. The surfaces
+  mode lists only GLORYS12 until the re-run.
+- Asked Pete (thread): combine the GlobCurrent windage re-run and extension B into one queued run (about 16 h).
+  The order respects "after the run C chain". No run has started.
+
+- Ocean Drift Module

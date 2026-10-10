@@ -1,0 +1,23 @@
+{
+ "impacts_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/next-descent-climb",
+ "options": [
+  "none+silent",
+  "r600-bto+silent",
+  "r600/no-offset+silent"
+ ],
+ "seeds": [
+  "seed-1",
+  "seed-2",
+  "seed-3",
+  "seed-4"
+ ],
+ "labels": "core (b): request-17 sampler fix IN, split-half NOT converged; two-tank bookkeeping only; internal-v1 fuel (one-engine flow 2x its tables); Inmarsat ephemeris; descent idle floor ON; EoF sweep run by an architecture stand-in; existence constraint variant (c) 'silent', declared, shown beside (b) (ruling ~19:10 B); strata at fixed P(family) (no published re-weighting for silent); PROVISIONAL-OVERNIGHT; stratum next-descent-climb",
+ "variants": {
+  "base": "Phase 2 + Bluefin-21",
+  "oi2018-2025": "+ OI 2018 + OI 2025-26 SE band"
+ },
+ "models": [
+  "glorys12v1+era5-wind10",
+  "globcurrent-my-p1d+era5-wind10"
+ ]
+}

@@ -25,6 +25,15 @@ import closeup_figure as cf  # noqa: E402
 from branch_figure import footnote, hdr_level, run_provenance  # noqa: E402
 from describe import describe_option, describe_field, SEARCH_SHORT  # noqa: E402
 from option_closeups import load_mixture  # noqa: E402
+from rerun_reference import tension  # noqa: E402
+
+
+def mix_tension(mp, v, f="P+C4"):
+    """Tension of H against the flight posterior on this map (brief: the conditional and the tension go TOGETHER):
+    the module's own measure (rerun_reference.tension: ln S, Handley-Lemos p, mean shift)."""
+    lat, lon, area = mp[v]["lat"], mp[v]["lon"], mp[v]["area"]
+    z = np.zeros_like(area, dtype=bool)
+    return tension(mp[v]["post"], np.nan_to_num(mp[v][f"L_{f}"]), area, lat, lon, z, z, z)
 
 NM = 1.852
 PANELS = [("base", "P+C3"), ("base", "P+C4"), ("oi2018-2025", "P+C3"), ("oi2018-2025", "P+C4")]
@@ -37,8 +46,13 @@ SEARCH_FILL = [("atsb_phase2_2014_2017", "#7f7f7f", 0.30, "ATSB Phase 2 2014-17 
 def eof_family_key(opt):
     """end of flight's key in family-evidence-*.json for a module option string."""
     base = opt.split("@")[0]
-    name = describe_option(base.replace("+alive", "").replace("+silent", ""), short=True).replace(" (unconstrained)", "")
-    return name + (" +alive" if "+alive" in base else "")
+    opt0, _, con = base.partition("+")
+    name = describe_option(opt0, short=True).replace(" (unconstrained)", "")
+    # end of flight publishes `+alive` keys only. For `unpowered` (ruling ~19:10 B (b)) the family weights use the `+alive` key and the
+    # not-powered-at-01:15:56 factor acts within each stratum only (as ocean settling does; it removes <= 0.3 % of weight). Others: fixed.
+    if con == "unpowered":
+        con = "alive"
+    return name + (f" +{con}" if con else "")
 
 
 def reweighted_pfam(fam_json, opt):
@@ -56,7 +70,9 @@ def reweighted_pfam(fam_json, opt):
 def notes_for(opt, src, pfam, labels, pfam_rw=None, fam_json=None):
     if pfam and pfam_rw:
         mix = (f"Strata mixed by P(family) re-weighted by the 00:19 evidence (ruling C; end of flight's "
-               f"{Path(fam_json).name}: {', '.join(f'{k} {pfam_rw[k]:.4f}' for k in pfam)}); the core's fixed P(family) "
+               f"{Path(fam_json).name}, key '{eof_family_key(opt)}': {', '.join(f'{k} {pfam_rw[k]:.4f}' for k in pfam)}"
+               + ("; the not-powered-at-01:15:56 factor acts within each stratum, not in these weights" if "+unpowered" in opt else "")
+               + "); the core's fixed P(family) "
                f"({', '.join(f'{k} {v:.4f}' for k, v in pfam.items())}) is shown beside it. The search then re-weights strata by their own evidence.")
     elif pfam:
         mix = (f"Strata mixed by core's P(family), held fixed ({', '.join(f'{k} {v:.4f}' for k, v in pfam.items())}); the search "
@@ -221,17 +237,20 @@ def colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem, bg=None, v="oi2
     def col(mp):
         mm = panel_mass(mp, v, f); dd = mm / area; ss = cf.stats(mm, area, LAT, LON, geo_masks)
         Lf = np.nan_to_num(mp[v][f"L_{f}"]); ret = float((mp[v]["post"] * Lf).sum() / (mp[v]["pre"] * Lf).sum())
+        tt = mix_tension(mp, v, f)
         return [f"{area[dd >= hdr_level(dd, mm, 0.5)].sum():,.0f} km²", f"{ss['hdr90_km2']:,.0f} km²",
                 f"{abs(ss['mean_lat']):.2f} S {ss['mean_lon']:.2f} E", f"{100 * (1 - ss['mass_in_past']):.1f} %",
-                f"{100 * ss['mass_in_nw']:.1f} %", f"{ret:.3f}"]
-    lab = ["50 % region", "90 % region", "mean", "outside past searches", "in OI north-west band", "searches leave, under H"]
+                f"{100 * ss['mass_in_nw']:.1f} %", f"{ret:.3f}", f"{tt['ln_S']:+.2f} (p {tt['tension_p']:.2f})",
+                f"{tt['mean_shift_nm']:.0f} NM"]
+    lab = ["50 % region", "90 % region", "mean", "outside past searches", "in OI north-west band", "searches leave, under H",
+           "tension, ln S (p)", "mean shift from flight PDF"]
     if cmp is None:
         rows = [[a, b] for a, b in zip(lab, col(maps))]
-        t = side.table(cellText=rows, loc="upper left", cellLoc="left", edges="horizontal", colWidths=[0.64, 0.36], bbox=[0.0, 0.62, 1.0, 0.38])
+        t = side.table(cellText=rows, loc="upper left", cellLoc="left", edges="horizontal", colWidths=[0.64, 0.36], bbox=[0.0, 0.56, 1.0, 0.44])
     else:
         rows = [[a, b, c] for a, b, c in zip(lab, col(maps), col(cmp))]
         t = side.table(cellText=rows, colLabels=["strata weights", "re-weighted\n(drawn)", "fixed"], loc="upper left", cellLoc="left",
-                       edges="horizontal", colWidths=[0.40, 0.30, 0.30], bbox=[0.0, 0.60, 1.0, 0.40])
+                       edges="horizontal", colWidths=[0.40, 0.30, 0.30], bbox=[0.0, 0.54, 1.0, 0.46])
     if cmp is not None:
         t.auto_set_font_size(False); t.set_fontsize(5.1)
         for (r_, c_), cell in t.get_celld().items():
@@ -246,7 +265,7 @@ def colour_single(maps, geo, T5, Cc, opt, notes, out, plt, stem, bg=None, v="oi2
           plt.Line2D([], [], color="#333333", lw=0.7, ls=":", label="7th arc, FL400"),
           plt.Line2D([], [], ls="", marker="x", color="#d62728", label="Pléiades rating-5 objects"),
           plt.Line2D([], [], ls="", marker="o", mfc="white", mec="#e6550d", label="COSMO-SkyMed radar contacts (all four)")]
-    side.legend(handles=h, loc="upper left", bbox_to_anchor=(0.0, 0.58), frameon=False, fontsize=5.6)
+    side.legend(handles=h, loc="upper left", bbox_to_anchor=(0.0, 0.52), frameon=False, fontsize=5.4)
     fig.suptitle(f"If the imaged objects are from 9M-MRO: where the debris entered the sea — {describe_option(opt, short=True)}\n"
                  f"Pléiades objects + all four COSMO-SkyMed contacts, one debris field", x=0.01, ha="left", y=1.0, fontsize=7)
     extra = [BG_TEXT[bg] + (f" {100 * frame_share(maps, v):.0f} % of it lies inside this frame." if bg else "")] if bg else []
@@ -459,6 +478,10 @@ def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), l
                 ss = cf.stats(mm, a_, LA, LO, {})
                 T_.append(f"{nm} {ss['hdr90_km2']:,.0f} km², mean {abs(ss['mean_lat']):.2f} S {ss['mean_lon']:.2f} E")
             nb = notes + ["Strata weights, after all searches, 90 % region under H: " + "; ".join(T_) + " (drawn: re-weighted)."]
+        tt = mix_tension(maps, "oi2018-2025")
+        nb = nb + [f"Tension of H against the flight PDF, after all searches (the module's measure; reported with the conditional): ln S "
+                   f"{tt['ln_S']:+.2f}, p {tt['tension_p']:.2f} (Handley-Lemos), mean shift {tt['mean_shift_nm']:.0f} NM; flight PDF mass "
+                   f"inside the 90 % region under H {100 * tt['uncond_in_cond_hdr90']:.0f} %."]
         style_b(maps, geo, T5, Cc, opt, nb, out, plt, gebco, stem=f"closeup-{safe}-seabed{suffix}", bg=bg)
         lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
         LAT, LON = np.meshgrid(lat, lon, indexing="ij")
@@ -476,7 +499,9 @@ def standard(root, impacts_root, geom, gebco, out, plt, pfam=None, options=(), l
                              mean_lat=round(s_["mean_lat"], 3), mean_lon=round(s_["mean_lon"], 3),
                              share_in_nw_band=round(s_["mass_in_oi_northwest_band"], 4), share_outside_past_searches=round(1 - s_["mass_in_past"], 4),
                              search_retains_under_H=round(float((MP[v]["post"] * Lf).sum() / (MP[v]["pre"] * Lf).sum()), 3),
-                             search_retains_flight_only=round(float(MP[v]["post"].sum() / MP[v]["pre"].sum()), 3)))
+                             search_retains_flight_only=round(float(MP[v]["post"].sum() / MP[v]["pre"].sum()), 3),
+                             **{k_: round(float(t_[k_]), 4) for t_ in [mix_tension(MP, v)] for k_ in
+                                ("ln_S", "tension_p", "d_shared", "mean_shift_nm", "uncond_in_cond_hdr90", "cond_in_uncond_hdr90")}))
     T = pd.DataFrame(rows); T.to_csv(out / f"closeup-stats{suffix}.csv", index=False)
     return T
 

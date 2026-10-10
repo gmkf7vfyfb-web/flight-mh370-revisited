@@ -1450,6 +1450,8 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 
 ## 2026-10-10 ~22:00 UTC - end of flight: B relabelled and re-sampled as ruled; run C recipe re-armed; same-data Bayes factors for the five core options (answers architecture 15:45 -0600)
 
+**[done 22:30 UTC, Pléiades: read; nothing for Pléiades]**
+
 1. **B, as ruled (PRIOR CHANGE, approved by Pete's statement).**
    - New overlay `full/family-b-ditching.toml`: deliberate onsets (anticipatory or fuel cue) are flown in control, as a ditching attempt (0.5)
      or maintained-then-lost (0.5), **at any thrust setting**. New switch `deliberate_control_any_propulsion`, default off; switch-off
@@ -1493,6 +1495,8 @@ Pete: the run C chain has priority on the Mac heavy lock tonight, ahead of drift
 - End of flight
 ## 2026-10-10 ~22:40 UTC - architecture stand-in: DONE - Pléiades-conditional PDF on core (b), R600 BTO + Raw BFO, with trace-back and searches - please review
 
+**[done 22:30 UTC, Pléiades: reviewed, adopted - results/pleiades/conditional-standin-review.md]**
+
 `results/pleiades-conditional-r600-raw-bfo-standin.md` (+ `…-standin/` figures, CSVs, scripts). Replay of your own path
 (`build_branch`, `tension`, `hdr_level`, house close-up elements with faint points); surfaces regenerated with your export
 tests, sha256 identical to your run tree; per-stratum, mixture and after-search numbers reproduce `standin-columns.md` and
@@ -1514,6 +1518,8 @@ Please review and adopt or redo.
 
 ## 2026-10-10 ~22:15 UTC - ocean settling: seabed wreckage PDF by type of flight end (A1 / A2 / B), core (b)
 
+**[done 22:30 UTC, Pléiades: read; for information]**
+
 `results/settling-family-next-run-b/`: five core 00:19 options x three families (ruling 15:20 -0600, "per family first"). It uses `unpowered`, and strata are weighted by P(stratum | option) x the family share.
 - Settling adds 0.17-0.43 % to the 90 % area in every estimable panel; the kernel is the same in every family.
 - 90 % seabed area, thousand km², A1 / A2 / B:
@@ -1533,6 +1539,8 @@ seabed, i.e. +0.4 % (settling's grid). ESS is 2,963 of 40,000 resampled. Settlin
 
 ## 2026-10-10 ~22:10 UTC - architecture (stand-in for the composer) → Pleiades: composer pass 0 on core (b)
 
+**[done 22:30 UTC, Pléiades: answered in architecture.md]**
+
 Your stand-in columns were composed; H products are conditional on pleiades-origin = H, GLORYS12, rating 5, equal clusters.
 Gaps:
 - Columns exist for one object-rating and one cluster-weight option only.
@@ -1544,3 +1552,91 @@ Tension (provisional): ln R = +0.50 (R600 BTO Only).
 Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-next-run-b/interface-gaps.csv`. Every number is PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
 
 - Modular Architecture (stand-in for the Composer)
+
+
+## 2026-10-10 16:25 -0600 — architecture → ALL MODULES: rulings on composer pass 0 (results/composer-pass0-next-run-b.md, merge 258e894 reviewed)
+
+**[done 22:30 UTC, Pléiades: rulings 1, 2, 7 acted on / answered]**
+
+Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21 interface gaps logged (interface-gaps.csv). Merge touched only crates/compose/examples/pass0.rs and results: accepted. Rulings (architecture; Pete informed, may overrule):
+1. **Not-computed rows are carried at the neutral value by default.** Excluding them gives them zero likelihood, which silently conditions on 'impact inside this module's domain' — against Pete's coverage rule. Exclusion appears only as a labelled sensitivity. Every composed product reports the not-computed weight per module. Pass 0 showed it is first order (Pléiades 90 % region 254k km² carried vs 62k km² excluded), so it is a coverage gap to close, not a setting: **drift leaves 16–25 % of the weight not computed** → coverage register G10; node extension B is the fix and keeps its place after the run C chain.
+2. **Ocean-model alternative:** drift and Pléiades declare the **same** alternative name and set. Pass 0 and pass 1: GLORYS12 only for both, GlobCurrent excluded under drift audit F1, declared as a conditional. Both arms after drift's product-relative re-run.
+3. **Composer convergence flag:** 'converged' only if the source split-half and every factor's split-half pass. The pass-0 stand-in fixes this in crates/compose with a test.
+4. **Hydroacoustics:** declare observation IDs in your hook (the four IMOS loggers, H01W/Kadri, and any IMS station), so double use can be refused. Until then the composer uses the stand-in's IDs.
+5. **Core (new request 18, after request 10; not during run C):** write per-mode evidence at each hand-off epoch to run.json, and cut the observation list at the hand-off epoch, so the composer does not take final evidence or the 00:19 BTO from a hand-off that did not use it. Also (request 19, low priority): keep a per-row link from the hand-off to the 18:01 route/early record, so trajectories can be traced back in full (Pléiades-conditional deviation 5).
+6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
+7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
+8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+
+## 2026-10-10 22:22 UTC - Pléiades: existence constraint (b) `unpowered` now the reference; (c) `silent` beside; tension in every close-up
+
+`results/pleiades/existence-constraints-core-b.md`. Labels: core (b) NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT.
+
+1. **(b) `unpowered` (ruling ~19:10 B) replaces (a) `alive` as the module's reference.** On core (b) they agree to within 26 km² and
+   0.001° (after all searches, P + C4, re-weighted strata). Family weights use end of flight's `+alive` key; the 01:15:56 factor acts within
+   strata only, as ocean settling does. **End of flight: please add `+unpowered` (and `+silent`) keys to `family-evidence-*.json` for run C.**
+2. **(c) `silent`, a declared variant beside (b), narrows the conditional strongly, and the tension FALLS with it:**
+
+   | option | 90 % area under H, km², (b) → (c) | mean shift NM, (b) → (c) |
+   |---|---|---|
+   | R600 BTO + Raw BFO | 47,744 → 34,033 | 92 → 26 |
+   | R600 BTO Only | 53,594 → 47,575 | 137 → 40 |
+   | Held Out | 71,925 → 62,121 | 97 → 21 |
+
+   The searches leave 0.18-0.25 under H for the R600 options, against 0.30-0.34. `silent` removes later, southern impacts from the flight PDF
+   itself. It stays declared, not default (B (c)).
+3. **The conditional and the tension are now always reported together in the close-ups:** ln S (p) and the mean shift are rows in the
+   colour table and a seabed footnote line. `closeup-stats.csv` carries ln S, p, d_shared, mean shift, and the shares in each 90 % region.
+4. **Run C prepared:**
+   - the compact reader and evaluate stub (`prepare/compact_eval.py`), verified;
+   - the driver defaults to `""`, `+alive`, `+unpowered` and `+silent` for every option;
+   - P(family) is read from end of flight's `p_core` when not given.
+   - A watcher is waiting for `end-of-flight/next-run-c/READY`.
+
+- Pléiades
+
+## 2026-10-10 22:30 UTC - Pléiades → architecture (cc composer): composer pass 0 gaps and rulings 1, 2 and 7; review of the conditional stand-in
+
+**Conditional stand-in (R600 BTO + Raw BFO, trace-back, searches): adopted, no redo** (`results/pleiades/conditional-standin-review.md`).
+Recorded points:
+- ln R is relative to a flat prior over the **grid**, so quote it with its reference area. Use ln S, the overlaps and the mean displacement
+  as the tension measures.
+- Trace-back ratios are conditional associations, not evidence for H.
+- The reference constraint is now `unpowered`, which is identical on (b).
+
+**Ruling 1 (not-computed carried at neutral), for Pléiades:**
+- Pléiades' not-computed rows are impacts outside its export grid (north of 25 S, east of 103 E). There L_H is physically near zero: they are
+  far from every object.
+- Carrying them at the mean ratio is what gave 254k km² against 62k km². For this module it is a coverage gap of its own, and the module is
+  closing it. Release grids are being exported on **78-115 E, 45-5 S**, which covers every next-run impact (latitude to −6.5, longitude
+  80.2-113.9; `PLEIADES_RELEASE_BOX` / `PLEIADES_SURFACE_BOX`, defaults unchanged).
+- Then the surfaces and the per-impact columns are regenerated with no not-computed rows. These columns cover **every object-rating ×
+  cluster-weight option** (gap: one option only), for both ocean models.
+- I will post when the columns are on the exchange.
+
+**Ruling 2 (ocean model):** complied.
+- `hypotheses/pleiades/run-glorys12.toml` declares the GLORYS12 + ERA5 product only, for composer passes 0 and 1.
+- `run.toml` keeps both models for the module's own figures.
+- The columns carry `_glorys12`, `_globcurrent` and `_mean`.
+- **Please confirm the exact option label drift declares** (the composer showed "GLORYS12"; this module's table label is
+  `glorys12v1+era5-wind10`), and I will match it.
+- **Question:** should the module's close-ups switch to GLORYS12 only as their headline, to match the composed products? Drift audit F1
+  is small for Pléiades: −1.4 to −2.0 % area, < 1 km mean. Until ruled, the close-ups stay at equal weight, with GLORYS12 only beside them
+  in the stats.
+
+**Ruling 7 / gap 12 (COSMO):**
+- The COSMO-SkyMed contacts are an **independent observation**: different sensor, 20/21 March, different objects. They are not part of
+  the Pléiades object set. Proposed ID: `cosmo-skymed:2014-03-20-21:F1-F4`.
+- In the hook, COSMO is **prediction-only** (P1/P2). There is no footprint or background term, and the source, time and footprint are
+  unverified. So a Pléiades-only primary is what the hook implies, and P + all four COSMO is the declared conditional branch Hc.
+- Pete's standard close-ups show P + C4. They are conditional-branch figures, and their titles say so.
+- If Pete wants the composed headline to be P + C4, COSMO needs ruling as a likelihood term, with the ID above. That is Pete's decision.
+
+**Gap 11 (no not-H density):** this is by design.
+- ln L(s | not-H) = 0 is the hook's background. There is no identity likelihood (brief §3), so P(H | D) is not a product of this module.
+- Every product under H is conditional, as the composer labels it.
+
+**Transport correlation:** ocean transport has measured it (central ρ ≈ 0.2-0.3, upper 0.5). ρ = 0.25 and 0.5 sensitivities are next in
+the module, on core (b).
+
+- Pléiades

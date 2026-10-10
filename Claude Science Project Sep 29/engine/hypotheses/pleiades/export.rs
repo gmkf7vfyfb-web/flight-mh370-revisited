@@ -165,7 +165,7 @@ mod run {
         let coast = NoCoast;
         // 0.1 deg grid over 87-97 E, 41-31 S: covers the impact samples' reach around the arc.
         // 85-103 E, 43-25 S: covers the reference-289 impacts north to 25 S (was 87-97 E, 41-31 S)
-        let (lon0, lat0, step, nlon, nlat) = (85.0, -43.0, 0.1, 181usize, 181usize);
+        let (lon0, lat0, step, nlon, nlat) = super::grid_box("PLEIADES_RELEASE_BOX", (85.0, -43.0, 0.1, 181usize, 181usize));
         let mut outs: Vec<f64> = COSMO_PASS_UNIX_S.iter().chain(PLEIADES_UNIX_S.iter()).copied().collect();
         outs.sort_by(|a, b| a.partial_cmp(b).unwrap());
         let mut particles = Vec::with_capacity(nlon * nlat * WINDAGE_N);
@@ -209,5 +209,19 @@ mod run {
             p.alternative, q(&p.ocean_model), q(&p.current), q(p.wind10.as_deref().unwrap_or("none")), q(p.stokes.as_deref().unwrap_or("none")),
             p.step_s, q(&format!("{:?}", p.diffusion)), q(&format!("{:?}", p.ocean_error)), q(p.integrator), p.leeway_calm_wind_mps
         )
+    }
+}
+
+/// Export grid box, overridable for coverage runs: env `var` = "lon0,lat0,step,nlon,nlat" (default unchanged).
+/// Composer ruling 1 (10 Oct 16:25 -0600): impacts outside this box are not computed, so the box must cover them.
+#[cfg(test)]
+pub(crate) fn grid_box(var: &str, default: (f64, f64, f64, usize, usize)) -> (f64, f64, f64, usize, usize) {
+    match std::env::var(var) {
+        Ok(s) => {
+            let f: Vec<&str> = s.split(',').map(str::trim).collect();
+            assert_eq!(f.len(), 5, "{var} must be lon0,lat0,step,nlon,nlat");
+            (f[0].parse().unwrap(), f[1].parse().unwrap(), f[2].parse().unwrap(), f[3].parse().unwrap(), f[4].parse().unwrap())
+        }
+        Err(_) => default,
     }
 }
