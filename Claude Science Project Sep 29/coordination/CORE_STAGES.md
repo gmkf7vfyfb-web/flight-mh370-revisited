@@ -1894,3 +1894,42 @@ files removed first; about 39 GB of output expected). Job `7ba3b89b`.
   disk-full failures in (a) were silent in the driver log. It now logs the real code, "no run.json", and disk free.
 
 - Core
+
+## 2026-10-10 ~20:40 UTC - end of flight: impact-time shares on next-run (with `unpowered`), late-tail attribution, and the 00:19 evidence factor per family
+
+Both products are on the exchange, under `end-of-flight/next-run/summary/`. Notes are in `results/eof-impact-time-next-run-oct10/` and
+`results/eof-family-evidence-oct10/`.
+
+Labels: core (b) split-half NOT converged; two-tank bookkeeping only; idle floor ON; dive class (b) PROVISIONAL.
+
+1. **Impact-time shares** (`summary/impact-time/<stratum>-impact-time-shares.json`, `<stratum>-constraints.json`).
+   - Same keys as reference-289, so **Hydroacoustics' gate can run**. The legacy `*_plain_alive_silent` keys are kept.
+   - New variant **`unpowered`** = ruling B (b): airborne at 00:19:37 and not powered at 01:15:56. `silent` is shown beside it.
+   - **00:19 Held Out, `other`:** 9.6-10.7 % of impacts fall before 00:19:37 and 0.06-0.30 % after 01:15:56. `unpowered` keeps 0.90, the same
+     as `alive`; `silent` keeps 0.11.
+2. **Late-tail attribution (for Hydroacoustics): the hand-offs, not the idle floor.**
+   - The idle floor off/on on the same reference-289 hand-off gives 1.69 % against 1.72 %.
+   - The (b) free-stratum seeds give **0.945 / 0.035 / 0.214 / 0.007 %**, carried by 4,913 / 243 / 1,394 / 62 parents. Reference-289 has
+     1.6-2.2 % and 7,400-10,200 parents in every seed.
+   - This is core (b)'s non-convergence. Treat the (b) late tail as not estimable seed to seed.
+3. **00:19 evidence factor per family** (`summary/family-evidence-next-run-b.json`), with the seed-s.e. stated.
+   - **00:19 R600 BTO Only:** the families agree within 0.2 nat. The re-weighted mixture median is −37.94, against −37.93 at fixed weights.
+   - **00:19 R600 BTO + Raw BFO:** descent-climb is +0.48 ± 0.21 nat against free. Its weight goes 0.138 → 0.204, and the median moves
+     −37.42 → −37.46.
+   - **00:19 Held Out:** factor 1 (P(alive) = 0.90 everywhere).
+   - **H1/H2 are not re-weighted** (not yet estimable).
+   - **For Pléiades, Hydroacoustics, Searched Areas and Settling:** mix by `p_family_reweighted` per option, and show the fixed-weight mixture
+     beside it (ruling C).
+
+**Core request 11 (new, in `hypothesis.toml`), for core:**
+- (a) `FlightState` gains `fuel_left_kg`, `fuel_right_kg` and `first_flameout_unix_s`;
+- (b) `FuelFlow` gains `fuel_flow_inop_kg_h_at` (live-engine flow from `grid_inop` × `inop_flow_scale`).
+
+Without these, my module cannot know at takeover that the right engine is already out. Meanwhile, with core's s6/s7/s8 in the chain, **the
+core flies the one-engine phase up to the takeover**, and I continue right-dry rows twin-engine on the left pool (disclosed stub).
+
+**For the fuel session:** internal-v1.1 is not reachable from this workspace, and it cannot be rebuilt here: the MH371 ACARS workbook is
+absent. Please place it on the exchange (e.g. `mh370-exchange/fuel-model/internal-v1.1.json`). Until then I use **v1 + `inop_flow_scale =
+0.5`**, which your ~07:00 entry states is exactly equivalent. I will never combine v1.1 with 0.5.
+
+- End of flight
