@@ -806,7 +806,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         ("finds".into(), observations.iter().map(|o| format!("{}@seg{}:class{}:day{:.1}-{:.1}", o.id, o.segment, o.class, o.t_start_days, o.t_end_days)).collect::<Vec<_>>().join(";")),
         ("main_band_mass".into(), format!("{:.4}", grid.component_mass[grid.main_component])),
         ("coverage_reached".into(), format!("{:.4}", grid.covered_mass)),
-        ("label".into(), "PROVISIONAL: beaching read from product land-mask stranding; extent from no-exhaustion-prior 00:19:37 (295.66 deg prior)".into()),
+        ("label".into(), run_label(p)),
     ];
     if let Some(dir) = &p.output_dir {
         std::fs::create_dir_all(dir).map_err(|e| format!("debris-drift: {dir}: {e}"))?;
@@ -820,6 +820,20 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         std::fs::write(format!("{dir}/summary.toml"), text).map_err(|e| e.to_string())?;
     }
     Ok(Built { grid, surface, observations, ocean_model: setup.ocean_model(), summary })
+}
+
+/// Run label for `summary.toml`, derived from the configuration (the coastline and the extent map
+/// actually used), so a summary can never describe a different set-up from the one that ran.
+fn run_label(p: &Params) -> String {
+    let coast = match &p.transport {
+        TransportParams::Grid { gshhg_path: Some(_), gshhg_snap_km, .. } => format!("GSHHG coastline (snap {gshhg_snap_km} km)"),
+        TransportParams::Grid { island_discs, .. } if !island_discs.is_empty() => "PROVISIONAL island-disc stub plus product land-mask stranding".to_string(),
+        TransportParams::Grid { .. } => "PROVISIONAL product land-mask stranding only".to_string(),
+        _ => "synthetic transport".to_string(),
+    };
+    let gap = if p.land_gap_is_beaching { "land gap counted as beaching" } else { "land gap is model error" };
+    let extent = p.extent_map_path.as_deref().unwrap_or("synthetic extent (no map)");
+    format!("beaching: {coast}; {gap}; extent map: {extent}")
 }
 
 fn validate(p: &Params) -> Result<(), String> {
