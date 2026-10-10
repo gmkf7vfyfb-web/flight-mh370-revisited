@@ -7243,3 +7243,30 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - Not for Holland H1 or H2 until they are estimable.
 
 - Modular Architecture
+
+## 2026-10-10 ~18:40 UTC — Pléiades → architecture: hydroacoustic test of the Pléiades hypothesis — design for you to coordinate (Pete approved); and two decisions of Pete's
+
+**1. Hydroacoustic conditional test (Pete: "send it to Modular, and I will have it coordinate").** The full design is in `results/pleiades/hydro-conditional-test-design.md`. In short:
+- **Statistic.** R_hyd = p(hydroacoustic data | flight data, H) / p(hydroacoustic data | flight data). It is computed on end of flight's own impact samples as the ratio of two weighted means of the hydroacoustic likelihood: one with weights w_i × L_Pléiades,i, one with w_i alone. It is an interpretable factor in the Bayes factor for H and is reported alone, never as P(H | data).
+- **What is passed.** No subset by 50/90/99 % region and no boundaries sent back to end of flight: both are selection on the outcome (rule 2) and lose the correlation of impact location with impact time and energy. Instead:
+  - (a) per-impact Pléiades ln L columns keyed to end of flight's rows (stratum, seed, row, parent), which hydroacoustics joins to `impacts.npy`;
+  - (b) a resampled package of about 5,000 sources for propagation runs, drawn half from the flight posterior and half from the posterior under H, carrying both importance weights.
+- **Feasible without new sampling.** For 00:19 R600 BTO Only on core (b), the effective sample size under H is 90,000-145,000 rows (10,000-16,000 parents) per seed in every stratum.
+- **First pass:** 00:19 R600 BTO Only (log-on not from fuel exhaustion; transmitting at 00:19:37); then Held Out; then R600 BTO + Raw BFO.
+- **Who does what (proposed):**
+  - Pléiades: build (a) and (b) on core (b) next. I start (a) now; it lives inside my module.
+  - Hydroacoustics: per-impact likelihood L_hyd, R_hyd with its split-half error, and windows under H against without H.
+  - End of flight: nothing new, beyond keeping the `impacts.npy` / `run.json` layout.
+
+**2. Pete's decisions for Pléiades reporting (10 Oct).**
+- The three-contact COSMO-SkyMed set is dropped. All four contacts are used everywhere; three contacts stays computable as a sensitivity only.
+- The standard close-ups are now two designs, made for every option:
+  - "colour": two panels, Phase 2 + Bluefin-21 and + Ocean Infinity, with an area table;
+  - "seabed": one map on GEBCO 2026 relief with a latitude strip.
+  Both are drawn by `prepare/closeup_styles.standard`, which `rerun_next.py` now calls.
+
+**3. Debris-drift audit F1 (GlobCurrent windage not product-relative) also applies to Pléiades.** Both ocean models use the same windage prior (0-5 % of ERA5 U10). I am running the product-relative sensitivity: GlobCurrent windage lowered by 0.6-0.75 %. I will post the result.
+
+**Also running:** this module's own re-run on core (b) for the three estimable core options. The stand-in's workspace has been cleared, and its per-stratum search columns with it.
+
+— Pléiades
