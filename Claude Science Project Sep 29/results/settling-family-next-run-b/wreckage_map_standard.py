@@ -143,12 +143,23 @@ fig.text(0.07, 1 - 0.18 / FIG_H, TITLE, fontsize=9.5, ha="left", va="top")
 fig.text(0.07, 1 - 0.42 / FIG_H, SUBTITLE, fontsize=7.5, ha="left", va="top", color="#333333")
 fig.canvas.draw(); rr = fig.canvas.get_renderer()
 leg0 = min(min(a.get_window_extent(rr).y0 for a in fig.legends) / fig.bbox.height, foot_in - 0.42 / FIG_H, 0.25)
-t1 = fig.text(0.07, leg0 - 0.012, "Summary (STE): " + FOOT_STE, fontsize=6.2, color="#333333", ha="left", va="top", wrap=True)
+import textwrap
+def _foot(y, text, fs, col):
+    # Explicit wrap so every line ends inside the figure (matplotlib's wrap=True can run a word to the edge): start from an
+    # estimate of characters per line and narrow until the text box's right edge is at most 0.975 of the figure width.
+    w = int(0.905 * fig.get_figwidth() * 72 / (0.50 * fs))
+    while True:
+        t = fig.text(0.07, y, textwrap.fill(text, w), fontsize=fs, color=col, ha="left", va="top")
+        fig.canvas.draw()
+        if t.get_window_extent(rr).x1 / fig.bbox.width <= 0.975 or w < 40: return t
+        t.remove(); w -= 4
+t1 = _foot(leg0 - 0.012, "Summary (STE): " + FOOT_STE, 6.2, "#333333")
 fig.canvas.draw(); y1 = t1.get_window_extent(rr).y0 / fig.bbox.height
-t2 = fig.text(0.07, y1 - 0.006, "Technical: " + FOOT_TECH, fontsize=5.6, color="#555555", ha="left", va="top", wrap=True)
+t2 = _foot(y1 - 0.006, "Technical: " + FOOT_TECH, 5.6, "#555555")
 fig.canvas.draw()
 leg_bot = min(a.get_window_extent(rr).y0 for a in fig.legends) / fig.bbox.height
 foot_top = t1.get_window_extent(rr).y1 / fig.bbox.height; foot_bot = t2.get_window_extent(rr).y0 / fig.bbox.height
+assert max(t1.get_window_extent(rr).x1, t2.get_window_extent(rr).x1) / fig.bbox.width <= 0.975, "footnote runs past the right edge"
 assert foot_top <= 0.25 and foot_bot >= 0.0 and (foot_top < leg_bot or n < nrow * ncol), f"footnotes span {foot_bot:.3f}-{foot_top:.3f}; legend bottom {leg_bot:.3f}"
 fig.savefig(OUTSTEM + ".pdf"); fig.savefig(OUTSTEM + ".png", dpi=220)
 pathlib.Path(OUTSTEM + ".json").write_text(json.dumps({"options": stats, "smooth_deg": SMOOTH, "grid_deg": GRID, "ess_min": ESS_MIN,

@@ -8764,3 +8764,22 @@ Rulings 1-3 and 8 applied; whole chain re-run on 51.2 M rows. Pass-0 numbers rep
 Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-10 ~23:30 UTC - ocean settling → architecture / composer / end of flight: by-family under ruling 6 as amended; exchange paths as requested
+
+1. **Exchange (architecture 17:05 -0600):** samples are now at the requested paths, each with README.txt, SHA256SUMS and READY:
+   `mh370-exchange/settling/next-run-b-core-set/` (nrb), `.../next-run-b-by-family/` (nrbg, ruling 6) and
+   `.../next-run-b-by-family-code4-A1/` (nrbf, the earlier grouping, kept as a sensitivity). The `next-run-b/core-set` path in my ~22:45 entry
+   no longer exists. Run C will go to `mh370-exchange/settling/next-run-c-core-set/` and `.../next-run-c-by-family/`.
+2. **By family, ruling 6 as amended by end of flight (~22:45 UTC):** `family4_code` from `family_labels(..., latent:recovery_attempted)`
+   (end of flight tools ba26890). Code 4 maintained-then-lost goes to A2; an undemonstrated recovery goes to A1. The old grouping stays behind
+   `WF_FAMILY_MAP=code4-A1`. Results (`results/settling-family-next-run-b/`, UNCONVERGED):
+   - Held Out shares: A1 27 → 15 %, A2 21 → 33 %; B and code 6 are unchanged. 90 % seabed area: A1 393, A2 673, B 529 thousand km².
+   - A2 is still the widest; A1 is now the narrowest under every estimable option (R600 BTO + Raw BFO: A1 86, A2 245, B 221).
+   - H1/H2 have no A1 weight (share 0 %) and are not estimable in any family (ESS 4-103).
+   - Resample noise: B has the same posterior in both runs. Its 90 % area differs by -1.5 to +2.1 % between them. Read panel
+     differences under ~2 % as noise.
+3. **Footnote fit:** the renderer wraps footnotes explicitly and asserts that they end inside the figure; matplotlib's wrap had let the
+   technical line reach the edge. The core-set JSONs are unchanged (byte-identical).
+
+- Ocean Settling
