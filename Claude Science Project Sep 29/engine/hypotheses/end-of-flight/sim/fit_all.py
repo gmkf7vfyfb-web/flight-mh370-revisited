@@ -32,6 +32,11 @@ def _case_job(args):
     return case, law, tac, v, nuis
 
 
+def _res_job(args):
+    case, shared, nuis, law, tac = args
+    return G["F"].residuals(case, G["tg"], G["data"], shared, nuis, law, tac)
+
+
 def _nll_job(args):
     case, shared, nuis, law, tac = args
     return G["F"].nll(case, G["tg"], G["data"], shared, nuis, law, tac)
@@ -42,6 +47,8 @@ def main():
     ap.add_argument("out"); ap.add_argument("--rounds", type=int, default=3); ap.add_argument("--workers", type=int, default=10)
     ap.add_argument("--case-iter", type=int, default=200); ap.add_argument("--shared-iter", type=int, default=300)
     ap.add_argument("--exclude", default=None); ap.add_argument("--init", default=None); ap.add_argument("--cases", default=None)
+    ap.add_argument("--shared-method", default="powell", choices=["powell", "lsq"],
+                    help="lsq: trust-region least squares on the residual vector (10 Oct); powell reproduces the 9 Oct fit")
     a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     import fit as F
     tg, _ = F.load(); cases = a.cases.split(",") if a.cases else sorted(tg)
@@ -76,12 +83,22 @@ def main():
                 return float(sum(vals))
             t0 = time.time()
             z0 = F.from_box(st["shared"], spec); f0 = total(z0)
-            res = minimize(total, z0, method="Powell", options=dict(maxfev=a.shared_iter, xtol=1e-2, ftol=1e-4))
+            if a.shared_method == "lsq":
+                from scipy.optimize import least_squares
+                def resid(z):
+                    sh = F.to_box(z, spec)
+                    return np.concatenate(pool.map(_res_job, [(c, sh, st["cases"][c]["nuisance"], st["cases"][c]["law"], st["cases"][c]["tac"]) for c in incl]))
+                r = least_squares(resid, z0, method="trf", diff_step=1e-3, max_nfev=max(5, a.shared_iter // (len(spec) + 1)))
+                res = type("R", (), dict(x=r.x, fun=total(r.x), nfev=int(r.nfev) * (len(spec) + 1)))()
+            else:
+                res = minimize(total, z0, method="Powell", options=dict(maxfev=a.shared_iter, xtol=1e-2, ftol=1e-4))
             if res.fun < f0:   # never accept a worse shared state
                 st["shared"] = F.to_box(res.x, spec)
             for c, v in zip(cases, pool.map(_nll_job, [(c, st["shared"], st["cases"][c]["nuisance"], st["cases"][c]["law"], st["cases"][c]["tac"]) for c in cases])):
                 st["cases"][c]["nll"] = v
-            st["history"].append(dict(round=rnd, stage="B", total=sum(st["cases"][c]["nll"] for c in incl), nfev=int(res.nfev), s=time.time() - t0))
+            st["history"].append(dict(round=rnd, stage="B", total=sum(st["cases"][c]["nll"] for c in incl), nfev=int(res.nfev), s=time.time() - t0,
+                                      f0=f0, method=a.shared_method, objective=dict(F.OBJ), case_method=__import__("os").environ.get("EOF_FIT_CASE_METHOD", "powell"),
+                                      mass_box=list(F.CASE_LONG["mass"])))
             (out / "state.json").write_text(json.dumps(st, indent=1))
             print(json.dumps(st["history"][-2:]), flush=True)
         if a.exclude:

@@ -13,7 +13,7 @@ Fitted per case: mass, mct, eas_floor (long cases), da_offset, dr_offset, thr_lo
 (short cases), law in {1 normal-like, 2 stick-fixed}, and ap_tac in {0, 1} (short cases).
 Fitted shared: SHARED below.
 """
-import csv, json, math, pathlib, sys
+import csv, os, json, math, pathlib, sys
 import numpy as np
 from scipy.optimize import minimize
 from model import schedules, default_params, trim, state
@@ -71,7 +71,64 @@ def setup(case, tg, data, shared, nuis, law, tac):
     return P, state(h0, tas, psi, al, P), de, T, ok
 
 
+# Objective options (10 Oct 2026, the 6-DOF gate diagnosis, results/eof-diagnostic-smokes-oct10). Defaults reproduce the
+# 9-10 Oct fit exactly. The diagnosis: altitude tolerance grows 2 ft/s after the loss of control (to ~3,000 ft by the
+# end of a glide), so Boeing's 300-1,200 ft phugoids cost almost nothing to miss, and nothing scores the vertical speed,
+# so the dives (cases 4, 5, 10) are not pulled in. EOF_FIT_ALT_GROWTH sets the growth (ft/s); EOF_FIT_VS_SD (ft/min,
+# 0 = off) adds a vertical-speed residual on 3-s smoothed central differences of both traces, the same estimator as
+# the calibration statistics; EOF_FIT_MASS = "lo,hi" (kg) narrows the case mass box (ZFW ~174 t plus the left
+# tank's residual at the right flame-out: 172-178 t), which the 9 Oct fit drove to its 200 t bound.
+OBJ = {"alt_growth": float(os.environ.get("EOF_FIT_ALT_GROWTH", "2.0")), "vs_sd_fpm": float(os.environ.get("EOF_FIT_VS_SD", "0"))}
+if os.environ.get("EOF_FIT_MASS"):
+    _lo, _hi = (float(v) for v in os.environ["EOF_FIT_MASS"].split(","))
+    for _spec in (CASE_LONG, CASE_SHORT):
+        _spec["mass"] = (_lo, _hi, min(max(_spec["mass"][2], _lo), _hi))
+
+
+def _vs_fpm(t, h):
+    hs = np.convolve(h, np.ones(3) / 3, mode="same"); v = np.gradient(hs, t) * 60.0
+    v[0] = v[1]; v[-1] = v[-2]
+    return v
+
+
+def residuals(case, tg, data, shared, nuis, law, tac, return_rec=False):
+    """Weighted residual vector r with nll = 0.5 r.r + const (the const is the log-sd term, which does not depend on
+    the shared physics except through the time of loss, held by the nuisance)."""
+    P, x0, de, T, ok = setup(case, tg, data, shared, nuis, law, tac)
+    d = data[case]; n = len(d["t_s"])
+    if ok != 1:
+        k = 3 * n + (n if OBJ["vs_sd_fpm"] > 0 else 0)
+        return (np.full(k, 1e3), None, None) if return_rec else np.full(k, 1e3)
+    rec = simulate(P, *SCHED, x0, de, T)
+    idx = np.minimum(np.arange(n), len(rec) - 1); sim = rec[idx]
+    tl = P[IDX["t_loss"]]; tau = np.maximum(d["t_s"] - tl, 0)
+    sh = 200 + OBJ["alt_growth"] * tau; sxy = 0.2 + 0.01 * tau
+    rho = np.array([math.sqrt(max(1e-6, (288.15 - 0.0019812 * min(a, 36089)) / 288.15) ** 4.256) for a in d["alt_ft"]])
+    out_db = (d["gs_mps"] * np.sqrt(rho) / KT) > 450
+    sh = np.where(out_db, 3 * sh, sh); sxy = np.where(out_db, 3 * sxy, sxy)
+    parts = [(sim[:, 3] - d["alt_ft"]) / sh, (sim[:, 1] - d["x_nm"]) / sxy, (sim[:, 2] - d["y_nm"]) / sxy]
+    const = float(np.sum(np.log(sh) + 2 * np.log(sxy)))
+    if OBJ["vs_sd_fpm"] > 0:
+        svs = np.where(out_db, 3 * OBJ["vs_sd_fpm"], OBJ["vs_sd_fpm"])
+        # past the end of the simulated record the model is on the surface: score it as such
+        ended = np.arange(n) >= len(rec)
+        vs_sim = np.where(ended, 0.0, _vs_fpm(d["t_s"], sim[:, 3]))
+        parts.append((vs_sim - _vs_fpm(d["t_s"], d["alt_ft"])) / svs); const += float(np.sum(np.log(svs)))
+    r = np.concatenate(parts)
+    return (r, const, rec) if return_rec else r
+
+
 def nll(case, tg, data, shared, nuis, law, tac, return_rec=False):
+    if OBJ["alt_growth"] == 2.0 and OBJ["vs_sd_fpm"] == 0:
+        return _nll_v1(case, tg, data, shared, nuis, law, tac, return_rec)
+    r, const, rec = residuals(case, tg, data, shared, nuis, law, tac, return_rec=True)
+    if rec is None:
+        return (1e9, None) if return_rec else 1e9
+    val = 0.5 * float(r @ r) + const
+    return (val, rec) if return_rec else val
+
+
+def _nll_v1(case, tg, data, shared, nuis, law, tac, return_rec=False):
     P, x0, de, T, ok = setup(case, tg, data, shared, nuis, law, tac)
     if ok != 1:
         return 1e9
@@ -94,6 +151,13 @@ def fit_case(case, tg, data, shared, law, tac=0, maxiter=300, x_init=None):
     spec = CASE_LONG if tg[case]["regime"] == "long" else CASE_SHORT
     z0 = from_box(x_init or {}, spec)
     f = lambda z: nll(case, tg, data, shared, to_box(z, spec), law, tac)
+    if os.environ.get("EOF_FIT_CASE_METHOD", "powell") == "lsq":
+        # Trust-region least squares on the residual vector (10 Oct): converges where Powell's line searches stall.
+        from scipy.optimize import least_squares
+        rf = lambda z: residuals(case, tg, data, shared, to_box(z, spec), law, tac)
+        r = least_squares(rf, z0, method="trf", diff_step=1e-3, max_nfev=max(5, maxiter // (len(spec) + 1)))
+        z = r.x if f(r.x) <= f(z0) else z0
+        return f(z), to_box(z, spec), int(r.nfev)
     res = minimize(f, z0, method="Powell", options=dict(maxfev=maxiter, xtol=1e-2, ftol=1e-3))
     return res.fun, to_box(res.x, spec), res.nfev
 
