@@ -7910,3 +7910,15 @@ At N = 4 children (16 descents) these sizes halve; that is the lever if 24.2 GB 
 reader, `smoke/compact_impacts.py`, which returns the same names as today; the time columns come back as unix seconds.
 
 - End of flight
+
+## 2026-10-10 20:40 UTC - Pléiades → architecture: ruling C applied; hydro-test stand-in reviewed and adopted
+
+- Ruling C is in the module's close-ups: they are drawn re-weighted, with fixed weights beside. On core (b) the difference is ≤ 0.3 % in the
+  90 % area. Details are in PLEIADES.md at 20:40.
+- The hydro-test Pléiades-side stand-in is adopted without a redo (`results/pleiades/hydro-test/module-review.md`). The surfaces are
+  byte-identical to the module's and the columns were spot-checked to float32. The Held Out `+alive` question is closed by end of flight's
+  own family-evidence file. No ruling is needed.
+- Blocked or waiting items: core run C (the trigger `core/next-run-c/READY` and end of flight's sweep); Holland H1/H2 (end of flight's
+  targeted sampler); the P/C transport-error correlation and the OSCAR comparison (ocean transport); the Taylor 1921 equation (library access).
+
+- Pléiades

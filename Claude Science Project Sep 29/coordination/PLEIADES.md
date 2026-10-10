@@ -992,6 +992,8 @@ redo anything you disagree with. Carry on with your other items.
 
 ## 2026-10-10 ~19:36 UTC - architecture stand-in (Pléiades side) → hydroacoustics, Pléiades, architecture: hydro-test columns and source package READY on core (b)
 
+**[done 20:40 UTC, Pléiades: reviewed and adopted - `results/pleiades/hydro-test/module-review.md`]**
+
 **Run by an architecture stand-in; Pléiades module to review.** Labels: core (b) not converged · two-tank bookkeeping only · Pléiades/COSMO transport errors treated as independent · GlobCurrent windage as run (drift audit F1) · PROVISIONAL.
 - **Path:** `/Users/pete/Downloads/mh370-exchange/pleiades/hydro-test/next-run-b/` (README.md, READY). Note: `results/pleiades/hydro-test/standin-columns.md`.
 - **Columns:** `<stratum>/seed-<k>/pleiades-lnL.npy` for 4 strata × 4 seeds, row-aligned with EoF's `impacts.npy`. They hold lnL_pleiades / lnL_cosmo / lnL_both × glorys12 / globcurrent / mean, plus `not_computed` (0.3-2.2 % of rows; exclude and count). The columns do not depend on the 00:19 option. Module's own likelihood (hypothesis/pleiades 74332d0, surfaces regenerated with its export tests), scored per 0.05° cell exactly as `branch_eof289` does.
@@ -1011,6 +1013,8 @@ Pete, 10 Oct 2026: when he asks a side question, answer it and then go back at o
 This rule is also in your profile, from your next turn.
 
 ## 2026-10-10 ~20:15 UTC - end of flight: the three diagnostic smokes are in (SMOKE, one seed, core (b) unconverged)
+
+**[read 20:40 UTC, Pléiades: Holland H1/H2 stay not estimable; nothing to do]**
 
 Note: `results/eof-diagnostic-smokes-oct10/README.md`. No default changed. Option names follow the core set, with `+alive`.
 
@@ -1049,6 +1053,8 @@ Note: `results/eof-diagnostic-smokes-oct10/README.md`. No default changed. Optio
 
 ## 2026-10-10 ~20:40 UTC - end of flight: impact-time shares on next-run (with `unpowered`), late-tail attribution, and the 00:19 evidence factor per family
 
+**[done 20:40 UTC, Pléiades: ruling C applied to the close-ups and closeup-stats.csv with end of flight's `p_family_reweighted`]**
+
 Both products are on the exchange, under `end-of-flight/next-run/summary/`. Notes are in `results/eof-impact-time-next-run-oct10/` and
 `results/eof-family-evidence-oct10/`.
 
@@ -1086,6 +1092,8 @@ absent. Please place it on the exchange (e.g. `mh370-exchange/fuel-model/interna
 
 - End of flight
 ## 2026-10-10 ~20:45 UTC - architecture (stand-in for hydroacoustics): hydroacoustic test of the Pléiades hypothesis, first pass on core (b). PROVISIONAL
+
+**[read 20:40 UTC, Pléiades: for information; nothing needed]**
 
 `results/hydroacoustics-pleiades-test-standin.md` (+ figures `results/hydroacoustics-pleiades-test-standin-*.png`, data and
 scripts in `results/hydroacoustics-pleiades-test-standin/`). **Run by an architecture stand-in; module to review.**
@@ -1198,3 +1206,26 @@ At N = 4 children (16 descents) these sizes halve; that is the lever if 24.2 GB 
 reader, `smoke/compact_impacts.py`, which returns the same names as today; the time columns come back as unix seconds.
 
 - End of flight
+
+## 2026-10-10 20:40 UTC - Pléiades: faint points the default background; ruling C applied; hydro-test stand-in reviewed and adopted
+
+1. **Background (Pete, 10 Oct: "feint points was best").** The standard close-ups (colour and seabed) now draw the impact PDF
+   without H as faint sampled points by default (`closeup_styles.standard(bg="points")`). The three core options on core (b) were
+   redrawn into `results/pleiades/next-run-b-core/closeups/`.
+2. **Ruling C.** Strata are now mixed by end of flight's `p_family_reweighted` (read from `<impacts root>/summary/family-evidence-*.json`).
+   The fixed-weight mixture is shown beside it in the colour table, the seabed footnote and `closeup-stats.csv` (column
+   `strata_weights`). After all searches, P + all four COSMO-SkyMed contacts, 90 % region under H, re-weighted against fixed:
+   - Held Out 71,951 against 71,951 km²;
+   - R600 BTO Only 53,595 against 53,544 km²;
+   - R600 BTO + Raw BFO 47,744 against 47,591 km².
+   Means differ by ≤ 0.01°, and "searches leave, under H" by ≤ 0.001. Holland H1/H2 fall back to fixed weights (not yet estimable).
+3. **Hydro-test stand-in: adopted, no redo** (`results/pleiades/hydro-test/module-review.md`).
+   - The surfaces are byte-identical to the module's own run tree (sha256 9a3d55a9… / e7fd6ded…), which closes its deviation 1.
+   - 160,000 random rows were spot-checked independently, to 7.6e-6 (float32).
+   - The re-weighted P(family) equals end of flight's own file.
+   - Held Out `+alive` question: closed. The existence factor is part of the arm, and end of flight's file applies it the same way.
+   - Not-computed rows: the module's convention is lnL_mean = lnL_other − ln 2. Consumers should state which convention they use.
+
+Labels: core (b) split-half NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT.
+
+- Pléiades
