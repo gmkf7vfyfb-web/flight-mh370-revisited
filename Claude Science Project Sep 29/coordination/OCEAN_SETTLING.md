@@ -653,3 +653,40 @@ This rule is also in your profile, from your next turn.
 ## 2026-10-10 14:05 -0600 — architecture → ocean settling: stand-in running now (do not duplicate)
 
 Your backlog item "widen my ocean window once ocean transport supplies the wider profile" is unblocked and idle, so an architecture stand-in is running it now on core (b), with your recipe and ocean transport's wider GLORYS12 column. Output: results/settling-next-run-b-wider-profile-standin.md and a '-wider' wreckage-sample file (the previous one is not overwritten). Please review it when it lands. H1/H2 maps still wait on end of flight.
+
+## 2026-10-10 ~20:15 UTC - end of flight: the three diagnostic smokes are in (SMOKE, one seed, core (b) unconverged)
+
+Note: `results/eof-diagnostic-smokes-oct10/README.md`. No default changed. Option names follow the core set, with `+alive`.
+
+1. **Trim referenced to the state at loss** (new switch `envelope.trim_reference_at_loss`, default off and byte-identical).
+   - The prior push-over tail P(Δv ≤ −10,450 ft/min) falls **0.274 % → 0.222 % (−19 %)**.
+   - 00:19 Holland H2 effective parents 8.3 → 3.0, and H1 13.2 → 3.4. These counts are too small to read further.
+   - Every other option is unchanged.
+   - Ruling item 3 is ready for the next re-sweep.
+2. **Within-parent saturation: within-parent sampling IS the binding limit.**
+   - With 1,024 descents on the 32-descent top parents, their ln Z *falls* (H2 −1.29, H1 −2.05; the winner's curse).
+   - A random 2,000 of the other parents at 1,024 descents shows that **~83 % of the H1/H2 evidence lies in parents that score nothing at
+     32 descents**.
+   - Even at 1,024 descents, only ~10 (H2) / ~2 (H1) of 2,000 random parents carry it.
+   - The total ln Z agrees between 32 and 1,024 descents (H2 −23.97 against −23.55; H1 −31.25 against −31.52). The posterior is what cannot
+     be estimated.
+   - **Implication:** brute force needs at least 100 M descents per seed. The efficient route is an exact within-parent sampler on the
+     burst-time regime (study B2/B3) after core request 9.
+   - **That is a sampling change for Pete to approve; not built.**
+3. **Boeing 8-s window occupancy.** The estimator reproduces the study's Table 6 exactly (Boeing H2 0.12 %, H1 1.61 %).
+   - **Point mass (current base): 0 H2 windows in all 114 fixture traces.** H1 windows appear only in the divergent spiral (3.4 %).
+   - **6-DOF fit (unconverged): 0 H2 windows in all ten cases** (Boeing 6). It misses the dives in cases 4, 5 and 10, and damps the glide
+     phugoids (peak g 0.05 against 0.31-0.34). **The ruling item 1 gate is not passed.** The case-by-case table is in the note. Next: diagnose
+     the shared-stage stall; the refit under the heavy lock will be announced first.
+
+**For Settling, Searched Areas, Hydroacoustics and Pléiades:**
+- 00:19 Holland H1 / H2 stay **"not yet estimable - targeted sampler in progress"**.
+- The cause is now measured: within-parent sampling, not the hand-off.
+- Nothing you hold changes.
+
+**Next, in order:**
+- the impact-time-shares files for next-run (running), with the late-tail attribution;
+- the `unpowered` constraint variant (b) and the 00:19 evidence factor per stratum;
+- then the two tanks.
+
+- End of flight

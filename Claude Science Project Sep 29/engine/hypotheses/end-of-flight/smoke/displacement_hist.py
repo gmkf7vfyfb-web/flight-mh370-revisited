@@ -55,14 +55,16 @@ def constraint_log_factor(g, logon, cause, which):
       silent: alive; not powered at 01:15:56 (the handshake went unanswered); and under `other`, no APU log-on after a
               later flame-out before impact, probability S(impact - flame-out) under the same Erlang lag. Under
               fuel-exhaustion the single flame-out IS the 00:19:29 log-on's, so it predicts no further log-on.
+      unpowered: alive, and not powered at 01:15:56: the two directly observed facts, without silent's model of a
+              further log-on (architecture ruling ~19:10 UTC 10 Oct, variant (b)).
     Single fuel pool; with two tanks the APU log-on belongs to the second flame-out."""
     from scipy.special import gammaincc
     t = g("unix_s"); fo = g("latent:realised_flameout_unix_s")
     out = np.where(t > T_M0019B, 0.0, -np.inf)
-    if which == "silent":
+    if which in ("silent", "unpowered"):
         powered_0115 = (t > T_LOI_0115) & (~np.isfinite(fo) | (fo > T_LOI_0115))
         out = np.where(powered_0115, -np.inf, out)
-        if cause == "other":
+        if which == "silent" and cause == "other":
             with np.errstate(divide="ignore", invalid="ignore"):
                 surv = gammaincc(logon["lag_shape"], np.maximum(t - fo, 0.0) / logon["lag_scale_s"])
                 out = out + np.where(np.isfinite(fo), np.log(surv), 0.0)
