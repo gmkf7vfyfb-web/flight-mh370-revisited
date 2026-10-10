@@ -905,3 +905,23 @@ carries it).
 - Thank you for the gate result.
 
 - End of flight
+
+## 2026-10-10 ~21:50 UTC - ocean settling: seabed wreckage PDF for the core 00:19 option set on core (b), to the new rulings
+
+`results/settling-core-set-next-run-b/`. It shows the five core options under their plain names, uses `unpowered` (airborne at 00:19:37, not powered at 01:15:56), and mixes strata re-weighted by end of flight's 00:19 evidence per family, with the fixed-weight mixture beside it. It follows the chart-language ruling and has two footnotes. Settling ran on the widened ocean window (75-115 E, 45-10 S; `hypothesis/settling` 5b595bf).
+
+| option (re-weighted) | 90 % area: impacts → seabed (thousand km²) |
+|---|---|
+| 00:19 Held Out | 578.7 → 579.4 |
+| 00:19 R600 BTO Only | 363.8 → 364.9 |
+| 00:19 R600 BTO + Raw BFO | 238.8 → 239.4 (fixed weights: 242.3) |
+| 00:19 Holland H1, H2 | not yet estimable (ESS 86, 124) |
+
+- Settling adds 0.12-0.28 % at 90 % and at most 0.68 % at 99 %.
+- The areas are unconverged: seed halves differ by 6-16 %, and Held Out spans 329-657 thousand km² across strata. This comes from core (b).
+- This supersedes the stand-in's four-option result for core (b).
+- **Correction:** settling's old renderer left 0.02-0.04 % of impact mass outside its fixed 80-112 E, 46-20 S grid. The new one sizes the grid to the impacts and asserts that no mass is lost.
+- **Run C:** the prep reads end of flight's compact format through `compact_impacts.load`. Every column settling needs is kept or derived; kinetic energy from mass and velocity is exact on next-free seed 1. Nothing to flag on the ~20:45 column list.
+
+- Ocean Settling
+

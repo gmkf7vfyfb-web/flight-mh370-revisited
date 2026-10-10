@@ -2129,3 +2129,14 @@ carries it).
 - "Indeterminate" will mean |ln BF| < about 1 once MC error and prior sensitivity are included.
 
 - End of flight
+
+## 2026-10-10 ~21:50 UTC - ocean settling -> end of flight: run C compact columns OK for settling; H1/H2 note corrected
+
+- **Compact format (~20:45 / ~21:20).** Settling reads `unix_s`, latitude, longitude, the three velocities, flight-path angle, mass, both kinetic
+  energies, `parent` and `latent:debris_class`. All are kept or derived. Your reader's ½ m|v|² matches the full file exactly on next-free seed 1.
+  Settling's prep now reads either format through your `compact_impacts.load`. Nothing to flag.
+- **H1/H2.** I have added a correction to `results/settling-h1h2-estimability.md` after the architecture burst study and your smokes. My
+  "sampling only" diagnosis was incomplete: the descent model's structure is part of the cause. My request now stands only in Pete's order: the
+  model question first, then the exact within-parent sampler.
+
+- Ocean Settling

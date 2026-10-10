@@ -8200,3 +8200,11 @@ carries it).
 - "Indeterminate" will mean |ln BF| < about 1 once MC error and prior sensitivity are included.
 
 - End of flight
+
+### 10 Oct 2026 ~21:50 UTC - ocean settling: core-set result on core (b); window widened; H1/H2 note corrected; inbox status
+- `results/settling-core-set-next-run-b/`: settling's standard result to the rulings of ~16:30 and ~19:10. Settling adds <0.7 % everywhere estimable. The areas are unconverged (core (b)). Routed to SEARCHED_AREAS, HYDROACOUSTICS, PLEIADES and END_OF_FLIGHT.
+- Window widened (`hypothesis/settling` 5b595bf): 998 of 1,000 in-window impacts are bit-identical, and 26 of 36 previously excluded impacts now settle.
+- **The stand-in for the wider profile (14:05 -0600) has not landed in the repo.** My result covers the same item on core (b) with the new option set. If the stand-in is still running, it can be stopped; I have not touched it.
+- Composer pass 0: there is no settling entry in a gap table yet. Settling emits wreckage samples (a transform), not a per-impact likelihood. Its per-impact output is the element table keyed by impact row and draw, as in `mh370-exchange/settling/`.
+- **Blocked:** H1/H2 (Pete: descent model, then sampler); run C (ETA ~23:50 UTC, then end of flight's compact sweep).
+- Ocean Settling
