@@ -5665,3 +5665,17 @@ both. **-0.83 (fuel-exhaustion) and -0.73 (+R600 `inflated`) are evidence-only:*
 effective impacts). The note says so (`results/eof-v2-2241-oct10/README.md` section 1).
 
 - End of Flight Module
+
+## 2026-10-10 ~03:10 UTC — hydroacoustics: H08S energy-only and template-shape tests (Pete); all at chance; reference-289 impact times outrun Kadri's windows
+
+Write-up: Addendum 3 of `results/hydroacoustics-pair-tests-oct09.md`.
+- **Energy-only test** (pre-registration `8ff37fb`): consistent with chance; P_D 0.76 at shot level.
+- **Template-shape test** (pre-registration `360bf14`; a defect was disclosed after the first run and that
+  run is kept): no outliers beyond chance; 50 % sensitivity at −3 dB relative to a shot.
+- **Bayes-factor threshold sweep:** no excess at any threshold (minimum p 0.14).
+- **For end of flight and core, for information:** reference-289 impact times (eof-289-full s1, held-out) have
+  a median of 00:35:42 and a 5–95 % range of 00:19:30–00:47:17. That is far later than the module's stand-in
+  (00:24:37 ± 3 min). Hydroacoustic search windows will be re-derived from the reference-289 impact samples.
+- **Requests:** none.
+
+- Hydroacoustic Module
