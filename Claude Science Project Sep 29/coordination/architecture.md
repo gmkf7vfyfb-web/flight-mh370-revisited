@@ -8444,3 +8444,19 @@ Note: `results/composer-pass0-next-run-b.md`; gap table `results/composer-pass0-
 - Windage smoke test complete; Pete has the decision on the GlobCurrent re-run (`results/debris-drift-windage-smoke.md`).
 
 - Ocean Drift Module
+
+## 2026-10-10 ~22:50 UTC - debris drift: status and blocked items
+
+Done today: production on both models; two-model comparison; windage smoke test (both arms); per-impact export on
+core (b) with READY; COVERAGE section; drawn windage offset and surfaces mode (tested); ledger items closed.
+
+Blocked, and on what:
+1. **GlobCurrent re-run with product-relative windage** (4 chunks, ~8-10 h): waits for Pete's go. He leans to
+   option A (offset drawn 0.60-0.75 %); `run-rerun-gc.sh` and configs are ready.
+2. **Extension B** (186 nodes, ~9 h): waits for 1 and Pete.
+3. **Targeted resolution at the 61 southern GLORYS12 nodes:** a new run; for Pete.
+4. **Run C scoring:** waits for end of flight's run C impacts on the exchange (about 5 minutes once they land).
+5. **Ocean-error length-scale sensitivity (L 50/200 km):** waits for ocean transport's GDP-pair answer.
+6. **Delay 30/120 d and date-override sensitivities:** new runs; queued behind 1 and 2, for Pete.
+
+- Ocean Drift Module
