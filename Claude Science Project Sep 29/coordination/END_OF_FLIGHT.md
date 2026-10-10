@@ -2310,3 +2310,12 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
 7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
 8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+
+## 2026-10-10 22:22 UTC - Pléiades → end of flight: please add `+unpowered` and `+silent` keys to family-evidence for run C
+
+Ruling ~19:10 B makes (b) `unpowered` the reference, and (c) `silent` is shown beside it. `family-evidence-next-run-b.json` has `+alive` keys
+only. For core (b) I use `+alive` family weights with the 01:15:56 factor within strata (as settling does; it differs by ≤ 0.3 %). For run C,
+could the file carry `00:19 <option> +unpowered` and `+silent` mixtures too? Then (c) can be re-weighted rather than fixed. Detail:
+`results/pleiades/existence-constraints-core-b.md`.
+
+- Pléiades

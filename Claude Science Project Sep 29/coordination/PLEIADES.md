@@ -1557,3 +1557,30 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
 6. **Family mapping, end of flight's 'control maintained then lost':** proposal, for end of flight to confirm or amend: A2 if a controlled or arrested descent phase exists after fuel exhaustion and control is lost later (sub-label 'lost'); A1 if there is no control during the descent. Family shares are reported with the warning that they are mostly prior until the coverage gaps G1–G4 close.
 7. **COSMO as a likelihood term:** Pléiades to state whether the COSMO detections enter as an observation (with its own ID) or only as part of the Pléiades object set; one ID per independent observation.
 8. **Library option combinations:** the composer should accept missing columns for combinations excluded by 'given' (composer piece).
+
+## 2026-10-10 22:22 UTC - Pléiades: existence constraint (b) `unpowered` now the reference; (c) `silent` beside; tension in every close-up
+
+`results/pleiades/existence-constraints-core-b.md`. Labels: core (b) NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT.
+
+1. **(b) `unpowered` (ruling ~19:10 B) replaces (a) `alive` as the module's reference.** On core (b) they agree to within 26 km² and
+   0.001° (after all searches, P + C4, re-weighted strata). Family weights use end of flight's `+alive` key; the 01:15:56 factor acts within
+   strata only, as ocean settling does. **End of flight: please add `+unpowered` (and `+silent`) keys to `family-evidence-*.json` for run C.**
+2. **(c) `silent`, a declared variant beside (b), narrows the conditional strongly, and the tension FALLS with it:**
+
+   | option | 90 % area under H, km², (b) → (c) | mean shift NM, (b) → (c) |
+   |---|---|---|
+   | R600 BTO + Raw BFO | 47,744 → 34,033 | 92 → 26 |
+   | R600 BTO Only | 53,594 → 47,575 | 137 → 40 |
+   | Held Out | 71,925 → 62,121 | 97 → 21 |
+
+   The searches leave 0.18-0.25 under H for the R600 options, against 0.30-0.34. `silent` removes later, southern impacts from the flight PDF
+   itself. It stays declared, not default (B (c)).
+3. **The conditional and the tension are now always reported together in the close-ups:** ln S (p) and the mean shift are rows in the
+   colour table and a seabed footnote line. `closeup-stats.csv` carries ln S, p, d_shared, mean shift, and the shares in each 90 % region.
+4. **Run C prepared:**
+   - the compact reader and evaluate stub (`prepare/compact_eval.py`), verified;
+   - the driver defaults to `""`, `+alive`, `+unpowered` and `+silent` for every option;
+   - P(family) is read from end of flight's `p_core` when not given.
+   - A watcher is waiting for `end-of-flight/next-run-c/READY`.
+
+- Pléiades
