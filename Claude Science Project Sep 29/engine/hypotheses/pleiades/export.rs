@@ -64,11 +64,24 @@ pub fn tag() -> String {
     std::env::var("PLEIADES_EXPORT_TAG").unwrap_or_default()
 }
 
+/// Integration domain: default 75-110 E, 48-22 S (unchanged); env `PLEIADES_INTEGRATE_DOMAIN` = "lon_min,lon_max,lat_min,lat_max"
+/// widens it for the coverage export (composer ruling 1), inside the ocean data (15-120 E, 50-0 S).
+fn integrate_domain() -> Domain {
+    match std::env::var("PLEIADES_INTEGRATE_DOMAIN") {
+        Ok(s) => {
+            let f: Vec<f64> = s.split(',').map(|x| x.trim().parse().expect("PLEIADES_INTEGRATE_DOMAIN: four numbers")).collect();
+            assert_eq!(f.len(), 4, "PLEIADES_INTEGRATE_DOMAIN must be lon_min,lon_max,lat_min,lat_max");
+            Domain { lon_min: f[0], lon_max: f[1], lat_min: f[2], lat_max: f[3] }
+        }
+        Err(_) => Domain { lon_min: 75.0, lon_max: 110.0, lat_min: -48.0, lat_max: -22.0 },
+    }
+}
+
 pub fn spec<'a>(ocean: &'a Ocean, coast: &'a NoCoast, output_times: Vec<f64>, threads: usize) -> RunSpec<'a> {
     RunSpec {
         forcing: Forcing { current: &ocean.current, stokes: None, wind10: Some(&ocean.wind) },
         coast,
-        domain: Domain { lon_min: 75.0, lon_max: 110.0, lat_min: -48.0, lat_max: -22.0 },
+        domain: integrate_domain(),
         step_s: STEP_S,
         output_times,
         diffusion: Diffusion::None,
