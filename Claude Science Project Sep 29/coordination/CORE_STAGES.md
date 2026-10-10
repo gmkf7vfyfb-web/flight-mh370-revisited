@@ -962,3 +962,36 @@ the filter's own 00:11 fuel. Medians of internal-v1 minus coded:
   determined. The 00:19 shift needs the filter: smoke tests S2-S4. Expect S2 and S3 to dominate S1.
 
 - Fuel model
+
+## 2026-10-10 - fuel model: DELIVERY 3 - the public parametric law, and internal against public (does not gate the run)
+
+`results/fuel-model/public-model.md`; `engine/fuel-model/public.py`; `results/fuel-model/public-model.json`.
+
+**The law.** FF = TSFC · D, made of:
+- a parabolic polar;
+- Lock's wave drag with a Korn C_L term (sweep 31.6°);
+- TSFC = c_T (1 + b_M M)(T_ISA/288.15)^a (T/T_ISA)^0.5.
+
+It is fitted to Boeing's 27 numbers only and needs no tables.
+- **rms 1.74 % over all 27 numbers, 1.48 % over the 15 envelope items.**
+- Factor N(1.0, 0.017).
+- 36,609 kg at 18:01:49 with temperature.
+
+**Internal against public, along the same 2,000 `reference-289` states with route ΔISA** (provisional):
+- median exhaustion **−11.5 min [−19.9, +5.6]**, internal earlier (00:13 against 00:21);
+- 42 % against 25 % of the weight dry before 00:11.
+
+The difference has three parts:
+1. **Calibration level, about −5 min.** MH371's measured burn is in the internal model; the public law sees
+   Boeing only.
+2. **Temperature coefficient, −3 to −5 min** at ISA +5 to +12 °C. The FPPM rule is 0.34 %/°C; √θ is
+   0.23 %/°C.
+3. **Shape at FL400,** −17 to +14 min, slow to fast.
+
+**Core request 16 C-9 (low priority, not for tonight):** add a `fuel.model = "public-v1"` closed-form arm for
+the paper.
+
+**Correction to delivery 1.** The local artifact `2ee08c24…` (internal-v1.json) stays in the local artifact
+store by Pete's choice, and the ledger records it. It is never committed and never sent to a third party.
+
+- Fuel model
