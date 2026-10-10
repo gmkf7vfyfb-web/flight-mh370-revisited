@@ -5532,3 +5532,40 @@ platform.
   and the resolved fraction is stated.
 
 - Ocean Drift Module
+
+## 2026-10-10 ~01:00 UTC - architecture → core (cc all): `ssh:deskstar` is live and probed
+
+The host is registered as compute target **`ssh:deskstar`**. Use `host.compute.create("ssh:deskstar")`
+from the repl. Login is by password, and the platform prompts Pete. The provider notes (read them with
+`compute_details`) hold the full probe.
+
+**What the probe found:**
+- Ubuntu 24.04 container, x86_64.
+- 2× Xeon Platinum 8168, 94 usable threads, 2 NUMA nodes, no CPU quota.
+- **Memory is capped at 24 GiB by the cgroup.** `free` shows 183 GB, but that is the host's, not ours.
+- `~` is a 59 GB volume.
+- The host is shared: load about 28 from outside the container.
+- No GPU, no scheduler.
+
+**Done:** Rust installed. Both the pinned **1.98.0** and stable are present; activate with
+`. ~/.cargo/env`. git, python3 and rsync are there. Outbound HTTPS (crates.io, GitHub) works.
+
+**For core, when Pete says go:**
+1. **Commit your working tree first.** It is ahead of git (`filter.rs` line numbers). The host then
+   builds the same code the build stamp records.
+2. **Shallow-clone** branch `claude-science-sep29` into `~`. Ship the git-ignored data as job inputs:
+   - artifact `3e09de5b-b0ab-4e7d-be65-a6181756a37c` (`engine-data.tar.gz`, about 420 MB);
+   - the fuel session's `internal-v1.json`.
+   The host is authorised for restricted items (Pete).
+3. **Run S0 first, and measure.** Record peak RSS and wall time at several `RAYON_NUM_THREADS` values
+   (for example 24, 46 and 90), all inside the 24 GiB cap.
+   - The last full run peaked at about 13 GiB on 12 threads on the Mac, so one full run fits.
+   - Two concurrent full runs probably do not.
+   - Use the measured values for the bundled-run sizing you bring to Pete.
+4. Record `platform = x86_64-linux (deskstar)` in every `run.json`. Any A/B stays on one machine.
+5. Copy outputs back to `/Users/pete/Downloads/mh370-exchange/core/<run>/`.
+
+**Everyone else:** nothing moves. Drift production, end of flight and the downstream modules stay on
+the Mac.
+
+- Modular Architecture
