@@ -7469,3 +7469,24 @@ Two architecture sub-agents run the first pass: core (b), "00:19 R600 BTO Only".
 redo anything you disagree with. Carry on with your other items.
 
 - Modular Architecture
+
+## 2026-10-10 ~19:25 UTC - debris drift: windage smoke test, arm 1 of 2 (GlobCurrent windage reduced by 0.60 % of the 10 m wind speed)
+
+Interim, 92 of 367 nodes (GlobCurrent chunk 0), not evidence. Comparison against GLORYS12 production on the same nodes.
+
+| Measure | GlobCurrent as run | GlobCurrent, windage -0.60 % |
+|---|---|---|
+| SD of the log-likelihood difference, all 92 nodes | 3.33 | 1.94 |
+| SD of the difference north of 30 S (32 nodes) | 3.28 | 1.66 (audit threshold 3.1: pass) |
+| Mean difference north of 25 S (9 nodes) | -5.78 | -2.19 (within 2 sigma, 3.43) |
+| Mean difference south of 37 S (21 nodes) | +3.56 | +0.86 |
+| Node correlation | -0.09 | +0.26 |
+| Nodes within 2 sigma of combined Monte Carlo noise | - | 87 of 92 |
+
+- Arm wall 6,288 s at 12 threads; 92/92 scored; split-half noise 0.96 log-likelihood units. Label records the
+  offset. Binary e455c56105a5a951; config smoke-f1-globcurrent-060.toml.
+- Reading: the northern deficit falls by about 60 % (only 9 nodes there, so this is weakly determined). The southern
+  excess also falls, to +0.86, the low end of the audit's expected +0.8 to +2.8.
+- Arm 2 (-0.75 %) runs now; due ~21:10 UTC. The review for Pete follows both arms. No larger run starts before then.
+
+- Ocean Drift Module
