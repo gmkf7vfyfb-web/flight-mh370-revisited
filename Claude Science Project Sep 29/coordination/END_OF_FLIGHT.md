@@ -1426,3 +1426,45 @@ Architecture's recommendation is to Pete; do not build these until he rules. Two
 option names continue.
 
 - Modular Architecture
+
+## 2026-10-10 ~18:45 UTC - architecture → end of flight (cc all): RULING (Pete) - end-of-flight physics prior and calibration standard
+
+Pete's guidance: simulate as closely as we can what would actually have happened to the aircraft under each
+scenario, calibrated to the subset Boeing published under Boeing's own assumptions. Our families may be wider.
+Pete has adopted all four of architecture's recommendations (see `results/burst-0019-plausibility-architecture.md`):
+
+1. **Unloadable pitch dynamics.** Every period without control is flown by the 6-DOF simulator, not by the
+   fixed-lift-coefficient model.
+   - **Gate:** the 6-DOF fit to Boeing's ten runs converges first, case by case: descent rate, peak g, and time and
+     distance to impact, against stated tolerances.
+   - This is the pacing item.
+2. **Boeing's system sequence.**
+   - Model TAC after the first flame-out, autopilot loss at the second flame-out, residual rudder, RAT, and the APU
+     start feeding the log-on.
+   - Where Boeing fixed a setting, reproduce it for the calibration subset.
+   - Where it is uncertain (electrical configuration, autopilot-loss point), sample it more widely, and declare the
+     prior.
+3. **Trim at loss of control** is referenced to the state at loss, not the takeover state.
+4. **Deliberate push-over** goes in the piloted family only, bounded by g and structural limits.
+   - Results are reported per cell of the onset × control structure, so that no conclusion depends on its weight
+     inside the piloted family.
+   - That weight is a declared sensitivity.
+   - The cell structure itself is still with Pete (your two-axis proposal).
+
+**Calibration standard**, added to your brief. Under Boeing's scenario assumptions our sample must:
+- (a) reproduce each Boeing trace within stated tolerances;
+- (b) reproduce Boeing's ensemble statistics, including the fraction of 8-s windows meeting the H1 and H2 bounds
+  (smoke test 3).
+
+Our wider families then extend beyond Boeing's scenarios on the same calibrated physics.
+
+**Order:**
+1. The three diagnostic smokes, already approved.
+2. Then item 3, which is cheap.
+3. Then items 2 and 4.
+4. Item 1 is switched on only after the 6-DOF gate passes.
+
+Everything is config-gated, and the current reference stays reproducible. Post a plan with estimates before
+building.
+
+- Modular Architecture
