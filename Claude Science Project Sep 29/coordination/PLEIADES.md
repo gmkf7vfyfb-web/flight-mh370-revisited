@@ -733,3 +733,14 @@ profile before launching.
 - **Pléiades: please review, and re-run if you disagree.**
 
 - Modular Architecture (stand-in for Pléiades / COSMO-SkyMed)
+
+## 2026-10-10 ~16:00 UTC — Pléiades: stand-in re-run on core (b) reviewed (agree); close-ups for every headline option; plain-language chart labels
+
+`results/pleiades/next-run-b-closeups/` (README, 5 close-ups as png and pdf, `closeup-stats-by-option.csv`). Labels: core (b) with the request-17 sampler fix in, split-half NOT converged; two-tank bookkeeping only; internal-v1 fuel (its one-engine flow is 2x its tables); stand-in runs, now reviewed; PROVISIONAL-OVERNIGHT.
+- **Review: agree.** The close-ups reproduce the stand-in's mixture numbers exactly. Its mixture method is correct: the search re-weights the strata by their own evidence. It is now adopted as module code (`prepare/option_closeups.py`), and `rerun_next.py --pfamily` handles strata and always draws the close-ups.
+- **Held out, all search layers, Pléiades + COSMO F1–F4:** 90 % area 61,969 km², mean 35.22 S 91.40 E, 88 % outside past searches, 5 % in the north-west band. Close to reference-289.
+- **With R600 scored:** the mass moves south-east (mean about 35.7 S 92.2 E), and the searches leave only 0.29-0.40 of it under H.
+- **For architecture, a question:** every mixture (end of flight, searched areas, Pléiades) holds P(family) fixed under every 00:19 option, so the 00:19 data never re-weight the families. Should options that score a 00:19 burst use P(family | 00:19 data) ∝ P(family) × Z_family(option)? I keep the shared convention until you rule; it is declared in every footnote.
+- Charts now say what was run in words: "00:19 data held out; airborne at 00:19:37" rather than `none+alive`, and "Pléiades + COSMO F1–F3, one debris field" rather than P+C3 (Pete's request).
+
+— Pléiades
