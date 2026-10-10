@@ -245,6 +245,11 @@ pub(crate) struct Params {
     /// SAME grid, so their values merge cell-for-cell with the main run. Off by default (byte-identical).
     #[serde(default)]
     node_subset_outside_extent: bool,
+    /// Product-relative windage (audit F1, 10 Oct): added to every drawn `c_wind` (fraction of U10, e.g. -0.006),
+    /// floored at zero, for a current product that already carries part of the near-surface wind drift. Default 0
+    /// (byte-identical; the reproduction and GLORYS12 arms leave it at 0).
+    #[serde(default)]
+    c_wind_product_offset: f64,
     /// Release every n-th active node only (checks; production uses 1).
     #[serde(default = "d_stride")]
     node_stride: usize,
@@ -332,9 +337,18 @@ fn day_of(release: f64, iso: &str) -> Result<f64, String> {
     Ok((evidence::iso_date_unix_s(iso)? - release) / 86_400.0)
 }
 
+#[cfg(test)]
 fn draw_response(c: &ClassParams, rng: &mut Rng) -> ObjectResponse {
+    draw_response_offset(c, rng, 0.0)
+}
+
+/// As `draw_response`, with the product-relative windage offset added to every drawn `c_wind` and floored at
+/// zero (audit F1, 10 Oct: a current that already carries part of the wind drift needs less object windage).
+/// The draw sequence is unchanged, so an offset of 0 reproduces `draw_response` exactly.
+fn draw_response_offset(c: &ClassParams, rng: &mut Rng, c_wind_offset: f64) -> ObjectResponse {
     {
     let (a, w) = (c.a_stokes.draw(rng), c.c_wind.draw(rng));
+    let w = if c_wind_offset == 0.0 { w } else { (w + c_wind_offset).max(0.0) };
     let (la, ls) = (c.leeway_angle_deg.draw(rng), c.leeway_speed_mps.draw(rng));
     transport::response(a, w, c.wind_angle_deg.draw(rng), la, ls)
     }
@@ -343,7 +357,7 @@ fn draw_response(c: &ClassParams, rng: &mut Rng) -> ObjectResponse {
 /// The common response draws of class `c` (shared by every node: common random numbers).
 fn class_responses(p: &Params, c: usize) -> Vec<ObjectResponse> {
     let mut rng = Rng::derive(&[p.seed, 0xC1A5, c as u64]);
-    (0..p.particles_per_class).map(|_| draw_response(&p.classes[c], &mut rng)).collect()
+    (0..p.particles_per_class).map(|_| draw_response_offset(&p.classes[c], &mut rng, p.c_wind_product_offset)).collect()
 }
 
 /// Where a beaching sits for the recovery layer.
@@ -560,7 +574,7 @@ fn synthetic_observations(p: &Params, setup: &OceanSetup, rec: &Recovery, loc: &
     let t_end = p.release_unix_s + rec.window_end_days * 86_400.0;
     let mut out = Vec::new();
     for batch in 0..200u64 {
-        let responses: Vec<ObjectResponse> = (0..1000).map(|_| draw_response(class, &mut rng)).collect();
+        let responses: Vec<ObjectResponse> = (0..1000).map(|_| draw_response_offset(class, &mut rng, p.c_wind_product_offset)).collect();
         let (e, _) = run_ensemble(setup, loc, [s.true_lon_deg, s.true_lat_deg], p.release_unix_s, t_end, &responses, s.seed ^ ((batch + 1) << 32), diffusion, None)?;
         for (_, a) in e.arrivals {
             if out.len() >= s.finds {
@@ -847,7 +861,8 @@ fn run_label(p: &Params) -> String {
     };
     let gap = if p.land_gap_is_beaching { "land gap counted as beaching" } else { "land gap is model error" };
     let extent = p.extent_map_path.as_deref().unwrap_or("synthetic extent (no map)");
-    format!("beaching: {coast}; {gap}; extent map: {extent}")
+    let wind = if p.c_wind_product_offset == 0.0 { String::new() } else { format!("; c_wind product offset {:+.4}", p.c_wind_product_offset) };
+    format!("beaching: {coast}; {gap}; extent map: {extent}{wind}")
 }
 
 fn validate(p: &Params) -> Result<(), String> {

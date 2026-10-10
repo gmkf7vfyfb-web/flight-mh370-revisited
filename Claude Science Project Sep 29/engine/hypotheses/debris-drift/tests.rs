@@ -508,3 +508,22 @@ fn candidate_selection_extension_flag() {
     // With the extension flag, any in-grid node may be named.
     assert_eq!(select_candidates(&active, &[1, 2, 4, 9], 1, 0, true), vec![1, 2, 4]);
 }
+
+#[test]
+fn product_windage_offset() {
+    use super::{draw_response, draw_response_offset};
+    let pilot: toml::Value = toml::from_str(include_str!("production-globcurrent.toml")).unwrap();
+    let p: Params = pilot["hypotheses"]["debris-drift"].clone().try_into().unwrap();
+    for c in &p.classes {
+        let (mut r0, mut r1, mut r2) = (Rng::new(7), Rng::new(7), Rng::new(7));
+        for _ in 0..200 {
+            let a = draw_response(c, &mut r0);
+            let b = draw_response_offset(c, &mut r1, 0.0);
+            let d = draw_response_offset(c, &mut r2, -0.006);
+            // Offset 0 is identical; a negative offset shifts c_wind, floors at 0, and leaves the other terms.
+            assert_eq!(format!("{a:?}"), format!("{b:?}"));
+            assert!((d.c_wind - (a.c_wind - 0.006).max(0.0)).abs() < 1e-15);
+            assert_eq!((d.a_stokes, d.wind_angle_deg, d.leeway_angle_deg, d.leeway_speed_mps), (a.a_stokes, a.wind_angle_deg, a.leeway_angle_deg, a.leeway_speed_mps));
+        }
+    }
+}
