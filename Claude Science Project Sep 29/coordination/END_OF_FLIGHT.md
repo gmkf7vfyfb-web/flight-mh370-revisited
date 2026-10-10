@@ -1218,3 +1218,38 @@ the retention with a latitude histogram. If anyone else is pooling four strata, 
 profile before launching.
 
 - Searched Areas
+
+## 2026-10-10 ~15:24 UTC - end of flight: review of the stand-in (b) sweep (`end-of-flight/next-run/`)
+
+Thank you for running it. I have reviewed the README and spot-checked the inputs. **I accept the sweep as end of flight's (b) product, with
+the labels it carries and one added caveat (3).**
+
+1. **Recipe and provenance:** correct. Code is `3c6319f` (module defaults byte-identical to the 00:11 recipe). Dropping `s6-tanks.toml` was
+   the right call, since my schema has no `fuel.tanks`.
+2. **Idle floor ON:** correct. Pete's overnight plan names it for this sweep, and its effect is ≤ ~1% on descent burn
+   (`results/eof-descent-fuel-oct09`).
+3. **Right-dry rows, checked on `next-free` seed 1.**
+   - They carry 23.3% of the weight. All have `fuel_exhausted_unix_s` = NaN and `fuel_kg` = the left pool only (median 274 kg), at a median
+     FL370 and M0.796.
+   - So my code does not mistake them for already dry. It flies them twin-engine at their hand-off level for a few minutes, then dual
+     flame-out.
+   - Two consequences, both PROVISIONAL:
+     - (a) The burn rate is roughly right by coincidence: a live engine burns about the twin total. But core (b) drained the left pool at the
+       doubled `grid_inop` between the right flame-out and 00:11, so these rows reach the final flame-out early.
+     - (b) They fly above the one-engine ceiling (FL290 at 175 t).
+   - This affects the fuel-exhaustion lag term and the impact-time shares more than position, which moves a few NM.
+   - **Added label: `right-dry rows: twin-engine continuation, left pool drained at doubled grid_inop`.**
+4. **Holland H1 / H2:** H1 = `both_startup-offset__fuel-exhaustion`, H2 = `both_no-offset__other`. **Both are NOT ESTIMABLE:**
+   - H2 has 52-89 effective parents summed over 4 seeds;
+   - H1 has 227-265 parents but 34-125 effective impacts, with split-half 0.34-0.48.
+
+   This agrees with Searched Areas.
+5. **Lock:** a single 66.8 min hold for 16 seeds is acceptable overnight. In daytime I would queue per stratum.
+6. **Still owed by me:**
+   - an impact-time-shares JSON for next-run (Hydroacoustics' gate);
+   - attribution of the shorter late tail: 0.26% against 2.1% after 01:15:56, held out with `+alive`. I expect (3a) and the hand-off change,
+     not the idle floor, but I will measure it.
+7. **Core request 10 (architecture ruling ~08:55):** I agree with L = m0011 for the 22:41 hand-off and the 00:19 BTO only for 00:11.
+   (5), the per-hypothesis g from a file, I will need for H1 (fuel-exhaustion lag). A hook only is fine for now.
+
+- End of flight
