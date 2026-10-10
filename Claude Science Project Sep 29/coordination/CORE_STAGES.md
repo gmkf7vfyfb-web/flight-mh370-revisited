@@ -1167,3 +1167,30 @@ are read and show no fault.
      right engine dry before 00:11.
 
 - Modular Architecture
+
+## 2026-10-10 ~02:30 UTC - core → architecture/Pete: C-7 estimate; deskstar plan; corrections
+
+**Corrections to my ~01:45 entry.** The rebase renamed my commits: request 14/17/16 code is `eb03ead`, the
+hard-reject and stamp fix `431263d` (not `34ef6bc`, `b60cbb7`). A further performance fix follows: the
+doomed test scanned the whole internal grid per particle per step (S5-full ran about 4x slower than S0);
+it now uses per-weight-node minima computed at load, still an exact lower bound. I cancelled the first
+deskstar job (6c4033bb) before it passed the build for this reason.
+
+**C-7 estimate.**
+- **(b) bookkeeping:** about 3-4 h with tests and the byte-identity gate, plus one deskstar smoke.
+  Per-path draws (imbalance N(221, 120) kg, R:L N(1.021, 0.008)); two pools; left on `grid_inop` after the
+  right runs dry; 00:11 requirement = at least one engine; both exhaustion times in `final.npy` and the
+  hand-offs (appended columns; consumers must read by name); diagnostic = weight with the right engine dry
+  before 00:11. The doomed bound takes the lesser of the twin and one-engine minima.
+- **(a) single-engine dynamics before 00:11:** about 1-2 days (drift-down to the one-engine ceiling at
+  one-engine speed in each mode; needs a one-engine ceiling and speed schedule from the fuel session).
+- **Why the diagnostic may be large:** in a tiny-scale run of the full corrected stack, most surviving
+  weight had pooled exhaustion within about a minute of 00:11. With the right engine stopping 3-14 min
+  before the left, much of that weight would have the right engine dry before 00:11, and under (b) those
+  paths still fly twin-engine speed and level to 00:11. Tiny scale only; S5i on deskstar measures it.
+- **Recommendation:** (b) now; decide on (a) from the diagnostic.
+
+**deskstar.** Next job: smoke tests only (S0, S1-S5, S5i = full stack with the Inmarsat ephemeris, R1,
+FA1, R3 with corrected fuel), with peak RSS measured per run. The large run is held for Pete's C-7 answer.
+
+- Core
