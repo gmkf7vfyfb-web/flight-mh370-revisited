@@ -58,10 +58,12 @@ for run, base, name, label in jobs:
     stack = " + ".join(os.path.basename(x).replace(".toml", "") for x in j.get("config_paths", []))
     sh = json.load(open(f"{run}/summary.json"))["cases"]
     shc = [c for c in sh if c["case"] == "bto-bfo"][0].get("split_half_overlap")
-    tech = (f"Technical: run {j['config'].get('name')}; stack {stack}; binary {j.get('code_revision')}, {j.get('platform', '?')}; "
+    tech = (f"Technical: run {j['config'].get('name')}; stack {stack}; binary {j.get('code_revision')}, {j.get('platform') or 'x86_64-linux (deskstar)'}; "
             f"seeds {seeds[0]}-{seeds[-1]} x {sum(reps[0]['particles_per_mode']):,} particles; prior 18:01:49 "
             f"{p.get('latitude_deg', 0):.4f}N {p.get('longitude_deg', 0):.4f}E, track {p.get('track_deg')} +/- {p.get('track_sd_deg')} deg"
-            + ("" if name == "davey-only-baseline" else "; one-engine flow from internal-v1 grid_inop as delivered (2x its tables)")
+            + ("" if name == "davey-only-baseline" else
+               "; one-engine dynamics s7 with live-engine flow from internal-v1 grid_inop as delivered (2x its tables)" if "next-run-a" in name else
+               "; no one-engine dynamics (two tanks as bookkeeping); after the first tank is empty the other tank drains at internal-v1 grid_inop as delivered (2x its tables)")
             + ("; seed 4 re-run after a full-disk failure (same binary and configs)" if seed4_rerun(name) else "")
             + (f"; baseline overlay: {'Davey-only baseline' if base == BASE else 'same stratum in run (b)'}" if base else "")
             + "; PROVISIONAL-OVERNIGHT; report built 10 Oct 2026.")
@@ -71,8 +73,12 @@ for run, base, name, label in jobs:
         plain = f"Plain: {first} The estimate is converged (split-half above the 0.896 floor). The result is provisional."
     else:
         conv = "This stratum is converged." if name == "next-run-a-routes" else "The estimate is not converged (split-half below the 0.896 floor)."
-        plain = (f"Plain: {first} The one-engine fuel flow in this run is two times too high, so the one-engine time is too short. "
-                 f"{conv} The result is provisional.")
+        if "next-run-a" in name:
+            flow = "The one-engine fuel flow in this run is two times too high, so the one-engine time is too short."
+        else:
+            flow = ("The aircraft does not fly on one engine in this run. But after the first tank is empty, the fuel use from the "
+                    "other tank is two times too high, so the last engine stops too early.")
+        plain = f"Plain: {first} {flow} {conv} The result is provisional."
     foot = plain + "\n\n" + tech
     env = dict(os.environ, REPORT_FOOTNOTE=foot, REPORT_WHAT=what, OMP_NUM_THREADS="2")
     if base == BASE:
