@@ -87,8 +87,9 @@ Coupling is the F-35A calibration (RAM-corrected), paired in τ and source depth
 ![air9 predicted against measured TL](hydroacoustics-air9-predicted-vs-measured.png)
 
 **What air9 does and does not validate.**
-- Blackman's measured TL exists only above about 13 Hz, where the SNR exceeded 3 dB. **Our 5–12 Hz bands are not
-  checked by air9**, and that is where the impact markers stand furthest above the noise.
+- *(Corrected the same evening, after Pete's question: the first version said "partly validated" with 13 Hz as the
+  floor at both stations. See the correction below.)* Blackman's measured TL starts at about 13 Hz at Cape Leeuwin and
+  about 5 Hz at Diego Garcia South (SNR > 3 dB).
 - Within 13–40 Hz the model is partly validated: residual median −0.2 / +3.2 dB, RMS 7.9 dB.
   - At Cape Leeuwin, 15–20 Hz, the model is **pessimistic by about 13 dB**: measured 116–118 dB against predicted
     130–131 dB.
@@ -98,3 +99,28 @@ Coupling is the F-35A calibration (RAM-corrected), paired in τ and source depth
   is the next step.
 
 - Hydroacoustic Module
+
+### CORRECTION (10 Oct, ~23:40 UTC): the air9 match is NOT a validation of the frequency slope
+
+![air9 residual against frequency](hydroacoustics-air9-residual-vs-frequency.png)
+
+- **Predicted and measured TL have opposite frequency trends.** Measured − predicted runs from −10 dB (Cape Leeuwin,
+  16 Hz; Diego Garcia South, 6–10 Hz) to +14/+15 dB at 63 Hz. The tilt is +12.7 dB per octave at H01W and
+  +7.4 dB per octave at H08S.
+- **Why the verdict missed it.** The curves cross near 25–35 Hz. So over 13–40 Hz the median residual is near zero,
+  and the pre-registered rule (median and RMS) cannot detect a slope.
+- **The tilt is shared by both stations,** on paths of 1,663 and 3,549 km. That points to Blackman's assumed airgun
+  source spectrum, or to something near the source, more than to the long-range path. The station difference fits
+  to 3.4 dB RMS.
+- **What stands:**
+  - the station difference, to about 3 dB;
+  - the broad ranking of the scenarios (steep entry above ditching; Cape Leeuwin better than Diego Garcia South).
+- **What does not stand:**
+  - absolute TL and its frequency slope, which are unvalidated (errors about ±10 dB, tilted);
+  - the band-by-band margins on the impact charts ("about 7 dB above the noise"). These are provisional. The F-35A
+    calibration cancels a constant offset, but not a tilt between the F-35A path spectrum and the impact paths.
+- **Fixes:**
+  1. A slope criterion is added to future validation rules: residual slope per octave within ±2 dB plus its
+     standard error. It is not applied retroactively.
+  2. The 2003 SUS-charge check comes forward. Its source spectra are well characterised, so it can separate a
+     source-spectrum error from a propagation error.

@@ -8783,3 +8783,21 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
    technical line reach the edge. The core-set JSONs are unchanged (byte-identical).
 
 - Ocean Settling
+
+## 2026-10-10 ~23:40 UTC - hydroacoustics → architecture: CORRECTION - the air9 TL "partial validation" does not cover the frequency slope
+
+- **Pete spotted it.** Predicted and measured air9 TL have opposite frequency trends: +12.7 dB per octave (H01W) and
+  +7.4 dB per octave (H08S) of residual.
+- The pre-registered median/RMS rule passed only because the curves cross near 25–35 Hz.
+- **The tilt is common to both stations,** which points to the source spectrum more than to the path. The station
+  difference is good to 3.4 dB.
+- **Consequences:**
+  - absolute TL slope is unvalidated;
+  - the impact-vs-noise band margins are provisional;
+  - stage B/C P_D carries this uncertainty (the F-35A calibration cancels an offset but not a tilt).
+- The notes are corrected (`hydroacoustics-blackman-validation.md`, `hydroacoustics-ims-noise-blackman.md`).
+- **Next:** a pre-registered end-to-end check on Blackman's 2003 SUS shots, after the run C chain.
+- **For the paper:** the propagation-validation statement must say "station difference validated; absolute level and
+  slope not".
+
+- Hydroacoustic Module
