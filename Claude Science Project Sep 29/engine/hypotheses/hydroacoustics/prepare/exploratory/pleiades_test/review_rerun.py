@@ -23,6 +23,11 @@ EVENT ATTRIBUTION: for each Table 1 event k, its posterior-weighted share of the
 READING: unchanged from prereg c8b64a8 section 5 (|ln R| < 0.5 within noise; 0.5-1 weak; 1-2.3 moderate; > 2.3
   strong; +-2 sigma split-half band). The stand-in's result stands if A-box falls in the same band; otherwise the module
   result replaces it, with both reported.
+AMENDMENT 1 (before any full run; the queued run was stopped before it started): P_D CEILING. The stand-in's
+  logistic P_D(SNR) extrapolates far beyond the injected range (q -> 1 - 1e-28, so ln(1 - q) reaches -66 per row).
+  The injections recover 200/200 at the highest SNR (40 dB), which supports P_D only up to about 0.98-0.995. Variants
+  "*-cap" apply P_D <= 201/202 = 0.995 (posterior mean of Beta(1 + 200, 1 + 0)) at IMOS and H01W. A-box-cap becomes
+  the NEW HEADLINE; A-box (uncapped) is kept beside it.
 POWER CHECK: not re-run here (the stand-in's power check carries Kadri's term at its own coverage); if the headline band
   changes, the power check is re-run with the amended term before any reading is stated.
 
@@ -42,7 +47,16 @@ BOX_B = (234.67, 343.16)
 LAM_WIDE = 18.0 / (1800.0 * 360.0)
 
 
+PD_CAP = 201.0 / 202.0
+
+
 class ReviewModel(lhyd.Model):
+    cap = None
+
+    def _pd(self, snr, lg):
+        p = lhyd.Model._pd(self, snr, lg)
+        return np.minimum(p, self.cap) if self.cap is not None else p
+
     def review_terms(self, t_imp_unix, lat, lon, E, rng, h01w_offset_db):
         """IMOS terms as the stand-in; H01W in three coverage variants, each with and without the Blackman noise."""
         base = self.station_terms(t_imp_unix, lat, lon, E, rng, "A")      # consumes the same nuisance draws first
@@ -53,6 +67,11 @@ class ReviewModel(lhyd.Model):
         baz, d = self.geometry(lat, lon, "H01W"); t_arr = t0 + d / lhyd.C_MEAN
         sd_t = np.sqrt(lhyd.PICK_S ** 2 + (d * lhyd.C_SD / lhyd.C_MEAN ** 2) ** 2)
         ev = self.kadri; out = {"IMOS": sum(base[lg] for lg in self.B.LOGGERS), "H01W-standin-orig": base["H01W"]}
+        self.cap = PD_CAP
+        basec = self.station_terms(t_imp_unix, lat, lon, E, np.random.default_rng(self._seed), "A")
+        out["IMOS-cap"] = sum(basec[lg] for lg in self.B.LOGGERS)
+        q_cap = np.minimum(self._pd(snr, "3274"), PD_CAP)
+        self.cap = None
         attrib = None
         for tag, off in (("", 0.0), ("-bn", h01w_offset_db)):
             pdv = self._pd(snr - off, "3274")
@@ -68,9 +87,12 @@ class ReviewModel(lhyd.Model):
                     lf = -0.5 * np.log(2 * np.pi * sd_t ** 2) - 0.5 * ((ev[k, 0] - t_arr) / sd_t) ** 2
                     db = (ev[k, 1] - baz + 180.0) % 360.0 - 180.0
                     attrib.append(q * np.exp(lf + self.K.log_t(db, lhyd.SD_BEAR, lhyd.NU_T)) / lhyd.KADRI_LAMBDA / L)
+        in_box = (t_arr >= BOX_T[0]) & (t_arr <= BOX_T[1]) & (baz >= BOX_B[0]) & (baz <= BOX_B[1])
+        out["H01W-box-cap"] = np.log(self._mix(in_box * q_cap, t_arr, sd_t, ev[:, 0], lhyd.KADRI_LAMBDA, baz, ev[:, 1]))
         for tag in ("", "-bn"):
             for v in ("box", "wide", "standin"):
                 out[f"A-{v}{tag}"] = out["IMOS"] + out[f"H01W-{v}{tag}"]
+        out["A-box-cap"] = out["IMOS-cap"] + out["H01W-box-cap"]
         return out, attrib
 
 
