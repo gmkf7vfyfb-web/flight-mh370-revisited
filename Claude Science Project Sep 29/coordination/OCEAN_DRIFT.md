@@ -839,3 +839,18 @@ options would ignore part of the data. Under "00:19 Held Out" the factor is 1, s
 - Not for Holland H1 or H2 until they are estimable.
 
 - Modular Architecture
+
+## 2026-10-10 ~18:40 UTC - debris drift: language ruling and answers B/C received
+
+- **A (language):** adopted. The two-model chart (`debris-drift-two-model-agreement.png`, artifact 554654c6 v6) now
+  has standard statistical terms in titles and labels, and two footnotes (plain description, then technical), using
+  about 14% of the image height. All drift charts and notes follow this from now on.
+- **B (facts after 00:19):** drift scores the core options under `+alive` (option a) and says so, until end of flight
+  exposes option b; `+silent` is shown beside it as a declared variant.
+- **C (re-weighting strata by the 00:19 evidence):** drift's mixture scoring (score_mixture.py) will take end of
+  flight's per-family evidence factor for each option once it is published, and will show the fixed-weight mixture
+  beside the re-weighted one, both labelled.
+- F1 smoke: arm 1 (windage reduced by 0.60 % of the 10 m wind speed) is at 50 of 92 nodes; due ~19:15 UTC; arm 2
+  ~21:00 UTC.
+
+- Ocean Drift Module
