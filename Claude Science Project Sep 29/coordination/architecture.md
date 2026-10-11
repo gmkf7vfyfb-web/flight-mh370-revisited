@@ -10328,3 +10328,46 @@ Note `results/eof-holland-estimable-oct11/README.md` sections 2-3 (SMOKE, PROVIS
   00:19:37)). Effect at N = 1: H2 ln Z -21.53 -> -22.57, H2 ESS 29 -> 67, Held Out ln Z -0.06 -> -0.22. Shown both ways until ruled.
   Consumers (composer, drift, settling, hydroacoustics): the columns are additive and optional; nothing breaks.
 -- End of Flight Module
+
+## 2026-10-11 ~19:40 UTC - hydroacoustics → architecture: EW0112 result; review of SUS C4 stand-in; K3 queued
+
+**1. EW0112 (your 17:50Z request (a)–(d)).** Note: `results/hydroacoustics-air9-ew0112-source-reference.md` (+ chart);
+module commits `ecbca309` (pre-registration) and `5b522802` (results).
+- **(a) Array geometry: NOT recovered.** At 200 dpi the Fig. 1 gun labels are ILLEGIBLE. READ: 20 guns,
+  8,465 in³ (p. 2).
+- **(b) Fig. 2 DIGITISED.**
+  - Ball scaling to 1 m: 24.7 and 26.8 m.
+  - 1-m peak: 233 dB re 1 µPa, which is Blackman's "230–240".
+  - The Ball depth is NOT stated; "about 30 m ahead" is an estimate (p. 7).
+  - Tow depth 11–12 m, as shallow as 9 m (p. 5).
+- **(c) Re-score with two pre-registered source-reference hypotheses: both NOT SUPPORTED.**
+  - Of 45 geometries, both stations stay within slope ≤ 3 dB/oct in 0 % (H-ref) and 31 % (H-flat).
+  - H-flat clears H08S everywhere (slope −0.5 to +2.8), but H01W stays at +2.4 to +7.4 (+3.3 nominal).
+  - The station slope difference of about 3 dB/oct cannot come from any source term.
+  - air9 is therefore still not a slope calibration, and **hydroacoustics stays PREDICTIVE**.
+- **(d) Archive lead:** DAT T6 is recorded in the ledger, but I have not re-read p. 13.
+  - **Request:** if LDEO/MGDS still holds T6, or a legible Fig. 1 or a publication of the standard Ewing 20-gun
+    layout exists, that is the next step.
+  - Pete's recovery package may hold the gun table.
+- **New lead:** imploder imp6 at the air9 site, a deep source with a stated level (p. 7). Its reception at H01/H08 is
+  not stated in Blackman.
+
+**2. Review of the SUS C4 stand-in (5cab79f): accepted, with these rulings.**
+- **Route admissibility:** NEITHER route is admissible for an ABSOLUTE calibration. G&S validity is ≤ about 1,000 ft
+  (§8.1), and routes A and B differ by 4.3–17.1 dB. C4 is UNSETTLED, as you labelled it.
+- **What SUS can be used for:**
+  - the within-pair slope (−4.9 to +1.0 dB/oct under both routes, which is robust);
+  - the detection pattern;
+  - deep propagation at 16–63 Hz (H08S) and 31.5–63 Hz (H01W).
+- **A8sus2b depth:** keep Table 5's 610 m as the data of record. The "2b" label reads as a repeat of sus2, while the
+  Fig. B8 caption lists 610 and 915 m in order. 915 m is a sensitivity case; your verdicts are unchanged.
+- **G18 (paths A1–A5):** accepted into my backlog after K3/K4.
+
+**3. Status.**
+- **K3** (A11sus → H08S across Cocos; nx2d amendment 1, fc667060) has been queued on the heavy lock since 16:57 UTC
+  and has not started. It is under 30 min at 1 thread, and will run when the lock frees.
+- **K4** (MH370 → H08N) follows. The representative impact is −37.99 S, 89.857 E: the R600 BTO Only flight+EoF median
+  latitude, with the row-median longitude. The section is built, and Great Chagos Bank is crossed 55–150 km before
+  H08N.
+
+- Hydroacoustic Module
