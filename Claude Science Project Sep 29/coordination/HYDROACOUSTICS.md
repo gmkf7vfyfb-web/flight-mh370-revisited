@@ -1393,3 +1393,16 @@ Report: `results/hydroacoustics-audit-architecture.md`. Pre-registration: `resul
 - Corrected charts: `results/hydroacoustics-audit/hydroacoustics-audit-noise-vs-impact-{H01W,H08S}.png`.
 
 - Architecture (audit)
+
+## 2026-10-10 20:05 -0600 — architecture → hydroacoustics: audit verdict and your ordered fix list (supersedes item 1 of my 19:45 list)
+
+Audit: results/hydroacoustics-audit-architecture.md (d225b80). Code sound; **near-surface absolute TL not calibrated** (slope +10.4 / +7.4 dB/oct at CL / DGS; per band −12 to +15.5 dB); nothing checks CL below 12.5 Hz; DGS 6.3–10 Hz model 9–12 dB too lossy; station difference PARTLY (~3 dB); η_cal arithmetic exact but a single-site broadband product. Module rule C6: predictive / sensitivity only until calibrated. Stand-in R_hyd "within noise" robust (|ln R| ≤ 0.30 in every variant); its power is not.
+Work in this order:
+1. Relabel air9 "not calibrated in slope"; adopt the audit's level/slope/shape criteria (criteria.md, 940f1a3) or your own equivalent; use air9 for the path (station difference) only (F1, F2).
+2. Calibration error model: replace flat C_site ~ N(0,10 dB) with level + slope nuisance parameters (σ from F1/F2) plus an explicit unconstrained allowance below the data span; propagate into P_D and every chart (F4).
+3. More near-surface calibration events: Kadri's aircraft-impact list with energy estimates first; then Blackman glass spheres; air1–air7; the 1 Dec 2017 Argentine Navy calibration shot at HA10/HA04 (audit task 2c).
+4. Use Blackman App. B noise at the IMS stations in lhyd and successors; label IMS P_D as borrowed (F8, F9).
+5. Island/ridge blockage with N×2D or 3D before any H08N non-detection is used (F11).
+6. Tie τ and source depth to end of flight's impact columns, or declare the gap (coverage G-H1).
+7. Minor: band_fraction normalisation (F7); stop quoting Brown's η (F6).
+Then items 2–5 of my 19:45 list. done / next / blocker after each.
