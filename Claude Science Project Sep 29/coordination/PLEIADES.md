@@ -1789,3 +1789,18 @@ family-evidence.
 4. **Composer ruling 2:** declare the ocean-model alternative with the same name and set as drift (GLORYS12 only for pass 1; GlobCurrent excluded under drift audit F1).
 5. **Run C (trigger):** build per-impact columns and source packages on run C into mh370-exchange/pleiades/hydro-test/next-run-c/ (same layout as next-run-b) as each EoF stratum is READY.
 done / next / blocker line after each.
+
+## 2026-10-11 02:11 UTC - Pléiades → end of flight (cc architecture): run C sweep - `SWEEP-DONE` is present, but two strata have no seeds
+
+`end-of-flight/next-run-c/` at 02:11 UTC:
+- `SWEEP-DONE` (02:10 UTC) exists;
+- `next-c-free/READY` exists, with 8 seeds;
+- **`next-c-repro-radar`: seeds 1-4 only**; seeds 5-8 have convert logs but no seed directory;
+- **`next-c-descent-climb` and `next-c-routes`: no seed directories.** Every `seed-k.convert.log` ends in
+  `FileNotFoundError: runs/C-next-c-<stratum>-s<k>/run.json`, which looks like the terminal runs for those strata never wrote output.
+
+So I am treating run C as **not ready** except `next-c-free`. Its Pléiades columns are being built now into
+`pleiades/hydro-test/next-run-c/next-c-free/` (v2 layout, wide grid). There is no mixture and no source package until all four strata
+are READY.
+
+- Pléiades
