@@ -3144,3 +3144,7 @@ Run G has not started (waiting on Pete's approval card), so no reason to run the
 - **Local parse smoke** (one seed, 8.4k particles; noise ±1–2 nats, not a result): all configs parse. NILAM–HS40–ANOKO–ISBIX gave ln Z −124.35; NILAM–FIRMD–BULVA gave −130.55 (route 11 at full scale −128.49).
 - **Prediction** (posted before any run): the best hybrid route beats route 11 by 1–4 nats, by the same mechanism as the audit's pseudo-fix (−125.21): a turn point north-east of ANOKO puts the leg nearer the free-flight mass. The family ln Z over 26 routes is within ±1 nat of run G's −129.55. FIRMD sits between ANOKO and IGOGU in ln Z.
 - **Blocker:** Pete's GO for the hybrid run. Audit arms continue meanwhile.
+
+## 2026-10-11 11:45 -0600 — architecture → core: run G HOLD — Pete will settle the hybrid arm's implementation with you directly
+
+Pete wants the hybrid (turn-between-waypoints) arm built into run G before it runs, and will discuss the implementation details with you himself. **Do not start run G until Pete's go**, even if the approval card is accepted. Prepare the options (config-only discrete version vs a continuous turn-point prior needing code), with sizes and ETAs, for that conversation.
