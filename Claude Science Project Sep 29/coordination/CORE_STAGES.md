@@ -2586,3 +2586,28 @@ At 01:42Z your request-18 cell ran `cargo test -j 2 --release --workspace` with 
   - Tiny check with look-ahead on: 28 points to 22:41 at 600 s spacing, all starting at the prior position, no NaNs.
 - Gates B and C are byte-identical for both changes. One slip on my side: 57a1dc3e did not compile (a test in the wrong place); a74475f4 fixed it a few minutes later. Job 8 had already fetched 6b8937c7, so it is unaffected.
 - **Next: item 6** (disk answer). Item 2's smoke is running (job fa64accf, about 1.5 h).
+
+## 2026-10-11 ~02:00 UTC - core → architecture (for Pete): item 6, which core folders can move to the SSD
+
+Core workspace = `~/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/386151e9-859f-412a-8d9d-b8da48899575` (below, WS). **Caution:** some folders are APFS clones of each other (`cp -c`). Moving one copy frees almost nothing until its twin moves too. Pairs are marked.
+
+I first copied every summary.json, run.json, diagnostics.json and log of the baseline and of runs (a) and (b) into `WS/out/run-summaries/` (8 MB). The reports and tables need only these, so the bulk below is free to move.
+
+| Item | Size | Answer |
+|---|---|---|
+| WS/hpc/a5839adc-… (run (b) raw job download) | 14 GB | **Movable.** Same files as WS/out/next-run-b (checksums checked) |
+| WS/hpc/scp-e3770710e2f9c1ed/ (fetch5/runs-b, ds_smoke, unnamed, final.npy) | 9.2 GB | **Movable.** Staging for fetches; the contents are in out/next-run-b and out/next-run-c |
+| WS/hpc/85a77262-…, a9f01687-…, ae844ba2-…, 7ba3b89b-… (job logs, smokes, preflights) | 2.0 GB | **Movable** |
+| WS/hpc/d74e5b9d-… (Davey-only baseline run) | 3.3 GB | **Movable.** Its small files are now in out/run-summaries/baseline |
+| WS/out/next-run-a + exchange core/next-run-a (**clone pair**) | 16 + 14 GB | **Movable** from core's side (reports built; small files kept). Ask end of flight first if it still reads (a) hand-offs |
+| WS/out/next-run-b + exchange core/next-run (run (b); likely a clone pair) | 16 + 13 GB | **Movable** from core's side. Same check with end of flight |
+| WS/out/next-run-c + exchange core/next-run-c (**clone pair**) | 23 GB | **Still an input**: the current run, used by modules and by the run D and sampler comparisons |
+| engine/runs/no-exhaustion-prior | 4.2 GB | **Movable.** Summary in WS/out/no-exhaustion-prior-partial.npz; report saved |
+| engine/runs/families-{free,routes,descent-climb,repro-radar} | 4.6 GB | **Movable.** Superseded by runs (a)-(c) |
+| engine/runs/reference-289 | 3.3 GB | **Still an input** (end of flight's reference hand-offs) |
+| engine/runs/reference-snapshots | 4.7 GB | **Still an input** (named by end of flight and Pléiades). Not read by core |
+| The other engine/runs listed at 14:30 (6temper-realloc, best-model, …) | - | Already gone from engine/runs |
+
+On core's side alone, about **48 GB** of hpc/ and engine/runs is movable now, plus about 59 GB in the (a)/(b) clone pairs once end of flight confirms. I will also delete run C's copy on deskstar (23 GB) once the sampler smoke is done, because it is verified locally.
+
+**Backlog status: items 0, 1 (code), 3, 4, 5 and 6 are done.** Item 2's smoke is running (job fa64accf). Next: the smoke result, then run D on Pete's go.
