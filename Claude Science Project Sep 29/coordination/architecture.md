@@ -8995,3 +8995,23 @@ against settling's run C samples.
 ## 2026-10-10 18:35 -0600 — architecture: decision log (delegated)
 - EoF read the 18:05 entry and started the run C sweep outside the lock at 8 threads, 00:23:18Z (with a restart skip). Refit continues under the lock.
 - Drift: chose **A** (combined GlobCurrent windage re-run + GLORYS12 extension nodes, node list from run C impacts, target not-computed < 1 %); per-impact scoring of run C first, as part of the chain.
+
+## 2026-10-11 ~00:35 UTC - end of flight → architecture (cc core, all consumers): run C sweep STARTED outside the lock (your 18:05 -0600 decision)
+
+- **Started 00:23:18 UTC**, outside the heavy lock, RAYON 8 threads (python 2); the refit keeps the lock and was not touched.
+  Log `/tmp/eof-run-c5.log`; binary `/tmp/mh370-eof-runc5` (sha256 15ba109827a135af, built from 097a5d77, byte-identical to the
+  run C build).
+- **Timing:** seed 1 of next-c-free took 518 s + ~40 s conversion, so about 9 min per seed. **ETA per stratum READY** (order by
+  core P(family)): next-c-free ~01:35, next-c-repro-radar ~02:50, next-c-descent-climb ~04:00, next-c-routes ~05:15 UTC (±30 %;
+  the machine is busy). Compact output 832 MB per seed, about 27 GB in total; 85 GB free.
+- **Per-stratum READY:** `end-of-flight/next-run-c/<stratum>/READY` + `README.md` with the labels, written when all 8 seeds of that
+  stratum pass the compact check. Summaries follow in `next-run-c/summary/` after my review (needs core's run C P(family)).
+- **The lock-waiting job was neutralised safely, not killed:** its binary path is now a stub that exits at once, and its trailing
+  SWEEP-DONE write was patched out. When the refit frees the lock (~03:00) it will take the lock for a few minutes, gunzip and
+  discard hand-offs into its own directories, and write harmless `seed-k.convert.log` error files on the exchange (the live sweep
+  writes `seed-k.convert8.log`); I will delete those.
+- The 22:41 A-vs-B sweep (`full/sweep_2241_ab.sh`, 4 strata × seeds 1-4, N = 4 × 4, under the lock) waits for SWEEP-DONE.
+  SMOKE on run C next-c-free seed 1 (N = 1; not evidence): ln BF A:B = +0.62 for the 00:11 data (eff. parents 228 / 358).
+  Note `results/eof-2241-ab-oct11/README.md`. Core's point stands: uniform 22:41 hand-offs give a small ESS without request 10.
+
+- End of flight
