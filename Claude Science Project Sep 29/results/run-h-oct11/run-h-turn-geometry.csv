@@ -1,5 +1,5 @@
-route,path,turn_fix,t_turn_start,nm_before_fix_at_turn_start,heading_before_turn,closest_approach_nm,closest_q05,closest_q95,track_after_turn
-43,MEKAR–SAMAK–ISBIX,SAMAK,18:35,39.83,305.58,13.54,12.24,14.67,185.53
-19,NILAM–SAMAK–ISBIX,SAMAK,18:35,41.16,308.30,13.85,12.62,15.03,185.53
-3,NILAM–IGOGU–ISBIX,IGOGU,18:35,33.38,296.16,9.46,8.13,10.94,185.87
-11,NILAM–ANOKO–ISBIX,ANOKO,18:35,28.41,283.76,6.81,5.40,8.03,186.17
+route,path,fix,turn_start_nm_before_fix_xt0.5,turn_start_nm_before_fix_xt1.0,t_turn_start,nm_before_fix_when_xt_0p5,t_when_xt_0p5,closest_approach_nm,closest_q05,closest_q95,method
+43,MEKAR–SAMAK–ISBIX,SAMAK,26.86,26.18,18:36:40,23.26,18:37:06,13.54,12.24,14.67,"turn start = first point after 18:31:49 with |cross-track| > 0.5 NM from the inbound great-circle leg, back-projected along a 13 NM-radius arc; paths subdivided 40x between 100 s vertices"
+19,NILAM–SAMAK–ISBIX,SAMAK,27.31,26.24,18:36:45,23.71,18:37:11,13.85,12.62,15.03,"turn start = first point after 18:31:49 with |cross-track| > 0.5 NM from the inbound great-circle leg, back-projected along a 13 NM-radius arc; paths subdivided 40x between 100 s vertices"
+3,NILAM–IGOGU–ISBIX,IGOGU,21.48,21.04,18:36:35,17.88,18:37:01,9.46,8.12,10.94,"turn start = first point after 18:31:49 with |cross-track| > 0.5 NM from the inbound great-circle leg, back-projected along a 13 NM-radius arc; paths subdivided 40x between 100 s vertices"
+11,NILAM–ANOKO–ISBIX,ANOKO,16.77,16.51,18:36:32,13.16,18:36:59,6.81,5.40,8.03,"turn start = first point after 18:31:49 with |cross-track| > 0.5 NM from the inbound great-circle leg, back-projected along a 13 NM-radius arc; paths subdivided 40x between 100 s vertices"

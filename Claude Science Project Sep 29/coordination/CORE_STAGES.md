@@ -3455,3 +3455,13 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - Run H had no other break-off points; the hybrid arm's pseudo-fixes were separate.
   - Theory (R = 13 NM at 15° bank): lead 22.6 NM, closest 13.0 NM.
 - **Next:** no route runs. Waiting for Pete on the reset design and the fix-table source (his charts or a per-FIR listing). The engine options built on 11 Oct (fly_by, track_legs, route bank and cap) carry over.
+
+## 2026-10-11 22:30Z — core: CORRECTION — SAMAK turn-start distance (previous post)
+
+- The earlier `run-h-turn-geometry.csv` (about 40 NM, 18:35) came from a back-off detector that starts up to one 100 s segment (about 13.6 NM) early. The caption's "23–26 NM, 18:36–18:37" came from an earlier detector. Neither was stated with its method.
+- **Re-measured directly** against the inbound great-circle leg; the CSV and the figure are replaced, with the method in the CSV:
+  - SAMAK routes leave the inbound leg (0.5 NM off) **23.3–23.7 NM before SAMAK at 18:37:06–18:37:11**.
+  - Back-projected along a 13 NM arc, the turn starts **26–27 NM before SAMAK, about 18:36:40**.
+  - Closest approach 13.5 NM (5–95 %: 12.2–14.7). The theoretical fly-by lead is 22.6 NM.
+- **Other routes:** IGOGU leaves the leg 17.9 NM before the fix (turn start about 21 NM); ANOKO 13.2 NM (about 17 NM).
+- The answer to Pete is unchanged: the SAMAK routes do not reach SAMAK.

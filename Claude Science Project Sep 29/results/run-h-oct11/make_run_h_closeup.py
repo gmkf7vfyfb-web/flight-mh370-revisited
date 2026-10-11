@@ -42,7 +42,7 @@ def build(png, pdf):
     ax.plot(96.3410, 6.5779, marker="o", ms=4, mfc="black", mec="black", zorder=7)
     ax.text(96.36, 6.66, "last radar\n18:22:12", fontsize=6, ha="left", va="bottom", zorder=7)
     c = TT.loc[43]
-    ax.annotate(f"turn starts ≈ 23–26 NM\nbefore SAMAK; passes\n{c.closest_approach_nm:.1f} NM from it", xy=(94.62, 7.73), xytext=(95.25, 8.25),
+    ax.annotate(f"leaves the inbound leg {c.nm_before_fix_when_xt_0p5:.0f} NM\nbefore SAMAK ({c.t_when_xt_0p5[:5]}); passes\n{c.closest_approach_nm:.1f} NM from it", xy=(94.62, 7.73), xytext=(95.25, 8.25),
                 fontsize=6, arrowprops=dict(arrowstyle="-", lw=0.6, color="#333333"), zorder=8)
     ax.set_xlim(box[:2]); ax.set_ylim(box[2:]); ax.set_aspect(1 / np.cos(np.radians(7)))
     ax.set_xlabel("Longitude (°E)"); ax.set_ylabel("Latitude (°N)")
@@ -53,7 +53,7 @@ def build(png, pdf):
     plain = ("Plain note (ASD-STE100): This chart shows paths of the aircraft that follow named airway points, from the last radar point to "
              "about 19:00. Each colour is one route. In this model the aircraft starts each turn before the point (a fly-by turn), "
              "as a flight management computer does. The aircraft on the SAMAK routes does not reach SAMAK. It starts to turn south about "
-             "23 to 26 NM before SAMAK and passes about 13 NM from it. Then it flies south near the FIR boundary to ISBIX. "
+             "23 to 27 NM before SAMAK, at about 18:37, and passes about 13 NM from it. Then it flies south near the FIR boundary to ISBIX. "
              "The two routes that end at BULVA are not shown: the data give them almost no probability. The chart shows only the "
              "airway points in our table. The published chart has more points in this area that we did not sample.")
     tech = ("Technical note: paths re-flown locally for display (binary 409192d, fly_by + track_legs + turn_backs, run H stack: "
@@ -61,7 +61,7 @@ def build(png, pdf):
             "1 seed x 84k particles per route, 400 posterior route samples per route at 100 s spacing (120 drawn), observations after "
             "m1941 excluded and fuel power required to m1941 only, to allow 100 s spacing under the 64-vertex limit; geometry only, "
             "not used for evidence. Shares and ln Z in the legend are run H (8 seeds x 3M, route identifier, equal prior 1/6 over "
-            "routes 10, 11, 3, 2, 19, 43). Closest approach from paths subdivided 20x between vertices; theoretical fly-by "
+            "routes 10, 11, 3, 2, 19, 43). Turn start: first point after 18:31:49 more than 0.5 NM off the inbound great-circle leg (SAMAK routes 23.3-23.7 NM before the fix at 18:37:06-18:37:11; back-projected along a 13 NM arc, 26-27 NM at 18:36:40-18:36:45); closest approach from paths subdivided 40x between vertices; theoretical fly-by "
             "anticipation R tan(dpsi/2) with R = 13 NM (15 deg bank, ~490 kt): SAMAK 120 deg 22.6 NM, IGOGU 110 deg 18.6 NM, ANOKO "
             "97 deg 14.7 NM; closest approach R(sec(dpsi/2) - 1): 13.0 / 9.7 / 6.6 NM against 13.5 / 9.5 / 6.8 NM measured. "
             "Waypoints: engine/data/waypoints.csv (third-party navdata, current cycle, epoch not verified for 2014). FIR boundary drawn "
