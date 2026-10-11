@@ -34,24 +34,30 @@ def per_seed(sd):
     ve, vn = g("latent:takeover_ground_velocity_east_mps"), g("latent:takeover_ground_velocity_north_mps")
     dn = (lat - tl) * 60; de = (lon - tn) * 60 * np.cos(np.radians(tl)); sp = np.hypot(ve, vn)
     cross = (de * vn - dn * ve) / sp
+    speed = np.sqrt(g("velocity_east_mps") ** 2 + g("velocity_north_mps") ** 2 + g("velocity_up_mps") ** 2); fast = speed > 212.0
     sign = g("latent:residual_bank_sign") if "latent:residual_bank_sign" in meta["impact_columns"] else np.full_like(lat, np.nan)
     out = {}
     for key, p, _ in option_posteriors(sd, sd, constraints=CONSTRAINTS):
         base, _, con = key.partition("+")
         if base not in OPTIONS:
             continue
-        name = OPTIONS[base] + (f" +{con}" if con else "")
-        r = {}
-        for code, fam in FAMS.items():
-            s = f4 == code; m = float(p[s].sum()); ok = s & np.isfinite(cross)
-            free = s & np.isfinite(sign)
-            r[fam] = {"share": m,
-                      "median_lat": wmedian(lat[s], p[s]) if m > 0 else None,
-                      "mean_cross_nm": float((p[ok] * cross[ok]).sum() / p[ok].sum()) if p[ok].sum() > 0 else None,
-                      "free_left_share": float(p[free][sign[free] == -1].sum() / p[free].sum()) if p[free].sum() > 0 else None}
-        r["A2"]["lost_share_of_A2"] = float(p[lost == 1].sum() / r["A2"]["share"]) if r["A2"]["share"] > 0 else None
-        r["eff_impacts"] = float(1 / (p ** 2).sum())
-        out[name] = r
+        name0 = OPTIONS[base] + (f" +{con}" if con else "")
+        removed = {"total": float(p[fast].sum())}
+        # Architecture ruling 20:35 -0600 (G13): also the version with contact speed <= 212 m/s, re-weighted, and the weight removed.
+        for name, q in ((name0, p), (name0 + " ~v212", np.where(fast, 0.0, p) / max(float(p[~fast].sum()), 1e-300))):
+            r = {}
+            for code, fam in FAMS.items():
+                s = f4 == code; m = float(q[s].sum()); ok = s & np.isfinite(cross); free = s & np.isfinite(sign)
+                r[fam] = {"share": m,
+                          "median_lat": wmedian(lat[s], q[s]) if m > 0 else None,
+                          "mean_cross_nm": float((q[ok] * cross[ok]).sum() / q[ok].sum()) if q[ok].sum() > 0 else None,
+                          "free_left_share": float(q[free][sign[free] == -1].sum() / q[free].sum()) if q[free].sum() > 0 else None}
+                if name == name0:
+                    removed[fam] = float(p[s & fast].sum() / m) if m > 0 else None
+            r["A2"]["lost_share_of_A2"] = float(q[lost == 1].sum() / r["A2"]["share"]) if r["A2"]["share"] > 0 else None
+            r["eff_impacts"] = float(1 / (q ** 2).sum())
+            out[name] = r
+        out[name0]["removed_by_v212_share_of_family"] = removed
     return out
 
 
@@ -71,6 +77,8 @@ def main(root, outp, pcore):
                 for k in ("median_lat", "mean_cross_nm", "free_left_share"):
                     v = [r[key][fam][k] for r in rows if r[key][fam][k] is not None]
                     e[fam][k] = float(np.mean(v)) if v else None
+            if "removed_by_v212_share_of_family" in rows[0][key]:
+                e["removed_by_v212_share_of_family"] = {f: (float(np.mean([r[key]["removed_by_v212_share_of_family"][f] for r in rows if r[key]["removed_by_v212_share_of_family"][f] is not None])) if any(r[key]["removed_by_v212_share_of_family"][f] is not None for r in rows) else None) for f in rows[0][key]["removed_by_v212_share_of_family"]}
             v = [r[key]["A2"]["lost_share_of_A2"] for r in rows if r[key]["A2"]["lost_share_of_A2"] is not None]
             e["A2"]["lost_share_of_A2"] = float(np.mean(v)) if v else None
             e["eff_impacts_per_seed"] = [r[key]["eff_impacts"] for r in rows]

@@ -27,6 +27,16 @@ CORE = [("00:19 Held Out", "none", "other"), ("00:19 R600 BTO Only", "r600-bto",
 # Existence constraints (displacement_hist.constraint_log_factor). `unpowered` is the reference (ruling ~19:10 B(b));
 # `silent` beside it; `+unpowered`/`+silent` keys added for run C at Pleiades' request (22:22 UTC 10 Oct).
 CONSTRAINTS = ("", "alive", "unpowered", "silent")
+# Architecture ruling 20:35 -0600 10 Oct (G13): every product also shown with contact speed <= 212 m/s (1.25 VMO), the faster rows
+# given zero likelihood (conditioning on feasibility; normaliser unchanged). Keys carry " ~v212" (Pleiades' and settling's suffix).
+SPEED_CAP_MPS = 212.0
+CONSTRAINTS_ALL = CONSTRAINTS + tuple((c + " ~v212").lstrip() if c else " ~v212" for c in CONSTRAINTS)
+
+
+def keyname(name, con):
+    base, _, cap = con.partition("~")
+    base = base.strip()
+    return name + (f" +{base}" if base else "") + (f" ~{cap}" if cap else "")
 EDGES = np.arange(-50.0, -15.0 + 1e-9, 0.001)
 
 
@@ -40,12 +50,15 @@ def per_seed(sd):
     with np.errstate(divide="ignore", invalid="ignore"):
         lfe = (logon["lag_shape"] - 1) * np.log(lag) - lag / logon["lag_scale_s"] - logon["lag_shape"] * np.log(logon["lag_scale_s"]) - gammaln(logon["lag_shape"])
     lfe = np.where(np.isfinite(lag) & (lag > 0), lfe, -np.inf)
+    speed = np.sqrt(g("velocity_east_mps") ** 2 + g("velocity_north_mps") ** 2 + g("velocity_up_mps") ** 2)
+    capll = np.where(speed <= SPEED_CAP_MPS, 0.0, -np.inf)
     out = {}
     for name, o, cause in CORE:
         base = der[o] if o in der else g("loglik:" + o)
         ll = np.where(np.isfinite(base), base, -np.inf) + (lfe if cause == "fuel-exhaustion" else 0.0)
-        for con in CONSTRAINTS:
-            l2 = ll + (constraint_log_factor(g, logon, cause, con) if con else 0.0)
+        for con in CONSTRAINTS_ALL:
+            base_con, _, cap = con.partition("~"); base_con = base_con.strip()
+            l2 = ll + (constraint_log_factor(g, logon, cause, base_con) if base_con else 0.0) + (capll if cap else 0.0)
             lz = float(logsumexp(lw + l2))
             p = np.exp(lw + l2 - lz); mass = np.bincount(par, weights=p)
             h = np.histogram(lat, EDGES, weights=p)[0]
@@ -68,13 +81,13 @@ def main(root, outp, pcore):
         for key in rows[0]:
             z = np.array([np.exp(r[key]["ln_Z"]) for r in rows]); m = z.mean(); se = z.std(ddof=1) / np.sqrt(len(z))
             hist = np.mean([r[key]["hist"] / r[key]["hist"].sum() for r in rows], axis=0); H[(s, key)] = hist
-            res["strata"][s][f"{key[0]}{' +' + key[1] if key[1] else ''}"] = {
+            res["strata"][s][keyname(*key)] = {
                 "ln_Zhat": float(np.log(m)), "ln_Zhat_se": float(se / m), "ln_Z_per_seed": [r[key]["ln_Z"] for r in rows],
                 "eff_parents_per_seed": [r[key]["eff_parents"] for r in rows], "eff_impacts_per_seed": [r[key]["eff_impacts"] for r in rows],
                 "median_lat": qs(hist)[1]}
     for name, _, _ in CORE:
-        for con in CONSTRAINTS:
-            k = f"{name}{' +' + con if con else ''}"
+        for con in CONSTRAINTS_ALL:
+            k = keyname(name, con)
             lz = {s: res["strata"][s][k]["ln_Zhat"] for s in pcore}
             fixed = {s: pcore[s] for s in pcore}
             a = np.array([np.log(pcore[s]) + lz[s] for s in pcore]); rw = np.exp(a - logsumexp(a))

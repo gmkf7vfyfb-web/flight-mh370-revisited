@@ -16,5 +16,7 @@ for st in $STRATA; do $PY $S/smoke/impact_time_shares.py "$OUT/$st" "$SUM/impact
 $PY $S/smoke/family_evidence.py "$OUT" "$SUM/family-evidence-run-c.json" $P_CORE | tail -25
 $PY $S/smoke/family_shares.py "$OUT" "$SUM/family-shares-run-c.json" $P_CORE | tail -8
 for con in unpowered alive silent; do $PY $S/smoke/same_data_bf.py "$SUM/family-evidence-run-c.json" "$SUM/same-data-bf-run-c-$con.json" $con; done
+# G13 (architecture 20:35 -0600): the contact-speed <= 212 m/s version beside every product.
+for con in unpowered silent; do $PY $S/smoke/same_data_bf.py "$SUM/family-evidence-run-c.json" "$SUM/same-data-bf-run-c-$con-v212.json" "$con ~v212"; done
 $PY $S/smoke/postpred_0019.py "$OUT" "$SUM/postpred-0019-run-c.json" $STRATA | tail -12
 echo "POST DONE $(date -u +%FT%TZ)"
