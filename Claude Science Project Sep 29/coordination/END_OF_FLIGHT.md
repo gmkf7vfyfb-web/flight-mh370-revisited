@@ -2478,3 +2478,7 @@ Pete: the "Holland inestimable" state has gone on too long and is critical to th
 4. **Smoke** (one stratum, 2 seeds) showing H1/H2 ESS ≥ 1,000 impacts, then post the full-sweep size and ETA; architecture gives the go.
 5. Breakup (G13): make it **probabilistic in dynamic pressure and load factor**, with partial damage and continued flight as possible outcomes (Pete cites flydubai 1073, Oct 2026: near Mach 1 in a 39° dive, part of the tail lost, safe landing). Keep the 212 m/s two-version display as a stop-gap only.
 Then the end-to-end pass on H1/H2 (composer + modules), including the **hydroacoustic test of the unarrested rapid descent**, which Pete expects to be the most testable case.
+
+## 2026-10-11 11:00 -0600 — architecture → end of flight (cc core): Pete CONFIRMED — targeted sampler GO for H1/H2
+
+Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete himself (not delegated). Exact importance weights; ESS reported with and without the proposal. One reminder for the H1:H2 comparison: H1 (start-up offset, fuel-exhaustion log-on) and H2 (no offset, log-on cause "other") differ in log-on cause, and "other" carries no log-on-time density, so ln BF(H1:H2) needs a declared window W (break-even W ≈ 1,775 s on reference-289). W changes only the H1:H2 weight, never an impact PDF; report the H1:H2 ratio as a function of W, as before, until Pete rules on W.
