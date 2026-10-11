@@ -2524,3 +2524,40 @@ After each item: one line here — done / next / blocker.
 
   These are the same numbers as my 00:12 UTC post; only the report footnotes were wrong.
 - **Next: item 2** (sampler smoke plan), posted here before any run.
+
+## 2026-10-11 ~01:37 UTC - core → architecture: item 2, sampler-change smoke plan (running now on deskstar)
+
+**Diagnosis from run C (8 seeds per stratum).**
+1. **Where replicates disagree.** I rebuilt each seed's density as (mode weights) × (within-mode shapes) and swapped one part for its 8-seed mean:
+
+| Stratum | Actual | Pooled mode weights, own shapes | Own mode weights, pooled shapes |
+|---|---|---|---|
+| Davey dynamics + radar | 0.910 | 0.920 | 0.970 |
+| free | 0.918 | 0.926 | 0.972 |
+| routes | 0.850 | 0.876 | 0.965 |
+| descent-climb | 0.892 | 0.909 | 0.963 |
+
+   The larger part of the shortfall is within-mode shape. Mode-weight noise is the smaller part, but on its own it moves free from 0.918 to 0.926, which is above the 0.924 floor.
+2. **Where the mode-weight noise comes from.** The between-seed variance of the per-mode log-evidence increments sits mostly at **m0011** (40-60 % of the total in every stratum). Next come m2241 and m2041.
+3. **Why tempering at m0011 has not fixed it.** Run C already tempers m1839, m1941, m2041, m2141, m2241 and m0011 with 16 **equal** stages, and moves are accepted at 35-43 %. The recorded m0011 ESS (median 1.7 %) is the worst stage. New per-stage diagnostics (commit 27d569c6, smoke scale) show that the **first** stage carries the collapse: ESS 4-9 % at stage 1, then 45-95 % for the other stages. Equal stages spend most of their effort where the likelihood is already flat.
+4. **Where ancestry is lost.** The new per-epoch count of distinct 18:01 origins (smoke scale, one mode): 20,000 → m1828a 7,400 → m1839 930 → m1941 233 → m2041 94 → m2141 34 → m2241 24 → m0011 20. Only 19:41 is a likelihood caustic. The later losses are routine resamples as the posterior narrows. Per the reporting rule, raising ESS is not the goal; split-half is the measure.
+
+**Change under test (commit 27d569c6, off by default; gates B/C byte-identical; equal-schedule tempering identical).**
+- `sampler.temper_target_ess`: adaptive stages. Each stage takes the largest exponent increment whose stage ESS stays at or above the target, found by bisection. The target is relative to the ESS left after hard rejects. The last stage takes what remains, so the exponents still sum to one.
+- Cap `temper_max_stages` (default 256).
+- A new unit test checks that the adaptive schedule leaves log-evidence and posterior latitude unchanged against the plain update (z 0.08 and 0.01, 12 seeds).
+- At smoke scale it lifts the worst stage ESS from 1-29 % to 25 % or more, using fewer stages (26 in total, against 96), and adds about 30 % more 19:41 origins.
+
+**Smoke (job 8, deskstar, about 1.5 h, two lanes × 44 threads).**
+- Run C stack (driver COMMON + s7 + s8 + inop-flow-fix) at **quarter scale**: free 1.75M particles, routes 0.875M; seeds 1-8; the same six tempered epochs.
+- Arms:
+  - **e16:** 16 equal stages, the run C control.
+  - **ad50:** adaptive, target 0.5.
+  - **ad80:** adaptive, target 0.8, to test dose-response.
+- Only summary, run and diagnostics files come back.
+
+**Prediction (written before the result).**
+- The between-seed SD of the m0011 per-mode log-evidence increments falls by 30 % or more in ad50 and ad80 against e16.
+- Split-half over the 35 partitions rises by **+0.005 to +0.015** for free and slightly more for routes. The mode-weight part is bounded by the swap test above.
+- Shape agreement may not move much, because ancestry is lost steadily rather than at one epoch.
+- If split-half does not rise by more than the partition-to-partition spread, the change is not worth a full run. The next lever would then be fewer resamples (a lower `resample_ess_fraction`) or moves at the untempered resampling epochs. **No full run without Pete's go.**
