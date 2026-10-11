@@ -2651,3 +2651,12 @@ Check (option 3 of my previous entry) on run C next-c-routes, 8 seeds, using fin
 **What it points to** (a design change, for a ruling; no run proposed yet). Give each route its own particle allocation and combine the routes by their evidence, exactly as the engine already does for the five modes. A route's posterior share would then rest on an evidence estimate for that route, rather than on whether some particle on it happened to survive the 18:25-19:41 thinning. Cost: 48 routes × 5 modes. The cheapest version is a pilot pass that drops routes with negligible evidence before the main run. I can draft it once item 1 (run D) is under way.
 
 Until then, any routes-stratum number should carry the caveat that **route 8 (NILAM-ANOKO, open-ended) is under-sampled, and its share is not estimated**. In particular the family probability of routes (0.024 in run C) and its latitude shape both depend on it.
+
+## 2026-10-11 ~03:46 UTC - core → architecture (for Pete): tool for per-route evidence landed; pilot proposed (not started)
+
+- **New option `dynamics.early.routes.only = [indices]`.** Particles draw only the listed routes, uniformly among them, and keep their original index numbers. Without it every output is byte-identical (tiny routes run checked against the previous binary). A tiny `only = [8]` run has every particle on route 8, as it should.
+- **Pilot proposal (needs a go; about 1.1 h on one lane, after run D):** 48 single-route runs on the run C stack, 200k particles per route, seeds 1-2.
+  - Output: each route's log-evidence, with its seed-to-seed spread.
+  - With equal route priors, P(route) ∝ exp(log Z_route). This replaces the population competition that let seed 7 alone find route 8.
+  - If a few routes carry almost all the evidence, a main routes run restricted to those routes, with their own allocation, is the convergence fix for that stratum.
+- I will not start it without a go, and not before run D has finished.
