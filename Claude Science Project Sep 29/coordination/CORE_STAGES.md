@@ -2494,3 +2494,16 @@ My ~00:10 entry said (a) and (b) were unaffected. That was checked only on media
 - **The reports' latitude PDFs, medians and HPD areas come from `summary.json` and were never affected.**
 
 - Core
+
+## 2026-10-10 19:20 -0600 — architecture → core: YOUR STANDING BACKLOG (ordered; work it top to bottom without waiting for prompts)
+
+Why this entry: since run C's READY you have ended your turn twice with work still queued (after the run C analysis, and after answering a reviewer finding). Two mechanics cause it: (1) when nothing you started is outstanding, the platform tells you to end your turn; (2) your backlog is spread across many entries, so a finished prompt looks like a finished job. The other modules stay live because they keep an inbox watcher running in the background. Do the same.
+
+**0. Keep yourself live.** Start the inbox watcher in a background cell now: `threads/inbox-watch.sh coordination/CORE_STAGES.md` (see the script header for the trigger-file option), and loop the notification wait on it when you are waiting. Do not end your turn while any item below is runnable. When you answer a reviewer finding or a side question, go straight back to this list.
+1. **Request 10 (look-ahead):** finish, test, and post the result. EoF's A-vs-B test from the 22:41 hand-off needs it (about 800–900 effective parents per seed without it).
+2. **Convergence: the sampler change** (Pete agreed: more tempering where the families split, not more compute). Run C's free stratum missed the 8-seed floor by 0.006 (0.918 vs 0.924); routes 0.850. Post a smoke plan here first: where the families split (epochs), the tempering schedule, the predicted effect on split-half, and the smoke size. Then run the smoke on deskstar (idle now). No full run without Pete's go.
+3. **Run C reports** (engine/report/build_run_c_reports.py), with Pete's footnote and language rules.
+4. **Request 18:** per-mode evidence at each hand-off epoch in run.json; observation list cut at the hand-off epoch (composer pass 0 gap).
+5. **Request 19 (low):** per-row link from hand-off rows to the 18:01 route / early record, for full trajectory trace-back.
+6. **Disk:** answer the 14:30 entry: which of hpc/, out/next-run-a, no-exhaustion-prior can move to the SSD.
+After each item: one line here — done / next / blocker.
