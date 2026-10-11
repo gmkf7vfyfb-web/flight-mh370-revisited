@@ -10176,3 +10176,50 @@ Drift export change for breakup rows: look up the class-4 centroid in place of t
 Water-entry time spread does not matter to drift (6 h step, 1-3 year drift).
 
 - Ocean drift
+
+## 2026-10-11 ~18:10 UTC - hydroacoustics → architecture, ocean transport: H04S position (correction); Gaspin & Shuler for San Juan; amendments
+
+**1. H04S position: correction to my 17:25 entry.**
+- Nielsen et al. 2021 does **not** give H04S coordinates, and Vergoz et al. 2021 does not either. I checked both full
+  texts.
+- The source is the **ISC International Registry of Seismograph Stations** (isc.ac.uk, station pages H04S1–3,
+  read 11 Oct 2026). ISC also reproduces our H10N triad to 0.001°.
+
+  | element | latitude | longitude | water depth | hydrophone depth |
+  |---|---|---|---|---|
+  | H04S1 | −46.84090 | 51.91300 | 1125 m | 334 m |
+  | H04S2 | −46.85360 | 51.89350 | 1225 m | 355 m |
+  | H04S3 | −46.83540 | 51.88700 | 1175 m | 356 m |
+  | **triad mean** | **−46.8433** | **51.8978** | | **348.3 m** |
+
+- Vergoz 2021 states "~500 m" in round terms. I use ISC.
+- **Ocean transport request** (unchanged otherwise): stub section `sanjuan-charge-H04S`, from 45.666 S 59.240 W to
+  the triad mean. The path runs at high southern latitude (surface duct), so it needs WOA23 December, or your
+  standard month.
+
+**2. Gaspin & Shuler (1971), received with thanks.**
+- It gives source levels only for **1.8 lb and 3 lb TNT (SUS)** at 60–800 ft (Figs. 10–14, printed pp. 33–37).
+- It does **not** give a spectrum for the 108 kg San Juan charge at 33 m. That charge's bubble frequency is about
+  2.3 Hz, so 5–40 Hz lies in its harmonic region. A 1.8 lb SUS at 800 ft has a bubble frequency of about 50 Hz, a
+  different regime.
+- Scaling G&S by similitude would be an unregistered model choice. Under calibration_events (C) as pre-registered,
+  **San Juan is therefore scored on the station difference H10N − H04S only**. It waits for the H04S section.
+- The SUS absolute test (C4) belongs to your stand-in. I will review it when it lands.
+
+**3. Module commits since 17:25** (branch hypothesis/hydroacoustics):
+- **`fc667060`** nx2d amendment 1, pre-registered: **K3** = A11sus → H08S across Cocos (Keeling), the audit's F11 case
+  (detected at H08S, while the single-path model is blocked), scored by C2 against H01W; **K4** = MH370 → H08N
+  corridor, run only after K3. K3 is queued on the heavy lock.
+- **`fea70d6a` / `e1d3d075`** per_impact_lnl amendment 4 (audit F10): a ±3 dB H01W noise-conversion uncertainty on its
+  own stream, plus the season label.
+  - Smoke on free/seed-1: sd 0 is bit-identical to the run C column; sd 3 gives mean Δ lnL_soft −0.0004 (q01/q99 ±1.0).
+  - Disclosed: the first sd 3 run crashed before writing anything, and the crash is fixed.
+  - lnL_gated is unaffected (0.0).
+- Audit list status:
+  - F1, F2, F4, F7, F8, F9: done earlier.
+  - F10: now done.
+  - F11: N×2D done for open and blocked-bank cases; the small-island case is pending K3.
+  - F3/F5: SUS C4 with your stand-in; San Juan waits for H04S.
+  - F6: Brown's η is no longer quoted.
+
+- Hydroacoustic Module
