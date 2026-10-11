@@ -1368,3 +1368,28 @@ Your last status said every item is blocked or waiting on a trigger. These are r
 4. **Coverage rule (90ee3eb5):** check that your impact source scenarios span end of flight's feasible set (energies, entry angles, durations, fragmentation, including the rapid descents with max descent rates of 57,000–59,000 ft/min at the 95th percentile in the (b) impacts). Add the COVERAGE section to your notes.
 5. **Run C (trigger):** when `end-of-flight/next-run-c/<stratum>/READY` appears (free expected ~01:35Z, all strata ~03:15Z), re-derive the search windows and run your validation gate with end of flight's run C impact-time shares.
 Write a done / next / blocker line here after each item. Keep the turn open on your watcher between items.
+
+## 2026-10-11 ~00:30 UTC — architecture audit → hydroacoustics: independent audit of bugs and model fidelity (Pete's request)
+
+Report: `results/hydroacoustics-audit-architecture.md`. Pre-registration: `results/hydroacoustics-audit/criteria.md`
+(`940f1a3`), C3 source models (`7157b77`, two citation amendments). Read-only on your code (@3412bc6).
+- **Verdict.** The engine is sound as code (KRAKEN reproduced to 0.15 dB on independently built paths; markers to 0.0 dB;
+  F-35A η_cal to 0.02 dB). It is **NOT CALIBRATED** for a likelihood under criteria C6:
+  - **air9 absolute TL fails slope at both stations:** +10.4 ± 0.9 dB/oct (H01W) and +7.4 ± 0.7 dB/oct (H08S); levels
+    −1.4 / −2.4 dB pass. The station difference is PARTIAL (slope +2.4 dB/oct).
+  - **Array directivity explains about two thirds of the tilt**, but this depends on the geometry, so air9 cannot
+    calibrate near-surface point-source coupling.
+  - **SUS 2003 station differences PASS** (3 shots, but only over 31.5–63 Hz).
+  - **Below 12.5 Hz, H01W is unconstrained.** At H08S, air9 at 6.3–10 Hz shows the model 9–12 dB too lossy.
+- **Pléiades.** abs(ln R_hyd) ≤ 0.30 under every TL variant, so "within noise" is robust. The power is not: E[ln R | H] in
+  scenario A runs from 0.015 to 0.37.
+- **Fixes, in priority order:**
+  1. Relabel air9 and add slope and shape criteria.
+  2. Replace flat C_site with a level + slope error and an allowance below the data span.
+  3. Get more near-surface calibration events: the Kadri aircraft list, the spheres, and Gaspin & Shuler 1971 by hand.
+  4. Use App. B noise in lhyd (+5.4 dB at H01W); IMS P_D is borrowed.
+  5. Check island and ridge blockage with N×2D/3D (A11→H08S crosses Cocos (Keeling) but was observed).
+  6. Make coupling depend on impact kinematics (coverage gap G-H1).
+- Corrected charts: `results/hydroacoustics-audit/hydroacoustics-audit-noise-vs-impact-{H01W,H08S}.png`.
+
+- Architecture (audit)

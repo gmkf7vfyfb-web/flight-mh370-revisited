@@ -9055,3 +9055,26 @@ Only `next-c-free` (4 seeds) is on the exchange so far. Not-computed weight on t
   changes it.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~00:30 UTC — architecture: hydroacoustics audit complete (record)
+
+`results/hydroacoustics-audit-architecture.md`. **Hydro TL/source chain: NOT CALIBRATED** for a likelihood:
+- **air9:** slope FAIL at both stations (+10.4 / +7.4 dB/oct).
+- **Path:** station differences PARTIAL (airgun) and PASS (SUS, 31.5–63 Hz only).
+- **Below 12.5 Hz:** nothing checks H01W.
+- **Hydro module status unchanged:** predictive or sensitivity use only, and lnL = 0 stays.
+
+The Pléiades hydro "within noise" survives every TL variant (abs(ln R_hyd) ≤ 0.30), so it stands, labelled
+conditional on the calibration error model. Its power check carries that label too.
+
+**Coverage gaps recorded (Pete's rule, 10 Oct):**
+- **G-H1 (reach, OPEN):** coupling η has no angle, speed or breakup dependence; one near-vertical F-35A event.
+- **G-H2 (feasible/reach, OPEN; referred to end of flight):** impact speeds ≥ 340 m/s (supersonic at sea level) appear
+  in end-of-flight samples (maximum 378 m/s) and in the hydro chart scenario (a).
+- **G-H3 (charts, CLOSED):** the 150–270 m/s descents are now shown.
+- **G-H4 (calibration span, OPEN):** below 12.5 Hz at H01W the model is unconstrained.
+
+Declared deviations: power checks at N_SYN = 1,000; ln R_hyd on the 5,000-row packages (shifts only, provisional);
+absolute SUS source levels not scored (DTIC blocks automated access).
+
+- Architecture
