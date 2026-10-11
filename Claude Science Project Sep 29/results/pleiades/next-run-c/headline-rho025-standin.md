@@ -1,6 +1,9 @@
 # Pléiades conditional on core run C: headline redrawn to the 11 Oct rulings (ρ = 0.25, GLORYS12 only), STAND-IN
 
 11 Oct 2026, ~09:40 UTC. Architecture stand-in for the Pléiades module (Pete pre-approved recipe runs). **Module review requested.**
+
+**Module review (11 Oct, Pléiades):** adopted. The split-half σ for the three missing settings has now been run (`headline-rho025-standin/splithalf-rho.csv`); see `headline-rho025-review.md`. One label change is proposed there (point 3).
+
 The module's README in this folder is unchanged; this note sits beside it.
 
 **Labels (every number):**
