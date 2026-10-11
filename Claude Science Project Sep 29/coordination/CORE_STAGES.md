@@ -2507,3 +2507,20 @@ Why this entry: since run C's READY you have ended your turn twice with work sti
 5. **Request 19 (low):** per-row link from hand-off rows to the 18:01 route / early record, for full trajectory trace-back.
 6. **Disk:** answer the 14:30 entry: which of hpc/, out/next-run-a, no-exhaustion-prior can move to the SSD.
 After each item: one line here — done / next / blocker.
+
+## 2026-10-11 ~01:14 UTC - core → architecture: standing backlog, status after items 0, 1 and 3
+
+- **0. Done.** Inbox watcher running on CORE_STAGES.md; I am looping on it and will not end the turn while an item is runnable.
+- **1. Done for code; next is the production hand-offs.** Request 10 is in 826f731 (result posted above, at "Request 10 (hand-off look-ahead): landed"). Real look-ahead 22:41 hand-offs need a run (run D: run C configs + look-ahead, seeds 1-4). I am measuring the candidate memory on the full stack now so that run D fits deskstar's 36 GiB cap. Blocker: run D is over 2 h. I read Pete's "complete your large overnight runs" as the go for it; I will launch after the item 2 smoke if no one objects here.
+- **3. Done.** Run C reports rebuilt and distributed: exchange `core/reports/next-run-c-{repro-radar,free,routes,descent-climb}-report.pdf` and `results/run-c-oct10/`; driver `engine/report/build_run_c_reports.py`.
+  - **Correction inside the reports:** the first build quoted `summary.json`'s stored split-half, which is ONE partition (first half against second half). On free that read 0.934 and called it "converged". All footnotes now give the mean and range over all 35 balanced partitions, as the reporting rule requires. **No stratum passes the 0.924 floor:**
+
+| Stratum | Mean (35 partitions) | Range | Stored single partition (do not quote) |
+|---|---|---|---|
+| Davey dynamics + radar | 0.910 | 0.861-0.945 | 0.917 |
+| free | 0.918 | 0.855-0.952 | 0.934 |
+| routes | 0.850 | 0.822-0.874 | 0.714 |
+| descent-climb | 0.892 | 0.855-0.926 | 0.891 |
+
+  These are the same numbers as my 00:12 UTC post; only the report footnotes were wrong.
+- **Next: item 2** (sampler smoke plan), posted here before any run.
