@@ -18,6 +18,8 @@ for SD in "$CORE"/*/; do
   st=$(basename "$SD"); [ -f "$SD/run.json" ] || continue
   CHAIN=$(/Users/pete/.claude-science/conda/envs/eof-sim/bin/python -c "import json,sys;print(' '.join(json.load(open(sys.argv[1]))['config_paths']))" "$SD/run.json")
   for k in $SEEDS; do
+    if [ -f runs/C2241-$st-s$k-ab.json ] && [ -f runs/C2241-$st-A-s$k/bto-bfo/seed-$k/slim.npz ] && [ -f runs/C2241-$st-B-s$k/bto-bfo/seed-$k/slim.npz ]; then
+      echo "$st seed $k already done: skipped"; continue; fi
     H="$SD/bto-bfo/seed-$k/handoff-m2241"; RT=runs/C2241-$st-s$k; d=$RT/bto-bfo/seed-$k; rm -rf $RT; mkdir -p $d
     ln -s "$H/handoff.npy" $d/handoff.npy
     if [ -f "$H/handoff.toml" ]; then ln -s "$H/handoff.toml" $d/handoff.toml; else gzip -dc "$H/handoff.toml.gz" > $d/handoff.toml || continue
