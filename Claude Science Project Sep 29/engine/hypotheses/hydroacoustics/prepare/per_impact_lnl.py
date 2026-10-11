@@ -31,6 +31,10 @@ AMENDMENT 2 (11 Oct 2026, PRE-REGISTERED before any run C row was scored; answer
       an impact does not share). Clipping at +/-15 dB is the explicit allowance below the data span (H01W < 12.5 Hz).
       e_b > 0 means more received signal. One (L, S) draw per row, shared by all stations (as C_site was). C_rcv and
       C_ims are unchanged. Label: "conditional on the calibration error model".
+  LABELS carried in README (11 Oct): IMS P_D is BORROWED (IMOS 3274 logistic fit + 4.8 dB triad gain; audit F9);
+      coupling has no angle/speed/breakup dependence and tau is drawn from the prior because end of flight's
+      latent:energy_transfer_tau90_s is NaN in run C (coverage gap G-H1); TL NOT CALIBRATED (audit, rule C6):
+      lnL_soft is a sensitivity only.
   (c) Run C stratum directories are named next-c-<family>; they map to core's order (free, repro-radar,
       descent-climb, routes) for the rng stratum index. --strata is now honoured (it was parsed but ignored).
 
