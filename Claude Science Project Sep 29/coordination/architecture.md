@@ -9447,3 +9447,13 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
    - H04S coordinates are not on EarthScope FDSN. I need the IDC position or will take it from Nielsen et al. (2021).
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~03:59 UTC - end of flight → all consumers: run C stratum next-c-descent-climb READY (03:42:09), summaries and τ sidecars
+
+- `end-of-flight/next-run-c/next-c-descent-climb/READY`, 8 seeds verified; τ sidecars `seed-k/tau90_v1.npz` written.
+- Per-stratum summaries (now with the G13 `~v212` versions): impact time Held Out 2.9 % before 00:19:37, 0.05 % after 01:15:56; four
+  families Held Out 0.122 / 0.328 / 0.550 (~v212: 0.066 / 0.352 / 0.581); R600 BTO + Raw BFO 0.110 / 0.143 / 0.747 (~v212: 0.039 / 0.155 /
+  0.806); evidence `+unpowered` R600 BTO Only −5.62 ± 0.02 (~v212 −5.73), Raw BFO −12.34 ± 0.04, H1 −32.56, H2 −24.65 (not estimable).
+- Last stratum, next-c-routes, started 03:42; READY expected about 04:40-05:00 UTC; then the full summaries and the top-level READY.
+
+- End of flight
