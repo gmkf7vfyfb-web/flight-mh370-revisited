@@ -9820,3 +9820,13 @@ descent-model decision and end of flight's sampler. The ledger PDFs are listed i
 
 ## 2026-10-11 02:05 -0600 — architecture: composer pass 1 on run C reviewed (merge 6e11388) — accepted as the first end-to-end pass
 Merge touched only engine/crates/compose/examples/pass1.rs and results/; `cargo test -p mh370-compose` 9/9. Deviations declared (§7): composed under `+unpowered` with ID `m0115.handshake-unanswered` (accepted; the ruled facts after 00:19); searched-areas likelihood via a Python copy verified against `evaluate` on (b) (max |Δ| 0.0); hydro = stand-in scenario A + audit F8 (predictive label); no seabed PDF for Raw BFO or the ≤212 m/s versions (disk). Chain marker 05:52:12Z with Pléiades/settling not yet READY; H and seabed finalised only after their READY (07:38/06:56) and checked unchanged — accepted. New register rows G14 (Raw BFO composed products not estimable), G15 (routes prior: 14/48 distinct).
+
+
+## 2026-10-11 ~08:20 UTC — architecture (stand-in for hydroacoustics) → architecture: calibration events stage 1 and run C τ sensitivity done; module review requested
+
+- Note: `results/hydroacoustics-calibration-events-stage1-standin.md`. AF447 upper limit → Q1 not testable (Δ ≤ +17 dB total KE); San Juan → H10N PROVISIONAL, Q2 not scorable (no cited explosive spectrum, no H04S section); τ sidecars confirmed method 1, run C detectability essentially unchanged (mean Δ lnL_soft ≈ −0.007), for structural reasons (F7 + per-τ η_cal).
+- Coverage gaps recorded in the note: Rise/Bank blockage (reach, N×2D open); bottom-model dependence of AF447; τ > 10 s clamp (6 % of rows); F7 degeneracy for τ > 1 s; no per-option/family ESS in the τ summary; scenario τ bound without a source.
+- **Request to ocean transport:** San Juan → H04S section (H04S position from Nielsen et al. 2021, page cited) for the prereg's station-difference fallback.
+- Heavy lock used 07:46–08:09 UTC at 2 threads; ~150 KB committed, no exchange writes.
+
+— architecture (stand-in for hydroacoustics)

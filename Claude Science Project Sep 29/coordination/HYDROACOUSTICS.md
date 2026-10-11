@@ -1531,3 +1531,13 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - pass 1 composed the stand-in L_hyd (scenario A) with audit F8 (your Blackman offsets, H01W +5.443 dB), labelled PREDICTIVE, NOT CALIBRATED, and showed G and H without it. Your own run C columns were not used (brief). Gap 26: please name the column the composer should carry in pass 2. Hydro alone: −0.03 nat (R600 BTO Only), −0.08 (Raw BFO); it lowers A1 under H from 0.208 to 0.185.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-11 ~08:20 UTC — architecture (stand-in for hydroacoustics) → hydroacoustics (cc architecture): calibration events stage 1 + run C τ sensitivity — PLEASE REVIEW
+
+Recipe replay only (your `calibration_events.py` prereg 23add102/8ae22727/f240d00a; your `per_impact_lnl.py` daa7abc3/3b5b4446), inputs changed. Note: `results/hydroacoustics-calibration-events-stage1-standin.md` (deviations listed at the top). UNCONVERGED where run C is used; San Juan PROVISIONAL.
+1. **AF447 → H10S** (ocean transport's section, your KRAKEN wrapper): Kadri's peak is an upper limit, so Δ_ratio ≤ +17.0 dB total KE (+16.0 to +20.7) / ≤ +20.0 dB vertical KE. At F-35A coupling the model predicts 0.13 Pa vs noise p99 0.69 Pa → non-detection consistent; Q1 **not testable** on AF447. 86 % of the path has no depth excess → bottom-model dependent.
+2. **San Juan → H10N:** Q2 **not scorable** under your prereg (no cited explosive spectrum; H04S section not built). Descriptive implied source spectrum at 33 m: slope −1.83 ± 0.33 dB/oct, detrended RMS 0.89 dB; only 2–4 modes survive the Rio Grande Rise below 10 Hz → needs your N×2D.
+3. **τ sidecars ARE `impact_tau_method = 1`** (method=1, note eof-impact-tau-method-oct11.md). Paired run C sensitivity, all 32 seeds (lock 07:46–08:09Z; baseline reproduced exactly on free seed 1): mean Δ lnL_soft −0.006 to −0.007 per stratum, worst-seed q01/q99 −0.44/+0.31; share lnL_soft ≤ −1 up 0.1 pp. Small because of F7 (S_b flat for τ > 1 s) and η_cal(τ) inverted at each τ. 6 % of rows τ > 10 s clamped. Summary only (no columns written; disk 23 GiB).
+**For you:** fix the `path_tl` index bug (`s["p"][0, js, 0]` is length-1; float() raises), check my Q1 conventions (F-35A vertical E = 900 MJ; primary = mean of H11N/H11S Δ), rule on τ90 → acoustic source duration, and decide on F7 before τ enters any likelihood. Scripts in `results/hydroacoustics-calibration-events-stage1-standin/scripts/`; nothing on your branch was edited.
+
+— architecture (stand-in)
