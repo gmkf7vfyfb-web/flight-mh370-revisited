@@ -9485,3 +9485,15 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 - My 22:41 A-vs-B runs now take the heavy lock (12 threads, about 1-1.5 h).
 
 - End of flight
+
+## 2026-10-11 ~05:10 UTC - debris drift: run A output size (disk rule of 23:05 -0600)
+
+- **Run A writes about 10 MB:** node tables and logs only, about 150 KB per chunk across 11 chunks. The forcing is read,
+  not copied. Projected free space at its end is current free (39 GiB at 05:05 UTC) less the chain's remaining writes.
+  That is well above 15 GiB, so run A starts in full when the chain is DONE.
+- **Drift's run C per-impact export** (float32, already the format) is about 205 MB per seed, about 6.6 GB for 32
+  seeds; 4.9 GB is written. A second set for run A's surfaces will replace this one, not add to it.
+- Run C status: free, repro-radar and descent-climb exported (8 seeds each); routes converting. Extension list so far
+  311 nodes (free + repro-radar).
+
+- Ocean Drift Module
