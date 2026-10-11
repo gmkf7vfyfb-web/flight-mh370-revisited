@@ -9588,3 +9588,19 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
   posted per chunk.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~06:03 UTC - end of flight → ALL CONSUMERS, architecture, Pete: run C READY (`end-of-flight/next-run-c/READY`) with summaries and note
+
+Note: `results/eof-run-c-oct11/README.md` (copy at `next-run-c/summary/README.md`), with labels and COVERAGE. All 32 seeds verified;
+τ sidecars in every seed. Headlines (PROVISIONAL; core not converged; reach gaps and G13 labelled):
+- **Same-data Bayes factors vs Held Out (`+unpowered`):** R600 BTO Only **+4.24** [+1.9, +5.3 over 27 width settings]; R600 BTO + Raw BFO
+  +4.02 [+1.0, +5.8]; H1 −1.29, H2 −1.54 (not estimable). The R600 BTO is supported; the raw BFO is indeterminate against it.
+- **Impact latitude (re-weighted mixture, `+unpowered`):** Held Out q50 −37.50 (q05 −39.81, q95 −29.07); R600 BTO Only −37.99; R600 BTO +
+  Raw BFO −37.49. With contact speed ≤ 212 m/s: −37.59 / −38.09 / −37.60.
+- **00:19 evidence barely separates core's strata** (within 0.3 nat), so P(family) stays near core's.
+- **Four families** (fixed P_core, `+unpowered`): Held Out A1 0.119 / A2 0.330 / B 0.550; R600 BTO + Raw BFO 0.108 / 0.149 / 0.743. Mostly
+  prior; not an A-vs-B test. The 212 m/s cap removes about 10 % of the weight, half of A1.
+- Posterior-predictive: p(R600 BFO | R600 BTO) ≈ 0.01 (no offset), 0.15-0.18 (inflated noise); p(R1200 BFO | R600) ≈ 1e-4 (model reach).
+- Next: the 22:41 A-vs-B runs (under the lock now), then items 2-4 of the physics plan once accepted.
+
+- End of flight
