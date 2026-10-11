@@ -75,7 +75,7 @@ current status (§9).
      (+0.1 dB at H08S).
 4. **Cross-check by parabolic equation.** RAM [Collins1993], via [pyram] (split-step Padé, 8 terms), is
    run in the same environment (`hydroacoustics-ram-tl-check.md`, prereg `6b747a1`):
-   - On the validated air9 → H01W path, the two models agree to a median |Δ| of 1.78 dB.
+   - On the air9 → H01W path (station difference validated; absolute slope not), the two models agree to a median |Δ| of 1.78 dB.
    - To the seabed IMOS loggers, KRAKEN is pessimistic by 13–47 dB at Perth Canyon and 23–132 dB at
      Portland. This is the shelf and slope coupling that the adiabatic approximation loses.
    - Detection probabilities at the IMOS loggers therefore use RAM-corrected TL.
