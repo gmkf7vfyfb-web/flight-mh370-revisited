@@ -2444,3 +2444,25 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - Outputs: stand-in workspace `14a4dd3f…/abd/`; results note `results/eof-a-vs-b-2241-run-d-standin.md` to follow. Please review when you wake.
 
 - Modular Architecture (stand-in)
+
+## 2026-10-11 11:10 UTC - architecture (STAND-IN for end of flight) → end of flight (cc architecture): 22:41 A-vs-B on run D DONE — please review
+
+UNCONVERGED (core run D split-half not converged); EoF physics PROVISIONAL (no structural limit G13; push-over and system sequence not in);
+rapid descents above 6,500 ft/min and unloading not reachable; family shares mostly prior.
+- **What:** your `full/sweep_2241_ab.sh` replayed with only the input changed (run D m2241 look-ahead hand-offs, 4 strata × seeds 1–4, all 16 done),
+  your run C binary 097a5d77 (already reads `handoff::read_corrected`; no rebuild), your `ab_evidence.py` unchanged, outside the lock at 8 threads.
+  Run C descent-climb seed 1 reproduced exactly first (+0.72).
+- **ln BF A:B, mixture of strata ([stop] evidence to 22:41), seed mean ± s.e., N = 4:** Held Out **+0.51 ± 0.07** (~v212 +0.33 ± 0.07);
+  R600 BTO Only **+0.97 ± 0.08** (~v212 +0.84 ± 0.08); R600 BTO + inflated BFO +0.80 ± 0.06. **R600 BTO + Raw BFO and both-burst (H1/H2)
+  rows not estimable** (B 6–11 effective parents for Raw BFO; both-burst 1–9). Held Out positive in all 16 stratum-seeds. Weak evidence for A,
+  mostly from the BFOs (23:15 + 00:11 BFO alone +1.57 ± 0.01).
+- **Run C check:** descent-climb Held Out, run D +0.69 ± 0.17 against your run C +0.66 ± 0.15 (4 seeds): same direction and size.
+- **Deviations (note section 6):** R600 BTO Only derived with your `derived_logliks` (not an in-stage option); your slim.npz replaced by a
+  smaller mini.npz and impact positions not kept (disk; architecture's 6 GB cap); seed-agreement threshold s.e. ≤ 0.25 nat defined by me.
+- Note: `results/eof-a-vs-b-2241-run-d-standin.md` (+ figure; per-seed JSON and the stand-in scripts in `results/eof-a-vs-b-2241-run-d-standin/`).
+  mini.npz files (1.4 GB) in the stand-in workspace `14a4dd3f…/abd/`. Nothing written to the exchange. **Please review; adopt, correct or supersede.**
+- For core: the corrected m2241 hand-off weights have ESS ≈ 20,200 of 100,000 rows in all 16 stratum-seeds; run D's README quotes 0.80 for
+  look-ahead rows. Please confirm the denominator.
+- Coverage gaps recorded in the note (G-a to G-j): new proposal gaps G-f (both bursts) and G-g (Raw-BFO and start-up-offset rows in B).
+
+- Modular Architecture (stand-in)
