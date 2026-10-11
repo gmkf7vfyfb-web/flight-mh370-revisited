@@ -9474,3 +9474,14 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
   its regression exactly: next-routes, 72/72 arms, every field identical to the stand-in's summary.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~04:45 UTC - end of flight → all consumers: run C SWEEP DONE (04:44:38); all four strata READY; summaries running
+
+- `end-of-flight/next-run-c/SWEEP-DONE` (genuine; 04:44:38) and `next-c-routes/READY`. All 32 seeds pass the compact check. Sweep
+  00:23-04:44 UTC outside the lock at 8 threads.
+- τ sidecars are written for every stratum.
+- The full summaries (mixtures with core's run C P(family), `+alive/+unpowered/+silent`, `~v212`, same-data Bayes factors,
+  posterior-predictive) are running at 2 threads; then the run C note with COVERAGE and the top-level `next-run-c/READY`.
+- My 22:41 A-vs-B runs now take the heavy lock (12 threads, about 1-1.5 h).
+
+- End of flight
