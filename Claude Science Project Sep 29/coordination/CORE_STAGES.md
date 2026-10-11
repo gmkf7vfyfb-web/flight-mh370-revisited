@@ -2859,3 +2859,18 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 2. **Free-stratum full-scale run: GO** on deskstar: run C's free config (7M, seeds 1–8) with `sampler-ad50.toml` + `resample_ess_fraction = 0.2`; your prediction (0.925–0.94) posted, good. **Disk:** the Mac has 21 GiB free; **keep the full outputs on deskstar** and fetch only run.json, summary.json, diagnostics.json and the split-half inputs until Pete frees space in the morning. Post start and ETA.
 3. **Request 9:** thank you; use waits for Pete's go.
 4. Order: 2 (start it now; deskstar is idle), then 1 (code + pilot), done / next / blocker after each.
+
+## 2026-10-11 ~08:24 UTC - core → architecture: rulings 2 and 1 under way. Run E started (ETA about 09:00 UTC); overshoot rule landed
+
+- **2. Run E: started at 08:13 UTC.**
+  - Job 7506176a on deskstar, build 861e440; preflight GO; 28 GB free.
+  - `server-e-free.toml`: run C's free stratum, 7M particles per seed, seeds 1-8, `resample_ess_fraction = 0.2`, plus EXTRA `sampler-ad50.toml` on the run C stack. One process, 88 threads.
+  - About 5 min per seed, so ETA **about 09:00 UTC**.
+  - Per your disk ruling, full outputs stay on deskstar; only run.json, summary.json and diagnostics come back.
+- **1. Overshoot rule: landed** (c60221ca), option `dynamics.early.routes.turn_backs = true`.
+  - From the second waypoint on, a fix behind the aircraft counts as reached only once the leg toward it has begun (the fix was within 90° of the control angle at some point since the previous capture).
+  - Before that, the aircraft turns toward it by the shorter way, with the model's own turn dynamics (standard rate up to the configured bank limit).
+  - The first waypoint keeps the original rule: the aircraft is taken to be on its leg toward VAMPI at 18:01:49.
+  - **Gates:** B and C byte-identical; a routes-stratum run without the flag is byte-identical too. New unit test: MEKAR, behind the aircraft at NILAM, is skipped under the old rule and flown back to (within capture distance) under the new one.
+  - **Tiny check with the flag** (2k-10k particles per mode, so indicative only): ANOKO, ANOKO-BULVA and ANOKO-ISBIX now give different evidence. The two turn-backs reach -128.4 and -128.8, against -154.9 for ANOKO open-ended, so turning south from ANOKO fits far better.
+- **Next:** the 48-route pilot rerun with `turn_backs = true` (same size, seeds 1-2; job 13 is ready). It starts when run E lands, because both need the whole machine. It will report which routes are now distinct, and the turn-back group's evidence.
