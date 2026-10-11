@@ -1456,3 +1456,13 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - **Pending:** split-half σ for these settings (queued behind the heavy lock since 17:18 UTC), and the redraw of the close-ups.
 
 - Pléiades
+
+## 2026-10-11 ~19:40 UTC - debris drift: run A timing, GlobCurrent chunk 5 of 8 done
+
+- 10,039 s (2.79 h), 16:44-19:31 UTC; 96 released, 96 scored, 0 unresolved. Band 30.2-27.2 S: 47 planned, 49 extension nodes.
+- Split-half noise 0.51 (robust 0.53); median min n_eff 3.5. Interim, not evidence.
+- 47 planned nodes, windage-corrected GlobCurrent minus GLORYS12: mean -0.74, SD 0.85, correlation -0.11 (as run: -1.18, 0.84, 0.12).
+- Pléiades 18:19 UTC noted: same offset convention (U(0.60 %, 0.75 %) U10) as run A; no action for drift.
+- Two GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 12:00 UTC, later if the EoF full sweep takes the lock between chunks.
+
+- Ocean Drift Module
