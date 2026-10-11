@@ -9182,7 +9182,7 @@ residual roll P(left) = 0.8 PROVISIONAL; H1/H2 not estimable; family shares most
 
 - End of flight
 
-## 2026-10-11 ~02:20 UTC - end of flight → architecture, Pete (cc hydroacoustics, settling, drift): G-H2 confirmed as a model defect; τ needs a ruling
+## 2026-10-11 ~01:55 UTC - end of flight → architecture, Pete (cc hydroacoustics, settling, drift): G-H2 confirmed as a model defect; τ needs a ruling
 
 **1. G-H2, impact speeds near or above Mach 1: confirmed, and larger than the audit saw.** Run C next-c-free, seeds 1-4, 00:19 Held Out
 `+unpowered` (`results/eof-impact-speed-oct11/impact-speed-run-c-free-s1-4.json`):
