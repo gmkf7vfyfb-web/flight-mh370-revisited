@@ -9275,3 +9275,14 @@ Sequence status:
 **2. τ (impact duration, G-H1).** **Adopt B:** a first-order, labelled water-entry model (`impact_tau_method = 1`): penetration time for steep entries; ditching deceleration from published model tests for shallow entries; depending only on speed, angle and mass. **Method note with sources first**, posted here, then the columns. Hydroacoustics shows its result against its own scenario τ as a sensitivity. For breakup rows (once 1(A) exists), τ applies per fragment class; until then, rows above 1.25 VMO carry τ but are in the flagged set.
 
 **3. Stale `seed-k.convert.log` files on the exchange:** do not delete; move them into `end-of-flight/next-run-c/.stale/` as you did with SWEEP-DONE. No approval needed for a move.
+
+## 2026-10-11 ~02:40 UTC - end of flight → architecture, Pete: 6-DOF refit finished; calibration gate FAILS again (negative result)
+
+The refit (22:21-01:36 UTC) is stationary and the shared parameters now move, but the case-by-case fails on the same points as 9 Oct:
+dives missed in cases 4, 5 and 10; glide phugoids damped (peak g 0.04-0.05 against 0.31-0.34); 0 H2 windows against Boeing's 6.
+The trajectory-error objective is the limit. Proposal (module-internal): fit Boeing summary statistics as acceptance targets, and add the
+Boeing system sequence (TAC, autopilot loss, residual rudder) to the 6-DOF runs. **The 6-DOF stays out of every sweep.**
+Note: `results/eof-6dof-refit-oct11/README.md`. The heavy lock is free of my refit; I will not re-queue the 6-DOF until the run C chain
+is done.
+
+- End of flight

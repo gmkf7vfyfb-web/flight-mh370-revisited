@@ -1,0 +1,634 @@
+{
+ "state": "../../../runs/boeing/fit-oct10/full/state.json",
+ "history_last": {
+  "round": 2,
+  "stage": "B",
+  "total": 540512.2378108345,
+  "nfev": 208,
+  "s": 868.635226726532,
+  "f0": 540514.140633488,
+  "method": "lsq",
+  "objective": {
+   "alt_growth": 0.5,
+   "vs_sd_fpm": 1500.0
+  },
+  "case_method": "lsq",
+  "mass_box": [
+   172000.0,
+   178000.0,
+   175000.0
+  ]
+ },
+ "cases": {
+  "case01": {
+   "regime": "long",
+   "law": 1,
+   "tac": 0,
+   "nll": 58934.48004768048,
+   "boeing": {
+    "high_rate": false,
+    "max_descent_fpm": 4800.000000000003,
+    "max_down_accel_g": 0.341890451887298,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 85.5,
+    "n_vs_extrema": 36,
+    "max_bank_deg": 11.557254183000767,
+    "duration_s": 2503.0,
+    "windows_8s": {
+     "windows": 2012,
+     "min_8s_dv_fpm": -5220.0,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 3163.354714698421,
+    "max_down_accel_g": 0.04308067818163101,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 116.0,
+    "n_vs_extrema": 3,
+    "max_bank_deg": 30.385864389076445,
+    "duration_s": 2515.0,
+    "windows_8s": {
+     "windows": 2115,
+     "min_8s_dv_fpm": -657.7134526116424,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    2503.0,
+    2515.000000000384
+   ],
+   "distance_start_to_end_nm": [
+    102.87167378646903,
+    105.9333253089316
+   ],
+   "end_position_error_nm": 9.984021843535007
+  },
+  "case02": {
+   "regime": "long",
+   "law": 1,
+   "tac": 0,
+   "nll": 55399.76430735891,
+   "boeing": {
+    "high_rate": false,
+    "max_descent_fpm": 6300.0000000000255,
+    "max_down_accel_g": 0.341890451887298,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 85.5,
+    "n_vs_extrema": 36,
+    "max_bank_deg": 12.063355727821182,
+    "duration_s": 2461.0,
+    "windows_8s": {
+     "windows": 1985,
+     "min_8s_dv_fpm": -5149.999999999995,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 3179.2590935156754,
+    "max_down_accel_g": 0.04339401888812065,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 116.0,
+    "n_vs_extrema": 3,
+    "max_bank_deg": 31.07458691886762,
+    "duration_s": 2509.0,
+    "windows_8s": {
+     "windows": 2112,
+     "min_8s_dv_fpm": -662.523930955067,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    2461.0,
+    2509.000000000362
+   ],
+   "distance_start_to_end_nm": [
+    103.36476156787843,
+    106.14450929408956
+   ],
+   "end_position_error_nm": 12.119201054419294
+  },
+  "case03": {
+   "regime": "short",
+   "law": 2,
+   "tac": 0,
+   "nll": 60904.447499961534,
+   "boeing": {
+    "high_rate": true,
+    "max_descent_fpm": 53459.99999999999,
+    "max_down_accel_g": 1.2432380068629691,
+    "chord_after_15000_nm": 4.707313059550038,
+    "phugoid_period_s": 188.0,
+    "n_vs_extrema": 4,
+    "max_bank_deg": 54.49264584320254,
+    "duration_s": 577.0,
+    "windows_8s": {
+     "windows": 416,
+     "min_8s_dv_fpm": -18670.000000000073,
+     "windows_dv_le_9400": 60,
+     "windows_H1": 9,
+     "fraction_H1": 0.021634615384615384,
+     "first_H1_s_before_end": 134.0,
+     "first_H1_altitude_ft": 30450.999999999996,
+     "windows_H2": 1,
+     "fraction_H2": 0.002403846153846154,
+     "first_H2_s_before_end": 34.0,
+     "first_H2_altitude_ft": 16805.0
+    }
+   },
+   "sixdof": {
+    "high_rate": true,
+    "max_descent_fpm": 59414.41792844866,
+    "max_down_accel_g": 0.7177507172287975,
+    "chord_after_15000_nm": 5.496111123206702,
+    "phugoid_period_s": null,
+    "n_vs_extrema": 2,
+    "max_bank_deg": 46.64071031495143,
+    "duration_s": 492.0,
+    "windows_8s": {
+     "windows": 307,
+     "min_8s_dv_fpm": -10692.923526840146,
+     "windows_dv_le_9400": 15,
+     "windows_H1": 8,
+     "fraction_H1": 0.026058631921824105,
+     "first_H1_s_before_end": 51.0,
+     "first_H1_altitude_ft": 28618.404979921223,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    577.0,
+    492.0000000000776
+   ],
+   "distance_start_to_end_nm": [
+    36.21975633482615,
+    33.184125703235495
+   ],
+   "end_position_error_nm": 3.6753805241828905
+  },
+  "case04": {
+   "regime": "short",
+   "law": 2,
+   "tac": 1,
+   "nll": 20094.68077481628,
+   "boeing": {
+    "high_rate": true,
+    "max_descent_fpm": 33600.00000000002,
+    "max_down_accel_g": 0.8702666048038373,
+    "chord_after_15000_nm": 6.711769460721259,
+    "phugoid_period_s": null,
+    "n_vs_extrema": 2,
+    "max_bank_deg": 60.18014575766036,
+    "duration_s": 453.0,
+    "windows_8s": {
+     "windows": 294,
+     "min_8s_dv_fpm": -12849.999999999909,
+     "windows_dv_le_9400": 19,
+     "windows_H1": 14,
+     "fraction_H1": 0.047619047619047616,
+     "first_H1_s_before_end": 152.0,
+     "first_H1_altitude_ft": 35887.0,
+     "windows_H2": 2,
+     "fraction_H2": 0.006802721088435374,
+     "first_H2_s_before_end": 44.0,
+     "first_H2_altitude_ft": 17260.0
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 24072.767442224293,
+    "max_down_accel_g": 0.28535137677357897,
+    "chord_after_15000_nm": 8.427720575870895,
+    "phugoid_period_s": null,
+    "n_vs_extrema": 2,
+    "max_bank_deg": 42.54620417396285,
+    "duration_s": 458.0,
+    "windows_8s": {
+     "windows": 282,
+     "min_8s_dv_fpm": -4187.432588510419,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 8,
+     "fraction_H1": 0.028368794326241134,
+     "first_H1_s_before_end": 61.0,
+     "first_H1_altitude_ft": 20449.343121755115,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    453.0,
+    458.00000000006986
+   ],
+   "distance_start_to_end_nm": [
+    22.363394385531027,
+    32.17569987953955
+   ],
+   "end_position_error_nm": 17.074287530405165
+  },
+  "case05": {
+   "regime": "long",
+   "law": 1,
+   "tac": 0,
+   "nll": 71724.73424898859,
+   "boeing": {
+    "high_rate": true,
+    "max_descent_fpm": 24180.000000000015,
+    "max_down_accel_g": 0.9013475549754625,
+    "chord_after_15000_nm": 5.105701730782424,
+    "phugoid_period_s": 87.0,
+    "n_vs_extrema": 22,
+    "max_bank_deg": 12.849183147583444,
+    "duration_s": 1891.0,
+    "windows_8s": {
+     "windows": 1028,
+     "min_8s_dv_fpm": -11770.000000000018,
+     "windows_dv_le_9400": 22,
+     "windows_H1": 15,
+     "fraction_H1": 0.014591439688715954,
+     "first_H1_s_before_end": 89.0,
+     "first_H1_altitude_ft": 9409.0,
+     "windows_H2": 3,
+     "fraction_H2": 0.0029182879377431907,
+     "first_H2_s_before_end": 24.0,
+     "first_H2_altitude_ft": 7647.0
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 3073.817175316535,
+    "max_down_accel_g": 0.041480669889626405,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 132.0,
+    "n_vs_extrema": 3,
+    "max_bank_deg": 36.24705255248986,
+    "duration_s": 1950.0,
+    "windows_8s": {
+     "windows": 1103,
+     "min_8s_dv_fpm": -70108.76239488939,
+     "windows_dv_le_9400": 2,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    1891.0,
+    1950.0499999987742
+   ],
+   "distance_start_to_end_nm": [
+    107.77249155053129,
+    92.75187252452
+   ],
+   "end_position_error_nm": 19.60902899112075
+  },
+  "case06": {
+   "regime": "short",
+   "law": 2,
+   "tac": 0,
+   "nll": 10509.543245325513,
+   "boeing": {
+    "high_rate": true,
+    "max_descent_fpm": 43379.999999999956,
+    "max_down_accel_g": 1.2121570566911353,
+    "chord_after_15000_nm": 7.9234454758708655,
+    "phugoid_period_s": null,
+    "n_vs_extrema": 2,
+    "max_bank_deg": 57.36814465568182,
+    "duration_s": 384.0,
+    "windows_8s": {
+     "windows": 229,
+     "min_8s_dv_fpm": -17649.999999999964,
+     "windows_dv_le_9400": 19,
+     "windows_H1": 11,
+     "fraction_H1": 0.048034934497816595,
+     "first_H1_s_before_end": 97.0,
+     "first_H1_altitude_ft": 28673.999999999996,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "sixdof": {
+    "high_rate": true,
+    "max_descent_fpm": 55568.45561693348,
+    "max_down_accel_g": 0.6824463604452019,
+    "chord_after_15000_nm": 4.799171064278742,
+    "phugoid_period_s": null,
+    "n_vs_extrema": 2,
+    "max_bank_deg": 46.338982622055006,
+    "duration_s": 381.0,
+    "windows_8s": {
+     "windows": 210,
+     "min_8s_dv_fpm": -10448.059691509457,
+     "windows_dv_le_9400": 16,
+     "windows_H1": 8,
+     "fraction_H1": 0.0380952380952381,
+     "first_H1_s_before_end": 45.0,
+     "first_H1_altitude_ft": 24369.850771451245,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    384.0,
+    381.00000000005235
+   ],
+   "distance_start_to_end_nm": [
+    27.586497832699738,
+    20.626227626219944
+   ],
+   "end_position_error_nm": 7.836127942733254
+  },
+  "case07": {
+   "regime": "long",
+   "law": 2,
+   "tac": 0,
+   "nll": 106520.38677304979,
+   "boeing": {
+    "high_rate": false,
+    "max_descent_fpm": 4920.000000000047,
+    "max_down_accel_g": 0.3108095017157423,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 85.0,
+    "n_vs_extrema": 33,
+    "max_bank_deg": 11.436756475118562,
+    "duration_s": 2434.0,
+    "windows_8s": {
+     "windows": 1943,
+     "min_8s_dv_fpm": -3310.000000000001,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 2695.9170639789286,
+    "max_down_accel_g": 0.048707133037798424,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 65.0,
+    "n_vs_extrema": 3,
+    "max_bank_deg": 34.85963082703492,
+    "duration_s": 2493.0,
+    "windows_8s": {
+     "windows": 2123,
+     "min_8s_dv_fpm": -3332.225542960858,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    2434.0,
+    2493.0000000003038
+   ],
+   "distance_start_to_end_nm": [
+    104.57353806549692,
+    101.31024681594461
+   ],
+   "end_position_error_nm": 8.615999215378778
+  },
+  "case08": {
+   "regime": "long",
+   "law": 1,
+   "tac": 0,
+   "nll": 61739.842146962226,
+   "boeing": {
+    "high_rate": false,
+    "max_descent_fpm": 7140.000000000026,
+    "max_down_accel_g": 0.3418904518871125,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 82.0,
+    "n_vs_extrema": 35,
+    "max_bank_deg": 13.765386328739465,
+    "duration_s": 2234.0,
+    "windows_8s": {
+     "windows": 1452,
+     "min_8s_dv_fpm": -3559.9999999999272,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 3543.893845978424,
+    "max_down_accel_g": 0.05082791597721622,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 115.0,
+    "n_vs_extrema": 3,
+    "max_bank_deg": 24.014333777796313,
+    "duration_s": 2294.0,
+    "windows_8s": {
+     "windows": 1539,
+     "min_8s_dv_fpm": -16769.89325081093,
+     "windows_dv_le_9400": 2,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    2234.0,
+    2293.99999999958
+   ],
+   "distance_start_to_end_nm": [
+    73.7362164011691,
+    90.0276724502131
+   ],
+   "end_position_error_nm": 19.291647896567593
+  },
+  "case09": {
+   "regime": "long",
+   "law": 1,
+   "tac": 0,
+   "nll": 59495.54864961891,
+   "boeing": {
+    "high_rate": false,
+    "max_descent_fpm": 6900.000000000116,
+    "max_down_accel_g": 0.3108095017157423,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 83.0,
+    "n_vs_extrema": 37,
+    "max_bank_deg": 13.776745537178845,
+    "duration_s": 2249.0,
+    "windows_8s": {
+     "windows": 1750,
+     "min_8s_dv_fpm": -3289.999999999982,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 2978.5090635879724,
+    "max_down_accel_g": 0.03607632010231072,
+    "chord_after_15000_nm": null,
+    "phugoid_period_s": 138.0,
+    "n_vs_extrema": 3,
+    "max_bank_deg": 35.02644123327211,
+    "duration_s": 2309.0,
+    "windows_8s": {
+     "windows": 1923,
+     "min_8s_dv_fpm": -9156.169697607706,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 0,
+     "fraction_H1": 0.0,
+     "first_H1_s_before_end": null,
+     "first_H1_altitude_ft": null,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    2249.0,
+    2308.9999999996344
+   ],
+   "distance_start_to_end_nm": [
+    85.46528786005356,
+    81.40156320137123
+   ],
+   "end_position_error_nm": 17.008102440676737
+  },
+  "case10": {
+   "regime": "short",
+   "law": 2,
+   "tac": 1,
+   "nll": 35188.81011753882,
+   "boeing": {
+    "high_rate": true,
+    "max_descent_fpm": 58019.99999999996,
+    "max_down_accel_g": 1.3053999072057096,
+    "chord_after_15000_nm": 7.321955587977671,
+    "phugoid_period_s": null,
+    "n_vs_extrema": 2,
+    "max_bank_deg": 53.18800245474057,
+    "duration_s": 473.0,
+    "windows_8s": {
+     "windows": 311,
+     "min_8s_dv_fpm": -19610.000000000146,
+     "windows_dv_le_9400": 34,
+     "windows_H1": 9,
+     "fraction_H1": 0.028938906752411574,
+     "first_H1_s_before_end": 166.0,
+     "first_H1_altitude_ft": 35550.0,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "sixdof": {
+    "high_rate": false,
+    "max_descent_fpm": 27261.220661075666,
+    "max_down_accel_g": 0.28716156767614276,
+    "chord_after_15000_nm": 7.077119675240584,
+    "phugoid_period_s": null,
+    "n_vs_extrema": 2,
+    "max_bank_deg": 43.07808639977974,
+    "duration_s": 487.0,
+    "windows_8s": {
+     "windows": 311,
+     "min_8s_dv_fpm": -4261.383967815127,
+     "windows_dv_le_9400": 0,
+     "windows_H1": 8,
+     "fraction_H1": 0.02572347266881029,
+     "first_H1_s_before_end": 56.0,
+     "first_H1_altitude_ft": 20934.661366475266,
+     "windows_H2": 0,
+     "fraction_H2": 0.0,
+     "first_H2_s_before_end": null,
+     "first_H2_altitude_ft": null
+    }
+   },
+   "end_time_s": [
+    473.0,
+    487.00000000007645
+   ],
+   "distance_start_to_end_nm": [
+    24.212917186169506,
+    30.526310986620008
+   ],
+   "end_position_error_nm": 6.342295622261318
+  }
+ }
+}
