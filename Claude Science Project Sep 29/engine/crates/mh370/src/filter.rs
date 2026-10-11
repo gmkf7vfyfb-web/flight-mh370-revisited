@@ -165,6 +165,16 @@ struct StepDiagnostics {
     /// Live particle count after this epoch. Constant unless branching is enabled.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     population: Option<usize>,
+    /// Distinct 18:01 origins in the population after this epoch (after any resample). Shows
+    /// where ancestral diversity is lost, which per-epoch ESS does not.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    distinct_origins: Option<usize>,
+    /// Tempered epochs only: each stage's ESS, taken after its weight update and before its
+    /// resample, and the cumulative exponent reached at that stage.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    temper_stage_ess: Vec<f64>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    temper_stage_beta: Vec<f64>,
     seconds: f64,
 }
 
@@ -584,6 +594,8 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let rejuvenate: Vec<String> = config.sampler.as_ref().map(|s| s.rejuvenate_epochs.clone()).unwrap_or_default();
     let temper_epochs: Vec<String> = config.sampler.as_ref().map(|s| s.temper_epochs.clone()).unwrap_or_default();
     let temper_stages = config.sampler.as_ref().and_then(|s| s.temper_stages).unwrap_or(4).max(1);
+    let temper_target = config.sampler.as_ref().and_then(|s| s.temper_target_ess);
+    let temper_max = config.sampler.as_ref().and_then(|s| s.temper_max_stages).unwrap_or(256).max(1);
     // Core request 17 guard: the rejuvenation move after a resample re-simulates from
     // `before_step` by the resample's parents, which index the population as it stood before
     // the epoch. A tempered epoch has replaced that population by then, so the two must not
@@ -907,22 +919,42 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         // the untempered diagnostic is taken at. Measuring after the resample instead would
         // report the population size and say nothing.
         let mut tempered_ess = f64::INFINITY;
+        let mut stage_ess_log: Vec<f64> = Vec::new();
+        let mut stage_beta_log: Vec<f64> = Vec::new();
         if let Some(stages) = tempering {
             let share = 1.0 / stages as f64;
+            let stage_cap = if temper_target.is_some() { temper_max } else { stages };
+            let mut beta_done = 0.0f64;
             // Core request 17: which pre-epoch state each member of the current population
             // descends from. `before_step` is indexed by the population as it stood at the
             // start of the epoch; after a stage resamples, member c descends from
             // ancestry[parents[c]], and a move must re-simulate from that history, not from
             // before_step[c] (another particle's history, which drops its pre-epoch weight).
             let mut ancestry: Vec<usize> = (0..n).collect();
-            for j in 0..stages {
-                log_weights.par_iter_mut().zip(&deltas).for_each(|(lw, d)| *lw += d * share);
+            for j in 0..stage_cap {
+                if beta_done >= 1.0 {
+                    break;
+                }
+                // Equal schedule: a fixed share. Adaptive: the largest increment whose stage ESS
+                // stays at or above the target, by bisection; the remainder at the cap.
+                let step_share = match temper_target {
+                    None => share,
+                    Some(_) if j + 1 == stage_cap => 1.0 - beta_done,
+                    Some(target) => adaptive_increment(&log_weights, &deltas, 1.0 - beta_done, target),
+                };
+                beta_done = if temper_target.is_none() { share * (j + 1) as f64 } else { (beta_done + step_share).min(1.0) };
+                if temper_target.is_some() && 1.0 - beta_done < 1e-12 {
+                    beta_done = 1.0;
+                }
+                log_weights.par_iter_mut().zip(&deltas).for_each(|(lw, d)| *lw += d * step_share);
                 let inc = log_sum_exp(&log_weights);
                 log_evidence += inc;
                 tempered_increment += inc;
                 log_weights.par_iter_mut().for_each(|lw| *lw -= inc);
                 let stage_ess = effective_sample_size(&log_weights);
                 tempered_ess = tempered_ess.min(stage_ess);
+                stage_ess_log.push(stage_ess);
+                stage_beta_log.push(beta_done);
                 if stage_ess >= config.resample_ess_fraction * n as f64 {
                     continue;
                 }
@@ -930,7 +962,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 let parents = systematic_resample(&log_weights, n, &mut stream(9500 + tag, 0));
                 // The move targets the tempered distribution reached so far, so the Metropolis
                 // ratio carries the same exponent the weights have been charged.
-                let beta = share * (j + 1) as f64;
+                let beta = beta_done;
                 let moved: Vec<(Particle, f64)> = parents
                     .par_iter()
                     .enumerate()
@@ -1213,6 +1245,9 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             resampled: resample,
             distinct_parents,
             population,
+            distinct_origins: Some(count_distinct(&particles.iter().map(|p| p.origin as usize).collect::<Vec<_>>())),
+            temper_stage_ess: stage_ess_log,
+            temper_stage_beta: stage_beta_log,
             seconds: t_step.elapsed().as_secs_f64(),
         });
         if let Some(report) = ctx.progress {
@@ -1427,6 +1462,37 @@ fn compose_ancestry(ancestry: &[usize], parents: &[usize]) -> Vec<usize> {
     parents.iter().map(|&a| ancestry[a]).collect()
 }
 
+/// Adaptive tempering: the largest exponent increment in (0, remaining] for which the ESS of
+/// `log_weights + increment * deltas` is at least `target` particles. If even the whole remainder
+/// keeps ESS above target, the remainder is returned (this is the last stage). Bisection on the
+/// increment; ESS falls monotonically in it for these weights in practice, and the bracket is
+/// kept valid either way, so the result always satisfies the target unless the smallest
+/// representable step cannot (then that smallest step is taken and its ESS is recorded).
+///
+/// `fraction` is relative to the ESS at a vanishing increment, not to the population: a hard
+/// reject (an increment of minus infinity) removes its particles at every positive exponent, so
+/// tempering cannot spread that loss and the target is set on what survives it.
+fn adaptive_increment(log_weights: &[f64], deltas: &[f64], remaining: f64, fraction: f64) -> f64 {
+    let ess_at = |x: f64| -> f64 {
+        let lw: Vec<f64> = log_weights.par_iter().zip(deltas).map(|(lw, d)| lw + d * x).collect();
+        let t = log_sum_exp(&lw);
+        if !t.is_finite() {
+            return 0.0;
+        }
+        effective_sample_size(&lw.par_iter().map(|l| l - t).collect::<Vec<_>>())
+    };
+    let target = fraction * ess_at(remaining * 1e-9);
+    if ess_at(remaining) >= target {
+        return remaining;
+    }
+    let (mut lo, mut hi) = (0.0f64, remaining);
+    for _ in 0..40 {
+        let mid = 0.5 * (lo + hi);
+        if ess_at(mid) >= target { lo = mid } else { hi = mid }
+    }
+    if lo > 0.0 { lo } else { hi * 1e-6 }
+}
+
 fn count_distinct(indices: &[usize]) -> usize {
     let mut v = indices.to_vec();
     v.par_sort_unstable();
@@ -1627,6 +1693,9 @@ mod tests {
         let plain: Config = toml::from_str(base).unwrap();
         let stages = 8;
         let tempered: Config = toml::from_str(&format!("{base}[sampler]\ntemper_epochs = [\"b\"]\ntemper_stages = {stages}\n")).unwrap();
+        // Sampler-change smoke (11 Oct 2026): the adaptive schedule must keep the same invariance.
+        let adaptive: Config = toml::from_str(&format!("{base}[sampler]\ntemper_epochs = [\"b\"]\ntemper_stages = {stages}\ntemper_target_ess = 0.5\n")).unwrap();
+        let adaptive: &'static Config = Box::leak(Box::new(adaptive));
         let params = Parameters::default();
         let prior = Prior {
             unix_s: 0.0,
@@ -1698,6 +1767,36 @@ mod tests {
         let zl = (tl - pl) / (pls * pls + tls * tls).sqrt();
         eprintln!("log Z plain {pz:.4} +/- {pzs:.4}, tempered {tz:.4} +/- {tzs:.4} (z {zz:.2}); lat plain {pl:.5} +/- {pls:.5}, tempered {tl:.5} +/- {tls:.5} (z {zl:.2})");
         assert!(zz.abs() < 4.0 && zl.abs() < 4.0, "tempered and plain disagree: z(log Z) {zz:.2}, z(lat) {zl:.2}");
+        let (az, azs, al, als) = stats(adaptive);
+        let za = (az - pz) / (pzs * pzs + azs * azs).sqrt();
+        let zla = (al - pl) / (pls * pls + als * als).sqrt();
+        eprintln!("adaptive: log Z {az:.4} +/- {azs:.4} (z {za:.2}); lat {al:.5} +/- {als:.5} (z {zla:.2})");
+        assert!(za.abs() < 4.0 && zla.abs() < 4.0, "adaptive and plain disagree: z(log Z) {za:.2}, z(lat) {zla:.2}");
+    }
+
+    /// Adaptive tempering's step: stage ESS at the chosen increment meets the target (relative
+    /// to the ESS at a vanishing increment), a flat likelihood is paid in one stage, and
+    /// particles with an increment of minus infinity do not make the target unreachable.
+    #[test]
+    fn adaptive_increment_meets_its_target() {
+        let n = 20_000;
+        let lw = vec![-(n as f64).ln(); n];
+        let sharp: Vec<f64> = (0..n).map(|i| -0.5 * ((i as f64 - 10_000.0) / 300.0).powi(2)).collect();
+        let ess_at = |x: f64, d: &[f64]| {
+            let v: Vec<f64> = lw.iter().zip(d).map(|(l, d)| l + d * x).collect();
+            let t = log_sum_exp(&v);
+            effective_sample_size(&v.iter().map(|l| l - t).collect::<Vec<_>>())
+        };
+        let x = adaptive_increment(&lw, &sharp, 1.0, 0.5);
+        assert!(x > 0.0 && x < 1.0, "increment {x}");
+        let e = ess_at(x, &sharp);
+        assert!(e >= 0.5 * n as f64 * 0.999 && e <= 0.5 * n as f64 * 1.01, "stage ESS {e}");
+        let flat = vec![-1.0; n];
+        assert_eq!(adaptive_increment(&lw, &flat, 0.7, 0.5), 0.7);
+        let mut dead = sharp.clone();
+        for d in dead.iter_mut().take(n / 2) { *d = f64::NEG_INFINITY; }
+        let xd = adaptive_increment(&lw, &dead, 1.0, 0.5);
+        assert!(xd > 0.0 && ess_at(xd, &dead) >= 0.5 * ess_at(1e-9, &dead) * 0.999, "dead-half increment {xd}");
     }
 
     /// Core request 17: two stages that resample in turn. Member c of the final population

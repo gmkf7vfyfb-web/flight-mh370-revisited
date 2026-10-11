@@ -430,6 +430,18 @@ pub struct SamplerConfig {
     /// the target posterior is unchanged however many are used.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub temper_stages: Option<usize>,
+    /// Adaptive tempering (sampler-change smoke, 11 Oct 2026). When set, each tempered epoch
+    /// chooses its stage exponents itself instead of using `temper_stages` equal shares: every
+    /// stage takes the largest exponent increment whose stage ESS is at least this fraction of
+    /// the population (found by bisection), and the last stage takes whatever remains, so the
+    /// exponents still sum to one. Where the likelihood is flat this spends one stage; where it is
+    /// sharp it spends as many as it needs. Absent keeps the equal schedule.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temper_target_ess: Option<f64>,
+    /// Cap on adaptive stages per epoch. Default 256. When it binds, the last stage takes the
+    /// remaining exponent at once and its ESS is recorded as it falls.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temper_max_stages: Option<usize>,
 }
 
 /// Davey Sect. 8 and Table 8.2: the resampling step of the SIR filter implemented as

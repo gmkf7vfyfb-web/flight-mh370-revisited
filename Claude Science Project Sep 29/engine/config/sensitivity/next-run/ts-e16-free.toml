@@ -1,0 +1,13 @@
+# Sampler-change smoke (core backlog item 2, 11 Oct 2026): run C stack at quarter scale, seeds 1-8.
+# Arm e16: e16 = run C's 16 equal stages (control); ad50 / ad80 = adaptive stages, stage ESS target 0.5 / 0.8.
+name = "ts-e16-free"
+particles_per_mode = [250_000, 125_000, 625_000, 125_000, 625_000]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+
+[output]
+handoff_rows = 1000
+
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16
+
