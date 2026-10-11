@@ -328,7 +328,15 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     }
     if ctx.config.dynamics.early.is_some() {
         assert_eq!(early.len(), rows.len(), "early.npy must be row-aligned with final.npy");
-        write_npy(&dir.join("early.npy"), &[early.len(), EARLY_COLUMNS.len()], early.as_flattened())?;
+        let n = EARLY_COLUMNS.len();
+        let head: Vec<f64> = early.iter().flat_map(|r| r[..n].iter().copied()).collect();
+        write_npy(&dir.join("early.npy"), &[early.len(), n], &head)?;
+        if let Some(rs) = ctx.config.dynamics.early.as_ref().and_then(|e| e.route_sampler.as_ref()) {
+            let plans: Vec<f64> = early.iter().flat_map(|r| r[n..].iter().copied()).collect();
+            write_npy(&dir.join("route_plans.npy"), &[early.len(), PLAN_COLUMNS], &plans)?;
+            let names: Vec<String> = rs.fixes()?.into_iter().enumerate().map(|(i, (name, _))| format!("{i} {name}")).collect();
+            std::fs::write(dir.join("route_plan_fixes.txt"), names.join("\n") + "\n").map_err(|e| e.to_string())?;
+        }
     }
     if ctx.config.fuel.as_ref().and_then(|f| f.tanks) == Some(2) {
         assert_eq!(tanks.len(), rows.len(), "tanks.npy must be row-aligned with final.npy");
@@ -504,10 +512,27 @@ pub const EARLY_COLUMNS: [&str; 16] = [
     "descent_fpm", "climb_fpm", "cas_kt", "turn", "turn_track_deg", "initial_mach", "excursion_rejected",
     "route",
 ];
-type Early = Vec<[f64; EARLY_COLUMNS.len()]>;
+/// Most legs a sampled route may have (route_sampler.legs_max).
+pub const MAX_PLAN_LEGS: usize = 8;
+/// Columns of route_plans.npy (route sampler only), row-aligned with final.npy: the number of
+/// legs, the equator decision (NaN: no crossing; 0: route flight ended at the equator; 1: it
+/// continued), then per leg k = 1..8 the target fix index (route_plan_fixes.txt), the break-off
+/// fraction (0: fix reached) and fly-by (1) or fly-over (0). NaN beyond the last leg.
+pub const PLAN_COLUMNS: usize = 2 + 3 * MAX_PLAN_LEGS;
+type Early = Vec<[f64; EARLY_COLUMNS.len() + PLAN_COLUMNS]>;
 
-fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len()] {
-    let mut r = [f64::NAN; EARLY_COLUMNS.len()];
+fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len() + PLAN_COLUMNS] {
+    let mut r = [f64::NAN; EARLY_COLUMNS.len() + PLAN_COLUMNS];
+    if let Some(sr) = a.early.as_deref().and_then(|e| e.route.as_ref()).and_then(|x| x.sampled.as_ref()) {
+        let b = EARLY_COLUMNS.len();
+        r[b] = sr.fixes.len() as f64;
+        r[b + 1] = sr.equator.map_or(f64::NAN, |c| f64::from(u8::from(c)));
+        for k in 0..sr.fixes.len().min(MAX_PLAN_LEGS) {
+            r[b + 2 + 3 * k] = f64::from(sr.fixes[k]);
+            r[b + 3 + 3 * k] = sr.break_off[k];
+            r[b + 4 + 3 * k] = f64::from(u8::from(sr.fly_by[k]));
+        }
+    }
     let Some(rec) = a.early.as_deref() else { return r };
     r[0] = 0.0;
     if let Some(x) = &rec.excursion {

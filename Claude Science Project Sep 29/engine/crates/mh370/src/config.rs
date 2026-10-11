@@ -552,6 +552,92 @@ pub struct EarlyConfig {
     pub cas_envelope_kt: Option<(f64, f64)>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub routes: Option<RoutesConfig>,
+    /// Random waypoint routes (waypoint-family reset, Pete 11 Oct 2026). Exclusive with `routes`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub route_sampler: Option<RouteSamplerConfig>,
+}
+
+/// `[dynamics.early.route_sampler]`: each particle draws its own waypoint route (see
+/// `flight::RouteSampler`). It flies `prefix` (names in `waypoints_csv`) from `start_utc`, then
+/// the drawn legs over the fixes of `fixes_csv` whose `tier` is in `tiers`, using that file's
+/// `phase_regions` column ("1+2+3"), then resumes the free model. Each seed writes
+/// route_plans.npy (row-aligned with final.npy, columns `filter::PLAN_COLUMNS`) and
+/// route_plan_fixes.txt (fix index -> name).
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct RouteSamplerConfig {
+    pub share: f64,
+    pub start_utc: String,
+    pub waypoints_csv: String,
+    pub prefix: Vec<String>,
+    /// Estimated time at the last prefix fix; with `nominal_ground_speed_kt` it only assigns
+    /// legs to phase regions.
+    pub prefix_end_utc: String,
+    pub fixes_csv: String,
+    pub tiers: Vec<String>,
+    /// Mean number of legs after truncation at `legs_max`.
+    pub legs_mean: f64,
+    pub legs_max: u32,
+    pub break_off_probability: f64,
+    pub break_off_fractions: Vec<f64>,
+    pub fly_by_probability: f64,
+    pub max_course_change_deg: f64,
+    pub phase2_until_utc: String,
+    pub equator_continue_probability: f64,
+    pub south_limit_deg: f64,
+    pub nominal_ground_speed_kt: f64,
+    /// Turn model at the prefix fixes (fly-by when true). Absent: fly-over.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub prefix_fly_by: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub turn_backs: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub track_legs: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bank_angle_deg: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_max_turn_deg: Option<f64>,
+}
+
+impl RouteSamplerConfig {
+    /// The sampler's fixes in index order: (name, fix). Prefix fixes are left out.
+    pub fn fixes(&self) -> Result<Vec<(String, flight::SamplerFix)>, String> {
+        let text = std::fs::read_to_string(&self.fixes_csv).map_err(|e| format!("{}: {e}", self.fixes_csv))?;
+        let mut lines = text.lines().filter(|l| !l.trim().is_empty() && !l.starts_with('#'));
+        let header: Vec<&str> = lines.next().ok_or("route_sampler.fixes_csv is empty")?.split(',').collect();
+        let col = |n: &str| header.iter().position(|h| h.trim() == n).ok_or_else(|| format!("route_sampler.fixes_csv lacks column {n}"));
+        let (cn, cla, clo, ct, cr) = (col("name")?, col("lat_deg")?, col("lon_deg")?, col("tier")?, col("phase_regions")?);
+        let mut out = Vec::new();
+        for line in lines {
+            // The source column may be quoted and hold commas; the columns used come first.
+            let f: Vec<&str> = line.split(',').collect();
+            let need = [cn, cla, clo, ct, cr].into_iter().max().unwrap();
+            if f.len() <= need {
+                return Err(format!("route_sampler.fixes_csv: short row {line}"));
+            }
+            let name = f[cn].trim().to_string();
+            if !self.tiers.iter().any(|t| t == f[ct].trim()) || self.prefix.contains(&name) {
+                continue;
+            }
+            let num = |i: usize| f[i].trim().parse::<f64>().map_err(|e| format!("route_sampler.fixes_csv {name}: {e}"));
+            let mut regions = 0u8;
+            for p in f[cr].trim().split('+') {
+                match p.trim() {
+                    "1" => regions |= 1,
+                    "2" => regions |= 2,
+                    "3" => regions |= 4,
+                    "" => {}
+                    other => return Err(format!("route_sampler.fixes_csv {name}: bad phase region {other}")),
+                }
+            }
+            let (lat, lon) = (num(cla)?, num(clo)?);
+            out.push((name, flight::SamplerFix { lat, lon, regions }));
+        }
+        if out.is_empty() {
+            return Err("route_sampler: no fixes in the chosen tiers".into());
+        }
+        Ok(out)
+    }
 }
 
 /// `[dynamics.early.routes]`: fly a route drawn uniformly from the list built from `first`
@@ -700,9 +786,60 @@ impl EarlyConfig {
                             return Err(format!("dynamics.early.routes.only must name indices below {}", routes.len()));
                         }
                     }
-                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), fly_by: r.fly_by == Some(true), track_legs: r.track_legs == Some(true), bank_deg: r.bank_angle_deg, fly_by_max_turn_deg: r.fly_by_max_turn_deg, allowed: r.only.clone() })
+                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), fly_by: r.fly_by == Some(true), track_legs: r.track_legs == Some(true), bank_deg: r.bank_angle_deg, fly_by_max_turn_deg: r.fly_by_max_turn_deg, allowed: r.only.clone(), sampler: None })
                 }
             }
+        };
+        if self.routes.is_some() && self.route_sampler.is_some() {
+            return Err("dynamics.early: routes and route_sampler are exclusive".into());
+        }
+        let routes = match (&self.route_sampler, routes) {
+            (Some(r), _) => {
+                let unit = |x: f64| (0.0..=1.0).contains(&x);
+                if !unit(r.share) || !unit(r.break_off_probability) || !unit(r.fly_by_probability) || !unit(r.equator_continue_probability) {
+                    return Err("dynamics.early.route_sampler: probabilities must be in [0, 1]".into());
+                }
+                if r.legs_max == 0 || r.legs_max as usize > crate::filter::MAX_PLAN_LEGS || r.legs_mean < 1.0 {
+                    return Err(format!("dynamics.early.route_sampler: need legs_mean >= 1 and 1 <= legs_max <= {}", crate::filter::MAX_PLAN_LEGS));
+                }
+                if r.break_off_fractions.is_empty() || r.break_off_fractions.iter().any(|&f| !(f > 0.0 && f < 1.0)) || r.nominal_ground_speed_kt <= 0.0 {
+                    return Err("dynamics.early.route_sampler: break_off_fractions in (0, 1), nominal_ground_speed_kt > 0".into());
+                }
+                let lookup = RoutesConfig { share: 1.0, start_utc: r.start_utc.clone(), waypoints_csv: r.waypoints_csv.clone(), first: vec![r.prefix.clone()], then: vec![vec![]],
+                                            only: None, turn_backs: None, fly_by: None, track_legs: None, bank_angle_deg: None, fly_by_max_turn_deg: None };
+                let prefix = lookup.expand()?.1.remove(0);
+                if prefix.is_empty() {
+                    return Err("dynamics.early.route_sampler.prefix must name at least one fix".into());
+                }
+                let fixes = r.fixes()?.into_iter().map(|x| x.1).collect();
+                // legs_mean is the mean after truncation at legs_max (Pete: "mean 3, at most 8");
+                // solve for the untruncated geometric mean the sampler uses.
+                let truncated = |m: f64| {
+                    let q = 1.0 - 1.0 / m;
+                    (1..=r.legs_max).map(|k| f64::from(k) * (1.0 - q) * q.powi(k as i32 - 1)).sum::<f64>() / (1.0 - q.powi(r.legs_max as i32))
+                };
+                if r.legs_mean >= 0.5 * f64::from(r.legs_max + 1) {
+                    return Err(format!("dynamics.early.route_sampler.legs_mean must be below {} for legs_max {}", 0.5 * f64::from(r.legs_max + 1), r.legs_max));
+                }
+                let (mut lo, mut hi) = (1.0, 1e6);
+                if r.legs_mean > 1.0 {
+                    for _ in 0..200 {
+                        let mid = 0.5 * (lo + hi);
+                        if truncated(mid) < r.legs_mean { lo = mid } else { hi = mid }
+                    }
+                }
+                let sampler = flight::RouteSampler {
+                    prefix, prefix_end_unix_s: t(&r.prefix_end_utc)?, fixes, legs_mean: lo, legs_max: r.legs_max,
+                    break_off_probability: r.break_off_probability, break_off_fractions: r.break_off_fractions.clone(),
+                    fly_by_probability: r.fly_by_probability, max_course_change_deg: r.max_course_change_deg,
+                    phase2_until_unix_s: t(&r.phase2_until_utc)?, equator_continue_probability: r.equator_continue_probability,
+                    south_limit_deg: r.south_limit_deg, nominal_ground_speed_kt: r.nominal_ground_speed_kt,
+                };
+                Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes: vec![], turn_backs: r.turn_backs == Some(true),
+                    fly_by: r.prefix_fly_by == Some(true), track_legs: r.track_legs == Some(true), bank_deg: r.bank_angle_deg,
+                    fly_by_max_turn_deg: r.fly_by_max_turn_deg, allowed: None, sampler: Some(sampler) })
+            }
+            (None, routes) => routes,
         };
         Ok(flight::EarlyPhase {
             mach_range: self.mach_range,

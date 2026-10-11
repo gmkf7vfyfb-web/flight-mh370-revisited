@@ -97,6 +97,167 @@ pub struct RoutePrior {
     /// Restrict the draw to these route indices (uniformly among them), keeping their index
     /// numbers. For per-route runs whose evidence is combined afterwards. None: all routes.
     pub allowed: Option<Vec<u32>>,
+    /// Random route generation instead of the declared list (waypoint-family reset, Pete
+    /// 11 Oct 2026). With Some, `routes` must be empty; each particle draws its own plan.
+    pub sampler: Option<RouteSampler>,
+}
+
+/// One fix the route sampler may use, with the phase regions (bit 0: phase 1, bit 1: phase 2,
+/// bit 2: phase 3) it lies in.
+#[derive(Debug, Clone)]
+pub struct SamplerFix {
+    pub lat: f64,
+    pub lon: f64,
+    pub regions: u8,
+}
+
+/// Prior over waypoint routes (Pete's specification of 29 Sep, reset 11 Oct 2026). From the
+/// last `prefix` fix, a random number of legs (geometric with untruncated mean `legs_mean`,
+/// redrawn above `legs_max`; the config solves `legs_mean` from the truncated mean). Each leg goes to a fix drawn uniformly from the unused fixes of the current
+/// phase region that need a course change of at most `max_course_change_deg`: phase 1 for the
+/// first leg, phase 2 while the estimated time is before `phase2_until_unix_s`, phase 3 after.
+/// On each leg, with `break_off_probability`, the aircraft gives up that fix at a fraction of
+/// the leg drawn uniformly from `break_off_fractions` and turns toward the next drawn fix (or,
+/// on the last leg, leaves route flight there). Each fix it reaches is flown fly-by with
+/// `fly_by_probability`, else fly-over. The first leg that crosses the equator southbound ends
+/// route flight at the crossing with probability 1 - `equator_continue_probability`. No fix
+/// south of `south_limit_deg` is used. After the plan, the particle resumes its own mode.
+/// Times are estimated at `nominal_ground_speed_kt` from `prefix_end_unix_s`; they only assign
+/// phase regions.
+#[derive(Debug, Clone)]
+pub struct RouteSampler {
+    pub prefix: Vec<(f64, f64)>,
+    pub prefix_end_unix_s: f64,
+    pub fixes: Vec<SamplerFix>,
+    pub legs_mean: f64,
+    pub legs_max: u32,
+    pub break_off_probability: f64,
+    pub break_off_fractions: Vec<f64>,
+    pub fly_by_probability: f64,
+    pub max_course_change_deg: f64,
+    pub phase2_until_unix_s: f64,
+    pub equator_continue_probability: f64,
+    pub south_limit_deg: f64,
+    pub nominal_ground_speed_kt: f64,
+}
+
+/// A route drawn by [`RouteSampler`]: per leg, the target fix (index into the sampler's
+/// fixes), the break-off fraction (0 when the fix is reached; for an equator stop, the leg
+/// fraction at the crossing) and whether the fix is flown fly-by. `equator`: None if no leg
+/// crossed the equator, else whether route flight continued south of it. `waypoints` and
+/// `fly_by_mask` are the plan flown after the prefix.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SampledRoute {
+    pub fixes: Vec<u16>,
+    pub break_off: Vec<f64>,
+    pub fly_by: Vec<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub equator: Option<bool>,
+    pub waypoints: Vec<(f64, f64)>,
+    pub fly_by_mask: Vec<bool>,
+}
+
+/// The point a fraction `f` of the way along the great circle from `a` to `b` (degrees).
+fn great_circle_fraction(a: (f64, f64), b: (f64, f64), f: f64) -> (f64, f64) {
+    let v = |p: (f64, f64)| {
+        let (la, lo) = (p.0.to_radians(), p.1.to_radians());
+        [la.cos() * lo.cos(), la.cos() * lo.sin(), la.sin()]
+    };
+    let (u, w) = (v(a), v(b));
+    let dot = (u[0] * w[0] + u[1] * w[1] + u[2] * w[2]).clamp(-1.0, 1.0);
+    let omega = dot.acos();
+    if omega < 1e-12 {
+        return a;
+    }
+    let (k1, k2) = (((1.0 - f) * omega).sin() / omega.sin(), (f * omega).sin() / omega.sin());
+    let p = [k1 * u[0] + k2 * w[0], k1 * u[1] + k2 * w[1], k1 * u[2] + k2 * w[2]];
+    (p[2].atan2(p[0].hypot(p[1])).to_degrees(), p[1].atan2(p[0]).to_degrees())
+}
+
+impl RouteSampler {
+    /// Draw one route.
+    pub fn sample<R: Rng>(&self, rng: &mut R) -> SampledRoute {
+        let mut out = SampledRoute { fixes: vec![], break_off: vec![], fly_by: vec![], equator: None, waypoints: vec![], fly_by_mask: vec![] };
+        let n = self.prefix.len();
+        let mut pos = self.prefix[n - 1];
+        // Course arriving at the last prefix fix: the reverse of the initial bearing back.
+        let mut course = if n >= 2 { bearing_and_distance(pos, self.prefix[n - 2]).0 + PI } else { 0.0 };
+        let p_stop = 1.0 / self.legs_mean.max(1.0);
+        let legs = loop {
+            let mut k = 1u32;
+            while !rng.gen_bool(p_stop) {
+                k += 1;
+                if k > self.legs_max {
+                    break;
+                }
+            }
+            if k <= self.legs_max {
+                break k;
+            }
+        };
+        let mut t = self.prefix_end_unix_s;
+        let mut used = vec![false; self.fixes.len()];
+        let max_turn = self.max_course_change_deg.to_radians();
+        for leg in 0..legs {
+            let region = if leg == 0 { 1u8 } else if t < self.phase2_until_unix_s { 2 } else { 4 };
+            let candidates: Vec<usize> = (0..self.fixes.len())
+                .filter(|&i| {
+                    let f = &self.fixes[i];
+                    if used[i] || f.regions & region == 0 || f.lat < self.south_limit_deg {
+                        return false;
+                    }
+                    let (b, d) = bearing_and_distance(pos, (f.lat, f.lon));
+                    d > 5.0 && wrap_pi(b - course).abs() <= max_turn
+                })
+                .collect();
+            if candidates.is_empty() {
+                break;
+            }
+            let i = candidates[rng.gen_range(0..candidates.len())];
+            used[i] = true;
+            let target = (self.fixes[i].lat, self.fixes[i].lon);
+            let (_, dist) = bearing_and_distance(pos, target);
+            out.fixes.push(i as u16);
+            // Equator: the first southbound crossing may end route flight there.
+            if out.equator.is_none() && pos.0 >= 0.0 && target.0 < 0.0 {
+                let go_on = rng.gen_bool(self.equator_continue_probability);
+                out.equator = Some(go_on);
+                if !go_on {
+                    let (mut lo, mut hi) = (0.0, 1.0);
+                    for _ in 0..50 {
+                        let mid = 0.5 * (lo + hi);
+                        if great_circle_fraction(pos, target, mid).0 >= 0.0 { lo = mid } else { hi = mid }
+                    }
+                    out.break_off.push(hi);
+                    out.fly_by.push(false);
+                    out.waypoints.push(great_circle_fraction(pos, target, hi));
+                    out.fly_by_mask.push(false);
+                    break;
+                }
+            }
+            if rng.gen_bool(self.break_off_probability) {
+                let f = self.break_off_fractions[rng.gen_range(0..self.break_off_fractions.len())];
+                let point = great_circle_fraction(pos, target, f);
+                out.break_off.push(f);
+                out.fly_by.push(false);
+                out.waypoints.push(point);
+                out.fly_by_mask.push(false);
+                course = bearing_and_distance(point, target).0;
+                pos = point;
+                t += f * dist / self.nominal_ground_speed_kt * 3600.0;
+            } else {
+                let by = rng.gen_bool(self.fly_by_probability);
+                out.break_off.push(0.0);
+                out.fly_by.push(by);
+                out.waypoints.push(target);
+                out.fly_by_mask.push(by);
+                course = bearing_and_distance(target, pos).0 + PI;
+                pos = target;
+                t += dist / self.nominal_ground_speed_kt * 3600.0;
+            }
+        }
+        out
+    }
 }
 
 /// One drawn route.
@@ -105,6 +266,9 @@ pub struct EarlyRoute {
     pub index: u32,
     pub unix_s: f64,
     pub started: bool,
+    /// With `RoutePrior::sampler`: the particle's own drawn route (index is then 0).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sampled: Option<SampledRoute>,
 }
 
 /// Prior over a vertical excursion. Each draw: a descent from the particle's level starting
@@ -271,12 +435,16 @@ fn draw_early<R: Rng>(e: &EarlyPhase, p: &Parameters, from_ft: f64, mach: f64, r
         }
     }
     if let Some(r) = &e.routes {
-        if !r.routes.is_empty() && rng.gen_bool(r.share) {
+        if let Some(sampler) = &r.sampler {
+            if rng.gen_bool(r.share) {
+                rec.route = Some(EarlyRoute { index: 0, unix_s: r.unix_s, started: false, sampled: Some(sampler.sample(rng)) });
+            }
+        } else if !r.routes.is_empty() && rng.gen_bool(r.share) {
             let index = match &r.allowed {
                 None => rng.gen_range(0..r.routes.len() as u32),
                 Some(a) => a[rng.gen_range(0..a.len())],
             };
-            rec.route = Some(EarlyRoute { index, unix_s: r.unix_s, started: false });
+            rec.route = Some(EarlyRoute { index, unix_s: r.unix_s, started: false, sampled: None });
         }
     }
     rec
@@ -449,6 +617,10 @@ pub struct Guidance {
     /// Fly-by anticipation cap on the course change (degrees). None: FLY_BY_MAX_TURN_RAD (120).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub fly_by_max_turn_deg: Option<f64>,
+    /// Per-waypoint turn model (route sampler): with Some, fly-by applies at waypoint i only
+    /// where the mask is true; elsewhere the fix is flown over. None: `fly_by_bank_deg` alone.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_mask: Option<Vec<bool>>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -1504,10 +1676,19 @@ impl Aircraft {
         let Some(rec) = self.early.as_deref() else { return };
         if let Some(route) = rec.route.clone().filter(|r| !r.started && now >= r.unix_s) {
             if let Some(routes) = p.early.as_ref().and_then(|e| e.routes.as_ref()) {
-                let waypoints = routes.routes[route.index as usize].clone();
-                let fly_by_bank_deg = routes.fly_by.then_some(routes.bank_deg.unwrap_or(p.bank_angle_deg));
+                let (waypoints, fly_by_mask, fly_by_bank_deg) = match (&route.sampled, &routes.sampler) {
+                    (Some(sr), Some(sampler)) => {
+                        // Prefix fixes take the family-wide turn model; the drawn legs their own.
+                        let mut w = sampler.prefix.clone();
+                        let mut m = vec![routes.fly_by; w.len()];
+                        w.extend_from_slice(&sr.waypoints);
+                        m.extend_from_slice(&sr.fly_by_mask);
+                        (w, Some(m), Some(routes.bank_deg.unwrap_or(p.bank_angle_deg)))
+                    }
+                    _ => (routes.routes[route.index as usize].clone(), None, routes.fly_by.then_some(routes.bank_deg.unwrap_or(p.bank_angle_deg))),
+                };
                 let plan = Guidance { waypoints, after: AfterRoute::Free, turn_backs: routes.turn_backs, fly_by_bank_deg, track_legs: routes.track_legs,
-                                      bank_deg: routes.bank_deg, fly_by_max_turn_deg: routes.fly_by_max_turn_deg };
+                                      bank_deg: routes.bank_deg, fly_by_max_turn_deg: routes.fly_by_max_turn_deg, fly_by_mask };
                 self.set_guidance(plan, env, rng);
             }
             if let Some(r) = self.early.as_mut().and_then(|r| r.route.as_mut()) {
@@ -1646,8 +1827,9 @@ impl Aircraft {
                 let behind = error.abs() > PI / 2.0;
                 let overshoot_rule = g.plan.turn_backs && i > 0;
                 let leg_from = (g.plan.track_legs && i > 0).then(|| g.plan.waypoints[i - 1]);
+                let masked_out = g.plan.fly_by_mask.as_ref().is_some_and(|m| !m.get(i).copied().unwrap_or(false));
                 let lead_nm = match g.plan.fly_by_bank_deg {
-                    Some(bank_deg) if i + 1 < g.plan.waypoints.len() => {
+                    Some(bank_deg) if i + 1 < g.plan.waypoints.len() && !masked_out => {
                         let next_leg = bearing_and_distance(target, g.plan.waypoints[i + 1]).0;
                         let cap = g.plan.fly_by_max_turn_deg.map_or(FLY_BY_MAX_TURN_RAD, f64::to_radians);
                         let dpsi = wrap_pi(next_leg - bearing).abs().min(cap);
@@ -1911,6 +2093,72 @@ fn step_towards(value: f64, target: f64, max_step: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
+    /// Route sampler prior (waypoint-family reset, 11 Oct 2026): with fixes always available,
+    /// the leg count follows the truncated geometric law, break-off and fly-by are 50/50, the
+    /// break-off fractions are uniform over the declared set, no fix repeats, and the equator
+    /// decision is 50/50 among plans that cross it.
+    #[test]
+    fn route_sampler_prior_matches_its_specification() {
+        use rand::SeedableRng;
+        let mut fixes = Vec::new();
+        for la in -4..=8 {
+            for lo in 90..=96 {
+                fixes.push(SamplerFix { lat: f64::from(la) + 0.3, lon: f64::from(lo) + 0.2, regions: 7 });
+            }
+        }
+        let s = RouteSampler {
+            prefix: vec![(6.182222, 97.585556), (6.503889, 96.491111)], prefix_end_unix_s: 0.0, fixes,
+            legs_mean: 3.0, legs_max: 8, break_off_probability: 0.5, break_off_fractions: vec![0.2, 0.4, 0.6, 0.8],
+            fly_by_probability: 0.5, max_course_change_deg: 180.0, phase2_until_unix_s: 1e9,
+            equator_continue_probability: 0.5, south_limit_deg: -4.5, nominal_ground_speed_kt: 470.0,
+        };
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(7);
+        let n = 100_000;
+        let (mut legs, mut brk, mut drawn, mut by, mut reached, mut crossed, mut cont) = (0.0f64, 0.0f64, 0.0f64, 0.0f64, 0.0f64, 0.0f64, 0.0f64);
+        let mut frac = [0.0f64; 4];
+        for _ in 0..n {
+            let r = s.sample(&mut rng);
+            assert_eq!(r.fixes.len(), r.waypoints.len());
+            let mut seen = std::collections::BTreeSet::new();
+            assert!(r.fixes.iter().all(|f| seen.insert(*f)), "a fix repeats");
+            if let Some(c) = r.equator {
+                crossed += 1.0;
+                cont += f64::from(u8::from(c));
+                if !c {
+                    assert!(r.waypoints.last().unwrap().0.abs() < 1e-6, "equator stop not at the crossing");
+                    continue;
+                }
+            }
+            legs += r.fixes.len() as f64;
+            for (k, &b) in r.break_off.iter().enumerate() {
+                drawn += 1.0;
+                if b > 0.0 {
+                    brk += 1.0;
+                    frac[((b * 5.0).round() as usize) - 1] += 1.0;
+                } else {
+                    reached += 1.0;
+                    by += f64::from(u8::from(r.fly_by[k]));
+                }
+            }
+        }
+        let p: f64 = 1.0 / 3.0;
+        let expect: f64 = (1..=8).map(|k| k as f64 * p * (1.0 - p).powi(k - 1)).sum::<f64>() / (1.0 - (1.0 - p).powi(8));
+        let kept = n as f64 - (crossed - cont);
+        let mean_legs = legs / kept;
+        eprintln!("legs {mean_legs:.3} (truncated geometric {expect:.3}), break-off {:.3}, fly-by {:.3}, equator crossed {crossed} continued {:.3}", brk / drawn, by / reached, cont / crossed);
+        let _ = mean_legs;
+        // Plans that stop at the equator are cut short, and longer plans cross it more often, so
+        // the leg-count law is checked with route flight always continuing past it.
+        let always = RouteSampler { equator_continue_probability: 1.0, ..s.clone() };
+        let mean_all = (0..n).map(|_| always.sample(&mut rng).fixes.len() as f64).sum::<f64>() / n as f64;
+        eprintln!("legs, never stopping at the equator: {mean_all:.3}");
+        assert!((mean_all - expect).abs() < 0.03, "{mean_all} vs {expect}");
+        assert!((brk / drawn - 0.5).abs() < 0.01 && (by / reached - 0.5).abs() < 0.01);
+        let tot: f64 = frac.iter().sum();
+        assert!(frac.iter().all(|&c| (c / tot - 0.25).abs() < 0.01), "{frac:?}");
+        assert!(crossed > 1000.0 && (cont / crossed - 0.5).abs() < 0.03);
+    }
+
     use super::*;
     use environment::CalmAir;
     use rand::SeedableRng;
@@ -2372,7 +2620,7 @@ mod tests {
         let fly = |turn_backs: bool| {
             let mut rng = ChaCha8Rng::seed_from_u64(6);
             let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None };
+            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None };
             a.set_guidance(plan, &CalmAir, &mut rng);
             let (mut near_nilam, mut near_mekar_after_nilam, mut reached_nilam) = (f64::MAX, f64::MAX, false);
             for k in 1..=240 {
@@ -2405,7 +2653,7 @@ mod tests {
         let fly = |fly_by_bank_deg: Option<f64>, track_legs: bool| {
             let mut rng = ChaCha8Rng::seed_from_u64(6);
             let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-            let plan = Guidance { waypoints: vec![NILAM, ANOKO, ISBIX], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 185.0 }, turn_backs: true, fly_by_bank_deg, track_legs, bank_deg: None, fly_by_max_turn_deg: None };
+            let plan = Guidance { waypoints: vec![NILAM, ANOKO, ISBIX], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 185.0 }, turn_backs: true, fly_by_bank_deg, track_legs, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None };
             a.set_guidance(plan, &CalmAir, &mut rng);
             let leg = bearing_and_distance(ANOKO, ISBIX).0;
             let (mut near_anoko, mut max_xt, mut late_xt) = (f64::MAX, 0.0_f64, 0.0_f64);
@@ -2439,7 +2687,7 @@ mod tests {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(6);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None };
+        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None };
         a.set_guidance(plan, &CalmAir, &mut rng);
         let (mut near_nilam, mut near_igogu) = (f64::MAX, f64::MAX);
         for k in 1..=240 {
@@ -2461,7 +2709,7 @@ mod tests {
         let mut rng = ChaCha8Rng::seed_from_u64(7);
         let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
         let dest = (-45.0, 104.0);
-        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None }, &CalmAir, &mut rng);
         let (_, d0) = bearing_and_distance((a.lat, a.lon), dest);
         let mut flown = 0.0;
         for k in 1..=120 {
@@ -2481,7 +2729,7 @@ mod tests {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(8);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticTrack, &p, &CalmAir, &mut rng);
-        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None }, &CalmAir, &mut rng);
         a.propagate(3.0 * 3600.0, &p, &CalmAir, &mut rng);
         assert!(a.guidance.is_none());
         assert_eq!(a.mode, Mode::MagneticTrack);
@@ -2520,7 +2768,7 @@ mod tests {
         }
         let mut guided = Aircraft::sample(&start_on_n571(), Mode::TrueHeading, &p, &CalmAir, &mut rng);
         let after = AfterRoute::Destination { lat: -30.0, lon: 95.0 };
-        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None }, &CalmAir, &mut rng);
+        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None }, &CalmAir, &mut rng);
         let mut on_route = guided.clone();
         on_route.propagate(300.0, &p, &CalmAir, &mut rng);
         guided.propagate(1500.0, &p, &CalmAir, &mut rng);

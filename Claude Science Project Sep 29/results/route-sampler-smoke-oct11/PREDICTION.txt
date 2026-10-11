@@ -1,0 +1,6 @@
+2026-10-11T23:39:35Z core, route-sampler smoke (2 seeds x 420k, full evidence stack as run H minus waypoints.toml):
+1. Mechanics: runs to completion; route_plans.npy row-aligned with final.npy; trace.npy 2000 x 15 x 7.
+2. Prior plan stats (checked in a unit test): legs mean about 2.6 (geometric mean 3 truncated at 8 by redraw gives about 2.84; fewer when no candidate fix remains), break-off share 0.50, fly-by share of reached fixes 0.50.
+3. Posterior: weight concentrates on plans whose southbound leg leaves near the 94.42E boundary (SAMAK/IGOGU/ANOKO/NOPEK area) toward ISBIX/KETIV/ODIRU-like southbound fixes; BULVA-like ends score low (as in run H).
+4. Not converged at this scale (discrete space large); split-half not quoted.
+5. Waypoint-family log evidence within a few nats of run H's 6-route family (-122.2), likely lower, because most prior mass is on routes the data reject.
