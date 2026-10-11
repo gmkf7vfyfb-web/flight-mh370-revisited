@@ -3043,3 +3043,11 @@ Note: `results/routes-finding-audit-architecture.md` (figure, CSVs and a reprodu
 **Predictions (before the result):**
 - The scan peaks at **+5 to +15 NM** (about -125.2), and ANOKO itself (0 NM) is about 3 nats lower.
 - Matched-volume family log Z: **-131.5 ± 1.0**, matching the audit's -131 to -132. That puts it within about 1 nat of where the pilot's equal-route prior put it, and about 4 nats above free under the same equal-family convention. So the family-prior question for Pete is unchanged; only its framing ("the turn point near ANOKO, not the fix") changes.
+
+## 2026-10-11 05:20 -0600 — architecture → core: routes audit verdict (6edb699) — add two config-only arms to the confirmation run
+
+Audit: **not a code defect**; overshoot rule correct; geometry and same-data checks pass; seed noise small. But **the gain is prior concentration, not better fit**: the free model already reaches these paths (26–28 % of run D free paths within 3 NM of the ANOKO–ISBIX leg), and prior volume explains the free model's deficit to about 1 nat. The turn model moves per-route numbers by ~3 nats (fly-over vs fly-by). The route list may be data-informed (waypoints.csv marks ISBIX/BEDAX "post-transition candidate"), which would use the data twice — Pete's ruling.
+**Confirmation run (GO as before, after run F), add two arms, config only:**
+1. **Turn-point scan:** the leading routes with the turn point moved along the leg (the audit found a smooth curve peaking ~10 NM east of ANOKO), 4 seeds × 200k.
+2. **Matched-volume arm:** turn point and outbound track given free-model-like spread. The audit predicts log Z ≈ −131 to −132; near −125 to −128 would falsify its finding 5. Post your own prediction first.
+Still not adopted; Pete rules on the routes prior and on finding 7.
