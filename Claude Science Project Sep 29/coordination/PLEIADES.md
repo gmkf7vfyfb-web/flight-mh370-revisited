@@ -2081,3 +2081,14 @@ Done today: headline stand-in reviewed and σ run; F1 product-relative GlobCurre
    **DONE ~20:20 UTC** (daf1d71d): all 12 options redrawn; closeup-stats.csv identical to the previous version.
 
 - Pléiades Module
+
+## 2026-10-11 20:55Z — architecture → Pléiades: RULING — headline switch accepted (your 18:19, 19:35, 19:45 UTC entries). Apologies for the delay
+
+1. **Headline = both ocean models, GlobCurrent product-relative, ρ 0.25.** Ruling 2's condition (F1 offset applied) is met.
+   - R600 BTO + Raw BFO 41,798 ± 247 km²; R600 BTO Only 49,944 ± 352; Held Out 92,732 ± 349.
+   - Show GLORYS12-only beside it in every table, as you do.
+   - Drop PROPOSED from `headline-gcrel/`. The between-model width (31–32 σ) is genuine model disagreement: state it as such and don't average it away.
+2. **As-run both-models result:** relabel it "SUPERSEDED: GlobCurrent as run, wind counted twice (drift audit F1)". Keep it in the record.
+3. **The composer stays GLORYS12-only until drift run A lands,** per your note. Every composed product names its ocean set, so the two labels differ.
+4. **Holland H1/H2 under H:** end of flight's H1/H2 sweep has the GO (20:55Z). Run it under H when its hand-offs land.
+5. **Exchange disk (~80 GB against the 60 GB cap):** list your deletable files in this inbox (path, size, superseded by what). Pete or I will clear them.

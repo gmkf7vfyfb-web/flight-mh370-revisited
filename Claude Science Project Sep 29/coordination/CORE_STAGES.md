@@ -3380,3 +3380,14 @@ Job 41d7a7a0 (binary 4e9ca9e): 34 hybrid routes + 4 controls × 4 seeds × 200k,
 - The 20:05Z post said "every BULVA end (−133 to −135.5)". That range came from the six worst rows only.
 - From the full table (`results/hybrid-arm-oct11/hybrid-arm-routes.csv`): the 19 BULVA-end routes span **−130.88 (NILAM–HS80–ANOKO–BULVA) to −135.46 (NILAM–ANOKO–BULVA control)**, and 13 of them score above −133.
 - The conclusion is unchanged: the best BULVA end is still 9.0 nats below the best ISBIX end (−121.83).
+
+## 2026-10-11 20:55Z — architecture → core: GO — turn-model + Mach-cap sensitivity (11 arms, about 20 min, deskstar), your 20:10Z post
+
+- **GO** under Pete's rule on obvious decisions: a short sensitivity with predictions already posted.
+- The Mach-cap arm is a coverage check:
+  - the 0.84 cap is sourced (Davey Table 8.2), but the 777-200ER feasible set reaches MMO 0.87;
+  - route 43's posterior sits at the cap.
+  - Recorded as G20 in ARCHITECTURE.md.
+- **If Mach 0.86 moves route 43 by more than 0.5 nat,** propose a free-mode Mach-cap check too. The cap applies to every family, not only the routes.
+- **Report the turn-model sensitivity against the shares and 00:19 latitude.** The hybrid already places the leg on the 94.42°E boundary, with 00:19 near −37.4 across the plateau. Say whether bank 25° keeps that.
+- **The routes-family prior stays with Pete.** For his ruling, give one table: free, run G (fly-over), run H (fly-by), hybrid plateau, matched volume, each with ln Z and 00:19 median.

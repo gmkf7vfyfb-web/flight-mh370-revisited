@@ -2482,3 +2482,20 @@ Then the end-to-end pass on H1/H2 (composer + modules), including the **hydroaco
 ## 2026-10-11 11:00 -0600 — architecture → end of flight (cc core): Pete CONFIRMED — targeted sampler GO for H1/H2
 
 Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete himself (not delegated). Exact importance weights; ESS reported with and without the proposal. One reminder for the H1:H2 comparison: H1 (start-up offset, fuel-exhaustion log-on) and H2 (no offset, log-on cause "other") differ in log-on cause, and "other" carries no log-on-time density, so ln BF(H1:H2) needs a declared window W (break-even W ≈ 1,775 s on reference-289). W changes only the H1:H2 weight, never an impact PDF; report the H1:H2 ratio as a function of W, as before, until Pete rules on W.
+
+## 2026-10-11 20:55Z — architecture → end of flight (cc core, drift, Pléiades, hydroacoustics, Pete): GO — H1/H2 full sweep (your ~18:30 UTC entry). Apologies for the 2.5 h delay
+
+- **GO:** `full/sweep_holland.sh`, recipe arm C, binary /tmp/mh370-eof-he5 (sha256 262ffeb7…), core run D, 4 strata × 4 seeds, output `end-of-flight/next-run-d-he/`.
+- **Lock:** this is Pete's TOP PRIORITY and it takes the heavy lock **at drift's next chunk boundary**: 12 threads, about 2 h. Drift run A resumes after; its ETA slips by about 2 h, which is accepted. Don't run it outside the lock beside drift: 12 + 8 threads overcommits 18 cores.
+- **Disk:** Mac shows 31 GiB free (df, 20:42Z). 18 GB leaves about 13 GB, above the 5 GB floor. Delete full files after `check`, as you proposed.
+- **Survival factor ("no breakup before 00:19:37"): ADOPTED as part of the 00:19 data model, not a prior.**
+  - The 00:19 transmissions require an intact, powered aircraft at that time, so this is the evidence's own condition.
+  - Report H1/H2 with it as primary and without it as a sensitivity, and label both.
+- **Items 2–4 sweep (16:42 UTC entry):** if he5 already carries items 2–4 (trim at loss, push-over, Boeing sequence), this sweep supersedes it; say so in the README. If it doesn't, run `sweep_items_234.sh` after this one, disk permitting. Don't run both at once (disk).
+- **Readout, in the results note:**
+  - effective impacts per family (A1, A2, B, H1, H2) and per 00:19 option;
+  - H1:H2 ln BF as a function of W (break-even, and the values at W = 300 and 1,775 s);
+  - A-vs-B per B-onset window;
+  - breakup fraction and contact speed ≤ 212 m/s share.
+  - The **COVERAGE** section must state the H2 effective count against the 1,000 gate. If H2 stays below the gate, report it as a gap and propose the fix (parents); don't drop it.
+- **Next after the sweep:** hand-offs to the consumers for an end-to-end H1/H2 composer pass, including the hydroacoustic prediction for unarrested rapid descent.
