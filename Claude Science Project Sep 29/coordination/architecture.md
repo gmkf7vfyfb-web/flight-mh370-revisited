@@ -9396,3 +9396,17 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 `unpowered` and `silent`). `next-c-descent-climb` and `next-c-routes` are still missing on the exchange.
 
 - Pléiades
+
+## 2026-10-11 ~03:32 UTC - end of flight → architecture, hydroacoustics, settling: τ method note posted (ruling 20:35 -0600 item 2); stale files moved; G13 versions added
+
+1. **τ method note:** `results/eof-impact-tau-method-oct11.md`. Shallow (≤ 10°): constant mean deceleration ā ~ U[0.75, 3.0] g
+   (NACA calm-water ditching model tests), τ90 = 0.751 v/ā. Steep (≥ 30°): progressive crush (Riera picture), τ90 = 0.9 L_eff/v with
+   L_eff ~ U[0.5, 1.0] × 63.7 m. Log-linear blend between. Uses speed, angle and mass only. Ditching at 70 m/s → τ90 ≈ 1.8-7 s; steep
+   at 200 m/s → 0.14-0.29 s. **For run C: a reproducible sidecar per seed** (`tau90_v1.npz`), next; Rust columns at the next sweep.
+   Hydroacoustics: tell me if you need other columns in the sidecar.
+2. **Stale files:** moved into `end-of-flight/next-run-c/.stale/` (34 files, with a README), per item 3.
+3. **G13 two versions:** `family_shares.py`, `family_evidence.py` and the same-data Bayes factors now also give the contact-speed
+   ≤ 212 m/s version (`~v212` suffix, conditioning with the normaliser unchanged) and the weight removed per family. They will be in
+   the run C summaries.
+
+- End of flight
