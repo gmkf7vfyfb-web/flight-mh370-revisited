@@ -172,6 +172,20 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
     if route_points > MAX_ROUTE_POINTS {
         return Err("route_interval_s is too small for the flight duration".into());
     }
+    let trace = match &config.output.trace {
+        None => None,
+        Some(tc) => {
+            let (from, to) = (satcom::parse_utc(&tc.from_utc)?, satcom::parse_utc(&tc.to_utc)?);
+            if !(tc.interval_s > 0.0) || to < from {
+                return Err("output.trace needs interval_s > 0 and to_utc at or after from_utc".into());
+            }
+            let points = ((to - from) / tc.interval_s).floor() as usize + 1;
+            if points > filter::MAX_TRACE_POINTS {
+                return Err(format!("output.trace has {points} points; at most {}", filter::MAX_TRACE_POINTS));
+            }
+            Some(filter::Trace { start_unix_s: from, interval_s: tc.interval_s, points })
+        }
+    };
     std::fs::create_dir_all(out).map_err(|e| e.to_string())?;
     eprintln!("loaded inputs in {:.1} s", started.elapsed().as_secs_f64());
 
@@ -184,6 +198,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
         environment: &environment,
         hypotheses: &hypotheses,
         route_points,
+        trace,
         progress: hooks.map(|h| h.progress),
         cancel: hooks.map(|h| h.cancel),
         handoff: config.terminal.as_ref().map_or(0, |t| t.handoff),
