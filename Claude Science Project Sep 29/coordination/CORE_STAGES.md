@@ -2927,3 +2927,35 @@ Run E (job 7506176a, build 861e440, 08:13-09:24 UTC, exit 0, peak 19.9 GB): run 
   - Median at 00:19 within 0.1° of run C's -36.90.
   - Reasoning: quarter scale gave +0.035 for ad50, but run E showed that quarter-scale gains need not carry over. ad50 does not touch resampling between epochs, which is where run E's damage most likely came from. So I expect no harm, and I do not claim a gain.
   - If F is clearly below C (more than 0.015 lower in most of the 28 subsets), adaptive staging itself is harmful at full scale, and equal stages stay.
+
+## 2026-10-11 ~10:00 UTC - core → architecture, Pete (cc end of flight and all chain modules): route pilot with turn-backs flown. ALL 48 routes now distinct, and the turn-back routes dominate. PROVISIONAL: needs Pete's ruling before any use
+
+Job 1280fe14 (build c60221ca): the same pilot as before (48 single-route runs, 200k particles, seeds 1-2, run C stack, ad50), with `turn_backs = true`. All exit 0. Table: `results/route-pilot-oct11/route-pilot-turnbacks-evidence.csv`.
+
+**1. The fix works.** 48 of 48 routes now behave distinctly (no identical groups, against 14 before). The 14 routes the rule does not touch (NOPEK's continuations, ANOKO-BEDAX and the open-ended first legs) are **bit-identical** to the first pilot.
+
+**2. The routes the old rule skipped carry almost all the evidence.**
+
+| Route | log Z (seed 1 / seed 2) | P(route), equal priors | Median at 00:19 |
+|---|---|---|---|
+| 11 NILAM-ANOKO-ISBIX | -128.47 / -128.48 | **0.470** | -36.68 |
+| 10 NILAM-ANOKO-BULVA | -128.65 / -128.42 | **0.447** | -36.83 |
+| 3 NILAM-IGOGU-ISBIX | -130.17 / -130.70 | 0.069 | -36.31 |
+| 2 NILAM-IGOGU-BULVA | -132.08 / -132.42 | 0.011 | -35.11 |
+| 27 NILAM-NOPEK-ISBIX (unchanged) | -135.60 / -135.41 | 0.0002 | -37.23 |
+
+- The 34 formerly skipped routes together hold 0.9996.
+- The seed spread is small for the leaders (0.008 and 0.23 nats).
+- **Routes-family log-evidence:** -139.33 → **-131.59** (+7.7 nats).
+- **Routes-family median at 00:19:** -36.74.
+
+**3. What it would imply (not adopted).** With equal family priors and run D's evidence for the others: P(routes) **0.978**, free 0.013, Davey dynamics 0.005, descent-climb 0.003. Against run D's 0.019 / 0.594 / 0.235 / 0.153, this would make a navigated route (west along N571 past NILAM, then a turn back south toward ISBIX/BULVA) the dominant explanation of 18:22-19:41, and would move the mixture median toward -36.7.
+
+**Why this needs Pete before anything uses it.**
+- **(a) Prior structure.** The routes family has 1/4 of the prior, spread uniformly over 48 named routes. A route that fits gets its whole share at no manoeuvre cost, while the free model spreads the same paths over all possible turns: the Occam factor. Davey has no routes family, so there is no precedent; the family prior and the per-route prior are modelling choices.
+- **(b) Credibility of turn-backs as flight plans.** The ruling chose option (a) so that declared routes are flown as named. Whether ANOKO-ISBIX and ANOKO-BULVA (turning back south after ANOKO) are credible hypotheses is a domain judgement, not a sampling one. If they are not, option (b) (drop them) applies to those pairs.
+- **(c) Comparability.** The pilot is 200k particles per route, 2 seeds, ad50. The other families' evidence comes from run D (3.5-7M, run C sampler, 4 seeds). Evidence is unbiased under both samplers, but the turn-back routes have only 2 seeds. A confirmation run should precede any adoption.
+
+**Proposal (needs a go).** A routes run with `turn_backs = true`, restricted (`only`) to the routes above 0.1 % (10, 11, 3, 2, 19, 43), equal allocation of about 500k each, seeds 1-8, run C sampler. About 1 h. It gives converged per-route densities and an 8-seed evidence estimate for the family. Also offered: a sensitivity of P(family) to the family prior (for example, routes at 1/4 against 1/10).
+
+Run F (ad50 only) is running (job 69d3ee65; ETA about 11:15 UTC).
