@@ -2611,3 +2611,31 @@ I first copied every summary.json, run.json, diagnostics.json and log of the bas
 On core's side alone, about **48 GB** of hpc/ and engine/runs is movable now, plus about 59 GB in the (a)/(b) clone pairs once end of flight confirms. I will also delete run C's copy on deskstar (23 GB) once the sampler smoke is done, because it is verified locally.
 
 **Backlog status: items 0, 1 (code), 3, 4, 5 and 6 are done.** Item 2's smoke is running (job fa64accf). Next: the smoke result, then run D on Pete's go.
+
+## 2026-10-11 ~03:35 UTC - core → architecture (for Pete): item 2 result. Adaptive tempering helps a little and not enough; no full run proposed
+
+Job fa64accf (6b8937c7): run C stack at quarter scale, seeds 1-8, the same six tempered epochs. All six arms exit 0. Table: `results/sampler-smoke-oct11/sampler-smoke-arms.csv`; script beside it. Split-half is the mean over all 35 balanced partitions (range in brackets).
+
+| Arm | free split-half | routes split-half | Stages per tempered epoch | Worst stage ESS | 18:01 origins left at 00:19 (free / routes) | SD of m0011 evidence increment (free / routes) |
+|---|---|---|---|---|---|---|
+| e16 (run C sampler) | 0.768 (0.668-0.845) | 0.941 (0.911-0.959) | 16 | 0.18 / 0.34 | 97 / 123 | 0.438 / 0.444 |
+| ad50 | **0.804** (0.692-0.888) | 0.924 (0.888-0.947) | 4.7 / 5.0 | 0.25 | 129 / 130 | 0.411 / 0.396 |
+| ad80 | 0.793 (0.666-0.896) | 0.944 (0.925-0.959) | 12.5 | 0.41 | 153 / 142 | 0.414 / 0.302 |
+
+**Against the prediction I posted before the run:**
+- **Split-half (predicted +0.005 to +0.015 for free).** Free rose more: +0.035 for ad50 and +0.025 for ad80. Over the 28 six-seed subsets, ad50 is ahead of e16 in 26 (mean +0.036, range -0.011 to +0.066); the subsets overlap, so this is not independent evidence. **Routes did not rise:** ad50 -0.017, ad80 +0.003.
+- **m0011 evidence spread (predicted a fall of 30 % or more).** Not met for free (-6 %); met for routes with ad80 (-32 %).
+- **Ancestry.** It improves consistently: 30-55 % more 18:01 origins survive to 00:19 in free.
+- **Stop criterion.** Both gains are smaller than the partition-to-partition spread (0.15-0.2 wide), which was my stated stop rule. So **I do not propose a full run on adaptive tempering alone.** ad50 does the same work with about 5 stages instead of 16, so it can replace the equal schedule cheaply in any later run; it is not a convergence fix.
+- **Timings.** Wall time per seed is not comparable between arms: the two lanes shared the machine with different neighbours (ad50 free ran beside two routes arms).
+
+**A finding that changes the diagnosis.** Routes at quarter scale agree **better** (0.941) than run C's routes at full scale (0.850), on the same seeds 1-8. Free behaves the normal way (0.768 at quarter scale, 0.918 at full). The likely reason is rare high-evidence paths: a larger population finds them in some seeds and not in others, so replicate disagreement grows with N until such paths are found in every seed. If that is right, the remedy is to explore those paths deliberately, not to add stages:
+1. **Fewer resamples.** A lower `resample_ess_fraction` (0.5 → 0.2) keeps more distinct paths through m2041-m2241.
+2. **Pooling across seeds.** A mode-weight estimate pooled over the seeds before the per-seed densities are formed. This is a change to how the result is reported, not to the sampler, and needs a ruling.
+3. **Find the paths.** Check directly which routes and early families the high-evidence seeds of run C routes hold that the others lack. This is cheap: run C's final.npy and early.npy are local. **I will do it next**, before proposing any further run.
+
+**Status:**
+- **Item 2:** smoke done. No full run proposed. Next: the rare-path check (option 3).
+- **Item 1:** run D submitted to deskstar (run C configs, seeds 1-4, look-ahead oversample 50; gates in the job). It is waiting at the submission approval.
+- **Items 3-6:** done (above).
+- **Question for architecture:** is composer request C (the Rust runner stage) still wanted, or is the composer stand-in's own pipeline now the route? I will not start it without a yes, because it touches `crates/compose`, which the stand-in edited at 23:20.
