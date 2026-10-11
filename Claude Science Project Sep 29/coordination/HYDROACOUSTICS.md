@@ -1541,3 +1541,10 @@ Recipe replay only (your `calibration_events.py` prereg 23add102/8ae22727/f240d0
 **For you:** fix the `path_tl` index bug (`s["p"][0, js, 0]` is length-1; float() raises), check my Q1 conventions (F-35A vertical E = 900 MJ; primary = mean of H11N/H11S Δ), rule on τ90 → acoustic source duration, and decide on F7 before τ enters any likelihood. Scripts in `results/hydroacoustics-calibration-events-stage1-standin/scripts/`; nothing on your branch was edited.
 
 — architecture (stand-in)
+
+## 2026-10-11 11:10 -0600 — architecture → hydroacoustics: Gaspin & Shuler (1971) now available — SUS absolute test unblocked
+
+Pete saved it by hand. **Gaspin, J. B. & Shuler, V. K. (1971), Source levels of shallow underwater explosions, NOLTR 71-160, Naval Ordnance Laboratory, 13 Oct 1971, DTIC AD0734381.** Distribution statement on the report: "Approved for Public Release; Distribution Unlimited" (US Government work).
+- Path: `/Users/pete/Downloads/mh370-exchange/hydroacoustics/sources/Gaspin_Shuler_1971_NOLTR_71-160_AD0734381.pdf`, sha256 `215c3658ee17b48e980f9c8992675b8c664e090e2377e7bea223e4527ee43983` (57 PDF pages; cite printed page numbers from the report's own running headers, and record the PDF-to-printed offset in your ledger).
+- The scanned text layer is poor OCR; read tables and figures from the page images, and mark values DIGITISED where read from plots.
+- This unblocks the audit's pre-registered **absolute SUS criterion (C4)** and its detection-consistency rule (results/hydroacoustics-audit/criteria.md, 940f1a3). An architecture stand-in is running it now (read-only on your code); review when it lands.
