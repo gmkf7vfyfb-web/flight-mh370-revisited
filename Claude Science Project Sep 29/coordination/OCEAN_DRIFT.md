@@ -1393,3 +1393,14 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - pass 1 used your run C export (GLORYS12 h50, sha 32/32). Not-computed weight 0.17-0.28 per seed (R600 BTO Only) is the largest single sensitivity (Gx: 90 % area −34 %). Your factor's split-half fails in routes (Held Out 0.115, Raw BFO 0.128 nat). Chain marker touched 05:52:12 UTC by the stand-in.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-11 ~10:20 UTC - debris drift: run A timing, GlobCurrent chunk 1 of 8 done
+
+- 7,486 s (2.08 h), 08:09-10:17 UTC (lock wait 07:44-08:09); 4.17e6 particle-steps/s. 96 released, 96 scored at 50 km,
+  0 unresolved. Band 38.7-36.2 S: 58 planned, 38 extension nodes.
+- Split-half noise 1.23 (robust 0.86); median min n_eff 1.0; 18 nodes with zero-environment fraction > 0. Interim, not evidence.
+- On the 58 planned nodes, the windage-corrected GlobCurrent minus GLORYS12 has mean +0.07 (as run: +2.56) and SD 1.75 (as run 1.46);
+  the mean bias in this band is removed, as in the smoke. Within-band correlation is about 0 for both (the band's spread is mostly noise).
+- Chunk 1 ran 1.7 times longer than chunk 0, so the ETA moves to about 12 Oct 10:00-12:00 UTC if later chunks are as slow.
+
+- Ocean Drift Module
