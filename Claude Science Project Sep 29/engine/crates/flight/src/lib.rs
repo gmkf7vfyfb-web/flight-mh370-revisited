@@ -84,6 +84,8 @@ pub struct RoutePrior {
     pub share: f64,
     pub unix_s: f64,
     pub routes: Vec<Vec<(f64, f64)>>,
+    /// Fly turn-back continuations (`Guidance::turn_backs`).
+    pub turn_backs: bool,
     /// Restrict the draw to these route indices (uniformly among them), keeping their index
     /// numbers. For per-route runs whose evidence is combined afterwards. None: all routes.
     pub allowed: Option<Vec<u32>>,
@@ -410,6 +412,15 @@ pub struct Guidance {
     pub waypoints: Vec<(f64, f64)>,
     /// What the aircraft does after the last waypoint.
     pub after: AfterRoute,
+    /// Overshoot capture (architecture ruling 11 Oct 2026, routes prior defect): from the second
+    /// waypoint on, a fix behind the aircraft counts as reached only once the leg toward it has
+    /// begun (the fix was within 90 degrees of the control angle at some time since the previous
+    /// capture). Before that the aircraft turns toward it by the shorter way, with the model's
+    /// own turn dynamics (standard rate up to the bank limit). The first waypoint keeps the
+    /// original rule: the aircraft is taken to be on its leg toward it at the route's start.
+    /// False keeps the original rule throughout, under which a turn-back fix is skipped at once.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub turn_backs: bool,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -437,6 +448,9 @@ pub struct GuidanceState {
     pub phase: Phase,
     /// The autopilot mode the particle was drawn with, resumed by `AfterRoute::Free`.
     pub free_mode: Mode,
+    /// With `Guidance::turn_backs`: whether the leg toward the current waypoint has begun.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub leg_engaged: bool,
 }
 
 /// A waypoint counts as reached within this distance (or once it is behind the aircraft).
@@ -1457,7 +1471,7 @@ impl Aircraft {
         if let Some(route) = rec.route.clone().filter(|r| !r.started && now >= r.unix_s) {
             if let Some(routes) = p.early.as_ref().and_then(|e| e.routes.as_ref()) {
                 let waypoints = routes.routes[route.index as usize].clone();
-                self.set_guidance(Guidance { waypoints, after: AfterRoute::Free }, env, rng);
+                self.set_guidance(Guidance { waypoints, after: AfterRoute::Free, turn_backs: routes.turn_backs }, env, rng);
             }
             if let Some(r) = self.early.as_mut().and_then(|r| r.route.as_mut()) {
                 r.started = true;
@@ -1555,7 +1569,7 @@ impl Aircraft {
         let free_mode = self.mode;
         self.enter_mode(Mode::TrueTrack, env);
         self.next_turn = f64::INFINITY;
-        self.guidance = Some(Box::new(GuidanceState { plan, phase: Phase::Route(0), free_mode }));
+        self.guidance = Some(Box::new(GuidanceState { plan, phase: Phase::Route(0), free_mode, leg_engaged: false }));
         self.steer(env, rng);
     }
 
@@ -1592,9 +1606,16 @@ impl Aircraft {
             let (bearing, distance_nm) = bearing_and_distance((self.lat, self.lon), target);
             let error = wrap_pi(bearing - self.control - self.control_deviation);
             if let Phase::Route(i) = g.phase {
-                if distance_nm < CAPTURE_NM || error.abs() > PI / 2.0 {
-                    self.guidance.as_mut().unwrap().phase = Phase::Route(i + 1);
+                let behind = error.abs() > PI / 2.0;
+                let overshoot_rule = g.plan.turn_backs && i > 0;
+                if distance_nm < CAPTURE_NM || (behind && (!overshoot_rule || g.leg_engaged)) {
+                    let gs = self.guidance.as_mut().unwrap();
+                    gs.phase = Phase::Route(i + 1);
+                    gs.leg_engaged = false;
                     continue;
+                }
+                if overshoot_rule && !behind && !g.leg_engaged {
+                    self.guidance.as_mut().unwrap().leg_engaged = true;
                 }
             }
             if error.abs() < DIRECT_CORRECTION_RAD {
@@ -2274,12 +2295,41 @@ mod tests {
         }
     }
 
+    /// Routes prior defect (11 Oct 2026): MEKAR lies behind the aircraft at NILAM. Under the
+    /// original rule it is skipped at once; with `turn_backs` the aircraft turns back and flies it.
+    #[test]
+    fn a_turn_back_fix_is_skipped_or_flown_by_the_capture_rule() {
+        let p = busy();
+        let fly = |turn_backs: bool| {
+            let mut rng = ChaCha8Rng::seed_from_u64(6);
+            let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
+            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs };
+            a.set_guidance(plan, &CalmAir, &mut rng);
+            let (mut near_nilam, mut near_mekar_after_nilam, mut reached_nilam) = (f64::MAX, f64::MAX, false);
+            for k in 1..=240 {
+                a.propagate(k as f64 * 15.0, &p, &CalmAir, &mut rng);
+                let dn = bearing_and_distance((a.lat, a.lon), NILAM).1;
+                near_nilam = near_nilam.min(dn);
+                reached_nilam |= dn < CAPTURE_NM + 0.5;
+                if reached_nilam {
+                    near_mekar_after_nilam = near_mekar_after_nilam.min(bearing_and_distance((a.lat, a.lon), MEKAR).1);
+                }
+            }
+            (near_nilam, near_mekar_after_nilam)
+        };
+        let (n0, m0) = fly(false);
+        let (n1, m1) = fly(true);
+        assert!(n0 < CAPTURE_NM + 0.5 && n1 < CAPTURE_NM + 0.5, "NILAM {n0} {n1}");
+        assert!(m0 > 20.0, "original rule should skip MEKAR, came within {m0} NM");
+        assert!(m1 < CAPTURE_NM + 0.5, "turn_backs should fly back to MEKAR, came within {m1} NM");
+    }
+
     #[test]
     fn a_route_is_flown_through_its_waypoints_then_held() {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(6);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 } };
+        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false };
         a.set_guidance(plan, &CalmAir, &mut rng);
         let (mut near_nilam, mut near_igogu) = (f64::MAX, f64::MAX);
         for k in 1..=240 {
@@ -2301,7 +2351,7 @@ mod tests {
         let mut rng = ChaCha8Rng::seed_from_u64(7);
         let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
         let dest = (-45.0, 104.0);
-        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 } }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false }, &CalmAir, &mut rng);
         let (_, d0) = bearing_and_distance((a.lat, a.lon), dest);
         let mut flown = 0.0;
         for k in 1..=120 {
@@ -2321,7 +2371,7 @@ mod tests {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(8);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticTrack, &p, &CalmAir, &mut rng);
-        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false }, &CalmAir, &mut rng);
         a.propagate(3.0 * 3600.0, &p, &CalmAir, &mut rng);
         assert!(a.guidance.is_none());
         assert_eq!(a.mode, Mode::MagneticTrack);
@@ -2360,7 +2410,7 @@ mod tests {
         }
         let mut guided = Aircraft::sample(&start_on_n571(), Mode::TrueHeading, &p, &CalmAir, &mut rng);
         let after = AfterRoute::Destination { lat: -30.0, lon: 95.0 };
-        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after }, &CalmAir, &mut rng);
+        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false }, &CalmAir, &mut rng);
         let mut on_route = guided.clone();
         on_route.propagate(300.0, &p, &CalmAir, &mut rng);
         guided.propagate(1500.0, &p, &CalmAir, &mut rng);

@@ -571,6 +571,11 @@ pub struct RoutesConfig {
     /// afterwards (run C routes: one seed found route 8, which the others missed). Absent: all.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub only: Option<Vec<u32>>,
+    /// Fly turn-back continuations instead of skipping them (architecture ruling 11 Oct 2026,
+    /// option (a)): the overshoot capture rule of `flight::Guidance::turn_backs`. Absent or false
+    /// keeps the original rule, under which only 14 of the 48 routes of waypoints.toml differ.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub turn_backs: Option<bool>,
 }
 
 impl RoutesConfig {
@@ -680,7 +685,7 @@ impl EarlyConfig {
                             return Err(format!("dynamics.early.routes.only must name indices below {}", routes.len()));
                         }
                     }
-                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, allowed: r.only.clone() })
+                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), allowed: r.only.clone() })
                 }
             }
         };
