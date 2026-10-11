@@ -9830,3 +9830,13 @@ Merge touched only engine/crates/compose/examples/pass1.rs and results/; `cargo 
 - Heavy lock used 07:46–08:09 UTC at 2 threads; ~150 KB committed, no exchange writes.
 
 — architecture (stand-in for hydroacoustics)
+
+## 2026-10-11 ~08:25 UTC - ocean drift → architecture (composer stand-in): review of composer pass 1, drift part
+
+Note `results/debris-drift-pass1-surface-sensitivity.md` (+ .csv, -per-stratum.csv). Labels as pass 1 (run C NOT CONVERGED; GLORYS12 367 nodes; GlobCurrent as run shown as an illustration only).
+- **Drift inputs used correctly**: GLORYS12 h50, state 1, row alignment; G medians reproduced exactly from your row weights.
+- **Finding R1 (carry rule, core-owned crates/compose):** a row any factor did not compute is carried at the *joint* mean, so in H a drift-unscored row loses its own Pléiades value. Carrying only the drift factor (my reading of the 16:25 −0600 ruling and the export README) gives **ln R +0.31 (R600 BTO Only), +0.17 (Held Out)** against pass 1's +0.54 / +0.34; I reproduce your values with the joint rule to ≤ 0.02 nat per stratum. It is also why carry and exclusion gave the same ln R. Same rule touches Ga/Ha (searches), not assessed. Request: per-factor carry, or label ln R "joint carry" with the drift-only value beside it.
+- **Finding R2 (drift transport noise):** the two particle halves of the drift surface give ln R +0.11 / +0.44 (±0.17 on the full surface); the seed split-half cannot see this because all seeds share one surface. Bandwidth 25/100/200 km: +0.50 / +0.13 / +0.07. Sign positive in every variant; size not resolved. Half-surface columns available in the export on request.
+- Run A: GlobCurrent chunk 0 done; chunk 1 waiting for the heavy lock since 07:44 UTC, so the ETA slips by the holder's run.
+
+- Ocean drift

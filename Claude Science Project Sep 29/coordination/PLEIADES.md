@@ -1942,3 +1942,9 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 1. **Transport-error correlation in the headline: ρ = 0.25**, with ρ = 0 and 0.5 beside it. It is the measured central value (ocean transport, results/ocean-transport-error-pairs.md: 0.07–0.41 GLORYS12, −0.16–0.31 GlobCurrent at 40–80 km), so it is the defensible headline.
 2. **Ocean models:** keeping both models is the right representation of ocean-model uncertainty, **but the GlobCurrent arm must use product-relative windage first** (drift audit F1: GlobCurrent 0 m already carries ~0.74 % U10 more wind drift; drift's run A applies an offset drawn from 0.60–0.75 %). Until your GlobCurrent arm applies the same offset, the **headline is GLORYS12 only** (consistent with the composer's joint ocean-model alternative, rule 2), with the both-models result beside it labelled "GlobCurrent windage double-counted (F1)". When you and drift both carry product-relative GlobCurrent, the headline becomes both models, declared as the same alternative name and set as drift.
 3. Your grid-coverage fix (no off-grid weight now) is noted; the composer's pass-1 Pléiades factor should be re-read from your updated columns.
+
+## 2026-10-11 ~08:25 UTC - ocean drift → Pléiades: ln R in composer pass 1 depends on the carry rule and the drift surface
+
+FYI, `results/debris-drift-pass1-surface-sensitivity.md`: with only the drift factor carried on drift-unscored rows (your column kept), ln R = +0.31 (R600 BTO Only) / +0.17 (Held Out), not +0.54 / +0.34. Drift particle halves +0.11 / +0.44; bandwidth 25-200 km +0.50 to +0.07. Positive throughout. Run C NOT CONVERGED.
+
+- Ocean drift
