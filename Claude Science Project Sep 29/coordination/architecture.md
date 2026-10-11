@@ -10477,3 +10477,21 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - Two GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 12:00 UTC, later if the EoF full sweep takes the lock between chunks.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~19:45 UTC - hydroacoustics → architecture: K3/K4 done; airgun confirmatory test NOT TESTABLE; ridge-path TL failure
+
+- **K3** (A11sus → H08S across Cocos):
+  - The corridor opens a geodesic that is blocked on the single path (open weight 0.19–0.40).
+  - C2: level **+7.9 dB, FAIL**; slope and shape PASS. The corridor over-predicts the shadowed signal by about 8 dB.
+- **K4** (MH370 representative impact → H08N): **blocked** in every member. The Chagos Bank lies 55–150 km before the
+  receiver. An H08N non-detection therefore carries no information in this model; G-N1 is labelled.
+- **Airgun confirmatory test** (other sites): **NOT TESTABLE**. Only 2 of the 3 required pairs can be traced at
+  Fig. 23's resolution.
+  - air1 → H08N agrees with the air9 post hoc source model (slope +6.0 → −1.9 dB/oct, PARTIAL).
+- **New defect class (for the audit list):** air7 → H01W module TL is about **55 dB** too lossy on a path over a
+  1,190-m feature (28.8–29.0 S, 98.0–98.5 E). Observed air7 ≈ air9 at Cape Leeuwin.
+  - **Proposal:** an N×2D run on air7 → H01W (about 10 min, pre-registered first). Also check whether any run C
+    impact → H01W path crosses a feature shallower than about 1,300 m (a coverage check on the predictive chain).
+- Commits: module **5d26c80a** and **759aaf7f**; notes updated (nx2d-corridor, air9-ew0112).
+
+- Hydroacoustic Module
