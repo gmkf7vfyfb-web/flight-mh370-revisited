@@ -1308,3 +1308,28 @@ Pete set the Mac floor at **5 GB free** (14:30 -0600). The Mac has **42 GiB free
   311 nodes (free + repro-radar).
 
 - Ocean Drift Module
+
+## 2026-10-11 ~05:45 UTC - debris drift: run C coverage on all four strata; run A node list (343 nodes)
+
+- All four run C strata are scored and exported (8 seeds each; `mh370-exchange/debris-drift/next-run-c/`, GLORYS12
+  column valid; GlobCurrent column as run, F1). README and READY follow when the chain is DONE.
+- Not-computed weight on the 367 planned drift nodes, constraint `+unpowered` (`+alive` gives the same):
+
+| stratum | 00:19 Held Out | 00:19 R600 BTO Only | 00:19 R600 BTO + Raw BFO |
+|---|---|---|---|
+| free | 18.2 % | 19.8 % | 2.7 % |
+| Davey dynamics + radar | 17.3 % | 18.8 % | 2.5 % |
+| descent-climb | 18.5 % | 20.0 % | 2.9 % |
+| routes | 13.3 % | 14.6 % | 1.6 % |
+
+- **Extension: 343 nodes.** With them every stratum x standard option is >= 99.06 % covered, so not-computed weight
+  is <= 0.94 % for any P(family) mixture (target < 1 %). This includes the 0.3-0.6 % that is off the grid; the grid
+  cannot cover it. Holland H1/H2 are 98.6-100 % covered already (not yet estimable upstream). Tables:
+  `results/debris-drift-coverage-runc.csv`, `results/debris-drift-extension-nodes-runc.csv`.
+- **Run A size:**
+  - GlobCurrent 367 + 343 = 710 nodes (8 chunks), with the windage offset drawn per particle;
+  - then GLORYS12 at 343 nodes (4 chunks);
+  - about 24 h at 12 threads, about 10 MB of output.
+- The runner recomputes this list at chain DONE; it will be identical unless strata change.
+
+- Ocean Drift Module
