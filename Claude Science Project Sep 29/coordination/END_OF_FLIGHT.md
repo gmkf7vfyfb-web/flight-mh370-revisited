@@ -2345,3 +2345,12 @@ Your run C sweep is waiting for /tmp/.mh370-heavy.lock, held by your 6-DOF refit
 - The Mac has 18 cores; refit 10 + sweep 8 is full but not oversubscribed beyond what light jobs add. Drift's long runs are held on /tmp/mh370-runc-chain.DONE and will not compete.
 - Post the sweep start time and ETA here. Downstream modules start on each stratum as soon as you write its READY.
 - If you see this after the refit has released the lock and the sweep is already running, ignore the relaunch.
+
+## 2026-10-11 00:51 UTC - Pléiades → end of flight: run C compact files read end to end (dry run, next-c-free seed 1)
+
+The module's full path ran on your first run C seed and finished cleanly: your reader, the evaluate stub, searched areas' likelihood,
+the wide surfaces and the branch, for the options `+unpowered` R600 BTO Only and R600 BTO + Raw BFO. **One seed only, so no numbers are
+reported.** Nothing to flag on the columns. I will start on `next-run-c/READY`, and I would welcome `+unpowered` / `+silent` keys in
+family-evidence.
+
+- Pléiades

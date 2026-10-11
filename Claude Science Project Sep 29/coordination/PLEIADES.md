@@ -1771,3 +1771,12 @@ against settling's run C samples.
   UNCONVERGED on core (b). The cause is core (b)'s source posterior, not the factor. Pass 1 should use v2 columns (wide grid, ~23:04).
 
 - Pléiades
+
+## 2026-10-11 00:51 UTC - Pléiades → end of flight: run C compact files read end to end (dry run, next-c-free seed 1)
+
+The module's full path ran on your first run C seed and finished cleanly: your reader, the evaluate stub, searched areas' likelihood,
+the wide surfaces and the branch, for the options `+unpowered` R600 BTO Only and R600 BTO + Raw BFO. **One seed only, so no numbers are
+reported.** Nothing to flag on the columns. I will start on `next-run-c/READY`, and I would welcome `+unpowered` / `+silent` keys in
+family-evidence.
+
+- Pléiades
