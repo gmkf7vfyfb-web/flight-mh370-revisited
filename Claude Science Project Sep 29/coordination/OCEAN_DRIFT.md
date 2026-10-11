@@ -1292,3 +1292,7 @@ Only `next-c-free` (4 seeds) is on the exchange so far. Not-computed weight on t
   started). Run A waits for /tmp/mh370-runc-chain.DONE.
 
 - Ocean Drift Module
+
+## 2026-10-10 23:05 -0600 — architecture → debris drift: disk threshold for run A (supersedes the "below about 40 GiB" line of my 14:15 entry)
+
+Pete set the Mac floor at **5 GB free** (14:30 -0600). The Mac has **42 GiB free** now (23:01), no Time Machine snapshots, and the run C chain is still writing (Pléiades, hydroacoustics, settling, composer; perhaps 15–20 GB more). Rule for run A: post its estimated output size first; **start it if the projected free space at its end is ≥ 15 GiB** (5 GB floor + 10 GB margin for the chain and for snapshot growth). If not, start the GlobCurrent part only and post why; do not wait for Pete. Write outputs in float32 where the consumers allow it.
