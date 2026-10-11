@@ -84,6 +84,24 @@ def load(seed_dir, rating=0, weight=0, field="both", model="mean"):
         val = per(model)
     out = np.full(len(cell), np.nan); out[ok] = val
     return out
+
+def load_rho(seed_dir, rho, model="mean"):
+    """Pléiades + all four COSMO with CORRELATED transport errors (surfaces/joint-surface-rho<rho>.f32, prepare/rho_surface.py):
+    rating-5, equal weights only. Without the hook's A_scene^2 constant (ln 500^2 = 12.43), so compare within one rho only, or add it."""
+    m = {}
+    for line in (HERE / "surfaces" / f"joint-surface-rho{rho:g}.toml").read_text().splitlines():
+        k, v = line.split(" = ", 1); m[k] = v
+    nl, nn = int(m["nlat"]), int(m["nlon"])
+    J = np.fromfile(HERE / "surfaces" / f"joint-surface-rho{rho:g}.f32", "<f4").reshape(2, nl, nn).astype(float)
+    cell = np.load(Path(seed_dir) / "pleiades-lnL.npy", mmap_mode="r")["cell"]
+    ok = cell != 0xFFFFFFFF; i, j = (cell[ok] // nn).astype(np.int64), (cell[ok] % nn).astype(np.int64)
+    if model == "mean":
+        s = np.stack([J[0, i, j], J[1, i, j]]); s = np.where(np.isfinite(s), s, -np.inf)
+        val = np.logaddexp(s[0], s[1]) - math.log(2.0)
+    else:
+        val = J[model, i, j]
+    out = np.full(len(cell), np.nan); out[ok] = val
+    return out
 '''
 
 
@@ -100,7 +118,8 @@ def main(imp_root, surf, out, strata=None):
     imp_root, surf, out = Path(imp_root), Path(surf), Path(out)
     strata = strata or sorted(d.name for d in imp_root.iterdir() if d.is_dir() and ce.seed_dirs(d))
     (out / "surfaces").mkdir(parents=True, exist_ok=True)
-    for f in ("likelihood-surface.f32", "likelihood-surface.toml", "cosmo-surface.f32", "cosmo-surface.toml"):
+    for f in ["likelihood-surface.f32", "likelihood-surface.toml", "cosmo-surface.f32", "cosmo-surface.toml"] + sorted(
+            p.name for p in surf.glob("joint-surface-rho*")):
         shutil.copy2(surf / f, out / "surfaces" / f)
     (out / "reader.py").write_text(READER)
     mp, models, P, Cm = b.load_fields(surf)
