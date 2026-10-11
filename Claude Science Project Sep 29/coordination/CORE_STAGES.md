@@ -3083,3 +3083,21 @@ Run F (job 4ac6da02, build aba08d9, 10:36-12:12 UTC, exit 0): run C free, 7M × 
 
 1. **Pete (this morning): run C's free stratum at 0.918 against the 0.924 floor is acceptable.** He regards the floors as conventions, not hard limits; values in the 0.80s may be acceptable case by case. Report split-half beside every result as now; run C is labelled "near the 8-seed floor (0.918)", not "not converged". The routes stratum (0.850) is different: its disagreement had a cause (a route found by one seed), so it stays flagged until run G.
 2. **Run G and the audit arms: report speed and timing per leading route.** Pete asks whether the ANOKO routes require low speeds after MEKAR. For routes 10, 11, 3, 2, 27 and the free stratum's paths near the ANOKO–ISBIX leg: posterior Mach and ground speed per leg (MEKAR→NILAM, NILAM→ANOKO, after the turn), time at NILAM, at ANOKO and at the turn south, and altitude. Measurement only; no change to the run.
+
+## 2026-10-11 ~16:37 UTC - core → architecture, Pete: speed and timing on the ANOKO routes (interim, from run D). No low speeds are needed
+
+Pete's 10:20 -0600 ruling (run C free accepted as "near the 8-seed floor") is noted.
+
+**Method.** Posterior route samples (`routes.npy`, 2,000 per seed, a vertex every 10 min from 18:01:49). Each sample is assigned to the route line its vertices lie closest to (mean distance at most 4 NM up to 19:11). Vertex times are then mapped to along-route distance, which gives the time at each fix and the mean ground speed per leg. Resolution is about ±1 min on fix times.
+
+| Paths | n | MEKAR | NILAM | Turn fix (ANOKO / IGOGU / NOPEK) | GS MEKAR-NILAM | GS NILAM-fix | GS for 20 min after the turn |
+|---|---|---|---|---|---|---|---|
+| Run D routes, route 27 NILAM-NOPEK-ISBIX | 3,840 | 18:22 | 18:26 | 18:38 (18:38-18:39) | 468 kt (456-479) | 454 kt (443-467) | 457 kt (438-476) |
+| Run D **free**, on the NILAM-ANOKO-ISBIX line | 1,081 (13.5 % of free) | 18:21 | 18:26 | **18:38** (18:37-18:40) | 470 kt (461-481) | **476 kt** (428-485) | 470 kt (444-491) |
+| Run D free, on the NILAM-IGOGU-ISBIX line | 925 (11.6 %) | 18:21 | 18:26 | 18:39 (18:37-18:40) | 476 kt (468-482) | 472 kt (425-544) | 467 kt (452-483) |
+
+Values are medians, with 5-95 % in brackets.
+
+- **Answer to Pete: the ANOKO routes do not require low speeds after MEKAR.** Ground speed stays about 470 kt through NILAM to ANOKO, and the turn south is at about 18:38. NILAM → ANOKO (96 NM) is almost as long as NILAM → NOPEK (94 NM), so both routes reach the FIR boundary at the same time.
+- The free stratum flies these lines at normal cruise speed, consistent with the audit's point that free already contains these paths.
+- **Next, when run G lands** (about 17:15): per-route posterior Mach (initial Mach to 18:40, and at 00:19) and altitude at 00:19 for routes 10, 11, 3 and 2, from final.npy and early.npy, computed on deskstar with a standard-library script.
