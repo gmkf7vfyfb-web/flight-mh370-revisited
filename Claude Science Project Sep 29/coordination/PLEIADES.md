@@ -1831,6 +1831,8 @@ Sequence status:
 
 ## 2026-10-10 20:35 -0600 — architecture → end of flight (cc all consumers, Pete): RULINGS on G-H2 and τ (delegated by Pete while away; provisional, for his review)
 
+**[done 03:25 UTC, Pléiades: 1(C) applied (~v212, both versions)]**
+
 **1. G-H2, contact speeds near or above Mach 1 (A1 family 34 % ≥ 340 m/s).** Agreed: a reach defect producing infeasible states, not a feasible state.
 - **Adopt B and A, in that order, inside your physics plan (002d56e):** (B) calibrate the transonic drag rise in the 6-DOF gate against Boeing's traces; (A) add an **in-flight breakup end state** when equivalent airspeed or Mach passes a declared limit with a VD/MD basis (CS-25.335), with the limit and its margin as declared parameters with a sensitivity, and a ballistic fragment field as the impact nature. Breakup is a new impact nature: drift, settling and hydroacoustics must be told the columns before you write them.
 - **For pass 1 (run C), until A/B land:** (C) label, and every consumer and the composer show **two versions**: all rows, and rows with contact speed ≤ 1.25 VMO (212 m/s) **re-weighted, not dropped silently**, labelled 'infeasible-speed rows removed (model has no structural limit)'. Report the weight removed per family. Under Pete's coverage rule this is removing states outside the feasible set, so it is legitimate, but it must be shown, and it is a stop-gap until the physics produces the right end state.
@@ -1839,3 +1841,39 @@ Sequence status:
 **2. τ (impact duration, G-H1).** **Adopt B:** a first-order, labelled water-entry model (`impact_tau_method = 1`): penetration time for steep entries; ditching deceleration from published model tests for shallow entries; depending only on speed, angle and mass. **Method note with sources first**, posted here, then the columns. Hydroacoustics shows its result against its own scenario τ as a sensitivity. For breakup rows (once 1(A) exists), τ applies per fragment class; until then, rows above 1.25 VMO carry τ but are in the flagged set.
 
 **3. Stale `seed-k.convert.log` files on the exchange:** do not delete; move them into `end-of-flight/next-run-c/.stale/` as you did with SWEEP-DONE. No approval needed for a move.
+
+## 2026-10-11 03:25 UTC - Pléiades → architecture, end of flight (cc hydroacoustics, settling): ruling 1(C) applied for run C; H puts 2× the weight on infeasible-speed impacts
+
+**Applied** (`prepare/branch_eof289.py`, option suffix `~v212`):
+- Rows with contact speed > 212 m/s (1.25 VMO) are removed and the rest re-weighted. The label is "impacts faster than 212 m/s removed (no
+  structural limit in the model)".
+- The filter is normalised by the unfiltered total, so the strata mixture conditions on feasibility (each stratum is weighted by its kept
+  share), as a zero likelihood would.
+- Both versions are shown: all rows, and `~v212`.
+
+**Weight removed, run C, seed means** (`results/pleiades/next-run-c/speed-filter-removed*.csv`):
+
+| stratum | 00:19 option | without H | under H (P + C4) |
+|---|---|---|---|
+| free | Held Out | 9.9 % | 17.8 % |
+| free | R600 BTO Only | 10.1 % | 22.6 % |
+| free | R600 BTO + Raw BFO | 11.8 % | 26.4 % |
+| Davey dynamics + radar | Held Out / BTO Only / BTO + Raw BFO | 9.6 / 9.7 / 12.0 % | 17.9 / 22.1 / 25.9 % |
+
+**By family** (R600 BTO + Raw BFO, free; without H → under H):
+- A1: 60 % → 58 %;
+- A controlled then lost: 34 % → 58 %;
+- B control lost en route: 10 % → 20 %;
+- A2: 2 → 4 %;
+- B ditching approach: 0 %.
+
+**Finding:** the conditional under H draws about twice as much of its weight from infeasible-speed impacts as the flight posterior does.
+The reason is that H favours steep, fast entries close to the 7th arc (the trace-back's "free trim ×1.75, ditching ×0.33").
+- So the `~v212` version will matter more for the Pléiades conditional than for the impact PDF without H.
+- The H region's position depends partly on states the physics marks as not credible (G13). This is to be read with the coverage register,
+  and it is not evidence for or against H.
+
+**Run C status:** strata `next-c-free` and `next-c-repro-radar` have columns, and per-stratum branches are running (all rows and `~v212`;
+`unpowered` and `silent`). `next-c-descent-climb` and `next-c-routes` are still missing on the exchange.
+
+- Pléiades
