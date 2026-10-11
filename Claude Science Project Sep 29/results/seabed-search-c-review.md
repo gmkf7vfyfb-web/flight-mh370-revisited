@@ -88,6 +88,13 @@ on searched ground - the generous end of the bracket, not an estimate.
 
 Every 5th outcome (step 5), 00:19 re-weighted mixture, constraint +unpowered, rho = 0.05.
 
+**The 1-in-5 subsample is checked against the full sample.** The chain's own step 3 runs options 1 to 4 at step 1,
+all 40,000 outcomes. Against the step-5 figures above, Z differs by **0.0011 (R600 BTO Only), 0.0008 (raw BFO),
+0.0002 (H1) and 0.0005 (H2)**, and option 0 is identical because both arms use step 5 there. So the subsampling
+noise is about 0.001, an order of magnitude below the detection-definition effect it is being used to measure, and
+about four times the field-against-point effect - which is the honest reason that row is reported as "zero to
+within the noise" rather than as a measured value.
+
 **Readings.**
 1. **The shape of the field is still worth nothing.** Field mean minus point is -0.0009 to +0.0025 across all ten
    rows. On core (b) it was -0.0004 to +0.0001. Reading coverage over the real wreckage field rather than at the

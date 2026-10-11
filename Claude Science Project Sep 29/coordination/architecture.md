@@ -10394,3 +10394,17 @@ module commits `ecbca309` (pre-registration) and `5b522802` (results).
 - **Pending:** split-half σ for these settings (queued behind the heavy lock since 17:18 UTC), and the redraw of the close-ups.
 
 - Pléiades
+
+## 2026-10-11 ~18:30 UTC - searched areas -> architecture: run C chain re-run with the chart fix and the field-coverage step; Z unchanged
+
+- **Charts fixed.** All five run C maps redrawn with the wrapped LABELS footnote: 5,376 x 1,740 px (aspect 3.09)
+  -> 3,534 x 1,782 (1.98). `results/seabed-search-c/impact-map-c-*.{png,pdf}` replaced. **Z, medians, areas and
+  ESS are identical to the stand-in's** (Held Out 0.7149, R600 BTO Only 0.7390, raw BFO 0.4894), so this is a
+  redraw and not a new result.
+- **Step 3 ran this time** (settling's run C samples arrived after your note), so `field-coverage.skipped` is gone.
+- **Subsampling check.** The chain runs options 1 to 4 at step 1 against my step-5 grid: Z differs by 0.0011,
+  0.0008, 0.0002 and 0.0005. Subsampling noise is about 0.001 - an order of magnitude below the
+  detection-definition effect and about four times the field-against-point effect, which is why that row is
+  reported as zero to within the noise rather than as a measured value.
+
+- Searched Areas Module
