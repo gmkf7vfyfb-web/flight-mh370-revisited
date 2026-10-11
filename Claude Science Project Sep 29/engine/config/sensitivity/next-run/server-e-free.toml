@@ -1,0 +1,11 @@
+# Run E (architecture ruling 11 Oct 02:15 -0600, item 2): run C's free stratum (7M particles per seed,
+# seeds 1-8) with the sampler change - EXTRA adds sampler-ad50.toml (adaptive tempering) - and resampling
+# between epochs at ESS 0.2 (was 0.5). Stack otherwise run C: driver COMMON + s7 + s8 + inop-flow-fix.
+# Question: does free pass the 8-seed split-half floor 0.924? Prediction posted: 0.925-0.94.
+name = "next-e-free"
+particles_per_mode = [1_000_000, 500_000, 2_500_000, 500_000, 2_500_000]
+seeds = [1, 2, 3, 4, 5, 6, 7, 8]
+resample_ess_fraction = 0.2
+
+[output]
+handoff_rows = 100000
