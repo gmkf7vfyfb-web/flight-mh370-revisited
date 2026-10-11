@@ -67,5 +67,92 @@ AMENDMENT 1 (11 Oct 2026 ~04:30 UTC, before any level was read from Kadri's figu
       (consistent with BEA's 107 kt ground and 10,912 ft/min vertical). The BEA values are primary for AF447; for
       Yemenia the angle is unknown and is bracketed: vertical KE between 5 % and 50 % of total (declared).
   (iii) Figures are rasters (669 px wide); a reading resolution of about 1 px (~3 % of full scale) is declared.
-Status: PRE-REGISTRATION ONLY. Outputs to results-data/calibration_events/ when run.
+AMENDMENT 2 (11 Oct 2026 ~05:00 UTC, after the peaks were read; position only, independent of the levels): Kadri S1's
+  Yemenia 626 position (11 40'29.4"S 43 16'39.6"E) lies ON LAND in GEBCO_2026 (+224 m, near Moroni). The event is
+  placed at the Wikipedia / ASN crash site 11.3715 S 43.2250 E (1,303 m water; ASN: "6 km NW off Mitsamiouli").
+INTERIM RESULT (11 Oct ~05:00 UTC; results-data/calibration_events/kadri_peaks.csv):
+  - F-35A peaks 1.15 Pa (H11N) and 1.22 Pa (H11S), SNR 3.2-3.3 against the 99th percentile outside Kadri's box.
+  - AF447 H10S: 0.91 Pa, SNR 1.32 -> upper limit only. Yemenia H08S 0.78 Pa (SNR 1.07), H08N 0.25 Pa (SNR 0.87) ->
+    upper limits only; Kadri's panels show no peak above the noise.
+  - Yemenia NOT SCORABLE with the adiabatic model: the H08S path crosses Saya de Malha Bank (9.4-9.6 S, 59.6-60.8 E,
+    19-75 m) and the Grande Comore shelf (3 m); the H08N path crosses land at 51.1 E and 0 m at 60.2 E. KRAKEN finds
+    no modes. Needs the audit's N x 2D / 3D method (F11). Reported as not scorable, not as a non-detection.
+  - AF447 waits for an Atlantic path section (ocean transport request).
+Status: PRE-REGISTRATION + INTERIM. Outputs to results-data/calibration_events/ when run.
 """
+# ------------------------------------------------------------------ implementation (11 Oct 2026, after amendment 1)
+import json
+import sys
+import time
+from pathlib import Path
+
+import numpy as np
+import pandas as pd
+
+sys.path.insert(0, str(Path(__file__).parent))
+import air9_tl_validation as A  # noqa: E402
+import f35a_eta_calibration as F  # noqa: E402
+import imos_stageB_map as B  # noqa: E402
+import kraken_tl as K  # noqa: E402
+import shared_paths as SP  # noqa: E402
+
+HERE = Path(__file__).parent.parent
+E_F35 = 900e6
+# Kadri Fig. 4a / 4b / 5a peaks read by the pre-registered rule (results-data/calibration_events/kadri_peaks.csv)
+EVENTS = {   # name: (receiver, path name, E_total J (lo, hi), E_vertical J (lo, hi))
+    "AF447": ("H10S", "af447-H10S", (0.5 * 205e3 * (55.4 ** 2 + 55.0 ** 2),) * 2, (0.5 * 205e3 * 55.4 ** 2,) * 2),
+    "Yemenia626-H08S": ("H08S", "yem626-H08S", (0.5 * 120e3 * 133.3 ** 2, 0.5 * 150e3 * 133.3 ** 2),
+                        (0.05 * 0.5 * 120e3 * 133.3 ** 2, 0.50 * 0.5 * 150e3 * 133.3 ** 2)),
+    "Yemenia626-H08N": ("H08N", "yem626-H08N", (0.5 * 120e3 * 133.3 ** 2, 0.5 * 150e3 * 133.3 ** 2),
+                        (0.05 * 0.5 * 120e3 * 133.3 ** 2, 0.50 * 0.5 * 150e3 * 133.3 ** 2)),
+}
+
+
+def path_tl(exp, name, rd, out):
+    stub = out / "stubschema"; stub.mkdir(parents=True, exist_ok=True)
+    SP.convert(Path(exp), stub, name)
+    tag_ = name.replace("-", "_")
+    bathy = pd.read_csv(stub / f"bathy_{tag_}.csv"); ssp = pd.read_csv(stub / f"ssp_{tag_}.csv")
+    rprof, profiles = A.build_profiles(bathy, ssp)
+    rows = []
+    for fc in F.BANDS:
+        tag = f"f{fc:g}".replace(".", "p")
+        K.tl_path(out / "work" / name, tag, fc, profiles, rprof, np.array([rprof[-1]]), F.SRC, [rd], A.BOTTOMS["hard"],
+                  AT_BIN, fg=A.FG)
+        s = K.read_shd(out / "work" / name / f"{tag}.shd"); x = s["rr_m"] / 1000.0 / 6371.0
+        sph = 10 * np.log10(x / np.sin(x))
+        for js, zs in enumerate(s["sz"]):
+            rows.append(dict(path=name, fc_hz=fc, src_depth_m=float(zs), rcv_depth_m=rd, range_km=float(rprof[-1]),
+                             tl_db=float(-20 * np.log10(np.abs(s["p"][0, js, 0])) + sph[-1])))
+    return pd.DataFrame(rows), float(bathy.depth_m.iloc[0]) if "depth_m" in bathy else np.nan
+
+
+def G(tl, taus):
+    """sum_b S_b(tau) 10^(-TL_b/10) for each tau and source depth."""
+    out = {}
+    for z in F.SRC:
+        t = tl[np.isclose(tl.src_depth_m, z)].set_index("fc_hz").tl_db
+        out[z] = np.array([sum(B.band_fraction(fc, np.array([1 / tau]), 2)[0] * 10 ** (-t[fc] / 10) for fc in F.BANDS) for tau in taus])
+    return out
+
+
+AT_BIN = None
+
+
+def run_tl(exp, out, names_rd):
+    global AT_BIN
+    out = Path(out); out.mkdir(parents=True, exist_ok=True); dfs = []
+    for name, rd in names_rd:
+        t0 = time.time(); d, h = path_tl(exp, name, rd, out); d["source_water_depth_m"] = h; dfs.append(d)
+        print(name, f"{time.time() - t0:.0f} s, source water depth {h:.0f} m", flush=True)
+    df = pd.concat(dfs); df.to_csv(out / "event_tl.csv", index=False)
+    return df
+
+
+if __name__ == "__main__" and len(sys.argv) > 1 and sys.argv[1] == "tl":
+    AT_BIN = sys.argv[4]
+    st = pd.read_csv(HERE / "data/stations.csv", comment="#")
+    rdep = lambda t: float(st[st.triad == t].hydrophone_depth_m.mean())  # noqa: E731
+    pairs = [(n, rdep(n.split("-")[1]) if n.split("-")[1] in set(st.triad) else float(sys.argv[5])) for n in sys.argv[6:]] \
+        if len(sys.argv) > 6 else [(n, rdep(n.split("-")[1])) for n in ("yem626-H08S", "yem626-H08N")]
+    run_tl(sys.argv[2], sys.argv[3], pairs)
