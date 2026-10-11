@@ -3391,3 +3391,38 @@ Job 41d7a7a0 (binary 4e9ca9e): 34 hybrid routes + 4 controls × 4 seeds × 200k,
 - **If Mach 0.86 moves route 43 by more than 0.5 nat,** propose a free-mode Mach-cap check too. The cap applies to every family, not only the routes.
 - **Report the turn-model sensitivity against the shares and 00:19 latitude.** The hybrid already places the leg on the 94.42°E boundary, with 00:19 near −37.4 across the plateau. Say whether bank 25° keeps that.
 - **The routes-family prior stays with Pete.** For his ruling, give one table: free, run G (fly-over), run H (fly-by), hybrid plateau, matched volume, each with ln Z and 00:19 median.
+
+## 2026-10-11 21:00Z — core: TURN-MODEL + MACH-CAP SENSITIVITY — SAMAK lead and 00:19 latitude survive; Mach cap not binding. Table for Pete's routes-prior ruling
+
+Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tracking, all exit 0. `results/turn-model-sensitivity-oct11/`.
+
+| Arm | 43 MEKAR–SAMAK–ISBIX | 19 NILAM–SAMAK–ISBIX | 3 NILAM–IGOGU–ISBIX | 11 NILAM–ANOKO–ISBIX |
+|---|---|---|---|---|
+| Baseline (bank 15°, cap 120°, Mach ≤ 0.84) | −120.59 | −123.56 | −122.78* | −125.24* |
+| Bank 25° | −121.13 | −124.40 | −122.73 | −125.24 |
+| Cap 150° | −120.59 (bit-identical) | −123.21 | | |
+| Bank 25° + cap 150° | −121.13 (bit-identical to bank 25°) | | | |
+| Mach cap 0.86 | −120.70 (median Mach 0.829) | | −122.90 | |
+
+\* From the fly-by test part 2. The route 43 baseline at audit size agrees with run H full scale (−120.56) to 0.03.
+- **00:19 medians are unchanged in every arm:** route 43 −37.17 to −37.18, route 3 −37.29 to −37.31, route 11 −37.43, route 19 −37.16 to −37.17. Bank 25° keeps the 94.42°E-boundary leg and the plateau latitude (G15 question: yes).
+- **Against predictions:**
+  1. Bank 25° costs 0.5–2 nats on every route: **partly missed.** It holds for 43 (−0.55) and 19 (−0.84); routes 3 and 11 do not move. Route 43 stays first (lead 1.6 nats).
+  2. Cap 150° < 1 nat on 19 and < 0.5 on 43: holds (+0.35, 0.00).
+  3. Mach 0.86 raises route 43 by 0.3–1.5 nats: **missed.** The result is −0.12 with the median Mach unchanged at 0.829. The data, not the prior bound, hold route 43 near 0.83, and −0.12 matches the Occam cost of the wider range. Below architecture's 0.5-nat trigger, so **no free-model Mach check is needed** (G20 answered).
+
+**Table for Pete's routes-prior ruling** (`routes-prior-ruling-table.csv`). ln Z is within each set at equal prior inside the set. Combining with the free model needs Pete's family weights.
+
+| Hypothesis set | Turn model | ln Z | − free | 00:19 median |
+|---|---|---|---|---|
+| Free-turn model (run C free, 8 × 7M) | n/a | −135.92 | 0 | −36.90 |
+| Six routes (run G) | fly-over + direct-to | −129.55 | +6.4 | −36.71 |
+| Turn-point scan, matched volume (36 arms) | fly-over + direct-to | −128.07 | +7.9 | (not pooled) |
+| Six routes (run H) | fly-by + leg tracking | **−122.19** | **+13.7** | **−37.18** |
+| Hybrid early-turn set (34 routes) | fly-by + leg tracking | −123.10 | +12.8 | plateau −37.31 to −37.48 |
+| Best single route, MEKAR–SAMAK–ISBIX | fly-by + leg tracking | −120.56 | +15.4 | −37.17 |
+
+- **Reading for the ruling:** under the realistic turn model, the route sets beat the free model by 13–14 nats at equal prior within each set. The 00:19 latitude sits 0.3–0.6° south of the free model's.
+  - The earlier break-even analysis (fly-over) put π ≈ 0.0074 for 4.9 nats. At 13.7 nats the break-even prior on the routes family is about e^−13.7 ≈ 10⁻⁶, so the routes family dominates for any family prior Pete is likely to set.
+  - Systematics still open: the turn model itself (fly-over versus fly-by moved route ln Z by up to 15 nats), the 18:22 radar position treatment, and route provenance (Pete's own hypotheses).
+- **Next (backlog):** N571 traffic diagnostic once Pete's CSVs arrive; EoF request 9 support. Pending Pete: routes-family prior; 21.58 GB Mac staging deletion.
