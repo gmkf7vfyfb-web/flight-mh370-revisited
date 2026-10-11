@@ -3296,3 +3296,33 @@ Job 19 (1e28b67e, binary 0339ede), 9 arms × 4 × 200k, all exit 0. `results/fly
 - The best hybrid route uses the 20 % turn point (nearest N571).
 - The log-mean-exp over the 34 hybrid routes is 2–5 nats below the log-mean-exp over the 4 controls.
 - The direct HSk→ISBIX turns score at or below −127 for 60/80 %.
+
+## 2026-10-11 19:26Z — core: RUN H (fly-by + leg tracking, full scale) INTERIM — MEKAR–SAMAK–ISBIX now leads; 3 of 7 predictions missed
+
+Job 644a5bff (binary 1979cce): 8 seeds × 3M, run C sampler, all exit 0, 34.5 min. Files in `results/run-h-oct11/`.
+- **Family ln Z −122.19** (seed sd 0.016) against run G's −129.55 under fly-over. Split-half **0.992** (0.984–0.996). Family 00:19 median **−37.18** (2.5–97.5 %: −37.55 to −35.36).
+- **Route shares** from route-sample geometry (16,000 samples, fit 0.1–0.2 NM to the polyline, stable across seeds). The share by route identifier is pending: the per-route script is paused until the hybrid ends (see OOM note).
+
+| Route | Share | ln Z ≈ family + ln(6·share) |
+|---|---|---|
+| **43 MEKAR–SAMAK–ISBIX** | **0.858** | **−120.55** |
+| 3 NILAM–IGOGU–ISBIX | 0.093 | −122.77 |
+| 19 NILAM–SAMAK–ISBIX | 0.041 | −123.6 |
+| 11 NILAM–ANOKO–ISBIX | 0.008 | −125.2 |
+| 10, 2 (BULVA ends) | < 0.001 | below −129 |
+
+- **Against predictions:**
+  - Held: route 3 −122.8 ± 0.3; route 11 −125.2 ± 0.3; split-half; 00:19 median −37.30 ± 0.15.
+  - **Missed:** family −124.5 ± 0.3 (result −122.19); route 3 share about 0.91 (0.093); routes 19/43 below −130 (route 43 leads).
+- **Ground speed, measured along the actual path** (median of 10-minute segments):
+  - Route 43 runs 496 / 493 / 489 kt to 18:32, then about 480 kt after the turn. Route 3 runs 484 / 480 / 477, then 472–479; run D free paths 487 / 482 / 473, then 472–478.
+  - So route 43 is about 8–15 kt faster than the alternatives, not slower. Mach and altitude follow with the per-route shares.
+  - The polyline-projection speeds (526–538 kt) are biased by corner-cutting at a 120° fly-by turn and are withdrawn.
+- **Geometry:** the fly-by turn of about 120° at SAMAK starts about 20 NM before the fix. The aircraft rolls out on the SAMAK–ISBIX leg, which passes within a few NM of IGOGU and ANOKO. The difference from route 3 is mainly before the turn: a direct MEKAR→SAMAK on a more north-westerly heading, as Pete proposed. That leg leaves N571 at MEKAR; the 18:22:12 radar fix, 10 NM past MEKAR, is about 2.6 NM off it.
+- **Caveats (why this is interim):**
+  1. The fly-over → fly-by change reorders the route family by up to 15 nats, so the turn model is now the leading systematic. A sensitivity on bank angle (15° vs 25°) and on the fly-by cap is needed before any adoption.
+  2. The turn at SAMAK is near the 120° cap.
+  3. Shares by route identifier and Mach are still to come.
+  4. Route provenance is Pete's own; the routes-prior ruling stays with Pete.
+- **OOM note:** the deskstar cgroup records 2 OOM kills between 17:07 and 17:55Z, when the run G per-route script was running beside the audit arms. Every arm since has all seeds and complete shares files, so no result is affected. Mitigation: the per-route script now runs only when no arm job is active.
+- **Hybrid** (41d7a7a0) is running, about 20:15Z. **Next:** run H per-route shares and Mach, then the hybrid result. **Proposed:** a turn-model sensitivity (bank 25°, fly-by cap 135°) on routes 43, 3 and 11 at audit size, about 15 min. Needs Pete or architecture.
