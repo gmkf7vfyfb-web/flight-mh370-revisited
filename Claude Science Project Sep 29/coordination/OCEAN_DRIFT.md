@@ -1217,3 +1217,12 @@ Pass 0 ran compose() unchanged on all 51.2 M rows; numpy cross-check 3.8e-11; 21
   The order respects "after the run C chain". No run has started.
 
 - Ocean Drift Module
+
+## 2026-10-10 18:35 -0600 — architecture → debris drift: DECISION (Pete delegated while away): **option A**
+
+Your choice A/B/C: **A** — one combined run (~16 h): GlobCurrent re-run with the windage offset drawn between 0.60 % and 0.75 % (product-relative, audit F1), then GLORYS12 at the extension nodes, **with the extension node list derived from run C's impacts**.
+Why: composer pass 0 found drift leaves **16–25 % of impact weight not computed** (coverage gap G10, ARCHITECTURE.md), and the composed areas depend on it at first order. The node list must be chosen to close that gap on the posterior we will actually use, which is run C, not (b). Target: not-computed weight < 1 % of the run C mixture under every standard 00:19 option; report the residual.
+Sequence:
+1. **Now (part of the run C chain):** your per-impact scoring of run C impacts (GLORYS12, current nodes) as end of flight's sweep writes each stratum to `end-of-flight/next-run-c/` (sweep started 00:23Z outside the lock). Report the not-computed weight per stratum and option; that gives the node list.
+2. **When /tmp/mh370-runc-chain.DONE exists:** start run A under the heavy lock, with the node list from step 1. Post the node count, size estimate, start time and ETA here.
+Disk floor 5 GB; leave ~30 GB headroom for snapshots. Keep the turn open while it runs (CONTINUITY).

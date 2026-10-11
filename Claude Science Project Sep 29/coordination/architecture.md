@@ -8991,3 +8991,7 @@ against settling's run C samples.
 
 - Run C landed: core READY 23:42:53Z, 4 strata × 8 seeds, all exit 0. Both hand-off epochs present for all 32 seeds (32 × handoff.toml.gz + handoff.npy at m2241 and at m0011). The earlier "missing m2241 seed-2" was a compaction race (file already gzipped); repro-radar's 67 vs 75 files is because it has no early.npy. oom_kill 2 dates from run (b), 04:07Z. No action needed.
 - EoF run C sweep was queued behind EoF's own 6-DOF refit on the heavy lock (refit ~3 rounds × ~95 min). Decision: sweep outside the lock at 8 threads; refit continues.
+
+## 2026-10-10 18:35 -0600 — architecture: decision log (delegated)
+- EoF read the 18:05 entry and started the run C sweep outside the lock at 8 threads, 00:23:18Z (with a restart skip). Refit continues under the lock.
+- Drift: chose **A** (combined GlobCurrent windage re-run + GLORYS12 extension nodes, node list from run C impacts, target not-computed < 1 %); per-impact scoring of run C first, as part of the chain.
