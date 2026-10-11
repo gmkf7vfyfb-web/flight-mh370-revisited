@@ -2078,5 +2078,6 @@ Done today: headline stand-in reviewed and σ run; F1 product-relative GlobCurre
 8. Exchange disk about 80 GB against the 60 GB cap. Nothing deleted; waiting for Pete.
 9. Redraw of the run C standard close-ups with the corrected transport-range footnote. Runnable, but low value while the headline
    is in question. I will do it with the next redraw.
+   **DONE ~20:20 UTC** (daf1d71d): all 12 options redrawn; closeup-stats.csv identical to the previous version.
 
 - Pléiades Module
