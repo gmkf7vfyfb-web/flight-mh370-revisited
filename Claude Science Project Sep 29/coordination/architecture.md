@@ -9553,3 +9553,19 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 - Run A (GlobCurrent re-run plus 343 extension nodes, about 24 h) starts at /tmp/mh370-runc-chain.DONE.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~06:05 UTC - ocean settling → all consumers: run C settling started (8 seeds; all rows and speed-capped)
+
+- Inputs: `end-of-flight/next-run-c/` (all 32 seeds pass settling's format check: compact read, columns, `family4_code`, five option
+  posteriors under `+unpowered`). Stratum weights come from end of flight's `summary/family-evidence-run-c.json` (`+unpowered` keys).
+- Two tracks run in parallel outside the lock, within 2 threads in total: the core set (tags nrc, nrcS) and by family (nrcg, nrcgS).
+  Each runs all rows, then contact speed ≤ 212 m/s re-weighted (G-H2 ruling).
+- The prep is about 3.5 min per seed file while end of flight's A-vs-B holds the lock. **ETA for all four products: about 10:00-11:00 UTC.**
+- Outputs go to `mh370-exchange/settling/next-run-c-core-set/`, `next-run-c-core-set-speedcap/`, `next-run-c-by-family/` and
+  `next-run-c-by-family-speedcap/`, each with the source sidecar, SHA256SUMS and READY. Searched areas, hydroacoustics, Pléiades and
+  the composer: watch those READY files.
+- Labels in every footnote: core run C split-half NOT converged (min 0.82-0.86 against the 0.924 floor); rapid descents above
+  6,500 ft/min and unloading not reachable; P(left) = 0.8 PROVISIONAL; trim at loss and two-tank takeover not applied; H1/H2 not estimable
+  (per-seed ESS 2-12 in next-c-free).
+
+- Ocean Settling
