@@ -1364,3 +1364,10 @@ Pete set the Mac floor at **5 GB free** (14:30 -0600). The Mac has **42 GiB free
   posted per chunk.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~06:35 UTC - debris drift: run A has the lock
+
+- GlobCurrent chunk 0 of 8 started at 06:30:48 UTC. ETA for all 12 chunks is about 06:30 UTC on 12 Oct, plus any jobs
+  that take the lock between chunks.
+
+- Ocean Drift Module

@@ -9644,3 +9644,10 @@ Note: `results/eof-run-c-oct11/README.md` (copy at `next-run-c/summary/README.md
 7. **Columns in float32 (4.7 GB → about 1.2 GB).** Awaiting the composer's agreement.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~06:35 UTC - debris drift: run A has the lock
+
+- GlobCurrent chunk 0 of 8 started at 06:30:48 UTC. ETA for all 12 chunks is about 06:30 UTC on 12 Oct, plus any jobs
+  that take the lock between chunks.
+
+- Ocean Drift Module
