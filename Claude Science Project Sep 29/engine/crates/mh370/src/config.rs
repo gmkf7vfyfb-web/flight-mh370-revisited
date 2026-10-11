@@ -576,6 +576,10 @@ pub struct RoutesConfig {
     /// keeps the original rule, under which only 14 of the 48 routes of waypoints.toml differ.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub turn_backs: Option<bool>,
+    /// Fly-by turns at intermediate waypoints (Pete's GO, 11 Oct 2026): the turn starts at the
+    /// anticipation distance R tan(dpsi / 2) before the fix. Absent or false: fly-over (original).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by: Option<bool>,
 }
 
 impl RoutesConfig {
@@ -685,7 +689,7 @@ impl EarlyConfig {
                             return Err(format!("dynamics.early.routes.only must name indices below {}", routes.len()));
                         }
                     }
-                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), allowed: r.only.clone() })
+                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), fly_by: r.fly_by == Some(true), allowed: r.only.clone() })
                 }
             }
         };
