@@ -518,3 +518,18 @@ Stored at `/Users/pete/Downloads/mh370-ocean-data/products/gdp-replay/`. The sta
 | `grid_75-115E_45-10S/glorys12v1_uo_vo_thetao_so_75-115E_45-10S_20140307-20140314.profile.f32` | 1,296,006,400 | 1884e91006ee1b1e58afe93ba6e383a59513c5398dcaf618f5211b6b6597f487 |
 | `grid_75-115E_45-10S/glorys12v1_deptho.f32` | 810004 | 10576b578d065addacac940fe30a90936874e846dc0f7ed79e343b6ee94e94b2 |
 | `products/gdp-replay/replay_pairs.json` (also `results/ocean-transport-error-pairs.json`) | 19898 | 4550e675fa4c37a0cca070ee6e9eb423f5770a4ee571037a2f12df32b1f91bff |
+
+## South Atlantic layers and calibration path sections (hydroacoustics audit task 2c), built 2026-10-11
+
+- **GEBCO_2026 layer `gebco/grid/gebco_2026_satl.json`:** 62–12 W, 48 S–6 N, 12,000 × 12,960 cells, copied unchanged with TID. The `source_sha256` is identical to the main layer's.
+- **WOA23 `woa23/soundspeed_satl/`:** decades A5B4 and B5C2, months 1–12, same method as the main grids.
+- **Path sections:** `/Users/pete/Downloads/mh370-exchange/ocean-transport/paths-calibration/`, with README, SHA256SUMS and READY. They were built by `prepare/calibration_paths.py` around the audit's `paths.py`.
+- **No download.**
+
+| File | Bytes | sha256 |
+|---|---|---|
+| `gebco/grid/gebco_2026_satl_elevation.i16` | 311040000 | c97620b845ba1c16bff5af75e5280d28c0e1a1bf05288c0cb6a57553a5e66d11 |
+| `gebco/grid/gebco_2026_satl_tid.u8` | 155520000 | f6523a1079671f393d86db676d6384ec561e0435eba9d3b258cfceb7958b89a9 |
+| `woa23/soundspeed_satl/woa23_A5B4_m06_c_mean.f32` | 1101600 | 03efb05a5266283c307e85326808d3ca9b7a056524f78c838df8bd78da22daae |
+| `woa23/soundspeed_satl/woa23_B5C2_m12_c_mean.f32` | 1101600 | e8bcc686fa6347cfa340b2032f265b5298d41b1085986dd89b159fc4a919923d |
+| `paths-calibration/SHA256SUMS` | 808 | ac625a70e5340612ef72798daca1836a78669d530bd629acbbb7e4a7829ca30c |

@@ -1466,3 +1466,33 @@ Good progress overnight. On each item:
 6. **Blockage method: module-built N×2D**, using ocean transport's bathymetry and sound-speed sections along the N radials (ocean transport provides sections on request; propagation stays in the module). Start with Yemenia → H08S/N, since that path crosses Saya de Malha Bank.
 7. **float32 columns: agreed** for log-likelihood and score columns (the composer already reads float32 Pléiades columns). Keep times in float64 or as seconds after T0 = 1394236800 in float32, as end of flight does.
 Next runnable: 6 (Yemenia N×2D), then 5, then 1 when paths land. done / next / blocker after each.
+
+## 2026-10-11 ~00:40 UTC — ocean transport → hydroacoustics (cc architecture): calibration path sections for audit task 2c
+
+**Delivered:** `/Users/pete/Downloads/mh370-exchange/ocean-transport/paths-calibration/`, with README,
+SHA256SUMS and READY (4.7 MB).
+- **Builder:** the audit's own `results/hydroacoustics-audit/scripts/paths.py`, **unchanged**, so the format
+  is what your KRAKEN wrapper reads. Only its GEBCO and WOA23 loaders point at new South Atlantic layers. The
+  wrapper is `engine/crates/ocean/prepare/calibration_paths.py`.
+- **`af447-H10S`:** 3.07 N 30.56 W → 8.95 S 14.65 W, 2,209.9 km, 4,421 samples at 0.5 km. WOA23 2005–2014
+  (A5B4), June, with 90 sound-speed nodes.
+- **`sanjuan-charge-H10N`:** 45.67 S 59.24 W → 7.84 S 14.49 W, 5,989.0 km, 11,979 samples. WOA23 2015–2022
+  (B5C2), December, with 241 nodes.
+- **Depth:** the 3 × 3 GEBCO_2026 median, as in `paths.py`.
+- **Filled here** (the builder leaves both NaN): `tid` and `corridor_max_elevation_m` (±2 km).
+- **Receiver positions:** your H10 coordinates agree with the EarthScope FDSN triad centroids to within about
+  0.5 km. Hydrophones are at 845–865 m.
+- **Sources:** GEBCO and WOA23 are from sources already held; there was no download. Disk stays above 15 GiB
+  (26 GiB free).
+
+**Shallow features (< 1,000 m) and N×2D:**
+- **AF447 → H10S: none.** The track is 1,674–5,843 m deep, and the ±2 km corridor never comes above
+  −1,000 m. 2-D along the geodesic is adequate.
+- **San Juan → H10N: yes, the Rio Grande Rise,** at 2,590–2,672 km (about 31 S, 35.5 W, TID 11 multibeam).
+  - The track is as shallow as 674 m, and the ±2 km corridor as shallow as 651 m.
+  - Within ±25 km the shallowest is 591 m, with 86 km of path above −1,000 m.
+  - The December sound-channel axis there is at about 850 m, so the rise reaches into the channel. **This path
+    needs N×2D treatment around the rise.**
+  - The source end is on the Argentine slope (1,645 m; 1,362 m within the first 20 km).
+
+— ocean transport (architecture sub-agent)
