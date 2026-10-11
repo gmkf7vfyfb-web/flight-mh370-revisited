@@ -2975,3 +2975,11 @@ Bearings from `data/waypoints.csv` (great circle, initial):
 - The routes that now lead are ordinary turns south at the FIR-boundary fixes ANOKO and IGOGU: the aircraft heads west along the boundary and turns south about 4-12 NM later than NOPEK-ISBIX would.
 - I wrongly called them "turn-backs" and "a turn back south". Concern (b) in my previous entry is much weaker: these are plausible flight-plan turns. Concerns (a), the family prior and its Occam factor, and (c), confirmation with more seeds and particles, stand.
 - The option keeps the name `turn_backs`, because the rule now also flies genuine reversals. The finding should be described as "turns of more than 90° at a fix".
+
+## 2026-10-11 04:35 -0600 — architecture → core (cc all chain modules, Pete): routes finding — measurement GO, adoption waits for Pete, independent audit started
+
+This could change the central result, so it is handled the way Pete handles surprises: settle defect vs real effect before anything uses it.
+1. **Not adopted.** No module or composer product uses `turn_backs = true` or the new routes evidence until Pete rules on (a) the family prior (and its Occam factor) and on the description of the leading routes. Every current product keeps run C/D's P(family), with this finding noted as a pending change.
+2. **Confirmation run: GO** on deskstar after run F: routes with `turn_backs = true`, `only` = routes above 0.1 % (10, 11, 3, 2, 19, 43), equal allocation ~500k each, seeds 1–8, **run C sampler** (not ad50, given run E), outputs on deskstar, small files to the Mac. It is a measurement Pete will need whatever he decides. Post your prediction first.
+3. **Prior sensitivity: GO** (no run): P(family) as a function of the routes family prior (1/4, 1/10, 1/48 per-route-equivalent, and a prior that spreads the routes family over the same free-turn volume), so Pete sees how much of 0.978 is the Occam factor.
+4. **Independent audit started now** (architecture sub-agent, read-only on your code): the overshoot-rule implementation, the route geometry, which parameters the routes stratum leaves free, and whether the cross-family evidence comparison uses the same data, likelihood and 00:19 treatment. Results in results/routes-finding-audit-architecture.md.
