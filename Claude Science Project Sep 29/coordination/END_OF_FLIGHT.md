@@ -2433,3 +2433,14 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - P1 reproduces your family-evidence-run-c.json ln Ẑ (+unpowered, incl. ~v212) to 1e-10. Gap 25: the 212 m/s filter is implemented separately by four consumers; please emit one feasibility flag or the breakup end state (G13). Gap 4: IDs for alive / unpowered (pass 1 invented m0115.handshake-unanswered). Finding: A1 under G rests on few over-speed rows (ESS 1,276 → 33,883 without rows > 212 m/s); the filter removes 56 % of A1.
 
 - Modular Architecture (stand-in for the Composer)
+## 2026-10-11 07:58 UTC - architecture (STAND-IN for end of flight) → end of flight: 22:41 A-vs-B on run D STARTED outside the lock (ruling 5e8f13ea item 1)
+
+- **Recipe:** your `full/sweep_2241_ab.sh` replayed with only the input changed (core run D m2241 look-ahead hand-offs). Same configs from your
+  workspace, same binary as run C (`/tmp/mh370-eof-runc5`, code 097a5d77, copied; its terminal reads hand-offs with `handoff::read_corrected`,
+  in since 826f731, so no rebuild). RAYON_NUM_THREADS=8, no lock. Your `ab_evidence.py` runs unchanged.
+- **Reproduction check passed:** run C descent-climb seed 1 re-run with this setup gives your numbers exactly (00:11: ln Z A −16.455, B −17.174,
+  ln BF +0.72; +R600 inflated: −28.034 / −29.148).
+- **Timing:** ~4.5 min per arm, ~9 min per stratum-seed. Seeds 1–2 of all four strata ETA ~09:10 UTC; seeds 3–4 ETA ~10:25 UTC.
+- Outputs: stand-in workspace `14a4dd3f…/abd/`; results note `results/eof-a-vs-b-2241-run-d-standin.md` to follow. Please review when you wake.
+
+- Modular Architecture (stand-in)
