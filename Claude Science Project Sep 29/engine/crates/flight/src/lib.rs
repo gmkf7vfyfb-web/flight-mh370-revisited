@@ -86,6 +86,8 @@ pub struct RoutePrior {
     pub routes: Vec<Vec<(f64, f64)>>,
     /// Fly turn-back continuations (`Guidance::turn_backs`).
     pub turn_backs: bool,
+    /// Fly-by turns at intermediate waypoints (`Guidance::fly_by_bank_deg`, using the model's bank limit).
+    pub fly_by: bool,
     /// Restrict the draw to these route indices (uniformly among them), keeping their index
     /// numbers. For per-route runs whose evidence is combined afterwards. None: all routes.
     pub allowed: Option<Vec<u32>>,
@@ -421,6 +423,13 @@ pub struct Guidance {
     /// False keeps the original rule throughout, under which a turn-back fix is skipped at once.
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub turn_backs: bool,
+    /// Fly-by turns (Pete's GO, 11 Oct 2026): with Some(bank limit in degrees), an intermediate
+    /// waypoint is sequenced once the aircraft is within the turn anticipation distance
+    /// R tan(dpsi / 2), with R = TAS^2 / (g tan bank) and dpsi the course change onto the next
+    /// leg (capped at FLY_BY_MAX_TURN_RAD), so the turn starts before the fix as in an FMS
+    /// fly-by. None keeps the fly-over rule: sequence within CAPTURE_NM of the fix.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_bank_deg: Option<f64>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -457,6 +466,8 @@ pub struct GuidanceState {
 const CAPTURE_NM: f64 = 2.0;
 /// Course corrections below this are applied directly rather than flown as a banked turn.
 const DIRECT_CORRECTION_RAD: f64 = 1.0 * PI / 180.0;
+/// Fly-by anticipation is computed for course changes up to this angle (larger ones use it).
+const FLY_BY_MAX_TURN_RAD: f64 = 120.0 * PI / 180.0;
 
 /// Air data behind the current ground velocity.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -1471,7 +1482,8 @@ impl Aircraft {
         if let Some(route) = rec.route.clone().filter(|r| !r.started && now >= r.unix_s) {
             if let Some(routes) = p.early.as_ref().and_then(|e| e.routes.as_ref()) {
                 let waypoints = routes.routes[route.index as usize].clone();
-                self.set_guidance(Guidance { waypoints, after: AfterRoute::Free, turn_backs: routes.turn_backs }, env, rng);
+                let fly_by_bank_deg = routes.fly_by.then_some(p.bank_angle_deg);
+                self.set_guidance(Guidance { waypoints, after: AfterRoute::Free, turn_backs: routes.turn_backs, fly_by_bank_deg }, env, rng);
             }
             if let Some(r) = self.early.as_mut().and_then(|r| r.route.as_mut()) {
                 r.started = true;
@@ -1608,7 +1620,16 @@ impl Aircraft {
             if let Phase::Route(i) = g.phase {
                 let behind = error.abs() > PI / 2.0;
                 let overshoot_rule = g.plan.turn_backs && i > 0;
-                if distance_nm < CAPTURE_NM || (behind && (!overshoot_rule || g.leg_engaged)) {
+                let lead_nm = match g.plan.fly_by_bank_deg {
+                    Some(bank_deg) if i + 1 < g.plan.waypoints.len() => {
+                        let next_leg = bearing_and_distance(target, g.plan.waypoints[i + 1]).0;
+                        let dpsi = wrap_pi(next_leg - bearing).abs().min(FLY_BY_MAX_TURN_RAD);
+                        let v = self.air_speed_kt(self.weather.speed_of_sound_kt()) * MPS_PER_KNOT;
+                        v * v / (9.806_65 * bank_deg.to_radians().tan()) / 1852.0 * (0.5 * dpsi).tan()
+                    }
+                    _ => 0.0,
+                };
+                if distance_nm < CAPTURE_NM.max(lead_nm) || (behind && (!overshoot_rule || g.leg_engaged)) {
                     let gs = self.guidance.as_mut().unwrap();
                     gs.phase = Phase::Route(i + 1);
                     gs.leg_engaged = false;
@@ -2303,7 +2324,7 @@ mod tests {
         let fly = |turn_backs: bool| {
             let mut rng = ChaCha8Rng::seed_from_u64(6);
             let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs };
+            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs, fly_by_bank_deg: None };
             a.set_guidance(plan, &CalmAir, &mut rng);
             let (mut near_nilam, mut near_mekar_after_nilam, mut reached_nilam) = (f64::MAX, f64::MAX, false);
             for k in 1..=240 {
@@ -2324,12 +2345,46 @@ mod tests {
         assert!(m1 < CAPTURE_NM + 0.5, "turn_backs should fly back to MEKAR, came within {m1} NM");
     }
 
+    /// Fly-by (11 Oct 2026): at a ~99 degree left turn at ANOKO, the fly-over rule overshoots and
+    /// homes back onto the ANOKO-ISBIX leg from well off it; the fly-by rule starts the turn at
+    /// R tan(dpsi/2) (~14 NM at 15 deg bank) and rolls out close to the leg, missing the fix by
+    /// about R (sec(dpsi/2) - 1).
+    #[test]
+    fn a_fly_by_turn_rolls_out_on_the_next_leg() {
+        const ANOKO: (f64, f64) = (7.136111111111111, 94.41611111111111);
+        const ISBIX: (f64, f64) = (0.3666667, 93.6751083);
+        let p = busy();
+        let fly = |fly_by_bank_deg: Option<f64>| {
+            let mut rng = ChaCha8Rng::seed_from_u64(6);
+            let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
+            let plan = Guidance { waypoints: vec![NILAM, ANOKO, ISBIX], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 185.0 }, turn_backs: true, fly_by_bank_deg };
+            a.set_guidance(plan, &CalmAir, &mut rng);
+            let leg = bearing_and_distance(ANOKO, ISBIX).0;
+            let (mut near_anoko, mut max_xt) = (f64::MAX, 0.0_f64);
+            for k in 1..=480 {
+                a.propagate(k as f64 * 15.0, &p, &CalmAir, &mut rng);
+                let (b, d) = bearing_and_distance(ANOKO, (a.lat, a.lon));
+                near_anoko = near_anoko.min(d);
+                let (along, cross) = (d * (b - leg).cos(), d * (b - leg).sin());
+                if (10.0..80.0).contains(&along) && wrap_pi(b - leg).abs() < PI / 3.0 { max_xt = max_xt.max(cross.abs()); }
+            }
+            (near_anoko, max_xt)
+        };
+        let (n_over, xt_over) = fly(None);
+        let (n_by, xt_by) = fly(Some(p.bank_angle_deg));
+        eprintln!("fly-over: closest {n_over:.2} NM, max cross-track {xt_over:.2} NM; fly-by: closest {n_by:.2} NM, max cross-track {xt_by:.2} NM");
+        assert!(n_over < CAPTURE_NM + 0.5, "fly-over should pass within capture of ANOKO, {n_over}");
+        assert!(xt_over > 6.0, "fly-over should leave the next leg well off, max cross-track {xt_over}");
+        assert!((3.0..10.0).contains(&n_by), "fly-by should cut the corner by ~R(sec-1), closest {n_by}");
+        assert!(xt_by < 0.5 * xt_over && xt_by < 4.0, "fly-by should roll out near the leg, {xt_by} vs {xt_over}");
+    }
+
     #[test]
     fn a_route_is_flown_through_its_waypoints_then_held() {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(6);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false };
+        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false, fly_by_bank_deg: None };
         a.set_guidance(plan, &CalmAir, &mut rng);
         let (mut near_nilam, mut near_igogu) = (f64::MAX, f64::MAX);
         for k in 1..=240 {
@@ -2351,7 +2406,7 @@ mod tests {
         let mut rng = ChaCha8Rng::seed_from_u64(7);
         let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
         let dest = (-45.0, 104.0);
-        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false, fly_by_bank_deg: None }, &CalmAir, &mut rng);
         let (_, d0) = bearing_and_distance((a.lat, a.lon), dest);
         let mut flown = 0.0;
         for k in 1..=120 {
@@ -2371,7 +2426,7 @@ mod tests {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(8);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticTrack, &p, &CalmAir, &mut rng);
-        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false, fly_by_bank_deg: None }, &CalmAir, &mut rng);
         a.propagate(3.0 * 3600.0, &p, &CalmAir, &mut rng);
         assert!(a.guidance.is_none());
         assert_eq!(a.mode, Mode::MagneticTrack);
@@ -2410,7 +2465,7 @@ mod tests {
         }
         let mut guided = Aircraft::sample(&start_on_n571(), Mode::TrueHeading, &p, &CalmAir, &mut rng);
         let after = AfterRoute::Destination { lat: -30.0, lon: 95.0 };
-        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false }, &CalmAir, &mut rng);
+        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false, fly_by_bank_deg: None }, &CalmAir, &mut rng);
         let mut on_route = guided.clone();
         on_route.propagate(300.0, &p, &CalmAir, &mut rng);
         guided.propagate(1500.0, &p, &CalmAir, &mut rng);
