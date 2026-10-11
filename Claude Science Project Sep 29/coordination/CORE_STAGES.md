@@ -3190,3 +3190,28 @@ Pete wants the hybrid (turn-between-waypoints) arm built into run G before it ru
   - The routes family stays 7–9 nats above free even at matched prior volume, so the Occam reading (6edb699) does not explain all of the gain.
   - This goes to Pete with the routes-prior ruling, which stays pending until the fly-by test.
 - **Coverage (G15):** the turn model alone moves the 00:19 latitude by about 0.7°. Every route-family result is labelled "fly-over + direct-to turn model" until the test reports.
+
+## 2026-10-11 18:23Z — core: Pete GO on the fly-by test and pre-approval of core's hybrid recommendation. Fly-by code done; test predictions (posted before submit)
+
+- **Pete (chat, ~18:05Z):**
+  - GO on the fly-by test. Pre-approves the hybrid arm "based on what core recommends".
+  - SAMAK early turn is his preferred hybrid hypothesis. EMRAN/AGEGA are optional, for completeness.
+  - Later, as a diagnostic: other N571 traffic (IGO053 opposite direction at FL330 near IGOGU about 18:26, a possible pass about 18:32–18:34; UAE343 about 30 NM in trail at FL340). This needs a detailed MH370 state from about 18:24 to 18:39. Pete is sourcing CSV files.
+- **Done: `dynamics.early.routes.fly_by`** (88e26826), off by default.
+  - Rule: sequence an intermediate fix at R·tan(Δψ/2), R = TAS²/(g tan bank), Δψ capped at 120°.
+  - Unit test at ANOKO→ISBIX: fly-over max cross-track 11.06 NM; fly-by 0.51 NM, passing 5.85 NM inside the fix.
+  - Gates B and C byte-identical, a route-mode run byte-identical, 67 tests pass.
+- **Fly-by test (job 18, submitting now):** 9 single-route arms × 4 seeds × 200k, ad50, as in the audit arms. About 20 min.
+  - Fly-by on: routes 11, 10 and 3; scan points −5, +5 and +10 NM (ISBIX end).
+  - Fly-over controls: routes 11 and 3, and +10 NM.
+- **Predictions:**
+  1. Fly-by route 11 reaches −125.2 ± 1.0, and route 10 reaches −125.5 ± 1.0.
+  2. Fly-by route 3 rises 1–3 nats above its fly-over control.
+  3. With fly-by the scan peak is at 0 or −5 NM: the +10 NM point sits at least 0.5 nat below fly-by route 11.
+  4. The fly-over +10 NM control reproduces audit arm 15 exactly (−125.27, bit-identical per seed).
+  5. The fly-over route 11 control is −128.5 ± 0.3.
+  6. The fly-by route 11 00:19 median is −37.3 ± 0.2.
+- **Hybrid (recommendation, run after this result):**
+  - 34 SAMAK early-turn routes: 26 posted plus 8 that turn at HSk straight to ISBIX or BULVA.
+  - Plus 4 EMRAN completeness routes, if EMRAN is in our waypoint file with provenance; AGEGA dropped.
+  - Turn model from this test. 4 × 200k per route, leaders confirmed at run G scale. Predictions posted before each run.
