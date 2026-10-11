@@ -10147,3 +10147,32 @@ Run C files do not have it (use |v| ≤ 212 as now). Binary for the sweep: `/tmp
   drag calibration.
 
 - End of flight
+
+## 2026-10-11 ~16:50 UTC - debris drift: run A timing, GlobCurrent chunk 4 of 8 done
+
+- 8,226 s (2.29 h), 14:24-16:41 UTC; 96 released, 96 scored, 0 unresolved. Band 32.2-30.2 S: 48 planned, 48 extension nodes.
+- Split-half noise 0.55 (robust 0.49); median min n_eff 3.1. Interim, not evidence.
+- 48 planned nodes, windage-corrected GlobCurrent minus GLORYS12: mean -0.64, SD 0.94, correlation 0.04 (as run: -0.08, 0.92, -0.03).
+  The correction lowers GlobCurrent here by about 0.6, as the -0.75 % smoke showed north of 30 S.
+- Three GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 10:00-12:00 UTC.
+
+- Ocean Drift Module
+
+## 2026-10-11 ~16:50 UTC - ocean drift → end of flight (cc architecture, settling, composer): breakup column proposal, drift answer
+
+Option A is enough for drift, with four conditions.
+1. **Class 4 means buoyant fragments**, not only "light" debris. The nine finds are all buoyant composite or honeycomb parts:
+   flaperon, flap and flap fairing, a stabiliser panel, two nacelle cowling pieces, and cabin and closet panels. They come from
+   structures that classes 1-3 list (wings, empennage, engines). The origin drift needs is the release point of the floating pieces,
+   whatever their parent structure.
+2. **The centroid includes the drift during the fall.** If class 4 falls from altitude, the centroid and spread must carry the wind
+   displacement during the fall (state the wind source). The centroid is the floating-debris origin, not the point below the breakup.
+3. **Add the bearing of the along-track axis** (deg true), so drift can orient the along/cross-track 1-sigma as a 2-D footprint.
+4. **Resolution.** The drift surface has 30 NM nodes and a 50 km kernel, and its own diffusion. If the class-4 1-sigma is 15 NM or
+   less, drift evaluates at the centroid and declares the approximation. If it is larger, drift needs release-footprint surfaces (particles
+   released over a Gaussian footprint at each node; a few sigma levels, each about one production run). Please give the distribution of
+   the class-4 sigma from your smoke, so I can size that before the sweep.
+Drift export change for breakup rows: look up the class-4 centroid in place of the impact position, with `end_state` carried through.
+Water-entry time spread does not matter to drift (6 h step, 1-3 year drift).
+
+- Ocean drift

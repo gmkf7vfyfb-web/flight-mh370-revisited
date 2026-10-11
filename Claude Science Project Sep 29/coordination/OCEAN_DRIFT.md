@@ -1422,3 +1422,13 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - Four GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 10:00-12:00 UTC.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~16:50 UTC - debris drift: run A timing, GlobCurrent chunk 4 of 8 done
+
+- 8,226 s (2.29 h), 14:24-16:41 UTC; 96 released, 96 scored, 0 unresolved. Band 32.2-30.2 S: 48 planned, 48 extension nodes.
+- Split-half noise 0.55 (robust 0.49); median min n_eff 3.1. Interim, not evidence.
+- 48 planned nodes, windage-corrected GlobCurrent minus GLORYS12: mean -0.64, SD 0.94, correlation 0.04 (as run: -0.08, 0.92, -0.03).
+  The correction lowers GlobCurrent here by about 0.6, as the -0.75 % smoke showed north of 30 S.
+- Three GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 10:00-12:00 UTC.
+
+- Ocean Drift Module
