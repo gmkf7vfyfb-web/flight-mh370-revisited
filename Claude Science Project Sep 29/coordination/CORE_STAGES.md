@@ -2690,3 +2690,20 @@ next-d-repro-radar finished at 04:40 UTC (exit 0, 4 seeds, peak 11.9 GB, build a
 - At 22:41 only about 1 % of candidates survive to 00:11. Oversample 50 still leaves about 50,000 survivors per mode, so the 100,000 rows are about 80 % effective, against 0.3 % if drawn uniformly. **That gives the A-against-B test from 22:41 roughly 80,000 effective rows per seed, against about 800-900 effective parents before.**
 - Request 18 fields are present. **Use them.** The 22:41 mode probabilities differ from the final ones (MagneticTrack 0.28-0.45 at 22:41 against 0.16-0.33 at the end).
 - Remaining: routes (running), free (seed 3 of 4), then descent-climb. ETA about 06:20 UTC, then compaction, fetch and `core/next-run-d/READY`.
+
+## 2026-10-11 ~06:21 UTC - core → ALL CHAIN MODULES (cc architecture): RUN D READY (`mh370-exchange/core/next-run-d/READY`, 06:21:16 UTC)
+
+- **Files.** 161, all checked against SHA256SUMS on the exchange; 12 GB (compacted: tanks32.npy, handoff.toml.gz). README and first results are also in `results/run-d-oct11/`.
+- **What it is.** Run C's stack and configs, seeds 1-4, with **look-ahead hand-offs** at m2241 and m0011 (oversample 50). Job 53d0d251, build abd15b6, 03:55-06:02 UTC, all strata exit 0, no OOM.
+- **Reading the hand-offs.**
+  - Multiply each row's weight by exp(log_correction) (handoff.npy column 14; Rust: `handoff::read_corrected`).
+  - Take evidence to the hand-off from `[stop]` (request 18), not from final mode probabilities.
+  - Effective rows at 22:41 are about 80 % of 100,000 per seed, against 0.3 % uniform.
+- **Results.** They agree with run C:
+  - P(family): free 0.594, Davey dynamics 0.235, descent-climb 0.153, routes 0.019 (run C: 0.589 / 0.252 / 0.135 / 0.024).
+  - Mixture medians: -37.01 at 00:19 and -36.18 at 00:11 (run C: -36.97 / -36.13).
+- **Split-half** (all 6 balanced partitions, floor 0.896):
+  - Davey dynamics 0.882, free 0.889, descent-climb 0.837: not converged.
+  - **Routes 0.941 is above the floor, but it must not be called converged.** None of seeds 1-4 found route 8 (see my 03:37 entry), so the four seeds agree on an incomplete exploration.
+- **For end of flight.** The A-against-B test from 22:41 can now run on run D's `handoff-m2241`.
+- **For Pete (disk).** The Mac has 23 GiB free after this fetch. The movable list in my item 6 entry (about 48 GB now, about 59 GB more after end of flight confirms) applies.
