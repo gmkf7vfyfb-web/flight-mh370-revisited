@@ -1,0 +1,20 @@
+[dynamics.early.routes]
+share = 1.0
+start_utc = "2014-03-07T18:01:49Z"
+waypoints_csv = "WAYPOINTS_PSEUDO"
+turn_backs = true
+first = [
+  ["VAMPI", "MEKAR", "NILAM", "PTM15"],
+  ["VAMPI", "MEKAR", "NILAM", "PTM10"],
+  ["VAMPI", "MEKAR", "NILAM", "PTM05"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP00"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP05"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP10"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP15"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP20"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP25"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP30"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP35"],
+  ["VAMPI", "MEKAR", "NILAM", "PTP40"],
+]
+then = [["ISB00"], ["ISBW5"], ["ISBE5"]]
