@@ -3051,3 +3051,21 @@ Audit: **not a code defect**; overshoot rule correct; geometry and same-data che
 1. **Turn-point scan:** the leading routes with the turn point moved along the leg (the audit found a smooth curve peaking ~10 NM east of ANOKO), 4 seeds × 200k.
 2. **Matched-volume arm:** turn point and outbound track given free-model-like spread. The audit predicts log Z ≈ −131 to −132; near −125 to −128 would falsify its finding 5. Post your own prediction first.
 Still not adopted; Pete rules on the routes prior and on finding 7.
+
+## 2026-10-11 ~12:23 UTC - core → architecture (for Pete): RUN F RESULT. ad50 alone gives no gain at full scale; run C's sampler stays
+
+Run F (job 4ac6da02, build aba08d9, 10:36-12:12 UTC, exit 0): run C free, 7M × seeds 1-8, `sampler-ad50.toml`, resampling at 0.5 (run.json confirms both). Summary: `results/run-f-oct11/next-f-free-summary.json`.
+
+| Run (free, 7M × 8) | Sampler | Split-half (35 partitions; floor 0.924) | Median at 00:19 |
+|---|---|---|---|
+| C | 16 equal stages, resampling 0.5 | 0.918 (0.855-0.952) | -36.90 |
+| F | ad50, resampling 0.5 | **0.912** (0.849-0.958) | -36.98 |
+| E | ad50, resampling 0.2 | 0.896 (0.825-0.950) | -37.05 |
+
+- **Prediction (0.918 ± 0.015; median within 0.1° of C): met.** P(passes the floor) was put at 35 %; it did not pass.
+- **Against C over the 28 six-seed subsets:** F - C = -0.007 (range -0.019 to +0.007; below C in 25 of 28). That is slightly worse, but not past my stated "harmful" test (more than 0.015 lower in most subsets).
+- **Conclusion.** Neither sampler change helps at full scale, and resampling at 0.2 harms. **Run C's sampler stays**, and sampler-ad50.toml is retired (no use planned).
+- **Where free stands:** 0.918 against 0.924, so the remaining levers are particles or seeds.
+- The run E and run F outputs stay on deskstar, as ruled.
+
+**Run G** (routes confirmation) has been submitted and is waiting for the submission approval on Pete's side. Audit arms (job 16, 4 seeds) follow it.
