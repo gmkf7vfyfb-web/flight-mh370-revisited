@@ -92,7 +92,29 @@ posterior is in (ii).
 **Arm B** (w = 0.5, window [-15, +6] s, load-factor ceiling U[1.5, 5.0] g; seed 1 only, then stopped): H1 451, H2 201 effective
 impacts (`fullN-armB-w05-run-d-free-s1.json`). A lower targeting weight does not help; w = 0.8 is kept.
 
-**Arm C** (adopted recipe: w = 0.8 in [-15, +6] s, load-factor ceiling, structural columns; seeds 1-2): section 2C, when it ends.
+### 2C. Arm C (adopted recipe: w = 0.8 in [-15, +6] s, load-factor ceiling U[1.5, 5.0] g, structural columns; binary b075f3b6; `fullN-armC-*.json`)
+
+| Option | ln Z s1 / s2 | Effective impacts s1 / s2 | Pooled | With survival factor: ln Z s1 / s2 | effective impacts s1 / s2 | pooled | P(breakup before 00:19:37), s1 | Median latitude s1 / s2 |
+|---|---|---|---|---|---|---|---|---|
+| 00:19 Held Out | -0.06 / -0.06 | 754343 / 762491 | 1516790 | -0.22 / -0.24 | 705193 / 690972 | 1396020 | 0.146 | -37.42 / -37.36 |
+| 00:19 R600 BTO Only | -5.72 / -5.76 | 985980 / 931111 | 1915521 | -5.87 / -5.92 | 951557 / 878732 | 1827392 | 0.132 | -37.98 / -37.82 |
+| 00:19 R600 BTO + Raw BFO | -12.72 / -12.70 | 21884 / 21479 | 43360 | -12.83 / -12.81 | 22049 / 20169 | 42134 | 0.097 | -37.42 / -37.44 |
+| 00:19 Holland H1 | -28.76 / -28.73 | 682 / 768 | 1445 | -28.76 / -28.76 | 700 / 849 | 1535 | 0.008 | -37.43 / -37.51 |
+| 00:19 Holland H2 | -21.66 / -21.57 | 192 / 141 | 325 | -22.60 / -22.54 | 339 / 213 | 523 | 0.612 | -37.32 / -37.57 |
+
+| Family effective impacts (A1 / A2 / B) | Holland H1 s1 | s2 | Holland H2 s1 | s2 |
+|---|---|---|---|---|
+| no survival factor | 20 / 543 / 427 | 36 / 505 / 430 | 10 / 51 / 132 | 9 / 31 / 138 |
+
+H1:H2 ln BF at W = 60 / 300 / 900 / 1,775 / 3,600 s: seed 1 -3.01 / -1.40 / -0.30 / +0.38 / +1.09 (break-even 1212 s); seed 2 -3.07 / -1.46 / -0.36 / +0.31 / +1.02 (break-even 1295 s). Without the survival factor; with it, H2 ln Z falls by about 0.95 nat, so the break-even W rises by a factor of about 2.6.
+
+**Gate: H1 MET** (pooled 1,445; 1,535 with the survival factor). **H2 NOT MET** (325; 523 with the survival factor). ln Z is
+stable between seeds (H1 -28.76 / -28.73, H2 -21.66 / -21.57). **Arm D** (two target components, 0.4 on [-15, +6] s and 0.4 on
+[-6, +4] s; seed 1; `fullN-armD-*.json`): H2 202 (390 with the survival factor) against arm C's 192 (339); H1 526 against 682.
+The timing proposal is no longer what limits H2: its ESS is set by the spread of parent weight x likelihood over the few
+thousand rows that reach the H2 state, and grows with the number of parents (seeds, strata) about linearly, with children only
+about as N^0.4. Expected for the full sweep (4 strata x 4 seeds): H2 about 1,000 with the survival factor, about 650 without
+(free stratum alone, by the per-seed values above). H2 remains a declared COVERAGE GAP until the sweep shows it.
 
 ## 3. Findings on the way (N = 1, run D free seed 1; `n1-inflight-structure-*.json`, `n1-survival-factor-*.json`)
 

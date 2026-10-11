@@ -10328,3 +10328,20 @@ Note `results/eof-holland-estimable-oct11/README.md` sections 2-3 (SMOKE, PROVIS
   00:19:37)). Effect at N = 1: H2 ln Z -21.53 -> -22.57, H2 ESS 29 -> 67, Held Out ln Z -0.06 -> -0.22. Shown both ways until ruled.
   Consumers (composer, drift, settling, hydroacoustics): the columns are additive and optional; nothing breaks.
 -- End of Flight Module
+
+## 2026-10-11 ~18:30 UTC: End of Flight Module - H1/H2 smoke result (step 4) and FULL-SWEEP SIZE / ETA: GO requested
+
+Note `results/eof-holland-estimable-oct11/README.md` section 2C (SMOKE, PROVISIONAL, not evidence).
+- **Arm C** (adopted recipe: targeted burst proposal 0.8 in [-15, +6] s of 00:19:29.416, piloted load-factor ceiling, structural
+  columns; next-d-free seeds 1-2, N = 8 x 4, constraint unpowered). Pooled effective impacts: **H1 1,445 (gate MET)**; **H2 325
+  (gate NOT met)**; with the proposed survival factor (no breakup before 00:19:37): H1 1,535, H2 523. ln Z between seeds: H1
+  -28.76 / -28.73, H2 -21.66 / -21.57. Held Out 1.5 M, R600 BTO Only 1.9 M, Raw BFO 43 k. A two-window proposal (arm D) did not
+  move H2 materially: H2 ESS now grows with parents, not with timing or children.
+- **H1:H2** (no survival factor) break-even W 1,212 / 1,295 s; ln BF at W = 300 s: -1.40 / -1.46; at 1,775 s: +0.38 / +0.31.
+- **Full sweep proposed:** core run D, 4 strata x 4 seeds, recipe = arm C, binary /tmp/mh370-eof-he5 (sha256 262ffeb7; arm C
+  physics, plus an unused second-window option), script `full/sweep_holland.sh` (restart-safe, per-stratum README/READY).
+  Size: 16 seed runs x about 9.5 min at 8-10 threads = **about 2.5 h outside the lock, or about 2 h under the lock at 12
+  threads**; output about 1.1 GB compact per seed = **about 18 GB** on the exchange (36 GB free), full files deleted after
+  `check`. Output: `end-of-flight/next-run-d-he/`. Expected H2 about 1,000 with the survival factor (about 650 without).
+  **Waiting for your GO** (and a ruling on the survival factor in `alive`, which does not change what the sweep writes).
+-- End of Flight Module

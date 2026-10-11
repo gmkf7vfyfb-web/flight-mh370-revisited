@@ -203,6 +203,11 @@ pub struct EnvelopeConfig {
     pub burst_target_window_s: [f64; 2],
     #[serde(default = "default_burst_weight")]
     pub burst_target_weight: f64,
+    /// Optional second, narrower target component (window, weight), e.g. for the H2 push-over timing. Absent: one component.
+    #[serde(default)]
+    pub burst_target_window2_s: Option<[f64; 2]>,
+    #[serde(default)]
+    pub burst_target_weight2: f64,
     /// Speed limit of the push-over/emergency descent as calibrated airspeed (VMO), kt: the target Mach is reduced to the Mach of
     /// this CAS at the current altitude. Absent: Mach target only (earlier behaviour).
     #[serde(default)]
@@ -260,6 +265,12 @@ pub fn mach_of_cas(cas_kt: f64, pressure_altitude_ft: f64) -> f64 {
 /// Draw a start delay from the prior `range` or, with targeting, from the mixture aimed at [target + w0, target + w1] (absolute
 /// time, the delay measured from `t0`). Returns the delay and ln(prior / proposal).
 pub fn draw_targeted_delay(range: &Range, t0: f64, target: Option<f64>, window: [f64; 2], weight: f64, uniform: &mut dyn FnMut() -> f64) -> (f64, f64) {
+    draw_targeted_delay_mix(range, t0, target, &[(window, weight)], uniform)
+}
+
+/// The same with several target components (window, weight); a component whose window misses the prior support passes its
+/// weight to the prior. One selector uniform plus one position uniform per draw (when a target is set and the range is wide).
+pub fn draw_targeted_delay_mix(range: &Range, t0: f64, target: Option<f64>, comps: &[([f64; 2], f64)], uniform: &mut dyn FnMut() -> f64) -> (f64, f64) {
     let (lo, hi) = match *range {
         Range::Fixed(v) => (v, v),
         Range::Uniform([a, b]) => (a, b),
@@ -268,14 +279,28 @@ pub fn draw_targeted_delay(range: &Range, t0: f64, target: Option<f64>, window: 
     if !(hi > lo) {
         return (range.draw(uniform), 0.0);
     }
-    let (a, b) = ((t + window[0] - t0).max(lo), (t + window[1] - t0).min(hi));
+    let live: Vec<(f64, f64, f64)> = comps
+        .iter()
+        .filter(|(_, w)| *w > 0.0)
+        .map(|(win, w)| ((t + win[0] - t0).max(lo), (t + win[1] - t0).min(hi), *w))
+        .filter(|(a, b, _)| b > a)
+        .collect();
     let u = uniform();
-    if !(b > a) {
-        return (lo + (hi - lo) * uniform(), 0.0);
+    let mut acc = 0.0;
+    let mut chosen = None;
+    for (a, b, w) in &live {
+        acc += w;
+        if chosen.is_none() && u < acc {
+            chosen = Some((*a, *b));
+        }
     }
-    let x = if u < weight { a + (b - a) * uniform() } else { lo + (hi - lo) * uniform() };
+    let x = match chosen {
+        Some((a, b)) => a + (b - a) * uniform(),
+        None => lo + (hi - lo) * uniform(),
+    };
     let prior = 1.0 / (hi - lo);
-    let proposal = (1.0 - weight) * prior + if x >= a && x <= b { weight / (b - a) } else { 0.0 };
+    let w_total: f64 = live.iter().map(|c| c.2).sum();
+    let proposal = (1.0 - w_total) * prior + live.iter().map(|(a, b, w)| if x >= *a && x <= *b { w / (b - a) } else { 0.0 }).sum::<f64>();
     (x, prior.ln() - proposal.ln())
 }
 
@@ -384,7 +409,7 @@ impl EnvelopeConfig {
         let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
         let rate_fpm = self.rapid_descent_rate_fpm.draw(uniform);
         let n_floor_g = self.pushover_load_factor_floor_g.draw(uniform);
-        let (hold_s, lq) = draw_targeted_delay(&self.pushover_hold_s, start.unix_s, self.burst_target_unix_s, self.burst_target_window_s, self.burst_target_weight, uniform);
+        let (hold_s, lq) = draw_targeted_delay_mix(&self.pushover_hold_s, start.unix_s, self.burst_target_unix_s, &self.burst_components(), uniform);
         let phase = Phase::PushOver {
             rate_fpm,
             mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
@@ -397,6 +422,14 @@ impl EnvelopeConfig {
         (phase, (rate_fpm, n_floor_g, hold_s), lq)
     }
 
+    fn burst_components(&self) -> Vec<([f64; 2], f64)> {
+        let mut c = vec![(self.burst_target_window_s, self.burst_target_weight)];
+        if let Some(w2) = self.burst_target_window2_s {
+            c.push((w2, self.burst_target_weight2));
+        }
+        c
+    }
+
     /// Interim pitch-down for a free phase starting `free_start_s` after the onset: (pulse, eligible, ln(prior/proposal)).
     fn draw_pitchdown(&self, start: &Body, free_start_s: f64, uniform: &mut dyn FnMut() -> f64) -> (Option<(f64, f64, f64)>, bool, f64) {
         if !(self.pitchdown_probability > 0.0) {
@@ -407,7 +440,7 @@ impl EnvelopeConfig {
         }
         let n = self.pitchdown_n_g.draw(uniform);
         let duration = self.pitchdown_duration_s.draw(uniform);
-        let (delay, lq) = draw_targeted_delay(&self.pitchdown_delay_s, start.unix_s + free_start_s, self.burst_target_unix_s, self.burst_target_window_s, self.burst_target_weight, uniform);
+        let (delay, lq) = draw_targeted_delay_mix(&self.pitchdown_delay_s, start.unix_s + free_start_s, self.burst_target_unix_s, &self.burst_components(), uniform);
         (Some((delay, n, duration)), true, lq)
     }
 
@@ -972,6 +1005,8 @@ pub(super) mod tests {
             burst_target_unix_s: None,
             burst_target_window_s: default_burst_window(),
             burst_target_weight: default_burst_weight(),
+            burst_target_window2_s: None,
+            burst_target_weight2: 0.0,
             pushover_vmo_kt: None,
             pitchdown_probability: 0.0,
             pitchdown_n_g: default_pitchdown_n(),
@@ -1145,6 +1180,18 @@ pub(super) mod tests {
         assert!((mean - 1.0).abs() < 2e-3, "{mean}");
         let f = hit as f64 / (n * n) as f64;
         assert!((f - (0.5 + 0.5 * 32.0 / 300.0)).abs() < 0.01, "{f}");
+        let (mut mean2, mut hit2) = (0.0, 0);
+        for i in 0..n {
+            for j in 0..n {
+                let mut v = [(i as f64 + 0.5) / n as f64, (j as f64 + 0.5) / n as f64].into_iter();
+                let (x, lq) = draw_targeted_delay_mix(&r, 1000.0, Some(1120.0), &[([-30.0, 2.0], 0.4), ([-6.0, 4.0], 0.4)], &mut || v.next().unwrap());
+                mean2 += lq.exp() / (n * n) as f64;
+                if (114.0..=124.0).contains(&x) { hit2 += 1; }
+            }
+        }
+        assert!((mean2 - 1.0).abs() < 3e-3, "{mean2}");
+        let f2 = hit2 as f64 / (n * n) as f64;
+        assert!((f2 - (0.4 + 0.4 * 8.0 / 32.0 + 0.2 * 10.0 / 300.0)).abs() < 0.01, "{f2}");
         assert!((mach_of_cas(330.0, 0.0) - 0.4986).abs() < 2e-3);
         assert!(mach_of_cas(330.0, 35_000.0) > 0.87);
     }
