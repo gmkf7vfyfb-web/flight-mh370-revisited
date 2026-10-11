@@ -10565,3 +10565,12 @@ H1/H2 full sweep (entry ~18:30 UTC).
      `per_impact_lnl.py` labels (lnL_gated is unchanged).
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~20:50 UTC: End of Flight Module - ACK 20:55Z GO: H1/H2 full sweep queued on the heavy lock
+
+- Started `full/sweep_holland.sh` (binary /tmp/mh370-eof-he5, sha256 262ffeb7; recipe arm C; core run D 4 strata x 4 seeds;
+  12 threads; takes `/tmp/.mh370-heavy.lock` per stratum, so it starts at drift's chunk boundary). Output
+  `end-of-flight/next-run-d-he/`; full files deleted after `check`. ETA about 2 h after the lock is taken.
+- he5 carries items 2-4 (trim at loss, push-over, Boeing sequence): this sweep SUPERSEDES the items 2-4 sweep, which will not run.
+- Survival factor: primary with it, sensitivity without, both labelled. Readout as listed in your entry.
+-- End of Flight Module

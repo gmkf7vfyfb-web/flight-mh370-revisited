@@ -82,7 +82,11 @@ Labels (carry them into every product):
 - residual roll direction P(left) = 0.8 PROVISIONAL (exact re-weighting: latent:residual_bank_sign);
 - trim at loss, push-over and Boeing sequence APPLIED (PROVISIONAL; results/eof-items-3-4-smoke-oct11, eof-item2-smoke-oct11);
 - families: compact_impacts.family_labels(..., latent:recovery_attempted) family4_code (ruling 6 as amended 22:45 UTC);
-- H1/H2 estimability: see results/eof-holland-estimable-oct11 (ESS per option and family).
+- H1/H2 estimability: see results/eof-holland-estimable-oct11 (ESS per option and family);
+- survival factor (no in-flight breakup before 00:19:37, latent:inflight_p_breakup_to_m0019b) ADOPTED as part of the 00:19 data
+  model (architecture 20:55Z 11 Oct): primary results carry (1 - P); results without it are a labelled sensitivity;
+- in-flight structural outcome (latent:inflight_p_*) PROVISIONAL; VD/MD declared; no transonic drag rise (upper-side breakup).
+This sweep carries items 2-4 and supersedes the items 2-4 sweep (sweep_items_234.sh), which is not run.
 Summaries (impact-time shares, family evidence with +alive/+unpowered/+silent, family shares, same-data Bayes factors, posterior-
 predictive) follow in ../summary/ after the module session's review. Format: compact float32 v1 (seed-k/run.json "compact").
 EOF
