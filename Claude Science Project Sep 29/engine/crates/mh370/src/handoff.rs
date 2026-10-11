@@ -1,22 +1,3 @@
-
-    /// Core request 18: a [stop] block written before the evidence fields still reads, and
-    /// one with them round-trips.
-    #[test]
-    fn stop_reads_with_and_without_request_18_fields() {
-        let old: Stop = toml::from_str("epoch = \"m2241\"\nstep = 16\nunix_s = 1394232081.0\n").unwrap();
-        assert_eq!(old.log_evidence_by_mode, None);
-        assert_eq!(old.observations_not_used, None);
-        let new = Stop {
-            epoch: "m2241".into(), step: 16, unix_s: 1394232081.0,
-            log_evidence_by_mode: Some(vec![-1.0, f64::NEG_INFINITY, -2.0, -3.0, -4.0]),
-            mode_probability: Some(vec![0.6, 0.0, 0.3, 0.07, 0.03]),
-            log_evidence: Some(-1.5),
-            observations_used: Some(vec!["m2241.bto".into()]),
-            observations_not_used: Some(vec!["m0011.bto".into(), "m0019a.bto".into()]),
-        };
-        let back: Stop = toml::from_str(&toml::to_string(&new).unwrap()).unwrap();
-        assert_eq!(back, new);
-    }
 //! The hand-off at the filter's stop epoch (00:11 in the integrated estimate): per replicate,
 //! K trajectories drawn from the final posterior, each with its full continuation state, for
 //! the end-of-flight stage to continue.
@@ -261,4 +242,28 @@ pub fn read_corrected(dir: &Path) -> Result<(Stop, Option<Lookahead>, Vec<Row>),
 fn read_file(path: &Path) -> Result<File, String> {
     let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
     toml::from_str(&text).map_err(|e| format!("{}: {e}", path.display()))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Core request 18: a [stop] block written before the evidence fields still reads, and
+    /// one with them round-trips.
+    #[test]
+    fn stop_reads_with_and_without_request_18_fields() {
+        let old: Stop = toml::from_str("epoch = \"m2241\"\nstep = 16\nunix_s = 1394232081.0\n").unwrap();
+        assert_eq!(old.log_evidence_by_mode, None);
+        assert_eq!(old.observations_not_used, None);
+        let new = Stop {
+            epoch: "m2241".into(), step: 16, unix_s: 1394232081.0,
+            log_evidence_by_mode: Some(vec![-1.0, f64::NEG_INFINITY, -2.0, -3.0, -4.0]),
+            mode_probability: Some(vec![0.6, 0.0, 0.3, 0.07, 0.03]),
+            log_evidence: Some(-1.5),
+            observations_used: Some(vec!["m2241.bto".into()]),
+            observations_not_used: Some(vec!["m0011.bto".into(), "m0019a.bto".into()]),
+        };
+        let back: Stop = toml::from_str(&toml::to_string(&new).unwrap()).unwrap();
+        assert_eq!(back, new);
+    }
 }
