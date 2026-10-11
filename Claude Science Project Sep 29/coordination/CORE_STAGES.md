@@ -3237,3 +3237,30 @@ Pete wants the hybrid (turn-between-waypoints) arm built into run G before it ru
   - 34 routes as recommended (the 26 posted plus 8 that turn at HSk straight to ISBIX or BULVA).
   - EMRAN/AGEGA dropped: no sourced coordinates in our waypoint file.
   - The matched-volume comparison is re-run under the same turn model.
+
+## 2026-10-11 18:37Z — core: FLY-BY TEST PART 1 — the +10 NM peak was a fly-by surrogate; with fly-by, NILAM–IGOGU–ISBIX (N571 proper) leads at −122.84
+
+Job 18 (6d54b817, binary bfe66df): 9 arms × 4 seeds × 200k, ad50, all exit 0. Table: `results/flyby-test-oct11/flyby-part1-arms.csv`.
+
+| Arm | ln Z (sd) | 00:11 lat | 00:19 lat | 19:41 lag vs free on-line | split-half |
+|---|---|---|---|---|---|
+| NILAM–ANOKO–ISBIX, fly-over | −128.51 (0.13) | −35.72 | −36.68 | 28 NM | 0.940 |
+| NILAM–ANOKO–ISBIX, **fly-by** | **−125.31** (0.06) | −36.54 | −37.48 | 4 NM | 0.945 |
+| Pseudo-fix +10 NM, fly-over (= audit 15) | −125.27 (0.18) | −36.43 | −37.37 | 7 NM | 0.933 |
+| Pseudo-fix −5 / +5 / +10 NM, fly-by | −125.47 / −126.34 / −128.22 | | | | |
+| NILAM–IGOGU–ISBIX, fly-over | −130.42 (0.22) | −35.31 | −36.28 | 56 NM | 0.873 |
+| NILAM–IGOGU–ISBIX, **fly-by** | **−122.84** (0.08) | −36.37 | −37.33 | 19 NM | 0.935 |
+| NILAM–ANOKO–BULVA, fly-by | −135.28 (0.27) | −35.40 | −36.25 | 26 NM | **0.530** |
+
+**Against predictions:**
+- Holds: route 11 fly-by −125.31 (pred. −125.2 ± 1.0). Scan peak 0 to −5 NM, with +10 NM 2.9 nats below. Fly-over controls: +10 NM bit-identical to audit arm 15 (determinism across binaries); route 11 −128.51. Route 11 00:19 −37.48 (pred. −37.3 ± 0.2).
+- **Missed:** route 3 rose 7.6 nats (pred. 1–3). Route 10 fell to −135.28 (pred. −125.5 ± 1.0); not converged, split-half 0.53.
+
+**Reading:**
+1. **The audit's "turn-south gain" at +10 NM was the fly-over turn model.** A pseudo-fix 10 NM early under fly-over equals a fly-by at the real ANOKO to 0.04 nat. The 19:41 lag falls from 28 NM to 4 NM, and the 00:11 gap against free paths falls from 0.9° to 0.13°.
+2. **With fly-by, the ordering changes:** N571 proper (NILAM–IGOGU–ISBIX) at −122.84 leads ANOKO–ISBIX by 2.5 nats. The fly-over IGOGU turn was penalised most: its turn is larger, so the overshoot is bigger (19:41 lag 56 NM).
+3. **The BULVA end gets worse under fly-by,** a 6.7 nat drop against fly-over run G route 10, with seeds agreeing within 0.6 nat. A plausible mechanism, not yet checked: BULVA is the last fix, so free flight resumes on the ANOKO–BULVA course (about 4° west of the ISBIX leg). The fly-over overshoot had been arriving on a more southerly course. It is not converged, so it is flagged, not concluded.
+- **All route-family numbers before this post are fly-over results.** Pending part 2 (track_legs, +15 NM, about 19:00Z), the plan is:
+  - fly-by becomes the turn model for the hybrid;
+  - a full-scale re-run of the run G six routes with fly-by (run G′, 8 × 3M, about 1 h) confirms the leaders before any adoption.
+  - Pete's routes-prior ruling stays pending.
