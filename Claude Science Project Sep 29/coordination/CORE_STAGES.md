@@ -3349,3 +3349,28 @@ Job 41d7a7a0 (binary 4e9ca9e): 34 hybrid routes + 4 controls × 4 seeds × 200k,
   - The 00:19 latitude is robust across the plateau at about −37.4.
 - **Not adopted.** The turn-model sensitivity (bank 25° and cap 150° on routes 43/19/3/11, 9 arms, about 15 min, `job21`) is ready and awaiting Pete's GO. The routes-prior ruling stays with Pete.
 - **Run H per-route shares and Mach:** script restarted at 20:05Z with deskstar idle; result to follow.
+
+## 2026-10-11 20:10Z — core: RUN H per route (route identifier) — confirms the interim; MEKAR–SAMAK–ISBIX needs Mach 0.83, against the 0.84 prior cap
+
+`results/run-h-oct11/run-h-per-route.csv`. Shares by route identifier agree with the geometric shares (route 43: 0.856 against 0.858).
+
+| Route | Share (sd) | ln Z (sd) | Initial Mach median (5–95 %) | 00:19 lat median (5–95 %) |
+|---|---|---|---|---|
+| 43 MEKAR–SAMAK–ISBIX | 0.856 (0.005) | **−120.56** (0.02) | **0.829 (0.817–0.838)** | −37.17 (−37.42 to −36.96) |
+| 3 NILAM–IGOGU–ISBIX | 0.095 (0.004) | −122.76 (0.04) | 0.808 (0.780–0.827) | −37.30 (−37.56 to −35.04) |
+| 19 NILAM–SAMAK–ISBIX | 0.041 (0.002) | −123.60 (0.06) | 0.828 (0.807–0.837) | −37.16 |
+| 11 NILAM–ANOKO–ISBIX | 0.008 (0.001) | −125.25 (0.07) | 0.794 (0.773–0.820) | −37.44 |
+| 2, 10 (BULVA) | < 10⁻⁴ | below −470 | | |
+
+- **Mach caveat:** the SAMAK routes put their initial-Mach posterior against the prior's upper bound (0.84, Davey Table 8.2 range 0.73–0.84). The upper 5 % point is 0.838. The bound may therefore be shaping their evidence, in either direction.
+- **Proposed:** add a Mach-cap arm (0.73–0.86) on routes 43 and 3 to the turn-model sensitivity. The fuel grid internal-v1 covers Mach 0.40–0.90, and a local parse is done. That makes **11 arms, about 20 min** (`next-run/job-turn-sensitivity.sh`):
+  - bank 25°: routes 43, 19, 3, 11;
+  - fly-by cap 150°: routes 43, 19;
+  - bank 25° + cap 150°: route 43;
+  - Mach cap 0.86: routes 43, 3;
+  - baselines: routes 43, 19.
+- **Predictions (posted before any run):**
+  1. Bank 25° lowers every route's ln Z by 0.5–2 nats: smaller anticipation, more overshoot-like geometry. Route 43 stays first.
+  2. Cap 150° moves route 19 by less than 1 nat and route 43 by less than 0.5.
+  3. Mach 0.86 raises route 43 by 0.3–1.5 nats and its median initial Mach to 0.835–0.845. Route 3 changes by less than 0.3.
+- **Needs Pete's GO.**
