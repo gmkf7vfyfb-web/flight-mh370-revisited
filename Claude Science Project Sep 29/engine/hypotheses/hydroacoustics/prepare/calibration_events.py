@@ -113,23 +113,33 @@ EVENTS = {   # name: (receiver, path name, E_total J (lo, hi), E_vertical J (lo,
 }
 
 
-def path_tl(exp, name, rd, out):
-    stub = out / "stubschema"; stub.mkdir(parents=True, exist_ok=True)
-    SP.convert(Path(exp), stub, name)
-    tag_ = name.replace("-", "_")
+def path_tl(exp, name, rd, out, src=None, stub_dir=None):
+    """TL per band and source depth at the path end. BUG FIX 11 Oct 2026 (found by the architecture stand-in,
+    f50e22e3): the pressure index is [0, js, 0, -1] (FIELD returns one receiver range as a length-1 axis); the old
+    float() of a length-1 array raised TypeError, so no result was ever produced with the old line. stub_dir: read
+    ocean transport's stub-schema files (bathy_<name>.csv, ssp_<name>.csv) directly instead of converting an export.
+    src: source depths (default F.SRC; the San Juan charge adds 33 m, as the prereg fixes)."""
+    src = list(F.SRC) if src is None else list(src)
+    if stub_dir is not None:
+        stub = Path(stub_dir); tag_ = name
+    else:
+        stub = out / "stubschema"; stub.mkdir(parents=True, exist_ok=True)
+        SP.convert(Path(exp), stub, name)
+        tag_ = name.replace("-", "_")
     bathy = pd.read_csv(stub / f"bathy_{tag_}.csv"); ssp = pd.read_csv(stub / f"ssp_{tag_}.csv")
     rprof, profiles = A.build_profiles(bathy, ssp)
     rows = []
     for fc in F.BANDS:
         tag = f"f{fc:g}".replace(".", "p")
-        K.tl_path(out / "work" / name, tag, fc, profiles, rprof, np.array([rprof[-1]]), F.SRC, [rd], A.BOTTOMS["hard"],
+        K.tl_path(out / "work" / name, tag, fc, profiles, rprof, np.array([rprof[-1]]), src, [rd], A.BOTTOMS["hard"],
                   AT_BIN, fg=A.FG)
         s = K.read_shd(out / "work" / name / f"{tag}.shd"); x = s["rr_m"] / 1000.0 / 6371.0
         sph = 10 * np.log10(x / np.sin(x))
         for js, zs in enumerate(s["sz"]):
             rows.append(dict(path=name, fc_hz=fc, src_depth_m=float(zs), rcv_depth_m=rd, range_km=float(rprof[-1]),
-                             tl_db=float(-20 * np.log10(np.abs(s["p"][0, js, 0])) + sph[-1])))
-    return pd.DataFrame(rows), float(bathy.depth_m.iloc[0]) if "depth_m" in bathy else np.nan
+                             tl_db=float(-20 * np.log10(np.abs(s["p"][0, js, 0, -1])) + sph[-1])))
+    h0 = float(bathy.depth_m.iloc[0]) if "depth_m" in bathy else float(-bathy.elevation_m.iloc[0])
+    return pd.DataFrame(rows), h0
 
 
 def G(tl, taus):
