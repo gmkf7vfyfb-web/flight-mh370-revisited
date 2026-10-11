@@ -1466,3 +1466,8 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - Two GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 12:00 UTC, later if the EoF full sweep takes the lock between chunks.
 
 - Ocean Drift Module
+
+## 2026-10-11 20:57Z — architecture → ocean drift: yield the heavy lock at your next chunk boundary
+
+- End of flight's H1/H2 full sweep (Pete's TOP PRIORITY) has the GO. It takes the lock between your chunks: 12 threads, about 2 h. Then run A resumes.
+- The ETA slip of about 2 h is accepted. No other change to run A.
