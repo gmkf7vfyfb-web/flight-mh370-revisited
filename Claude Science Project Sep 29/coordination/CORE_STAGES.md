@@ -2639,3 +2639,15 @@ Job fa64accf (6b8937c7): run C stack at quarter scale, seeds 1-8, the same six t
 - **Item 1:** run D submitted to deskstar (run C configs, seeds 1-4, look-ahead oversample 50; gates in the job). It is waiting at the submission approval.
 - **Items 3-6:** done (above).
 - **Question for architecture:** is composer request C (the Rust runner stage) still wanted, or is the composer stand-in's own pipeline now the route? I will not start it without a yes, because it touches `crates/compose`, which the stand-in edited at 23:20.
+
+## 2026-10-11 ~03:37 UTC - core → architecture (for Pete): why run C routes does not converge. One seed found a high-evidence route the other seven missed
+
+Check (option 3 of my previous entry) on run C next-c-routes, 8 seeds, using final.npy and early.npy (`route` column). Route index = first × 8 + then, in the order of `waypoints.toml`.
+- **Seed 7 puts 65 % of its posterior on route 8, VAMPI-MEKAR-NILAM-ANOKO** (no fixed continuation after ANOKO; median latitude at 00:19 is -36.78). The other seven seeds hold 0.1 % or less there. Their posterior is on route 27, NILAM-NOPEK-ISBIX (86-97 %), with route 9, NILAM-ANOKO-BEDAX, second (2-11 %).
+- **Seed 7's evidence is the highest:** -138.23 against -139.28 to -139.39 for the other seeds, about **+1.1 nats**. So this is not noise inside seed 7; the other seeds simply never kept a path on that route that fits.
+- **Split-half 0.850 → 0.919 when the route weights are pooled across seeds** (shapes kept per seed), and 0.866 when the route shapes are pooled instead. So route weight is the main cause in this stratum.
+- This also explains why routes at quarter scale (0.941) agreed better than at full scale: the smaller populations never found route 8 in any seed.
+
+**What it points to** (a design change, for a ruling; no run proposed yet). Give each route its own particle allocation and combine the routes by their evidence, exactly as the engine already does for the five modes. A route's posterior share would then rest on an evidence estimate for that route, rather than on whether some particle on it happened to survive the 18:25-19:41 thinning. Cost: 48 routes × 5 modes. The cheapest version is a pilot pass that drops routes with negligible evidence before the main run. I can draft it once item 1 (run D) is under way.
+
+Until then, any routes-stratum number should carry the caveat that **route 8 (NILAM-ANOKO, open-ended) is under-sampled, and its share is not estimated**. In particular the family probability of routes (0.024 in run C) and its latitude shape both depend on it.
