@@ -1,0 +1,278 @@
+{
+ "strata": [
+  "next-c-free",
+  "next-c-repro-radar",
+  "next-c-descent-climb",
+  "next-c-routes"
+ ],
+ "extent_lon_lon_lat_lat": [
+  78.0,
+  112.0,
+  -46.0,
+  -1.0
+ ],
+ "constraint": "unpowered",
+ "families": {
+  "A1": [
+   1.0
+  ],
+  "A2": [
+   2.0
+  ],
+  "B": [
+   3.0
+  ]
+ },
+ "family_map": "ruling6",
+ "entries": {
+  "00:19 Held Out | A1": {
+   "option": "00:19 Held Out",
+   "family": "A1",
+   "key": "none__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.5906731752888956,
+    "next-c-repro-radar": 0.24761001869644828,
+    "next-c-descent-climb": 0.1382677097303648,
+    "next-c-routes": 0.023449096284291284
+   },
+   "ess_mixture_kish": 6823713.440303433,
+   "posterior_share_of_family": 0.11929233412749408,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 382204.03114984685,
+   "resampled": 60000
+  },
+  "00:19 R600 BTO Only | A1": {
+   "option": "00:19 R600 BTO Only",
+   "family": "A1",
+   "key": "r600-bto__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.595005122005865,
+    "next-c-repro-radar": 0.231052611088616,
+    "next-c-descent-climb": 0.14821978916459802,
+    "next-c-routes": 0.02572247774092111
+   },
+   "ess_mixture_kish": 4178551.768993285,
+   "posterior_share_of_family": 0.11073116906068277,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 224569.0183069103,
+   "resampled": 20008
+  },
+  "00:19 R600 BTO + Raw BFO | A1": {
+   "option": "00:19 R600 BTO + Raw BFO",
+   "family": "A1",
+   "key": "r600_no-offset__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.5934748953429297,
+    "next-c-repro-radar": 0.22369824572713817,
+    "next-c-descent-climb": 0.15780443533013105,
+    "next-c-routes": 0.025022423599801048
+   },
+   "ess_mixture_kish": 124601.14121800712,
+   "posterior_share_of_family": 0.10775227072422923,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 73509.50144073389,
+   "resampled": 20008
+  },
+  "00:19 Holland H1 | A1": {
+   "option": "00:19 Holland H1",
+   "family": "A1",
+   "key": "both_startup-offset__fuel-exhaustion+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.6270020393199306,
+    "next-c-repro-radar": 0.23687589005796825,
+    "next-c-descent-climb": 0.08319115094559519,
+    "next-c-routes": 0.05293091967650594
+   },
+   "ess_mixture_kish": 37.56289099405307,
+   "posterior_share_of_family": 0.0008786541934961129,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 23647.757510076925,
+   "resampled": 20000
+  },
+  "00:19 Holland H2 | A1": {
+   "option": "00:19 Holland H2",
+   "family": "A1",
+   "key": "both_no-offset__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.9999996042089737,
+    "next-c-repro-radar": 4.438409845683792e-08,
+    "next-c-descent-climb": 3.327917042734423e-07,
+    "next-c-routes": 1.8615223621308537e-08
+   },
+   "ess_mixture_kish": 11.500443065841043,
+   "posterior_share_of_family": 9.10174273452247e-12,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 16440.092459443695,
+   "resampled": 20000
+  },
+  "00:19 Held Out | A2": {
+   "option": "00:19 Held Out",
+   "family": "A2",
+   "key": "none__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.5894982480886968,
+    "next-c-repro-radar": 0.25209250556570484,
+    "next-c-descent-climb": 0.13408418859523794,
+    "next-c-routes": 0.024325057750360448
+   },
+   "ess_mixture_kish": 18895382.455159087,
+   "posterior_share_of_family": 0.33030629032302045,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 704250.2771129585,
+   "resampled": 60000
+  },
+  "00:19 R600 BTO Only | A2": {
+   "option": "00:19 R600 BTO Only",
+   "family": "A2",
+   "key": "r600-bto__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.590066885373458,
+    "next-c-repro-radar": 0.23877769577194488,
+    "next-c-descent-climb": 0.1444562536427697,
+    "next-c-routes": 0.026699165211827334
+   },
+   "ess_mixture_kish": 12627144.236674372,
+   "posterior_share_of_family": 0.32597223488772076,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 403695.4713555605,
+   "resampled": 20000
+  },
+  "00:19 R600 BTO + Raw BFO | A2": {
+   "option": "00:19 R600 BTO + Raw BFO",
+   "family": "A2",
+   "key": "r600_no-offset__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.6082152211084156,
+    "next-c-repro-radar": 0.22304341269159525,
+    "next-c-descent-climb": 0.14811695347085405,
+    "next-c-routes": 0.020624412729135087
+   },
+   "ess_mixture_kish": 210339.40000479153,
+   "posterior_share_of_family": 0.14927612183558656,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 295536.04766096384,
+   "resampled": 20008
+  },
+  "00:19 Holland H1 | A2": {
+   "option": "00:19 Holland H1",
+   "family": "A2",
+   "key": "both_startup-offset__fuel-exhaustion+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.8320999874846147,
+    "next-c-repro-radar": 0.05609321926560273,
+    "next-c-descent-climb": 0.04537757558119834,
+    "next-c-routes": 0.06642921766858433
+   },
+   "ess_mixture_kish": 17.612740484685805,
+   "posterior_share_of_family": 0.011425732377439457,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 27130.1151135767,
+   "resampled": 19992
+  },
+  "00:19 Holland H2 | A2": {
+   "option": "00:19 Holland H2",
+   "family": "A2",
+   "key": "both_no-offset__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.44596682020231737,
+    "next-c-repro-radar": 0.33220651803864343,
+    "next-c-descent-climb": 0.18633648656932938,
+    "next-c-routes": 0.03549017518970996
+   },
+   "ess_mixture_kish": 35.90870609659377,
+   "posterior_share_of_family": 0.09357408087213996,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 32590.528782182337,
+   "resampled": 20008
+  },
+  "00:19 Held Out | B": {
+   "option": "00:19 Held Out",
+   "family": "B",
+   "key": "none__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.5889389527219836,
+    "next-c-repro-radar": 0.2523371346499171,
+    "next-c-descent-climb": 0.13512888321302605,
+    "next-c-routes": 0.023595029415073444
+   },
+   "ess_mixture_kish": 29907650.405900706,
+   "posterior_share_of_family": 0.5501034818876176,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 539111.6068476774,
+   "resampled": 60000
+  },
+  "00:19 R600 BTO Only | B": {
+   "option": "00:19 R600 BTO Only",
+   "family": "B",
+   "key": "r600-bto__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.5890010892470394,
+    "next-c-repro-radar": 0.24036528010091748,
+    "next-c-descent-climb": 0.14400052444597744,
+    "next-c-routes": 0.026633106206065443
+   },
+   "ess_mixture_kish": 20762131.522789247,
+   "posterior_share_of_family": 0.5631675199334734,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 268602.59792333795,
+   "resampled": 20008
+  },
+  "00:19 R600 BTO + Raw BFO | B": {
+   "option": "00:19 R600 BTO + Raw BFO",
+   "family": "B",
+   "key": "r600_no-offset__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.6070976147266641,
+    "next-c-repro-radar": 0.21648706194353512,
+    "next-c-descent-climb": 0.15521954296787577,
+    "next-c-routes": 0.02119578036192497
+   },
+   "ess_mixture_kish": 929066.8848736268,
+   "posterior_share_of_family": 0.7428981384432478,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 169264.98361154064,
+   "resampled": 20000
+  },
+  "00:19 Holland H1 | B": {
+   "option": "00:19 Holland H1",
+   "family": "B",
+   "key": "both_startup-offset__fuel-exhaustion+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.5861539956126379,
+    "next-c-repro-radar": 0.2542797178398122,
+    "next-c-descent-climb": 0.13608284767531253,
+    "next-c-routes": 0.023483438872237326
+   },
+   "ess_mixture_kish": 63.20550981881268,
+   "posterior_share_of_family": 0.9876956134289935,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 48817.56982423013,
+   "resampled": 20000
+  },
+  "00:19 Holland H2 | B": {
+   "option": "00:19 Holland H2",
+   "family": "B",
+   "key": "both_no-offset__other+unpowered",
+   "p_stratum_given_family": {
+    "next-c-free": 0.6037659042484788,
+    "next-c-repro-radar": 0.2437199508036753,
+    "next-c-descent-climb": 0.1297003230563271,
+    "next-c-routes": 0.022813821891518895
+   },
+   "ess_mixture_kish": 156.72920156090265,
+   "posterior_share_of_family": 0.9064259191187584,
+   "speed_cap_removed_share_of_family": null,
+   "impact_area90_km2": 57749.16406162738,
+   "resampled": 19992
+  }
+ },
+ "speed_cap_mps": null,
+ "evidence_suffix": "+unpowered",
+ "outside_families_share": {
+  "00:19 Held Out": 0.0002978936618678251,
+  "00:19 R600 BTO Only": 0.00012907611812316852,
+  "00:19 R600 BTO + Raw BFO": 7.346899693655856e-05,
+  "00:19 Holland H1": 7.104301475683965e-14,
+  "00:19 Holland H2": 2.9172526056821964e-22
+ }
+}

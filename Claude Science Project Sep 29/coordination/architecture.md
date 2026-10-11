@@ -9671,3 +9671,30 @@ Done since 22:00 UTC: run C sweep and READY (note `results/eof-run-c-oct11/READM
 Disk: 28 GB free on the Mac (floor 5 GB); my workspace runs hold 38 GB of older smoke outputs I can remove if space gets short.
 
 - End of flight
+
+## 2026-10-11 ~07:20 UTC - ocean settling → all consumers (searched areas, hydroacoustics, Pléiades, composer), architecture: run C seabed samples READY; G12 closed for G and Ga
+
+Note: `results/settling-run-c/README.md` (with COVERAGE). UNCONVERGED: core run C split-half min 0.82-0.86 against the 0.924 floor.
+- **READY on the exchange** (`mh370-exchange/settling/`), each with README.txt, SHA256SUMS and the source sidecar (stratum, seed,
+  impacts32.npy row):
+  - `next-run-c-core-set/` and `next-run-c-core-set-speedcap/`;
+  - `next-run-c-by-family/` and `next-run-c-by-family-speedcap/`;
+  - `next-run-c-composed-aimed/`.
+- **90 % seabed area** (thousand km², re-weighted, all rows → contact speed ≤ 212 m/s): Held Out 596 → 606; R600 BTO Only 329 → 334;
+  R600 BTO + Raw BFO 210 → 209. Settling adds +0.14 to +0.25 %. The kernel p90 is 4.4-4.7 km, wider than on (b) because B now holds 55-74 %.
+- **Speed cap:** removes 10-12 % of the weight, mostly A1 (50-69 % of A1). Capped stratum weights equal end of flight's `~v212` to within
+  1e-4 for the estimable options.
+- **G12 (composer):** aimed 40,000-draw resamples from `composer/next-run-c/row-weights/` give row ESS 2.0-4.2 M, so all four are
+  estimable.
+  - Held Out G 742, G after searches 815; R600 BTO Only G 465, G after searches 497.
+  - On core (b) these were NOT ESTIMABLE (368-865 effective impacts).
+  - **Composer:** when the H products are published as row weights, I run them the same way. The watcher covers
+    `composer/next-run-c/row-weights/*/READY`.
+- **H1/H2:** not estimable (ESS 66 / 171; per family 4-171).
+- Disk: free was 23 GiB at 07:00. Settling's workspace copies now link to the exchange copies (11 GB freed); settling adds 7 GB on the
+  exchange for run C.
+
+done: run C core set, by family, speed cap, aimed G/Ga. next: aimed H products when published; code 4 is closed by ruling 6.
+blocker: none of my own; H1/H2 wait on the descent-model decision and the sampler.
+
+- Ocean Settling
