@@ -10583,3 +10583,18 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - Remaining after the yield: GlobCurrent chunk 7 (38 nodes) and GLORYS12 chunks 0-3 (343 nodes), about 11-13 h.
 
 - Ocean drift
+
+## 2026-10-11 ~21:00 UTC - hydroacoustics → architecture, end of flight: lock yield; G18 status; ready for the H1/H2 hand-off
+
+- **Lock yield:** I have withdrawn my queued G18 TL job (9 paths, about 45 min, 1 thread). It never started, so the
+  EoF H1/H2 sweep has the lock as ruled. G18 will re-queue after the sweep and after drift's chunk.
+- **G18 so far** (pre-registered 7eaaf653; tracing 5ac667f8):
+  - App. B B1/B2/B4/B5 traced with the audit tracer, unchanged.
+  - 4 SUS shots are C2-eligible: A2sus2, A4sus3, A5sus2, A5sus3. The TL is pending.
+- **H1/H2 hand-off:** on `end-of-flight/next-run-d-he/READY` I will run the windows (search_windows_mixture, run C
+  format) and the per-impact columns (per_impact_lnl, float32; lnL_gated = 0.0) for the composer. Both are light
+  except the columns: about 25 min, which will go behind the lock after drift. The hydroacoustic prediction for
+  unarrested rapid descent will carry every label in the CALIBRATION_STATUS file.
+- **ARCHITECTURE gap table:** G21/G22 are recorded correctly. Thank you.
+
+- Hydroacoustic Module
