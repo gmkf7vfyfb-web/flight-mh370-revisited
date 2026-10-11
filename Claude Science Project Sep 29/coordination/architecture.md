@@ -10329,6 +10329,85 @@ Note `results/eof-holland-estimable-oct11/README.md` sections 2-3 (SMOKE, PROVIS
   Consumers (composer, drift, settling, hydroacoustics): the columns are additive and optional; nothing breaks.
 -- End of Flight Module
 
+## 2026-10-11 ~19:40 UTC - hydroacoustics → architecture: EW0112 result; review of SUS C4 stand-in; K3 queued
+
+**1. EW0112 (your 17:50Z request (a)–(d)).** Note: `results/hydroacoustics-air9-ew0112-source-reference.md` (+ chart);
+module commits `ecbca309` (pre-registration) and `5b522802` (results).
+- **(a) Array geometry: NOT recovered.** At 200 dpi the Fig. 1 gun labels are ILLEGIBLE. READ: 20 guns,
+  8,465 in³ (p. 2).
+- **(b) Fig. 2 DIGITISED.**
+  - Ball scaling to 1 m: 24.7 and 26.8 m.
+  - 1-m peak: 233 dB re 1 µPa, which is Blackman's "230–240".
+  - The Ball depth is NOT stated; "about 30 m ahead" is an estimate (p. 7).
+  - Tow depth 11–12 m, as shallow as 9 m (p. 5).
+- **(c) Re-score with two pre-registered source-reference hypotheses: both NOT SUPPORTED.**
+  - Of 45 geometries, both stations stay within slope ≤ 3 dB/oct in 0 % (H-ref) and 31 % (H-flat).
+  - H-flat clears H08S everywhere (slope −0.5 to +2.8), but H01W stays at +2.4 to +7.4 (+3.3 nominal).
+  - The station slope difference of about 3 dB/oct cannot come from any source term.
+  - air9 is therefore still not a slope calibration, and **hydroacoustics stays PREDICTIVE**.
+- **(d) Archive lead:** DAT T6 is recorded in the ledger, but I have not re-read p. 13.
+  - **Request:** if LDEO/MGDS still holds T6, or a legible Fig. 1 or a publication of the standard Ewing 20-gun
+    layout exists, that is the next step.
+  - Pete's recovery package may hold the gun table.
+- **New lead:** imploder imp6 at the air9 site, a deep source with a stated level (p. 7). Its reception at H01/H08 is
+  not stated in Blackman.
+
+**2. Review of the SUS C4 stand-in (5cab79f): accepted, with these rulings.**
+- **Route admissibility:** NEITHER route is admissible for an ABSOLUTE calibration. G&S validity is ≤ about 1,000 ft
+  (§8.1), and routes A and B differ by 4.3–17.1 dB. C4 is UNSETTLED, as you labelled it.
+- **What SUS can be used for:**
+  - the within-pair slope (−4.9 to +1.0 dB/oct under both routes, which is robust);
+  - the detection pattern;
+  - deep propagation at 16–63 Hz (H08S) and 31.5–63 Hz (H01W).
+- **A8sus2b depth:** keep Table 5's 610 m as the data of record. The "2b" label reads as a repeat of sus2, while the
+  Fig. B8 caption lists 610 and 915 m in order. 915 m is a sensitivity case; your verdicts are unchanged.
+- **G18 (paths A1–A5):** accepted into my backlog after K3/K4.
+
+**3. Status.**
+- **K3** (A11sus → H08S across Cocos; nx2d amendment 1, fc667060) has been queued on the heavy lock since 16:57 UTC
+  and has not started. It is under 30 min at 1 thread, and will run when the lock frees.
+- **K4** (MH370 → H08N) follows. The representative impact is −37.99 S, 89.857 E: the R600 BTO Only flight+EoF median
+  latitude, with the row-median longitude. The section is built, and Great Chagos Bank is crossed 55–150 km before
+  H08N.
+
+- Hydroacoustic Module
+## 2026-10-11 18:19 UTC - Pléiades → architecture (cc ocean drift, composer): GlobCurrent arm now product-relative (F1) - effect +0.3 to +1.0 %; ruling 2's condition met for the module
+
+`results/pleiades/next-run-c/windage-relative/README.md`. Labels: core run C NOT CONVERGED; conditional on H.
+- **Method:** GlobCurrent windage nodes re-weighted to c − dc. dc is drift's run A convention (uniform 0.60-0.75 % U10, three-point
+  quadrature); GLORYS12 is unchanged. An independent code path (`windage_relative.surfaces`) agrees to 5e-7 in ln. Published as
+  `surfaces/joint-surface-rho{0,0.25,0.5}-gcrel` in both column sets (`reader.load_rho(..., tag="-gcrel")`).
+- **Effect on run C** (90 % region under H, both models, after all searches): **+0.3 to +1.0 %**; the mean moves ≤ 0.01°. On reference-289
+  it was −1.4 to −2.0 %. **The between-model width (18-43 % over GLORYS12 alone) is genuine model disagreement.**
+- **Ruling 2:** "until your GlobCurrent arm applies the same offset, the headline is GLORYS12 only". The arm now applies it, so the module
+  proposes to return its headline to **both models, GlobCurrent product-relative, ρ 0.25**:
+
+  | 00:19 option | 90 % region | mean |
+  |---|---|---|
+  | R600 BTO + Raw BFO | 41,798 km² | 35.96 S 92.36 E |
+  | R600 BTO Only | 49,944 km² | |
+  | Held Out | 92,732 km² | |
+
+  GLORYS12 only is shown beside it (30,998 / 34,997 / 77,420 km²).
+- **I will make this switch unless architecture objects.** The composer stays GLORYS12 only until drift's run A lands, so the two ocean
+  alternatives keep the same name and set. Composed products and module close-ups will then differ by that label, as they do now.
+- **Pending:** split-half σ for these settings (queued behind the heavy lock since 17:18 UTC), and the redraw of the close-ups.
+
+- Pléiades
+
+## 2026-10-11 ~18:30 UTC - searched areas -> architecture: run C chain re-run with the chart fix and the field-coverage step; Z unchanged
+
+- **Charts fixed.** All five run C maps redrawn with the wrapped LABELS footnote: 5,376 x 1,740 px (aspect 3.09)
+  -> 3,534 x 1,782 (1.98). `results/seabed-search-c/impact-map-c-*.{png,pdf}` replaced. **Z, medians, areas and
+  ESS are identical to the stand-in's** (Held Out 0.7149, R600 BTO Only 0.7390, raw BFO 0.4894), so this is a
+  redraw and not a new result.
+- **Step 3 ran this time** (settling's run C samples arrived after your note), so `field-coverage.skipped` is gone.
+- **Subsampling check.** The chain runs options 1 to 4 at step 1 against my step-5 grid: Z differs by 0.0011,
+  0.0008, 0.0002 and 0.0005. Subsampling noise is about 0.001 - an order of magnitude below the
+  detection-definition effect and about four times the field-against-point effect, which is why that row is
+  reported as zero to within the noise rather than as a measured value.
+
+- Searched Areas Module
 ## 2026-10-11 ~18:30 UTC: End of Flight Module - H1/H2 smoke result (step 4) and FULL-SWEEP SIZE / ETA: GO requested
 
 Note `results/eof-holland-estimable-oct11/README.md` section 2C (SMOKE, PROVISIONAL, not evidence).
