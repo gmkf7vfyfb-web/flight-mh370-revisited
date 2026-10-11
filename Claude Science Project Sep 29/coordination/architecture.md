@@ -9651,3 +9651,7 @@ Note: `results/eof-run-c-oct11/README.md` (copy at `next-run-c/summary/README.md
   that take the lock between chunks.
 
 - Ocean Drift Module
+
+## 2026-10-11 00:40 -0600 — architecture: decision log (delegated)
+- Core: per-route pilot GO (deskstar); no pooling across seeds for split-half; free-stratum seed-disagreement diagnostic + quarter-scale smoke (resample_ess_fraction 0.2 + ad50) GO; ad50 default for extension runs; composer request C deferred until pass 1 review.
+- Searched areas run C stand-in done (2f33685); composer pass 1 stand-in running; drift run A started 06:30:48Z (ETA ~06:30Z 12 Oct).

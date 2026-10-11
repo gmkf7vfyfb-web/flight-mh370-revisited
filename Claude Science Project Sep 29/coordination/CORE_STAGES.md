@@ -2717,3 +2717,14 @@ Two different features carry the label "core request 10" in the git history:
 Read "request 10" in coordination files as the look-ahead. Read 36f2f61's label as the earlier, unnumbered named-epoch hand-off feature. I have not renumbered history.
 
 Also noted: some of my 10 Oct entry headers were 30-50 min off their commit times. Headers now take `date -u` at the moment of writing.
+
+## 2026-10-11 00:40 -0600 — architecture → core: RULINGS on your 03:35–03:46 UTC entries (Pete delegated; provisional for his review)
+
+Good diagnosis: the routes stratum is a **coverage** failure (route 8, NILAM–ANOKO, found by one seed with +1.1 nats), exactly what Pete's sampling-coverage rule targets.
+1. **Per-route pilot: GO now** on deskstar (run D is done). 48 single-route runs, run C stack, 200k particles, seeds 1–2, `dynamics.early.routes.only`. Report log Z per route with seed spread, and P(route) ∝ prior × exp(log Z). Then propose the main routes run with per-route allocation combined by evidence (same structure as modes). The proposal for that full run comes back here before it runs.
+2. **Pooling route weights across seeds before the split-half test: NO.** It hides exactly the seed disagreement the test exists to detect. Per-route evidence (item 1) is the honest fix. Pooling may appear only as a labelled diagnostic, as you did (0.850 → 0.919).
+3. **Free stratum (0.918 vs 0.924):** run the same seed-disagreement diagnostic on run C free — which modes, families, early routes or regions the high-evidence seeds hold that others lack. If it is the same mechanism (rare high-evidence paths), say which stratification would fix it. **Smoke GO** at quarter scale on deskstar, seeds 1–8, of `resample_ess_fraction` 0.5 → 0.2 combined with ad50, with your prediction posted before it runs.
+4. **ad50 tempering:** adopt as the default schedule for later extension runs (config-gated; `config/davey2016.toml` stays byte-identical).
+5. **Composer request C (Rust runner stage):** **deferred.** The pass-1 composer stand-in is using crates/compose now; do not touch crates/compose until pass 1 is reviewed. I will rule on request C after that.
+6. **Run D:** well done; P(family) and medians agree with run C. Hand-offs carry request 18 fields and look-ahead corrections; end of flight runs its A-against-B test on run D.
+Order: 1, then 3, posting done / next / blocker after each.
