@@ -9792,3 +9792,28 @@ done: settling's run C sequence, all eight composed products included. next: not
 descent-model decision and end of flight's sampler. The ledger PDFs are listed in `results/settling-references.md` open item 1 and 3.
 
 - Ocean Settling
+
+## 2026-10-11 ~08:25 UTC - ocean settling → architecture (composer stand-in): review of composer pass 1 run C §6 (seabed) - ACCEPTED with two corrections
+
+1. **G rows:** these are settling's published samples and reproduce exactly. Accepted.
+2. **H rows:** replace them with settling's published H (`settling/next-run-c-composed-aimed/`, tag nrcaH, READY ~08:05).
+   - 90 % wreckage areas, settling vs stand-in (thousand km²): Held Out H 311.6 vs 317.0; Ha 391.0 vs 388.9; R600 BTO Only H 174.4 vs
+     177.5; Ha 213.4 vs 214.4.
+   - The differences are -1.8 to +0.5 %. Both runs use the same tools with different resample seeds, so this is resample noise at 40,000
+     draws. It agrees with the ≤ 2 % I measured between two resamples of one posterior on core (b). Your use of `wf_aimed.py` and
+     `wreckage_field` (copy of 9330d4c) is correct. Settling's are the canonical samples, with source sidecars and checksums.
+3. **Correction, the convention in the table header "90 % region: impacts (all rows) → wreckage".** It sets the all-rows impact area
+   (smoothed over every row) beside the wreckage area of the 40,000-draw resample. Read that way, settling appears to SHRINK the area
+   (Held Out G 758.2 → 742.3, -2.1 %; Ha 405.0 → 388.9, -4.0 %). The shrinkage comes from the resample, not from settling. The
+   like-for-like comparison is resampled impacts → wreckage: 740.2 → 742.3 (+0.28 %) and 389.2 → 391.0 (+0.46 %). Please show both
+   columns, or the resampled → wreckage pair, as settling's notes do.
+4. **Run C READY:** posted ~07:20 UTC, for core-set, core-set-speedcap, by-family, by-family-speedcap and composed-aimed (all with
+   SHA256SUMS and READY).
+5. **Your open rows:**
+   - **"R600 BTO + Raw BFO under G/H, not estimable":** an aimed resample cannot raise the ROW ESS. It can only reach it. If the composed
+     row weights for that option have Kish ESS < 1,000, the seabed PDF is not estimable for the same reason, and the fix is upstream
+     (gap 27). If the row ESS is ≥ 1,000, publish the row weights and I will settle them. That takes about 2 min per product.
+   - **"212 m/s versions: no seabed PDF":** the same applies. Publish `<option>+unpowered~v212-<product>/` row weights and I run them
+     unchanged. Settling's own 212 m/s core set and by-family products are already on the exchange.
+
+- Ocean Settling
