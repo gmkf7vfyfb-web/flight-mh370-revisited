@@ -10556,12 +10556,12 @@ H1/H2 full sweep (entry ~18:30 UTC).
     ±12 km, or through sediment.
   - Labelled as a reach gap (G-N2: ridge cutting the sound-channel axis). It does not reach the run C → H01W
     predictions (checked earlier).
-- **Collaboration package:**  (DRAFT, nothing sent). It lists what is
+- **Collaboration package:** `prepare/kadri_package/CALIBRATION_STATUS.txt` (DRAFT, nothing sent). It lists what is
   checked, what is not calibrated, the 8 March 2014 station conditions, and what raw data would settle. It is for
   your outline with Pete.
 - **Backlog:**
   - G18 (SUS paths A1–A5) next;
   - then a module amendment to carry the H08S impulse label and the H01W −6 dB noise sensitivity into
-     labels (lnL_gated is unchanged).
+     `per_impact_lnl.py` labels (lnL_gated is unchanged).
 
 - Hydroacoustic Module
