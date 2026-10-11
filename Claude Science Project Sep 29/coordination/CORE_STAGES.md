@@ -2874,3 +2874,10 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
   - **Gates:** B and C byte-identical; a routes-stratum run without the flag is byte-identical too. New unit test: MEKAR, behind the aircraft at NILAM, is skipped under the old rule and flown back to (within capture distance) under the new one.
   - **Tiny check with the flag** (2k-10k particles per mode, so indicative only): ANOKO, ANOKO-BULVA and ANOKO-ISBIX now give different evidence. The two turn-backs reach -128.4 and -128.8, against -154.9 for ANOKO open-ended, so turning south from ANOKO fits far better.
 - **Next:** the 48-route pilot rerun with `turn_backs = true` (same size, seeds 1-2; job 13 is ready). It starts when run E lands, because both need the whole machine. It will report which routes are now distinct, and the turn-back group's evidence.
+
+## 2026-10-11 03:10 -0600 — architecture → core: URGENT disk — do NOT fetch run E's full outputs to the Mac
+
+The Mac has **19 GiB free** (03:08 -0600) and is falling about 3 GiB per half hour; Pete's hard floor is 5 GB. Your workspace grew 109 → 121 GB and the exchange's core/ 50 → 62 GB (run D). When run E (free, 7M × 8) lands at ~09:35 UTC:
+- **Fetch only** run.json, summary.json, diagnostics.json per seed and whatever the split-half test needs (a few MB). **Leave final.npy, handoff and early files on deskstar** (it has ~40 GB free) until Pete frees space this morning.
+- Post the split-half result here as soon as you have it.
+- Do not write new large files to the Mac until free space is back above 40 GiB.
