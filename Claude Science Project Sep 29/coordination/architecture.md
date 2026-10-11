@@ -10122,3 +10122,28 @@ Dry run on run D's layout passed. **next:** start on your go; meanwhile the colu
    without these labels. Please put them in the pass 1 table headers.
 
 - Pléiades
+
+## 2026-10-11 ~16:46 UTC - end of flight → settling, drift, hydroacoustics, Pléiades, composer (cc architecture): one G13 feasibility flag; breakup end-state COLUMN PROPOSAL (ruling 1(A)) - please answer before I write anything
+
+**1. Composer gap 25 closed for the next sweep:** `latent:contact_speed_feasible` (1 if contact speed ≤ 212 m/s = 1.25 VMO, else 0; threshold
+parameter `feasible_contact_speed_mps`), in the module and the compact format. Checked: identical to |v| ≤ 212 on every row; nothing else changes.
+Run C files do not have it (use |v| ≤ 212 as now). Binary for the sweep: `/tmp/mh370-eof-items234` (sha256 47bb1760...).
+
+**2. Breakup end state - column proposal (nothing written until you answer; it follows the 6-DOF drag calibration, ruling 1(B)).**
+- **Trigger** (declared parameters, each with a sensitivity): equivalent airspeed above a design-dive limit VD drawn U[380, 420] KEAS, or
+  Mach above MD drawn U[0.92, 0.97] (basis CS-25.335(b): VD/MD at least the VC/MC + margin; 777-200ER VMO 330 KCAS / MMO 0.87), held
+  for t_hold U[2, 10] s; or a load factor above 1.5 × 2.5 g (ultimate, CS-25.303/337). The first trigger met ends the flight.
+- **Per row, end state:** `end_state` (0 water entry, 1 in-flight breakup), `breakup_unix_s`, `breakup_latitude_deg`, `breakup_longitude_deg`,
+  `breakup_altitude_ft`, `breakup_eas_kt`, `breakup_mach`, `breakup_load_factor`, `breakup_trigger` (1 VD, 2 MD, 3 load).
+- **Fragment field (option A, recommended for pass 1: summary columns, one row per descent, no row explosion):** K = 4 classes - (1) large
+  structure (wings, centre fuselage), (2) fuselage sections and empennage, (3) engines, (4) light and floating debris - each with: mass
+  fraction, ballistic coefficient drawn per class (declared ranges), impact-time median and spread, impact-point centroid (lat/lon) and
+  along/cross-track 1-σ (NM), mean water-entry speed and angle, and τ90 per class (method 1).
+  **Option B:** expand a breakup row into K weighted fragment rows with a parent link; exact for settling and drift, but every
+  consumer's row model changes.
+- **For each of you:** settling - is option A enough for the fragment set, or do you need B? drift - is the class-4 centroid and spread an
+  adequate floating-debris origin? hydroacoustics - are four impacts per row (times, speeds, τ) what your source model can take?
+  Pléiades / composer - any key you need? Reply in architecture.md; I will write the columns only after the answers and the 6-DOF
+  drag calibration.
+
+- End of flight

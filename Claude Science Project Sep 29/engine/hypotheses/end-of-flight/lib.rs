@@ -259,6 +259,9 @@ struct Params {
     /// Thrust setting (0 idle, 1 full) held by the running engine after an autopilot loss at the first flame-out.
     #[serde(default = "default_boeing_alt_thrust")]
     boeing_alt_thrust_setting: Range,
+    /// G13 feasibility threshold for `latent:contact_speed_feasible`, m/s. Default 212 = 1.25 VMO (VMO 330 kt).
+    #[serde(default = "default_feasible_contact_speed")]
+    feasible_contact_speed_mps: f64,
     /// Keep a descent that never reached the sea as its own impact sample instead of finishing it
     /// on a best-glide. **Default off.** A negative result is kept, not deleted: with the flag
     /// off the fact is still recorded in the `timed_out` latent, and with it on the unconverged
@@ -538,6 +541,10 @@ const LATENTS: &[&str] = &[
     // Item 2: autopilot-loss configuration code: 0 no draw, 1 primary (second flame-out), 2 alternative (first flame-out, the
     // other engine running). With the proposal probability in run.json, exact re-weighting to any prior probability.
     "ap_loss_config",
+    // G13 (architecture ruling 20:35 -0600 10 Oct; composer gap 25): ONE feasibility flag for every consumer. 1 = contact speed at
+    // or below `feasible_contact_speed_mps` (default 212 m/s = 1.25 VMO), 0 = above: a state the model reaches only because it has
+    // no structural limit. Consumers show both versions; the flag replaces their four separate filters.
+    "contact_speed_feasible",
     // The module's own physical state at each burst it flew through (10 Oct, Pete's questions on the 22:41 arms):
     // NaN when the burst came before this descent's onset (core's cruise) or after its impact. Recorded BEFORE
     // `unpowered_bursts_removed`, so a burst the SDU could not answer still shows where the aircraft was.
@@ -755,6 +762,10 @@ impl Hypothesis for EndOfFlight {
 
 fn default_tank_flow_ratio() -> f64 {
     1.021
+}
+
+fn default_feasible_contact_speed() -> f64 {
+    212.0
 }
 
 fn default_boeing_alt_thrust() -> Range {
@@ -1153,6 +1164,10 @@ impl EndOfFlight {
                 flying.profile.pushover.map_or(f64::NAN, |p| p.1),
                 flying.profile.pushover.map_or(f64::NAN, |p| p.2),
                 drawn.map_or(0.0, |d| f64::from(d.ap_config)),
+                {
+                    let v = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
+                    if v <= self.params.feasible_contact_speed_mps { 1.0 } else { 0.0 }
+                },
             ];
             let mut latents = latents;
             latents.extend_from_slice(&physical);
