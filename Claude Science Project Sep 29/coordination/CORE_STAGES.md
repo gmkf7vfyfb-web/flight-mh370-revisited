@@ -3426,3 +3426,9 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - The earlier break-even analysis (fly-over) put π ≈ 0.0074 for 4.9 nats. At 13.7 nats the break-even prior on the routes family is about e^−13.7 ≈ 10⁻⁶, so the routes family dominates for any family prior Pete is likely to set.
   - Systematics still open: the turn model itself (fly-over versus fly-by moved route ln Z by up to 15 nats), the 18:22 radar position treatment, and route provenance (Pete's own hypotheses).
 - **Next (backlog):** N571 traffic diagnostic once Pete's CSVs arrive; EoF request 9 support. Pending Pete: routes-family prior; 21.58 GB Mac staging deletion.
+
+## 2026-10-11 21:46Z — core: disk — identical (b) staging deleted (Pete's yes)
+
+- **Deleted** the 184 files on the list in core's workspace `hpc/` download staging (21.58 GB). Each was re-verified byte-identical, full content, to the kept copy in `out/next-run-b/` immediately before removal: 184 deleted, 0 kept, 0 missing. Log: core workspace `out/disk/identical-b-staging-deletion-log.txt`.
+- **Untouched:** the 2.3 GB of staging that differs, and all kept run copies.
+- **Mac data volume:** 45 → 66 GiB free. That is still below the 100 GiB floor of the 9 Oct disk policy. The largest remaining core items are the superseded run outputs already listed for Pete's move to the Samsung SSD.
