@@ -90,6 +90,10 @@ pub struct RoutePrior {
     pub fly_by: bool,
     /// Steer on the great-circle legs (`Guidance::track_legs`).
     pub track_legs: bool,
+    /// Route-only bank limit (`Guidance::bank_deg`); None: the model's.
+    pub bank_deg: Option<f64>,
+    /// Fly-by anticipation cap (`Guidance::fly_by_max_turn_deg`); None: 120 degrees.
+    pub fly_by_max_turn_deg: Option<f64>,
     /// Restrict the draw to these route indices (uniformly among them), keeping their index
     /// numbers. For per-route runs whose evidence is combined afterwards. None: all routes.
     pub allowed: Option<Vec<u32>>,
@@ -438,6 +442,13 @@ pub struct Guidance {
     /// TRACK_MAX_INTERCEPT_RAD) instead of homing direct to the fix. False: direct-to (original).
     #[serde(default, skip_serializing_if = "std::ops::Not::not")]
     pub track_legs: bool,
+    /// Bank limit (degrees) for turns flown while this plan steers (turn rate and fly-by
+    /// anticipation). None: the model's `bank_angle_deg`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bank_deg: Option<f64>,
+    /// Fly-by anticipation cap on the course change (degrees). None: FLY_BY_MAX_TURN_RAD (120).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_max_turn_deg: Option<f64>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -1392,7 +1403,8 @@ impl Aircraft {
             let mut turn_step = 0.0;
             if self.turn_remaining != 0.0 {
                 let air = self.air_speed_kt(self.weather.speed_of_sound_kt());
-                let rate = 9.806_65 * p.bank_angle_deg.to_radians().tan() / (air * MPS_PER_KNOT);
+                let bank_deg = self.guidance.as_deref().and_then(|g| g.plan.bank_deg).unwrap_or(p.bank_angle_deg);
+                let rate = 9.806_65 * bank_deg.to_radians().tan() / (air * MPS_PER_KNOT);
                 turn_step = self.turn_remaining.abs().min(rate * dt).copysign(self.turn_remaining);
                 self.control += 0.5 * turn_step;
             }
@@ -1493,8 +1505,10 @@ impl Aircraft {
         if let Some(route) = rec.route.clone().filter(|r| !r.started && now >= r.unix_s) {
             if let Some(routes) = p.early.as_ref().and_then(|e| e.routes.as_ref()) {
                 let waypoints = routes.routes[route.index as usize].clone();
-                let fly_by_bank_deg = routes.fly_by.then_some(p.bank_angle_deg);
-                self.set_guidance(Guidance { waypoints, after: AfterRoute::Free, turn_backs: routes.turn_backs, fly_by_bank_deg, track_legs: routes.track_legs }, env, rng);
+                let fly_by_bank_deg = routes.fly_by.then_some(routes.bank_deg.unwrap_or(p.bank_angle_deg));
+                let plan = Guidance { waypoints, after: AfterRoute::Free, turn_backs: routes.turn_backs, fly_by_bank_deg, track_legs: routes.track_legs,
+                                      bank_deg: routes.bank_deg, fly_by_max_turn_deg: routes.fly_by_max_turn_deg };
+                self.set_guidance(plan, env, rng);
             }
             if let Some(r) = self.early.as_mut().and_then(|r| r.route.as_mut()) {
                 r.started = true;
@@ -1635,7 +1649,8 @@ impl Aircraft {
                 let lead_nm = match g.plan.fly_by_bank_deg {
                     Some(bank_deg) if i + 1 < g.plan.waypoints.len() => {
                         let next_leg = bearing_and_distance(target, g.plan.waypoints[i + 1]).0;
-                        let dpsi = wrap_pi(next_leg - bearing).abs().min(FLY_BY_MAX_TURN_RAD);
+                        let cap = g.plan.fly_by_max_turn_deg.map_or(FLY_BY_MAX_TURN_RAD, f64::to_radians);
+                        let dpsi = wrap_pi(next_leg - bearing).abs().min(cap);
                         let v = self.air_speed_kt(self.weather.speed_of_sound_kt()) * MPS_PER_KNOT;
                         v * v / (9.806_65 * bank_deg.to_radians().tan()) / 1852.0 * (0.5 * dpsi).tan()
                     }
@@ -2357,7 +2372,7 @@ mod tests {
         let fly = |turn_backs: bool| {
             let mut rng = ChaCha8Rng::seed_from_u64(6);
             let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs, fly_by_bank_deg: None, track_legs: false };
+            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None };
             a.set_guidance(plan, &CalmAir, &mut rng);
             let (mut near_nilam, mut near_mekar_after_nilam, mut reached_nilam) = (f64::MAX, f64::MAX, false);
             for k in 1..=240 {
@@ -2390,7 +2405,7 @@ mod tests {
         let fly = |fly_by_bank_deg: Option<f64>, track_legs: bool| {
             let mut rng = ChaCha8Rng::seed_from_u64(6);
             let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-            let plan = Guidance { waypoints: vec![NILAM, ANOKO, ISBIX], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 185.0 }, turn_backs: true, fly_by_bank_deg, track_legs };
+            let plan = Guidance { waypoints: vec![NILAM, ANOKO, ISBIX], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 185.0 }, turn_backs: true, fly_by_bank_deg, track_legs, bank_deg: None, fly_by_max_turn_deg: None };
             a.set_guidance(plan, &CalmAir, &mut rng);
             let leg = bearing_and_distance(ANOKO, ISBIX).0;
             let (mut near_anoko, mut max_xt, mut late_xt) = (f64::MAX, 0.0_f64, 0.0_f64);
@@ -2424,7 +2439,7 @@ mod tests {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(6);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false };
+        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None };
         a.set_guidance(plan, &CalmAir, &mut rng);
         let (mut near_nilam, mut near_igogu) = (f64::MAX, f64::MAX);
         for k in 1..=240 {
@@ -2446,7 +2461,7 @@ mod tests {
         let mut rng = ChaCha8Rng::seed_from_u64(7);
         let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
         let dest = (-45.0, 104.0);
-        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None }, &CalmAir, &mut rng);
         let (_, d0) = bearing_and_distance((a.lat, a.lon), dest);
         let mut flown = 0.0;
         for k in 1..=120 {
@@ -2466,7 +2481,7 @@ mod tests {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(8);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticTrack, &p, &CalmAir, &mut rng);
-        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false, fly_by_bank_deg: None, track_legs: false }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None }, &CalmAir, &mut rng);
         a.propagate(3.0 * 3600.0, &p, &CalmAir, &mut rng);
         assert!(a.guidance.is_none());
         assert_eq!(a.mode, Mode::MagneticTrack);
@@ -2505,7 +2520,7 @@ mod tests {
         }
         let mut guided = Aircraft::sample(&start_on_n571(), Mode::TrueHeading, &p, &CalmAir, &mut rng);
         let after = AfterRoute::Destination { lat: -30.0, lon: 95.0 };
-        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false, fly_by_bank_deg: None, track_legs: false }, &CalmAir, &mut rng);
+        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None }, &CalmAir, &mut rng);
         let mut on_route = guided.clone();
         on_route.propagate(300.0, &p, &CalmAir, &mut rng);
         guided.propagate(1500.0, &p, &CalmAir, &mut rng);

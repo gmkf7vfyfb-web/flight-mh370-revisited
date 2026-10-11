@@ -584,6 +584,13 @@ pub struct RoutesConfig {
     /// instead of homing direct to each fix. Absent or false: direct-to (original).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub track_legs: Option<bool>,
+    /// Bank limit (degrees) for turns while a route steers, and for fly-by anticipation (turn-model
+    /// sensitivity, 11 Oct 2026). Absent: dynamics.bank_angle_deg.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bank_angle_deg: Option<f64>,
+    /// Fly-by anticipation cap on the course change, degrees. Absent: 120.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_max_turn_deg: Option<f64>,
 }
 
 impl RoutesConfig {
@@ -693,7 +700,7 @@ impl EarlyConfig {
                             return Err(format!("dynamics.early.routes.only must name indices below {}", routes.len()));
                         }
                     }
-                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), fly_by: r.fly_by == Some(true), track_legs: r.track_legs == Some(true), allowed: r.only.clone() })
+                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), fly_by: r.fly_by == Some(true), track_legs: r.track_legs == Some(true), bank_deg: r.bank_angle_deg, fly_by_max_turn_deg: r.fly_by_max_turn_deg, allowed: r.only.clone() })
                 }
             }
         };
