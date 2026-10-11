@@ -53,7 +53,8 @@ pub enum Command {
     /// Hold a target geometric vertical speed and a target Mach, within the achievable envelope.
     /// Lift is set to the value that curves the flight path onto the target angle; thrust is set
     /// to the value that holds the target Mach, saturating between idle and the full rating.
-    Track { vertical_speed_mps: f64, target_mach: f64, bank_rad: f64 },
+    /// `n_floor_g`: this command's load-factor floor while pitching down (the push-over); else the integrator's own floor.
+    Track { vertical_speed_mps: f64, target_mach: f64, bank_rad: f64, n_floor_g: Option<f64> },
     /// Hold the best lift-to-drag ratio of the current configuration: the reference glide.
     BestGlide { bank_rad: f64 },
     /// No lift, no drag, no thrust. Only for the ballistic energy-conservation test.
@@ -435,14 +436,14 @@ impl<'a> Integrator<'a> {
                 (trimmed, bank_rad, thrust)
             }
             Command::BestGlide { bank_rad } => (self.aero.c_l_at_ld_max_in(cfg), bank_rad, self.aero.thrust_n(cfg, rho, setting)),
-            Command::Track { vertical_speed_mps, target_mach, bank_rad } => {
+            Command::Track { vertical_speed_mps, target_mach, bank_rad, n_floor_g } => {
                 // Lift: curve the path towards the flight-path angle the target rate implies,
                 // with a first-order lag of `tau` seconds, then cap at the usable lift.
                 let target_gamma = (vertical_speed_mps / body.tas_mps).clamp(-0.9, 0.9).asin();
                 let tau = 8.0;
                 let d_gamma_wanted = (target_gamma - body.gamma_rad) / tau;
                 let needed = (mass * (body.tas_mps * d_gamma_wanted + atmos::G0 * body.gamma_rad.cos())) / (q * s * bank_rad.cos().max(0.05));
-                let needed = match self.track_load_factor_floor_g {
+                let needed = match n_floor_g.or(self.track_load_factor_floor_g) {
                     // n = L / W: a push-over unloads to the floor and no further (the descent then builds more slowly).
                     Some(n_min) => needed.max(n_min * weight / (q * s)),
                     None => needed,
@@ -644,7 +645,7 @@ mod tests {
             let vs = -rate_fpm * 0.3048 / 60.0;
             let mut prev: Option<(f64, f64, f64)> = None;
             let mut n_min = f64::INFINITY;
-            it.run(body(alt, tas, 0.0), &frozen, None, &mut |_, _| (Command::Track { vertical_speed_mps: vs, target_mach: 0.84, bank_rad: 0.0 }, cfg, 0.0), &mut |b, _| {
+            it.run(body(alt, tas, 0.0), &frozen, None, &mut |_, _| (Command::Track { vertical_speed_mps: vs, target_mach: 0.84, bank_rad: 0.0, n_floor_g: None }, cfg, 0.0), &mut |b, _| {
                 if let Some((t0, g0, v0)) = prev {
                     let dt = b.unix_s - t0;
                     if dt > 0.0 {

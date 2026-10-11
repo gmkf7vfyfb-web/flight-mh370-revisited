@@ -31,7 +31,7 @@ def write(run, sd, out, optional=True):
     run, sd, out = pathlib.Path(run), pathlib.Path(sd), pathlib.Path(out)
     meta = json.loads((run / "run.json").read_text()); cols = {c: i for i, c in enumerate(meta["impact_columns"])}
     X = np.load(sd / "impacts.npy", mmap_mode="r")
-    names = SPEC["core"] + (SPEC["optional"] if optional else [])
+    names = SPEC["core"] + ([n for n in SPEC["optional"] if n in cols] if optional else [])   # optional: only those the run has
     derived = list(SPEC.get("derived", {}))
     out.mkdir(parents=True, exist_ok=True)
     Y = np.lib.format.open_memmap(out / "impacts32.npy", mode="w+", dtype=np.float32, shape=(X.shape[0], len(names) + len(derived)))

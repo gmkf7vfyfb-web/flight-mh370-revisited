@@ -1,0 +1,20 @@
+# Item 4 of Pete's ruling on the end-of-flight physics prior (plan accepted 01:45 -0600 11 Oct): a bounded deliberate push-over in the
+# PILOTED family only (powered emergency descents; unpowered controlled glides flown at a chosen rate). PROVISIONAL.
+# The prior probability q of a push-over in an eligible descent is a U[0, 1] hyper-parameter. Proposal probability p0 = 0.5, which
+# equals the q-marginal; any fixed q is an exact re-weighting with latent:pushover_eligible / latent:pushover_drawn.
+# Bounds and sources (COVERAGE: a bound narrower than the feasible range is a gap unless sourced):
+# - commanded rate U[6,500, 30,000] ft/min. Lower = the module's emergency-descent upper bound (above it the old model had no reach).
+#   Upper: Holland (arXiv:1702.02432v3, Table VII, p. 10) needs 13,800-25,300 ft/min at 00:19:37 under H1/H2, so the bound covers both;
+#   at FL350 (about 480 kt TAS) 30,000 ft/min is a dive at about -38 deg, where speed can no longer be held below MMO/MD with idle and
+#   speedbrakes (CS-25.335(b) margin), so steeper deliberate dives are not controllable descents. Faster descents (Boeing's no-input
+#   simulations peaked at 24,000-58,000 ft/min, SIR App. 1.6E) remain reachable only by the free dynamics. Partial gap, declared.
+# - load-factor floor U[-1.0, 0.8] g. Lower = the certified negative limit manoeuvring load factor, -1.0 g flaps up up to VC
+#   (CS-25.337(c)); upper = a gentle push-over (a floor above about 0.6 g does not bind at the module's 8 s guidance lag below 6,500
+#   ft/min). Holland's H2 needs about 0.32 g (0.675 g downward over 8 s, Holland p. 8; architecture push-over study), inside the range.
+# - hold U[0, 300] s from the onset to the push-over (level if powered, gliding if not): a declared reaction/decision time; it covers
+#   the 00:19 log-on lag after flame-out (Erlang(8, 14.875 s): mean 119 s, 300 s is 4.3 standard deviations).
+[hypotheses.end-of-flight.envelope]
+rapid_descent_probability = 0.5
+rapid_descent_rate_fpm = [6500.0, 30000.0]
+pushover_load_factor_floor_g = [-1.0, 0.8]
+pushover_hold_s = [0.0, 300.0]

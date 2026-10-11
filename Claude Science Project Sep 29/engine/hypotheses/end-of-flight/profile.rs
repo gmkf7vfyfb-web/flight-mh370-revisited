@@ -85,6 +85,9 @@ pub enum Phase {
     /// A low-rate approach to water contact. The rate band is the ditching-guidance figure of
     /// 200-300 ft/min on final before the flare, used as a modelling parameter.
     Approach { rate_fpm: f64, mach: f64 },
+    /// A deliberate push-over (item 4): after `hold_s` (level if powered, gliding if not), a commanded descent at `rate_fpm`
+    /// that unloads no further than `n_floor_g`, until `until_altitude_ft`.
+    PushOver { rate_fpm: f64, mach: f64, until_altitude_ft: f64, speedbrake_eighths: u8, n_floor_g: f64, hold_s: f64, powered: bool },
 }
 
 /// Configuration of the envelope sampler.
@@ -171,19 +174,36 @@ pub struct EnvelopeConfig {
     /// track on average). When set, one extra uniform is drawn for the sign.
     #[serde(default)]
     pub residual_bank_left_probability: Option<f64>,
-    /// Probability that the emergency descent of `EmergencyThenTransition` is flown at a RAPID commanded rate drawn from
-    /// `rapid_descent_rate_fpm` instead of `emergency_rate_fpm` (10 Oct; the reach gap "rapid descents above 6,500 ft/min
-    /// and unloading"). 0 (the default): never, and no extra draw - the earlier behaviour exactly. A prior choice for Pete
-    /// (architecture push-over study: "whether a deliberate push-over belongs in the control prior").
+    /// PROPOSAL probability of a deliberate push-over (Pete's ruling on the EoF physics prior, item 4, plan accepted 01:45 -0600
+    /// 11 Oct) in an ELIGIBLE piloted descent: the powered `EmergencyThenTransition` shape, or an unpowered controlled
+    /// `Continuous` descent (a glide flown at a chosen rate, A2-type). Only controls with a pilot reach these shapes. The prior
+    /// probability q of a push-over is a U[0, 1] hyper-parameter; with this proposal probability p0 the samples are re-weighted
+    /// exactly to any q (factor q/p0 for push-over rows, (1 - q)/(1 - p0) for eligible rows without), and p0 = 0.5 is already
+    /// the q-marginal. Latents `pushover_eligible`, `pushover_drawn`. 0 (the default): never, and no extra draw.
     #[serde(default)]
     pub rapid_descent_probability: f64,
-    /// Commanded rate of a rapid descent, ft/min (used only when `rapid_descent_probability` > 0).
+    /// Commanded rate of the push-over descent, ft/min. Sources in `full/pushover.toml`.
     #[serde(default = "default_rapid_rate")]
     pub rapid_descent_rate_fpm: Range,
+    /// The lowest load factor (g) the pilot pulls while pushing over. Sources in `full/pushover.toml`.
+    #[serde(default = "default_pushover_floor")]
+    pub pushover_load_factor_floor_g: Range,
+    /// Seconds from the start of the profile (the onset) to the push-over; before it the aircraft holds level (powered) or
+    /// glides (unpowered).
+    #[serde(default = "default_pushover_hold")]
+    pub pushover_hold_s: Range,
 }
 
 fn default_rapid_rate() -> Range {
-    Range::Uniform([6_500.0, 20_000.0])
+    Range::Uniform([6_500.0, 30_000.0])
+}
+
+fn default_pushover_floor() -> Range {
+    Range::Uniform([-1.0, 0.8])
+}
+
+fn default_pushover_hold() -> Range {
+    Range::Uniform([0.0, 300.0])
 }
 
 fn default_spiral_doubling_s() -> Range {
@@ -202,6 +222,8 @@ impl EnvelopeConfig {
             ("descent_rate_fpm", self.descent_rate_fpm),
             ("emergency_rate_fpm", self.emergency_rate_fpm),
             ("rapid_descent_rate_fpm", self.rapid_descent_rate_fpm),
+            ("pushover_load_factor_floor_g", self.pushover_load_factor_floor_g),
+            ("pushover_hold_s", self.pushover_hold_s),
             ("emergency_mach", self.emergency_mach),
             ("descent_mach", self.descent_mach),
             ("transition_altitude_ft", self.transition_altitude_ft),
@@ -280,6 +302,8 @@ impl EnvelopeConfig {
     ) -> Profile {
         let shape = self.sample_shape(propulsion, control, uniform);
         let mut phases: Vec<Phase> = Vec::new();
+        let mut pushover_eligible = false;
+        let mut pushover: Option<(f64, f64, f64)> = None;
         let level_c_l = {
             let t = atmos::isa_temperature_k(start.pressure_altitude_ft);
             let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(start.pressure_altitude_ft), start.tas_mps / atmos::sound_speed_mps(t));
@@ -293,6 +317,23 @@ impl EnvelopeConfig {
                 recover_at_altitude_ft: None,
             }),
             Shape::Continuous => {
+                if self.rapid_descent_probability > 0.0 && propulsion == Propulsion::NeitherThrusting {
+                    pushover_eligible = true;
+                    if uniform() < self.rapid_descent_probability {
+                        let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
+                        let (rate_fpm, n_floor_g, hold_s) = (self.rapid_descent_rate_fpm.draw(uniform), self.pushover_load_factor_floor_g.draw(uniform), self.pushover_hold_s.draw(uniform));
+                        pushover = Some((rate_fpm, n_floor_g, hold_s));
+                        phases.push(Phase::PushOver {
+                            rate_fpm,
+                            mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
+                            until_altitude_ft: transition.max(1_000.0),
+                            speedbrake_eighths: 0,
+                            n_floor_g,
+                            hold_s,
+                            powered: false,
+                        });
+                    }
+                }
                 phases.push(Phase::Descend {
                     rate_fpm: self.descent_rate_fpm.draw(uniform),
                     mach: self.descent_mach.draw(uniform),
@@ -302,17 +343,27 @@ impl EnvelopeConfig {
             }
             Shape::EmergencyThenTransition => {
                 let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
-                let rate_fpm = if self.rapid_descent_probability > 0.0 && uniform() < self.rapid_descent_probability {
-                    self.rapid_descent_rate_fpm.draw(uniform)
+                pushover_eligible = self.rapid_descent_probability > 0.0;
+                if pushover_eligible && uniform() < self.rapid_descent_probability {
+                    let (rate_fpm, n_floor_g, hold_s) = (self.rapid_descent_rate_fpm.draw(uniform), self.pushover_load_factor_floor_g.draw(uniform), self.pushover_hold_s.draw(uniform));
+                    pushover = Some((rate_fpm, n_floor_g, hold_s));
+                    phases.push(Phase::PushOver {
+                        rate_fpm,
+                        mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
+                        until_altitude_ft: transition.max(1_000.0),
+                        speedbrake_eighths: 8,
+                        n_floor_g,
+                        hold_s,
+                        powered: true,
+                    });
                 } else {
-                    self.emergency_rate_fpm.draw(uniform)
-                };
-                phases.push(Phase::Descend {
-                    rate_fpm,
-                    mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
-                    until_altitude_ft: transition.max(1_000.0),
-                    speedbrake_eighths: 8,
-                });
+                    phases.push(Phase::Descend {
+                        rate_fpm: self.emergency_rate_fpm.draw(uniform),
+                        mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
+                        until_altitude_ft: transition.max(1_000.0),
+                        speedbrake_eighths: 8,
+                    });
+                }
                 // The transition is a separate phase: a level-off at the transition altitude,
                 // then a new descent at an independently sampled rate.
                 phases.push(Phase::Level { mach: self.descent_mach.draw(uniform), seconds: self.leveloff_seconds.draw(uniform) });
@@ -370,7 +421,7 @@ impl EnvelopeConfig {
                     bank_rad: self.draw_residual_bank_deg(uniform).to_radians(),
                     recover_at_altitude_ft: None,
                 });
-                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq, takeover_level_c_l: level_c_l };
+                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover };
             }
             Control::UpsetThenRecovery => {
                 let recover_at = self.recovery_altitude_ft.draw(uniform);
@@ -393,11 +444,13 @@ impl EnvelopeConfig {
                     recovery_attempt_altitude_ft: Some(recover_at),
                     log_q_correction: 0.0,
                     takeover_level_c_l: level_c_l,
+                    pushover_eligible,
+                    pushover,
                 };
             }
             Control::NoIntervention => {}
         }
-        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: 0.0, takeover_level_c_l: level_c_l }
+        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: 0.0, takeover_level_c_l: level_c_l, pushover_eligible, pushover }
     }
 
     fn sample_shape(&self, propulsion: Propulsion, control: Control, uniform: &mut dyn FnMut() -> f64) -> Shape {
@@ -449,6 +502,10 @@ pub struct Profile {
     pub log_q_correction: f64,
     /// The level C_L of the takeover state, from which the free phases' trim was set.
     pub takeover_level_c_l: f64,
+    /// Item 4: whether this descent could have had a push-over (the proposal draw was made), and its (rate ft/min, load-factor
+    /// floor g, hold s) if it did.
+    pub pushover_eligible: bool,
+    pub pushover: Option<(f64, f64, f64)>,
 }
 
 /// The two-burst stopgap proposal on the loss of control (9 Oct 2026, Pete's choice; PROVISIONAL, to be
@@ -614,7 +671,7 @@ impl Flying {
                     }
                     let rate = -rate_fpm / atmos::FPM_PER_MPS;
                     return (
-                        Command::Track { vertical_speed_mps: rate, target_mach: target, bank_rad: 0.0 },
+                        Command::Track { vertical_speed_mps: rate, target_mach: target, bank_rad: 0.0, n_floor_g: None },
                         self.configuration(speedbrake_eighths),
                         1.0,
                     );
@@ -624,16 +681,35 @@ impl Flying {
                         self.advance(elapsed_s);
                         continue;
                     }
-                    return (Command::Track { vertical_speed_mps: 0.0, target_mach: target, bank_rad: 0.0 }, self.configuration(0), 1.0);
+                    return (Command::Track { vertical_speed_mps: 0.0, target_mach: target, bank_rad: 0.0, n_floor_g: None }, self.configuration(0), 1.0);
                 }
                 Phase::Glide => return (Command::BestGlide { bank_rad: 0.0 }, self.configuration(0), 0.0),
+                Phase::PushOver { rate_fpm, mach: target, until_altitude_ft, speedbrake_eighths, n_floor_g, hold_s, powered } => {
+                    if elapsed_s - self.phase_started_s < hold_s {
+                        return if powered {
+                            (Command::Track { vertical_speed_mps: 0.0, target_mach: target, bank_rad: 0.0, n_floor_g: None }, self.configuration(0), 1.0)
+                        } else {
+                            (Command::BestGlide { bank_rad: 0.0 }, self.configuration(0), 0.0)
+                        };
+                    }
+                    if body.pressure_altitude_ft <= until_altitude_ft && self.index + 1 < self.profile.phases.len() {
+                        self.advance(elapsed_s);
+                        continue;
+                    }
+                    let rate = -rate_fpm / atmos::FPM_PER_MPS;
+                    return (
+                        Command::Track { vertical_speed_mps: rate, target_mach: target, bank_rad: 0.0, n_floor_g: Some(n_floor_g) },
+                        self.configuration(speedbrake_eighths),
+                        1.0,
+                    );
+                }
                 Phase::Approach { rate_fpm, mach: target } => {
                     let rate = -rate_fpm / atmos::FPM_PER_MPS;
                     let mut cfg = self.configuration(0);
                     if cfg.can_reach_landing_configuration() {
                         cfg.landing_configuration = true;
                     }
-                    return (Command::Track { vertical_speed_mps: rate, target_mach: target, bank_rad: 0.0 }, cfg, 1.0);
+                    return (Command::Track { vertical_speed_mps: rate, target_mach: target, bank_rad: 0.0, n_floor_g: None }, cfg, 1.0);
                 }
                 Phase::Free { c_l, bank_rad, recover_at_altitude_ft } => {
                     if let Some(at) = recover_at_altitude_ft {
@@ -735,6 +811,8 @@ pub(super) mod tests {
             residual_bank_left_probability: None,
             rapid_descent_probability: 0.0,
             rapid_descent_rate_fpm: default_rapid_rate(),
+            pushover_load_factor_floor_g: default_pushover_floor(),
+            pushover_hold_s: default_pushover_hold(),
         }
     }
 
@@ -852,6 +930,37 @@ pub(super) mod tests {
             assert!(c.contains(&10_000.0) && c.contains(&4_000.0), "{c:?}");
             assert!(c[2] >= 1_500.0 && c[2] <= 30_000.0, "{c:?}");
         }
+    }
+
+    /// Item 4: with the push-over proposal on, only piloted descents are eligible (the powered emergency shape and the unpowered
+    /// controlled continuous glide), a drawn push-over is the first phase with its bounds, and no-intervention never is.
+    #[test]
+    fn the_push_over_is_drawn_only_in_piloted_descents_and_within_its_bounds() {
+        let mut e = envelope();
+        e.rapid_descent_probability = 1.0;
+        let aero = reference();
+        let mut u = sweep(400);
+        let (mut powered, mut unpowered) = (0, 0);
+        for _ in 0..400 {
+            for (prop, ctl) in [(Propulsion::TwoThrusting, Control::MaintainedThenLost), (Propulsion::NeitherThrusting, Control::DitchingAttempt), (Propulsion::TwoThrusting, Control::NoIntervention)] {
+                let p = e.sample(&body(35_000.0), prop, ctl, &aero, None, &mut u);
+                if ctl == Control::NoIntervention {
+                    assert!(!p.pushover_eligible && p.pushover.is_none());
+                    continue;
+                }
+                let eligible = p.shape == Shape::EmergencyThenTransition || (p.shape == Shape::Continuous && prop == Propulsion::NeitherThrusting);
+                assert_eq!(p.pushover_eligible, eligible, "{:?}", p.shape);
+                if eligible {
+                    let (r, n, h) = p.pushover.expect("probability 1");
+                    assert!((6_500.0..=30_000.0).contains(&r) && (-1.0..=0.8).contains(&n) && (0.0..=300.0).contains(&h));
+                    match p.phases[0] {
+                        Phase::PushOver { powered: pw, .. } => { if pw { powered += 1 } else { unpowered += 1 } }
+                        ref other => panic!("first phase {other:?}"),
+                    }
+                }
+            }
+        }
+        assert!(powered > 10 && unpowered > 10, "{powered} {unpowered}");
     }
 
     /// The envelope is an envelope: over a sweep of the stream a powered, controlled descent

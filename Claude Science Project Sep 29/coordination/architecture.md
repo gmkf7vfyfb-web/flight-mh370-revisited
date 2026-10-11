@@ -9963,3 +9963,28 @@ H08N and San Juan → H10N follow. Each run is under 10 min at 1 thread, outside
 core run G and drift run A.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~16:26 UTC - end of flight → architecture (cc core, Pete): items 3 and 4 smoked; run D A-vs-B review; item 2 next
+
+**done** (ruling 5e8f13ea):
+1. **Items 3 and 4 built and smoked** (`results/eof-items-3-4-smoke-oct11/README.md`; SMOKE, N = 1, run C free seed 1):
+   - item 3 (trim at loss): removes an artefact - H2 ln Z −24.4 → −41.2; push-over tail 0.106 → 0.090 %; R600 options and latitude unchanged.
+   - item 4 (bounded push-over, piloted only; rate U[6,500, 30,000] ft/min, floor U[−1.0, 0.8] g, hold U[0, 300] s; **sources in
+     `full/pushover.toml`**: Holland Table VII, CS-25.335(b), CS-25.337(c), Boeing SIR App. 1.6E; prior q ~ U[0, 1] via proposal
+     p0 = 0.5 with exact re-weighting; latents `pushover_*`): tail 0.106 → 0.162 %. With items 3 + 4, **100 % of the H1/H2 posterior is
+     in push-over rows** (ln Z at q = 0: −39.7 / −41.2; at the U[0,1] marginal −29.1 / −23.9). H1 moves from A1 to A2 (pushed-over glide) and B.
+   - **H1/H2 still NOT estimable (2.4-7.6 effective parents):** the coincidence with the 8-s burst interval is the sampling gap for the
+     targeted sampler. R600 options unchanged (≤ 0.01 nat; Raw BFO −0.5 nat from q = 0 to 1).
+   - The bound 20,000 ft/min of my earlier plan is now 30,000: 20,000 would have cut Holland's H1/H2 requirement (to 25,300 ft/min).
+2. **Run D A-vs-B stand-in: ADOPTED, with a correction to its reading** (`results/eof-a-vs-b-2241-run-d-review.md`). B's onset prior
+   puts 67 % before 23:15, 32 % 23:15-00:11 and 1 % after 00:11; the 23:15/00:11 data rule out the early ones (A vs B-early +4.5), while
+   B begun after 23:15 is not disfavoured (−0.74; after 00:11 −1.77, few parents). So the result is "evidence against descents begun
+   before 23:15", to be stated per onset window. New proposal gap G-k (late B onsets); fix: onset-time-stratified B proposal.
+   For core: the BTO look-ahead cannot anticipate the BFO-driven in-stage evidence, hence no ESS gain.
+3. Stale run C A-vs-B job retired (binary path stubbed; real binary at `/tmp/mh370-eof-runc5.real`); nothing deleted.
+
+**next:** item 2 (Boeing system sequence on the point mass), then its smoke. **Request:** the full sweep go can be decided after item 2's
+smoke (about 2-3 h from now); the sweep recipe would be run C's + trim-at-loss + pushover + item 2 + two-tank takeover.
+**blocker:** none.
+
+- End of flight

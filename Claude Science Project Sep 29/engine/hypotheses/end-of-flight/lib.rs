@@ -515,6 +515,14 @@ const LATENTS: &[&str] = &[
     // Sign of the drawn residual bank of the free phase: -1 left, +1 right, NaN when the profile has no free phase. Lets the
     // left/right prior of `residual_bank_left_probability` be re-weighted exactly afterwards (10 Oct).
     "residual_bank_sign",
+    // Item 4 (bounded push-over, piloted family): eligibility of this descent for the push-over proposal draw (0/1), whether one
+    // was drawn (0/1), and its commanded rate (ft/min), load-factor floor (g) and hold (s), NaN without one. With the proposal
+    // probability in run.json, they allow exact re-weighting to any prior push-over probability (profile.rs).
+    "pushover_eligible",
+    "pushover_drawn",
+    "pushover_rate_fpm",
+    "pushover_n_floor_g",
+    "pushover_hold_s",
     // The module's own physical state at each burst it flew through (10 Oct, Pete's questions on the 22:41 arms):
     // NaN when the burst came before this descent's onset (core's cruise) or after its impact. Recorded BEFORE
     // `unpowered_bursts_removed`, so a burst the SDU could not answer still shows where the aircraft was.
@@ -1083,6 +1091,11 @@ impl EndOfFlight {
                     profile::Phase::Free { bank_rad, .. } => Some(if *bank_rad < 0.0 { -1.0 } else { 1.0 }),
                     _ => None,
                 }).unwrap_or(f64::NAN),
+                if flying.profile.pushover_eligible { 1.0 } else { 0.0 },
+                if flying.profile.pushover.is_some() { 1.0 } else { 0.0 },
+                flying.profile.pushover.map_or(f64::NAN, |p| p.0),
+                flying.profile.pushover.map_or(f64::NAN, |p| p.1),
+                flying.profile.pushover.map_or(f64::NAN, |p| p.2),
             ];
             let mut latents = latents;
             latents.extend_from_slice(&physical);
