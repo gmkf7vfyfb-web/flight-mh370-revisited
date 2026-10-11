@@ -58,7 +58,7 @@ SEARCH_FILL = [("atsb_phase2_2014_2017", "#7f7f7f", 0.30, "ATSB Phase 2 2014-17 
 
 def eof_family_key(opt):
     """end of flight's key in family-evidence-*.json for a module option string."""
-    base = opt.split("@")[0]
+    base = opt.split("~v")[0].split("@")[0]   # the speed-filter version (~v212) uses the same family weights
     opt0, _, con = base.partition("+")
     name = describe_option(opt0, short=True).replace(" (unconstrained)", "")
     # end of flight publishes `+alive` keys only. For `unpowered` (ruling ~19:10 B (b)) the family weights use the `+alive` key and the

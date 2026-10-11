@@ -63,6 +63,11 @@ CAUSE = {"other": "log-on not from fuel exhaustion (no lag term)",
 
 def describe_option(opt, short=False):
     """'none+alive' -> '00:19 satellite messages not used (held out); aircraft required to be airborne at ...'."""
+    opt, _, vmax = opt.partition("~v")
+    if vmax:   # architecture ruling 20:35 -0600 10 Oct, 1(C): second version for run C
+        d = describe_option(opt, short)
+        tag = f"impacts faster than {vmax} m/s removed (no structural limit in the model)"
+        return (d + f", {tag}") if short else d.replace(" [end-of-flight arm:", f"; {tag}, the rest re-weighted (ruling 1(C), 1.25 VMO) [end-of-flight arm:")
     o, _, cause = opt.partition("@")
     base, _, con = o.partition("+")
     key = base + (f"@{cause}" if cause and cause != "other" else "")

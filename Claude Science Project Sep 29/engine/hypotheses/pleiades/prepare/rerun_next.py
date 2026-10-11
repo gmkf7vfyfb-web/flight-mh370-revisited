@@ -92,8 +92,13 @@ def main(root, tag, labels="", only=None):
             if v == "base":
                 sh([sys.executable, HERE / "branch_figure.py", b, MOD, res / f"branch-{safe}", labels], cwd=HERE)
     S = pd.DataFrame(rows)
+    if (res / "by-0019-option.csv").exists():   # keep other options' rows from earlier calls on the same stratum
+        old = pd.read_csv(res / "by-0019-option.csv")
+        S = pd.concat([old[~old.option.isin(S.option.unique())], S], ignore_index=True)
     S.to_csv(res / "by-0019-option.csv", index=False)
     info = json.loads((out / f"branch-{opts[0].replace('/', '-')}-base" / "branch.json").read_text())
+    if (res / "provenance.json").exists():
+        opts = list(dict.fromkeys(json.loads((res / "provenance.json").read_text())["options"] + list(opts)))
     (res / "provenance.json").write_text(json.dumps(dict(impacts_root=str(root), options=opts, seeds=[s.name for s in seeds],
                                                          labels=labels, variants=VARIANTS, models=info["models"]), indent=1))
     print(S[(S.field.isin(["P+C3", "P+C4"]))].to_string(index=False))

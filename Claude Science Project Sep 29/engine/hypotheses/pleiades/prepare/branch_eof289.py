@@ -117,6 +117,7 @@ def histograms(imp_root, eval_root, mp, option):
         ks = [i for i, c in enumerate(ec) if c.startswith("seabed-search:loglik")]
         assert len(ks) == 1, ec[:10]
         lat, lon = g("latitude_deg"), g("longitude_deg")
+        option, _, vmax = option.partition("~v")   # "~v212": architecture ruling 20:35 -0600 10 Oct, 1(C)
         opt_, _, cause = option.partition("@")
         base, _, con = opt_.partition("+")
         if (cause and cause != "other") or f"loglik:{base}" not in cols:
@@ -127,14 +128,21 @@ def histograms(imp_root, eval_root, mp, option):
             if con:
                 w = w * np.exp(eof_constraint(sd, g, con))
         w = np.where(np.isfinite(w), w, 0.0)
+        w_all = w.sum()
+        if vmax:
+            # rows with contact speed above the declared limit (1.25 VMO = 212 m/s) removed and the rest re-weighted:
+            # 'infeasible-speed rows removed (model has no structural limit)'. Normalised by the UNFILTERED total, so that the strata
+            # mixture conditions on feasibility (a stratum's weight scales with its kept share), as a zero likelihood would.
+            spd = np.sqrt(g("velocity_east_mps") ** 2 + g("velocity_north_mps") ** 2 + g("velocity_up_mps") ** 2)
+            w = np.where(spd <= float(vmax), w, 0.0)
         s = np.exp(np.asarray(E[:, ks[0]]))
         s = np.where(np.isfinite(s), s, 1.0)
         h0 = np.histogram2d(lat, lon, bins=[elat, elon], weights=w)[0]
         h1 = np.histogram2d(lat, lon, bins=[elat, elon], weights=w * s)[0]
         total.append(w.sum())
         outside.append(1 - h0.sum() / w.sum())
-        pre.append(h0 / w.sum())
-        post.append(h1 / w.sum())  # same normaliser: post sums to Z_search inside the grid
+        pre.append(h0 / w_all)     # = w.sum() unless the speed filter removed rows
+        post.append(h1 / w_all)  # same normaliser: post sums to Z_search inside the grid
         seeds.append(sd.name)
     return seeds, np.array(pre), np.array(post), outside, elat, elon
 
