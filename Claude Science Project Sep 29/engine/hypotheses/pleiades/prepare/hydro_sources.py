@@ -29,6 +29,7 @@ SLUG = {"none": "0019-held-out", "r600-bto": "0019-r600-bto-only", "r600/no-offs
 def option_weights(sd, option):
     """branch_eof289.histograms' weight branch (either impact format), normalised per seed."""
     cols, g, _ = ce.seed_reader(sd)
+    option, _, vmax = option.partition("~v")   # ruling 1(C) version, as branch_eof289.histograms
     opt_, _, cause = option.partition("@")
     base, _, con = opt_.partition("+")
     if (cause and cause != "other") or f"loglik:{base}" not in cols:
@@ -38,7 +39,11 @@ def option_weights(sd, option):
         if con:
             w = w * np.exp(B.eof_constraint(sd, g, con))
     w = np.where(np.isfinite(w), w, 0.0)
-    return w / w.sum()
+    tot = w.sum()
+    if vmax:   # normalised by the unfiltered total: the strata mixture conditions on feasibility (as the branch does)
+        spd = np.sqrt(g("velocity_east_mps") ** 2 + g("velocity_north_mps") ** 2 + g("velocity_up_mps") ** 2)
+        w = np.where(spd <= float(vmax), w, 0.0)
+    return w / tot
 
 
 def ess(x):
@@ -70,9 +75,11 @@ def main():
             for kind in pf:
                 mH[kind][key] = pf[kind][s] / nseed[s] * float((pw[key] * Lb[key]).sum())
         ZH = {kind: sum(mH[kind].values()) for kind in pf}
+        # flight-posterior normaliser: 1 unless the ~v filter removed rows (then the kept share, mixed over strata)
+        ZF = {kind: sum(pf[kind][k[0]] / nseed[k[0]] * pw[k].sum() for k in keys) for kind in pf}
         rng = np.random.default_rng(RNG_SEED)
         nh = N_SOURCES // 2
-        mF = np.array([pf["reweighted"][s] / nseed[s] for s, _ in keys])
+        mF = np.array([pf["reweighted"][s] / nseed[s] * pw[k].sum() for k in keys for s in [k[0]]])
         cF = rng.multinomial(nh, mF / mF.sum())
         cH = rng.multinomial(N_SOURCES - nh, np.array([mH["reweighted"][k] for k in keys]) / ZH["reweighted"])
         rows = []
@@ -105,8 +112,8 @@ def main():
             for x in VALS:
                 lnl[x][sel] = r[x]
             for kind in pf:
-                qF[kind][sel] = pf[kind][s] / nseed[s] * pw[key][i]
-                qH[kind][sel] = qF[kind][sel] * Lb[key][i] / ZH[kind]
+                qF[kind][sel] = pf[kind][s] / nseed[s] * pw[key][i] / ZF[kind]
+                qH[kind][sel] = qF[kind][sel] * ZF[kind] * Lb[key][i] / ZH[kind]
         qM = 0.5 * qF["reweighted"] + 0.5 * qH["reweighted"]
         W = {}
         for kind in pf:
