@@ -59,9 +59,17 @@ current status (§9).
    (§3.3).
 3. **Validation against measured TL** [Blackman2004UCRL, Fig. 23], with verdict rules fixed in advance
    (`hydroacoustics-blackman-validation.md`):
-   - air9: **partly validated** at both stations. Median residual −0.15 dB at H01W and +3.17 dB at H08S;
-     RMS 7.93 and 7.91 dB. The station-to-station difference, which cancels the source term, fits to
-     −1.5 dB median and 3.4 dB RMS.
+   - air9: by the pre-registered rule (median and RMS over 13–40 Hz), **partly validated** at both stations.
+     Median residual −0.15 dB at H01W and +3.17 dB at H08S; RMS 7.93 and 7.91 dB.
+   - **That rule cannot see a slope, and the slope is wrong** (correction of 10 Oct, raised by Pete).
+     Measured − predicted TL tilts by +12.7 dB per octave (H01W) and +7.4 dB per octave (H08S): about −10 dB
+     at 5–20 Hz, rising to +14/+15 dB at 63 Hz. **Absolute level and frequency slope are therefore NOT
+     validated.** The tilt is shared by both stations, which points to the assumed airgun source spectrum or
+     to near-source coupling rather than to the path. An independent audit (architecture,
+     `results/hydroacoustics-audit/`) tests this with independent source spectra.
+   - The station-to-station difference, which cancels the source term, fits to −1.5 dB median and 3.4 dB RMS.
+     This is the only part that is validated.
+   - A slope criterion is added for future validation (not retroactive).
    - The soft bottom misfits by +28 to +36 dB and is rejected.
    - air8: the negative control follows (+38.1 dB blockage to H01W). The positive control is consistent
      (+0.1 dB at H08S).
@@ -150,6 +158,18 @@ classed by the ratio of its source duration τ to T_c as impulsive, transitional
 AGW arrivals at H01W and H08S would lie below the 5 Hz high-pass applied to the published traces. They can
 only be tested on raw IMS data, which are not held. The IMOS loggers' 8 Hz analogue high-pass likewise
 excludes them.
+
+**Amplitude estimate (exploratory, prereg `55ebdcc`; `hydroacoustics-agw-scenarios.md`).**
+- **Model:** a vertical surface-force impulse J = m v_z on an isovelocity, rigid-bottom waveguide, adiabatic
+  normal modes [Jensen2011]. Noise from measured sea-floor pressure: RHUM-RUM DPGs [RHUMRUM_YV], March 2013.
+- **Results:**
+  - No full-water-depth mode below 0.24 Hz (H01W) or 0.27 Hz (H08S) reaches the hydrophones, whose local
+    water depth is about 1.5 km.
+  - From 0.25 to 2 Hz the median noise is 12–110 dB above the upper end of the steep-entry signal range.
+  - Ditching is 40–110 dB below.
+- **So the AGW branch carries P_D ≈ 0 for every scenario and adds no likelihood term.** Kadri's 2–40 Hz
+  "AGW" signals [Kadri2024] are the acoustic arrival of §3. Tunnelling past shallow barriers
+  [KadriAbdolaliKirby2025] is not modelled.
 
 ## 8. Discipline
 

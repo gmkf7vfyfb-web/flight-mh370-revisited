@@ -251,3 +251,17 @@ B, the grades of evidence for a Bayes factor). No DOI.
 - **[Kadri2024]** p. 11 (Methods): the 5 Hz high-pass and 2–40 Hz band-pass applied to the Figure 9
   traces. This is why sub-cutoff AGW content is absent from them.
 
+
+
+## Added 11 Oct 2026 (AGW estimate and SUS scoping)
+- **[Jensen2011]** Jensen, Kuperman, Porter & Schmidt, *Computational Ocean Acoustics*, 2nd ed., Springer
+  (2011), ch. 5: the point-source normal-mode solution used in `agw_scenarios.py`. The equation numbers are not
+  yet checked against the book.
+- **[RHUMRUM_YV]** RESIF network YV (RHUM-RUM): DPG pressure records used as low-frequency ocean noise. The
+  network DOI is to be confirmed.
+- **[Kadri2019]** Sci. Rep. 9:912. Kinematics (phase velocity, elastic sea bottom) only; it gives no amplitude
+  model (checked in the full text, 10 Oct).
+- **[KadriAbdolaliKirby2025]** J. Fluid Mech. 1018, A18: tunnelling, cited as a limitation. Seen only in a
+  reference list; not yet read.
+- **[GaspinShuler1971]** NOLTR 71-160 (DTIC AD0734381): SUS source levels. **Not read**, because DTIC refuses the
+  automated download. Requested from Pete.
