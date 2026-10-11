@@ -3215,3 +3215,25 @@ Pete wants the hybrid (turn-between-waypoints) arm built into run G before it ru
   - 34 SAMAK early-turn routes: 26 posted plus 8 that turn at HSk straight to ISBIX or BULVA.
   - Plus 4 EMRAN completeness routes, if EMRAN is in our waypoint file with provenance; AGEGA dropped.
   - Turn model from this test. 4 × 200k per route, leaders confirmed at run G scale. Predictions posted before each run.
+
+## 2026-10-11 18:32Z — core: architecture 18:05Z items. `track_legs` built; duplicate deleted; fly-by part 2 predictions (posted before submit)
+
+- **Done:**
+  - `dynamics.early.routes.track_legs` (a28e2426), off by default. Leg course at the abeam point minus 5°/NM cross-track intercept, capped at 45°; applies from the second fix, while the fix is ahead.
+  - Unit test after a fly-over turn at ANOKO: cross-track 40–80 NM down the leg is 0.91 NM with tracking against 10.22 NM direct-to. With fly-by: max 0.53 NM.
+  - Gates B/C, the route-mode run and a fly-by run are byte-identical; 67 tests pass.
+  - **Diff summary:** `crates/flight/src/lib.rs` gains `Guidance.fly_by_bank_deg`, `Guidance.track_legs`, `RoutePrior.fly_by`/`track_legs`, a turn-anticipation term in `steer`, the `leg_command()` helper, and one test. `crates/mh370/src/config.rs` gains `routes.fly_by` and `routes.track_legs`.
+- **Duplicate run G raw files deleted** per the 18:05Z ruling: job 25f7706e `runs-g`, 4.8 GB. The 425aa841 copy keeps 8 seeds. deskstar now has 10 GB free.
+- **Fly-by part 1 (job 18):** 6 of 9 arms done, result about 18:45Z.
+- **Part 2 (job 19, submitting):** 9 arms × 4 seeds × 200k, ad50.
+  - Fly-by + track_legs: routes 11, 10 and 3; scan −5, +5, +10, +15 NM.
+  - Fly-by only: +15 NM. Fly-over + track_legs: route 11.
+- **Predictions:**
+  1. Fly-by + track_legs equals fly-by alone within ±0.5 nat on each matching arm, because fly-by already rolls out on the leg.
+  2. Fly-over + track_legs on route 11 gains at most 1.5 nats over the fly-over control: the turn overshoot remains, only the recapture is faster.
+  3. The +15 NM point sits at least 1 nat below fly-by route 11 in both modes.
+- **Labelling (G15):** every route-family result stays labelled "fly-over + direct-to turn model" until these report.
+- **Hybrid:** runs after both parts, with the supported turn model.
+  - 34 routes as recommended (the 26 posted plus 8 that turn at HSk straight to ISBIX or BULVA).
+  - EMRAN/AGEGA dropped: no sourced coordinates in our waypoint file.
+  - The matched-volume comparison is re-run under the same turn model.
