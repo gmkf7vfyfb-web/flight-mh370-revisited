@@ -45,6 +45,11 @@ AMENDMENT 3 (11 Oct 2026 ~16:40 UTC, PRE-REGISTERED before its first run; archit
       coupling has no angle/speed/breakup dependence and tau is drawn from the prior because end of flight's
       latent:energy_transfer_tau90_s is NaN in run C (coverage gap G-H1); TL NOT CALIBRATED (audit, rule C6):
       lnL_soft is a sensitivity only.
+  AMENDMENT 5 (11 Oct 2026, labels only; no computed value changes): H08S on 8 March 2014 is contaminated by periodic
+      impulses about every 10-15 s (Kadri 2024 Fig. 9d-e; kadri_fig9_noise, 3b539351): masking/false alarms not
+      modelled; H01W March 2014 noise reads -6 dB vs Blackman 2003 from Kadri's spectrogram colours (time series agree
+      with Blackman): sensitivity only; H08N is BLOCKED for MH370 impacts even in the N x 2D corridor (K4); ridge paths
+      that cut the sound-channel axis are a reach gap (G-N2, K5).
   (c) Run C stratum directories are named next-c-<family>; they map to core's order (free, repro-radar,
       descent-climb, routes) for the rng stratum index. --strata is now honoured (it was parsed but ignored).
 
