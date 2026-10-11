@@ -84,6 +84,9 @@ pub struct RoutePrior {
     pub share: f64,
     pub unix_s: f64,
     pub routes: Vec<Vec<(f64, f64)>>,
+    /// Restrict the draw to these route indices (uniformly among them), keeping their index
+    /// numbers. For per-route runs whose evidence is combined afterwards. None: all routes.
+    pub allowed: Option<Vec<u32>>,
 }
 
 /// One drawn route.
@@ -259,7 +262,10 @@ fn draw_early<R: Rng>(e: &EarlyPhase, p: &Parameters, from_ft: f64, mach: f64, r
     }
     if let Some(r) = &e.routes {
         if !r.routes.is_empty() && rng.gen_bool(r.share) {
-            let index = rng.gen_range(0..r.routes.len() as u32);
+            let index = match &r.allowed {
+                None => rng.gen_range(0..r.routes.len() as u32),
+                Some(a) => a[rng.gen_range(0..a.len())],
+            };
             rec.route = Some(EarlyRoute { index, unix_s: r.unix_s, started: false });
         }
     }

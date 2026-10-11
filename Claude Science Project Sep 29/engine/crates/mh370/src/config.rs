@@ -558,6 +558,11 @@ pub struct RoutesConfig {
     pub waypoints_csv: String,
     pub first: Vec<Vec<String>>,
     pub then: Vec<Vec<String>>,
+    /// Draw only these route indices (index = position in first x then, as in early.npy's
+    /// route column), uniformly among them. For per-route runs whose evidence is combined
+    /// afterwards (run C routes: one seed found route 8, which the others missed). Absent: all.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub only: Option<Vec<u32>>,
 }
 
 impl RoutesConfig {
@@ -660,7 +665,15 @@ impl EarlyConfig {
                 if !(0.0..=1.0).contains(&r.share) {
                     return Err("dynamics.early.routes.share must be in [0, 1]".into());
                 }
-                Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes: r.expand()?.1 })
+                {
+                    let routes = r.expand()?.1;
+                    if let Some(only) = &r.only {
+                        if only.is_empty() || only.iter().any(|&i| i as usize >= routes.len()) {
+                            return Err(format!("dynamics.early.routes.only must name indices below {}", routes.len()));
+                        }
+                    }
+                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, allowed: r.only.clone() })
+                }
             }
         };
         Ok(flight::EarlyPhase {
