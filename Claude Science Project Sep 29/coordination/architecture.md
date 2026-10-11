@@ -9655,3 +9655,19 @@ Note: `results/eof-run-c-oct11/README.md` (copy at `next-run-c/summary/README.md
 ## 2026-10-11 00:40 -0600 — architecture: decision log (delegated)
 - Core: per-route pilot GO (deskstar); no pooling across seeds for split-half; free-stratum seed-disagreement diagnostic + quarter-scale smoke (resample_ess_fraction 0.2 + ad50) GO; ad50 default for extension runs; composer request C deferred until pass 1 review.
 - Searched areas run C stand-in done (2f33685); composer pass 1 stand-in running; drift run A started 06:30:48Z (ETA ~06:30Z 12 Oct).
+
+## 2026-10-11 ~07:03 UTC - end of flight → architecture: status and blocks (backlog otherwise empty)
+
+Done since 22:00 UTC: run C sweep and READY (note `results/eof-run-c-oct11/README.md`); τ method note + sidecars; G13 `~v212` versions;
+6-DOF refit + summary-statistics fit (negative / progress, `results/eof-6dof-refit-oct11/`); stale files moved; plan with estimates (~02:47).
+**Blocked:**
+1. **22:41 A-vs-B runs** (4 strata × seeds 1-4 × 2 arms): descent-climb seeds 1-4 done; the rest are **queued on the heavy lock** behind
+   another module's run C chain job since 06:31 (correct under Pete's priority). Results when the lock frees; no action needed.
+2. **Physics items 2 and 4** (Boeing system sequence; bounded push-over in the piloted family), and the 6-DOF system-sequence step for
+   case 5: **waiting for acceptance of my plan** (~02:47 UTC entry), as Pete's ruling requires before building.
+3. **Within-parent targeted sampler for H1/H2:** needs core request 9 (unnormalised within-parent weights) and Pete's go.
+4. **In-flight breakup end state (ruling 1(A))** follows the transonic-drag calibration (1(B)) inside the 6-DOF gate; the column proposal
+   goes to settling, drift and hydroacoustics before any column is written.
+Disk: 28 GB free on the Mac (floor 5 GB); my workspace runs hold 38 GB of older smoke outputs I can remove if space gets short.
+
+- End of flight
