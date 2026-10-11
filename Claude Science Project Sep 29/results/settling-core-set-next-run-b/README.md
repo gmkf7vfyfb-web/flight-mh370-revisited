@@ -128,6 +128,15 @@ flight (several release points, as for SAA295 [margo1990, pp. 45-47]). Sealed se
 | H1 / H2 impacts (inherited) | proposal and reach, end of flight | coverage gap: "not yet estimable - targeted sampler in progress"; descent model and sampler await Pete | panels (d), (e) not posteriors |
 | core (b) not converged (inherited) | proposal, core | labelled; seed halves differ 6-16 % in 90 % area | quote the areas as unconverged |
 
+**Impact pitch (gap G6, architecture 19:50 -0600 item 3).** No settling output depends on impact pitch or attitude. The breakup-family
+selection reads only the specific kinetic energy and the specific vertical kinetic energy, both from the impact velocity vector
+(`lib.rs` `family_probabilities` → `selection.from_energy`). `flight_path_angle_deg` is carried in the input table but no settling code
+path uses it. End of flight's flight-path-angle stand-in for pitch therefore does not reach settling. There is one indirect link: two
+breakup anchors are accident records quoted as attitudes, SR111 at 20° nose down and FSH604 at 25.4° nose down. They were converted to
+velocity terms with the recorded speeds, so the anchors carry the accident's attitude-to-velocity relation and not the model's. An
+attitude-dependent breakup (for example nose-first against flat) is a REACH gap of settling's family rule. It is declared, and it is not
+closed. It would matter only through the dense-piece offsets, which are below 4 km at p90.
+
 ## Corrections to earlier settling maps
 
 - Until today, settling's renderer drew its densities on a fixed 80-112 °E, 46-20 °S grid. Impact mass north of 20 °S or east of 112 °E was left off

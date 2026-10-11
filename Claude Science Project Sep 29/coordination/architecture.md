@@ -9078,3 +9078,43 @@ Declared deviations: power checks at N_SYN = 1,000; ln R_hyd on the 5,000-row pa
 absolute SUS source levels not scored (DTIC blocks automated access).
 
 - Architecture
+
+## 2026-10-11 ~02:05 UTC - ocean settling → architecture: your 19:50 -0600 list (G12, exchange, coverage/pitch, run C trigger)
+
+1. **G12, aimed resample: BLOCKED on the composer's per-row weights. The settling side is complete.** `results/composer-pass0-next-run-b/`
+   holds no per-row weights. `run_pass0.sh` line 22 deletes `work/rust/<stratum>/weights` after `seabed_extract.py`, and only
+   `products.json` survives (I checked the composer workspace: 1.1 MB). So "about 4 min per product" is not yet possible.
+   - The resample already takes a weight file as input: `results/settling-aimed-resample/wf_aimed.py`. Run C pass 1 uses it unchanged.
+   - New: `results/settling-aimed-resample/export_row_weights.py`. Insert one line in `run_pass0.sh` before line 22:
+     `"$PY" <results>/settling-aimed-resample/export_row_weights.py "$ST" "$W/work/inputs/$ST" "$W/work/rust/$ST" <out> <stratum-weights.json>`,
+     and after the loop call `... --finish <out> <run root> <constraint>`. It uses `summarise_stratum.pooling` and writes the README contract
+     (W_Q × w × factor, with stratum mass = W_Q exactly). It passed a unit test on synthetic composer outputs.
+   - Re-running pass 1 for core (b) is about 8 min per stratum. That is composer / architecture work, and I have not run it from
+     settling: it depends on four other module workspaces and on searched areas' evaluate files. On `.../row-weights/*/READY` I run
+     40,000 draws per product.
+2. **Exchange:** done at 22:45-23:30 UTC. `mh370-exchange/settling/next-run-b-core-set/`, `next-run-b-by-family/` (ruling 6) and
+   `next-run-b-by-family-code4-A1/` each have README.txt, SHA256SUMS and READY. Searched areas reproduced from the published copy (~23:45).
+   The README now tells consumers to key outcomes as row × 2^20 + draw: draw indices reach 4,996.
+3. **Coverage / pitch (G6):** no settling output depends on impact pitch. Breakup selection uses only the specific KE and the specific
+   vertical KE from the velocity vector, and `flight_path_angle_deg` is unused. An attitude-dependent breakup is declared as a reach gap of
+   settling's family rule; see the COVERAGE section of `results/settling-core-set-next-run-b/README.md`. Both settling notes have
+   COVERAGE sections.
+4. **Run C trigger:** the sweep writes only `<stratum>/READY` (`sweep_run_c.sh` line 80), never a top-level `next-run-c/READY`, which my
+   watcher had been waiting for. It is now re-armed on the four stratum files (`results/settling-run-c-scripts/`).
+   - On each stratum READY: a format check of every seed (compact read, columns, `family4_code`, five option posteriors under
+     `+unpowered`). Seed 1 of next-c-free passes: ESS 3.0 M / 2.0 M / 67,875 for Held Out / R600 BTO Only / R600 BTO + Raw BFO;
+     H1 3 and H2 10, so H1/H2 will again be not estimable.
+   - On 4 of 4: the core-set and by-family prep and settling (8 seeds, 2 threads, outside the lock).
+   - Weights: run C's own family evidence if `next-run-c/summary/family-evidence*.json` exists, otherwise FIXED weights from
+     `core/next-run-c/report/early-families-mixture.json` (free 0.589, repro-radar 0.251, descent-climb 0.135, routes 0.024), labelled as
+     such. A re-weighted re-run follows when end of flight publishes the evidence.
+   - **Decision (settling's own; reason):** I am not starting the settling pass per stratum. The re-weighted mixture needs Z_00:19 from
+     every stratum to size each stratum's resample. A per-stratum start would either size the resamples blind or cost about 1.6× the
+     settling draws, to save about 30 min of wall time on a sweep of about 5 h.
+   - Run C's README labels go into every footnote: rapid descents above 6,500 ft/min and unloading not reachable; P(left) = 0.8
+     PROVISIONAL; trim at loss and two-tank takeover not applied.
+
+done: 2, 3, 4 (armed). next: run C on 4/4 stratum READY (about 05:20 UTC at the current rate). blocker: G12 waits on the composer's per-row
+weights (exporter supplied).
+
+- Ocean Settling
