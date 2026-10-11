@@ -34,6 +34,10 @@ VALIDATION GATE (must pass, else the outputs are written as FAILED-VALIDATION an
   --validate-against (end of flight's impact-time-shares JSON for the same impacts), for every row it lists, the plain
   share before 00:19:37.443 must match to |d| <= 1e-6, the share after 01:15:56 to <= 1e-6, and the seed-mean impact
   q05/q50/q95 to <= 5 s (the quantile definition may differ by one sample).
+AMENDMENT (11 Oct 2026, FORMAT ONLY, before its first run C use): --compact-reader <compact_impacts.py> lets seed
+  directories hold end of flight's compact run C file (impacts32.npy, read with EoF's own reader) instead of
+  impacts.npy. Impact time, latitude and longitude are read through the reader; nothing else changes. The full-
+  format path is untouched (regression: next-run outputs must reproduce byte for byte).
 LABELS: PROVISIONAL-OVERNIGHT; uncorrected fuel; provisional sampler; run, prior track and configs from run.json.
 
 Usage (from prepare/, PYTHONPATH=.):
@@ -84,6 +88,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--runs", nargs="+", required=True); ap.add_argument("--eof-module", required=True)
     ap.add_argument("--out", required=True); ap.add_argument("--validate-against"); ap.add_argument("--tag", default="")
+    ap.add_argument("--compact-reader")
     a = ap.parse_args()
     from pyproj import Geod
     geod = Geod(ellps="WGS84")
@@ -95,7 +100,12 @@ def main():
     dh.SATCOM_CSV = sat
     out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     rx = receivers(); rng = np.random.default_rng(SEED)
-    seed_dirs = sorted(d for r in a.runs for d in pathlib.Path(r).glob("seed-*") if (d / "impacts.npy").exists())
+    CR = None
+    if a.compact_reader:
+        sp2 = importlib.util.spec_from_file_location("compact_impacts", a.compact_reader); CR = importlib.util.module_from_spec(sp2)
+        sp2.loader.exec_module(CR)
+    seed_dirs = sorted(d for r in a.runs for d in pathlib.Path(r).glob("seed-*")
+                       if d.is_dir() and ((d / "impacts.npy").exists() or (CR is not None and (d / "impacts32.npy").exists())))
     prov = dict(script="prepare/search_windows.py", eof_module=str(a.eof_module),
                 eof_module_sha256=hashlib.sha256(open(a.eof_module, "rb").read()).hexdigest(),
                 satcom_csv_sha256=hashlib.sha256(sat.read_bytes()).hexdigest(), seeds=[str(d) for d in seed_dirs],
@@ -105,10 +115,15 @@ def main():
     for sd in seed_dirs:
         t0 = time.time(); meta = json.loads((sd / "run.json").read_text())
         prov["run_json"][sd.name] = {k: meta.get(k) for k in ("code_revision", "config_paths", "source_run", "replicates")}
-        cols = {c: i for i, c in enumerate(meta["impact_columns"])}
-        X = np.load(sd / "impacts.npy", mmap_mode="r")
-        t = np.asarray(X[:, cols["unix_s"]], float); lat = np.asarray(X[:, cols["latitude_deg"]], float)
-        lon = np.asarray(X[:, cols["longitude_deg"]], float); ok = np.isfinite(t) & np.isfinite(lat) & np.isfinite(lon)
+        if (sd / "impacts.npy").exists():
+            cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+            X = np.load(sd / "impacts.npy", mmap_mode="r")
+            t = np.asarray(X[:, cols["unix_s"]], float); lat = np.asarray(X[:, cols["latitude_deg"]], float)
+            lon = np.asarray(X[:, cols["longitude_deg"]], float)
+        else:
+            _m, g = CR.load(sd)
+            t, lat, lon = (np.asarray(g(k), float) for k in ("unix_s", "latitude_deg", "longitude_deg"))
+        ok = np.isfinite(t) & np.isfinite(lat) & np.isfinite(lon)
         n = len(t); cs = rng.normal(C_SOFAR, C_SOFAR_SD, n); ca = rng.uniform(*C_AGW, n)
         series = {"impact": np.where(ok, t, np.inf)}
         for name, (rl, ro) in rx.items():
