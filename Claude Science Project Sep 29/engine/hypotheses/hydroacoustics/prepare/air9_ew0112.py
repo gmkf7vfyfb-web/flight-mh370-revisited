@@ -43,6 +43,18 @@ DIGITISATION RULE (Fig. 2, fixed now): the two Ball spectrum panels and the two 
   a band is READABLE if its mean is >= 5 % of full scale (about +/- 1 px resolution gives <= 1 dB there), else marked
   BELOW-READ and excluded. Values labelled DIGITISED. Both shots are digitised; their dB mean is used, their
   difference is reported as the reading + shot-to-shot spread.
+AMENDMENT 1 (11 Oct 2026, after the first result 5b522802; committed BEFORE the computation it describes).
+  The array layout is not legible in EW0112 Fig. 1. USGS Open-File Report 95-228 (Brocher et al. 1995,
+  doi:10.3133/ofr95228, public; PDF p. 70, Fig. 4 "EWING AIRGUN ARRAY - 20 GUN", VOLUME = 8470 cu in, scale 1" = 20')
+  prints the standard Ewing 20-gun array as vector text: gun ID, volume and position (three rows 15 ft apart along
+  track; 20 guns across about 35 m). EW0112 states the same 'standard' 20-gun array with 8465 cu in (5 cu in less,
+  0.06 %); the 1994 layout is used as the best available, DECLARED. Positions are taken from the label coordinates
+  (calibrated on the row labels 145'/130'/115'/100', 15 ft apart).
+  Added, fixed now: (i) H-ref and H-flat re-run with this layout replacing the point source (gun strengths equal, and
+  proportional to V^(1/3) as a sensitivity), the Ball on the array centreline x_h ahead of the array centre; same
+  grid, same grading, same verdict rule. (ii) Far-field array factor toward H01W and H08S (great-circle bearings from
+  the air9 midpoint, ship heading from the p. 5 line end-points), as a horizontal directivity diagnostic in each band
+  (10 log10 |sum w_g e^{-ik u.x_g}|^2 / (sum w_g)^2), reported, not used for grading.
 LABELS: predictive audit, not a likelihood; hydroacoustics stays PREDICTIVE; UNCONVERGED inputs not used.
 """
 # ---------------------------------------------------------------------------------------------------------------
