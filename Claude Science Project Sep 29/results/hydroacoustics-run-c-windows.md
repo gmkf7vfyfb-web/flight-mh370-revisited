@@ -32,7 +32,7 @@ Every arm in the 4 strata was checked against end of flight's `impact-time-share
 | Held Out (+unpowered) | 55.6 M | 01:04:02 (00:42:16–01:32:00) → 00:30–01:55 | 01:22:52 (01:01:30–01:53:10) → 00:50–02:15 |
 | R600 BTO Only (+unpowered) | 37.6 M | 01:05:00 (00:43:04–01:31:48) → 00:30–01:55 | 01:24:12 (01:02:16–01:53:56) → 00:50–02:15 |
 | R600 BTO + Raw BFO (+unpowered) | 1.27 M | 00:58:30 (00:40:24–01:16:00) → 00:30–01:40 | 01:16:54 (01:02:04–01:34:44) → 00:50–01:55 |
-| same three, `~v212` | 50.0 / 33.8 / 1.10 M | medians later by 0.8–1.0 min; windows unchanged except BTO Only H01W from 00:35 | medians later by 0.8–1.0 min; windows unchanged |
+| same three, `~v212` | 50.0 / 33.8 / 1.10 M | medians later by 0.9–1.1 min; windows unchanged except BTO Only H01W from 00:35 | medians later by 0.8–1.0 min; windows unchanged |
 | same three, +silent | 2.6 / 1.8 / 0.12 M | 00:25–01:45 / 00:25–01:45 / 00:25–01:40 | 00:50–02:05 / 00:50–02:05 / 00:50–02:00 |
 | Holland H1 / H2 | 66 / 171 (fixed weights) | **not yet estimable – targeted sampler in progress** | |
 
