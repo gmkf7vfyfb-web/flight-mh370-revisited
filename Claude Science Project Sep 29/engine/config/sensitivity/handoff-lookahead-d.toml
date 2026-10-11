@@ -1,0 +1,9 @@
+# Run D (core request 10 in production): look-ahead at both hand-off epochs, oversample 50.
+# Recommended after the run C stack smoke, in which only 0.02-1.5 % of 22:41 candidates survive to 00:11.
+# Memory, measured at 200k particles per mode and 20k rows: +247 MiB at oversample 10, +369 MiB at 50
+# (2,908 MiB without); about +1.8 GiB per stratum at run D size. Every consumer must multiply each
+# row's weight by exp(log_correction) (handoff.toml [lookahead]); use handoff::read_corrected.
+[output.handoff_lookahead]
+horizons = { m2241 = "m0011", m0011 = "m0019b" }
+oversample = 50
+defensive = 0.2
