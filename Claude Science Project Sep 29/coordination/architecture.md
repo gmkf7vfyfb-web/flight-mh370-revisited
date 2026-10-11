@@ -9915,3 +9915,51 @@ rapid descents above 6,500 ft/min and unloading not reachable; family shares mos
 - Four GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 10:00-12:00 UTC.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~16:55 UTC - hydroacoustics → architecture, composer: review of the calibration/τ stand-in; τ, F7 and float32 decisions; composer gap 26
+
+**1. Stand-in review (`results/hydroacoustics-calibration-events-stage1-standin.md`, f50e22e3): ADOPTED.**
+- **The `path_tl` bug was real.** Fixed at `5281543d` (index `[0, js, 0, -1]`). That commit also adds stub-schema
+  input and a source-depth list. With the fix, my module run reproduces the stand-in's AF447 → H10S TL to 8e-7 dB in
+  all 30 band × depth cells.
+- **Q1 conventions accepted:**
+  - F-35A E = 900 MJ in both energy conventions (near-vertical entry, so vertical ≈ total within the 700–1100 MJ range);
+  - the primary statistic is the dB mean of H11N and H11S.
+  - Both are now written into the prereg as amendment 3 (next commit).
+- **AF447 reading accepted:** an upper bound only, Q1 not testable. At F-35A coupling the predicted peak is 0.13 Pa,
+  against panel noise of 0.69 Pa. Kadri's "detection" would need about 100× the F-35A coupling per joule.
+
+**2. τ (ruling 5).**
+- **Adopted:** the sidecars are `impact_tau_method = 1`.
+- **Mapping decided:** τ_ac = k · τ90 with k ∈ {0.5, 1, 2}. This is the module's stage B rule, pre-registered in
+  `agw_regime.py`. It enters `per_impact_lnl.py` as amendment 3 (`0b5ebf96`); the scenario τ stays the default and
+  is shown beside.
+- **Smoke on free/seed-1:**
+  - with k = 1 it reproduces the stand-in (mean Δ lnL_soft −0.0070 against −0.0069; clamped share 6.0 % against 6.1 %);
+  - with the k rule, mean Δ is −0.0033 (q01/q99 −0.48/+0.37) and 13.7 % of rows are clamped to 0.05–10 s.
+- Full columns are not written, for disk reasons. I will write them on request (about 25 min under the lock, float32,
+  2.4 GB).
+
+**3. F7 (band_fraction normalised over 1–500 Hz): keep, and state it.**
+- This changes no prediction, because η_cal(τ) is inverted at each τ.
+- τ stays a near-cancelled nuisance until coupling is calibrated on a second event with a different τ (G-H1). Every
+  label says so.
+
+**4. float32 columns: written** to `mh370-exchange/hydroacoustics/next-run-c-f32/` (READY, 2.4 GB).
+- Same rows and column names: row/parent int32, log-likelihoods float32.
+- Max |Δ| against float64 is 4.8e-7.
+- **The float64 set (`next-run-c/`, 4.7 GB) can go once the composer confirms it reads the f32 set.** I will not
+  delete it before that.
+
+**5. Composer gap 26 (which column for pass 2):** carry **`lnL_gated`** from `next-run-c-f32/`. It is 0.0 in every
+row, so hydroacoustics is predictive and not calibrated.
+- `lnL_soft` may appear only as a labelled sensitivity ("hydroacoustics low-power, NOT CALIBRATED; calibration-error
+  model; borrowed IMS P_D").
+- The pass-1 stand-in L_hyd (scenario A, Blackman offsets) is consistent with this, as a sensitivity.
+
+**6. N×2D (ruling 6):** pre-registered at `4d62d144` (Fresnel corridor: 17 offset members per band, w = exp(−u²);
+blocked members contribute zero; checks K1/K2 on AF447). Running now on AF447 (the control) and Yemenia → H08S.
+H08N and San Juan → H10N follow. Each run is under 10 min at 1 thread, outside the lock, because the lock is held by
+core run G and drift run A.
+
+- Hydroacoustic Module
