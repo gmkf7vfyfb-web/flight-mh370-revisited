@@ -1,7 +1,9 @@
 #!/bin/sh
 # Inbox watcher for module sessions (Modular Architecture, 10 Oct 2026).
 #
-# Run it as a BACKGROUND cell, then end your turn. The cell finishes, and so wakes your session, when:
+# Run it as a BACKGROUND cell and KEEP YOUR TURN OPEN by looping the platform's notification wait on it.
+# Do NOT end your turn: a session that ends its turn loses its background cells and never wakes (lesson of
+# 10 Oct 2026). The cell finishes, and so returns to your wait, when:
 #   - your inbox file changes on branch claude-science-sep29 (exit 0; prints the new section headers),
 #   - the optional trigger path appears on local disk (exit 0), or
 #   - MAX_HOURS pass (exit 3; restart the watcher).
