@@ -3115,3 +3115,51 @@ Run G has not started (waiting on Pete's approval card), so no reason to run the
 - **Discrete hybrid arm:** VAMPI–MEKAR–NILAM, then toward SAMAK, with a **pseudo-waypoint at several distances along NILAM→SAMAK** (e.g. 0, 20, 40, 60, 80 % of the leg; the routes audit already used pseudo-fixes in its control smoke, results/routes-finding-audit/pseudo-fix-control-smoke.csv), then **direct to ANOKO**, and separately direct to IGOGU and to an FIR-boundary point between them; continuations ISBIX/BULVA as in the leaders. Equal prior over the discrete set; same allocation and sampler as the rest of run G.
 - **If it needs code** (e.g. a continuous turn-point prior), say so and do not delay run G; that becomes the next run.
 - Post the added size and ETA here **within the hour**; Pete approves run G after your post. Same outputs as the other arms (00:11/00:19 crossing latitudes, speed/timing per leg, log Z per seed).
+## 2026-10-11 17:21Z — core: run G result (six routes, full scale) — all five predictions hold
+
+- **Done:** run G harvested, `results/run-g-oct11/` (README, map, per-route, timing, 00:11 comparison).
+  - Split-half **0.980** (35 partitions, 0.971–0.987; floor 0.924). Family ln Z −129.55 (seed sd 0.03).
+  - ln Z route 11 NILAM–ANOKO–ISBIX −128.49, route 10 –BULVA −128.60 (pred. −128.4 to −128.6). ISBIX fraction 0.529 (pred. 0.50 ± 0.10).
+  - Route 3 NILAM–IGOGU–ISBIX −130.41, 1.93 nats below route 11 (pred. 1.5–2). Family 00:19 median −36.71 (pred. −36.75 ± 0.10).
+  - Shares: ANOKO 0.918, IGOGU 0.081, SAMAK 0.001. Mach initial ≈ 0.79–0.80 on every route; 00:19 Mach ≈ 0.69.
+  - Timing (turn at ANOKO): MEKAR 18:21:59, NILAM 18:26:17, ANOKO 18:39:03; GS 476 / 450 / 459 kt. No low speeds needed.
+  - 00:11 arc latitude: ANOKO −35.76, IGOGU −35.26; 00:19: route 11 −36.70, route 10 −36.81, route 3 −36.28.
+- **Flag:** route-following ANOKO paths cross 00:11 **0.9° north** of run D free paths on the same line to 19:11 (−36.67).
+  First look: the free paths are ≈ 27 NM further south by 19:41 and ≈ 6 kt faster after. Mechanism not yet established; the README gives the numbers.
+- **Impact PDFs:** EoF can carry run G hand-offs (`handoff_rows` 1000, on deskstar J15) if wanted; not staged yet, ask core.
+- **Next:** audit arms (job 56cc5d6f) running, route 7 of 36; then scan curve and matched-volume ln Z against the posted prediction.
+  Then the turn-between-waypoints proposal (config and size only).
+- **Blocker:** none. Pending Pete: routes-family prior; 21.58 GB staging deletion.
+
+## 2026-10-11 17:24Z — core → architecture, Pete: hybrid (turn-between-waypoints) arm — config-only, size and ETA. Needs Pete's GO
+
+- **Timing note:** run G had already started (16:12Z) and finished (17:21Z post above) before the 11:25 −0600 message, so the hybrid cannot be folded in. It is a separate run, config-only, no code.
+- **Design** (`engine/config/sensitivity/next-run/hybrid-arm/`: `waypoints-hybrid.csv`, `routes-hybrid.toml`, `job-hybrid.sh`):
+  - VAMPI–MEKAR–NILAM–**HSk**–X–END. HSk are pseudo-fixes on the NILAM→SAMAK great circle at 20/40/60/80 % (24, 47, 71, 95 NM from NILAM).
+  - X ∈ {ANOKO, **FIRMD** (FIR-boundary point midway ANOKO–IGOGU, 7.3265N 94.4164E), IGOGU}; END ∈ {ISBIX, BULVA}.
+  - Plus NILAM–FIRMD–ISBIX/BULVA (the 0 % case for the new point; the 0 % cases for ANOKO and IGOGU are run G routes 10/11/2/3).
+  - **26 routes**, equal prior 1/26. `turn_backs` on. Run C sampler (16 equal stages, no adaptive target), as in run G.
+- **Size:** per-route arms like the audit arms: 26 routes × 4 seeds × 200k particles. 8 processes × 11 threads; raw files deleted after the per-route shares are taken, keeps run.json, summary.json, shares and routes.npy (≈ 0.3 GB). deskstar disk 4.9 GB free is enough.
+- **ETA:** starts after the audit arms (finishing ≈ 18:00Z), ≈ 40 min → **≈ 18:45Z**. Outputs as the other arms: ln Z per seed and per route, 00:11/00:19 crossing latitudes, speed and timing per leg, Mach and altitude.
+- **Local parse smoke** (one seed, 8.4k particles; noise ±1–2 nats, not a result): all configs parse. NILAM–HS40–ANOKO–ISBIX gave ln Z −124.35; NILAM–FIRMD–BULVA gave −130.55 (route 11 at full scale −128.49).
+- **Prediction** (posted before any run): the best hybrid route beats route 11 by 1–4 nats, by the same mechanism as the audit's pseudo-fix (−125.21): a turn point north-east of ANOKO puts the leg nearer the free-flight mass. The family ln Z over 26 routes is within ±1 nat of run G's −129.55. FIRMD sits between ANOKO and IGOGU in ln Z.
+- **Blocker:** Pete's GO for the hybrid run. Audit arms continue meanwhile.
+
+## 2026-10-11 11:45 -0600 — architecture → core: run G HOLD — Pete will settle the hybrid arm's implementation with you directly
+
+Pete wants the hybrid (turn-between-waypoints) arm built into run G before it runs, and will discuss the implementation details with you himself. **Do not start run G until Pete's go**, even if the approval card is accepted. Prepare the options (config-only discrete version vs a continuous turn-point prior needing code), with sizes and ETAs, for that conversation.
+## 2026-10-11 17:35Z — core → architecture, Pete: HOLD acknowledged. Route turn model is fly-over + direct-to; the scan peak may be a fly-by surrogate
+
+- **HOLD:** acknowledged. Hybrid configs are posted but not submitted, and no new run will start without Pete. Audit arms (job 56cc5d6f) continue, ETA ≈ 18:00Z.
+- **Code fact** (`crates/flight/src/lib.rs` `steer`): route guidance homes direct-to the current fix and sequences only within 2 NM (`CAPTURE_NM`). It then turns at the 15° bank rate.
+  - There is **no turn anticipation (fly-by)** and **no leg tracking**. After a ~100° turn the aircraft homes on the next fix from where the turn ends. This gives the ~12 NM transient cross-track seen in run G route samples.
+- **Geometry:** at 470 kt TAS and 15° bank the turn radius R ≈ 12.0 NM. A fly-by turn of 98–100° would start R·tan(Δψ/2) ≈ 14 NM before ANOKO, on the NILAM–ANOKO leg.
+  - The audit scan peaks at +10 NM east of ANOKO (−125.21), with +15 NM at −125.8/−126.3 (5 NM grid). **The best pseudo-fix may stand in for a fly-by turn at ANOKO,** not a new turn point.
+- **Second effect, same cause (hypothesis):** run G route paths run ≈ 27 NM behind free paths on the same line at 19:41 and cross 00:11 0.9° north. 19:41 is where audit panel (a) puts the +5 nat gain. A fly-over turn plus a direct-to recapture moves along-track position at 19:41.
+- **Proposed test (code, off by default, gates byte-identical; needs Pete's GO before any run):**
+  - `dynamics.early.routes.fly_by = true`: sequence to the next fix when distance-to-fix < R·tan(Δψ/2), using the current TAS and bank.
+  - Optional `track_legs = true`: steer on cross-track error to the great-circle leg rather than direct-to.
+  - Then re-score run G routes 10/11 and the audit scan's +0/+10 NM points at audit size (≈ 15 min).
+  - **Prediction:** with fly-by at the true ANOKO, route 11 moves from −128.5 to within ±1 nat of −125.2, and the scan peak moves to 0 ± 5 NM.
+- **Bearing on the hybrid:** the turn model should be settled first. Every hybrid route has two turns and would inherit the same fly-over bias.
+- **Slip, disclosed:** run G was submitted twice at 16:11Z (jobs 425aa841 and 25f7706e). Both ran concurrently on 88 threads, about 55 min each. The outputs are **bit-identical** (all 8 seed ln Z equal, density difference 0.0), so the engine is deterministic under load. The duplicate's raw files, about 5 GB on deskstar, stay until Pete says otherwise.

@@ -1558,3 +1558,45 @@ Pete: the raw IMS request needs an institutional affiliation he does not have. *
 4. **IMOS raw recordings already held** (3315, 3376, 3274, 3275): real noise statistics and injection–recovery P_D at these stations, the stand-in for IMS until a collaboration.
 5. **Published H01/H08 figures:** CMST 2014, Duncan & Dall'Osto 2023, Kadri's panels — noise levels and event checks at the IMS stations themselves, labelled DIGITISED.
 6. **Collaboration package draft** (architecture writes the outline with Pete; the module supplies the predictions and code): per hypothesis (unarrested rapid descent H1/H2, Pléiades area, low-energy ditching) the predicted arrival windows, bearings and received levels with calibration bands; the exact raw-data request; a pre-registered detector, false-alarm rate and injection–recovery method; calibration status; runnable code.
+## 2026-10-11 17:25 UTC — architecture (stand-in for hydroacoustics) → hydroacoustics: audit C4 absolute (SUS vs Gaspin & Shuler) done — PLEASE REVIEW
+
+Labels: UNCONVERGED (carried; no core output used). Source model outside its validity. Predictive audit, not a likelihood. Read-only on your code; KRAKEN TL reused from the audit's runs of your wrapper (`sus_tl.csv`), so there were no new propagation runs. Note: `results/hydroacoustics-audit-sus-absolute.md` (deviations at the top). Extraction: `results/hydroacoustics-audit/gaspin-shuler-extraction.md` + `gaspin-shuler/` CSVs.
+1. **G&S covers only ≤ ~1,000 ft (§8.1, printed p. 22).** The SUS are at 2,000/3,000 ft, with f_b = 108/151 Hz, so 16–63 Hz is the sub-bubble tail. There are two declared routes to depth: A, time similitude from the 800-ft Table 3 (G&S's own §7.5 depth correction); B, the Table 2 construction re-implemented. They differ by **4.3–17.1 dB** in the scored bands.
+2. **C4 absolute, pooled over 12 pairs and 45 bands:** route A FAIL (level +6.7, slope −4.2 dB/oct); route B PARTIAL (level −1.8, slope +1.0, shape 3.5). **Detection consistency PASS** under both (1/16 and 0/16), but the rule has little power: there is one, questioned, non-detection.
+3. **The extent validated is 16–63 Hz at H08S (3 pairs below 31.5 Hz) and 31.5–63 Hz at H01W.** Nothing below 16 Hz.
+4. **Robust part: the SUS show no +7–10 dB/oct tilt.** Within-pair residual slopes are −4.9 to +1.0 dB/oct under both routes. This places the air9 tilt at the near-surface end. It is consistent with your airgun-directivity explanation, but cannot separate it from near-surface coupling, which an impact shares.
+**For you:** rule whether either route is admissible for your SUS use. Check the A8sus2b depth (Table 5 610 m against the Fig. B8 caption 915 m; verdicts unchanged). Consider A1–A5 paths (gap G18). Gaps G16–G19 are recorded in ARCHITECTURE.md.
+
+— architecture (stand-in)
+
+## 2026-10-11 17:40Z — architecture → hydroacoustics: SUS absolute test (C4) result, stand-in 800d91a6 (5cab79f)
+
+- **Result: UNSETTLED.** Gaspin & Shuler (1971) only cover charges down to about 1,000 ft. The 2003 SUS were at 610 and 915 m, so the source must be extrapolated. The two pre-fixed routes for doing so disagree by 4.3–17.1 dB per band.
+  - Route A (time scaling): level +6.7 dB, C4 FAIL.
+  - Route B (pulse rebuilt at depth): level −1.8 dB, C4 PARTIAL.
+- **Finding:** SUS measured-minus-model slope is −4.9 to +1.0 dB/oct, against +10.4 (Cape Leeuwin) and +7.4 (Diego Garcia South) for the airgun.
+  - So the airgun tilt is NOT a deep-path propagation error; it sits at the near-surface end (source directivity or near-surface coupling, not separable).
+- **What it calibrates:** SUS validates deep propagation only at 16–63 Hz (Diego Garcia South) and 31.5–63 Hz (Cape Leeuwin). Nothing below 16 Hz: the impact bands below 12.5 Hz remain uncalibrated (audit status unchanged).
+- **Action for the module:** add to the audit fix list. The near-surface source/coupling term is the calibration target. Labels stay PREDICTIVE.
+
+## 2026-10-11 17:50Z — architecture → hydroacoustics: NEW SOURCE from Pete — R/V Maurice Ewing cruise EW0112 report (Oct 2001), air9 array and calibrated near-source recordings
+
+- **File:** `mh370-exchange/hydroacoustics/sources/EW0112_cruise_report_Ewing_Oct2001.pdf` (13 pp., scanned, no text layer), sha256 eb00bc3abfc91c98da611f0b38d411af87e6423eb87f1c380ba32c12b56ac280. Artifact version 8d8aff42-7115-4b56-bf1f-60da8b639797.
+- **Provenance:** public chief scientist's cruise report from the Marine Geoscience Data System (marine-geo.org, EW0112 entry, doc_uid 3671). Cite it as the cruise report, with its own page numbers.
+- **Pete's research note states the following. Architecture has NOT checked these against the page images; verify each one and cite pages before using it:**
+  1. p. 2, Fig. 1: the array layout for this cruise, with gun numbers and volumes; 20 guns, 8,465 in³ total.
+  2. p. 5: actual tow depths typically 11–12 m, sometimes 9 m (15 m intended).
+  3. p. 6, Fig. 2: near-source waveforms and spectra labelled **deployment 9**, 19 Oct 2001 at 02:17:38 and 02:18:35 UTC.
+  4. p. 7: hydrophone positions, recording gains and filters. The Ball hydrophone was **calibrated**; the ship's shot hydrophone was not.
+  5. p. 13: recording archive lead, TEAC DAT tape T6 (airgun shots). The raw recordings have not been recovered.
+- **Why it matters (audit d225b80, SUS C4 5cab79f):**
+  - The airgun slope error (+10.4 / +7.4 dB/oct) sits at the near-surface end. The audit could not separate source directivity from near-surface coupling because it used a PROXY array geometry.
+  - The true geometry plus tow depth fixes directivity and the surface-ghost notch. The calibrated near-source spectrum fixes the source level and spectrum.
+  - What remains in the residual is then propagation plus coupling. This is the route to an absolute calibration of the transmission loss, and with it the first check below 12.5 Hz at Diego Garcia South (Fig. 23 extends to 5.4 Hz).
+- **Requested work (priority within the hydro backlog, after the path_tl fix):**
+  - (a) Transcribe the array geometry from Fig. 1. Grade each gun's position and volume READ / INFERRED / ILLEGIBLE, and carry the uncertainty.
+  - (b) Digitise the Fig. 2 near-source spectra, labelled DIGITISED, with the hydrophone range, gain and filter from p. 7. The note itself flags that the hydrophone position and seabed coupling need uncertainty treatment.
+  - (c) Repeat the audit's air9 directivity and absolute TL test with the true geometry and source spectrum, under pre-registered criteria posted before scoring (criteria as in 940f1a3).
+  - (d) Record the DAT T6 archive lead in the sources register; ask LDEO/MGDS whether it survives. That raw data would be the Kadri-independent calibration set.
+- **Note:** Pete also has a recovery package (a handoff note and a zip with structured evidence and checksums) on his machine, outside the session grants. Architecture has asked him to copy it into `hydroacoustics/sources/`. Until it arrives, work from the PDF.
+- **Coverage/labels:** unchanged. Hydroacoustics stays PREDICTIVE until (c) passes.
