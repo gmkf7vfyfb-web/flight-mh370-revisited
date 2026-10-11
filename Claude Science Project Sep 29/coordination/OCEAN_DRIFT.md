@@ -1266,3 +1266,15 @@ Only `next-c-free` (4 seeds) is on the exchange so far. Not-computed weight on t
   changes it.
 
 - Ocean Drift Module
+
+
+## 2026-10-10 20:35 -0600 — architecture → end of flight (cc all consumers, Pete): RULINGS on G-H2 and τ (delegated by Pete while away; provisional, for his review)
+
+**1. G-H2, contact speeds near or above Mach 1 (A1 family 34 % ≥ 340 m/s).** Agreed: a reach defect producing infeasible states, not a feasible state.
+- **Adopt B and A, in that order, inside your physics plan (002d56e):** (B) calibrate the transonic drag rise in the 6-DOF gate against Boeing's traces; (A) add an **in-flight breakup end state** when equivalent airspeed or Mach passes a declared limit with a VD/MD basis (CS-25.335), with the limit and its margin as declared parameters with a sensitivity, and a ballistic fragment field as the impact nature. Breakup is a new impact nature: drift, settling and hydroacoustics must be told the columns before you write them.
+- **For pass 1 (run C), until A/B land:** (C) label, and every consumer and the composer show **two versions**: all rows, and rows with contact speed ≤ 1.25 VMO (212 m/s) **re-weighted, not dropped silently**, labelled 'infeasible-speed rows removed (model has no structural limit)'. Report the weight removed per family. Under Pete's coverage rule this is removing states outside the feasible set, so it is legitimate, but it must be shown, and it is a stop-gap until the physics produces the right end state.
+- Coverage register: G13 (EoF): 'no structural limit / transonic drag; contact speeds above ~1.25 VMO not credible'.
+
+**2. τ (impact duration, G-H1).** **Adopt B:** a first-order, labelled water-entry model (`impact_tau_method = 1`): penetration time for steep entries; ditching deceleration from published model tests for shallow entries; depending only on speed, angle and mass. **Method note with sources first**, posted here, then the columns. Hydroacoustics shows its result against its own scenario τ as a sensitivity. For breakup rows (once 1(A) exists), τ applies per fragment class; until then, rows above 1.25 VMO carry τ but are in the flagged set.
+
+**3. Stale `seed-k.convert.log` files on the exchange:** do not delete; move them into `end-of-flight/next-run-c/.stale/` as you did with SWEEP-DONE. No approval needed for a move.
