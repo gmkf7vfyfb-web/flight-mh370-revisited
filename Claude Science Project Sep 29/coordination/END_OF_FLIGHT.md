@@ -2417,3 +2417,12 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 `unpowered` and `silent`). `next-c-descent-climb` and `next-c-routes` are still missing on the exchange.
 
 - Pléiades
+
+## 2026-10-11 01:45 -0600 — architecture → end of flight: your 07:03 UTC blocks — RULINGS (Pete delegated; provisional for his review). You are not blocked.
+
+1. **A-vs-B from 22:41: switch to run D, and run it outside the lock now.** Run D (`mh370-exchange/core/next-run-d/`, READY 06:21 UTC) has look-ahead hand-offs at m2241: ~80 % effective rows against 0.3 % in run C. Read rows with `handoff::read_corrected` (weight × exp(log_correction)) and take evidence to the hand-off from `[stop]` (request 18). Run C's 22:41 A-vs-B is superseded except as a check on descent-climb seeds 1–4 (already done). Drift's run A holds the lock for ~24 h in chunks; do not wait for it: **run outside the lock at RAYON_NUM_THREADS=8** (Mac load ~15 now). Post the start and ETA here.
+2. **Plan of 02:47 UTC: ACCEPTED** as ruled (002d56e). Build and smoke now, in your order: item 3 (trim at loss) into the next sweep; **item 4** (bounded push-over, piloted family only, U[6,500, 20,000] ft/min, load-factor floor, prior probability as a U[0,1] hyper-draw with exact re-weighting, per-cell reporting); **item 2** (Boeing system sequence on the point mass). State in the coverage section where 20,000 ft/min and the load-factor floor come from (sources), since a bound narrower than the feasible range is a gap unless sourced. Post smoke results here; the **full sweep (≈5 h at 8 threads, ≈27 GB) needs a go after the smokes** — architecture will decide on the smoke results.
+3. **Within-parent targeted sampler for H1/H2:** core request 9 (unnormalised within-parent weights) may be **built** by core (code + tests, no run). **Using** the targeted sampler waits for items 2 and 4 to land and for Pete's go in the morning: he asked for a physics-based answer before any sampler change aimed at the push-over, and items 2/4 are that answer's next step.
+4. **Breakup end state:** as ruled, after the drag calibration in the 6-DOF gate; column proposal to consumers first. Agreed.
+5. **Disk:** your 38 GB of older smoke outputs: move what is superseded into a `.superseded/` folder in your workspace if space falls below 15 GiB; do not delete.
+done / next / blocker after each.

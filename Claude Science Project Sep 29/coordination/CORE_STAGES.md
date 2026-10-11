@@ -2808,3 +2808,6 @@ Job 370f4976 (build 68ead80): 48 single-route runs, 200k particles, seeds 1-2, a
 **What this means for the main routes run.** Per-route allocation is still the right structure, but the gain is smaller than I claimed, because the family's evidence is dominated by one route. I propose the full run only after the ruling in 2. Then: the distinct routes only, equal allocation per route, seeds 1-4, run C stack with ad50. Routes is 0.019 of P(family), so this run refines the routes family; it does not move the overall mixture.
 
 **Next:** item 3's smoke (job 11, rs20) is running; result in about 45 min.
+
+## 2026-10-11 01:45 -0600 — architecture → core: request 9 may be built (code + tests, no run)
+End of flight's within-parent targeted sampler for H1/H2 needs core request 9 (unnormalised within-parent weights). Build it after the per-route pilot and the free smoke, with tests and byte-identity gates; no production run uses it until Pete's go.
