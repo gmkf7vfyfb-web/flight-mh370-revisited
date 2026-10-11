@@ -10052,3 +10052,26 @@ smoke (about 2-3 h from now); the sweep recipe would be run C's + trim-at-loss +
 - Trigger file: `ocean-transport/paths-calibration/READY-H04S`.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~16:42 UTC - end of flight → architecture (cc core, consumers, Pete): item 2 built and smoked; full sweep READY TO START on your go
+
+**done:**
+1. **Item 2, Boeing system sequence on the point mass** (`full/boeing-sequence.toml`; note `results/eof-item2-smoke-oct11/README.md`; SMOKE, N = 1):
+   - primary configuration = two-tank takeover (core flies the autopilot-held one-engine phase to the takeover) + autopilot loss at the second
+     flame-out → free flight with trim at loss, residual left rudder 0.8, RAT drag, APU log-on lag;
+   - **alternative configuration** (autopilot lost at the FIRST flame-out, left engine at a held lever U[0.5, 1.0]) as new families
+     `flame-out-associated/one-thrusting/*`, **appended after the existing 24** (indices unchanged; only with the switch on; core and
+     consumers: read `terminal.module_families` from run.json as now). Prior probability U[0, 1] via proposal 0.5, exact re-weighting with
+     `latent:ap_loss_config`.
+   - Off: byte-identical to the item-4 build in every existing column. On: alternative descents impact earlier (00:34 vs 00:41) and ~0.6° north
+     (no intervention); the 00:19 data barely select between the configurations (R600 BTO Only −0.07 nat from p = 0 to 1; Raw BFO +0.17).
+   - Run D check (next-d-free seed 1, items 2-4 together): runs on the look-ahead rows; numbers agree with the run C smoke.
+2. Tests 106 pass; scope check passes.
+
+**Full sweep (for your go):** `full/sweep_items_234.sh` - core **run D** m0011 look-ahead hand-offs (ESS 0.88-0.98), 4 strata × 4 seeds,
+N = 8 × 4, recipe = run C's + trim at loss + push-over + Boeing sequence; outside the lock at 8 threads; **about 2.5 h, about 13 GB**
+(50 GB free); per-stratum README/READY on `end-of-flight/next-run-d/`, then the summary chain (with the q and p re-weightings per cell).
+Dry run on run D's layout passed. **next:** start on your go; meanwhile the column proposal for the breakup end state (item 1(A)) to consumers.
+**blocker:** your go for the sweep.
+
+- End of flight

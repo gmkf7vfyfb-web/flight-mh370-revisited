@@ -247,6 +247,18 @@ struct Params {
     /// Right-to-left engine flow ratio for the two-tank prediction. Default 1.021 (fuel session, N(1.021, 0.008^2)).
     #[serde(default = "default_tank_flow_ratio")]
     tank_flow_ratio: f64,
+    /// Item 2, Boeing's system sequence (Pete's ruling on the EoF physics prior; plan accepted 01:45 -0600 11 Oct). Needs
+    /// `two_tank_takeover`. Absent (default): off, the earlier behaviour exactly. Set to p: a flame-out-associated onset is the
+    /// autopilot loss, at the SECOND flame-out with probability 1 - p (Boeing's primary configuration: TAC and the autopilot hold
+    /// the aircraft on one engine to the second flame-out - the core flies that phase to the takeover - then RAT and APU, no
+    /// thrust), or at the FIRST flame-out with probability p (the alternative configuration), the other engine still running at
+    /// `boeing_alt_thrust_setting` until its tank is dry. Only parents with both tanks live at the hand-off can take the
+    /// alternative (an engine already out before the hand-off was flown with the autopilot held by the core).
+    #[serde(default)]
+    boeing_ap_loss_first_probability: Option<f64>,
+    /// Thrust setting (0 idle, 1 full) held by the running engine after an autopilot loss at the first flame-out.
+    #[serde(default = "default_boeing_alt_thrust")]
+    boeing_alt_thrust_setting: Range,
     /// Keep a descent that never reached the sea as its own impact sample instead of finishing it
     /// on a best-glide. **Default off.** A negative result is kept, not deleted: with the flag
     /// off the fact is still recorded in the `timed_out` latent, and with it on the unconverged
@@ -523,6 +535,9 @@ const LATENTS: &[&str] = &[
     "pushover_rate_fpm",
     "pushover_n_floor_g",
     "pushover_hold_s",
+    // Item 2: autopilot-loss configuration code: 0 no draw, 1 primary (second flame-out), 2 alternative (first flame-out, the
+    // other engine running). With the proposal probability in run.json, exact re-weighting to any prior probability.
+    "ap_loss_config",
     // The module's own physical state at each burst it flew through (10 Oct, Pete's questions on the 22:41 arms):
     // NaN when the burst came before this descent's onset (core's cruise) or after its impact. Recorded BEFORE
     // `unpowered_bursts_removed`, so a burst the SDU could not answer still shows where the aircraft was.
@@ -594,7 +609,7 @@ const TAU_METHOD_NOT_COMPUTED: f64 = 0.0;
 
 /// Layout version of `Takeover::draw`. The runner never reads the vector; this module encodes it
 /// in `takeover` and decodes it in `descend_after`, and refuses a vector it did not write.
-const DRAW_VERSION: f64 = 2.0;
+const DRAW_VERSION: f64 = 3.0;
 
 /// What `takeover` drew, as `descend_after` needs it again (core request 2).
 #[derive(Debug, Clone, Copy)]
@@ -610,6 +625,9 @@ struct OnsetDraw {
     /// that model could not price.
     prediction_priced_by_core: bool,
     prediction_unpriced_s: f64,
+    /// Item 2: 0 = no configuration draw (sequence off, not flame-out-associated, or one tank already dry at the hand-off);
+    /// 1 = drawn, primary (autopilot lost at the second flame-out); 2 = drawn, alternative (lost at the FIRST flame-out).
+    ap_config: u8,
 }
 
 impl OnsetDraw {
@@ -622,12 +640,13 @@ impl OnsetDraw {
             self.predicted_exhaustion_unix_s,
             f64::from(u8::from(self.prediction_priced_by_core)),
             self.prediction_unpriced_s,
+            f64::from(self.ap_config),
             DRAW_VERSION,
         ]
     }
 
     fn decode(v: &[f64]) -> Option<OnsetDraw> {
-        if v.len() != 8 || v[7] != DRAW_VERSION {
+        if v.len() != 9 || v[8] != DRAW_VERSION {
             return None;
         }
         let mechanism = Initiation::ALL.iter().copied().find(|m| m.code() == v[0])?;
@@ -639,6 +658,7 @@ impl OnsetDraw {
             predicted_exhaustion_unix_s: v[4],
             prediction_priced_by_core: v[5] == 1.0,
             prediction_unpriced_s: v[6],
+            ap_config: v[7] as u8,
         })
     }
 }
@@ -665,7 +685,16 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     params.envelope.check()?;
     params.logon.check()?;
     params.proposal.check()?;
-    Ok(Box::new(EndOfFlight { params, families: taxonomy::legal_families() }))
+    if let Some(p) = params.boeing_ap_loss_first_probability {
+        if !(0.0..=1.0).contains(&p) || !params.two_tank_takeover {
+            return Err("end-of-flight: boeing_ap_loss_first_probability must be in [0, 1] and needs two_tank_takeover".into());
+        }
+    }
+    let mut families = taxonomy::legal_families();
+    if params.boeing_ap_loss_first_probability.is_some() {
+        families.extend(taxonomy::boeing_extra_families());
+    }
+    Ok(Box::new(EndOfFlight { params, families }))
 }
 
 impl Hypothesis for EndOfFlight {
@@ -728,6 +757,10 @@ fn default_tank_flow_ratio() -> f64 {
     1.021
 }
 
+fn default_boeing_alt_thrust() -> Range {
+    Range::Uniform([0.5, 1.0])
+}
+
 /// The two pools, when the hand-off carries them (core request 11), as (left, right) kg.
 fn tank_pools(state: &FlightState) -> Option<(f64, f64)> {
     (state.fuel_left_kg.is_finite() && state.fuel_right_kg.is_finite()).then(|| (state.fuel_left_kg.max(0.0), state.fuel_right_kg.max(0.0)))
@@ -743,6 +776,8 @@ struct Parent {
     /// Exhaustion under CONTINUED CRUISE, derived from `fuel_kg` — never a realised flame-out and
     /// never a configured clock time. See [`EndOfFlight::predicted_exhaustion`].
     predicted_exhaustion_unix_s: f64,
+    /// Item 2: the predicted FIRST flame-out (one tank dry) under continued cruise; NaN unless both tanks are live and read.
+    predicted_first_exhaustion_unix_s: f64,
     mass_kg: f64,
     fuel_kg: f64,
     /// A fallback fired for the mass. On a real hand-off this must be false for every parent.
@@ -761,9 +796,10 @@ impl EndOfFlight {
         let fuel_known = state.fuel_kg.is_finite() && state.fuel_kg >= 0.0;
         let mass_kg = if mass_known { state.mass_kg } else { self.params.fallback_mass_kg };
         let fuel_kg = if fuel_known { state.fuel_kg } else { self.params.fallback_fuel_kg };
-        let (predicted, unpriced) = self.predicted_exhaustion(state, mass_kg, fuel_kg, fuel);
+        let (predicted, unpriced, first) = self.predicted_exhaustion(state, mass_kg, fuel_kg, fuel);
         Parent {
             predicted_exhaustion_unix_s: predicted,
+            predicted_first_exhaustion_unix_s: first,
             mass_kg,
             fuel_kg,
             mass_assumed: !mass_known,
@@ -803,12 +839,12 @@ impl EndOfFlight {
     /// prediction and the burn agree. A state the model cannot price falls back to the module's
     /// TSFC for that step and the seconds are returned, never read as zero flow. Without `fuel`
     /// (the legacy `takeover` path and unit tests) the module's own TSFC prices everything.
-    fn predicted_exhaustion(&self, state: &FlightState, mass_kg: f64, fuel_kg: f64, fuel: Option<&dyn FuelFlow>) -> (f64, f64) {
+    fn predicted_exhaustion(&self, state: &FlightState, mass_kg: f64, fuel_kg: f64, fuel: Option<&dyn FuelFlow>) -> (f64, f64, f64) {
         if !(fuel_kg > 0.0) {
             // Already dry at the hand-off: exhaustion is the realised time when we have it, and
             // otherwise the hand-off epoch itself. Either way it is not in the future.
             let t = if state.realised_flameout_unix_s.is_finite() { state.realised_flameout_unix_s } else { state.unix_s };
-            return (t, 0.0);
+            return (t, 0.0, f64::NAN);
         }
         let aero = self.params.aero.nominal();
         let cfg = Configuration::powered();
@@ -817,7 +853,7 @@ impl EndOfFlight {
         let tas = state.true_air_speed_mps;
         let q = 0.5 * rho * tas * tas;
         if !(q > 0.0) || !(aero.wing_area_m2 > 0.0) {
-            return (f64::INFINITY, 0.0);
+            return (f64::INFINITY, 0.0, f64::NAN);
         }
         const STEP_S: f64 = 60.0;
         let mut unpriced = 0.0;
@@ -827,6 +863,7 @@ impl EndOfFlight {
         // Two pools (switch `two_tank_takeover`): only when the hand-off carries them and the fuel is the real one.
         let mut pools = if self.params.two_tank_takeover && (state.fuel_kg - fuel_kg).abs() < 1e-6 { tank_pools(state) } else { None };
         let ratio = self.params.tank_flow_ratio;
+        let mut first: Option<f64> = None;
         // 24 h of cruise is far beyond any trajectory this module sees; the cap exists so a
         // pathological state cannot spin here.
         while remaining > 0.0 && elapsed < 86_400.0 {
@@ -854,7 +891,7 @@ impl EndOfFlight {
                 (None, _) => own,
             };
             if !(flow > 0.0) {
-                return (f64::INFINITY, unpriced);
+                return (f64::INFINITY, unpriced, f64::NAN);
             }
             if let Some((l, r)) = pools {
                 if l > 0.0 && r > 0.0 {
@@ -867,6 +904,9 @@ impl EndOfFlight {
                     remaining = l2 + r2;
                     mass -= flow * dt;
                     elapsed += dt;
+                    if (l2 == 0.0 || r2 == 0.0) && first.is_none() {
+                        first = Some(elapsed);
+                    }
                     if remaining <= 0.0 {
                         break;
                     }
@@ -895,12 +935,23 @@ impl EndOfFlight {
             elapsed += STEP_S;
         }
         let _ = remaining;
-        (state.unix_s + elapsed, unpriced)
+        (state.unix_s + elapsed, unpriced, first.map_or(f64::NAN, |f| state.unix_s + f))
     }
 
     fn takeover_with(&self, handoff: &FlightState, fuel: Option<&dyn FuelFlow>, uniform: &mut dyn FnMut() -> f64) -> Takeover {
         let parent = self.parent(handoff, fuel);
-        let onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
+        let mut onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
+        // Item 2: the alternative configuration moves a flame-out-associated onset to the first flame-out. A uniform is drawn
+        // only with the sequence on, both tanks live and the first flame-out still ahead, so the off stream is unchanged.
+        let first = parent.predicted_first_exhaustion_unix_s;
+        let ap_config: u8 = match self.params.boeing_ap_loss_first_probability {
+            Some(p) if onset.mechanism == Initiation::FlameOutAssociated && first.is_finite() && first > handoff.unix_s => if uniform() < p { 2 } else { 1 },
+            _ => 0,
+        };
+        if ap_config == 2 {
+            onset.unix_s = first;
+            onset.predicted_endurance_at_onset_s = parent.predicted_exhaustion_unix_s - first;
+        }
         let draw = OnsetDraw {
             mechanism: onset.mechanism,
             mechanism_prior: onset.mechanism_prior,
@@ -909,6 +960,7 @@ impl EndOfFlight {
             predicted_exhaustion_unix_s: parent.predicted_exhaustion_unix_s,
             prediction_priced_by_core: parent.prediction_priced_by_core,
             prediction_unpriced_s: parent.prediction_unpriced_s,
+            ap_config,
         };
         Takeover { unix_s: onset.unix_s.max(handoff.unix_s), log_q_correction: onset.log_q_correction, draw: draw.encode() }
     }
@@ -972,7 +1024,11 @@ impl EndOfFlight {
                 let (control, c_prior, lq) = pick_control(&self.params.control_weights, boost, uniform);
                 (Propulsion::NeitherThrusting, control, c_prior, lq)
             } else {
-                self.draw_axes(mechanism, self.params.two_tank_takeover && one_engine_out(takeover), uniform)
+                let forced = match (self.params.boeing_ap_loss_first_probability, mechanism, drawn) {
+                    (Some(_), Initiation::FlameOutAssociated, Some(d)) if d.ap_config == 2 => Some(Propulsion::OneThrusting),
+                    _ => None,
+                };
+                self.draw_axes(mechanism, self.params.two_tank_takeover && one_engine_out(takeover), forced, uniform)
             };
             let aero = self.params.aero.draw(uniform);
             let record = !self.params.trace.path.is_empty() && trace_selected(takeover, descent_index, self.params.trace.every_n);
@@ -1096,12 +1152,14 @@ impl EndOfFlight {
                 flying.profile.pushover.map_or(f64::NAN, |p| p.0),
                 flying.profile.pushover.map_or(f64::NAN, |p| p.1),
                 flying.profile.pushover.map_or(f64::NAN, |p| p.2),
+                drawn.map_or(0.0, |d| f64::from(d.ap_config)),
             ];
             let mut latents = latents;
             latents.extend_from_slice(&physical);
             debug_assert_eq!(latents.len(), LATENTS.len());
-            let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
-                .or_else(|| taxonomy::index_of(&Family { initiation: mechanism, propulsion, control }))
+            let idx = |f: Family| self.families.iter().position(|g| *g == f);
+            let family = idx(Family { initiation: mechanism, propulsion, control: realised_control })
+                .or_else(|| idx(Family { initiation: mechanism, propulsion, control }))
                 .unwrap_or(0);
             out.push(Descent { impact, family, at_epochs: states, latents, log_q_correction: axes_lq + profile_lq });
         }
@@ -1110,10 +1168,16 @@ impl EndOfFlight {
 
     /// Draw the propulsion and control axes, restricted to the cells legal for `mechanism`, and
     /// return them with their joint prior weight.
-    fn draw_axes(&self, mechanism: Initiation, one_engine_out: bool, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64, f64) {
+    fn draw_axes(&self, mechanism: Initiation, one_engine_out: bool, forced: Option<Propulsion>, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64, f64) {
         let mut weights = self.params.propulsion_weights;
+        if let Some(fp) = forced {
+            // Item 2: the physical state at the autopilot loss fixes the axis (one engine running), not a draw.
+            for (i, p) in Propulsion::ALL.iter().enumerate() {
+                weights[i] = if *p == fp { 1.0 } else { 0.0 };
+            }
+        }
         for (i, p) in Propulsion::ALL.iter().enumerate() {
-            if !(Family { initiation: mechanism, propulsion: *p, control: Control::NoIntervention }).is_legal() {
+            if forced.is_none() && !(Family { initiation: mechanism, propulsion: *p, control: Control::NoIntervention }).is_legal() {
                 weights[i] = 0.0;
             }
         }
@@ -1168,6 +1232,10 @@ impl EndOfFlight {
         let env = &self.params.envelope;
         if env.spiral_divergent_weight > 0.0 && uniform() < env.spiral_divergent_weight {
             flying.spiral_doubling_s = Some(env.spiral_doubling_s.draw(uniform));
+        }
+        // Item 2: autopilot lost at the first flame-out - the running engine keeps its lever setting in free flight.
+        if onset.mechanism == Initiation::FlameOutAssociated && propulsion == Propulsion::OneThrusting {
+            flying.free_setting = self.params.boeing_alt_thrust_setting.draw(uniform);
         }
         let flying = std::cell::RefCell::new(flying);
         let it = Integrator {
@@ -1470,6 +1538,22 @@ mod tests {
 
     /// The parameter block of `run.toml`, so the tests exercise the configuration that would be
     /// lifted into a core config rather than a private one.
+    /// Item 2 (Boeing system sequence): the draw vector carries the autopilot-loss configuration (version 3); the extra
+    /// families are appended after the existing 24, so every existing index is unchanged; the forced axis is one engine.
+    #[test]
+    fn the_boeing_sequence_carries_its_configuration_and_appends_its_families() {
+        let d = OnsetDraw { mechanism: Initiation::FlameOutAssociated, mechanism_prior: 0.3, lead_s: 420.0, support_truncated_fraction: 0.0,
+            predicted_exhaustion_unix_s: 1.0e9, prediction_priced_by_core: true, prediction_unpriced_s: 0.0, ap_config: 2 };
+        let back = OnsetDraw::decode(&d.encode()).expect("round trip");
+        assert!(back.ap_config == 2 && back.lead_s == 420.0);
+        let base = taxonomy::legal_families();
+        let mut ext = base.clone();
+        ext.extend(taxonomy::boeing_extra_families());
+        assert_eq!(&ext[..base.len()], &base[..]);
+        assert_eq!(ext.len(), base.len() + Control::ALL.len());
+        assert!(taxonomy::boeing_extra_families().iter().all(|f| f.initiation == Initiation::FlameOutAssociated && f.propulsion == Propulsion::OneThrusting));
+    }
+
     /// Core request 11 (two-tank state at the takeover, switch `two_tank_takeover`). With constant table flows the
     /// prediction is exact: two pools burn R:L at the twin flow until the right is dry, then the left at the one-engine flow;
     /// a single live pool burns at the one-engine flow. A takeover with one engine out never draws two thrusting engines.

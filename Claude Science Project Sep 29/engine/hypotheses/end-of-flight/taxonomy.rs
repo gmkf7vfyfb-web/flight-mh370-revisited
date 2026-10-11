@@ -213,7 +213,17 @@ pub fn legal_families() -> Vec<Family> {
     out
 }
 
-/// The index of a family in [`legal_families`], or `None` if the triple is illegal.
+/// Item 2 (Boeing system sequence; Pete's ruling on the EoF physics prior): with two fuel tanks the autopilot can be lost at the
+/// FIRST flame-out, the other engine still running (Boeing's alternative electrical configuration). Those cells -
+/// flame-out-associated, one engine thrusting - are legal only with the sequence switched on, and they are APPENDED after
+/// [`legal_families`] so that every existing index is unchanged.
+pub fn boeing_extra_families() -> Vec<Family> {
+    Control::ALL.iter().map(|&control| Family { initiation: Initiation::FlameOutAssociated, propulsion: Propulsion::OneThrusting, control }).collect()
+}
+
+/// The index of a family in [`legal_families`], or `None` if the triple is illegal. (The module indexes its own list, which
+/// may carry [`boeing_extra_families`]; this is the reference for the tests.)
+#[cfg_attr(not(test), allow(dead_code))]
 pub fn index_of(family: &Family) -> Option<usize> {
     legal_families().iter().position(|f| f == family)
 }

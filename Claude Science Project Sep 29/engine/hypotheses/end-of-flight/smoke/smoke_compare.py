@@ -27,6 +27,10 @@ def run_stats(run):
     out = {"run": str(run), "rows": int(len(w)), "prior": {"P(dv<=-10450, airborne)": float(pw[alive & (dv <= -10450)].sum()),
            "P(dv<=-8000, airborne)": float(pw[alive & (dv <= -8000)].sum()), "P(contact speed > 212 m/s)": float(pw[speed > 212].sum())}}
     f4 = family_labels(g("latent:onset_mechanism"), g("latent:control_realised"), g("latent:recovery_attempted"))["family4_code"]
+    env_ap = meta["config"]["hypotheses"]["end-of-flight"].get("boeing_ap_loss_first_probability")
+    if "latent:ap_loss_config" in cols:
+        code = g("latent:ap_loss_config")
+        out["prior"].update({"P(ap config drawn)": float(pw[code > 0].sum()), "P(ap lost at first flame-out)": float(pw[code == 2].sum())})
     has_po = "latent:pushover_drawn" in cols
     if has_po:
         el, dr = g("latent:pushover_eligible") == 1, g("latent:pushover_drawn") == 1; p0 = float(env.get("rapid_descent_probability", 0.0))
@@ -55,6 +59,17 @@ def run_stats(run):
                     r["ln_Z_of_q"][str(q)] = float(logsumexp(lw + ll + np.log(f)))
             pp = p * dr; Pp = np.bincount(par, weights=pp)
             r["eff_parents_push_over_rows"] = float(Pp.sum() ** 2 / (Pp ** 2).sum()) if Pp.sum() > 0 else 0.0
+        if "latent:ap_loss_config" in cols and env_ap is not None and 0 < env_ap < 1:
+            code = g("latent:ap_loss_config"); alt = code == 2; pri = code == 1
+            r["posterior_share_ap_loss_first"] = float(p[alt].sum())
+            r["ln_Z_of_p_ap_loss_first"] = {}
+            for q in QS:
+                f = np.where(alt, q / env_ap, np.where(pri, (1 - q) / (1 - env_ap), 1.0))
+                with np.errstate(divide="ignore"):
+                    r["ln_Z_of_p_ap_loss_first"][str(q)] = float(logsumexp(lw + ll + np.log(f)))
+            pa = p * alt; Pa = np.bincount(par, weights=pa)
+            r["eff_parents_ap_loss_first_rows"] = float(Pa.sum() ** 2 / (Pa ** 2).sum()) if Pa.sum() > 0 else 0.0
+            r["median_lat_ap_loss_first_rows"] = float(np.median(lat[alt])) if alt.any() else None
         out["options"][name] = r
     return out
 
@@ -66,4 +81,6 @@ if __name__ == "__main__":
         print(r["run"], {k: round(v, 5) for k, v in r["prior"].items()})
         for n, v in r["options"].items():
             extra = f" | push-over share {v['posterior_share_push_over']:.3f} effpar {v['eff_parents_push_over_rows']:.1f} lnZ(q=0/0.5/1) {v['ln_Z_of_q']['0.0']:.2f}/{v['ln_Z_of_q']['0.5']:.2f}/{v['ln_Z_of_q']['1.0']:.2f}" if "ln_Z_of_q" in v else ""
+            if "ln_Z_of_p_ap_loss_first" in v:
+                z = v["ln_Z_of_p_ap_loss_first"]; extra += f" | AP-first share {v['posterior_share_ap_loss_first']:.3f} effpar {v['eff_parents_ap_loss_first_rows']:.1f} lnZ(p=0/0.5/1) {z['0.0']:.2f}/{z['0.5']:.2f}/{z['1.0']:.2f}"
             print(f"   {n:26s} lnZ {v['ln_Z']:8.3f} effpar {v['eff_parents']:9.1f} lat {v['median_lat']:.2f} >212 {v['share_above_212']:.3f} fam " + " ".join(f"{k}:{x:.3f}" for k, x in v['families'].items()) + extra)

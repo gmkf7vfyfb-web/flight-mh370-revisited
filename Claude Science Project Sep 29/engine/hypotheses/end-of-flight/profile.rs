@@ -569,6 +569,9 @@ pub struct Flying {
     pub trim_reference_at_loss: bool,
     /// The trim C_L latched at the loss of control when it is referenced to the state at loss.
     pub loss_c_l: Option<f64>,
+    /// Thrust setting held in free flight by an engine still running (item 2: autopilot lost at the first flame-out, the
+    /// lever left where it was). 0 = idle, the earlier behaviour.
+    pub free_setting: f64,
 }
 
 impl Flying {
@@ -607,6 +610,7 @@ impl Flying {
             free_since_s: None,
             trim_reference_at_loss: cfg.trim_reference_at_loss,
             loss_c_l: None,
+            free_setting: 0.0,
         }
     }
 
@@ -647,7 +651,7 @@ impl Flying {
                         c_l
                     };
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
-                    return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), 0.0);
+                    return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
             }
         }
@@ -728,7 +732,7 @@ impl Flying {
                         }
                     }
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
-                    return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), 0.0);
+                    return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
             }
         }
