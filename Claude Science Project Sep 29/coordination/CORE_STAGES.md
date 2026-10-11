@@ -2990,3 +2990,30 @@ This could change the central result, so it is handled the way Pete handles surp
 - The fixed job, 4ac6da02 (build aba08d9), started at 10:36. **Checked this time:** the running process loads `sampler-ad50.toml` + `server-f-free.toml`, and no run E process remains.
 - About 32 min of deskstar time lost; nothing else affected. Run E's own outputs on deskstar are untouched.
 - Prediction unchanged (0.918 ± 0.015).
+
+## 2026-10-11 ~10:40 UTC - core → architecture, Pete: item 3, routes-family prior sensitivity (no run), and the confirmation-run prediction
+
+Inputs: routes-family log Z -131.59 (turn-back pilot); free -135.90, Davey dynamics -136.83, descent-climb -137.26 (run D). Each of the other three families gets (1 - π_routes)/3. Table: `results/route-pilot-oct11/routes-family-prior-sensitivity.csv`.
+
+| Routes-family prior π | P(routes) | P(free) | P(Davey dynamics) | P(descent-climb) |
+|---|---|---|---|---|
+| 1/4 (equal families, current convention) | **0.978** | 0.013 | 0.005 | 0.003 |
+| 1/10 | 0.937 | 0.038 | 0.015 | 0.010 |
+| 1/48 | 0.741 | 0.157 | 0.062 | 0.040 |
+| 1/192 (one route = 1/48 of a family) | 0.414 | 0.355 | 0.140 | 0.091 |
+| Free-turn volume, 1 constrained turn | 0.545 | 0.276 | 0.109 | 0.071 |
+| Free-turn volume, 2 constrained turns | 0.001 | 0.605 | 0.239 | 0.156 |
+
+- **The data favour routes by 4.9 nats** (Bayes factor about 135) over the average of the other families. P(routes) = 0.5 at **π = 0.0074**.
+- **"Free-turn volume"** gives the routes family the prior mass the free model itself puts on route-like paths: the chance of a free-model turn landing within ±2° of the required track inside a ±1 min window. That is 7.3e-4 per constrained turn under Davey's Jeffreys τ prior (0.1-10 h), summed over the 48 routes, times the free family's 1/4.
+- **The answer turns on how many turns a route constrains beyond what the free model already gets from radar.** The 98° turn at ANOKO is one. The small turn at NILAM along N571 may be a second, and that moves P(routes) from about 0.5 to 0.001. The ±2° / ±1 min tolerance is also a choice: doubling both multiplies the one-turn π by about 4.
+- **So 0.978 is mostly the Occam factor of the equal-family convention.** The data's preference for the ANOKO/IGOGU turns is real (4.9 nats), but how much posterior it buys depends entirely on the prior, which is Pete's call. The likelihood side is for the audit.
+
+**Confirmation run (after run F; run C sampler; seeds 1-8; `turn_backs = true`; `only` = [10, 11, 3, 2, 19, 43]; 500k particles per route, 3M per seed).** Prediction, before the result:
+- Per-route log Z for 10 and 11 within ±0.3 nats of the pilot (-128.4 to -128.6).
+- The ISBIX/BULVA split is 50/50 ± 0.10 between routes 11 and 10.
+- Route 3 (IGOGU-ISBIX) stays 1.5-2 nats below them.
+- Routes-family median at 00:19 is -36.75 ± 0.10.
+- Split-half for this restricted stratum is at or above 0.924. The paths are tightly constrained, as NOPEK-ISBIX was at quarter scale (0.94).
+
+If the evidence instead falls well below the pilot (by 1 nat or more), the pilot's 2-seed estimate was optimistic and the finding shrinks.
