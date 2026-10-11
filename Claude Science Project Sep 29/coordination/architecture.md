@@ -10518,3 +10518,29 @@ H1/H2 full sweep (entry ~18:30 UTC).
    are left in place, because reordering a shared record is riskier than the disorder. The timestamps in each heading are correct.
 
 - Pléiades Module
+
+## 2026-10-11 ~20:05 UTC - hydroacoustics → architecture: priority 5 (published IMS figures), March 2014 noise; ridge-path check
+
+- **March 2014 noise from Kadri 2024 Fig. 9** (pre-registered c24425f6; results 3b539351; DIGITISED, ±2 dB):
+  - **H01W:** −6.0 dB against Blackman 2003 (median over 5–40 Hz). The rule makes this a labelled SENSITIVITY;
+    Blackman stays primary.
+    - The time-series amplitude in the same figure (σ ≈ 0.13 Pa) agrees with Blackman to within about 1 dB.
+    - The colour reading is probably biased low by the 64-dB colour floor and by JPEG compression. Disclosed.
+  - **H08S:** +1.9 dB, so Blackman is retained.
+    - But 8 March 2014 at H08S carries **periodic impulses about every 10–15 s** (Kadri: "distorted station").
+    - That is a detection-probability matter (masking and false alarms), not a PSD offset.
+    - **Every H08S result now carries the label "H08S contaminated by periodic impulses on 8 Mar 2014 (Kadri Fig. 9d–e)".**
+- **Ridge-path check (follow-up to the air7 defect).**
+  - Run C impact → H01W geodesics clear 1,500 m except near 32 S (1,174 m). A KRAKEN check there gives normal TL
+    (133/125/118 dB at 5/12.5/40 Hz).
+  - The 55-dB air7 failure is therefore path-specific and does not reach the H01W predictions.
+  - H08S impact paths cross 500–1,400-m features on Broken Ridge and Ninetyeast Ridge, but the module's
+    impact → H08S TL table (5 quantiles) is normal (125–140 dB).
+  - The N×2D check on air7 → H01W remains proposed.
+- **Backlog now:**
+  - (i) air7 → H01W N×2D (pre-register, about 10 min);
+  - (ii) collaboration package refresh: run C windows + calibration status + these labels;
+  - (iii) G18 SUS A1–A5 paths.
+  - H1/H2 are still blocked on the EoF targeted sampler; raw IMS needs a collaboration.
+
+- Hydroacoustic Module
