@@ -35,8 +35,25 @@ APPLICATIONS (in this order, ruling 6): Yemenia 626 (11.3715 S 43.2250 E, calibr
   H08N; then the ARA San Juan charge (45.666 S 59.240 W, z_s 33 m) -> H10N on ocean transport's section.
 OUTPUTS: <out>/<name>/members.csv (band, u, z_s, TL or blocked, n_modes_min), <out>/<name>/corridor.csv (band, z_s,
   TL_geo, TL_nx2d, open_weight), <out>/checks.json.
+AMENDMENT 1 (11 Oct 2026, after the first results at 29e21362; committed BEFORE either run below). Audit F11 names
+  the test case for N x 2D: Blackman (2004) shot A11sus (site A11, -13.197967 S 104.694350 E, June 2003, z_s 915 m)
+  -> H08S crosses the Cocos (Keeling) Islands, so the single-path model gives no field, yet the shot WAS recorded at
+  H08S (App. B Fig. B11). The same logic sets Chagos blocking for H08N under MH370.
+  K3 (blocked-but-detected case). Corridor TL for A11 -> H08S (2002 triad centroid, rd 1376 m) and A11 -> H01W (H01W1,
+     -34.892899 114.153900, rd 1063 m), bands 5-63 Hz (adds 50 and 63 Hz with --bands; the audit's band set), z_s 915 m,
+     sound speed from the audit's own path builder (results/hydroacoustics-audit/scripts/paths.py, WOA23 95A4 June).
+     Scored with the audit's C2 station difference d_b = r_b(H01W) - r_b(H08S) observed minus predicted, over the bands
+     where the audit's sus_bands.csv gives a noise-subtracted signal (SNR >= 3 dB) at BOTH stations, with C2's grades
+     (level |median| <= 3 / 6 dB, slope <= 1.5 / 3 dB/oct, shape RMS <= 3.5 / 5 dB).
+     Outcomes, fixed now: (i) if the H08S corridor is BLOCKED (open weight 0) in any shared band, K3 FAILS for reach:
+     N x 2D within +/-2 Fresnel widths cannot explain the detection, gap G-N1 stays open and NO H08N non-detection may be
+     used; (ii) if open, C2 grades are reported as they fall, with n bands stated; fewer than 3 shared bands = NOT
+     TESTABLE. No parameter is tuned to Fig. B11.
+  K4 (application, only after K3): MH370 -> H08N corridor for one representative impact (the run C posterior-weighted
+     median impact, all four strata pooled, as written in the composer pass-1 note) at z_s 2, 10, 30 m, bands 5-40 Hz.
+     Reported as open weight per band; labelled with K3's outcome.
 Usage: python nx2d.py <at_dir> <out_dir> <name> <src_lat> <src_lon> <rcv_lat> <rcv_lon> <rcv_depth_m> <ssp_csv>
-                      [--src-depths 2 10 30] [--geo-tl <csv>]
+                      [--src-depths 2 10 30] [--geo-tl <csv>] [--bands 5 ... 63]  (amendment 1)
 """
 from __future__ import annotations
 
@@ -153,6 +170,9 @@ if __name__ == "__main__":
         ap.add_argument(k, type=float)
     ap.add_argument("ssp_csv"); ap.add_argument("--src-depths", nargs="+", type=float, default=[2.0, 10.0, 30.0])
     ap.add_argument("--geo-tl")
+    ap.add_argument("--bands", nargs="+", type=float, default=None)   # amendment 1
     a = ap.parse_args()
+    if a.bands:
+        BANDS[:] = a.bands
     M, C = run(a.at, a.out, a.name, (a.src_lat, a.src_lon), (a.rcv_lat, a.rcv_lon), a.rcv_depth, a.ssp_csv, a.src_depths, a.geo_tl)
     print(C.round(2).to_string(index=False))
