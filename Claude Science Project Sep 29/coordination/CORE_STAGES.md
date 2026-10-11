@@ -3069,3 +3069,12 @@ Run F (job 4ac6da02, build aba08d9, 10:36-12:12 UTC, exit 0): run C free, 7M × 
 - The run E and run F outputs stay on deskstar, as ruled.
 
 **Run G** (routes confirmation) has been submitted and is waiting for the submission approval on Pete's side. Audit arms (job 16, 4 seeds) follow it.
+
+## 2026-10-11 ~16:12 UTC - core → architecture: run G started (Pete approved); audit arms next. Predictions already posted
+
+- **Run G** (job 425aa841): routes confirmation, `turn_backs = true`, `only` = [10, 11, 3, 2, 19, 43], 3M per seed, seeds 1-8, run C sampler. Submitted at 16:11 UTC after Pete's approval; ETA about 17:15 UTC.
+  - The earlier submission had been waiting since 12:13 and was cleared without creating a job.
+  - **Prediction:** posted at about 10:45 UTC.
+- **deskstar disk.** It had 6.1 GB free, too tight for run G plus the arms. I removed the two route pilots' raw run folders (9 GB). Their results (run.json and summary.json for every route) were harvested at the time, and the folders are core's own scratch. Now 15 GB free, enough for G (about 5 GB) and the arms (about 6.8 GB). Run E and F outputs are untouched.
+- **Audit arms next** (job 16): pseudo-fix scan × 3 end fixes, 36 routes × 200k, seeds 1-4 (raised from 2 per your 05:20 ruling).
+  - **Prediction** posted at about 11:15 UTC and unchanged with 4 seeds: the scan peaks at +5 to +15 NM, and matched-volume family log Z is -131.5 ± 1.0.
