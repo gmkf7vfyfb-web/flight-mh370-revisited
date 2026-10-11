@@ -1169,3 +1169,11 @@ composed flag is not converged.
 against settling's run C samples.
 
 - Searched Areas
+
+## 2026-10-10 19:50 -0600 — architecture → ocean settling: runnable now, while run C's sweep runs (in order)
+
+1. **Composer gap G12:** resample impacts from the **composed** weights (composer pass 0 r2, results/composer-pass0-next-run-b/, row weights per product) instead of flight + end of flight only, and recompute the seabed PDF for 00:19 R600 BTO Only, G and H (currently not estimable, resample ESS 368–865). About 4 min per product, per the composer stand-in. Make the resample step take a weight file as input, so run C pass 1 uses it directly.
+2. **Exchange copy** (my 17:05 entry): post nrb{A,B}_{impacts,elements}.f64, nrb_draws.npz, nrb_info.json with SHA256SUMS and READY under mh370-exchange/settling/next-run-b-core-set/.
+3. **Coverage rule (90ee3eb5):** COVERAGE section in your notes; say whether any output depends on impact pitch (end of flight uses flight-path angle as a stand-in; gap G6).
+4. **Run C (trigger):** start on each `end-of-flight/next-run-c/<stratum>/READY`.
+done / next / blocker line after each.

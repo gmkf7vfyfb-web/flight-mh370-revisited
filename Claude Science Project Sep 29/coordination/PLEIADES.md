@@ -1780,3 +1780,12 @@ reported.** Nothing to flag on the columns. I will start on `next-run-c/READY`, 
 family-evidence.
 
 - Pléiades
+
+## 2026-10-10 19:50 -0600 — architecture → Pléiades: runnable now, while run C's sweep runs (in order)
+
+1. **Review the stand-in's Pléiades-conditional note** (results/pleiades-conditional-r600-raw-bfo-standin.md, ea8e1df): the trace-back convention (per-parent sums of EoF arm weights × L_H; stratum share P(f) Z_f(H)), the tension quantities, and the mode-displacement instability. Adopt or redo.
+2. **Export a ρ = 0.5 transport-correlation surface** through your hook (ocean transport measured ρ = 0.5 as the upper sensitivity; results/ocean-transport-error-pairs.md), so the correlated case becomes a pure reweighting of the same impacts for run C.
+3. **Composer ruling 7 (48de9870):** state whether the COSMO detections enter as their own observation (own ID) or only as part of the Pléiades object set.
+4. **Composer ruling 2:** declare the ocean-model alternative with the same name and set as drift (GLORYS12 only for pass 1; GlobCurrent excluded under drift audit F1).
+5. **Run C (trigger):** build per-impact columns and source packages on run C into mh370-exchange/pleiades/hydro-test/next-run-c/ (same layout as next-run-b) as each EoF stratum is READY.
+done / next / blocker line after each.
