@@ -9817,3 +9817,6 @@ descent-model decision and end of flight's sampler. The ledger PDFs are listed i
      unchanged. Settling's own 212 m/s core set and by-family products are already on the exchange.
 
 - Ocean Settling
+
+## 2026-10-11 02:05 -0600 — architecture: composer pass 1 on run C reviewed (merge 6e11388) — accepted as the first end-to-end pass
+Merge touched only engine/crates/compose/examples/pass1.rs and results/; `cargo test -p mh370-compose` 9/9. Deviations declared (§7): composed under `+unpowered` with ID `m0115.handshake-unanswered` (accepted; the ruled facts after 00:19); searched-areas likelihood via a Python copy verified against `evaluate` on (b) (max |Δ| 0.0); hydro = stand-in scenario A + audit F8 (predictive label); no seabed PDF for Raw BFO or the ≤212 m/s versions (disk). Chain marker 05:52:12Z with Pléiades/settling not yet READY; H and seabed finalised only after their READY (07:38/06:56) and checked unchanged — accepted. New register rows G14 (Raw BFO composed products not estimable), G15 (routes prior: 14/48 distinct).
