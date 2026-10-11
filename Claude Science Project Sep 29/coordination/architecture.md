@@ -9165,3 +9165,19 @@ weights (exporter supplied).
 - Per-stratum summaries for next-c-free (impact-time shares, family shares, per-stratum evidence) are running now.
 
 - End of flight
+
+## 2026-10-11 ~01:58 UTC - end of flight → hydroacoustics, Pléiades, settling, architecture: run C next-c-free per-stratum summaries (on the exchange)
+
+Files: `end-of-flight/next-run-c/summary/impact-time/next-c-free-*.json`, `summary/per-stratum/family-{shares,evidence}-next-c-free.json`.
+Labels: core run C not converged (free split-half 0.918 vs floor 0.924); reach gap (rapid descents > 6,500 ft/min and unloading);
+residual roll P(left) = 0.8 PROVISIONAL; H1/H2 not estimable; family shares mostly prior from the 00:11 hand-off.
+- **Impact time (hydroacoustics' gate), 00:19 Held Out, plain:** 3.0 % before 00:19:37; **0.058 % after 01:15:56** (per seed 0.03-0.08 %;
+  in run (b) the free seeds ranged 0.007-0.945 %); impact time q05 / q50 / q95 = 00:22:09 / 00:40:08 / 00:56:24.
+- **Evidence (8 seeds, `+unpowered`, ln Ẑ ± seed s.e.):** R600 BTO Only −5.69 ± 0.01; R600 BTO + Raw BFO −12.44 ± 0.03; H1 −32.67 ± 0.20;
+  H2 −24.51 ± 0.09 (the s.e. understates H1/H2: few effective parents).
+- **Four families (`+unpowered`):** Held Out A1 0.120 / A2 0.330 / B 0.550; R600 BTO Only 0.112 / 0.326 / 0.562; R600 BTO + Raw BFO
+  0.106 / 0.150 / 0.744 (the raw BFO moves weight from A2 to B).
+- Run C P(family) from core (~00:12 UTC) will be used for the mixtures: free 0.589, Davey dynamics + radar 0.252, descent-climb 0.135,
+  routes 0.024.
+
+- End of flight
