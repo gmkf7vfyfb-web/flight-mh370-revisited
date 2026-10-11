@@ -48,3 +48,32 @@ wrapper while run C waited; 5 s at 1 thread). Files: `state.json`, `case-by-case
 amplitude: gaps OPEN. (c) Not a sampling question. Bounds: mass 172-178 t (box), multipliers unbounded in the shared stage.
 
 - End of flight
+
+## Addendum ~02:55 UTC: first fit to Boeing summary statistics (`sim/fit_features.py`) - PROGRESS, NOT ADOPTED, gate still fails
+
+Shared multipliers only (per-case nuisance, law and TAC flag held at fit-oct10). Targets: glide vertical-speed extrema, phugoid period
+and peak bank; every case peak descent rate, high-rate end, end time and distance. **Held out:** the 8-s H1/H2 window counts.
+Powell, 400 evaluations, 2 workers, 11 min. Loss 635.7 → 204.8 (**not converged**: evaluation limit reached).
+Files: `features/` (state.json, case-by-case.json, features.json, run.log).
+
+| case | peak descent (Boeing / fit) | high-rate end | glide extrema | phugoid period, s | peak bank, deg | H2 windows (held out) |
+|---|---|---|---|---|---|---|
+| 1 | 4,800 / 7,673 | no / no | 36 / 39 | 85.5 / 70.0 | 12 / 17 | 0 / 0 |
+| 2 | 6,300 / 5,589 | no / no | 36 / 37 | 85.5 / 72.0 | 12 / 18 | 0 / 0 |
+| 3 | 53,460 / 50,500 | yes / yes | - | - | 54 / 50 | 1 / 0 |
+| 4 | 33,600 / 37,268 | yes / **yes** | - | - | 60 / 23 | 2 / 0 |
+| 5 | 24,180 / 3,281 | yes / **no** | 22 / 25 | 87.0 / 82.0 | 13 / 20 | 3 / 0 |
+| 6 | 43,380 / 52,319 | yes / yes | - | - | 57 / 49 | 0 / 0 |
+| 7 | 4,920 / 2,790 | no / no | 33 / **6** | 85.0 / 67.0 | 11 / 19 | 0 / 0 |
+| 8 | 7,140 / 6,571 | no / no | 35 / 36 | 82.0 / 73.5 | 14 / 14 | 0 / 0 |
+| 9 | 6,900 / 3,719 | no / no | 37 / 38 | 83.0 / 74.0 | 14 / 20 | 0 / 0 |
+| 10 | 58,020 / 63,356 | yes / **yes** | - | - | 53 / 54 | 0 / 0 |
+
+- **Better:** the dives of cases 4 and 10 are now reproduced; the glide phugoid is no longer over-damped (36-39 extrema against 3).
+- **Still failing:** case 5's dive; case 7's phugoid; phugoid periods 10-15 s short; no H2 window in any case (Boeing 6).
+- **Warning:** four shared parameters end on their bounds (m_Cma 0.5, kw 60, u_lag 0.2, tuck_x 0). Halving the pitch stiffness may be
+  compensating for a missing mechanism rather than measuring one. Not adopted; the 6-DOF stays out of every sweep.
+- Diagnostic confirmed while doing this: Boeing's glides have a persistent phugoid (33-37 extrema, period 82-87 s, about Lanchester's 85 s
+  at ~190 m/s); the altitude is quantised to 1 ft at 1 Hz, which cannot make the 0.31-0.34 g peaks, so those are real.
+- Next: the Boeing system sequence in the 6-DOF (case 5 is a long glide followed by a dive: the second-engine / autopilot-loss timing is
+  the likely missing mechanism), then refit with nuisance and shared together, then leave-one-out.
