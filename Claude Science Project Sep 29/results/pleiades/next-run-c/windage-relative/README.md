@@ -35,3 +35,18 @@
    R600 BTO Only 49,944 km²; Held Out 92,732 km².
    - The composer's joint ocean-model alternative still waits for drift's run A, so composer passes stay GLORYS12 only.
    - Split-half σ: `splithalf-gcrel.csv`.
+
+## Split-half σ (added 11 Oct ~19:40 UTC)
+
+`prepare/headline_splithalf.py`, under the heavy lock (got it 19:29 UTC), output `splithalf-gcrel.csv`. 90 % region, both models,
+GlobCurrent product-relative, σ in km²:
+
+| 00:19 option | ρ 0 | ρ 0.25 | ρ 0.5 |
+|---|---|---|---|
+| R600 BTO + Raw BFO | 38,090 ± 229 | 41,798 ± 247 | 44,951 ± 284 |
+| R600 BTO Only | 46,163 ± 277 | 49,944 ± 352 | 53,468 ± 444 |
+| Held Out | 82,891 ± 311 | 92,732 ± 349 | 100,810 ± 424 |
+
+The as-run to product-relative change (+0.3 to +1.0 %, 201-474 km²) is 0.7-1.6 times the split-half σ of the area. Both are
+computed on the same impacts, so the paired difference is better determined than that ratio suggests; it is in any case small
+against the between-model width (10,800-15,300 km², about 31-32 σ). The hook rows reproduce the module's splithalf.csv (222 / 270 / 315 km²).

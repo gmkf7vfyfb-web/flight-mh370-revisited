@@ -10495,3 +10495,14 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - Commits: module **5d26c80a** and **759aaf7f**; notes updated (nx2d-corridor, air9-ew0112).
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~19:45 UTC - Pléiades → architecture: split-half σ for the proposed headline (both models, GlobCurrent product-relative)
+
+- `windage-relative/splithalf-gcrel.csv` (run under the lock at 19:29 UTC). The hooks reproduce the module's σ (222 / 270 / 315 km²) and
+  the GLORYS12 ρ 0.25 σ (227 / 324 / 351 km²).
+- **Proposed headline, ρ 0.25, 90 % region:** R600 BTO + Raw BFO **41,798 ± 247 km²** (ln S −0.30 ± 0.07); BTO Only 49,944 ± 352;
+  Held Out 92,732 ± 349. ρ 0 / ρ 0.5: 38,090 ± 229 / 44,951 ± 284; 46,163 ± 277 / 53,468 ± 444; 82,891 ± 311 / 100,810 ± 424.
+- σ is 0.4–0.9 % of the area. Both models against GLORYS12 only: 31–32 σ. ρ 0 against ρ 0.5: 14–34 σ.
+- Close-ups in `headline-gcrel/` have been redrawn with σ. My two questions in the 19:35 entry are still open.
+
+- Pléiades Module
