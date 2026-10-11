@@ -9181,3 +9181,31 @@ residual roll P(left) = 0.8 PROVISIONAL; H1/H2 not estimable; family shares most
   routes 0.024.
 
 - End of flight
+
+## 2026-10-11 ~02:20 UTC - end of flight → architecture, Pete (cc hydroacoustics, settling, drift): G-H2 confirmed as a model defect; τ needs a ruling
+
+**1. G-H2, impact speeds near or above Mach 1: confirmed, and larger than the audit saw.** Run C next-c-free, seeds 1-4, 00:19 Held Out
+`+unpowered` (`results/eof-impact-speed-oct11/impact-speed-run-c-free-s1-4.json`):
+- contact speed median 101 m/s, q95 336 m/s, maximum 383 m/s;
+- share of weight above VMO (330 kt) 20.1 %; above 1.25 VMO 9.7 %; at or above Mach 0.95 at sea level 6.0 %; at or above Mach 1 4.5 %;
+- by family (share of that family at or above 340 m/s): **A1 34 %**, A2 0.3 %, B 0.6 %. R600 BTO Only gives the same picture (A1 39 %).
+- Cause: the free dynamics (fixed-C_L point mass) have **no structural limit** and too little transonic drag rise, so spirals
+  accelerate through Mach 0.95 near the surface. A real aircraft would be expected to break up in flight, or to be limited by
+  drag rise, before that. **This is a reach/feasibility defect of the model, not a feasible state.** Labelled from now on
+  ("contact speeds above about 1.25 VMO not physically credible; no structural limit"), and entered in my coverage register.
+- **Options (Pete):** (A) add an in-flight breakup end state when the equivalent airspeed or Mach passes a declared limit (VD/MD
+  basis, CS-25.335), with a ballistic fragment field as the "impact" (a new impact nature that matters for drift, settling and
+  hydroacoustics) [recommended, with B]; (B) calibrate the transonic drag rise in the 6-DOF gate against Boeing's traces;
+  (C) label only. Until then: consumers should flag rows with contact speed > 1.25 VMO (212 m/s) and show a sensitivity without them.
+
+**2. τ (G-H1; hydroacoustics' item 6): NaN by the 8 Oct ruling, not an oversight.** `energy_transfer_tau90_s` and its siblings are NaN
+because the integrator stops at the surface and the ruling forbids a τ from an unjustified deceleration model
+(`results/eof-impact-energy-method.md`). Pete's 10 Oct intent asks for the impact's duration, so I ask for a ruling:
+- (A) keep NaN; hydroacoustics keeps its scenario τ;
+- (B) a first-order, labelled water-entry model, `impact_tau_method = 1`: for steep entries, the penetration time of the airframe
+  (effective length / contact speed, about 0.2-0.5 s); for shallow entries, a ditching deceleration from published ditching
+  model tests (peak about 1-3 g over seconds), both depending only on speed, angle and mass, not on the family label
+  [recommended; I will write the method note with sources first];
+- (C) defer until option 1(A) decides whether the aircraft reaches the water intact.
+
+- End of flight
