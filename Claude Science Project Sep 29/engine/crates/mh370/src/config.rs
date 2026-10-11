@@ -67,6 +67,14 @@ pub struct TerminalConfig {
     /// Measurement alternatives for the 00:19 BFOs, the alternative "final-bfo-model".
     #[serde(default)]
     pub bfo_models: BTreeMap<String, BfoModelConfig>,
+    /// Core request 9: how a parent's children share its hand-off weight. "self-normalised"
+    /// (default, as before) divides by the children's total proposal correction, so each
+    /// parent's rows sum to its hand-off weight exactly; this is biased at small M when the
+    /// module's proposal is targeted. "unnormalised" gives child k the weight
+    /// row.weight x exp(ln q_k) / (M x children): unbiased whenever the module's ln(p/q) is
+    /// exact, with per-parent sums equal to row.weight only in expectation.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub within_parent: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]

@@ -38,6 +38,8 @@ pub struct Stage<'a, E> {
     pub span: Option<[(f64, f64); 2]>,
     pub module: &'a dyn Terminal,
     pub children: usize,
+    /// Core request 9: unnormalised within-parent weights (terminal.within_parent).
+    pub unnormalised: bool,
     /// The bursts after the stop, in time order; scored at their logged times.
     pub epochs: Vec<Epoch>,
     /// Per data option: (epoch index, BFO?) for each observation it uses.
@@ -144,6 +146,11 @@ impl<'a, E: Environment> Stage<'a, E> {
             span,
             module,
             children: config.children,
+            unnormalised: match config.within_parent.as_deref() {
+                None | Some("self-normalised") => false,
+                Some("unnormalised") => true,
+                Some(other) => return Err(format!("terminal.within_parent must be \"self-normalised\" or \"unnormalised\", not {other:?}")),
+            },
             epochs,
             options,
             columns,
@@ -175,6 +182,7 @@ impl<'a, E: Environment> Stage<'a, E> {
             "module_families": self.module.families(),
             "latent_columns": self.module.latent_columns(),
             "children": self.children,
+            "within_parent_weights": if self.unnormalised { "unnormalised" } else { "self-normalised" },
             "epochs": self.epochs.iter().map(|e| json!({"id": e.id, "logged_unix_s": e.logged_unix_s})).collect::<Vec<_>>(),
             "loglik_columns": self.columns.iter().map(|c| &c.0).collect::<Vec<_>>(),
             "bfo_models": self.bfo_models.iter().map(|m| json!({"label": m.0, "prior": m.1})).collect::<Vec<_>>(),
@@ -274,11 +282,8 @@ impl<'a, E: Environment> Stage<'a, E> {
             }
             corrections.push(mean);
         }
-        // Self-normalise within the parent: the children share its hand-off weight.
-        let max = log_weights.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-        let total: f64 = log_weights.iter().map(|lw| (lw - max).exp()).sum();
-        for (k, lw) in log_weights.iter().enumerate() {
-            out[k * width] = row.weight * (lw - max).exp() / total;
+        for (k, w) in child_weights(row.weight, &log_weights, self.children, self.unnormalised).into_iter().enumerate() {
+            out[k * width] = w;
         }
         Ok((out, corrections))
     }
@@ -580,8 +585,58 @@ fn uniform(seed: u64, purpose: u64, child: usize, row: usize) -> impl FnMut() ->
 }
 
 
+/// How a parent's children share its hand-off weight. `log_weights[k]` is ln q_k - ln M for
+/// descent k (q_k the takeover-and-descent proposal correction p/q, M the descents from its
+/// takeover); `children` takeovers were drawn.
+/// - Self-normalised (default): row_weight x exp(lw_k) / sum_j exp(lw_j). Rows of a parent sum
+///   to row_weight exactly.
+/// - Unnormalised (core request 9): row_weight x exp(lw_k) / children. Each descent's weight is
+///   then an unbiased importance weight, and the per-parent sum is row_weight in expectation.
+pub fn child_weights(row_weight: f64, log_weights: &[f64], children: usize, unnormalised: bool) -> Vec<f64> {
+    if unnormalised {
+        return log_weights.iter().map(|lw| row_weight * lw.exp() / children as f64).collect();
+    }
+    let max = log_weights.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    let total: f64 = log_weights.iter().map(|lw| (lw - max).exp()).sum();
+    log_weights.iter().map(|lw| row_weight * (lw - max).exp() / total).collect()
+}
+
 #[cfg(test)]
 mod tests {
+    /// Core request 9. Self-normalised weights sum to the parent's weight; unnormalised ones are
+    /// row_weight x p/q / (M x children); with an exact proposal correction their per-parent sum
+    /// averages to the parent's weight (unbiased), and so does the weighted mean of a statistic.
+    #[test]
+    fn within_parent_weights_self_normalised_and_unnormalised() {
+        let lw = [0.3f64.ln() - 2f64.ln(), 1.7f64.ln() - 2f64.ln(), 0.5f64.ln() - 2f64.ln(), 1.5f64.ln() - 2f64.ln()];
+        let s = child_weights(0.01, &lw, 2, false);
+        assert!((s.iter().sum::<f64>() - 0.01).abs() < 1e-15);
+        let u = child_weights(0.01, &lw, 2, true);
+        for (w, l) in u.iter().zip(&lw) {
+            assert!((w - 0.01 * l.exp() / 2.0).abs() < 1e-18);
+        }
+        // q = N(0, 1) proposal for p = N(0.6, 1): p/q = exp(0.6 x - 0.18). Two children, M = 3.
+        use rand::{Rng, SeedableRng};
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(9);
+        let (mut sum_u, mut mean_u, mut mean_s) = (0.0, 0.0, 0.0);
+        let parents = 200_000;
+        for _ in 0..parents {
+            let xs: Vec<f64> = (0..6).map(|_| { let (a, b): (f64, f64) = (rng.gen(), rng.gen()); (-2.0 * a.ln()).sqrt() * (std::f64::consts::TAU * b).cos() }).collect();
+            let lw: Vec<f64> = xs.iter().map(|x| 0.6 * x - 0.18 - 3f64.ln()).collect();
+            let u = child_weights(1.0, &lw, 2, true);
+            let s = child_weights(1.0, &lw, 2, false);
+            sum_u += u.iter().sum::<f64>();
+            mean_u += u.iter().zip(&xs).map(|(w, x)| w * x).sum::<f64>();
+            mean_s += s.iter().zip(&xs).map(|(w, x)| w * x).sum::<f64>();
+        }
+        let n = parents as f64;
+        // Unbiased: E[sum] = 1 and E[sum w x] = E_p[x] = 0.6. Self-normalised with 6 draws is
+        // biased low for this target (by about 0.6 x 0.36 / 6 to first order).
+        assert!((sum_u / n - 1.0).abs() < 0.01, "unnormalised sum {}", sum_u / n);
+        assert!((mean_u / n - 0.6).abs() < 0.01, "unnormalised mean {}", mean_u / n);
+        assert!(mean_s / n < 0.6 - 0.01, "self-normalised mean {} should be biased low", mean_s / n);
+    }
+
     use super::*;
     use crate::config::{BfoModelConfig, DataOption};
     use hypothesis::{Descent, Impact, NoFuelModel, Takeover};
@@ -615,7 +670,7 @@ mod tests {
             arc: "m0019a".into(),
             target: "m0011".into(),
             options: vec![opt("m0011", &["m0011.bfo"]), opt("chain", &["m0019a.bfo", "m0011.bfo", "m2315.bfo", "m0019a.bto"])],
-            bfo_models: models,
+            bfo_models: models, within_parent: None,
         };
         let params = flight::Parameters { bfo_vertical_rate: true, ..Default::default() };
         let mut stage = Stage::new(&config, &params, &flight::environment::CalmAir, None, &Plain, later.clone()).unwrap();
