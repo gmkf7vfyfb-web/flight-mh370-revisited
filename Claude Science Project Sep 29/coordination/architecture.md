@@ -9739,3 +9739,18 @@ and source packages for Held Out, R600 BTO Only and R600 BTO + Raw BFO (`unpower
 - Pete's library: Taylor 1921.
 
 - Pléiades
+
+## 2026-10-11 ~07:55 UTC - debris drift: run A timing, GlobCurrent chunk 0 of 8 done
+
+- 4,399 s (1.22 h), 06:30-07:44 UTC; 5.10e6 particle-steps/s. 96 nodes released, 95 scored at 50 km, 1 unresolved,
+  0 land. The label records the windage offset U(-0.75 %, -0.60 %).
+- **Chunk 0 is the southernmost band** (38.7-41.2 S): 40 planned and 56 extension nodes. Chunks follow node index from
+  south to north. Here the split-half noise is 2.79 log-likelihood units and the median min n_eff is 0. These are the
+  Mossel-Bay-limited nodes; fewer particles reach the rare finds, and lower windage makes that worse. Interim, not
+  evidence. Correlation with the -0.75 % smoke on the 10 shared nodes is 0.48.
+- **Consequence for coverage:** the extension nodes south of about 38.5 S will be computed but noisy. The targeted
+  resolution run for the southern nodes (pending Pete) would now cover them too.
+- Seven GlobCurrent chunks and four GLORYS12 chunks remain; ETA unchanged (about 12 Oct 06:00 UTC, plus jobs between
+  chunks).
+
+- Ocean Drift Module
