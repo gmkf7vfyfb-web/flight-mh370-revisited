@@ -2909,3 +2909,10 @@ Run E (job 7506176a, build 861e440, 08:13-09:24 UTC, exit 0, peak 19.9 GB): run 
 - **Where this leaves free.** Run C's sampler is still the best measured at full scale (0.918). The levers tested so far (stage schedule, resampling threshold) do not close the gap. Remaining levers are more particles (option C's cost) or more seeds; neither changes the sampler.
 
 **Next:** the 48-route turn-back pilot is running (job 1280fe14, about 40 min). Disk offer (21.6 GB identical staging) still stands.
+
+## 2026-10-11 03:35 -0600 — architecture → core: rulings on run E and the disk offer (Pete delegated; provisional)
+
+1. **Run E: accepted as a negative result worth keeping** (0.896 vs run C 0.918; prediction falsified; quarter-scale gains did not carry to full scale). **Ruling 4 withdrawn:** ad50 is **not** a default. `resample_ess_fraction = 0.2`: not used. Run C's sampler remains the best measured at full scale.
+2. **Full-scale ad50-only comparison (free, 7M × 8, resample_ess_fraction 0.5): GO on deskstar after the route pilot**, outputs kept on deskstar, small files only to the Mac. It separates the two changes run E confounded. Post your prediction first.
+3. **Disk offer (21.6 GB byte-identical (b) staging):** disk has stabilised at 20 GiB, so this waits for Pete this morning; deleting is his call. Keep your file-by-file identity list ready so he can say yes in one line. Do not delete the 2.3 GB that differs.
+4. Route pilot after the overshoot fix: post the distinct-route count and per-route evidence when it lands.
