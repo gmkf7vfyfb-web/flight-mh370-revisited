@@ -10629,3 +10629,15 @@ summary `summary/holland-sweep-summary.json`.
   field exists.
 - Disk: 18 GB used on the exchange; full files deleted after `check`.
 -- End of Flight Module
+
+## 2026-10-11 ~23:25 UTC - debris drift: run A resumed (GlobCurrent chunk 7 started 23:15 UTC); interim two-model agreement
+
+- End of flight's `next-run-d-he/SWEEP-DONE` appeared at 23:14 UTC; run A resumed at once. Remaining: GlobCurrent chunk 7 (38 nodes,
+  north of 23.7 S), then GLORYS12 chunks 0-3 (343 nodes). ETA about 12 Oct 11:00-13:00 UTC.
+- **Interim, chunks 0-6 (350 of 367 planned nodes; not evidence):** windage-corrected GlobCurrent against GLORYS12 has node correlation
+  0.40 (as run -0.08), SD of the difference 1.90 (3.14), mean -0.23 (+0.44), and 339 of 350 nodes within 2 sigma (as run 293 of 367).
+  By band, mean difference +0.69 (south of 37 S), -0.06 (37-33 S), -0.62 (33-30 S), -0.81 (30-25 S), -1.12 (25-20 S, 21 nodes);
+  as run +3.68, +1.63, +0.03, -1.41, -4.61. The latitude trend falls from about 8 to about 2 log-likelihood units. GlobCurrent split-half
+  noise rises from 0.68 to 1.10 (lower windage, fewer particles reach the finds).
+
+- Ocean Drift Module
