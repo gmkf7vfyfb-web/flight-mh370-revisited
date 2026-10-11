@@ -56,16 +56,21 @@ SEARCH_FILL = [("atsb_phase2_2014_2017", "#7f7f7f", 0.30, "ATSB Phase 2 2014-17 
                ("oi2024_proposed_outboard_southeast", "#c0392b", 0.28, "OI 2025-26 south-east band (grade C)")]
 
 
-def eof_family_key(opt):
-    """end of flight's key in family-evidence-*.json for a module option string."""
-    base = opt.split("~v")[0].split("@")[0]   # the speed-filter version (~v212) uses the same family weights
+def eof_family_key(opt, keys=None):
+    """end of flight's key in family-evidence-*.json for a module option, e.g. '00:19 R600 BTO Only +unpowered ~v212'.
+    With `keys` (the file's mixtures), fall back in order: exact; `+alive` for `+unpowered` (core (b) files carry `+alive` only; the
+    01:15:56 factor then acts within strata only, as ocean settling does); without `~v212`. Returns None if nothing matches."""
+    base, _, vmax = opt.partition("~v")
+    base = base.split("@")[0]
     opt0, _, con = base.partition("+")
     name = describe_option(opt0, short=True).replace(" (unconstrained)", "")
-    # end of flight publishes `+alive` keys only. For `unpowered` (ruling ~19:10 B (b)) the family weights use the `+alive` key and the
-    # not-powered-at-01:15:56 factor acts within each stratum only (as ocean settling does; it removes <= 0.3 % of weight). Others: fixed.
-    if con == "unpowered":
-        con = "alive"
-    return name + (f" +{con}" if con else "")
+    cands = []
+    for c in ([con, "alive"] if con == "unpowered" else [con]):
+        k = name + (f" +{c}" if c else "")
+        cands += ([k + f" ~v{vmax}"] if vmax else []) + [k]
+    if keys is None:
+        return cands[0]
+    return next((k for k in cands if k in keys), None)
 
 
 def reweighted_pfam(fam_json, opt):
@@ -74,17 +79,19 @@ def reweighted_pfam(fam_json, opt):
     if not fam_json:
         return None
     d = json.loads(Path(fam_json).read_text())["mixtures"]
-    k = eof_family_key(opt)
-    if k not in d or "Holland" in k:
+    k = eof_family_key(opt, d)
+    if k is None or "Holland" in k:
         return None
     return {s: float(v) for s, v in d[k]["p_family_reweighted"].items()}
 
 
 def notes_for(opt, src, pfam, labels, pfam_rw=None, fam_json=None):
+    key_used = eof_family_key(opt, json.loads(Path(fam_json).read_text())["mixtures"]) if (pfam and pfam_rw) else None
     if pfam and pfam_rw:
         mix = (f"Strata mixed by P(family) re-weighted by the 00:19 evidence (ruling C; end of flight's "
-               f"{Path(fam_json).name}, key '{eof_family_key(opt)}': {', '.join(f'{k} {pfam_rw[k]:.4f}' for k in pfam)}"
-               + ("; the not-powered-at-01:15:56 factor acts within each stratum, not in these weights" if "+unpowered" in opt else "")
+               f"{Path(fam_json).name}, key '{key_used}': {', '.join(f'{k} {pfam_rw[k]:.4f}' for k in pfam)}"
+               + ("; the not-powered-at-01:15:56 factor acts within each stratum, not in these weights"
+                  if "+unpowered" in opt and "+alive" in str(key_used) else "")
                + "); the core's fixed P(family) "
                f"({', '.join(f'{k} {v:.4f}' for k, v in pfam.items())}) is shown beside it. The search then re-weights strata by their own evidence.")
     elif pfam:

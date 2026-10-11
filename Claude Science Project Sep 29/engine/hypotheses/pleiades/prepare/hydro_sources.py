@@ -116,7 +116,7 @@ def main():
         base = o.split("+")[0]
         rec = dict(option=o, option_name=cs.describe_option(o, short=True), n=len(ri), n_from_flight=int((comp == 0).sum()),
                    n_from_H=int((comp == 1).sum()), unique_rows=int(len(set(zip(kj.tolist(), ri.tolist())))),
-                   family_key=cs.eof_family_key(o) if pr else None, **E)
+                   family_key=cs.eof_family_key(o, F["mixtures"]) if pr else None, **E)
         summary["sources"].append(rec); print(json.dumps(rec), flush=True)
         payload = dict(stratum=stc, stratum_names=np.array(strata), seed=sk, row=ri.astype(np.uint32), parent=parent,
                        component=comp.astype(np.uint8), state=state, state_columns=np.array(state_cols), q_mixture=qM, not_computed=ncs,
