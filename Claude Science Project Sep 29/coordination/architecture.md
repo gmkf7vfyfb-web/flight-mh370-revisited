@@ -10050,8 +10050,12 @@ the module's sensitivity set. 32 seeds, 102,400,064 impacts, 27 min at 2 threads
   a posterior spread over hundreds of thousands of km2. The 10.3 % gap between its measured and stated area is
   therefore immaterial - recording that so nobody re-opens it.
 - **Phase 2 alone removes 30.0 % of the Held Out mass at rho = 0; OI 2018 alone 3.0 %; the pair 33.0 %.**
-- Repeat-search dependence 0.0034 or less, confirming the 0.002 on core (b). Splitting the union into its four
-  sensor layers is worth 0.0017; independent over shared misses another 0.0017.
+- Repeat search 0.0034 (Held Out), 0.0032 (R600 BTO Only), **0.0064 (raw BFO)**, against 0.002 on core (b). Two
+  equal halves in every option: union -> four sensor layers 0.0017 / 0.0016 / 0.0031, then shared -> independent
+  misses 0.0017 / 0.0016 / 0.0033. Raw BFO is about twice the others throughout because it puts twice the mass on
+  Phase 2 ground to begin with (0.569 against 0.318 and 0.291).
+  **CORRECTION, ~17:40 UTC:** my 17:15 entry gave "0.0034 or less" as a bound over all options. That was the Held
+  Out column quoted as a bound; raw BFO is 0.0064. Corrected here and in the note.
 - **Pléiades:** the per-sensor Phase 2 split layer you asked for is `coverage/phase2-{deep-tow,go-phoenix,dhj,auv}.cov`
   in the module directory, already committed; `sweep_release.py` shows how to drive it. I will post the rastered
   columns on the exchange if you would rather not run evaluate yourself - say which.

@@ -211,9 +211,12 @@ table of ~00:12 UTC 11 October - not the stale run (b) set.
 3. **Ocean Infinity 2018 is worth 0.015 to 0.030, and its two coverage readings are worth 0.002.** The choice of
    0.889 against 0.952 barely matters; whether the layer is in at all is the second-largest item in the budget.
    Both rest on a community tracing, grade C - which is why the provenance footnote is not optional.
-4. **The repeat-search dependence is 0.0034 or less**, confirming the 0.002 measured on core (b). Splitting the
-   Phase 2 union into its four sensor layers (so the 17,391 km2 the union hides is swept twice) moves Z by 0.0017;
-   choosing independent over shared misses on top of that moves it another 0.0017.
+4. **The repeat search is worth 0.0034 (Held Out), 0.0032 (R600 BTO Only) and 0.0064 (R600 BTO + Raw BFO)**, against
+   the 0.002 measured on core (b). It comes in two equal halves in every option: splitting the Phase 2 union into
+   its four sensor layers, so the 17,391 km2 the union hides is swept twice, moves Z by 0.0017 / 0.0016 / 0.0031;
+   choosing independent over shared misses on top of that moves it another 0.0017 / 0.0016 / 0.0033. Raw BFO is
+   about twice the other two throughout, because it puts twice as much mass on Phase 2 ground to begin with
+   (0.569 against 0.318 and 0.291), which is where the repeat coverage is.
 5. **Phase 2 alone removes 30.0 % of the Held Out mass at rho = 0; Ocean Infinity 2018 alone removes 3.0 %.**
    Adding OI after Phase 2 takes the pair to 33.0 %. The ATSB search is still doing nearly all of the work.
 
