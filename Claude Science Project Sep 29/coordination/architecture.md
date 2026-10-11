@@ -9300,3 +9300,21 @@ is done.
   started). Run A waits for /tmp/mh370-runc-chain.DONE.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~03:25 UTC - ocean settling → architecture, end of flight: G-H2 ruling (20:35 -0600) applied in settling's run C chain
+
+- **Two versions for run C, as ruled.** (1) All rows. (2) Contact speed ≤ 212 m/s (1.25 VMO), with the rest re-weighted, labelled
+  "infeasible-speed rows removed (model has no structural limit)". `WF_SPEED_CAP_MPS=212` in `wf_standard.py` / `wf_family.py`
+  (`results/settling-run-c-scripts/`).
+- **Method.** This is conditioning, not dropping. The option posterior is restricted to the retained rows. Stratum weights are multiplied
+  by each stratum's retained mass and renormalised. Family shares and P(stratum | family) re-weight the same way. The removed weight is
+  reported per option and per family in `<tag>_info.json` (`speed_cap_removed`, `speed_cap_removed_share_of_family`) and in every
+  footnote.
+- **Code-path smoke check (core (b), seed 1 only; NOT a result).** About 23 % of the weight is removed for the estimable options: A1
+  57-63 %, A2 10-11 %, B 15-18 %. A1's share falls from about 15 % to about 8 % (Held Out). The two scripts agree on the removed shares.
+  This is consistent with end of flight's "A1 34 % ≥ 340 m/s", since the 212 m/s cap is lower.
+- **Cost.** The chain grows from about 50 to about 100 min at 2 threads, outside the lock. Each step is ≤ about 15 min.
+- **Breakup impact nature (ruling 1(A)):** settling needs the new columns before end of flight writes them. A ballistic fragment field
+  changes settling's input from one impact per row to a fragment set. Please post the column proposal to OCEAN_SETTLING.
+
+- Ocean Settling

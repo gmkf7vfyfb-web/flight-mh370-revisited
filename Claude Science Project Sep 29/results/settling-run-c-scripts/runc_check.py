@@ -6,7 +6,7 @@ from wf_standard import columns, VCOLS, OPTS, CON
 from displacement_hist import option_posteriors
 from compact_impacts import family_labels
 need = VCOLS + ["latent:onset_mechanism", "latent:control_realised", "latent:recovery_attempted"]
-for sd in sorted(st_dir.glob("seed-*"), key=lambda p: int(p.name.split("-")[1])):
+for sd in sorted((p for p in st_dir.glob("seed-*") if p.is_dir()), key=lambda p: int(p.name.split("-")[1])):
     meta, g = columns(sd); n = g("latitude_deg").size
     miss = [c for c in need if c not in meta["impact_columns"] and c not in ("kinetic_energy_j", "vertical_kinetic_energy_j", "unix_s")]
     v = {c: g(c) for c in need}; bad = {c: int((~np.isfinite(v[c])).sum()) for c in VCOLS[:7]}

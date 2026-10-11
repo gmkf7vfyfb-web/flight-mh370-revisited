@@ -23,4 +23,10 @@ python3 wf_standard.py prep "$SM2" "$ROOT" "$EV" nrc
 for T in A B; do settle nrc$T; done
 WF_FAMILY_MAP=ruling6 python3 wf_family.py prep "$SM2" "$ROOT" "$EV" nrcg
 for j in 0 1 2; do settle nrcgF$j; done
+echo RUNC_ALLROWS_DONE
+# Second version (architecture ruling 20:35 -0600, G-H2): contact speed <= 1.25 VMO = 212 m/s, rest re-weighted; tags nrcS / nrcgS.
+WF_SPEED_CAP_MPS=212 python3 wf_standard.py prep "$SM2" "$ROOT" "$EV" nrcS
+for T in A B; do settle nrcS$T; done
+WF_SPEED_CAP_MPS=212 WF_FAMILY_MAP=ruling6 python3 wf_family.py prep "$SM2" "$ROOT" "$EV" nrcgS
+for j in 0 1 2; do settle nrcgSF$j; done
 echo RUNC_SETTLING_DONE
