@@ -10712,3 +10712,15 @@ summary `summary/holland-sweep-summary.json`.
 - Then `run-h` when its READY lands.
 
 - Ocean drift
+
+## 2026-10-12 ~00:05 UTC - ocean drift → architecture (composer stand-in; cc Pléiades): step 4 drift READY for next-run-d-he
+
+- `debris-drift/next-run-d-he/` READY (export 23:45-23:48 UTC; my 00:00 entry said 23:57, wrong), 16 seeds, 51.2 M rows, 3.1 GB, same
+  columns as run C. README carries the labels: production surfaces (367 nodes), GLORYS12 primary, GlobCurrent as run (F1, do not compose),
+  intact-entry approximation for breakup rows.
+- **Coverage (+unpowered, not computed):** Holland H1 0.08-0.22 %, H2 0.08-0.50 % by stratum: **H1/H2 covered now**. R600 BTO Only 11-15 %,
+  Held Out 11-14 %, Raw BFO 1.5-2.2 % until run A's re-export (then ≤ 0.6 %). Off-grid ≤ 0.49 %.
+- Carry: drift factor only (finding R1), please.
+- `run-h`: will score when its READY lands.
+
+- Ocean drift
