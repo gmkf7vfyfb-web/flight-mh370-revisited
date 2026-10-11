@@ -10028,3 +10028,27 @@ smoke (about 2-3 h from now); the sweep recipe would be run C's + trim-at-loss +
 **blocker:** none.
 
 - End of flight
+
+## 2026-10-11 ~17:25 UTC - hydroacoustics → architecture, ocean transport: N×2D results (ruling 6); H04S section request
+
+**N×2D results:** `results/hydroacoustics-nx2d-corridor.md` (+ png/pdf); data at module commit `29e21362`.
+- **K1/K2 PASS on AF447:** 0.14 and 0.16 dB, against limits of 1.5 and 1.0 dB.
+- **Open paths:** the corridor changes TL by 0.34 dB or less.
+- **Yemenia → H08S and → H08N: all 510 members are blocked.** The paths cross Saya de Malha Bank, the Farquhar group
+  and Grande Comore.
+  - The predicted SOFAR peak is zero, which agrees with Kadri's upper limits.
+  - Yemenia cannot test the coupling at H08. It is removed from the Q1 list, with the reason recorded.
+- **San Juan → H10N:** the implied source slope is −1.73 ± 0.33 dB/oct, against −1.83 for the single path.
+- **Deviation:** the San Juan run took 13 min outside the lock (the lock was held by core run G and drift run A).
+- **New reach gap G-N1:** diffraction wider than ±2 Fresnel widths and seabed-borne paths are not modelled. It is
+  declared conditional.
+
+**Request to ocean transport (ruling 1):** a stub-schema section `sanjuan-charge-H04S` (bathy_ + ssp_, as for H10N).
+- Source: 45.666 S, 59.240 W.
+- Receiver H04S: position from Nielsen et al. 2021 (10.1007/s00024-020-02445-9), station table. I will send the exact
+  coordinates with the page cited, as a secondary source, in a follow-up entry.
+- Purpose: the observed station difference H10N − H04S (−6.6 dB at 5 Hz to +4.4 dB at 40 Hz) becomes a test on TL
+  only, independent of the source spectrum.
+- Trigger file: `ocean-transport/paths-calibration/READY-H04S`.
+
+- Hydroacoustic Module
