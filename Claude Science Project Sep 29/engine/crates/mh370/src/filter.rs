@@ -27,6 +27,18 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Instant;
 
 pub const MAX_ROUTE_POINTS: usize = 64;
+/// Most points a state trace may hold (output.trace).
+pub const MAX_TRACE_POINTS: usize = 32;
+/// Columns of trace.npy.
+pub const TRACE_COLUMNS: [&str; 7] = ["latitude_deg", "longitude_deg", "altitude_ft", "track_deg", "ground_speed_kt", "mach", "heading_deg"];
+
+/// A resolved state-trace window: first time (unix s), spacing (s) and number of points.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Trace {
+    pub start_unix_s: f64,
+    pub interval_s: f64,
+    pub points: usize,
+}
 /// Memory a particle occupies while a filter runs; the app estimates run size from it.
 pub const PARTICLE_BYTES: usize = std::mem::size_of::<Particle>();
 /// `mode` is the autopilot mode the particle is flying at the end, which differs from its
@@ -72,6 +84,8 @@ pub struct Context<'a, E = Gridded> {
     pub environment: &'a E,
     pub hypotheses: &'a [Box<dyn Hypothesis>],
     pub route_points: usize,
+    /// output.trace, resolved. None: no trace.
+    pub trace: Option<Trace>,
     /// Called after every filtered step. The app draws its progress from this; it observes
     /// the filter and cannot change it.
     pub progress: Option<&'a (dyn Fn(&Progress) + Sync)>,
@@ -112,6 +126,8 @@ struct Particle {
     /// Index of the prior draw this particle descends from.
     origin: u32,
     route: [[f32; 2]; MAX_ROUTE_POINTS],
+    /// output.trace states (NaN where not reached). Output-only.
+    trace: [[f32; 7]; MAX_TRACE_POINTS],
     /// At the latest SATCOM step: BTO residual (us), BFO innovation (Hz) and its
     /// predictive s.d. (Hz), and this step's log-likelihood. Output-only; NaN if absent.
     residual: [f32; 4],
@@ -329,10 +345,22 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         .iter()
         .flat_map(|&m| {
             used[m] += 1;
-            routes_by_mode[m][used[m] - 1].iter().flat_map(|p| [f64::from(p[0]), f64::from(p[1])])
+            routes_by_mode[m][used[m] - 1].0.iter().flat_map(|p| [f64::from(p[0]), f64::from(p[1])])
         })
         .collect();
     write_npy(&dir.join("routes.npy"), &[chosen_modes.len(), ctx.route_points, 2], &routes)?;
+    if let Some(t) = ctx.trace {
+        // Same draws, same order as routes.npy.
+        let mut used = vec![0; Mode::ALL.len()];
+        let trace: Vec<f64> = chosen_modes
+            .iter()
+            .flat_map(|&m| {
+                used[m] += 1;
+                routes_by_mode[m][used[m] - 1].1.iter().flat_map(|q| q.iter().map(|&v| f64::from(v)))
+            })
+            .collect();
+        write_npy(&dir.join("trace.npy"), &[chosen_modes.len(), t.points, TRACE_COLUMNS.len()], &trace)?;
+    }
 
     let mut handoff_rows = Vec::new();
     if ctx.handoff > 0 {
@@ -499,7 +527,9 @@ fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len()] {
     r
 }
 
-type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>, Early, TankRows);
+/// One posterior route draw: its route points and its output.trace states (empty without a trace).
+type RouteSample = (Vec<[f32; 2]>, Vec<[f32; 7]>);
+type FilterOutput = (Rows, Vec<RouteSample>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>, Early, TankRows);
 
 /// Columns of tanks.npy (float64, row-aligned with final.npy), written when the run carries two
 /// fuel tanks (core request 16 C-7(b)). Times are unix seconds, NaN while the engine runs.
@@ -591,10 +621,40 @@ fn advance<E: Environment>(p: &mut Particle, to: f64, ctx: &Context<E>, rng: &mu
     let route_time = |k: usize| prior.unix_s + k as f64 * interval;
     let a = &mut p.aircraft;
     let mut r = ((a.unix_s - prior.unix_s) / interval).floor() as usize + 1;
-    while r < ctx.route_points && route_time(r) <= to {
-        a.propagate(route_time(r), ctx.params, ctx.environment, rng);
-        p.route[r] = [a.lat as f32, a.lon as f32];
-        r += 1;
+    let Some(tr) = ctx.trace else {
+        while r < ctx.route_points && route_time(r) <= to {
+            a.propagate(route_time(r), ctx.params, ctx.environment, rng);
+            p.route[r] = [a.lat as f32, a.lon as f32];
+            r += 1;
+        }
+        a.propagate(to, ctx.params, ctx.environment, rng);
+        return;
+    };
+    // With a trace: route and trace times merged in time order.
+    let trace_time = |k: usize| tr.start_unix_s + k as f64 * tr.interval_s;
+    let mut k = (0..tr.points).find(|&k| trace_time(k) > a.unix_s).unwrap_or(tr.points);
+    loop {
+        let next_r = (r < ctx.route_points && route_time(r) <= to).then(|| route_time(r));
+        let next_k = (k < tr.points && trace_time(k) <= to).then(|| trace_time(k));
+        let t = match (next_r, next_k) {
+            (None, None) => break,
+            (Some(x), None) => x,
+            (None, Some(y)) => y,
+            (Some(x), Some(y)) => x.min(y),
+        };
+        a.propagate(t, ctx.params, ctx.environment, rng);
+        if next_r == Some(t) {
+            p.route[r] = [a.lat as f32, a.lon as f32];
+            r += 1;
+        }
+        if next_k == Some(t) {
+            let air = a.air_data();
+            let track = a.v_east_kt.atan2(a.v_north_kt).to_degrees().rem_euclid(360.0);
+            let gs = a.v_east_kt.hypot(a.v_north_kt);
+            p.trace[k] = [a.lat as f32, a.lon as f32, a.alt_ft as f32, track as f32, gs as f32, a.mach as f32,
+                          air.heading_rad.to_degrees().rem_euclid(360.0) as f32];
+            k += 1;
+        }
     }
     a.propagate(to, ctx.params, ctx.environment, rng);
 }
@@ -644,7 +704,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             let mut route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
             route[0] = [aircraft.lat as f32, aircraft.lon as f32];
             let bias = BfoBias { mean_hz: config.bfo_bias.mean_hz, variance_hz2: config.bfo_bias.sd_hz.powi(2) };
-            Particle { aircraft, bias, origin: i as u32, route, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false }
+            Particle { aircraft, bias, origin: i as u32, route, trace: [[f32::NAN; 7]; MAX_TRACE_POINTS], residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false }
         })
         .collect();
     // Auxiliary look-ahead: extra standard deviation, in microseconds, added in quadrature to
@@ -1372,7 +1432,10 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         })
         .collect();
     let chosen = systematic_resample(&log_weights, config.output.route_samples, &mut stream(3000, 0));
-    let routes = chosen.iter().map(|&j| particles[j].route[..ctx.route_points].to_vec()).collect();
+    let routes = chosen
+        .iter()
+        .map(|&j| (particles[j].route[..ctx.route_points].to_vec(), ctx.trace.map_or(Vec::new(), |t| particles[j].trace[..t.points].to_vec())))
+        .collect();
     let origins: Vec<usize> = particles.iter().map(|p| p.origin as usize).collect();
     if let Some(p) = pending.first() {
         return Err(format!("output.handoff_lookahead: the filter stopped before horizon {} of {}", p.horizon, p.epoch));
@@ -1695,6 +1758,7 @@ mod tests {
             environment: &CalmAir,
             hypotheses: &none,
             route_points: (steps.last().unwrap().unix_s / 600.0) as usize + 1,
+            trace: None,
             progress: None,
             cancel: None,
             handoff,
@@ -1724,7 +1788,7 @@ mod tests {
             for row in rows.iter().filter(|r| r.mode == m) {
                 let bias = BfoBias { mean_hz: row.bias.mean_hz, variance_hz2: row.bias.variance_hz2 };
                 let route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
-                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false };
+                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, trace: [[f32::NAN; 7]; MAX_TRACE_POINTS], residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false };
                 advance(&mut p, 7200.0, &straight, &mut stream(seed, m as u64, stop.step as u64 + 2, row.particle));
                 let a = &p.aircraft;
                 let e = &expected[row.particle];
@@ -1732,6 +1796,79 @@ mod tests {
                 let want = [e[1], e[2], e[3], e[4], e[5], e[6], e[10], e[11]];
                 assert_eq!(got.map(f64::to_bits), want.map(f64::to_bits), "mode {m}, particle {}", row.particle);
             }
+        }
+    }
+
+    /// output.trace (Pete, 11 Oct 2026): every trace point is filled, and where a trace time
+    /// coincides with a route time the two record the same position.
+    #[test]
+    fn a_trace_fills_and_agrees_with_the_route() {
+        let base = "name = \"temper\"\nparticles_per_mode = [4000, 0, 0, 0, 0]\nseeds = [1]\nresample_ess_fraction = {frac}\n\
+             [[cases]]\nid = \"bto\"\nuse_bfo = false\n\
+             [inputs]\nobservations = \"-\"\nephemeris = \"-\"\nera5 = \"-\"\nigrf = \"-\"\n\
+             [prior]\ntime_utc = \"-\"\nlatitude_deg = 0.0\nlongitude_deg = 90.0\nposition_sd_nm = 0.5\ntrack_deg = 180.0\ntrack_sd_deg = 1.0\n\
+             [bfo_bias]\nmean_hz = 150.0\nsd_hz = 25.0\n[output]\nroute_interval_s = 600\nroute_samples = 10\n";
+        let base = base.replace("{frac}", "0.5");
+        let base = base.as_str();
+        let plain: Config = toml::from_str(base).unwrap();
+        let params = Parameters::default();
+        let prior = Prior {
+            unix_s: 0.0,
+            lat: 0.0,
+            lon: 90.0,
+            position_sd_nm: 0.5,
+            track_deg: 180.0,
+            track_sd_deg: 1.0,
+            mach_range: params.mach_range,
+            mach_gaussian: None,
+            altitude_levels: Prior::uniform_altitude_levels(&params),
+        };
+        let satellite = Vec3::new(18_161.9, 38_060.5, 1_029.9);
+        let measured = |id: &str, unix_s: f64, lat: f64, sd: f64| Step {
+            id: id.into(),
+            unix_s,
+            satcom: Some(Epoch {
+                id: id.into(),
+                unix_s,
+                logged_unix_s: unix_s,
+                bto_us: Some(bto_us(satellite, lat, 90.0, 35_000.0)),
+                bto_sd_us: sd,
+                bfo_hz: None,
+                bfo_sd_hz: f64::NAN,
+                cruise_bto: true,
+                cruise_bfo: false,
+                events: Vec::new(),
+                satellite_afc_hz: 0.0,
+                satellite_km: satellite,
+                satellite_velocity_km_s: Vec3::default(),
+            }),
+        };
+        let steps: &'static [Step] = Box::leak(Box::new([measured("a", 3600.0, -7.0, 120.0), measured("b", 5400.0, -11.9, 20.0), measured("c", 7200.0, -15.9, 29.0)]));
+        let none: [Box<dyn Hypothesis>; 0] = [];
+        let config: &'static Config = Box::leak(Box::new(plain));
+        let ctx = Context {
+            config,
+            params: &params,
+            prior: &prior,
+            mode_weights: [1.0, 0.0, 0.0, 0.0, 0.0],
+            steps,
+            environment: &CalmAir,
+            hypotheses: &none,
+            route_points: 10,
+            trace: Some(Trace { start_unix_s: 1800.0, interval_s: 60.0, points: 11 }),
+            progress: None,
+            cancel: None,
+            handoff: 0,
+            handoff_floor: 0,
+        };
+        let (_, routes, ..) = run_filter(&ctx, &config.cases[0], 1, 0, Mode::TrueHeading).unwrap();
+        assert!(!routes.is_empty());
+        for (route, trace) in &routes {
+            assert_eq!(trace.len(), 11);
+            assert!(trace.iter().flatten().all(|v| v.is_finite()));
+            assert_eq!([trace[0][0], trace[0][1]], route[3]);
+            assert_eq!([trace[10][0], trace[10][1]], route[4]);
+            assert!(trace.iter().all(|q| q[5] > 0.5 && q[5] < 0.95 && q[4] > 200.0 && q[4] < 700.0));
         }
     }
 
@@ -1802,6 +1939,7 @@ mod tests {
             environment: &CalmAir,
             hypotheses: &none,
             route_points: 10,
+            trace: None,
             progress: None,
             cancel: None,
             handoff: 0,

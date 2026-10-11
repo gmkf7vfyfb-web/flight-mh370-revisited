@@ -731,6 +731,14 @@ impl DynamicsConfig {
 
 #[derive(Deserialize, Serialize, Clone)]
 #[serde(deny_unknown_fields)]
+pub struct TraceConfig {
+    pub from_utc: String,
+    pub to_utc: String,
+    pub interval_s: f64,
+}
+
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
 pub struct OutputConfig {
     /// Core request 10: the hand-off look-ahead (see [`HandoffLookahead`]). Off when absent.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -768,6 +776,13 @@ pub struct OutputConfig {
     /// route_interval_s earlier); the position at the epoch itself is in handoff.npy.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_routes: Option<bool>,
+    /// State trace for a short window (Pete, 11 Oct 2026: N571 traffic diagnostic): latitude,
+    /// longitude, altitude (ft), ground track (deg true), ground speed (kt), Mach and true air
+    /// heading (deg) every `interval_s` from `from_utc` to `to_utc` inclusive, written to
+    /// trace.npy (float32, route_samples x points x 7) for the same draws as routes.npy.
+    /// Absent: no trace, and the run is unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub trace: Option<TraceConfig>,
     /// The fewest rows any mode with posterior mass keeps at each of `handoff_epochs` (default 1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_floor: Option<usize>,

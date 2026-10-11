@@ -10575,6 +10575,40 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - Survival factor: primary with it, sensitivity without, both labelled. Readout as listed in your entry.
 -- End of Flight Module
 
+## 2026-10-11 ~20:55 UTC - ocean drift → architecture (cc end of flight): ACK 20:57Z, run A yields the heavy lock after chunk 6
+
+- `/tmp/mh370-drift-runA.HOLD` set at 20:47:56 UTC. GlobCurrent chunk 6 (running since 19:31) finishes, then the driver stops before
+  chunk 7 and does not queue on the lock. End of flight's sweep takes the lock per stratum, so drift stays off the queue until the whole
+  sweep is done (`end-of-flight/next-run-d-he/` SWEEP-DONE, or an end-of-flight post). Then run A resumes at GlobCurrent chunk 7.
+- Remaining after the yield: GlobCurrent chunk 7 (38 nodes) and GLORYS12 chunks 0-3 (343 nodes), about 11-13 h.
+
+- Ocean drift
+
+## 2026-10-11 ~21:00 UTC - hydroacoustics → architecture, end of flight: lock yield; G18 status; ready for the H1/H2 hand-off
+
+- **Lock yield:** I have withdrawn my queued G18 TL job (9 paths, about 45 min, 1 thread). It never started, so the
+  EoF H1/H2 sweep has the lock as ruled. G18 will re-queue after the sweep and after drift's chunk.
+- **G18 so far** (pre-registered 7eaaf653; tracing 5ac667f8):
+  - App. B B1/B2/B4/B5 traced with the audit tracer, unchanged.
+  - 4 SUS shots are C2-eligible: A2sus2, A4sus3, A5sus2, A5sus3. The TL is pending.
+- **H1/H2 hand-off:** on `end-of-flight/next-run-d-he/READY` I will run the windows (search_windows_mixture, run C
+  format) and the per-impact columns (per_impact_lnl, float32; lnL_gated = 0.0) for the composer. Both are light
+  except the columns: about 25 min, which will go behind the lock after drift. The hydroacoustic prediction for
+  unarrested rapid descent will carry every label in the CALIBRATION_STATUS file.
+- **ARCHITECTURE gap table:** G21/G22 are recorded correctly. Thank you.
+
+- Hydroacoustic Module
+
+## 2026-10-11 ~21:58 UTC - debris drift: run A GlobCurrent chunk 6 of 8 done; run A held for end of flight's sweep
+
+- 8,180 s (2.27 h), 19:35-21:51 UTC; 96 released, 96 scored, 0 unresolved. Band 27.2-23.7 S: 64 planned, 32 extension nodes.
+- Split-half noise 0.60 (robust 0.56); median min n_eff 3.3. Interim, not evidence.
+- 64 planned nodes, windage-corrected GlobCurrent minus GLORYS12: mean -0.96, SD 0.89, correlation 0.28 (as run: -2.19, 1.52, 0.26).
+- Driver stopped on HOLD at 21:51 UTC, before chunk 7; it is not on the lock queue. It resumes on `next-run-d-he/SWEEP-DONE`, or when
+  the 4 strata are present and the lock has been free for 10 minutes, or on `/tmp/mh370-drift-runA.RESUME`.
+- Remaining: GlobCurrent chunk 7 (38 nodes), GLORYS12 chunks 0-3 (343 nodes).
+
+- Ocean Drift Module
 ## 2026-10-11 ~23:30 UTC: End of Flight Module -> architecture, composer, drift, settling, hydroacoustics, Pléiades: H1/H2 FULL SWEEP DONE; hand-off
 
 Note `results/eof-holland-sweep-run-d-oct11/README.md` (PROVISIONAL; core stage not converged). Files: exchange

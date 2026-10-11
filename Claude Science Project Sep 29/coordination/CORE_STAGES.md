@@ -3391,3 +3391,113 @@ Job 41d7a7a0 (binary 4e9ca9e): 34 hybrid routes + 4 controls × 4 seeds × 200k,
 - **If Mach 0.86 moves route 43 by more than 0.5 nat,** propose a free-mode Mach-cap check too. The cap applies to every family, not only the routes.
 - **Report the turn-model sensitivity against the shares and 00:19 latitude.** The hybrid already places the leg on the 94.42°E boundary, with 00:19 near −37.4 across the plateau. Say whether bank 25° keeps that.
 - **The routes-family prior stays with Pete.** For his ruling, give one table: free, run G (fly-over), run H (fly-by), hybrid plateau, matched volume, each with ln Z and 00:19 median.
+
+## 2026-10-11 21:00Z — core: TURN-MODEL + MACH-CAP SENSITIVITY — SAMAK lead and 00:19 latitude survive; Mach cap not binding. Table for Pete's routes-prior ruling
+
+Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tracking, all exit 0. `results/turn-model-sensitivity-oct11/`.
+
+| Arm | 43 MEKAR–SAMAK–ISBIX | 19 NILAM–SAMAK–ISBIX | 3 NILAM–IGOGU–ISBIX | 11 NILAM–ANOKO–ISBIX |
+|---|---|---|---|---|
+| Baseline (bank 15°, cap 120°, Mach ≤ 0.84) | −120.59 | −123.56 | −122.78* | −125.24* |
+| Bank 25° | −121.13 | −124.40 | −122.73 | −125.24 |
+| Cap 150° | −120.59 (bit-identical) | −123.21 | | |
+| Bank 25° + cap 150° | −121.13 (bit-identical to bank 25°) | | | |
+| Mach cap 0.86 | −120.70 (median Mach 0.829) | | −122.90 | |
+
+\* From the fly-by test part 2. The route 43 baseline at audit size agrees with run H full scale (−120.56) to 0.03.
+- **00:19 medians are unchanged in every arm:** route 43 −37.17 to −37.18, route 3 −37.29 to −37.31, route 11 −37.43, route 19 −37.16 to −37.17. Bank 25° keeps the 94.42°E-boundary leg and the plateau latitude (G15 question: yes).
+- **Against predictions:**
+  1. Bank 25° costs 0.5–2 nats on every route: **partly missed.** It holds for 43 (−0.55) and 19 (−0.84); routes 3 and 11 do not move. Route 43 stays first (lead 1.6 nats).
+  2. Cap 150° < 1 nat on 19 and < 0.5 on 43: holds (+0.35, 0.00).
+  3. Mach 0.86 raises route 43 by 0.3–1.5 nats: **missed.** The result is −0.12 with the median Mach unchanged at 0.829. The data, not the prior bound, hold route 43 near 0.83, and −0.12 matches the Occam cost of the wider range. Below architecture's 0.5-nat trigger, so **no free-model Mach check is needed** (G20 answered).
+
+**Table for Pete's routes-prior ruling** (`routes-prior-ruling-table.csv`). ln Z is within each set at equal prior inside the set. Combining with the free model needs Pete's family weights.
+
+| Hypothesis set | Turn model | ln Z | − free | 00:19 median |
+|---|---|---|---|---|
+| Free-turn model (run C free, 8 × 7M) | n/a | −135.92 | 0 | −36.90 |
+| Six routes (run G) | fly-over + direct-to | −129.55 | +6.4 | −36.71 |
+| Turn-point scan, matched volume (36 arms) | fly-over + direct-to | −128.07 | +7.9 | (not pooled) |
+| Six routes (run H) | fly-by + leg tracking | **−122.19** | **+13.7** | **−37.18** |
+| Hybrid early-turn set (34 routes) | fly-by + leg tracking | −123.10 | +12.8 | plateau −37.31 to −37.48 |
+| Best single route, MEKAR–SAMAK–ISBIX | fly-by + leg tracking | −120.56 | +15.4 | −37.17 |
+
+- **Reading for the ruling:** under the realistic turn model, the route sets beat the free model by 13–14 nats at equal prior within each set. The 00:19 latitude sits 0.3–0.6° south of the free model's.
+  - The earlier break-even analysis (fly-over) put π ≈ 0.0074 for 4.9 nats. At 13.7 nats the break-even prior on the routes family is about e^−13.7 ≈ 10⁻⁶, so the routes family dominates for any family prior Pete is likely to set.
+  - Systematics still open: the turn model itself (fly-over versus fly-by moved route ln Z by up to 15 nats), the 18:22 radar position treatment, and route provenance (Pete's own hypotheses).
+- **Next (backlog):** N571 traffic diagnostic once Pete's CSVs arrive; EoF request 9 support. Pending Pete: routes-family prior; 21.58 GB Mac staging deletion.
+
+## 2026-10-11 21:46Z — core: disk — identical (b) staging deleted (Pete's yes)
+
+- **Deleted** the 184 files on the list in core's workspace `hpc/` download staging (21.58 GB). Each was re-verified byte-identical, full content, to the kept copy in `out/next-run-b/` immediately before removal: 184 deleted, 0 kept, 0 missing. Log: core workspace `out/disk/identical-b-staging-deletion-log.txt`.
+- **Untouched:** the 2.3 GB of staging that differs, and all kept run copies.
+- **Mac data volume:** 45 → 66 GiB free. That is still below the 100 GiB floor of the 9 Oct disk policy. The largest remaining core items are the superseded run outputs already listed for Pete's move to the Samsung SSD.
+
+## 2026-10-11 22:22Z — core → architecture, Pete: Pete's rulings; WAYPOINT FAMILY RESET (no further route runs); Mach correction
+
+- **Pete (chat, about 22:00Z):**
+  1. **Family prior:** free and waypoint flight at **equal weight**; the question is which the evidence favours.
+  2. **Mach up to 0.87** (aircraft limit) **throughout**.
+  3. **Sample both fly-by and fly-over**, not one.
+  4. He specified a **region** for waypoint sampling, not a route list. If the family samples a small subset of fixes, that is selection bias and needs a **fundamental reset before another run**.
+- **Core confirms Pete is right.** Gap analysis and proposed design: `results/waypoint-family-reset-proposal.md`. In brief:
+  - Fixes were fetched by name: 15, of which 9 lie in the 18:22–18:40 area. Pete's chart shows many more.
+  - Routes were a fixed list of 48 composed by core.
+  - **Runs G and H were cut to the 6 routes above 0.1 % in the pilot, which is a data-informed selection.** Their 6-route family ln Z values (−129.55, −122.19) are therefore not a fair family-level comparison with free flight.
+  - The transition happens at the end fix rather than at a random point north of about 4°S.
+  - **The "Table for Pete's routes-prior ruling" (20:59Z) is withdrawn as a family comparison;** per-route values stand as conditional results.
+- **Correction (Mach; affects G20):** the 20:10Z and 20:59Z posts said route 43's initial Mach sat against the 0.84 cap. Wrong.
+  - `initial_mach` is the early-phase draw, whose prior was already 0.45–0.87 inside the 210–330 KCAS envelope. 0.73–0.84 is the cruise range after 18:40.
+  - The Mach-cap arm raised only the cruise cap. Route 43 does not approach it (00:19 Mach 0.69). The −0.12 nat result is real but tested a non-binding cap.
+  - Whether VMO 330 KCAS binds on route 43 is unchecked. **G20 should be re-scoped** to the cruise cap below MMO 0.87 for every family, which Pete has now ruled on.
+- **Pete's question answered (map `results/run-h-oct11/run-h-waypoint-closeup.png`):** the run H SAMAK routes **do not reach SAMAK**.
+  - With fly-by they start turning about 23–26 NM before it, about 18:36–18:37, pass 13.5 NM from it (5–95 %: 12.2–14.7), then fly south near the FIR boundary to ISBIX.
+  - Run H had no other break-off points; the hybrid arm's pseudo-fixes were separate.
+  - Theory (R = 13 NM at 15° bank): lead 22.6 NM, closest 13.0 NM.
+- **Next:** no route runs. Waiting for Pete on the reset design and the fix-table source (his charts or a per-FIR listing). The engine options built on 11 Oct (fly_by, track_legs, route bank and cap) carry over.
+
+## 2026-10-11 22:30Z — core: CORRECTION — SAMAK turn-start distance (previous post)
+
+- The earlier `run-h-turn-geometry.csv` (about 40 NM, 18:35) came from a back-off detector that starts up to one 100 s segment (about 13.6 NM) early. The caption's "23–26 NM, 18:36–18:37" came from an earlier detector. Neither was stated with its method.
+- **Re-measured directly** against the inbound great-circle leg; the CSV and the figure are replaced, with the method in the CSV:
+  - SAMAK routes leave the inbound leg (0.5 NM off) **23.3–23.7 NM before SAMAK at 18:37:06–18:37:11**.
+  - Back-projected along a 13 NM arc, the turn starts **26–27 NM before SAMAK, about 18:36:40**.
+  - Closest approach 13.5 NM (5–95 %: 12.2–14.7). The theoretical fly-by lead is 22.6 NM.
+- **Other routes:** IGOGU leaves the leg 17.9 NM before the fix (turn start about 21 NM); ANOKO 13.2 NM (about 17 NM).
+- The answer to Pete is unchanged: the SAMAK routes do not reach SAMAK.
+
+## 2026-10-11 21:20Z — architecture → core (cc all modules): RULING (Pete) — label for 00:19 results from core runs
+
+- Every 00:19 latitude, position or map taken from a core run's full posterior (final.npy, not an end-of-flight re-scoring) carries the label **"core, Davey both-BTO no-BFO 00:19 treatment"**. This applies to titles' footnotes, tables and README rows.
+- This applies to runs G and H, the hybrid, the audit arms and the turn-model sensitivity, back-filled where already posted.
+- Design 00:19 positions and impacts come only from end of flight, under a named standard 00:19 option.
+
+## 2026-10-11 21:30Z — architecture → core (cc end of flight): Pete GO — run H 00:11 hand-offs to end of flight
+
+- **Stage** run H's m0011 hand-offs (8 seeds × 1,000 rows, with run.json and the column list) from deskstar to `mh370-exchange/core/run-h/seed-<k>/`. Write a README and READY.
+- **Each row must carry its route identifier** (as in final.npy, used for run H's per-route shares), so end of flight can report per route. If the hand-off does not carry it, say so and propose the smallest fix. Don't stage until it does.
+- Staging is small (MB, not GB); no lock is needed. Do it now, so it is ready when the H1/H2 sweep finishes.
+
+## 2026-10-11 23:20Z — core → architecture, end of flight, Pete: run H hand-offs STAGED; state trace built; 2014-epoch fix table; reset proposal revised
+
+- **Done: run H 00:11 hand-offs** (your 21:30Z) are at `mh370-exchange/core/run-h/seed-1..8/`, with README, SHA256SUMS and READY.
+  - Every row carries its route identifier (`[row.aircraft.early.route] index` in handoff.toml). It is also copied to `route_index.csv` (row, weight, route_index).
+  - There are 1,529–1,536 rows per seed, not 1,000.
+  - Shares at 00:11: route 43 0.825–0.854, route 3 0.092–0.118, route 19 0.039–0.051, route 11 0.008–0.012. The BULVA routes have no rows. This matches run H per route.
+  - Caveat in the README: the 6-route family is a data-selected subset. Use it per route, not as a family weight.
+- **Done: state trace** (Pete's item 10). `[output.trace]` takes from_utc, to_utc and interval_s (at most 32 points). It writes trace.npy (latitude, longitude, altitude ft, ground track, ground speed kt, Mach, true heading) for the routes.npy draws. Commit fe4a17b3.
+  - Off: gates B and C are byte-identical. A new unit test passes (68 in total).
+  - On (smoke, gate C): positions agree with routes.npy to 0.006°; finite-difference ground speed agrees to a median of 1.3 kt and track to 0.13°.
+  - Every route run from now on carries 18:25–18:39 at 60 s.
+- **Done: 2014-epoch fix table** (Pete's item 8) in `results/waypoints-2014-epoch-oct11/` (CSV, map, README, GPL navdata extract). Commit 608e4082.
+  - Sources: AIP Malaysia ENR 3.3 AMDT 2/2010 (from Pete's Drive) and R. A. Peel navigation data cycle 2013.10 (X-Plane/FlightGear default data, five months before the flight; covers the Indian and Indonesian FIRs).
+  - Tiers: A, pre-2014 AIP: 9. B, in 2013.10: 17. C, current en-route only: 5 (EMRAN, ABANG, UDODO, PAKRA, PILEK). D, current airport-approach fixes: 13. S, stale: DOVUM.
+  - **Proposed sampling set: A + B = 26 fixes** (9 before). C as a sensitivity arm.
+  - ANOKO moves 0.222 NM (the 2013.10 value is adopted). All other fixes agree to 0.012 NM or better.
+  - EMRAN and IVRAR are absent from 2013.10. The 2013.10 data has N571 via DOVUM, not MEKAR–NILAM, so it is used for coordinates and existence, not for route structure.
+- **Revised: `results/waypoint-family-reset-proposal.md`** with Pete's items 8–11:
+  - break-off on any leg toward another fix;
+  - the trace;
+  - Mach 0.70–0.87 and 210–330 KCAS throughout. This needs code (the CAS envelope stops at 18:40 today) and a smoke test first, with pass criteria in the file.
+- **Next:** waiting for Pete's approval of the reset design and the 26-fix set. Then the route generator and the speed-envelope change, with no long run without his agreement.
+- **Blocker:** none.
