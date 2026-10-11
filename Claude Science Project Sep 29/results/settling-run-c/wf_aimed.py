@@ -101,10 +101,10 @@ def render(SM, arcs_json, tag, label, settling_commit, eof_commit):
         Hm = np.load(f"field/{tag}_H_{j}.npy").astype(np.float64); nz = Hm > 0; g["full"][n] = [(LC[nz], OC[nz], Hm[nz] / Hm.sum())]
         g["ESS"][n] = p["row_ess_kish"]
     m0 = info["products"][0]["manifest"]
-    g["TITLE"] = "Where the wreckage is on the seabed, for each combination of evidence"
-    g["SUBTITLE"] = "The impacts that go to the seabed calculation are drawn from the weights of each combination of evidence"
+    g["TITLE"] = os.environ.get("WF_TITLE", "Where the wreckage is on the seabed, for each combination of evidence")
+    g["SUBTITLE"] = "The impacts that go to the seabed calculation are drawn from the weights of each combination of evidence" + os.environ.get("WF_SUBTITLE_EXTRA", "")
     g["FOOT_STE"] = ("Grey areas show where the wreckage is on the seabed. Dashed orange lines show where the aircraft hit the water. Each panel "
-                     "uses the weights of one combination of evidence: debris = where floating debris was found; sound = underwater sound records; searches = "
+                     "uses the weights of one combination of evidence: debris = where floating debris was found; sound = underwater sound records; Pléiades = if the objects seen in the Pléiades satellite images were aircraft debris; searches = "
                      "the areas searched without a find. The flight model and the other evidence are not yet stable, so these areas can change.")
     g["FOOT_TECH"] = (f"Settled-mass seabed density (real ocean: GLORYS12V1 column 75-115 E, 45-10 S, TEOS-10 density; GLORYS12V1 surface current; ERA5 wind; "
                       f"AusSeabed then GEBCO_2026), settling {settling_commit}, breakup table PROVISIONAL, afloat pieces excluded. Impacts: end of flight on {os.environ.get('WF_RUN_NAME', label)} "

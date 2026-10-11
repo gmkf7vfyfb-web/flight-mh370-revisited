@@ -92,6 +92,16 @@ The method is that of `results/settling-core-set-next-run-b/` and `results/settl
 | 00:19 R600 BTO Only: debris, sound, searches | 2.0 M | 502.3 | 495.5 → 497.3 | 95.0 → 95.5 | 0.45 / 4.74 / 23.53 |
 
 
+**Aimed at the composed H weights: CONDITIONAL on the Pléiades objects being aircraft debris** (added ~08:05 UTC;
+`settling-seabed-wreckage-run-c-composed-pleiades-aimed.{png,pdf}`; 40,000 draws per product)
+
+| product | row ESS (Kish) | 90 % impact, all rows | 90 %: resampled impacts → seabed | 50 %: impacts → seabed | settled offset p50 / p90 / p99 (km) |
+|---|---|---|---|---|---|
+| 00:19 Held Out: debris, sound, Pléiades | 1.95 M | 316.8 | 310.2 → 311.6 | 32.3 → 32.4 | 0.42 / 3.97 / 20.17 |
+| 00:19 Held Out: debris, sound, Pléiades, searches | 1.61 M | 405.0 | 389.2 → 391.0 | 35.2 → 35.4 | 0.42 / 4.03 / 20.12 |
+| 00:19 R600 BTO Only: debris, sound, Pléiades | 0.79 M | 176.9 | 173.6 → 174.4 | 18.3 → 18.4 | 0.42 / 4.15 / 21.31 |
+| 00:19 R600 BTO Only: debris, sound, Pléiades, searches | 0.59 M | 214.1 | 212.3 → 213.4 | 16.7 → 16.8 | 0.43 / 4.32 / 22.08 |
+
 ## What it shows
 
 1. **Settling still adds under 1 % to every estimable area:** +0.14 to +0.25 % at 90 %, +0.22 to +0.47 % at 99 %, and +0.25 to +0.37 %
@@ -110,6 +120,9 @@ The method is that of `results/settling-core-set-next-run-b/` and `results/settl
    - Adding the searches widens them again, to 815 and 497.
    - This is the expected effect of a non-detection: it removes mass from the searched corridor and spreads the rest (searched areas'
      note, `results/seabed-search-why-wider.md`).
+   - **Conditional on the Pléiades objects being debris (H):** the 90 % region shrinks to 312 (Held Out) and 174 (R600 BTO Only), and to
+     391 and 213 after the searches. The region splits into a cluster near 35-37 °S, 91-94 °E and a band east of the 7th arc. Settling
+     adds +0.45 to +0.52 % there. Row ESS is 0.59-1.95 M, so all four H products are estimable.
 6. **H1 and H2 remain not estimable** (pooled ESS 66 / 171; per family 12-157). Under the speed cap H1 loses 47 % and H2 44 % of its
    weight, and neither has any A1 weight left. The shortage is the within-parent push-over sampling (coverage gap G7), unchanged.
 
@@ -124,7 +137,7 @@ statement for G6: no settling output depends on pitch. Changes for run C:
 | contact speed above 1.25 VMO (end of flight G13, no structural limit) | reach (upstream) | shown both ways, as ruled; removed weight reported per option and family | areas -0.2 to +1.7 %; A1 share about halves |
 | attitude-dependent breakup | reach (settling's family rule) | declared, not closed | only through dense-piece offsets, p90 < 5 km |
 | composed products (G and G after searches) | proposal coverage | closed by the aimed resample: row ESS 2.0-4.2 M | — |
-| H (Pléiades) composed products | proposal coverage | not yet published by the composer; the aimed path is ready | — |
+| H (Pléiades) composed products | proposal coverage; conditional hypothesis | closed by the aimed resample: row ESS 0.59-1.95 M; every H panel is labelled conditional on the Pléiades objects | — |
 | H1 / H2 | proposal coverage (upstream, G7) | not estimable in any family (ESS 4-171) | stamped |
 
 **ESS per option, family and declared region** is given in the tables above. The parameter bounds and their sources are as for core (b)

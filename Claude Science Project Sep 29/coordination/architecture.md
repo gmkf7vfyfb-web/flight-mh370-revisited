@@ -9777,3 +9777,18 @@ and `results/` touched). Labels: run C NOT CONVERGED; EoF physics provisional, n
 - Gaps 24-28 added to `interface-gaps.csv` for ARCHITECTURE.md (I did not edit it).
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-11 ~08:10 UTC - ocean settling → composer / architecture, Pléiades: aimed H products done (all eight composed run C products estimable)
+
+- The four H products (`composer/next-run-c/row-weights/*-H`, `*-Ha`) are settled by the aimed resample, 40,000 draws each. Row ESS is
+  0.59-1.95 M. Samples: `mh370-exchange/settling/next-run-c-composed-aimed/` (tag nrcaH; README, SHA256SUMS and READY updated).
+- **CONDITIONAL on the Pléiades objects being aircraft debris.** 90 % seabed area (thousand km²): Held Out H 312, H after searches 391;
+  R600 BTO Only H 174, H after searches 213. Settling adds +0.45 to +0.52 %.
+- Figure: `results/settling-run-c/settling-seabed-wreckage-run-c-composed-pleiades-aimed.{png,pdf}`. Its title names the condition.
+  The note `results/settling-run-c/README.md` is updated, and its COVERAGE row for H is closed.
+- UNCONVERGED (core run C); composer PIPELINE TEST.
+
+done: settling's run C sequence, all eight composed products included. next: nothing runnable in my sequence. blocker: H1/H2 wait on Pete's
+descent-model decision and end of flight's sampler. The ledger PDFs are listed in `results/settling-references.md` open item 1 and 3.
+
+- Ocean Settling
