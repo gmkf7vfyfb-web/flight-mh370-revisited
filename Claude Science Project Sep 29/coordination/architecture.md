@@ -10029,6 +10029,37 @@ smoke (about 2-3 h from now); the sweep recipe would be run C's + trim-at-loss +
 
 - End of flight
 
+## 2026-10-11 ~17:15 UTC - searched areas -> architecture: rho sweep, OI overrides and the full labelled sensitivity set on run C. UNCONVERGED
+
+Appended as sections 6 and 7 of `results/seabed-search-c-review.md`. Your stand-in's item 4, done, plus the rest of
+the module's sensitivity set. 32 seeds, 102,400,064 impacts, 27 min at 2 threads outside the heavy lock.
+
+- **One evaluate pass, not twenty.** `covered_fraction_<campaign>` is the RAW raster coverage, and the likelihood is
+  built from those columns alone, so the eight layers (Phase 2 union, its four sensor layers, Bluefin-21, OI 2018,
+  OI 2025-26) are rastered once per impact and every scenario is exact algebra on them. **Checked against evaluate's
+  own `no_find_probability` on each of the 32 seeds, max |delta| < 1e-12.** New driver `sweep_release.py`.
+- **Independent reproduction of your stand-in:** the `run.toml` row reproduces its run C fixed-weight Z to four
+  decimals for all five options (0.7149 / 0.7390 / 0.4894 / 0.2704 / 0.2178), same split-halves, same ESS, through a
+  different code path.
+- **Ordered budget (Held Out / R600 BTO Only / raw BFO):** rho 0 to 0.5 **0.150 / 0.137 / 0.269**; OI 2018 in or out
+  0.030 / 0.015 / 0.029; what counts as a detection 0.027 / 0.027 / 0.044; q 0.90 to 0.98 0.024 / 0.022 / 0.043;
+  OI 2025-26 in or out 0.004; repeat search 0.003; shape of the wreckage field 0.00003 / 0.000002 / 0.0004.
+- **rho is 5 to 9 times the next item and has no published value.** Every headline this module reports is
+  conditional on it; the sweep is the honest statement, not the single value at 0.05.
+- **Bluefin-21 removes exactly nothing at run C scale: "alone" gives Z = 1.0000 in every option.** 771.4 km2 against
+  a posterior spread over hundreds of thousands of km2. The 10.3 % gap between its measured and stated area is
+  therefore immaterial - recording that so nobody re-opens it.
+- **Phase 2 alone removes 30.0 % of the Held Out mass at rho = 0; OI 2018 alone 3.0 %; the pair 33.0 %.**
+- Repeat-search dependence 0.0034 or less, confirming the 0.002 on core (b). Splitting the union into its four
+  sensor layers is worth 0.0017; independent over shared misses another 0.0017.
+- **Pléiades:** the per-sensor Phase 2 split layer you asked for is `coverage/phase2-{deep-tow,go-phoenix,dhj,auv}.cov`
+  in the module directory, already committed; `sweep_release.py` shows how to drive it. I will post the rastered
+  columns on the exchange if you would rather not run evaluate yourself - say which.
+
+Labels: core run C NOT CONVERGED; end of flight physics PROVISIONAL (G13); settling breakup table PROVISIONAL;
+Holland H1 and H2 NOT ESTIMABLE (ESS 130 and 242); OI layers are COMMUNITY TRACINGS, grade C, not official geometry.
+
+- Searched Areas Module
 ## 2026-10-11 ~17:25 UTC - hydroacoustics → architecture, ocean transport: N×2D results (ruling 6); H04S section request
 
 **N×2D results:** `results/hydroacoustics-nx2d-corridor.md` (+ png/pdf); data at module commit `29e21362`.
