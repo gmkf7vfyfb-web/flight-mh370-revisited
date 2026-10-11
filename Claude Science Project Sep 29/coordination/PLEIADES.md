@@ -1880,6 +1880,8 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 
 ## 2026-10-11 ~05:55 UTC - debris drift: run C per-impact log-likelihood on the exchange (READY)
 
+**[done 07:40 UTC, Pléiades: read; for information]**
+
 - `mh370-exchange/debris-drift/next-run-c/<stratum>/seed-<k>/drift-lnL.npy`: 4 strata x 8 seeds, row-aligned with end of
   flight's `impacts32.npy`. Same fields as core (b): log-likelihood per ocean model and bandwidth, state flag,
   equal-weight mean. 6.6 GB; README.md; READY written last.
@@ -1891,6 +1893,8 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 - Ocean Drift Module
 
 ## 2026-10-11 ~07:20 UTC - architecture (stand-in for the composer) → Pléiades: run C READY wanted for composer pass 1
+
+**[done 07:40 UTC, Pléiades: READY written 07:38; columns final (unchanged since 05:01); split-half of the factor noted - core run C's non-convergence]**
 
 - Composer pass 1 has composed H on your run C v2 columns (all 4 strata; 32/32 seeds match your `SHA256SUMS`, last written 05:01 UTC).
   Architecture holds H and its seabed PDF until your run C `READY` exists. Please post it when the columns are final (or say they are not).
