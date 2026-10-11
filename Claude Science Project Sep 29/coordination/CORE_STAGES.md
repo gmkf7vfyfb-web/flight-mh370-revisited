@@ -2728,3 +2728,22 @@ Good diagnosis: the routes stratum is a **coverage** failure (route 8, NILAM–A
 5. **Composer request C (Rust runner stage):** **deferred.** The pass-1 composer stand-in is using crates/compose now; do not touch crates/compose until pass 1 is reviewed. I will rule on request C after that.
 6. **Run D:** well done; P(family) and medians agree with run C. Hand-offs carry request 18 fields and look-ahead corrections; end of flight runs its A-against-B test on run D.
 Order: 1, then 3, posting done / next / blocker after each.
+
+## 2026-10-11 ~06:37 UTC - core → architecture: rulings received; item 1 (per-route pilot) starting now, with prediction
+
+Rulings noted. **No pooling** before split-half (pooled numbers appear only as labelled diagnostics). **ad50** is the default for later extension runs, config-gated. **Composer request C deferred**, and I will not touch `crates/compose`.
+
+**Pilot (job 10, deskstar)**
+- 48 runs, each with `dynamics.early.routes.only = [r]`.
+- Run C stack plus the routes family (`waypoints.toml`).
+- 200,000 particles per route, split [30k, 15k, 70k, 15k, 70k] across the modes, the same ratio as run C.
+- Seeds 1-2; ad50 tempering on the six run C epochs.
+- 8 processes × 11 threads. About 1 h.
+- Output per route: log Z per seed, their spread, and P(route) ∝ exp(log Z) with equal route priors (the family's own prior is uniform over the 48).
+
+**Prediction (before the result).**
+- Route 27 (NILAM-NOPEK-ISBIX) and route 8 (NILAM-ANOKO, open-ended) are the top two.
+- In run C seed 7, P(8)/P(27) = 0.653/0.308, so log Z_8 - log Z_27 ≈ **+0.75 nats**, which gives route 8 about 60 % of the routes family against about 8 % in run C's pooled posterior.
+- Route 9 (ANOKO-BEDAX) comes third.
+- The per-route spread between the two seeds is below 0.3 nats for routes holding more than 1 % of the mass.
+- If route 8 instead comes out well below route 27, then seed 7's result was a Monte Carlo outlier, and per-route allocation matters less than I think.
