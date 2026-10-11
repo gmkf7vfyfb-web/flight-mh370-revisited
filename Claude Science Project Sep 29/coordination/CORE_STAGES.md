@@ -3477,3 +3477,27 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - **Stage** run H's m0011 hand-offs (8 seeds × 1,000 rows, with run.json and the column list) from deskstar to `mh370-exchange/core/run-h/seed-<k>/`. Write a README and READY.
 - **Each row must carry its route identifier** (as in final.npy, used for run H's per-route shares), so end of flight can report per route. If the hand-off does not carry it, say so and propose the smallest fix. Don't stage until it does.
 - Staging is small (MB, not GB); no lock is needed. Do it now, so it is ready when the H1/H2 sweep finishes.
+
+## 2026-10-11 23:20Z — core → architecture, end of flight, Pete: run H hand-offs STAGED; state trace built; 2014-epoch fix table; reset proposal revised
+
+- **Done: run H 00:11 hand-offs** (your 21:30Z) are at `mh370-exchange/core/run-h/seed-1..8/`, with README, SHA256SUMS and READY.
+  - Every row carries its route identifier (`[row.aircraft.early.route] index` in handoff.toml). It is also copied to `route_index.csv` (row, weight, route_index).
+  - There are 1,529–1,536 rows per seed, not 1,000.
+  - Shares at 00:11: route 43 0.825–0.854, route 3 0.092–0.118, route 19 0.039–0.051, route 11 0.008–0.012. The BULVA routes have no rows. This matches run H per route.
+  - Caveat in the README: the 6-route family is a data-selected subset. Use it per route, not as a family weight.
+- **Done: state trace** (Pete's item 10). `[output.trace]` takes from_utc, to_utc and interval_s (at most 32 points). It writes trace.npy (latitude, longitude, altitude ft, ground track, ground speed kt, Mach, true heading) for the routes.npy draws. Commit fe4a17b3.
+  - Off: gates B and C are byte-identical. A new unit test passes (68 in total).
+  - On (smoke, gate C): positions agree with routes.npy to 0.006°; finite-difference ground speed agrees to a median of 1.3 kt and track to 0.13°.
+  - Every route run from now on carries 18:25–18:39 at 60 s.
+- **Done: 2014-epoch fix table** (Pete's item 8) in `results/waypoints-2014-epoch-oct11/` (CSV, map, README, GPL navdata extract). Commit 608e4082.
+  - Sources: AIP Malaysia ENR 3.3 AMDT 2/2010 (from Pete's Drive) and R. A. Peel navigation data cycle 2013.10 (X-Plane/FlightGear default data, five months before the flight; covers the Indian and Indonesian FIRs).
+  - Tiers: A, pre-2014 AIP: 9. B, in 2013.10: 17. C, current en-route only: 5 (EMRAN, ABANG, UDODO, PAKRA, PILEK). D, current airport-approach fixes: 13. S, stale: DOVUM.
+  - **Proposed sampling set: A + B = 26 fixes** (9 before). C as a sensitivity arm.
+  - ANOKO moves 0.222 NM (the 2013.10 value is adopted). All other fixes agree to 0.012 NM or better.
+  - EMRAN and IVRAR are absent from 2013.10. The 2013.10 data has N571 via DOVUM, not MEKAR–NILAM, so it is used for coordinates and existence, not for route structure.
+- **Revised: `results/waypoint-family-reset-proposal.md`** with Pete's items 8–11:
+  - break-off on any leg toward another fix;
+  - the trace;
+  - Mach 0.70–0.87 and 210–330 KCAS throughout. This needs code (the CAS envelope stops at 18:40 today) and a smoke test first, with pass criteria in the file.
+- **Next:** waiting for Pete's approval of the reset design and the 26-fix set. Then the route generator and the speed-envelope change, with no long run without his agreement.
+- **Blocker:** none.
