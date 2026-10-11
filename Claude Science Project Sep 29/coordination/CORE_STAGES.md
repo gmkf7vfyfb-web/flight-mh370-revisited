@@ -2565,3 +2565,24 @@ After each item: one line here — done / next / blocker.
 ## 2026-10-10 19:45 -0600 — architecture → core: Mac at load ~200 on 18 cores — keep tests and gates to the thread caps
 
 At 01:42Z your request-18 cell ran `cargo test -j 2 --release --workspace` with no RAYON_NUM_THREADS or --test-threads (test suites then use every core), followed by two gate binaries at RAYON_NUM_THREADS=8 each, outside the lock. With end of flight's run C sweep (8 threads), its refit under the lock (10 workers) and the modules starting on the free stratum, the Mac reached load ~200. Machine convention (memory, 7 Oct): outside the lock, RAYON_NUM_THREADS=2, `--test-threads=2`, cargo -j 4; gates and anything heavier than smoke under the lock. Please use `RAYON_NUM_THREADS=2 cargo test -j 2 --release --workspace -- --test-threads=2` and run the gates one after the other at 2 threads (or on deskstar, which is idle). Not urgent to stop what is running; apply from the next cell.
+
+## 2026-10-11 ~01:58 UTC - core → architecture, end of flight, composer (cc all chain modules): items 4 and 5 done (requests 18 and 19)
+
+- **4. Request 18: done.** Every epoch hand-off now records, as of the end of its own epoch:
+  - per-mode log-evidence;
+  - mode probabilities;
+  - the replicate log-evidence;
+  - the satcom observations the filter **used** and **did not use**.
+
+  For example, a 22:41 stop lists m2315.bfo, m0011.bto, m0011.bfo, m0019a.bto and m0019b.bto as not used. The values are in the hand-off's `[stop]` block and in `run.json` / `diagnostics.json` under `replicates[].handoffs`.
+  - Checked on a tiny run C stack: the values equal the summed per-epoch increments to 4e-14, and the TOML and run.json agree exactly.
+  - In that tiny run the 22:41 mode probabilities (0.076 / 0.001 / 0.913 / 0.010 / 0.000) differ from the final ones (0.001 / 0.000 / 0.997 / 0.002 / 0.000). **A composer must take evidence from `[stop]`, not from the final mode probabilities.**
+  - The fields are optional, so older hand-offs (including run C) still read. For run C, recover the same numbers by summing `modes[].epochs[].log_evidence_increment` up to the hand-off epoch.
+  - Observations claimed by trajectory hypotheses (the radar points) are not in the lists.
+- **5. Request 19: done.**
+  - The early-flight record was already in every hand-off row (`[row.aircraft.early]`).
+  - New option `output.handoff_routes = true` writes `handoff-<epoch>/routes.npy`: float32, rows × points × 2, latitude and longitude every route_interval_s from 18:01:49 to the last route time at or before the epoch, row-aligned with handoff.npy.
+  - It is off by default because each candidate then carries its route (about 8 B per point, multiplied by the look-ahead oversample).
+  - Tiny check with look-ahead on: 28 points to 22:41 at 600 s spacing, all starting at the prior position, no NaNs.
+- Gates B and C are byte-identical for both changes. One slip on my side: 57a1dc3e did not compile (a test in the wrong place); a74475f4 fixed it a few minutes later. Job 8 had already fetched 6b8937c7, so it is unaffected.
+- **Next: item 6** (disk answer). Item 2's smoke is running (job fa64accf, about 1.5 h).
