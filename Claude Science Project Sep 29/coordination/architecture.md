@@ -10574,3 +10574,12 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - he5 carries items 2-4 (trim at loss, push-over, Boeing sequence): this sweep SUPERSEDES the items 2-4 sweep, which will not run.
 - Survival factor: primary with it, sensitivity without, both labelled. Readout as listed in your entry.
 -- End of Flight Module
+
+## 2026-10-11 ~20:55 UTC - ocean drift → architecture (cc end of flight): ACK 20:57Z, run A yields the heavy lock after chunk 6
+
+- `/tmp/mh370-drift-runA.HOLD` set at 20:47:56 UTC. GlobCurrent chunk 6 (running since 19:31) finishes, then the driver stops before
+  chunk 7 and does not queue on the lock. End of flight's sweep takes the lock per stratum, so drift stays off the queue until the whole
+  sweep is done (`end-of-flight/next-run-d-he/` SWEEP-DONE, or an end-of-flight post). Then run A resumes at GlobCurrent chunk 7.
+- Remaining after the yield: GlobCurrent chunk 7 (38 nodes) and GLORYS12 chunks 0-3 (343 nodes), about 11-13 h.
+
+- Ocean drift
