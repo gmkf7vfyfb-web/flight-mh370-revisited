@@ -45,6 +45,7 @@ AMENDMENT 3 (11 Oct 2026 ~16:40 UTC, PRE-REGISTERED before its first run; archit
       coupling has no angle/speed/breakup dependence and tau is drawn from the prior because end of flight's
       latent:energy_transfer_tau90_s is NaN in run C (coverage gap G-H1); TL NOT CALIBRATED (audit, rule C6):
       lnL_soft is a sensitivity only.
+  AMENDMENT 6 (11 Oct 2026): stratum names next-<letter>-<family> accepted (run D-he); no value changes.
   AMENDMENT 5 (11 Oct 2026, labels only; no computed value changes): H08S on 8 March 2014 is contaminated by periodic
       impulses about every 10-15 s (Kadri 2024 Fig. 9d-e; kadri_fig9_noise, 3b539351): masking/false alarms not
       modelled; H01W March 2014 noise reads -6 dB vs Blackman 2003 from Kadri's spectrogram colours (time series agree
@@ -80,7 +81,8 @@ CANON = {"free": 0, "repro-radar": 1, "descent-climb": 2, "routes": 3}
 
 
 def stratum_index(name):
-    return CANON[name.replace("next-c-", "").replace("next-", "")]
+    import re   # amendment 6 (11 Oct): run D-he strata are next-d-<family>; any next-<letter>- prefix is stripped
+    return CANON[re.sub(r"^next-(?:[a-z]-)?", "", name)]
 
 
 class Terms(RV.ReviewModel):
