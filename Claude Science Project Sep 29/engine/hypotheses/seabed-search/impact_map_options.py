@@ -28,6 +28,7 @@ import json
 import pathlib
 import subprocess
 import sys
+import textwrap
 
 import numpy as np
 import matplotlib
@@ -121,7 +122,9 @@ def search_loglik(run, seed_dir, scratch):
         import shutil
         sys.path.insert(0, str(ROOT / "hypotheses" / "pleiades" / "prepare"))
         import compact_eval as _ce
-        tmp = scratch / f"compact-tmp-{seed_dir.parent.parent.name}"
+        # Per SEED, not per run: the finally-clause removes the whole directory, so a per-run name
+        # would delete a sibling seed's rebuilt file the moment seeds are ever run concurrently.
+        tmp = scratch / f"compact-tmp-{seed_dir.parent.parent.name}-{seed_dir.name}"
         src = _ce.eval_input(seed_dir, tmp)
     try:
         subprocess.run([str(BINARY), "evaluate", str(HERE / "run.toml"), str(src), str(out)],
@@ -318,7 +321,13 @@ def main():
     prior_line = (f"PRIOR  {src}: "
                   + (f"{track}° initial track at {tzero}, " if track else "")
                   + f"{len(seeds)} seed files, {rows:,} impacts in all.")
-    tech = FOOTNOTE_TECH.replace("{PRIOR}", prior_line) + ("  LABELS  " + a.labels if a.labels else "")
+    tech = FOOTNOTE_TECH.replace("{PRIOR}", prior_line)
+    if a.labels:
+        # Wrap to the width the footnote already uses. Unwrapped, a long label string (run C's is
+        # ~430 characters) runs off the right edge and bbox_inches="tight" grows the canvas to fit it.
+        width = max(len(l) for l in tech.splitlines()) or 150
+        tech += "\n" + "\n".join(textwrap.wrap("LABELS  " + a.labels, width,
+                                               subsequent_indent="        "))
     fig.text(0.008, 0.188, FOOTNOTE_PLAIN, fontsize=5.6, color="#222222", ha="left", va="top",
              linespacing=1.5, family="DejaVu Sans")
     fig.text(0.008, 0.098, tech, fontsize=5.0, color="#555555", ha="left", va="top",

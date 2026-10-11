@@ -65,16 +65,26 @@ def main():
     if a.mixture and f"{a.mixture}_{q}" in dr:
         m = dr[f"{a.mixture}_{q}"].astype(bool)
         rows0, draws0 = rows0[m], draws0[m]
-    # Outcome key. The draw index is NOT bounded by 1,000: in settling's resample of a low-ESS option
-    # a single impact can be drawn thousands of times (Holland H1 on core (b): one impact drawn 1,638
-    # times among 832 distinct impacts), and a fixed multiplier of 1,000 then collides rows silently.
-    # The stride is taken from the data, with a width assertion, so the key cannot overflow or collide.
+    # Outcome key = table row and draw index, combined. The draw index is NOT bounded by 1,000: in
+    # settling's resample of a low-ESS option one impact can be drawn thousands of times (Holland H1:
+    # 1,638 times on core (b), 1,987 on run C), and a fixed multiplier of 1,000 collides rows silently.
+    # The stride is settling's DECLARED interface convention, 2**20 (run C core-set README.txt, 11 Oct
+    # 2026: "build a composite key as row * 2**20 + draw (int64), never row * 1000 + draw"), so this
+    # module's key is the same integer settling and the other consumers build. It widens to the next
+    # power of two if a future set ever exceeds it, and both widths are asserted against the data.
     rows_i, draws_i = el[:, 0].astype(np.int64), el[:, 1].astype(np.int64)
-    stride = int(max(draws_i.max(), np.asarray(draws0).max())) + 1
+    dmax = int(max(draws_i.max(), np.asarray(draws0).max()))
+    stride = 2 ** 20
+    while stride <= dmax:
+        stride *= 2
     span = int(max(rows_i.max(), np.asarray(rows0).max()))
     if span * stride + stride >= 2 ** 62:
         sys.exit(f"outcome key would overflow: {span} rows x stride {stride}")
     key = rows_i * stride + draws_i
+    # searchsorted below requires the element table to be in key order. Settling writes it that way;
+    # if a future set does not, blocks would be read from the wrong rows without any error.
+    if np.any(np.diff(key) < 0):
+        sys.exit("the element table is not in (row, draw) order: cannot block it by key")
     ukey = np.unique(key)
     bounds = np.append(np.searchsorted(key, ukey, side="left"), len(key))
     # Map each selected outcome to its block in the element table by LOOKING ITS KEY UP, not by its
