@@ -52,13 +52,23 @@ Three periods: I1 before 29 Jul 2015; I2 to the end of February 2016; I3 March t
 
 ## 3. Source grid
 
-Nodes lie on a regular latitude-longitude grid at a configured spacing (10 NM for the pilot) over
-the smallest region holding a configured fraction of impact-posterior mass (99%), plus a margin
-(100 NM). Connected components are linked at 40 NM. A detached northern island of mass is a
-separate, optional patch, which is reported as a labelled sensitivity (`source_grid.rs`;
-`results/debris-drift-pilot-sizing.md`). On the no-exhaustion-prior reference map, the main band
-has 1,709 nodes and holds 0.971 of mass. The island patch has 1,390 nodes. PROVISIONAL: the extent
-is re-derived from the final impact samples before production.
+Nodes lie on a regular latitude-longitude grid at a configured spacing over the smallest region that holds a
+configured fraction of impact-posterior mass (99 %), plus a margin (100 NM). Connected components are linked at
+40 NM. A detached northern island of mass is a separate, optional patch, reported as a labelled sensitivity
+(`source_grid.rs`; `results/debris-drift-pilot-sizing.md`). The pilot used 10 NM nodes on the no-exhaustion-prior map
+(1,709 nodes, 0.971 of mass).
+
+**Production** uses 30 NM nodes on the reference-289 00:19 position map: 367 nodes in one band (0.9903 of mass,
+40.7-22.2 S). End-of-flight impacts spread beyond the 00:19 positions. On run C's impacts the 367 nodes leave
+13-20 % of the weight not computed for 00:19 Held Out and R600 BTO Only, and 1.6-2.9 % for R600 BTO + Raw BFO
+(coverage gap G10).
+
+**Extension (run A).** The extension adds nodes on the same grid until every stratum and every standard 00:19
+option is at least 99 % covered. A bilinear cell counts as covered only when all four corner nodes are computed. The
+nodes are chosen from the impacts (`prepare/pilot/coverage_nodes.py`), not from the debris likelihood, so the
+selection does not use the evidence it will score. On run C this adds 343 nodes. The not-computed weight then falls to
+<= 0.94 % for any mixture of strata, including the 0.3-0.6 % that lies off the grid. Rows that remain not computed are
+carried at the neutral value by default; excluding them is a labelled sensitivity (composer ruling, 10 Oct).
 
 ## 4. Transport
 
@@ -92,7 +102,7 @@ environment draw.
 [griffin2017partiii, p. 6]; this term applies it to GLORYS12 (0.494 m) and GlobCurrent surface currents.
 BRAN2016 is not used (Pete, 9 Oct ~18:30 UTC).
 
-**Windage must be relative to the current product (finding of 10 Oct; PENDING Pete's decision).** The two
+**Windage must be relative to the current product (finding of 10 Oct; option A adopted, architecture 18:35 -0600 under Pete's delegation).** The two
 products do not mean the same thing by "surface current". GLORYS12's value is the model's top layer, centred at
 0.494 m. GlobCurrent's 0 m total current adds an empirical wind-driven term fitted to surface drifters, so it
 already carries part of the near-surface wind drift: about 0.74% of the 10 m wind speed more, directed near
@@ -104,7 +114,7 @@ config-gated offset added to every drawn wind fraction and floored at zero (`c_w
 GLORYS12 and for the reproduction). A smoke test on 92 nodes with an offset of −0.60% reduced the standard
 deviation of the GlobCurrent − GLORYS12 node log-likelihood difference north of 30°S from 3.28 to 1.66, the mean
 deficit north of 25°S from −5.78 to −2.19 (9 nodes), and the mean excess south of 37°S from +3.56 to +0.86
-(arm −0.75% pending). The part that remains is reported as ocean-model uncertainty. An explicit-Stokes
+and with −0.75 % to 1.44, −1.57 and −0.40. At −0.75 % the latitude trend between the two models disappears (a flat −0.6 in every 4° band). Run A draws the offset per particle from U(−0.75 %, −0.60 %), from its own random stream, so the uncertainty in the offset is carried into the likelihood; the two end values are independent of the debris (gridded current difference 0.74 %; drifter fits 0.61 %). The part that remains is reported as ocean-model uncertainty. An explicit-Stokes
 composition for both products would remove the product-dependent wind content by construction; it is not yet run.
 
 **Object response by class** (`production-glorys12.toml`; PROVISIONAL priors except the flaperon's):
