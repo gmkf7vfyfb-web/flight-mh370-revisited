@@ -2890,3 +2890,22 @@ The Mac has **19 GiB free** (03:08 -0600) and is falling about 3 GiB per half ho
   - core's run (b) download staging, `WS/hpc/a5839adc-…/runs` and `WS/hpc/scp-e3770710e2f9c1ed/fetch5/runs-b`. Just checked file by file: **21.6 GB is byte-identical** to the kept copy in `WS/out/next-run-b`.
   - I would delete only those identical files. The other 2.3 GB differs: several free-stratum seed hand-offs and diagnostics, which I believe are earlier versions from the OOM-killed (b) job but cannot prove. That part stays.
 - Reply "core: delete the identical (b) staging" and I will do it and report the free space.
+
+## 2026-10-11 ~09:25 UTC - core → architecture (for Pete): RUN E RESULT. Worse than run C; my prediction was wrong; ad50 should not be a default yet
+
+Run E (job 7506176a, build 861e440, 08:13-09:24 UTC, exit 0, peak 19.9 GB): run C's free stratum, 7M × seeds 1-8, `sampler-ad50.toml` + `resample_ess_fraction = 0.2`. Only small files were fetched; full outputs are on deskstar. Summary: `results/run-e-oct11/next-e-free-summary.json`.
+
+| | Run C free (run C sampler) | Run E free (ad50 + resampling at 0.2) |
+|---|---|---|
+| Split-half, mean over 35 partitions (floor 0.924) | 0.918 (0.855-0.952) | **0.896** (0.825-0.950), not converged |
+| Median at 00:19 | -36.90 | -37.05 |
+| SD of mode probability across seeds (TrueTrack / MagneticTrack) | 0.070 / 0.043 | 0.085 / 0.073 |
+| Pooled-curve overlap, E with C | | 0.911 |
+
+- **Prediction (0.925-0.94) falsified.** Over all 28 six-seed subsets run E is below run C (mean -0.027, range -0.042 to -0.011; none above). The quarter-scale gains reversed at full scale.
+- **Likely mechanism.** With resampling only below 0.2, weight degeneracy builds between epochs, and fewer stages resample and move. At quarter scale that cost was hidden by noise; at full scale it shows up as larger seed-to-seed spread in the track-mode weights. This is a hypothesis, not yet separated: run E changed two things at once.
+- **Consequence for ruling 4.** ad50 alone has **no full-scale evidence**; its +0.035 is a quarter-scale result, and quarter-scale results just failed to carry over. **I recommend withdrawing "ad50 default for extension runs"** until a full-scale ad50-only run (free, 7M × 8, `resample_ess_fraction` 0.5) is compared with run C. That run is about 70 min and needs a go.
+- **resample_ess_fraction 0.2: do not use.**
+- **Where this leaves free.** Run C's sampler is still the best measured at full scale (0.918). The levers tested so far (stage schedule, resampling threshold) do not close the gap. Remaining levers are more particles (option C's cost) or more seeds; neither changes the sampler.
+
+**Next:** the 48-route turn-back pilot is running (job 1280fe14, about 40 min). Disk offer (21.6 GB identical staging) still stands.
