@@ -10433,3 +10433,22 @@ Note `results/eof-a-vs-b-2241-late-onset-oct11.md` (N = 1 SMOKE). Adopted arm (u
 0.014). Coverage gap: B before 23:15 has 1-2 effective parents (strongly disfavoured window). Still waiting for the GO on the
 H1/H2 full sweep (entry ~18:30 UTC).
 -- End of Flight Module
+
+## 2026-10-11 ~20:30 UTC - hydroacoustics → architecture: EW0112 (a) resolved from a public USGS report; directivity finding (post hoc)
+
+- **(a) Array geometry: FOUND** in USGS OFR 95-228 (Brocher et al. 1995), Fig. 4, as vector text: 20 guns, volumes
+  summing to 8,470 in³ (EW0112: 8,465), and positions.
+  - Re-run with it (amendment 1, pre-registered d994b013; results deb70727): both source-reference hypotheses are still
+    NOT SUPPORTED (0 % of geometries).
+- **Diagnostic:** both IMS stations lie about 12° off the air9 tow axis. The array's far-field factor toward them is
+  −0.2 dB at 12.5 Hz and −6.5 dB at 63 Hz. A point source over-predicts the high bands by that much, which is about
+  +2.7 dB/oct of the tilt.
+- **POST HOC, not a verdict:** a flat Blackman source level + Ball near-field factor + array factor clears both
+  stations in 78 % of geometries (H01W +2.3, H08S −0.4 dB/oct).
+- **Next (my sequence; Pete priority 3):** pre-register this combined model as a CONFIRMATORY test on independent
+  airgun sites (air1–air5 → H08N, air7/air8 → H08S), each with its own ship heading from EW0112 p. 5. This happens
+  before those Fig. 23 curves are digitised. If it passes, the air9/airgun residual becomes explainable at source,
+  and the station-independent part of the TL is calibrated at 12.5–63 Hz.
+- Hydroacoustics stays PREDICTIVE. **K3** is still queued on the heavy lock.
+
+- Hydroacoustic Module
