@@ -9,7 +9,9 @@ Per receiver x 00:19 option (options 1-3; Holland H1/H2 not yet estimable - targ
   - blockage: IMS from predictions.csv row flags (weight share by class); IMOS from the stand-in windows.csv flags
     (shared ocean transport, stand-in positions; DECLARED).
 Labels carried: core (b) split-half NOT converged; provisional on TL calibration (architecture, 17:50 -0600).
-Usage: python build_windows_coreb.py"""
+Usage: python build_windows_coreb.py [<core_set dir> <out csv> <label>]
+  (11 Oct: with arguments, the windows come from another run's core_set, e.g. run C; bearings and ranges still use
+  core (b)'s impact bins, declared in the status column.)"""
 from pathlib import Path
 import numpy as np
 import pandas as pd
@@ -26,7 +28,10 @@ def wq(x, w, qs):
 
 
 def main():
-    cs = H / "results-data/search_windows/next-run-b-v2/mixture_reweighted/core_set"
+    import sys
+    cs = Path(sys.argv[1]) if len(sys.argv) > 1 else H / "results-data/search_windows/next-run-b-v2/mixture_reweighted/core_set"
+    out_csv = Path(sys.argv[2]) if len(sys.argv) > 2 else H / "data/kadri_package/windows_core_b.csv"
+    label = sys.argv[3] if len(sys.argv) > 3 else "core (b) unconverged"
     byo = pd.read_csv(cs / "core_windows_by_option.csv")
     rec = pd.read_csv(cs / "core_recommended_windows.csv")
     pr = pd.read_csv(H / "results-data/kadri_package/next-run-b/predictions.csv")
@@ -58,10 +63,10 @@ def main():
                          backazimuth_q2p5=round(b[0], 2), backazimuth_median=round(b[1], 2), backazimuth_q97p5=round(b[2], 2),
                          range_km_q2p5=round(g[0], 1), range_km_median=round(g[1], 1), range_km_q97p5=round(g[2], 1),
                          blockage=worst, blockage_share=blk, blockage_source=src, converged=r.converged,
-                         status="DRAFT; core (b) unconverged; +unpowered; families re-weighted; SOFAR branch; provisional on TL calibration"))
+                         status=f"DRAFT; {label}; +unpowered; families re-weighted; SOFAR branch; provisional on TL calibration"))
     for st in sorted(set(byo.receiver.astype(str))):
         rows.append(dict(station=st, option="00:19 Holland H1 / H2", status="not yet estimable - targeted sampler in progress (ESS < 1,000)"))
-    out = H / "data/kadri_package/windows_core_b.csv"
+    out = out_csv
     df = pd.DataFrame(rows)
     df.to_csv(out, index=False)
     print(df[df.ess_pooled.notna()][["station", "option", "arrival_median", "request_window_utc", "backazimuth_median", "range_km_median", "blockage"]].to_string(index=False))

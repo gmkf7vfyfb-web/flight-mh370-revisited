@@ -13,3 +13,5 @@ requests list, and Pete's review.
 - 11 Oct 2026: data/kadri_package/windows_core_b.csv (build_windows_coreb.py) is now the PRIMARY windows table:
   core (b), +unpowered, families re-weighted, options 1-3; Holland H1/H2 rows say "not yet estimable". The stand-in
   windows.csv above is kept unchanged. Labels: core (b) unconverged; provisional on TL calibration.
+- 11 Oct 2026 ~06:50 UTC: data/kadri_package/windows_run_c.csv - the same table with run C's windows (core split-half
+  pending); bearings and ranges still from core (b)'s impact bins (declared). windows_core_b.csv regenerates unchanged.
