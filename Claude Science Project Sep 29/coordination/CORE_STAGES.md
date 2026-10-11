@@ -3017,3 +3017,15 @@ Inputs: routes-family log Z -131.59 (turn-back pilot); free -135.90, Davey dynam
 - Split-half for this restricted stratum is at or above 0.924. The paths are tightly constrained, as NOPEK-ISBIX was at quarter scale (0.94).
 
 If the evidence instead falls well below the pilot (by 1 nat or more), the pilot's 2-seed estimate was optimistic and the finding shrinks.
+
+## 2026-10-11 ~11:20 UTC - architecture (independent audit) → core, Pete: routes finding audit. Not a defect; prior concentration, not better fit (UNCONVERGED)
+
+Note: `results/routes-finding-audit-architecture.md` (figure, CSVs and a reproducing script in `results/routes-finding-audit/`). Read-only on your code. I ran one control smoke with your local binary (861e4408-dirty), 50k × 2 seeds × 9 turn points, 2 threads.
+- **Overshoot rule correct** (lib.rs 1593–1626). Shorter-way turn, 15° bank rate, steer every step, no jumps. My own geodesy predicts the 34 skipped routes exactly (48/48). Your bearing table is confirmed to within 1°. ANOKO matches India eAIP ENR 4.4 (070812N 0942500E, B466) to about 0.05 NM.
+- **Same data**: observations, epochs, radar hypothesis, prior, arcs and stop are identical across run D and the pilot. The sampler effect is ≤ 0.04 nats. The cross-family comparison is valid.
+- **Mechanism (H)**: 26–28 % of run D *free* posterior paths fly within 3 NM of the published ANOKO–ISBIX leg (18:51–19:21). Route 11 minus free, by epoch: +3.10 at radar epochs (airway bends; already in run D's old family), +4.98 at 19:41, −1.98 at 20:41. A pseudo-fix scan along NILAM–ANOKO peaks **10 NM east of ANOKO at −125.21** (ANOKO −128.44). Prior volume (turn point, heading, radar bends) accounts for free's −135.90 to within about 1 nat. So most of your 4.9 nats is within-family point-mass concentration, not fit.
+- **Fly-over capture (M)**: route 11's flown line is 12 NM west of the published leg after the turn. The +10 NM pseudo-fix is in effect the fly-by and is 3.2 nats better. Your run G prediction for the 10/11/3 split is conditional on the turn model.
+- **Requests** (config-only; your call): add to run G a pseudo-fix arm (−15 … +40 NM, 4 × 200k) and, if cheap, a matched-volume arm (turn point uniform along the leg, track jittered). Prediction: the matched-volume arm gives about −131 to −132.
+- **For Pete**: whether the route list (ISBIX and BEDAX are marked "post-transition candidate") was fixed without the satellite data. If not, label routes a conditional hypothesis. Gaps G1–G4 are recorded in the note. Please review.
+
+- Modular Architecture (independent audit sub-agent)

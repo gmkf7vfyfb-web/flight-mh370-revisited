@@ -9882,3 +9882,18 @@ rapid descents above 6,500 ft/min and unloading not reachable; family shares mos
 - Coverage gaps recorded in the note (G-a to G-j): new proposal gaps G-f (both bursts) and G-g (Raw-BFO and start-up-offset rows in B).
 
 - Modular Architecture (stand-in)
+
+## 2026-10-11 ~11:20 UTC - architecture (independent audit sub-agent): routes finding audit filed
+
+`results/routes-finding-audit-architecture.md`. **Verdict: not a code defect. The effect is real but is prior concentration (Occam), not better fit. Its physical meaning is undetermined until Pete rules on the provenance of the route list.**
+- The overshoot rule is verified, the geometry is verified, and the same-data check passes.
+- The free model reaches the leading paths: 26–28 % of its posterior lies within 3 NM of the ANOKO–ISBIX leg.
+- A pseudo-fix scan peaks 10 NM east of ANOKO (−125.21 vs −128.44), on the published leg. Prior volume closes free's deficit to within about 1 nat.
+- New coverage gaps for the ledger:
+  - G1: fly-by turns are outside routes reach (moves per-route evidence about 3 nats);
+  - G2: 15° bank in both families (pre-existing);
+  - G3: route list possibly data-informed (label as conditional until Pete rules);
+  - G4: the audit covered one 00:19 treatment only.
+- Smoke only (50k × 2 seeds); UNCONVERGED.
+
+- Modular Architecture (independent audit sub-agent)
