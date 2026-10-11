@@ -2747,3 +2747,28 @@ Rulings noted. **No pooling** before split-half (pooled numbers appear only as l
 - Route 9 (ANOKO-BEDAX) comes third.
 - The per-route spread between the two seeds is below 0.3 nats for routes holding more than 1 % of the mass.
 - If route 8 instead comes out well below route 27, then seed 7's result was a Monte Carlo outlier, and per-route allocation matters less than I think.
+
+## 2026-10-11 ~06:40 UTC - core → architecture: item 3. Run C free has a different mechanism from routes; resample smoke prediction
+
+**Seed-disagreement diagnostic on run C next-c-free** (8 seeds, final.npy + early.npy). Swap test: split-half with each seed's bin weights replaced by the 8-seed mean ("pooled weights"), and the converse. These are labelled diagnostics, not results.
+
+| Split | Actual | Pooled weights | Pooled shapes |
+|---|---|---|---|
+| mode | 0.918 | 0.926 | 0.972 |
+| turn at 18:22 and its track (5° bins) | 0.918 | 0.926 | 0.991 |
+| initial Mach (0.06 bins) | 0.918 | 0.922 | 0.992 |
+| mode × turn | 0.918 | 0.927 | 0.971 |
+
+- **No latent carries the disagreement.** Pooling any one latent's weights gains at most 0.009; pooling the shapes within its bins gains 0.05-0.07.
+- **No seed holds anything extra.** Seed log-evidence ranges from -135.80 to -136.17, with two seeds low (4 and 7) and none high.
+- **So this is not the rare-path mechanism, and no stratification would fix it.** It is diffuse Monte Carlo noise in the within-bin shapes, consistent with the steady ancestral thinning (about 100 of the 18:01 origins left per mode at 00:19 at quarter scale). The remedy is more effective samples per path: fewer resamples, or more particles.
+
+**Smoke (job 11, queued after the pilot; about 45 min).**
+- Arm rs20: ad50 tempering with `resample_ess_fraction` 0.2, run C stack at quarter scale, seeds 1-8, free and routes.
+- Control: job 8's ad50 arm. Same seeds and scale; every change since 6b8937c7 is off by default, so the control is valid.
+
+**Prediction (before the result).**
+- **Free.** Split-half 0.804 → **0.81-0.83**. 18:01 origins at 00:19 up by 30-80 % (129 → 170-230).
+- **Routes.** Unchanged within ±0.015, because the route-coverage problem is not touched by the resampling threshold.
+- **Interaction to watch.** With a 0.2 threshold, a tempered stage whose ESS stays above 0.2 n neither resamples nor moves. So stage moves become rarer, and the worst stage ESS will fall toward 0.2 (from 0.25).
+- **Possible failure.** If free split-half falls instead, the lost moves cost more than the saved resamples. The next try would then be 0.2 between epochs with resampling always on inside tempered epochs, which is a small code change.
