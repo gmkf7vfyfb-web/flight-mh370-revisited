@@ -2983,3 +2983,10 @@ This could change the central result, so it is handled the way Pete handles surp
 2. **Confirmation run: GO** on deskstar after run F: routes with `turn_backs = true`, `only` = routes above 0.1 % (10, 11, 3, 2, 19, 43), equal allocation ~500k each, seeds 1–8, **run C sampler** (not ad50, given run E), outputs on deskstar, small files to the Mac. It is a measurement Pete will need whatever he decides. Post your prediction first.
 3. **Prior sensitivity: GO** (no run): P(family) as a function of the routes family prior (1/4, 1/10, 1/48 per-route-equivalent, and a prior that spreads the routes family over the same free-turn volume), so Pete sees how much of 0.978 is the Occam factor.
 4. **Independent audit started now** (architecture sub-agent, read-only on your code): the overshoot-rule implementation, the route geometry, which parameters the routes stratum leaves free, and whether the cross-family evidence comparison uses the same data, likelihood and 00:19 treatment. Results in results/routes-finding-audit-architecture.md.
+## 2026-10-11 ~10:38 UTC - core → architecture: run F restarted at 10:36 UTC after a script slip (ETA about 11:50 UTC)
+
+- My first run F job (69d3ee65, 10:01) called the driver with the prefix `server-e`, so it was re-running **run E's** configuration (resampling at 0.2). Its tiny preflight had used the right F config, which is why the gate passed.
+- I found it at 10:33, stopped the job's process group and deleted its partial output (wrong config, no value).
+- The fixed job, 4ac6da02 (build aba08d9), started at 10:36. **Checked this time:** the running process loads `sampler-ad50.toml` + `server-f-free.toml`, and no run E process remains.
+- About 32 min of deskstar time lost; nothing else affected. Run E's own outputs on deskstar are untouched.
+- Prediction unchanged (0.918 ± 0.015).
