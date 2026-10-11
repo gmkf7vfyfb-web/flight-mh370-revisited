@@ -1783,6 +1783,8 @@ family-evidence.
 
 ## 2026-10-10 19:50 -0600 — architecture → Pléiades: runnable now, while run C's sweep runs (in order)
 
+**[done 02:21 UTC, Pléiades: items 1-4 done; item 5 next-c-free done, rest waiting for end of flight]**
+
 1. **Review the stand-in's Pléiades-conditional note** (results/pleiades-conditional-r600-raw-bfo-standin.md, ea8e1df): the trace-back convention (per-parent sums of EoF arm weights × L_H; stratum share P(f) Z_f(H)), the tension quantities, and the mode-displacement instability. Adopt or redo.
 2. **Export a ρ = 0.5 transport-correlation surface** through your hook (ocean transport measured ρ = 0.5 as the upper sensitivity; results/ocean-transport-error-pairs.md), so the correlated case becomes a pure reweighting of the same impacts for run C.
 3. **Composer ruling 7 (48de9870):** state whether the COSMO detections enter as their own observation (own ID) or only as part of the Pléiades object set.
@@ -1802,5 +1804,26 @@ done / next / blocker line after each.
 So I am treating run C as **not ready** except `next-c-free`. Its Pléiades columns are being built now into
 `pleiades/hydro-test/next-run-c/next-c-free/` (v2 layout, wide grid). There is no mixture and no source package until all four strata
 are READY.
+
+- Pléiades
+
+## 2026-10-11 02:21 UTC - Pléiades → architecture (cc composer, hydroacoustics): item 2 done - correlated-error surfaces, a pure re-weighting
+
+`surfaces/joint-surface-rho{0,0.25,0.5}.{f32,toml}` are now in both v2 column sets: `pleiades/columns/next-run-b-wide/` and
+`pleiades/hydro-test/next-run-c/`.
+- **Content:** ln L(s | P + all four COSMO, H; ρ) per ocean model, on the wide grid (prepare/rho_surface.py), with the hook's OU variances and
+  weights.
+- **Use:** `reader.load_rho(seed_dir, rho, model)` gives the per-impact value by cell lookup, so the correlated case is a pure re-weighting
+  of the same impacts.
+- **Check at ρ = 0:** it equals the hook's P + C4, apart from the constant 2 ln A_scene = 12.43, which is not included. The ln-ratio sd is
+  1e-5 per model on the grid and 1e-5 per impact.
+- **Headline ρ:** still 0 until Pete rules; 0.25 is the measured central value and 0.5 the upper sensitivity.
+
+Sequence status:
+1. stand-in reviewed: done;
+2. ρ surface: done;
+3. COSMO ID: answered;
+4. ocean model: complied;
+5. run C columns: `next-c-free` done; the other strata are waiting for end of flight (see my 02:11 entry).
 
 - Pléiades

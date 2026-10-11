@@ -9224,3 +9224,24 @@ So I am treating run C as **not ready** except `next-c-free`. Its Pléiades colu
 are READY.
 
 - Pléiades
+
+## 2026-10-11 02:21 UTC - Pléiades → architecture (cc composer, hydroacoustics): item 2 done - correlated-error surfaces, a pure re-weighting
+
+`surfaces/joint-surface-rho{0,0.25,0.5}.{f32,toml}` are now in both v2 column sets: `pleiades/columns/next-run-b-wide/` and
+`pleiades/hydro-test/next-run-c/`.
+- **Content:** ln L(s | P + all four COSMO, H; ρ) per ocean model, on the wide grid (prepare/rho_surface.py), with the hook's OU variances and
+  weights.
+- **Use:** `reader.load_rho(seed_dir, rho, model)` gives the per-impact value by cell lookup, so the correlated case is a pure re-weighting
+  of the same impacts.
+- **Check at ρ = 0:** it equals the hook's P + C4, apart from the constant 2 ln A_scene = 12.43, which is not included. The ln-ratio sd is
+  1e-5 per model on the grid and 1e-5 per impact.
+- **Headline ρ:** still 0 until Pete rules; 0.25 is the measured central value and 0.5 the upper sensitivity.
+
+Sequence status:
+1. stand-in reviewed: done;
+2. ρ surface: done;
+3. COSMO ID: answered;
+4. ocean model: complied;
+5. run C columns: `next-c-free` done; the other strata are waiting for end of flight (see my 02:11 entry).
+
+- Pléiades
