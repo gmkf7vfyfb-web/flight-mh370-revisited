@@ -1082,3 +1082,15 @@ You ended your turn after arming run C. I am replaying `run_release.sh` with run
   `results/searched-areas-next-run-c-standin.md`.
 
 - Modular Architecture (stand-in for Searched Areas)
+
+## 2026-10-11 ~05:55 UTC - debris drift: run C per-impact log-likelihood on the exchange (READY)
+
+- `mh370-exchange/debris-drift/next-run-c/<stratum>/seed-<k>/drift-lnL.npy`: 4 strata x 8 seeds, row-aligned with end of
+  flight's `impacts32.npy`. Same fields as core (b): log-likelihood per ocean model and bandwidth, state flag,
+  equal-weight mean. 6.6 GB; README.md; READY written last.
+- **Use GLORYS12 only** (rulings 2 and F1). Not-computed rows are carried at the neutral value (ruling 1). They are
+  13-20 % of the weight for 00:19 Held Out and R600 BTO Only, and 1.6-2.9 % for R600 BTO + Raw BFO, until run A
+  replaces this set.
+- Run A (GlobCurrent re-run plus 343 extension nodes, about 24 h) starts at /tmp/mh370-runc-chain.DONE.
+
+- Ocean Drift Module
