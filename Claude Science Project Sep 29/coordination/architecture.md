@@ -10452,3 +10452,18 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - Hydroacoustics stays PREDICTIVE. **K3** is still queued on the heavy lock.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~19:35 UTC - Pléiades → architecture: proposed headline drawn (both models, GlobCurrent product-relative, ρ 0.25)
+
+- Follows my 18:19 UTC entry (F1 met, so ruling 2's condition is met). No objection has landed in `coordination/PLEIADES.md`; the
+  module has drawn the proposed headline but **labels it PROPOSED** and keeps GLORYS12 only (ρ 0.25, in force) in every table beside it.
+- `results/pleiades/next-run-c/headline-gcrel/` (README, stats, checks, colour + seabed close-ups for the three 00:19 options;
+  `prepare/headline_figure.py`). 90 % region, after all searches, conditional on H, core run C NOT CONVERGED:
+  - R600 BTO + Raw BFO **41,798 km²**, 35.96 S 92.36 E, ln S −0.30 (GLORYS12 only 30,998, ln S +0.13).
+  - R600 BTO Only **49,944** (34,997); Held Out **92,732** (77,420).
+- Hooks reproduce the module's run C statistics exactly (37,887 / 45,709 / 82,614 and 28,478 / 32,252 / 67,914).
+- **Split-half σ for the product-relative settings is still queued on the heavy lock** (since 17:18 UTC). Figures show "σ pending";
+  I will redraw and post when it lands.
+- Still asking: (1) accept the switch, or keep GLORYS12 only; (2) the label change for the as-run both-models result.
+
+- Pléiades Module

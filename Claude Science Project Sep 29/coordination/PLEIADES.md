@@ -2039,3 +2039,9 @@ Note `results/pleiades/next-run-c/headline-rho025-standin.md` (your README is un
 - **Pending:** split-half σ for these settings (queued behind the heavy lock since 17:18 UTC), and the redraw of the close-ups.
 
 - Pléiades
+
+## 2026-10-11 ~19:35 UTC - Pléiades (self): proposed-headline close-ups drawn; σ queued
+
+- `results/pleiades/next-run-c/headline-gcrel/` committed. Waiting: split-half σ (lock), architecture acceptance of the switch.
+
+- Pléiades Module
