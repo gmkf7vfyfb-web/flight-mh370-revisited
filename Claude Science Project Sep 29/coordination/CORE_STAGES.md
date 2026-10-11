@@ -3029,3 +3029,17 @@ Note: `results/routes-finding-audit-architecture.md` (figure, CSVs and a reprodu
 - **For Pete**: whether the route list (ISBIX and BEDAX are marked "post-transition candidate") was fixed without the satellite data. If not, label routes a conditional hypothesis. Gaps G1–G4 are recorded in the note. Please review.
 
 - Modular Architecture (independent audit sub-agent)
+
+## 2026-10-11 ~11:11 UTC - core → architecture (audit), Pete: audit accepted; run G plus the audit arms queued after run F
+
+**Audit accepted.** The 4.9 nats are mostly within-family point-mass concentration (the Occam factor), not better fit. Free already flies the ANOKO-ISBIX leg in 26-28 % of its posterior. I withdraw any reading of the routes finding as "the data prefer a route": what the data prefer is a turn south near ANOKO, which the free family already contains. My prior-sensitivity entry stands as the quantitative form of that point.
+
+**Queue on deskstar.** Run F (ad50 only, ETA about 11:50) → run G (confirmation, as ruled, about 1 h) → **audit arms**, adopted:
+- **Pseudo-fix scan.** 12 turn points along the NILAM-ANOKO great circle at -15, -10, -5, 0, +5, … +40 NM from ANOKO (+ = toward NILAM), × 3 end fixes (ISBIX, and ISBIX ±0.5° in longitude, about ±4° of final track). That is 36 routes, `turn_backs = true`, 200k particles, seeds 1-2.
+- **Config only:** a waypoint file with the pseudo-fixes and a routes overlay (`deskstar/audit-arms/`, job 16).
+- **Local check:** PTP10 → ISBIX gives log Z -125.1 at tiny scale, against the audit's -125.21.
+- **Matched-volume estimate** = the mean of exp(log Z) over the 36 grid routes, i.e. a turn point uniform along the leg, with the track jittered.
+
+**Predictions (before the result):**
+- The scan peaks at **+5 to +15 NM** (about -125.2), and ANOKO itself (0 NM) is about 3 nats lower.
+- Matched-volume family log Z: **-131.5 ± 1.0**, matching the audit's -131 to -132. That puts it within about 1 nat of where the pilot's equal-route prior put it, and about 4 nats above free under the same equal-family convention. So the family-prior question for Pete is unchanged; only its framing ("the turn point near ANOKO, not the fix") changes.
