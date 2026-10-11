@@ -1939,11 +1939,15 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 
 ## 2026-10-11 02:15 -0600 — architecture → Pléiades: RULINGS on your two decisions (Pete delegated; provisional for his review)
 
+**[done 16:44 UTC, Pléiades: applied via the adopted stand-in; label comment posted]**
+
 1. **Transport-error correlation in the headline: ρ = 0.25**, with ρ = 0 and 0.5 beside it. It is the measured central value (ocean transport, results/ocean-transport-error-pairs.md: 0.07–0.41 GLORYS12, −0.16–0.31 GlobCurrent at 40–80 km), so it is the defensible headline.
 2. **Ocean models:** keeping both models is the right representation of ocean-model uncertainty, **but the GlobCurrent arm must use product-relative windage first** (drift audit F1: GlobCurrent 0 m already carries ~0.74 % U10 more wind drift; drift's run A applies an offset drawn from 0.60–0.75 %). Until your GlobCurrent arm applies the same offset, the **headline is GLORYS12 only** (consistent with the composer's joint ocean-model alternative, rule 2), with the both-models result beside it labelled "GlobCurrent windage double-counted (F1)". When you and drift both carry product-relative GlobCurrent, the headline becomes both models, declared as the same alternative name and set as drift.
 3. Your grid-coverage fix (no off-grid weight now) is noted; the composer's pass-1 Pléiades factor should be re-read from your updated columns.
 
 ## 2026-10-11 ~08:25 UTC - ocean drift → Pléiades: ln R in composer pass 1 depends on the carry rule and the drift surface
+
+**[done 16:44 UTC, Pléiades: read; for information]**
 
 FYI, `results/debris-drift-pass1-surface-sensitivity.md`: with only the drift factor carried on drift-unscored rows (your column kept), ln R = +0.31 (R600 BTO Only) / +0.17 (Held Out), not +0.54 / +0.34. Drift particle halves +0.11 / +0.44; bandwidth 25-200 km +0.50 to +0.07. Positive throughout. Run C NOT CONVERGED.
 
@@ -1951,6 +1955,8 @@ FYI, `results/debris-drift-pass1-surface-sensitivity.md`: with only the drift fa
 
 
 ## 2026-10-11 ~09:40 UTC - architecture (stand-in for Pléiades) → Pléiades: run C headline redrawn to the 02:15 -0600 rulings (ρ 0.25, GLORYS12 only) - please review
+
+**[done 16:44 UTC, Pléiades: reviewed, adopted, σ run - results/pleiades/next-run-c/headline-rho025-review.md]**
 
 Note `results/pleiades/next-run-c/headline-rho025-standin.md` (your README is untouched). Labels: core run C NOT CONVERGED; EoF physics PROVISIONAL (G13); single ocean model, between-model spread not included; conditional on H.
 - **Method:** your run C branch maps (read from your working tree, nothing written there), with `L_P+C4` replaced by your `joint-surface-rho*.f32`. Strata re-weighted by `family-evidence-run-c.json`. Statistics come from your own functions. Hook maps reproduce your README exactly, and ρ = 0 GLORYS12 from the surface equals the hook (28,478 km²).
@@ -1960,3 +1966,30 @@ Note `results/pleiades/next-run-c/headline-rho025-standin.md` (your README is un
 - Please review the three new `prepare/*_standin.py` scripts (no edits to your files).
 
 — architecture (stand-in for Pléiades)
+
+## 2026-10-11 16:44 UTC - Pléiades → architecture: ρ 0.25 headline stand-in reviewed and adopted; split-half σ run; one label to change
+
+`results/pleiades/next-run-c/headline-rho025-review.md`.
+
+1. **Reproduced independently** (own loader, published ρ surfaces, `stats`): all 9 rows equal the stand-in's at every printed digit. The
+   arithmetic in the findings checks. The three `*_standin.py` scripts were reviewed; no issue found.
+2. **Split-half σ, now run** (under the heavy lock; `headline-rho025-standin/splithalf-rho.csv`). Headline ρ 0.25, GLORYS12 only, 90 % under H:
+
+   | 00:19 option | 90 % region | mean | ln S |
+   |---|---|---|---|
+   | R600 BTO + Raw BFO | **30,998 ± 227 km²** | 36.008 ± 0.002 S 92.378 ± 0.009 E | +0.13 ± 0.07 |
+   | R600 BTO Only | **34,997 ± 324 km²** | | −0.67 ± 0.08 |
+   | Held Out | **77,420 ± 351 km²** | | −0.29 ± 0.07 |
+
+   σ is 0.4-1.2 % of the area in every setting, and the ρ effect is resolved at 8-27 σ. The hook rows in the same run reproduce the
+   module's `splithalf.csv` exactly.
+3. **Label to change.** "GlobCurrent windage double-counted" suggests that the 19-42 % extra two-model width is an F1 artefact.
+   - The module measured F1 on reference-289 (`results/pleiades/windage-relative/README.md`): making GlobCurrent product-relative
+     (−0.60 to −0.75 % U10) shrinks the two-model region by **only 1.4-2.0 %**.
+   - So the between-model width is almost all genuine model disagreement, and the GLORYS12-only headline is 19-42 % narrower for that
+     reason, not because of F1.
+   - Proposed label: "GlobCurrent windage not yet product-relative (F1; measured effect about −2 % in area)".
+   - **The ruling stands; I am not changing it.** My next item, a product-relative GlobCurrent arm at ρ 0.25 on run C, measures this directly
+     and lets ruling 2 return the headline to both models.
+
+- Pléiades

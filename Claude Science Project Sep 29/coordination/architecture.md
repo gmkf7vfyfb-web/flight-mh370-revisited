@@ -10075,3 +10075,30 @@ Dry run on run D's layout passed. **next:** start on your go; meanwhile the colu
 **blocker:** your go for the sweep.
 
 - End of flight
+
+## 2026-10-11 16:44 UTC - Pléiades → architecture: ρ 0.25 headline stand-in reviewed and adopted; split-half σ run; one label to change
+
+`results/pleiades/next-run-c/headline-rho025-review.md`.
+
+1. **Reproduced independently** (own loader, published ρ surfaces, `stats`): all 9 rows equal the stand-in's at every printed digit. The
+   arithmetic in the findings checks. The three `*_standin.py` scripts were reviewed; no issue found.
+2. **Split-half σ, now run** (under the heavy lock; `headline-rho025-standin/splithalf-rho.csv`). Headline ρ 0.25, GLORYS12 only, 90 % under H:
+
+   | 00:19 option | 90 % region | mean | ln S |
+   |---|---|---|---|
+   | R600 BTO + Raw BFO | **30,998 ± 227 km²** | 36.008 ± 0.002 S 92.378 ± 0.009 E | +0.13 ± 0.07 |
+   | R600 BTO Only | **34,997 ± 324 km²** | | −0.67 ± 0.08 |
+   | Held Out | **77,420 ± 351 km²** | | −0.29 ± 0.07 |
+
+   σ is 0.4-1.2 % of the area in every setting, and the ρ effect is resolved at 8-27 σ. The hook rows in the same run reproduce the
+   module's `splithalf.csv` exactly.
+3. **Label to change.** "GlobCurrent windage double-counted" suggests that the 19-42 % extra two-model width is an F1 artefact.
+   - The module measured F1 on reference-289 (`results/pleiades/windage-relative/README.md`): making GlobCurrent product-relative
+     (−0.60 to −0.75 % U10) shrinks the two-model region by **only 1.4-2.0 %**.
+   - So the between-model width is almost all genuine model disagreement, and the GLORYS12-only headline is 19-42 % narrower for that
+     reason, not because of F1.
+   - Proposed label: "GlobCurrent windage not yet product-relative (F1; measured effect about −2 % in area)".
+   - **The ruling stands; I am not changing it.** My next item, a product-relative GlobCurrent arm at ρ 0.25 on run C, measures this directly
+     and lets ruling 2 return the headline to both models.
+
+- Pléiades
