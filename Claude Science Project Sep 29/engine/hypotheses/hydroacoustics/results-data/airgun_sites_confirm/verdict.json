@@ -1,0 +1,28 @@
+{
+ "pairs": {
+  "air1->H08N": "TESTABLE (10-80 Hz, 9 readable bands; overlay verified)",
+  "air2->H08N": "NOT TESTABLE (registered grey window traces the air1 fringe at 16-80 Hz; overlay check fails)",
+  "air3->H08N": "NOT TESTABLE (2 bands)",
+  "air4->H08N": "NOT TESTABLE (2 bands)",
+  "air5->H08N": "NOT TESTABLE (0 bands; same grey class as air4)",
+  "air7->H08S": "NOT TESTABLE (2 bands; interleaves with air8)",
+  "air8->H08S": "NOT TESTABLE (3 bands)",
+  "air7->H01W": "TESTABLE by rule (4 readable bands 31.5-80 Hz) but model TL fails by about 55 dB (ridge at 28.8-29.0 S, 98.0-98.5 E, 1,190 m)"
+ },
+ "N_testable": 2,
+ "verdict": "NOT TESTABLE (N < 3)",
+ "descriptive": {
+  "air1_H08N": {
+   "uncorrected": 6.01,
+   "H_flat": 1.92,
+   "M_star": -1.9,
+   "g_M_star": "PARTIAL",
+   "angle_off_tow_deg": -17.7
+  },
+  "air7_H01W": {
+   "level_raw_db": -54.95,
+   "slope_uncorrected": -19.58,
+   "note": "TL model failure, not a source test"
+  }
+ }
+}

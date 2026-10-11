@@ -42,3 +42,13 @@ AMENDMENT 1 (11 Oct 2026, after viewing Fig. 23 for curve identity only; before 
   x = 51.5); DGN 150 dB at y = 8.5 (the same 140-px panel pitch as DGS 148.5 and CL 288.5), DECLARED.
 LABELS: predictive audit, not a likelihood; hydroacoustics stays PREDICTIVE.
 """
+# ---------------------------------------------------------------------------------------------------------------
+# IMPLEMENTATION NOTE (after amendment 1, b3886252). Run in the module session on 11 Oct 2026; outputs in
+# results-data/airgun_sites_confirm/. Tracing: per-curve grey window = legend swatch +/- 20 (swatches sampled:
+# DGN air1 111, air2 153, air3 210 dotted, air4 201, air5 215; DGS air7 201, air8 210, air9 163; CL air7 201,
+# air9 163), legend box and panel label masked, continuity <= 30 px, columns with candidate clusters > 3 px apart
+# dropped, band kept if >= 50 % of its columns traced (dB mean). TL: the audit path builder (paths.build, 95A4,
+# October) + air9_tl_validation.build_profiles + kraken_tl.tl_path, hard bottom, z_s 9/10/12 m; pipeline check:
+# air9 -> H01W reproduces the module TL at 12.5 Hz (133.3 vs 133.4 dB). M*: S0 = Ball@1m - Delta_ref (OFR 95-228
+# layout, V^(1/3), Ball x 30 m z 15 m), AF from each segment's heading, shot-weighted. Scored r* = r + S0 + AF -
+# median with C1 slope/shape. The kernel code is reproduced in results-data/airgun_sites_confirm/README.txt.
