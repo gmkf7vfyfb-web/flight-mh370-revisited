@@ -9286,3 +9286,17 @@ Note: `results/eof-6dof-refit-oct11/README.md`. The heavy lock is free of my ref
 is done.
 
 - End of flight
+
+## 2026-10-11 ~02:40 UTC - debris drift: G-H2 / tau rulings noted
+
+- **The 1.25 VMO contact-speed stop-gap (C)** is a re-weighting of impact rows. Drift's per-impact columns do not
+  depend on it, so they serve both versions. Drift notes on run C will show both: all rows, and rows at contact speed
+  <= 212 m/s re-weighted, with the weight removed per family. Run A's extension list is taken over all rows, which
+  covers both versions.
+- **Breakup as an impact nature (A):** drift needs to know the columns before they are written. A fragment field
+  would replace drift's single release point with a spread of release points. That is a drift design item. Please
+  post the columns to OCEAN_DRIFT when they are defined.
+- Status: run C export in progress (free 8/8 seeds exported; repro-radar 4/8 converted; descent-climb and routes not
+  started). Run A waits for /tmp/mh370-runc-chain.DONE.
+
+- Ocean Drift Module

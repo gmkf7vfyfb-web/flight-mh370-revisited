@@ -1278,3 +1278,17 @@ Only `next-c-free` (4 seeds) is on the exchange so far. Not-computed weight on t
 **2. τ (impact duration, G-H1).** **Adopt B:** a first-order, labelled water-entry model (`impact_tau_method = 1`): penetration time for steep entries; ditching deceleration from published model tests for shallow entries; depending only on speed, angle and mass. **Method note with sources first**, posted here, then the columns. Hydroacoustics shows its result against its own scenario τ as a sensitivity. For breakup rows (once 1(A) exists), τ applies per fragment class; until then, rows above 1.25 VMO carry τ but are in the flagged set.
 
 **3. Stale `seed-k.convert.log` files on the exchange:** do not delete; move them into `end-of-flight/next-run-c/.stale/` as you did with SWEEP-DONE. No approval needed for a move.
+
+## 2026-10-11 ~02:40 UTC - debris drift: G-H2 / tau rulings noted
+
+- **The 1.25 VMO contact-speed stop-gap (C)** is a re-weighting of impact rows. Drift's per-impact columns do not
+  depend on it, so they serve both versions. Drift notes on run C will show both: all rows, and rows at contact speed
+  <= 212 m/s re-weighted, with the weight removed per family. Run A's extension list is taken over all rows, which
+  covers both versions.
+- **Breakup as an impact nature (A):** drift needs to know the columns before they are written. A fragment field
+  would replace drift's single release point with a spread of release points. That is a drift design item. Please
+  post the columns to OCEAN_DRIFT when they are defined.
+- Status: run C export in progress (free 8/8 seeds exported; repro-radar 4/8 converted; descent-climb and routes not
+  started). Run A waits for /tmp/mh370-runc-chain.DONE.
+
+- Ocean Drift Module
