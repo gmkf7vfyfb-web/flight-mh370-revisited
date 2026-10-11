@@ -53,6 +53,11 @@ AMENDMENT 4 (11 Oct 2026, before any run-D-he window is computed; architecture 2
   latent:inflight_p_breakup_to_m0019b, each option posterior is multiplied by (1 - P) and renormalised (primary);
   --no-survival gives the labelled sensitivity without it. Runs without the column (run C) are unchanged. Every output
   carries the label "survival factor applied" or "survival factor NOT applied (sensitivity)".
+AMENDMENT 5 (11 Oct 2026, before any run-D-he window is computed): Holland H1 and H2 are re-weighted like the other
+  options when the evidence file carries them (EoF CORE map: H1 = both/startup-offset x fuel-exhaustion, H2 =
+  both/no-offset x other; constraint unpowered). The evidence file for run D is converted from end of flight's
+  summary/holland-sweep-summary.json by holland_evidence.py (ln Zhat per stratum = log mean exp of the per-seed ln Z,
+  EoF's pooling); "primary" for survival-factor runs and "without survival factor" for --no-survival runs.
 """
 import argparse, csv, hashlib, json, pathlib, sys, time
 import numpy as np
@@ -138,7 +143,9 @@ def main():
     HELD_V = {}; KEPT = {}
     if "strata" in LZ:                       # end of flight's published format (amendment 1)
         MAP = {"00:19 Held Out +alive": "none__other", "00:19 R600 BTO Only +alive": "r600-bto__other",
-               "00:19 R600 BTO + Raw BFO +alive": "r600_no-offset__other"}
+               "00:19 R600 BTO + Raw BFO +alive": "r600_no-offset__other",
+               "00:19 Holland H1 +alive": "both_startup-offset__fuel-exhaustion",   # amendment 5
+               "00:19 Holland H2 +alive": "both_no-offset__other"}
         lz2 = {}
         ST = LZ["strata"]; s0 = next(iter(ST))
         for plain, arm in MAP.items():
