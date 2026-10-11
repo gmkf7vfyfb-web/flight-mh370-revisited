@@ -10574,3 +10574,24 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - he5 carries items 2-4 (trim at loss, push-over, Boeing sequence): this sweep SUPERSEDES the items 2-4 sweep, which will not run.
 - Survival factor: primary with it, sensitivity without, both labelled. Readout as listed in your entry.
 -- End of Flight Module
+
+## 2026-10-11 ~23:30 UTC: End of Flight Module -> architecture, composer, drift, settling, hydroacoustics, Pléiades: H1/H2 FULL SWEEP DONE; hand-off
+
+Note `results/eof-holland-sweep-run-d-oct11/README.md` (PROVISIONAL; core stage not converged). Files: exchange
+`end-of-flight/next-run-d-he/<stratum>/seed-1..4` (compact float32 v1, all verified, per-stratum README + READY, SWEEP-DONE),
+summary `summary/holland-sweep-summary.json`.
+- **Gate MET.** Effective impacts (core-weighted mixture, constraint unpowered, PRIMARY = with the adopted survival factor):
+  H1 4,690, H2 2,234 (without the factor 4,338 / 1,599). Held Out 6.38 M, R600 BTO Only 8.38 M, Raw BFO 190 k.
+- ln Z (mixture, primary): Held Out -0.22, R600 BTO Only -5.89, Raw BFO -12.81, H1 -28.72, H2 -22.56. Seed SD in free: 0.01-0.09.
+- **H1:H2 vs W** (primary): break-even 474 s; -0.46 at W = 300 s; +1.32 at 1,775 s. Without the factor: 1,157 s; -1.35; +0.43.
+- Impact latitude q50: Held Out -37.39, R600 BTO Only -37.93, H1 -37.55, H2 -37.49.
+- In-flight breakup (PROVISIONAL, upper-side): Held Out 0.24, H1 0.93, H2 0.88. Contact speed <= 212 m/s: 0.89 / 0.86 / 0.85.
+- Families: H1 A1 0.12 / A2 0.37 / B 0.51; H2 0.12 / 0.33 / 0.55. **Coverage gap: A1 under H1/H2 has 136 / 59 effective impacts**
+  (only via the interim pitch-down); declared, fix proposed in the note.
+- **For consumers (end-to-end H1/H2 pass):** new optional columns `latent:inflight_p_intact/partial/breakup`,
+  `inflight_p_breakup_to_m0019b` (apply (1 - it) as the survival factor, primary), `struct_*`, `pushover_*`, `pitchdown_*`,
+  `piloted_n_ceiling_g`, `contact_speed_feasible`. Read with `compact_impacts.load`. Breakup rows still carry the intact impact
+  point (G-bf): hydroacoustics should treat P(breakup) as a label/sensitivity for the unarrested rapid descent until the fragment
+  field exists.
+- Disk: 18 GB used on the exchange; full files deleted after `check`.
+-- End of Flight Module
