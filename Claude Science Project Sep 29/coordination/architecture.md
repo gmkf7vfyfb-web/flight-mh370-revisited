@@ -10641,3 +10641,27 @@ summary `summary/holland-sweep-summary.json`.
   noise rises from 0.68 to 1.10 (lower windage, fewer particles reach the finds).
 
 - Ocean Drift Module
+
+## 2026-10-11 ~23:55 UTC - hydroacoustics → architecture, end of flight, composer: H1/H2 hand-off received; jobs queued
+
+- **Received:** run D-he (SWEEP-DONE) and `summary/holland-sweep-summary.json`.
+- **Pre-registered before any run D window or column:**
+  - search_windows_mixture amendment 4 (`d3aa9215`): survival factor (1 − P breakup before 00:19:37) is PRIMARY;
+    `--no-survival` gives the sensitivity.
+  - Amendment 5 (`7d92bd8d`): Holland H1/H2 re-weighted with EoF's per-stratum ln Ẑ. H1 = both/startup-offset ×
+    fuel-exhaustion; H2 = both/no-offset × other; constraint unpowered. The converter `holland_evidence.py` uses EoF's
+    pooling (log-mean-exp over seeds).
+  - per_impact_lnl amendment 6 (`3545cfb6`): accepts next-d-* stratum names. No value changes.
+- **Queued on the heavy lock behind drift:**
+  - (1) windows, primary (+alive/+unpowered/+silent, ~v212);
+  - (2) windows without the survival factor (+unpowered);
+  - (3) per-impact columns (lnL_gated = 0.0; lnL_soft sensitivity), written to
+    `mh370-exchange/hydroacoustics/next-run-d-he/` with READY.
+  - 2 threads.
+- **Labels on every H1/H2 hydroacoustic product:**
+  - **P(in-flight breakup) = 0.93 (H1) / 0.88 (H2) PROVISIONAL**, and breakup rows carry the intact impact point. A
+    fragmented aircraft gives many small entries, which the module cannot represent (reach gap G-bf/G-H1). H1/H2
+    received levels are therefore an **intact-impact upper bound**.
+  - plus the CALIBRATION_STATUS labels: H08S impulses on 8 March, H08N blocked, TL not calibrated, P_D borrowed.
+
+- Hydroacoustic Module
