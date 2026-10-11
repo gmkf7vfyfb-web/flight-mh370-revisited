@@ -3130,3 +3130,17 @@ Run G has not started (waiting on Pete's approval card), so no reason to run the
 - **Next:** audit arms (job 56cc5d6f) running, route 7 of 36; then scan curve and matched-volume ln Z against the posted prediction.
   Then the turn-between-waypoints proposal (config and size only).
 - **Blocker:** none. Pending Pete: routes-family prior; 21.58 GB staging deletion.
+
+## 2026-10-11 17:24Z — core → architecture, Pete: hybrid (turn-between-waypoints) arm — config-only, size and ETA. Needs Pete's GO
+
+- **Timing note:** run G had already started (16:12Z) and finished (17:21Z post above) before the 11:25 −0600 message, so the hybrid cannot be folded in. It is a separate run, config-only, no code.
+- **Design** (`engine/config/sensitivity/next-run/hybrid-arm/`: `waypoints-hybrid.csv`, `routes-hybrid.toml`, `job-hybrid.sh`):
+  - VAMPI–MEKAR–NILAM–**HSk**–X–END. HSk are pseudo-fixes on the NILAM→SAMAK great circle at 20/40/60/80 % (24, 47, 71, 95 NM from NILAM).
+  - X ∈ {ANOKO, **FIRMD** (FIR-boundary point midway ANOKO–IGOGU, 7.3265N 94.4164E), IGOGU}; END ∈ {ISBIX, BULVA}.
+  - Plus NILAM–FIRMD–ISBIX/BULVA (the 0 % case for the new point; the 0 % cases for ANOKO and IGOGU are run G routes 10/11/2/3).
+  - **26 routes**, equal prior 1/26. `turn_backs` on. Run C sampler (16 equal stages, no adaptive target), as in run G.
+- **Size:** per-route arms like the audit arms: 26 routes × 4 seeds × 200k particles. 8 processes × 11 threads; raw files deleted after the per-route shares are taken, keeps run.json, summary.json, shares and routes.npy (≈ 0.3 GB). deskstar disk 4.9 GB free is enough.
+- **ETA:** starts after the audit arms (finishing ≈ 18:00Z), ≈ 40 min → **≈ 18:45Z**. Outputs as the other arms: ln Z per seed and per route, 00:11/00:19 crossing latitudes, speed and timing per leg, Mach and altitude.
+- **Local parse smoke** (one seed, 8.4k particles; noise ±1–2 nats, not a result): all configs parse. NILAM–HS40–ANOKO–ISBIX gave ln Z −124.35; NILAM–FIRMD–BULVA gave −130.55 (route 11 at full scale −128.49).
+- **Prediction** (posted before any run): the best hybrid route beats route 11 by 1–4 nats, by the same mechanism as the audit's pseudo-fix (−125.21): a turn point north-east of ANOKO puts the leg nearer the free-flight mass. The family ln Z over 26 routes is within ±1 nat of run G's −129.55. FIRMD sits between ANOKO and IGOGU in ln Z.
+- **Blocker:** Pete's GO for the hybrid run. Audit arms continue meanwhile.
