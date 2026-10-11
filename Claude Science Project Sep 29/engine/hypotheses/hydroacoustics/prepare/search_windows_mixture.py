@@ -28,6 +28,10 @@ AMENDMENT 1 (10 Oct, before its run on these inputs): end of flight exposed ruli
   core options 1-3 map to none__other, r600-bto__other, r600_no-offset__other; their "+alive" ln Ẑ is applied to the
   `+alive` arms AND to the `+unpowered` arms (declared approximation: the 01:15:56 factor keeps the same 0.90 as
   alive to within 0.003, EoF ~20:40); `+silent` and H1/H2 are reported fixed-weight only.
+AMENDMENT 2 (11 Oct 2026, FORMAT ONLY, before its first run C use): --compact-reader as in search_windows.py
+  (impacts32.npy through end of flight's reader; time, latitude, longitude only); the full-format path is untouched.
+  --mixture-json may be core's early-families-mixture.json ({"P_family": {plain family: p}}); the plain family names
+  map to the run's stratum directories by --strata-map (e.g. free=next-c-free).
 LABELS: carried from the inputs: core split-half state, two-tank bookkeeping, uncorrected fuel, provisional sampler,
   PROVISIONAL-OVERNIGHT where they apply; "P(family) held fixed" or "P(family) re-weighted by 00:19 evidence".
 
@@ -94,13 +98,23 @@ def main():
     ap.add_argument("--eof-module", required=True); ap.add_argument("--out", required=True)
     ap.add_argument("--family-evidence"); ap.add_argument("--regress-against")
     ap.add_argument("--variants", nargs="+", default=list(sw.VARIANTS))
+    ap.add_argument("--compact-reader"); ap.add_argument("--strata-map", nargs="+")
     a = ap.parse_args()
     import importlib.util
     from pyproj import Geod
     spec = importlib.util.spec_from_file_location("eof_dh", a.eof_module); dh = importlib.util.module_from_spec(spec); spec.loader.exec_module(dh)
     dh.SATCOM_CSV = pathlib.Path(a.eof_module).resolve().parents[3] / "data" / "satcom-observations.csv"
     geod = Geod(ellps="WGS84"); rx = sw.receivers(); out = pathlib.Path(a.out)
-    PF = json.load(open(a.mixture_json))["p_family"]
+    _mj = json.load(open(a.mixture_json))
+    if "p_family" in _mj:
+        PF = _mj["p_family"]
+    else:
+        smap = dict(x.split("=", 1) for x in a.strata_map)
+        PF = {smap[k]: v for k, v in _mj["P_family"].items()}
+    CR = None
+    if a.compact_reader:
+        sp2 = importlib.util.spec_from_file_location("compact_impacts", a.compact_reader); CR = importlib.util.module_from_spec(sp2)
+        sp2.loader.exec_module(CR)
     LZ = json.load(open(a.family_evidence)) if a.family_evidence else {}
     if "strata" in LZ:                       # end of flight's published format (amendment 1)
         MAP = {"00:19 Held Out +alive": "none__other", "00:19 R600 BTO Only +alive": "r600-bto__other",
@@ -124,14 +138,20 @@ def main():
 
     rep_f, rep_r, stats = {}, {}, {}
     for stratum in PF:
-        seed_dirs = sorted(d for d in (pathlib.Path(a.exchange) / stratum).glob("seed-*") if (d / "impacts.npy").exists())
+        seed_dirs = sorted(d for d in (pathlib.Path(a.exchange) / stratum).glob("seed-*")
+                           if d.is_dir() and ((d / "impacts.npy").exists() or (CR is not None and (d / "impacts32.npy").exists())))
         nk = len(seed_dirs); rng = np.random.default_rng(sw.SEED)
         for kidx, sd in enumerate(seed_dirs):
             t0 = time.time(); meta = json.loads((sd / "run.json").read_text())
-            cols = {c: i for i, c in enumerate(meta["impact_columns"])}
-            X = np.load(sd / "impacts.npy", mmap_mode="r")
-            t = np.asarray(X[:, cols["unix_s"]], float); lat = np.asarray(X[:, cols["latitude_deg"]], float)
-            lon = np.asarray(X[:, cols["longitude_deg"]], float); ok = np.isfinite(t) & np.isfinite(lat) & np.isfinite(lon)
+            if (sd / "impacts.npy").exists():
+                cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+                X = np.load(sd / "impacts.npy", mmap_mode="r")
+                t = np.asarray(X[:, cols["unix_s"]], float); lat = np.asarray(X[:, cols["latitude_deg"]], float)
+                lon = np.asarray(X[:, cols["longitude_deg"]], float)
+            else:
+                _m, g = CR.load(sd)
+                t, lat, lon = (np.asarray(g(k), float) for k in ("unix_s", "latitude_deg", "longitude_deg"))
+            ok = np.isfinite(t) & np.isfinite(lat) & np.isfinite(lon)
             n = len(t); c_s = rng.normal(sw.C_SOFAR, sw.C_SOFAR_SD, n); c_a = rng.uniform(*sw.C_AGW, n)
             series = {"impact": np.where(ok, t, np.inf)}
             for name, (rl, ro) in rx.items():
