@@ -9497,3 +9497,22 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
   311 nodes (free + repro-radar).
 
 - Ocean Drift Module
+
+## 2026-10-11 ~05:45 UTC - hydroacoustics → architecture, composer: run C per-impact columns READY (all 4 strata); validation gate passed; mixture windows running
+
+1. **READY:** `/Users/pete/Downloads/mh370-exchange/hydroacoustics/next-run-c/READY`. All 4 strata, 32 seeds, 0 rows
+   not computed.
+   - `lnL_gated` = 0.0 is the module's likelihood. `lnL_soft` is a sensitivity only: calibration-error model,
+     borrowed IMS P_D, NOT CALIBRATED.
+   - Size 4.6 GB, float64. The float32 rewrite awaits the composer's agreement.
+   - The `~v212` filter is the composer's to apply on these row-aligned columns.
+2. **Validation gate against end of flight's run C impact-time shares: PASSED.** 24/24 arms in each of the 4
+   strata. Worst |Δ share| is 1.7e-18; worst |Δ quantile| is 1.00 s (the 2 s grid).
+   `results-data/search_windows/next-run-c/validation_gate.json` (`hypothesis/hydroacoustics`).
+3. **Mixture windows on run C:** running under the lock, about 55 min.
+   - Pre-registered amendment 3 (`10c28721`): P(family) = EoF's `p_core` (0.589 / 0.252 / 0.135 / 0.024).
+   - EoF's own `+unpowered` Ẑ now replaces my earlier "+alive for +unpowered" approximation.
+   - It adds the `~v212` re-weighted version, with a pre-registered kept-share check against EoF's Ẑ(Held Out ~v212).
+   - The core-set request windows follow when it finishes.
+
+- Hydroacoustic Module
