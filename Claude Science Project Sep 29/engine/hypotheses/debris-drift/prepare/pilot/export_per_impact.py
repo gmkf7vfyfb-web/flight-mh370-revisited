@@ -15,6 +15,7 @@ Absolute scale: each value carries the recovery model's normalising constants; i
 are NOT impossible: exclude and count them, never treat as zero likelihood (normalisation rule 3).
 
 Usage: python export_per_impact.py <drift runs dir> <eof next-run dir> <out dir> [--strata next-free,...] [--seeds 1,2,3,4]
+         [--recipe <end of flight smoke dir>]   (needed for run C's compact impacts32.npy; read with its compact_impacts.load)
 """
 import argparse
 import hashlib
@@ -40,7 +41,9 @@ def sha256(path):
     return h.hexdigest()
 
 
-def main(runs, nextrun, out, strata, seeds):
+def main(runs, nextrun, out, strata, seeds, recipe=None):
+    if recipe:
+        sys.path.insert(0, recipe)
     surfs = {(m, b): surface_arrays(os.path.join(runs, d), c) for m, d in MODELS.items() for b, c in BW.items()}
     fields = [("row", "u4"), ("parent", "i4")]
     for b in BW:
@@ -51,15 +54,26 @@ def main(runs, nextrun, out, strata, seeds):
     for st in strata:
         for k in seeds:
             d = pathlib.Path(nextrun) / st / f"seed-{k}"
-            meta = json.loads((d / "run.json").read_text())
-            cols = {c: i for i, c in enumerate(meta["impact_columns"])}
-            X = np.load(d / "impacts.npy", mmap_mode="r")
-            n = X.shape[0]
-            lat = np.asarray(X[:, cols["latitude_deg"]], float)
-            lon = np.asarray(X[:, cols["longitude_deg"]], float)
+            if not (d / "run.json").exists():
+                print(f"{st} seed-{k}: absent, skipped", flush=True)
+                continue
+            if (d / "impacts32.npy").exists():
+                from compact_impacts import load as load_compact  # end of flight's reader, read-only
+                _, gcol = load_compact(d)
+                lat, lon, parent = gcol("latitude_deg"), gcol("longitude_deg"), gcol("parent")
+                src = "impacts32.npy"
+            else:
+                meta = json.loads((d / "run.json").read_text())
+                cols = {c: i for i, c in enumerate(meta["impact_columns"])}
+                X = np.load(d / "impacts.npy", mmap_mode="r")
+                lat = np.asarray(X[:, cols["latitude_deg"]], float)
+                lon = np.asarray(X[:, cols["longitude_deg"]], float)
+                parent = np.asarray(X[:, cols["parent"]])
+                src = "impacts.npy"
+            n = lat.size
             A = np.zeros(n, dtype=fields)
             A["row"] = np.arange(n, dtype=np.uint32)
-            A["parent"] = np.asarray(X[:, cols["parent"]]).astype(np.int32)
+            A["parent"] = parent.astype(np.int32)
             s = {}
             for b in BW:
                 vals = {}
@@ -80,7 +94,7 @@ def main(runs, nextrun, out, strata, seeds):
             os.replace(tmp, o / "drift-lnL.npy")
             (o / "COLUMNS.txt").write_text("\n".join(f"{nm}\t{dt}" for nm, dt in fields) + "\n")
             (o / "SHA256SUMS").write_text(f"{sha256(o / 'drift-lnL.npy')}  drift-lnL.npy\n")
-            summary[f"{st}/seed-{k}"] = {"rows": n, "impacts_sha256_listed": (d / "SHA256SUMS").read_text().split()[0] if (d / "SHA256SUMS").exists() else None, **s}
+            summary[f"{st}/seed-{k}"] = {"rows": n, "source": src, "impacts_sha256_listed": (d / "SHA256SUMS").read_text().split()[0] if (d / "SHA256SUMS").exists() else None, **s}
             print(f"{st} seed-{k}: {n} rows", flush=True)
     (pathlib.Path(out) / "summary.json").write_text(json.dumps(summary, indent=1))
 
@@ -89,6 +103,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("runs"); ap.add_argument("nextrun"); ap.add_argument("out")
     ap.add_argument("--strata", default="next-free,next-repro-radar,next-descent-climb,next-routes")
-    ap.add_argument("--seeds", default="1,2,3,4")
+    ap.add_argument("--seeds", default="1,2,3,4"); ap.add_argument("--recipe", default=None)
     a = ap.parse_args()
-    main(a.runs, a.nextrun, a.out, a.strata.split(","), [int(x) for x in a.seeds.split(",")])
+    main(a.runs, a.nextrun, a.out, a.strata.split(","), [int(x) for x in a.seeds.split(",")], a.recipe)
