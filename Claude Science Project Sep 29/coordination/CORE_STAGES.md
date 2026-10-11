@@ -2772,3 +2772,39 @@ Rulings noted. **No pooling** before split-half (pooled numbers appear only as l
 - **Routes.** Unchanged within ±0.015, because the route-coverage problem is not touched by the resampling threshold.
 - **Interaction to watch.** With a 0.2 threshold, a tempered stage whose ESS stays above 0.2 n neither resamples nor moves. So stage moves become rarer, and the worst stage ESS will fall toward 0.2 (from 0.25).
 - **Possible failure.** If free split-half falls instead, the lost moves cost more than the saved resamples. The next try would then be 0.2 between epochs with resampling always on inside tempered epochs, which is a small code change.
+
+## 2026-10-11 ~07:17 UTC - core → architecture (for Pete): item 1 result. My prediction was wrong; the routes prior has a defect; seed 7 was one lucky ancestor
+
+Job 370f4976 (build 68ead80): 48 single-route runs, 200k particles, seeds 1-2, all exit 0. Table: `results/route-pilot-oct11/route-pilot-evidence.csv`.
+
+**1. Per-route evidence. NILAM-NOPEK-ISBIX dominates.**
+
+| Route | log Z (seed 1 / seed 2) | P(route), equal priors over the 48 |
+|---|---|---|
+| 27 NILAM-NOPEK-ISBIX | -135.60 / -135.41 | **0.957** (0.973 / 0.944 per seed) |
+| 9 NILAM-ANOKO-BEDAX | -140.40 / -139.17 | 0.016 |
+| 8 NILAM-ANOKO, open-ended (and its 6 copies, see 2) | -141.66 / -141.15 | 0.003 each, 0.019 together |
+| LAGOG group (8 copies) | | 0.006 together |
+
+- **My prediction (route 8 about +0.75 nats above 27) is falsified.** Route 8 is about **5.9 nats below**.
+- The routes-family evidence from the pilot, -139.33, equals run C's and run D's (-139.33 / -139.35), so the pilot and the main runs agree on the family as a whole.
+- The two-seed spread is 0.2 nats for route 27, but 1.2 nats for route 9.
+
+**2. Model defect: only 14 of the 48 routes are distinct.**
+- Routes 8 and 10-15 (ANOKO followed by BULVA, ISBIX, POSOD, MUTMI, PIPOV or BEBIM) give **bit-identical** results. So do all eight continuations after IGOGU, after NILAM-SAMAK, after LAGOG, and after MEKAR-SAMAK.
+- Only NOPEK's eight continuations and ANOKO-BEDAX are actually flown.
+- Cause: guidance counts a waypoint as reached "within 2 NM **or once it is behind the aircraft**". At the first fix the continuation fix lies behind for most pairs (for example ANOKO → ISBIX is a turn-back), so it is captured at once and the aircraft reverts to free flight.
+- Effect: the family's prior is really 14 behaviours with multiplicities of 1 to 8, not 48 equal routes, and most route names do not describe the path flown.
+- NOPEK-ISBIX is unaffected (multiplicity 1, flown as named). The **direction** of the routes result stands; the labels and the prior do not.
+- **Ruling needed** on one of:
+  - (a) apply "behind" capture only after the leg toward that fix has begun (an overshoot rule), so turn-backs are flown;
+  - (b) drop the continuation pairs that are geometrically turn-backs from `waypoints.toml`;
+  - (c) keep the code and state the 14 behaviours and their multiplicities as the prior.
+  
+  I recommend (a) with a stated turn rule if the turn-backs are meant to be real hypotheses, otherwise (b).
+
+**3. Run C seed 7 explained.** All of seed 7's route-8 weight comes from **one 18:01 origin, in TrueTrack mode only**. Seed 7's TrueTrack evidence is -136.75, against -138.17 in seed 1. The evidence estimator is unbiased but heavy-tailed for such paths: most runs never draw one, and a run that does overstates it. The pilot put about 1.4M draws on that behaviour (7 equivalent indices × 200k) and found nothing close.
+
+**What this means for the main routes run.** Per-route allocation is still the right structure, but the gain is smaller than I claimed, because the family's evidence is dominated by one route. I propose the full run only after the ruling in 2. Then: the distinct routes only, equal allocation per route, seeds 1-4, run C stack with ad50. Routes is 0.019 of P(family), so this run refines the routes family; it does not move the overall mixture.
+
+**Next:** item 3's smoke (job 11, rs20) is running; result in about 45 min.
