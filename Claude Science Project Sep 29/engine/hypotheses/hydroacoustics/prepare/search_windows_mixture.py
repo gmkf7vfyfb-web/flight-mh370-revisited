@@ -32,6 +32,16 @@ AMENDMENT 2 (11 Oct 2026, FORMAT ONLY, before its first run C use): --compact-re
   (impacts32.npy through end of flight's reader; time, latitude, longitude only); the full-format path is untouched.
   --mixture-json may be core's early-families-mixture.json ({"P_family": {plain family: p}}); the plain family names
   map to the run's stratum directories by --strata-map (e.g. free=next-c-free).
+AMENDMENT 3 (11 Oct 2026, before its first run C use; ruling 1(C) of 20:35 -0600 and EoF's run C evidence file):
+  (a) --mixture-json may hold {"p_core": {stratum: p}} (EoF's family-evidence-run-c.json).
+  (b) When the evidence file has "+unpowered" entries, they are used for the +unpowered arms (amendment 1's
+      "+alive for +unpowered" approximation is then retired).
+  (c) --speed-max V adds the "~v212" version: rows with impact speed |v| = sqrt(ve^2 + vn^2 + vu^2) > V are given zero
+      weight, each seed's weights are renormalised, and strata are mixed by P(family) * Zhat(option ~v212), whose
+      Zhat already carries each stratum's kept share. This version is RE-WEIGHTED ONLY (no fixed-weight ~v212).
+      CHECK (pre-registered): per stratum, |ln(kept share, 00:19 Held Out) - ln Zhat(00:19 Held Out ~v212)| <= 0.01;
+      otherwise the definition of "contact speed" differs from EoF's and the ~v212 output is labelled CHECK-FAILED.
+      Label: "impacts faster than 212 m/s removed (no structural limit in the model)".
 LABELS: carried from the inputs: core split-half state, two-tank bookkeeping, uncorrected fuel, provisional sampler,
   PROVISIONAL-OVERNIGHT where they apply; "P(family) held fixed" or "P(family) re-weighted by 00:19 evidence".
 
@@ -99,6 +109,7 @@ def main():
     ap.add_argument("--family-evidence"); ap.add_argument("--regress-against")
     ap.add_argument("--variants", nargs="+", default=list(sw.VARIANTS))
     ap.add_argument("--compact-reader"); ap.add_argument("--strata-map", nargs="+")
+    ap.add_argument("--speed-max", type=float)
     a = ap.parse_args()
     import importlib.util
     from pyproj import Geod
@@ -108,6 +119,8 @@ def main():
     _mj = json.load(open(a.mixture_json))
     if "p_family" in _mj:
         PF = _mj["p_family"]
+    elif "p_core" in _mj:
+        PF = dict(_mj["p_core"])
     else:
         smap = dict(x.split("=", 1) for x in a.strata_map)
         PF = {smap[k]: v for k, v in _mj["P_family"].items()}
@@ -116,13 +129,24 @@ def main():
         sp2 = importlib.util.spec_from_file_location("compact_impacts", a.compact_reader); CR = importlib.util.module_from_spec(sp2)
         sp2.loader.exec_module(CR)
     LZ = json.load(open(a.family_evidence)) if a.family_evidence else {}
+    HELD_V = {}; KEPT = {}
     if "strata" in LZ:                       # end of flight's published format (amendment 1)
         MAP = {"00:19 Held Out +alive": "none__other", "00:19 R600 BTO Only +alive": "r600-bto__other",
                "00:19 R600 BTO + Raw BFO +alive": "r600_no-offset__other"}
         lz2 = {}
+        ST = LZ["strata"]; s0 = next(iter(ST))
         for plain, arm in MAP.items():
-            for var in ("alive", "unpowered"):
-                lz2[f"{arm}+{var}"] = {s_: LZ["strata"][s_][plain]["ln_Zhat"] for s_ in LZ["strata"]}
+            base = plain.replace(" +alive", "")
+            for var in ("alive", "unpowered", "silent"):
+                for suf in ("", " ~v212"):
+                    pk = f"{base} +{var}{suf}"
+                    if var == "unpowered" and pk not in ST[s0]:
+                        pk = f"{base} +alive{suf}"          # amendment 1 approximation, only when EoF lacks +unpowered
+                    if pk in ST[s0]:
+                        lz2[f"{arm}+{var}" + ("~v212" if suf else "")] = {s_: ST[s_][pk]["ln_Zhat"] for s_ in ST}
+            if f"{base} ~v212" in ST[s0]:
+                lz2[f"{arm}~v212"] = {s_: ST[s_][f"{base} ~v212"]["ln_Zhat"] for s_ in ST}
+        HELD_V = {s_: ST[s_]["00:19 Held Out ~v212"]["ln_Zhat"] for s_ in ST} if "00:19 Held Out ~v212" in ST[s0] else {}
         LZ = lz2
     VARIANTS = tuple(a.variants)
 
@@ -152,6 +176,13 @@ def main():
                 _m, g = CR.load(sd)
                 t, lat, lon = (np.asarray(g(k), float) for k in ("unix_s", "latitude_deg", "longitude_deg"))
             ok = np.isfinite(t) & np.isfinite(lat) & np.isfinite(lon)
+            keep = None
+            if a.speed_max:
+                if (sd / "impacts.npy").exists():
+                    vv = [np.asarray(X[:, cols[k]], float) for k in ("velocity_east_mps", "velocity_north_mps", "velocity_up_mps")]
+                else:
+                    vv = [np.asarray(g(k), float) for k in ("velocity_east_mps", "velocity_north_mps", "velocity_up_mps")]
+                keep = np.sqrt(vv[0] ** 2 + vv[1] ** 2 + vv[2] ** 2) <= a.speed_max
             n = len(t); c_s = rng.normal(sw.C_SOFAR, sw.C_SOFAR_SD, n); c_a = rng.uniform(*sw.C_AGW, n)
             series = {"impact": np.where(ok, t, np.inf)}
             for name, (rl, ro) in rx.items():
@@ -171,16 +202,35 @@ def main():
                 rf = rep_f.setdefault(key, {}).setdefault(kidx, {})
                 rr = rep_r.setdefault(key, {}).setdefault(kidx, {}) if wr_ else None
                 for k, (xs, o, gi) in srt.items():
-                    g = np.concatenate([[0.0], np.cumsum(p[o])])[gi]
-                    rf[k] = rf.get(k, 0.0) + PF[stratum] * g
+                    g_ = np.concatenate([[0.0], np.cumsum(p[o])])[gi]
+                    rf[k] = rf.get(k, 0.0) + PF[stratum] * g_
                     if rr is not None:
-                        rr[k] = rr.get(k, 0.0) + wr_[stratum] * g
+                        rr[k] = rr.get(k, 0.0) + wr_[stratum] * g_
+                if keep is not None:
+                    kept = float(p[keep].sum())
+                    if key == "none__other":
+                        KEPT.setdefault(stratum, []).append(kept)
+                    kv = key + "~v212"
+                    wv = w_rew(kv)
+                    if wv is not None and kept > 0:
+                        pv = np.where(keep, p, 0.0) / kept
+                        stats.setdefault(kv, []).append((nk, float(1.0 / np.sum(pv ** 2)), float(pv[t < sw.T_ALIVE].sum()),
+                                                         float(pv[t > sw.T_0115].sum()), kidx, stratum))
+                        rv = rep_r.setdefault(kv, {}).setdefault(kidx, {})
+                        for k, (xs, o, gi) in srt.items():
+                            g_ = np.concatenate([[0.0], np.cumsum(pv[o])])[gi]
+                            rv[k] = rv.get(k, 0.0) + wv[stratum] * g_
             del srt
             print(f"{stratum}/{sd.name}: {n} rows, {time.time() - t0:.0f} s", flush=True)
     prov = dict(script="prepare/search_windows_mixture.py", search_windows_sha256=hashlib.sha256(open(sw.__file__, "rb").read()).hexdigest(),
                 eof_module=a.eof_module, eof_module_sha256=hashlib.sha256(open(a.eof_module, "rb").read()).hexdigest(),
                 exchange=a.exchange, p_family=PF, family_evidence=a.family_evidence, receivers=rx)
-    rows, summ = windows(rep_f, stats, w_fixed, rx, len(PF))
+    if a.speed_max and HELD_V:
+        chk = {s_: dict(ln_kept=float(np.log(np.mean(v))), ln_Zhat_v212=HELD_V[s_], ok=bool(abs(np.log(np.mean(v)) - HELD_V[s_]) <= 0.01))
+               for s_, v in KEPT.items()}
+        (out / "v212_check.json").parent.mkdir(parents=True, exist_ok=True)
+        (out / "v212_check.json").write_text(json.dumps(chk, indent=1)); print("v212 check", chk, flush=True)
+    rows, summ = windows({k: v for k, v in rep_f.items()}, {k: v for k, v in stats.items() if not k.endswith("~v212")}, w_fixed, rx, len(PF))
     write(out / "mixture_fixed", rows, summ, dict(prov, weighting="P(family) held fixed"))
     if LZ:
         r2, s2 = windows(rep_r, stats, lambda k: w_rew(k), rx, len(PF))
