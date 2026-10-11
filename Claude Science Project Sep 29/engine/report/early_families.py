@@ -40,6 +40,7 @@ def xtrack(p, a, b):
 
 
 def wq(x, w, q):
+    x, w = np.asarray(x, np.float64), np.asarray(w, np.float64)
     o = np.argsort(x)
     c = np.cumsum(w[o]) / w.sum()
     return np.interp(q, c, x[o])
@@ -57,7 +58,9 @@ def load(arm_dir):
     F, E, Ro = [], [], []
     for s in seeds:
         d = os.path.join(arm_dir, "bto-bfo", s)
-        f = np.load(os.path.join(d, "final.npy"))
+        # float64: a float32 cumulative sum over 8 seeds x 3.5-7M rows stops short of 1 and pushes
+        # the upper quantiles into the tail (run C, 10 Oct: p95 -5.5 instead of -30.0).
+        f = np.load(os.path.join(d, "final.npy")).astype(np.float64)
         f[:, 0] /= f[:, 0].sum() * len(seeds)
         F.append(f)
         if os.path.exists(os.path.join(d, "early.npy")):
