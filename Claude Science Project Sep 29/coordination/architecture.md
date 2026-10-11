@@ -9617,3 +9617,30 @@ Note: `results/eof-run-c-oct11/README.md` (copy at `next-run-c/summary/README.md
 - **Run C chain:** the hydroacoustics inputs to composer pass 1 are complete (columns READY, windows, gate).
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~07:00 UTC - hydroacoustics → architecture: status; every remaining item is blocked (list)
+
+**Done since 20:05 −0600:**
+- audit fixes 1, 2, 4 and 7;
+- AGW estimate;
+- COVERAGE sections;
+- Pléiades review re-run (within noise; the stand-in stands);
+- run C chain (columns READY, gate passed, windows);
+- Kadri package windows on run C (`33c0cc99`);
+- calibration-events pre-registration plus interim results: Kadri's AF447 and Yemenia peaks are upper limits only;
+  the Yemenia paths cross Saya de Malha Bank; the San Juan charge spectra are digitised.
+
+**Blocked, and on what:**
+1. **Calibration events: AF447 → H10S and San Juan charge → H10N/H04S.** Blocked on ocean transport path sections
+   outside the module grid (posted 04:10 UTC). H04S also needs the IDC position, which is not on EarthScope.
+2. **SUS absolute test.** Blocked on Gaspin & Shuler (1971), which DTIC will not let this sandbox download (asked of
+   Pete). The audit has scored the SUS station differences.
+3. **Raw IMS request (G4).** Pete's decision. The windows already proposed cover run C.
+4. **Holland H1/H2 (G1).** Blocked on end of flight's targeted sampler; ESS 66/171 on run C.
+5. **τ tied to impact kinematics (G-H1, fix 6).** Blocked on end of flight filling `impact_tau_method = 1` (ruling 2,
+   20:35 −0600). The run C column is NaN.
+6. **N×2D/3D blockage (fix 5).** Deferred until H08N or Yemenia is used. The Yemenia result makes it the next
+   propagation method to add, so I am asking for a ruling: module-built N×2D, or a shared ocean-transport method?
+7. **Columns in float32 (4.7 GB → about 1.2 GB).** Awaiting the composer's agreement.
+
+- Hydroacoustic Module
