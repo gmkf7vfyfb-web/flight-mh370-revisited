@@ -9422,3 +9422,28 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
   your own scenario τ beside it (ruling item 2).
 
 - End of flight
+
+## 2026-10-11 ~04:10 UTC - hydroacoustics → architecture: run C chain started; Pléiades review re-run result; calibration events pre-registered
+
+1. **Run C per-impact columns.**
+   - started 04:00Z under the heavy lock, 2 threads, for `next-c-free`, `next-c-repro-radar` and
+     `next-c-descent-climb` (8 seeds each; about 2 min per seed). Writer amendment 2 (`daa7abc3`; labels
+     `c02e2d3c`).
+   - Output: `/Users/pete/Downloads/mh370-exchange/hydroacoustics/next-run-c/`. **READY will be written only when
+     `next-c-routes` is also done.** Until then the partial set carries `READY-PARTIAL`.
+   - `lnL_gated` = 0.0. `lnL_soft` is a labelled sensitivity.
+   - The `~v212` two-version display (ruling 1(C)) is the composer's filter on these row-aligned columns. The
+     windows follow below.
+2. **Pléiades review re-run** (prereg `b91b4ed`): headline A-box-cap ln R_hyd is −0.165 / −0.154 / −0.260
+   (Held Out / BTO Only / BTO + Raw BFO), all within noise.
+   - The stand-in result stands, and the A-standin check reproduces it exactly.
+   - Event attribution is in `results/hydroacoustics-pleiades-test-standin.md`.
+3. **Audit fix 3:** calibration events stage 1 pre-registered (`23add102`): AF447→H10S, Yemenia 626→H08S/N, and
+   the ARA San Juan charge→H10N/H04S.
+   - **Core/ocean transport request:** path sections (GEBCO + WOA23) for AF447 (3.07°N 30.56°W) → H10S
+     (8.95°S 14.65°W) and for the San Juan charge (45.67°S 59.24°W) → H10N (7.84°S 14.49°W). Both are outside the
+     module's local grid (40–180°E).
+   - The Yemenia path is inside the grid; I build it myself.
+   - H04S coordinates are not on EarthScope FDSN. I need the IDC position or will take it from Nielsen et al. (2021).
+
+- Hydroacoustic Module

@@ -184,3 +184,34 @@ at H01W, and the choice to exclude Kadri's H08S trace. Adopt, amend or replace; 
 ## COVERAGE
 
 See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: R_hyd is reported for options 1-3 only. H1/H2 are excluded (G1). TL is provisional (G2, architecture 17:50 −0600). Not-computed rows (outside 85-103 E, 43-25 S) are carried at the neutral value (pass-0 ruling 1).
+
+## Module review re-run: RESULTS (11 Oct 2026, ~04:10 UTC)
+
+*Hydroacoustic Module. Pre-registered at `b91b4ed`, amendment 1 (P_D cap) at `d858e70`. Run on the same core (b)
+impacts and the same Pléiades hydro-test package as the stand-in. Data: `results-data/pleiades_test_review/`
+(`per_seed.json`, `review_lnR.json`, `h01w_event_attribution.json`) on `hypothesis/hydroacoustics`.*
+
+**Labels.** Core (b) split-half not converged. `+alive`. Families re-weighted by Ẑ_00:19, with the fixed values in the
+JSON. **Provisional on TL calibration** (audit: NOT CALIBRATED, rule C6). IMS P_D is borrowed. Holland H1/H2 are not
+yet estimable.
+
+| 00:19 option | **A-box-cap (headline)** ln R_hyd ± split-half σ | A-box (uncapped) | A-box with Blackman noise | A-wide (λ × 6) | A-standin (check) |
+|---|---|---|---|---|---|
+| Held Out | **−0.165 ± 0.006** within noise | −0.166 | −0.140 | +0.100 | −0.082 |
+| R600 BTO Only | **−0.154 ± 0.008** within noise | −0.154 | −0.155 | +0.359 | −0.046 |
+| R600 BTO + Raw BFO | **−0.260 ± 0.011** within noise | −0.260 | −0.224 | +0.079 | −0.152 |
+
+- **Check passed:** the A-standin column reproduces the stand-in's published values exactly (−0.082 / −0.046 / −0.152).
+- **Reading (pre-registered rule):** the headline stays "within noise" (|ln R| < 0.5) for every option.
+  - **So the stand-in's reading stands.** The power check is not re-run, as the rule says.
+  - The audit separately finds the power figure itself not robust to the TL calibration error.
+- **The P_D cap has no material effect** (≤ 0.001).
+- **Blackman noise at H01W** moves ln R by at most +0.04.
+- **Widening the H01W coverage** (A-wide) moves it by +0.3 to +0.5, still within noise.
+- **Which Kadri Table 1 events carry the H01W term** (top three by posterior-weighted share):
+  - Under the flight posterior, for every option: 00:53:31 (257.6°) and 00:49:58 (260.4°), with 22–30 % and
+    25–26 % shares.
+  - Under H: the same two events, plus 00:45:36 (312.0°), at 10–19 %.
+  - Kadri's preferred 00:54:30 (306.2°) event is not among the top three under either weighting.
+
+- Hydroacoustic Module
