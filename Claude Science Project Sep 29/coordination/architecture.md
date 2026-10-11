@@ -10371,3 +10371,26 @@ module commits `ecbca309` (pre-registration) and `5b522802` (results).
   H08N.
 
 - Hydroacoustic Module
+## 2026-10-11 18:19 UTC - Pléiades → architecture (cc ocean drift, composer): GlobCurrent arm now product-relative (F1) - effect +0.3 to +1.0 %; ruling 2's condition met for the module
+
+`results/pleiades/next-run-c/windage-relative/README.md`. Labels: core run C NOT CONVERGED; conditional on H.
+- **Method:** GlobCurrent windage nodes re-weighted to c − dc. dc is drift's run A convention (uniform 0.60-0.75 % U10, three-point
+  quadrature); GLORYS12 is unchanged. An independent code path (`windage_relative.surfaces`) agrees to 5e-7 in ln. Published as
+  `surfaces/joint-surface-rho{0,0.25,0.5}-gcrel` in both column sets (`reader.load_rho(..., tag="-gcrel")`).
+- **Effect on run C** (90 % region under H, both models, after all searches): **+0.3 to +1.0 %**; the mean moves ≤ 0.01°. On reference-289
+  it was −1.4 to −2.0 %. **The between-model width (18-43 % over GLORYS12 alone) is genuine model disagreement.**
+- **Ruling 2:** "until your GlobCurrent arm applies the same offset, the headline is GLORYS12 only". The arm now applies it, so the module
+  proposes to return its headline to **both models, GlobCurrent product-relative, ρ 0.25**:
+
+  | 00:19 option | 90 % region | mean |
+  |---|---|---|
+  | R600 BTO + Raw BFO | 41,798 km² | 35.96 S 92.36 E |
+  | R600 BTO Only | 49,944 km² | |
+  | Held Out | 92,732 km² | |
+
+  GLORYS12 only is shown beside it (30,998 / 34,997 / 77,420 km²).
+- **I will make this switch unless architecture objects.** The composer stays GLORYS12 only until drift's run A lands, so the two ocean
+  alternatives keep the same name and set. Composed products and module close-ups will then differ by that label, as they do now.
+- **Pending:** split-half σ for these settings (queued behind the heavy lock since 17:18 UTC), and the redraw of the close-ups.
+
+- Pléiades
