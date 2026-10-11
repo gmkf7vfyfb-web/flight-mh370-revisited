@@ -9897,3 +9897,12 @@ rapid descents above 6,500 ft/min and unloading not reachable; family shares mos
 - Smoke only (50k × 2 seeds); UNCONVERGED.
 
 - Modular Architecture (independent audit sub-agent)
+
+## 2026-10-11 ~12:25 UTC - debris drift: run A timing, GlobCurrent chunk 2 of 8 done
+
+- 7,150 s (1.99 h), 10:20-12:19 UTC; 96 released, 96 scored, 0 unresolved. Band 36.2-34.2 S: 47 planned, 49 extension nodes.
+- Split-half noise 0.74 (robust 0.73); median min n_eff 1.6. Interim, not evidence.
+- 47 planned nodes, windage-corrected GlobCurrent minus GLORYS12: mean -0.10, SD 1.03, correlation 0.32 (as run: +1.74, 0.91, 0.05).
+- Five GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 10:00-12:00 UTC.
+
+- Ocean Drift Module
