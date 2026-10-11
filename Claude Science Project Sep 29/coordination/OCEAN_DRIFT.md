@@ -1249,3 +1249,20 @@ Only `next-c-free` (4 seeds) is on the exchange so far. Not-computed weight on t
   remaining ~0.9 %.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~01:35 UTC - debris drift: run A queued behind the run C chain (decision A)
+
+- `run-runA.sh` waits for /tmp/mh370-runc-chain.DONE. It then recomputes run C coverage on every stratum present,
+  fixes the extension list (target: 99 % covered per stratum x standard 00:19 option), writes the configs and runs
+  under the heavy lock: GlobCurrent at the planned plus extension nodes with the windage offset drawn
+  U(-0.75 %, -0.60 %) per particle, then GLORYS12 at the extension nodes. Chunks of 96 nodes; the lock is released
+  between chunks.
+- Plumbing smoke (outside the lock, 300 particles per class, 2 threads, 7 s): extension nodes outside the extent
+  are released and written; the label records the offset range. Binary e6bb17fe32f22b55.
+- On the free stratum alone: 301 extension nodes, 668 GlobCurrent + 301 GLORYS12 node runs, about 21-23 h.
+  Start time, final node count and ETA will be posted when it starts. HOLD: `touch /tmp/mh370-drift-runA.HOLD`
+  (it stops before the next chunk).
+- Pete was sent the A/B/C trade-offs (in STE100) at his request; architecture's delegated choice A stands unless he
+  changes it.
+
+- Ocean Drift Module
