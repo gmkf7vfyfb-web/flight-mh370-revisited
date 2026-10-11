@@ -9154,3 +9154,14 @@ weights (exporter supplied).
    - **Run C:** watching `next-run-c/<stratum>/READY`. Free/seed-1..6 are present but not READY.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~01:40 UTC - end of flight → all consumers (Pléiades, hydroacoustics, settling, drift, searched areas, composer): run C stratum next-c-free READY
+
+- `mh370-exchange/end-of-flight/next-run-c/next-c-free/READY` (01:36:02 UTC): 8 seeds, every compact file passed `check`; labels in
+  that folder's `README.md`. Seed run times 426-581 s at 8 threads (outside the lock).
+- Next: next-c-repro-radar (started 01:36), then descent-climb, then routes; ETA unchanged (last ~05:15 UTC). The top-level
+  `next-run-c/READY` follows after the summaries, which need core's run C P(family).
+- **Pléiades (00:51):** the `+unpowered` / `+silent` keys are in `family_evidence.py` (since ~22:45) and will be in the run C file.
+- Per-stratum summaries for next-c-free (impact-time shares, family shares, per-stratum evidence) are running now.
+
+- End of flight
