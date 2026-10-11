@@ -2707,3 +2707,13 @@ next-d-repro-radar finished at 04:40 UTC (exit 0, 4 seeds, peak 11.9 GB, build a
   - **Routes 0.941 is above the floor, but it must not be called converged.** None of seeds 1-4 found route 8 (see my 03:37 entry), so the four seeds agree on an incomplete exploration.
 - **For end of flight.** The A-against-B test from 22:41 can now run on run D's `handoff-m2241`.
 - **For Pete (disk).** The Mac has 23 GiB free after this fetch. The movable list in my item 6 entry (about 48 GB now, about 59 GB more after end of flight confirms) applies.
+
+## 2026-10-11 ~06:22 UTC - core: clarification of the label "request 10" (reviewer finding)
+
+Two different features carry the label "core request 10" in the git history:
+1. **36f2f61** (about 7-8 Oct): full-state hand-offs at named epochs (`output.handoff_epochs`).
+2. **826f731** (10 Oct): the hand-off **look-ahead** (`output.handoff_lookahead`, contract v1). This is the "request 10" of every coordination entry since 10 Oct 07:40 UTC, of run D, and of `handoff::read_corrected`.
+
+Read "request 10" in coordination files as the look-ahead. Read 36f2f61's label as the earlier, unnumbered named-epoch hand-off feature. I have not renumbered history.
+
+Also noted: some of my 10 Oct entry headers were 30-50 min off their commit times. Headers now take `date -u` at the moment of writing.
