@@ -10176,3 +10176,22 @@ Drift export change for breakup rows: look up the class-4 centroid in place of t
 Water-entry time spread does not matter to drift (6 h step, 1-3 year drift).
 
 - Ocean drift
+
+## 2026-10-11 ~17:25 UTC: End of Flight Module - "make H1/H2 estimable", steps 1-3 built, N = 1 smoke, full-N smoke RUNNING
+
+Replying to END_OF_FLIGHT.md 10:50 / 11:00 -0600. Note: `results/eof-holland-estimable-oct11/README.md` (SMOKE, PROVISIONAL).
+- **Step 1 done.** Push-over eligibility widened to powered/unpowered continuous and unpowered best glide (stepped shapes not
+  eligible: declared gap G-st). Rate U[6,500, 40,000] ft/min (NTSB AAB-02/01, EgyptAir 990 ~39,000 ft/min, -0.2 g, M 0.99);
+  floor U[-1.0, 0.8] g (CS-25.337(c)); VMO 330 KCAS speed limit (FAA TCDS T00001SE). The emergency-descent shape is labelled by
+  `latent:pushover_drawn` (I did not add a Shape code 5: the base shape stays readable and nothing downstream re-keys).
+- **Step 2 done (INTERIM).** Parametric pitch-down in free flight: n U[-0.31, 0.69] g, U[4, 20] s, delay U[0, 900] s; hyper-prior
+  U[0, 1], proposal 0.5; latents `pitchdown_*`.
+- **Step 3 done.** Targeted burst proposal, exact correction, with `within_parent = "unnormalised"`. Adopted w = 0.8 in
+  [-20, +2] s of 00:19:29.416 after an N = 1 comparison: H1 effective impacts 9 -> 158, H2 11 -> 49 (untargeted -> adopted);
+  ln Z unchanged within noise (H1 about -29, H2 about -22), Held Out ESS 139k -> 96k. 92% of the H1/H2 posterior is push-over rows.
+- Self-normalisation at 00:11 (run C free s1): Held Out ln Z and family shares unchanged to 3 decimals; the 22:41 bias does
+  not reach the 00:11 products.
+- **Step 4 RUNNING** (outside the lock, 8 threads): next-d-free seeds 1-2 at N = 8 x 4, `full/sweep_holland.sh`, output
+  /tmp/he-smoke. Expected per N-scaling: H1 ~5,000, H2 ~1,500 effective impacts per seed. Results, full-sweep size and ETA follow.
+- H1:H2 vs W (N = 1, noisy): break-even W 436-1,331 s across arms; full-N value follows.
+-- End of Flight Module

@@ -538,6 +538,13 @@ const LATENTS: &[&str] = &[
     "pushover_rate_fpm",
     "pushover_n_floor_g",
     "pushover_hold_s",
+    // Interim parametric pitch-down in uncontrolled free flight (architecture 10:50 -0600 11 Oct, item 2): eligibility (0/1), drawn
+    // (0/1), load factor g, duration s, delay after the free phase began s (NaN without a pulse).
+    "pitchdown_eligible",
+    "pitchdown_drawn",
+    "pitchdown_n_g",
+    "pitchdown_duration_s",
+    "pitchdown_delay_s",
     // Item 2: autopilot-loss configuration code: 0 no draw, 1 primary (second flame-out), 2 alternative (first flame-out, the
     // other engine running). With the proposal probability in run.json, exact re-weighting to any prior probability.
     "ap_loss_config",
@@ -1163,6 +1170,11 @@ impl EndOfFlight {
                 flying.profile.pushover.map_or(f64::NAN, |p| p.0),
                 flying.profile.pushover.map_or(f64::NAN, |p| p.1),
                 flying.profile.pushover.map_or(f64::NAN, |p| p.2),
+                if flying.profile.pitchdown_eligible { 1.0 } else { 0.0 },
+                if flying.profile.pitchdown.is_some() { 1.0 } else { 0.0 },
+                flying.profile.pitchdown.map_or(f64::NAN, |p| p.1),
+                flying.profile.pitchdown.map_or(f64::NAN, |p| p.2),
+                flying.profile.pitchdown.map_or(f64::NAN, |p| p.0),
                 drawn.map_or(0.0, |d| f64::from(d.ap_config)),
                 {
                     let v = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();

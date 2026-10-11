@@ -192,10 +192,89 @@ pub struct EnvelopeConfig {
     /// glides (unpowered).
     #[serde(default = "default_pushover_hold")]
     pub pushover_hold_s: Range,
+    /// Pete's GO (11 Oct 11:00 -0600): a TARGETED proposal that aims the start of a push-over (and of a parametric pitch-down)
+    /// at the 00:19 bursts. Absent (default): no targeting and no extra draw. Set to the target time (00:19:29.416 UTC): with
+    /// probability `burst_target_weight` the start is drawn uniformly in [target + window[0], target + window[1]] (intersected
+    /// with the prior support), otherwise from the prior; the exact ln(prior/proposal) goes into the profile's correction. Needs
+    /// `terminal.within_parent = "unnormalised"` (core request 9) for the correction to be exact.
+    #[serde(default)]
+    pub burst_target_unix_s: Option<f64>,
+    #[serde(default = "default_burst_window")]
+    pub burst_target_window_s: [f64; 2],
+    #[serde(default = "default_burst_weight")]
+    pub burst_target_weight: f64,
+    /// Speed limit of the push-over/emergency descent as calibrated airspeed (VMO), kt: the target Mach is reduced to the Mach of
+    /// this CAS at the current altitude. Absent: Mach target only (earlier behaviour).
+    #[serde(default)]
+    pub pushover_vmo_kt: Option<f64>,
+    /// INTERIM parametric pitch-down in uncontrolled free flight (architecture 10:50 -0600 11 Oct, item 2; replaced by the 6-DOF
+    /// when its gate passes): proposal probability per eligible free phase (no intervention; control maintained then lost). 0
+    /// (default): never, no extra draw. Prior probability a U[0, 1] hyper-parameter (p0 = 0.5 is the marginal); latents
+    /// `pitchdown_*`. During the pulse the trim lift is replaced by load factor n for the drawn duration.
+    #[serde(default)]
+    pub pitchdown_probability: f64,
+    #[serde(default = "default_pitchdown_n")]
+    pub pitchdown_n_g: Range,
+    #[serde(default = "default_pitchdown_duration")]
+    pub pitchdown_duration_s: Range,
+    /// Delay of the pulse after the free phase begins, s.
+    #[serde(default = "default_pitchdown_delay")]
+    pub pitchdown_delay_s: Range,
+}
+
+fn default_burst_window() -> [f64; 2] {
+    [-30.0, 2.0]
+}
+
+fn default_burst_weight() -> f64 {
+    0.5
+}
+
+fn default_pitchdown_n() -> Range {
+    Range::Uniform([-0.31, 0.69])
+}
+
+fn default_pitchdown_duration() -> Range {
+    Range::Uniform([4.0, 20.0])
+}
+
+fn default_pitchdown_delay() -> Range {
+    Range::Uniform([0.0, 900.0])
+}
+
+/// Mach of a calibrated airspeed at a pressure altitude (subsonic compressible flow, ISA).
+pub fn mach_of_cas(cas_kt: f64, pressure_altitude_ft: f64) -> f64 {
+    let (p0, a0) = (101_325.0_f64, 340.294_f64);
+    let v = cas_kt * 0.514_444;
+    let qc = p0 * ((1.0 + 0.2 * (v / a0).powi(2)).powf(3.5) - 1.0);
+    let p = geo::isa_pressure_pa(pressure_altitude_ft);
+    (5.0 * ((qc / p + 1.0).powf(2.0 / 7.0) - 1.0)).sqrt()
+}
+
+/// Draw a start delay from the prior `range` or, with targeting, from the mixture aimed at [target + w0, target + w1] (absolute
+/// time, the delay measured from `t0`). Returns the delay and ln(prior / proposal).
+pub fn draw_targeted_delay(range: &Range, t0: f64, target: Option<f64>, window: [f64; 2], weight: f64, uniform: &mut dyn FnMut() -> f64) -> (f64, f64) {
+    let (lo, hi) = match *range {
+        Range::Fixed(v) => (v, v),
+        Range::Uniform([a, b]) => (a, b),
+    };
+    let Some(t) = target else { return (range.draw(uniform), 0.0) };
+    if !(hi > lo) {
+        return (range.draw(uniform), 0.0);
+    }
+    let (a, b) = ((t + window[0] - t0).max(lo), (t + window[1] - t0).min(hi));
+    let u = uniform();
+    if !(b > a) {
+        return (lo + (hi - lo) * uniform(), 0.0);
+    }
+    let x = if u < weight { a + (b - a) * uniform() } else { lo + (hi - lo) * uniform() };
+    let prior = 1.0 / (hi - lo);
+    let proposal = (1.0 - weight) * prior + if x >= a && x <= b { weight / (b - a) } else { 0.0 };
+    (x, prior.ln() - proposal.ln())
 }
 
 fn default_rapid_rate() -> Range {
-    Range::Uniform([6_500.0, 30_000.0])
+    Range::Uniform([6_500.0, 40_000.0])
 }
 
 fn default_pushover_floor() -> Range {
@@ -224,6 +303,9 @@ impl EnvelopeConfig {
             ("rapid_descent_rate_fpm", self.rapid_descent_rate_fpm),
             ("pushover_load_factor_floor_g", self.pushover_load_factor_floor_g),
             ("pushover_hold_s", self.pushover_hold_s),
+            ("pitchdown_n_g", self.pitchdown_n_g),
+            ("pitchdown_duration_s", self.pitchdown_duration_s),
+            ("pitchdown_delay_s", self.pitchdown_delay_s),
             ("emergency_mach", self.emergency_mach),
             ("descent_mach", self.descent_mach),
             ("transition_altitude_ft", self.transition_altitude_ft),
@@ -290,6 +372,39 @@ impl EnvelopeConfig {
         [10_000.0, 4_000.0, self.leveloff_altitude_ft.draw(uniform)]
     }
 
+    /// Item 4: one push-over phase (emergency descent) from the start state, with its draws and ln(prior/proposal) of the
+    /// (possibly targeted) hold.
+    fn draw_pushover_phase(&self, start: &Body, aero: &Aero, powered: bool, speedbrake_eighths: u8, uniform: &mut dyn FnMut() -> f64) -> (Phase, (f64, f64, f64), f64) {
+        let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
+        let rate_fpm = self.rapid_descent_rate_fpm.draw(uniform);
+        let n_floor_g = self.pushover_load_factor_floor_g.draw(uniform);
+        let (hold_s, lq) = draw_targeted_delay(&self.pushover_hold_s, start.unix_s, self.burst_target_unix_s, self.burst_target_window_s, self.burst_target_weight, uniform);
+        let phase = Phase::PushOver {
+            rate_fpm,
+            mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
+            until_altitude_ft: transition.max(1_000.0),
+            speedbrake_eighths,
+            n_floor_g,
+            hold_s,
+            powered,
+        };
+        (phase, (rate_fpm, n_floor_g, hold_s), lq)
+    }
+
+    /// Interim pitch-down for a free phase starting `free_start_s` after the onset: (pulse, eligible, ln(prior/proposal)).
+    fn draw_pitchdown(&self, start: &Body, free_start_s: f64, uniform: &mut dyn FnMut() -> f64) -> (Option<(f64, f64, f64)>, bool, f64) {
+        if !(self.pitchdown_probability > 0.0) {
+            return (None, false, 0.0);
+        }
+        if uniform() >= self.pitchdown_probability {
+            return (None, true, 0.0);
+        }
+        let n = self.pitchdown_n_g.draw(uniform);
+        let duration = self.pitchdown_duration_s.draw(uniform);
+        let (delay, lq) = draw_targeted_delay(&self.pitchdown_delay_s, start.unix_s + free_start_s, self.burst_target_unix_s, self.burst_target_window_s, self.burst_target_weight, uniform);
+        (Some((delay, n, duration)), true, lq)
+    }
+
     /// Sample a profile for one descent.
     pub fn sample(
         &self,
@@ -304,34 +419,39 @@ impl EnvelopeConfig {
         let mut phases: Vec<Phase> = Vec::new();
         let mut pushover_eligible = false;
         let mut pushover: Option<(f64, f64, f64)> = None;
+        let mut po_lq = 0.0;
         let level_c_l = {
             let t = atmos::isa_temperature_k(start.pressure_altitude_ft);
             let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(start.pressure_altitude_ft), start.tas_mps / atmos::sound_speed_mps(t));
             start.mass_kg * atmos::G0 / (q * aero.wing_area_m2)
         };
         match shape {
-            Shape::BestGlide => phases.push(Phase::Glide),
+            Shape::BestGlide => {
+                if self.rapid_descent_probability > 0.0 {
+                    pushover_eligible = true;
+                    if uniform() < self.rapid_descent_probability {
+                        let (ph, d, lq) = self.draw_pushover_phase(start, aero, false, 0, uniform);
+                        phases.push(ph);
+                        pushover = Some(d);
+                        po_lq += lq;
+                    }
+                }
+                phases.push(Phase::Glide)
+            }
             Shape::FreeTrim => phases.push(Phase::Free {
                 c_l: level_c_l + self.trim_cl_offset.draw(uniform),
                 bank_rad: self.draw_residual_bank_deg(uniform).to_radians(),
                 recover_at_altitude_ft: None,
             }),
             Shape::Continuous => {
-                if self.rapid_descent_probability > 0.0 && propulsion == Propulsion::NeitherThrusting {
+                if self.rapid_descent_probability > 0.0 {
                     pushover_eligible = true;
                     if uniform() < self.rapid_descent_probability {
-                        let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
-                        let (rate_fpm, n_floor_g, hold_s) = (self.rapid_descent_rate_fpm.draw(uniform), self.pushover_load_factor_floor_g.draw(uniform), self.pushover_hold_s.draw(uniform));
-                        pushover = Some((rate_fpm, n_floor_g, hold_s));
-                        phases.push(Phase::PushOver {
-                            rate_fpm,
-                            mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
-                            until_altitude_ft: transition.max(1_000.0),
-                            speedbrake_eighths: 0,
-                            n_floor_g,
-                            hold_s,
-                            powered: false,
-                        });
+                        let powered = propulsion != Propulsion::NeitherThrusting;
+                        let (ph, d, lq) = self.draw_pushover_phase(start, aero, powered, if powered { 8 } else { 0 }, uniform);
+                        phases.push(ph);
+                        pushover = Some(d);
+                        po_lq += lq;
                     }
                 }
                 phases.push(Phase::Descend {
@@ -345,17 +465,10 @@ impl EnvelopeConfig {
                 let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
                 pushover_eligible = self.rapid_descent_probability > 0.0;
                 if pushover_eligible && uniform() < self.rapid_descent_probability {
-                    let (rate_fpm, n_floor_g, hold_s) = (self.rapid_descent_rate_fpm.draw(uniform), self.pushover_load_factor_floor_g.draw(uniform), self.pushover_hold_s.draw(uniform));
-                    pushover = Some((rate_fpm, n_floor_g, hold_s));
-                    phases.push(Phase::PushOver {
-                        rate_fpm,
-                        mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
-                        until_altitude_ft: transition.max(1_000.0),
-                        speedbrake_eighths: 8,
-                        n_floor_g,
-                        hold_s,
-                        powered: true,
-                    });
+                    let (ph, d, lq) = self.draw_pushover_phase(start, aero, true, 8, uniform);
+                    phases.push(ph);
+                    pushover = Some(d);
+                    po_lq += lq;
                 } else {
                     phases.push(Phase::Descend {
                         rate_fpm: self.emergency_rate_fpm.draw(uniform),
@@ -421,7 +534,8 @@ impl EnvelopeConfig {
                     bank_rad: self.draw_residual_bank_deg(uniform).to_radians(),
                     recover_at_altitude_ft: None,
                 });
-                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover };
+                let (pitchdown, pitchdown_eligible, pd_lq) = self.draw_pitchdown(start, after, uniform);
+                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq + po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown };
             }
             Control::UpsetThenRecovery => {
                 let recover_at = self.recovery_altitude_ft.draw(uniform);
@@ -442,15 +556,18 @@ impl EnvelopeConfig {
                     control,
                     loss_of_control_after_s: None,
                     recovery_attempt_altitude_ft: Some(recover_at),
-                    log_q_correction: 0.0,
+                    log_q_correction: po_lq,
                     takeover_level_c_l: level_c_l,
                     pushover_eligible,
                     pushover,
+                    pitchdown_eligible: false,
+                    pitchdown: None,
                 };
             }
             Control::NoIntervention => {}
         }
-        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: 0.0, takeover_level_c_l: level_c_l, pushover_eligible, pushover }
+        let (pitchdown, pitchdown_eligible, pd_lq) = if control == Control::NoIntervention { self.draw_pitchdown(start, 0.0, uniform) } else { (None, false, 0.0) };
+        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown }
     }
 
     fn sample_shape(&self, propulsion: Propulsion, control: Control, uniform: &mut dyn FnMut() -> f64) -> Shape {
@@ -506,6 +623,9 @@ pub struct Profile {
     /// floor g, hold s) if it did.
     pub pushover_eligible: bool,
     pub pushover: Option<(f64, f64, f64)>,
+    /// Interim pitch-down (free phase): eligibility and (delay after the free phase starts s, load factor g, duration s).
+    pub pitchdown_eligible: bool,
+    pub pitchdown: Option<(f64, f64, f64)>,
 }
 
 /// The two-burst stopgap proposal on the loss of control (9 Oct 2026, Pete's choice; PROVISIONAL, to be
@@ -572,6 +692,8 @@ pub struct Flying {
     /// Thrust setting held in free flight by an engine still running (item 2: autopilot lost at the first flame-out, the
     /// lever left where it was). 0 = idle, the earlier behaviour.
     pub free_setting: f64,
+    /// `EnvelopeConfig::pushover_vmo_kt`.
+    pub pushover_vmo_kt: Option<f64>,
 }
 
 impl Flying {
@@ -611,7 +733,21 @@ impl Flying {
             trim_reference_at_loss: cfg.trim_reference_at_loss,
             loss_c_l: None,
             free_setting: 0.0,
+            pushover_vmo_kt: cfg.pushover_vmo_kt,
         }
+    }
+
+    /// Interim pitch-down: the trim lift replaced by the drawn load factor during the pulse (time since the free phase began).
+    fn pitchdown_c_l(&self, body: &Body, elapsed_s: f64, c_l: f64) -> f64 {
+        if let (Some((delay, n, duration)), Some(since)) = (self.profile.pitchdown, self.free_since_s) {
+            let t = elapsed_s - since;
+            if t >= delay && t < delay + duration {
+                let temperature = atmos::isa_temperature_k(body.pressure_altitude_ft);
+                let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(body.pressure_altitude_ft), body.tas_mps / atmos::sound_speed_mps(temperature));
+                return n * body.mass_kg * atmos::G0 / (q * self.aero.wing_area_m2);
+            }
+        }
+        c_l
     }
 
     /// Whether a recovery from the current state is feasible: altitude above the floor with
@@ -651,6 +787,7 @@ impl Flying {
                         c_l
                     };
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
+                    let c_l = self.pitchdown_c_l(body, elapsed_s, c_l);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
             }
@@ -689,6 +826,10 @@ impl Flying {
                 }
                 Phase::Glide => return (Command::BestGlide { bank_rad: 0.0 }, self.configuration(0), 0.0),
                 Phase::PushOver { rate_fpm, mach: target, until_altitude_ft, speedbrake_eighths, n_floor_g, hold_s, powered } => {
+                    let target = match self.pushover_vmo_kt {
+                        Some(vmo) => target.min(mach_of_cas(vmo, body.pressure_altitude_ft)),
+                        None => target,
+                    };
                     if elapsed_s - self.phase_started_s < hold_s {
                         return if powered {
                             (Command::Track { vertical_speed_mps: 0.0, target_mach: target, bank_rad: 0.0, n_floor_g: None }, self.configuration(0), 1.0)
@@ -732,6 +873,7 @@ impl Flying {
                         }
                     }
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
+                    let c_l = self.pitchdown_c_l(body, elapsed_s, c_l);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
             }
@@ -817,6 +959,14 @@ pub(super) mod tests {
             rapid_descent_rate_fpm: default_rapid_rate(),
             pushover_load_factor_floor_g: default_pushover_floor(),
             pushover_hold_s: default_pushover_hold(),
+            burst_target_unix_s: None,
+            burst_target_window_s: default_burst_window(),
+            burst_target_weight: default_burst_weight(),
+            pushover_vmo_kt: None,
+            pitchdown_probability: 0.0,
+            pitchdown_n_g: default_pitchdown_n(),
+            pitchdown_duration_s: default_pitchdown_duration(),
+            pitchdown_delay_s: default_pitchdown_delay(),
         }
     }
 
@@ -952,11 +1102,11 @@ pub(super) mod tests {
                     assert!(!p.pushover_eligible && p.pushover.is_none());
                     continue;
                 }
-                let eligible = p.shape == Shape::EmergencyThenTransition || (p.shape == Shape::Continuous && prop == Propulsion::NeitherThrusting);
+                let eligible = matches!(p.shape, Shape::EmergencyThenTransition | Shape::Continuous | Shape::BestGlide);
                 assert_eq!(p.pushover_eligible, eligible, "{:?}", p.shape);
                 if eligible {
                     let (r, n, h) = p.pushover.expect("probability 1");
-                    assert!((6_500.0..=30_000.0).contains(&r) && (-1.0..=0.8).contains(&n) && (0.0..=300.0).contains(&h));
+                    assert!((6_500.0..=40_000.0).contains(&r) && (-1.0..=0.8).contains(&n) && (0.0..=300.0).contains(&h));
                     match p.phases[0] {
                         Phase::PushOver { powered: pw, .. } => { if pw { powered += 1 } else { unpowered += 1 } }
                         ref other => panic!("first phase {other:?}"),
@@ -965,6 +1115,27 @@ pub(super) mod tests {
             }
         }
         assert!(powered > 10 && unpowered > 10, "{powered} {unpowered}");
+    }
+
+    /// The targeted delay draw: its exact correction averages one under the proposal, the targeted window gets the extra mass,
+    /// and VMO converts to Mach sensibly (330 KCAS is Mach 0.499 at sea level).
+    #[test]
+    fn the_targeted_delay_is_exactly_corrected_and_vmo_converts() {
+        let r = Range::Uniform([0.0, 300.0]);
+        let (n, mut mean, mut hit) = (400, 0.0, 0);
+        for i in 0..n {
+            for j in 0..n {
+                let mut v = [(i as f64 + 0.5) / n as f64, (j as f64 + 0.5) / n as f64].into_iter();
+                let (x, lq) = draw_targeted_delay(&r, 1000.0, Some(1120.0), [-30.0, 2.0], 0.5, &mut || v.next().unwrap());
+                mean += lq.exp() / (n * n) as f64;
+                if (90.0..=122.0).contains(&x) { hit += 1; }
+            }
+        }
+        assert!((mean - 1.0).abs() < 2e-3, "{mean}");
+        let f = hit as f64 / (n * n) as f64;
+        assert!((f - (0.5 + 0.5 * 32.0 / 300.0)).abs() < 0.01, "{f}");
+        assert!((mach_of_cas(330.0, 0.0) - 0.4986).abs() < 2e-3);
+        assert!(mach_of_cas(330.0, 35_000.0) > 0.87);
     }
 
     /// The envelope is an envelope: over a sweep of the stream a powered, controlled descent
