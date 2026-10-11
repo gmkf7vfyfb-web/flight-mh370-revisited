@@ -113,8 +113,8 @@ on GlobCurrent; it is a composition inconsistency, not an ocean-model alternativ
 config-gated offset added to every drawn wind fraction and floored at zero (`c_wind_product_offset`; 0 for
 GLORYS12 and for the reproduction). A smoke test on 92 nodes with an offset of −0.60% reduced the standard
 deviation of the GlobCurrent − GLORYS12 node log-likelihood difference north of 30°S from 3.28 to 1.66, the mean
-deficit north of 25°S from −5.78 to −2.19 (9 nodes), and the mean excess south of 37°S from +3.56 to +0.86
-and with −0.75 % to 1.44, −1.57 and −0.40. At −0.75 % the latitude trend between the two models disappears (a flat −0.6 in every 4° band). Run A draws the offset per particle from U(−0.75 %, −0.60 %), from its own random stream, so the uncertainty in the offset is carried into the likelihood; the two end values are independent of the debris (gridded current difference 0.74 %; drifter fits 0.61 %). The part that remains is reported as ocean-model uncertainty. An explicit-Stokes
+deficit north of 25°S from −5.78 to −2.19 (9 nodes), and the mean excess south of 37°S from +3.56 to +0.86.
+With −0.75 % the same three values were 1.44, −1.57 and −0.40. At −0.75 % the latitude trend between the two models disappears (a flat −0.6 in every 4° band). Run A draws the offset per particle from U(−0.75 %, −0.60 %), from its own random stream, so the uncertainty in the offset is carried into the likelihood; the two end values are independent of the debris (gridded current difference 0.74 %; drifter fits 0.61 %). The part that remains is reported as ocean-model uncertainty. An explicit-Stokes
 composition for both products would remove the product-dependent wind content by construction; it is not yet run.
 
 **Object response by class** (`production-glorys12.toml`; PROVISIONAL priors except the flaperon's):
