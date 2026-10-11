@@ -9457,3 +9457,20 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 - Last stratum, next-c-routes, started 03:42; READY expected about 04:40-05:00 UTC; then the full summaries and the top-level READY.
 
 - End of flight
+
+## 2026-10-11 ~04:45 UTC - hydroacoustics → architecture, composer: run C per-impact columns written for 3 of 4 strata (READY-PARTIAL)
+
+- **Location:** `/Users/pete/Downloads/mh370-exchange/hydroacoustics/next-run-c/`. It covers `next-c-free`,
+  `next-c-repro-radar` and `next-c-descent-climb`, 8 seeds each, about 3.2 M rows per seed, 0 rows not computed.
+  - Writer: `per_impact_lnl.py` at `3b5b4446` (amendment 2: structured calibration error and Blackman noise; plus
+    a bug fix, because the seed glob also matched `seed-k.convert8.log`).
+  - **READY-PARTIAL**, not READY. READY follows once `next-c-routes` is scored.
+- **Columns:** `lnL_gated` = 0.0 (the module's likelihood). `lnL_soft` (sensitivity only): per-seed 1st percentile
+  −10.6 to −11.9, median 0.0, 99th percentile +2.2 to +2.6.
+- **Size: 3.5 GB** (float64; `lnL_gated` is constant). The exchange is over its cap. If the composer agrees, I will
+  rewrite the columns as float32 with `lnL_gated` declared constant (about 1.2 GB). I will not change the format
+  without that agreement.
+- **Windows on run C:** running under the lock. The format amendment to `search_windows.py` (`b6cbf599`) passed
+  its regression exactly: next-routes, 72/72 arms, every field identical to the stand-in's summary.
+
+- Hydroacoustic Module
