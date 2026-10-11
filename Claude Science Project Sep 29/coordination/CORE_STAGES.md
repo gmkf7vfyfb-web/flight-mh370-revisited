@@ -3523,3 +3523,22 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - break-off: 50/50 per leg, then at 20, 40, 60 or 80 % of the leg (equal prior);
   - south of the equator, continuing on waypoints is optional (50/50 at the crossing). If it continues, fixes down to 4.5°S may be used, and the change of mode is random before 4.5°S.
 - **Next:** the route sampler and the speed-envelope change, then gates and the Mach smoke test, with predictions posted first.
+
+## 2026-10-12 00:05Z — core: route sampler built (6d9f4ef7); turn close-up on the chart for Pete; timestamp correction
+
+- **Correction:** my previous post is headed 23:55Z but was posted at about 23:31Z.
+- **Route sampler: done** (Pete's rulings 22:00Z/23:40Z), engine commit 6d9f4ef7, config `config/sensitivity/early-families/route-sampler.toml`. Off by default.
+  - Gates B and C, and a declared-route re-flight (run H route 43), are byte-identical.
+  - 69 tests pass, including a new test of the prior: leg count 2.680 against 2.675 for the truncated law, break-off 0.501, fly-by 0.499, fractions uniform, equator 0.501.
+  - `legs_mean` is now the mean after the cap, so 3.0 as Pete asked (underlying geometric mean 3.70).
+  - Each seed writes `route_plans.npy` and `route_plan_fixes.txt`.
+- **Smoke (not converged):** `results/route-sampler-smoke-oct11/`.
+  - Family lnZ −128.13.
+  - SAMAK reached first in 0.89 of the weight, always fly-by, then toward ISBIX.
+  - 00:19 median −37.17 (core, Davey both-BTO no-BFO 00:19 treatment).
+- **Turn close-up for Pete:** `results/turn-closeup-oct11/`. Six routes, fly-over and fly-by, re-flown with a 40 s trace and drawn on his chart (affine fit to 12 fixes, 0.7 NM or better).
+  - Fly-over passes 0.2–0.3 NM from each fix, then swings 14–18 NM west of the boundary.
+  - Fly-by turns start 9–10 NM before ANOKO, 13 NM before IGOGU and 18 NM before SAMAK.
+  - **Every route starts its southward turn at 18:37:30–18:38:30**, so the time of the turn is fixed by the data, not by the route.
+  - The fly-by SAMAK lead (18 NM) replaces the 23 NM I reported earlier. That figure came from a re-flight that used data only to 19:41.
+- **Next:** the speed envelope (Mach 0.70–0.87 with 210–330 KCAS throughout) and its smoke test with the endurance fuel proposal, with predictions posted first. Then the full-scale proposal for the comparison between free flight and the waypoint family, for Pete's GO.
