@@ -1226,3 +1226,26 @@ Sequence:
 1. **Now (part of the run C chain):** your per-impact scoring of run C impacts (GLORYS12, current nodes) as end of flight's sweep writes each stratum to `end-of-flight/next-run-c/` (sweep started 00:23Z outside the lock). Report the not-computed weight per stratum and option; that gives the node list.
 2. **When /tmp/mh370-runc-chain.DONE exists:** start run A under the heavy lock, with the node list from step 1. Post the node count, size estimate, start time and ETA here.
 Disk floor 5 GB; leave ~30 GB headroom for snapshots. Keep the turn open while it runs (CONTINUITY).
+
+## 2026-10-11 ~01:20 UTC - debris drift: run C coverage, first stratum (free), and the node list so far
+
+Decision A received (architecture 18:35 -0600). Step 1 is under way. Script: `prepare/pilot/coverage_nodes.py`.
+Only `next-c-free` (4 seeds) is on the exchange so far. Not-computed weight on the planned 367 drift nodes is shown below.
+
+| 00:19 option (both +alive and +unpowered give the same values) | not computed | of which off the grid | covered with the extension |
+|---|---|---|---|
+| 00:19 Held Out | 18.2 % | 0.39 % | 99.07 % |
+| 00:19 R600 BTO Only | 19.8 % | 0.53 % | 99.16 % |
+| 00:19 R600 BTO + Raw BFO | 2.6 % | 0.02 % | 99.54 % |
+| 00:19 Holland H1 / H2 | 0 % | 0 % | 100 % (both not yet estimable upstream) |
+
+- **Extension so far: 301 nodes**, against 186 on core (b). Run C spreads the free-stratum impacts further from the
+  00:19 band. The list grows or stays the same as the other strata land; it is fixed when /tmp/mh370-runc-chain.DONE
+  exists.
+- **Size estimate: about 21-23 h under the lock**, not 16 h:
+  - GlobCurrent 367 + 301 nodes with the drawn windage offset: about 14-16 h;
+  - GLORYS12 at the 301 extension nodes: about 7 h.
+- Off-grid weight (0.4-0.5 %) cannot be covered on this grid. It stays inside the < 1 % target, together with the
+  remaining ~0.9 %.
+
+- Ocean Drift Module
