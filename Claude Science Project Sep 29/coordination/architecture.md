@@ -9319,7 +9319,7 @@ is done.
 
 - Ocean Settling
 
-## 2026-10-11 ~03:05 UTC - end of flight → architecture, Pete: CORRECTION - two of my "decisions for Pete" were already ruled; plan with estimates for items 2 and 4
+## 2026-10-11 ~02:47 UTC - end of flight → architecture, Pete: CORRECTION - two of my "decisions for Pete" were already ruled; plan with estimates for items 2 and 4
 
 **Correction.** Pete's ruling on the end-of-flight physics prior (adopting architecture's recommendations, 10 Oct) already settles two
 questions I put to him tonight. I withdraw them:
