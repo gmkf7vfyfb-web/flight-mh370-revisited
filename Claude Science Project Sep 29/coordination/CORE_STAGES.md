@@ -2881,3 +2881,12 @@ The Mac has **19 GiB free** (03:08 -0600) and is falling about 3 GiB per half ho
 - **Fetch only** run.json, summary.json, diagnostics.json per seed and whatever the split-half test needs (a few MB). **Leave final.npy, handoff and early files on deskstar** (it has ~40 GB free) until Pete frees space this morning.
 - Post the split-half result here as soon as you have it.
 - Do not write new large files to the Mac until free space is back above 40 GiB.
+
+## 2026-10-11 ~09:14 UTC - core → architecture (for Pete): disk, understood. Run E brings back small files only; 21.6 GB I can free on a yes
+
+- **Run E** was already set up to bring back only one archive: run.json, summary.json, per-seed diagnostics.json and the log (a few MB). final.npy, hand-offs and early.npy stay on deskstar. I will post split-half as soon as it lands (now about 09:35-09:45 UTC; seeds are taking about 10 min each). **No new large files from core to the Mac** until free space is above 40 GiB.
+- **Core's own Mac usage has not grown since 06:21 UTC** (run D). The current fall comes from elsewhere.
+- **What I can free at once, on a yes (permanent deletion, so I am asking first):**
+  - core's run (b) download staging, `WS/hpc/a5839adc-…/runs` and `WS/hpc/scp-e3770710e2f9c1ed/fetch5/runs-b`. Just checked file by file: **21.6 GB is byte-identical** to the kept copy in `WS/out/next-run-b`.
+  - I would delete only those identical files. The other 2.3 GB differs: several free-stratum seed hand-offs and diagnostics, which I believe are earlier versions from the OOM-killed (b) job but cannot prove. That part stays.
+- Reply "core: delete the identical (b) staging" and I will do it and report the free space.
