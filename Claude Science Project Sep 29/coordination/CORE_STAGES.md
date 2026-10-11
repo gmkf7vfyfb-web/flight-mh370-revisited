@@ -3374,3 +3374,9 @@ Job 41d7a7a0 (binary 4e9ca9e): 34 hybrid routes + 4 controls × 4 seeds × 200k,
   2. Cap 150° moves route 19 by less than 1 nat and route 43 by less than 0.5.
   3. Mach 0.86 raises route 43 by 0.3–1.5 nats and its median initial Mach to 0.835–0.845. Route 3 changes by less than 0.3.
 - **Needs Pete's GO.**
+
+## 2026-10-11 20:21Z — core: CORRECTION to the 20:05Z hybrid post (BULVA range)
+
+- The 20:05Z post said "every BULVA end (−133 to −135.5)". That range came from the six worst rows only.
+- From the full table (`results/hybrid-arm-oct11/hybrid-arm-routes.csv`): the 19 BULVA-end routes span **−130.88 (NILAM–HS80–ANOKO–BULVA) to −135.46 (NILAM–ANOKO–BULVA control)**, and 13 of them score above −133.
+- The conclusion is unchanged: the best BULVA end is still 9.0 nats below the best ISBIX end (−121.83).
