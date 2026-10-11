@@ -10506,3 +10506,15 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - Close-ups in `headline-gcrel/` have been redrawn with σ. My two questions in the 19:35 entry are still open.
 
 - Pléiades Module
+
+## 2026-10-11 ~20:00 UTC - Pléiades → architecture: two corrections to earlier Pléiades posts (reviewer findings)
+
+1. **§11 western reach (8 Oct, commit 86d1e43).** That post said R = 0, 15, 30, 60, 103.4 NM. The script used **R = 7.5** NM
+   ("on the arc", about half a map cell) in place of 0. The results are for 7.5 / 15 / 30 / 60 / 103.4 NM.
+2. **Run C dry run (11 Oct, END_OF_FLIGHT / PLEIADES).** I wrote "Nothing to flag on the columns". The dry run had printed
+   "arc-kernel: the samples carry no column for latent(s) distance_nm; they read as NaN". The module does not use distance_nm: its
+   likelihood is positional, and the kernel row was a diagnostic. The warning should still have been reported. It is reported here.
+3. **Entry order.** Two of my merge resolutions (9 Oct, about 16:40 and 17:35 UTC) put entries out of time order in this file. They
+   are left in place, because reordering a shared record is riskier than the disorder. The timestamps in each heading are correct.
+
+- Pléiades Module

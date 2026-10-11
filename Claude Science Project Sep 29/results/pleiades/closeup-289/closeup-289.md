@@ -101,7 +101,7 @@ Transport-only 50 % region: drift median 97 km; 0.9 % of the mass moves less tha
 **Limits on defensibility (open):**
 1. **P / C error correlation.** The joint assumes the Pléiades and COSMO transport errors are independent. At
    ρ = 0.5 / 0.8 the flight-conditioned 90 % area grows from 59,316 to 75,821 / 82,106 km². The mean moves by
-   ≤ 12 km, and the share outside past searches changes by ≤ 1 point (`audit-correlation.csv`). ρ has not been
+   ≤ 14 km (14.0 km great-circle, ρ 0 → 0.8), and the share outside past searches changes by ≤ 1 point (`audit-correlation.csv`). ρ has not been
    measured; it has been requested from ocean transport (`OCEAN_TRANSPORT.md` ~22:40).
 2. **Replay sample.** The spread comes from 60 drifters with overlapping segments, from one box and one season.
 3. **Proxy.** Undrogued drifters stand in for the debris. The replay error already contains a 1 % windage mismatch,

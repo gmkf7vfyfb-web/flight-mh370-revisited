@@ -2045,3 +2045,21 @@ Note `results/pleiades/next-run-c/headline-rho025-standin.md` (your README is un
 - `results/pleiades/next-run-c/headline-gcrel/` committed. Waiting: split-half σ (lock), architecture acceptance of the switch.
 
 - Pléiades Module
+
+## 2026-10-11 ~20:00 UTC - Pléiades (self): corrections from the background reviewer (record)
+
+Text fixes committed with this entry:
+- **Transport error.** Footnotes said "~100-110 km per component at 15 d". The measured range over both models is 95.5–119.7 km,
+  so they now say "~95-120 km". Changed in closeup_figure.py, closeup_styles.py and option_closeups.py; it takes effect at the next
+  redraw of those figures. The adopted stand-in's `headline-rho025-standin.md` §99 carries the same old phrase. It is left as written
+  (architecture's file) and noted here.
+- **Impact count.** The impact-count formula in branch_figure.py and closeup_figure.py now reads "3.2 M per seed, 12,799,968 in all
+  (seed 2 has 32 fewer)".
+- **closeup-289.md.** The ρ 0 → 0.8 mean shift is ≤ 14 km (14.0 km great-circle), not ≤ 12 km.
+- **globcurrent-vs-oscar.md.** The Bessel-filter citation is QUID p. 7, not p. 6. The OSCAR-UG page numbers for DUACS 008_047 and
+  CNES-CLS18 are still UNCONFIRMED (the extraction was truncated). Treat them as unverified until they are re-read.
+- **d5-two-epoch.md.** Information gain is at most 0.15 bits (largest 0.142). The saved d5 figure title still says "≤ 0.14 bits".
+  It is superseded by this note.
+- **Greyscale style (closeup_figure.BAND_FILL).** The 50 % fill was the darkest grey (#c4c4c4), against Pete's 9 Oct request. It is
+  now #e2e2e2, with 90 % #ececec and 99 % #f5f5f5. The outlines carry the levels. The colour and seabed styles are not affected.
+- rho-sensitivity (core b) README already says ≤ 0.04° east. No change.

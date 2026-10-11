@@ -105,7 +105,7 @@ def notes_for(opt, src, pfam, labels, pfam_rw=None, fam_json=None):
             "community tracings, grade C; the north-west band is drawn only, never negative evidence.",
             "Under H: 12 rating-5 Pléiades objects in 6 clusters (3 km), equal weights; COSMO-SkyMed contacts equally weighted, dawn "
             "20 / dusk 21 Mar passes equal (unverified source, time, footprint); 'one debris field' = likelihoods multiplied per ocean "
-            "model; GLORYS12 + ERA5 and GlobCurrent daily + ERA5 equal weight; measured transport error (~100-110 km per component at "
+            "model; GLORYS12 + ERA5 and GlobCurrent daily + ERA5 equal weight; measured transport error (~95-120 km per component at "
             "15 d); windage 0-5 %; Pléiades and COSMO errors independent (rho = 0).",
             "Conditional on H (the objects are debris from 9M-MRO); no Bayes factor or P(H | data)."]
 

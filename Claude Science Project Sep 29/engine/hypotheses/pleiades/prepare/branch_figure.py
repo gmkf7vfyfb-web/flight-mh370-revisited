@@ -33,7 +33,7 @@ def hdr_level(dens, mass, level=0.9):
 BRANCH_NOTES = [
     "Source: end of flight's reference-289 impacts, run eof-289-full (hand-off runs/snap289-m0011 at 00:11), prior track 289.7 deg (sd 1.0) at "
     "18:01:49 UTC; base config (run.json) davey2016 + no-exhaustion-prior + reference-snapshots + early-families/overnight/reference-289 + "
-    "end-of-flight full/reference-289. 4 seeds pooled with equal weight; 100,000 parents x 8 children x 4 descents per seed = 12,799,968 impacts; "
+    "end-of-flight full/reference-289. 4 seeds pooled with equal weight; 100,000 parents x 8 children x 4 descents = 3.2 M impacts per seed, 12,799,968 in all (seed 2 has 32 fewer); "
     "all four control families (ditching-attempt, maintained-then-lost, no-intervention, upset-then-recovery) pooled.",
     "BFO model to 00:11: constant per-trajectory bias, Kalman-marginalised, prior 150 +/- 25 Hz (Davey et al. 2016 sec. 5.3 / 8.1), 7 Hz BFO "
     "sigma baseline; altitude 25,000-43,000 ft, Mach 0.73-0.84, five navigation modes.",

@@ -135,7 +135,7 @@ def make(root, impacts_root, geom_dir, out, plt, pfam=None, options=None, labels
                  "Under H: the 12 rating-5 Pléiades objects merged into 6 clusters (3 km), equal weights; COSMO-SkyMed contacts equally weighted, dawn "
                  "20 Mar and dusk 21 Mar passes equally weighted (source, time and footprint unverified). 'One debris field' = both sets' likelihoods "
                  "multiplied, per ocean model. Ocean models GLORYS12 + ERA5 and GlobCurrent daily + ERA5, equal weight; measured transport error "
-                 "(drifter replay, ~100-110 km per component at 15 d); windage 0-5 %; Pléiades and COSMO errors treated as independent (rho = 0; "
+                 "(drifter replay, ~95-120 km per component at 15 d); windage 0-5 %; Pléiades and COSMO errors treated as independent (rho = 0; "
                  "0.5-0.8 widened the 90 % area 28-38 % on reference-289).",
                  "Every PDF is conditional on H (the objects are debris from 9M-MRO); no Bayes factor or P(H | data). Shading: highest-density "
                  "regions holding 50/90/99 % of each panel's PDF. Percentages are of the panel's PDF within 85-103 E, 43-25 S."]

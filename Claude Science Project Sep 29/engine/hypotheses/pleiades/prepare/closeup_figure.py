@@ -65,7 +65,7 @@ def stats(m, area, LAT, LON, masks):
     return out
 
 
-BAND_FILL = ["#f3f3f3", "#e0e0e0", "#c4c4c4"]   # 99 / 90 / 50 % (light, so outlines stay legible)
+BAND_FILL = ["#f5f5f5", "#ececec", "#e2e2e2"]   # 99 / 90 / 50 %; Pete 9 Oct: lighter, especially the 50 % area (was #c4c4c4); outlines carry the levels
 BAND_LW = [0.45, 0.9, 1.5]                        # black contour weights, 99 / 90 / 50 %
 
 
@@ -180,14 +180,14 @@ def make(runs, module_dir, geom_dir, out, plt, panel_letter=None):
     notes = [
         "Prior: end of flight's reference-289 impacts (run eof-289-full; core reference-289, prior track 289.7 deg sd 1.0 at 18:01:49 UTC; base config "
         "davey2016 + no-exhaustion-prior + reference-snapshots + early-families/overnight/reference-289 + end-of-flight full/reference-289); 4 seeds x "
-        "100,000 parents x 8 children x 4 descents = 12,799,968 impacts; 7 Hz BFO sigma baseline. 00:19 option 'none' (both 00:19 messages held out), "
+        "100,000 parents x 8 children x 4 descents = 3.2 M impacts per seed, 12,799,968 in all (seed 2 has 32 fewer); 7 Hz BFO sigma baseline. 00:19 option 'none' (both 00:19 messages held out), "
         "log-on cause 'other'. End-of-flight dive class (b) and Boeing-calibrated glide: PROVISIONAL. The core run is tempered "
         "(temper_epochs m1839-m0011, 16 stages) and so is affected by filter-audit F1 (tempered-move ancestry defect): PROVISIONAL until re-run.",
         "Search: the searched-areas module's per-impact likelihood, point target, rho = 0.05. Phase 2 (q 0.945) and Bluefin-21 (q 0.9) official; "
         "OI 2018 (q 0.9, coverage fraction 0.889) and OI 2025-26 south-east band (q 0.9, coverage fraction 0.7808) are inferred community tracings "
         "(MH370-CAPTION, grade C), used as Pete ruled with this footnote. The north-west band is drawn only: it is not searched and is never negative evidence.",
         "Under H: Pléiades rating-5 clusters (3 km), equal weights; COSMO pass dawn-20 / dusk-21 Mar equally weighted; P+C = both sets debris (product), "
-        "formed per ocean model; GLORYS12 + ERA5 and GlobCurrent daily + ERA5 at equal weight; measured transport error (GDP-replay OU fit: ~100-110 km rms per component at 15 d), windage 0-5 %; Pleiades and COSMO "
+        "formed per ocean model; GLORYS12 + ERA5 and GlobCurrent daily + ERA5 at equal weight; measured transport error (GDP-replay OU fit: ~95-120 km rms per component at 15 d), windage 0-5 %; Pleiades and COSMO "
         "transport errors treated as independent (rho = 0; rho 0.5-0.8 widens the 90 % area by 28-38 %, see closeup-289.md).",
         "Conditional on H; no Bayes factor or P(H | data). Shading: highest-density regions holding 50/90/99 % of each panel's PDF. Percentages are of the panel's PDF within the 0.05 deg grid.",
     ]
