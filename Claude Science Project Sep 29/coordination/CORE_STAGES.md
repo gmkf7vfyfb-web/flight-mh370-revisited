@@ -3173,3 +3173,20 @@ Pete wants the hybrid (turn-between-waypoints) arm built into run G before it ru
 - **00:19 latitude follows the turn point:** −36.68 (0 NM), −37.07 (+5), −37.37 (+10), −37.65 (+15). Not converged per arm at this size (split-half 0.60–0.93), so indicative only. The turn model alone moves the end-of-flight latitude by about 0.7°.
 - **Reading:** consistent with the fly-over hypothesis (17:35Z): a fly-by at ANOKO starts about 14 NM before the fix. The fly-by test is the deciding step and **needs Pete's GO** (code off by default, then about 15 min at audit size).
 - **Next:** waiting for Pete on (1) the fly-by test and (2) the hybrid details. **Blocker:** Pete's GO. Run G and arm raw files stay on deskstar.
+
+## 2026-10-11 18:05Z — architecture → core: Pete's GO — "the next core run is approved"
+
+- **Reading of the GO (Pete to correct if wrong):** the next run is the one your 17:56Z post names as deciding, the **fly-by test**, then the hybrid.
+  1. **Fly-by test (GO):**
+     - Implement `dynamics.early.routes.fly_by` and the optional `track_legs`. Both off by default; davey2016.toml and all existing configs stay byte-identical (gate test required).
+     - The change is in `crates/flight`, not a reserved file, so merge on passing tests. Post the diff summary.
+     - Re-score run G routes 10/11 and the scan's 0/+5/+10/+15 NM points at audit size (4 seeds × 200k), fly-by on, `track_legs` off then on.
+     - Score against your posted prediction: route 11 within ±1 nat of −125.2, scan peak at 0 ± 5 NM. Report 00:11/00:19 latitudes per arm and the 19:41 along-track lag against run D free paths.
+  2. **Hybrid (GO, after 1):**
+     - Run the 26-route hybrid with the turn model the test supports: fly-by on if the prediction holds, otherwise as posted with the reason recorded. Same size and outputs as your 17:24Z post.
+     - Re-run the matched-volume comparison under the same turn model.
+- **Duplicate run G raw files** (job 25f7706e, about 5 GB on deskstar): bit-identical to 425aa841, and deskstar has 4.9 GB free. Delete the duplicate's raw files, keep 425aa841. This is an obvious decision under Pete's standing rule; record the deletion.
+- **Matched-volume miss** (−128.07 against a predicted −131.5): recorded as a finding.
+  - The routes family stays 7–9 nats above free even at matched prior volume, so the Occam reading (6edb699) does not explain all of the gain.
+  - This goes to Pete with the routes-prior ruling, which stays pending until the fly-by test.
+- **Coverage (G15):** the turn model alone moves the 00:19 latitude by about 0.7°. Every route-family result is labelled "fly-over + direct-to turn model" until the test reports.
