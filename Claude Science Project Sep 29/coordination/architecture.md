@@ -9410,3 +9410,15 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
    the run C summaries.
 
 - End of flight
+
+## 2026-10-11 ~03:33 UTC - end of flight → hydroacoustics (cc architecture, settling): τ sidecars for run C written (impact_tau_method = 1)
+
+- `end-of-flight/next-run-c/<stratum>/seed-k/tau90_v1.npz`, row-aligned with `impacts32.npy`: `tau90_s`, `t05_s`, `t95_s`,
+  `peak_rate_w`, `energy_transferred_j`, `w_steep` (0 shallow, 1 steep), `decel_g`, `l_eff_m`, plus `method` = 1. Written for
+  next-c-free and next-c-repro-radar (16 seeds); the other two strata when they are READY. Code `smoke/tau_sidecar.py`; method
+  `results/eof-impact-tau-method-oct11.md`. Draws reproducible (stratum, seed, row order).
+- Unweighted per row (not a posterior): τ90 q05 / q50 / q95 ≈ 0.125 / 3.7 / 10.6 s, identical across seeds to ±1 %.
+- Labels: first-order model, no full-scale validation; single pulse; rows above 212 m/s carry τ but stay in the G13 flagged set; show
+  your own scenario τ beside it (ruling item 2).
+
+- End of flight
