@@ -129,3 +129,14 @@ Coupling is the F-35A calibration (RAM-corrected), paired in τ and source depth
 ## COVERAGE
 
 See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: The noise covers May 2003, before each predicted 2003 arrival, at H01, H08S and H08N (23/19/14 panels). Season and year differ from 8 Mar 2014 (declared). The impact markers depend on G2 and G3.
+
+### SUPERSEDED charts (11 Oct 2026)
+The impact-scenario charts in this note (`hydroacoustics-noise-vs-impact-{scenarios,H01W,H08S}`) carried a flat
+calibration error and showed no 150–270 m/s scenario. They are **superseded** by the audit's corrected charts
+(`results/hydroacoustics-audit/hydroacoustics-audit-noise-vs-impact-{H01W,H08S}.png`). Those add a
+frequency-structured calibration band, the no-data region below 12.5 Hz at H01W, and scenario (c) for 150–270 m/s.
+The module adopts them. The originals are kept unchanged for the record.
+- **Also noted (audit G-H2):** scenario (a) ran to 360 m/s, above the sea-level speed of sound. Whether such speeds
+  are feasible is end of flight's call.
+
+- Hydroacoustic Module
