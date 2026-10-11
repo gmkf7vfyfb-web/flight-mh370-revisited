@@ -51,6 +51,11 @@ AMENDMENT 3 (11 Oct 2026 ~16:40 UTC, PRE-REGISTERED before its first run; archit
 Usage (from prepare/, PYTHONPATH=.:exploratory/pleiades_test):
   python per_impact_lnl.py <module_dir> <eof_run_dir> <out_dir> <kadri_table1.csv> [--compact-reader <compact_impacts.py>]
 """
+# AMENDMENT 4 (11 Oct 2026, audit F10; written before its smoke run). The H01W triad noise (Blackman App. B, a SAC
+#   amplitude-spectrum conversion inferred from legend file names, May-June 2003) carries a +/-3 dB conversion
+#   uncertainty: noise_err ~ N(0, --noise-sd dB) per row, default 3, drawn from its OWN stream (seed-derived) so every
+#   other nuisance draw is unchanged; SNR -= noise_err. --noise-sd 0 reproduces amendment 3 exactly. Label added:
+#   "noise from May-June 2003 (season differs from March 2014), +/-3 dB conversion". lnL_gated is unaffected (0.0).
 import argparse, hashlib, importlib.util, json, pathlib, sys, time
 import numpy as np
 
@@ -76,6 +81,7 @@ class Terms(RV.ReviewModel):
     calerr = "structured"
     noise = "blackman"
     tau_override = None      # per-row tau_ac (amendment 3), set by main() for the current seed
+    noise_sd = 3.0           # amendment 4 (audit F10)
 
     def nuisance(self, rng, n):
         nu = lhyd.Model.nuisance(rng, n)
@@ -113,6 +119,8 @@ class Terms(RV.ReviewModel):
         snr = self._snr0(lat, E, nu, self.tl_ims["H01W"], "3376") + nu["c_site"] + nu["c_ims"] + lhyd.TRIAD_GAIN_DB
         if self.noise == "blackman":
             snr = snr - BN_OFF["H01W"]
+        if self.noise_sd > 0:   # amendment 4: own stream, other draws unchanged
+            snr = snr - np.random.default_rng([seed, 4]).normal(0.0, self.noise_sd, n)
         baz, d = self.geometry(lat, lon, "H01W"); t_arr = t0 + d / lhyd.C_MEAN
         sd_t = np.sqrt(lhyd.PICK_S ** 2 + (d * lhyd.C_SD / lhyd.C_MEAN ** 2) ** 2)
         box = (t_arr >= RV.BOX_T[0]) & (t_arr <= RV.BOX_T[1]) & (baz >= RV.BOX_B[0]) & (baz <= RV.BOX_B[1])
@@ -139,13 +147,14 @@ def main():
     ap.add_argument("--noise", choices=["blackman", "proxy"], default="blackman")
     ap.add_argument("--tau", choices=["scenario", "eof"], default="scenario"); ap.add_argument("--tau-k", type=float)
     ap.add_argument("--seeds", nargs="+", type=int)
+    ap.add_argument("--noise-sd", type=float, default=3.0)   # amendment 4
     a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     compact = None
     if a.compact_reader:
         spec = importlib.util.spec_from_file_location("compact_impacts", a.compact_reader); compact = importlib.util.module_from_spec(spec)
         sys.path.insert(0, str(pathlib.Path(a.compact_reader).parent)); spec.loader.exec_module(compact)
-    Terms.calerr, Terms.noise = a.calerr, a.noise
-    m = Terms(a.module_dir, a.imos_events, a.kadri_csv); summ = {"options": dict(calerr=a.calerr, noise=a.noise, tau=a.tau, tau_k=a.tau_k)}
+    Terms.calerr, Terms.noise, Terms.noise_sd = a.calerr, a.noise, a.noise_sd
+    m = Terms(a.module_dir, a.imos_events, a.kadri_csv); summ = {"options": dict(calerr=a.calerr, noise=a.noise, tau=a.tau, tau_k=a.tau_k, noise_sd=a.noise_sd)}
     for stratum in a.strata:
         si = stratum_index(stratum)
         for sd in sorted(d for d in (pathlib.Path(a.eof_run) / stratum).glob("seed-*") if d.is_dir()
