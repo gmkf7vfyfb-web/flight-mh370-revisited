@@ -52,7 +52,8 @@ def main(runs, nextrun, out, strata, seeds, recipe=None):
         fields.append((f"lnL_mean_{b}", "f4"))
     summary = {}
     for st in strata:
-        for k in seeds:
+        ks = seeds or sorted(int(d.split("-")[1]) for d in os.listdir(pathlib.Path(nextrun) / st) if d.startswith("seed-") and d.split("-")[1].isdigit())
+        for k in ks:
             d = pathlib.Path(nextrun) / st / f"seed-{k}"
             if not (d / "run.json").exists():
                 print(f"{st} seed-{k}: absent, skipped", flush=True)
@@ -103,6 +104,7 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("runs"); ap.add_argument("nextrun"); ap.add_argument("out")
     ap.add_argument("--strata", default="next-free,next-repro-radar,next-descent-climb,next-routes")
-    ap.add_argument("--seeds", default="1,2,3,4"); ap.add_argument("--recipe", default=None)
+    ap.add_argument("--seeds", default="", help="default: every seed-<k> directory present in each stratum")
+    ap.add_argument("--recipe", default=None)
     a = ap.parse_args()
-    main(a.runs, a.nextrun, a.out, a.strata.split(","), [int(x) for x in a.seeds.split(",")], a.recipe)
+    main(a.runs, a.nextrun, a.out, a.strata.split(","), [int(x) for x in a.seeds.split(",") if x] or None, a.recipe)
