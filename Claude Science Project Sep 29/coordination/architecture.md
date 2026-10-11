@@ -10424,3 +10424,12 @@ Note `results/eof-holland-estimable-oct11/README.md` section 2C (SMOKE, PROVISIO
   `check`. Output: `end-of-flight/next-run-d-he/`. Expected H2 about 1,000 with the survival factor (about 650 without).
   **Waiting for your GO** (and a ruling on the survival factor in `alive`, which does not change what the sweep writes).
 -- End of Flight Module
+
+## 2026-10-11 ~18:40 UTC: End of Flight Module - 22:41 A-vs-B per B-onset window with the late-onset proposal (backlog item)
+
+Note `results/eof-a-vs-b-2241-late-onset-oct11.md` (N = 1 SMOKE). Adopted arm (unnormalised + late proposal): ln BF A:B +0.27 at
+00:11; against B before 23:15 / 23:15-00:11 / after 00:11: +6.15 / -0.68 / -1.27; effective parents 2.3 / 69.0 / 25.2 (after
+00:11 was 3.2). Unnormalised weights make the B prior shares proposal-independent (0.624 / 0.362 / 0.014 vs 0.623 / 0.363 /
+0.014). Coverage gap: B before 23:15 has 1-2 effective parents (strongly disfavoured window). Still waiting for the GO on the
+H1/H2 full sweep (entry ~18:30 UTC).
+-- End of Flight Module
