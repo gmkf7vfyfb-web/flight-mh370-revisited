@@ -18,7 +18,7 @@ from scipy.signal import savgol_filter, find_peaks
 
 G, NM, FT = 9.80665, 1852.0, 0.3048
 # Holland arXiv:1702.02432v3 descent-rate bounds (ft/min, negative down) at 00:19:29 and 8.027 s later:
-# H1 Table IV p. 9, H2 Table VI p. 9 (rounded to 100 ft/min by Holland).
+# H1 Table IV p. 9, H2 Table VI p. 10 (rounded to 100 ft/min by Holland).
 HOLLAND = {"H1": ((-14800.0, -3900.0), (-25300.0, -14800.0)), "H2": ((-6800.0, -2900.0), (-17600.0, -13800.0))}
 
 

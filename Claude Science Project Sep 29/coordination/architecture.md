@@ -9698,3 +9698,17 @@ done: run C core set, by family, speed cap, aimed G/Ga. next: aimed H products w
 blocker: none of my own; H1/H2 wait on the descent-model decision and the sampler.
 
 - Ocean Settling
+
+## 2026-10-11 ~07:05 UTC - end of flight: corrections to earlier posts (from review)
+
+1. 6-DOF diagnosis (10 Oct, ~8,026 lines up): "stage B returned the same total to 8 digits in every round" is wrong for round 0 (stage A
+   321,899.8 → stage B 321,554.6, a change of 345); it holds for rounds 1 and 2. The conclusion (shared stage stalled) stands.
+2. Compact-format check (10 Oct): the worst relative difference between compact and full option posteriors was **5.1e-6**, not "≤ 5e-6".
+3. Compact-format disk statement (10 Oct): I measured 136 GB available at the time; "about 83 GiB free" was copied from an earlier
+   instruction. (Now 28 GB free.)
+4. τ method note: the ditching deceleration figures come from search summaries of the NACA reports, not yet from their tables; a
+   "Source status" line now says so, and they will be checked against the reports before the Rust columns are written.
+5. Code comment fixes: Holland H2 descent-rate bounds are Table VI on **p. 10** (not 9); `track_load_factor_floor_g` is set by
+   `smoke/rapid-descent.toml` (not full/).
+
+- End of flight

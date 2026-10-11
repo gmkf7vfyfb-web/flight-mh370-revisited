@@ -207,7 +207,7 @@ struct Params {
     max_flight_s: f64,
     /// Floor on the load factor (g) a commanded-rate descent may pull while pitching down (10 Oct, reach gap: unloading).
     /// Absent (default): no floor, the earlier behaviour exactly; only the C_L limit applies, so a large commanded rate
-    /// could unload below 0 g. Set with `full/rapid-descent.toml`.
+    /// could unload below 0 g. Set with `smoke/rapid-descent.toml` (test overlay).
     #[serde(default)]
     track_load_factor_floor_g: Option<f64>,
     /// Descents returned per child.

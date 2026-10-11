@@ -16,6 +16,10 @@ deceleration ā from v to rest, so the transferred fraction is F(t) = 1 − (1 �
   and about 4 g (Constellation, Fisher & Morris), about 3 g (A-26); a modern civil-aircraft model test peaks at about 1.6 g (Chinese J.
   Aeronautics 2024, S1000936124004291); NACA Report 1347 (Fisher & Hoffman) derives average decelerations from landing speed and
   run length and notes that severe ditchings may exceed 10 g. Average is below maximum, so the range is set below the maxima.
+- **Source status (declared):** these figures were taken from search-engine summaries of the reports (NTRS records and abstracts; the
+  NACA Report 1347 wording from a third-party upload), not yet from the full reports' tables. They set a deliberately wide range; they
+  are to be checked against the original tables (NACA RM SL9H05a, NACA Report 1347, NACA RM SL55K08 for the Boeing 707) before the
+  Rust columns are written.
 - Declared limit: calm water; a dive-in after a run (the model tests' "dive violently" outcome) is not separated; it falls inside the
   upper part of the ā range, not as a second pulse.
 
