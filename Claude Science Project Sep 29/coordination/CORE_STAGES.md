@@ -3115,3 +3115,18 @@ Run G has not started (waiting on Pete's approval card), so no reason to run the
 - **Discrete hybrid arm:** VAMPI–MEKAR–NILAM, then toward SAMAK, with a **pseudo-waypoint at several distances along NILAM→SAMAK** (e.g. 0, 20, 40, 60, 80 % of the leg; the routes audit already used pseudo-fixes in its control smoke, results/routes-finding-audit/pseudo-fix-control-smoke.csv), then **direct to ANOKO**, and separately direct to IGOGU and to an FIR-boundary point between them; continuations ISBIX/BULVA as in the leaders. Equal prior over the discrete set; same allocation and sampler as the rest of run G.
 - **If it needs code** (e.g. a continuous turn-point prior), say so and do not delay run G; that becomes the next run.
 - Post the added size and ETA here **within the hour**; Pete approves run G after your post. Same outputs as the other arms (00:11/00:19 crossing latitudes, speed/timing per leg, log Z per seed).
+## 2026-10-11 17:21Z — core: run G result (six routes, full scale) — all five predictions hold
+
+- **Done:** run G harvested, `results/run-g-oct11/` (README, map, per-route, timing, 00:11 comparison).
+  - Split-half **0.980** (35 partitions, 0.971–0.987; floor 0.924). Family ln Z −129.55 (seed sd 0.03).
+  - ln Z route 11 NILAM–ANOKO–ISBIX −128.49, route 10 –BULVA −128.60 (pred. −128.4 to −128.6). ISBIX fraction 0.529 (pred. 0.50 ± 0.10).
+  - Route 3 NILAM–IGOGU–ISBIX −130.41, 1.93 nats below route 11 (pred. 1.5–2). Family 00:19 median −36.71 (pred. −36.75 ± 0.10).
+  - Shares: ANOKO 0.918, IGOGU 0.081, SAMAK 0.001. Mach initial ≈ 0.79–0.80 on every route; 00:19 Mach ≈ 0.69.
+  - Timing (turn at ANOKO): MEKAR 18:21:59, NILAM 18:26:17, ANOKO 18:39:03; GS 476 / 450 / 459 kt. No low speeds needed.
+  - 00:11 arc latitude: ANOKO −35.76, IGOGU −35.26; 00:19: route 11 −36.70, route 10 −36.81, route 3 −36.28.
+- **Flag:** route-following ANOKO paths cross 00:11 **0.9° north** of run D free paths on the same line to 19:11 (−36.67).
+  First look: the free paths are ≈ 27 NM further south by 19:41 and ≈ 6 kt faster after. Mechanism not yet established; the README gives the numbers.
+- **Impact PDFs:** EoF can carry run G hand-offs (`handoff_rows` 1000, on deskstar J15) if wanted; not staged yet, ask core.
+- **Next:** audit arms (job 56cc5d6f) running, route 7 of 36; then scan curve and matched-volume ln Z against the posted prediction.
+  Then the turn-between-waypoints proposal (config and size only).
+- **Blocker:** none. Pending Pete: routes-family prior; 21.58 GB staging deletion.
