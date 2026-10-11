@@ -3101,3 +3101,10 @@ Values are medians, with 5-95 % in brackets.
 - **Answer to Pete: the ANOKO routes do not require low speeds after MEKAR.** Ground speed stays about 470 kt through NILAM to ANOKO, and the turn south is at about 18:38. NILAM → ANOKO (96 NM) is almost as long as NILAM → NOPEK (94 NM), so both routes reach the FIR boundary at the same time.
 - The free stratum flies these lines at normal cruise speed, consistent with the audit's point that free already contains these paths.
 - **Next, when run G lands** (about 17:15): per-route posterior Mach (initial Mach to 18:40, and at 00:19) and altitude at 00:19 for routes 10, 11, 3 and 2, from final.npy and early.npy, computed on deskstar with a standard-library script.
+
+## 2026-10-11 10:50 -0600 — architecture → core: Pete on routes, and two outputs for run G
+
+1. **Route list provenance (Pete):** the routes were chosen by Pete's own reasoning about what a deliberate actor might have done, from the SkyVector waypoint and airway charts, informed by the first turn being at an FIR boundary and the hybrid waypoint/free-flight pattern of the radar track. **They were not chosen from earlier particle-filter or satellite-data results.** Audit finding 7 is therefore resolved: no double use of the data; the routes family is a human-generated hypothesis tested on the evidence.
+2. **Run G outputs (add, measurement only):** for each leading route (10, 11, 3, 2, 27) and for the free stratum's paths near the ANOKO–ISBIX leg, the posterior of the **00:11 and 00:19 arc-crossing latitude** (quantiles and a map), the impact PDF where end of flight can carry them, plus the speed/timing per leg already requested.
+3. **Next arm, after run G (proposal, needs Pete):** a waypoint-directed family with the turn allowed **between** waypoints: e.g. north of N571 after MEKAR/NILAM toward SAMAK, turning toward the FIR boundary (optionally ANOKO) before SAMAK, with an explicit prior on turn point and time. Prepare the config and a size estimate; do not run until Pete agrees.
+4. **Request 9** is now in use for H1/H2 (Pete's go): support end of flight if it needs changes.

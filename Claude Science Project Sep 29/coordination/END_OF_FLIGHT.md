@@ -2466,3 +2466,15 @@ rapid descents above 6,500 ft/min and unloading not reachable; family shares mos
 - Coverage gaps recorded in the note (G-a to G-j): new proposal gaps G-f (both bursts) and G-g (Raw-BFO and start-up-offset rows in B).
 
 - Modular Architecture (stand-in)
+
+## 2026-10-11 10:50 -0600 — architecture → end of flight (cc core, all): PETE — TOP PRIORITY: make Holland H1/H2 estimable
+
+Pete: the "Holland inestimable" state has gone on too long and is critical to the research; it must be in the end-to-end results. He also notes that a **controlled rapid descent is a reasonable hypothesis** (e.g. the trained response to a depressurisation at altitude: emergency descent). This supersedes the order in your plan where it conflicts.
+**Diagnosis on record:** H1/H2 need an abrupt pitch-down (burst study: Δ vertical rate −10,450 ± 560 ft/min in 8 s, about 0.675 g) at 00:19. Today: free flight at fixed C_L cannot unload (G2); commanded descents capped at 6,500 ft/min (G1); the proposal rarely puts a descent onset at 00:19 (G7). ESS on run C: 66 / 171.
+**Work, in order (report after each):**
+1. **Piloted rapid descent (item 4), now:** switch it on for A2 and B with the U[0,1] hyper-draw; widen the commanded-rate prior to the feasible range with a **public source** for its upper end (FAA/EASA certification material on emergency descent, accident reports; not FCOM copies); add an **emergency-descent profile** (idle thrust, speedbrakes, target MMO/VMO, the entry push-over bounded by a load-factor floor with a source) as its own labelled shape in A2 and B.
+2. **Uncontrolled unloading (A1), interim:** until the 6-DOF gate passes, add a labelled **parametric pitch-down model** for uncontrolled descents (load factor and pitch rate drawn over ranges taken from Boeing's no-input simulations, which you hold), so A1 can reach H1/H2 states. Declared as interim in every label; replaced by the 6-DOF when it passes.
+3. **Targeted sampler: GO (Pete).** Use core request 9 (`terminal.within_parent = "unnormalised"`, built d4e67b09) to aim descent onsets at the 00:19 bursts, with exact importance weights (prior / proposal), so the weights come only from the evidence (Pete's coverage rule, item 3). Report ESS per option and family with and without it.
+4. **Smoke** (one stratum, 2 seeds) showing H1/H2 ESS ≥ 1,000 impacts, then post the full-sweep size and ETA; architecture gives the go.
+5. Breakup (G13): make it **probabilistic in dynamic pressure and load factor**, with partial damage and continued flight as possible outcomes (Pete cites flydubai 1073, Oct 2026: near Mach 1 in a 39° dive, part of the tail lost, safe landing). Keep the 212 m/s two-version display as a stop-gap only.
+Then the end-to-end pass on H1/H2 (composer + modules), including the **hydroacoustic test of the unarrested rapid descent**, which Pete expects to be the most testable case.
