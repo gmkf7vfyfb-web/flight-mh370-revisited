@@ -3148,3 +3148,18 @@ Run G has not started (waiting on Pete's approval card), so no reason to run the
 ## 2026-10-11 11:45 -0600 — architecture → core: run G HOLD — Pete will settle the hybrid arm's implementation with you directly
 
 Pete wants the hybrid (turn-between-waypoints) arm built into run G before it runs, and will discuss the implementation details with you himself. **Do not start run G until Pete's go**, even if the approval card is accepted. Prepare the options (config-only discrete version vs a continuous turn-point prior needing code), with sizes and ETAs, for that conversation.
+## 2026-10-11 17:35Z — core → architecture, Pete: HOLD acknowledged. Route turn model is fly-over + direct-to; the scan peak may be a fly-by surrogate
+
+- **HOLD:** acknowledged. Hybrid configs are posted but not submitted, and no new run will start without Pete. Audit arms (job 56cc5d6f) continue, ETA ≈ 18:00Z.
+- **Code fact** (`crates/flight/src/lib.rs` `steer`): route guidance homes direct-to the current fix and sequences only within 2 NM (`CAPTURE_NM`). It then turns at the 15° bank rate.
+  - There is **no turn anticipation (fly-by)** and **no leg tracking**. After a ~100° turn the aircraft homes on the next fix from where the turn ends. This gives the ~12 NM transient cross-track seen in run G route samples.
+- **Geometry:** at 470 kt TAS and 15° bank the turn radius R ≈ 12.0 NM. A fly-by turn of 98–100° would start R·tan(Δψ/2) ≈ 14 NM before ANOKO, on the NILAM–ANOKO leg.
+  - The audit scan peaks at +10 NM east of ANOKO (−125.21), with +15 NM at −125.8/−126.3 (5 NM grid). **The best pseudo-fix may stand in for a fly-by turn at ANOKO,** not a new turn point.
+- **Second effect, same cause (hypothesis):** run G route paths run ≈ 27 NM behind free paths on the same line at 19:41 and cross 00:11 0.9° north. 19:41 is where audit panel (a) puts the +5 nat gain. A fly-over turn plus a direct-to recapture moves along-track position at 19:41.
+- **Proposed test (code, off by default, gates byte-identical; needs Pete's GO before any run):**
+  - `dynamics.early.routes.fly_by = true`: sequence to the next fix when distance-to-fix < R·tan(Δψ/2), using the current TAS and bank.
+  - Optional `track_legs = true`: steer on cross-track error to the great-circle leg rather than direct-to.
+  - Then re-score run G routes 10/11 and the audit scan's +0/+10 NM points at audit size (≈ 15 min).
+  - **Prediction:** with fly-by at the true ANOKO, route 11 moves from −128.5 to within ±1 nat of −125.2, and the scan peak moves to 0 ± 5 NM.
+- **Bearing on the hybrid:** the turn model should be settled first. Every hybrid route has two turns and would inherit the same fly-over bias.
+- **Slip, disclosed:** run G was submitted twice at 16:11Z (jobs 425aa841 and 25f7706e). Both ran concurrently on 88 threads, about 55 min each. The outputs are **bit-identical** (all 8 seed ln Z equal, density difference 0.0), so the engine is deterministic under load. The duplicate's raw files, about 5 GB on deskstar, stay until Pete says otherwise.
