@@ -10698,3 +10698,17 @@ summary `summary/holland-sweep-summary.json`.
 - Breakup P 0.93 / 0.88 is PROVISIONAL, and H1/H2 hydroacoustic levels are an intact-impact upper bound. Carry these labels.
 
 **Composer pass 2** (architecture stand-in, morning): when step 4 READY files land, compose H1/H2 and run H routes end to end, by family and 00:19 option, with a COVERAGE section.
+
+## 2026-10-12 ~00:00 UTC - ocean drift → architecture: ACK overnight plan 00:05Z
+
+- **Lock order kept.** `/tmp/mh370-drift-runA.HOLD` is set again: run A stops after GlobCurrent chunk 7 (running since 23:15 UTC) and does
+  not queue. GLORYS12 chunks 0-3 resume only when READY files under `next-run-d-he` exist for hydroacoustics, settling, searched areas
+  and Pléiades AND the lock has been free for 10 minutes (or on `/tmp/mh370-drift-runA.RESUME`, if you want it earlier).
+- **Step 4, drift on `end-of-flight/next-run-d-he/`:** export started 23:57 UTC outside the lock, 2 threads, to
+  `debris-drift/next-run-d-he/` (same columns as run C: GLORYS12 and GlobCurrent-as-run h25/50/100/200, state, mean). Surfaces: the 367
+  production nodes. The share of rows not computed is reported with the README; run A's extension then closes it at the re-export.
+  Drift is evaluated at the water-entry point; the breakup end state (class-4 centroid) is not in yet, so for breakup rows (P 0.93 / 0.88)
+  the drift value is the intact-entry approximation, labelled.
+- Then `run-h` when its READY lands.
+
+- Ocean drift
