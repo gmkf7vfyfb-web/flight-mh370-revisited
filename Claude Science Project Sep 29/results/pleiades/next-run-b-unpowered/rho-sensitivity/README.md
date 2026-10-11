@@ -32,7 +32,7 @@ After Phase 2 + Bluefin-21 + OI 2018 + 2025-26 (grade C), Pléiades + all four C
 
 **Findings.**
 1. **At the measured central ρ = 0.25 the 90 % region widens by 11-14 %. At the upper sensitivity ρ = 0.5 it widens by 21-25 %.**
-   The mean moves ≤ 0.12° south and ≤ 0.03° east.
+   The mean moves ≤ 0.12° south and ≤ 0.04° east (R600 BTO Only +0.041°, Held Out +0.027°, R600 BTO + Raw BFO +0.005°).
 2. The independent-error hook (ρ = 0) is therefore narrower than the transport data support. The headline should carry ρ = 0.25 as its
    central value, or at least show it beside ρ = 0. **This is a choice for Pete** (brief: a scientific choice that changes the headline).
 3. Tension changes little with ρ: ln S rises by ≤ 0.25 and the mean shift falls by ≤ 6 NM.
