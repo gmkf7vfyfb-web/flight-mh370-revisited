@@ -130,7 +130,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
 
     let steps = build_steps(&epochs, &hypotheses, prior.unix_s)?;
     let last = steps.last().unwrap();
-    let stop = handoff::Stop { epoch: last.id.clone(), step: steps.len() - 1, unix_s: last.unix_s };
+    let stop = handoff::Stop { epoch: last.id.clone(), step: steps.len() - 1, unix_s: last.unix_s, ..Default::default() };
     let stage = match (&config.terminal, &terminal_module) {
         (Some(t), Some(module)) => {
             let later = excluded.iter().filter(|e| e.unix_s > stop.unix_s).cloned().collect();

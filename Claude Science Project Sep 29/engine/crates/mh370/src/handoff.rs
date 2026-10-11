@@ -1,3 +1,22 @@
+
+    /// Core request 18: a [stop] block written before the evidence fields still reads, and
+    /// one with them round-trips.
+    #[test]
+    fn stop_reads_with_and_without_request_18_fields() {
+        let old: Stop = toml::from_str("epoch = \"m2241\"\nstep = 16\nunix_s = 1394232081.0\n").unwrap();
+        assert_eq!(old.log_evidence_by_mode, None);
+        assert_eq!(old.observations_not_used, None);
+        let new = Stop {
+            epoch: "m2241".into(), step: 16, unix_s: 1394232081.0,
+            log_evidence_by_mode: Some(vec![-1.0, f64::NEG_INFINITY, -2.0, -3.0, -4.0]),
+            mode_probability: Some(vec![0.6, 0.0, 0.3, 0.07, 0.03]),
+            log_evidence: Some(-1.5),
+            observations_used: Some(vec!["m2241.bto".into()]),
+            observations_not_used: Some(vec!["m0011.bto".into(), "m0019a.bto".into()]),
+        };
+        let back: Stop = toml::from_str(&toml::to_string(&new).unwrap()).unwrap();
+        assert_eq!(back, new);
+    }
 //! The hand-off at the filter's stop epoch (00:11 in the integrated estimate): per replicate,
 //! K trajectories drawn from the final posterior, each with its full continuation state, for
 //! the end-of-flight stage to continue.
@@ -79,12 +98,31 @@ pub struct Stratum {
 }
 
 /// Where the filter stopped.
-#[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
+#[derive(Serialize, Deserialize, Clone, Debug, PartialEq, Default)]
 pub struct Stop {
     pub epoch: String,
     /// Index of the stop among the filter's steps: the next step's streams are step + 2.
     pub step: usize,
     pub unix_s: f64,
+    /// Core request 18 (epoch hand-offs only): each mode's log evidence from the prior to the
+    /// end of this epoch, in `filter::MODES` order (minus infinity for a mode not run). This is
+    /// the evidence the rows' mode shares were computed from, and it uses no measurement after
+    /// the stop. A consumer composing evidence must start from these, not from the final values.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub log_evidence_by_mode: Option<Vec<f64>>,
+    /// The same evidence as mode probabilities (prior mode weights applied).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub mode_probability: Option<Vec<f64>>,
+    /// The replicate's log evidence to the stop, averaged over modes with their prior weights.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub log_evidence: Option<f64>,
+    /// Satcom observations the filter had used by the end of the stop epoch, and those it had
+    /// not yet used (for example the 00:19 BTO for a 22:41 stop). A continuing stage may claim
+    /// only the second list. Observations claimed by trajectory hypotheses are not listed.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub observations_used: Option<Vec<String>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub observations_not_used: Option<Vec<String>>,
 }
 
 #[derive(Serialize, Deserialize, Clone, Copy, Debug, PartialEq)]

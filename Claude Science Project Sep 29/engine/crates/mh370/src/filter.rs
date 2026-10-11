@@ -230,7 +230,26 @@ pub struct Replicate {
     #[serde(deserialize_with = "null_is_minus_infinity")]
     pub log_evidence: f64,
     pub modes: Vec<ModeRun>,
+    /// Core request 18: the evidence and observation cut at each epoch hand-off (empty when
+    /// output.handoff_epochs is empty). Same values as each hand-off's [stop] block.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub handoffs: Vec<HandoffEvidence>,
     runtime_s: f64,
+}
+
+/// Core request 18: one epoch hand-off's evidence, as of the end of that epoch.
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HandoffEvidence {
+    pub epoch: String,
+    pub step: usize,
+    pub unix_s: f64,
+    /// Replicate log evidence to the epoch (prior mode weights applied).
+    pub log_evidence: Option<f64>,
+    /// Per mode, MODES order; null for a mode not run.
+    pub log_evidence_by_mode: Vec<Option<f64>>,
+    pub mode_probability: Vec<f64>,
+    pub observations_used: Vec<String>,
+    pub observations_not_used: Vec<String>,
 }
 
 fn null_is_minus_infinity<'de, D: serde::Deserializer<'de>>(d: D) -> Result<f64, D::Error> {
@@ -321,13 +340,14 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         rng.set_stream(u64::MAX - 1); // distinct from every filter stream and the route draw
         handoff_rows = handoff::select(strata, ctx.handoff, ctx.handoff_floor, &mut rng);
         let (k, stop) = (ctx.steps.len() - 1, ctx.steps.last().unwrap());
-        handoff::write(dir, &handoff::Stop { epoch: stop.id.clone(), step: k, unix_s: stop.unix_s }, &handoff_rows)?;
+        handoff::write(dir, &handoff::Stop { epoch: stop.id.clone(), step: k, unix_s: stop.unix_s, ..Default::default() }, &handoff_rows)?;
     }
 
     // Hand-offs at named epochs, written while the filter ran on (output.handoff_epochs). Each
     // epoch's mode probabilities come from the evidence to that epoch alone, so the snapshot is
     // P(state | data to the epoch) and carries nothing from the measurements after it.
     let output = &ctx.config.output;
+    let mut handoff_evidence = Vec::new();
     for (e, id) in output.handoff_epochs.iter().enumerate() {
         let mut found = None;
         let log_posterior: Vec<f64> = runs
@@ -374,7 +394,35 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
                 }
             })
         });
-        handoff::write_with(&sub, &handoff::Stop { epoch: id.clone(), step: k, unix_s }, &rows, lookahead.as_ref())?;
+        // Core request 18: what the rows' mode shares rest on, and the observation cut.
+        let by_mode: Vec<f64> = log_posterior.iter().zip(&runs).map(|(lp, run)| lp - run.prior_weight.ln()).collect();
+        let probability: Vec<f64> = log_posterior.iter().map(|lp| (lp - total).exp()).collect();
+        let replicate_evidence = total - ctx.mode_weights.iter().sum::<f64>().ln();
+        let cut = |range: &[Step]| -> Vec<String> {
+            range.iter().filter_map(|s| s.satcom.as_ref()).flat_map(|ep| ep.cruise_observations(case.use_bfo)).collect()
+        };
+        let (used, not_used) = (cut(&ctx.steps[..=k]), cut(&ctx.steps[k + 1..]));
+        let stop = handoff::Stop {
+            epoch: id.clone(),
+            step: k,
+            unix_s,
+            log_evidence_by_mode: Some(by_mode.clone()),
+            mode_probability: Some(probability.clone()),
+            log_evidence: Some(replicate_evidence),
+            observations_used: Some(used.clone()),
+            observations_not_used: Some(not_used.clone()),
+        };
+        handoff::write_with(&sub, &stop, &rows, lookahead.as_ref())?;
+        handoff_evidence.push(HandoffEvidence {
+            epoch: id.clone(),
+            step: k,
+            unix_s,
+            log_evidence: replicate_evidence.is_finite().then_some(replicate_evidence),
+            log_evidence_by_mode: by_mode.iter().map(|x| x.is_finite().then_some(*x)).collect(),
+            mode_probability: probability,
+            observations_used: used,
+            observations_not_used: not_used,
+        });
     }
 
     let replicate = Replicate {
@@ -383,6 +431,7 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         particles_per_mode: ctx.config.particles_per_mode,
         log_evidence: total - ctx.mode_weights.iter().sum::<f64>().ln(),
         modes: runs,
+        handoffs: handoff_evidence,
         runtime_s: started.elapsed().as_secs_f64(),
     };
     Ok((replicate, handoff_rows))
