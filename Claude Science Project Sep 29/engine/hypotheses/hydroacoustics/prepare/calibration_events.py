@@ -78,6 +78,11 @@ INTERIM RESULT (11 Oct ~05:00 UTC; results-data/calibration_events/kadri_peaks.c
     19-75 m) and the Grande Comore shelf (3 m); the H08N path crosses land at 51.1 E and 0 m at 60.2 E. KRAKEN finds
     no modes. Needs the audit's N x 2D / 3D method (F11). Reported as not scorable, not as a non-detection.
   - AF447 waits for an Atlantic path section (ocean transport request).
+  - San Juan charge (C): Nielsen et al. 2021 Fig. 5c/5d digitised (embedded raster 1539 x 1251 px; axes calibrated
+    from the tick marks: decades at 290.5 px, 10 dB at 92.2 px; per-column power mean over the trace's vertical span,
+    tick rows excluded). Third-octave signal 85-94 dB re 1 uPa^2/Hz, SNR 4-15 dB in every band 5-40 Hz at both
+    stations (nielsen_fig5cd_bands.csv). Observed H10N - H04S: -6.6 dB (5 Hz) to +4.4 dB (40 Hz). Scoring waits for
+    the two path sections (outside the module grid).
 Status: PRE-REGISTRATION + INTERIM. Outputs to results-data/calibration_events/ when run.
 """
 # ------------------------------------------------------------------ implementation (11 Oct 2026, after amendment 1)
