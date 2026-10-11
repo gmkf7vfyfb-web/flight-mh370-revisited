@@ -87,7 +87,7 @@ model is not calibrated in the bands that matter for an aircraft impact.**
 - **Geometry sensitivity** (not pre-registered): a 16 × 12 m array gives 7.0 / 5.2 dB per octave; a 36 × 24 m array
   gives 1.8 / 1.2 dB per octave.
 - **Reading:** source directivity of the same size as the misfit is physically plausible. The NMFS notice, FR
-  2012-07717, p. 10 (text retrieved and read; C3 amendment 2), says horizontal effective source levels are lower than downward ones. So **airgun data cannot
+  2012-07717, p. 10 (public-inspection PDF retrieved in the audit session, sha256 recorded in C3 amendment 2), says horizontal effective source levels are lower than downward ones. So **airgun data cannot
   calibrate near-surface point-source coupling in slope**, and the aircraft impact has no array.
 - **Fix:** do not use air9 for absolute or slope calibration of the impact source. Use it for the path, through the
   station difference only.
@@ -188,7 +188,7 @@ the F-35 text on p. 17. Reproduced: W = 0.0447 kg TNT, η = 2.08e-4.
 - **air8:** not re-run. The module's RAM result (+18.3 dB band mean) stands as a negative control, weakened.
 
 **b. SUS 2003.** Scoring, results and limits:
-- **Scored:** 8 shots were detected at both H01W and H08S. Both panels were traced for 6 of them (A6sus3 at H01W and A7sus2 at H08S failed panel detection; A11sus has no model TL to H08S). 13 shot-station spectra gave a usable 50 Hz signal.
+- **Scored:** 8 shots were detected at both H01W and H08S. Both panels were traced for 6 of them: all but A6sus3 (H01W panel) and A7sus2 (H08S panel), which failed panel detection. Separately, A11sus was traced at both stations but has no model TL to H08S (path blocked), so it is scored at H01W only. A6sus2 was traced at both stations but was detected only at H08S. 13 shot-station spectra gave a usable 50 Hz signal.
 - **Station difference:** 3 shots scorable, all PASS (`data/sus_summary.json`). It validates **path** propagation for
   deep sources over 31.5–63 Hz only.
 - **Implied absolute source levels** at 50 Hz: 187.6–212.5 dB re 1 µPa²·s/Hz at 1 m; median 192.2 dB and sd 4.7 dB

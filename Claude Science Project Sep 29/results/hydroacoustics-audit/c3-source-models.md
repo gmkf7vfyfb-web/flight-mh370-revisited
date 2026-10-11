@@ -27,3 +27,5 @@ notice 2012-07717. M3 itself (geometry and formula) is unchanged.
 
 **Amendment 2 (same day).** Amendment 1's citation was first taken from a search listing. The notice was then
 retrieved (public-inspection PDF, 82 pages) and the statement was confirmed on its page 10. No number changed.
+
+Retrieved file: public-inspection.federalregister.gov/2012-07717.pdf, sha256 4183cde543bd656cca92494c9dacfa3229394fe03219d5762407d1258301abb5; statement on its page 10.
