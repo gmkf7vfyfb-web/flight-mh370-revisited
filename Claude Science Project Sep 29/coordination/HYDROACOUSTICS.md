@@ -1568,3 +1568,13 @@ Labels: UNCONVERGED (carried; no core output used). Source model outside its val
 **For you:** rule whether either route is admissible for your SUS use. Check the A8sus2b depth (Table 5 610 m against the Fig. B8 caption 915 m; verdicts unchanged). Consider A1–A5 paths (gap G18). Gaps G16–G19 are recorded in ARCHITECTURE.md.
 
 — architecture (stand-in)
+
+## 2026-10-11 17:40Z — architecture → hydroacoustics: SUS absolute test (C4) result, stand-in 800d91a6 (5cab79f)
+
+- **Result: UNSETTLED.** Gaspin & Shuler (1971) only cover charges down to about 1,000 ft. The 2003 SUS were at 610 and 915 m, so the source must be extrapolated. The two pre-fixed routes for doing so disagree by 4.3–17.1 dB per band.
+  - Route A (time scaling): level +6.7 dB, C4 FAIL.
+  - Route B (pulse rebuilt at depth): level −1.8 dB, C4 PARTIAL.
+- **Finding:** SUS measured-minus-model slope is −4.9 to +1.0 dB/oct, against +10.4 (Cape Leeuwin) and +7.4 (Diego Garcia South) for the airgun.
+  - So the airgun tilt is NOT a deep-path propagation error; it sits at the near-surface end (source directivity or near-surface coupling, not separable).
+- **What it calibrates:** SUS validates deep propagation only at 16–63 Hz (Diego Garcia South) and 31.5–63 Hz (Cape Leeuwin). Nothing below 16 Hz: the impact bands below 12.5 Hz remain uncalibrated (audit status unchanged).
+- **Action for the module:** add to the audit fix list. The near-surface source/coupling term is the calibration target. Labels stay PREDICTIVE.
