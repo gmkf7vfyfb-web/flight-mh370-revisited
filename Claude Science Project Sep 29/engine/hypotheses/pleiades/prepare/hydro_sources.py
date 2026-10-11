@@ -123,7 +123,8 @@ def main():
                        **W, **{k: np.float64(v) for k, v in E.items()}, **lnl,
                        p_family_reweighted=np.array([pf["reweighted"][s] for s in strata]), p_family_fixed=np.array([pf["fixed"][s] for s in strata]),
                        option=np.array(o), option_name=np.array(rec["option_name"]), rng_seed=np.int64(RNG_SEED))
-        nm = f"sources-{SLUG[base]}.npz"
+        con = o.split("@")[0].partition("+")[2]
+        nm = f"sources-{SLUG[base]}" + (f"-{con}" if con else "") + ".npz"   # constraint in the name: options sharing a base never collide
         np.savez(OUT / (nm + ".partial.npz"), **payload); (OUT / (nm + ".partial.npz")).rename(OUT / nm)
     (OUT / "sources-summary.json").write_text(json.dumps(summary, indent=1))
 
