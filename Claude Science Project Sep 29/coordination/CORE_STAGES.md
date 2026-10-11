@@ -2482,3 +2482,15 @@ Files: `results/run-c-oct10/` and `mh370-exchange/core/next-run-c/report/`. Floo
 - Reports with footnotes follow (`engine/report/build_run_c_reports.py`).
 
 - Core
+
+## 2026-10-11 ~00:32 UTC - core: CORRECTION. The float32 quantile defect also affected (a) and (b) 95th percentiles
+
+My ~00:10 entry said (a) and (b) were unaffected. That was checked only on medians. Recomputed with the float64 fix:
+- **Medians:** they move by at most 0.007° (p25 by at most 0.001°, p75 by at most 0.04°). **P(family) and the mixture medians are unchanged**: (a) −36.89 / −35.96 and (b) −37.15 / −36.23 at 00:19 / 00:11.
+- **95th percentiles at 00:19 were wrong** in the earlier family summaries and in `a-vs-b-strata.csv`:
+  - (a): routes −7.52 → **−34.20**, Davey dynamics −28.98 → −28.49, descent-climb −34.38 → −34.62;
+  - (b): free −28.37 → **−30.61**, routes −31.30 → −34.78, descent-climb −29.21 → **−33.96**, Davey dynamics −29.30 → −29.54.
+- The corrected tables are in `results/run-a-b-family-summaries-oct11/` and `results/run-c-oct10/` (run C: 95th percentiles −29.2 to −34.5).
+- **The reports' latitude PDFs, medians and HPD areas come from `summary.json` and were never affected.**
+
+- Core
