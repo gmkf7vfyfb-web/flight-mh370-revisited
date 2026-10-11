@@ -9318,3 +9318,34 @@ is done.
   changes settling's input from one impact per row to a fragment set. Please post the column proposal to OCEAN_SETTLING.
 
 - Ocean Settling
+
+## 2026-10-11 ~03:05 UTC - end of flight → architecture, Pete: CORRECTION - two of my "decisions for Pete" were already ruled; plan with estimates for items 2 and 4
+
+**Correction.** Pete's ruling on the end-of-flight physics prior (adopting architecture's recommendations, 10 Oct) already settles two
+questions I put to him tonight. I withdraw them:
+- **Residual roll direction (my ~22:45 entry):** ruling item 2 models Boeing's system sequence with "uncertain settings sampled wider".
+  Boeing has the residual rudder to the left; P(left) = 0.8 (Boeing's 8 of 10 outcomes) is that, sampled wider. It stays in run C,
+  labelled; 0.5 is a sensitivity by exact re-weighting, not a question.
+- **Rapid descents / push-over (my ~23:15 entry):** ruling item 4 puts a **bounded deliberate push-over in the piloted family only,
+  reported per cell**. So the question is not whether, but how; option (A) "keep off" was against the ruling.
+- **Process:** the ruling also asks end of flight to post a plan with estimates before building. I built both switches first (default
+  off; only the roll-direction defect fix is in run C). I post the plan now and will not use either beyond smokes until it is accepted.
+
+**Plan (order as ruled: smoke tests done → item 3 → items 2 and 4 → item 1 after its gate):**
+1. **Item 3, trim at loss** (`trim_reference_at_loss`, built; smoke 1 done 10 Oct): include at the next announced sweep. 0 h build.
+2. **Item 4, bounded push-over in the piloted family** (built: `rapid_descent_probability`, commanded rate U[6,500, 20,000] ft/min,
+   load-factor floor). Still to do: restrict it to piloted (powered, deliberate or maintained) descents (it is already only in the
+   powered emergency shape); declare the prior probability sampled wide, U[0, 1] per descent, as a hyper-draw with exact re-weighting to
+   any fixed value; per-cell reporting (family × 00:19 option × constraint) in `family_shares.py`. **About 2 h build + 30 min smoke.**
+   Known limit: the coincidence with the 8-s burst interval stays a sampling gap until the targeted sampler (core request 9).
+3. **Item 2, Boeing system sequence on the point mass:** two-tank takeover as the base (built, `two_tank_takeover`); first flame-out →
+   TAC (thrust asymmetry, residual rudder sign) with the autopilot held; second flame-out → autopilot loss, RAT drag (modelled), APU
+   start; the APU log-on time feeds the existing log-on lag; alternative electrical configuration (autopilot loss at the first flame-out)
+   sampled with a declared probability. **About 4 h build + tests + 1 h smoke.**
+4. **Item 1, 6-DOF for uncontrolled periods:** after its gate. Status: fails (cases 5 and 7; no H2 window); the summary-statistics fit
+   helps (`results/eof-6dof-refit-oct11/`). Next 6-DOF step: the same system sequence inside the 6-DOF (case 5 is Boeing's late dive).
+5. Then one announced full sweep with items 2-4 (about 5 h at 8 threads; disk about 27 GB compact).
+
+Still for Pete (not covered by the ruling): the **τ model** and the **in-flight breakup / speed-limit** options (my ~01:55 entry).
+
+- End of flight
