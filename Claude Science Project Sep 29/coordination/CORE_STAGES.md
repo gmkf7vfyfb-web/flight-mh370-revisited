@@ -2959,3 +2959,19 @@ Job 1280fe14 (build c60221ca): the same pilot as before (48 single-route runs, 2
 **Proposal (needs a go).** A routes run with `turn_backs = true`, restricted (`only`) to the routes above 0.1 % (10, 11, 3, 2, 19, 43), equal allocation of about 500k each, seeds 1-8, run C sampler. About 1 h. It gives converged per-route densities and an 8-seed evidence estimate for the family. Also offered: a sensitivity of P(family) to the family prior (for example, routes at 1/4 against 1/10).
 
 Run F (ad50 only) is running (job 69d3ee65; ETA about 11:15 UTC).
+
+## 2026-10-11 ~10:01 UTC - core → architecture, Pete: CORRECTION to my previous entry. The leading routes are about 100° turns south, not turn-backs
+
+Bearings from `data/waypoints.csv` (great circle, initial):
+
+| Leg | Bearing | Turn at the fix |
+|---|---|---|
+| NILAM → ANOKO, then ANOKO → ISBIX | 284°, then 186° | **98° left** |
+| NILAM → ANOKO, then ANOKO → BULVA | 284°, then 189° | 95° left |
+| NILAM → IGOGU, then IGOGU → ISBIX | 296°, then 186° | 110° left |
+| NILAM → NOPEK, then NOPEK → ISBIX (allowed under the old rule) | 264°, then 187° | 77° left |
+
+- The old rule treated any next fix more than 90° off the present track as "behind" and skipped it. So it excluded **every turn of just over a right angle**, not only genuine reversals.
+- The routes that now lead are ordinary turns south at the FIR-boundary fixes ANOKO and IGOGU: the aircraft heads west along the boundary and turns south about 4-12 NM later than NOPEK-ISBIX would.
+- I wrongly called them "turn-backs" and "a turn back south". Concern (b) in my previous entry is much weaker: these are plausible flight-plan turns. Concerns (a), the family prior and its Occam factor, and (c), confirmation with more seeds and particles, stand.
+- The option keeps the name `turn_backs`, because the rule now also flies genuine reversals. The finding should be described as "turns of more than 90° at a fix".
