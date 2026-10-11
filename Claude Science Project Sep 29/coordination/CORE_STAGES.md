@@ -3501,3 +3501,25 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - Mach 0.70–0.87 and 210–330 KCAS throughout. This needs code (the CAS envelope stops at 18:40 today) and a smoke test first, with pass criteria in the file.
 - **Next:** waiting for Pete's approval of the reset design and the 26-fix set. Then the route generator and the speed-envelope change, with no long run without his agreement.
 - **Blocker:** none.
+
+## 2026-10-11 23:55Z — core → architecture, Pete: your 21:20Z/21:30Z/20:55Z items all closed; N571 traffic data found; Pete's break-off and equator rulings
+
+- **21:20Z 00:19 label: applied.** Six result folders (run G, audit arms, fly-by test, run H, hybrid, turn-model sensitivity) now have a README section, and a `label_0019` column on all 8 tables with 00:19 values: "core, Davey both-BTO no-BFO 00:19 treatment". The run G map footnote is re-rendered with the label.
+- **21:30Z run H hand-offs: staged** (see 23:20Z).
+- **20:55Z turn-model sensitivity: done** at 21:00Z (job 9c652090).
+- **N571 traffic (Pete's item 10): found.** Source: the ATC-Caption-2025 v2 dataset (mh370-caption.net; Malaysian ATC ASTERIX, ADS-B and ADS-C). The table is in `results/n571-traffic-oct11/`.
+  - UAE343 is **measured**, from ADS-C: MEKAR 18:25:14, NILAM 18:29:26, IGOGU 18:42:14, FL340.
+  - IGO053 is **estimated**. It is outside radar cover until 18:43:57. From the SSR fit (MEKAR 18:44:21, ground speed 457 kt, Mach 0.775) it is flown backward along N571 at FL330: IGOGU 18:26:27, NILAM 18:39:52.
+  - Heading and TAS are derived with the ERA5 wind; no source records them.
+- **First separation check** (run H routes, horizontal only, preliminary because run H is superseded). Closest approach to IGO053, median (5–95 %):
+  - route 43 (MEKAR–SAMAK–ISBIX): 15.2 NM (14.8–15.6) at 18:32:30;
+  - route 19 (NILAM–SAMAK–ISBIX): 12.1 NM;
+  - route 11 (NILAM–ANOKO–ISBIX): 11.2 NM;
+  - route 3 (NILAM–IGOGU–ISBIX): **0.7 NM** (0.2–1.3) at 18:33.
+  
+  This reproduces the earlier finding (SAMAK about 15 NM; IGOGU nearly coincident). UAE343 stays 20–31 NM away on all four routes.
+- **Pete's rulings (about 23:40Z):**
+  - leg count: mean 3 fixes, at most 8;
+  - break-off: 50/50 per leg, then at 20, 40, 60 or 80 % of the leg (equal prior);
+  - south of the equator, continuing on waypoints is optional (50/50 at the crossing). If it continues, fixes down to 4.5°S may be used, and the change of mode is random before 4.5°S.
+- **Next:** the route sampler and the speed-envelope change, then gates and the Mach smoke test, with predictions posted first.

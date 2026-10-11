@@ -96,7 +96,7 @@ def build(out_png, out_pdf):
             "18:01:49 to 19:51:49, grouped by turn fix by nearest-polyline fit; legend shares are from the route identifier "
             "in final.npy (geometric grouping gives ANOKO 0.909, IGOGU 0.090). Panel b: 00:11 points are the route samples "
             "interpolated to 00:10:59; grey open circles are run D free-flight samples within 4 NM of the NILAM–ANOKO line "
-            "to 19:11:49 (n = 1,081); 00:19 contours are 50 %/95 % highest-density regions of the pooled 0.25° map. Lines in panel a join 600 s route vertices (chords cut the turn corners). Arcs at "
+            "to 19:11:49 (n = 1,081); 00:19 contours are 50 %/95 % highest-density regions of the pooled 0.25° map, labelled \"core, Davey both-BTO no-BFO 00:19 treatment\" (not an end-of-flight 00:19 option). Lines in panel a join 600 s route vertices (chords cut the turn corners). Arcs at "
             "35,000 ft, for orientation. Land: Natural Earth 1:110m.")
     y = 0.335
     for t in (plain, tech):
