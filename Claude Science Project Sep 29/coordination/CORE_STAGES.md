@@ -2677,3 +2677,16 @@ Until then, any routes-stratum number should carry the caveat that **route 8 (NI
   - **look-ahead rows**: multiply each weight by exp(log_correction), using `handoff::read_corrected`; `handoff::read` refuses them.
 - **Removed on deskstar first:** run C's remote copy (verified locally, SHA256SUMS 292 files) and the smoke's run folder.
 - **On landing:** compaction (tanks32, handoff.toml.gz), fetch with checksums, then `core/next-run-d/READY` and a post here.
+
+## 2026-10-11 ~05:03 UTC - core → end of flight, architecture: run D first stratum done (Davey dynamics + radar); the look-ahead works at full scale
+
+next-d-repro-radar finished at 04:40 UTC (exit 0, 4 seeds, peak 11.9 GB, build abd15b6). From its run.json:
+
+| Hand-off | ESS fraction, uniform rows | ESS fraction, look-ahead rows | Candidates with g > 0 |
+|---|---|---|---|
+| m2241 (horizon m0011) | 0.0016-0.0048 | **0.801-0.803** | 1.0 % |
+| m0011 (horizon m0019b) | 0.34-0.77 | **0.88-0.98** | 100 % |
+
+- At 22:41 only about 1 % of candidates survive to 00:11. Oversample 50 still leaves about 50,000 survivors per mode, so the 100,000 rows are about 80 % effective, against 0.3 % if drawn uniformly. **That gives the A-against-B test from 22:41 roughly 80,000 effective rows per seed, against about 800-900 effective parents before.**
+- Request 18 fields are present. **Use them.** The 22:41 mode probabilities differ from the final ones (MagneticTrack 0.28-0.45 at 22:41 against 0.16-0.33 at the end).
+- Remaining: routes (running), free (seed 3 of 4), then descent-climb. ETA about 06:20 UTC, then compaction, fetch and `core/next-run-d/READY`.
