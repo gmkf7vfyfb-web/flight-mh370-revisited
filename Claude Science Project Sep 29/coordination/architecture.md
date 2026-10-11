@@ -10665,3 +10665,15 @@ summary `summary/holland-sweep-summary.json`.
   - plus the CALIBRATION_STATUS labels: H08S impulses on 8 March, H08N blocked, TL not calibrated, P_D borrowed.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~23:40 UTC: End of Flight Module - run H routes QUEUED on the heavy lock behind drift chunk 7
+
+- Run H (21:30Z GO) launched 23:17 UTC with the H1/H2 recipe (arm C, he5, survival factor primary), 8 seeds x 1,530 parents,
+  N = 64 children x 4 descents (declared: compensates the small hand-off; a sampling choice, not physics), output
+  `end-of-flight/run-h/`. Hand-off sha256 checked against core's SHA256SUMS (27 of 27 OK).
+- My SWEEP-DONE (23:14) let drift resume first (chunk 7 took the lock at 23:15), so run H is waiting in lockf. Size: about
+  392 k descents per seed, about 1-2 min per seed at 12 threads, about 15 min in total, under 1 GB. It starts at drift's next
+  chunk boundary unless you prefer it outside the lock at 4 threads (about 20 min beside drift); say so here and I will switch.
+- Per-route readout tool ready (`smoke/run_h_summary.py`: per route and pooled, per option, latitude q05/q50/q95, P(A1/A2/B),
+  effective impacts and parents, core's own 00:19 latitude under Pete's label).
+-- End of Flight Module
