@@ -48,6 +48,11 @@ LABELS: carried from the inputs: core split-half state, two-tank bookkeeping, un
 Usage (from prepare/, PYTHONPATH=.):
   python search_windows_mixture.py --exchange <end-of-flight/next-run> --mixture-json <summary/mixture.json>
          --eof-module <displacement_hist.py> --out <dir> [--family-evidence <json>] [--regress-against <csv>]
+AMENDMENT 4 (11 Oct 2026, before any run-D-he window is computed; architecture 20:55Z ruling). SURVIVAL FACTOR:
+  "no in-flight breakup before 00:19:37" is part of the 00:19 data model. When the impact columns carry
+  latent:inflight_p_breakup_to_m0019b, each option posterior is multiplied by (1 - P) and renormalised (primary);
+  --no-survival gives the labelled sensitivity without it. Runs without the column (run C) are unchanged. Every output
+  carries the label "survival factor applied" or "survival factor NOT applied (sensitivity)".
 """
 import argparse, csv, hashlib, json, pathlib, sys, time
 import numpy as np
@@ -110,6 +115,7 @@ def main():
     ap.add_argument("--variants", nargs="+", default=list(sw.VARIANTS))
     ap.add_argument("--compact-reader"); ap.add_argument("--strata-map", nargs="+")
     ap.add_argument("--speed-max", type=float)
+    ap.add_argument("--no-survival", action="store_true")   # amendment 4
     a = ap.parse_args()
     import importlib.util
     from pyproj import Geod
@@ -191,8 +197,18 @@ def main():
                     series[f"{name}|{br}"] = np.where(ok, t + d / 1000.0 / c, np.inf)
             srt = {k: (x[o], o, np.searchsorted(x[o], GRID, side="right")) for k, x in series.items() for o in [np.argsort(x)]}
             del series
+            surv = None   # amendment 4: survival factor (1 - P(in-flight breakup before 00:19:37))
+            if not a.no_survival:
+                try:
+                    pb = np.asarray(g("latent:inflight_p_breakup_to_m0019b"), float) if not (sd / "impacts.npy").exists() else \
+                        np.asarray(X[:, cols["latent:inflight_p_breakup_to_m0019b"]], float)
+                    surv = np.clip(1.0 - np.nan_to_num(pb, nan=0.0), 0.0, 1.0)
+                except (KeyError, ValueError):
+                    surv = None
             for key, p, _c in dh.option_posteriors(sd, sd, constraints=VARIANTS):
                 p = np.where(ok, p, 0.0)
+                if surv is not None:
+                    p = p * surv
                 if p.sum() <= 0:
                     continue
                 p = p / p.sum()
