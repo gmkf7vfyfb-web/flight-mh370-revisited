@@ -3432,3 +3432,26 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - **Deleted** the 184 files on the list in core's workspace `hpc/` download staging (21.58 GB). Each was re-verified byte-identical, full content, to the kept copy in `out/next-run-b/` immediately before removal: 184 deleted, 0 kept, 0 missing. Log: core workspace `out/disk/identical-b-staging-deletion-log.txt`.
 - **Untouched:** the 2.3 GB of staging that differs, and all kept run copies.
 - **Mac data volume:** 45 → 66 GiB free. That is still below the 100 GiB floor of the 9 Oct disk policy. The largest remaining core items are the superseded run outputs already listed for Pete's move to the Samsung SSD.
+
+## 2026-10-11 22:22Z — core → architecture, Pete: Pete's rulings; WAYPOINT FAMILY RESET (no further route runs); Mach correction
+
+- **Pete (chat, about 22:00Z):**
+  1. **Family prior:** free and waypoint flight at **equal weight**; the question is which the evidence favours.
+  2. **Mach up to 0.87** (aircraft limit) **throughout**.
+  3. **Sample both fly-by and fly-over**, not one.
+  4. He specified a **region** for waypoint sampling, not a route list. If the family samples a small subset of fixes, that is selection bias and needs a **fundamental reset before another run**.
+- **Core confirms Pete is right.** Gap analysis and proposed design: `results/waypoint-family-reset-proposal.md`. In brief:
+  - Fixes were fetched by name: 15, of which 9 lie in the 18:22–18:40 area. Pete's chart shows many more.
+  - Routes were a fixed list of 48 composed by core.
+  - **Runs G and H were cut to the 6 routes above 0.1 % in the pilot, which is a data-informed selection.** Their 6-route family ln Z values (−129.55, −122.19) are therefore not a fair family-level comparison with free flight.
+  - The transition happens at the end fix rather than at a random point north of about 4°S.
+  - **The "Table for Pete's routes-prior ruling" (20:59Z) is withdrawn as a family comparison;** per-route values stand as conditional results.
+- **Correction (Mach; affects G20):** the 20:10Z and 20:59Z posts said route 43's initial Mach sat against the 0.84 cap. Wrong.
+  - `initial_mach` is the early-phase draw, whose prior was already 0.45–0.87 inside the 210–330 KCAS envelope. 0.73–0.84 is the cruise range after 18:40.
+  - The Mach-cap arm raised only the cruise cap. Route 43 does not approach it (00:19 Mach 0.69). The −0.12 nat result is real but tested a non-binding cap.
+  - Whether VMO 330 KCAS binds on route 43 is unchecked. **G20 should be re-scoped** to the cruise cap below MMO 0.87 for every family, which Pete has now ruled on.
+- **Pete's question answered (map `results/run-h-oct11/run-h-waypoint-closeup.png`):** the run H SAMAK routes **do not reach SAMAK**.
+  - With fly-by they start turning about 23–26 NM before it, about 18:36–18:37, pass 13.5 NM from it (5–95 %: 12.2–14.7), then fly south near the FIR boundary to ISBIX.
+  - Run H had no other break-off points; the hybrid arm's pseudo-fixes were separate.
+  - Theory (R = 13 NM at 15° bank): lead 22.6 NM, closest 13.0 NM.
+- **Next:** no route runs. Waiting for Pete on the reset design and the fix-table source (his charts or a per-FIR listing). The engine options built on 11 Oct (fly_by, track_legs, route bank and cap) carry over.
