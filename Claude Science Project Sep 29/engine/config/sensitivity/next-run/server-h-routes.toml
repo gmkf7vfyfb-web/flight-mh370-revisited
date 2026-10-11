@@ -1,5 +1,6 @@
 # Run H (Pete GO on the fly-by test 11 Oct ~18:05Z and pre-approval of core's recommendation; architecture 18:05Z):
-# full-scale confirmation of run G's six routes under the FLY-BY turn model (dynamics.early.routes.fly_by, 88e26826).
+# full-scale confirmation of run G's six routes under the FLY-BY turn model with leg tracking (fly_by 88e26826, track_legs a28e2426;
+# fly-by test parts 1-2, 11 Oct).
 # Identical to server-g-routes.toml otherwise: routes 10, 11, 3, 2, 19, 43; about 500k particles per route
 # (3M per seed), seeds 1-8, run C sampler, turn_backs = true, hand-off rows 1000.
 name = "next-h-routes"
@@ -13,3 +14,4 @@ handoff_rows = 1000
 only = [10, 11, 3, 2, 19, 43]
 turn_backs = true
 fly_by = true
+track_legs = true

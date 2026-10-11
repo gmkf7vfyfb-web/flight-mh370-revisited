@@ -20,7 +20,7 @@ COMMON="config/davey2016-inmarsat.toml $S/no-exhaustion-prior.toml $X/s1-factor.
 CX="$X/s7-single-engine.toml $X/s8-hold-taper.toml $X/inop-flow-fix.toml"
 CFG=$WORK/cfg; RUNS=$WORK/runs-hybrid; mkdir -p $CFG $RUNS
 sed "s#WAYPOINTS_HYBRID#$WORK/waypoints-hybrid.csv#" $WORK/routes-hybrid.toml > $CFG/routes-hybrid.toml
-for r in $(seq 0 25); do cat > $CFG/route-$r.toml <<EOT
+for r in $(seq 0 37); do cat > $CFG/route-$r.toml <<EOT
 name = "route-$r"
 particles_per_mode = [30000, 15000, 70000, 15000, 70000]
 seeds = [1, 2, 3, 4]
@@ -35,11 +35,13 @@ temper_stages = 16
 [dynamics.early.routes]
 only = [$r]
 turn_backs = true
+fly_by = true
+track_legs = true
 EOT
 done
-touch $WORK/STARTED; tl "PILOT START (26 hybrid routes x 4 seeds, run C sampler; 8 processes x 11 threads)"
+touch $WORK/STARTED; tl "PILOT START (34 hybrid routes + 4 controls x 4 seeds, run C sampler, fly-by + leg tracking; 8 processes x 11 threads)"
 export BIN COMMON CX F RUNS CFG WORK
-seq 0 25 | xargs -P 8 -I{} sh -c 'RAYON_NUM_THREADS=11 $BIN $COMMON $CX $F/waypoints.toml $CFG/routes-hybrid.toml $CFG/route-{}.toml $RUNS/route-{} > $RUNS/route-{}.log 2>&1; rc=$?; python3 $WORK/route_shares.py $RUNS/route-{} $RUNS/route-{}/shares.json >/dev/null 2>&1 && rm -f $RUNS/route-{}/bto-bfo/seed-*/final.npy $RUNS/route-{}/bto-bfo/seed-*/early.npy $RUNS/route-{}/bto-bfo/seed-*/tanks*.npy && rm -rf $RUNS/route-{}/bto-bfo/seed-*/handoff-*; (exit $rc); echo "$(date -u +%FT%TZ) route-{} exit $?" >> $RUNS/pilot.log'
+seq 0 37 | xargs -P 8 -I{} sh -c 'RAYON_NUM_THREADS=11 $BIN $COMMON $CX $F/waypoints.toml $CFG/routes-hybrid.toml $CFG/route-{}.toml $RUNS/route-{} > $RUNS/route-{}.log 2>&1; rc=$?; python3 $WORK/route_shares.py $RUNS/route-{} $RUNS/route-{}/shares.json >/dev/null 2>&1 && rm -f $RUNS/route-{}/bto-bfo/seed-*/final.npy $RUNS/route-{}/bto-bfo/seed-*/early.npy $RUNS/route-{}/bto-bfo/seed-*/tanks*.npy && rm -rf $RUNS/route-{}/bto-bfo/seed-*/handoff-*; (exit $rc); echo "$(date -u +%FT%TZ) route-{} exit $?" >> $RUNS/pilot.log'
 touch $WORK/DONE; tl "PILOT END ($(grep -c 'exit 0' $RUNS/pilot.log) of 36 exit 0)"
 cd $RUNS && tar czf $WORK/hybrid-arm-results.tar.gz route-*/run.json route-*/summary.json route-*/shares.json route-*/bto-bfo/seed-*/routes.npy pilot.log && tl "packed $(du -h $WORK/hybrid-arm-results.tar.gz | cut -f1)"
 cat /sys/fs/cgroup/memory.events >> $WORK/timeline.txt || true

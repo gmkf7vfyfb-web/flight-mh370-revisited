@@ -3264,3 +3264,35 @@ Job 18 (6d54b817, binary bfe66df): 9 arms × 4 seeds × 200k, ad50, all exit 0. 
   - fly-by becomes the turn model for the hybrid;
   - a full-scale re-run of the run G six routes with fly-by (run G′, 8 × 3M, about 1 h) confirms the leaders before any adoption.
   - Pete's routes-prior ruling stays pending.
+
+## 2026-10-11 18:46Z — core: FLY-BY PART 2 — leg tracking adds little; turn model = fly-by + leg tracking. Run H and hybrid predictions (posted before submit)
+
+Job 19 (1e28b67e, binary 0339ede), 9 arms × 4 × 200k, all exit 0. `results/flyby-test-oct11/flyby-part2-arms.csv`.
+
+| Arm | ln Z (sd) | 00:19 lat |
+|---|---|---|
+| NILAM–IGOGU–ISBIX, fly-by + leg tracking | **−122.78** (0.10) | −37.29 |
+| NILAM–ANOKO–ISBIX, fly-by + leg tracking | −125.24 (0.04) | −37.42 |
+| NILAM–ANOKO–ISBIX, fly-over + leg tracking | −126.72 (0.16) | −37.44 |
+| Scan −5 / +5 / +10 / +15 NM, fly-by + leg tracking | −125.68 / −126.12 / −127.82 / −129.81 | |
+| +15 NM, fly-by only | −130.09 | |
+| NILAM–ANOKO–BULVA, fly-by + leg tracking | −136.08 (0.63; split-half 0.62) | |
+
+**Against predictions:**
+1. Leg tracking equals fly-by alone within ±0.5 nat on 5 of 6 arms (+0.07 … +0.40). The miss is route 10 (−0.80), which is unconverged.
+2. Fly-over + leg tracking gained 1.79 nats (pred. ≤ 1.5): narrow miss.
+3. +15 NM is at least 1 nat below: holds, 4.6–4.8 nats below.
+
+**Decision (per the 18:05Z rule, prediction held):** route-family runs use **fly-by + leg tracking** from here. It is the closer model of FMS LNAV, and the evidence is unchanged from fly-by alone.
+
+**Run H** (`server-h-routes.toml`, job script `next-run/job-run-h.sh`): run G's six routes at full scale (8 × 3M, run C sampler) with fly-by + leg tracking. About 55 min; submitting now. **Predictions:**
+- ln Z route 3 (NILAM–IGOGU–ISBIX) −122.8 ± 0.3 and route 11 −125.2 ± 0.3.
+- Route 2 (IGOGU–BULVA) at least 3 nats below route 3. Route 10 −136 ± 1.5. Routes 19/43 below −130.
+- Family ln Z (log-mean-exp over 6) −124.5 ± 0.3. Shares: route 3 about 0.91, route 11 about 0.08.
+- Split-half ≥ 0.924. Family 00:19 median −37.30 ± 0.15.
+
+**Hybrid** (next after run H, about 50 min; `hybrid-arm/`): 34 SAMAK early-turn routes plus 4 fly-by controls (NILAM–ANOKO/IGOGU–ISBIX/BULVA), 4 × 200k each, run C sampler, fly-by + leg tracking. **Predictions:**
+- No hybrid route beats the IGOGU–ISBIX control by more than 1 nat.
+- The best hybrid route uses the 20 % turn point (nearest N571).
+- The log-mean-exp over the 34 hybrid routes is 2–5 nats below the log-mean-exp over the 4 controls.
+- The direct HSk→ISBIX turns score at or below −127 for 60/80 %.
