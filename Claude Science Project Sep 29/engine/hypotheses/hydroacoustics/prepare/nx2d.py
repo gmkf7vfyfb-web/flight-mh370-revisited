@@ -52,6 +52,12 @@ AMENDMENT 1 (11 Oct 2026, after the first results at 29e21362; committed BEFORE 
   K4 (application, only after K3): MH370 -> H08N corridor for one representative impact (the run C posterior-weighted
      median impact, all four strata pooled, as written in the composer pass-1 note) at z_s 2, 10, 30 m, bands 5-40 Hz.
      Reported as open weight per band; labelled with K3's outcome.
+AMENDMENT 2 (11 Oct 2026, committed before the run): K5, the ridge-path defect found in airgun_sites_confirm
+  (759aaf7f): air7 (segment 1 midpoint, EW0112 p. 5) -> H01W (H01W1, rd 1063 m), whose single-path module TL exceeds
+  Fig. 23's observed air7 TL by about 55 dB over a 1,190-m feature at 28.8-29.0 S, 98.0-98.5 E. Corridor TL at
+  z_s 10 m, bands 31.5, 40, 50, 63 Hz (the traced CL air7 bands within a 10-min run), sound speed from the audit path
+  builder (95A4, October). Outcome rule: residual r = TL_obs(Fig. 23 CL air7, DIGITISED) - TL_nx2d; |median r| <= 6 dB
+  -> "the corridor explains the ridge-path defect"; 6-20 dB -> "partly"; > 20 dB -> "not explained by N x 2D".
 Usage: python nx2d.py <at_dir> <out_dir> <name> <src_lat> <src_lon> <rcv_lat> <rcv_lon> <rcv_depth_m> <ssp_csv>
                       [--src-depths 2 10 30] [--geo-tl <csv>] [--bands 5 ... 63]  (amendment 1)
 """
