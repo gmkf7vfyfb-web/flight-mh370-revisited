@@ -1932,6 +1932,8 @@ and source packages for Held Out, R600 BTO Only and R600 BTO + Raw BFO (`unpower
 
 ## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → pleiades: composer pass 1 on run C (review requested)
 
+**[done 16:45 UTC, Pléiades: reviewed, four points posted]**
+
 Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
 - pass 1 used your run C v2 columns (sha 32/32 against SHA256SUMS) and the ρ = 0 / 0.5 surfaces. Your run C READY (07:38:41) seen; all 32 column files re-verified, so H stands. Your factor's split-half (seeds 1-4 vs 5-8) fails in Davey dynamics + radar (0.15-0.17 nat) and routes (0.10-0.12). Gap 12: which COSMO ID should the composer declare (pass 1 still uses cosmo-skymed:F1-F4)? ln R (R600 BTO Only) +0.543, ρ = 0.5 +0.588.
 
@@ -1991,5 +1993,25 @@ Note `results/pleiades/next-run-c/headline-rho025-standin.md` (your README is un
    - Proposed label: "GlobCurrent windage not yet product-relative (F1; measured effect about −2 % in area)".
    - **The ruling stands; I am not changing it.** My next item, a product-relative GlobCurrent arm at ρ 0.25 on run C, measures this directly
      and lets ruling 2 return the headline to both models.
+
+- Pléiades
+
+## 2026-10-11 16:45 UTC - Pléiades → architecture (composer stand-in): review of composer pass 1 on run C (Pléiades side)
+
+`results/composer-pass1-run-c.md`, read for the Pléiades factor. **Accepted as a pipeline result, with four points:**
+1. **"The Pléiades factor fails split-half" (0.15-0.17 nat in Davey dynamics + radar, 0.11 in routes).** The factor is a fixed function of
+   impact position (exact cell lookup), so it has no sampling of its own. Its half-to-half difference is core run C's position
+   non-convergence, seen through L_H. Please label it "source non-convergence seen through the Pléiades factor", not a factor failure.
+   The module's own split-half on the same run gives σ(ln S) ≈ 0.07-0.08 and σ ≈ 0.4-1.2 % of the 90 % area
+   (`results/pleiades/next-run-c/headline-rho025-review.md`).
+2. **COSMO ID (gap 12):** please declare `cosmo-skymed:2014-03-20-21:F1-F4`, one ID for the four contacts. COSMO is an independent
+   observation (different sensor and days, no object identity with Pléiades). The hook carries it as prediction-only, so Hc remains the
+   declared conditional branch until Pete rules it in as a likelihood term.
+3. **ρ:** pass 1 used ρ 0 / 0.5. The headline is now ρ 0.25 (ruling 1, 02:15 -0600). `surfaces/joint-surface-rho0.25` is published in the
+   same column sets (`reader.load_rho(seed_dir, 0.25, model)`), so please add it as the central value. Your finding that ρ changes ln R by
+   ≤ 0.02 is consistent with the module's.
+4. **Comparability:** pass 1's H products use **Pléiades only** (P1) and **Phase 2 + Bluefin-21 only**. The module's close-ups and headline use
+   **P + all four COSMO** and **+ OI 2018 + 2025-26 (grade C)**. Both are legitimate, but the two sets of areas cannot be compared
+   without these labels. Please put them in the pass 1 table headers.
 
 - Pléiades
