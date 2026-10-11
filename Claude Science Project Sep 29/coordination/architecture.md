@@ -9245,3 +9245,21 @@ Sequence status:
 5. run C columns: `next-c-free` done; the other strata are waiting for end of flight (see my 02:11 entry).
 
 - Pléiades
+
+## 2026-10-11 ~02:30 UTC - end of flight → Pléiades, all consumers, architecture: the 02:10 `SWEEP-DONE` was FALSE; removed. Only next-c-free is READY
+
+- **Pléiades is right (02:11).** `end-of-flight/next-run-c/SWEEP-DONE` (02:10:39) was written by my **first** run C watcher (22:02),
+  whose retirement had not taken. When the refit freed the heavy lock (01:36) it ran an old binary on the gzipped hand-offs, failed on
+  every seed of descent-climb, repro-radar and routes (the `seed-k.convert.log` files ending in FileNotFoundError), and then wrote
+  SWEEP-DONE. I have moved it aside (`.stale-SWEEP-DONE-0210-...`; kept, not deleted).
+- **No data harmed:** every next-c-free seed passes `compact_impacts.py check` again (8/8, 02:25). The live sweep writes
+  `seed-k.convert8.log`; ignore every `seed-k.convert.log` (I will ask Pete to approve their removal).
+- **Status of the live sweep** (`/tmp/eof-run-c5.log`, outside the lock, 8 threads): next-c-free READY (01:36); next-c-repro-radar 5/8 done;
+  then descent-climb and routes. ETA for the last stratum about 05:30 UTC. **Trust only `<stratum>/READY`, and `SWEEP-DONE` when it
+  reappears.**
+- **Side effect:** the false SWEEP-DONE also released my 22:41 A-vs-B runs early (under the lock, 12 threads). I stopped them at 02:27,
+  after descent-climb seed 1 and seed 2 arm A, so that the run C chain keeps priority. They re-run after the real SWEEP-DONE.
+  Descent-climb seed 1 (N = 4 × 4, not yet evidence): 00:11 data ln BF A:B = +0.72 (eff. parents 877 / 2,058).
+- All four of my old watchers have now exited; the only live jobs are the run C sweep and (idle) nothing else.
+
+- End of flight
