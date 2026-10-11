@@ -69,6 +69,53 @@ proposal correction is exact. 92-95% of the H1/H2 posterior is in push-over rows
 H1/H2: each contributing impact comes from a different parent, so ESS scales about linearly with children (expected about 32x
 at N = 8 x 4).
 
+## 2. Full N (8 children x 4 descents), core run D `next-d-free`, seeds 1 and 2 (SMOKE, not evidence)
+
+**Arm A** (binary b747f806, w = 0.8 in [-20, +2] s, no load-factor ceiling; `fullN-armA-*.json`), constraint `unpowered`:
+
+| Option | ln Z seed 1 / seed 2 | Effective impacts seed 1 / seed 2 | Pooled (equal seed weights) | A1 / A2 / B effective impacts, seed 1 | seed 2 | Median latitude s1 / s2 |
+|---|---|---|---|---|---|---|
+| 00:19 Held Out | -0.06 / -0.06 | 760870 / 765858 | 1526711 | 86819 / 315068 / 378453 | 83970 / 328120 / 379070 | -37.41 / -37.36 |
+| 00:19 R600 BTO Only | -5.73 / -5.76 | 984410 / 925159 | 1907730 | 113472 / 403283 / 498220 | 99490 / 388088 / 468307 | -37.98 / -37.82 |
+| 00:19 R600 BTO + Raw BFO | -12.72 / -12.72 | 22109 / 25177 | 47087 | 2194 / 8675 / 12303 | 2750 / 8017 / 14630 | -37.41 / -37.44 |
+| 00:19 Holland H1 | -28.82 / -28.60 | 935 / 241 | 766 | 47 / 575 / 397 | 12 / 568 / 309 | -37.72 / -37.47 |
+| 00:19 Holland H2 | -22.04 / -22.04 | 190 / 133 | 313 | 6 / 68 / 150 | 16 / 31 / 145 | -37.27 / -37.40 |
+
+H1:H2 break-even W: seed 1 878 s, seed 2 709 s.
+
+**Gate (H1 and H2 at least 1,000 effective impacts) NOT MET by arm A:** pooled H1 766, H2 313. Effective impacts grew about 6x
+from N = 1, not 32x. Diagnosis (`/tmp/heavy.py`, rows of largest posterior weight): ESS is limited by rare mechanisms the targeted
+window does not serve, which carry the x5 out-of-window correction: (i) A1 rows (no intervention) with a pitch-down; (ii) for H2,
+push-overs that began 130-430 s before 00:19:29 and reach the H2 state through a pull-out phugoid. In seed 1, 41% of the H2
+posterior is in (ii).
+
+**Arm B** (w = 0.5, window [-15, +6] s, load-factor ceiling U[1.5, 5.0] g; seed 1 only, then stopped): H1 451, H2 201 effective
+impacts (`fullN-armB-w05-run-d-free-s1.json`). A lower targeting weight does not help; w = 0.8 is kept.
+
+**Arm C** (adopted recipe: w = 0.8 in [-15, +6] s, load-factor ceiling, structural columns; seeds 1-2): section 2C, when it ends.
+
+## 3. Findings on the way (N = 1, run D free seed 1; `n1-inflight-structure-*.json`, `n1-survival-factor-*.json`)
+
+1. **Piloted pull-outs pulled 5-8 g.** Without a ceiling, the best-glide capture after a push-over (and the pull-out at the end of
+   one) flies the fixed best-glide lift coefficient at high dynamic pressure: 32% of the prior had a peak load factor above
+   2.5 g; for best-glide shapes with a push-over, 99-100% (median 4.7 g). Fix (module): a per-descent load-factor ceiling on the
+   piloted laws, U[1.5, 5.0] g (2.5 g limit load, CS-25.337(b); China Airlines 006, NTSB AAR-86/03, about 5 g, damaged, landed).
+   Prior share above 2.5 g: 32% -> 27%. The rest is free flight (no-intervention spiral dives near the surface, maintained-then-lost
+   after the loss), which the ceiling does not touch.
+2. **In-flight structural outcome (G13, PROVISIONAL), now emitted per impact.** Columns `latent:struct_*` and `latent:inflight_p_*`
+   (peaks, P(intact), P(partial damage, continued flight), P(breakup), where the peak was). Fragility as in `StructureParams`
+   (sources: CS-25.335(b), 25.337, 25.303/305, 25.629; VD 380 KEAS / MD 0.95 DECLARED, not public). Prior: intact 0.56,
+   partial 0.06, breakup 0.38. Held Out posterior: intact 0.59, partial 0.06, breakup 0.35 (A1 breakup 0.51). Holland H1: breakup
+   0.98; H2: 0.93. The driver is speed, not load: H1/H2 posterior peak speed ratio median 1.45-1.53 (q05 1.16-1.38) against
+   VD/MD, max Mach median 1.02-1.06. **Caveat:** such speeds are reachable because the model has no transonic drag rise above the
+   crest Mach (G-H2; drag calibration 1(B) pending), so P(breakup) for dives is an upper-side estimate until then. Trajectories are
+   not changed by these columns (partial damage flown undamaged: G-pd; breakup keeps the intact impact point: G-bf).
+3. **Breakup before the log-on.** A breakup before 00:19:37 contradicts the log-on itself. New columns give the peaks and
+   P(breakup) up to 00:19:37.443. In H2's posterior P(breakup before 00:19:37) = 0.65 (the early push-overs of item (ii) above);
+   H1 0.002; Held Out 0.15. With the factor (1 - P) applied: H2 ln Z -21.53 -> -22.57, H2 effective impacts 29 -> 67 (N = 1); H1
+   unchanged; Held Out ln Z -0.06 -> -0.22. **Proposal to architecture:** the `alive` constraint carries (1 - P(breakup before
+   00:19:37)); results are shown both ways until ruled.
+
 ## COVERAGE
 
 - (a) FEASIBLE set: piloted descents to about 39,000 ft/min and unloading to -1.0 g (NTSB AAB-02/01; CS-25.337(c)); speed to
@@ -76,10 +123,14 @@ at N = 8 x 4).
   0.31-1.31 g below 1 g and no-input descents to 24,000-58,000 ft/min (SIR App. 1.6E).
 - (b) MODEL'S REACH: push-over to 40,000 ft/min, floor -1.0 g, in emergency, continuous and best-glide shapes; interim pitch-down
   in free flight. GAPS: G-st stepped shapes have no push-over (declared, conditional); G-H2 no structural limit (4.5% of impacts
-  at or above Mach 1 at sea level in run C; 212 m/s two-version display is the stop-gap; breakup model is item 5, pending);
+  at or above Mach 1 at sea level in run C; the probabilistic in-flight structural columns of section 3 now price it, with the
+  212 m/s two-version display kept as the stop-gap); transonic drag rise above the crest Mach missing (drag calibration 1(B));
+  G-pd and G-bf (section 3);
   the pitch-down is parametric (INTERIM, not the 6-DOF).
-- (c) PROPOSAL COVERAGE: table above; per family A1 / A2 / B effective impacts for H1 17 / 82 / 62 and H2 16 / 19 / 25 at N = 1.
-  A1 carries 5-7% of the H1/H2 posterior, through the pitch-down only. Full-N ESS per option and family: section 2.
+- (c) PROPOSAL COVERAGE: sections 1-2; full-N arm A per family A1 / A2 / B effective impacts for H1 47 / 575 / 397 and
+  12 / 568 / 309, H2 6 / 68 / 150 and 16 / 31 / 145 (seeds 1 / 2). A1 under H1/H2 is a COVERAGE GAP (fewer than 50 effective
+  impacts): it is reached only through the interim pitch-down. H2 overall below the 1,000 gate in arm A.
 - Bounds and sources: rate U[6,500, 40,000] ft/min (NTSB AAB-02/01); floor U[-1.0, 0.8] g (CS-25.337(c)); hold U[0, 300] s
   (declared reaction time, covers the log-on lag); VMO 330 KCAS (FAA TCDS T00001SE); pitch-down n U[-0.31, 0.69] g (SIR App. 1.6E),
-  duration U[4, 20] s and delay U[0, 900] s (declared).
+  duration U[4, 20] s and delay U[0, 900] s (declared); piloted load-factor ceiling U[1.5, 5.0] g (CS-25.337(b); NTSB AAR-86/03);
+  structural fragility (section 3; VD and MD declared).

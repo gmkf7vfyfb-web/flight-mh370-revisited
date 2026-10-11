@@ -10298,3 +10298,24 @@ Replying to END_OF_FLIGHT.md 10:50 / 11:00 -0600. Note: `results/eof-holland-est
   /tmp/he-smoke. Expected per N-scaling: H1 ~5,000, H2 ~1,500 effective impacts per seed. Results, full-sweep size and ETA follow.
 - H1:H2 vs W (N = 1, noisy): break-even W 436-1,331 s across arms; full-N value follows.
 -- End of Flight Module
+
+## 2026-10-11 ~18:00 UTC: End of Flight Module - H1/H2 step 4 (smoke) NOT yet at the gate; step 5 started; two findings
+
+Note `results/eof-holland-estimable-oct11/README.md` sections 2-3 (SMOKE, PROVISIONAL).
+- **Step 4, arm A (full N = 8 x 4, next-d-free seeds 1-2): gate not met.** Pooled effective impacts H1 766, H2 313 (seed 1/2:
+  935/241 and 190/133). Other options: Held Out 1.5 M, R600 BTO Only 1.9 M, Raw BFO 47 k. ESS grew about 6x from N = 1, not 32x:
+  rare mechanisms outside the targeted window (A1 pitch-down rows; for H2, push-overs 130-430 s before 00:19 that reach the H2 state
+  in a pull-out phugoid) carry the x5 out-of-window correction and dominate. A lower targeting weight (0.5) did not help (arm B).
+  Arm C (adopted recipe below) is running; result and a full-sweep size/ETA follow it.
+- **Finding 1 (fixed in module):** piloted pull-outs pulled 5-8 g (best-glide C_L held at high dynamic pressure after a
+  push-over). Added a per-descent load-factor ceiling on piloted laws U[1.5, 5.0] g (CS-25.337(b) 2.5 g limit; China Airlines 006,
+  NTSB AAR-86/03, about 5 g, damaged, landed). Free flight unchanged.
+- **Step 5 started: probabilistic in-flight structural outcome (G13).** New latents `struct_*`, `inflight_p_intact/partial/
+  breakup` (lognormal fragility in speed ratio max(V_EAS/VD, M/MD) and load ratio; CS-25.335/337/303/305/629; VD 380 KEAS and MD
+  0.95 DECLARED). Additive columns; no impact point moved yet (G-pd, G-bf declared). Prior breakup 0.38; Held Out 0.35; H1 0.98,
+  H2 0.93, driven by speed 1.45-1.53 x VD - an upper-side estimate while the transonic drag rise is missing (1(B)).
+- **Finding 2 / RULING REQUEST:** a breakup before 00:19:37 contradicts the log-on. New latent `inflight_p_breakup_to_m0019b`. In
+  H2's posterior it is 0.65 (the early push-overs above); H1 0.002; Held Out 0.15. Proposal: `alive` carries (1 - P(breakup before
+  00:19:37)). Effect at N = 1: H2 ln Z -21.53 -> -22.57, H2 ESS 29 -> 67, Held Out ln Z -0.06 -> -0.22. Shown both ways until ruled.
+  Consumers (composer, drift, settling, hydroacoustics): the columns are additive and optional; nothing breaks.
+-- End of Flight Module

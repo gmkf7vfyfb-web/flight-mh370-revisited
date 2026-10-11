@@ -262,6 +262,10 @@ struct Params {
     /// G13 feasibility threshold for `latent:contact_speed_feasible`, m/s. Default 212 = 1.25 VMO (VMO 330 kt).
     #[serde(default = "default_feasible_contact_speed")]
     feasible_contact_speed_mps: f64,
+    /// G13 in-flight structural outcome (architecture 10:50 -0600 11 Oct, item 5): probabilistic in dynamic pressure and load
+    /// factor, with partial damage (continued flight) and in-flight breakup. PROVISIONAL; see `StructureParams`.
+    #[serde(default)]
+    structure: StructureParams,
     /// Keep a descent that never reached the sea as its own impact sample instead of finishing it
     /// on a best-glide. **Default off.** A negative result is kept, not deleted: with the flag
     /// off the fact is still recorded in the `timed_out` latent, and with it on the unconverged
@@ -545,6 +549,8 @@ const LATENTS: &[&str] = &[
     "pitchdown_n_g",
     "pitchdown_duration_s",
     "pitchdown_delay_s",
+    // Load-factor ceiling of the piloted laws drawn for this descent, g (NaN: none). EnvelopeConfig::piloted_load_factor_ceiling_g.
+    "piloted_n_ceiling_g",
     // Item 2: autopilot-loss configuration code: 0 no draw, 1 primary (second flame-out), 2 alternative (first flame-out, the
     // other engine running). With the proposal probability in run.json, exact re-weighting to any prior probability.
     "ap_loss_config",
@@ -552,6 +558,16 @@ const LATENTS: &[&str] = &[
     // or below `feasible_contact_speed_mps` (default 212 m/s = 1.25 VMO), 0 = above: a state the model reaches only because it has
     // no structural limit. Consumers show both versions; the flag replaces their four separate filters.
     "contact_speed_feasible",
+    // G13 in-flight structural outcome, PROVISIONAL (StructureParams): peak speed ratio max(V_EAS/VD, M/MD), peak load ratio
+    // max(n/2.5, n/-1.0), highest and lowest load factor (g), highest dynamic pressure (kPa); P(intact), P(partial damage, continued
+    // flight), P(in-flight breakup); and where the governing peak was reached (unix s, altitude ft, latitude, longitude). The
+    // impact point is NOT moved for breakup in this version (gap G-bf).
+    "struct_speed_ratio", "struct_load_ratio", "struct_max_load_factor_g", "struct_min_load_factor_g", "struct_max_q_kpa",
+    "inflight_p_intact", "inflight_p_partial", "inflight_p_breakup",
+    "struct_peak_unix_s", "struct_peak_altitude_ft", "struct_peak_latitude_deg", "struct_peak_longitude_deg",
+    // The same, restricted to the flight before `structure.survival_until_unix_s` (00:19:37.443): speed and load ratios and
+    // P(in-flight breakup before it). Proposal to architecture: `alive` should carry (1 - this probability).
+    "struct_speed_ratio_to_m0019b", "struct_load_ratio_to_m0019b", "inflight_p_breakup_to_m0019b",
     // The module's own physical state at each burst it flew through (10 Oct, Pete's questions on the 22:41 arms):
     // NaN when the burst came before this descent's onset (core's cruise) or after its impact. Recorded BEFORE
     // `unpowered_bursts_removed`, so a burst the SDU could not answer still shows where the aircraft was.
@@ -773,6 +789,78 @@ fn default_tank_flow_ratio() -> f64 {
 
 fn default_feasible_contact_speed() -> f64 {
     212.0
+}
+
+/// G13 in-flight structural outcome, PROVISIONAL (architecture 10:50 -0600 11 Oct, item 5). Two exceedance ratios over the
+/// descent: speed r_v = max(V_EAS / VD, M / MD) and load r_n = max(n / n_pos, n / n_neg). Each has a lognormal fragility for
+/// partial damage (continued flight possible) and for breakup; the speed and load strengths are independent. Columns carry the
+/// peaks, so a consumer can recompute the probabilities with other parameters. Trajectories are NOT changed in this version:
+/// after partial damage the descent continues with the undamaged dynamics, and a breakup row keeps the intact impact point
+/// (reach gaps G-pd and G-bf, declared).
+/// Sources: VD/MD design dive speeds, CS-25.335(b) (MD at least MC + 0.07 M unless justified: MMO 0.87 gives 0.94; the 777-200
+/// VD and MD are not public: DECLARED 380 KEAS and 0.95); limit load factors +2.5 / -1.0 g (CS-25.337(b), (c)); no detrimental
+/// permanent deformation at limit load (CS-25.305(a)); ultimate factor 1.5 (CS-25.303, 25.305(b)); freedom from flutter to
+/// 1.15 VD / MD (CS-25.629(b)(1)). Fragility medians: speed partial 1.10, breakup 1.20 (log-sd 0.06); load partial 1.30,
+/// breakup 1.60 (log-sd 0.10, 0.08). Check against the flydubai 1073 press figures (near Mach 1, more than 3 g, part of the tail
+/// lost, landed: r_v about 1.05, r_n about 1.2): P(partial or worse) 0.38, P(breakup) 0.01.
+#[derive(Deserialize, Debug, Clone, PartialEq)]
+#[serde(deny_unknown_fields, default)]
+struct StructureParams {
+    vd_keas: f64,
+    md: f64,
+    n_pos_g: f64,
+    n_neg_g: f64,
+    speed_partial_median: f64,
+    speed_breakup_median: f64,
+    speed_log_sd: f64,
+    load_partial_median: f64,
+    load_breakup_median: f64,
+    load_partial_log_sd: f64,
+    load_breakup_log_sd: f64,
+    /// The structural peaks are also recorded up to this time; P(breakup before it) is emitted, because a breakup before the
+    /// 00:19 log-on contradicts the log-on itself. Default 00:19:37.443 (the m0019b burst).
+    survival_until_unix_s: f64,
+}
+
+impl Default for StructureParams {
+    fn default() -> Self {
+        StructureParams {
+            vd_keas: 380.0,
+            md: 0.95,
+            n_pos_g: 2.5,
+            n_neg_g: -1.0,
+            speed_partial_median: 1.10,
+            speed_breakup_median: 1.20,
+            speed_log_sd: 0.06,
+            load_partial_median: 1.30,
+            load_breakup_median: 1.60,
+            load_partial_log_sd: 0.10,
+            load_breakup_log_sd: 0.08,
+            survival_until_unix_s: 1_394_237_977.443,
+        }
+    }
+}
+
+/// Standard normal CDF (Abramowitz and Stegun 7.1.26 for erf, absolute error below 1.5e-7).
+fn normal_cdf(x: f64) -> f64 {
+    let z = x.abs() / std::f64::consts::SQRT_2;
+    let t = 1.0 / (1.0 + 0.327_591_1 * z);
+    let y = 1.0 - (((((1.061_405_429 * t - 1.453_152_027) * t) + 1.421_413_741) * t - 0.284_496_736) * t + 0.254_829_592) * t * (-z * z).exp();
+    if x >= 0.0 { 0.5 * (1.0 + y) } else { 0.5 * (1.0 - y) }
+}
+
+impl StructureParams {
+    /// (r_v, r_n, P(intact), P(partial damage), P(breakup)) from the descent's peaks.
+    fn outcome(&self, max_q_pa: f64, max_mach: f64, max_n: f64, min_n: f64) -> [f64; 5] {
+        let v_eas_kt = (2.0 * max_q_pa.max(0.0) / 1.225).sqrt() / 0.514_444;
+        let r_v = (v_eas_kt / self.vd_keas).max(max_mach / self.md);
+        let r_n = (max_n / self.n_pos_g).max(min_n / self.n_neg_g).max(0.0);
+        let f = |r: f64, m: f64, s: f64| if r > 0.0 { normal_cdf((r.ln() - m.ln()) / s) } else { 0.0 };
+        let b = 1.0 - (1.0 - f(r_v, self.speed_breakup_median, self.speed_log_sd)) * (1.0 - f(r_n, self.load_breakup_median, self.load_breakup_log_sd));
+        let any = 1.0 - (1.0 - f(r_v, self.speed_partial_median, self.speed_log_sd)) * (1.0 - f(r_n, self.load_partial_median, self.load_partial_log_sd));
+        let any = any.max(b);
+        [r_v, r_n, 1.0 - any, any - b, b]
+    }
 }
 
 fn default_boeing_alt_thrust() -> Range {
@@ -1175,13 +1263,26 @@ impl EndOfFlight {
                 flying.profile.pitchdown.map_or(f64::NAN, |p| p.1),
                 flying.profile.pitchdown.map_or(f64::NAN, |p| p.2),
                 flying.profile.pitchdown.map_or(f64::NAN, |p| p.0),
+                flying.profile.n_ceiling_g.unwrap_or(f64::NAN),
                 drawn.map_or(0.0, |d| f64::from(d.ap_config)),
                 {
                     let v = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
                     if v <= self.params.feasible_contact_speed_mps { 1.0 } else { 0.0 }
                 },
             ];
+            let structural = {
+                let st = &self.params.structure;
+                let o = st.outcome(trace.max_q_pa, trace.max_mach, trace.max_load_factor, trace.min_load_factor);
+                // Governing peak: the larger normalised exceedance against its breakup median.
+                let v_eas_kt = (2.0 * trace.max_q_pa.max(0.0) / 1.225).sqrt() / 0.514_444;
+                let at_v = if v_eas_kt / st.vd_keas >= trace.max_mach / st.md { trace.at_max_q } else { trace.at_max_mach };
+                let at_n = if trace.max_load_factor / st.n_pos_g >= trace.min_load_factor / st.n_neg_g { trace.at_max_load_factor } else { trace.at_min_load_factor };
+                let at = if o[0] / st.speed_breakup_median >= o[1] / st.load_breakup_median { at_v } else { at_n };
+                let u = st.outcome(trace.until_max_q_pa, trace.until_max_mach, trace.until_max_load_factor, trace.until_min_load_factor);
+                [o[0], o[1], trace.max_load_factor, trace.min_load_factor, trace.max_q_pa / 1000.0, o[2], o[3], o[4], at.unix_s, at.pressure_altitude_ft, at.latitude_deg, at.longitude_deg, u[0], u[1], u[4]]
+            };
             let mut latents = latents;
+            latents.extend_from_slice(&structural);
             latents.extend_from_slice(&physical);
             debug_assert_eq!(latents.len(), LATENTS.len());
             let idx = |f: Family| self.families.iter().position(|g| *g == f);
@@ -1273,6 +1374,8 @@ impl EndOfFlight {
             fine_window_s: self.params.fine_window_s,
             max_flight_s: self.params.max_flight_s,
             track_load_factor_floor_g: self.params.track_load_factor_floor_g,
+            piloted_load_factor_ceiling_g: flying.borrow().profile.n_ceiling_g,
+            peaks_until_unix_s: Some(self.params.structure.survival_until_unix_s),
         };
 
         // The realised flame-out emerges from the integration: it is the first time the module's
@@ -1521,6 +1624,8 @@ impl EndOfFlight {
             fine_window_s: 0.0,
             max_flight_s: 3_600.0,
             track_load_factor_floor_g: None,
+            piloted_load_factor_ceiling_g: None,
+            peaks_until_unix_s: None,
         };
         let cfg = Configuration::glide();
         let mut previous: Option<(Body, f64)> = None;
@@ -1557,6 +1662,33 @@ impl EndOfFlight {
     }
 }
 
+
+#[cfg(test)]
+mod structure_tests {
+    use super::*;
+
+    /// G13: the structural outcome is a proper three-way split, monotone in the peaks, and gives the declared check values
+    /// for the flydubai 1073 press figures (r_v about 1.05, r_n about 1.2).
+    #[test]
+    fn the_structural_outcome_is_a_monotone_three_way_split() {
+        let st = StructureParams::default();
+        assert!((normal_cdf(0.0) - 0.5).abs() < 1e-7 && (normal_cdf(1.959_964) - 0.975).abs() < 1e-6);
+        let q_at = |kt: f64| 0.5 * 1.225 * (kt * 0.514_444f64).powi(2);
+        let calm = st.outcome(q_at(300.0), 0.84, 1.3, 0.8);
+        assert!(calm[2] > 0.999, "{calm:?}");
+        let fd = st.outcome(q_at(300.0), 0.95 * 1.05, 3.0, 0.5);
+        assert!((fd[0] - 1.05).abs() < 1e-9 && (fd[1] - 1.2).abs() < 1e-9);
+        assert!((fd[3] + fd[4] - 0.38).abs() < 0.02 && fd[4] < 0.02, "{fd:?}");
+        let mut last = 0.0;
+        for k in 0..60 {
+            let o = st.outcome(q_at(300.0 + 5.0 * k as f64), 0.8, 1.0, 1.0);
+            assert!((o[2] + o[3] + o[4] - 1.0).abs() < 1e-12 && o.iter().all(|p| *p >= -1e-15));
+            assert!(o[4] >= last);
+            last = o[4];
+        }
+        assert!(last > 0.99);
+    }
+}
 
 #[cfg(test)]
 mod tests {

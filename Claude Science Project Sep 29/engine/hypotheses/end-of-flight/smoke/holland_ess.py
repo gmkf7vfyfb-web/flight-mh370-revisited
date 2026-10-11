@@ -48,6 +48,15 @@ def one(run, seed_dir):
              "share_push_over": float(p[po].sum()), "eff_impacts_push_over": ess(p * po),
              "share_pitch_down": float(p[pd].sum()), "eff_impacts_pitch_down": ess(p * pd),
              "families": {n: {"share": float(p[f4 == c].sum()), "eff_impacts": ess(p * (f4 == c)), "eff_parents": ess(np.bincount(par, weights=p * (f4 == c)))} for c, n in FAM}}
+        if "latent:inflight_p_breakup_to_m0019b" in cols:
+            # G13: a breakup before 00:19:37 contradicts the log-on; the proposed `alive` factor is (1 - P(breakup before)).
+            pb = np.clip(g("latent:inflight_p_breakup_to_m0019b"), 0.0, 1.0)
+            r["posterior_P_breakup_before_m0019b"] = float((p * pb).sum())
+            with np.errstate(divide="ignore"):
+                ls = lw + ll + np.log1p(-pb)
+            lzs = float(logsumexp(ls)); ps = np.exp(ls - lzs)
+            r["with_survival_factor"] = {"ln_Z": lzs, "eff_impacts": ess(ps), "median_lat": float(lat[np.argsort(lat)][np.searchsorted(np.cumsum(ps[np.argsort(lat)]), 0.5)]),
+                                         "families": {n: float(ps[f4 == c].sum()) for c, n in FAM}}
         if 0 < p0 < 1:
             r["ln_Z_of_q_pitch_down"] = {}
             for q in QS:
@@ -72,4 +81,8 @@ if __name__ == "__main__":
         for n, o in v["options"].items():
             fam = " ".join(f"{f}:{d['share']:.2f}/{d['eff_impacts']:.0f}" for f, d in o["families"].items())
             print(f"  {n:26s} lnZ {o['ln_Z']:8.2f} ESSimp {o['eff_impacts']:9.1f} ESSpar {o['eff_parents']:8.1f} PO {o['share_push_over']:.2f}/{o['eff_impacts_push_over']:.0f} PD {o['share_pitch_down']:.2f}/{o['eff_impacts_pitch_down']:.0f} lat {o['median_lat']:.2f} | {fam}")
+        for n, o in v["options"].items():
+            if "with_survival_factor" in o:
+                w_ = o["with_survival_factor"]
+                print(f"  survival factor  {n:26s} P(breakup before 00:19:37) {o['posterior_P_breakup_before_m0019b']:.3f} lnZ {w_['ln_Z']:8.2f} ESSimp {w_['eff_impacts']:9.1f} lat {w_['median_lat']:.2f} fam " + " ".join(f"{k}:{x:.2f}" for k, x in w_['families'].items()))
         print("  H1:H2", {k2: round(x, 2) for k2, x in v["H1_vs_H2"]["ln_BF_at_W_s"].items()}, "break-even W %.0f s" % v["H1_vs_H2"]["break_even_W_s"])

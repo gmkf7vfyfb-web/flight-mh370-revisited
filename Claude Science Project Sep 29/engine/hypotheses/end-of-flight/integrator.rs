@@ -103,6 +103,9 @@ struct Rates {
     d_mass: f64,
     /// Diagnostic of the step, not integrated.
     mach: f64,
+    /// Dynamic pressure, Pa, and load factor n = L / W (G13 structural columns). Diagnostics, not integrated.
+    q_pa: f64,
+    load_factor: f64,
     /// Bank commanded over the step, rad. Diagnostic, not integrated: it is carried so that the
     /// attitude at the surface crossing can be reported without re-entering the control law.
     bank_rad: f64,
@@ -142,6 +145,12 @@ pub struct Integrator<'a> {
     pub max_flight_s: f64,
     /// Load-factor floor (g) for `Command::Track` while it pitches down; `None` = no floor (the C_L limit only).
     pub track_load_factor_floor_g: Option<f64>,
+    /// Load-factor CEILING of the piloted laws (Track, BestGlide), g: a pilot's pull-out or best-glide capture never pulls more
+    /// than this. None (default): no ceiling, earlier behaviour (the fixed best-glide C_L at high dynamic pressure then pulls
+    /// 5-8 g after a push-over, found 11 Oct). Free flight (FixedTrim) is not limited.
+    pub piloted_load_factor_ceiling_g: Option<f64>,
+    /// Also record the structural peaks reached up to this time (G13: a breakup before the 00:19 log-on contradicts it).
+    pub peaks_until_unix_s: Option<f64>,
 }
 
 impl std::fmt::Debug for Integrator<'_> {
@@ -176,6 +185,20 @@ pub struct Trace {
     pub time_extrapolated_s: f64,
     /// Highest Mach reached.
     pub max_mach: f64,
+    /// G13 structural peaks (11 Oct, architecture 10:50 -0600 item 5): highest dynamic pressure (Pa), highest and lowest load
+    /// factor (g), and the state where each peak (and the Mach peak) was reached. Diagnostics only: the trajectory is unchanged.
+    pub max_q_pa: f64,
+    pub max_load_factor: f64,
+    pub min_load_factor: f64,
+    pub at_max_q: Body,
+    pub at_max_mach: Body,
+    pub at_max_load_factor: Body,
+    pub at_min_load_factor: Body,
+    /// The same peaks restricted to steps starting before `peaks_until_unix_s` (NaN-free: 0 / -inf / +inf when none).
+    pub until_max_q_pa: f64,
+    pub until_max_mach: f64,
+    pub until_max_load_factor: f64,
+    pub until_min_load_factor: f64,
     /// Lowest pressure altitude reached before impact, ft — a phugoid can climb afterwards.
     pub min_altitude_ft: f64,
     /// Highest pressure altitude reached, ft. A phugoid that climbs above the weather grid is
@@ -235,6 +258,17 @@ impl<'a> Integrator<'a> {
             max_descent_rate_fpm: 0.0,
             time_extrapolated_s: 0.0,
             max_mach: 0.0,
+            max_q_pa: 0.0,
+            max_load_factor: f64::NEG_INFINITY,
+            min_load_factor: f64::INFINITY,
+            at_max_q: body,
+            at_max_mach: body,
+            at_max_load_factor: body,
+            at_min_load_factor: body,
+            until_max_q_pa: 0.0,
+            until_max_mach: 0.0,
+            until_max_load_factor: f64::NEG_INFINITY,
+            until_min_load_factor: f64::INFINITY,
             min_altitude_ft: body.pressure_altitude_ft,
             max_altitude_ft: body.pressure_altitude_ft,
             clamped: false,
@@ -268,7 +302,32 @@ impl<'a> Integrator<'a> {
                 trace.time_descending_s += dt;
             }
             trace.max_descent_rate_fpm = trace.max_descent_rate_fpm.max(descent_fpm);
-            trace.max_mach = trace.max_mach.max(rates.mach);
+            if rates.mach > trace.max_mach {
+                trace.max_mach = rates.mach;
+                trace.at_max_mach = body;
+            }
+            if rates.q_pa > trace.max_q_pa {
+                trace.max_q_pa = rates.q_pa;
+                trace.at_max_q = body;
+            }
+            if self.peaks_until_unix_s.is_some_and(|t| body.unix_s < t) {
+                trace.until_max_q_pa = trace.until_max_q_pa.max(rates.q_pa);
+                trace.until_max_mach = trace.until_max_mach.max(rates.mach);
+                if rates.load_factor.is_finite() {
+                    trace.until_max_load_factor = trace.until_max_load_factor.max(rates.load_factor);
+                    trace.until_min_load_factor = trace.until_min_load_factor.min(rates.load_factor);
+                }
+            }
+            if rates.load_factor.is_finite() {
+                if rates.load_factor > trace.max_load_factor {
+                    trace.max_load_factor = rates.load_factor;
+                    trace.at_max_load_factor = body;
+                }
+                if rates.load_factor < trace.min_load_factor {
+                    trace.min_load_factor = rates.load_factor;
+                    trace.at_min_load_factor = body;
+                }
+            }
             trace.impact_bank_rad = rates.bank_rad;
             if rates.fuel_status & FUEL_UNPRICED != 0 {
                 trace.fuel_unpriced_s += dt;
@@ -423,6 +482,8 @@ impl<'a> Integrator<'a> {
                 d_heading: 0.0,
                 d_mass: 0.0,
                 mach,
+                q_pa: q,
+                load_factor: 0.0,
                 bank_rad: 0.0,
                 fuel_status: 0,
             };
@@ -435,7 +496,14 @@ impl<'a> Integrator<'a> {
                 let thrust = self.aero.thrust_n(cfg, rho, setting);
                 (trimmed, bank_rad, thrust)
             }
-            Command::BestGlide { bank_rad } => (self.aero.c_l_at_ld_max_in(cfg), bank_rad, self.aero.thrust_n(cfg, rho, setting)),
+            Command::BestGlide { bank_rad } => {
+                let c_l = self.aero.c_l_at_ld_max_in(cfg);
+                let c_l = match self.piloted_load_factor_ceiling_g {
+                    Some(n_max) => c_l.min(n_max * weight / (q * s)),
+                    None => c_l,
+                };
+                (c_l, bank_rad, self.aero.thrust_n(cfg, rho, setting))
+            }
             Command::Track { vertical_speed_mps, target_mach, bank_rad, n_floor_g } => {
                 // Lift: curve the path towards the flight-path angle the target rate implies,
                 // with a first-order lag of `tau` seconds, then cap at the usable lift.
@@ -446,6 +514,10 @@ impl<'a> Integrator<'a> {
                 let needed = match n_floor_g.or(self.track_load_factor_floor_g) {
                     // n = L / W: a push-over unloads to the floor and no further (the descent then builds more slowly).
                     Some(n_min) => needed.max(n_min * weight / (q * s)),
+                    None => needed,
+                };
+                let needed = match self.piloted_load_factor_ceiling_g {
+                    Some(n_max) => needed.min(n_max * weight / (q * s)),
                     None => needed,
                 };
                 let c_l = needed.clamp(-self.aero.c_l_max_clean, self.aero.c_l_max_clean);
@@ -477,6 +549,8 @@ impl<'a> Integrator<'a> {
             d_heading: lift * bank.sin() / (mass * v * body.gamma_rad.cos().max(0.05)),
             d_mass: -burn_kg_s,
             mach,
+            q_pa: q,
+            load_factor: lift / weight,
             bank_rad: bank,
             fuel_status,
         }
@@ -553,7 +627,7 @@ mod tests {
     }
 
     fn integrator(step_s: f64) -> Integrator<'static> {
-        Integrator { aero: reference(), fuel: None, step_s, fine_step_s: step_s / 10.0, fine_window_s: 5.0, max_flight_s: 7_200.0, track_load_factor_floor_g: None }
+        Integrator { aero: reference(), fuel: None, step_s, fine_step_s: step_s / 10.0, fine_window_s: 5.0, max_flight_s: 7_200.0, track_load_factor_floor_g: None, piloted_load_factor_ceiling_g: None, peaks_until_unix_s: None }
     }
 
     fn body(altitude_ft: f64, tas: f64, gamma_deg: f64) -> Body {
@@ -641,7 +715,7 @@ mod tests {
         let frozen = Frozen { pressure_pa: geo::isa_pressure_pa(alt), temperature_k: atmos::isa_temperature_k(alt) };
         let cfg = Configuration { engines_thrusting: 2, engines_windmilling: 0, rat_deployed: false, speedbrake_eighths: 0, landing_configuration: false };
         let min_n = |floor: Option<f64>, rate_fpm: f64| {
-            let it = Integrator { aero: reference(), fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 20.0, track_load_factor_floor_g: floor };
+            let it = Integrator { aero: reference(), fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 20.0, track_load_factor_floor_g: floor, piloted_load_factor_ceiling_g: None, peaks_until_unix_s: None };
             let vs = -rate_fpm * 0.3048 / 60.0;
             let mut prev: Option<(f64, f64, f64)> = None;
             let mut n_min = f64::INFINITY;
@@ -680,7 +754,7 @@ mod tests {
         aero.oswald = 1e9; // k -> 0
         aero.wave_drag_coefficient = 0.0;
         aero.tuck_cl_per_mach = 0.0;
-        let it = Integrator { aero, fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 400.0, track_load_factor_floor_g: None };
+        let it = Integrator { aero, fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 400.0, track_load_factor_floor_g: None, piloted_load_factor_ceiling_g: None, peaks_until_unix_s: None };
         let (alt, mass, tas) = (20_000.0, 174_000.0, 200.0);
         let frozen = Frozen { pressure_pa: geo::isa_pressure_pa(alt), temperature_k: atmos::isa_temperature_k(alt) };
         let q = atmos::dynamic_pressure_pa(frozen.pressure_pa, tas / atmos::sound_speed_mps(frozen.temperature_k));
@@ -724,6 +798,24 @@ mod tests {
     /// term — here 93.7 NM, the ~100 NM the brief records for best glide — and the kinetic energy
     /// traded as the aircraft slows into denser air adds the remaining ~9.7 NM. Asserting the
     /// plain `h x (L/D)` would be asserting an error of 10%, so both are checked and named.
+    /// The piloted load-factor ceiling (11 Oct): a best-glide capture from a fast, steep dive pulls far past 2.5 g at the
+    /// fixed best-glide C_L; with a 2.0 g ceiling the peak load factor stays at the ceiling. The peak is recorded either way.
+    #[test]
+    fn the_piloted_load_factor_ceiling_bounds_a_best_glide_pull_out() {
+        let cfg = Configuration::glide();
+        let fly = |ceiling: Option<f64>| {
+            let mut it = integrator(0.05);
+            it.max_flight_s = 60.0;
+            it.piloted_load_factor_ceiling_g = ceiling;
+            it.run(body(15_000.0, 230.0, -20.0), &atmos::Standard, None, &mut |_, _| (Command::BestGlide { bank_rad: 0.0 }, cfg, 0.0), &mut |_, _| {})
+        };
+        let free = fly(None);
+        let capped = fly(Some(2.0));
+        assert!(free.max_load_factor > 3.0, "{}", free.max_load_factor);
+        assert!(capped.max_load_factor <= 2.0 + 1e-9 && capped.max_load_factor > 1.9, "{}", capped.max_load_factor);
+        assert!(capped.max_q_pa > 0.0 && capped.min_load_factor <= capped.max_load_factor);
+    }
+
     #[test]
     fn still_air_glide_distance_is_altitude_times_lift_to_drag() {
         let it = integrator(1.0);

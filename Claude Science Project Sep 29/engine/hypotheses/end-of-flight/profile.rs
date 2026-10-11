@@ -220,6 +220,12 @@ pub struct EnvelopeConfig {
     /// Delay of the pulse after the free phase begins, s.
     #[serde(default = "default_pitchdown_delay")]
     pub pitchdown_delay_s: Range,
+    /// Load-factor ceiling of the piloted laws (pull-outs, best-glide capture, recoveries), g, drawn once per descent. Absent
+    /// (default): no ceiling and no draw. Overlay U[1.5, 5.0]: 2.5 g is the limit load (CS-25.337(b)); a pilot can exceed it in
+    /// an upset (China Airlines 006, Boeing 747SP, 1985: about 5 g in the recovery, structural damage, landed; NTSB AAR-86/03),
+    /// so the range runs past the limit and the in-flight structural columns price the damage.
+    #[serde(default)]
+    pub piloted_load_factor_ceiling_g: Option<Range>,
 }
 
 fn default_burst_window() -> [f64; 2] {
@@ -420,6 +426,7 @@ impl EnvelopeConfig {
         let mut pushover_eligible = false;
         let mut pushover: Option<(f64, f64, f64)> = None;
         let mut po_lq = 0.0;
+        let n_ceiling_g = self.piloted_load_factor_ceiling_g.as_ref().map(|r| r.draw(uniform));
         let level_c_l = {
             let t = atmos::isa_temperature_k(start.pressure_altitude_ft);
             let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(start.pressure_altitude_ft), start.tas_mps / atmos::sound_speed_mps(t));
@@ -535,7 +542,7 @@ impl EnvelopeConfig {
                     recover_at_altitude_ft: None,
                 });
                 let (pitchdown, pitchdown_eligible, pd_lq) = self.draw_pitchdown(start, after, uniform);
-                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq + po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown };
+                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq + po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown, n_ceiling_g };
             }
             Control::UpsetThenRecovery => {
                 let recover_at = self.recovery_altitude_ft.draw(uniform);
@@ -562,12 +569,13 @@ impl EnvelopeConfig {
                     pushover,
                     pitchdown_eligible: false,
                     pitchdown: None,
+                    n_ceiling_g,
                 };
             }
             Control::NoIntervention => {}
         }
         let (pitchdown, pitchdown_eligible, pd_lq) = if control == Control::NoIntervention { self.draw_pitchdown(start, 0.0, uniform) } else { (None, false, 0.0) };
-        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown }
+        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown, n_ceiling_g }
     }
 
     fn sample_shape(&self, propulsion: Propulsion, control: Control, uniform: &mut dyn FnMut() -> f64) -> Shape {
@@ -626,6 +634,8 @@ pub struct Profile {
     /// Interim pitch-down (free phase): eligibility and (delay after the free phase starts s, load factor g, duration s).
     pub pitchdown_eligible: bool,
     pub pitchdown: Option<(f64, f64, f64)>,
+    /// Load-factor ceiling of the piloted laws for this descent, g (None: no ceiling).
+    pub n_ceiling_g: Option<f64>,
 }
 
 /// The two-burst stopgap proposal on the loss of control (9 Oct 2026, Pete's choice; PROVISIONAL, to be
@@ -967,6 +977,7 @@ pub(super) mod tests {
             pitchdown_n_g: default_pitchdown_n(),
             pitchdown_duration_s: default_pitchdown_duration(),
             pitchdown_delay_s: default_pitchdown_delay(),
+            piloted_load_factor_ceiling_g: None,
         }
     }
 

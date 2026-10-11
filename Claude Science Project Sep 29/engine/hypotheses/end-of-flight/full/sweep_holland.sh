@@ -23,6 +23,8 @@ echo "waiting for $CORE/READY $(date -u +%FT%TZ)"
 while [ ! -e "$CORE/READY" ]; do sleep 60; done
 echo "core READY seen $(date -u +%FT%TZ); binary $BIN sha256 $(shasum -a 256 $BIN | cut -c1-16); threads $THREADS; lock ${EOF_NOLOCK:+OFF}"; mkdir -p "$OUT"
 EXTRA="$S/smoke/v2-broad.toml $S/full/family-b-ditching.toml $S/full/residual-bank-boeing.toml $S/smoke/trim-at-loss.toml $S/full/pushover.toml $S/full/boeing-sequence.toml $S/full/b-late-onset-proposal.toml $S/full/holland-estimable.toml $S/smoke/within-parent-unnormalised.toml"
+EXTRA="$EXTRA ${EOF_EXTRA:-}"   # smoke arms only: extra overlays appended last
+TAG=${EOF_TAG:-HE}
 [ -e "$OUT/USE-TRIM-AT-LOSS" ] && EXTRA="$EXTRA $S/smoke/trim-at-loss.toml" && echo "trim at loss ON"
 echo "module overlays: $EXTRA"
 run_stratum() {   # st RT CHAIN SD seeds...
@@ -40,7 +42,7 @@ run_stratum() {   # st RT CHAIN SD seeds...
       if [ -n "$want" ] && [ "$want" != "$got" ]; then echo "  SHA MISMATCH $st seed $k: skipped"; rm -f $d/handoff.toml; continue; fi
       echo "  $st seed $k hand-off decompressed, sha256 $([ -n "$want" ] && echo verified || echo NOT-LISTED)"
     fi
-    o=runs/HE-$st-s$k; rm -rf $o; mkdir -p "$OUT/$st"
+    o=runs/$TAG-$st-s$k; rm -rf $o; mkdir -p "$OUT/$st"
     echo "  $st seed $k start $(date -u +%T)"
     RAYON_NUM_THREADS=$THREADS $BIN terminal $RT $CHAIN $S/smoke/snapshot-m0011.toml $S/smoke/terminal.toml $S/full/reference-289.toml $S/full/descent-idle-floor.toml $cfg $EXTRA $o 2>&1 | tail -1
     $PY $S/smoke/compact_impacts.py write $o $o/bto-bfo/seed-$k "$OUT/$st/seed-$k" > "$OUT/$st/seed-$k.convert8.log" 2>&1 \
@@ -56,11 +58,11 @@ for st in $STRATA; do
   for f in $CHAIN; do [ -f "$f" ] || { echo "MISSING config $f for $st: merge core first; stopping"; exit 2; }; done
   if echo "$CHAIN" | grep -q "s6-tanks" && ! echo "$CHAIN" | grep -q "inop-flow-fix" && ! grep -q "internal-v1.1" $CHAIN 2>/dev/null; then
     echo "REFUSING $st: two tanks on internal-v1 without the INOP-flow correction (doubled one-engine flow)"; exit 3; fi
-  RT=runs/HE-$st; mkdir -p $RT/bto-bfo
+  RT=runs/$TAG-$st; mkdir -p $RT/bto-bfo
   SEEDS=${EOF_SEEDS:-$(ls -d "$SD"/bto-bfo/seed-* 2>/dev/null | sed 's/.*seed-//' | sort -n | tr '\n' ' ')}
   echo "$st: seeds $SEEDS chain $(echo $CHAIN | wc -w) files; start $(date -u +%T)"
   if [ -n "${EOF_NOLOCK:-}" ]; then run_stratum "$st" "$RT" "$CHAIN" "$SD" $SEEDS
-  else export -f run_stratum; export OUT S PY BIN THREADS EXTRA CORE; lockf -k ${EOF_LOCK:-/tmp/.mh370-heavy.lock} bash -c 'run_stratum "$@"' _ "$st" "$RT" "$CHAIN" "$SD" $SEEDS; fi
+  else export -f run_stratum; export OUT S PY BIN THREADS EXTRA CORE TAG; lockf -k ${EOF_LOCK:-/tmp/.mh370-heavy.lock} bash -c 'run_stratum "$@"' _ "$st" "$RT" "$CHAIN" "$SD" $SEEDS; fi
   n_ok=0; n=0; for k in $SEEDS; do n=$((n+1)); $PY $S/smoke/compact_impacts.py check "$OUT/$st/seed-$k" > /dev/null 2>&1 && n_ok=$((n_ok+1)); done
   if [ $n_ok -eq $n ]; then
     cat > "$OUT/$st/README.md" <<EOF
