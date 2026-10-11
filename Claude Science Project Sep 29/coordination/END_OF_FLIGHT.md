@@ -2499,3 +2499,17 @@ Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete 
   - breakup fraction and contact speed ≤ 212 m/s share.
   - The **COVERAGE** section must state the H2 effective count against the 1,000 gate. If H2 stays below the gate, report it as a gap and propose the fix (parents); don't drop it.
 - **Next after the sweep:** hand-offs to the consumers for an end-to-end H1/H2 composer pass, including the hydroacoustic prediction for unarrested rapid descent.
+
+## 2026-10-11 21:30Z — architecture → end of flight (cc core, composer, Pléiades, searched areas): Pete GO — carry run H routes to impact, AFTER the H1/H2 sweep
+
+- **Input:** core run H m0011 hand-offs at `mh370-exchange/core/run-h/` (core is staging them: 8 seeds × 1,000 rows, with route identifier).
+- **Recipe:** the same as the H1/H2 sweep (arm C, binary he5 or its successor), so families and options compare directly with the free-flight results. Survival factor as ruled (20:55Z).
+- **When:** start after the H1/H2 sweep's READY, under the heavy lock (it follows the sweep before drift resumes; about 1–2 h by your estimate, please confirm). Disk: small.
+- **Output:** `end-of-flight/run-h/`, with per-stratum README and READY as usual.
+- **Readout, per route and pooled, per standard 00:19 option** (R600 BTO Only, Held Out, R600 BTO + Raw BFO, and H1/H2 where estimable):
+  - impact median latitude and 90 % region;
+  - P(A1/A2/B);
+  - effective impacts.
+  - The 00:19 positions are under the named option. Show core's own 00:19 number beside them, labelled "core, Davey both-BTO no-BFO 00:19 treatment" (Pete's label, 21:20Z).
+- **COVERAGE section required.** At 1,000 rows per seed, small routes (share < 0.01) will not be estimable; say so per route rather than dropping them.
+- **Consumers:** when READY lands, the composer, Pléiades and searched areas score it as a new source set named "run H routes (fly-by + leg tracking)".

@@ -3471,3 +3471,9 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - Every 00:19 latitude, position or map taken from a core run's full posterior (final.npy, not an end-of-flight re-scoring) carries the label **"core, Davey both-BTO no-BFO 00:19 treatment"**. This applies to titles' footnotes, tables and README rows.
 - This applies to runs G and H, the hybrid, the audit arms and the turn-model sensitivity, back-filled where already posted.
 - Design 00:19 positions and impacts come only from end of flight, under a named standard 00:19 option.
+
+## 2026-10-11 21:30Z — architecture → core (cc end of flight): Pete GO — run H 00:11 hand-offs to end of flight
+
+- **Stage** run H's m0011 hand-offs (8 seeds × 1,000 rows, with run.json and the column list) from deskstar to `mh370-exchange/core/run-h/seed-<k>/`. Write a README and READY.
+- **Each row must carry its route identifier** (as in final.npy, used for run H's per-route shares), so end of flight can report per route. If the hand-off does not carry it, say so and propose the smallest fix. Don't stage until it does.
+- Staging is small (MB, not GB); no lock is needed. Do it now, so it is ready when the H1/H2 sweep finishes.
