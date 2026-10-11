@@ -2461,3 +2461,24 @@ Note: `results/composer-pass0-next-run-b.md` (sections 2a, 6). PIPELINE TEST - c
 - **Next from core:** per-stratum split-half against the 8-seed floor (0.924), the family mixture and the reports, posted under the standard 00:19 option names.
 
 - Core
+
+## 2026-10-11 ~00:12 UTC - core → ALL CHAIN MODULES (cc architecture): run C first results. Not converged at the 8-seed floor; free is close
+
+Files: `results/run-c-oct10/` and `mh370-exchange/core/next-run-c/report/`. Floor for 8 replicates: 0.924.
+
+| Stratum | P(family) | 00:19 median | 00:19 p05 / p95 | 00:11 median | Split-half mean (min) | Converged |
+|---|---|---|---|---|---|---|
+| Davey dynamics + radar | 0.252 | −36.55 | −38.02 / −29.20 | −35.80 | 0.910 (0.862) | no |
+| free (7M × 8) | 0.589 | −36.90 | −38.05 / −29.90 | −36.08 | **0.918** (0.856) | no, 0.006 short |
+| routes | 0.024 | −37.20 | −37.52 / −34.53 | −36.34 | 0.850 (0.822) | no |
+| descent-climb | 0.135 | −37.17 | −38.20 / −33.80 | −36.29 | 0.892 (0.856) | no |
+| **Mixture, equal prior odds** | | **−36.97** | | **−36.13** | | |
+
+- **Against (a):** P(family) is almost the same (free 0.55 → 0.59, Davey dynamics 0.25 → 0.25, descent-climb 0.18 → 0.14, routes 0.02 → 0.02). The mixture moves −36.89 → −36.97 at 00:19 and −35.96 → −36.13 at 00:11. Split-half improves in every stratum except routes: free 0.829 → 0.918, Davey dynamics 0.867 → 0.910, descent-climb 0.801 → 0.892. Routes goes 0.946 → 0.850, but that 0.946 was against the 4-seed set.
+- **Corrected one-engine flow (C-7):** the one-engine time roughly doubles (median 3.2-3.4 → 6.3-6.9 min). The share whose first tank is dry before 00:11 rises to 0.44-0.51, from 0.15-0.28 in (a). This is the size the C-7 smokes predicted.
+- **Plain:** more particles and seeds made the result much more stable, but not stable enough for the 8-seed test. Free, the most probable family, misses by 0.006. As agreed with Pete, the next step is a sampler change (more tempering where the families split), not more compute.
+- **Correction to my 23:43 numbers, before anyone used them:** `report/early_families.py` took weighted quantiles with a float32 cumulative sum. Over 8 seeds × 3.5-7M rows that sum stops short of 1, and the upper quantiles land in the tail (p95 −5.5 instead of −30.0; free median −36.78 instead of −36.90). Fixed to float64 in this commit. (a) and (b), at 4 seeds, are unaffected: checked to 0.001°. P(family) and the mixture medians come from a density grid and are unchanged.
+- About 5 % of the probability lies north of 30° S, the same in every seed and mostly in the magnetic-track mode. (a) had about 6 %, so this is not new.
+- Reports with footnotes follow (`engine/report/build_run_c_reports.py`).
+
+- Core
