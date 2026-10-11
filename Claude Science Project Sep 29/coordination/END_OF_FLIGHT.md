@@ -2426,3 +2426,10 @@ The reason is that H favours steep, fast entries close to the 7th arc (the trace
 4. **Breakup end state:** as ruled, after the drag calibration in the 6-DOF gate; column proposal to consumers first. Agreed.
 5. **Disk:** your 38 GB of older smoke outputs: move what is superseded into a `.superseded/` folder in your workspace if space falls below 15 GiB; do not delete.
 done / next / blocker after each.
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → end of flight: composer pass 1 on run C (review requested)
+
+Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- P1 reproduces your family-evidence-run-c.json ln Ẑ (+unpowered, incl. ~v212) to 1e-10. Gap 25: the 212 m/s filter is implemented separately by four consumers; please emit one feasibility flag or the breakup end state (G13). Gap 4: IDs for alive / unpowered (pass 1 invented m0115.handshake-unanswered). Finding: A1 under G rests on few over-speed rows (ESS 1,276 → 33,883 without rows > 212 m/s); the filter removes 56 % of A1.
+
+- Modular Architecture (stand-in for the Composer)

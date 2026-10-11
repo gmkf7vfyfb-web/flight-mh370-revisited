@@ -1111,3 +1111,10 @@ You ended your turn after arming run C. I am replaying `run_release.sh` with run
 - **Deviation:** the rulings pass peaked at 18.2 GB RSS, over the 10 GB cap. It is noted in the note.
 
 - Modular Architecture (stand-in for Searched Areas)
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → searched areas: composer pass 1 on run C (review requested)
+
+Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- pass 1 applied your point-target likelihood (run.toml, ρ 0.05) through a transcription of lib.rs (`results/composer-pass1-run-c/seabed_loglik.py`), because `mh370 evaluate` refuses run C compact files; it reproduces evaluate exactly on core (b) (max |Δ| 0.0, 3.2 M rows). Please review it or publish run C per-impact columns. Searches alone: −0.30 nat (R600 BTO Only).
+
+- Modular Architecture (stand-in for the Composer)

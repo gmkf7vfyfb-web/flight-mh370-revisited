@@ -1524,3 +1524,10 @@ and source packages for Held Out, R600 BTO Only and R600 BTO + Raw BFO (`unpower
 - Pete's library: Taylor 1921.
 
 - Pléiades
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → hydroacoustics: composer pass 1 on run C (review requested)
+
+Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- pass 1 composed the stand-in L_hyd (scenario A) with audit F8 (your Blackman offsets, H01W +5.443 dB), labelled PREDICTIVE, NOT CALIBRATED, and showed G and H without it. Your own run C columns were not used (brief). Gap 26: please name the column the composer should carry in pass 2. Hydro alone: −0.03 nat (R600 BTO Only), −0.08 (Raw BFO); it lowers A1 under H from 0.208 to 0.185.
+
+- Modular Architecture (stand-in for the Composer)

@@ -9754,3 +9754,26 @@ and source packages for Held Out, R600 BTO Only and R600 BTO + Raw BFO (`unpower
   chunks).
 
 - Ocean Drift Module
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → architecture: composer pass 1 on run C (first end-to-end pass)
+
+Note `results/composer-pass1-run-c.md`; branch `core/composer-pass1-runc` (merged if tests pass: `cargo test -p mh370-compose` 9/9; only `crates/compose/examples/pass1.rs`
+and `results/` touched). Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- **Chain marker:** I touched `/tmp/mh370-runc-chain.DONE` at **05:52:12 UTC**. Present then: EoF 4/4 READY + SWEEP-DONE; drift export 4/4
+  (sha 32/32); Pléiades run C columns 4/4 strata (sha 32/32 against its SHA256SUMS, no READY); settling run C samples in its workspace (no
+  READY); hydro module READY (not used); searched-areas stand-in note not yet on the branch (its likelihood applied directly).
+- **Headline (R600 BTO Only, re-weighted strata, UNCONVERGED):** G median −37.17 (−40.27 to −25.69), 90 % 463k km²; H −36.04
+  (−40.15 to −28.94), 175k km²; ln R +0.543 (ρ = 0.5: +0.588; without hydro +0.511); Jaccard 0.33; mean displacement 52 NM.
+  Held Out: G −36.28, 754k; H −35.70, 312k; ln R +0.336. Families mostly prior (A1/A2/B 0.11/0.33/0.56).
+- **Coverage findings (new):** (1) R600 BTO + Raw BFO G and H fall below the 1,000-parent floor (506-971) and A1 keeps 8 effective rows
+  under G: not estimable, an aimed proposal is needed; (2) A1 under G rests on a few over-speed rows (ESS 1,276 → 33,883 once rows
+  > 212 m/s are removed); (3) the 212 m/s filter removes 10 % of the weight, 56 % of A1.
+- **Factor split-half now fails on real factors:** Pléiades in Davey dynamics + radar (0.15-0.17 nat) and routes (0.10-0.12), drift in
+  routes (Held Out 0.115, Raw BFO 0.128). The 0.1-nat tolerance is still provisional.
+- **Your ~06:05 instruction applied:** H and the seabed PDFs were finalised only after settling's run C READY (06:56) and Pléiades' run C
+  READY (07:38:41); at Pléiades' READY all 32 column files re-verified (0 mismatches; SHA256SUMS only gained 6 source-package lines), so H stands.
+- **Seabed (G12 closed for G, Ga, H, Ha):** row weights in settling's contract on the exchange; G/Ga seabed = settling's own published aimed
+  samples (R600 BTO Only 465k / 497k km² at 90 %); H/Ha = the stand-in's run of settling's tools (177k / 214k; Held Out 317k / 389k).
+- Gaps 24-28 added to `interface-gaps.csv` for ARCHITECTURE.md (I did not edit it).
+
+- Modular Architecture (stand-in for the Composer)

@@ -2845,3 +2845,10 @@ So the gain does not come through more surviving ancestry; it probably comes fro
 - End of flight can call it once Pete's go for the targeted sampler is given.
 
 **Status: rulings 1, 3, 4 and request 9 done; 5 deferred; 6 noted.** Waiting on: the route-prior ruling (my 07:17 entry), and a go or no-go for the free full-scale run.
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → core stages: composer pass 1 on run C (review requested)
+
+Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- gaps 1, 2 (hand-off per-mode evidence and observation list) unchanged on run C; gap 24: `mh370 evaluate` refuses compact impacts32.npy, so searched areas was applied by a validated transcription; gap 18 (patch B) still needed; gap 27: under 00:19 R600 BTO + Raw BFO, G and H keep 506-971 effective parents per seed and A1 8 effective rows: please consider an aimed proposal for that option.
+
+- Modular Architecture (stand-in for the Composer)

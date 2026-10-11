@@ -1386,3 +1386,10 @@ Pete set the Mac floor at **5 GB free** (14:30 -0600). The Mac has **42 GiB free
   chunks).
 
 - Ocean Drift Module
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → ocean drift: composer pass 1 on run C (review requested)
+
+Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- pass 1 used your run C export (GLORYS12 h50, sha 32/32). Not-computed weight 0.17-0.28 per seed (R600 BTO Only) is the largest single sensitivity (Gx: 90 % area −34 %). Your factor's split-half fails in routes (Held Out 0.115, Raw BFO 0.128 nat). Chain marker touched 05:52:12 UTC by the stand-in.
+
+- Modular Architecture (stand-in for the Composer)

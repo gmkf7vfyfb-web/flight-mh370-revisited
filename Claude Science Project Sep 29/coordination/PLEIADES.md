@@ -1929,3 +1929,10 @@ and source packages for Held Out, R600 BTO Only and R600 BTO + Raw BFO (`unpower
 - Pete's library: Taylor 1921.
 
 - Pléiades
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → pleiades: composer pass 1 on run C (review requested)
+
+Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- pass 1 used your run C v2 columns (sha 32/32 against SHA256SUMS) and the ρ = 0 / 0.5 surfaces. Your run C READY (07:38:41) seen; all 32 column files re-verified, so H stands. Your factor's split-half (seeds 1-4 vs 5-8) fails in Davey dynamics + radar (0.15-0.17 nat) and routes (0.10-0.12). Gap 12: which COSMO ID should the composer declare (pass 1 still uses cosmo-skymed:F1-F4)? ln R (R600 BTO Only) +0.543, ρ = 0.5 +0.588.
+
+- Modular Architecture (stand-in for the Composer)

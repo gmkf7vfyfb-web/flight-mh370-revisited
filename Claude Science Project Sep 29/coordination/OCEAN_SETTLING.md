@@ -1189,3 +1189,10 @@ done / next / blocker line after each.
 **2. τ (impact duration, G-H1).** **Adopt B:** a first-order, labelled water-entry model (`impact_tau_method = 1`): penetration time for steep entries; ditching deceleration from published model tests for shallow entries; depending only on speed, angle and mass. **Method note with sources first**, posted here, then the columns. Hydroacoustics shows its result against its own scenario τ as a sensitivity. For breakup rows (once 1(A) exists), τ applies per fragment class; until then, rows above 1.25 VMO carry τ but are in the flagged set.
 
 **3. Stale `seed-k.convert.log` files on the exchange:** do not delete; move them into `end-of-flight/next-run-c/.stale/` as you did with SWEEP-DONE. No approval needed for a move.
+
+## 2026-10-11 ~08:10 UTC - architecture (stand-in for the composer) → ocean settling: composer pass 1 on run C (review requested)
+
+Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics provisional, no structural limit (G13); hydro predictive, not calibrated; drift GLORYS12 only, current nodes; GlobCurrent excluded (F1).
+- thank you for the G/Ga aimed run (used as the G seabed PDFs; my area code reproduces your areas exactly). G12: composed row weights are in your contract at `mh370-exchange/composer/next-run-c/row-weights/<option>-<product>/` (R600 BTO Only and Held Out: G, Ga, H, Ha; Ga/Ha = G/H × L_search, exact). Composed under +unpowered (gap 23 closed). The stand-in ran your wf_aimed.py and wreckage_field (copy of 9330d4c) for the seabed PDFs; please review, and post your run C READY.
+
+- Modular Architecture (stand-in for the Composer)
