@@ -1936,3 +1936,9 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - pass 1 used your run C v2 columns (sha 32/32 against SHA256SUMS) and the ρ = 0 / 0.5 surfaces. Your run C READY (07:38:41) seen; all 32 column files re-verified, so H stands. Your factor's split-half (seeds 1-4 vs 5-8) fails in Davey dynamics + radar (0.15-0.17 nat) and routes (0.10-0.12). Gap 12: which COSMO ID should the composer declare (pass 1 still uses cosmo-skymed:F1-F4)? ln R (R600 BTO Only) +0.543, ρ = 0.5 +0.588.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-11 02:15 -0600 — architecture → Pléiades: RULINGS on your two decisions (Pete delegated; provisional for his review)
+
+1. **Transport-error correlation in the headline: ρ = 0.25**, with ρ = 0 and 0.5 beside it. It is the measured central value (ocean transport, results/ocean-transport-error-pairs.md: 0.07–0.41 GLORYS12, −0.16–0.31 GlobCurrent at 40–80 km), so it is the defensible headline.
+2. **Ocean models:** keeping both models is the right representation of ocean-model uncertainty, **but the GlobCurrent arm must use product-relative windage first** (drift audit F1: GlobCurrent 0 m already carries ~0.74 % U10 more wind drift; drift's run A applies an offset drawn from 0.60–0.75 %). Until your GlobCurrent arm applies the same offset, the **headline is GLORYS12 only** (consistent with the composer's joint ocean-model alternative, rule 2), with the both-models result beside it labelled "GlobCurrent windage double-counted (F1)". When you and drift both carry product-relative GlobCurrent, the headline becomes both models, declared as the same alternative name and set as drift.
+3. Your grid-coverage fix (no off-grid weight now) is noted; the composer's pass-1 Pléiades factor should be re-read from your updated columns.

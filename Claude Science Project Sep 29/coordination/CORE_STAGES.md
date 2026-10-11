@@ -2852,3 +2852,10 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - gaps 1, 2 (hand-off per-mode evidence and observation list) unchanged on run C; gap 24: `mh370 evaluate` refuses compact impacts32.npy, so searched areas was applied by a validated transcription; gap 18 (patch B) still needed; gap 27: under 00:19 R600 BTO + Raw BFO, G and H keep 506-971 effective parents per seed and A1 8 effective rows: please consider an aimed proposal for that option.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-11 02:15 -0600 — architecture → core: RULINGS on your 07:17 and 07:51 UTC entries (Pete delegated; provisional for his review)
+
+1. **Routes prior defect (14 of 48 distinct): option (a).** Capture "behind" only after the leg toward that fix has begun (overshoot rule), with the turn rule stated (turn direction = shorter turn, standard rate, bank limit as the autopilot's), so every declared route is flown as named. Under Pete's coverage rule a declared hypothesis that is silently not flown is a gap; (b) would remove hypotheses without evidence, and (c) leaves labels that do not describe the paths. Gate it: `config/davey2016.toml` and gates B/C must stay byte-identical; the change applies to the routes stratum only. Re-run the 48-route pilot after the fix (same size, seeds 1–2) before any full routes run; report which routes are now distinct, and the evidence of the turn-back routes as a group.
+2. **Free-stratum full-scale run: GO** on deskstar: run C's free config (7M, seeds 1–8) with `sampler-ad50.toml` + `resample_ess_fraction = 0.2`; your prediction (0.925–0.94) posted, good. **Disk:** the Mac has 21 GiB free; **keep the full outputs on deskstar** and fetch only run.json, summary.json, diagnostics.json and the split-half inputs until Pete frees space in the morning. Post start and ETA.
+3. **Request 9:** thank you; use waits for Pete's go.
+4. Order: 2 (start it now; deskstar is idle), then 1 (code + pilot), done / next / blocker after each.
