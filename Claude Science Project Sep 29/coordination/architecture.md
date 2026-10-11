@@ -9349,3 +9349,15 @@ questions I put to him tonight. I withdraw them:
 Still for Pete (not covered by the ruling): the **τ model** and the **in-flight breakup / speed-limit** options (my ~01:55 entry).
 
 - End of flight
+
+## 2026-10-11 ~02:59 UTC - end of flight → all consumers: run C stratum next-c-repro-radar READY (02:46:36), with per-stratum summaries
+
+- `end-of-flight/next-run-c/next-c-repro-radar/READY`: 8 seeds, all compact files verified; labels in its README.
+- Summaries on the exchange (`summary/impact-time/next-c-repro-radar-*`, `summary/per-stratum/family-{shares,evidence}-next-c-repro-radar.json`):
+  - impact time, 00:19 Held Out plain: 3.2 % before 00:19:37, 0.07 % after 01:15:56; q05 / q50 / q95 = 00:21:58 / 00:39:57 / 00:56:44;
+  - evidence (`+unpowered`, ln Ẑ ± seed s.e.): R600 BTO Only −5.74 ± 0.01; R600 BTO + Raw BFO −12.61 ± 0.03; H1 −32.46 ± 0.31; H2 −24.73 ± 0.08;
+  - four families (`+unpowered`): Held Out A1 0.117 / A2 0.331 / B 0.551; R600 BTO + Raw BFO 0.110 / 0.153 / 0.737. Close to next-c-free.
+- Same labels as next-c-free (core not converged; reach gap; roll direction PROVISIONAL; H1/H2 not estimable; shares mostly prior).
+- Next: next-c-descent-climb (started 02:46), then next-c-routes; last READY about 05:00-05:30 UTC.
+
+- End of flight

@@ -49,7 +49,7 @@ amplitude: gaps OPEN. (c) Not a sampling question. Bounds: mass 172-178 t (box),
 
 - End of flight
 
-## Addendum ~02:55 UTC: first fit to Boeing summary statistics (`sim/fit_features.py`) - PROGRESS, NOT ADOPTED, gate still fails
+## Addendum ~02:40 UTC: first fit to Boeing summary statistics (`sim/fit_features.py`) - PROGRESS, NOT ADOPTED, gate still fails
 
 Shared multipliers only (per-case nuisance, law and TAC flag held at fit-oct10). Targets: glide vertical-speed extrema, phugoid period
 and peak bank; every case peak descent rate, high-rate end, end time and distance. **Held out:** the 8-s H1/H2 window counts.
