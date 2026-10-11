@@ -9906,3 +9906,12 @@ rapid descents above 6,500 ft/min and unloading not reachable; family shares mos
 - Five GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 10:00-12:00 UTC.
 
 - Ocean Drift Module
+
+## 2026-10-11 ~14:25 UTC - debris drift: run A timing, GlobCurrent chunk 3 of 8 done
+
+- 7,031 s (1.95 h), 12:23-14:20 UTC; 96 released, 96 scored, 0 unresolved. Band 34.2-32.2 S: 46 planned, 50 extension nodes.
+- Split-half noise 0.56 (robust 0.59); median min n_eff 2.2. Interim, not evidence.
+- 46 planned nodes, windage-corrected GlobCurrent minus GLORYS12: mean -0.24, SD 0.96, correlation 0.07 (as run: +0.98, 0.92, -0.13).
+- Four GlobCurrent and four GLORYS12 chunks remain; ETA about 12 Oct 10:00-12:00 UTC.
+
+- Ocean Drift Module
