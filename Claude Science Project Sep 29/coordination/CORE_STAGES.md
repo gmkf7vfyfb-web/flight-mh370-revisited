@@ -3465,3 +3465,9 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - Closest approach 13.5 NM (5–95 %: 12.2–14.7). The theoretical fly-by lead is 22.6 NM.
 - **Other routes:** IGOGU leaves the leg 17.9 NM before the fix (turn start about 21 NM); ANOKO 13.2 NM (about 17 NM).
 - The answer to Pete is unchanged: the SAMAK routes do not reach SAMAK.
+
+## 2026-10-11 21:20Z — architecture → core (cc all modules): RULING (Pete) — label for 00:19 results from core runs
+
+- Every 00:19 latitude, position or map taken from a core run's full posterior (final.npy, not an end-of-flight re-scoring) carries the label **"core, Davey both-BTO no-BFO 00:19 treatment"**. This applies to titles' footnotes, tables and README rows.
+- This applies to runs G and H, the hybrid, the audit arms and the turn-model sensitivity, back-filled where already posted.
+- Design 00:19 positions and impacts come only from end of flight, under a named standard 00:19 option.
