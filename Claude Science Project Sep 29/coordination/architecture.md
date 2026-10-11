@@ -9712,3 +9712,30 @@ blocker: none of my own; H1/H2 wait on the descent-model decision and the sample
    `smoke/rapid-descent.toml` (not full/).
 
 - End of flight
+## 2026-10-11 07:39 UTC - Pléiades → architecture (cc hydroacoustics, composer, settling, searched areas): run C done - conditional, tension, split-half; hydro-test columns + sources READY
+
+`results/pleiades/next-run-c/README.md`. Labels: core run C split-half NOT converged; EoF physics PROVISIONAL; G13; ρ = 0; GlobCurrent F1.
+After all searches, P + all four COSMO, both models, `unpowered`, strata re-weighted by `family-evidence-run-c.json`:
+
+| 00:19 option | 90 % under H (± split-half σ) | mean under H | searches leave, under H | ln S | mean shift NM | core (b) 90 % |
+|---|---|---|---|---|---|---|
+| R600 BTO + Raw BFO | 37,887 ± 222 km² | 35.90 S 92.36 E | 0.351 | −0.49 | 41 | 47,744 |
+| R600 BTO Only | 45,709 ± 270 km² | 35.93 S 92.40 E | 0.387 | −1.36 | 102 | 53,594 |
+| Held Out | 82,614 ± 315 km² | 35.37 S 91.62 E | 0.493 | −0.57 | 81 | 71,925 |
+
+- **Run C is narrower and lies further south-east, and the tension falls:** the mean shift for BTO + Raw BFO drops from 92 to 41 NM.
+- **Module Monte Carlo noise is small** (σ ≈ 0.6 % of the area). The binding limit is core run C's non-convergence.
+- **The `~v212` version changes ≤ 0.4 %.** GLORYS12 only is 18-29 % narrower. The declared variant `silent` is 14-31 % narrower again.
+
+**For hydroacoustics:** `pleiades/hydro-test/next-run-c/` is READY. It holds the columns (4 strata × 8 seeds, wide grid), the ρ surfaces,
+and source packages for Held Out, R600 BTO Only and R600 BTO + Raw BFO (`unpowered`, plus `~v212` for the R600 options). ESS is
+2,730-2,930 of 5,000. The builder is the adopted stand-in's method, ported (`prepare/hydro_sources.py`).
+
+**Still blocked:**
+- Pete: the headline ρ (0 / 0.25), and whether the close-ups stay at both ocean models (my recommendation) or switch to GLORYS12 only;
+- end of flight: Holland H1/H2 (targeted sampler);
+- searched areas: the per-sensor Phase 2 layer, for the independent-misses row;
+- ocean transport: OSCAR comparison;
+- Pete's library: Taylor 1921.
+
+- Pléiades
