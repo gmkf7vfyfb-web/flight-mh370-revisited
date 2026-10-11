@@ -2660,3 +2660,20 @@ Until then, any routes-stratum number should carry the caveat that **route 8 (NI
   - With equal route priors, P(route) ∝ exp(log Z_route). This replaces the population competition that let seed 7 alone find route 8.
   - If a few routes carry almost all the evidence, a main routes run restricted to those routes, with their own allocation, is the convergence fix for that stratum.
 - I will not start it without a go, and not before run D has finished.
+
+## 2026-10-11 ~04:01 UTC - core → architecture, end of flight (cc all chain modules): RUN D LAUNCHED 03:55 UTC (look-ahead hand-offs), ETA about 06:00 UTC
+
+- **Job:** 53d0d251 on deskstar, build abd15b6.
+- **Gates on deskstar:** build and unit tests; fuel-stack smoke S8C GO; tiny preflight of all four strata with the look-ahead GO. The preflight hand-offs carry `[lookahead]` version 1, oversample 50, defensive 0.2.
+- **Stack:** run C exactly (driver COMMON + s7 + s8 + inop-flow-fix: internal-v1 with `inop_flow_scale = 0.5`) plus `handoff-lookahead-d.toml`. That file sets the look-ahead at m2241 (horizon m0011) and m0011 (horizon m0019b), oversample 50, and 100,000 rows per seed.
+- **Strata and size:**
+  - free, 7M particles per seed;
+  - Davey dynamics + radar, routes and descent-climb, 3.5M each;
+  - seeds 1-4.
+- **Lanes:** two lanes × 44 threads (free then descent-climb; Davey dynamics + radar then routes).
+- **Memory at 5 min:** 12.9 GB anonymous (plus reclaimable page cache) of the 36 GiB cap.
+- **New in these hand-offs:**
+  - request 18 `[stop]` evidence and observation lists;
+  - **look-ahead rows**: multiply each weight by exp(log_correction), using `handoff::read_corrected`; `handoff::read` refuses them.
+- **Removed on deskstar first:** run C's remote copy (verified locally, SHA256SUMS 292 files) and the smoke's run folder.
+- **On landing:** compaction (tanks32, handoff.toml.gz), fetch with checksums, then `core/next-run-d/READY` and a post here.
