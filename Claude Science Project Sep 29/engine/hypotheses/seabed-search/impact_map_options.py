@@ -113,8 +113,22 @@ probability 0.945 and 0.900 conditional on a detectable target, undetectable fra
 def search_loglik(run, seed_dir, scratch):
     """This module's ln P(no find) for every impact of one seed, and its Phase 2 covered fraction."""
     out = scratch / f"evaluate-{seed_dir.name}"
-    subprocess.run([str(BINARY), "evaluate", str(HERE / "run.toml"), str(seed_dir / "impacts.npy"), str(out)],
-                   check=True, capture_output=True, cwd=ROOT)
+    src, tmp = seed_dir / "impacts.npy", None
+    if (seed_dir / "impacts32.npy").exists():
+        # STAND-IN (architecture, 11 Oct 2026, run C; module to review): `mh370 evaluate` refuses the compact layout
+        # (core check, impacts.rs). Pléiades' disclosed stub rebuilds a temporary float64 file with the 21 core
+        # columns; this module reads position only, so no rebuilt column enters its likelihood. Deleted after use.
+        import shutil
+        sys.path.insert(0, str(ROOT / "hypotheses" / "pleiades" / "prepare"))
+        import compact_eval as _ce
+        tmp = scratch / f"compact-tmp-{seed_dir.parent.parent.name}"
+        src = _ce.eval_input(seed_dir, tmp)
+    try:
+        subprocess.run([str(BINARY), "evaluate", str(HERE / "run.toml"), str(src), str(out)],
+                       check=True, capture_output=True, cwd=ROOT)
+    finally:
+        if tmp is not None:
+            shutil.rmtree(tmp, ignore_errors=True)
     cols = json.loads((out / "evaluate.json").read_text())["columns"]
     v = np.load(out / "evaluate.npy")
     idx = {c: i for i, c in enumerate(cols)}
@@ -242,7 +256,8 @@ def main():
             "converged": bool(s["ess_a"] >= ESS_FLOOR),
         }
 
-    rows = sum(np.load(s / "impacts.npy", mmap_mode="r").shape[0] for s, _ in seeds)
+    rows = sum(np.load(s / ("impacts32.npy" if (s / "impacts32.npy").exists() else "impacts.npy"),
+                       mmap_mode="r").shape[0] for s, _ in seeds)   # STAND-IN 11 Oct: compact layout
     ny, nx = acc[keys[0]]["before"].shape
     lat_c = LAT[0] + (np.arange(ny) + 0.5) * GRID
     lon_c = LON[0] + (np.arange(nx) + 0.5) * GRID

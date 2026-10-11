@@ -25,6 +25,21 @@ DEST="$ROOT/runs/$TAG"
 mkdir -p "$DEST/bto-bfo"
 n=0
 for s in "$SRC"/seed-*/; do
+  # STAND-IN (architecture, 11 Oct 2026, for run C; module to review): end of flight's run C compact layout
+  # (impacts32.npy + parents32.npy + per-seed run.json). Link the seed's own files; impact_map_options.py rebuilds the
+  # file `mh370 evaluate` reads through Pléiades' disclosed stub (prepare/compact_eval.py). Full format unchanged.
+  if [ ! -f "$s/impacts.npy" ] && [ -f "$s/impacts32.npy" ]; then
+    if [ "$VERIFY" != "--skip-verify" ] && [ -f "$s/SHA256SUMS" ]; then
+      ( cd "$s" && shasum -a 256 -c SHA256SUMS >/dev/null ) \
+        || { echo "CHECKSUM FAILED in $s - refusing to use it" >&2; exit 3; }
+    fi
+    name="$(basename "$s")"; mkdir -p "$DEST/bto-bfo/$name"
+    for f in impacts32.npy parents32.npy run.json COLUMNS.txt terminal.json; do
+      [ -f "$s/$f" ] && ln -sfn "$(cd "$s" && pwd)/$f" "$DEST/bto-bfo/$name/$f"
+    done
+    [ -f "$DEST/run.json" ] || cp "$s/run.json" "$DEST/run.json"
+    n=$((n+1)); continue
+  fi
   [ -f "$s/impacts.npy" ] || { echo "skipping $s: no impacts.npy (still being written?)" >&2; continue; }
   if [ "$VERIFY" != "--skip-verify" ] && [ -f "$s/SHA256SUMS" ]; then
     ( cd "$s" && shasum -a 256 -c SHA256SUMS >/dev/null ) \
