@@ -3326,3 +3326,26 @@ Job 644a5bff (binary 1979cce): 8 seeds × 3M, run C sampler, all exit 0, 34.5 mi
   4. Route provenance is Pete's own; the routes-prior ruling stays with Pete.
 - **OOM note:** the deskstar cgroup records 2 OOM kills between 17:07 and 17:55Z, when the run G per-route script was running beside the audit arms. Every arm since has all seeds and complete shares files, so no result is affected. Mitigation: the per-route script now runs only when no arm job is active.
 - **Hybrid** (41d7a7a0) is running, about 20:15Z. **Next:** run H per-route shares and Mach, then the hybrid result. **Proposed:** a turn-model sensitivity (bank 25°, fly-by cap 135°) on routes 43, 3 and 11 at audit size, about 15 min. Needs Pete or architecture.
+
+## 2026-10-11 20:05Z — core: HYBRID ARM RESULT (fly-by + leg tracking) — a flat plateau; the southbound leg from the 94.42°E boundary to ISBIX is what the data select
+
+Job 41d7a7a0 (binary 4e9ca9e): 34 hybrid routes + 4 controls × 4 seeds × 200k, run C sampler, all exit 0, no new OOM. Table: `results/hybrid-arm-oct11/hybrid-arm-routes.csv`.
+- **Plateau:** 11 two-turn routes (NILAM → HS20…HS80 along NILAM→SAMAK → ANOKO, FIRMD or IGOGU → ISBIX) score **−121.83 to −122.41**. The best is NILAM–HS20–IGOGU–ISBIX at −121.83 (sd 0.07).
+  - Comparators: IGOGU–ISBIX control −122.72; run H's MEKAR–SAMAK–ISBIX about −120.55.
+- **Controls reproduce the fly-by test across samplers:** ANOKO–ISBIX −125.18 (−125.24 at ad50), IGOGU–ISBIX −122.72 (−122.78).
+- **Rejected:**
+  - every BULVA end (−133 to −135.5);
+  - direct turns from HSk straight to ISBIX (−126.9 at 80 %, −129.6, −131.1, −133.3 down to 20 %);
+  - NILAM–FIRMD–ISBIX (−123.75).
+- **00:19 median** over all ISBIX-end routes above −123: **−37.28 to −37.48**. The end-of-flight latitude is insensitive to which pre-turn variant is flown.
+- **Against predictions:**
+  1. No hybrid beats the IGOGU control by more than 1 nat: holds narrowly (+0.89).
+  2. The best hybrid uses the 20 % turn point: holds.
+  3. Log-mean-exp of the 34 hybrid routes 2–5 nats below that of the 4 controls: **missed** (−123.10 against −124.02, 0.9 above).
+  4. Direct HSk→ISBIX at 60/80 % at or below −127: **missed** at 80 % (−126.93).
+- **Reading:**
+  - Under fly-by the data select **a southbound leg starting on the 94.42°E FIR boundary (ANOKO/FIRMD/IGOGU/SAMAK meridian) about 18:38–18:40 and running to ISBIX**.
+  - How the aircraft got from MEKAR/NILAM to that leg is only weakly identified: the spread is about 2 nats across the plateau, MEKAR–SAMAK about 1.3 above the best hybrid. The exception is the direct NILAM–ANOKO leg, about 3 nats below.
+  - The 00:19 latitude is robust across the plateau at about −37.4.
+- **Not adopted.** The turn-model sensitivity (bank 25° and cap 150° on routes 43/19/3/11, 9 arms, about 15 min, `job21`) is ready and awaiting Pete's GO. The routes-prior ruling stays with Pete.
+- **Run H per-route shares and Mach:** script restarted at 20:05Z with deskstar idle; result to follow.
