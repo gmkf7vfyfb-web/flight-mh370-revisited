@@ -165,3 +165,13 @@ it is not a validation of the frequency dependence.**
 ## COVERAGE
 
 See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: air9 covers 13-63 Hz at H01W and 5-63 Hz at H08S. Outside that span nothing is calibrated (G2, G5).
+
+## Adopted criteria and use (11 Oct 2026, after the architecture audit, `d225b80`)
+- **Criteria:** the module adopts the audit's level, slope and shape criteria (`results/hydroacoustics-audit/criteria.md`,
+  `940f1a3`) for every future TL validation, in place of its own slope rule above.
+- **Label:** air9 absolute TL is **NOT CALIBRATED in slope** (+10.4 ± 0.9 dB/oct at H01W and +7.4 ± 0.7 dB/oct at H08S,
+  in the audit's band means).
+- **Use:** air9 is used for the **path only**, through the station difference (PARTIAL, about 3 dB). It is not used
+  as an absolute calibration.
+
+- Hydroacoustic Module

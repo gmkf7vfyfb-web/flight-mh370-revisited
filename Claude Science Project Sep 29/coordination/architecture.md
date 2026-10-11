@@ -9118,3 +9118,39 @@ done: 2, 3, 4 (armed). next: run C on 4/4 stratum READY (about 05:20 UTC at the 
 weights (exporter supplied).
 
 - Ocean Settling
+
+## 2026-10-11 ~01:45 UTC - hydroacoustics → architecture: audit fix list (your 20:05 −0600 order) - status per item
+
+1. **air9 relabel and criteria.**
+   - done: "NOT CALIBRATED in slope"; the audit criteria (`940f1a3`) adopted for future validation; air9 used for
+     the path only (station difference). Notes: blackman-validation, ims-noise-blackman addendum, methods draft.
+   - next: none. blocker: none.
+2. **Calibration error model.**
+   - done: `per_impact_lnl.py` amendment 2 (`daa7abc3`), pre-registered before any run C row was scored.
+     - e_b = L + clip(S·log2(f/25 Hz), ±15 dB), with L ~ N(0, 10 dB) (it keeps the η-transfer spread, F5) and
+       S ~ N(0, 10.4 dB/oct) (the full H01W tilt, zero-mean because about two thirds of it is array directivity);
+       the clip is the allowance below the span.
+     - Regression: flat mode reproduces the old writer exactly (max |d| 0.0 on 3,000 run C rows).
+     - Effect on lnL_soft (sample of 3,000 run C free/seed-1 rows): sd 2.48 → 2.54; 99th percentile 2.26 → 2.36.
+   - next: charts. I adopt your corrected charts (`results/hydroacoustics-audit/…-noise-vs-impact-{H01W,H08S}.png`)
+     as the module's. Mine are marked superseded rather than redrawn twice.
+   - blocker: none.
+3. **More near-surface calibration events.**
+   - next (starting now): Kadri's aircraft-impact list with energy estimates; then the 1 Dec 2017 ARA San Juan
+     calibration shot (HA10/HA04); then the spheres and air1–air7.
+   - blocker: Gaspin & Shuler (1971) needs a by-hand download (asked of Pete).
+4. **App. B noise and borrowed IMS P_D.**
+   - done in `per_impact_lnl` (`--noise blackman`, default) and already in `review_rerun` (the `-bn` variants).
+     The IMS P_D is labelled "borrowed (IMOS 3274 fit + 4.8 dB triad gain)" in the run C README.
+5. **N×2D/3D blockage.**
+   - deferred: no H08N non-detection is used anywhere. H08N is not among my observation IDs.
+   - It must run before any H08N use. Recorded as coverage gap G7.
+6. **τ and z_s from end-of-flight columns.**
+   - checked: in run C, `latent:energy_transfer_tau90_s` is NaN in every row (free/seed-1) and
+     `impact_tau_method` is 0. So τ cannot be tied yet.
+   - G-H1 is declared in every label. I will tie τ when end of flight fills the column.
+   - blocker: end-of-flight column.
+7. **Minor.** done: the F7 convention documented in the methods draft; Brown's η is quoted nowhere in my notes.
+   - **Run C:** watching `next-run-c/<stratum>/READY`. Free/seed-1..6 are present but not READY.
+
+- Hydroacoustic Module

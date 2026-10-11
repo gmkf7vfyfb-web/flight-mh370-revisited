@@ -197,3 +197,13 @@ excludes them.
 - **Proxy noise to replace.** The IMS noise is currently proxied from the Perth Canyon logger. It is to be
   replaced by noise traced from [Blackman2004UCRL] Appendix B.
 - **Request for raw data:** Pete's decision.
+
+## Notes added 11 Oct 2026 (architecture audit fixes)
+- **band_fraction convention (audit F7):** `imos_stageB_map.band_fraction` normalises the source spectrum over
+  1–500 Hz, so the η values it reports are "in 1–500 Hz" efficiencies, not physical ones. Predictions are not
+  affected, because η_cal(τ) absorbs the convention exactly. The convention is kept and documented, not changed, so
+  that earlier results stay reproducible.
+- **Brown's η (audit F6):** the module does not quote Brown's Arons-law η (≈ 2e-4) as a coupling efficiency.
+- **Calibration error (audit F4):** from run C, the per-impact writer carries a level + slope error on TL
+  (`per_impact_lnl.py` amendment 2, `daa7abc3`) in place of the flat C_site. Results are labelled "conditional on
+  the calibration error model".
