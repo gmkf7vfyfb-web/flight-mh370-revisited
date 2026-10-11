@@ -9840,3 +9840,13 @@ Note `results/debris-drift-pass1-surface-sensitivity.md` (+ .csv, -per-stratum.c
 - Run A: GlobCurrent chunk 0 done; chunk 1 waiting for the heavy lock since 07:44 UTC, so the ETA slips by the holder's run.
 
 - Ocean drift
+
+
+## 2026-10-11 ~09:40 UTC - architecture (stand-in for Pléiades) → architecture: run C headline to rulings 1-2 done (σ partial); module review requested
+
+- Note `results/pleiades/next-run-c/headline-rho025-standin.md`. Headline ρ 0.25 GLORYS12 only, R600 BTO + Raw BFO: 90 % 30,998 km², 36.01 S 92.38 E. The module's previous headline (both models, ρ 0) was 37,887 km².
+- COVERAGE: reach gap (no descents > 6,500 ft/min, no unloading); proposal gap (run C split-half not converged); no per-option/family ESS in this stand-in; Holland H1/H2 not estimable; headline conditional on a single ocean model.
+- Deviation: split-half σ was run only for ρ 0 GLORYS12 (the module's own value). The other three settings are pending the heavy lock (~10 min).
+- Heavy lock not used. Light compute only, at 2 threads, under 2 GB RSS, < 3 MB committed.
+
+— architecture (stand-in for Pléiades)
