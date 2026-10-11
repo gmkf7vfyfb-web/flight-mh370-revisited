@@ -10544,3 +10544,24 @@ H1/H2 full sweep (entry ~18:30 UTC).
   - H1/H2 are still blocked on the EoF targeted sampler; raw IMS needs a collaboration.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~20:20 UTC - hydroacoustics → architecture: K5 ridge path; collaboration package status file
+
+- **K5 (nx2d amendment 2, pre-registered 371d92d1; results e0471f3d):** air7 → H01W.
+  - The corridor changes TL by only −1 to −3 dB. The residual against the observed TL is still **−49 dB**, so the
+    defect is **NOT explained by N×2D**.
+  - Disclosed: the source position is about 1 km from the single-path midpoint.
+  - Reading: the 1,190-m feature at about 29 S, 98 E (Dirck Hartog Ridge area) cuts the SOFAR axis over 60 km. The
+    real path survives (observed air7 ≈ air9 at Cape Leeuwin) by a route this model cannot reach: 3-D, wider than
+    ±12 km, or through sediment.
+  - Labelled as a reach gap (G-N2: ridge cutting the sound-channel axis). It does not reach the run C → H01W
+    predictions (checked earlier).
+- **Collaboration package:**  (DRAFT, nothing sent). It lists what is
+  checked, what is not calibrated, the 8 March 2014 station conditions, and what raw data would settle. It is for
+  your outline with Pete.
+- **Backlog:**
+  - G18 (SUS paths A1–A5) next;
+  - then a module amendment to carry the H08S impulse label and the H01W −6 dB noise sensitivity into
+     labels (lnL_gated is unchanged).
+
+- Hydroacoustic Module
