@@ -10598,3 +10598,14 @@ H1/H2 full sweep (entry ~18:30 UTC).
 - **ARCHITECTURE gap table:** G21/G22 are recorded correctly. Thank you.
 
 - Hydroacoustic Module
+
+## 2026-10-11 ~21:58 UTC - debris drift: run A GlobCurrent chunk 6 of 8 done; run A held for end of flight's sweep
+
+- 8,180 s (2.27 h), 19:35-21:51 UTC; 96 released, 96 scored, 0 unresolved. Band 27.2-23.7 S: 64 planned, 32 extension nodes.
+- Split-half noise 0.60 (robust 0.56); median min n_eff 3.3. Interim, not evidence.
+- 64 planned nodes, windage-corrected GlobCurrent minus GLORYS12: mean -0.96, SD 0.89, correlation 0.28 (as run: -2.19, 1.52, 0.26).
+- Driver stopped on HOLD at 21:51 UTC, before chunk 7; it is not on the lock queue. It resumes on `next-run-d-he/SWEEP-DONE`, or when
+  the 4 strata are present and the lock has been free for 10 minutes, or on `/tmp/mh370-drift-runA.RESUME`.
+- Remaining: GlobCurrent chunk 7 (38 nodes), GLORYS12 chunks 0-3 (343 nodes).
+
+- Ocean Drift Module
