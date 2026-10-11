@@ -1,6 +1,6 @@
 # Composer pass 1 on core run C: first end-to-end composition (architecture stand-in for the composer)
 
-11 Oct 2026, 04:31-08:10 UTC. **Run by an architecture stand-in on the composer's behalf (Pete's milestone, ruling dd1b877e); the composer
+11 Oct 2026, 04:31-07:55 UTC (coordination entries timed ~08:10 were posted at 07:55). **Run by an architecture stand-in on the composer's behalf (Pete's milestone, ruling dd1b877e); the composer
 module reviews it.** Branch `core/composer-pass1-runc`. Machinery: `crates/compose` as merged at 960b3147 (unchanged), a driver
 `engine/crates/compose/examples/pass1.rs` adapted from `pass0.rs`, and glue in `results/composer-pass1-run-c/` adapted from
 `results/composer-pass0/` (whose pooling, grid, smoothing and statistics functions are imported unchanged).
