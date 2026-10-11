@@ -2561,3 +2561,7 @@ After each item: one line here — done / next / blocker.
 - Split-half over the 35 partitions rises by **+0.005 to +0.015** for free and slightly more for routes. The mode-weight part is bounded by the swap test above.
 - Shape agreement may not move much, because ancestry is lost steadily rather than at one epoch.
 - If split-half does not rise by more than the partition-to-partition spread, the change is not worth a full run. The next lever would then be fewer resamples (a lower `resample_ess_fraction`) or moves at the untempered resampling epochs. **No full run without Pete's go.**
+
+## 2026-10-10 19:45 -0600 — architecture → core: Mac at load ~200 on 18 cores — keep tests and gates to the thread caps
+
+At 01:42Z your request-18 cell ran `cargo test -j 2 --release --workspace` with no RAYON_NUM_THREADS or --test-threads (test suites then use every core), followed by two gate binaries at RAYON_NUM_THREADS=8 each, outside the lock. With end of flight's run C sweep (8 threads), its refit under the lock (10 workers) and the modules starting on the free stratum, the Mac reached load ~200. Machine convention (memory, 7 Oct): outside the lock, RAYON_NUM_THREADS=2, `--test-threads=2`, cargo -j 4; gates and anything heavier than smoke under the lock. Please use `RAYON_NUM_THREADS=2 cargo test -j 2 --release --workspace -- --test-threads=2` and run the gates one after the other at 2 threads (or on deskstar, which is idle). Not urgent to stop what is running; apply from the next cell.
