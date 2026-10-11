@@ -30,5 +30,15 @@ VERDICT (fixed now): with N testable pairs (N >= 3 required, else NOT TESTABLE):
   uncorrected residual in >= 2/3 of pairs; REFUTED if < 1/3 of pairs pass/partial under M*; otherwise INCONCLUSIVE.
   If CONFIRMED, the airgun tilt is explained at source, and the station-independent TL is calibrated in slope at
   the tested bands; if not, the tilt stays unexplained and air9 stays uncalibrated in slope.
+AMENDMENT 1 (11 Oct 2026, after viewing Fig. 23 for curve identity only; before any curve is traced or any TL
+  computed). (i) The Fig. 23 CL panel legend shows air7 as well as air9, so the pair air7 -> H01W is added
+  (blackman_receiver_observations.csv omits it). (ii) Curve tracing rule per site: the curve's grey level and line
+  weight are sampled from its own legend swatch (DGN: air1 thin black, air2 thick dark grey, air3 dotted, air4 thick
+  light grey, air5 thin light grey; DGS: air7 thick light grey, air8 dotted, air9 thin black; CL: air7 light grey,
+  air9 black); in each pixel column the curve is the pixel cluster within +/- 20 grey levels of the swatch value,
+  continuity as digitise_blackman_fig23.py (max jump 30 px); a column with two candidate clusters of the same class
+  more than 3 px apart is dropped; a band keeps a value only if >= 50 % of its columns are traced. Pairs then follow
+  the TESTABLE rule as registered. Panel calibration: as the module digitiser (3.6 px/dB, 2.875 px/Hz, 0 Hz at
+  x = 51.5); DGN 150 dB at y = 8.5 (the same 140-px panel pitch as DGS 148.5 and CL 288.5), DECLARED.
 LABELS: predictive audit, not a likelihood; hydroacoustics stays PREDICTIVE.
 """
