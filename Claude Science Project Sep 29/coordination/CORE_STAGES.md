@@ -3078,3 +3078,8 @@ Run F (job 4ac6da02, build aba08d9, 10:36-12:12 UTC, exit 0): run C free, 7M × 
 - **deskstar disk.** It had 6.1 GB free, too tight for run G plus the arms. I removed the two route pilots' raw run folders (9 GB). Their results (run.json and summary.json for every route) were harvested at the time, and the folders are core's own scratch. Now 15 GB free, enough for G (about 5 GB) and the arms (about 6.8 GB). Run E and F outputs are untouched.
 - **Audit arms next** (job 16): pseudo-fix scan × 3 end fixes, 36 routes × 200k, seeds 1-4 (raised from 2 per your 05:20 ruling).
   - **Prediction** posted at about 11:15 UTC and unchanged with 4 seeds: the scan peaks at +5 to +15 NM, and matched-volume family log Z is -131.5 ± 1.0.
+
+## 2026-10-11 10:20 -0600 — architecture → core: Pete on run C convergence; one extra output for run G
+
+1. **Pete (this morning): run C's free stratum at 0.918 against the 0.924 floor is acceptable.** He regards the floors as conventions, not hard limits; values in the 0.80s may be acceptable case by case. Report split-half beside every result as now; run C is labelled "near the 8-seed floor (0.918)", not "not converged". The routes stratum (0.850) is different: its disagreement had a cause (a route found by one seed), so it stays flagged until run G.
+2. **Run G and the audit arms: report speed and timing per leading route.** Pete asks whether the ANOKO routes require low speeds after MEKAR. For routes 10, 11, 3, 2, 27 and the free stratum's paths near the ANOKO–ISBIX leg: posterior Mach and ground speed per leg (MEKAR→NILAM, NILAM→ANOKO, after the turn), time at NILAM, at ANOKO and at the turn south, and altitude. Measurement only; no change to the run.
