@@ -33,6 +33,11 @@ import branch_eof289 as b  # noqa: E402
 import compact_eval as ce  # noqa: E402
 
 STRATA = {"next-descent-climb": 0, "next-free": 1, "next-repro-radar": 2, "next-routes": 3}
+FAMILY_CODE = {"descent-climb": 0, "free": 1, "repro-radar": 2, "routes": 3}   # stratum code from the name suffix (run b and run C)
+
+
+def stratum_code(name):
+    return FAMILY_CODE[name.split("next-c-")[-1].split("next-")[-1]]
 MSHORT = ["glorys12", "globcurrent"]
 VALS = [f"lnL_{f}_{m}" for f in ("pleiades", "cosmo", "both") for m in MSHORT + ["mean"]]
 DT = np.dtype([("stratum", "u1"), ("seed", "u1"), ("row", "<u4"), ("parent", "<i8"), ("cell", "<u4")]
@@ -90,8 +95,10 @@ def sha(p):
     return h.hexdigest()
 
 
-def main(imp_root, surf, out):
+def main(imp_root, surf, out, strata=None):
+    """strata: stratum directory names to build (default: every stratum under <impacts root>); SHA256SUMS is appended per call."""
     imp_root, surf, out = Path(imp_root), Path(surf), Path(out)
+    strata = strata or sorted(d.name for d in imp_root.iterdir() if d.is_dir() and ce.seed_dirs(d))
     (out / "surfaces").mkdir(parents=True, exist_ok=True)
     for f in ("likelihood-surface.f32", "likelihood-surface.toml", "cosmo-surface.f32", "cosmo-surface.toml"):
         shutil.copy2(surf / f, out / "surfaces" / f)
@@ -100,7 +107,8 @@ def main(imp_root, surf, out):
     assert [m.split("+")[0][:8] for m in models] == ["glorys12", "globcurr"], models
     lon0, lat0, nlat, nlon = mp["lon0"], mp["lat0"], int(mp["nlat"]), int(mp["nlon"])
     sums, stats = [], []
-    for st, code in STRATA.items():
+    for st in strata:
+        code = stratum_code(st)
         for sd in ce.seed_dirs(imp_root / st):
             k = int(sd.name.split("-")[1])
             cols, g, n = ce.seed_reader(sd)
@@ -132,12 +140,17 @@ def main(imp_root, surf, out):
             sums.append(f"{sha(d / 'pleiades-lnL.npy')}  {st}/{sd.name}/pleiades-lnL.npy")
             print(st, sd.name, stats[-1]["not_computed_rows"], flush=True)
     sums += [f"{sha(out / 'surfaces' / f)}  surfaces/{f}" for f in sorted(p.name for p in (out / "surfaces").iterdir())]
-    (out / "SHA256SUMS").write_text("\n".join(sums) + "\n")
-    (out / "build-stats.json").write_text(json.dumps(dict(impacts_root=str(imp_root), surfaces=str(surf), grid=dict(lon0=lon0, lat0=lat0, nlon=nlon, nlat=nlat),
-                                                          ocean_models=models, object_rating=mp["object_rating"], per_seed=stats), indent=1))
+    old = (out / "SHA256SUMS").read_text().splitlines() if (out / "SHA256SUMS").exists() else []
+    keep = [l for l in old if l.split("  ", 1)[1] not in {x.split("  ", 1)[1] for x in sums}]
+    (out / "SHA256SUMS").write_text("\n".join(sorted(keep + sums, key=lambda l: l.split("  ", 1)[1])) + "\n")
+    bs = json.loads((out / "build-stats.json").read_text()) if (out / "build-stats.json").exists() else {"per_seed": []}
+    bs["per_seed"] = [r for r in bs["per_seed"] if r["stratum"] not in strata] + stats
+    bs.update(impacts_root=str(imp_root), surfaces=str(surf), grid=dict(lon0=lon0, lat0=lat0, nlon=nlon, nlat=nlat),
+              ocean_models=models, object_rating=mp["object_rating"], stratum_codes=FAMILY_CODE)
+    (out / "build-stats.json").write_text(json.dumps(bs, indent=1))
     return stats
 
 
 if __name__ == "__main__":
-    st = main(*sys.argv[1:4])
+    st = main(*sys.argv[1:4], strata=sys.argv[4:] or None)
     print("max not-computed prior-weight share", max(s["not_computed_prior_weight_share"] for s in st))
