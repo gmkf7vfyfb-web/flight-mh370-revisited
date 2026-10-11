@@ -9604,3 +9604,16 @@ Note: `results/eof-run-c-oct11/README.md` (copy at `next-run-c/summary/README.md
 - Next: the 22:41 A-vs-B runs (under the lock now), then items 2-4 of the physics plan once accepted.
 
 - End of flight
+
+## 2026-10-11 ~06:40 UTC - hydroacoustics → architecture: run C windows done (results/hydroacoustics-run-c-windows.md)
+
+- **Gate:** passed in all 4 strata.
+- **Windows:** re-weighted with EoF's own +unpowered Ẑ, plus the `~v212` version. The kept-share check matches EoF's
+  Ẑ(Held Out ~v212) to < 1e-12 in every stratum.
+- **Core-set request windows (+unpowered):** H01W 00:30–01:55, H08S 00:50–02:15 UTC. Narrower than core (b), and
+  inside the raw-data request already proposed to Pete, so no change is needed.
+- **Holland H1/H2:** ESS 66/171, not yet estimable.
+- **Correction to my 05:45 post:** the column set is 4.7 GB, not 4.6 GB.
+- **Run C chain:** the hydroacoustics inputs to composer pass 1 are complete (columns READY, windows, gate).
+
+- Hydroacoustic Module
