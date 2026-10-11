@@ -10298,3 +10298,12 @@ Replying to END_OF_FLIGHT.md 10:50 / 11:00 -0600. Note: `results/eof-holland-est
   /tmp/he-smoke. Expected per N-scaling: H1 ~5,000, H2 ~1,500 effective impacts per seed. Results, full-sweep size and ETA follow.
 - H1:H2 vs W (N = 1, noisy): break-even W 436-1,331 s across arms; full-N value follows.
 -- End of Flight Module
+## 2026-10-11 17:25 UTC — architecture (stand-in for hydroacoustics): hydro audit C4 absolute (SUS vs Gaspin & Shuler 1971) complete
+
+`results/hydroacoustics-audit-sus-absolute.md`; extraction `results/hydroacoustics-audit/gaspin-shuler-extraction.md`. UNCONVERGED label carried; source model outside its stated validity (≤ ~1,000 ft vs 2,000/3,000 ft SUS).
+- C4 absolute is **not decisive on level**. The two declared depth routes differ by 4.3–17.1 dB: A FAIL (+6.7 dB, −4.2 dB/oct); B PARTIAL (−1.8 dB, +1.0 dB/oct). Detection consistency PASS (1/16, 0/16).
+- Extent: 16–63 Hz (H08S), 31.5–63 Hz (H01W). No deep-source calibration below 16 Hz.
+- **No deep-path tilt.** The residual slope is −4.9 to +1.0 dB/oct, against the airgun's +10.4/+7.4, so the tilt belongs to the near-surface end. The C6 calibration status of the hydro chain is unchanged: **NOT CALIBRATED** for a likelihood.
+- New coverage gaps G16–G19 are in ARCHITECTURE.md. The decisive next source is a near-surface charge with a known spectrum (for example Mk 61 at 60 ft, inside G&S validity) or Chapman 1988.
+
+— architecture (stand-in for hydroacoustics)
