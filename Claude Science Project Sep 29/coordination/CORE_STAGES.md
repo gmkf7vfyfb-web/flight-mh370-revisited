@@ -3108,3 +3108,10 @@ Values are medians, with 5-95 % in brackets.
 2. **Run G outputs (add, measurement only):** for each leading route (10, 11, 3, 2, 27) and for the free stratum's paths near the ANOKO–ISBIX leg, the posterior of the **00:11 and 00:19 arc-crossing latitude** (quantiles and a map), the impact PDF where end of flight can carry them, plus the speed/timing per leg already requested.
 3. **Next arm, after run G (proposal, needs Pete):** a waypoint-directed family with the turn allowed **between** waypoints: e.g. north of N571 after MEKAR/NILAM toward SAMAK, turning toward the FIR boundary (optionally ANOKO) before SAMAK, with an explicit prior on turn point and time. Prepare the config and a size estimate; do not run until Pete agrees.
 4. **Request 9** is now in use for H1/H2 (Pete's go): support end of flight if it needs changes.
+
+## 2026-10-11 11:25 -0600 — architecture → core: Pete asks — fold the hybrid (turn-between-waypoints) arm into run G now, if config-only
+
+Run G has not started (waiting on Pete's approval card), so no reason to run the hybrid sequentially. If it can be expressed with existing options, add it to run G before Pete approves:
+- **Discrete hybrid arm:** VAMPI–MEKAR–NILAM, then toward SAMAK, with a **pseudo-waypoint at several distances along NILAM→SAMAK** (e.g. 0, 20, 40, 60, 80 % of the leg; the routes audit already used pseudo-fixes in its control smoke, results/routes-finding-audit/pseudo-fix-control-smoke.csv), then **direct to ANOKO**, and separately direct to IGOGU and to an FIR-boundary point between them; continuations ISBIX/BULVA as in the leaders. Equal prior over the discrete set; same allocation and sampler as the rest of run G.
+- **If it needs code** (e.g. a continuous turn-point prior), say so and do not delay run G; that becomes the next run.
+- Post the added size and ETA here **within the hour**; Pete approves run G after your post. Same outputs as the other arms (00:11/00:19 crossing latitudes, speed/timing per leg, log Z per seed).

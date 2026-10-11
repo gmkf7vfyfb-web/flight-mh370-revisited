@@ -144,11 +144,91 @@ value, stated in `run.toml`; speed cap 212 m/s = 1.25 VMO, architecture ruling 2
 not sourced; effective sample size floor 1,000, this module's `ESS_FLOOR`; outcome key stride 2**20, ocean
 settling's run C core-set README.
 
-## 6. Outputs
+## 6. The rho sweep and the Ocean Infinity overrides on run C
+
+The stand-in's item 4 ("re-run the rho sweep and the OI overrides on C, if you want them in pass 1"). Done, and the
+module's whole labelled sensitivity set with them. 32 seeds, 102,400,064 impacts, 27 min at 2 threads.
+
+**One evaluate pass, not twenty.** `mh370 evaluate` reports `covered_fraction_<campaign>` as the RAW raster coverage
+c_k(y), and the likelihood is built from those alone (lib.rs `predict` and `miss_probability_for_field`). So the eight
+coverage layers - the Phase 2 union, its four sensor layers, Bluefin-21, Ocean Infinity 2018 and 2025-26 - are
+rastered ONCE per impact, and every scenario is then exact algebra on those columns. Re-running evaluate per
+scenario would have rastered the same eight layers twenty times over. **The algebra is checked against the Rust on
+every one of the 32 seeds** (max |delta| < 1e-12), so it is verified, not trusted. New driver:
+`hypotheses/seabed-search/sweep_release.py`.
+
+**Independent reproduction of the stand-in.** The `run.toml` row below reproduces the stand-in's run C fixed-weight
+Z to four decimals for all five options (0.7149 / 0.7390 / 0.4894 / 0.2704 / 0.2178), with the same split-halves and
+the same effective sample sizes, through a completely different code path.
+
+| Sensitivity | 00:19 Held Out | R600 BTO Only | R600 BTO + Raw BFO | Holland H1 | Holland H2 |
+|---|---|---|---|---|---|
+| run.toml | 0.7149 | 0.7390 | 0.4894 | 0.2704* | 0.2178* |
+| rho 0 | 0.6999 | 0.7252 | 0.4625 | 0.2320* | 0.1767* |
+| rho 0.02 | 0.7059 | 0.7307 | 0.4732 | 0.2474* | 0.1931* |
+| rho 0.1 | 0.7300 | 0.7527 | 0.5162 | 0.3088* | 0.2590* |
+| rho 0.2 | 0.7600 | 0.7802 | 0.5700 | 0.3856* | 0.3413* |
+| rho 0.3 | 0.7900 | 0.8077 | 0.6237 | 0.4624* | 0.4237* |
+| rho 0.5 | 0.8500 | 0.8626 | 0.7312 | 0.6160* | 0.5883* |
+| Phase 2 q 0.90 | 0.7285 | 0.7514 | 0.5137 | 0.3051* | 0.2551* |
+| Phase 2 q 0.98 | 0.7044 | 0.7293 | 0.4704 | 0.2434* | 0.1889* |
+| Phase 2 split, shared misses | 0.7132 | 0.7374 | 0.4863 | 0.2620* | 0.2072* |
+| Phase 2 split, independent misses | 0.7115 | 0.7357 | 0.4830 | 0.2548* | 0.1977* |
+| + OI 2025-26 inferred, outboard band only | 0.7107 | 0.7346 | 0.4818 | 0.2692* | 0.2166* |
+| + OI 2018 inferred, coverage 0.889 | 0.6868 | 0.7248 | 0.4626 | 0.1696* | 0.1588* |
+| + OI 2018 inferred, coverage 0.952 | 0.6848 | 0.7238 | 0.4607 | 0.1625* | 0.1546* |
+| alone: bluefin-2014 | 1.0000 | 1.0000 | 1.0000 | 1.0000* | 1.0000* |
+| adding, in order: bluefin-2014 | 1.0000 | 1.0000 | 1.0000 | 1.0000* | 1.0000* |
+| alone: phase2-2014-2017 | 0.6999 | 0.7252 | 0.4625 | 0.2320* | 0.1767* |
+| adding, in order: phase2-2014-2017 | 0.6999 | 0.7252 | 0.4625 | 0.2320* | 0.1767* |
+| alone: ocean-infinity-2018 | 0.9702 | 0.9850 | 0.9716 | 0.8925* | 0.9374* |
+| adding, in order: ocean-infinity-2018 | 0.6703 | 0.7104 | 0.4343 | 0.1259* | 0.1145* |
+
+Z is the probability that the searches missed the aircraft. `*` marks not estimable (Holland H1 and H2, effective
+sample size 130 and 242). Constraint +alive, stratum weights 0.589 / 0.252 / 0.135 / 0.024 from core's own run C
+table of ~00:12 UTC 11 October - not the stale run (b) set.
+
+**Ordered uncertainty budget on run C (00:19 Held Out, then R600 BTO Only, then R600 BTO + Raw BFO).**
+
+| Rank | Assumption | Held Out | R600 BTO Only | R600 BTO + Raw BFO |
+|---|---|---|---|---|
+| 1 | Undetectable fraction rho, 0 to 0.5 | 0.1500 | 0.1374 | 0.2688 |
+| 2 | Ocean Infinity 2018 counted or not | 0.0301 | 0.0151 | 0.0287 |
+| 3 | What counts as a detection (point against any piece) | 0.0270 | 0.0271 | 0.0438 |
+| 4 | Detection probability q, 0.90 to 0.98 | 0.0241 | 0.0221 | 0.0432 |
+| 5 | Ocean Infinity 2025-26 counted or not | 0.0043 | 0.0043 | 0.0076 |
+| 6 | Repeat search counted once or twice | 0.0034 | 0.0032 | 0.0064 |
+| 7 | Shape of the wreckage field | 0.000029 | 0.000002 | 0.00044 |
+
+**Readings.**
+1. **rho still dominates, and by more on run C than on (b).** It is 5 to 9 times the next item. It has no published
+   value. Until one exists, every headline number this module reports is conditional on it, and the sweep is the
+   honest statement of the result, not the single value at 0.05.
+2. **Bluefin-21 removes exactly nothing, at full run C scale.** "alone: bluefin-2014" gives **Z = 1.0000 in every
+   option**. 771.4 km2 against a posterior spread over hundreds of thousands: the 2014 AUV search is a historical
+   fact with no evidential weight here. The 10.3 % discrepancy between its measured and stated area is therefore
+   immaterial, which is worth saying once and not revisiting.
+3. **Ocean Infinity 2018 is worth 0.015 to 0.030, and its two coverage readings are worth 0.002.** The choice of
+   0.889 against 0.952 barely matters; whether the layer is in at all is the second-largest item in the budget.
+   Both rest on a community tracing, grade C - which is why the provenance footnote is not optional.
+4. **The repeat search is worth 0.0034 (Held Out), 0.0032 (R600 BTO Only) and 0.0064 (R600 BTO + Raw BFO)**, against
+   the 0.002 measured on core (b). It comes in two equal halves in every option: splitting the Phase 2 union into
+   its four sensor layers, so the 17,391 km2 the union hides is swept twice, moves Z by 0.0017 / 0.0016 / 0.0031;
+   choosing independent over shared misses on top of that moves it another 0.0017 / 0.0016 / 0.0033. Raw BFO is
+   about twice the other two throughout, because it puts twice as much mass on Phase 2 ground to begin with
+   (0.569 against 0.318 and 0.291), which is where the repeat coverage is.
+5. **Phase 2 alone removes 30.0 % of the Held Out mass at rho = 0; Ocean Infinity 2018 alone removes 3.0 %.**
+   Adding OI after Phase 2 takes the pair to 33.0 %. The ATSB search is still doing nearly all of the work.
+
+![What the searched-area result depends on, in order, on core run C](seabed-search-c/sensitivity-c.png)
+
+## 7. Outputs
 
 - `results/seabed-search-c/field-coverage/`: twenty JSON results, `SUMMARY.json`.
 - `results/seabed-search-c/field-coverage-c.png` and `.pdf`.
+- `results/seabed-search-c/sensitivity-sweep-c.json`, `sensitivity-table-c.md`, `sensitivity-c.png` and `.pdf`.
 - Code: `field_coverage_check.py` (key widened to the declared stride, key-order assertion),
-  `impact_map_options.py` (per-seed temporary directory, wrapped LABELS footnote).
+  `impact_map_options.py` (per-seed temporary directory, wrapped LABELS footnote),
+  `sweep_release.py` (new: every labelled sensitivity in one evaluate pass, checked against the Rust per seed).
 
 - Searched Areas Module
