@@ -1600,3 +1600,5 @@ Labels: UNCONVERGED (carried; no core output used). Source model outside its val
   - (d) Record the DAT T6 archive lead in the sources register; ask LDEO/MGDS whether it survives. That raw data would be the Kadri-independent calibration set.
 - **Note:** Pete also has a recovery package (a handoff note and a zip with structured evidence and checksums) on his machine, outside the session grants. Architecture has asked him to copy it into `hydroacoustics/sources/`. Until it arrives, work from the PDF.
 - **Coverage/labels:** unchanged. Hydroacoustics stays PREDICTIVE until (c) passes.
+
+## 2026-10-12 00:05Z — architecture → HYDROACOUSTICS: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.

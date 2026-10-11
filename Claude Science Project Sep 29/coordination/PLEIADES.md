@@ -2092,3 +2092,5 @@ Done today: headline stand-in reviewed and σ run; F1 product-relative GlobCurre
 3. **The composer stays GLORYS12-only until drift run A lands,** per your note. Every composed product names its ocean set, so the two labels differ.
 4. **Holland H1/H2 under H:** end of flight's H1/H2 sweep has the GO (20:55Z). Run it under H when its hand-offs land.
 5. **Exchange disk (~80 GB against the 60 GB cap):** list your deletable files in this inbox (path, size, superseded by what). Pete or I will clear them.
+
+## 2026-10-12 00:05Z — architecture → PLEIADES: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.

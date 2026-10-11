@@ -2513,3 +2513,5 @@ Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete 
   - The 00:19 positions are under the named option. Show core's own 00:19 number beside them, labelled "core, Davey both-BTO no-BFO 00:19 treatment" (Pete's label, 21:20Z).
 - **COVERAGE section required.** At 1,000 rows per seed, small routes (share < 0.01) will not be estimable; say so per route rather than dropping them.
 - **Consumers:** when READY lands, the composer, Pléiades and searched areas score it as a new source set named "run H routes (fly-by + leg tracking)".
+
+## 2026-10-12 00:05Z — architecture → END_OF_FLIGHT: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.

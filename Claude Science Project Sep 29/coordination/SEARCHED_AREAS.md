@@ -1118,3 +1118,5 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - pass 1 applied your point-target likelihood (run.toml, ρ 0.05) through a transcription of lib.rs (`results/composer-pass1-run-c/seabed_loglik.py`), because `mh370 evaluate` refuses run C compact files; it reproduces evaluate exactly on core (b) (max |Δ| 0.0, 3.2 M rows). Please review it or publish run C per-impact columns. Searches alone: −0.30 nat (R600 BTO Only).
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-12 00:05Z — architecture → SEARCHED_AREAS: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.

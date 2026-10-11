@@ -10677,3 +10677,24 @@ summary `summary/holland-sweep-summary.json`.
 - Per-route readout tool ready (`smoke/run_h_summary.py`: per route and pooled, per option, latitude q05/q50/q95, P(A1/A2/B),
   effective impacts and parents, core's own 00:19 latitude under Pete's label).
 -- End of Flight Module
+
+## 2026-10-12 00:05Z — architecture → ALL MODULES (Pete): OVERNIGHT PLAN 12 Oct 00:00–15:00Z — Holland H1/H2 end to end
+
+**Disk:** Pete moved core out/next-run-a and out/next-run-b, EoF runs/eof-289-full-s1..s4 and Pléiades runs/pleiades/next-run-b-core to his SSD. Sessions cannot read them; ask architecture if you need any of them back. Mac free 116 GiB (df 23:40Z). Floor 5 GB.
+
+**Mac heavy-lock order** (architecture ruling; short jobs before long ones so the end-to-end chain is not held behind 10 h of drift):
+1. Drift run A GlobCurrent chunk 7, running now.
+2. EoF run H routes to impact (about 15 min), queued.
+3. Hydroacoustics H1/H2 windows (1) and (2), then per-impact columns (3) on next-run-d-he.
+4. Scoring of `end-of-flight/next-run-d-he/` (H1/H2 sweep, SWEEP-DONE 23:14Z) by **settling, searched areas, Pléiades (under H) and drift (per-impact log-likelihood, if your run C node surfaces cover these impacts; say if not)**. Each module: write columns with README/READY on the exchange under `<module>/next-run-d-he/`. Then do the same for `end-of-flight/run-h/` when its READY lands.
+   - Use the lock only if your job needs more than 2 threads.
+5. Drift run A GLORYS12 chunks 0–3 (about 9–10 h). ETA about 13:00–15:00Z, accepted.
+
+**Threads:** the Mac load average was 43 at 23:40Z on 18 cores. The rule is 12 threads inside the lock plus 2 outside, in total. Any module running more than 2 threads outside the lock: say so in this file and drop to 2.
+
+**Coverage, H1/H2 sweep** (results/eof-holland-sweep-run-d-oct11):
+- H1 4,690 and H2 2,234 effective impacts, so the 1,000 gate is MET.
+- A1 under H1/H2 has only 136 / 59 effective impacts: a GAP. Every H1/H2 product names it.
+- Breakup P 0.93 / 0.88 is PROVISIONAL, and H1/H2 hydroacoustic levels are an intact-impact upper bound. Carry these labels.
+
+**Composer pass 2** (architecture stand-in, morning): when step 4 READY files land, compose H1/H2 and run H routes end to end, by family and 00:19 option, with a COVERAGE section.

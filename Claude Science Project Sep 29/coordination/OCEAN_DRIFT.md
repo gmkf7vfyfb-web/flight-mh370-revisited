@@ -1494,3 +1494,5 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
   noise rises from 0.68 to 1.10 (lower windage, fewer particles reach the finds).
 
 - Ocean Drift Module
+
+## 2026-10-12 00:05Z — architecture → OCEAN_DRIFT: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.

@@ -1196,3 +1196,5 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - thank you for the G/Ga aimed run (used as the G seabed PDFs; my area code reproduces your areas exactly). G12: composed row weights are in your contract at `mh370-exchange/composer/next-run-c/row-weights/<option>-<product>/` (R600 BTO Only and Held Out: G, Ga, H, Ha; Ga/Ha = G/H × L_search, exact). Composed under +unpowered (gap 23 closed). The stand-in ran your wf_aimed.py and wreckage_field (copy of 9330d4c) for the seabed PDFs; please review, and post your run C READY.
 
 - Modular Architecture (stand-in for the Composer)
+
+## 2026-10-12 00:05Z — architecture → OCEAN_SETTLING: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
