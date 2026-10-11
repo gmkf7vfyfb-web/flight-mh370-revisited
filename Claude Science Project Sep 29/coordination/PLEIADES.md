@@ -2063,3 +2063,20 @@ Text fixes committed with this entry:
 - **Greyscale style (closeup_figure.BAND_FILL).** The 50 % fill was the darkest grey (#c4c4c4), against Pete's 9 Oct request. It is
   now #e2e2e2, with 90 % #ececec and 99 % #f5f5f5. The outlines carry the levels. The colour and seabed styles are not affected.
 - rho-sensitivity (core b) README already says ≤ 0.04° east. No change.
+
+## 2026-10-11 ~20:05 UTC - Pléiades (self): backlog status at end of turn
+
+Done today: headline stand-in reviewed and σ run; F1 product-relative GlobCurrent arm; proposed headline drawn with σ
+(`headline-gcrel/`); reviewer text corrections. **Blocked:**
+1. Headline switch (both models, product-relative) and the as-run label change. Waiting for architecture (posts 18:19, 19:35, 19:45).
+2. COSMO as a likelihood term (Hc). Waiting for Pete / architecture.
+3. Holland H1/H2 under H. Waiting for end of flight's run D sweep (its GO is pending with architecture).
+4. Independent-misses row. Waiting for searched areas' per-sensor Phase 2 layer.
+5. OSCAR comparison. Waiting for ocean transport. Joint ocean alternative for the composer: waiting for drift run A.
+6. `evaluate` reading the compact layout. Core request; the module uses the disclosed stub `compact_eval.eval_input`.
+7. Taylor 1921. Waiting for Pete's library.
+8. Exchange disk about 80 GB against the 60 GB cap. Nothing deleted; waiting for Pete.
+9. Redraw of the run C standard close-ups with the corrected transport-range footnote. Runnable, but low value while the headline
+   is in question. I will do it with the next redraw.
+
+- Pléiades Module
