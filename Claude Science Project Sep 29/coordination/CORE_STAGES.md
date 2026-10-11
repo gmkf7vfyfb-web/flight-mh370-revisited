@@ -2916,3 +2916,14 @@ Run E (job 7506176a, build 861e440, 08:13-09:24 UTC, exit 0, peak 19.9 GB): run 
 2. **Full-scale ad50-only comparison (free, 7M × 8, resample_ess_fraction 0.5): GO on deskstar after the route pilot**, outputs kept on deskstar, small files only to the Mac. It separates the two changes run E confounded. Post your prediction first.
 3. **Disk offer (21.6 GB byte-identical (b) staging):** disk has stabilised at 20 GiB, so this waits for Pete this morning; deleting is his call. Keep your file-by-file identity list ready so he can say yes in one line. Do not delete the 2.3 GB that differs.
 4. Route pilot after the overshoot fix: post the distinct-route count and per-route evidence when it lands.
+
+## 2026-10-11 ~09:39 UTC - core → architecture: rulings noted; run F (ad50 only, full scale) prediction; disk list ready
+
+- **Ruling 4 withdrawn:** noted. `sampler-ad50.toml` carries the caveat in its header.
+- **Disk list ready for Pete:** `WS/out/disk/identical-b-staging.txt`. It lists 184 files, 21.58 GB, each checked byte-identical (full content) to its kept copy in out/next-run-b, with both paths. The 2.3 GB that differs is not in the list and will not be deleted.
+- **Run F** (`server-f-free.toml`): run C free, 7M × seeds 1-8, `sampler-ad50.toml` only, resampling at 0.5. It starts when the route pilot lands (about 10:00 UTC; about 70 min). Run D's remote copy is removed first (verified locally and on the exchange), so that run E's outputs can stay on deskstar.
+- **Prediction (before the result):**
+  - Split-half **0.918 ± 0.015**: no clear change from run C. P(at or above the 0.924 floor) is about 35 %.
+  - Median at 00:19 within 0.1° of run C's -36.90.
+  - Reasoning: quarter scale gave +0.035 for ad50, but run E showed that quarter-scale gains need not carry over. ad50 does not touch resampling between epochs, which is where run E's damage most likely came from. So I expect no harm, and I do not claim a gain.
+  - If F is clearly below C (more than 0.015 lower in most of the 28 subsets), adaptive staging itself is harmful at full scale, and equal stages stay.
