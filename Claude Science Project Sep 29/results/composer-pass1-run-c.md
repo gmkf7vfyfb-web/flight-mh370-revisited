@@ -1,6 +1,6 @@
 # Composer pass 1 on core run C: first end-to-end composition (architecture stand-in for the composer)
 
-11 Oct 2026, 04:31-07:xx UTC. **Run by an architecture stand-in on the composer's behalf (Pete's milestone, ruling dd1b877e); the composer
+11 Oct 2026, 04:31-08:10 UTC. **Run by an architecture stand-in on the composer's behalf (Pete's milestone, ruling dd1b877e); the composer
 module reviews it.** Branch `core/composer-pass1-runc`. Machinery: `crates/compose` as merged at 960b3147 (unchanged), a driver
 `engine/crates/compose/examples/pass1.rs` adapted from `pass0.rs`, and glue in `results/composer-pass1-run-c/` adapted from
 `results/composer-pass0/` (whose pooling, grid, smoothing and statistics functions are imported unchanged).
@@ -46,8 +46,10 @@ module reviews it.** Branch `core/composer-pass1-runc`. Machinery: `crates/compo
 - **Row alignment:** drift and Pléiades `row` = 0..n−1 and `parent` equal to impacts, asserted for all 32 seeds.
 - **Determinism:** the free stratum was prepared twice (inputs deleted between); the Held Out composition reproduced every product's
   ln-evidence increment exactly (max |Δ| = 0.0, 22 products).
-- **Exported row weights reproduce the composer:** the R600 BTO Only G and Ga row-weight files on the exchange give median −37.17 and
-  −37.12 and 95 % limits −40.27 / −25.69 and −40.40 / −25.46, equal to the composer's G and Ga. This confirms Ga = G × L_search per row.
+- **Exported row weights reproduce the composer:** the R600 BTO Only G, Ga and H and the Held Out Ha row-weight files on the exchange give
+  medians −37.17, −37.12, −36.04, −35.71 and 95 % limits equal to the composer's to 0.01°. This confirms Ga = G × L_search per row.
+- **Seabed areas reproduce settling:** the stand-in's area code on settling's published aimed samples gives settling's own wreckage areas
+  exactly (465.1 / 497.3 / 742.3 / 814.6 k km²).
 - **ρ surface:** Hr0 − Hc = −12.43 nat per stratum, the 2 ln A_scene constant the ρ surfaces omit (Pléiades 02:21 UTC).
 
 ## 3. Convergence status
@@ -230,6 +232,7 @@ infeasible-speed impacts in the all-rows version.
 | G10 drift support (13-28 % not computed) | reach | G, H; areas move by up to ×3 (Gx/Hx) | OPEN (drift run A, started at the chain marker) |
 | R600 BTO + Raw BFO under G/H | proposal coverage | every G/H product of that option (ESS below the floor; A1 8, north of 30 °S 25) | **NEW**, OPEN: not estimable; aimed proposal needed |
 | A1 under G after searches (R600 BTO Only) | proposal coverage | per-family A1 in Ga (320 rows in descent-climb) | NEW, OPEN; family shares still estimable |
+| core routes stratum: only 14 of 48 routes distinct (guidance captures a waypoint once it is behind; core ~07:17 UTC) | reach (core) | routes stratum (re-weighted weight 0.024-0.027) and its large ln R (+0.74) | NEW (core's finding), OPEN |
 | Holland H1/H2 | proposal coverage | not composed (1-7 effective impacts per seed, EoF family-evidence-run-c.json) | OPEN (G7): reported as not estimable, not dropped |
 | hydro coupling (G-H1), calibration (C6) | reach / calibration | hydro factor | OPEN; G and H also shown without hydro |
 | seabed for R600 BTO + Raw BFO and the 212 m/s versions | budget | no seabed PDF for those | OPEN (this pass) |
@@ -237,16 +240,41 @@ infeasible-speed impacts in the all-rows version.
 **Parameter bounds narrower than the feasible range** are those of end of flight's run C (README labels) and of the factor modules; this
 pass adds none. The 212 m/s cap is a ruling (8dbefed2), sourced as 1.25 VMO.
 
-## 6. Seabed PDF (gap G12): settling's aimed resample from the composed weights
+## 6. Seabed PDF (gap G12): aimed resample from the composed weights
 
-**Status at this writing: H products and the seabed PDFs are HELD** (architecture, ~06:05 UTC: not to be finalised until settling and
-Pléiades post their run C `READY`; neither had at 06:55 UTC).
-- **Input written (G12 fix):** `mh370-exchange/composer/next-run-c/row-weights/<option>-<product>/` in settling's contract
-  (`results/settling-aimed-resample/README.md`): one f32 per impacts32 row, value = W_Q(stratum) × pooled within-stratum weight,
-  `manifest.json`, `SHA256SUMS`, `READY`. Written: R600 BTO Only and Held Out, G and G after searches (1.5 GB). H and H after searches
-  follow after Pléiades' `READY`. Check: the files reproduce the composer's G and Ga medians and 95 % limits to 0.01° (section 2).
-- **Seabed step (provisional, not yet reported):** settling's own `wf_aimed.py prep` (40,000 draws per product; row ESS 2.0-4.2 M; 39,932-39,978
-  distinct impacts) and settling's `wreckage_field` test on a copy of settling's worktree (9330d4c), 2 threads, about 80 s per product.
+**Method (G12 fix).** The composed per-row weights were written to `mh370-exchange/composer/next-run-c/row-weights/<option>-<product>/`
+in settling's contract (`results/settling-aimed-resample/README.md`): one f32 per impacts32 row, value = W_Q(stratum) × pooled
+within-stratum weight, with `manifest.json`, `SHA256SUMS`, `READY`. 'After searches' = G (or H) × L_search per row, which is exact (the
+files reproduce the composer's G and Ga medians and 95 % limits to 0.01°). **Ocean settling picked the G files up and published its own
+aimed resample** (`settling/next-run-c-composed-aimed/`, READY ~07:02 UTC; 40,000 draws per product, settling 9330d4c, real ocean). Settling's
+run C core-set samples carry `READY` at 06:56 UTC. The seabed numbers below for G are **settling's published samples**; the stand-in's area
+code reproduces settling's published wreckage areas exactly from them (465.1 / 497.3 / 742.3 / 814.6 k km²). The stand-in's own provisional
+run of the same tools (`wf_aimed.py` + `wreckage_field` on a copy of 9330d4c) agreed to < 1 % (R600 BTO Only G: 462k km²).
+
+| 00:19 option | product | row ESS (Kish) | distinct impacts of 40,000 | 90 % region: impacts (all rows) → wreckage (k km²) | 50 % region, wreckage (k km²) | settled offset p50 / p90 / p99 (km) | afloat mass share | status |
+|---|---|---|---|---|---|---|---|---|
+| R600 BTO Only | **G** | 2.93 M | 39,959 | 468.1 → 465.1 | 87.4 | 0.43 / 4.55 / 22.96 | 0.170 | estimable |
+| | G after searches | 2.02 M | 39,925 | 502.3 → 497.3 | 95.5 | 0.45 / 4.74 / 23.53 | 0.169 | estimable |
+| Held Out | **G** | 4.18 M | 39,980 | 758.2 → 742.3 | 151.0 | 0.43 / 4.36 / 22.10 | 0.171 | estimable |
+| | G after searches | 2.84 M | 39,965 | 833.5 → 814.6 | 181.5 | 0.44 / 4.47 / 22.72 | 0.170 | estimable |
+| R600 BTO Only | **H** (given H) | 0.79 M | 39,976 | 176.9 → 177.5 | 18.4 | 0.42 / 4.19 / 21.44 | 0.173 | estimable (stand-in run) |
+| | H after searches | 0.59 M | 39,892 | 214.1 → 214.4 | 16.9 | 0.43 / 4.32 / 22.10 | 0.172 | estimable (stand-in run) |
+| Held Out | **H** | 1.95 M | 40,000 | 316.8 → 317.0 | 32.6 | 0.42 / 3.98 / 20.01 | 0.174 | estimable (stand-in run) |
+| | H after searches | 1.61 M | 39,999 | 405.0 → 388.9 | 35.6 | 0.42 / 4.02 / 20.22 | 0.173 | estimable (stand-in run) |
+
+**H rows.** Held until Pléiades' run C `READY` (07:38:41 UTC). At `READY` the 32 column files the composer read were re-verified
+(0 mismatches); the only change to Pléiades' `SHA256SUMS` was six added source-package lines, so the composed H stands unchanged. The H and
+H-after-searches row weights were then written (07:43 UTC; the files reproduce the composer's H medians and limits) and the stand-in ran
+settling's tools on them (07:48-07:51 UTC). Settling's watcher covers these files; if settling publishes its own H samples, they replace
+the stand-in's rows above. All outcomes fell inside settling's ocean window (0 refused).
+
+**Reading.** Settling adds +0.2 to +0.5 % to every 90 % area (resampled impacts → wreckage) and the settled offset is 4.0-4.7 km at p90: **each
+seabed PDF is its impact PDF to under 1 % in area**, as on core (b). **G12 is closed for G, Ga, H and Ha** of both options: the aimed
+resample keeps 39,892-40,000 distinct impacts and a row ESS of 0.59-4.18 M, where pass 0 r2 (resampling from flight + EoF) kept 368-865
+effective impacts for R600 BTO Only. (The all-rows impact areas are 0.2-4.6 % larger than the resampled ones, largest for Held Out H after searches, 405k against 387k km²:
+40,000 draws under-represent the dispersed northern tail. The wreckage areas come from the resample.)
+
+![Seabed wreckage regions for each set of evidence](composer-pass1-run-c/fig5-seabed.png)
 ## 7. Deviations (declared)
 
 1. **Constraint `+unpowered`, not `+alive`.** Pass 0 composed under `+alive`. Run C is composed under `+unpowered` (airborne at
@@ -275,10 +303,11 @@ Pléiades post their run C `READY`; neither had at 06:55 UTC).
    The PDF split-half overlap in the tables is ONE partition (1-4 vs 5-8), not core's 35-partition statistic.
 8. **Strata weights:** core's unrounded P(family) (`early-families-mixture.json`) x the composer's own P1 increment. End of flight's
    `family-evidence-run-c.json` uses P(family) rounded to 3 decimals; the two agree to ±0.001 (section 2).
-9. **Seabed:** settling's aimed resample (`wf_aimed.py`, unchanged) and settling's `wreckage_field` test, run by the stand-in from a copy
-   of settling's worktree (9330d4c), 40,000 draws per product, 2 threads. The seabed areas use pass 0's construction (`seabed_finish.py`)
-   on settling's grid. 'After searches' weights are G (or H) × L_search per row, exact (the searched-areas factor is row-level). R600 BTO +
-   Raw BFO and the 212 m/s versions have no seabed PDF in this pass.
+9. **Seabed:** the G and G-after-searches seabed PDFs are settling's own published aimed resample (from the composer's row weights).
+   The stand-in also ran settling's `wf_aimed.py` and `wreckage_field` test itself (copy of settling's worktree 9330d4c, 2 threads) as a
+   cross-check and, for H, as the fallback if settling has not run H by the deadline (section 6 says which source each row uses). The seabed
+   areas use pass 0's construction on settling's grid and reproduce settling's published areas exactly. 'After searches' weights are G (or
+   H) × L_search per row (exact). R600 BTO + Raw BFO and the 212 m/s versions have no seabed PDF in this pass (disk: 23-27 GB free).
 10. **Two orchestrators by mistake.** A second copy of the stratum chain was started at ~04:58 UTC while the first could not be stopped
     (no process list in the sandbox). Single-writer locks were added to `prep_inputs_c.py` and `run_stratum_c.sh` before either chain
     wrote; every seed file and every composer run had exactly one writer. Side effect: up to five prep processes ran at once for about

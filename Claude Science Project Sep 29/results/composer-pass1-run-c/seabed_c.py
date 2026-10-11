@@ -13,7 +13,7 @@ Usage: python seabed_c.py finish <work> <out exchange dir> | areas <work> <out j
 import hashlib, json, math, os, pathlib, sys
 import numpy as np
 HERE = pathlib.Path(__file__).resolve().parent
-REPO = ((pathlib.Path(__file__).resolve().parent.parent / "repo/Claude Science Project Sep 29" if (pathlib.Path(__file__).resolve().parent.parent / "repo").exists() else pathlib.Path(__file__).resolve().parents[2]) if (pathlib.Path(__file__).resolve().parent.parent / "repo").exists() else pathlib.Path(__file__).resolve().parents[2])
+REPO = (pathlib.Path(__file__).resolve().parent.parent / "repo/Claude Science Project Sep 29" if (pathlib.Path(__file__).resolve().parent.parent / "repo").exists() else pathlib.Path(__file__).resolve().parents[2])
 sys.path.insert(0, str(HERE)); sys.path.insert(0, str(REPO / "engine/hypotheses/end-of-flight/smoke"))
 STRATA = ["next-c-free", "next-c-repro-radar", "next-c-descent-climb", "next-c-routes"]
 ROOT = "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-c"
@@ -105,7 +105,7 @@ def figure(maps, res, figp):
     plt.rcParams.update({"font.size": 8, "axes.titlesize": 7.2, "axes.labelsize": 8, "xtick.labelsize": 6.5, "ytick.labelsize": 6.5,
                          "axes.spines.top": False, "axes.spines.right": False, "font.family": "DejaVu Sans"})
     fig, axes = plt.subplots(2, 4, figsize=(8.0, 7.6), sharex=True, sharey=True)
-    fig.subplots_adjust(left=0.08, right=0.99, top=0.86, bottom=0.27, wspace=0.06, hspace=0.32)
+    fig.subplots_adjust(left=0.08, right=0.99, top=0.86, bottom=0.31, wspace=0.06, hspace=0.32)
     col = {"G": "#1f5fa8", "Ga": "#1f5fa8", "H": "#c2571a", "Ha": "#c2571a"}
     E = {e["product"]: e for e in res["products"]}
     for r, opt in enumerate(("r600-bto", "heldout")):
@@ -117,7 +117,7 @@ def figure(maps, res, figp):
             di, dw, le, oe = maps[key]; lc, oc = 0.5 * (le[1:] + le[:-1]), 0.5 * (oe[1:] + oe[:-1])
             lv = hpd_levels(dw, (0.9, 0.5)); ax.contourf(oc, lc, dw, levels=[lv[0], lv[1], dw.max() * 1.01], colors=["#d9d9d9", col[pid]], alpha=0.9)
             ax.contour(oc, lc, di, levels=hpd_levels(di, (0.9,)), colors="k", linewidths=0.5, linestyles="--")
-            e = E[key]; ax.text(0.02, 0.02, f"90 %: {e['seabed_area_km2_99_90_50'][1] / 1e3:,.0f}k km²\n50 %: {e['seabed_area_km2_99_90_50'][2] / 1e3:,.0f}k km²", transform=ax.transAxes, fontsize=6.3, va="bottom")
+            e = E[key]; ax.text(0.02, 0.02, f"90 %: {e['seabed_area_km2_99_90_50'][1] / 1e3:,.0f}k km²\n50 %: {e['seabed_area_km2_99_90_50'][2] / 1e3:,.0f}k km²", transform=ax.transAxes, fontsize=6.0, va="bottom", bbox=dict(facecolor="white", edgecolor="none", alpha=0.85, pad=1))
             ax.set_xlim(84, 106); ax.set_ylim(-43, -22)
         axes[r, 0].set_ylabel("Latitude (degrees)")
         fig.text(0.01, axes[r, 0].get_position().y1 + 0.04, "00:19 R600 BTO Only (primary)" if r == 0 else "00:19 Held Out", fontsize=8, fontweight="bold")
@@ -129,7 +129,7 @@ def figure(maps, res, figp):
     fig.text(0.01, 0.228, "NOT CONVERGED (core run C). The areas show where the wreckage is possibly on the seabed. The right half is correct only if the "
              "Pléiades objects are aircraft debris. The wreckage moves very little as it sinks, so the seabed areas are almost the same as the impact "
              "areas. Do not use these maps for a search.", fontsize=6.1, va="top", wrap=True)
-    fig.text(0.01, 0.160, "Technical: settling's aimed resample (results/settling-aimed-resample/wf_aimed.py) of 40,000 impacts drawn from the composed per-row "
+    fig.text(0.01, 0.160, "Technical: G panels: settling's published aimed samples (settling/next-run-c-composed-aimed); Pléiades panels: the stand-in's run of the same tools. Settling's aimed resample (results/settling-aimed-resample/wf_aimed.py) of 40,000 impacts drawn from the composed per-row "
              "weights (composer pass 1, run C, +unpowered; strata by 00:19-re-weighted P(family)); one settling draw each with settling's wreckage_field "
              "test (copy of settling 9330d4c; real ocean GLORYS12V1 column, breakup table PROVISIONAL). After searches = composed weight x searched-areas "
              "likelihood per row (point target, rho 0.05). Factors: EoF run C (no structural limit, G13; descents <= 6,500 ft/min), drift GLORYS12 only, "

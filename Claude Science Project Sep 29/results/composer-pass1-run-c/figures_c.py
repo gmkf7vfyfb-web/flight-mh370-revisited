@@ -127,7 +127,7 @@ def fig_tension(D, R, out):
             if st in D and t in D[st]:
                 e = min(x[1] for x in D[st][t]["products"][k]["ess_rows_parents"])
                 ax.plot(e, i, mk, ms=3.5, color="#1f5fa8", alpha=0.85, label=RC.SNAME[st] if i == 0 else None)
-    ax.axvline(1000, color="#b00020", lw=0.8, ls=":"); ax.text(1100, 8.45, "floor 1,000", fontsize=6, color="#b00020", va="center")
+    ax.axvline(1000, color="#b00020", lw=0.8, ls=":"); ax.text(1100, 0.45, "floor 1,000", fontsize=6, color="#b00020", va="center")
     ax.set_xscale("log"); ax.set_yticks(range(len(keys))); ax.set_yticklabels(lab); ax.invert_yaxis(); ax.set_xlim(300, 2e5)
     ax.set_xlabel("Effective parents, smallest seed (log scale)"); ax.set_title("Effective sample size, primary case", loc="left")
     ax.legend(frameon=False, fontsize=5.8, loc="lower left", bbox_to_anchor=(0.0, 0.02), title="stratum", title_fontsize=5.8)
