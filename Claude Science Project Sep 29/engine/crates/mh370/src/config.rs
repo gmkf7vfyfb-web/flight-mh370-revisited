@@ -718,6 +718,15 @@ pub struct OutputConfig {
     /// Rows per replicate at each of `handoff_epochs`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_rows: Option<usize>,
+    /// Core request 19: with true, each epoch hand-off also writes routes.npy (float32, rows x
+    /// points x 2, latitude and longitude every route_interval_s from the prior epoch to the
+    /// hand-off epoch), row-aligned with handoff.npy, for full trace-back. Off by default: every
+    /// candidate then carries its route, about 8 bytes per point, which multiplies with the
+    /// look-ahead oversample. The early-flight record is already in each row's aircraft.early.
+    /// The last route point is the last route time at or before the hand-off epoch (up to one
+    /// route_interval_s earlier); the position at the epoch itself is in handoff.npy.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handoff_routes: Option<bool>,
     /// The fewest rows any mode with posterior mass keeps at each of `handoff_epochs` (default 1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_floor: Option<usize>,

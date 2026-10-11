@@ -413,6 +413,16 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
             observations_not_used: Some(not_used.clone()),
         };
         handoff::write_with(&sub, &stop, &rows, lookahead.as_ref())?;
+        if let Some(points) = rows.first().and_then(|r| r.route.as_ref()).map(Vec::len) {
+            let flat: Vec<f64> = rows
+                .iter()
+                .flat_map(|r| r.route.as_deref().unwrap_or(&[]).iter().flat_map(|q| [f64::from(q[0]), f64::from(q[1])]))
+                .collect();
+            if flat.len() != rows.len() * points * 2 {
+                return Err(format!("{id}: hand-off routes have unequal lengths"));
+            }
+            write_npy(&sub.join("routes.npy"), &[rows.len(), points, 2], &flat)?;
+        }
         handoff_evidence.push(HandoffEvidence {
             epoch: id.clone(),
             step: k,
@@ -1242,12 +1252,16 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         }
         if handoff_epochs.iter().any(|e| e == &step.id) {
             let slot = lookahead_slots.iter().position(|(e, ..)| e == &step.id);
+            // Core request 19: route points from the prior epoch up to and including this one.
+            let route_points_to_epoch = (config.output.handoff_routes == Some(true)).then(|| {
+                (((step.unix_s - ctx.prior.unix_s) / config.output.route_interval_s).floor() as usize + 1).min(ctx.route_points)
+            });
             let draw_count = if slot.is_some() { epoch_rows * lookahead_oversample } else { epoch_rows };
             let candidates: Vec<handoff::Candidate> = systematic_resample(&log_weights, draw_count, &mut stream(5100 + k as u64, 0))
                 .into_iter()
                 .map(|j| {
                     let p = &particles[j];
-                    handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0 }
+                    handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0, route: route_points_to_epoch.map(|n| p.route[..n].to_vec()) }
                 })
                 .collect();
             match slot {
@@ -1383,7 +1397,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             .into_iter()
             .map(|j| {
                 let p = &particles[j];
-                handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0 }
+                handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0, route: None }
             })
             .collect()
     } else {

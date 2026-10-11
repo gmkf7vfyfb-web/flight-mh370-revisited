@@ -44,6 +44,8 @@ pub struct Candidate {
     /// Core request 10: ln of the importance correction p/q for a candidate drawn by the
     /// hand-off look-ahead; zero otherwise.
     pub log_correction: f64,
+    /// Core request 19: the route from the prior epoch to the stop (output.handoff_routes).
+    pub route: Option<Vec<[f32; 2]>>,
 }
 
 /// Core request 10, the hand-off look-ahead, as recorded in handoff.toml. Its presence means
@@ -130,6 +132,9 @@ pub struct Row {
     /// Core request 10: see [`Lookahead`]. Absent (zero) without the look-ahead.
     #[serde(default, skip_serializing_if = "is_zero")]
     pub log_correction: f64,
+    /// Core request 19: written to routes.npy, not to handoff.toml.
+    #[serde(skip)]
+    pub route: Option<Vec<[f32; 2]>>,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -162,6 +167,7 @@ pub fn select(strata: Vec<Stratum>, k: usize, floor: usize, rng: &mut impl Rng) 
                 bias: Bias { mean_hz: c.bias.mean_hz, variance_hz2: c.bias.variance_hz2 },
                 aircraft: c.aircraft.clone(),
                 log_correction: c.log_correction,
+                route: c.route.clone(),
             });
         }
     }
