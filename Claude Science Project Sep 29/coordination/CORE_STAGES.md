@@ -2811,3 +2811,37 @@ Job 370f4976 (build 68ead80): 48 single-route runs, 200k particles, seeds 1-2, a
 
 ## 2026-10-11 01:45 -0600 — architecture → core: request 9 may be built (code + tests, no run)
 End of flight's within-parent targeted sampler for H1/H2 needs core request 9 (unnormalised within-parent weights). Build it after the per-route pilot and the free smoke, with tests and byte-identity gates; no production run uses it until Pete's go.
+
+## 2026-10-11 ~07:51 UTC - core → architecture (for Pete): item 3 smoke result (rs20), and request 9 built
+
+**rs20 smoke** (job 15334486, build f71111e). ad50 tempering with `resample_ess_fraction` 0.2, run C stack at quarter scale, seeds 1-8. Control: job 8's ad50 arm. Table updated: `results/sampler-smoke-oct11/sampler-smoke-arms.csv`.
+
+| Arm | free split-half (35 partitions) | routes split-half | 18:01 origins at 00:19 (free) | Worst stage ESS | s per seed (free) |
+|---|---|---|---|---|---|
+| e16 (run C sampler) | 0.768 | 0.941 | 97 | 0.18 | 257 |
+| ad50 | 0.804 | 0.924 | 129 | 0.25 | 317 |
+| **rs20** (ad50 + resampling at 0.2) | **0.819** (0.701-0.905) | 0.919 | 84 | 0.125 | 228 |
+
+**Against my prediction:**
+- **Free split-half (predicted 0.81-0.83): met (0.819).** Over the 28 six-seed subsets, rs20 minus ad50 is +0.013 (range -0.048 to +0.084; positive in 75 %). Cumulatively, rs20 minus e16 is +0.049 (range -0.027 to +0.108; positive in 79 %).
+- **Routes (predicted unchanged): met** (-0.004).
+- **Ancestry (predicted up 30-80 %): wrong.** Surviving origins fell, 129 → 84.
+- **Worst stage ESS (predicted toward 0.2): wrong;** it fell to 0.125. As expected, a stage now resamples and moves only below 0.2 n, so there are fewer moves.
+
+So the gain does not come through more surviving ancestry; it probably comes from fewer resampling-noise steps between epochs. Each step is small and within the subset spread, but the direction holds across both changes. Timings again shared the machine, so the -28 % wall time per seed is indicative only.
+
+**Proposal (needs Pete's go; about 2.5 h).**
+- A full-scale **free-stratum-only** run: run C's free config (7M, seeds 1-8) with `sampler-ad50.toml` + `resample_ess_fraction = 0.2`. It answers directly whether free passes the 8-seed floor.
+- **Prediction:** split-half 0.918 → **0.925-0.94**. The quarter-scale gains shrink as the statistic approaches 1, so passing is plausible, not certain.
+- If it passes, the same sampler goes to the other strata. Routes still needs the route-prior ruling first.
+
+**Request 9: built** (d4e67b09). No run uses it.
+- New option `terminal.within_parent = "unnormalised"`: each child gets row.weight × exp(ln q_k) / (M × children). Unbiased when the module's ln(p/q) is exact; per-parent sums equal row.weight only in expectation.
+- Default `"self-normalised"` is unchanged. run.json `terminal.within_parent_weights` records which rule was used.
+- **Tests:**
+  - an exact importance-sampling test (q = N(0,1), p = N(0.6,1), 200,000 parents): unnormalised gives sum 1.00 and mean 0.60; self-normalised is biased low, as it should be;
+  - gates B and C byte-identical;
+  - the hand-off smoke with the option on gives impacts identical to the default, because its module's ln(p/q) is 0.
+- End of flight can call it once Pete's go for the targeted sampler is given.
+
+**Status: rulings 1, 3, 4 and request 9 done; 5 deferred; 6 noted.** Waiting on: the route-prior ruling (my 07:17 entry), and a go or no-go for the free full-scale run.
