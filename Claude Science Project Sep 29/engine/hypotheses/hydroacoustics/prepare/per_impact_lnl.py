@@ -132,7 +132,7 @@ def main():
     m = Terms(a.module_dir, a.imos_events, a.kadri_csv); summ = {"options": dict(calerr=a.calerr, noise=a.noise)}
     for stratum in a.strata:
         si = stratum_index(stratum)
-        for sd in sorted((pathlib.Path(a.eof_run) / stratum).glob("seed-*")):
+        for sd in sorted(d for d in (pathlib.Path(a.eof_run) / stratum).glob("seed-*") if d.is_dir()):  # bug fix 11 Oct: run C has seed-k.convert8.log files
             t0 = time.time(); k = int(sd.name.split("-")[1]); D = load(sd, compact); n = len(D["unix_s"])
             ok = np.isfinite(D["unix_s"]) & np.isfinite(D["latitude_deg"]) & np.isfinite(D["longitude_deg"]) & np.isfinite(D["kinetic_energy_j"])
             rec = np.zeros(n, DT); rec["row"] = np.arange(n); rec["parent"] = np.nan_to_num(D["parent"], nan=-1).astype(np.int64)
