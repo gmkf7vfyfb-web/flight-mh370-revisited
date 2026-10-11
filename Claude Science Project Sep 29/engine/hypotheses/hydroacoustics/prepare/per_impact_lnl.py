@@ -55,6 +55,7 @@ Usage (from prepare/, PYTHONPATH=.:exploratory/pleiades_test):
 #   amplitude-spectrum conversion inferred from legend file names, May-June 2003) carries a +/-3 dB conversion
 #   uncertainty: noise_err ~ N(0, --noise-sd dB) per row, default 3, drawn from its OWN stream (seed-derived) so every
 #   other nuisance draw is unchanged; SNR -= noise_err. --noise-sd 0 reproduces amendment 3 exactly. Label added:
+#   Fix before any amendment-4 result (crash: seed may itself be a sequence): stream = rng(flat(seed) + [4]).
 #   "noise from May-June 2003 (season differs from March 2014), +/-3 dB conversion". lnL_gated is unaffected (0.0).
 import argparse, hashlib, importlib.util, json, pathlib, sys, time
 import numpy as np
@@ -120,7 +121,7 @@ class Terms(RV.ReviewModel):
         if self.noise == "blackman":
             snr = snr - BN_OFF["H01W"]
         if self.noise_sd > 0:   # amendment 4: own stream, other draws unchanged
-            snr = snr - np.random.default_rng([seed, 4]).normal(0.0, self.noise_sd, n)
+            snr = snr - np.random.default_rng([int(v) for v in np.ravel(seed)] + [4]).normal(0.0, self.noise_sd, n)
         baz, d = self.geometry(lat, lon, "H01W"); t_arr = t0 + d / lhyd.C_MEAN
         sd_t = np.sqrt(lhyd.PICK_S ** 2 + (d * lhyd.C_SD / lhyd.C_MEAN ** 2) ** 2)
         box = (t_arr >= RV.BOX_T[0]) & (t_arr <= RV.BOX_T[1]) & (baz >= RV.BOX_B[0]) & (baz <= RV.BOX_B[1])
