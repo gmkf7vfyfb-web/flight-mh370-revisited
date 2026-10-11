@@ -31,6 +31,16 @@ AMENDMENT 2 (11 Oct 2026, PRE-REGISTERED before any run C row was scored; answer
       an impact does not share). Clipping at +/-15 dB is the explicit allowance below the data span (H01W < 12.5 Hz).
       e_b > 0 means more received signal. One (L, S) draw per row, shared by all stations (as C_site was). C_rcv and
       C_ims are unchanged. Label: "conditional on the calibration error model".
+AMENDMENT 3 (11 Oct 2026 ~16:40 UTC, PRE-REGISTERED before its first run; architecture ruling 5 of 00:50 -0600):
+  --tau eof uses end of flight's run C sidecars seed-k/tau90_v1.npz (impact_tau_method = 1, checked: method == 1) for
+  the source duration, with the module's stage B mapping from mechanical to acoustic duration (agw_regime.py prereg):
+  tau_ac = k * tau90, k drawn per row uniformly from {0.5, 1, 2} (stream rng([20261011, stratum, seed])); tau_ac is
+  clamped to the eta_cal grid 0.05-10 s and the clamped share is reported. --tau-k 1 fixes k = 1 (the stand-in's
+  choice, for a reproduction check). Default stays --tau scenario (log-uniform 0.05-10 s): the scenario tau is shown
+  beside as the sensitivity, as the ruling asks. The nuisance stream for every other parameter is unchanged.
+  Note (audit F7): S_b is normalised over 1-500 Hz and eta_cal(tau) is inverted at each tau, so tau is nearly a cancelled
+  nuisance in this chain until coupling is calibrated on a second event with a different tau (G-H1). The
+  convention is kept (it changes no prediction); it is stated in every label.
   LABELS carried in README (11 Oct): IMS P_D is BORROWED (IMOS 3274 logistic fit + 4.8 dB triad gain; audit F9);
       coupling has no angle/speed/breakup dependence and tau is drawn from the prior because end of flight's
       latent:energy_transfer_tau90_s is NaN in run C (coverage gap G-H1); TL NOT CALIBRATED (audit, rule C6):
@@ -65,9 +75,13 @@ def stratum_index(name):
 class Terms(RV.ReviewModel):
     calerr = "structured"
     noise = "blackman"
+    tau_override = None      # per-row tau_ac (amendment 3), set by main() for the current seed
 
     def nuisance(self, rng, n):
         nu = lhyd.Model.nuisance(rng, n)
+        if self.tau_override is not None:
+            assert len(self.tau_override) == n
+            nu["tau"] = self.tau_override.copy()
         if self.calerr == "structured":
             r2 = np.random.default_rng(rng.integers(0, 2 ** 63))
             nu["cal_L"], nu["cal_S"] = r2.normal(0, 10, n), r2.normal(0, 10.4, n)
@@ -123,28 +137,38 @@ def main():
     ap.add_argument("--strata", nargs="+", default=STRATA)
     ap.add_argument("--calerr", choices=["structured", "flat"], default="structured")
     ap.add_argument("--noise", choices=["blackman", "proxy"], default="blackman")
+    ap.add_argument("--tau", choices=["scenario", "eof"], default="scenario"); ap.add_argument("--tau-k", type=float)
+    ap.add_argument("--seeds", nargs="+", type=int)
     a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     compact = None
     if a.compact_reader:
         spec = importlib.util.spec_from_file_location("compact_impacts", a.compact_reader); compact = importlib.util.module_from_spec(spec)
         sys.path.insert(0, str(pathlib.Path(a.compact_reader).parent)); spec.loader.exec_module(compact)
     Terms.calerr, Terms.noise = a.calerr, a.noise
-    m = Terms(a.module_dir, a.imos_events, a.kadri_csv); summ = {"options": dict(calerr=a.calerr, noise=a.noise)}
+    m = Terms(a.module_dir, a.imos_events, a.kadri_csv); summ = {"options": dict(calerr=a.calerr, noise=a.noise, tau=a.tau, tau_k=a.tau_k)}
     for stratum in a.strata:
         si = stratum_index(stratum)
-        for sd in sorted(d for d in (pathlib.Path(a.eof_run) / stratum).glob("seed-*") if d.is_dir()):  # bug fix 11 Oct: run C has seed-k.convert8.log files
+        for sd in sorted(d for d in (pathlib.Path(a.eof_run) / stratum).glob("seed-*") if d.is_dir()
+                         and (a.seeds is None or int(d.name.split("-")[1]) in a.seeds)):  # bug fix 11 Oct: run C has seed-k.convert8.log files
             t0 = time.time(); k = int(sd.name.split("-")[1]); D = load(sd, compact); n = len(D["unix_s"])
             ok = np.isfinite(D["unix_s"]) & np.isfinite(D["latitude_deg"]) & np.isfinite(D["longitude_deg"]) & np.isfinite(D["kinetic_energy_j"])
             rec = np.zeros(n, DT); rec["row"] = np.arange(n); rec["parent"] = np.nan_to_num(D["parent"], nan=-1).astype(np.int64)
             rec["not_computed"] = (~ok).astype(np.uint8)
             imos = np.zeros(n); h = np.zeros(n)
+            m.tau_override = None; clamp = None
+            if a.tau == "eof":
+                z = np.load(sd / "tau90_v1.npz"); assert int(z["method"]) == 1, "tau90 sidecar is not impact_tau_method = 1"
+                t90 = z["tau90_s"].astype(float)[ok]
+                kk = np.full(len(t90), a.tau_k) if a.tau_k else np.random.default_rng([20261011, si, k]).choice([0.5, 1.0, 2.0], len(t90))
+                tac = kk * t90; clamp = float(np.mean((tac < lhyd.TAU_GRID[0]) | (tac > lhyd.TAU_GRID[-1])))
+                m.tau_override = np.clip(tac, lhyd.TAU_GRID[0], lhyd.TAU_GRID[-1])
             im, hh = m.soft(D["unix_s"][ok], D["latitude_deg"][ok], D["longitude_deg"][ok], D["kinetic_energy_j"][ok], [20261010, si, k])
             imos[ok] = im; h[ok] = hh
             rec["lnL_soft_imos"] = imos; rec["lnL_soft_h01w"] = h; rec["lnL_soft"] = imos + h; rec["lnL_gated"] = 0.0
             od = out / stratum / sd.name; od.mkdir(parents=True, exist_ok=True); f = od / "hydro-lnL.npy"; np.save(f, rec)
             (od / "COLUMNS.txt").write_text("\n".join(DT.names) + "\n")
             (od / "SHA256SUMS").write_text(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  hydro-lnL.npy\n")
-            summ[f"{stratum}/{sd.name}"] = dict(rows=n, not_computed=int((~ok).sum()), lnL_soft_q=[float(np.quantile(rec["lnL_soft"][ok], q)) for q in (0.01, 0.5, 0.99)])
+            summ[f"{stratum}/{sd.name}"] = dict(rows=n, not_computed=int((~ok).sum()), lnL_soft_q=[float(np.quantile(rec["lnL_soft"][ok], q)) for q in (0.01, 0.5, 0.99)], tau_clamped_share=clamp)
             print(f"{stratum}/{sd.name}: {n} rows, {time.time() - t0:.0f} s", flush=True)
     (out / "README.txt").write_text(__doc__ + "\nSummary per seed:\n" + json.dumps(summ, indent=1) + "\n")
     (out / "READY").write_text(f"hydroacoustics per-impact columns written {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}; "
