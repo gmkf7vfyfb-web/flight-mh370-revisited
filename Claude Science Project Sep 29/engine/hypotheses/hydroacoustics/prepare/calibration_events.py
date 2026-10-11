@@ -57,5 +57,15 @@ VERDICTS (fixed now).
 CAVEATS declared now: Kadri's figure peaks include noise and an unknown display filter; one hydrophone per panel (not
   triad-summed); the peak-to-exposure ratio R is the IMOS template, not measured for these events; AF447 H10S noise is
   high at 18-28 Hz (Kadri 2024, text on Fig. 5a).
+AMENDMENT 1 (11 Oct 2026 ~04:30 UTC, before any level was read from Kadri's figures):
+  (i) A SAME-FIGURE RATIO is added and becomes the primary Q1 statistic: the F-35A peaks at H11N and H11S are read
+      from Kadri Fig. 4a by the same rule, and Delta_ratio = 10 log10[(p_e/p_F)^2 * (E_F/E_e) * G_F/G_e], with
+      G = sum_b S_b 10^(-TL_b/10) on each path. Display filter, band and peak-reading biases common to Kadri's panels
+      cancel. E_F = 900 MJ (Brown 2026). The eta_cal comparison above is kept as secondary.
+  (ii) Event positions: Kadri 2024 Supplementary S1 (the positions behind his ranges): Yemenia 626 11 40'29.4"S
+      43 16'39.6"E; AF447 3 03'57"N 30 33'42"W. S1 impact speeds: Yemenia about 480 km/h, AF447 about 282 km/h
+      (consistent with BEA's 107 kt ground and 10,912 ft/min vertical). The BEA values are primary for AF447; for
+      Yemenia the angle is unknown and is bracketed: vertical KE between 5 % and 50 % of total (declared).
+  (iii) Figures are rasters (669 px wide); a reading resolution of about 1 px (~3 % of full scale) is declared.
 Status: PRE-REGISTRATION ONLY. Outputs to results-data/calibration_events/ when run.
 """
