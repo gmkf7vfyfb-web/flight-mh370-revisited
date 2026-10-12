@@ -99,8 +99,21 @@ SUBTITLES = {"none__other+alive": "none of the 00:19 values are used",
 FOOTNOTE_PLAIN = """\
 WHAT THIS SHOWS.  Each column makes a different choice about the two radio transmissions from the aircraft at 00:19 UTC.  The top row shows where the aircraft hit the water before the seabed searches.  The bottom row shows the same
 after the searches, which found nothing.  Dark to light, the three bands hold 50, 90 and 99 per cent of the probability.  The searches usually make the area LARGER, not smaller: they take away a block in the middle of the corridor and
-leave a ring around it.  A search that finds nothing tells you where the aircraft is not; it does not tell you where it is.  Columns 4 and 5 cannot be calculated correctly from this set of flight paths yet, and a better method is being
-prepared, so their shapes and numbers are not results.  Every number on this page comes from a chain of models that is not yet stable, so treat all of it as provisional."""
+leave a ring around it.  A search that finds nothing tells you where the aircraft is not; it does not tell you where it is.  {ESTIMABLE}Every number on this page comes from a chain of models that is not yet stable, so treat all of it as provisional."""
+
+# The estimability sentence is DERIVED, never hardcoded. Before run D-he the Holland columns could not be
+# calculated from any available set of flight paths and the footnote had to say so; on run D-he they can, and a
+# footnote still saying they cannot would be false. The sentence names whichever drawn columns are below the
+# effective-sample-size floor, and disappears when none are.
+def estimability_sentence(keys, report, titles):
+    bad = [i + 1 for i, k in enumerate(keys) if not report[k]["converged"]]
+    if not bad:
+        return ""
+    which = (f"Column {bad[0]} cannot" if len(bad) == 1 else
+             f"Columns {' and '.join(str(b) for b in bad)} cannot")
+    return (f"{which} be calculated correctly from this set of flight paths: too few of the simulated flights "
+            f"can produce that reading, so {'its' if len(bad) == 1 else 'their'} "
+            f"{'shape and numbers are' if len(bad) == 1 else 'shapes and numbers are'} not results.  ")
 
 FOOTNOTE_TECH = """\
 TECHNICAL.  Observations (engine/data/satcom-observations.csv, released unredacted SITA/Inmarsat logs): 00:19:29.416 UTC R600 log-on request, BTO 18,400 us (raw 23,000 less the standard 4,600 us log-on-channel correction, sd 63 us) and
@@ -328,7 +341,8 @@ def main():
         width = max(len(l) for l in tech.splitlines()) or 150
         tech += "\n" + "\n".join(textwrap.wrap("LABELS  " + a.labels, width,
                                                subsequent_indent="        "))
-    fig.text(0.008, 0.188, FOOTNOTE_PLAIN, fontsize=5.6, color="#222222", ha="left", va="top",
+    plain = FOOTNOTE_PLAIN.replace("{ESTIMABLE}", estimability_sentence(keys, report, TITLES))
+    fig.text(0.008, 0.188, plain, fontsize=5.6, color="#222222", ha="left", va="top",
              linespacing=1.5, family="DejaVu Sans")
     fig.text(0.008, 0.098, tech, fontsize=5.0, color="#555555", ha="left", va="top",
              linespacing=1.5, family="DejaVu Sans")

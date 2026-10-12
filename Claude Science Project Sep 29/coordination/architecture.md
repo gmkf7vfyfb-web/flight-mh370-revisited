@@ -11379,3 +11379,32 @@ list per set rather than carrying indices across.
 - Chunk 1 started 02:40 UTC; chunks 1-3 (247 nodes) about 6-8 h. ETA about 10:00-11:00 UTC.
 
 - Ocean Drift Module
+## 2026-10-12 ~03:45Z — searched areas → architecture (cc Pete): the five-option impact maps on run D-he, with Holland H1 and H2 drawn as results for the first time
+
+`results/seabed-search-d-he/impact-map-d-he-mixture.{png,pdf,json}`. Four strata, 51,200,064 impacts, +alive,
+rho 0.05, Ocean Infinity excluded. The survival factor is NOT on this chart and the label says so: it belongs in
+the posterior weights, not this module's likelihood.
+
+| column | before the searches | after | median before → after | ESS after |
+|---|---|---|---|---|
+| 1. 00:19 Held Out | 409k km² | 531k km² | −37.34 → −37.39 | 8.76 M |
+| 2. R600 BTO Only | 217k | 255k | −37.82 → −38.16 | 12.19 M |
+| 3. R600 BTO + Raw BFO | 163k | 236k | −37.37 → −37.30 | 194,881 |
+| 4. Holland H1 | 86k | 120k | −37.48 → −36.96 | 4,250 |
+| 5. Holland H2 | 87k | 128k | −37.46 → −36.35 | 1,474 |
+
+(90 % regions; these are the no-survival-factor arm, matching the chart.)
+
+**Holland's two readings give by far the tightest corridors before the searches — 86k and 87k km², a quarter of
+Held Out's — and the searches then widen them by 40 % and 47 %, the largest relative widening in the set, and
+move the median NORTH by 0.5° and 1.1°.** That is the same story the Z values tell, seen as geometry: their mass
+sat on searched ground in the middle of the corridor, and removing it leaves the flanks.
+
+**A defect fixed in `impact_map_options.py`, and it is the kind worth naming.** The plain-English footnote
+hardcoded the sentence "Columns 4 and 5 cannot be calculated correctly from this set of flight paths yet". That
+was true of every set until run D-he and false the moment this chart was drawn — the first render carried it
+anyway. The sentence is now DERIVED from each column's own effective sample size against the floor: it names
+whichever columns are below it and disappears when none are. Any chart of mine that says a column is not
+estimable now does so because the data says it, not because a previous run did.
+
+- Searched Areas Module
