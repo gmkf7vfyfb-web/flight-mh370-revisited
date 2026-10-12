@@ -15,7 +15,9 @@ cargo test --release -j 48 -p mh370-flight -p mh370 2>&1 | grep -E "test result|
 if grep -q FAILED $WORK/tests.txt || ! grep -q "test result: ok" $WORK/tests.txt; then tl "UNIT TESTS FAILED"; exit 3; fi
 BIN=$R0/bin-$REV; rm -f $BIN; cp target/release/mh370 $BIN
 S=config/sensitivity; R=$S/next-run; DRV=$R/driver.sh; X=$S/fuel-fixes
-CX="$X/s7-single-engine.toml $X/s8-hold-taper.toml $X/inop-flow-fix.toml $S/early-families/speed-envelope-throughout.toml $S/handoff-lookahead-d.toml"
+# Pete 12 Oct ~02:00Z: the reproduction stratum stays exactly Davey (Mach 0.73-0.84 throughout, no cruise CAS clip).
+SPEED="$S/early-families/speed-envelope-throughout.toml"; [ "$STRATUM" = repro ] && SPEED=""
+CX="$X/s7-single-engine.toml $X/s8-hold-taper.toml $X/inop-flow-fix.toml $SPEED $S/handoff-lookahead-d.toml"
 # Tiny preflight of the exact stack.
 sed -e 's/^particles_per_mode.*/particles_per_mode = [4000, 2000, 10000, 2000, 10000]/' -e 's/^seeds.*/seeds = [1]/' -e 's/handoff_rows = 100000/handoff_rows = 1000/' $R/server-i-$STRATUM.toml > $R/tiny-i-$STRATUM.toml
 PF=$WORK/preflight; mkdir -p $PF; EXTRA="$CX" RAYON_NUM_THREADS=40 sh $DRV $BIN tiny-i $PF $STRATUM; rm -f $R/tiny-i-$STRATUM.toml

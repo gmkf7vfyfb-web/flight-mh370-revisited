@@ -98,6 +98,38 @@ rho is the only thing keeping probability alive.
 
 ![The seabed searches against the five readings of the 00:19 transmissions](seabed-search-d-he/holland-estimable-d-he.png)
 
+## 2a. The wreckage field on run D-he, including Holland's options
+
+Settling posted `settling/next-run-d-he` after this module's first pass, so the field check ran on all five
+primary products (P00, P06, P12, P18, P24) at **step 1 - every outcome, not a subsample**. 40,000 outcomes each.
+"Impact point" is the point target; "field mean" reads coverage over the settled wreckage field, mass-weighted;
+"any piece" counts a find if any single settled piece lies on searched ground - the generous end of the bracket,
+not an estimate.
+
+| 00:19 option | outcomes | settled elements | Z impact point | Z field mean | Z any piece | field - point | any - point | impact off, field on | impact on, field off | carried |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 00:19 Held Out | 40,000 | 1,880,697 | 0.7055 | 0.7056 | 0.6769 | +0.0001 | -0.0286 | 0.0305 | 0.0000 | 0.0000 |
+| R600 BTO Only | 40,000 | 1,866,716 | 0.7223 | 0.7221 | 0.6922 | -0.0001 | -0.0300 | 0.0318 | 0.0000 | 0.0000 |
+| R600 BTO + Raw BFO | 40,000 | 1,891,632 | 0.5050 | 0.5049 | 0.4622 | -0.0001 | -0.0428 | 0.0452 | 0.0000 | 0.0000 |
+| Holland H1 | 40,000 | 1,947,053 | 0.3590 | 0.3597 | 0.3036 | +0.0007 | -0.0555 | 0.0525 | 0.0000 | 0.0000 |
+| Holland H2 | 40,000 | 1,941,571 | 0.3826 | 0.3831 | 0.3263 | +0.0005 | -0.0563 | 0.0562 | 0.0000 | 0.0000 |
+
+1. **The shape of the field is worth nothing, for a fourth run.** Field mean minus point is **-0.0001 to
+   +0.0007**, against -0.0009 to +0.0025 on run C and -0.0004 to +0.0001 on core (b). The point target is the
+   saturated limit of the size response, not an approximation.
+2. **What counts as a detection is worth most under Holland's readings: -0.0555 (H1) and -0.0563 (H2)**, against
+   -0.0286 to -0.0428 for the other three. That is the same ordering as everything else on this set and the same
+   cause: their mass sits on searched ground, so the rule for what the sonars had to see binds hardest there.
+   This is now this module's **second-largest** uncertainty under H1/H2, behind only rho.
+3. **The asymmetry holds for a fourth time, exactly.** The share of outcomes whose impact lies off searched ground
+   while part of the field reaches onto it is 0.0305 to 0.0562 - again largest under H1 and H2 - and **the reverse
+   is 0.0000 in all five runs**. A field can only add searched ground, never remove it.
+4. **Settling's resample is an independent path to the same answer.** The point arm here gives 0.7055 / 0.7223 /
+   0.5050 / 0.3590 / 0.3826 against this module's own mixture values of 0.7021 / 0.7222 / 0.5061 / 0.3638 /
+   0.3867 - agreement to 0.0048 or better, through settling's resampling of the same posterior rather than this
+   module's direct weighting of it.
+5. **Nothing was carried:** settling refused no impact in this set, so the neutral-carry rule had nothing to do.
+
 ## 3. Method
 
 One `mh370 evaluate` pass per seed over all eight coverage layers; every scenario is then exact algebra on the raw
@@ -133,7 +165,7 @@ coverage raster 0.01 deg bilinear.
 |---|---|---|
 | Family A1 within Holland H1 and H2: 136 and 59 effective impacts | coverage (c) | OPEN. The H1/H2 columns are estimable; the family split inside them is not. Every H1/H2 family statement names this. |
 | Stepped descent shapes not eligible for the push-over | reach (b) | OPEN (end of flight), declared |
-| Wreckage field not applied on run D-he | reach (b) | OPEN. Settling has no run D-he samples on the exchange. Point target only. On run C the field was worth -0.0009 to +0.0025. |
+| Wreckage field on run D-he | reach (b) | **CLOSED** (section 2a). Settling posted `next-run-d-he` and the check ran on all five options at step 1. |
 | rho a single value at the base | parameter bound, no source | Swept 0 to 0.5 and reported; no published value exists |
 | Ocean Infinity layers excluded from the base | declared conditional | Variants computed in section 2 |
 | ATSB Figure 73's three percentages (ledger A-8) | provenance | BLOCKED after five failed fetches; q stays 0.945, bound 0.940-0.945 |
