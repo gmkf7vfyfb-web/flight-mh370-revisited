@@ -354,3 +354,65 @@ Two corrections to the 20:30Z delivery.
 A note for whoever owns the composer: pass 2's note declares its own deviations and carries a
 COVERAGE section against Pete's 10 October rule. That is exactly the form the paper needs, and
 it is the easiest results section I have had to label so far.
+
+## 2026-10-12 21:40Z — paper assistant → Pete: PROPOSED full draft delivered (§6 of the brief)
+
+Pete asked (12 Oct) for a full draft of the paper against the results we have now, as a reference
+source rather than the paper he will submit, and specifically for a description of the integrated
+estimator showing the underlying mathematics end to end.
+
+`paper/proposed-draft/proposed-draft.tex` plus `README.md` (budget, figure list, provenance).
+Labelled **PROPOSED (assistant draft) — not for submission** on every page.
+
+**Measured against the survey evidence:** 6,221 words of main text (band 6,000–8,000), 143-word
+abstract (limit about 150), 13 numbered equations (survey median 13), 3 tables (median 3), 27
+references (median 27, none of the nine surveyed exceeding 35), 9 figures planned. Structure:
+Introduction; The published reconstruction and what this paper changes; The integrated estimator;
+What was changed and what was added; Results; Discussion; Conclusions and recommendations.
+
+**The integrated estimator (§3) is the substance Pete asked for.** It states the evidence
+partition, the joint posterior as one factorisation, and then the reason the estimator is staged
+rather than sampled jointly: the post-impact evidence depends on the trajectory only through the
+impact complex, so conditional on that complex the four downstream likelihoods are independent of
+everything upstream and are evaluated once each on shared impact samples. It then gives the
+stage-1 filter target and its evidence, the hand-off resample and why a hand-off run and a
+core-only run are not interchangeable, the terminal stage with the 00:19 cause mixture, the five
+composition rules that make the modules combinable, the ocean-model marginalisation and posterior
+weight, the searched-area disconfirming term, the sinking transform as weight-preserving fan-out,
+the composition and stratum mixing, and the split-half criterion.
+
+**Equations 1–5, 10, 11 and 12 are my formulation of the implemented structure, not quotations
+from a note, and they need checking against the code.** Equations 6–9 are from the notes and 13 is
+the project's own threshold. This is recorded in the draft's README because a reading of code can
+be wrong in a way a quotation cannot.
+
+### Three judgements worth challenging
+1. **Convergence is reported first in the Results, not last.** Every number after it is
+   conditional on it, and the conventional ordering buries it. A referee may read this as
+   undermining the paper; I think it is the opposite.
+2. **Discussion merged with Conclusions and Recommendations** as two sections rather than three,
+   which the journal permits.
+3. **The estimator gets a full main-text section rather than an appendix**, because the end-to-end
+   formulation is the paper's methodological contribution and the surveyed papers keep their
+   central derivation in the main text.
+
+### What the draft deliberately does not assert
+The hydroacoustic energy comparison in §6.3 is written qualitatively. The module's predicted
+levels and the reference-event energy were not in the reference draft, so I described the
+comparison in words rather than assert numbers I had not verified. **RECOMMENDATION 8**, target
+hydroacoustics via architecture: supply the predicted signal level and detection probability by
+descent family, with the calibration uncertainty band, and the reference-event energy, so §6.3 and
+Figure 9 can carry numbers. Effect on the paper: the value-of-information case in the Discussion
+is currently qualitative where it could be quantitative, and that is the case Pete most wants the
+reader to be able to check. Priority: medium. Cost: existing module outputs, no new run.
+
+Also unverifiable here and marked in the draft: affiliation, e-mail and ORCID; acknowledgements;
+the required AI-use declaration; the data-availability statement pending the journal's research
+transparency policy; one reference DOI and one incomplete author list. And the impact dissipation
+duration still has no method description, for the reason in the reference draft §5.2.
+
+The draft has **not been compiled** — no TeX engine in this sandbox can fetch its package bundle.
+It is checked structurally: environments and braces balance, 13 equations carry no double
+subscripts or stray delimiters, every command belongs to a loaded package. The journal's
+`nav.cls` should be obtained before the real submission is laid out; its download link is
+script-rendered and was not retrievable here.
