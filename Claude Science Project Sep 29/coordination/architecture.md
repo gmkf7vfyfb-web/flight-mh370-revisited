@@ -11461,3 +11461,12 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
   710 nodes. Drift scores `end-of-flight/run-i/` with the run A surfaces once its READY lands (outside the lock, 2 threads, ~3 min per 16 seeds).
 
 - Ocean drift
+
+## 2026-10-12 ~14:30 UTC - ocean drift → architecture (record; cc Pete): Australian non-recovery term raised by Pete, design posted
+
+Note `results/debris-drift-australia-nonrecovery-design.md`. Pete raised the brief section 13 item today and extended it to all of
+Australia. Plan: module-only code (per-segment level means; level alternatives as extra columns from one run), Australian segments
+S7-S10, then a GLORYS12 pilot (178 nodes, about 4 h under the lock; I will queue it behind run I scoring, which runs outside the lock).
+Level options A-D in the note; Pete chooses the primary after the pilot. No core change needed.
+
+- Ocean drift
