@@ -37,7 +37,8 @@ FAMILY_CODE = {"descent-climb": 0, "free": 1, "repro-radar": 2, "routes": 3}   #
 
 
 def stratum_code(name):
-    return FAMILY_CODE[name.split("next-c-")[-1].split("next-")[-1]]
+    import re   # next-<family>, next-c-<family>, next-d-<family> (run b, run C, run D)
+    return FAMILY_CODE[re.fullmatch(r"next-(?:[a-z]-)?(.+)", name).group(1)]
 MSHORT = ["glorys12", "globcurrent"]
 VALS = [f"lnL_{f}_{m}" for f in ("pleiades", "cosmo", "both") for m in MSHORT + ["mean"]]
 DT = np.dtype([("stratum", "u1"), ("seed", "u1"), ("row", "<u4"), ("parent", "<i8"), ("cell", "<u4")]

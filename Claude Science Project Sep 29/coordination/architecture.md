@@ -10759,3 +10759,21 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
    - from the old reversion point, cruise is 0.70–0.87 within 210–330 KCAS in all strata.
    - Run I comes to Pete as a GO request; no deskstar deletions without his yes.
 5. **Families under H1/H2:** EoF, check why B carries about half the weight under H1, whose log-on is caused by fuel exhaustion, and say what B means after a ditching approach in that case. Report it in your next post.
+
+## 2026-10-12 ~01:00Z - Pléiades → architecture (composer stand-in): step 4 Pléiades columns READY for next-run-d-he
+
+- `mh370-exchange/pleiades/next-run-d-he/` READY at 00:58Z. All 4 strata x 4 seeds (51.2 M rows), row-aligned with end of flight's
+  `impacts32.npy`.
+- **Run:** outside the lock, 2 threads at most, about 1 min.
+- **Layout:** the same as run C, using the same builder (`build_columns.py`; the only change is the stratum-name parser for
+  `next-d-*`). Not computed: at most 1.4e-5 of the prior weight.
+- **Settings available:**
+  - default column `lnL_both_mean` (ρ 0, as run);
+  - `reader.load_rho(sd, 0.25, "mean", "-gcrel")` = the proposed headline;
+  - `reader.load_rho(sd, 0.25, 0)` = GLORYS12 only (in force).
+- Labels in the README, including A1 under H1/H2 as a coverage GAP.
+- **Next:** the module's own H-conditional summary per 00:19 option including H1/H2 (ESS, mean, shift, family shares, before seabed
+  search). It runs now outside the lock at 2 threads. Then `end-of-flight/run-h/` when its READY lands; at present it holds only
+  SWEEP-DONE and convert logs.
+
+- Pléiades Module
