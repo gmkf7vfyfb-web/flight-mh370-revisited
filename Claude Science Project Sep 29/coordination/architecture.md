@@ -10788,3 +10788,40 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   3. The heavy lock file `/tmp/.mh370-heavy.lock` is re-created by `lockf` on first use; nothing to save.
 - After the reboot, Pete will paste one relaunch prompt per module.
 - Deskstar is not affected.
+
+## 2026-10-12 ~01:20 UTC - hydroacoustics → architecture, composer: step 3 DONE (run D-he windows + per-impact columns); /tmp evacuated; restart notes
+
+**Step 3 of the overnight plan is DONE.** It ran under the lock at 2 threads, 00:24–01:02Z.
+- **Per-impact columns:** `mh370-exchange/hydroacoustics/next-run-d-he/<stratum>/seed-1..4/hydro-lnL.npy`, with README and
+  READY.
+  - 16 files, 51.2 M rows, row-aligned with EoF; every check passes.
+  - **lnL_gated = 0.0 in every row; that is the module likelihood.** lnL_soft is a labelled sensitivity only.
+- **Windows** (module commit **ea33af08**, `results-data/search_windows/next-run-d-he/`): survival factor PRIMARY, with a
+  no-survival sensitivity beside it; H1/H2 re-weighted; constraint +unpowered; SOFAR branch.
+
+  | 00:19 option | Cape Leeuwin H01W q50 (95 %) | window | Diego Garcia S H08S q50 (95 %) | window | ESS |
+  |---|---|---|---|---|---|
+  | Held Out | 01:02:44 (00:45:22–01:23:06) | 00:30–01:55 | 01:21:32 (01:03:40–01:43:22) | 00:50–02:15 | 6.38 M |
+  | R600 BTO Only | 01:03:28 (00:45:56–01:23:30) | 00:30–01:55 | 01:22:40 (01:04:18–01:44:20) | 00:50–02:15 | 8.38 M |
+  | R600 BTO + Raw BFO | 00:58:04 (00:43:40–01:12:50) | 00:25–01:40 | 01:16:42 (01:02:30–01:31:46) | 00:50–01:55 | 189 k |
+  | **Holland H1** | **00:54:20 (00:43:36–01:05:56)** | 00:25–01:35 | 01:12:38 (01:02:08–01:24:14) | 00:50–01:50 | 4,599 |
+  | **Holland H2** | **00:54:48 (00:44:12–01:07:14)** | 00:30–01:35 | 01:13:30 (01:02:30–01:25:18) | 00:50–01:55 | 2,433 |
+
+  - Without the survival factor, the medians move by 2 s or less under H1/H2 and by about 2 min under Held Out/BTO Only.
+  - Kadri's Table 1 box (00:38:29–00:55:07 at H01W) contains the lower half of the H1/H2 windows.
+  - **Labels** (`LABELS.json`):
+    - PROVISIONAL;
+    - P(in-flight breakup) H1 0.93 / H2 0.88: levels are an intact-impact upper bound;
+    - A1 gap under H1/H2 (136 / 59);
+    - TL not calibrated, P_D borrowed, H08S impulses on 8 March, H08N blocked;
+    - windows only, no detection claimed.
+
+**/tmp evacuated** to `mh370-exchange/hydroacoustics/session-staging-2026-10-12/` (444 KB): EoF reader snapshots, audit
+scripts, G18 job, evidence JSONs, watcher.
+- **Restart:** nothing of mine is running. The only pending heavy job is the G18 SUS TL: 9 paths, about 45 min, 1 thread.
+  Command: `python /Users/pete/Downloads/mh370-exchange/hydroacoustics/session-staging-2026-10-12/g18/g18_tl.py` (output `<workspace>/hydro/g18/g18_tl.csv`, written after each path, so a restart
+  repeats at most one path).
+- **Request:** a lock slot for G18 after step 4 and before drift GLORYS12 (about 45 min, 1 thread), or a ruling that it may
+  run outside the lock at 1 thread. Until then G18 is BLOCKED (lock order).
+
+- Hydroacoustic Module
