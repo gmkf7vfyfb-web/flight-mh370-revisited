@@ -10,7 +10,7 @@ Under H each row is multiplied by L_H from pleiades/next-run-d-he (exact cell lo
   g12-0.25    reader.load_rho(rho 0.25, 0)                  (GLORYS12 only, headline in force)
 Before seabed search (searched areas' run D-he columns are not yet published); reported as such.
 
-    python score_dhe_summary.py <eof next-run-d-he> <pleiades next-run-d-he> <out json>
+    python score_dhe_summary.py <eof next-run-d-he> <pleiades next-run-d-he> <out json> [<searched-areas next-run-d-he>]
 """
 import importlib.util
 import json
@@ -42,7 +42,7 @@ def reader(pl_root):
     return m
 
 
-def seed_rows(sd, plsd, R):
+def seed_rows(sd, plsd, R, sasd=None):
     meta, g = load(sd)
     logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
     w = g("weight"); lw = np.log(w) - np.log(w.sum())
@@ -60,6 +60,9 @@ def seed_rows(sd, plsd, R):
     LH = {"none (without H)": np.zeros(len(w)), "as-run": np.asarray(col["lnL_both_mean"], float),
           "gcrel-0.25": R.load_rho(plsd, 0.25, "mean", "-gcrel"), "g12-0.25": R.load_rho(plsd, 0.25, 0)}
     LH = {k: np.where(np.isfinite(v), v, -np.inf) for k, v in LH.items()}
+    lsea = 0.0
+    if sasd is not None:   # searched areas' own per-impact ln P(no find | impact), row-aligned (Phase 2 + Bluefin-21)
+        lsea = np.load(Path(sasd) / "seabed-lnL.npy", mmap_mode="r"); assert len(lsea) == len(w); lsea = np.asarray(lsea, float)
     out = {}
     for name, o, cause in CORE:
         base = der[o] if o in der else g("loglik:" + o)
@@ -67,7 +70,7 @@ def seed_rows(sd, plsd, R):
         for ver, extra in (("primary", np.log1p(-pb19)), ("without survival factor", 0.0)):
             for st in SETTINGS:
                 with np.errstate(divide="ignore"):
-                    a = lw + ll0 + extra + LH[st]
+                    a = lw + ll0 + extra + LH[st] + lsea
                 s = float(a[np.isfinite(a)].max()); m = np.exp(a - s); m[~np.isfinite(a)] = 0.0
                 t = dict(s=s, S=m.sum(), S2=(m * m).sum(), lat=(m * lat).sum(), lon=(m * lon).sum(),
                          fam={n: [(m * (f4 == c)).sum(), ((m * (f4 == c)) ** 2).sum()] for c, n in FAMS})
@@ -77,7 +80,7 @@ def seed_rows(sd, plsd, R):
     return out
 
 
-def main(eof_root, pl_root, outp):
+def main(eof_root, pl_root, outp, sa_root=None):
     eof_root, pl_root = Path(eof_root), Path(pl_root)
     R = reader(pl_root)
     strata = json.loads((eof_root / "summary/holland-sweep-summary.json").read_text())["strata_weights"]
@@ -86,10 +89,11 @@ def main(eof_root, pl_root, outp):
         seeds = sorted(p for p in (eof_root / st).glob("seed-*") if p.is_dir()); K = len(seeds)
         for sd in seeds:
             c = math.log(P / K)
-            for key, t in seed_rows(sd, pl_root / st / sd.name, R).items():
+            sasd = Path(sa_root) / f"d-he-{st}" / sd.name if sa_root else None
+            for key, t in seed_rows(sd, pl_root / st / sd.name, R, sasd).items():
                 acc.setdefault(key, []).append((c, t))
             print(st, sd.name, flush=True)
-    res = {"strata_weights_core": strata, "settings": list(SETTINGS), "search": "before seabed search", "options": {}}
+    res = {"strata_weights_core": strata, "settings": list(SETTINGS), "search": ("after Phase 2 + Bluefin-21 (searched areas next-run-d-he, rho 0.05, official only)" if sa_root else "before seabed search"), "options": {}}
     for (name, ver, stg), L in acc.items():
         ls = [c + t["s"] for c, t in L]; M = max(ls); f = [math.exp(x - M) for x in ls]
         S = sum(fi * t["S"] for fi, (c, t) in zip(f, L))
@@ -134,7 +138,7 @@ def main(eof_root, pl_root, outp):
 
 
 if __name__ == "__main__":
-    res = main(*sys.argv[1:4])
+    res = main(*sys.argv[1:5])
     for name, d in res["options"].items():
         for stg, r in d["primary"].items():
             print(f"{name:26s} {stg:17s} lnZ {r['ln_Z']:9.3f} lnE[L_H] {r['ln_mean_LH_under_option']:7.3f} ESS {r['eff_impacts']:12.0f} "

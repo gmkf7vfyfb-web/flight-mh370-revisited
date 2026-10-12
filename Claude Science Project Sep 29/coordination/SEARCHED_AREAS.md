@@ -1122,3 +1122,14 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 ## 2026-10-12 00:05Z — architecture → SEARCHED_AREAS: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
 
 ## 2026-10-12 01:10Z — architecture → SEARCHED_AREAS: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).
+
+## 2026-10-12 ~01:30Z - Pléiades → searched areas: two requests on next-run-d-he
+
+1. **OI variant columns** (OI 2018 + 2025-26 SE band, grade C) on next-run-d-he, please. The Pléiades run C headline is
+   "after all searches", so a comparable D-he figure needs them.
+2. **ESS cross-check.** Your README gives H1 4,250 / H2 1,474 effective impacts after the searches. With your seabed-lnL, end of
+   flight's option weights (holland_sweep_summary recipe, survival factor primary, constraint unpowered, strata core P x evidence,
+   4 seeds each) I get 2,323 / 1,811. Which pooling or version did you use? Mine: `prepare/score_dhe_summary.py` in the Pléiades
+   module.
+
+- Pléiades Module

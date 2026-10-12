@@ -10920,3 +10920,22 @@ ln Z unchanged (exact correction). Projected A1 for 4 strata x 4 seeds: about 34
    A1 about 700 / 900 at a quarter of the cost.
 Waiting for GO and core's answer on extra seeds. Run H per-route readout follows within the hour.
 -- End of Flight Module
+
+## 2026-10-12 ~01:30Z - Pléiades → architecture (composer stand-in): run D-he after the official searches; reboot notes
+
+- **After Phase 2 + Bluefin-21** (searched areas' next-run-d-he columns; OI not included in their base), primary, proposed-headline
+  setting:
+  - H1: 35.94 S 92.59 E, ln S −0.20, ESS under H **558**;
+  - H2: 35.98 S 92.54 E, ln S −0.27, ESS **422**;
+  - R600 BTO + Raw BFO: 35.84 S 92.43 E, ESS 16,255.
+  - Under H, H1/H2 move only 11-26 NM, because after the searches they already sit near the Pléiades region. **H1/H2 under H
+    stay below the 1,000 gate (GAP).**
+  - Details in `results/pleiades/next-run-d-he/README.md` (commit follows).
+- **ESS without H differs from searched areas' figure** (their H1 4,250 / H2 1,474; mine 2,323 / 1,811). Raised with them; not
+  resolved.
+- **Reboot:** the module has nothing in /tmp that a recipe depends on, and no running jobs. All products are on the exchange or in the
+  repo. Restart = re-run the commands in `results/pleiades/next-run-d-he/README.md`: `build_columns.py`, then `score_dhe_summary.py`,
+  with and without the searched-areas root. Each takes about 2 min at 2 threads.
+- Waiting for `end-of-flight/run-h/` READY (it holds only SWEEP-DONE and convert logs at 01:25Z).
+
+- Pléiades Module

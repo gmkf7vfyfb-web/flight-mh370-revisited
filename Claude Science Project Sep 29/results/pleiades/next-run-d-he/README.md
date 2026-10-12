@@ -1,4 +1,4 @@
-# Pléiades module on end of flight's run D-he (H1/H2 sweep): H-conditional summary per 00:19 option, BEFORE seabed search
+# Pléiades module on end of flight's run D-he (H1/H2 sweep): H-conditional summary per 00:19 option, before and after the official searches
 
 12 Oct 2026, Pléiades module. Architecture overnight plan 00:05Z, step 4.
 Columns: `mh370-exchange/pleiades/next-run-d-he/` (READY 00:58Z). Script: `prepare/score_dhe_summary.py`; output: `pleiades-dhe-summary.json`.
@@ -8,7 +8,7 @@ Columns: `mh370-exchange/pleiades/next-run-d-he/` (READY 00:58Z). Script: `prepa
 - core run D NOT converged; end-of-flight physics PROVISIONAL (end of flight's label list applies);
 - survival factor adopted (primary), without it shown as a sensitivity;
 - breakup P 0.93 / 0.88 PROVISIONAL;
-- **BEFORE seabed search**: searched areas' run D-he columns are not yet published;
+- the first table is BEFORE seabed search; the after-search section uses Phase 2 + Bluefin-21 only (no OI);
 - Pléiades rating 5 + all four COSMO-SkyMed contacts, one debris field.
 
 **Method:**
@@ -78,6 +78,40 @@ Columns: `mh370-exchange/pleiades/next-run-d-he/` (READY 00:58Z). Script: `prepa
    **narrow because the samples are few**: a histogram of a few hundred effective impacts on a 0.05° grid concentrates artificially.
    They are not a measured precision and must not be compared with the standard options' areas.
 
+## After Phase 2 + Bluefin-21 (official searches only), primary
+
+Searched areas' own per-impact column `searched-areas/next-run-d-he/*/seabed-lnL.npy` (READY 01:11Z; ρ_search 0.05, point target,
+shared miss dependence) is added to every row (`pleiades-dhe-summary-p2bf.json`). **Ocean Infinity 2018 and 2025-26 are NOT included**
+(searched areas' base excludes the grade-C tracings). The module's run C headline included them, so these figures are not directly
+comparable with run C's "after all searches". The OI variant columns have been requested from searched areas.
+
+| 00:19 option | setting | ESS under H (without H) | mean under H | shift NM | ln S (p) | 90 % region km² (without H) | ln E[L_H] vs Held Out |
+|---|---|---|---|---|---|---|---|
+| Held Out | **ρ 0.25, both, product-relative (proposed)** | 298,242 (4,815,714) | 35.40 S 91.81 E | 60 | -0.13 (0.37) | 84,136 (679,452) | +0.00 |
+| Held Out | ρ 0.25, GLORYS12 only (in force) | 330,283 (4,815,714) | 35.52 S 91.91 E | 53 | +0.02 (0.41) | 70,628 (679,452) | +0.00 |
+| Held Out | ρ 0, both models (as run) | 243,102 (4,815,714) | 35.35 S 91.79 E | 63 | -0.18 (0.36) | 74,503 (679,452) | +0.00 |
+| R600 BTO Only | **ρ 0.25, both, product-relative (proposed)** | 505,420 (6,724,583) | 35.90 S 92.49 E | 90 | -0.92 (0.21) | 49,894 (363,518) | -0.66 |
+| R600 BTO Only | ρ 0.25, GLORYS12 only (in force) | 478,230 (6,724,583) | 35.98 S 92.46 E | 86 | -0.50 (0.28) | 37,877 (363,518) | -0.52 |
+| R600 BTO Only | ρ 0, both models (as run) | 426,794 (6,724,583) | 35.84 S 92.47 E | 93 | -1.11 (0.19) | 45,552 (363,518) | -0.73 |
+| R600 BTO + Raw BFO | **ρ 0.25, both, product-relative (proposed)** | 16,255 (100,482) | 35.84 S 92.43 E | 18 | -0.25 (0.33) | 43,593 (268,989) | +0.08 |
+| R600 BTO + Raw BFO | ρ 0.25, GLORYS12 only (in force) | 14,396 (100,482) | 35.91 S 92.44 E | 15 | +0.10 (0.42) | 35,411 (268,989) | +0.23 |
+| R600 BTO + Raw BFO | ρ 0, both models (as run) | 13,926 (100,482) | 35.78 S 92.43 E | 21 | -0.41 (0.30) | 39,289 (268,989) | +0.03 |
+| Holland H1 | **ρ 0.25, both, product-relative (proposed)** | 558 (2,323) | 35.94 S 92.59 E | 24 | -0.20 (0.32) | 14,063 (66,699) | +0.28 |
+| Holland H1 | ρ 0.25, GLORYS12 only (in force) | 532 (2,323) | 35.98 S 92.58 E | 26 | +0.11 (0.42) | 12,052 (66,699) | +0.47 |
+| Holland H1 | ρ 0, both models (as run) | 490 (2,323) | 35.90 S 92.62 E | 21 | -0.38 (0.28) | 13,266 (66,699) | +0.21 |
+| Holland H2 | **ρ 0.25, both, product-relative (proposed)** | 422 (1,811) | 35.98 S 92.54 E | 13 | -0.27 (0.29) | 14,288 (60,828) | +0.25 |
+| Holland H2 | ρ 0.25, GLORYS12 only (in force) | 385 (1,811) | 36.02 S 92.52 E | 15 | +0.05 (0.39) | 12,129 (60,828) | +0.44 |
+| Holland H2 | ρ 0, both models (as run) | 383 (1,811) | 35.93 S 92.56 E | 11 | -0.47 (0.24) | 13,518 (60,828) | +0.17 |
+
+- After the official searches, H1/H2 without H already sit near 35.5-35.8 S 92.4-92.6 E. Adding H moves them only 11-26 NM, and the
+  tension is mild (ln S −0.47 to +0.11).
+- **H1/H2 under H remain below the 1,000 gate** (H1 490-558, H2 383-422). The GAP stands, and the narrow 90 % regions again
+  reflect the small samples.
+- **ESS without H differs from searched areas' figure.** Their README gives H1 4,250 and H2 1,474 after the searches; this
+  computation gives 2,323 and 1,811 (primary, end of flight's option weights, strata by core P x evidence). The two are probably
+  pooled differently (strata or seeds, or primary against without the survival factor). This is NOT resolved; it has been raised with
+  searched areas.
+
 ## COVERAGE
 - **(a) Feasible set, (b) model reach:** end of flight's `results/eof-holland-sweep-run-d-oct11` COVERAGE applies; this note adds no
   sampling. Carried gaps:
@@ -100,3 +134,12 @@ Columns: `mh370-exchange/pleiades/next-run-d-he/` (READY 00:58Z). Script: `prepa
   END_OF_FLIGHT.md.
 - **Parameter bounds:** unchanged from run C (windage 0-5 % U10; transport error measured ~95-120 km per component at 15 d; ρ 0 / 0.25 /
   0.5 measured range 0.07-0.41; drift audit F1 offset 0.60-0.75 % U10).
+
+## Restart / reproduce
+```
+X=/Users/pete/Downloads/mh370-exchange; cd engine/hypotheses/pleiades/prepare; export OMP_NUM_THREADS=2
+python build_columns.py $X/end-of-flight/next-run-d-he ../../../runs/pleiades/wide $X/pleiades/next-run-d-he
+python score_dhe_summary.py $X/end-of-flight/next-run-d-he $X/pleiades/next-run-d-he <results>/pleiades-dhe-summary.json
+python score_dhe_summary.py $X/end-of-flight/next-run-d-he $X/pleiades/next-run-d-he <results>/pleiades-dhe-summary-p2bf.json $X/searched-areas/next-run-d-he
+```
+
