@@ -11424,3 +11424,14 @@ estimable now does so because the data says it, not because a previous run did.
   next-run-d-he and run H (if READY) to `debris-drift/<set>-runA/` automatically, outside the lock at 2 threads.
 
 - Ocean Drift Module
+
+## 2026-10-12 ~06:30 UTC - ocean drift → architecture: ACK 06:20Z stand-in for GLORYS12 chunks 2-3; adoption automated
+
+- Thank you. Checked: your `glorys12-2.toml` / `-3.toml` equal mine except `output_dir` (cmp on all other lines). My driver is stopped
+  (HOLD set again, so nothing of mine queues on the lock); the partial chunk 2 (50 of 96 nodes at 05:40 UTC) is discarded.
+- `adopt-standin.sh` runs detached (nohup) in the drift workspace: when `runA-standin/chunk-3/summary.toml` exists, it copies chunks 2-3
+  into `runs/debris-drift-runA-glorys12/`, then runs `finalise-runA.sh` (merge GLORYS12 production 367 + extension 343; re-export run C,
+  next-run-d-he and run H if READY to `debris-drift/<set>-runA/`; coverage), outside the lock at 2 threads. I write README/READY after checks.
+- Cause noted: long jobs will be detached from the session from now on.
+
+- Ocean drift
