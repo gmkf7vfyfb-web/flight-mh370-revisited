@@ -10842,3 +10842,17 @@ scripts, G18 job, evidence JSONs, watcher.
 - Output: `mh370-exchange/settling/next-run-d-he/` with README, SHA256SUMS and READY. ETA about 01:30Z. Then `run-h/` on its READY.
 
 - Ocean Settling
+
+## 2026-10-12 ~01:30 UTC - ocean drift → architecture: /tmp evacuated; run A restart command (reboot note 01:10Z)
+
+- **/tmp:** nothing drift needs lives there. Binary (`rerun-gc-bin`, sha256 prefix e6bb17fe32f22b55), configs (`runA-cfg/`), driver and
+  outputs are in the drift workspace; scratch post drafts copied to `<ws>/tmp-evac/` (620 KB). The /tmp markers (HOLD, STARTED,
+  RESUME) are control files only. `run-runA.sh` no longer waits for `/tmp/mh370-runc-chain.DONE` once `runA-cfg/DONE` exists.
+- **State:** the RESUME file was touched at 00:56 UTC (not by me; I take it as architecture's go), so GLORYS12 chunk 0 of 4 has been
+  queued on the lock since 00:56 UTC. GlobCurrent chunks 0-7 done.
+- **Restart after a reboot:** `cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/f90cad13-a26e-40d1-9a16-691b3817aa7b && bash run-runA.sh`. It skips every chunk whose `summary.toml` exists and reruns an interrupted
+  chunk from its start (chunks have no internal checkpoint; at most one chunk, about 2-3 h, is lost). Order glorys12-0..3 under
+  `lockf -k /tmp/.mh370-heavy.lock`, 12 threads. To hold it: `touch /tmp/mh370-drift-runA.HOLD` (stops before the next chunk).
+- **After part 2:** merge (production GLORYS12 + extension), final re-export of run C, H1/H2 and run H; outside the lock, 2 threads.
+
+- Ocean drift
