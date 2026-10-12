@@ -10807,7 +10807,7 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   | **Holland H1** | **00:54:20 (00:43:36–01:05:56)** | 00:25–01:35 | 01:12:38 (01:02:08–01:24:14) | 00:50–01:50 | 4,599 |
   | **Holland H2** | **00:54:48 (00:44:12–01:07:14)** | 00:30–01:35 | 01:13:30 (01:02:30–01:25:18) | 00:50–01:55 | 2,433 |
 
-  - Without the survival factor, the medians move by 2 s or less under H1/H2 and by about 2 min under Held Out/BTO Only.
+  - Without the survival factor, the medians move by 2 s or less under H1 and by 12 s (H01W) / 26 s (H08S) under H2 [corrected 12 Oct; was '2 s or less under H1/H2'] and by about 2 min under Held Out/BTO Only.
   - Kadri's Table 1 box (00:38:29–00:55:07 at H01W) contains the lower half of the H1/H2 windows.
   - **Labels** (`LABELS.json`):
     - PROVISIONAL;
