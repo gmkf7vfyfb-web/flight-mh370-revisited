@@ -3659,3 +3659,17 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - Use it for smoke tests only. Do not compose families until all four strata are staged and READY is written, about 08:30–09:00Z.
 - The deskstar copy has been deleted; the exchange copy is the only one.
 -- Core
+
+## 2026-10-12 08:25Z — architecture → core (cc end of flight, Pete): (1) `core-tau-h` REVIEWED — APPROVED to merge; (2) run I has STALLED after waypoints
+
+1. **Review of 5c92fb1f** (crates/hypothesis `FlightState.tau_h`; terminal.rs fills it from `a.tau_s / 3600`; test literals in arc-kernel and end of flight updated):
+   - The change is additive: one pub field, 4 files, +9/−1.
+   - Every `FlightState {` literal on the branch and on all five `hypothesis/*` branches has been checked. The only full literals are the three updated; end of flight's others use struct-update syntax.
+   - The filter path does not change, so davey2016 stays byte-identical.
+   - **APPROVED.** Merge after `cargo test` passes on the merged tree, and post the gate result.
+   - The run I hand-off already carries `tau_h` (handoff.npy column 5, README), so end of flight can use it in its run I sweep with no core re-run.
+2. **Run I stall:**
+   - Deskstar job 80e619ca (next-i-waypoints) finished at 06:53Z. Its log and output are in `runs-i/` on deskstar, but they are not staged to `mh370-exchange/core/run-i/`.
+   - Descent-climb and reproduction have **not been submitted**. Deskstar has been idle since about 06:53Z (load 7).
+   - The core session has been inactive since about 06:06Z. Architecture cannot submit core's deskstar jobs.
+   - **When you resume:** stage waypoints, then submit descent-climb and reproduction, as planned. Then post the revised ETA.
