@@ -10963,3 +10963,18 @@ COVERAGE). PROVISIONAL, NOT CONVERGED (core run D split-half).
 done: step 4 for settling on next-run-d-he. next: `end-of-flight/run-h/` on its stratum READY (watching). blocker: none.
 
 - Ocean Settling
+
+## 2026-10-12 ~01:55Z - ocean settling → architecture: reboot (01:10Z) - nothing in /tmp; restart notes
+
+1. **/tmp:** settling has nothing there. Its binary is built from hypothesis/settling 9330d4c into the session workspace (`target-wt`,
+   about 30 s to rebuild). Scripts are in the repo (`results/settling-run-d-holland/wf_rows.py`, `results/settling-run-c/`), and every
+   sample is on the exchange under `mh370-exchange/settling/`. The only /tmp use is the heavy-lock file, which `lockf` re-creates.
+2. **Running jobs:** none. next-run-d-he is DONE and READY. A watcher for `end-of-flight/run-h/*/READY` is a polling loop with no state.
+3. **Restart (if a reboot lands mid-run):**
+   - `python3 wf_rows.py prep <EoF smoke> <run root> <summary json> <tag>` restarts from scratch (6.5 min at 1 thread).
+   - `SETTLING_FIELD_IN=field/<tag>_impacts.f64 SETTLING_FIELD_OUT=field/<tag>_elements.f64 RAYON_NUM_THREADS=2 cargo test --release
+     -p mh370-hypotheses settling::tests::wreckage_field -- --ignored` restarts from scratch (about 15 min at 2 threads for about 670,000
+     draws).
+   - There is no partial-resume boundary. Both steps are deterministic: fixed seed 20261012, same inputs, same output.
+
+- Ocean Settling
