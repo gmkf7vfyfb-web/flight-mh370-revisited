@@ -305,7 +305,7 @@ def gebco_subset(meta_path, lon_rng=(88, 96), lat_rng=(-38, -32), stride=6):
     return lo, la, z
 
 
-def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed", bg=None):
+def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed", bg=None, v="oi2018-2025", title_opt=None):
     from matplotlib.colors import LightSource
     from matplotlib.patches import Patch
     lat, lon, area = maps["base"]["lat"], maps["base"]["lon"], maps["base"]["area"]
@@ -321,7 +321,7 @@ def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed
               aspect=1 / np.cos(np.radians(35)), zorder=0, interpolation="bilinear")
     cs = ax.contour(lo, la, z, levels=[-5000, -4000, -3000, -2000], colors="#9a9a9a", linewidths=0.3, zorder=1)
     ax.clabel(cs, fmt=lambda x: f"{-x/1000:.0f} km", fontsize=4.5, inline=True)
-    v, f = "oi2018-2025", "P+C4"
+    f = "P+C4"
     hb = flight_background(ax, maps, v, bg, "#00525a" if bg == "points" else "#00727a", zorder=2)
     m = panel_mass(maps, v, f); dn = m / area
     lv = [hdr_level(dn, m, q) for q in (0.99, 0.9, 0.5)]
@@ -356,15 +356,16 @@ def style_b(maps, geo, T5, Cc, opt, notes, out, plt, gebco, stem="style-B-seabed
     for s in ("top", "left"):
         ax2.spines[s].set_visible(False)
     h = [Patch(fc="#e34a33", alpha=0.55, label="50 %"), Patch(fc="#fdbb84", alpha=0.55, label="90 %"), Patch(fc="#fee8c8", alpha=0.55, label="99 %"),
-         plt.Line2D([], [], color="#222222", lw=1.0, label="Phase 2 + Bluefin-21"), plt.Line2D([], [], color="#4a1486", lw=1.3, ls=(0, (5, 3)), label="OI 2018"),
-         plt.Line2D([], [], color="#1f4e9e", lw=1.5, label="OI 2025-26 SE band"), plt.Line2D([], [], color="#006d2c", lw=1.5, ls=(0, (3, 2)), label="OI NW band (not searched)"),
+         plt.Line2D([], [], color="#222222", lw=1.0, label="Phase 2 + Bluefin-21"), plt.Line2D([], [], color="#4a1486", lw=1.3, ls=(0, (5, 3)), label="OI 2018" + (" (drawn only)" if v == "base" else "")),
+         plt.Line2D([], [], color="#1f4e9e", lw=1.5, label="OI 2025-26 SE band" + (" (drawn only)" if v == "base" else "")), plt.Line2D([], [], color="#006d2c", lw=1.5, ls=(0, (3, 2)), label="OI NW band (not searched)"),
          plt.Line2D([], [], color="black", lw=0.6, ls=(0, (2, 2)), label="7th arc"),
          plt.Line2D([], [], ls="", marker="x", color="black", label="Pléiades objects"), plt.Line2D([], [], ls="", marker="o", mfc="white", mec="black", label="COSMO-SkyMed contacts")]
     ax.legend(handles=h + hb, loc="lower left", fontsize=4.8, frameon=True, framealpha=0.85, ncol=2)
-    fig.suptitle(f"If the imaged objects are from 9M-MRO: where the debris entered the sea, on GEBCO 2026 relief — {describe_option(opt, short=True)}",
-                 x=0.01, ha="left", y=0.99, fontsize=7)
+    fig.suptitle(f"If the imaged objects are from 9M-MRO: where the debris entered the sea, on GEBCO 2026 relief —"
+                 + ("\n" if title_opt and len(title_opt) > 40 else " ") + f"{title_opt or describe_option(opt, short=True)}",
+                 x=0.01, ha="left", y=1.0 if title_opt and len(title_opt) > 40 else 0.99, fontsize=7)
     footnote(fig, notes + ["Relief: GEBCO 2026 15-arcsecond grid (doi:10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa), shown at 0.025 deg; "
-                           "contours every 1 km depth. Right: probability per degree of latitude over 85-103 E, after all searches."]
+                           "contours every 1 km depth. Right: probability per degree of latitude over the whole grid, " + SEARCH_SHORT[v] + "."]
              + ([BG_TEXT[bg] + f" {100 * frame_share(maps, v):.0f} % of it lies inside this frame."] if bg else []), width=165, y=0.0)
     fig.savefig(out / f"{stem}.png", dpi=300, bbox_inches="tight"); fig.savefig(out / f"{stem}.pdf", bbox_inches="tight")
     plt.close(fig)

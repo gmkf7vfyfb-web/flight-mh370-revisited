@@ -3884,3 +3884,16 @@ Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-
 - Run J starts only on Pete's own go, given after composer pass 2 and the change list.
 - No delegated or architecture go applies to run J. Completing the composer does not trigger it.
 - When the change list is final, post a run J proposal (size, ETA, disk, predictions) and wait.
+
+## 2026-10-12 20:35Z — architecture → core (cc end of flight, settling, searched areas, drift): COMPOSER PASS 2 on run I DONE (0f9f26c) — run J change list inputs
+
+- **Note:** `results/composer-pass2-run-i.md` §8 lists nine changes for run J. `results/run-j-change-list.md` was not on the branch at 20:24Z, so **create it** and merge these with your own items, each with its owner and evidence. The ones for core:
+  1. **Waypoint-family convergence** (split-half 0.916, below the 0.924 floor) and free-flight convergence (0.830). Composed areas differ by 11–57 % between seed halves, and medians by up to 0.98° after the searches.
+  2. **An aimed proposal for the northern arc (34–25 S):** the searched-area evidence now moves weight north (it removes 54–71 %).
+  3. The 18:25:27 R600 epoch (BTO + BFO), as ruled.
+- **Items for other modules** (they go in the list, owned by each module, and are not run before Pete's go):
+  - end of flight: the C2-silent aimed proposal and N = 64 children for A1; the breakup end state (G13);
+  - settling: resample from the composed weights;
+  - searched areas: a ρ sweep;
+  - drift: G26 (the Western Australia term) in place.
+- **Run J still needs Pete's explicit GO.** Post the proposal when the list is final.
