@@ -158,6 +158,11 @@ frequency offset residual attributable to vertical motion is not represented. An
 burst timing offsets at 00:19 but neither frequency offset, applying a log-on correction to the
 anomalous second timing offset.
 
+The factual record of the flight and of the recovered debris is the Malaysian safety
+investigation report (Malaysian ICAO Annex 13 Safety Investigation Team for MH370, 2018), and
+the searched areas and their coverage are reported by the Australian Transport Safety Bureau
+(2017).
+
 The reproduction of that work is exact and is the baseline of this paper. A configuration
 holding the published priors and models reproduces the published log evidence to the last
 stored digit, and is regression-tested so that it continues to do so as extensions are added.
@@ -320,8 +325,8 @@ L_{19} \;=\; p\,f_{\mathrm{lag}} \;+\; \frac{1-p}{W},
 %
 in which $f_{\mathrm{lag}}$ is the likelihood of the observed log-on time under an Erlang lag
 following exhaustion, $W$ normalises a uniform alternative over the admissible window, and $p$
-is the mixing weight on the exhaustion cause. Bayes factors are quoted only within a fixed data
-treatment, comparing causes, or within a fixed cause, comparing treatments: a factor computed
+is the mixing weight on the exhaustion cause. Bayes factors are interpreted on the scale of Kass and Raftery (1995), and are quoted only
+within a fixed data treatment, comparing causes, or within a fixed cause, comparing treatments: a factor computed
 across different data sets would not be a comparison of models. Hard selection of trajectories
 by whether they reach fuel exhaustion in the admissible window is not used, because it charges
 nothing for an unexplained log-on.
@@ -340,8 +345,8 @@ is accurate where the other evidence has its mass rather than only near its own 
 
 \emph{Ocean drift} propagates each impact position forward under an ocean reanalysis with
 windage and Stokes drift marginalised, and scores the discovery place and time of each recovered
-item. Two global ocean products are carried and averaged exactly at equal prior rather than
-chosen,
+item. Two global ocean products are carried --- one of them the Copernicus global reanalysis of
+Lellouche et al.\ (2021) --- and averaged exactly at equal prior rather than chosen,
 %
 \begin{equation}
 L_{M} \;=\; \tfrac{1}{2}\bigl(L_{G} + L_{C}\bigr),
@@ -491,7 +496,8 @@ recovered item; the treatment here uses the full set of recovered items, carries
 products averaged exactly at equal prior as in~(7), and marginalises over windage and Stokes
 drift rather than fixing them. The authoritative drift work for this accident
 (Griffin et al., 2016, 2017) is used for the leeway characterisation of the recovered flaperon
-section. One term is specified and not yet built, and it is the most consequential omission in
+section, with the leeway and windage treatment following Sutherland et al.\ (2020) and the
+debris-drift simulation strategy of Durgadoo et al.\ (2021). One term is specified and not yet built, and it is the most consequential omission in
 the paper: the absence of recoveries on the Western Australian coast is not modelled, because the
 beaching geometry covers only the coastlines on which items were found. Coasts outside those
 boxes carry no identification, so the failure to recover debris in Western Australia cannot
@@ -507,7 +513,8 @@ term; and the most recent search operation is excluded from the coverage used he
 qualifications work in the same direction, so the search term as reported is a lower bound on
 its true effect.
 
-The imagery term is a conditional hypothesis. It is evaluated as a likelihood on the shared
+The imagery term is a conditional hypothesis built on the official analysis of the Pl\'eiades 1A
+imagery (Minchin et al., 2017). It is evaluated as a likelihood on the shared
 impact samples conditional on the imaged objects being debris from this aircraft, and every
 product involving it carries that condition. It is never implemented as a pre-selection of
 trajectories that could reach the imaged position, because selecting trajectories by whether
@@ -723,7 +730,15 @@ quantities derived from the fastest rows are upper bounds.
 
 \subsection*{6.3.\quad \textit{Hydroacoustics: what it is now, and what it could be}}
 
-The hydroacoustic term is predictive and not evidential. Its log-likelihood ratios lie within
+That a water impact of this kind is detectable in principle at long range has been established
+by Metz et al.\ (2023), and the dependence of such a detection on propagation conditions and
+impact parameters by Duncan and Dall'Osto (2023); the impact-generated acoustic and
+acoustic-gravity wave physics is treated by Kadri (2024), and the record for this accident
+specifically was examined by Duncan et al.\ (2014). Propagation here is modelled with the
+standard methods (Jensen et al., 2011), using the split-step Pad\'e parabolic equation solution
+of Collins (1993).
+
+Even so, the hydroacoustic term as implemented is predictive and not evidential. Its log-likelihood ratios lie within
 noise, and the reason is calibration rather than physics. Five specific gaps are responsible.
 There is no near-surface calibration source of known spectrum, so the directivity of a seismic
 air-gun source cannot be separated from its coupling into the water column. The deep explosive
@@ -977,6 +992,10 @@ Sutherland, G., Soontiens, N., Dufois, F. and others (2020). Evaluating the leew
 of ocean drifters using operational marine environmental prediction systems. \textit{Journal of
 Atmospheric and Oceanic Technology}. https://doi.org/10.1175/JTECH-D-20-0013.1.
 [AUTHOR LIST TO BE COMPLETED]
+
+Vincenty, T. (1975). Direct and inverse solutions of geodesics on the ellipsoid with application
+of nested equations. \textit{Survey Review}, 23, 88--93.
+https://doi.org/10.1179/sre.1975.23.176.88.
 
 \endgroup
 

@@ -21,16 +21,27 @@ declarations and references.
 |---|---:|---:|---|
 | Abstract | 150 | 143 | Single paragraph, self-contained, as required |
 | 1. Introduction | 850 | 645 | Problem, gap, what the paper does, four results |
-| 2. The published reconstruction | 650 | 347 | Cites rather than re-derives; carries Table 1 |
-| 3. The integrated estimator | 1,800 | 1,697 | 13 numbered equations; the mathematical core |
-| 4. What was changed and added | 1,800 | 1,129 | One subsection per element; includes verification |
+| 2. The published reconstruction | 650 | 387 | Cites rather than re-derives; carries Table 1 |
+| 3. The integrated estimator | 1,800 | 1,718 | 13 numbered equations; the mathematical core |
+| 4. What was changed and added | 1,800 | 1,162 | One subsection per element; includes verification |
 | 5. Results | 1,400 | 1,279 | Convergence first, then each factor, then negatives |
-| 6. Discussion | 750 | 779 | What integration bought; limits; hydroacoustics |
+| 6. Discussion | 750 | 866 | What integration bought; limits; hydroacoustics |
 | 7. Conclusions and recommendations | 450 | 345 | Four ordered lines of work |
-| **Main text total** | **~7,700** | **6,221** | Inside the 6,000–8,000 band, at its lower end |
+| **Main text total** | **~7,700** | **6,402** | Inside the 6,000–8,000 band, at its lower end |
 
-13 numbered equations (survey median 13), 3 tables (median 3), 27 references (median 27, and
-no surveyed paper exceeds 35).
+13 numbered equations (survey median 13), 3 tables (median 3), **22 end-list references**
+(survey median 27, range 2–35, none exceeding 35).
+
+**Citation audit, run against the file rather than estimated.** 22 entries; every entry is
+cited in the text, and every in-text citation has an entry. An earlier version of this README
+claimed 27 references, which was wrong — the count came from a pattern match that also caught
+continuation lines. That version also had 13 of its 21 entries never cited anywhere in the
+text, and cited Vincenty (1975) without listing it. Both are fixed: the uncited entries are now
+cited at the places where the prose already relied on them — the official record in §2, the
+ocean product and the Bayes-factor scale in §3, the leeway and debris-drift literature in §4.4,
+the imagery analysis in §4.5, and the hydroacoustic detection literature in §6.3 — and Vincenty
+is in the list. Re-run the audit after any edit; a reference list that drifts from the text is
+the defect a copy editor will find first.
 
 **Where the remaining ~1,300 words should go, in priority order.** Section 5, which at 1,279
 words is carrying nine figures' worth of argument and is the thinnest part of the draft

@@ -416,3 +416,29 @@ It is checked structurally: environments and braces balance, 13 equations carry 
 subscripts or stray delimiters, every command belongs to a loaded package. The journal's
 `nav.cls` should be obtained before the real submission is laid out; its download link is
 script-rendered and was not retrievable here.
+
+## 2026-10-12 22:05Z — paper assistant: correction to the PROPOSED draft — reference list audited against the text
+
+My 21:40Z note and the draft's README claimed 27 references. Wrong: there were 21. The count came
+from a pattern match that also caught continuation lines rather than entries.
+
+Auditing properly exposed two worse faults in the same list, which the wrong count had masked:
+
+- **13 of the 21 entries were never cited anywhere in the text.** The journal requires every
+  end-list entry to be cited.
+- **Vincenty (1975) was cited in §4.6 and was not in the list.**
+
+Both are fixed in the direction that was correct — the prose did rely on those sources, it simply
+failed to cite them. Citations are now placed where the text already leans on each: the official
+record in §2, the Copernicus ocean reanalysis and the Bayes-factor scale in §3, the leeway and
+debris-drift literature in §4.4, the Pléiades imagery analysis in §4.5, and the hydroacoustic
+detection literature (Metz; Duncan and Dall'Osto; Kadri; Duncan, Gavrilov and McCauley; Jensen;
+Collins) in §6.3, where a discussion of detectability had been running with no citations at all.
+Vincenty is listed.
+
+**Current counts, measured from the file:** 22 end-list entries, every entry cited and every
+in-text citation listed; 6,402 words of main text; 13 numbered equations; 3 tables. The survey
+median is 27 references, so at 22 this list is short rather than long, which is the right side to
+be on with 98 entries in the library and a 35-entry ceiling in practice.
+
+The audit is now a step to repeat after any edit to the draft, not a one-off.
