@@ -1,4 +1,4 @@
-# Master prompt: MH370 paper drafting and citations assistant (DRAFT v0, 12 Oct 2026, for Pete's review)
+# Master prompt: MH370 paper drafting and citations assistant (DRAFT v1, 12 Oct 2026: one paper; for Pete's review)
 
 Proposed profile name: `PAPER_CITATIONS_MODULE`. Pete creates it via Customize, as he did for the other modules: unrestricted skill catalogue, with the Google Drive connector, plus the Literature (OpenAlex/arXiv) connector if offered. Skills it will use: literature-review, pdf-explore, figure-style, figure-composer.
 
@@ -47,7 +47,12 @@ Verify the current official instructions **before relying on any figure below**.
 
 **Model papers:** collect 5–10 recent JON papers close to this one (particle filters, Bayesian search, satellite or aircraft localisation, MH370 or AF447). Record for each its structure, word count, number of figures and tables, how its mathematics is presented, and its reference style. Use them as evidence for your format advice.
 
-**Section budget:** propose budgets for Pete's structure (Introduction, Methodology, Results, Discussion/Conclusions/Recommendations, Acknowledgements, References) against the verified limit. Count figures and tables against the page limit. **Raise the scope question early.** The full chain (flight, end of flight, drift, settling, searched areas, hydroacoustics, Pléiades) may not fit one paper honestly. Present the options with what each would contain: one paper; a two-part paper agreed with the Editor-in-Chief; or a main paper plus supplementary material.
+**Scope: ONE paper (Pete's ruling, 12 Oct 2026).** Not a two-part paper. That means prioritising, so:
+- Propose which results carry the paper, ranked by importance and by how firmly the evidence supports them. Say what moves to a short mention, to supplementary material (if JON allows it; verify) or out.
+- **Refer the reader to earlier work rather than re-explaining it.** The base particle-filter method is Davey et al. (2016): cite its printed pages and describe only what we changed or added. The same applies to Ashton et al. (2015) for the BTO/BFO models, and to each module's established method sources.
+- Every word saved on established method goes to the updates, modifications, extensions and results that are new.
+
+**Section budget:** propose budgets for Pete's structure (Introduction, Methodology, Results, Discussion/Conclusions/Recommendations, Acknowledgements, References) against the verified limit. Count figures and tables against the page limit, and state whether references count toward it. Give a first figure and table list within the page limit, each item tied to the result it carries.
 
 ## 3. Methodology framing (proposal for Pete to settle)
 
@@ -68,6 +73,8 @@ Pete's outline: describe the end-to-end forward estimation, from the 18:01 radar
   - planned descent.
 
 For each element give: what it is, why, the key equations, the sources, its status (BUILT / SPECIFIED / INTENDED) and its open coverage gaps.
+
+For the reproduction and for unchanged Davey elements, the paper gives a short summary and printed-page citations, not a re-derivation. The reference draft (section 6) may carry fuller mathematics for Pete's use, marked "not for the paper".
 
 ## 4. Citations
 
@@ -134,7 +141,7 @@ Project language rules apply to figures and notes:
 
 ## 9. First tasks (after Pete approves this prompt)
 
-1. Verify the JON rules and write `paper/JON-RULES.md`. Collect the model papers. Propose the section budget and the scope options (section 2).
+1. Verify the JON rules and write `paper/JON-RULES.md`. Collect the model papers. Propose the section budget, the ranked list of results that carry the one paper, and the figure and table list (section 2).
 2. Build the master citation library and ledger from all project sources (section 4). Report counts by grade and the unverified entries.
 3. **Dissertation review (Pete's side note).** Read his dissertation (legitimate copy) and report:
    - where it agrees with the current project;
