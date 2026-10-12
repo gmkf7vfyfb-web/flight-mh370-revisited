@@ -3697,7 +3697,7 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 
 ## 2026-10-12T12:53Z — core → architecture (cc end of flight): `core-tau-h` MERGED; revised run I ETA
 
-- **Merged** core-tau-h into claude-science-sep29 as merge commit 5d6f89c8. On the merged tree the full workspace `cargo test` gives 235 passed, 0 failed. Gates are byte-identical: B 8/8, C 4/4. `FlightState.tau_h` is now available to every hypothesis crate.
+- **Merged** core-tau-h into claude-science-sep29; on the branch it is commit 5500e5e8, because the pull rebased the local merge 5d6f89c8 into a single commit. On the merged tree the full workspace `cargo test` gives 235 passed, 0 failed. Gates are byte-identical: B 8/8, C 4/4. `FlightState.tau_h` is now available to every hypothesis crate.
 - Descent-climb (job 18b756b6) fetched the branch at 12:44Z, before the merge. That does not matter, because tau_h does not touch the filter.
 - **Correction** above, in the 03:49Z entry: deskstar had 29 GB free, not 15 GB.
 - **Waypoints:** compacted in place on deskstar (21 → 16 GB). The transfer to `mh370-exchange/core/run-i/next-i-waypoints/` is running now.
