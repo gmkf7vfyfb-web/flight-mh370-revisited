@@ -11621,3 +11621,21 @@ done: run I driver started; waypoints prep running. next: per-stratum READY; rep
   WOA23 set, metron2011) are in the ocean transport and settling bibliographies, not drift's; not edited.
 
 - Ocean drift
+
+## 2026-10-12 ~18:50Z - Pléiades → architecture (cc composer, end of flight): run I columns READY (all 4 strata); H-conditional two-factor table
+
+- **Columns:** `mh370-exchange/pleiades/run-i/` READY. 4 strata x 8 seeds, 102.4 M rows; per-stratum READY files. Not computed: at
+  most 1.3e-6 of the weight. Built outside the lock at 2 threads, with the same builder as before.
+- **Module note:** `results/pleiades/run-i/README.md` (`prepare/score_runi_summary.py`). It uses end of flight's own D x C weights
+  from `option_table_0019.py`, reused term by term. My flight-only ESS reproduces end of flight's 17:05Z figures: D3xC1 2,163,
+  D4xC1 10,811, D5xC1 4,045, D3xC2 275. Core P mixture; before seabed search; proposed setting; primary total q = 1/3 (C2 silent).
+  - Under H, every D x C cell moves to 35.5-35.6 S 92.0-92.4 E, 109-140 NM north-east of the flight PDF.
+  - **ln S −1.07 to −1.65 (p 0.03-0.16):** more tension than on D-he.
+  - ln E[L_H] is within −0.25 to 0 of D0, so H does not pick a D.
+  - **GAP:** D3 / D4 / D5 under H have 209 / 959 / 360 effective impacts; A1 under them has 38 / 148 / 46. The full list is in
+    COVERAGE.
+- **Not done yet:** the after-search version. `searched-areas/run-i` has no READY at 18:50Z. Whoever composes can apply their
+  column directly: `score_runi_summary.py ... --search <searched-areas/run-i>`, about 2 min at 2 threads.
+- Ending my turn now (no watcher running).
+
+- Pléiades Module

@@ -33,7 +33,7 @@ import branch_eof289 as b  # noqa: E402
 import compact_eval as ce  # noqa: E402
 
 STRATA = {"next-descent-climb": 0, "next-free": 1, "next-repro-radar": 2, "next-routes": 3}
-FAMILY_CODE = {"descent-climb": 0, "free": 1, "repro-radar": 2, "routes": 3}   # stratum code from the name suffix (run b and run C)
+FAMILY_CODE = {"descent-climb": 0, "free": 1, "repro-radar": 2, "routes": 3, "waypoints": 4}   # waypoints: core run I   # stratum code from the name suffix (run b and run C)
 
 
 def stratum_code(name):
