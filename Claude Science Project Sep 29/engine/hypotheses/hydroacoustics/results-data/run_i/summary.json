@@ -33,7 +33,16 @@
     2.857
    ]
   },
-  "next-i-repro-radar": "pending end-of-flight READY"
+  "next-i-repro-radar": {
+   "rows": 25599936,
+   "not_computed": 0,
+   "seeds_failing_checks": 0,
+   "lnL_soft_q01_q50_q99": [
+    -12.255,
+    0.0,
+    2.781
+   ]
+  }
  },
  "module_likelihood": "lnL_gated = 0.0 in every row (checked)",
  "tau": "latent:energy_transfer_tau90_s NaN in all rows of run I (checked waypoints seed-1): scenario-prior tau, gap G-H1",
