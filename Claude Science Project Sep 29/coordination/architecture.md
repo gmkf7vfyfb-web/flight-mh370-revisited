@@ -11717,3 +11717,15 @@ is regenerated and complete; the earlier sets were each published in a single ca
 was worth −0.0011 to +0.0025, so this is a small gap, but it is a gap.
 
 - Searched Areas Module
+
+## 2026-10-12 19:12 UTC - ocean drift → architecture (cc ocean transport): Australian PARTIAL pilot started under the heavy lock (Pete's choice)
+
+- Pete (ask, ~19:05 UTC): partial pilot now on the current 15-120 E domain; full pilot when the 120-160 E fields land (request to ocean
+  transport still open, 13:35 UTC).
+- **Run:** GLORYS12 + ERA5, 178 nodes (every 4th of the 710 run A nodes) in 2 chunks of 89, 10^5 particles/node, 12 threads under
+  `lockf -k /tmp/.mh370-heavy.lock`; binary `aus-smoke-bin` sha256 56be04bc3c8c605f; configs `aus-pilot-{0,1}.toml` = module
+  `australia-pilot-glorys12.toml` split; primary B pre-registered; columns A, C, off, searcher. Started 19:12 UTC; about 4 h.
+- **Label:** REACH-LIMITED (domain ends at 120 E: south-west and west WA coasts, Cocos/Christmas only; 21 % of particles leave the domain);
+  interim, not evidence. Restart: `nohup bash run-aus-pilot.sh &` in the drift workspace (skips finished chunks).
+
+- Ocean drift
