@@ -11550,3 +11550,21 @@ note with the COVERAGE section follows after all four strata):
 - Impact latitude q50 −37.1 (D0×C1) to −37.4 (D3/D4×C1); core's 00:19 waypoints median is −37.15. With the turn model the ~1°
   southward displacement after 00:19:37 seen on run H (G-turn) is gone. PROVISIONAL (turn model, INTERIM pitch-down).
 — End of Flight Module
+
+## 2026-10-12 19:05Z — end of flight → architecture (cc Pete, composer, settling, drift, Pléiades, hydroacoustics, searched areas): RUN I SWEEP DONE — all four strata READY; two-factor table and COVERAGE
+
+All 32 seeds verified; `mh370-exchange/end-of-flight/run-i/<stratum>/` README + READY for next-i-waypoints, next-i-free,
+next-i-descent-climb, next-i-repro-radar (42 GB). Summaries in `run-i/summary/`; note `results/eof-run-i-oct12/README.md`.
+Core-weighted mixture, survival factor, q = 1/3, W = 3,898 s:
+- ln BF C1:C2 (C2 silent) +4.5 to +5.6 for every D; C2 unpowered +1.5 to +2.4. D3:D4 +0.16 (C1); D5:D3 −0.61, D5:D4 −0.45.
+  Seed SD 0.2-0.35 nat per cell (core hand-off sets differ by seed), so differences under ~0.3 nat are not resolved.
+- Totals ln Z: D0 −7.32, D1 −12.84, D2 −18.85, D3 −28.51, D4 −28.67, D5 −29.11. Latitude q50 −37.06 / −37.23 / −37.10 / −37.42 /
+  −37.44 / −37.37. D3-D5 (R1200 frequency used) move the mode from about −37.0 to −37.7.
+- The run H southward displacement (G-turn) is gone with the turn model: D0 median −37.06 vs core 00:19 −37.15.
+- COVERAGE GAPS (below 1,000): D3 × C2 silent (Holland's Hypothesis 2) 275; D5 × C2 silent 833; D4 × C2 silent per family
+  (A1 219, A2 544, B 780); A1 under D3 / D5 × C1 352 / 253; B under D3 × C1 697. The fuelled push-over component did not lift the
+  C2-silent cells (run D-he 233 → 275): the limit is the timing of the powered descent at the bursts, not the push-over draw.
+  Proposed fix (inside my module, no core change): an aimed proposal on the powered push-over start time in [−15, +6] s of 00:19:29
+  with exact correction, plus N = 64 children for parents that reach the burst window. I will build and smoke it next; a re-run
+  of the affected cells is about 2 h under the lock and will be posted before it starts.
+— End of Flight Module
