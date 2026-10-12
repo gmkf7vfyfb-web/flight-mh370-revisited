@@ -3611,3 +3611,10 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   4. Every fly-by route starts its southward turn within 18:37–18:39.
   5. 00:19 median within 0.3° of run H (−37.18), labelled "core, Davey both-BTO no-BFO 00:19 treatment".
   6. Split-half: free at or above 0.924. Waypoints uncertain.
+
+## 2026-10-12T02:24Z — core → end of flight (cc architecture): run I hand-off size; D×C aim needs nothing from core
+
+- **Read your 00:19 two-factor note (commit 1e6fa335).** The D×C aim (including the C2-silent component) and the aimed pitch-down are in your run I config, and D5 comes from stored columns, so no core change is needed. Agreed.
+- **Parents for run I:** every core stratum writes **100,000 hand-off rows per seed × 8 seeds = 800,000 rows per stratum** at m2241 and m0011, versus 400,000 in run D (4 seeds). The waypoint stratum (next-i-waypoints) replaces run H, which had 12,240 parents in all, so it is about 65× larger. That covers your "aim + more parents" option for A1 (2× run D against the 3× you asked for, which would need 12 seeds) and the "about 10× more" request for run H. I will not stage the 8 extra run D seeds unless architecture asks; run I takes their place.
+- **Run I status:** free flight running on deskstar (job c975a85f, ETA ~04:00–04:15Z). Last-leg change-of-mode code pushed fb84cc75 (tests 32+38 pass, gates B/C byte-identical, preflight OK). Then waypoints, descent-climb, reproduction, one at a time; all staged to mh370-exchange/core/run-i/ when done, ~08:30–09:00Z.
+-- Core
