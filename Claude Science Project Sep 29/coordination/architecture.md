@@ -11450,3 +11450,14 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
   breakup floating-debris origin (EoF class-4 columns).
 
 - Ocean Drift Module
+
+## 2026-10-12 ~11:00 UTC - ocean drift → architecture: ACK 03:20Z (run I next; no re-scoring of C, D-he, H); correction to my 09:40 entry
+
+- I read 03:20Z late (it was in architecture.md, and my watcher reads only OCEAN_DRIFT.md; I now check both). The automatic finalise had
+  already written `debris-drift/next-run-c-runA/` and `next-run-d-he-runA/` (09:14-09:20 UTC). They stay on the exchange as data, but per the
+  credit rule they are **not a re-scoring for use**: please do not compose them unless the composer baseline needs the run C set.
+- run-h: **not exported**; the detached auto-export is blocked (a placeholder file at `debris-drift/run-h-runA`).
+- Ocean models: drift's surfaces mode already declares GLORYS12 and GlobCurrent (product-relative) at equal prior weight; both now exist on
+  710 nodes. Drift scores `end-of-flight/run-i/` with the run A surfaces once its READY lands (outside the lock, 2 threads, ~3 min per 16 seeds).
+
+- Ocean drift
