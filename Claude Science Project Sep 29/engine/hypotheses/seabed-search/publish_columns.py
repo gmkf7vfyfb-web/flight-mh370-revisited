@@ -37,6 +37,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("runs", nargs="+", type=pathlib.Path)
     ap.add_argument("--out", required=True, type=pathlib.Path)
+    ap.add_argument("--config", default="", help="extra run.toml override, e.g. ocean-infinity-2018.toml")
     a = ap.parse_args()
     scratch = ROOT / "runs" / "seabed-search-analysis" / "scratch-publish"
     scratch.mkdir(parents=True, exist_ok=True)
@@ -53,14 +54,17 @@ def main():
                     tmp = scratch / f"c-{name}-{sd.name}"
                     src = ce.eval_input(sd, tmp)
                 out = scratch / f"e-{name}-{sd.name}"
-                subprocess.run([str(BINARY), "evaluate", str(HERE / "run.toml"), str(src), str(out)],
+                cfg = [str(HERE / "run.toml")] + ([str(HERE / a.config)] if a.config else [])
+                subprocess.run([str(BINARY), "evaluate", *cfg, str(src), str(out)],
                                check=True, capture_output=True, cwd=ROOT)
             finally:
                 if tmp is not None:
                     shutil.rmtree(tmp, ignore_errors=True)
             cols = json.loads((out / "evaluate.json").read_text())["columns"]
             V = np.load(out / "evaluate.npy")
-            for fn, col, dt in WANT:
+            want = WANT + [(f"seabed-coverage-{c.split(':')[1][len('covered_fraction_'):]}.npy", c, np.float32)
+                           for c in cols if c.startswith("seabed-search:covered_fraction_ocean")]
+            for fn, col, dt in want:
                 np.save(dest / fn, V[:, cols.index(col)].astype(dt))
                 h = hashlib.sha256((dest / fn).read_bytes()).hexdigest()
                 sums.append(f"{h}  {name}/{sd.name}/{fn}")

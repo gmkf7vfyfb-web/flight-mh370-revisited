@@ -189,13 +189,23 @@ def main():
                     z = float((pw * P).sum())
                     k = (key, lab, arm)
                     s = acc.setdefault(k, {"z": 0.0, "kind": kind, "on_before": 0.0,
-                                           "on_after": 0.0, "ess_b": 0.0, "ess_a": 0.0})
+                                           "on_after": 0.0, "ess_b": 0.0, "ess_a": 0.0,
+                                           "sw_b": 0.0, "sw2_b": 0.0, "sw_a": 0.0, "sw2_a": 0.0})
                     s["z"] += z * share
                     aft = pw * P / z
                     s["on_before"] += float((pw * on_p2).sum()) * share
                     s["on_after"] += float((aft * on_p2).sum()) * share
                     s["ess_b"] += float(1.0 / np.sum(pw ** 2))
                     s["ess_a"] += float(1.0 / np.sum(aft ** 2))
+                    # POOLED Kish, across seeds and strata on the common weight scale
+                    # (share x within-seed posterior). This is a different quantity from the
+                    # per-seed sum above: it charges for the spread of weight BETWEEN seeds and
+                    # strata as well as within them, so it is always the smaller of the two.
+                    # Other modules quote the pooled value; both are reported.
+                    s["sw_b"] += float(pw.sum()) * share
+                    s["sw2_b"] += float(np.sum((pw * share) ** 2))
+                    s["sw_a"] += float(aft.sum()) * share
+                    s["sw2_a"] += float(np.sum((aft * share) ** 2))
                     h = half_of[sd]
                     hh = half.setdefault(k, [[0.0, 0.0], [0.0, 0.0]])
                     hh[h][0] += z * share
@@ -211,6 +221,8 @@ def main():
                        hh[1][0] / hh[1][1] if hh[1][1] else None],
             "on_phase2_before": s["on_before"], "on_phase2_after": s["on_after"],
             "ess_before": s["ess_b"], "ess_after": s["ess_a"],
+            "ess_before_pooled": (s["sw_b"] ** 2 / s["sw2_b"]) if s["sw2_b"] else 0.0,
+            "ess_after_pooled": (s["sw_a"] ** 2 / s["sw2_a"]) if s["sw2_a"] else 0.0,
             "estimable": bool(s["ess_a"] >= ESS_FLOOR),
         }
     a.out.write_text(json.dumps(report, indent=1) + "\n")
