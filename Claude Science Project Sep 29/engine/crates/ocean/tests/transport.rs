@@ -894,3 +894,62 @@ fn comparison_products_are_labelled_and_never_an_ocean_model_value() {
     assert!(!g.is_comparison());
     assert_eq!(g.ocean_model(), "glorys12v1+era5-wind10");
 }
+
+#[test]
+fn longitude_joined_series_equals_one_wide_grid() {
+    // One wide grid 90-100 E written as a single part, and the same values split into two bands
+    // 90-95 E and 95-100 E sharing the 95 E column; the joined field must answer bit-identically.
+    let dir = std::env::temp_dir().join(format!("mh370-lonjoin-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let lon: Vec<f64> = (0..21).map(|i| 90.0 + 0.5 * i as f64).collect();
+    let lat: Vec<f64> = (0..11).map(|j| -40.0 + 0.5 * j as f64).collect();
+    let times: Vec<f64> = (0..3).map(|k| T0 + k as f64 * DAY).collect();
+    let val = |k: usize, j: usize, i: usize, c: usize| -> f32 {
+        if i == 12 && j == 4 { f32::NAN } else { (0.01 * i as f64 + 0.003 * j as f64 + 0.1 * k as f64 + c as f64) as f32 }
+    };
+    let write = |name: &str, i0: usize, i1: usize| {
+        let mut b = Vec::new();
+        for k in 0..times.len() { for j in 0..lat.len() { for i in i0..=i1 { for c in 0..2 { b.extend_from_slice(&val(k, j, i, c).to_le_bytes()); } } } }
+        std::fs::write(dir.join(format!("{name}.f32")), b).unwrap();
+        let m = format!(r#"{{"product":"glorys12v1","component":"Current","description":"{name}","lon":{:?},"lat":{lat:?},"time_unix_s":{times:?},"data_file":"{name}.f32"}}"#, &lon[i0..=i1]);
+        std::fs::write(dir.join(format!("{name}.json")), m).unwrap();
+        std::fs::write(dir.join(format!("{name}.series.json")), format!(r#"{{"parts":["{name}.json"]}}"#)).unwrap();
+    };
+    write("wide", 0, 20);
+    write("west", 0, 10);
+    write("east", 10, 20);
+    std::fs::write(dir.join("joined.series.json"), r#"{"lon_join":["west.series.json","east.series.json"]}"#).unwrap();
+    let wide = GridField::load_series(&dir.join("wide.series.json")).unwrap();
+    let joined = GridField::load_series(&dir.join("joined.series.json")).unwrap();
+    assert_eq!(joined.axes().1, wide.axes().1);
+    assert_eq!(joined.data_bytes(), wide.data_bytes());
+    use rand::{Rng, SeedableRng};
+    let mut g = rand_chacha::ChaCha8Rng::seed_from_u64(4);
+    for _ in 0..5_000 {
+        let p = [g.gen_range(90.0..100.0), g.gen_range(-40.0..-35.0)];
+        let t = g.gen_range(T0..T0 + 2.0 * DAY);
+        assert_eq!(joined.sample(t, p), wide.sample(t, p));
+    }
+    // Windows: inside one band, across the seam, and the window-only-east case.
+    for (lo, hi) in [(91.0, 93.0), (94.2, 96.1), (97.0, 99.0)] {
+        let w = LoadWindow { lon: Some([lo, hi]), ..LoadWindow::all() };
+        let a = GridField::load_window(&dir.join("joined.series.json"), &w).unwrap();
+        let b = GridField::load_window(&dir.join("wide.series.json"), &w).unwrap();
+        assert_eq!(a.axes().1, b.axes().1, "{lo}-{hi}");
+        assert_eq!(a.sample(T0 + 0.3 * DAY, [0.5 * (lo + hi), -37.2]), b.sample(T0 + 0.3 * DAY, [0.5 * (lo + hi), -37.2]));
+    }
+    // Contiguous bands (cell-centre grids): 90-94.5 E then 95-100 E, no shared column.
+    write("westc", 0, 9);
+    std::fs::write(dir.join("contig.series.json"), r#"{"lon_join":["westc.series.json","east.series.json"]}"#).unwrap();
+    let c = GridField::load_series(&dir.join("contig.series.json")).unwrap();
+    assert_eq!(c.axes().1, wide.axes().1);
+    assert_eq!(c.sample(T0 + 0.7 * DAY, [94.8, -37.3]), wide.sample(T0 + 0.7 * DAY, [94.8, -37.3]));
+    // A gap of more than one step is refused.
+    write("westg", 0, 8);
+    std::fs::write(dir.join("gap.series.json"), r#"{"lon_join":["westg.series.json","east.series.json"]}"#).unwrap();
+    assert!(GridField::load_series(&dir.join("gap.series.json")).is_err());
+    // A shared column that differs is refused.
+    std::fs::write(dir.join("bad.series.json"), r#"{"lon_join":["west.series.json","wide.series.json"]}"#).unwrap();
+    assert!(GridField::load_series(&dir.join("bad.series.json")).is_err());
+    std::fs::remove_dir_all(&dir).unwrap();
+}

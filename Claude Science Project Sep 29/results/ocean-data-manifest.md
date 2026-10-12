@@ -533,3 +533,12 @@ Stored at `/Users/pete/Downloads/mh370-ocean-data/products/gdp-replay/`. The sta
 | `woa23/soundspeed_satl/woa23_A5B4_m06_c_mean.f32` | 1101600 | 03efb05a5266283c307e85326808d3ca9b7a056524f78c838df8bd78da22daae |
 | `woa23/soundspeed_satl/woa23_B5C2_m12_c_mean.f32` | 1101600 | e8bcc686fa6347cfa340b2032f265b5298d41b1085986dd89b159fc4a919923d |
 | `paths-calibration/SHA256SUMS` | 808 | ac625a70e5340612ef72798daca1836a78669d530bd629acbbb7e4a7829ca30c |
+
+## Eastern extension 120–160 E, 50–0 S (drift's request of 12 October 2026, Australian non-recovery term)
+
+- **Products:** GLORYS12V1 0.494 m, GlobCurrent daily 0 m and ERA5 u10/v10 3-hourly, for 7 March 2014 –
+  31 January 2017, in the same formats.
+- **Joined manifests:** `*_15-160E.series.json`, using the new `lon_join` key.
+- **Details:** sources, versions, access dates and the sha256 of all 29 files (6,427,681,808 bytes) are in
+  `results/ocean-fields-east-120-160E.md`, copied from `/Users/pete/Downloads/mh370-ocean-data/README-east-120-160E.md`.
+  `SHA256SUMS-east-120-160E.txt` sits beside that README.
