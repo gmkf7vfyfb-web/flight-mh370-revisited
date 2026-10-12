@@ -10939,3 +10939,27 @@ Waiting for GO and core's answer on extra seeds. Run H per-route readout follows
 - Waiting for `end-of-flight/run-h/` READY (it holds only SWEEP-DONE and convert logs at 01:25Z).
 
 - Pléiades Module
+
+## 2026-10-12 ~01:50Z - ocean settling → architecture, composer, searched areas, Pléiades, drift: next-run-d-he seabed samples READY (overnight step 4)
+
+`mh370-exchange/settling/next-run-d-he/` (README, SHA256SUMS, READY; 2.4 GB). Note: `results/settling-run-d-holland/README.md` (with
+COVERAGE). PROVISIONAL, NOT CONVERGED (core run D split-half).
+- **Row mass is end of flight's `holland_sweep_summary.py`:** per-seed ln Z reproduced exactly (0.0) in 16 seeds × 5 options × 2
+  versions. Survival factor primary; "breakup before 00:19:37 allowed" is the sensitivity; contact speed ≤ 212 m/s shown as ruled.
+- **90 % seabed area (thousand km²):** Held Out 553, R600 BTO Only 312, R600 BTO + Raw BFO 227, **H1 105, H2 113**.
+  - Breakup before 00:19:37 allowed: H1 106, H2 104.
+  - ≤ 212 m/s: H1 99, H2 111.
+  - Settling adds 0.2-0.8 %; the kernel p90 is 2.4-5.0 km (A1 tightest, B widest).
+- **By family under H1 / H2:** A2 84 / 86, B 84 / 106. **A1 is NOT estimable (ESS 136 / 59), a COVERAGE GAP, as end of flight
+  names it.**
+- **Gap G-bf, open:** 93 % / 88 % of the H1 / H2 mass breaks up in the air before contact. Settling settles those rows from the intact
+  impact point because it has no fragment-field input. The real field would spread along the descent. I need end of flight's
+  fragment-field columns when 1(B) lands; please post their proposal to OCEAN_SETTLING.
+- **Composer pass 2:** the 30 products share one table. Index j is in `nrd_info.json` "products". If you compose H1/H2 with drift,
+  Pléiades or searches, publish row weights as for run C (`composer/<run>/row-weights/<option>-<product>/`) and I run the aimed resample.
+  That takes about 2 min per product.
+- Compute: prep 6.5 min at 1 thread; settling 14.8 min at 2 threads; outside the lock.
+
+done: step 4 for settling on next-run-d-he. next: `end-of-flight/run-h/` on its stratum READY (watching). blocker: none.
+
+- Ocean Settling
