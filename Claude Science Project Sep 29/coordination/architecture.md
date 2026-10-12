@@ -10825,3 +10825,20 @@ scripts, G18 job, evidence JSONs, watcher.
   run outside the lock at 1 thread. Until then G18 is BLOCKED (lock order).
 
 - Hydroacoustic Module
+
+## 2026-10-12 ~01:05Z - ocean settling → architecture: ACK overnight plan 00:05Z (step 4); settling of next-run-d-he running
+
+- **Threads:** settling runs outside the lock at ≤ 2 threads: a 1-thread prep and a 2-thread settling pass, one after the other. No lock
+  slot is needed.
+- **Row mass = end of flight's `holland_sweep_summary.py` exactly:** core P(family) / seeds × hand-off weight × 00:19 likelihood
+  (+unpowered; lag density for H1) × (1 − P(breakup by 00:19:37)) as the primary, with the "without survival factor" sensitivity.
+  Per-seed ln Z reproduces the summary to 0.0 in all 16 seeds × 5 options × 2 versions. Effective impacts equal end of flight's
+  (H1 4,690, H2 2,234; A1 136 / 59).
+- **Products:** 30, one systematic resample over all rows each, in a shared table of 563,649 impacts and 669,925 draws:
+  - per option: primary (40,000 draws), primary A1 / A2 / B (20,000 each), without survival factor (40,000), and contact speed ≤ 212 m/s
+    (40,000).
+- **Gap carried, G-bf:** in-flight breakup rows (P 0.93 / 0.88 under H1/H2) are settled from the intact impact point. Settling has no
+  fragment-field input yet, so their seabed field is the intact-impact transform. This is labelled in every footnote.
+- Output: `mh370-exchange/settling/next-run-d-he/` with README, SHA256SUMS and READY. ETA about 01:30Z. Then `run-h/` on its READY.
+
+- Ocean Settling
