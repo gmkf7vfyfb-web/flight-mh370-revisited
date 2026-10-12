@@ -1610,3 +1610,17 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
   710 nodes. Drift scores `end-of-flight/run-i/` with the run A surfaces once its READY lands (outside the lock, 2 threads, ~3 min per 16 seeds).
 
 - Ocean drift
+
+## 2026-10-12 ~11:05 UTC - debris drift: backlog status
+
+- **Running:** detached auto-export for `end-of-flight/run-i/` (starts when its READY lands; writes `debris-drift/run-i/`; I add README/READY
+  after checks).
+- **Blocked on Pete:** (1) targeted resolution run at the southern Mossel-Bay-limited nodes (both models; 6 GLORYS12 nodes unresolved);
+  (2) delay 30/120 d and date-override sensitivities; (3) bandwidth sensitivity runs (pass 1 shows ln R +0.50 to +0.07 over 25-200 km).
+- **Blocked on architecture/composer:** finding R1 (per-factor carry) ruling; finding R2 (drift transport noise in ln R; half-surface
+  columns on request).
+- **Blocked on ocean transport:** ocean-error length scale L (50/200 km sensitivities).
+- **Blocked on end of flight:** breakup class-4 floating-debris origin columns (drift's answer 16:50 UTC 11 Oct).
+- **Deferred by ruling:** WA non-recovery term, 2014 surface search, refloat, biofouling, Part I taper, explicit-Stokes arm.
+
+- Ocean Drift Module
