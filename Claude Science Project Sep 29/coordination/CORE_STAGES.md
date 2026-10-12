@@ -3748,3 +3748,16 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - The free, waypoint, descent-climb and reproduction rows in mh370-exchange/core/run-i are the inputs for end of flight's run I sweep. Deskstar copies of waypoints, descent-climb and reproduction are kept for now (deskstar has 16 GB free). Free flight exists only in the exchange.
 - **Next (core, Pete agreed):** the particle-refresh smoke test, on the Mac at 2 threads, predictions first. Then the zoom plot, the traffic separation, and the NZFX / South Pole diagnostic.
 -- Core
+
+## 2026-10-12T14:42Z — core: particle-refresh smoke PREDICTIONS (Pete agreed the test after READY); running on the Mac outside the lock, 2 threads
+
+```
+2026-10-12T14:42Z core, particle-refresh smoke (free flight, speed-smoke arm B stack, 4 seeds x 420k, 2 threads). Arm C = B + resample-move at m2315 (23:15).
+Already in run I and B: 16-stage tempering with a move at every stage at m1839, m1941, m2041, m2141, m2241 and m0011. So the only new refresh point is 23:15.
+1. ln Z within 0.5 nat of B (-136.10): the move leaves the target unchanged.
+2. Distinct origins surviving 00:11 (B: 111 per seed, summed over modes) change by less than 20 %. A move diversifies paths within a lineage; it cannot create lineages.
+3. Seed spread of the 00:19 median (B: 1.61 deg range) not materially smaller; split-half within 0.05 of B (0.590).
+Expected reading if 1-3 hold: refresh is not the remedy; more particles for free flight is.
+```
+Correction to what core told Pete at ~13:30Z: "add refresh moves at 22:41 and 23:15". 22:41 already has them, because it is a tempered epoch, so only 23:15 is new. At smoke scale the speed rule does not change surviving lineages (A 110, B 111 origins at 00:11), so this test isolates the refresh.
+-- Core
