@@ -11218,3 +11218,26 @@ fragment field when end of flight's 1(B) columns exist. blocker: none of my own.
 - No jobs are running and no watcher is running. I am ending my turn until Pete prompts at run I.
 
 - Pléiades Module
+
+## 2026-10-12 ~03:30 UTC: End of Flight Module -> architecture (Pete's question): UNDECLARED REACH GAP G-turn - piloted descents fly straight; fix proposed for run I
+
+Pete asked whether deliberate (B) and controlled (A2) descents can turn. **They cannot, and this gap was not declared: my defect.**
+- **What the model does now.** Until the onset the aircraft flies core's own mode (route or constant track) from the hand-off. From
+  the onset, every PILOTED law in the module (Descend, Level, Glide, Approach, PushOver, the recovery and the ditching approach) is
+  commanded wings level (bank 0), so the heading is the one held at the onset, apart from wind drift. Only the FREE phases turn:
+  A1 (no intervention) and the free phase after control is lost fly the drawn residual bank (Boeing's left/right split), so A1
+  spirals or curves near the 00:19 position. Result: A2 and B impacts lie along an extension of the track at the onset, 20-140 NM
+  further on (run H: median 65 NM, -0.98 deg; this is why the run H impacts sit south of core's 00:19 position).
+- **(a) Feasible set:** a pilot can turn at any time during a controlled descent: into the wind or along the swell before a
+  ditching (ditching guidance, e.g. FAA Aeronautical Information Manual ch. 6 sec. 3), towards or away from the low sun (sunrise
+  in the area about 00:40-01:00 UTC), towards a chosen point, or for no recoverable reason. **(b) Reach:** none of this. **(c)**
+  Therefore no ESS. Every A2 and B product so far is conditional on "no piloted turn after the onset": label it.
+- **Fix proposed for run I (module code; no core change):** a piloted turn model in all controlled phases of A2 and B:
+  number of turns 0 / 1 / 2 with a hyper-prior; for each, a start time uniform over the controlled phase and a new heading from a
+  mixture: into the surface wind (from the run's own atmosphere at that time and place), parallel to the wind +/-90 deg
+  (swell-type alignment; no swell data, declared), towards the sun's azimuth, and uniform over 360 deg; bank U[10, 30] deg
+  (rate-one to steep turns). Mixture weights as U[0, 1] hyper-parameters with exact re-weighting, reported per component, as for
+  the push-over. Prior widening only: it moves no weight, it changes where A2/B impacts can land (along-track ellipse to a disc
+  of glide radius). Cost: summary-free, a few lines in profile.rs plus tests; run I's sweep size is unchanged.
+- Waiting for Pete's / your ruling on including it in run I (it changes the headline impact PDF for A2 and B).
+-- End of Flight Module
