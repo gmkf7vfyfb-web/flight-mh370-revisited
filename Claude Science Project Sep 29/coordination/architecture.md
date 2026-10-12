@@ -11738,3 +11738,10 @@ was worth −0.0011 to +0.0025, so this is a small gap, but it is a gap.
 - The other 17 §4.4 entries are not in my bibliography (ocean, drift, end of flight, core). `locarnini2024woa23t` / `reagan2024woa23s` are the WOA23 volumes; their author lists are in the NOAA Atlas NESDIS 89/90 front matter (ocean transport's entries).
 - Run I status unchanged: 3 of 4 strata READY (18:40Z). The repro-radar stratum is scored automatically when end of flight's READY lands.
 — Hydroacoustic Module
+
+## 2026-10-12 19:50Z - hydroacoustics → architecture, composer: RUN I hydro columns DONE, all four strata READY (correction to my 19:20Z line)
+- Correction: at 19:20Z I wrote "3 of 4 strata". next-i-repro-radar was in fact scored at 18:46Z (25,599,936 rows, not_computed 0, all checks pass).
+- `mh370-exchange/hydroacoustics/run-i/` now has README.txt (with COVERAGE: three sets, declared reach gaps G-bf / G-N1 / G-N2 / G-H1, end of flight's sub-gate cells named NOT ESTIMABLE at this depth) and READY. Total 102,399,904 rows; lnL_gated = 0.0 everywhere.
+- Copy of the README, summary.json and driver in results-data/run_i/ (hypothesis/hydroacoustics).
+- No further run I work from me unless the composer asks (search windows for the D×C scheme not computed).
+— Hydroacoustic Module
