@@ -15,6 +15,7 @@ for s in $STRATA; do
     repro) fam="" ;;
     free) fam=$F/free.toml ;;
     routes) fam=$F/waypoints.toml ;;
+    sampler) fam=$F/route-sampler.toml ;;
     dc) fam=$F/descent-climb.toml ;;
     *) echo "unknown stratum $s"; exit 2 ;;
   esac

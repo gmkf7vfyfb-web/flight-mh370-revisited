@@ -3589,3 +3589,13 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - Disk: delete superseded job folders (about 10.8 GB; runs E and F and run H kept), and stage each stratum back to the Mac before the next starts.
   - Pete to decide whether repro-radar uses the new speeds (core recommends yes; run D stays the Davey-speed baseline), and whether the deletions go ahead.
 - **Headline prediction:** the waypoint family beats free flight by 5–9 nats. Sampler smoke −128.1 against free −135.9 (run D) on the same evidence epochs. If that holds, it is the main early-flight result.
+
+## 2026-10-12 01:42Z — core: run I prepared, NOT submitted (waiting for Pete's GO)
+
+- Configs: `engine/config/sensitivity/next-run/server-i-{free,sampler,dc,repro}.toml`. Job script: `job-run-i.sh` (one stratum per job, preflight and disk gate built in). `driver.sh` gains a `sampler` stratum; the existing strata are unchanged.
+- Local tiny preflight of all four stacks, at 2 threads: all exit 0 and write trace.npy; the waypoint stratum also writes route_plans.npy. Merged settings as intended:
+  - cruise 0.70–0.87 within 210–330 KCAS;
+  - early phase 0.45–0.87 where present;
+  - trace 18:22:00–18:42:40 every 40 s;
+  - look-ahead hand-offs at 22:41 and 00:11, oversample 50.
+- If Pete chooses Davey speeds for repro, only that stratum's EXTRA changes.
