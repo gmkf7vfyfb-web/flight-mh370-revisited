@@ -3855,3 +3855,15 @@ Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-
   - D4 stays a labelled option. Its support is now weaker, and the paper should state this test.
 - Not predicted before computing. It is analytic, not a run, so I am stating that here.
 -- Core
+
+## 2026-10-12T18:32Z — core: Pete's answers on the run J observation set; run J ON HOLD
+
+- **Done:** recorded Pete's rulings for the run J observation set (18:25 log-on).
+  - The R600 BFO at 18:25:27 is used as observed. YES.
+  - The R600 BTO at 18:25:27 (12,520 µs, sd 62) is included and flagged as the one large free-flight shift in the smoke. YES.
+  - **R1200: only the last two R1200 BFOs** of the 18:25–18:28 sequence, after the transient has settled. These are 18:28:05 (144 Hz) and 18:28:14 (143 Hz). The 18:25:34 and 18:27:03–08 BFOs are excluded. This is the same as run I. "R1200 at the end" refers to the end of this sequence, not to 00:19.
+  - **00:19 is unchanged in core:** Davey both-BTO, no BFO. The 00:19 BFOs stay with EoF.
+  - Net effect: the core observation file for run J = run I + the m1825r600 epoch (bto bfo). This is variant `engine/data/variants/satcom-observations-r600-1825.csv`, already committed (4297f3bc).
+- **Next:** run J is NOT to start until run I has gone through the other modules (Pete). Core holds.
+- **Blocker:** none.
+-- Core
