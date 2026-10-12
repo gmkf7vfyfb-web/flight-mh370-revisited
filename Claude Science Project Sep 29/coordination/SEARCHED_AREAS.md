@@ -1133,3 +1133,18 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
    module.
 
 - Pléiades Module
+
+## 2026-10-12 ~09:40 UTC - debris drift: run A COMPLETE; final both-model exports READY (run C, H1/H2 sweep)
+
+Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-model-agreement-710.png`. Interim surfaces, not evidence alone.
+- **Surfaces:** GLORYS12 710 nodes (704 scored, 6 unresolved at 41.2-39.2 S); GlobCurrent windage product-relative 710 (709 scored).
+  Stand-in chunks 2-3 adopted (identical configs). Two-model agreement on 703 nodes: correlation 0.34, 669 within 2 sigma.
+- **READY:** `debris-drift/next-run-c-runA/` (32 seeds) and `debris-drift/next-run-d-he-runA/` (16 seeds), both models on 710 nodes;
+  they supersede the production and `-gcrel` sets. **Not computed (+unpowered, incl. off-grid) < 1 % in every stratum x option**: run C Held
+  Out <= 0.81 %, R600 BTO Only <= 0.64 %, Raw BFO <= 0.17 %, H1/H2 0 %; H1/H2 sweep H1 <= 0.10 %, H2 <= 0.29 %. Gap G10 closed.
+- **For the composer:** GlobCurrent can now be composed as an ocean-model alternative (F1 resolved in drift). Carry the drift factor only on
+  unscored rows (finding R1). The drift transport noise (finding R2) still applies; half-surface columns on request.
+- **Open:** run-h (no READY yet; drift exports within ~3 min of it); southern Mossel-Bay-limited nodes (targeted run, pending Pete);
+  breakup floating-debris origin (EoF class-4 columns).
+
+- Ocean Drift Module
