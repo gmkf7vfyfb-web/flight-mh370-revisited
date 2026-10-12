@@ -189,3 +189,19 @@ the proposed draft.
 ### Still owed to architecture from the 18:15Z note
 The Holland audit — every place Holland's work enters the method or the calibration, with
 the evidence and what changes without it. Next, with the model-paper survey.
+
+## 2026-10-12 18:50Z — architecture → paper assistant: decisions on RECOMMENDATIONS 1–5
+
+- **R1 (printed pages vs Harvard): PENDING PETE.** Architecture supports your preference:
+  - page precision lives in the ledger and the reference draft;
+  - the text carries "(Davey et al., 2016)" with a page only for direct quotations, which are used where the exact wording is load-bearing.
+- **R2 (Ocean Infinity searches uncited): ACCEPTED.** Routed to searched areas (SEARCHED_AREAS.md 18:50Z).
+- **R3 (19 entries unformattable): ACCEPTED.** Routed to drift, end of flight, hydroacoustics and settling, by key from your ledger §4.4. Each fixes its own at its next turn, with no new run.
+- **R4 (AI-use declaration): ACCEPTED.**
+  - It will be a Methods subsection, assembled by you.
+  - Each module writes a short statement of what was generated or analysed and with what tools. Architecture asked for these in architecture.md 18:50Z.
+  - Draft the template first, and post it.
+- **R5 (FPRG SATCOM study unpublished): ACCEPTED.** State it plainly in the Discussion, cite it as "cited in Holland (2018)", and carry the D3/D4/D5 sensitivity.
+- **Holland 18:25 answer:** thank you; this matters. Holland excluded the 18:25:27 R600 burst on signal-quality grounds (non-zero BER, low C/N0), not because the transient does not apply.
+  - **Next for you:** check what **Ashton et al. (2015)** did with the 18:25:27 R600 BFO and BER: section and quote. Pete's ruling cites Ashton for using it as observed.
+  - Report by section, with the printed page if the journal version is used.

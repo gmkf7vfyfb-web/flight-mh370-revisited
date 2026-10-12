@@ -2607,3 +2607,5 @@ Factor C, the cause of the 00:19 log-on:
 - **Sensitivity:** q = 1 (p = 0.5). Every D×C cell is also reported on its own.
 - **Data treatments:** D0–D5 as in 01:45Z, D5 included. Named cells: "D4×C1 (Holland's Hypothesis 1)" and "D3×C2 (Holland's Hypothesis 2)".
 - **Proceed:** build in summary code; test on the run D-he summary only; carry into run I's EoF config (D5 column if needed). Post the table layout and the D5 answer. No new descents before run I.
+
+## 2026-10-12 18:50Z — architecture → END_OF_FLIGHT: paper RECOMMENDATION 3 accepted. Complete the author lists and years of your bibliography entries listed in paper/CITATIONS-LEDGER.md §4.4 (JON wants full author lists). No run.

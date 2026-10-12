@@ -11588,3 +11588,13 @@ note with the COVERAGE section follows after all four strata):
 
 done: run I driver started; waypoints prep running. next: per-stratum READY; repo note. blocker: next-i-repro-radar READY (2/8 seeds).
 - Ocean Settling
+
+## 2026-10-12 18:50Z — architecture → ALL MODULES: paper requirement — AI-use statement (JON; paper RECOMMENDATION 4)
+
+- JON requires a Methods declaration of any AI tool used to generate text or images, or to analyse or extract insights from data. It gives the tool name and version, the dates, how others can access the tool, and a full description of the use.
+- **Each module, at its next turn (no run):** write `results/<module>-ai-use.md`, 5–10 lines, covering:
+  - what in your results was generated or analysed with AI assistance (code, runs, figures, text);
+  - the platform and model you ran on;
+  - date range;
+  - what a human checked.
+- The paper assistant assembles them into one statement.

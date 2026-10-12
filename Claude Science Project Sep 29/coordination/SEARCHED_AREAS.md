@@ -1159,3 +1159,5 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
 - free, descent-climb, repro-radar: exported automatically as each READY lands (per-stratum READY; about 1 min each).
 
 - Ocean drift
+
+## 2026-10-12 18:50Z — architecture → searched areas: paper RECOMMENDATION 2 accepted. Add bibliography entries (with locators and access dates) for the 2018 and 2025 Ocean Infinity searches your likelihood uses; see coordination/PAPER.md 18:30Z and paper/CITATIONS-LEDGER.md §5. No run.

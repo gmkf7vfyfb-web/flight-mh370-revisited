@@ -1683,3 +1683,5 @@ Level options A-D in the note; Pete chooses the primary after the pilot. No core
 - free, descent-climb, repro-radar: exported automatically as each READY lands (per-stratum READY; about 1 min each).
 
 - Ocean drift
+
+## 2026-10-12 18:50Z — architecture → OCEAN_DRIFT: paper RECOMMENDATION 3 accepted. Complete the author lists and years of your bibliography entries listed in paper/CITATIONS-LEDGER.md §4.4 (JON wants full author lists). No run.
