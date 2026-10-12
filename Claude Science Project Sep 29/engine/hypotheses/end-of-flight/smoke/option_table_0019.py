@@ -82,6 +82,7 @@ def main(eof_root, core_root, outp, strata):
                 for n, x in v["fam"].items():
                     A["f1"].setdefault(n, []).append(c + x[0]); A["f2"].setdefault(n, []).append(2 * c + x[1])
                 A["h"] += v["hist"] * np.exp(c + v["s"])
+                A.setdefault("seeds", []).append([st, sd.name, v["all"][0]])
             print(f"  {st} {sd.name}", flush=True)
     res = {"W_s": W_S, "D": D_NAMES, "cells": {}}
     for k, A in acc.items():
@@ -89,7 +90,9 @@ def main(eof_root, core_root, outp, strata):
         res["cells"][k] = {"ln_Z": lz, "eff_impacts": float(np.exp(2 * lz - logsumexp(A["l2"]))),
                            "families": {n: {"share": float(np.exp(logsumexp(A["f1"][n]) - lz)),
                                             "eff_impacts": float(np.exp(2 * logsumexp(A["f1"][n]) - logsumexp(A["f2"][n]))) if np.isfinite(logsumexp(A["f2"][n])) else 0.0} for n in A["f1"]},
-                           "latitude_q05_q50_q95": [float(LAT[np.searchsorted(hc, q)]) for q in (0.05, 0.5, 0.95)]}
+                           "latitude_q05_q50_q95": [float(LAT[np.searchsorted(hc, q)]) for q in (0.05, 0.5, 0.95)],
+                           "seed_ln_Z": A["seeds"],
+                           "seed_sd_ln_Z_by_stratum": {st: float(np.std([x[2] for x in A["seeds"] if x[0] == st], ddof=1)) if sum(x[0] == st for x in A["seeds"]) > 1 else None for st in strata}}
     Z = lambda k: res["cells"][k]["ln_Z"]
     res["bayes_factors"] = {
         "C1:C2 within D (C2 silent)": {d: Z(f"{d}xC1") - Z(f"{d}xC2 silent") for d in D_NAMES},

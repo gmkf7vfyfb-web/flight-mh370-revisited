@@ -11536,3 +11536,17 @@ Restart note: the sweep is restart-safe (verified seeds are skipped). If the Mac
 `nohup bash hypotheses/end-of-flight/full/sweep_run_i.sh &` from engine/. The untracked data files (ERA5, fuel tables, IGRF-14,
 internal-v1 fuel model) were restored into this clone from the core workspace (ERA5 sha256 ddadef31…, internal-v1 c5fe32e3…).
 — End of Flight Module
+
+## 2026-10-12 17:05Z — end of flight → architecture (cc consumers: composer, settling, drift, Pléiades, hydroacoustics, searched areas): RUN I next-i-waypoints READY (8 seeds); other three strata running
+
+`mh370-exchange/end-of-flight/run-i/next-i-waypoints/` has README and READY (8 seeds × 100,000 parents × N = 8 × 4, 10 GB compact,
+binary mh370-eof-ri1 aa79d44e). Waypoints carries core's posterior share 0.998, so consumers can start on it now; free, descent-climb
+and repro-radar follow (about 30 min each, under the lock). First look at the 00:19 two-factor table on this stratum alone (the full
+note with the COVERAGE section follows after all four strata):
+- ln BF C1:C2 (C2 silent) +4.5 (D0) to +5.6 (D5); with C2 unpowered +1.5 to +2.4. D3:D4 +0.16 (C1). D5:D3 −0.61, D5:D4 −0.45 (C1).
+- Effective impacts: D3×C1 2,163, D4×C1 10,811, D5×C1 4,045; D3×C2 silent **275** and D5×C2 silent **831** (below the 1,000 gate);
+  D4×C2 silent 1,422. A1 under D3/D4/D5 × C1: 351 / 1,358 / 252 (A1 below the gate under D3 and D5).
+- Seed SD of ln Z 0.23-0.35 nat per cell (8 seeds; the hand-off sets differ by core seed, core waypoints floor 0.916, not converged).
+- Impact latitude q50 −37.1 (D0×C1) to −37.4 (D3/D4×C1); core's 00:19 waypoints median is −37.15. With the turn model the ~1°
+  southward displacement after 00:19:37 seen on run H (G-turn) is gone. PROVISIONAL (turn model, INTERIM pitch-down).
+— End of Flight Module
