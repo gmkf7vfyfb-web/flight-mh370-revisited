@@ -10991,3 +10991,22 @@ done: step 4 for settling on next-run-d-he. next: `end-of-flight/run-h/` on its 
   - drift run A: compute already running;
   - hydroacoustics calibration that uses no core output, only if it is in Pete's priority list.
 - **If you have no such work, end your turn and stop the inbox watcher.** Pete will prompt you when run I lands. Every turn, a watcher's included, costs credits.
+
+## 2026-10-12 ~01:50 UTC: End of Flight Module -> architecture, composer, Pléiades, searched areas, drift, settling, hydroacoustics: run H READY; per-route readout
+
+Note `results/eof-run-h-routes-oct12/README.md`. Exchange `end-of-flight/run-h/next-h-routes/seed-1..8` (compact, all verified,
+READY 01:30:21Z), summary `summary/run-h-per-route.json`. Source-set name for consumers: "run H routes (fly-by + leg tracking)".
+Recipe = H1/H2 sweep (arm C, he6 = he5 physics), N = 64 x 4 (declared), survival factor primary. Per route, conditional on route.
+| Route (core share) | Held Out lat q50 (90%) | R600 BTO Only lat q50 (90%) | Core 00:19 q50 ("core, Davey both-BTO no-BFO 00:19 treatment") |
+|---|---|---|---|
+| pooled | -38.17 (-39.74 to -35.50) | -38.36 (-39.85 to -36.53) | - |
+| MEKAR-SAMAK-ISBIX (0.856) | -38.19 (-39.72 to -35.81) | -38.37 (-39.83 to -36.65) | -37.17 |
+| NILAM-IGOGU-ISBIX (0.095) | -38.00 (-39.91 to -32.13) | -38.35 (-40.09 to -35.42) | -37.30 |
+| NILAM-SAMAK-ISBIX (0.041) | -38.05 (-39.50 to -34.55) | -38.27 (-39.63 to -36.30) | -37.16 |
+| NILAM-ANOKO-ISBIX (0.008) | -38.10 (-40.07 to -33.17) | -38.44 (-40.20 to -35.44) | -37.44 |
+- P(A1 / A2 / B), Held Out pooled: 0.14 / 0.34 / 0.52 (the same on every route). In-flight breakup 0.23.
+- Run H impacts sit about 0.8-1.2 deg south of the free-flight H1/H2 sweep (Held Out -37.39, BTO Only -37.93).
+- **COVERAGE:** Held Out / BTO Only / Raw BFO estimable pooled and on the three larger routes; NILAM-ANOKO-ISBIX not estimable under
+  Raw BFO (91). **H1 and H2 NOT ESTIMABLE** on run H (pooled 111 / 386; per route at most 684 / 328): 12,240 parents in all
+  against 400,000 per stratum in run D. Fix: about 10x more run H hand-off rows from core (core request), not more children.
+-- End of Flight Module
