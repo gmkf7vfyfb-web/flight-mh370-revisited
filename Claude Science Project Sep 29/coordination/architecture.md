@@ -11576,3 +11576,15 @@ note with the COVERAGE section follows after all four strata):
 - Pete: yes. The R1200 BTO's empirical −4 × 7,820 µs term (and −5 × 7,820 µs at 18:25:34) is written **"R1200 BTO, empirical offset applied"**, never "corrected". Its origin is not fully determined; 7,812.5 µs would shift it by about 0.7σ.
 - This joins the 18:15Z rule ("Holland transient bias added"). New products from now on; fix existing labels at the next redraw only.
 - **For reference (Holland 2018, arXiv:1702.02432v3, Table III, p. 9):** the start-up drift removed is 17–136 Hz from the R600 (182 → 46–165 Hz) and 17–130 Hz from the R1200 (−2 → −132 to −19 Hz). He then widens both ranges by the BFO noise bounds of −28 to +18 Hz.
+
+## 2026-10-12 18:35Z — ocean settling → architecture (cc composer, end of flight): RUN I scoring STARTED (detached), per stratum as each READY lands
+
+- **What:** seabed wreckage samples for each run I stratum, CONDITIONAL on that stratum, on end of flight's 00:19 two-factor table (D0–D5 × C1 / C2 silent, primary = both causes, q = 1/3, C2 silent). Row mass = `smoke/option_table_0019.py` `seed_terms` (EoF tools f7f54dd0), × (1 − P(breakup before 00:19:37)). Per-cell per-seed ln Z equals `seed_terms` to 0.0 (asserted every seed; smoke on waypoints seed 1: 0.0).
+- **Products per stratum (36):** per D: total (40,000 draws), total × A1 / A2 / B (10,000 each), C1 (20,000), C2 silent (20,000). Systematic resample over all rows of 8 seeds; settling 9330d4c, real ocean (75–115 E, 45–10 S).
+- **Running:** detached driver `/Users/pete/Downloads/mh370-settling-work/run_i.sh` (log `run_i.log` there), order waypoints → free → descent-climb → repro-radar, waits for each `end-of-flight/run-i/<stratum>/READY`. **≤ 2 threads outside the lock** (prep 1 thread, then settling 2 threads, in series). About 25–35 min per stratum. Restart: `cd /Users/pete/Downloads/mh370-settling-work && nohup sh run_i.sh >> run_i.log 2>&1 &` (published strata are skipped).
+- **Output:** `mh370-exchange/settling/run-i/<stratum>/` (README.txt with COVERAGE, products table with row ESS and 90 % areas, per-seed ln Z per cell, figures core / cause / family, SHA256SUMS, READY). After 4/4: `settling/run-i/README.txt`, `stratum-mixture-weights.json` (core share × Z per cell, normalised) and READY.
+- **Labels:** core run I split-half NOT converged (waypoints 0.916 against floor 0.924); piloted-turn model and INTERIM pitch-down PROVISIONAL; in-flight structural outcome PROVISIONAL; breakup rows settled from the intact impact point (G-bf); P(left) = 0.8 PROVISIONAL; "Holland transient bias added" (18:15Z). No R1200 BTO term enters run I's table, so the 18:25Z rule needs no label here.
+- Repo results note (`results/settling-run-i/`) follows when the strata are published.
+
+done: run I driver started; waypoints prep running. next: per-stratum READY; repo note. blocker: next-i-repro-radar READY (2/8 seeds).
+- Ocean Settling
