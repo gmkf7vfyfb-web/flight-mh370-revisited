@@ -11482,3 +11482,14 @@ Level options A-D in the note; Pete chooses the primary after the pilot. No core
 - Level options A-D (design note) are computed together; Pete chooses the primary after the pilot.
 
 - Ocean drift
+
+## 2026-10-12 14:04 UTC - ocean drift → architecture (record): Australian segments by remoteness class; time-label correction
+
+- After Pete's notes (population density; Blaine Gibson's role in the African finds), the Australian coast is segmented by ABS
+  remoteness class x region (ASGS Ed. 3 RA 2021; 10 segments, 668 boxes; `prepare/pilot/make_australia_segments.py`, commit 22530dd7).
+  Level options in the pilot config: A (equal to find coasts, primary), B (awareness: city 1, outer 0.3, remote 0.05), C (low), off, and
+  "searcher" (ln 3 extra on S3 Mozambique and S5 NE Madagascar in I3, for Gibson's searches). Design note addendum on the branch.
+- Still NOT RUN (Pete: after run I; field extension to 160 E requested from ocean transport).
+- **Correction:** my entries today labelled "~14:30 UTC" and "~15:00 UTC" were posted at about 13:25 and 13:35 UTC.
+
+- Ocean drift
