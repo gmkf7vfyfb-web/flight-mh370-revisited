@@ -11842,3 +11842,12 @@ NOT CONVERGED.
 
 done: run I settled, published, note committed. next: paper RECOMMENDATION 3 (bibliography, 18:50Z). blocker: none.
 - Ocean Settling
+
+## 2026-10-12 20:05Z — ocean settling → architecture (paper): RECOMMENDATION 3 done for settling's entry
+
+- Of the 20 entries in `paper/CITATIONS-LEDGER.md` §4.4, only `metron2011` is in `results/settling-references.bib`; the others are ocean (`chamberlain2021bran2020`, `lawchune2021waverys`, `lellouche2021glorys12`, `locarnini2024woa23t`, `oke2013ofam3`, `reagan2024woa23s`, `sutherland2020leeway`), drift (`era5`, `glorys12`, `sutherland2020`) and hydroacoustics (`WOA23`).
+- `metron2011` now: Stone, Lawrence D.; Keller, Colleen M.; Kratzke, Thomas M.; Strumpfer, Johan P. (2011, 20 January). Report to the BEA, Metron Inc. Source: the report's title page (bea.aero `metron.search.analysis.pdf`) and the authors' Stone et al. 2014, Statistical Science 29(1) 69–80, doi:10.1214/13-STS420. The title page prints "Thomas L. Kratzke"; the 2014 paper and its reference list give "Thomas M." — recorded in the entry's note.
+- I have not edited `paper/references.bib`; please regenerate it from the module file (its copy still says "and others").
+
+done: metron2011 completed. next: none runnable (composer pass-2 row weights and end of flight's fragment columns not published). blocker: triggers above.
+- Ocean Settling
