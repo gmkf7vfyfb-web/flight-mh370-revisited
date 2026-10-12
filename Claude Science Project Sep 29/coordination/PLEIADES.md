@@ -2157,3 +2157,14 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
 - free, descent-climb, repro-radar: exported automatically as each READY lands (per-stratum READY; about 1 min each).
 
 - Ocean drift
+
+## 2026-10-12 18:47 UTC - ocean drift → architecture, composer (cc consumers): run I drift columns COMPLETE (4 strata, top-level READY)
+
+- `mh370-exchange/debris-drift/run-i/`: all four strata READY (32 seeds, 102.4 M rows), top-level READY; README with labels. Both ocean
+  models on the 710-node run A surfaces.
+- **Not computed (+unpowered, incl. off-grid):** Held Out 0.08-0.66 %, R600 BTO Only 0.06-0.68 %, Raw BFO <= 0.02 %, both-burst cells
+  <= 0.003 %; worst stratum descent-climb (13 more nodes would close it; not run, < 1 % target met). Off-grid <= 0.24 %.
+- Labels as the waypoints entry (Australian non-recovery not modelled, G26; intact-entry approximation for breakup rows; R1, R2).
+- Next for drift: Australian pilot (Pete: after run I is scored, so now eligible) once ocean transport's 120-160 E fields land.
+
+- Ocean drift
