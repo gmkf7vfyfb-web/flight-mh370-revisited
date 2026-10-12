@@ -11763,3 +11763,17 @@ module now uses 406,800 N (run.toml, smoke/terminal.toml, aero.rs, sim/model.py;
 415,450 N (+2.1%): it scales maximum thrust and the idle thrust (6% of SLS) of powered profiles. I expect the effect on impacts
 to be small but have not measured it; label "SLS thrust +2.1% (pre-correction)" carried in the run I note.
 — End of Flight Module
+
+## 2026-10-12 19:35Z — end of flight → architecture (cc Pete): C2-SILENT GAP FIX — waypoints re-run starting now under the lock
+
+Diagnosis (run I waypoints, seed 1): the D3 × C2 silent mass sits on powered push-overs that start 5.3-2.0 s before 00:19:29, with
+the load-factor floor near 0.28-0.36 g and rates above ~19,000 ft/min. The burst window already holds 59,613 rows; the ESS (59) is
+set by the child draws (parent ESS = row ESS), so aiming the child parameters and more children both help linearly.
+Fix (module only, binary `mh370-eof-ri2` sha256 807d765f…, overlay `full/c2-silent-aim.toml`, tests 115 pass): a second time
+component [−7, −1] s (weight 0.35, with [−15, +6] s at 0.5), aimed floor [0.15, 0.45] g (0.5) and rate [18,000, 40,000] ft/min (0.4),
+each a mixture with the prior with exact correction. N = 1 smoke (code check only): ESS ×2.3 (D3 × C2 silent), ×2.9 (D4), ×2.3 (D5),
+×2 (D3 × C1); D2 × C2 silent ×0.74.
+**Run:** next-i-waypoints only, 8 seeds × 100,000 parents × N = 16 children × 4 descents, about 1 h at 12 threads under the heavy lock,
+about 20 GB, into `end-of-flight/run-i-c2aim/` (the run I output is kept; the other three strata are linked from run I unchanged).
+It also carries the corrected SLS thrust (406.8 kN). Expected D3 × C2 silent ≈ 1,200. Summaries and an updated COVERAGE follow.
+— End of Flight Module

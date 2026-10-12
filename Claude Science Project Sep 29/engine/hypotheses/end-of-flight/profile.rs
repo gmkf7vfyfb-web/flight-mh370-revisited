@@ -216,6 +216,13 @@ pub struct EnvelopeConfig {
     /// burst window, so they carried the out-of-window correction and set the A1 effective count.
     #[serde(default)]
     pub pitchdown_target_components: Option<Vec<[f64; 3]>>,
+    /// C2-silent coverage fix (run I, 12 Oct): aimed components for the push-over's load-factor floor (g) and commanded rate
+    /// (ft/min), each [lo, hi, weight] in the parameter's own units, drawn as a mixture with the prior (uniform priors only);
+    /// the exact ln(prior/proposal) goes into the correction. Absent: prior draws (earlier behaviour).
+    #[serde(default)]
+    pub pushover_n_floor_aim: Option<Vec<[f64; 3]>>,
+    #[serde(default)]
+    pub pushover_rate_aim: Option<Vec<[f64; 3]>>,
     /// Speed limit of the push-over/emergency descent as calibrated airspeed (VMO), kt: the target Mach is reduced to the Mach of
     /// this CAS at the current altitude. Absent: Mach target only (earlier behaviour).
     #[serde(default)]
@@ -492,9 +499,17 @@ impl EnvelopeConfig {
     /// (possibly targeted) hold.
     fn draw_pushover_phase(&self, start: &Body, aero: &Aero, powered: bool, speedbrake_eighths: u8, uniform: &mut dyn FnMut() -> f64) -> (Phase, (f64, f64, f64), f64) {
         let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
-        let rate_fpm = self.rapid_descent_rate_fpm.draw(uniform);
-        let n_floor_g = self.pushover_load_factor_floor_g.draw(uniform);
-        let (hold_s, lq) = draw_targeted_delay_mix(&self.pushover_hold_s, start.unix_s, self.burst_target_unix_s, &self.burst_components(), uniform);
+        let aim = |c: &Option<Vec<[f64; 3]>>| -> Vec<([f64; 2], f64)> { c.as_ref().map(|v| v.iter().map(|x| ([x[0], x[1]], x[2])).collect()).unwrap_or_default() };
+        let (rate_fpm, lq_rate) = match &self.pushover_rate_aim {
+            Some(_) => draw_targeted_delay_mix(&self.rapid_descent_rate_fpm, 0.0, Some(0.0), &aim(&self.pushover_rate_aim), uniform),
+            None => (self.rapid_descent_rate_fpm.draw(uniform), 0.0),
+        };
+        let (n_floor_g, lq_floor) = match &self.pushover_n_floor_aim {
+            Some(_) => draw_targeted_delay_mix(&self.pushover_load_factor_floor_g, 0.0, Some(0.0), &aim(&self.pushover_n_floor_aim), uniform),
+            None => (self.pushover_load_factor_floor_g.draw(uniform), 0.0),
+        };
+        let (hold_s, lq_hold) = draw_targeted_delay_mix(&self.pushover_hold_s, start.unix_s, self.burst_target_unix_s, &self.burst_components(), uniform);
+        let lq = lq_rate + lq_floor + lq_hold;
         let phase = Phase::PushOver {
             rate_fpm,
             mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
@@ -1239,6 +1254,8 @@ pub(super) mod tests {
             burst_target_window2_s: None,
             burst_target_weight2: 0.0,
             pitchdown_target_components: None,
+            pushover_n_floor_aim: None,
+            pushover_rate_aim: None,
             pushover_vmo_kt: None,
             pitchdown_probability: 0.0,
             pitchdown_n_g: default_pitchdown_n(),
@@ -1607,6 +1624,40 @@ pub(super) mod tests {
         let p_off = envelope().sample(&body(35_000.0), Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u1);
         assert!(p_off.manoeuvres.queue.is_empty() && p_off.manoeuvres.terminal.is_empty() && p_off.manoeuvres.circuit.is_none());
         assert!(Flying::new(p_off, aero, Propulsion::TwoThrusting, &envelope()).pilot.is_empty());
+    }
+
+    /// The aimed load-factor-floor and rate components keep the prior marginal: E[exp(lq) 1(x in A)] = P_prior(A).
+    #[test]
+    fn the_aimed_push_over_parameters_are_exactly_corrected() {
+        let e = EnvelopeConfig {
+            rapid_descent_probability: 1.0,
+            pushover_n_floor_aim: Some(vec![[0.15, 0.45, 0.5]]),
+            pushover_rate_aim: Some(vec![[18_000.0, 40_000.0, 0.5]]),
+            ..envelope()
+        };
+        let aero = reference();
+        let mut b = body(35_000.0);
+        b.unix_s = 1_394_237_459.0;
+        let mut state: u64 = 0x2545_F491_4F6C_DD1D;
+        let mut u = move || {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            ((state >> 11) as f64 + 0.5) / (1u64 << 53) as f64
+        };
+        let (mut n, mut m1, mut mf, mut mr) = (0.0, 0.0, 0.0, 0.0);
+        for _ in 0..6_000 {
+            let p = e.sample(&b, Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u);
+            let Some((rate, floor, _)) = p.pushover else { continue };
+            n += 1.0;
+            let w = p.log_q_correction.exp();
+            m1 += w;
+            mf += w * f64::from(u8::from((0.15..=0.45).contains(&floor)));
+            mr += w * f64::from(u8::from(rate >= 18_000.0));
+        }
+        assert!(n > 1_000.0, "{n}");
+        let (pf, pr) = (0.30 / 1.8, 22_000.0 / 33_500.0);
+        assert!((m1 / n - 1.0).abs() < 0.04 && (mf / n - pf).abs() < 0.03 && (mr / n - pr).abs() < 0.04, "{} {} {}", m1 / n, mf / n, mr / n);
     }
 
     /// The C2-silent push-over component: fuelled powered profiles propose the push-over at 0.8, and the exact correction
