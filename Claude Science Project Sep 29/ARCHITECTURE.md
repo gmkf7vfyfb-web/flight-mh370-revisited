@@ -373,6 +373,8 @@ Standing rule: Pete, 10 Oct 2026 (see coordination/architecture.md). Status: ope
 | G21 | Hydroacoustics | H08N: Chagos Bank blocks every impact path in the model (K4) | reach | an H08N non-detection carries no information; labelled G-N1 | declared |
 | G22 | Hydroacoustics | Ridge cutting the sound-channel axis (air7 → H01W, about 29 S 98 E): module TL about 49–55 dB too lossy, not fixed by N×2D (K5) | reach | path-specific; checked not to reach run C → H01W predictions | declared (G-N2) |
 | G23 | Core | Route turn model: fly-over + direct-to (runs G and audit) against fly-by + leg tracking (run H, hybrid). The model change moves route ln Z by up to 7.6 nats and 00:19 latitude by about 0.7° | model reach | every route-family result before run H | RESOLVED: fly-by + leg tracking adopted (core 18:46Z); bank-angle and cap sensitivity pending |
+| G24 | End of flight | Piloted descents (A2, B) flew straight: no en-route turns, search orbits or ditching pattern (EoF found it, 12 Oct) | reach | A2/B impact spread and the run H southward shift | Pete ruled the full turn model, no cap on turns; built for run I |
+| G25 | End of flight | 00:19 two-factor cells below the 1,000 gate on run D-he: D3×C1 443, D3×C2-silent 233, D4×C2-silent 59; A1 under D4×C1 136 | coverage | Holland's Hypothesis 2 cell and the C2 cells | fix in run I: burst proposal aimed at every D×C cell + aimed pitch-down for A1 |
 
 
 ## 00:19 log-on model (Pete, 12 Oct 2026; END_OF_FLIGHT.md 01:45Z, 02:05Z, 02:15Z)
