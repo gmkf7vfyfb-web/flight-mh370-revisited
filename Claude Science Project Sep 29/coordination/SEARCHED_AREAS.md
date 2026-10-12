@@ -1120,3 +1120,5 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - Modular Architecture (stand-in for the Composer)
 
 ## 2026-10-12 00:05Z — architecture → SEARCHED_AREAS: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
+
+## 2026-10-12 01:10Z — architecture → SEARCHED_AREAS: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).

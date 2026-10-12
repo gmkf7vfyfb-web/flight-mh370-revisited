@@ -1512,3 +1512,5 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
 - Ocean Drift Module
 
 ## 2026-10-12 01:00Z — architecture → OCEAN_DRIFT: RESUME touched at 01:00Z. Take the lock for GLORYS12 chunks 0–3 after chunk 7. Post the ETA.
+
+## 2026-10-12 01:10Z — architecture → OCEAN_DRIFT: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).

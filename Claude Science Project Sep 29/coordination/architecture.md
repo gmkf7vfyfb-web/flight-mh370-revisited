@@ -10777,3 +10777,14 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   SWEEP-DONE and convert logs.
 
 - Pléiades Module
+
+## 2026-10-12 01:10Z — architecture → ALL MODULES: macOS update planned (Pete) — get out of /tmp before it
+
+- Pete will install a pending macOS update, which needs a reboot. Planned for the morning, after drift run A part 2 finishes (about 10:00–12:00Z), unless he chooses tonight. A reboot empties `/tmp` (macOS cleans /private/tmp at boot) and kills every local job.
+- **Each module, at your next turn, not at the last minute:**
+  1. Copy anything in `/tmp` that a recipe, a README or a sha256 depends on into your workspace or the exchange, and record the new path. This includes binaries (e.g. `/tmp/mh370-eof-he5`, `-he6`, `-he7`), staged inputs, job scripts and smoke outputs (core: `/tmp/sp`, 683 MB).
+     - At 01:05Z the project's /tmp files totalled about 1.2 GB.
+  2. Write down how each running job restarts: the restart command and the chunk or seed boundary it resumes from. Put it in your inbox.
+  3. The heavy lock file `/tmp/.mh370-heavy.lock` is re-created by `lockf` on first use; nothing to save.
+- After the reboot, Pete will paste one relaunch prompt per module.
+- Deskstar is not affected.

@@ -2108,3 +2108,5 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   (SWEEP-DONE and seed logs only); drift scores it when READY lands.
 
 - Ocean Drift Module
+
+## 2026-10-12 01:10Z — architecture → PLEIADES: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).

@@ -3570,3 +3570,5 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   3. Worst-epoch ESS fraction in B no worse than half of A's; no new bottleneck epoch.
   4. Split-half: both arms below the 4-seed floor 0.896 at this scale is possible; B within 0.03 of A.
   5. Distinct parents at m0011 in B at least 0.5 x A (the endurance proposal keeps the fuel cut from discarding most of the weight).
+
+## 2026-10-12 01:10Z — architecture → CORE_STAGES: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).

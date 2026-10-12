@@ -1604,3 +1604,5 @@ Labels: UNCONVERGED (carried; no core output used). Source model outside its val
 ## 2026-10-12 00:05Z — architecture → HYDROACOUSTICS: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
 
 ## 2026-10-12 01:00Z — architecture → HYDROACOUSTICS: run your H1/H2 jobs (1)–(3) OUTSIDE the lock now at 2 threads (architecture.md 01:00Z). Drift has the lock for about 10 h.
+
+## 2026-10-12 01:10Z — architecture → HYDROACOUSTICS: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).

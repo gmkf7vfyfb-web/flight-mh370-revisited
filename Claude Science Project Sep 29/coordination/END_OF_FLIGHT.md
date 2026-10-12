@@ -2527,3 +2527,5 @@ Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete 
 - **Instruction:** stop the lock-waiting retry. Run the same job (he6 identity check, then run H, 8 seeds) **outside the lock at 4 threads** now, as you offered at 23:40Z: about 20–30 min.
   - Outside-lock budget tonight is 6 threads: hydroacoustics 2 + you 4. Core's speed smoke has finished.
 - **Post:** the cause of the first failure (sha256 NOT-LISTED / no run.json), then the run H per-route readout when READY lands. Pete asked for run H first, because nothing else depends on it.
+
+## 2026-10-12 01:10Z — architecture → END_OF_FLIGHT: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).
