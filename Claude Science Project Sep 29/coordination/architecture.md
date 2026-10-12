@@ -10842,3 +10842,30 @@ scripts, G18 job, evidence JSONs, watcher.
 - Output: `mh370-exchange/settling/next-run-d-he/` with README, SHA256SUMS and READY. ETA about 01:30Z. Then `run-h/` on its READY.
 
 - Ocean Settling
+
+## 2026-10-12 ~01:15 UTC: End of Flight Module - run H: cause of the first failure; rerun outside the lock (4 threads) RUNNING; /tmp evacuated
+
+**Cause of the first failure (23:17-00:24Z attempt).** The binary was he5, built before I merged core's latest code. Core's
+run H chain (`config/sensitivity/next-run/server-h-routes.toml` with `davey2016-inmarsat.toml`) now carries a `fly_by` field in
+`dynamics.early.routes`; he5 rejects it ("unknown field `fly_by`"), so every seed's `terminal` exited while parsing the config,
+before writing run.json or impacts. The convert step then found no run.json (the FileNotFoundError you saw). "sha256
+NOT-LISTED" is not an error: core's run H has no COMPACT.txt with uncompressed sums; I checked the gzipped files against core's
+SHA256SUMS before the run (27 of 27 OK). My dry run had used the run D chain, which lacks the new field: the gap in my checks.
+**Fix:** he6 = same module code, rebuilt on the merged tree. Identity check under the lock at 01:02-01:04Z: impacts
+**byte-identical** to he5 on the run D smoke (so run H is directly comparable with the H1/H2 sweep). That retry had the lock
+and had started run H seed 1 when I stopped it at 01:05Z per your 01:05Z entry.
+**Now:** run H outside the lock, 4 threads, started ~01:08Z, 8 seeds x 1,530 parents x 64 children x 4 descents; log
+`/tmp/eof-run-h3.log`; output `end-of-flight/run-h/`. Per-route readout follows READY.
+**Reboot preparation.** Binaries and job scripts copied to `mh370-exchange/end-of-flight/bin/` (he5 262ffeb7, he6 954621fc,
+he7 a8a8a5cc, items234, runc5; README + SHA256SUMS); `full/sweep_holland.sh` now defaults to the exchange he6. Smoke wrappers
+are in the repo (`smoke/eof-smoke-c.sh`, `eof-smoke-d.sh`). Restart commands (sweeps are restart-safe: verified seeds are skipped):
+- run H staging (symlinks, rebuilt after a reboot): `C=/tmp/runh-core/next-h-routes; for k in 1..8: mkdir -p $C/bto-bfo/seed-$k/handoff-m0011;
+  ln -s core/run-h/seed-$k/handoff.{npy,toml.gz} there; ln -s core/run-h/run.json $C/; touch /tmp/runh-core/READY`
+- run H: `EOF_CORE=/tmp/runh-core EOF_STRATA=next-h-routes EOF_SEEDS="1 2 3 4 5 6 7 8" EOF_TAG=RH EOF_EXTRA=hypotheses/end-of-flight/full/children-64.toml
+  EOF_THREADS=4 EOF_NOLOCK=1 EOF_OUT=<exchange>/end-of-flight/run-h hypotheses/end-of-flight/full/sweep_holland.sh`
+- The A1-fix smoke (queued on the lock, free seed 1, 12 threads, about 5 min) restarts with `lockf -k /tmp/.mh370-heavy.lock` around
+  `EOF_BIN=<exchange>/end-of-flight/bin/mh370-eof-he7 EOF_TAG=A1S EOF_EXTRA=hypotheses/end-of-flight/full/a1-aimed-pitchdown.toml
+  EOF_KEEP_FULL=1 EOF_NOLOCK=1 EOF_THREADS=12 EOF_SEEDS=1 EOF_STRATA=next-d-free EOF_OUT=/tmp/a1-smoke hypotheses/end-of-flight/full/sweep_holland.sh`.
+  It is behind drift part 2 in the lock; if you prefer, I run it outside the lock at 4 threads after run H (about 15 min). Its result
+  and the size of the A1 fix follow before anything larger runs.
+-- End of Flight Module

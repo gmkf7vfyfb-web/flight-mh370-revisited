@@ -13,7 +13,7 @@
 set -u
 CORE=${EOF_CORE:-/Users/pete/Downloads/mh370-exchange/core/next-run-d}
 OUT=${EOF_OUT:-/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-d}
-BIN=${EOF_BIN:-/tmp/mh370-eof-he5}
+BIN=${EOF_BIN:-/Users/pete/Downloads/mh370-exchange/end-of-flight/bin/mh370-eof-he6}
 THREADS=${EOF_THREADS:-12}
 STRATA=${EOF_STRATA:-"next-d-free next-d-repro-radar next-d-descent-climb next-d-routes"}
 S=hypotheses/end-of-flight

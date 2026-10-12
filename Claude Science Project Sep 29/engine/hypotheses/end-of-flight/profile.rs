@@ -208,6 +208,12 @@ pub struct EnvelopeConfig {
     pub burst_target_window2_s: Option<[f64; 2]>,
     #[serde(default)]
     pub burst_target_weight2: f64,
+    /// A1 coverage fix (architecture 00:05Z 12 Oct): target components for the PITCH-DOWN start only, each [lo s, hi s, weight]
+    /// relative to `burst_target_unix_s`; absent: the push-over components are used. The full-N sweep showed the A1 rows that
+    /// reach the H1/H2 burst states pitch down 70-80 s before 00:19:29 (the response arrives through the phugoid), outside the
+    /// burst window, so they carried the out-of-window correction and set the A1 effective count.
+    #[serde(default)]
+    pub pitchdown_target_components: Option<Vec<[f64; 3]>>,
     /// Speed limit of the push-over/emergency descent as calibrated airspeed (VMO), kt: the target Mach is reduced to the Mach of
     /// this CAS at the current altitude. Absent: Mach target only (earlier behaviour).
     #[serde(default)]
@@ -422,6 +428,13 @@ impl EnvelopeConfig {
         (phase, (rate_fpm, n_floor_g, hold_s), lq)
     }
 
+    fn pitchdown_components(&self) -> Vec<([f64; 2], f64)> {
+        match &self.pitchdown_target_components {
+            Some(c) => c.iter().map(|x| ([x[0], x[1]], x[2])).collect(),
+            None => self.burst_components(),
+        }
+    }
+
     fn burst_components(&self) -> Vec<([f64; 2], f64)> {
         let mut c = vec![(self.burst_target_window_s, self.burst_target_weight)];
         if let Some(w2) = self.burst_target_window2_s {
@@ -440,7 +453,7 @@ impl EnvelopeConfig {
         }
         let n = self.pitchdown_n_g.draw(uniform);
         let duration = self.pitchdown_duration_s.draw(uniform);
-        let (delay, lq) = draw_targeted_delay_mix(&self.pitchdown_delay_s, start.unix_s + free_start_s, self.burst_target_unix_s, &self.burst_components(), uniform);
+        let (delay, lq) = draw_targeted_delay_mix(&self.pitchdown_delay_s, start.unix_s + free_start_s, self.burst_target_unix_s, &self.pitchdown_components(), uniform);
         (Some((delay, n, duration)), true, lq)
     }
 
@@ -1007,6 +1020,7 @@ pub(super) mod tests {
             burst_target_weight: default_burst_weight(),
             burst_target_window2_s: None,
             burst_target_weight2: 0.0,
+            pitchdown_target_components: None,
             pushover_vmo_kt: None,
             pitchdown_probability: 0.0,
             pitchdown_n_g: default_pitchdown_n(),
