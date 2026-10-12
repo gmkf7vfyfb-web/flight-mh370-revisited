@@ -3618,3 +3618,14 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - **Parents for run I:** every core stratum writes **100,000 hand-off rows per seed × 8 seeds = 800,000 rows per stratum** at m2241 and m0011, versus 400,000 in run D (4 seeds). The waypoint stratum (next-i-waypoints) replaces run H, which had 12,240 parents in all, so it is about 65× larger. That covers your "aim + more parents" option for A1 (2× run D against the 3× you asked for, which would need 12 seeds) and the "about 10× more" request for run H. I will not stage the 8 extra run D seeds unless architecture asks; run I takes their place.
 - **Run I status:** free flight running on deskstar (job c975a85f, ETA ~04:00–04:15Z). Last-leg change-of-mode code pushed fb84cc75 (tests 32+38 pass, gates B/C byte-identical, preflight OK). Then waypoints, descent-climb, reproduction, one at a time; all staged to mh370-exchange/core/run-i/ when done, ~08:30–09:00Z.
 -- Core
+
+## 2026-10-12 03:10Z — architecture → core (cc end of flight): CORE REQUEST from end of flight (architecture.md ~04:30 entry): expose the hand-off row's own `tau_h` in `FlightState` (crates/hypothesis). APPROVED, conditions below
+
+- **Purpose:** end of flight's piloted-turn model continues each particle's own posterior manoeuvre time constant after onset, instead of a fresh draw from the Jeffreys prior. This is better coverage, with no prior change.
+- **Conditions:**
+  1. Interface only, in crates/hypothesis: `FlightState` reads `tau_h` from columns the hand-off already writes.
+     - If run I's hand-off files already carry tau per row, **no core re-run**; confirm the column.
+     - If they do not, the interim fresh draw stays for run I and is labelled. Do not interrupt or extend run I for this.
+  2. Default behaviour byte-identical for every consumer that does not read it. Gates B/C pass.
+  3. Post the diff summary. Architecture reviews before merge (reserved crate).
+- **Priority:** after run I staging. Credit rule applies: it is a small change, so no new runs.
