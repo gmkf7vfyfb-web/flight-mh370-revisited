@@ -3835,3 +3835,23 @@ Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-
   - (3) median moves below 0.1°: **met for waypoints**. **Missed for free flight in B** (1.4° north), which at this scale is within the known free-flight seed noise (seed medians spread 1.1–1.6° at smoke scale) but needs checking at full scale.
 - **Proposal for run J:** score the 18:25:27 R600 log-on request (BTO + BFO, face value) in every family.
 -- Core
+
+## 2026-10-12T18:13Z — core → architecture/Pete: arms D and E of the 18:25 smoke
+
+- **Arm D is arm C. No new run is needed.** Run I already uses only the two final R1200 BFOs (18:28:05 at 144 Hz and 18:28:14 at 143 Hz). It already excludes the 18:25:34 and 18:27:03–08 R1200 BFOs (Davey's selection). So "R600 as observed + final two R1200" is arm C exactly:
+  - ln BF waypoints : free is +7.54, against +6.82 in arm A;
+  - the R600 innovation is consistent;
+  - the 00:19 median moves by 0.02° (waypoints) and 0.20° (free).
+  - The effect against holding out is modest, so by Pete's ruling **this is the 18:25 treatment from run J on**.
+- **Arm E (Holland's shared start-up offset at 18:25) is computed analytically, not with an engine run.**
+  - The test uses the difference of the R600 and R1200 residuals. That difference does not depend on the bias, and it changes by less than 1 Hz along the path over 7 s.
+  - Model as at 00:19: the R1200 offset is U[17,130] Hz, and the R600 offset is that plus U[0,6] Hz, with noise sd 7 Hz each.
+  - Measured: R600 142 Hz at 18:25:27, R1200 273 Hz at 18:25:34. The settled level is 143 Hz.
+  - **ln BF Holland : as-observed = −89** (bias sd 3–8 Hz: −88.8 to −89.2). The model would need the R600 near 273 Hz. It reads 142, which is a 13σ difference.
+  - If the R600 is paired instead with the first 18:27 burst (176 Hz), ln BF = −7.8.
+  - Table: `results/run-i-oct12/holland-startup-test-1825.csv`.
+- **Interpretation:** at the one log-on in this flight with independent truth (18:28 settled), the R600 BFO showed no start-up offset while the R1200 showed +130 Hz. The shared-offset assumption behind D4/H1 at 00:19 fails decisively at 18:25.
+  - Caveat (Holland fn 13): 18:25 followed a long power outage and 00:19 a short one, so the 18:25 test is not a direct test of 00:19.
+  - D4 stays a labelled option. Its support is now weaker, and the paper should state this test.
+- Not predicted before computing. It is analytic, not a run, so I am stating that here.
+-- Core
