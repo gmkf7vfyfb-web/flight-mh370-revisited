@@ -3761,3 +3761,19 @@ Expected reading if 1-3 hold: refresh is not the remedy; more particles for free
 ```
 Correction to what core told Pete at ~13:30Z: "add refresh moves at 22:41 and 23:15". 22:41 already has them, because it is a tempered epoch, so only 23:15 is new. At smoke scale the speed rule does not change surviving lineages (A 110, B 111 origins at 00:11), so this test isolates the refresh.
 -- Core
+
+## 2026-10-12T14:53Z — core: particle-refresh smoke RESULT: no effect; refresh is not the remedy for free flight's convergence
+
+Free flight, 4 seeds × 420k, same seeds. Arm C is arm B (Pete's speed rule) plus a resample-move at 23:15. The move was applied: 630k proposals, 83 % accepted.
+
+| arm | ln Z | split-half (4 seeds) | 00:19 median | seed-median range | lineages surviving 00:11 |
+|---|---|---|---|---|---|
+| A, earlier speeds | −135.72 | 0.627 | −37.41 | 1.14° | 110 |
+| B, speed rule | −136.12 | 0.590 | −37.02 | 1.61° | 111 |
+| C, B + refresh at 23:15 | −136.13 | 0.596 | −36.98 | 1.60° | 111 |
+
+- Predictions: (1) ln Z within 0.5 nat: met (Δ −0.01). (2) Surviving lineages change by less than 20 %: met (0 %). (3) Seed spread not materially smaller: met.
+- **Reading:** the refresh moves change paths only after 22:41. The seed-to-seed spread is set by which early lineages (18:01–22:41 histories) survive, and moves cannot create lineages. The speed rule does not change survival either (A 110 against B 111), though it widens the seed spread at this scale.
+- **Remedy:** more particles or more seeds for free flight. At 7M per seed, free flight would need roughly 2–4× to reach the floor. This is a long run, for Pete's agreement; it is not proposed now, because free flight is 6.8 nats behind waypoints and its shape does not move the four-family result.
+- Files: `results/run-i-oct12/refresh-smoke.csv` and the PREDICTION file.
+-- Core
