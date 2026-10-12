@@ -143,6 +143,12 @@ pub struct RouteSampler {
     pub equator_continue_probability: f64,
     pub south_limit_deg: f64,
     pub nominal_ground_speed_kt: f64,
+    /// Change of mode on the last leg (Pete, 12 Oct 2026: no prior on when it happened):
+    /// Some((p, lon)) - with probability p the aircraft leaves route flight part-way along the
+    /// last leg, at a point drawn uniformly over the part of the leg west of `lon` degrees E
+    /// (at the fix if none of the leg is west of it); otherwise at the last fix. The other legs
+    /// keep the break-off toward another fix. None: the last leg uses that break-off too.
+    pub transition: Option<(f64, f64)>,
 }
 
 /// A route drawn by [`RouteSampler`]: per leg, the target fix (index into the sampler's
@@ -238,6 +244,29 @@ impl RouteSampler {
                     out.fly_by_mask.push(false);
                     break;
                 }
+            }
+            if let (Some((p_mid, west_of)), true) = (self.transition, leg + 1 == legs) {
+                let mid = rng.gen_bool(p_mid);
+                // Uniform over {f in (0, 1): longitude at f < west_of}, by rejection.
+                let f = if mid {
+                    (0..200).map(|_| rng.gen_range(0.0..1.0)).find(|&f| great_circle_fraction(pos, target, f).1 < west_of)
+                } else {
+                    None
+                };
+                match f {
+                    Some(f) => {
+                        out.break_off.push(f);
+                        out.waypoints.push(great_circle_fraction(pos, target, f));
+                    }
+                    None => {
+                        out.break_off.push(0.0);
+                        out.waypoints.push(target);
+                    }
+                }
+                // The last point is never turned at, so its turn model does not matter.
+                out.fly_by.push(false);
+                out.fly_by_mask.push(false);
+                break;
             }
             if rng.gen_bool(self.break_off_probability) {
                 let f = self.break_off_fractions[rng.gen_range(0..self.break_off_fractions.len())];
@@ -2099,6 +2128,49 @@ fn step_towards(value: f64, target: f64, max_step: f64) -> f64 {
 
 #[cfg(test)]
 mod tests {
+    /// Change of mode on the last leg (Pete, 12 Oct 2026): part-way with probability 1/2, at a
+    /// point uniform over the part of the leg west of 96E; earlier legs keep the discrete
+    /// break-off fractions.
+    #[test]
+    fn route_sampler_last_leg_change_of_mode() {
+        use rand::SeedableRng;
+        let mut fixes = Vec::new();
+        for la in -4..=8 {
+            for lo in 90..=95 {
+                fixes.push(SamplerFix { lat: f64::from(la) + 0.3, lon: f64::from(lo) + 0.2, regions: 7 });
+            }
+        }
+        let s = RouteSampler {
+            prefix: vec![(6.182222, 97.585556), (6.503889, 96.491111)], prefix_end_unix_s: 0.0, fixes,
+            legs_mean: 3.0, legs_max: 8, break_off_probability: 0.5, break_off_fractions: vec![0.2, 0.4, 0.6, 0.8],
+            fly_by_probability: 0.5, max_course_change_deg: 180.0, phase2_until_unix_s: 1e9,
+            equator_continue_probability: 1.0, south_limit_deg: -4.5, nominal_ground_speed_kt: 470.0, transition: Some((0.5, 96.0)),
+        };
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(11);
+        let (mut n, mut mid, mut west_legs, mut west_sum) = (0.0f64, 0.0f64, 0.0f64, 0.0f64);
+        for _ in 0..50_000 {
+            let r = s.sample(&mut rng);
+            let k = r.fixes.len();
+            for b in &r.break_off[..k - 1] {
+                assert!([0.0, 0.2, 0.4, 0.6, 0.8].iter().any(|x| (x - b).abs() < 1e-12), "non-last break-off {b}");
+            }
+            n += 1.0;
+            let f = r.break_off[k - 1];
+            if f > 0.0 {
+                mid += 1.0;
+                assert!(r.waypoints[k - 1].1 < 96.0, "change of mode east of 96E");
+                let start = if k >= 2 { r.waypoints[k - 2] } else { s.prefix[1] };
+                if start.1 < 96.0 {
+                    west_legs += 1.0;
+                    west_sum += f;
+                }
+            }
+        }
+        eprintln!("part-way changes {:.3}, mean fraction on all-west legs {:.3}", mid / n, west_sum / west_legs);
+        assert!((mid / n - 0.5).abs() < 0.02, "{}", mid / n);
+        assert!((west_sum / west_legs - 0.5).abs() < 0.01, "{}", west_sum / west_legs);
+    }
+
     /// Route sampler prior (waypoint-family reset, 11 Oct 2026): with fixes always available,
     /// the leg count follows the truncated geometric law, break-off and fly-by are 50/50, the
     /// break-off fractions are uniform over the declared set, no fix repeats, and the equator
@@ -2116,7 +2188,7 @@ mod tests {
             prefix: vec![(6.182222, 97.585556), (6.503889, 96.491111)], prefix_end_unix_s: 0.0, fixes,
             legs_mean: 3.0, legs_max: 8, break_off_probability: 0.5, break_off_fractions: vec![0.2, 0.4, 0.6, 0.8],
             fly_by_probability: 0.5, max_course_change_deg: 180.0, phase2_until_unix_s: 1e9,
-            equator_continue_probability: 0.5, south_limit_deg: -4.5, nominal_ground_speed_kt: 470.0,
+            equator_continue_probability: 0.5, south_limit_deg: -4.5, nominal_ground_speed_kt: 470.0, transition: None,
         };
         let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(7);
         let n = 100_000;

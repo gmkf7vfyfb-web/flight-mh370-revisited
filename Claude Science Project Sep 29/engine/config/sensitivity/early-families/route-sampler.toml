@@ -24,6 +24,10 @@ phase2_until_utc = "2014-03-07T18:40:00Z"
 equator_continue_probability = 0.5
 south_limit_deg = -4.5
 nominal_ground_speed_kt = 470.0
+# Change of mode on the last leg (Pete, 12 Oct 2026: no prior on when it happened): 50/50 at the last fix or
+# part-way along the last leg, uniform over the part of the leg west of 96E. Earlier legs keep the 20/40/60/80 % break-off.
+transition_mid_leg_probability = 0.5
+transition_west_of_lon_deg = 96.0
 turn_backs = true
 track_legs = true
 

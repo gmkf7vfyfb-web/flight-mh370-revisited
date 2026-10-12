@@ -590,6 +590,12 @@ pub struct RouteSamplerConfig {
     pub equator_continue_probability: f64,
     pub south_limit_deg: f64,
     pub nominal_ground_speed_kt: f64,
+    /// Change of mode on the last leg (`flight::RouteSampler::transition`): probability of a
+    /// part-way change, and the longitude (deg E) west of which it may happen. Both or neither.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub transition_mid_leg_probability: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub transition_west_of_lon_deg: Option<f64>,
     /// Turn model at the prefix fixes (fly-by when true). Absent: fly-over.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub prefix_fly_by: Option<bool>,
@@ -838,6 +844,11 @@ impl EarlyConfig {
                     fly_by_probability: r.fly_by_probability, max_course_change_deg: r.max_course_change_deg,
                     phase2_until_unix_s: t(&r.phase2_until_utc)?, equator_continue_probability: r.equator_continue_probability,
                     south_limit_deg: r.south_limit_deg, nominal_ground_speed_kt: r.nominal_ground_speed_kt,
+                    transition: match (r.transition_mid_leg_probability, r.transition_west_of_lon_deg) {
+                        (None, None) => None,
+                        (Some(p), Some(lon)) if (0.0..=1.0).contains(&p) => Some((p, lon)),
+                        _ => return Err("dynamics.early.route_sampler: give transition_mid_leg_probability (0-1) and transition_west_of_lon_deg together".into()),
+                    },
                 };
                 Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes: vec![], turn_backs: r.turn_backs == Some(true),
                     fly_by: r.prefix_fly_by == Some(true), track_legs: r.track_legs == Some(true), bank_deg: r.bank_angle_deg,
