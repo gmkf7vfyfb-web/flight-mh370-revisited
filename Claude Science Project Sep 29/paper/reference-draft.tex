@@ -591,4 +591,65 @@ v_{ground} = descent speed relative to the ground [m/s]; w = descent speed relat
 water [m/s]; w_{up} = vertical water velocity [m/s]
 \end{verbatim}
 \medskip
+\subsection{Composer end-to-end evidence composition (core run I): combining flight + end-of-flight + drift + searches + Pléiades + hydroacoustics into posterior impact/seabed distributions}
+\noindent\textit{Status:} MIXED. \textit{Source note:} \texttt{results/composer-pass2-run-i.md}.
+\medskip
+\begin{equation}
+L = p f_{lag} + (1-p)/W
+\end{equation}
+\noindent\textbf{Symbols.}
+\begin{verbatim}
+L = combined cause-model likelihood [dimensionless]; p = mixing weight on cause C1
+(fuel exhaustion + APU), p=0.75 under q=1/3 (PRIMARY), q=1 (sensitivity)
+[dimensionless]; f_lag = Erlang-lag likelihood component for C1 (unpowered)
+[dimensionless]; W = normalising window term for cause C2 (silent) [dimensionless]; q
+= parameter setting p (q=1/3 primary, q=1 sensitivity) [dimensionless]
+\end{verbatim}
+\noindent\textbf{Implemented in.}
+\begin{verbatim}
+option_table_0019.seed_terms
+\end{verbatim}
+\medskip
+\begin{equation}
+L_M = \frac{1}{2}(L_G + L_C),\quad L_m = drift_m \times Pleiades_m
+\end{equation}
+\noindent\textbf{Symbols.}
+\begin{verbatim}
+L_M = row likelihood under the equal-weight ocean-model mixture [dimensionless]; L_G =
+row likelihood under the GLORYS12 ocean model [dimensionless]; L_C = row likelihood
+under the GlobCurrent ocean model [dimensionless]; L_m = per-model likelihood for
+ocean model m (drift factor times Pléiades factor) [dimensionless]
+\end{verbatim}
+\medskip
+\begin{equation}
+P(GLORYS12 \mid data) = Z_G / (Z_G + Z_C)
+\end{equation}
+\noindent\textbf{Symbols.}
+\begin{verbatim}
+P(GLORYS12|data) = posterior probability of the GLORYS12 ocean model [dimensionless];
+Z_G = marginal likelihood (evidence) under GLORYS12 [dimensionless]; Z_C = marginal
+likelihood under GlobCurrent [dimensionless]
+\end{verbatim}
+\medskip
+\begin{equation}
+W_s = P_{core} \times Z_s(00{:}19\ cell)
+\end{equation}
+\noindent\textbf{Symbols.}
+\begin{verbatim}
+W_s = stratum mixing weight for core family s under ruling C (PRIMARY)
+[dimensionless]; P_core = equal-prior probability of core family s [dimensionless];
+Z_s(00:19 cell) = evidence of family s evaluated at the 00:19 data cell
+[dimensionless]
+\end{verbatim}
+\medskip
+\begin{equation}
+W_s = P_{core} \times Z_s(product)
+\end{equation}
+\noindent\textbf{Symbols.}
+\begin{verbatim}
+W_s = stratum mixing weight for family s under the all-evidence mixture
+[dimensionless]; P_core = equal-prior probability of family s [dimensionless];
+Z_s(product) = evidence of family s evaluated at the full product [dimensionless]
+\end{verbatim}
+\medskip
 \end{document}

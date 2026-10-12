@@ -312,7 +312,7 @@ Sources the note cites: Davey et al. 2016 (p. 55).
 
 #### Composer pass 1 (run C) — Bayesian evidence/position composition pipeline
 
-*Source note:* `results/composer-pass1-run-c.md` — Composer: first composed pass  
+*Source note:* `results/composer-pass1-run-c.md` — Composer: first composed pass (run C)  
 *Status:* **MIXED** — pipeline is BUILT and executed end-to-end (9/9 unit tests pass, 504 products written, checks reproduce EoF/searches/settling exactly) but every composed number is explicitly labelled UNCONVERGED, provisional, or not estimable  
 *Classification:* UPDATE -- reruns the unchanged composer (`crates/compose` at 960b3147) on new run C inputs under a changed constraint (`+unpowered` vs pass 0's `+alive`) and an extended product set (ρ sensitivity, COSMO, 212 m/s filter, seabed resample)
 
@@ -386,7 +386,7 @@ Governing equations, as the note gives them:
 
 Sources the note cites: Davey et al. 2016 (pp. 16, 56, 59).
 
-### 2.5 Extension (10 elements)
+### 2.5 Extension (11 elements)
 
 An element the published work does not have. **This is where the paper's words should go.** Each needs its purpose, its governing equations, its status and its open coverage gaps.
 
@@ -765,9 +765,69 @@ Sources the note cites: Davey et al. 2016 (p. 56).
 
 Sources the note cites: Davey et al. 2016 (p. 60, §8.3).
 
+#### Composer end-to-end evidence composition (core run I): combining flight + end-of-flight + drift + searches + Pléiades + hydroacoustics into posterior impact/seabed distributions
+
+*Source note:* `results/composer-pass2-run-i.md` — Composer: latest composed pass, end to end (run I)  
+*Status:* **MIXED** — the composition itself ran end-to-end and was validated exactly against end-of-flight's and settling's outputs (BUILT), but core convergence, breakup/structural limit (G13), Western Australia non-recovery (G26) and seabed resampling (G12) remain open/provisional/not modelled  
+*Classification:* EXTENSION -- composition adds drift, seabed-search, Pléiades-debris and hydroacoustic evidence layers onto the core flight/end-of-flight reconstruction (of which "Davey reproduction" is one stratum), well beyond Davey et al. 2016's original scope
+
+Governing equations, as the note gives them:
+
+- combine fuel-exhaustion and silent-engine competing cause models into one row-level likelihood
+
+  ```latex
+  L = p f_{lag} + (1-p)/W
+  ```
+  Symbols: L = combined cause-model likelihood [dimensionless]; p = mixing weight on cause C1 (fuel exhaustion + APU), p=0.75 under q=1/3 (PRIMARY), q=1 (sensitivity) [dimensionless]; f_lag = Erlang-lag likelihood component for C1 (unpowered) [dimensionless]; W = normalising window term for cause C2 (silent) [dimensionless]; q = parameter setting p (q=1/3 primary, q=1 sensitivity) [dimensionless]
+  Implemented in: `option_table_0019.seed_terms`
+
+- exact marginal (Bayesian model averaging) over the global ocean-model choice at equal prior, per Pete's ruling
+
+  ```latex
+  L_M = \frac{1}{2}(L_G + L_C),\quad L_m = drift_m \times Pleiades_m
+  ```
+  Symbols: L_M = row likelihood under the equal-weight ocean-model mixture [dimensionless]; L_G = row likelihood under the GLORYS12 ocean model [dimensionless]; L_C = row likelihood under the GlobCurrent ocean model [dimensionless]; L_m = per-model likelihood for ocean model m (drift factor times Pléiades factor) [dimensionless]
+
+- report the posterior ocean-model weight for every product
+
+  ```latex
+  P(GLORYS12 \mid data) = Z_G / (Z_G + Z_C)
+  ```
+  Symbols: P(GLORYS12|data) = posterior probability of the GLORYS12 ocean model [dimensionless]; Z_G = marginal likelihood (evidence) under GLORYS12 [dimensionless]; Z_C = marginal likelihood under GlobCurrent [dimensionless]
+
+- construct the primary equal-prior core mixture (ruling C)
+
+  ```latex
+  W_s = P_{core} \times Z_s(00{:}19\ cell)
+  ```
+  Symbols: W_s = stratum mixing weight for core family s under ruling C (PRIMARY) [dimensionless]; P_core = equal-prior probability of core family s [dimensionless]; Z_s(00:19 cell) = evidence of family s evaluated at the 00:19 data cell [dimensionless]
+
+- construct the alternative all-evidence stratum mixture, compared against the ruling-C mixture
+
+  ```latex
+  W_s = P_{core} \times Z_s(product)
+  ```
+  Symbols: W_s = stratum mixing weight for family s under the all-evidence mixture [dimensionless]; P_core = equal-prior probability of family s [dimensionless]; Z_s(product) = evidence of family s evaluated at the full product [dimensionless]
+
+
+Open coverage gaps named by the note:
+
+- G9 core convergence -- OPEN: all four core families below the floor; composed area split-half 11-57%.
+- G10 drift not computed -- CLOSED on run I: ≤0.11% of base weight; exclusion changes nothing visible.
+- G12 seabed from composed weights -- PARTIAL: importance re-weighting of settling's resample (outcome ESS 1.2k-2.7k for Pléiades products); a settling resample from the composed row weights is still the fix for D2-D5.
+- G13 breakup / structural limit -- OPEN: 11-21% of composed weight above 1.25 VMO before the searches; seabed and hydro levels are intact-impact upper bounds.
+- G14 Raw BFO estimability -- RESOLVED at all-family level on run I (R600 BTO + R600 BFO: 64k flight + EoF, 42k drift, 11k after searches, 4.2k / 3.1k under Pléiades); OPEN for A1 after the searches (958) and under Pléiades (870 / 386).
+- G24 piloted turns -- BUILT and used (provisional turn model); confirmed from end of flight's run I recipe.
+- G25 D × C cells -- OPEN: D3 × C2 silent (Holland's Hypothesis 2) 275 → 29-220 composed; D5 × C2 silent 833 → 42-562; A1 under D3 / D5 × C1 353 / 254; every D3-D5 product after searches or under Pléiades is below 1,000.
+- G26 Western Australia non-recovery -- OPEN: every drift-including product carries the label.
+
+Sources the note cites: Davey (named only as "Davey reproduction" core family; no year or further detail given in the note); Holland (named as "Holland's Hypothesis 1" = D4×C1, "Holland's Hypothesis 2" = D3×C2 silent, and "Holland transient bias added" data treatment; no year given in the note).
+
 ## 3. Results and findings
 
 Every claim below carries the caveat labels its note attaches, **verbatim**, and the artifact it came from. A claim with no artifact recorded is marked so: it is traceable to its note but not yet to a run directory, and must be before it is published.
+
+**Which composed pass is current.** Two composed passes are carried below. `composer-pass1-run-c.md` is the earlier pass on core run C; `composer-pass2-run-i.md` is the later end-to-end pass on core run I and is the one the paper should quote. Its own headline is labelled **UNCONVERGED; conditional on equal family prior** and it carries a declared-deviations section, so it is reported at that strength here. Run C claims are kept because superseded results are not deleted in this project, but they must not be presented as current.
 
 ### 3.1 Core filter: staged model changes
 
@@ -1106,7 +1166,7 @@ Source note: `results/davey-ch11-reproduction.md`
 - *Labels, verbatim:* fails split-half convergence
 - *Artifact:* `results/no-exhaustion-prior-datasheet.md §3`
 
-### 3.9 Composer: first composed pass
+### 3.9 Composer: first composed pass (run C)
 
 Source note: `results/composer-pass1-run-c.md`
 
@@ -1149,6 +1209,45 @@ Source note: `results/composer-pass1-run-c.md`
 
 - *Labels, verbatim:* run C NOT CONVERGED (core split-half mean 0.850-0.918 against the 8-replicate floor 0.924)
 - *Artifact:* `family-evidence-run-c.json (end of flight's)`
+
+### 3.10 Composer: latest composed pass, end to end (run I)
+
+Source note: `results/composer-pass2-run-i.md`
+
+**R70.** The 00:19 data move the drift product's median by 0.43° at most (−36.86 for Held Out to −37.29 for both BFOs with Holland transient bias added).
+
+- *Labels, verbatim:* NOT CONVERGED; conditional on equal family prior; end-of-flight physics PROVISIONAL (piloted turns, interim pitch-down; breakup provisional, G13); Western Australia non-recovery not modelled (G26) on every drift-including product
+- *Artifact:* `results/composer-pass2-run-i/products.csv (section 3 table)`
+
+**R71.** The seabed searches are now the largest single factor on the impact PDF, removing 54-71% of the probability (Δ ln Z −0.78 to −1.23), moving the median 0.3-1.2° north and enlarging the 90% region by 60-96% (00:19 R600 BTO Only: 165k → 309k km²).
+
+- *Labels, verbatim:* NOT CONVERGED; searched areas ρ 0.05 only (under-stated, module); Ocean Infinity excluded
+- *Artifact:* `results/composer-pass2-run-i/evidence.csv`
+
+**R72.** Debris drift widens rather than narrows the flight + EoF region (R600 BTO Only 117k → 165k km²) and shifts it north-east; its evidence does not discriminate the 00:19 treatments (Δ ln Z −128.06 to −128.16).
+
+- *Labels, verbatim:* NOT CONVERGED; Western Australia non-recovery not modelled (G26) on every drift-including product; finding R1 (drift factor only on unscored rows)
+- *Artifact:* `results/composer-pass2-run-i/evidence.csv`
+
+**R73.** Split-half: none of these areas is converged -- the three balanced seed partitions differ by 11-57% in area and up to 0.98° in median (after searches); this is the core run I non-convergence (per-seed ln Z SD in the waypoints stratum 0.20-0.36 nat), not composer noise.
+
+- *Labels, verbatim:* Core run I NOT CONVERGED (canonical split-half: waypoints 0.916 just below the floor 0.924; free flight 0.830, descent-climb 0.794, Davey reproduction 0.891, all NOT converged)
+- *Artifact:* `results/composer-pass2-run-i/products.csv (section 3 table); fig1/fig2`
+
+**R74.** The debris evidence does not select an ocean model -- P(GLORYS12 | data) = 0.46-0.51 with drift, 0.47-0.51 after searches, 0.54-0.63 with the Pléiades objects (|ln BF| ≤ 0.53).
+
+- *Labels, verbatim:* Pléiades products are conditional on the objects being MH370 debris
+- *Artifact:* `results/composer-pass2-run-i/products.csv (section 4.4 table)`
+
+**R75.** Drift not computed on run I under the composed cells is ≤0.11% of the base weight in every stratum and D (largest: descent-climb, R600 BTO Only, 0.113%; waypoints ≤0.025%); excluding those rows changes ln Z by <0.001 and no median or area visibly -- G10 is closed on run I.
+
+- *Labels, verbatim:* G10 closed on run I
+- *Artifact:* `results/composer-pass2-run-i/ (section 2 checks)`
+
+**R76.** The seabed regions equal the impact regions (same outcomes) to within 2.5%, but the seabed split-half (seeds 1-4 against 5-8) differs by 10-46% in the 90% area: NOT CONVERGED.
+
+- *Labels, verbatim:* NOT CONVERGED; G12 (seabed from composed weights) PARTIAL; breakup rows settled from the intact impact point (G-bf)
+- *Artifact:* `results/composer-pass2-run-i/seabed.csv (section 4.6 table)`
 
 ## 4. Coverage register, copied from ARCHITECTURE.md
 

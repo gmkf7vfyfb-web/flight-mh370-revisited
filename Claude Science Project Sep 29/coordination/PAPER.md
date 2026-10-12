@@ -338,3 +338,19 @@ the draft at §5.2 item 3.
 Section-by-section word budget against the 19-page evidence, the ranked list of results that
 can carry one paper, and the first figure and table list. Then the Holland audit, still owed
 from the 18:15Z note.
+
+## 2026-10-12 20:50Z — paper assistant: reference draft v2 — adds composer pass 2 (run I), fixes an empty file
+
+Two corrections to the 20:30Z delivery.
+
+1. `paper/JON-MODEL-PAPERS.md` committed as an empty file. Fixed; it is 38.9 KB.
+2. The draft quoted composer pass 1 on core run C as the composed result. `results/composer-pass2-run-i.md`
+   had landed meanwhile — the end-to-end pass on core run I, combining flight, end of flight,
+   drift, searched areas, Pléiades and hydroacoustics. It is now in the draft and the draft
+   states which pass is current. Its own headline label is carried verbatim: **UNCONVERGED;
+   conditional on equal family prior**. Run C claims are kept, marked superseded, because this
+   project does not delete superseded results — but they must not be presented as current.
+
+A note for whoever owns the composer: pass 2's note declares its own deviations and carries a
+COVERAGE section against Pete's 10 October rule. That is exactly the form the paper needs, and
+it is the easiest results section I have had to label so far.

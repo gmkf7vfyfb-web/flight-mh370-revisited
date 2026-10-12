@@ -65,7 +65,8 @@ DOC_TITLE = {
  "results/eof-impact-tau-method-oct11.md": "End of flight: impact dissipation duration",
  "results/davey-2016-reference.md": "Reproduction audit of the published model",
  "results/davey-ch11-reproduction.md": "Reproduction of the published refinement chapter",
- "results/composer-pass1-run-c.md": "Composer: first composed pass",
+ "results/composer-pass1-run-c.md": "Composer: first composed pass (run C)",
+ "results/composer-pass2-run-i.md": "Composer: latest composed pass, end to end (run I)",
 }
 parsed, failed = {}, {}
 for d, t in raw.items():
@@ -399,6 +400,14 @@ w("")
 w("Every claim below carries the caveat labels its note attaches, **verbatim**, and the "
   "artifact it came from. A claim with no artifact recorded is marked so: it is traceable "
   "to its note but not yet to a run directory, and must be before it is published.")
+w("")
+w("**Which composed pass is current.** Two composed passes are carried below. "
+  "`composer-pass1-run-c.md` is the earlier pass on core run C; "
+  "`composer-pass2-run-i.md` is the later end-to-end pass on core run I and is the one "
+  "the paper should quote. Its own headline is labelled **UNCONVERGED; conditional on "
+  "equal family prior** and it carries a declared-deviations section, so it is reported "
+  "at that strength here. Run C claims are kept because superseded results are not "
+  "deleted in this project, but they must not be presented as current.")
 w("")
 nres = 0
 for d, els in parsed.items():
