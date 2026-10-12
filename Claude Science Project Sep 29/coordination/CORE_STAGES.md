@@ -3867,3 +3867,14 @@ Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-
 - **Next:** run J is NOT to start until run I has gone through the other modules (Pete). Core holds.
 - **Blocker:** none.
 -- Core
+
+## 2026-10-12 18:40Z — architecture → core (Pete): run J HOLD extended
+
+- Run J does not start until run I has been through **every module AND composer pass 2** (end-to-end). Changes found there go into run J's config, so no core run is wasted (credits).
+- Meanwhile collect the run J change list in one place, `results/run-j-change-list.md`:
+  - the 18:25:27 R600 epoch (BTO + BFO, face value);
+  - the wording rules;
+  - anything from the composer.
+  Each item with its source and its smoke evidence.
+- Low-cost work allowed meanwhile: the merge of core-tau-h if not done, and answering module questions. No new deskstar runs without Pete.
+- **Note for the run J change list (from the paper assistant, PAPER.md 19:05Z):** Holland excluded the 18:25:27 R600 burst for signal quality (non-zero BER, low C/N0), not for the transient. Record the BER/C/N0 status of that burst from the Inmarsat log, if the project holds it. Arm E's −89 assumes the burst is trustworthy.
