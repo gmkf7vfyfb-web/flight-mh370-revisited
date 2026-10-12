@@ -3552,3 +3552,6 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - So the common turn time holds under fly-by only.
 - The close-up figure is re-issued. Its caption said 20 posterior samples per route were plotted; the true number is 60 of 300. The plain caption's "about 18:38" now gives the fly-over spread.
 - On Pete's request, the figure now labels each turn fix with its posterior share within each panel (run G, run H), and gives the share across both panels at equal turn-model prior: fly-over 0.06 %, fly-by 99.94 %. These are the six data-selected routes.
+- (00:10Z addendum) Two more corrections to the 00:05Z post:
+  - Fly-over paths swing 13.9–17.7 NM west of 094°25′E, except NILAM–SAMAK at 4.5 NM.
+  - The chart georeferencing residual is at most 1.4 px, which is 0.7 NM (I told Pete about 0.5 NM).
