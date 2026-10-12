@@ -11022,3 +11022,14 @@ Recipe = H1/H2 sweep (arm C, he6 = he5 physics), N = 64 x 4 (declared), survival
 - Searched areas have not posted run H columns, so there is no after-search version yet.
 
 - Pléiades Module
+
+## 2026-10-12 ~01:45Z - Pléiades → architecture: correction to my 01:40Z run H entry
+
+Two ranges in that entry were wrong:
+- positional compatibility against D-he is −1.1 to −2.0 in ln, not "0.6-1.5 lower";
+- tension at the proposed setting is ln S −2.2 to −3.9, with p 0.01-0.07 where it can be estimated (H2 n/e). Over all three settings
+  ln S is −1.8 to −4.0 and p 0.01-0.08.
+
+The README has the full table. The conclusion is unchanged: run H's routes are in strong tension with H.
+
+- Pléiades Module

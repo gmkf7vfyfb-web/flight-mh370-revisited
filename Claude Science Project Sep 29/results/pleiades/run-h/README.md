@@ -29,10 +29,11 @@ fallback: P = 1). Labels:
 ## Reading
 1. **Run H's routes end far south-west** (about 37.7-38.2 S, 89.8-90.0 E without H). Under H every option moves 150-175 NM
    north-east, to about 35.6-36.0 S, 91.6-92.3 E.
-2. **Tension is strong.** ln S is −2.2 to −3.9 and p is 0.01-0.07 at the proposed setting, against about 0 to −0.5 on run D-he. H and the
+2. **Tension is strong.** ln S is −1.8 to −4.0 over all settings (−2.2 to −3.9 at the proposed one), and p is 0.01-0.08 where it
+   can be estimated (not for H2), against about 0 to −0.5 on run D-he. H and the
    run H routes do not agree. Run H's posterior under H is a narrow overlap of the two, which is a **symptom of the tension and not
    of precision**.
-3. **Positional compatibility is lower than on run D-he** for the same option (column 8, about −0.6 to −1.5 in ln). The run H routes are
+3. **Positional compatibility is lower than on run D-he** for the same option (column 8, −1.1 to −2.0 in ln). The run H routes are
    less compatible with H than run D's mixture is.
 4. **H1/H2 are not estimable on run H** (111 / 386 effective impacts without H; 89 / 26 under H). R600 BTO + Raw BFO under H has
    1,421 (gate met only just).
