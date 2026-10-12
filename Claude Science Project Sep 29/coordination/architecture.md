@@ -11241,3 +11241,19 @@ Pete asked whether deliberate (B) and controlled (A2) descents can turn. **They 
   of glide radius). Cost: summary-free, a few lines in profile.rs plus tests; run I's sweep size is unchanged.
 - Waiting for Pete's / your ruling on including it in run I (it changes the headline impact PDF for A2 and B).
 -- End of Flight Module
+
+## 2026-10-12 ~03:45 UTC: End of Flight Module - G-turn: Pete's ruling (full turn model, no cap) and the design; building for run I
+
+Pete chose the full turn model and asked for no fixed cap on the number of turns (a deliberate actor might sweep the area for
+vessels, a full 360, or fly a pattern - downwind past the intended ditching site to inspect swell and wind, base, final).
+Design (module only; prior widening, exact re-weighting, reported per component; no change to run I's size):
+1. **En-route turns** as a rate per minute of controlled flight, log-uniform hyper-prior from about 1/h to 1/2 min, so the count
+   follows from the phase length (0 to about 15 in a glide from FL350, more in a long powered descent). New heading from a mixture:
+   into the surface wind (the run's atmosphere at the onset position), across the wind (+/-90 deg, swell proxy, declared),
+   towards the sun (solar-position formula), uniform 360 deg; bank U[10, 30] deg.
+2. **Search sweeps:** 1-3 orbits of 360 deg (or a racetrack) at a random time (Pete's witness-avoidance case).
+3. **Ditching pattern (B):** downwind past the site, base, final into the wind; leg lengths over declared ranges.
+Each segment type has a U[0, 1] hyper-probability. Effect expected: A2/B impacts pulled back towards the onset point and spread
+into a disc; the run H southward shift should shrink. Feasibility bound: time and energy, not a count (a 360 at 25 deg bank is
+about 6 min and 7 NM radius at 480 kt TAS). N = 1 smoke on the existing smoke inputs (no new run on D/H), then the run I config.
+-- End of Flight Module
