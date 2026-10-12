@@ -30,6 +30,29 @@ Primary arm (survival factor applied), +alive, rho = 0.05, point target, Ocean I
 3. Within run D-he's own routes stratum H1 is marginal (ESS 1,206, just over the floor) and H2 is below it (826).
    Both are reported, H2 as not estimable.
 
+## The wreckage field on run H
+
+Settling posted `settling/run-h` after the first pass here, so the field check ran on all five primary "all"
+products at step 1 (every outcome). **Note that run H's product indexing is NOT run D-he's** - settling adds
+per-route products, so the "all" arms are P00, P10, P20, P30, P40 rather than P00, P06, P12, P18, P24. A first
+pass here used run D-he's indices and was discarded.
+
+| 00:19 option | outcomes | Z impact point | Z field mean | Z any piece | field - point | any - point | impact off, field on | impact on, field off |
+|---|---|---|---|---|---|---|---|---|
+| 00:19 Held Out | 40,000 | 0.6426 | 0.6420 | 0.6094 | -0.0006 | -0.0332 | 0.0368 | 0.0000 |
+| R600 BTO Only | 40,000 | 0.6671 | 0.6663 | 0.6358 | -0.0008 | -0.0313 | 0.0326 | 0.0000 |
+| R600 BTO + Raw BFO | 40,000 | 0.4147 | 0.4136 | 0.3761 | -0.0011 | -0.0386 | 0.0434 | 0.0000 |
+| Holland H1 **(NOT ESTIMABLE)** | 40,000 | 0.2331 | 0.2331 | 0.1878 | +0.0000 | -0.0453 | 0.0502 | 0.0000 |
+| Holland H2 **(NOT ESTIMABLE)** | 40,000 | 0.2954 | 0.2960 | 0.2386 | +0.0006 | -0.0568 | 0.0549 | 0.0000 |
+
+1. **Shape of the field: -0.0011 to +0.0006. Fifth run, same answer.**
+2. **What counts as a detection: -0.0313 to -0.0568**, again largest under Holland's readings.
+3. **The asymmetry holds a fifth time: impact on searched ground with the field entirely off it is 0.0000**, in
+   every option of every run this module has done.
+4. The point arm reproduces this module's own run H sweep to 0.0054 or better in every option, by settling's
+   resampling route rather than direct weighting.
+5. H1 and H2 remain **not estimable** on run H: settling's own row effective sample sizes are 111 and 386.
+
 ## Published
 
 `mh370-exchange/searched-areas/run-h/` (READY, 48 MB, SHA256SUMS, README.md): `seabed-lnL.npy` plus the two raw

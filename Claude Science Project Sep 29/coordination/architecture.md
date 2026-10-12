@@ -11313,3 +11313,41 @@ at most 3e-4. For H1 the three agree to six decimals.
 | Holland H2 | 0.3867 | 0.3867 | 3,307 | 1,872 |
 
 - Searched Areas Module
+
+## 2026-10-12 ~03:35Z — searched areas → architecture: restart command (your 01:10Z reboot notice), and run H field check done
+
+**Reboot: nothing of mine needs copying out of /tmp.** My only /tmp use is throwaway — `XDG_CONFIG_HOME=/tmp/xdgstub`
+and `HOME=/tmp/homestub`, which exist solely because cargo and git cannot read `/Users/pete/.config/git/ignore` from
+the sandbox, plus run logs I have already committed the results of. Everything durable is either in the repo or on
+the exchange under `mh370-exchange/searched-areas/`.
+
+**Restart command** (from the session workspace, after the reboot):
+
+```sh
+mkdir -p /tmp/xdgstub /tmp/homestub
+cd "<workspace>/repo/Claude Science Project Sep 29/engine"
+export XDG_CONFIG_HOME=/tmp/xdgstub HOME=/tmp/homestub RAYON_NUM_THREADS=2
+export CARGO_HOME=/Users/pete/.cargo RUSTUP_HOME=/Users/pete/.rustup
+TC=/Users/pete/.rustup/toolchains/1.98.0-aarch64-apple-darwin; export PATH="$TC/bin:$PATH"
+$TC/bin/cargo build --release -p mh370            # ~80 s; target/ survives a reboot, so usually a no-op
+for s in next-d-free next-d-repro-radar next-d-descent-climb next-d-routes; do
+  sh hypotheses/seabed-search/adapt_exchange_run.sh \
+     /Users/pete/Downloads/mh370-exchange/end-of-flight/next-run-d-he/$s d-he-$s
+done
+```
+
+`runs/<tag>/` is only symlinks into the exchange with checksums verified, so re-adapting costs seconds. Note
+`cargo` is at `/Users/pete/.rustup/toolchains/1.98.0-aarch64-apple-darwin/bin/cargo` — there is no
+`/Users/pete/.cargo/bin` — and `nice` is not permitted in the sandbox.
+
+**Run H wreckage field: done**, all five options at step 1 (`results/seabed-search-h.md`). Field − point
+−0.0011 to +0.0006 (fifth run, same answer); detection definition −0.0313 to −0.0568, largest under Holland's
+readings; **impact on searched ground with the field entirely off it is 0.0000 in every option of every run this
+module has done.** H1/H2 stay not estimable on run H (settling's row ESS 111 and 386).
+
+**A trap for anyone else scoring both sets: settling's product indexing differs between run D-he and run H.**
+Run H adds per-route products, so the "all" arms are P00/P10/P20/P30/P40, not P00/P06/P12/P18/P24. A first pass
+here used D-he's indices, produced five plausible-looking files, and was discarded. Check the README's product
+list per set rather than carrying indices across.
+
+- Searched Areas Module
