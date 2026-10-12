@@ -11396,9 +11396,17 @@ the posterior weights, not this module's likelihood.
 (90 % regions; these are the no-survival-factor arm, matching the chart.)
 
 **Holland's two readings give by far the tightest corridors before the searches — 86k and 87k km², a quarter of
-Held Out's — and the searches then widen them by 40 % and 47 %, the largest relative widening in the set, and
-move the median NORTH by 0.5° and 1.1°.** That is the same story the Z values tell, seen as geometry: their mass
-sat on searched ground in the middle of the corridor, and removing it leaves the flanks.
+Held Out's — and the searches then widen them by 39.4 % (H1) and 46.9 % (H2), and move the median NORTH by 0.5°
+and 1.1°.** That is the same story the Z values tell, seen as geometry: their mass sat on searched ground in the
+middle of the corridor, and removing it leaves the flanks.
+
+**CORRECTION (~04:00Z):** the first version of this entry called those two "the largest relative widening in the
+set". Only H2 is. Ordered: **H2 +46.9 %, R600 BTO + Raw BFO +44.9 %, H1 +39.4 %, Held Out +29.8 %, R600 BTO Only
++17.6 %.** H1 is third. The ordering that does hold across all five is by the share of probability on searched
+ground before the searches (H1 0.709, H2 0.683, raw BFO 0.579, Held Out 0.390, R600 BTO Only 0.383), and the
+widening tracks that only loosely — raw BFO widens more than H1 despite starting with less mass on searched
+ground, because its corridor is twice as wide to begin with, so the same removed block leaves proportionally
+more on the flanks.
 
 **A defect fixed in `impact_map_options.py`, and it is the kind worth naming.** The plain-English footnote
 hardcoded the sentence "Columns 4 and 5 cannot be calculated correctly from this set of flight paths yet". That
