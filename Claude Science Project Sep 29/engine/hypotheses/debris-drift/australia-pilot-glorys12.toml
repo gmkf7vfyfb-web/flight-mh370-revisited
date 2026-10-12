@@ -195,18 +195,7 @@ window_end = "2016-06-30"
 # G1 level prior, PROVISIONAL pending the architect's values: ln nu ~ N(mu_I, 1), mu = ln 0.1,
 # ln 0.5, ln 1 for I1, I2, I3 (effort rising after the flaperon), independent by block.
 [hypotheses.debris-drift.levels]
-ln_mean_by_period = [-2.302585, -0.693147, 0.0]
-sigma = 1.0
-draws = 256
-seed = 3
-
-# Importance splitting (fbaad33, 84b6f85): unbiased; sized on the 9 Oct diagnostics
-# (results/debris-drift-production-sizing.md). PROVISIONAL-OVERNIGHT settings.
-# Level options (results/debris-drift-australia-nonrecovery-design.md + addendum). Primary ln_l: A, every Australian segment
-# at ln_mean_by_period (same as the find coasts in each period). B "awareness": city+inner ln 1, outer ln 0.3, remote ln 0.05 in every
-# period. C "low": city+inner ln 0.3, outer ln 0.1, remote ln 0.02. off: Australian levels ~0. searcher: A plus ln 3 on S3 and S5 in I3.
-[[hypotheses.debris-drift.levels.alternatives]]
-name = "B"
+# PRE-REGISTERED primary (Pete, 12 Oct 2026, before any production result): option B by remoteness.
 segment_ln_mean_by_period = [
   { segment = "AU-north-east-city-inner", ln_mean_by_period = [0.0, 0.0, 0.0] },
   { segment = "AU-south-city-inner", ln_mean_by_period = [0.0, 0.0, 0.0] },
@@ -219,6 +208,19 @@ segment_ln_mean_by_period = [
   { segment = "AU-south-remote", ln_mean_by_period = [-2.995732, -2.995732, -2.995732] },
   { segment = "AU-wa-remote", ln_mean_by_period = [-2.995732, -2.995732, -2.995732] },
 ]
+ln_mean_by_period = [-2.302585, -0.693147, 0.0]
+sigma = 1.0
+draws = 256
+seed = 3
+
+# Importance splitting (fbaad33, 84b6f85): unbiased; sized on the 9 Oct diagnostics
+# (results/debris-drift-production-sizing.md). PROVISIONAL-OVERNIGHT settings.
+# Level options (results/debris-drift-australia-nonrecovery-design.md + addendum). Primary ln_l: B (pre-registered). A: every Australian
+# segment at ln_mean_by_period (same as the find coasts in each period). B "awareness": city+inner ln 1, outer ln 0.3, remote ln 0.05 in every
+# period. C "low": city+inner ln 0.3, outer ln 0.1, remote ln 0.02. off: Australian levels ~0. searcher: A plus ln 3 on S3 and S5 in I3.
+
+[[hypotheses.debris-drift.levels.alternatives]]
+name = "A"
 
 [[hypotheses.debris-drift.levels.alternatives]]
 name = "C"
