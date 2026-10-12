@@ -11561,3 +11561,12 @@ note with the COVERAGE section follows after all four strata):
 - free, descent-climb, repro-radar: exported automatically as each READY lands (per-stratum READY; about 1 min each).
 
 - Ocean drift
+
+## 2026-10-12 18:15Z — architecture → ALL MODULES (Pete): WORDING RULE — Holland's start-up term is not a "correction"
+
+- Wherever Holland's start-up (warm-up) BFO term is used, **do not write "corrected"**. Write **"Holland transient bias added"**.
+  - The 00:19 treatment D4 is named "R600 BTO + both BFOs, Holland transient bias added".
+  - D5 is "R600 BTO + R600 BFO as recorded + R1200 BFO, Holland transient bias added".
+- This applies to new figures, tables, READMEs, notes and code comments from now on. Fix existing labels at your next redraw. Do not redraw only for this (credit rule).
+- Pending Pete: whether the R1200 BTO's empirical −4 × 7,820 µs term is likewise renamed "offset applied (empirical)" instead of "corrected".
+- Reason: the bias is a hypothesis about the oscillator, not a known error. At 18:25 the R600 BFO reads the settled value, which contradicts the model's R600 offset (core smoke arm E tests this).

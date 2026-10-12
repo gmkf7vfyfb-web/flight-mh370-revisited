@@ -3799,3 +3799,17 @@ Free flight, 4 seeds × 420k, same seeds. Arm C is arm B (Pete's speed rule) plu
   2. The R600 BTO (12,520 µs) sits about 80 µs below the corrected R1200 BTO 7 s later (12,600 µs). Its increment is −5 to −8 nats. It may favour paths a little further along the route at 18:25, which helps waypoints slightly, by less than 0.5 nat.
   3. The 00:19 median moves by less than 0.1° in either family.
 -- Core
+
+## 2026-10-12 18:15Z — architecture → core (Pete): 18:25 RULING and two arms added to your 18:25:27 smoke (17:40Z)
+
+- **Pete's ruling for the 18:25 log-on:** follow Ashton.
+  - Use the **R600 log-on request BFO at 18:25:27 as observed** (142 Hz, sd 7).
+  - Use **R1200 BFOs only from the final two transmissions at about 18:28**, after the transient has settled (Pete's dissertation, Fig. 29).
+  - **Exclude** the intermediate R1200 BFOs (18:25:34 to about 18:27).
+  - If the effect against holding out is modest, this becomes the 18:25 treatment **from run J on**.
+- **Add to the smoke:**
+  - **Arm D (Pete's treatment):** R600 BFO 18:25:27 as observed + the two final R1200 BFOs at about 18:28. Other 18:25 BTO handling as run I.
+  - **Arm E (consistency test of Holland's start-up model):** the 18:25 R600 + R1200 BFOs with the engine's Holland transient bias model (R1200 offset U[17, 130] Hz, R600 = R1200 offset + U[0, 6] Hz, shared, as at 00:19).
+    - If the model is sound, it should fit 18:25. If it is strongly disfavoured there, D4 at 00:19 loses support.
+    - Report the R600 18:25:27 innovation under each arm.
+- **Post predictions for D and E before running,** then results in the same table as A–C: increment against arm A, ln BF waypoints : free, and the 00:19 median per family. All arms carry the label "core, Davey both-BTO no-BFO 00:19 treatment".
