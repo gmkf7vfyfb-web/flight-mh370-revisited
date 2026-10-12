@@ -5,8 +5,8 @@
 % DO NOT hand-edit: edit the module bibliography under results/ and regenerate,
 % so the module and the paper cannot disagree.
 %
-% 98 entries, deduplicated from 112 raw entries
-% across 7 module bibliographies.
+% 105 entries, deduplicated from 120 raw entries
+% across 8 module bibliographies.
 
 @techreport{minchin2017pleiades,
   author = {Minchin, S. and Mueller, N. and Lewis, A. and Byrne, G. and Tran, M.},
@@ -76,9 +76,12 @@
 }
 
 @article{sutherland2020,
-  author = {Sutherland, Graig and Soontiens, Nancy and Dufois, Fran{\c{c}}ois and others},
+  author = {Sutherland, Graig and Soontiens, Nancy and Davidson, Fraser and Smith, Gregory C. and Bernier, Natacha and Blanken, Hauke and Schillinger, Douglas and Marcotte, Guillaume and Röhrs, Johannes and Dagestad, Knut-Frode and Christensen, Kai H. and Breivik, Øyvind},
   title = {Evaluating the leeway coefficient of ocean drifters using operational marine environmental prediction systems},
   journal = {Journal of Atmospheric and Oceanic Technology},
+  volume = {37},
+  number = {11},
+  pages = {1943--1954},
   year = {2020},
   doi = {10.1175/JTECH-D-20-0013.1},
 }
@@ -94,12 +97,14 @@
 @misc{glorys12,
   author = {{E.U. Copernicus Marine Service Information}},
   title = {Global Ocean Physics Reanalysis ({GLOBAL\_MULTIYEAR\_PHY\_001\_030})},
+  publisher = {Mercator Ocean International},
+  year = {2018},
   doi = {10.48670/moi-00021},
   note = {Accessed 8--9 October 2026},
 }
 
 @article{era5,
-  author = {Hersbach, Hans and others},
+  author = {Hersbach, Hans and Bell, Bill and Berrisford, Paul and Hirahara, Shoji and Horányi, András and Muñoz-Sabater, Joaquín and Nicolas, Julien and Peubey, Carole and Radu, Raluca and Schepers, Dinand and Simmons, Adrian and Soci, Cornel and Abdalla, Saleh and Abellan, Xavier and Balsamo, Gianpaolo and Bechtold, Peter and Biavati, Gionata and Bidlot, Jean and Bonavita, Massimo and De Chiara, Giovanna and Dahlgren, Per and Dee, Dick and Diamantakis, Michail and Dragani, Rossana and Flemming, Johannes and Forbes, Richard and Fuentes, Manuel and Geer, Alan and Haimberger, Leo and Healy, Sean and Hogan, Robin J. and Hólm, Elías and Janisková, Marta and Keeley, Sarah and Laloyaux, Patrick and Lopez, Philippe and Lupu, Cristina and Radnoti, Gabor and de Rosnay, Patricia and Rozum, Iryna and Vamborg, Freja and Villaume, Sebastien and Thépaut, Jean-Noël},
   title = {The {ERA5} global reanalysis},
   journal = {Quarterly Journal of the Royal Meteorological Society},
   volume = {146},
@@ -190,22 +195,36 @@
   note = {VERIFY all details; form only},
 }
 
-@misc{tcds777,
+@techreport{tcds777,
   author = {{Federal Aviation Administration}},
-  title = {Boeing 777 Type Certificate Data Sheet},
-  note = {Number VERIFY; MMO 0.87},
+  title = {Type Certificate Data Sheet {T00001SE}, Revision 48: Boeing 777-200, -200LR, -300, -300ER, 777F},
+  institution = {U.S. Department of Transportation, Federal Aviation Administration},
+  number = {T00001SE Rev. 48},
+  year = {2025},
+  address = {Washington, DC},
+  note = {Number and revision/date per Civil Aviation Authority of New Zealand, Type Acceptance Report TAR 5/21B/17 Rev. 4 (23 Feb 2026), p. 5; text of Rev. 48 not yet read in primary form. Used for VMO 330 KCAS / MMO 0.87},
 }
 
-@misc{tcdstrent800,
+@techreport{tcdstrent800,
   author = {{European Union Aviation Safety Agency}},
-  title = {Rolls-Royce Trent 800 Series Type Certificate Data Sheet},
-  note = {Number VERIFY; Trent 892 93,400 lbf},
+  title = {Type-Certificate Data Sheet No. {EASA E.047} for {RB211 Trent 800} series engines, Issue 04},
+  institution = {European Union Aviation Safety Agency},
+  number = {EASA E.047 Issue 04},
+  year = {2019},
+  address = {Cologne},
+  url = {https://www.easa.europa.eu/en/document-library/type-certificates},
+  note = {READ 12 Oct 2026. Section 6 (p. 8): Trent 892-17 / 892B-17 take-off (net, 5 min) 406.8 kN (91,450 lbf); equivalent bare engine 412.8 kN (92,800 lbf); maximum continuous 343.3 kN (77,170 lbf)},
 }
 
 @manual{b777acaps,
-  title = {777-200/300 Airplane Characteristics for Airport Planning},
-  organization = {The Boeing Company},
-  note = {Document number and revision VERIFY},
+  author = {{Boeing Commercial Airplanes}},
+  title = {777-200/-200ER/-300 Airplane Characteristics for Airport Planning},
+  organization = {Boeing Commercial Airplanes},
+  number = {D6-58329, Rev. E},
+  year = {2024},
+  address = {Seattle, WA},
+  url = {https://www.boeing.com/commercial/airports/plan-manuals},
+  note = {READ 12 Oct 2026. Section 2.2.1, p. 2-8: wing span 199 ft 11 in (60.93 m). The wing area 427.8 m2 is NOT in this document; its source is still open},
 }
 
 @standard{iso2533,
@@ -222,10 +241,37 @@
   note = {VERIFY full reference},
 }
 
-@misc{esdu-windmill,
-  title = {ESDU 81009, 84004, 84005},
-  organization = {ESDU},
-  note = {Titles VERIFY; scale only},
+@techreport{esdu-windmill,
+  author = {{ESDU}},
+  title = {Estimation of windmilling drag and airflow of turbo-jet and turbo-fan engines},
+  institution = {ESDU International},
+  number = {81009, Amendment A (1 April 1984)},
+  year = {1981},
+  address = {London},
+  note = {ISBN 978 0 85679 334 9 (catalogue). Titles and amendment dates from the ESDU catalogue; licensed item, not read. Used only for the scale of the windmilling drag band},
+  type = {ESDU Data Item},
+}
+
+@techreport{esdu84004,
+  author = {{ESDU}},
+  title = {Estimation of spillage drag for a wide range of axisymmetric intakes at {M} less than 1},
+  institution = {ESDU International},
+  number = {84004, Amendment A (1 June 1984)},
+  year = {1984},
+  address = {London},
+  note = {ISBN 978 0 85679 466 7 (catalogue); licensed item, not read},
+  type = {ESDU Data Item},
+}
+
+@techreport{esdu84005,
+  author = {{ESDU}},
+  title = {Estimation of drag due to inoperative turbo-jet and turbo-fan engines using Data Item Nos 81009 and 84004},
+  institution = {ESDU International},
+  number = {84005, Amendment A (1 March 1989)},
+  year = {1984},
+  address = {London},
+  note = {ISBN 978 0 85679 467 4 (catalogue); licensed item, not read},
+  type = {ESDU Data Item},
 }
 
 @techreport{atsb2016sdu,
@@ -346,25 +392,29 @@
 }
 
 @misc{WOA23,
-  author = {Reagan, J. R. and Boyer, T. P. and Garc{\'i}a, H. E. and Locarnini, R. A. and Baranova, O. K. and Bouchard, C. and others},
+  author = {Reagan, James R. and Boyer, Tim P. and Garc{\'i}a, Hern{\'a}n E. and Locarnini, Ricardo A. and Baranova, Olga K. and Bouchard, Courtney and Cross, Scott L. and Mishonov, Alexey V. and Paver, Christopher R. and Seidov, Dan and Wang, Zhankun and Dukhovskoy, Dmitry},
   title = {World Ocean Atlas 2023},
   publisher = {NOAA National Centers for Environmental Information},
   year = {2023},
   doi = {10.25921/va26-hv25},
+  note = {Dataset; creators and year from the DataCite record, retrieved 2026-10-12},
 }
 
 @misc{IMOSANMNPA,
-  author = {{Integrated Marine Observing System}},
+  author = {{IMOS}},
   title = {{Australian National Mooring Network} passive acoustic observatories ({Curtin University CMST} loggers)},
+  year = {2026},
   url = {https://imos-data.s3-ap-southeast-2.amazonaws.com/IMOS/ANMN/Acoustic/},
-  note = {Retrieved 2026-10-09; sha256 recorded at retrieval},
+  note = {Accessed 2026-10-09 (IMOS citation form: IMOS [year of data download], title, URL, date of access); sha256 recorded at retrieval. Data was sourced from Australia's Integrated Marine Observing System (IMOS), enabled by NCRIS},
 }
 
 @misc{FDSNIM,
-  title = {{IMS} hydroacoustic station metadata, {FDSN} network {IM}},
-  url = {https://service.earthscope.org/fdsnws/station/1/query},
-  note = {Epoch valid 2014-03-08},
-  howpublished = {EarthScope FDSN station web service},
+  author = {{Various Institutions}},
+  title = {International Miscellaneous Stations ({FDSN} network {IM}; {IMS} hydroacoustic station metadata)},
+  publisher = {International Federation of Digital Seismograph Networks},
+  year = {1965},
+  doi = {10.7914/vefq-vh75},
+  note = {Dataset; creator and year from the DataCite record and the FDSN registry page, retrieved 2026-10-12. Station metadata read from the EarthScope FDSN station web service, https://service.earthscope.org/fdsnws/station/1/query, epoch valid 2014-03-08},
 }
 
 @techreport{Porter1992,
@@ -709,6 +759,63 @@
   doi = {10.1112/plms/s2-20.1.196},
 }
 
+@techreport{atsb2017operational,
+  author = {{Australian Transport Safety Bureau}},
+  title = {The Operational Search for {MH370}},
+  institution = {Australian Transport Safety Bureau},
+  number = {AE-2014-054},
+  year = {2017},
+  address = {Canberra},
+  note = {Grade: official. Source of the Phase 2 detection probability q = 0.945 (Figure 73, p. 96 - its three in-image percentages are NOT yet verified in primary form, ledger item A-8), the +/- 25 NM planning width (p. 76), the debris-field size floor >= 100 m x 100 m and very likely > 200 m x 200 m (p. 83), detectability at <= 200 m altitude (p. 89), and the Bluefin-21 operating parameters (p. 42)},
+  type = {External Aviation Investigation Report},
+}
+
+@misc{oceaninfinity2018conclusion,
+  author = {{Ocean Infinity}},
+  title = {Conclusion of current search for {Malaysian} {Airlines} flight {MH370}},
+  year = {2018},
+  url = {https://oceaninfinity.com/news/conclusion-of-current-search-for-malaysian-airlines-flight-mh370/},
+  urldate = {2026-10-12},
+  note = {Grade: official (company statement). VERIFIED IN PRIMARY FORM 2026-10-12. The source of this module's coverage fraction 0.889 for the 2018 campaign: Ocean Infinity state they "searched and collected high quality data from over 112,000 km2 of ocean floor", against the 126,009.3 km2 of the traced outline that lies outside Phase 2 ground. The company released no survey geometry, which is why the layer itself is a community tracing, grade C},
+  howpublished = {Press release},
+}
+
+@misc{oceaninfinity2018gebco,
+  author = {{Ocean Infinity}},
+  title = {Ocean {Infinity} donates 120,000 square kilometres of data for missing {Malaysian} airliner to {GEBCO} {Seabed} 2030 project},
+  year = {2018},
+  url = {https://oceaninfinity.com/news/ocean-infinity-donates-120000-square-kilometres-of-data-for-missing-malaysian-airliner-to-gebco-seabed-2030-project/},
+  urldate = {2026-10-12},
+  note = {Grade: official (company statement). VERIFIED IN PRIMARY FORM 2026-10-12. The source of this module's upper coverage-fraction variant 0.952. NOTE THE DISTINCTION: 120,000 km2 is the extent of DATA DONATED for bathymetric mapping, not area searched at a stated detection probability. That is why 0.889 is the base and 0.952 a labelled variant, and why the difference between them is reported as a sensitivity (worth 0.002 in this module's Z) rather than as a correction},
+  howpublished = {Press release},
+}
+
+@misc{oceaninfinity2026conclusion,
+  author = {{Ocean Infinity}},
+  title = {Conclusion of the search for {Malaysian} {Airlines} flight {MH370}},
+  year = {2026},
+  url = {https://oceaninfinity.com/news/conclusion-of-the-search-for-malaysian-airlines-flight-mh370/},
+  urldate = {2026-10-12},
+  note = {Grade: official (company statement). VERIFIED IN PRIMARY FORM 2026-10-12. Records that Ocean Infinity departed the search area on 23 January 2026, and that since 2018 it has spent 151 days at sea and "mapped more than 140,000 square kilometres of seafloor". THE 140,000 km2 IS A MAPPING FIGURE AND IS NOT USED AS COVERAGE by this module: bathymetric mapping, planned coverage and contract areas exclude nothing. The two committed Ocean Infinity layers total about 133,600 km2, so the mapped figure exceeds them; it must not be used to enlarge them. This release gives no searched area specific to the 2025-26 campaign},
+  howpublished = {Press release},
+}
+
+@misc{ga2017searchareas,
+  author = {{Geoscience Australia}},
+  title = {{MH370} search area survey geometry},
+  year = {2017},
+  note = {Grade: official. Fetched by this module's prepare/build_coverage.py; the source of every Phase 2 layer (union and the four per-sensor layers) and of the Bluefin-21 "area searched 2014" feature. Official geometry: these layers carry no inferred- coverage footnote},
+  howpublished = {Web Feature Service and FeatureServer layers},
+}
+
+@misc{mh370caption_oi_tracings,
+  author = {{MH370-CAPTION community}},
+  title = {Traced outlines of the {Ocean} {Infinity} 2018 and 2025--26 search areas},
+  year = {2026},
+  note = {Grade: C (unofficial, inferred). Read from the frozen September snapshots in this repository: ISO Sept 28 Status/inputs/search-coverage/ocean-infinity-2018-outline.geojson (sha1 4ab36299...) and Sept 27 2026 backup .../search_footprints.geojson. Ocean Infinity has released no survey geometry for either campaign, so these are planning envelopes with a coverage fraction applied, not measured swath coverage. Every use carries the footnote in engine/hypotheses/seabed-search/coverage/PROVENANCE.md},
+  howpublished = {GeoJSON tracings of published map imagery and vessel tracks},
+}
+
 @techreport{bea2012af447,
   author = {{Bureau d'Enqu\^etes et d'Analyses}},
   title = {Final Report on the accident on 1st June 2009 to the Airbus {A330-203} registered {F-GZCP} operated by Air France, flight {AF 447} Rio de Janeiro -- Paris},
@@ -730,11 +837,13 @@
 }
 
 @techreport{metron2011,
-  author = {Stone, Lawrence D. and others},
+  author = {Stone, Lawrence D. and Keller, Colleen M. and Kratzke, Thomas M. and Strumpfer, Johan P.},
   title = {Search Analysis for the Location of the {AF447} Underwater Wreckage},
-  institution = {Metron Inc., report to BEA},
+  institution = {Metron Inc., Reston, Virginia},
   year = {2011},
   url = {https://bea.aero/fileadmin/uploads/tx_elyextendttnews/metron.search.analysis_01.pdf},
+  note = {Title page prints ``Thomas L. Kratzke''; the authors' Stone et al. (2014, Statistical Science 29(1), doi:10.1214/13-STS420) give Thomas M. Kratzke and cite this report with all four authors},
+  type = {Report to the Bureau d'Enqu{\^e}tes et d'Analyses pour la s{\'e}curit{\'e} de l'aviation civile},
 }
 
 @misc{af447seabed2011,
@@ -852,14 +961,6 @@
   title = {Report on two shipwrecks found during the {MH370} search},
   institution = {Western Australian Museum, for the ATSB},
   year = {2018},
-}
-
-@techreport{atsb2017,
-  author = {{Australian Transport Safety Bureau}},
-  title = {The Operational Search for {MH370}},
-  institution = {ATSB},
-  number = {AE-2014-054},
-  year = {2017},
 }
 
 @techreport{mot2018mh370,
