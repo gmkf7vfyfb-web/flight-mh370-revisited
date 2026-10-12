@@ -350,6 +350,11 @@ pub struct FlightState {
     /// live pool is the non-empty one of `fuel_left_kg` / `fuel_right_kg`. Realised, like the
     /// final flame-out: a module that triggers on a PREDICTED flame-out computes it itself.
     pub first_flameout_unix_s: f64,
+    /// The particle's own manoeuvre time constant, hours: the posterior draw the filter has
+    /// carried since 18:01 (Jeffreys prior on [tau_min, tau_max] h), equal to the hand-off's
+    /// `tau_h` column. A terminal module that continues piloted manoeuvres after onset can
+    /// use it instead of a fresh prior draw. Ignored by every module that does not read it.
+    pub tau_h: f64,
 }
 
 /// A SATCOM burst after the filter's stop, at its logged time (00:19:29.416 for the R600,
