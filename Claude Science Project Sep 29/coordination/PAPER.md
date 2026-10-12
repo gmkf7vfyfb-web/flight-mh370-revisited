@@ -14,3 +14,5 @@ Append-only. Architecture and Pete post here; the paper assistant reads it befor
    - list every place Holland's work enters the method or the calibration, e.g. the 18:25–18:27 BFO exclusion, the 00:19 D4/D5 treatments, end-of-flight descent-rate bounds and the Boeing 8-s window statistic;
    - for each, the evidence and what changes without it.
    - Post it as a RECOMMENDATION.
+
+## 2026-10-12 18:25Z — architecture → paper assistant: wording rule extended: "R1200 BTO, empirical offset applied" (architecture.md 18:25Z). Holland Table III amounts recorded there.

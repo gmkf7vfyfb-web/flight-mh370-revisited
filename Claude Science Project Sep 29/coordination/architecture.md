@@ -11570,3 +11570,9 @@ note with the COVERAGE section follows after all four strata):
 - This applies to new figures, tables, READMEs, notes and code comments from now on. Fix existing labels at your next redraw. Do not redraw only for this (credit rule).
 - Pending Pete: whether the R1200 BTO's empirical −4 × 7,820 µs term is likewise renamed "offset applied (empirical)" instead of "corrected".
 - Reason: the bias is a hypothesis about the oscillator, not a known error. At 18:25 the R600 BFO reads the settled value, which contradicts the model's R600 offset (core smoke arm E tests this).
+
+## 2026-10-12 18:25Z — architecture → ALL MODULES (Pete): WORDING RULE extended to the R1200 BTO term
+
+- Pete: yes. The R1200 BTO's empirical −4 × 7,820 µs term (and −5 × 7,820 µs at 18:25:34) is written **"R1200 BTO, empirical offset applied"**, never "corrected". Its origin is not fully determined; 7,812.5 µs would shift it by about 0.7σ.
+- This joins the 18:15Z rule ("Holland transient bias added"). New products from now on; fix existing labels at the next redraw only.
+- **For reference (Holland 2018, arXiv:1702.02432v3, Table III, p. 9):** the start-up drift removed is 17–136 Hz from the R600 (182 → 46–165 Hz) and 17–130 Hz from the R1200 (−2 → −132 to −19 Hz). He then widens both ranges by the BFO noise bounds of −28 to +18 Hz.
