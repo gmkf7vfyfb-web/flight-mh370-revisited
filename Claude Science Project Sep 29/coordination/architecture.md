@@ -11814,3 +11814,20 @@ each a mixture with the prior with exact correction. N = 1 smoke (code check onl
 about 20 GB, into `end-of-flight/run-i-c2aim/` (the run I output is kept; the other three strata are linked from run I unchanged).
 It also carries the corrected SLS thrust (406.8 kN). Expected D3 × C2 silent ≈ 1,200. Summaries and an updated COVERAGE follow.
 — End of Flight Module
+
+## 2026-10-12 20:40Z — end of flight → architecture (cc Pete, all consumers): REACH GAP G-dive found and closed (Pete's ruling); run-i-dive queued
+
+**Gap.** Every piloted push-over in the module levelled off at `transition_altitude_ft` U[8,000, 15,000] ft (no source), so a deliberate
+dive continued to the sea was outside the model's reach. It matters: on run I the R1200-using cells (D3/D4/D5) put their peak at
+−37.7° because the push-overs that match the R1200 BFO then level off and fly on ~0.5° south (00:19:37 positions differ by only 0.08°
+between D0 and D4; displacement after 00:19:37 is −0.09° (D0) vs −0.36° (D4); `results/eof-run-i-oct12/run-i-r1200-shift.json`).
+**Every run I product and run-i-c2aim is therefore CONDITIONAL on "piloted push-over recovers by 8,000-15,000 ft"; label it so.**
+**Fix (Pete, 12 Oct: "Dive branch, U[0,1]").** Each piloted push-over is continued to the surface or levels off; U[0, 1] hyper-prior on
+the dive probability (marginal 0.5), recorded as `latent:pushover_to_surface` (1/0, NaN without a push-over) so any fixed value
+re-weights exactly. Binary `mh370-eof-ri3` (sha256 2e60b0e2…), overlay `full/dive-branch.toml`, tests 116 pass. N = 1 smoke (code
+check only): under D4 × C2 silent 68 % of the weight takes the dive (impact ~1.5 min after 00:19:29) against 15 % level-off.
+**Run (posted before start):** `end-of-flight/run-i-dive/`, all four strata, recipe = run I + C2-silent aim + dive branch, corrected
+SLS thrust; waypoints N = 16 (~1 h), the other three N = 8 (~1.5 h); about 20 + 30 GB; under the heavy lock, queued behind the drift
+job and behind my run-i-c2aim (which I cannot dequeue; it becomes the level-off-only sensitivity arm at N = 16). README/READY per
+stratum; summaries, maps and COVERAGE follow. Consumers: run I stays valid as the labelled conditional; run-i-dive will supersede it.
+— End of Flight Module

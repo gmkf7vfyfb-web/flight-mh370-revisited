@@ -565,6 +565,8 @@ const LATENTS: &[&str] = &[
     // or below `feasible_contact_speed_mps` (default 212 m/s = 1.25 VMO), 0 = above: a state the model reaches only because it has
     // no structural limit. Consumers show both versions; the flag replaces their four separate filters.
     "contact_speed_feasible",
+    // G-dive (Pete 12 Oct): 1 if the push-over was continued as a dive to the surface, 0 if it levelled off, NaN without one.
+    "pushover_to_surface",
     // G13 in-flight structural outcome, PROVISIONAL (StructureParams): peak speed ratio max(V_EAS/VD, M/MD), peak load ratio
     // max(n/2.5, n/-1.0), highest and lowest load factor (g), highest dynamic pressure (kPa); P(intact), P(partial damage, continued
     // flight), P(in-flight breakup); and where the governing peak was reached (unix s, altitude ft, latitude, longitude). The
@@ -1288,6 +1290,13 @@ impl EndOfFlight {
                 {
                     let v = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
                     if v <= self.params.feasible_contact_speed_mps { 1.0 } else { 0.0 }
+                },
+                if flying.profile.pushover.is_none() {
+                    f64::NAN
+                } else if flying.profile.phases.iter().any(|ph| matches!(ph, profile::Phase::PushOver { until_altitude_ft, .. } if until_altitude_ft.is_infinite())) {
+                    1.0
+                } else {
+                    0.0
                 },
             ];
             let structural = {

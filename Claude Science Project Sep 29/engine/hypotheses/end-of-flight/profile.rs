@@ -223,6 +223,12 @@ pub struct EnvelopeConfig {
     pub pushover_n_floor_aim: Option<Vec<[f64; 3]>>,
     #[serde(default)]
     pub pushover_rate_aim: Option<Vec<[f64; 3]>>,
+    /// Reach gap G-dive (Pete, 12 Oct 2026: "Dive branch, U[0,1]"): probability that a piloted push-over is continued as a dive
+    /// to the surface instead of levelling off at `transition_altitude_ft`. Pete's prior is a U[0, 1] hyper-prior, whose marginal
+    /// is 0.5; the draw is recorded (latent:pushover_to_surface) so products re-weight exactly to any fixed value p (2p / 2(1-p)).
+    /// 0 (default): no draw, every push-over levels off (earlier behaviour and random stream).
+    #[serde(default)]
+    pub pushover_to_surface_probability: f64,
     /// Speed limit of the push-over/emergency descent as calibrated airspeed (VMO), kt: the target Mach is reduced to the Mach of
     /// this CAS at the current altitude. Absent: Mach target only (earlier behaviour).
     #[serde(default)]
@@ -470,6 +476,9 @@ impl EnvelopeConfig {
         if !(self.spiral_bank_floor_deg >= 0.0 && self.spiral_bank_floor_deg < self.spiral_bank_cap_deg) {
             return Err("envelope.spiral_bank_floor_deg must be in [0, cap)".into());
         }
+        if !(0.0..=1.0).contains(&self.pushover_to_surface_probability) {
+            return Err("envelope.pushover_to_surface_probability must be in [0, 1]".into());
+        }
         if !(0.0..=1.0).contains(&self.rapid_descent_probability) {
             return Err("envelope.rapid_descent_probability must be in [0, 1]".into());
         }
@@ -510,10 +519,12 @@ impl EnvelopeConfig {
         };
         let (hold_s, lq_hold) = draw_targeted_delay_mix(&self.pushover_hold_s, start.unix_s, self.burst_target_unix_s, &self.burst_components(), uniform);
         let lq = lq_rate + lq_floor + lq_hold;
+        let to_surface = self.pushover_to_surface_probability > 0.0 && uniform() < self.pushover_to_surface_probability;
         let phase = Phase::PushOver {
             rate_fpm,
             mach: self.emergency_mach.draw(uniform).min(aero.mach_crest),
-            until_altitude_ft: transition.max(1_000.0),
+            // G-dive: a dive to the surface never advances to the following phases.
+            until_altitude_ft: if to_surface { f64::NEG_INFINITY } else { transition.max(1_000.0) },
             speedbrake_eighths,
             n_floor_g,
             hold_s,
@@ -1256,6 +1267,7 @@ pub(super) mod tests {
             pitchdown_target_components: None,
             pushover_n_floor_aim: None,
             pushover_rate_aim: None,
+            pushover_to_surface_probability: 0.0,
             pushover_vmo_kt: None,
             pitchdown_probability: 0.0,
             pitchdown_n_g: default_pitchdown_n(),
@@ -1624,6 +1636,37 @@ pub(super) mod tests {
         let p_off = envelope().sample(&body(35_000.0), Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u1);
         assert!(p_off.manoeuvres.queue.is_empty() && p_off.manoeuvres.terminal.is_empty() && p_off.manoeuvres.circuit.is_none());
         assert!(Flying::new(p_off, aero, Propulsion::TwoThrusting, &envelope()).pilot.is_empty());
+    }
+
+    /// G-dive: with the dive branch at 0.5 about half the push-overs never level off, and the share is recorded by the phase.
+    #[test]
+    fn the_dive_branch_continues_half_the_push_overs_to_the_surface() {
+        let e = EnvelopeConfig { rapid_descent_probability: 1.0, pushover_to_surface_probability: 0.5, ..envelope() };
+        let aero = reference();
+        let mut b = body(35_000.0);
+        b.unix_s = 1_394_237_459.0;
+        let mut state: u64 = 0x9E37_79B9_7F4A_7C15;
+        let mut u = move || {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            ((state >> 11) as f64 + 0.5) / (1u64 << 53) as f64
+        };
+        let (mut n, mut dives) = (0.0_f64, 0.0_f64);
+        for _ in 0..3_000 {
+            let p = e.sample(&b, Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u);
+            if p.pushover.is_none() {
+                continue;
+            }
+            n += 1.0;
+            if p.phases.iter().any(|ph| matches!(ph, Phase::PushOver { until_altitude_ft, .. } if until_altitude_ft.is_infinite())) {
+                dives += 1.0;
+            }
+        }
+        assert!(n > 500.0 && (dives / n - 0.5).abs() < 0.05, "{n} {dives}");
+        let off = EnvelopeConfig { rapid_descent_probability: 1.0, ..envelope() };
+        let p = off.sample(&b, Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u);
+        assert!(!p.phases.iter().any(|ph| matches!(ph, Phase::PushOver { until_altitude_ft, .. } if until_altitude_ft.is_infinite())));
     }
 
     /// The aimed load-factor-floor and rate components keep the prior marginal: E[exp(lq) 1(x in A)] = P_prior(A).

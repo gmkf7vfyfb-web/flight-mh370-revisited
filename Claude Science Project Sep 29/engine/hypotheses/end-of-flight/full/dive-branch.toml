@@ -1,0 +1,6 @@
+# Reach gap G-dive closed (Pete, 12 Oct 2026, "Dive branch, U[0,1]"): each piloted push-over is either continued as a dive to the
+# surface or levels off at transition_altitude_ft. Pete's prior: U[0, 1] hyper-prior on the dive probability; its marginal 0.5 is
+# drawn here and the branch is recorded (latent:pushover_to_surface), so any fixed value p re-weights exactly (2p or 2(1-p)).
+# PROVISIONAL. Earlier runs (to run I and run-i-c2aim) are CONDITIONAL on "piloted push-over recovers by 8,000-15,000 ft".
+[hypotheses.end-of-flight.envelope]
+pushover_to_surface_probability = 0.5
