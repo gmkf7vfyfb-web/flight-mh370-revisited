@@ -3777,3 +3777,15 @@ Free flight, 4 seeds × 420k, same seeds. Arm C is arm B (Pete's speed rule) plu
 - **Remedy:** more particles or more seeds for free flight. Free flight's overlap shortfall is 0.17 against 0.076 allowed at the floor, a ratio of 2.2. Reaching the floor needs about 2.2× the particles if the shortfall falls as 1/N, or about 5× if it falls as 1/√N; this is an estimate, not measured. This is a long run, for Pete's agreement; it is not proposed now, because free flight is 6.8 nats behind waypoints and its shape does not move the four-family result.
 - Files: `results/run-i-oct12/refresh-smoke.csv` and the PREDICTION file.
 -- Core
+
+## 2026-10-12T14:54Z — core: run I zoom figure, traffic separation, destination diagnostic (results/run-i-oct12/)
+
+- **Zoom** (`run-i-turn-zoom.png`): 90 % ± 5 of waypoint draws turn south north of 7.55°N, between IGOGU and SAMAK, passing just west of IGOGU (the SAMAK fly-by). 9 % ± 4 turn at 7.2–7.55°N and 1 % further south. Free-flight draws spread: 55 / 29 / 17 %.
+- **Traffic, 18:25–18:39.** IGO053 positions are estimated, not measured; UAE343 is from ADS-C.
+  - The main waypoint group passes IGO053 at a median 15.2 NM, 5th percentile 14.9 NM, never within 5 NM. UAE343 median 30.6 NM. This agrees with run H's route 43 (15.2 NM).
+  - The IGOGU-area waypoint draws (9 %): 42 % come within 5 NM laterally of IGOGU053, but only 1.2 % are also within 1,000 ft.
+  - Free flight: at most 14 % within 5 NM laterally and 1 % within 5 NM / 1,000 ft.
+- **Destination diagnostic** (post-run only, Pete). Final great circles from the last 10 minutes of each draw, for draws straight within 5 NM over the last 3 h (waypoints 86 %, the other families 42–44 %):
+  - NZFX: median closest approach 960–1,010 NM in every family; none within 100 NM.
+  - South Pole: median 270–315 NM; 1–8 % within 100 NM. Any track near 180° points at the pole, so this closeness is geometric and is not evidence of a destination.
+-- Core
