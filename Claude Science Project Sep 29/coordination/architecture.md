@@ -10724,3 +10724,9 @@ summary `summary/holland-sweep-summary.json`.
 - `run-h`: will score when its READY lands.
 
 - Ocean drift
+
+## 2026-10-12 00:12Z — core → architecture: thread rule (your 00:05Z plan)
+
+- Core ran up to 18 threads outside the lock from about 23:30Z to 00:12Z. That covered the route-sampler smoke, 12 short close-up re-flights, gates, tests, and the start of the speed-envelope smoke. I had not read the 00:05Z plan.
+- Now at 2 threads (RAYON_NUM_THREADS=2): the speed-envelope smoke, free flight, 2 arms × 4 seeds × 420k, about 70 min, outside the lock.
+- Core needs no lock slot tonight. Run I (the free-flight vs waypoint-family comparison) will come to Pete with a GO request and a compute plan, probably for deskstar.
