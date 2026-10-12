@@ -442,3 +442,64 @@ median is 27 references, so at 22 this list is short rather than long, which is 
 be on with 98 entries in the library and a 35-entry ceiling in practice.
 
 The audit is now a step to repeat after any edit to the draft, not a one-off.
+
+## 2026-10-12 23:55Z — paper assistant → Pete: PROPOSED draft v2, rebuilt to your direction, in Word and LaTeX
+
+Pete's direction of 12 Oct: adopt the dissertation's tone and mathematical format; replace the
+evidence, impact-complex and deterministic-map symbols with common recognisable ones and short
+descriptive sub/superscripts; begin from a simple statement of the true unknown parameters and
+build up to the conditional structure rather than opening with it; report the results; use the
+Introduction / Methodology / Results / Conclusions structure.
+
+**Answered honestly first: v1 did NOT adopt his style.** `paper/STYLE-NOTES.md` did not exist and
+his prose had never been read. It does now, measured from the 250-page source PDF he supplied.
+
+`paper/STYLE-NOTES.md` — measured, not impressionistic. Median 27 words per sentence (mean 30,
+tenth to ninetieth 6-60); first person almost absent (8 "I", 17 "we" in 357k characters); method
+in the passive past ("was performed" ×75); "this study" ×26; sample sizes inline ("n=11",
+"n=42"); units closed up to the number ("150.1Hz", "12dBi"); times Z-suffixed. **His maths
+pattern, now adopted:** a lead-in sentence ending in a colon that names the method and cites it,
+a displayed equation numbered on the right, then a running *where* clause in prose defining every
+symbol in order of appearance — not a symbol table — with mnemonic subscripts (`φ₇` arc-latitude
+at the 7th arc, `t_TS` turn south, `V_range`, `μ_HL`). Two deliberate departures from him,
+recorded with reasons: UK spelling, because the journal requires it and his dissertation is
+US-spelled; and Harvard citation punctuation, because he writes "Ashton et al (2014)".
+
+`paper/proposed-draft/proposed-draft-v2.docx` and `.tex`, both generated from one source
+(`build_draft_v2.py`) so they cannot drift apart. **Yes, Word is available** — 12pt Times New
+Roman, 2.54cm margins, three tables, equations numbered at the right margin in Unicode.
+
+**New notation, per his instruction.** Nothing invented: φ latitude, λ longitude, h altitude,
+d depth, t time, V speed, γ flight-path angle, χ track. Unknowns are `x_sea`, `x_imp`,
+`x_arc,n`, and the trajectory `X`. Observations are `z` with mnemonic subscripts — `z_rad`,
+`z_bto`, `z_bfo`, `z_19`, `z_deb`, `z_srch`, `z_img`, `z_ac`. Functional models `f_k`,
+likelihoods `L_k`, maps `g_imp` and `g_sea`, detection probability `P_det`. The marginal
+likelihood is written `p(z)`, so no new symbol for the evidence at all. Gone: the script-Y
+evidence set, ψ for the impact complex, Ψ for the deterministic map.
+
+**The build-up he asked for**, §2.1 to §2.6: the true unknown seabed location; then the impact
+state that determines it; then the arc-latitude crossings where the satellite data act; then the
+single trajectory that determines all three, with `x_imp = g_imp(X)` and `x_sea = g_sea(x_imp)`;
+then the observations and their functional models `z_k = f_k(X,θ) + ε_k` with Table 1; then the
+count showing the system under-determined by two to three orders of magnitude; then Monte Carlo
+over feasible dynamics; then weighting and the posterior as a weighted sum of delta functions.
+The full conditional structure arrives at §2.6, equation (9), as the collection of what has
+already been introduced, and is immediately used to justify the four-stage staging.
+
+**Results are now reported** — v1 described the effects of each evidence term without ever
+stating the estimate. Headline: the waypoint route stratum carries **0.998** of the posterior
+weight against 0.0011 for free flight; flight and end of flight alone give median arc-latitude
+−37.24° (−38.57 to −34.96) with a 90% region of 117,000km² under the R600 BTO-only treatment;
+the search term then moves the median to −36.76° and enlarges the 90% region to 309,000km²; and
+it lowers the unpiloted family's probability from 0.17 to 0.08. Three tables carry the
+observation sets, the flight and end-of-flight distribution by 00:19Z treatment, and the composed
+distribution before and after the searches. Every row carries its labels.
+
+**Measured:** 5,966 words of main text (band 6,000-8,000 — 34 words short, so this is at the
+floor), 155-word abstract, 14 numbered equations, 3 tables. Structural check passes: environments
+and braces balance, no double subscripts.
+
+Still open and marked in the draft: the recovered-item count in Table 1; affiliation, e-mail and
+ORCID; acknowledgements; the required AI-use declaration; and the impact dissipation duration,
+which still has no method description. RECOMMENDATION 8 (hydroacoustic predicted levels) remains
+open and would let §3.8 carry numbers instead of magnitudes.
