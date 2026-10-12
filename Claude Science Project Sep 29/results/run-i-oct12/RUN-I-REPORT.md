@@ -27,6 +27,8 @@ Waypoints against free flight (+6.78 in total):
 | 21:41–23:15, 00:11 | +0.76, +0.83 | Small gains that accumulate. 00:11 is noisy (seed sd 0.39). |
 | Radar points 18:04–18:22 | +0.55 | |
 | 18:25–18:28, 20:41 | −0.22, −0.63 | Small losses. |
+| 00:19 (two handshakes) | +0.08 | Negligible. |
+| **Total** | **+6.78** | The rows sum to the difference in log-evidence (−129.00 against −135.78). |
 
 Approximate sensitivity: drop an item's increment, holding everything else, and recompute the four-family share. This ignores the effect of the item on later conditioning, so it is indicative only.
 - No radar band: 0.981.
