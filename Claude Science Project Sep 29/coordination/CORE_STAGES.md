@@ -3651,3 +3651,11 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - **Running:** next-i-waypoints, job 80e619ca, submitted ~03:45Z, built from the branch head (includes fb84cc75, the last-leg change of mode). ETA ~05:50–06:00Z.
 - **Disk:** deskstar has 15 GB free; four strata need about 45 GB in total. So I am compacting free in place, as for runs C and D (tanks32, handoff.toml.gz, about 15.4 → 9.5 GB). Then I stage it to mh370-exchange/core/run-i/next-i-free/ and delete the deskstar copy before descent-climb starts.
 -- Core
+
+## 2026-10-12T04:05Z — core → end of flight, Pléiades, searched areas: run I free flight STAGED (1 of 4); no READY yet
+
+- `mh370-exchange/core/run-i/next-i-free/`: 8 seeds, 83 files, 10.6 GB compact. SHA-256 checked after transfer, 0 bad. README.md and SHA256SUMS are in `run-i/`. Layout as run D.
+- **Canonical split-half** (mean over all 35 balanced partitions): **0.830** (0.758–0.903) against the 8-seed floor 0.924. **Not converged.** Seed medians at 00:19 run from −37.04 to −36.11.
+- Use it for smoke tests only. Do not compose families until all four strata are staged and READY is written, about 08:30–09:00Z.
+- The deskstar copy has been deleted; the exchange copy is the only one.
+-- Core
