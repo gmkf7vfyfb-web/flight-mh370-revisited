@@ -5,12 +5,12 @@
 
 use super::evidence::{days_from_civil, parse, TABLE};
 use super::interpolate::{Lookup, Node, Surface};
-use super::recovery::{dot, great_circle_km, phi, Arrival, Delay, Edge, LevelDraws, Observation, Place, Recovery};
+use super::recovery::{dot, great_circle_km, phi, Arrival, Coefficients, Delay, Edge, LevelDraws, Observation, Place, Recovery};
 use super::rng::Rng;
 use super::segments::SegmentMap;
 use super::source_grid::{SourceGrid, WeightedCell};
 use super::transport::{response, Fate, OceanSetup, TransportParams};
-use super::{build, node_ln_likelihood, parse_cells, stringent_intervals, Params, REFERENCE_MAP};
+use super::{block_means, build, node_ln_likelihood, parse_cells, stringent_intervals, Params, SegmentLevel, REFERENCE_MAP};
 use ocean::{Diffusion, Domain, Particle};
 
 const T0: f64 = 1_394_237_977.0;
@@ -587,4 +587,35 @@ fn surfaces_mode_declares_both_ocean_models() {
     assert_eq!(h.observations().len(), 9);
     assert_eq!(h.prediction_columns().len(), 2);
     let _ = std::fs::remove_dir_all(&dir);
+}
+
+/// Australian non-recovery (brief section 13, raised by Pete 12 Oct 2026): a coast with no finds enters
+/// only through Q(x). Its level prior is a per-segment override; a uniform shift of every level cancels.
+#[test]
+fn segment_level_overrides_and_zero_find_coast() {
+    let names: Vec<String> = ["S1", "S2", "AUS"].iter().map(|s| s.to_string()).collect();
+    let o = vec![SegmentLevel { segment: "AUS".into(), ln_mean_by_period: vec![1.5, 2.5] }];
+    let mu = block_means(&[-1.0, 0.0], &o, &names).unwrap();
+    assert_eq!(mu, vec![-1.0, 0.0, -1.0, 0.0, 1.5, 2.5]);
+    assert!(block_means(&[-1.0, 0.0], &[SegmentLevel { segment: "WA".into(), ln_mean_by_period: vec![0.0, 0.0] }], &names).is_err());
+    assert!(block_means(&[-1.0, 0.0], &[SegmentLevel { segment: "AUS".into(), ln_mean_by_period: vec![0.0] }], &names).is_err());
+    // One class, two finds on S1 and S2, one period; arrivals on AUS (block 2) only in Q.
+    let coef = |aus: f64| vec![vec![Some(Coefficients { a: vec![vec![0.2, 0.0, 0.0], vec![0.0, 0.1, 0.0]], big_a: vec![0.3, 0.2, aus], n_eff: vec![1.0, 1.0], hits: vec![1, 1] })]];
+    let by_class = vec![vec![0usize, 1]];
+    let ln = |c: &[Vec<Option<Coefficients>>], mu: &[f64]| match node_ln_likelihood(c, &by_class, &LevelDraws::from_block_means(mu, 1.0, 64, 7)) {
+        Node::Value(v) => v,
+        _ => panic!("not a value"),
+    };
+    // A uniform shift of every block mean multiplies every nu by the same factor in every draw: cancels exactly.
+    let (a, b) = (ln(&coef(0.4), &[0.0, 0.0, 0.0]), ln(&coef(0.4), &[0.7, 0.7, 0.7]));
+    assert!((a - b).abs() < 1e-12, "{a} {b}");
+    // No Australian arrivals: the Australian level is irrelevant.
+    assert!((ln(&coef(0.0), &[0.0, 0.0, -30.0]) - ln(&coef(0.0), &[0.0, 0.0, 2.0])).abs() < 1e-12);
+    // Australian arrivals with a level near zero change nothing; a higher level lowers the likelihood.
+    let off = ln(&coef(0.4), &[0.0, 0.0, -30.0]);
+    assert!((off - ln(&coef(0.0), &[0.0, 0.0, 0.0])).abs() < 1e-9);
+    assert!(ln(&coef(0.4), &[0.0, 0.0, 0.0]) < off - 0.1);
+    assert!(ln(&coef(0.4), &[0.0, 0.0, 1.0]) < ln(&coef(0.4), &[0.0, 0.0, 0.0]));
+    // The primary and an alternative with the same means give the same draws (common random numbers).
+    assert_eq!(LevelDraws::new(3, &[0.0], 1.0, 16, 5), LevelDraws::from_block_means(&[0.0, 0.0, 0.0], 1.0, 16, 5));
 }

@@ -168,6 +168,42 @@ struct LevelParams {
     sigma: f64,
     draws: usize,
     seed: u64,
+    /// Per-segment overrides of `ln_mean_by_period` for the primary surface (e.g. coasts with no finds).
+    #[serde(default)]
+    segment_ln_mean_by_period: Vec<SegmentLevel>,
+    /// Further level priors scored from the same ensembles, written as `ln_l_lev_<name>` (+ halves).
+    /// Each is `ln_mean_by_period` with its own per-segment overrides (the primary overrides do not apply).
+    #[serde(default)]
+    alternatives: Vec<LevelAlternative>,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+struct SegmentLevel {
+    segment: String,
+    ln_mean_by_period: Vec<f64>,
+}
+
+#[derive(Deserialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+struct LevelAlternative {
+    name: String,
+    #[serde(default)]
+    segment_ln_mean_by_period: Vec<SegmentLevel>,
+}
+
+/// Prior mean of ln nu per block (segment * n_periods + period): `base` by period, with per-segment overrides.
+fn block_means(base: &[f64], overrides: &[SegmentLevel], segnames: &[String]) -> Result<Vec<f64>, String> {
+    let np = base.len();
+    let mut mu: Vec<f64> = (0..segnames.len() * np).map(|b| base[b % np]).collect();
+    for o in overrides {
+        let s = segnames.iter().position(|n| *n == o.segment).ok_or_else(|| format!("debris-drift: level override for unknown segment `{}`", o.segment))?;
+        if o.ln_mean_by_period.len() != np {
+            return Err(format!("debris-drift: level override for `{}` has {} periods, expected {np}", o.segment, o.ln_mean_by_period.len()));
+        }
+        mu[s * np..(s + 1) * np].copy_from_slice(&o.ln_mean_by_period);
+    }
+    Ok(mu)
 }
 
 #[derive(Deserialize, Clone, Debug)]
@@ -648,7 +684,14 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let nc = p.classes.len();
     let by_class: Vec<Vec<usize>> = (0..nc).map(|c| (0..observations.len()).filter(|&j| observations[j].class == c).collect()).collect();
     let responses: Vec<Vec<ObjectResponse>> = (0..nc).map(|c| if by_class[c].is_empty() { Vec::new() } else { class_responses(p, c) }).collect();
-    let levels = LevelDraws::new(rec.n_segments, &p.levels.ln_mean_by_period, p.levels.sigma, p.levels.draws, p.levels.seed);
+    let segnames: Vec<String> = match &loc.map { Some(m) => m.segments.iter().map(|s| s.name.clone()).collect(), None => (0..rec.n_segments).map(|s| format!("edge-{s}")).collect() };
+    let levels = LevelDraws::from_block_means(&block_means(&p.levels.ln_mean_by_period, &p.levels.segment_ln_mean_by_period, &segnames)?, p.levels.sigma, p.levels.draws, p.levels.seed);
+    let alt_levels: Vec<(String, LevelDraws)> = p
+        .levels
+        .alternatives
+        .iter()
+        .map(|a| Ok((a.name.clone(), LevelDraws::from_block_means(&block_means(&p.levels.ln_mean_by_period, &a.segment_ln_mean_by_period, &segnames)?, p.levels.sigma, p.levels.draws, p.levels.seed))))
+        .collect::<Result<_, String>>()?;
     let t_end = p.release_unix_s + rec.window_end_days * 86_400.0;
     let n = p.particles_per_class;
     let half = n / 2;
@@ -680,6 +723,9 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         for j in 0..observations.len() {
             header += &format!(",n_eff_h{h}_{}", observations[j].id.replace(':', "_"));
         }
+    }
+    for (name, _) in &alt_levels {
+        header += &format!(",ln_l_lev_{name},ln_l_lev_{name}_half_a,ln_l_lev_{name}_half_b");
     }
     let clock = std::time::Instant::now();
     let mut steps_total = 0.0;
@@ -802,6 +848,11 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
                 row += &format!(",{v:.3}");
             }
         }
+        for (_, lv) in &alt_levels {
+            for ch in [&coef_full, &coef_a, &coef_b] {
+                row += &format!(",{}", if on_land { "nan".into() } else { val(node_ln_likelihood(ch, &by_class, lv)) });
+            }
+        }
         rows.push(row);
         nodes[k] = node;
         if p.output_dir.is_some() && (count + 1) % 50 == 0 {
@@ -832,6 +883,8 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         ("env_realisations".into(), envs.len().to_string()),
         ("diffusivity_m2_s".into(), envs.iter().map(|e| format!("{:.1}", e.1.long_time_diffusivity_m2_s())).collect::<Vec<_>>().join(";")),
         ("level_draws".into(), levels.draws.len().to_string()),
+        ("level_overrides".into(), p.levels.segment_ln_mean_by_period.iter().map(|o| format!("{}:{:?}", o.segment, o.ln_mean_by_period)).collect::<Vec<_>>().join(";")),
+        ("level_alternatives".into(), p.levels.alternatives.iter().map(|a| format!("{}[{}]", a.name, a.segment_ln_mean_by_period.iter().map(|o| format!("{}:{:?}", o.segment, o.ln_mean_by_period)).collect::<Vec<_>>().join(";"))).collect::<Vec<_>>().join(" ")),
         ("finds".into(), observations.iter().map(|o| format!("{}@seg{}:class{}:day{:.1}-{:.1}", o.id, o.segment, o.class, o.t_start_days, o.t_end_days)).collect::<Vec<_>>().join(";")),
         ("main_band_mass".into(), format!("{:.4}", grid.component_mass[grid.main_component])),
         ("coverage_reached".into(), format!("{:.4}", grid.covered_mass)),
@@ -843,7 +896,6 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
         csv += &rows.join("\n");
         csv.push('\n');
         std::fs::write(format!("{dir}/nodes.csv"), csv).map_err(|e| e.to_string())?;
-        let segnames: Vec<String> = match &loc.map { Some(m) => m.segments.iter().map(|s| s.name.clone()).collect(), None => (0..ns).map(|s| format!("edge-{s}")).collect() };
         let mut text: String = summary.iter().map(|(k, v)| format!("{k} = {v:?}\n")).collect();
         text += &format!("segments = {segnames:?}\nclasses = {:?}\ngrid = {{ lat0 = {}, lon0 = {}, dlat = {}, dlon = {}, nlat = {}, nlon = {} }}\n", p.classes.iter().map(|c| c.name.clone()).collect::<Vec<_>>(), grid.lat0, grid.lon0, grid.dlat, grid.dlon, grid.nlat, grid.nlon);
         std::fs::write(format!("{dir}/summary.toml"), text).map_err(|e| e.to_string())?;

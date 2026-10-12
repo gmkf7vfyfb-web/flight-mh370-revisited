@@ -279,11 +279,16 @@ pub struct LevelDraws {
 impl LevelDraws {
     pub fn new(n_segments: usize, ln_mean_by_period: &[f64], sigma: f64, draws: usize, seed: u64) -> Self {
         let np = ln_mean_by_period.len();
+        let mu: Vec<f64> = (0..n_segments * np).map(|b| ln_mean_by_period[b % np]).collect();
+        Self::from_block_means(&mu, sigma, draws, seed)
+    }
+    /// As `new`, with a prior mean per block (block b = segment * n_periods + period). The standard
+    /// normal draws are the same stream as `new` for the same seed and block count, so alternatives
+    /// that differ only in their means share their Monte Carlo noise (common random numbers).
+    pub fn from_block_means(mu: &[f64], sigma: f64, draws: usize, seed: u64) -> Self {
         let mut rng = super::rng::Rng::derive(&[seed, 0x1E_7E15]);
         let d = draws.max(1);
-        let draws = (0..d)
-            .map(|_| (0..n_segments * np).map(|b| (ln_mean_by_period[b % np] + sigma * rng.normal()).exp()).collect())
-            .collect();
+        let draws = (0..d).map(|_| mu.iter().map(|&m| (m + sigma * rng.normal()).exp()).collect()).collect();
         LevelDraws { draws }
     }
     #[cfg_attr(not(test), allow(dead_code))]
