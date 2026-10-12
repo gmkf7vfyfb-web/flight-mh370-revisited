@@ -11814,3 +11814,20 @@ each a mixture with the prior with exact correction. N = 1 smoke (code check onl
 about 20 GB, into `end-of-flight/run-i-c2aim/` (the run I output is kept; the other three strata are linked from run I unchanged).
 It also carries the corrected SLS thrust (406.8 kN). Expected D3 × C2 silent ≈ 1,200. Summaries and an updated COVERAGE follow.
 — End of Flight Module
+
+## 2026-10-12 ~20:05Z - Pléiades → architecture (cc composer): run I after the official searches; close-ups D0-D5
+
+Searched areas' run-i columns applied (`results/pleiades/run-i/pleiades-runi-mixture-p2bf.json`, README updated). Close-ups (colour and
+seabed) for D0-D5 are in `results/pleiades/run-i/closeups/`. Primary cause total q = 1/3, proposed setting. Conditional on H; core run I
+NOT CONVERGED.
+- **After Phase 2 + Bluefin-21:**
+  - D0: 72,907 km², 35.37 S 91.87 E, ln S −0.56, ESS 31,135;
+  - D1: 64,426 km², ln S −1.07, ESS 42,142;
+  - D2: 51,513 km², ln S −0.71, ESS 4,318.
+  - **D3 / D4 / D5 NOT ESTIMABLE under H: ESS 115 / 460 / 143.** A1 under them: 25 / 124 / 5. Their charts carry the label, and
+    their 7,600-16,800 km² regions are sampling artefacts.
+- OI is not applied (searched areas' base); it is drawn only.
+- Maps are built from per-impact columns (`prepare/runi_closeups.py`), not from `mh370 evaluate` branch maps, so no core request is
+  needed.
+
+- Pléiades Module

@@ -61,6 +61,19 @@ Scripts: `prepare/build_columns.py`, `prepare/score_runi_summary.py` (end of fli
 | D4 R600 BTO + both BFOs, Holland transient bias added (H1 data) | total q=1/3 (C2 silent) | 846 (10,872) | 35.59 S 92.43 E | 142 | -1.50 (0.09) | 19,414 (41,322) | -0.20 | 125 |
 | D5 R600 BTO + R600 BFO + R1200 BFO with offset | total q=1/3 (C2 silent) | 327 (4,070) | 35.61 S 92.42 E | 137 | -1.25 (0.05) | 15,717 (33,634) | -0.18 | 32 |
 
+## After the searches (after /Users/pete/Downloads/mh370-exchange/searched-areas/run-i), total q = 1/3, proposed setting
+
+| D | cause | ESS under H (without H) | mean under H | shift NM | ln S (p) | 90 % km² under H (without H) | ln E[L_H] vs D0 | A1 ESS under H |
+|---|---|---|---|---|---|---|---|---|
+| D0 held out | total q=1/3 (C2 silent) | 31,135 (328,918) | 35.37 S 91.87 E | 69 | -0.56 (0.26) | 72,907 (257,923) | +0.00 | 3,252 |
+| D1 R600 BTO | total q=1/3 (C2 silent) | 42,142 (372,244) | 35.56 S 92.22 E | 104 | -1.07 (0.19) | 64,426 (188,607) | -0.32 | 6,284 |
+| D2 R600 BTO + R600 BFO | total q=1/3 (C2 silent) | 4,318 (22,847) | 35.53 S 92.24 E | 66 | -0.71 (0.21) | 51,513 (162,128) | -0.14 | 644 |
+| D3 R600 BTO + both BFOs (H2 data) | total q=1/3 (C2 silent) | 115 (656) | 35.68 S 92.55 E | 81 | -0.03 (0.22) | 7,644 (30,278) | +0.11 | 25 |
+| D4 R600 BTO + both BFOs, Holland transient bias added (H1 data) | total q=1/3 (C2 silent) | 460 (2,865) | 35.61 S 92.62 E | 73 | -0.23 (0.20) | 16,756 (54,342) | +0.11 | 124 |
+| D5 R600 BTO + R600 BFO + R1200 BFO with offset | total q=1/3 (C2 silent) | 143 (526) | 35.65 S 92.61 E | 62 | -0.12 (0.15) | 12,526 (42,024) | +0.11 | 5 |
+
+**Close-ups** (colour and seabed, D0-D5, after the official searches, total q = 1/3): `closeups/` (prepare/runi_closeups.py; maps from per-impact columns; stats in `closeups/closeup-runi-stats.csv`). D3, D4 and D5 are labelled NOT ESTIMABLE on the charts.
+
 ## COVERAGE
 - **(a) Feasible set and (b) model reach:** end of flight's run I README and COVERAGE apply unchanged; these columns add no sampling.
   Carried gaps: stepped shapes not eligible for push-over; INTERIM pitch-down; core run I not converged.
