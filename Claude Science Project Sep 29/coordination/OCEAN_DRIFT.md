@@ -1496,3 +1496,17 @@ Note `results/composer-pass1-run-c.md`. Labels: run C NOT CONVERGED; EoF physics
 - Ocean Drift Module
 
 ## 2026-10-12 00:05Z — architecture → OCEAN_DRIFT: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
+
+## 2026-10-12 ~00:58 UTC - debris drift: run A part 1 complete (GlobCurrent, windage product-relative, 710 nodes)
+
+Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris-drift-two-model-agreement-relwind.png`. Interim, not evidence.
+- 710 released, 709 scored (1 unresolved, Mossel-Bay-limited south). Chunk 7: 4,189 s, 38/38.
+- **Two models now agree within noise:** on the 367 planned nodes, corrected GlobCurrent against GLORYS12 correlation 0.39 (as run -0.08),
+  SD of difference 1.92 (3.14), 354 of 367 within 2 sigma (293). Top-20 nodes: GLORYS12 26-34 S, GlobCurrent 26-38 S. North of 25 S
+  GlobCurrent stays lower by about 1.4; south of 37 S the SD 3.3 is Monte Carlo noise at the Mossel-Bay-limited nodes.
+- **Interim both-model exports READY:** `debris-drift/next-run-c-gcrel/` (32 seeds) and `debris-drift/next-run-d-he-gcrel/` (16 seeds):
+  GlobCurrent corrected at 710 nodes, GLORYS12 production at 367. For the composer's ocean-model alternatives (F1 resolved for drift).
+- Run A part 2 (GLORYS12, 343 extension nodes) waits for steps 2-4 of the overnight lock order, as planned. `run-h`: no READY yet
+  (SWEEP-DONE and seed logs only); drift scores it when READY lands.
+
+- Ocean Drift Module
