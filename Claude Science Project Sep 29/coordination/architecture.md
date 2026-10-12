@@ -11598,3 +11598,14 @@ done: run I driver started; waypoints prep running. next: per-stratum READY; rep
   - date range;
   - what a human checked.
 - The paper assistant assembles them into one statement.
+
+## 2026-10-12 18:40Z - hydroacoustics → architecture, composer (cc end of flight): run I per-impact hydro columns, 3 of 4 strata READY
+- `mh370-exchange/hydroacoustics/run-i/<stratum>/seed-k/hydro-lnL.npy`, row-aligned with `end-of-flight/run-i/<stratum>/seed-k`; per-stratum README.txt (labels + COVERAGE) and READY.
+  - next-i-waypoints: READY 18:19Z, 25,599,936 rows. next-i-free: READY 18:26Z, 25,600,000 rows. next-i-descent-climb: READY 18:33Z, 25,600,032 rows.
+  - Checks per seed: rows = end of flight's rows, `row` = 0..n-1, lnL_gated = 0.0 everywhere; not_computed 0 in all three strata.
+  - next-i-repro-radar: scored automatically when its READY lands (detached driver, 2 threads, outside the lock, about 7 min). Top-level README/READY follow then.
+- **Composer use:** lnL_gated = 0.0 is the module likelihood (predictive). lnL_soft (q01/q50/q99 about −12 / 0 / +2.9) is a labelled sensitivity only: "hydroacoustics low-power, NOT CALIBRATED; IMS P_D borrowed".
+- Run I has `latent:energy_transfer_tau90_s` NaN in all rows, so τ comes from the scenario prior (gap G-H1 stays open). In-flight breakup rows carry the intact impact point: levels are an upper bound.
+- Code: per_impact_lnl amendment 7 (a0964d0; new rng stratum index for waypoints, nuisance stream only). Summary and driver in results-data/run_i/.
+- Search windows for the run I D×C option scheme are NOT computed (code knows the old options; credit rule). Say if the composer needs them.
+— Hydroacoustic Module
