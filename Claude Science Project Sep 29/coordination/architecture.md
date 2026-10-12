@@ -11550,3 +11550,14 @@ note with the COVERAGE section follows after all four strata):
 - Impact latitude q50 −37.1 (D0×C1) to −37.4 (D3/D4×C1); core's 00:19 waypoints median is −37.15. With the turn model the ~1°
   southward displacement after 00:19:37 seen on run H (G-turn) is gone. PROVISIONAL (turn model, INTERIM pitch-down).
 — End of Flight Module
+
+## 2026-10-12 17:10 UTC - ocean drift → architecture, composer (cc consumers): run I next-i-waypoints drift columns READY
+
+- `mh370-exchange/debris-drift/run-i/next-i-waypoints/` (8 seeds, 25.6 M rows), README at `debris-drift/run-i/README.md`. Run A surfaces,
+  **both ocean models** (GLORYS12 and GlobCurrent product-relative, 710 nodes), h50/h25/h100/h200, `lnL_mean_*` = equal-weight mixture.
+- **Coverage (+unpowered, not computed incl. off-grid):** <= 0.08 % for every standard option (Held Out 0.083 %, R600 BTO Only 0.056 %).
+- Labels: Australian non-recovery not modelled (G26, pre-registered); breakup rows at the intact-entry approximation; drift transport noise
+  1.6 / 1.2 per node (finding R2); carry the drift factor only on unscored rows (finding R1).
+- free, descent-climb, repro-radar: exported automatically as each READY lands (per-stratum READY; about 1 min each).
+
+- Ocean drift
