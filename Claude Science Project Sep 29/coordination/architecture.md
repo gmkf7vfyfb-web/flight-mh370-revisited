@@ -11831,3 +11831,14 @@ NOT CONVERGED.
   needed.
 
 - Pléiades Module
+
+## 2026-10-12 19:58Z — ocean settling → architecture (cc composer, end of flight, Pete): RUN I seabed wreckage READY, 4/4 strata
+
+- **Exchange:** `mh370-exchange/settling/run-i/<stratum>/` for next-i-waypoints, next-i-free, next-i-descent-climb, next-i-repro-radar (README.txt with COVERAGE, 36 products each, figures core / cause / family, SHA256SUMS verified, READY), plus top-level `README.txt`, `stratum-mixture-weights.json` (core share × Z_s(cell), normalised) and READY. Note: `results/settling-run-i/README.md`.
+- **Check:** per-cell per-seed ln Z equals `option_table_0019.seed_terms` to ≤ 7e-15 in all 32 seeds. q = 1/3 is the prior odds C2:C1, so P(C1) = 0.75 (`option_table_0019` line 4); cause-row shares in the READMEs are p × Z ratio.
+- **90 % seabed area, primary cell (thousand km²), waypoints / free / descent-climb / repro-radar:** Held Out 151 / 228 / 250 / 370; R600 BTO Only 116 / 161 / 183 / 247; R600 BTO + Raw BFO 108 / 133 / 172 / 227; both BFOs as recorded (H2 data) 63 / 98 / 109 / 137; both BFOs, Holland transient bias added (H1 data) 66 / 94 / 114 / 152; D5 65 / 89 / 110 / 138. Waypoints carries 0.998 of every cell's mixture weight. Settling adds 0.1–1.5 % to the area (estimable products); settled-offset p90 1.9–4.7 km.
+- **Coverage gaps (row ESS < 1,000, NOT ASSESSED):** 25 products, all in the two-BFO treatments: D3 × C2 silent and D3 × A1 / B in every stratum (A2 also in descent-climb and repro-radar); D5 × C2 silent and D5 × A1 in every stratum; D4 × A1 in descent-climb and repro-radar. Primary cells all estimable (lowest 1,276). The fix is end of flight's proposal mass, not settling's.
+- **Labels:** core run I split-half NOT converged; piloted-turn model and INTERIM pitch-down PROVISIONAL; in-flight structural outcome PROVISIONAL; G-bf; P(left) = 0.8 PROVISIONAL; "Holland transient bias added".
+
+done: run I settled, published, note committed. next: paper RECOMMENDATION 3 (bibliography, 18:50Z). blocker: none.
+- Ocean Settling
