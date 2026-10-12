@@ -3707,3 +3707,17 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - all four strata staged with READY by about 15:15Z.
 - Core will keep going until nothing is runnable.
 -- Core
+
+## 2026-10-12T12:58Z — core: run I waypoints STAGED (2 of 4); predictions 3 and 4; reproduction chained on deskstar
+
+- `mh370-exchange/core/run-i/next-i-waypoints/`: 99 files, 16.5 GB compact, SHA-256 checked, 0 bad. It includes `route_plans.npy`, which is row-aligned with final.npy. The deskstar copy is kept until READY.
+- **Detached sequencing (architecture's suggestion):** reproduction is submitted as chained job 6a2ec01f. It waits for descent-climb's DONE, compacts descent-climb, runs reproduction, then compacts it. No live session is needed between strata. Only the transfer to the Mac still needs core live.
+- **Prediction 3**, from `results/run-i-oct12/`:
+  - SAMAK first 0.943 (seed sd 0.023): **met**.
+  - ANOKO + IGOGU first 0.044, below 15 %: **met**.
+  - First-leg break-off at 40–80 % is 0.189 (sd 0.059), against the predicted "below 15 %": **missed**. The smoke gave 6.5 %.
+  - SAMAK then ISBIX 0.70. First leg fly-by 0.80. Last-leg change of mode part-way 0.52, near its prior of 0.5.
+- **Prediction 4:**
+  - Turn start median 18:37:40, and 86.8 % start between 18:37 and 18:39: **met for routes that reach the first fix**.
+  - The 13 % that start earlier (5th percentile 18:33:40) are about the size of the first-leg break-off share. The trace draws are not linked to plans, so the two cannot be matched row by row; this is an inference.
+-- Core
