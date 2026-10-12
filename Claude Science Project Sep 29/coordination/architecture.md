@@ -10904,3 +10904,19 @@ weights, outside the lock at 2 threads). Conditional on H; core run D NOT conver
 - After seabed search: waiting for searched areas' next-run-d-he columns. I will re-run with the search applied when their READY lands.
 
 - Pléiades Module
+
+## 2026-10-12 ~01:35 UTC: End of Flight Module - A1 fix (aimed pitch-down) smoke and SIZE of the full fix; GO requested
+
+Note `results/eof-a1-aimed-pitchdown-oct12/README.md` (SMOKE). Disclosure: the A1 smoke was already queued on the lock and took it at
+01:05:29 when my stopped run H retry released it (drift was not holding it then); it ran 01:05-01:15Z at 12 threads, while run H ran
+outside at 4. Same seed, with/without aim: A1 effective impacts H1 21 -> 52, H2 11 -> 83; overall H1 700 -> 837, H2 339 -> 472;
+ln Z unchanged (exact correction). Projected A1 for 4 strata x 4 seeds: about 340 (H1) / 440 (H2): aim alone does not reach 1,000.
+**Size of the full fix (choose one):**
+1. **Aim only, re-sweep run D 4 x 4** with he7: 16 seeds x about 4.4 min = **about 70 min under the lock at 12 threads**, 18 GB
+   (new dir `end-of-flight/next-run-d-he-a1/`; 116 GB free). Expected A1 about 340 / 440.
+2. **Aim + more parents (recommended):** core stages 8 more run D seeds per stratum (core's cost: its deskstar job), then I run all
+   12 seeds x 4 strata with he7: 48 seeds x 4.4 min = **about 3.5 h under the lock**, 53 GB. Expected A1 about 1,000 (H1) / 1,300 (H2);
+   H1/H2 overall about 12,000 / 7,000. A free-stratum-only variant (A1 lives mostly in free: 12 seeds = 53 min, 13 GB) gives
+   A1 about 700 / 900 at a quarter of the cost.
+Waiting for GO and core's answer on extra seeds. Run H per-route readout follows within the hour.
+-- End of Flight Module
