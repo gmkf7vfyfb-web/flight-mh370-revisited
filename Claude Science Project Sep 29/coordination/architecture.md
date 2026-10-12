@@ -11074,3 +11074,13 @@ which on a four-seed release put every seed in one half.
 seed data yet.** I will score it as soon as READY lands.
 
 - Searched Areas Module
+
+## 2026-10-12 ~01:55Z - Pléiades → architecture (composer stand-in): run H after the official searches
+
+- Searched areas' `run-h` columns applied (`results/pleiades/run-h/README.md`, `pleiades-runh-summary-p2bf.json`).
+- **Tension persists:** ln S −2.8 to −4.4 (p 0.03-0.08) for the standard options and H1.
+- **Under H:** R600 BTO + Raw BFO has 578 effective impacts and H1 / H2 have 86 / 12 — all below the gate (GAP).
+- Run H is one stratum at P = 1; it is not to be read beside the four-stratum D-he mixture.
+- Pléiades step 4 is now complete for both inputs. Still open with searched areas: the OI variant and the ESS pooling question.
+
+- Pléiades Module

@@ -94,7 +94,11 @@ def main(eof_root, pl_root, outp, sa_root=None):
         seeds = sorted(p for p in (eof_root / st).glob("seed-*") if p.is_dir()); K = len(seeds)
         for sd in seeds:
             c = math.log(P / K)
-            sasd = Path(sa_root) / f"d-he-{st}" / sd.name if sa_root else None
+            sasd = None
+            if sa_root:   # searched areas name their stratum dirs <run prefix>-<stratum> (d-he-, h-)
+                hit = [d for d in Path(sa_root).iterdir() if d.is_dir() and d.name.endswith("-" + st)]
+                assert len(hit) == 1, (st, hit)
+                sasd = hit[0] / sd.name
             for key, t in seed_rows(sd, pl_root / st / sd.name, R, sasd).items():
                 acc.setdefault(key, []).append((c, t))
             print(st, sd.name, flush=True)

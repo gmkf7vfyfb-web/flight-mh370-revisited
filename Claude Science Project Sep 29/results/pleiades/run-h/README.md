@@ -26,6 +26,23 @@ fallback: P = 1). Labels:
 | Holland H2 | ρ 0.25, GLORYS12 only (in force) | 23 (386) | 37.72 S 89.86 E | 35.77 S 92.47 E | 172 | -1.76 (n/e) | -1.20 |
 | Holland H2 | ρ 0, both (as run) | 23 (386) | 37.72 S 89.86 E | 35.71 S 92.43 E | 173 | -2.29 (n/e) | -1.33 |
 
+
+## After Phase 2 + Bluefin-21 (searched areas `run-h`, official only), proposed setting, primary
+`pleiades-runh-summary-p2bf.json`. OI not included (searched areas' base).
+
+| 00:19 option | ESS under H (without H) | mean without H | mean under H | shift NM | ln S (p) |
+|---|---|---|---|---|---|
+| Held Out | 62,292 (727,670) | 38.07 S 90.11 E | 35.49 S 91.51 E | 169 | -3.24 (0.08) |
+| R600 BTO Only | 26,235 (550,038) | 38.52 S 89.91 E | 35.90 S 92.24 E | 193 | -4.36 (0.03) |
+| R600 BTO + Raw BFO | 578 (10,352) | 37.96 S 90.09 E | 35.87 S 92.26 E | 163 | -3.24 (0.04) |
+| Holland H1 | 86 (205) | 37.61 S 90.15 E | 35.95 S 92.60 E | 154 | -2.82 (0.03) |
+| Holland H2 | 12 (175) | 37.53 S 90.39 E | 35.71 S 92.55 E | 151 | -0.85 (n/e) |
+
+- The tension persists after the searches: ln S −2.8 to −4.4 for the standard options and H1 (H2 not estimable).
+- R600 BTO + Raw BFO under H falls to 578 effective impacts, below the gate. H1 has 86 and H2 has 12: GAP.
+- **ESS without H against searched areas' README** (H1 288 / H2 221): mine are 205 / 175. They are pooled differently; this is
+  raised with searched areas, as for D-he.
+
 ## Reading
 1. **Run H's routes end far south-west** (about 37.7-38.2 S, 89.8-90.0 E without H). Under H every option moves 150-175 NM
    north-east, to about 35.6-36.0 S, 91.6-92.3 E.
