@@ -53,20 +53,40 @@ This is the pattern to copy, taken from printed pages 98 and 123.
    numbering where chapters are long — `(3.1)`, `(3.2)` — and plain sequential numbering
    elsewhere — `(18)`, `(19)`.
 3. **A running "where" clause immediately after**, in prose, defining every symbol in the order
-   it appears, comma-separated, each with its physical meaning and its reference frame:
-   *"where φ₇ is the estimate of arc-latitude crossing the 7th BTO arc considered here as the
-   dependent variable, φ is an intercept, t_TS is the assumed time of the turn south after
-   18:25Z, V_range is the range of ground track velocities for the constituent trajectories …"*
-   **Not a symbol table.** A prose where-clause. (This also matches the journal: not one of the
-   nine surveyed papers has a nomenclature list.)
-4. **Mnemonic subscripts, not indices.** Observed: `φ₇` arc-latitude at the 7th arc; `t_TS` turn
-   south; `V_range`, `A_range`, `C_course`; `μ_HL` hull-loss mean; `R_HullLoss`; `n_dec` decade.
-   Subscripts are short words or recognised abbreviations, not running integers.
-5. **Latin and Greek letters in their conventional roles**: φ for latitude, μ for a mean, σ for a
+   it appears, comma-separated, each with its physical meaning and its reference frame. Read from
+   printed p.98: *"where φ̄₇ is the estimate of arc-latitude crossing the 7th BTO arc considered
+   here as the dependent variable, φ is an intercept, t_TS is the assumed time of the turn south
+   after 18:25Z, V_Range is the range of ground track velocities for the constituent
+   trajectories, A_Range is the range of altitudes for the constituent trajectories, C_TTrack is
+   the cumulative change in true track in the constituent trajectories, measured from the 296
+   degrees track assumed at 18:25Z."* **Not a symbol table.** A prose where-clause. (This also
+   matches the journal: not one of the nine surveyed papers has a nomenclature list.)
+4. **Mnemonic subscripts in CamelCase, not indices.** Verified against the rendered pages, not
+   the text layer. From printed p.98, equation (3.2):
+   `φ̄₇ₖ = φ + β₁t_TSk + β₂V_Rangek + β₃A_Rangek + β₄C_TTrackk + μ_k + σ_kε_k` — so `φ̄₇`
+   (barred, meaning the mean estimate) arc-latitude at the 7th arc; `t_TS` turn south;
+   `V_Range`; `A_Range`; `C_TTrack` cumulative change in true track; `β_n` regression
+   coefficients. From printed p.123, equations (18) and (19):
+   `P(x_Yr) = e^(−μ_Yr)·μ_Yr^(x_Yr)/x_Yr!` and `μ_Yr = R_HullLoss·Σ Oceanic Flight Hrs in Yr` —
+   so `x_Yr` and `μ_Yr` indexed by year, `R_HullLoss` the hull-loss rate, `n_Dec` the decade.
+   The subscript is a short descriptive word with a **capital initial on each part**
+   (`TTrack`, `Range`, `HullLoss`, `Dec`, `Yr`), and where a study or replicate index is also
+   needed it is appended as a trailing lower-case letter (`t_TSk`, `V_Rangek`).
+5. **Whole descriptive words appear as operands inside displayed equations**, set in italic:
+   equation (19) is literally `μ_Yr = R_HullLoss · Σ Oceanic Flight Hrs in Yr`. Where a quantity
+   has no established symbol he writes its name rather than coining one. Worth copying for
+   quantities such as searched area or recovered-item count.
+6. **Latin and Greek letters in their conventional roles**: φ for latitude, μ for a mean, σ for a
    standard deviation, τ² for a between-study variance, β for regression coefficients, ε for
    noise, α for a significance level, Q and χ² for named statistics. No invented glyphs.
-6. A follow-up sentence stating what was done with the equation and on what data: *"was performed
+7. A follow-up sentence stating what was done with the equation and on what data: *"was performed
    on the data from the 26 studies on sub-group 2"*.
+
+**How these were read.** Points 3 to 5 are transcribed from the rendered page images of printed
+pages 98 and 123, not from the PDF text layer. An earlier version of this file gave two of them
+wrongly — `C_course` for `C_TTrack` and `μ_HL` for `μ_Yr` — and three more with the wrong
+capitalisation, because the symbols had been inferred from a garbled extraction rather than read
+off the page. Any further symbol added to this list must be read from the rendered page.
 
 ## 5. Terminology to use
 

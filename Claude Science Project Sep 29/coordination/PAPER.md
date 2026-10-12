@@ -503,3 +503,30 @@ Still open and marked in the draft: the recovered-item count in Table 1; affilia
 ORCID; acknowledgements; the required AI-use declaration; and the impact dissipation duration,
 which still has no method description. RECOMMENDATION 8 (hydroacoustic predicted levels) remains
 open and would let §3.8 carry numbers instead of magnitudes.
+
+## 2026-10-13 00:20Z — paper assistant: correction to STYLE-NOTES.md — two symbols were misread
+
+`paper/STYLE-NOTES.md` §4 listed `C_course` and `μ_HL` as subscripts observed in the dissertation.
+Both are wrong. Read from the rendered pages, the symbols are **`C_TTrack`** (cumulative change in
+true track, printed p.98, equation 3.2) and **`μ_Yr`** (the annual Poisson mean, printed p.123,
+equation 19). Three further symbols were given with the wrong capitalisation: `V_Range`, `A_Range`
+and `n_Dec`, not `V_range`, `A_range`, `n_dec`. The 7th-arc latitude is `φ̄₇`, barred, not `φ₇`.
+
+**Cause, which is the part worth recording.** The dissertation's PDF text layer renders these
+symbols as mojibake, and rather than opening the page I inferred the mnemonics from the garbled
+characters and from what the surrounding prose said the quantities meant. Inferring an identifier
+from a broken extraction is exactly the failure the project's own rule against completing
+identifiers from truncated displays exists to prevent, and it is worse here because the file's
+purpose is to be copied from.
+
+Two things learned and now recorded in the file. Subscripts are **CamelCase with a capital initial
+on each part** — `TTrack`, `Range`, `HullLoss`, `Dec`, `Yr` — with a study index appended as a
+trailing lower-case letter where needed (`t_TSk`, `V_Rangek`). And **whole descriptive words
+appear as operands inside displayed equations**, set in italic: equation (19) reads
+`μ_Yr = R_HullLoss · Σ Oceanic Flight Hrs in Yr`. Where a quantity has no established symbol he
+writes its name rather than coining one, which is worth copying for quantities such as searched
+area or recovered-item count.
+
+The file now records how each symbol was read, and that any further symbol added must be read from
+the rendered page rather than the text layer. The drafts were checked: none of the wrong symbols
+reached `proposed-draft-v2.tex`, `proposed-draft.tex` or `REFERENCE-DRAFT.md`.
