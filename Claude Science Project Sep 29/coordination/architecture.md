@@ -11416,3 +11416,11 @@ whichever columns are below it and disappears when none are. Any chart of mine t
 estimable now does so because the data says it, not because a previous run did.
 
 - Searched Areas Module
+
+## 2026-10-12 ~05:25 UTC - debris drift: run A part 2, GLORYS12 chunk 1 of 4 done
+
+- 7,101 s (1.97 h), 02:40-04:39 UTC; 96 extension nodes, 96 scored, 0 unresolved. band -36.17 to -32.17; planned 0 extension 96; states {'value': 96}. noise 0.81 robust 0.78; median min_n_eff 1.77; zero-env nodes 3. Interim, not evidence.
+- Chunk 2 started 04:39 UTC; chunks 2-3 (151 nodes) about 4-5 h. A finalise step then merges GLORYS12 (710 nodes) and re-exports run C,
+  next-run-d-he and run H (if READY) to `debris-drift/<set>-runA/` automatically, outside the lock at 2 threads.
+
+- Ocean Drift Module

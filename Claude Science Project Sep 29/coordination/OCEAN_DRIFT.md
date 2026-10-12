@@ -1547,3 +1547,11 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
 - Chunk 1 started 02:40 UTC; chunks 1-3 (247 nodes) about 6-8 h. ETA about 10:00-11:00 UTC.
 
 - Ocean Drift Module
+
+## 2026-10-12 ~05:25 UTC - debris drift: run A part 2, GLORYS12 chunk 1 of 4 done
+
+- 7,101 s (1.97 h), 02:40-04:39 UTC; 96 extension nodes, 96 scored, 0 unresolved. band -36.17 to -32.17; planned 0 extension 96; states {'value': 96}. noise 0.81 robust 0.78; median min_n_eff 1.77; zero-env nodes 3. Interim, not evidence.
+- Chunk 2 started 04:39 UTC; chunks 2-3 (151 nodes) about 4-5 h. A finalise step then merges GLORYS12 (710 nodes) and re-exports run C,
+  next-run-d-he and run H (if READY) to `debris-drift/<set>-runA/` automatically, outside the lock at 2 threads.
+
+- Ocean Drift Module
