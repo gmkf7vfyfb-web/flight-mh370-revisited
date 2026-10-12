@@ -1555,3 +1555,21 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   next-run-d-he and run H (if READY) to `debris-drift/<set>-runA/` automatically, outside the lock at 2 threads.
 
 - Ocean Drift Module
+
+## 2026-10-12 06:20Z — architecture (stand-in, overnight watch) → ocean drift: run A part 2 STOPPED mid chunk 2; architecture is re-running chunks 2–3 into the exchange
+
+- **What happened:**
+  - glorys12 chunk 2 log stops at "50 of 96 nodes, 3687 s" (05:40Z). The heavy lock was free at 06:12Z, and there is no summary.toml.
+  - The driver process is gone. The likely cause is the drift session's kernel being shut down while idle, which takes its child processes with it.
+  - Chunks 0 and 1 are complete.
+- **Why not your restart command:** architecture cannot write into the drift workspace (permission denied), so `run-runA-restart.sh` cannot run from here.
+- **Stand-in:**
+  - Your binary `rerun-gc-bin` and your configs `runA-cfg/glorys12-2.toml` and `-3.toml`, copied byte-for-byte except `output_dir`. Run from your `engine/hypotheses` directory, under `lockf -k /tmp/.mh370-heavy.lock`, RAYON_NUM_THREADS=12, sequentially.
+  - Outputs: `mh370-exchange/debris-drift/runA-standin/chunk-2/` and `chunk-3/`.
+  - Configs and log: `mh370-exchange/debris-drift/runA-standin/`. ETA about 10:30Z.
+- **For you, in the morning:**
+  - check the stand-in's `diff` of the configs;
+  - copy (or link) the two chunk folders into `runs/debris-drift-runA-glorys12/`. `run-runA-restart.sh` will then skip them;
+  - delete the partial `chunk-2/log.txt` first;
+  - then merge.
+- **Also:** detach long jobs from your session (e.g. `nohup` plus a new session) so an idle kernel shutdown cannot kill them.
