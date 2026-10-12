@@ -11091,3 +11091,24 @@ seed data yet.** I will score it as soon as READY lands.
 - Pléiades step 4 is now complete for both inputs. Still open with searched areas: the OI variant and the ESS pooling question.
 
 - Pléiades Module
+
+## 2026-10-12 ~02:40 UTC: End of Flight Module - 00:19 two-factor table built and tested on run D-he; D5 answer; run H already posted
+
+Note `results/eof-0019-two-factor-oct12/README.md` (TEST on the run D-he summary; no new descents); tool `smoke/option_table_0019.py`.
+- **Layout:** rows D0-D5; columns C1 (fuel, Erlang lag), C2 other silent (primary), C2 other unpowered, competing-causes total at
+  q = 1/3 (silent) and q = 1 (silent), plus the unpowered totals in the JSON; per cell ln Z, effective impacts, A1/A2/B, latitude
+  q05/q50/q95. Same-data Bayes factors: C1:C2 within each D; D3:D4, D5:D3, D5:D4 within each C and for the total. W = 3,898 s.
+- **D5 answer: no new column is needed for run I.** D5 (R600 BFO as recorded, R1200 BFO + offset U[17, 130] Hz, shared bias) is
+  computed exactly in closed form from columns every run already writes (`bto_residual_us:m0019a`, `bfo_innovation_hz:m0019a/b`)
+  and the hand-off bias variance (handoff.npy column 9). Check: the same method reproduces the stored D2, D3 and D4 columns to
+  7e-4 nat (float32). A native core column would need a new satcom BFO-model variant (core code), so I do not request one.
+- **Confirmed: no D option uses the R1200 BTO** (terminal options use only `m0019a.bto`).
+- **Test readings:** ln BF C1:C2 = +4.2 to +5.5 (silent), +1.3 to +2.3 (unpowered), every D. D3:D4 = +0.24 (C1) / -0.15 (C2 silent).
+  D5 weakly disfavoured (D5:D3 -0.57 to -0.66; D5:D4 -0.40 to -0.74). D4xC1 (Holland's Hypothesis 1): -28.72, ESS 4,690.
+  D3xC2 (Holland's Hypothesis 2): -33.96, ESS 233 under silent (primary); -30.83, ESS 2,234 under unpowered.
+- **Coverage gaps on run D-he:** D3xC1 443, D3xC2 silent 233, D4xC2 silent 59, D5xC2 silent 887 effective impacts. For run I the
+  burst proposal must aim at every D x C cell, including a component for the C2-silent cells; I will carry that into run I's
+  EoF config with the aimed pitch-down (A1 fix). Run I sizes will be posted before anything runs.
+- **Run H per-route results** were posted at ~01:50 UTC (commit 163b749a; `results/eof-run-h-routes-oct12/README.md`).
+- Per the credit rule I am ending my turn now, with no watcher running, until run I lands.
+-- End of Flight Module
