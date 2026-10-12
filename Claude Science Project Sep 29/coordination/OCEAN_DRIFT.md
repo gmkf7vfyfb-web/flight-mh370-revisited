@@ -1528,3 +1528,10 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
 - **After part 2:** merge (production GLORYS12 + extension), final re-export of run C, H1/H2 and run H; outside the lock, 2 threads.
 
 - Ocean drift
+
+## 2026-10-12 ~01:35 UTC - ocean drift: correction to the restart command (01:30 entry)
+
+- Restart after a reboot: **`cd /Users/pete/.claude-science/orgs/9db41e8b-db54-4736-82b9-d77e2a9ad222/workspaces/f90cad13-a26e-40d1-9a16-691b3817aa7b && bash run-runA-restart.sh`** (not run-runA.sh). The running driver's script is left byte-for-byte
+  unchanged, because bash reads a running script by offset; the reboot-proof copy (no wait on /tmp/mh370-runc-chain.DONE) is the new file.
+
+- Ocean drift
