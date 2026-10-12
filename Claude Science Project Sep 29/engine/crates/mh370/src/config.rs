@@ -530,6 +530,10 @@ pub struct DynamicsConfig {
     /// which reproduces the published model (Davey sec. 7.2 carries no cruise vertical rate).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub bfo_vertical_rate: Option<bool>,
+    /// Calibrated-airspeed envelope (kt) for cruise Mach set points after the early phase
+    /// (`flight::Parameters::cas_envelope_kt`). Absent: no clip (the published model).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cas_envelope_kt: Option<(f64, f64)>,
     /// Early-flight sampling options (absent: the published model). When set, each seed also
     /// writes early.npy, row-aligned with final.npy (columns `filter::EARLY_COLUMNS`).
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -862,6 +866,9 @@ impl DynamicsConfig {
              wind_reversion_per_s, wind_noise_kt2_per_s, tau_range_h, mach_range, altitude_range_ft,
              altitude_step_ft, bank_angle_deg, mach_rate_per_s, climb_rate_ft_per_s, lnav_switch_mean_s,
              cruise_step_s, manoeuvre_step_s, bfo_vertical_rate);
+        if let Some(v) = self.cas_envelope_kt {
+            p.cas_envelope_kt = Some(v);
+        }
         p
     }
 }

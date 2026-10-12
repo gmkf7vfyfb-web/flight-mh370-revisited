@@ -52,6 +52,10 @@ pub struct Parameters {
     /// a 7 Hz measurement standard deviation, so the omission is not small for any particle in a
     /// level change. `false` reproduces the published model exactly.
     pub bfo_vertical_rate: bool,
+    /// Calibrated-airspeed envelope (kt) that clips the cruise Mach range at the aircraft's
+    /// altitude whenever a set point is drawn after the early phase (Pete, 11 Oct 2026: 210-330
+    /// KCAS throughout). None: the published model (no clip).
+    pub cas_envelope_kt: Option<(f64, f64)>,
     /// Optional sampling for the early flight after the 18:01:49 prior (`None`: the published
     /// model). See [`EarlyPhase`].
     pub early: Option<EarlyPhase>,
@@ -498,6 +502,7 @@ impl Default for Parameters {
             manoeuvre_step_s: 5.0,
             fuel: None,
             bfo_vertical_rate: false,
+            cas_envelope_kt: None,
             early: None,
         }
     }
@@ -1966,22 +1971,23 @@ impl Aircraft {
     /// excluded. The returned draw carries its exact log prior-to-proposal ratio into
     /// `fuel_log_weight_correction`, which the filter takes into the particle's weight.
     fn draw_mach_target<R: Rng>(&mut self, p: &Parameters, rng: &mut R) -> f64 {
-        let (lo, hi) = match &p.early {
-            Some(e) if self.unix_s < e.mach_until_unix_s => match e.cas_envelope_kt {
-                None => e.mach_range,
-                Some((cas_lo, cas_hi)) => {
-                    let lo = e.mach_range.0.max(cas_to_mach(cas_lo, self.alt_ft));
-                    let hi = e.mach_range.1.min(cas_to_mach(cas_hi, self.alt_ft));
-                    if lo < hi {
-                        (lo, hi)
-                    } else {
-                        // No overlap: the envelope bound nearest the declared range.
-                        let m = hi.max(e.mach_range.0).min(e.mach_range.1);
-                        (m, m)
-                    }
+        let clip = |range: (f64, f64), envelope: Option<(f64, f64)>| match envelope {
+            None => range,
+            Some((cas_lo, cas_hi)) => {
+                let lo = range.0.max(cas_to_mach(cas_lo, self.alt_ft));
+                let hi = range.1.min(cas_to_mach(cas_hi, self.alt_ft));
+                if lo < hi {
+                    (lo, hi)
+                } else {
+                    // No overlap: the envelope bound nearest the declared range.
+                    let m = hi.max(range.0).min(range.1);
+                    (m, m)
                 }
-            },
-            _ => p.mach_range,
+            }
+        };
+        let (lo, hi) = match &p.early {
+            Some(e) if self.unix_s < e.mach_until_unix_s => clip(e.mach_range, e.cas_envelope_kt),
+            _ => clip(p.mach_range, p.cas_envelope_kt),
         };
         let uniform = |rng: &mut R| if hi > lo { rng.gen_range(lo..hi) } else { lo };
         let Some(model) = &p.fuel else { return uniform(rng) };
