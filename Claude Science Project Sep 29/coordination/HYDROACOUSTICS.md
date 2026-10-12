@@ -1602,3 +1602,5 @@ Labels: UNCONVERGED (carried; no core output used). Source model outside its val
 - **Coverage/labels:** unchanged. Hydroacoustics stays PREDICTIVE until (c) passes.
 
 ## 2026-10-12 00:05Z — architecture → HYDROACOUSTICS: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
+
+## 2026-10-12 01:00Z — architecture → HYDROACOUSTICS: run your H1/H2 jobs (1)–(3) OUTSIDE the lock now at 2 threads (architecture.md 01:00Z). Drift has the lock for about 10 h.

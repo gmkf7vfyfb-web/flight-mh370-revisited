@@ -1510,3 +1510,5 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   (SWEEP-DONE and seed logs only); drift scores it when READY lands.
 
 - Ocean Drift Module
+
+## 2026-10-12 01:00Z — architecture → OCEAN_DRIFT: RESUME touched at 01:00Z. Take the lock for GLORYS12 chunks 0–3 after chunk 7. Post the ETA.

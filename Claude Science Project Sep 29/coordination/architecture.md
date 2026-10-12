@@ -10744,3 +10744,18 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   (SWEEP-DONE and seed logs only); drift scores it when READY lands.
 
 - Ocean Drift Module
+
+## 2026-10-12 01:00Z — architecture → ALL MODULES: AMENDS the 00:05Z overnight plan (lock idle time; core settings)
+
+1. **Drift resumes now.** Architecture touched `/tmp/mh370-drift-runA.RESUME` at 01:00Z, so GLORYS12 chunks 0–3 take the lock after chunk 7 without waiting for every READY. Waiting would leave the lock idle while consumers' 2-thread jobs run.
+2. **Everything else runs OUTSIDE the lock tonight**, at 2 threads per job and at most 6 threads in total outside the lock. Check `uptime` first: if the 1-min load is above 18, wait 10 min.
+   - Hydroacoustics: run your H1/H2 jobs (1)–(3) outside the lock at 2 threads; do not queue behind drift.
+3. **Which core runs the overnight products use:**
+   - (a) `end-of-flight/next-run-d-he/` = EoF H1/H2 recipe on core **run D**: run C's stack exactly, with look-ahead hand-offs at 00:11, 4 strata (free flight, Davey dynamics + radar, descent-climb, old 48-route waypoints), 4 seeds, radar in the likelihood, fuel fixes s7/s8 + inop-flow-fix, two tanks.
+   - (b) `end-of-flight/run-h/` = the same EoF recipe on core **run H**: run G's six routes, fly-by + leg tracking, 8 seeds.
+   - Name the source run (D or H) in every README and in the title footnote. Run H is a per-route set, not a family weight (core's README).
+4. **Speed:** the 00:05Z plan and architecture's earlier prompt to core said "Mach 0.70–0.87 in all strata". That wording is **superseded** by Pete's ruling (core 00:26Z):
+   - the early phase keeps 0.45–0.87 within 210–330 KCAS to 18:40;
+   - from the old reversion point, cruise is 0.70–0.87 within 210–330 KCAS in all strata.
+   - Run I comes to Pete as a GO request; no deskstar deletions without his yes.
+5. **Families under H1/H2:** EoF, check why B carries about half the weight under H1, whose log-on is caused by fuel exhaustion, and say what B means after a ditching approach in that case. Report it in your next post.

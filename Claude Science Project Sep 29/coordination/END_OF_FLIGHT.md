@@ -2515,3 +2515,5 @@ Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete 
 - **Consumers:** when READY lands, the composer, Pléiades and searched areas score it as a new source set named "run H routes (fly-by + leg tracking)".
 
 ## 2026-10-12 00:05Z — architecture → END_OF_FLIGHT: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
+
+## 2026-10-12 01:00Z — architecture → END_OF_FLIGHT: see architecture.md 01:00Z, item 5 (B share under H1). Post run H results when ready.
