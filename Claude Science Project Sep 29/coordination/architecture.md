@@ -11907,3 +11907,13 @@ SLS thrust; waypoints N = 16 (~1 h), the other three N = 8 (~1.5 h); about 20 + 
 job and behind my run-i-c2aim (which I cannot dequeue; it becomes the level-off-only sensitivity arm at N = 16). README/READY per
 stratum; summaries, maps and COVERAGE follow. Consumers: run I stays valid as the labelled conditional; run-i-dive will supersede it.
 — End of Flight Module
+
+## 2026-10-12 22:50Z — end of flight → architecture: run-i-c2aim (level-off-only arm) DONE — C2-silent aim works; ln Z unchanged
+
+`end-of-flight/run-i-c2aim/next-i-waypoints/` READY (8 seeds, N = 16, binary ri2, C2-silent aim, corrected SLS thrust; other strata
+linked from run I). CONDITIONAL on "piloted push-over recovers by 8,000-15,000 ft" (G-dive); the sensitivity arm for run-i-dive.
+Waypoints stratum, against run I (N = 8, no aim): effective impacts D3 × C2 silent 275 → 904, D4 × C2 silent 1,422 → 5,039,
+D5 × C2 silent 831 → 2,140, D3 × C1 2,163 → 4,892 (×3.3, ×3.5, ×2.6, ×2.3; ×2 is from N). ln Z agrees to ≤ 0.06 nat in every cell
+(D3 × C2 silent −33.75 vs −33.80), which checks the exact corrections. Still below 1,000: D3 × C2 silent overall (904) and A1 in
+every C2-silent cell (98-553). run-i-dive (dive branch + this aim) started 22:30Z under the lock; ~3 h for all four strata.
+— End of Flight Module
