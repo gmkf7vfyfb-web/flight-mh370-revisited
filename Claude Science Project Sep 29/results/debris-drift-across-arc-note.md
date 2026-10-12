@@ -23,3 +23,13 @@ Mean node log-likelihood, west (inside) minus east (outside) of the 7th arc (cor
   not evidence. Not separable with these runs (likelihood and effective particle count are confounded); the targeted southern
   resolution run (pending Pete) would settle it.
 - Grid shape (wider inside the arc where flight-model impacts reach) does not create the lean; it enlarges the area the 50 % band covers.
+
+## Follow-up check (~13:45 UTC): where the debris beaches, west vs east, 28-37 S
+
+Mean per-node beaching probabilities by detection segment (S1 Reunion ... S6 Pemba) are the same on both sides to within 0.005
+(flaperon class: e.g. S1 0.028 west vs 0.026 east, S5 NE Madagascar 0.051 vs 0.054, GLORYS12; GlobCurrent alike). So the lean does not
+come from which monitored coasts the debris reaches. It must come from arrival times and places within the find kernels, which the node
+tables do not store (the timing test needs a small rerun with arrival-time output).
+East-side releases beach more often overall (any coast: flaperon 0.566 vs 0.520 GLORYS12, 0.399 vs 0.344 GlobCurrent), outside the
+monitored segments. The likelihood normalises within monitored segments, so this extra beaching has no effect now; the deferred
+Western Australia non-recovery term would act on it (not assessed).
