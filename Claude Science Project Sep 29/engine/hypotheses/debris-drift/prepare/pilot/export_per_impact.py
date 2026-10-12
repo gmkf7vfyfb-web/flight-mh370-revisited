@@ -29,7 +29,7 @@ import numpy as np
 sys.path.insert(0, str(pathlib.Path(__file__).parent))
 from score_impacts import lookup, surface_arrays  # noqa: E402
 
-MODELS = {"glorys12": "debris-drift-production-glorys12/merged", "globcurrent": "debris-drift-production-globcurrent/merged"}
+MODELS_DEFAULT = {"glorys12": "debris-drift-production-glorys12/merged", "globcurrent": "debris-drift-production-globcurrent/merged"}
 BW = {"h50": "ln_l", "h25": "ln_l_h25", "h100": "ln_l_h100", "h200": "ln_l_h200"}
 
 
@@ -41,7 +41,8 @@ def sha256(path):
     return h.hexdigest()
 
 
-def main(runs, nextrun, out, strata, seeds, recipe=None):
+def main(runs, nextrun, out, strata, seeds, recipe=None, models=None):
+    MODELS = models or MODELS_DEFAULT
     if recipe:
         sys.path.insert(0, recipe)
     surfs = {(m, b): surface_arrays(os.path.join(runs, d), c) for m, d in MODELS.items() for b, c in BW.items()}
@@ -106,5 +107,7 @@ if __name__ == "__main__":
     ap.add_argument("--strata", default="next-free,next-repro-radar,next-descent-climb,next-routes")
     ap.add_argument("--seeds", default="", help="default: every seed-<k> directory present in each stratum")
     ap.add_argument("--recipe", default=None)
+    ap.add_argument("--models", default="", help="glorys12=<run>/merged,globcurrent=<run>/merged (relative to the runs dir); default: production surfaces")
     a = ap.parse_args()
-    main(a.runs, a.nextrun, a.out, a.strata.split(","), [int(x) for x in a.seeds.split(",") if x] or None, a.recipe)
+    main(a.runs, a.nextrun, a.out, a.strata.split(","), [int(x) for x in a.seeds.split(",") if x] or None, a.recipe,
+         dict(kv.split("=", 1) for kv in a.models.split(",")) if a.models else None)
