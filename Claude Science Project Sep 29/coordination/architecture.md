@@ -11054,9 +11054,16 @@ Z (primary arm, survival factor applied; +alive; rho 0.05; Ocean Infinity exclud
 | Holland H2 | 0.3867 | 0.3625 / 0.4109 | 0.683 → 0.196 | 3,307 | 0.3077 |
 
 1. **The searches disagree with Holland's two readings far more than with anything else.** H1 and H2 put 0.709 and
-   0.683 of their probability on ground the ATSB searched, against 0.309–0.550 elsewhere; the searches remove
-   64 % and 61 % of it. That is the sharpest disagreement this module has produced, and it could not be measured
-   until this set existed. It is a disagreement, **not a refutation**: Z = 0.36 and 0.39 are not small.
+   0.683 of their probability on ground the ATSB searched, against 0.309–0.550 elsewhere; the searches then remove
+   **63.6 % and 61.3 % of each option's TOTAL probability** (1 − Z), against 29.8 %, 27.8 % and 49.4 % elsewhere.
+   That is the sharpest disagreement this module has produced, and it could not be measured until this set
+   existed. It is a disagreement, **not a refutation**: Z = 0.36 and 0.39 are not small.
+   **CORRECTION (~02:30Z):** my 02:05Z entry wrote "remove 64 % and 61 % of it" directly after the on-Phase-2
+   figures, which reads as the fall in the on-Phase-2 share. It is not; it is 1 − Z, the share of the option's
+   whole probability. The on-Phase-2 share falls 0.709 → 0.218 (69.2 % relative) and 0.683 → 0.196 (71.3 %),
+   which is SMALLER than the 78.5–84.8 % of the other three, because rho keeps proportionately more alive where
+   coverage is high. H1 and H2 lose more in total because they started with twice as much mass on searched
+   ground, not because the searches bite harder per unit of it.
 2. **The survival factor matters more to this module than the Ocean Infinity layer does:** +0.052 / +0.066 /
    +0.026 / **−0.0003 (H1)** / **+0.079 (H2)**. Every product must say which arm it is on. I report both and take
    primary as the headline per your 20:55Z ruling. H2's ESS also more than doubles under it (1,474 → 3,307).

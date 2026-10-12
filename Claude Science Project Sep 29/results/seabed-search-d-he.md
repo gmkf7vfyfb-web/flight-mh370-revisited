@@ -34,9 +34,15 @@ module applies it to the posterior weights and reports both arms.
 **Readings.**
 1. **The searches disagree with Holland's two readings far more than with any other option.** H1 and H2 put
    **0.709 and 0.683** of their probability on ground the ATSB searched, against 0.309 to 0.550 for the other
-   three. The searches then remove 64 % and 61 % of their probability, against 28 to 49 % elsewhere, and leave
-   0.218 and 0.196 on searched ground. This is the sharpest disagreement this module has produced, and it is new:
-   it could not be measured before this set existed.
+   three. The searches then remove **63.6 % and 61.3 % of each option's TOTAL probability** (that is 1 - Z),
+   against 29.8 %, 27.8 % and 49.4 % for Held Out, R600 BTO Only and raw BFO. This is the sharpest disagreement
+   this module has produced, and it is new: it could not be measured before this set existed.
+   Two quantities must not be confused here. The figure above is the share of the option's whole probability that
+   the searches remove. The **share sitting on searched ground** falls 0.709 -> 0.218 for H1 and 0.683 -> 0.196
+   for H2, which is a relative fall of 69.2 % and 71.3 % - **smaller** than the 78.5 to 84.8 % of the other three
+   options, because where there is more coverage the undetectable fraction rho keeps proportionately more alive.
+   H1 and H2 lose more in total not because the searches bite harder per unit of searched ground, but because
+   they had twice as much probability on searched ground to begin with.
 2. **It is a disagreement, not a refutation.** Z = 0.36 and 0.39 are not small. The searches weigh against these
    readings; they do not rule them out, and nothing here says which reading of the 00:19 transmissions is right -
    that is end of flight's and the composer's question, not this module's.
