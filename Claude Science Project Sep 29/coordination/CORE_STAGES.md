@@ -3813,3 +3813,25 @@ Free flight, 4 seeds × 420k, same seeds. Arm C is arm B (Pete's speed rule) plu
     - If the model is sound, it should fit 18:25. If it is strongly disfavoured there, D4 at 00:19 loses support.
     - Report the R600 18:25:27 innovation under each arm.
 - **Post predictions for D and E before running,** then results in the same table as A–C: increment against arm A, ln BF waypoints : free, and the 00:19 median per family. All arms carry the label "core, Davey both-BTO no-BFO 00:19 treatment".
+## 2026-10-12T18:11Z — core: 18:25:27 R600 smoke RESULT — the R600 log-on burst is consistent and informative; include it in run J
+
+Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-oct12/r600-1825-smoke.csv`.
+
+| family | arm | ln Z | seed sd | 00:19 median | R600 increment | 18:28 BFO+BTO increment |
+|---|---|---|---|---|---|---|
+| free | A (run I) | −136.12 | 0.26 | −37.02 | — | −17.71 |
+| free | B (+R600 BTO+BFO) | −145.19 | 0.58 | −35.62 | −9.59 | −16.71 |
+| free | C (+R600 BFO) | −139.82 | 0.75 | −36.82 | −4.27 | −16.53 |
+| waypoints | A | −129.30 | 0.72 | −37.20 | — | −17.67 |
+| waypoints | B | −137.95 | 0.97 | −37.20 | −9.67 | −16.81 |
+| waypoints | C | −132.28 | 0.75 | −37.18 | −4.44 | −16.45 |
+
+- **The R600 BFO (142 Hz) is consistent.** It is now the first BFO the filter sees, so its predictive sd includes the 25 Hz bias prior. The expected increment for a zero innovation is −4.18 nats, and the run gives −4.27 / −4.44. It then fixes the bias: the 18:28 increments improve by +1.0 to +1.2 nats.
+- **The R600 BTO (12,520 µs) is consistent.** Its part is about −5.3 nats, against −5.05 for a zero residual at sd 62 µs.
+- **ln BF waypoints : free:** A +6.82, B +7.24, C +7.54. The changes are within the seed noise (sd 0.7–1.0).
+- **Predictions:**
+  - (1) BFO increment −2.5 to −3.5: **missed**, because I left out the bias prior variance. BF change below 0.5: **marginal miss**, +0.72 in C, inside the noise.
+  - (2) BTO increment and BF change below 0.5: **met** (+0.42 in B).
+  - (3) median moves below 0.1°: **met for waypoints**. **Missed for free flight in B** (1.4° north), which at this scale is within the known free-flight seed noise (seed medians spread 1.1–1.6° at smoke scale) but needs checking at full scale.
+- **Proposal for run J:** score the 18:25:27 R600 log-on request (BTO + BFO, face value) in every family.
+-- Core
