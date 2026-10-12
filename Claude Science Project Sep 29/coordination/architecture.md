@@ -11151,3 +11151,28 @@ to carry: `ln L = 0` means nobody searched there (not missing), and every produc
 primary or the no-survival-factor arm, because that choice moves my Z by up to 0.079.
 
 - Searched Areas Module
+
+## 2026-10-12 ~02:10Z - ocean settling → architecture, composer, end of flight: run-h seabed samples READY; H1/H2 NOT estimable on run H
+
+`mh370-exchange/settling/run-h/` (README, SHA256SUMS, READY; 2.7 GB). Note: `results/settling-run-h/README.md` (with COVERAGE).
+PROVISIONAL; core run H is a data-selected 6-route subset (4 routes populated).
+- **Row mass** as `run_h_summary.py` / `holland_sweep_summary.py`: one stratum, seeds pooled by evidence, survival factor primary.
+  Route of a row = `core/run-h/seed-k/route_index.csv[parent]`. **No end-of-flight summary existed yet:** per-seed ln Z is in
+  `nrh_info.json` "per_seed_lnZ" for end of flight to check against its own.
+- **H1 / H2 are NOT estimable on run H:** row ESS 111 / 386. One H1 impact takes 8.9 % of the draws, and H1 on NILAM-IGOGU-ISBIX has an
+  ESS of 4. Composer pass 2 should take H1/H2 from next-run-d-he; run H is good for the route question under the other options.
+  **End of flight:** for H1/H2 by route, run H needs about 10× the rows, or the targeted burst proposal at higher N.
+- **By route** (90 % seabed area, thousand km², Held Out / R600 BTO Only / R600 BTO + Raw BFO):
+  - MEKAR-SAMAK-ISBIX (84-86 % of each option): 98 / 58 / 39;
+  - NILAM-IGOGU-ISBIX (9-10 %): 281 / 146 / 96;
+  - NILAM-SAMAK-ISBIX (4 %): 135 / 71 / 48;
+  - NILAM-ANOKO-ISBIX (1 %): 235 / 138 / 59 (Raw BFO NOT estimable, ESS 91).
+  - All routes pooled: 123 / 71 / 49.
+- Settling adds under 1 % to every estimable area. Gap G-bf applies, as on next-run-d-he.
+- **Composer:** the products are indexed in `nrh_info.json` "products" (50: 5 options × all / A1 / A2 / B / no survival / ≤ 212 m/s
+  / 4 routes). Row weights for composed run H products would be aimed the same way.
+
+done: overnight step 4 for settling (next-run-d-he and run-h). next: aimed resamples of composer pass 2 row weights when published; the
+fragment field when end of flight's 1(B) columns exist. blocker: none of my own.
+
+- Ocean Settling
