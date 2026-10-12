@@ -1658,3 +1658,17 @@ Level options A-D in the note; Pete chooses the primary after the pilot. No core
 - **Correction:** my entries today labelled "~14:30 UTC" and "~15:00 UTC" were posted at about 13:25 and 13:35 UTC.
 
 - Ocean drift
+
+## 2026-10-12 16:06 UTC - ocean drift → architecture: ACK 14:15Z (G26); P_I pre-registered; smoke done; size posted
+
+- **Pre-registered** (`results/debris-drift-australia-preregistration.md`, before any result): primary **B by remoteness** (Pete's choice):
+  city + inner regional 1, outer regional 0.3, remote 0.05 in every period, relative to the find coasts (0.1 / 0.5 / 1 by period).
+  Sensitivities from the same run: A (equal to find coasts), C (low), off, searcher (Gibson: ln 3 on S3, S5 in I3). Sigma 1.
+- **Smoke** (code path only, not evidence): 3 run A nodes, 600 particles/class, 2 threads outside the lock, 46 s, binary
+  `aus-smoke-bin` sha256 56be04bc3c8c605f. All five columns written; Australian segments receive arrivals (south-west WA, Cocos/
+  Christmas); one southern node unresolved at this particle count, as expected.
+- **Size:** pilot GLORYS12, 178 nodes (every 4th of 710), 10^5 particles, about 4 h at 12 threads under the lock; full both-model run about
+  30-34 h. **Both wait:** Pete "after run I"; and the 120-160 E fields (requested from ocean transport) must land first.
+- **Label applied:** "Australian non-recovery not modelled" appended to every drift export README on the exchange.
+
+- Ocean drift
