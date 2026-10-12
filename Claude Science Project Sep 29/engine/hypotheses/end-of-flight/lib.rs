@@ -74,6 +74,7 @@
 mod aero;
 mod atmos;
 mod integrator;
+mod manoeuvre;
 mod onset;
 mod profile;
 mod taxonomy;
@@ -551,6 +552,12 @@ const LATENTS: &[&str] = &[
     "pitchdown_delay_s",
     // Load-factor ceiling of the piloted laws drawn for this descent, g (NaN: none). EnvelopeConfig::piloted_load_factor_ceiling_g.
     "piloted_n_ceiling_g",
+    // G-turn piloted manoeuvres (Pete's rulings 12 Oct): Davey tau drawn (h) and Davey turns begun; when the terminal window
+    // opened (NaN: never); terminal random-turn ln rate per minute and turns begun; sweep eligible / drawn / begun; circuit
+    // eligible / drawn / final heading (0 into wind, 1 along swell; NaN: no circuit) / begun; total heading change flown, deg.
+    "davey_tau_h", "turns_davey_begun", "terminal_window_unix_s", "turn_ln_rate_per_min", "turns_terminal_begun",
+    "sweep_eligible", "sweep_drawn", "sweep_begun", "circuit_eligible", "circuit_drawn", "circuit_final_kind", "circuit_begun",
+    "heading_change_deg",
     // Item 2: autopilot-loss configuration code: 0 no draw, 1 primary (second flame-out), 2 alternative (first flame-out, the
     // other engine running). With the proposal probability in run.json, exact re-weighting to any prior probability.
     "ap_loss_config",
@@ -1264,6 +1271,19 @@ impl EndOfFlight {
                 flying.profile.pitchdown.map_or(f64::NAN, |p| p.2),
                 flying.profile.pitchdown.map_or(f64::NAN, |p| p.0),
                 flying.profile.n_ceiling_g.unwrap_or(f64::NAN),
+                flying.profile.manoeuvres.davey_tau_h.unwrap_or(f64::NAN),
+                f64::from(flying.pilot.davey_begun),
+                flying.pilot.window_opened_unix_s,
+                flying.profile.manoeuvres.ln_rate_per_min.unwrap_or(f64::NAN),
+                f64::from(flying.pilot.terminal_begun),
+                f64::from(u8::from(flying.profile.manoeuvres.sweep_eligible)),
+                f64::from(u8::from(flying.profile.manoeuvres.sweep_drawn)),
+                f64::from(flying.pilot.sweeps_begun),
+                f64::from(u8::from(flying.profile.manoeuvres.circuit_eligible)),
+                f64::from(u8::from(flying.profile.manoeuvres.circuit.is_some())),
+                flying.profile.manoeuvres.circuit.map_or(f64::NAN, |c| f64::from(c.final_kind)),
+                f64::from(u8::from(flying.pilot.circuit_begun)),
+                flying.pilot.heading_change_rad.to_degrees(),
                 drawn.map_or(0.0, |d| f64::from(d.ap_config)),
                 {
                     let v = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
@@ -1420,7 +1440,11 @@ impl EndOfFlight {
             &mut |body, air| {
                 let factor = atmos::geometric_rate_factor(body.pressure_altitude_ft, air.temperature_k);
                 let up = body.vertical_speed_mps() * factor;
-                flying.borrow_mut().observe(body, up);
+                {
+                    let mut f = flying.borrow_mut();
+                    f.observe(body, up);
+                    f.wind_en_mps = (air.wind_east_mps, air.wind_north_mps);
+                }
                 if record {
                     let mut p = points.borrow_mut();
                     if p.last().map_or(true, |l: &[f64; 3]| body.unix_s - l[0] >= trace_step) {

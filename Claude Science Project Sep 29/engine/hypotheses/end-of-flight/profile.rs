@@ -39,6 +39,8 @@ use serde::Deserialize;
 use super::aero::{Aero, Configuration, Range};
 use super::atmos;
 use super::integrator::{Body, Command};
+#[cfg(test)]
+use super::integrator::Integrator;
 use super::taxonomy::{Control, Propulsion};
 
 #[cfg(test)]
@@ -237,6 +239,60 @@ pub struct EnvelopeConfig {
     /// so the range runs past the limit and the in-flight structural columns price the damage.
     #[serde(default)]
     pub piloted_load_factor_ceiling_g: Option<Range>,
+    /// G-turn (Pete's rulings 12 Oct): Davey turns before the terminal window, with tau on a Jeffreys prior over this range,
+    /// hours (the core's prior; interim until the core passes each particle's own tau). Absent (default): no Davey turns.
+    #[serde(default)]
+    pub davey_tau_range_h: Option<[f64; 2]>,
+    /// Terminal window: the terminal families start when the time to go at the present descent rate is this or less (or at
+    /// the ditching approach). Pete: about 25 min.
+    #[serde(default = "default_terminal_window")]
+    pub terminal_window_s: f64,
+    /// Natural log of the terminal random-turn rate per minute, drawn per descent (log-uniform hyper-prior). Absent: none.
+    #[serde(default)]
+    pub turn_log_rate_per_min: Option<Range>,
+    #[serde(default = "default_turn_bank")]
+    pub turn_bank_deg: Range,
+    /// Turns are scheduled up to this long after the onset or the window's opening (later ones could never fly).
+    #[serde(default = "default_turn_horizon")]
+    pub turn_horizon_s: f64,
+    /// Search sweep (1-3 full orbits inside the terminal window): proposal probability (hyper-prior U[0, 1]; 0.5 = marginal).
+    #[serde(default)]
+    pub sweep_probability: f64,
+    /// Start of the sweep after the window opens, s.
+    #[serde(default = "default_sweep_window")]
+    pub sweep_window_s: Range,
+    /// Ditching circuit (ditching attempts only): proposal probability (hyper-prior U[0, 1]); downwind and base leg durations;
+    /// the final heading is into the wind or along the swell with probability 0.5 each (proposal = marginal of U[0, 1]).
+    #[serde(default)]
+    pub circuit_probability: f64,
+    #[serde(default = "default_circuit_downwind")]
+    pub circuit_downwind_s: Range,
+    #[serde(default = "default_circuit_base")]
+    pub circuit_base_s: Range,
+}
+
+fn default_terminal_window() -> f64 {
+    1_500.0
+}
+
+fn default_turn_bank() -> Range {
+    Range::Uniform([10.0, 30.0])
+}
+
+fn default_turn_horizon() -> f64 {
+    7_200.0
+}
+
+fn default_sweep_window() -> Range {
+    Range::Uniform([0.0, 900.0])
+}
+
+fn default_circuit_downwind() -> Range {
+    Range::Uniform([60.0, 300.0])
+}
+
+fn default_circuit_base() -> Range {
+    Range::Uniform([30.0, 120.0])
 }
 
 fn default_burst_window() -> [f64; 2] {
@@ -270,6 +326,7 @@ pub fn mach_of_cas(cas_kt: f64, pressure_altitude_ft: f64) -> f64 {
 
 /// Draw a start delay from the prior `range` or, with targeting, from the mixture aimed at [target + w0, target + w1] (absolute
 /// time, the delay measured from `t0`). Returns the delay and ln(prior / proposal).
+#[cfg_attr(not(test), allow(dead_code))] // single-component form, exercised by the tests
 pub fn draw_targeted_delay(range: &Range, t0: f64, target: Option<f64>, window: [f64; 2], weight: f64, uniform: &mut dyn FnMut() -> f64) -> (f64, f64) {
     draw_targeted_delay_mix(range, t0, target, &[(window, weight)], uniform)
 }
@@ -428,6 +485,62 @@ impl EnvelopeConfig {
         (phase, (rate_fpm, n_floor_g, hold_s), lq)
     }
 
+    /// G-turn: the piloted manoeuvres of one descent (none for no intervention, which flies no piloted law).
+    fn draw_manoeuvres(&self, control: Control, uniform: &mut dyn FnMut() -> f64) -> super::manoeuvre::ManoeuvreDraw {
+        use super::manoeuvre::{Circuit, Manoeuvre, ManoeuvreDraw, Steer};
+        let mut d = ManoeuvreDraw { window_s: self.terminal_window_s, ..Default::default() };
+        if control == Control::NoIntervention {
+            return d;
+        }
+        let poisson = |rate_per_s: f64, source: u8, uniform: &mut dyn FnMut() -> f64, out: &mut Vec<Manoeuvre>| {
+            let mut t = 0.0;
+            loop {
+                t += -(1.0 - uniform()).max(1e-300).ln() / rate_per_s;
+                if t > self.turn_horizon_s || out.len() > 2_000 {
+                    break;
+                }
+                let x = (uniform() * 2.0 - 1.0) * std::f64::consts::PI;
+                out.push(Manoeuvre { start_s: t, steer: Steer::Heading { kind: 3, x }, bank_rad: self.turn_bank_deg.draw(uniform).to_radians(), source });
+            }
+        };
+        if let Some([a, b]) = self.davey_tau_range_h {
+            let tau_h = (a.ln() + (b.ln() - a.ln()) * uniform()).exp();
+            d.davey_tau_h = Some(tau_h);
+            poisson(1.0 / (tau_h * 3_600.0), 3, uniform, &mut d.queue);
+        }
+        if let Some(r) = &self.turn_log_rate_per_min {
+            let ln_rate = r.draw(uniform);
+            d.ln_rate_per_min = Some(ln_rate);
+            poisson(ln_rate.exp() / 60.0, 0, uniform, &mut d.terminal);
+        }
+        if self.sweep_probability > 0.0 {
+            d.sweep_eligible = true;
+            if uniform() < self.sweep_probability {
+                d.sweep_drawn = true;
+                let circles = 1.0 + ((uniform() * 3.0) as u32).min(2) as f64;
+                let side = if uniform() < 0.5 { -1.0 } else { 1.0 };
+                let start = self.sweep_window_s.draw(uniform);
+                let m = Manoeuvre { start_s: start, steer: Steer::Delta(side * circles * std::f64::consts::TAU), bank_rad: self.turn_bank_deg.draw(uniform).to_radians(), source: 1 };
+                let k = d.terminal.partition_point(|q| q.start_s <= start);
+                d.terminal.insert(k, m);
+            }
+        }
+        if self.circuit_probability > 0.0 && control == Control::DitchingAttempt {
+            d.circuit_eligible = true;
+            if uniform() < self.circuit_probability {
+                d.circuit = Some(Circuit {
+                    downwind_s: self.circuit_downwind_s.draw(uniform),
+                    base_s: self.circuit_base_s.draw(uniform),
+                    side: if uniform() < 0.5 { -1.0 } else { 1.0 },
+                    bank_rad: self.turn_bank_deg.draw(uniform).to_radians(),
+                    final_kind: if uniform() < 0.5 { 0 } else { 1 },
+                    swell_side: if uniform() < 0.5 { -1.0 } else { 1.0 },
+                });
+            }
+        }
+        d
+    }
+
     fn pitchdown_components(&self) -> Vec<([f64; 2], f64)> {
         match &self.pitchdown_target_components {
             Some(c) => c.iter().map(|x| ([x[0], x[1]], x[2])).collect(),
@@ -473,6 +586,7 @@ impl EnvelopeConfig {
         let mut pushover: Option<(f64, f64, f64)> = None;
         let mut po_lq = 0.0;
         let n_ceiling_g = self.piloted_load_factor_ceiling_g.as_ref().map(|r| r.draw(uniform));
+        let manoeuvres = self.draw_manoeuvres(control, uniform);
         let level_c_l = {
             let t = atmos::isa_temperature_k(start.pressure_altitude_ft);
             let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(start.pressure_altitude_ft), start.tas_mps / atmos::sound_speed_mps(t));
@@ -588,7 +702,7 @@ impl EnvelopeConfig {
                     recover_at_altitude_ft: None,
                 });
                 let (pitchdown, pitchdown_eligible, pd_lq) = self.draw_pitchdown(start, after, uniform);
-                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq + po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown, n_ceiling_g };
+                return Profile { shape, phases, control, loss_of_control_after_s: Some(after), recovery_attempt_altitude_ft: None, log_q_correction: lq + po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown, n_ceiling_g, manoeuvres };
             }
             Control::UpsetThenRecovery => {
                 let recover_at = self.recovery_altitude_ft.draw(uniform);
@@ -616,12 +730,13 @@ impl EnvelopeConfig {
                     pitchdown_eligible: false,
                     pitchdown: None,
                     n_ceiling_g,
+                    manoeuvres,
                 };
             }
             Control::NoIntervention => {}
         }
         let (pitchdown, pitchdown_eligible, pd_lq) = if control == Control::NoIntervention { self.draw_pitchdown(start, 0.0, uniform) } else { (None, false, 0.0) };
-        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown, n_ceiling_g }
+        Profile { shape, phases, control, loss_of_control_after_s: None, recovery_attempt_altitude_ft: None, log_q_correction: po_lq + pd_lq, takeover_level_c_l: level_c_l, pushover_eligible, pushover, pitchdown_eligible, pitchdown, n_ceiling_g, manoeuvres }
     }
 
     fn sample_shape(&self, propulsion: Propulsion, control: Control, uniform: &mut dyn FnMut() -> f64) -> Shape {
@@ -682,6 +797,9 @@ pub struct Profile {
     pub pitchdown: Option<(f64, f64, f64)>,
     /// Load-factor ceiling of the piloted laws for this descent, g (None: no ceiling).
     pub n_ceiling_g: Option<f64>,
+    /// G-turn: piloted manoeuvre schedule, ditching circuit, drawn ln turn rate per minute, and the eligibility / drawn flags of
+    /// the sweep and the circuit (for exact re-weighting of their U[0, 1] hyper-probabilities).
+    pub manoeuvres: super::manoeuvre::ManoeuvreDraw,
 }
 
 /// The two-burst stopgap proposal on the loss of control (9 Oct 2026, Pete's choice; PROVISIONAL, to be
@@ -750,6 +868,9 @@ pub struct Flying {
     pub free_setting: f64,
     /// `EnvelopeConfig::pushover_vmo_kt`.
     pub pushover_vmo_kt: Option<f64>,
+    /// G-turn: the piloted manoeuvre queue and the wind the aircraft is in (set each step by the runner).
+    pub pilot: super::manoeuvre::Pilot,
+    pub wind_en_mps: (f64, f64),
 }
 
 impl Flying {
@@ -769,6 +890,13 @@ impl Flying {
     }
 
     pub fn new(profile: Profile, aero: Aero, propulsion: Propulsion, cfg: &EnvelopeConfig) -> Self {
+        let pilot = super::manoeuvre::Pilot::new(&profile.manoeuvres);
+        let mut f = Self::bare(profile, aero, propulsion, cfg);
+        f.pilot = pilot;
+        f
+    }
+
+    fn bare(profile: Profile, aero: Aero, propulsion: Propulsion, cfg: &EnvelopeConfig) -> Self {
         Flying {
             profile,
             aero,
@@ -790,6 +918,8 @@ impl Flying {
             loss_c_l: None,
             free_setting: 0.0,
             pushover_vmo_kt: cfg.pushover_vmo_kt,
+            pilot: super::manoeuvre::Pilot::default(),
+            wind_en_mps: (0.0, 0.0),
         }
     }
 
@@ -823,7 +953,28 @@ impl Flying {
     }
 
     /// The command for the current step. `elapsed_s` is measured from onset.
+    /// The per-step command: the profile's law, with the piloted manoeuvres (G-turn) steering the piloted laws.
     pub fn command(&mut self, body: &Body, elapsed_s: f64) -> (Command, Configuration, f64) {
+        let (cmd, cfg, setting) = self.command_profile(body, elapsed_s);
+        if self.pilot.is_empty() {
+            return (cmd, cfg, setting);
+        }
+        let in_approach = matches!(self.profile.phases.get(self.index), Some(Phase::Approach { .. }));
+        let (we, wn) = self.wind_en_mps;
+        match cmd {
+            Command::Track { vertical_speed_mps, target_mach, n_floor_g, .. } => {
+                let bank_rad = self.pilot.bank(body.heading_rad, elapsed_s, we, wn, in_approach, body.unix_s, body.pressure_altitude_ft, body.vertical_speed_mps());
+                (Command::Track { vertical_speed_mps, target_mach, bank_rad, n_floor_g }, cfg, setting)
+            }
+            Command::BestGlide { .. } => {
+                let bank_rad = self.pilot.bank(body.heading_rad, elapsed_s, we, wn, in_approach, body.unix_s, body.pressure_altitude_ft, body.vertical_speed_mps());
+                (Command::BestGlide { bank_rad }, cfg, setting)
+            }
+            other => (other, cfg, setting),
+        }
+    }
+
+    fn command_profile(&mut self, body: &Body, elapsed_s: f64) -> (Command, Configuration, f64) {
         // Loss of control overrides the profile when its time arrives.
         if let Some(after) = self.profile.loss_of_control_after_s {
             if elapsed_s >= after {
@@ -1027,6 +1178,16 @@ pub(super) mod tests {
             pitchdown_duration_s: default_pitchdown_duration(),
             pitchdown_delay_s: default_pitchdown_delay(),
             piloted_load_factor_ceiling_g: None,
+            davey_tau_range_h: None,
+            terminal_window_s: default_terminal_window(),
+            turn_log_rate_per_min: None,
+            turn_bank_deg: default_turn_bank(),
+            turn_horizon_s: default_turn_horizon(),
+            sweep_probability: 0.0,
+            sweep_window_s: default_sweep_window(),
+            circuit_probability: 0.0,
+            circuit_downwind_s: default_circuit_downwind(),
+            circuit_base_s: default_circuit_base(),
         }
     }
 
@@ -1340,6 +1501,41 @@ pub(super) mod tests {
         flying.set_engines_thrusting(0);
         let (_, cfg, _) = flying.command(&body(28_000.0), 3.0);
         assert_eq!((cfg.engines_thrusting, cfg.engines_windmilling, cfg.rat_deployed), (0, 2, true));
+    }
+
+    /// G-turn end to end (standard atmosphere, a 10 m/s wind from the north): with every manoeuvre family on, ditching attempts
+    /// turn (Davey turns, then the terminal families), open the terminal window, and fly more than one full orbit of heading
+    /// change in total; with them off (the default), the same draws fly wings level, exactly as before.
+    #[test]
+    fn piloted_descents_turn_when_the_turn_model_is_on() {
+        let on = EnvelopeConfig {
+            davey_tau_range_h: Some([0.1, 10.0]),
+            turn_log_rate_per_min: Some(Range::Uniform([(1.0f64 / 60.0).ln(), 0.5f64.ln()])),
+            sweep_probability: 0.5,
+            circuit_probability: 0.5,
+            ..envelope()
+        };
+        let aero = reference();
+        let (mut opened, mut turned, mut n) = (0, 0, 0);
+        for k in 0..12 {
+            let mut u = sweep(40 + k);
+            let p = on.sample(&body(35_000.0), Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u);
+            let mut f = Flying::new(p, aero, Propulsion::TwoThrusting, &on);
+            f.wind_en_mps = (0.0, -10.0);
+            let it = Integrator { aero, fuel: None, step_s: 1.0, fine_step_s: 0.5, fine_window_s: 0.0, max_flight_s: 10_800.0, track_load_factor_floor_g: None, piloted_load_factor_ceiling_g: None, peaks_until_unix_s: None };
+            let f = std::cell::RefCell::new(f);
+            let _ = it.run(body(35_000.0), &atmos::Standard, None, &mut |b, t| f.borrow_mut().command(b, t), &mut |_, _| {});
+            let f = f.into_inner();
+            n += 1;
+            opened += usize::from(f.pilot.window_opened_unix_s.is_finite());
+            turned += usize::from(f.pilot.heading_change_rad > 0.1);
+        }
+        assert!(opened >= n - 1 && turned >= n - 2, "window opened {opened}, turned {turned} of {n}");
+        // Off: no draws, no bank: the profile is the earlier one.
+        let mut u1 = sweep(7);
+        let p_off = envelope().sample(&body(35_000.0), Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u1);
+        assert!(p_off.manoeuvres.queue.is_empty() && p_off.manoeuvres.terminal.is_empty() && p_off.manoeuvres.circuit.is_none());
+        assert!(Flying::new(p_off, aero, Propulsion::TwoThrusting, &envelope()).pilot.is_empty());
     }
 
     #[test]

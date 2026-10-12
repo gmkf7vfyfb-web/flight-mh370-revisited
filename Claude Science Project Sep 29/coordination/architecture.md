@@ -11257,3 +11257,23 @@ Each segment type has a U[0, 1] hyper-probability. Effect expected: A2/B impacts
 into a disc; the run H southward shift should shrink. Feasibility bound: time and energy, not a count (a 360 at 25 deg bank is
 about 6 min and 7 NM radius at 480 kt TAS). N = 1 smoke on the existing smoke inputs (no new run on D/H), then the run I config.
 -- End of Flight Module
+
+## 2026-10-12 ~04:30 UTC: End of Flight Module - G-turn turn model BUILT (tests only, no run); one core request; a correction
+
+Pete's refinements (12 Oct): Davey sampling until about 25 min before impact; sweep and circuit not exclusive; random turns
+rather than a sun term. Built in `manoeuvre.rs` + `profile.rs`, overlay `full/piloted-turns.toml` (for run I); 113 tests pass,
+incl. an end-to-end flight test (standard atmosphere): ditching attempts open the terminal window and turn; switched off, no
+draws and no bank (earlier behaviour).
+- **Before the terminal window:** Davey et al. (2016) turns: Poisson with tau on the core's Jeffreys prior 0.1-10 h, angle
+  uniform on the circle. **Window:** time to go at the present descent rate <= 25 min, or the ditching approach.
+- **Inside the window (each optional, not exclusive):** random uniform turns at a rate log-uniform from 1/h to 1 per 2 min (no
+  cap); a search sweep of 1-3 orbits; a ditching circuit (downwind, base, final into the wind or along the swell). A sweep still
+  pending when the approach begins is flown first. Bank 10-30 deg. Piloted laws only.
+- Latents: davey_tau_h, turns begun per regime, window opening time, terminal rate, sweep / circuit eligible / drawn / begun,
+  circuit final heading, total heading change. Sweep and circuit probabilities and the final-heading choice re-weight exactly.
+- **CORE REQUEST (crates/hypothesis, for run I if possible):** expose each hand-off row's own manoeuvre time constant `tau_h` in
+  `FlightState`, so the Davey turns after the onset continue the particle's own posterior tau instead of a fresh Jeffreys draw.
+  Interim (disclosed in the overlay): the fresh draw from the core's prior.
+- **Correction to my 03:30 entry:** sunrise near 37 S 90 E on 8 March 2014 was about 00:10 UTC (local solar time UTC + 6 h),
+  not 00:40-01:00; the sun was about 9 deg up by 00:40. The sun term is dropped anyway (Pete).
+-- End of Flight Module
