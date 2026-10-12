@@ -49,6 +49,14 @@ Readings:
    (pooled -38.36). Against the same options in the free-flight H1/H2 sweep (Held Out -37.39, R600 BTO Only -37.93) they are
    south by 0.6-0.8 deg under Held Out (pooled 0.78) and by 0.3-0.5 deg under R600 BTO Only (pooled 0.43). (Core's own 00:19
    medians, -37.2 to -37.4, are 00:19 positions, not impact points, and are not differenced here.)
+1a. **Where the southward shift comes from** (Pete's question, 12 Oct; Held Out, survival factor, unpowered): the module's own
+   position at the last 00:19 burst it flew has median -37.10 (R600 BTO Only -37.16), the same as core's 00:19 median (-37.17)
+   and as straight continued cruise from the 00:11 hand-off (-37.19). So nothing moves before 00:19. The shift is the flight
+   AFTER 00:19:37: median 65 NM (q05-q95 7-129 NM) and 20 min to impact, dlat -0.98 deg. By family: A2 68 NM / -0.95 deg and
+   B 73 NM / -1.16 deg (controlled glides and descents continuing on the southerly route track), A1 10 NM / +0.07 deg (uncontrolled
+   spirals end near the 00:19 position). A2 + B carry 0.86 of the weight, so the median impact latitude is set by them. Continued
+   powered cruise for the same 20 min would have gone about 2 deg further south, so the descent shortens the track, it does not
+   lengthen it. The run D-he shift is smaller (Held Out -37.39 against core run D's -37.01 at 00:19).
 2. Families do not depend on the route (A1 0.12-0.14, A2 0.33-0.35, B 0.51-0.55 under Held Out).
 3. The route shares hardly move from core's 00:11 shares (MEKAR-SAMAK-ISBIX 0.84-0.86 against core's 0.856).
 
