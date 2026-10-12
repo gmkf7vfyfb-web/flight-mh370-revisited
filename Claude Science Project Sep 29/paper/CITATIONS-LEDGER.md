@@ -9,10 +9,10 @@ hand-edited). Reference style follows `paper/JON-RULES.md` §6 (Harvard).
 
 | Source | Result |
 |---|---|
-| Module bibliographies under `results/*.bib` | 6 files, 109 raw entries |
-| After deduplication by DOI, else by first author, year and title | **96 entries** |
+| Module bibliographies under `results/*.bib` | 7 files, 112 raw entries |
+| After deduplication by DOI, else by first author, year and title | **98 entries** |
 | Repository files scanned for in-text use | 730 (`results/**/*.md`, `ARCHITECTURE.md`, `README.md`, `RUNBOOK.md`, `threads/master-prompts/`, `coordination/`, and the engine's Rust, TOML and Python) |
-| Entries whose use in the project could be traced to a file | 64 of 96 |
+| Entries whose use in the project could be traced to a file | 65 of 98 |
 | Local candidate copies indexed (`~/Downloads`, `mh370-exchange`) | 617 files |
 
 Still to be folded in, and therefore **not** represented in the counts below:
@@ -26,9 +26,9 @@ Grades follow the module brief §1: **official** (publisher, agency, standards b
 |---|---|
 | official | 30 |
 | peer-reviewed | 36 |
-| grey | 30 |
+| grey | 32 |
 | unofficial | 0 |
-| **total** | **96** |
+| **total** | **98** |
 
 Every grade below is assigned by rule from the entry type and the publisher, institution or URL field, and each entry records the basis. **The grades are heuristic and need Pete's or architecture's confirmation on the `misc` entries in particular**, where the entry type carries no information.
 
@@ -40,11 +40,11 @@ No entry graded **unofficial** is present in the module bibliographies. That is 
 |---|---|---|
 | METADATA VERIFIED | 30 | DOI resolves at CrossRef and the registered title and year agree with ours |
 | METADATA MISMATCH | 1 | DOI resolves but a field disagrees — listed in §4 |
-| UNVERIFIED | 65 | no DOI in the project's own entry, so nothing could be checked automatically |
+| UNVERIFIED | 67 | no DOI in the project's own entry, so nothing could be checked automatically |
 
-Of 96 entries, 41 carry a DOI. **None is yet VERIFIED against the source document** in the brief's strongest sense — that requires opening the work and checking the claim it is cited for, which happens claim by claim as the draft is written, not in bulk.
+Of 98 entries, 41 carry a DOI. **None is yet VERIFIED against the source document** in the brief's strongest sense — that requires opening the work and checking the claim it is cited for, which happens claim by claim as the draft is written, not in bulk.
 
-Legitimate held copies located on this machine: 8 candidate matches, of which 2 are confident. Title-token matching against downloaded filenames is weak for agency reports whose filenames bear no relation to their titles, so this count is a floor, not a finding. The Drive sweep will raise it.
+Legitimate held copies located on this machine: 9 candidate matches, of which 3 are confident. Title-token matching against downloaded filenames is weak for agency reports whose filenames bear no relation to their titles, so this count is a floor, not a finding. The Drive sweep will raise it.
 
 ## 4. Entries that need a decision
 
@@ -71,7 +71,7 @@ CrossRef's `issued` date is the earliest registered date, which for a journal ar
 
 These are mostly agency reports and data products, where a DOI often does not exist. They are not suspect — but under JON's website/dataset format each needs a **URL and an access date**, and the access date is recorded for almost none of them. Entries missing both a DOI and a URL cannot be formatted in JON style at all:
 
-**44 entries have neither a DOI nor a URL:**
+**45 entries have neither a DOI nor a URL:**
 
 - `CMST2014` (techreport, official) — Analysis of low frequency underwater acoustic signals possibly related to the loss of Malaysian
 - `GaspinShuler1971` (techreport, official) — Source Levels of Shallow Underwater Explosions
@@ -94,6 +94,7 @@ These are mostly agency reports and data products, where a DOI often does not ex
 - `chu2006` (article, peer-reviewed) — Prediction of falling cylinder through air-water-sediment columns
 - `dnv2010` (techreport, grey) — Risk Assessment of Pipeline Protection
 - `esdu-windmill` (misc, grey) — ESDU 81009, 84004, 84005
+- `fprg2016satcomlogs` (techreport, grey) — Internal study regarding SATCOM ground-station logs
 - `griffa1996stochastic` (incollection, official) — Applications of stochastic particle models to oceanographic problems
 - `griffin2017partii` (techreport, official) — The search for MH370 and ocean surface drift – Part II
 - `griffin2017partiii` (techreport, official) — The search for MH370 and ocean surface drift – Part III
@@ -138,13 +139,14 @@ JON requires full details "even if the list of authors is extensive" (`JON-RULES
 - `sutherland2020` — Sutherland, Graig and Soontiens, Nancy and Dufois, François and others — Evaluating the leeway coefficient of ocean drifters using operational 
 - `sutherland2020leeway` — Sutherland, Graig and others — Evaluating the leeway coefficient of ocean drifters using operational 
 
-**8 entries have no year**, and print as `(n.d.)`:
+**9 entries have no year**, and print as `(n.d.)`:
 
 - `FDSNIM` — IMS hydroacoustic station metadata, FDSN network IM
 - `IMOSANMNPA` — Australian National Mooring Network passive acoustic observatories (Curtin University CMST
 - `b777acaps` — 777-200/300 Airplane Characteristics for Airport Planning
 - `cmems_glo_wav_001_032` — Global Ocean Waves Reanalysis (GLOBAL_MULTIYEAR_WAV_001_032), dataset cmems_mod_glo_wav_my
 - `esdu-windmill` — ESDU 81009, 84004, 84005
+- `fprg2016satcomlogs` — Internal study regarding SATCOM ground-station logs
 - `glorys12` — Global Ocean Physics Reanalysis (GLOBAL_MULTIYEAR_PHY_001_030)
 - `tcds777` — Boeing 777 Type Certificate Data Sheet
 - `tcdstrent800` — Rolls-Royce Trent 800 Series Type Certificate Data Sheet
@@ -161,18 +163,15 @@ Author–date patterns appearing three or more times in project prose that match
 | Infinity 2018 | 57 | same as above, matched on the second word |
 | OI 2025 | 37 | Ocean Infinity's 2025 search resumption — citable, and current |
 | Vergoz 2021 | 19 | hydroacoustic source-localisation literature — a real missing entry |
-| Record 2017 | 17 | probably 'the record' in prose, not a citation — check |
 | Nielsen 2021 | 13 | hydroacoustics — a real missing entry |
-| Large 2019 | 12 | **Pete's own dissertation.** Must be in the library |
 | HL 2019 | 10 | a product or run code, not a citation |
-| Atlas 2023 | 9 | likely a data-product name (an atlas), not an author |
 | Infinity 2025 | 8 | same as above |
 | Nesterov 2018 | 7 | drift / windage literature — real missing entry |
+| GA 2017 | 6 | Geoscience Australia 2017 — bathymetry survey data, citable |
 | Chapman 1988 | 6 | underwater acoustics — real missing entry |
 | JASDF 2019 | 6 | check: an organisation abbreviation in prose |
 | RA 2021 | 5 | a reanalysis product code, not a citation |
 | Breivik 2008 | 5 | leeway / windage literature — real missing entry |
-| GA 2017 | 5 | Geoscience Australia 2017 — bathymetry survey data, citable |
 | Generator 2026 | 5 | our own generated output, not a citation |
 | SUS 2003 | 4 | the SUS charge reference data — needs a proper source entry |
 | Maximenko 2018 | 4 | surface-drift climatology — real missing entry |
@@ -198,7 +197,7 @@ Printed pages are deliberately **not** a column here. JON's Harvard style admits
 | `andersen2005b` | Andersen, A., Pesavento, U. and Wang, Z. J. (2005). Analysis of transitions between fluttering, tumbling and steady descent of falling cards. Journal of Fluid Mechanics, 541, 91–104. | peer-reviewed | UNVERIFIED | settling (3 files) | - |
 | `anderson2018` | Anderson (2018). Report on two shipwrecks found during the MH370 search. Western Australian Museum, for the ATSB. | official | UNVERIFIED | settling (1 file) | - |
 | `Arons1954` | Arons, A. B. (1954). Underwater explosion shock wave parameters at large distances from the charge. J. Acoust. Soc. Am., 26, 343–346. https://doi.org/10.1121/1.1907339. | peer-reviewed | METADATA VERIFIED | hydroacoustics (4 files) | - |
-| `ashton2015` | Ashton, C., Shuster Bruce, A., Colledge, G. and Dickinson, M. (2015). The Search for MH370. The Journal of Navigation, 68, 1–22. https://doi.org/10.1017/S037346331400068X. | peer-reviewed | METADATA VERIFIED | end of flight (23 files) | - |
+| `ashton2015` | Ashton, C., Shuster Bruce, A., Colledge, G. and Dickinson, M. (2015). The Search for MH370. The Journal of Navigation, 68, 1–22. https://doi.org/10.1017/S037346331400068X. | peer-reviewed | METADATA VERIFIED | end of flight (24 files) | - |
 | `atsb2014fpu` | Australian Transport Safety Bureau (2014). MH370 – Flight Path Analysis Update. ATSB. | official | UNVERIFIED | end of flight (no use traced) | candidate |
 | `atsb2016sdu` | Australian Transport Safety Bureau (2016). MH370 – Search and debris examination update. ATSB. | official | UNVERIFIED | end of flight (no use traced) | - |
 | `atsb2017` | Australian Transport Safety Bureau (2017). The Operational Search for MH370. ATSB, AE-2014-054. | official | UNVERIFIED | settling (no use traced) | candidate |
@@ -217,19 +216,19 @@ Printed pages are deliberately **not** a column here. JON's Harvard style admits
 | `CMST2014` | Duncan, A. J., Gavrilov, A. N. and McCauley, R. D. (2014). Analysis of low frequency underwater acoustic signals possibly related to the loss of Malaysian Airlines Flight MH370. Centre for Marine Science and Technology, Curtin University, CMST 1308, Report 2014-30. | official | UNVERIFIED | hydroacoustics (6 files) | - |
 | `Collins1993` | Collins, M. D. (1993). A split-step Padé solution for the parabolic equation method. J. Acoust. Soc. Am., 93, 1736–1742. https://doi.org/10.1121/1.406739. | peer-reviewed | METADATA VERIFIED | hydroacoustics (4 files) | - |
 | `copernicusmarine_toolbox` | Copernicus Marine Service (2026). Copernicus Marine Toolbox (copernicusmarine) 2.5.0. https://toolbox-docs.marine.copernicus.eu. Accessed [DATE NOT RECORDED]. | official | UNVERIFIED | ocean drift / transport (no use traced) | - |
-| `davey2016` | Davey, S., Gordon, N., Holland, I., Rutten, M. and Williams, J. (2016). Bayesian Methods in the Search for MH370. Springer. https://doi.org/10.1007/978-981-10-0379-0. | official | METADATA VERIFIED | end of flight, hydroacoustics, ocean drift (120 files) | yes |
+| `davey2016` | Davey, S., Gordon, N., Holland, I., Rutten, M. and Williams, J. (2016). Bayesian Methods in the Search for MH370. Springer. https://doi.org/10.1007/978-981-10-0379-0. | official | METADATA VERIFIED | end of flight, hydroacoustics, ocean drift (121 files) | yes |
 | `dnv2010` | Det Norske Veritas (2010). Risk Assessment of Pipeline Protection. DNV, DNV-RP-F107. | grey | UNVERIFIED | settling (no use traced) | - |
 | `DuncanDallOsto2023` | Duncan, A. J. and Dall'Osto, D. R. (2023). Long-range underwater acoustic detection of aircraft surface impacts–-the influence of acoustic propagation conditions and impact parameters. J. Acoust. Soc. Am., 154, A49. https://doi.org/10.1121/10.0022761. | peer-reviewed | METADATA VERIFIED | hydroacoustics (5 files) | - |
 | `DuncanDallOsto2023lay` | Duncan, A. J. and Dall'Osto, D. R. (2023). The loss of an F35 fighter aircraft and the search for Malaysian Airlines flight MH370. https://acoustics.org/the-loss-of-an-f35-fighter-aircraft-and-the-search-for-malaysian-airlines-flight-mh370/. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED | hydroacoustics (5 files) | candidate |
-| `durgadoo2021` | Durgadoo, J. V., Biastoch, A., New, A. L., Rühs, S., Nurser, A. J. G., Drillet, Y. and Bidlot, J.-R. (2021). Strategies for simulating the drift of marine debris. Journal of Operational Oceanography, 14, 1–12. https://doi.org/10.1080/1755876X.2019.1602102. | peer-reviewed | METADATA VERIFIED | ocean drift (6 files) | - |
+| `durgadoo2021` | Durgadoo, J. V., Biastoch, A., New, A. L., Rühs, S., Nurser, Aylmer J. G., Drillet, Y. and Bidlot, J.-R. (2021). Strategies for simulating the drift of marine debris. Journal of Operational Oceanography, 14, 1–12. https://doi.org/10.1080/1755876X.2019.1602102. | peer-reviewed | METADATA VERIFIED | ocean drift (6 files) | - |
 | `era5` | Hersbach, H. and others (2020). The ERA5 global reanalysis. Quarterly Journal of the Royal Meteorological Society, 146, 1999–2049. https://doi.org/10.1002/qj.3803. | peer-reviewed | METADATA VERIFIED | Pleiades, ocean drift, ocean drift / transport (4 files) | - |
 | `esdu-windmill` | ESDU (n.d.). ESDU 81009, 84004, 84005. ESDU. | grey | UNVERIFIED | end of flight (no use traced) | - |
 | `esr2021oscar` | ESR and Dohan, K. (2021). Ocean Surface Current Analyses Real-time (OSCAR) Surface Currents - Final 0.25 Degree (Version 2.0). PO.DAAC. https://doi.org/10.5067/OSCAR-25F20. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED | ocean drift / transport (5 files) | - |
 | `FDSNIM` | IMS hydroacoustic station metadata, FDSN network IM (n.d.). https://service.earthscope.org/fdsnws/station/1/query. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED | hydroacoustics (no use traced) | - |
 | `field1997` | Field, S. B., Klaus, M., Moore, M. G. and Nori, F. (1997). Chaotic dynamics of falling disks. Nature, 388, 252–254. https://doi.org/10.1038/40817. | peer-reviewed | METADATA VERIFIED | settling (3 files) | - |
+| `fprg2016satcomlogs` | MH370 Flight Path Reconstruction Group, SATCOM Subgroup (n.d.). Internal study regarding SATCOM ground-station logs. MH370 Flight Path Reconstruction Group. | grey | UNVERIFIED | - (no use traced) | - |
 | `FrancoisGarrison1982a` | Francois, R. E. and Garrison, G. R. (1982). Sound absorption based on ocean measurements: Part I: Pure water and magnesium sulfate contributions. J. Acoust. Soc. Am., 72, 896–907. https://doi.org/10.1121/1.388170. | peer-reviewed | METADATA VERIFIED | hydroacoustics (2 files) | - |
 | `FrancoisGarrison1982b` | Francois, R. E. and Garrison, G. R. (1982). Sound absorption based on ocean measurements. Part II: Boric acid contribution and equation for total absorption. J. Acoust. Soc. Am., 72, 1879–1890. https://doi.org/10.1121/1.388673. | peer-reviewed | METADATA VERIFIED | hydroacoustics (2 files) | - |
-| `GA2017` | Minchin, S., Mueller, N., Lewis, A., Byrne, G. and Tran, M. (2017). Summary of imagery analyses for non-natural objects in support of the search for Flight MH370: Results from the analysis of imagery from the PLEIADES 1A satellite undertaken by Geoscience Australia. Geoscience Australia, 2017/13. https://doi.org/10.11636/Record.2017.013. | official | METADATA VERIFIED | Pleiades (2 files) | - |
 | `GaspinShuler1971` | Gaspin, J. B. and Shuler, V. K. (1971). Source Levels of Shallow Underwater Explosions. Naval Ordnance Laboratory, NOLTR 71-160. | official | UNVERIFIED | hydroacoustics (7 files) | - |
 | `gdp6h` | Lumpkin, R. and Centurioni, L. (2019). Global Drifter Program quality-controlled 6-hour interpolated data from ocean surface drifting buoys. NOAA National Centers for Environmental Information. https://doi.org/10.25921/7ntx-z961. Accessed [DATE NOT RECORDED]. | official | UNVERIFIED | ocean drift, ocean drift / transport (6 files) | - |
 | `GEBCO2026` | GEBCO Bathymetric Compilation Group 2026 (2026). The GEBCO_2026 Grid – a continuous terrain model for oceans and land at 15 arc-second intervals. NERC EDS British Oceanographic Data Centre NOC. https://doi.org/10.5285/4f68d5c7-45eb-f999-e063-7086abc036fa. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED | hydroacoustics, ocean drift / transport (6 files) | - |
@@ -238,9 +237,10 @@ Printed pages are deliberately **not** a column here. JON's Harvard style admits
 | `griffin2016parti` | Griffin, D. A., Oke, P. R. and Jones, E. M. (2016). The search for MH370 and ocean surface drift. CSIRO Oceans and Atmosphere, EP167888. https://doi.org/10.4225/08/5892224dec08c. | official | UNVERIFIED | ocean drift (5 files) | - |
 | `griffin2017partii` | Griffin, D. A., Oke, P. R. and Jones, E. M. (2017). The search for MH370 and ocean surface drift – Part II. CSIRO Oceans and Atmosphere, EP172633. | official | UNVERIFIED | ocean drift, ocean drift / transport (9 files) | - |
 | `griffin2017partiii` | Griffin, D. A. and Oke, P. R. (2017). The search for MH370 and ocean surface drift – Part III. CSIRO Oceans and Atmosphere, EP174155. | official | UNVERIFIED | ocean drift (9 files) | - |
-| `gshhg237` | Wessel, P. and Smith, W. H. F. (2017). GSHHG: Global Self-consistent, Hierarchical, High-resolution Geography Database, version 2.3.7. https://www.soest.hawaii.edu/pwessel/gshhg/. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED | ocean drift / transport (no use traced) | - |
+| `gshhg237` | Wessel, P. and Smith, Walter H. F. (2017). GSHHG: Global Self-consistent, Hierarchical, High-resolution Geography Database, version 2.3.7. https://www.soest.hawaii.edu/pwessel/gshhg/. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED | ocean drift / transport (no use traced) | - |
 | `HandleyLemos2019` | Handley, W. and Lemos, P. (2019). Quantifying tensions in cosmological parameters: Interpreting the DES evidence ratio. Physical Review D, 100, 043504. https://doi.org/10.1103/PhysRevD.100.043504. | peer-reviewed | METADATA VERIFIED | Pleiades (5 files) | - |
-| `holland2018` | Holland, I. D. (2018). MH370 Burst Frequency Offset Analysis and Implications on Descent Rate at End-of-Flight. IEEE Aerospace and Electronic Systems Magazine, 33, 24–33. https://doi.org/10.1109/MAES.2018.170048. | peer-reviewed | METADATA VERIFIED | end of flight (6 files) | yes |
+| `holland2018` | Holland, I. D. (2018). MH370 Burst Frequency Offset Analysis and Implications on Descent Rate at End-of-Flight. IEEE Aerospace and Electronic Systems Magazine, 33, 24–33. https://doi.org/10.1109/MAES.2018.170048. | peer-reviewed | METADATA VERIFIED | end of flight (8 files) | yes |
+| `holland2018oacopy` | Holland, I. D. (2018). MH370 Burst Frequency Offset Analysis and Implications on Descent Rate at End-of-Flight (author's accepted version). https://arxiv.org/abs/1702.02432v3. Accessed 12 October 2026. | grey | UNVERIFIED | - (8 files) | yes |
 | `iannello2018` | Iannello, V. (2018). End-of-flight simulations (web article; VERIFY title and URL from the archive snapshot). | grey | UNVERIFIED | end of flight (9 files) | - |
 | `IMOSANMNPA` | Integrated Marine Observing System (n.d.). Australian National Mooring Network passive acoustic observatories (Curtin University CMST loggers). https://imos-data.s3-ap-southeast-2.amazonaws.com/IMOS/ANMN/Acoustic/. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED | hydroacoustics (no use traced) | - |
 | `ioc2010teos10` | IOC, S. and IAPSO (2010). The international thermodynamic equation of seawater – 2010: Calculation and use of thermodynamic properties. Intergovernmental Oceanographic Commission, UNESCO, 56. | grey | UNVERIFIED | ocean drift / transport (no use traced) | - |
@@ -262,6 +262,7 @@ Printed pages are deliberately **not** a column here. JON's Harvard style admits
 | `mearns1994` | Mearns, D. L. (1994). MV Derbyshire survey report. International Transport Workers' Federation. | grey | UNVERIFIED | settling (2 files) | - |
 | `metron2011` | Stone, L. D. and others (2011). Search Analysis for the Location of the AF447 Underwater Wreckage. Metron Inc., report to BEA. https://bea.aero/fileadmin/uploads/tx_elyextendttnews/metron.search.analysis_01.pdf. | grey | UNVERIFIED | settling (6 files) | - |
 | `Metz2023` | Metz, D., Obana, K. and Fukao, Y. (2023). Remote hydroacoustic detection of an airplane crash. Pure Appl. Geophys., 180, 1343–1351. https://doi.org/10.1007/s00024-022-03117-6. | peer-reviewed | METADATA VERIFIED | hydroacoustics (6 files) | - |
+| `minchin2017pleiades` | Minchin, S., Mueller, N., Lewis, A., Byrne, G. and Tran, M. (2017). Summary of imagery analyses for non-natural objects in support of the search for Flight MH370: Results from the analysis of imagery from the PLEIADES 1A satellite undertaken by Geoscience Australia. Geoscience Australia, Record 2017/013. https://doi.org/10.11636/record.2017.013. | official | METADATA VERIFIED | Pleiades (3 files) | - |
 | `mot2017` | Malaysian ICAO Annex 13 Safety Investigation Team for MH370 (2017). Summary of Possible MH370 Debris Recovered (updated 30 April 2017). Ministry of Transport Malaysia. | official | UNVERIFIED | ocean drift (no use traced) | - |
 | `mot2018mh370` | Malaysian ICAO Annex 13 Safety Investigation Team for MH370 (2018). Safety Investigation Report, Malaysia Airlines Boeing B777-200ER (9M-MRO), 08 March 2014. Ministry of Transport Malaysia, MH370/01/2018. | official | UNVERIFIED | settling (no use traced) | - |
 | `ntsb2010` | National Transportation Safety Board (2010). Loss of Thrust in Both Engines After Encountering a Flock of Birds and Subsequent Ditching on the Hudson River, US Airways Flight 1549. NTSB, NTSB/AAR-10/03. | grey | UNVERIFIED | settling (no use traced) | - |
@@ -287,8 +288,38 @@ Printed pages are deliberately **not** a column here. JON's Harvard style admits
 | `thresher1963` | US Navy (1963). Court of Inquiry into the loss of USS Thresher. US Navy. | official | UNVERIFIED | settling (no use traced) | - |
 | `tsb2003` | Transportation Safety Board of Canada (2003). Aviation Investigation Report A98H0003: In-Flight Fire Leading to Collision with Water, Swissair Flight 111. TSB, A98H0003. | grey | UNVERIFIED | settling (no use traced) | - |
 | `Vincenty1975` | Vincenty, T. (1975). Direct and inverse solutions of geodesics on the ellipsoid with application of nested equations. Survey Review, 23, 88–93. https://doi.org/10.1179/sre.1975.23.176.88. | peer-reviewed | METADATA VERIFIED | hydroacoustics (2 files) | - |
-| `wessel1996gshhg` | Wessel, P. and Smith, W. H. F. (1996). A global, self-consistent, hierarchical, high-resolution shoreline database. Journal of Geophysical Research: Solid Earth, 101, 8741–8743. https://doi.org/10.1029/96JB00104. | peer-reviewed | METADATA VERIFIED | ocean drift / transport (3 files) | - |
+| `wessel1996gshhg` | Wessel, P. and Smith, Walter H. F. (1996). A global, self-consistent, hierarchical, high-resolution shoreline database. Journal of Geophysical Research: Solid Earth, 101, 8741–8743. https://doi.org/10.1029/96JB00104. | peer-reviewed | METADATA VERIFIED | ocean drift / transport (3 files) | - |
 | `WOA23` | Reagan, J. R., Boyer, T. P., García, H. E., Locarnini, R. A., Baranova, O. K., Bouchard, C. and others (2023). World Ocean Atlas 2023. NOAA National Centers for Environmental Information. https://doi.org/10.25921/va26-hv25. Accessed [DATE NOT RECORDED]. | official | UNVERIFIED | hydroacoustics, ocean drift / transport (2 files) | - |
+
+## 6a. Davey et al. (2016) has chapter-level DOIs — and they resolve the page conflict
+
+Every chapter of the book is separately registered with its own DOI and its own printed page range. Retrieved from CrossRef and verified 12 October 2026:
+
+| Ch. | Title | Printed pages | DOI |
+|---|---|---|---|
+| 1 | Introduction | 1–5 | `10.1007/978-981-10-0379-0_1` |
+| 2 | Factual Description of Accident and Available Information | 7–9 | `10.1007/978-981-10-0379-0_2` |
+| 3 | The Bayesian Approach | 11–17 | `10.1007/978-981-10-0379-0_3` |
+| 4 | Aircraft Prior Based on Primary Radar Data | 19–22 | `10.1007/978-981-10-0379-0_4` |
+| 5 | Measurement Model, Satellite Communications | 23–34 | `10.1007/978-981-10-0379-0_5` |
+| 6 | Aircraft Cruise Dynamics | 35–46 | `10.1007/978-981-10-0379-0_6` |
+| 7 | Aircraft Manoeuvre Dynamics | 47–54 | `10.1007/978-981-10-0379-0_7` |
+| 8 | Particle Filter Implementation | 55–61 | `10.1007/978-981-10-0379-0_8` |
+| 9 | Validation Experiments | 63–86 | `10.1007/978-981-10-0379-0_9` |
+| 10 | Application to the MH370 Accident | 87–100 | `10.1007/978-981-10-0379-0_10` |
+| 11 | Ongoing Refinement | 101–109 | `10.1007/978-981-10-0379-0_11` |
+
+**This is the way out of the conflict in §6.** A chapter citation is a *reference*, not an in-text page, so it is fully Harvard-compliant, and it is far more precise than citing a 109-page book. The particle filter implementation is chapter 8, pp. 55–61; the satellite communications measurement model is chapter 5, pp. 23–34; the manoeuvre dynamics our sampler modifies are chapter 7, pp. 47–54. Each can be cited as its own reference-list entry with a resolvable DOI and its printed pages, which is what the project's traceability rule actually wants.
+
+Recommended practice for the paper: cite `(Davey et al., 2016)` for the work as a whole and the chapter entry where a specific model element is meant. The printed page ranges above also give an independent check on the project's printed-page = PDF-page − 13 rule for this book.
+
+## 6b. Legitimate copies held, by provenance
+
+| Source | Copy held | Provenance | Citable pagination |
+|---|---|---|---|
+| Davey et al. (2016) | publisher PDF | Pete's Google Drive; CC BY-NC 4.0 | printed pages, from the running headers |
+| Holland (2018) | author's accepted version | **green open access, arXiv:1702.02432v3, 15 Jan 2018**, retrieved via Unpaywall 12 Oct 2026 | **NOT the printed pagination.** The copy is numbered 1–10; the printed article is *IEEE Aerospace and Electronic Systems Magazine* 33(2), 24–33. Locate quotations by section, not page, unless the published version is obtained |
+| Large (2019) | `~/Downloads/Dissertation.pdf`, 285 pp. | Pete's own work, published open access by him; he confirmed on 12 Oct 2026 that there are no restrictions | its own printed folios; note that the text layer has a broken character map, so quotations must be read from the rendered page |
 
 ## 7. Open items
 
