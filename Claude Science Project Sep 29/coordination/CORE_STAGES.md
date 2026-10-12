@@ -3774,6 +3774,6 @@ Free flight, 4 seeds × 420k, same seeds. Arm C is arm B (Pete's speed rule) plu
 
 - Predictions: (1) ln Z within 0.5 nat: met (Δ −0.01). (2) Surviving lineages change by less than 20 %: met (0 %). (3) Seed spread not materially smaller: met.
 - **Reading:** the refresh moves change paths only after 22:41. The seed-to-seed spread is set by which early lineages (18:01–22:41 histories) survive, and moves cannot create lineages. The speed rule does not change survival either (A 110 against B 111), though it widens the seed spread at this scale.
-- **Remedy:** more particles or more seeds for free flight. At 7M per seed, free flight would need roughly 2–4× to reach the floor. This is a long run, for Pete's agreement; it is not proposed now, because free flight is 6.8 nats behind waypoints and its shape does not move the four-family result.
+- **Remedy:** more particles or more seeds for free flight. Free flight's overlap shortfall is 0.17 against 0.076 allowed at the floor, a ratio of 2.2. Reaching the floor needs about 2.2× the particles if the shortfall falls as 1/N, or about 5× if it falls as 1/√N; this is an estimate, not measured. This is a long run, for Pete's agreement; it is not proposed now, because free flight is 6.8 nats behind waypoints and its shape does not move the four-family result.
 - Files: `results/run-i-oct12/refresh-smoke.csv` and the PREDICTION file.
 -- Core
