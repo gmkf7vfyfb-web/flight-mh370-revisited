@@ -70,8 +70,9 @@ rat_increment = [0.0001, 0.0006]
 # copies of copyrighted manuals.
 speedbrake_increment = [0.020, 0.045]
 landing_configuration_increment = [0.050, 0.090]
-# Trent 892, 93,400 lbf, type certificate.
-sea_level_static_thrust_n = 415450.0
+# Trent 892-17 / 892B-17 take-off thrust (net, 5 min), ISA sea-level static: 406.8 kN (91,450 lbf), EASA TCDS E.047 Issue 04
+# (21 Feb 2019), section 6. Until 12 Oct 2026 (run I and earlier) the module used 415,450 N (93,400 lbf, unsourced; +2.1%).
+sea_level_static_thrust_n = 406800.0
 idle_thrust_fraction = [0.03, 0.10]
 thrust_density_exponent = 0.7
 # Assumed, swept. NOT the core's calibrated fuel tables (core request 3).

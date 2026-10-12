@@ -104,6 +104,7 @@ def main(eof_root, core_root, outp, strata):
         "D5:D3 total q=1/3 silent": Z("D5 total q=0.333 (C2 silent)") - Z("D3 total q=0.333 (C2 silent)"),
         "D5:D4 total q=1/3 silent": Z("D5 total q=0.333 (C2 silent)") - Z("D4 total q=0.333 (C2 silent)")}
     json.dump(res, open(outp, "w"), indent=1)
+    np.savez_compressed(str(outp).replace(".json", "") + "-latitude.npz", lat=LAT, **{k.replace(" ", "_").replace("=", "").replace("(", "").replace(")", "").replace("/", "_"): A["h"] / A["h"].sum() for k, A in acc.items()})
     for k, v in res["cells"].items():
         f = v["families"]
         print(f"{k:34s} lnZ {v['ln_Z']:8.3f} ESS {v['eff_impacts']:10.0f} A1/A2/B {f['A1']['share']:.2f}/{f['A2']['share']:.2f}/{f['B']['share']:.2f} A1 ESS {f['A1']['eff_impacts']:7.0f} lat {v['latitude_q05_q50_q95']}")

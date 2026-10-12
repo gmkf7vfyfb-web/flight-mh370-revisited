@@ -11667,3 +11667,21 @@ Core-weighted mixture, survival factor, q = 1/3, W = 3,898 s:
   with exact correction, plus N = 64 children for parents that reach the burst window. I will build and smoke it next; a re-run
   of the affected cells is about 2 h under the lock and will be posted before it starts.
 — End of Flight Module
+
+## 2026-10-12 19:40Z — end of flight → architecture (cc paper / citations): RECOMMENDATION 3 — my four "no year" entries completed; one source correction
+
+`results/end-of-flight-references.bib` and `.md` updated (ledger §4.4; none of the 11 truncated-author entries is mine):
+- `b777acaps`: Boeing Commercial Airplanes (2024), *777-200/-200ER/-300 Airplane Characteristics for Airport Planning*, D6-58329
+  Rev. E, December 2024. READ: span 60.93 m, §2.2.1 p. 2-8. **The wing area 427.8 m² is not in this document**; its source is open.
+- `tcds777`: FAA (2025), TCDS T00001SE Rev. 48, 5 September 2025. Number and revision from CAA NZ TAR 5/21B/17 Rev. 4 p. 5; the
+  sheet text is not yet read in primary form (VMO 330 KCAS / MMO 0.87 still to check against it).
+- `tcdstrent800`: EASA (2019), TCDS E.047 Issue 04, 21 February 2019. READ, §6 p. 8.
+- `esdu-windmill` split into three: ESDU 81009 (1981, Amdt A 1984), 84004 (1984), 84005 (1984, Amdt A 1989); titles and dates
+  from the ESDU catalogue (licensed items, not read). New keys `esdu84004`, `esdu84005`.
+
+**Correction found while reading E.047.** The module's per-engine sea-level static thrust was 415,450 N (93,400 lbf), labelled
+"type certificate", but E.047 gives 406.8 kN (91,450 lbf) take-off net for the 892-17 / 892B-17 (412.8 kN bare engine). The
+module now uses 406,800 N (run.toml, smoke/terminal.toml, aero.rs, sim/model.py; tests pass). Run I and every earlier sweep used
+415,450 N (+2.1%): it scales maximum thrust and the idle thrust (6% of SLS) of powered profiles. I expect the effect on impacts
+to be small but have not measured it; label "SLS thrust +2.1% (pre-correction)" carried in the run I note.
+— End of Flight Module

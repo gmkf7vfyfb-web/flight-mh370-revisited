@@ -36,7 +36,7 @@
 //! | RAT increment | 0.0001–0.0006 | **uncertain parameter**, same reasoning |
 //! | speedbrake increment | 0.020–0.045 | **modelling parameter with a declared sensitivity.** Chosen so that the model's idle descent rates sit near the operational figures the brief quotes for sanity-checking. Those figures circulate in mirrored copies of copyrighted manuals, so they are used as a calibration target and **are not cited** |
 //! | landing-configuration increment | 0.050–0.090 | **modelling parameter**, same provenance rule. Only reachable with power, see `Configuration` |
-//! | per-engine sea-level static thrust | 415,450 N | Trent 892, 93,400 lbf, type certificate |
+//! | per-engine sea-level static thrust | 406,800 N | Trent 892-17 / 892B-17 take-off (net, 5 min) 406.8 kN = 91,450 lbf, EASA TCDS E.047 Issue 04 (2019) section 6; 415,450 N (unsourced) used to run I |
 //! | idle thrust fraction | 0.03–0.10 | assumed, swept |
 //! | TSFC | 1.4e-5–1.8e-5 kg/(N s) | assumed, swept. **This is not the core's fuel model.** The core's Boeing-calibrated FPPM tables are not reachable from a hypothesis; core request 3 asks for them |
 
@@ -301,7 +301,7 @@ pub(super) mod tests {
             rat_increment: 0.000_35,
             speedbrake_increment: 0.032,
             landing_configuration_increment: 0.070,
-            sea_level_static_thrust_n: 415_450.0,
+            sea_level_static_thrust_n: 406_800.0,
             idle_thrust_fraction: 0.06,
             thrust_density_exponent: 0.7,
             tsfc_kg_per_n_s: 1.6e-5,
@@ -427,14 +427,14 @@ pub(super) mod tests {
         let a = reference();
         assert_eq!(a.thrust_n(&Configuration::glide(), 0.38, 1.0), 0.0);
         let two = a.thrust_n(&Configuration::powered(), 1.225, 1.0);
-        assert!((two - 2.0 * 415_450.0).abs() < 1e-6, "{two}");
+        assert!((two - 2.0 * 406_800.0).abs() < 1e-6, "{two}");
         let one = a.thrust_n(&Configuration { engines_thrusting: 1, ..Configuration::powered() }, 1.225, 1.0);
-        assert!((one - 415_450.0).abs() < 1e-6);
+        assert!((one - 406_800.0).abs() < 1e-6);
         let high = a.thrust_n(&Configuration::powered(), 0.3796, 1.0);
         assert!(high < two && high > 0.0, "{high}");
         // The idle floor applies: a setting below idle still gives idle thrust.
         let idle = a.thrust_n(&Configuration::powered(), 1.225, 0.0);
-        assert!((idle - 2.0 * 415_450.0 * 0.06).abs() < 1e-6, "{idle}");
+        assert!((idle - 2.0 * 406_800.0 * 0.06).abs() < 1e-6, "{idle}");
         assert!((a.fuel_flow_kg_s(100_000.0) - 1.6).abs() < 1e-12);
     }
 

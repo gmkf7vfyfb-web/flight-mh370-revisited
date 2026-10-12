@@ -88,3 +88,7 @@ corrections and change no prior.
 
 **Labels to carry:** core run I not converged (8-seed floor 0.916); PROVISIONAL turn model, INTERIM pitch-down, PROVISIONAL
 in-flight structure; survival factor applied; no D uses the R1200 BTO.
+
+**Correction label (19:40Z).** This sweep used a per-engine SLS thrust of 415,450 N; the type certificate (EASA E.047 Issue 04,
+§6) gives 406.8 kN take-off net for the Trent 892-17 / 892B-17. The module default is now 406,800 N. Effect on these results not
+measured (expected small: it scales maximum and idle thrust of powered profiles only).

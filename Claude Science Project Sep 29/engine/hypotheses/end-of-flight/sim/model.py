@@ -56,7 +56,7 @@ def default_params(**over):
     Ix, Iy, Iz, Ixz = inertia_777(mass)
     k_ind = 1.0 / (np.pi * 60.93 ** 2 / 427.8 * 0.80)
     P.update(mass=mass, Ix=Ix, Iy=Iy, Iz=Iz, Ixz=Ixz, S=427.8, b=60.93, c=427.8 / 60.93 * 1.15, y_eng=9.6,
-             T0=415450.0, CD0=(0.5 / 21.1) ** 2 / k_ind, k_ind=k_ind, kw=20.0, Mcc=0.87, dCD_wm=0.00075,
+             T0=406800.0, CD0=(0.5 / 21.1) ** 2 / k_ind, k_ind=k_ind, kw=20.0, Mcc=0.87, dCD_wm=0.00075,
              dCD_rat=0.00035, CLmax=1.30, alpha0L=np.radians(-2.5), alpha_ref=np.radians(2.0),
              m_Clb=1.0, m_Cnb=1.0, m_Clr=1.0, m_Cnr=1.0, m_Clp=1.0, m_Cnp=1.0, m_Cma=1.0, m_Cmq=1.0,
              tuck_x=0.0, Cm_bias=0.0, t1=1e9, t_loss=1e9, t2=1e9, law=1, bap=0, u_stiff=0.8, u_lag=0.8,
