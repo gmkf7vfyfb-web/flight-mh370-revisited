@@ -70,6 +70,11 @@ selection does not use the evidence it will score. On run C this adds 343 nodes.
 <= 0.94 % for any mixture of strata, including the 0.3-0.6 % that lies off the grid. Rows that remain not computed are
 carried at the neutral value by default; excluding them is a labelled sensitivity (composer ruling, 10 Oct).
 
+Run A computed the extension for both ocean models (12 Oct). With 710 nodes, the not-computed weight, including the
+off-grid part, is below 1 % for every stratum and standard 00:19 option: on run C at most 0.81 % (Held Out), 0.64 % (R600 BTO Only),
+0.17 % (R600 BTO + Raw BFO) and 0 % (Holland H1/H2); on the H1/H2 sweep at most 0.64 %, 0.52 %, 0.16 %, 0.10 % and 0.29 %.
+The neutral value is applied to the drift factor only; the row's other factors are kept (review of composer pass 1, finding R1).
+
 ## 4. Transport
 
 Each node releases particles at the end-of-flight epoch (8 Mar 2014, 00:19:37 UTC) and integrates
@@ -114,7 +119,7 @@ config-gated offset added to every drawn wind fraction and floored at zero (`c_w
 GLORYS12 and for the reproduction). A smoke test on 92 nodes with an offset of −0.60% reduced the standard
 deviation of the GlobCurrent − GLORYS12 node log-likelihood difference north of 30°S from 3.28 to 1.66, the mean
 deficit north of 25°S from −5.78 to −2.19 (9 nodes), and the mean excess south of 37°S from +3.56 to +0.86.
-With −0.75 % the same three values were 1.44, −1.57 and −0.40. At −0.75 % the latitude trend between the two models disappears (a flat −0.6 in every 4° band). Run A draws the offset per particle from U(−0.75 %, −0.60 %), from its own random stream, so the uncertainty in the offset is carried into the likelihood; the two end values are independent of the debris (gridded current difference 0.74 %; drifter fits 0.61 %). The part that remains is reported as ocean-model uncertainty. An explicit-Stokes
+With −0.75 % the same three values were 1.44, −1.57 and −0.40. At −0.75 % the latitude trend between the two models disappears (a flat −0.6 in every 4° band). Run A draws the offset per particle from U(−0.75 %, −0.60 %), from its own random stream, so the uncertainty in the offset is carried into the likelihood; the two end values are independent of the debris (gridded current difference 0.74 %; drifter fits 0.61 %). The part that remains is reported as ocean-model uncertainty. With the offset (run A, 710 nodes), the two products agree within 2σ of the combined split-half Monte Carlo noise at 669 of the 703 nodes that both models score (node correlation 0.34; on the 367 production nodes 0.39, against −0.08 before the correction); the residual difference is about −1.4 log-likelihood units north of 25 °S, and south of 37 °S it is dominated by Monte Carlo noise. An explicit-Stokes
 composition for both products would remove the product-dependent wind content by construction; it is not yet run.
 
 **Object response by class** (`production-glorys12.toml`; PROVISIONAL priors except the flaperon's):
