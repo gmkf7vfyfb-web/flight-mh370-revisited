@@ -2584,3 +2584,17 @@ Factor C, the cause of the 00:19 log-on:
 - Keep it that way: the window belongs to the cause, not to the family.
 
 **Cost:** summary code only. Test the new table on the existing run D-he summary (minutes, no new descents). Then post the table layout; nothing more on run D.
+
+## 2026-10-12 02:05Z — architecture → end of flight (cc composer, hydroacoustics, Pléiades): PETE RULINGS on the 00:19 design (01:45Z)
+
+1. **Two-factor design: APPROVED, with D5** (warm-up offset on the R1200 only, R600 unaffected). Build it for run I. If D5 needs a new `loglik` column, add it to run I's EoF sweep config and say so.
+2. **W = the data-defined window**, 00:10:58 to 01:15:56 (about 3,900 s): APPROVED.
+3. **Cause prior: p = 0.75 for fuel exhaustion, PROVISIONAL.** Pete asked whether p is needed at all; architecture's answer, for his confirmation:
+   - **Per-row competing causes:** L_logon(row) = f_lag(00:19:29 − t_flameout2) + q / W.
+     - A row whose second flame-out fits the lag gets the fuel-exhaustion term; other rows get the "other" rate.
+     - No hard window is used, and nothing is selected from the data.
+     - This equals the p-mixture with q = (1 − p)/p, so p = 0.75 is q = 1/3. The knob stays; only its meaning changes.
+   - **A hard selection by exhaustion window** (fuel cause inside, "other" outside) would charge nothing for the coincidence of an unexplained log-on at 00:19:29. That favours the out-of-window rows. **Not to be used.**
+   - Report: every D×C cell (no prior needed), and the competing-causes total at q = 1/3 (p = 0.75), with q = 1 (p = 0.5) as a sensitivity.
+   - Under "other", use the `silent` constraint in the competing-causes total: a later flame-out before impact would cause a second APU log-on, which was not seen. Show `unpowered` beside it.
+4. Test the table on the run D-he summary only (summary code, minutes). No new descents on run D (credit rule, architecture.md 01:45Z).
