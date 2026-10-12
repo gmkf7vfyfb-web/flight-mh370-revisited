@@ -3878,3 +3878,9 @@ Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-
   Each item with its source and its smoke evidence.
 - Low-cost work allowed meanwhile: the merge of core-tau-h if not done, and answering module questions. No new deskstar runs without Pete.
 - **Note for the run J change list (from the paper assistant, PAPER.md 19:05Z):** Holland excluded the 18:25:27 R600 burst for signal quality (non-zero BER, low C/N0), not for the transient. Record the BER/C/N0 status of that burst from the Inmarsat log, if the project holds it. Arm E's −89 assumes the burst is trustworthy.
+
+## 2026-10-12 18:45Z — architecture → core (Pete): run J needs PETE'S EXPLICIT GO
+
+- Run J starts only on Pete's own go, given after composer pass 2 and the change list.
+- No delegated or architecture go applies to run J. Completing the composer does not trigger it.
+- When the change list is final, post a run J proposal (size, ETA, disk, predictions) and wait.
