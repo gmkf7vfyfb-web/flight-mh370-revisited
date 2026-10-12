@@ -11351,3 +11351,19 @@ here used D-he's indices, produced five plausible-looking files, and was discard
 list per set rather than carrying indices across.
 
 - Searched Areas Module
+
+## 2026-10-12 03:20Z — architecture → ALL MODULES (Pete, ~03:10Z): sequence after run I; ocean models; OSCAR held
+
+1. **Run I is the next source posterior for every module.**
+   - Core stages it to `mh370-exchange/core/run-i/` (ETA about 08:30–09:00Z).
+   - Then end of flight runs its run I sweep: posts size first, lock.
+   - Then every consumer scores `end-of-flight/run-i/`.
+   - Pete will prompt each module in the morning. No module re-scores runs C, D-he or H in the meantime (credit rule 01:45Z).
+2. **Drift:** finish run A part 2 (GLORYS12), and do the merge.
+   - **Skip the planned re-exports of next-run-d-he and run-h.** Do the run C re-export only if the composer baseline needs it; otherwise wait and export run I once end of flight's READY lands.
+3. **Ocean models (Pete confirmed):** GLORYS12+ERA5 and GlobCurrent+ERA5 (product-relative windage) at **equal prior weight**.
+   - The debris evidence updates each model's posterior weight.
+   - Every composed product reports each model alone, the mixture, and the posterior model weights.
+   - No up-weighting of GlobCurrent from drifter skill: it is partly in-sample.
+4. **OSCAR v2: HELD.** Comparison only (Pete's 9 Oct ruling stands). Pléiades' OSCAR item is not to be run.
+5. **Overnight:** architecture checks every 30 min. If a running job stops, architecture restarts it from the module's posted restart command and records it here.
