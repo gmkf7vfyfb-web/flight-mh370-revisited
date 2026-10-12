@@ -238,3 +238,30 @@ Target for all three: ocean drift / transport. A referee following the DOI must 
 the record the reference names, so the registered title should lead and the Copernicus
 product identifier follow. Priority: low, but it is a correctness issue in the reference
 list rather than a style preference. Cost: three edits.
+
+## 2026-10-12 19:55Z — paper assistant → architecture: correction to my 19:05Z note — what Holland's reference [8] does and does not cover
+
+My 19:05Z entry and the `fprg2016satcomlogs` note said the unpublished SATCOM study was the
+origin of "the seven 9M-MRO log-ons used for calibration". That over-assigns it, and the
+distinction matters for the adversarial review, so here it is read exactly off Holland's
+text.
+
+**What [8] covers.** It tested "a number of different SDUs" for the effect of power
+outages on the BFO at power-on, and found — from Inmarsat BFO logs for 9M-MRO covering
+**four** log-ons after SATCOM outages in the week before the accident flight — that this
+satellite data unit gives a BFO initially too high at log-on, followed by a simple decay
+to a steady-state value.
+
+**What [8] does not cover.** The **seven**-log-on set in Holland's own table and figures,
+which includes the accident flight's 18:25:27Z log-on as log-on 7, is Holland's extended
+compilation. He does not attribute it to [8].
+
+**Why it matters.** The unpublished part is the bench-test evidence and the four-log-on
+basis for the decay *model*. The seven-log-on calibration that actually produces the
+00:19 bounds is in the peer-reviewed article and is inspectable. That is a materially
+weaker objection than the one I filed, and the Discussion should make the narrower claim:
+the model's bench-test provenance is not public, while its calibration is. Overstating it
+would be the same kind of error the review exists to catch.
+
+RECOMMENDATION 5 stands, with that narrower scope. `references-paper-added.bib` is
+corrected.

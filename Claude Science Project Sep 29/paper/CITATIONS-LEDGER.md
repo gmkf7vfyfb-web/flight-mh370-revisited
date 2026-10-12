@@ -13,7 +13,7 @@ hand-edited). Reference style follows `paper/JON-RULES.md` §6 (Harvard).
 | After deduplication by DOI, else by first author, year and title | **98 entries** |
 | Repository files scanned for in-text use | 730 (`results/**/*.md`, `ARCHITECTURE.md`, `README.md`, `RUNBOOK.md`, `threads/master-prompts/`, `coordination/`, and the engine's Rust, TOML and Python) |
 | Entries whose use in the project could be traced to a file | 65 of 98 |
-| Local candidate copies indexed (`~/Downloads`, `mh370-exchange`) | 619 files |
+| Local candidate copies indexed (`~/Downloads`, `mh370-exchange`) | 626 files |
 
 Still to be folded in, and therefore **not** represented in the counts below:
 Pete's Google Drive; `deskstar`; the prose ledgers `results/*-references.md` (which carry the printed pages and the per-claim provenance); `results/davey-2016-reference.md`; `results/hydroacoustics-bibliography.csv`; `results/seabed-search-references.md`.
@@ -24,9 +24,9 @@ Grades follow the module brief §1: **official** (publisher, agency, standards b
 
 | Grade | Entries |
 |---|---|
-| official | 30 |
+| official | 31 |
 | peer-reviewed | 36 |
-| grey | 32 |
+| grey | 31 |
 | unofficial | 0 |
 | **total** | **98** |
 
@@ -110,7 +110,7 @@ These are mostly agency reports, where a DOI often does not exist. They are not 
 - `chu2006` (article, peer-reviewed) — Prediction of falling cylinder through air-water-sediment columns
 - `dnv2010` (techreport, grey) — Risk Assessment of Pipeline Protection
 - `esdu-windmill` (misc, grey) — ESDU 81009, 84004, 84005
-- `fprg2016satcomlogs` (techreport, grey) — Internal study regarding SATCOM ground-station logs
+- `fprg2016satcomlogs` (techreport, official) — Internal study regarding SATCOM ground-station logs
 - `griffa1996stochastic` (incollection, official) — Applications of stochastic particle models to oceanographic problems
 - `griffin2017partii` (techreport, official) — The search for MH370 and ocean surface drift – Part II
 - `griffin2017partiii` (techreport, official) — The search for MH370 and ocean surface drift – Part III
@@ -242,7 +242,7 @@ Printed pages are deliberately **not** a column here. JON's Harvard style admits
 | `esr2021oscar` | ESR and Dohan, K. (2021). Ocean Surface Current Analyses Real-time (OSCAR) Surface Currents - Final 0.25 Degree (Version 2.0). PO.DAAC. https://doi.org/10.5067/OSCAR-25F20. Accessed [DATE NOT RECORDED]. | grey | METADATA VERIFIED | ocean drift / transport (5 files) | - |
 | `FDSNIM` | IMS hydroacoustic station metadata, FDSN network IM (n.d.). https://service.earthscope.org/fdsnws/station/1/query. Accessed [DATE NOT RECORDED]. | grey | UNVERIFIED, NO DOI | hydroacoustics (no use traced) | - |
 | `field1997` | Field, S. B., Klaus, M., Moore, M. G. and Nori, F. (1997). Chaotic dynamics of falling disks. Nature, 388, 252–254. https://doi.org/10.1038/40817. | peer-reviewed | METADATA VERIFIED | settling (3 files) | - |
-| `fprg2016satcomlogs` | MH370 Flight Path Reconstruction Group, SATCOM Subgroup (n.d.). Internal study regarding SATCOM ground-station logs. MH370 Flight Path Reconstruction Group. | grey | UNVERIFIED, NO DOI | - (no use traced) | - |
+| `fprg2016satcomlogs` | MH370 Flight Path Reconstruction Group, SATCOM Subgroup (n.d.). Internal study regarding SATCOM ground-station logs. MH370 Flight Path Reconstruction Group. | official | UNVERIFIED, NO DOI | - (no use traced) | - |
 | `FrancoisGarrison1982a` | Francois, R. E. and Garrison, G. R. (1982). Sound absorption based on ocean measurements: Part I: Pure water and magnesium sulfate contributions. J. Acoust. Soc. Am., 72, 896–907. https://doi.org/10.1121/1.388170. | peer-reviewed | METADATA VERIFIED | hydroacoustics (2 files) | - |
 | `FrancoisGarrison1982b` | Francois, R. E. and Garrison, G. R. (1982). Sound absorption based on ocean measurements. Part II: Boric acid contribution and equation for total absorption. J. Acoust. Soc. Am., 72, 1879–1890. https://doi.org/10.1121/1.388673. | peer-reviewed | METADATA VERIFIED | hydroacoustics (2 files) | - |
 | `GaspinShuler1971` | Gaspin, J. B. and Shuler, V. K. (1971). Source Levels of Shallow Underwater Explosions. Naval Ordnance Laboratory, NOLTR 71-160. | official | UNVERIFIED, NO DOI | hydroacoustics (7 files) | - |
