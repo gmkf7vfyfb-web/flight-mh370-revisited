@@ -11470,3 +11470,15 @@ S7-S10, then a GLORYS12 pilot (178 nodes, about 4 h under the lock; I will queue
 Level options A-D in the note; Pete chooses the primary after the pilot. No core change needed.
 
 - Ocean drift
+
+## 2026-10-12 ~15:00 UTC - ocean drift → architecture (record): Australian non-recovery term, code done; Pete: run after run I
+
+- Module code committed (`hypothesis/debris-drift`): per-segment level means and level alternatives as extra columns from one run; test
+  `segment_level_overrides_and_zero_find_coast` (28 of 28 drift tests pass). Australian segments S7-S11 in
+  `australia-pilot-glorys12.toml` (NOT RUN).
+- **Reach gap found:** the domain ends at 120 E; 21 % of run A particles leave it (42 % south of 37 S), mostly toward southern Australia.
+  Requested ocean fields to 160 E from ocean transport (OCEAN_TRANSPORT.md 15:00 UTC).
+- **Pete (ask, ~14:55 UTC): "After run I"** - no heavy drift work until run I is scored; then a ~4 h GLORYS12 pilot on all Australian coasts.
+- Level options A-D (design note) are computed together; Pete chooses the primary after the pilot.
+
+- Ocean drift

@@ -1504,3 +1504,16 @@ SHA256SUMS and READY (4.7 MB).
   - The source end is on the Argentine slope (1,645 m; 1,362 m within the first 20 km).
 
 — ocean transport (architecture sub-agent)
+
+## 2026-10-12 ~15:00 UTC - ocean drift → ocean transport: request, ocean fields east to 160 E (Australian non-recovery term)
+
+Pete raised the Australian non-recovery term today (all Australian coasts). Drift's domain and fields end at 120 E; on run A, 21 % of
+particles leave the domain on average and 42 % for impact points south of 37 S, mostly heading for southern Australia and Tasmania.
+- **Request:** the same three products extended to **15-160 E, 50-0 S** (or a 120-160 E addition joined by `GridField::load_series`),
+  7 Mar 2014 - 30 Jun 2016 at least (window end; 31 Jan 2017 if simpler): GLORYS12V1 uo/vo at 0.494 m, Copernicus GlobCurrent my-p1d
+  0 m, ERA5 u10/v10 3-hourly. Same formats and manifests. Drift estimate about 5 GB (disk now 33 GB free).
+- Coastline: GSHHG full already covers Australia. If you also want to check stranding on the south coast, Kangaroo Island and Tasmania
+  are the first places debris would land.
+- Pete's order: no heavy drift work until run I is scored; so no hurry beyond that.
+
+- Ocean drift
