@@ -127,7 +127,8 @@ struct Particle {
     origin: u32,
     route: [[f32; 2]; MAX_ROUTE_POINTS],
     /// output.trace states (NaN where not reached). Output-only.
-    trace: [[f32; 7]; MAX_TRACE_POINTS],
+    /// Allocated only when output.trace is set, so runs without a trace carry no extra memory.
+    trace: Option<Box<[[f32; 7]; MAX_TRACE_POINTS]>>,
     /// At the latest SATCOM step: BTO residual (us), BFO innovation (Hz) and its
     /// predictive s.d. (Hz), and this step's log-likelihood. Output-only; NaN if absent.
     residual: [f32; 4],
@@ -676,7 +677,8 @@ fn advance<E: Environment>(p: &mut Particle, to: f64, ctx: &Context<E>, rng: &mu
             let air = a.air_data();
             let track = a.v_east_kt.atan2(a.v_north_kt).to_degrees().rem_euclid(360.0);
             let gs = a.v_east_kt.hypot(a.v_north_kt);
-            p.trace[k] = [a.lat as f32, a.lon as f32, a.alt_ft as f32, track as f32, gs as f32, a.mach as f32,
+            let buf = p.trace.get_or_insert_with(|| Box::new([[f32::NAN; 7]; MAX_TRACE_POINTS]));
+            buf[k] = [a.lat as f32, a.lon as f32, a.alt_ft as f32, track as f32, gs as f32, a.mach as f32,
                           air.heading_rad.to_degrees().rem_euclid(360.0) as f32];
             k += 1;
         }
@@ -729,7 +731,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             let mut route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
             route[0] = [aircraft.lat as f32, aircraft.lon as f32];
             let bias = BfoBias { mean_hz: config.bfo_bias.mean_hz, variance_hz2: config.bfo_bias.sd_hz.powi(2) };
-            Particle { aircraft, bias, origin: i as u32, route, trace: [[f32::NAN; 7]; MAX_TRACE_POINTS], residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false }
+            Particle { aircraft, bias, origin: i as u32, route, trace: None, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false }
         })
         .collect();
     // Auxiliary look-ahead: extra standard deviation, in microseconds, added in quadrature to
@@ -1459,7 +1461,10 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let chosen = systematic_resample(&log_weights, config.output.route_samples, &mut stream(3000, 0));
     let routes = chosen
         .iter()
-        .map(|&j| (particles[j].route[..ctx.route_points].to_vec(), ctx.trace.map_or(Vec::new(), |t| particles[j].trace[..t.points].to_vec())))
+        .map(|&j| (particles[j].route[..ctx.route_points].to_vec(), ctx.trace.map_or(Vec::new(), |t| match &particles[j].trace {
+            Some(b) => b[..t.points].to_vec(),
+            None => vec![[f32::NAN; 7]; t.points],
+        })))
         .collect();
     let origins: Vec<usize> = particles.iter().map(|p| p.origin as usize).collect();
     if let Some(p) = pending.first() {
@@ -1813,7 +1818,7 @@ mod tests {
             for row in rows.iter().filter(|r| r.mode == m) {
                 let bias = BfoBias { mean_hz: row.bias.mean_hz, variance_hz2: row.bias.variance_hz2 };
                 let route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
-                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, trace: [[f32::NAN; 7]; MAX_TRACE_POINTS], residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false };
+                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, trace: None, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false };
                 advance(&mut p, 7200.0, &straight, &mut stream(seed, m as u64, stop.step as u64 + 2, row.particle));
                 let a = &p.aircraft;
                 let e = &expected[row.particle];
