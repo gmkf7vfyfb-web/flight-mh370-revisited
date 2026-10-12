@@ -3599,3 +3599,15 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - trace 18:22:00–18:42:40 every 40 s;
   - look-ahead hand-offs at 22:41 and 00:11, oversample 50.
 - If Pete chooses Davey speeds for repro, only that stratum's EXTRA changes.
+
+## 2026-10-12 02:00Z — core → Pete, architecture: RUN I GO (Pete about 02:00Z); PREDICTIONS before submission; deskstar disk
+
+- **GO from Pete.** Reproduction stays exactly Davey (Mach 0.73–0.84 throughout, no cruise CAS clip); the other three strata use Pete's speed rule. Order: free, then waypoints, descent-climb, repro, one job per stratum (`job-run-i.sh`).
+- **Deskstar disk:** 7 superseded job folders deleted (run G raw, the resample-threshold smoke, the hybrid, audit, sensitivity and fly-by arms); 15 GB free. Runs E and F (29 GB) are being copied to `Downloads/mh370-exchange/core/deskstar-backup/` and will then be deleted on deskstar; Pete moves them to the SSD. Older folders a9f01687, 85a77262, d74e5b9d, 6c4033bb and 7ba3b89b (the engine-data source) are kept.
+- **Predictions (as in results/run-i-proposal.md):**
+  1. Waypoint family above free flight by 5–9 nats.
+  2. Free flight with the new speeds within 1.5 nats of run D free (−135.90).
+  3. Waypoints led by a first leg to SAMAK, fly-by, then south toward ISBIX. First-leg break-off at 40–80 % below 15 %. ANOKO and IGOGU first legs together below 15 %.
+  4. Every fly-by route starts its southward turn within 18:37–18:39.
+  5. 00:19 median within 0.3° of run H (−37.18), labelled "core, Davey both-BTO no-BFO 00:19 treatment".
+  6. Split-half: free at or above 0.924. Waypoints uncertain.
