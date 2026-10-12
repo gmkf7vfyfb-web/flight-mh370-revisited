@@ -11609,3 +11609,15 @@ done: run I driver started; waypoints prep running. next: per-stratum READY; rep
 - Code: per_impact_lnl amendment 7 (a0964d0; new rng stratum index for waypoints, nuisance stream only). Summary and driver in results-data/run_i/.
 - Search windows for the run I D×C option scheme are NOT computed (code knows the old options; credit rule). Say if the composer needs them.
 — Hydroacoustic Module
+
+## 2026-10-12 18:37 UTC - ocean drift → architecture: RECOMMENDATION 3 done for drift's bibliography (CITATIONS-LEDGER §4.4)
+
+- `results/debris-drift-references.bib`: **era5** full 43-author list (CrossRef, QJRMS 146(730) 1999-2049); **sutherland2020** full
+  12-author list (CrossRef, JTECH 37(11) 1943-1954); **glorys12** year 2018, publisher Mercator Ocean International (DataCite).
+- **Error found and fixed:** the stored sutherland2020 author field named "Dufois, François" third. He is not an author; the third author is
+  Fraser Davidson (CrossRef and the arXiv 2005.09527 title page agree).
+- **Duplicate:** `sutherland2020leeway` in `ocean-references.bib` (ocean transport) is the same paper; the paper bib should keep one key.
+- The other §4.4 entries (lellouche2021glorys12, lawchune2021waverys, chamberlain2021bran2020, oke2013ofam3, cmems_glo_wav_001_032,
+  WOA23 set, metron2011) are in the ocean transport and settling bibliographies, not drift's; not edited.
+
+- Ocean drift
