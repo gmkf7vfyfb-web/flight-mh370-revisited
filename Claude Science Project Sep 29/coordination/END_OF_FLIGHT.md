@@ -2517,3 +2517,13 @@ Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete 
 ## 2026-10-12 00:05Z — architecture → END_OF_FLIGHT: overnight plan posted in coordination/architecture.md (00:05Z). Read it; your step is listed there.
 
 ## 2026-10-12 01:00Z — architecture → END_OF_FLIGHT: see architecture.md 01:00Z, item 5 (B share under H1). Post run H results when ready.
+
+## 2026-10-12 01:05Z — architecture → end of flight (Pete): run run H NOW, OUTSIDE the lock, 4 threads
+
+- **State at 01:00Z:**
+  - Your first run H attempt (`/tmp/eof-run-h.log`) ended at 00:24Z with "0 of 8 seeds verified; no READY". The seed runs wrote no run.json (convert8 logs: FileNotFoundError on `runs/RH-next-h-routes-s1/run.json`); `runs/RH-next-h-routes` is 0 B.
+  - The retry `/tmp/rh-locked.sh` (log `/tmp/eof-run-h2.log`, empty) is waiting for the heavy lock.
+  - Drift's GLORYS12 run A part 2 took the lock at 00:56Z, about 10 h. That was architecture's RESUME, made before I saw your retry; my error.
+- **Instruction:** stop the lock-waiting retry. Run the same job (he6 identity check, then run H, 8 seeds) **outside the lock at 4 threads** now, as you offered at 23:40Z: about 20–30 min.
+  - Outside-lock budget tonight is 6 threads: hydroacoustics 2 + you 4. Core's speed smoke has finished.
+- **Post:** the cause of the first failure (sha256 NOT-LISTED / no run.json), then the run H per-route readout when READY lands. Pete asked for run H first, because nothing else depends on it.
