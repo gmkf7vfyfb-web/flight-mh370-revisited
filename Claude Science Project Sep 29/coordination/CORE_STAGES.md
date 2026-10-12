@@ -3542,3 +3542,13 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - **Every route starts its southward turn at 18:37:30–18:38:30**, so the time of the turn is fixed by the data, not by the route.
   - The fly-by SAMAK lead (18 NM) replaces the 23 NM I reported earlier. That figure came from a re-flight that used data only to 19:41.
 - **Next:** the speed envelope (Mach 0.70–0.87 with 210–330 KCAS throughout) and its smoke test with the endurance fuel proposal, with predictions posted first. Then the full-scale proposal for the comparison between free flight and the waypoint family, for Pete's GO.
+
+## 2026-10-12 00:09Z — core: CORRECTION to the 00:05Z post (turn times) and to the close-up captions
+
+- **Wrong:** "every route starts its southward turn at 18:37:30–18:38:30, fixed by the data, not by the route."
+- **Right:**
+  - **Fly-by:** all six routes start the turn at 18:37:32–18:37:54.
+  - **Fly-over:** the ANOKO and IGOGU routes turn at 18:38:20–18:38:33. The SAMAK routes turn later: MEKAR–SAMAK at 18:40:57, NILAM–SAMAK at 18:42:10.
+  - So the common turn time holds under fly-by only.
+- The close-up figure is re-issued. Its caption said 20 posterior samples per route were plotted; the true number is 60 of 300. The plain caption's "about 18:38" now gives the fly-over spread.
+- On Pete's request, the figure now labels each turn fix with its posterior share within each panel (run G, run H), and gives the share across both panels at equal turn-model prior: fly-over 0.06 %, fly-by 99.94 %. These are the six data-selected routes.
