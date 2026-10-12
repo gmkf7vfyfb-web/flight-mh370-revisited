@@ -231,3 +231,38 @@ superseded: end of flight now supplies the column, so the derivation is retired.
 *Appended by: searched areas, 9 October 2026. Verification method: text extracted from the PDFs named
 above; printed pages read from running headers; Davey's chapter page range cross-checked against
 Crossref; Stone's journal citation read from the preprint's own front matter.*
+
+## 8. The Ocean Infinity searches: primary sources, read 2026-10-12
+
+Added on architecture's request of 12 October 2026 18:50Z (paper RECOMMENDATION 2). The paper module's
+ledger §5 lists "OI 2018" as the single most-used uncited string in the project, 131 occurrences. These are
+the sources, all three **read in primary form** on 2026-10-12 after network access to oceaninfinity.com was granted.
+BibTeX in `results/seabed-search-references.bib`.
+
+| Item | Source | Date | What this module takes from it | Grade |
+|---|---|---|---|---|
+| A-9 | Ocean Infinity, "Conclusion of current search for Malaysian Airlines flight MH370" | 29 May 2018 | "searched and collected high quality data from over 112,000 km2 of ocean floor" — the numerator of coverage fraction **0.889** on a 126,009.3 km2 layer | official (company statement) |
+| A-10 | Ocean Infinity, "Ocean Infinity donates 120,000 square kilometres of data ... to GEBCO Seabed 2030" | 22 June 2018 | the 120,000 km2 behind the upper variant **0.952** | official (company statement) |
+| A-11 | Ocean Infinity, "Conclusion of the search for Malaysian Airlines flight MH370" | 8 March 2026 | departure from the search area **23 January 2026**; 151 days at sea since 2018; "mapped more than 140,000 square kilometres of seafloor" | official (company statement) |
+
+**Three readings, and two of them change how the layers must be described.**
+
+1. **A-9 confirms the base coverage fraction.** 0.889 = 112,000 / 126,009.3 rests on Ocean Infinity's own
+   words, and those words are "searched and collected high quality data from", which is a search claim, not a
+   mapping claim. The base variant is on firm ground.
+2. **A-10 is a DATA DONATION, not a searched area.** 120,000 km2 is the extent of bathymetric data given to
+   GEBCO Seabed 2030. It is not area searched at a stated detection probability. That is the reason 0.952 is a
+   labelled variant and not a correction to 0.889, and the reason the two are reported as a sensitivity (worth
+   0.002 in Z) rather than one superseding the other. Until now this module's TOML described 0.952 only as "the
+   data donation figure"; it is now sourced and the distinction is explicit.
+3. **A-11's 140,000 km2 is a mapping figure and this module does not use it as coverage.** The brief is
+   explicit that bathymetric mapping, planned coverage and contract areas exclude nothing. The two committed
+   Ocean Infinity layers total about 133,600 km2, so the mapped figure **exceeds** them — which is exactly the
+   direction in which an uncritical reading would inflate the searched area and wrongly remove probability.
+   It is recorded so that nobody reaches for it. A-11 also gives **no** searched area specific to the 2025-26
+   campaign, so the 7,571 km2 behind coverage fraction 0.7808 remains sourced elsewhere and unverified in
+   primary form — a new open item, **A-12**.
+
+**A-12 (open):** the 2025-26 reported survey area of 7,571 km2 and the official residual of 7,428.54 km2 are
+not in Ocean Infinity's own releases as read on 2026-10-12. Locate them in primary form (Malaysian government
+statement or Ocean Infinity contract reporting) or mark the 2025-26 layer's coverage fraction as unsourced.
