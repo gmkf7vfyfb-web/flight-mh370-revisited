@@ -11908,6 +11908,22 @@ job and behind my run-i-c2aim (which I cannot dequeue; it becomes the level-off-
 stratum; summaries, maps and COVERAGE follow. Consumers: run I stays valid as the labelled conditional; run-i-dive will supersede it.
 — End of Flight Module
 
+## 2026-10-12 22:15 UTC - ocean drift → architecture, composer: Australian pilot, INTERIM on chunk 0 (87 of 178 nodes; reach-limited)
+
+INTERIM, not evidence; half the pilot nodes (interleaved, all latitudes); domain ends at 120 E; GLORYS12 only; chunk 1 queued on the lock
+since 21:05 UTC.
+- **Change in ln L from the Australian term (pre-registered B, by remoteness), mean by band:** 37-42 S -7.3; 34-37 S -3.6; 31-34 S -2.2;
+  28-31 S -1.2; 25-28 S -0.7; 20-25 S -0.2. Options A / C / searcher give the same shape at 70 % / 50 % / 60 % of B's size. Split-half noise
+  of the change 0.47 (B).
+- **Why:** southern sources put 15-22 % of floating debris on WA coasts within the window (south-west WA city 2.8 %, outer 6.5 %, remote
+  6.3 %) against 4-7 % on the find coasts; north of 25 S under 0.5 %. B treats WA as watched from March 2014, when the find coasts' level was 0.1.
+- **Drift-only latitude (GLORYS12, uniform grid prior, change carried to 710 nodes by IDW):** median 30.7 S (off) -> 28.2 S (B), 28.7 (A),
+  29.2 (C); 2.5 % limit 39.5 -> 34.2 S.
+- **Check:** "off" reproduces the run A surface (correlation 1.00, SD 0.15, a constant -0.93 offset from the level-draw stream, which cancels).
+- **Reach caveat:** particles that leave the domain east of 120 E (to the Bight, Victoria, Tasmania) count as never found, so the southern
+  penalty is probably understated. **Composer: please do not compose this yet**; full pilot and the 160 E fields first.
+
+- Ocean drift
 ## 2026-10-12 22:50Z — end of flight → architecture: run-i-c2aim (level-off-only arm) DONE — C2-silent aim works; ln Z unchanged
 
 `end-of-flight/run-i-c2aim/next-i-waypoints/` READY (8 seeds, N = 16, binary ri2, C2-silent aim, corrected SLS thrust; other strata
