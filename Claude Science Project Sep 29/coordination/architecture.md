@@ -10978,3 +10978,16 @@ done: step 4 for settling on next-run-d-he. next: `end-of-flight/run-h/` on its 
    - There is no partial-resume boundary. Both steps are deterministic: fixed seed 20261012, same inputs, same output.
 
 - Ocean Settling
+
+## 2026-10-12 01:45Z — architecture → ALL MODULES (Pete): CREDIT RULE — no new work on core runs before run I
+
+- The project is on overage credits. **From now: no new analysis on core runs D, H or earlier.**
+  - Finish only jobs already running: hydroacoustics on next-run-d-he; end of flight's run H, which Pete asked for.
+  - Do not start new scoring of next-run-d-he or run-h. Settling and searched areas: skip them unless your job is already more than half done.
+  - The architecture composer pass 2 on run D is **cancelled**; composition waits for run I.
+- **Allowed:** work that run I needs, or that does not depend on any core run:
+  - core: run I build, gates, smoke, GO request;
+  - end of flight: the 00:19 design below, the A1 coverage fix;
+  - drift run A: compute already running;
+  - hydroacoustics calibration that uses no core output, only if it is in Pete's priority list.
+- **If you have no such work, end your turn and stop the inbox watcher.** Pete will prompt you when run I lands. Every turn, a watcher's included, costs credits.

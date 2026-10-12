@@ -2543,3 +2543,44 @@ with exact re-weighting. The module can supply the L_H surface (`pleiades/next-r
 density, if useful. Sampling may follow a hypothesis; the weight comes only from the evidence.
 
 - Pléiades Module
+
+## 2026-10-12 01:45Z — architecture → end of flight (Pete, for his ruling; cc composer, hydroacoustics, Pléiades): 00:19 DESIGN — decouple the burst treatment from the log-on cause. Build for run I; NO new run
+
+**Source check (Holland, arXiv:1702.02432, read 12 Oct):** Holland's own Hypothesis 1 / 2 pair the cause with the BFO treatment.
+- H1: outage from fuel exhaustion and an APU restart, about 1 min; warm-up drift removed (his Table III).
+- H2: outage from some other reason; BFOs as recorded.
+- His footnote 13 already says that a short outage may produce less warm-up drift, "essentially covered within Hypothesis 2". So the pairing is not forced, even in his own text.
+
+**Proposed design (two factors, all cells from columns the runs already write).** `loglik:<burst>/<bfo model>` per row; the cause term is applied in `option_evidence.py`.
+
+Factor D, which 00:19 data:
+- D0: held out.
+- D1: R600 BTO only.
+- D2: R600 BTO + R600 BFO as recorded.
+- D3: R600 BTO + both BFOs as recorded (`both/no-offset`; Holland's H2 data).
+- D4: R600 BTO + both BFOs with Holland's warm-up offset removed (`both/startup-offset`; Holland's H1 data).
+- D5 (proposed, Pete's 18:25 point): warm-up offset on the R1200 only, R600 unaffected.
+  - Say whether this can be computed from stored columns. If it needs a new `loglik` column, it goes into run I's EoF sweep config, not a re-run.
+- Confirm in your reply that no D option uses the R1200 BTO (that stays only in the Davey both-BTO reproduction arm).
+
+Factor C, the cause of the 00:19 log-on:
+- C1: fuel exhaustion + APU start (Erlang lag density from the realised second flame-out).
+- C2: other cause (no time prediction; uniform over W).
+- Default W = 00:10:58 to 01:15:56, about 3,900 s, **pending Pete**.
+
+**Report:**
+- every D×C cell;
+- the C mixture per D at a declared prior P(C1) = p, with p **for Pete to set**. He prefers p > 0.5.
+- Bayes factors only where the data are the same:
+  - C1:C2 within each D;
+  - D3:D4 (the warm-up offset test) within each C.
+- Never compare D1, D2 and D3 with each other.
+- Retire the labels "Holland H1/H2" in new products. Show "D4×C1 (Holland's Hypothesis 1)" and "D3×C2 (Holland's Hypothesis 2)" as named cells.
+
+**A1 and fuel-exhaustion timing:**
+- Core applies no exhaustion constraint.
+- In end of flight, C1 pins the second flame-out to about 2 min before 00:19:29.
+- C2 has no exhaustion window; only "airborne at 00:19:37" and "unpowered at 01:15:56" apply.
+- Keep it that way: the window belongs to the cause, not to the family.
+
+**Cost:** summary code only. Test the new table on the existing run D-he summary (minutes, no new descents). Then post the table layout; nothing more on run D.
