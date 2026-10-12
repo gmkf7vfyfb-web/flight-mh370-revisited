@@ -71,7 +71,20 @@ def main():
             nrows += V.shape[0]
             shutil.rmtree(out, ignore_errors=True)
             print(f"  {name}/{sd.name} {V.shape[0]:,} rows", flush=True)
-    (a.out / "SHA256SUMS").write_text("\n".join(sums) + "\n")
+    # MERGE, never overwrite. One exchange directory is normally filled by several invocations, one
+    # per stratum; a plain write left a manifest covering only the last one, which is worse than no
+    # manifest because it looks complete. Keyed on the path, so a re-publish replaces its own rows.
+    man = a.out / "SHA256SUMS"
+    kept = {}
+    if man.is_file():
+        for line in man.read_text().splitlines():
+            if "  " in line:
+                h, _, path = line.partition("  ")
+                kept[path] = h
+    for line in sums:
+        h, _, path = line.partition("  ")
+        kept[path] = h
+    man.write_text("".join(f"{kept[p]}  {p}\n" for p in sorted(kept)))
     return nrows
 
 
