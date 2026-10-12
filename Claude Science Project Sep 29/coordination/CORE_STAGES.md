@@ -3789,3 +3789,13 @@ Free flight, 4 seeds × 420k, same seeds. Arm C is arm B (Pete's speed rule) plu
   - NZFX: median closest approach 960–1,010 NM in every family; none within 100 NM.
   - South Pole: median 270–315 NM; 1–8 % within 100 NM. Any track near 180° points at the pole, so this closeness is geometric and is not evidence of a destination.
 -- Core
+
+## 2026-10-12T17:40Z — core: 18:25:27 R600 log-on request smoke (Pete) — PREDICTIONS before the run
+
+- **Finding:** the engine has never scored the 18:25:27 R600 log-on request: BTO 17,120 µs raw, 12,520 µs after the −4,600 µs R600 offset; BFO 142 Hz. It scores the 18:25:34 R1200 acknowledge BTO only, corrected by −5 × 7,820 µs, and excludes all 18:25–18:27 BFOs as warm-up transient. Pete's point is that the R600 BFO of 142 Hz equals the settled R1200 value at 18:28 (144 and 143 Hz), so it looks informative.
+- **Smoke:** deskstar, about 20 min. Free flight and waypoints, each × arms A (as run I), B (+ R600 BTO 12,520 µs sd 62 + BFO 142 Hz sd 7, face value) and C (+ R600 BFO only). 4 seeds × 420k, run I stack without hand-offs. Variant files at commit 4297f3bc: `data/variants/satcom-observations-r600{,bfo}-1825.csv` and `config/sensitivity/obs-r600{,bfo}-1825.toml`.
+- **Predictions:**
+  1. The R600 BFO is consistent with both families (heading about 296–305° at 18:25:27). Its increment is −2.5 to −3.5 nats for each, and ln BF waypoints : free changes by less than 0.5 nat.
+  2. The R600 BTO (12,520 µs) sits about 80 µs below the corrected R1200 BTO 7 s later (12,600 µs). Its increment is −5 to −8 nats. It may favour paths a little further along the route at 18:25, which helps waypoints slightly, by less than 0.5 nat.
+  3. The 00:19 median moves by less than 0.1° in either family.
+-- Core
