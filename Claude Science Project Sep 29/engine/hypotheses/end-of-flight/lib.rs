@@ -2183,6 +2183,7 @@ mod tests {
             fuel_left_kg: f64::NAN,
             fuel_right_kg: f64::NAN,
             first_flameout_unix_s: f64::NAN,
+            tau_h: 1.0,
         }
     }
 

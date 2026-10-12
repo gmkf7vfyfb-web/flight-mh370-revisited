@@ -537,6 +537,7 @@ fn flight_state(a: &Aircraft, p: &Parameters) -> FlightState {
         fuel_left_kg: if p.fuel.is_some() { a.tanks.map_or(f64::NAN, |t| t.left_kg) } else { f64::NAN },
         fuel_right_kg: if p.fuel.is_some() { a.tanks.map_or(f64::NAN, |t| t.right_kg) } else { f64::NAN },
         first_flameout_unix_s: a.tanks.map_or(a.fuel_exhausted_unix_s, |t| t.first_exhausted_unix_s()),
+        tau_h: a.tau_s / 3600.0,
     }
 }
 
@@ -882,7 +883,7 @@ mod tests {
             ground_velocity_east_mps: 100.0, ground_velocity_north_mps: -200.0, vertical_speed_mps: 0.0,
             mach: 0.8, true_air_speed_mps: 240.0, heading_deg: 200.0, wind_east_mps: 0.0, wind_north_mps: 0.0,
             mode: 2, mass_kg: 175_000.0, fuel_kg: 800.0, realised_flameout_unix_s: f64::NAN,
-            fuel_left_kg: f64::NAN, fuel_right_kg: f64::NAN, first_flameout_unix_s: f64::NAN,
+            fuel_left_kg: f64::NAN, fuel_right_kg: f64::NAN, first_flameout_unix_s: f64::NAN, tau_h: 1.0,
         }
     }
 
