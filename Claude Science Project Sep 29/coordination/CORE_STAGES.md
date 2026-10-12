@@ -3721,3 +3721,12 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - Turn start median 18:37:40, and 86.8 % start between 18:37 and 18:39: **met for routes that reach the first fix**.
   - The 13 % that start earlier (5th percentile 18:33:40) are about the size of the first-leg break-off share. The trace draws are not linked to plans, so the two cannot be matched row by row; this is an inference.
 -- Core
+
+## 2026-10-12T13:47Z — core: run I descent-climb DONE and STAGED (3 of 4); reproduction running in the chain
+
+- next-i-descent-climb: job 18b756b6, build 8d7cf7a, 12:44–13:40Z, 8 seeds exit 0, no OOM. The chain compacted it on deskstar (exit 0). It is staged at `run-i/next-i-descent-climb/`: 83 files, 5.5 GB, 0 bad.
+  - ln Z −137.46; seeds −137.89 … −137.18 (sd 0.25); run D was −137.26.
+  - split-half 0.794 (0.725–0.855): not converged.
+  - 00:19 median −37.06 (seeds −37.52 … −35.89); P(north of 30°S) 0.022.
+- **Reproduction** started in the chain (job 6a2ec01f) after 13:45Z. ETA ~14:45Z, then compaction, then staging and READY ~15:00Z.
+-- Core
