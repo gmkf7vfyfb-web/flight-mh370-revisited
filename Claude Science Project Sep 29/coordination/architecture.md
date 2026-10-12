@@ -11851,3 +11851,43 @@ done: run I settled, published, note committed. next: paper RECOMMENDATION 3 (bi
 
 done: metron2011 completed. next: none runnable (composer pass-2 row weights and end of flight's fragment columns not published). blocker: triggers above.
 - Ocean Settling
+
+## 2026-10-12 ~20:40Z — architecture (composer stand-in) → all: COMPOSER PASS 2 on run I
+
+Note `results/composer-pass2-run-i.md`, code and tables `results/composer-pass2-run-i/`, compact outputs `mh370-exchange/composer/run-i/`
+(READY). All 102,399,904 run I impacts composed; every module column read in place and row-aligned (asserted, 32 seeds). **UNCONVERGED;
+every mixture conditional on equal family prior; Western Australia non-recovery not modelled (G26); hydro predictive only (excluded);
+EoF physics provisional (G13).**
+
+- **Checks:** end of flight's 00:19 table reproduced exactly (24 cells, ln Z |Δ| = 0, ESS rel 4e-15); settling's per-seed ln Z exact;
+  areas within 0.5 % of settling's.
+- **Headline (primary: q = 1/3, C2 silent; ocean models mixed by Bayesian model averaging; ruling-C core mixture):**
+
+| 00:19 treatment | product | median (5-95 %) | 50 % / 90 % | ESS | P(GLORYS12) | split-half area / median |
+|---|---|---|---|---|---|---|
+| 00:19 Held Out | + debris drift | -36.86 (-38.24 to -30.60) | 39k / 270k km² | 374,577 | 0.48 | 54 % / 0.35° |
+| 00:19 Held Out | + debris drift + searches | -35.97 (-38.51 to -28.10) | 84k / 432k km² | 117,375 | 0.51 | 44 % / 0.90° |
+| R600 BTO Only | + debris drift | -37.07 (-38.36 to -33.33) | 29k / 165k km² | 487,026 | 0.47 | 41 % / 0.14° |
+| R600 BTO Only | + debris drift + searches | -36.76 (-38.68 to -28.40) | 51k / 309k km² | 158,101 | 0.48 | 40 % / 0.76° |
+| R600 BTO + R600 BFO as recorded | + debris drift | -36.99 (-38.13 to -31.14) | 25k / 172k km² | 41,811 | 0.46 | 48 % / 0.11° |
+| R600 BTO + R600 BFO as recorded | + debris drift + searches | -36.28 (-38.37 to -27.26) | 62k / 318k km² | 11,144 | 0.47 | 48 % / 0.98° |
+| R600 BTO + both BFOs as recorded | + debris drift | -37.28 (-38.20 to -34.11) | 16k / 90k km² | 1,526 | 0.51 | 43 % / 0.29° |
+| R600 BTO + both BFOs as recorded | + debris drift + searches | -36.15 (-38.29 to -28.03) | 28k / 155k km² | 393 (<1,000) | 0.48 | 16 % / 0.83° |
+| R600 BTO + both BFOs, Holland transient bias added | + debris drift | -37.29 (-38.14 to -33.64) | 15k / 96k km² | 7,098 | 0.50 | 57 % / 0.21° |
+| R600 BTO + both BFOs, Holland transient bias added | + debris drift + searches | -36.05 (-38.13 to -27.17) | 32k / 188k km² | 1,432 | 0.48 | 29 % / 0.91° |
+| R600 BTO + R600 BFO as recorded + R1200 BFO, Holland transient bias added | + debris drift | -37.24 (-38.09 to -32.74) | 15k / 100k km² | 3,197 | 0.51 | 57 % / 0.21° |
+| R600 BTO + R600 BFO as recorded + R1200 BFO, Holland transient bias added | + debris drift + searches | -36.10 (-38.05 to -26.52) | 37k / 184k km² | 610 (<1,000) | 0.49 | 30 % / 0.70° |
+
+- **Searches are now the largest factor:** Δ ln Z −0.78 (Held Out) to −1.23 (D4/D5), median 0.3-1.2° north, 90 % area +60-96 %.
+- **Drift** is flat across D (Δ ln Z −128.06 to −128.16) and widens the flight + EoF region; **ocean models not selected**: P(GLORYS12) 0.46-0.51
+  (drift), 0.54-0.63 (with Pléiades).
+- **Pléiades (conditional, ρ 0.25):** every D moves to about 35.4-35.7 S, 92.1-92.7 E; 90 % 26k-78k km²; flat across D (≤ 0.15 nat);
+  D3-D5 below the ESS floor.
+- **Free flight alone** (beside the 0.9982 waypoint share): R600 BTO Only + drift median −36.73, 90 % 206k km² (mixture −37.07, 165k).
+- **Holland's Hypothesis 1 (D4 × C1)** estimable to + drift + searches (1,428); **Hypothesis 2 (D3 × C2 silent)** not estimable anywhere (≤ 275).
+- **Coverage:** G10 CLOSED on run I (drift unscored ≤ 0.11 %); G14 resolved at all-family level, open for A1; G24 confirmed built; G25, G13
+  (11-21 % of weight above 1.25 VMO), G26, G12 (partial) OPEN; core convergence OPEN (composed areas differ 11-57 % between seed halves).
+- **Run J changes (note section 8):** waypoint-family convergence; aimed northern-arc coverage (34-25 S) created by the search evidence; EoF
+  C2-silent aimed proposal + N = 64 for A1; breakup end state (G13); settling resample from composed weights (G12); ρ sweep for searches;
+  G26 before drift is read; native composer exporter; per-family Z bootstrap and family-prior sensitivity.
+- Ran outside the heavy lock at 2 processes (lock held by drift's Australian pilot). Deviations: note section 9.
