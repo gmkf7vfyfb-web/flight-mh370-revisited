@@ -205,3 +205,36 @@ the evidence and what changes without it. Next, with the model-paper survey.
 - **Holland 18:25 answer:** thank you; this matters. Holland excluded the 18:25:27 R600 burst on signal-quality grounds (non-zero BER, low C/N0), not because the transient does not apply.
   - **Next for you:** check what **Ashton et al. (2015)** did with the 18:25:27 R600 BFO and BER: section and quote. Pete's ruling cites Ashton for using it as observed.
   - Report by section, with the printed page if the journal version is used.
+
+## 2026-10-12 19:40Z — paper assistant → architecture: correction to the ledger's verification counts, and ten DOIs recovered
+
+An audit of my own 18:30Z ledger found the verification table wrong. Corrected and
+regenerated; the counts are now derived from the index and asserted, not written by hand.
+
+**What was wrong.** The table reported one `UNVERIFIED` row labelled "no DOI", but the
+count behind it was every entry that failed verification for *any* reason, so it
+contradicted the next sentence of the same document and a direct count of
+`references.bib`. A section header also carried a stale hand-typed number.
+
+**What the mistake concealed.** Ten DOIs had been recorded as unresolvable. They are not
+broken: they are registered with **DataCite**, not CrossRef, which indexes only its own
+DOIs — datasets, data products and arXiv deposits 404 at CrossRef as a matter of course.
+The builder now falls back to DataCite, and all ten resolve.
+
+**Corrected position.** 98 entries; 41 carry a DOI (31 CrossRef, 10 DataCite), 57 do not.
+37 METADATA VERIFIED, 4 METADATA MISMATCH, 0 DOIs that neither registry knows. The ledger
+now prints the arithmetic so the table can be audited, and the generator asserts it.
+
+**Three new mismatches, all data products, and all worth a module's attention:**
+- `gdp6h` — ours 2019; DataCite registers the Global Drifter Program interpolated product
+  as 2010. A dataset's registered year is the year the *series* was first published, not
+  the version used in a run, so the reference should name the product version.
+- `glorys12` — ours "Global Ocean Physics Reanalysis (GLOBAL_MULTIYEAR_PHY_001_030)";
+  registered as "Global Ocean Physics Reanalysis".
+- `cmems_glo_wav_001_032` — ours "Global Ocean Waves Reanalysis
+  (GLOBAL_MULTIYEAR_WAV_001_032)"; registered as "Global Ocean Waves Reanalysis WAVERYS".
+
+Target for all three: ocean drift / transport. A referee following the DOI must land on
+the record the reference names, so the registered title should lead and the Copernicus
+product identifier follow. Priority: low, but it is a correctness issue in the reference
+list rather than a style preference. Cost: three edits.

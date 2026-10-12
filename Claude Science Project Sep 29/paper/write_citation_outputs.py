@@ -38,6 +38,13 @@ def detex(s):
         acc, ch = m.group(1), m.group(2)
         comb = ACCENT.get(acc)
         return U.normalize("NFC", ch + comb) if comb else ch
+    # Named commands first: the single-character accent rule below would otherwise
+    # read the 'c' of \circ as a cedilla and corrupt the rest of the word.
+    for a, b in (("\\circ", "\u00b0"), ("\\degree", "\u00b0"), ("\\deg", "\u00b0"),
+                 ("\\times", "\u00d7"), ("\\pm", "\u00b1"), ("\\mu", "\u03bc"),
+                 ("\\sigma", "\u03c3"), ("\\textdegree", "\u00b0")):
+        s = s.replace(a + "{}", b).replace(a + " ", b).replace(a, b)
+    s = re.sub(r"\$\s*\^?\s*(\S*?)\s*\$", r"\1", s)   # strip bare math mode
     s = re.sub(r"\\([\'`\"^~=cv])\s*\{?([A-Za-z])\}?", rep, s)
     for a, b in (("\\ss", "\u00df"), ("\\o", "\u00f8"), ("\\aa", "\u00e5"),
                  ("\\ae", "\u00e6"), ("\\&", "&"), ("\\%", "%"), ("\\_", "_")):
@@ -241,19 +248,40 @@ w("No entry graded **unofficial** is present in the module bibliographies. That 
 w("")
 w("## 3. Verification status")
 w("")
+N_DOI = sum(1 for e in entries if (e.get("doi") or "").strip())
+N_NODOI = len(entries) - N_DOI
+N_NOTFOUND = v_counts.get("UNVERIFIED, DOI NOT FOUND", 0)
+N_VER = v_counts.get("METADATA VERIFIED", 0)
+N_MIS = v_counts.get("METADATA MISMATCH", 0)
+AG = collections.Counter((e.get("_crossref") or {}).get("agency")
+                         for e in entries
+                         if (e.get("_crossref") or {}).get("status") == "resolved")
+w(f"Of **{len(entries)}** entries, **{N_DOI}** carry a DOI and **{N_NODOI}** do not. "
+  f"Every DOI was looked up at CrossRef and, on a 404 there, at DataCite — "
+  f"{AG.get('CrossRef', 0)} are registered with CrossRef and {AG.get('DataCite', 0)} "
+  "with DataCite (datasets, data products and arXiv deposits are DataCite's, and 404 "
+  "at CrossRef without being broken).")
+w("")
 w("| Status | Entries | Meaning |")
 w("|---|---|---|")
-w(f"| METADATA VERIFIED | {v_counts.get('METADATA VERIFIED', 0)} | DOI resolves at "
-  "CrossRef and the registered title and year agree with ours |")
-w(f"| METADATA MISMATCH | {v_counts.get('METADATA MISMATCH', 0)} | DOI resolves but a "
-  "field disagrees — listed in §4 |")
-w(f"| UNVERIFIED | {v_counts.get('UNVERIFIED', 0)} | no DOI in the project's own entry, "
-  "so nothing could be checked automatically |")
+w(f"| METADATA VERIFIED | {N_VER} | the DOI resolves and the registered title and year "
+  "agree with ours |")
+w(f"| METADATA MISMATCH | {N_MIS} | the DOI resolves but a field disagrees — listed in §4 |")
+w(f"| UNVERIFIED, no DOI | {N_NODOI} | the entry carries no DOI, so there was nothing "
+  "to check automatically |")
+w(f"| UNVERIFIED, DOI not found | {N_NOTFOUND} | a DOI is recorded but neither registry "
+  "knows it — these need attention, listed in §4.5 |")
+w(f"| **total** | **{N_VER + N_MIS + N_NODOI + N_NOTFOUND}** | |")
 w("")
-w(f"Of {len(entries)} entries, {summary['with_doi']} carry a DOI. **None is yet "
-  "VERIFIED against the source document** in the brief's strongest sense — that "
-  "requires opening the work and checking the claim it is cited for, which happens "
-  "claim by claim as the draft is written, not in bulk.")
+w(f"Arithmetic check, so the table can be audited: {N_DOI} with a DOI "
+  f"= {N_VER} verified + {N_MIS} mismatched + {N_NOTFOUND} not found; "
+  f"{N_VER} + {N_MIS} + {N_NOTFOUND} + {N_NODOI} without a DOI = {len(entries)}.")
+assert N_VER + N_MIS + N_NOTFOUND == N_DOI, (N_VER, N_MIS, N_NOTFOUND, N_DOI)
+assert N_VER + N_MIS + N_NOTFOUND + N_NODOI == len(entries)
+w("")
+w("**None is yet VERIFIED against the source document** in the brief's strongest sense "
+  "— that requires opening the work and checking the claim it is cited for, which "
+  "happens claim by claim as the draft is written, not in bulk.")
 w("")
 w(f"Legitimate held copies located on this machine: {summary['entries_with_local_copy']} "
   f"candidate matches, of which {summary['entries_with_confident_copy']} are confident. "
@@ -284,28 +312,54 @@ w("**No change needed.** This includes `ashton2015` — Ashton et al. in *The Jo
   "that is what we will use. Worth stating once in the ledger so that nobody "
   "'corrects' it later.")
 w("")
-w("### 4.2 One genuine year question")
+mis = [e for e in entries if e["_verify"].startswith("METADATA MISMATCH")]
+mis_year = [e for e in mis if "year ours" in e["_verify"]]
+mis_title = [e for e in mis if e not in mis_year]
+
+w(f"### 4.2 {len(mis)} genuine mismatches against the registry")
 w("")
-for e in entries:
-    if e["_verify"].startswith("METADATA MISMATCH"):
+if mis_year:
+    w(f"**Year ({len(mis_year)}).** The registered title agrees, the year does not:")
+    w("")
+    for e in mis_year:
         cr = e.get("_crossref") or {}
-        w(f"- **`{e['_keys'][0]}`** — {clean(e.get('author'))}, "
-          f"*{clean(e.get('title'))}*. Our entry says {clean(e.get('year'))}; "
-          f"CrossRef records the printed issue as {cr.get('year_print') or '-'} "
-          f"in {clean(cr.get('container', ''))}"
+        venue = clean(cr.get("container") or cr.get("publisher") or "")
+        w(f"- **`{e['_keys'][0]}`** — {clean(e.get('author'))[:60]}, "
+          f"*{clean(e.get('title'))[:70]}*. Ours: {clean(e.get('year')) or 'none'}; "
+          f"{cr.get('agency', 'the registry')} records "
+          f"{cr.get('year_print') or cr.get('year') or '-'}"
+          + (f" in {venue}" if venue else "")
           + (f" {cr.get('volume')}" if cr.get("volume") else "")
           + (f", {cr.get('pages')}" if cr.get("pages") else "") + ".")
+    w("")
+    w("  **Recommendation:** take the year from the registry record of the version we "
+      "actually cite, and keep this note so the choice stays visible. Pete's call on "
+      "each. Note that a dataset's registered publication year is the year the *series* "
+      "was first published, which is not the year of the product version used in a run "
+      "— so for data products the run's own configuration is the better authority and "
+      "the reference should name the version, not just the year.")
+    w("")
+if mis_title:
+    w(f"**Title ({len(mis_title)}).** The DOI resolves, but to a differently titled "
+      "record — in each case a data product cited under a working name rather than its "
+      "registered title:")
+    w("")
+    for e in mis_title:
+        cr = e.get("_crossref") or {}
+        w(f"- **`{e['_keys'][0]}`** — ours: *{clean(e.get('title'))[:62]}*; "
+          f"registered as *{clean(cr.get('title'))[:72]}* "
+          f"({clean(cr.get('publisher'))}, {cr.get('year') or '-'}).")
+    w("")
+    w("  **Recommendation:** cite the registered title, and give the working name only "
+      "if the paper needs it for continuity with the figures. A referee checking the "
+      "DOI must land on the thing the reference names.")
 w("")
-w("  This paper is cited in the literature under both years. **Recommendation:** use "
-  "the printed-issue year from the publisher's own record, and keep this note so the "
-  "choice is visible. Pete's call.")
+w(f"### 4.3 The {N_NODOI} entries with no DOI")
 w("")
-w("### 4.3 Sixty-five entries with no DOI")
-w("")
-w("These are mostly agency reports and data products, where a DOI often does not "
-  "exist. They are not suspect — but under JON's website/dataset format each needs a "
-  "**URL and an access date**, and the access date is recorded for almost none of "
-  "them. Entries missing both a DOI and a URL cannot be formatted in JON style at all:")
+w("These are mostly agency reports, where a DOI often does not exist. They are not "
+  "suspect — but under JON's website/dataset format each needs a **URL and an access "
+  "date**, and the access date is recorded for almost none of them. Entries missing "
+  "both a DOI and a URL cannot be formatted in JON style at all:")
 w("")
 missing = [e for e in entries if not clean(e.get("doi")) and not clean(e.get("url"))]
 w(f"**{len(missing)} entries have neither a DOI nor a URL:**")
@@ -317,6 +371,19 @@ w("Each needs a locator before submission. For agency reports the report number 
   "the issuing body is usually enough for a Harvard entry, and most of these have one; "
   "the gap is a retrievable URL for the reader.")
 w("")
+notfound = [e for e in entries if e["_verify"].startswith("UNVERIFIED, DOI NOT FOUND")]
+if notfound:
+    w(f"### 4.5 {len(notfound)} recorded DOIs that neither registry knows")
+    w("")
+    w("A DOI that 404s at **both** CrossRef and DataCite is either mistyped, or belongs "
+      "to a third registration agency, or was never registered. Each must be opened by "
+      "hand before submission; a dead DOI in a reference list is worse than none, "
+      "because JON hyperlinks the reference end-list.")
+    w("")
+    for e in sorted(notfound, key=lambda x: x["_keys"][0]):
+        w(f"- `{e['_keys'][0]}` — `{clean(e.get('doi'))}` — {clean(e.get('title'))[:80]}")
+    w("")
+
 w("### 4.4 Entries that cannot yet be formatted completely")
 w("")
 truncated = [e for e in entries if re.search(r"\band others\b|\bet al\b",

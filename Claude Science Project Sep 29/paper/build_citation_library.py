@@ -302,6 +302,29 @@ except Exception:
     MAILTO = None
 UA = "MH370-paper-citation-audit/1.0" + (f" (mailto:{MAILTO})" if MAILTO else "")
 
+def datacite(doi):
+    """CrossRef indexes only CrossRef-registered DOIs. Datasets, data products and
+    arXiv deposits are registered with DataCite, and 404 at CrossRef without being
+    broken. Ask the right registry before calling a DOI unverified."""
+    url = "https://api.datacite.org/dois/" + urllib.parse.quote(doi, safe="")
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": UA,
+                                                   "Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=25) as r:
+            a = json.load(r)["data"]["attributes"]
+        return {"status": "resolved", "agency": "DataCite",
+                "title": (a.get("titles") or [{}])[0].get("title", ""),
+                "year": str(a.get("publicationYear") or ""),
+                "year_print": "", "year_online": "",
+                "volume": "", "issue": "", "pages": "",
+                "container": "", "publisher": a.get("publisher", ""),
+                "type": (a.get("types") or {}).get("resourceTypeGeneral", ""),
+                "n_authors": len(a.get("creators", []) or [])}
+    except urllib.error.HTTPError as ex:
+        return {"status": f"http {ex.code}", "agency": "DataCite"}
+    except Exception as ex:
+        return {"status": f"error: {type(ex).__name__}", "agency": "DataCite"}
+
 def crossref(doi):
     if doi in cache:
         return cache[doi]
@@ -330,10 +353,12 @@ def crossref(doi):
             "publisher": msg.get("publisher", ""),
             "n_authors": len(msg.get("author", []) or []),
         }
+        rec["agency"] = "CrossRef"
     except urllib.error.HTTPError as ex:
-        rec = {"status": f"http {ex.code}"}
+        rec = datacite(doi) if ex.code == 404 else {"status": f"http {ex.code}",
+                                                    "agency": "CrossRef"}
     except Exception as ex:
-        rec = {"status": f"error: {type(ex).__name__}"}
+        rec = {"status": f"error: {type(ex).__name__}", "agency": "CrossRef"}
     cache[doi] = rec
     time.sleep(0.12)
     return rec
@@ -341,13 +366,15 @@ def crossref(doi):
 for e in entries:
     d = norm_doi(e.get("doi", ""))
     if not d:
-        e["_verify"] = "UNVERIFIED (no DOI in the project's own entry)"
+        e["_verify"] = "UNVERIFIED, NO DOI (nothing to check automatically)"
         e["_crossref"] = {}
         continue
     cr = crossref(d)
     e["_crossref"] = cr
+    ag = cr.get("agency", "registry")
     if cr.get("status") != "resolved":
-        e["_verify"] = f"UNVERIFIED (DOI did not resolve: {cr.get('status')})"
+        e["_verify"] = ("UNVERIFIED, DOI NOT FOUND (absent from both CrossRef and "
+                        f"DataCite: {cr.get('status')})")
         continue
     t_ours, t_cr = norm_title(e.get("title", "")), norm_title(cr.get("title", ""))
     ours_toks = set(t_ours.split())
@@ -355,20 +382,22 @@ for e in entries:
     overlap = len(ours_toks & cr_toks) / max(len(ours_toks), 1)
     y_ok = (e.get("year") or "").strip() == cr.get("year", "")
     if overlap >= 0.7 and y_ok:
-        e["_verify"] = "METADATA VERIFIED (CrossRef: title and year agree)"
+        e["_verify"] = f"METADATA VERIFIED ({ag}: title and year agree)"
     elif overlap >= 0.7:
         ours_y = (e.get("year") or "").strip()
         if ours_y and ours_y == cr.get("year_print"):
-            e["_verify"] = ("METADATA VERIFIED (CrossRef: title agrees; our year is the "
-                            f"printed-issue year {cr['year_print']}, CrossRef's "
+            e["_verify"] = (f"METADATA VERIFIED ({ag}: title agrees; our year is the "
+                            f"printed-issue year {cr['year_print']}, the registry's "
                             f"earliest-issued year is the online-first year "
                             f"{cr.get('year_online') or cr.get('year')})")
         else:
-            e["_verify"] = (f"METADATA MISMATCH (year: ours {ours_y}; CrossRef issued "
-                            f"{cr.get('year')}, print {cr.get('year_print') or '-'}, "
-                            f"online {cr.get('year_online') or '-'})")
+            e["_verify"] = (f"METADATA MISMATCH ({ag}: title agrees; year ours {ours_y}, "
+                            f"registry issued {cr.get('year')}, print "
+                            f"{cr.get('year_print') or '-'}, online "
+                            f"{cr.get('year_online') or '-'})")
     else:
-        e["_verify"] = (f"METADATA MISMATCH (CrossRef title: {cr.get('title','')[:80]})")
+        e["_verify"] = (f"METADATA MISMATCH ({ag}: registered title is "
+                        f"{cr.get('title','')[:80]!r})")
 
 json.dump(cache, open(CACHE, "w"), indent=1)
 
