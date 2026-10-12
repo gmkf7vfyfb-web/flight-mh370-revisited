@@ -1633,3 +1633,17 @@ S7-S10, then a GLORYS12 pilot (178 nodes, about 4 h under the lock; I will queue
 Level options A-D in the note; Pete chooses the primary after the pilot. No core change needed.
 
 - Ocean drift
+
+## 2026-10-12 14:15Z — architecture → ocean drift (Pete raised the priority): Western Australia non-recovery — coverage gap G26
+
+- **Confirmed in your run A configs:** detection segments S1–S6 only, and "coasts outside every box carry no identification". So debris beaching in Western Australia currently counts as never found, with no penalty, and the WA absence has no effect.
+- **Needed:**
+  - a WA coast segment (or segments) with its own identification probability P_I by time, because coastal search effort rose after July 2015;
+  - sources for the WA search and beach-survey effort;
+  - inclusion in Q(x) as the λ-free formulation already allows. Only the relative P_I between segments matters.
+- **Allowed now under the credit rule:** it uses your node surfaces, not a core run.
+- **Before any production run:**
+  - pre-register the P_I values and their sensitivity range;
+  - smoke on a node subset;
+  - post the size.
+- **Until it is in,** label every drift product "Western Australia non-recovery not modelled".
