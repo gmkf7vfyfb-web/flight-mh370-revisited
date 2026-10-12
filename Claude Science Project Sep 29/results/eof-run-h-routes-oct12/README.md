@@ -46,8 +46,9 @@ the other latitudes are end-of-flight impact latitudes under the named 00:19 opt
 
 Readings:
 1. Impact latitude medians per route under Held Out are -38.0 to -38.2 (pooled -38.17); under R600 BTO Only -38.3 to -38.4
-   (pooled -38.36). They are about 0.8-1.2 deg south of the same options in the free-flight H1/H2 sweep (Held Out -37.39,
-   R600 BTO Only -37.93) and about 1 deg south of core's own 00:19 medians (-37.2 to -37.4).
+   (pooled -38.36). Against the same options in the free-flight H1/H2 sweep (Held Out -37.39, R600 BTO Only -37.93) they are
+   south by 0.6-0.8 deg under Held Out (pooled 0.78) and by 0.3-0.5 deg under R600 BTO Only (pooled 0.43). (Core's own 00:19
+   medians, -37.2 to -37.4, are 00:19 positions, not impact points, and are not differenced here.)
 2. Families do not depend on the route (A1 0.12-0.14, A2 0.33-0.35, B 0.51-0.55 under Held Out).
 3. The route shares hardly move from core's 00:11 shares (MEKAR-SAMAK-ISBIX 0.84-0.86 against core's 0.856).
 

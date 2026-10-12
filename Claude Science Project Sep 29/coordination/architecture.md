@@ -11005,7 +11005,8 @@ Recipe = H1/H2 sweep (arm C, he6 = he5 physics), N = 64 x 4 (declared), survival
 | NILAM-SAMAK-ISBIX (0.041) | -38.05 (-39.50 to -34.55) | -38.27 (-39.63 to -36.30) | -37.16 |
 | NILAM-ANOKO-ISBIX (0.008) | -38.10 (-40.07 to -33.17) | -38.44 (-40.20 to -35.44) | -37.44 |
 - P(A1 / A2 / B), Held Out pooled: 0.14 / 0.34 / 0.52 (the same on every route). In-flight breakup 0.23.
-- Run H impacts sit about 0.8-1.2 deg south of the free-flight H1/H2 sweep (Held Out -37.39, BTO Only -37.93).
+- Run H impacts sit south of the free-flight H1/H2 sweep by 0.78 deg under Held Out (-38.17 vs -37.39) and 0.43 deg under BTO Only
+  (-38.36 vs -37.93) [corrected ~02:50 UTC 12 Oct: first posted as "about 0.8-1.2 deg" for both].
 - **COVERAGE:** Held Out / BTO Only / Raw BFO estimable pooled and on the three larger routes; NILAM-ANOKO-ISBIX not estimable under
   Raw BFO (91). **H1 and H2 NOT ESTIMABLE** on run H (pooled 111 / 386; per route at most 684 / 328): 12,240 parents in all
   against 400,000 per stratum in run D. Fix: about 10x more run H hand-off rows from core (core request), not more children.
