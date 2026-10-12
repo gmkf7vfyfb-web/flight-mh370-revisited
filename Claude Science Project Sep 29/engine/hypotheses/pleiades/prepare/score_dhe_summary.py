@@ -24,6 +24,7 @@ from scipy.special import logsumexp
 HERE = Path(__file__).resolve().parent
 EOF_SMOKE = HERE.parents[1] / "end-of-flight" / "smoke"
 sys.path.insert(0, str(EOF_SMOKE))
+sys.path.append(str(HERE))
 from compact_impacts import load, family_labels  # noqa: E402
 from displacement_hist import derived_logliks, constraint_log_factor  # noqa: E402
 from smoke_compare import CORE  # noqa: E402
@@ -32,6 +33,7 @@ from scipy.special import gammaln  # noqa: E402
 NM = 1.852
 FAMS = ((1, "A1"), (2, "A2"), (3, "B"))
 SETTINGS = ("none (without H)", "as-run", "gcrel-0.25", "g12-0.25")
+NLAT, NLON = 800, 740; NCELL = NLAT * NLON
 
 
 def reader(pl_root):
@@ -53,6 +55,7 @@ def seed_rows(sd, plsd, R):
     pb19 = np.clip(g("latent:inflight_p_breakup_to_m0019b"), 0, 1)
     lat, lon = g("latitude_deg"), g("longitude_deg")
     col = np.load(Path(plsd) / "pleiades-lnL.npy", mmap_mode="r")
+    cell = np.asarray(col["cell"]); inside = cell != 0xFFFFFFFF
     assert len(col) == len(w), (sd, len(col), len(w))
     LH = {"none (without H)": np.zeros(len(w)), "as-run": np.asarray(col["lnL_both_mean"], float),
           "gcrel-0.25": R.load_rho(plsd, 0.25, "mean", "-gcrel"), "g12-0.25": R.load_rho(plsd, 0.25, 0)}
@@ -68,6 +71,8 @@ def seed_rows(sd, plsd, R):
                 s = float(a[np.isfinite(a)].max()); m = np.exp(a - s); m[~np.isfinite(a)] = 0.0
                 t = dict(s=s, S=m.sum(), S2=(m * m).sum(), lat=(m * lat).sum(), lon=(m * lon).sum(),
                          fam={n: [(m * (f4 == c)).sum(), ((m * (f4 == c)) ** 2).sum()] for c, n in FAMS})
+                if st == SETTINGS[0]:   # flight-only mass per wide-grid cell, for the tension (before search)
+                    t["hist"] = np.bincount(cell[inside].astype(np.int64), weights=m[inside], minlength=NCELL)
                 out[(name, ver, st)] = t
     return out
 
@@ -97,6 +102,26 @@ def main(eof_root, pl_root, outp):
             fam[n] = dict(share=float(a1 / S), eff_impacts=float(a1 * a1 / a2) if a2 > 0 else 0.0)
         r["families"] = fam
         res["options"].setdefault(name, {}).setdefault(ver, {})[stg] = r
+    # tension of H against the flight PDF of each option (the module's measure, rerun_reference.tension), wide grid, before search
+    import branch_eof289 as b
+    from rerun_reference import tension
+    from headline_splithalf import rho_L
+    surf = Path(pl_root) / "surfaces"
+    mp, models, P, Cm = b.load_fields(surf)
+    assert (int(mp["nlat"]), int(mp["nlon"])) == (NLAT, NLON)
+    glat = mp["lat0"] + b.STEP * np.arange(NLAT); glon = mp["lon0"] + b.STEP * np.arange(NLON)
+    area = b.area_km2(np.meshgrid(glat, glon, indexing="ij")[0]); z = np.zeros_like(area, dtype=bool)
+    Lg = {"as-run": np.nan_to_num(b.build_branch(models, P, Cm)["P+C4"]["both models"]),
+          "gcrel-0.25": rho_L(surf, 0.25, "mean", "-gcrel"), "g12-0.25": rho_L(surf, 0.25, 0, "")}
+    for (name, ver, stg), L in acc.items():
+        if stg != SETTINGS[0]:
+            continue
+        ls = [c + t["s"] for c, t in L]; M = max(ls)
+        pc = sum(math.exp(x - M) * t["hist"] for x, (c, t) in zip(ls, L)).reshape(NLAT, NLON)
+        pc = pc / pc.sum()
+        for k, Lk in Lg.items():
+            tt = tension(pc, Lk, area, glat, glon, z, z, z)
+            res["options"][name][ver][k].update({kk: float(tt[kk]) for kk in ("ln_S", "tension_p", "d_shared", "mean_shift_nm", "uncond_in_cond_hdr90", "cond_hdr90_km2", "uncond_hdr90_km2")})
     for name, d in res["options"].items():
         for ver, e in d.items():
             z0 = e["none (without H)"]
@@ -114,4 +139,5 @@ if __name__ == "__main__":
         for stg, r in d["primary"].items():
             print(f"{name:26s} {stg:17s} lnZ {r['ln_Z']:9.3f} lnE[L_H] {r['ln_mean_LH_under_option']:7.3f} ESS {r['eff_impacts']:12.0f} "
                   f"mean {r['mean_lat']:.2f} {r['mean_lon']:.2f} shift {r['mean_shift_nm_from_without_H']:5.0f} NM  "
-                  + " ".join(f"{n} {v['share']:.2f}/{v['eff_impacts']:.0f}" for n, v in r["families"].items()))
+                  + " ".join(f"{n} {v['share']:.2f}/{v['eff_impacts']:.0f}" for n, v in r["families"].items())
+                  + (f"  lnS {r['ln_S']:+.2f} p {r['tension_p']:.2f} shiftT {r['mean_shift_nm']:.0f} uncin90 {r['uncond_in_cond_hdr90']:.2f}" if "ln_S" in r else ""))

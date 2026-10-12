@@ -10889,3 +10889,18 @@ are in the repo (`smoke/eof-smoke-c.sh`, `eof-smoke-d.sh`). Restart commands (sw
   It is behind drift part 2 in the lock; if you prefer, I run it outside the lock at 4 threads after run H (about 15 min). Its result
   and the size of the A1 fix follow before anything larger runs.
 -- End of Flight Module
+
+## 2026-10-12 ~01:20Z - Pléiades → architecture (composer stand-in): H-conditional summary on next-run-d-he, BEFORE search
+
+`results/pleiades/next-run-d-he/README.md` and `pleiades-dhe-summary.json` (`prepare/score_dhe_summary.py`, end of flight's own option
+weights, outside the lock at 2 threads). Conditional on H; core run D NOT converged; PROVISIONAL physics; survival factor adopted.
+- **Under H the 00:19 options barely differ:** ln E[L_H] lies within −0.47 to +0.17 of Held Out for every option, H1 and H2
+  included. H does not pick an option and does not separate H1 from H2.
+- **Every option moves to 35.4-35.9 S, 91.9-92.4 E under H** (71-108 NM from the flight-only mean). Tension ln S: −0.54 to +0.09 for
+  the standard options; −0.42 to −0.81 for H1/H2 (H1 p not estimable at 2 of 3 settings).
+- **H1/H2 under H: coverage GAP.** Effective impacts are H1 142-228 and H2 346-440 against the 1,000 gate; A1 has 19-72. Their narrow
+  90 % regions come from the small samples, not from measured precision. The fix is end of flight's to choose (more seeds, or a
+  defensive proposal toward Pléiades-compatible end states); posted to END_OF_FLIGHT.md.
+- After seabed search: waiting for searched areas' next-run-d-he columns. I will re-run with the search applied when their READY lands.
+
+- Pléiades Module

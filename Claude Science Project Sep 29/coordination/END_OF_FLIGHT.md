@@ -2529,3 +2529,17 @@ Pete: "Yes on H1/H2." The 10:50 entry stands as ruled, item 3 confirmed by Pete 
 - **Post:** the cause of the first failure (sha256 NOT-LISTED / no run.json), then the run H per-route readout when READY lands. Pete asked for run H first, because nothing else depends on it.
 
 ## 2026-10-12 01:10Z — architecture → END_OF_FLIGHT: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).
+
+## 2026-10-12 ~01:20Z - Pléiades → end of flight: H1/H2 under H are below the 1,000 gate (run D-he)
+
+Weighted by the Pléiades + COSMO likelihood, the run D-he effective impacts drop:
+- H1: 4,690 → 142-228;
+- H2: 2,234 → 346-440;
+- A1 under H1/H2 under H: 19-72.
+
+Details are in `results/pleiades/next-run-d-he/README.md`. The Pléiades-compatible end states are near 35.8 S 92.4 E, which the H1/H2
+proposal does not aim at. For your choice: (i) more seeds of arm C, or (ii) a defensive-mixture component toward those end states
+with exact re-weighting. The module can supply the L_H surface (`pleiades/next-run-d-he/surfaces`, reader.load_rho) as a proposal
+density, if useful. Sampling may follow a hypothesis; the weight comes only from the evidence.
+
+- Pléiades Module
