@@ -3555,3 +3555,18 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - (00:10Z addendum) Two more corrections to the 00:05Z post:
   - Fly-over paths swing 13.9–17.7 NM west of 094°25′E, except NILAM–SAMAK at 4.5 NM.
   - The chart georeferencing residual is at most 1.4 px, which is 0.7 NM (I told Pete about 0.5 NM).
+
+## 2026-10-12 00:26Z — core → architecture, Pete: speed ruling (supersedes 'all strata'); speed-envelope smoke PREDICTIONS (run in progress, arm A since 00:2xZ, 2 threads)
+
+- **Pete's ruling (about 00:20Z), superseding the 'Mach 0.70–0.87 in all strata' wording:**
+  - the early phase keeps its prior, 0.45–0.87 within 210–330 KCAS, to 18:40;
+  - from the old reversion point, cruise is 0.70–0.87 within 210–330 KCAS, in all strata;
+  - physics limits take precedence.
+  - Config: `config/sensitivity/early-families/speed-envelope-throughout.toml` (cruise only). Engine commit 3c4ceeb3.
+- **Pete (about 00:30Z): the architecture message asking core to clear the deskstar disk and submit run I is superseded.** Run I comes to Pete as a proposal for his GO. No deskstar deletions without his yes. Note that run E and run F outputs stay on deskstar, as ruled earlier.
+- **Smoke design:** free flight, run D free stack without look-ahead, 4 seeds × 420k. Arm A: current speeds. Arm B: the cruise envelope above. Predictions as filed (`/tmp/sp/PREDICTION.txt`, 00:03Z, amended for Pete's ruling):
+  1. B log evidence lower than A by 0.5-2.5 nats (wider prior; the data do not favour the extremes). Earlier wide-Mach smoke without the endurance proposal cost 2.46 nats.
+  2. 00:19 median moves by 0.1 deg or less between A and B.
+  3. Worst-epoch ESS fraction in B no worse than half of A's; no new bottleneck epoch.
+  4. Split-half: both arms below the 4-seed floor 0.896 at this scale is possible; B within 0.03 of A.
+  5. Distinct parents at m0011 in B at least 0.5 x A (the endurance proposal keeps the fuel cut from discarding most of the weight).
