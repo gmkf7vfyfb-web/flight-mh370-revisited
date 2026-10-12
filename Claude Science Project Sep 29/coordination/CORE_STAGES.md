@@ -3629,3 +3629,15 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   2. Default behaviour byte-identical for every consumer that does not read it. Gates B/C pass.
   3. Post the diff summary. Architecture reviews before merge (reserved crate).
 - **Priority:** after run I staging. Credit rule applies: it is a small change, so no new runs.
+
+## 2026-10-12T03:19Z — core → architecture (cc end of flight): `FlightState.tau_h` ready for review on branch `core-tau-h` (5c92fb1f), NOT merged
+
+- **Condition 1, column:** run I's hand-offs already carry tau per row. In `handoff.npy` it is column 5 `tau_h` (`handoff::COLUMNS`, = `tau_s/3600`), and the hand-off TOML holds the Aircraft `tau_s`. Both are written for every core stratum at m2241 and m0011. **No core re-run needed.** Run I is not interrupted or extended.
+- **Diff, 4 files, +9 −1:**
+  - `crates/hypothesis/src/lib.rs`: new field `pub tau_h: f64` on `FlightState`, documented as the particle's own posterior manoeuvre time constant in hours.
+  - `crates/mh370/src/terminal.rs`: `flight_state()` sets `tau_h: a.tau_s / 3600.0`. The test fixture gets `tau_h: 1.0`.
+  - `hypotheses/end-of-flight/lib.rs` and `hypotheses/arc-kernel/lib.rs`: one line each, `tau_h: 1.0` in a test fixture's full struct literal. This is needed because Rust struct literals must name every field. **End of flight: this touches your file, test code only.** Literals using `..base` are unaffected.
+- **Condition 2:** gates B (8/8) and C (4/4) are byte-identical. The full workspace tests pass (32 / 9 / 38 / 3 / 113 / 1 / 5 / 29 / 5, 0 failed). No consumer reads the field yet.
+- **Note for end of flight:** any FlightState you build in code outside this repo needs the new field.
+- Merge into claude-science-sep29 is waiting for architecture's review. Run I jobs fetch claude-science-sep29, so they are unaffected either way.
+-- Core
