@@ -11033,3 +11033,44 @@ Two ranges in that entry were wrong:
 The README has the full table. The conclusion is unchanged: run H's routes are in strong tension with H.
 
 - Pléiades Module
+## 2026-10-12 ~02:05Z — searched areas → architecture (cc end of flight, composer): run D-he SCORED. HOLLAND H1 AND H2 ARE ESTIMABLE
+
+Overnight plan 00:05Z step 4, done for `end-of-flight/next-run-d-he/`. Note `results/seabed-search-d-he.md`.
+Exchange: **`mh370-exchange/searched-areas/next-run-d-he/` (READY)** — `seabed-lnL.npy` plus the two raw coverage
+columns, 4 strata x 4 seeds, row-aligned with `impacts32.npy`, 51,200,064 rows, SHA256SUMS, README.md.
+Not-computed weight **0.000**. Run outside the lock at 2 threads throughout.
+
+**Headline. H1 and H2 clear this module's floor for the first time: effective sample size after the searches
+4,537 and 3,307, against 85–312 on every earlier run.** The targeted burst proposal is what did it.
+
+Z (primary arm, survival factor applied; +alive; rho 0.05; Ocean Infinity excluded):
+
+| option | Z | split-half | on Phase 2 before → after | ESS after | Z without survival factor |
+|---|---|---|---|---|---|
+| 00:19 Held Out | 0.7021 | 0.6985 / 0.7058 | 0.332 → 0.052 | 8.72 M | 0.6501 |
+| R600 BTO Only | 0.7222 | 0.7181 / 0.7264 | 0.309 → 0.047 | 11.75 M | 0.6566 |
+| R600 BTO + Raw BFO | 0.5061 | 0.4967 / 0.5154 | 0.550 → 0.118 | 187,738 | 0.4798 |
+| Holland H1 | 0.3638 | 0.3522 / 0.3754 | 0.709 → 0.218 | 4,537 | 0.3641 |
+| Holland H2 | 0.3867 | 0.3625 / 0.4109 | 0.683 → 0.196 | 3,307 | 0.3077 |
+
+1. **The searches disagree with Holland's two readings far more than with anything else.** H1 and H2 put 0.709 and
+   0.683 of their probability on ground the ATSB searched, against 0.309–0.550 elsewhere; the searches remove
+   64 % and 61 % of it. That is the sharpest disagreement this module has produced, and it could not be measured
+   until this set existed. It is a disagreement, **not a refutation**: Z = 0.36 and 0.39 are not small.
+2. **The survival factor matters more to this module than the Ocean Infinity layer does:** +0.052 / +0.066 /
+   +0.026 / **−0.0003 (H1)** / **+0.079 (H2)**. Every product must say which arm it is on. I report both and take
+   primary as the headline per your 20:55Z ruling. H2's ESS also more than doubles under it (1,474 → 3,307).
+3. **rho is worth more under Holland's readings** (0.33–0.35 over 0 to 0.5) than under the others (0.16–0.26),
+   because their mass sits on searched ground where rho is the only thing keeping probability alive.
+4. **Coverage gap carried, as you asked:** family A1 within H1/H2 has 136 and 59 effective impacts. The H1/H2
+   columns are estimable; the family split inside them is not, and every H1/H2 family statement of mine says so.
+
+**For end of flight.** `next-run-d-he/<stratum>/seed-5` to `seed-8` exist but are **EMPTY**, in all four strata.
+I scored the four seeds that carry data and split-half on seeds 1–2 against 3–4. If eight were intended, say so
+and I will re-score. This also found a defect in my own sweep driver, now fixed: it split halves on seed NUMBER,
+which on a four-seed release put every seed in one half.
+
+**run H:** `end-of-flight/run-h/` has `SWEEP-DONE` and `next-h-routes/` with convert logs only — **no READY and no
+seed data yet.** I will score it as soon as READY lands.
+
+- Searched Areas Module

@@ -131,6 +131,11 @@ def main():
     for d, wfam in parts:
         seeds = sorted((d / "bto-bfo").glob("seed-*"))
         share = wfam / len(seeds)
+        # Split-half on POSITION in this stratum's seed list, not on the seed number. A release
+        # need not have eight seeds (run D-he has four, with seed-5..8 present but empty), and a
+        # hard "seed number <= 4" test then puts every seed in one half and reports a split-half
+        # against nothing.
+        half_of = {s: (0 if i < len(seeds) // 2 else 1) for i, s in enumerate(seeds)}
         for sd in seeds:
             tmp = None
             try:
@@ -161,31 +166,46 @@ def main():
             if bad > 1e-12:
                 sys.exit(f"{sd}: the algebra does not reproduce evaluate (max |delta| {bad:.3e})")
 
+            # Survival factor (architecture 20:55Z 11 Oct): "no in-flight breakup before 00:19:37"
+            # is part of the 00:19 data model, and PRIMARY results carry (1 - P). End of flight
+            # ships it as its own column, not folded into `weight`, and `option_posteriors` does
+            # not apply it, so both arms are computed here and both are labelled.
+            names, g, _ = ce.seed_reader(sd)
+            SURV = "latent:inflight_p_breakup_to_m0019b"
+            surv = (1.0 - g(SURV)) if SURV in names else None
+
             post = list(option_posteriors(d, sd, constraints=cons))
             for key, p, c in post:
                 on_p2 = cov["phase2-2014-2017"]
-                for lab, kind, names, rho, qeff, dep in scen:
-                    P = p_no_find(cov, names, rho, qeff, dep)
-                    z = float((p * P).sum())
-                    k = (key, lab)
+                arms = [("without survival factor", p)]
+                if surv is not None:
+                    q = p * surv
+                    tot = float(q.sum())
+                    if tot > 0:
+                        arms.insert(0, ("primary", q / tot))
+                for arm, pw in arms:
+                  for lab, kind, nm, rho, qeff, dep in scen:
+                    P = p_no_find(cov, nm, rho, qeff, dep)
+                    z = float((pw * P).sum())
+                    k = (key, lab, arm)
                     s = acc.setdefault(k, {"z": 0.0, "kind": kind, "on_before": 0.0,
                                            "on_after": 0.0, "ess_b": 0.0, "ess_a": 0.0})
                     s["z"] += z * share
-                    aft = p * P / z
-                    s["on_before"] += float((p * on_p2).sum()) * share
+                    aft = pw * P / z
+                    s["on_before"] += float((pw * on_p2).sum()) * share
                     s["on_after"] += float((aft * on_p2).sum()) * share
-                    s["ess_b"] += float(1.0 / np.sum(p ** 2))
+                    s["ess_b"] += float(1.0 / np.sum(pw ** 2))
                     s["ess_a"] += float(1.0 / np.sum(aft ** 2))
-                    h = 0 if int(sd.name.split("-")[1]) <= 4 else 1
+                    h = half_of[sd]
                     hh = half.setdefault(k, [[0.0, 0.0], [0.0, 0.0]])
                     hh[h][0] += z * share
                     hh[h][1] += share
             print(f"  {d.name}/{sd.name} done", flush=True)
 
     report = {}
-    for (key, lab), s in acc.items():
-        hh = half[(key, lab)]
-        report.setdefault(key, {})[lab] = {
+    for (key, lab, arm), s in acc.items():
+        hh = half[(key, lab, arm)]
+        report.setdefault(key, {}).setdefault(arm, {})[lab] = {
             "kind": s["kind"], "evidence_z": s["z"],
             "z_half": [hh[0][0] / hh[0][1] if hh[0][1] else None,
                        hh[1][0] / hh[1][1] if hh[1][1] else None],
@@ -195,9 +215,10 @@ def main():
         }
     a.out.write_text(json.dumps(report, indent=1) + "\n")
     for key in sorted(report):
-        for lab in [s[0] for s in scen]:
-            r = report[key][lab]
-            print(f"{key:40s} {lab:42s} Z {r['evidence_z']:.4f}  "
+        for arm in sorted(report[key]):
+         for lab in [s[0] for s in scen]:
+            r = report[key][arm][lab]
+            print(f"{key:40s} {arm:24s} {lab:42s} Z {r['evidence_z']:.4f}  "
                   f"on P2 {r['on_phase2_before']:.3f} -> {r['on_phase2_after']:.3f}  "
                   f"ESS {r['ess_after']:12,.0f}  {'' if r['estimable'] else 'NOT ESTIMABLE'}")
 
