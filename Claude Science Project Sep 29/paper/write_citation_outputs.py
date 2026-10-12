@@ -6,11 +6,27 @@ left visibly empty and listed as an open item.
 """
 import json, re, pathlib, collections, datetime
 
-ROOT = pathlib.Path("repo/Claude Science Project Sep 29")
+ROOT = pathlib.Path("repo2/Claude Science Project Sep 29")
 PAPER = ROOT / "paper"; PAPER.mkdir(exist_ok=True)
 data = json.load(open("handoff/citations.json"))
 entries, summary = data["entries"], data["summary"]
 TODAY = "12 October 2026"
+
+# Davey et al. (2016) chapter-level DOIs and printed page ranges, retrieved from
+# CrossRef 12 Oct 2026 (10.1007/978-981-10-0379-0_1 .. _11) and verified there.
+DAVEY_CHAPTERS = [
+    (1, "Introduction", "1\u20135", "Davey et al."),
+    (2, "Factual Description of Accident and Available Information", "7\u20139", "Davey et al."),
+    (3, "The Bayesian Approach", "11\u201317", "Davey et al."),
+    (4, "Aircraft Prior Based on Primary Radar Data", "19\u201322", "Davey et al."),
+    (5, "Measurement Model, Satellite Communications", "23\u201334", "Davey et al."),
+    (6, "Aircraft Cruise Dynamics", "35\u201346", "Davey et al."),
+    (7, "Aircraft Manoeuvre Dynamics", "47\u201354", "Davey et al."),
+    (8, "Particle Filter Implementation", "55\u201361", "Davey et al."),
+    (9, "Validation Experiments", "63\u201386", "Davey et al."),
+    (10, "Application to the MH370 Accident", "87\u2013100", "Davey et al."),
+    (11, "Ongoing Refinement", "101\u2013109", "Davey et al."),
+]
 
 ACCENT = {"'": "\u0301", "`": "\u0300", '"': "\u0308", "^": "\u0302",
           "~": "\u0303", "c": "\u0327", "v": "\u030c", "=": "\u0304"}
@@ -43,6 +59,11 @@ def initialise(name):
     if "," not in name:
         return name
     surname, given = name.split(",", 1)
+    # A corporate name may contain a comma ('X Group, Y Subgroup'). Treat anything
+    # whose leading part is more than two words, or whose trailing part is itself a
+    # multi-word phrase, as corporate and leave it alone.
+    if len(surname.split()) > 2 or len(given.split()) > 2:
+        return name.strip()
     out = []
     for tok in given.replace(".", ". ").split():
         if not tok or not tok[0].isalpha():
@@ -387,6 +408,46 @@ for k, e in sorted(by_key.items(), key=lambda kv: kv[0].lower()):
     used += f" ({nfiles} file{'s' if nfiles != 1 else ''})" if nfiles else " (no use traced)"
     copy = "yes" if e.get("_local_confident") else ("candidate" if e["_local_copy"] else "-")
     w(f"| `{k}` | {jon_ref(e)} | {e['_grade']} | {ver} | {used} | {copy} |")
+w("")
+w("## 6a. Davey et al. (2016) has chapter-level DOIs — and they resolve the page conflict")
+w("")
+w("Every chapter of the book is separately registered with its own DOI and its own "
+  "printed page range. Retrieved from CrossRef and verified 12 October 2026:")
+w("")
+w("| Ch. | Title | Printed pages | DOI |")
+w("|---|---|---|---|")
+for n, title, pg, _au in DAVEY_CHAPTERS:
+    w(f"| {n} | {title} | {pg} | `10.1007/978-981-10-0379-0_{n}` |")
+w("")
+w("**This is the way out of the conflict in §6.** A chapter citation is a *reference*, "
+  "not an in-text page, so it is fully Harvard-compliant, and it is far more precise "
+  "than citing a 109-page book. The particle filter implementation is chapter 8, "
+  "pp. 55\u201361; the satellite communications measurement model is chapter 5, "
+  "pp. 23\u201334; the manoeuvre dynamics our sampler modifies are chapter 7, "
+  "pp. 47\u201354. Each can be cited as its own reference-list entry with a resolvable "
+  "DOI and its printed pages, which is what the project's traceability rule actually "
+  "wants.")
+w("")
+w("Recommended practice for the paper: cite `(Davey et al., 2016)` for the work as a "
+  "whole and the chapter entry where a specific model element is meant. The printed "
+  "page ranges above also give an independent check on the project's "
+  "printed-page = PDF-page \u2212 13 rule for this book.")
+w("")
+w("## 6b. Legitimate copies held, by provenance")
+w("")
+w("| Source | Copy held | Provenance | Citable pagination |")
+w("|---|---|---|---|")
+w("| Davey et al. (2016) | publisher PDF | Pete's Google Drive; CC BY-NC 4.0 | printed "
+  "pages, from the running headers |")
+w("| Holland (2018) | author's accepted version | **green open access, arXiv:1702.02432v3, "
+  "15 Jan 2018**, retrieved via Unpaywall 12 Oct 2026 | **NOT the printed pagination.** "
+  "The copy is numbered 1\u201310; the printed article is *IEEE Aerospace and Electronic "
+  "Systems Magazine* 33(2), 24\u201333. Locate quotations by section, not page, unless "
+  "the published version is obtained |")
+w("| Large (2019) | `~/Downloads/Dissertation.pdf`, 285 pp. | Pete's own work, published "
+  "open access by him; he confirmed on 12 Oct 2026 that there are no restrictions | its "
+  "own printed folios; note that the text layer has a broken character map, so quotations "
+  "must be read from the rendered page |")
 w("")
 w("## 7. Open items")
 w("")

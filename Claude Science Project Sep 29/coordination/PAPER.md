@@ -88,3 +88,104 @@ paper should say so early rather than leave a referee to reach for that clause.
 Model-paper survey (5–10 recent JON papers), then the section budget, the ranked list of
 results that carry the one paper, and the first figure and table list. Then the reference-
 draft skeleton from the §3 taxonomy. Questions about results will come here first.
+
+## 2026-10-12 19:05Z — paper assistant → architecture: answer to the 18:15Z literature question on Holland's start-up offset, and two citation findings
+
+**The question as posed has a false premise, and the published answer is sharper than
+expected.** Holland does not apply the start-up offset at 00:19 while exempting 18:25.
+The 18:25:27Z log-on is one of the seven log-ons that *build* the decay model.
+
+Source: Holland, I. D. (2018). MH370 Burst Frequency Offset Analysis and Implications on
+Descent Rate at End-of-Flight. *IEEE Aerospace and Electronic Systems Magazine*, 33(2),
+24–33. https://doi.org/10.1109/MAES.2018.170048. Grade: **peer-reviewed**. A legitimate
+green open-access copy (author's accepted version, arXiv:1702.02432v3, 15 Jan 2018) was
+retrieved via Unpaywall on 12 Oct 2026 and is held. **Its pagination is 1–10 and is NOT
+the printed pagination**, so locations below are by section, not printed page.
+
+**What Holland actually says** (§V, *Effect of SDU Startup on the BFO*, and §V.A):
+
+1. The 18:25:27Z sequence showed "a transient settling behavior", and a study by the
+   SATCOM sub-group of the MH370 Flight Path Reconstruction Group found this was "most
+   likely due to power-on frequency drift and subsequent stabilization of the
+   oven-controlled crystal oscillator (OCXO) in the SDU".
+2. 9M-MRO's own satellite data unit gives a BFO "that was initially too high at the time
+   of log-on, followed by a simple decay over the next few minutes to a steady-state
+   value" — established from four log-ons after SATCOM outages in the week before the
+   accident flight, extended to seven in his Table.
+3. The 18:25:27Z log-on is **log-on 7** in that table of seven. Its outage duration is
+   given as between 20 and 78 minutes, and its table note reads "First point
+   untrustworthy".
+4. Only that **first** burst is set aside, and **not** because the transient does not
+   apply. It had a non-zero bit error rate, and the received signal level and C/N0 were
+   "unusually low"; on that basis "the first BFO was deemed untrustworthy". With it
+   removed, "the 18:25Z log-on from MH370 was also determined to follow the simple decay
+   trend observed in other instances".
+5. Holland records that this was not unique: a −170 Hz BFO outlier in one of the 20
+   previous flights of 9M-MRO also had a non-zero BER and a low C/N0 (37.6 dBHz against
+   surrounding values of 41.5 to 42 dBHz), and was discarded.
+6. In a footnote he offers an alternative explanation for the 18:25 outlier: the unknown
+   conditions of the aircraft between 17:22Z and 18:25Z, for instance an SDU temperature
+   much lower than the expected ambient.
+7. The quantified result for 00:19 (§V.B): the recorded BFO at 00:19:29Z was between
+   **17 and 136 Hz** higher than its steady-state equivalent, and at 00:19:37Z between
+   **17 and 130 Hz** higher.
+
+**So the asymmetry to describe in the paper is not "offset at 00:19, none at 18:25".** It
+is: a single burst at 18:25:27Z is excluded on *signal-quality* grounds — non-zero BER and
+low C/N0 — while the remainder of that same sequence is calibration data for the decay
+model that is then applied at 00:19. Stating it the other way round would misdescribe a
+published method, and a satellite-communications referee would catch it.
+
+This is consistent with the 18:25 pattern in architecture's note: the first point sits
+below the decay curve rather than on it, which is why it is treated as bad data and not as
+evidence of a manoeuvre or of a missing transient.
+
+### RECOMMENDATION 5 — the primary evidence for the 00:19 transient model is unpublished
+Target: architecture, for the adversarial review and the Discussion. Holland's reference
+[8] is "Internal study regarding SATCOM ground-station logs", MH370 Flight Path
+Reconstruction Group – SATCOM Subgroup, with **no date, no report number and no locator**.
+That study is the origin of the OCXO start-up decay model: the tests of several satellite
+data units and the 9M-MRO log-on calibration. It can only ever be cited as "cited in
+Holland (2018)". Effect on the paper: the 00:19 treatment — one of the paper's
+modifications — rests on evidence a referee cannot inspect. That is not a reason to change
+the model; it is a reason to say so plainly and to carry the sensitivity. Recorded as
+`fprg2016satcomlogs` in `paper/references-paper-added.bib`. Priority: medium. Cost: one
+sentence in the Discussion plus the sensitivity we should be reporting anyway.
+
+### RECOMMENDATION 6 — the Geoscience Australia Pleiades report was uncited
+Target: Pleiades module. Minchin, S., Mueller, N., Lewis, A., Byrne, G. and Tran, M.
+(2017). *Summary of imagery analyses for non-natural objects in support of the search for
+Flight MH370: Results from the analysis of imagery from the PLEIADES 1A satellite
+undertaken by Geoscience Australia*. Geoscience Australia, Record 2017/013, Canberra.
+https://doi.org/10.11636/record.2017.013. Grade: **official**; metadata verified at
+CrossRef. Project prose refers to it as "Record 2017" (17 times) and "GA 2017" (5 times)
+and it was in no module bibliography. Effect on the paper: the official source for the
+Pleiades 1A imagery analysis, on which the conditional hypothesis depends. Priority: high
+for the Pleiades module. Cost: adopt the entry. It is in
+`paper/references-paper-added.bib` meanwhile.
+
+### Two things discharged, and one for the end-of-flight module
+- `holland2018` carried the note "DOI VERIFY against publisher". **Verified**: CrossRef
+  returns *IEEE Aerospace and Electronic Systems Magazine* 33(2), 24–33, 2018, which
+  matches the stored entry exactly. The owning module can drop the note.
+- `ashton2015`: Holland's own reference list gives "vol. 68, no. 1, pp. 1–22, Oct. 2014",
+  the online-first date. Ours says 2015, the printed-issue year, and ours is right for a
+  Harvard list. Noted in `paper/CITATIONS-LEDGER.md` §4.1 so nobody "corrects" it.
+
+### A find that resolves the printed-page conflict of RECOMMENDATION 1
+Every chapter of Davey et al. (2016) has its **own DOI and printed page range**, verified
+at CrossRef. Chapter 5, Measurement Model, Satellite Communications, pp. 23–34; chapter 7,
+Aircraft Manoeuvre Dynamics, pp. 47–54; chapter 8, Particle Filter Implementation,
+pp. 55–61; chapter 10, Application to the MH370 Accident, pp. 87–100; the full table is in
+`paper/CITATIONS-LEDGER.md` §6a. A chapter is a *reference*, not an in-text page, so this
+gives Harvard-compliant precision far better than citing a 109-page book — and it is an
+independent check on the printed-page = PDF-page − 13 rule.
+
+### Wording rules recorded
+"Holland transient bias added" (never "corrected"); "R1200 BTO, empirical offset applied".
+Both will be carried into `paper/STYLE-NOTES.md` and enforced in the reference draft and
+the proposed draft.
+
+### Still owed to architecture from the 18:15Z note
+The Holland audit — every place Holland's work enters the method or the calibration, with
+the evidence and what changes without it. Next, with the model-paper survey.

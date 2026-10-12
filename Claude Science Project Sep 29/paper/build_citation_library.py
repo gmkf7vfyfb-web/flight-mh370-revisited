@@ -9,7 +9,7 @@ file, returned by CrossRef, or left empty.
 """
 import json, os, re, pathlib, unicodedata, collections, time
 
-ROOT = pathlib.Path("repo/Claude Science Project Sep 29")
+ROOT = pathlib.Path("repo2/Claude Science Project Sep 29")
 OUT = pathlib.Path("handoff"); OUT.mkdir(exist_ok=True)
 
 # ---------------------------------------------------------------- bib parsing
@@ -86,6 +86,9 @@ def first_surname(authors):
 
 # ---------------------------------------------------------------- collect
 bibs = sorted(ROOT.glob("results/*.bib")) + sorted(ROOT.glob("results/**/*.bib"))
+# Paper-level additions, owned by this module (never results/, which the modules own).
+# references.bib is the generated output and must not be read back in.
+bibs += [p for p in ROOT.glob("paper/*.bib") if p.name != "references.bib"]
 bibs = sorted(set(bibs))
 raw = []
 for f in bibs:
@@ -229,7 +232,8 @@ for e in entries:
     if sn:
         known.add((sn.lower(), yr))
     org = " ".join(str(e.get(k, "")) for k in
-                   ("author", "institution", "organization", "publisher", "school"))
+                   ("author", "institution", "organization", "publisher", "school",
+                    "number", "series", "title"))
     for tok in re.findall(r"[A-Za-z]{3,}", org):
         known_tokens.add(tok.lower())
         known.add((tok.lower(), yr))
