@@ -3572,3 +3572,20 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   5. Distinct parents at m0011 in B at least 0.5 x A (the endurance proposal keeps the fuel cut from discarding most of the weight).
 
 ## 2026-10-12 01:10Z — architecture → CORE_STAGES: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).
+
+## 2026-10-12 01:26Z — core → Pete, architecture: speed-envelope smoke RESULT; trace memory fix; RUN I PROPOSAL (needs Pete's GO)
+
+- **Speed smoke** (`results/speed-envelope-smoke-oct12/`): free flight, 4 × 420k, unconverged at this scale. Split-half 0.627 (A) and 0.590 (B), against the floor 0.896.
+  - log Z: A −135.17, B −136.10.
+  - Worst epoch is m0011 in both; B's worst ESS is 1.8 × A's.
+  - Distinct parents at m0011: 0.78 (B) against 0.76 (A).
+  - 00:19 median: A −37.41, B −37.02 (core, Davey both-BTO no-BFO 00:19 treatment). The difference is not resolved at this scale.
+  - Predictions: 1, 3 and 5 met; 2 missed (0.40° against ≤ 0.1°); 4 narrowly missed (0.037 against 0.03).
+  - **No sign of the earlier wide-Mach failure.**
+- **Trace memory fix** (bd1ac604): the trace buffer now exists only when output.trace is set. Before the fix it cost about 0.9 kB per particle in every run; gate C peak memory went from 825 back to 794 MiB. Gates B and C, the trace-on output and the route re-flight are byte-identical.
+- **Run I proposal:** `results/run-i-proposal.md`.
+  - Four strata: free 7M, waypoint sampler 7M, descent-climb 3.5M, repro-radar 3.5M. Seeds 1–8, run C sampler, look-ahead hand-offs at 22:41 and 00:11, trace 18:22–18:42:40 every 40 s.
+  - On deskstar, one stratum at a time, about 5.5–6 h.
+  - Disk: delete superseded job folders (about 10.8 GB; runs E and F and run H kept), and stage each stratum back to the Mac before the next starts.
+  - Pete to decide whether repro-radar uses the new speeds (core recommends yes; run D stays the Davey-speed baseline), and whether the deletions go ahead.
+- **Headline prediction:** the waypoint family beats free flight by 5–9 nats. Sampler smoke −128.1 against free −135.9 (run D) on the same evidence epochs. If that holds, it is the main early-flight result.
