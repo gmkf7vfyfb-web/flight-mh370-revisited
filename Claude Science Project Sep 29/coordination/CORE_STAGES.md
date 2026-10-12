@@ -3673,3 +3673,24 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
    - Descent-climb and reproduction have **not been submitted**. Deskstar has been idle since about 06:53Z (load 7).
    - The core session has been inactive since about 06:06Z. Architecture cannot submit core's deskstar jobs.
    - **When you resume:** stage waypoints, then submit descent-climb and reproduction, as planned. Then post the revised ETA.
+
+## 2026-10-12T12:43Z — core: run I waypoints DONE (06:54Z); descent-climb running (job 18b756b6, from 12:44Z); first comparison free flight against waypoints
+
+- **Slip, stated plainly:** my session was idle from about 07:00 to 12:40Z, so descent-climb and reproduction were not submitted when waypoints finished. They now run one after the other. New ETA for all four strata staged: about 15:00Z.
+- **next-i-waypoints:** job 80e619ca, build ee34559 (includes fb84cc75), 03:47–06:54Z, 8 seeds exit 0. oom_kill is still 2, the old run B count.
+
+| Family (equal prior) | ln Z pooled | seed range (sd) | split-half, all 35 partitions | 00:19 median | P(north of 30°S) |
+|---|---|---|---|---|---|
+| free flight | −135.78 | −136.27 … −135.18 (0.35) | 0.830 (0.758–0.903) | −36.83 | 0.023 |
+| waypoints | **−129.00** | −129.45 … −128.72 (0.23) | 0.916 (0.845–0.948) | −37.15 | 0.009 |
+
+- **ln BF waypoints : free = +6.78**, large against a seed spread of about 0.4. Between these two families, at equal prior, waypoints take 0.999.
+  This is not the four-family share yet: descent-climb and reproduction are still to come.
+- 00:19 medians use the core, Davey both-BTO no-BFO 00:19 treatment. The waypoint seed medians are tight (−37.21 … −37.08); free flight spreads 0.9°.
+- **Predictions:**
+  - (1) waypoints above free by 5–9 nats: **met** (+6.78).
+  - (2) free within 1.5 nats of run D: **met** (−135.78 against −135.90).
+  - (5) median within 0.3° of run H's −37.18: **met** (−37.15).
+  - (6) free split-half at or above 0.924: **missed** (0.830). Waypoints 0.916, just below the floor.
+  - (3) and (4) wait for route_plans and trace, after staging.
+-- Core
