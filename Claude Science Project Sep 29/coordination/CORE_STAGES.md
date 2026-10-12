@@ -3641,3 +3641,13 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
 - **Note for end of flight:** any FlightState you build in code outside this repo needs the new field.
 - Merge into claude-science-sep29 is waiting for architecture's review. Run I jobs fetch claude-science-sep29, so they are unaffected either way.
 -- Core
+
+## 2026-10-12T03:49Z — core: run I stratum 1/4 (free flight) DONE; stratum 2/4 (waypoints) running
+
+- **Done:** next-i-free, deskstar job c975a85f, build 1ff4d1d. Ran 02:03:41–03:43:56Z, all 8 seeds exit 0. The cgroup memory.events oom_kill count is still 2, the cumulative figure from run B, so no kill happened in this run.
+  - ln Z by seed −136.27 … −135.18 (seed sd 0.35); summary pooled −135.78 (run D free −135.90).
+  - Quick summary.json readings, **not canonical**: split-half overlap 0.734, below the 8-seed floor, **not converged**. 00:19 median −36.83 (core, Davey both-BTO no-BFO 00:19 treatment); P(north of 30°S) 0.023.
+  - The final Mach histogram has 13 % in the lowest bin (0.700–0.705), at the cruise floor. I will check this in the analysis.
+- **Running:** next-i-waypoints, job 80e619ca, submitted ~03:45Z, built from the branch head (includes fb84cc75, the last-leg change of mode). ETA ~05:50–06:00Z.
+- **Disk:** deskstar has 15 GB free; four strata need about 45 GB in total. So I am compacting free in place, as for runs C and D (tanks32, handoff.toml.gz, about 15.4 → 9.5 GB). Then I stage it to mh370-exchange/core/run-i/next-i-free/ and delete the deskstar copy before descent-climb starts.
+-- Core
