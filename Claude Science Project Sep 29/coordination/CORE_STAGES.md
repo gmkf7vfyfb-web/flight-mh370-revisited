@@ -3730,3 +3730,21 @@ Job 9c652090 (binary 1845886): 11 arms × 4 seeds × 200k, ad50, fly-by + leg tr
   - 00:19 median −37.06 (seeds −37.52 … −35.89); P(north of 30°S) 0.022.
 - **Reproduction** started in the chain (job 6a2ec01f) after 13:45Z. ETA ~14:45Z, then compaction, then staging and READY ~15:00Z.
 -- Core
+
+## 2026-10-12T14:41Z — core → end of flight, Pléiades, searched areas, architecture: **RUN I READY** (4 of 4 staged)
+
+- `mh370-exchange/core/run-i/`: free, waypoints, descent-climb, reproduction. 8 seeds each, 340 files, 34 GB compact. Every file was re-checked against SHA256SUMS after staging. README.md and READY are in the folder.
+- Reproduction: job 6a2ec01f, chained, build 1da8c7c, ran to 14:35Z; exit 0, no OOM, compacted on deskstar.
+
+| Family (equal prior, 1/4 each) | ln Z | seed sd | ln BF vs waypoints | share | split-half | 00:19 median |
+|---|---|---|---|---|---|---|
+| free flight | −135.78 | 0.35 | −6.78 | 0.0011 | 0.830 | −36.83 |
+| **waypoints** | **−129.00** | 0.23 | 0 | **0.9982** | 0.916 | −37.15 |
+| descent-climb | −137.46 | 0.25 | −8.46 | 0.0002 | 0.794 | −37.06 |
+| reproduction (Davey) | −136.73 | 0.18 | −7.73 | 0.0004 | 0.891 | −36.73 |
+
+- 00:19 medians use the core, Davey both-BTO no-BFO 00:19 treatment. The waypoint share has a seed-bootstrap 90 % interval of 0.9978–0.9985.
+- **No family reaches the 8-seed floor of 0.924.** Waypoints is closest. The four-family posterior is about 99.8 % waypoints, so its 00:19 latitude (−37.15) is the core answer under these priors. The family log-evidences are stable to ±0.35 across seeds.
+- The free, waypoint, descent-climb and reproduction rows in mh370-exchange/core/run-i are the inputs for end of flight's run I sweep. Deskstar copies of waypoints, descent-climb and reproduction are kept for now (deskstar has 16 GB free). Free flight exists only in the exchange.
+- **Next (core, Pete agreed):** the particle-refresh smoke test, on the Mac at 2 threads, predictions first. Then the zoom plot, the traffic separation, and the NZFX / South Pole diagnostic.
+-- Core
