@@ -11667,3 +11667,53 @@ Core-weighted mixture, survival factor, q = 1/3, W = 3,898 s:
   with exact correction, plus N = 64 children for parents that reach the burst window. I will build and smoke it next; a re-run
   of the affected cells is about 2 h under the lock and will be posted before it starts.
 — End of Flight Module
+## 2026-10-12 ~19:35Z — searched areas → architecture (cc end of flight, core, composer, Pete): RUN I SCORED, all four strata. The posterior has moved onto searched ground. UNCONVERGED
+
+Note `results/seabed-search-i.md` with its COVERAGE section. Exchange: **`mh370-exchange/searched-areas/run-i/`
+(READY)** — `seabed-lnL.npy` plus the two raw coverage columns, 4 strata × 8 seeds, row-aligned with
+`impacts32.npy`, **102,399,904 rows**, SHA256SUMS (96 files, all verified), README.md. Not-computed weight
+**0.000**. Run detached, outside the lock, at 2 threads.
+
+**The result, and it is a large change.** In `next-i-waypoints` (core's posterior share about 0.998),
+**0.554 of the probability is on searched Phase 2 ground before the searches** under 00:19 Held Out, against
+0.332 on run D-he, and Z falls to **0.5026** from 0.7021 — the searches now remove **half** the probability
+rather than about a third. Under Holland H1 the share is **0.873** and Z is **0.2164**.
+
+| 00:19 option | waypoints | free | descent-climb | repro-radar | run D-he (pooled) |
+|---|---|---|---|---|---|
+| 00:19 Held Out | **0.5026** | 0.5890 | 0.6005 | 0.5978 | 0.7021 |
+| R600 BTO Only | **0.4832** | 0.5576 | 0.5792 | 0.5509 | 0.7222 |
+| R600 BTO + Raw BFO | **0.3156** | 0.3906 | 0.3967 | 0.4016 | 0.5061 |
+| Holland H1 | **0.2164** | 0.2851 | 0.2991 | 0.3081 | 0.3638 |
+| Holland H2 | **0.2520** | 0.3182 | 0.3239 | 0.3336 | 0.3867 |
+
+**For end of flight:** the shift tracks your piloted-turn model removing run H's ~1° southward displacement,
+which moves the posterior north into the corridor the ATSB swept. That is your finding to defend; what this
+module reports is the consequence, and it is first order for the searched-area result — larger than every
+module-controlled sensitivity except rho.
+
+**A first: every 00:19 option is estimable in every stratum on its own.** Worst case 1,327 (H2, descent-climb).
+On run D-he only the pooled set made H1/H2 estimable; on run H no single stratum did. Run I's 100,000 hand-off
+rows per seed × 8 seeds is what changed it.
+
+**Three labels that must travel with these numbers.**
+1. **Core run I is NOT CONVERGED** (waypoints split-half 0.916) and it shows: this module's Z split-half gap is
+   **0.040–0.044**, against 0.003–0.008 on run C. The third digit is noise.
+2. **No mixture, deliberately.** Core has published run I P(family) only between free flight and waypoints
+   (ln BF +6.78). **I have not invented four-family weights** — every number is per stratum. Composer: mix with
+   core's shares when they land, and do not carry run C's or run D-he's weights across.
+3. **rho now matters more than it ever has: 0.26 (Held Out) to 0.41 (Holland H1)** over 0 to 0.5, against 0.150
+   and 0.33 on run D-he. The reason is direct — rho is the only thing keeping probability alive on ground that
+   was searched, and run I puts far more probability there. Every run I headline is conditional on a parameter
+   with no published value, more strongly than before.
+
+**Defect found and fixed in my own `publish_columns.py`:** it wrote `SHA256SUMS` rather than merging, so filling
+one exchange directory with four per-stratum invocations left a manifest covering only the last stratum — 24 of
+96 files, and worse than no manifest because it verified clean. It now merges, keyed on path. The run I manifest
+is regenerated and complete; the earlier sets were each published in a single call and were already complete
+(D-he 48/48, the two OI variants 64/64, run C 96/96, run H 24/24 — all re-checked).
+
+**Still point-target on run I:** settling has posted no run I wreckage samples. On runs C, D-he and H the field
+was worth −0.0011 to +0.0025, so this is a small gap, but it is a gap.
+
+- Searched Areas Module
