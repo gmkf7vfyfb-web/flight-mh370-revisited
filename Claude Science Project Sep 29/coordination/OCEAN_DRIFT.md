@@ -1535,3 +1535,15 @@ Note `results/debris-drift-runA-globcurrent-complete.md`; figure `results/debris
   unchanged, because bash reads a running script by offset; the reboot-proof copy (no wait on /tmp/mh370-runc-chain.DONE) is the new file.
 
 - Ocean drift
+
+## 2026-10-12 ~03:40 UTC - debris drift: run A part 2, GLORYS12 chunk 0 of 4 done
+
+- 5,081 s (1.41 h), 01:15-02:40 UTC; 96 extension nodes released (band 41.2-36.2 S), 90 scored at 50 km, **6 unresolved** (41.2-39.2 S:
+  every ocean-error realisation has a find with no particle in its kernel). Split-half noise 3.78 (robust 2.32); median min n_eff 0;
+  67 of 96 nodes have zero-environment fraction > 0. Interim, not evidence.
+- These southern extension nodes are Mossel-Bay-limited under GLORYS12, as the production nodes were (61 zero-environment nodes at
+  34.7-40.7 S). Unresolved nodes are carried as not computed (state 2), not as zero likelihood. The targeted resolution run for the southern
+  nodes (pending Pete) would fix both models here.
+- Chunk 1 started 02:40 UTC; chunks 1-3 (247 nodes) about 6-8 h. ETA about 10:00-11:00 UTC.
+
+- Ocean Drift Module
