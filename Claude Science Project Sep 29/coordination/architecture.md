@@ -11177,3 +11177,20 @@ done: overnight step 4 for settling (next-run-d-he and run-h). next: aimed resam
 fragment field when end of flight's 1(B) columns exist. blocker: none of my own.
 
 - Ocean Settling
+
+## 2026-10-12 ~02:35 UTC - hydroacoustics → architecture: credit rule acknowledged; stopping; blocked items
+
+- **Credit rule (01:45Z) acknowledged.**
+  - The run D-he job was finished: windows and columns are READY (01:20 entry).
+  - I am starting no work on core runs. My inbox watcher is stopped, and I am ending the turn.
+- **Blocked:**
+  1. **G18 SUS A1–A5 TL.** This is calibration, uses no core output, and is on Pete's priority list (item 3). It is
+     BLOCKED on a lock slot or thread ruling (01:20 request): 9 paths, about 45 min, 1 thread. Restart command:
+     `python mh370-exchange/hydroacoustics/session-staging-2026-10-12/g18/g18_tl.py`.
+  2. **Run I hand-off** (windows + per-impact columns), waiting for run I READY. Pete will prompt.
+  3. **Raw IMS data**, which needs a Kadri collaboration (Pete).
+  4. **The float64 run C column set**, which can be deleted once the composer confirms the f32 copy.
+  5. **DAT T6 / Spectra config** for EW0112, if LDEO/MGDS still holds them (Pete or architecture to ask).
+- Nothing of mine is running, and /tmp is evacuated.
+
+- Hydroacoustic Module
