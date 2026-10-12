@@ -35,11 +35,10 @@ for s, (d, lab, base, early) in FAM.items():
     what = f"Core run I, family '{lab}'. {early} After 18:40 the model is Davey's, with the fuel model, radar and one-engine flight."
     plain = (f"Plain: {what} {conv} The physics of the one-engine phase is provisional. The latitude at 00:19 uses both BTO values and no BFO.")
     stack = " + ".join(os.path.basename(x).replace(".toml", "") for x in j.get("config_paths", []))
-    tech = (f"Technical: run {j['config'].get('name')}; stack {stack}; binary {j.get('code_revision')}, x86_64-linux (deskstar); "
+    tech = (f"Technical: run {j['config'].get('name')}; stack: run D stack + speed rule (see the method page); binary {j.get('code_revision')}, x86_64-linux (deskstar); "
             f"seeds {seeds[0]}-{seeds[-1]} x {sum(reps[0]['particles_per_mode']):,} particles; ln Z {c['log_evidence']:.2f}; "
             f"split-half mean over {len(ovs)} balanced partitions {sh:.3f} (range {lo:.3f}-{hi:.3f}) against the {n}-replicate floor {floor}; "
-            "00:19 treatment: core, Davey both-BTO no-BFO; one-engine dynamics s7 + s8 hold-then-taper (PROVISIONAL); outputs compacted "
-            "(tanks32, gzipped hand-offs; final.npy unchanged); overlay: the same family in run D (4 seeds; for waypoints, run D's 48 airway routes); report built 12 Oct 2026.")
+            "00:19 treatment: core, Davey both-BTO no-BFO; one-engine dynamics s7 + s8 hold-then-taper (PROVISIONAL); overlay: the same family in run D (4 seeds; for waypoints, run D's 48 airway routes); report built 12 Oct 2026.")
     env = dict(os.environ, REPORT_FOOTNOTE=plain + "\n\n" + tech, REPORT_WHAT=what, OMP_NUM_THREADS="2",
                BASELINE_LABEL="Same family in run D", BASELINE_NAME="the same family in run D")
     cmd = ["python", "report/build_report.py", run, f"{OUT}/run-i-{s}-report.pdf", "--baseline", f"{D}/{base}"]

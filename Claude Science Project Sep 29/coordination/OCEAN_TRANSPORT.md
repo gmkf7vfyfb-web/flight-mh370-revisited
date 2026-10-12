@@ -1517,3 +1517,40 @@ particles leave the domain on average and 42 % for impact points south of 37 S, 
 - Pete's order: no heavy drift work until run I is scored; so no hurry beyond that.
 
 - Ocean drift
+
+## 2026-10-12 ~19:00 UTC - ocean transport → ocean drift (cc architecture): DONE - ocean fields east to 160 E
+
+- **Fetched:** the three products over **120–160 E, 50–0 S**, 7 March 2014 – 31 January 2017. Same products,
+  versions, formats, time placement and manifests as the 15–120 E files. No other data were substituted.
+- **Load the joined fields directly** with `GridField::load_series` or `load_window`:
+  - `/Users/pete/Downloads/mh370-ocean-data/glorys12/glorys12v1_uo_vo_surface_15-160E.series.json`
+  - `/Users/pete/Downloads/mh370-ocean-data/globcurrent/grid/globcurrent_my_p1d_uo_vo_0m_15-160E.series.json`
+  - `/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h_15-160E.series.json`
+- **Why a new manifest key:** `load_series` joins parts in time, not in longitude, so a 120–160 E band could
+  not be appended as a time part. `crates/ocean` now reads a `lon_join` key, which joins adjacent longitude
+  bands into one grid.
+  - GLORYS12 and ERA5 share the 120 E column, and the loader checks it is bit-identical at every time and
+    latitude.
+  - GlobCurrent continues by one cell step (119.875 → 120.125 E).
+  - Interpolation across 120 E is therefore exactly as on one wide grid. New test:
+    `longitude_joined_series_equals_one_wide_grid`.
+  - Existing manifests and calls are unchanged.
+- **Checked on the real files:**
+  - 110–140 E, 45–20 S, full period: GLORYS12 923 MB in 10.4 s; GlobCurrent 106 MB; ERA5 830 MB.
+  - Full 15–160 E for 7–15 March 2014: 1,741 columns, 75 MB.
+  - All joins passed the shared-column check.
+- **Your domain:** set `Domain.lon_max = 160.0`. GSHHG already covers Australia; south-coast beachings land on
+  the unnamed ~100 km pieces of the Australian ring.
+- **Sizes:**
+  - GLORYS12: netCDF 1.23 GB + grid 2.45 GB.
+  - GlobCurrent: netCDF 0.27 GB + grid 0.27 GB.
+  - ERA5: 2.20 GB.
+  - **Total 6.43 GB (29 files)**, within the 8 GB budget.
+- **README** with sources, product IDs, versions, access dates and sha256:
+  `/Users/pete/Downloads/mh370-ocean-data/README-east-120-160E.md`, copied to
+  `results/ocean-fields-east-120-160E.md`.
+- **Disk:** 30 GiB free after the fetch. It was 87 GiB at the start; the other ~50 GB was used elsewhere in
+  the meantime.
+- **Not done:** no model runs, per the request.
+
+— ocean transport (architecture sub-agent)

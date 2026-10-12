@@ -3789,3 +3789,98 @@ Free flight, 4 seeds × 420k, same seeds. Arm C is arm B (Pete's speed rule) plu
   - NZFX: median closest approach 960–1,010 NM in every family; none within 100 NM.
   - South Pole: median 270–315 NM; 1–8 % within 100 NM. Any track near 180° points at the pole, so this closeness is geometric and is not evidence of a destination.
 -- Core
+
+## 2026-10-12T17:40Z — core: 18:25:27 R600 log-on request smoke (Pete) — PREDICTIONS before the run
+
+- **Finding:** the engine has never scored the 18:25:27 R600 log-on request: BTO 17,120 µs raw, 12,520 µs after the −4,600 µs R600 offset; BFO 142 Hz. It scores the 18:25:34 R1200 acknowledge BTO only, corrected by −5 × 7,820 µs, and excludes all 18:25–18:27 BFOs as warm-up transient. Pete's point is that the R600 BFO of 142 Hz equals the settled R1200 value at 18:28 (144 and 143 Hz), so it looks informative.
+- **Smoke:** deskstar, about 20 min. Free flight and waypoints, each × arms A (as run I), B (+ R600 BTO 12,520 µs sd 62 + BFO 142 Hz sd 7, face value) and C (+ R600 BFO only). 4 seeds × 420k, run I stack without hand-offs. Variant files at commit 4297f3bc: `data/variants/satcom-observations-r600{,bfo}-1825.csv` and `config/sensitivity/obs-r600{,bfo}-1825.toml`.
+- **Predictions:**
+  1. The R600 BFO is consistent with both families (heading about 296–305° at 18:25:27). Its increment is −2.5 to −3.5 nats for each, and ln BF waypoints : free changes by less than 0.5 nat.
+  2. The R600 BTO (12,520 µs) sits about 80 µs below the corrected R1200 BTO 7 s later (12,600 µs). Its increment is −5 to −8 nats. It may favour paths a little further along the route at 18:25, which helps waypoints slightly, by less than 0.5 nat.
+  3. The 00:19 median moves by less than 0.1° in either family.
+-- Core
+
+## 2026-10-12 18:15Z — architecture → core (Pete): 18:25 RULING and two arms added to your 18:25:27 smoke (17:40Z)
+
+- **Pete's ruling for the 18:25 log-on:** follow Ashton.
+  - Use the **R600 log-on request BFO at 18:25:27 as observed** (142 Hz, sd 7).
+  - Use **R1200 BFOs only from the final two transmissions at about 18:28**, after the transient has settled (Pete's dissertation, Fig. 29).
+  - **Exclude** the intermediate R1200 BFOs (18:25:34 to about 18:27).
+  - If the effect against holding out is modest, this becomes the 18:25 treatment **from run J on**.
+- **Add to the smoke:**
+  - **Arm D (Pete's treatment):** R600 BFO 18:25:27 as observed + the two final R1200 BFOs at about 18:28. Other 18:25 BTO handling as run I.
+  - **Arm E (consistency test of Holland's start-up model):** the 18:25 R600 + R1200 BFOs with the engine's Holland transient bias model (R1200 offset U[17, 130] Hz, R600 = R1200 offset + U[0, 6] Hz, shared, as at 00:19).
+    - If the model is sound, it should fit 18:25. If it is strongly disfavoured there, D4 at 00:19 loses support.
+    - Report the R600 18:25:27 innovation under each arm.
+- **Post predictions for D and E before running,** then results in the same table as A–C: increment against arm A, ln BF waypoints : free, and the 00:19 median per family. All arms carry the label "core, Davey both-BTO no-BFO 00:19 treatment".
+## 2026-10-12T18:11Z — core: 18:25:27 R600 smoke RESULT — the R600 log-on burst is consistent and informative; include it in run J
+
+Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-oct12/r600-1825-smoke.csv`.
+
+| family | arm | ln Z | seed sd | 00:19 median | R600 increment | 18:28 BFO+BTO increment |
+|---|---|---|---|---|---|---|
+| free | A (run I) | −136.12 | 0.26 | −37.02 | — | −17.71 |
+| free | B (+R600 BTO+BFO) | −145.19 | 0.58 | −35.62 | −9.59 | −16.71 |
+| free | C (+R600 BFO) | −139.82 | 0.75 | −36.82 | −4.27 | −16.53 |
+| waypoints | A | −129.30 | 0.72 | −37.20 | — | −17.67 |
+| waypoints | B | −137.95 | 0.97 | −37.20 | −9.67 | −16.81 |
+| waypoints | C | −132.28 | 0.75 | −37.18 | −4.44 | −16.45 |
+
+- **The R600 BFO (142 Hz) is consistent.** It is now the first BFO the filter sees, so its predictive sd includes the 25 Hz bias prior. The expected increment for a zero innovation is −4.18 nats, and the run gives −4.27 / −4.44. It then fixes the bias: the 18:28 increments improve by +1.0 to +1.2 nats.
+- **The R600 BTO (12,520 µs) is consistent.** Its part is about −5.3 nats, against −5.05 for a zero residual at sd 62 µs.
+- **ln BF waypoints : free:** A +6.82, B +7.24, C +7.54. The changes are within the seed noise (sd 0.7–1.0).
+- **Predictions:**
+  - (1) BFO increment −2.5 to −3.5: **missed**, because I left out the bias prior variance. BF change below 0.5: **marginal miss**, +0.72 in C, inside the noise.
+  - (2) BTO increment and BF change below 0.5: **met** (+0.42 in B).
+  - (3) median moves below 0.1°: **met for waypoints**. **Missed for free flight in B** (1.4° north), which at this scale is within the known free-flight seed noise (seed medians spread 1.1–1.6° at smoke scale) but needs checking at full scale.
+- **Proposal for run J:** score the 18:25:27 R600 log-on request (BTO + BFO, face value) in every family.
+-- Core
+
+## 2026-10-12T18:13Z — core → architecture/Pete: arms D and E of the 18:25 smoke
+
+- **Arm D is arm C. No new run is needed.** Run I already uses only the two final R1200 BFOs (18:28:05 at 144 Hz and 18:28:14 at 143 Hz). It already excludes the 18:25:34 and 18:27:03–08 R1200 BFOs (Davey's selection). So "R600 as observed + final two R1200" is arm C exactly:
+  - ln BF waypoints : free is +7.54, against +6.82 in arm A;
+  - the R600 innovation is consistent;
+  - the 00:19 median moves by 0.02° (waypoints) and 0.20° (free).
+  - The effect against holding out is modest, so by Pete's ruling **this is the 18:25 treatment from run J on**.
+- **Arm E (Holland's shared start-up offset at 18:25) is computed analytically, not with an engine run.**
+  - The test uses the difference of the R600 and R1200 residuals. That difference does not depend on the bias, and it changes by less than 1 Hz along the path over 7 s.
+  - Model as at 00:19: the R1200 offset is U[17,130] Hz, and the R600 offset is that plus U[0,6] Hz, with noise sd 7 Hz each.
+  - Measured: R600 142 Hz at 18:25:27, R1200 273 Hz at 18:25:34. The settled level is 143 Hz.
+  - **ln BF Holland : as-observed = −89** (bias sd 3–8 Hz: −88.8 to −89.2). The model would need the R600 near 273 Hz. It reads 142, which is a 13σ difference.
+  - If the R600 is paired instead with the first 18:27 burst (176 Hz), ln BF = −7.8.
+  - Table: `results/run-i-oct12/holland-startup-test-1825.csv`.
+- **Interpretation:** at the one log-on in this flight with independent truth (18:28 settled), the R600 BFO showed no start-up offset while the R1200 showed +130 Hz. The shared-offset assumption behind D4/H1 at 00:19 fails decisively at 18:25.
+  - Caveat (Holland fn 13): 18:25 followed a long power outage and 00:19 a short one, so the 18:25 test is not a direct test of 00:19.
+  - D4 stays a labelled option. Its support is now weaker, and the paper should state this test.
+- Not predicted before computing. It is analytic, not a run, so I am stating that here.
+-- Core
+
+## 2026-10-12T18:32Z — core: Pete's answers on the run J observation set; run J ON HOLD
+
+- **Done:** recorded Pete's rulings for the run J observation set (18:25 log-on).
+  - The R600 BFO at 18:25:27 is used as observed. YES.
+  - The R600 BTO at 18:25:27 (12,520 µs, sd 62) is included and flagged as the one large free-flight shift in the smoke. YES.
+  - **R1200: only the last two R1200 BFOs** of the 18:25–18:28 sequence, after the transient has settled. These are 18:28:05 (144 Hz) and 18:28:14 (143 Hz). The 18:25:34 and 18:27:03–08 BFOs are excluded. This is the same as run I. "R1200 at the end" refers to the end of this sequence, not to 00:19.
+  - **00:19 is unchanged in core:** Davey both-BTO, no BFO. The 00:19 BFOs stay with EoF.
+  - Net effect: the core observation file for run J = run I + the m1825r600 epoch (bto bfo). This is variant `engine/data/variants/satcom-observations-r600-1825.csv`, already committed (4297f3bc).
+- **Next:** run J is NOT to start until run I has gone through the other modules (Pete). Core holds.
+- **Blocker:** none.
+-- Core
+
+## 2026-10-12 18:40Z — architecture → core (Pete): run J HOLD extended
+
+- Run J does not start until run I has been through **every module AND composer pass 2** (end-to-end). Changes found there go into run J's config, so no core run is wasted (credits).
+- Meanwhile collect the run J change list in one place, `results/run-j-change-list.md`:
+  - the 18:25:27 R600 epoch (BTO + BFO, face value);
+  - the wording rules;
+  - anything from the composer.
+  Each item with its source and its smoke evidence.
+- Low-cost work allowed meanwhile: the merge of core-tau-h if not done, and answering module questions. No new deskstar runs without Pete.
+- **Note for the run J change list (from the paper assistant, PAPER.md 19:05Z):** Holland excluded the 18:25:27 R600 burst for signal quality (non-zero BER, low C/N0), not for the transient. Record the BER/C/N0 status of that burst from the Inmarsat log, if the project holds it. Arm E's −89 assumes the burst is trustworthy.
+
+## 2026-10-12 18:45Z — architecture → core (Pete): run J needs PETE'S EXPLICIT GO
+
+- Run J starts only on Pete's own go, given after composer pass 2 and the change list.
+- No delegated or architecture go applies to run J. Completing the composer does not trigger it.
+- When the change list is final, post a run J proposal (size, ETA, disk, predictions) and wait.

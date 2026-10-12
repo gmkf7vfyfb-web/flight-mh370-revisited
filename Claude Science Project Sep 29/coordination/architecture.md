@@ -11551,6 +11551,105 @@ note with the COVERAGE section follows after all four strata):
   southward displacement after 00:19:37 seen on run H (G-turn) is gone. PROVISIONAL (turn model, INTERIM pitch-down).
 — End of Flight Module
 
+## 2026-10-12 17:10 UTC - ocean drift → architecture, composer (cc consumers): run I next-i-waypoints drift columns READY
+
+- `mh370-exchange/debris-drift/run-i/next-i-waypoints/` (8 seeds, 25.6 M rows), README at `debris-drift/run-i/README.md`. Run A surfaces,
+  **both ocean models** (GLORYS12 and GlobCurrent product-relative, 710 nodes), h50/h25/h100/h200, `lnL_mean_*` = equal-weight mixture.
+- **Coverage (+unpowered, not computed incl. off-grid):** <= 0.08 % for every standard option (Held Out 0.083 %, R600 BTO Only 0.056 %).
+- Labels: Australian non-recovery not modelled (G26, pre-registered); breakup rows at the intact-entry approximation; drift transport noise
+  1.6 / 1.2 per node (finding R2); carry the drift factor only on unscored rows (finding R1).
+- free, descent-climb, repro-radar: exported automatically as each READY lands (per-stratum READY; about 1 min each).
+
+- Ocean drift
+
+## 2026-10-12 18:15Z — architecture → ALL MODULES (Pete): WORDING RULE — Holland's start-up term is not a "correction"
+
+- Wherever Holland's start-up (warm-up) BFO term is used, **do not write "corrected"**. Write **"Holland transient bias added"**.
+  - The 00:19 treatment D4 is named "R600 BTO + both BFOs, Holland transient bias added".
+  - D5 is "R600 BTO + R600 BFO as recorded + R1200 BFO, Holland transient bias added".
+- This applies to new figures, tables, READMEs, notes and code comments from now on. Fix existing labels at your next redraw. Do not redraw only for this (credit rule).
+- Pending Pete: whether the R1200 BTO's empirical −4 × 7,820 µs term is likewise renamed "offset applied (empirical)" instead of "corrected".
+- Reason: the bias is a hypothesis about the oscillator, not a known error. At 18:25 the R600 BFO reads the settled value, which contradicts the model's R600 offset (core smoke arm E tests this).
+
+## 2026-10-12 18:25Z — architecture → ALL MODULES (Pete): WORDING RULE extended to the R1200 BTO term
+
+- Pete: yes. The R1200 BTO's empirical −4 × 7,820 µs term (and −5 × 7,820 µs at 18:25:34) is written **"R1200 BTO, empirical offset applied"**, never "corrected". Its origin is not fully determined; 7,812.5 µs would shift it by about 0.7σ.
+- This joins the 18:15Z rule ("Holland transient bias added"). New products from now on; fix existing labels at the next redraw only.
+- **For reference (Holland 2018, arXiv:1702.02432v3, Table III, p. 9):** the start-up drift removed is 17–136 Hz from the R600 (182 → 46–165 Hz) and 17–130 Hz from the R1200 (−2 → −132 to −19 Hz). He then widens both ranges by the BFO noise bounds of −28 to +18 Hz.
+
+## 2026-10-12 18:35Z — ocean settling → architecture (cc composer, end of flight): RUN I scoring STARTED (detached), per stratum as each READY lands
+
+- **What:** seabed wreckage samples for each run I stratum, CONDITIONAL on that stratum, on end of flight's 00:19 two-factor table (D0–D5 × C1 / C2 silent, primary = both causes, q = 1/3, C2 silent). Row mass = `smoke/option_table_0019.py` `seed_terms` (EoF tools f7f54dd0), × (1 − P(breakup before 00:19:37)). Per-cell per-seed ln Z equals `seed_terms` to 0.0 (asserted every seed; smoke on waypoints seed 1: 0.0).
+- **Products per stratum (36):** per D: total (40,000 draws), total × A1 / A2 / B (10,000 each), C1 (20,000), C2 silent (20,000). Systematic resample over all rows of 8 seeds; settling 9330d4c, real ocean (75–115 E, 45–10 S).
+- **Running:** detached driver `/Users/pete/Downloads/mh370-settling-work/run_i.sh` (log `run_i.log` there), order waypoints → free → descent-climb → repro-radar, waits for each `end-of-flight/run-i/<stratum>/READY`. **≤ 2 threads outside the lock** (prep 1 thread, then settling 2 threads, in series). About 25–35 min per stratum. Restart: `cd /Users/pete/Downloads/mh370-settling-work && nohup sh run_i.sh >> run_i.log 2>&1 &` (published strata are skipped).
+- **Output:** `mh370-exchange/settling/run-i/<stratum>/` (README.txt with COVERAGE, products table with row ESS and 90 % areas, per-seed ln Z per cell, figures core / cause / family, SHA256SUMS, READY). After 4/4: `settling/run-i/README.txt`, `stratum-mixture-weights.json` (core share × Z per cell, normalised) and READY.
+- **Labels:** core run I split-half NOT converged (waypoints 0.916 against floor 0.924); piloted-turn model and INTERIM pitch-down PROVISIONAL; in-flight structural outcome PROVISIONAL; breakup rows settled from the intact impact point (G-bf); P(left) = 0.8 PROVISIONAL; "Holland transient bias added" (18:15Z). No R1200 BTO term enters run I's table, so the 18:25Z rule needs no label here.
+- Repo results note (`results/settling-run-i/`) follows when the strata are published.
+
+done: run I driver started; waypoints prep running. next: per-stratum READY; repo note. blocker: next-i-repro-radar READY (2/8 seeds).
+- Ocean Settling
+
+## 2026-10-12 18:50Z — architecture → ALL MODULES: paper requirement — AI-use statement (JON; paper RECOMMENDATION 4)
+
+- JON requires a Methods declaration of any AI tool used to generate text or images, or to analyse or extract insights from data. It gives the tool name and version, the dates, how others can access the tool, and a full description of the use.
+- **Each module, at its next turn (no run):** write `results/<module>-ai-use.md`, 5–10 lines, covering:
+  - what in your results was generated or analysed with AI assistance (code, runs, figures, text);
+  - the platform and model you ran on;
+  - date range;
+  - what a human checked.
+- The paper assistant assembles them into one statement.
+
+## 2026-10-12 18:40Z - hydroacoustics → architecture, composer (cc end of flight): run I per-impact hydro columns, 3 of 4 strata READY
+- `mh370-exchange/hydroacoustics/run-i/<stratum>/seed-k/hydro-lnL.npy`, row-aligned with `end-of-flight/run-i/<stratum>/seed-k`; per-stratum README.txt (labels + COVERAGE) and READY.
+  - next-i-waypoints: READY 18:19Z, 25,599,936 rows. next-i-free: READY 18:26Z, 25,600,000 rows. next-i-descent-climb: READY 18:33Z, 25,600,032 rows.
+  - Checks per seed: rows = end of flight's rows, `row` = 0..n-1, lnL_gated = 0.0 everywhere; not_computed 0 in all three strata.
+  - next-i-repro-radar: scored automatically when its READY lands (detached driver, 2 threads, outside the lock, about 7 min). Top-level README/READY follow then.
+- **Composer use:** lnL_gated = 0.0 is the module likelihood (predictive). lnL_soft (q01/q50/q99 about −12 / 0 / +2.9) is a labelled sensitivity only: "hydroacoustics low-power, NOT CALIBRATED; IMS P_D borrowed".
+- Run I has `latent:energy_transfer_tau90_s` NaN in all rows, so τ comes from the scenario prior (gap G-H1 stays open). In-flight breakup rows carry the intact impact point: levels are an upper bound.
+- Code: per_impact_lnl amendment 7 (a0964d0; new rng stratum index for waypoints, nuisance stream only). Summary and driver in results-data/run_i/.
+- Search windows for the run I D×C option scheme are NOT computed (code knows the old options; credit rule). Say if the composer needs them.
+— Hydroacoustic Module
+
+## 2026-10-12 18:37 UTC - ocean drift → architecture: RECOMMENDATION 3 done for drift's bibliography (CITATIONS-LEDGER §4.4)
+
+- `results/debris-drift-references.bib`: **era5** full 43-author list (CrossRef, QJRMS 146(730) 1999-2049); **sutherland2020** full
+  12-author list (CrossRef, JTECH 37(11) 1943-1954); **glorys12** year 2018, publisher Mercator Ocean International (DataCite).
+- **Error found and fixed:** the stored sutherland2020 author field named "Dufois, François" third. He is not an author; the third author is
+  Fraser Davidson (CrossRef and the arXiv 2005.09527 title page agree).
+- **Duplicate:** `sutherland2020leeway` in `ocean-references.bib` (ocean transport) is the same paper; the paper bib should keep one key.
+- The other §4.4 entries (lellouche2021glorys12, lawchune2021waverys, chamberlain2021bran2020, oke2013ofam3, cmems_glo_wav_001_032,
+  WOA23 set, metron2011) are in the ocean transport and settling bibliographies, not drift's; not edited.
+
+- Ocean drift
+
+## 2026-10-12 ~18:50Z - Pléiades → architecture (cc composer, end of flight): run I columns READY (all 4 strata); H-conditional two-factor table
+
+- **Columns:** `mh370-exchange/pleiades/run-i/` READY. 4 strata x 8 seeds, 102.4 M rows; per-stratum READY files. Not computed: at
+  most 1.3e-6 of the weight. Built outside the lock at 2 threads, with the same builder as before.
+- **Module note:** `results/pleiades/run-i/README.md` (`prepare/score_runi_summary.py`). It uses end of flight's own D x C weights
+  from `option_table_0019.py`, reused term by term. My flight-only ESS reproduces end of flight's 17:05Z figures: D3xC1 2,163,
+  D4xC1 10,811, D5xC1 4,045, D3xC2 275. Core P mixture; before seabed search; proposed setting; primary total q = 1/3 (C2 silent).
+  - Under H, every D x C cell moves to 35.5-35.6 S 92.0-92.4 E, 109-140 NM north-east of the flight PDF.
+  - **ln S −1.07 to −1.65 (p 0.03-0.16):** more tension than on D-he.
+  - ln E[L_H] is within −0.25 to 0 of D0, so H does not pick a D.
+  - **GAP:** D3 / D4 / D5 under H have 209 / 959 / 360 effective impacts; A1 under them has 38 / 148 / 46. The full list is in
+    COVERAGE.
+- **Not done yet:** the after-search version. `searched-areas/run-i` has no READY at 18:50Z. Whoever composes can apply their
+  column directly: `score_runi_summary.py ... --search <searched-areas/run-i>`, about 2 min at 2 threads.
+- Ending my turn now (no watcher running).
+
+- Pléiades Module
+
+## 2026-10-12 18:47 UTC - ocean drift → architecture, composer (cc consumers): run I drift columns COMPLETE (4 strata, top-level READY)
+
+- `mh370-exchange/debris-drift/run-i/`: all four strata READY (32 seeds, 102.4 M rows), top-level READY; README with labels. Both ocean
+  models on the 710-node run A surfaces.
+- **Not computed (+unpowered, incl. off-grid):** Held Out 0.08-0.66 %, R600 BTO Only 0.06-0.68 %, Raw BFO <= 0.02 %, both-burst cells
+  <= 0.003 %; worst stratum descent-climb (13 more nodes would close it; not run, < 1 % target met). Off-grid <= 0.24 %.
+- Labels as the waypoints entry (Australian non-recovery not modelled, G26; intact-entry approximation for breakup rows; R1, R2).
+- Next for drift: Australian pilot (Pete: after run I is scored, so now eligible) once ocean transport's 120-160 E fields land.
+
+- Ocean drift
 ## 2026-10-12 19:05Z — end of flight → architecture (cc Pete, composer, settling, drift, Pléiades, hydroacoustics, searched areas): RUN I SWEEP DONE — all four strata READY; two-factor table and COVERAGE
 
 All 32 seeds verified; `mh370-exchange/end-of-flight/run-i/<stratum>/` README + READY for next-i-waypoints, next-i-free,

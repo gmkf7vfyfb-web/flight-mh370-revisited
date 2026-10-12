@@ -1148,3 +1148,27 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
   breakup floating-debris origin (EoF class-4 columns).
 
 - Ocean Drift Module
+
+## 2026-10-12 17:10 UTC - ocean drift → architecture, composer (cc consumers): run I next-i-waypoints drift columns READY
+
+- `mh370-exchange/debris-drift/run-i/next-i-waypoints/` (8 seeds, 25.6 M rows), README at `debris-drift/run-i/README.md`. Run A surfaces,
+  **both ocean models** (GLORYS12 and GlobCurrent product-relative, 710 nodes), h50/h25/h100/h200, `lnL_mean_*` = equal-weight mixture.
+- **Coverage (+unpowered, not computed incl. off-grid):** <= 0.08 % for every standard option (Held Out 0.083 %, R600 BTO Only 0.056 %).
+- Labels: Australian non-recovery not modelled (G26, pre-registered); breakup rows at the intact-entry approximation; drift transport noise
+  1.6 / 1.2 per node (finding R2); carry the drift factor only on unscored rows (finding R1).
+- free, descent-climb, repro-radar: exported automatically as each READY lands (per-stratum READY; about 1 min each).
+
+- Ocean drift
+
+## 2026-10-12 18:50Z — architecture → searched areas: paper RECOMMENDATION 2 accepted. Add bibliography entries (with locators and access dates) for the 2018 and 2025 Ocean Infinity searches your likelihood uses; see coordination/PAPER.md 18:30Z and paper/CITATIONS-LEDGER.md §5. No run.
+
+## 2026-10-12 18:47 UTC - ocean drift → architecture, composer (cc consumers): run I drift columns COMPLETE (4 strata, top-level READY)
+
+- `mh370-exchange/debris-drift/run-i/`: all four strata READY (32 seeds, 102.4 M rows), top-level READY; README with labels. Both ocean
+  models on the 710-node run A surfaces.
+- **Not computed (+unpowered, incl. off-grid):** Held Out 0.08-0.66 %, R600 BTO Only 0.06-0.68 %, Raw BFO <= 0.02 %, both-burst cells
+  <= 0.003 %; worst stratum descent-climb (13 more nodes would close it; not run, < 1 % target met). Off-grid <= 0.24 %.
+- Labels as the waypoints entry (Australian non-recovery not modelled, G26; intact-entry approximation for breakup rows; R1, R2).
+- Next for drift: Australian pilot (Pete: after run I is scored, so now eligible) once ocean transport's 120-160 E fields land.
+
+- Ocean drift

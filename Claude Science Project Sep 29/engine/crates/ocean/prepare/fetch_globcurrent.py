@@ -12,7 +12,10 @@ import copernicusmarine as cm
 out = sys.argv[1]
 os.makedirs(out, exist_ok=True)
 user, pw = os.environ["COPERNICUS"].strip().split(":", 1)
-BOX = dict(minimum_longitude=15, maximum_longitude=120, minimum_latitude=-50, maximum_latitude=0, minimum_depth=0, maximum_depth=0)
+LON = tuple(float(x) for x in os.environ.get("FORCING_LON", "15,120").split(","))
+TAG = "" if LON == (15.0, 120.0) else f"_{LON[0]:g}-{LON[1]:g}E"
+DAILY_ONLY = TAG != ""   # the eastern extension (drift, 12 Oct) needs the daily product only
+BOX = dict(minimum_longitude=LON[0], maximum_longitude=LON[1], minimum_latitude=-50, maximum_latitude=0, minimum_depth=0, maximum_depth=0)
 
 
 def sha256(p):
@@ -34,7 +37,8 @@ def get(name, **req):
     print(json.dumps({k: rec[k] for k in ("file", "bytes", "sha256")}), flush=True)
 
 
-get("globcurrent_my_pt1h_uo_vo_0m_20140307-20140331.nc", dataset_id="cmems_obs-mob_glo_phy-cur_my_0.25deg_PT1H-i",
-    dataset_version="202411", variables=["uo", "vo"], start_datetime="2014-03-07T00:00:00", end_datetime="2014-03-31T23:00:00")
-get("globcurrent_my_p1d_uo_vo_err_0m_20140307-20170131.nc", dataset_id="cmems_obs-mob_glo_phy-cur_my_0.25deg_P1D-m",
+if not DAILY_ONLY:
+  get("globcurrent_my_pt1h_uo_vo_0m_20140307-20140331.nc", dataset_id="cmems_obs-mob_glo_phy-cur_my_0.25deg_PT1H-i",
+      dataset_version="202411", variables=["uo", "vo"], start_datetime="2014-03-07T00:00:00", end_datetime="2014-03-31T23:00:00")
+get(f"globcurrent_my_p1d_uo_vo_err_0m{TAG}_20140307-20170131.nc", dataset_id="cmems_obs-mob_glo_phy-cur_my_0.25deg_P1D-m",
     dataset_version="202411", variables=["uo", "vo", "err_uo", "err_vo"], start_datetime="2014-03-07T00:00:00", end_datetime="2017-01-31T00:00:00")

@@ -791,28 +791,30 @@ def main():
             overlap each other by {min(pairwise):.0%}–{max(pairwise):.0%} and their medians span
             {max(rep_med) - min(rep_med):.2f}°{stability}.""")
         # Panel (a) takes whatever height the text leaves above panel (b).
-        ax1 = fig.add_axes([0.11, 0.425, 0.82, max(0.08, min(0.15, y - 0.04 - 0.425))])
-        ax2 = fig.add_axes([0.11, 0.15, 0.82, 0.2])
+        # Without a BTO-only case (Pete, 12 Oct 2026: drop the empty panel), panel (b) takes the whole height.
+        if bto:
+            ax1 = fig.add_axes([0.11, 0.425, 0.82, max(0.08, min(0.15, y - 0.04 - 0.425))])
+            ax2 = fig.add_axes([0.11, 0.15, 0.82, 0.2])
+        else:
+            ax1 = None
+            ax2 = fig.add_axes([0.11, 0.15, 0.82, max(0.2, y - 0.06 - 0.15)])
         if bto:
             for r in bto["reps"]:
                 ax1.plot(GRID, r["density"], color=OURS, lw=0.5, alpha=0.45)
             ax1.plot(GRID, bto["density"], color=OURS, label="This recreation (pooled)")
             ax1.set_title("(a) BTO only (no BFO): the arcs alone admit northern and southern routes", loc="left", color=INK)
-        else:
-            ax1.text(0.5, 0.5, "BTO-only case not run in this configuration", transform=ax1.transAxes,
-                     ha="center", va="center", color=MUTED)
-            ax1.set_title("(a) BTO only (no BFO)", loc="left", color=INK)
-        ax1.set_xlim(-50, 50)
-        ax1.set_xlabel("Latitude at 00:19 UTC (°, north positive)")
+        if ax1 is not None:
+            ax1.set_xlim(-50, 50)
+            ax1.set_xlabel("Latitude at 00:19 UTC (°, north positive)")
         for r in bfo["reps"]:
             ax2.plot(GRID, r["density"], color=OURS, lw=0.5, alpha=0.45)
         ax2.plot(GRID, bfo["density"], color=OURS, label=f"This recreation, pooled over {len(seeds)} replicates (thin: each)")
         ax2.plot(GRID, davey, color=DAVEY, ls=(0, (5, 2)), label="Davey et al. (2016) Fig. 10.3, digitised")
         if base:
             ax2.plot(GRID, base["density"], color=MUTED, ls=(0, (1, 1.5)), lw=1.2, label=os.environ.get("BASELINE_LABEL", "Base estimate (no hypotheses)"))
-        ax2.set_title("(b) BTO and BFO, compared with the published curve (note expanded scale)", loc="left", color=INK)
+        ax2.set_title(("(b) " if ax1 is not None else "") + "BTO and BFO, compared with the published curve (note expanded scale)", loc="left", color=INK)
         ax2.legend(loc="upper right")
-        for ax in (ax1, ax2):
+        for ax in [a for a in (ax1, ax2) if a is not None]:
             ax.set_ylabel("Probability density (per degree)")
             ax.set_ylim(bottom=0)
             ax.grid(axis="y", color="#e9e8e4", lw=0.5)
@@ -827,8 +829,8 @@ def main():
         ax2.grid(axis="x", which="minor", color="#f1f0ec", lw=0.45)
         ax2.set_xlabel("Latitude at 00:19 UTC (°)")
         text_block(fig, 0.08, 0.085, f"""
-            Figure 1. Latitude pdf of the aircraft at 00:19:37 UTC, the form of Davey et al. Fig. 10.3. (a) BTO only.
-            (b) BTO and BFO, with the published curve. Densities are weighted particle histograms smoothed with a {SMOOTH_DEG}° Gaussian;
+            Figure 1. Latitude pdf of the aircraft at 00:19:37 UTC, the form of Davey et al. Fig. 10.3. {"(a) BTO only. (b) " if bto else ""}BTO and BFO,
+            with the published curve. Densities are weighted particle histograms smoothed with a {SMOOTH_DEG}° Gaussian;
             each particle carries its own altitude. Evidence: BTO at every epoch except the 18:39 and 23:15 C-channel
             calls; BFO (bottom only) at 18:28, 18:39, 19:41–22:41, 23:15 and 00:11. {evidence_sentence(run)} {conditions if len(conditions) < 160 else "Run conditions as stated at the top of this page."}""", size=8, colour=MUTED, width=128)
         save_page(pdf, fig, out)
@@ -913,6 +915,8 @@ def main():
                 ("Overlap with published pdf", f"{ov:.0%} (replicates {min(rep_ov):.0%}–{max(rep_ov):.0%})", "—"),
                 ("Median Mach at 00:19", f"{mach_med:.3f}", "upper part of 0.73–0.84"),
                 ("P(north of equator), BTO only", f"{p_north_bto:.0%}" if bto else "not run", "northern mode present")]
+        if not bto:
+            rows = rows[:-1]
         tab = fig.add_axes([0.08, 0.17, 0.84, 0.18])
         tab.axis("off")
         for i, row in enumerate(rows):
@@ -981,8 +985,7 @@ def main():
             project found tails and turn counts that changed with the random seed.
 
             Run. Configuration {cfg['name']}; particles per mode {', '.join(f"{n:,}" for n in cfg['particles_per_mode'])}
-            (order as in Figure 3d), {n_total:,} per replicate; BTO+BFO seeds {', '.join(map(str, seeds))}; BTO-only
-            seeds {', '.join(map(str, case_seeds.get('bto-only', [])))}; code revision {run['code_revision']}; {run['threads']} threads;
+            (order as in Figure 3d), {n_total:,} per replicate; BTO+BFO seeds {', '.join(map(str, seeds))}{("; BTO-only seeds " + ", ".join(map(str, case_seeds.get("bto-only", [])))) if case_seeds.get("bto-only") else ""}; code revision {run['code_revision']}; {run['threads']} threads;
             total runtime {runtime_min:.1f} min; peak memory {peak_memory}. {conditions}
 
             Reproduce with one command from the repository root:  {reproduce}""", size=8.5, width=118)
