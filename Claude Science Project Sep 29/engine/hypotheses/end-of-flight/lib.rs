@@ -1372,7 +1372,7 @@ impl EndOfFlight {
             mass_kg: parent.mass_kg,
             fuel_kg: if propulsion == Propulsion::NeitherThrusting { 0.0 } else { parent.fuel_kg },
         };
-        let shape = self.params.envelope.sample(&start, propulsion, control, &aero, self.params.proposal.window(), uniform);
+        let shape = self.params.envelope.sample_with_tau(&start, propulsion, control, &aero, self.params.proposal.window(), Some(takeover.tau_h), uniform);
         let profile_lq = shape.log_q_correction;
         let mut flying = Flying::new(shape, aero, propulsion, &self.params.envelope);
         // Spiral regime of free dynamics (deliverable 1 calibration; Pete's ruling on the weight). No

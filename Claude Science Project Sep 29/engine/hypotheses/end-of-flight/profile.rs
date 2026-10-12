@@ -269,6 +269,28 @@ pub struct EnvelopeConfig {
     pub circuit_downwind_s: Range,
     #[serde(default = "default_circuit_base")]
     pub circuit_base_s: Range,
+    /// Use the particle's own tau_h (hand-off) for the Davey turns after the onset; fall back to a Jeffreys draw if not finite.
+    #[serde(default)]
+    pub davey_tau_from_handoff: bool,
+    /// Push-over proposal probability for powered profiles whose fuel at the onset lasts past 00:19:29.4 + margin at
+    /// `pushover_fuelled_burn_kg_h` (C2-silent component). Absent: `rapid_descent_probability` for every eligible profile.
+    #[serde(default)]
+    pub pushover_fuelled_probability: Option<f64>,
+    #[serde(default = "default_fuelled_margin")]
+    pub pushover_fuelled_margin_s: f64,
+    #[serde(default = "default_fuelled_burn")]
+    pub pushover_fuelled_burn_kg_h: f64,
+}
+
+/// 00:19:29.416 UTC, the R600 log-on (unix s).
+const T_BURST_A: f64 = 1_394_237_969.416;
+
+fn default_fuelled_margin() -> f64 {
+    120.0
+}
+
+fn default_fuelled_burn() -> f64 {
+    5_764.0
 }
 
 fn default_terminal_window() -> f64 {
@@ -486,7 +508,7 @@ impl EnvelopeConfig {
     }
 
     /// G-turn: the piloted manoeuvres of one descent (none for no intervention, which flies no piloted law).
-    fn draw_manoeuvres(&self, control: Control, uniform: &mut dyn FnMut() -> f64) -> super::manoeuvre::ManoeuvreDraw {
+    fn draw_manoeuvres(&self, control: Control, tau_handoff_h: Option<f64>, uniform: &mut dyn FnMut() -> f64) -> super::manoeuvre::ManoeuvreDraw {
         use super::manoeuvre::{Circuit, Manoeuvre, ManoeuvreDraw, Steer};
         let mut d = ManoeuvreDraw { window_s: self.terminal_window_s, ..Default::default() };
         if control == Control::NoIntervention {
@@ -504,7 +526,10 @@ impl EnvelopeConfig {
             }
         };
         if let Some([a, b]) = self.davey_tau_range_h {
-            let tau_h = (a.ln() + (b.ln() - a.ln()) * uniform()).exp();
+            let tau_h = match tau_handoff_h {
+                Some(t) if t.is_finite() && t > 0.0 => t,
+                _ => (a.ln() + (b.ln() - a.ln()) * uniform()).exp(),
+            };
             d.davey_tau_h = Some(tau_h);
             poisson(1.0 / (tau_h * 3_600.0), 3, uniform, &mut d.queue);
         }
@@ -571,6 +596,7 @@ impl EnvelopeConfig {
     }
 
     /// Sample a profile for one descent.
+    #[cfg_attr(not(test), allow(dead_code))] // the runner calls sample_with_tau
     pub fn sample(
         &self,
         start: &Body,
@@ -580,13 +606,48 @@ impl EnvelopeConfig {
         window: Option<LossWindow>,
         uniform: &mut dyn FnMut() -> f64,
     ) -> Profile {
+        self.sample_with_tau(start, propulsion, control, aero, window, None, uniform)
+    }
+
+    /// As `sample`, with the particle's own Davey manoeuvre time constant (hours) from the hand-off, used for the Davey turns
+    /// after the onset when `davey_tau_from_handoff` is set (run I: handoff column 5 = FlightState::tau_h).
+    #[allow(clippy::too_many_arguments)]
+    pub fn sample_with_tau(
+        &self,
+        start: &Body,
+        propulsion: Propulsion,
+        control: Control,
+        aero: &Aero,
+        window: Option<LossWindow>,
+        tau_h: Option<f64>,
+        uniform: &mut dyn FnMut() -> f64,
+    ) -> Profile {
         let shape = self.sample_shape(propulsion, control, uniform);
+        // C2-silent cells (architecture 02:15Z; Pete 12 Oct "burst proposals for every D x C cell"): a powered aircraft with fuel
+        // to spare after the 00:19 bursts is where "other cause, no later log-on before impact" lives, so its push-over is
+        // proposed more often; the exact ln(prior/proposal) of the draw keeps the U[0, 1] hyper-prior's marginal.
+        let po_p = match self.pushover_fuelled_probability {
+            Some(p) if propulsion != Propulsion::NeitherThrusting
+                && start.fuel_kg / (self.pushover_fuelled_burn_kg_h / 3_600.0) > (T_BURST_A - start.unix_s) + self.pushover_fuelled_margin_s => p,
+            _ => self.rapid_descent_probability,
+        };
+        let po_draw = |u: f64| -> (bool, f64) {
+            let drawn = u < po_p;
+            let lq = if (po_p - self.rapid_descent_probability).abs() < 1e-15 {
+                0.0
+            } else if drawn {
+                (self.rapid_descent_probability / po_p).ln()
+            } else {
+                ((1.0 - self.rapid_descent_probability) / (1.0 - po_p)).ln()
+            };
+            (drawn, lq)
+        };
         let mut phases: Vec<Phase> = Vec::new();
         let mut pushover_eligible = false;
         let mut pushover: Option<(f64, f64, f64)> = None;
         let mut po_lq = 0.0;
         let n_ceiling_g = self.piloted_load_factor_ceiling_g.as_ref().map(|r| r.draw(uniform));
-        let manoeuvres = self.draw_manoeuvres(control, uniform);
+        let manoeuvres = self.draw_manoeuvres(control, if self.davey_tau_from_handoff { tau_h } else { None }, uniform);
         let level_c_l = {
             let t = atmos::isa_temperature_k(start.pressure_altitude_ft);
             let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(start.pressure_altitude_ft), start.tas_mps / atmos::sound_speed_mps(t));
@@ -596,7 +657,9 @@ impl EnvelopeConfig {
             Shape::BestGlide => {
                 if self.rapid_descent_probability > 0.0 {
                     pushover_eligible = true;
-                    if uniform() < self.rapid_descent_probability {
+                    let (drawn, lq0) = po_draw(uniform());
+                    po_lq += lq0;
+                    if drawn {
                         let (ph, d, lq) = self.draw_pushover_phase(start, aero, false, 0, uniform);
                         phases.push(ph);
                         pushover = Some(d);
@@ -613,7 +676,9 @@ impl EnvelopeConfig {
             Shape::Continuous => {
                 if self.rapid_descent_probability > 0.0 {
                     pushover_eligible = true;
-                    if uniform() < self.rapid_descent_probability {
+                    let (drawn, lq0) = po_draw(uniform());
+                    po_lq += lq0;
+                    if drawn {
                         let powered = propulsion != Propulsion::NeitherThrusting;
                         let (ph, d, lq) = self.draw_pushover_phase(start, aero, powered, if powered { 8 } else { 0 }, uniform);
                         phases.push(ph);
@@ -631,7 +696,9 @@ impl EnvelopeConfig {
             Shape::EmergencyThenTransition => {
                 let transition = self.transition_altitude_ft.draw(uniform).min(start.pressure_altitude_ft - 1_000.0);
                 pushover_eligible = self.rapid_descent_probability > 0.0;
-                if pushover_eligible && uniform() < self.rapid_descent_probability {
+                let (drawn, lq0) = if pushover_eligible { po_draw(uniform()) } else { (false, 0.0) };
+                po_lq += lq0;
+                if drawn {
                     let (ph, d, lq) = self.draw_pushover_phase(start, aero, true, 8, uniform);
                     phases.push(ph);
                     pushover = Some(d);
@@ -1188,6 +1255,10 @@ pub(super) mod tests {
             circuit_probability: 0.0,
             circuit_downwind_s: default_circuit_downwind(),
             circuit_base_s: default_circuit_base(),
+            davey_tau_from_handoff: false,
+            pushover_fuelled_probability: None,
+            pushover_fuelled_margin_s: default_fuelled_margin(),
+            pushover_fuelled_burn_kg_h: default_fuelled_burn(),
         }
     }
 
@@ -1536,6 +1607,37 @@ pub(super) mod tests {
         let p_off = envelope().sample(&body(35_000.0), Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u1);
         assert!(p_off.manoeuvres.queue.is_empty() && p_off.manoeuvres.terminal.is_empty() && p_off.manoeuvres.circuit.is_none());
         assert!(Flying::new(p_off, aero, Propulsion::TwoThrusting, &envelope()).pilot.is_empty());
+    }
+
+    /// The C2-silent push-over component: fuelled powered profiles propose the push-over at 0.8, and the exact correction
+    /// restores the marginal 0.5 (E[exp(lq) 1(drawn)] = 0.5, E[exp(lq)] = 1); unfuelled profiles are unchanged.
+    #[test]
+    fn the_fuelled_push_over_component_is_exactly_corrected() {
+        let e = EnvelopeConfig { rapid_descent_probability: 0.5, pushover_fuelled_probability: Some(0.8), ..envelope() };
+        let aero = reference();
+        let mut b = body(35_000.0);
+        b.unix_s = 1_394_237_459.0;
+        b.fuel_kg = 5_000.0;
+        let (mut m1, mut md, mut n) = (0.0, 0.0, 0.0);
+        // A pseudo-random stream (xorshift): the golden-ratio sweep correlates successive draws within one profile.
+        let mut state: u64 = 0x9E37_79B9_7F4A_7C15;
+        let mut u = move || {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            ((state >> 11) as f64 + 0.5) / (1u64 << 53) as f64
+        };
+        for _ in 0..4_000 {
+            let p = e.sample(&b, Propulsion::TwoThrusting, Control::DitchingAttempt, &aero, None, &mut u);
+            if !p.pushover_eligible {
+                continue;
+            }
+            n += 1.0;
+            m1 += p.log_q_correction.exp();
+            md += p.log_q_correction.exp() * f64::from(u8::from(p.pushover.is_some()));
+        }
+        assert!(n > 500.0, "{n}");
+        assert!((m1 / n - 1.0).abs() < 0.03 && (md / n - 0.5).abs() < 0.03, "{} {}", m1 / n, md / n);
     }
 
     #[test]
