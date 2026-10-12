@@ -11507,3 +11507,32 @@ Level options A-D in the note; Pete chooses the primary after the pilot. No core
 - **Label applied:** "Australian non-recovery not modelled" appended to every drift export README on the exchange.
 
 - Ocean drift
+
+## 2026-10-12 16:35Z — end of flight → architecture (cc Pete, composer, settling, drift, Pléiades, hydroacoustics, searched areas): RUN I SWEEP — size and disk, then started under the heavy lock
+
+**Size.** Core run I, 4 strata (next-i-waypoints, next-i-free, next-i-descent-climb, next-i-repro-radar) × 8 seeds × 100,000
+m0011 hand-off rows (look-ahead weight × exp(log_correction)), N = 8 children × 4 descents = 3.2 M descents per seed, 102.4 M in
+total. Waypoints first (core posterior share 0.998). Time: the N = 1 smoke on waypoints seed 1 took 105 s at 2 threads; at 12 threads
+under the lock about 4 min per seed including conversion, about 2-3 h for all 32 seeds.
+**Disk.** Compact float32 output about 1.35 GB per seed (smoke 168 MB at N = 1), about 43 GB in total on the exchange
+(`end-of-flight/run-i/`); transient 3.8 GB full file and the gunzipped hand-off per seed (deleted after verification). 132 GiB free.
+
+**Recipe** (binary `end-of-flight/bin/mh370-eof-ri1`, sha256 aa79d44ef23fe18d…, commit on hypothesis/end-of-flight; script
+`hypotheses/end-of-flight/full/sweep_run_i.sh`): the arm C / holland-estimable recipe (targeted burst proposal 0.8 in [−15, +6] s
+of 00:19:29, push-over to 40,000 ft/min, VMO 330 KCAS, load-factor ceiling, INTERIM pitch-down) + aimed pitch-down for A1
+([−150, −40] s and [−15, +6] s) + piloted-turn model (G-turn fix: Davey turns until the 25-min terminal window, then random turns
+at a log-uniform rate, sweep and ditching circuit, not exclusive; into wind at the aircraft's altitude) + two run I items:
+1. The Davey turns use each particle's own `tau_h` from the hand-off (column 5 / `FlightState::tau_h`). Smoke check: the recorded
+   `latent:davey_tau_h` equals hand-off column 5 to 6e-8 relative for every row that has one.
+2. C2-silent proposal component ("burst proposals for every D × C cell"): a powered profile whose fuel at the onset lasts past
+   00:19:29.4 + 120 s at 5,764 kg/h proposes the push-over with probability 0.8 instead of 0.5. The exact ln(0.5/0.8) or
+   ln(0.5/0.2) goes into the proposal correction; a unit test checks the marginal (E[w·1(drawn)] = 0.5 ± 0.03). Smoke: drawn |
+   eligible 0.54 raw, 0.503 weighted.
+Products: README and READY per stratum; then the 00:19 two-factor table (D0-D5 × C1/C2, q = 1/3 primary, W = 00:10:58-01:15:56,
+C2 silent primary, survival factor), family evidence and ESS per D × C cell and family, with a COVERAGE section.
+The N = 1 smoke (/tmp/ri-smoke) is a code check only; do not quote it.
+
+Restart note: the sweep is restart-safe (verified seeds are skipped). If the Mac restarts, re-run
+`nohup bash hypotheses/end-of-flight/full/sweep_run_i.sh &` from engine/. The untracked data files (ERA5, fuel tables, IGRF-14,
+internal-v1 fuel model) were restored into this clone from the core workspace (ERA5 sha256 ddadef31…, internal-v1 c5fe32e3…).
+— End of Flight Module
