@@ -373,3 +373,21 @@ Standing rule: Pete, 10 Oct 2026 (see coordination/architecture.md). Status: ope
 | G21 | Hydroacoustics | H08N: Chagos Bank blocks every impact path in the model (K4) | reach | an H08N non-detection carries no information; labelled G-N1 | declared |
 | G22 | Hydroacoustics | Ridge cutting the sound-channel axis (air7 → H01W, about 29 S 98 E): module TL about 49–55 dB too lossy, not fixed by N×2D (K5) | reach | path-specific; checked not to reach run C → H01W predictions | declared (G-N2) |
 | G23 | Core | Route turn model: fly-over + direct-to (runs G and audit) against fly-by + leg tracking (run H, hybrid). The model change moves route ln Z by up to 7.6 nats and 00:19 latitude by about 0.7° | model reach | every route-family result before run H | RESOLVED: fly-by + leg tracking adopted (core 18:46Z); bank-angle and cap sensitivity pending |
+
+
+## 00:19 log-on model (Pete, 12 Oct 2026; END_OF_FLIGHT.md 01:45Z, 02:05Z, 02:15Z)
+- **Data treatment D:**
+  - D0: held out.
+  - D1: R600 BTO only.
+  - D2: + R600 BFO as recorded.
+  - D3: + both BFOs as recorded.
+  - D4: + both BFOs with Holland's warm-up offset.
+  - D5: offset on R1200 only.
+  - No D uses the R1200 BTO, which stays only in the Davey reproduction arm.
+- **Cause C:**
+  - C1: fuel exhaustion + APU (Erlang lag).
+  - C2: other (rate q/W).
+  - Combined per row as competing causes, L = f_lag + q/W, with q = 1/3, W = 00:10:58–01:15:56. Sensitivity q = 1.
+- **Bayes factors** only within the same data: C1:C2 per D, and D3:D4 per C.
+- Holland's Hypotheses 1 and 2 are the named cells D4×C1 and D3×C2 (arXiv:1702.02432 p. 8; his footnote 13 supports the decoupling).
+- Hard selection by exhaustion window is not used: it charges nothing for an unexplained log-on.

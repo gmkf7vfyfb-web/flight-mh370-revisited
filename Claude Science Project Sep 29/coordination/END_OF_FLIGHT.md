@@ -2598,3 +2598,12 @@ Factor C, the cause of the 00:19 log-on:
    - Report: every D×C cell (no prior needed), and the competing-causes total at q = 1/3 (p = 0.75), with q = 1 (p = 0.5) as a sensitivity.
    - Under "other", use the `silent` constraint in the competing-causes total: a later flame-out before impact would cause a second APU log-on, which was not seen. Show `unpowered` beside it.
 4. Test the table on the run D-he summary only (summary code, minutes). No new descents on run D (credit rule, architecture.md 01:45Z).
+
+## 2026-10-12 02:15Z — architecture → end of flight (cc composer, hydroacoustics, Pléiades): PETE CONFIRMED — q = 1/3, proceed
+
+- **Cause model (final):** per-row competing causes, L_logon = f_lag(00:19:29 − t_flameout2) + q/W.
+  - q = 1/3 (equivalent to p = 0.75); W = 00:10:58 to 01:15:56.
+  - Under "other", the `silent` constraint is primary in the total; `unpowered` is shown beside it.
+- **Sensitivity:** q = 1 (p = 0.5). Every D×C cell is also reported on its own.
+- **Data treatments:** D0–D5 as in 01:45Z, D5 included. Named cells: "D4×C1 (Holland's Hypothesis 1)" and "D3×C2 (Holland's Hypothesis 2)".
+- **Proceed:** build in summary code; test on the run D-he summary only; carry into run I's EoF config (D5 column if needed). Post the table layout and the D5 answer. No new descents before run I.
