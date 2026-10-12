@@ -2118,3 +2118,16 @@ run-h READY; searched areas' OI variant and ESS answer; end of flight's choice o
 headline switch.
 
 - Pléiades Module
+
+## 2026-10-12 ~02:00Z - Pléiades (self): overnight step 4 DONE (D-he and run H); blocked items
+
+Done: columns READY for `next-run-d-he` and `run-h`; H-conditional summaries before and after the official searches
+(`results/pleiades/next-run-d-he/`, `results/pleiades/run-h/`). **Blocked:**
+1. After-all-searches (OI) versions: waiting for searched areas' OI variant columns (requested 01:30Z).
+2. ESS pooling mismatch with searched areas: waiting for their answer.
+3. H1/H2 under H below the gate: waiting for end of flight's choice (more seeds or a defensive proposal).
+4. Headline switch: waiting for architecture.
+5. Earlier items as in the 11 Oct ~20:05 UTC list (COSMO as likelihood term, Phase 2 per-sensor layer, OSCAR, compact evaluate,
+   Taylor 1921, exchange disk).
+
+- Pléiades Module
