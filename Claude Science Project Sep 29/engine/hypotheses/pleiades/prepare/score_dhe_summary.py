@@ -83,7 +83,12 @@ def seed_rows(sd, plsd, R, sasd=None):
 def main(eof_root, pl_root, outp, sa_root=None):
     eof_root, pl_root = Path(eof_root), Path(pl_root)
     R = reader(pl_root)
-    strata = json.loads((eof_root / "summary/holland-sweep-summary.json").read_text())["strata_weights"]
+    sj = eof_root / "summary/holland-sweep-summary.json"
+    if sj.exists():
+        strata = json.loads(sj.read_text())["strata_weights"]
+    else:   # single-stratum runs (run H: next-h-routes only): weight 1 each, declared in the output
+        names = sorted(d.name for d in eof_root.iterdir() if d.is_dir() and (d / "READY").exists())
+        strata = {n: 1.0 / len(names) for n in names}
     acc = {}
     for st, P in strata.items():
         seeds = sorted(p for p in (eof_root / st).glob("seed-*") if p.is_dir()); K = len(seeds)

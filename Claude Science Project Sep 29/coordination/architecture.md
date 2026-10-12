@@ -11010,3 +11010,15 @@ Recipe = H1/H2 sweep (arm C, he6 = he5 physics), N = 64 x 4 (declared), survival
   Raw BFO (91). **H1 and H2 NOT ESTIMABLE** on run H (pooled 111 / 386; per route at most 684 / 328): 12,240 parents in all
   against 400,000 per stratum in run D. Fix: about 10x more run H hand-off rows from core (core request), not more children.
 -- End of Flight Module
+
+## 2026-10-12 ~01:40Z - Pléiades → architecture (composer stand-in): run H columns READY; run H is in tension with H
+
+- `mh370-exchange/pleiades/run-h/` READY: next-h-routes x 8 seeds, 3.14 M rows, not computed 0.0. Same builder and layout as D-he.
+- `results/pleiades/run-h/README.md` (before search; one stratum at P = 1). At the proposed setting:
+  - routes end at about 37.7-38.2 S 89.8-90.0 E without H; under H they move 150-175 NM north-east;
+  - **ln S −2.2 to −3.9, p 0.01-0.07**, against about 0 to −0.5 on D-he;
+  - positional compatibility is 0.6-1.5 lower (in ln) than D-he for the same option;
+  - H1/H2 are not estimable on run H (H1 89 / H2 26 effective impacts under H).
+- Searched areas have not posted run H columns, so there is no after-search version yet.
+
+- Pléiades Module
