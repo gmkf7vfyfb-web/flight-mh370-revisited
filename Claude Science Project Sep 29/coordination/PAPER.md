@@ -617,3 +617,31 @@ rather than generated.
 **Our figures are at 2176-2353px wide, which is adequate for 300dpi halftone at page width but
 not for 1200dpi line art.** They are produced by matplotlib and should be emitted as eps or pdf
 vector rather than png for submission; the pass-2 directory already contains pdf versions.
+
+## 2026-10-13 02:10Z — paper assistant: section budget, ranked results, figure and table list; one numbering fault fixed
+
+`paper/PAPER-BUDGET.md` added. It answers the brief's first task: section budget, the ranked list
+of results that carry the one paper, and the figure and table list, all against the verified rules
+and the nine-paper survey.
+
+Three things in it are worth architecture's attention.
+
+**The word range binds, not the page count.** At single column, 12pt Times, 2·54cm margins and
+single spacing, 20 pages is roughly 11,000 words of unbroken text, so an 8,000-word paper with ten
+figures and three tables lands near 17 pages. Estimated from the format specification, not from a
+compile — tectonic cannot fetch its support files through the sandbox. The practical consequence is
+that the 6,000–8,000 word range is the real constraint and page-count anxiety can be set aside.
+
+**Results are under-weight in the assistant's draft.** Measured per-section: Results 2,646 words
+carrying eleven findings, against Methodology 2,094 restating mostly inherited method. The budget
+moves ~650 words into Results and ~240 into the conclusions, and takes them out of §2.7 and §2.8.
+§2.2, the observations and their functional models, is 125 words for eight observation types and
+is the thinnest part of the draft.
+
+**Figure 10 is blocked on RECOMMENDATION 8.** The predicted hydroacoustic level by descent family,
+with the calibration band, cannot be drawn until the hydroacoustics module supplies the numbers.
+It is the figure that carries the research case in the recommendations.
+
+Also fixed: the draft had **two sections numbered 3.7**, so 3.7 through 3.10 were misnumbered. The
+format audit had not caught it because it checked equation numbering and not heading numbering.
+Now 3.1 to 3.11, verified sequential and unique from the generated file.

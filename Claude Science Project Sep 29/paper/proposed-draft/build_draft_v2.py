@@ -597,7 +597,7 @@ the absolute log Bayes factor does not exceed 0.53. Every number in this subsect
 condition that the imaged objects are debris from this aircraft; none of them is evidence that
 they are.""")
 
-H2("3.7.  The seabed distribution")
+H2("3.8.  The seabed distribution")
 P("""The seabed distribution is obtained from the impact distribution by the sinking transform of
 Section 2.7. With the 00:19Z observations held out, the 90% region on the seabed is 151,700km²
 from the flight and end-of-flight stages alone, 259,700km² after the drift term and 409,800km²
@@ -622,7 +622,7 @@ two labels of its own. The seabed ensemble is re-weighted from the composed cand
 rather than drawn from them, which is a partial treatment, and the breakup rows are settled from
 the intact impact point, so the extent of the wreckage field is a lower bound.""")
 
-H2("3.8.  Hydroacoustic prediction")
+H2("3.9.  Hydroacoustic prediction")
 P("""The hydroacoustic term is predictive and not evidential, and its log-likelihood ratios lie
 within noise. The reason is calibration rather than physics, and five specific gaps are
 responsible. There is no near-surface calibration source of known spectrum, so the directivity
@@ -643,7 +643,7 @@ the band below 16Hz characterised, the predicted signal level at the unobstructe
 separate the end-of-flight families by a margin which the present calibration uncertainty masks
 entirely, and a confirmed non-detection would down-weight the most energetic descents.""")
 
-H2("3.9.  Evidence accounting")
+H2("3.10.  Evidence accounting")
 P("""Because the impact-level factors are selectable, each line of evidence can be costed in two
 currencies, the change it makes to the log marginal likelihood and the effective sample size it
 leaves behind, and the two do not move together. The search term changes ln p(z) by only −0.78
@@ -681,7 +681,7 @@ moves no median or area visibly. At the previous pass that uncomputed fraction w
 that whether it was carried or excluded changed the composed areas materially; it no longer is,
 and the difference is a property of the run rather than of the composition.""")
 
-H2("3.10.  Two negative results")
+H2("3.11.  Two negative results")
 P("""The published cruise state carries no vertical rate, and the omission appeared likely to
 matter, since the 184Hz step between the two frequency offsets at 00:19Z corresponds to an
 equivalent vertical rate of approximately 10,500ft/min, some nine times the largest bias
