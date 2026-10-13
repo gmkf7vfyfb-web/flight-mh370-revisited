@@ -3,7 +3,7 @@
 13 Oct 2026 ~02:00 UTC, ocean drift module. Pre-registration: `debris-drift-australia-preregistration.md` (primary B, Pete).
 
 > **Labels:** PILOT; **REACH-LIMITED** (domain 15-120 E: debris carried east of 120 E counts as never found, so the southern penalty is
-> probably understated); GLORYS12 + ERA5 only; 178 of the 710 run A nodes; beaching = GSHHG snap 25 km, no refloat; interim, not evidence;
+> probably understated); GLORYS12 + ERA5 only; 178 of the 710 run A nodes; beaching on entry to the land mask (GSHHG snap 25 km), no refloat; interim, not evidence;
 > run I NOT CONVERGED. Do not compose until the 160 E fields and the full run.
 
 ## Run
@@ -51,10 +51,13 @@ The "off" column reproduces the composer's published values (e.g. D0 + drift -36
 - It runs opposite to CSIRO's reading (which kept 35-36 S): CSIRO combined the WA absence with Africa's late arrivals, used BRAN2015, its
   own leeway and qualitative detection; our drift factor already includes the Africa timing. The difference needs to be understood
   before this is read as a result.
-- **Model-error checks needed before production:** (1) the 25 km beaching snap may over-strand along the WA coast, where the Leeuwin
-  Current runs parallel and CSIRO's model blew items back out to sea in summer (no refloat here); run a 5-10 km snap sensitivity;
-  (2) the domain to 160 E; (3) GlobCurrent; (4) the level prior sigma (1 nat) and the WA early-awareness assumption, which is what makes B
-  strong (WA level 1 in 2014 against 0.1 for the find coasts).
+- **Model-error checks needed before production:** (1) refloat: beached items stay on the coast for the rest of the window
+  here, so every WA beaching keeps its exposure to finders; CSIRO's model sent items back to sea in summer. (Correction, 13 Oct
+  ~03:00 UTC: an earlier version of this note named the 25 km GSHHG snap as a possible cause of over-stranding. That is wrong:
+  beaching happens only when a particle enters the GLORYS12 land mask; the snap only decides whether such a stranding counts as a
+  beaching at the nearest GSHHG shore or as model error. It does not catch particles offshore.) A refloat option is now in the
+  module (835bdf52) and a sensitivity run is queued; (2) the domain to 160 E; (3) GlobCurrent; (4) the level prior sigma (1 nat)
+  and the WA early-awareness assumption, which is what makes B strong (WA level 1 in 2014 against 0.1 for the find coasts).
 
 ## COVERAGE
 

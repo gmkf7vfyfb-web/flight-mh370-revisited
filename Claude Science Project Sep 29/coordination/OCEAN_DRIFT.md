@@ -1775,3 +1775,17 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
   level-prior sigma. Proposal follows; G26 stays OPEN.
 
 - Ocean drift
+
+## 2026-10-13 ~03:05 UTC - ocean drift → architecture (cc Pete): Australian term, refloat sensitivity (queued, ~2.5-3 h under the heavy lock)
+
+- **Correction to my 02:05 entry:** the 25 km beaching snap does not over-strand. Beaching needs entry to the GLORYS12 land mask; the
+  snap only labels such strandings as beachings or as model error. The real open question is refloat. Note corrected.
+- **New, in module (835bdf52, `make scope` passes, 29 tests + 1 ignored):** declared option `refloat_per_day` (default 0, output
+  bit-identical to before, checked on the smoke nodes). When on, each stay on the coast is an episode; exposure to finders ends at
+  refloat, in both the find terms and the total. Delay prior (exponential, 60 d) unchanged.
+- **Run (queued now behind `lockf -k /tmp/.mh370-heavy.lock`, 12 threads):** 45 of the 178 pilot nodes (every 4th), GLORYS12, the
+  pilot's own seeds, rates 1/69 d and 1/200 d (Hinata et al. 2017, macrolitter beach residence 69-273 d; 200 d is the macroplastic
+  e-folding used in later models). Compare the change in ln L (B − off) node by node with the pilot. Sensitivity only, not for use.
+- Still REACH-LIMITED (120 E); 160 E request to ocean transport still open.
+
+- Ocean drift
