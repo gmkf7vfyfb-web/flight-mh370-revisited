@@ -442,3 +442,121 @@ median is 27 references, so at 22 this list is short rather than long, which is 
 be on with 98 entries in the library and a 35-entry ceiling in practice.
 
 The audit is now a step to repeat after any edit to the draft, not a one-off.
+
+## 2026-10-12 23:55Z — paper assistant → Pete: PROPOSED draft v2, rebuilt to your direction, in Word and LaTeX
+
+Pete's direction of 12 Oct: adopt the dissertation's tone and mathematical format; replace the
+evidence, impact-complex and deterministic-map symbols with common recognisable ones and short
+descriptive sub/superscripts; begin from a simple statement of the true unknown parameters and
+build up to the conditional structure rather than opening with it; report the results; use the
+Introduction / Methodology / Results / Conclusions structure.
+
+**Answered honestly first: v1 did NOT adopt his style.** `paper/STYLE-NOTES.md` did not exist and
+his prose had never been read. It does now, measured from the 250-page source PDF he supplied.
+
+`paper/STYLE-NOTES.md` — measured, not impressionistic. Median 27 words per sentence (mean 30,
+tenth to ninetieth 6-60); first person almost absent (8 "I", 17 "we" in 357k characters); method
+in the passive past ("was performed" ×75); "this study" ×26; sample sizes inline ("n=11",
+"n=42"); units closed up to the number ("150.1Hz", "12dBi"); times Z-suffixed. **His maths
+pattern, now adopted:** a lead-in sentence ending in a colon that names the method and cites it,
+a displayed equation numbered on the right, then a running *where* clause in prose defining every
+symbol in order of appearance — not a symbol table — with mnemonic subscripts (`φ₇` arc-latitude
+at the 7th arc, `t_TS` turn south, `V_range`, `μ_HL`). Two deliberate departures from him,
+recorded with reasons: UK spelling, because the journal requires it and his dissertation is
+US-spelled; and Harvard citation punctuation, because he writes "Ashton et al (2014)".
+
+`paper/proposed-draft/proposed-draft-v2.docx` and `.tex`, both generated from one source
+(`build_draft_v2.py`) so they cannot drift apart. **Yes, Word is available** — 12pt Times New
+Roman, 2.54cm margins, three tables, equations numbered at the right margin in Unicode.
+
+**New notation, per his instruction.** Nothing invented: φ latitude, λ longitude, h altitude,
+d depth, t time, V speed, γ flight-path angle, χ track. Unknowns are `x_sea`, `x_imp`,
+`x_arc,n`, and the trajectory `X`. Observations are `z` with mnemonic subscripts — `z_rad`,
+`z_bto`, `z_bfo`, `z_19`, `z_deb`, `z_srch`, `z_img`, `z_ac`. Functional models `f_k`,
+likelihoods `L_k`, maps `g_imp` and `g_sea`, detection probability `P_det`. The marginal
+likelihood is written `p(z)`, so no new symbol for the evidence at all. Gone: the script-Y
+evidence set, ψ for the impact complex, Ψ for the deterministic map.
+
+**The build-up he asked for**, §2.1 to §2.6: the true unknown seabed location; then the impact
+state that determines it; then the arc-latitude crossings where the satellite data act; then the
+single trajectory that determines all three, with `x_imp = g_imp(X)` and `x_sea = g_sea(x_imp)`;
+then the observations and their functional models `z_k = f_k(X,θ) + ε_k` with Table 1; then the
+count showing the system under-determined by two to three orders of magnitude; then Monte Carlo
+over feasible dynamics; then weighting and the posterior as a weighted sum of delta functions.
+The full conditional structure arrives at §2.6, equation (9), as the collection of what has
+already been introduced, and is immediately used to justify the four-stage staging.
+
+**Results are now reported** — v1 described the effects of each evidence term without ever
+stating the estimate. Headline: the waypoint route stratum carries **0.998** of the posterior
+weight against 0.0011 for free flight; flight and end of flight alone give median arc-latitude
+−37.24° (−38.57 to −34.96) with a 90% region of 117,000km² under the R600 BTO-only treatment;
+the search term then moves the median to −36.76° and enlarges the 90% region to 309,000km²; and
+it lowers the unpiloted family's probability from 0.17 to 0.08. Three tables carry the
+observation sets, the flight and end-of-flight distribution by 00:19Z treatment, and the composed
+distribution before and after the searches. Every row carries its labels.
+
+**Measured:** 5,966 words of main text (band 6,000-8,000 — 34 words short, so this is at the
+floor), 155-word abstract, 14 numbered equations, 3 tables. Structural check passes: environments
+and braces balance, no double subscripts.
+
+Still open and marked in the draft: the recovered-item count in Table 1; affiliation, e-mail and
+ORCID; acknowledgements; the required AI-use declaration; and the impact dissipation duration,
+which still has no method description. RECOMMENDATION 8 (hydroacoustic predicted levels) remains
+open and would let §3.8 carry numbers instead of magnitudes.
+
+## 2026-10-13 00:20Z — paper assistant: correction to STYLE-NOTES.md — two symbols were misread
+
+`paper/STYLE-NOTES.md` §4 listed `C_course` and `μ_HL` as subscripts observed in the dissertation.
+Both are wrong. Read from the rendered pages, the symbols are **`C_TTrack`** (cumulative change in
+true track, printed p.98, equation 3.2) and **`μ_Yr`** (the annual Poisson mean, printed p.123,
+equation 19). Three further symbols were given with the wrong capitalisation: `V_Range`, `A_Range`
+and `n_Dec`, not `V_range`, `A_range`, `n_dec`. The 7th-arc latitude is `φ̄₇`, barred, not `φ₇`.
+
+**Cause, which is the part worth recording.** The dissertation's PDF text layer renders these
+symbols as mojibake, and rather than opening the page I inferred the mnemonics from the garbled
+characters and from what the surrounding prose said the quantities meant. Inferring an identifier
+from a broken extraction is exactly the failure the project's own rule against completing
+identifiers from truncated displays exists to prevent, and it is worse here because the file's
+purpose is to be copied from.
+
+Two things learned and now recorded in the file. Subscripts are **CamelCase with a capital initial
+on each part** — `TTrack`, `Range`, `HullLoss`, `Dec`, `Yr` — with a study index appended as a
+trailing lower-case letter where needed (`t_TSk`, `V_Rangek`). And **whole descriptive words
+appear as operands inside displayed equations**, set in italic: equation (19) reads
+`μ_Yr = R_HullLoss · Σ Oceanic Flight Hrs in Yr`. Where a quantity has no established symbol he
+writes its name rather than coining one, which is worth copying for quantities such as searched
+area or recovered-item count.
+
+The file now records how each symbol was read, and that any further symbol added must be read from
+the rendered page rather than the text layer. The drafts were checked: none of the wrong symbols
+reached `proposed-draft-v2.tex`, `proposed-draft.tex` or `REFERENCE-DRAFT.md`.
+
+## 2026-10-13 00:40Z — paper assistant: draft v2 now clears the word floor, and a correction to how I described it
+
+My 23:55Z note reported the main text at 5,966 words and described it as sitting "at the bottom of
+the band" of 6,000-8,000. That was a euphemism for being **below** the floor by 34 words, and
+describing an unmet requirement as met is the wrong way round regardless of how small the margin
+is.
+
+Fixed by adding substance where the draft's own README had already identified it as thin, not by
+re-describing the number:
+
+- **§1** now states the geometry concretely: a single burst timing offset places the aircraft on a
+  locus of approximately constant elevation angle to a satellite nominally over 64.5°E, which over
+  the southern Indian Ocean runs roughly north-west to south-east, so each measurement constrains
+  position almost entirely across the locus and barely at all along it — and it is the along-arc
+  coordinate that determines where the fuel ran out. The frequency offsets break part of that
+  degeneracy through a term of a few hertz against an oscillator whose bias drifts by a comparable
+  amount. The problem is therefore not fixing a position from redundant observations, which is the
+  normal situation in navigation, but propagating a dynamic model for six hours between
+  observations that each constrain one direction.
+- **§2.3** now gives the under-determination as a count rather than an assertion: sixteen scalar
+  quantities after 18:22Z (seven timing offsets, seven frequency offsets, two bursts at 00:19Z)
+  against a trajectory needing of the order of 350 epochs at a one-minute step, each carrying
+  position, altitude, heading and speed, with the change times themselves unknown — of the order
+  of one observation per hundred unknowns at a coarse discretisation, and worse at any
+  discretisation fine enough to represent a turn.
+
+**Measured, and counted independently from the generated .tex rather than taken from the build
+script's own tally: 6,486 words** (abstract plus main text; abstract 155), 14 numbered equations,
+3 tables. Structural check passes. Both formats regenerated from the one source.
