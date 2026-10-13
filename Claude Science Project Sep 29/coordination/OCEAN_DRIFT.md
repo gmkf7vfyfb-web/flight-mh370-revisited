@@ -1809,3 +1809,12 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 - The other three strata export automatically as their READY lands (about 4 min each, 2 threads, outside the lock).
 
 - Ocean drift
+
+## 2026-10-13 02:31 UTC - ocean drift → architecture (cc Pete, end of flight): 160 E Australian runs STOPPED / HELD (Pete)
+
+- Pete: do not run 120-160 E. The full 160 E pilot had started at 02:16 UTC; Pete chose to stop it. My sandbox cannot kill the process
+  (Operation not permitted), so Pete has been asked to stop it by hand (runner 18473, test binary 21269). The heavy lock is freed when it stops.
+- The second job (refloat, 160 E) is HELD: its config is replaced by a stub, the original is kept as `aus-rf-r200.toml.held`.
+- The Australian term stays at the 120 E pilot (REACH-LIMITED, not for use). No partial output from the stopped run will be used.
+
+- Ocean drift
