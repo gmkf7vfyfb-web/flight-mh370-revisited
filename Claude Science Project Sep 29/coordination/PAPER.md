@@ -560,3 +560,60 @@ re-describing the number:
 **Measured, and counted independently from the generated .tex rather than taken from the build
 script's own tally: 6,486 words** (abstract plus main text; abstract 155), 14 numbered equations,
 3 tables. Structural check passes. Both formats regenerated from the one source.
+
+## 2026-10-13 01:30Z — paper assistant → Pete: format audit of the draft, five failures fixed, figures embedded
+
+Pete asked whether the draft is correctly formatted, why it carried no graphics, what the graphics
+requirements are, and what the AI rules are. The audit was run against `paper/JON-RULES.md`
+mechanically, not asserted. **It found five failures**, all now fixed.
+
+| Rule | Was | Now |
+|---|---|---|
+| Keywords must NOT be typed on the manuscript | a Keywords line was printed | removed; they are chosen in the submission system |
+| Paragraph spacing before and after set to 0 | 6pt in both formats | 0 in both |
+| Bold must NOT be used for headings | LaTeX `\section*` renders bold | `\section`/`\subsection` redefined to `\mdseries`; sub-headings italic |
+| Reference list | **absent from v2 entirely** | 7 entries, every one cited, every in-text citation listed |
+| Figures embedded for review | **none** | 5 embedded in both formats, captions below, all cited, alt text recorded |
+
+Passing before and after: 12pt Times New Roman, 2.54cm margins, single line spacing, 36-character
+short title, 155-word single-paragraph abstract, no automatic hyperlinks, UK spelling, acronyms
+decoded on first use, equations sequential from (1), table captions above, competing-interests
+declaration present.
+
+**Why there were no graphics: my omission, not a constraint.** The v1 README listed nine figures
+and embedded none; v2 dropped even the list. The journal requires figures embedded in the
+manuscript for review, and the surveyed median is 9 figures in 19 pages, so a figureless draft was
+never going to be representative. Five now carried, in order of first mention: impact arc-latitude
+by 00:19Z treatment; ocean-model posterior weight; impact regions as maps; seabed regions; and the
+effective-sample-size table. All five are the composer's own pass-2 figures from
+`results/composer-pass2-run-i/`, reused rather than redrawn.
+
+### RECOMMENDATION 9 — two figures will not survive black-and-white printing
+Target: composer, via architecture. The journal publishes colour online automatically but prints
+in black and white unless colour is paid for (the page cites 2018 rates of UK£200+VAT per figure,
+capped at £1000+VAT per article), and it places responsibility on the author for figures remaining
+meaningful in greyscale. Tested by converting each figure: `fig2-impact-regions` and `fig5-seabed`
+**survive**, because they distinguish regions by dark and light fill. `fig1-impact-latitude` and
+`fig3-ocean-models` **do not** — six curves separated only by hue collapse, and in greyscale the
+"00:19 not used" and "timing only" swatches become near-identical dark greys.
+`fig4-coverage-ess` survives as a sequential map but loses its red out-of-estimability boxes.
+Fix: line style and direct end-of-line labelling must carry the distinction, with colour redundant.
+Effect on the paper: two of its five figures are unreadable as printed. Priority: medium now,
+blocking at submission. Cost: a styling pass on two figures, no re-run.
+
+### The graphics requirements, recorded so they are not rediscovered late
+All graphs, diagrams, maps, boxes and code snippets are "Figures", numbered in Arabic numerals
+from 1 in order of first mention, numbering continuing through appendices, each with a single
+caption **beneath** and each cited in the text. Embedded in the manuscript for review; individual
+files required on acceptance, named to match their numbers. Sized to final publication width from
+the latest issue. Formats on acceptance: line art tif or eps, black and white, **1200dpi**;
+combination line and tone tif or eps, greyscale, **800dpi**; halftone tif, CMYK or greyscale,
+**300dpi or higher**. Accessibility is WCAG 2.1 Level AA and **alt text is required for every
+figure**, supplied on an Accessibility Descriptions Submission Form, machine-generated if the
+author does not provide it. Alt text for all five is now carried in the draft, in the LaTeX as a
+comment and in the Word file as a small-print paragraph, so it is drafted by the subject expert
+rather than generated.
+
+**Our figures are at 2176-2353px wide, which is adequate for 300dpi halftone at page width but
+not for 1200dpi line art.** They are produced by matplotlib and should be emitted as eps or pdf
+vector rather than png for submission; the pass-2 directory already contains pdf versions.
