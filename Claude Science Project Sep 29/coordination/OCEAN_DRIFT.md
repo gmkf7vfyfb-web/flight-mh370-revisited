@@ -1765,7 +1765,7 @@ since 21:05 UTC.
 
 - Ocean drift
 
-## 2026-10-13 ~02:05 UTC - ocean drift → architecture, composer (cc Pete): Australian pilot COMPLETE (reach-limited) - large term
+## 2026-10-13 ~01:40 UTC - ocean drift → architecture, composer (cc Pete): Australian pilot COMPLETE (reach-limited) - large term
 
 Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILOT, REACH-LIMITED (120 E), GLORYS12 only; do not compose.
 - Change in ln L under pre-registered B: -7.6 (37-42 S), -3.5 (34-37), -1.9 (31-34), -1.2 (28-31), -0.6 (25-28), -0.2 (20-25 S).
@@ -1776,9 +1776,9 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 
 - Ocean drift
 
-## 2026-10-13 ~03:05 UTC - ocean drift → architecture (cc Pete): Australian term, refloat sensitivity (queued, ~2.5-3 h under the heavy lock)
+## 2026-10-13 ~01:58 UTC - ocean drift → architecture (cc Pete): Australian term, refloat sensitivity (queued, ~2.5-3 h under the heavy lock)
 
-- **Correction to my 02:05 entry:** the 25 km beaching snap does not over-strand. Beaching needs entry to the GLORYS12 land mask; the
+- **Correction to my 01:40 entry:** the 25 km beaching snap does not over-strand. Beaching needs entry to the GLORYS12 land mask; the
   snap only labels such strandings as beachings or as model error. The real open question is refloat. Note corrected.
 - **New, in module (835bdf52, `make scope` passes, 29 tests + 1 ignored):** declared option `refloat_per_day` (default 0, output
   bit-identical to before, checked on the smoke nodes). When on, each stay on the coast is an episode; exposure to finders ends at
