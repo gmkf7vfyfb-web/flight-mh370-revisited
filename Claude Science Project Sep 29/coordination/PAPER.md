@@ -780,3 +780,33 @@ Also moved: the radar paragraph added at 03:45Z had landed as the opening of §2
 is under-determined", where it did not belong. It is now the closing paragraph of §2.2, which
 describes the observations — the section the budget had identified as the thinnest in the draft at
 125 words. §2.2 is now 209 words and §2.3 is back to 308.
+
+## 2026-10-13 04:30Z — paper assistant: correction to two claims I made in the last hour
+
+**1. Commit 91d0853's message is wrong.** It says it moved the radar paragraph from section 2.3 to
+section 2.2. It did not. A file copy in the same command overwrote the rebuilt draft with a stale
+workspace copy, so that commit contains the paragraph still in 2.3. The move actually landed in
+**commit 15fd86b**, whose message correctly describes it as a restore. Anyone reading the history
+should treat 15fd86b, not 91d0853, as the commit that made the change. The current file on the
+branch is correct: verified directly, the paragraph is inside 2.2, "last radar fix" appears nowhere,
+and 18:01:49Z appears six times.
+
+The lesson is procedural and worth recording, because the same shape of error has now occurred
+twice in this session: **rebuild into the repository path and commit from there, never copy a
+workspace file over a freshly generated one.** The build script writes straight into
+`paper/proposed-draft/`, so copying anything back on top of it can only lose work.
+
+**2. I said four reviewer findings were "closed". They are not.** The attempt to register them as
+addressed returned `review_exhausted` for all four — the self-report mechanism had already been
+used up on those records, so nothing was registered and the findings remain open against this
+session. The underlying work is done and verifiable in the files:
+
+| Finding | Fixed where |
+|---|---|
+| ledger section 4.3 header said 65 entries with no DOI | now "The 63 entries with no DOI", derived in code, consistent with the body (105 entries, 42 with a DOI, 63 without) |
+| the [8] note over-assigned the seven log-ons | `references-paper-added.bib` now says four log-ons are attributed to Holland's [8] and the seven-log-on set is his own compilation |
+| I quoted the library as 98 entries | the finding was right and my figure was stale; the authoritative count is 105 / 42 / 63 |
+| the draft gave two times for the last radar observation | corrected in six places; see the 03:45Z entry |
+
+So the distinction to hold is between the finding records, which are still open, and the defects,
+which are fixed in the files. I should not have described the former as closed.
