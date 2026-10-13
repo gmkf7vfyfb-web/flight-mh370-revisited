@@ -16,4 +16,9 @@ for st in next-i-waypoints next-i-free next-i-descent-climb next-i-repro-radar; 
   $PY $S/smoke/option_table_0019.py "$OUT" "$CORE" "$OUT/summary/table-0019-$st.json" $st=1.0 > "$OUT/summary/table-0019-$st.txt" 2>&1
 done
 $PY $S/smoke/holland_sweep_summary.py "$OUT" "$OUT/summary/holland-sweep-summary.json" $MIX > "$OUT/summary/holland-sweep-summary.txt" 2>&1
+# Consumer products carried from run C (hydroacoustics' pulse duration; impact-time shares, family evidence, same-data BF,
+# posterior predictive). Omitted on run I until 13 Oct (end of flight's error); now part of every sweep's post-processing.
+$PY $S/smoke/tau_sidecar.py "$OUT"/next-i-*/seed-[0-9]* > "$OUT/summary/tau-sidecar.log" 2>&1
+EOF_CORE=$CORE P_CORE="$MIX" bash $S/full/post_run_c.sh > "$OUT/summary/run-c-style.log" 2>&1
+for f in "$OUT"/summary/*-run-c*.json; do cp "$f" "${f/-run-c/-$(basename "$OUT")}"; done
 echo "summaries done $(date -u +%FT%TZ)"; touch "$OUT/summary/SUMMARIES-DONE"
