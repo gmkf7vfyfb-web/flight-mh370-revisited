@@ -117,9 +117,9 @@ pool is about 1.2 NM.
 A bootstrap over start drifters re-weights whole drifters, Poisson(1), with the arrivals held
 fixed. It is **partial**: it does not resample the partner pool. At 1° it gives
 +3.0 ± 1.8 NM, 5–95 % [+0.2, +5.1],
-with 98 % of replicates northward. At 0.25° with ε = 10⁻⁶ it gives
+with 97.5 % of replicates northward (`frac_north` 0.975 in the JSON). At 0.25° with ε = 10⁻⁶ it gives
 +2.3 ± 3.7 NM, 5–95 % [-3.1, +7.8],
-with 72 % northward.
+with 72.5 % northward (0.725).
 
 | Kernel σ | ε | TV, updated posterior to prior (mean of 4 seeds) | TV between seeds (mean / max of 6 pairs) | TV between 2-seed half-pools |
 |---|---|---|---|---|

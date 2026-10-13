@@ -132,3 +132,46 @@ The stub is retired. The same scripts were rerun, unchanged, on the shared API's
 - The engine is therefore fit for **relative** propagation. Any absolute level must carry C_site.
 
 *Hydroacoustics module, 2026-10-09.*
+
+## Addendum, 9 Oct ~17:30 UTC: air8 ridge blockage under RAM (`hydroacoustics-ram-tl-check.md`)
+
+**The test:** a parabolic-equation (RAM) solution on the same environment, pre-registered with a 20 dB
+threshold.
+- RAM puts air8 → H01W **18.3 dB** above air9 → H01W (band mean): 7.6, 19.8, 22.4 and 23.3 dB at 5, 10,
+  20 and 40 Hz.
+- KRAKEN gave Δ_H01 = +39.1 dB.
+
+**Verdict: the blockage explanation is WEAKENED, not refuted.** The ridge still removes about 20 dB above
+10 Hz. Whether that accounts for air8's non-observation depends on air9's SNR at H01, which Blackman does
+not print.
+
+**Unchanged:** the air9 sanity comparison (KRAKEN vs RAM, median |Δ| 1.8 dB) supports the KRAKEN results
+on deep SOFAR paths.
+
+## Correction (10 Oct 2026, ~23:40 UTC): the air9 verdict does not cover the frequency slope
+
+**The pre-registered verdict "PARTLY VALIDATED" (median and RMS of residuals over 13–40 Hz) stands as computed, but
+it is not a validation of the frequency dependence.**
+- Measured − predicted tilts by +12.7 dB per octave (H01W) and +7.4 dB per octave (H08S). It runs from about −10 dB
+  at the low end to +14/+15 dB at 63 Hz.
+- The near-zero median arises because the curves cross near 25–35 Hz.
+- The tilt is common to both stations, so it is more likely in the source spectrum than in the path.
+- Chart: `hydroacoustics-air9-residual-vs-frequency.png`. A slope criterion is added for future validation.
+- Raised by Pete.
+
+- Hydroacoustic Module
+
+
+## COVERAGE
+
+See `hydroacoustics-coverage.md` for the three sets, ESS per option and family, the gaps and the parameter bounds. Specific to this note: air9 covers 13-63 Hz at H01W and 5-63 Hz at H08S. Outside that span nothing is calibrated (G2, G5).
+
+## Adopted criteria and use (11 Oct 2026, after the architecture audit, `d225b80`)
+- **Criteria:** the module adopts the audit's level, slope and shape criteria (`results/hydroacoustics-audit/criteria.md`,
+  `940f1a3`) for every future TL validation, in place of its own slope rule above.
+- **Label:** air9 absolute TL is **NOT CALIBRATED in slope** (+10.4 ± 0.9 dB/oct at H01W and +7.4 ± 0.7 dB/oct at H08S,
+  in the audit's band means).
+- **Use:** air9 is used for the **path only**, through the station difference (PARTIAL, about 3 dB). It is not used
+  as an absolute calibration.
+
+- Hydroacoustic Module

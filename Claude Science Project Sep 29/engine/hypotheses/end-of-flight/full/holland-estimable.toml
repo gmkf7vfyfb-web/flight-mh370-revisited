@@ -1,0 +1,35 @@
+# Architecture 10:50 -0600 11 Oct (TOP PRIORITY, Pete confirmed 11:00): make 00:19 Holland H1 and H2 estimable. PROVISIONAL.
+# Pass AFTER pushover.toml (item 4) and with smoke/within-parent-unnormalised.toml (core request 9): the targeted draws below carry
+# their exact ln(prior/proposal) in the profile correction, which is exact only with unnormalised within-parent weights.
+#
+# 1. Piloted rapid descent (item 4) extended: eligible shapes now powered emergency, powered or unpowered continuous, unpowered
+#    best glide (stepped shapes not eligible: declared gap). Rate U[6,500, 40,000] ft/min (pushover.toml, NTSB AAB-02/01 source),
+#    load-factor floor U[-1.0, 0.8] g (CS-25.337(c)). Emergency-descent speed limit: target Mach reduced to the Mach of VMO =
+#    330 KCAS at the current altitude (777-200: VMO 330 KCAS / MMO 0.87, FAA Type Certificate Data Sheet T00001SE). Label: the
+#    latent pushover_drawn = 1 marks the emergency-descent shape; the base shape code is kept in latent:shape.
+# 2. INTERIM parametric pitch-down in uncontrolled free flight (A1, and the free phase of maintained-then-lost), labelled INTERIM
+#    until the 6-DOF gate passes. Prior probability a U[0, 1] hyper-parameter, proposal 0.5 = the marginal (exact re-weighting with
+#    latent:pitchdown_eligible / pitchdown_drawn). Load factor during the pulse U[-0.31, 0.69] g: Boeing's no-input simulations
+#    show peak downward accelerations 0.31-1.31 g below 1 g (SIR App. 1.6E case-by-case; architecture 10:50 entry). Duration
+#    U[4, 20] s; delay after the free phase begins U[0, 900] s (declared; covers the Erlang(8, 14.875 s) log-on lag, 15 sigma).
+# 4. Piloted load-factor ceiling U[1.5, 5.0] g, drawn per descent (found 11 Oct: without it the best-glide capture or the
+#    pull-out after a push-over flies the fixed best-glide C_L at high dynamic pressure and pulls 5-8 g). Upper end past the 2.5 g
+#    limit load (CS-25.337(b)) because a pilot can exceed it (China Airlines 006, Boeing 747SP, 1985: about 5 g, damaged, landed;
+#    NTSB AAR-86/03); the in-flight structural columns (latent:inflight_p_*) price the damage. Free flight is not limited.
+# 3. TARGETED proposal (Pete GO 11:00): the push-over start (onset + hold) and the pitch-down start are drawn with probability 0.8
+#    uniformly in [00:19:29.416 - 15 s, 00:19:29.416 + 6 s] (intersected with the prior support), otherwise from the prior. Weight
+#    from the evidence only; the proposal is corrected exactly. Choice of 0.8 and [-20, +2] s: N = 1 smoke on core run D free seed 1
+#    (results/eof-holland-estimable-oct11): H1 effective impacts 9 (untargeted) -> 76 (0.5, [-30, 2]) -> 158 (0.8, [-20, 2]); H2
+#    11 -> 32 -> 49; Held Out 139k -> 125k -> 96k (it is not limited). Window then moved to [-15, +6] s: in the full-N seed-1
+#    smoke no H1/H2 posterior mass started before -15 s inside the window, and 3.6% of H2 started at +2 to +4 s (push-over from a
+#    glide just after 00:19:29.4).
+[hypotheses.end-of-flight.envelope]
+pushover_vmo_kt = 330.0
+pitchdown_probability = 0.5
+pitchdown_n_g = [-0.31, 0.69]
+pitchdown_duration_s = [4.0, 20.0]
+pitchdown_delay_s = [0.0, 900.0]
+burst_target_unix_s = 1394237969.416
+burst_target_window_s = [-15.0, 6.0]
+burst_target_weight = 0.8
+piloted_load_factor_ceiling_g = [1.5, 5.0]

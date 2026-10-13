@@ -47,8 +47,8 @@ the posterior alone**; both are declared parameters (`coverage`, `island_link_nm
 - The 5 NM refinement is 4.0x the nodes (6,839 main band), as the inverse-square rule predicts.
 - **The case multiplicity is the real cost driver**, not the grid: 3 object classes x 3 environment
   realisations x 2 ocean models would be 18 cases, 308 M trajectories at the pilot setting.
-- Throughput of the provisional analytic stub, one thread: about 1.1-1.2 x 10^7 particle-steps per
-  second (two velocity evaluations each). This is **an upper bound for closed-form fields** and is
+- Throughput of the provisional analytic stub, one thread: 1.1-1.9 x 10^7 particle-steps per
+  second (two velocity evaluations each; 1.907 x 10^7 in the test run at `611d443`, corrected 9 Oct). This is **an upper bound for closed-form fields** and is
   not the field-evaluation throughput the pilot must measure; that comes from the shared transport
   with gridded fields.
 
@@ -61,3 +61,6 @@ structural form, and the reason the per-find minimum effective particle count is
 flag. The stub's dispersal is far narrower than 500 days of real ocean, so the fraction is not a
 prediction - but the pilot's particle count must be set by the find with the lowest arrival
 probability, not by the average.
+
+**Measured since (9 Oct):** the real-field pilot ran at 1.72 x 10^6 particle-steps/s at 2 threads
+(`results/debris-drift-pilot.md`), and the production sizing is in `results/debris-drift-production-sizing.md`.

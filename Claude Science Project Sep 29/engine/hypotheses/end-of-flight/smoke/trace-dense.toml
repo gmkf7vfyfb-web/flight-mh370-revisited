@@ -1,0 +1,6 @@
+# Dense trace sample (~1 in 25 descents, 60 s steps) so the 00:11-weighted survivors can be resampled with
+# enough traced members. No uniform drawn; rows unchanged. Path relative to engine/.
+[hypotheses.end-of-flight.trace]
+path = "runs/traces-dense.csv"
+every_n = 25
+step_s = 60.0

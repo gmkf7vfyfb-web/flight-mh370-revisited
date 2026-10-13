@@ -1,0 +1,11 @@
+# Core request 16 C-7(a) (pre-approved by Pete, 10 Oct 2026 ~03:50 UTC): one-engine dynamics. After the
+# first flame-out the aircraft drifts down to the one-engine ceiling for its weight at a per-path rate
+# U(300, 1000) ft/min and flies the one-engine LRC Mach (internal-v1 lrc_inop_mach; where it has no value,
+# the nearest covered level below +/- a uniform 0.02 band). The lateral autopilot mode is unchanged.
+# Ceiling: highest grid_inop level not flagged above-ceiling at the weight (PROVISIONAL, derived by core;
+# the fuel session verifies). The autopilot behaviour is an ASSUMPTION, stated as such in the paper.
+# Needs s3-internal.toml and s6-tanks.toml.
+[fuel]
+single_engine = true
+single_engine_descent_fpm = [300.0, 1000.0]
+single_engine_mach_band = 0.02

@@ -1,0 +1,99 @@
+% Searched Areas module bibliography. Owner: SEARCHED_AREAS_MODULE.
+% Hand-maintained, unlike the paper module's generated references.bib: these are the sources the
+% seabed-search likelihood itself rests on, each read in primary form unless the note says otherwise.
+% Grades follow the paper brief: official / peer-reviewed / grey / unofficial.
+
+@techreport{atsb2017operational,
+  author       = {{Australian Transport Safety Bureau}},
+  title        = {The Operational Search for {MH370}},
+  institution  = {Australian Transport Safety Bureau},
+  type         = {External Aviation Investigation Report},
+  number       = {AE-2014-054},
+  year         = {2017},
+  month        = oct,
+  address      = {Canberra},
+  note         = {Grade: official. Source of the Phase 2 detection probability q = 0.945 (Figure 73,
+                  p. 96 - its three in-image percentages are NOT yet verified in primary form, ledger
+                  item A-8), the +/- 25 NM planning width (p. 76), the debris-field size floor
+                  >= 100 m x 100 m and very likely > 200 m x 200 m (p. 83), detectability at <= 200 m
+                  altitude (p. 89), and the Bluefin-21 operating parameters (p. 42)}
+}
+
+@misc{oceaninfinity2018conclusion,
+  author       = {{Ocean Infinity}},
+  title        = {Conclusion of current search for {Malaysian} {Airlines} flight {MH370}},
+  howpublished = {Press release},
+  year         = {2018},
+  month        = may,
+  day          = {29},
+  url          = {https://oceaninfinity.com/news/conclusion-of-current-search-for-malaysian-airlines-flight-mh370/},
+  urldate      = {2026-10-12},
+  note         = {Grade: official (company statement). VERIFIED IN PRIMARY FORM 2026-10-12. The source of
+                  this module's coverage fraction 0.889 for the 2018 campaign: Ocean Infinity state
+                  they "searched and collected high quality data from over 112,000 km2 of ocean
+                  floor", against the 126,009.3 km2 of the traced outline that lies outside Phase 2
+                  ground. The company released no survey geometry, which is why the layer itself is a
+                  community tracing, grade C}
+}
+
+@misc{oceaninfinity2018gebco,
+  author       = {{Ocean Infinity}},
+  title        = {Ocean {Infinity} donates 120,000 square kilometres of data for missing {Malaysian}
+                  airliner to {GEBCO} {Seabed} 2030 project},
+  howpublished = {Press release},
+  year         = {2018},
+  month        = jun,
+  day          = {22},
+  url          = {https://oceaninfinity.com/news/ocean-infinity-donates-120000-square-kilometres-of-data-for-missing-malaysian-airliner-to-gebco-seabed-2030-project/},
+  urldate      = {2026-10-12},
+  note         = {Grade: official (company statement). VERIFIED IN PRIMARY FORM 2026-10-12. The source of
+                  this module's upper coverage-fraction variant 0.952. NOTE THE DISTINCTION: 120,000
+                  km2 is the extent of DATA DONATED for bathymetric mapping, not area searched at a
+                  stated detection probability. That is why 0.889 is the base and 0.952 a labelled
+                  variant, and why the difference between them is reported as a sensitivity (worth
+                  0.002 in this module's Z) rather than as a correction}
+}
+
+@misc{oceaninfinity2026conclusion,
+  author       = {{Ocean Infinity}},
+  title        = {Conclusion of the search for {Malaysian} {Airlines} flight {MH370}},
+  howpublished = {Press release},
+  year         = {2026},
+  month        = mar,
+  day          = {8},
+  url          = {https://oceaninfinity.com/news/conclusion-of-the-search-for-malaysian-airlines-flight-mh370/},
+  urldate      = {2026-10-12},
+  note         = {Grade: official (company statement). VERIFIED IN PRIMARY FORM 2026-10-12. Records that
+                  Ocean Infinity departed the search area on 23 January 2026, and that since 2018 it
+                  has spent 151 days at sea and "mapped more than 140,000 square kilometres of
+                  seafloor". THE 140,000 km2 IS A MAPPING FIGURE AND IS NOT USED AS COVERAGE by this
+                  module: bathymetric mapping, planned coverage and contract areas exclude nothing.
+                  The two committed Ocean Infinity layers total about 133,600 km2, so the mapped
+                  figure exceeds them; it must not be used to enlarge them. This release gives no
+                  searched area specific to the 2025-26 campaign}
+}
+
+@misc{ga2017searchareas,
+  author       = {{Geoscience Australia}},
+  title        = {{MH370} search area survey geometry},
+  howpublished = {Web Feature Service and FeatureServer layers},
+  year         = {2017},
+  note         = {Grade: official. Fetched by this module's prepare/build_coverage.py; the source of
+                  every Phase 2 layer (union and the four per-sensor layers) and of the Bluefin-21
+                  "area searched 2014" feature. Official geometry: these layers carry no inferred-
+                  coverage footnote}
+}
+
+@misc{mh370caption_oi_tracings,
+  author       = {{MH370-CAPTION community}},
+  title        = {Traced outlines of the {Ocean} {Infinity} 2018 and 2025--26 search areas},
+  howpublished = {GeoJSON tracings of published map imagery and vessel tracks},
+  year         = {2026},
+  note         = {Grade: C (unofficial, inferred). Read from the frozen September snapshots in this
+                  repository: ISO Sept 28 Status/inputs/search-coverage/ocean-infinity-2018-outline.geojson
+                  (sha1 4ab36299...) and Sept 27 2026 backup .../search_footprints.geojson.
+                  Ocean Infinity has released no survey geometry for either campaign, so these are
+                  planning envelopes with a coverage fraction applied, not measured swath coverage.
+                  Every use carries the footnote in
+                  engine/hypotheses/seabed-search/coverage/PROVENANCE.md}
+}

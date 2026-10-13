@@ -52,6 +52,10 @@ pub struct Parameters {
     /// a 7 Hz measurement standard deviation, so the omission is not small for any particle in a
     /// level change. `false` reproduces the published model exactly.
     pub bfo_vertical_rate: bool,
+    /// Calibrated-airspeed envelope (kt) that clips the cruise Mach range at the aircraft's
+    /// altitude whenever a set point is drawn after the early phase (Pete, 11 Oct 2026: 210-330
+    /// KCAS throughout). None: the published model (no clip).
+    pub cas_envelope_kt: Option<(f64, f64)>,
     /// Optional sampling for the early flight after the 18:01:49 prior (`None`: the published
     /// model). See [`EarlyPhase`].
     pub early: Option<EarlyPhase>,
@@ -84,6 +88,209 @@ pub struct RoutePrior {
     pub share: f64,
     pub unix_s: f64,
     pub routes: Vec<Vec<(f64, f64)>>,
+    /// Fly turn-back continuations (`Guidance::turn_backs`).
+    pub turn_backs: bool,
+    /// Fly-by turns at intermediate waypoints (`Guidance::fly_by_bank_deg`, using the model's bank limit).
+    pub fly_by: bool,
+    /// Steer on the great-circle legs (`Guidance::track_legs`).
+    pub track_legs: bool,
+    /// Route-only bank limit (`Guidance::bank_deg`); None: the model's.
+    pub bank_deg: Option<f64>,
+    /// Fly-by anticipation cap (`Guidance::fly_by_max_turn_deg`); None: 120 degrees.
+    pub fly_by_max_turn_deg: Option<f64>,
+    /// Restrict the draw to these route indices (uniformly among them), keeping their index
+    /// numbers. For per-route runs whose evidence is combined afterwards. None: all routes.
+    pub allowed: Option<Vec<u32>>,
+    /// Random route generation instead of the declared list (waypoint-family reset, Pete
+    /// 11 Oct 2026). With Some, `routes` must be empty; each particle draws its own plan.
+    pub sampler: Option<RouteSampler>,
+}
+
+/// One fix the route sampler may use, with the phase regions (bit 0: phase 1, bit 1: phase 2,
+/// bit 2: phase 3) it lies in.
+#[derive(Debug, Clone)]
+pub struct SamplerFix {
+    pub lat: f64,
+    pub lon: f64,
+    pub regions: u8,
+}
+
+/// Prior over waypoint routes (Pete's specification of 29 Sep, reset 11 Oct 2026). From the
+/// last `prefix` fix, a random number of legs (geometric with untruncated mean `legs_mean`,
+/// redrawn above `legs_max`; the config solves `legs_mean` from the truncated mean). Each leg goes to a fix drawn uniformly from the unused fixes of the current
+/// phase region that need a course change of at most `max_course_change_deg`: phase 1 for the
+/// first leg, phase 2 while the estimated time is before `phase2_until_unix_s`, phase 3 after.
+/// On each leg, with `break_off_probability`, the aircraft gives up that fix at a fraction of
+/// the leg drawn uniformly from `break_off_fractions` and turns toward the next drawn fix (or,
+/// on the last leg, leaves route flight there). Each fix it reaches is flown fly-by with
+/// `fly_by_probability`, else fly-over. The first leg that crosses the equator southbound ends
+/// route flight at the crossing with probability 1 - `equator_continue_probability`. No fix
+/// south of `south_limit_deg` is used. After the plan, the particle resumes its own mode.
+/// Times are estimated at `nominal_ground_speed_kt` from `prefix_end_unix_s`; they only assign
+/// phase regions.
+#[derive(Debug, Clone)]
+pub struct RouteSampler {
+    pub prefix: Vec<(f64, f64)>,
+    pub prefix_end_unix_s: f64,
+    pub fixes: Vec<SamplerFix>,
+    pub legs_mean: f64,
+    pub legs_max: u32,
+    pub break_off_probability: f64,
+    pub break_off_fractions: Vec<f64>,
+    pub fly_by_probability: f64,
+    pub max_course_change_deg: f64,
+    pub phase2_until_unix_s: f64,
+    pub equator_continue_probability: f64,
+    pub south_limit_deg: f64,
+    pub nominal_ground_speed_kt: f64,
+    /// Change of mode on the last leg (Pete, 12 Oct 2026: no prior on when it happened):
+    /// Some((p, lon)) - with probability p the aircraft leaves route flight part-way along the
+    /// last leg, at a point drawn uniformly over the part of the leg west of `lon` degrees E
+    /// (at the fix if none of the leg is west of it); otherwise at the last fix. The other legs
+    /// keep the break-off toward another fix. None: the last leg uses that break-off too.
+    pub transition: Option<(f64, f64)>,
+}
+
+/// A route drawn by [`RouteSampler`]: per leg, the target fix (index into the sampler's
+/// fixes), the break-off fraction (0 when the fix is reached; for an equator stop, the leg
+/// fraction at the crossing) and whether the fix is flown fly-by. `equator`: None if no leg
+/// crossed the equator, else whether route flight continued south of it. `waypoints` and
+/// `fly_by_mask` are the plan flown after the prefix.
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct SampledRoute {
+    pub fixes: Vec<u16>,
+    pub break_off: Vec<f64>,
+    pub fly_by: Vec<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub equator: Option<bool>,
+    pub waypoints: Vec<(f64, f64)>,
+    pub fly_by_mask: Vec<bool>,
+}
+
+/// The point a fraction `f` of the way along the great circle from `a` to `b` (degrees).
+fn great_circle_fraction(a: (f64, f64), b: (f64, f64), f: f64) -> (f64, f64) {
+    let v = |p: (f64, f64)| {
+        let (la, lo) = (p.0.to_radians(), p.1.to_radians());
+        [la.cos() * lo.cos(), la.cos() * lo.sin(), la.sin()]
+    };
+    let (u, w) = (v(a), v(b));
+    let dot = (u[0] * w[0] + u[1] * w[1] + u[2] * w[2]).clamp(-1.0, 1.0);
+    let omega = dot.acos();
+    if omega < 1e-12 {
+        return a;
+    }
+    let (k1, k2) = (((1.0 - f) * omega).sin() / omega.sin(), (f * omega).sin() / omega.sin());
+    let p = [k1 * u[0] + k2 * w[0], k1 * u[1] + k2 * w[1], k1 * u[2] + k2 * w[2]];
+    (p[2].atan2(p[0].hypot(p[1])).to_degrees(), p[1].atan2(p[0]).to_degrees())
+}
+
+impl RouteSampler {
+    /// Draw one route.
+    pub fn sample<R: Rng>(&self, rng: &mut R) -> SampledRoute {
+        let mut out = SampledRoute { fixes: vec![], break_off: vec![], fly_by: vec![], equator: None, waypoints: vec![], fly_by_mask: vec![] };
+        let n = self.prefix.len();
+        let mut pos = self.prefix[n - 1];
+        // Course arriving at the last prefix fix: the reverse of the initial bearing back.
+        let mut course = if n >= 2 { bearing_and_distance(pos, self.prefix[n - 2]).0 + PI } else { 0.0 };
+        let p_stop = 1.0 / self.legs_mean.max(1.0);
+        let legs = loop {
+            let mut k = 1u32;
+            while !rng.gen_bool(p_stop) {
+                k += 1;
+                if k > self.legs_max {
+                    break;
+                }
+            }
+            if k <= self.legs_max {
+                break k;
+            }
+        };
+        let mut t = self.prefix_end_unix_s;
+        let mut used = vec![false; self.fixes.len()];
+        let max_turn = self.max_course_change_deg.to_radians();
+        for leg in 0..legs {
+            let region = if leg == 0 { 1u8 } else if t < self.phase2_until_unix_s { 2 } else { 4 };
+            let candidates: Vec<usize> = (0..self.fixes.len())
+                .filter(|&i| {
+                    let f = &self.fixes[i];
+                    if used[i] || f.regions & region == 0 || f.lat < self.south_limit_deg {
+                        return false;
+                    }
+                    let (b, d) = bearing_and_distance(pos, (f.lat, f.lon));
+                    d > 5.0 && wrap_pi(b - course).abs() <= max_turn
+                })
+                .collect();
+            if candidates.is_empty() {
+                break;
+            }
+            let i = candidates[rng.gen_range(0..candidates.len())];
+            used[i] = true;
+            let target = (self.fixes[i].lat, self.fixes[i].lon);
+            let (_, dist) = bearing_and_distance(pos, target);
+            out.fixes.push(i as u16);
+            // Equator: the first southbound crossing may end route flight there.
+            if out.equator.is_none() && pos.0 >= 0.0 && target.0 < 0.0 {
+                let go_on = rng.gen_bool(self.equator_continue_probability);
+                out.equator = Some(go_on);
+                if !go_on {
+                    let (mut lo, mut hi) = (0.0, 1.0);
+                    for _ in 0..50 {
+                        let mid = 0.5 * (lo + hi);
+                        if great_circle_fraction(pos, target, mid).0 >= 0.0 { lo = mid } else { hi = mid }
+                    }
+                    out.break_off.push(hi);
+                    out.fly_by.push(false);
+                    out.waypoints.push(great_circle_fraction(pos, target, hi));
+                    out.fly_by_mask.push(false);
+                    break;
+                }
+            }
+            if let (Some((p_mid, west_of)), true) = (self.transition, leg + 1 == legs) {
+                let mid = rng.gen_bool(p_mid);
+                // Uniform over {f in (0, 1): longitude at f < west_of}, by rejection.
+                let f = if mid {
+                    (0..200).map(|_| rng.gen_range(0.0..1.0)).find(|&f| great_circle_fraction(pos, target, f).1 < west_of)
+                } else {
+                    None
+                };
+                match f {
+                    Some(f) => {
+                        out.break_off.push(f);
+                        out.waypoints.push(great_circle_fraction(pos, target, f));
+                    }
+                    None => {
+                        out.break_off.push(0.0);
+                        out.waypoints.push(target);
+                    }
+                }
+                // The last point is never turned at, so its turn model does not matter.
+                out.fly_by.push(false);
+                out.fly_by_mask.push(false);
+                break;
+            }
+            if rng.gen_bool(self.break_off_probability) {
+                let f = self.break_off_fractions[rng.gen_range(0..self.break_off_fractions.len())];
+                let point = great_circle_fraction(pos, target, f);
+                out.break_off.push(f);
+                out.fly_by.push(false);
+                out.waypoints.push(point);
+                out.fly_by_mask.push(false);
+                course = bearing_and_distance(point, target).0;
+                pos = point;
+                t += f * dist / self.nominal_ground_speed_kt * 3600.0;
+            } else {
+                let by = rng.gen_bool(self.fly_by_probability);
+                out.break_off.push(0.0);
+                out.fly_by.push(by);
+                out.waypoints.push(target);
+                out.fly_by_mask.push(by);
+                course = bearing_and_distance(target, pos).0 + PI;
+                pos = target;
+                t += dist / self.nominal_ground_speed_kt * 3600.0;
+            }
+        }
+        out
+    }
 }
 
 /// One drawn route.
@@ -92,6 +299,9 @@ pub struct EarlyRoute {
     pub index: u32,
     pub unix_s: f64,
     pub started: bool,
+    /// With `RoutePrior::sampler`: the particle's own drawn route (index is then 0).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub sampled: Option<SampledRoute>,
 }
 
 /// Prior over a vertical excursion. Each draw: a descent from the particle's level starting
@@ -258,12 +468,37 @@ fn draw_early<R: Rng>(e: &EarlyPhase, p: &Parameters, from_ft: f64, mach: f64, r
         }
     }
     if let Some(r) = &e.routes {
-        if !r.routes.is_empty() && rng.gen_bool(r.share) {
-            let index = rng.gen_range(0..r.routes.len() as u32);
-            rec.route = Some(EarlyRoute { index, unix_s: r.unix_s, started: false });
+        if let Some(sampler) = &r.sampler {
+            if rng.gen_bool(r.share) {
+                rec.route = Some(EarlyRoute { index: 0, unix_s: r.unix_s, started: false, sampled: Some(sampler.sample(rng)) });
+            }
+        } else if !r.routes.is_empty() && rng.gen_bool(r.share) {
+            let index = match &r.allowed {
+                None => rng.gen_range(0..r.routes.len() as u32),
+                Some(a) => a[rng.gen_range(0..a.len())],
+            };
+            rec.route = Some(EarlyRoute { index, unix_s: r.unix_s, started: false, sampled: None });
         }
     }
     rec
+}
+
+/// Calibrated airspeed (kt) for a Mach at a pressure altitude; the inverse of `cas_to_mach`.
+pub fn mach_to_cas(mach: f64, pressure_altitude_ft: f64) -> f64 {
+    const A0_KT: f64 = 661.478_8;
+    const P0_PA: f64 = 101_325.0;
+    let p = geo::isa_pressure_pa(pressure_altitude_ft);
+    let qc = p * ((1.0 + 0.2 * mach * mach).powf(3.5) - 1.0);
+    A0_KT * (5.0 * ((qc / P0_PA + 1.0).powf(2.0 / 7.0) - 1.0)).sqrt()
+}
+
+/// One-engine drift-down rate, ft/min (fuel session, one-engine.md 5.1): V_TAS / (L/D) x
+/// (1 - c (delta(h)/delta(h_c))^n), with the frontier anchored on the ceiling `ceiling_ft` at the
+/// present weight. Negative at and just above the ceiling (no descent there).
+pub fn drift_down_rate_fpm(tas_kt: f64, alt_ft: f64, ceiling_ft: f64, lift_drag: f64, min_drag_factor: f64, exponent: f64) -> f64 {
+    const FT_PER_MIN_PER_KT: f64 = 1_852.0 / 0.3048 / 60.0;
+    let ratio = geo::isa_pressure_pa(alt_ft) / geo::isa_pressure_pa(ceiling_ft);
+    tas_kt * FT_PER_MIN_PER_KT / lift_drag * (1.0 - min_drag_factor * ratio.powf(exponent))
 }
 
 /// Mach for a calibrated airspeed at a pressure altitude (ISA, subsonic compressible flow).
@@ -296,6 +531,7 @@ impl Default for Parameters {
             manoeuvre_step_s: 5.0,
             fuel: None,
             bfo_vertical_rate: false,
+            cas_envelope_kt: None,
             early: None,
         }
     }
@@ -351,6 +587,16 @@ impl Prior {
         (0..=levels).map(|k| (p.altitude_range_ft.0 + p.altitude_step_ft * f64::from(k), 1.0)).collect()
     }
 
+    /// The prior restricted to the levels at or below `ceiling_ft` (C-5), renormalised; the
+    /// lowest level if none is.
+    fn sample_altitude_below<R: Rng>(&self, ceiling_ft: f64, rng: &mut R) -> f64 {
+        let kept: Vec<(f64, f64)> = self.altitude_levels.iter().copied().filter(|(l, _)| *l <= ceiling_ft + 1e-9).collect();
+        if kept.is_empty() {
+            return self.altitude_levels.iter().map(|l| l.0).fold(f64::INFINITY, f64::min);
+        }
+        Prior { altitude_levels: kept, ..self.clone() }.sample_altitude(rng)
+    }
+
     fn sample_altitude<R: Rng>(&self, rng: &mut R) -> f64 {
         let levels = &self.altitude_levels;
         if levels.iter().all(|(_, w)| *w == levels[0].1) {
@@ -376,6 +622,39 @@ pub struct Guidance {
     pub waypoints: Vec<(f64, f64)>,
     /// What the aircraft does after the last waypoint.
     pub after: AfterRoute,
+    /// Overshoot capture (architecture ruling 11 Oct 2026, routes prior defect): from the second
+    /// waypoint on, a fix behind the aircraft counts as reached only once the leg toward it has
+    /// begun (the fix was within 90 degrees of the control angle at some time since the previous
+    /// capture). Before that the aircraft turns toward it by the shorter way, with the model's
+    /// own turn dynamics (standard rate up to the bank limit). The first waypoint keeps the
+    /// original rule: the aircraft is taken to be on its leg toward it at the route's start.
+    /// False keeps the original rule throughout, under which a turn-back fix is skipped at once.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub turn_backs: bool,
+    /// Fly-by turns (Pete's GO, 11 Oct 2026): with Some(bank limit in degrees), an intermediate
+    /// waypoint is sequenced once the aircraft is within the turn anticipation distance
+    /// R tan(dpsi / 2), with R = TAS^2 / (g tan bank) and dpsi the course change onto the next
+    /// leg (capped at FLY_BY_MAX_TURN_RAD), so the turn starts before the fix as in an FMS
+    /// fly-by. None keeps the fly-over rule: sequence within CAPTURE_NM of the fix.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_bank_deg: Option<f64>,
+    /// Leg tracking (architecture GO 11 Oct 2026): from the second waypoint on, while the fix is
+    /// ahead, steer on the great-circle leg from the previous fix (leg course at the abeam point
+    /// minus an intercept of TRACK_GAIN_RAD_PER_NM per NM of cross-track error, capped at
+    /// TRACK_MAX_INTERCEPT_RAD) instead of homing direct to the fix. False: direct-to (original).
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub track_legs: bool,
+    /// Bank limit (degrees) for turns flown while this plan steers (turn rate and fly-by
+    /// anticipation). None: the model's `bank_angle_deg`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bank_deg: Option<f64>,
+    /// Fly-by anticipation cap on the course change (degrees). None: FLY_BY_MAX_TURN_RAD (120).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_max_turn_deg: Option<f64>,
+    /// Per-waypoint turn model (route sampler): with Some, fly-by applies at waypoint i only
+    /// where the mask is true; elsewhere the fix is flown over. None: `fly_by_bank_deg` alone.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_mask: Option<Vec<bool>>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
@@ -403,12 +682,20 @@ pub struct GuidanceState {
     pub phase: Phase,
     /// The autopilot mode the particle was drawn with, resumed by `AfterRoute::Free`.
     pub free_mode: Mode,
+    /// With `Guidance::turn_backs`: whether the leg toward the current waypoint has begun.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub leg_engaged: bool,
 }
 
 /// A waypoint counts as reached within this distance (or once it is behind the aircraft).
 const CAPTURE_NM: f64 = 2.0;
 /// Course corrections below this are applied directly rather than flown as a banked turn.
 const DIRECT_CORRECTION_RAD: f64 = 1.0 * PI / 180.0;
+/// Fly-by anticipation is computed for course changes up to this angle (larger ones use it).
+const FLY_BY_MAX_TURN_RAD: f64 = 120.0 * PI / 180.0;
+/// Leg tracking: intercept angle per NM of cross-track error, and its cap.
+const TRACK_GAIN_RAD_PER_NM: f64 = 5.0 * PI / 180.0;
+const TRACK_MAX_INTERCEPT_RAD: f64 = 45.0 * PI / 180.0;
 
 /// Air data behind the current ground velocity.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -472,6 +759,10 @@ pub struct Aircraft {
     /// Seconds flown above the service ceiling for the aircraft's weight, where the tables are
     /// empty because the airframe could not sustain the state.
     pub fuel_above_ceiling_s: f64,
+    /// Two-tank state when the run carries it (core request 16 C-7(b)); absent otherwise, and
+    /// then not serialised, so single-pool hand-offs are unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tanks: Option<Tanks>,
     /// Set once the remaining fuel cannot reach the endurance deadline even on the cheapest
     /// continuation the tables allow, so the path is certain to be rejected there.
     pub fuel_doomed: bool,
@@ -540,7 +831,136 @@ pub struct FuelModel {
     ///    mixture keeps the proposal's support equal to the prior's, so the correction is
     ///    bounded and the target distribution is unchanged.
     pub endurance: Option<EnduranceProposal>,
+    /// The fuel session's internal model (core request 16 C-1). When set it replaces the
+    /// tables for every flow this crate reads; the tables stay loaded for diagnostics.
+    pub internal: Option<fuel::InternalGrid>,
+    /// Apply the temperature term tau(dISA, M) with dISA from the weather temperature at the
+    /// aircraft (C-2, fuel audit F2). Off is the standard day, as before.
+    pub temperature: bool,
+    /// Initial fuel per path as `a - factor * b` kg (C-4: 43,800 at 17:06:43 less the factor
+    /// times the 7,228 kg standard-day burn to 18:01:49). None uses `initial_kg` for every path.
+    pub initial_from_factor: Option<(f64, f64)>,
+    /// Hold every altitude level at or below the weight-dependent service ceiling of the
+    /// internal model (C-5, fuel audit F5): the prior and each new level target are drawn
+    /// uniformly from the levels the aircraft can reach at its present weight.
+    pub ceiling: bool,
+    /// Two tanks per path (C-7(b)); needs the internal model's INOP grid.
+    pub tanks: Option<fuel::TankPrior>,
+    /// One-engine dynamics (C-7(a)): after the first flame-out the aircraft drifts down to the
+    /// one-engine ceiling for its weight at a per-path rate, and flies the one-engine LRC Mach;
+    /// the lateral autopilot mode is unchanged. Needs `tanks`.
+    pub single_engine: Option<SingleEngine>,
+    /// Multiplier on the INOP grid's live-engine flow. 1.0 (default) uses the grid as delivered.
+    /// internal-v1's `grid_inop` is 2.00x its own source tables (LRC INOP FF / holding INOP FF,
+    /// "kg/h, one engine inoperative"): the per-engine x2 of the twin tables was applied to the
+    /// INOP set too (core finding, 10 Oct 2026). 0.5 corrects it until the fuel model is rebuilt.
+    pub inop_flow_scale: f64,
 }
+
+/// C-7(a) settings (pre-approved by Pete, 10 Oct 2026; ceiling and speed PROVISIONAL, derived by
+/// core from internal-v1's grid_inop flags and lrc_inop_mach).
+#[derive(Clone, Copy, Debug)]
+pub struct SingleEngine {
+    /// Drift-down rate drawn per path, uniform on this range, ft/min (constant profile only).
+    pub descent_fpm: (f64, f64),
+    /// Half-width of the uniform Mach band used where the one-engine schedule has no value.
+    pub mach_band: f64,
+    /// How the aircraft leaves altitude on one engine.
+    pub profile: DriftDown,
+}
+
+/// The one-engine drift-down profile.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum DriftDown {
+    /// The approved C-7(a) form: from flame-out, descend at the path's constant rate to the
+    /// one-engine ceiling at the LRC INOP Mach.
+    Constant,
+    /// The fuel session's physics (`results/fuel-model/one-engine.md` 5.1, 10 Oct 2026;
+    /// PROVISIONAL, built but not run). Above the one-engine ceiling the autopilot first holds
+    /// altitude while the calibrated airspeed decays at the path's rate to its drift-down KCAS;
+    /// then it descends at that KCAS with ROD = V_TAS / (L/D) x (1 - c W_c(h)/W), where
+    /// W_c(h)/W = (delta(h)/delta(h_c))^n anchors the frontier W_c ~ delta^n on core's ceiling
+    /// h_c at the present weight. The rate tapers to zero slightly above h_c (c > 1: level-off
+    /// at minimum-drag speed); below `level_off_fpm` the aircraft levels and keeps the KCAS. At
+    /// or below the ceiling at flame-out it holds altitude and slows at the same rate to the
+    /// LRC INOP Mach.
+    HoldTaper {
+        /// Speed decay while altitude is held, kt/min, drawn per path.
+        decel_kt_per_min: (f64, f64),
+        /// Drift-down calibrated airspeed, kt, drawn per path.
+        driftdown_kcas: (f64, f64),
+        /// Lift-to-drag ratio in the drift-down (Boeing driftdown ratio 0.0034 NM/ft).
+        lift_drag: f64,
+        /// D(LRC INOP) / D_min.
+        min_drag_factor: f64,
+        /// Exponent n of the ceiling frontier W_c ~ delta^n.
+        exponent: f64,
+        /// Rate below which the descent ends in a level-off, ft/min.
+        level_off_fpm: f64,
+    },
+}
+
+/// What one-engine flight commands this step (C-7(a)).
+#[derive(Clone, Copy, Debug)]
+struct OneEngine {
+    alt_target_ft: f64,
+    mach_target: f64,
+    /// Rate while descending, ft/min (positive).
+    descent_fpm: f64,
+    /// Speed decay towards `mach_target` in kt (CAS) per second, when it is not the Mach rate.
+    decel_kt_per_s: Option<f64>,
+}
+
+/// Left and right fuel and engine state (core request 16 C-7(b), bookkeeping only: the dynamics
+/// do not change when one engine stops; level (a) would add the drift-down).
+///
+/// While both engines run, the total flow is shared R : L = `ratio` : 1. When one tank runs
+/// dry, that engine stops and the other burns the one-engine-inoperative live-engine flow (the
+/// internal model's `grid_inop`, times the path's factor and the temperature term) until its
+/// own tank is empty. `Aircraft::fuel_kg` stays the total, and `fuel_exhausted_unix_s` the time
+/// the last engine stopped, so every consumer of those keeps its meaning.
+#[derive(Debug, Clone, Copy, PartialEq, Serialize, Deserialize)]
+pub struct Tanks {
+    pub left_kg: f64,
+    pub right_kg: f64,
+    /// Right-to-left flow ratio while both engines run.
+    pub ratio: f64,
+    /// When each engine stopped; NaN while it runs.
+    pub left_exhausted_unix_s: f64,
+    pub right_exhausted_unix_s: f64,
+    /// Seconds flown on one engine, and of those, seconds the INOP lookup flagged above its
+    /// ceiling (the state level (a) would have drifted down from).
+    pub single_engine_s: f64,
+    pub single_engine_above_ceiling_s: f64,
+    /// C-7(a), per path: the drift-down rate on one engine (ft/min) and the position in the
+    /// fallback Mach band (-1..1). Zero when the run has no one-engine dynamics.
+    #[serde(default)]
+    pub driftdown_fpm: f64,
+    #[serde(default)]
+    pub mach_u: f64,
+    /// C-7(a) hold-then-taper profile, per path: speed decay (kt/min) and drift-down KCAS.
+    /// Zero under the constant profile.
+    #[serde(default)]
+    pub decel_kt_per_min: f64,
+    #[serde(default)]
+    pub driftdown_kcas: f64,
+}
+
+impl Tanks {
+    /// The time the first engine stopped, NaN while both run.
+    pub fn first_exhausted_unix_s(&self) -> f64 {
+        match (self.left_exhausted_unix_s.is_finite(), self.right_exhausted_unix_s.is_finite()) {
+            (true, true) => self.left_exhausted_unix_s.min(self.right_exhausted_unix_s),
+            (true, false) => self.left_exhausted_unix_s,
+            (false, true) => self.right_exhausted_unix_s,
+            (false, false) => f64::NAN,
+        }
+    }
+}
+
+/// The lowest temperature factor the doomed test allows for, so that it stays a lower bound
+/// with the temperature term on: dISA of -15 K at M0.73 gives 0.950.
+pub const MIN_TEMPERATURE_FACTOR: f64 = 0.95;
 
 /// Where the next arc is, expressed as pure geometry so this crate need not know the
 /// measurement model. The filter converts the epoch's BTO into a required aircraft-to-satellite
@@ -592,7 +1012,82 @@ impl FuelModel {
             factor_mean: prior.factor_mean,
             factor_sd: prior.factor_sd,
             endurance: None,
+            internal: None,
+            temperature: false,
+            initial_from_factor: None,
+            ceiling: false,
+            tanks: None,
+            single_engine: None,
+            inop_flow_scale: 1.0,
         }
+    }
+
+    /// Live-engine flow with one engine inoperative, at the air temperature, before the path's
+    /// factor. None without the INOP grid or where it cannot price the state.
+    pub fn inop_flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64, temperature_k: f64) -> Option<(f64, fuel::Coverage)> {
+        let (f, cover) = self.internal.as_ref()?.inop.as_ref()?.flow_kg_h(fl, weight_t, mach)?;
+        Some((f * self.inop_flow_scale * self.temperature_factor(fl, mach, temperature_k), cover))
+    }
+
+    /// Standard-day total flow before the path's factor: the internal model when loaded,
+    /// otherwise the tables.
+    pub fn flow_isa_kg_h(&self, fl: f64, weight_t: f64, mach: f64) -> Option<(f64, fuel::Coverage)> {
+        match &self.internal {
+            Some(g) => g.flow_kg_h(fl, weight_t, mach),
+            None => self.tables.fuel_flow_kg_h(fl, weight_t, mach),
+        }
+    }
+
+    /// The temperature factor at this level, Mach and static air temperature; exactly one when
+    /// the term is off or the temperature is unknown.
+    pub fn temperature_factor(&self, fl: f64, mach: f64, temperature_k: f64) -> f64 {
+        if !self.temperature || !(temperature_k > 0.0) {
+            return 1.0;
+        }
+        fuel::temperature_factor(temperature_k - fuel::isa_temperature_k(fl * 100.0), mach)
+    }
+
+    /// Total flow at the air temperature, before the path's factor.
+    pub fn flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64, temperature_k: f64) -> Option<(f64, fuel::Coverage)> {
+        let (f, cover) = self.flow_isa_kg_h(fl, weight_t, mach)?;
+        let tau = self.temperature_factor(fl, mach, temperature_k);
+        Some((if tau == 1.0 { f } else { f * tau }, cover))
+    }
+
+    /// A lower bound on the flow at this weight over every state, for the doomed test.
+    pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
+        let mut base = match &self.internal {
+            Some(g) => g.min_flow_kg_h(weight_t)?,
+            None => self.tables.min_flow_kg_h(weight_t)?,
+        };
+        // With two tanks the total flow can fall to one live engine's after a flame-out.
+        if self.tanks.is_some() {
+            if let Some(inop) = self.internal.as_ref().and_then(|g| g.inop.as_ref()).and_then(|i| i.min_flow_kg_h(weight_t)) {
+                base = base.min(inop);
+            }
+        }
+        Some(if self.temperature { base * MIN_TEMPERATURE_FACTOR } else { base })
+    }
+
+    /// Flow on the endurance proposal's Mach cells, at the air temperature.
+    pub fn flow_cells(&self, fl: f64, weight_t: f64, range: (f64, f64), cells: usize, temperature_k: f64) -> Vec<Option<f64>> {
+        if self.internal.is_none() && !self.temperature {
+            return self.tables.flow_grid(fl, weight_t, range, cells);
+        }
+        (0..cells)
+            .map(|i| {
+                let m = range.0 + (range.1 - range.0) * (i as f64 + 0.5) / cells as f64;
+                self.flow_kg_h(fl, weight_t, m, temperature_k).map(|(f, _)| f)
+            })
+            .collect()
+    }
+
+    /// The service ceiling at this weight, ft, when the ceiling bound is on.
+    pub fn ceiling_ft(&self, weight_t: f64) -> Option<f64> {
+        if !self.ceiling {
+            return None;
+        }
+        self.internal.as_ref().map(|g| g.ceiling_fl(weight_t) * 100.0)
     }
 }
 
@@ -605,7 +1100,13 @@ impl Aircraft {
         let lat = prior.lat + (normal(rng) * sd_km / m).to_degrees();
         let lon = prior.lon + (normal(rng) * sd_km / (n * prior.lat.to_radians().cos())).to_degrees();
         let track = (prior.track_deg + prior.track_sd_deg * normal(rng)).to_radians();
-        let alt_ft = prior.sample_altitude(rng);
+        let alt_ft = match p.fuel.as_ref().and_then(|m| {
+            let initial = m.initial_from_factor.map_or(m.initial_kg, |(a, b)| a - b * m.factor_mean);
+            m.ceiling_ft((m.zfw_kg + initial) / 1000.0)
+        }) {
+            None => prior.sample_altitude(rng),
+            Some(c) => prior.sample_altitude_below(c, rng),
+        };
         let mach = match prior.mach_gaussian {
             None => rng.gen_range(prior.mach_range.0..prior.mach_range.1),
             Some((mean, sd)) => mean + sd * normal(rng),
@@ -657,6 +1158,7 @@ impl Aircraft {
             fuel_no_flow_cause: 0.0,
             fuel_extrapolated_s: 0.0,
             fuel_above_ceiling_s: 0.0,
+            tanks: None,
             turns: 0,
             accelerations: 0,
             climbs: 0,
@@ -670,6 +1172,43 @@ impl Aircraft {
             guidance: None,
             early: None,
         };
+        // C-4: the fuel at the prior epoch follows the path's own factor, drawn above, so the
+        // burn from 17:06:43 and the burn after 18:01:49 are priced consistently.
+        if let Some((base, burn)) = p.fuel.as_ref().and_then(|m| m.initial_from_factor) {
+            a.fuel_kg = base - burn * a.fuel_factor;
+        }
+        // C-7(b): the split and the flow ratio, drawn per path after the factor.
+        if let Some(t) = p.fuel.as_ref().and_then(|m| m.tanks) {
+            let imbalance = t.imbalance_mean_kg + t.imbalance_sd_kg * normal(rng);
+            let ratio = (t.ratio_mean + t.ratio_sd * normal(rng)).max(0.5);
+            let half = (imbalance / 2.0).clamp(-a.fuel_kg / 2.0, a.fuel_kg / 2.0);
+            a.tanks = Some(Tanks {
+                left_kg: a.fuel_kg / 2.0 + half,
+                right_kg: a.fuel_kg / 2.0 - half,
+                ratio,
+                left_exhausted_unix_s: f64::NAN,
+                right_exhausted_unix_s: f64::NAN,
+                single_engine_s: 0.0,
+                single_engine_above_ceiling_s: 0.0,
+                driftdown_fpm: 0.0,
+                mach_u: 0.0,
+                decel_kt_per_min: 0.0,
+                driftdown_kcas: 0.0,
+            });
+            if let (Some(se), Some(t)) = (p.fuel.as_ref().and_then(|m| m.single_engine), a.tanks.as_mut()) {
+                match se.profile {
+                    DriftDown::Constant => {
+                        t.driftdown_fpm = rng.gen_range(se.descent_fpm.0..=se.descent_fpm.1);
+                        t.mach_u = rng.gen_range(-1.0..=1.0);
+                    }
+                    DriftDown::HoldTaper { decel_kt_per_min: (dlo, dhi), driftdown_kcas: (klo, khi), .. } => {
+                        t.mach_u = rng.gen_range(-1.0..=1.0);
+                        t.decel_kt_per_min = rng.gen_range(dlo..=dhi);
+                        t.driftdown_kcas = rng.gen_range(klo..=khi);
+                    }
+                }
+            }
+        }
         if let Some(e) = &p.early {
             a.early = Some(Box::new(draw_early(e, p, a.alt_ft, a.mach, rng)));
         }
@@ -746,6 +1285,16 @@ impl Aircraft {
 
     /// Vertical speed, ft/min: plus or minus the climb rate during a level change, else zero.
     pub fn vertical_speed_fpm(&self, p: &Parameters) -> f64 {
+        if let Some(t) = &self.tanks {
+            let one = (t.left_kg > 0.0) != (t.right_kg > 0.0);
+            if one && self.alt_target_ft < self.alt_ft && self.active_excursion().is_none() {
+                if let Some(o) = self.one_engine_schedule(p) {
+                    if o.descent_fpm > 0.0 && o.alt_target_ft < self.alt_ft {
+                        return -o.descent_fpm;
+                    }
+                }
+            }
+        }
         if let Some(x) = self.active_excursion() {
             return x.vertical_fpm_at(self.unix_s);
         }
@@ -769,7 +1318,7 @@ impl Aircraft {
             return;
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
-        let Some((flow_kg_h, cover)) = model.tables.fuel_flow_kg_h(self.alt_ft / 100.0, weight_t, self.mach) else {
+        let Some((flow_kg_h, cover)) = model.flow_kg_h(self.alt_ft / 100.0, weight_t, self.mach, self.weather.temperature_k) else {
             // The tables gave no flow. This is counted separately from the FL060 clamp because
             // the two have OPPOSITE effects on the burn - the clamp burns at a much higher flow
             // than cruise, this burns nothing - and pooling them hid a defect for weeks. A
@@ -796,6 +1345,10 @@ impl Aircraft {
         if cover.above_ceiling {
             self.fuel_above_ceiling_s += dt;
         }
+        if self.tanks.is_some() {
+            self.burn_two_tanks(model, flow_kg_h, weight_t, dt);
+            return;
+        }
         let burn = flow_kg_h * self.fuel_factor * dt / 3600.0;
         if burn >= self.fuel_kg {
             // Exhaustion inside this step: interpolate the moment linearly in the step.
@@ -805,6 +1358,167 @@ impl Aircraft {
             self.fuel_kg -= burn;
         }
         self.mark_doomed_if_short(model);
+    }
+
+    /// C-7(b) burn over `dt`, given the twin-engine total flow at the step's state (before the
+    /// factor). Phases within the step are resolved exactly: both engines until the first tank
+    /// is empty, then the other engine alone at the INOP live-engine flow.
+    fn burn_two_tanks(&mut self, model: &FuelModel, twin_kg_h: f64, weight_t: f64, dt: f64) {
+        let Some(mut t) = self.tanks else { return };
+        let k = self.fuel_factor;
+        let (mut now, mut left_s) = (self.unix_s, dt);
+        for _ in 0..3 {
+            if left_s <= 0.0 {
+                break;
+            }
+            let (l_on, r_on) = (t.left_kg > 0.0, t.right_kg > 0.0);
+            if l_on && r_on {
+                let total = twin_kg_h * k / 3600.0;
+                let (rate_l, rate_r) = (total / (1.0 + t.ratio), total * t.ratio / (1.0 + t.ratio));
+                let (tl, tr) = (t.left_kg / rate_l, t.right_kg / rate_r);
+                let first = tl.min(tr);
+                if first >= left_s {
+                    t.left_kg -= rate_l * left_s;
+                    t.right_kg -= rate_r * left_s;
+                    left_s = 0.0;
+                } else {
+                    if tr == tl {
+                        // Both tanks empty at the same instant: both engines stop together.
+                        t.right_kg = 0.0;
+                        t.left_kg = 0.0;
+                        t.right_exhausted_unix_s = now + first;
+                        t.left_exhausted_unix_s = now + first;
+                        self.fuel_exhausted_unix_s = now + first;
+                        break;
+                    } else if tr < tl {
+                        t.right_kg = 0.0;
+                        t.left_kg -= rate_l * first;
+                        t.right_exhausted_unix_s = now + first;
+                    } else {
+                        t.left_kg = 0.0;
+                        t.right_kg -= rate_r * first;
+                        t.left_exhausted_unix_s = now + first;
+                    }
+                    now += first;
+                    left_s -= first;
+                }
+            } else if l_on || r_on {
+                let fl = self.alt_ft / 100.0;
+                // Hold-then-taper flies slower than the INOP grid covers (M0.51-0.61 drift-down KCAS at
+                // high level): price it at the LRC INOP Mach of the same weight instead of falling back
+                // to half the extrapolated twin flow (which can be ~2x the live-engine flow). Gated to
+                // that profile so the constant profile is unchanged.
+                let hold_taper_mach = || -> Option<f64> {
+                    let se = model.single_engine?;
+                    if se.profile == DriftDown::Constant {
+                        return None;
+                    }
+                    let g = model.internal.as_ref()?;
+                    let c = g.inop.as_ref()?.ceiling_fl(weight_t);
+                    g.inop_mach(fl.min(c), weight_t)
+                };
+                let priced = model.inop_flow_kg_h(fl, weight_t, self.mach, self.weather.temperature_k).or_else(|| {
+                    hold_taper_mach().and_then(|m| model.inop_flow_kg_h(fl, weight_t, m, self.weather.temperature_k))
+                });
+                let (live_kg_h, above) = match priced {
+                    Some((f, cover)) => (f, cover.above_ceiling),
+                    // Unpriceable on one engine: burn the twin share it had, and say so.
+                    None => {
+                        self.fuel_extrapolated_s += left_s;
+                        (twin_kg_h / 2.0, false)
+                    }
+                };
+                let rate = live_kg_h * k / 3600.0;
+                let tank = if l_on { &mut t.left_kg } else { &mut t.right_kg };
+                let empty_in = *tank / rate;
+                let flown = empty_in.min(left_s);
+                t.single_engine_s += flown;
+                if above {
+                    t.single_engine_above_ceiling_s += flown;
+                }
+                if empty_in >= left_s {
+                    *tank -= rate * left_s;
+                    left_s = 0.0;
+                } else {
+                    *tank = 0.0;
+                    let at = now + empty_in;
+                    if l_on {
+                        t.left_exhausted_unix_s = at;
+                    } else {
+                        t.right_exhausted_unix_s = at;
+                    }
+                    self.fuel_exhausted_unix_s = at;
+                    left_s = 0.0;
+                }
+            } else {
+                break;
+            }
+        }
+        // A remainder the arithmetic left at the last flame-out is not fuel an engine can burn.
+        if !(t.left_kg > 0.0) && !(t.right_kg > 0.0) && self.fuel_exhausted_unix_s.is_nan() {
+            self.fuel_exhausted_unix_s = t.left_exhausted_unix_s.max(t.right_exhausted_unix_s);
+        }
+        self.fuel_kg = (t.left_kg + t.right_kg).max(0.0);
+        self.tanks = Some(t);
+    }
+
+    /// C-7(a): (one-engine ceiling ft, one-engine Mach) while exactly one engine runs and the run
+    /// has one-engine dynamics; None otherwise. The Mach is the LRC INOP schedule at the lower of
+    /// the present level and the ceiling; where the schedule has no value there, the value at the
+    /// nearest covered level below plus this path's draw in a uniform band (stated as such).
+    fn one_engine_schedule(&self, p: &Parameters) -> Option<OneEngine> {
+        let m = p.fuel.as_ref()?;
+        let se = m.single_engine?;
+        let t = self.tanks?;
+        if (t.left_kg > 0.0) == (t.right_kg > 0.0) {
+            return None;
+        }
+        let g = m.internal.as_ref()?;
+        let weight_t = (m.zfw_kg + self.fuel_kg) / 1000.0;
+        let ceiling_fl = g.inop.as_ref()?.ceiling_fl(weight_t);
+        let ceiling_ft = ceiling_fl * 100.0;
+        let fl = (self.alt_ft / 100.0).min(ceiling_fl);
+        let lrc_inop_mach = || -> Option<f64> { Some(match g.inop_mach(fl, weight_t) {
+            Some(x) => x,
+            None => {
+                let mut f = (fl / 10.0).floor() * 10.0;
+                let mut found = None;
+                while f >= 70.0 {
+                    if let Some(x) = g.inop_mach(f, weight_t) {
+                        found = Some(x);
+                        break;
+                    }
+                    f -= 10.0;
+                }
+                found? + se.mach_band * t.mach_u
+            }
+        }) };
+        match se.profile {
+            DriftDown::Constant => Some(OneEngine {
+                alt_target_ft: self.alt_ft.min(ceiling_ft),
+                mach_target: lrc_inop_mach()?,
+                descent_fpm: t.driftdown_fpm,
+                decel_kt_per_s: None,
+            }),
+            DriftDown::HoldTaper { lift_drag, min_drag_factor, exponent, level_off_fpm, .. } => {
+                let decel = Some(t.decel_kt_per_min / 60.0);
+                if self.alt_ft <= ceiling_ft {
+                    // At or below the ceiling: hold altitude and slow to the LRC INOP Mach.
+                    return Some(OneEngine { alt_target_ft: self.alt_ft, mach_target: lrc_inop_mach()?, descent_fpm: 0.0, decel_kt_per_s: decel });
+                }
+                let dd_mach = cas_to_mach(t.driftdown_kcas, self.alt_ft);
+                if mach_to_cas(self.mach, self.alt_ft) > t.driftdown_kcas + 0.5 && self.alt_target_ft >= self.alt_ft {
+                    // Altitude held while the speed decays to the drift-down KCAS.
+                    return Some(OneEngine { alt_target_ft: self.alt_ft, mach_target: dd_mach, descent_fpm: 0.0, decel_kt_per_s: decel });
+                }
+                let rod = drift_down_rate_fpm(self.air_speed_kt(self.weather.speed_of_sound_kt()), self.alt_ft, ceiling_ft, lift_drag, min_drag_factor, exponent);
+                if rod >= level_off_fpm {
+                    Some(OneEngine { alt_target_ft: ceiling_ft, mach_target: dd_mach, descent_fpm: rod, decel_kt_per_s: None })
+                } else {
+                    Some(OneEngine { alt_target_ft: self.alt_ft, mach_target: dd_mach, descent_fpm: 0.0, decel_kt_per_s: None })
+                }
+            }
+        }
     }
 
     /// Flag the path once no continuation can reach the endurance deadline.
@@ -824,7 +1538,7 @@ impl Aircraft {
             return;
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
-        let Some(min_flow) = model.tables.min_flow_kg_h(weight_t) else { return };
+        let Some(min_flow) = model.min_flow_kg_h(weight_t) else { return };
         let needed = min_flow * self.fuel_factor * (e.deadline_unix_s - self.unix_s) / 3600.0;
         if self.fuel_kg < needed {
             self.fuel_doomed = true;
@@ -850,6 +1564,13 @@ impl Aircraft {
                 self.steer(env, rng);
             }
             let excursion = self.active_excursion().cloned();
+            // C-7(a): on one engine the speed and altitude follow the one-engine schedule; the
+            // manoeuvre targets are overridden (drift down to the ceiling, or hold below it).
+            let one_engine = if excursion.is_none() { self.one_engine_schedule(p) } else { None };
+            if let Some(o) = one_engine {
+                self.alt_target_ft = o.alt_target_ft;
+                self.mach_target = o.mach_target;
+            }
             let manoeuvring = self.turn_remaining != 0.0
                 || self.mach != self.mach_target
                 || self.alt_ft != self.alt_target_ft
@@ -888,7 +1609,8 @@ impl Aircraft {
             let mut turn_step = 0.0;
             if self.turn_remaining != 0.0 {
                 let air = self.air_speed_kt(self.weather.speed_of_sound_kt());
-                let rate = 9.806_65 * p.bank_angle_deg.to_radians().tan() / (air * MPS_PER_KNOT);
+                let bank_deg = self.guidance.as_deref().and_then(|g| g.plan.bank_deg).unwrap_or(p.bank_angle_deg);
+                let rate = 9.806_65 * bank_deg.to_radians().tan() / (air * MPS_PER_KNOT);
                 turn_step = self.turn_remaining.abs().min(rate * dt).copysign(self.turn_remaining);
                 self.control += 0.5 * turn_step;
             }
@@ -921,13 +1643,24 @@ impl Aircraft {
                 self.mach = x.mach_at(self.alt_ft);
                 self.mach_target = self.mach;
             } else if self.mach != self.mach_target {
-                self.mach = step_towards(self.mach, self.mach_target, p.mach_rate_per_s * dt);
+                self.mach = match one_engine.and_then(|o| o.decel_kt_per_s) {
+                    // C-7(a) hold-then-taper: the speed decays in calibrated airspeed.
+                    Some(rate) if self.mach > self.mach_target => {
+                        let cas = mach_to_cas(self.mach, self.alt_ft) - rate * dt;
+                        cas_to_mach(cas.max(0.0), self.alt_ft).max(self.mach_target)
+                    }
+                    _ => step_towards(self.mach, self.mach_target, p.mach_rate_per_s * dt),
+                };
                 if self.mach == self.mach_target {
                     self.next_acceleration = self.unix_s + dt + self.exp_gap(rng);
                 }
             }
             if excursion.is_none() && self.alt_ft != self.alt_target_ft {
-                self.alt_ft = step_towards(self.alt_ft, self.alt_target_ft, p.climb_rate_ft_per_s * dt);
+                let rate = match one_engine {
+                    Some(o) if self.alt_target_ft < self.alt_ft => o.descent_fpm / 60.0,
+                    _ => p.climb_rate_ft_per_s,
+                };
+                self.alt_ft = step_towards(self.alt_ft, self.alt_target_ft, rate * dt);
                 if self.alt_ft == self.alt_target_ft {
                     self.next_climb = self.unix_s + dt + self.exp_gap(rng);
                 }
@@ -977,8 +1710,20 @@ impl Aircraft {
         let Some(rec) = self.early.as_deref() else { return };
         if let Some(route) = rec.route.clone().filter(|r| !r.started && now >= r.unix_s) {
             if let Some(routes) = p.early.as_ref().and_then(|e| e.routes.as_ref()) {
-                let waypoints = routes.routes[route.index as usize].clone();
-                self.set_guidance(Guidance { waypoints, after: AfterRoute::Free }, env, rng);
+                let (waypoints, fly_by_mask, fly_by_bank_deg) = match (&route.sampled, &routes.sampler) {
+                    (Some(sr), Some(sampler)) => {
+                        // Prefix fixes take the family-wide turn model; the drawn legs their own.
+                        let mut w = sampler.prefix.clone();
+                        let mut m = vec![routes.fly_by; w.len()];
+                        w.extend_from_slice(&sr.waypoints);
+                        m.extend_from_slice(&sr.fly_by_mask);
+                        (w, Some(m), Some(routes.bank_deg.unwrap_or(p.bank_angle_deg)))
+                    }
+                    _ => (routes.routes[route.index as usize].clone(), None, routes.fly_by.then_some(routes.bank_deg.unwrap_or(p.bank_angle_deg))),
+                };
+                let plan = Guidance { waypoints, after: AfterRoute::Free, turn_backs: routes.turn_backs, fly_by_bank_deg, track_legs: routes.track_legs,
+                                      bank_deg: routes.bank_deg, fly_by_max_turn_deg: routes.fly_by_max_turn_deg, fly_by_mask };
+                self.set_guidance(plan, env, rng);
             }
             if let Some(r) = self.early.as_mut().and_then(|r| r.route.as_mut()) {
                 r.started = true;
@@ -1076,7 +1821,7 @@ impl Aircraft {
         let free_mode = self.mode;
         self.enter_mode(Mode::TrueTrack, env);
         self.next_turn = f64::INFINITY;
-        self.guidance = Some(Box::new(GuidanceState { plan, phase: Phase::Route(0), free_mode }));
+        self.guidance = Some(Box::new(GuidanceState { plan, phase: Phase::Route(0), free_mode, leg_engaged: false }));
         self.steer(env, rng);
     }
 
@@ -1111,11 +1856,34 @@ impl Aircraft {
                 Phase::Hold => return,
             };
             let (bearing, distance_nm) = bearing_and_distance((self.lat, self.lon), target);
-            let error = wrap_pi(bearing - self.control - self.control_deviation);
+            let mut error = wrap_pi(bearing - self.control - self.control_deviation);
             if let Phase::Route(i) = g.phase {
-                if distance_nm < CAPTURE_NM || error.abs() > PI / 2.0 {
-                    self.guidance.as_mut().unwrap().phase = Phase::Route(i + 1);
+                let behind = error.abs() > PI / 2.0;
+                let overshoot_rule = g.plan.turn_backs && i > 0;
+                let leg_from = (g.plan.track_legs && i > 0).then(|| g.plan.waypoints[i - 1]);
+                let masked_out = g.plan.fly_by_mask.as_ref().is_some_and(|m| !m.get(i).copied().unwrap_or(false));
+                let lead_nm = match g.plan.fly_by_bank_deg {
+                    Some(bank_deg) if i + 1 < g.plan.waypoints.len() && !masked_out => {
+                        let next_leg = bearing_and_distance(target, g.plan.waypoints[i + 1]).0;
+                        let cap = g.plan.fly_by_max_turn_deg.map_or(FLY_BY_MAX_TURN_RAD, f64::to_radians);
+                        let dpsi = wrap_pi(next_leg - bearing).abs().min(cap);
+                        let v = self.air_speed_kt(self.weather.speed_of_sound_kt()) * MPS_PER_KNOT;
+                        v * v / (9.806_65 * bank_deg.to_radians().tan()) / 1852.0 * (0.5 * dpsi).tan()
+                    }
+                    _ => 0.0,
+                };
+                if distance_nm < CAPTURE_NM.max(lead_nm) || (behind && (!overshoot_rule || g.leg_engaged)) {
+                    let gs = self.guidance.as_mut().unwrap();
+                    gs.phase = Phase::Route(i + 1);
+                    gs.leg_engaged = false;
                     continue;
+                }
+                if overshoot_rule && !behind && !g.leg_engaged {
+                    self.guidance.as_mut().unwrap().leg_engaged = true;
+                }
+                if let Some(from) = leg_from.filter(|_| !behind) {
+                    let desired = leg_command(from, target, (self.lat, self.lon));
+                    error = wrap_pi(desired - self.control - self.control_deviation);
                 }
             }
             if error.abs() < DIRECT_CORRECTION_RAD {
@@ -1232,22 +2000,23 @@ impl Aircraft {
     /// excluded. The returned draw carries its exact log prior-to-proposal ratio into
     /// `fuel_log_weight_correction`, which the filter takes into the particle's weight.
     fn draw_mach_target<R: Rng>(&mut self, p: &Parameters, rng: &mut R) -> f64 {
-        let (lo, hi) = match &p.early {
-            Some(e) if self.unix_s < e.mach_until_unix_s => match e.cas_envelope_kt {
-                None => e.mach_range,
-                Some((cas_lo, cas_hi)) => {
-                    let lo = e.mach_range.0.max(cas_to_mach(cas_lo, self.alt_ft));
-                    let hi = e.mach_range.1.min(cas_to_mach(cas_hi, self.alt_ft));
-                    if lo < hi {
-                        (lo, hi)
-                    } else {
-                        // No overlap: the envelope bound nearest the declared range.
-                        let m = hi.max(e.mach_range.0).min(e.mach_range.1);
-                        (m, m)
-                    }
+        let clip = |range: (f64, f64), envelope: Option<(f64, f64)>| match envelope {
+            None => range,
+            Some((cas_lo, cas_hi)) => {
+                let lo = range.0.max(cas_to_mach(cas_lo, self.alt_ft));
+                let hi = range.1.min(cas_to_mach(cas_hi, self.alt_ft));
+                if lo < hi {
+                    (lo, hi)
+                } else {
+                    // No overlap: the envelope bound nearest the declared range.
+                    let m = hi.max(range.0).min(range.1);
+                    (m, m)
                 }
-            },
-            _ => p.mach_range,
+            }
+        };
+        let (lo, hi) = match &p.early {
+            Some(e) if self.unix_s < e.mach_until_unix_s => clip(e.mach_range, e.cas_envelope_kt),
+            _ => clip(p.mach_range, p.cas_envelope_kt),
         };
         let uniform = |rng: &mut R| if hi > lo { rng.gen_range(lo..hi) } else { lo };
         let Some(model) = &p.fuel else { return uniform(rng) };
@@ -1258,7 +2027,7 @@ impl Aircraft {
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
         let budget_kg_h = self.fuel_kg / (self.fuel_factor * remaining_h);
-        let flows = model.tables.flow_grid(self.alt_ft / 100.0, weight_t, (lo, hi), e.cells);
+        let flows = model.flow_cells(self.alt_ft / 100.0, weight_t, (lo, hi), e.cells, self.weather.temperature_k);
         let affordable: Vec<bool> = flows.iter().map(|f| f.is_some_and(|f| f <= budget_kg_h)).collect();
         let n_aff = affordable.iter().filter(|&&a| a).count();
         if n_aff == 0 || n_aff == e.cells {
@@ -1303,7 +2072,12 @@ impl Aircraft {
             self.next_acceleration = if self.mach_target == self.mach { now + self.exp_gap(rng) } else { f64::INFINITY };
         }
         if self.next_climb <= now {
-            let levels = ((p.altitude_range_ft.1 - p.altitude_range_ft.0) / p.altitude_step_ft).round() as u32;
+            let ceiling = p.fuel.as_ref().and_then(|m| m.ceiling_ft((m.zfw_kg + self.fuel_kg.max(0.0)) / 1000.0));
+            let levels = match ceiling {
+                None => ((p.altitude_range_ft.1 - p.altitude_range_ft.0) / p.altitude_step_ft).round() as u32,
+                // Only the levels the aircraft can reach at its present weight (C-5).
+                Some(c) => ((c.min(p.altitude_range_ft.1) - p.altitude_range_ft.0) / p.altitude_step_ft + 1e-9).floor().max(0.0) as u32,
+            };
             self.alt_target_ft = p.altitude_range_ft.0 + p.altitude_step_ft * f64::from(rng.gen_range(0..=levels));
             self.climbs += 1;
             self.next_climb = if self.alt_target_ft == self.alt_ft { now + self.exp_gap(rng) } else { f64::INFINITY };
@@ -1331,12 +2105,138 @@ fn bearing_and_distance(a: (f64, f64), b: (f64, f64)) -> (f64, f64) {
     (bearing, 2.0 * 3440.065 * h.sqrt().asin())
 }
 
+/// Leg-tracking course command (radians) for the great-circle leg `from` -> `to` at `pos`: the
+/// leg's course at the abeam point, less an intercept proportional to the signed cross-track
+/// error (positive right of the leg), capped.
+fn leg_command(from: (f64, f64), to: (f64, f64), pos: (f64, f64)) -> f64 {
+    const R_NM: f64 = 3440.065;
+    let (leg, _) = bearing_and_distance(from, to);
+    let (b13, d13) = bearing_and_distance(from, pos);
+    let (delta, dtheta) = (d13 / R_NM, b13 - leg);
+    let xt = (delta.sin() * dtheta.sin()).clamp(-1.0, 1.0).asin();
+    let along = (delta.cos() / xt.cos()).clamp(-1.0, 1.0).acos().copysign(dtheta.cos());
+    let (la1, lo1) = (from.0.to_radians(), from.1.to_radians());
+    let la = (la1.sin() * along.cos() + la1.cos() * along.sin() * leg.cos()).clamp(-1.0, 1.0).asin();
+    let lo = lo1 + (leg.sin() * along.sin() * la1.cos()).atan2(along.cos() - la1.sin() * la.sin());
+    let course = bearing_and_distance((la.to_degrees(), lo.to_degrees()), to).0;
+    course - (xt * R_NM * TRACK_GAIN_RAD_PER_NM).clamp(-TRACK_MAX_INTERCEPT_RAD, TRACK_MAX_INTERCEPT_RAD)
+}
+
 fn step_towards(value: f64, target: f64, max_step: f64) -> f64 {
     if (target - value).abs() <= max_step { target } else { value + max_step.copysign(target - value) }
 }
 
 #[cfg(test)]
 mod tests {
+    /// Change of mode on the last leg (Pete, 12 Oct 2026): part-way with probability 1/2, at a
+    /// point uniform over the part of the leg west of 96E; earlier legs keep the discrete
+    /// break-off fractions.
+    #[test]
+    fn route_sampler_last_leg_change_of_mode() {
+        use rand::SeedableRng;
+        let mut fixes = Vec::new();
+        for la in -4..=8 {
+            for lo in 90..=95 {
+                fixes.push(SamplerFix { lat: f64::from(la) + 0.3, lon: f64::from(lo) + 0.2, regions: 7 });
+            }
+        }
+        let s = RouteSampler {
+            prefix: vec![(6.182222, 97.585556), (6.503889, 96.491111)], prefix_end_unix_s: 0.0, fixes,
+            legs_mean: 3.0, legs_max: 8, break_off_probability: 0.5, break_off_fractions: vec![0.2, 0.4, 0.6, 0.8],
+            fly_by_probability: 0.5, max_course_change_deg: 180.0, phase2_until_unix_s: 1e9,
+            equator_continue_probability: 1.0, south_limit_deg: -4.5, nominal_ground_speed_kt: 470.0, transition: Some((0.5, 96.0)),
+        };
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(11);
+        let (mut n, mut mid, mut west_legs, mut west_sum) = (0.0f64, 0.0f64, 0.0f64, 0.0f64);
+        for _ in 0..50_000 {
+            let r = s.sample(&mut rng);
+            let k = r.fixes.len();
+            for b in &r.break_off[..k - 1] {
+                assert!([0.0, 0.2, 0.4, 0.6, 0.8].iter().any(|x| (x - b).abs() < 1e-12), "non-last break-off {b}");
+            }
+            n += 1.0;
+            let f = r.break_off[k - 1];
+            if f > 0.0 {
+                mid += 1.0;
+                assert!(r.waypoints[k - 1].1 < 96.0, "change of mode east of 96E");
+                let start = if k >= 2 { r.waypoints[k - 2] } else { s.prefix[1] };
+                if start.1 < 96.0 {
+                    west_legs += 1.0;
+                    west_sum += f;
+                }
+            }
+        }
+        eprintln!("part-way changes {:.3}, mean fraction on all-west legs {:.3}", mid / n, west_sum / west_legs);
+        assert!((mid / n - 0.5).abs() < 0.02, "{}", mid / n);
+        assert!((west_sum / west_legs - 0.5).abs() < 0.01, "{}", west_sum / west_legs);
+    }
+
+    /// Route sampler prior (waypoint-family reset, 11 Oct 2026): with fixes always available,
+    /// the leg count follows the truncated geometric law, break-off and fly-by are 50/50, the
+    /// break-off fractions are uniform over the declared set, no fix repeats, and the equator
+    /// decision is 50/50 among plans that cross it.
+    #[test]
+    fn route_sampler_prior_matches_its_specification() {
+        use rand::SeedableRng;
+        let mut fixes = Vec::new();
+        for la in -4..=8 {
+            for lo in 90..=96 {
+                fixes.push(SamplerFix { lat: f64::from(la) + 0.3, lon: f64::from(lo) + 0.2, regions: 7 });
+            }
+        }
+        let s = RouteSampler {
+            prefix: vec![(6.182222, 97.585556), (6.503889, 96.491111)], prefix_end_unix_s: 0.0, fixes,
+            legs_mean: 3.0, legs_max: 8, break_off_probability: 0.5, break_off_fractions: vec![0.2, 0.4, 0.6, 0.8],
+            fly_by_probability: 0.5, max_course_change_deg: 180.0, phase2_until_unix_s: 1e9,
+            equator_continue_probability: 0.5, south_limit_deg: -4.5, nominal_ground_speed_kt: 470.0, transition: None,
+        };
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(7);
+        let n = 100_000;
+        let (mut legs, mut brk, mut drawn, mut by, mut reached, mut crossed, mut cont) = (0.0f64, 0.0f64, 0.0f64, 0.0f64, 0.0f64, 0.0f64, 0.0f64);
+        let mut frac = [0.0f64; 4];
+        for _ in 0..n {
+            let r = s.sample(&mut rng);
+            assert_eq!(r.fixes.len(), r.waypoints.len());
+            let mut seen = std::collections::BTreeSet::new();
+            assert!(r.fixes.iter().all(|f| seen.insert(*f)), "a fix repeats");
+            if let Some(c) = r.equator {
+                crossed += 1.0;
+                cont += f64::from(u8::from(c));
+                if !c {
+                    assert!(r.waypoints.last().unwrap().0.abs() < 1e-6, "equator stop not at the crossing");
+                    continue;
+                }
+            }
+            legs += r.fixes.len() as f64;
+            for (k, &b) in r.break_off.iter().enumerate() {
+                drawn += 1.0;
+                if b > 0.0 {
+                    brk += 1.0;
+                    frac[((b * 5.0).round() as usize) - 1] += 1.0;
+                } else {
+                    reached += 1.0;
+                    by += f64::from(u8::from(r.fly_by[k]));
+                }
+            }
+        }
+        let p: f64 = 1.0 / 3.0;
+        let expect: f64 = (1..=8).map(|k| k as f64 * p * (1.0 - p).powi(k - 1)).sum::<f64>() / (1.0 - (1.0 - p).powi(8));
+        let kept = n as f64 - (crossed - cont);
+        let mean_legs = legs / kept;
+        eprintln!("legs {mean_legs:.3} (truncated geometric {expect:.3}), break-off {:.3}, fly-by {:.3}, equator crossed {crossed} continued {:.3}", brk / drawn, by / reached, cont / crossed);
+        let _ = mean_legs;
+        // Plans that stop at the equator are cut short, and longer plans cross it more often, so
+        // the leg-count law is checked with route flight always continuing past it.
+        let always = RouteSampler { equator_continue_probability: 1.0, ..s.clone() };
+        let mean_all = (0..n).map(|_| always.sample(&mut rng).fixes.len() as f64).sum::<f64>() / n as f64;
+        eprintln!("legs, never stopping at the equator: {mean_all:.3}");
+        assert!((mean_all - expect).abs() < 0.03, "{mean_all} vs {expect}");
+        assert!((brk / drawn - 0.5).abs() < 0.01 && (by / reached - 0.5).abs() < 0.01);
+        let tot: f64 = frac.iter().sum();
+        assert!(frac.iter().all(|&c| (c / tot - 0.25).abs() < 0.01), "{frac:?}");
+        assert!(crossed > 1000.0 && (cont / crossed - 0.5).abs() < 0.03);
+    }
+
     use super::*;
     use environment::CalmAir;
     use rand::SeedableRng;
@@ -1388,6 +2288,241 @@ mod tests {
         let mut m = FuelModel::new(tables, fuel::FuelPrior::default());
         m.endurance = Some(EnduranceProposal { deadline_unix_s, prior_mix: 0.15, cells: 16 });
         m
+    }
+
+    /// A constant-state aircraft carrying `fuel_kg` on the tables, for the two-tank tests.
+    fn level_aircraft(p: &Parameters, fuel_kg: f64) -> Aircraft {
+        let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(5));
+        a.alt_ft = 35_000.0;
+        a.alt_target_ft = 35_000.0;
+        a.mach = 0.80;
+        a.mach_target = 0.80;
+        a.fuel_kg = fuel_kg;
+        a.fuel_factor = 1.0;
+        a
+    }
+
+    fn two_tanks(left_kg: f64, right_kg: f64, ratio: f64) -> Tanks {
+        Tanks {
+            left_kg,
+            right_kg,
+            ratio,
+            left_exhausted_unix_s: f64::NAN,
+            right_exhausted_unix_s: f64::NAN,
+            single_engine_s: 0.0,
+            single_engine_above_ceiling_s: 0.0,
+            driftdown_fpm: 0.0,
+            mach_u: 0.0,
+            decel_kt_per_min: 0.0,
+            driftdown_kcas: 0.0,
+        }
+    }
+
+    /// C-7(b): with no imbalance and a ratio of one the two tanks are the single pool.
+    #[test]
+    fn two_equal_tanks_at_ratio_one_are_the_single_pool() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        p.fuel = Some(std::sync::Arc::new(model));
+        let mut one = level_aircraft(&p, 20_000.0);
+        let mut two = one.clone();
+        two.tanks = Some(two_tanks(10_000.0, 10_000.0, 1.0));
+        for k in 1..=40 {
+            let t = one.unix_s + 600.0;
+            one.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            two.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            assert!((one.fuel_kg - two.fuel_kg).abs() < 1e-6, "step {k}: {} against {}", one.fuel_kg, two.fuel_kg);
+        }
+        assert!(one.fuel_exhausted_unix_s.is_finite(), "the test must run the tank dry");
+        assert!((one.fuel_exhausted_unix_s - two.fuel_exhausted_unix_s).abs() < 1e-3);
+    }
+
+    /// C-7(b) against the fuel session's arithmetic (engine-imbalance-180149.csv): L - R = +221 kg
+    /// and R : L = 1.021 leave about 595 kg in the left tank when the right runs dry.
+    #[test]
+    fn the_right_engine_stops_first_with_595_kg_left() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        p.fuel = Some(std::sync::Arc::new(model));
+        let total = 36_569.0;
+        let (l0, r0) = ((total + 221.0) / 2.0, (total - 221.0) / 2.0);
+        let mut a = level_aircraft(&p, total);
+        a.tanks = Some(two_tanks(l0, r0, 1.021));
+        let mut k = 0;
+        while !a.tanks.unwrap().right_exhausted_unix_s.is_finite() {
+            k += 1;
+            assert!(k < 2_000, "the right tank never ran dry");
+            let t = a.unix_s + 60.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let t = a.tanks.unwrap();
+        assert!(!t.left_exhausted_unix_s.is_finite() && a.fuel_exhausted_unix_s.is_nan());
+        // Left at right flame-out = L0 - R0 / ratio, less whatever the left alone burnt in the
+        // rest of the step it happened in.
+        let want = l0 - r0 / 1.021;
+        assert!((594.0..=596.0).contains(&want), "{want}");
+        let one_engine = t.single_engine_s;
+        assert!(t.left_kg <= want + 1e-6 && t.left_kg > want - 40.0, "left {} against {want} (one engine {one_engine} s)", t.left_kg);
+        assert_eq!(t.first_exhausted_unix_s(), t.right_exhausted_unix_s);
+        // Then the left runs on alone until it stops, and that is the last engine.
+        while a.fuel_kg > 0.0 {
+            k += 1;
+            assert!(k < 4_000);
+            let t = a.unix_s + 60.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let t = a.tanks.unwrap();
+        assert!(t.left_exhausted_unix_s > t.right_exhausted_unix_s);
+        assert_eq!(a.fuel_exhausted_unix_s, t.left_exhausted_unix_s);
+        assert!(t.single_engine_s > 0.0);
+    }
+
+    /// C-7(a): after the right engine stops, the aircraft drifts down at its own rate to the
+    /// one-engine ceiling for its weight, at the one-engine LRC Mach, and the BFO's vertical rate
+    /// is the drift-down rate meanwhile. Needs the local-only internal model; skips without it.
+    #[test]
+    fn one_engine_drift_down_to_the_ceiling() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        model.internal = Some(fuel::InternalGrid::from_json(&text).unwrap());
+        model.tanks = Some(fuel::TankPrior { imbalance_mean_kg: 0.0, imbalance_sd_kg: 0.0, ratio_mean: 1.0, ratio_sd: 0.0 });
+        model.single_engine = Some(SingleEngine { descent_fpm: (600.0, 600.0), mach_band: 0.02, profile: DriftDown::Constant });
+        let p_fuel = std::sync::Arc::new(model);
+        p.fuel = Some(p_fuel.clone());
+        let mut a = level_aircraft(&p, 26_000.0);
+        let mut t = two_tanks(25_950.0, 50.0, 1.0);
+        t.driftdown_fpm = 600.0;
+        a.tanks = Some(t);
+        // Twin flight until the right runs dry (50 kg: well under a minute), then one engine.
+        let mut k = 0;
+        while !a.tanks.unwrap().right_exhausted_unix_s.is_finite() {
+            k += 1;
+            assert!(k < 100);
+            let t = a.unix_s + 10.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let weight = (p_fuel.zfw_kg + a.fuel_kg) / 1000.0;
+        let ceiling_ft = p_fuel.internal.as_ref().unwrap().inop.as_ref().unwrap().ceiling_fl(weight) * 100.0;
+        assert!((24_000.0..=30_000.0).contains(&ceiling_ft), "one-engine ceiling {ceiling_ft} ft at {weight} t");
+        let start_ft = a.alt_ft;
+        assert!(start_ft > ceiling_ft + 3_000.0, "test needs room to drift down");
+        // One minute later: down by the drift-down rate, and the BFO sees it.
+        let t0 = a.unix_s;
+        a.propagate(t0 + 60.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(1000));
+        assert!((start_ft - a.alt_ft - 600.0).abs() < 1.0, "descended {} ft in a minute", start_ft - a.alt_ft);
+        assert_eq!(a.vertical_speed_fpm(&p), -600.0);
+        // After long enough: at the (slowly rising, as fuel burns) ceiling, level, on the schedule.
+        a.propagate(t0 + 3_600.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(1001));
+        let weight = (p_fuel.zfw_kg + a.fuel_kg) / 1000.0;
+        let g = p_fuel.internal.as_ref().unwrap();
+        let ceiling_now = g.inop.as_ref().unwrap().ceiling_fl(weight) * 100.0;
+        assert!(a.alt_ft <= ceiling_now + 1e-6 && a.alt_ft > ceiling_ft - 1e-6, "{} against ceiling {ceiling_now}", a.alt_ft);
+        let want = g.inop_mach(a.alt_ft / 100.0, weight).unwrap();
+        assert!((a.mach - want).abs() < 0.01, "Mach {} against the one-engine schedule {want}", a.mach);
+        assert_eq!(a.vertical_speed_fpm(&p), 0.0);
+        assert!(a.tanks.unwrap().single_engine_s > 3_000.0);
+    }
+
+    /// The airspeed conversions invert each other, and the hold-then-taper rate is negative at
+    /// the ceiling and zero about 1,000 ft above it (level-off at minimum drag, c > 1).
+    #[test]
+    fn drift_down_rate_tapers_to_zero_just_above_the_ceiling() {
+        for (m, h) in [(0.80, 35_000.0), (0.58, 31_000.0), (0.40, 10_000.0)] {
+            let back = cas_to_mach(mach_to_cas(m, h), h);
+            assert!((back - m).abs() < 1e-9, "{m} at {h}: {back}");
+        }
+        assert!((mach_to_cas(0.80, 35_000.0) - 272.0).abs() < 2.0);
+        let r = |h: f64| drift_down_rate_fpm(340.0, h, 29_000.0, 20.7, 1.038, 0.864);
+        assert!(r(29_000.0) < 0.0);
+        let mut lo = 29_000.0;
+        let mut hi = 35_000.0;
+        for _ in 0..60 {
+            let mid = 0.5 * (lo + hi);
+            if r(mid) > 0.0 { hi = mid } else { lo = mid }
+        }
+        assert!((800.0..1_200.0).contains(&(lo - 29_000.0)), "level-off {} ft above the ceiling", lo - 29_000.0);
+        // Fuel session table, FL350 at 175 t (ceiling ~FL290): descent starts at about 350 ft/min.
+        let start = drift_down_rate_fpm(cas_to_mach(215.0, 35_000.0) * 576.4, 35_000.0, 29_000.0, 20.7, 1.038, 0.864);
+        assert!((250.0..450.0).contains(&start), "initial rate {start}");
+    }
+
+    /// C-7(a) hold-then-taper: after the right engine stops at FL350 the autopilot holds altitude
+    /// while KCAS decays at the path's rate to its drift-down KCAS, then descends at a rate that
+    /// starts near 350 ft/min and tapers, levelling just above the one-engine ceiling. Needs the
+    /// local-only internal model; skips without it.
+    #[test]
+    fn one_engine_hold_then_taper() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        model.internal = Some(fuel::InternalGrid::from_json(&text).unwrap());
+        model.tanks = Some(fuel::TankPrior { imbalance_mean_kg: 0.0, imbalance_sd_kg: 0.0, ratio_mean: 1.0, ratio_sd: 0.0 });
+        // internal-v1's grid_inop is doubled (see `inop_flow_scale`); correct it here.
+        model.inop_flow_scale = 0.5;
+        model.single_engine = Some(SingleEngine {
+            descent_fpm: (300.0, 1000.0),
+            mach_band: 0.02,
+            profile: DriftDown::HoldTaper { decel_kt_per_min: (9.0, 9.0), driftdown_kcas: (215.0, 215.0), lift_drag: 20.7, min_drag_factor: 1.038, exponent: 0.864, level_off_fpm: 30.0 },
+        });
+        let p_fuel = std::sync::Arc::new(model);
+        p.fuel = Some(p_fuel.clone());
+        // Enough left fuel to outlast the test.
+        let mut a = level_aircraft(&p, 5_550.0);
+        let mut t = two_tanks(5_500.0, 50.0, 1.0);
+        t.decel_kt_per_min = 9.0;
+        t.driftdown_kcas = 215.0;
+        a.tanks = Some(t);
+        let mut k = 0;
+        while !a.tanks.unwrap().right_exhausted_unix_s.is_finite() {
+            k += 1;
+            assert!(k < 100);
+            let t = a.unix_s + 5.0;
+            a.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+        }
+        let g = p_fuel.internal.as_ref().unwrap();
+        let ceiling = |a: &Aircraft| g.inop.as_ref().unwrap().ceiling_fl((p_fuel.zfw_kg + a.fuel_kg) / 1000.0) * 100.0;
+        let c0 = ceiling(&a);
+        assert!((27_000.0..=31_000.0).contains(&c0), "one-engine ceiling {c0} ft");
+        assert_eq!(a.alt_ft, 35_000.0);
+        let cas0 = mach_to_cas(a.mach, a.alt_ft);
+        let t0 = a.unix_s;
+        let left0 = a.tanks.unwrap().left_kg;
+        // Three minutes on: altitude held, 27 kt slower, no vertical rate for the BFO.
+        a.propagate(t0 + 180.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(500));
+        assert_eq!(a.alt_ft, 35_000.0);
+        assert_eq!(a.vertical_speed_fpm(&p), 0.0);
+        let cas = mach_to_cas(a.mach, a.alt_ft);
+        assert!((cas0 - cas - 27.0).abs() < 1.5, "slowed {} kt in 3 min", cas0 - cas);
+        // After the hold ((cas0 - 215)/9 min) plus a minute: descending at about 350 ft/min.
+        let hold_s = (cas0 - 215.0) / 9.0 * 60.0;
+        a.propagate(t0 + hold_s + 60.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(501));
+        let vs = a.vertical_speed_fpm(&p);
+        assert!((-500.0..=-250.0).contains(&vs), "vertical speed {vs} after the hold");
+        // The live engine burns a one-engine flow, not half an extrapolated twin flow.
+        let kg_h = (left0 - a.tanks.unwrap().left_kg) / (a.unix_s - t0) * 3600.0;
+        assert!((2_500.0..5_500.0).contains(&kg_h), "live-engine flow {kg_h} kg/h");
+        assert!((mach_to_cas(a.mach, a.alt_ft) - 215.0).abs() < 1.0);
+        assert!(a.alt_ft < 35_000.0 && a.alt_ft > 34_000.0, "alt {}", a.alt_ft);
+        // Twenty-five minutes later: levelled (or nearly), above the ceiling and within ~1,500 ft.
+        a.propagate(t0 + hold_s + 1_560.0, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(502));
+        let c1 = ceiling(&a);
+        let vs = a.vertical_speed_fpm(&p);
+        assert!(vs > -120.0 && vs <= 0.0, "vertical speed {vs} late in the drift-down");
+        assert!(a.alt_ft > c1 && a.alt_ft < c1 + 2_500.0, "alt {} against ceiling {c1}", a.alt_ft);
+        assert!(a.tanks.unwrap().left_kg > 0.0, "left tank ran dry inside the test");
     }
 
     #[test]
@@ -1555,12 +2690,82 @@ mod tests {
         }
     }
 
+    /// Routes prior defect (11 Oct 2026): MEKAR lies behind the aircraft at NILAM. Under the
+    /// original rule it is skipped at once; with `turn_backs` the aircraft turns back and flies it.
+    #[test]
+    fn a_turn_back_fix_is_skipped_or_flown_by_the_capture_rule() {
+        let p = busy();
+        let fly = |turn_backs: bool| {
+            let mut rng = ChaCha8Rng::seed_from_u64(6);
+            let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
+            let plan = Guidance { waypoints: vec![NILAM, MEKAR], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None };
+            a.set_guidance(plan, &CalmAir, &mut rng);
+            let (mut near_nilam, mut near_mekar_after_nilam, mut reached_nilam) = (f64::MAX, f64::MAX, false);
+            for k in 1..=240 {
+                a.propagate(k as f64 * 15.0, &p, &CalmAir, &mut rng);
+                let dn = bearing_and_distance((a.lat, a.lon), NILAM).1;
+                near_nilam = near_nilam.min(dn);
+                reached_nilam |= dn < CAPTURE_NM + 0.5;
+                if reached_nilam {
+                    near_mekar_after_nilam = near_mekar_after_nilam.min(bearing_and_distance((a.lat, a.lon), MEKAR).1);
+                }
+            }
+            (near_nilam, near_mekar_after_nilam)
+        };
+        let (n0, m0) = fly(false);
+        let (n1, m1) = fly(true);
+        assert!(n0 < CAPTURE_NM + 0.5 && n1 < CAPTURE_NM + 0.5, "NILAM {n0} {n1}");
+        assert!(m0 > 20.0, "original rule should skip MEKAR, came within {m0} NM");
+        assert!(m1 < CAPTURE_NM + 0.5, "turn_backs should fly back to MEKAR, came within {m1} NM");
+    }
+
+    /// Fly-by (11 Oct 2026): at a ~99 degree left turn at ANOKO, the fly-over rule overshoots and
+    /// homes back onto the ANOKO-ISBIX leg from well off it; the fly-by rule starts the turn at
+    /// R tan(dpsi/2) (~14 NM at 15 deg bank) and rolls out close to the leg, missing the fix by
+    /// about R (sec(dpsi/2) - 1).
+    #[test]
+    fn a_fly_by_turn_rolls_out_on_the_next_leg() {
+        const ANOKO: (f64, f64) = (7.136111111111111, 94.41611111111111);
+        const ISBIX: (f64, f64) = (0.3666667, 93.6751083);
+        let p = busy();
+        let fly = |fly_by_bank_deg: Option<f64>, track_legs: bool| {
+            let mut rng = ChaCha8Rng::seed_from_u64(6);
+            let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
+            let plan = Guidance { waypoints: vec![NILAM, ANOKO, ISBIX], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 185.0 }, turn_backs: true, fly_by_bank_deg, track_legs, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None };
+            a.set_guidance(plan, &CalmAir, &mut rng);
+            let leg = bearing_and_distance(ANOKO, ISBIX).0;
+            let (mut near_anoko, mut max_xt, mut late_xt) = (f64::MAX, 0.0_f64, 0.0_f64);
+            for k in 1..=480 {
+                a.propagate(k as f64 * 15.0, &p, &CalmAir, &mut rng);
+                let (b, d) = bearing_and_distance(ANOKO, (a.lat, a.lon));
+                near_anoko = near_anoko.min(d);
+                let (along, cross) = (d * (b - leg).cos(), d * (b - leg).sin());
+                if (10.0..80.0).contains(&along) && wrap_pi(b - leg).abs() < PI / 3.0 { max_xt = max_xt.max(cross.abs()); }
+                if (40.0..80.0).contains(&along) && wrap_pi(b - leg).abs() < PI / 3.0 { late_xt = late_xt.max(cross.abs()); }
+            }
+            (near_anoko, max_xt, late_xt)
+        };
+        let (n_over, xt_over, late_over) = fly(None, false);
+        let (n_by, xt_by, _) = fly(Some(p.bank_angle_deg), false);
+        let (n_over_t, xt_over_t, late_over_t) = fly(None, true);
+        let (n_by_t, xt_by_t, _) = fly(Some(p.bank_angle_deg), true);
+        eprintln!("track_legs: fly-over closest {n_over_t:.2} max xt {xt_over_t:.2} late xt {late_over_t:.2} (direct-to late xt {late_over:.2}); fly-by closest {n_by_t:.2} max xt {xt_by_t:.2}");
+        assert!(late_over_t < 0.5 * late_over, "leg tracking should regain the leg sooner than direct-to, {late_over_t} vs {late_over}");
+        assert!(n_over_t < CAPTURE_NM + 0.5 && (3.0..10.0).contains(&n_by_t), "track_legs must not change sequencing, {n_over_t} {n_by_t}");
+        assert!(xt_by_t < 1.0, "fly-by with leg tracking should hold the leg, {xt_by_t}");
+        eprintln!("fly-over: closest {n_over:.2} NM, max cross-track {xt_over:.2} NM; fly-by: closest {n_by:.2} NM, max cross-track {xt_by:.2} NM");
+        assert!(n_over < CAPTURE_NM + 0.5, "fly-over should pass within capture of ANOKO, {n_over}");
+        assert!(xt_over > 6.0, "fly-over should leave the next leg well off, max cross-track {xt_over}");
+        assert!((3.0..10.0).contains(&n_by), "fly-by should cut the corner by ~R(sec-1), closest {n_by}");
+        assert!(xt_by < 0.5 * xt_over && xt_by < 4.0, "fly-by should roll out near the leg, {xt_by} vs {xt_over}");
+    }
+
     #[test]
     fn a_route_is_flown_through_its_waypoints_then_held() {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(6);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticHeading, &p, &CalmAir, &mut rng);
-        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 } };
+        let plan = Guidance { waypoints: vec![NILAM, IGOGU], after: AfterRoute::Hold { mode: Mode::TrueTrack, angle_deg: 180.0 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None };
         a.set_guidance(plan, &CalmAir, &mut rng);
         let (mut near_nilam, mut near_igogu) = (f64::MAX, f64::MAX);
         for k in 1..=240 {
@@ -1582,7 +2787,7 @@ mod tests {
         let mut rng = ChaCha8Rng::seed_from_u64(7);
         let mut a = Aircraft::sample(&prior(), Mode::TrueTrack, &p, &CalmAir, &mut rng);
         let dest = (-45.0, 104.0);
-        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 } }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![], after: AfterRoute::Destination { lat: dest.0, lon: dest.1 }, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None }, &CalmAir, &mut rng);
         let (_, d0) = bearing_and_distance((a.lat, a.lon), dest);
         let mut flown = 0.0;
         for k in 1..=120 {
@@ -1602,7 +2807,7 @@ mod tests {
         let p = busy();
         let mut rng = ChaCha8Rng::seed_from_u64(8);
         let mut a = Aircraft::sample(&start_on_n571(), Mode::MagneticTrack, &p, &CalmAir, &mut rng);
-        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free }, &CalmAir, &mut rng);
+        a.set_guidance(Guidance { waypoints: vec![NILAM], after: AfterRoute::Free, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None }, &CalmAir, &mut rng);
         a.propagate(3.0 * 3600.0, &p, &CalmAir, &mut rng);
         assert!(a.guidance.is_none());
         assert_eq!(a.mode, Mode::MagneticTrack);
@@ -1641,7 +2846,7 @@ mod tests {
         }
         let mut guided = Aircraft::sample(&start_on_n571(), Mode::TrueHeading, &p, &CalmAir, &mut rng);
         let after = AfterRoute::Destination { lat: -30.0, lon: 95.0 };
-        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after }, &CalmAir, &mut rng);
+        guided.set_guidance(Guidance { waypoints: vec![NILAM, IGOGU], after, turn_backs: false, fly_by_bank_deg: None, track_legs: false, bank_deg: None, fly_by_max_turn_deg: None, fly_by_mask: None }, &CalmAir, &mut rng);
         let mut on_route = guided.clone();
         on_route.propagate(300.0, &p, &CalmAir, &mut rng);
         guided.propagate(1500.0, &p, &CalmAir, &mut rng);

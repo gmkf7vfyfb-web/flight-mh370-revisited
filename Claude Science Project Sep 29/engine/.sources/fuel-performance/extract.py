@@ -73,13 +73,36 @@ def source_class(cell, sheet):
     return "derived"
 
 
-def grid(ws):
-    """The weight x flight-level block under the 'Flight Level (FL)' label."""
+def blocks(fl_cells):
+    """Split a header row into side-by-side blocks: a new block starts where the FL axis restarts."""
+    out = [[fl_cells[0]]]
+    for c in fl_cells[1:]:
+        (out[-1].append(c) if c.value > out[-1][-1].value else out.append([c]))
+    return out
+
+
+def grid(ws, quantity):
+    """The weight x flight-level block under the 'Flight Level (FL)' label.
+
+    Some sheets hold two blocks side by side under one header ("Holding INOP Mach": KIAS at
+    B3:L12, Mach at M3:W12). Taking every numeric header cell concatenated them into one table
+    with a repeated FL axis. Now the block whose values match the sheet's quantity is taken
+    (Mach below 2, KIAS above), and a sheet with several blocks and no such rule is an error."""
     rows = list(ws.iter_rows(max_row=40))
     label = next(c for r in rows for c in r if isinstance(c.value, str) and c.value.startswith("Flight Level"))
     header = next(r for r in rows[label.row:] if sum(isinstance(c.value, (int, float)) for c in r) >= 3)
     fl_cells = [c for c in header if isinstance(c.value, (int, float))]
-    weight_col = fl_cells[0].column - 2  # 0-based index of the column left of the first FL
+    found = blocks(fl_cells)
+    if len(found) > 1:
+        def top(block):
+            vals = [r[c.column - 1].value for r in rows[header[0].row:header[0].row + 30] for c in block]
+            return max((v for v in vals if isinstance(v, (int, float))), default=float("nan"))
+        rule = {"mach": lambda b: top(b) < 2.0, "kias": lambda b: top(b) > 2.0}.get(quantity)
+        chosen = [b for b in found if rule and rule(b)]
+        if len(chosen) != 1:
+            raise SystemExit(f"{ws.title}: {len(found)} blocks under one header and no unique {quantity} block")
+        fl_cells = chosen[0]
+    weight_col = found[0][0].column - 2  # 0-based index of the column left of the first FL (first block)
     body = []
     for r in rows[header[0].row:]:
         w = r[weight_col].value
@@ -105,7 +128,7 @@ def main():
     wb = openpyxl.load_workbook(src, data_only=True)
     tables = {}
     for key, (sheet, quantity, units) in TABLES.items():
-        fls, weights, values, classes = grid(wb[sheet])
+        fls, weights, values, classes = grid(wb[sheet], quantity)
         tables[key] = {"sheet": sheet, "quantity": quantity, "units": units, "flight_levels": fls,
                        "weights_t": weights, "values": values, "source_class": classes}
         n = sum(v is not None for row in values for v in row)

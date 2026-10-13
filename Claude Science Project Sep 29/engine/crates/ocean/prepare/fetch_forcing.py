@@ -4,6 +4,10 @@ Box 15-120 E, 50-0 S; period 2014-03-07 to 2017-01-31. One product per invocatio
 
     python fetch_forcing.py glorys12|waverys|era5|bran2016
 
+Eastern extension (drift's request of 12 Oct, Australian non-recovery term): set FORCING_LON=120,160 to fetch
+the same products over 120-160 E (file names carry 120-160E; the 120 E column is shared with the 15-120 E files
+so the two grids join exactly). FLOOR_GIB overrides the free-disk floor.
+
 Writes to /Users/pete/Downloads/mh370-ocean-data/<product>/ and appends one JSON line per file
 (name, bytes, sha256, retrieval time, request) to fetch-log.jsonl there. Checks the 100 GiB free-disk
 floor before every file. Credentials: COPERNICUS (user:password) in the environment variable
@@ -22,8 +26,10 @@ import numpy as np
 import requests
 
 ROOT = "/Users/pete/Downloads/mh370-ocean-data"
-FLOOR_GIB = 100.0
-BOX = dict(minimum_longitude=15, maximum_longitude=120, minimum_latitude=-50, maximum_latitude=0)
+FLOOR_GIB = float(os.environ.get("FLOOR_GIB", "100"))
+LON = tuple(float(x) for x in os.environ.get("FORCING_LON", "15,120").split(","))
+TAG = f"{LON[0]:g}-{LON[1]:g}E_50-0S"
+BOX = dict(minimum_longitude=LON[0], maximum_longitude=LON[1], minimum_latitude=-50, maximum_latitude=0)
 START, END = dt.datetime(2014, 3, 7), dt.datetime(2017, 1, 31)
 UTC = dt.timezone.utc
 
@@ -64,7 +70,7 @@ def copernicus(product, dataset, variables, start, service, extra):
     user, pw = os.environ["COPERNICUS"].strip().split(":", 1)
     out = os.path.join(ROOT, product)
     for a, b in year_windows(start, END):
-        name = f"{product}_{'_'.join(variables)}_15-120E_50-0S_{a:%Y%m%d}-{b:%Y%m%d}.nc"
+        name = f"{product}_{'_'.join(variables)}_{TAG}_{a:%Y%m%d}-{b:%Y%m%d}.nc"
         if os.path.exists(os.path.join(out, name)):
             continue
         floor_ok()
@@ -97,11 +103,11 @@ def era5():
     if lat is None:
         lat = np.frombuffer(requests.get(ERA5 + "/latitude/0", timeout=120).content, dtype="<f4")
     rows = np.where((lat >= -50) & (lat <= 0))[0]
-    cols = np.where((lon >= 15) & (lon <= 120))[0]
+    cols = np.where((lon >= LON[0]) & (lon <= LON[1]))[0]
     lat_sel, lon_sel = lat[rows][::-1].astype(float), lon[cols].astype(float)
     epoch = dt.datetime(1900, 1, 1)
     for a, b in year_windows(START, END + dt.timedelta(hours=21)):
-        name = f"era5_u10_v10_3h_15-120E_50-0S_{a:%Y%m%d}-{b:%Y%m%d}"
+        name = f"era5_u10_v10_3h_{TAG}_{a:%Y%m%d}-{b:%Y%m%d}"
         if os.path.exists(os.path.join(out, name + ".json")):
             continue
         floor_ok()
@@ -113,7 +119,7 @@ def era5():
             v = chunk("10m_v_component_of_wind", f"{h}.0.0").reshape(721, 1440)[np.ix_(rows, cols)][::-1]
             return np.stack([u, v], axis=-1)
 
-        with cf.ThreadPoolExecutor(8) as ex:
+        with cf.ThreadPoolExecutor(int(os.environ.get("FETCH_THREADS", "8"))) as ex:
             data = np.stack(list(ex.map(one, hours))).astype("<f4")
         data.tofile(os.path.join(out, name + ".f32"))
         times = [(epoch + dt.timedelta(hours=h)).replace(tzinfo=UTC).timestamp() for h in hours]
@@ -163,7 +169,7 @@ if __name__ == "__main__":
     which = sys.argv[1]
     os.makedirs(os.path.join(ROOT, which), exist_ok=True)
     if which == "glorys12":
-        copernicus("glorys12", "cmems_mod_glo_phy_my_0.083deg_P1D-m", ["uo", "vo"], dt.datetime(2014, 5, 1),
+        copernicus("glorys12", "cmems_mod_glo_phy_my_0.083deg_P1D-m", ["uo", "vo"], dt.datetime(2014, 5, 1) if LON == (15.0, 120.0) else START,
                    "arco-geo-series", dict(minimum_depth=0.49, maximum_depth=0.5))
     elif which == "waverys":
         copernicus("waverys", "cmems_mod_glo_wav_my_0.2deg_PT3H-i", ["VSDX", "VSDY"], START, "arco-time-series", {})

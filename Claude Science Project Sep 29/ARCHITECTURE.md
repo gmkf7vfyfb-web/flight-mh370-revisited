@@ -342,3 +342,55 @@ All of the core requests raised by the end-of-flight module are in the second cl
    is Pete's ruling, not the architect's.
 6. Where seafloor-depth lookup lives in the shared layer: hydroacoustics and settling both need
    it, from one bathymetry surface, never computed twice.
+
+
+## Coverage register (sampling of the feasible kinematic space) — opened 2026-10-10 15:45 -0600
+
+Standing rule: Pete, 10 Oct 2026 (see coordination/architecture.md). Status: open / closed / declared-conditional.
+
+| # | Stage | Gap | Kind | Effect | Status |
+|---|---|---|---|---|---|
+| G1 | End of flight | Commanded descent rates capped at 6,500 ft/min | reach | Holland-type and other rapid descents unreachable | open (EoF physics plan) |
+| G2 | End of flight | Free flight at fixed CL, cannot unload (no 6-DOF pitch dynamics) | reach | uncontrolled push-over / dive states unreachable | open (6-DOF fit gate) |
+| G3 | End of flight | Boeing system sequence (TAC, autopilot loss, RAT, APU) absent | reach | post-FE behaviour range narrowed | open |
+| G4 | End of flight | No g-bounded push-over in the controlled family | reach | controlled rapid descents missing | open |
+| G5 | Core | One-engine phase after takeover (core request 11) | reach | early asymmetric-thrust trajectories missing | open |
+| G6 | End of flight | Impact attitude: flight-path angle stands in for pitch | reach | impact nature partly modelled | declared for pass 1 |
+| G7 | End of flight | Holland H1/H2 not estimable (ESS 86–219 of 51.2M on core (b)) | coverage | two standard 00:19 options unestimable | open (aimed proposal after G1/G2) |
+| G8 | End of flight | Family B onset before 22:41 vs core strata | coverage | possible implicit bound on B | open (EoF to state) |
+| G9 | Core | Free stratum split-half not converged (run (b) 0.709 vs floor 0.896) | coverage | free-flight space under-resolved | run C pending |
+| G10 | Drift | 16–25 % of impact weight not computed (drift node coverage) | coverage | composed areas depend on carry vs exclude (Pléiades 90 %: 254k vs 62k km²) | open (node extension B, after run C chain) |
+| G11 | Core | Hand-off rows not linked to 18:01 route / early record | coverage (diagnostic) | trajectory trace-back before 00:11 approximate | open (core request 19) |
+| G12 | Settling | Seabed resample drawn from flight + EoF weights only; composed weights concentrate on a few hundred rows | coverage | seabed PDF under drift/Pléiades not estimable for R600 BTO Only (ESS 368–865) | open (settling resample from composed weights) |
+| G13 | End of flight | No structural limit, too little transonic drag rise: contact speeds near/above Mach 1 (A1 34 % >= 340 m/s on run C free) | reach (infeasible states produced) | impact energy/nature, hydro detectability, fragment fields | open (6-DOF drag calibration + breakup end state); pass 1 shows with/without rows > 1.25 VMO |
+| G14 | Composer / EoF | Under 00:19 R600 BTO + Raw BFO, composed G and H fall below the 1,000-effective-parent floor (506–971 per seed); A1 keeps 8 effective rows under G | coverage | Raw-BFO composed products not estimable on run C | open (aimed resampling / larger hand-off for that option) |
+| G15 | Core | Routes prior: only 14 of 48 routes distinct (core, per-route pilot) | prior defect | routes stratum (weight 0.024–0.027) and its convergence | RESOLVED 11 Oct: turn_backs overshoot rule, all 48 distinct (core); turn model now fly-by + leg tracking (runs H, hybrid) |
+| G16 | Hydroacoustics (audit C4) | Deep-SUS source spectrum below the bubble frequency unknown to better than 4–17 dB (G&S 1971 valid ≤ ~1,000 ft; SUS at 2,000/3,000 ft) | reach | C4 absolute level verdict depends on source route (A FAIL, B PARTIAL) | declared-conditional (results/hydroacoustics-audit-sus-absolute.md) |
+| G17 | Hydroacoustics | No band below 16 Hz calibrated by any deep source; none below 31.5 Hz at H01W | coverage | impact-marker bands (< 12.5 Hz) uncalibrated | open |
+| G18 | Hydroacoustics (audit) | SUS sites A1–A5 and station H08N not scored (no audit paths); A11 not scorable absolutely (charge not 1.8 lb) | coverage | 5 sites × 2 shots unused | open (module: paths.py) |
+| G19 | Hydroacoustics | No near-surface calibration source with known spectrum; SUS places the air9 tilt at the near-surface end but cannot split airgun directivity from coupling | reach | C6 condition (2) unmet | open |
+| G20 | Core | Initial-Mach prior capped at 0.84 (Davey Table 8.2, 0.73–0.84); 777-200ER MMO is 0.87. Run H route 43 (MEKAR–SAMAK–ISBIX) posterior presses the cap (95 % point 0.838) | bound narrower than feasible (sourced to Davey, but the feasible set reaches MMO) | route-family evidence and shares | Mach 0.86 arm: route 43 −120.70 vs −120.56 (< 0.5 nat). Pete ruling 12 Oct ~00:20Z: early phase keeps 0.45–0.87 within 210–330 KCAS to 18:40; cruise after the old reversion point 0.70–0.87 within 210–330 KCAS in all strata (engine 3c4ceeb3); smoke running. CLOSES on smoke pass + run I |
+| G21 | Hydroacoustics | H08N: Chagos Bank blocks every impact path in the model (K4) | reach | an H08N non-detection carries no information; labelled G-N1 | declared |
+| G22 | Hydroacoustics | Ridge cutting the sound-channel axis (air7 → H01W, about 29 S 98 E): module TL about 49–55 dB too lossy, not fixed by N×2D (K5) | reach | path-specific; checked not to reach run C → H01W predictions | declared (G-N2) |
+| G23 | Core | Route turn model: fly-over + direct-to (runs G and audit) against fly-by + leg tracking (run H, hybrid). The model change moves route ln Z by up to 7.6 nats and 00:19 latitude by about 0.7° | model reach | every route-family result before run H | RESOLVED: fly-by + leg tracking adopted (core 18:46Z); bank-angle and cap sensitivity pending |
+| G24 | End of flight | Piloted descents (A2, B) flew straight: no en-route turns, search orbits or ditching pattern (EoF found it, 12 Oct) | reach | A2/B impact spread and the run H southward shift | Pete ruled the full turn model, no cap on turns; built for run I |
+| G25 | End of flight | 00:19 two-factor cells below the 1,000 gate on run D-he: D3×C1 443, D3×C2-silent 233, D4×C2-silent 59; A1 under D4×C1 136 | coverage | Holland's Hypothesis 2 cell and the C2 cells | fix in run I: burst proposal aimed at every D×C cell + aimed pitch-down for A1 |
+| G26 | Ocean drift | Western Australia non-recovery not modelled: the beaching boxes cover S1–S6 only; 'coasts outside every box carry no identification' (run A configs, brief §13 defers the WA term) | reach | absence of finds in WA cannot down-weight impacts whose debris would beach there | open; Pete raised its priority 12 Oct; every drift result labelled 'Western Australia non-recovery not modelled' |
+
+
+## 00:19 log-on model (Pete, 12 Oct 2026; END_OF_FLIGHT.md 01:45Z, 02:05Z, 02:15Z)
+- **Data treatment D:**
+  - D0: held out.
+  - D1: R600 BTO only.
+  - D2: + R600 BFO as recorded.
+  - D3: + both BFOs as recorded.
+  - D4: + both BFOs with Holland's warm-up offset.
+  - D5: offset on R1200 only.
+  - No D uses the R1200 BTO, which stays only in the Davey reproduction arm.
+- **Cause C:**
+  - C1: fuel exhaustion + APU (Erlang lag).
+  - C2: other (rate q/W).
+  - Combined per row as competing causes, L = f_lag + q/W, with q = 1/3, W = 00:10:58–01:15:56. Sensitivity q = 1.
+- **Bayes factors** only within the same data: C1:C2 per D, and D3:D4 per C.
+- Holland's Hypotheses 1 and 2 are the named cells D4×C1 and D3×C2 (arXiv:1702.02432 p. 8; his footnote 13 supports the decoupling).
+- Hard selection by exhaustion window is not used: it charges nothing for an unexplained log-on.

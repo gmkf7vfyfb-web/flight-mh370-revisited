@@ -64,11 +64,24 @@ pub fn tag() -> String {
     std::env::var("PLEIADES_EXPORT_TAG").unwrap_or_default()
 }
 
+/// Integration domain: default 75-110 E, 48-22 S (unchanged); env `PLEIADES_INTEGRATE_DOMAIN` = "lon_min,lon_max,lat_min,lat_max"
+/// widens it for the coverage export (composer ruling 1), inside the ocean data (15-120 E, 50-0 S).
+fn integrate_domain() -> Domain {
+    match std::env::var("PLEIADES_INTEGRATE_DOMAIN") {
+        Ok(s) => {
+            let f: Vec<f64> = s.split(',').map(|x| x.trim().parse().expect("PLEIADES_INTEGRATE_DOMAIN: four numbers")).collect();
+            assert_eq!(f.len(), 4, "PLEIADES_INTEGRATE_DOMAIN must be lon_min,lon_max,lat_min,lat_max");
+            Domain { lon_min: f[0], lon_max: f[1], lat_min: f[2], lat_max: f[3] }
+        }
+        Err(_) => Domain { lon_min: 75.0, lon_max: 110.0, lat_min: -48.0, lat_max: -22.0 },
+    }
+}
+
 pub fn spec<'a>(ocean: &'a Ocean, coast: &'a NoCoast, output_times: Vec<f64>, threads: usize) -> RunSpec<'a> {
     RunSpec {
         forcing: Forcing { current: &ocean.current, stokes: None, wind10: Some(&ocean.wind) },
         coast,
-        domain: Domain { lon_min: 75.0, lon_max: 110.0, lat_min: -48.0, lat_max: -22.0 },
+        domain: integrate_domain(),
         step_s: STEP_S,
         output_times,
         diffusion: Diffusion::None,
@@ -164,7 +177,8 @@ mod run {
         let ocean = Ocean::load(&o).unwrap();
         let coast = NoCoast;
         // 0.1 deg grid over 87-97 E, 41-31 S: covers the impact samples' reach around the arc.
-        let (lon0, lat0, step, nlon, nlat) = (87.0, -41.0, 0.1, 101usize, 101usize);
+        // 85-103 E, 43-25 S: covers the reference-289 impacts north to 25 S (was 87-97 E, 41-31 S)
+        let (lon0, lat0, step, nlon, nlat) = super::grid_box("PLEIADES_RELEASE_BOX", (85.0, -43.0, 0.1, 181usize, 181usize));
         let mut outs: Vec<f64> = COSMO_PASS_UNIX_S.iter().chain(PLEIADES_UNIX_S.iter()).copied().collect();
         outs.sort_by(|a, b| a.partial_cmp(b).unwrap());
         let mut particles = Vec::with_capacity(nlon * nlat * WINDAGE_N);
@@ -208,5 +222,19 @@ mod run {
             p.alternative, q(&p.ocean_model), q(&p.current), q(p.wind10.as_deref().unwrap_or("none")), q(p.stokes.as_deref().unwrap_or("none")),
             p.step_s, q(&format!("{:?}", p.diffusion)), q(&format!("{:?}", p.ocean_error)), q(p.integrator), p.leeway_calm_wind_mps
         )
+    }
+}
+
+/// Export grid box, overridable for coverage runs: env `var` = "lon0,lat0,step,nlon,nlat" (default unchanged).
+/// Composer ruling 1 (10 Oct 16:25 -0600): impacts outside this box are not computed, so the box must cover them.
+#[cfg(test)]
+pub(crate) fn grid_box(var: &str, default: (f64, f64, f64, usize, usize)) -> (f64, f64, f64, usize, usize) {
+    match std::env::var(var) {
+        Ok(s) => {
+            let f: Vec<&str> = s.split(',').map(str::trim).collect();
+            assert_eq!(f.len(), 5, "{var} must be lon0,lat0,step,nlon,nlat");
+            (f[0].parse().unwrap(), f[1].parse().unwrap(), f[2].parse().unwrap(), f[3].parse().unwrap(), f[4].parse().unwrap())
+        }
+        Err(_) => default,
     }
 }

@@ -53,12 +53,13 @@
 //!   closed without AUV track data, and it cannot matter - the search is 2,473 km from the
 //!   posterior's mass and removes 0.0000 of it at every rho. See
 //!   results/seabed-bluefin21-area.md. q = 0.9, not assessed by ATSB.
-//! - Ocean Infinity 2018, INFERRED and not in git (the tracing's licence is unclear). Ocean
+//! - Ocean Infinity 2018, INFERRED. Committed under coverage/ by Pete's ruling of 9 Oct 2026;
+//!   see coverage/PROVENANCE.md for the grade-C footnote every use must carry. Ocean
 //!   Infinity published no geometry for its 2018 search ("over 112,000 km2", 29 May 2018;
 //!   120,000 km2 in its data donation). The prepare script turns a community tracing of the
 //!   searched region (MH370-CAPTION search-areas KML, grade C, 148,993 km2) less the
 //!   22,980 km2 of it that Phase 2 had covered, assuming OI did not survey that again,
-//!   into `data/external/search-coverage/ocean-infinity-2018.cov` (126,009 km2). A campaign
+//!   into `coverage/ocean-infinity-2018.cov` (126,009 km2). A campaign
 //!   reads it with `layer_file` and must set `coverage_fraction`, the reported area over
 //!   the layer's: 0.889-0.952. Reported only as a labelled variant, never as the base.
 //! - Not used: the 2025-26 Ocean Infinity search (about 7,571 km2 surveyed, no geometry),
@@ -127,7 +128,28 @@ struct Params {
     /// not overlap, so it only acts on repeat-searched ground.
     #[serde(default)]
     miss_dependence: Dependence,
+    /// `coarse` (default) or `fine`; see [`FieldCoverage`]. Identical for a point target, so it
+    /// only acts once a multi-piece field is supplied.
+    #[serde(default)]
+    field_coverage: FieldCoverage,
     campaigns: Vec<CampaignParams>,
+}
+
+/// How a wreckage field that is larger than nothing is scored against a partly covered cell.
+/// `results/seabed-detectable-target.md` section 5 adopts `Coarse` and reports `Fine` beside it:
+/// the gaps in the Phase 2 mosaics are swath-edge and terrain-avoidance features at hundreds of
+/// metres to kilometres, comparable with or larger than a debris field, so coverage over a field is
+/// strongly correlated rather than a set of independent per-piece coin flips.
+#[derive(Deserialize, Debug, Clone, Copy, PartialEq, Eq, Default)]
+#[serde(rename_all = "kebab-case")]
+pub enum FieldCoverage {
+    /// Default. The field is inside valid data or outside it as a whole, with probability c_k:
+    ///   M_k = 1 - c_k g_k(W) q_k
+    #[default]
+    Coarse,
+    /// Each piece is independently inside valid data with probability c_k:
+    ///   M_k = prod_i [1 - c_k a_k(i) q_k]
+    Fine,
 }
 
 #[derive(Deserialize)]
@@ -146,10 +168,50 @@ struct CampaignParams {
     /// the reported area over the layer's area for an inferred layer.
     #[serde(default = "one")]
     coverage_fraction: f64,
+    /// Optional sonar geometry. Omit it and the campaign scores a POINT TARGET, g_k = 1, which is
+    /// the saturated limit of the model below and the placeholder brief section 3 specifies.
+    /// Supplying it only matters for a field that is small, low-relief or buried.
+    #[serde(default)]
+    sensor: Option<SensorParams>,
 }
 
 fn one() -> f64 {
     1.0
+}
+
+fn three() -> f64 {
+    3.0
+}
+
+fn spread() -> f64 {
+    0.5
+}
+
+/// Sonar geometry for one campaign, enough to turn a piece size into a probability that the piece
+/// is in the detectable class. `results/seabed-detectable-target.md` section 4.
+#[derive(Deserialize, Debug, Clone)]
+#[serde(deny_unknown_fields, rename_all = "kebab-case")]
+struct SensorParams {
+    /// Height of the towfish or vehicle above the seabed, metres. Lowering it shortens every
+    /// shadow, so it cuts both ways: better resolution, less relief.
+    altitude_m: f64,
+    /// Usable ground range on one side, [near, far] in metres. A piece's across-swath position is
+    /// unknown, so the response is averaged over this interval.
+    ground_range_m: [f64; 2],
+    /// Along-track resolution. Real-aperture side-scan degrades linearly with range, `R * theta`;
+    /// synthetic aperture is `D / 2`, independent of range. Exactly one must be set.
+    beamwidth_deg: Option<f64>,
+    aperture_m: Option<f64>,
+    /// Slant-range resolution c/(2B), metres, projected onto the seabed by the grazing angle, so
+    /// across-track resolution degrades towards nadir rather than away from it.
+    slant_range_resolution_m: f64,
+    /// m: resolution cells a feature must span to be classifiable. Literature practice is about 2
+    /// for detection and 3-5 for recognition; 3 by default, swept in report.py.
+    #[serde(default = "three")]
+    cells_to_classify: f64,
+    /// s_k: log-normal spread carrying sensor and terrain variability.
+    #[serde(default = "spread")]
+    response_spread: f64,
 }
 
 /// A coverage fraction on a regular latitude/longitude grid.
@@ -220,16 +282,125 @@ impl Raster {
     }
 }
 
+/// One piece of the settled wreckage field: plan length and height proud of the seabed, metres.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Piece {
+    pub plan_length_m: f64,
+    pub height_m: f64,
+}
+
+/// A settled wreckage configuration. An EMPTY field is the point target: g_k = 1 by definition,
+/// which is what every run to date uses and is the saturated limit of the model, not a crude
+/// stand-in (`results/seabed-detectable-target.md` section 6).
+pub type Field = [Piece];
+pub const POINT_TARGET: &Field = &[];
+
+/// Standard normal CDF. Abramowitz and Stegun 7.1.26 on erf, |error| < 1.5e-7, which is far below
+/// the uncertainty in any of the inputs. The deep tails are therefore 0 or 1 numerically: a piece
+/// four or more spreads below threshold is invisible, which is the intended reading.
+fn phi(x: f64) -> f64 {
+    let z = x / std::f64::consts::SQRT_2;
+    let s = z.signum();
+    let z = z.abs();
+    let t = 1.0 / (1.0 + 0.327_591_1 * z);
+    let poly = t * (0.254_829_592
+        + t * (-0.284_496_736 + t * (1.421_413_741 + t * (-1.453_152_027 + t * 1.061_405_429))));
+    (0.5 * (1.0 + s * (1.0 - poly * (-z * z).exp()))).clamp(0.0, 1.0)
+}
+
+/// Sonar geometry: piece size to probability of being in the detectable class.
+#[derive(Debug, Clone, PartialEq)]
+pub struct Sensor {
+    altitude_m: f64,
+    near_m: f64,
+    far_m: f64,
+    /// Along-track: `Along::Beam(theta_rad)` for real-aperture side-scan, `Along::Fixed(D/2)` for
+    /// synthetic aperture.
+    along: Along,
+    slant_res_m: f64,
+    cells: f64,
+    spread: f64,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum Along {
+    Beam(f64),
+    Fixed(f64),
+}
+
+impl Sensor {
+    /// The coarser of the two resolution cells at ground range `r`.
+    pub fn resolution_m(&self, r: f64) -> f64 {
+        let along = match self.along {
+            Along::Beam(theta) => r * theta,
+            Along::Fixed(d) => d,
+        };
+        // Grazing angle gamma: cos(gamma) = r / sqrt(r^2 + H^2), so the slant cell projects onto
+        // the seabed as slant_res / cos(gamma) and degrades towards nadir.
+        let across = self.slant_res_m * (r * r + self.altitude_m * self.altitude_m).sqrt() / r;
+        along.max(across)
+    }
+
+    /// Acoustic shadow of an object of height `h` at ground range `r`: S = h r / (H - h).
+    /// An object as tall as the vehicle is flying casts an unbounded shadow; clamp it there.
+    pub fn shadow_m(&self, h: f64, r: f64) -> f64 {
+        if h <= 0.0 {
+            0.0
+        } else if h >= self.altitude_m {
+            f64::INFINITY
+        } else {
+            h * r / (self.altitude_m - h)
+        }
+    }
+
+    /// a_k(L, h): probability that this piece is in the detectable class, averaged over the
+    /// across-swath position, which is unknown. Log-normal in the ratio of the feature extent -
+    /// the larger of the shadow and the plan length - to `cells` resolution cells. Smooth, with
+    /// no floor, as contract rule 4 requires.
+    pub fn in_class(&self, piece: &Piece) -> f64 {
+        const N: usize = 32;
+        let step = (self.far_m - self.near_m) / N as f64;
+        (0..N)
+            .map(|i| {
+                let r = self.near_m + (i as f64 + 0.5) * step;
+                let extent = self.shadow_m(piece.height_m, r).max(piece.plan_length_m);
+                if extent <= 0.0 {
+                    return 0.0;
+                }
+                if extent.is_infinite() {
+                    return 1.0;
+                }
+                phi((extent / (self.cells * self.resolution_m(r))).ln() / self.spread)
+            })
+            .sum::<f64>()
+            / N as f64
+    }
+}
+
 pub struct Campaign {
     pub name: String,
     /// q x coverage_fraction: detection probability where the layer marks full coverage.
     pub effective_detection: f64,
     pub raster: Raster,
+    /// Sonar geometry, or `None` for a point target (g_k = 1).
+    pub sensor: Option<Sensor>,
+}
+
+impl Campaign {
+    /// g_k(W) = 1 - prod_i [1 - a_k(i)]: some piece of the field is in the detectable class.
+    /// A point target, or a campaign with no geometry, gives 1.
+    pub fn in_class(&self, field: &Field) -> f64 {
+        match (&self.sensor, field.is_empty()) {
+            (Some(s), false) => 1.0 - field.iter().map(|p| 1.0 - s.in_class(p)).product::<f64>(),
+            _ => 1.0,
+        }
+    }
 }
 
 pub struct SeabedSearch {
     pub undetectable: f64,
     pub dependence: Dependence,
+    pub field_coverage: FieldCoverage,
     pub campaigns: Vec<Campaign>,
 }
 
@@ -273,14 +444,74 @@ impl SeabedSearch {
             if campaigns.iter().any(|k: &Campaign| k.name == c.name) {
                 return Err(format!("seabed-search: campaign `{}` listed twice", c.name));
             }
-            campaigns.push(Campaign { name: c.name, effective_detection: q, raster });
+            let sensor = match c.sensor {
+                None => None,
+                Some(s) => {
+                    let along = match (s.beamwidth_deg, s.aperture_m) {
+                        (Some(theta), None) if theta > 0.0 => Along::Beam(theta.to_radians()),
+                        (None, Some(d)) if d > 0.0 => Along::Fixed(d / 2.0),
+                        _ => {
+                            return Err(format!(
+                                "seabed-search: {}: sensor needs exactly one positive beamwidth-deg (side-scan) \
+                                 or aperture-m (synthetic aperture)",
+                                c.name
+                            ))
+                        }
+                    };
+                    let [near, far] = s.ground_range_m;
+                    if !(s.altitude_m > 0.0 && near > 0.0 && far > near && s.slant_range_resolution_m > 0.0
+                        && s.cells_to_classify > 0.0 && s.response_spread > 0.0)
+                    {
+                        return Err(format!(
+                            "seabed-search: {}: sensor needs altitude-m > 0, 0 < near < far ground-range-m, \
+                             slant-range-resolution-m > 0, cells-to-classify > 0 and response-spread > 0",
+                            c.name
+                        ));
+                    }
+                    Some(Sensor {
+                        altitude_m: s.altitude_m,
+                        near_m: near,
+                        far_m: far,
+                        along,
+                        slant_res_m: s.slant_range_resolution_m,
+                        cells: s.cells_to_classify,
+                        spread: s.response_spread,
+                    })
+                }
+            };
+            campaigns.push(Campaign { name: c.name, effective_detection: q, raster, sensor });
         }
-        Ok(Self { undetectable: rho, dependence: params.miss_dependence, campaigns })
+        Ok(Self {
+            undetectable: rho,
+            dependence: params.miss_dependence,
+            field_coverage: params.field_coverage,
+            campaigns,
+        })
     }
 
     /// P(no find | impact at lat, lon, wreck detectable): every campaign misses independently.
+    /// Point target; see [`Self::detectable_miss_for_field`] for a settled field.
     pub fn detectable_miss_probability(&self, lat: f64, lon: f64) -> f64 {
-        self.campaigns.iter().map(|c| 1.0 - c.effective_detection * c.raster.coverage(lat, lon)).product()
+        self.detectable_miss_for_field(lat, lon, POINT_TARGET)
+    }
+
+    /// As above for a settled wreckage field `W`. Under [`FieldCoverage::Coarse`] the field is
+    /// inside valid data as a whole, `M_k = 1 - c_k g_k(W) q_k`; under `Fine` each piece is inside
+    /// independently, `M_k = prod_i [1 - c_k a_k(i) q_k]`. The two are identical for a single
+    /// piece and for a point target, so the Davey reduction cannot distinguish them.
+    pub fn detectable_miss_for_field(&self, lat: f64, lon: f64, field: &Field) -> f64 {
+        self.campaigns
+            .iter()
+            .map(|c| {
+                let cov = c.raster.coverage(lat, lon);
+                match (self.field_coverage, &c.sensor, field.is_empty()) {
+                    (FieldCoverage::Fine, Some(s), false) => {
+                        field.iter().map(|p| 1.0 - cov * s.in_class(p) * c.effective_detection).product()
+                    }
+                    _ => 1.0 - cov * c.in_class(field) * c.effective_detection,
+                }
+            })
+            .product()
     }
 
     /// P(no find | impact at lat, lon). Under `Shared` the wreck is undetectable or not, once,
@@ -288,13 +519,22 @@ impl SeabedSearch {
     /// own undetectability. A campaign with no coverage here contributes exactly 1 either way,
     /// so the two agree wherever campaigns do not overlap.
     pub fn miss_probability(&self, lat: f64, lon: f64) -> f64 {
+        self.miss_probability_for_field(lat, lon, POINT_TARGET)
+    }
+
+    /// As above for a settled wreckage field. **Alternative settling draws are alternative
+    /// outcomes: average what this returns over them, never multiply.**
+    pub fn miss_probability_for_field(&self, lat: f64, lon: f64, field: &Field) -> f64 {
         let rho = self.undetectable;
         match self.dependence {
-            Dependence::Shared => rho + (1.0 - rho) * self.detectable_miss_probability(lat, lon),
+            Dependence::Shared => rho + (1.0 - rho) * self.detectable_miss_for_field(lat, lon, field),
             Dependence::Independent => self
                 .campaigns
                 .iter()
-                .map(|c| rho + (1.0 - rho) * (1.0 - c.effective_detection * c.raster.coverage(lat, lon)))
+                .map(|c| {
+                    let miss = 1.0 - c.raster.coverage(lat, lon) * c.in_class(field) * c.effective_detection;
+                    rho + (1.0 - rho) * miss
+                })
                 .product(),
         }
     }
@@ -369,11 +609,134 @@ mod tests {
         SeabedSearch {
             undetectable: rho,
             dependence,
+            field_coverage: FieldCoverage::Coarse,
             campaigns: campaigns
                 .into_iter()
                 .enumerate()
-                .map(|(i, (q, raster))| Campaign { name: format!("c{i}"), effective_detection: q, raster })
+                .map(|(i, (q, raster))| Campaign {
+                    name: format!("c{i}"),
+                    effective_detection: q,
+                    raster,
+                    sensor: None,
+                })
                 .collect(),
+        }
+    }
+
+    /// Illustrative deep-tow side-scan geometry. **These are plausible values stated as such, not
+    /// published specifications for any of the MH370 systems**: the only sensor datum verified in
+    /// primary form is the Bluefin-21/Artemis configuration, 120 kHz at a 400 m range scale and
+    /// 45 m altitude (ATSB 2017, printed p. 42). They exist to exercise the model and to locate
+    /// the regime boundary in section 6 of results/seabed-detectable-target.md, not to produce a
+    /// number for the paper.
+    fn illustrative_side_scan() -> Sensor {
+        Sensor {
+            altitude_m: 100.0,
+            near_m: 40.0,
+            far_m: 400.0,
+            along: Along::Beam(0.3f64.to_radians()),
+            slant_res_m: 0.15,
+            cells: 3.0,
+            spread: 0.5,
+        }
+    }
+
+    fn piece(l: f64, h: f64) -> Piece {
+        Piece { plan_length_m: l, height_m: h }
+    }
+
+    #[test]
+    fn resolution_degrades_with_range_for_side_scan_but_not_for_synthetic_aperture() {
+        let sss = illustrative_side_scan();
+        assert!(sss.resolution_m(400.0) > 5.0 * sss.resolution_m(40.0), "real aperture degrades with range");
+        let sas = Sensor { along: Along::Fixed(0.5), ..illustrative_side_scan() };
+        // Across-track dominates near nadir and the fixed along-track cell dominates far out, so
+        // the SAS cell is bounded instead of growing linearly.
+        assert!(sas.resolution_m(400.0) < 1.5 * sas.resolution_m(200.0), "synthetic aperture is range independent");
+        // Across-track degrades TOWARDS nadir, not away from it.
+        let near = sas.slant_res_m * (40.0f64 * 40.0 + 100.0 * 100.0).sqrt() / 40.0;
+        let far = sas.slant_res_m * (400.0f64 * 400.0 + 100.0 * 100.0).sqrt() / 400.0;
+        assert!(near > far);
+    }
+
+    #[test]
+    fn the_size_response_is_smooth_monotone_and_has_no_floor() {
+        let s = illustrative_side_scan();
+        let a = |l: f64, h: f64| s.in_class(&piece(l, h));
+        for (l, h) in [(0.5, 0.05), (1.0, 0.2), (3.0, 0.5)] {
+            let v = a(l, h);
+            assert!(v > 0.0 && v < 1.0, "a must be strictly inside (0, 1), got {v} for {l} x {h}");
+        }
+        assert!(a(1.0, 0.2) < a(5.0, 0.2), "larger plan length is more detectable");
+        assert!(a(1.0, 0.2) < a(1.0, 1.0), "more relief is more detectable");
+        assert!(a(0.02, 0.0) < 1e-6, "a vanishing piece is effectively invisible, with no floor");
+        // 20 m long and 4 m proud is above threshold across the whole swath, but the far-range cell
+        // is coarse enough to hold a single piece just under 0.99. Saturation is a property of the
+        // FIELD, not of one piece: that is what g_k is for.
+        assert!(a(20.0, 4.0) > 0.98, "a large proud piece is close to certain");
+    }
+
+    #[test]
+    fn a_realistic_debris_field_saturates_g_and_a_small_low_one_does_not() {
+        let mut c = Campaign {
+            name: "k".into(),
+            effective_detection: 0.945,
+            raster: half(),
+            sensor: Some(illustrative_side_scan()),
+        };
+        // Brief section 3 / ATSB printed p. 83: a debris field at these depths is at least
+        // 100 m x 100 m and very likely larger. A few dozen pieces, a handful metres across and a
+        // metre or more proud, is the realistic case.
+        let realistic: Vec<Piece> = (0..40)
+            .map(|i| piece(0.5 + 0.2 * i as f64, 0.1 + 0.05 * i as f64))
+            .collect();
+        assert!(c.in_class(&realistic) > 1.0 - 1e-9, "g is indistinguishable from 1 for a realistic field");
+        // The model earns its place only where the field is small, low-relief or buried.
+        let small: Vec<Piece> = (0..40).map(|_| piece(0.12, 0.02)).collect();
+        let g_small = c.in_class(&small);
+        assert!(g_small < 0.5, "40 fragments 0.12 m across and 2 cm proud do not saturate: g = {g_small}");
+        // And a campaign with no geometry is the point target throughout.
+        c.sensor = None;
+        assert_eq!(c.in_class(&small), 1.0);
+        assert_eq!(c.in_class(POINT_TARGET), 1.0);
+    }
+
+    #[test]
+    fn coarse_and_fine_field_coverage_agree_on_one_piece_and_differ_on_many() {
+        let build = |fc: FieldCoverage| SeabedSearch {
+            undetectable: 0.05,
+            dependence: Dependence::Shared,
+            field_coverage: fc,
+            campaigns: vec![Campaign {
+                name: "k".into(),
+                effective_detection: 0.9,
+                raster: half(),
+                sensor: Some(illustrative_side_scan()),
+            }],
+        };
+        let (coarse, fine) = (build(FieldCoverage::Coarse), build(FieldCoverage::Fine));
+        let (lat, lon) = (0.5, 0.25);
+        assert!(coarse.campaigns[0].raster.coverage(lat, lon) > 0.0);
+        for w in [POINT_TARGET.to_vec(), vec![piece(3.0, 0.6)]] {
+            let (a, b) = (coarse.miss_probability_for_field(lat, lon, &w), fine.miss_probability_for_field(lat, lon, &w));
+            assert!((a - b).abs() < 1e-12, "identical for {} piece(s): {a} vs {b}", w.len());
+        }
+        // Many pieces: fine-grained lets each one find its own data, so it misses less often.
+        let many: Vec<Piece> = (0..30).map(|_| piece(0.35, 0.05)).collect();
+        let (a, b) = (
+            coarse.miss_probability_for_field(lat, lon, &many),
+            fine.miss_probability_for_field(lat, lon, &many),
+        );
+        assert!(b < a, "fine-grained coverage cannot miss more often: coarse {a}, fine {b}");
+    }
+
+    #[test]
+    fn adding_sensor_geometry_leaves_the_point_target_untouched() {
+        let bare = search(0.05, vec![(0.945, half())]);
+        let mut geo = search(0.05, vec![(0.945, half())]);
+        geo.campaigns[0].sensor = Some(illustrative_side_scan());
+        for (lat, lon) in [(0.5, 0.25), (0.5, 0.75), (-20.0, 100.0)] {
+            assert_eq!(bare.miss_probability(lat, lon), geo.miss_probability(lat, lon));
         }
     }
 

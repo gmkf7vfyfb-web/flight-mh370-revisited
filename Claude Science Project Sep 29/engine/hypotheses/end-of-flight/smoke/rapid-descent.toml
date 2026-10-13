@@ -1,0 +1,9 @@
+# SMOKE / PROPOSAL (10 Oct ~23:10 UTC; NOT in run C): makes the reach gap "rapid descents above 6,500 ft/min and unloading"
+# reachable. Half of the powered emergency descents are flown at a commanded rate U[6,500, 20,000] ft/min, and every
+# commanded-rate descent unloads no further than 0 g. Whether a deliberate push-over belongs in the control prior, and
+# with what probability, is Pete's choice (architecture push-over study); 0.5 here is a test value, not a proposal.
+[hypotheses.end-of-flight]
+track_load_factor_floor_g = 0.0
+[hypotheses.end-of-flight.envelope]
+rapid_descent_probability = 0.5
+rapid_descent_rate_fpm = [6500.0, 20000.0]

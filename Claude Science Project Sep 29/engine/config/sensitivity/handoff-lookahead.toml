@@ -1,0 +1,8 @@
+# Core request 10 (architecture ruling 10 Oct ~08:55 UTC; Pete ~16:30 UTC): the hand-off look-ahead.
+# m2241 rows are drawn towards states whose cruise continuation explains 23:15 + 00:11 (horizon m0011);
+# m0011 rows towards the 00:19 BTO only (horizon m0019b; the 00:19 BFOs are end of flight's).
+# Every consumer must multiply each row's weight by exp(log_correction) (handoff.toml [lookahead]).
+[output.handoff_lookahead]
+horizons = { m2241 = "m0011", m0011 = "m0019b" }
+oversample = 10
+defensive = 0.2

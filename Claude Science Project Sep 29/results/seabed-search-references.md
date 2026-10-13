@@ -117,6 +117,16 @@ report prints as `› N ‹`.
 | A-7 | Testing showed "a 200 m by 200 m low lying debris field could be detected in the SSS data at an altitude of up to 200 m with a high degree of confidence", which is how long thin nadir data gaps were discounted | 89 | **verified** |
 | A-8 | The per-area coverage percentages behind `q` — 97.4% rated >95%, 2.1% at 70% on average, 0.5% gaps at 0% | 96, inside Figure 73 | **NOT verified** |
 
+**A-8, attempts to date.** The three percentages sit inside the Figure 73 image, so the Drive copy's
+text extraction does not carry them, and `download_file_content` refuses a 41 MB file. Direct fetches
+from `www.atsb.gov.au` (allowlisted) have now failed **five times across two sessions**: two timeouts
+on 9 October (120 s and 300 s); on 10 October both published URLs returned `HTTP/2 stream reset by
+server (error 0x2 INTERNAL_ERROR)`; and a forced HTTP/1.1 retry timed out after 900 s with zero bytes
+received. The host accepts the connection and then delivers nothing, so this is not a protocol or
+allowlist problem to work around. **Treat this as blocked, not as untried** — the next useful move is a copy
+of the report obtained another way, not another fetch. Until then `q` for Phase 2 is reported as
+0.945 with the stated bound 0.940-0.945, and the limitation is carried in the methods draft.
+
 **A-8 is the one that matters and it cannot be verified from the text.** Those three percentages are
 drawn inside Figure 73, which is an image; the text extraction carries the figure's title and the
 definitions of its categories (A-4, A-5) but not its numbers. The module's `q = 0.945` is derived
@@ -127,7 +137,80 @@ it is on **p. 83**, and p. 89 carries the separate and more useful statement abo
 shown to detect. The two are different claims — how big a field is, and how big a field the sensor
 could see — and the module's own detectable-target definition depends on keeping them apart.
 
-## 5. What this settles for the searched-areas module
+## 5. Holland (2018), and what the ATSB actually did with the 00:19 BFOs
+
+Ian D. Holland, "MH370 Burst Frequency Offset Analysis and Implications on Descent Rate at
+End-of-Flight", Defence Science and Technology Group, **arXiv:1702.02432v3** (15 January 2018).
+Verified 9 October 2026 against the arXiv copy; anchors are preprint pages.
+
+| ref | claim | page | status |
+|---|---|---|---|
+| H-1 | The SDU is believed to have undergone a power outage between 00:11Z and 00:19Z, immediately preceding the last two SATCOM transmissions | 1 | **verified** |
+| H-2 | End of §V: the 00:19:29Z log-on BFO was "between 17 and 136 Hz higher than it would have been if the OCXO in the SDU was in a steady state"; the 00:19:37Z log-on acknowledge was "between 17 and 130 Hz higher" | 7 | **verified** |
+| H-3 | §VI bounds the **descent rate**, not the position: "Lower and upper bounds on its descent rate at this time were then derived" | 7–8 | **verified** |
+| H-4 | **Hypothesis 1** — the log-on was a power interruption from fuel exhaustion and an APU reboot, so the oscillator was warming up and H-2's offsets apply. Table IV descent rates: 00:19:29Z 3,900 fpm (south) / 5,100 (north) to 13,600 / 14,800; 00:19:37Z 14,800 / 15,900 to 24,100 / 25,300 | 8–9 | **verified** |
+| H-5 | **Hypothesis 2** — some other cause (software failure, loss of critical SDU input, or attitude blocking the line of sight), so no start-up drift and the BFOs are the recorded values with noise: 00:19:29Z [164, 210] Hz, 00:19:37Z [−20, 26] Hz | 9 | **verified** |
+| H-6 | The downward acceleration over the 8 s between the two messages is about **0.68 g**, consistent with simulations of an uncontrolled descent | 9 | **verified** |
+| H-7 | In-flight BFO error is assumed strictly bounded on [−28, +18] Hz, from all 2,501 valid in-flight BFO errors over the preceding 20 flights of 9M-MRO | 2 | **verified** |
+
+**What this settles about the project's own BFO alternatives.** `config/integrated.toml` declares three
+00:19 measurement models. Read against Holland:
+
+- **`startup-offset` is Holland's Hypothesis 1.** Its parameters (`second_hz = [17, 130]`,
+  `first_minus_second_hz = [0, 6]`) reconstruct H-2 exactly: 17–130 Hz on the acknowledge and 17–136 Hz
+  on the log-on request.
+- **`no-offset` is Holland's Hypothesis 2** — the recorded BFO with measurement noise and no start-up
+  drift.
+- **`inflated` is neither.** It is this project's declared sensitivity: independent zero-mean errors of
+  34 Hz, which is (136 − 17)/√12, the standard deviation of a uniform distribution across the *width*
+  of Holland's interval. It keeps the scale of his uncertainty and **drops his two structural
+  assumptions — that the offset is positive, and that it is shared between the two bursts.** Holland
+  asserts both.
+- The log-on cause axis (`fuel-exhaustion` against `other`) is Holland's H1/H2 by another name, so
+  `startup-offset` × `fuel-exhaustion` and `no-offset` × `other` are his two coherent cases; the cross
+  terms are not combinations he puts forward.
+
+**And what the ATSB used it for — which is not a position likelihood.** ATSB (2017), printed p. 101,
+records that the flap-analysis report carried the summary of this work "performed by DST Group
+scientists on the final two satellite transmissions", and that it "quantified the range of possible
+rates of descent": **2,900 to 15,200 ft/min at the 7th arc, rising to 13,800 to 25,300 ft/min eight
+seconds later**, which "ruled out a controlled unpowered glide with the intent to extend range".
+Printed p. 76 records the consequence: with the flap examination and "the completion of DST Group's
+BFO analysis indicating that the aircraft was probably in a high and increasing rate of descent the
+SSWG recommended the search be limited to a width of **25 NM either side of the 7th arc**".
+
+So the 00:19 BFOs entered the ATSB's search design **through the corridor width and the descent
+kernel applied to DST Group's PDF**, not as a measurement likelihood reweighting positions along the
+arc. No option in this project's sweep reproduces that use; the nearest analogue is the held-out
+position likelihood combined with the end-of-flight module's own dynamic reach constraint.
+
+*One discrepancy, reported not reconciled.* The ATSB's quoted rates (2,900–15,200 and
+13,800–25,300 ft/min) have lower bounds about 1,000 ft/min below Holland's arXiv v3 Table IV
+(3,900–14,800 and 14,800–25,300 across both tracks). The ATSB cites the November 2016 flap-analysis
+report; v3 is January 2018. Quote whichever source a claim is attributed to, and do not merge them.
+
+## 6. The 00:19 BTO treatments, and why only the R600 one is in the core set
+
+Architecture's ruling of 10 October 2026 ~19:25 UTC, which this module applies. **These entries are
+carried from that ruling and are NOT yet verified in primary form by this module** — the distinction
+matters, and the ledger says so rather than implying a reading it has not made.
+
+| ref | claim | source given | status |
+|---|---|---|---|
+| I-1 | The R600 log-on request BTO carries a fixed 4,600 µs offset, found from the terminal's own history; this is Inmarsat's recommended treatment | Ashton, Shuster Bruce, Colledge, Dickinson (2015), §3.3, printed pp. 7 and 16 | **cited from the ruling, not yet read here** |
+| I-2 | Inmarsat states that the later log-on-sequence BTOs "should be ignored" | Ashton et al. (2015), printed p. 7 | **cited from the ruling, not yet read here** |
+| D-13 | The alternative treatment — R600 BTO (σ 63 µs) with the anomalous R1200 BTO (σ 43 µs) corrected by −4 × 7,820 µs, no BFOs — is Davey's | Davey et al. (2016), Table 10.1, printed p. 88 | **cited from the ruling** |
+| D-14 | The 7,820 µs correction is empirical, from logs that are not published, and its origin is not fully determined | Davey et al. (2016), printed pp. 26–27 | **cited from the ruling** |
+| D-15 | 7,812.5 µs instead of 7,820 µs would shift the corrected value by about 30 µs, roughly 0.7σ | the ruling | **cited from the ruling** |
+| D-16 | Under those σ values the R1200 BTO carries more weight than the R600 BTO, and the two residuals have opposite signs | Davey et al. (2016), printed p. 93 | **cited from the ruling** |
+
+**Consequence for this module.** "00:19 R600 BTO Only" is a core option and is reported by default.
+"00:19 Both BTOs (Davey)" is used only for comparisons with Davey and for the reproduction section,
+and whenever it is shown it carries D-14 to D-16 as a technical footnote. This module's own derivation
+of the R600-BTO-only arm (from the engine's exact decomposition of `loglik:r600/no-offset`) has been
+superseded: end of flight now supplies the column, so the derivation is retired.
+
+## 7. What this settles for the searched-areas module
 
 1. **The method is not new, and the paper must not say it is.** Stone et al. applied search-conditioned
    Bayesian updating to AF447 and found the wreck (S-1 to S-7); Davey set out the same update for MH370
@@ -148,3 +231,38 @@ could see — and the module's own detectable-target definition depends on keepi
 *Appended by: searched areas, 9 October 2026. Verification method: text extracted from the PDFs named
 above; printed pages read from running headers; Davey's chapter page range cross-checked against
 Crossref; Stone's journal citation read from the preprint's own front matter.*
+
+## 8. The Ocean Infinity searches: primary sources, read 2026-10-12
+
+Added on architecture's request of 12 October 2026 18:50Z (paper RECOMMENDATION 2). The paper module's
+ledger §5 lists "OI 2018" as the single most-used uncited string in the project, 131 occurrences. These are
+the sources, all three **read in primary form** on 2026-10-12 after network access to oceaninfinity.com was granted.
+BibTeX in `results/seabed-search-references.bib`.
+
+| Item | Source | Date | What this module takes from it | Grade |
+|---|---|---|---|---|
+| A-9 | Ocean Infinity, "Conclusion of current search for Malaysian Airlines flight MH370" | 29 May 2018 | "searched and collected high quality data from over 112,000 km2 of ocean floor" — the numerator of coverage fraction **0.889** on a 126,009.3 km2 layer | official (company statement) |
+| A-10 | Ocean Infinity, "Ocean Infinity donates 120,000 square kilometres of data ... to GEBCO Seabed 2030" | 22 June 2018 | the 120,000 km2 behind the upper variant **0.952** | official (company statement) |
+| A-11 | Ocean Infinity, "Conclusion of the search for Malaysian Airlines flight MH370" | 8 March 2026 | departure from the search area **23 January 2026**; 151 days at sea since 2018; "mapped more than 140,000 square kilometres of seafloor" | official (company statement) |
+
+**Three readings, and two of them change how the layers must be described.**
+
+1. **A-9 confirms the base coverage fraction.** 0.889 = 112,000 / 126,009.3 rests on Ocean Infinity's own
+   words, and those words are "searched and collected high quality data from", which is a search claim, not a
+   mapping claim. The base variant is on firm ground.
+2. **A-10 is a DATA DONATION, not a searched area.** 120,000 km2 is the extent of bathymetric data given to
+   GEBCO Seabed 2030. It is not area searched at a stated detection probability. That is the reason 0.952 is a
+   labelled variant and not a correction to 0.889, and the reason the two are reported as a sensitivity (worth
+   0.002 in Z) rather than one superseding the other. Until now this module's TOML described 0.952 only as "the
+   data donation figure"; it is now sourced and the distinction is explicit.
+3. **A-11's 140,000 km2 is a mapping figure and this module does not use it as coverage.** The brief is
+   explicit that bathymetric mapping, planned coverage and contract areas exclude nothing. The two committed
+   Ocean Infinity layers total about 133,600 km2, so the mapped figure **exceeds** them — which is exactly the
+   direction in which an uncritical reading would inflate the searched area and wrongly remove probability.
+   It is recorded so that nobody reaches for it. A-11 also gives **no** searched area specific to the 2025-26
+   campaign, so the 7,571 km2 behind coverage fraction 0.7808 remains sourced elsewhere and unverified in
+   primary form — a new open item, **A-12**.
+
+**A-12 (open):** the 2025-26 reported survey area of 7,571 km2 and the official residual of 7,428.54 km2 are
+not in Ocean Infinity's own releases as read on 2026-10-12. Locate them in primary form (Malaysian government
+statement or Ocean Infinity contract reporting) or mark the 2025-26 layer's coverage fraction as unsourced.

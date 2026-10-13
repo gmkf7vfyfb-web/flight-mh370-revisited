@@ -1,0 +1,10 @@
+# Idle-flow floor in the descent burn (Pete, architecture ~21:00 UTC 9 Oct: the descent must burn fuel at its own rate).
+# A running engine never burns less than its idle flow. 0.30 kg/s per engine at sea-level static ISA: ICAO Aircraft
+# Engine Emissions Databank, Trent 892, UID 2RR027, idle mode (7 % F00), data status C (EASA download 131424,
+# sha256 57a9ff572458ad3a3141afc1aea932b5faa5796d279f0ac74600b27869302530, fetched 9 Oct 2026). Scaled to altitude
+# between corrected-flow (delta sqrt(theta)) and Boeing Fuel Flow Method 2 (delta / theta^3.8 exp(-0.2 M^2)),
+# drawn per descent. Off in the existing reference chain so earlier runs reproduce byte for byte; measured effect
+# on flame-out times <= ~1 % (results/eof-descent-fuel-oct09/README.md). Adopt at the next announced re-sweep.
+[hypotheses.end-of-flight.aero]
+idle_fuel_flow_sl_kg_s = 0.30
+idle_flow_bffm2_weight = [0.0, 1.0]

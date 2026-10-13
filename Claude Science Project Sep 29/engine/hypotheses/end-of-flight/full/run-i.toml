@@ -1,0 +1,11 @@
+# End of flight on core run I (Pete 12 Oct ~16:00Z): items specific to run I. PROVISIONAL.
+# - Davey turns after the onset use each particle's own tau_h (hand-off column 5 = FlightState::tau_h; core added it for run I).
+# - C2-silent component of the burst proposal ("burst proposals for every D x C cell"): powered profiles whose fuel at the onset
+#   lasts past 00:19:29.4 + 120 s (at 5,764 kg/h, the core's mean cruise burn; a proposal choice only) propose the push-over
+#   with probability 0.8 instead of 0.5; the exact ln(0.5/0.8) or ln(0.5/0.2) keeps the U[0, 1] hyper-prior's marginal 0.5, so
+#   every product re-weights to a fixed push-over probability exactly as before.
+[hypotheses.end-of-flight.envelope]
+davey_tau_from_handoff = true
+pushover_fuelled_probability = 0.8
+pushover_fuelled_margin_s = 120.0
+pushover_fuelled_burn_kg_h = 5764.0

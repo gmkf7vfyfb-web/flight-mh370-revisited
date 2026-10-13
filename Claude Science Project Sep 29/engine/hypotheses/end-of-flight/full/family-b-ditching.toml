@@ -1,0 +1,10 @@
+# Hypothesis family B as ruled (architecture 15:45 -0600 10 Oct, adopting Pete's side-chat statement): a deliberate,
+# planned descent begun before fuel exhaustion WITH AN APPROACH TO DITCHING; loss of control en route kept only as a labelled
+# sub-variant. PRIOR CHANGE, approved by Pete's statement. Applied on top of smoke/v2-broad.toml (the broadened descent
+# envelope and the in-control start), it sets the control mix for deliberate onsets (anticipatory or fuel cue, with thrust)
+# to ditching attempt 0.5, maintained-then-lost 0.5, never no-intervention or upset. 0.5/0.5 maximises ESS in both labelled
+# cells; results are reported per cell, so no conclusion depends on this weight (a declared sensitivity).
+# Control.ALL order: ditching attempt, maintained-then-lost, no intervention, upset then recovery.
+[hypotheses.end-of-flight]
+deliberate_control_weights = [0.5, 0.5, 0.0, 0.0]
+deliberate_control_any_propulsion = true

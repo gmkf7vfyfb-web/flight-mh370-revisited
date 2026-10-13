@@ -68,7 +68,12 @@ BLUEFIN_URL = (
     "https://services1.arcgis.com/wfNKYeHsOyaFyPw3/arcgis/rest/services/Bluefin_21_AreaSearched2014"
     "/FeatureServer/0/query?where=1%3D1&outFields=%2A&returnGeometry=true&outSR=4326&f=geojson"
 )
-OI_2018_OUTLINE = CACHE / "ocean-infinity-2018-outline.geojson"
+# The 2018 tracing is read from the frozen September snapshot, which already holds it, so there
+# is one copy with a stable checksum (sha1 4ab36299...). Pete's ruling of 9 Oct 2026 commits the
+# derived raster under coverage/; the grade-C inferred-coverage footnote in coverage/PROVENANCE.md
+# applies to every use of it.
+OI_2018_OUTLINE = (ROOT.parents[0] / "ISO Sept 28 Status" / "inputs" / "search-coverage"
+                   / "ocean-infinity-2018-outline.geojson")
 
 FINE = 0.001  # degrees; per-sensor counting and unions happen at this resolution
 COARSE = 0.01  # degrees; the module rasters

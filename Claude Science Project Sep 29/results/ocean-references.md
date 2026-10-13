@@ -64,6 +64,7 @@ page is still to be read.
   ARCO-ERA5 redistributes it. **To verify:** the exact licence statement on the ARCO-ERA5 dataset page.
 
 ### BRAN2016 (Bluelink ReANalysis) — `oke2013ofam3`, `chamberlain2021bran2020`
+- **Status: DROPPED by Pete, 9 October 2026.** The NCI `gb6` licence requires CSIRO registration and restricts use to government-funded research. The 15 fetched files were never used and were removed on 9 October (`ocean-data-manifest.md`). The references below remain for the description of CSIRO's system only.
 - **References:**
   - Oke, P. R. et al. (2013). Evaluation of a near-global eddy-resolving ocean model. *Geoscientific Model
     Development* 6, 591–615. doi:10.5194/gmd-6-591-2013. This is the OFAM3 model behind BRAN.
@@ -247,3 +248,26 @@ page is still to be read.
   interpolated data from ocean surface drifting buoys. NOAA NCEI. doi:10.25921/7ntx-z961. These are drift's
   files and drift's citation (`debris-drift-references.md`).
 - **Supports:** the transport-error replay `ocean-transport-error-gdp-replay.md`.
+
+### OSCAR v2.0 Final — `esr2022oscar`, comparison product only
+- **Data:** ESR; Dohan, K. (2022). *Ocean Surface Current Analyses Real-time (OSCAR) Surface Currents –
+  Final 0.25 Degree (Version 2.0).* Version 2.0, PO.DAAC, CA, USA. doi:10.5067/OSCAR-25F20 (CMR collection
+  C2098858642-POCLOUD; the citation fields are read from CMR). Accessed 9 October 2026.
+- **Role: COMPARISON ONLY** (Pete, 9 October 2026). It is held to compare with prior work, which used OSCAR
+  v2 Final over the upper 30 m. It is never a value of the `ocean-model` alternative: `ProductRole::Comparison`,
+  and `Forcing::ocean_model()` returns `comparison:oscar-v2-final...`.
+- **Contents**, from the OSCAR v2.0 user handbook (PO.DAAC public document):
+  - geostrophic (CMEMS DUACS SSH) + wind-driven (ERA5 10 m wind, eddy viscosity) + thermal-wind adjustment;
+  - averaged over the top 30 m of the mixed layer, with nominal depth 15 m;
+  - array order (time, longitude, latitude), longitude 0–359.75. The array order was verified on the first
+    file.
+- **Time:** the handbook calls the file time "centered on the day", but the label reads 00:00 UTC. Each
+  value is placed at 12:00 UTC of the averaged day.
+- **Files:** 1,062 daily global files, 7 March 2014 – 31 January 2017, 33,255,376 bytes each and
+  35,317,209,312 bytes in total.
+  - Each was checked against PO.DAAC's published md5, then hashed with sha256 (per-file values in
+    `oscar/grid/fetch-log.jsonl`), then cut to 15–120 E, 50–0 S. The global file was then discarded.
+  - The md5 matches the prior work's source-file md5 (Drive `oscar2-currents-20140307-20160831.mhgrid.json`)
+    for all 909 days that list covers. The remaining 153 days have no prior value.
+- **Licence:** NASA open data through PO.DAAC. The CMR record states no use constraints; PO.DAAC asks for
+  citation.

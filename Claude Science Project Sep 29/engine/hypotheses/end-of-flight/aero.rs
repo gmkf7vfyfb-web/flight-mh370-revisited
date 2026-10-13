@@ -32,11 +32,11 @@
 //! | Oswald efficiency | 0.80 | assumed, swept as a parameter |
 //! | drag rise above M_cc | `k_w (M - M_cc)^4` | Lock's fourth-power law, `k_w` default 20. **EXTRAPOLATED**: the brief calls for the rise to be shaped from NASA Common Research Model data, which is not in this tree. Every model including Boeing's extrapolates beyond M0.87–0.91 |
 //! | Mach tuck | `cl_shift_per_mach` | **EXTRAPOLATED**, same reason. Enters as a nose-down trim shift above M_cc, which is how a pitching-moment change appears in a point-mass model |
-//! | windmilling increment, per engine | 0.0000–0.0015 | **uncertain parameter, not a constant.** There are no public Trent 892 figures. PROVISIONAL-OVERNIGHT (9 Oct 2026): calibrated so the dual-flame-out (L/D)max, 18.5–21.0 at the band ends, brackets Boeing's 0.0034 NM/ft wings-level driftdown (SIR App. 1.6E) read as energy height (18.9) or altitude only (20.66). The former ESDU 81009/84004/84005-scale band, 0.0020–0.0060, gives 15–18 and is kept as `smoke/glide-esdu.toml` |
+//! | windmilling increment, per engine | 0.0000–0.0015 | **uncertain parameter, not a constant.** There are no public Trent 892 figures. Ruled by Pete (9 Oct 2026): calibrated so the dual-flame-out (L/D)max, 18.5–21.0 at the band ends, brackets Boeing's 0.0034 NM/ft wings-level driftdown (SIR App. 1.6E) read as energy height (18.9) or altitude only (20.66). The former ESDU 81009/84004/84005-scale band, 0.0020–0.0060, gives 15–18 and is kept as `smoke/glide-esdu.toml`, a labelled sensitivity |
 //! | RAT increment | 0.0001–0.0006 | **uncertain parameter**, same reasoning |
 //! | speedbrake increment | 0.020–0.045 | **modelling parameter with a declared sensitivity.** Chosen so that the model's idle descent rates sit near the operational figures the brief quotes for sanity-checking. Those figures circulate in mirrored copies of copyrighted manuals, so they are used as a calibration target and **are not cited** |
 //! | landing-configuration increment | 0.050–0.090 | **modelling parameter**, same provenance rule. Only reachable with power, see `Configuration` |
-//! | per-engine sea-level static thrust | 415,450 N | Trent 892, 93,400 lbf, type certificate |
+//! | per-engine sea-level static thrust | 406,800 N | Trent 892-17 / 892B-17 take-off (net, 5 min) 406.8 kN = 91,450 lbf, EASA TCDS E.047 Issue 04 (2019) section 6; 415,450 N (unsourced) used to run I |
 //! | idle thrust fraction | 0.03–0.10 | assumed, swept |
 //! | TSFC | 1.4e-5–1.8e-5 kg/(N s) | assumed, swept. **This is not the core's fuel model.** The core's Boeing-calibrated FPPM tables are not reachable from a hypothesis; core request 3 asks for them |
 
@@ -97,6 +97,16 @@ pub struct Aero {
     pub idle_thrust_fraction: f64,
     pub thrust_density_exponent: f64,
     pub tsfc_kg_per_n_s: f64,
+    /// Idle fuel flow per engine at sea-level static ISA, kg/s; 0 switches the idle floor off (the
+    /// pre-9-Oct burn, kept as the default so earlier runs reproduce). Reference value 0.30 kg/s:
+    /// ICAO Aircraft Engine Emissions Databank, Trent 892, UID 2RR027 (data status C), idle mode
+    /// (7 % of rated thrust); databank sha256 57a9ff57... as fetched from EASA on 9 Oct 2026.
+    pub idle_fuel_flow_sl_kg_s: f64,
+    /// Where between the two altitude scalings of that flow this descent sits, 0..1 in log space:
+    /// 0 = corrected-flow scaling W_f = W_ref * delta * sqrt(theta) (the low end), 1 = Boeing Fuel Flow
+    /// Method 2 form W_f = W_ref * delta / theta^3.8 * exp(-0.2 M^2) (DuBois & Paynter 2006, SAE 2006-01-1987;
+    /// the high end). At FL350, M0.80 they give about 0.061 and 0.177 kg/s per engine.
+    pub idle_flow_bffm2_weight: f64,
 }
 
 impl Aero {
@@ -194,6 +204,19 @@ impl Aero {
 
     /// Net thrust, N. A simple density-ratio law on the static rating; coarse by design and
     /// swept through `idle_thrust_fraction` and the rating.
+    /// The idle-flow floor for `engines` thrusting engines at a pressure altitude and Mach, kg/s.
+    /// Zero when the floor is off. Pete, 9 Oct (architecture ~21:00 UTC): the descent must burn
+    /// fuel at its own rate, and the thrust-scaled cruise-table burn understates idle flow.
+    pub fn idle_fuel_floor_kg_s(&self, engines: u8, delta: f64, theta: f64, mach: f64) -> f64 {
+        if !(self.idle_fuel_flow_sl_kg_s > 0.0) || engines == 0 {
+            return 0.0;
+        }
+        let low = (delta * theta.sqrt()).ln();
+        let high = (delta / theta.powf(3.8) * (-0.2 * mach * mach).exp()).ln();
+        let w = self.idle_flow_bffm2_weight.clamp(0.0, 1.0);
+        engines as f64 * self.idle_fuel_flow_sl_kg_s * ((1.0 - w) * low + w * high).exp()
+    }
+
     pub fn thrust_n(&self, cfg: &Configuration, density_kg_m3: f64, setting: f64) -> f64 {
         if cfg.engines_thrusting == 0 {
             return 0.0;
@@ -278,11 +301,27 @@ pub(super) mod tests {
             rat_increment: 0.000_35,
             speedbrake_increment: 0.032,
             landing_configuration_increment: 0.070,
-            sea_level_static_thrust_n: 415_450.0,
+            sea_level_static_thrust_n: 406_800.0,
             idle_thrust_fraction: 0.06,
             thrust_density_exponent: 0.7,
             tsfc_kg_per_n_s: 1.6e-5,
+            idle_fuel_flow_sl_kg_s: 0.0,
+            idle_flow_bffm2_weight: 0.0,
         }
+    }
+
+    /// The idle floor's two scalings at FL350, M0.80 (delta 0.2353, theta 0.7594), and off by default.
+    #[test]
+    fn idle_floor_brackets_the_two_altitude_scalings() {
+        let (d, t, m) = (0.235_33, 0.759_4, 0.80);
+        assert_eq!(reference().idle_fuel_floor_kg_s(2, d, t, m), 0.0);
+        let lo = Aero { idle_fuel_flow_sl_kg_s: 0.30, idle_flow_bffm2_weight: 0.0, ..reference() };
+        let hi = Aero { idle_flow_bffm2_weight: 1.0, ..lo };
+        assert!((lo.idle_fuel_floor_kg_s(1, d, t, m) - 0.30 * d * t.sqrt()).abs() < 1e-12);
+        assert!((hi.idle_fuel_floor_kg_s(1, d, t, m) - 0.30 * d / t.powf(3.8) * (-0.128f64).exp()).abs() < 1e-12);
+        assert!((lo.idle_fuel_floor_kg_s(1, d, t, m) - 0.0615).abs() < 1e-3 && (hi.idle_fuel_floor_kg_s(1, d, t, m) - 0.177).abs() < 2e-3);
+        assert!((hi.idle_fuel_floor_kg_s(2, d, t, m) - 2.0 * hi.idle_fuel_floor_kg_s(1, d, t, m)).abs() < 1e-12);
+        assert_eq!(hi.idle_fuel_floor_kg_s(0, d, t, m), 0.0);
     }
 
     /// Hand-computed fixture. AR = 60.93^2 / 427.8 = 3712.4649 / 427.8 = 8.67804;
@@ -388,14 +427,14 @@ pub(super) mod tests {
         let a = reference();
         assert_eq!(a.thrust_n(&Configuration::glide(), 0.38, 1.0), 0.0);
         let two = a.thrust_n(&Configuration::powered(), 1.225, 1.0);
-        assert!((two - 2.0 * 415_450.0).abs() < 1e-6, "{two}");
+        assert!((two - 2.0 * 406_800.0).abs() < 1e-6, "{two}");
         let one = a.thrust_n(&Configuration { engines_thrusting: 1, ..Configuration::powered() }, 1.225, 1.0);
-        assert!((one - 415_450.0).abs() < 1e-6);
+        assert!((one - 406_800.0).abs() < 1e-6);
         let high = a.thrust_n(&Configuration::powered(), 0.3796, 1.0);
         assert!(high < two && high > 0.0, "{high}");
         // The idle floor applies: a setting below idle still gives idle thrust.
         let idle = a.thrust_n(&Configuration::powered(), 1.225, 0.0);
-        assert!((idle - 2.0 * 415_450.0 * 0.06).abs() < 1e-6, "{idle}");
+        assert!((idle - 2.0 * 406_800.0 * 0.06).abs() < 1e-6, "{idle}");
         assert!((a.fuel_flow_kg_s(100_000.0) - 1.6).abs() < 1e-12);
     }
 

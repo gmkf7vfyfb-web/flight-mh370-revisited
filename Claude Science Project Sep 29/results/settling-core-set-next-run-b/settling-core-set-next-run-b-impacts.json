@@ -1,0 +1,447 @@
+{
+ "strata": [
+  "next-free",
+  "next-repro-radar",
+  "next-descent-climb",
+  "next-routes"
+ ],
+ "extent_lon_lon_lat_lat": [
+  79.0,
+  115.0,
+  -46.0,
+  -2.0
+ ],
+ "constraint": "unpowered",
+ "options": {
+  "00:19 Held Out": {
+   "key": "none__other+unpowered",
+   "N": 200000,
+   "fixed": {
+    "p_family": {
+     "next-free": 0.6947721530492059,
+     "next-repro-radar": 0.15271743570298557,
+     "next-descent-climb": 0.137594663061475,
+     "next-routes": 0.014915748186333568
+    },
+    "source": "core P(family), held fixed",
+    "ess_mixture_kish": 20973322.340477057,
+    "impact_area90_km2_full_weights": 582128.2890346532,
+    "impact_area90_km2_seed_halves": [
+     593014.3904236094,
+     558630.0212375219
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "reweighted": {
+    "p_family": {
+     "next-free": 0.6945986595061164,
+     "next-repro-radar": 0.15225710026168846,
+     "next-descent-climb": 0.13834247983036654,
+     "next-routes": 0.014801760401828613
+    },
+    "source": "00:19 Held Out +alive",
+    "ess_mixture_kish": 20980512.26125495,
+    "impact_area90_km2_full_weights": 582059.7639212244,
+    "impact_area90_km2_seed_halves": [
+     592948.0469822814,
+     558551.4336426596
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "ess_per_stratum_seed": {
+    "next-free": {
+     "1": 2763212.4264475545,
+     "2": 2645771.7241730564,
+     "3": 2778542.484741615,
+     "4": 2832625.276498714
+    },
+    "next-repro-radar": {
+     "1": 2764059.8594413027,
+     "2": 2737737.9026615857,
+     "3": 2752713.355720998,
+     "4": 2742008.6559862206
+    },
+    "next-descent-climb": {
+     "1": 2772580.133997561,
+     "2": 2749041.812503212,
+     "3": 2797115.563830497,
+     "4": 2761448.819180727
+    },
+    "next-routes": {
+     "1": 2724491.4158448717,
+     "2": 2747243.1048649284,
+     "3": 2746679.176813635,
+     "4": 2715641.290930715
+    }
+   },
+   "impact_area90_km2_per_stratum": {
+    "next-free": 573914.4167360704,
+    "next-repro-radar": 657118.884287474,
+    "next-descent-climb": 484745.68515013915,
+    "next-routes": 328779.18673729914
+   }
+  },
+  "00:19 R600 BTO Only": {
+   "key": "r600-bto__other+unpowered",
+   "N": 40000,
+   "fixed": {
+    "p_family": {
+     "next-free": 0.6947721530492059,
+     "next-repro-radar": 0.15271743570298557,
+     "next-descent-climb": 0.137594663061475,
+     "next-routes": 0.014915748186333568
+    },
+    "source": "core P(family), held fixed",
+    "ess_mixture_kish": 13045697.292628318,
+    "impact_area90_km2_full_weights": 373344.52531107585,
+    "impact_area90_km2_seed_halves": [
+     393734.03950172197,
+     339573.2604644435
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "reweighted": {
+    "p_family": {
+     "next-free": 0.6971502264579883,
+     "next-repro-radar": 0.13864934130396464,
+     "next-descent-climb": 0.1477982310516779,
+     "next-routes": 0.01640220118636912
+    },
+    "source": "00:19 R600 BTO Only +alive",
+    "ess_mixture_kish": 13004630.055922618,
+    "impact_area90_km2_full_weights": 371366.82420842507,
+    "impact_area90_km2_seed_halves": [
+     391416.08347178577,
+     337708.6543556022
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "ess_per_stratum_seed": {
+    "next-free": {
+     "1": 1650898.6247614848,
+     "2": 1588615.273510108,
+     "3": 1629074.437798122,
+     "4": 2073863.337311091
+    },
+    "next-repro-radar": {
+     "1": 1535909.8326984234,
+     "2": 1525945.170299407,
+     "3": 1654836.5016235395,
+     "4": 1621094.2411014847
+    },
+    "next-descent-climb": {
+     "1": 1779808.3613769845,
+     "2": 1779581.8671132026,
+     "3": 1997279.1037292904,
+     "4": 1726974.8152730847
+    },
+    "next-routes": {
+     "1": 1850162.093200644,
+     "2": 1913469.2237190611,
+     "3": 1815360.203143951,
+     "4": 1863148.5965549743
+    }
+   },
+   "impact_area90_km2_per_stratum": {
+    "next-free": 362488.80146947125,
+    "next-repro-radar": 437225.81182265363,
+    "next-descent-climb": 290127.2602404185,
+    "next-routes": 209294.27841052928
+   }
+  },
+  "00:19 R600 BTO + Raw BFO": {
+   "key": "r600_no-offset__other+unpowered",
+   "N": 40000,
+   "fixed": {
+    "p_family": {
+     "next-free": 0.6947721530492059,
+     "next-repro-radar": 0.15271743570298557,
+     "next-descent-climb": 0.137594663061475,
+     "next-routes": 0.014915748186333568
+    },
+    "source": "core P(family), held fixed",
+    "ess_mixture_kish": 449245.36651528155,
+    "impact_area90_km2_full_weights": 243672.60790895362,
+    "impact_area90_km2_seed_halves": [
+     258196.6414313351,
+     220271.12789855758
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "reweighted": {
+    "p_family": {
+     "next-free": 0.638817690139958,
+     "next-repro-radar": 0.13953015433381613,
+     "next-descent-climb": 0.20408754718364064,
+     "next-routes": 0.017564608342585237
+    },
+    "source": "00:19 R600 BTO + Raw BFO +alive",
+    "ess_mixture_kish": 509632.4515226682,
+    "impact_area90_km2_full_weights": 239065.9618656875,
+    "impact_area90_km2_seed_halves": [
+     253641.50547564653,
+     215629.28140645675
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "ess_per_stratum_seed": {
+    "next-free": {
+     "1": 61762.39566650589,
+     "2": 57835.860001996596,
+     "3": 55948.560549115726,
+     "4": 58954.20697786641
+    },
+    "next-repro-radar": {
+     "1": 50026.36608119419,
+     "2": 56562.5393894878,
+     "3": 57405.17368048852,
+     "4": 60935.45439613453
+    },
+    "next-descent-climb": {
+     "1": 93007.52176907356,
+     "2": 67610.09921762516,
+     "3": 121064.70699250455,
+     "4": 59787.75275844214
+    },
+    "next-routes": {
+     "1": 60791.642446482096,
+     "2": 57505.06294016084,
+     "3": 55550.6869097049,
+     "4": 98923.1870427231
+    }
+   },
+   "impact_area90_km2_per_stratum": {
+    "next-free": 240493.93139451876,
+    "next-repro-radar": 289503.8918758635,
+    "next-descent-climb": 171307.58955857338,
+    "next-routes": 140182.4600642465
+   }
+  },
+  "00:19 Holland H1": {
+   "key": "both_startup-offset__fuel-exhaustion+unpowered",
+   "N": 40000,
+   "fixed": {
+    "p_family": {
+     "next-free": 0.6947721530492059,
+     "next-repro-radar": 0.15271743570298557,
+     "next-descent-climb": 0.137594663061475,
+     "next-routes": 0.014915748186333568
+    },
+    "source": "core P(family), held fixed",
+    "ess_mixture_kish": 85.6199567987251,
+    "impact_area90_km2_full_weights": 67190.50327997816,
+    "impact_area90_km2_seed_halves": [
+     48272.24325907857,
+     49478.96195811625
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "reweighted": {
+    "p_family": {
+     "next-free": 0.6947721530492059,
+     "next-repro-radar": 0.15271743570298557,
+     "next-descent-climb": 0.137594663061475,
+     "next-routes": 0.014915748186333568
+    },
+    "source": "not re-weighted (fixed)",
+    "ess_mixture_kish": 85.6199567987251,
+    "impact_area90_km2_full_weights": 67190.50327997816,
+    "impact_area90_km2_seed_halves": [
+     48272.24325907857,
+     49478.96195811625
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "ess_per_stratum_seed": {
+    "next-free": {
+     "1": 15.677781308046738,
+     "2": 7.6863370608050765,
+     "3": 10.186530656867081,
+     "4": 16.19680712151652
+    },
+    "next-repro-radar": {
+     "1": 9.486693179326117,
+     "2": 8.200351304654623,
+     "3": 6.740370636725697,
+     "4": 9.921521449025091
+    },
+    "next-descent-climb": {
+     "1": 85.38064419838854,
+     "2": 16.461776381073896,
+     "3": 14.464944885512395,
+     "4": 8.55769937169409
+    },
+    "next-routes": {
+     "1": 14.069455234502984,
+     "2": 6.6319737806280665,
+     "3": 14.762290672676194,
+     "4": 10.226444062533899
+    }
+   },
+   "impact_area90_km2_per_stratum": {
+    "next-free": 42334.821672095546,
+    "next-repro-radar": 42388.8431028354,
+    "next-descent-climb": 35100.68751080948,
+    "next-routes": 28845.187595739815
+   }
+  },
+  "00:19 Holland H2": {
+   "key": "both_no-offset__other+unpowered",
+   "N": 40000,
+   "fixed": {
+    "p_family": {
+     "next-free": 0.6947721530492059,
+     "next-repro-radar": 0.15271743570298557,
+     "next-descent-climb": 0.137594663061475,
+     "next-routes": 0.014915748186333568
+    },
+    "source": "core P(family), held fixed",
+    "ess_mixture_kish": 123.52805145721166,
+    "impact_area90_km2_full_weights": 68641.66998229033,
+    "impact_area90_km2_seed_halves": [
+     54269.303579552,
+     50885.35447127691
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "reweighted": {
+    "p_family": {
+     "next-free": 0.6947721530492059,
+     "next-repro-radar": 0.15271743570298557,
+     "next-descent-climb": 0.137594663061475,
+     "next-routes": 0.014915748186333568
+    },
+    "source": "not re-weighted (fixed)",
+    "ess_mixture_kish": 123.52805145721166,
+    "impact_area90_km2_full_weights": 68641.66998229033,
+    "impact_area90_km2_seed_halves": [
+     54269.303579552,
+     50885.35447127691
+    ],
+    "seed_halves": [
+     [
+      1,
+      2
+     ],
+     [
+      3,
+      4
+     ]
+    ]
+   },
+   "ess_per_stratum_seed": {
+    "next-free": {
+     "1": 19.478888472374255,
+     "2": 16.32694778136301,
+     "3": 19.28582060885415,
+     "4": 11.774637647510438
+    },
+    "next-repro-radar": {
+     "1": 19.186105414172914,
+     "2": 10.356143218551624,
+     "3": 16.77639546850284,
+     "4": 17.83728040365069
+    },
+    "next-descent-climb": {
+     "1": 35.13899295587263,
+     "2": 22.082154945704374,
+     "3": 23.338763034996948,
+     "4": 25.903119984538012
+    },
+    "next-routes": {
+     "1": 20.437232682617125,
+     "2": 21.2618742981627,
+     "3": 18.915993007034597,
+     "4": 12.71131347214149
+    }
+   },
+   "impact_area90_km2_per_stratum": {
+    "next-free": 50216.67451276675,
+    "next-repro-radar": 52860.73696341903,
+    "next-descent-climb": 43567.80225528557,
+    "next-routes": 37558.51818861761
+   }
+  }
+ }
+}

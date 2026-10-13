@@ -1,0 +1,7 @@
+# Next large run with C-7(a): next-repro-radar stratum, server sizes, 3.5M per seed.
+name = "next-a-repro-radar"
+particles_per_mode = [500_000, 250_000, 1_250_000, 250_000, 1_250_000]
+seeds = [1, 2, 3, 4]
+
+[output]
+handoff_rows = 100000

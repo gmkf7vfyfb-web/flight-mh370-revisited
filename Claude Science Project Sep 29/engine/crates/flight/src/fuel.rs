@@ -7,8 +7,11 @@
 //!
 //! This is a port of `.sources/fuel-performance/validate.py`, which is the version calibrated
 //! against Boeing's own figures in the Malaysian safety report (Appendix 1.6E): factor
-//! 1.0085 +/- 0.0178 (s.d.) over 11 in-range items. The port is deliberately literal so the
-//! calibration carries over; `fuel_flow_kg_h` reproduces `validate.fuel_flow` cell for cell.
+//! 1.0085 +/- 0.0178 (s.d.) over 11 in-range items. The port was literal so the calibration
+//! carries over, with one deliberate departure: schedule points within `MACH_MERGE_TOL` of each
+//! other are merged (the degenerate CI 52 / LRC pair), so `fuel_flow_kg_h` no longer reproduces
+//! `validate.fuel_flow` cell for cell. With the merge the in-range calibration is 1.0086 +/-
+//! 0.0178 over the same 11 items (fuel audit, results/fuel-model-audit-architecture.md).
 //!
 //! Two coverage limits are inherent to the tables and are reported rather than hidden:
 //!
@@ -18,10 +21,11 @@
 //!     FL015 against 2,946 at FL060), inside the 1.8 % spread of the calibration itself.
 //!   * Above M0.84, and below the holding Mach, the flow is extrapolated on the fitted drag
 //!     law and the step is flagged. Validation against Boeing's own figures outside the
-//!     schedules gave -8.1 % to +0.9 % on the four items above M0.84, and -8.5 % to +3.7 % on
-//!     the eight below the holding schedule, the worst being FL400 at M0.727 (-8.5 %) and
-//!     FL150 at M0.399 (+3.7 %). So an extrapolated step can be wrong by up to about 8 %,
-//!     against 1.8 % for the calibration inside the schedules.
+//!     schedules, with the merge, gives -11.5 % to +3.7 % (fuel audit F6; before the merge the
+//!     range was -8.5 % to +3.7 %, the worst then being FL400 at M0.727). So an extrapolated
+//!     step can be wrong by up to about 12 %, against 1.8 % (s.d.) for the calibration inside
+//!     the schedules. This uncertainty is NOT carried by the path's fuel-flow factor, and in
+//!     the reference runs 17-43 % of flight time is flown on extrapolated flow (audit F6).
 //!
 //! `lrc_mach`, `mrc_*` and `ci52_*` are Ulich's reconstruction, not Boeing data; the tables
 //! carry that in `source_class` and the run manifest repeats it.
@@ -63,6 +67,7 @@ struct RawFile {
     tables: HashMap<String, RawTable>,
 }
 
+#[derive(Clone, Debug)]
 struct Table {
     fls: Vec<f64>,
     ws: Vec<f64>,
@@ -321,6 +326,383 @@ impl FuelTables {
     }
 }
 
+/// Bits of the `internal-v1` grid flags (`fuel-model/internal.py`, `flag_mask`).
+pub mod grid_flags {
+    pub const EXTRAP_HIGH: u8 = 1;
+    pub const EXTRAP_LOW: u8 = 2;
+    pub const BELOW_TABLES: u8 = 4;
+    pub const ABOVE_CEILING: u8 = 8;
+    pub const SINGLE_SCHEDULE: u8 = 16;
+    pub const FIT_FALLBACK: u8 = 32;
+    pub const FLOOR_CLAMPED: u8 = 64;
+}
+
+/// The fuel session's internal model (`internal-v1`; core request 16 C-1, C-5).
+///
+/// A dense standard-day grid of total flow (kg/h, both engines) over flight level, gross
+/// weight and Mach, built from every table class with the audit's F3 (zero-weight corner) and
+/// F4 (sub-floor pocket) fixes and a drag-rise term above M0.84 baked in; and a
+/// weight-dependent service ceiling. Calibration (kappa) and the temperature term are applied
+/// by the caller: FF = kappa * tau(dISA, M) * grid(FL, W, M).
+///
+/// Lookup is trilinear on the stored values, which ARE the model (the fuel session calibrated
+/// and tested on them). A corner with non-zero weight that is not finite makes the state
+/// unpriceable; the flags of the corners with non-zero weight are OR'ed. Outside the grid the
+/// coordinate is clamped to the edge and the step is flagged.
+#[derive(Clone, Debug)]
+pub struct InternalGrid {
+    fl: Vec<f64>,
+    weight_t: Vec<f64>,
+    mach: Vec<f64>,
+    flow: Vec<f64>,
+    flags: Vec<u8>,
+    ceiling_weight_t: Vec<f64>,
+    ceiling_fl: Vec<f64>,
+    /// Least positive finite flow over every level and Mach at each weight node, for the
+    /// doomed test's bound (computed once at load; the test runs every step for every path).
+    min_at_weight: Vec<f64>,
+    /// One engine inoperative: the live engine's flow (kg/h), standard day, uncalibrated
+    /// (`grid_inop`; holding_inop / 1.05 and LRC INOP). Used after the first flame-out when the
+    /// run carries two tanks (core request 16 C-7(b)).
+    pub inop: Option<SimpleGrid>,
+    /// The one-engine long-range-cruise Mach schedule (`tables.lrc_inop_mach`, FPPM open
+    /// cells), for C-7(a)'s one-engine speed. Filler cells (above the one-engine ceiling) are
+    /// dropped, so the lookup is None there.
+    inop_mach: Option<Table>,
+    pub version: String,
+}
+
+/// A plain trilinear grid of flow with flags, as `InternalGrid` reads it, for the INOP table.
+#[derive(Clone, Debug)]
+pub struct SimpleGrid {
+    fl: Vec<f64>,
+    weight_t: Vec<f64>,
+    mach: Vec<f64>,
+    flow: Vec<f64>,
+    flags: Vec<u8>,
+    min_at_weight: Vec<f64>,
+    /// Per weight node, the highest flight-level node at which some Mach cell is not flagged
+    /// above the ceiling: for the INOP grid, the one-engine ceiling (C-7(a), PROVISIONAL, derived
+    /// by core from the flags; capped at the grid's top level).
+    ceiling_fl: Vec<f64>,
+}
+
+impl SimpleGrid {
+    fn from_raw(g: RawGrid) -> Result<Self, String> {
+        let (nf, nw, nm) = (g.fl_nodes.len(), g.weight_t.len(), g.mach.len());
+        if nf < 2 || nw < 2 || nm < 2 {
+            return Err("fuel grid: each axis needs at least two nodes".into());
+        }
+        for axis in [&g.fl_nodes, &g.weight_t, &g.mach] {
+            if axis.windows(2).any(|w| !(w[1] > w[0])) {
+                return Err("fuel grid: axes must increase strictly".into());
+            }
+        }
+        let ok = g.flow_kg_h.len() == nf
+            && g.flow_kg_h.iter().all(|a| a.len() == nw && a.iter().all(|b| b.len() == nm))
+            && g.flags.len() == nf
+            && g.flags.iter().all(|a| a.len() == nw && a.iter().all(|b| b.len() == nm));
+        if !ok {
+            return Err(format!("fuel grid: flow and flags must be {nf} x {nw} x {nm}"));
+        }
+        let flow: Vec<f64> = g.flow_kg_h.into_iter().flatten().flatten().map(|c| c.unwrap_or(f64::NAN)).collect();
+        let flags: Vec<u8> = g.flags.into_iter().flatten().flatten().collect();
+        let min_at_weight = (0..nw)
+            .map(|j| {
+                let mut best = f64::INFINITY;
+                for i in 0..nf {
+                    for k in 0..nm {
+                        let v = flow[(i * nw + j) * nm + k];
+                        if v.is_finite() && v > 0.0 {
+                            best = best.min(v);
+                        }
+                    }
+                }
+                best
+            })
+            .collect();
+        let ceiling_fl = (0..nw)
+            .map(|j| {
+                (0..nf)
+                    .filter(|&i| (0..nm).any(|k| flags[(i * nw + j) * nm + k] & grid_flags::ABOVE_CEILING == 0 && flow[(i * nw + j) * nm + k].is_finite()))
+                    .map(|i| g.fl_nodes[i])
+                    .fold(f64::NAN, f64::max)
+            })
+            .collect();
+        Ok(Self { fl: g.fl_nodes, weight_t: g.weight_t, mach: g.mach, flow, flags, min_at_weight, ceiling_fl })
+    }
+
+    /// Trilinear flow and coverage, with the same rules as `InternalGrid::flow_kg_h`.
+    pub fn flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64) -> Option<(f64, Coverage)> {
+        trilinear(&self.fl, &self.weight_t, &self.mach, &self.flow, &self.flags, fl, weight_t, mach)
+    }
+
+    /// The ceiling at this weight (linear between weight nodes), flight level.
+    pub fn ceiling_fl(&self, weight_t: f64) -> f64 {
+        let (j, t, _) = bracket(&self.weight_t, weight_t);
+        let (a, b) = (self.ceiling_fl[j], self.ceiling_fl[j + 1]);
+        a + t * (b - a)
+    }
+
+    /// Exact lower bound at this weight (see `InternalGrid::min_flow_kg_h`).
+    pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
+        weight_bound(&self.weight_t, &self.min_at_weight, weight_t)
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn trilinear(fls: &[f64], ws: &[f64], ms: &[f64], flow: &[f64], flags: &[u8], fl: f64, weight_t: f64, mach: f64) -> Option<(f64, Coverage)> {
+    if !(fl.is_finite() && weight_t.is_finite() && mach.is_finite()) {
+        return None;
+    }
+    let (i, x, clamp_fl) = bracket(fls, fl);
+    let (j, y, clamp_w) = bracket(ws, weight_t);
+    let (k, z, clamp_m) = bracket(ms, mach);
+    let (nw, nm) = (ws.len(), ms.len());
+    let (mut acc, mut bits) = (0.0, 0u8);
+    for (di, wx) in [(0, 1.0 - x), (1, x)] {
+        for (dj, wy) in [(0, 1.0 - y), (1, y)] {
+            for (dk, wz) in [(0, 1.0 - z), (1, z)] {
+                let w = wx * wy * wz;
+                if w == 0.0 {
+                    continue;
+                }
+                let n = ((i + di) * nw + (j + dj)) * nm + k + dk;
+                let v = flow[n];
+                if !v.is_finite() {
+                    return None;
+                }
+                acc += w * v;
+                bits |= flags[n];
+            }
+        }
+    }
+    use grid_flags::*;
+    let cover = Coverage {
+        extrapolated_mach: bits & (EXTRAP_HIGH | EXTRAP_LOW) != 0 || clamp_m,
+        below_tables: bits & BELOW_TABLES != 0 || (clamp_fl && fl < fls[0]),
+        single_schedule: bits & SINGLE_SCHEDULE != 0,
+        above_ceiling: bits & ABOVE_CEILING != 0 || (clamp_fl && fl > fls[fls.len() - 1]),
+        fit_fallback: bits & (FIT_FALLBACK | FLOOR_CLAMPED) != 0 || clamp_w,
+    };
+    (acc > 0.0).then_some((acc, cover))
+}
+
+fn weight_bound(ws: &[f64], minima: &[f64], weight_t: f64) -> Option<f64> {
+    if !weight_t.is_finite() {
+        return None;
+    }
+    let (j, y, _) = bracket(ws, weight_t);
+    let (a, b) = (minima[j], minima[j + 1]);
+    let v = if y == 0.0 {
+        a
+    } else if y == 1.0 {
+        b
+    } else {
+        (1.0 - y) * a + y * b
+    };
+    (v.is_finite() && v > 0.0).then_some(v)
+}
+
+/// Two-tank prior (core request 16 C-7(b); fuel session `engine-imbalance-180149.csv`): left
+/// minus right fuel at the prior epoch ~ N(mean, sd) kg, and the right-to-left flow ratio while
+/// both engines run ~ N(mean, sd).
+#[derive(Clone, Copy, Debug)]
+pub struct TankPrior {
+    pub imbalance_mean_kg: f64,
+    pub imbalance_sd_kg: f64,
+    pub ratio_mean: f64,
+    pub ratio_sd: f64,
+}
+
+#[derive(Deserialize)]
+struct RawInternal {
+    model: RawInternalModel,
+    grid: RawGrid,
+    ceiling_fl: RawCeiling,
+    #[serde(default)]
+    grid_inop: Option<RawGrid>,
+    #[serde(default)]
+    tables: Option<HashMap<String, RawTable>>,
+}
+
+#[derive(Deserialize)]
+struct RawInternalModel {
+    version: String,
+}
+
+#[derive(Deserialize)]
+struct RawGrid {
+    fl_nodes: Vec<f64>,
+    weight_t: Vec<f64>,
+    mach: Vec<f64>,
+    flow_kg_h: Vec<Vec<Vec<Option<f64>>>>,
+    flags: Vec<Vec<Vec<u8>>>,
+}
+
+#[derive(Deserialize)]
+struct RawCeiling {
+    weight_t: Vec<f64>,
+    fl: Vec<f64>,
+}
+
+/// Index of the cell holding `x` and the fraction across it, as numpy's
+/// `searchsorted(nodes, x, side="right") - 1` clipped to the cells; the fraction is clamped to
+/// the cell and the clamp reported.
+fn bracket(nodes: &[f64], x: f64) -> (usize, f64, bool) {
+    let k = nodes.partition_point(|&v| v <= x).saturating_sub(1).min(nodes.len() - 2);
+    let t = (x - nodes[k]) / (nodes[k + 1] - nodes[k]);
+    if t < 0.0 {
+        (k, 0.0, true)
+    } else if t > 1.0 {
+        (k, 1.0, true)
+    } else {
+        (k, t, false)
+    }
+}
+
+impl InternalGrid {
+    pub fn from_json(text: &str) -> Result<Self, String> {
+        let raw: RawInternal = serde_json::from_str(text).map_err(|e| format!("internal fuel model: {e}"))?;
+        let g = raw.grid;
+        let (nf, nw, nm) = (g.fl_nodes.len(), g.weight_t.len(), g.mach.len());
+        if nf < 2 || nw < 2 || nm < 2 {
+            return Err("internal fuel model: each grid axis needs at least two nodes".into());
+        }
+        for axis in [&g.fl_nodes, &g.weight_t, &g.mach, &raw.ceiling_fl.weight_t] {
+            if axis.windows(2).any(|w| !(w[1] > w[0])) {
+                return Err("internal fuel model: grid axes must increase strictly".into());
+            }
+        }
+        let shape_ok = |v: &Vec<Vec<Vec<f64>>>| v.len() == nf && v.iter().all(|a| a.len() == nw && a.iter().all(|b| b.len() == nm));
+        let flow: Vec<Vec<Vec<f64>>> =
+            g.flow_kg_h.into_iter().map(|a| a.into_iter().map(|b| b.into_iter().map(|c| c.unwrap_or(f64::NAN)).collect()).collect()).collect();
+        let flags: Vec<Vec<Vec<f64>>> =
+            g.flags.iter().map(|a| a.iter().map(|b| b.iter().map(|&c| f64::from(c)).collect()).collect()).collect();
+        if !shape_ok(&flow) || !shape_ok(&flags) {
+            return Err(format!("internal fuel model: flow and flags must be {nf} x {nw} x {nm}"));
+        }
+        if raw.ceiling_fl.weight_t.len() != raw.ceiling_fl.fl.len() || raw.ceiling_fl.fl.len() < 2 {
+            return Err("internal fuel model: ceiling_fl needs matching weight_t and fl, two or more".into());
+        }
+        let flat: Vec<f64> = flow.into_iter().flatten().flatten().collect();
+        let min_at_weight = (0..nw)
+            .map(|j| {
+                let mut best = f64::INFINITY;
+                for i in 0..nf {
+                    for k in 0..nm {
+                        let v = flat[(i * nw + j) * nm + k];
+                        if v.is_finite() && v > 0.0 {
+                            best = best.min(v);
+                        }
+                    }
+                }
+                best
+            })
+            .collect();
+        Ok(Self {
+            fl: g.fl_nodes,
+            weight_t: g.weight_t,
+            mach: g.mach,
+            flow: flat,
+            flags: g.flags.into_iter().flatten().flatten().collect(),
+            ceiling_weight_t: raw.ceiling_fl.weight_t,
+            ceiling_fl: raw.ceiling_fl.fl,
+            min_at_weight,
+            inop: raw.grid_inop.map(SimpleGrid::from_raw).transpose()?,
+            inop_mach: raw.tables.as_ref().and_then(|t| t.get("lrc_inop_mach")).map(Table::from_raw),
+            version: raw.model.version,
+        })
+    }
+
+    fn at(&self, i: usize, j: usize, k: usize) -> usize {
+        (i * self.weight_t.len() + j) * self.mach.len() + k
+    }
+
+    /// Standard-day total flow (kg/h) before calibration, and how it was obtained. `None` when
+    /// an argument is not finite or a corner the lookup uses is not priced.
+    pub fn flow_kg_h(&self, fl: f64, weight_t: f64, mach: f64) -> Option<(f64, Coverage)> {
+        if !(fl.is_finite() && weight_t.is_finite() && mach.is_finite()) {
+            return None;
+        }
+        let (i, x, clamp_fl) = bracket(&self.fl, fl);
+        let (j, y, clamp_w) = bracket(&self.weight_t, weight_t);
+        let (k, z, clamp_m) = bracket(&self.mach, mach);
+        let (mut acc, mut bits) = (0.0, 0u8);
+        for (di, wx) in [(0, 1.0 - x), (1, x)] {
+            for (dj, wy) in [(0, 1.0 - y), (1, y)] {
+                for (dk, wz) in [(0, 1.0 - z), (1, z)] {
+                    let w = wx * wy * wz;
+                    if w == 0.0 {
+                        continue;
+                    }
+                    let n = self.at(i + di, j + dj, k + dk);
+                    let v = self.flow[n];
+                    if !v.is_finite() {
+                        return None;
+                    }
+                    acc += w * v;
+                    bits |= self.flags[n];
+                }
+            }
+        }
+        use grid_flags::*;
+        let cover = Coverage {
+            extrapolated_mach: bits & (EXTRAP_HIGH | EXTRAP_LOW) != 0 || clamp_m,
+            below_tables: bits & BELOW_TABLES != 0 || (clamp_fl && fl < self.fl[0]),
+            single_schedule: bits & SINGLE_SCHEDULE != 0,
+            above_ceiling: bits & ABOVE_CEILING != 0 || (clamp_fl && fl > self.fl[self.fl.len() - 1]),
+            fit_fallback: bits & (FIT_FALLBACK | FLOOR_CLAMPED) != 0 || clamp_w,
+        };
+        (acc > 0.0).then_some((acc, cover))
+    }
+
+    /// The one-engine LRC Mach at this level and weight; None above the one-engine ceiling,
+    /// outside the table, or without the table.
+    pub fn inop_mach(&self, fl: f64, weight_t: f64) -> Option<f64> {
+        self.inop_mach.as_ref()?.bilinear(fl, weight_t)
+    }
+
+    /// The service ceiling at this gross weight, flight level (linear in weight, clamped).
+    pub fn ceiling_fl(&self, weight_t: f64) -> f64 {
+        let (w, f) = (&self.ceiling_weight_t, &self.ceiling_fl);
+        let (k, t, _) = bracket(w, weight_t);
+        f[k] + t * (f[k + 1] - f[k])
+    }
+
+    /// A lower bound on the standard-day flow at this weight over every level and Mach the
+    /// lookup can return. At fixed weight w between nodes j and j+1 a slice value is
+    /// (1-y) f[i,j,k] + y f[i,j+1,k] >= (1-y) min_j + y min_{j+1}, and within a cell the
+    /// trilinear value is bilinear in level and Mach, so it never falls below the least slice
+    /// corner. O(1): the per-node minima are computed at load.
+    pub fn min_flow_kg_h(&self, weight_t: f64) -> Option<f64> {
+        if !weight_t.is_finite() {
+            return None;
+        }
+        let (j, y, _) = bracket(&self.weight_t, weight_t);
+        let (a, b) = (self.min_at_weight[j], self.min_at_weight[j + 1]);
+        let v = if y == 0.0 {
+            a
+        } else if y == 1.0 {
+            b
+        } else {
+            (1.0 - y) * a + y * b
+        };
+        (v.is_finite() && v > 0.0).then_some(v)
+    }
+}
+
+/// The FPPM temperature rule in SAT terms (internal-v1 `model.temperature`): flow at a static
+/// air temperature `delta_isa_k` above ISA, relative to the standard day. 0.34 %/K at M0.82.
+pub fn temperature_factor(delta_isa_k: f64, mach: f64) -> f64 {
+    1.0 + 0.003 * delta_isa_k * (1.0 + 0.2 * mach * mach)
+}
+
+/// ISA static temperature (K) at a pressure altitude (ft), troposphere and lower stratosphere.
+pub fn isa_temperature_k(pressure_altitude_ft: f64) -> f64 {
+    (288.15 - 0.0019812 * pressure_altitude_ft).max(216.65)
+}
+
 /// Declared fuel state at the prior epoch and the model's own uncertainty.
 #[derive(Clone, Copy, Debug)]
 pub struct FuelPrior {
@@ -344,6 +726,65 @@ impl Default for FuelPrior {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The internal model is local only (git-ignored); tests that need it say so and pass.
+    fn internal() -> Option<(InternalGrid, serde_json::Value)> {
+        let p = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(p) else {
+            eprintln!("SKIPPED: {p} is absent (local-only fuel model)");
+            return None;
+        };
+        Some((InternalGrid::from_json(&text).unwrap(), serde_json::from_str(&text).unwrap()))
+    }
+
+    /// Core request 16 C-1 acceptance: the fuel session's 300 off-node test vectors, matched to
+    /// 1e-9 relative on the grid flow, and the full flow kappa * tau * grid.
+    #[test]
+    fn internal_grid_reproduces_the_fuel_sessions_test_vectors() {
+        let Some((g, doc)) = internal() else { return };
+        let vectors = doc["test_vectors"].as_array().unwrap();
+        assert_eq!(vectors.len(), 300);
+        for t in vectors {
+            let f = |k: &str| t[k].as_f64().unwrap();
+            let (got, _) = g.flow_kg_h(f("fl"), f("weight_t"), f("mach")).unwrap();
+            let want = f("flow_grid_kg_h");
+            assert!((got / want - 1.0).abs() < 1e-9, "grid {got} against {want} at {t}");
+            let tau = temperature_factor(f("delta_isa_k"), f("mach"));
+            assert!((tau / f("tau") - 1.0).abs() < 1e-12);
+            let full = f("kappa") * tau * got;
+            assert!((full / f("flow_full_kg_h") - 1.0).abs() < 1e-9);
+        }
+    }
+
+    /// The doomed test's floor (audit F8/F13): no state the lookup can return, at any level or
+    /// Mach, undercuts `min_flow_kg_h`; and the ceiling falls with weight.
+    #[test]
+    fn internal_min_flow_is_a_true_lower_bound_and_the_ceiling_falls_with_weight() {
+        let Some((g, _)) = internal() else { return };
+        let mut x = 0.5f64;
+        let mut next = || {
+            x = (x * 3.9 * (1.0 - x)).clamp(1e-6, 1.0 - 1e-6);
+            x
+        };
+        for _ in 0..20_000 {
+            let (fl, w, m) = (10.0 + 430.0 * next(), 150.0 + 100.0 * next(), 0.35 + 0.6 * next());
+            let floor = g.min_flow_kg_h(w).unwrap();
+            if let Some((f, _)) = g.flow_kg_h(fl, w, m) {
+                assert!(f >= floor * (1.0 - 1e-12), "{f} below the floor {floor} at FL{fl} {w} t M{m}");
+            }
+        }
+        assert!(g.ceiling_fl(190.0) >= g.ceiling_fl(220.0));
+        assert!((g.ceiling_fl(220.0) - 400.0).abs() < 1e-9 && (g.ceiling_fl(190.0) - 430.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn isa_and_the_temperature_rule() {
+        assert!((isa_temperature_k(0.0) - 288.15).abs() < 1e-12);
+        assert!((isa_temperature_k(45_000.0) - 216.65).abs() < 1e-12);
+        // 0.34 %/K at M0.82, as the fuel session states.
+        assert!(((temperature_factor(1.0, 0.82) - 1.0) - 0.003 * (1.0 + 0.2 * 0.82 * 0.82)).abs() < 1e-15);
+        assert_eq!(temperature_factor(0.0, 0.8), 1.0);
+    }
 
     fn tables() -> FuelTables {
         let p = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/fuel-tables.json");
@@ -465,8 +906,12 @@ mod tests {
             for fl in (60..=430).step_by(10) {
                 for m in (40..=86).step_by(2) {
                     if let Some((ff, cover)) = t.fuel_flow_kg_h(f64::from(fl), w, f64::from(m) / 100.0) {
-                        // Extrapolations off the end of the drag law are not states the
-                        // aircraft can hold; the bound is over the tabulated envelope.
+                        // Fuel audit F13/F4: THIS TABLES-ONLY PATH IS KNOWN TO UNDERCUT ITS FLOOR
+                        // on extrapolated cells (205 t, FL400, M0.73: 4,674 against 5,395 kg/h),
+                        // so the check here is over the tabulated envelope only. Production runs
+                        // price with the internal model, whose floor is asserted over every
+                        // flyable state, extrapolated cells included, in
+                        // `internal_floor_holds_over_every_flyable_state`.
                         if !cover.extrapolated_mach {
                             assert!(ff >= floor - 1e-6, "{ff} at FL{fl} M{m} undercuts floor {floor} at {w} t");
                         }
@@ -474,6 +919,35 @@ mod tests {
                 }
             }
         }
+    }
+
+    /// Fuel audit F13: the doomed test prunes on `min_flow_kg_h`, so no state the filter can
+    /// fly may burn less, extrapolated or not. Swept over FL060-430, M0.41-0.90 (the widest
+    /// Mach prior to the top of the grid) and the weights the flight passes through. Skipped
+    /// when the local-only internal model is absent.
+    #[test]
+    fn internal_floor_holds_over_every_flyable_state() {
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let g = InternalGrid::from_json(&text).unwrap();
+        let (mut checked, mut extrapolated) = (0usize, 0usize);
+        for w in [175.0, 185.0, 195.0, 205.0, 215.0] {
+            let floor = g.min_flow_kg_h(w).expect("a floor at a reachable weight");
+            for fl in (60..=430).step_by(5) {
+                for m in (41..=90).map(|m| f64::from(m) / 100.0) {
+                    if let Some((ff, cover)) = g.flow_kg_h(f64::from(fl), w, m) {
+                        assert!(ff >= floor - 1e-6, "{ff} kg/h at FL{fl} M{m} {w} t undercuts the floor {floor}");
+                        checked += 1;
+                        extrapolated += usize::from(cover.extrapolated_mach);
+                    }
+                }
+            }
+        }
+        // The sweep must actually reach the cells the filter flies on extrapolated flow.
+        assert!(checked > 10_000 && extrapolated > 1_000, "{checked} states, {extrapolated} extrapolated");
     }
 
     #[test]

@@ -1,0 +1,249 @@
+{
+ "note": "SMOKE, N = 1 child x 4 descents per parent, seed 1, reference-289 hand-off. Not evidence. prior = defaults (byte-identical to the reference-289 build, impacts sha256 68ee1469080e2ecbbac27e7f2f2c7f26b51dc950eebb92db68b0f69065d34b12); proposal = full/two-burst-proposal.toml without its children line. ln_evidence here uses core's self-normalised weights (biased under the proposal).",
+ "core_proposal_self_check": {
+  "mean_correction": 1.0004687089895623,
+  "standard_error": 0.0013459230439951243
+ },
+ "per_arm": {
+  "none__other": {
+   "prior": {
+    "ess": 399999.9998248553,
+    "ln_evidence": 0.0,
+    "effective_parents": 99999.9999562138
+   },
+   "proposal": {
+    "ess": 249542.95752156287,
+    "ln_evidence_self_normalised": 0.0,
+    "effective_parents": 99999.99995621383
+   }
+  },
+  "none__fuel-exhaustion": {
+   "prior": {
+    "ess": 33453.62324107157,
+    "ln_evidence": -7.448424648527803,
+    "effective_parents": 11367.909235728988
+   },
+   "proposal": {
+    "ess": 18051.3008915304,
+    "ln_evidence_self_normalised": -7.447800442865413,
+    "effective_parents": 10376.012536619952
+   }
+  },
+  "r600_inflated__other": {
+   "prior": {
+    "ess": 98416.53878845168,
+    "ln_evidence": -11.80810007390251,
+    "effective_parents": 41685.70467814944
+   },
+   "proposal": {
+    "ess": 54003.68346151983,
+    "ln_evidence_self_normalised": -11.822591637652181,
+    "effective_parents": 34872.567926713775
+   }
+  },
+  "r600_inflated__fuel-exhaustion": {
+   "prior": {
+    "ess": 12418.389312565523,
+    "ln_evidence": -18.590232466617607,
+    "effective_parents": 6013.481621329325
+   },
+   "proposal": {
+    "ess": 6555.703477209694,
+    "ln_evidence_self_normalised": -18.608498473366545,
+    "effective_parents": 4703.858051602256
+   }
+  },
+  "r600_no-offset__other": {
+   "prior": {
+    "ess": 6393.201251837825,
+    "ln_evidence": -12.736844997913613,
+    "effective_parents": 4995.671712195412
+   },
+   "proposal": {
+    "ess": 3690.7163092392116,
+    "ln_evidence_self_normalised": -12.739435441424451,
+    "effective_parents": 3317.794495318063
+   }
+  },
+  "r600_no-offset__fuel-exhaustion": {
+   "prior": {
+    "ess": 1861.3401272614788,
+    "ln_evidence": -18.922852017227168,
+    "effective_parents": 1496.2538757361474
+   },
+   "proposal": {
+    "ess": 972.3405231645099,
+    "ln_evidence_self_normalised": -18.93661091343419,
+    "effective_parents": 905.4952027563379
+   }
+  },
+  "r600_startup-offset__other": {
+   "prior": {
+    "ess": 5405.646597880184,
+    "ln_evidence": -14.461722511468668,
+    "effective_parents": 3672.9954545128876
+   },
+   "proposal": {
+    "ess": 4008.7674435675126,
+    "ln_evidence_self_normalised": -14.31372364232065,
+    "effective_parents": 3305.6528888813623
+   }
+  },
+  "r600_startup-offset__fuel-exhaustion": {
+   "prior": {
+    "ess": 1907.2038438278573,
+    "ln_evidence": -20.525754588319224,
+    "effective_parents": 1284.127158477412
+   },
+   "proposal": {
+    "ess": 1157.9451960199895,
+    "ln_evidence_self_normalised": -20.41234784305931,
+    "effective_parents": 948.9679670827438
+   }
+  },
+  "r1200_inflated__other": {
+   "prior": {
+    "ess": 2166.4405076090443,
+    "ln_evidence": -10.047263335396632,
+    "effective_parents": 1965.7522850109028
+   },
+   "proposal": {
+    "ess": 2215.032890497566,
+    "ln_evidence_self_normalised": -9.766781034287355,
+    "effective_parents": 2038.9365151551433
+   }
+  },
+  "r1200_inflated__fuel-exhaustion": {
+   "prior": {
+    "ess": 565.4995939440947,
+    "ln_evidence": -16.346020510984822,
+    "effective_parents": 459.5418042314645
+   },
+   "proposal": {
+    "ess": 385.6425878680709,
+    "ln_evidence_self_normalised": -16.174254968658083,
+    "effective_parents": 340.3459757558691
+   }
+  },
+  "r1200_no-offset__other": {
+   "prior": {
+    "ess": 429.52091399548624,
+    "ln_evidence": -10.09820383607478,
+    "effective_parents": 412.1518019377129
+   },
+   "proposal": {
+    "ess": 406.14731935418286,
+    "ln_evidence_self_normalised": -9.811265174065682,
+    "effective_parents": 401.52899781473815
+   }
+  },
+  "r1200_no-offset__fuel-exhaustion": {
+   "prior": {
+    "ess": 102.67546190321087,
+    "ln_evidence": -16.489498096727512,
+    "effective_parents": 89.14045478693308
+   },
+   "proposal": {
+    "ess": 68.9429838467889,
+    "ln_evidence_self_normalised": -16.30084340307578,
+    "effective_parents": 67.98066806996852
+   }
+  },
+  "r1200_startup-offset__other": {
+   "prior": {
+    "ess": 1184.5567301545677,
+    "ln_evidence": -10.63235501808549,
+    "effective_parents": 1129.7376624964938
+   },
+   "proposal": {
+    "ess": 1265.106069611102,
+    "ln_evidence_self_normalised": -10.33583322157742,
+    "effective_parents": 1182.205501848312
+   }
+  },
+  "r1200_startup-offset__fuel-exhaustion": {
+   "prior": {
+    "ess": 317.1524264051362,
+    "ln_evidence": -16.885462373972135,
+    "effective_parents": 297.95099607931576
+   },
+   "proposal": {
+    "ess": 220.18025461026616,
+    "ln_evidence_self_normalised": -16.768951520146796,
+    "effective_parents": 212.5090568061412
+   }
+  },
+  "both_inflated__other": {
+   "prior": {
+    "ess": 144.14743100672533,
+    "ln_evidence": -23.197975982801488,
+    "effective_parents": 126.47329649741437
+   },
+   "proposal": {
+    "ess": 327.33275283205825,
+    "ln_evidence_self_normalised": -22.638009054485497,
+    "effective_parents": 295.6991010927189
+   }
+  },
+  "both_inflated__fuel-exhaustion": {
+   "prior": {
+    "ess": 40.05204462192925,
+    "ln_evidence": -29.297542535572024,
+    "effective_parents": 29.564680454821943
+   },
+   "proposal": {
+    "ess": 69.7926377778273,
+    "ln_evidence_self_normalised": -29.179883539468605,
+    "effective_parents": 58.51749618045805
+   }
+  },
+  "both_no-offset__other": {
+   "prior": {
+    "ess": 3.0779543091102957,
+    "ln_evidence": -23.503567248715363,
+    "effective_parents": 3.077953981016188
+   },
+   "proposal": {
+    "ess": 28.586298502306487,
+    "ln_evidence_self_normalised": -23.444261076856037,
+    "effective_parents": 28.540208059091224
+   }
+  },
+  "both_no-offset__fuel-exhaustion": {
+   "prior": {
+    "ess": 1.5023227016820582,
+    "ln_evidence": -29.879883238009548,
+    "effective_parents": 1.502319996372114
+   },
+   "proposal": {
+    "ess": 3.212919655080351,
+    "ln_evidence_self_normalised": -30.96993850011976,
+    "effective_parents": 3.211483034932556
+   }
+  },
+  "both_startup-offset__other": {
+   "prior": {
+    "ess": 10.266691900361408,
+    "ln_evidence": -24.108915600845076,
+    "effective_parents": 10.266648291773109
+   },
+   "proposal": {
+    "ess": 34.56499159931886,
+    "ln_evidence_self_normalised": -23.481766677276156,
+    "effective_parents": 34.56221132540896
+   }
+  },
+  "both_startup-offset__fuel-exhaustion": {
+   "prior": {
+    "ess": 2.3326157625125203,
+    "ln_evidence": -30.368190502340067,
+    "effective_parents": 2.332613154261926
+   },
+   "proposal": {
+    "ess": 3.474516383380013,
+    "ln_evidence_self_normalised": -30.79184079961915,
+    "effective_parents": 3.4744205233806427
+   }
+  }
+ }
+}

@@ -1,6 +1,8 @@
-# Separately reported variant, never the base: adds the INFERRED Ocean Infinity 2025-26 layer, which
-# is not in git (the band tracing's licence is unclear; prepare/build_oi_2025_layer.py writes the
-# raster to data/external/search-coverage/). An override of run.toml, e.g.
+# Separately reported variant, never the base: adds the INFERRED Ocean Infinity 2025-26 layer. The
+# raster is now committed under coverage/ by Pete's ruling of 9 Oct 2026 (~18:30 UTC). It is a
+# community tracing of the two bands in Ocean Infinity's March 2024 presentation, grade C, inferred
+# from published imagery and vessel tracks, NOT official geometry: see coverage/PROVENANCE.md for the
+# footnote every use of it must carry. An override of run.toml, e.g.
 #   mh370 evaluate hypotheses/seabed-search/run.toml hypotheses/seabed-search/ocean-infinity-2025.toml <samples> <out>
 # Arrays replace rather than extend, so every campaign is listed again.
 #
@@ -23,6 +25,6 @@ detection_probability = 0.9
 
 [[hypotheses.seabed-search.campaigns]]
 name = "ocean-infinity-2025"
-layer_file = "data/external/search-coverage/ocean-infinity-2025.cov"
+layer_file = "hypotheses/seabed-search/coverage/ocean-infinity-2025.cov"
 detection_probability = 0.9
 coverage_fraction = 0.7808

@@ -1,0 +1,47 @@
+{
+ "integrator": [
+  {
+   "model": "globcurrent-my-p1d+era5-wind10",
+   "n": 60,
+   "median_diff_km": 0.007339647156140272,
+   "max_diff_km": 0.0190830976412815,
+   "median_drift_km": 122.81637573242188
+  },
+  {
+   "model": "glorys12v1+era5-wind10",
+   "n": 60,
+   "median_diff_km": 0.006882223571859521,
+   "max_diff_km": 0.0731793849382155,
+   "median_drift_km": 102.34370422363281
+  }
+ ],
+ "surfaces": {
+  "pleiades_n": 300,
+  "pleiades_max_abs_dlnL": 7.9296387248462e-05,
+  "cosmo_n": 300,
+  "cosmo_max_abs_dlnL": 9.703747439004928e-05
+ },
+ "gdp_boot95_rms_km_15d": {
+  "glorys12v1+era5-wind10": [
+   [
+    98.74,
+    89.38
+   ],
+   [
+    120.83,
+    111.3
+   ]
+  ],
+  "globcurrent-my-p1d+era5-wind10": [
+   [
+    99.86,
+    81.05
+   ],
+   [
+    137.27,
+    109.79
+   ]
+  ]
+ },
+ "rho0_vs_branch_lnratio_sd": 1.7270725279553675e-05
+}

@@ -1,0 +1,37 @@
+# Waypoint-family reset (Pete's rulings 11 Oct 2026, ~22:00Z and ~23:40Z): each particle draws its own route.
+# Replaces waypoints.toml (do not combine them). Same early-phase speed settings as waypoints.toml.
+[dynamics.early]
+mach_range = [0.45, 0.87]
+mach_until_utc = "2014-03-07T18:40:00Z"
+cas_envelope_kt = [210.0, 330.0]
+
+[dynamics.early.route_sampler]
+share = 1.0
+start_utc = "2014-03-07T18:01:49Z"
+waypoints_csv = "data/waypoints.csv"
+prefix = ["VAMPI", "MEKAR"]
+# MH370 was 10 NM past MEKAR at 18:22:12 at about 495 kt.
+prefix_end_utc = "2014-03-07T18:21:00Z"
+fixes_csv = "../results/waypoints-2014-epoch-oct11/waypoints-2014-epoch.csv"
+tiers = ["A", "B"]
+legs_mean = 3.0
+legs_max = 8
+break_off_probability = 0.5
+break_off_fractions = [0.2, 0.4, 0.6, 0.8]
+fly_by_probability = 0.5
+max_course_change_deg = 150.0
+phase2_until_utc = "2014-03-07T18:40:00Z"
+equator_continue_probability = 0.5
+south_limit_deg = -4.5
+nominal_ground_speed_kt = 470.0
+# Change of mode on the last leg (Pete, 12 Oct 2026: no prior on when it happened): 50/50 at the last fix or
+# part-way along the last leg, uniform over the part of the leg west of 96E. Earlier legs keep the 20/40/60/80 % break-off.
+transition_mid_leg_probability = 0.5
+transition_west_of_lon_deg = 96.0
+turn_backs = true
+track_legs = true
+
+[output.trace]
+from_utc = "2014-03-07T18:25:00Z"
+to_utc = "2014-03-07T18:39:00Z"
+interval_s = 60

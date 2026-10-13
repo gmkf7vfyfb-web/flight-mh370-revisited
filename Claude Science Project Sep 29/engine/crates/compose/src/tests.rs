@@ -155,7 +155,8 @@ fn analytic_gaussian_factor_on_gaussian_prior() {
     let exact_ln_d = ln_normal(y, mu, (s0 * s0 + s * s).sqrt());
     for (sd, converged) in [(s, true), (0.0005, false)] {
         let samples: Vec<Replicate> = fixtures.iter().enumerate().map(|(i, f)| f.clone_with(|_, row| ln_normal(y, row[6], sd)).replicate(i as u64 + 1, one_mode())).collect();
-        let base = Product::filter(&samples, vec![]).unwrap();
+        // Exact prior draws: the source posterior is known, so its split-half is recorded as passed.
+        let base = Product::filter(&samples, vec![]).unwrap().with_source_split_half(SplitHalfCheck::overlap("fixture: exact prior draws", 1.0, SPLIT_HALF_OVERLAP_FLOOR_4));
         let product = compose(&base, &samples, &[gauss.clone()], &Set::new("core+gauss", &["gauss"]), None).unwrap();
         assert_eq!(product.status == Status::Converged, converged, "status {:?} at sd {sd}, ESS {:?}", product.status, product.ess);
         if !converged {
@@ -681,7 +682,16 @@ fn synthetic_hydroacoustic_detections_move_the_impact_pdf() {
             product.replicates[0].log_evidence_increment[0],
         );
         let min_ess = product.ess.iter().map(|e| e.parents).fold(f64::INFINITY, f64::min);
-        assert_eq!(product.status == Status::Converged, min_ess >= 1000.0, "status {:?}, ESS {min_ess}", product.status);
+        // Converged needs the ESS floor, the source split-half (not recorded on this base) and every
+        // factor's split-half; the reasons name each failure.
+        assert!(product.status != Status::Converged, "no source split-half recorded, yet {:?}", product.status);
+        let Status::Unconverged { reasons, .. } = &product.status else { unreachable!() };
+        assert_eq!(reasons.iter().any(|r| r.contains("below the floor")), min_ess < 1000.0, "{reasons:?}");
+        assert!(reasons.iter().any(|r| r.contains("source posterior's split-half is not recorded")), "{reasons:?}");
+        let recorded = base.clone().with_source_split_half(SplitHalfCheck::overlap("fixture", 1.0, SPLIT_HALF_OVERLAP_FLOOR_4));
+        let again = compose(&recorded, &samples, &declarations, &set, None).unwrap();
+        let halves_agree = again.factor_split_half.iter().all(|c| c.passed);
+        assert_eq!(again.status == Status::Converged, min_ess >= 1000.0 && halves_agree, "status {:?}, ESS {min_ess}", again.status);
         let area = lat[0].1 * lon[0].1;
         assert!(area < *spread.last().unwrap(), "{k} stations: the PDF must tighten ({area} after {:?})", spread);
         spread.push(area);
@@ -708,4 +718,100 @@ fn synthetic_hydroacoustic_detections_move_the_impact_pdf() {
             .sqrt();
         close(half.log_evidence_increment[0], half.log_evidence_increment[1], 4.0 * se, "split-half evidence");
     }
+}
+
+
+// ---------------------------------------------------------------------------------------------
+// 8. Convergence flag (architecture ruling 3 after composer pass 0): Converged only if the ESS
+//    floor, the source split-half and every factor's split-half all pass.
+// ---------------------------------------------------------------------------------------------
+
+/// Four replicates of 20,000 exact draws. A smooth Gaussian factor agrees between replicate halves;
+/// a factor that is large on the first half's replicates only does not. The source check is
+/// recorded on the base and inherited.
+#[test]
+fn converged_needs_source_and_factor_split_half() {
+    let n = 20_000;
+    let draw = |seed: u64| {
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        let prior = Normal::new(-36.0, 1.5).unwrap();
+        let lat: Vec<f64> = (0..n).map(|_| prior.sample(&mut rng)).collect();
+        Fixture::new(&vec![1.0 / n as f64; n], &vec![0; n], &lat)
+    };
+    let samples: Vec<Replicate> = (0..4u64)
+        .map(|i| {
+            draw(100 + i)
+                .set("smooth:loglik", |_, row| ln_normal(-35.0, row[6], 1.0))
+                .set("halves:loglik", move |_, row| if i < 2 { ln_normal(-35.0, row[6], 1.0) } else { 0.0 })
+                .replicate(i + 1, one_mode())
+        })
+        .collect();
+    let declarations = [declaration("smooth", &["synthetic:a"], vec![], true), declaration("halves", &["synthetic:b"], vec![], true)];
+    let bare = Product::filter(&samples, vec![]).unwrap();
+    assert!(matches!(&bare.status, Status::Unconverged { reasons, .. } if reasons.len() == 1 && reasons[0].contains("not recorded")), "{:?}", bare.status);
+
+    // Source not recorded: never converged, however good the factor.
+    let p = compose(&bare, &samples, &declarations, &Set::new("smooth", &["smooth"]), None).unwrap();
+    assert!(p.status != Status::Converged);
+    assert!(p.factor_split_half.iter().all(|c| c.passed), "{:?}", p.factor_split_half);
+
+    // Source recorded and passed: the smooth factor converges, and its check is reported.
+    let good = bare.clone().with_source_split_half(SplitHalfCheck::overlap("fixture", 0.95, SPLIT_HALF_OVERLAP_FLOOR_4));
+    assert_eq!(good.status, Status::Converged);
+    let p = compose(&good, &samples, &declarations, &Set::new("smooth", &["smooth"]), None).unwrap();
+    assert_eq!(p.status, Status::Converged, "{:?}", p.factor_split_half);
+    assert_eq!(p.source_split_half, good.source_split_half);
+    assert_eq!(p.factor_split_half.len(), 1);
+    assert!(p.factor_split_half[0].statistic < 0.02, "{:?}", p.factor_split_half);
+
+    // Source failed: unconverged, and the reason says so (inherited by every later product).
+    let bad = bare.clone().with_source_split_half(SplitHalfCheck::overlap("core (b) free", 0.6403, SPLIT_HALF_OVERLAP_FLOOR_4));
+    let p = compose(&bad, &samples, &declarations, &Set::new("smooth", &["smooth"]), None).unwrap();
+    let Status::Unconverged { reasons, .. } = &p.status else { panic!("converged on a failed source") };
+    assert!(reasons.iter().any(|r| r.starts_with("source split-half failed")), "{reasons:?}");
+
+    // A factor whose halves disagree: unconverged on that factor alone; the set check fails too.
+    let p = compose(&good, &samples, &declarations, &Set::new("both", &["smooth", "halves"]), None).unwrap();
+    let Status::Unconverged { reasons, .. } = &p.status else { panic!("converged with disagreeing halves") };
+    assert_eq!(p.factor_split_half.iter().map(|c| c.passed).collect::<Vec<_>>(), [true, false, false], "{:?}", p.factor_split_half);
+    assert!(reasons.iter().any(|r| r.contains("factor halves alone")), "{reasons:?}");
+    assert!(p.factor_split_half[1].statistic > 0.5, "{:?}", p.factor_split_half);
+
+    // The checks chain: a later product keeps the earlier failure.
+    let samples2: Vec<Replicate> = samples.iter().map(|r| {
+        let mut f = Fixture { columns: r.columns.clone(), rows: r.values.chunks(r.columns.len()).map(|c| c.to_vec()).collect() };
+        f = f.set("late:loglik", |_, _| 0.0);
+        f.replicate(r.seed, r.modes)
+    }).collect();
+    let decl3: Vec<Declaration> = declarations.iter().cloned().chain([declaration("late", &["synthetic:c"], vec![], true)]).collect();
+    let p2 = compose(&good, &samples2, &decl3, &Set::new("both", &["smooth", "halves"]), None).unwrap();
+    let p3 = compose(&p2, &samples2, &decl3, &Set::new("late", &["late"]), None).unwrap();
+    assert!(p3.status != Status::Converged);
+    assert_eq!(p3.factor_split_half.len(), 4);
+}
+
+/// Ruling 8: a column for an option combination excluded by `given` may be absent. The product
+/// equals the one built with the column present, and the given alternative's posterior is not reported.
+#[test]
+fn given_does_not_need_excluded_columns() {
+    let weight = [0.25, 0.25, 0.25, 0.25];
+    let lat = [-36.0, -35.0, -34.0, -33.0];
+    let alt = vec![Alternatives::new("ocean-model", &[("m1", 0.5), ("m2", 0.5)])];
+    let with = Fixture::new(&weight, &[0, 0, 0, 0], &lat).set("d:loglik:m1", |r, _| [0.0, -1.0, -2.0, -3.0][r]).set("d:loglik:m2", |r, _| [-3.0, -2.0, -1.0, 0.0][r]);
+    let without = Fixture::new(&weight, &[0, 0, 0, 0], &lat).set("d:loglik:m1", |r, _| [0.0, -1.0, -2.0, -3.0][r]);
+    let d = [declaration("d", &["synthetic:d"], alt, true)];
+    let mut set = ungated("given m1", &["d"]);
+    set.given.insert("ocean-model".into(), "m1".into());
+    let run = |f: &Fixture| {
+        let samples = vec![f.replicate(1, one_mode()), f.replicate(2, one_mode())];
+        let base = Product::filter(&samples, vec![]).unwrap();
+        compose(&base, &samples, &d, &set, None).unwrap()
+    };
+    let (a, b) = (run(&with), run(&without));
+    for (x, y) in a.replicates[0].weights.iter().zip(&b.replicates[0].weights) {
+        close(*x, *y, 1e-15, "weights with and without the excluded column");
+    }
+    close(a.log_evidence_increment, b.log_evidence_increment, 1e-15, "evidence");
+    assert_eq!(b.columns, ["d:loglik:m1"]);
+    assert!(b.alternatives.iter().find(|x| x.name == "ocean-model").unwrap().posterior.is_none());
 }

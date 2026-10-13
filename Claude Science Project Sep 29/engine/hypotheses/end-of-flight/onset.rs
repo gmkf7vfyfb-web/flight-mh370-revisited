@@ -71,6 +71,14 @@ pub struct OnsetConfig {
     pub early_oversample_weight: f64,
     /// How much of the support counts as "early", as a fraction.
     pub early_fraction: f64,
+    /// Fraction of the anticipatory draws taken from the LATE part of the support (short leads, onsets close to the predicted
+    /// exhaustion). Coverage gap G-k (review of the run D A-vs-B, 11 Oct): from a 22:41 hand-off only ~1 % of B's prior begins
+    /// after 00:11. A third proposal component, with the exact correction; 0 (default) = the two-component draw exactly.
+    #[serde(default)]
+    pub late_oversample_weight: f64,
+    /// How much of the support counts as "late", as a fraction (used only with `late_oversample_weight` > 0).
+    #[serde(default = "default_late_fraction")]
+    pub late_fraction: f64,
     /// Seconds from the modelled `FUEL QTY LOW` caution to exhaustion under continued cruise.
     ///
     /// **Provisional.** The citable cue is the FAA rulemaking record of the 777 caution appearing
@@ -113,6 +121,10 @@ impl OnsetConfig {
         }
         if !(0.0..=1.0).contains(&self.early_oversample_weight) || !(0.0..=1.0).contains(&self.early_fraction) {
             return Err("onset.early_oversample_weight and early_fraction must be in [0, 1]".into());
+        }
+        if !(0.0..=1.0).contains(&self.late_oversample_weight) || !(self.late_fraction > 0.0 && self.late_fraction <= 1.0)
+            || self.early_oversample_weight + self.late_oversample_weight > 1.0 {
+            return Err("onset.late_oversample_weight in [0, 1] with early + late <= 1, late_fraction in (0, 1]".into());
         }
         self.fuel_caution_lead_s.check("onset.fuel_caution_lead_s")?;
         self.recognition_delay_s.check("onset.recognition_delay_s")?;
@@ -317,11 +329,26 @@ impl OnsetConfig {
         // "Early" means a long lead: the far end of the support, nearest the checkpoint.
         let early_lo = hi - early_span;
         let w = self.early_oversample_weight;
-        let lead = if uniform() < w { early_lo + early_span * uniform() } else { lo + span * uniform() };
+        let wl = self.late_oversample_weight;
+        // "Late" means a short lead: the near end of the support, nearest the predicted exhaustion.
+        let late_span = (span * self.late_fraction).max(f64::MIN_POSITIVE);
+        let late_hi = lo + late_span;
+        let u = uniform();
+        let lead = if u < w {
+            early_lo + early_span * uniform()
+        } else if u < w + wl {
+            lo + late_span * uniform()
+        } else {
+            lo + span * uniform()
+        };
         let prior = 1.0 / span;
-        let proposal = (1.0 - w) / span + if lead >= early_lo { w / early_span } else { 0.0 };
+        let proposal = (1.0 - w - wl) / span + if lead >= early_lo { w / early_span } else { 0.0 } + if wl > 0.0 && lead <= late_hi { wl / late_span } else { 0.0 };
         (lead, prior.ln() - proposal.ln())
     }
+}
+
+fn default_late_fraction() -> f64 {
+    0.1
 }
 
 /// Density at `x` of a sum of independent uniforms on `[0, L_i]`, for the non-degenerate `L_i`:
@@ -372,6 +399,8 @@ mod tests {
             mechanism_weights: [1.0, 1.0, 1.0],
             early_oversample_weight: 0.3,
             early_fraction: 0.5,
+            late_oversample_weight: 0.0,
+            late_fraction: default_late_fraction(),
             fuel_caution_lead_s: Range::Uniform([1_800.0, 4_200.0]),
             recognition_delay_s: Range::Uniform([10.0, 300.0]),
             response_delay_s: Range::Uniform([10.0, 600.0]),
@@ -489,6 +518,30 @@ mod tests {
         // The early half of the support gets 0.3 + 0.7/2 = 65% of the draws, not 50%.
         let fraction = early as f64 / (n * n) as f64;
         assert!((fraction - 0.65).abs() < 0.01, "early fraction {fraction}");
+    }
+
+    /// G-k: with the late component the correction still averages one, and the late tenth of the support gets
+    /// 0.3 + (1 - 0.3 - 0.3) x 0.1 = 34 % of the draws instead of 3.5 % (early 0.3 on half the support, late 0.3 on a tenth).
+    #[test]
+    fn the_three_component_proposal_correction_averages_one() {
+        let c = OnsetConfig { anticipatory_lead_s: [0.0, 5_760.0], mechanism_weights: [1.0, 0.0, 0.0], early_oversample_weight: 0.3,
+            late_oversample_weight: 0.3, late_fraction: 0.1, ..config() };
+        let n = 400;
+        let (mut mean, mut late) = (0.0, 0);
+        for i in 0..n {
+            let u_component = (i as f64 + 0.5) / n as f64;
+            for j in 0..n {
+                let u_value = (j as f64 + 0.5) / n as f64;
+                let o = c.draw(CHECKPOINT_2241 - 10_000.0, EXHAUSTION, &mut stream(&[0.0, u_component, u_value]));
+                mean += o.log_q_correction.exp() / (n * n) as f64;
+                if EXHAUSTION - o.unix_s <= 576.0 {
+                    late += 1;
+                }
+            }
+        }
+        assert!((mean - 1.0).abs() < 2e-3, "mean correction {mean}");
+        let fraction = late as f64 / (n * n) as f64;
+        assert!((fraction - 0.34).abs() < 0.01, "late fraction {fraction}");
     }
 
     /// The fuel-cue mechanism is the cue time plus recognition and response, all measured from

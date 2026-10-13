@@ -1,0 +1,17 @@
+# C-7(a) alternative drift-down profile: hold-then-taper (fuel session, results/fuel-model/one-engine.md 5.1,
+# 10 Oct 2026). PROVISIONAL-OVERNIGHT: built and smoke-tested by core, NOT run at scale; Pete chooses whether
+# this or the approved constant U(300, 1000) ft/min profile goes to a full run.
+# Layer on top of s7-single-engine.toml.
+#
+# Above the one-engine ceiling: altitude held while KCAS decays at U(7, 11) kt/min to a drift-down KCAS
+# U(207, 227); then ROD = V_TAS / 20.7 x (1 - 1.038 (delta(h)/delta(h_c))^0.864), anchored on core's ceiling
+# h_c at the present weight, tapering to a level-off ~1,000 ft above h_c (minimum-drag speed); the KCAS is
+# kept after the level-off. At or below the ceiling: altitude held, slowing at the same rate to LRC INOP Mach.
+[fuel]
+single_engine_profile = "hold-taper"
+single_engine_decel_kt_per_min = [7.0, 11.0]
+single_engine_driftdown_kcas = [207.0, 227.0]
+single_engine_lift_drag = 20.7
+single_engine_min_drag_factor = 1.038
+single_engine_ceiling_exponent = 0.864
+single_engine_level_off_fpm = 30.0

@@ -38,6 +38,8 @@ pub struct Stage<'a, E> {
     pub span: Option<[(f64, f64); 2]>,
     pub module: &'a dyn Terminal,
     pub children: usize,
+    /// Core request 9: unnormalised within-parent weights (terminal.within_parent).
+    pub unnormalised: bool,
     /// The bursts after the stop, in time order; scored at their logged times.
     pub epochs: Vec<Epoch>,
     /// Per data option: (epoch index, BFO?) for each observation it uses.
@@ -51,6 +53,12 @@ pub struct Stage<'a, E> {
     arc: (geo::Vec3, f64),
     families: usize,
     latents: usize,
+    /// Per burst: its slot (0 or 1) among the 00:19 start-up BFOs scored by `bfo_models`, or
+    /// None for a burst whose BFO follows the cruise model (core request 14).
+    final_slot: Vec<Option<usize>>,
+    /// Variance added to the bias per second between BFOs (`bfo_bias.drift_hz2_per_s`), as the
+    /// filter applies it. Set by the caller; None is the constant-bias model.
+    pub bfo_drift_hz2_per_s: Option<f64>,
 }
 
 impl<'a, E: Environment> Stage<'a, E> {
@@ -66,8 +74,17 @@ impl<'a, E: Environment> Stage<'a, E> {
         if epochs.is_empty() {
             return Err("[terminal]: no bursts after the stop; list them in exclude_epochs".into());
         }
-        if epochs.len() > 2 && config.options.iter().any(|o| o.observations.iter().any(|id| id.ends_with(".bfo"))) {
-            return Err("[terminal]: the 00:19 BFO models cover two bursts".into());
+        // Core request 14. A burst whose BFO the cruise model covers (`cruise` in the
+        // observation table: m2315, m0011) is scored in-stage by the filter's own Kalman update
+        // of the handed-off bias. The others (the 00:19 start-up bursts) go to the BFO models,
+        // which cover at most two, identified by epoch rather than by position.
+        let finals: Vec<usize> = (0..epochs.len()).filter(|&k| epochs[k].bfo_hz.is_some() && !epochs[k].cruise_bfo).collect();
+        if finals.len() > 2 && config.options.iter().any(|o| o.observations.iter().any(|id| id.ends_with(".bfo"))) {
+            return Err("[terminal]: the 00:19 BFO models cover two start-up bursts; more are after the stop".into());
+        }
+        let mut final_slot = vec![None; epochs.len()];
+        for (slot, &k) in finals.iter().enumerate() {
+            final_slot[k] = Some(slot);
         }
         let mut options = Vec::new();
         for option in &config.options {
@@ -87,6 +104,8 @@ impl<'a, E: Environment> Stage<'a, E> {
                 }
                 uses.push((k, quantity == "bfo"));
             }
+            // Time order, so the bias passes through the cruise BFOs in sequence.
+            uses.sort_by_key(|u| u.0);
             options.push(uses);
         }
         let ids: Vec<&str> = config.options.iter().map(|o| o.id.as_str()).collect();
@@ -105,7 +124,7 @@ impl<'a, E: Environment> Stage<'a, E> {
         let mut columns = Vec::new();
         for (o, uses) in options.iter().enumerate() {
             let id = &config.options[o].id;
-            if uses.iter().any(|u| u.1) {
+            if uses.iter().any(|u| u.1 && final_slot[u.0].is_some()) {
                 if bfo_models.is_empty() {
                     return Err(format!("terminal option {id} uses a BFO: declare terminal.bfo_models"));
                 }
@@ -121,7 +140,28 @@ impl<'a, E: Environment> Stage<'a, E> {
         if families == 0 {
             return Err("the terminal module declares no descent families".into());
         }
-        Ok(Stage { params, environment, span, module, children: config.children, epochs, options, columns, bfo_models, target, arc, families, latents })
+        Ok(Stage {
+            params,
+            environment,
+            span,
+            module,
+            children: config.children,
+            unnormalised: match config.within_parent.as_deref() {
+                None | Some("self-normalised") => false,
+                Some("unnormalised") => true,
+                Some(other) => return Err(format!("terminal.within_parent must be \"self-normalised\" or \"unnormalised\", not {other:?}")),
+            },
+            epochs,
+            options,
+            columns,
+            bfo_models,
+            target,
+            arc,
+            families,
+            latents,
+            final_slot,
+            bfo_drift_hz2_per_s: None,
+        })
     }
 
     /// Column names of impacts.npy.
@@ -142,6 +182,7 @@ impl<'a, E: Environment> Stage<'a, E> {
             "module_families": self.module.families(),
             "latent_columns": self.module.latent_columns(),
             "children": self.children,
+            "within_parent_weights": if self.unnormalised { "unnormalised" } else { "self-normalised" },
             "epochs": self.epochs.iter().map(|e| json!({"id": e.id, "logged_unix_s": e.logged_unix_s})).collect::<Vec<_>>(),
             "loglik_columns": self.columns.iter().map(|c| &c.0).collect::<Vec<_>>(),
             "bfo_models": self.bfo_models.iter().map(|m| json!({"label": m.0, "prior": m.1})).collect::<Vec<_>>(),
@@ -192,7 +233,7 @@ impl<'a, E: Environment> Stage<'a, E> {
             let mut states: Vec<Option<EpochState>> = vec![None; self.epochs.len()];
             for (k, epoch) in self.epochs[..later].iter().enumerate() {
                 aircraft.propagate(epoch.logged_unix_s, self.params, self.environment, &mut rng);
-                states[k] = Some(powered_state(&aircraft));
+                states[k] = Some(powered_state(&aircraft, self.params, epoch.cruise_bfo));
             }
             aircraft.propagate(takeover, self.params, self.environment, &mut rng);
             let at = flight_state(&aircraft, self.params);
@@ -207,7 +248,7 @@ impl<'a, E: Environment> Stage<'a, E> {
                 }
                 let mut all = states.clone();
                 all[later..].copy_from_slice(candidates);
-                self.target_log_likelihood(&all, bias)
+                self.target_log_likelihood(&all, bias, stop.unix_s)
             };
             let descents =
                 self.module.descend_after(&at, &drawn, &atmosphere, &fuel, &mut uniform(seed, 3, c, r), &requested, &score);
@@ -237,20 +278,18 @@ impl<'a, E: Environment> Stage<'a, E> {
                 let q = q_takeover + d.log_q_correction;
                 mean += q.exp() / descents.len() as f64;
                 log_weights.push(q - (descents.len() as f64).ln());
-                out.extend(self.impact_row(r, row, &at, d, q, &all, bias));
+                out.extend(self.impact_row(r, row, &at, d, q, &all, bias, stop.unix_s));
             }
             corrections.push(mean);
         }
-        // Self-normalise within the parent: the children share its hand-off weight.
-        let max = log_weights.iter().copied().fold(f64::NEG_INFINITY, f64::max);
-        let total: f64 = log_weights.iter().map(|lw| (lw - max).exp()).sum();
-        for (k, lw) in log_weights.iter().enumerate() {
-            out[k * width] = row.weight * (lw - max).exp() / total;
+        for (k, w) in child_weights(row.weight, &log_weights, self.children, self.unnormalised).into_iter().enumerate() {
+            out[k * width] = w;
         }
         Ok((out, corrections))
     }
 
-    fn impact_row(&self, r: usize, row: &Row, at: &FlightState, d: &hypothesis::Descent, q: f64, states: &[Option<EpochState>], bias: BfoBias) -> Vec<f64> {
+    #[allow(clippy::too_many_arguments)]
+    fn impact_row(&self, r: usize, row: &Row, at: &FlightState, d: &hypothesis::Descent, q: f64, states: &[Option<EpochState>], bias: BfoBias, stop_unix_s: f64) -> Vec<f64> {
         let i = &d.impact;
         let (ve, vn, vu) = (i.velocity_east_mps, i.velocity_north_mps, i.velocity_up_mps);
         let speed2 = ve * ve + vn * vn + vu * vu;
@@ -290,24 +329,45 @@ impl<'a, E: Environment> Stage<'a, E> {
         }
         v.extend(&d.latents);
         for (_, option, model) in &self.columns {
-            v.push(self.log_likelihood(*option, *model, states, bias));
+            v.push(self.log_likelihood(*option, *model, states, bias, stop_unix_s));
         }
         v
     }
 
     /// ln p(the option's observations | the states at the bursts), under one BFO model. Minus
     /// infinity if the aircraft was down before a burst the option uses.
-    fn log_likelihood(&self, option: usize, model: Option<usize>, states: &[Option<EpochState>], bias: BfoBias) -> f64 {
+    ///
+    /// The bias starts as handed off (updated through the stop's own BFO). Cruise BFOs after the
+    /// stop are scored in time order exactly as the filter scores them: drift over the gap since
+    /// the previous BFO when drift is on, then the Kalman update's marginal log-likelihood. The
+    /// bias so updated, drifted over the gap to the first start-up burst (filter audit F4), is
+    /// what the 00:19 BFO models receive.
+    fn log_likelihood(&self, option: usize, model: Option<usize>, states: &[Option<EpochState>], bias: BfoBias, stop_unix_s: f64) -> f64 {
         let mut total = 0.0;
         let mut contacts = [None, None];
+        let mut bias = bias;
+        let mut last_bfo_unix_s = stop_unix_s;
+        let mut first_final_unix_s = None;
         for &(k, is_bfo) in &self.options[option] {
             let (epoch, Some(s)) = (&self.epochs[k], &states[k]) else { return f64::NEG_INFINITY };
             if is_bfo {
-                contacts[k] = Some((epoch.bfo_hz.unwrap(), predicted_bfo(epoch, s), epoch.bfo_sd_hz));
+                match self.final_slot[k] {
+                    Some(slot) => {
+                        contacts[slot] = Some((epoch.bfo_hz.unwrap(), predicted_bfo(epoch, s), epoch.bfo_sd_hz));
+                        first_final_unix_s.get_or_insert(epoch.unix_s);
+                    }
+                    None => {
+                        total += cruise_bfo_increment(&mut bias, epoch, predicted_bfo(epoch, s), epoch.unix_s - last_bfo_unix_s, self.bfo_drift_hz2_per_s);
+                        last_bfo_unix_s = epoch.unix_s;
+                    }
+                }
             } else {
                 let residual = epoch.bto_us.unwrap() - bto_us(epoch.satellite_km, s.latitude_deg, s.longitude_deg, s.altitude_ft);
                 total += gaussian_log_likelihood(residual, epoch.bto_sd_us);
             }
+        }
+        if let (Some(t), Some(rate)) = (first_final_unix_s, self.bfo_drift_hz2_per_s) {
+            bias.drift(t - last_bfo_unix_s, rate);
         }
         match model {
             Some(m) => total + self.bfo_models[m].2.log_likelihood(bias, contacts),
@@ -316,12 +376,12 @@ impl<'a, E: Environment> Stage<'a, E> {
     }
 
     /// The target option's log-likelihood, BFO models mixed by their priors: for proposals only.
-    fn target_log_likelihood(&self, states: &[Option<EpochState>], bias: BfoBias) -> f64 {
-        if !self.options[self.target].iter().any(|u| u.1) {
-            return self.log_likelihood(self.target, None, states, bias);
+    fn target_log_likelihood(&self, states: &[Option<EpochState>], bias: BfoBias, stop_unix_s: f64) -> f64 {
+        if !self.options[self.target].iter().any(|u| u.1 && self.final_slot[u.0].is_some()) {
+            return self.log_likelihood(self.target, None, states, bias, stop_unix_s);
         }
         let terms: Vec<f64> = (0..self.bfo_models.len())
-            .map(|m| self.bfo_models[m].1.ln() + self.log_likelihood(self.target, Some(m), states, bias))
+            .map(|m| self.bfo_models[m].1.ln() + self.log_likelihood(self.target, Some(m), states, bias, stop_unix_s))
             .collect();
         let max = terms.iter().copied().fold(f64::NEG_INFINITY, f64::max);
         if max == f64::NEG_INFINITY {
@@ -411,8 +471,36 @@ struct CoreFuel<'a> {
 
 impl FuelFlow for CoreFuel<'_> {
     fn fuel_flow_kg_h(&self, flight_level: f64, weight_t: f64, mach: f64) -> Option<FuelFlowRate> {
-        let (flow, cover) = self.model?.tables.fuel_flow_kg_h(flight_level, weight_t, mach)?;
+        // Standard day: this trait method carries no temperature. `fuel_flow_kg_h_at` below
+        // applies the temperature term when the run has it on (core request 16 C-2).
+        let (flow, cover) = self.model?.flow_isa_kg_h(flight_level, weight_t, mach)?;
         let kg_h = flow * self.factor;
+        (kg_h.is_finite() && kg_h > 0.0).then_some(FuelFlowRate {
+            kg_h,
+            extrapolated: cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback,
+            below_tables: cover.below_tables,
+            above_ceiling: cover.above_ceiling,
+        })
+    }
+
+    fn fuel_flow_kg_h_at(&self, flight_level: f64, weight_t: f64, mach: f64, delta_isa_k: f64) -> Option<FuelFlowRate> {
+        let model = self.model?;
+        let mut rate = self.fuel_flow_kg_h(flight_level, weight_t, mach)?;
+        if model.temperature && delta_isa_k.is_finite() {
+            rate.kg_h *= flight::fuel::temperature_factor(delta_isa_k, mach);
+        }
+        Some(rate)
+    }
+
+    fn fuel_flow_inop_kg_h_at(&self, flight_level: f64, weight_t: f64, mach: f64, delta_isa_k: f64) -> Option<FuelFlowRate> {
+        let model = self.model?;
+        // Standard day from the INOP grid times inop_flow_scale (NaN temperature: factor 1),
+        // then the same temperature term and path factor as the twin flow above.
+        let (flow, cover) = model.inop_flow_kg_h(flight_level, weight_t, mach, f64::NAN)?;
+        let mut kg_h = flow * self.factor;
+        if model.temperature && delta_isa_k.is_finite() {
+            kg_h *= flight::fuel::temperature_factor(delta_isa_k, mach);
+        }
         (kg_h.is_finite() && kg_h > 0.0).then_some(FuelFlowRate {
             kg_h,
             extrapolated: cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback,
@@ -446,19 +534,36 @@ fn flight_state(a: &Aircraft, p: &Parameters) -> FlightState {
         mass_kg: p.fuel.as_ref().map_or(f64::NAN, |m| m.zfw_kg + a.fuel_kg),
         fuel_kg: if p.fuel.is_some() { a.fuel_kg } else { f64::NAN },
         realised_flameout_unix_s: a.fuel_exhausted_unix_s,
+        fuel_left_kg: if p.fuel.is_some() { a.tanks.map_or(f64::NAN, |t| t.left_kg) } else { f64::NAN },
+        fuel_right_kg: if p.fuel.is_some() { a.tanks.map_or(f64::NAN, |t| t.right_kg) } else { f64::NAN },
+        first_flameout_unix_s: a.tanks.map_or(a.fuel_exhausted_unix_s, |t| t.first_exhausted_unix_s()),
+        tau_h: a.tau_s / 3600.0,
     }
 }
 
 /// A powered state at a burst, with no vertical rate (the cruise-model convention).
-fn powered_state(a: &Aircraft) -> EpochState {
+/// The powered state at a burst. A burst the cruise model scores carries the vertical rate
+/// when `bfo_vertical_rate` is set, as the filter's does; the 00:19 bursts keep the cruise
+/// convention of no vertical rate (module header, step 2).
+fn powered_state(a: &Aircraft, p: &Parameters, cruise_bfo: bool) -> EpochState {
+    let v_up_fpm = if cruise_bfo && p.bfo_vertical_rate { a.vertical_speed_fpm(p) } else { 0.0 };
     EpochState {
         latitude_deg: a.lat,
         longitude_deg: a.lon,
         altitude_ft: a.alt_ft,
         velocity_east_mps: a.v_east_kt * MPS_PER_KNOT,
         velocity_north_mps: a.v_north_kt * MPS_PER_KNOT,
-        velocity_up_mps: 0.0,
+        velocity_up_mps: v_up_fpm / FPM_PER_MPS,
     }
+}
+
+/// One cruise BFO, scored as the filter scores it (`filter.rs`, the BFO block): drift over the
+/// gap when drift is on, then the Kalman update's marginal log-likelihood.
+fn cruise_bfo_increment(bias: &mut BfoBias, epoch: &Epoch, predicted_without_bias: f64, gap_s: f64, drift_hz2_per_s: Option<f64>) -> f64 {
+    if let Some(rate) = drift_hz2_per_s {
+        bias.drift(gap_s, rate);
+    }
+    bias.update(predicted_without_bias, epoch.bfo_hz.expect("a cruise BFO burst"), epoch.bfo_sd_hz)
 }
 
 fn predicted_bfo(epoch: &Epoch, s: &EpochState) -> f64 {
@@ -481,16 +586,166 @@ fn uniform(seed: u64, purpose: u64, child: usize, row: usize) -> impl FnMut() ->
 }
 
 
+/// How a parent's children share its hand-off weight. `log_weights[k]` is ln q_k - ln M for
+/// descent k (q_k the takeover-and-descent proposal correction p/q, M the descents from its
+/// takeover); `children` takeovers were drawn.
+/// - Self-normalised (default): row_weight x exp(lw_k) / sum_j exp(lw_j). Rows of a parent sum
+///   to row_weight exactly.
+/// - Unnormalised (core request 9): row_weight x exp(lw_k) / children. Each descent's weight is
+///   then an unbiased importance weight, and the per-parent sum is row_weight in expectation.
+pub fn child_weights(row_weight: f64, log_weights: &[f64], children: usize, unnormalised: bool) -> Vec<f64> {
+    if unnormalised {
+        return log_weights.iter().map(|lw| row_weight * lw.exp() / children as f64).collect();
+    }
+    let max = log_weights.iter().copied().fold(f64::NEG_INFINITY, f64::max);
+    let total: f64 = log_weights.iter().map(|lw| (lw - max).exp()).sum();
+    log_weights.iter().map(|lw| row_weight * (lw - max).exp() / total).collect()
+}
+
 #[cfg(test)]
 mod tests {
+    /// Core request 9. Self-normalised weights sum to the parent's weight; unnormalised ones are
+    /// row_weight x p/q / (M x children); with an exact proposal correction their per-parent sum
+    /// averages to the parent's weight (unbiased), and so does the weighted mean of a statistic.
+    #[test]
+    fn within_parent_weights_self_normalised_and_unnormalised() {
+        let lw = [0.3f64.ln() - 2f64.ln(), 1.7f64.ln() - 2f64.ln(), 0.5f64.ln() - 2f64.ln(), 1.5f64.ln() - 2f64.ln()];
+        let s = child_weights(0.01, &lw, 2, false);
+        assert!((s.iter().sum::<f64>() - 0.01).abs() < 1e-15);
+        let u = child_weights(0.01, &lw, 2, true);
+        for (w, l) in u.iter().zip(&lw) {
+            assert!((w - 0.01 * l.exp() / 2.0).abs() < 1e-18);
+        }
+        // q = N(0, 1) proposal for p = N(0.6, 1): p/q = exp(0.6 x - 0.18). Two children, M = 3.
+        use rand::{Rng, SeedableRng};
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(9);
+        let (mut sum_u, mut mean_u, mut mean_s) = (0.0, 0.0, 0.0);
+        let parents = 200_000;
+        for _ in 0..parents {
+            let xs: Vec<f64> = (0..6).map(|_| { let (a, b): (f64, f64) = (rng.gen(), rng.gen()); (-2.0 * a.ln()).sqrt() * (std::f64::consts::TAU * b).cos() }).collect();
+            let lw: Vec<f64> = xs.iter().map(|x| 0.6 * x - 0.18 - 3f64.ln()).collect();
+            let u = child_weights(1.0, &lw, 2, true);
+            let s = child_weights(1.0, &lw, 2, false);
+            sum_u += u.iter().sum::<f64>();
+            mean_u += u.iter().zip(&xs).map(|(w, x)| w * x).sum::<f64>();
+            mean_s += s.iter().zip(&xs).map(|(w, x)| w * x).sum::<f64>();
+        }
+        let n = parents as f64;
+        // Unbiased: E[sum] = 1 and E[sum w x] = E_p[x] = 0.6. Self-normalised with 6 draws is
+        // biased low for this target (by about 0.6 x 0.36 / 6 to first order).
+        assert!((sum_u / n - 1.0).abs() < 0.01, "unnormalised sum {}", sum_u / n);
+        assert!((mean_u / n - 0.6).abs() < 0.01, "unnormalised mean {}", mean_u / n);
+        assert!(mean_s / n < 0.6 - 0.01, "self-normalised mean {} should be biased low", mean_s / n);
+    }
+
     use super::*;
+    use crate::config::{BfoModelConfig, DataOption};
     use hypothesis::{Descent, Impact, NoFuelModel, Takeover};
+    use std::collections::BTreeMap;
     use std::sync::Mutex;
 
     fn model() -> flight::FuelModel {
         let p = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/fuel-tables.json");
         let tables = flight::fuel::FuelTables::from_json(&std::fs::read_to_string(p).expect("fuel tables")).unwrap();
         flight::FuelModel::new(tables, flight::fuel::FuelPrior::default())
+    }
+
+    /// Core request 14. From a 22:41 stop, the cruise BFOs after it (m2315, m0011) are scored
+    /// in-stage by exactly the filter's sequence, the bias passes through them to the 00:19
+    /// models, and the 00:19 contacts are found by epoch, not by position.
+    #[test]
+    fn in_stage_cruise_bfo_reproduces_the_filters_increment() {
+        let data = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/");
+        let all = satcom::load_epochs(Path::new(&format!("{data}satcom-observations.csv")), Path::new(&format!("{data}satellite-ephemeris.csv"))).unwrap();
+        let stop_epoch = all.iter().find(|e| e.id == "m2241").unwrap().clone();
+        let later: Vec<Epoch> = all.iter().filter(|e| e.unix_s > stop_epoch.unix_s).cloned().collect();
+        assert_eq!(later.iter().map(|e| e.id.as_str()).collect::<Vec<_>>(), ["m2315", "m0011", "m0019a", "m0019b"]);
+        let opt = |id: &str, uses: &[&str]| DataOption { id: id.into(), observations: uses.iter().map(|u| u.to_string()).collect() };
+        let mut models = BTreeMap::new();
+        models.insert("none".to_string(), BfoModelConfig { prior: 1.0, second_hz: None, first_minus_second_hz: None, points: None, sd_hz: None });
+        let config = TerminalConfig {
+            module: "plain".into(),
+            handoff: 1,
+            handoff_floor: 1,
+            children: 1,
+            arc: "m0019a".into(),
+            target: "m0011".into(),
+            options: vec![opt("m0011", &["m0011.bfo"]), opt("chain", &["m0019a.bfo", "m0011.bfo", "m2315.bfo", "m0019a.bto"])],
+            bfo_models: models, within_parent: None,
+        };
+        let params = flight::Parameters { bfo_vertical_rate: true, ..Default::default() };
+        let mut stage = Stage::new(&config, &params, &flight::environment::CalmAir, None, &Plain, later.clone()).unwrap();
+        // The 00:19 slots are by epoch: m0019a first, m0019b second; m2315 and m0011 are cruise.
+        assert_eq!(stage.final_slot, vec![None, None, Some(0), Some(1)]);
+        // A state per burst: a climb at m0011, so the vertical rate matters there.
+        let state = |lat: f64, lon: f64, alt: f64, vn_kt: f64, ve_kt: f64, vup_fpm: f64| EpochState {
+            latitude_deg: lat,
+            longitude_deg: lon,
+            altitude_ft: alt,
+            velocity_east_mps: ve_kt * MPS_PER_KNOT,
+            velocity_north_mps: vn_kt * MPS_PER_KNOT,
+            velocity_up_mps: vup_fpm / FPM_PER_MPS,
+        };
+        let kin = [(-27.5, 94.0, 35_000.0, -420.0, -120.0, 0.0), (-33.0, 93.2, 35_000.0, -430.0, -110.0, 2_000.0), (-34.6, 93.0, 30_000.0, -400.0, -100.0, 0.0), (-34.6, 93.0, 30_000.0, -400.0, -100.0, 0.0)];
+        let states: Vec<Option<EpochState>> = kin.iter().map(|k| Some(state(k.0, k.1, k.2, k.3, k.4, k.5))).collect();
+        let bias0 = BfoBias { mean_hz: 151.3, variance_hz2: 9.0 };
+        for drift in [None, Some(0.0133)] {
+            stage.bfo_drift_hz2_per_s = drift;
+            // The filter's sequence, written out: gap from the stop's own BFO, drift, update.
+            let filter = |bias: &mut BfoBias, e: &Epoch, k: &(f64, f64, f64, f64, f64, f64), gap: f64| {
+                if let Some(rate) = drift {
+                    bias.drift(gap, rate);
+                }
+                let predicted = bfo_without_bias_hz(e, k.0, k.1, k.2, k.3, k.4, k.5);
+                bias.update(predicted, e.bfo_hz.unwrap(), e.bfo_sd_hz)
+            };
+            let mut b = bias0;
+            let want = filter(&mut b, &later[1], &kin[1], later[1].unix_s - stop_epoch.unix_s);
+            let got = stage.log_likelihood(0, None, &states, bias0, stop_epoch.unix_s);
+            assert!((got - want).abs() < 1e-9, "m0011 in-stage {got} against the filter's {want}");
+            // The chain: m2315 then m0011 in time order whatever the listed order, then the
+            // bias drifted to m0019a and passed to the 00:19 model, plus the 00:19a BTO.
+            let mut b = bias0;
+            let mut want = filter(&mut b, &later[0], &kin[0], later[0].unix_s - stop_epoch.unix_s);
+            want += filter(&mut b, &later[1], &kin[1], later[1].unix_s - later[0].unix_s);
+            if let Some(rate) = drift {
+                b.drift(later[2].unix_s - later[1].unix_s, rate);
+            }
+            let e = &later[2];
+            let s = states[2].as_ref().unwrap();
+            want += FinalBfo::new(&satcom::FinalBfoModel::NoOffset).unwrap().log_likelihood(b, [Some((e.bfo_hz.unwrap(), predicted_bfo(e, s), e.bfo_sd_hz)), None]);
+            want += gaussian_log_likelihood(e.bto_us.unwrap() - bto_us(e.satellite_km, s.latitude_deg, s.longitude_deg, s.altitude_ft), e.bto_sd_us);
+            let chain = stage.columns.iter().position(|c| c.0 == "chain/none").unwrap();
+            let got = stage.log_likelihood(stage.columns[chain].1, Some(0), &states, bias0, stop_epoch.unix_s);
+            assert!((got - want).abs() < 1e-9, "chain {got} against {want} (drift {drift:?})");
+        }
+        // An option with only cruise BFOs needs no 00:19 model and gets one column.
+        assert!(stage.columns.iter().any(|c| c.0 == "m0011" && c.2.is_none()));
+    }
+
+    /// The powered state carries the vertical rate only at a cruise-BFO burst, and only with
+    /// `bfo_vertical_rate`, so a 00:11 hand-off's 00:19 scoring is unchanged.
+    #[test]
+    fn powered_vertical_rate_only_where_the_filter_uses_it() {
+        let p = flight::Parameters { bfo_vertical_rate: true, ..Default::default() };
+        let q = flight::Parameters::default();
+        let prior = flight::Prior {
+            unix_s: 0.0,
+            lat: 0.0,
+            lon: 90.0,
+            position_sd_nm: 0.0,
+            track_deg: 180.0,
+            track_sd_deg: 0.0,
+            mach_range: (0.73, 0.84),
+            mach_gaussian: None,
+            altitude_levels: flight::Prior::uniform_altitude_levels(&q),
+        };
+        let mut a = flight::Aircraft::sample(&prior, flight::Mode::TrueTrack, &q, &flight::environment::CalmAir, &mut ChaCha8Rng::seed_from_u64(1));
+        // Displaced from its flight level, so it is changing level.
+        a.alt_ft += 1_000.0;
+        assert!(powered_state(&a, &p, true).velocity_up_mps != 0.0);
+        assert_eq!(powered_state(&a, &p, false).velocity_up_mps, 0.0);
+        assert_eq!(powered_state(&a, &q, true).velocity_up_mps, 0.0);
     }
 
     /// Core request 3: the descent is priced by the cruise model with the trajectory's own
@@ -514,6 +769,70 @@ mod tests {
             assert!(r.map_or(true, |r| r.kg_h > 0.0), "({fl}, {w}, {mach}) priced at {r:?}");
         }
         assert!(CoreFuel { model: None, factor }.fuel_flow_kg_h(fl, w, mach).is_none());
+    }
+
+    /// End of flight's two-tank request (10 Oct): with the right tank dry the hand-off reports
+    /// the first flame-out and the live left pool; a single pool reports NaN tanks and its own
+    /// flame-out as the first one.
+    #[test]
+    fn two_tank_state_reports_the_first_flameout_and_the_live_pool() {
+        let q = flight::Parameters::default();
+        let mut p = q.clone();
+        p.fuel = Some(std::sync::Arc::new(model()));
+        let prior = flight::Prior {
+            unix_s: 1_394_236_909.0,
+            lat: 6.65,
+            lon: 96.34,
+            position_sd_nm: 0.0,
+            track_deg: 180.0,
+            track_sd_deg: 0.0,
+            mach_range: (0.73, 0.84),
+            mach_gaussian: None,
+            altitude_levels: flight::Prior::uniform_altitude_levels(&q),
+        };
+        let mut a = flight::Aircraft::sample(&prior, flight::Mode::TrueTrack, &q, &flight::environment::CalmAir, &mut ChaCha8Rng::seed_from_u64(3));
+        a.fuel_kg = 1_200.0;
+        let single = flight_state(&a, &p);
+        assert!(single.fuel_left_kg.is_nan() && single.fuel_right_kg.is_nan());
+        assert!(single.first_flameout_unix_s.is_nan() && single.realised_flameout_unix_s.is_nan());
+        a.tanks = Some(flight::Tanks {
+            left_kg: 1_200.0, right_kg: 0.0, ratio: 1.0,
+            left_exhausted_unix_s: f64::NAN, right_exhausted_unix_s: 1_394_237_100.0,
+            single_engine_s: 359.0, single_engine_above_ceiling_s: 0.0,
+            driftdown_fpm: 0.0, mach_u: 0.0, decel_kt_per_min: 0.0, driftdown_kcas: 0.0,
+        });
+        let s = flight_state(&a, &p);
+        assert_eq!((s.fuel_left_kg, s.fuel_right_kg, s.fuel_kg), (1_200.0, 0.0, 1_200.0));
+        assert_eq!(s.first_flameout_unix_s, 1_394_237_100.0);
+        assert!(s.realised_flameout_unix_s.is_nan(), "one engine still runs, so no final flame-out");
+        // Without a fuel model the tanks are not reported.
+        let none = flight_state(&a, &q);
+        assert!(none.fuel_left_kg.is_nan() && none.fuel_right_kg.is_nan());
+    }
+
+    /// The live-engine flow service: None without the INOP grid (the tables-only model here),
+    /// never Some(0); with internal-v1 present it is grid_inop x inop_flow_scale x the factor.
+    #[test]
+    fn inop_flow_is_none_without_the_grid_and_scaled_with_it() {
+        let m = model();
+        let fuel = CoreFuel { model: Some(&m), factor: 1.02 };
+        assert!(fuel.fuel_flow_inop_kg_h_at(350.0, 200.0, 0.8, 0.0).is_none());
+        assert!(CoreFuel { model: None, factor: 1.0 }.fuel_flow_inop_kg_h_at(350.0, 200.0, 0.8, 0.0).is_none());
+        let path = concat!(env!("CARGO_MANIFEST_DIR"), "/../../data/external/fuel-model/internal-v1.json");
+        let Ok(text) = std::fs::read_to_string(path) else {
+            eprintln!("SKIPPED: {path} is absent (local-only fuel model)");
+            return;
+        };
+        let mut m = model();
+        m.internal = Some(flight::fuel::InternalGrid::from_json(&text).unwrap());
+        m.inop_flow_scale = 0.5;
+        let (fl, w, mach) = (250.0, 190.0, 0.62);
+        let (raw, _) = m.internal.as_ref().unwrap().inop.as_ref().unwrap().flow_kg_h(fl, w, mach).expect("an INOP cell");
+        let got = CoreFuel { model: Some(&m), factor: 1.02 }.fuel_flow_inop_kg_h_at(fl, w, mach, 0.0).unwrap();
+        assert!((got.kg_h - raw * 0.5 * 1.02).abs() < 1e-9, "{} against {}", got.kg_h, raw * 0.5 * 1.02);
+        // One live engine burns less than two.
+        let twin = CoreFuel { model: Some(&m), factor: 1.02 }.fuel_flow_kg_h_at(fl, w, mach, 0.0).unwrap();
+        assert!(got.kg_h < twin.kg_h, "INOP {} against twin {}", got.kg_h, twin.kg_h);
     }
 
     /// A module that overrides neither new hook behaves exactly as before: the defaults call
@@ -564,6 +883,7 @@ mod tests {
             ground_velocity_east_mps: 100.0, ground_velocity_north_mps: -200.0, vertical_speed_mps: 0.0,
             mach: 0.8, true_air_speed_mps: 240.0, heading_deg: 200.0, wind_east_mps: 0.0, wind_north_mps: 0.0,
             mode: 2, mass_kg: 175_000.0, fuel_kg: 800.0, realised_flameout_unix_s: f64::NAN,
+            fuel_left_kg: f64::NAN, fuel_right_kg: f64::NAN, first_flameout_unix_s: f64::NAN, tau_h: 1.0,
         }
     }
 

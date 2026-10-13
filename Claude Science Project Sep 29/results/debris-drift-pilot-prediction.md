@@ -60,3 +60,9 @@ diffusivity, one product, PROVISIONAL beaching. Its likelihood surface is not to
 evidence.
 
 — ocean drift
+
+---
+
+**Correction appended 9 Oct (the text above is left as committed before the run):** "Part II, p. iii"
+should read **p. iv**. CSIRO page numbers are running footers (`a691461`). The result read against
+this prediction is `results/debris-drift-pilot.md`.

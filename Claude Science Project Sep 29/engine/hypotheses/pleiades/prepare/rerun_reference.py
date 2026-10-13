@@ -124,6 +124,30 @@ def kernel(kind, R_nm=None):
     return (1 - EOF_P30) * core / core.sum() + (EOF_P30 - EOF_P50) * a1 / a1.sum() + EOF_P50 * a2 / a2.sum()
 
 
+def kernel_from_hist(npz_path, key):
+    """End of flight's 2-D displacement histogram (Delta north x Delta east, NM, from each trajectory's own
+    00:19:37 position) resampled onto the fine grid: each fine offset cell takes the density of the bin its
+    centre falls in, times its area; renormalised to one (mass beyond the histogram range is dropped and
+    reported by end of flight as outside_range_share)."""
+    z = np.load(npz_path)
+    H = z[key].astype(float)  # [north bin, east bin]
+    meta = json.loads(Path(str(npz_path).replace(".npz", ".json")).read_text())
+    e = np.asarray(meta["bin_edges_nm"], float)
+    assert H.shape == (len(e) - 1, len(e) - 1)
+    bw = e[1] - e[0]
+    lat_ref = -36.0
+    dx = STEP * KM_PER_DEG * math.cos(math.radians(lat_ref)) / NM_KM  # NM per fine cell, east
+    dy = STEP * KM_PER_DEG / NM_KM
+    nx, ny = int(math.ceil(e[-1] / dx)), int(math.ceil(e[-1] / dy))
+    X, Y = np.meshgrid(np.arange(-nx, nx + 1) * dx, np.arange(-ny, ny + 1) * dy)
+    ie = np.floor((X - e[0]) / bw).astype(int)
+    iN = np.floor((Y - e[0]) / bw).astype(int)
+    ok = (ie >= 0) & (ie < H.shape[1]) & (iN >= 0) & (iN < H.shape[0])
+    k = np.zeros_like(X)
+    k[ok] = H[iN[ok], ie[ok]] / (bw * bw) * dx * dy
+    return k / k.sum()
+
+
 def hdr_mask(dens, mass, level=0.9):
     order = np.argsort(-dens, axis=None)
     cum = np.cumsum(mass.ravel()[order])
@@ -203,6 +227,10 @@ def run(run_dir, module_dir, csp29, out, label=DEFAULT_LABEL):
         fields.append(("marginal: " + " | ".join(models), np.mean([f for _, f in fields], axis=0)))
     oy = int(round((meta["lat0"] - lat[0]) / STEP))
     ox = int(round((meta["lon0"] - lon[0]) / STEP))
+    # crop a surface larger than the analysis grid (exports since 9 Oct evening cover 85-103 E, 43-25 S)
+    nlat, nlon = min(nlat, N - oy), min(nlon, N - ox)
+    S = S[..., :nlat, :nlon]
+    fields = [(m, F[..., :nlat, :nlon]) for m, F in fields]
     sl = (slice(oy, oy + nlat), slice(ox, ox + nlon))
     assert abs(lat[oy] - meta["lat0"]) < 1e-9 and abs(lon[ox] - meta["lon0"]) < 1e-9
     # prior-work grid: H field and the "inside the arc" coordinate
@@ -216,11 +244,19 @@ def run(run_dir, module_dir, csp29, out, label=DEFAULT_LABEL):
     inside30, inside50 = (cross <= -30), (cross <= -50)
     box = (np.abs(LON - 91.0) <= 0.5) & (np.abs(LAT + 35.0) <= 0.5)
     kernels = [("disk", R) for R in R_NM] + [("eof-2f", None)]
+    # PLEIADES_EOF_HIST = "file.npz:key[,file.npz:key...]" adds end of flight's displacement histograms
+    hist = [x for x in os.environ.get("PLEIADES_EOF_HIST", "").split(",") if x]
+    kernels += [("eof-hist", h) for h in hist]
     rows = []
     reps = [("pooled", P["pooled"])] + [(f"seed-{s}", h) for s, h in zip(P["seeds"], P["hists"])]
     for kind, R in kernels:
-        K = kernel(kind, R)
-        kname = f"disk-{R:g}nm" if kind == "disk" else "eof-2f PROVISIONAL-OVERNIGHT"
+        if kind == "eof-hist":
+            f, key = R.rsplit(":", 1)
+            K = kernel_from_hist(f, key)
+            kname = f"eof-hist {Path(f).stem} {key}"
+        else:
+            K = kernel(kind, R)
+            kname = f"disk-{R:g}nm" if kind == "disk" else "eof-2f PROVISIONAL-OVERNIGHT"
         for rep, h in reps:
             imp = fftconvolve(h, K, mode="same")
             imp = np.clip(imp, 0, None)

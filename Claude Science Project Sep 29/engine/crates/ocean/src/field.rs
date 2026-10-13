@@ -175,11 +175,19 @@ impl GridField {
     fn load_series_window(series: &Path, w: &LoadWindow) -> Result<Self, String> {
         #[derive(Deserialize)]
         struct Series {
+            #[serde(default)]
             parts: Vec<String>,
+            /// Longitude join: series manifests over adjacent longitude bands, west to east, with one time
+            /// axis and one latitude axis, sharing or continuing the boundary column (15-120 E + 120-160 E).
+            #[serde(default)]
+            lon_join: Vec<String>,
         }
         let text = std::fs::read_to_string(series).map_err(|e| format!("{}: {e}", series.display()))?;
         let s: Series = serde_json::from_str(&text).map_err(|e| format!("{}: {e}", series.display()))?;
         let dir = series.parent().unwrap_or(Path::new("."));
+        if !s.lon_join.is_empty() {
+            return Self::lon_join(series, dir, &s.lon_join, w);
+        }
         let manifests = s.parts.iter().map(|p| Self::read_manifest(&dir.join(p)).map(|m| (p, m))).collect::<Result<Vec<_>, _>>()?;
         // The window's slices on the joined time axis, so a bracket across a part seam is kept.
         let joined: Vec<f64> = manifests.iter().flat_map(|(_, m)| m.time_unix_s.iter().copied()).collect();
@@ -211,6 +219,64 @@ impl GridField {
             });
         }
         out.ok_or_else(|| "empty series".into())
+    }
+}
+
+impl GridField {
+    /// Join series over adjacent longitude bands into one field (see `lon_join` in the series
+    /// manifest). Bands the window misses are skipped. Adjacent bands either share their boundary
+    /// column, which must then be bit-identical in both (NaN equal to NaN) and is kept once (node
+    /// grids such as GLORYS12 and ERA5 at 120 E), or continue it by exactly one grid step (cell-centre
+    /// grids such as GlobCurrent, 119.875 then 120.125 E). Either way the joined field interpolates
+    /// across the seam exactly as one grid would.
+    fn lon_join(series: &Path, dir: &Path, bands: &[String], w: &LoadWindow) -> Result<Self, String> {
+        let mut loaded = Vec::new();
+        for b in bands {
+            let p = dir.join(b);
+            let band_w = LoadWindow { lon: w.lon, ..*w };
+            match Self::load_window(&p, &band_w) {
+                Ok(g) => loaded.push(g),
+                Err(e) if e.contains("longitude window outside the grid") => {}
+                Err(e) => return Err(e),
+            }
+        }
+        let mut it = loaded.into_iter();
+        let mut acc = it.next().ok_or_else(|| format!("{}: the window overlaps none of the longitude bands", series.display()))?;
+        for g in it {
+            if g.lat != acc.lat || g.time != acc.time || g.meta.product != acc.meta.product || g.meta.component != acc.meta.component {
+                return Err(format!("{}: longitude bands differ in latitude, time, product or component", series.display()));
+            }
+            let (na, ny, nt) = (acc.lon.len(), acc.lat.len(), acc.time.len());
+            let nb = g.lon.len();
+            let shared = (g.lon[0] - acc.lon[na - 1]).abs() < 1e-9;
+            let step = if na > 1 { acc.lon[na - 1] - acc.lon[na - 2] } else { f64::NAN };
+            let contiguous = !shared && (g.lon[0] - acc.lon[na - 1] - step).abs() < 1e-6 * step.abs().max(1e-9);
+            if !shared && !contiguous {
+                return Err(format!("{}: band starting at {} neither shares nor continues the column at {}", series.display(), g.lon[0], acc.lon[na - 1]));
+            }
+            let skip = if shared { 1 } else { 0 };
+            let mut data = Vec::with_capacity(nt * ny * (na + nb - skip) * 2);
+            for t in 0..nt {
+                for j in 0..ny {
+                    let ra = &acc.data[((t * ny + j) * na) * 2..((t * ny + j) * na + na) * 2];
+                    let rb = &g.data[((t * ny + j) * nb) * 2..((t * ny + j) * nb + nb) * 2];
+                    if shared {
+                        let (ea, sb) = (&ra[(na - 1) * 2..], &rb[..2]);
+                        if !ea.iter().zip(sb).all(|(x, y)| x.to_bits() == y.to_bits() || (x.is_nan() && y.is_nan())) {
+                            return Err(format!("{}: shared column at {} differs between bands (t {t}, lat {})", series.display(), g.lon[0], acc.lat[j]));
+                        }
+                    }
+                    data.extend_from_slice(ra);
+                    data.extend_from_slice(&rb[2 * skip..]);
+                }
+            }
+            let mut lon = acc.lon.clone();
+            lon.extend_from_slice(&g.lon[skip..]);
+            let mut meta = acc.meta.clone();
+            meta.description = format!("{}; joined in longitude with {}", meta.description, g.meta.description);
+            acc = GridField::new(meta, lon, acc.lat.clone(), acc.time.clone(), data, None)?;
+        }
+        Ok(acc)
     }
 }
 

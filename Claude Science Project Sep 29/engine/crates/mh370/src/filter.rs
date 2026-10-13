@@ -27,12 +27,24 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Instant;
 
 pub const MAX_ROUTE_POINTS: usize = 64;
+/// Most points a state trace may hold (output.trace).
+pub const MAX_TRACE_POINTS: usize = 32;
+/// Columns of trace.npy.
+pub const TRACE_COLUMNS: [&str; 7] = ["latitude_deg", "longitude_deg", "altitude_ft", "track_deg", "ground_speed_kt", "mach", "heading_deg"];
+
+/// A resolved state-trace window: first time (unix s), spacing (s) and number of points.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Trace {
+    pub start_unix_s: f64,
+    pub interval_s: f64,
+    pub points: usize,
+}
 /// Memory a particle occupies while a filter runs; the app estimates run size from it.
 pub const PARTICLE_BYTES: usize = std::mem::size_of::<Particle>();
 /// `mode` is the autopilot mode the particle is flying at the end, which differs from its
 /// stratum once a lateral-navigation path has reverted to heading hold. `stratum` is the
 /// mode filter the particle belongs to: weights and pooling use it.
-pub const FINAL_COLUMNS: [&str; 20] = [
+pub const FINAL_COLUMNS: [&str; 21] = [
     "weight", "latitude_deg", "longitude_deg", "altitude_ft", "mach", "tau_h", "turns", "accelerations", "climbs", "mode",
     "bfo_bias_hz", "origin", "stratum",
     // NaN throughout when the run does not model fuel. `fuel_exhausted_unix_s` is NaN for a
@@ -43,7 +55,15 @@ pub const FINAL_COLUMNS: [&str; 20] = [
     // Any nonzero fuel_no_flow_s is a defect: the tables returned no flow and the step burnt
     // nothing. fuel_no_flow_cause codes why - 1 flight level, 2 Mach, 3 weight, 4 the tables.
     "fuel_no_flow_s", "fuel_no_flow_cause",
+    // Fuel audit F12: final.npy is float32, which holds `fuel_exhausted_unix_s` only to 128 s.
+    // This is the same instant as seconds after FINAL_TIME_ORIGIN_UNIX_S (2014-03-08 00:00:00
+    // UTC; negative before midnight), resolved to better than 1 ms. Use it for any timing.
+    "fuel_exhausted_s_after_0000",
 ];
+
+/// Origin of final.npy's `*_s_after_0000` columns: 2014-03-08 00:00:00 UTC, the convention of
+/// the compact run C files (end of flight's impacts32, core's tanks32).
+pub const FINAL_TIME_ORIGIN_UNIX_S: f64 = 1_394_236_800.0;
 
 /// A time at which the filter stops and weights particles: a SATCOM epoch, or an epoch
 /// requested by a hypothesis.
@@ -64,6 +84,8 @@ pub struct Context<'a, E = Gridded> {
     pub environment: &'a E,
     pub hypotheses: &'a [Box<dyn Hypothesis>],
     pub route_points: usize,
+    /// output.trace, resolved. None: no trace.
+    pub trace: Option<Trace>,
     /// Called after every filtered step. The app draws its progress from this; it observes
     /// the filter and cannot change it.
     pub progress: Option<&'a (dyn Fn(&Progress) + Sync)>,
@@ -104,9 +126,15 @@ struct Particle {
     /// Index of the prior draw this particle descends from.
     origin: u32,
     route: [[f32; 2]; MAX_ROUTE_POINTS],
+    /// output.trace states (NaN where not reached). Output-only.
+    /// Allocated only when output.trace is set, so runs without a trace carry no extra memory.
+    trace: Option<Box<[[f32; 7]; MAX_TRACE_POINTS]>>,
     /// At the latest SATCOM step: BTO residual (us), BFO innovation (Hz) and its
     /// predictive s.d. (Hz), and this step's log-likelihood. Output-only; NaN if absent.
     residual: [f32; 4],
+    /// Core request 10: this particle's ancestor index at up to two look-ahead hand-off epochs
+    /// (u32::MAX: none). Inherited through resampling, tempering and rejuvenation.
+    tags: [u32; 2],
     /// Manoeuvre counters (turns, speed changes, altitude changes, degrees turned) at
     /// `output.history_after_epoch`. Output-only.
     history_start: [f32; 4],
@@ -154,7 +182,35 @@ struct StepDiagnostics {
     /// Live particle count after this epoch. Constant unless branching is enabled.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     population: Option<usize>,
+    /// Distinct 18:01 origins in the population after this epoch (after any resample). Shows
+    /// where ancestral diversity is lost, which per-epoch ESS does not.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    distinct_origins: Option<usize>,
+    /// Tempered epochs only: each stage's ESS, taken after its weight update and before its
+    /// resample, and the cumulative exponent reached at that stage.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    temper_stage_ess: Vec<f64>,
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    temper_stage_beta: Vec<f64>,
     seconds: f64,
+}
+
+/// Core request 10 diagnostics for one look-ahead hand-off in one mode. The ESS fractions say how
+/// many of the rows would be effective if the continuing stage's likelihood were g itself:
+/// without the look-ahead (rows drawn uniformly) and with it (rows drawn from q).
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct LookaheadDiagnostics {
+    pub epoch: String,
+    pub horizon: String,
+    pub g_source: String,
+    pub candidates: usize,
+    pub rows: usize,
+    /// Mean of (1 - defensive) g + defensive over the candidates (the normaliser of q).
+    pub mean_mixture: f64,
+    /// Share of candidates with g > 0.
+    pub g_positive_fraction: f64,
+    pub ess_fraction_uniform: f64,
+    pub ess_fraction_lookahead: f64,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -170,6 +226,9 @@ pub struct ModeRun {
     /// Times the auxiliary look-ahead triggered a resample of its own, ahead of a BTO epoch.
     #[serde(default)]
     pub lookahead_resamples: u32,
+    /// Core request 10: the hand-off look-ahead at each of its epochs (empty when off).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub handoff_lookahead: Vec<LookaheadDiagnostics>,
     /// Rejuvenation moves accepted, and proposed.
     #[serde(default)]
     pub rejuvenation_accepted: u64,
@@ -188,7 +247,26 @@ pub struct Replicate {
     #[serde(deserialize_with = "null_is_minus_infinity")]
     pub log_evidence: f64,
     pub modes: Vec<ModeRun>,
+    /// Core request 18: the evidence and observation cut at each epoch hand-off (empty when
+    /// output.handoff_epochs is empty). Same values as each hand-off's [stop] block.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub handoffs: Vec<HandoffEvidence>,
     runtime_s: f64,
+}
+
+/// Core request 18: one epoch hand-off's evidence, as of the end of that epoch.
+#[derive(Serialize, Deserialize, Clone, Debug)]
+pub struct HandoffEvidence {
+    pub epoch: String,
+    pub step: usize,
+    pub unix_s: f64,
+    /// Replicate log evidence to the epoch (prior mode weights applied).
+    pub log_evidence: Option<f64>,
+    /// Per mode, MODES order; null for a mode not run.
+    pub log_evidence_by_mode: Vec<Option<f64>>,
+    pub mode_probability: Vec<f64>,
+    pub observations_used: Vec<String>,
+    pub observations_not_used: Vec<String>,
 }
 
 fn null_is_minus_infinity<'de, D: serde::Deserializer<'de>>(d: D) -> Result<f64, D::Error> {
@@ -204,18 +282,20 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     let mut rows: Rows = Vec::new();
     let mut history: History = Vec::new();
     let mut early: Early = Vec::new();
+    let mut tanks: TankRows = Vec::new();
     let mut routes_by_mode = Vec::new();
     let mut runs = Vec::new();
     let mut strata = Vec::new();
     let mut epoch_draws: Vec<Vec<EpochDraw>> = Vec::new();
     for (m, mode) in Mode::ALL.into_iter().enumerate() {
         let weight = ctx.mode_weights[m];
-        let (r, routes, run, snapshots, h, candidates, draws, e) = if weight > 0.0 {
+        let (r, routes, run, snapshots, h, candidates, draws, e, t) = if weight > 0.0 {
             run_filter(ctx, case, seed, m as u64, mode)?
         } else {
-            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new())
+            (Vec::new(), Vec::new(), ModeRun::skipped(mode), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new(), Vec::new())
         };
         early.extend(e);
+        tanks.extend(t);
         epoch_draws.push(draws);
         strata.push(handoff::Stratum { mode: m, probability: 0.0, final_offset: rows.len(), candidates });
         history.extend(h);
@@ -249,7 +329,19 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
     }
     if ctx.config.dynamics.early.is_some() {
         assert_eq!(early.len(), rows.len(), "early.npy must be row-aligned with final.npy");
-        write_npy(&dir.join("early.npy"), &[early.len(), EARLY_COLUMNS.len()], early.as_flattened())?;
+        let n = EARLY_COLUMNS.len();
+        let head: Vec<f64> = early.iter().flat_map(|r| r[..n].iter().copied()).collect();
+        write_npy(&dir.join("early.npy"), &[early.len(), n], &head)?;
+        if let Some(rs) = ctx.config.dynamics.early.as_ref().and_then(|e| e.route_sampler.as_ref()) {
+            let plans: Vec<f64> = early.iter().flat_map(|r| r[n..].iter().copied()).collect();
+            write_npy(&dir.join("route_plans.npy"), &[early.len(), PLAN_COLUMNS], &plans)?;
+            let names: Vec<String> = rs.fixes()?.into_iter().enumerate().map(|(i, (name, _))| format!("{i} {name}")).collect();
+            std::fs::write(dir.join("route_plan_fixes.txt"), names.join("\n") + "\n").map_err(|e| e.to_string())?;
+        }
+    }
+    if ctx.config.fuel.as_ref().and_then(|f| f.tanks) == Some(2) {
+        assert_eq!(tanks.len(), rows.len(), "tanks.npy must be row-aligned with final.npy");
+        crate::output::write_npy64(&dir.join("tanks.npy"), &[tanks.len(), TANK_COLUMNS.len()], tanks.as_flattened())?;
     }
 
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
@@ -262,10 +354,22 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         .iter()
         .flat_map(|&m| {
             used[m] += 1;
-            routes_by_mode[m][used[m] - 1].iter().flat_map(|p| [f64::from(p[0]), f64::from(p[1])])
+            routes_by_mode[m][used[m] - 1].0.iter().flat_map(|p| [f64::from(p[0]), f64::from(p[1])])
         })
         .collect();
     write_npy(&dir.join("routes.npy"), &[chosen_modes.len(), ctx.route_points, 2], &routes)?;
+    if let Some(t) = ctx.trace {
+        // Same draws, same order as routes.npy.
+        let mut used = vec![0; Mode::ALL.len()];
+        let trace: Vec<f64> = chosen_modes
+            .iter()
+            .flat_map(|&m| {
+                used[m] += 1;
+                routes_by_mode[m][used[m] - 1].1.iter().flat_map(|q| q.iter().map(|&v| f64::from(v)))
+            })
+            .collect();
+        write_npy(&dir.join("trace.npy"), &[chosen_modes.len(), t.points, TRACE_COLUMNS.len()], &trace)?;
+    }
 
     let mut handoff_rows = Vec::new();
     if ctx.handoff > 0 {
@@ -273,13 +377,14 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         rng.set_stream(u64::MAX - 1); // distinct from every filter stream and the route draw
         handoff_rows = handoff::select(strata, ctx.handoff, ctx.handoff_floor, &mut rng);
         let (k, stop) = (ctx.steps.len() - 1, ctx.steps.last().unwrap());
-        handoff::write(dir, &handoff::Stop { epoch: stop.id.clone(), step: k, unix_s: stop.unix_s }, &handoff_rows)?;
+        handoff::write(dir, &handoff::Stop { epoch: stop.id.clone(), step: k, unix_s: stop.unix_s, ..Default::default() }, &handoff_rows)?;
     }
 
     // Hand-offs at named epochs, written while the filter ran on (output.handoff_epochs). Each
     // epoch's mode probabilities come from the evidence to that epoch alone, so the snapshot is
     // P(state | data to the epoch) and carries nothing from the measurements after it.
     let output = &ctx.config.output;
+    let mut handoff_evidence = Vec::new();
     for (e, id) in output.handoff_epochs.iter().enumerate() {
         let mut found = None;
         let log_posterior: Vec<f64> = runs
@@ -313,7 +418,58 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         }
         let sub = dir.join(format!("handoff-{id}"));
         std::fs::create_dir_all(&sub).map_err(|err| err.to_string())?;
-        handoff::write(&sub, &handoff::Stop { epoch: id.clone(), step: k, unix_s }, &rows)?;
+        let lookahead = output.handoff_lookahead.as_ref().and_then(|l| {
+            l.horizons.get(id).map(|h| {
+                let file = l.g_files.as_ref().is_some_and(|m| m.contains_key(id));
+                handoff::Lookahead {
+                    version: handoff::LOOKAHEAD_VERSION,
+                    horizon: if file { "file".into() } else { h.clone() },
+                    defensive: l.defensive.unwrap_or(0.2),
+                    oversample: l.oversample.unwrap_or(10),
+                    g_source: if file { "file".into() } else { "smoothing".into() },
+                    rule: handoff::LOOKAHEAD_RULE.into(),
+                }
+            })
+        });
+        // Core request 18: what the rows' mode shares rest on, and the observation cut.
+        let by_mode: Vec<f64> = log_posterior.iter().zip(&runs).map(|(lp, run)| lp - run.prior_weight.ln()).collect();
+        let probability: Vec<f64> = log_posterior.iter().map(|lp| (lp - total).exp()).collect();
+        let replicate_evidence = total - ctx.mode_weights.iter().sum::<f64>().ln();
+        let cut = |range: &[Step]| -> Vec<String> {
+            range.iter().filter_map(|s| s.satcom.as_ref()).flat_map(|ep| ep.cruise_observations(case.use_bfo)).collect()
+        };
+        let (used, not_used) = (cut(&ctx.steps[..=k]), cut(&ctx.steps[k + 1..]));
+        let stop = handoff::Stop {
+            epoch: id.clone(),
+            step: k,
+            unix_s,
+            log_evidence_by_mode: Some(by_mode.clone()),
+            mode_probability: Some(probability.clone()),
+            log_evidence: Some(replicate_evidence),
+            observations_used: Some(used.clone()),
+            observations_not_used: Some(not_used.clone()),
+        };
+        handoff::write_with(&sub, &stop, &rows, lookahead.as_ref())?;
+        if let Some(points) = rows.first().and_then(|r| r.route.as_ref()).map(Vec::len) {
+            let flat: Vec<f64> = rows
+                .iter()
+                .flat_map(|r| r.route.as_deref().unwrap_or(&[]).iter().flat_map(|q| [f64::from(q[0]), f64::from(q[1])]))
+                .collect();
+            if flat.len() != rows.len() * points * 2 {
+                return Err(format!("{id}: hand-off routes have unequal lengths"));
+            }
+            write_npy(&sub.join("routes.npy"), &[rows.len(), points, 2], &flat)?;
+        }
+        handoff_evidence.push(HandoffEvidence {
+            epoch: id.clone(),
+            step: k,
+            unix_s,
+            log_evidence: replicate_evidence.is_finite().then_some(replicate_evidence),
+            log_evidence_by_mode: by_mode.iter().map(|x| x.is_finite().then_some(*x)).collect(),
+            mode_probability: probability,
+            observations_used: used,
+            observations_not_used: not_used,
+        });
     }
 
     let replicate = Replicate {
@@ -322,6 +478,7 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
         particles_per_mode: ctx.config.particles_per_mode,
         log_evidence: total - ctx.mode_weights.iter().sum::<f64>().ln(),
         modes: runs,
+        handoffs: handoff_evidence,
         runtime_s: started.elapsed().as_secs_f64(),
     };
     Ok((replicate, handoff_rows))
@@ -337,6 +494,7 @@ impl ModeRun {
             final_ess: 0.0,
             distinct_origins: 0,
             lookahead_resamples: 0,
+            handoff_lookahead: Vec::new(),
             rejuvenation_accepted: 0,
             rejuvenation_proposed: 0,
             epochs: Vec::new(),
@@ -355,10 +513,27 @@ pub const EARLY_COLUMNS: [&str; 16] = [
     "descent_fpm", "climb_fpm", "cas_kt", "turn", "turn_track_deg", "initial_mach", "excursion_rejected",
     "route",
 ];
-type Early = Vec<[f64; EARLY_COLUMNS.len()]>;
+/// Most legs a sampled route may have (route_sampler.legs_max).
+pub const MAX_PLAN_LEGS: usize = 8;
+/// Columns of route_plans.npy (route sampler only), row-aligned with final.npy: the number of
+/// legs, the equator decision (NaN: no crossing; 0: route flight ended at the equator; 1: it
+/// continued), then per leg k = 1..8 the target fix index (route_plan_fixes.txt), the break-off
+/// fraction (0: fix reached) and fly-by (1) or fly-over (0). NaN beyond the last leg.
+pub const PLAN_COLUMNS: usize = 2 + 3 * MAX_PLAN_LEGS;
+type Early = Vec<[f64; EARLY_COLUMNS.len() + PLAN_COLUMNS]>;
 
-fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len()] {
-    let mut r = [f64::NAN; EARLY_COLUMNS.len()];
+fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len() + PLAN_COLUMNS] {
+    let mut r = [f64::NAN; EARLY_COLUMNS.len() + PLAN_COLUMNS];
+    if let Some(sr) = a.early.as_deref().and_then(|e| e.route.as_ref()).and_then(|x| x.sampled.as_ref()) {
+        let b = EARLY_COLUMNS.len();
+        r[b] = sr.fixes.len() as f64;
+        r[b + 1] = sr.equator.map_or(f64::NAN, |c| f64::from(u8::from(c)));
+        for k in 0..sr.fixes.len().min(MAX_PLAN_LEGS) {
+            r[b + 2 + 3 * k] = f64::from(sr.fixes[k]);
+            r[b + 3 + 3 * k] = sr.break_off[k];
+            r[b + 4 + 3 * k] = f64::from(u8::from(sr.fly_by[k]));
+        }
+    }
     let Some(rec) = a.early.as_deref() else { return r };
     r[0] = 0.0;
     if let Some(x) = &rec.excursion {
@@ -378,7 +553,17 @@ fn early_row(a: &flight::Aircraft, t0: f64) -> [f64; EARLY_COLUMNS.len()] {
     r
 }
 
-type FilterOutput = (Rows, Vec<Vec<[f32; 2]>>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>, Early);
+/// One posterior route draw: its route points and its output.trace states (empty without a trace).
+type RouteSample = (Vec<[f32; 2]>, Vec<[f32; 7]>);
+type FilterOutput = (Rows, Vec<RouteSample>, ModeRun, Vec<Snapshot>, History, Vec<handoff::Candidate>, Vec<EpochDraw>, Early, TankRows);
+
+/// Columns of tanks.npy (float64, row-aligned with final.npy), written when the run carries two
+/// fuel tanks (core request 16 C-7(b)). Times are unix seconds, NaN while the engine runs.
+pub const TANK_COLUMNS: [&str; 8] = [
+    "left_kg", "right_kg", "flow_ratio_r_to_l", "left_exhausted_unix_s", "right_exhausted_unix_s",
+    "first_exhausted_unix_s", "single_engine_s", "single_engine_above_ceiling_s",
+];
+type TankRows = Vec<[f64; TANK_COLUMNS.len()]>;
 
 /// One mode's equally weighted draws at one of output.handoff_epochs, with the mode's log
 /// evidence up to and including that epoch.
@@ -388,6 +573,64 @@ struct EpochDraw {
     unix_s: f64,
     log_evidence: f64,
     candidates: Vec<handoff::Candidate>,
+}
+
+/// A look-ahead hand-off waiting for its horizon (core request 10).
+struct PendingLookahead {
+    slot: usize,
+    epoch: String,
+    horizon: String,
+    step: usize,
+    unix_s: f64,
+    log_evidence: f64,
+    /// Normalised filtered weight of each particle at the hand-off epoch.
+    filtered: Vec<f64>,
+    candidates: Vec<handoff::Candidate>,
+    g_file: Option<String>,
+}
+
+/// ESS of positive weights as a fraction of their count.
+fn ess_fraction(w: &[f64]) -> f64 {
+    let (s, s2) = w.iter().fold((0.0, 0.0), |(a, b), x| (a + x, b + x * x));
+    if s2 > 0.0 { s * s / s2 / w.len() as f64 } else { 0.0 }
+}
+
+/// The look-ahead draw on g alone: `rows` indices from q = ((1 - eps) g + eps) / (M Z), each
+/// with its correction ln Z - ln((1 - eps) g + eps), so E_q[exp(correction) f] is the uniform
+/// mean of f over the M candidates. Also returns Z, the share of g > 0, and the ESS fractions
+/// of g over the candidates (uniform) and of g x exp(correction) over the rows (look-ahead).
+fn lookahead_plan(g: &[f64], eps: f64, rows: usize, rng: &mut impl Rng) -> (Vec<usize>, Vec<f64>, f64, f64, f64, f64) {
+    let mix: Vec<f64> = g.iter().map(|&x| (1.0 - eps) * x.max(0.0) + eps).collect();
+    let z = mix.iter().sum::<f64>() / mix.len() as f64;
+    let total = z * mix.len() as f64;
+    let log_q: Vec<f64> = mix.iter().map(|a| (a / total).ln()).collect();
+    let picks = systematic_resample(&log_q, rows, rng);
+    let corrections: Vec<f64> = picks.iter().map(|&c| z.ln() - mix[c].ln()).collect();
+    let corrected: Vec<f64> = picks.iter().zip(&corrections).map(|(&c, lc)| g[c] * lc.exp()).collect();
+    let positive = g.iter().filter(|&&x| x > 0.0).count() as f64 / g.len() as f64;
+    (picks, corrections, z, positive, ess_fraction(g), ess_fraction(&corrected))
+}
+
+/// `lookahead_plan` applied to the candidates themselves.
+fn lookahead_draw(
+    candidates: &[handoff::Candidate],
+    g: &[f64],
+    eps: f64,
+    rows: usize,
+    rng: &mut impl Rng,
+) -> (Vec<handoff::Candidate>, f64, f64, f64, f64) {
+    assert_eq!(candidates.len(), g.len());
+    let (picks, corrections, z, positive, ess_uniform, ess_lookahead) = lookahead_plan(g, eps, rows, rng);
+    let drawn = picks
+        .iter()
+        .zip(corrections)
+        .map(|(&c, lc)| {
+            let mut x = candidates[c].clone();
+            x.log_correction = lc;
+            x
+        })
+        .collect();
+    (drawn, z, positive, ess_uniform, ess_lookahead)
 }
 
 /// The independent, schedule-free random stream of one (stratum, step, particle).
@@ -404,10 +647,41 @@ fn advance<E: Environment>(p: &mut Particle, to: f64, ctx: &Context<E>, rng: &mu
     let route_time = |k: usize| prior.unix_s + k as f64 * interval;
     let a = &mut p.aircraft;
     let mut r = ((a.unix_s - prior.unix_s) / interval).floor() as usize + 1;
-    while r < ctx.route_points && route_time(r) <= to {
-        a.propagate(route_time(r), ctx.params, ctx.environment, rng);
-        p.route[r] = [a.lat as f32, a.lon as f32];
-        r += 1;
+    let Some(tr) = ctx.trace else {
+        while r < ctx.route_points && route_time(r) <= to {
+            a.propagate(route_time(r), ctx.params, ctx.environment, rng);
+            p.route[r] = [a.lat as f32, a.lon as f32];
+            r += 1;
+        }
+        a.propagate(to, ctx.params, ctx.environment, rng);
+        return;
+    };
+    // With a trace: route and trace times merged in time order.
+    let trace_time = |k: usize| tr.start_unix_s + k as f64 * tr.interval_s;
+    let mut k = (0..tr.points).find(|&k| trace_time(k) > a.unix_s).unwrap_or(tr.points);
+    loop {
+        let next_r = (r < ctx.route_points && route_time(r) <= to).then(|| route_time(r));
+        let next_k = (k < tr.points && trace_time(k) <= to).then(|| trace_time(k));
+        let t = match (next_r, next_k) {
+            (None, None) => break,
+            (Some(x), None) => x,
+            (None, Some(y)) => y,
+            (Some(x), Some(y)) => x.min(y),
+        };
+        a.propagate(t, ctx.params, ctx.environment, rng);
+        if next_r == Some(t) {
+            p.route[r] = [a.lat as f32, a.lon as f32];
+            r += 1;
+        }
+        if next_k == Some(t) {
+            let air = a.air_data();
+            let track = a.v_east_kt.atan2(a.v_north_kt).to_degrees().rem_euclid(360.0);
+            let gs = a.v_east_kt.hypot(a.v_north_kt);
+            let buf = p.trace.get_or_insert_with(|| Box::new([[f32::NAN; 7]; MAX_TRACE_POINTS]));
+            buf[k] = [a.lat as f32, a.lon as f32, a.alt_ft as f32, track as f32, gs as f32, a.mach as f32,
+                          air.heading_rad.to_degrees().rem_euclid(360.0) as f32];
+            k += 1;
+        }
     }
     a.propagate(to, ctx.params, ctx.environment, rng);
 }
@@ -415,6 +689,7 @@ fn advance<E: Environment>(p: &mut Particle, to: f64, ctx: &Context<E>, rng: &mu
 /// Log-weight penalty standing in for rejecting a path on fuel grounds. Finite so that a
 /// fully rejected stratum still reports an evidence and an ESS rather than NaN; e^-50 is 2e-22.
 const FUEL_REJECT_LOG_PENALTY: f64 = -50.0;
+const FUEL_HARD_REJECT_LOG_PENALTY: f64 = -1.0e6;
 
 fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum: u64, mode: Mode) -> Result<FilterOutput, String> {
     let started = Instant::now();
@@ -425,6 +700,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let stream = |step: u64, i: usize| stream(seed, stratum, step, i);
     // Fuel evidence, resolved once: the time the aircraft must still have had fuel at, and the
     // Gaussian on when it ran out. Both are optional and declared in `[fuel]`.
+    // Audit F7: `hard_reject` gives a contradicted path weight exactly zero rather than e^-50.
+    // -1e6 rather than minus infinity: e^-1e6 underflows to 0.0 in f64, so the path's weight is
+    // zero, while a mode in which every path is rejected still has a finite log evidence and
+    // probability zero instead of NaN weights (minus infinity minus minus infinity).
+    let fuel_reject = if config.fuel.as_ref().and_then(|f| f.hard_reject) == Some(true) { FUEL_HARD_REJECT_LOG_PENALTY } else { FUEL_REJECT_LOG_PENALTY };
     let fuel_power_until = config.fuel.as_ref().and_then(|f| f.require_power_until.as_ref()).and_then(|id| {
         ctx.steps.iter().find(|s| s.id == *id).map(|s| s.unix_s)
     });
@@ -451,7 +731,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             let mut route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
             route[0] = [aircraft.lat as f32, aircraft.lon as f32];
             let bias = BfoBias { mean_hz: config.bfo_bias.mean_hz, variance_hz2: config.bfo_bias.sd_hz.powi(2) };
-            Particle { aircraft, bias, origin: i as u32, route, residual: [f32::NAN; 4], history_start: [0.0; 4], fuel_penalised: false }
+            Particle { aircraft, bias, origin: i as u32, route, trace: None, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false }
         })
         .collect();
     // Auxiliary look-ahead: extra standard deviation, in microseconds, added in quadrature to
@@ -460,6 +740,15 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     let rejuvenate: Vec<String> = config.sampler.as_ref().map(|s| s.rejuvenate_epochs.clone()).unwrap_or_default();
     let temper_epochs: Vec<String> = config.sampler.as_ref().map(|s| s.temper_epochs.clone()).unwrap_or_default();
     let temper_stages = config.sampler.as_ref().and_then(|s| s.temper_stages).unwrap_or(4).max(1);
+    let temper_target = config.sampler.as_ref().and_then(|s| s.temper_target_ess);
+    let temper_max = config.sampler.as_ref().and_then(|s| s.temper_max_stages).unwrap_or(256).max(1);
+    // Core request 17 guard: the rejuvenation move after a resample re-simulates from
+    // `before_step` by the resample's parents, which index the population as it stood before
+    // the epoch. A tempered epoch has replaced that population by then, so the two must not
+    // share an epoch.
+    if let Some(e) = temper_epochs.iter().find(|e| rejuvenate.contains(e)) {
+        return Err(format!("sampler: epoch {e} is in both temper_epochs and rejuvenate_epochs; choose one"));
+    }
     let bridge = config.sampler.as_ref().and_then(|s| s.bridge_prior_mix.map(|mix| {
         (mix, s.bridge_window_sd.unwrap_or(3.0), s.bridge_cells.unwrap_or(24))
     }));
@@ -489,6 +778,42 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             return Err(format!("output.handoff_epochs: {id} is not among the filter's epochs (excluded, or unknown)"));
         }
     }
+    // Core request 10: the hand-off look-ahead.
+    let lookahead = config.output.handoff_lookahead.as_ref();
+    let mut lookahead_slots: Vec<(String, String, Option<String>)> = Vec::new();
+    let (lookahead_oversample, lookahead_eps) = match lookahead {
+        Some(l) => (l.oversample.unwrap_or(10), l.defensive.unwrap_or(0.2)),
+        None => (1, 1.0),
+    };
+    if let Some(l) = lookahead {
+        if l.horizons.len() > 2 {
+            return Err("output.handoff_lookahead: at most two hand-off epochs".into());
+        }
+        if !(lookahead_eps > 0.0 && lookahead_eps <= 1.0) || lookahead_oversample == 0 {
+            return Err("output.handoff_lookahead: defensive must be in (0, 1] and oversample at least 1".into());
+        }
+        for (epoch, horizon) in &l.horizons {
+            if !handoff_epochs.contains(epoch) {
+                return Err(format!("output.handoff_lookahead: {epoch} is not one of output.handoff_epochs"));
+            }
+            let g_file = l.g_files.as_ref().and_then(|m| m.get(epoch)).cloned();
+            let ke = ctx.steps.iter().position(|s| s.id == *epoch).unwrap();
+            if g_file.is_none() {
+                match ctx.steps.iter().position(|s| s.id == *horizon) {
+                    Some(kh) if kh > ke => {}
+                    _ => return Err(format!("output.handoff_lookahead: horizon {horizon} of {epoch} is not a later epoch of this filter")),
+                }
+            }
+            lookahead_slots.push((epoch.clone(), horizon.clone(), g_file));
+        }
+        if let Some(files) = &l.g_files {
+            if let Some(e) = files.keys().find(|e| !l.horizons.contains_key(*e)) {
+                return Err(format!("output.handoff_lookahead.g_files: {e} has no entry in horizons"));
+            }
+        }
+    }
+    let mut pending: Vec<PendingLookahead> = Vec::new();
+    let mut lookahead_diagnostics: Vec<LookaheadDiagnostics> = Vec::new();
     let mut epoch_draws = Vec::new();
     let mut rejuvenated = [0u64; 2];
     let mut lookahead_resamples = 0u32;
@@ -616,7 +941,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             // explore. Charged once; the deadline test below then skips it.
             if a.fuel_doomed && !p.fuel_penalised {
                 p.fuel_penalised = true;
-                delta += FUEL_REJECT_LOG_PENALTY;
+                delta += fuel_reject;
             }
             if let Some(epoch) = &step.satcom {
                 let before = delta;
@@ -658,7 +983,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 if let Some(until) = fuel_power_until {
                     if epoch.unix_s <= until && a.fuel_exhausted_unix_s < epoch.unix_s && !p.fuel_penalised {
                         p.fuel_penalised = true;
-                        delta += FUEL_REJECT_LOG_PENALTY;
+                        delta += fuel_reject;
                     }
                 }
                 p.residual[3] = (delta - before) as f32;
@@ -740,16 +1065,42 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         // the untempered diagnostic is taken at. Measuring after the resample instead would
         // report the population size and say nothing.
         let mut tempered_ess = f64::INFINITY;
+        let mut stage_ess_log: Vec<f64> = Vec::new();
+        let mut stage_beta_log: Vec<f64> = Vec::new();
         if let Some(stages) = tempering {
             let share = 1.0 / stages as f64;
-            for j in 0..stages {
-                log_weights.par_iter_mut().zip(&deltas).for_each(|(lw, d)| *lw += d * share);
+            let stage_cap = if temper_target.is_some() { temper_max } else { stages };
+            let mut beta_done = 0.0f64;
+            // Core request 17: which pre-epoch state each member of the current population
+            // descends from. `before_step` is indexed by the population as it stood at the
+            // start of the epoch; after a stage resamples, member c descends from
+            // ancestry[parents[c]], and a move must re-simulate from that history, not from
+            // before_step[c] (another particle's history, which drops its pre-epoch weight).
+            let mut ancestry: Vec<usize> = (0..n).collect();
+            for j in 0..stage_cap {
+                if beta_done >= 1.0 {
+                    break;
+                }
+                // Equal schedule: a fixed share. Adaptive: the largest increment whose stage ESS
+                // stays at or above the target, by bisection; the remainder at the cap.
+                let step_share = match temper_target {
+                    None => share,
+                    Some(_) if j + 1 == stage_cap => 1.0 - beta_done,
+                    Some(target) => adaptive_increment(&log_weights, &deltas, 1.0 - beta_done, target),
+                };
+                beta_done = if temper_target.is_none() { share * (j + 1) as f64 } else { (beta_done + step_share).min(1.0) };
+                if temper_target.is_some() && 1.0 - beta_done < 1e-12 {
+                    beta_done = 1.0;
+                }
+                log_weights.par_iter_mut().zip(&deltas).for_each(|(lw, d)| *lw += d * step_share);
                 let inc = log_sum_exp(&log_weights);
                 log_evidence += inc;
                 tempered_increment += inc;
                 log_weights.par_iter_mut().for_each(|lw| *lw -= inc);
                 let stage_ess = effective_sample_size(&log_weights);
                 tempered_ess = tempered_ess.min(stage_ess);
+                stage_ess_log.push(stage_ess);
+                stage_beta_log.push(beta_done);
                 if stage_ess >= config.resample_ess_fraction * n as f64 {
                     continue;
                 }
@@ -757,12 +1108,12 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 let parents = systematic_resample(&log_weights, n, &mut stream(9500 + tag, 0));
                 // The move targets the tempered distribution reached so far, so the Metropolis
                 // ratio carries the same exponent the weights have been charged.
-                let beta = share * (j + 1) as f64;
+                let beta = beta_done;
                 let moved: Vec<(Particle, f64)> = parents
                     .par_iter()
                     .enumerate()
                     .map(|(c, &anc)| {
-                        let mut cand = before_step[anc].clone();
+                        let mut cand = before_step[ancestry[anc]].clone();
                         cand.aircraft.refresh_manoeuvre_rate(params, &mut stream(9600 + tag, c));
                         let d_new = step_update(&mut cand, c, 9700 + tag);
                         let u: f64 = stream(9800 + tag, c).gen();
@@ -782,6 +1133,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 let (kids, d): (Vec<Particle>, Vec<f64>) = moved.into_iter().unzip();
                 particles = kids;
                 deltas = d;
+                ancestry = compose_ancestry(&ancestry, &parents);
                 log_weights.fill(-(n as f64).ln());
             }
         }
@@ -961,15 +1313,71 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         }
         // A hand-off at this epoch: after its update, tempering and resampling, so the draw is
         // from the posterior given the data to here and the filter's own state is untouched.
+        // Core request 10: look-ahead hand-offs whose horizon is this epoch draw their rows now,
+        // from the candidates taken at their own epoch, with g from the tags' smoothed shares.
+        let mut i = 0;
+        while i < pending.len() {
+            if pending[i].g_file.is_some() || pending[i].horizon != step.id {
+                i += 1;
+                continue;
+            }
+            let p = pending.remove(i);
+            let mut smoothed = vec![0.0f64; p.filtered.len()];
+            for (part, lw) in particles.iter().zip(&log_weights) {
+                let t = part.tags[p.slot];
+                if t != u32::MAX {
+                    smoothed[t as usize] += lw.exp();
+                }
+            }
+            let g: Vec<f64> = p.candidates.iter().map(|c| if p.filtered[c.particle] > 0.0 { smoothed[c.particle] / p.filtered[c.particle] } else { 0.0 }).collect();
+            let (candidates, z, pos, eu, el) = lookahead_draw(&p.candidates, &g, lookahead_eps, epoch_rows, &mut stream(5150 + p.step as u64, 0));
+            lookahead_diagnostics.push(LookaheadDiagnostics {
+                epoch: p.epoch.clone(), horizon: p.horizon.clone(), g_source: "smoothing".into(), candidates: p.candidates.len(), rows: epoch_rows,
+                mean_mixture: z, g_positive_fraction: pos, ess_fraction_uniform: eu, ess_fraction_lookahead: el,
+            });
+            epoch_draws.push(EpochDraw { epoch: p.epoch, step: p.step, unix_s: p.unix_s, log_evidence: p.log_evidence, candidates });
+        }
         if handoff_epochs.iter().any(|e| e == &step.id) {
-            let candidates = systematic_resample(&log_weights, epoch_rows, &mut stream(5100 + k as u64, 0))
+            let slot = lookahead_slots.iter().position(|(e, ..)| e == &step.id);
+            // Core request 19: route points from the prior epoch up to and including this one.
+            let route_points_to_epoch = (config.output.handoff_routes == Some(true)).then(|| {
+                (((step.unix_s - ctx.prior.unix_s) / config.output.route_interval_s).floor() as usize + 1).min(ctx.route_points)
+            });
+            let draw_count = if slot.is_some() { epoch_rows * lookahead_oversample } else { epoch_rows };
+            let candidates: Vec<handoff::Candidate> = systematic_resample(&log_weights, draw_count, &mut stream(5100 + k as u64, 0))
                 .into_iter()
                 .map(|j| {
                     let p = &particles[j];
-                    handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin }
+                    handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0, route: route_points_to_epoch.map(|n| p.route[..n].to_vec()) }
                 })
                 .collect();
-            epoch_draws.push(EpochDraw { epoch: step.id.clone(), step: k, unix_s: step.unix_s, log_evidence, candidates });
+            match slot {
+                None => epoch_draws.push(EpochDraw { epoch: step.id.clone(), step: k, unix_s: step.unix_s, log_evidence, candidates }),
+                Some(slot) => {
+                    let (_, horizon, g_file) = lookahead_slots[slot].clone();
+                    if let Some(pattern) = g_file {
+                        // Hook (5): g supplied per candidate by the continuing stage.
+                        let path = pattern.replace("{seed}", &seed.to_string()).replace("{mode}", &format!("{mode:?}"));
+                        let mut g = Vec::with_capacity(candidates.len());
+                        crate::output::read_npy_rows(std::path::Path::new(&path), |row| g.push(row[0]))?;
+                        if g.len() != candidates.len() || g.iter().any(|x| !(x.is_finite() && *x >= 0.0)) {
+                            return Err(format!("{path}: needs {} finite non-negative g values, one per candidate", candidates.len()));
+                        }
+                        let (drawn, z, pos, eu, el) = lookahead_draw(&candidates, &g, lookahead_eps, epoch_rows, &mut stream(5150 + k as u64, 0));
+                        lookahead_diagnostics.push(LookaheadDiagnostics {
+                            epoch: step.id.clone(), horizon: "file".into(), g_source: "file".into(), candidates: candidates.len(), rows: epoch_rows,
+                            mean_mixture: z, g_positive_fraction: pos, ess_fraction_uniform: eu, ess_fraction_lookahead: el,
+                        });
+                        epoch_draws.push(EpochDraw { epoch: step.id.clone(), step: k, unix_s: step.unix_s, log_evidence, candidates: drawn });
+                    } else {
+                        particles.par_iter_mut().enumerate().for_each(|(j, p)| p.tags[slot] = j as u32);
+                        let filtered: Vec<f64> = log_weights.iter().map(|lw| lw.exp()).collect();
+                        pending.push(PendingLookahead {
+                            slot, epoch: step.id.clone(), horizon, step: k, unix_s: step.unix_s, log_evidence, filtered, candidates, g_file: None,
+                        });
+                    }
+                }
+            }
         }
         eprintln!(
             "{} seed {seed} {:?} {:>7}: ESS {:>10.0}{} ({:.1} s)",
@@ -987,6 +1395,9 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             resampled: resample,
             distinct_parents,
             population,
+            distinct_origins: Some(count_distinct(&particles.iter().map(|p| p.origin as usize).collect::<Vec<_>>())),
+            temper_stage_ess: stage_ess_log,
+            temper_stage_beta: stage_beta_log,
             seconds: t_step.elapsed().as_secs_f64(),
         });
         if let Some(report) = ctx.progress {
@@ -1043,12 +1454,22 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 a.fuel_above_ceiling_s,
                 a.fuel_no_flow_s,
                 a.fuel_no_flow_cause,
+                a.fuel_exhausted_unix_s - FINAL_TIME_ORIGIN_UNIX_S,
             ]
         })
         .collect();
     let chosen = systematic_resample(&log_weights, config.output.route_samples, &mut stream(3000, 0));
-    let routes = chosen.iter().map(|&j| particles[j].route[..ctx.route_points].to_vec()).collect();
+    let routes = chosen
+        .iter()
+        .map(|&j| (particles[j].route[..ctx.route_points].to_vec(), ctx.trace.map_or(Vec::new(), |t| match &particles[j].trace {
+            Some(b) => b[..t.points].to_vec(),
+            None => vec![[f32::NAN; 7]; t.points],
+        })))
+        .collect();
     let origins: Vec<usize> = particles.iter().map(|p| p.origin as usize).collect();
+    if let Some(p) = pending.first() {
+        return Err(format!("output.handoff_lookahead: the filter stopped before horizon {} of {}", p.horizon, p.epoch));
+    }
     let run = ModeRun {
         mode: format!("{mode:?}"),
         prior_weight: f64::NAN,
@@ -1057,6 +1478,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         final_ess: effective_sample_size(&log_weights),
         distinct_origins: count_distinct(&origins),
         lookahead_resamples,
+        handoff_lookahead: lookahead_diagnostics,
         rejuvenation_accepted: rejuvenated[0],
         rejuvenation_proposed: rejuvenated[1],
         epochs: diagnostics,
@@ -1068,7 +1490,7 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
             .into_iter()
             .map(|j| {
                 let p = &particles[j];
-                handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin }
+                handoff::Candidate { particle: j, aircraft: p.aircraft.clone(), bias: p.bias, origin: p.origin, log_correction: 0.0, route: None }
             })
             .collect()
     } else {
@@ -1090,7 +1512,27 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
     } else {
         Vec::new()
     };
-    Ok((rows, routes, run, snapshots, history, candidates, epoch_draws, early))
+    let tank_rows = if ctx.config.fuel.as_ref().and_then(|f| f.tanks) == Some(2) {
+        particles
+            .iter()
+            .map(|p| match &p.aircraft.tanks {
+                Some(t) => [
+                    t.left_kg,
+                    t.right_kg,
+                    t.ratio,
+                    t.left_exhausted_unix_s,
+                    t.right_exhausted_unix_s,
+                    t.first_exhausted_unix_s(),
+                    t.single_engine_s,
+                    t.single_engine_above_ceiling_s,
+                ],
+                None => [f64::NAN; TANK_COLUMNS.len()],
+            })
+            .collect()
+    } else {
+        Vec::new()
+    };
+    Ok((rows, routes, run, snapshots, history, candidates, epoch_draws, early, tank_rows))
 }
 
 /// Columns of the residual snapshots written when `output.residual_samples > 0`.
@@ -1170,6 +1612,43 @@ pub fn systematic_resample(log_weights: &[f64], count: usize, rng: &mut impl Rng
     parents
 }
 
+/// Ancestry after a resample: member c of the new population descends from the pre-epoch
+/// state its parent descended from.
+fn compose_ancestry(ancestry: &[usize], parents: &[usize]) -> Vec<usize> {
+    parents.iter().map(|&a| ancestry[a]).collect()
+}
+
+/// Adaptive tempering: the largest exponent increment in (0, remaining] for which the ESS of
+/// `log_weights + increment * deltas` is at least `target` particles. If even the whole remainder
+/// keeps ESS above target, the remainder is returned (this is the last stage). Bisection on the
+/// increment; ESS falls monotonically in it for these weights in practice, and the bracket is
+/// kept valid either way, so the result always satisfies the target unless the smallest
+/// representable step cannot (then that smallest step is taken and its ESS is recorded).
+///
+/// `fraction` is relative to the ESS at a vanishing increment, not to the population: a hard
+/// reject (an increment of minus infinity) removes its particles at every positive exponent, so
+/// tempering cannot spread that loss and the target is set on what survives it.
+fn adaptive_increment(log_weights: &[f64], deltas: &[f64], remaining: f64, fraction: f64) -> f64 {
+    let ess_at = |x: f64| -> f64 {
+        let lw: Vec<f64> = log_weights.par_iter().zip(deltas).map(|(lw, d)| lw + d * x).collect();
+        let t = log_sum_exp(&lw);
+        if !t.is_finite() {
+            return 0.0;
+        }
+        effective_sample_size(&lw.par_iter().map(|l| l - t).collect::<Vec<_>>())
+    };
+    let target = fraction * ess_at(remaining * 1e-9);
+    if ess_at(remaining) >= target {
+        return remaining;
+    }
+    let (mut lo, mut hi) = (0.0f64, remaining);
+    for _ in 0..40 {
+        let mid = 0.5 * (lo + hi);
+        if ess_at(mid) >= target { lo = mid } else { hi = mid }
+    }
+    if lo > 0.0 { lo } else { hi * 1e-6 }
+}
+
 fn count_distinct(indices: &[usize]) -> usize {
     let mut v = indices.to_vec();
     v.par_sort_unstable();
@@ -1179,6 +1658,74 @@ fn count_distinct(indices: &[usize]) -> usize {
 
 #[cfg(test)]
 mod tests {
+    /// Fuel audit F12: as float32 the unix exhaustion time is quantised to 128 s; the offset
+    /// column holds the same instant to better than 1 ms over the whole end of flight.
+    #[test]
+    fn exhaustion_offset_column_resolves_better_than_a_millisecond() {
+        assert_eq!(FINAL_COLUMNS.last(), Some(&"fuel_exhausted_s_after_0000"));
+        let mut worst_unix: f64 = 0.0;
+        let mut worst_offset: f64 = 0.0;
+        for k in 0..20_000 {
+            let t = FINAL_TIME_ORIGIN_UNIX_S - 7_200.0 + k as f64 * 0.537;
+            worst_unix = worst_unix.max((f64::from(t as f32) - t).abs());
+            let off = t - FINAL_TIME_ORIGIN_UNIX_S;
+            worst_offset = worst_offset.max((f64::from(off as f32) - off).abs());
+        }
+        assert!(worst_unix > 30.0, "float32 unix time should be coarse, got {worst_unix}");
+        assert!(worst_offset < 1e-3, "offset column error {worst_offset} s");
+    }
+
+
+    /// Core request 10: with g = 1 everywhere and a fully defensive mixture, the look-ahead draw of
+    /// K rows from K candidates returns each candidate once, in order, with zero correction - the
+    /// current hand-off exactly.
+    #[test]
+    fn lookahead_with_flat_g_is_the_current_handoff() {
+        let g = vec![1.0; 500];
+        for eps in [1.0, 0.2] {
+            let (picks, corr, z, pos, eu, el) = lookahead_plan(&g, eps, 500, &mut ChaCha8Rng::seed_from_u64(7));
+            assert_eq!(picks, (0..500).collect::<Vec<_>>());
+            assert!(corr.iter().all(|c| c.abs() < 1e-12));
+            assert!((z - 1.0).abs() < 1e-12 && pos == 1.0 && (eu - 1.0).abs() < 1e-12 && (el - 1.0).abs() < 1e-12);
+        }
+    }
+
+    /// Core request 10: on a toy, the corrected weighted mean of a statistic over the look-ahead
+    /// rows matches its uniform mean over the candidates within Monte Carlo error, while the
+    /// rows concentrate where g is large (the ESS gain).
+    #[test]
+    fn lookahead_correction_is_unbiased_and_concentrates() {
+        let m = 20_000;
+        let mut rng = ChaCha8Rng::seed_from_u64(11);
+        // g: about 2% of candidates explain the later data; f is correlated with g.
+        let x: Vec<f64> = (0..m).map(|_| rng.gen::<f64>()).collect();
+        let g: Vec<f64> = x.iter().map(|&u| if u > 0.98 { 50.0 * (u - 0.98) / 0.02 } else { 0.0 }).collect();
+        let f: Vec<f64> = x.iter().map(|&u| u * u).collect();
+        let truth = f.iter().zip(&g).map(|(a, b)| a * b).sum::<f64>() / g.iter().sum::<f64>();
+        let uniform_mean = f.iter().sum::<f64>() / m as f64;
+        let (mut est_f, mut est_fg) = (Vec::new(), Vec::new());
+        let mut el_last = 0.0;
+        let mut eu_last = 0.0;
+        for rep in 0..200 {
+            let (picks, corr, _z, _p, eu, el) = lookahead_plan(&g, 0.2, 2_000, &mut ChaCha8Rng::seed_from_u64(1000 + rep));
+            let w: Vec<f64> = corr.iter().map(|c| c.exp()).collect();
+            let sw: f64 = w.iter().sum();
+            est_f.push(picks.iter().zip(&w).map(|(&c, wi)| wi * f[c]).sum::<f64>() / sw);
+            let num: f64 = picks.iter().zip(&w).map(|(&c, wi)| wi * g[c] * f[c]).sum();
+            let den: f64 = picks.iter().zip(&w).map(|(&c, wi)| wi * g[c]).sum();
+            est_fg.push(num / den);
+            el_last = el;
+            eu_last = eu;
+        }
+        let mean = |v: &[f64]| v.iter().sum::<f64>() / v.len() as f64;
+        let sd = |v: &[f64]| { let mu = mean(v); (v.iter().map(|x| (x - mu).powi(2)).sum::<f64>() / (v.len() - 1) as f64).sqrt() };
+        // The unproposed mean of f is recovered (self-normalised: within 4 standard errors).
+        assert!((mean(&est_f) - uniform_mean).abs() < 4.0 * sd(&est_f) / (est_f.len() as f64).sqrt() + 2e-3, "{} vs {}", mean(&est_f), uniform_mean);
+        // The continuing stage's g-weighted mean is recovered too.
+        assert!((mean(&est_fg) - truth).abs() < 4.0 * sd(&est_fg) / (est_fg.len() as f64).sqrt() + 1e-3, "{} vs {}", mean(&est_fg), truth);
+        // ESS gain: g alone has ESS about 1.3% of uniform rows; the look-ahead lifts it many-fold.
+        assert!(eu_last < 0.02 && el_last > 10.0 * eu_last, "uniform {eu_last} look-ahead {el_last}");
+    }
     use super::*;
     use flight::environment::CalmAir;
     use geo::Vec3;
@@ -1241,6 +1788,7 @@ mod tests {
             environment: &CalmAir,
             hypotheses: &none,
             route_points: (steps.last().unwrap().unix_s / 600.0) as usize + 1,
+            trace: None,
             progress: None,
             cancel: None,
             handoff,
@@ -1270,7 +1818,7 @@ mod tests {
             for row in rows.iter().filter(|r| r.mode == m) {
                 let bias = BfoBias { mean_hz: row.bias.mean_hz, variance_hz2: row.bias.variance_hz2 };
                 let route = [[f32::NAN; 2]; MAX_ROUTE_POINTS];
-                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, residual: [f32::NAN; 4], history_start: [0.0; 4], fuel_penalised: false };
+                let mut p = Particle { aircraft: row.aircraft.clone(), bias, origin: row.origin, route, trace: None, residual: [f32::NAN; 4], tags: [u32::MAX; 2], history_start: [0.0; 4], fuel_penalised: false };
                 advance(&mut p, 7200.0, &straight, &mut stream(seed, m as u64, stop.step as u64 + 2, row.particle));
                 let a = &p.aircraft;
                 let e = &expected[row.particle];
@@ -1279,6 +1827,223 @@ mod tests {
                 assert_eq!(got.map(f64::to_bits), want.map(f64::to_bits), "mode {m}, particle {}", row.particle);
             }
         }
+    }
+
+    /// output.trace (Pete, 11 Oct 2026): every trace point is filled, and where a trace time
+    /// coincides with a route time the two record the same position.
+    #[test]
+    fn a_trace_fills_and_agrees_with_the_route() {
+        let base = "name = \"temper\"\nparticles_per_mode = [4000, 0, 0, 0, 0]\nseeds = [1]\nresample_ess_fraction = {frac}\n\
+             [[cases]]\nid = \"bto\"\nuse_bfo = false\n\
+             [inputs]\nobservations = \"-\"\nephemeris = \"-\"\nera5 = \"-\"\nigrf = \"-\"\n\
+             [prior]\ntime_utc = \"-\"\nlatitude_deg = 0.0\nlongitude_deg = 90.0\nposition_sd_nm = 0.5\ntrack_deg = 180.0\ntrack_sd_deg = 1.0\n\
+             [bfo_bias]\nmean_hz = 150.0\nsd_hz = 25.0\n[output]\nroute_interval_s = 600\nroute_samples = 10\n";
+        let base = base.replace("{frac}", "0.5");
+        let base = base.as_str();
+        let plain: Config = toml::from_str(base).unwrap();
+        let params = Parameters::default();
+        let prior = Prior {
+            unix_s: 0.0,
+            lat: 0.0,
+            lon: 90.0,
+            position_sd_nm: 0.5,
+            track_deg: 180.0,
+            track_sd_deg: 1.0,
+            mach_range: params.mach_range,
+            mach_gaussian: None,
+            altitude_levels: Prior::uniform_altitude_levels(&params),
+        };
+        let satellite = Vec3::new(18_161.9, 38_060.5, 1_029.9);
+        let measured = |id: &str, unix_s: f64, lat: f64, sd: f64| Step {
+            id: id.into(),
+            unix_s,
+            satcom: Some(Epoch {
+                id: id.into(),
+                unix_s,
+                logged_unix_s: unix_s,
+                bto_us: Some(bto_us(satellite, lat, 90.0, 35_000.0)),
+                bto_sd_us: sd,
+                bfo_hz: None,
+                bfo_sd_hz: f64::NAN,
+                cruise_bto: true,
+                cruise_bfo: false,
+                events: Vec::new(),
+                satellite_afc_hz: 0.0,
+                satellite_km: satellite,
+                satellite_velocity_km_s: Vec3::default(),
+            }),
+        };
+        let steps: &'static [Step] = Box::leak(Box::new([measured("a", 3600.0, -7.0, 120.0), measured("b", 5400.0, -11.9, 20.0), measured("c", 7200.0, -15.9, 29.0)]));
+        let none: [Box<dyn Hypothesis>; 0] = [];
+        let config: &'static Config = Box::leak(Box::new(plain));
+        let ctx = Context {
+            config,
+            params: &params,
+            prior: &prior,
+            mode_weights: [1.0, 0.0, 0.0, 0.0, 0.0],
+            steps,
+            environment: &CalmAir,
+            hypotheses: &none,
+            route_points: 10,
+            trace: Some(Trace { start_unix_s: 1800.0, interval_s: 60.0, points: 11 }),
+            progress: None,
+            cancel: None,
+            handoff: 0,
+            handoff_floor: 0,
+        };
+        let (_, routes, ..) = run_filter(&ctx, &config.cases[0], 1, 0, Mode::TrueHeading).unwrap();
+        assert!(!routes.is_empty());
+        for (route, trace) in &routes {
+            assert_eq!(trace.len(), 11);
+            assert!(trace.iter().flatten().all(|v| v.is_finite()));
+            assert_eq!([trace[0][0], trace[0][1]], route[3]);
+            assert_eq!([trace[10][0], trace[10][1]], route[4]);
+            assert!(trace.iter().all(|q| q[5] > 0.5 && q[5] < 0.95 && q[4] > 200.0 && q[4] < 700.0));
+        }
+    }
+
+    /// Core request 17 (filter audit F1). A tempered epoch must leave the evidence and the
+    /// posterior unchanged against the plain update; tempering only changes how the population
+    /// gets there. Still air, one mode, three BTO epochs; the first is mild and does not
+    /// resample, so the weights entering the tempered epoch are uneven; the tempered epoch is
+    /// sharper, so its stages resample and move; the third scores the moved population.
+    /// This toy is well conditioned and is NOT sensitive to the ancestry defect (it passes
+    /// before and after the fix, |z| < 0.3): it guards the invariance the fix must keep. The
+    /// bookkeeping itself is tested in `ancestry_follows_the_stage_resamples`, and the size in
+    /// the real filter is measured by smoke S0 against the same configuration with the defect.
+    #[test]
+    fn a_tempered_epoch_agrees_with_the_plain_update() {
+        let base = "name = \"temper\"\nparticles_per_mode = [4000, 0, 0, 0, 0]\nseeds = [1]\nresample_ess_fraction = {frac}\n\
+             [[cases]]\nid = \"bto\"\nuse_bfo = false\n\
+             [inputs]\nobservations = \"-\"\nephemeris = \"-\"\nera5 = \"-\"\nigrf = \"-\"\n\
+             [prior]\ntime_utc = \"-\"\nlatitude_deg = 0.0\nlongitude_deg = 90.0\nposition_sd_nm = 0.5\ntrack_deg = 180.0\ntrack_sd_deg = 1.0\n\
+             [bfo_bias]\nmean_hz = 150.0\nsd_hz = 25.0\n[output]\nroute_interval_s = 600\nroute_samples = 10\n";
+        let base = base.replace("{frac}", "0.5");
+        let base = base.as_str();
+        let plain: Config = toml::from_str(base).unwrap();
+        let stages = 8;
+        let tempered: Config = toml::from_str(&format!("{base}[sampler]\ntemper_epochs = [\"b\"]\ntemper_stages = {stages}\n")).unwrap();
+        // Sampler-change smoke (11 Oct 2026): the adaptive schedule must keep the same invariance.
+        let adaptive: Config = toml::from_str(&format!("{base}[sampler]\ntemper_epochs = [\"b\"]\ntemper_stages = {stages}\ntemper_target_ess = 0.5\n")).unwrap();
+        let adaptive: &'static Config = Box::leak(Box::new(adaptive));
+        let params = Parameters::default();
+        let prior = Prior {
+            unix_s: 0.0,
+            lat: 0.0,
+            lon: 90.0,
+            position_sd_nm: 0.5,
+            track_deg: 180.0,
+            track_sd_deg: 1.0,
+            mach_range: params.mach_range,
+            mach_gaussian: None,
+            altitude_levels: Prior::uniform_altitude_levels(&params),
+        };
+        let satellite = Vec3::new(18_161.9, 38_060.5, 1_029.9);
+        let measured = |id: &str, unix_s: f64, lat: f64, sd: f64| Step {
+            id: id.into(),
+            unix_s,
+            satcom: Some(Epoch {
+                id: id.into(),
+                unix_s,
+                logged_unix_s: unix_s,
+                bto_us: Some(bto_us(satellite, lat, 90.0, 35_000.0)),
+                bto_sd_us: sd,
+                bfo_hz: None,
+                bfo_sd_hz: f64::NAN,
+                cruise_bto: true,
+                cruise_bfo: false,
+                events: Vec::new(),
+                satellite_afc_hz: 0.0,
+                satellite_km: satellite,
+                satellite_velocity_km_s: Vec3::default(),
+            }),
+        };
+        let steps: &'static [Step] = Box::leak(Box::new([measured("a", 3600.0, -7.0, 120.0), measured("b", 5400.0, -11.9, 20.0), measured("c", 7200.0, -15.9, 29.0)]));
+        let none: [Box<dyn Hypothesis>; 0] = [];
+        let context = |config: &'static Config| Context {
+            config,
+            params: &params,
+            prior: &prior,
+            mode_weights: [1.0, 0.0, 0.0, 0.0, 0.0],
+            steps,
+            environment: &CalmAir,
+            hypotheses: &none,
+            route_points: 10,
+            trace: None,
+            progress: None,
+            cancel: None,
+            handoff: 0,
+            handoff_floor: 0,
+        };
+        let (plain, tempered): (&'static Config, &'static Config) = (Box::leak(Box::new(plain)), Box::leak(Box::new(tempered)));
+        // Per seed: log evidence and the posterior mean latitude.
+        let summary = |config: &'static Config, seed: u64| {
+            let ctx = context(config);
+            let (rows, _, run, ..) = run_filter(&ctx, &config.cases[0], seed, 0, Mode::TrueHeading).unwrap();
+            let w: f64 = rows.iter().map(|r| r[0]).sum();
+            (run.log_evidence, rows.iter().map(|r| r[0] * r[1]).sum::<f64>() / w)
+        };
+        let seeds: Vec<u64> = (1..=12).collect();
+        let stats = |config: &'static Config| {
+            let v: Vec<(f64, f64)> = seeds.iter().map(|&s| summary(config, s)).collect();
+            let k = v.len() as f64;
+            let mean = |f: &dyn Fn(&(f64, f64)) -> f64| v.iter().map(f).sum::<f64>() / k;
+            let (mz, ml) = (mean(&|x| x.0), mean(&|x| x.1));
+            let se = |f: &dyn Fn(&(f64, f64)) -> f64, m: f64| (v.iter().map(|x| (f(x) - m).powi(2)).sum::<f64>() / (k - 1.0) / k).sqrt();
+            (mz, se(&|x| x.0, mz), ml, se(&|x| x.1, ml))
+        };
+        let (pz, pzs, pl, pls) = stats(plain);
+        let (tz, tzs, tl, tls) = stats(tempered);
+        let zz = (tz - pz) / (pzs * pzs + tzs * tzs).sqrt();
+        let zl = (tl - pl) / (pls * pls + tls * tls).sqrt();
+        eprintln!("log Z plain {pz:.4} +/- {pzs:.4}, tempered {tz:.4} +/- {tzs:.4} (z {zz:.2}); lat plain {pl:.5} +/- {pls:.5}, tempered {tl:.5} +/- {tls:.5} (z {zl:.2})");
+        assert!(zz.abs() < 4.0 && zl.abs() < 4.0, "tempered and plain disagree: z(log Z) {zz:.2}, z(lat) {zl:.2}");
+        let (az, azs, al, als) = stats(adaptive);
+        let za = (az - pz) / (pzs * pzs + azs * azs).sqrt();
+        let zla = (al - pl) / (pls * pls + als * als).sqrt();
+        eprintln!("adaptive: log Z {az:.4} +/- {azs:.4} (z {za:.2}); lat {al:.5} +/- {als:.5} (z {zla:.2})");
+        assert!(za.abs() < 4.0 && zla.abs() < 4.0, "adaptive and plain disagree: z(log Z) {za:.2}, z(lat) {zla:.2}");
+    }
+
+    /// Adaptive tempering's step: stage ESS at the chosen increment meets the target (relative
+    /// to the ESS at a vanishing increment), a flat likelihood is paid in one stage, and
+    /// particles with an increment of minus infinity do not make the target unreachable.
+    #[test]
+    fn adaptive_increment_meets_its_target() {
+        let n = 20_000;
+        let lw = vec![-(n as f64).ln(); n];
+        let sharp: Vec<f64> = (0..n).map(|i| -0.5 * ((i as f64 - 10_000.0) / 300.0).powi(2)).collect();
+        let ess_at = |x: f64, d: &[f64]| {
+            let v: Vec<f64> = lw.iter().zip(d).map(|(l, d)| l + d * x).collect();
+            let t = log_sum_exp(&v);
+            effective_sample_size(&v.iter().map(|l| l - t).collect::<Vec<_>>())
+        };
+        let x = adaptive_increment(&lw, &sharp, 1.0, 0.5);
+        assert!(x > 0.0 && x < 1.0, "increment {x}");
+        let e = ess_at(x, &sharp);
+        assert!(e >= 0.5 * n as f64 * 0.999 && e <= 0.5 * n as f64 * 1.01, "stage ESS {e}");
+        let flat = vec![-1.0; n];
+        assert_eq!(adaptive_increment(&lw, &flat, 0.7, 0.5), 0.7);
+        let mut dead = sharp.clone();
+        for d in dead.iter_mut().take(n / 2) { *d = f64::NEG_INFINITY; }
+        let xd = adaptive_increment(&lw, &dead, 1.0, 0.5);
+        assert!(xd > 0.0 && ess_at(xd, &dead) >= 0.5 * ess_at(1e-9, &dead) * 0.999, "dead-half increment {xd}");
+    }
+
+    /// Core request 17: two stages that resample in turn. Member c of the final population
+    /// descends from parents2[c] of stage 2, which descends from parents1[parents2[c]].
+    #[test]
+    fn ancestry_follows_the_stage_resamples() {
+        let start: Vec<usize> = (0..6).collect();
+        let parents1 = [0, 0, 2, 3, 3, 5];
+        let parents2 = [1, 1, 1, 4, 5, 5];
+        let once = compose_ancestry(&start, &parents1);
+        assert_eq!(once, parents1);
+        let twice = compose_ancestry(&once, &parents2);
+        assert_eq!(twice, [0, 0, 0, 3, 5, 5]);
+        // The defect re-simulated member c from before_step[parents2[c]]: [1, 1, 1, 4, 5, 5],
+        // which names states 1 and 4 that no member descends from.
+        assert_ne!(twice, parents2);
     }
 
     #[test]

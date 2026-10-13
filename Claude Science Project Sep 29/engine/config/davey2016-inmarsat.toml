@@ -1,0 +1,7 @@
+# Davey et al. (2016) reproduction with Inmarsat's published satellite states (Ashton et al.
+# 2015, Table 4, p. 10, DOI 10.1017/S037346331400068X), with which the -495,679 us BTO bias and
+# the satellite + EAFC terms were derived (filter audit F2). davey2016.toml stays byte-identical;
+# this variant sits beside it, and FA1 measures the difference.
+base = "davey2016.toml"
+[inputs]
+ephemeris = "../data/satellite-ephemeris-inmarsat.csv"

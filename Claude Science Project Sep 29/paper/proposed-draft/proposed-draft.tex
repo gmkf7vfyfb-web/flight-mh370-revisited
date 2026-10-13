@@ -1,0 +1,1002 @@
+% =====================================================================
+% PROPOSED (assistant draft) -- NOT Pete's paper.
+%
+% Written by the paper drafting and citations module as a reference draft of
+% a complete paper, for comparison with Pete's own working draft. It is never
+% merged into his text except where he chooses.
+%
+% Format follows paper/JON-RULES.md (verified 12 Oct 2026): single column,
+% 12 pt Times New Roman, 2.54 cm margins, UK spelling, headings in capitals,
+% numbered paragraphs 1., 1.1., equations numbered from (1), table captions
+% above, figure captions below, Harvard references with no in-text page
+% numbers except for locators that do real work.
+%
+% Section budget and figure list: see README.md in this directory.
+% Factual source: paper/REFERENCE-DRAFT.md only. Every number carries the
+% label its source note attached. Unverified numbers appear as [VERIFY].
+% =====================================================================
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}                     % Times for text and maths
+\usepackage[a4paper,margin=2.54cm]{geometry}
+\usepackage{amsmath,amssymb,graphicx,booktabs,array}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+\usepackage{setspace}
+\singlespacing
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small PROPOSED (assistant draft) --- not for submission}
+\fancyhead[R]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- notation shorthands -------------------------------------------------
+\newcommand{\Ev}{\mathcal{Y}}
+\newcommand{\state}{\mathbf{x}}
+\newcommand{\impact}{\boldsymbol{\psi}}
+\newcommand{\traj}{\mathbf{e}}
+\newcommand{\nuis}{\boldsymbol{\theta}}
+
+\begin{document}
+
+% =====================================================================
+% TITLE BLOCK  (JON: short title <= 40 characters)
+% =====================================================================
+\begin{center}
+{\large\bfseries An Integrated Bayesian Reconstruction of the Flight Path,\\
+Impact and Seabed Location of MH370}\\[4pt]
+{\small Short title: Integrated Bayesian search for MH370 \quad(36 characters)}\\[10pt]
+{P.\ O.\ Large\textsuperscript{1}}\\[4pt]
+{\small\textsuperscript{1}\,[AFFILIATION]\quad(corresponding author: [EMAIL]; ORCID required at submission)}
+\end{center}
+
+\vspace{6pt}
+\hrule
+\vspace{6pt}
+
+% =====================================================================
+% ABSTRACT  (JON: self-contained, single paragraph, about 150 words)
+% =====================================================================
+\noindent\textbf{Abstract.}
+The 2014 loss of Malaysia Airlines flight MH370 has been reconstructed by Bayesian
+estimation from satellite communication metadata, but published reconstructions stop at the
+final transmission and treat fuel, the end of flight and the subsequent fate of the aircraft
+outside the estimator. This paper reports an integrated reconstruction that carries one
+probability distribution from the last radar fix to the seabed. A particle filter on the
+published measurement models is extended with an inside-the-likelihood fuel and endurance
+model, primary radar, a waypoint route family and a modified sampler; its posterior is handed
+to a terminal stage that simulates descent to impact; and the impact distribution is then
+re-weighted by ocean drift of recovered debris, unsuccessful seabed search, satellite imagery
+and hydroacoustic prediction. Unsuccessful search is the largest single factor. No result is
+yet converged, and the paper reports the diagnostics that show it.
+
+\vspace{4pt}
+\noindent\textbf{Keywords.} (Selected at submission from the journal's list; maximum four.
+Candidates: Bayesian estimation; satellite navigation; search and rescue; aircraft accident.)
+
+% =====================================================================
+\section*{1.\quad INTRODUCTION}
+\addcontentsline{toc}{section}{Introduction}
+% =====================================================================
+
+Malaysia Airlines flight MH370 left Kuala Lumpur for Beijing on 7 March 2014 and did not
+arrive. The aircraft, a Boeing 777-200ER registered 9M-MRO, ceased secondary surveillance
+reporting less than an hour after departure, was tracked by primary radar on a reversal back
+across the Malay peninsula, and then flew for a further six hours while exchanging periodic
+handshakes with an Inmarsat geostationary satellite. Those handshakes carry two
+quantities --- a burst timing offset, which constrains range to the satellite, and a burst
+frequency offset, which constrains the Doppler shift and therefore velocity. They are the only
+observations of the aircraft after 18:22~UTC. Despite three underwater searches, the principal
+wreckage has not been found.
+
+The reconstruction problem has a specific and unusual shape. The observations are few, weak
+and indirect; the unknown is a six-hour trajectory; and the quantity of interest --- where the
+aircraft struck the water --- lies beyond the last observation. Bayesian estimation is the
+natural response, and Davey et al.\ (2016) is the authoritative treatment: a particle filter
+over aircraft state, driven by the handshake data, with a prior formed from the primary radar
+track and a manoeuvre model of random turns and speed changes. Its posterior at the last
+transmission defined the underwater search areas.
+
+That reconstruction stops where the data stop, and three consequences follow. First, fuel
+enters only as an after-the-fact censor on trajectories rather than as a constraint inside the
+likelihood, so trajectories that the aircraft could not have flown on its fuel load are
+weighted and then discarded instead of being down-weighted while the filter runs. Second, the
+two transmissions at 00:19~UTC --- which occurred after a power interruption and are the only
+evidence of the aircraft's final minutes --- are used unevenly, and the descent they may imply
+is not propagated. Third, everything that happened after impact is treated separately:
+drift of the recovered debris, the unsuccessful searches, the satellite imagery and the
+hydroacoustic record are each analysed against a reconstruction they cannot inform.
+
+This paper reports an integrated reconstruction that removes those three separations. One
+probability distribution is carried from the last radar fix at 18:01~UTC through to a
+distribution over resting places on the seabed. The flight-path estimator is extended rather
+than replaced: the published measurement models are retained and cited, and the paper
+describes only what was changed or added. Fuel and endurance enter the likelihood; primary
+radar enters as a likelihood term rather than only as a prior; a waypoint route family is
+added to the proposal; the sampler is modified where the posterior is multi-modal; the
+treatment of the 00:19 transmissions is enumerated rather than chosen; the end of flight is
+simulated to impact under competing descent families; and the impact distribution is then
+re-weighted, on one common set of impact samples, by every subsequent line of evidence.
+
+Three results of that integration are reported. Unsuccessful seabed search is the largest
+single factor acting on the impact distribution, and it moves the distribution north and makes
+it larger rather than smaller. Ocean drift of the recovered debris widens the distribution
+instead of narrowing it, and does not discriminate between the available treatments of the
+00:19 data. And the hydroacoustic record, which is often cited as either confirming or
+excluding particular impact locations, is at present predictive only: its log-likelihood ratios
+lie within noise, for reasons of calibration rather than of physics, and the paper quantifies
+what would change if that calibration existed.
+
+A fourth result is methodological and is reported as plainly as the others. None of the
+composed distributions is converged. The diagnostics that establish this --- split-half
+agreement between balanced partitions of independent replicates, and effective sample size per
+evidence factor --- are reported for every product, and the paper states which conclusions
+survive and which do not. Published work on this accident states no quantitative convergence
+criterion at all; this paper proposes one and then fails it.
+
+% =====================================================================
+\section*{2.\quad THE PUBLISHED RECONSTRUCTION, AND WHAT THIS PAPER CHANGES}
+% =====================================================================
+
+The measurement models are taken unchanged from Ashton et al.\ (2015), which is the published
+account of the satellite communication analysis and the source of the satellite ephemeris, the
+burst timing and frequency offset definitions, and their error models. The estimator is taken
+from Davey et al.\ (2016), whose chapter structure allows each element to be cited precisely:
+the measurement model in chapter~5, the cruise dynamics in chapter~6, the manoeuvre dynamics in
+chapter~7, and the particle filter implementation in chapter~8. Rather than restate that
+machinery, this paper follows the practice of citing the originating work by its own structure
+and develops only the differences, in the manner of Ng et al.\ (2024).
+
+Four properties of the published estimator matter for what follows. It models cruise as an
+Ornstein--Uhlenbeck process about a commanded Mach number and track, with manoeuvres arriving
+as a Poisson process whose rate is set by a manoeuvre time constant drawn from a broad prior.
+It assumes infinite fuel inside the filter, applying fuel as a censor afterwards
+(Davey et al., 2016, assumption 4). It carries no vertical rate in the cruise state, so the
+frequency offset residual attributable to vertical motion is not represented. And it uses both
+burst timing offsets at 00:19 but neither frequency offset, applying a log-on correction to the
+anomalous second timing offset.
+
+The factual record of the flight and of the recovered debris is the Malaysian safety
+investigation report (Malaysian ICAO Annex 13 Safety Investigation Team for MH370, 2018), and
+the searched areas and their coverage are reported by the Australian Transport Safety Bureau
+(2017).
+
+The reproduction of that work is exact and is the baseline of this paper. A configuration
+holding the published priors and models reproduces the published log evidence to the last
+stored digit, and is regression-tested so that it continues to do so as extensions are added.
+Every result that depends on an extension names the extension. The two places where the
+published text contradicts itself are documented in the project record and resolved
+explicitly rather than silently.
+
+Table~1 classifies every element of the integrated estimator against the published work and
+states its build status. The classification is used consistently in what follows: an
+\emph{update} is the same model element supplied with better data; a \emph{modification} is the
+same element with a changed assumption or method; an \emph{extension} is an element the
+published work does not contain.
+
+% =====================================================================
+\section*{3.\quad THE INTEGRATED ESTIMATOR}
+% =====================================================================
+
+\subsection*{3.1.\quad \textit{Unknowns and evidence}}
+
+Let $K$ denote 00:11~UTC, the last handshake before the power interruption, and let $I$ denote
+the time of water impact. The evidence is partitioned by the stage of the problem at which it
+acts:
+%
+\begin{equation}
+\Ev = \bigl\{\,\Ev^{-},\ \Ev^{19},\ \Ev^{D},\ \Ev^{S},\ \Ev^{P},\ \Ev^{A}\,\bigr\},
+\end{equation}
+%
+where $\Ev^{-}$ is everything observed up to and including $K$ --- the primary radar track to
+18:22, and the burst timing and frequency offsets of the handshakes --- $\Ev^{19}$ the two
+transmissions at 00:19 together with the log-on timing that accompanies them, $\Ev^{D}$ the
+identity, condition and discovery place and time of the recovered debris together with the
+coastlines on which nothing was recovered, $\Ev^{S}$ the coverage and detection performance of
+the unsuccessful underwater searches, $\Ev^{P}$ satellite imagery of candidate floating
+objects, and $\Ev^{A}$ the hydroacoustic record of the International Monitoring System.
+
+The unknowns are of four kinds. The pre-impact aircraft state $\state_t$ carries position,
+altitude, three-dimensional velocity, mass and fuel remaining, commanded Mach number and track,
+and the control states needed to propagate them. The terminal trajectory
+$\traj_{K:I}$ is the complete path from $K$ to impact, including engine, electrical and
+fuel-exhaustion transitions. The \emph{impact complex} $\impact$ collects what the subsequent
+evidence actually depends on: first-contact time and position, mass, three-dimensional velocity,
+attitude, total and vertical kinetic energy, the duration over which that energy is deposited,
+and a debris class. And $\nuis$ collects continuous nuisance parameters --- frequency offset
+bias and its drift, oscillator behaviour, fuel-performance corrections, winds, drift
+coefficients, acoustic source and propagation parameters.
+
+Discrete model choices are kept explicit and are not averaged away. Write
+$H = (s, h, d, c, m)$ for the combination of a core stratum $s$ (which route or flight-mode
+family the trajectory belongs to), an end-of-flight family $h$, a treatment $d$ of the 00:19
+data, a cause $c$ of the 00:19 power cycle, and an ocean model $m$. Each is a declared
+alternative with a prior, and alternatives shared between modules are aligned by name so that
+they are marginalised jointly rather than independently.
+
+\subsection*{3.2.\quad \textit{The joint posterior}}
+
+Collecting the conditional structure gives the posterior from which every result in this paper
+is a marginal:
+%
+\begin{equation}
+\begin{split}
+p\bigl(\state_{0:K},\traj_{K:I},\impact,H,\nuis \mid \Ev\bigr) \ \propto\ &
+ p(H)\,p(\nuis \mid H)\,p(\state_0 \mid \nuis, H)
+ \prod_{k=1}^{K} p\bigl(\state_k \mid \state_{k-1}, \nuis, H\bigr)\\[2pt]
+&\times\ L^{-}\bigl(\Ev^{-} \mid \state_{0:K}, \nuis\bigr)\\[2pt]
+&\times\ p\bigl(\traj_{K:I} \mid \state_K, \nuis, H\bigr)\,
+          \delta\bigl(\impact - \Psi(\traj_{K:I})\bigr)\,
+          L_{19}\bigl(\Ev^{19} \mid \traj_{K:I}, \nuis, H\bigr)\\[2pt]
+&\times\ L_{D}\bigl(\Ev^{D} \mid \impact, \nuis, H\bigr)\,
+          L_{S}\bigl(\Ev^{S} \mid \impact\bigr)\,
+          L_{P}\bigl(\Ev^{P} \mid \impact, \nuis, H\bigr)\,
+          L_{A}\bigl(\Ev^{A} \mid \impact, \nuis\bigr),
+\end{split}
+\end{equation}
+%
+in which $\Psi(\cdot)$ is the deterministic map from a terminal trajectory to its impact
+complex, and the delta function records that $\impact$ is a function of $\traj_{K:I}$ rather
+than an independent unknown.
+
+Equation~(2) is a statement of the model, not a description of the algorithm. Sampling it
+jointly would be wasteful, because the factorisation has a property worth exploiting: the
+post-impact evidence $\Ev^{D}$, $\Ev^{S}$, $\Ev^{P}$ and $\Ev^{A}$ depends on the trajectory
+\emph{only} through $\impact$. Conditional on the impact complex, those four likelihoods are
+independent of everything upstream. The estimator is therefore organised as four stages, and
+the four factors on the last line of~(2) are evaluated once each on a single shared set of
+impact samples.
+
+\subsection*{3.3.\quad \textit{Stage 1: the flight-path filter}}
+
+Stage~1 targets the posterior over trajectory and nuisance parameters given the evidence to
+$K$, within a stratum:
+%
+\begin{equation}
+p\bigl(\state_{0:K}, \nuis \mid \Ev^{-}, s\bigr)
+ \ \propto\ p(\nuis \mid s)\, p(\state_0 \mid \nuis, s)
+   \prod_{k=1}^{K} p\bigl(\state_k \mid \state_{k-1}, \nuis, s\bigr)\,
+   \prod_{k} L\bigl(y_k \mid \state_k, \nuis\bigr),
+\end{equation}
+%
+approximated by a weighted particle set $\{\state_{0:K}^{(i)}, \nuis^{(i)}, w^{(i)}\}_{i=1}^{N}$
+with the dynamics of Davey et al.\ (2016, chapters~6 and~7) and the measurement models of
+Ashton et al.\ (2015). The stratum evidence follows as the normalising constant,
+%
+\begin{equation}
+Z_s \;=\; \sum_{i=1}^{N} w^{(i)},
+\end{equation}
+%
+and is the quantity by which strata are later mixed and by which discrete alternatives are
+compared.
+
+Three things differ from the published filter. Fuel and endurance are evaluated inside the
+likelihood, so a trajectory whose fuel burn is inconsistent with the known load is
+down-weighted as the filter advances rather than discarded afterwards. The primary radar track
+contributes a likelihood term in addition to shaping the prior. And the cruise state carries a
+vertical rate, so that the frequency offset residual attributable to vertical motion is
+represented rather than set to zero. The last of these was expected to matter and does not: its
+effect on the posterior is an order of magnitude smaller than the noise against which it was
+being judged, and that is reported in section~5 as a finding rather than suppressed as a
+disappointment.
+
+\subsection*{3.4.\quad \textit{The hand-off}}
+
+Stage~1 stops at $K$ and its posterior is resampled to form the initial distribution of the
+terminal stage. Writing $M$ for the number of hand-off rows,
+%
+\begin{equation}
+q\bigl(\state_K \mid \Ev^{-}, s\bigr) \;=\; \frac{1}{M}\sum_{j=1}^{M}
+  \delta\bigl(\state_K - \state_K^{(j)}\bigr),
+  \qquad \state_K^{(j)} \sim \bigl\{\state_K^{(i)}, w^{(i)}\bigr\},
+\end{equation}
+%
+each row carrying the full state and the nuisance parameters that generated it, so that the
+terminal stage inherits the correlations the filter established rather than a summary of them.
+
+The hand-off makes a distinction that must be stated because it is easy to lose. A run that
+writes a hand-off must stop \emph{before} the transmissions the terminal stage will handle; its
+posterior is therefore at 00:11, not at 00:19. A run that scores the 00:19 transmissions in the
+filter cannot write a hand-off. The two are different estimates of different things and are not
+interchangeable: the first is what should be quoted for the position at the last transmission,
+the second is what feeds the terminal stage.
+
+\subsection*{3.5.\quad \textit{Stage 2: end of flight, and the 00:19 transmissions}}
+
+From each hand-off row the terminal stage propagates powered flight to fuel exhaustion and then
+simulates descent to impact under an end-of-flight family $h$ --- unpiloted glide after loss of
+control, piloted glide, and a family in which control inputs continue --- producing the terminal
+trajectory $\traj_{K:I}$ and, through $\Psi$, the impact complex $\impact$.
+
+The two transmissions at 00:19 are the only evidence of this phase, and they are treated as an
+enumerated choice rather than a decision. Six data treatments are defined, from holding the
+00:19 data out entirely, through using the first burst timing offset alone, to using both
+frequency offsets with and without the oscillator start-up correction of Holland (2018). The
+anomalous second burst timing offset is used only in the reproduction configuration. Against
+these are set two causes of the power interruption --- fuel exhaustion followed by auxiliary
+power unit start, and an unattributed cause --- and the two are combined per trajectory as
+competing explanations,
+%
+\begin{equation}
+L_{19} \;=\; p\,f_{\mathrm{lag}} \;+\; \frac{1-p}{W},
+\end{equation}
+%
+in which $f_{\mathrm{lag}}$ is the likelihood of the observed log-on time under an Erlang lag
+following exhaustion, $W$ normalises a uniform alternative over the admissible window, and $p$
+is the mixing weight on the exhaustion cause. Bayes factors are interpreted on the scale of Kass and Raftery (1995), and are quoted only
+within a fixed data treatment, comparing causes, or within a fixed cause, comparing treatments: a factor computed
+across different data sets would not be a comparison of models. Hard selection of trajectories
+by whether they reach fuel exhaustion in the admissible window is not used, because it charges
+nothing for an unexplained log-on.
+
+\subsection*{3.6.\quad \textit{Stage 3: the impact-level evidence}}
+
+Four modules act on the shared impact samples, each returning a likelihood of its own data
+given the impact complex. To make them composable, each obeys five rules. It returns a
+likelihood and not a posterior, having removed any internal reference prior. It consumes each
+observation exactly once, and declares which. It evaluates on the common impact samples and does
+not smooth privately over impact location, because the product of separately smoothed
+likelihoods is not the smoothed product. It is smooth, with explicit model error and no
+probability floors, and it either covers the support of the prior or declines to return a value
+--- a value that was not computed is recorded as such, and is not treated as impossible. And it
+is accurate where the other evidence has its mass rather than only near its own peak.
+
+\emph{Ocean drift} propagates each impact position forward under an ocean reanalysis with
+windage and Stokes drift marginalised, and scores the discovery place and time of each recovered
+item. Two global ocean products are carried --- one of them the Copernicus global reanalysis of
+Lellouche et al.\ (2021) --- and averaged exactly at equal prior rather than chosen,
+%
+\begin{equation}
+L_{M} \;=\; \tfrac{1}{2}\bigl(L_{G} + L_{C}\bigr),
+\end{equation}
+%
+with the posterior weight of a product reported rather than assumed:
+%
+\begin{equation}
+P\bigl(m = G \mid \Ev\bigr) \;=\; \frac{Z_{G}}{Z_{G} + Z_{C}}.
+\end{equation}
+
+\emph{Unsuccessful search} contributes the classical disconfirming term. If $P_D(\impact)$ is
+the probability that the searches would have detected the wreckage had it been at $\impact$,
+then
+%
+\begin{equation}
+p\bigl(\impact \mid \Ev^{S}, \Ev^{-}, \Ev^{19}\bigr)
+ \;\propto\; \bigl[\,1 - P_D(\impact)\,\bigr]\;
+   p\bigl(\impact \mid \Ev^{-}, \Ev^{19}\bigr),
+\end{equation}
+%
+following the treatment of Stone et al.\ (2014) for Air France 447. $P_D$ is spatially varying
+and depends on the extent and piece sizes of the wreckage field, not only on its centre, which
+is why the sinking stage below carries samples rather than summary moments.
+
+\emph{Satellite imagery} enters as a likelihood on the same samples and conditional on the
+imaged objects being debris from this aircraft; it is reported as a conditional hypothesis, never
+as a selection of trajectories that could reach it. \emph{Hydroacoustics} predicts the signal
+level and detection probability at each monitoring station given the impact energy, its
+deposition duration and the propagation path, and returns the likelihood of the observed record.
+
+\subsection*{3.7.\quad \textit{Impact to seabed}}
+
+Sinking is a transform and not a likelihood: there is essentially no observed seabed debris to
+score, and the one scoreable fact --- that the searches found nothing --- belongs to the search
+term of~(9). Each impact sample therefore fans out into wreckage samples whose weights sum to
+the parent's,
+%
+\begin{equation}
+\bigl(\impact_i,\ w_i\bigr) \;\longmapsto\;
+  \bigl\{\bigl(\mathbf{r}_{i\ell},\ w_i\,\pi_{i\ell}\bigr)\bigr\}_{\ell=1}^{L},
+  \qquad \sum_{\ell=1}^{L} \pi_{i\ell} = 1,
+\end{equation}
+%
+where $\mathbf{r}_{i\ell}$ is the resting place of the $\ell$th element of the field. This
+preserves the extent of the field, which is exactly what the detection probability in~(9)
+depends on.
+
+\subsection*{3.8.\quad \textit{Stage 4: composition, mixing and evidence}}
+
+Composition multiplies the inherited weight of each impact sample by the enabled likelihood
+factors:
+%
+\begin{equation}
+w_i \;\propto\; w_i^{\mathrm{flight}+\mathrm{EoF}}\;
+  L_{19}(\impact_i)\;\prod_{j \in \mathcal{J}} L_j(\impact_i),
+  \qquad
+  \mathcal{J} \subseteq \{D, S, P, A\},
+\end{equation}
+%
+with the evidence of a composed product given by $Z_{\mathcal{J}} = \sum_i w_i$. Because
+$\mathcal{J}$ is selectable, the contribution of each line of evidence is measured by the change
+in $\ln Z$ and in the posterior when it is added, which is how the results of section~5 are
+quoted.
+
+Core strata are mixed, not pooled, with weights formed from an equal prior over families and the
+evidence each family achieves:
+%
+\begin{equation}
+W_s \;\propto\; P_{\mathrm{core}}(s)\, Z_s ,
+\end{equation}
+%
+and results are reported per end-of-flight family first; any average across families appears
+only beside the sensitivity to the family prior. This matters because a family prior is a
+choice, and a result conditional on that choice must not be presented as data-driven.
+
+\subsection*{3.9.\quad \textit{Convergence diagnostics}}
+
+Two diagnostics are reported for every product. The effective sample size is computed per
+evidence factor, so that a factor which concentrates the weight on a few rows is visible rather
+than hidden in an aggregate. And replicate agreement is measured by split-half comparison: with
+$R$ independent replicates, every balanced partition into two halves is formed, the posterior is
+computed from each half, and the agreement between halves is quoted as a mean and a range over
+all partitions. The threshold is replicate-count dependent, and at eight replicates a value of
+%
+\begin{equation}
+\mathrm{SH} \;\geq\; 0.924
+\end{equation}
+%
+is required before a distribution is called converged. Per-epoch effective sample size is not a
+substitute: raising the worst epoch's value by a factor of four has been observed to change no
+measure of replicate agreement. Where a product fails~(13) it is reported as not converged, and
+the remedy is treated as a question for the sampler rather than for the smoothing.
+
+% =====================================================================
+\section*{4.\quad WHAT WAS CHANGED AND WHAT WAS ADDED}
+% =====================================================================
+
+\subsection*{4.1.\quad \textit{Fuel and endurance inside the likelihood}}
+
+The published filter assumes infinite fuel and applies the fuel constraint afterwards as a
+censor on trajectories, using broad fuel-burn information only to inform the allowable range of
+Mach numbers (Davey et al., 2016, assumption~4). The fuel model here is an extension: burn is
+integrated along each trajectory from the aircraft's known load, with two-tank bookkeeping and a
+single engine-flameout event, and the resulting endurance enters the likelihood so that a
+trajectory inconsistent with the fuel load is down-weighted while the filter advances. The
+consequence is not merely bookkeeping. Where the published treatment produced a posterior and
+then removed part of it, the integrated treatment changes which trajectories the proposal
+explores, and therefore changes the shape of the posterior rather than only its support.
+
+\subsection*{4.2.\quad \textit{Radar, waypoints and the sampler}}
+
+Primary radar enters the likelihood rather than only the prior. A waypoint route family is added,
+in which the aircraft is assumed to track between published navigation fixes, with turn
+behaviour modelled as fly-by with leg tracking; this was adopted after a sensitivity test showed
+that the alternative fly-over and direct-to model moved route log evidence by up to 7.6 nats and
+the 00:19 latitude by about 0.7$^\circ$, which is too large to leave as an undeclared modelling
+choice. The sampler is modified by tempering where the posterior separates into families. Four
+of the five sampler interventions attempted did not improve convergence, and all four remain
+runnable behind configuration flags: the pattern across them is itself a result, and is reported
+in section~5.
+
+\subsection*{4.3.\quad \textit{End of flight}}
+
+The end-of-flight stage is the largest extension. It carries three descent families, a provisional
+breakup model, and --- following evidence that piloted descents in an earlier configuration flew
+implausibly straight --- a turn model in which descents may make random turns, a search sweep of
+one to three circles, or a ditching approach, with bank angles of 10 to 30$^\circ$. Every choice
+is recorded per descent so that the probability of a sweep, of a circuit, and of an into-wind as
+against an along-swell final heading can be re-weighted afterwards from the evidence rather than
+assumed in advance.
+
+Two limits of the present implementation bound everything downstream of it and are stated here
+rather than in a limitations paragraph. Commanded descent rates are capped, so the most rapid
+descents consistent with the 00:19 frequency offsets are not reachable by the model; and free
+flight is integrated at fixed lift coefficient without pitch dynamics, so uncontrolled push-over
+states are not reachable either. In addition, the absence of a structural limit and of sufficient
+transonic drag rise allows contact speeds near and above the speed of sound: between 11 and 21
+per cent of the composed weight lies above 1.25 times maximum operating speed before the search
+term is applied. Seabed and hydroacoustic quantities derived from those rows are therefore upper
+bounds taken at the intact-impact point, not estimates.
+
+\subsection*{4.4.\quad \textit{Drift of the recovered debris}}
+
+This is an update rather than an extension. The published work modelled the drift of a single
+recovered item; the treatment here uses the full set of recovered items, carries two global ocean
+products averaged exactly at equal prior as in~(7), and marginalises over windage and Stokes
+drift rather than fixing them. The authoritative drift work for this accident
+(Griffin et al., 2016, 2017) is used for the leeway characterisation of the recovered flaperon
+section, with the leeway and windage treatment following Sutherland et al.\ (2020) and the
+debris-drift simulation strategy of Durgadoo et al.\ (2021). One term is specified and not yet built, and it is the most consequential omission in
+the paper: the absence of recoveries on the Western Australian coast is not modelled, because the
+beaching geometry covers only the coastlines on which items were found. Coasts outside those
+boxes carry no identification, so the failure to recover debris in Western Australia cannot
+presently down-weight impact locations whose debris would have beached there. Every result
+involving drift carries that label.
+
+\subsection*{4.5.\quad \textit{Unsuccessful search, imagery and hydroacoustics}}
+
+The search term of~(9) is an extension: the published work discussed search areas without
+estimating them. Detection probability is spatially varying and is presently evaluated at a
+single conservative value of the detection parameter, which understates the strength of the
+term; and the most recent search operation is excluded from the coverage used here. Both
+qualifications work in the same direction, so the search term as reported is a lower bound on
+its true effect.
+
+The imagery term is a conditional hypothesis built on the official analysis of the Pl\'eiades 1A
+imagery (Minchin et al., 2017). It is evaluated as a likelihood on the shared
+impact samples conditional on the imaged objects being debris from this aircraft, and every
+product involving it carries that condition. It is never implemented as a pre-selection of
+trajectories that could reach the imaged position, because selecting trajectories by whether
+they reach a hypothesised outcome is not inference.
+
+The hydroacoustic term is predictive. It is built and it runs, but its transmission loss is not
+absolutely calibrated, for five specific reasons set out in section~6, and its log-likelihood
+ratios accordingly lie within noise.
+
+\subsection*{4.6.\quad \textit{Verification and validation}}
+
+An estimator assembled from independently developed parts needs its joins tested as much as its
+physics, and four classes of test are used.
+
+The reproduction is a regression test. A configuration holding the published priors and models
+must reproduce the stored log evidence to the last digit, and the test is run after every change
+to the filter. This is what separates the two classes of change that matter in practice: a change
+to the filter's numerics --- a measurement model, a prior, the integration step --- invalidates
+existing runs and obliges a re-run, whereas a change downstream of the filter leaves the
+filter's output byte-identical and existing runs valid. Distinguishing the two has a direct cost
+consequence, because a full-scale run is of the order of a day of wall-clock time on the hardware
+used here.
+
+Each module carries a synthetic-recovery test: data are generated from a known state, the module
+is run, and the coverage of its posterior intervals is checked against nominal. This catches the
+failure in which a likelihood is correct up to a constant but mis-scaled, which composition would
+otherwise silently propagate. Each module also carries hand-computed fixtures for its core
+quantities, so that a refactoring that changes a number is detected rather than absorbed.
+
+The geodetic and satellite-geometry computations are verified against independent
+implementations --- geodesic distances and azimuths against the algorithms of Karney (2013) and
+the earlier method of Vincenty (1975) --- and the composition stage is verified by reproducing,
+exactly, the quantities that the end-of-flight and sinking stages report independently for the
+same rows. A composition that cannot reproduce its inputs is not combining evidence, it is
+re-deriving it.
+
+Finally, a vectorised re-computation of the 00:19 timing residual from stored final positions is
+checked against a scalar reference on a random sample of rows at every run, with agreement
+required to one part in $10^{6}$~$\mu$s. The re-computation matters beyond speed: because it is
+performed from the saved positions rather than read from what the filter weighted, it provides an
+out-of-sample check on the rungs of the evidence ladder that were not scored.
+
+% =====================================================================
+\section*{5.\quad RESULTS}
+% =====================================================================
+
+\subsection*{5.1.\quad \textit{What converged, and what did not}}
+
+The reproduction of the published model is exact: a configuration holding the published priors
+reproduces the stored log evidence with a difference of zero, and continues to do so after every
+extension is added, which is what makes the comparisons below meaningful.
+
+Nothing composed is converged. Against the eight-replicate split-half floor of 0.924 in~(13),
+the four core families return 0.916 for the waypoint family, 0.891 for the reproduction family,
+0.830 for free flight and 0.794 for the descent-and-climb family. Carried into the composed
+products, the three balanced partitions of the replicates differ by 11 to 57 per cent in the
+area of the 90 per cent region and by up to 0.98$^\circ$ in its median. The non-convergence is
+established as a property of the flight-path run rather than of the composition, by the
+per-replicate spread of log evidence within a stratum, which is 0.20 to 0.36 nats in the
+waypoint family. The seabed distribution inherits it: the two halves of the replicate set differ
+by 10 to 46 per cent in the area of the 90 per cent region.
+
+This is reported first because it conditions everything that follows. The orderings and
+directions below are stable across partitions; the areas and medians are not.
+
+\subsection*{5.2.\quad \textit{Unsuccessful search is the largest single factor}}
+
+Adding the search term removes 54 to 71 per cent of the probability mass, a change in log
+evidence of $-0.78$ to $-1.23$. It moves the median impact latitude 0.3 to 1.2$^\circ$ north and
+\emph{enlarges} the 90 per cent region by 60 to 96 per cent: under the treatment using the first
+00:19 burst timing offset alone, from 165{,}000 to 309{,}000~km$^2$. The direction is the
+informative part. A search that found nothing does not concentrate a distribution; it removes the
+places that were searched and redistributes the mass to places that were not, which here lie
+north of and outside the searched corridor. Reported under: not converged; detection parameter
+evaluated at a single conservative value, understating the term; most recent search operation
+excluded.
+
+\subsection*{5.3.\quad \textit{Drift widens the distribution and does not discriminate}}
+
+Drift of the recovered debris widens the flight and end-of-flight region rather than narrowing
+it --- from 117{,}000 to 165{,}000~km$^2$ under the same 00:19 treatment --- and shifts it
+north-east. Its evidence does not discriminate between the treatments of the 00:19 data, which
+span a range in log evidence of 0.10 nats, from $-128.06$ to $-128.16$. Reported under: not
+converged; Western Australia non-recovery not modelled; the drift factor is applied only to rows
+that the term could be computed for.
+
+Nor does the debris evidence select an ocean product. The posterior weight of the first product
+in~(8) is 0.46 to 0.51 with drift alone, 0.47 to 0.51 after the search term, and 0.54 to 0.63
+when the imagery term is included, so the absolute log Bayes factor never exceeds 0.53. On this
+evidence the choice of global ocean reanalysis is not resolved by the debris, and averaging over
+it is the correct treatment rather than a convenience.
+
+\subsection*{5.4.\quad \textit{The 00:19 transmissions move the answer less than expected}}
+
+Across the six data treatments, the median of the drift-composed product moves by at most
+0.43$^\circ$, from $-36.86^\circ$ with the 00:19 data held out to $-37.29^\circ$ with both
+frequency offsets and the oscillator start-up correction applied. Reported under: not converged;
+conditional on an equal family prior; end-of-flight physics provisional, with a provisional
+turn model, an interim pitch-down treatment and a provisional breakup model; Western Australia
+non-recovery not modelled.
+
+The ranking of treatments is not estimable for the cells that matter most. The two cells that
+correspond to the named hypotheses in the literature fall below the thousand-effective-row floor
+once the later evidence is applied: one falls from 275 effective rows to between 29 and 220 when
+composed, the other from 833 to between 42 and 562, and every product using both frequency
+offsets drops below the floor after the search term or under the imagery hypothesis. The
+conclusion that follows is a negative one and is stated as such: with the present sampler, the
+data treatment that the 00:19 evidence favours cannot be determined, and the apparent stability
+of the median across treatments is partly a statement about the sampler rather than about the
+evidence.
+
+\subsection*{5.5.\quad \textit{Two negative results worth keeping}}
+
+Adding a vertical rate to the cruise state --- an omission in the published model that appeared
+likely to matter, because the 184~Hz step between the two 00:19 frequency offsets corresponds to
+an equivalent vertical rate of about 10{,}500~ft/min, some nine times the largest bias excursion
+in the published work --- changes the posterior median by 0.03$^\circ$ or less and the
+probability of the secondary mode by about two percentage points. The omission is an order of
+magnitude larger than the noise it was being scored against, and it is still not a lever on the
+secondary mode, because the altitude changes it represents are too brief.
+
+Four of the five sampler interventions attempted failed to improve replicate agreement, and the
+one that succeeded did so by aiming the proposal at the cells where the families separate rather
+than by adding particles. Raising the worst epoch's effective sample size by a factor of 4.3
+changed no measure of convergence. The pattern is that this posterior's difficulty is a
+structural multi-modality and not a shortage of samples.
+
+\subsection*{5.6.\quad \textit{The seabed distribution}}
+
+The seabed regions coincide with the impact regions to within 2.5 per cent for matched outcomes,
+which is expected: the horizontal displacement during sinking is small against the width of the
+impact distribution. Reported under: not converged; the seabed resample is re-weighted from the
+composed weights rather than drawn from them, which is a partial treatment; and breakup rows are
+settled from the intact impact point, so the extent of the field is a lower bound.
+Figure~8 shows the seabed distribution beside the impact distribution it derives from.
+
+\subsection*{5.7.\quad \textit{Evidence accounting, and where the samples go}}
+
+Because the set $\mathcal{J}$ in~(11) is selectable, each line of evidence can be costed in two
+currencies: the change it makes to the log evidence, and the effective sample size it leaves
+behind. The two do not move together, and the difference is the most useful diagnostic in the
+whole exercise.
+
+The search term changes the log evidence by $-0.78$ to $-1.23$ nats --- a modest number --- while
+removing most of the probability mass and reshaping the distribution substantially. The drift
+term, by contrast, sits at around $-128$ nats, which reflects the improbability of the observed
+discovery pattern under \emph{any} impact location rather than discrimination between locations:
+the spread of that figure across the six 00:19 treatments is only 0.10 nats, and it is the spread,
+not the level, that carries information. Reporting the level alone would invite the reading that
+drift is the dominant evidence, when in fact it is the least discriminating term in the
+composition. Figure~6 shows the evidence of each product with its replicate spread, which is the
+form in which these numbers should be read.
+
+Effective sample size tells the other half of the story. The treatment using the first burst
+timing offset with the first frequency offset retains of the order of $6\times10^{4}$ effective
+rows after flight and end of flight, $4\times10^{4}$ after drift, and $1\times10^{4}$ after the
+search term, falling to a few thousand under the imagery hypothesis. That remains estimable. The
+treatments using both frequency offsets do not: as reported in section~5.4, their named cells
+fall to between a few tens and a few hundred effective rows once the later evidence is applied.
+One line of evidence is therefore capable of making another unquotable, and the only honest
+response is to report the effective sample size per factor beside every number, as in Figure~4.
+
+A related accounting point is worth recording because it closes a gap that was open at the
+previous pass. The rows for which the drift term could not be computed amount to at most 0.11 per
+cent of the base weight in any stratum and treatment, and excluding them changes the log evidence
+by less than 0.001 and moves no median or area visibly. At the previous composed pass, that
+uncomputed fraction was large enough that whether it was carried or excluded changed the composed
+areas materially. It no longer is, and the difference is a property of the run rather than of the
+composition.
+
+% =====================================================================
+\section*{6.\quad DISCUSSION}
+% =====================================================================
+
+\subsection*{6.1.\quad \textit{What integration bought}}
+
+Three of the results above could not have been obtained without carrying one distribution
+through the whole chain. That unsuccessful search is the dominant factor is a statement about the
+ratio of two terms in~(11), and is only available if both are evaluated on the same samples. That
+drift widens rather than narrows the distribution contradicts the intuition that more evidence is
+more constraint, and it has a clear cause: the drift likelihood is broad in the along-arc
+direction and its peak lies away from the flight-path peak, so multiplying the two moves mass
+outward. And the inability to rank the 00:19 treatments is visible only because the effective
+sample size is tracked per factor rather than in aggregate.
+
+The integration also exposes a dependency that separate analyses conceal. The detection
+probability in~(9) depends on the extent and the piece sizes of the wreckage field, which depend
+on the breakup state at impact, which depends on the descent family. A search term evaluated
+against a point estimate of impact location therefore understates its own uncertainty. This is
+the reason the sinking stage carries samples, as in~(10), rather than summary moments.
+
+\subsection*{6.2.\quad \textit{The limits that bound the present answer}}
+
+Four limits bound the result, in descending order of effect.
+
+The flight-path run is not converged, and the remedy is a sampler aimed at the cells where the
+families separate rather than more particles. Until it is converged, the areas and medians
+reported here are not quotable to the precision at which they are printed.
+
+The end-of-flight physics does not reach the whole feasible set. Commanded descent rates are
+capped below the most rapid descents consistent with the 00:19 frequency offsets, and free
+flight carries no pitch dynamics, so uncontrolled push-over states are unreachable. Both bound
+the impact distribution's spread and both are reach limitations rather than coverage
+limitations: the model cannot produce those states at all, so no amount of sampling would find
+them.
+
+The absence of recoveries in Western Australia is not modelled, which removes a line of
+disconfirming evidence that would act on precisely the impact locations the search term pushes
+mass towards.
+
+And the absence of a structural limit allows impact speeds that no airframe would reach, so
+quantities derived from the fastest rows are upper bounds.
+
+\subsection*{6.3.\quad \textit{Hydroacoustics: what it is now, and what it could be}}
+
+That a water impact of this kind is detectable in principle at long range has been established
+by Metz et al.\ (2023), and the dependence of such a detection on propagation conditions and
+impact parameters by Duncan and Dall'Osto (2023); the impact-generated acoustic and
+acoustic-gravity wave physics is treated by Kadri (2024), and the record for this accident
+specifically was examined by Duncan et al.\ (2014). Propagation here is modelled with the
+standard methods (Jensen et al., 2011), using the split-step Pad\'e parabolic equation solution
+of Collins (1993).
+
+Even so, the hydroacoustic term as implemented is predictive and not evidential. Its log-likelihood ratios lie within
+noise, and the reason is calibration rather than physics. Five specific gaps are responsible.
+There is no near-surface calibration source of known spectrum, so the directivity of a seismic
+air-gun source cannot be separated from its coupling into the water column. The deep explosive
+source spectrum below the bubble frequency is unknown to between 4 and 17~dB, because the
+standard source-level relations were established for shallower charges than the calibration shots
+available. No frequency band below 16~Hz is calibrated by any deep source, and the bands in which
+an impact marker would be expected lie below 12.5~Hz. At one of the two southern stations, the
+Chagos Bank blocks every modelled path from every candidate impact location, so a non-detection
+there carries no information at all. And at a bathymetric ridge cutting the sound-channel axis,
+the modelled transmission loss is 49 to 55~dB too lossy, an error that two-dimensional
+propagation modelling does not remove.
+
+The quantitative consequence is worth stating precisely, because it is the difference between an
+unused observation and a decisive one. An unarrested rapid descent deposits of the order of
+several gigajoules at the surface, which is roughly an order of magnitude above the energy of the
+nearest reference event for which a calibrated near-surface recording exists. If the
+transmission loss were absolutely calibrated and the sub-16~Hz band characterised, the predicted
+signal level at the unobstructed stations would separate the descent families by a margin that
+the present uncertainty entirely masks --- and, equally informative, a confirmed non-detection
+would down-weight the most energetic descents. The limit today is the power of the test, not the
+model.
+
+Five pieces of work would close those gaps, each tied to the gap it closes: access to the raw
+hydrophone data rather than to derived products, through a computation-to-data arrangement;
+absolute calibration from the geometry of a known source array together with its calibrated
+near-source recordings; a near-surface source and coupling characterisation; three-dimensional
+propagation across the ridges; and suppression of the seismic air-gun shot trains using survey
+source and navigation logs. The first and second are the largest.
+
+It should also be recorded that the bench-test evidence underlying the oscillator start-up
+correction applied to the 00:19 frequency offsets is an unpublished internal study, available
+only through the summary of it in Holland (2018). The correction is used here, and the
+sensitivity to using it is reported, but a referee cannot inspect its primary evidence.
+
+% =====================================================================
+\section*{7.\quad CONCLUSIONS AND RECOMMENDATIONS}
+% =====================================================================
+
+An integrated Bayesian reconstruction of MH370 is feasible and has been built: one probability
+distribution is carried from the last radar fix through the satellite handshakes, the end of
+flight, water impact and sinking, and is re-weighted by ocean drift, unsuccessful search,
+satellite imagery and hydroacoustic prediction on a single shared set of impact samples.
+
+Within that reconstruction, unsuccessful seabed search is the largest single factor acting on the
+impact distribution, removing 54 to 71 per cent of the probability and moving the remainder north
+and outward. Drift of the recovered debris widens the distribution rather than narrowing it, and
+does not discriminate between the available treatments of the final two transmissions, nor
+between global ocean reanalyses. The final two transmissions move the median by less than half a
+degree across all six treatments, but the cells corresponding to the named hypotheses in the
+literature are not estimable with the present sampler, so that stability is in part a statement
+about the sampler.
+
+No composed distribution is converged against the replicate-agreement criterion proposed here.
+The orderings and the directions of effect are stable; the areas and the medians are not. This is
+stated as a result because the alternative --- reporting areas to three significant figures from
+an unconverged run --- would be worse than reporting nothing.
+
+Four lines of work follow, and they are ordered by how much they would change the answer rather
+than by how difficult they are. First, a sampler aimed at the cells where the end-of-flight
+families separate, which is the binding constraint on every number in this paper. Second, a
+descent model that reaches the rapid descents the 00:19 frequency offsets admit, together with a
+structural limit that excludes the impact speeds the present model allows. Third, the Western
+Australian non-recovery term, which would act directly on the region the search term favours.
+Fourth, absolute calibration of the hydroacoustic transmission loss and characterisation of the
+sub-16~Hz band: of the four, this is the only one that could turn an unused observation into a
+decisive one, and its value of information is correspondingly the largest.
+
+% =====================================================================
+\section*{ACKNOWLEDGEMENTS}
+% =====================================================================
+
+[TO BE COMPLETED BY PETE. Note that the journal must not be thanked, and that
+acknowledgements precede the reference list.]
+
+\section*{COMPETING INTERESTS}
+Competing interests: The author declares none.
+
+\section*{USE OF ARTIFICIAL INTELLIGENCE TOOLS}
+[TO BE COMPLETED, AND REQUIRED. The journal requires a declaration describing any AI tool used
+to generate text or images, or to analyse or extract insights from data, giving the tool name and
+version, the dates of use, how others can access it, and a full description of the use. Analysis
+use is declared in the methods section rather than in an acknowledgement. This estimator was
+developed and run with AI assistance throughout, and the declaration must be assembled from what
+the repository records rather than written from memory. The public repository, configurations and
+commit history support a specific and verifiable statement. See paper/JON-RULES.md \S7.]
+
+\section*{DATA AVAILABILITY}
+[PROPOSED. The engine, configurations and result notes are in a public repository; the
+aircraft-performance tables and the publisher's copy of the reference monograph are not
+redistributable and are identified rather than included. Confirm against the journal's research
+transparency policy, which has not yet been read.]
+
+% =====================================================================
+\section*{TABLES}
+% =====================================================================
+
+\begin{table}[htbp]
+\centering
+\caption{Elements of the integrated estimator, classified against the published reconstruction,
+with build status. R = reproduction, U = update, M = modification, E = extension.
+B = built and run, S = specified but not run.}
+\vspace{4pt}
+\small
+\begin{tabular}{@{}p{4.9cm}cc p{6.6cm}@{}}
+\toprule
+Element & Class & Status & Note \\
+\midrule
+Satellite measurement models        & R & B & Ashton et al.\ (2015), unchanged \\
+Cruise and manoeuvre dynamics       & R & B & Davey et al.\ (2016), ch.\ 6--7 \\
+Baseline reproduction               & R & B & Reproduces stored log evidence exactly \\
+Primary radar prior                 & R & B & Davey et al.\ (2016), ch.\ 4 \\
+Ocean drift of recovered debris     & U & B & More items; two ocean products averaged \\
+Composition across evidence         & U & B & Separate crate; not in the main runner \\
+Prior track, sampler, 00:19 treatment & M & B & Tempering; six enumerated data treatments \\
+Fuel and endurance in the likelihood & E & B & Two-tank; single flameout event \\
+Radar in the likelihood             & E & B & Additional to the prior \\
+Waypoint route family               & E & B & Fly-by with leg tracking \\
+Vertical rate in the cruise BFO     & E & B & Negative result; see \S5.5 \\
+End of flight to impact             & E & B & Three families; provisional breakup \\
+Searched-area likelihood            & E & B & Lower bound; see \S4.5 \\
+Impact to seabed (sinking)          & E & S & Transform; carried as samples \\
+Hydroacoustics                      & E & S & Predictive only; see \S6.3 \\
+Satellite imagery hypothesis        & E & B & Conditional on objects being debris \\
+Western Australia non-recovery      & E & S & Not modelled; see \S4.4 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Treatments of the 00:19 transmissions, and the causes against which they are set. Bayes
+factors are quoted only within a row or within a column, never across both.}
+\vspace{4pt}
+\small
+\begin{tabular}{@{}p{1.6cm}p{8.6cm}p{4.4cm}@{}}
+\toprule
+Treatment & Data used & Cause \\
+\midrule
+D0 & 00:19 held out entirely & C1: fuel exhaustion followed \\
+D1 & First burst timing offset only & \quad by auxiliary power unit \\
+D2 & D1 + first frequency offset as recorded & \quad start, with an Erlang lag \\
+D3 & D1 + both frequency offsets as recorded & \\
+D4 & D3 with the start-up correction on both & C2: unattributed, uniform \\
+D5 & D3 with the correction on the second only & \quad over the admissible window \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\caption{Coverage limitations that bound the reported distributions, with the direction of their
+effect. A reach limitation means the model cannot produce the states concerned, so no amount of
+sampling would find them.}
+\vspace{4pt}
+\small
+\begin{tabular}{@{}p{5.4cm}p{2.2cm}p{7.0cm}@{}}
+\toprule
+Limitation & Kind & Effect on the reported result \\
+\midrule
+Flight-path run not converged & coverage & Areas and medians not quotable at printed precision \\
+Descent rates capped & reach & Rapid descents admitted by 00:19 unreachable \\
+No pitch dynamics in free flight & reach & Uncontrolled push-over states unreachable \\
+No structural limit & reach & Impact speeds above 1.25 $V_{MO}$ on 11--21\% of weight \\
+Western Australia non-recovery & reach & Disconfirming evidence absent where mass is moved to \\
+Detection parameter conservative & coverage & Search term is a lower bound \\
+Transmission loss uncalibrated & coverage & Hydroacoustic ratios within noise \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% =====================================================================
+\section*{REFERENCES}
+% =====================================================================
+\begingroup
+\setlength{\parskip}{3pt}
+\small
+
+Ashton, C., Shuster Bruce, A., Colledge, G. and Dickinson, M. (2015). The Search for MH370.
+\textit{The Journal of Navigation}, 68, 1--22. https://doi.org/10.1017/S037346331400068X.
+
+Australian Transport Safety Bureau. (2017). The Operational Search for MH370. ATSB,
+AE-2014-054.
+
+Collins, M. D. (1993). A split-step Pad\'e solution for the parabolic equation method.
+\textit{Journal of the Acoustical Society of America}, 93, 1736--1742.
+https://doi.org/10.1121/1.406739.
+
+Davey, S., Gordon, N., Holland, I., Rutten, M. and Williams, J. (2016). \textit{Bayesian
+Methods in the Search for MH370}. Springer. https://doi.org/10.1007/978-981-10-0379-0.
+
+Duncan, A. J. and Dall'Osto, D. R. (2023). Long-range underwater acoustic detection of aircraft
+surface impacts --- the influence of acoustic propagation conditions and impact parameters.
+\textit{Journal of the Acoustical Society of America}, 154, A49.
+https://doi.org/10.1121/10.0022761.
+
+Duncan, A. J., Gavrilov, A. N. and McCauley, R. D. (2014). Analysis of low frequency underwater
+acoustic signals possibly related to the loss of MH370. Centre for Marine Science and
+Technology, Curtin University.
+
+Durgadoo, J. V., Biastoch, A., New, A. L., R\"uhs, S., Nurser, A. J. G., Drillet, Y. and
+Bidlot, J.-R. (2021). Strategies for simulating the drift of marine debris. \textit{Journal of
+Operational Oceanography}, 14, 1--12. https://doi.org/10.1080/1755876X.2019.1602102.
+
+Griffin, D. A., Oke, P. R. and Jones, E. M. (2016). The search for MH370 and ocean surface
+drift. CSIRO Oceans and Atmosphere, EP167888. https://doi.org/10.4225/08/5892224dec08c.
+
+Griffin, D. A., Oke, P. R. and Jones, E. M. (2017). The search for MH370 and ocean surface
+drift --- Part II. CSIRO Oceans and Atmosphere, EP172633.
+
+Holland, I. D. (2018). MH370 Burst Frequency Offset Analysis and Implications on Descent Rate
+at End-of-Flight. \textit{IEEE Aerospace and Electronic Systems Magazine}, 33, 24--33.
+https://doi.org/10.1109/MAES.2018.170048.
+
+Jensen, F. B., Kuperman, W. A., Porter, M. B. and Schmidt, H. (2011). \textit{Computational
+Ocean Acoustics}. Springer. https://doi.org/10.1007/978-1-4419-8678-8.
+
+Kadri, U. (2024). Underwater acoustic analysis reveals unique pressure signals associated with
+aircraft crashes in the sea: revisiting MH370. \textit{Scientific Reports}, 14, 10102.
+https://doi.org/10.1038/s41598-024-60529-1.
+
+Karney, C. F. F. (2013). Algorithms for geodesics. \textit{Journal of Geodesy}, 87, 43--55.
+https://doi.org/10.1007/s00190-012-0578-z.
+
+Kass, R. E. and Raftery, A. E. (1995). Bayes Factors. \textit{Journal of the American
+Statistical Association}, 90, 773--795. https://doi.org/10.1080/01621459.1995.10476572.
+
+Lellouche, J.-M. and others (2021). The Copernicus Global 1/12$^\circ$ Oceanic and Sea Ice
+GLORYS12 Reanalysis. \textit{Frontiers in Earth Science}, 9, 698876.
+https://doi.org/10.3389/feart.2021.698876.
+
+Malaysian ICAO Annex 13 Safety Investigation Team for MH370. (2018). Safety Investigation
+Report: MH370 (9M-MRO). Ministry of Transport Malaysia, MH370/01/2018.
+
+Metz, D., Obana, K. and Fukao, Y. (2023). Remote hydroacoustic detection of an airplane crash.
+\textit{Pure and Applied Geophysics}, 180, 1343--1351.
+https://doi.org/10.1007/s00024-022-03117-6.
+
+Minchin, S., Mueller, N., Lewis, A., Byrne, G. and Tran, M. (2017). Summary of imagery analyses
+for non-natural objects in support of the search for Flight MH370: Results from the analysis of
+imagery from the PLEIADES 1A satellite undertaken by Geoscience Australia. Geoscience
+Australia, Record 2017/013. https://doi.org/10.11636/record.2017.013.
+
+Ng, H.-F., Zhong, Y., Groves, P. D. and Hsu, L.-T. (2024). Grid-based 3DMA GNSS with clustering
+and Doppler velocity. \textit{The Journal of Navigation}, 77, 658--676. [VERIFY DOI]
+
+Stone, L. D., Keller, C. M., Kratzke, T. M. and Strumpfer, J. P. (2014). Search for the
+Wreckage of Air France Flight AF 447. \textit{Statistical Science}, 29, 69--80.
+https://doi.org/10.1214/13-STS420.
+
+Sutherland, G., Soontiens, N., Dufois, F. and others (2020). Evaluating the leeway coefficient
+of ocean drifters using operational marine environmental prediction systems. \textit{Journal of
+Atmospheric and Oceanic Technology}. https://doi.org/10.1175/JTECH-D-20-0013.1.
+[AUTHOR LIST TO BE COMPLETED]
+
+Vincenty, T. (1975). Direct and inverse solutions of geodesics on the ellipsoid with application
+of nested equations. \textit{Survey Review}, 23, 88--93.
+https://doi.org/10.1179/sre.1975.23.176.88.
+
+\endgroup
+
+\end{document}

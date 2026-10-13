@@ -4,7 +4,8 @@ Ocean drift module, 9 October 2026. A first draft of the paper's drift methods s
 architecture entry of 9 Oct ~04:15 UTC ("for any module that runs out of unblocked steps"). Every
 value is cited to the module ledger `results/debris-drift-references.md` (keys in square brackets)
 or to a module file and commit. Values marked PROVISIONAL are working choices that the production
-run may change. **The pilot result is not yet in this draft**, and no number below is evidence about
+run may change. **Updated 9 Oct ~11:00 UTC** with the pilot (`results/debris-drift-pilot.md`) and the
+production sizing (`results/debris-drift-production-sizing.md`). No number below is evidence about
 the impact location.
 
 ## 1. What the term is
@@ -31,18 +32,18 @@ and with the dates of [durgadoo2021, p. 2, Fig. 1]:
 | right flaperon, Réunion | 29 Jul 2015 | confirmed | flaperon |
 | engine cowling "Roy", Mossel Bay | 23 Dec 2015 (reported 22 Mar 2016) | almost certain | low-exposure exterior |
 | right flap fairing, Paindane (Daghatane) | 27 Dec 2015 | almost certain | low-exposure exterior |
-| horizontal stabiliser panel, Vilanculos | 27 Feb 2016 (evidence table: 28 Feb; recorded conflict) | almost certain | low-exposure exterior |
+| horizontal stabiliser panel, Vilanculos | 27 Feb 2016 [mot2017, p. 2] (evidence table: 28 Feb; recorded conflict) | almost certain | low-exposure exterior |
 | door closet panel, Rodrigues | 30 Mar 2016 | almost certain | high-windage interior |
 | right fan cowling, Chidenguele | 24 Apr 2016 | almost certain | low-exposure exterior |
 | left outboard flap, Mauritius | 10 May 2016 | confirmed | low-exposure exterior |
 | cabin interior panel, Antsiraka | 12 Jun 2016 | almost certain | high-windage interior |
-| right outboard flap, Pemba | 23 Jun 2016 | confirmed | low-exposure exterior |
+| right outboard flap, Pemba | 23 Jun 2016 (MOT: 20 Jun [mot2017, p. 10]; recorded conflict) | confirmed | low-exposure exterior |
 
 The table is `data/debris-evidence-audit.csv` (41 rows, sha256 `f8ab96a9…5a332f69`), filtered on
 `stringent_nine`. None of the nine has an identification that used prior drift modelling (column
 `identity_uses_prior_drift` = no for all nine), so the evidence is not partly constituted by a drift
-answer. A one-day date conflict (Vilanculos) does not move the likelihood measurably under a
-60-day delay prior; it is to be resolved against the primary MOT list.
+answer. Two date conflicts, Vilanculos (1 day) and Pemba (3 days), sit inside a 60-day delay prior;
+they are carried as a `date_overrides` sensitivity, not as edits to the table.
 
 **Find episodes.** Items are grouped into detection blocks by coast segment and period (ruling G1,
 `results/debris-drift-find-episodes.md`). Six segments: S1 Réunion; S2 Mauritius and Rodrigues;
@@ -51,13 +52,28 @@ Three periods: I1 before 29 Jul 2015; I2 to the end of February 2016; I3 March t
 
 ## 3. Source grid
 
-Nodes lie on a regular latitude-longitude grid at a configured spacing (10 NM for the pilot) over
-the smallest region holding a configured fraction of impact-posterior mass (99%), plus a margin
-(100 NM). Connected components are linked at 40 NM. A detached northern island of mass is a
-separate, optional patch, which is reported as a labelled sensitivity (`source_grid.rs`;
-`results/debris-drift-pilot-sizing.md`). On the no-exhaustion-prior reference map, the main band
-has 1,709 nodes and holds 0.971 of mass. The island patch has 1,390 nodes. PROVISIONAL: the extent
-is re-derived from the final impact samples before production.
+Nodes lie on a regular latitude-longitude grid at a configured spacing over the smallest region that holds a
+configured fraction of impact-posterior mass (99 %), plus a margin (100 NM). Connected components are linked at
+40 NM. A detached northern island of mass is a separate, optional patch, reported as a labelled sensitivity
+(`source_grid.rs`; `results/debris-drift-pilot-sizing.md`). The pilot used 10 NM nodes on the no-exhaustion-prior map
+(1,709 nodes, 0.971 of mass).
+
+**Production** uses 30 NM nodes on the reference-289 00:19 position map: 367 nodes in one band (0.9903 of mass,
+40.7-22.2 S). End-of-flight impacts spread beyond the 00:19 positions. On run C's impacts the 367 nodes leave
+13-20 % of the weight not computed for 00:19 Held Out and R600 BTO Only, and 1.6-2.9 % for R600 BTO + Raw BFO
+(coverage gap G10).
+
+**Extension (run A).** The extension adds nodes on the same grid until every stratum and every standard 00:19
+option is at least 99 % covered. A bilinear cell counts as covered only when all four corner nodes are computed. The
+nodes are chosen from the impacts (`prepare/pilot/coverage_nodes.py`), not from the debris likelihood, so the
+selection does not use the evidence it will score. On run C this adds 343 nodes. The not-computed weight then falls to
+<= 0.94 % for any mixture of strata, including the 0.3-0.6 % that lies off the grid. Rows that remain not computed are
+carried at the neutral value by default; excluding them is a labelled sensitivity (composer ruling, 10 Oct).
+
+Run A computed the extension for both ocean models (12 Oct). With 710 nodes, the not-computed weight, including the
+off-grid part, is below 1 % for every stratum and standard 00:19 option: on run C at most 0.81 % (Held Out), 0.64 % (R600 BTO Only),
+0.17 % (R600 BTO + Raw BFO) and 0 % (Holland H1/H2); on the H1/H2 sweep at most 0.64 %, 0.52 %, 0.16 %, 0.10 % and 0.29 %.
+The neutral value is applied to the drift factor only; the row's other factors are kept (review of composer pass 1, finding R1).
 
 ## 4. Transport
 
@@ -71,32 +87,71 @@ A particle's velocity is the water velocity plus a wind-driven term. This is CSI
 calibrated it on undrogued drifters [griffin2016parti, pp. 3, 11]. So no separate Stokes field is
 added (`leeway_absorbs_stokes = true`) [sutherland2020].
 
-Random walks represent unresolved motion. The pilot fixes the diffusivity at K = 248 m²/s, which is
-CSIRO's 5 NM/day r.m.s. [griffin2017partiii, p. 6]. Production marginalises K as a component of the
-shared ocean's η (ruling 4).
+**Transport-model error.** The shared ocean transport's GDP drifter replay measures each product's
+error against undrogued drifters in the search box: σ about 0.09-0.12 m/s, with a decorrelation time T
+of about 5-15 days (`results/ocean-transport-error-gdp-replay.md`). That is an order of magnitude more
+spread than CSIRO's 5 NM/day random walk, K = 248 m²/s [griffin2017partiii, p. 6].
 
-**Object response by class** (`pilot.toml`; PROVISIONAL priors except the flaperon's):
+Production represents this error as the shared eddying error field, with one realisation per
+environment draw.
+- It uses σ_eff² = σ² − K_ref/T, with K_ref = 248 m²/s. The random walk and the error field together
+  then reproduce the replay's single-particle spread.
+- The field's length scale, 100 km, is assumed rather than measured (PROVISIONAL).
+- K itself becomes a sub-mesoscale prior, log-uniform over 100-1,000 m²/s, drawn per environment
+  (ruling 4).
+- The pilot used K = 248 m²/s and no error field.
+
+**Ocean models.** GLORYS12 + ERA5 is the reference. Copernicus-GlobCurrent + ERA5 is the second
+`ocean-model` value, at equal prior weight (ruling of 9 Oct ~07:00 UTC). OSCAR is a comparison product only and enters no likelihood (Pete, 9 Oct ~17:50 UTC).
+**Declared difference from CSIRO:** CSIRO's 1.2% windage was applied to BRAN2015's 0-5 m layer
+[griffin2017partiii, p. 6]; this term applies it to GLORYS12 (0.494 m) and GlobCurrent surface currents.
+BRAN2016 is not used (Pete, 9 Oct ~18:30 UTC).
+
+**Windage must be relative to the current product (finding of 10 Oct; option A adopted, architecture 18:35 -0600 under Pete's delegation).** The two
+products do not mean the same thing by "surface current". GLORYS12's value is the model's top layer, centred at
+0.494 m. GlobCurrent's 0 m total current adds an empirical wind-driven term fitted to surface drifters, so it
+already carries part of the near-surface wind drift: about 0.74% of the 10 m wind speed more, directed near
+downwind, than GLORYS12 over 2014-2017 [drift-model audit, `results/drift-model-audit-architecture.md`, F1].
+Fitted to undrogued GDP drifters, the windage on top of each product is 1.36% (GLORYS12) and 0.75% (GlobCurrent).
+The production run applied the same object windage to both products. That double-counts part of the wind drift
+on GlobCurrent; it is a composition inconsistency, not an ocean-model alternative. The correction is a declared,
+config-gated offset added to every drawn wind fraction and floored at zero (`c_wind_product_offset`; 0 for
+GLORYS12 and for the reproduction). A smoke test on 92 nodes with an offset of −0.60% reduced the standard
+deviation of the GlobCurrent − GLORYS12 node log-likelihood difference north of 30°S from 3.28 to 1.66, the mean
+deficit north of 25°S from −5.78 to −2.19 (9 nodes), and the mean excess south of 37°S from +3.56 to +0.86.
+With −0.75 % the same three values were 1.44, −1.57 and −0.40. At −0.75 % the latitude trend between the two models disappears (a flat −0.6 in every 4° band). Run A draws the offset per particle from U(−0.75 %, −0.60 %), from its own random stream, so the uncertainty in the offset is carried into the likelihood; the two end values are independent of the debris (gridded current difference 0.74 %; drifter fits 0.61 %). The part that remains is reported as ocean-model uncertainty. With the offset (run A, 710 nodes), the two products agree within 2σ of the combined split-half Monte Carlo noise at 669 of the 703 nodes that both models score (node correlation 0.34; on the 367 production nodes 0.39, against −0.08 before the correction); the residual difference is about −1.4 log-likelihood units north of 25 °S, and south of 37 °S it is dominated by Monte Carlo noise. An explicit-Stokes
+composition for both products would remove the product-dependent wind content by construction; it is not yet run.
+
+**Object response by class** (`production-glorys12.toml`; PROVISIONAL priors except the flaperon's):
 - **Flaperon.** 1.2% of wind [griffin2017partiii, p. 6], plus an extra leeway of 0.10 ± 0.03 m/s at
   0-30° left of downwind. These are the at-sea measurements on a genuine cut-down 777 flaperon
   [griffin2017partii, pp. 10, 17; ruling D-a]. They are not the earlier replica-based taper
-  [griffin2016parti, p. 9; `results/debris-drift-flaperon-provenance.md`]. **Declared departure:**
-  the shared API applies one angle to both wind terms, whereas CSIRO rotates only the extra leeway
-  [griffin2017partii, p. 13]. A separate angle has been requested (ruling D-f).
+  [griffin2016parti, p. 9; `results/debris-drift-flaperon-provenance.md`]. The angle rotates only
+  the extra leeway, and the 1.2% term is downwind, which is what CSIRO does [griffin2017partii, p. 13;
+  ruling D-f; shared API `07cced0`]. The pilot predates that API: it rotated both terms by one angle,
+  and declared it.
 - **Low-exposure exterior parts** (flaps, fairings, cowlings, panels): wind fraction N(1.2%, 0.3%)
-  truncated to 0.5-2%, and angle N(0°, 10°). These are the 1.2% items "subject to Stokes Drift but
+  truncated to 0.5-2%, and a windage angle (`wind_angle_deg`) N(0°, 10°). These are the 1.2% items "subject to Stokes Drift but
   not direct wind forcing" [griffin2017partiii, p. 6].
 - **High-windage interior parts:** a log-normal wind fraction with median 2.5% (σ = 0.35), truncated
-  to 1-5%, and angle N(0°, 15°). This brackets CSIRO's 3% for items floating higher
+  to 1-5%, and a windage angle N(0°, 15°). This brackets CSIRO's 3% for items floating higher
   [griffin2017partiii, pp. 6, 8].
 
 Each class's response is drawn per particle, so the response is integrated inside the likelihood.
 It is not a global factor; an earlier study found the response to dominate the answer
 (brief §9).
 
-**Beaching (PROVISIONAL).** A particle beaches when it steps into the product's land mask, at
-the crossing point. This holds until the shared transport's real coastline lands (deliverable 6).
-The 1/12° mask keeps Réunion (27 land cells) and Mauritius (24), but Rodrigues is a single cell
-(checked on the GLORYS12 grid, 9 Oct). Particles that leave the domain or meet a field gap are kept
+**Beaching.** Production beaches particles on the shared GSHHG 2.3.7 full-resolution coastline
+(ocean transport deliverable 6, `4eba004`). Each beaching is at the crossing point, with the line and
+chainage of the hit. A product land-mask stranding within 25 km of the shore snaps to that shore; any
+other land gap is model error.
+
+The pilot instead read land-mask stranding itself as beaching, and that reading has a blind spot. The
+shared field reports a land gap only when every interpolation corner is land. Rodrigues is a single
+GLORYS12 land cell, so it could never strand a particle, and the pilot's Rodrigues term was a
+structural zero (`results/debris-drift-production-sizing.md`).
+
+Particles that leave the domain or meet a field gap are kept
 in the denominator as not recovered (weight by termination, brief §9). They are never dropped.
 
 ## 5. Recovery-observation model
@@ -136,6 +191,25 @@ particle i of class c beaching at place z_i and time τ_i:
 - **Noise.** The split halves give a per-node noise estimate, var(ln L_A − ln L_B)/4.
 - **Kernel resolution.** Kish effective sizes and hit counts per find are written for every node
   (`9475ae5`).
+- **Importance splitting** (`fbaad33`, `84b6f85`, `ec20f78`).
+  - A low-exposure or high-windage particle whose daily position first comes within R of a rare find
+    is replaced there by M children of weight 1/M.
+  - The children keep the parent's response and ocean-error realisation, and get their own diffusion.
+  - Settings: Rodrigues R = 150 km, M = 20; Mossel Bay R = 500 km, M = 100.
+  - Expectations are unchanged. In the analytic test, brute force gave 1.285e-2 ± 5.6e-4 and splitting
+    1.329e-2 ± 9.2e-4 (test `splitting_is_unbiased_and_resolves_a_rare_target`).
+- **Zero environment terms.**
+  - An environment realisation whose product is zero enters the mean over environments as zero, which
+    is its unbiased estimate.
+  - A node is Monte Carlo unresolved only when every realisation is zero.
+  - The zero fraction is reported per node (test
+    `a_zero_environment_enters_the_mean_but_all_zero_is_unresolved`).
+- **Sizing** (step 4).
+  - 10⁵ particles per node (4 environments × 3 classes × 8,334), at 30 NM spacing: 193 main-band
+    nodes.
+  - The target is a split-half SD of about 0.5 in ln L.
+  - The likelihood surface changes by at most ~2 ln units over ~100 NM, so linear interpolation at
+    30 NM costs well under one unit.
 
 ## 7. Checks
 
@@ -149,7 +223,13 @@ particle i of class c beaching at place z_i and time τ_i:
   kernel the shift was 1.16 NM (`results/davey-ch11-reproduction.md`).
 - **Real-field checks.** Land-mask stranding at Réunion works on the GLORYS12 + ERA5 series
   (`smoke-fields.toml`). At 2 threads, throughput was 1.43 × 10⁶ particle-steps per second in the
-  check and 1.57 × 10⁶ in the first pilot chunk.
+  check, and 1.72 × 10⁶ over the whole pilot.
+- **Pilot** (`results/debris-drift-pilot.md`; PROVISIONAL, not evidence).
+  - Scale: 1,709 nodes and 1.7 × 10⁷ trajectories.
+  - No node resolved at 50 km.
+  - Arrival probabilities at Réunion, Mauritius-Rodrigues and NE Madagascar were 7-30× above the
+    prediction committed before the run.
+  - The correlation length was not resolved.
 
 ## 8. Not yet in the term
 
@@ -157,6 +237,6 @@ particle i of class c beaching at place z_i and time τ_i:
 - the 2014 surface-search observation (deferred; ruling of 9 Oct ~04:15 UTC);
 - refloating;
 - biofouling;
-- the BRAN2016 reproduction arm, which is held on its licence (Pete's decision);
+- a BRAN2016 arm: dropped (Pete, 9 Oct ~18:30 UTC). CSIRO applied the 1.2% windage to BRAN2015's 0-5 m layer [griffin2017partiii, p. 6]; here CSIRO's system runs on GLORYS12's 0.494 m currents and on GlobCurrent, and that difference from CSIRO's configuration is declared;
 - the explicit-Stokes arm (WAVERYS);
 - a wind-dependent extra leeway (the Part I taper) as a sensitivity.

@@ -57,12 +57,12 @@ crest_cl_sensitivity = 0.10
 tuck_cl_per_mach = [0.0, 0.6]
 c_l_max_clean = 1.30
 # Uncertain parameters, not constants: there are no public Trent 892 figures.
-# PROVISIONAL-OVERNIGHT (9 Oct 2026, results/eof-glide-calibration-oct09): windmilling calibrated to
+# RULED by Pete (9 Oct 2026 ~18:30 UTC; results/eof-glide-calibration-oct09): windmilling calibrated to
 # Boeing's published dual-flame-out driftdown, 0.0034 NM/ft wings level (Malaysian SIR App. 1.6E p. 8),
 # as brief section 8 asks. Effective (L/D)max 18.5-21.0 at the band ends brackets Boeing read either as
 # energy height (18.9) or altitude only (20.66); the altitude term from 35,000 ft runs 107-121 NM.
 # The former ESDU-scale band [0.0020, 0.0060] (85-105 NM, effective 15-18, inconsistent with Boeing)
-# is kept as smoke/glide-esdu.toml.
+# is kept as smoke/glide-esdu.toml, a labelled sensitivity.
 windmilling_per_engine = [0.0000, 0.0015]
 rat_increment = [0.0001, 0.0006]
 # Modelling parameters with a declared sensitivity, chosen so the model's idle descent rates sit
@@ -70,8 +70,9 @@ rat_increment = [0.0001, 0.0006]
 # copies of copyrighted manuals.
 speedbrake_increment = [0.020, 0.045]
 landing_configuration_increment = [0.050, 0.090]
-# Trent 892, 93,400 lbf, type certificate.
-sea_level_static_thrust_n = 415450.0
+# Trent 892-17 / 892B-17 take-off thrust (net, 5 min), ISA sea-level static: 406.8 kN (91,450 lbf), EASA TCDS E.047 Issue 04
+# (21 Feb 2019), section 6. Until 12 Oct 2026 (run I and earlier) the module used 415,450 N (93,400 lbf, unsourced; +2.1%).
+sea_level_static_thrust_n = 406800.0
 idle_thrust_fraction = [0.03, 0.10]
 thrust_density_exponent = 0.7
 # Assumed, swept. NOT the core's calibrated fuel tables (core request 3).

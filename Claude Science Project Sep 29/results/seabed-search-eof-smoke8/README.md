@@ -1,5 +1,15 @@
 # Convergence: the same measurement on eight replicates
 
+> **CORRECTED 9 October, ~15:00 UTC.** This note compared a two-replicate run against an
+> eight-replicate run and attributed every difference to Monte Carlo. The two runs also differ in the
+> **prior track** — core adopted 289.7 in `config/davey2016.toml` between them, and this clone picked
+> it up on its next fetch, so `runs/eof-smoke-4` is 295.66 and `runs/eof-smoke8-4` is 289.7. The
+> missing cell (eight replicates at 295.66) has now been run and the two effects are separated in
+> **`results/seabed-search-prior-289-vs-29566.md`**. The split-half improvement below is genuine
+> convergence. **The claim that the 97.5th percentile "is not determined at this scale" is withdrawn**:
+> the convergence effect on it is 0.17–0.29°, the prior effect 2.9–3.4°. The eq. 11.2 ranking claim
+> stands and is now quantified.
+
 Searched-areas module, 9 October 2026. Composition rule 6 asks for Monte Carlo adequacy to be
 measured and unconverged results reported as unconverged. `results/seabed-search-eof-smoke/` reported
 split-half 0.846 / 0.812 on **two** replicates and said so. This is the same measurement on **eight**,

@@ -14,6 +14,7 @@ flight = { path = "crates/flight", package = "mh370-flight" }
 hypothesis = { path = "crates/hypothesis", package = "mh370-hypothesis" }
 hypotheses = { path = "hypotheses", package = "mh370-hypotheses" }
 ocean = { path = "crates/ocean", package = "mh370-ocean" }
+compose = { path = "crates/compose", package = "mh370-compose" }
 libc = "0.2"
 rand = "0.8"
 rand_chacha = "0.3"

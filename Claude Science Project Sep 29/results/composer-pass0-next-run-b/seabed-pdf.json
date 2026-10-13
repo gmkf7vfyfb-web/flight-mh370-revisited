@@ -1,0 +1,393 @@
+{
+ "label": "PIPELINE TEST - core (b) unconverged; EoF physics provisional; hydro L_hyd stand-in; GlobCurrent F1; Holland H1/H2 not estimable",
+ "settling": "results/settling-core-set-next-run-b (hypothesis/settling 5b595bf), field/nrb*, read in place",
+ "constraint_settling": "unpowered",
+ "options": {
+  "00:19 Held Out": {
+   "outcomes_in_ruled_mixture": 200000,
+   "matched": 200000,
+   "products": {
+    "P1": {
+     "label": "flight + EoF",
+     "ess_of_resample": 199910.219334108,
+     "outcomes": 200000,
+     "outcomes_with_zero_weight": 0,
+     "max_share_one_outcome": 5.152703494312608e-06,
+     "impact_area_km2_99_90_50": [
+      1667415.607791232,
+      578675.2013011298,
+      91554.15159534052
+     ],
+     "seabed_area_km2_99_90_50": [
+      1670100.2260516023,
+      579370.4422975143,
+      91816.0448137353
+     ],
+     "offset_km_p50_p90_p99": [
+      0.3556203111541923,
+      3.6168157993053436,
+      21.35270052500865
+     ],
+     "outcomes_outside_settling_domain": 6,
+     "afloat_mass_share_unweighted": 0.1799993219106981
+    },
+    "G": {
+     "label": "general: + drift + hydro",
+     "ess_of_resample": 6565.534561490388,
+     "outcomes": 200000,
+     "outcomes_with_zero_weight": 0,
+     "max_share_one_outcome": 0.007992328819631373,
+     "impact_area_km2_99_90_50": [
+      1766507.2737852072,
+      725855.8103849641,
+      130028.49148466691
+     ],
+     "seabed_area_km2_99_90_50": [
+      1769491.4930844766,
+      727392.8199562172,
+      130742.66992748775
+     ],
+     "offset_km_p50_p90_p99": [
+      0.36714981602248686,
+      3.6173937227445507,
+      21.818786814396784
+     ],
+     "outcomes_outside_settling_domain": 6,
+     "afloat_mass_share_unweighted": 0.1799993219106981
+    },
+    "Ga": {
+     "label": "general, after searches",
+     "ess_of_resample": 4129.020848377463,
+     "outcomes": 200000,
+     "outcomes_with_zero_weight": 0,
+     "max_share_one_outcome": 0.010402524633359639,
+     "impact_area_km2_99_90_50": [
+      1874162.7167473207,
+      822105.9731109396,
+      157678.75517439726
+     ],
+     "seabed_area_km2_99_90_50": [
+      1877734.4752733365,
+      823986.8203468474,
+      158718.02426421974
+     ],
+     "offset_km_p50_p90_p99": [
+      0.38068112429791456,
+      3.783634740631985,
+      22.327155115831697
+     ],
+     "outcomes_outside_settling_domain": 6,
+     "afloat_mass_share_unweighted": 0.1799993219106981
+    },
+    "H": {
+     "label": "Pleiades hypothesis (given H)",
+     "ess_of_resample": 7727.955796397828,
+     "outcomes": 200000,
+     "outcomes_with_zero_weight": 64,
+     "max_share_one_outcome": 0.0021393502412676165,
+     "impact_area_km2_99_90_50": [
+      1446118.65441033,
+      335672.1197708268,
+      34305.97503663891
+     ],
+     "seabed_area_km2_99_90_50": [
+      1451939.3847242817,
+      336644.08319629385,
+      34389.99636265903
+     ],
+     "offset_km_p50_p90_p99": [
+      0.36470830503710344,
+      3.2446112824571327,
+      19.73365858301527
+     ],
+     "outcomes_outside_settling_domain": 6,
+     "afloat_mass_share_unweighted": 0.1799993219106981
+    },
+    "Ha": {
+     "label": "Pleiades hypothesis, after searches",
+     "ess_of_resample": 6599.3593311352,
+     "outcomes": 200000,
+     "outcomes_with_zero_weight": 63,
+     "max_share_one_outcome": 0.0028263880261648676,
+     "impact_area_km2_99_90_50": [
+      1548051.64955416,
+      416766.7003306693,
+      34201.652292467166
+     ],
+     "seabed_area_km2_99_90_50": [
+      1554663.2866209971,
+      418093.08938037313,
+      34353.04034902379
+     ],
+     "offset_km_p50_p90_p99": [
+      0.3690201066282553,
+      3.315358826001547,
+      19.84735391952852
+     ],
+     "outcomes_outside_settling_domain": 6,
+     "afloat_mass_share_unweighted": 0.1799993219106981
+    },
+    "Gx": {
+     "label": "general, not-computed excluded (sensitivity)",
+     "ess_of_resample": 4318.819500038718,
+     "outcomes": 200000,
+     "outcomes_with_zero_weight": 36231,
+     "max_share_one_outcome": 0.009913544528556488,
+     "impact_area_km2_99_90_50": [
+      733767.5156644234,
+      421021.8668595896,
+      89874.79093129607
+     ],
+     "seabed_area_km2_99_90_50": [
+      736507.1261022192,
+      422625.5609301149,
+      90364.57588912665
+     ],
+     "offset_km_p50_p90_p99": [
+      0.3533972742644362,
+      3.369394844654034,
+      21.474866828188357
+     ],
+     "outcomes_outside_settling_domain": 6,
+     "afloat_mass_share_unweighted": 0.1799993219106981
+    },
+    "Hx": {
+     "label": "Pleiades, not-computed excluded (sensitivity)",
+     "ess_of_resample": 4989.324108405389,
+     "outcomes": 200000,
+     "outcomes_with_zero_weight": 37042,
+     "max_share_one_outcome": 0.002584839737544153,
+     "impact_area_km2_99_90_50": [
+      192460.2566276504,
+      93472.88792957235,
+      22834.787460850173
+     ],
+     "seabed_area_km2_99_90_50": [
+      193098.30928960574,
+      93735.79458673683,
+      22905.14184981912
+     ],
+     "offset_km_p50_p90_p99": [
+      0.34933515125857995,
+      2.913217787684746,
+      18.938944172624836
+     ],
+     "outcomes_outside_settling_domain": 6,
+     "afloat_mass_share_unweighted": 0.1799993219106981
+    }
+   },
+   "settling_as_published": {
+    "impact_area_km2_99_90_50": [
+     1667115.6368239343,
+     578665.7120828452,
+     91787.1409750488
+    ],
+    "seabed_area_km2_99_90_50": [
+     1669762.1949393086,
+     579362.7678368189,
+     92047.0529201931
+    ],
+    "offset_km_p50_p90_p99": [
+     0.3556425098733398,
+     3.6168647761100012,
+     21.347098383340995
+    ],
+    "outcomes_outside_settling_domain": 6,
+    "afloat_mass_share_unweighted": 0.1799993219106981
+   }
+  },
+  "00:19 R600 BTO Only": {
+   "outcomes_in_ruled_mixture": 40000,
+   "matched": 40000,
+   "products": {
+    "P1": {
+     "label": "flight + EoF",
+     "ess_of_resample": 39581.91206584206,
+     "outcomes": 40000,
+     "outcomes_with_zero_weight": 0,
+     "max_share_one_outcome": 3.0053976444557e-05,
+     "impact_area_km2_99_90_50": [
+      1098662.9755614903,
+      354523.4416007141,
+      59464.544279735725
+     ],
+     "seabed_area_km2_99_90_50": [
+      1105992.2769011317,
+      355539.8003644804,
+      59713.11602324385
+     ],
+     "offset_km_p50_p90_p99": [
+      0.3601895561656515,
+      3.870318803204288,
+      22.286326829986752
+     ],
+     "outcomes_outside_settling_domain": 0,
+     "afloat_mass_share_unweighted": 0.17875742792357338
+    },
+    "G": {
+     "label": "general: + drift + hydro",
+     "ess_of_resample": 668.387695722071,
+     "outcomes": 40000,
+     "outcomes_with_zero_weight": 0,
+     "max_share_one_outcome": 0.02880293466688571,
+     "impact_area_km2_99_90_50": [
+      1167944.1124502332,
+      464243.2306869077,
+      71396.74646447597
+     ],
+     "seabed_area_km2_99_90_50": [
+      1178315.804989516,
+      466303.8722055326,
+      71939.1047415184
+     ],
+     "offset_km_p50_p90_p99": [
+      0.36228425909618417,
+      3.779908296505251,
+      22.39590840222296
+     ],
+     "outcomes_outside_settling_domain": 0,
+     "afloat_mass_share_unweighted": 0.17875742792357338
+    },
+    "Ga": {
+     "label": "general, after searches",
+     "ess_of_resample": 368.26779178404166,
+     "outcomes": 40000,
+     "outcomes_with_zero_weight": 0,
+     "max_share_one_outcome": 0.03951885684853627,
+     "impact_area_km2_99_90_50": [
+      1231155.2019183561,
+      533609.0226624552,
+      81127.92275086785
+     ],
+     "seabed_area_km2_99_90_50": [
+      1243691.6323476527,
+      536471.9680136475,
+      81786.6623390574
+     ],
+     "offset_km_p50_p90_p99": [
+      0.37794656215807093,
+      4.043645716120712,
+      22.97316642997629
+     ],
+     "outcomes_outside_settling_domain": 0,
+     "afloat_mass_share_unweighted": 0.17875742792357338
+    },
+    "H": {
+     "label": "Pleiades hypothesis (given H)",
+     "ess_of_resample": 865.0276589924933,
+     "outcomes": 40000,
+     "outcomes_with_zero_weight": 24,
+     "max_share_one_outcome": 0.0092723413862761,
+     "impact_area_km2_99_90_50": [
+      852447.6629020721,
+      242482.78956188407,
+      22178.66799070377
+     ],
+     "seabed_area_km2_99_90_50": [
+      864626.6866531549,
+      243865.3754451002,
+      22289.20714693331
+     ],
+     "offset_km_p50_p90_p99": [
+      0.3724212056877836,
+      3.445950603495964,
+      22.47814285559354
+     ],
+     "outcomes_outside_settling_domain": 0,
+     "afloat_mass_share_unweighted": 0.17875742792357338
+    },
+    "Ha": {
+     "label": "Pleiades hypothesis, after searches",
+     "ess_of_resample": 669.2787190677456,
+     "outcomes": 40000,
+     "outcomes_with_zero_weight": 23,
+     "max_share_one_outcome": 0.010586812640382144,
+     "impact_area_km2_99_90_50": [
+      921300.5763111439,
+      308340.4520394414,
+      25707.435228798968
+     ],
+     "seabed_area_km2_99_90_50": [
+      935942.2027148795,
+      310526.8752280453,
+      25897.345926476504
+     ],
+     "offset_km_p50_p90_p99": [
+      0.37623241741320707,
+      3.724154369362326,
+      22.772984825566834
+     ],
+     "outcomes_outside_settling_domain": 0,
+     "afloat_mass_share_unweighted": 0.17875742792357338
+    },
+    "Gx": {
+     "label": "general, not-computed excluded (sensitivity)",
+     "ess_of_resample": 412.91108484009885,
+     "outcomes": 40000,
+     "outcomes_with_zero_weight": 8260,
+     "max_share_one_outcome": 0.03673565673188048,
+     "impact_area_km2_99_90_50": [
+      591519.2966859031,
+      281328.5213801941,
+      45485.90818940811
+     ],
+     "seabed_area_km2_99_90_50": [
+      596306.0790079725,
+      282852.1205676615,
+      45837.98047618867
+     ],
+     "offset_km_p50_p90_p99": [
+      0.34652439987435163,
+      3.4134386098621556,
+      21.911376574672616
+     ],
+     "outcomes_outside_settling_domain": 0,
+     "afloat_mass_share_unweighted": 0.17875742792357338
+    },
+    "Hx": {
+     "label": "Pleiades, not-computed excluded (sensitivity)",
+     "ess_of_resample": 500.88626988274166,
+     "outcomes": 40000,
+     "outcomes_with_zero_weight": 8463,
+     "max_share_one_outcome": 0.011909029296614481,
+     "impact_area_km2_99_90_50": [
+      151100.91655520425,
+      58666.29964446604,
+      12486.455434498028
+     ],
+     "seabed_area_km2_99_90_50": [
+      151756.02895816293,
+      58937.56646410485,
+      12559.93883569456
+     ],
+     "offset_km_p50_p90_p99": [
+      0.3570676574035823,
+      3.0858325081628535,
+      22.0716924786411
+     ],
+     "outcomes_outside_settling_domain": 0,
+     "afloat_mass_share_unweighted": 0.17875742792357338
+    }
+   },
+   "settling_as_published": {
+    "impact_area_km2_99_90_50": [
+     1108739.8382003037,
+     363829.3978422412,
+     62061.777973678734
+    ],
+    "seabed_area_km2_99_90_50": [
+     1116237.8350853361,
+     364865.95950254984,
+     62299.05322912384
+    ],
+    "offset_km_p50_p90_p99": [
+     0.3610861731868604,
+     3.871456842093681,
+     22.26539329389591
+    ],
+    "outcomes_outside_settling_domain": 0,
+    "afloat_mass_share_unweighted": 0.17875742792357338
+   }
+  }
+ }
+}

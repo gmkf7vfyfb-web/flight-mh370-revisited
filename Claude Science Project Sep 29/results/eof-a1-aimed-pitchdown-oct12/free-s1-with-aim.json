@@ -1,0 +1,371 @@
+{
+ "strata_weights": {
+  "next-d-free": 1.0
+ },
+ "per_stratum_seed_lnZ": {
+  "next-d-free|00:19 Held Out|primary": [
+   -0.21641285409916478
+  ],
+  "next-d-free|00:19 Held Out|without survival factor": [
+   -0.058528397892670725
+  ],
+  "next-d-free|00:19 R600 BTO Only|primary": [
+   -5.865479341297572
+  ],
+  "next-d-free|00:19 R600 BTO Only|without survival factor": [
+   -5.724365782995651
+  ],
+  "next-d-free|00:19 R600 BTO + Raw BFO|primary": [
+   -12.82773043403588
+  ],
+  "next-d-free|00:19 R600 BTO + Raw BFO|without survival factor": [
+   -12.726038921217487
+  ],
+  "next-d-free|00:19 Holland H1|primary": [
+   -28.725285028936806
+  ],
+  "next-d-free|00:19 Holland H1|without survival factor": [
+   -28.714696596365073
+  ],
+  "next-d-free|00:19 Holland H2|primary": [
+   -22.60157710616219
+  ],
+  "next-d-free|00:19 Holland H2|without survival factor": [
+   -21.65464767696527
+  ]
+ },
+ "options": {
+  "00:19 Held Out": {
+   "primary": {
+    "ln_Z_mixture": -0.21641285409916478,
+    "eff_impacts": 717761.0365871727,
+    "families": {
+     "A1": {
+      "share": 0.13529356257219932,
+      "eff_impacts": 93697.03942998203
+     },
+     "A2": {
+      "share": 0.3310393322091371,
+      "eff_impacts": 312867.705207646
+     },
+     "B": {
+      "share": 0.5326006891750933,
+      "eff_impacts": 334860.7878419846
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.24488839256340728,
+    "share_contact_le_212": 0.8900272035296354,
+    "latitude_q05_q50_q95": {
+     "0.05": -39.97,
+     "0.5": -37.49,
+     "0.95": -29.32
+    }
+   },
+   "without survival factor": {
+    "ln_Z_mixture": -0.058528397892670725,
+    "eff_impacts": 772554.0392402622,
+    "families": {
+     "A1": {
+      "share": 0.11931821616825046,
+      "eff_impacts": 95598.62077883631
+     },
+     "A2": {
+      "share": 0.3227559382896472,
+      "eff_impacts": 316418.75226853363
+     },
+     "B": {
+      "share": 0.556999209071957,
+      "eff_impacts": 380255.8282937825
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.3481499542760047,
+    "share_contact_le_212": 0.8955299434990176,
+    "latitude_q05_q50_q95": {
+     "0.05": -39.87,
+     "0.5": -37.41,
+     "0.95": -29.34
+    }
+   }
+  },
+  "00:19 R600 BTO Only": {
+   "primary": {
+    "ln_Z_mixture": -5.865479341297572,
+    "eff_impacts": 967064.0791834529,
+    "families": {
+     "A1": {
+      "share": 0.11878468246436749,
+      "eff_impacts": 123921.71581268159
+     },
+     "A2": {
+      "share": 0.32211094180198224,
+      "eff_impacts": 422652.69736594066
+     },
+     "B": {
+      "share": 0.558130886819549,
+      "eff_impacts": 461878.8166229972
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.2652208039297734,
+    "share_contact_le_212": 0.8854466712486645,
+    "latitude_q05_q50_q95": {
+     "0.05": -40.22,
+     "0.5": -38.09,
+     "0.95": -29.72
+    }
+   },
+   "without survival factor": {
+    "ln_Z_mixture": -5.724365782995651,
+    "eff_impacts": 1002389.0387599164,
+    "families": {
+     "A1": {
+      "share": 0.10534659207772708,
+      "eff_impacts": 123587.44197996841
+     },
+     "A2": {
+      "share": 0.3155130278888438,
+      "eff_impacts": 407195.99442411895
+     },
+     "B": {
+      "share": 0.5782900203282617,
+      "eff_impacts": 504295.8886104777
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.3556521871400221,
+    "share_contact_le_212": 0.8924989668855575,
+    "latitude_q05_q50_q95": {
+     "0.05": -40.14,
+     "0.5": -37.98,
+     "0.95": -29.65
+    }
+   }
+  },
+  "00:19 R600 BTO + Raw BFO": {
+   "primary": {
+    "ln_Z_mixture": -12.82773043403588,
+    "eff_impacts": 24826.408897414316,
+    "families": {
+     "A1": {
+      "share": 0.1375583846230361,
+      "eff_impacts": 2943.845624444222
+     },
+     "A2": {
+      "share": 0.2565023363068122,
+      "eff_impacts": 10071.281442791307
+     },
+     "B": {
+      "share": 0.6051909779507222,
+      "eff_impacts": 13410.262255571784
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.24895769145459248,
+    "share_contact_le_212": 0.8545723020797751,
+    "latitude_q05_q50_q95": {
+     "0.05": -39.2,
+     "0.5": -37.42,
+     "0.95": -28.29
+    }
+   },
+   "without survival factor": {
+    "ln_Z_mixture": -12.726038921217487,
+    "eff_impacts": 24068.217460496457,
+    "families": {
+     "A1": {
+      "share": 0.12465092105602772,
+      "eff_impacts": 2944.7317191252764
+     },
+     "A2": {
+      "share": 0.2631148707500958,
+      "eff_impacts": 9577.396209057937
+     },
+     "B": {
+      "share": 0.611558199502016,
+      "eff_impacts": 12880.007994965672
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.3162448119703059,
+    "share_contact_le_212": 0.8494806412586986,
+    "latitude_q05_q50_q95": {
+     "0.05": -39.16,
+     "0.5": -37.41,
+     "0.95": -28.4
+    }
+   }
+  },
+  "00:19 Holland H1": {
+   "primary": {
+    "ln_Z_mixture": -28.725285028936806,
+    "eff_impacts": 836.8708848129361,
+    "families": {
+     "A1": {
+      "share": 0.12518533365292028,
+      "eff_impacts": 51.936757874201994
+     },
+     "A2": {
+      "share": 0.3392901207667468,
+      "eff_impacts": 538.1656242645354
+     },
+     "B": {
+      "share": 0.5342723696334177,
+      "eff_impacts": 420.38722156081377
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.9312354140646553,
+    "share_contact_le_212": 0.8398642102264671,
+    "latitude_q05_q50_q95": {
+     "0.05": -38.83,
+     "0.5": -37.38,
+     "0.95": -28.43
+    }
+   },
+   "without survival factor": {
+    "ln_Z_mixture": -28.714696596365073,
+    "eff_impacts": 848.4401250528609,
+    "families": {
+     "A1": {
+      "share": 0.1290527585517964,
+      "eff_impacts": 55.01658077977438
+     },
+     "A2": {
+      "share": 0.33837317762782776,
+      "eff_impacts": 544.089566531405
+     },
+     "B": {
+      "share": 0.5313186860596304,
+      "eff_impacts": 424.37704335205245
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.9314982429420398,
+    "share_contact_le_212": 0.8366014729486515,
+    "latitude_q05_q50_q95": {
+     "0.05": -38.83,
+     "0.5": -37.38,
+     "0.95": -28.43
+    }
+   }
+  },
+  "00:19 Holland H2": {
+   "primary": {
+    "ln_Z_mixture": -22.60157710616219,
+    "eff_impacts": 471.8196486095276,
+    "families": {
+     "A1": {
+      "share": 0.10564432348517483,
+      "eff_impacts": 83.38784367185599
+     },
+     "A2": {
+      "share": 0.2954945900057255,
+      "eff_impacts": 285.84696221332166
+     },
+     "B": {
+      "share": 0.594723011207964,
+      "eff_impacts": 211.79652775529152
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.8595456441485297,
+    "share_contact_le_212": 0.8630488303157777,
+    "latitude_q05_q50_q95": {
+     "0.05": -38.93,
+     "0.5": -37.37,
+     "0.95": -29.32
+    }
+   },
+   "without survival factor": {
+    "ln_Z_mixture": -21.65464767696527,
+    "eff_impacts": 197.21544974734644,
+    "families": {
+     "A1": {
+      "share": 0.04193528476380785,
+      "eff_impacts": 85.29121558954388
+     },
+     "A2": {
+      "share": 0.2879701636286735,
+      "eff_impacts": 50.33505063810545
+     },
+     "B": {
+      "share": 0.6684892473329642,
+      "eff_impacts": 131.39788634592864
+     }
+    },
+    "B_onset_window_share_of_B": {
+     "before 23:15": 0.0,
+     "23:15-00:11": 0.0,
+     "after 00:11": 1.0
+    },
+    "P_inflight_breakup": 0.9295047583362162,
+    "share_contact_le_212": 0.9422663632147086,
+    "latitude_q05_q50_q95": {
+     "0.05": -38.69,
+     "0.5": -37.25,
+     "0.95": -28.62
+    }
+   }
+  }
+ },
+ "H1_vs_H2": {
+  "primary": {
+   "ln_BF_at_W_s": {
+    "60": -2.0293633605525168,
+    "300": -0.41992544811841626,
+    "900": 0.6786868405496937,
+    "1775": 1.3578477791348993,
+    "3600": 2.0649812016695837
+   },
+   "break_even_W_s": 456.5544284251132
+  },
+  "without survival factor": {
+   "ln_BF_at_W_s": {
+    "60": -2.965704357177704,
+    "300": -1.3562664447436035,
+    "900": -0.25765415607549347,
+    "1775": 0.4215067825097121,
+    "3600": 1.1286402050443964
+   },
+   "break_even_W_s": 1164.5021311247635
+  }
+ }
+}

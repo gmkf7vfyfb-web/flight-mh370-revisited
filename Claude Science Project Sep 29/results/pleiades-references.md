@@ -122,3 +122,19 @@ sha256 values in `results/ocean-data-manifest.md` (ocean transport). Retirement 
 - Proposition 2, p. 6: d = d̃_A + d̃_B − d̃_AB; moderate tension at p ≲ 0.05, strong at p ≲ 0.003; for non-Gaussian
   posteriors p is "only a rough calibration".
 - Used in `prepare/rerun_reference.py` (`tension()`; hypothesis/pleiades 9b7cd52).
+
+**[Prior-Pleiades] Prior work: the Pléiades BRAN2016 forward inversion (withdrawn v01 share)**
+`Archive ISO Pre Sept 28/codebases/v01-share-withdrawn/v01/workspace/.sources/pleiades-bran2016-forward-inversion/`
+(`README.md`, `likelihood-handoff.md`, `outputs/summary.json`).
+- Supports the settings of the comparison in methods draft §6.3. From `outputs/summary.json`: primary diffusion
+  5 NM/day rms (sensitivities 0 and 10); primary endpoint kernel σ 10 km (5 and 20 as sensitivities); windage
+  factors 0, 1.2 and 3 %; 64 particles per windage. From `likelihood-handoff.md`: the arithmetic mean of twelve
+  10 km Gaussian kernels.
+- Its 90 % area of 57,708 km² and mode near 35.3 S 92.2 E are read from Pete's figure as attached on 9 Oct, not
+  from a file.
+- The windage used in §6.3 is 1.25 %, the nearest node of our 0.25 % grid to the prior work's 1.2 %.
+
+**[Taylor1921] equation location: still open (10 Oct 2026).** Both Taylor (1921, doi:10.1112/plms/s2-20.1.196)
+and the secondary source LaCasce (2008, *Prog. Oceanogr.* 77, 1-29, doi:10.1016/j.pocean.2008.02.002) are closed
+access from this session. The closed form 2σ²T[t − T(1 − e^(−t/T))] for an exponential velocity autocorrelation
+is standard. Its equation number needs a library copy; this is a request for Pete.

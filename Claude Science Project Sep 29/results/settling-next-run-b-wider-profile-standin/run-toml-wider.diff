@@ -1,0 +1,21 @@
+diff --git a/Claude Science Project Sep 29/engine/hypotheses/settling/run.toml b/Claude Science Project Sep 29/engine/hypotheses/settling/run.toml
+index 35e96ac..f125d30 100644
+--- a/Claude Science Project Sep 29/engine/hypotheses/settling/run.toml	
++++ b/Claude Science Project Sep 29/engine/hypotheses/settling/run.toml	
+@@ -83,13 +83,13 @@ factors = [1.0, 0.5, 0.2, 0.3]
+ #   product; the WOA23 climatology is kept loaded as the declared alternative ("woa23").
+ [hypotheses.settling.shared]
+ bathymetry_manifests = ["/Users/pete/Downloads/mh370-ocean-data/ausseabed/grid/ausseabed_mh370_150m.json", "/Users/pete/Downloads/mh370-ocean-data/gebco/grid/gebco_2026.json"]
+-bathymetry_window = [80.0, 112.0, -45.0, -18.0]
++bathymetry_window = [75.0, 115.0, -45.0, -10.0]
+ density_woa23_manifest = "/Users/pete/Downloads/mh370-ocean-data/woa23/soundspeed/woa23_A5B4_m03.json"
+ density_source = "column"
+-column_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid/glorys12v1_uo_vo_thetao_so_20140307-20140314.profile.json"
++column_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/profile/grid_75-115E_45-10S/glorys12v1_uo_vo_thetao_so_75-115E_45-10S_20140307-20140314.profile.json"
+ surface_current_manifest = "/Users/pete/Downloads/mh370-ocean-data/glorys12/grid/glorys12v1_uo_vo_surface.series.json"
+ wind_manifest = "/Users/pete/Downloads/mh370-ocean-data/era5/era5_u10_v10_3h.series.json"
+-fields_window = [80.0, 112.0, -45.0, -18.0]
++fields_window = [75.0, 115.0, -45.0, -10.0]
+ fields_time_unix_s = [1394150400.0, 1394841600.0]
+ 
+ # ---------------------------------------------------------------------------------------------

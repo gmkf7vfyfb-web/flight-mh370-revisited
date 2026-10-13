@@ -82,7 +82,7 @@ replicates per cell.
 | ratings 4+5, ρ4 0.25 / 0.5 / 1 | 0.003 | −0.012 to −0.013 | 0.50 | 0.09 / 0.875 |
 | rating-5 objects (F1-F3: 1,753 assignments; F1-F4: 18,001) | 0.012 | −0.021 | 0.50 | 0.17 / 0.875 (F1-F3), 0.94 (F1-F4) |
 
-1. **Information gain is at most 0.14 bits** in every arm, inside what the injection floor shows
+1. **Information gain is at most 0.15 bits** (largest 0.142, arms 'pi_match 0.9') in every arm, inside what the injection floor shows
    the geometry can give. **The Bayes factor is unity to within 5 %.** That is the negative result
    stated as a number.
 2. **F4 changes nothing.** Every windage puts it 60-115 km from every target, so it is never matched.

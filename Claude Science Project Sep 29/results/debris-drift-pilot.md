@@ -5,6 +5,12 @@ Ocean drift module, 9 October 2026, ~09:30 UTC. **PILOT, PROVISIONAL, NOT EVIDEN
 - There is one ocean product (GLORYS12 + ERA5), one diffusivity (248 m²/s) and no ocean-error model.
 - The extent is the no-exhaustion-prior map at 00:19:37 (295.66° prior).
 
+**Run provenance (convention of ~16:40 UTC):**
+- Drift config `pilot.toml`, base `config/davey2016.toml`, module commit `4311e7c`.
+- The extent map is from core's `no-exhaustion-prior` run (`results/no-exhaustion-prior-summary.json`),
+  prior track 295.66.
+- The pilot uses no impact samples.
+
 Nothing here is a statement about where MH370 is. The prediction it is read against was committed
 before any trajectory was integrated (`results/debris-drift-pilot-prediction.md`, `050fc05`).
 

@@ -130,11 +130,13 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
 
     let steps = build_steps(&epochs, &hypotheses, prior.unix_s)?;
     let last = steps.last().unwrap();
-    let stop = handoff::Stop { epoch: last.id.clone(), step: steps.len() - 1, unix_s: last.unix_s };
+    let stop = handoff::Stop { epoch: last.id.clone(), step: steps.len() - 1, unix_s: last.unix_s, ..Default::default() };
     let stage = match (&config.terminal, &terminal_module) {
         (Some(t), Some(module)) => {
             let later = excluded.iter().filter(|e| e.unix_s > stop.unix_s).cloned().collect();
-            Some(terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), &t.module)?, later)?)
+            let mut stage = terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), &t.module)?, later)?;
+            stage.bfo_drift_hz2_per_s = config.bfo_bias.drift_hz2_per_s;
+            Some(stage)
         }
         _ => None,
     };
@@ -170,6 +172,20 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
     if route_points > MAX_ROUTE_POINTS {
         return Err("route_interval_s is too small for the flight duration".into());
     }
+    let trace = match &config.output.trace {
+        None => None,
+        Some(tc) => {
+            let (from, to) = (satcom::parse_utc(&tc.from_utc)?, satcom::parse_utc(&tc.to_utc)?);
+            if !(tc.interval_s > 0.0) || to < from {
+                return Err("output.trace needs interval_s > 0 and to_utc at or after from_utc".into());
+            }
+            let points = ((to - from) / tc.interval_s).floor() as usize + 1;
+            if points > filter::MAX_TRACE_POINTS {
+                return Err(format!("output.trace has {points} points; at most {}", filter::MAX_TRACE_POINTS));
+            }
+            Some(filter::Trace { start_unix_s: from, interval_s: tc.interval_s, points })
+        }
+    };
     std::fs::create_dir_all(out).map_err(|e| e.to_string())?;
     eprintln!("loaded inputs in {:.1} s", started.elapsed().as_secs_f64());
 
@@ -182,6 +198,7 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
         environment: &environment,
         hypotheses: &hypotheses,
         route_points,
+        trace,
         progress: hooks.map(|h| h.progress),
         cancel: hooks.map(|h| h.cancel),
         handoff: config.terminal.as_ref().map_or(0, |t| t.handoff),
@@ -245,6 +262,8 @@ pub fn run(config_paths: &[PathBuf], out: &Path, hooks: Option<&Hooks>) -> Resul
         "terminal": stage.as_ref().map(|s| s.manifest()),
         "prior_unix_s": prior.unix_s,
         "final_columns": FINAL_COLUMNS,
+        "final_time_origin_unix_s": filter::FINAL_TIME_ORIGIN_UNIX_S,
+        "tank_columns": config.fuel.as_ref().and_then(|f| f.tanks).filter(|&t| t == 2).map(|_| filter::TANK_COLUMNS),
         "residual_columns": filter::RESIDUAL_COLUMNS,
         "route_interval_s": config.output.route_interval_s,
         "reference_arcs": arcs,
@@ -287,6 +306,84 @@ fn load_fuel(
             factor_sd: f.factor_sd,
         },
     );
+    match f.model.as_deref() {
+        None | Some("tables") => {
+            if f.ceiling == Some(true) {
+                return Err("[fuel] ceiling = true needs model = \"internal-v1\" (the ceiling table is in that model)".into());
+            }
+        }
+        Some("internal-v1") => {
+            let path = config.inputs.fuel_model.as_ref().ok_or("[fuel] model = \"internal-v1\" needs inputs.fuel_model")?;
+            let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
+            let grid = flight::fuel::InternalGrid::from_json(&text)?;
+            if grid.version != "internal-v1" {
+                return Err(format!("{}: model version {} is not internal-v1", path.display(), grid.version));
+            }
+            model.internal = Some(grid);
+        }
+        Some(other) => return Err(format!("[fuel] model = \"{other}\" is not tables or internal-v1")),
+    }
+    model.temperature = f.temperature.unwrap_or(false);
+    model.initial_from_factor = f.initial_from_factor.map(|[a, b]| (a, b));
+    model.ceiling = f.ceiling.unwrap_or(false);
+    match f.tanks.unwrap_or(1) {
+        1 => {}
+        2 => {
+            if model.internal.as_ref().and_then(|g| g.inop.as_ref()).is_none() {
+                return Err("[fuel] tanks = 2 needs model = \"internal-v1\" with its grid_inop".into());
+            }
+            let [im, isd] = f.tank_imbalance_kg.unwrap_or([221.0, 120.0]);
+            let [rm, rsd] = f.tank_flow_ratio.unwrap_or([1.021, 0.008]);
+            model.tanks = Some(flight::fuel::TankPrior { imbalance_mean_kg: im, imbalance_sd_kg: isd, ratio_mean: rm, ratio_sd: rsd });
+        }
+        n => return Err(format!("[fuel] tanks = {n}: must be 1 or 2")),
+    }
+    if let Some(k) = f.inop_flow_scale {
+        if !(k > 0.0 && k <= 2.0) {
+            return Err("[fuel] inop_flow_scale must be in (0, 2]".into());
+        }
+        if model.tanks.is_none() {
+            return Err("[fuel] inop_flow_scale needs tanks = 2".into());
+        }
+        model.inop_flow_scale = k;
+    }
+    if f.single_engine == Some(true) {
+        if model.tanks.is_none() {
+            return Err("[fuel] single_engine = true needs tanks = 2".into());
+        }
+        // Probe well inside the one-engine envelope (FL150, 200 t): at FL250 and 200 t the LRC INOP
+        // table is already filler (above the one-engine ceiling), which is not a missing table.
+        if model.internal.as_ref().and_then(|g| g.inop_mach(150.0, 200.0)).is_none() {
+            return Err("[fuel] single_engine = true needs internal-v1's lrc_inop_mach table".into());
+        }
+        let [lo, hi] = f.single_engine_descent_fpm.unwrap_or([300.0, 1000.0]);
+        if !(lo > 0.0 && hi >= lo) {
+            return Err("[fuel] single_engine_descent_fpm must be 0 < lo <= hi".into());
+        }
+        let profile = match f.single_engine_profile.as_deref() {
+            None | Some("constant") => flight::DriftDown::Constant,
+            Some("hold-taper") => {
+                let [dlo, dhi] = f.single_engine_decel_kt_per_min.unwrap_or([7.0, 11.0]);
+                let [klo, khi] = f.single_engine_driftdown_kcas.unwrap_or([207.0, 227.0]);
+                let lift_drag = f.single_engine_lift_drag.unwrap_or(20.7);
+                let min_drag_factor = f.single_engine_min_drag_factor.unwrap_or(1.038);
+                let exponent = f.single_engine_ceiling_exponent.unwrap_or(0.864);
+                let level_off_fpm = f.single_engine_level_off_fpm.unwrap_or(30.0);
+                if !(dlo > 0.0 && dhi >= dlo) {
+                    return Err("[fuel] single_engine_decel_kt_per_min must be 0 < lo <= hi".into());
+                }
+                if !(klo >= 150.0 && khi >= klo && khi <= 300.0) {
+                    return Err("[fuel] single_engine_driftdown_kcas must be 150 <= lo <= hi <= 300".into());
+                }
+                if !(lift_drag > 1.0 && min_drag_factor >= 1.0 && exponent > 0.0 && level_off_fpm > 0.0) {
+                    return Err("[fuel] hold-taper needs lift_drag > 1, min_drag_factor >= 1, ceiling_exponent > 0, level_off_fpm > 0".into());
+                }
+                flight::DriftDown::HoldTaper { decel_kt_per_min: (dlo, dhi), driftdown_kcas: (klo, khi), lift_drag, min_drag_factor, exponent, level_off_fpm }
+            }
+            Some(x) => return Err(format!("[fuel] single_engine_profile = {x:?}: must be \"constant\" or \"hold-taper\"")),
+        };
+        model.single_engine = Some(flight::SingleEngine { descent_fpm: (lo, hi), mach_band: f.single_engine_mach_band.unwrap_or(0.02), profile });
+    }
     match f.proposal.as_deref() {
         None | Some("reject") => {}
         Some("endurance") => {
@@ -352,7 +449,9 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
         for &seed in case.seeds.as_ref().unwrap_or(&config.seeds) {
             let dir = run_dir.join(&case.id).join(format!("seed-{seed}"));
             if dir.join("handoff.toml").is_file() {
-                handoffs.push((case.id.clone(), seed, handoff::read(&dir)?));
+                // read_corrected applies any look-ahead correction to the row weights (contract v1).
+                let (stop, _lookahead, rows) = handoff::read_corrected(&dir)?;
+                handoffs.push((case.id.clone(), seed, (stop, rows)));
             }
         }
     }
@@ -361,7 +460,8 @@ fn rerun_terminal(args: &[String]) -> Result<(), String> {
         None => return Err(format!("{}: no handoff.toml for the configuration's cases and seeds", run_dir.display())),
     };
     let later = epochs.iter().filter(|e| config.exclude_epochs.contains(&e.id) && e.unix_s > stop.unix_s).cloned().collect();
-    let stage = terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), name)?, later)?;
+    let mut stage = terminal::Stage::new(t, &params, &environment, Some(environment.era5_span()), terminal_model(module.as_ref(), name)?, later)?;
+    stage.bfo_drift_hz2_per_s = config.bfo_bias.drift_hz2_per_s;
     let mut replicates = Vec::new();
     for (case, seed, (s, rows)) in handoffs {
         if s != stop {

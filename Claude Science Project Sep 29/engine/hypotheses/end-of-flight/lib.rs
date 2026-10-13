@@ -39,10 +39,10 @@
 //!   20.8–21.4 at 174 t, against Boeing's ~20.7:1 from the Malaysian SIR Appendix 1.6E driftdown.
 //!   This is a declared departure, not a silent substitution.
 //! - **Windmilling-engine and RAT drag increments are uncertain parameters, not constants**:
-//!   there are no public Trent 892 figures. PROVISIONAL-OVERNIGHT (9 Oct 2026): the windmilling band is
+//!   there are no public Trent 892 figures. Ruled by Pete (9 Oct 2026): the windmilling band is
 //!   calibrated to Boeing's dual-flame-out driftdown (0.0034 NM/ft, SIR App. 1.6E), so the altitude
 //!   term of the unpowered glide from 35,000 ft runs 107–121 NM. The former ESDU-scale band gave
-//!   85–105 NM, inconsistent with Boeing; it is kept as `smoke/glide-esdu.toml`.
+//!   85–105 NM, inconsistent with Boeing; it is kept as `smoke/glide-esdu.toml`, a labelled sensitivity.
 //! - **Drag rise and pitch above M0.87 are labelled extrapolated.** The brief calls for them to
 //!   be shaped from NASA Common Research Model data, which is not in this tree; Lock's
 //!   fourth-power law stands in, with its coefficient a swept parameter. Every model including
@@ -74,6 +74,7 @@
 mod aero;
 mod atmos;
 mod integrator;
+mod manoeuvre;
 mod onset;
 mod profile;
 mod taxonomy;
@@ -113,6 +114,16 @@ struct AeroParams {
     idle_thrust_fraction: Range,
     thrust_density_exponent: f64,
     tsfc_kg_per_n_s: Range,
+    /// Idle-flow floor in the descent burn (Pete, 9 Oct). 0 or absent = off, the earlier burn exactly.
+    #[serde(default)]
+    idle_fuel_flow_sl_kg_s: f64,
+    /// Band of [`Aero::idle_flow_bffm2_weight`], drawn per descent only when the floor is on.
+    #[serde(default = "full_band")]
+    idle_flow_bffm2_weight: [f64; 2],
+}
+
+fn full_band() -> [f64; 2] {
+    [0.0, 1.0]
 }
 
 impl AeroParams {
@@ -135,6 +146,14 @@ impl AeroParams {
             idle_thrust_fraction: self.idle_thrust_fraction.draw(uniform),
             thrust_density_exponent: self.thrust_density_exponent,
             tsfc_kg_per_n_s: self.tsfc_kg_per_n_s.draw(uniform),
+            idle_fuel_flow_sl_kg_s: self.idle_fuel_flow_sl_kg_s,
+            // Drawn last, and only when the floor is on, so the stream is unchanged when it is off.
+            idle_flow_bffm2_weight: if self.idle_fuel_flow_sl_kg_s > 0.0 {
+                let [lo, hi] = self.idle_flow_bffm2_weight;
+                lo + (hi - lo) * uniform()
+            } else {
+                0.0
+            },
         }
     }
 
@@ -164,6 +183,10 @@ impl AeroParams {
         ] {
             r.check(&format!("aero.{name}"))?;
         }
+        let [wl, wh] = self.idle_flow_bffm2_weight;
+        if !(self.idle_fuel_flow_sl_kg_s >= 0.0 && (0.0..=1.0).contains(&wl) && (0.0..=1.0).contains(&wh) && wh >= wl) {
+            return Err("aero: idle_fuel_flow_sl_kg_s >= 0 and idle_flow_bffm2_weight within [0, 1], lo <= hi".into());
+        }
         if !(self.wing_area_m2 > 0.0 && self.span_m > 0.0 && self.mach_crest > 0.0 && self.c_l_max_clean > 0.0) {
             return Err("aero: wing_area_m2, span_m, mach_crest and c_l_max_clean must be positive".into());
         }
@@ -183,6 +206,11 @@ struct Params {
     fine_window_s: f64,
     /// Ceiling on integrated flight time, s.
     max_flight_s: f64,
+    /// Floor on the load factor (g) a commanded-rate descent may pull while pitching down (10 Oct, reach gap: unloading).
+    /// Absent (default): no floor, the earlier behaviour exactly; only the C_L limit applies, so a large commanded rate
+    /// could unload below 0 g. Set with `smoke/rapid-descent.toml` (test overlay).
+    #[serde(default)]
+    track_load_factor_floor_g: Option<f64>,
     /// Descents returned per child.
     descents_per_child: usize,
     /// Mass to use when the hand-off carries NaN (it does today: core request 1). 174 t is the
@@ -200,6 +228,45 @@ struct Params {
     propulsion_weights: [f64; 3],
     /// Relative prior weights of the control states, in `Control::ALL` order.
     control_weights: [f64; 4],
+    /// Control weights for a DELIBERATE onset (anticipatory or fuel cue) with thrust available: a crew that chose to
+    /// descend is in control at the start (Pete, 10 Oct, V2 profile coverage). Absent = `control_weights` for every
+    /// onset, the earlier behaviour exactly.
+    #[serde(default)]
+    deliberate_control_weights: Option<[f64; 4]>,
+    /// Apply `deliberate_control_weights` to EVERY deliberate onset (anticipatory or fuel cue), also when the drawn
+    /// propulsion is an idle descent (`NeitherThrusting`). Family B as ruled 15:45 -0600 10 Oct is a planned descent with
+    /// an approach to ditching whatever the thrust setting. Default false: only thrusting deliberate onsets, the 10 Oct
+    /// V2-broad behaviour exactly.
+    #[serde(default)]
+    deliberate_control_any_propulsion: bool,
+    /// Read core's two-tank state at the takeover (core request 11, `3970826`; Pete's two-tank instruction 10 Oct). With it on:
+    /// the exhaustion prediction burns the right and left pools at the twin flow split by `tank_flow_ratio` (R:L) until one is
+    /// dry, then the live pool at the core's one-engine (INOP) flow; and a takeover with exactly one live pool cannot draw
+    /// `TwoThrusting`. Single-pool hand-offs (NaN tank fields) are unaffected. Default false: the single-pool behaviour exactly.
+    #[serde(default)]
+    two_tank_takeover: bool,
+    /// Right-to-left engine flow ratio for the two-tank prediction. Default 1.021 (fuel session, N(1.021, 0.008^2)).
+    #[serde(default = "default_tank_flow_ratio")]
+    tank_flow_ratio: f64,
+    /// Item 2, Boeing's system sequence (Pete's ruling on the EoF physics prior; plan accepted 01:45 -0600 11 Oct). Needs
+    /// `two_tank_takeover`. Absent (default): off, the earlier behaviour exactly. Set to p: a flame-out-associated onset is the
+    /// autopilot loss, at the SECOND flame-out with probability 1 - p (Boeing's primary configuration: TAC and the autopilot hold
+    /// the aircraft on one engine to the second flame-out - the core flies that phase to the takeover - then RAT and APU, no
+    /// thrust), or at the FIRST flame-out with probability p (the alternative configuration), the other engine still running at
+    /// `boeing_alt_thrust_setting` until its tank is dry. Only parents with both tanks live at the hand-off can take the
+    /// alternative (an engine already out before the hand-off was flown with the autopilot held by the core).
+    #[serde(default)]
+    boeing_ap_loss_first_probability: Option<f64>,
+    /// Thrust setting (0 idle, 1 full) held by the running engine after an autopilot loss at the first flame-out.
+    #[serde(default = "default_boeing_alt_thrust")]
+    boeing_alt_thrust_setting: Range,
+    /// G13 feasibility threshold for `latent:contact_speed_feasible`, m/s. Default 212 = 1.25 VMO (VMO 330 kt).
+    #[serde(default = "default_feasible_contact_speed")]
+    feasible_contact_speed_mps: f64,
+    /// G13 in-flight structural outcome (architecture 10:50 -0600 11 Oct, item 5): probabilistic in dynamic pressure and load
+    /// factor, with partial damage (continued flight) and in-flight breakup. PROVISIONAL; see `StructureParams`.
+    #[serde(default)]
+    structure: StructureParams,
     /// Keep a descent that never reached the sea as its own impact sample instead of finishing it
     /// on a best-glide. **Default off.** A negative result is kept, not deleted: with the flag
     /// off the fact is still recorded in the `timed_out` latent, and with it on the unconverged
@@ -209,6 +276,60 @@ struct Params {
     onset: OnsetConfig,
     envelope: EnvelopeConfig,
     logon: LogonParams,
+    /// The two-burst stopgap proposal (9 Oct 2026, Pete's choice). Absent, every field is off and
+    /// the earlier stream is reproduced exactly.
+    #[serde(default)]
+    proposal: ProposalParams,
+    #[serde(default)]
+    trace: TraceParams,
+}
+
+/// The two-burst stopgap proposal: PROVISIONAL, to be redone on the 6-DOF-fitted fast model.
+/// Searched Areas (architecture.md ~21:40 UTC, 9 Oct) found every arm that scores BOTH 00:19 bursts below
+/// 1,000 effective impacts on the reference-289 sweep and Holland's two arms below 100 (19-36 with the
+/// fuel-exhaustion log-on). On that sweep the weight under those arms sits on maintained-then-lost
+/// descents (73-98%) that lose control 0-190 s before 00:19:29. Both draws are importance-sampled with
+/// exact corrections, ln(prior / proposal), carried in each descent's `log_q_correction`:
+/// - `maintained_then_lost_boost` a: the control draw from q = (1 - a) p + a 1{MaintainedThenLost};
+/// - `loss_window_unix_s` and `loss_window_weight`: [`profile::LossWindow`].
+#[derive(Deserialize, Debug, Clone, PartialEq, Default)]
+#[serde(deny_unknown_fields)]
+struct ProposalParams {
+    #[serde(default)]
+    maintained_then_lost_boost: f64,
+    #[serde(default)]
+    loss_window_unix_s: [f64; 2],
+    #[serde(default)]
+    loss_window_weight: f64,
+}
+
+impl ProposalParams {
+    fn check(&self) -> Result<(), String> {
+        let ok = (0.0..1.0).contains(&self.maintained_then_lost_boost)
+            && (0.0..1.0).contains(&self.loss_window_weight)
+            && self.loss_window_unix_s[1] >= self.loss_window_unix_s[0];
+        if ok { Ok(()) } else { Err("proposal: boost and weight in [0, 1), window [lo, hi] with hi >= lo".into()) }
+    }
+
+    fn window(&self) -> Option<profile::LossWindow> {
+        (self.loss_window_weight > 0.0).then_some(profile::LossWindow { unix_s: self.loss_window_unix_s, weight: self.loss_window_weight })
+    }
+}
+
+/// Draw the control axis from the optional maintained-then-lost boost. Returns (control, prior
+/// probability, ln prior/proposal). With the boost at 0 this is exactly `pick` on the prior weights.
+fn pick_control(weights: &[f64; 4], boost: f64, uniform: &mut dyn FnMut() -> f64) -> (Control, f64, f64) {
+    if !(boost > 0.0) {
+        let (c, p) = pick(weights, &Control::ALL, uniform);
+        return (c, p, 0.0);
+    }
+    let total: f64 = weights.iter().sum();
+    let prior: Vec<f64> = weights.iter().map(|w| w / total).collect();
+    let q: Vec<f64> = Control::ALL.iter().zip(&prior)
+        .map(|(c, p)| (1.0 - boost) * p + if *c == Control::MaintainedThenLost { boost } else { 0.0 }).collect();
+    let (c, qc) = pick(&q, &Control::ALL, uniform);
+    let i = Control::ALL.iter().position(|x| *x == c).unwrap();
+    (c, prior[i], prior[i].ln() - qc.ln())
 }
 
 /// Brief section 6: the 00:19:29 log-on as ONE observation, `m0019a.logon`, used once, through a
@@ -411,7 +532,92 @@ const LATENTS: &[&str] = &[
     "spiral_divergent",
     "spiral_doubling_s",
     "free_dynamics_started_s",
+    // Sign of the drawn residual bank of the free phase: -1 left, +1 right, NaN when the profile has no free phase. Lets the
+    // left/right prior of `residual_bank_left_probability` be re-weighted exactly afterwards (10 Oct).
+    "residual_bank_sign",
+    // Item 4 (bounded push-over, piloted family): eligibility of this descent for the push-over proposal draw (0/1), whether one
+    // was drawn (0/1), and its commanded rate (ft/min), load-factor floor (g) and hold (s), NaN without one. With the proposal
+    // probability in run.json, they allow exact re-weighting to any prior push-over probability (profile.rs).
+    "pushover_eligible",
+    "pushover_drawn",
+    "pushover_rate_fpm",
+    "pushover_n_floor_g",
+    "pushover_hold_s",
+    // Interim parametric pitch-down in uncontrolled free flight (architecture 10:50 -0600 11 Oct, item 2): eligibility (0/1), drawn
+    // (0/1), load factor g, duration s, delay after the free phase began s (NaN without a pulse).
+    "pitchdown_eligible",
+    "pitchdown_drawn",
+    "pitchdown_n_g",
+    "pitchdown_duration_s",
+    "pitchdown_delay_s",
+    // Load-factor ceiling of the piloted laws drawn for this descent, g (NaN: none). EnvelopeConfig::piloted_load_factor_ceiling_g.
+    "piloted_n_ceiling_g",
+    // G-turn piloted manoeuvres (Pete's rulings 12 Oct): Davey tau drawn (h) and Davey turns begun; when the terminal window
+    // opened (NaN: never); terminal random-turn ln rate per minute and turns begun; sweep eligible / drawn / begun; circuit
+    // eligible / drawn / final heading (0 into wind, 1 along swell; NaN: no circuit) / begun; total heading change flown, deg.
+    "davey_tau_h", "turns_davey_begun", "terminal_window_unix_s", "turn_ln_rate_per_min", "turns_terminal_begun",
+    "sweep_eligible", "sweep_drawn", "sweep_begun", "circuit_eligible", "circuit_drawn", "circuit_final_kind", "circuit_begun",
+    "heading_change_deg",
+    // Item 2: autopilot-loss configuration code: 0 no draw, 1 primary (second flame-out), 2 alternative (first flame-out, the
+    // other engine running). With the proposal probability in run.json, exact re-weighting to any prior probability.
+    "ap_loss_config",
+    // G13 (architecture ruling 20:35 -0600 10 Oct; composer gap 25): ONE feasibility flag for every consumer. 1 = contact speed at
+    // or below `feasible_contact_speed_mps` (default 212 m/s = 1.25 VMO), 0 = above: a state the model reaches only because it has
+    // no structural limit. Consumers show both versions; the flag replaces their four separate filters.
+    "contact_speed_feasible",
+    // G-dive (Pete 12 Oct): 1 if the push-over was continued as a dive to the surface, 0 if it levelled off, NaN without one.
+    "pushover_to_surface",
+    // G13 in-flight structural outcome, PROVISIONAL (StructureParams): peak speed ratio max(V_EAS/VD, M/MD), peak load ratio
+    // max(n/2.5, n/-1.0), highest and lowest load factor (g), highest dynamic pressure (kPa); P(intact), P(partial damage, continued
+    // flight), P(in-flight breakup); and where the governing peak was reached (unix s, altitude ft, latitude, longitude). The
+    // impact point is NOT moved for breakup in this version (gap G-bf).
+    "struct_speed_ratio", "struct_load_ratio", "struct_max_load_factor_g", "struct_min_load_factor_g", "struct_max_q_kpa",
+    "inflight_p_intact", "inflight_p_partial", "inflight_p_breakup",
+    "struct_peak_unix_s", "struct_peak_altitude_ft", "struct_peak_latitude_deg", "struct_peak_longitude_deg",
+    // The same, restricted to the flight before `structure.survival_until_unix_s` (00:19:37.443): speed and load ratios and
+    // P(in-flight breakup before it). Proposal to architecture: `alive` should carry (1 - this probability).
+    "struct_speed_ratio_to_m0019b", "struct_load_ratio_to_m0019b", "inflight_p_breakup_to_m0019b",
+    // The module's own physical state at each burst it flew through (10 Oct, Pete's questions on the 22:41 arms):
+    // NaN when the burst came before this descent's onset (core's cruise) or after its impact. Recorded BEFORE
+    // `unpowered_bursts_removed`, so a burst the SDU could not answer still shows where the aircraft was.
+    "state_m2315_altitude_ft", "state_m2315_vertical_speed_fpm", "state_m2315_latitude_deg", "state_m2315_longitude_deg",
+    "state_m0011_altitude_ft", "state_m0011_vertical_speed_fpm", "state_m0011_latitude_deg", "state_m0011_longitude_deg",
+    "state_m0019a_altitude_ft", "state_m0019a_vertical_speed_fpm", "state_m0019a_latitude_deg", "state_m0019a_longitude_deg",
+    "state_m0019b_altitude_ft", "state_m0019b_vertical_speed_fpm", "state_m0019b_latitude_deg", "state_m0019b_longitude_deg",
 ];
+
+/// Epochs whose module-flown state is emitted as latents, in `LATENTS` order.
+const STATE_EPOCHS: [&str; 4] = ["m2315", "m0011", "m0019a", "m0019b"];
+
+/// Altitude-trace recorder for plotting (10 Oct). Off unless `path` is set. A descent is recorded when a hash of
+/// its takeover state and index is divisible by `every_n`: deterministic, and no uniform is drawn, so the
+/// sampled stream and every impact row are unchanged. Rows: impact_unix_s, impact_latitude_deg,
+/// impact_longitude_deg, unix_s, altitude_ft, vertical_speed_fpm, one per `step_s` of module-flown time from onset.
+#[derive(Deserialize, Debug, Clone, PartialEq, Default)]
+#[serde(deny_unknown_fields)]
+struct TraceParams {
+    #[serde(default)]
+    path: String,
+    #[serde(default)]
+    every_n: u64,
+    #[serde(default)]
+    step_s: f64,
+}
+
+static TRACE_LOCK: std::sync::Mutex<()> = std::sync::Mutex::new(());
+
+fn trace_selected(t: &FlightState, i: usize, every_n: u64) -> bool {
+    if every_n == 0 {
+        return false;
+    }
+    let mut h: u64 = 0xcbf2_9ce4_8422_2325;
+    for x in [t.unix_s.to_bits(), t.latitude_deg.to_bits(), t.longitude_deg.to_bits(), i as u64] {
+        h ^= x;
+        h = h.wrapping_mul(0x0000_0100_0000_01b3);
+        h ^= h >> 29;
+    }
+    h % every_n == 0
+}
 
 /// Settling's breakup-family constants, quoted verbatim from `results/breakup-field-candidate.md`
 /// section 2. They live in settling's table; the fixtures test below is what keeps this copy honest.
@@ -442,7 +648,7 @@ const TAU_METHOD_NOT_COMPUTED: f64 = 0.0;
 
 /// Layout version of `Takeover::draw`. The runner never reads the vector; this module encodes it
 /// in `takeover` and decodes it in `descend_after`, and refuses a vector it did not write.
-const DRAW_VERSION: f64 = 2.0;
+const DRAW_VERSION: f64 = 3.0;
 
 /// What `takeover` drew, as `descend_after` needs it again (core request 2).
 #[derive(Debug, Clone, Copy)]
@@ -458,6 +664,9 @@ struct OnsetDraw {
     /// that model could not price.
     prediction_priced_by_core: bool,
     prediction_unpriced_s: f64,
+    /// Item 2: 0 = no configuration draw (sequence off, not flame-out-associated, or one tank already dry at the hand-off);
+    /// 1 = drawn, primary (autopilot lost at the second flame-out); 2 = drawn, alternative (lost at the FIRST flame-out).
+    ap_config: u8,
 }
 
 impl OnsetDraw {
@@ -470,12 +679,13 @@ impl OnsetDraw {
             self.predicted_exhaustion_unix_s,
             f64::from(u8::from(self.prediction_priced_by_core)),
             self.prediction_unpriced_s,
+            f64::from(self.ap_config),
             DRAW_VERSION,
         ]
     }
 
     fn decode(v: &[f64]) -> Option<OnsetDraw> {
-        if v.len() != 8 || v[7] != DRAW_VERSION {
+        if v.len() != 9 || v[8] != DRAW_VERSION {
             return None;
         }
         let mechanism = Initiation::ALL.iter().copied().find(|m| m.code() == v[0])?;
@@ -487,6 +697,7 @@ impl OnsetDraw {
             predicted_exhaustion_unix_s: v[4],
             prediction_priced_by_core: v[5] == 1.0,
             prediction_unpriced_s: v[6],
+            ap_config: v[7] as u8,
         })
     }
 }
@@ -512,7 +723,17 @@ pub fn new(params: &toml::Value) -> Result<Box<dyn Hypothesis>, String> {
     params.onset.check()?;
     params.envelope.check()?;
     params.logon.check()?;
-    Ok(Box::new(EndOfFlight { params, families: taxonomy::legal_families() }))
+    params.proposal.check()?;
+    if let Some(p) = params.boeing_ap_loss_first_probability {
+        if !(0.0..=1.0).contains(&p) || !params.two_tank_takeover {
+            return Err("end-of-flight: boeing_ap_loss_first_probability must be in [0, 1] and needs two_tank_takeover".into());
+        }
+    }
+    let mut families = taxonomy::legal_families();
+    if params.boeing_ap_loss_first_probability.is_some() {
+        families.extend(taxonomy::boeing_extra_families());
+    }
+    Ok(Box::new(EndOfFlight { params, families }))
 }
 
 impl Hypothesis for EndOfFlight {
@@ -571,11 +792,107 @@ impl Hypothesis for EndOfFlight {
     }
 }
 
+fn default_tank_flow_ratio() -> f64 {
+    1.021
+}
+
+fn default_feasible_contact_speed() -> f64 {
+    212.0
+}
+
+/// G13 in-flight structural outcome, PROVISIONAL (architecture 10:50 -0600 11 Oct, item 5). Two exceedance ratios over the
+/// descent: speed r_v = max(V_EAS / VD, M / MD) and load r_n = max(n / n_pos, n / n_neg). Each has a lognormal fragility for
+/// partial damage (continued flight possible) and for breakup; the speed and load strengths are independent. Columns carry the
+/// peaks, so a consumer can recompute the probabilities with other parameters. Trajectories are NOT changed in this version:
+/// after partial damage the descent continues with the undamaged dynamics, and a breakup row keeps the intact impact point
+/// (reach gaps G-pd and G-bf, declared).
+/// Sources: VD/MD design dive speeds, CS-25.335(b) (MD at least MC + 0.07 M unless justified: MMO 0.87 gives 0.94; the 777-200
+/// VD and MD are not public: DECLARED 380 KEAS and 0.95); limit load factors +2.5 / -1.0 g (CS-25.337(b), (c)); no detrimental
+/// permanent deformation at limit load (CS-25.305(a)); ultimate factor 1.5 (CS-25.303, 25.305(b)); freedom from flutter to
+/// 1.15 VD / MD (CS-25.629(b)(1)). Fragility medians: speed partial 1.10, breakup 1.20 (log-sd 0.06); load partial 1.30,
+/// breakup 1.60 (log-sd 0.10, 0.08). Check against the flydubai 1073 press figures (near Mach 1, more than 3 g, part of the tail
+/// lost, landed: r_v about 1.05, r_n about 1.2): P(partial or worse) 0.38, P(breakup) 0.01.
+#[derive(Deserialize, Debug, Clone, PartialEq)]
+#[serde(deny_unknown_fields, default)]
+struct StructureParams {
+    vd_keas: f64,
+    md: f64,
+    n_pos_g: f64,
+    n_neg_g: f64,
+    speed_partial_median: f64,
+    speed_breakup_median: f64,
+    speed_log_sd: f64,
+    load_partial_median: f64,
+    load_breakup_median: f64,
+    load_partial_log_sd: f64,
+    load_breakup_log_sd: f64,
+    /// The structural peaks are also recorded up to this time; P(breakup before it) is emitted, because a breakup before the
+    /// 00:19 log-on contradicts the log-on itself. Default 00:19:37.443 (the m0019b burst).
+    survival_until_unix_s: f64,
+}
+
+impl Default for StructureParams {
+    fn default() -> Self {
+        StructureParams {
+            vd_keas: 380.0,
+            md: 0.95,
+            n_pos_g: 2.5,
+            n_neg_g: -1.0,
+            speed_partial_median: 1.10,
+            speed_breakup_median: 1.20,
+            speed_log_sd: 0.06,
+            load_partial_median: 1.30,
+            load_breakup_median: 1.60,
+            load_partial_log_sd: 0.10,
+            load_breakup_log_sd: 0.08,
+            survival_until_unix_s: 1_394_237_977.443,
+        }
+    }
+}
+
+/// Standard normal CDF (Abramowitz and Stegun 7.1.26 for erf, absolute error below 1.5e-7).
+fn normal_cdf(x: f64) -> f64 {
+    let z = x.abs() / std::f64::consts::SQRT_2;
+    let t = 1.0 / (1.0 + 0.327_591_1 * z);
+    let y = 1.0 - (((((1.061_405_429 * t - 1.453_152_027) * t) + 1.421_413_741) * t - 0.284_496_736) * t + 0.254_829_592) * t * (-z * z).exp();
+    if x >= 0.0 { 0.5 * (1.0 + y) } else { 0.5 * (1.0 - y) }
+}
+
+impl StructureParams {
+    /// (r_v, r_n, P(intact), P(partial damage), P(breakup)) from the descent's peaks.
+    fn outcome(&self, max_q_pa: f64, max_mach: f64, max_n: f64, min_n: f64) -> [f64; 5] {
+        let v_eas_kt = (2.0 * max_q_pa.max(0.0) / 1.225).sqrt() / 0.514_444;
+        let r_v = (v_eas_kt / self.vd_keas).max(max_mach / self.md);
+        let r_n = (max_n / self.n_pos_g).max(min_n / self.n_neg_g).max(0.0);
+        let f = |r: f64, m: f64, s: f64| if r > 0.0 { normal_cdf((r.ln() - m.ln()) / s) } else { 0.0 };
+        let b = 1.0 - (1.0 - f(r_v, self.speed_breakup_median, self.speed_log_sd)) * (1.0 - f(r_n, self.load_breakup_median, self.load_breakup_log_sd));
+        let any = 1.0 - (1.0 - f(r_v, self.speed_partial_median, self.speed_log_sd)) * (1.0 - f(r_n, self.load_partial_median, self.load_partial_log_sd));
+        let any = any.max(b);
+        [r_v, r_n, 1.0 - any, any - b, b]
+    }
+}
+
+fn default_boeing_alt_thrust() -> Range {
+    Range::Uniform([0.5, 1.0])
+}
+
+/// The two pools, when the hand-off carries them (core request 11), as (left, right) kg.
+fn tank_pools(state: &FlightState) -> Option<(f64, f64)> {
+    (state.fuel_left_kg.is_finite() && state.fuel_right_kg.is_finite()).then(|| (state.fuel_left_kg.max(0.0), state.fuel_right_kg.max(0.0)))
+}
+
+/// Exactly one pool still holds fuel: one engine has already flamed out.
+fn one_engine_out(state: &FlightState) -> bool {
+    tank_pools(state).is_some_and(|(l, r)| (l > 0.0) != (r > 0.0))
+}
+
 /// Everything about a parent trajectory this module needs, with the fallbacks applied once.
 struct Parent {
     /// Exhaustion under CONTINUED CRUISE, derived from `fuel_kg` — never a realised flame-out and
     /// never a configured clock time. See [`EndOfFlight::predicted_exhaustion`].
     predicted_exhaustion_unix_s: f64,
+    /// Item 2: the predicted FIRST flame-out (one tank dry) under continued cruise; NaN unless both tanks are live and read.
+    predicted_first_exhaustion_unix_s: f64,
     mass_kg: f64,
     fuel_kg: f64,
     /// A fallback fired for the mass. On a real hand-off this must be false for every parent.
@@ -594,9 +911,10 @@ impl EndOfFlight {
         let fuel_known = state.fuel_kg.is_finite() && state.fuel_kg >= 0.0;
         let mass_kg = if mass_known { state.mass_kg } else { self.params.fallback_mass_kg };
         let fuel_kg = if fuel_known { state.fuel_kg } else { self.params.fallback_fuel_kg };
-        let (predicted, unpriced) = self.predicted_exhaustion(state, mass_kg, fuel_kg, fuel);
+        let (predicted, unpriced, first) = self.predicted_exhaustion(state, mass_kg, fuel_kg, fuel);
         Parent {
             predicted_exhaustion_unix_s: predicted,
+            predicted_first_exhaustion_unix_s: first,
             mass_kg,
             fuel_kg,
             mass_assumed: !mass_known,
@@ -636,12 +954,12 @@ impl EndOfFlight {
     /// prediction and the burn agree. A state the model cannot price falls back to the module's
     /// TSFC for that step and the seconds are returned, never read as zero flow. Without `fuel`
     /// (the legacy `takeover` path and unit tests) the module's own TSFC prices everything.
-    fn predicted_exhaustion(&self, state: &FlightState, mass_kg: f64, fuel_kg: f64, fuel: Option<&dyn FuelFlow>) -> (f64, f64) {
+    fn predicted_exhaustion(&self, state: &FlightState, mass_kg: f64, fuel_kg: f64, fuel: Option<&dyn FuelFlow>) -> (f64, f64, f64) {
         if !(fuel_kg > 0.0) {
             // Already dry at the hand-off: exhaustion is the realised time when we have it, and
             // otherwise the hand-off epoch itself. Either way it is not in the future.
             let t = if state.realised_flameout_unix_s.is_finite() { state.realised_flameout_unix_s } else { state.unix_s };
-            return (t, 0.0);
+            return (t, 0.0, f64::NAN);
         }
         let aero = self.params.aero.nominal();
         let cfg = Configuration::powered();
@@ -650,13 +968,17 @@ impl EndOfFlight {
         let tas = state.true_air_speed_mps;
         let q = 0.5 * rho * tas * tas;
         if !(q > 0.0) || !(aero.wing_area_m2 > 0.0) {
-            return (f64::INFINITY, 0.0);
+            return (f64::INFINITY, 0.0, f64::NAN);
         }
         const STEP_S: f64 = 60.0;
         let mut unpriced = 0.0;
         let mut remaining = fuel_kg;
         let mut mass = mass_kg;
         let mut elapsed = 0.0;
+        // Two pools (switch `two_tank_takeover`): only when the hand-off carries them and the fuel is the real one.
+        let mut pools = if self.params.two_tank_takeover && (state.fuel_kg - fuel_kg).abs() < 1e-6 { tank_pools(state) } else { None };
+        let ratio = self.params.tank_flow_ratio;
+        let mut first: Option<f64> = None;
         // 24 h of cruise is far beyond any trajectory this module sees; the cap exists so a
         // pathological state cannot spin here.
         while remaining > 0.0 && elapsed < 86_400.0 {
@@ -664,8 +986,15 @@ impl EndOfFlight {
             let c_d = aero.c_d(c_l, state.mach, &cfg);
             let thrust_n = c_d * q * aero.wing_area_m2;
             let own = aero.fuel_flow_kg_s(thrust_n);
+            let both_live = pools.map_or(true, |(l, r)| l > 0.0 && r > 0.0);
             let priced = fuel
-                .and_then(|m| m.fuel_flow_kg_h(state.altitude_ft / 100.0, mass / 1000.0, state.mach))
+                .and_then(|m| {
+                    if both_live {
+                        m.fuel_flow_kg_h(state.altitude_ft / 100.0, mass / 1000.0, state.mach)
+                    } else {
+                        m.fuel_flow_inop_kg_h_at(state.altitude_ft / 100.0, mass / 1000.0, state.mach, 0.0)
+                    }
+                })
                 .map(|r| r.kg_h / 3600.0)
                 .filter(|f| f.is_finite() && *f > 0.0);
             let flow = match (fuel, priced) {
@@ -677,7 +1006,39 @@ impl EndOfFlight {
                 (None, _) => own,
             };
             if !(flow > 0.0) {
-                return (f64::INFINITY, unpriced);
+                return (f64::INFINITY, unpriced, f64::NAN);
+            }
+            if let Some((l, r)) = pools {
+                if l > 0.0 && r > 0.0 {
+                    // Both engines: the twin flow split R:L = ratio. Step to the first pool's exhaustion at most.
+                    let (fr, fl) = (flow * ratio / (1.0 + ratio), flow / (1.0 + ratio));
+                    let dt = STEP_S.min(r / fr).min(l / fl);
+                    let (l2, r2) = ((l - fl * dt).max(0.0), (r - fr * dt).max(0.0));
+                    let (l2, r2) = (if l2 < 1e-9 { 0.0 } else { l2 }, if r2 < 1e-9 { 0.0 } else { r2 });
+                    pools = Some((l2, r2));
+                    remaining = l2 + r2;
+                    mass -= flow * dt;
+                    elapsed += dt;
+                    if (l2 == 0.0 || r2 == 0.0) && first.is_none() {
+                        first = Some(elapsed);
+                    }
+                    if remaining <= 0.0 {
+                        break;
+                    }
+                    continue;
+                }
+                // One engine: the live pool at the one-engine flow.
+                let live = l.max(r);
+                let burn = flow * STEP_S;
+                if burn >= live {
+                    elapsed += live / flow;
+                    break;
+                }
+                pools = Some(if l > 0.0 { (l - burn, 0.0) } else { (0.0, r - burn) });
+                remaining = live - burn;
+                mass -= burn;
+                elapsed += STEP_S;
+                continue;
             }
             let burn = flow * STEP_S;
             if burn >= remaining {
@@ -688,12 +1049,24 @@ impl EndOfFlight {
             mass -= burn;
             elapsed += STEP_S;
         }
-        (state.unix_s + elapsed, unpriced)
+        let _ = remaining;
+        (state.unix_s + elapsed, unpriced, first.map_or(f64::NAN, |f| state.unix_s + f))
     }
 
     fn takeover_with(&self, handoff: &FlightState, fuel: Option<&dyn FuelFlow>, uniform: &mut dyn FnMut() -> f64) -> Takeover {
         let parent = self.parent(handoff, fuel);
-        let onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
+        let mut onset = self.params.onset.draw(handoff.unix_s, parent.predicted_exhaustion_unix_s, uniform);
+        // Item 2: the alternative configuration moves a flame-out-associated onset to the first flame-out. A uniform is drawn
+        // only with the sequence on, both tanks live and the first flame-out still ahead, so the off stream is unchanged.
+        let first = parent.predicted_first_exhaustion_unix_s;
+        let ap_config: u8 = match self.params.boeing_ap_loss_first_probability {
+            Some(p) if onset.mechanism == Initiation::FlameOutAssociated && first.is_finite() && first > handoff.unix_s => if uniform() < p { 2 } else { 1 },
+            _ => 0,
+        };
+        if ap_config == 2 {
+            onset.unix_s = first;
+            onset.predicted_endurance_at_onset_s = parent.predicted_exhaustion_unix_s - first;
+        }
         let draw = OnsetDraw {
             mechanism: onset.mechanism,
             mechanism_prior: onset.mechanism_prior,
@@ -702,6 +1075,7 @@ impl EndOfFlight {
             predicted_exhaustion_unix_s: parent.predicted_exhaustion_unix_s,
             prediction_priced_by_core: parent.prediction_priced_by_core,
             prediction_unpriced_s: parent.prediction_unpriced_s,
+            ap_config,
         };
         Takeover { unix_s: onset.unix_s.max(handoff.unix_s), log_q_correction: onset.log_q_correction, draw: draw.encode() }
     }
@@ -728,7 +1102,7 @@ impl EndOfFlight {
             None => (parent.predicted_exhaustion_unix_s - takeover.unix_s, f64::NAN, parent.predicted_exhaustion_unix_s),
         };
         let mut out = Vec::with_capacity(self.params.descents_per_child);
-        for _ in 0..self.params.descents_per_child {
+        for descent_index in 0..self.params.descents_per_child {
             let (mechanism, mechanism_prior) = match drawn {
                 Some(d) => (d.mechanism, d.mechanism_prior),
                 None => self.params.onset.classify(lead, uniform),
@@ -760,15 +1134,21 @@ impl EndOfFlight {
                 support_truncated_fraction: f64::NAN,
                 log_q_correction: 0.0,
             };
-            let (propulsion, control, axes_prior) = if dry {
-                let (control, c_prior) = pick(&self.params.control_weights, &Control::ALL, uniform);
-                (Propulsion::NeitherThrusting, control, c_prior)
+            let boost = self.params.proposal.maintained_then_lost_boost;
+            let (propulsion, control, axes_prior, axes_lq) = if dry {
+                let (control, c_prior, lq) = pick_control(&self.params.control_weights, boost, uniform);
+                (Propulsion::NeitherThrusting, control, c_prior, lq)
             } else {
-                self.draw_axes(mechanism, uniform)
+                let forced = match (self.params.boeing_ap_loss_first_probability, mechanism, drawn) {
+                    (Some(_), Initiation::FlameOutAssociated, Some(d)) if d.ap_config == 2 => Some(Propulsion::OneThrusting),
+                    _ => None,
+                };
+                self.draw_axes(mechanism, self.params.two_tank_takeover && one_engine_out(takeover), forced, uniform)
             };
             let aero = self.params.aero.draw(uniform);
-            let (impact, states, flying, trace, realised_flameout) =
-                self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, fuel, uniform);
+            let record = !self.params.trace.path.is_empty() && trace_selected(takeover, descent_index, self.params.trace.every_n);
+            let (impact, states, flying, trace, realised_flameout, profile_lq, points) =
+                self.fly(takeover, &parent, atmosphere, &onset, propulsion, control, aero, epochs, fuel, record, uniform);
 
             // A descent that never reached the sea is a negative result. By default it is
             // finished on a best glide so the sample is usable, and the fact is recorded;
@@ -785,6 +1165,19 @@ impl EndOfFlight {
             // impossible, and the burst gets no state, which core scores as minus infinity for every
             // option that uses it. Bursts at or after the log-on are untouched, so a 00:11 hand-off is
             // unaffected by construction. Bites from a 22:41 hand-off (m2315, m0011).
+            let physical: Vec<f64> = STATE_EPOCHS
+                .iter()
+                .flat_map(|id| {
+                    let s = epochs.iter().position(|e| e.id == *id).and_then(|k| states.get(k).copied().flatten());
+                    match s {
+                        Some(s) => [s.altitude_ft, s.velocity_up_mps / 0.3048 * 60.0, s.latitude_deg, s.longitude_deg],
+                        None => [f64::NAN; 4],
+                    }
+                })
+                .collect();
+            if record {
+                self.write_trace(&impact, &points);
+            }
             let states = unpowered_bursts_removed(epochs, states, realised_flameout, self.params.logon.logon_unix_s);
 
             let realised_control = flying.realised_control();
@@ -865,28 +1258,100 @@ impl EndOfFlight {
                 if flying.spiral_doubling_s.is_some() { 1.0 } else { 0.0 },
                 flying.spiral_doubling_s.unwrap_or(f64::NAN),
                 flying.free_since_s.unwrap_or(f64::NAN),
+                flying.profile.phases.iter().rev().find_map(|ph| match ph {
+                    profile::Phase::Free { bank_rad, .. } => Some(if *bank_rad < 0.0 { -1.0 } else { 1.0 }),
+                    _ => None,
+                }).unwrap_or(f64::NAN),
+                if flying.profile.pushover_eligible { 1.0 } else { 0.0 },
+                if flying.profile.pushover.is_some() { 1.0 } else { 0.0 },
+                flying.profile.pushover.map_or(f64::NAN, |p| p.0),
+                flying.profile.pushover.map_or(f64::NAN, |p| p.1),
+                flying.profile.pushover.map_or(f64::NAN, |p| p.2),
+                if flying.profile.pitchdown_eligible { 1.0 } else { 0.0 },
+                if flying.profile.pitchdown.is_some() { 1.0 } else { 0.0 },
+                flying.profile.pitchdown.map_or(f64::NAN, |p| p.1),
+                flying.profile.pitchdown.map_or(f64::NAN, |p| p.2),
+                flying.profile.pitchdown.map_or(f64::NAN, |p| p.0),
+                flying.profile.n_ceiling_g.unwrap_or(f64::NAN),
+                flying.profile.manoeuvres.davey_tau_h.unwrap_or(f64::NAN),
+                f64::from(flying.pilot.davey_begun),
+                flying.pilot.window_opened_unix_s,
+                flying.profile.manoeuvres.ln_rate_per_min.unwrap_or(f64::NAN),
+                f64::from(flying.pilot.terminal_begun),
+                f64::from(u8::from(flying.profile.manoeuvres.sweep_eligible)),
+                f64::from(u8::from(flying.profile.manoeuvres.sweep_drawn)),
+                f64::from(flying.pilot.sweeps_begun),
+                f64::from(u8::from(flying.profile.manoeuvres.circuit_eligible)),
+                f64::from(u8::from(flying.profile.manoeuvres.circuit.is_some())),
+                flying.profile.manoeuvres.circuit.map_or(f64::NAN, |c| f64::from(c.final_kind)),
+                f64::from(u8::from(flying.pilot.circuit_begun)),
+                flying.pilot.heading_change_rad.to_degrees(),
+                drawn.map_or(0.0, |d| f64::from(d.ap_config)),
+                {
+                    let v = (impact.velocity_east_mps.powi(2) + impact.velocity_north_mps.powi(2) + impact.velocity_up_mps.powi(2)).sqrt();
+                    if v <= self.params.feasible_contact_speed_mps { 1.0 } else { 0.0 }
+                },
+                if flying.profile.pushover.is_none() {
+                    f64::NAN
+                } else if flying.profile.phases.iter().any(|ph| matches!(ph, profile::Phase::PushOver { until_altitude_ft, .. } if until_altitude_ft.is_infinite())) {
+                    1.0
+                } else {
+                    0.0
+                },
             ];
+            let structural = {
+                let st = &self.params.structure;
+                let o = st.outcome(trace.max_q_pa, trace.max_mach, trace.max_load_factor, trace.min_load_factor);
+                // Governing peak: the larger normalised exceedance against its breakup median.
+                let v_eas_kt = (2.0 * trace.max_q_pa.max(0.0) / 1.225).sqrt() / 0.514_444;
+                let at_v = if v_eas_kt / st.vd_keas >= trace.max_mach / st.md { trace.at_max_q } else { trace.at_max_mach };
+                let at_n = if trace.max_load_factor / st.n_pos_g >= trace.min_load_factor / st.n_neg_g { trace.at_max_load_factor } else { trace.at_min_load_factor };
+                let at = if o[0] / st.speed_breakup_median >= o[1] / st.load_breakup_median { at_v } else { at_n };
+                let u = st.outcome(trace.until_max_q_pa, trace.until_max_mach, trace.until_max_load_factor, trace.until_min_load_factor);
+                [o[0], o[1], trace.max_load_factor, trace.min_load_factor, trace.max_q_pa / 1000.0, o[2], o[3], o[4], at.unix_s, at.pressure_altitude_ft, at.latitude_deg, at.longitude_deg, u[0], u[1], u[4]]
+            };
+            let mut latents = latents;
+            latents.extend_from_slice(&structural);
+            latents.extend_from_slice(&physical);
             debug_assert_eq!(latents.len(), LATENTS.len());
-            let family = taxonomy::index_of(&Family { initiation: mechanism, propulsion, control: realised_control })
-                .or_else(|| taxonomy::index_of(&Family { initiation: mechanism, propulsion, control }))
+            let idx = |f: Family| self.families.iter().position(|g| *g == f);
+            let family = idx(Family { initiation: mechanism, propulsion, control: realised_control })
+                .or_else(|| idx(Family { initiation: mechanism, propulsion, control }))
                 .unwrap_or(0);
-            out.push(Descent { impact, family, at_epochs: states, latents, log_q_correction: 0.0 });
+            out.push(Descent { impact, family, at_epochs: states, latents, log_q_correction: axes_lq + profile_lq });
         }
         out
     }
 
     /// Draw the propulsion and control axes, restricted to the cells legal for `mechanism`, and
     /// return them with their joint prior weight.
-    fn draw_axes(&self, mechanism: Initiation, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64) {
+    fn draw_axes(&self, mechanism: Initiation, one_engine_out: bool, forced: Option<Propulsion>, uniform: &mut dyn FnMut() -> f64) -> (Propulsion, Control, f64, f64) {
         let mut weights = self.params.propulsion_weights;
+        if let Some(fp) = forced {
+            // Item 2: the physical state at the autopilot loss fixes the axis (one engine running), not a draw.
+            for (i, p) in Propulsion::ALL.iter().enumerate() {
+                weights[i] = if *p == fp { 1.0 } else { 0.0 };
+            }
+        }
         for (i, p) in Propulsion::ALL.iter().enumerate() {
-            if !(Family { initiation: mechanism, propulsion: *p, control: Control::NoIntervention }).is_legal() {
+            if forced.is_none() && !(Family { initiation: mechanism, propulsion: *p, control: Control::NoIntervention }).is_legal() {
                 weights[i] = 0.0;
             }
         }
+        // One engine already out at the takeover (two-tank state): two engines cannot thrust. The physical state
+        // conditions the axis; the remaining cells keep their relative prior weights.
+        if one_engine_out && weights[1] + weights[2] > 0.0 {
+            weights[0] = 0.0;
+        }
         let (propulsion, p_prior) = pick(&weights, &Propulsion::ALL, uniform);
-        let (control, c_prior) = pick(&self.params.control_weights, &Control::ALL, uniform);
-        (propulsion, control, p_prior * c_prior)
+        let deliberate = matches!(mechanism, Initiation::Anticipatory | Initiation::FuelCue)
+            && (self.params.deliberate_control_any_propulsion || propulsion != Propulsion::NeitherThrusting);
+        let control_weights = match self.params.deliberate_control_weights {
+            Some(w) if deliberate => w,
+            _ => self.params.control_weights,
+        };
+        let (control, c_prior, lq) = pick_control(&control_weights, self.params.proposal.maintained_then_lost_boost, uniform);
+        (propulsion, control, p_prior * c_prior, lq)
     }
 
     /// Integrate one descent from the takeover state.
@@ -902,8 +1367,9 @@ impl EndOfFlight {
         aero: Aero,
         epochs: &[TerminalEpoch],
         fuel: Option<&dyn FuelFlow>,
+        record: bool,
         uniform: &mut dyn FnMut() -> f64,
-    ) -> (Impact, Vec<Option<EpochState>>, Flying, integrator::Trace, f64) {
+    ) -> (Impact, Vec<Option<EpochState>>, Flying, integrator::Trace, f64, f64, Vec<[f64; 3]>) {
         let start = Body {
             unix_s: takeover.unix_s,
             latitude_deg: takeover.latitude_deg,
@@ -915,13 +1381,18 @@ impl EndOfFlight {
             mass_kg: parent.mass_kg,
             fuel_kg: if propulsion == Propulsion::NeitherThrusting { 0.0 } else { parent.fuel_kg },
         };
-        let shape = self.params.envelope.sample(&start, propulsion, control, &aero, uniform);
+        let shape = self.params.envelope.sample_with_tau(&start, propulsion, control, &aero, self.params.proposal.window(), Some(takeover.tau_h), uniform);
+        let profile_lq = shape.log_q_correction;
         let mut flying = Flying::new(shape, aero, propulsion, &self.params.envelope);
         // Spiral regime of free dynamics (deliverable 1 calibration; Pete's ruling on the weight). No
         // uniform is drawn at weight 0, so the pre-calibration stream is reproduced exactly.
         let env = &self.params.envelope;
         if env.spiral_divergent_weight > 0.0 && uniform() < env.spiral_divergent_weight {
             flying.spiral_doubling_s = Some(env.spiral_doubling_s.draw(uniform));
+        }
+        // Item 2: autopilot lost at the first flame-out - the running engine keeps its lever setting in free flight.
+        if onset.mechanism == Initiation::FlameOutAssociated && propulsion == Propulsion::OneThrusting {
+            flying.free_setting = self.params.boeing_alt_thrust_setting.draw(uniform);
         }
         let flying = std::cell::RefCell::new(flying);
         let it = Integrator {
@@ -931,6 +1402,9 @@ impl EndOfFlight {
             fine_step_s: self.params.fine_step_s,
             fine_window_s: self.params.fine_window_s,
             max_flight_s: self.params.max_flight_s,
+            track_load_factor_floor_g: self.params.track_load_factor_floor_g,
+            piloted_load_factor_ceiling_g: flying.borrow().profile.n_ceiling_g,
+            peaks_until_unix_s: Some(self.params.structure.survival_until_unix_s),
         };
 
         // The realised flame-out emerges from the integration: it is the first time the module's
@@ -950,6 +1424,8 @@ impl EndOfFlight {
         });
         let states = std::cell::RefCell::new(vec![None; epochs.len()]);
         let previous = std::cell::Cell::new(Option::<(Body, f64)>::None);
+        let points = std::cell::RefCell::new(Vec::<[f64; 3]>::new());
+        let trace_step = if self.params.trace.step_s > 0.0 { self.params.trace.step_s } else { 30.0 };
 
         let transition = if realised_flameout.get().is_finite() {
             Some(realised_flameout.get())
@@ -973,7 +1449,17 @@ impl EndOfFlight {
             &mut |body, air| {
                 let factor = atmos::geometric_rate_factor(body.pressure_altitude_ft, air.temperature_k);
                 let up = body.vertical_speed_mps() * factor;
-                flying.borrow_mut().observe(body, up);
+                {
+                    let mut f = flying.borrow_mut();
+                    f.observe(body, up);
+                    f.wind_en_mps = (air.wind_east_mps, air.wind_north_mps);
+                }
+                if record {
+                    let mut p = points.borrow_mut();
+                    if p.last().map_or(true, |l: &[f64; 3]| body.unix_s - l[0] >= trace_step) {
+                        p.push([body.unix_s, body.pressure_altitude_ft, up / 0.3048 * 60.0]);
+                    }
+                }
                 if let Some((prev, prev_up)) = previous.get() {
                     let mut states = states.borrow_mut();
                     for (k, epoch) in epochs.iter().enumerate() {
@@ -995,7 +1481,26 @@ impl EndOfFlight {
             velocity_up_mps: trace.impact_vertical_speed_mps,
             mass_kg: trace.impact.mass_kg,
         };
-        (impact, states.into_inner(), flying.into_inner(), trace, realised_flameout.get())
+        let mut points = points.into_inner();
+        if record {
+            points.push([trace.impact.unix_s, 0.0, trace.impact_vertical_speed_mps / 0.3048 * 60.0]);
+        }
+        (impact, states.into_inner(), flying.into_inner(), trace, realised_flameout.get(), profile_lq, points)
+    }
+
+    /// Append one recorded descent to the trace file (see [`TraceParams`]). A write failure is reported on
+    /// stderr and never changes a sample.
+    fn write_trace(&self, impact: &Impact, points: &[[f64; 3]]) {
+        use std::io::Write;
+        let mut text = String::new();
+        for p in points {
+            text.push_str(&format!("{:.6},{:.9},{:.9},{:.3},{:.1},{:.1}\n", impact.unix_s, impact.latitude_deg, impact.longitude_deg, p[0], p[1], p[2]));
+        }
+        let _guard = TRACE_LOCK.lock().unwrap_or_else(|e| e.into_inner());
+        let result = std::fs::OpenOptions::new().create(true).append(true).open(&self.params.trace.path).and_then(|mut f| f.write_all(text.as_bytes()));
+        if let Err(e) = result {
+            eprintln!("end-of-flight trace: {e}");
+        }
     }
 }
 
@@ -1151,6 +1656,9 @@ impl EndOfFlight {
             fine_step_s: self.params.fine_step_s,
             fine_window_s: 0.0,
             max_flight_s: 3_600.0,
+            track_load_factor_floor_g: None,
+            piloted_load_factor_ceiling_g: None,
+            peaks_until_unix_s: None,
         };
         let cfg = Configuration::glide();
         let mut previous: Option<(Body, f64)> = None;
@@ -1189,12 +1697,117 @@ impl EndOfFlight {
 
 
 #[cfg(test)]
+mod structure_tests {
+    use super::*;
+
+    /// G13: the structural outcome is a proper three-way split, monotone in the peaks, and gives the declared check values
+    /// for the flydubai 1073 press figures (r_v about 1.05, r_n about 1.2).
+    #[test]
+    fn the_structural_outcome_is_a_monotone_three_way_split() {
+        let st = StructureParams::default();
+        assert!((normal_cdf(0.0) - 0.5).abs() < 1e-7 && (normal_cdf(1.959_964) - 0.975).abs() < 1e-6);
+        let q_at = |kt: f64| 0.5 * 1.225 * (kt * 0.514_444f64).powi(2);
+        let calm = st.outcome(q_at(300.0), 0.84, 1.3, 0.8);
+        assert!(calm[2] > 0.999, "{calm:?}");
+        let fd = st.outcome(q_at(300.0), 0.95 * 1.05, 3.0, 0.5);
+        assert!((fd[0] - 1.05).abs() < 1e-9 && (fd[1] - 1.2).abs() < 1e-9);
+        assert!((fd[3] + fd[4] - 0.38).abs() < 0.02 && fd[4] < 0.02, "{fd:?}");
+        let mut last = 0.0;
+        for k in 0..60 {
+            let o = st.outcome(q_at(300.0 + 5.0 * k as f64), 0.8, 1.0, 1.0);
+            assert!((o[2] + o[3] + o[4] - 1.0).abs() < 1e-12 && o.iter().all(|p| *p >= -1e-15));
+            assert!(o[4] >= last);
+            last = o[4];
+        }
+        assert!(last > 0.99);
+    }
+}
+
+#[cfg(test)]
 mod tests {
     use super::*;
     use hypothesis::Air;
 
     /// The parameter block of `run.toml`, so the tests exercise the configuration that would be
     /// lifted into a core config rather than a private one.
+    /// Item 2 (Boeing system sequence): the draw vector carries the autopilot-loss configuration (version 3); the extra
+    /// families are appended after the existing 24, so every existing index is unchanged; the forced axis is one engine.
+    #[test]
+    fn the_boeing_sequence_carries_its_configuration_and_appends_its_families() {
+        let d = OnsetDraw { mechanism: Initiation::FlameOutAssociated, mechanism_prior: 0.3, lead_s: 420.0, support_truncated_fraction: 0.0,
+            predicted_exhaustion_unix_s: 1.0e9, prediction_priced_by_core: true, prediction_unpriced_s: 0.0, ap_config: 2 };
+        let back = OnsetDraw::decode(&d.encode()).expect("round trip");
+        assert!(back.ap_config == 2 && back.lead_s == 420.0);
+        let base = taxonomy::legal_families();
+        let mut ext = base.clone();
+        ext.extend(taxonomy::boeing_extra_families());
+        assert_eq!(&ext[..base.len()], &base[..]);
+        assert_eq!(ext.len(), base.len() + Control::ALL.len());
+        assert!(taxonomy::boeing_extra_families().iter().all(|f| f.initiation == Initiation::FlameOutAssociated && f.propulsion == Propulsion::OneThrusting));
+    }
+
+    /// Core request 11 (two-tank state at the takeover, switch `two_tank_takeover`). With constant table flows the
+    /// prediction is exact: two pools burn R:L at the twin flow until the right is dry, then the left at the one-engine flow;
+    /// a single live pool burns at the one-engine flow. A takeover with one engine out never draws two thrusting engines.
+    /// With the switch off, the same two-tank state is read as one pool (the single-pool prediction).
+    #[test]
+    fn two_tanks_at_takeover_predict_the_final_flame_out_and_bar_two_thrusting_engines() {
+        struct TwoFlows(f64, f64);
+        impl FuelFlow for TwoFlows {
+            fn fuel_flow_kg_h(&self, _: f64, _: f64, _: f64) -> Option<hypothesis::FuelFlowRate> {
+                Some(hypothesis::FuelFlowRate { kg_h: self.0, extrapolated: false, below_tables: false, above_ceiling: false })
+            }
+            fn fuel_flow_inop_kg_h_at(&self, _: f64, _: f64, _: f64, _: f64) -> Option<hypothesis::FuelFlowRate> {
+                Some(hypothesis::FuelFlowRate { kg_h: self.1, extrapolated: false, below_tables: false, above_ceiling: false })
+            }
+        }
+        let flows = TwoFlows(6_000.0, 5_000.0);
+        let build = |on: bool, weights: [f64; 3]| {
+            let mut v = params();
+            let t = v.as_table_mut().unwrap();
+            t.insert("two_tank_takeover".into(), toml::Value::Boolean(on));
+            let onset = t.get_mut("onset").unwrap().as_table_mut().unwrap();
+            onset.insert("anticipatory_lead_s".into(), toml::Value::Array(vec![toml::Value::Float(0.0), toml::Value::Float(0.0)]));
+            onset.insert("mechanism_weights".into(), toml::Value::Array(weights.iter().map(|w| toml::Value::Float(*w)).collect()));
+            new(&v).unwrap()
+        };
+        let base = handoff(ONSET_22_41);
+        // One live pool (right dry): 500 kg at 5,000 kg/h.
+        let one = FlightState { fuel_kg: 500.0, fuel_left_kg: 500.0, fuel_right_kg: 0.0, first_flameout_unix_s: base.unix_s - 60.0, ..base };
+        let m = build(true, [0.0, 0.0, 1.0]);
+        let t = m.terminal().unwrap();
+        let got = t.takeover_priced(&one, &flows, &mut sweep(0.37)).unix_s;
+        let want = one.unix_s + 500.0 / (5_000.0 / 3_600.0);
+        assert!((got - want).abs() < 1e-6, "one live pool: {got} vs {want}");
+        // Two pools: right 1,000 kg and left 1,100 kg, R:L = 1.021.
+        let two = FlightState { fuel_kg: 2_100.0, fuel_left_kg: 1_100.0, fuel_right_kg: 1_000.0, first_flameout_unix_s: f64::NAN, ..base };
+        let r = 1.021;
+        let (fr, fl) = (6_000.0 * r / (1.0 + r) / 3_600.0, 6_000.0 / (1.0 + r) / 3_600.0);
+        let t1 = 1_000.0 / fr;
+        let want2 = two.unix_s + t1 + (1_100.0 - fl * t1) / (5_000.0 / 3_600.0);
+        let got2 = t.takeover_priced(&two, &flows, &mut sweep(0.37)).unix_s;
+        assert!((got2 - want2).abs() < 1e-3, "two pools: {got2} vs {want2}");
+        // Switch off: the same state is one pool at the twin flow.
+        let off = build(false, [0.0, 0.0, 1.0]);
+        let got3 = off.terminal().unwrap().takeover_priced(&two, &flows, &mut sweep(0.37)).unix_s;
+        assert!((got3 - (two.unix_s + 2_100.0 / (6_000.0 / 3_600.0))).abs() < 1e-6, "switch off reads one pool: {got3}");
+        // One engine out at the takeover: anticipatory onsets never draw two thrusting engines.
+        let ant = build(true, [1.0, 0.0, 0.0]);
+        let ta = ant.terminal().unwrap();
+        let names = ta.latent_columns();
+        let at = names.iter().position(|n| n == "engines_thrusting_at_onset").unwrap();
+        let mut seen = std::collections::BTreeSet::new();
+        for u in [0.05, 0.2, 0.35, 0.5, 0.65, 0.8, 0.95] {
+            let drawn = ta.takeover_priced(&one, &flows, &mut sweep(u));
+            let at_state = FlightState { unix_s: drawn.unix_s.max(one.unix_s), ..one };
+            for d in ta.descend_after(&at_state, &drawn, &atmos::Standard, &flows, &mut sweep(u), &epochs(), &|_| 0.0) {
+                assert!(d.latents[at] < 2.0, "two engines drawn with one engine out (u = {u})");
+                seen.insert(d.latents[at] as i64);
+            }
+        }
+        assert!(!seen.is_empty());
+    }
+
     fn params() -> toml::Value {
         let text = std::fs::read_to_string(concat!(env!("CARGO_MANIFEST_DIR"), "/end-of-flight/run.toml")).expect("run.toml");
         let run: toml::Value = toml::from_str(&text).expect("run.toml parses");
@@ -1574,6 +2187,12 @@ mod tests {
             // Still holding fuel at the hand-off, like 43.14 % of the reference posterior. The
             // module must never read this to predict: it is an outcome, not a forecast.
             realised_flameout_unix_s: f64::NAN,
+            // Single pool (core's two-tank fields, 3970826; NaN = not two tanks). This literal
+            // must name every FlightState field, so it fails to compile without these.
+            fuel_left_kg: f64::NAN,
+            fuel_right_kg: f64::NAN,
+            first_flameout_unix_s: f64::NAN,
+            tau_h: 1.0,
         }
     }
 
@@ -2116,4 +2735,28 @@ mod tests {
         // Finished on a glide by default, so the sample is still at the sea surface.
         assert!(descents.iter().all(|d| d.impact.latitude_deg.is_finite()));
     }
+
+    /// The maintained-then-lost boost: sum over controls of q(c) exp(lq(c)) = 1, the recorded
+    /// probability is the prior's, and at boost 0 the draw is exactly `pick`.
+    #[test]
+    fn control_boost_is_an_exact_importance_correction() {
+        let weights = [0.25, 0.25, 0.25, 0.25];
+        let mut total = 0.0;
+        let mut seen = 0;
+        for k in 0..10_000 {
+            let u0 = (k as f64 + 0.5) / 10_000.0;
+            let (c, prior, lq) = pick_control(&weights, 0.4, &mut || u0);
+            total += lq.exp() / 10_000.0;
+            assert!((prior - 0.25).abs() < 1e-12);
+            if c == Control::MaintainedThenLost { seen += 1; }
+        }
+        assert!((total - 1.0).abs() < 1e-3, "{total}");
+        assert!((seen as f64 / 10_000.0 - (0.6 * 0.25 + 0.4)).abs() < 1e-3);
+        for k in 0..100 {
+            let u0 = (k as f64 + 0.5) / 100.0;
+            let (c, p, lq) = pick_control(&weights, 0.0, &mut || u0);
+            assert_eq!((c, p, lq), { let (c2, p2) = pick(&weights, &Control::ALL, &mut || u0); (c2, p2, 0.0) });
+        }
+    }
+
 }

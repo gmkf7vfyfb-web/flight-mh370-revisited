@@ -1,0 +1,40 @@
+{
+ "impacts_root": "/Users/pete/Downloads/mh370-exchange/end-of-flight/next-run/next-repro-radar",
+ "options": [
+  "none",
+  "none+alive",
+  "r600/inflated",
+  "r600/inflated+alive",
+  "r600/no-offset",
+  "r600/no-offset+alive",
+  "r600/startup-offset",
+  "r600/startup-offset+alive",
+  "r1200/inflated",
+  "r1200/inflated+alive",
+  "r1200/no-offset",
+  "r1200/no-offset+alive",
+  "r1200/startup-offset",
+  "r1200/startup-offset+alive",
+  "both/inflated",
+  "both/inflated+alive",
+  "both/no-offset",
+  "both/no-offset+alive",
+  "both/startup-offset",
+  "both/startup-offset+alive"
+ ],
+ "seeds": [
+  "seed-1",
+  "seed-2",
+  "seed-3",
+  "seed-4"
+ ],
+ "labels": "core (b) split-half NOT converged; two-tank bookkeeping only; PROVISIONAL-OVERNIGHT; EoF sweep run by a stand-in; run by an architecture stand-in on the Pleiades module's behalf, module to review; stratum next-repro-radar",
+ "variants": {
+  "base": "Phase 2 + Bluefin-21",
+  "oi2018-2025": "+ OI 2018 + OI 2025-26 SE band"
+ },
+ "models": [
+  "glorys12v1+era5-wind10",
+  "globcurrent-my-p1d+era5-wind10"
+ ]
+}

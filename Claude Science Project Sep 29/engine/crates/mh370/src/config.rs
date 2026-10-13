@@ -67,6 +67,14 @@ pub struct TerminalConfig {
     /// Measurement alternatives for the 00:19 BFOs, the alternative "final-bfo-model".
     #[serde(default)]
     pub bfo_models: BTreeMap<String, BfoModelConfig>,
+    /// Core request 9: how a parent's children share its hand-off weight. "self-normalised"
+    /// (default, as before) divides by the children's total proposal correction, so each
+    /// parent's rows sum to its hand-off weight exactly; this is biased at small M when the
+    /// module's proposal is targeted. "unnormalised" gives child k the weight
+    /// row.weight x exp(ln q_k) / (M x children): unbiased whenever the module's ln(p/q) is
+    /// exact, with per-parent sums equal to row.weight only in expectation.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub within_parent: Option<String>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]
@@ -203,6 +211,10 @@ pub struct Inputs {
     /// like every other input.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub fuel_tables: Option<PathBuf>,
+    /// The fuel session's internal model (`internal-v1.json`, local only); required when
+    /// `fuel.model = "internal-v1"` (core request 16 C-1).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fuel_model: Option<PathBuf>,
 }
 
 #[derive(Deserialize, Serialize, Clone)]
@@ -283,6 +295,12 @@ pub struct FuelConfig {
     /// Standard deviation of that Gaussian, seconds.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub exhaustion_sd_s: Option<f64>,
+    /// Fuel audit F19: `exhaustion_target_utc` already encodes the 00:19 log-on as evidence of
+    /// the flame-out time. A `[terminal]` stage that scores a 00:19 burst counts that timing
+    /// evidence a second time, so `load` refuses the pair unless this is set, which declares
+    /// the double count as a deliberate sensitivity.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub allow_double_counted_0019_timing: bool,
     /// How the speed and altitude profile is proposed against the fuel state.
     ///
     /// `"reject"` (the default, and what the published model does) proposes the profile from
@@ -299,6 +317,74 @@ pub struct FuelConfig {
     /// Mach cells the affordable set is resolved on. Default 16.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub proposal_cells: Option<usize>,
+    /// Flow model: "tables" (the default, the Boeing-derived tables as ported) or
+    /// "internal-v1" (the fuel session's grid, read from `inputs.fuel_model`). Core request 16.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub model: Option<String>,
+    /// Apply the temperature term tau = 1 + 0.003 dISA (1 + 0.2 M^2) with dISA from the
+    /// weather temperature (C-2, audit F2). Default false, the standard day.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temperature: Option<bool>,
+    /// Initial fuel per path as [a, b]: a - factor * b kg (C-4; [43800, 7228] from the 17:06:43
+    /// report). Absent uses `initial_kg` for every path.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub initial_from_factor: Option<[f64; 2]>,
+    /// Bound every altitude level by the internal model's weight-dependent ceiling (C-5,
+    /// audit F5). Needs `model = "internal-v1"`. Default false.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ceiling: Option<bool>,
+    /// Reject paths that contradict the fuel evidence with weight zero instead of the finite
+    /// e^-50 penalty (audit F7). Default false.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub hard_reject: Option<bool>,
+    /// Fuel pools: 1 (the default) or 2 (core request 16 C-7(b): left and right tanks, the
+    /// live engine on the INOP flow after the first flame-out; needs model = "internal-v1").
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tanks: Option<u8>,
+    /// Two-tank prior: left minus right fuel at the prior epoch, [mean, sd] kg. Default
+    /// [221, 120] (fuel session, engine-imbalance-180149.csv).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tank_imbalance_kg: Option<[f64; 2]>,
+    /// Two-tank prior: right-to-left flow ratio, [mean, sd]. Default [1.021, 0.008].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub tank_flow_ratio: Option<[f64; 2]>,
+    /// One-engine dynamics after the first flame-out (C-7(a)): drift-down to the one-engine
+    /// ceiling at one-engine LRC Mach, lateral mode unchanged. Needs tanks = 2. Default false.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine: Option<bool>,
+    /// Drift-down rate range, ft/min, drawn per path. Default [300, 1000].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_descent_fpm: Option<[f64; 2]>,
+    /// Half-width of the fallback Mach band. Default 0.02.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_mach_band: Option<f64>,
+    /// Multiplier on the INOP grid's live-engine flow. Default 1.0 (as delivered). internal-v1's
+    /// grid_inop is 2.00x its source tables (core finding, 10 Oct 2026); 0.5 corrects it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub inop_flow_scale: Option<f64>,
+    /// Drift-down profile: "constant" (default; the approved C-7(a) form, rate from
+    /// `single_engine_descent_fpm`) or "hold-taper" (fuel session one-engine.md 5.1: altitude held
+    /// while the speed decays, then a descent tapering to the ceiling). PROVISIONAL.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_profile: Option<String>,
+    /// hold-taper: speed decay with altitude held, kt/min, drawn per path. Default [7, 11].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_decel_kt_per_min: Option<[f64; 2]>,
+    /// hold-taper: drift-down KCAS, drawn per path. Default [207, 227].
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_driftdown_kcas: Option<[f64; 2]>,
+    /// hold-taper: L/D in the drift-down. Default 20.7.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_lift_drag: Option<f64>,
+    /// hold-taper: D(LRC INOP)/D_min. Default 1.038.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_min_drag_factor: Option<f64>,
+    /// hold-taper: exponent of the ceiling frontier W_c ~ delta^n. Default 0.864.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_ceiling_exponent: Option<f64>,
+    /// hold-taper: descent rate below which the aircraft levels off, ft/min. Default 30.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub single_engine_level_off_fpm: Option<f64>,
 }
 
 /// Sampler settings. These change which particles receive effort, never the target posterior.
@@ -352,6 +438,18 @@ pub struct SamplerConfig {
     /// the target posterior is unchanged however many are used.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub temper_stages: Option<usize>,
+    /// Adaptive tempering (sampler-change smoke, 11 Oct 2026). When set, each tempered epoch
+    /// chooses its stage exponents itself instead of using `temper_stages` equal shares: every
+    /// stage takes the largest exponent increment whose stage ESS is at least this fraction of
+    /// the population (found by bisection), and the last stage takes whatever remains, so the
+    /// exponents still sum to one. Where the likelihood is flat this spends one stage; where it is
+    /// sharp it spends as many as it needs. Absent keeps the equal schedule.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temper_target_ess: Option<f64>,
+    /// Cap on adaptive stages per epoch. Default 256. When it binds, the last stage takes the
+    /// remaining exponent at once and its ESS is recorded as it falls.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub temper_max_stages: Option<usize>,
 }
 
 /// Davey Sect. 8 and Table 8.2: the resampling step of the SIR filter implemented as
@@ -432,6 +530,10 @@ pub struct DynamicsConfig {
     /// which reproduces the published model (Davey sec. 7.2 carries no cruise vertical rate).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub bfo_vertical_rate: Option<bool>,
+    /// Calibrated-airspeed envelope (kt) for cruise Mach set points after the early phase
+    /// (`flight::Parameters::cas_envelope_kt`). Absent: no clip (the published model).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cas_envelope_kt: Option<(f64, f64)>,
     /// Early-flight sampling options (absent: the published model). When set, each seed also
     /// writes early.npy, row-aligned with final.npy (columns `filter::EARLY_COLUMNS`).
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -454,6 +556,98 @@ pub struct EarlyConfig {
     pub cas_envelope_kt: Option<(f64, f64)>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub routes: Option<RoutesConfig>,
+    /// Random waypoint routes (waypoint-family reset, Pete 11 Oct 2026). Exclusive with `routes`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub route_sampler: Option<RouteSamplerConfig>,
+}
+
+/// `[dynamics.early.route_sampler]`: each particle draws its own waypoint route (see
+/// `flight::RouteSampler`). It flies `prefix` (names in `waypoints_csv`) from `start_utc`, then
+/// the drawn legs over the fixes of `fixes_csv` whose `tier` is in `tiers`, using that file's
+/// `phase_regions` column ("1+2+3"), then resumes the free model. Each seed writes
+/// route_plans.npy (row-aligned with final.npy, columns `filter::PLAN_COLUMNS`) and
+/// route_plan_fixes.txt (fix index -> name).
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
+pub struct RouteSamplerConfig {
+    pub share: f64,
+    pub start_utc: String,
+    pub waypoints_csv: String,
+    pub prefix: Vec<String>,
+    /// Estimated time at the last prefix fix; with `nominal_ground_speed_kt` it only assigns
+    /// legs to phase regions.
+    pub prefix_end_utc: String,
+    pub fixes_csv: String,
+    pub tiers: Vec<String>,
+    /// Mean number of legs after truncation at `legs_max`.
+    pub legs_mean: f64,
+    pub legs_max: u32,
+    pub break_off_probability: f64,
+    pub break_off_fractions: Vec<f64>,
+    pub fly_by_probability: f64,
+    pub max_course_change_deg: f64,
+    pub phase2_until_utc: String,
+    pub equator_continue_probability: f64,
+    pub south_limit_deg: f64,
+    pub nominal_ground_speed_kt: f64,
+    /// Change of mode on the last leg (`flight::RouteSampler::transition`): probability of a
+    /// part-way change, and the longitude (deg E) west of which it may happen. Both or neither.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub transition_mid_leg_probability: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub transition_west_of_lon_deg: Option<f64>,
+    /// Turn model at the prefix fixes (fly-by when true). Absent: fly-over.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub prefix_fly_by: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub turn_backs: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub track_legs: Option<bool>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bank_angle_deg: Option<f64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_max_turn_deg: Option<f64>,
+}
+
+impl RouteSamplerConfig {
+    /// The sampler's fixes in index order: (name, fix). Prefix fixes are left out.
+    pub fn fixes(&self) -> Result<Vec<(String, flight::SamplerFix)>, String> {
+        let text = std::fs::read_to_string(&self.fixes_csv).map_err(|e| format!("{}: {e}", self.fixes_csv))?;
+        let mut lines = text.lines().filter(|l| !l.trim().is_empty() && !l.starts_with('#'));
+        let header: Vec<&str> = lines.next().ok_or("route_sampler.fixes_csv is empty")?.split(',').collect();
+        let col = |n: &str| header.iter().position(|h| h.trim() == n).ok_or_else(|| format!("route_sampler.fixes_csv lacks column {n}"));
+        let (cn, cla, clo, ct, cr) = (col("name")?, col("lat_deg")?, col("lon_deg")?, col("tier")?, col("phase_regions")?);
+        let mut out = Vec::new();
+        for line in lines {
+            // The source column may be quoted and hold commas; the columns used come first.
+            let f: Vec<&str> = line.split(',').collect();
+            let need = [cn, cla, clo, ct, cr].into_iter().max().unwrap();
+            if f.len() <= need {
+                return Err(format!("route_sampler.fixes_csv: short row {line}"));
+            }
+            let name = f[cn].trim().to_string();
+            if !self.tiers.iter().any(|t| t == f[ct].trim()) || self.prefix.contains(&name) {
+                continue;
+            }
+            let num = |i: usize| f[i].trim().parse::<f64>().map_err(|e| format!("route_sampler.fixes_csv {name}: {e}"));
+            let mut regions = 0u8;
+            for p in f[cr].trim().split('+') {
+                match p.trim() {
+                    "1" => regions |= 1,
+                    "2" => regions |= 2,
+                    "3" => regions |= 4,
+                    "" => {}
+                    other => return Err(format!("route_sampler.fixes_csv {name}: bad phase region {other}")),
+                }
+            }
+            let (lat, lon) = (num(cla)?, num(clo)?);
+            out.push((name, flight::SamplerFix { lat, lon, regions }));
+        }
+        if out.is_empty() {
+            return Err("route_sampler: no fixes in the chosen tiers".into());
+        }
+        Ok(out)
+    }
 }
 
 /// `[dynamics.early.routes]`: fly a route drawn uniformly from the list built from `first`
@@ -468,6 +662,31 @@ pub struct RoutesConfig {
     pub waypoints_csv: String,
     pub first: Vec<Vec<String>>,
     pub then: Vec<Vec<String>>,
+    /// Draw only these route indices (index = position in first x then, as in early.npy's
+    /// route column), uniformly among them. For per-route runs whose evidence is combined
+    /// afterwards (run C routes: one seed found route 8, which the others missed). Absent: all.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub only: Option<Vec<u32>>,
+    /// Fly turn-back continuations instead of skipping them (architecture ruling 11 Oct 2026,
+    /// option (a)): the overshoot capture rule of `flight::Guidance::turn_backs`. Absent or false
+    /// keeps the original rule, under which only 14 of the 48 routes of waypoints.toml differ.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub turn_backs: Option<bool>,
+    /// Fly-by turns at intermediate waypoints (Pete's GO, 11 Oct 2026): the turn starts at the
+    /// anticipation distance R tan(dpsi / 2) before the fix. Absent or false: fly-over (original).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by: Option<bool>,
+    /// Steer on the great-circle legs from the second waypoint on (architecture GO 11 Oct 2026),
+    /// instead of homing direct to each fix. Absent or false: direct-to (original).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub track_legs: Option<bool>,
+    /// Bank limit (degrees) for turns while a route steers, and for fly-by anticipation (turn-model
+    /// sensitivity, 11 Oct 2026). Absent: dynamics.bank_angle_deg.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bank_angle_deg: Option<f64>,
+    /// Fly-by anticipation cap on the course change, degrees. Absent: 120.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub fly_by_max_turn_deg: Option<f64>,
 }
 
 impl RoutesConfig {
@@ -570,8 +789,72 @@ impl EarlyConfig {
                 if !(0.0..=1.0).contains(&r.share) {
                     return Err("dynamics.early.routes.share must be in [0, 1]".into());
                 }
-                Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes: r.expand()?.1 })
+                {
+                    let routes = r.expand()?.1;
+                    if let Some(only) = &r.only {
+                        if only.is_empty() || only.iter().any(|&i| i as usize >= routes.len()) {
+                            return Err(format!("dynamics.early.routes.only must name indices below {}", routes.len()));
+                        }
+                    }
+                    Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes, turn_backs: r.turn_backs == Some(true), fly_by: r.fly_by == Some(true), track_legs: r.track_legs == Some(true), bank_deg: r.bank_angle_deg, fly_by_max_turn_deg: r.fly_by_max_turn_deg, allowed: r.only.clone(), sampler: None })
+                }
             }
+        };
+        if self.routes.is_some() && self.route_sampler.is_some() {
+            return Err("dynamics.early: routes and route_sampler are exclusive".into());
+        }
+        let routes = match (&self.route_sampler, routes) {
+            (Some(r), _) => {
+                let unit = |x: f64| (0.0..=1.0).contains(&x);
+                if !unit(r.share) || !unit(r.break_off_probability) || !unit(r.fly_by_probability) || !unit(r.equator_continue_probability) {
+                    return Err("dynamics.early.route_sampler: probabilities must be in [0, 1]".into());
+                }
+                if r.legs_max == 0 || r.legs_max as usize > crate::filter::MAX_PLAN_LEGS || r.legs_mean < 1.0 {
+                    return Err(format!("dynamics.early.route_sampler: need legs_mean >= 1 and 1 <= legs_max <= {}", crate::filter::MAX_PLAN_LEGS));
+                }
+                if r.break_off_fractions.is_empty() || r.break_off_fractions.iter().any(|&f| !(f > 0.0 && f < 1.0)) || r.nominal_ground_speed_kt <= 0.0 {
+                    return Err("dynamics.early.route_sampler: break_off_fractions in (0, 1), nominal_ground_speed_kt > 0".into());
+                }
+                let lookup = RoutesConfig { share: 1.0, start_utc: r.start_utc.clone(), waypoints_csv: r.waypoints_csv.clone(), first: vec![r.prefix.clone()], then: vec![vec![]],
+                                            only: None, turn_backs: None, fly_by: None, track_legs: None, bank_angle_deg: None, fly_by_max_turn_deg: None };
+                let prefix = lookup.expand()?.1.remove(0);
+                if prefix.is_empty() {
+                    return Err("dynamics.early.route_sampler.prefix must name at least one fix".into());
+                }
+                let fixes = r.fixes()?.into_iter().map(|x| x.1).collect();
+                // legs_mean is the mean after truncation at legs_max (Pete: "mean 3, at most 8");
+                // solve for the untruncated geometric mean the sampler uses.
+                let truncated = |m: f64| {
+                    let q = 1.0 - 1.0 / m;
+                    (1..=r.legs_max).map(|k| f64::from(k) * (1.0 - q) * q.powi(k as i32 - 1)).sum::<f64>() / (1.0 - q.powi(r.legs_max as i32))
+                };
+                if r.legs_mean >= 0.5 * f64::from(r.legs_max + 1) {
+                    return Err(format!("dynamics.early.route_sampler.legs_mean must be below {} for legs_max {}", 0.5 * f64::from(r.legs_max + 1), r.legs_max));
+                }
+                let (mut lo, mut hi) = (1.0, 1e6);
+                if r.legs_mean > 1.0 {
+                    for _ in 0..200 {
+                        let mid = 0.5 * (lo + hi);
+                        if truncated(mid) < r.legs_mean { lo = mid } else { hi = mid }
+                    }
+                }
+                let sampler = flight::RouteSampler {
+                    prefix, prefix_end_unix_s: t(&r.prefix_end_utc)?, fixes, legs_mean: lo, legs_max: r.legs_max,
+                    break_off_probability: r.break_off_probability, break_off_fractions: r.break_off_fractions.clone(),
+                    fly_by_probability: r.fly_by_probability, max_course_change_deg: r.max_course_change_deg,
+                    phase2_until_unix_s: t(&r.phase2_until_utc)?, equator_continue_probability: r.equator_continue_probability,
+                    south_limit_deg: r.south_limit_deg, nominal_ground_speed_kt: r.nominal_ground_speed_kt,
+                    transition: match (r.transition_mid_leg_probability, r.transition_west_of_lon_deg) {
+                        (None, None) => None,
+                        (Some(p), Some(lon)) if (0.0..=1.0).contains(&p) => Some((p, lon)),
+                        _ => return Err("dynamics.early.route_sampler: give transition_mid_leg_probability (0-1) and transition_west_of_lon_deg together".into()),
+                    },
+                };
+                Some(flight::RoutePrior { share: r.share, unix_s: t(&r.start_utc)?, routes: vec![], turn_backs: r.turn_backs == Some(true),
+                    fly_by: r.prefix_fly_by == Some(true), track_legs: r.track_legs == Some(true), bank_deg: r.bank_angle_deg,
+                    fly_by_max_turn_deg: r.fly_by_max_turn_deg, allowed: None, sampler: Some(sampler) })
+            }
+            (None, routes) => routes,
         };
         Ok(flight::EarlyPhase {
             mach_range: self.mach_range,
@@ -594,13 +877,27 @@ impl DynamicsConfig {
              wind_reversion_per_s, wind_noise_kt2_per_s, tau_range_h, mach_range, altitude_range_ft,
              altitude_step_ft, bank_angle_deg, mach_rate_per_s, climb_rate_ft_per_s, lnav_switch_mean_s,
              cruise_step_s, manoeuvre_step_s, bfo_vertical_rate);
+        if let Some(v) = self.cas_envelope_kt {
+            p.cas_envelope_kt = Some(v);
+        }
         p
     }
 }
 
 #[derive(Deserialize, Serialize, Clone)]
 #[serde(deny_unknown_fields)]
+pub struct TraceConfig {
+    pub from_utc: String,
+    pub to_utc: String,
+    pub interval_s: f64,
+}
+
+#[derive(Deserialize, Serialize, Clone)]
+#[serde(deny_unknown_fields)]
 pub struct OutputConfig {
+    /// Core request 10: the hand-off look-ahead (see [`HandoffLookahead`]). Off when absent.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handoff_lookahead: Option<HandoffLookahead>,
     pub route_interval_s: f64,
     pub route_samples: usize,
     /// Particles per mode and SATCOM step saved with their residuals (0 = off).
@@ -625,9 +922,54 @@ pub struct OutputConfig {
     /// Rows per replicate at each of `handoff_epochs`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_rows: Option<usize>,
+    /// Core request 19: with true, each epoch hand-off also writes routes.npy (float32, rows x
+    /// points x 2, latitude and longitude every route_interval_s from the prior epoch to the
+    /// hand-off epoch), row-aligned with handoff.npy, for full trace-back. Off by default: every
+    /// candidate then carries its route, about 8 bytes per point, which multiplies with the
+    /// look-ahead oversample. The early-flight record is already in each row's aircraft.early.
+    /// The last route point is the last route time at or before the hand-off epoch (up to one
+    /// route_interval_s earlier); the position at the epoch itself is in handoff.npy.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handoff_routes: Option<bool>,
+    /// State trace for a short window (Pete, 11 Oct 2026: N571 traffic diagnostic): latitude,
+    /// longitude, altitude (ft), ground track (deg true), ground speed (kt), Mach and true air
+    /// heading (deg) every `interval_s` from `from_utc` to `to_utc` inclusive, written to
+    /// trace.npy (float32, route_samples x points x 7) for the same draws as routes.npy.
+    /// Absent: no trace, and the run is unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub trace: Option<TraceConfig>,
     /// The fewest rows any mode with posterior mass keeps at each of `handoff_epochs` (default 1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_floor: Option<usize>,
+}
+
+/// Core request 10 (architecture ruling 10 Oct 2026 ~08:55 UTC; Pete ~16:30 UTC): draw the rows of
+/// a `handoff_epochs` hand-off in proportion to a look-ahead g, with an exact importance
+/// correction, so that the stage that continues from the hand-off gets more parents that can
+/// explain its later data. The filter's own physics and posterior are untouched.
+///
+/// At the hand-off epoch the filter draws `oversample` x `handoff_rows` candidates from its
+/// posterior and tags every particle with its index. At the horizon epoch, g of a candidate is
+/// the smoothed share of its tag over the filtered share (fixed-lag smoothing: the likelihood of
+/// the data between the two epochs under cruise continuation). The rows are then drawn from
+/// q proportional to (1 - defensive) g + defensive, and each carries
+/// log_correction = ln mean(q-weights) - ln((1 - defensive) g + defensive).
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+pub struct HandoffLookahead {
+    /// Hand-off epoch -> horizon epoch, e.g. { m2241 = "m0011", m0011 = "m0019b" }. At most two.
+    pub horizons: BTreeMap<String, String>,
+    /// Candidates per hand-off row (default 10).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub oversample: Option<usize>,
+    /// Defensive mixture weight in (0, 1] (default 0.2).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub defensive: Option<f64>,
+    /// Core request 10 hook (5): hand-off epoch -> path of a per-candidate g (npy, float64, one
+    /// row per candidate in draw order), with "{seed}" and "{mode}" replaced. Used instead of
+    /// smoothing for that epoch; its horizon entry is then ignored.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub g_files: Option<BTreeMap<String, String>>,
 }
 
 /// Load a config and merge any override files over it, in order.
@@ -645,7 +987,29 @@ pub fn load_with(paths: &[PathBuf], last: Option<toml::Table>) -> Result<Config,
     if let Some(last) = last {
         merge(&mut table, last);
     }
-    toml::Value::Table(table).try_into().map_err(|e| format!("{}: {e}", paths[0].display()))
+    let config: Config = toml::Value::Table(table).try_into().map_err(|e| format!("{}: {e}", paths[0].display()))?;
+    check_double_counted_timing(&config)?;
+    Ok(config)
+}
+
+/// Fuel audit F19: refuse a core exhaustion Gaussian together with a terminal stage that
+/// scores a 00:19 burst, unless the configuration declares it.
+fn check_double_counted_timing(config: &Config) -> Result<(), String> {
+    let (Some(fuel), Some(terminal)) = (&config.fuel, &config.terminal) else { return Ok(()) };
+    if fuel.exhaustion_target_utc.is_none() || fuel.allow_double_counted_0019_timing {
+        return Ok(());
+    }
+    let scored: Vec<&str> = terminal.options.iter().flat_map(|o| o.observations.iter()).filter(|id| id.starts_with("m0019")).map(String::as_str).collect();
+    if scored.is_empty() {
+        return Ok(());
+    }
+    Err(format!(
+        "fuel.exhaustion_target_utc ({}) already treats the 00:19 log-on as evidence of the flame-out time, and \
+         [terminal] scores {} as well, which counts that timing evidence twice (fuel audit F19). Remove \
+         fuel.exhaustion_target_utc, or set fuel.allow_double_counted_0019_timing = true to declare it as a sensitivity.",
+        fuel.exhaustion_target_utc.as_deref().unwrap_or(""),
+        scored.join(", ")
+    ))
 }
 
 fn load_table(path: &Path, depth: usize) -> Result<toml::Table, String> {
@@ -688,6 +1052,25 @@ fn merge(base: &mut toml::Table, over: toml::Table) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Fuel audit F19: a core exhaustion Gaussian and a terminal stage scoring 00:19 count the
+    /// timing evidence twice, so the pair is refused unless declared.
+    #[test]
+    fn exhaustion_gaussian_with_terminal_0019_scoring_is_refused_unless_declared() {
+        let dir = concat!(env!("CARGO_MANIFEST_DIR"), "/../../config/");
+        let paths = |ps: &[&str]| -> Vec<PathBuf> { ps.iter().map(|p| PathBuf::from(format!("{dir}{p}"))).collect() };
+        let scoring = "[terminal]\noptions = [{ id = \"none\", use = [] }, { id = \"bto\", use = [\"m0019b.bto\"] }]\n";
+        let with = |extra: &str| -> toml::Table { toml::from_str(&format!("{scoring}{extra}")).unwrap() };
+        let fuelled = paths(&["davey2016.toml", "sensitivity/fuel-smoke.toml", "sensitivity/handoff-smoke.toml"]);
+        let err = load_with(&fuelled, Some(with(""))).err().expect("the double count must be refused");
+        assert!(err.contains("F19") && err.contains("m0019b.bto"), "{err}");
+        assert!(load_with(&fuelled, Some(with("[fuel]\nallow_double_counted_0019_timing = true\n"))).is_ok());
+        // A terminal stage that scores nothing at 00:19 is not double counting.
+        assert!(load(&fuelled).is_ok());
+        // Without the exhaustion Gaussian the scoring stage loads.
+        assert!(load_with(&paths(&["davey2016.toml", "sensitivity/handoff-smoke.toml"]), Some(with(""))).is_ok());
+    }
+
 
     /// The module in [terminal] acts there even when a set lists it (for its own data); modules
     /// in sets are impact modules; every other enabled one is a trajectory module.

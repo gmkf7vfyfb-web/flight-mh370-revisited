@@ -85,3 +85,16 @@ The likelihood the module returns stays **0.0**, for three reasons:
    the §9 request.
 
 *Hydroacoustics module, 2026-10-09.*
+
+## Addendum, 9 Oct ~17:30 UTC: superseded by the RAM cross-check
+
+`hydroacoustics-ram-tl-check.md` shows that adiabatic TL to the seabed loggers was pessimistic by
+13–47 dB at Perth Canyon and 23–132 dB on the Portland shelf (10–40 Hz).
+
+With RAM-corrected TL and the F-35A-calibrated η:
+- P_D(any open logger) is **7.6 %** at false alarm 0.005 and **32 %** at 0.05;
+- the median best-logger SNR is +9.8 dB.
+
+The sentence "the IMOS recorders could not have detected the impact" is withdrawn. They are marginal, not
+blind. The non-detection is still uninformative on position (under 10⁻³ bit). Caveat 1 above is now
+quantified rather than open.

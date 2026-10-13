@@ -1,0 +1,4 @@
+# The reference tempered sampler alone (as in no-exhaustion-prior.toml).
+[sampler]
+temper_epochs = ["m1839", "m1941", "m2041", "m2141", "m2241", "m0011"]
+temper_stages = 16

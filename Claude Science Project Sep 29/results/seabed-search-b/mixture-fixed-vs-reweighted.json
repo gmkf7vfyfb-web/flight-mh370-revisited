@@ -1,0 +1,68 @@
+{
+ "00:19 held out": {
+  "z_fixed": 0.6883340758837447,
+  "z_reweighted": 0.68833402709117,
+  "note": "exact",
+  "per_family_z": {
+   "free": 0.6878,
+   "Davey dynamics + radar": 0.7115,
+   "descent-climb": 0.6686,
+   "routes": 0.6497
+  }
+ },
+ "00:19 R600 BTO only": {
+  "z_fixed": 0.6713242805936753,
+  "z_reweighted": 0.6713242805936753,
+  "note": "no evidence factor published for the BTO-only arm; fixed weights used",
+  "per_family_z": {
+   "free": 0.6697,
+   "Davey dynamics + radar": 0.6932,
+   "descent-climb": 0.6577,
+   "routes": 0.6493
+  }
+ },
+ "00:19 R600 BTO and BFO as observed": {
+  "z_fixed": 0.5070268120369176,
+  "z_reweighted": 0.5058220683388136,
+  "note": "exact",
+  "per_family_z": {
+   "free": 0.5042,
+   "Davey dynamics + radar": 0.5279,
+   "descent-climb": 0.4993,
+   "routes": 0.4948
+  }
+ },
+ "00:19 R600, start-up offset": {
+  "z_fixed": 0.48904616885763863,
+  "z_reweighted": 0.4797290871041951,
+  "note": "exact",
+  "per_family_z": {
+   "free": 0.4942,
+   "Davey dynamics + radar": 0.532,
+   "descent-climb": 0.4199,
+   "routes": 0.459
+  }
+ },
+ "00:19 R1200, start-up offset": {
+  "z_fixed": 0.3205732706982285,
+  "z_reweighted": 0.31937615330588515,
+  "note": "log-on cause factor not included (end of flight has not published it per family)",
+  "per_family_z": {
+   "free": 0.327,
+   "Davey dynamics + radar": 0.3551,
+   "descent-climb": 0.258,
+   "routes": 0.2391
+  }
+ },
+ "00:19 both bursts, inflated": {
+  "z_fixed": 0.5768893439734414,
+  "z_reweighted": 0.575641085477998,
+  "note": "log-on cause factor not included (end of flight has not published it per family)",
+  "per_family_z": {
+   "free": 0.5948,
+   "Davey dynamics + radar": 0.5363,
+   "descent-climb": 0.5346,
+   "routes": 0.5407
+  }
+ }
+}

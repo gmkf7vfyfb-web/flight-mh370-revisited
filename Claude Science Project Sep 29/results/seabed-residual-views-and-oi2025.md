@@ -1,8 +1,11 @@
 # Residual-PDF views, Davey eq. 11.2, and the Ocean Infinity 2025–26 variant
 
 Searched-areas module, 9 October 2026. Steps 6 and 7 of the architecture sequence of 9 October.
-All numbers are from the smoke-scale end-of-flight run of `results/seabed-search-eof-smoke/` and are
-**provisional** (split-half 0.812).
+All numbers below are from the smoke-scale end-of-flight run of `results/seabed-search-eof-smoke/` and
+are **provisional** (split-half 0.812). **Superseded at full scale by
+`results/seabed-search-289-fullscale-alive/`** — see the full-scale section appended at the end, which
+is the version to quote. The smoke-scale text is kept because the method and the guards are the same
+and because the two scales disagree about how much the 2025–26 variant is worth.
 
 ## 1. The residual view is a view, and it says so
 
@@ -92,3 +95,44 @@ far from where this posterior puts its mass, to act as evidence at this scale.
 ---
 
 *Searched areas, 9 October 2026.*
+
+
+---
+
+## Full scale, 10 October 2026: what survives and what does not
+
+Run `eof-289-full` (4 seeds x 3.2 x 10^6 impacts, prior track 289.7 deg, 00:19 held out, log-on cause
+`other`, end of flight's `+alive` constraint, split-half 0.972). Source:
+`results/seabed-search-289-fullscale-alive/`.
+
+| | smoke scale (295.66 prior) | **full scale (289.7 prior, `+alive`)** |
+|---|---|---|
+| base evidence Z at rho = 0.05 | 0.4040 | **0.7206** |
+| + OI 2025–26 inferred, outboard band only | — | **0.7165** |
+| the variant is worth | 0.0004 | **0.0041** |
+| + OI 2018 inferred, coverage 0.889 | — | 0.6864 |
+| + OI 2018 inferred, coverage 0.952 | — | 0.6840 |
+| Davey eq. 11.2: P(find) 25 % | 8 blocks, 19,092 km² | **24 blocks, 59,005 km²** |
+| 50 % | 31 blocks, 74,074 km² | **70 blocks, 171,921 km²** |
+| 75 % | 109 blocks, 262,354 km² | **248 blocks, 623,095 km²** |
+
+**Three corrections to the smoke-scale readings.**
+
+1. **"It changes nothing measurable" was a smoke-scale statement and does not survive.** The 2025–26
+   variant is worth 0.0041 in Z at full scale, ten times its smoke-scale figure. It is still the
+   smallest layer in the sweep — rho spans 0.15, OI 2018 is worth 0.034–0.037 — but "nothing
+   measurable" is no longer the right phrase. It is **small and measurable**, and it is reported
+   separately rather than merged, as the brief requires.
+2. **The planning problem is three times larger than smoke scale suggested**, in blocks and in area,
+   because the full-scale residual is much wider. Any area figure quoted from the smoke-scale section
+   above is wrong by about 3x.
+3. **The leading candidate blocks moved.** Full scale puts them at 39.0°S 89.0°E and 38.0°S
+   90.5–91.0°E, north-east of the smoke-scale set. Block *ordering* remains the least resolved thing
+   this module produces — a 0.5 deg block holds about 1.5 % of the residual mass — so the cumulative
+   curve is the reportable object and the ranking is orientation only.
+
+**Unchanged.** Both guards still hold: the double-application refusal, and the source posterior printed
+in every page header rather than assumed. The 2025–26 layer is still the outboard band alone at
+coverage fraction 0.7808, with the inboard band at zero, because the contract area is not searched
+ground. It carries the grade-C inferred-coverage footnote of
+`engine/hypotheses/seabed-search/coverage/PROVENANCE.md`.

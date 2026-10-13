@@ -8,7 +8,7 @@ and coverage value comes from the module: for each scenario the script writes a 
 of run.toml and runs `mh370 evaluate` on each replicate's impacts.npy. The scenarios are the
 rho sweep (the headline: rho decides how much probability stays on searched ground), the
 Phase 2 detection probability q, the inferred Ocean Infinity 2018 layer (a labelled variant;
-it needs data/external/search-coverage/ocean-infinity-2018.cov), and each campaign alone and
+committed under coverage/, inferred and grade C), and each campaign alone and
 added in the order the searches happened (rho 0).
 
 Weights: each replicate's impact weights times exp(loglik:<OPTION>), the chosen 00:19 data
@@ -35,8 +35,10 @@ BINARY = ROOT / "target" / "release" / "mh370"
 MODULE = "seabed-search"
 OI_OVERRIDE = HERE / "ocean-infinity-2018.toml"
 OI25_OVERRIDE = HERE / "ocean-infinity-2025.toml"
-OI_LAYER = ROOT / "data" / "external" / "search-coverage" / "ocean-infinity-2018.cov"
-OI25_LAYER = ROOT / "data" / "external" / "search-coverage" / "ocean-infinity-2025.cov"
+# Committed since Pete's ruling of 9 Oct 2026 (~18:30 UTC); see coverage/PROVENANCE.md for the
+# grade-C inferred-coverage footnote every use of these two layers must carry.
+OI_LAYER = HERE / "coverage" / "ocean-infinity-2018.cov"
+OI25_LAYER = HERE / "coverage" / "ocean-infinity-2025.cov"
 RHO_MEANING = ("rho is the chance that the wreck could not have been found even where the sonar looked: hidden by "
                "terrain, buried, or imaged but dismissed. ATSB's detection ratings (q) cover data quality; rho is what they do not.")
 GRID = np.arange(-50.0, 50.0 + 1e-9, 0.05)  # summary.rs latitude grid
@@ -159,6 +161,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__.split("\n\n")[0])
     parser.add_argument("run", nargs="?", type=Path, default=ROOT / "runs" / "fixture")
     parser.add_argument("--option", default="none", help="00:19 data option: a loglik:<option> column of impacts.npy")
+    parser.add_argument("--cause", default="other", choices=["other", "fuel-exhaustion"],
+                        help="log-on cause; fuel-exhaustion adds end of flight's section 6 log-on lag density")
+    parser.add_argument("--constraint", default="", choices=["", "alive", "silent"],
+                        help="end of flight's declared existence constraint, imported read-only from their "
+                             "smoke/displacement_hist.py (PROVISIONAL-OVERNIGHT)")
     args = parser.parse_args()
     run = json.loads((args.run / "run.json").read_text())
     columns = run["impact_columns"]
@@ -172,7 +179,8 @@ def main():
     terminal = run["config"]["terminal"]["module"]
     label = (f"{terminal} impacts, a placeholder: plumbing, not evidence" if terminal == "arc-kernel"
              else f"impacts from end-of-flight module {terminal}")
-    label += f"; 00:19 data option {args.option}"
+    label += f"; 00:19 data option {args.option}, log-on cause {args.cause}"
+    label += f", constraint +{args.constraint} (PROVISIONAL-OVERNIGHT)" if args.constraint else ""
     replicates = sorted((args.run / "bto-bfo").glob("seed-*/impacts.npy"), key=lambda p: int(p.parent.name[5:]))
     params = tomllib.loads((HERE / "run.toml").read_text())["hypotheses"][MODULE]
     oi = tomllib.loads(OI_OVERRIDE.read_text())["hypotheses"][MODULE]["campaigns"] if OI_LAYER.is_file() else None
@@ -193,7 +201,23 @@ def main():
         table = np.load(path)
         col = lambda name: table[:, columns.index(name)]
         lat, lon = col("latitude_deg"), col("longitude_deg")
-        w = col("weight") * np.exp(col(f"loglik:{args.option}"))
+        extra = 0.0
+        if args.cause == "fuel-exhaustion" or args.constraint:
+            import sys as _sys
+            _sys.path.insert(0, str(ROOT / "hypotheses" / "end-of-flight" / "smoke"))
+            import displacement_hist as _dh  # end of flight's definitions, imported not copied
+            from scipy.special import gammaln as _gammaln
+            logon = run["config"]["hypotheses"]["end-of-flight"]["logon"]
+            if args.cause == "fuel-exhaustion":
+                lag = logon["logon_unix_s"] - col("latent:realised_flameout_unix_s")
+                with np.errstate(divide="ignore", invalid="ignore"):
+                    lfe = ((logon["lag_shape"] - 1) * np.log(lag) - lag / logon["lag_scale_s"]
+                           - logon["lag_shape"] * np.log(logon["lag_scale_s"]) - _gammaln(logon["lag_shape"]))
+                extra = extra + np.where(np.isfinite(lag) & (lag > 0), lfe, -np.inf)
+            if args.constraint:
+                extra = extra + _dh.constraint_log_factor(col, logon, args.cause, args.constraint)
+        ll = col(f"loglik:{args.option}") + extra
+        w = col("weight") * np.exp(ll - np.max(ll[np.isfinite(ll)]))
         w /= w.sum()
         runs = {name: evaluate(path, extra, scratch) for name, extra, _ in cases}
         cover = runs["run.toml"]["covered_fraction_phase2-2014-2017"]
