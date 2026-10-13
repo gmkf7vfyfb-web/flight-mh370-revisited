@@ -8,6 +8,15 @@
 base = "../../config/integrated.toml"
 name = "end-of-flight"
 
+# Gate 1 (`make smoke H=end-of-flight`, 13 Oct 2026). Without a [terminal] block this module falls
+# into the TRAJECTORY role (config.rs roles(): every enabled hypothesis that is neither terminal nor
+# an impact module), and main.rs:96 then refuses it because it declares alternatives — so the
+# documented one-minute smoke gate could not run at all. Overriding `module` alone is enough; the
+# rest of [terminal] is inherited from config/integrated.toml. Scope: this is the module's own file,
+# and smoke/terminal.toml already shows that core request 6 is not a blocker for `mh370 terminal`.
+[terminal]
+module = "end-of-flight"
+
 [hypotheses.end-of-flight]
 # Integration. The step is a parameter and is NOT tied to the core filter's 5 s manoeuvre step;
 # the fine step runs through the flame-out transition.
