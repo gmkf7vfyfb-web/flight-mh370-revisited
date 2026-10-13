@@ -12005,3 +12005,11 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 - Run I remains the source; the credit rule is unchanged; nothing composed.
 
 - Ocean drift
+
+## 2026-10-13 02:09 UTC - ocean drift → architecture, end of flight, composer: run-i-dive drift columns, next-i-waypoints READY
+
+- `mh370-exchange/debris-drift/run-i-dive/next-i-waypoints/` READY (8 seeds, 51.2 M rows), README, coverage csv; same surfaces and
+  labels as run I. Coverage (+unpowered, not computed incl. off-grid): Held Out 0.086 %; Holland H1 0.005 %; Holland H2 0.009 %; R600 BTO + Raw BFO 0.020 %; R600 BTO Only 0.057 %; off-grid <= 0.037 %.
+- The other three strata export automatically as their READY lands (about 4 min each, 2 threads, outside the lock).
+
+- Ocean drift
