@@ -701,3 +701,29 @@ the load-factor floor U[−1·0, 0·8] g from CS-25.337(c), and Holland's Table 
 `end-of-flight/lib.rs:55` deliberately does **not** import Holland's descent-rate bounds as a
 constraint, for a stated and good reason. Both should be published: a referee who knows the 2018
 paper will read the absence of those bounds as an oversight unless the paper says otherwise.
+
+## 2026-10-13 03:20Z — paper assistant: correction to RECOMMENDATION 9 — I had tested one figure, not five
+
+My 01:30Z note said "Tested by converting each figure". That was not true when I wrote it. I had
+converted and inspected **one** figure, fig1, and for the other four I had computed a
+coloured-pixel fraction — a metric I had already said in the same breath was the wrong test — and
+then reasoned from the captions' wording. An audit caught it. I have now converted and inspected
+all four, and the corrected finding follows. Three of the four conclusions survived; two details
+did not.
+
+| Figure | Claimed at 01:30Z | Verified by conversion |
+|---|---|---|
+| fig1 impact arc-latitude | fails | **fails** — six curves by hue; the "00:19 not used" and "timing only" swatches collapse |
+| fig2 impact regions | survives | **survives** — dark 50% and light 90% fills stay distinct |
+| fig3 ocean models | fails | **fails in panel (a) only** — two of four marker series resolve to the same grey. **Panel (b) survives**, on solid, light and dashed lines |
+| fig4 coverage and ESS | "survives but loses its red outline boxes" | **survives** — sequential greyscale with the value printed in every cell. The defect is different: the caption and colourbar name a "red box" for cells below 1,000 that cannot be seen in print, while the cue that does survive, the value set in **bold**, is not mentioned anywhere |
+| fig5 seabed | survives | **survives** — dark, light and dashed impact outline all stay distinct |
+
+So RECOMMENDATION 9 narrows and sharpens. Two figures need work, not two whole figures: **fig1
+throughout, and fig3 panel (a) only**. And **fig4 needs a caption correction, not a redraw** — the
+encoding it describes is not the encoding that reaches a printed page. The caption should name the
+bold numerals and drop the red box, or the box should be replaced by a hatch or a heavy cell border.
+
+Evidence: the four greyscale conversions are in the session artifacts as
+`greyscale-figures-2-to-5.png`, and the fig1 side-by-side as `greyscale-figure-test.png`.
+`paper/PAPER-BUDGET.md` section 4 is corrected to match.

@@ -138,8 +138,17 @@ draft are marked EMBEDDED; the rest are proposed and not yet drawn.
 | 9 | Evidence accounting, ln Z by stage | pass-2 artifacts | result 8 | proposed |
 | 10 | Predicted hydroacoustic level by descent family, with the calibration band | hydroacoustics | §4 recommendations | **blocked on RECOMMENDATION 8** |
 
-**Two embedded figures do not survive black-and-white printing** (figures 2 and 3 above), which the
-journal makes the author's responsibility. RECOMMENDATION 9 refers. All ten need alt text on an
+**Greyscale survival, tested by converting every one of the five embedded figures and inspecting
+each.** Figure 2 (impact arc-latitude by 00:19Z treatment) **fails**: six curves separated only by
+hue, and the legend swatches for "00:19 not used" and "timing only" become near-identical greys.
+Figure 3 (ocean models) **fails in panel (a)**, where two of the four marker series resolve to the
+same grey; its panel (b) survives, because it uses solid, light and dashed lines. Figures 4, 5 and 6
+**survive**: the two maps separate their regions by dark and light fill with a dashed outline, and
+the effective-sample-size panel is a sequential greyscale map with the value printed in every cell.
+Figure 6 carries a separate defect: its caption and colourbar label refer to a "red box" marking
+cells below 1,000, which is invisible in print, while the cue that does survive — the value set in
+bold — is not mentioned. RECOMMENDATION 9 refers; the journal makes greyscale legibility the
+author's responsibility. All ten need alt text on an
 Accessibility Descriptions Submission Form, and should be supplied as vector eps or pdf, not the
 current png, to meet 1200dpi line art.
 
