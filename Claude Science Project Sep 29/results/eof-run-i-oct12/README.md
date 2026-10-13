@@ -92,3 +92,16 @@ in-flight structure; survival factor applied; no D uses the R1200 BTO.
 **Correction label (19:15Z).** This sweep used a per-engine SLS thrust of 415,450 N; the type certificate (EASA E.047 Issue 04,
 §6) gives 406.8 kN take-off net for the Trent 892-17 / 892B-17. The module default is now 406,800 N. Effect on these results not
 measured (expected small: it scales maximum and idle thrust of powered profiles only).
+
+## 4. Reach gap G-dive (found 12 Oct 20:00Z) and the follow-up runs
+
+**Finding.** Every piloted push-over levelled off at `transition_altitude_ft` U[8,000, 15,000] ft (no source): a deliberate dive
+continued to the sea was outside the model's reach. Sections 1-3 are therefore **CONDITIONAL on "piloted push-over recovers by
+8,000-15,000 ft"**. The R1200 southward shift on this sweep is a consequence: 00:19:37 positions differ by 0.08° between D0 and D4,
+but the displacement after 00:19:37 is −0.09° (D0) against −0.36° (D4); the −37.7° peak is 98 % piloted descents that level off
+and fly ~0.5° south (`run-i-r1200-shift.json`; maps `run-i-impact-maps.pdf`).
+**Closure** (Pete, "Dive branch, U[0,1]"): binary ri3, overlay `full/dive-branch.toml`, latent `pushover_to_surface`.
+**Runs.** `run-i-c2aim` (level-off only, C2-silent aim, N = 16, waypoints): the labelled conditional arm. `run-i-dive` (dive branch +
+aim; waypoints N = 16, the others N = 8): supersedes this sweep. Waypoints results (`table-0019-dive-next-i-waypoints.json`,
+`dive-impact-maps-waypoints.pdf`): D4 total median −37.33, peak −37.35, 90 % area 47k km²; C2-silent cells +1 nat; ESS D3 × C2
+silent 2,403. Gap still open: A1 in every C2-silent cell (86-518 effective impacts).
