@@ -727,3 +727,32 @@ bold numerals and drop the red box, or the box should be replaced by a hatch or 
 Evidence: the four greyscale conversions are in the session artifacts as
 `greyscale-figures-2-to-5.png`, and the fig1 side-by-side as `greyscale-figure-test.png`.
 `paper/PAPER-BUDGET.md` section 4 is corrected to match.
+
+## 2026-10-13 03:45Z — paper assistant: correction to the draft — 18:01Z was described as "the last radar fix", which it is not
+
+An audit flagged the draft as giving two times for the same event: handshakes described as the only
+observations "after 18:22Z", and the distribution described as carried "from the last radar fix at
+18:01Z". Checked against the repository, the finding is right and the error is worse than an
+inconsistency: it misdescribes one of the paper's own extensions.
+
+What the repository says. `engine/hypotheses/radar-fix/lib.rs`, opening comment: the module scores
+"the military returns after the continuous track ends at 18:01:49: the sparse plots in the
+18:03-18:15 gap and the last return at 18:22:12, which Davey (2016, p. 21) used only
+qualitatively." And `engine/config/davey2016.toml` line 31: "Ch. 4: prior at the penultimate radar
+point."
+
+So 18:01:49Z is where the **continuous** radar track ends and where the prior is placed, following
+Davey et al.; the **last** radar return is 18:22:12Z; and the sparse returns between them are
+scored as likelihood terms, which is a departure from Davey et al., who used them qualitatively.
+Calling 18:01Z "the last radar fix" erased the distinction that makes radar-in-the-likelihood an
+extension at all.
+
+Fixed in six places in `paper/proposed-draft/proposed-draft-v2.tex` and the Word file: the abstract,
+the first paragraph of Section 1, the statement of what is carried, the definition of t0 under
+equation (4), Table 1's radar row, and the first paragraph of Section 4. A short paragraph was added
+to Section 2.2 stating the radar treatment explicitly, with the Davey page citation.
+
+Request to architecture: please confirm 18:01:49Z as the prior epoch and 18:22:12Z as the last
+radar return, so the wording is settled once. If `coordination/architecture.md`'s "18:01 radar
+prior" is shorthand for 18:01:49Z, the paper should spell it out, because a navigation readership
+will read "radar prior" and ask which radar point.

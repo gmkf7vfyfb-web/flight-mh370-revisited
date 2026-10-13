@@ -48,8 +48,8 @@ DOC.append(("ABSTRACT",
   "The loss of Malaysia Airlines flight MH370 in 2014 has been reconstructed by Bayesian "
   "estimation from satellite communication metadata, but published reconstructions end at the "
   "final transmission and treat fuel, the end of flight and the fate of the aircraft after "
-  "impact outside the estimator. This study reports an integrated reconstruction carrying one "
-  "probability distribution from the last radar fix to the seabed. A particle filter on the "
+  "impact outside the estimator. This study carries one probability distribution from the end "
+  "of the continuous radar track to the seabed. A particle filter on the "
   "published measurement models is extended with fuel endurance and primary radar inside the "
   "likelihood, a waypoint route family and a modified sampler; its posterior at 00:11Z is "
   "handed to a stage simulating descent to water impact; and the impact distribution is then "
@@ -62,8 +62,8 @@ DOC.append(("ABSTRACT",
 H1("1.  INTRODUCTION")
 P("""Malaysia Airlines flight MH370 departed Kuala Lumpur for Beijing on 7 March 2014 and did
 not arrive. The aircraft, a Boeing 777-200ER registered 9M-MRO, ceased secondary surveillance
-reporting at 17:21Z, was tracked on primary radar during a reversal back across the Malay
-peninsula until 18:22Z, and then flew for approximately six further hours while exchanging
+reporting at 17:21Z, was tracked continuously on primary radar during a reversal back across the
+Malay peninsula until 18:01:49Z and on sparse military returns until 18:22:12Z, and then flew for approximately six further hours while exchanging
 periodic handshakes with the Inmarsat 3-F1 geostationary satellite. Those handshakes carry two
 measured quantities, a burst timing offset which constrains the signal path length and
 therefore the aircraft's range from the satellite, and a burst frequency offset which
@@ -98,7 +98,7 @@ redundant observations, which is the normal situation in navigation, but of prop
 dynamic model for six hours between observations that each constrain one direction.""")
 
 P("""This study removes those three separations. One probability distribution is carried from the
-last radar fix at 18:01Z through to a distribution over resting places on the seabed, and every
+end of the continuous primary radar track at 18:01:49Z through to a distribution over resting places on the seabed, and every
 line of evidence acts on the same distribution. The published measurement models are retained
 and cited rather than re-derived, in the manner of Ng et al. (2024), and the account below
 describes only what was changed or added: fuel and endurance within the likelihood, primary
@@ -164,8 +164,8 @@ n_traj = EQ(r"\mathcal{X} = \bigl\{\mathbf{x}(t) : t_0 \le t \le t_{\mathrm{imp}
             r"\qquad \mathbf{x}_{\mathrm{sea}} = g_{\mathrm{sea}}"
             r"\bigl(\mathbf{x}_{\mathrm{imp}}\bigr)",
             "X = { x(t) : t₀ ≤ t ≤ t_imp },   x_imp = g_imp(X),   x_sea = g_sea(x_imp)")
-P(f"""where X is the trajectory as a continuous function of time from the last radar fix at
-t₀ = 18:01Z to water impact, x(t) is the aircraft state vector at time t comprising position,
+P(f"""where X is the trajectory as a continuous function of time from the end of the continuous primary
+radar track at t₀ = 18:01:49Z to water impact, x(t) is the aircraft state vector at time t comprising position,
 altitude, three-dimensional velocity, mass and the commanded Mach number and track, g_imp is
 the deterministic map from a trajectory to the impact state it terminates in, and g_sea is the
 deterministic map from the impact state to the resting place, which is the descent through the
@@ -190,7 +190,7 @@ oscillator and compensation terms and their error models, are those of Ashton et
 are not restated here.""")
 TBL("Observation sets, their functional models and the quantities they constrain.",
     ["Symbol", "Observations", "Constrains", "Count"],
-    [["z_rad", "Primary radar positions, 17:21Z to 18:22Z", "Position and track before 18:22Z", "many"],
+    [["z_rad", "Primary radar, continuous to 18:01:49Z then sparse to 18:22:12Z", "Position and track before 18:22Z", "many"],
      ["z_bto", "Burst timing offsets at the handshakes", "Signal path length, hence range from the satellite", "7 arcs"],
      ["z_bfo", "Burst frequency offsets at the handshakes", "Doppler shift, hence velocity along the path", "7 arcs"],
      ["z_19",  "Burst timing and frequency offsets at 00:19Z, and the log-on timing", "Range and vertical rate in the final minutes", "2 bursts"],
@@ -202,7 +202,7 @@ NOTE("The item count for z_deb is to be confirmed against the Malaysian debris s
      "submission; the other counts are structural.")
 
 H2("2.3.  Why the system is under-determined")
-P("""The observations in Table 1 are few relative to the unknown they constrain. After 18:22Z
+P("""The primary radar deserves a note, because its treatment is one of this study's departures. The continuous track ends at 18:01:49Z, which is where the prior is placed, following Davey et al. (2016), who place theirs at the penultimate radar point. Sparse military returns between 18:03Z and 18:15Z and a final return at 18:22:12Z were used only qualitatively by Davey et al. (2016, p.~21); here each is scored as a likelihood term, so the early trajectory is constrained by evidence rather than by a prior alone. The observations in Table 1 are few relative to the unknown they constrain. After 18:22Z
 the aircraft is observed at seven handshakes and at the two bursts of 00:19Z, which is of the
 order of twenty scalar quantities in total, of which several constrain the same geometry. A
 trajectory over six hours of flight, by contrast, requires of the order of a thousand
@@ -700,7 +700,7 @@ sampler and not more compute.""")
 # ================================================================== 4. CONCLUSIONS
 H1("4.  CONCLUSIONS AND RECOMMENDATIONS")
 P("""An integrated Bayesian reconstruction of the loss of MH370 has been built and run. One
-probability distribution is carried from the last radar fix at 18:01Z through the satellite
+probability distribution is carried from 18:01:49Z through the satellite
 handshakes to 00:11Z, through a simulated end of flight to water impact, and through the descent
 of the wreckage to the seabed, and is weighted by the drift of the recovered debris, by the
 unsuccessful searches, by satellite imagery and by hydroacoustic prediction on one shared set of
