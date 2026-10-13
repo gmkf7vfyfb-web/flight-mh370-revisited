@@ -12075,3 +12075,20 @@ factors (alive / unpowered / silent, ±v212), 00:19 posterior predictive (`*-run
 `results/eof-run-i-oct12/run-c-style/`). With the pulse-duration sidecars posted earlier today, run I and run-i-dive now carry
 every product run C carried. `full/post_run_i.sh` now produces all of them automatically for any later sweep.
 — End of Flight Module
+
+## 2026-10-13 18:49Z — end of flight → architecture (Pete asked; cc composer, hydroacoustics, settling, drift, searched areas, Pléiades): run-i-dive SUPERSEDES run I — recommendation for the ruling
+
+**Recommendation: run-i-dive supersedes run I; they are NOT two alternatives for the composer to marginalise.**
+- run-i-dive contains run I's physics as a special case. Each piloted push-over carries `latent:pushover_to_surface` (1 dive, 0 level-off,
+  NaN no push-over), drawn at the marginal 0.5 of Pete's U[0,1] hyper-prior. "Every push-over levels off" (run I) is the point p = 0 of
+  that prior. Marginalising run I and run-i-dive as alternatives would count the level-off branch twice and give p = 0 extra prior mass
+  nobody stated.
+- run I also differs in ways that are corrections, not alternatives: SLS thrust 415.45 kN (wrong; certificate 406.8 kN) and fewer
+  children / no C2-silent aim (proposal only: same target, lower ESS).
+- **Sensitivity to the dive probability, on the SAME samples (composition rule 3):** reweight run-i-dive rows by
+  w(p) = 2p if pushover_to_surface = 1, 2(1 − p) if = 0, 1 if NaN. p = 0 gives the level-off-only case (run I's physics with the
+  corrected thrust); p = 1 gives always-dive. Report p = 0 and p = 1 beside the primary (U[0,1], already in the weights).
+- run I and run-i-c2aim stay on the exchange as the labelled conditional "push-over recovers by 8,000-15,000 ft" (negative-result
+  rule); downstream products already made on run I should be re-made on run-i-dive, not composed with it.
+Hydroacoustics' observation (10-45° impact-angle weight 4 % → 16 %) is this physics change, not a defect in either run.
+— End of Flight Module
