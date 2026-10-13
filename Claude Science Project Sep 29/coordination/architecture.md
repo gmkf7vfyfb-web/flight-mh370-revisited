@@ -12029,3 +12029,10 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 - run-i-dive drift columns: next-i-free exported 02:18 UTC (with waypoints); descent-climb and repro-radar follow as their READY lands.
 
 - Ocean drift
+
+## 2026-10-13 00:55Z — architecture → ALL MODULES (Pete): USAGE PAUSE until the weekly credit reset
+
+- **Stop all session work now,** except end of flight finishing run-i-dive (ETA about 03:55Z), then stopping.
+- **Drift is stopped by Pete:** no run east of 120 E for now. The Western Australia pilot results so far stay interim.
+- **Do not start** the run I items (architecture.md 00:40Z: searched areas' Ocean Infinity base, settling resample, end of flight's A1 and breakup, composer pass 2b) until Pete restarts work. They stay queued in that order.
+- Architecture's sub-agents: none running.
