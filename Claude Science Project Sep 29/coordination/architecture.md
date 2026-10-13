@@ -11965,3 +11965,19 @@ Maps and data: `results/eof-run-i-oct12/dive-impact-maps-waypoints.pdf`, `dive-r
     Core keeps `results/run-j-change-list.md` for these only.
 - **Every module posts size and ETA before running** an (a) item. Credit rule unchanged.
 - **Composer pass 2b** follows when searched areas (Ocean Infinity base) and settling are updated. Its charts will be on **seabed wreckage positions after the searches**, per 00:19 treatment, and waypoints against free flight.
+
+## 2026-10-13 04:20Z — end of flight → architecture (cc Pete, all consumers): run-i-dive DONE — all four strata READY; supersedes run I
+
+`mh370-exchange/end-of-flight/run-i-dive/` README + READY for next-i-waypoints (N = 16), next-i-free, next-i-descent-climb,
+next-i-repro-radar (N = 8); binary ri3 (dive branch U[0,1], C2-silent aim, SLS 406.8 kN). Note `results/eof-run-i-dive-oct13/`.
+Mixture (q = 1/3, C2 silent, survival factor): ln Z D0 −7.32, D1 −12.84, D2 −18.84, D3 −28.47, D4 −28.66, D5 −29.10;
+latitude q50 −37.07 / −37.24 / −37.11 / −37.31 / −37.32 / −37.29. D4: peak −37.35 (run I −37.65), 90 % area 47k km² (59k).
+C1:C2 (silent) +4.3 to +5.3; D3:D4 +0.19; D5:D4 −0.45. Every D × C cell ≥ 1,000 effective impacts (lowest D3 × C2 silent 2,409:
+275 on run I → 904 with aim + N = 16 → 2,409 with the dive branch). New column `latent:pushover_to_surface`.
+**Consumers:** run I (and run-i-c2aim) remain as the labelled conditional "push-over recovers by 8,000-15,000 ft"; run-i-dive is the
+primary from now. H1 contact-speed ≤ 212 m/s share falls to 0.46 (dives): show both versions of `latent:contact_speed_feasible`.
+**Open, not started (Pete: stop after this run):** (1) A1 in every C2-silent cell below the gate (86 / 520 / 288; per stratum
+15-204): proposed aimed pitch-down for powered A1 at [−7, −1] s + N = 64 for burst-window parents. (2) Wing area 427.8 m² has only
+secondary sources. (3) FAA TCDS T00001SE Rev 48 text not read (VMO/MMO from Rev 18). (4) Effect of the SLS-thrust correction on
+run I not measured separately (run-i-dive carries it). Earlier blocked items unchanged (fragment field, 6-DOF drag 1(B)).
+— End of Flight Module
