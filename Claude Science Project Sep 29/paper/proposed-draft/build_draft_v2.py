@@ -31,6 +31,13 @@ def EQ(latex, uni):
     return _eqn["n"]
 def TBL(caption, head, rows): DOC.append(("TBL", (caption, head, rows)))
 def NOTE(t): DOC.append(("NOTE", re.sub(r"\s+", " ", t).strip()))
+_fig = {"n": 0}
+def FIG(filename, caption, alt):
+    _fig["n"] += 1
+    DOC.append(("FIG", (filename, re.sub(r"\s+", " ", caption).strip(),
+                        re.sub(r"\s+", " ", alt).strip(), _fig["n"])))
+    return _fig["n"]
+def REFS(entries): DOC.append(("REFS", entries))
 
 # ================================================================== TITLE / ABSTRACT
 DOC.append(("TITLE", (
@@ -41,8 +48,8 @@ DOC.append(("ABSTRACT",
   "The loss of Malaysia Airlines flight MH370 in 2014 has been reconstructed by Bayesian "
   "estimation from satellite communication metadata, but published reconstructions end at the "
   "final transmission and treat fuel, the end of flight and the fate of the aircraft after "
-  "impact outside the estimator. This study reports an integrated reconstruction carrying one "
-  "probability distribution from the last radar fix to the seabed. A particle filter on the "
+  "impact outside the estimator. This study carries one probability distribution from the end "
+  "of the continuous radar track to the seabed. A particle filter on the "
   "published measurement models is extended with fuel endurance and primary radar inside the "
   "likelihood, a waypoint route family and a modified sampler; its posterior at 00:11Z is "
   "handed to a stage simulating descent to water impact; and the impact distribution is then "
@@ -55,8 +62,8 @@ DOC.append(("ABSTRACT",
 H1("1.  INTRODUCTION")
 P("""Malaysia Airlines flight MH370 departed Kuala Lumpur for Beijing on 7 March 2014 and did
 not arrive. The aircraft, a Boeing 777-200ER registered 9M-MRO, ceased secondary surveillance
-reporting at 17:21Z, was tracked on primary radar during a reversal back across the Malay
-peninsula until 18:22Z, and then flew for approximately six further hours while exchanging
+reporting at 17:21Z, was tracked continuously on primary radar during a reversal back across the
+Malay peninsula until 18:01:49Z and on sparse military returns until 18:22:12Z, and then flew for approximately six further hours while exchanging
 periodic handshakes with the Inmarsat 3-F1 geostationary satellite. Those handshakes carry two
 measured quantities, a burst timing offset which constrains the signal path length and
 therefore the aircraft's range from the satellite, and a burst frequency offset which
@@ -91,7 +98,7 @@ redundant observations, which is the normal situation in navigation, but of prop
 dynamic model for six hours between observations that each constrain one direction.""")
 
 P("""This study removes those three separations. One probability distribution is carried from the
-last radar fix at 18:01Z through to a distribution over resting places on the seabed, and every
+end of the continuous primary radar track at 18:01:49Z through to a distribution over resting places on the seabed, and every
 line of evidence acts on the same distribution. The published measurement models are retained
 and cited rather than re-derived, in the manner of Ng et al. (2024), and the account below
 describes only what was changed or added: fuel and endurance within the likelihood, primary
@@ -157,8 +164,8 @@ n_traj = EQ(r"\mathcal{X} = \bigl\{\mathbf{x}(t) : t_0 \le t \le t_{\mathrm{imp}
             r"\qquad \mathbf{x}_{\mathrm{sea}} = g_{\mathrm{sea}}"
             r"\bigl(\mathbf{x}_{\mathrm{imp}}\bigr)",
             "X = { x(t) : t₀ ≤ t ≤ t_imp },   x_imp = g_imp(X),   x_sea = g_sea(x_imp)")
-P(f"""where X is the trajectory as a continuous function of time from the last radar fix at
-t₀ = 18:01Z to water impact, x(t) is the aircraft state vector at time t comprising position,
+P(f"""where X is the trajectory as a continuous function of time from the end of the continuous primary
+radar track at t₀ = 18:01:49Z to water impact, x(t) is the aircraft state vector at time t comprising position,
 altitude, three-dimensional velocity, mass and the commanded Mach number and track, g_imp is
 the deterministic map from a trajectory to the impact state it terminates in, and g_sea is the
 deterministic map from the impact state to the resting place, which is the descent through the
@@ -183,7 +190,7 @@ oscillator and compensation terms and their error models, are those of Ashton et
 are not restated here.""")
 TBL("Observation sets, their functional models and the quantities they constrain.",
     ["Symbol", "Observations", "Constrains", "Count"],
-    [["z_rad", "Primary radar positions, 17:21Z to 18:22Z", "Position and track before 18:22Z", "many"],
+    [["z_rad", "Primary radar, continuous to 18:01:49Z then sparse to 18:22:12Z", "Position and track before 18:22Z", "many"],
      ["z_bto", "Burst timing offsets at the handshakes", "Signal path length, hence range from the satellite", "7 arcs"],
      ["z_bfo", "Burst frequency offsets at the handshakes", "Doppler shift, hence velocity along the path", "7 arcs"],
      ["z_19",  "Burst timing and frequency offsets at 00:19Z, and the log-on timing", "Range and vertical rate in the final minutes", "2 bursts"],
@@ -194,6 +201,7 @@ TBL("Observation sets, their functional models and the quantities they constrain
 NOTE("The item count for z_deb is to be confirmed against the Malaysian debris summary before "
      "submission; the other counts are structural.")
 
+P("""The primary radar deserves a note, because its treatment is one of this study's departures. The continuous track ends at 18:01:49Z, which is where the prior is placed, following Davey et al. (2016), who place theirs at the penultimate radar point. Sparse military returns between 18:03Z and 18:15Z and a final return at 18:22:12Z were used only qualitatively by Davey et al. (2016, p.~21); here each is scored as a likelihood term, so the early trajectory is constrained by evidence rather than by a prior alone.""")
 H2("2.3.  Why the system is under-determined")
 P("""The observations in Table 1 are few relative to the unknown they constrain. After 18:22Z
 the aircraft is observed at seven handshakes and at the two bursts of 00:19Z, which is of the
@@ -459,6 +467,19 @@ oscillator start-up correction applied. The treatments which use the second freq
 produce the tightest distributions, with 90% regions of 90,000 to 100,000km² against 165,000km²
 for the first burst timing offset alone, but they do so at a severe cost in effective sample
 size.""")
+FIG("fig1-impact-latitude.png",
+    "Impact arc-latitude distribution. (a) With the drift term, for all six treatments of the "
+    "00:19Z observations. (b) After the search term. (c) Evidence added in turn under the first "
+    "burst timing offset alone. (d) Per route stratum, with the equal-prior mixture. Dotted "
+    "curves have too few effective candidates to be quotable. Core run I, composed pass 2; not "
+    "converged; conditional on an equal family prior.",
+    "Four line charts of probability density against impact latitude from 41 to 20 degrees "
+    "south. All four peak between 38 and 36 degrees south. In panel b the peak moves north and "
+    "flattens after the search term is applied. In panel d the free-flight curve lies about "
+    "0.3 degrees north of the mixture.")
+P("""Figure 1(a) shows the six treatments with the drift term applied, and Figure 1(b) the same
+six after the search term; the shift of the mode northward and the flattening of the
+distribution are visible in the second panel and are quantified in Section 3.6.""")
 P("""That cost determines what can be concluded. Before the search term is applied all six
 treatments are estimable, with effective sample sizes from 1,526 to 487,026. After it, the
 treatment using both frequency offsets as recorded falls to 393 effective candidates and the
@@ -486,6 +507,18 @@ Copernicus reanalysis is 0.46 to 0.51 with drift alone, 0.47 to 0.51 after the s
 0.54 to 0.63 when the imagery term is included, so the absolute log Bayes factor never exceeds
 0.53. On this evidence the choice of global ocean reanalysis is not resolved by the debris, and
 the averaging of equation (10) is the correct treatment rather than a convenience.""")
+FIG("fig3-ocean-models.png",
+    "Posterior probability of the first ocean product under each treatment of the 00:19Z "
+    "observations and each composed product (a), and the impact arc-latitude distribution under "
+    "each product separately with their equal-prior mixture (b). The dashed line in (a) marks "
+    "the equal prior of one half. Not converged.",
+    "Panel a is a dot plot of posterior probability between 0.3 and 0.9 against the six 00:19 "
+    "treatments; all points lie between 0.45 and 0.63, close to the equal-prior line at 0.5. "
+    "Panel b shows two single-product density curves about 0.2 degrees apart with their mixture "
+    "between them.")
+P("""Figure 2 shows that the posterior weight of either product stays close to the equal prior
+of one half under every treatment and every composed product, and that the two products give
+impact distributions whose medians differ by about 0.2°.""")
 P("""This result carries the label that the absence of recoveries on the Western Australian coast
 is not modelled, because the beaching geometry covers only the coastlines on which items were
 in fact recovered. That omission removes a line of disconfirming evidence which would act on
@@ -505,6 +538,20 @@ places which were not, and here those lie north of and outside the searched corr
 also acts on the end-of-flight families, reducing the posterior probability of the unpiloted
 family A1 from 0.17 to 0.08 while the two piloted families gain, which follows because A1
 terminates closest to the seventh arc and therefore within the best-searched ground.""")
+FIG("fig2-impact-regions.png",
+    "Highest-density impact regions under the first burst timing offset alone. Dark: 50% "
+    "region. Light: 90% region. Cross: mean position. (a) Flight and end of flight only. "
+    "(b) With the drift term. (c) With the drift and search terms. (d) Free-flight stratum "
+    "alone, with drift. (e), (f) With the imagery term, conditional on the imaged objects being "
+    "debris from this aircraft. Not converged: the two halves of the replicate set give areas "
+    "differing by 13 to 41%.",
+    "Six maps of latitude 27 to 41 degrees south against longitude 84 to 101 degrees east. The "
+    "shaded region is a narrow band running south-west to north-east. It grows from panel a to "
+    "panel c as the drift and search terms are added, and contracts markedly in panels e and f "
+    "under the imagery hypothesis.")
+P("""Figure 3 shows the effect as regions rather than as marginals: the 50% region grows from
+16,000km² to 51,000km² and the band extends north-east along the arc as the drift and search
+terms are added in turn.""")
 P("""Two qualifications work in the same direction and are stated with the result: the detection
 parameter is evaluated at a single conservative value, which understates the strength of the
 term, and the most recent search operation is excluded from the coverage used here. The search
@@ -551,7 +598,7 @@ the absolute log Bayes factor does not exceed 0.53. Every number in this subsect
 condition that the imaged objects are debris from this aircraft; none of them is evidence that
 they are.""")
 
-H2("3.7.  The seabed distribution")
+H2("3.8.  The seabed distribution")
 P("""The seabed distribution is obtained from the impact distribution by the sinking transform of
 Section 2.7. With the 00:19Z observations held out, the 90% region on the seabed is 151,700km²
 from the flight and end-of-flight stages alone, 259,700km² after the drift term and 409,800km²
@@ -559,13 +606,24 @@ after the search term, with the median seabed latitude moving from −37.05° to
 to −35.95°. The seabed regions coincide with the corresponding impact regions to within 2.5%,
 which is expected, since the horizontal displacement during the descent through the water column
 is small against the width of the impact distribution.""")
+FIG("fig5-seabed.png",
+    "Seabed regions for the wreckage field, with the 90% impact region overlaid as a dashed "
+    "outline. Dark: 50% region. Light: 90% region. Upper row: 00:19Z observations held out. "
+    "Lower row: first burst timing offset only. Columns: flight and end of flight; with the "
+    "drift and search terms; with the imagery and search terms. Breakup in the air is not "
+    "modelled for the field, and these regions are not a search plan.",
+    "Six maps on the same axes as Figure 3, each showing a shaded seabed region with a dashed "
+    "outline of the impact region almost coincident with it, confirming that the wreckage moves "
+    "little during the descent through the water column.")
+P("""Figure 4 places the seabed regions against the impact regions they derive from; the dashed
+outline of the impact region is almost coincident with the seabed region in every panel.""")
 P("""The seabed distribution inherits the non-convergence of Section 3.1 and adds to it: the two
 halves of the replicate set differ by 22 to 43% in the area of the 90% region. It also carries
 two labels of its own. The seabed ensemble is re-weighted from the composed candidate weights
 rather than drawn from them, which is a partial treatment, and the breakup rows are settled from
 the intact impact point, so the extent of the wreckage field is a lower bound.""")
 
-H2("3.8.  Hydroacoustic prediction")
+H2("3.9.  Hydroacoustic prediction")
 P("""The hydroacoustic term is predictive and not evidential, and its log-likelihood ratios lie
 within noise. The reason is calibration rather than physics, and five specific gaps are
 responsible. There is no near-surface calibration source of known spectrum, so the directivity
@@ -586,7 +644,7 @@ the band below 16Hz characterised, the predicted signal level at the unobstructe
 separate the end-of-flight families by a margin which the present calibration uncertainty masks
 entirely, and a confirmed non-detection would down-weight the most energetic descents.""")
 
-H2("3.9.  Evidence accounting")
+H2("3.10.  Evidence accounting")
 P("""Because the impact-level factors are selectable, each line of evidence can be costed in two
 currencies, the change it makes to the log marginal likelihood and the effective sample size it
 leaves behind, and the two do not move together. The search term changes ln p(z) by only −0.78
@@ -605,6 +663,18 @@ that chain remains estimable throughout. The treatments using both frequency off
 the reasons given in Section 3.4. One line of evidence is therefore capable of rendering another
 unquotable, which is why the effective sample size is reported per factor beside every number
 rather than once for the composition as a whole.""")
+FIG("fig4-coverage-ess.png",
+    "Effective sample size for every combination of 00:19Z data treatment, assumed cause of the "
+    "power interruption and composed evidence product, for all end-of-flight families (a) and "
+    "for the unpiloted family alone (b). Values below 1,000, outlined, are not estimable. Note "
+    "the logarithmic scale.",
+    "Two heat-map tables of effective sample size on a logarithmic scale from ten to one "
+    "million. Values fall from several hundred thousand in the leftmost column to tens in the "
+    "rightmost. Cells below one thousand, concentrated in the lower right of both panels, are "
+    "outlined.")
+P("""Figure 5 gives the effective sample size of every cell, and is the diagnostic on which the
+estimability statements of Sections 3.4 and 3.9 rest: the values fall by four orders of
+magnitude from left to right across the composition.""")
 P("""One accounting check closes a gap which was open at the previous composed pass. The
 candidates for which the drift term could not be computed amount to at most 0.11% of the base
 weight in any stratum and treatment, and excluding them changes ln p(z) by less than 0.001 and
@@ -612,7 +682,7 @@ moves no median or area visibly. At the previous pass that uncomputed fraction w
 that whether it was carried or excluded changed the composed areas materially; it no longer is,
 and the difference is a property of the run rather than of the composition.""")
 
-H2("3.10.  Two negative results")
+H2("3.11.  Two negative results")
 P("""The published cruise state carries no vertical rate, and the omission appeared likely to
 matter, since the 184Hz step between the two frequency offsets at 00:19Z corresponds to an
 equivalent vertical rate of approximately 10,500ft/min, some nine times the largest bias
@@ -631,7 +701,7 @@ sampler and not more compute.""")
 # ================================================================== 4. CONCLUSIONS
 H1("4.  CONCLUSIONS AND RECOMMENDATIONS")
 P("""An integrated Bayesian reconstruction of the loss of MH370 has been built and run. One
-probability distribution is carried from the last radar fix at 18:01Z through the satellite
+probability distribution is carried from 18:01:49Z through the satellite
 handshakes to 00:11Z, through a simulated end of flight to water impact, and through the descent
 of the wreckage to the seabed, and is weighted by the drift of the recovered debris, by the
 unsuccessful searches, by satellite imagery and by hydroacoustic prediction on one shared set of
@@ -666,6 +736,27 @@ the hydroacoustic transmission loss together with characterisation of the band b
 four this is the only one which could convert an unused observation into a decisive one, and its
 value of information is correspondingly the largest.""")
 
+REFS([
+ "Ashton, C., Shuster Bruce, A., Colledge, G. and Dickinson, M. (2015). The Search for MH370. "
+ "The Journal of Navigation, 68, 1-22. https://doi.org/10.1017/S037346331400068X.",
+ "Davey, S., Gordon, N., Holland, I., Rutten, M. and Williams, J. (2016). Bayesian Methods in "
+ "the Search for MH370. Springer. https://doi.org/10.1007/978-981-10-0379-0.",
+ "Holland, I. D. (2018). MH370 Burst Frequency Offset Analysis and Implications on Descent Rate "
+ "at End-of-Flight. IEEE Aerospace and Electronic Systems Magazine, 33, 24-33. "
+ "https://doi.org/10.1109/MAES.2018.170048.",
+ "Lellouche, J.-M., Greiner, E., Bourdalle-Badie, R. and others (2021). The Copernicus Global "
+ "1/12 degree Oceanic and Sea Ice GLORYS12 Reanalysis. Frontiers in Earth Science, 9, 698876. "
+ "https://doi.org/10.3389/feart.2021.698876. [AUTHOR LIST TO BE COMPLETED]",
+ "Minchin, S., Mueller, N., Lewis, A., Byrne, G. and Tran, M. (2017). Summary of imagery "
+ "analyses for non-natural objects in support of the search for Flight MH370: Results from the "
+ "analysis of imagery from the PLEIADES 1A satellite undertaken by Geoscience Australia. "
+ "Geoscience Australia, Record 2017/013. https://doi.org/10.11636/record.2017.013.",
+ "Ng, H.-F., Zhong, Y., Groves, P. D. and Hsu, L.-T. (2024). Grid-based 3DMA GNSS with "
+ "clustering and Doppler velocity. The Journal of Navigation, 77, 658-676. [VERIFY DOI]",
+ "Stone, L. D., Keller, C. M., Kratzke, T. M. and Strumpfer, J. P. (2014). Search for the "
+ "Wreckage of Air France Flight AF 447. Statistical Science, 29, 69-80. "
+ "https://doi.org/10.1214/13-STS420.",
+])
 DOC.append(("H1", "ACKNOWLEDGEMENTS"))
 P("[To be completed. The journal itself must not be acknowledged.]")
 DOC.append(("H1", "COMPETING INTERESTS"))
@@ -688,8 +779,19 @@ def emit_tex(path):
     a(r"\documentclass[12pt,a4paper]{article}")
     a(r"\usepackage[utf8]{inputenc}\usepackage[T1]{fontenc}\usepackage{mathptmx}")
     a(r"\usepackage[a4paper,margin=2.54cm]{geometry}")
-    a(r"\usepackage{amsmath,amssymb,booktabs,array,longtable,fancyhdr,ragged2e}")
-    a(r"\setlength{\parindent}{0pt}\setlength{\parskip}{6pt}")
+    a(r"\usepackage{amsmath,amssymb,booktabs,array,longtable,fancyhdr,graphicx}")
+    a(r"\setcounter{secnumdepth}{0}")   # headings carry their own manual numbers
+    # The journal requires paragraph spacing before and after set to 0 and no
+    # indents, so paragraphs are separated by a single blank line only.
+    a(r"\setlength{\parindent}{0pt}\setlength{\parskip}{0pt}")
+    a(r"\setlength{\baselineskip}{\baselineskip}")
+    # Bold must not be used for headings, so the default bold \section is overridden.
+    a(r"\makeatletter")
+    a(r"\renewcommand\section{\@startsection{section}{1}{0pt}{10pt}{4pt}"
+      r"{\normalfont\normalsize\mdseries}}")
+    a(r"\renewcommand\subsection{\@startsection{subsection}{2}{0pt}{8pt}{3pt}"
+      r"{\normalfont\normalsize\mdseries\itshape}}")
+    a(r"\makeatother")
     a(r"\pagestyle{fancy}\fancyhf{}")
     a(r"\fancyhead[L]{\small PROPOSED (assistant draft) --- not for submission}")
     a(r"\fancyhead[R]{\small\thepage}\renewcommand{\headrulewidth}{0.4pt}")
@@ -706,12 +808,12 @@ def emit_tex(path):
         elif kind == "ABSTRACT":
             a(r"\noindent\textbf{Abstract.} " + val)
             a(r"\vspace{4pt}")
-            a(r"\noindent\textbf{Keywords.} (Four, selected from the journal's list at "
-              r"submission.)")
+            # The journal requires that keywords are NOT entered on the manuscript;
+            # they are chosen in the submission system. Nothing is emitted here.
         elif kind == "H1":
-            a(r"\section*{" + val + r"}")
+            a(r"\section{" + val + r"}")
         elif kind == "H2":
-            a(r"\subsection*{\textit{" + val + r"}}")
+            a(r"\subsection{" + val + r"}")
         elif kind == "P":
             a(val)
         elif kind == "NOTE":
@@ -727,6 +829,19 @@ def emit_tex(path):
                 a(r"\begin{equation}")
                 a(latex)
                 a(r"\end{equation}")
+        elif kind == "FIG":
+            fn, cap, alt, num = val
+            a(r"\begin{figure}[htbp]\centering")
+            a(r"\includegraphics[width=\linewidth]{" + fn + r"}")
+            a(r"\caption{" + cap.replace("%", r"\%").replace("&", r"\&") + r"}")
+            a(r"\end{figure}")
+            a(r"% ALT TEXT for Figure " + str(num) + r" (required at submission): " + alt)
+        elif kind == "REFS":
+            a(r"\section{REFERENCES}")
+            a(r"\begingroup\small")
+            for e in val:
+                a(e.replace("%", r"\%").replace("&", r"\&") + r"\par\medskip")
+            a(r"\endgroup")
         elif kind == "TBL":
             cap, head, rows = val
             ncol = len(head)
@@ -752,7 +867,8 @@ def emit_docx(path):
     doc = Document()
     st = doc.styles["Normal"]
     st.font.name = "Times New Roman"; st.font.size = Pt(12)
-    st.paragraph_format.space_after = Pt(6)
+    st.paragraph_format.space_after = Pt(0)
+    st.paragraph_format.space_before = Pt(0)
     st.paragraph_format.line_spacing = 1.0
     for s in doc.sections:
         s.top_margin = s.bottom_margin = s.left_margin = s.right_margin = Cm(2.54)
@@ -775,8 +891,8 @@ def emit_docx(path):
         elif kind == "ABSTRACT":
             p = doc.add_paragraph(); r = p.add_run("Abstract.  "); r.bold = True
             p.add_run(val)
-            p2 = doc.add_paragraph(); r2 = p2.add_run("Keywords.  "); r2.bold = True
-            p2.add_run("(Four, selected from the journal's list at submission.)")
+            # Keywords are deliberately absent: the journal requires them to be chosen
+            # in the submission system and not typed on the manuscript.
         elif kind == "H1":
             para(val, bold=False, size=12).runs[0].font.all_caps = True
         elif kind == "H2":
@@ -793,6 +909,17 @@ def emit_docx(path):
                 if i: p.add_run("\n")
                 p.add_run("        " + line.strip())
             p.add_run("\t(" + str(num) + ")")
+        elif kind == "FIG":
+            fn, cap, alt, num = val
+            doc.add_picture(str(OUT / fn), width=Cm(16.0))
+            doc.paragraphs[-1].alignment = WD_ALIGN_PARAGRAPH.CENTER
+            para("Figure " + str(num) + ".  " + cap, italic=True, size=10)
+            para("[Alt text for Figure " + str(num) + ", required at submission: " + alt + "]",
+                 italic=True, size=8)
+        elif kind == "REFS":
+            para("REFERENCES").runs[0].font.all_caps = True
+            for e in val:
+                p = doc.add_paragraph(); r = p.add_run(e); r.font.size = Pt(10)
         elif kind == "TBL":
             cap, head, rows = val
             para("Table " + str(sum(1 for k, _ in DOC[:DOC.index((kind, val))]

@@ -1172,3 +1172,15 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
 - Next for drift: Australian pilot (Pete: after run I is scored, so now eligible) once ocean transport's 120-160 E fields land.
 
 - Ocean drift
+
+## 2026-10-13 00:40Z — architecture → searched areas (Pete): RULING — Ocean Infinity in the BASE, as the best estimate
+
+- **Pete:** the searched areas must include the best estimate of where Ocean Infinity searched, not treat that ground as unsearched. Leaving it out discards information: we know they searched, and roughly where. This **supersedes** the earlier "labelled variant, never the base" rule for `ocean-infinity-2018.toml` and `-2025.toml`.
+- **New base:** ATSB Phase 2 + Bluefin-21 + Ocean Infinity 2018 + Ocean Infinity 2025–26, with the inferred geometry.
+  - Inferred layers carry a detection probability that reflects the geometric uncertainty (your choice, sourced, pre-registered).
+  - Label: "Ocean Infinity coverage inferred (grade C), included as best estimate".
+  - Without Ocean Infinity becomes the labelled **sensitivity**.
+- **Also, on run I (end-of-flight run-i, and run-i-dive when READY):**
+  - the ρ sweep (0, 0.05, 0.25, 0.5) as columns;
+  - apply the search likelihood to the **seabed (settled wreckage) positions** where settling provides them. That is what the sonar searched.
+- **Size first:** post the size and ETA before running. No core run is involved.
