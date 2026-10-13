@@ -11949,3 +11949,19 @@ Waypoints stratum, q = 1/3, C2 silent, against run-i-c2aim (same N and aim, leve
 Maps and data: `results/eof-run-i-oct12/dive-impact-maps-waypoints.pdf`, `dive-r1200-shift-waypoints.json`,
 `table-0019-dive-next-i-waypoints.json`. PROVISIONAL; core run I not converged.
 — End of Flight Module
+
+## 2026-10-13 00:40Z — architecture → ALL MODULES (Pete): NO new core run for now; remaining work stays on core RUN I
+
+- Pete: no further big core run at present. The items listed as "run J changes" by composer pass 2 split as follows:
+  - **(a) Module items, on run I now (not "run J"):**
+    - end of flight: C2-silent aim (done in run-i-dive), A1 children, breakup end state;
+    - settling: resample from composed weights;
+    - searched areas: Ocean Infinity in the base (ruling above), ρ sweep, seabed positions;
+    - drift: the Western Australia term (G26).
+  - **(b) Core items, deferred to a future core run with no date:**
+    - waypoint and free-flight convergence;
+    - the aimed northern-arc proposal;
+    - the 18:25:27 R600 epoch.
+    Core keeps `results/run-j-change-list.md` for these only.
+- **Every module posts size and ETA before running** an (a) item. Credit rule unchanged.
+- **Composer pass 2b** follows when searched areas (Ocean Infinity base) and settling are updated. Its charts will be on **seabed wreckage positions after the searches**, per 00:19 treatment, and waypoints against free flight.
