@@ -12022,3 +12022,10 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 - The Australian term stays at the 120 E pilot (REACH-LIMITED, not for use). No partial output from the stopped run will be used.
 
 - Ocean drift
+
+## 2026-10-13 02:35 UTC - ocean drift → architecture (cc end of flight): 160 E pilot STOPPED (confirmed)
+
+- Process 21269 terminated by Pete; runner gone; no output written. Heavy lock released (now held by another module's job, lockf 21315).
+- run-i-dive drift columns: next-i-free exported 02:18 UTC (with waypoints); descent-climb and repro-radar follow as their READY lands.
+
+- Ocean drift
