@@ -18,7 +18,7 @@ from compact_impacts import load, family_labels
 from displacement_hist import derived_logliks, constraint_log_factor, SATCOM_CSV
 from option_table_0019 import d5_loglik, W_S
 
-FAMS = ((1, "A1"), (2, "A2"), (3, "B"))
+FAMS = (((1,), "A1"), ((2,), "A2"), ((3,), "B"), ((6,), "outside B"))   # family4 codes per ruling 6: 6 = deliberate onset then no intervention, OUTSIDE B
 CELLS = ["D0 total", "D1 total", "D2 total", "D3 total", "D4 total", "D5 total", "D3xC2 silent", "D4xC1"]
 
 
@@ -93,7 +93,7 @@ def main():
                 for c in CELLS:
                     r = dict(seed=k, P=int(min(P, len(uparents))), N=N, cell=c, **stats(cells[c], parent, keep))
                     for code, name in FAMS:
-                        r[name] = stats(np.where(f4 == code, cells[c], -np.inf), parent, keep)
+                        r[name] = stats(np.where(np.isin(f4, code), cells[c], -np.inf), parent, keep)
                     rows.append(r)
         json.dump(dict(eof=a.eof, core=a.core, rows=rows), open(a.out, "w"))
     print("wrote", a.out)

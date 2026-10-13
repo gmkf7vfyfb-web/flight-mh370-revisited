@@ -42,17 +42,18 @@ ESS across 00:11.
 ## 3. Gate 4 — the 22:41 pilot (P2241), seed 1, N = 4
 
 V2 with all three onset mechanisms sampled, so V1b (flame-out-associated subset) and families A1, A2 and B are all estimable from
-one sample set. Rows below use the **legacy** deliberate-control prior [0.6, 0.4, 0, 0], recovered exactly by re-weighting; the
-all-four sampling is in `gate4-p2241.csv`.
+one sample set. Rows below use run-i-dive's deliberate-control prior [0.5, 0.5, 0, 0] (`family-b-ditching.toml`), recovered exactly by
+re-weighting; the all-four sampling is in `gate4-p2241.csv`. Families are `family4_code` per ruling 6: B = code 3; code 6
+(deliberate onset, then no intervention) is **outside B** and has zero weight under this prior.
 
 | cell | family | share | ESS | eff. parents | top-1 | onset within 60 s of 22:41 | median onset, min after 22:41 |
 |---|---|---|---|---|---|---|---|
-| prior | A1 / A2 / B | 0.11 / 0.24 / 0.65 | 30,145 / 53,337 / 58,457 | | | 0.7 % / 0.6 % / **11.8 %** | 60 / 60 / 25 |
-| D0 (23:15 + 00:11) | A1 / A2 / B | 0.24 / 0.51 / 0.26 | 921 / 1,804 / **22** | 527 / 1,181 / 22 | | 0.0 % all | 97 / 97 / 73 |
-| D1 R600 BTO | A1 / A2 / B | 0.26 / 0.59 / 0.15 | 1,051 / 2,086 / **32** | | | 0.0 % all | 97 / 97 / 95 |
-| D2 R600 BTO + BFO | A1 / A2 / B | 0.27 / 0.68 / 0.04 | 85 / 286 / 45 | | | 0.0 % all | 97 / 97 / 95 |
-| D3 both raw | A1 / A2 / B | 0.22 / 0.68 / 0.10 | **3** / 17 / **10** | | 0.48 (A1) | 0.0 % all | 97 / 97 / 95 |
-| D4 both, start-up offset | A1 / A2 / B | 0.20 / 0.63 / 0.17 | 14 / 86 / 26 | | | 0.0 % all | 97 / 97 / 96 |
+| prior | A1 / A2 / B | 0.11 / 0.24 / 0.65 | 30,145 / 53,337 / 57,810 | | | 0.7 % / 0.6 % / **11.8 %** | 60 / 60 / 25 |
+| D0 (23:15 + 00:11) | A1 / A2 / B | 0.24 / 0.51 / 0.24 | 921 / 1,804 / **26** | 527 / 1,181 / 26 | | 0.0 % all | 97 / 97 / 76 |
+| D1 R600 BTO | A1 / A2 / B | 0.26 / 0.60 / 0.15 | 1,051 / 2,086 / **40** | | | 0.0 % all | 97 / 97 / 95 |
+| D2 R600 BTO + BFO | A1 / A2 / B | 0.27 / 0.68 / 0.04 | 85 / 286 / 41 | | | 0.0 % all | 97 / 97 / 95 |
+| D3 both raw | A1 / A2 / B | 0.22 / 0.69 / 0.10 | **3** / 17 / **11** | | 0.48 (A1) | 0.0 % all | 97 / 97 / 95 |
+| D4 both, start-up offset | A1 / A2 / B | 0.20 / 0.63 / 0.18 | 14 / 86 / 25 | | | 0.0 % all | 97 / 97 / 96 |
 
 Support truncation (`latent:onset_support_truncated_fraction`) **is populated** (finite in 100 % of rows; the work order's NaN column
 is not present in this build). Weighted mean 0.30 for B under the prior, 0.21–0.34 posterior. Per-trajectory onset window
@@ -60,14 +61,14 @@ is not present in this build). Weighted mean 0.30 for B under the prior, 0.21–
 median ~5,830 s (97 min).
 
 **What the pilot shows, at this scale.** (i) The 22:41 boundary is not where supported mass sits: 0.0 % of posterior weight
-within 60 s of 22:41 in every family and every cell, against the 5 % gate; supported B onsets sit at a median 73 min after 22:41
+within 60 s of 22:41 in every family and every cell, against the 5 % gate; supported B onsets sit at a median 76 min after 22:41
 under the held-out treatment and ~95 min (about 00:16) once the R600 BTO is scored. That is the work order's late-end prediction.
-(ii) It is **not estimated**: B carries 22–45 effective impacts per seed, A1 3–14 under the R1200 cells.
+(ii) It is **not estimated**: B carries 11–40 effective impacts per seed, A1 3–14 under the R1200 cells.
 
 ## 4. Findings to act on
 
 1. **The 22:41 arm is sampling-limited at 00:11, not at the boundary.** Scoring 23:15 + 00:11 in-stage leaves 0.5 % of the
-   prior ESS (218,635 → 1,074 rows; 968 parents). Scaling the pilot by N = 16 and 8 seeds gives roughly B ≈ 90 and A1 under the raw
+   prior ESS (218,635 → 1,074 effective impacts, 836 effective parents, in the D0 cell with the log-on cause and survival terms; the bare m0011 column in `terminal.json` gives 1,475 and 968). Scaling the pilot by N = 16 and 8 seeds gives roughly B ≈ 90 and A1 under the raw
    R1200 cells ≈ 10 per seed. The arm as sized in the work order would not support the R1200 cells or family B. Options for the
    fix are in `coordination/architecture.md` (13 Oct entry).
 2. **Defect: fuel-cue onsets are CLAMPED to the hand-off, not truncated.** `onset.rs` `draw()`: `(onset.max(earliest_unix_s), 0, 0)`
@@ -75,12 +76,22 @@ under the held-out treatment and ~95 min (about 00:16) once the R600 BTO is scor
    within 60 s of 22:41) and is a likely mechanism of the 21.6 % onset-boundary statistic at 00:11, where the 30–70 min cue window
    lies almost wholly before the hand-off. The anticipatory mechanism is truncated exactly. Fix: exact truncation behind a config
    flag (legacy clamp kept for reproduction), with the truncated fraction emitted.
-3. **`option_table_0019.py` counts family B as code 3 only;** code 6 (deliberate onset with a realised ditching) is omitted from the
-   per-family columns. 0.09 % of prior weight at 00:11 (negligible in run-i-dive's table), **16 % at 22:41**. Fix before any 22:41
-   summary.
-4. **Coverage fix applied in the pilot:** deliberate-onset control outcomes sampled over all four (contract §4 change E). The legacy
-   prior is recovered exactly by re-weighting on `latent:control_requested`; ESS of B under the legacy prior is half that under the
-   all-four sampling.
+   **Fixed (13 Oct, binary `mh370-eof-o13b`, sha256 abeb4c2f…):** `onset.fuel_cue_truncation = "exact"`
+   (`smoke/fuel-cue-exact.toml`; default stays `"clamp"` so earlier runs reproduce), with two new unit tests (Irwin–Hall CDF against
+   closed forms and the density; the clamp's atom equals the closed-form cut and the exact draw has none). Re-run of P2241 with it:
+   B's prior weight within 60 s of 22:41 falls from 11.8 % to 3.7 % (what remains is the truncated prior's own density just after
+   the hand-off, not an atom); **rule 11 before/after: every scored cell is unchanged** — D0 shares 0.242 / 0.515 / 0.243 and ESS
+   921 / 1,804 / 26 both ways, m0011 log-evidence increment −16.718 both ways — because the boundary rows carry no posterior weight
+   from 22:41. Not prompted by a fit failure. `gate4-p2241-cueexact.json`.
+
+3. **Withdrawn (13 Oct, same session).** An earlier version of this note said `option_table_0019.py` wrongly left family code 6
+   out of B. That was my misreading: under ruling 6, code 6 is *deliberate onset, then no intervention*, which is **outside B**,
+   and the table is correct. What is new is that the all-four control sampling (finding 4) gives code 6 real weight for the first
+   time (16 % of the 22:41 prior, 2 % after 00:11), so every 22:41 summary must report it as its own row rather than omit it.
+4. **Coverage fix applied in the pilot:** deliberate-onset control outcomes sampled over all four (contract §4 change E). The
+   run-i-dive prior [0.5, 0.5, 0, 0] is recovered exactly by re-weighting on `latent:control_requested`. Under the all-four
+   sampling, deliberate onsets split into B (code 3, incl. upset-then-recovery and control lost en route) and outside B (code 6,
+   no intervention). Whether code 6 should be a named family is a question for the architecture session, not settled here.
 5. **D5 at 22:41 is not computable from stored columns**: the bias variance after the in-stage 23:15 and 00:11 updates is not
    emitted. Gap until the stage emits it or D5 gets its own `loglik` column.
 
@@ -96,10 +107,10 @@ moves cue onsets earlier than the hand-off onto the hand-off; deliberate-onset c
 recovery" were unreachable under v2-broad / family-b-ditching (now sampled in the pilot only).
 
 **(c) Proposal's coverage.** Tables §2 and §3. Below 1,000 effective impacts per seed: at 00:11, every raw-R1200 cell for A1 (5–43)
-and B (68–308), D3 total (289); at 22:41 (pilot), B in every scored cell and every family under D2–D4. Status: reported as gaps;
+and B (68–308), D3 total (289); at 22:41 (pilot), B and outside-B in every scored cell, and every family under D2–D4. Status: reported as gaps;
 fix proposals in `coordination/architecture.md`.
 
 **Onset-boundary gate (named row).** 00:11 hand-off: 21.6 % (13 Oct audit, deliberate family) — FAILED. 22:41 pilot: 0.0 % in
-every family under every cell — PASSES AT PILOT SCALE ONLY, with B at 22–45 effective impacts, so the statistic is unconverged.
+every family under every cell — PASSES AT PILOT SCALE ONLY, with B at 11–40 effective impacts, so the statistic is unconverged.
 
 **Parameter bounds.** Unchanged from run-i-dive; deliberate-onset control sampling [1,1,1,1] in the pilot (`smoke/deliberate-control-all4.toml`).

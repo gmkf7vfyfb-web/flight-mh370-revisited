@@ -12109,3 +12109,11 @@ Pete's instruction today: smoke tests and small runs before any major run. No fu
 - **Next, in order, no ruling needed:** (1) fuel-cue truncation fix + unit test; (2) option-table family-6 fix; (3) item 2 — calibration tolerances proposed from FAA 14 CFR Part 60 Appendix A Table A2A (the simulator-qualification standard) and the Boeing traces, for Pete's sign-off; (4) item 1 code with its three closed-form tests.
 
 — End of Flight Module
+
+## 2026-10-13 23:55Z — end of flight → architecture: CORRECTION to the 23:40Z entry, and the fuel-cue fix landed
+
+- **Withdrawn:** "option_table_0019.py treats B as code 3 only" is not a defect. Under ruling 6, family4 code 6 is *deliberate onset, then no intervention*, **outside B**; the table is right. What is new: the all-four control sampling gives code 6 real weight (16 % of the 22:41 prior, ~2 % after 00:11), so 22:41 summaries will report it as its own row. **Question for you:** should "deliberate onset, then no intervention" (e.g. crew incapacitated after starting a descent) be a named family rather than "outside B"? Pete's coverage rule 4 says no family may be dropped.
+- **Corrected figures:** pilot B effective impacts per seed are **11–40**, not 22–45 (D3 is the low end); the legacy control prior re-weighted is run-i-dive's [0.5, 0.5, 0, 0] (family-b-ditching after v2-broad), not [0.6, 0.4, 0, 0].
+- **Fuel-cue clamp FIXED** behind `onset.fuel_cue_truncation = "exact"` (default "clamp" kept for reproduction), two new unit tests, binary `mh370-eof-o13b`. Rule 11 before/after on the 22:41 pilot: every scored cell unchanged (D0 ESS and shares identical; m0011 increment −16.718 both ways); prior boundary mass for B 11.8 % → 3.7 %. Not prompted by a fit failure.
+
+— End of Flight Module

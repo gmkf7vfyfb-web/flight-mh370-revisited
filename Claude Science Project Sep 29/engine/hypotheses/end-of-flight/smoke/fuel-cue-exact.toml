@@ -1,0 +1,6 @@
+# Exact truncation of fuel-cue onsets at the hand-off (onset.rs fuel_cue_truncation; results/eof-gates-oct13 finding 2). The default
+# "clamp" moved cue onsets that fall before the hand-off ONTO it (an atom at the checkpoint, truncation reported as 0); "exact"
+# truncates the cue + recognition + response draw jointly and reports the cut. A change of the model's REACH at the boundary
+# (contract rule 11): log held-out ln Z and median before and after when it is first used in a run note.
+[hypotheses.end-of-flight.onset]
+fuel_cue_truncation = "exact"

@@ -34,8 +34,8 @@ stage() {   # epoch -> run tree with the gunzipped, sha-verified hand-off
 }
 for arm in $ARMS; do
   if [ $arm = P0011 ]; then stage m0011; X="$S/smoke/snapshot-m0011.toml $S/smoke/terminal.toml $REC $S/smoke/children-4.toml"
-  else stage m2241; X="$S/smoke/snapshot-m2241.toml $S/smoke/terminal.toml $S/smoke/options-m2241.toml $S/smoke/arm-v2.toml $REC $S/smoke/children-4.toml $S/smoke/deliberate-control-all4.toml"; fi
-  o=runs/PO13-$arm; rm -rf $o
+  else stage m2241; X="$S/smoke/snapshot-m2241.toml $S/smoke/terminal.toml $S/smoke/options-m2241.toml $S/smoke/arm-v2.toml $REC $S/smoke/children-4.toml $S/smoke/deliberate-control-all4.toml ${EOF_EXTRA:-}"; fi
+  o=runs/PO13-$arm${EOF_TAG:-}; rm -rf $o
   echo "$arm start $(date -u +%T)"
   lockf -k /tmp/.mh370-heavy.lock env RAYON_NUM_THREADS=$THREADS /usr/bin/time -l $BIN terminal $RT $CHAIN $X $o 2>&1 | grep -E "end of flight|error|Error|maximum resident|real" | tail -4
   echo "$arm done $(date -u +%T)"

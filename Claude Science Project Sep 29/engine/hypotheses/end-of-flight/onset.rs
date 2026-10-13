@@ -91,6 +91,19 @@ pub struct OnsetConfig {
     pub recognition_delay_s: Range,
     /// Response delay after recognition, s.
     pub response_delay_s: Range,
+    /// How a fuel-cue onset that would fall BEFORE the hand-off is treated. `"clamp"` (default, every run to 13 Oct 2026):
+    /// moved onto the hand-off epoch, with `support_truncated_fraction` reported as 0 — this puts an atom of prior mass at
+    /// the checkpoint (measured on the 22:41 pilot: 11.8 % of family B's prior weight within 60 s of 22:41) and is kept only
+    /// so earlier runs reproduce. `"exact"`: the cue, recognition and response draws are truncated jointly to onsets at or
+    /// after the hand-off (rejection on the module's own stream), exactly as the anticipatory support is truncated, and the
+    /// cut probability is reported in `support_truncated_fraction` (closed form: generalised Irwin–Hall CDF). Contract v7 §4,
+    /// "conditional on excluding major descents before the checkpoint". Results/eof-gates-oct13 finding 2.
+    #[serde(default = "default_fuel_cue_truncation")]
+    pub fuel_cue_truncation: String,
+}
+
+fn default_fuel_cue_truncation() -> String {
+    "clamp".into()
 }
 
 /// One drawn onset.
@@ -129,6 +142,9 @@ impl OnsetConfig {
         self.fuel_caution_lead_s.check("onset.fuel_caution_lead_s")?;
         self.recognition_delay_s.check("onset.recognition_delay_s")?;
         self.response_delay_s.check("onset.response_delay_s")?;
+        if self.fuel_cue_truncation != "clamp" && self.fuel_cue_truncation != "exact" {
+            return Err(format!("onset.fuel_cue_truncation: \"clamp\" or \"exact\", not {:?}", self.fuel_cue_truncation));
+        }
         Ok(())
     }
 
@@ -168,6 +184,23 @@ impl OnsetConfig {
         } else {
             None
         }
+    }
+
+    /// Prior probability that a fuel-cue onset falls BEFORE the hand-off, i.e. the fraction the exact truncation removes.
+    ///
+    /// onset = P - lead + r + s >= E  <=>  Y = lead - r - s <= P - E. With lead ~ U[a1, a2], r ~ U[r1, r2], s ~ U[s1, s2],
+    /// Y = Z + (a1 - r2 - s2) where Z is a sum of uniforms on [0, a2 - a1], [0, r2 - r1], [0, s2 - s1], so
+    /// P(onset >= E) = F_Z(P - E - a1 + r2 + s2) with F_Z the generalised Irwin–Hall CDF.
+    pub fn fuel_cue_truncated_fraction(&self, earliest_unix_s: f64, predicted_exhaustion_unix_s: f64) -> f64 {
+        let span = |r: Range| match r {
+            Range::Fixed(v) => (v, v),
+            Range::Uniform([a, b]) => (a, b),
+        };
+        let (a1, a2) = span(self.fuel_caution_lead_s);
+        let (r1, r2) = span(self.recognition_delay_s);
+        let (s1, s2) = span(self.response_delay_s);
+        let x = predicted_exhaustion_unix_s - earliest_unix_s - a1 + r2 + s2;
+        (1.0 - uniform_sum_cdf(x, &[a2 - a1, r2 - r1, s2 - s1])).clamp(0.0, 1.0)
     }
 
     /// The window the fuel cue could be in: `(earliest onset, latest onset)`, or `None`.
@@ -234,6 +267,25 @@ impl OnsetConfig {
                 let truncated = if nominal_hi > 0.0 { ((nominal_hi - hi) / nominal_hi).clamp(0.0, 1.0) } else { 0.0 };
                 let (lead, log_q) = self.draw_lead(lo, hi, uniform);
                 (predicted_exhaustion_unix_s - lead, truncated, log_q)
+            }
+            Initiation::FuelCue if self.fuel_cue_truncation == "exact" => {
+                // Joint truncation to onsets at or after the hand-off, by rejection: the accepted draw is exactly the prior
+                // conditioned on onset >= earliest, so no importance correction is needed. cue_window() has already made the
+                // mechanism unavailable when no draw can be accepted; the cap only guards a vanishing acceptance probability.
+                let cut = self.fuel_cue_truncated_fraction(earliest_unix_s, predicted_exhaustion_unix_s);
+                let mut onset = f64::NAN;
+                for _ in 0..100_000 {
+                    let lead = self.fuel_caution_lead_s.draw(uniform);
+                    let recognition = self.recognition_delay_s.draw(uniform);
+                    let response = self.response_delay_s.draw(uniform);
+                    let t = predicted_exhaustion_unix_s - lead + recognition + response;
+                    if t >= earliest_unix_s {
+                        onset = t;
+                        break;
+                    }
+                }
+                // Not reached in practice (acceptance >= 1e-5 needed); if it is, fall back to the clamp and say so (cut = 1).
+                if onset.is_nan() { (earliest_unix_s, 1.0, 0.0) } else { (onset, cut, 0.0) }
             }
             Initiation::FuelCue => {
                 let lead = self.fuel_caution_lead_s.draw(uniform);
@@ -386,6 +438,46 @@ pub fn uniform_sum_density(x: f64, lengths: &[f64]) -> f64 {
     (sum / (factorial * product)).max(0.0)
 }
 
+/// CDF at `x` of a sum of independent uniforms on `[0, L_i]` (degenerate `L_i = 0` terms are point masses at 0):
+///
+/// ```text
+///   F(x) = 1 / (n! prod L_i) * sum over subsets S of (-1)^|S| (x - sum_{i in S} L_i)_+^n
+/// ```
+///
+/// the generalised Irwin–Hall distribution function, clamped to [0, 1].
+pub fn uniform_sum_cdf(x: f64, lengths: &[f64]) -> f64 {
+    let live: Vec<f64> = lengths.iter().copied().filter(|l| *l > 0.0).collect();
+    let n = live.len();
+    if n == 0 {
+        return if x >= 0.0 { 1.0 } else { 0.0 };
+    }
+    let total: f64 = live.iter().sum();
+    if x <= 0.0 {
+        return 0.0;
+    }
+    if x >= total {
+        return 1.0;
+    }
+    let product: f64 = live.iter().product();
+    let factorial = (1..=n).map(|k| k as f64).product::<f64>();
+    let mut sum = 0.0;
+    for mask in 0..(1u32 << n) {
+        let mut subset = 0.0;
+        let mut parity = 1.0;
+        for (i, l) in live.iter().enumerate() {
+            if mask & (1 << i) != 0 {
+                subset += *l;
+                parity = -parity;
+            }
+        }
+        let t = x - subset;
+        if t > 0.0 {
+            sum += parity * t.powi(n as i32);
+        }
+    }
+    (sum / (factorial * product)).clamp(0.0, 1.0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -404,7 +496,66 @@ mod tests {
             fuel_caution_lead_s: Range::Uniform([1_800.0, 4_200.0]),
             recognition_delay_s: Range::Uniform([10.0, 300.0]),
             response_delay_s: Range::Uniform([10.0, 600.0]),
+            fuel_cue_truncation: default_fuel_cue_truncation(),
         }
+    }
+
+    /// Closed-form check of the Irwin–Hall CDF against independently computed values: one uniform is linear; two equal
+    /// uniforms give the triangular CDF (x^2/2 below 1, 1 - (2-x)^2/2 above); the CDF and the existing density agree by
+    /// numerical integration for the three configured fuel-cue spans.
+    #[test]
+    fn the_uniform_sum_cdf_matches_closed_forms_and_the_density() {
+        assert!((uniform_sum_cdf(0.3, &[1.0]) - 0.3).abs() < 1e-15);
+        assert!((uniform_sum_cdf(0.5, &[1.0, 1.0]) - 0.125).abs() < 1e-15);
+        assert!((uniform_sum_cdf(1.5, &[1.0, 1.0]) - 0.875).abs() < 1e-15);
+        assert_eq!(uniform_sum_cdf(-1.0, &[1.0, 2.0]), 0.0);
+        assert_eq!(uniform_sum_cdf(10.0, &[1.0, 2.0]), 1.0);
+        let l = [2_400.0, 290.0, 590.0];
+        let (mut acc, h) = (0.0, 0.5);
+        let mut x = 0.0;
+        while x < 2_000.0 {
+            acc += uniform_sum_density(x + 0.5 * h, &l) * h;
+            x += h;
+        }
+        assert!((acc - uniform_sum_cdf(2_000.0, &l)).abs() < 1e-6, "{acc} vs {}", uniform_sum_cdf(2_000.0, &l));
+    }
+
+    /// Exact truncation of the fuel cue (results/eof-gates-oct13 finding 2). With the default "clamp" a cue that falls before
+    /// the hand-off lands ON it (the atom); with "exact" no onset is earlier than the hand-off, none sits on it by
+    /// construction, and the rejection-sampled acceptance rate matches the closed-form 1 - truncated fraction.
+    #[test]
+    fn the_fuel_cue_is_truncated_not_clamped_when_exact() {
+        // Hand-off 2,400 s before the predicted exhaustion: the cue lead U[1800, 4200] is mostly before it.
+        let handoff = EXHAUSTION - 2_400.0;
+        let base = OnsetConfig { mechanism_weights: [0.0, 1.0, 0.0], ..config() };
+        let exact = OnsetConfig { fuel_cue_truncation: "exact".into(), ..base.clone() };
+        let mut state = 0x9E37_79B9_7F4A_7C15u64;
+        let mut u = move || {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            (state >> 11) as f64 / (1u64 << 53) as f64
+        };
+        let n = 20_000;
+        let (mut on_boundary_clamp, mut on_boundary_exact, mut earlier_exact) = (0, 0, 0);
+        for _ in 0..n {
+            let c = base.draw(handoff, EXHAUSTION, &mut u);
+            if c.unix_s == handoff { on_boundary_clamp += 1; }
+            let e = exact.draw(handoff, EXHAUSTION, &mut u);
+            if e.unix_s == handoff { on_boundary_exact += 1; }
+            if e.unix_s < handoff { earlier_exact += 1; }
+        }
+        let cut = exact.fuel_cue_truncated_fraction(handoff, EXHAUSTION);
+        // The clamp's atom carries the cut probability; the exact draw carries none and is never earlier.
+        let atom = on_boundary_clamp as f64 / n as f64;
+        assert!((atom - cut).abs() < 0.015, "clamp atom {atom} vs closed-form cut {cut}");
+        assert_eq!(on_boundary_exact, 0);
+        assert_eq!(earlier_exact, 0);
+        assert!(cut > 0.5 && cut < 1.0, "{cut}");
+        let o = exact.draw(handoff, EXHAUSTION, &mut u);
+        assert!((o.support_truncated_fraction - cut).abs() < 1e-12);
+        // A cue window wholly after the hand-off is not cut at all.
+        assert_eq!(exact.fuel_cue_truncated_fraction(EXHAUSTION - 10_000.0, EXHAUSTION), 0.0);
     }
 
     /// A deterministic uniform stream, so a draw can be reasoned about exactly.
