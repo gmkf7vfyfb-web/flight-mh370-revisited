@@ -38,6 +38,21 @@ WHAT IS AND IS NOT COMPUTABLE, declared here rather than discovered later:
     computable in the text window and are NOT computable in the caption window, because they are
     defined per airgun cycle and there are no cycles after 01:18:29. This is reported as not testable
     for those statistics. It is not replaced by a coarser statistic silently.
+
+    CORRECTION DISCLOSED, found after the first run and before any value was quoted. Declaration 2 as
+    written above is WRONG, and over-cautious: it treats all five statistics alike when they do not
+    depend on the cycle in the same way. Measured, the split is:
+      - SHOT ENERGY and INTER-SHOT GAP POWER need a CLOSED cycle, that is a following shot 9-11 s
+        later, because h08s_shot_outliers.cycles defines them between consecutive peaks. The last
+        closed cycle starts 01:18:19, so these two are genuinely NOT computable in the caption window.
+        Their rows report computable = False.
+      - SHAPE CORRELATION, the three SHOULDER RESIDUALS and the PRINCIPAL-COMPONENT SCORE need only a
+        shot peak and its own [-3, +6] s window, from h08s_pulse_energy.pulses. Shot peaks continue to
+        01:19:09, so these four ARE computable in the caption window, on 2 shots, and their rows carry
+        real values. They are reported with the 2-shot sample size on every row.
+    Nothing was substituted and no statistic was added: the correction narrows a blanket 'not testable'
+    to the two statistics it actually applies to. The original wording is left above as pre-registered.
+    The results note states the corrected split; this docstring is the pre-registration of record.
  3. For the caption window a SEPARATE statistic is pre-registered here: D4, a matched filter against the
     committed real-transient template T_C2, on the digitised envelope. Its null is weaker and is stated
     with it. It is reported as its own line, never pooled with the cycle statistics.
