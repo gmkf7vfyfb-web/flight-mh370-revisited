@@ -1,5 +1,11 @@
 # End of flight — mission and master prompt
 
+**Version 7.1, 13 October 2026** (7.1 adds only the expertise paragraph in §1, at Pete's instruction). **Version 7, 13 October 2026.** Revises version 4 of 7 October against the audit of run I and
+run-i-dive (`results/eof-audit-2026-10-13.md`, `results/eof-audit-pushover-addendum.md`) and the
+independent literature pass (`results/eof-published-benchmarks.md`). Fourteen changes, listed in §0. Changes M and N correct factual errors — M one carried by versions 1 to 5, N one introduced by version 5 itself.
+Version 4 was six days stale by the time the first full sweeps were reviewed and told a reader the
+model did not exist; §3 is now updated per sweep rather than per revision.
+
 Supersedes `ISO Sept 28 Status/threads/master-prompts/end-of-flight.txt`, which remains correct on
 physics and calibration and is stale on build status and evidence handling. Read `common.txt` in
 that directory first for the four-stage architecture and the eight composition rules; they are
@@ -12,6 +18,50 @@ of enquiry and is expected to.
 
 ---
 
+## 0. What changed in version 5
+
+Fourteen changes. A–C alter what the module is obliged to produce; D–H close places where a prose
+requirement in version 4 was silently not honoured; I–L are additions from the audit and the
+literature pass. Nothing was removed: §2's original ten rules, §5's fuel-coupling argument and its
+case against conditioning on flame-out, §6's log-on treatment, §7's two sweep axes, §9's provenance
+discipline and §11's two corrected tests were all honoured and stand as written.
+
+| | change | where |
+|---|---|---|
+| A | build status rewritten and made a per-sweep obligation | §3 |
+| B | the three arms become an acceptance condition, with what a V1a-only sweep may claim | §10.2 |
+| C | the onset-boundary diagnostic becomes a gate with a statistic, a place and a threshold | §4 |
+| D | level-off altitudes and sustained low-altitude flight become bounds with reported statistics | §4 |
+| E | all four control outcomes in every family; weights stated per family; zero weights justified | §4 |
+| F | **new rules 11 and 12**: a support change is logged and held-out-revalidated; the silent-exclusion review runs before every sweep | §2 |
+| G | **new test 6**: prior recovery under the importance correction, reported per run | §11 |
+| H | weight concentration reported beside ESS, per seed and per stratum | §2.6 |
+| I | three emission rules: in-sample not sidecar, NaN not placeholder, energy partition declared | §2 interface |
+| J | the uncontrolled-arm calibration gate is defined, with what may not be quoted while unpassed | §8 |
+| K | four pitfalls added, including the Boeing-against-00:19 contradiction and the fit-failure asymmetry | §12 |
+| L | the ordering — simulate, then test, never shape — leads the mission | §1 |
+| M | **correction**: the two-engine flame-out structure is already built; the deferral narrows to asymmetric dynamics and first-flame-out emission | §5, §13, §10.9 |
+| N | **correction**: the level-flight requirement is met on the fraction statistic, and the level-off altitude finding is withdrawn as unverified | §4 |
+
+**A note on how two of these were got wrong.** Changes D and M were both written from the stored
+configuration without reading the code or the module's own dynamics note, and both overstated a
+failure: the configuration's `leveloff_altitude_ft` interval is not the whole candidate set, and an
+absolute level-flight duration is not the right statistic for a requirement about proportion. A
+configuration value is evidence about a bound, not about behaviour. Where a requirement is about
+behaviour, **emit the column and measure it** — which is why the level-off altitude row above now
+asks for exactly that. The three-engine-state correction in §5 came from measuring the output rather
+than reading the configuration, and it held.
+
+Measured results against version 4's own requirements are recorded in place rather than corrected
+silently. One is a clear failure: the onset-boundary condition (§4, 21.6 per cent against a new
+5 per cent gate). Two more were reported as failures in versions 5 and 6 of this document and are
+**withdrawn in version 7**: sustained level flight within the descent is in fact **met** on the right
+statistic, and the two named level-off altitudes are **unverified** rather than absent — both are
+recorded as candidates in the dynamics note and the configured interval is the additional sampled
+altitude. The lesson is in §0's closing note.
+
+---
+
 ## 1. Mission
 
 Establish the realistic uncertainty in what happened between the last reliable cruise state and
@@ -20,8 +70,38 @@ impact energy and attitude — **without relying on unprovable assumptions**, an
 probability distribution the downstream modules (settling, drift, hydroacoustics, searched areas)
 can consume.
 
+**The ordering is the method, and it is not negotiable.** Simulate what the aircraft is likely to
+have actually done after fuel exhaustion, as faithfully as the available information and resources
+allow. *Then* test those simulations against the evidence. Never shape the simulation to match the
+evidence. Because the 00:19 measurements are questioned — the R1200 channel particularly — the
+purpose of scoring subsets of them is to see which fit the simulated population and which do not,
+and so to learn which data to use and which to set aside. That inference is only available if the
+simulated population was built without reference to the fit. A model tuned until it matches 00:19
+cannot then be used to ask whether 00:19 is trustworthy.
+
 The module exists to produce an honest posterior, not to decide what happened. Simulations are for
 learning physics, not for settling the question.
+
+**Expertise (added 13 October at Pete's instruction; versions 1 to 7 omitted it).** Act as an expert
+in aircraft flight dynamics and performance — the Boeing 777-200ER with Trent 892 engines in
+particular — including flight outside the normal envelope: dual and single engine flame-out, thrust
+asymmetry, loss of control, spiral and phugoid modes, high-speed upsets, structural limits, and
+ditching. Work from the body of literature that sets world-class standards, not from this project's
+own earlier code: flight-dynamics texts and NASA and FAA loss-of-control research, the Boeing and
+ATSB analyses for this accident, and the investigation record of analogue events. **Weight most
+heavily the cases where ground truth became available**: the recovered flight data and wreckage of
+those events are the only independent check on a model of unpiloted and post-flame-out flight.
+Examples to know and use where relevant include Air Transat 236 and the Gimli Glider (dual
+flame-out glides), Helios 522 (unpiloted cruise to sequential flame-out, then a descending spiral
+with thrust asymmetry), Ethiopian 961 (fuel exhaustion and ditching), US Airways 1549 (ditching),
+AF447 and the Payne Stewart Learjet (unpiloted or uncontrolled descents), and BA38 (777-200ER dual
+thrust rollback). Review the earlier work on this case critically, with the aim of making the
+estimation more rigorous, and apply Bayesian methods from understanding, not by recipe.
+
+Rule 11 of §2 and test 6 of §11 are the mechanisms that make the ordering demonstrable rather than
+merely asserted. Neither existed in the previous version, and the first support change made without
+them — the dive branch of 13 October — had to be audited after the fact to establish that it was
+sound. It was; the point is that the contract could not have told you so.
 
 **Three arms, run and compared.** This is the experiment, not three separate products:
 
@@ -75,8 +155,14 @@ Three consequences for how you build and report:
    "impossible". Cover the prior's support or refuse.
 5. **Be accurate where the other evidence has mass**, roughly 30–40°S along the 7th arc, not only
    near your own peak.
-6. **Measure ESS and split-half replicate agreement; report unconverged as unconverged.** The fix
-   is the sampler, never the smoothing. Use `skill("mh370-run-reporting")` for the conventions.
+6. **Measure ESS, the weight concentration, and split-half replicate agreement; report unconverged
+   as unconverged.** ESS alone is not sufficient and has already misled once: under both 00:19
+   bursts on the raw measurement model a stratum-seed shows ESS 38.8 over 100,000 parents **and**
+   a largest-single-trajectory share of 12.3 per cent with a top-ten share of 33.5 per cent. The
+   second pair is what tells you a shape is not estimated. Report **per seed and per stratum beside
+   the pooled figure** — pooled "effective impacts" over 8 seeds × 4 strata reads an order of
+   magnitude healthier than any replicate actually is. The fix is the sampler, never the smoothing.
+   Use `skill("mh370-run-reporting")` for the conventions.
 7. **Settle discrete choices by evidence, or carry them as declared alternatives with priors** and
    report per alternative. Never fixed-weight averages of normalised maps.
 8. **One synthetic-recovery test plus hand-computed fixtures.**
@@ -84,6 +170,21 @@ Three consequences for how you build and report:
    are explicit; results are reported per family before any combination.
 10. **Descent physics lives in this module**; the measurement model lives in `satcom`; composition
     lives in the composer. Do not reimplement a measurement model here.
+11. **A change of proposal and a change of support are different events, and the second is logged.**
+    §8's exact importance weighting makes a change of *proposal* harmless, and that is provable —
+    see test 6 of §11. It says nothing about a change of what the model can *reach*. Every change to
+    the model's reach — a new branch, a widened bound, a probability moved off zero — is recorded in
+    the run note with: the physical justification; **whether it was prompted by a fit failure**; and
+    the held-out log-evidence and held-out impact median before and after. A reach change that moves
+    the held-out answer is a different event from one that does not, and the distinction is what
+    settles a forcing question later rather than by argument.
+12. **Run the silent-exclusion review before every sweep.** List every bound, every configured
+    range and every zero weight in the envelope, and for each state whether its justification is
+    independent of how well anything fits 00:19. This exists because the sampler's own diagnostics
+    cannot find these: a fit failure makes the model press on the exclusions the data cares about,
+    so those get found and removed, while exclusions the data is silent about survive indefinitely
+    and quietly make one hypothesis better explored than its alternative. The review is the only
+    procedure that corrects the asymmetry. §§4 and 10 name the current answers.
 
 ### Interface
 
@@ -109,6 +210,24 @@ later is not.
 Granularity is settled: `ImpactView` carries a debris **class**, and settling generates the
 object ensemble from class plus energy and attitude. Do not make the impact sample
 variable-length.
+
+**Three emission rules, added 13 October after an audit found all three broken in the current
+runs.** They are contract, not guidance.
+
+- **Emitted means emitted in the impact sample.** The six energy-transfer columns are entirely
+  non-finite in `impacts32.npy` and τ is carried in a per-seed sidecar joined by row order. A
+  consumer that must join two arrays positionally to get a field the contract rules in does not
+  have the field. Write them into the impact sample.
+- **A quantity not computed for a family is NaN for that family.** Rule 4 already says NaN means
+  "not computed"; a placeholder value breaks it, because a consumer cannot tell a placeholder from
+  a measurement. Attitude at impact is currently assigned wings-level for the controlled families
+  and 52 per cent of posterior weight carries exactly zero bank. Either compute it or emit NaN —
+  not zero.
+- **Energy delivered to the water is not total kinetic energy.** The transferred-energy field
+  currently equals total kinetic energy to float32 precision, so the model delivers all of it to
+  the sea with nothing going into structural deformation, fragmentation or airborne debris. Either
+  carry the partition as a declared alternative with a sampled fraction, or label the field an
+  upper anchor **everywhere it is quoted**, including in hydroacoustics' own figures.
 
 Two further hooks exist, stubbed and documented, with no physics behind them yet: a debris-class
 output and a **sink-versus-float** flag. Both are deferred by decision, and both are expected to be
@@ -149,10 +268,16 @@ start-up-offset model as a core request. Both are now done.
 | Configurable filter stop epoch; "bursts after the stop" scoring | **built** |
 | `dynamics.bfo_vertical_rate` | **built and on**; inert in cruise because only ~0.7% of flight is in a level change — which is exactly why a *sustained* descent is needed for it to matter |
 | Annealed-SMC tempering at named epochs | **built**; six-epoch configuration under test |
-| The EoF **model** | **does not exist.** `hypotheses/arc-kernel` is plumbing whose own docs say "not a model"; its impact energies are NaN |
+| The EoF **model** | **built and run at full scale twice.** Run I (12 Oct, binary `mh370-eof-ri1`) and run-i-dive (13 Oct, `mh370-eof-ri3`), each 8 seeds × 4 strata × 100,000 m0011 hand-off rows, 6.40 M descents per stratum-seed. Run-i-dive supersedes run I. Notes: `results/eof-run-i-oct12.md`, `results/eof-run-i-dive-oct13.md` |
+| Descent physics | **provisional on four counts, all declared in the run notes**: interim parametric pitch-down with the 6-DOF gate unpassed (§8), no transonic drag rise, provisional turn model, provisional in-flight structural model |
+| Boeing calibration | **cruise half done, descent half not.** Burn and endurance reproduce the published tables over 27 items at −5.2 to +11.0 per cent; the phugoid period agrees at 78–86 s against 82–87 s when the module's own trim at loss of control is used. The ten engineering-simulator traces have **not** been fitted as traces — see the gate in §8 |
+| The 22:41 arms (V1b, V2) | **not run on current physics.** Only the 11 Oct stand-in on core run D, itself unconverged, on physics that could not reach descent rates above 6,500 ft/min or unload the aircraft. Its Bayes factors are not to be carried forward |
 | Stage-4 composer | **not built**; `main.rs` rejects `[[compose]]`. Until it exists, use `mh370 evaluate` on an impacts file |
 
-So: build the model, not the interface.
+So: the interface and the sampler are built; what is outstanding is descent fidelity, the 22:41
+arms, and the sampling collapse of §8. **This table is updated at the end of every full sweep, not
+at the next revision of this prompt.** It was six days stale on 13 October and told a reader the
+model did not exist.
 
 ---
 
@@ -196,8 +321,26 @@ distribution of its length; do not quote one number derived from one assumed exh
 
 Making the checkpoint *be* the earliest permitted onset removes an arbitrary horizon, but keep the
 diagnostic: **if supported trajectories accumulate against the checkpoint boundary, the boundary is
-influencing the answer** and the run must be repeated from 21:41. Report where the supported onset
-mass sits relative to the boundary, every time.
+influencing the answer** and the run must be repeated from an earlier checkpoint.
+
+**The onset-boundary gate.** The previous version required this diagnostic "every time" and gave it
+no statistic, no number and no consequence, so neither full sweep reported it and the condition was
+met unnoticed. It is now a gate.
+
+- **Statistic.** The weight fraction with descent onset within 60 s of the earliest permitted onset,
+  computed **per family**, under the held-out weighting *and* under each 00:19 option.
+- **Where.** The coverage section of every run note, as a named row. Not optional, not conditional
+  on it looking small.
+- **Consequence.** Above **5 per cent in any family under the held-out weighting**, the sweep does
+  not support any statement about descent initiation and must be repeated from an earlier
+  checkpoint. Between 1 and 5 per cent, the arm is reportable with the figure quoted beside every
+  onset number. Below 1 per cent, the boundary is not influencing the answer.
+- **Current value, measured 13 October on run-i-dive:** 21.6 per cent for the deliberate-descent
+  family, with the earliest onset in the file at the hand-off epoch itself. The gate is failed. The
+  anticipatory-onset support configured at 0 to 9,000 s of lead is almost entirely unreachable from
+  an m0011 hand-off, so **what the current tables label a deliberate descent is a descent beginning
+  in the last eight minutes of the flight**, flown by an aircraft required to be powered to 00:11.
+  That is not the hypothesis this section describes.
 
 Sample the early part of the window adequately even if the prior puts most mass near exhaustion,
 and describe every result as conditional on excluding major descents before the checkpoint.
@@ -220,6 +363,26 @@ A constant descent is **sampled, never assumed**. The envelope must include:
 - substantial lower-altitude flight as a possibility: **an hour between onset and impact need not
   mean an hour descending.**
 
+**Two of the above were prose and failed quietly. They are now bounds with a reported statistic.**
+Both were written as bullets with no corresponding number in any run note, and an audit on
+13 October found neither honoured.
+
+| requirement | checkable form | reported statistic | current value |
+|---|---|---|---|
+| level-offs including 10,000 ft and 4,000 ft | both altitudes in the candidate set, plus the sampled additional altitude whose interval is stated in the run note | the realised level-off altitude distribution — **currently not emitted as a column, so this cannot be checked from the output at all** | **unverified.** `leveloff_altitude_ft = [11000, 30000]` is the *additional sampled* altitude, and the dynamics note records 10,000 ft and 4,000 ft as always-present candidates alongside it. Reading the configuration alone suggests a gap that the code may not have. Emit the column and settle it |
+| lower-altitude flight need not mean descending throughout | the realised time **fraction** spent descending between onset and impact | its quantiles and the weight fraction below 0.60, which must exceed **5 per cent** | **met.** Descending fraction 0.57 / 0.93 / 1.00 at the 5th, 50th and 95th percentiles; 5.8 per cent of weight below 0.60 and 41.5 per cent below 0.90; the longest level segment reaches 2,407 s against the configured 2,400 s cap |
+
+**Use the fraction, not an absolute duration.** An earlier version of this table used "non-descending
+seconds above 600 s" and recorded a failure at 1.75 per cent. That statistic was badly chosen: the
+median onset-to-impact time is about 1,176 s, so 600 s of level flight is most of the flight and the
+threshold was close to unsatisfiable. The fraction is the quantity the requirement is actually about.
+The residual concern it leaves is narrower and worth keeping: among descents longer than 1,800 s from
+onset — 10.8 per cent of weight — the median non-descending time is only 132 s, so a long descent in
+this ensemble is predominantly a slow continuous one rather than descend-cruise-descend.
+
+Keep the provenance note either way: the recovered simulator data is the reason for *including*
+4,000 ft in the envelope, never support for it having been flown.
+
 Reference idle-thrust rates below 20,000 ft, for sanity-checking our own model rather than as
 prescription: ~2,200 ft/min clean at 0.84M/310 kt and ~5,300 with speedbrakes; ~1,400/3,300 at
 250 kt; ~1,000/2,300 at VREF30+80; roughly 3 NM per 1,000 ft lost. Ditching guidance gives
@@ -236,6 +399,13 @@ Within either initiation branch allow: control maintained through an attempted d
 maintained then lost; no effective intervention during the terminal descent; and upset followed by
 recovery and renewed control — which must be *dynamically demonstrated*, including sufficient
 altitude, not merely asserted.
+
+**All four, in every family, and the weights are stated per family in the run note.** A zero weight
+is a modelling decision that needs writing down and justifying, not a configuration value. Measured
+13 October: the control weights are 1, 1, 1, 1 for the two fuel-exhaustion families and
+**0.5, 0.5, 0, 0 for the deliberate family**, so the two outcomes are absent from precisely the
+family where the next paragraph's distinction decides the result. Nothing in the run notes recorded
+it.
 
 **Distinguish attempted ditching from achieved low-speed water contact.** The first is a control
 objective, the second an outcome. Defining "controlled ditching" by a successful low vertical speed
@@ -270,9 +440,42 @@ subsequent low-altitude powered flight spends the saving — the net must be com
 Position, altitude, speed, mass, fuel state, engine state and configuration evolve jointly. This is
 why a descent cannot be bolted onto a cruise-only posterior.
 
-**Single flame-out event for the first working version.** Per-engine flame-out (right engine first,
-gap unpublished, single-engine phase never modelled) is agreed in principle and comes after, so its
-effect on the impact PDF can be measured rather than assumed.
+**Correction, 13 October: the two-engine structure is already built, and the previous versions of
+this paragraph were wrong.** They said "single flame-out event for the first working version" and
+"single-engine phase never modelled". Measurement of run-i-dive contradicts both. What exists:
+
+- **Core** carries two tanks (`fuel.tanks = 2`), a single-engine fuel and performance phase
+  (`fuel.single_engine = true`, `inop_flow_scale = 0.5`, a hold-taper driftdown at 207–227 KCAS,
+  300–1,000 ft/min, 7–11 kt/min deceleration, L/D 20.7), and `require_power_until = "m0011"` with
+  `hard_reject = true` — so **loss of the second engine before 00:11 is excluded by construction,
+  while loss of the first is permitted**.
+- **The hand-off carries real per-trajectory fuel state.** Core request 1 has landed. The
+  `fallback_fuel_kg = 2000` path is not in use: realised flame-out times take 711,648 distinct
+  values with no mass at the 00:31:48 the fallback would imply.
+- **This stage takes over with two tank states** (`two_tank_takeover = true`) and tracks the engine
+  count at onset. Measured, held-out weighting: 56.9 per cent no engine thrusting, **36.9 per cent
+  exactly one**, 6.2 per cent both.
+- **`t_realised_flameout_s` is the FINAL flame-out, not the first.** For the 325,071 rows that take
+  over with no engine running it sits at takeover within a few seconds. For the 85,018 that take
+  over with one engine running it is a median **288 s later**, reaching 1,113 s at the 95th
+  percentile. So 22.5 per cent of the fuel-exhaustion families fly a real single-engine phase of
+  several minutes inside this stage, and 46.2 per cent of the deliberate family begin their descent
+  with one engine running.
+
+So the first and second engine losses are both present **for fuel and gross performance**. Two
+things are genuinely missing, and they are what the deferral should now refer to:
+
+1. **The first flame-out time is not emitted.** Only the final one is. Takeover time is a proxy for
+   it in the fuel-exhaustion families and is not one in the deliberate family, where takeover is the
+   descent onset. Emit both, and name them so the distinction cannot be lost: this column has been
+   described in the trait doc as "the first flame-out" and is the opposite.
+2. **No asymmetric-thrust dynamics exist anywhere.** This stage's envelope contains no yaw, rudder,
+   autopilot-response or thrust-asymmetry parameter — `windmilling_per_engine` is a symmetric drag
+   increment and the core's `single_engine_*` parameters govern its own pre-00:11 phase, not this
+   one. The single-engine minutes above are therefore flown as a symmetric point mass, against a
+   ruling that assigned this module the yaw, autopilot response, drift-down and turn before the
+   second flame-out in its 6-DOF simulation. Until that exists, every single-engine segment is a
+   declared approximation and the 36.9 per cent figure above belongs beside it.
 
 ### Three time resolutions, and only one of them is yours
 
@@ -418,20 +621,17 @@ cannot support.
 - **00:11 alone cannot discriminate a descent.** The sensitivity is about 17.5–17.8 Hz per
   1,000 ft/min, so a ~1,100 ft/min descent and a ±20 Hz bias excursion give the same signature, and
   00:11 is a single value rather than a pair.
-  **SETTLED, and the project's earlier record was wrong** (`results/vertical-rate-sensitivity.md`,
-  core request 8). 17.50 Hz per 1,000 ft/min belongs to the **00:19a** arc, not to 00:11:
-
-  | arc | BTO | elevation | Hz per 1,000 ft/min |
-  |---|---|---|---|
-  | 00:11 (`m0011`) | 18,040 µs | 39.64–39.67° | **17.800–17.813** |
-  | 00:19a (`m0019a`) | 18,400 µs | 38.88–38.92° | **17.515–17.528** |
-
-  The sensitivity is `(f_uplink/c)·sin(elevation)`, and a BTO fixes the slant range and hence the
-  elevation, so the figure is a property of the **arc** rather than of position along it — it moves
-  by 0.013 Hz from 30°S to 40°S, a twentieth of the difference between the two arcs. The earlier
-  record attached 17.50 to 00:11 while quoting an elevation of 38.8°, which is the 00:19a figure.
-  **Always quote the arc alongside the number.** The argument above is unaffected in substance: a
-  ±20 Hz excursion is 1,123 ft/min at 00:11 and 1,141 at 00:19a. Yet 00:11 sets the autopilot-mode mixture at roughly
+  **Which arc the figure 17.50 belongs to is DISPUTED and must be settled before it reaches the
+  paper.** The project previously recorded 17.50 Hz per 1,000 ft/min at the 00:11 geometry
+  (38.16°S 88°E, satellite elevation 38.8°). The end-of-flight session, computing from
+  `data/satellite-ephemeris.csv` with the engine's own `UPLINK_HZ` and `SPEED_OF_LIGHT_KM_S`, gets
+  17.81 at the 00:11 arc (BTO 18,040 µs) and 17.52 at the 00:19a arc (BTO 18,400 µs), and reports
+  the value as nearly constant along each arc — 17.800–17.813 from 30°S to 40°S at 00:11,
+  17.515–17.528 at 00:19a — because the BTO fixes the slant range and hence the elevation angle.
+  The two computations disagree by 1.8% on the attribution, not on the physics. The substance of
+  the argument above survives either way (a ±20 Hz excursion matches 1,123 ft/min at 00:11 against
+  1,143 at 00:19). **`crates/satcom` is core-owned, so the core session settles this**; until it
+  does, quote the range rather than the single figure, and cite neither attribution. Yet 00:11 sets the autopilot-mode mixture at roughly
   20:1. So scoring 00:11 mostly re-weights modes, and the descent discrimination lives in the 00:19
   pair — whose 184 Hz step in 8 s is about nine times the largest bias excursion in Davey's own
   Fig. 5.4, and whose interpretation is exactly what is contested. State this tension as a result of
@@ -449,6 +649,26 @@ above M0.87 shaped from NASA CRM data and **labelled extrapolated**, as every mo
 Boeing's is beyond M0.87–0.91; MMO 0.87 from the type certificate. Calibrate against the 10 Boeing
 engineering-simulator runs (1 Hz X/Y/altitude only; targets phugoid period, bank growth, time to
 15,000 fpm, distance) and against Boeing's published range and endurance.
+
+**The uncontrolled-arm calibration gate.** The runs declare "6-DOF gate not passed" as a label and
+proceed, which is the module inventing a gate the contract never defined. Define it here.
+
+- **Passed** when the fast model reproduces the ten traces on all four targets with a per-case
+  residual table published, the dive cases (3, 4, 5, 6, 10) included explicitly — they are tests of
+  *uncontrolled dives* and are the only aircraft-specific validation data the uncontrolled arm has.
+- **While unpassed**, the module may report impact *distributions* with the provisional labels
+  attached, and may not report any impact *energy*, *attitude*, *flight-path angle* or
+  *energy-transfer duration* as a physical prediction — only as a model output conditional on an
+  uncalibrated descent. That restriction is heavier than it sounds and is the reason it is here: an
+  independent literature pass on 13 October found **no retrievable source publishes an impact speed,
+  flight-path angle, impact energy or energy-transfer duration for this accident**, per-case impact
+  conditions having been withheld from the Boeing dataset. The trace fit is therefore not one
+  validation among several; it is the only one available.
+- **Current state.** Unpassed. The 6-DOF fit on the 747 aerodynamic base did not converge: joint
+  misfit fell 4 per cent and the shared-physics stage made no progress at its evaluation cap. Where
+  the 747-based reference cannot be made to converge, say so and fall back to per-case fitting of
+  the fast model rather than leaving the arm labelled interim indefinitely. Transonic drag rise is
+  required, because the steep arm routinely exceeds the crest Mach number.
 
 **Sampling adequacy is the thing most likely to sink this.** The old runs collapsed to 1–4 effective
 samples with both BFOs. A defensive mixture of plain and targeted proposals with exact importance
@@ -488,7 +708,13 @@ analysis is qualified as "not fully conclusive" and is contested in the literatu
 1. The calibrated open-baseline aerodynamic model, with its calibration report against the Boeing
    runs and the published range and endurance.
 2. V1a, V1b and V2 as config-gated arms, with the hand-off epoch and the descent-onset support
-   both set by config and empty onset support a legal setting.
+   both set by config and empty onset support a legal setting. **This is an acceptance condition,
+   not an instruction.** No result may be reported as the headline comparison unless all three arms
+   ran on the **same binary, the same core run and the same evidence columns**. The previous version
+   described V1a as "nearly free, because the hand-off is built anyway", and the consequence was
+   that every full sweep since has been V1a alone: a V1a-only sweep is reportable as "the impact
+   distribution under this configuration" and licenses **no** statement about the descent hypothesis
+   or about the checkpoint, which §1 already says and which should have been a rule.
 3. The evidence sweep of §7 as a sensitivity page per option × BFO model × family: impact area
    (50/90/99%), distance from flame-out and from the 7th arc, impact time, total and vertical energy,
    and ESS with the population beside it.
@@ -498,13 +724,42 @@ analysis is qualified as "not fully conclusive" and is contested in the literatu
    terminal-stage ESS at 00:11 beside the filter's, and a statement of what each difference does
    and does not establish.
 5. Core requests for the missing `ImpactView` fields.
-6. The tests of §11.
+6. The tests of §11, including test 6.
+7. **The dive-fraction hyper-prior as ruled.** The dive branch was ruled to carry a U[0,1]
+   hyper-prior with a marginal of 0.5. As built it is a fixed probability of 0.5 drawn independently
+   per descent: measured across 6,232 parents with 20.4 push-over draws each, the across-parent
+   standard deviation of the dive share is 0.1140, against 0.1108 predicted for a fixed probability
+   and 0.3025 for a per-parent draw from U[0,1]. The fixed form asserts that exactly half of piloted
+   push-overs continue to the surface as a known quantity, and so understates the uncertainty on the
+   latent that drives the R1200-conditioned result — the 90 per cent impact area moved from 59,000
+   to 47,000 km² when the branch was added, and 64 per cent of the southern group are levelled-off
+   push-overs. Implement the hyper-prior, re-run the R1200 cells, and report the posterior on the
+   fraction as a result: it is directly estimable and currently pinned.
+8. **The output of §2 rule 12**, the silent-exclusion review, as a table in each run note.
+9. **The first flame-out time as an emitted column**, beside the final one, with the engine count
+   through the terminal trajectory rather than only at onset — see §5. Without it the single-engine
+   segment cannot be measured by a consumer or diagnosed by this module, and 36.9 per cent of weight
+   has one engine running at descent onset.
 
 ## 11. Tests
 
 Ballistic energy conservation. Level-flight equilibrium. BFO vertical-speed sensitivity against a
 finite difference. One synthetic-recovery test: generate the data from a known descent and check
 coverage. Plus hand-computed fixtures.
+
+**Test 6, added 13 October — prior recovery under the correction.** For every aimed or targeted
+proposal component, show that **the sampling weight alone recovers the uniform prior on the aimed
+latent over its full configured support**, and report the statistic in every run note that uses an
+aim. This is the test that settles whether a targeted proposal shaped the answer, and the previous
+version did not ask for it even though the module had built the machinery and passed it.
+
+Report two things: the maximum absolute deviation between the weighted cumulative distribution and
+the uniform one, and the corrected share inside the aim window beside the share a uniform prior
+would give. Measured on run-i-dive, as the worked example of a pass: push-over rate deviation
+0.0030 with aim-window share 0.6615 against 0.6567 uniform; push-over load floor 0.0041 with
+0.1650 against 0.1667; stored mean importance correction 1.000178 ± 0.000693. Beside it, report the
+*posterior* share under the informative 00:19 options — 0.9438 and 0.3995 respectively — because the
+pair is the evidence of selection: a demonstrably uniform prior, and the data moving it.
 
 **Two of these were stated loosely in earlier versions and are corrected here, because asserting
 them as written would have asserted a ten per cent error in each case.**
@@ -532,6 +787,23 @@ code.
 - Do not import Holland's descent-rate bounds as a constraint. They are conditional on the transient
   assumption this project declines to treat as established, and importing them would kill the
   deliberate-descent branch by assumption rather than by evidence.
+- **Holland's bounds are published by hypothesis, and the separation is routinely lost in
+  quotation.** At 00:19:29 they are 3,900–14,800 ft/min under the satellite-data-unit-restart
+  hypothesis against 2,900–6,800 ft/min under the no-warm-up hypothesis, with an 8 s mean downward
+  acceleration of 0.68 g. §7's declared-alternative structure is already the right vehicle; compare
+  against the **matching** hypothesis, never the merged range, and say which in every figure.
+- **None of the ten Boeing cases is in a steep descent as the 7th arc is crossed.** So Boeing's own
+  simulations of uncontrolled flight after dual fuel exhaustion and the descent rate derived from
+  the 00:19 offsets **do not agree with each other**, a contradiction inside the official material
+  rather than between it and this project. Report it as a result of the study; do not reconcile it,
+  and do not let the steep arm inherit the authority of the Boeing simulations it does not
+  reproduce. This is the most important framing fact available for the paper.
+- **Beware the asymmetry a fit failure creates.** The steep, high-energy region of the envelope has
+  been found, widened and well sampled because the 00:19 data kept pressing on it. The shallow,
+  long-glide and sustained-low-altitude regions have had no comparable pressure applied, so their
+  coverage reflects what nobody was forced to fix. A comparison between "a steep dive fits 00:19"
+  and "a shallow approach does not" is not a comparison between two equally explored hypotheses
+  until §2 rule 12 has been run and its answers closed.
 
 ## 13. Out of scope for now, by decision
 
@@ -541,7 +813,10 @@ code.
   retracted-flap finding is qualified and disputed, and the absence of buoyant cabin material is
   confounded by detection bias. It enters as a likelihood with explicit model error and declared
   alternatives, never as a veto.
-- **Per-engine flame-out.** After the single-event version works.
+- **Per-engine flame-out** — superseded as written; see the correction in §5. The fuel and
+  performance half is built in both stages. What remains deferred is narrower and should be stated
+  as such: the **asymmetric-thrust dynamics** of the single-engine phase, and emission of the first
+  flame-out time alongside the final one.
 - **Paid simulator options.** Confirmed: build and test the open baseline first, and treat a
   commercial simulator as a validation target rather than as the generator. Revisit then — 4–8
   hours in a rented Level-D 777-200ER simulator with written publication rights, or X-Plane 12
