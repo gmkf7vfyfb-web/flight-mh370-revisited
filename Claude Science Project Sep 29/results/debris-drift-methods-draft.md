@@ -176,8 +176,15 @@ particle i of class c beaching at place z_i and time τ_i:
   L(x) = E_η E_ν Π_j [ Σ_b ν_b a_jb(x) / Σ_b ν_b A_c(j)b(x) ].
   Each factor is the density of the find's place and date, given that an item of its class was
   recovered somewhere identified within the window. The conditioning denominator depends on the
-  source and is kept explicitly (brief §4). Coasts outside the six segments carry ν = 0. The
-  Western Australian non-recovery term is deferred (brief §13).
+  source and is kept explicitly (brief §4). Coasts outside the declared segments carry ν = 0. The
+  Australian non-recovery term adds ten Australian segments (ABS Remoteness Areas 2021 class × region)
+  with pre-registered levels (`debris-drift-australia-preregistration.md`); they enter only through
+  the denominator A, since no item was recovered there (pilot: `debris-drift-australia-pilot.md`).
+- **Refloat (declared sensitivity, default off):** with rate r per day, each stay on the coast is an
+  episode [τ_ie, τ_ie + residence), and P(discovery | τ) is integrated only up to the end of the
+  episode, in both a_jb and A_cb; the item may beach again elsewhere. Rates from beach-residence
+  measurements of macrolitter, 69-273 days [hinata2017]. With r = 0 the code reproduces the
+  default output exactly.
 
 ## 6. Monte Carlo estimation
 
@@ -233,9 +240,9 @@ particle i of class c beaching at place z_i and time τ_i:
 
 ## 8. Not yet in the term
 
-- the Western Australian non-recovery term (brief §13);
+- the Australian non-recovery term in production (pilot run; brief §13);
 - the 2014 surface-search observation (deferred; ruling of 9 Oct ~04:15 UTC);
-- refloating;
+- refloating in the primary result (available as a declared sensitivity, §5);
 - biofouling;
 - a BRAN2016 arm: dropped (Pete, 9 Oct ~18:30 UTC). CSIRO applied the 1.2% windage to BRAN2015's 0-5 m layer [griffin2017partiii, p. 6]; here CSIRO's system runs on GLORYS12's 0.494 m currents and on GlobCurrent, and that difference from CSIRO's configuration is declared;
 - the explicit-Stokes arm (WAVERYS);
