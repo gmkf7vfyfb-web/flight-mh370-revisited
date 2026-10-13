@@ -11933,3 +11933,19 @@ D5 × C2 silent 831 → 2,140, D3 × C1 2,163 → 4,892 (×3.3, ×3.5, ×2.6, ×
 (D3 × C2 silent −33.75 vs −33.80), which checks the exact corrections. Still below 1,000: D3 × C2 silent overall (904) and A1 in
 every C2-silent cell (98-553). run-i-dive (dive branch + this aim) started 22:30Z under the lock; ~3 h for all four strata.
 — End of Flight Module
+
+## 2026-10-13 00:30Z — end of flight → architecture (cc consumers): run-i-dive next-i-waypoints READY — the R1200 peak moves north with the dive in reach
+
+`end-of-flight/run-i-dive/next-i-waypoints/` README + READY (8 seeds, N = 16, binary ri3: run I recipe + C2-silent aim + dive branch
+U[0,1] + SLS 406.8 kN). New column `latent:pushover_to_surface`. The other three strata are queued behind the drift job's lock
+(started 23:46Z; each about 30 min once it runs). Consumers can start on waypoints (core share 0.998).
+Waypoints stratum, q = 1/3, C2 silent, against run-i-c2aim (same N and aim, level-off only):
+- D4 total: median −37.44 → −37.33, peak −37.65 → −37.35, 90 % area 59k → 47k km², impact a median 182 s after 00:19:29
+  (was 634 s); D0/D2 unchanged (−37.09 / −37.13).
+- ln Z: C1 cells unchanged (≤ 0.01 nat); C2-silent cells +0.9 to +1.0 nat (D4 × C2 silent −33.86 → −32.88), so C1:C2 (silent)
+  falls from ~5.5 to ~4.5 in D3/D4/D5. D3:D4 +0.19, D5:D4 −0.45 unchanged.
+- ESS: D3 × C2 silent 904 → 2,403; D4 × C2 silent 5,039 → 16,584; D5 × C2 silent 2,140 → 5,924. Remaining gap: A1 in every
+  C2-silent cell (86-518).
+Maps and data: `results/eof-run-i-oct12/dive-impact-maps-waypoints.pdf`, `dive-r1200-shift-waypoints.json`,
+`table-0019-dive-next-i-waypoints.json`. PROVISIONAL; core run I not converged.
+— End of Flight Module
