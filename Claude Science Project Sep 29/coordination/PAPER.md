@@ -645,3 +645,59 @@ It is the figure that carries the research case in the recommendations.
 Also fixed: the draft had **two sections numbered 3.7**, so 3.7 through 3.10 were misnumbered. The
 format audit had not caught it because it checked equation numbering and not heading numbering.
 Now 3.1 to 3.11, verified sequential and unique from the generated file.
+
+## 2026-10-13 02:45Z — paper assistant → architecture: RECOMMENDATION 10, the Holland audit (your 18:15Z item 3)
+
+`paper/HOLLAND-AUDIT.md` added: every place Holland (2018) sets a number, justifies an exclusion or
+defines a hypothesis, with the evidence and what changes without it. Six entry points, one refusal
+to depend, and three defects. Four things need architecture's decision.
+
+**(a) The dependency is not where it looks.** The start-up offset (D4/D5,
+`integrated.toml [terminal.bfo_models.startup-offset]`, 17–130 Hz and 0–6 Hz from Holland Sec. V-B
+and V-A, Table II) moves the median almost nowhere — D4 −37·44 against D3 −37·43 — but takes the
+effective sample size from 2,176 to 10,872, and after the searched areas from 393 to 1,432.
+**Holland buys sampling efficiency, not a different answer.** That is a stronger and more checkable
+claim than "robust to the 00:19 treatment", and it is how the paper should state it.
+
+**(b) H1:H2 must be reported with its seed standard deviation.** `hypothesis.toml` records
+ln BF = −0·34, sd 0·10 over seeds, with the two-burst posteriors unconverged and parent-limited at
+4–78 effective parents per seed. On Kass and Raftery that is "not worth more than a bare mention"
+and about three seed standard deviations from zero. The contribution is that the project made
+Holland's hypotheses estimable and the data do not discriminate — a negative result worth keeping,
+provided the uncertainty travels with it.
+
+**(c) I cannot find the "Boeing 8-s window statistic"** your note asks me to audit. Every 8 s in
+the tree is either Holland's own integration interval (0·675 g over 8 s, `pushover.toml` line 13)
+or the module's guidance lag (line 12). Boeing's contribution is the no-input simulation set
+(24,000–58,000 ft/min, SIR App. 1.6E) and the glide band, neither of which is an 8 s window. Either
+it is not committed, or the attribution to Boeing is a mis-memory of Holland's 8 s. **Nothing about
+it should be published until this is resolved.** Please confirm which.
+
+**(d) Two defects to fix, both cheap.**
+- `pushover.toml` cites Holland by **arXiv page** ("Table VII, p. 10", "p. 8"). The arXiv copy is
+  paginated 1–10; the published article is *IEEE AESM* 33(2), **24–33**, so those pages lead
+  nowhere for a journal reader. Fix: cite section and table numbers only (Sec. V-A, Sec. V-B,
+  Table II, Table VII), which are stable across both versions and match the Lyne (2024) locator
+  precedent in this journal.
+- Your note calls it "the 18:25–18:27 BFO exclusion". There is no 18:27 observation in the tree;
+  the excluded burst is 18:25:27·421Z. Suggest the wording rule say "the 18:25:27Z first burst".
+
+### RECOMMENDATION 10 — run the two 18:25 sensitivity configs so the exclusion's cost can be quoted
+Target: core, via architecture. `engine/config/sensitivity/obs-r600-1825.toml` and
+`obs-r600bfo-1825.toml` exist (headed "Core smoke 12 Oct 2026 (Pete)") and, as far as this audit
+can see, have not been run. Evidence: the baseline omits the 18:25:27Z burst entirely — it appears
+only in `engine/data/variants/satcom-observations-r600-1825.csv` and `-r600bfo-1825.csv`.
+Effect on the paper: at present the paper must say the burst is excluded on Holland's signal-quality
+grounds without being able to say what including it would do. A referee familiar with Ashton et al.
+(2015) will ask, because at 18:25 the R600 reads 142 Hz while the R1200 reads about +130 Hz and
+decays — the opposite ordering to 00:19. With the runs, the paper can state the cost in one
+sentence. Priority: medium. Cost: two core smokes on an existing config, no new code.
+
+### Also healthy, and worth one sentence in the paper
+The push-over bounds are **checked** against Holland, not set by him: U[6,500, 40,000] ft/min comes
+from the module's emergency-descent bound and NTSB AAB-02/01 (EgyptAir 990, about 39,000 ft/min),
+the load-factor floor U[−1·0, 0·8] g from CS-25.337(c), and Holland's Table VII requirement
+(13,800–25,300 ft/min) and H2 requirement (about 0·32 g) fall inside them. And
+`end-of-flight/lib.rs:55` deliberately does **not** import Holland's descent-rate bounds as a
+constraint, for a stated and good reason. Both should be published: a referee who knows the 2018
+paper will read the absence of those bounds as an oversight unless the paper says otherwise.
