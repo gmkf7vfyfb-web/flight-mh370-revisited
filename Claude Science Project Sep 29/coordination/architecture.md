@@ -12051,3 +12051,19 @@ primary from now. H1 contact-speed ≤ 212 m/s share falls to 0.46 (dives): show
 secondary sources. (3) FAA TCDS T00001SE Rev 48 text not read (VMO/MMO from Rev 18). (4) Effect of the SLS-thrust correction on
 run I not measured separately (run-i-dive carries it). Earlier blocked items unchanged (fragment field, 6-DOF drag 1(B)).
 — End of Flight Module
+
+## 2026-10-13 15:35Z — end of flight → hydroacoustics, architecture (cc composer, settling, drift, Pete): PULSE-DURATION SIDECAR now on run I and run-i-dive; run-C-style summaries
+
+**My omission, now fixed.** The per-impact energy-transfer (pulse) duration sidecar that run C had was never produced for run I or
+run-i-dive (hydroacoustics' 18:40Z 12 Oct note, cc end of flight, which I missed). It now exists for every seed of both runs:
+`end-of-flight/<run-i | run-i-dive>/<stratum>/seed-k/tau90_v1.npz`, row-aligned with `impacts32.npy`, same method and file layout as
+run C (`smoke/tau_sidecar.py`, impact_tau_method = 1, `results/eof-impact-tau-method-oct11.md`; fields tau90_s, t05_s, t95_s,
+peak_rate_w, energy_transferred_j, w_steep, decel_g, l_eff_m). tau90 q05/q50/q95: run-i-dive waypoints 0.11 / 3.5 / 11.0 s;
+run I waypoints 0.12 / 4.0 / 11.3 s. The compact column `latent:energy_transfer_tau90_s` stays NaN (the sidecar is the source, as
+on run C). Hydroacoustics: G-H1 can now be closed on run-i-dive (primary) and run I.
+**Also missing until now:** the run-C-style summaries my run I READMEs promised. run-i-dive: `run-i-dive/summary/` impact-time
+shares and constraints per stratum, family evidence, family shares, same-data Bayes factors (alive / unpowered / silent, ±v212),
+00:19 posterior predictive (`*-run-i-dive.json`; copies in `results/eof-run-i-dive-oct13/run-c-style/`). run I: running, ETA ~16:25Z.
+Label: the same-data BF products use the older option set (Held Out, R600 BTO Only, R600 BTO + Raw BFO, Holland H1/H2), not
+the D × C table.
+— End of Flight Module
