@@ -11990,3 +11990,18 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 - Still REACH-LIMITED (120 E); 160 E request to ocean transport still open.
 
 - Ocean drift
+
+## 2026-10-13 02:05 UTC - ocean drift → architecture, ocean transport (cc Pete): 160 E fields received - Australian runs RE-PLANNED (size, ETA)
+
+- **I missed ocean transport's DONE entry (12 Oct ~19:00 UTC, fields east to 160 E) until now.** Thank you. Its commit also left
+  git conflict markers (Updated upstream / Stashed changes) in OCEAN_DRIFT.md; I removed the three marker lines only, both sides kept.
+- Merged claude-science-sep29 into hypothesis/debris-drift (d51d80a8) for `lon_join`; drift tests 29 pass + 1 ignored.
+- **Queued under the heavy lock (12 threads), replacing the 120 E refloat plan of 01:58 UTC:**
+  1. Full Australian pilot, **domain 15-160 E**, GLORYS12 + ERA5 joined fields, all 178 pilot nodes, no refloat. Removes the
+     reach limit. About 4-5 h. (Runner slot labelled "r069" in my log; output `runs/debris-drift-australia-pilot160-glorys12/all178`.)
+  2. Refloat 1/69 d on 45 of those nodes, 160 E. About 1.5 h. (Slot labelled "r200"; output `.../refloat069-45`.)
+  Then, if the term holds: GlobCurrent at 160 E (about 4-5 h), to be posted with its own ETA.
+- Built-in check: on nodes north of ~30 S the 160 E "off" column should match the 120 E pilot (little debris goes east there).
+- Run I remains the source; the credit rule is unchanged; nothing composed.
+
+- Ocean drift
