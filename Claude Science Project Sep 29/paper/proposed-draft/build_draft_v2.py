@@ -75,6 +75,21 @@ are used unevenly, and the descent they may imply is not propagated; and the evi
 accumulated after the aircraft was lost, namely the drift of the recovered debris, the
 unsuccessful searches, the satellite imagery and the hydroacoustic record, is analysed against
 a reconstruction which those lines of evidence cannot in turn inform.""")
+P("""The geometry is worth stating in concrete terms, because it is what makes the problem hard
+and it is not conveyed by describing the data as sparse. Each handshake fixes the signal path
+length between the aircraft and the satellite, which places the aircraft on a locus on the
+ellipsoid of approximately constant elevation angle to a satellite nominally over the equator at
+64.5°E. Over the southern Indian Ocean that locus runs approximately north-west to south-east, so
+a single measurement constrains position almost entirely in one direction and barely at all along
+the locus. Seven such measurements, taken roughly hourly, therefore constrain the radial geometry
+well and the along-arc position of the aircraft hardly at all, and it is the along-arc coordinate
+which determines where the aircraft ran out of fuel. The frequency offsets add a velocity
+constraint which breaks some of that degeneracy, but they do so through a term of a few hertz
+against an oscillator whose bias drifts by a comparable amount, so the information they carry is
+real but thin. The reconstruction problem is accordingly not one of fixing a position from
+redundant observations, which is the normal situation in navigation, but of propagating a
+dynamic model for six hours between observations that each constrain one direction.""")
+
 P("""This study removes those three separations. One probability distribution is carried from the
 last radar fix at 18:01Z through to a distribution over resting places on the seabed, and every
 line of evidence acts on the same distribution. The published measurement models are retained
@@ -188,6 +203,17 @@ parameters to specify even at a coarse time step, since heading, speed and altit
 change at times which are themselves unknown. The system formed by equation (5) across all
 observation sets is therefore under-determined by two to three orders of magnitude, and no
 amount of care in the functional models alters that.""")
+P("""The count can be made explicit. After 18:22Z the observations comprise seven burst timing
+offsets, seven burst frequency offsets and the two bursts of 00:19Z, which is sixteen scalar
+quantities, to which the primary radar adds a well-determined position and track before 18:22Z
+but nothing afterwards. Against those sixteen, a trajectory specified at a one-minute step over
+the six hours from 18:22Z to 00:19Z requires of the order of 350 epochs, each carrying at least
+position, altitude, heading and speed, and the times at which heading or speed changed are
+themselves unknown. Even a parsimonious description in terms of a small number of straight legs
+and turns requires several tens of parameters, and the manoeuvre model admits far more. The ratio
+is therefore of the order of one observation per hundred unknowns at a coarse discretisation, and
+worse at any discretisation fine enough to represent a turn.""")
+
 P("""Two consequences follow, and they shape the whole method. The solution is not a
 trajectory but a distribution over trajectories, and the distribution is multi-modal, because
 qualitatively different trajectories can satisfy the same sparse observations. The problem is

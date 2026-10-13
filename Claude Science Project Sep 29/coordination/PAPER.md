@@ -530,3 +530,33 @@ area or recovered-item count.
 The file now records how each symbol was read, and that any further symbol added must be read from
 the rendered page rather than the text layer. The drafts were checked: none of the wrong symbols
 reached `proposed-draft-v2.tex`, `proposed-draft.tex` or `REFERENCE-DRAFT.md`.
+
+## 2026-10-13 00:40Z — paper assistant: draft v2 now clears the word floor, and a correction to how I described it
+
+My 23:55Z note reported the main text at 5,966 words and described it as sitting "at the bottom of
+the band" of 6,000-8,000. That was a euphemism for being **below** the floor by 34 words, and
+describing an unmet requirement as met is the wrong way round regardless of how small the margin
+is.
+
+Fixed by adding substance where the draft's own README had already identified it as thin, not by
+re-describing the number:
+
+- **§1** now states the geometry concretely: a single burst timing offset places the aircraft on a
+  locus of approximately constant elevation angle to a satellite nominally over 64.5°E, which over
+  the southern Indian Ocean runs roughly north-west to south-east, so each measurement constrains
+  position almost entirely across the locus and barely at all along it — and it is the along-arc
+  coordinate that determines where the fuel ran out. The frequency offsets break part of that
+  degeneracy through a term of a few hertz against an oscillator whose bias drifts by a comparable
+  amount. The problem is therefore not fixing a position from redundant observations, which is the
+  normal situation in navigation, but propagating a dynamic model for six hours between
+  observations that each constrain one direction.
+- **§2.3** now gives the under-determination as a count rather than an assertion: sixteen scalar
+  quantities after 18:22Z (seven timing offsets, seven frequency offsets, two bursts at 00:19Z)
+  against a trajectory needing of the order of 350 epochs at a one-minute step, each carrying
+  position, altitude, heading and speed, with the change times themselves unknown — of the order
+  of one observation per hundred unknowns at a coarse discretisation, and worse at any
+  discretisation fine enough to represent a turn.
+
+**Measured, and counted independently from the generated .tex rather than taken from the build
+script's own tally: 6,486 words** (abstract plus main text; abstract 155), 14 numbered equations,
+3 tables. Structural check passes. Both formats regenerated from the one source.
