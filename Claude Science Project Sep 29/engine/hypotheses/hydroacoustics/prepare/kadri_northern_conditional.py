@@ -190,7 +190,7 @@ def h08s_shot_table(kd):
         tg, p = H.load(kd, pnl)
         series[pnl] = (tg, p)
         S, A, An, rel, med = TPL.analyse(tg, p)
-        cyc = H.cycles(tg, p)
+        cyc, _pk, _env = H.cycles(tg, p)
         S = S.copy()
         S["panel"] = pnl
         # attach the cycle statistics to the nearest shot (cycles and pulses are both peak-indexed)
@@ -304,7 +304,7 @@ def perth_part(cal_cache):
         cal = cal_cache[lg]
         brecs = [D.Rec(r, meta[str(lg)], cal) for _, r in sub[sub.role == "B"].iterrows()]
         bd4 = {Path(r.file).name: d4_series(P.IMOS / r.file, tmpl) for _, r in sub[sub.role == "B"].iterrows()}
-        spl_med = cal["spl_med"]
+        spl_med = float(np.median(np.concatenate([b.spl for b in brecs])))   # as imos_detectors.main
         for opt in ("text", "caption"):
             a, b = (DAY0 + pd.Timedelta(seconds=secs(x)) for x in WINDOWS[(opt, "perth")])
             hit = None
@@ -420,16 +420,14 @@ def main(kd, out_dir):
     shots, series, res_check = h08s_shot_table(kd)
     A = h08s_part(shots, series)
     cal = {}
-    pre = json.loads((HERE / "data/imos/preregistration.json").read_text())
-    noise = json.loads((HERE / "results-data/imos1d/noise_summary.json").read_text())
+    nb = pd.read_csv(HERE / "results-data/imos1d/noise_bands.csv")
     meta = P.parse_meta()
     for lg in (3315, 3376):
-        g = np.loadtxt(P.IMOS / pre["calibration_files"][str(lg)], skiprows=1, delimiter=None, unpack=True)
-        nb = noise[str(lg)]
-        cal[lg] = dict(gain=(g[0], g[1]), sens=meta[str(lg)]["sens_db"],
-                       m5_20=pw([nb["p50_1s_5_10"], nb["p50_1s_10_20"]]),
-                       m10_40=pw([nb["p50_1s_10_20"], nb["p50_1s_20_40"]]),
-                       spl_med=nb["p50_1s_5_40"])
+        m = meta[str(lg)]
+        fg, G = N.gain_db(next(P.IMOS.glob(f"*/*alibration/{m['cal_file']}")))
+        d = nb[nb.logger == lg].set_index("band").p50_1s
+        cal[lg] = dict(gain=(fg, G), sens=m["sens_db"],
+                       m5_20=pw([d["5-10"], d["10-20"]]), m10_40=pw([d["10-20"], d["20-40"]]))
     B = perth_part(cal)
     energies = dive_energy()
     pred = h08s_predicted(energies)
