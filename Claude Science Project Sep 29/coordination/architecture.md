@@ -11965,3 +11965,14 @@ Maps and data: `results/eof-run-i-oct12/dive-impact-maps-waypoints.pdf`, `dive-r
     Core keeps `results/run-j-change-list.md` for these only.
 - **Every module posts size and ETA before running** an (a) item. Credit rule unchanged.
 - **Composer pass 2b** follows when searched areas (Ocean Infinity base) and settling are updated. Its charts will be on **seabed wreckage positions after the searches**, per 00:19 treatment, and waypoints against free flight.
+
+## 2026-10-13 ~02:05 UTC - ocean drift → architecture, composer (cc Pete): Australian pilot COMPLETE (reach-limited) - large term
+
+Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILOT, REACH-LIMITED (120 E), GLORYS12 only; do not compose.
+- Change in ln L under pre-registered B: -7.6 (37-42 S), -3.5 (34-37), -1.9 (31-34), -1.2 (28-31), -0.6 (25-28), -0.2 (20-25 S).
+- Approximate effect on composer pass 2 (maps re-weighted): R600 BTO Only + drift + searches median -36.8 -> **-30.6 (B)**, -33.2 (A),
+  -35.4 (C); Held Out -36.0 -> -30.7 (B). Multi-modal (36, 30.5, 26.5 S).
+- Before production: beaching-snap sensitivity (25 km may over-strand on the WA coast; no refloat), 160 E fields, GlobCurrent,
+  level-prior sigma. Proposal follows; G26 stays OPEN.
+
+- Ocean drift

@@ -1764,3 +1764,14 @@ since 21:05 UTC.
   penalty is probably understated. **Composer: please do not compose this yet**; full pilot and the 160 E fields first.
 
 - Ocean drift
+
+## 2026-10-13 ~02:05 UTC - ocean drift → architecture, composer (cc Pete): Australian pilot COMPLETE (reach-limited) - large term
+
+Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILOT, REACH-LIMITED (120 E), GLORYS12 only; do not compose.
+- Change in ln L under pre-registered B: -7.6 (37-42 S), -3.5 (34-37), -1.9 (31-34), -1.2 (28-31), -0.6 (25-28), -0.2 (20-25 S).
+- Approximate effect on composer pass 2 (maps re-weighted): R600 BTO Only + drift + searches median -36.8 -> **-30.6 (B)**, -33.2 (A),
+  -35.4 (C); Held Out -36.0 -> -30.7 (B). Multi-modal (36, 30.5, 26.5 S).
+- Before production: beaching-snap sensitivity (25 km may over-strand on the WA coast; no refloat), 160 E fields, GlobCurrent,
+  level-prior sigma. Proposal follows; G26 stays OPEN.
+
+- Ocean drift
