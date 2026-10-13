@@ -28,20 +28,21 @@ practice in the dissertation.
 
 ## 2. Proposed section budget
 
-7,400 words of main text, which is inside the stated range with ~600 words of headroom, against
-the surveyed median of 7,120. The middle column is what the assistant's draft
-`paper/proposed-draft/proposed-draft-v2.tex` currently carries, measured from the generated file.
+7,350 words of main text, which is inside the stated range with ~650 words of headroom,
+against the surveyed median of 7,120. The middle column is measured from the generated
+`paper/proposed-draft/proposed-draft-v2.tex`, computed rather than summed by hand, with the
+column sums asserted in the generating code.
 
 | Section | Draft now | Proposed | Change | Why |
 |---|---:|---:|---:|---|
-| Abstract | 155 | 150 | −5 | at the stated limit |
-| 1. Introduction | 798 | 850 | +52 | needs the two-paragraph literature position the draft lacks |
-| 2. Methodology | 2,094 | 2,250 | +156 | see below |
-| 3. Results | 2,646 | 3,300 | +654 | the paper's contribution; currently under-weight |
-| 4. Conclusions and recommendations | 464 | 700 | +236 | carries the research case; 464 words cannot |
+| Abstract | 154 | 150 | -4 | at the stated limit |
+| 1. Introduction | 810 | 850 | +40 | needs the two-paragraph literature position the draft lacks |
+| 2. Methodology | 2,390 | 2,250 | -140 | a net cut; see the split below |
+| 3. Results | 2,838 | 3,400 | +562 | the paper's contribution, and currently the thinnest part relative to what it carries |
+| 4. Conclusions and recommendations | 459 | 700 | +241 | carries the research case; 459 words cannot |
 | Declarations, acknowledgements | 104 | 150 | +46 | the AI declaration must be specific |
 | References | 183 | — | — | excluded from the word target |
-| **Main text total** | **6,506** | **7,400** | **+894** | |
+| **Main text total** (excluding abstract and references) | **6,601** | **7,350** | **+749** | |
 
 Within the methodology, the proposed split. The principle is that **every word spent restating
 Davey et al. is a word taken from the extensions**, so the inherited particle filter gets a
@@ -50,14 +51,15 @@ method by citing the originating paper's own equation numbers.
 
 | 2.x | Draft now | Proposed | Note |
 |---|---:|---:|---|
-| 2.1 parameters to be estimated | 452 | 400 | tighten; the four parameter blocks are clear |
-| 2.2 observations and functional models | 125 | 300 | **too thin.** Eight observation types named in one paragraph with no statement of what each constrains |
-| 2.3 why the system is under-determined | 308 | 300 | keep; the explicit count is the paper's clearest single argument |
-| 2.4 Monte Carlo under feasible dynamics | 258 | 300 | add the proposal and the coverage statement |
-| 2.5 weighting by the evidence | 131 | 200 | add tempering and the ESS criterion |
-| 2.6 conditional structure, staging | 248 | 250 | keep |
-| 2.7 impact-level likelihoods | 507 | 350 | compress: five modules at ~100 words each, each citing its own source |
-| 2.8 composition, mixing, convergence | 273 | 150 | move the detail into 3.1 where the numbers are |
+| 2.1 The parameters to be estimated | 456 | 400 | tighten; the four parameter blocks are clear |
+| 2.2 The observations, and the functional models that relate them to the trajectory | 209 | 300 | now carries the radar statement; needs what each observation constrains |
+| 2.3 Why the system is under-determined | 308 | 300 | keep; the explicit count is the paper's clearest single argument |
+| 2.4 Monte Carlo simulation constrained by feasible dynamics | 258 | 300 | add the proposal and the coverage statement |
+| 2.5 Weighting by the evidence | 131 | 200 | add tempering and the effective-sample-size criterion |
+| 2.6 The conditional structure, and why the estimator is staged | 248 | 250 | keep |
+| 2.7 The impact-level likelihoods | 507 | 350 | compress: five modules at about 70 words each, each citing its own source |
+| 2.8 Composition, mixing and convergence | 273 | 150 | move the detail into 3.1 where the numbers are |
+| **total** | **2,390** | **2,250** | |
 
 ## 3. Ranked results: what carries the paper
 

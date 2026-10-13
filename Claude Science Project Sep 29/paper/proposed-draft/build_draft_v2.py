@@ -201,8 +201,9 @@ TBL("Observation sets, their functional models and the quantities they constrain
 NOTE("The item count for z_deb is to be confirmed against the Malaysian debris summary before "
      "submission; the other counts are structural.")
 
+P("""The primary radar deserves a note, because its treatment is one of this study's departures. The continuous track ends at 18:01:49Z, which is where the prior is placed, following Davey et al. (2016), who place theirs at the penultimate radar point. Sparse military returns between 18:03Z and 18:15Z and a final return at 18:22:12Z were used only qualitatively by Davey et al. (2016, p.~21); here each is scored as a likelihood term, so the early trajectory is constrained by evidence rather than by a prior alone.""")
 H2("2.3.  Why the system is under-determined")
-P("""The primary radar deserves a note, because its treatment is one of this study's departures. The continuous track ends at 18:01:49Z, which is where the prior is placed, following Davey et al. (2016), who place theirs at the penultimate radar point. Sparse military returns between 18:03Z and 18:15Z and a final return at 18:22:12Z were used only qualitatively by Davey et al. (2016, p.~21); here each is scored as a likelihood term, so the early trajectory is constrained by evidence rather than by a prior alone. The observations in Table 1 are few relative to the unknown they constrain. After 18:22Z
+P("""The observations in Table 1 are few relative to the unknown they constrain. After 18:22Z
 the aircraft is observed at seven handshakes and at the two bursts of 00:19Z, which is of the
 order of twenty scalar quantities in total, of which several constrain the same geometry. A
 trajectory over six hours of flight, by contrast, requires of the order of a thousand
