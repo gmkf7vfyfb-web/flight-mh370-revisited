@@ -113,6 +113,8 @@ pub struct Arrival {
     /// Detection segment of the beaching point; None is a coast outside every segment.
     pub segment: Option<usize>,
     pub t_days: f64,
+    /// End of this stay on the coast (days; infinite without refloat): exposure to finders stops.
+    pub t_leave_days: f64,
     /// Statistical weight of the trajectory: 1 for a released particle, 1/M for each of the M
     /// children of a split particle (`[splitting]`). Sums over released particles stay unbiased.
     pub w: f64,
@@ -222,11 +224,12 @@ impl Recovery {
             let (mut s1, mut s2) = (0.0, 0.0);
             for ar in arrivals {
                 let z = coast_distance_km(&o.place, &ar.place) / h;
-                if !(z <= KERNEL_CUTOFF_SIGMA) || ar.t_days >= o.t_end_days {
+                let b = o.t_end_days.min(ar.t_leave_days);
+                if !(z <= KERNEL_CUTOFF_SIGMA) || ar.t_days >= b || b <= o.t_start_days {
                     continue;
                 }
                 tmp.iter_mut().for_each(|x| *x = 0.0);
-                self.delay_by_period(ar.t_days, o.t_start_days, o.t_end_days, &mut tmp);
+                self.delay_by_period(ar.t_days, o.t_start_days, b, &mut tmp);
                 let k = norm * (-0.5 * z * z).exp() / width;
                 let mut c = 0.0;
                 for p in 0..np {
@@ -245,7 +248,8 @@ impl Recovery {
         let mut big_a = vec![0.0; nb];
         let mut mass = Vec::new();
         for ar in arrivals {
-            if ar.t_days >= self.window_end_days {
+            let b = self.window_end_days.min(ar.t_leave_days);
+            if ar.t_days >= b {
                 continue;
             }
             self.segment_mass(ar, &mut mass);
@@ -253,7 +257,7 @@ impl Recovery {
                 continue;
             }
             tmp.iter_mut().for_each(|x| *x = 0.0);
-            self.delay_by_period(ar.t_days, 0.0, self.window_end_days, &mut tmp);
+            self.delay_by_period(ar.t_days, 0.0, b, &mut tmp);
             for &(s, m) in &mass {
                 for p in 0..np {
                     big_a[s * np + p] += ar.w * m * tmp[p] / n;

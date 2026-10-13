@@ -22,7 +22,7 @@ fn on0(s: f64) -> Place {
     Place::on_line(0, s, [0.0, 0.0])
 }
 fn arr(s: f64, t: f64, seg: usize) -> Arrival {
-    Arrival { place: on0(s), segment: Some(seg), t_days: t, w: 1.0 }
+    Arrival { place: on0(s), segment: Some(seg), t_days: t, t_leave_days: f64::INFINITY, w: 1.0 }
 }
 fn obs(s: f64, a: f64, b: f64, seg: usize) -> Observation {
     Observation { id: "t".into(), class: 0, place: on0(s), segment: seg, t_start_days: a, t_end_days: b }
@@ -618,4 +618,36 @@ fn segment_level_overrides_and_zero_find_coast() {
     assert!(ln(&coef(0.4), &[0.0, 0.0, 1.0]) < ln(&coef(0.4), &[0.0, 0.0, 0.0]));
     // The primary and an alternative with the same means give the same draws (common random numbers).
     assert_eq!(LevelDraws::new(3, &[0.0], 1.0, 16, 5), LevelDraws::from_block_means(&[0.0, 0.0, 0.0], 1.0, 16, 5));
+}
+
+#[test]
+fn refloat_episodes_limit_exposure() {
+    // Onshore current, refloat 0.2/day: items re-beach on the same coast in several episodes, each
+    // closed by its refloat; rate 0 gives one open episode, the first beaching, as before.
+    let p = [Particle::new([95.0, -37.0], T0, response(0.0, 0.0, 0.0, 0.0, 0.0))];
+    let end = T0 + 30.0 * 86_400.0;
+    let s0 = analytic([-0.5, 0.0], None, 94.0);
+    let (f0, e0, _) = s0.run_ep(&p, 1, Diffusion::None, end).unwrap();
+    let Fate::Beached { t: t0, .. } = f0[0] else { panic!("{:?}", f0[0]) };
+    assert_eq!(e0[0].len(), 1);
+    assert!(e0[0][0].t == t0 && e0[0][0].t_leave.is_infinite());
+    let many: Vec<Particle> = (0..50).map(|_| p[0]).collect();
+    let mut s1 = analytic([-0.5, 0.0], None, 94.0);
+    s1.refloat_per_day = 0.2;
+    let (f1, e1, _) = s1.run_ep(&many, 1, Diffusion::None, end).unwrap();
+    assert!(f1.iter().all(|f| matches!(f, Fate::Beached { t, .. } if *t == t0)), "fate stays the first beaching");
+    assert!(e1.iter().filter(|e| e.len() >= 2).count() >= 25, "re-beachings");
+    for e in &e1 {
+        for w in e.windows(2) {
+            assert!(w[0].t_leave.is_finite() && w[0].t < w[0].t_leave && w[0].t_leave <= w[1].t);
+        }
+    }
+    // Exposure cut: an arrival that leaves before a find's interval contributes nothing to it,
+    // and contributes to the total only up to its leave time.
+    let (rec, _, obs) = two_by_two();
+    let mut a = arr(0.0, 10.0, 0);
+    let full = rec.coefficients(&obs.iter().collect::<Vec<_>>(), &[a.clone()], 1);
+    a.t_leave_days = 11.0;
+    let cut = rec.coefficients(&obs.iter().collect::<Vec<_>>(), &[a], 1);
+    assert!(cut.big_a.iter().sum::<f64>() < full.big_a.iter().sum::<f64>());
 }

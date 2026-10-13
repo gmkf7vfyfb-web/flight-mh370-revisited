@@ -55,7 +55,7 @@ use rng::Rng;
 use segments::{Segment, SegmentMap};
 use serde::Deserialize;
 use source_grid::{SourceGrid, WeightedCell};
-use transport::{Fate, OceanSetup, TransportParams};
+use transport::{Episode, Fate, OceanSetup, TransportParams};
 
 const REFERENCE_MAP: &str = include_str!("data/reference-map-no-exhaustion-prior-m0019b.csv");
 
@@ -260,6 +260,9 @@ pub(crate) struct Params {
     leeway_absorbs_stokes: bool,
     #[serde(default)]
     explicit_residual: bool,
+    /// Declared sensitivity: refloat rate per day after beaching (0 = off, the default).
+    #[serde(default)]
+    refloat_per_day: f64,
     transport: TransportParams,
     diffusivity: DiffusivityParams,
     /// One shared-environment realisation per seed (K drawn from the prior with that seed).
@@ -424,7 +427,7 @@ impl Locator {
             (None, Some(l)) => self.edges.iter().find(|e| e.line == l && place.s_km >= e.start_km && place.s_km < e.end_km).map(|e| e.segment),
             (None, None) => None,
         };
-        Arrival { place, segment, t_days, w: 1.0 }
+        Arrival { place, segment, t_days, t_leave_days: f64::INFINITY, w: 1.0 }
     }
 }
 
@@ -444,28 +447,33 @@ struct Ensemble {
 fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t_end: f64, responses: &[ObjectResponse], seed: u64, diffusion: Diffusion, split: Option<&SplittingParams>) -> Result<(Ensemble, f64), String> {
     let particles: Vec<Particle> = responses.iter().map(|&response| Particle::new(release, t0, response)).collect();
     let mut e = Ensemble { arrivals: Vec::new(), model_error: 0.0, left_domain: 0.0, on_land: 0, split: 0, children: 0 };
-    let tally = |e: &mut Ensemble, i: usize, f: Fate, w: f64| match f {
-        Fate::Beached { t, at, line, chainage_km } => {
-            let mut a = loc.arrival((t - t0) / 86_400.0, at, line, chainage_km);
+    // Arrivals come from the beaching episodes (one per stay on the coast; with refloat off, the
+    // first beaching only, as before); the fate gives the non-beach counts.
+    let tally = |e: &mut Ensemble, i: usize, f: Fate, eps: &[Episode], w: f64| {
+        for ep in eps {
+            let mut a = loc.arrival((ep.t - t0) / 86_400.0, ep.at, ep.line, ep.chainage_km);
+            a.t_leave_days = (ep.t_leave - t0) / 86_400.0;
             a.w = w;
             e.arrivals.push((i, a));
         }
-        Fate::Afloat => {}
-        Fate::LeftDomain => e.left_domain += w,
-        Fate::ReleasedOnLand => e.on_land += 1,
-        Fate::ModelError => e.model_error += w,
+        match f {
+            Fate::Beached { .. } | Fate::Afloat => {}
+            Fate::LeftDomain => e.left_domain += w,
+            Fate::ReleasedOnLand => e.on_land += 1,
+            Fate::ModelError => e.model_error += w,
+        }
     };
     let Some(sp) = split.filter(|s| !s.targets.is_empty() && s.targets.iter().any(|g| g.factor.unwrap_or(s.factor) > 1)) else {
-        let (fates, steps) = setup.run(&particles, seed, diffusion, t_end)?;
+        let (fates, eps, steps) = setup.run_ep(&particles, seed, diffusion, t_end)?;
         for (i, f) in fates.into_iter().enumerate() {
-            tally(&mut e, i, f, 1.0);
+            tally(&mut e, i, f, &eps[i], 1.0);
         }
         return Ok((e, steps));
     };
     let dt = sp.snapshot_hours * 3600.0;
     let mut times: Vec<f64> = (1..).map(|k| t0 + k as f64 * dt).take_while(|&t| t < t_end).collect();
     times.push(t_end);
-    let (fates, pos, mut steps) = setup.run_tracks(&particles, seed, diffusion, &times)?;
+    let (fates, eps, pos, mut steps) = setup.run_tracks_ep(&particles, seed, diffusion, &times)?;
     let mut kids: Vec<Particle> = Vec::new();
     let mut parent: Vec<usize> = Vec::new();
     let mut weight: Vec<f64> = Vec::new();
@@ -484,7 +492,7 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
                     weight.push(1.0 / m as f64);
                 }
             }
-            _ => tally(&mut e, i, f, 1.0),
+            _ => tally(&mut e, i, f, &eps[i], 1.0),
         }
     }
     if !kids.is_empty() {
@@ -495,11 +503,11 @@ fn run_ensemble(setup: &OceanSetup, loc: &Locator, release: [f64; 2], t0: f64, t
         let n = particles.len();
         let mut batch: Vec<Particle> = particles.iter().map(|q| Particle { end_time: Some(q.release_time), ..*q }).collect();
         batch.extend(kids.iter().copied());
-        let (kf, ks) = setup.run(&batch, seed, diffusion, t_end)?;
+        let (kf, keps, ks) = setup.run_ep(&batch, seed, diffusion, t_end)?;
         steps += ks;
         e.children = kids.len();
         for (k, f) in kf.into_iter().enumerate().skip(n) {
-            tally(&mut e, parent[k - n], f, weight[k - n]);
+            tally(&mut e, parent[k - n], f, &keps[k], weight[k - n]);
         }
     }
     Ok((e, steps))
@@ -671,6 +679,7 @@ pub(crate) fn build(p: &Params) -> Result<Built, String> {
     let (rec, loc) = build_recovery(p)?;
     let domain = Domain { lon_min: p.domain[0], lon_max: p.domain[1], lat_min: p.domain[2], lat_max: p.domain[3] };
     let mut setup = OceanSetup::new(&p.transport, domain, p.dt_hours * 3600.0, p.threads, p.leeway_absorbs_stokes, p.explicit_residual, p.land_gap_is_beaching)?;
+    setup.refloat_per_day = p.refloat_per_day;
     if let Some(oe) = &p.ocean_error {
         setup.ocean_error = ocean::OceanErrorModel::eddying(oe.sigma_m_s, oe.length_scale_km * 1000.0, oe.time_scale_days * 86_400.0, oe.modes);
     }

@@ -27,6 +27,17 @@ pub enum Fate {
     ModelError,
 }
 
+/// One stay on the coast: beached at `t`, back at sea at `t_leave` (infinite when it never
+/// refloats; always so with refloat off, where the only episode is the first beaching).
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Episode {
+    pub t: f64,
+    pub at: [f64; 2],
+    pub line: Option<u32>,
+    pub chainage_km: f64,
+    pub t_leave: f64,
+}
+
 #[derive(Deserialize, Clone, Debug)]
 #[serde(deny_unknown_fields, tag = "kind", rename_all = "kebab-case")]
 pub enum TransportParams {
@@ -154,6 +165,10 @@ pub struct OceanSetup {
     /// Transport-model error, one realisation per integration seed (environment realisation).
     /// Default none; see `[ocean_error]` in the run config.
     pub ocean_error: OceanErrorModel,
+    /// Refloat after beaching (declared sensitivity, default off): rate per day of a beached item
+    /// returning to sea. When on, every beaching is an `Episode` whose exposure to finders ends at
+    /// its refloat; the `Fate` stays the first beaching (or the first non-beach end).
+    pub refloat_per_day: f64,
 }
 
 /// A `.series.json` manifest is a multi-file time series (`GridField::load_series`, which joins
@@ -189,7 +204,7 @@ impl OceanSetup {
                 },
             ),
         };
-        Ok(OceanSetup { current, wind10, stokes, coast, domain, step_s, threads, leeway_absorbs_stokes, explicit_residual, land_gap_is_beaching, ocean_error: OceanErrorModel::none() })
+        Ok(OceanSetup { current, wind10, stokes, coast, domain, step_s, threads, leeway_absorbs_stokes, explicit_residual, land_gap_is_beaching, ocean_error: OceanErrorModel::none(), refloat_per_day: 0.0 })
     }
 
     fn forcing(&self) -> Forcing<'_> {
@@ -203,15 +218,31 @@ impl OceanSetup {
 
     /// Integrate to `end_time` through one ocean realisation (`seed`, `diffusion`). Returns one
     /// fate per particle and the number of integrator steps taken.
+    #[cfg_attr(not(test), allow(dead_code))]
     pub fn run(&self, particles: &[Particle], seed: u64, diffusion: Diffusion, end_time: f64) -> Result<(Vec<Fate>, f64), String> {
-        let (fates, _, steps) = self.run_tracks(particles, seed, diffusion, &[end_time])?;
+        let (fates, _, _, steps) = self.run_tracks_ep(particles, seed, diffusion, &[end_time])?;
         Ok((fates, steps))
+    }
+
+    /// As [`run`](Self::run), with every particle's beaching episodes.
+    pub fn run_ep(&self, particles: &[Particle], seed: u64, diffusion: Diffusion, end_time: f64) -> Result<(Vec<Fate>, Vec<Vec<Episode>>, f64), String> {
+        let (fates, eps, _, steps) = self.run_tracks_ep(particles, seed, diffusion, &[end_time])?;
+        Ok((fates, eps, steps))
     }
 
     /// As [`run`](Self::run), with the afloat position of every particle at each of `output_times`
     /// (ascending; the run ends at the last). `None` where the particle was not afloat.
+    #[cfg_attr(not(test), allow(dead_code))]
     pub fn run_tracks(&self, particles: &[Particle], seed: u64, diffusion: Diffusion, output_times: &[f64]) -> Result<(Vec<Fate>, Vec<Vec<Option<[f64; 2]>>>, f64), String> {
+        let (fates, _, pos, steps) = self.run_tracks_ep(particles, seed, diffusion, output_times)?;
+        Ok((fates, pos, steps))
+    }
+
+    /// As [`run_tracks`](Self::run_tracks), with every particle's beaching episodes.
+    #[allow(clippy::type_complexity)]
+    pub fn run_tracks_ep(&self, particles: &[Particle], seed: u64, diffusion: Diffusion, output_times: &[f64]) -> Result<(Vec<Fate>, Vec<Vec<Episode>>, Vec<Vec<Option<[f64; 2]>>>, f64), String> {
         let end_time = *output_times.last().ok_or("debris-drift: no output times")?;
+        let refloat = self.refloat_per_day > 0.0;
         let spec = RunSpec {
             forcing: self.forcing(),
             coast: self.coast.as_ref(),
@@ -220,7 +251,7 @@ impl OceanSetup {
             output_times: output_times.to_vec(),
             diffusion,
             ocean_error: self.ocean_error,
-            refloat: Refloat::Off,
+            refloat: if refloat { Refloat::RatePerDay(self.refloat_per_day) } else { Refloat::Off },
             seed,
             leeway_absorbs_stokes: self.leeway_absorbs_stokes,
             accept_partial_stokes_overlap: false,
@@ -234,50 +265,66 @@ impl OceanSetup {
             Vec::new()
         };
         let mut steps = 0.0;
-        let fates = out
-            .tracks
-            .iter()
-            .zip(particles)
-            .map(|(tr, p)| {
-                let mut fate = Fate::Afloat;
-                let mut t_end = p.end_time.unwrap_or(end_time).min(end_time);
-                for ev in &tr.events {
-                    match *ev {
-                        Event::Beached { t, at, line, chainage_m, .. } => {
+        let mut episodes = Vec::with_capacity(particles.len());
+        let mut fates = Vec::with_capacity(particles.len());
+        for (tr, p) in out.tracks.iter().zip(particles) {
+            let mut fate = Fate::Afloat;
+            let mut eps: Vec<Episode> = Vec::new();
+            let horizon = p.end_time.unwrap_or(end_time).min(end_time);
+            let mut t_end = horizon;
+            for ev in &tr.events {
+                match *ev {
+                    Event::Beached { t, at, line, chainage_m, .. } => {
+                        if eps.is_empty() {
                             fate = Fate::Beached { t, at, line: Some(line), chainage_km: chainage_m / 1000.0 };
+                        }
+                        eps.push(Episode { t, at, line: Some(line), chainage_km: chainage_m / 1000.0, t_leave: f64::INFINITY });
+                        if !refloat {
                             t_end = t;
                             break;
                         }
-                        Event::FieldGap { t, at, gap: FieldGap::Land, .. } if self.land_gap_is_beaching => {
+                    }
+                    Event::Refloated { t, .. } => {
+                        if let Some(e) = eps.last_mut() {
+                            e.t_leave = t;
+                        }
+                    }
+                    Event::FieldGap { t, at, gap: FieldGap::Land, .. } if self.land_gap_is_beaching => {
+                        if eps.is_empty() {
                             fate = Fate::Beached { t, at, line: None, chainage_km: f64::NAN };
-                            t_end = t;
-                            break;
                         }
-                        // A field's extent equals the domain, so an RK2 midpoint just outside it
-                        // is the same physical event as leaving the domain.
-                        Event::LeftDomain { t, .. } | Event::FieldGap { t, gap: FieldGap::OutsideDomain, .. } => {
+                        eps.push(Episode { t, at, line: None, chainage_km: f64::NAN, t_leave: f64::INFINITY });
+                        t_end = t;
+                        break;
+                    }
+                    // A field's extent equals the domain, so an RK2 midpoint just outside it
+                    // is the same physical event as leaving the domain.
+                    Event::LeftDomain { t, .. } | Event::FieldGap { t, gap: FieldGap::OutsideDomain, .. } => {
+                        if eps.is_empty() {
                             fate = Fate::LeftDomain;
-                            t_end = t;
-                            break;
                         }
-                        Event::ReleasedOnLand { t, .. } => {
-                            fate = Fate::ReleasedOnLand;
-                            t_end = t;
-                            break;
-                        }
-                        Event::FieldGap { t, .. } | Event::NonFinitePosition { t } => {
+                        t_end = t;
+                        break;
+                    }
+                    Event::ReleasedOnLand { t, .. } => {
+                        fate = Fate::ReleasedOnLand;
+                        t_end = t;
+                        break;
+                    }
+                    Event::FieldGap { t, .. } | Event::NonFinitePosition { t } => {
+                        if eps.is_empty() {
                             fate = Fate::ModelError;
-                            t_end = t;
-                            break;
                         }
-                        Event::Refloated { .. } => {}
+                        t_end = t;
+                        break;
                     }
                 }
-                steps += ((t_end - p.release_time) / self.step_s).max(0.0);
-                fate
-            })
-            .collect();
-        Ok((fates, positions, steps))
+            }
+            steps += ((t_end - p.release_time) / self.step_s).max(0.0);
+            fates.push(fate);
+            episodes.push(eps);
+        }
+        Ok((fates, episodes, positions, steps))
     }
 }
 
