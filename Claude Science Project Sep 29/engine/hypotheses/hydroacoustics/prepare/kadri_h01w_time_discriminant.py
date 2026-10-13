@@ -111,18 +111,29 @@ def stats_series(tg, p, tmpl):
     e = np.sqrt(np.maximum(signal.correlate(y2, np.ones(len(k)), mode="valid"), 1e-30))
     mf = np.abs(num) / e
     out["matched_filter"] = sliding_window_view(mf, min(n, len(mf))).max(1)
+    # window length in samples, and the lag from a base-series index to the EVENT time it reports
+    out["_n"] = {"envelope_peak_pa": n, "rms_pm1s_pa": int(2 * FS), "stalta_max": min(n, len(sl)),
+                 "matched_filter": min(n, len(mf))}
+    out["_lag"] = {"envelope_peak_pa": 0.0, "rms_pm1s_pa": 0.0, "stalta_max": 0.0,
+                   "matched_filter": 2.0}      # T_C2 begins 2 s before its event onset
     out["_env"], out["_y"] = env, y
     return out
 
 
 def at_time(tg, ser, key, t):
-    """Value of a sliding-window statistic for the window centred on t."""
+    """Value of a sliding-window statistic for the window CENTRED on t.
+
+    CORRECTION made before any value was quoted (13 Oct): two of the four statistics were indexed from
+    the window start without their own base lag, which put the RMS window 2.0 s early and the matched
+    filter 2.0 s late (the T_C2 template's event onset sits 2 s inside the 22 s template). Centring is
+    now derived from each series' own base lag and window length, which is what the pre-registration
+    says. The envelope and STA/LTA indices are unchanged.
+    """
     v = ser[key]
+    t0, n, lag = tg[0], ser["_n"][key], ser["_lag"][key]
     if key == "stalta_max":
         t0 = ser["stalta_t0"]
-        j = int(round((t - HALF - t0) * FS))
-    else:
-        j = int(round((t - HALF - tg[0]) * FS))
+    j = int(round((t - lag - t0) * FS - (n - 1) / 2))
     j = max(0, min(j, len(v) - 1))
     return float(v[j])
 
@@ -158,6 +169,10 @@ def main(kd, out_dir):
                 r[f"n_null_{tag}"] = int(len(nl))
                 r[f"floor_{tag}"] = float(1.0 / len(nl))
                 r[f"rank_{tag}"] = hit
+                # Overlapping windows inflate both rank and n_null by about one window length, so the
+                # count of INDEPENDENT windows at least as extreme is the honest unit.
+                r[f"indep_rank_{tag}"] = round(hit / S["c"]["_n"][key], 2)
+                r[f"n_indep_{tag}"] = round(len(nl) / S["c"]["_n"][key], 1)
             rows.append(r)
     R = pd.DataFrame(rows)
     piv = R.pivot(index="statistic", columns="option", values="observed")
@@ -200,7 +215,7 @@ def main(kd, out_dir):
 
     # ---- the two H08S trace plots required by the work order
     shots, h08s_series, _ = KN.h08s_shot_table(kd)
-    for name, a, b, marks in [("predicted-window", "01:16:20", "01:17:10", [("01:16:19", "01:17:33")]),
+    for name, a, b, marks in [("predicted-window", "01:15:50", "01:18:25", [("01:16:19", "01:17:33")]),
                               ("flagged-outliers", "01:11:30", "01:14:10", [])]:
         tge, pe = h08s_series["e"]
         m = (tge >= KN.secs(a)) & (tge <= KN.secs(b))
@@ -208,25 +223,32 @@ def main(kd, out_dir):
         ax.plot(tge[m], pe[m], lw=0.5, color="0.3")
         if name == "predicted-window":
             for wa, wb in marks:
-                ax.axvspan(KN.secs(wa), KN.secs(wb), color="#fdae61", alpha=0.35,
-                           label="predicted 95 per cent window, text option")
+                ax.axvspan(KN.secs(wa), KN.secs(wb), color="#fdae61", alpha=0.30,
+                           label=f"predicted 95 per cent window, text option, {wa} to {wb}")
             ax.axvline(KN.secs("01:16:47"), color="#4575b4", lw=1.0, ls=":",
-                       label="gap-power excursion, pre-registered target")
+                       label="gap-power excursion at 01:16:47, pre-registered target")
+            ax.axvline(KN.secs("01:18:19"), color="#762a83", lw=1.0, ls="-.",
+                       label="last closed airgun cycle, 01:18:19")
         else:
             for hms, z in FLAGGED:
                 ax.axvline(KN.secs(hms), color="#b2182b", lw=1.0)
-                ax.annotate(f"{hms}\nz = {z:+.2f}", (KN.secs(hms), ax.get_ylim()[1]), fontsize=6,
-                            ha="center", va="top")
-        for t in shots[(shots.t >= KN.secs(a)) & (shots.t <= KN.secs(b))].t.values:
-            ax.plot([t], [0], marker="|", ms=8, color="#1a9850")
+                ax.annotate(f"{hms}  z = {z:+.2f}", (KN.secs(hms), ax.get_ylim()[1]), fontsize=6,
+                            ha="left", va="bottom", rotation=0,
+                            xytext=(2, 2), textcoords="offset points", color="#b2182b")
+        st = shots[(shots.t >= KN.secs(a)) & (shots.t <= KN.secs(b))].t.values
+        lo, hi = ax.get_ylim()
+        ax.plot(st, np.full(len(st), lo + 0.04 * (hi - lo)), marker="^", ms=4, ls="none",
+                color="#1a9850", label=f"airgun shot peak ({len(st)} in view)")
+        ax.set_ylim(lo, hi)
         ax.set_xlim(KN.secs(a), KN.secs(b))
-        tick = np.arange(KN.secs(a), KN.secs(b) + 1, 10 if name == "predicted-window" else 20)
+        tick = np.arange(KN.secs(a), KN.secs(b) + 1, 15 if name == "predicted-window" else 20)
         ax.set_xticks(tick)
         ax.set_xticklabels([KN.utc(v) for v in tick], fontsize=6, rotation=45, ha="right")
         ax.set_xlabel("time, UTC on 8 March 2014")
         ax.set_ylabel("pressure, Pa")
-        ax.set_title(f"Diego Garcia South (H08S), digitised figure 9 panel e, {a} to {b}")
-        ax.legend(frameon=False, fontsize=7, loc="upper left")
+        ax.set_title(f"Diego Garcia South (H08S), digitised figure 9 panel e, {a} to {b}",
+                     pad=14 if name == "flagged-outliers" else 6)
+        ax.legend(frameon=False, fontsize=7, loc="upper left" if name == "predicted-window" else "lower right")
         fig.tight_layout()
         fig.savefig(out / f"kadri-northern-h08s-trace-{name}.png")
         plt.close(fig)

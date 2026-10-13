@@ -205,8 +205,16 @@ def h08s_shot_table(kd):
         out.append(S)
         # stop-condition check: samples available per shot window at the stated resolution
         n_per_shot = int(round((TPL.W1 - TPL.W0) * H.FS))
+        raw = pd.read_csv(Path(kd) / "kadri-figure-extraction" / "figure9-vector-traces"
+                          / f"kadri-2024-figure9-panel-{pnl}-H08S.csv")
+        dv = np.diff(np.sort(raw.plotted_time_s.values))
         res_check.append(dict(panel=pnl, fs_hz=H.FS, samples_per_shot_window=n_per_shot,
-                              n_shots=int(len(S)), vertex_spacing_median_s=float(np.median(np.diff(tg)))))
+                              n_shots=int(len(S)), n_vertices=int(len(raw)),
+                              native_vertex_spacing_median_s=float(np.median(dv)),
+                              native_vertex_spacing_p95_s=float(np.percentile(dv, 95)),
+                              resample_grid_s=float(1 / H.FS), envelope_boxcar_s=0.25,
+                              computable="yes: 360 samples per 9 s shot window, native spacing well "
+                                         "inside the 0.25 s envelope smoothing"))
     return pd.concat(out, ignore_index=True), series, res_check
 
 
@@ -229,11 +237,12 @@ def h08s_part(shots, series):
                         window_utc=f"{utc(a)}-{utc(b)}", statistic=stat, direction=mode,
                         role="primary" if (stat, mode) in PRIMARY else "secondary",
                         n_shots_in_window=int(len(inwin)))
-            if len(inwin) == 0:
+            vals = inwin[stat].values.astype(float) if len(inwin) else np.array([])
+            if len(inwin) == 0 or not np.isfinite(vals).any():
                 rows.append(base | dict(computable=False,
-                                        note="no airgun cycle in window; last cycle closes 01:18:29"))
+                                        note="statistic undefined in window: no closed airgun cycle "
+                                             "(the last cycle closes 01:18:29)"))
                 continue
-            vals = inwin[stat].values.astype(float)
             obs = float(np.nanmax(vals) if mode == "max" else np.nanmin(vals))
             k = int(np.isfinite(vals).sum())
             pnl = inwin.panel.iloc[0]
@@ -248,6 +257,10 @@ def h08s_part(shots, series):
                 r[f"n_null_{tag}"] = int(len(nl))
                 r[f"floor_{tag}"] = float(1.0 / len(nl))
                 r[f"rank_{tag}"] = int(hit)
+                # Overlapping blocks inflate rank and n_null by about k, so the count of INDEPENDENT
+                # blocks at least as extreme is the honest unit.
+                r[f"indep_rank_{tag}"] = round(hit / k, 2)
+                r[f"n_indep_{tag}"] = round(len(nl) / k, 1)
             rows.append(r)
         # D4 on the digitised envelope, for the caption window where no cycle exists
         tg, p = series["e"] if b > secs("01:10:00") else series["d"]
@@ -331,6 +344,7 @@ def perth_part(cal_cache):
                 obs = w[det]
                 rows.append(base | dict(statistic=det.upper(), direction="max", role="primary",
                                         computable=True, observed=float(obs), covered_s=w["covered_s"],
+                                        peak_utc=(w[f"{det}_t"] or "")[11:23], recording=name,
                                         snr_db=w["snr_db"], spl_max_db=w["spl_max"],
                                         p_panel=float((nl >= obs).sum() / len(nl)), n_null_panel=int(len(nl)),
                                         floor_panel=float(1.0 / len(nl)), rank_panel=int((nl >= obs).sum())))
@@ -349,8 +363,10 @@ def perth_part(cal_cache):
                     k = min(max(int(round((sb - sa) * N.FS_D)), 1), len(arr))
                     nvals.append(sliding_window_view(arr, k)[::N.FS_D].max(1))
                 nl = np.concatenate(nvals)
+                tpk = t0 + pd.Timedelta(seconds=float(t4[m][np.argmax(x4[m])]))
                 rows.append(base | dict(statistic="D4", direction="max", role="primary", computable=True,
-                                        observed=obs, covered_s=w["covered_s"], snr_db=w["snr_db"],
+                                        observed=obs, covered_s=w["covered_s"], recording=name,
+                                        peak_utc=str(tpk)[11:23], snr_db=w["snr_db"],
                                         spl_max_db=w["spl_max"], p_panel=float((nl >= obs).sum() / len(nl)),
                                         n_null_panel=int(len(nl)), floor_panel=float(1.0 / len(nl)),
                                         rank_panel=int((nl >= obs).sum()),
@@ -433,13 +449,22 @@ def main(kd, out_dir):
     pred = h08s_predicted(energies)
     x, y = pd_curve()
     med_E = float(shots.median_shot_E_peak.iloc[0])
+    # CORRECTION made before any value was quoted (13 Oct). The likelihood ratio must use ONE detector on
+    # both sides. P_D here is measured under the committed +/-3 robust-z outlier rule, so its own
+    # false-alarm rate is the floor of that same curve (the P_D at the lowest injected level, where there
+    # is effectively no signal), NOT the 0.3/0.1/0.05 p-value screen tiers, which belong to a different
+    # detector. Mixing them gave LR > 1 for a non-detection, which cannot be right.
+    alpha_det = float(y.min())
     lr = []
     for p in PS:
         for eta in ETAS:
             snr = 10 * np.log10(pred["exposure"][f"{p}|{eta}"] / med_E)
             P_D = float(np.interp(snr, x, y))
             lr.append(dict(station="H08S", dive_p=p, eta=eta, snr_pred_db=float(snr), p_d=P_D,
-                           lr_nondetection=float((1 - P_D) / (1 - TIERS["screen"]))))
+                           alpha_detector=alpha_det,
+                           lr_nondetection=float((1 - P_D) / (1 - alpha_det)),
+                           p_d_at_or_below_false_alarm=bool(P_D <= alpha_det * 1.0001),
+                           snr_below_lowest_injection=bool(snr < x.min())))
     C = pd.concat([A, B], ignore_index=True)
     C.to_csv(out / "candidates.csv", index=False)
     pd.DataFrame(lr).to_csv(out / "likelihood_ratio.csv", index=False)

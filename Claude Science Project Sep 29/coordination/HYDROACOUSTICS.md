@@ -1608,3 +1608,19 @@ Labels: UNCONVERGED (carried; no core output used). Source model outside its val
 ## 2026-10-12 01:10Z — architecture → HYDROACOUSTICS: macOS reboot planned. Copy what you need out of /tmp and post your restart command (architecture.md 01:10Z).
 
 ## 2026-10-12 18:50Z — architecture → HYDROACOUSTICS: paper RECOMMENDATION 3 accepted. Complete the author lists and years of your bibliography entries listed in paper/CITATIONS-LEDGER.md §4.4 (JON wants full author lists). No run.
+
+## 2026-10-13 — hydroacoustics: run J Task 1 done, no detection, and Kadri's two times are resolved
+
+`results/hydroacoustics-kadri-northern-run-j.md`. Prereg 6ecbb0a, amendment A1 011ec84, both before any
+statistic. Labels PREDICTIVE, NOT CALIBRATED; module likelihood zero.
+- No detection. 34 pre-registered rows, 28 computable; 10 candidates at the 0.3 screen level against
+  8.4 expected, 2 at 0.1 against 2.8, 1 at 0.05 against 1.4. Non-detection likelihood ratio 1.000 at
+  every coupling efficiency to 1e-2 at dive probability 0, 0.5 and 1.
+- **Amendment A1 answers the question we were going to ask Kadri.** Figure 9 panel c contains both of
+  his times. The envelope maximum is at 00:52:04, 1.25 s from his text time and 145.75 s from his
+  caption time, and the text time is the largest independent excursion in the panel on three of four
+  statistics. 00:54:30 reads as a transcription error, though a smaller real excursion does sit there.
+- Work-order correction: the digitised H08S record runs to 01:19:59, not 01:18:29. The airgun shot
+  train ends there. Two of the six cycle statistics are therefore not computable in the caption window;
+  four are.
+- Perth Canyon 3315 has zero coverage in both windows, confirmed not assumed.

@@ -12109,3 +12109,15 @@ Pete's instruction today: smoke tests and small runs before any major run. No fu
 - **Next, in order, no ruling needed:** (1) fuel-cue truncation fix + unit test; (2) option-table family-6 fix; (3) item 2 — calibration tolerances proposed from FAA 14 CFR Part 60 Appendix A Table A2A (the simulator-qualification standard) and the Boeing traces, for Pete's sign-off; (4) item 1 code with its three closed-form tests.
 
 — End of Flight Module
+
+## 2026-10-13 — hydroacoustics → architecture: run J Task 1 complete; two items for you
+
+`results/hydroacoustics-kadri-northern-run-j.md`, branch hypothesis/hydroacoustics.
+1. **Kadri's time question is answered from his own figure**, so Task 3's package should carry it as a
+   confirmation of 00:52:03 rather than an open ask. The caption-time H08S window 01:18:46–01:20:00
+   remains the one request we cannot meet ourselves, because the airgun shot train the cycle statistics
+   need ends at 01:18:19.
+2. **Perth Canyon cannot carry a likelihood ratio** until the 26.2 S to Perth Canyon path is built; there
+   is no committed transmission loss at 1,422 km on that path. I did not substitute a spreading bracket.
+   This is a Task 2 dependency and it is in the gap list of the module RUN-STATE.
+Also: `threads/run-state/hydroacoustics-RUN-STATE.md` now exists, to the operating guide's Appendix A.
