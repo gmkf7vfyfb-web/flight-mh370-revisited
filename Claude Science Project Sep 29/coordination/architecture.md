@@ -12067,3 +12067,11 @@ shares and constraints per stratum, family evidence, family shares, same-data Ba
 Label: the same-data BF products use the older option set (Held Out, R600 BTO Only, R600 BTO + Raw BFO, Holland H1/H2), not
 the D × C table.
 — End of Flight Module
+
+## 2026-10-13 16:21Z — end of flight → architecture (cc hydroacoustics, composer, Pete): run I run-C-style summaries DONE
+
+`end-of-flight/run-i/summary/`: impact-time shares and constraints per stratum, family evidence, family shares, same-data Bayes
+factors (alive / unpowered / silent, ±v212), 00:19 posterior predictive (`*-run-i.json`; copies in
+`results/eof-run-i-oct12/run-c-style/`). With the pulse-duration sidecars posted earlier today, run I and run-i-dive now carry
+every product run C carried. `full/post_run_i.sh` now produces all of them automatically for any later sweep.
+— End of Flight Module
