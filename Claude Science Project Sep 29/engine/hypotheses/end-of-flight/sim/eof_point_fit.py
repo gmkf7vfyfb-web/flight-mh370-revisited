@@ -60,9 +60,35 @@ THETA2 = [("spiral_doubling_s", 3.0, 600.0, 90.0), ("trim_cl_offset", -0.30, 0.1
           ("dive_trigger_eas_mid_kt", 150.0, 260.0, 205.0), ("dive_trigger_eas_scale_kt", 2.0, 40.0, 15.0)]
 
 
+# --round3 (Pete's decision 14 Oct; PREREG-v3.md fixed before fitting): lagged lift replaces n and k; turn direction by propulsion at loss.
+ROUND3 = False
+THETA3 = [("spiral_doubling_s", 3.0, 600.0, 90.0), ("trim_cl_offset", -0.30, 0.10, 0.0), ("windmilling_per_engine", 0.0, 0.0015, 0.00075),
+          ("rat_increment", 0.0001, 0.0006, 0.00035), ("spiral_bank_cap_deg", 30.0, 90.0, 60.0), ("free_lift_lag_s", 0.0, 30.0, 8.0),
+          ("free_lift_gain", 0.3, 1.5, 1.0),
+          ("residual_bank_deg", 2.0, 60.0, 35.0), ("residual_bank_left_probability", 0.02, 0.98, 0.8),
+          ("residual_bank_toward_dead_probability", 0.02, 0.98, 0.5),
+          ("dive_trigger_eas_mid_kt", 150.0, 260.0, 205.0), ("dive_trigger_eas_scale_kt", 2.0, 40.0, 15.0)]
+
+
+def asymmetric_loss(c):
+    """Round 3 covariate (PREREG-v3): control lost within 2 s of the first flame-out, one engine still thrusting (cases 4, 6, 10)."""
+    return c.ev["t_uncontrolled_s"] - c.ev["t_first_flameout_s"] <= 2.0
+
+
+def p_left(c, tp):
+    """Probability of a LEFT residual bank for case c. Round 3: towards the dead engine (the right one, Boeing SIR App. 1.6E) with
+    probability p_dead when the loss is asymmetric, else p_sym; earlier rounds: one probability."""
+    if ROUND3 and asymmetric_loss(c):
+        return 1.0 - tp[2]
+    return tp[1]
+
+
 def p_divergent(c, tp):
     """Prior probability of the divergent spiral for case c: round 1 the state-independent weight; round 2 the dive trigger at the
     case's EAS at the loss (sim/boeing_events.py), profile.rs `enter_free`."""
+    if ROUND3:
+        mid, scale = tp[3], tp[4]
+        return 1.0 / (1.0 + np.exp(-(c.ev["eas_at_uncontrolled_kt"] - mid) / scale))
     if ROUND2:
         mid, scale = tp[2], tp[3]
         return 1.0 / (1.0 + np.exp(-(c.ev["eas_at_uncontrolled_kt"] - mid) / scale))
@@ -188,7 +214,7 @@ def fly(test_bin, rows):
     with tempfile.TemporaryDirectory() as d:
         jp, op = os.path.join(d, "jobs.csv"), os.path.join(d, "out.bin")
         with open(jp, "w") as fh:
-            fh.write("id,alt,tas,gam,hdg,mass,dcl,bank0,t2,cap,floor,oswald,ldmax,kw,tuck,wm,rat" + (",n,k" if len(rows[0]) == 19 else "") + "\n")
+            fh.write("id,alt,tas,gam,hdg,mass,dcl,bank0,t2,cap,floor,oswald,ldmax,kw,tuck,wm,rat" + (",n,k" if len(rows[0]) >= 19 else "") + (",tau,gain" if len(rows[0]) == 21 else "") + "\n")
             for r in rows: fh.write(",".join(repr(float(v)) for v in r) + "\n")
         env = dict(os.environ, EOF_FIT_JOBS=jp, EOF_FIT_OUT=op, RAYON_NUM_THREADS="1")
         subprocess.run([test_bin, "--ignored", "--exact", "end_of_flight::integrator::tests::boeing_fit_batch", "--test-threads", "1", "-q"],
@@ -212,7 +238,7 @@ class Case:
         return (np.r_[self.t[:i], self.t_loss + t], np.r_[self.x[:i], self.x[i] + e / NM], np.r_[self.y[:i], self.y[i] + n / NM], np.r_[self.h[:i], h])
 
 
-def flight_table(cases, test_bin, t2, dcl, wm, rat, nuis, cap=CAP_DEG, n_exp=None, k_damp=None):
+def flight_table(cases, test_bin, t2, dcl, wm, rat, nuis, cap=CAP_DEG, n_exp=None, k_damp=None, lag=None):
     """Every latent flight for every case at one deterministic theta. Returns per case: arrays of (bank_index, z, k, sign) and features."""
     rows, meta = [], []
     jid = 0
@@ -225,7 +251,7 @@ def flight_table(cases, test_bin, t2, dcl, wm, rat, nuis, cap=CAP_DEG, n_exp=Non
                         if b == 0.0 and s < 0 and z == 0:
                             continue       # wings level neutral: direction undefined, flown once
                         rows.append((jid, alt, tas, gam, hdg, MASS_KG, dcl, s * b, t2 if z else 0.0, cap, FLOOR_DEG,
-                                     nu["oswald"], nu["ld_max"], nu["wave_drag"], nu["tuck"], wm, rat) + (() if n_exp is None else (n_exp, k_damp)))
+                                     nu["oswald"], nu["ld_max"], nu["wave_drag"], nu["tuck"], wm, rat) + (() if n_exp is None else (n_exp, k_damp)) + (() if lag is None else tuple(lag)))
                         meta.append((ci, gi, z, k, s)); jid += 1
     traces = fly(test_bin, rows)
     out = [[] for _ in cases]
@@ -272,7 +298,10 @@ class Objective:
         visited; the feature dicts (about 1 KB a flight) are dropped and rebuilt on demand, to bound memory over a long fit."""
         key = tuple(np.round(td, 10))
         if key not in self.cache or (need_features and self.cache[key][0][2] is None):
-            tab = flight_table(self.cases, self.bin, *td[:4], self.nuis, *td[4:7])
+            if ROUND3:
+                tab = flight_table(self.cases, self.bin, *td[:4], self.nuis, td[4], 0.0, 0.0, (td[5], td[6]))
+            else:
+                tab = flight_table(self.cases, self.bin, *td[:4], self.nuis, *td[4:7])
             self.cache[key] = [(np.array([m for m, _ in tc]), np.array([flight_loglik(c, f) for _, f in tc]), tc) for c, tc in zip(self.cases, tab)]
         res = self.cache[key]
         if not need_features:
@@ -284,7 +313,8 @@ class Objective:
         for ci, (m, ll, _) in enumerate(self.tables(td)):
             if idx is not None and ci not in idx: out.append(np.nan); continue
             gi, z, s = m[:, 0].astype(int), m[:, 1], m[:, 3]
-            ps = np.where((BANK_GRID[gi] == 0.0) & (z == 0), 1.0, np.where(s < 0, pl, 1 - pl))
+            plc = p_left(self.cases[ci], tp)
+            ps = np.where((BANK_GRID[gi] == 0.0) & (z == 0), 1.0, np.where(s < 0, plc, 1 - plc))
             wd = p_divergent(self.cases[ci], tp)
             w = bw[gi] * np.where(z == 1, wd, 1 - wd) * ps / K
             ok = (w > 0) & np.isfinite(ll)
@@ -322,7 +352,7 @@ def fit(obj, maxiter, log, smoke=False):
     if ND == 5:
         x0[4] = 60.0    # start the free cap inside its bounds (to_unit needs lo < x < hi); Boeing's derived peak banks are 53-60 deg
     if ND == 7:
-        x0[6] = 0.01    # inside (-0.5, 2): to_unit needs a strict interior start
+        if ROUND2: x0[6] = 0.01    # inside (-0.5, 2): to_unit needs a strict interior start
         grid = [(t2, d) for t2 in (5.0, 12.0, 25.0, 50.0, 100.0, 200.0) for d in (-0.20, -0.15, -0.10, -0.05, 0.0)]
     if smoke:
         grid = [(90.0, -0.15), (8.0, -0.15)]   # code-path check only
@@ -363,7 +393,8 @@ def predict(obj, td, tp):
     bmax, pl = tp[0], tp[1]; bw = bank_weights(bmax); K = len(obj.nuis); out = {}
     for c, (m, _, tc) in zip(obj.cases, obj.tables(td, need_features=True)):
         gi, z, s = m[:, 0].astype(int), m[:, 1], m[:, 3]
-        ps = np.where((BANK_GRID[gi] == 0.0) & (z == 0), 1.0, np.where(s < 0, pl, 1 - pl))
+        plc = p_left(c, tp)
+        ps = np.where((BANK_GRID[gi] == 0.0) & (z == 0), 1.0, np.where(s < 0, plc, 1 - plc))
         wd = p_divergent(c, tp)
         w = bw[gi] * np.where(z == 1, wd, 1 - wd) * ps / K; w = w / w.sum()
         fl = [f for _, f in tc]
@@ -387,12 +418,14 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("mode"); ap.add_argument("sims"); ap.add_argument("events"); ap.add_argument("out")
     ap.add_argument("--exclude", default=None); ap.add_argument("--test-bin", default=None); ap.add_argument("--maxiter", type=int, default=300)
     ap.add_argument("--nuis", type=int, default=4); ap.add_argument("--smoke", action="store_true")
-    ap.add_argument("--free-cap", action="store_true"); ap.add_argument("--round2", action="store_true")
+    ap.add_argument("--free-cap", action="store_true"); ap.add_argument("--round2", action="store_true"); ap.add_argument("--round3", action="store_true")
     a = ap.parse_args()
     if a.free_cap:
         THETA.insert(4, CAP_THETA); ND = 5
     if a.round2:
         THETA[:] = THETA2; ND = 7; ROUND2 = True
+    if a.round3:
+        THETA[:] = THETA3; ND = 7; ROUND3 = True
     if a.mode == "features":
         main_features(a)
     elif a.mode == "fit":

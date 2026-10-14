@@ -41,7 +41,7 @@ use super::aero::{Aero, Configuration};
 #[cfg(test)]
 use super::aero::Asymmetry;
 #[cfg(test)]
-use super::profile::free_lift_c_l;
+use super::profile::{free_lift_c_l, LiftLag};
 use super::atmos;
 
 #[cfg(test)]
@@ -1034,9 +1034,11 @@ mod tests {
         let cfg = Configuration::glide();
         for line in text.lines().skip(1).filter(|l| !l.trim().is_empty()) {
             let v: Vec<f64> = line.split(',').map(|x| x.trim().parse().expect("number")).collect();
-            assert!(v.len() == 17 || v.len() == 19, "jobs row needs 17 or 19 columns: {line}");
+            assert!(v.len() == 17 || v.len() == 19 || v.len() == 21, "jobs row needs 17, 19 or 21 columns: {line}");
             // Item 2 round 2: optional free-flight lift-speed exponent and path-angle damping (profile.rs `free_lift_c_l`).
-            let (n_exp, k_damp) = if v.len() == 19 { (v[17], v[18]) } else { (0.0, 0.0) };
+            let (n_exp, k_damp) = if v.len() >= 19 { (v[17], v[18]) } else { (0.0, 0.0) };
+            // Item 2 round 3: optional lift lag (s) and gain (profile.rs `LiftLag`).
+            let mut lag = if v.len() == 21 { LiftLag::new(v[19], v[20]) } else { LiftLag::new(0.0, 1.0) };
             let (id, alt, tas, gam, hdg, mass, dcl, bank0, t2, cap, floor) = (v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10]);
             let mut it = Integrator { step_s: 2.0, fine_step_s: 0.2, fine_window_s: 30.0, max_flight_s: 10_800.0, ..integrator(2.0) };
             it.aero.oswald = v[11];
@@ -1066,6 +1068,7 @@ mod tests {
                     let deg = if t2 > 0.0 { bank0.signum() * (f64::max(bank0.abs(), floor) * 2f64.powf(t / t2)).min(cap) } else { bank0 };
                     let deg = if t2 > 0.0 && bank0 == 0.0 { deg.abs() } else { deg };
                     let c = free_lift_c_l(c_l, tas, n_exp, k_damp, b, deg.to_radians(), it.aero.wing_area_m2);
+                    let c = lag.c_l(c, b, t, it.aero.wing_area_m2);
                     (Command::FixedTrim { c_l: c, bank_rad: deg.to_radians() }, cfg, 0.0)
                 },
                 &mut |b, _| {
@@ -1131,6 +1134,51 @@ mod tests {
         let got = damped[1] / damped[0];
         assert!((got - want).abs() < 0.03, "k = 0.5: peak ratio {got}, closed form {want} ({damped:?})");
         assert!(undamped[1].abs() > undamped[0].abs(), "k < 0 undamps: {undamped:?}");
+    }
+
+    /// Item 2 round 3: the lagged lift. tau = 0, g = 1 is the trim lift exactly; tau = 0 with gain g scales the lift-speed stiffness
+    /// by g, so the constant-density period is Lanchester's / sqrt(g); a lag tau > 0 lengthens the period (and, for the Boeing
+    /// glide, brings the damping towards neutral: checked in the fit, not asserted here beyond the sign of the period change).
+    #[test]
+    fn lagged_lift_matches_its_closed_forms() {
+        let mut aero = reference();
+        aero.ld_max_clean = 1e9;
+        aero.oswald = 1e9;
+        aero.wave_drag_coefficient = 0.0;
+        aero.tuck_cl_per_mach = 0.0;
+        let s_ = aero.wing_area_m2;
+        let it = Integrator { aero, fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 600.0, track_load_factor_floor_g: None, piloted_load_factor_ceiling_g: None, peaks_until_unix_s: None };
+        let (alt, mass, tas) = (20_000.0, 174_000.0, 200.0);
+        let frozen = Frozen { pressure_pa: geo::isa_pressure_pa(alt), temperature_k: atmos::isa_temperature_k(alt) };
+        let q = atmos::dynamic_pressure_pa(frozen.pressure_pa, tas / atmos::sound_speed_mps(frozen.temperature_k));
+        let c_l = it.level_c_l(mass, q);
+        let cfg = Configuration { engines_thrusting: 0, engines_windmilling: 0, rat_deployed: false, speedbrake_eighths: 0, landing_configuration: false };
+        let b0 = body(alt, tas, 0.5);
+        assert_eq!(LiftLag::new(0.0, 1.0).c_l(c_l, &b0, 0.0, s_), c_l, "tau = 0, g = 1 is the trim lift exactly");
+        // At the frozen atmosphere's dynamic pressure (LiftLag::c_l_at_q), so the closed form holds.
+        let period = |tau: f64, g: f64| {
+            let mut lag = LiftLag::new(tau, g);
+            let mut up: Vec<f64> = Vec::new();
+            let mut prev: Option<(f64, f64)> = None;
+            let qf = |b: &Body| atmos::dynamic_pressure_pa(frozen.pressure_pa, b.tas_mps / atmos::sound_speed_mps(frozen.temperature_k));
+            it.run(b0, &frozen, None, &mut |b, _| (Command::FixedTrim { c_l: lag.c_l_at_q(c_l, qf(b), b.unix_s, s_), bank_rad: 0.0 }, cfg, 0.0), &mut |b, _| {
+                let d = b.pressure_altitude_ft - alt;
+                if let Some((t0, d0)) = prev {
+                    if d0 < 0.0 && d >= 0.0 {
+                        up.push(t0 + (b.unix_s - t0) * (-d0) / (d - d0));
+                    }
+                }
+                prev = Some((b.unix_s, d));
+            });
+            (up[2] - up[0]) / 2.0
+        };
+        let lanchester = Integrator::phugoid_period_s(tas);
+        let g = 0.7;
+        let p = period(0.0, g);
+        assert!((p - lanchester / g.sqrt()).abs() / (lanchester / g.sqrt()) < 0.005, "gain {g}: {p} s against {} s", lanchester / g.sqrt());
+        let p0 = period(0.0, 1.0);
+        let p10 = period(10.0, 1.0);
+        assert!(p10 > p0 * 1.05, "a 10 s lag lengthens the period: {p10} s against {p0} s");
     }
 
     fn one_engine() -> Configuration {

@@ -176,6 +176,17 @@ pub struct EnvelopeConfig {
     pub dive_trigger_eas_mid_kt: Option<Range>,
     #[serde(default = "default_dive_trigger_scale")]
     pub dive_trigger_eas_scale_kt: Range,
+    /// Item 2 round 3 (PREREG-v3): lagged free-flight lift. Lift relaxes towards L_ref [1 + g (q/q_ref - 1)] with time constant tau,
+    /// L_ref and q_ref the trim lift and dynamic pressure at the start of free flight. tau = 0, g = 1 (the defaults, no uniform drawn)
+    /// is the earlier model exactly.
+    #[serde(default = "zero_range")]
+    pub free_lift_lag_s: Range,
+    #[serde(default = "unit_range")]
+    pub free_lift_gain: Range,
+    /// Item 2 round 3: when control is lost with one engine still thrusting, the free-flight bank goes towards the dead engine with this
+    /// probability (Boeing SIR App. 1.6E: yaw towards the dead engine during the asymmetry). Absent (default): off.
+    #[serde(default)]
+    pub residual_bank_toward_dead_probability: Option<f64>,
     /// Where the fixed-trim lift coefficient of a maintained-then-lost descent is referenced (Pete's
     /// ruling 10 Oct 2026, item 3, after the architecture 00:19 study). `false` (the default, the earlier
     /// behaviour): the level C_L of the TAKEOVER state plus the drawn trim offset, fixed at sampling time.
@@ -432,6 +443,51 @@ fn default_pushover_hold() -> Range {
 fn zero_range() -> Range {
     Range::Fixed(0.0)
 }
+fn unit_range() -> Range {
+    Range::Fixed(1.0)
+}
+
+/// Item 2 round 3: lagged free-flight lift (EnvelopeConfig::free_lift_lag_s / free_lift_gain). Shared by `Flying` and the calibration
+/// fixture. With tau = 0 and gain = 1 it returns the trim lift coefficient unchanged.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct LiftLag {
+    pub tau_s: f64,
+    pub gain: f64,
+    state: Option<(f64, f64, f64, f64)>, // (L_ref N, q_ref Pa, L N, t_last s)
+}
+
+impl LiftLag {
+    pub fn new(tau_s: f64, gain: f64) -> Self {
+        LiftLag { tau_s, gain, state: None }
+    }
+
+    pub fn is_off(&self) -> bool {
+        self.tau_s == 0.0 && self.gain == 1.0
+    }
+
+    /// The lift coefficient to fly at `elapsed_s` (any monotone clock), given the trim lift coefficient.
+    pub fn c_l(&mut self, c_l_trim: f64, body: &Body, elapsed_s: f64, wing_area_m2: f64) -> f64 {
+        if self.is_off() {
+            return c_l_trim;
+        }
+        let t = atmos::isa_temperature_k(body.pressure_altitude_ft);
+        let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(body.pressure_altitude_ft), body.tas_mps.max(1.0) / atmos::sound_speed_mps(t));
+        self.c_l_at_q(c_l_trim, q, elapsed_s, wing_area_m2)
+    }
+
+    /// The same law at a given dynamic pressure (the pressure-altitude q above; exposed for the closed-form test).
+    pub fn c_l_at_q(&mut self, c_l_trim: f64, q: f64, elapsed_s: f64, wing_area_m2: f64) -> f64 {
+        if self.is_off() {
+            return c_l_trim;
+        }
+        let (l_ref, q_ref, l, t_last) = *self.state.get_or_insert((c_l_trim * q * wing_area_m2, q, c_l_trim * q * wing_area_m2, elapsed_s));
+        let target = l_ref * (1.0 + self.gain * (q / q_ref - 1.0));
+        let l = if self.tau_s > 0.0 { target + (l - target) * (-(elapsed_s - t_last).max(0.0) / self.tau_s).exp() } else { target };
+        self.state = Some((l_ref, q_ref, l, elapsed_s));
+        l / (q * wing_area_m2)
+    }
+}
+
 fn default_dive_trigger_scale() -> Range {
     Range::Fixed(10.0)
 }
@@ -528,6 +584,13 @@ impl EnvelopeConfig {
         let k_lo = match self.free_path_damping { Range::Fixed(v) => v, Range::Uniform([a, _]) => a };
         if !(k_lo > -1.0) {
             return Err("envelope.free_path_damping must be > -1 (bounds in PREREG-v2: [-0.5, 2])".into());
+        }
+        self.free_lift_lag_s.check("envelope.free_lift_lag_s")?;
+        self.free_lift_gain.check("envelope.free_lift_gain")?;
+        if let Some(p) = self.residual_bank_toward_dead_probability {
+            if !(0.0..=1.0).contains(&p) {
+                return Err("envelope.residual_bank_toward_dead_probability must be in [0, 1]".into());
+            }
         }
         if let Some(m) = self.dive_trigger_eas_mid_kt {
             m.check("envelope.dive_trigger_eas_mid_kt")?;
@@ -1026,6 +1089,11 @@ pub struct Flying {
     pub free_v_ref_mps: Option<f64>,
     pub dive_trigger: Option<(f64, f64, f64, f64)>,
     pub dive_trigger_probability: Option<f64>,
+    /// Item 2 round 3: the lagged-lift state, and the towards-the-dead-engine rule (uniform, probability, dead side), applied at the
+    /// start of free flight if one engine is thrusting then; `bank_sign_override` is the sign it chose.
+    pub lift_lag: LiftLag,
+    pub toward_dead: Option<(f64, f64, f64)>,
+    pub bank_sign_override: Option<f64>,
     /// The trim C_L latched at the loss of control when it is referenced to the state at loss.
     pub loss_c_l: Option<f64>,
     /// Thrust setting held in free flight by an engine still running (item 2: autopilot lost at the first flame-out, the
@@ -1044,6 +1112,7 @@ impl Flying {
     /// flight, capped. The sign of the drawn bank sets the direction; a drawn 0 diverges to the right.
     fn free_bank(&mut self, bank0_rad: f64, elapsed_s: f64) -> f64 {
         let since = *self.free_since_s.get_or_insert(elapsed_s);
+        let bank0_rad = match self.bank_sign_override { Some(sg) => sg * bank0_rad.abs(), None => bank0_rad };
         match self.spiral_doubling_s {
             None => bank0_rad,
             Some(t2) => {
@@ -1062,6 +1131,11 @@ impl Flying {
         }
         if self.free_speed_exponent != 0.0 {
             self.free_v_ref_mps = Some(body.tas_mps);
+        }
+        if let (Some((u, p, side)), 1) = (self.toward_dead, self.engines_thrusting) {
+            if side != 0.0 {
+                self.bank_sign_override = Some(if u < p { side } else { -side });
+            }
         }
         if let Some((u, mid, scale, t2)) = self.dive_trigger {
             let p = 1.0 / (1.0 + (-(eas_kt(body) - mid) / scale).exp());
@@ -1105,6 +1179,9 @@ impl Flying {
             free_v_ref_mps: None,
             dive_trigger: None,
             dive_trigger_probability: None,
+            lift_lag: LiftLag::new(0.0, 1.0),
+            toward_dead: None,
+            bank_sign_override: None,
             loss_c_l: None,
             free_setting: 0.0,
             pushover_vmo_kt: cfg.pushover_vmo_kt,
@@ -1186,6 +1263,7 @@ impl Flying {
                     self.enter_free(body);
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
                     let c_l = self.free_lift(c_l, body, bank_rad);
+                    let c_l = self.lift_lag.c_l(c_l, body, elapsed_s, self.aero.wing_area_m2);
                     let c_l = self.pitchdown_c_l(body, elapsed_s, c_l);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
@@ -1274,6 +1352,7 @@ impl Flying {
                     self.enter_free(body);
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
                     let c_l = self.free_lift(c_l, body, bank_rad);
+                    let c_l = self.lift_lag.c_l(c_l, body, elapsed_s, self.aero.wing_area_m2);
                     let c_l = self.pitchdown_c_l(body, elapsed_s, c_l);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
@@ -1360,6 +1439,9 @@ pub(super) mod tests {
             free_path_damping: Range::Fixed(0.0),
             dive_trigger_eas_mid_kt: None,
             dive_trigger_eas_scale_kt: Range::Fixed(10.0),
+            free_lift_lag_s: Range::Fixed(0.0),
+            free_lift_gain: Range::Fixed(1.0),
+            residual_bank_toward_dead_probability: None,
             rapid_descent_probability: 0.0,
             rapid_descent_rate_fpm: default_rapid_rate(),
             pushover_load_factor_floor_g: default_pushover_floor(),

@@ -723,6 +723,9 @@ const LATENTS: &[&str] = &[
     // Item 2 round 2 (PREREG-v2): free-flight lift-speed exponent and path-rate damping drawn (0 when off), and the dive-trigger
     // probability at the start of free flight (NaN when the trigger is off or free flight never began).
     "free_speed_exponent", "free_path_damping", "dive_trigger_probability",
+    // Item 2 round 3 (PREREG-v3): lift lag (s) and gain drawn, and the bank sign chosen by the towards-the-dead-engine rule (-1/+1;
+    // NaN when the rule did not apply).
+    "free_lift_lag_s", "free_lift_gain", "bank_sign_toward_dead_rule",
 ];
 
 /// Epochs whose module-flown state is emitted as latents, in `LATENTS` order.
@@ -1472,6 +1475,9 @@ impl EndOfFlight {
                 flying.free_speed_exponent,
                 flying.free_path_damping,
                 flying.dive_trigger_probability.unwrap_or(f64::NAN),
+                flying.lift_lag.tau_s,
+                flying.lift_lag.gain,
+                flying.bank_sign_override.unwrap_or(f64::NAN),
             ]);
             debug_assert_eq!(latents.len(), LATENTS.len());
             let idx = |f: Family| self.families.iter().position(|g| *g == f);
@@ -1559,6 +1565,17 @@ impl EndOfFlight {
         // Item 2 round 2: free-flight lift-speed exponent and path-rate damping (Fixed 0 by default: no uniform drawn).
         flying.free_speed_exponent = env.free_lift_speed_exponent.draw(uniform);
         flying.free_path_damping = env.free_path_damping.draw(uniform);
+        // Item 2 round 3: lagged lift (Fixed by default: no uniform drawn) and the towards-the-dead-engine rule (one-engine descents
+        // only, when configured and the dry pool fixes the side).
+        flying.lift_lag = profile::LiftLag::new(env.free_lift_lag_s.draw(uniform), env.free_lift_gain.draw(uniform));
+        if let (Some(p), Propulsion::OneThrusting) = (env.residual_bank_toward_dead_probability, propulsion) {
+            let side = match tank_pools(takeover) {
+                Some((l, r)) if l <= 0.0 && r > 0.0 => -1.0,
+                Some((l, r)) if r <= 0.0 && l > 0.0 => 1.0,
+                _ => 0.0,
+            };
+            flying.toward_dead = Some((uniform(), p, side));
+        }
         // Item 2: autopilot lost at the first flame-out - the running engine keeps its lever setting in free flight.
         if onset.mechanism == Initiation::FlameOutAssociated && propulsion == Propulsion::OneThrusting {
             flying.free_setting = self.params.boeing_alt_thrust_setting.draw(uniform);
