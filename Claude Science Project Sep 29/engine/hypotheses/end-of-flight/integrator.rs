@@ -975,6 +975,91 @@ mod tests {
     }
 
 
+    /// The Boeing simulator's wind as fitted from its circling loops (sim/boeing_events.py): from 246 deg, 23.5 kt at sea
+    /// level + 0.79 kt per 1,000 ft, held above 25,000 ft. ISA temperature. Used only by the item 2 fit fixture.
+    struct BoeingWind;
+
+    impl Atmosphere for BoeingWind {
+        fn at(&self, _: f64, altitude_ft: f64, _: f64, _: f64) -> Air {
+            let kt = 23.5 + 0.79 * altitude_ft.clamp(0.0, 25_000.0) / 1000.0;
+            let to = (246.0f64 + 180.0).to_radians(); // blowing towards 66 deg
+            let v = kt * 1852.0 / 3600.0;
+            Air {
+                temperature_k: atmos::isa_temperature_k(altitude_ft),
+                pressure_pa: geo::isa_pressure_pa(altitude_ft),
+                wind_east_mps: v * to.sin(),
+                wind_north_mps: v * to.cos(),
+                declination_deg: 0.0,
+                surface_pressure_altitude_ft: 0.0,
+                clamped: false,
+            }
+        }
+    }
+
+    /// Item 2 fixture, not a check: the module's free dynamics after a loss of control, flown from each Boeing case's state at
+    /// the loss (altitude, TAS, flight-path angle, heading from the trace), for a batch of parameter rows, so that
+    /// `sim/eof_point_fit.py` measures the module's traces with the SAME code as the Boeing traces. Integrator settings
+    /// are the production run.toml values (step 2 s, fine step 0.2 s within 30 s of the ground). The free law restates
+    /// profile.rs `Flying::free_bank` and the trim-at-loss reference (`trim_reference_at_loss = true`: level C_L at the
+    /// loss state plus `dcl`), because the fixture drives the integrator directly; the regression test
+    /// `the_trim_at_loss_can_be_referenced_to_the_state_at_loss` pins the production side of that law.
+    ///   jobs CSV (EOF_FIT_JOBS), one row per flight, header skipped:
+    ///     id, alt_ft, tas_mps, gamma_deg, heading_deg, mass_kg, dcl, bank0_deg (signed, + right), t2_s (<= 0: neutral),
+    ///     cap_deg, floor_deg, oswald, ld_max, wave_drag, tuck, windmilling, rat
+    ///   output (EOF_FIT_OUT): binary little-endian f32 rows (id, t_s, east_m, north_m, alt_ft), 1 Hz plus the impact row.
+    /// Run: `EOF_FIT_JOBS=.. EOF_FIT_OUT=.. cargo test --release -p mh370-hypotheses -- --ignored boeing_fit_batch`.
+    #[test]
+    #[ignore]
+    fn boeing_fit_batch() {
+        let (Ok(jobs), Ok(out)) = (std::env::var("EOF_FIT_JOBS"), std::env::var("EOF_FIT_OUT")) else { return };
+        let text = std::fs::read_to_string(&jobs).expect("jobs file");
+        let mut bytes: Vec<u8> = Vec::new();
+        let cfg = Configuration::glide();
+        for line in text.lines().skip(1).filter(|l| !l.trim().is_empty()) {
+            let v: Vec<f64> = line.split(',').map(|x| x.trim().parse().expect("number")).collect();
+            assert_eq!(v.len(), 17, "jobs row needs 17 columns: {line}");
+            let (id, alt, tas, gam, hdg, mass, dcl, bank0, t2, cap, floor) = (v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10]);
+            let mut it = Integrator { step_s: 2.0, fine_step_s: 0.2, fine_window_s: 30.0, max_flight_s: 10_800.0, ..integrator(2.0) };
+            it.aero.oswald = v[11];
+            it.aero.ld_max_clean = v[12];
+            it.aero.wave_drag_coefficient = v[13];
+            it.aero.tuck_cl_per_mach = v[14];
+            it.aero.windmilling_per_engine = v[15];
+            it.aero.rat_increment = v[16];
+            let start = Body { pressure_altitude_ft: alt, tas_mps: tas, gamma_rad: gam.to_radians(), heading_rad: hdg.to_radians(), mass_kg: mass, ..body(alt, tas, gam) };
+            let t_k = atmos::isa_temperature_k(alt);
+            let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(alt), tas / atmos::sound_speed_mps(t_k));
+            let c_l = mass * atmos::G0 / (q * it.aero.wing_area_m2) + dcl;
+            let (lat0, lon0) = (start.latitude_deg, start.longitude_deg);
+            let (m_lat, m_lon) = (111_132.954, 111_132.954 * lat0.to_radians().cos());
+            let mut push = |t: f64, b: &Body, alt_ft: f64| {
+                for x in [id, t, (b.longitude_deg - lon0) * m_lon, (b.latitude_deg - lat0) * m_lat, alt_ft] {
+                    bytes.extend_from_slice(&(x as f32).to_le_bytes());
+                }
+            };
+            let mut next = start.unix_s;
+            let trace = it.run(
+                start,
+                &BoeingWind,
+                None,
+                &mut |b, _| {
+                    let t = b.unix_s - start.unix_s;
+                    let deg = if t2 > 0.0 { bank0.signum() * (f64::max(bank0.abs(), floor) * 2f64.powf(t / t2)).min(cap) } else { bank0 };
+                    let deg = if t2 > 0.0 && bank0 == 0.0 { deg.abs() } else { deg };
+                    (Command::FixedTrim { c_l, bank_rad: deg.to_radians() }, cfg, 0.0)
+                },
+                &mut |b, _| {
+                    if b.unix_s >= next {
+                        push(b.unix_s - start.unix_s, b, b.pressure_altitude_ft);
+                        next += 1.0;
+                    }
+                },
+            );
+            push(trace.impact.unix_s - start.unix_s, &trace.impact, 0.0);
+        }
+        std::fs::write(&out, bytes).expect("write output");
+    }
+
     /// A bank angle under fixed trim turns the aircraft and reduces the vertical component of
     /// lift, so the descending spiral falls out of the same equations as the phugoid.
     #[test]

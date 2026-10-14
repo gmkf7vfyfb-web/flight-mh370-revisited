@@ -21,8 +21,15 @@ from option_table_0019 import W_S
 FAMS = (("A1", (1,)), ("A2", (2,)), ("B", (3,)), ("outside B (6)", (6,)))   # ruling 6: code 6 = deliberate onset then no intervention
 
 
-def load_full(run, seed=1):
-    run = pathlib.Path(run); meta = json.loads((run / "run.json").read_text())
+def load_full(run, seed=None):
+    """Full run tree, or a slim per-seed dir from slim_impacts.py (the joined V2 production output). Seed from EOF_SEED, default 1."""
+    import os
+    seed = int(os.environ.get("EOF_SEED", "1")) if seed is None else seed
+    run = pathlib.Path(run)
+    if (run / f"seed-{seed}" / "impacts32.npy").exists():
+        from joined_v2 import load
+        return load(run, seed)
+    meta = json.loads((run / "run.json").read_text())
     Y = np.load(run / "bto-bfo" / f"seed-{seed}" / "impacts.npy", mmap_mode="r"); ix = {c: i for i, c in enumerate(meta["impact_columns"])}
     return meta, (lambda n: np.asarray(Y[:, ix[n]], np.float64)), ix
 
