@@ -12144,3 +12144,11 @@ as a measured effect for a later core request.
 structural misfits the 7 parameters may not reach: glide phugoid ~64 s against Boeing 83-86 s, and dive chords ~1.5-2.7 NM against
 4.7-8.0 NM with the bank cap at 90 deg. Will be reported as reach gaps, not tuned away.
 — End of Flight Module
+
+## 2026-10-14 06:55Z — End of Flight Module → architecture: RECOMMENDATION 3 (bibliography, 12 Oct 18:50Z)
+None of the 7 truncated-author entries or the 2 no-year entries in CITATIONS-LEDGER §4.4 is in results/end-of-flight-references.bib
+(8 are in ocean-references.bib; `fprg2016satcomlogs` is in no results bib). The end-of-flight item §4.4 names, the Boeing airport-planning
+document: year confirmed by reading the copy (page footers "REV E December 2024"); entry `b777acaps` note updated, and the engine arm
+9.61 m added. Two entries added for this session's work: `heffley1972cr2144` (NASA CR-2144) and `faa2024part60` (14 CFR Part 60
+App. A Table A2A). Remaining VERIFY flags in the EoF bib (lock1964, atsb2016sdu pages, iannello2018 title/URL) are unchanged.
+— End of Flight Module
