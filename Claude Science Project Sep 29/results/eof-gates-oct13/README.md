@@ -114,3 +114,38 @@ fix proposals in `coordination/architecture.md`.
 every family under every cell — PASSES AT PILOT SCALE ONLY, with B at 11–40 effective impacts, so the statistic is unconverged.
 
 **Parameter bounds.** Unchanged from run-i-dive; deliberate-onset control sampling [1,1,1,1] in the pilot (`smoke/deliberate-control-all4.toml`).
+
+## 6. In-module fix for the 22:41 sampling (13–14 Oct): scored candidate selection
+
+Pete asked for a fix inside this module, with no core change. The runner already passes each descent hook a `score` callback (the
+`[terminal] target` option, core measurement model); the module had never used it. New, behind `proposal.score_select_k` (default 0 =
+off, earlier behaviour exactly): a child that takes over before 23:15 or 00:11 flies K candidate descent sets and keeps one per slot
+with probability π_j = α/K + (1 − α) g_j / Σ g, g = exp(score), correction −ln(K π_j). Exact for any such rule; the defensive share
+α = 0.2 bounds the weight at 1/α. Two unit tests (closed-form prior recovery; the real module's mean correction unchanged).
+
+**Defective binary, recorded:** `mh370-eof-o13c` was copied from a stale build without the defensive share (α = 0). Its two pilots
+failed test 6 (mean correction 0.68 against 1.05; reproduced on a 2,000-parent harness at 0.677 ± 0.003 against 1.054 ± 0.002) and
+are kept for the record only. `mh370-eof-o13d` (sha256 bf18d786…) passes on the same harness (1.053 ± 0.005).
+
+**Pilot P2241-sel8d** (seed 1, 100k × 4 × 4, K = 8, target m0011, fuel cue exact; 732 s at 12 threads, 5.0× the unaimed run):
+
+| test 6 (sampling weight alone, against the unaimed run) | value |
+|---|---|
+| family shares A1 / A2 / B / outside B | 0.1088 / 0.2377 / 0.4898 / 0.1638 against 0.1090 / 0.2368 / 0.4898 / 0.1644 |
+| max weighted-CDF deviation, onset time / impact latitude | ≤ 0.0041 / ≤ 0.0070 in every family |
+| mean stored correction | 1.0004 ± 0.0013 |
+
+**PASS.**
+
+| cell (run-i-dive control prior) | B effective impacts, unaimed → aimed | A1 | A2 |
+|---|---|---|---|
+| D0 (23:15 + 00:11) | 26 → **137** | 921 → 924 | 1,804 → 1,917 |
+| D1 R600 BTO | 40 → **89** | 1,051 → 1,051 | 2,086 → 2,056 |
+| D2 R600 BTO + BFO | 41 → 41 | 85 → 85 | 286 → 286 |
+| D3 both raw | 11 → 11 | 3 → 3 | 17 → 17 |
+| D4 both, start-up offset | 25 → 25 | 14 → 14 | 86 → 86 |
+
+Under the all-four control sampling B goes 35 → 193 (D0) and 58 → 128 (D1). **The fix works where it can act and nowhere else:** the
+B mass that survives the 00:19 BFO cells (D2–D4) takes over after 00:11, so its 23:15 and 00:11 states are core-flown and the
+selection does not touch it; families A1 and A2 are pure cruise to 00:11 and are unchanged. Next pilot: the same selection aimed at
+the 00:19 data as well (`smoke/score-select-2241-all.toml`, target m0011+both, every child).

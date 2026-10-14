@@ -1,0 +1,8 @@
+# Scored candidate selection aimed at the 00:19 data as well (proposal only; exact correction, defensive share 0.2; test 6 per run).
+# Every child (any takeover time) flies K = 8 candidate descent sets; the score is the target option "m0011+both" with the three 00:19
+# BFO models mixed by their priors, i.e. 23:15 + 00:11 + R600 BTO/BFO + R1200 BFO. Aims at the R1200-using cells (D3, D4, D5).
+[terminal]
+target = "m0011+both"
+[hypotheses.end-of-flight.proposal]
+score_select_k = 8
+score_select_epochs = ["m2315", "m0011", "m0019a", "m0019b"]

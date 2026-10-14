@@ -292,7 +292,7 @@ struct Params {
 /// exact corrections, ln(prior / proposal), carried in each descent's `log_q_correction`:
 /// - `maintained_then_lost_boost` a: the control draw from q = (1 - a) p + a 1{MaintainedThenLost};
 /// - `loss_window_unix_s` and `loss_window_weight`: [`profile::LossWindow`].
-#[derive(Deserialize, Debug, Clone, PartialEq, Default)]
+#[derive(Deserialize, Debug, Clone, PartialEq)]
 #[serde(deny_unknown_fields)]
 struct ProposalParams {
     #[serde(default)]
@@ -301,19 +301,108 @@ struct ProposalParams {
     loss_window_unix_s: [f64; 2],
     #[serde(default)]
     loss_window_weight: f64,
+    /// SCORED CANDIDATE SELECTION (13 Oct 2026; results/eof-gates-oct13 §4 finding 1). When a child takes over BEFORE one of
+    /// `score_select_epochs` (default m2315, m0011: the in-stage cruise bursts of a 22:41 hand-off), fly K =
+    /// `score_select_k` independent candidate sets of descents from the same takeover state, score each candidate on the
+    /// runner's `score` callback (the `[terminal] target` option, core measurement model — nothing is re-implemented here),
+    /// and keep one per descent slot with probability proportional to exp(score). The kept descent's correction becomes
+    ///   c_j + ln( (1/K) sum_k exp(s_k) ) - s_j,
+    /// the random-weight importance-resampling identity: for any f, E[f(x_j) w_j] = (1/K) sum_k E[f(x_k) e^{c_k}] = E_p[f],
+    /// so the PRIOR is recovered by the sampling weight alone (contract test 6) and the runner's final scoring stays the only
+    /// use of the data. Children taking over after those epochs are untouched (their scored states are core-flown).
+    /// Default 0 (off): the earlier behaviour exactly.
+    #[serde(default)]
+    score_select_k: usize,
+    #[serde(default)]
+    score_select_epochs: Vec<String>,
+    /// Defensive share alpha of the selection: pi_j = alpha / K + (1 - alpha) g_j / sum g, with g = exp(beta s). The weight is
+    /// 1 / (K pi_j) <= 1 / alpha, so the prior stays recoverable with bounded variance (test 6). Without it (alpha = 0) a sharp
+    /// score makes prior regions reachable only with exponentially small probability and test 6 fails in finite samples: the
+    /// unit test measured a prior mean of 0.865 against 0.5. Default 0.2.
+    #[serde(default = "default_select_alpha")]
+    score_select_defensive: f64,
+    /// Tempering power beta on the score. Default 1.
+    #[serde(default = "default_select_beta")]
+    score_select_power: f64,
+}
+
+fn default_select_alpha() -> f64 {
+    0.2
+}
+
+fn default_select_beta() -> f64 {
+    1.0
+}
+
+impl Default for ProposalParams {
+    fn default() -> Self {
+        ProposalParams { maintained_then_lost_boost: 0.0, loss_window_unix_s: [0.0, 0.0], loss_window_weight: 0.0, score_select_k: 0,
+            score_select_epochs: vec![], score_select_defensive: default_select_alpha(), score_select_power: default_select_beta() }
+    }
 }
 
 impl ProposalParams {
     fn check(&self) -> Result<(), String> {
         let ok = (0.0..1.0).contains(&self.maintained_then_lost_boost)
             && (0.0..1.0).contains(&self.loss_window_weight)
-            && self.loss_window_unix_s[1] >= self.loss_window_unix_s[0];
-        if ok { Ok(()) } else { Err("proposal: boost and weight in [0, 1), window [lo, hi] with hi >= lo".into()) }
+            && self.loss_window_unix_s[1] >= self.loss_window_unix_s[0]
+            && self.score_select_k <= 256
+            && self.score_select_defensive > 0.0 && self.score_select_defensive <= 1.0
+            && self.score_select_power >= 0.0 && self.score_select_power.is_finite();
+        if ok { Ok(()) } else { Err("proposal: boost and weight in [0, 1), window [lo, hi] with hi >= lo, score_select_k <= 256, defensive in (0, 1], power >= 0".into()) }
+    }
+
+    fn selects_for(&self, epochs: &[TerminalEpoch]) -> bool {
+        if self.score_select_k < 2 {
+            return false;
+        }
+        let default = ["m2315", "m0011"];
+        epochs.iter().any(|e| {
+            if self.score_select_epochs.is_empty() { default.contains(&e.id.as_str()) } else { self.score_select_epochs.iter().any(|s| *s == e.id) }
+        })
     }
 
     fn window(&self) -> Option<profile::LossWindow> {
         (self.loss_window_weight > 0.0).then_some(profile::LossWindow { unix_s: self.loss_window_unix_s, weight: self.loss_window_weight })
     }
+}
+
+/// Scored candidate selection (see `ProposalParams::score_select_k`). `sets` holds K independent candidate sets of the same
+/// length D; slot d keeps candidate j of `sets[k][d]` with probability pi_j = alpha / K + (1 - alpha) g_j / sum_k g_k,
+/// g = exp(beta s), and its correction gains -ln(K pi_j). Exact for ANY selection rule that is a symmetric function of the
+/// candidate set: E[sum_j pi_j f(x_j) / (K pi_j)] = (1/K) sum_j E[f(x_j)]. If a score is NaN or all are minus infinity,
+/// pi is uniform (correction 0), which is the same identity.
+fn select_scored(sets: Vec<Vec<Descent>>, score: &dyn Fn(&[Option<EpochState>]) -> f64, uniform: &mut dyn FnMut() -> f64, alpha: f64, beta: f64) -> Vec<Descent> {
+    let k = sets.len();
+    let d = sets.first().map_or(0, |s| s.len());
+    assert!(sets.iter().all(|s| s.len() == d), "candidate sets differ in length");
+    let mut grid: Vec<Vec<Option<Descent>>> = sets.into_iter().map(|s| s.into_iter().map(Some).collect()).collect();
+    let mut out = Vec::with_capacity(d);
+    for slot in 0..d {
+        let s: Vec<f64> = (0..k).map(|i| beta * score(&grid[i][slot].as_ref().expect("present").at_epochs)).collect();
+        let finite_max = s.iter().copied().filter(|x| x.is_finite()).fold(f64::NEG_INFINITY, f64::max);
+        let pi: Vec<f64> = if s.iter().any(|x| x.is_nan()) || !finite_max.is_finite() {
+            vec![1.0 / k as f64; k]
+        } else {
+            let e: Vec<f64> = s.iter().map(|x| (x - finite_max).exp()).collect();
+            let total: f64 = e.iter().sum();
+            e.iter().map(|g| alpha / k as f64 + (1.0 - alpha) * g / total).collect()
+        };
+        let pick = uniform();
+        let mut acc = 0.0;
+        let mut j = k - 1;
+        for (i, p) in pi.iter().enumerate() {
+            acc += p;
+            if pick < acc {
+                j = i;
+                break;
+            }
+        }
+        let mut chosen = grid[j][slot].take().expect("present");
+        chosen.log_q_correction += -(k as f64 * pi[j]).ln();
+        out.push(chosen);
+    }
+    out
 }
 
 /// Draw the control axis from the optional maintained-then-lost boost. Returns (control, prior
@@ -1601,9 +1690,15 @@ impl Terminal for EndOfFlight {
         fuel: &dyn FuelFlow,
         uniform: &mut dyn FnMut() -> f64,
         epochs: &[TerminalEpoch],
-        _score: &dyn Fn(&[Option<EpochState>]) -> f64,
+        score: &dyn Fn(&[Option<EpochState>]) -> f64,
     ) -> Vec<Descent> {
-        self.descend_with(takeover, OnsetDraw::decode(&drawn.draw), atmosphere, Some(fuel), uniform, epochs)
+        let draw = OnsetDraw::decode(&drawn.draw);
+        if !self.params.proposal.selects_for(epochs) {
+            return self.descend_with(takeover, draw, atmosphere, Some(fuel), uniform, epochs);
+        }
+        let k = self.params.proposal.score_select_k;
+        let sets: Vec<Vec<Descent>> = (0..k).map(|_| self.descend_with(takeover, draw, atmosphere, Some(fuel), uniform, epochs)).collect();
+        select_scored(sets, score, uniform, self.params.proposal.score_select_defensive, self.params.proposal.score_select_power)
     }
 
     /// The legacy hook: no carried draw and no core fuel model. The mechanism is recovered from the
@@ -1616,9 +1711,14 @@ impl Terminal for EndOfFlight {
         atmosphere: &dyn Atmosphere,
         uniform: &mut dyn FnMut() -> f64,
         epochs: &[TerminalEpoch],
-        _score: &dyn Fn(&[Option<EpochState>]) -> f64,
+        score: &dyn Fn(&[Option<EpochState>]) -> f64,
     ) -> Vec<Descent> {
-        self.descend_with(takeover, None, atmosphere, None, uniform, epochs)
+        if !self.params.proposal.selects_for(epochs) {
+            return self.descend_with(takeover, None, atmosphere, None, uniform, epochs);
+        }
+        let k = self.params.proposal.score_select_k;
+        let sets: Vec<Vec<Descent>> = (0..k).map(|_| self.descend_with(takeover, None, atmosphere, None, uniform, epochs)).collect();
+        select_scored(sets, score, uniform, self.params.proposal.score_select_defensive, self.params.proposal.score_select_power)
     }
 }
 
@@ -1727,6 +1827,93 @@ mod structure_tests {
 mod tests {
     use super::*;
     use hypothesis::Air;
+
+    /// Scored candidate selection on the REAL module (test 6 on the descent hook): with a score on the altitude at the R600
+    /// epoch, the mean stored correction over many children must match the unselected module's (both ~ the other proposals'
+    /// mean), and the weighted share of descents airborne at R600 must agree. A mismatch means the selection is not exact.
+    #[test]
+    fn scored_selection_on_the_module_keeps_the_mean_correction() {
+        let mut p = params();
+        let prop = p.as_table_mut().unwrap().entry("proposal").or_insert(toml::Value::Table(Default::default()));
+        prop.as_table_mut().unwrap().insert("score_select_k".into(), toml::Value::Integer(8));
+        prop.as_table_mut().unwrap().insert("score_select_epochs".into(), toml::Value::Array(vec![toml::Value::String("m0019a".into())]));
+        let sel = new(&p).expect("constructs");
+        let base = module();
+        let (ts, tb) = (sel.terminal().unwrap(), base.terminal().unwrap());
+        let eps = epochs();
+        let score = |c: &[Option<EpochState>]| match c[0] { Some(s) => -0.5 * ((s.altitude_ft - 8_000.0) / 2_000.0).powi(2), None => f64::NEG_INFINITY };
+        let n = 1_500;
+        let stats = |t: &dyn Terminal| {
+            let (mut m, mut alive, mut cnt) = (0.0, 0.0, 0.0);
+            for i in 0..n {
+                let mut u = sweep(i as f64 * 0.013);
+                let takeover = FlightState { unix_s: EXHAUSTION - 600.0, ..handoff(EXHAUSTION - 600.0) };
+                for d in t.descend(&takeover, &atmos::Standard, &mut u, &eps, &score) {
+                    let w = d.log_q_correction.exp();
+                    m += w; cnt += 1.0;
+                    if d.at_epochs[0].is_some() { alive += w; }
+                }
+            }
+            (m / cnt, alive / m)
+        };
+        let (mb, ab) = stats(tb);
+        let (ms, as_) = stats(ts);
+        assert!((ms - mb).abs() < 0.05 * mb.max(0.2), "mean correction selected {ms} vs base {mb}");
+        assert!((as_ - ab).abs() < 0.03, "weighted airborne-at-R600 share selected {as_} vs base {ab}");
+    }
+
+    /// Scored candidate selection is exact (contract test 6 in closed form). A latent x ~ U[0, 1] stands for the descent; the
+    /// "score" is a sharp Gaussian at x = 0.9 (sd 0.03), so the selection concentrates most kept candidates there.
+    /// Under the sampling weight alone (exp of the correction) the kept x must still be U[0, 1]: mean 1/2, max CDF deviation
+    /// small; and weighting additionally by exp(score) must give the analytic posterior mean ~0.9. Also: K = 1 changes nothing,
+    /// and an all-minus-infinity score selects uniformly with no correction.
+    #[test]
+    fn scored_selection_recovers_the_prior_under_the_sampling_weight() {
+        let mut state = 0x2545_F491_4F6C_DD1Du64;
+        let mut u = move || {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            (state >> 11) as f64 / (1u64 << 53) as f64
+        };
+        let make = |x: f64| Descent {
+            impact: Impact { unix_s: 0.0, latitude_deg: x, longitude_deg: 0.0, velocity_east_mps: 0.0, velocity_north_mps: 0.0, velocity_up_mps: 0.0, mass_kg: 1.0 },
+            family: 0,
+            at_epochs: vec![Some(EpochState { latitude_deg: x, longitude_deg: 0.0, altitude_ft: 0.0, velocity_east_mps: 0.0, velocity_north_mps: 0.0, velocity_up_mps: 0.0 })],
+            latents: vec![],
+            log_q_correction: 0.0,
+        };
+        let score = |s: &[Option<EpochState>]| { let x = s[0].unwrap().latitude_deg; -0.5 * ((x - 0.9) / 0.03).powi(2) };
+        let (k, n) = (16usize, 60_000usize);
+        let mut kept = Vec::with_capacity(n);
+        for _ in 0..n {
+            let sets: Vec<Vec<Descent>> = (0..k).map(|_| vec![make(u())]).collect();
+            let d = select_scored(sets, &score, &mut u, 0.2, 1.0).pop().unwrap();
+            kept.push((d.impact.latitude_deg, d.log_q_correction));
+        }
+        let w: Vec<f64> = kept.iter().map(|(_, c)| c.exp()).collect();
+        let sw: f64 = w.iter().sum();
+        let mean = kept.iter().zip(&w).map(|((x, _), w)| x * w).sum::<f64>() / sw;
+        assert!((mean - 0.5).abs() < 0.01, "prior mean under sampling weight {mean}");
+        let mut o: Vec<(f64, f64)> = kept.iter().zip(&w).map(|((x, _), w)| (*x, *w / sw)).collect();
+        o.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
+        let (mut c, mut dev) = (0.0f64, 0.0f64);
+        for (x, p) in &o { c += p; dev = dev.max((c - x).abs()); }
+        assert!(dev < 0.02, "max CDF deviation from U[0,1] {dev}");
+        let near = kept.iter().filter(|(x, _)| (x - 0.9).abs() < 0.1).count() as f64 / n as f64;
+        // alpha = 0.2 of the selection is uniform over 16 candidates, so ~0.8 + 0.2 x 0.2 of kept draws lie near the peak.
+        assert!(near > 0.75, "the proposal should concentrate near the score peak: {near}");
+        let wp: Vec<f64> = kept.iter().map(|(x, c)| (c - 0.5 * ((x - 0.9) / 0.03).powi(2)).exp()).collect();
+        let post = kept.iter().zip(&wp).map(|((x, _), w)| x * w).sum::<f64>() / wp.iter().sum::<f64>();
+        assert!((post - 0.9).abs() < 0.005, "posterior mean {post}");
+        // K = 1: unchanged draw, zero correction.
+        let one = select_scored(vec![vec![make(0.3)]], &score, &mut u, 0.2, 1.0).pop().unwrap();
+        assert_eq!((one.impact.latitude_deg, one.log_q_correction), (0.3, 0.0));
+        // All minus infinity: uniform selection, no correction.
+        let dead = |_: &[Option<EpochState>]| f64::NEG_INFINITY;
+        let z = select_scored(vec![vec![make(0.1)], vec![make(0.2)]], &dead, &mut u, 0.2, 1.0).pop().unwrap();
+        assert!(z.log_q_correction.abs() < 1e-12 && (z.impact.latitude_deg == 0.1 || z.impact.latitude_deg == 0.2));
+    }
 
     /// The parameter block of `run.toml`, so the tests exercise the configuration that would be
     /// lifted into a core config rather than a private one.

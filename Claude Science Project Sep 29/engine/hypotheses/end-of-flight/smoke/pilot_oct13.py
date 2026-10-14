@@ -125,6 +125,38 @@ def gate4(p2241, outp):
     json.dump(out, open(outp, "w"), indent=1); print("wrote", outp)
 
 
+def test6(base_run, aimed_run, outp):
+    """Contract test 6 on real output: under the SAMPLING WEIGHT ALONE (nothing scored) the aimed run must reproduce the prior
+    of the unaimed run. Statistics: family shares, and per family the max |CDF difference| of onset time after the hand-off and
+    of impact latitude, both weighted; plus the mean stored correction exp(c) (must be ~1)."""
+    out = {}
+    def prior(run):
+        meta, g, ix = load_full(run)
+        w = g("weight"); w = w / w.sum()
+        f4 = family_labels(g("latent:onset_mechanism"), g("latent:control_realised"), g("latent:recovery_attempted"))["family4_code"]
+        t0 = float(np.nanmin(g("takeover_unix_s")))
+        return dict(w=w, f4=f4, onset=(g("latent:onset_unix_s") - t0) / 60, lat=g("latitude_deg"), lq=g("log_q_correction") if "log_q_correction" in ix else None)
+    a, b = prior(base_run), prior(aimed_run)
+    def wcdf_dev(x1, w1, x2, w2):
+        grid = np.unique(np.quantile(np.r_[x1, x2], np.linspace(0, 1, 2001)))
+        c = lambda x, w: np.array([w[x <= gx].sum() for gx in grid]) / max(w.sum(), 1e-300)
+        return float(np.max(np.abs(c(x1, w1) - c(x2, w2))))
+    for name, codes in (("all", None),) + FAMS:
+        m1 = np.ones(len(a["w"]), bool) if codes is None else np.isin(a["f4"], codes)
+        m2 = np.ones(len(b["w"]), bool) if codes is None else np.isin(b["f4"], codes)
+        r = dict(share_base=float(a["w"][m1].sum()), share_aimed=float(b["w"][m2].sum()))
+        if m1.any() and m2.any():
+            ok1 = m1 & np.isfinite(a["onset"]); ok2 = m2 & np.isfinite(b["onset"])
+            r["onset_cdf_maxdev"] = wcdf_dev(a["onset"][ok1], a["w"][ok1], b["onset"][ok2], b["w"][ok2])
+            ok1 = m1 & np.isfinite(a["lat"]); ok2 = m2 & np.isfinite(b["lat"])
+            r["latitude_cdf_maxdev"] = wcdf_dev(a["lat"][ok1], a["w"][ok1], b["lat"][ok2], b["w"][ok2])
+        out[name] = r
+    if b["lq"] is not None:
+        e = np.exp(b["lq"][np.isfinite(b["lq"])]); out["mean_exp_correction_aimed"] = [float(e.mean()), float(e.std() / np.sqrt(len(e)))]
+    json.dump(out, open(outp, "w"), indent=1); print(json.dumps(out, indent=1))
+
+
 if __name__ == "__main__":
     if sys.argv[1] == "identity": identity(*sys.argv[2:5])
+    elif sys.argv[1] == "test6": test6(*sys.argv[2:5])
     else: gate4(*sys.argv[2:4])
