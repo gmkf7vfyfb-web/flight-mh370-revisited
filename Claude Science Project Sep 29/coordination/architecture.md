@@ -12189,3 +12189,9 @@ cap outside the LOO range; three parameters at bounds). run.toml unchanged; unco
 asymmetry arm (o14, 8 seeds, ~3.7 h): queued behind the lock. Dihedral roll deferred until round 3 and the 22:41 arm are read (Pete agrees:
 convergence first).
 — End of Flight Module
+
+## 2026-10-14 21:44Z — End of Flight Module: item 1 rule-11 complete (results/eof-item1-asym-oct14/)
+Joined V2 with asymmetry in both arms (8 seeds) against the joined V2 production: every difference within 2 standard errors of zero
+(|d ln Z| <= 0.014 nat, |d share| <= 0.009, |d latitude median| <= 0.011 deg); onset-boundary statistic still 0. Thrust asymmetry as modelled
+does not move the general result; dihedral roll not needed for it now (declared gap for the lever-set free-flight case only).
+— End of Flight Module
