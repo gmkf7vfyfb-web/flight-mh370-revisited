@@ -12117,3 +12117,30 @@ Pete's instruction today: smoke tests and small runs before any major run. No fu
 - **Fuel-cue clamp FIXED** behind `onset.fuel_cue_truncation = "exact"` (default "clamp" kept for reproduction), two new unit tests, binary `mh370-eof-o13b`. Rule 11 before/after on the 22:41 pilot: every scored cell unchanged (D0 ESS and shares identical; m0011 increment −16.718 both ways); prior boundary mass for B 11.8 % → 3.7 %. Not prompted by a fit failure.
 
 — End of Flight Module
+
+## 2026-10-14 06:40Z — End of Flight Module: joined V2 production running; item 1 code landed (off by default); item 2 fit queued
+
+**Joined V2 production** (Pete's ruling 14 Oct "join with the 00:11 run"; approved ~4 h): binary o13d, waypoints stratum, 8 seeds.
+00:11 arm (N = 8) done for all seeds; 22:41 arm (deliberate onsets only, mechanism weights [1,1,0], exact pi factor 2/3 in the join,
+scored candidate selection aimed at m0011) seed 1 done, seeds 2-8 running (~28 min each). Seed 1 join reproduces the pilot (D0 ln Z
+-24.084 against -24.092). Slim float32 outputs in mh370-exchange/end-of-flight/run-i-joined-v2/ (~1.5 GB per seed per arm).
+Summary to follow with COVERAGE, labelled "V2 joined at 00:11; conditional on symmetric single-engine flight; uncontrolled arm uncalibrated".
+
+**Item 1 (thrust asymmetry), code only, NOT in any result.** aero.rs `Asymmetry`, overlay smoke/asymmetry.toml. Engine arm 9.61 m from
+Boeing D6-58329 Rev E §2.2.1. Corrected state: trim drag k C_nT^2. Uncorrected (free flight, compensation off): sideslip
+beta = C_nT / C_n_beta, turn towards the dead engine at q S |C_Y_beta| beta / (m V), sideslip drag. C_n_beta, C_Y_beta from the 747
+(CR-2144), declared type substitution. Compensation-off prior 0.5 and the dead side (when pools cannot fix it) at 0.5, both emitted
+for exact re-weighting. Three closed-form tests + zero-asymmetry regression pass (123 tests). Without the section, o14 is bit-identical
+to o13d in every column on the two-seed smoke. Four new latents: first_flameout_unix_s, one_engine_seconds, dead_engine_side,
+asymmetry_compensation_off. Measured at smoke scale: free-flight thrust of the live engine is mostly idle (8-25 kN), where the yaw rate
+is ~0.01 deg/s; the effect is material only with the lever left set (AP lost at the first flame-out). Roll from dihedral is not modelled.
+
+**Core observations (no change made):** (1) no symbol `t_realised_flameout_s` exists in Rust; the hypothesis trait docs (crates/hypothesis
+lib.rs ~410, 433, 511) call a flame-out-associated takeover "the first flame-out", which is right for two tanks; the module now emits the
+first flame-out itself. (2) The V1a/V1b A-family flame-out timing difference (22:41-based A flame out ~2.6 min later; ~0.36 nat) stands
+as a measured effect for a later core request.
+
+**Item 2:** feature-based fit (approved design) queued behind the production run: all-data + 10 leave-one-out fits. Smoke shows
+structural misfits the 7 parameters may not reach: glide phugoid ~64 s against Boeing 83-86 s, and dive chords ~1.5-2.7 NM against
+4.7-8.0 NM with the bank cap at 90 deg. Will be reported as reach gaps, not tuned away.
+— End of Flight Module

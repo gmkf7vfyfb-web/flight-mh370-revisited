@@ -9,7 +9,7 @@ TB=${EOF_TEST_BIN:-/Users/pete/Downloads/mh370-exchange/end-of-flight/bin/mh370-
 OUT=${EOF_OUT:-runs/item2-fit-oct14}; ZIP="../../ISO Sept 28 Status/inputs/end-of-flight/2018-08-19-eof-sims.zip"
 export EOF_OUT=$OUT EOF_TEST_BIN=$TB
 if [ "${1:-}" != worker ]; then
-  mkdir -p $OUT/sims; unzip -o -q "$ZIP" -d $OUT/sims; $PY $S/sim/boeing_events.py "$ZIP" $OUT/events >/dev/null
+  mkdir -p $OUT/sims $OUT/events; unzip -o -q "$ZIP" -d $OUT/sims; $PY $S/sim/boeing_events.py "$ZIP" $OUT/events >/dev/null
   echo "test binary $(basename $TB) sha256 $(shasum -a 256 $TB | cut -c1-16); start $(date -u +%FT%TZ)" | tee $OUT/LOG
 fi
 if [ "${1:-}" = worker ]; then   # worker: one fit; $2 = output name, $3 = excluded case or empty

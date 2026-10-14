@@ -1,6 +1,6 @@
 # Item 2 — proposed acceptance tolerances for the Boeing-trace calibration (for Pete's sign-off)
 
-**Status: PROPOSAL. No fit has been run against these numbers.** 13 Oct 2026. Contract v7.1 §8 names four targets and no numbers;
+**Status: APPROVED by Pete, 14 Oct 2026 ("approve as written"). No fit has been run against these numbers yet.** Proposed 13 Oct 2026. Contract v7.1 §8 names four targets and no numbers;
 the work order says the tolerances must be fixed before fitting. Proposed here from the published standard for matching a flight
 model to reference data, adapted to what 1 Hz position-and-altitude traces can show.
 
@@ -39,7 +39,7 @@ Two adaptations are needed and are stated, not hidden:
 | T2 phugoid damping | same | ±0.02 damping ratio, or ±10 % of time to half amplitude | Part 60 2.c.9 directly |
 | T3 bank growth | all ten cases, from the first sustained roll-off | correct direction and trend, and ±2° or ±10 % of bank 20 s later, whichever is larger, plus the measured derivation spread | Part 60 2.d.4 + derivation term (measured) |
 | T4 time to 15,000 ft/min | dive cases 3, 4, 5, 6, 10 | correct yes/no in all ten cases; time from first flame-out ±10 % or ±5 s, whichever is larger | Part 60 timing tolerances are ±5–10 %. Measured: the crossing time is the same to ±1 s for smoothing windows of 11, 21 and 31 s in all five dive cases, so the 5 s floor is generous, not a resolution limit |
-| T5 peak descent rate | all ten | ±300 ft/min or ±5 % in the glides (Part 60 1.d.5); **±10 %, plus the measured derivation spread in quadrature,** in the dives | Part 60 1.d.5 for glides; doubled for dives, because no Part 60 test covers flight beyond M0.87 and the model is labelled extrapolated there (§8). Measured derivation spread of the dive peak across smoothing windows: up to 8 % (case 3: 54,055 / 54,649 / 58,500 ft/min), under 4 % in the other dives, so the dive tolerance is about ±13 % in case 3 |
+| T5 peak descent rate | all ten | ±300 ft/min or ±5 % in the glides (Part 60 1.d.5); **±10 %, plus the measured derivation spread in quadrature,** in the dives | Part 60 1.d.5 for glides; doubled for dives, because no Part 60 test covers flight beyond M0.87 and the model is labelled extrapolated there (§8). Measured derivation spread of the dive peak across smoothing windows: up to 8 % (case 3: 54,055 / 54,649 / 58,500 ft/min), 5.4 % in case 5 (23,817–25,102), 0.6–3.0 % in cases 4, 6 and 10, so the dive tolerance is about ±13 % in case 3 and ±11 % in case 5 |
 | T6 distance and time from first flame-out to impact | all ten | ±10 % of distance, or ±1 NM for the dives; ±10 % of time, or ±10 s | Part 60 distance tests ±10 %; the ±1 NM floor is a proposal, to be checked against the traces' position noise before fitting |
 | T7 chord after the 15,000 ft/min crossing | dive cases | ±10 % or ±0.5 NM, against Boeing's traces; reported beside Iannello's published 4.7–7.9 NM | the one published comparison (secondary source, provenance logged in `eof-published-benchmarks.csv`) |
 

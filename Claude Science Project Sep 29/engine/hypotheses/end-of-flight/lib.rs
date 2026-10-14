@@ -85,7 +85,7 @@ use hypothesis::{
 };
 use serde::Deserialize;
 
-use aero::{Aero, Configuration, Range};
+use aero::{Aero, Asymmetry, Configuration, Range};
 use integrator::{Body, Integrator};
 use onset::{Onset, OnsetConfig};
 use profile::{EnvelopeConfig, Flying};
@@ -120,10 +120,28 @@ struct AeroParams {
     /// Band of [`Aero::idle_flow_bffm2_weight`], drawn per descent only when the floor is on.
     #[serde(default = "full_band")]
     idle_flow_bffm2_weight: [f64; 2],
+    /// Item 1, thrust asymmetry (aero.rs `Asymmetry`). Absent (default): off, and the uniform stream is unchanged.
+    #[serde(default)]
+    asymmetry: Option<AsymmetryParams>,
 }
 
 fn full_band() -> [f64; 2] {
     [0.0, 1.0]
+}
+
+/// `[hypotheses.end-of-flight.aero.asymmetry]`. Provenance of each entry in aero.rs `Asymmetry`; bands in run.toml.
+#[derive(Deserialize, Debug, Clone, PartialEq)]
+#[serde(deny_unknown_fields)]
+struct AsymmetryParams {
+    engine_arm_m: f64,
+    trim_drag_k: Range,
+    c_n_beta: Range,
+    c_y_beta_abs: Range,
+    sideslip_drag_k: Range,
+    /// Prior probability that thrust-asymmetry compensation is off in free flight with one engine thrusting. Drawn per
+    /// descent only for such descents and emitted as `latent:asymmetry_compensation_off`, so any other prior is an exact
+    /// re-weighting of the same sample.
+    compensation_off_probability: f64,
 }
 
 impl AeroParams {
@@ -153,6 +171,19 @@ impl AeroParams {
                 lo + (hi - lo) * uniform()
             } else {
                 0.0
+            },
+            // Item 1: drawn after everything else, and only when configured, so the stream is unchanged when it is off.
+            asymmetry: match &self.asymmetry {
+                None => Asymmetry::OFF,
+                Some(a) => Asymmetry {
+                    engine_arm_m: a.engine_arm_m,
+                    trim_drag_k: a.trim_drag_k.draw(uniform),
+                    c_n_beta: a.c_n_beta.draw(uniform),
+                    c_y_beta_abs: a.c_y_beta_abs.draw(uniform),
+                    sideslip_drag_k: a.sideslip_drag_k.draw(uniform),
+                    dead_engine_side: 0.0,
+                    compensation_off: false,
+                },
             },
         }
     }
@@ -189,6 +220,15 @@ impl AeroParams {
         }
         if !(self.wing_area_m2 > 0.0 && self.span_m > 0.0 && self.mach_crest > 0.0 && self.c_l_max_clean > 0.0) {
             return Err("aero: wing_area_m2, span_m, mach_crest and c_l_max_clean must be positive".into());
+        }
+        if let Some(a) = &self.asymmetry {
+            for (name, r) in [("trim_drag_k", a.trim_drag_k), ("c_n_beta", a.c_n_beta), ("c_y_beta_abs", a.c_y_beta_abs), ("sideslip_drag_k", a.sideslip_drag_k)] {
+                r.check(&format!("aero.asymmetry.{name}"))?;
+            }
+            let lo = match a.c_n_beta { Range::Fixed(v) => v, Range::Uniform([l, _]) => l };
+            if !(a.engine_arm_m >= 0.0 && lo > 0.0 && (0.0..=1.0).contains(&a.compensation_off_probability)) {
+                return Err("aero.asymmetry: engine_arm_m >= 0, c_n_beta > 0, compensation_off_probability in [0, 1]".into());
+            }
         }
         Ok(())
     }
@@ -673,6 +713,13 @@ const LATENTS: &[&str] = &[
     "state_m0011_altitude_ft", "state_m0011_vertical_speed_fpm", "state_m0011_latitude_deg", "state_m0011_longitude_deg",
     "state_m0019a_altitude_ft", "state_m0019a_vertical_speed_fpm", "state_m0019a_latitude_deg", "state_m0019a_longitude_deg",
     "state_m0019b_altitude_ft", "state_m0019b_vertical_speed_fpm", "state_m0019b_latitude_deg", "state_m0019b_longitude_deg",
+    // Item 1 (13 Oct work order; deliverable 9): the FIRST engine loss, unix s (the core's first flame-out when one engine was
+    // already out at takeover; otherwise the realised flame-out, since a single pool or a shutdown stops both together; NaN if
+    // never) - beside `realised_flameout_unix_s`, which is the FINAL one; seconds flown in this stage with exactly one engine
+    // thrusting; the dead engine's side (-1 left, +1 right; 0 unknown without asymmetry configured; with it, a side the pools
+    // cannot fix is drawn at 0.5; NaN unless exactly one engine thrusts); and whether
+    // thrust-asymmetry compensation was off in free flight (0/1; NaN unless asymmetry is configured and one engine thrusts).
+    "first_flameout_unix_s", "one_engine_seconds", "dead_engine_side", "asymmetry_compensation_off",
 ];
 
 /// Epochs whose module-flown state is emitted as latents, in `LATENTS` order.
@@ -1402,6 +1449,24 @@ impl EndOfFlight {
             let mut latents = latents;
             latents.extend_from_slice(&structural);
             latents.extend_from_slice(&physical);
+            let one_engine = propulsion == Propulsion::OneThrusting;
+            let final_out = if realised_flameout.is_finite() { realised_flameout } else { f64::NAN };
+            latents.extend_from_slice(&[
+                if takeover.first_flameout_unix_s.is_finite() && one_engine { takeover.first_flameout_unix_s } else { final_out },
+                if one_engine { final_out.min(trace.impact.unix_s).max(takeover.unix_s) - takeover.unix_s } else { 0.0 },
+                if !one_engine {
+                    f64::NAN
+                } else if self.params.aero.asymmetry.is_some() {
+                    flying.aero.asymmetry.dead_engine_side
+                } else {
+                    match tank_pools(takeover) {
+                        Some((l, r)) if l <= 0.0 && r > 0.0 => -1.0,
+                        Some((l, r)) if r <= 0.0 && l > 0.0 => 1.0,
+                        _ => 0.0,
+                    }
+                },
+                if one_engine && self.params.aero.asymmetry.is_some() { f64::from(u8::from(flying.aero.asymmetry.compensation_off)) } else { f64::NAN },
+            ]);
             debug_assert_eq!(latents.len(), LATENTS.len());
             let idx = |f: Family| self.families.iter().position(|g| *g == f);
             let family = idx(Family { initiation: mechanism, propulsion, control: realised_control })
@@ -1482,6 +1547,20 @@ impl EndOfFlight {
         // Item 2: autopilot lost at the first flame-out - the running engine keeps its lever setting in free flight.
         if onset.mechanism == Initiation::FlameOutAssociated && propulsion == Propulsion::OneThrusting {
             flying.free_setting = self.params.boeing_alt_thrust_setting.draw(uniform);
+        }
+        // Item 1: which engine is dead (the dry pool's side), and whether asymmetry compensation is off in free flight. Drawn
+        // only for one-engine descents with asymmetry configured, after every earlier draw, so the stream is unchanged otherwise.
+        let mut aero = aero;
+        if let (Some(a), Propulsion::OneThrusting) = (&self.params.aero.asymmetry, propulsion) {
+            // A dry pool fixes the side. With both pools live (a deliberate one-engine onset: an engine shut down) or no pools,
+            // the side is a choice the data cannot see: drawn left or right at 0.5 and emitted (latent:dead_engine_side).
+            aero.asymmetry.dead_engine_side = match tank_pools(takeover) {
+                Some((l, r)) if l <= 0.0 && r > 0.0 => -1.0,
+                Some((l, r)) if r <= 0.0 && l > 0.0 => 1.0,
+                _ => if uniform() < 0.5 { -1.0 } else { 1.0 },
+            };
+            aero.asymmetry.compensation_off = uniform() < a.compensation_off_probability;
+            flying.aero = aero;
         }
         let flying = std::cell::RefCell::new(flying);
         let it = Integrator {

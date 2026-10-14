@@ -1,0 +1,18 @@
+# Item 1 (work order 13 Oct 2026): thrust asymmetry with exactly one engine thrusting (aero.rs `Asymmetry`). Overlay; absent = the
+# symmetric point mass, bit for bit (test zero_asymmetry_reproduces_the_symmetric_model_exactly). NOT YET IN ANY RESULT.
+[hypotheses.end-of-flight.aero.asymmetry]
+# Boeing D6-58329 Rev E (Dec 2024) section 2.2.1, p. 2-8: engine centreline 31 ft 6.5 in (9.61 m) from the aircraft centreline.
+engine_arm_m = 9.61
+# MODELLING PARAMETER, declared sensitivity, no primary source. Fin induced drag of the rudder side force that balances C_nT:
+# (C_Y_dr / C_n_dr)^2 = 0.5-2.6 on the 747 (CR-2144 Table IX-8) times S / (pi A_v e S_v) of about 2 gives 1-5; the upper end allows
+# for aileron and spoiler trim and the bank into the live engine.
+trim_drag_k = [1.0, 20.0]
+# Type substitution, declared: Boeing 747, NASA CR-2144 Table IX-8, ten flight conditions (sim/aero747.py).
+c_n_beta = [0.125, 0.206]
+c_y_beta_abs = [0.82, 1.08]
+# MODELLING PARAMETER, declared sensitivity: sideslip drag per beta^2, rad^-2.
+sideslip_drag_k = [0.2, 0.6]
+# Prior that thrust-asymmetry compensation is off in free flight with one engine thrusting. The 777 compensates automatically
+# in normal mode, which one live engine's generator keeps; off requires the switch or a mode degradation. 0.5 is a coverage prior,
+# not a belief: latent:asymmetry_compensation_off lets 0, 1 or any value be applied afterwards by exact re-weighting.
+compensation_off_probability = 0.5

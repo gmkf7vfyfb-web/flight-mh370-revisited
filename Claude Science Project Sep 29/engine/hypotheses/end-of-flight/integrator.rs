@@ -38,6 +38,8 @@
 use hypothesis::{Air, Atmosphere};
 
 use super::aero::{Aero, Configuration};
+#[cfg(test)]
+use super::aero::Asymmetry;
 use super::atmos;
 
 #[cfg(test)]
@@ -526,11 +528,24 @@ impl<'a> Integrator<'a> {
                 let wanted = drag + weight * body.gamma_rad.sin() + mass * (target_mach * sound - body.tas_mps) / tau;
                 let full = self.aero.thrust_n(cfg, rho, 1.0);
                 let idle = self.aero.thrust_n(cfg, rho, 0.0);
+                // Item 1: a held path also pays the asymmetric trim drag k (T y / (q S b))^2 q S = a T^2, so the thrust that holds
+                // the target solves T = wanted + a T^2 exactly (smaller root); none when asymmetry is off or both engines run.
+                let a = &self.aero.asymmetry;
+                let quad = if a.applies(cfg) && q > 0.0 { a.trim_drag_k * (a.engine_arm_m / (q * s * self.aero.span_m)).powi(2) * q * s } else { 0.0 };
+                let wanted = if quad > 0.0 {
+                    let disc = 1.0 - 4.0 * quad * wanted;
+                    if disc >= 0.0 { 2.0 * wanted / (1.0 + disc.sqrt()) } else { full }
+                } else {
+                    wanted
+                };
                 (c_l, bank_rad, wanted.clamp(idle.min(full), full.max(idle)))
             }
         };
         let lift = c_l * q * s;
-        let drag = self.aero.c_d(c_l, mach, cfg) * q * s;
+        // Item 1: thrust asymmetry (aero.rs `Asymmetry`): exactly (0, 0) when off, so the symmetric model is reproduced bit for bit.
+        let free = matches!(cmd, Command::FixedTrim { .. });
+        let (asym_cd, asym_yaw) = self.aero.asymmetry.effect(cfg, free, thrust, q, s, self.aero.span_m, mass, body.tas_mps);
+        let drag = if asym_cd != 0.0 { (self.aero.c_d(c_l, mach, cfg) + asym_cd) * q * s } else { self.aero.c_d(c_l, mach, cfg) * q * s };
         let v = body.tas_mps.max(1.0);
         let (burn_kg_s, fuel_status) =
             if body.fuel_kg > 0.0 && thrust > 0.0 { self.burn_kg_s(body, thrust, q, mach, mass) } else { (0.0, 0) };
@@ -546,7 +561,7 @@ impl<'a> Integrator<'a> {
             d_tas: (thrust - drag) / mass - atmos::G0 * body.gamma_rad.sin(),
             d_gamma: (lift * bank.cos() - weight * body.gamma_rad.cos()) / (mass * v),
             d_altitude: body.tas_mps * body.gamma_rad.sin(),
-            d_heading: lift * bank.sin() / (mass * v * body.gamma_rad.cos().max(0.05)),
+            d_heading: if asym_yaw != 0.0 { lift * bank.sin() / (mass * v * body.gamma_rad.cos().max(0.05)) + asym_yaw } else { lift * bank.sin() / (mass * v * body.gamma_rad.cos().max(0.05)) },
             d_mass: -burn_kg_s,
             mach,
             q_pa: q,
@@ -1058,6 +1073,102 @@ mod tests {
             push(trace.impact.unix_s - start.unix_s, &trace.impact, 0.0);
         }
         std::fs::write(&out, bytes).expect("write output");
+    }
+
+    fn one_engine() -> Configuration {
+        Configuration { engines_thrusting: 1, engines_windmilling: 1, ..Configuration::powered() }
+    }
+
+    fn asym(side: f64, off: bool) -> Asymmetry {
+        Asymmetry { engine_arm_m: 9.61, trim_drag_k: 10.0, c_n_beta: 0.15, c_y_beta_abs: 0.9, sideslip_drag_k: 0.4, dead_engine_side: side, compensation_off: off }
+    }
+
+    /// Item 1 regression: zero asymmetry reproduces the symmetric model exactly. An arm of 0 (every other asymmetry field
+    /// non-zero, compensation off) and two engines thrusting (arm set) both give traces bit-identical to `Asymmetry::OFF`.
+    #[test]
+    fn zero_asymmetry_reproduces_the_symmetric_model_exactly() {
+        let base = integrator(2.0);
+        let mut zero_arm = integrator(2.0);
+        zero_arm.aero.asymmetry = Asymmetry { engine_arm_m: 0.0, ..asym(1.0, true) };
+        let mut armed = integrator(2.0);
+        armed.aero.asymmetry = asym(1.0, true);
+        let start = Body { fuel_kg: 3_000.0, ..body(35_000.0, 240.0, 0.0) };
+        let fly = |it: &Integrator, cfg: Configuration, track: bool| {
+            it.run(start, &atmos::Standard, None, &mut |_, _| {
+                if track {
+                    (Command::Track { vertical_speed_mps: -10.0, target_mach: 0.80, bank_rad: 0.05, n_floor_g: None }, cfg, 0.8)
+                } else {
+                    (Command::FixedTrim { c_l: 0.5, bank_rad: 0.1 }, cfg, 0.8)
+                }
+            }, &mut |_, _| {})
+        };
+        for track in [false, true] {
+            let a = fly(&base, one_engine(), track);
+            let b = fly(&zero_arm, one_engine(), track);
+            assert_eq!(a.impact, b.impact, "arm 0, one engine, track {track}");
+            let c = fly(&base, Configuration::powered(), track);
+            let d = fly(&armed, Configuration::powered(), track);
+            assert_eq!(c.impact, d.impact, "two engines thrusting, track {track}");
+            let e = fly(&base, one_engine(), track);
+            let f = fly(&armed, one_engine(), track);
+            assert_ne!(e.impact, f.impact, "the armed one-engine case must differ, track {track}");
+        }
+    }
+
+    /// Item 1: one engine inoperative, path held (corrected). The trim drag is exactly k C_nT^2 q S with C_nT = T y / (q S b),
+    /// the path does not turn, and a held Mach target is still met (thrust raised by the trim drag).
+    #[test]
+    fn one_engine_held_path_pays_the_analytic_trim_drag_and_does_not_turn() {
+        let mut it = integrator(2.0);
+        let b = Body { fuel_kg: 3_000.0, ..body(20_000.0, 180.0, 0.0) };
+        let air = atmos::Standard.at(b.unix_s, b.pressure_altitude_ft, b.latitude_deg, b.longitude_deg);
+        let cmd = Command::FixedTrim { c_l: 0.6, bank_rad: 0.0 };
+        let sym = it.rates(&b, &air, &cmd, &one_engine(), 0.9);
+        it.aero.asymmetry = asym(-1.0, false);
+        let got = it.rates(&b, &air, &cmd, &one_engine(), 0.9);
+        let t_k = air.temperature_k;
+        let rho = atmos::density_kg_m3(air.pressure_pa, t_k);
+        let q = 0.5 * rho * b.tas_mps * b.tas_mps;
+        let (s_, b_) = (it.aero.wing_area_m2, it.aero.span_m);
+        let thrust = it.aero.thrust_n(&one_engine(), rho, 0.9);
+        let c_nt = thrust * 9.61 / (q * s_ * b_);
+        let want = -10.0 * c_nt * c_nt * q * s_ / b.mass_kg;
+        assert!(((got.d_tas - sym.d_tas) - want).abs() < 1e-12, "trim drag: {} vs {}", got.d_tas - sym.d_tas, want);
+        assert_eq!(got.d_heading, 0.0, "a corrected path does not turn");
+        assert!(c_nt > 1e-3 && c_nt < 0.05, "C_nT {c_nt} out of the plausible range for a 777 at 20,000 ft");
+        // Held path (Track): the commanded Mach is still the target; thrust absorbs the trim drag when it can.
+        let track = Command::Track { vertical_speed_mps: 0.0, target_mach: b.tas_mps / atmos::sound_speed_mps(t_k), bank_rad: 0.0, n_floor_g: None };
+        let r = it.rates(&b, &air, &track, &one_engine(), 0.9);
+        assert!(r.d_tas.abs() < 1e-6, "level, at the target speed, with thrust to spare: d_tas {}", r.d_tas);
+        assert_eq!(r.d_heading, 0.0);
+    }
+
+    /// Item 1: free flight with compensation off (uncorrected). The aircraft settles at beta = C_nT / C_n_beta and turns towards
+    /// the dead engine at psi_dot = q S |C_Y_beta| beta / (m V), paying sideslip drag k_beta beta^2; with compensation on, free
+    /// flight is corrected and does not turn.
+    #[test]
+    fn uncorrected_yaw_turns_towards_the_dead_engine_at_the_analytic_rate() {
+        let mut it = integrator(2.0);
+        let b = Body { fuel_kg: 3_000.0, ..body(20_000.0, 180.0, 0.0) };
+        let air = atmos::Standard.at(b.unix_s, b.pressure_altitude_ft, b.latitude_deg, b.longitude_deg);
+        let cmd = Command::FixedTrim { c_l: 0.6, bank_rad: 0.0 };
+        let sym = it.rates(&b, &air, &cmd, &one_engine(), 0.9);
+        let rho = atmos::density_kg_m3(air.pressure_pa, air.temperature_k);
+        let q = 0.5 * rho * b.tas_mps * b.tas_mps;
+        let (s_, b_) = (it.aero.wing_area_m2, it.aero.span_m);
+        let c_nt = it.aero.thrust_n(&one_engine(), rho, 0.9) * 9.61 / (q * s_ * b_);
+        let beta = c_nt / 0.15;
+        let rate = q * s_ * 0.9 * beta / (b.mass_kg * b.tas_mps);
+        for side in [-1.0, 1.0] {
+            it.aero.asymmetry = asym(side, true);
+            let r = it.rates(&b, &air, &cmd, &one_engine(), 0.9);
+            assert!((r.d_heading - side * rate).abs() < 1e-15, "side {side}: {} vs {}", r.d_heading, side * rate);
+            assert!(((r.d_tas - sym.d_tas) + 0.4 * beta * beta * q * s_ / b.mass_kg).abs() < 1e-12, "sideslip drag");
+        }
+        // About a degree a second or less: a slow effect, so the 2 s production step resolves it (work order).
+        assert!(rate.to_degrees() > 0.05 && rate.to_degrees() < 1.5, "{} deg/s", rate.to_degrees());
+        it.aero.asymmetry = asym(1.0, false);
+        assert_eq!(it.rates(&b, &air, &cmd, &one_engine(), 0.9).d_heading, 0.0, "compensation on: corrected, no turn");
     }
 
     /// A bank angle under fixed trim turns the aircraft and reduces the vertical component of

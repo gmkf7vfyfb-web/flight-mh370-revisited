@@ -107,6 +107,78 @@ pub struct Aero {
     /// Method 2 form W_f = W_ref * delta / theta^3.8 * exp(-0.2 M^2) (DuBois & Paynter 2006, SAE 2006-01-1987;
     /// the high end). At FL350, M0.80 they give about 0.061 and 0.177 kg/s per engine.
     pub idle_flow_bffm2_weight: f64,
+    /// Item 1: thrust asymmetry with exactly one engine thrusting. [`Asymmetry::OFF`] reproduces the symmetric point mass exactly.
+    pub asymmetry: Asymmetry,
+}
+
+/// Item 1 (work order of 13 Oct 2026): the yawing moment of one live engine, in the (V, gamma, h, psi, m) point mass.
+///
+/// The live engine's thrust T at the lateral arm `engine_arm_m` makes the yawing-moment coefficient
+/// `C_nT = T y / (q S b)`. Two states, on the existing control axis (no new family):
+/// - **corrected** (any controlled phase: autopilot or pilot, and free flight while thrust-asymmetry compensation works):
+///   the path is held with rudder and a small bank into the live engine, and the cost is a trim drag
+///   `dC_D = trim_drag_k * C_nT^2` (quadratic because rudder deflection is linear in C_nT and the fin's induced drag is
+///   quadratic in its side force);
+/// - **uncorrected** (free flight with compensation off): no rudder, so the aircraft sideslips to the yaw equilibrium
+///   `beta = C_nT / C_n_beta` and the sideslip side force `|C_Y_beta| beta q S` turns it towards the dead engine at
+///   `psi_dot = q S |C_Y_beta| beta / (m V)`, with a sideslip drag `dC_D = sideslip_drag_k * beta^2`.
+/// Roll from dihedral (C_l_beta) is NOT modelled: bank stays the profile's (residual bank and spiral law). Declared.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct Asymmetry {
+    /// Lateral distance of an engine centreline from the aircraft centreline, m. 9.61 m (31 ft 6.5 in) for the 777-200 /
+    /// -200ER: Boeing D6-58329 Rev E (Dec 2024), *777-200/-200ER/-300 Airplane Characteristics for Airport Planning*,
+    /// §2.2.1 General Dimensions, p. 2-8, which also gives the span 60.93 m used here. 0 switches asymmetry off.
+    pub engine_arm_m: f64,
+    /// Modelling parameter (no primary source): trim drag per C_nT^2, corrected state.
+    pub trim_drag_k: f64,
+    /// Directional stability C_n_beta, 1/rad, and side-force derivative magnitude |C_Y_beta|, 1/rad. No public 777 values:
+    /// bands from the Boeing 747 in NASA CR-2144 (Heffley and Jewell 1972) Table IX-8 via sim/aero747.py, ten flight
+    /// conditions (C_n_beta 0.125-0.206, |C_Y_beta| 0.82-1.08). A type substitution, declared.
+    pub c_n_beta: f64,
+    pub c_y_beta_abs: f64,
+    /// Modelling parameter: sideslip drag per beta^2 (rad^-2), uncorrected state.
+    pub sideslip_drag_k: f64,
+    /// Which engine is dead when one is: -1 left, +1 right, 0 unknown (the turn then has no direction and no yaw rate is applied).
+    pub dead_engine_side: f64,
+    /// Free flight with thrust-asymmetry compensation off (the uncorrected state). Drawn per descent.
+    pub compensation_off: bool,
+}
+
+impl Asymmetry {
+    pub const OFF: Asymmetry = Asymmetry {
+        engine_arm_m: 0.0,
+        trim_drag_k: 0.0,
+        c_n_beta: 0.15,
+        c_y_beta_abs: 0.9,
+        sideslip_drag_k: 0.0,
+        dead_engine_side: 0.0,
+        compensation_off: false,
+    };
+
+    /// Whether this configuration is asymmetric at all.
+    pub fn applies(&self, cfg: &Configuration) -> bool {
+        self.engine_arm_m > 0.0 && cfg.engines_thrusting == 1
+    }
+
+    /// Yawing-moment coefficient of the live engine.
+    pub fn c_n_t(&self, thrust_n: f64, q_pa: f64, wing_area_m2: f64, span_m: f64) -> f64 {
+        thrust_n * self.engine_arm_m / (q_pa * wing_area_m2 * span_m)
+    }
+
+    /// (drag-coefficient increment, heading rate rad/s) for one step. `free` = fixed-trim free flight (no path held).
+    pub fn effect(&self, cfg: &Configuration, free: bool, thrust_n: f64, q_pa: f64, aero_s: f64, aero_b: f64, mass_kg: f64, tas_mps: f64) -> (f64, f64) {
+        if !self.applies(cfg) || !(thrust_n > 0.0) || !(q_pa > 0.0) {
+            return (0.0, 0.0);
+        }
+        let c_nt = self.c_n_t(thrust_n, q_pa, aero_s, aero_b);
+        if free && self.compensation_off {
+            let beta = c_nt / self.c_n_beta;
+            let rate = self.dead_engine_side * q_pa * aero_s * self.c_y_beta_abs * beta / (mass_kg * tas_mps.max(1.0));
+            (self.sideslip_drag_k * beta * beta, rate)
+        } else {
+            (self.trim_drag_k * c_nt * c_nt, 0.0)
+        }
+    }
 }
 
 impl Aero {
@@ -307,6 +379,7 @@ pub(super) mod tests {
             tsfc_kg_per_n_s: 1.6e-5,
             idle_fuel_flow_sl_kg_s: 0.0,
             idle_flow_bffm2_weight: 0.0,
+            asymmetry: Asymmetry::OFF,
         }
     }
 

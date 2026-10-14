@@ -40,8 +40,10 @@ BANK_GRID = np.array([0.0, 1.0, 2.0, 3.5, 5.0, 7.5, 10.0, 12.5, 15.0, 17.5, 20.0
 # theta: name, lower, upper, start (run.toml prior centre). Fit bounds are WIDER than run.toml where the Boeing loss states need it:
 # trim_cl_offset's run.toml band [-0.08, 0.08] cannot reach Boeing's post-loss mean EAS (~198 kt) from a loss at ~174 KEAS (that is
 # about -0.18 in C_L at 174 t), so the fit searches [-0.30, 0.10] and reports a fitted value outside the band as a reach gap.
-# spiral_doubling_s searches [3, 600] s against run.toml's [60, 120]: Boeing's short-case dives pass 15,000 ft/min 15-30 s after the
-# loss. A fitted value outside the band is likewise reported as a reach gap, not adopted silently.
+# spiral_doubling_s searches [3, 600] s against run.toml's [60, 120]: Boeing's short-case dives (cases 4, 6, 10) pass 15,000 ft/min
+# 158-172 s after the first flame-out (about 157-171 s after the loss), where the module at 90 s doubling takes about 298 s; case 3
+# takes 305 s and case 5 about 1,720 s. The search is wider than the band so the fit is not held at a band edge. A fitted value
+# outside the band is reported as a reach gap, not adopted silently.
 THETA = [("spiral_doubling_s", 3.0, 600.0, 90.0), ("trim_cl_offset", -0.30, 0.10, 0.0), ("windmilling_per_engine", 0.0, 0.0015, 0.00075),
          ("rat_increment", 0.0001, 0.0006, 0.00035), ("residual_bank_deg", 2.0, 60.0, 35.0), ("residual_bank_left_probability", 0.02, 0.98, 0.8),
          ("spiral_divergent_weight", 0.02, 0.98, 0.5)]
