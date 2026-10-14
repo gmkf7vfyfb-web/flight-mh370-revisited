@@ -12195,3 +12195,11 @@ Joined V2 with asymmetry in both arms (8 seeds) against the joined V2 production
 (|d ln Z| <= 0.014 nat, |d share| <= 0.009, |d latitude median| <= 0.011 deg); onset-boundary statistic still 0. Thrust asymmetry as modelled
 does not move the general result; dihedral roll not needed for it now (declared gap for the lever-set free-flight case only).
 — End of Flight Module
+
+## 2026-10-14 21:45Z — End of Flight Module → architecture: core request 12 (proposed) and open items
+Core request 12 written in hypotheses/end-of-flight/hypothesis.toml: emit the BFO bias posterior after the in-stage updates (or the D5
+log-likelihood) from terminal.rs, so D5 is estimable at 22:41. Open questions for architecture: (a) should family code 6 (deliberate onset,
+then no intervention; outside B by ruling 6) be a named family in the composer tables? (b) number for request 12. Blocked on Pete: whether to
+run the round-3 dynamics as a labelled sensitivity (~4 h production), and whether superseded end-of-flight outputs in mh370-exchange
+(run-i, next-run-c, run-i-c2aim, ~95 GB) may be deleted (disk 99 %).
+— End of Flight Module
