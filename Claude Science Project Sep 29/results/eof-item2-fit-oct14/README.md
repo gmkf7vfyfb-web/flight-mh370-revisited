@@ -101,3 +101,48 @@ dives (cases 4, 6, 10: P 0.07–0.31), because one left-turn probability serves 
 *not calibrated*. Round 2 is better out of sample (−904 against −1,282 nat), so its laws are a candidate improvement, not a calibration.
 The round-2 production code is in the module, off by default and bit-identical without its configuration.
 
+
+## Round 3 — lagged lift and state-dependent turn direction (`PREREG-v3.md`, with its optimiser amendment): the gate STILL FAILS
+
+**Third fit to the same ten cases; the out-of-sample claim is weaker with each round.** First round-3 run: UNCONVERGED (`round3-unconverged/`, in-sample −4,001 nat, trapped on a flat plateau). Rerun with the amended optimiser start and lag/gain grid (`round3/`): out-of-sample total -713.6 nat (round 2 -904.2, round 1 -1282.0); 25 of 62 case-targets inside tolerance (round 2: 18, round 1: 13). No case passes.
+
+**Identification is weak (read before quoting any parameter).** Nelder–Mead stopped on its tolerances (398 evaluations, all-data fit), but the leave-one-out parameters spread widely — lift gain 0.38–0.98, doubling time 23–59 s, trim offset −0.14 to −0.03 — and the all-data bank cap (52.5°) lies outside the range of every leave-one-out fit (57.3–62.4°). Several local optima of similar total are likely. Three parameters sit on a search bound: both turn-direction probabilities at 0.98 and the dive-trigger scale at 2 kt.
+
+| parameter | all data | LOO range |
+|---|---|---|
+| spiral_doubling_s | 26.45 | 23.48 – 58.74 |
+| trim_cl_offset | -0.06895 | -0.1406 – -0.02509 |
+| windmilling_per_engine | 0.00141 | 2.55e-06 – 0.001382 |
+| rat_increment | 0.0001944 | 0.0001857 – 0.0005063 |
+| spiral_bank_cap_deg | 52.53 | 57.3 – 62.42 |
+| free_lift_lag_s | 3.517 | 0.979 – 3.772 |
+| free_lift_gain | 0.4124 | 0.3768 – 0.9774 |
+| residual_bank_deg | 9.685 | 5.728 – 12.82 |
+| residual_bank_left_probability | 0.98 | 0.8326 – 0.98 |
+| residual_bank_toward_dead_probability | 0.98 | 0.98 – 0.98 |
+| dive_trigger_eas_mid_kt | 182.5 | 181.7 – 201.6 |
+| dive_trigger_eas_scale_kt | 2 | 2 – 2 |
+
+| case | targets passed, round 1 → 2 → 3 | P(right dive class) | P(right direction) | still outside tolerance (Boeing → model median) |
+|---|---|---|---|---|
+| Case 01 | 2 → 3 → 5 of 6 | 0.99 | 0.71 | peak descent, ft/min: 4800 → 6181 |
+| Case 02 | 2 → 3 → 3 of 6 | 0.96 | 0.68 | phugoid period, s: 83.5 → 75; phugoid damping: -0.01333 → 0.01467; peak descent, ft/min: 6300 → 5893 |
+| Case 03 | 2 → 1 → 1 of 6 | 0.80 | 0.78 | bank 20 s after roll-off, deg: 9.737 → 12.78; time to 15,000 ft/min, s: 305 → 118; peak descent, ft/min: 5.346e+04 → 2.303e+04; chord after 15,000 ft/min, NM: 4.707 → 5.791; distance to 1,500 ft, NM: 20.35 → 11.46 |
+| Case 04 | 0 → 1 → 1 of 6 | 0.53 | 0.98 | bank 20 s after roll-off, deg: 16.3 → 8.318; time to 15,000 ft/min, s: 169 → 136; chord after 15,000 ft/min, NM: 6.13 → 7.057; distance to 1,500 ft, NM: 10.56 → 13.95; time to 1,500 ft, s: 308 → 234 |
+| Case 05 | 0 → 0 → 1 of 8 | 0.00 | 0.60 | phugoid period, s: 87 → 106; phugoid damping: -0.0216 → 0.03931; time to 15,000 ft/min, s: 1719 → 997.8; peak descent, ft/min: 2.418e+04 → 2.019e+04; chord after 15,000 ft/min, NM: 4.936 → 1.68; distance to 1,500 ft, NM: 96.87 → 82.65; time to 1,500 ft, s: 1798 → 1218 |
+| Case 06 | 1 → 1 → 1 of 6 | 0.32 | 0.98 | time to 15,000 ft/min, s: 158 → 122; peak descent, ft/min: 4.338e+04 → 2.518e+04; chord after 15,000 ft/min, NM: 8.036 → 5.825; distance to 1,500 ft, NM: 12.3 → 7.73; time to 1,500 ft, s: 245 → 348 |
+| Case 07 | 2 → 3 → 5 of 6 | 0.98 | 0.58 | peak descent, ft/min: 4920 → 5958 |
+| Case 08 | 1 → 2 → 4 of 6 | 1.00 | 0.70 | peak descent, ft/min: 7140 → 6488; distance to 1,500 ft, NM: 60.4 → 76.74 |
+| Case 09 | 2 → 2 → 2 of 6 | 1.00 | 0.22 | phugoid period, s: 83 → 65; phugoid damping: -0.009017 → 0.03821; peak descent, ft/min: 6900 → 6119; time to 1,500 ft, s: 2074 → 2316 |
+| Case 10 | 1 → 2 → 2 of 6 | 0.59 | 0.98 | bank 20 s after roll-off, deg: 15.78 → 9.465; time to 15,000 ft/min, s: 172 → 124; peak descent, ft/min: 5.802e+04 → 2.754e+04; chord after 15,000 ft/min, NM: 7.322 → 6.149 |
+
+**What round 3 fixed.** The lagged lift reproduces the glide phugoid in cases 1, 7 and 8 (period and damping inside tolerance; e.g. case 1:
+83 s and −0.004 against 86 s and −0.012) — the gap rounds 1 and 2 could not close. Cases 1 and 7 now fail only on the peak descent rate of the
+first post-loss dip (±300 ft/min tolerance). The turn rule gets the direction of the right-turning dives (cases 4, 6, 10: P 0.98).
+**Not fixed:** cases 2 and 9 phugoid (75 and 65 s), case 5 (late dive; and its glide period now too long, 106 s), dive timing and chord in
+the short cases, dive class in case 6 (P 0.32).
+
+**Status.** Gate failed in all three rounds. run.toml is NOT changed; the uncontrolled arm stays labelled *not calibrated*. Round 3 is the
+best out of sample of the three, so its laws (lagged lift; towards-the-dead-engine turn rule; dive trigger) are the candidate dynamics for a
+labelled sensitivity run, with the weak identification above declared beside them.
+

@@ -1,0 +1,1205 @@
+{
+ "theta": {
+  "spiral_doubling_s": 26.273619109973826,
+  "trim_cl_offset": -0.1321453914700728,
+  "windmilling_per_engine": 0.0007414127526443695,
+  "rat_increment": 0.00037385479387355887,
+  "spiral_bank_cap_deg": 61.16342543124401,
+  "free_lift_lag_s": 0.978961058851551,
+  "free_lift_gain": 0.9377799968721094,
+  "residual_bank_deg": 5.727947557846814,
+  "residual_bank_left_probability": 0.83259038180992,
+  "residual_bank_toward_dead_probability": 0.979999999999959,
+  "dive_trigger_eas_mid_kt": 182.4306067231838,
+  "dive_trigger_eas_scale_kt": 2.0
+ },
+ "nll_included": 735.5179119316114,
+ "excluded": [
+  "Case 09"
+ ],
+ "grid": [
+  [
+   Infinity,
+   5.0,
+   -0.2
+  ],
+  [
+   3042.817517553203,
+   5.0,
+   -0.15
+  ],
+  [
+   3236.371528338079,
+   5.0,
+   -0.1
+  ],
+  [
+   Infinity,
+   5.0,
+   -0.05
+  ],
+  [
+   Infinity,
+   5.0,
+   0.0
+  ],
+  [
+   1990.6401022028804,
+   12.0,
+   -0.2
+  ],
+  [
+   1208.829841439062,
+   12.0,
+   -0.15
+  ],
+  [
+   1380.8710635754228,
+   12.0,
+   -0.1
+  ],
+  [
+   1664.4888310153085,
+   12.0,
+   -0.05
+  ],
+  [
+   1974.6241891493014,
+   12.0,
+   0.0
+  ],
+  [
+   1810.943881670808,
+   25.0,
+   -0.2
+  ],
+  [
+   838.7422418748617,
+   25.0,
+   -0.15
+  ],
+  [
+   1118.462866284923,
+   25.0,
+   -0.1
+  ],
+  [
+   2134.1860426170756,
+   25.0,
+   -0.05
+  ],
+  [
+   4080.6571270097065,
+   25.0,
+   0.0
+  ],
+  [
+   2035.8078630038021,
+   50.0,
+   -0.2
+  ],
+  [
+   1464.113971331556,
+   50.0,
+   -0.15
+  ],
+  [
+   1970.7772749634526,
+   50.0,
+   -0.1
+  ],
+  [
+   3984.381086047874,
+   50.0,
+   -0.05
+  ],
+  [
+   3878.776907330924,
+   50.0,
+   0.0
+  ],
+  [
+   2463.875923014373,
+   100.0,
+   -0.2
+  ],
+  [
+   1863.6471018985724,
+   100.0,
+   -0.15
+  ],
+  [
+   2681.619324251825,
+   100.0,
+   -0.1
+  ],
+  [
+   3941.427922571591,
+   100.0,
+   -0.05
+  ],
+  [
+   3943.453428077494,
+   100.0,
+   0.0
+  ],
+  [
+   2522.0819007339487,
+   200.0,
+   -0.2
+  ],
+  [
+   2851.2370768553947,
+   200.0,
+   -0.15
+  ],
+  [
+   3474.002484426874,
+   200.0,
+   -0.1
+  ],
+  [
+   4009.2418017761993,
+   200.0,
+   -0.05
+  ],
+  [
+   4038.2425133204933,
+   200.0,
+   0.0
+  ],
+  [
+   1881.7258567412168,
+   25.0,
+   -0.15
+  ],
+  [
+   985.7814431690599,
+   25.0,
+   -0.15
+  ],
+  [
+   838.7422418744452,
+   25.0,
+   -0.15
+  ],
+  [
+   1243.0184156617534,
+   25.0,
+   -0.15
+  ],
+  [
+   1873.8446001505577,
+   25.0,
+   -0.15
+  ],
+  [
+   968.2765354229815,
+   25.0,
+   -0.15
+  ],
+  [
+   811.3856667308683,
+   25.0,
+   -0.15
+  ],
+  [
+   1210.017026578481,
+   25.0,
+   -0.15
+  ],
+  [
+   1895.73789574935,
+   25.0,
+   -0.15
+  ],
+  [
+   995.0191473705663,
+   25.0,
+   -0.15
+  ],
+  [
+   1568.5107181948608,
+   25.0,
+   -0.15
+  ],
+  [
+   1828.7223552932446,
+   25.0,
+   -0.15
+  ],
+  [
+   Infinity,
+   25.0,
+   -0.15
+  ],
+  [
+   Infinity,
+   25.0,
+   -0.15
+  ],
+  [
+   3441.787291776235,
+   25.0,
+   -0.15
+  ],
+  [
+   3525.6515096332037,
+   25.0,
+   -0.15
+  ],
+  [
+   4042.9706347092483,
+   25.0,
+   -0.15
+  ],
+  [
+   3932.147613417197,
+   25.0,
+   -0.15
+  ],
+  [
+   3667.420525980967,
+   25.0,
+   -0.15
+  ],
+  [
+   3616.7519251168037,
+   25.0,
+   -0.15
+  ]
+ ],
+ "fit_bounds": {
+  "spiral_doubling_s": [
+   3.0,
+   600.0
+  ],
+  "trim_cl_offset": [
+   -0.3,
+   0.1
+  ],
+  "windmilling_per_engine": [
+   0.0,
+   0.0015
+  ],
+  "rat_increment": [
+   0.0001,
+   0.0006
+  ],
+  "spiral_bank_cap_deg": [
+   30.0,
+   90.0
+  ],
+  "free_lift_lag_s": [
+   0.0,
+   30.0
+  ],
+  "free_lift_gain": [
+   0.3,
+   1.5
+  ],
+  "residual_bank_deg": [
+   2.0,
+   60.0
+  ],
+  "residual_bank_left_probability": [
+   0.02,
+   0.98
+  ],
+  "residual_bank_toward_dead_probability": [
+   0.02,
+   0.98
+  ],
+  "dive_trigger_eas_mid_kt": [
+   150.0,
+   260.0
+  ],
+  "dive_trigger_eas_scale_kt": [
+   2.0,
+   40.0
+  ]
+ },
+ "case_loglik": {
+  "Case 01": -91.12005428193902,
+  "Case 02": -35.1950635324797,
+  "Case 03": -117.53793223564625,
+  "Case 04": -55.169310323509954,
+  "Case 05": -130.74688464172235,
+  "Case 06": -83.63156794518122,
+  "Case 07": -81.59406186067642,
+  "Case 08": -50.76179536046851,
+  "Case 09": -44.4347670963131,
+  "Case 10": -89.76124174998803
+ },
+ "nuisance_draws": 4,
+ "bank_grid": [
+  0.0,
+  1.0,
+  2.0,
+  3.5,
+  5.0,
+  7.5,
+  10.0,
+  12.5,
+  15.0,
+  17.5,
+  20.0,
+  22.5,
+  25.0,
+  27.5,
+  30.0,
+  32.5,
+  35.0,
+  40.0,
+  45.0,
+  50.0,
+  55.0,
+  60.0
+ ],
+ "boeing_features": {
+  "Case 01": {
+   "dive": false,
+   "t_end_s": 2313.5,
+   "d_end_nm": 94.10166670730803,
+   "peak_descent_fpm": 4800.0,
+   "t15_s": null,
+   "chord15_nm": null,
+   "phugoid_period_s": 86.0,
+   "phugoid_damping": -0.012380680803921698,
+   "rolloff_s": 1003.5,
+   "bank20_deg": 6.57483564276006,
+   "bank_sign": -1.0,
+   "max_bank_deg": 11.557254183000767
+  },
+  "Case 02": {
+   "dive": false,
+   "t_end_s": 2285.6,
+   "d_end_nm": 93.5369248547621,
+   "peak_descent_fpm": 6300.0,
+   "t15_s": null,
+   "chord15_nm": null,
+   "phugoid_period_s": 83.5,
+   "phugoid_damping": -0.013326066825712338,
+   "rolloff_s": 1000.6,
+   "bank20_deg": 7.131014704756133,
+   "bank_sign": -1.0,
+   "max_bank_deg": 12.063355727821182
+  },
+  "Case 03": {
+   "dive": true,
+   "t_end_s": 434.0,
+   "d_end_nm": 20.348077216206523,
+   "peak_descent_fpm": 53460.0,
+   "t15_s": 305.0,
+   "chord15_nm": 4.707313059550038,
+   "phugoid_period_s": 188.0,
+   "phugoid_damping": -0.213723128248114,
+   "rolloff_s": 72.0,
+   "bank20_deg": 9.73662782732939,
+   "bank_sign": -1.0,
+   "max_bank_deg": 54.49264584320254
+  },
+  "Case 04": {
+   "dive": true,
+   "t_end_s": 308.0,
+   "d_end_nm": 10.56251510401597,
+   "peak_descent_fpm": 33600.0,
+   "t15_s": 169.0,
+   "chord15_nm": 6.129616330227235,
+   "phugoid_period_s": null,
+   "phugoid_damping": null,
+   "rolloff_s": 1.0,
+   "bank20_deg": 16.295068683681368,
+   "bank_sign": 1.0,
+   "max_bank_deg": 59.93925411189539
+  },
+  "Case 05": {
+   "dive": true,
+   "t_end_s": 1797.8,
+   "d_end_nm": 96.87468970527874,
+   "peak_descent_fpm": 24180.0,
+   "t15_s": 1718.8,
+   "chord15_nm": 4.936335711634284,
+   "phugoid_period_s": 87.0,
+   "phugoid_damping": -0.021597501822968157,
+   "rolloff_s": 795.8,
+   "bank20_deg": 6.645288679712834,
+   "bank_sign": -1.0,
+   "max_bank_deg": 12.849183147583444
+  },
+  "Case 06": {
+   "dive": true,
+   "t_end_s": 245.0,
+   "d_end_nm": 12.30200794049509,
+   "peak_descent_fpm": 43380.0,
+   "t15_s": 158.0,
+   "chord15_nm": 8.035936614649039,
+   "phugoid_period_s": null,
+   "phugoid_damping": null,
+   "rolloff_s": 3.0,
+   "bank20_deg": 8.748862222476944,
+   "bank_sign": 1.0,
+   "max_bank_deg": 57.26173705432348
+  },
+  "Case 07": {
+   "dive": false,
+   "t_end_s": 2311.3,
+   "d_end_nm": 92.45626117097586,
+   "peak_descent_fpm": 4920.0,
+   "t15_s": null,
+   "chord15_nm": null,
+   "phugoid_period_s": 85.0,
+   "phugoid_damping": -0.013611290019013055,
+   "rolloff_s": 1004.3,
+   "bank20_deg": 6.59160284855289,
+   "bank_sign": -1.0,
+   "max_bank_deg": 11.436756475118562
+  },
+  "Case 08": {
+   "dive": false,
+   "t_end_s": 2066.1,
+   "d_end_nm": 60.39933917006284,
+   "peak_descent_fpm": 7140.0,
+   "t15_s": null,
+   "chord15_nm": null,
+   "phugoid_period_s": 82.0,
+   "phugoid_damping": -0.008212903767307782,
+   "rolloff_s": 807.1,
+   "bank20_deg": 7.655306175432472,
+   "bank_sign": -1.0,
+   "max_bank_deg": 13.765386328739465
+  },
+  "Case 09": {
+   "dive": false,
+   "t_end_s": 2073.6,
+   "d_end_nm": 76.56394865073406,
+   "peak_descent_fpm": 6900.0,
+   "t15_s": null,
+   "chord15_nm": null,
+   "phugoid_period_s": 83.0,
+   "phugoid_damping": -0.009016671375036568,
+   "rolloff_s": 710.6,
+   "bank20_deg": 7.8469471572728136,
+   "bank_sign": -1.0,
+   "max_bank_deg": 13.776745537178845
+  },
+  "Case 10": {
+   "dive": true,
+   "t_end_s": 329.0,
+   "d_end_nm": 9.035987581338327,
+   "peak_descent_fpm": 58020.0,
+   "t15_s": 172.0,
+   "chord15_nm": 7.321955587977671,
+   "phugoid_period_s": null,
+   "phugoid_damping": null,
+   "rolloff_s": 1.0,
+   "bank20_deg": 15.784397475390357,
+   "bank_sign": 1.0,
+   "max_bank_deg": 53.18800245474057
+  }
+ },
+ "tolerances_2sigma": {
+  "Case 01": {
+   "phugoid_period_s": 8.6,
+   "phugoid_damping": 0.02,
+   "bank20_deg": 2.021774582206619,
+   "peak_descent_fpm": 300.0,
+   "d_end_nm": 9.410166670730803,
+   "t_end_s": 231.35000000000002
+  },
+  "Case 02": {
+   "phugoid_period_s": 8.35,
+   "phugoid_damping": 0.02,
+   "bank20_deg": 2.108641344845158,
+   "peak_descent_fpm": 315.0,
+   "d_end_nm": 9.353692485476211,
+   "t_end_s": 228.56
+  },
+  "Case 03": {
+   "bank20_deg": 2.187664733600394,
+   "t15_s": 30.5,
+   "peak_descent_fpm": 6837.965393150551,
+   "chord15_nm": 0.5,
+   "d_end_nm": 2.0348077216206524,
+   "t_end_s": 43.400000000000006
+  },
+  "Case 04": {
+   "bank20_deg": 2.047455936378398,
+   "t15_s": 16.900000000000002,
+   "peak_descent_fpm": 3373.913249537636,
+   "chord15_nm": 0.6129616330227236,
+   "d_end_nm": 1.056251510401597,
+   "t_end_s": 30.8
+  },
+  "Case 05": {
+   "phugoid_period_s": 8.700000000000001,
+   "phugoid_damping": 0.02,
+   "bank20_deg": 2.0272727034099502,
+   "t15_s": 171.88,
+   "peak_descent_fpm": 2733.8691523864763,
+   "chord15_nm": 0.5,
+   "d_end_nm": 9.687468970527874,
+   "t_end_s": 179.78
+  },
+  "Case 06": {
+   "bank20_deg": 2.086955375793181,
+   "t15_s": 15.8,
+   "peak_descent_fpm": 4345.289874071378,
+   "chord15_nm": 0.803593661464904,
+   "d_end_nm": 1.230200794049509,
+   "t_end_s": 24.5
+  },
+  "Case 07": {
+   "phugoid_period_s": 8.5,
+   "phugoid_damping": 0.02,
+   "bank20_deg": 2.020573440269697,
+   "peak_descent_fpm": 300.0,
+   "d_end_nm": 9.245626117097586,
+   "t_end_s": 231.13000000000002
+  },
+  "Case 08": {
+   "phugoid_period_s": 8.200000000000001,
+   "phugoid_damping": 0.02,
+   "bank20_deg": 2.023511267108253,
+   "peak_descent_fpm": 357.0,
+   "d_end_nm": 6.039933917006284,
+   "t_end_s": 206.61
+  },
+  "Case 09": {
+   "phugoid_period_s": 8.3,
+   "phugoid_damping": 0.02,
+   "bank20_deg": 2.024146676148047,
+   "peak_descent_fpm": 345.0,
+   "d_end_nm": 7.656394865073406,
+   "t_end_s": 207.36
+  },
+  "Case 10": {
+   "bank20_deg": 2.277765947054729,
+   "t15_s": 17.2,
+   "peak_descent_fpm": 6050.570643586682,
+   "chord15_nm": 0.7321955587977671,
+   "d_end_nm": 1.0,
+   "t_end_s": 32.9
+  }
+ },
+ "prediction": {
+  "Case 01": {
+   "p_dive_class": 1.0,
+   "p_direction": 0.22358169368036018,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 86.0,
+     "tol": 8.6,
+     "median": 64.0,
+     "mean": 64.53167613123667,
+     "p_within": 0.00716978022449042,
+     "available": 0.998893524348912,
+     "pass_median": false
+    },
+    "phugoid_damping": {
+     "boeing": -0.012380680803921698,
+     "tol": 0.02,
+     "median": 0.03812586363210968,
+     "mean": 0.03849683578054529,
+     "p_within": 0.0,
+     "available": 0.998893524348912,
+     "pass_median": false
+    },
+    "bank20_deg": {
+     "boeing": 6.57483564276006,
+     "tol": 2.021774582206619,
+     "median": 6.2252662282072055,
+     "mean": 6.644308498165417,
+     "p_within": 0.8906745115303308,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "peak_descent_fpm": {
+     "boeing": 4800.0,
+     "tol": 300.0,
+     "median": 6365.15625,
+     "mean": 6697.74682848889,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 94.10166670730803,
+     "tol": 9.410166670730803,
+     "median": 90.72526841585629,
+     "mean": 90.82059006186283,
+     "p_within": 1.0,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "t_end_s": {
+     "boeing": 2313.5,
+     "tol": 231.35000000000002,
+     "median": 2463.5,
+     "mean": 2417.1215043322172,
+     "p_within": 0.9454188224029034,
+     "available": 1.0,
+     "pass_median": true
+    }
+   }
+  },
+  "Case 02": {
+   "p_dive_class": 1.0000000000000002,
+   "p_direction": 0.24711258693910526,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 83.5,
+     "tol": 8.35,
+     "median": 64.0,
+     "mean": 66.0593439083768,
+     "p_within": 0.1353953816966779,
+     "available": 0.9963077084570525,
+     "pass_median": false
+    },
+    "phugoid_damping": {
+     "boeing": -0.013326066825712338,
+     "tol": 0.02,
+     "median": 0.03789746358960815,
+     "mean": 0.03982761123959748,
+     "p_within": 0.0,
+     "available": 0.9963077084570525,
+     "pass_median": false
+    },
+    "bank20_deg": {
+     "boeing": 7.131014704756133,
+     "tol": 2.108641344845158,
+     "median": 6.236728327439062,
+     "mean": 7.17430166308932,
+     "p_within": 0.8614122459831676,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "peak_descent_fpm": {
+     "boeing": 6300.0,
+     "tol": 315.0,
+     "median": 6349.04296875,
+     "mean": 7496.704725119446,
+     "p_within": 0.8178634837127042,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "d_end_nm": {
+     "boeing": 93.5369248547621,
+     "tol": 9.353692485476211,
+     "median": 93.4303173507573,
+     "mean": 93.37673922387191,
+     "p_within": 0.9999999999999999,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "t_end_s": {
+     "boeing": 2285.6,
+     "tol": 228.56,
+     "median": 2436.6,
+     "mean": 2275.4078626750293,
+     "p_within": 0.8178634837127042,
+     "available": 1.0,
+     "pass_median": true
+    }
+   }
+  },
+  "Case 03": {
+   "p_dive_class": 0.7351606081674413,
+   "p_direction": 0.7599124832847585,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 9.73662782732939,
+     "tol": 2.187664733600394,
+     "median": 11.814286823407741,
+     "mean": 11.44965763851791,
+     "p_within": 0.5581284984936117,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "t15_s": {
+     "boeing": 305.0,
+     "tol": 30.5,
+     "median": 122.0,
+     "mean": 126.7448497383388,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "peak_descent_fpm": {
+     "boeing": 53460.0,
+     "tol": 6837.965393150551,
+     "median": 25226.015625,
+     "mean": 25279.43920168092,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "chord15_nm": {
+     "boeing": 4.707313059550038,
+     "tol": 0.5,
+     "median": 5.712631050112232,
+     "mean": 5.673585839276782,
+     "p_within": 0.17572155850886362,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 20.348077216206523,
+     "tol": 2.0348077216206524,
+     "median": 11.90694980531754,
+     "mean": 12.400882784883478,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t_end_s": {
+     "boeing": 434.0,
+     "tol": 43.400000000000006,
+     "median": 427.0,
+     "mean": 407.9005985366718,
+     "p_within": 0.7413125619180498,
+     "available": 1.0,
+     "pass_median": true
+    }
+   }
+  },
+  "Case 04": {
+   "p_dive_class": 0.7351606080969204,
+   "p_direction": 0.9817458258618734,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 16.295068683681368,
+     "tol": 2.047455936378398,
+     "median": 10.076595113210704,
+     "mean": 9.901212435228125,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t15_s": {
+     "boeing": 169.0,
+     "tol": 16.900000000000002,
+     "median": 114.0,
+     "mean": 119.40449250368668,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "peak_descent_fpm": {
+     "boeing": 33600.0,
+     "tol": 3373.913249537636,
+     "median": 25534.74609375,
+     "mean": 25105.823667415483,
+     "p_within": 0.07416615118668451,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "chord15_nm": {
+     "boeing": 6.129616330227235,
+     "tol": 0.6129616330227236,
+     "median": 5.904367543705587,
+     "mean": 5.942616496115498,
+     "p_within": 0.8299408357147356,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "d_end_nm": {
+     "boeing": 10.56251510401597,
+     "tol": 1.056251510401597,
+     "median": 6.9120128945742865,
+     "mean": 7.839577655644957,
+     "p_within": 0.07416615118668451,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t_end_s": {
+     "boeing": 308.0,
+     "tol": 30.8,
+     "median": 414.0,
+     "mean": 403.47919559149614,
+     "p_within": 0.006288193705686171,
+     "available": 1.0,
+     "pass_median": false
+    }
+   }
+  },
+  "Case 05": {
+   "p_dive_class": 0.2507210361510273,
+   "p_direction": 0.7022589518822733,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 87.0,
+     "tol": 8.700000000000001,
+     "median": 74.5,
+     "mean": 74.5,
+     "p_within": 0.0,
+     "available": 0.90417423204798,
+     "pass_median": false
+    },
+    "phugoid_damping": {
+     "boeing": -0.021597501822968157,
+     "tol": 0.02,
+     "median": 0.055928371693166355,
+     "mean": 0.05615329866988064,
+     "p_within": 0.0,
+     "available": 0.90417423204798,
+     "pass_median": false
+    },
+    "bank20_deg": {
+     "boeing": 6.645288679712834,
+     "tol": 2.0272727034099502,
+     "median": 9.78851081020024,
+     "mean": 10.352528078752727,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t15_s": {
+     "boeing": 1718.8,
+     "tol": 171.88,
+     "median": 943.8,
+     "mean": 936.3255900997424,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "peak_descent_fpm": {
+     "boeing": 24180.0,
+     "tol": 2733.8691523864763,
+     "median": 17099.94140625,
+     "mean": 17213.814202521135,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "chord15_nm": {
+     "boeing": 4.936335711634284,
+     "tol": 0.5,
+     "median": 3.9755875249808033,
+     "mean": 3.974827740775392,
+     "p_within": 0.09582576795202008,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 96.87468970527874,
+     "tol": 9.687468970527874,
+     "median": 86.2795798673895,
+     "mean": 85.73855773739697,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t_end_s": {
+     "boeing": 1797.8,
+     "tol": 179.78,
+     "median": 1338.8,
+     "mean": 1334.875408530591,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    }
+   }
+  },
+  "Case 06": {
+   "p_dive_class": 0.6806035445380336,
+   "p_direction": 0.9817458260391919,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 8.748862222476944,
+     "tol": 2.086955375793181,
+     "median": 11.255262114006298,
+     "mean": 10.723428204502946,
+     "p_within": 0.1602148188505891,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t15_s": {
+     "boeing": 158.0,
+     "tol": 15.8,
+     "median": 112.0,
+     "mean": 118.2230166795745,
+     "p_within": 0.09678282934647969,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "peak_descent_fpm": {
+     "boeing": 43380.0,
+     "tol": 4345.289874071378,
+     "median": 25497.48046875,
+     "mean": 24687.13751447617,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "chord15_nm": {
+     "boeing": 8.035936614649039,
+     "tol": 0.803593661464904,
+     "median": 5.669112522515842,
+     "mean": 5.621780987731649,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 12.30200794049509,
+     "tol": 1.230200794049509,
+     "median": 7.237687291178182,
+     "mean": 7.277584774752519,
+     "p_within": 0.09678282934647969,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t_end_s": {
+     "boeing": 245.0,
+     "tol": 24.5,
+     "median": 332.0,
+     "mean": 310.6145511405423,
+     "p_within": 0.09471564010043917,
+     "available": 1.0,
+     "pass_median": false
+    }
+   }
+  },
+  "Case 07": {
+   "p_dive_class": 0.9999999999999998,
+   "p_direction": 0.22982361240933838,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 85.0,
+     "tol": 8.5,
+     "median": 64.0,
+     "mean": 64.99832430997319,
+     "p_within": 0.04352566435504876,
+     "available": 0.9981559980405034,
+     "pass_median": false
+    },
+    "phugoid_damping": {
+     "boeing": -0.013611290019013055,
+     "tol": 0.02,
+     "median": 0.038020797497759384,
+     "mean": 0.03903657512522679,
+     "p_within": 0.0,
+     "available": 0.9981559980405034,
+     "pass_median": false
+    },
+    "bank20_deg": {
+     "boeing": 6.59160284855289,
+     "tol": 2.020573440269697,
+     "median": 6.214291234128225,
+     "mean": 6.776497064031203,
+     "p_within": 0.8656007963835496,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "peak_descent_fpm": {
+     "boeing": 4920.0,
+     "tol": 300.0,
+     "median": 6350.2734375,
+     "mean": 6913.282134000076,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 92.45626117097586,
+     "tol": 9.245626117097586,
+     "median": 89.87730411141202,
+     "mean": 90.02889716957392,
+     "p_within": 1.0,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "t_end_s": {
+     "boeing": 2311.3,
+     "tol": 231.13000000000002,
+     "median": 2455.3,
+     "mean": 2376.0686276808,
+     "p_within": 0.9090374936477648,
+     "available": 1.0,
+     "pass_median": true
+    }
+   }
+  },
+  "Case 08": {
+   "p_dive_class": 1.0,
+   "p_direction": 0.21644862366618897,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 82.0,
+     "tol": 8.200000000000001,
+     "median": 63.0,
+     "mean": 63.1093586680813,
+     "p_within": 0.0027394644223934896,
+     "available": 0.9997884268293864,
+     "pass_median": false
+    },
+    "phugoid_damping": {
+     "boeing": -0.008212903767307782,
+     "tol": 0.02,
+     "median": 0.038389550783520916,
+     "mean": 0.03834099407199532,
+     "p_within": 0.0,
+     "available": 0.9997884268293864,
+     "pass_median": false
+    },
+    "bank20_deg": {
+     "boeing": 7.655306175432472,
+     "tol": 2.023511267108253,
+     "median": 6.257335157755213,
+     "mean": 6.495263785478639,
+     "p_within": 0.9920587390826273,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "peak_descent_fpm": {
+     "boeing": 7140.0,
+     "tol": 357.0,
+     "median": 6429.08203125,
+     "mean": 6494.877268841198,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 60.39933917006284,
+     "tol": 6.039933917006284,
+     "median": 74.61459663929128,
+     "mean": 74.65202502483052,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t_end_s": {
+     "boeing": 2066.1,
+     "tol": 206.61,
+     "median": 2340.1,
+     "mean": 2332.5540406908094,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    }
+   }
+  },
+  "Case 09": {
+   "p_dive_class": 1.0,
+   "p_direction": 0.21943329157396688,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 83.0,
+     "tol": 8.3,
+     "median": 65.0,
+     "mean": 65.16039233480062,
+     "p_within": 0.016081893987716527,
+     "available": 0.9994068965901004,
+     "pass_median": false
+    },
+    "phugoid_damping": {
+     "boeing": -0.009016671375036568,
+     "tol": 0.02,
+     "median": 0.03820755468392944,
+     "mean": 0.03835908638556445,
+     "p_within": 0.0,
+     "available": 0.9994068965901004,
+     "pass_median": false
+    },
+    "bank20_deg": {
+     "boeing": 7.8469471572728136,
+     "tol": 2.024146676148047,
+     "median": 6.142386332518084,
+     "mean": 6.438891721377014,
+     "p_within": 0.9777382504816786,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "peak_descent_fpm": {
+     "boeing": 6900.0,
+     "tol": 345.0,
+     "median": 6119.1796875,
+     "mean": 6332.46755104,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 76.56394865073406,
+     "tol": 7.656394865073406,
+     "median": 69.20403159170914,
+     "mean": 69.23184840349981,
+     "p_within": 0.7573142781129764,
+     "available": 1.0,
+     "pass_median": true
+    },
+    "t_end_s": {
+     "boeing": 2073.6,
+     "tol": 207.36,
+     "median": 2315.6,
+     "mean": 2290.3120995050185,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    }
+   }
+  },
+  "Case 10": {
+   "p_dive_class": 0.7351606081498487,
+   "p_direction": 0.9817458259143497,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 15.784397475390357,
+     "tol": 2.277765947054729,
+     "median": 10.446429511119607,
+     "mean": 10.04523773260649,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t15_s": {
+     "boeing": 172.0,
+     "tol": 17.2,
+     "median": 114.0,
+     "mean": 119.73272038294601,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "peak_descent_fpm": {
+     "boeing": 58020.0,
+     "tol": 6050.570643586682,
+     "median": 25617.65625,
+     "mean": 25184.568895894907,
+     "p_within": 0.0,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "chord15_nm": {
+     "boeing": 7.321955587977671,
+     "tol": 0.7321955587977671,
+     "median": 6.136888168894719,
+     "mean": 6.115565953732365,
+     "p_within": 0.2518048852466619,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "d_end_nm": {
+     "boeing": 9.035987581338327,
+     "tol": 1.0,
+     "median": 6.962055049467713,
+     "mean": 7.7195467018186665,
+     "p_within": 0.2224984535600536,
+     "available": 1.0,
+     "pass_median": false
+    },
+    "t_end_s": {
+     "boeing": 329.0,
+     "tol": 32.9,
+     "median": 411.0,
+     "mean": 401.22807664434976,
+     "p_within": 0.2508564782277124,
+     "available": 1.0,
+     "pass_median": false
+    }
+   }
+  }
+ }
+}

@@ -12180,3 +12180,12 @@ damped, against 82-86 s and neutral; a negative damping term shortens the period
 direction in the right-turning dives, dive peak rate. run.toml unchanged; uncontrolled arm stays "not calibrated"; the round-2 laws are in
 the module, off by default. Timestamp correction: my entries today headed 09:55Z and 10:20Z were committed at 09:41Z and 10:07Z.
 — End of Flight Module
+
+## 2026-10-14 17:36Z — End of Flight Module: item 2 round 3 — gate still fails; best of three out of sample; 22:41 asymmetry run queued
+Round 3 (PREREG-v3; first run unconverged and kept as such; rerun with the amended optimiser start only): out of sample -714 nat (round 2
+-904, round 1 -1,282); 25 of 62 case-targets inside tolerance; no case passes. The lagged lift (tau 3.5 s, gain 0.41) reproduces the glide
+phugoid in cases 1, 7, 8; the towards-dead-engine rule gets the right-turning dives. Identification is weak (LOO gain 0.38-0.98; all-data bank
+cap outside the LOO range; three parameters at bounds). run.toml unchanged; uncontrolled arm stays "not calibrated". Pete approved the 22:41
+asymmetry arm (o14, 8 seeds, ~3.7 h): queued behind the lock. Dihedral roll deferred until round 3 and the 22:41 arm are read (Pete agrees:
+convergence first).
+— End of Flight Module
