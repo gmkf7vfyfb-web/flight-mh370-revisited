@@ -149,3 +149,21 @@ Under the all-four control sampling B goes 35 → 193 (D0) and 58 → 128 (D1). 
 B mass that survives the 00:19 BFO cells (D2–D4) takes over after 00:11, so its 23:15 and 00:11 states are core-flown and the
 selection does not touch it; families A1 and A2 are pure cruise to 00:11 and are unchanged. Next pilot: the same selection aimed at
 the 00:19 data as well (`smoke/score-select-2241-all.toml`, target m0011+both, every child).
+
+**Pilot P2241-sel8all** (the same, K = 8, aimed at target m0011+both on every child; 853 s, 5.9×). Test 6 PASSES (family shares
+within 0.002; max CDF deviation ≤ 0.015, A1 latitude; mean correction 1.0005 ± 0.0016). Effective impacts, run-i-dive control prior,
+unaimed → aimed at 00:11 only → aimed at 00:11 + both 00:19 BFOs:
+
+| cell | all | A1 | A2 | B |
+|---|---|---|---|---|
+| D0 | 406 → 1,811 → 648 | 921 → 924 → 372 | 1,804 → 1,917 → 303 | 26 → 137 → 118 |
+| D2 | 392 → 393 → 112 | 85 → 85 → 50 | 286 → 286 → 64 | 41 → 41 → 13 |
+| D3 | 23 → 23 → **108** | 3 → 3 → **29** | 17 → 17 → **66** | 11 → 11 → 23 |
+| D4 | 118 → 118 → **295** | 14 → 14 → **71** | 86 → 86 → **250** | 25 → 25 → 24 |
+
+**One aim cannot serve every option:** aiming at the R1200 cells gains 2.5–10× there and loses 2–6× in the held-out and R600 cells.
+Both aimed runs are exact, so a production arm can run both and use, for each option, the run aimed at it (or combine them by
+multiple importance sampling). Family B under the 00:19 BFO cells stays at 13–24 per seed in every variant: those trajectories are
+parent-limited (effective parents ≈ effective impacts) — set by the core-flown cruise from 22:41 — and no in-module proposal reaches
+that. Onset-boundary statistic 0.0 % in every family and cell in both aimed runs; supported B onsets 46–97 min after 22:41 (D0),
+94–97 min (D3, D4).

@@ -38,14 +38,22 @@ Two adaptations are needed and are stated, not hidden:
 | T1 phugoid period | glide cases 1, 2, 7, 8, 9 and the glide part of 5 | ±10 % | Part 60 2.c.9 directly |
 | T2 phugoid damping | same | ±0.02 damping ratio, or ±10 % of time to half amplitude | Part 60 2.c.9 directly |
 | T3 bank growth | all ten cases, from the first sustained roll-off | correct direction and trend, and ±2° or ±10 % of bank 20 s later, whichever is larger, plus the measured derivation spread | Part 60 2.d.4 + derivation term (measured) |
-| T4 time to 15,000 ft/min | dive cases 3, 4, 5, 6, 10 | correct yes/no in all ten cases; time from first flame-out ±10 % or ±10 s, whichever is larger | Part 60 timing tolerances are ±5–10 %; ±10 s is the 21 s smoothing window's half-width, below which 1 Hz data cannot resolve a crossing |
-| T5 peak descent rate | all ten | ±300 ft/min or ±5 % in the glides (Part 60 1.d.5); **±10 %** in the dives | Part 60 1.d.5 for glides; doubled for dives, because no Part 60 test covers flight beyond M0.87 and the model is labelled extrapolated there (§8) |
+| T4 time to 15,000 ft/min | dive cases 3, 4, 5, 6, 10 | correct yes/no in all ten cases; time from first flame-out ±10 % or ±5 s, whichever is larger | Part 60 timing tolerances are ±5–10 %. Measured: the crossing time is the same to ±1 s for smoothing windows of 11, 21 and 31 s in all five dive cases, so the 5 s floor is generous, not a resolution limit |
+| T5 peak descent rate | all ten | ±300 ft/min or ±5 % in the glides (Part 60 1.d.5); **±10 %, plus the measured derivation spread in quadrature,** in the dives | Part 60 1.d.5 for glides; doubled for dives, because no Part 60 test covers flight beyond M0.87 and the model is labelled extrapolated there (§8). Measured derivation spread of the dive peak across smoothing windows: up to 8 % (case 3: 54,055 / 54,649 / 58,500 ft/min), under 4 % in the other dives, so the dive tolerance is about ±13 % in case 3 |
 | T6 distance and time from first flame-out to impact | all ten | ±10 % of distance, or ±1 NM for the dives; ±10 % of time, or ±10 s | Part 60 distance tests ±10 %; the ±1 NM floor is a proposal, to be checked against the traces' position noise before fitting |
 | T7 chord after the 15,000 ft/min crossing | dive cases | ±10 % or ±0.5 NM, against Boeing's traces; reported beside Iannello's published 4.7–7.9 NM | the one published comparison (secondary source, provenance logged in `eof-published-benchmarks.csv`) |
 
 **Gate rule (§8).** The uncontrolled-arm gate passes when every case passes every target that applies to it **out of sample**
 (leave-one-out), with the per-case residual table published. A case that fails is reported as failed with its residuals; it is not
 dropped and not refitted on its own.
+
+## Derivation spread, measured 13 Oct (`derivation-spread.json`)
+
+Across smoothing windows of 11, 21 and 31 s: derived coordinated-turn bank differs by a median 0.1–0.2° and at most 1.1° (95th
+percentile per case); vertical speed by a median 10–26 ft/min and at most 150 ft/min (95th percentile); the 15,000 ft/min crossing
+time by at most 1 s. So the derivation adds little except to the dive peak rate (T5). **Not measured and not measurable from these
+traces:** the systematic error of the coordinated-turn relation itself (sideslip, and any wind the simulator applied), which matters
+for T3. It is declared, not hidden.
 
 ## Fit design that goes with the tolerances (from the work order)
 
@@ -63,4 +71,4 @@ dropped and not refitted on its own.
 ## What Pete is asked to approve
 
 The table above as the acceptance standard (or changes to any row), **before** any fit is run. In particular: (i) the doubled ±10 %
-on dive descent rate (T5); (ii) the ±10 s floor on time to 15,000 ft/min (T4); (iii) σ = tolerance / 2 in the fit likelihood.
+on dive descent rate (T5); (ii) the ±5 s floor on time to 15,000 ft/min (T4); (iii) σ = tolerance / 2 in the fit likelihood.
