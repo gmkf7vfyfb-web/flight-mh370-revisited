@@ -161,6 +161,21 @@ pub struct EnvelopeConfig {
     /// so a drawn residual bank of 0 does not freeze it.
     #[serde(default = "default_spiral_bank_floor_deg")]
     pub spiral_bank_floor_deg: f64,
+    /// Item 2 round 2 (results/eof-item2-fit-oct14/PREREG-v2.md). Free-flight lift-speed exponent n: the free lift coefficient is
+    /// c_L,trim (V_loss / V)^n, so lift goes as V^(2-n) and the phugoid frequency as sqrt(2-n) g / V; a stand-in for the flight-control
+    /// law's speed holding. Fixed 0 (the default) is the earlier model exactly, and draws no uniform.
+    #[serde(default = "zero_range")]
+    pub free_lift_speed_exponent: Range,
+    /// Item 2 round 2. Free-flight path-angle damping k: lift L = L0 - k W sin(gamma) (damping ratio about k / (2 sqrt 2) at constant
+    /// density); k > 0 damps the phugoid, k < 0 undamps it. Fixed 0 (default): the earlier model exactly.
+    #[serde(default = "zero_range")]
+    pub free_path_damping: Range,
+    /// Item 2 round 2. State-dependent dive trigger: when set, free flight diverges with probability
+    /// 1 / (1 + exp(-(EAS_loss - mid) / scale)) at the moment it begins, replacing `spiral_divergent_weight`. Absent (default): off.
+    #[serde(default)]
+    pub dive_trigger_eas_mid_kt: Option<Range>,
+    #[serde(default = "default_dive_trigger_scale")]
+    pub dive_trigger_eas_scale_kt: Range,
     /// Where the fixed-trim lift coefficient of a maintained-then-lost descent is referenced (Pete's
     /// ruling 10 Oct 2026, item 3, after the architecture 00:19 study). `false` (the default, the earlier
     /// behaviour): the level C_L of the TAKEOVER state plus the drawn trim offset, fixed at sampling time.
@@ -414,6 +429,41 @@ fn default_pushover_hold() -> Range {
     Range::Uniform([0.0, 300.0])
 }
 
+fn zero_range() -> Range {
+    Range::Fixed(0.0)
+}
+fn default_dive_trigger_scale() -> Range {
+    Range::Fixed(10.0)
+}
+
+/// Item 2 round 2: the free-flight lift coefficient after the lift-speed exponent and the path-rate damping (see EnvelopeConfig).
+/// Exactly `c_l` when both are 0. Shared by `Flying` and the calibration fixture so both fly the same law.
+pub fn free_lift_c_l(c_l: f64, v_ref_mps: f64, exponent: f64, damping: f64, body: &Body, bank_rad: f64, wing_area_m2: f64) -> f64 {
+    if exponent == 0.0 && damping == 0.0 {
+        return c_l;
+    }
+    let v = body.tas_mps.max(1.0);
+    let c1 = if exponent != 0.0 && v_ref_mps > 0.0 { c_l * (v_ref_mps / v).powf(exponent) } else { c_l };
+    if damping == 0.0 {
+        return c1;
+    }
+    let t = atmos::isa_temperature_k(body.pressure_altitude_ft);
+    let q = atmos::dynamic_pressure_pa(geo::isa_pressure_pa(body.pressure_altitude_ft), v / atmos::sound_speed_mps(t));
+    // Path-angle damping: lift reduced in a climb and raised in a descent, dL = -k W sin(gamma). In the phugoid equations this adds
+    // -k g / V to the trace, i.e. a damping ratio of about k / (2 sqrt 2) at constant density. (A gamma_dot term, the first form
+    // written in PREREG-v2, only rescales the normal inertia and changes the period, not the damping: corrected before any fit.)
+    let _ = bank_rad;
+    let w = body.mass_kg * atmos::G0;
+    (c1 * q * wing_area_m2 - damping * w * body.gamma_rad.sin()) / (q * wing_area_m2)
+}
+
+/// Item 2 round 2: equivalent airspeed, kt, from TAS and ISA density at the pressure altitude.
+pub fn eas_kt(body: &Body) -> f64 {
+    let t = atmos::isa_temperature_k(body.pressure_altitude_ft);
+    let rho = atmos::density_kg_m3(geo::isa_pressure_pa(body.pressure_altitude_ft), t);
+    body.tas_mps * (rho / 1.225).sqrt() / 0.514_444
+}
+
 fn default_spiral_doubling_s() -> Range {
     Range::Uniform([60.0, 120.0])
 }
@@ -472,6 +522,20 @@ impl EnvelopeConfig {
         // Up to 135 deg: an uncontrolled spiral dive can overbank past 90 deg (lift below the horizon).
         if !(self.spiral_bank_cap_deg > 0.0 && self.spiral_bank_cap_deg <= 135.0) {
             return Err("envelope.spiral_bank_cap_deg must be in (0, 135]".into());
+        }
+        self.free_lift_speed_exponent.check("envelope.free_lift_speed_exponent")?;
+        self.free_path_damping.check("envelope.free_path_damping")?;
+        let k_lo = match self.free_path_damping { Range::Fixed(v) => v, Range::Uniform([a, _]) => a };
+        if !(k_lo > -1.0) {
+            return Err("envelope.free_path_damping must be > -1 (bounds in PREREG-v2: [-0.5, 2])".into());
+        }
+        if let Some(m) = self.dive_trigger_eas_mid_kt {
+            m.check("envelope.dive_trigger_eas_mid_kt")?;
+            self.dive_trigger_eas_scale_kt.check("envelope.dive_trigger_eas_scale_kt")?;
+            let lo = match self.dive_trigger_eas_scale_kt { Range::Fixed(v) => v, Range::Uniform([a, _]) => a };
+            if !(lo > 0.0) {
+                return Err("envelope.dive_trigger_eas_scale_kt must be positive".into());
+            }
         }
         if !(self.spiral_bank_floor_deg >= 0.0 && self.spiral_bank_floor_deg < self.spiral_bank_cap_deg) {
             return Err("envelope.spiral_bank_floor_deg must be in [0, cap)".into());
@@ -954,6 +1018,14 @@ pub struct Flying {
     pub free_since_s: Option<f64>,
     /// `EnvelopeConfig::trim_reference_at_loss`.
     pub trim_reference_at_loss: bool,
+    /// Item 2 round 2: lift-speed exponent and path-rate damping of free flight (drawn per descent; 0 = off), the TAS at which
+    /// free flight began (the speed reference), and the dive trigger: (uniform, mid kt, scale kt, doubling s), decided at the
+    /// start of free flight from the EAS then; the probability it gave is kept for the latent.
+    pub free_speed_exponent: f64,
+    pub free_path_damping: f64,
+    pub free_v_ref_mps: Option<f64>,
+    pub dive_trigger: Option<(f64, f64, f64, f64)>,
+    pub dive_trigger_probability: Option<f64>,
     /// The trim C_L latched at the loss of control when it is referenced to the state at loss.
     pub loss_c_l: Option<f64>,
     /// Thrust setting held in free flight by an engine still running (item 2: autopilot lost at the first flame-out, the
@@ -982,6 +1054,26 @@ impl Flying {
         }
     }
 
+    /// Item 2 round 2: latch the speed reference and decide the dive trigger at the first step of free flight. A no-op (and
+    /// nothing changes) when neither is configured.
+    fn enter_free(&mut self, body: &Body) {
+        if self.free_since_s.is_some() {
+            return;
+        }
+        if self.free_speed_exponent != 0.0 {
+            self.free_v_ref_mps = Some(body.tas_mps);
+        }
+        if let Some((u, mid, scale, t2)) = self.dive_trigger {
+            let p = 1.0 / (1.0 + (-(eas_kt(body) - mid) / scale).exp());
+            self.dive_trigger_probability = Some(p);
+            self.spiral_doubling_s = if u < p { Some(t2) } else { None };
+        }
+    }
+
+    fn free_lift(&self, c_l: f64, body: &Body, bank_rad: f64) -> f64 {
+        free_lift_c_l(c_l, self.free_v_ref_mps.unwrap_or(f64::NAN), self.free_speed_exponent, self.free_path_damping, body, bank_rad, self.aero.wing_area_m2)
+    }
+
     pub fn new(profile: Profile, aero: Aero, propulsion: Propulsion, cfg: &EnvelopeConfig) -> Self {
         let pilot = super::manoeuvre::Pilot::new(&profile.manoeuvres);
         let mut f = Self::bare(profile, aero, propulsion, cfg);
@@ -1008,6 +1100,11 @@ impl Flying {
             spiral_bank_floor_rad: cfg.spiral_bank_floor_deg.to_radians(),
             free_since_s: None,
             trim_reference_at_loss: cfg.trim_reference_at_loss,
+            free_speed_exponent: 0.0,
+            free_path_damping: 0.0,
+            free_v_ref_mps: None,
+            dive_trigger: None,
+            dive_trigger_probability: None,
             loss_c_l: None,
             free_setting: 0.0,
             pushover_vmo_kt: cfg.pushover_vmo_kt,
@@ -1086,7 +1183,9 @@ impl Flying {
                     } else {
                         c_l
                     };
+                    self.enter_free(body);
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
+                    let c_l = self.free_lift(c_l, body, bank_rad);
                     let c_l = self.pitchdown_c_l(body, elapsed_s, c_l);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
@@ -1172,7 +1271,9 @@ impl Flying {
                             }
                         }
                     }
+                    self.enter_free(body);
                     let bank_rad = self.free_bank(bank_rad, elapsed_s);
+                    let c_l = self.free_lift(c_l, body, bank_rad);
                     let c_l = self.pitchdown_c_l(body, elapsed_s, c_l);
                     return (Command::FixedTrim { c_l, bank_rad }, self.configuration(0), self.free_setting);
                 }
@@ -1255,6 +1356,10 @@ pub(super) mod tests {
             spiral_bank_floor_deg: 1.0,
             trim_reference_at_loss: false,
             residual_bank_left_probability: None,
+            free_lift_speed_exponent: Range::Fixed(0.0),
+            free_path_damping: Range::Fixed(0.0),
+            dive_trigger_eas_mid_kt: None,
+            dive_trigger_eas_scale_kt: Range::Fixed(10.0),
             rapid_descent_probability: 0.0,
             rapid_descent_rate_fpm: default_rapid_rate(),
             pushover_load_factor_floor_g: default_pushover_floor(),

@@ -40,6 +40,8 @@ use hypothesis::{Air, Atmosphere};
 use super::aero::{Aero, Configuration};
 #[cfg(test)]
 use super::aero::Asymmetry;
+#[cfg(test)]
+use super::profile::free_lift_c_l;
 use super::atmos;
 
 #[cfg(test)]
@@ -1020,7 +1022,7 @@ mod tests {
     /// `the_trim_at_loss_can_be_referenced_to_the_state_at_loss` pins the production side of that law.
     ///   jobs CSV (EOF_FIT_JOBS), one row per flight, header skipped:
     ///     id, alt_ft, tas_mps, gamma_deg, heading_deg, mass_kg, dcl, bank0_deg (signed, + right), t2_s (<= 0: neutral),
-    ///     cap_deg, floor_deg, oswald, ld_max, wave_drag, tuck, windmilling, rat
+    ///     cap_deg, floor_deg, oswald, ld_max, wave_drag, tuck, windmilling, rat[, lift_speed_exponent, path_damping]
     ///   output (EOF_FIT_OUT): binary little-endian f32 rows (id, t_s, east_m, north_m, alt_ft), 1 Hz plus the impact row.
     /// Run: `EOF_FIT_JOBS=.. EOF_FIT_OUT=.. cargo test --release -p mh370-hypotheses -- --ignored boeing_fit_batch`.
     #[test]
@@ -1032,7 +1034,9 @@ mod tests {
         let cfg = Configuration::glide();
         for line in text.lines().skip(1).filter(|l| !l.trim().is_empty()) {
             let v: Vec<f64> = line.split(',').map(|x| x.trim().parse().expect("number")).collect();
-            assert_eq!(v.len(), 17, "jobs row needs 17 columns: {line}");
+            assert!(v.len() == 17 || v.len() == 19, "jobs row needs 17 or 19 columns: {line}");
+            // Item 2 round 2: optional free-flight lift-speed exponent and path-angle damping (profile.rs `free_lift_c_l`).
+            let (n_exp, k_damp) = if v.len() == 19 { (v[17], v[18]) } else { (0.0, 0.0) };
             let (id, alt, tas, gam, hdg, mass, dcl, bank0, t2, cap, floor) = (v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10]);
             let mut it = Integrator { step_s: 2.0, fine_step_s: 0.2, fine_window_s: 30.0, max_flight_s: 10_800.0, ..integrator(2.0) };
             it.aero.oswald = v[11];
@@ -1061,7 +1065,8 @@ mod tests {
                     let t = b.unix_s - start.unix_s;
                     let deg = if t2 > 0.0 { bank0.signum() * (f64::max(bank0.abs(), floor) * 2f64.powf(t / t2)).min(cap) } else { bank0 };
                     let deg = if t2 > 0.0 && bank0 == 0.0 { deg.abs() } else { deg };
-                    (Command::FixedTrim { c_l, bank_rad: deg.to_radians() }, cfg, 0.0)
+                    let c = free_lift_c_l(c_l, tas, n_exp, k_damp, b, deg.to_radians(), it.aero.wing_area_m2);
+                    (Command::FixedTrim { c_l: c, bank_rad: deg.to_radians() }, cfg, 0.0)
                 },
                 &mut |b, _| {
                     if b.unix_s >= next {
@@ -1073,6 +1078,59 @@ mod tests {
             push(trace.impact.unix_s - start.unix_s, &trace.impact, 0.0);
         }
         std::fs::write(&out, bytes).expect("write output");
+    }
+
+    /// Item 2 round 2: the free-flight lift-speed exponent n makes lift go as V^(2-n), so the constant-density phugoid period is
+    /// Lanchester's times sqrt(2 / (2 - n)); n = k = 0 returns the trim lift exactly; path-angle damping k gives a damping ratio of
+    /// about k / (2 sqrt 2): k > 0 damps, k < 0 undamps.
+    #[test]
+    fn free_lift_law_matches_its_closed_forms() {
+        let mut aero = reference();
+        aero.ld_max_clean = 1e9;
+        aero.oswald = 1e9;
+        aero.wave_drag_coefficient = 0.0;
+        aero.tuck_cl_per_mach = 0.0;
+        let s_ = aero.wing_area_m2;
+        let it = Integrator { aero, fuel: None, step_s: 0.05, fine_step_s: 0.05, fine_window_s: 0.0, max_flight_s: 600.0, track_load_factor_floor_g: None, piloted_load_factor_ceiling_g: None, peaks_until_unix_s: None };
+        let (alt, mass, tas) = (20_000.0, 174_000.0, 200.0);
+        let frozen = Frozen { pressure_pa: geo::isa_pressure_pa(alt), temperature_k: atmos::isa_temperature_k(alt) };
+        let q = atmos::dynamic_pressure_pa(frozen.pressure_pa, tas / atmos::sound_speed_mps(frozen.temperature_k));
+        let c_l = it.level_c_l(mass, q);
+        let cfg = Configuration { engines_thrusting: 0, engines_windmilling: 0, rat_deployed: false, speedbrake_eighths: 0, landing_configuration: false };
+        let b0 = body(alt, tas, 0.5);
+        assert_eq!(free_lift_c_l(c_l, tas, 0.0, 0.0, &b0, 0.3, s_), c_l, "n = k = 0 is the trim lift exactly");
+        let run = |n: f64, k: f64| {
+            let (mut up, mut peaks): (Vec<f64>, Vec<f64>) = (Vec::new(), Vec::new());
+            let mut prev: Option<(f64, f64, f64)> = None;
+            it.run(b0, &frozen, None, &mut |b, _| (Command::FixedTrim { c_l: free_lift_c_l(c_l, tas, n, k, b, 0.0, s_), bank_rad: 0.0 }, cfg, 0.0), &mut |b, _| {
+                let d = b.pressure_altitude_ft - alt;
+                if let Some((t0, d0, dd0)) = prev {
+                    if d0 < 0.0 && d >= 0.0 {
+                        up.push(t0 + (b.unix_s - t0) * (-d0) / (d - d0));
+                    }
+                    if dd0 > 0.0 && d - d0 <= 0.0 {
+                        peaks.push(d0);
+                    }
+                    prev = Some((b.unix_s, d, d - d0));
+                } else {
+                    prev = Some((b.unix_s, d, 0.0));
+                }
+            });
+            (up, peaks)
+        };
+        let n = 0.8;
+        let (up, _) = run(n, 0.0);
+        let measured = (up[2] - up[0]) / 2.0;
+        let want = Integrator::phugoid_period_s(tas) * (2.0 / (2.0 - n)).sqrt();
+        assert!((measured - want).abs() / want < 0.01, "n = {n}: measured {measured} s, closed form {want} s");
+        let (_, damped) = run(0.0, 0.5);
+        let (_, undamped) = run(0.0, -0.2);
+        assert!(damped.len() >= 2 && undamped.len() >= 2);
+        // Log decrement per period 2 pi zeta / sqrt(1 - zeta^2) with zeta = k / (2 sqrt 2): k = 0.5 gives 0.177, k = -0.2 gives -0.063.
+        let k = 0.5f64; let z = k / (2.0 * 2f64.sqrt()); let want = (-2.0 * std::f64::consts::PI * z / (1.0 - z * z).sqrt()).exp();
+        let got = damped[1] / damped[0];
+        assert!((got - want).abs() < 0.03, "k = 0.5: peak ratio {got}, closed form {want} ({damped:?})");
+        assert!(undamped[1].abs() > undamped[0].abs(), "k < 0 undamps: {undamped:?}");
     }
 
     fn one_engine() -> Configuration {

@@ -720,6 +720,9 @@ const LATENTS: &[&str] = &[
     // cannot fix is drawn at 0.5; NaN unless exactly one engine thrusts); and whether
     // thrust-asymmetry compensation was off in free flight (0/1; NaN unless asymmetry is configured and one engine thrusts).
     "first_flameout_unix_s", "one_engine_seconds", "dead_engine_side", "asymmetry_compensation_off",
+    // Item 2 round 2 (PREREG-v2): free-flight lift-speed exponent and path-rate damping drawn (0 when off), and the dive-trigger
+    // probability at the start of free flight (NaN when the trigger is off or free flight never began).
+    "free_speed_exponent", "free_path_damping", "dive_trigger_probability",
 ];
 
 /// Epochs whose module-flown state is emitted as latents, in `LATENTS` order.
@@ -1466,6 +1469,9 @@ impl EndOfFlight {
                     }
                 },
                 if one_engine && self.params.aero.asymmetry.is_some() { f64::from(u8::from(flying.aero.asymmetry.compensation_off)) } else { f64::NAN },
+                flying.free_speed_exponent,
+                flying.free_path_damping,
+                flying.dive_trigger_probability.unwrap_or(f64::NAN),
             ]);
             debug_assert_eq!(latents.len(), LATENTS.len());
             let idx = |f: Family| self.families.iter().position(|g| *g == f);
@@ -1541,9 +1547,18 @@ impl EndOfFlight {
         // Spiral regime of free dynamics (deliverable 1 calibration; Pete's ruling on the weight). No
         // uniform is drawn at weight 0, so the pre-calibration stream is reproduced exactly.
         let env = &self.params.envelope;
-        if env.spiral_divergent_weight > 0.0 && uniform() < env.spiral_divergent_weight {
+        if let Some(mid) = env.dive_trigger_eas_mid_kt {
+            // Item 2 round 2: state-dependent dive trigger, decided when free flight begins (profile.rs `enter_free`). The uniform
+            // and the doubling time are drawn here so the stream does not depend on whether or when free flight begins.
+            let u = uniform();
+            let t2 = env.spiral_doubling_s.draw(uniform);
+            flying.dive_trigger = Some((u, mid.draw(uniform), env.dive_trigger_eas_scale_kt.draw(uniform), t2));
+        } else if env.spiral_divergent_weight > 0.0 && uniform() < env.spiral_divergent_weight {
             flying.spiral_doubling_s = Some(env.spiral_doubling_s.draw(uniform));
         }
+        // Item 2 round 2: free-flight lift-speed exponent and path-rate damping (Fixed 0 by default: no uniform drawn).
+        flying.free_speed_exponent = env.free_lift_speed_exponent.draw(uniform);
+        flying.free_path_damping = env.free_path_damping.draw(uniform);
         // Item 2: autopilot lost at the first flame-out - the running engine keeps its lever setting in free flight.
         if onset.mechanism == Initiation::FlameOutAssociated && propulsion == Propulsion::OneThrusting {
             flying.free_setting = self.params.boeing_alt_thrust_setting.draw(uniform);

@@ -1,4 +1,4 @@
-# Item 2, round 2 — reach extension: design fixed BEFORE fitting (14 Oct 2026, ~10:40Z)
+# Item 2, round 2 — reach extension: design fixed BEFORE fitting (14 Oct 2026, committed 14:23Z, bd71b74)
 
 Pete's decision (14 Oct, after the round-1 leave-one-out failure): **extend the point-mass reach**, refit with the SAME approved
 tolerances, repeat leave-one-out. This file fixes the additions, the parameter budget and the bounds before any round-2 fit is run.
@@ -14,8 +14,11 @@ score, zero for a wrong class or direction), no per-case nuisance.
 1. **Lift–speed exponent n** (glide phugoid period). In free flight the lift coefficient is c_L,trim (V_loss / V)^n, so lift goes as
    V^(2−n); the phugoid frequency becomes √(2−n)·g/V (n = 0: Lanchester, the round-1 model). Stands in for the flight-control law's
    speed holding, which the point mass lacks. Bounds [0, 1.5].
-2. **Path-rate damping k** (glide phugoid damping). Lift is set so that L = L0 − k·m·V·γ̇, i.e. L = (L0 + k W cos γ)/(1 + k cos φ):
-   k > 0 adds damping, k < 0 removes it (n and k are applied per integration step, 2 s, as the production command is). Bounds [−0.5, 2].
+2. **Path-angle damping k** (glide phugoid damping). Lift L = L0 − k·W·sin γ: k > 0 adds damping, k < 0 removes it, a damping ratio of
+   about k/(2√2) at constant density (n and k are applied per integration step, 2 s, as the production command is). Bounds [−0.5, 2].
+   *Correction 14 Oct ~14:30Z, BEFORE any round-2 fit:* the form first written here, L = L0 − k·m·V·γ̇, only rescales the normal
+   inertia (it changes the period, not the damping); the closed-form test `free_lift_law_matches_its_closed_forms` showed it. The
+   parameter, its bounds and its purpose are unchanged.
 3. **State-dependent dive trigger** (dive class). The free phase diverges with probability 1 / (1 + exp(−(EAS_loss − e0)/s)), EAS at the
    loss of control, instead of the state-independent `spiral_divergent_weight`. e0 bounds [150, 260] kt, s bounds [2, 40] kt.
 4. **Divergent-spiral bank cap** (dive chord), fitted. Bounds [30, 90] deg.

@@ -13,7 +13,11 @@ DROP = re.compile(r"^latent:state_m(2315|0011)_.*$")
 # Beyond the compact format's core + optional columns: what the joined estimator and the onset diagnostics need.
 EXTRA = ["takeover_unix_s", "log_q_correction", "kinetic_energy_j", "vertical_kinetic_energy_j", "latent:predicted_endurance_at_onset_s",
          "latent:onset_support_truncated_fraction", "latent:flameout_minus_predicted_s", "latent:control_requested", "latent:mechanism_from_draw",
-         "latent:onset_prediction_priced_by_core", "latent:family_prior"]
+         "latent:onset_prediction_priced_by_core", "latent:family_prior",
+         # item 1 and item 2 round 2 latents (needed for exact re-weighting of their priors)
+         "latent:first_flameout_unix_s", "latent:one_engine_seconds", "latent:dead_engine_side", "latent:asymmetry_compensation_off",
+         "latent:free_speed_exponent", "latent:free_path_damping", "latent:dive_trigger_probability", "latent:engines_thrusting_at_onset",
+         "latent:spiral_divergent", "latent:residual_bank_sign", "latent:ap_loss_config", "latent:free_dynamics_started_s"]
 
 
 def is_time(c):
