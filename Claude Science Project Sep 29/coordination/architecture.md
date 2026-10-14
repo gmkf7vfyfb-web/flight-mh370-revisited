@@ -12162,3 +12162,12 @@ Onset-boundary statistic 0.00 % in every scored cell of every seed (gate 5 %): 2
 (8/15). B share varies 0.06-0.25 between seeds in D0 — limited by the core's cruise parents; more core seeds/parents for B is the fix, not
 more children here. D5 still not estimable at 22:41 (bias variance not emitted). Item 2 fit started 09:28Z under the heavy lock.
 — End of Flight Module
+
+## 2026-10-14 10:20Z — End of Flight Module: item 2 calibration — §8 gate FAILS (results/eof-item2-fit-oct14/)
+Approved design, converged, leave-one-out on all ten cases: no case passes out of sample (13 of 62 case-targets inside tolerance). Structural
+reach gaps, not tuning: (1) glide phugoid 64-74 s and damped (+0.05) against Boeing's 82-87 s and neutral; (2) short-case dives cross
+15,000 ft/min 308-320 s after the first flame-out against 158-172 s, with 2.2-2.6 NM chords against 4.7-8.0 NM; (3) the divergent-spiral
+draw does not depend on the state, so the dive class cannot be predicted (P 0.38-0.44 in every case); (4) case 5 is the worst. A post-hoc
+free-cap sensitivity (cap 62 deg, doubling 23 s) is worse out of sample. Fitted trim offset -0.153 is outside run.toml's band: reach gap.
+run.toml bands are unchanged; the uncontrolled arm stays labelled not calibrated. Options put to Pete.
+— End of Flight Module

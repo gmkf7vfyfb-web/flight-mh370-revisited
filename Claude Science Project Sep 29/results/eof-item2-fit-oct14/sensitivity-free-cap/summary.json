@@ -1,0 +1,703 @@
+{
+ "theta_all": {
+  "spiral_doubling_s": 23.43993315565483,
+  "trim_cl_offset": -0.1461347860388307,
+  "windmilling_per_engine": 0.0004706522602993082,
+  "rat_increment": 0.00043049109679613103,
+  "spiral_bank_cap_deg": 62.02389669998988,
+  "residual_bank_deg": 6.981808013259684,
+  "residual_bank_left_probability": 0.6238948895210265,
+  "spiral_divergent_weight": 0.500734700469089
+ },
+ "theta_loo": {
+  "Case 01": {
+   "spiral_doubling_s": 22.613622855896423,
+   "trim_cl_offset": -0.15146515003146319,
+   "windmilling_per_engine": 0.0006951230870385427,
+   "rat_increment": 0.00039793159089051086,
+   "spiral_bank_cap_deg": 62.09138228629168,
+   "residual_bank_deg": 6.846649820743688,
+   "residual_bank_left_probability": 0.5766351455500897,
+   "spiral_divergent_weight": 0.5556552730424127
+  },
+  "Case 02": {
+   "spiral_doubling_s": 23.584807974083827,
+   "trim_cl_offset": -0.1466340081115743,
+   "windmilling_per_engine": 0.00043232159275307964,
+   "rat_increment": 0.0004336878975335806,
+   "spiral_bank_cap_deg": 61.92362460950365,
+   "residual_bank_deg": 6.955727528051058,
+   "residual_bank_left_probability": 0.5737905413938772,
+   "spiral_divergent_weight": 0.5556143032417261
+  },
+  "Case 03": {
+   "spiral_doubling_s": 20.786756144032502,
+   "trim_cl_offset": -0.14693188286572645,
+   "windmilling_per_engine": 0.0005416686076296646,
+   "rat_increment": 0.0004355288790829815,
+   "spiral_bank_cap_deg": 60.706077800976416,
+   "residual_bank_deg": 7.0310548882918,
+   "residual_bank_left_probability": 0.6914918292265342,
+   "spiral_divergent_weight": 0.4443817829953563
+  },
+  "Case 04": {
+   "spiral_doubling_s": 22.725926347669823,
+   "trim_cl_offset": -0.14148901348831383,
+   "windmilling_per_engine": 0.0004965679874840444,
+   "rat_increment": 0.0003993257033182761,
+   "spiral_bank_cap_deg": 62.21684620518481,
+   "residual_bank_deg": 7.067468324580489,
+   "residual_bank_left_probability": 0.7079253326413387,
+   "spiral_divergent_weight": 0.44453426276932295
+  },
+  "Case 05": {
+   "spiral_doubling_s": 39.48725929134927,
+   "trim_cl_offset": -0.14875682382347918,
+   "windmilling_per_engine": 0.0008951955386546727,
+   "rat_increment": 0.00036840836271772085,
+   "spiral_bank_cap_deg": 62.38686782560399,
+   "residual_bank_deg": 7.186941939247868,
+   "residual_bank_left_probability": 0.5140579143491961,
+   "spiral_divergent_weight": 0.44439146645493643
+  },
+  "Case 06": {
+   "spiral_doubling_s": 23.214689553128267,
+   "trim_cl_offset": -0.1426865357764696,
+   "windmilling_per_engine": 0.000819494977053006,
+   "rat_increment": 0.0003463447628601511,
+   "spiral_bank_cap_deg": 61.75190736506333,
+   "residual_bank_deg": 6.967428555973972,
+   "residual_bank_left_probability": 0.6455409181704077,
+   "spiral_divergent_weight": 0.4443622039949411
+  },
+  "Case 07": {
+   "spiral_doubling_s": 22.620237065106075,
+   "trim_cl_offset": -0.1512854216949269,
+   "windmilling_per_engine": 0.0006894405629035785,
+   "rat_increment": 0.00039965848830894656,
+   "spiral_bank_cap_deg": 62.18788809531868,
+   "residual_bank_deg": 6.799474435572556,
+   "residual_bank_left_probability": 0.5522027002700162,
+   "spiral_divergent_weight": 0.5556158146120755
+  },
+  "Case 08": {
+   "spiral_doubling_s": 23.070039145855926,
+   "trim_cl_offset": -0.14231268913129672,
+   "windmilling_per_engine": 0.0005172580022420374,
+   "rat_increment": 0.000443885400665279,
+   "spiral_bank_cap_deg": 62.17663625267399,
+   "residual_bank_deg": 7.0428973321889945,
+   "residual_bank_left_probability": 0.6995379662345051,
+   "spiral_divergent_weight": 0.55553303480047
+  },
+  "Case 09": {
+   "spiral_doubling_s": 23.29544196314757,
+   "trim_cl_offset": -0.1444590811215275,
+   "windmilling_per_engine": 0.0004917712307014649,
+   "rat_increment": 0.00035174600327713134,
+   "spiral_bank_cap_deg": 62.076383974936704,
+   "residual_bank_deg": 6.000948321054793,
+   "residual_bank_left_probability": 0.5768001749763856,
+   "spiral_divergent_weight": 0.5555125288518475
+  },
+  "Case 10": {
+   "spiral_doubling_s": 22.786672336931517,
+   "trim_cl_offset": -0.1409396685201829,
+   "windmilling_per_engine": 0.0005886761271681075,
+   "rat_increment": 0.0003635331162773478,
+   "spiral_bank_cap_deg": 62.52664328036122,
+   "residual_bank_deg": 7.084251705436929,
+   "residual_bank_left_probability": 0.7097873006386488,
+   "spiral_divergent_weight": 0.44440316337499997
+  }
+ },
+ "cases": {
+  "Case 01": {
+   "passed": false,
+   "p_dive_class": 0.8229130041878167,
+   "p_direction": 0.3941867139640455,
+   "loglik_oos": -121.70103606570787,
+   "loglik_in_all": -110.4516513813094,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 86.0,
+     "tol": 8.6,
+     "median": 72.0,
+     "residual": -14.0,
+     "pass_": false,
+     "p_within": 0.31078543112910695
+    },
+    "phugoid_damping": {
+     "boeing": -0.012380680803921698,
+     "tol": 0.02,
+     "median": 0.05588525002835841,
+     "residual": 0.06826593083228011,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "bank20_deg": {
+     "boeing": 6.57483564276006,
+     "tol": 2.021774582206619,
+     "median": 11.876790336590291,
+     "residual": 5.301954693830232,
+     "pass_": false,
+     "p_within": 0.412555767237592
+    },
+    "peak_descent_fpm": {
+     "boeing": 4800.0,
+     "tol": 300.0,
+     "median": 12752.40234375,
+     "residual": 7952.40234375,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "d_end_nm": {
+     "boeing": 94.10166670730803,
+     "tol": 9.410166670730803,
+     "median": 92.38661129774923,
+     "residual": -1.7150554095588006,
+     "pass_": true,
+     "p_within": 1.0
+    },
+    "t_end_s": {
+     "boeing": 2313.5,
+     "tol": 231.35000000000002,
+     "median": 1502.5,
+     "residual": -811.0,
+     "pass_": false,
+     "p_within": 0.3080326168619818
+    }
+   }
+  },
+  "Case 02": {
+   "passed": false,
+   "p_dive_class": 0.8190768738399974,
+   "p_direction": 0.39507646347411046,
+   "loglik_oos": -43.825428269431,
+   "loglik_in_all": -43.55117640362136,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 83.5,
+     "tol": 8.35,
+     "median": 72.0,
+     "residual": -11.5,
+     "pass_": false,
+     "p_within": 0.30524613951976826
+    },
+    "phugoid_damping": {
+     "boeing": -0.013326066825712338,
+     "tol": 0.02,
+     "median": 0.050935842928757046,
+     "residual": 0.06426190975446938,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "bank20_deg": {
+     "boeing": 7.131014704756133,
+     "tol": 2.108641344845158,
+     "median": 11.402033124341653,
+     "residual": 4.27101841958552,
+     "pass_": false,
+     "p_within": 0.49805345500382514
+    },
+    "peak_descent_fpm": {
+     "boeing": 6300.0,
+     "tol": 315.0,
+     "median": 11889.08203125,
+     "residual": 5589.08203125,
+     "pass_": false,
+     "p_within": 0.22644406435334516
+    },
+    "d_end_nm": {
+     "boeing": 93.5369248547621,
+     "tol": 9.353692485476211,
+     "median": 93.1295886729324,
+     "residual": -0.4073361818297059,
+     "pass_": true,
+     "p_within": 1.0
+    },
+    "t_end_s": {
+     "boeing": 2285.6,
+     "tol": 228.56,
+     "median": 1509.6,
+     "residual": -776.0,
+     "pass_": false,
+     "p_within": 0.31570003093251225
+    }
+   }
+  },
+  "Case 03": {
+   "passed": false,
+   "p_dive_class": 0.34346052631949187,
+   "p_direction": 0.4578939752980712,
+   "loglik_oos": -138.85000370067948,
+   "loglik_in_all": -116.12519158571384,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 9.73662782732939,
+     "tol": 2.187664733600394,
+     "median": 13.241927551816545,
+     "residual": 3.5052997244871555,
+     "pass_": false,
+     "p_within": 0.202664295921392
+    },
+    "t15_s": {
+     "boeing": 305.0,
+     "tol": 30.5,
+     "median": 114.0,
+     "residual": -191.0,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "peak_descent_fpm": {
+     "boeing": 53460.0,
+     "tol": 6837.965393150551,
+     "median": 21174.66796875,
+     "residual": -32285.33203125,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "chord15_nm": {
+     "boeing": 4.707313059550038,
+     "tol": 0.5,
+     "median": 5.852929812421038,
+     "residual": 1.1456167528709997,
+     "pass_": false,
+     "p_within": 0.13933170344595702
+    },
+    "d_end_nm": {
+     "boeing": 20.348077216206523,
+     "tol": 2.0348077216206524,
+     "median": 11.765743414212293,
+     "residual": -8.58233380199423,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "t_end_s": {
+     "boeing": 434.0,
+     "tol": 43.400000000000006,
+     "median": 433.0,
+     "residual": -1.0,
+     "pass_": true,
+     "p_within": 0.7450962008306162
+    }
+   }
+  },
+  "Case 04": {
+   "passed": false,
+   "p_dive_class": 0.35703192928732297,
+   "p_direction": 0.21677744748159938,
+   "loglik_oos": -62.029072729968256,
+   "loglik_in_all": -56.16466870181339,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 16.295068683681368,
+     "tol": 2.047455936378398,
+     "median": 11.27162957976201,
+     "residual": -5.023439103919358,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "t15_s": {
+     "boeing": 169.0,
+     "tol": 16.900000000000002,
+     "median": 108.0,
+     "residual": -61.0,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "peak_descent_fpm": {
+     "boeing": 33600.0,
+     "tol": 3373.913249537636,
+     "median": 24250.8984375,
+     "residual": -9349.1015625,
+     "pass_": false,
+     "p_within": 0.15766210322657265
+    },
+    "chord15_nm": {
+     "boeing": 6.129616330227235,
+     "tol": 0.6129616330227236,
+     "median": 5.00049400299695,
+     "residual": -1.1291223272302853,
+     "pass_": false,
+     "p_within": 0.3750712911395082
+    },
+    "d_end_nm": {
+     "boeing": 10.56251510401597,
+     "tol": 1.056251510401597,
+     "median": 7.333121885122913,
+     "residual": -3.2293932188930574,
+     "pass_": false,
+     "p_within": 0.15766210322657265
+    },
+    "t_end_s": {
+     "boeing": 308.0,
+     "tol": 30.8,
+     "median": 408.0,
+     "residual": 100.0,
+     "pass_": false,
+     "p_within": 0.034019859474944555
+    }
+   }
+  },
+  "Case 05": {
+   "passed": false,
+   "p_dive_class": 0.0,
+   "p_direction": 0.32926651305375854,
+   "loglik_oos": -745.0,
+   "loglik_in_all": -130.02569915248202,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 87.0,
+     "tol": 8.700000000000001,
+     "median": null,
+     "residual": null,
+     "pass_": false,
+     "p_within": null
+    },
+    "phugoid_damping": {
+     "boeing": -0.021597501822968157,
+     "tol": 0.02,
+     "median": null,
+     "residual": null,
+     "pass_": false,
+     "p_within": null
+    },
+    "bank20_deg": {
+     "boeing": 6.645288679712834,
+     "tol": 2.0272727034099502,
+     "median": 25.886965659189293,
+     "residual": 19.24167697947646,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "t15_s": {
+     "boeing": 1718.8,
+     "tol": 171.88,
+     "median": 791.8,
+     "residual": -927.0,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "peak_descent_fpm": {
+     "boeing": 24180.0,
+     "tol": 2733.8691523864763,
+     "median": 15646.58203125,
+     "residual": -8533.41796875,
+     "pass_": false,
+     "p_within": NaN
+    },
+    "chord15_nm": {
+     "boeing": 4.936335711634284,
+     "tol": 0.5,
+     "median": 2.7406720250561287,
+     "residual": -2.195663686578155,
+     "pass_": false,
+     "p_within": NaN
+    },
+    "d_end_nm": {
+     "boeing": 96.87468970527874,
+     "tol": 9.687468970527874,
+     "median": 75.10348798845155,
+     "residual": -21.771201716827193,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "t_end_s": {
+     "boeing": 1797.8,
+     "tol": 179.78,
+     "median": 1205.8,
+     "residual": -592.0,
+     "pass_": false,
+     "p_within": 0.0
+    }
+   }
+  },
+  "Case 06": {
+   "passed": false,
+   "p_dive_class": 0.36026966066629423,
+   "p_direction": 0.25490812560496706,
+   "loglik_oos": -96.36345766378054,
+   "loglik_in_all": -87.48630524100511,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 8.748862222476944,
+     "tol": 2.086955375793181,
+     "median": 12.463645540483256,
+     "residual": 3.7147833180063117,
+     "pass_": false,
+     "p_within": 0.3152620542639658
+    },
+    "t15_s": {
+     "boeing": 158.0,
+     "tol": 15.8,
+     "median": 106.0,
+     "residual": -52.0,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "peak_descent_fpm": {
+     "boeing": 43380.0,
+     "tol": 4345.289874071378,
+     "median": 24594.228515625,
+     "residual": -18785.771484375,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "chord15_nm": {
+     "boeing": 8.035936614649039,
+     "tol": 0.803593661464904,
+     "median": 5.45307171170235,
+     "residual": -2.582864902946689,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "d_end_nm": {
+     "boeing": 12.30200794049509,
+     "tol": 1.230200794049509,
+     "median": 6.188641174806378,
+     "residual": -6.113366765688712,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "t_end_s": {
+     "boeing": 245.0,
+     "tol": 24.5,
+     "median": 319.0,
+     "residual": 74.0,
+     "pass_": false,
+     "p_within": 0.17941802020941777
+    }
+   }
+  },
+  "Case 07": {
+   "passed": false,
+   "p_dive_class": 0.8245081199710278,
+   "p_direction": 0.3762605133844854,
+   "loglik_oos": -110.42053053839416,
+   "loglik_in_all": -100.40660951188123,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 85.0,
+     "tol": 8.5,
+     "median": 72.0,
+     "residual": -13.0,
+     "pass_": false,
+     "p_within": 0.31321243792299186
+    },
+    "phugoid_damping": {
+     "boeing": -0.013611290019013055,
+     "tol": 0.02,
+     "median": 0.05586921258619774,
+     "residual": 0.0694805026052108,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "bank20_deg": {
+     "boeing": 6.59160284855289,
+     "tol": 2.020573440269697,
+     "median": 11.88963830964723,
+     "residual": 5.29803546109434,
+     "pass_": false,
+     "p_within": 0.41415902348416567
+    },
+    "peak_descent_fpm": {
+     "boeing": 4920.0,
+     "tol": 300.0,
+     "median": 13083.92578125,
+     "residual": 8163.92578125,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "d_end_nm": {
+     "boeing": 92.45626117097586,
+     "tol": 9.245626117097586,
+     "median": 91.65016712066176,
+     "residual": -0.8060940503141012,
+     "pass_": true,
+     "p_within": 1.0
+    },
+    "t_end_s": {
+     "boeing": 2311.3,
+     "tol": 231.13000000000002,
+     "median": 1498.3,
+     "residual": -813.0000000000002,
+     "pass_": false,
+     "p_within": 0.3047529167517402
+    }
+   }
+  },
+  "Case 08": {
+   "passed": false,
+   "p_dive_class": 0.815843525291628,
+   "p_direction": 0.4843247379310572,
+   "loglik_oos": -56.297786631053356,
+   "loglik_in_all": -54.79750756738422,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 82.0,
+     "tol": 8.200000000000001,
+     "median": 71.0,
+     "residual": -11.0,
+     "pass_": false,
+     "p_within": 0.3009315840316835
+    },
+    "phugoid_damping": {
+     "boeing": -0.008212903767307782,
+     "tol": 0.02,
+     "median": 0.05229956458214952,
+     "residual": 0.0605124683494573,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "bank20_deg": {
+     "boeing": 7.655306175432472,
+     "tol": 2.023511267108253,
+     "median": 9.037412432035767,
+     "residual": 1.3821062566032953,
+     "pass_": true,
+     "p_within": 0.501894803780259
+    },
+    "peak_descent_fpm": {
+     "boeing": 7140.0,
+     "tol": 357.0,
+     "median": 11776.34765625,
+     "residual": 4636.34765625,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "d_end_nm": {
+     "boeing": 60.39933917006284,
+     "tol": 6.039933917006284,
+     "median": 77.44161213278058,
+     "residual": 17.04227296271774,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "t_end_s": {
+     "boeing": 2066.1,
+     "tol": 206.61,
+     "median": 1347.1,
+     "residual": -719.0,
+     "pass_": false,
+     "p_within": 0.0
+    }
+   }
+  },
+  "Case 09": {
+   "passed": false,
+   "p_dive_class": 0.8425945250451776,
+   "p_direction": 0.368528629818752,
+   "loglik_oos": -49.2994588090758,
+   "loglik_in_all": -46.635390077456385,
+   "targets": {
+    "phugoid_period_s": {
+     "boeing": 83.0,
+     "tol": 8.3,
+     "median": 73.0,
+     "residual": -10.0,
+     "pass_": false,
+     "p_within": 0.36135846766262997
+    },
+    "phugoid_damping": {
+     "boeing": -0.009016671375036568,
+     "tol": 0.02,
+     "median": 0.051968014663165515,
+     "residual": 0.060984686038202084,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "bank20_deg": {
+     "boeing": 7.8469471572728136,
+     "tol": 2.024146676148047,
+     "median": 11.441747401603623,
+     "residual": 3.594800244330809,
+     "pass_": false,
+     "p_within": 0.4649600081615711
+    },
+    "peak_descent_fpm": {
+     "boeing": 6900.0,
+     "tol": 345.0,
+     "median": 13463.73046875,
+     "residual": 6563.73046875,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "d_end_nm": {
+     "boeing": 76.56394865073406,
+     "tol": 7.656394865073406,
+     "median": 71.9504406935931,
+     "residual": -4.613507957140968,
+     "pass_": true,
+     "p_within": 0.870108748129699
+    },
+    "t_end_s": {
+     "boeing": 2073.6,
+     "tol": 207.36,
+     "median": 1276.6,
+     "residual": -797.0,
+     "pass_": false,
+     "p_within": 0.0
+    }
+   }
+  },
+  "Case 10": {
+   "passed": false,
+   "p_dive_class": 0.3564782123038466,
+   "p_direction": 0.21574336846304695,
+   "loglik_oos": -102.97135059932519,
+   "loglik_in_all": -93.8983071259408,
+   "targets": {
+    "bank20_deg": {
+     "boeing": 15.784397475390357,
+     "tol": 2.277765947054729,
+     "median": 11.20528711002559,
+     "residual": -4.579110365364766,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "t15_s": {
+     "boeing": 172.0,
+     "tol": 17.2,
+     "median": 108.0,
+     "residual": -64.0,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "peak_descent_fpm": {
+     "boeing": 58020.0,
+     "tol": 6050.570643586682,
+     "median": 24536.8359375,
+     "residual": -33483.1640625,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "chord15_nm": {
+     "boeing": 7.321955587977671,
+     "tol": 0.7321955587977671,
+     "median": 5.431570928464752,
+     "residual": -1.890384659512919,
+     "pass_": false,
+     "p_within": 0.0
+    },
+    "d_end_nm": {
+     "boeing": 9.035987581338327,
+     "tol": 1.0,
+     "median": 6.881188585098687,
+     "residual": -2.1547989962396406,
+     "pass_": false,
+     "p_within": 0.14894965286448597
+    },
+    "t_end_s": {
+     "boeing": 329.0,
+     "tol": 32.9,
+     "median": 393.0,
+     "residual": 64.0,
+     "pass_": false,
+     "p_within": 0.3299582757767988
+    }
+   }
+  }
+ },
+ "gate_passed": false
+}
