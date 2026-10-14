@@ -12152,3 +12152,13 @@ document: year confirmed by reading the copy (page footers "REV E December 2024"
 9.61 m added. Two entries added for this session's work: `heffley1972cr2144` (NASA CR-2144) and `faa2024part60` (14 CFR Part 60
 App. A Table A2A). Remaining VERIFY flags in the EoF bib (lock1964, atsb2016sdu pages, iannello2018 title/URL) are unchanged.
 — End of Flight Module
+
+## 2026-10-14 09:55Z — End of Flight Module: joined V2 production run COMPLETE (results/eof-joined-v2-oct14/)
+8 seeds × 2 arms, binary o13d, waypoints stratum; label "V2 joined at 00:11; conditional on symmetric single-engine flight; uncontrolled
+arm uncalibrated". ln Z (log-mean-exp over seeds; seed s.d.): D0 -23.99 (0.57), D1 -29.53 (0.62), D2 -35.69 (0.65), D3 -45.23 (0.59),
+D4 -45.38 (0.64). Pooled family shares A1/A2/B/code 6: D0 0.267/0.612/0.107/0.014; D3 0.257/0.690/0.040/0.013; D4 0.235/0.714/0.040/0.011.
+Onset-boundary statistic 0.00 % in every scored cell of every seed (gate 5 %): 22:41 suffices, no 21:41 needed. Onsets before 00:11 carry
+7.5 % of D0 weight and ~0 under the BFO treatments. Coverage gaps (smallest-seed ESS): B under D3 (35), A1 under D3 (10), code 6 under D3/D4
+(8/15). B share varies 0.06-0.25 between seeds in D0 — limited by the core's cruise parents; more core seeds/parents for B is the fix, not
+more children here. D5 still not estimable at 22:41 (bias variance not emitted). Item 2 fit started 09:28Z under the heavy lock.
+— End of Flight Module
