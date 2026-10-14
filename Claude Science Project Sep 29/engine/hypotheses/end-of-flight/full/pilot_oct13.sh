@@ -33,7 +33,7 @@ stage() {   # epoch -> run tree with the gunzipped, sha-verified hand-off
   echo "hand-off $ep sha256 $([ -n "$want" ] && echo verified || echo NOT-LISTED) $got"
 }
 for arm in $ARMS; do
-  if [ $arm = P0011 ]; then stage m0011; X="$S/smoke/snapshot-m0011.toml $S/smoke/terminal.toml $REC $S/smoke/children-4.toml"
+  if [ $arm = P0011 ]; then stage m0011; X="$S/smoke/snapshot-m0011.toml $S/smoke/terminal.toml $REC $S/smoke/children-4.toml ${EOF_EXTRA0011:-}"
   else stage m2241; X="$S/smoke/snapshot-m2241.toml $S/smoke/terminal.toml $S/smoke/options-m2241.toml $S/smoke/arm-v2.toml $REC $S/smoke/children-4.toml $S/smoke/deliberate-control-all4.toml ${EOF_EXTRA:-}"; fi
   o=runs/PO13-$arm${EOF_TAG:-}; rm -rf $o
   echo "$arm start $(date -u +%T)"
