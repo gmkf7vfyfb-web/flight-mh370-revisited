@@ -47,6 +47,10 @@ BANK_GRID = np.array([0.0, 1.0, 2.0, 3.5, 5.0, 7.5, 10.0, 12.5, 15.0, 17.5, 20.0
 THETA = [("spiral_doubling_s", 3.0, 600.0, 90.0), ("trim_cl_offset", -0.30, 0.10, 0.0), ("windmilling_per_engine", 0.0, 0.0015, 0.00075),
          ("rat_increment", 0.0001, 0.0006, 0.00035), ("residual_bank_deg", 2.0, 60.0, 35.0), ("residual_bank_left_probability", 0.02, 0.98, 0.8),
          ("spiral_divergent_weight", 0.02, 0.98, 0.5)]
+ND = 4   # deterministic parameters come first in THETA; the last three are the population parameters
+# --free-cap (POST-HOC SENSITIVITY, declared; NOT the approved 7-parameter fit and never the gate): the divergent-spiral bank cap as
+# an 8th, deterministic parameter. Motivated by the smoke fit (dive chords 1.5-2.7 NM at 90 deg against Boeing's 4.7-8.0 NM).
+CAP_THETA = ("spiral_bank_cap_deg", 30.0, 90.0, 90.0)
 
 
 def load_case(f):
@@ -192,7 +196,7 @@ class Case:
         return (np.r_[self.t[:i], self.t_loss + t], np.r_[self.x[:i], self.x[i] + e / NM], np.r_[self.y[:i], self.y[i] + n / NM], np.r_[self.h[:i], h])
 
 
-def flight_table(cases, test_bin, t2, dcl, wm, rat, nuis):
+def flight_table(cases, test_bin, t2, dcl, wm, rat, nuis, cap=CAP_DEG):
     """Every latent flight for every case at one deterministic theta. Returns per case: arrays of (bank_index, z, k, sign) and features."""
     rows, meta = [], []
     jid = 0
@@ -204,7 +208,7 @@ def flight_table(cases, test_bin, t2, dcl, wm, rat, nuis):
                     for s in (-1.0, 1.0):
                         if b == 0.0 and s < 0 and z == 0:
                             continue       # wings level neutral: direction undefined, flown once
-                        rows.append((jid, alt, tas, gam, hdg, MASS_KG, dcl, s * b, t2 if z else 0.0, CAP_DEG, FLOOR_DEG,
+                        rows.append((jid, alt, tas, gam, hdg, MASS_KG, dcl, s * b, t2 if z else 0.0, cap, FLOOR_DEG,
                                      nu["oswald"], nu["ld_max"], nu["wave_drag"], nu["tuck"], wm, rat))
                         meta.append((ci, gi, z, k, s)); jid += 1
     traces = fly(test_bin, rows)
@@ -252,7 +256,7 @@ class Objective:
         visited; the feature dicts (about 1 KB a flight) are dropped and rebuilt on demand, to bound memory over a long fit."""
         key = tuple(np.round(td, 10))
         if key not in self.cache or (need_features and self.cache[key][0][2] is None):
-            tab = flight_table(self.cases, self.bin, *td, self.nuis)
+            tab = flight_table(self.cases, self.bin, *td[:4], self.nuis, *td[4:5])
             self.cache[key] = [(np.array([m for m, _ in tc]), np.array([flight_loglik(c, f) for _, f in tc]), tc) for c, tc in zip(self.cases, tab)]
         res = self.cache[key]
         if not need_features:
@@ -285,26 +289,28 @@ def fit(obj, maxiter, log, smoke=False):
 
     def inner(td):
         def f(u):
-            return -obj.total(td, from_unit(u, lo[4:], hi[4:]))
-        starts = [to_unit(np.clip(best.get("tp", x0[4:]), lo[4:] + 1e-6, hi[4:] - 1e-6), lo[4:], hi[4:]), to_unit(x0[4:], lo[4:], hi[4:])]
+            return -obj.total(td, from_unit(u, lo[ND:], hi[ND:]))
+        starts = [to_unit(np.clip(best.get("tp", x0[ND:]), lo[ND:] + 1e-6, hi[ND:] - 1e-6), lo[ND:], hi[ND:]), to_unit(x0[ND:], lo[ND:], hi[ND:])]
         r = min((minimize(f, s, method="Nelder-Mead", options={"maxiter": 400, "xatol": 1e-3, "fatol": 1e-4}) for s in starts), key=lambda r: r.fun)
-        return r.fun, from_unit(r.x, lo[4:], hi[4:])
+        return r.fun, from_unit(r.x, lo[ND:], hi[ND:])
 
     def outer(u):
-        td = from_unit(u, lo[:4], hi[:4]); t0 = time.time(); nll, tp = inner(td)
+        td = from_unit(u, lo[:ND], hi[:ND]); t0 = time.time(); nll, tp = inner(td)
         if nll < best["nll"]: best.update(nll=nll, td=td.tolist(), tp=tp.tolist())
         log.write(json.dumps({"td": td.tolist(), "tp": tp.tolist(), "nll": nll, "s": round(time.time() - t0, 1)}) + "\n"); log.flush()
         return nll
 
     # Stage 1: coarse grid over the two parameters that set the regime (doubling time, trim offset), wm and rat at their centres.
     grid = [(t2, d) for t2 in (3.0, 5.0, 8.0, 12.0, 20.0, 40.0, 90.0, 200.0) for d in (-0.25, -0.20, -0.15, -0.10, -0.05, 0.0, 0.05)]
+    if ND == 5:
+        x0[4] = 60.0    # start the free cap inside its bounds (to_unit needs lo < x < hi); Boeing's derived peak banks are 53-60 deg
     if smoke:
         grid = [(90.0, -0.15), (8.0, -0.15)]   # code-path check only
-    scores = [(outer(to_unit(np.array([t2, d, x0[2], x0[3]]), lo[:4], hi[:4])), t2, d) for t2, d in grid]
+    scores = [(outer(to_unit(np.array([t2, d] + list(x0[2:ND])), lo[:ND], hi[:ND])), t2, d) for t2, d in grid]
     _, t2b, db = min(scores)
     # Stage 2: Nelder-Mead from the best grid point, with an initial simplex of about one grid step in each direction.
-    u0 = to_unit(np.array([t2b, db, x0[2], x0[3]]), lo[:4], hi[:4])
-    simplex = np.vstack([u0] + [u0 + np.eye(4)[i] * st for i, st in enumerate((0.6, 0.4, 1.0, 1.0))])
+    u0 = to_unit(np.array([t2b, db] + list(x0[2:ND])), lo[:ND], hi[:ND])
+    simplex = np.vstack([u0] + [u0 + np.eye(ND)[i] * st for i, st in enumerate((0.6, 0.4, 1.0, 1.0, 1.0)[:ND])])
     minimize(outer, u0, method="Nelder-Mead", options={"maxiter": maxiter, "xatol": 1e-2, "fatol": 1e-2, "initial_simplex": simplex})
     best["grid"] = [[float(a), b, c] for a, b, c in scores]
     return best
@@ -360,7 +366,10 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("mode"); ap.add_argument("sims"); ap.add_argument("events"); ap.add_argument("out")
     ap.add_argument("--exclude", default=None); ap.add_argument("--test-bin", default=None); ap.add_argument("--maxiter", type=int, default=300)
     ap.add_argument("--nuis", type=int, default=4); ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--free-cap", action="store_true")
     a = ap.parse_args()
+    if a.free_cap:
+        THETA.insert(4, CAP_THETA); ND = 5
     if a.mode == "features":
         main_features(a)
     elif a.mode == "fit":
