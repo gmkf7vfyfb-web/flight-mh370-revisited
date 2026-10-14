@@ -50,13 +50,17 @@ Blocked and carrying no information for this source: Portland loggers 3274 and 3
 0.049 s. The last closed airgun cycle starts at 01:18:19. The consequence is specific rather than
 general:
 
-- The two cycle statistics that need a *closed* cycle — shot energy and inter-shot gap power — are
-  computable in the text window (7 shots) and **not computable** in the caption window. Six rows are
-  reported as not computable for that reason. Nothing coarser was substituted.
-- The four statistics that need only a shot and its shoulders — shape correlation against the local
-  stacked template, the leading, trailing and tail shoulder residuals, and the principal-component
-  outlier score — are computable in **both** windows, because shot peaks continue to 01:19:09. The
-  caption window holds 2 of them.
+There are **seven** cycle statistics at H08S, and they split two ways:
+
+- The **two** that need a *closed* cycle — shot energy and inter-shot gap power — are computable in the
+  text window (7 shots) and **not computable** in the caption window. **Four rows** are reported as not
+  computable for that reason, being those two statistics in their excess and deficit directions.
+  Nothing coarser was substituted. (`candidates.csv` holds six `computable = False` rows in total; the
+  other two are the Perth Canyon 3315 coverage rows of §3, which have an unrelated cause.)
+- The **five** that need only a shot and its shoulders — shape correlation against the local stacked
+  template, the leading, trailing and tail shoulder residuals, and the principal-component outlier
+  score — are computable in **both** windows, because shot peaks continue to 01:19:09. In the caption
+  window they rest on 2 shots, across eight rows once the deficit directions are counted.
 - At Perth Canyon there is no repeating airgun train, so a local stacked *shot* template does not exist
   and the shape and shoulder statistics are undefined there. The defined analogue, a matched filter
   against the committed real transient T_C2, was added as D4 and is new in this run.
@@ -173,7 +177,7 @@ SNR and maximum level are reported and the predicted level is recorded as not as
   fixes location and not energy.
 - **Model's reach.** Receivers: three of seven carry information for a source this far north; four are
   blocked and are named in §2 with the reason. Statistics: cycle statistics exist only where an airgun
-  train exists, which is H08S only; the caption window at H08S supports four of the six cycle
+  train exists, which is H08S only; the caption window at H08S supports five of the seven cycle
   statistics and not the two that need a closed cycle.
 - **Proposal's coverage.** `run-i-dive`, one seed of eight per stratum, 16.0 million rows, effective
   sample 1.5 to 2.5 million. Perth Canyon 3376 covers 26.0 s of each 26 s window; 3315 covers none.

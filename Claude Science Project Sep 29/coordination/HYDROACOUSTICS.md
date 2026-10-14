@@ -1621,6 +1621,7 @@ statistic. Labels PREDICTIVE, NOT CALIBRATED; module likelihood zero.
   caption time, and the text time is the largest independent excursion in the panel on three of four
   statistics. 00:54:30 reads as a transcription error, though a smaller real excursion does sit there.
 - Work-order correction: the digitised H08S record runs to 01:19:59, not 01:18:29. The airgun shot
-  train ends there. Two of the six cycle statistics are therefore not computable in the caption window;
-  four are.
+  train ends there. Of the SEVEN cycle statistics, the two needing a closed cycle (shot energy,
+  inter-shot gap power) are not computable in the caption window; the five needing only a shot peak and
+  its shoulders are, on 2 shots. Corrected from an earlier 'two of six / four are' in this entry.
 - Perth Canyon 3315 has zero coverage in both windows, confirmed not assumed.

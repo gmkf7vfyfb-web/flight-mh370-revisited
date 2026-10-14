@@ -40,16 +40,18 @@ WHAT IS AND IS NOT COMPUTABLE, declared here rather than discovered later:
     for those statistics. It is not replaced by a coarser statistic silently.
 
     CORRECTION DISCLOSED, found after the first run and before any value was quoted. Declaration 2 as
-    written above is WRONG, and over-cautious: it treats all five statistics alike when they do not
-    depend on the cycle in the same way. Measured, the split is:
+    written above is WRONG twice over. It miscounts the cycle statistics as five when there are SEVEN
+    (shot energy, inter-shot gap power, shape correlation, three shoulder residuals, and the
+    principal-component score), and it treats them alike when they do not depend on the cycle in the
+    same way. Measured, the split is two and five:
       - SHOT ENERGY and INTER-SHOT GAP POWER need a CLOSED cycle, that is a following shot 9-11 s
         later, because h08s_shot_outliers.cycles defines them between consecutive peaks. The last
-        closed cycle starts 01:18:19, so these two are genuinely NOT computable in the caption window.
-        Their rows report computable = False.
+        closed cycle starts 01:18:19, so these TWO are genuinely NOT computable in the caption window.
+        Their four rows, being two statistics in two directions, report computable = False.
       - SHAPE CORRELATION, the three SHOULDER RESIDUALS and the PRINCIPAL-COMPONENT SCORE need only a
         shot peak and its own [-3, +6] s window, from h08s_pulse_energy.pulses. Shot peaks continue to
-        01:19:09, so these four ARE computable in the caption window, on 2 shots, and their rows carry
-        real values. They are reported with the 2-shot sample size on every row.
+        01:19:09, so these FIVE ARE computable in the caption window, on 2 shots, over eight rows once
+        the deficit directions are counted. They carry the 2-shot sample size on every row.
     Nothing was substituted and no statistic was added: the correction narrows a blanket 'not testable'
     to the two statistics it actually applies to. The original wording is left above as pre-registered.
     The results note states the corrected split; this docstring is the pre-registration of record.
