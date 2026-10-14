@@ -53,3 +53,51 @@ All ten Boeing cases are uncontrolled; the piloted and deliberate families have 
 
 `primary/` (the approved fit) and `sensitivity-free-cap/` (POST-HOC, declared, not the gate): `summary.json`, `loo-table.csv`, `summary.txt`, `fit-all.json`, `fit-loo-caseNN.json` (Boeing summary features only; the traces are not redistributed). Code: `hypotheses/end-of-flight/sim/eof_point_fit.py`, `sim/eof_point_fit_summary.py`, `full/run_item2_fit.sh`, `full/run_item2_sens.sh`; test binary `mh370-eof-test-o14` (sha256 9f8e3282…).
 
+
+## Round 2 — reach extension (Pete 14 Oct; design fixed before fitting in `PREREG-v2.md`): the gate STILL FAILS
+
+11 shared parameters; converged (354 evaluations for the all-data fit; leave-one-out parameters stable). Out-of-sample total -904.2 nat against -1282.0 in round 1; case-targets inside tolerance 18 of 62 against 13. No case passes. One parameter sits at a search bound: the dive-trigger scale at 2 kt (a step between the long and short cases' EAS at the loss). Files: `round2/`.
+
+| parameter | round 2, all data | LOO range |
+|---|---|---|
+| spiral_doubling_s | 26.24 | 22.99 – 34.25 |
+| trim_cl_offset | -0.0939 | -0.103 – -0.08019 |
+| windmilling_per_engine | 0.0005146 | 0.0001495 – 0.0007522 |
+| rat_increment | 0.0003248 | 0.0003024 – 0.0004836 |
+| spiral_bank_cap_deg | 63.46 | 55.48 – 63.99 |
+| free_lift_speed_exponent | 0.8736 | 0.5788 – 1.236 |
+| free_path_damping | -0.07652 | -0.1266 – 0.246 |
+| residual_bank_deg | 10.07 | 6.93 – 10.73 |
+| residual_bank_left_probability | 0.7207 | 0.6321 – 0.98 |
+| dive_trigger_eas_mid_kt | 182.5 | 181.7 – 201.6 |
+| dive_trigger_eas_scale_kt | 2 | 2 – 2 |
+
+| case | passed (round 1 → 2) | P(right dive class) | P(right direction) | targets still outside tolerance (Boeing → model median) |
+|---|---|---|---|---|
+| Case 01 | 2/6 → 3/6 | 0.99 | 0.26 | phugoid period, s: 86 → 68.5; phugoid damping ratio: -0.01238 → 0.02679; peak descent, ft/min: 4800 → 6525 |
+| Case 02 | 2/6 → 3/6 | 0.94 | 0.41 | phugoid period, s: 83.5 → 72; phugoid damping ratio: -0.01333 → 0.02893; time to 1,500 ft, s: 2286 → 2535 |
+| Case 03 | 2/6 → 1/6 | 0.55 | 0.92 | time to 15,000 ft/min, s: 305 → 114; peak descent, ft/min: 5.346e+04 → 2.529e+04; chord after 15,000 ft/min, NM: 4.707 → 7.731; distance to 1,500 ft, NM: 20.35 → 13.53; time to 1,500 ft, s: 434 → 626 |
+| Case 04 | 0/6 → 1/6 | 0.70 | 0.07 | bank 20 s after roll-off, deg: 16.3 → 8.402; time to 15,000 ft/min, s: 169 → 144; peak descent, ft/min: 3.36e+04 → 2.806e+04; chord after 15,000 ft/min, NM: 6.13 → 4.878; time to 1,500 ft, s: 308 → 495 |
+| Case 05 | 0/8 → 0/8 | 0.00 | 0.40 | phugoid period, s: not produced; phugoid damping ratio: not produced; bank 20 s after roll-off, deg: 6.645 → 14.31; time to 15,000 ft/min, s: 1719 → 871.8; peak descent, ft/min: 2.418e+04 → 1.805e+04; chord after 15,000 ft/min, NM: 4.936 → 2.835; distance to 1,500 ft, NM: 96.87 → 79.82; time to 1,500 ft, s: 1798 → 1273 |
+| Case 06 | 1/6 → 1/6 | 0.61 | 0.31 | time to 15,000 ft/min, s: 158 → 122; peak descent, ft/min: 4.338e+04 → 3.069e+04; chord after 15,000 ft/min, NM: 8.036 → 5.557; distance to 1,500 ft, NM: 12.3 → 9.593; time to 1,500 ft, s: 245 → 189 |
+| Case 07 | 2/6 → 3/6 | 0.98 | 0.38 | phugoid period, s: 85 → 76; phugoid damping ratio: -0.01361 → 0.03247; peak descent, ft/min: 4920 → 6516 |
+| Case 08 | 1/6 → 2/6 | 1.00 | 0.31 | phugoid damping ratio: -0.008213 → 0.03972; peak descent, ft/min: 7140 → 6268; distance to 1,500 ft, NM: 60.4 → 82.99; time to 1,500 ft, s: 2066 → 2407 |
+| Case 09 | 2/6 → 2/6 | 0.99 | 0.56 | phugoid period, s: 83 → 70; phugoid damping ratio: -0.009017 → 0.02589; peak descent, ft/min: 6900 → 5791; time to 1,500 ft, s: 2074 → 2374 |
+| Case 10 | 1/6 → 2/6 | 0.81 | 0.20 | bank 20 s after roll-off, deg: 15.78 → 9.66; time to 15,000 ft/min, s: 172 → 126; peak descent, ft/min: 5.802e+04 → 2.938e+04; chord after 15,000 ft/min, NM: 7.322 → 5.584 |
+
+**What round 2 fixed and what it did not.** The dive trigger now gets the dive class right in the glide cases (P 0.94–1.00) and in
+cases 3, 4, 6, 10 (0.55–0.81). Glide bank 20 s after roll-off now fits. In cases 4, 6 and 10 the dives now pass 15,000 ft/min 122–144 s after the
+first flame-out (Boeing 158–172 s; round 1 308–320 s), and their chords are 4.9–5.6 NM (Boeing 6.1–8.0; round 1 2.2–2.6). Case 3 is now
+early and long instead (114 s against 305 s; chord 7.7 NM against 4.7). Not fixed:
+(1) the **glide phugoid**: period 68.5–76 s and damping ratio +0.026 to +0.040 against 82–86 s and about −0.01; a diagnostic at the all-data
+optimum (not part of the fit) gives the right period at n = 1.3 but a worse total (749.5 against 668.8 nat), and any negative damping k
+both shortens the period and drives the glides into dives (total → ∞ at k = −0.2), so a speed-exponent and a path-angle term cannot
+produce Boeing's long, neutral phugoid together with its other targets; (2) **case 5** (a glide that dives about 850 s after the loss) is
+classified as a glide (P(dive) 0.00): a trigger on the state at the loss cannot see a late dive; (3) **turn direction** in the right-turning
+dives (cases 4, 6, 10: P 0.07–0.31), because one left-turn probability serves all cases; (4) dive **peak descent rate** and **time to
+1,500 ft** remain outside tolerance in most dive cases.
+
+**Status.** Gate failed in round 2 as in round 1. Per `PREREG-v2.md`, run.toml is not changed and the uncontrolled arm stays labelled
+*not calibrated*. Round 2 is better out of sample (−904 against −1,282 nat), so its laws are a candidate improvement, not a calibration.
+The round-2 production code is in the module, off by default and bit-identical without its configuration.
+

@@ -20,6 +20,12 @@ EXTRA = ["takeover_unix_s", "log_q_correction", "kinetic_energy_j", "vertical_ki
          "latent:spiral_divergent", "latent:residual_bank_sign", "latent:ap_loss_config", "latent:free_dynamics_started_s"]
 
 
+MINIMAL = ["parent", "family", "weight", "unix_s", "latitude_deg", "longitude_deg", "takeover_unix_s", "log_q_correction", "bto_residual_us:m0019a",
+           "latent:onset_mechanism", "latent:control_realised", "latent:recovery_attempted", "latent:realised_flameout_unix_s",
+           "latent:inflight_p_breakup_to_m0019b", "latent:onset_unix_s", "latent:impact_heading_deg", "latent:takeover_ground_velocity_east_mps",
+           "latent:takeover_ground_velocity_north_mps"]
+
+
 def is_time(c):
     return c in ("unix_s", "takeover_unix_s") or c.endswith("unix_s")
 
@@ -30,6 +36,10 @@ def main(run, seed, out):
     Y = np.load(run / "bto-bfo" / f"seed-{seed}" / "impacts.npy", mmap_mode="r")
     spec = json.loads((pathlib.Path(__file__).parent / "compact-columns.json").read_text())
     want = set(spec["core"]) | set(spec["optional"]) | set(EXTRA)
+    import os
+    if os.environ.get("SLIM_SET") == "minimal":
+        # Disk-limited runs (14 Oct, 17 GB free): only what the join, the cells, the families and item 1/2 re-weighting read.
+        want = set(MINIMAL) | {c for c in EXTRA if c.startswith("latent:")}
     cols = meta["impact_columns"]; keep = [i for i, c in enumerate(cols) if (c in want or c.startswith(("loglik:", "bto_residual_us:", "bfo_innovation_hz:"))) and not DROP.match(c)]
     names = [cols[i] for i in keep]; tcols = [c for c in names if is_time(c)]
     Z = np.empty((Y.shape[0], len(keep)), np.float32)

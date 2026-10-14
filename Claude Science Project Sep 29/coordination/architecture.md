@@ -12171,3 +12171,12 @@ draw does not depend on the state, so the dive class cannot be predicted (P 0.38
 free-cap sensitivity (cap 62 deg, doubling 23 s) is worse out of sample. Fitted trim offset -0.153 is outside run.toml's band: reach gap.
 run.toml bands are unchanged; the uncontrolled arm stays labelled not calibrated. Options put to Pete.
 — End of Flight Module
+
+## 2026-10-14 15:03Z — End of Flight Module: item 2 round 2 (reach extension, Pete's choice) — gate STILL FAILS
+Design fixed before fitting (results/eof-item2-fit-oct14/PREREG-v2.md, one physics correction before any fit, recorded there). 11
+parameters. Out of sample -904 nat against round 1's -1,282; 18 of 62 case-targets inside tolerance against 13; no case passes. Fixed:
+dive class in glides and short dives, glide bank, short-dive timing and chord much closer. Not fixed: the glide phugoid (period 68.5-76 s,
+damped, against 82-86 s and neutral; a negative damping term shortens the period and turns glides into dives), case 5's late dive, turn
+direction in the right-turning dives, dive peak rate. run.toml unchanged; uncontrolled arm stays "not calibrated"; the round-2 laws are in
+the module, off by default. Timestamp correction: my entries today headed 09:55Z and 10:20Z were committed at 09:41Z and 10:07Z.
+— End of Flight Module

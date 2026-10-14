@@ -35,7 +35,7 @@ for arm in $ARMS; do for k in $SEEDS; do
   o=runs/ASY-$arm-s$k; rm -rf $o
   echo "$arm seed $k start $(date -u +%T)" | tee -a $OUT/LOG
   lockf -k /tmp/.mh370-heavy.lock env RAYON_NUM_THREADS=12 $BIN terminal $RT $CHAIN $X $o > $o.log 2>&1 || { echo "RUN FAILED $arm $k"; tail -3 $o.log; continue; }
-  OMP_NUM_THREADS=2 PYTHONPATH=$S/smoke $PY $S/smoke/slim_impacts.py $o $k $OUT/$arm/seed-$k && cp $o/bto-bfo/seed-$k/terminal.json $OUT/$arm/seed-$k/ \
+  SLIM_SET=minimal OMP_NUM_THREADS=2 PYTHONPATH=$S/smoke $PY $S/smoke/slim_impacts.py $o $k $OUT/$arm/seed-$k && cp $o/bto-bfo/seed-$k/terminal.json $OUT/$arm/seed-$k/ \
     && rm -f $o/bto-bfo/seed-$k/impacts.npy || echo "SLIM FAILED $arm $k (full file kept)"
   rm -f $d/handoff.toml
   echo "$arm seed $k done $(date -u +%T)" | tee -a $OUT/LOG
