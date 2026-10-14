@@ -356,8 +356,17 @@ def fit(obj, maxiter, log, smoke=False):
         grid = [(t2, d) for t2 in (5.0, 12.0, 25.0, 50.0, 100.0, 200.0) for d in (-0.20, -0.15, -0.10, -0.05, 0.0)]
     if smoke:
         grid = [(90.0, -0.15), (8.0, -0.15)]   # code-path check only
+    if ROUND3:
+        x0[5], x0[6] = 0.05, 1.0   # start at the nested round-1 law (tau ~ 0, g = 1); see PREREG-v3 amendment
     scores = [(outer(to_unit(np.array([t2, d] + list(x0[2:ND])), lo[:ND], hi[:ND])), t2, d) for t2, d in grid]
     _, t2b, db = min(scores)
+    if ROUND3 and not smoke:
+        # Stage 1b (PREREG-v3 amendment): grid over the lag and gain at the best (doubling, trim offset), because the objective is
+        # flat (every glide case at its floor) wherever the lag turns the glides into dives.
+        sc2 = [(outer(to_unit(np.array([t2b, db] + list(x0[2:5]) + [tau, gg]), lo[:ND], hi[:ND])), tau, gg)
+               for tau in (0.05, 1.0, 2.0, 4.0, 8.0) for gg in (0.5, 0.7, 1.0, 1.3)]
+        _, x0[5], x0[6] = min(sc2)
+        scores += [(a, t2b, db) for a, _, _ in sc2]
     # Stage 2: Nelder-Mead from the best grid point, with an initial simplex of about one grid step in each direction.
     u0 = to_unit(np.array([t2b, db] + list(x0[2:ND])), lo[:ND], hi[:ND])
     simplex = np.vstack([u0] + [u0 + np.eye(ND)[i] * st for i, st in enumerate((0.6, 0.4, 1.0, 1.0, 1.0, 1.0, 1.0)[:ND])])

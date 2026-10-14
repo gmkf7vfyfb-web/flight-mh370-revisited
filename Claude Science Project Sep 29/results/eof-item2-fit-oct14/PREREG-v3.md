@@ -30,3 +30,11 @@ upper bound, p_sym, p_dead, e0, s (population). Bounds otherwise as round 2.
 ## Not addressed, declared
 Case 5's late dive (a trigger on the state at the loss cannot see it).
 — End of Flight Module
+
+## Amendment (14 Oct, after the first round-3 run; model, parameters, bounds, tolerances and gate UNCHANGED)
+The first round-3 fit (commit 7170c71 code, run 16:24–16:58Z) did not converge to the round's optimum: it started at τ = 8 s, where the
+lagged lift turns every glide into a dive, so all five glide cases sat at their likelihood floor and the objective was flat; it ended at
+an in-sample total of −4,001 nat, worse than the nested round-1 optimum (−853; round 3 contains round 1 at τ = 0, g = 1). It is reported
+as UNCONVERGED (results kept in `round3-unconverged/`), not as a result. Optimiser change only: start at τ = 0.05 s, g = 1 (the nested
+law) and add a grid stage over τ ∈ {0.05, 1, 2, 4, 8} s × g ∈ {0.5, 0.7, 1.0, 1.3} at the best doubling time and trim offset, then
+Nelder–Mead as before.
