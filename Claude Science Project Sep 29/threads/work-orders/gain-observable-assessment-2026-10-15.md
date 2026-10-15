@@ -44,9 +44,10 @@ compensation not rejected (p = 0.079); likelihood ratio 35 for no compensation a
    about 1.5 dB above the line, so the slope is pinned almost entirely by 01:55 against the other
    two.
 2. **The verdict depends on an assumed nuisance floor.** The episode-level noise floor τ was set
-   at 0.5 dB. At τ = 0 both hypotheses are rejected outright (p = 2e-87 and 4e-13); the conclusion
-   that no-compensation survives exists only once τ reaches about 0.25 dB and above. The floor is a
-   modelling choice, not a measurement.
+   at 0.5 dB. At τ = 0 both hypotheses are rejected outright (p = 2e-87 and 4e-13), and at
+   τ = 0.25 dB no-compensation is still rejected (p = 0.0013). It first survives at the 0.05 level
+   at τ = 0.45 dB (p = 0.053), so the chosen 0.5 dB sits just above the crossing and the headline
+   verdict depends on that choice. The floor is a modelling choice, not a measurement.
 3. **The gain values are reconstructed**, from a digitised gain curve with a side-selection and
    attitude assumption, and the prior work's own open-questions list names robustness to
    digitisation, side selection, attitude, fading and transmit-power state changes as undone.
