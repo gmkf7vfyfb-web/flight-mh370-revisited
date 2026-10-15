@@ -54,6 +54,19 @@ noise — so the comparison against the fuel-free base is fair.
    posterior weight sat on paths whose tanks ran dry before 00:10:59 — though that was on the
    defective tables and a wider prior, so it is corroboration of direction only.
 
+## A direct contradiction from Davey et al. — read this before using the one-in-eight figure
+
+Davey's Assumption 4 (printed p. 60) says the opposite: fuel constraints "can be applied to the pdf
+afterwards" and "analysis of candidate trajectories has indicated that the majority are feasible".
+The one-in-eight reading and that sentence cannot both hold for the same test. A plausible
+reconciliation, untested: Davey judged feasibility against **maximum reachable range**, a weak test,
+while this engine burns fuel along each trajectory's own sampled speed and altitude profile from
+Boeing-calibrated tables. His altitude prior is uniform 25,000–43,000 ft independent of weight, so it
+places trajectories above the service ceiling for part of the flight, and the fuel audit found 44–47
+per cent of reference-289 weight flying above it — trajectories a range test passes and a
+profile-dependent burn does not. **So the one-in-eight figure is a hypothesis, not a result, until
+the direct check is done**, and the paper must not state it.
+
 ## What this is not, and the one check that would make it firm
 
 The one-in-eight reading assumes the fuel model acts on the posterior only through the 00:11
@@ -73,8 +86,8 @@ was measured to be nearly inert on the posterior.
 ## The sentence for the paper
 
 > Adding an aircraft fuel model to the reproduction of Davey et al. (2016) costs about 2.2 nat of
-> log evidence. The cost is a constraint term rather than a misfit: it corresponds to only about one
-> in eight of the trajectories admitted under the original infinite-fuel assumption remaining
-> flyable on the fuel aboard to the 00:11 transmission.
+> log evidence, against the 8.2–8.45 nat reported for an earlier configuration whose exhaustion-timing
+> term contributed most of that through its normalising constant.
 
-(Conditional on the direct check above.)
+**Safe to state now.** The interpretation of the 2.2 nat as a feasibility fraction is not, until the
+direct check reconciles it with Davey's Assumption 4.
