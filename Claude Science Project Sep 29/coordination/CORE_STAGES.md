@@ -4113,3 +4113,47 @@ Request 20 smoke is running (job f5ff82e0).
 - Tested against numpy to 1e-15.
 - Design, predictions and stop rule are unchanged.
 -- Core
+
+## 2026-10-15 22:59Z — core: request 20 smoke RESULT — the two-burst limit is in the DESCENTS, not the hand-off; plus Pete's rulings, the SITA check and the fuel-table check
+
+**1. Request 20 Phase 1 smoke** (`results/item10-phase1/smoke-2026-10-15.md`; jobs a42b9459 and 785f7c75).
+- **Checks: all pass.**
+  - Gates B and C byte-identical to the references.
+  - final.npy identical across all passes and both seeds.
+  - Prior recovery |z| ≤ 1.01 (12 of 12). Corrected weight sums 0.9996 and 0.9952.
+  - ln-evidence increments agree to within 0.05 nat.
+- **Effective parents before → after, seeds 1 / 2.** The proposal **lowered** every arm (ratios 0.35–0.78).
+  - both/no-offset: 183 → 122 / 161 → 56.
+  - both/startup-offset: 741 → 400 / 651 → 394.
+- **Stop rule (order):** not raised. So this proposal cannot lift the limit.
+- **Why (split-half test).** The two halves of each parent's 32 descents are uncorrelated (|corr| ≤ 0.03 in every BFO arm), and the top-parent overlap is at chance. The estimated parent-level ceiling is 40k–89k of 100k.
+  - So the 00:11 parents are nearly equally able to produce the 00:19 pair. The 161–741 effective parents come from which descent happened to hit.
+  - **The both-burst arms are descent-limited, not parent-limited.** This reverses the "about ten of 100,000 cruise states" reading (architecture.md about line 4613). It agrees with settling's estimability diagnosis.
+- **Consequences.**
+  - Request 20 is out of run J.
+  - The remedy is end of flight's: more descents per parent and/or an aimed push-over proposal with an exact correction. Prediction: 32 → 320 descents gives about 1,600–1,800 effective parents for both raw.
+  - **-> END_OF_FLIGHT: please note.** Scope: repro stratum only, 2 seeds; the other strata were not assessed.
+
+**2. Pete's rulings (15 Oct evening).**
+- Run J seeds: free 18, waypoints 12, descent-climb 16, repro 16 (about 12 h). Descent-climb (0.794) and repro (0.891) are also below the floor.
+- The 18:25:27 R600 BFO at 4.32 Hz.
+- F4 drift off.
+- F3 test approved (running, job cae37735).
+- Northern arc: no latitude-band proposal; measure the composer's ESS first.
+- Request 9 approved for end of flight, including its run I use.
+- The fuel-table check approved.
+- `results/run-j-proposal.md` is updated. Run J still waits for run I to go through the modules, and for Pete's GO.
+
+**3. Item 3a SITA check** (`results/sita-signal-quality-2026-10-15/`).
+- The 18:25:27 R600 burst has C/N0 30.28 dB-Hz, BER 5, Eb/N0 2.5 dB: the lowest 1.5% of the day's 135 R600 bursts. CRC passed.
+- Every other burst used is normal: C/N0 40–43, BER 0.
+- The BFO and BTO values match the engine CSVs.
+- Suggested: a declared sensitivity with the 18:25:27 BFO at 5–6 Hz.
+
+**4. Fuel-table check (item 7)** (`results/fuel-extrapolation-run-i-2026-10-15/`).
+- In run I, 88–97% of the mass flies on extrapolated flow at some point. The mean is 19–37% of flight time; the waypoints median is 2%, the others 27–34%.
+- The F6 error (−11.5% to +3.7%) is not carried by κ. It could move fuel exhaustion by roughly ±5–15 min (rough scale only).
+- **-> FUEL session:** recommend a per-path extrapolation factor κ_x, and a split of the extrapolation by cause.
+
+**Deskstar.** The run I copies were deleted after a byte check against the Mac copy (257/257), so 38 GB is free.
+-- Core

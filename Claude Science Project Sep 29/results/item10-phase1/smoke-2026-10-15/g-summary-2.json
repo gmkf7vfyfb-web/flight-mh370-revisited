@@ -1,0 +1,27 @@
+{
+ "distinct": 500000,
+ "descents": 16000000,
+ "arms": {
+  "both/no-offset": {
+   "parents_with_any_hit": 499924,
+   "ess_over_distinct": 1139.7875328953119,
+   "max_share": 0.007027783120964592
+  },
+  "both/startup-offset": {
+   "parents_with_any_hit": 498202,
+   "ess_over_distinct": 4282.948534890906,
+   "max_share": 0.0033804730727532597
+  }
+ },
+ "mixture": {
+  "ess_over_distinct": 3561.3942016121828,
+  "positive": 499924
+ },
+ "per_mode_distinct": {
+  "TrueHeading": 59341,
+  "MagneticHeading": 23194,
+  "TrueTrack": 120164,
+  "MagneticTrack": 226800,
+  "LateralNavigation": 70501
+ }
+}
