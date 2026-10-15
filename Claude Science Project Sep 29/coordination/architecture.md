@@ -12381,3 +12381,6 @@ modules may still read it.
 - **For Pete:** (i) U1 as the declared sensitivity (module recommendation: it changes one prior and nothing else); (ii) the binned version as a separately labelled hypothesis about fuel state; (iii) both. The direct 22:41-arm run (3.7 h, built and unit-tested: a clock-time proposal window with exact correction, so U1 and fuel-tied are both exact from one run) serves (i) and (iii) only — it cannot represent the binned version. Held until the ruling. Run J does not exist (needs Pete's GO), so "run-J scale" is read as joined V2 production scale on run I.
 
 - End of Flight Module
+
+## 2026-10-15 23:51Z — coordination: PETE'S DECISION — downstream work does not hold up run J
+Run I's 12 Oct end-of-flight set went through every module and the composer, which satisfies the "run I through the modules first" ruling. The outstanding downstream items (Ocean Infinity base + ρ sweep + settled positions; Australian populated-coast term; composer with D0′ and a regional ESS output; scoring of the newer end-of-flight sets) are built while run J runs and applied to run J's end-of-flight impacts. Run J is gated only by the core-side items in `results/run-i-downstream-status-2026-10-15.md` §4 (northern fix, request 21, output additions, F3 and shoulder checks, tag and smoke) and by Pete's GO.

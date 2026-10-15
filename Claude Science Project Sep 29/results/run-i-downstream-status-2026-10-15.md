@@ -34,11 +34,11 @@ So one full pass of run I has been through every module, and the composer, on th
 4. Audit F3 time step (running) and the BTO-only reproduction shoulder check.
 5. Frozen tag, manifest and final-configuration smoke.
 
-**Downstream side (they do not change run J, but must be ready so that run J's downstream pass is mechanical). Rehearse each on run I first:**
-6. Searched areas: OI base columns plus the ρ sweep on `run-i-dive`, and the search applied to settled positions.
+**Downstream side. Pete's decision (15 Oct, late): these do NOT hold up run J. Build the code changes while run J runs, then apply them to run J's end-of-flight impacts. Run I's 12 Oct pass through every module satisfies the earlier ruling.**
+6. Searched areas: OI base columns plus the ρ sweep, and the search applied to settled positions (built now, run on J).
 7. Drift: Australian populated-coast term (160 E domain), at least as a pre-registered sensitivity.
-8. Hydro, Pléiades, settling and searched areas on `run-i-dive`, the current impact set.
-9. Composer pass 3 on `run-i-dive`: D0′, OI base, Australian term; **regional ESS output** (sum and sum of squared weights per region, so that northern adequacy is reported routinely); seed-bootstrap intervals.
+8. Hydro, Pléiades, settling and searched areas: on run J's end-of-flight set (no rescoring of `run-i-dive`).
+9. Composer on run J: D0′, OI base, Australian term; **regional ESS output** (sum and sum of squared weights per region, so that northern adequacy is reported routinely); seed-bootstrap intervals.
 10. End of flight: the item 4 ruling, the bank-limit sweeps (running), and the both-burst descent-sampling work request (core 23:17Z).
 
 ## 5. Approximate downstream cost per impact set (from run I logs)
