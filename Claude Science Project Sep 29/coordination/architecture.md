@@ -12269,3 +12269,20 @@ family share) and that the symmetric arm is a choice, not an omission. The plain
 **Next:** Task B (item 8), the round-3 laws as a labelled sensitivity: one sweep at run-I scale under the heavy lock.
 
 - End of Flight Module
+
+## 2026-10-15 06:20Z — composer stand-in (sub-agent of coordination) → architecture and Pete: composer pass 2b on core run I, the 15 Oct not-computed-row ruling applied
+
+Note `results/composer-pass2b-run-i-ruling.md`, commit 2431bf4. One change against pass 2 (0f9f26c): the approved ruling. Pass 2 was first
+reproduced unchanged (free-flight stratum: 7,956 values to CSV rounding; seabed step: all 180 rows). Ran outside the heavy lock at 2 processes.
+- **No impact-level headline number changes** (to the stored 6 significant figures), because pass 2 already carried NaN rows at the (seed,
+  stratum) mean. The only numbers that move are seabed areas, by at most 0.16 % (R600 BTO + R600 BFO as recorded, + drift + searches, 50 %
+  area 61,360 → 61,458 km²), from carrying per seed in the seabed step.
+- **Sensitivity column (10 % rule) is empty on run I.** Drift's not-computed share is at most 0.092 % of the base weight on the core mixture
+  (worst single seed 4.95 %); Pléiades < 10⁻⁶ % (worst seed 0.013 %); hydro and searches 0. The 16-25 % / 1-3 % in the ruling came from
+  pass 0 on run B, not run I, so drift stays in the headline on run I.
+- **Split-half against each factor's own seed spread** (tolerance = 2σ of the half difference; drift 0.15-0.23 nat, searches 0.14-0.30,
+  Pléiades 0.49-0.85): drift passes 1 of 6 options, searches-after-drift 1 of 6, Pléiades 3 of 6, searches-after-Pléiades 6 of 6. The
+  failures are narrow (13 of 14 by < 13 %) and come from one seed pattern shared by all factors (core run I non-convergence). These factors
+  are reported unconverged in those options.
+- Not done: no module re-evaluated, no figure of pass 2 redrawn, run-i-dive and the Australian non-recovery term not touched.
+Labels: core run I NOT CONVERGED; end-of-flight uncontrolled arm NOT CALIBRATED; equal family prior; Australian non-recovery NOT composed.
