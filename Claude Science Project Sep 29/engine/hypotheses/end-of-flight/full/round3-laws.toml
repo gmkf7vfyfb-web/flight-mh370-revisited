@@ -1,0 +1,53 @@
+# Item 8 (work order 15 Oct 2026, Task B): the round-3 free-flight laws as a DECLARED ALTERNATIVE to the production dynamics.
+# NOT A CALIBRATION. The section 8 gate FAILED in all three rounds (out-of-sample -1282.0, -904.2, -713.6 nat; 13, 18, 25 of 62
+# case-targets inside tolerance; no case passed). Round 3 is the best of the three out of sample and the only one that reproduces
+# the Boeing glide phugoid (cases 1, 7, 8: period and damping inside tolerance). Its laws are a lagged lift, a turn rule towards
+# the dead engine, and a dive trigger on equivalent airspeed at the loss of control. Source: results/eof-item2-fit-oct14 (round3/
+# fit-all.json), PREREG-v3.md written before the fit.
+#
+# IDENTIFICATION IS WEAK AND TRAVELS WITH EVERY NUMBER FROM THIS ARM. Leave-one-out spread beside each all-data value:
+#   spiral_doubling_s                      26.44534064            LOO 23.4814 to 58.7436
+#   trim_cl_offset                         -0.06894526254         LOO -0.140577 to -0.0250862
+#   windmilling_per_engine                 0.001409641669         LOO 2.54955e-06 to 0.00138219
+#   rat_increment                          0.0001944372667        LOO 0.000185664 to 0.000506323
+#   spiral_bank_cap_deg                    52.53319495            LOO 57.3005 to 62.4188
+#   free_lift_lag_s                        3.516889893            LOO 0.978961 to 3.77167
+#   free_lift_gain                         0.4123709808           LOO 0.376825 to 0.977445
+#   residual_bank_deg                      9.685293467            LOO 5.72795 to 12.8205
+#   residual_bank_left_probability         0.98                   LOO 0.83259 to 0.98
+#   residual_bank_toward_dead_probability  0.98                   LOO 0.98 to 0.98
+#   dive_trigger_eas_mid_kt                182.5135601            LOO 181.737 to 201.599
+#   dive_trigger_eas_scale_kt              2                      LOO 2 to 2
+# The all-data bank cap lies OUTSIDE the range of every leave-one-out fit. Three parameters sit on a search bound (both
+# turn-direction probabilities at 0.98, the dive-trigger scale at 2 kt). Several local optima of similar total are likely.
+#
+# COVERAGE NOTE: this arm replaces five production priors with point values (spiral doubling time, trim offset, windmilling,
+# RAT increment, bank cap), so it samples a narrower space than production in those dimensions. The leave-one-out spread above
+# is the honest uncertainty on each; the arm is a single declared alternative, not a posterior over the laws.
+#
+# VERBATIM CAVEAT for every product of this arm:
+#   The uncontrolled-arm dynamics are not calibrated: the Boeing leave-one-out gate failed in all
+#   three rounds. Impact energy, attitude, flight-path angle and energy-transfer duration from
+#   this arm are a labelled sensitivity on uncalibrated dynamics, not a physical prediction.
+
+[hypotheses.end-of-flight.aero]
+windmilling_per_engine = 0.0014096416693352887
+rat_increment = 0.00019443726672606457
+
+[hypotheses.end-of-flight.envelope]
+# Lagged lift (round 3's structural change): lift relaxes towards L_ref [1 + g (q/q_ref - 1)] with time constant tau.
+# g = 1, tau = 0 is the round-1 model exactly, which is what production flies.
+free_lift_lag_s = 3.516889893352024
+free_lift_gain = 0.41237098083794016
+# Turn direction from the propulsion state at the loss: towards the dead engine while one engine is still thrusting,
+# otherwise left (Boeing's residual left rudder, Malaysian SIR App. 1.6E p. 8).
+residual_bank_left_probability = 0.98
+residual_bank_toward_dead_probability = 0.98
+# Dive trigger on equivalent airspeed at the loss of control (round 2's change, carried into round 3).
+dive_trigger_eas_mid_kt = 182.51356010338785
+dive_trigger_eas_scale_kt = 2.0
+# Fitted values of the parameters production samples; see the coverage note above.
+spiral_doubling_s = 26.445340635473475
+spiral_bank_cap_deg = 52.533194948417965
+trim_cl_offset = -0.06894526254308
+residual_bank_deg = [0.0, 9.6852934667106]
