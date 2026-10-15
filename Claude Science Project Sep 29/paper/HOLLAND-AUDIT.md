@@ -21,8 +21,12 @@ something** — where it sets a number, justifies an exclusion, or defines a hyp
 
 ## Summary table — entry points, evidence, and what changes if removed
 
-Eight entries. Two of them (5 and 6) are not dependencies: one is a refusal to depend, and one is
-a use of the 00:19 bursts that this project does not reproduce at all. Every figure in the
+Eight entries, of which only **1, 2 and 3 are live dependencies** — the exclusion's justification,
+the start-up offset ranges, and the two hypotheses as defined objects. The rest are not: entry 4 is
+a check that Holland passes against bounds set from other sources; entry 5 is a deliberate refusal
+to depend; entry 7 is a use of the 00:19 bursts that this project does not reproduce at all; and
+entries 6 and 8 are provenance and locator defects rather than methodological dependencies. Every
+figure in the
 "consequence" column is carried with its labels from the note it comes from; all core numbers are
 **run I, NOT CONVERGED**, and run I is superseded by run-i-dive as a different prior over the
 end-of-flight trajectory, not a sampling variant.
