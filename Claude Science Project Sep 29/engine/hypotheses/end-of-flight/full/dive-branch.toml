@@ -1,6 +1,12 @@
 # Reach gap G-dive closed (Pete, 12 Oct 2026, "Dive branch, U[0,1]"): each piloted push-over is either continued as a dive to the
-# surface or levels off at transition_altitude_ft. Pete's prior: U[0, 1] hyper-prior on the dive probability; its marginal 0.5 is
-# drawn here and the branch is recorded (latent:pushover_to_surface), so any fixed value p re-weights exactly (2p or 2(1-p)).
+# surface or levels off at transition_altitude_ft. The branch is drawn ONCE PER DESCENT as an independent coin at this value, which
+# is the PROPOSAL, and is recorded in latent:pushover_to_surface with no term in the stored weight, so any fixed dive probability p
+# re-weights exactly: 2p continued to the water, 2(1-p) levelled off, 1 if no push-over was drawn (factor 1 at p = 0.5).
+# Item 7, 15 Oct 2026 (results/eof-item7-dive-prob-oct15): because each descent draws the branch once, the branch enters each row's
+# weight linearly in p, and int_0^1 2p dp = int_0^1 2(1-p) dp = 1. A fixed coin at 0.5, a per-parent U[0,1] hyper-prior, and one
+# global p with prior U[0,1] marginalised over its posterior therefore give IDENTICAL impact distributions and evidence. The U[0,1]
+# wording of Pete's ruling and the fixed 0.5 here are the same model for everything this stage reports; the only quantity that
+# differs is the within-parent dispersion of the dive share, which no product uses. Sweep p with smoke/dive_probability_sweep.py.
 # PROVISIONAL. Earlier runs (to run I and run-i-c2aim) are CONDITIONAL on "piloted push-over recovers by 8,000-15,000 ft".
 [hypotheses.end-of-flight.envelope]
 pushover_to_surface_probability = 0.5
