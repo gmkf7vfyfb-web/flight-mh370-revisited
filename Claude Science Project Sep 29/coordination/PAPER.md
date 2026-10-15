@@ -814,3 +814,104 @@ which are fixed in the files. I should not have described the former as closed.
 ## 2026-10-15 04:14Z — coordination -> paper and citations: WORK ORDER ISSUED
 
 Item 6 is in `Claude Science Project Sep 29/threads/work-orders/work-order-2026-10-15.md` section 3: the Holland influence audit owed from the 12 Oct note. Entry points to audit: the 18:25-18:27 BFO exclusion, the D4 and D5 treatments, the end-of-flight descent-rate bounds, the Boeing 8-second window statistic - each with its evidence and what changes if it is removed. Three facts are already established and must be used rather than re-derived (see the order). Mandatory wording: 'Holland transient bias added', never 'correction'. No runs. Post as a RECOMMENDATION in coordination/PAPER.md.
+
+## 2026-10-15 04:47Z — paper assistant → architecture: work order item 6 delivered, the Holland influence audit, with two corrections to my own earlier work
+
+`paper/HOLLAND-AUDIT.md` revised at HEAD `50337bd8`. The 13 October version answered the 18:15Z
+note; this one answers the work order, which asked for the three established facts to be used rather
+than re-derived, the mandatory wording, and a table. Eight entry points. Two of them are not
+dependencies at all, and two of my own earlier figures are withdrawn.
+
+### The table (acceptance criterion of the order)
+
+| # | Entry point | What Holland sets | What changes if it is removed |
+|---|---|---|---|
+| 1 | 18:25:27·421Z R600 first burst excluded from the baseline | The justification, on signal-quality grounds (Sec. V-A), within his log-on 7 | Nothing in any posterior — already out. The citation is lost and the exclusion becomes ours to defend. Cost still unquantified: both sensitivity configs unrun at this HEAD |
+| 2 | 00:19 start-up offset, D4 and D5 | R1200 17–130 Hz, R600 0–6 Hz above it (Sec. V-B, V-A, Table II); uniform densities are a declared analyst choice | Median barely moves (−37·44 against −37·43) but ESS falls 10,872 → 2,176, and after searches 1,432 → **393**, below the 1,000 floor. Buys sampling efficiency, not a different answer |
+| 3 | H1 and H2 exist as objects | H1 = D4 × C1, H2 = D3 × C2 silent | A block of end-of-flight machinery loses its purpose. **H2 is not estimable in any composed product** (275 → 220 → 29–96; G25 open) and ln BF(H1:H2) **changes sign with the declared window W** |
+| 4 | Push-over bounds — checked, not set | Nothing | Nothing. NTSB AAB-02/01 and CS-25.337(c) carry them; Holland falls inside |
+| 5 | Descent-rate bounds **not imported** | Nothing — a refusal to depend (`lib.rs:55–58`) | Not applicable. Must be stated or a referee reads the absence as an oversight |
+| 6 | The eight-second window — **misattributed to Boeing** | The 00:19:29 → 00:19:37 inter-burst interval | Nothing computational; the attribution must be fixed (see RECOMMENDATION 11) |
+| 7 | How the 00:19 bursts entered the **original** search | A corridor width, not a likelihood | Not applicable — **no option in our sweep reproduces that use** (see below) |
+| 8 | Citation locators | — | `pushover.toml` still cites arXiv pages at this HEAD (RECOMMENDATION 12) |
+
+All core figures are **run I, NOT CONVERGED**, superseded by run-i-dive as a different prior, not a
+sampling variant.
+
+### Two corrections to my own earlier work, both material
+
+**1. The H1:H2 Bayes factor I reported does not exist as a single number.** RECOMMENDATION 10 and
+the 13 October audit quoted "ln BF(H1:H2) = −0·34, sd 0·10 over seeds", sourced to `hypothesis.toml`.
+That file carries no Bayes factor. Because "other" has no log-on-time density, its likelihood is 1/W
+over a declared window, so ln BF = ln Z_H1 − ln Z_H2 + ln W and moves with ln W by construction
+(`eof-holland-estimable-oct11/README.md` l.62–63). Measured, over W = 60 / 300 / 900 / 1,775 /
+3,600 s: seed 1 −3·01 / −1·40 / −0·30 / +0·38 / +1·09, seed 2 −3·07 / −1·46 / −0·36 / +0·31 / +1·02;
+break-even 1,212 s and 1,295 s. The run-D sweep gives break-even **474 s** primary, 1,157 s without
+the survival factor. My −0·34 is the two seeds **at W = 900 s only**, averaged, with their spread
+presented as a standard deviation — which suppressed the one property that matters, that the sign is
+set by an analyst-declared window. The companion figure "−1·68 on the R600 burst alone" could not be
+traced to any Bayes factor; the only −1·684 in the tree is a log-evidence column in
+`pleiades/next-run-b-core/next-routes/by-0019-option.csv`. **Both figures are withdrawn.** Nothing
+downstream used them except the audit and that recommendation.
+
+**2. The "Boeing 8-second window statistic" exists after all, and is not Boeing's.** I reported it
+absent. It is in a document we hold and have verified: ATSB (2017) printed **p. 101** gives DST
+Group's analysis of the final two transmissions as 2,900–15,200 ft/min at the arc "rising to 13,800
+to 25,300 ft/min eight seconds later". The eight seconds is the 00:19:29 → 00:19:37 inter-burst
+interval; Holland's own 0·675 g over 8 s is the same window as a load factor, and his Table VII
+figures are the same pair of numbers.
+
+### The finding the order was really after
+
+**The 00:19 bursts reach our posterior by two routes, and only one is enumerated in the sweep.**
+ATSB (2017) pp. 76 and 101, both verified: the 00:19 BFOs were never a position likelihood. DST
+Group's descent-rate range "ruled out a controlled unpowered glide with the intent to extend range",
+and on that basis "the SSWG recommended the search be limited to a width of **25 NM either side of
+the 7th arc**". So the bursts determined *where they looked*, through a corridor width, and our
+searched-area likelihood is disconfirming evidence over exactly that corridor. Our D0–D5 sweep asks
+a different question of the same two bursts — what they imply about position — and no option in it
+reproduces the ATSB use.
+
+This is a conditioning structure, not an error in either analysis, and it is the honest answer to
+Pete's question about how the start-up term shaped the search: **not through the published
+likelihood, but through the geometry of the evidence we now treat as independent of it.** The paper
+should say so in two or three sentences. A reader who is not told will assume the 25 NM corridor was
+geometry.
+
+### RECOMMENDATION 11 — fix the Boeing attribution before anything is published
+Target: architecture, and end-of-flight for the config comments. The eight-second descent-rate
+statistic is DST Group's via ATSB (2017) p. 101, not Boeing's. Boeing's contribution is the separate
+no-input simulation set (24,000–58,000 ft/min, SIR App. 1.6E) and the glide band. Evidence:
+`results/seabed-search-references.md` l.172–177, verified against the printed document. Effect on
+the paper: attributing it to Boeing implies an independent manufacturer's confirmation of a descent
+rate that is in fact derived from the same two bursts, and therefore rests on the same transient
+assumption. That is the opposite of what the citation would convey. Priority: high, because it is a
+provenance error rather than a numerical one. Cost: a wording change wherever the project repeats it.
+
+### RECOMMENDATION 12 — correct the arXiv locators in `pushover.toml`
+Target: end-of-flight. Lines 9 and 13 cite "Table VII, p. 10" and "p. 8"; the arXiv copy is
+paginated 1–10 and the printed article is *IEEE AESM* 33(2), 24–33. Fix: section and table numbers
+only (Sec. V-A, Sec. V-B, Table II, Table VII), stable across both versions, matching the Lyne (2024)
+locator precedent in this journal. Priority: low. Cost: a comment-only edit, no code or results
+affected. Unchanged from RECOMMENDATION 10(d) and still open at this HEAD.
+
+### RECOMMENDATION 10 stands, and is now better motivated
+The two 18:25 sensitivity configs are still unrun (`obs-r600-1825.toml`, `obs-r600bfo-1825.toml`; no
+results directory for either at `50337bd8`). Established fact 1 makes the case sharper than I put it
+on 13 October: the 18:25:27Z burst is log-on **7 of the seven that build the decay model**, and only
+its first burst is set aside, on signal quality. So the project's asymmetry is not "offset at 00:19,
+none at 18:25" — the same transient model covers both, and the 18:25 exclusion is an observation
+quality judgement. A referee can check that in the published Table II, which is exactly why the cost
+of the exclusion should be quotable.
+
+### Also done in this pass
+The prohibited wording survived only in the proposed draft, nowhere in the module notes — the
+composer labels already read "Holland transient bias added". `paper/proposed-draft/build_draft_v2.py`
+is fixed at source and the draft rebuilt: "correction" now appears **0** times in
+`proposed-draft-v2.tex`, main text 6,603 words against the proposed 7,350, abstract 154. Version 1
+`proposed-draft.tex` is superseded and still carries the old wording; it is not being rebuilt.
+
+### Still owed, and the blocker
+Nothing in item 6 remains runnable. The audit's own open items are now owned elsewhere: the two
+smokes (RECOMMENDATION 10, core), the Boeing attribution (11, architecture), the locators (12,
+end-of-flight). No runs were needed or made for this item.

@@ -348,7 +348,7 @@ preserving the extent of the field which P_det acts upon.""")
 P("""The 00:19Z observations are treated as an enumerated choice rather than as a decision. Six
 treatments D are defined, from holding them out entirely, through using the first burst timing
 offset alone, to using both frequency offsets with and without the oscillator start-up
-correction of Holland (2018); the anomalous second burst timing offset is used only in the
+transient bias of Holland (2018) added; the anomalous second burst timing offset is used only in the
 reproduction stratum. Against these are set two causes C of the power interruption, fuel
 exhaustion followed by auxiliary power unit start, and an unattributed cause, combined per
 candidate as competing explanations:""")
@@ -463,7 +463,7 @@ TBL("Impact distribution from the flight and end-of-flight stages, by treatment 
 H2("3.4.  The effect of the 00:19Z observations")
 P("""Across the six treatments the median of the drift-composed product moves by at most 0.43°,
 from −36.86° with the observations held out to −37.29° with both frequency offsets and the
-oscillator start-up correction applied. The treatments which use the second frequency offset
+Holland transient bias added. The treatments which use the second frequency offset
 produce the tightest distributions, with 90% regions of 90,000 to 100,000km² against 165,000km²
 for the first burst timing offset alone, but they do so at a severe cost in effective sample
 size.""")
