@@ -191,8 +191,32 @@ the final two satellite transmissions as giving **2,900 to 15,200 ft/min at the 
 13,800 to 25,300 ft/min eight seconds later**. The eight seconds is the interval between the two
 00:19 bursts — the 00:19:29Z R1200 acknowledge and the 00:19:37Z R600 log-on request — and the
 statistic is the rate of increase of descent rate across it. Holland's own "0·675 g downward over
-8 s" (`pushover.toml` line 13) is the same window expressed as a load factor, and his Table VII
-upper figure, 13,800–25,300 ft/min, is the same pair of numbers.
+8 s" (`pushover.toml` line 13) is the same window expressed as a load factor.
+
+**Which Holland table the ATSB figures correspond to — verified against the source, and a
+correction to a standing project ruling.** The project holds that the ATSB's p. 101 bounds "have
+lower bounds about 1,000 ft/min below Holland's arXiv v3 Table IV", with the instruction never to
+merge the two. The caution is right and stands; the table comparison was against the wrong table.
+Read directly from the author's copy (arXiv:1702.02432v3, Pete's file in `~/Downloads`):
+
+| Source | 00:19:29Z | 00:19:37Z |
+|---|---|---|
+| Holland **Table IV**, p. 9 — "under Hypothesis 1", by track | 3,900 (S) / 5,100 (N) to 13,600 (S) / 14,800 (N) | 14,800 (S) / 15,900 (N) to 24,100 (S) / 25,300 (N) |
+| Holland **Table VII**, p. 10 — "range of possible descent rates", unconditional | **2,900 to 14,800** | **13,800 to 25,300** |
+| ATSB (2017) p. 101, citing the Nov 2016 flap-analysis report | 2,900 to 15,200 | 13,800 to 25,300 |
+
+So the ATSB figures track **Table VII, the unconditional range**, not the Hypothesis 1 table: the
+lower bounds agree exactly (2,900 and 13,800) and the 00:19:37 pair is identical. The only residual
+difference is the 00:19:29 maximum, ATSB 15,200 against Table VII 14,800 — 400 ft/min, not 1,000.
+The ~1,000 ft/min gap in the standing ruling is the gap between Table IV and Table VII — that is,
+between Holland conditional on Hypothesis 1 and Holland unconditional — and not between Holland and
+the ATSB at all. The instruction not to merge sources still holds, because the ATSB cites a November
+2016 report and the arXiv v3 is January 2018; but a claim attributed to the ATSB and a claim
+attributed to Table VII are not in conflict, and the paper should not present them as if they were.
+
+This also clears `pushover.toml` line 9 on substance: its "Table VII, p. 10 … 13,800–25,300 ft/min
+at 00:19:37" is the correct table and the correct figures. Only the locator convention is at fault
+(entry 8).
 
 **So the attribution to Boeing is the error, and it matters.** The eight-second statistic is DST
 Group's, reported by the ATSB, and consistent with Holland's own treatment of the same two bursts.

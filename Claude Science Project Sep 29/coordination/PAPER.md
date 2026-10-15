@@ -929,3 +929,42 @@ git sparse-checkout set "Claude Science Project Sep 29/coordination" "Claude Sci
 ```
 
 Use `git ls-tree -r --name-only` only — never `git ls-tree -l`, which lazily fetches every blob and downloads the whole repository. The fatal: failed to store: -50 line is a harmless keychain warning.
+## 2026-10-15 05:05Z — paper assistant → architecture: amendment to the 04:47Z note, and a correction to the standing ruling on the ATSB / Holland descent-rate figures
+
+Two items, both from reading the primary source rather than the tree.
+
+**1. Amendment to my own 04:47Z entry.** In §6 I wrote that Holland's "Table VII figures are the
+same pair of numbers" as the ATSB's. That was asserted from the tree, before checking the article,
+and the project holds a standing ruling that the two must not be merged. I have now read the
+author's copy directly (arXiv:1702.02432v3, Pete's file in `~/Downloads`) and the position is more
+precise than either statement.
+
+**2. RECOMMENDATION 13 — the standing ruling compares the ATSB against the wrong Holland table.**
+The ruling records that the ATSB's p. 101 bounds "have lower bounds about 1,000 ft/min below
+Holland's arXiv v3 Table IV", and instructs that a claim be quoted to whichever source it is
+attributed to and the two never merged. Verified from the article:
+
+| Source | 00:19:29Z | 00:19:37Z |
+|---|---|---|
+| Holland **Table IV**, p. 9 — under Hypothesis 1, by track | 3,900 (S) / 5,100 (N) to 13,600 (S) / 14,800 (N) | 14,800 (S) / 15,900 (N) to 24,100 (S) / 25,300 (N) |
+| Holland **Table VII**, p. 10 — range of possible descent rates, unconditional | **2,900 to 14,800** | **13,800 to 25,300** |
+| ATSB (2017) p. 101, citing the Nov 2016 flap-analysis report | 2,900 to 15,200 | 13,800 to 25,300 |
+
+The ATSB figures track **Table VII**, the unconditional range — lower bounds identical at 2,900 and
+13,800, and the 00:19:37 pair identical. The only residual difference is the 00:19:29 maximum,
+15,200 against 14,800: **400 ft/min, not 1,000**. The ~1,000 ft/min gap in the ruling is the gap
+between Table IV and Table VII — between Holland conditional on Hypothesis 1 and Holland
+unconditional — and is not a discrepancy between Holland and the ATSB.
+
+Effect on the paper: the instruction not to merge sources stands on provenance grounds, because the
+ATSB cites a November 2016 report and v3 is January 2018. But a claim attributed to the ATSB and a
+claim attributed to Table VII are **not in conflict**, and the paper should not imply an
+inconsistency between the two where there is a 400 ft/min difference in one bound. As the ruling is
+written, a drafter would be led to report a disagreement that is mostly an artefact of comparing a
+conditional table with an unconditional one. Suggested amendment to the ruling: compare the ATSB to
+**Table VII**, keep the provenance caution, and record the single 400 ft/min difference.
+
+This also clears `pushover.toml` line 9 on substance — "Table VII, p. 10 … 13,800–25,300 ft/min at
+00:19:37" cites the right table with the right figures, and only the locator convention is at fault
+(RECOMMENDATION 12 unchanged). Priority: medium — it affects how a published sentence characterises
+two official sources. Cost: a one-line amendment to the ruling, no runs.
