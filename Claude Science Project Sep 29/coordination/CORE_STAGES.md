@@ -3984,3 +3984,51 @@ Prerequisites confirmed: deskstar enabled (load 1.4, 17 GB free, cgroup 36 GiB, 
 
 **Steps 1 and 3 — running.** Gates done (full post follows with checksums): **B and C byte-identical at 6 and 44 threads.** ln Z: B −87.51501896471403, C −100.03202195409557. Regress-seed1 and the fuel runs are in progress.
 -- Core
+
+## 2026-10-15 20:15Z — core (order b): step 1 DONE (gates regenerated); step 3 DONE (fuel feasibility)
+
+**Step 1 — `results/gates-bc-2026-10-15.md`.**
+- **Build.** `9681a10`, engine source identical to 5eeda14. Built on deskstar under the heavy lock. Unit tests 32 + 38 passed.
+- **Binary.** `bin-9681a10`, sha256 17052ae0…df71.
+- **Gate B (tb-B).** 10 files (8 npy + 2 handoff.toml). ln Z −87.51501896471403 (seeds −87.12365367537329, −87.90638425405477).
+- **Gate C (tb-C).** 4 files. ln Z −100.03202195409557 (seeds −99.92835496625666, −100.13568894193449).
+- **SHA-256 of every reference file** is in the results note.
+- **Thread count is settled.** Both gates rerun at 44 threads are byte-identical to 6 threads (0 diffs over 14 files). The handover's UNCERTAIN is closed.
+- **New single-number value.** regress-seed1 (davey2016 + regress-seed1.toml, 1 × 7M, 289.7° track): **ln Z = −97.51251428262529**. It replaces −96.66146918417472.
+- **Where the references are kept.**
+  - deskstar `~/mh370/gates-2026-10-15/` (do not delete);
+  - `~/Downloads/mh370-exchange/core/gates-2026-10-15/` (tarball, 14 entries checked against the table, plus SHA256SUMS).
+- **x86_64 references.** Compare candidates on deskstar.
+
+**Step 3 — `results/fuel-feasibility-2026-10-15/README.md`.**
+- **Runs.** davey2016-inmarsat, fuel tracked but not constraining, 4 seeds × 1.75M. Both variants have identical ln Z (−97.07609488020748) and an identical posterior, so the bookkeeping is inert as intended.
+
+| | ff-tables (the reading's fuel model) | ff-internal (production burn) |
+|---|---|---|
+| dry before 00:10:59 | **0.858 ± 0.007** | **0.906 ± 0.007** |
+| feasible | **0.142** (ln −1.95; reading −2.16) | **0.094** (ln −2.37) |
+| dry between arcs 6–7 | 0.066 | 0.049 |
+| FE 5/50/95% | 23:07:12 / 23:44:21 / fuel left at 00:19:37 | 22:53:18 / 23:33:41 / 00:18:09 |
+| above ceiling at any time | 0.221 | 0.165 |
+
+- **Comparisons.**
+  - The **one-in-eight reading is confirmed** in direction and roughly in size: 1 in 7 on its own fuel model, 1 in 11 on the production model.
+  - Davey's Assumption 4 ("the majority are feasible") does not hold under a profile-dependent burn.
+  - The ceiling explains at most 17–22% of the mass.
+  - Run I's arcs 6–7 share comes from the 00:11 constraint. Recomputed on run I's repro stratum it is 0.554, with FE median 00:18:33. The 51.01% and 00:19:12 in the order are all-strata figures whose source was not found.
+- **Predictions.**
+  - Order's 0.10–0.20: not met (it inverted the quantity, as flagged).
+  - Core ff-tables 0.80–0.92: met.
+  - Core ff-internal 0.70–0.90: missed, just above (0.906). The κ argument was wrong; FE is 11 min earlier.
+  - Core above-ceiling 0.4–0.5: missed (0.17–0.22).
+  - FE-quantile predictions: met.
+- **Caveat.** 85% of the mass touches table extrapolation; the durations are not assessed.
+- **Disclosed correction.** The first analysis pass (job d7ed2f2b) squared the mode probabilities, because final.npy's weight already sums to the mode probability in each mode. The script was fixed, and job e49cf3be reran it. Only the corrected numbers are posted.
+
+**Order b status.** Steps 1, 2, 3 and 5 are done. Step 4 is designed. Open for Pete:
+- (a) GO or NO-GO for the core request 20 Phase 1 smoke (about 1 h on deskstar);
+- (b) the item 6 check redefined (pure reproduction at 7 / 4.32 / 4 Hz, 3 × 12 min);
+- (c) run J stays held for his explicit GO.
+
+Nothing is running on deskstar. The heavy lock is free.
+-- Core

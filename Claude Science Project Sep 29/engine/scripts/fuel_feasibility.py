@@ -1,8 +1,8 @@
 """Fuel feasibility of a fuel-TRACKED, unconstrained posterior (core order 2026-10-15b step 3).
 Standard library only (deskstar's python3 has no numpy).
 usage: python3 fuel_feasibility.py <run dir> [case] > out.json
-Pools rows as within-mode weight x replicate mode_probability[stratum] / n_replicates (equal
-seed pooling, as summary.json does). Times are seconds after 2014-03-08 00:00:00 UTC, read from
+Pools rows as weight x mode_probability[stratum] / (sum of weight in that stratum) / n_replicates
+(equal seed pooling, as summary.json does). Times are seconds after 2014-03-08 00:00:00 UTC, read from
 final.npy's fuel_exhausted_s_after_0000 (F12: never the float32 unix column). NaN = still
 holding fuel at the final step (00:19:37). If tanks.npy (f8) or tanks32.npy (f4) is present the
 first-engine flame-out is reported too."""
@@ -60,7 +60,12 @@ for rep in reps:
     W = a[0::nc]; S = a[12::nc]; FE = a[20::nc]; CEIL = a[17::nc]; EXT = a[16::nc]; NOF = a[18::nc]
     wsum = [0.0] * len(mp); pairs = []; ex = {"above_ceiling_any": 0.0, "extrapolated_any": 0.0, "no_flow_any": 0.0}
     for i in range(rows):
-        s = int(S[i]); w = W[i]; wsum[s] += w; pw = w * mp[s]
+        wsum[int(S[i])] += W[i]
+    # final.npy's weight already sums to mode_probability within each mode (checked 15 Oct on
+    # davey2016-inmarsat and run I repro); rescaling by mp / wsum is correct under either convention.
+    scale = [(mp[m] / wsum[m]) if wsum[m] > 0 else 0.0 for m in range(len(mp))]
+    for i in range(rows):
+        s = int(S[i]); pw = W[i] * scale[s]
         pairs.append((FE[i], pw))
         if CEIL[i] > 0: ex["above_ceiling_any"] += pw
         if EXT[i] > 0: ex["extrapolated_any"] += pw
