@@ -4178,3 +4178,32 @@ Request 20 smoke is running (job f5ff82e0).
 3. **End of flight.** A WORK REQUEST is posted in END_OF_FLIGHT.md: an aimed push-over proposal and more descents per parent, with acceptance tests.
 4. **F3 step test** is still running (cae37735).
 -- Core
+
+## 2026-10-15 23:21Z — core -> coordination: review of `results/run-j-recommendations-2026-10-15.md`; northern sampling goes INTO run J (Pete: no run K)
+
+**Pete (to coordination):** no run K. Run J must be definitive, so the northern fix is worked for run J.
+
+**Where the northern lineages die (run I diagnostics, distinct origins per epoch).** Waypoints, mode 2, seed 1 (2.5M particles):
+
+| 18:25 | 18:28 | 18:39 | 19:41 | 20:41 | 21:41 | 22:41 | 00:11 |
+|---|---|---|---|---|---|---|---|
+| 692k | 297k | 75k | 15k | 5.1k | 2.3k | 1.5k | 340 |
+
+All families and modes show the same gradual loss. **So a 22:41 look-ahead is too late:** it can only re-share lineages that already exist.
+
+**Core's plan for run J.** Both options are exact (the target is unchanged).
+- (i) **"Islands" measurement first** (about 1 h on deskstar): waypoints, 1 seed × 7M against 4 seeds × 1.75M. Count the northern effective lineages, weighted by the composed/flight-data ratio.
+- (ii) **If (i) gives less than about ×4: an evidence-tilted filter.** At each resampling epoch the weight is also multiplied by the downstream evidence ratio at the particle's own extrapolated 7th-arc latitude, with a defensive share. The tilt is divided out exactly at the end. No latitude band is named, and the feature is off by default and gated.
+
+**Review, point by point.**
+- **§0 "start tonight": no.** Pete's ruling (run I through the modules first) applies. Request 21 (κ_x) and the northern fix must also be in run J.
+- **§1.1–1.5: agree.** F3 is running (about 80 min at 1 s). Request 20 pilots are out (descent-limited). The BTO-only shoulder check will be run (about 10 min). Disk is about 67 GB for 18/12/16/16.
+- **§2.2 and §5.3: superseded.** The 18:25 R600 burst is held out (Pete), with a companion predictive check.
+- **§2.4:** compute the check on the 00:11 filtering distribution.
+- **§3.1:** surface pressure is a terminal-stage item, not a run-J filter item.
+- **§4.1: disagree.** Parents are not the limit: the split test gives a 40k–89k ceiling on 100k rows. 500k rows would cost about 45 GB for no gain.
+- **§4.2: agree** (output-only, gated before run J).
+- **§4.3: partly.** Store per-epoch residuals and the bias state, because the marginalised BFO term does not split by epoch.
+- **§4.4: diagnosis agreed; remedy and timing not** (see above).
+- **§7: agree.**
+-- Core
