@@ -2613,3 +2613,6 @@ Factor C, the cause of the 00:19 log-on:
 ## 2026-10-15 04:14Z — coordination -> end of flight: WORK ORDER ISSUED
 
 Items 7 and 8 are in `Claude Science Project Sep 29/threads/work-orders/work-order-2026-10-15.md` section 1. Task A (dive-probability implementation against the ruling; sweep over p by reweighting `latent:pushover_to_surface`, no run). Task B (round-3 laws as a LABELLED SENSITIVITY, gate stays failed; one sweep, 3.5 wall-h at 12 threads, under the heavy lock). Task A's table is posted before Task B starts. The 22:41 asymmetry arm is COMPLETE and immaterial (<=0.031 nat, <=0.008 of any family share) - do not re-run it; the stale label 'item 1 not landed' in the asym-joined summary should be corrected. Standing facts and verbatim caveat wording are at the top of the order.
+
+## 2026-10-15 18:41Z — coordination -> end of flight: WORK ORDER ISSUED (b)
+`threads/work-orders/eof-order-2026-10-15b.md`: Decision 4 recorded (p = 0.5 headline, sweep as sensitivity); D0 redefined with transmission imposed (airborne at 00:19:37); sampled bank limit from the Boeing traces replaces the fixed 52.5° cap in the sensitivity laws; uniform-onset sensitivity for B. Evidence in `results/answers-2026-10-15-pm.md`.

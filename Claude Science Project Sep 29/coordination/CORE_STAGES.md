@@ -3930,3 +3930,6 @@ The core handover (`threads/work-orders/core-handover-2026-10-15.md`, ff2cf9c) i
 - **`results/run-j-change-list.md` is now filed**, from the handover s GAP 2 reconstruction, with item 10 added as row 5.
 
 Also filed for the record, no action needed: `item5-fuel-evidence-2026-10-15.md` (the fuel model costs about 2.16 nat on corrected tables, not 8.2-8.45) and `gain-observable-assessment-2026-10-15.md`.
+
+## 2026-10-15 18:41Z — coordination -> core: WORK ORDER ISSUED (fresh core thread)
+`threads/work-orders/core-order-2026-10-15b.md`, five steps: (1) regenerate gate B and gate C references FIRST; (2) copy compact_c.py and job-run-i-chain.sh into engine/scripts/; (3) fuel feasibility check at smoke scale (fuel tracked, not constraining); (4) item 10 Phase 1 design, no run; (5) run-J items 6–8 into the run-J proposal. Run J needs Pete's explicit GO. Do not use thread 386151e9.
