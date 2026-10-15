@@ -324,6 +324,13 @@ fn load_fuel(
         Some(other) => return Err(format!("[fuel] model = \"{other}\" is not tables or internal-v1")),
     }
     model.temperature = f.temperature.unwrap_or(false);
+    // Core request 21.
+    if let Some([mean, sd]) = f.extrapolation_factor {
+        if !(mean > 0.0 && sd >= 0.0 && mean.is_finite() && sd.is_finite()) {
+            return Err(format!("[fuel] extrapolation_factor = [{mean}, {sd}] needs a positive mean and a non-negative sd"));
+        }
+        model.extrapolation_factor = Some((mean, sd));
+    }
     model.initial_from_factor = f.initial_from_factor.map(|[a, b]| (a, b));
     model.ceiling = f.ceiling.unwrap_or(false);
     match f.tanks.unwrap_or(1) {

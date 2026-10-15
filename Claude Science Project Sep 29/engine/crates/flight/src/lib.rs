@@ -740,6 +740,13 @@ pub struct Aircraft {
     pub fuel_exhausted_unix_s: f64,
     /// This path's draw from the fuel-flow factor prior, N(1.0085, 0.0178).
     fuel_factor: f64,
+    /// Core request 21: this path's draw of the factor applied ONLY on steps whose flow is
+    /// extrapolated (Mach outside the bracketing schedules, a single schedule or a fit fallback),
+    /// carrying the extrapolation error of fuel audit F6 that `fuel_factor` (the in-table
+    /// calibration) does not. Exactly 1 when `FuelModel::extrapolation_factor` is unset, and then
+    /// not serialised, so hand-offs and every output are unchanged.
+    #[serde(default = "unit_factor", skip_serializing_if = "is_unit_factor")]
+    fuel_factor_x: f64,
     /// Seconds flown with the flight level below FL060, where only one speed schedule is
     /// tabulated and the flow is taken at FL060 instead.
     pub fuel_below_tables_s: f64,
@@ -804,6 +811,15 @@ pub struct Aircraft {
 
 const ENVIRONMENT_REFRESH_S: f64 = 60.0;
 
+fn unit_factor() -> f64 {
+    1.0
+}
+
+#[allow(clippy::trivially_copy_pass_by_ref)]
+fn is_unit_factor(x: &f64) -> bool {
+    *x == 1.0
+}
+
 /// The fuel tables plus the declared prior, shared by every particle in a run.
 pub struct FuelModel {
     pub tables: fuel::FuelTables,
@@ -855,6 +871,9 @@ pub struct FuelModel {
     /// "kg/h, one engine inoperative"): the per-engine x2 of the twin tables was applied to the
     /// INOP set too (core finding, 10 Oct 2026). 0.5 corrects it until the fuel model is rebuilt.
     pub inop_flow_scale: f64,
+    /// Core request 21: prior (mean, sd) of the per-path factor on extrapolated-flow steps.
+    /// None (the default) draws nothing and applies 1.
+    pub extrapolation_factor: Option<(f64, f64)>,
 }
 
 /// C-7(a) settings (pre-approved by Pete, 10 Oct 2026; ceiling and speed PROVISIONAL, derived by
@@ -1019,6 +1038,7 @@ impl FuelModel {
             tanks: None,
             single_engine: None,
             inop_flow_scale: 1.0,
+            extrapolation_factor: None,
         }
     }
 
@@ -1148,6 +1168,7 @@ impl Aircraft {
                 None => f64::NAN,
                 Some(f) => f.factor_mean + f.factor_sd * normal(rng),
             },
+            fuel_factor_x: 1.0,
             arc_target: None,
             bridged_turns: 0,
             fuel_doomed: false,
@@ -1212,6 +1233,11 @@ impl Aircraft {
         if let Some(e) = &p.early {
             a.early = Some(Box::new(draw_early(e, p, a.alt_ft, a.mach, rng)));
         }
+        // Core request 21: drawn LAST, and only when configured, so that every earlier draw of
+        // the prior stream is unchanged and the default makes no draw at all.
+        if let Some((mean, sd)) = p.fuel.as_ref().and_then(|m| m.extrapolation_factor) {
+            a.fuel_factor_x = (mean + sd * normal(rng)).max(0.5);
+        }
         a.refresh_environment(env);
         // The prior direction is a ground track; express it in the mode's control angle.
         let w = a.weather;
@@ -1270,6 +1296,11 @@ impl Aircraft {
     /// the terminal stage prices a descent with the same factor the cruise used.
     pub fn fuel_factor(&self) -> f64 {
         self.fuel_factor
+    }
+
+    /// Core request 21: the path's factor on extrapolated-flow steps (1 when not configured).
+    pub fn fuel_factor_x(&self) -> f64 {
+        self.fuel_factor_x
     }
 
     pub fn air_data(&self) -> AirData {
@@ -1339,12 +1370,16 @@ impl Aircraft {
         if cover.below_tables {
             self.fuel_below_tables_s += dt;
         }
-        if cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback {
+        let extrapolated = cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback;
+        if extrapolated {
             self.fuel_extrapolated_s += dt;
         }
         if cover.above_ceiling {
             self.fuel_above_ceiling_s += dt;
         }
+        // Core request 21: the extrapolation factor scales the flow on extrapolated steps only.
+        // It is exactly 1 when not configured, and x * 1.0 == x, so the default is unchanged.
+        let flow_kg_h = if extrapolated { flow_kg_h * self.fuel_factor_x } else { flow_kg_h };
         if self.tanks.is_some() {
             self.burn_two_tanks(model, flow_kg_h, weight_t, dt);
             return;
@@ -1539,7 +1574,10 @@ impl Aircraft {
         }
         let weight_t = (model.zfw_kg + self.fuel_kg) / 1000.0;
         let Some(min_flow) = model.min_flow_kg_h(weight_t) else { return };
-        let needed = min_flow * self.fuel_factor * (e.deadline_unix_s - self.unix_s) / 3600.0;
+        // Core request 21: the cheapest continuation may be on extrapolated cells, where the
+        // flow is scaled by fuel_factor_x, so a factor below 1 lowers the bound (min(1, x) keeps
+        // the test a necessary condition; it is 1 when not configured).
+        let needed = min_flow * self.fuel_factor * self.fuel_factor_x.min(1.0) * (e.deadline_unix_s - self.unix_s) / 3600.0;
         if self.fuel_kg < needed {
             self.fuel_doomed = true;
         }
@@ -2316,6 +2354,84 @@ mod tests {
             decel_kt_per_min: 0.0,
             driftdown_kcas: 0.0,
         }
+    }
+
+    /// Core request 21: unset, the extrapolation factor is 1 and is not serialised, so hand-off
+    /// files are unchanged; set, it round-trips.
+    #[test]
+    fn extrapolation_factor_off_is_not_serialised() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        p.fuel = Some(std::sync::Arc::new(model));
+        let mut a = level_aircraft(&p, 20_000.0);
+        assert_eq!(a.fuel_factor_x(), 1.0);
+        assert!(!toml::to_string(&a).unwrap().contains("fuel_factor_x"));
+        a.fuel_factor_x = 1.05;
+        let written = toml::to_string(&a).unwrap();
+        assert!(written.contains("fuel_factor_x"));
+        let read: Aircraft = toml::from_str(&written).unwrap();
+        assert_eq!(read.fuel_factor_x(), 1.05);
+    }
+
+    /// Core request 21: the factor scales the burn on extrapolated steps and on no other step.
+    #[test]
+    fn extrapolation_factor_scales_only_extrapolated_steps() {
+        let mut p = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        let probe = fuel_model_with_endurance(1e12);
+        p.fuel = Some(std::sync::Arc::new(model));
+        // (flight level, Mach, expected extrapolated): FL350 M0.80 sits between schedules;
+        // FL400 M0.861 (Boeing Table 4, 494 kt) is outside them.
+        for (fl, mach, ext) in [(350.0, 0.80, false), (400.0, 0.861, true)] {
+            let mut one = level_aircraft(&p, 20_000.0);
+            one.alt_ft = fl * 100.0;
+            one.alt_target_ft = fl * 100.0;
+            one.mach = mach;
+            one.mach_target = mach;
+            let w = (probe.zfw_kg + one.fuel_kg) / 1000.0;
+            let (_, cover) = probe.flow_kg_h(fl, w, mach, one.weather.temperature_k).unwrap();
+            assert_eq!(cover.extrapolated_mach || cover.single_schedule || cover.fit_fallback, ext, "FL{fl} M{mach}: {cover:?}");
+            let mut two = one.clone();
+            two.fuel_factor_x = 1.1;
+            let t = one.unix_s + 60.0;
+            one.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(1));
+            two.propagate(t, &p, &CalmAir, &mut ChaCha8Rng::seed_from_u64(1));
+            let (b1, b2) = (20_000.0 - one.fuel_kg, 20_000.0 - two.fuel_kg);
+            assert!(b1 > 0.0);
+            let want = if ext { 1.1 } else { 1.0 };
+            assert!((b2 / b1 - want).abs() < 2e-3, "FL{fl} M{mach}: burn ratio {} against {want}", b2 / b1);
+        }
+    }
+
+    /// Core request 21: the draw comes after every other prior draw (so all other fields are
+    /// unchanged) and has the configured mean and sd.
+    #[test]
+    fn extrapolation_factor_draw_is_last_and_has_the_prior() {
+        let mut off = quiet();
+        let mut on = quiet();
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        off.fuel = Some(std::sync::Arc::new(model));
+        let mut model = fuel_model_with_endurance(1e12);
+        model.endurance = None;
+        model.extrapolation_factor = Some((1.0, 0.05));
+        on.fuel = Some(std::sync::Arc::new(model));
+        let n = 4000;
+        let (mut s, mut ss) = (0.0, 0.0);
+        for k in 0..n {
+            let a = Aircraft::sample(&prior(), Mode::TrueTrack, &off, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            let mut b = Aircraft::sample(&prior(), Mode::TrueTrack, &on, &CalmAir, &mut ChaCha8Rng::seed_from_u64(k));
+            let x = b.fuel_factor_x();
+            s += x;
+            ss += x * x;
+            b.fuel_factor_x = 1.0;
+            assert_eq!(toml::to_string(&a).unwrap(), toml::to_string(&b).unwrap(), "seed {k}");
+        }
+        let mean = s / n as f64;
+        let sd = (ss / n as f64 - mean * mean).sqrt();
+        assert!((mean - 1.0).abs() < 0.004 && (sd - 0.05).abs() < 0.004, "mean {mean} sd {sd}");
     }
 
     /// C-7(b): with no imbalance and a ratio of one the two tanks are the single pool.
