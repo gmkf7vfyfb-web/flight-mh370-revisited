@@ -1878,3 +1878,29 @@ unnecessary. Pete (15 Oct): deserted coasts cannot support the statement that de
 - G26 stays OPEN. Nothing composed. Caveat carried verbatim.
 
 - Ocean drift
+
+## 2026-10-15 ~08:20 UTC - ocean drift -> architecture, coordination (cc Pete): CORRECTION to my 07:30 entry, and the drifter check EAST of 120 E
+
+**Correction.** My 07:30 entry named the populated Western Australian segment "Perth to Esperance". That is wrong.
+AU-wa-city-inner spans 114.8-115.9 E, 31.2-34.7 S: **Perth to Augusta** (Perth, Rockingham, Mandurah, Bunbury, Busselton, Augusta). Albany and
+Geraldton are outer regional, Esperance is remote. The numbers are unaffected - the segment is the same one - but the place name was wrong and
+is corrected in `results/debris-drift-australia-populated-only.md` and its figure.
+
+**Drifter check, east of 120 E (no model run, no heavy lock).** Global Drifter Program 6-hourly QC drifters, undrogued rows only; the module's
+existing 20-140 E set joined to a 138-156 E extract downloaded today (the old extract stops at 140 E, which excludes Melbourne and Hobart and
+is why this was not visible before). Cohort: first eastward crossing of 120 E between 30 and 45 S, followed 845 days; n = 196, 1995-2025.
+Arrival = a position inside the module's own coastal segment boxes, the same proxy the model uses, not a beaching test.
+- Reached within the window: populated south-east (Adelaide, Melbourne, Hobart) **12 of 196 (6.1 %)**; southern outer regional 13 (6.6 %);
+  southern remote including the Bight 25 (12.8 %); WA remote 35 (17.9 %). Of the 112 still tracked east of 138 E, 12 (10.7 %) reached the
+  populated south-east. Median transit from 120 E 236 d (135-813); crossing latitudes of the arrivals 38.5-44.9 S, median 41.0 S - the
+  southernmost exits, which is where the term acts. LOWER BOUNDS: tracking after crossing lasted a median of 170 d against the 845 d horizon.
+- **This reverses the expectation and it matters.** At 37-42 S, 41.9 % of modelled particles leave the domain; at 6.1 % that adds 2.6 points of
+  populated arrival to the 4.94 % already counted, multiplying the populated-coast term by about 1.5 (about 1.9 on the conditional rate).
+  The Nullarbor and the Bight are deserted and carry nothing, as Pete expected - but Adelaide, Melbourne and Hobart are populated, are reached
+  from the southern exits inside the window, and had no finds either.
+- **Consequence:** extending the domain east would STRENGTHEN the populated-coast term and move the estimate further north, not weaken it.
+  A TARGETED eastern run on the southern nodes that export particles past 120 E is now justified on this evidence (fields are on disk); the
+  full 710-node both-model run still is not. Awaiting Pete.
+- Caveat: undrogued drifters carry roughly 1-2 % windage, less than high-windage debris; imperfect analogue, declared.
+
+- Ocean drift

@@ -14,13 +14,13 @@ the existing 15-120 E domain on the populated coasts, and the posterior should b
 
 ## What the pilot already says about it
 
-Inside the domain, exactly one populated Australian segment receives debris: **AU-wa-city-inner, the Perth to
-Esperance coast, about 1,216 km of shoreline** (ABS RA 2021 major city and inner regional). The south and
+Inside the domain, exactly one populated Australian segment receives debris: **AU-wa-city-inner, the Perth to Augusta coast
+(Perth, Rockingham, Mandurah, Bunbury, Busselton, Augusta; 114.8-115.9 E, 31.2-34.7 S), about 1,216 km of coast samples** (ABS RA 2021 major city and inner regional). The south and
 north-east city segments lie east of 120 E and receive 0.0 per cent by construction, not by transport.
 
 Arrival probability, mean over the three object classes, per source latitude band:
 
-| source latitude | populated WA coast (Perth to Esperance) | all six coasts where debris was found | all Australian coasts |
+| source latitude | populated WA coast (Perth to Augusta) | all six coasts where debris was found | all Australian coasts |
 |---|---|---|---|
 | 37-42 S | 4.94 % | 5.03 % | 18.63 % |
 | 34-37 S | 2.73 % | 10.06 % | 11.50 % |
@@ -74,6 +74,36 @@ run at all 710 nodes. Two cheaper routes, in order of cost:
    populated-only term is complete as it stands.
 2. **A targeted eastern run**, only if (1) is ambiguous: the 160 E fields are already on disk, and a run restricted
    to the southern nodes that actually export particles east of 120 E is a fraction of the full pilot.
+
+## The drifter check, run 15 Oct 2026: the coast east of 120 E is not all deserted
+
+Global Drifter Program 6-hourly quality-controlled drifters, undrogued rows only, from the module's existing
+20-140 E set joined to a 138-156 E extract downloaded today. Cohort: the first eastward crossing of 120 E between
+30 and 45 S, followed for 845 days, the length of the MH370 window; n = 196 crossings over 1995-2025. Arrival is a
+position inside the module's own coastal segment boxes, the same proxy the drift model uses, not a beaching test.
+
+| coast reached within 845 days of crossing 120 E | share of the 196 |
+|---|---|
+| populated south-east (Adelaide, Melbourne, Hobart) | 12 of 196, 6.1 % |
+| southern outer regional | 13 of 196, 6.6 % |
+| southern remote, including the Bight | 25 of 196, 12.8 % |
+| Western Australia remote | 35 of 196, 17.9 % |
+
+Of the 112 that were still tracked east of 138 E, 12 — 10.7 per cent — entered the populated south-east boxes.
+Median transit from 120 E to first entry was 236 days (range 135 to 813), comfortably inside the window, and the
+crossing latitudes of those that arrived were 38.5 to 44.9 S, median 41.0 S: the southernmost exits, which is
+exactly where the term acts. These are **lower bounds**: tracking after crossing lasted a median of 170 days
+against the 845-day horizon, so arrivals after a drifter stopped reporting are not counted. Undrogued drifters
+carry roughly 1-2 per cent windage, less than high-windage debris, so they are an imperfect analogue.
+
+**This reverses the expectation.** At 37-42 S, 41.9 per cent of modelled particles leave the domain; at the
+observed 6.1 per cent arrival rate that adds 2.6 percentage points of populated arrival to the 4.94 per cent
+already counted on the Perth to Augusta coast, multiplying the populated-coast term by about 1.5; on the
+conditional rate it is about 1.9. The Nullarbor and the Bight are deserted, as expected, and carry nothing — but
+Adelaide, Melbourne and Hobart are populated, they are reached from the southern exits within the window, and no
+debris was found there either. **Extending the domain east would therefore strengthen the populated-coast term and
+move the estimate further north, not weaken it.** A targeted eastern run on the southern nodes is now justified on
+this evidence; the full 710-node both-model run still is not.
 
 ## COVERAGE
 
