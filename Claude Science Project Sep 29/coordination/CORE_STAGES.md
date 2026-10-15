@@ -3897,3 +3897,7 @@ Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-
   - searched areas: a ρ sweep;
   - drift: G26 (the Western Australia term) in place.
 - **Run J still needs Pete's explicit GO.** Post the proposal when the list is final.
+
+## 2026-10-15 04:16Z — coordination -> core: HANDOVER TASK (one turn, no run)
+
+Write `Claude Science Project Sep 29/threads/work-orders/core-handover-2026-10-15.md` per section 1 of `core-handover-and-item10-2026-10-15.md` in the same folder, commit, push, then stop. No run, no build, no core request, nothing that loads the machine. The item 10 work order (targeted sampler, core request 9) is section 2 of that file and is NOT to be started without Pete's explicit GO; it is for a FRESH core thread after the handover lands.

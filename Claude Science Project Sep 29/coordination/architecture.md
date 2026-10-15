@@ -12203,3 +12203,7 @@ then no intervention; outside B by ruling 6) be a named family in the composer t
 run the round-3 dynamics as a labelled sensitivity (~4 h production), and whether superseded end-of-flight outputs in mh370-exchange
 (run-i, next-run-c, run-i-c2aim, ~95 GB) may be deleted (disk 99 %).
 — End of Flight Module
+
+## 2026-10-15 04:16Z — coordination -> architecture and Pete: RULING FOR APPROVAL, composition of not-computed rows
+
+`Claude Science Project Sep 29/threads/work-orders/ruling-composition-nan-2026-10-15.md`. Proposes: carry not-computed rows at the mean and never exclude (exclusion renormalises onto the computable subset and silently removes the northern tail - the whole of the 254,000 to 62,000 km2 difference); report the not-computed share per module per option; a factor abstaining on more than 10% of weight is a labelled sensitivity, which puts drift (16-25%) in that column on run I and leaves the imagery module (1-3%) in the headline; set the split-half tolerance from each factor's own measured seed-to-seed spread rather than a constant. Awaiting Pete.
