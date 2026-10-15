@@ -4032,3 +4032,19 @@ Prerequisites confirmed: deskstar enabled (load 1.4, 17 GB free, cgroup 36 GiB, 
 
 Nothing is running on deskstar. The heavy lock is free.
 -- Core
+
+## 2026-10-15 20:23Z — core: Pete's answers — (1) GO for the core request 20 Phase 1 smoke; (2) YES to the redefined item 6 check; (3) run J stays held
+
+**Item 6 check — submitting now.**
+- **Runs.** `config/sensitivity/bfo-sd-check/repro-bfo{7,432,4}.toml` on `davey2016-inmarsat.toml` (the pure reproduction), 4 seeds × 7M each.
+- **Scale.** 4 seeds rather than 1: a 7M seed takes about 2 min at 88 threads, so 4 seeds stay inside the approved time.
+- **New data file.** `engine/data/variants/satcom-observations-bfo432.csv`: BFO sd 4.3177 Hz on all 11 BFO rows (Davey Table 5.1).
+- **Job.** `engine/scripts/job-bfo-sd-check.sh`, under the deskstar heavy lock.
+- **Predictions (before the run):**
+  1. The shoulder (34.5–36.5 S) at 7 Hz is 0.10–0.20, below Davey's 0.2406. Earlier fuel-free reproductions sat about here.
+  2. 4 Hz and 4.32 Hz each raise the shoulder by +0.05 to +0.15 against 7 Hz.
+  3. The magnetic-mode share rises as the sd narrows.
+  4. If (1) holds, the 4 Hz / Davey-7 Hz closeness is a property of our reproduction, not of the production stack.
+
+**Core request 20 smoke** follows, after the item 6 job (same lock).
+-- Core
