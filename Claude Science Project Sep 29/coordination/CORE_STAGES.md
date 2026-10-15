@@ -3958,3 +3958,29 @@ Prerequisites confirmed: deskstar enabled (load 1.4, 17 GB free, cgroup 36 GiB, 
 4. **FE quantiles.** In both runs, the 5% quantile is well before 00:00 and the 50% quantile is before 00:10:59. The share dry between arcs 6 and 7 is far below run I's 51.01%, because Davey's posterior is not conditioned on power at 00:11.
 5. **Gates.** t6 and t44 are byte-identical for B and C.
 -- Core
+
+## 2026-10-15 19:47Z — core (order b): step 4 DESIGN POSTED (core request 20); step 5 run-J proposal DRAFT filed
+
+**Step 4 — item 10 Phase 1 design, no run.** `results/item10-phase1/design-core-request-20.md`. New number: **core request 20**, "hand-off proposal from pilot descents". It is not request 9 and does not need it.
+- **Why request 18 failed, measured.** Run I's own diagnostics: 3 strata on deskstar × 8 seeds × 5 modes, in `results/item10-phase1/lookahead-diagnostics-run-i.csv`.
+  - At 00:11 → 00:19:37 the look-ahead g is nearly flat: its ESS over the 5M candidates is a fraction 0.32–0.78, so the proposal q ≈ uniform. At 22:41 → 00:11 the fraction is 0.001–0.02, which is why that look-ahead worked.
+  - g is the core filter's own CRUISE continuation, scored on the 00:19 BTO only. A cruise state cannot produce 182 → −2 Hz in 8 s, so g cannot tell feasible parents from infeasible ones.
+  - In the magnetic modes about 55% of g = 0 is resampling loss in the smoothing, not information.
+- **Law.** g_u = the arm-normalised mixture of unbiased pilot estimates ĝ_u^a = (1/L) Σ exp(q) L_a(pilot). L pilots fly per DISTINCT 00:11 candidate with end of flight's own terminal module, on new streams (purposes 8–10), optionally smoothed over k nearest parents. Rows are then drawn by the existing `lookahead_plan` (q ∝ (1−ε)g + ε, log_correction = ln Z − ln((1−ε)g + ε)). The target is exact for ANY g independent of the production children.
+- **Predicted gain.** The ceiling is the distinct filter particles per mode, not the 100k rows: about D/rows = ×2.5–×25. Expected: **both raw 38.8 → about 60–390 (central about 150); both with the transient bias 170 → about 250–1,700 (central about 700)** per seed. So 1,000 effective impacts is probably NOT reachable for both raw by a hand-off proposal alone. The escalation, a pseudo-marginal resample-move at m0011, is outlined for a ruling.
+- **Smoke.** Two-pass on the existing `g_files` hook, plus one output-only key, `handoff_dump_candidates` (gated by B and C):
+  - repro-radar, 2 seeds at production count, m0011 hand-off, rows 10k × oversample 50, L = 32 pilots;
+  - about 1 h on deskstar under the heavy lock;
+  - prior recovery to the 0.0030 standard;
+  - stop condition as ordered.
+  - **Needs Pete's GO** (the order gives Phase 1 design only).
+
+**Step 5 — run-J items 6–8 added:** `results/run-j-proposal.md` (DRAFT; run J needs Pete's explicit GO).
+- 7 and 8 act in end of flight. Core has no filter change for them; if request 20 is used, D0's g carries the airborne-at-00:19:37 indicator.
+- **Correction on item 6.** No bias-drift term is active in the production stack: `drift_hz2_per_s` is unset everywhere in it.
+  - The quoted 5.4 Hz² is the marginalised constant-bias posterior variance: 7.3755² − 7² = 5.40 and 4.63² − 4² = 5.44. Davey's method has the same term.
+  - So "7 Hz with drift off" tests nothing. Core proposes instead the pure reproduction (`davey2016-inmarsat.toml`) at 7 / 4.32 / 4 Hz, 1 seed × 7M each, about 12 min each.
+- **Memory note.** Seeds run in sequence, so more particles for item 1 must come as more seeds at 7M: 2.2× per seed would be about 57 GB, against the 36 GiB cap.
+
+**Steps 1 and 3 — running.** Gates done (full post follows with checksums): **B and C byte-identical at 6 and 44 threads.** ln Z: B −87.51501896471403, C −100.03202195409557. Regress-seed1 and the fuel runs are in progress.
+-- Core
