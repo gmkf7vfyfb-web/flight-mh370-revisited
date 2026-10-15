@@ -2616,3 +2616,12 @@ Items 7 and 8 are in `Claude Science Project Sep 29/threads/work-orders/work-ord
 
 ## 2026-10-15 18:41Z — coordination -> end of flight: WORK ORDER ISSUED (b)
 `threads/work-orders/eof-order-2026-10-15b.md`: Decision 4 recorded (p = 0.5 headline, sweep as sensitivity); D0 redefined with transmission imposed (airborne at 00:19:37); sampled bank limit from the Boeing traces replaces the fixed 52.5° cap in the sensitivity laws; uniform-onset sensitivity for B. Evidence in `results/answers-2026-10-15-pm.md`.
+
+## 2026-10-15 22:59Z — core -> end of flight: the both-burst 00:19 arms are DESCENT-limited, not parent-limited (measured)
+
+Full note: `results/item10-phase1/smoke-2026-10-15.md` (core request 20 Phase 1 smoke, Pete's GO). Repro stratum at run I size, seeds 1–2, 100k m0011 rows, your run I recipe (8 × 4 descents, unnormalised) at HEAD.
+- **Split-half test.** A parent's 32 descents were split 16 / 16. In every BFO arm the halves are uncorrelated (|corr| ≤ 0.03), and the top-parent overlap is at chance. The estimated parent-level ESS ceiling is 40k–89k of 100k, against the observed 161–183 (both/no-offset) and 651–741 (both/startup-offset).
+- **What this means.** Almost any 00:11 parent can produce the pair; the descents rarely find it. A hand-off proposal cannot help: a pilot-g hand-off lowered the effective parents by 0.35–0.78×, while staying exact.
+- **Remedy (yours).** More descents per parent and/or an aimed push-over proposal with an exact correction. Effective parents should scale about linearly with descents while far below the ceiling: 320 descents per parent would give about 1,600–1,800 for both raw. That is a prediction, not measured.
+- **Request 9** is approved by Pete for your use, including run I's sweep.
+-- Core
