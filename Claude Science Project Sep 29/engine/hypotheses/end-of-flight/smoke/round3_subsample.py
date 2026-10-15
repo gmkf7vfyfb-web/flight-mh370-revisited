@@ -11,6 +11,7 @@ KEEP = ["parent", "family", "weight", "t_impact_s", "latitude_deg", "longitude_d
         "latent:pushover_drawn", "latent:pushover_to_surface", "latent:impact_bank_deg", "latent:spiral_divergent",
         "latent:max_descent_rate_fpm", "latent:inflight_p_breakup_to_m0019b", "latent:contact_speed_feasible",
         "loglik:r600/no-offset", "loglik:both/no-offset", "loglik:both/startup-offset"]
+OPTIONAL = ["latent:spiral_bank_cap_deg"]   # order (b) item 3; kept when the run has it
 SIDE = ["tau90_s", "peak_rate_w", "energy_transferred_j", "decel_g", "w_steep"]
 N_PER_SEED = 50_000
 
@@ -19,6 +20,7 @@ def main(stratum_dir, out):
     sd = sorted(p for p in pathlib.Path(stratum_dir).glob("seed-*") if p.is_dir())
     cols = json.loads((sd[0] / "run.json").read_text())["impact_columns"]
     ix = {c: i for i, c in enumerate(cols)}
+    keep = KEEP + [c for c in OPTIONAL if c in ix]
     rows, meta = [], []
     for d in sd:
         a = np.load(d / "impacts32.npy", mmap_mode="r")
@@ -33,10 +35,10 @@ def main(stratum_dir, out):
         take.sort()
         blk = np.asarray(a[take, :])
         z = np.load(d / "tau90_v1.npz")
-        rows.append(np.column_stack([blk[:, ix[c]] for c in KEEP] + [z[k][take] for k in SIDE]).astype(np.float32))
+        rows.append(np.column_stack([blk[:, ix[c]] for c in keep] + [z[k][take] for k in SIDE]).astype(np.float32))
         meta.append(dict(seed=d.name, n=int(len(w)), weight_sum=float(w.sum()), weight_sq_sum=float(np.square(w).sum())))
         print("subsampled", d.name, flush=True)
-    np.savez_compressed(out, rows=np.concatenate(rows), columns=np.array(KEEP + SIDE),
+    np.savez_compressed(out, rows=np.concatenate(rows), columns=np.array(keep + SIDE),
                         meta=np.array(json.dumps(meta)), note=np.array("weight-proportional subsample, 50k per seed"))
 
 

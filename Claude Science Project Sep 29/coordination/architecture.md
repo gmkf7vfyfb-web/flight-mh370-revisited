@@ -12348,3 +12348,36 @@ modules may still read it.
 **Items 7 and 8 are both complete.** Nothing else in the work order is runnable.
 
 - End of Flight Module
+
+## 2026-10-15 20:10Z — End of Flight Module → architecture (cc hydroacoustics, composer, Pete): ORDER (b) items 1-4 — two corrections to the order's premises, one ruling needed, two sweeps starting
+
+**Note:** `results/eof-order-b-oct15/README.md`. Code: `profile.rs` (sampled bank limit), `onset.rs` (clock-time onset proposal window), new latent `spiral_bank_cap_deg`, binary `mh370-eof-ob1` (sha256 dc1f52f8b4345712...), 127 module tests pass, `make scope H=end-of-flight` passes. With the new options off the binary reproduces item 8's round-3 seed to the last bit.
+
+**Item 1.** Decision 4 recorded: headline p = 0.5, p-sweep a declared sensitivity. No configuration change (run-i-dive already flies 0.5).
+
+**Item 2 — D0' = 00:19 values held out, transmission imposed (airborne at 00:19:37.443, survival factor applied).**
+- The two-factor table already imposed both facts through its log-on constraint, so **every D0 cell, ln Z and family share from it (run-i-dive §1, item 8 rule 11) is unchanged.** What changes is every product that used the raw weights as "held out": the loud-tail convention, item 7's held-out rows, item 8's impact-condition table.
+- **Correction 1: 13.0 per cent, not 32.8 per cent, of the raw D0 weight is on the sea before 00:19:37** (all four strata 0.129-0.133, seeds 0.092-0.158). The 32.8 per cent is the weight with NaN `latent:last_burst_latitude_deg` / `state_m0019b_*`; on waypoints seed 1 that is 0.1176 on the sea plus **0.2099 still in core cruise at the burst** (descent not yet begun), which is airborne. `answers-2026-10-15-pm.md` §6 inherited the misreading.
+- D0' shares: A1 0.140, A2 0.341, B controlled 0.518; latitude median −37.16 (raw −37.02); 10-45 deg band 0.098 (raw 0.163); effective impacts 9.78 M.
+- **Correction 2: loudness on the feasible set, full sample.** Loudest-decile share, data treatment x transmission x survival: D0' 0.100, D1 0.119, D2 0.154, D3 0.196, D4 0.193, D5 0.237. **D4 is 1.93x D0', not 3.2x**, and D3 = D4 within noise; the order's 0.100 ... 0.317 came from one seed of one stratum. Direction confirmed: every informative 00:19 treatment is louder than D0'. Two-factor totals: 0.137 / 0.139 / 0.208 / 0.210 / 0.207 / 0.256.
+- p-sweep on D0': 10-45 deg band 0.035 to 0.162 (raw read 0.035 to 0.290); under D4 unchanged, 0.037 to 0.865.
+
+**Item 3 — sampled bank limit: design, smoke, predictions.** Prior core U[52, 63] deg weight 0.8 (Boeing spiral-dive maxima 53.2-59.9 deg, widened over the leave-one-out 57.3-62.4 and the all-data 52.5), tail U[63, 90] weight 0.2; the drawn limit is recorded, so any tail weight re-weights exactly. Smoke (round-3 laws, next-i-free seed 1, D0'):
+
+| bank limit | 10-45 deg | > 45 deg |
+|---|---|---|
+| fixed 52.5 deg | 0.203 | 0.004 |
+| sampled, tail weight 0.2 | 0.217 | 0.017 |
+| fixed 90 deg | 0.118 | 0.135 |
+
+**The steep tail is set by limits above 70 deg**: below 70 deg the share above 45 deg stays 0.005 whatever the limit; 70-80 deg gives 0.048, 80-90 deg 0.129. The question the acoustics depends on is how much prior weight sits above 70 deg, which the Boeing traces do not inform. Tail weight 0 / 0.2 / 0.5 gives 0.005 / 0.017 / 0.036 above 45 deg.
+**Predictions, before the full runs:** sampled arm 10-45 deg 0.20-0.23, above 45 deg 0.012-0.025; fixed-90 arm 10-45 deg 0.10-0.14, above 45 deg 0.11-0.15; held-out ln Z within 0.2 nat of the 52.5 deg arm; D4 within 1 nat (the stop condition carried over).
+**STARTING NOW, under the heavy lock:** two full sweeps at run-I scale (round-3 laws + sampled limit, then round-3 laws + fixed 90 deg), about 2.5 h each, summarised per stratum and deleted as in item 8.
+
+**Item 4 — uniform onset for B: RULING NEEDED, direct run held.** The definition decides the answer:
+- **U1, onset alone, exact** (core posterior at 22:41 untouched; per parent, the pre-00:11 onset is uniform on [22:41, min(00:11, P)] with the fuel-tied mass kept; prior recovery 0.998-1.002 on every seed): **D0 B share 0.108 → 0.098** (seeds 0.056-0.223). D2 0.077 → 0.076, D4 0.044 → 0.044.
+- **Binned (coordination's method)** reproduces the doubling: 0.108 → 0.197 here (yours 0.225; bin edges). It does so by re-weighting PARENTS: 82 per cent of the 22:41 deliberate weight has its own predicted exhaustion before 00:11, so the late bins (prior share 0.020 for 00:00-00:11, factor about 6) are filled only by parents with more fuel. That changes the core posterior at 22:41, not just the onset prior.
+- So "B under D0 doubles with a uniform onset" holds only if the sensitivity may re-weight the aircraft's fuel state. With the core posterior held fixed, B under D0 is 0.10-0.11 under either prior and "00:11 selects cruise" stands.
+- **For Pete:** (i) U1 as the declared sensitivity (module recommendation: it changes one prior and nothing else); (ii) the binned version as a separately labelled hypothesis about fuel state; (iii) both. The direct 22:41-arm run (3.7 h, built and unit-tested: a clock-time proposal window with exact correction, so U1 and fuel-tied are both exact from one run) serves (i) and (iii) only — it cannot represent the binned version. Held until the ruling. Run J does not exist (needs Pete's GO), so "run-J scale" is read as joined V2 production scale on run I.
+
+- End of Flight Module

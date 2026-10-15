@@ -157,6 +157,11 @@ pub struct EnvelopeConfig {
     /// measured bank.
     #[serde(default = "default_spiral_bank_cap_deg")]
     pub spiral_bank_cap_deg: f64,
+    /// Order (b) item 3, 15 Oct 2026: a bank limit SAMPLED per descent, replacing the fixed `spiral_bank_cap_deg` when set.
+    /// Absent (the default): no uniform is drawn and the fixed cap applies, so earlier runs reproduce exactly. The drawn value
+    /// is recorded in `latent:spiral_bank_cap_deg`, so the tail weight re-weights exactly (results/eof-order-b-oct15).
+    #[serde(default)]
+    pub spiral_bank_cap_prior: Option<BankCapPrior>,
     /// Smallest bank a divergent spiral grows from, deg: a spiral mode starts from any disturbance,
     /// so a drawn residual bank of 0 does not freeze it.
     #[serde(default = "default_spiral_bank_floor_deg")]
@@ -520,6 +525,44 @@ pub fn eas_kt(body: &Body) -> f64 {
     body.tas_mps * (rho / 1.225).sqrt() / 0.514_444
 }
 
+/// Order (b) item 3: prior of the divergent-spiral bank limit, a two-part mixture of uniforms. With probability
+/// `1 - tail_weight` the limit is uniform on `core_deg` (the maximum track-read bank of Boeing's four spiral-dive cases,
+/// 53.2-59.9 deg, widened to cover the leave-one-out spread of the round-3 fit, 57.3-62.4 deg, and the all-data 52.5 deg);
+/// with probability `tail_weight` it is uniform on `[core_deg[1], tail_to_deg]` (the tail to 90 deg). Density, for exact
+/// re-weighting: (1 - tail_weight) / (core_hi - core_lo) on the core, tail_weight / (tail_to - core_hi) on the tail.
+#[derive(Deserialize, Debug, Clone, Copy, PartialEq)]
+#[serde(deny_unknown_fields)]
+pub struct BankCapPrior {
+    pub core_deg: [f64; 2],
+    pub tail_to_deg: f64,
+    pub tail_weight: f64,
+}
+
+impl BankCapPrior {
+    /// Two uniforms are drawn whichever part is chosen, so the stream does not depend on the outcome.
+    pub fn draw(&self, uniform: &mut dyn FnMut() -> f64) -> f64 {
+        let u = uniform();
+        let v = uniform();
+        let [lo, hi] = self.core_deg;
+        if u < self.tail_weight {
+            hi + (self.tail_to_deg - hi) * v
+        } else {
+            lo + (hi - lo) * v
+        }
+    }
+
+    pub fn check(&self) -> Result<(), String> {
+        let [lo, hi] = self.core_deg;
+        if !(lo > 0.0 && hi > lo && self.tail_to_deg >= hi && self.tail_to_deg <= 135.0) {
+            return Err("envelope.spiral_bank_cap_prior needs 0 < core_deg[0] < core_deg[1] <= tail_to_deg <= 135".into());
+        }
+        if !(0.0..=1.0).contains(&self.tail_weight) || (self.tail_weight > 0.0 && !(self.tail_to_deg > hi)) {
+            return Err("envelope.spiral_bank_cap_prior.tail_weight must be in [0, 1], with a non-empty tail when positive".into());
+        }
+        Ok(())
+    }
+}
+
 fn default_spiral_doubling_s() -> Range {
     Range::Uniform([60.0, 120.0])
 }
@@ -578,6 +621,12 @@ impl EnvelopeConfig {
         // Up to 135 deg: an uncontrolled spiral dive can overbank past 90 deg (lift below the horizon).
         if !(self.spiral_bank_cap_deg > 0.0 && self.spiral_bank_cap_deg <= 135.0) {
             return Err("envelope.spiral_bank_cap_deg must be in (0, 135]".into());
+        }
+        if let Some(b) = &self.spiral_bank_cap_prior {
+            b.check()?;
+            if !(self.spiral_bank_floor_deg < b.core_deg[0]) {
+                return Err("envelope.spiral_bank_floor_deg must be below spiral_bank_cap_prior.core_deg[0]".into());
+            }
         }
         self.free_lift_speed_exponent.check("envelope.free_lift_speed_exponent")?;
         self.free_path_damping.check("envelope.free_path_damping")?;
@@ -1432,6 +1481,7 @@ pub(super) mod tests {
             spiral_divergent_weight: 0.0,
             spiral_doubling_s: Range::Uniform([60.0, 120.0]),
             spiral_bank_cap_deg: 60.0,
+            spiral_bank_cap_prior: None,
             spiral_bank_floor_deg: 1.0,
             trim_reference_at_loss: false,
             residual_bank_left_probability: None,
@@ -1927,6 +1977,30 @@ pub(super) mod tests {
         assert!(EnvelopeConfig { second_leveloff_probability: 2.0, ..envelope() }.check().is_err());
         assert!(EnvelopeConfig { recovery_floor_ft: 0.0, ..envelope() }.check().is_err());
         assert!(EnvelopeConfig { descent_rate_fpm: Range::Uniform([5.0, 1.0]), ..envelope() }.check().is_err());
+    }
+
+    /// Order (b) item 3: the sampled bank limit stays on its declared support, puts `tail_weight` of its mass on the tail and
+    /// is uniform within each part, and malformed priors are refused.
+    #[test]
+    fn the_sampled_bank_limit_has_its_declared_mixture() {
+        let b = BankCapPrior { core_deg: [52.0, 63.0], tail_to_deg: 90.0, tail_weight: 0.2 };
+        assert!(b.check().is_ok());
+        let mut state = 0x9E37_79B9_7F4A_7C15_u64;
+        let mut uniform = move || {
+            state ^= state << 13; state ^= state >> 7; state ^= state << 17;
+            (state >> 11) as f64 / (1u64 << 53) as f64
+        };
+        let n = 200_000;
+        let draws: Vec<f64> = (0..n).map(|_| b.draw(&mut uniform)).collect();
+        assert!(draws.iter().all(|&x| (52.0..=90.0).contains(&x)));
+        let tail = draws.iter().filter(|&&x| x > 63.0).count() as f64 / n as f64;
+        assert!((tail - 0.2).abs() < 0.005, "tail share {tail}");
+        let core_mean = draws.iter().filter(|&&x| x <= 63.0).sum::<f64>() / draws.iter().filter(|&&x| x <= 63.0).count() as f64;
+        assert!((core_mean - 57.5).abs() < 0.05, "core mean {core_mean}");
+        assert!(BankCapPrior { core_deg: [63.0, 52.0], ..b }.check().is_err());
+        assert!(BankCapPrior { tail_weight: 1.5, ..b }.check().is_err());
+        assert!(BankCapPrior { tail_to_deg: 63.0, ..b }.check().is_err());
+        assert!(EnvelopeConfig { spiral_bank_cap_prior: Some(b), ..envelope() }.check().is_ok());
     }
 
     /// The stopgap loss-window proposal is an exact importance correction: under the proposal,

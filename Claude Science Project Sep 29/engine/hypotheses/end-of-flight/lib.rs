@@ -726,6 +726,9 @@ const LATENTS: &[&str] = &[
     // Item 2 round 3 (PREREG-v3): lift lag (s) and gain drawn, and the bank sign chosen by the towards-the-dead-engine rule (-1/+1;
     // NaN when the rule did not apply).
     "free_lift_lag_s", "free_lift_gain", "bank_sign_toward_dead_rule",
+    // Order (b) item 3, 15 Oct 2026: the divergent-spiral bank limit in force for this descent, deg (the drawn value when
+    // `spiral_bank_cap_prior` is set, otherwise the fixed `spiral_bank_cap_deg`).
+    "spiral_bank_cap_deg",
 ];
 
 /// Epochs whose module-flown state is emitted as latents, in `LATENTS` order.
@@ -1478,6 +1481,7 @@ impl EndOfFlight {
                 flying.lift_lag.tau_s,
                 flying.lift_lag.gain,
                 flying.bank_sign_override.unwrap_or(f64::NAN),
+                flying.spiral_bank_cap_rad.to_degrees(),
             ]);
             debug_assert_eq!(latents.len(), LATENTS.len());
             let idx = |f: Family| self.families.iter().position(|g| *g == f);
@@ -1575,6 +1579,10 @@ impl EndOfFlight {
                 _ => 0.0,
             };
             flying.toward_dead = Some((uniform(), p, side));
+        }
+        // Order (b) item 3: the divergent-spiral bank limit sampled per descent (absent: no uniform drawn, fixed cap kept).
+        if let Some(b) = &env.spiral_bank_cap_prior {
+            flying.spiral_bank_cap_rad = b.draw(uniform).to_radians();
         }
         // Item 2: autopilot lost at the first flame-out - the running engine keeps its lever setting in free flight.
         if onset.mechanism == Initiation::FlameOutAssociated && propulsion == Propulsion::OneThrusting {

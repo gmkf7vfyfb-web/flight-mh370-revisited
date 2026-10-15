@@ -100,6 +100,14 @@ pub struct OnsetConfig {
     /// "conditional on excluding major descents before the checkpoint". Results/eof-gates-oct13 finding 2.
     #[serde(default = "default_fuel_cue_truncation")]
     pub fuel_cue_truncation: String,
+    /// Order (b) item 4, 15 Oct 2026: a PROPOSAL window `[a, b]` (unix s) for the deliberate onsets. When set, an anticipatory or
+    /// fuel-cue onset is drawn uniformly in clock time on the part of `[a, b]` that the mechanism's own prior support reaches
+    /// (after truncation at the hand-off and at the predicted exhaustion), and carries the exact `ln(prior / proposal)`, so the
+    /// stored weights still target the fuel-tied prior; a uniform-in-time onset prior is then an exact re-weighting in summary
+    /// code (smoke/joined_v2.py `--onset-prior uniform`). Mechanism draws are unchanged. Where the window misses a mechanism's
+    /// support the prior draw is used. Requires `fuel_cue_truncation = "exact"`. Absent (default): earlier behaviour exactly.
+    #[serde(default)]
+    pub deliberate_proposal_window_unix_s: Option<[f64; 2]>,
 }
 
 fn default_fuel_cue_truncation() -> String {
@@ -144,6 +152,14 @@ impl OnsetConfig {
         self.response_delay_s.check("onset.response_delay_s")?;
         if self.fuel_cue_truncation != "clamp" && self.fuel_cue_truncation != "exact" {
             return Err(format!("onset.fuel_cue_truncation: \"clamp\" or \"exact\", not {:?}", self.fuel_cue_truncation));
+        }
+        if let Some([a, b]) = self.deliberate_proposal_window_unix_s {
+            if !(a.is_finite() && b.is_finite() && b > a) {
+                return Err("onset.deliberate_proposal_window_unix_s: need finite a < b".into());
+            }
+            if self.fuel_cue_truncation != "exact" {
+                return Err("onset.deliberate_proposal_window_unix_s needs fuel_cue_truncation = \"exact\"".into());
+            }
         }
         Ok(())
     }
@@ -260,6 +276,18 @@ impl OnsetConfig {
         }
         let mechanism_prior = weights[chosen] / total;
         let mechanism = Initiation::ALL[chosen];
+        if let Some(window) = self.deliberate_proposal_window_unix_s {
+            if let Some((unix_s, truncated, log_q)) = self.draw_in_window(mechanism, window, earliest_unix_s, predicted_exhaustion_unix_s, uniform) {
+                return Onset {
+                    unix_s,
+                    mechanism,
+                    predicted_endurance_at_onset_s: predicted_exhaustion_unix_s - unix_s,
+                    mechanism_prior,
+                    support_truncated_fraction: truncated,
+                    log_q_correction: log_q,
+                };
+            }
+        }
         let (unix_s, truncated, log_q) = match mechanism {
             Initiation::Anticipatory => {
                 let (lo, hi) = self.truncated_lead_support(earliest_unix_s, predicted_exhaustion_unix_s).expect("weight was positive");
@@ -304,6 +332,69 @@ impl OnsetConfig {
             support_truncated_fraction: truncated,
             log_q_correction: log_q,
         }
+    }
+
+    /// Order (b) item 4: the onset support of a deliberate mechanism in clock time, `(lo, hi)`, after truncation at the hand-off
+    /// and at the predicted exhaustion; `None` for the flame-out mechanism or an empty support.
+    pub fn deliberate_support_unix_s(&self, mechanism: Initiation, earliest_unix_s: f64, predicted_exhaustion_unix_s: f64) -> Option<(f64, f64)> {
+        let p = predicted_exhaustion_unix_s;
+        let (lo, hi) = match mechanism {
+            Initiation::Anticipatory => {
+                let (l0, l1) = self.truncated_lead_support(earliest_unix_s, p)?;
+                (p - l1, p - l0)
+            }
+            Initiation::FuelCue => {
+                let (e, l) = self.cue_window(earliest_unix_s, p)?;
+                (e.max(earliest_unix_s), l)
+            }
+            Initiation::FlameOutAssociated => return None,
+        };
+        let lo = lo.max(earliest_unix_s);
+        if hi > lo { Some((lo, hi)) } else { None }
+    }
+
+    /// Order (b) item 4: the fuel-tied prior density of a deliberate onset at `unix_s`, 1/s (0 outside the support).
+    pub fn deliberate_onset_density(&self, mechanism: Initiation, unix_s: f64, earliest_unix_s: f64, predicted_exhaustion_unix_s: f64) -> f64 {
+        let p = predicted_exhaustion_unix_s;
+        if unix_s < earliest_unix_s {
+            return 0.0;
+        }
+        match mechanism {
+            Initiation::Anticipatory => match self.truncated_lead_support(earliest_unix_s, p) {
+                Some((l0, l1)) if (l0..=l1).contains(&(p - unix_s)) => 1.0 / (l1 - l0),
+                _ => 0.0,
+            },
+            Initiation::FuelCue => {
+                let keep = 1.0 - self.fuel_cue_truncated_fraction(earliest_unix_s, p);
+                if keep > 0.0 { self.cue_lead_density(p - unix_s) / keep } else { 0.0 }
+            }
+            Initiation::FlameOutAssociated => 0.0,
+        }
+    }
+
+    /// Order (b) item 4: a deliberate onset drawn uniformly in clock time on the window intersected with the mechanism's support,
+    /// with `ln(prior / proposal)`; `None` (use the prior draw) for the flame-out mechanism or an empty intersection. The
+    /// truncation diagnostic is the one the prior draw would report.
+    fn draw_in_window(&self, mechanism: Initiation, window: [f64; 2], earliest_unix_s: f64, predicted_exhaustion_unix_s: f64, uniform: &mut dyn FnMut() -> f64) -> Option<(f64, f64, f64)> {
+        let (s_lo, s_hi) = self.deliberate_support_unix_s(mechanism, earliest_unix_s, predicted_exhaustion_unix_s)?;
+        let lo = s_lo.max(window[0]);
+        let hi = s_hi.min(window[1]);
+        if !(hi > lo) {
+            return None;
+        }
+        let t = lo + (hi - lo) * uniform();
+        let prior = self.deliberate_onset_density(mechanism, t, earliest_unix_s, predicted_exhaustion_unix_s);
+        let truncated = match mechanism {
+            Initiation::Anticipatory => {
+                let [_, nominal_hi] = self.anticipatory_lead_s;
+                let (_, l1) = self.truncated_lead_support(earliest_unix_s, predicted_exhaustion_unix_s)?;
+                if nominal_hi > 0.0 { ((nominal_hi - l1) / nominal_hi).clamp(0.0, 1.0) } else { 0.0 }
+            }
+            _ => self.fuel_cue_truncated_fraction(earliest_unix_s, predicted_exhaustion_unix_s),
+        };
+        // The window lies inside the support, so the prior density is positive except on a measure-zero edge.
+        let log_q = if prior > 0.0 { prior.ln() + (hi - lo).ln() } else { f64::NEG_INFINITY };
+        Some((t, truncated, log_q))
     }
 
     /// Recover the onset mechanism from a realised onset lead.
@@ -497,7 +588,54 @@ mod tests {
             recognition_delay_s: Range::Uniform([10.0, 300.0]),
             response_delay_s: Range::Uniform([10.0, 600.0]),
             fuel_cue_truncation: default_fuel_cue_truncation(),
+            deliberate_proposal_window_unix_s: None,
         }
+    }
+
+    /// Order (b) item 4: under the clock-time window proposal the stored correction recovers the fuel-tied prior restricted to
+    /// the window, for each deliberate mechanism: E_q[exp(lq)] equals the prior probability of the window, and the weighted
+    /// CDF of the onset equals the prior CDF there (checked against the prior draw itself at two interior points).
+    #[test]
+    fn the_window_proposal_recovers_the_fuel_tied_prior_inside_the_window() {
+        let window = [CHECKPOINT_2241 + 1_800.0, EXHAUSTION - 1_200.0];
+        let mut state = 0x2545_F491_4F6C_DD1Du64;
+        let mut u = move || {
+            state ^= state << 13;
+            state ^= state >> 7;
+            state ^= state << 17;
+            (state >> 11) as f64 / (1u64 << 53) as f64
+        };
+        for weights in [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0]] {
+            let prior = OnsetConfig { mechanism_weights: weights, early_oversample_weight: 0.0, fuel_cue_truncation: "exact".into(), ..config() };
+            let prop = OnsetConfig { deliberate_proposal_window_unix_s: Some(window), ..prior.clone() };
+            assert!(prop.check().is_ok());
+            let n = 400_000;
+            let cuts = [window[0] + 0.3 * (window[1] - window[0]), window[0] + 0.7 * (window[1] - window[0])];
+            let (mut z, mut zc) = (0.0, [0.0; 2]);
+            let (mut inside, mut ic) = (0usize, [0usize; 2]);
+            for _ in 0..n {
+                let q = prop.draw(CHECKPOINT_2241, EXHAUSTION, &mut u);
+                let w = q.log_q_correction.exp();
+                z += w;
+                for k in 0..2 { if q.unix_s < cuts[k] { zc[k] += w; } }
+                let p = prior.draw(CHECKPOINT_2241, EXHAUSTION, &mut u);
+                if p.unix_s >= window[0] && p.unix_s <= window[1] {
+                    inside += 1;
+                    for k in 0..2 { if p.unix_s < cuts[k] { ic[k] += 1; } }
+                }
+            }
+            let (z, p_in) = (z / n as f64, inside as f64 / n as f64);
+            assert!((z - p_in).abs() < 0.004, "mechanism {weights:?}: E[exp lq] {z} vs prior P(window) {p_in}");
+            for k in 0..2 {
+                let (a, b) = (zc[k] / n as f64, ic[k] as f64 / n as f64);
+                assert!((a - b).abs() < 0.004, "mechanism {weights:?} cut {k}: {a} vs {b}");
+            }
+        }
+        // The flame-out mechanism and an empty intersection fall back to the prior draw with no correction.
+        let fo = OnsetConfig { mechanism_weights: [0.0, 0.0, 1.0], fuel_cue_truncation: "exact".into(), deliberate_proposal_window_unix_s: Some(window), ..config() };
+        let o = fo.draw(CHECKPOINT_2241, EXHAUSTION, &mut u);
+        assert_eq!((o.unix_s, o.log_q_correction), (EXHAUSTION, 0.0));
+        assert!(OnsetConfig { deliberate_proposal_window_unix_s: Some(window), ..config() }.check().is_err(), "needs exact truncation");
     }
 
     /// Closed-form check of the Irwin–Hall CDF against independently computed values: one uniform is linear; two equal
