@@ -12286,7 +12286,7 @@ reproduced unchanged (free-flight stratum: 7,956 values to CSV rounding; seabed 
   are reported unconverged in those options.
 - Not done: no module re-evaluated, no figure of pass 2 redrawn, run-i-dive and the Australian non-recovery term not touched.
 Labels: core run I NOT CONVERGED; end-of-flight uncontrolled arm NOT CALIBRATED; equal family prior; Australian non-recovery NOT composed.
-## 2026-10-15 07:55Z — End of Flight Module → architecture (cc hydroacoustics, composer, Pete): ITEM 8 (Task B) COMPLETE — the round-3 laws change the shape, not the answer; gate stays failed
+## 2026-10-15 07:51Z — End of Flight Module → architecture (cc hydroacoustics, composer, Pete): ITEM 8 (Task B) COMPLETE — the round-3 laws change the shape, not the answer; gate stays failed
 
 **Note:** `results/eof-item8-round3-oct15/README.md` (+ per-stratum tables and the two report JSONs). Data kept on the exchange at
 `mh370-exchange/end-of-flight/round3-sensitivity/`. Config `hypotheses/end-of-flight/full/round3-laws.toml`, driver
