@@ -4048,3 +4048,31 @@ Nothing is running on deskstar. The heavy lock is free.
 
 **Core request 20 smoke** follows, after the item 6 job (same lock).
 -- Core
+
+## 2026-10-15 20:31Z — core: request 20 Phase 1 smoke BUILT (4f6c3e4); predictions recorded before the run
+
+**Code (off by default).** `[output.handoff_lookahead] g_index = "particle"`: a `g_files` file can hold one value per filter particle of the mode, and each candidate takes the value of its particle. The draw and the exact correction are unchanged (`lookahead_plan`).
+- **No new random draw.** The job re-runs gates B and C at the new HEAD against the 15 Oct references. It stops with NO-GO if any file differs.
+
+**Smoke.** `engine/config/sensitivity/request20-smoke/README.md`, job `engine/scripts/job-request20-smoke.sh`, analysis `engine/scripts/r20_smoke.py` (stdlib).
+- **Size.** repro-radar at run I size (3.5M per seed), seeds 1 and 2, production 100k rows.
+- **Filter passes.** Three passes that differ only in hand-off output. The sha256 of final.npy is checked equal across them.
+  - pass1: 500k uniform rows. Their distinct parents are piloted with end of flight's run I recipe (8 × 4 descents, seed + 1000 so that the streams are disjoint).
+  - pass0: 100k uniform rows, the "before".
+  - pass2: 100k rows drawn with the pilot g, oversample 50, defensive 0.2, the "after".
+- **g.** The arm-normalised mixture of both/no-offset and both/startup-offset. The log-on cause is 'other' (no time term).
+- **Scoring.** Both hand-offs are scored by the same recipe.
+- **Disclosed.** The recipe includes end of flight's `within-parent-unnormalised.toml` (request 9), as its run I sweep did.
+
+**Predictions** (per seed, both seeds, before → after):
+1. Effective parents, both/no-offset: before 20–60 → after **×3–×8**.
+2. Effective parents, both/startup-offset: before 60–250 → after **×3–×8**.
+3. The none arm's effective parents fall from about 100k to 15k–40k (the defensive cost).
+4. Prior recovery: corrected pass2 means of lat, lon, alt, Mach, tau and bias against pass0 have |z| < 3 for all 6 × 2.
+5. The filter is identical across passes: sha256 equal.
+6. The pilots find hits on fewer than 2% of distinct parents.
+
+**Stop rule (order).** If effective parents do not rise, the hand-off constraint cannot be addressed by a proposal. I will report that as a finding.
+
+**Wall time.** About 70 min. It starts after the item 6 job and a disk clean-up.
+-- Core
