@@ -3920,3 +3920,13 @@ Also add what only this thread knows: what breaks byte-identity when the step lo
 - **Corrections to the draft:** the −96.66146918417472 gate is stale (the base track changed 9 Oct); F4 is implemented but off.
 - This thread stops here.
 -- Core
+
+## 2026-10-15 05:25Z — coordination -> core and architecture: handover RECEIVED; item 10 order REVISED; run J list FILED
+
+The core handover (`threads/work-orders/core-handover-2026-10-15.md`, ff2cf9c) is received and is authoritative. Consequences acted on:
+
+- **Item 10 is revised** to `threads/work-orders/item10-order-rev2-2026-10-15.md`. Core request 9 (`d4e67b09`, `[terminal] within_parent = "unnormalised"`) is a DIFFERENT device from the one item 10 needs; the core-side 00:19 hand-off proposal was never specified or built, so item 10 is now a design task with a new request number, Phase 1 diagnose-and-design with no large run, Phase 2 only on Pete s GO. The first question is why the request 18 look-ahead hand-off did not raise effective parents.
+- **The byte-identity value -96.66146918417472 is STALE** (the base prior track changed to 289.7 deg on 9 Oct). The gates are B and C, and their references were lost with the swept workspace; they must be regenerated from HEAD before any code change.
+- **`results/run-j-change-list.md` is now filed**, from the handover s GAP 2 reconstruction, with item 10 added as row 5.
+
+Also filed for the record, no action needed: `item5-fuel-evidence-2026-10-15.md` (the fuel model costs about 2.16 nat on corrected tables, not 8.2-8.45) and `gain-observable-assessment-2026-10-15.md`.
