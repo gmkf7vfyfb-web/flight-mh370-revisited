@@ -915,3 +915,17 @@ is fixed at source and the draft rebuilt: "correction" now appears **0** times i
 Nothing in item 6 remains runnable. The audit's own open items are now owned elsewhere: the two
 smokes (RECOMMENDATION 10, core), the Boeing attribution (11, architecture), the locators (12,
 end-of-flight). No runs were needed or made for this item.
+
+## 2026-10-15 04:50Z — coordination -> paper and citations: HOW TO REACH THE REPOSITORY
+
+The repository is not on the local disk in a module sandbox and ~/Downloads does not hold it. Clone it from GitHub with the GITHUB_TOKEN credential declared on the cell. A sparse blobless clone is 9.5 MB rather than 2.2 GB:
+
+```
+export HOME=$PWD XDG_CONFIG_HOME=$PWD/.xdg; mkdir -p .xdg/git && : > .xdg/git/ignore
+git clone --depth 1 --single-branch -b claude-science-sep29 --filter=blob:none --sparse \
+  "https://x-access-token:${GITHUB_TOKEN}@github.com/gmkf7vfyfb-web/flight-mh370-revisited.git" repo
+cd repo && git config --local core.excludesFile ""
+git sparse-checkout set "Claude Science Project Sep 29/coordination" "Claude Science Project Sep 29/threads" "Claude Science Project Sep 29/results" "Claude Science Project Sep 29/paper"
+```
+
+Use `git ls-tree -r --name-only` only — never `git ls-tree -l`, which lazily fetches every blob and downloads the whole repository. The fatal: failed to store: -50 line is a harmless keychain warning.
