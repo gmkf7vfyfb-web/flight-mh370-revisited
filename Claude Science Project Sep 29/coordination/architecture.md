@@ -12286,3 +12286,65 @@ reproduced unchanged (free-flight stratum: 7,956 values to CSV rounding; seabed 
   are reported unconverged in those options.
 - Not done: no module re-evaluated, no figure of pass 2 redrawn, run-i-dive and the Australian non-recovery term not touched.
 Labels: core run I NOT CONVERGED; end-of-flight uncontrolled arm NOT CALIBRATED; equal family prior; Australian non-recovery NOT composed.
+## 2026-10-15 07:55Z — End of Flight Module → architecture (cc hydroacoustics, composer, Pete): ITEM 8 (Task B) COMPLETE — the round-3 laws change the shape, not the answer; gate stays failed
+
+**Note:** `results/eof-item8-round3-oct15/README.md` (+ per-stratum tables and the two report JSONs). Data kept on the exchange at
+`mh370-exchange/end-of-flight/round3-sensitivity/`. Config `hypotheses/end-of-flight/full/round3-laws.toml`, driver
+`full/sweep_round3.sh`, scripts `smoke/{round3_subsample,combine_strata_0019,round3_report}.py`. `make scope H=end-of-flight` passes.
+
+**The run.** One full sweep at run-I scale: run-i-dive recipe + `round3-laws.toml`, 4 strata x 8 seeds, 127,999,840 impacts,
+binary `mh370-eof-r3` (sha256 ed3d757b3b1c6a92...), 05:10:06Z-07:37:06Z, 2 h 27 min at 12 threads under the heavy lock.
+
+**Binary identity gate first:** the same binary with the production recipe and no overlay reproduces the stored run-i-dive
+result to the last bit (next-i-free seed 1, all 42 cells, maximum difference 0.000e+00 nat), so the stored run is a valid
+"before" and the comparison is a change of dynamics only.
+
+**Rule 11 (reach change; PROMPTED BY A FIT FAILURE, explicitly - rounds 1 and 2 failed before round 3 was pre-registered):**
+
+| cell (q = 1/3, C2 silent) | ln Z before | after | change, nat | latitude median before | after |
+|---|---|---|---|---|---|
+| D0 held out | -7.322 | -7.424 | **-0.101** | -37.07 | -37.13 |
+| D1 R600 BTO | -12.840 | -12.858 | -0.018 | -37.24 | -37.21 |
+| D2 R600 BTO + R600 BFO | -18.841 | -19.036 | -0.195 | -37.11 | -37.15 |
+| D3 both raw | -28.468 | -28.615 | -0.147 | -37.31 | -37.35 |
+| D4 both, Holland transient bias added | -28.658 | -28.703 | -0.046 | -37.32 | -37.33 |
+| D5 | -29.103 | -29.225 | -0.122 | -37.29 | -37.33 |
+
+**Stop condition not tripped** (held-out evidence moves 0.101 nat against the 1-nat limit); no cell moves more than 0.20 nat and
+the 90 per cent latitude region is unchanged to within 0.03 degrees. What does move is the family mixture under the R1200 cells:
+A1 0.168 to 0.062 (D3), 0.145 to 0.103 (D4), 0.141 to 0.057 (D5), with B taking the mass.
+
+**Impact conditions, the labelled sensitivity this arm is for** (both arms by the same estimator: weight-proportional subsample,
+50,000 impacts per seed, 00:19 held out, effective sample 401,363 each):
+
+| quantity | production | round-3 laws |
+|---|---|---|
+| flight-path angle q05/q50/q95, deg | 1.7 / 4.2 / 55.8 | 2.0 / 4.7 / 31.5 |
+| share above 45 deg | 0.100 | **0.012** |
+| share 10-45 deg | 0.161 | **0.323** |
+| impact energy q05/q50/q95, GJ | 0.35 / 1.23 / 10.98 | 0.35 / 1.81 / 10.99 |
+| tau90 q05/q50/q95, s | 0.11 / 3.63 / 11.30 | 0.15 / 3.69 / 12.21 |
+
+The mechanism is the lagged lift (3.52 s, gain 0.41) holding a Boeing-like phugoid instead of converging on a steep attitude,
+plus the fitted spiral bank cap of 52.5 degrees. **The caution that must travel with it:** that cap does most of the work on the
+steep tail and is the worst identified number in the fit - it lies outside the range of every leave-one-out fit (57.3-62.4).
+Three parameters sit on a search bound. The 00:19-weighted impact conditions are NOT estimable from the retained subsample
+(effective sample 84) and are reported as not assessed; the evidence, latitude and family shares above come from the full tables.
+
+**For hydroacoustics:** the two arms bracket the acoustically decisive band share at 0.161 (production) and 0.323 (round 3) with
+the bursts held out, on top of item 7's finding that the dive probability moves the same quantity from 0.039 to 0.856 under D4.
+Both are prior-side ranges, not evidence; detectability statements should carry them.
+
+**Retention deviation, declared.** A second 56 GB sweep did not fit (41 GiB free), so the arm was summarised per stratum and the
+per-seed files removed. Kept: the per-stratum full-sample 00:19 tables and latitude histograms, 50,000-per-seed subsamples with
+the tau90 sidecar fields, the matched production subsample, and the reports. Re-running costs 2 h 27 min and everything needed is
+in the repository. Two driver defects are recorded in the note (a `seed-*` glob that also matched the convert logs, worked around
+by a companion script; stratum weights applied by the combiner, which reproduces the stored run-i-dive mixture exactly).
+
+**Disk, for Pete's decision:** `mh370-exchange/end-of-flight/` holds 186 GB, of which `run-i` (45 GB) and `run-i-c2aim` (21 GB)
+are superseded by run-i-dive. Removing them would end the disk pressure on this machine. Not done: it is Pete's data and other
+modules may still read it.
+
+**Items 7 and 8 are both complete.** Nothing else in the work order is runnable.
+
+- End of Flight Module

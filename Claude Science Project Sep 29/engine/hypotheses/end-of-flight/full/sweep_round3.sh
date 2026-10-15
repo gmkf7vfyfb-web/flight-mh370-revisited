@@ -21,10 +21,10 @@ for st in next-i-free next-i-repro-radar next-i-descent-climb next-i-waypoints; 
   [ "$st" = next-i-waypoints ] && X="$S/full/c2-silent-aim.toml $S/full/dive-branch.toml $S/smoke/children-16.toml $S/full/round3-laws.toml"
   EOF_BIN=$BIN EOF_EXTRA="$X" EOF_STRATA=$st EOF_THREADS=$THREADS EOF_OUT="$OUT" EOF_TAG=R3 \
     bash $S/full/sweep_run_i.sh 2>&1 | sed "s/^/  /"
-  n=$(ls -d "$OUT/$st"/seed-* 2>/dev/null | wc -l | tr -d ' ')
+  n=$(ls -d "$OUT/$st"/seed-*/ 2>/dev/null | wc -l | tr -d ' ')
   if [ "$n" -lt 1 ]; then echo "$st: NO SEEDS, stopping"; exit 2; fi
   echo "  $st: $n seeds; sidecar + table $(date -u +%T)"
-  $PY $S/smoke/tau_sidecar.py "$OUT/$st"/seed-* > "$OUT/summary/$st-tau.log" 2>&1 || echo "  TAU SIDECAR FAILED $st"
+  $PY $S/smoke/tau_sidecar.py "$OUT/$st"/seed-*/ > "$OUT/summary/$st-tau.log" 2>&1 || echo "  TAU SIDECAR FAILED $st"
   $PY $S/smoke/option_table_0019.py "$OUT" "$CORE" "$OUT/summary/table-0019-$st.json" "$st=1.0" \
     > "$OUT/summary/table-0019-$st.log" 2>&1 || echo "  OPTION TABLE FAILED $st"
   $PY $S/smoke/round3_subsample.py "$OUT/$st" "$OUT/summary/subsample-$st.npz" > "$OUT/summary/$st-subsample.log" 2>&1 \
