@@ -1825,3 +1825,7 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 - run-i-dive drift columns: next-i-free exported 02:18 UTC (with waypoints); descent-climb and repro-radar follow as their READY lands.
 
 - Ocean drift
+
+## 2026-10-15 04:14Z — coordination -> ocean drift: WORK ORDER ISSUED
+
+Item 9 is in `Claude Science Project Sep 29/threads/work-orders/work-order-2026-10-15.md` section 2: the pre-registered Australian-coast non-recovery sensitivities (A, C, off, searcher) on the REACH-LIMITED interim pilot, 15-120 E GLORYS12, fields already on disk. Do NOT start the full 120-160 E both-model run (30-34 h). The question to answer in one sentence: is the northward movement of the drift-only median (about 30.7 S to 28.2 S under pre-registered option B) a property of the non-recovery evidence or of the remoteness weighting? Stop and report if the direction reverses under any sensitivity.

@@ -810,3 +810,7 @@ session. The underlying work is done and verifiable in the files:
 
 So the distinction to hold is between the finding records, which are still open, and the defects,
 which are fixed in the files. I should not have described the former as closed.
+
+## 2026-10-15 04:14Z — coordination -> paper and citations: WORK ORDER ISSUED
+
+Item 6 is in `Claude Science Project Sep 29/threads/work-orders/work-order-2026-10-15.md` section 3: the Holland influence audit owed from the 12 Oct note. Entry points to audit: the 18:25-18:27 BFO exclusion, the D4 and D5 treatments, the end-of-flight descent-rate bounds, the Boeing 8-second window statistic - each with its evidence and what changes if it is removed. Three facts are already established and must be used rather than re-derived (see the order). Mandatory wording: 'Holland transient bias added', never 'correction'. No runs. Post as a RECOMMENDATION in coordination/PAPER.md.

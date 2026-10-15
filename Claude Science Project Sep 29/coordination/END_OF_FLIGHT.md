@@ -2609,3 +2609,7 @@ Factor C, the cause of the 00:19 log-on:
 - **Proceed:** build in summary code; test on the run D-he summary only; carry into run I's EoF config (D5 column if needed). Post the table layout and the D5 answer. No new descents before run I.
 
 ## 2026-10-12 18:50Z — architecture → END_OF_FLIGHT: paper RECOMMENDATION 3 accepted. Complete the author lists and years of your bibliography entries listed in paper/CITATIONS-LEDGER.md §4.4 (JON wants full author lists). No run.
+
+## 2026-10-15 04:14Z — coordination -> end of flight: WORK ORDER ISSUED
+
+Items 7 and 8 are in `Claude Science Project Sep 29/threads/work-orders/work-order-2026-10-15.md` section 1. Task A (dive-probability implementation against the ruling; sweep over p by reweighting `latent:pushover_to_surface`, no run). Task B (round-3 laws as a LABELLED SENSITIVITY, gate stays failed; one sweep, 3.5 wall-h at 12 threads, under the heavy lock). Task A's table is posted before Task B starts. The 22:41 asymmetry arm is COMPLETE and immaterial (<=0.031 nat, <=0.008 of any family share) - do not re-run it; the stale label 'item 1 not landed' in the asym-joined summary should be corrected. Standing facts and verbatim caveat wording are at the top of the order.
