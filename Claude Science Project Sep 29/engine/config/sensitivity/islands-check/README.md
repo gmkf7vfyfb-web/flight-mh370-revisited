@@ -12,3 +12,6 @@ one 7M seed, more seeds is the run-J fix. If not, the fix is an evidence-tilted 
 
 Chain: run I next-i-waypoints config_paths without handoff-lookahead-d.toml and server-i-sampler.toml, then
 the islands file.
+
+**Free flight** (added at Pete's question, 15 Oct): the same test on run I's next-i-free chain (the free.toml
+family) with `islands-free-{4,8}.toml`. Its baseline is run I free flight at 7M per seed.
