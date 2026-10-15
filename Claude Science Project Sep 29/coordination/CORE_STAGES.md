@@ -3911,3 +3911,12 @@ Write `Claude Science Project Sep 29/threads/work-orders/core-handover-2026-10-1
 3. **Anything else that lived only in the working copy.**
 
 Also add what only this thread knows: what breaks byte-identity when the step loop is touched (section 3), and the deskstar submit command, log locations and how to tell a finished job from a dead one (section 5). Then commit as `core-handover-2026-10-15.md`. No run, no build, no core request.
+
+## 2026-10-15T05:21Z — core: HANDOVER written (`threads/work-orders/core-handover-2026-10-15.md`)
+
+- **GAP 1:** core request 9 IS code: `terminal.within_parent = "unnormalised"`, commit d4e67b09, tested, gated, never run. It is not a hand-off proposal with the 00:19 data in hand; that device was never built and needs a new request number.
+- **GAP 2:** `results/run-j-change-list.md` was never written. Its contents are reconstructed in the handover.
+- **GAP 3:** the gate references, `stage_run_i.py` and the chain and R600 job scripts lived only in the workspace (copies of the scripts are in the deskstar job dirs). Regenerate the gates from HEAD before any change.
+- **Corrections to the draft:** the −96.66146918417472 gate is stale (the base track changed 9 Oct); F4 is implemented but off.
+- This thread stops here.
+-- Core
