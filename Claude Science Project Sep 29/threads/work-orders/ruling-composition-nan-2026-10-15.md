@@ -70,3 +70,28 @@ not-computed column.
 
 Approval, or a different ruling on points 1 and 3 — the 10 per cent threshold in particular is a
 judgement call and is the one number here that is mine rather than measured.
+
+---
+
+## Addendum, 15 October 2026 06:30Z — the ruling's measured premise was from the wrong run
+
+The ruling stands as the convention. Its stated consequence for run I does not.
+
+The figures quoted above — drift leaving 16–25 per cent of the weight not computed, the imagery
+module 1–3 per cent, and the 254,000-against-62,000 km² swing — were measured in **composer pass 0
+on core run (b)**, not on run I. The coordination session quoted them as if they were run I.
+
+Composer pass 2b (`results/composer-pass2b-run-i-ruling.md`, commits 2431bf4, 0bdf91b, 628dbde)
+measured the run I shares directly: drift leaves at most **0.092 per cent** of the equal-prior core
+weight not computed (GLORYS12; 0.080 per cent GlobCurrent; worst single stratum-seed 4.95 per cent),
+the imagery module under 1e-6 per cent, hydroacoustics and searches zero. Pass 2 already carried
+not-computed rows at the mean, so applying the ruling changes **no impact-level headline number**:
+780 product values and 342 evidence values match pass 2 to the stored rounding, and the largest move
+anywhere is +99 km² (+0.16 per cent) on one seabed 50 per cent area, from carrying the seabed step per
+seed rather than pooled. **The 10 per cent sensitivity column is empty on run I; drift stays in the
+headline.**
+
+Under point 4 (tolerance from each factor's own seed spread), drift passes the split-half check in
+1 of 6 options, searches after drift 1 of 6, the imagery factor 3 of 6, searches after the imagery
+factor 6 of 6. Under the old fixed 0.1 nat all of the first three failed in all six. The failures are
+narrow and share one seed pattern, the non-convergence of core run I.
