@@ -73,6 +73,36 @@ def gmerge(parts, ncsv, out, name_seed):
         write_npy(os.path.join(out, "g-%d-%s.npy" % (name_seed, MODES[m])), vv)
         summary.setdefault("per_mode_distinct", {})[MODES[m]] = sum(1 for mm, _ in mp if mm == m)
     json.dump(summary, open(os.path.join(out, "g-summary-%d.json" % name_seed), "w"), indent=1); print(json.dumps(summary))
+def split_cmd(run, seed, half):
+    """Parent- vs descent-limited test. Impact rows of a parent are child-major (children_of), so the descent index
+    within the parent's block gives the child. G_A sums weight x likelihood over children < half, G_B over the rest.
+    Given the parent, G_A and G_B are independent, so sum G_A G_B estimates sum l^2 without bias and
+    (sum G)^2 / (k sum G_A G_B) estimates the effective parents of the TRUE parent-level likelihood l
+    (k = 4 when G = G_A + G_B with equal halves): the ceiling of any parent-level proposal."""
+    pp, P, W, n = per_parent(run, seed, ARMS + EXTRA_ARMS); res = {"descents": n, "arms": {}}
+    cols = json.load(open(os.path.join(run, "run.json")))
+    pos = [0] * n; last = -1; k = 0
+    for i in range(n):
+        if int(P[i]) != last: last = int(P[i]); k = 0
+        pos[i] = k; k += 1
+    per = max(pos) + 1; dpc = per // (2 * half) if half else 1
+    for arm, (P, W, L, c) in pp.items():
+        A = {}; B = {}
+        for i in range(n):
+            u = int(P[i]); x = W[i] * L[i]
+            if pos[i] < per // 2: A[u] = A.get(u, 0.0) + x
+            else: B[u] = B.get(u, 0.0) + x
+        us = sorted(set(A) | set(B)); a = [A.get(u, 0.0) for u in us]; b = [B.get(u, 0.0) for u in us]
+        g = [x + y for x, y in zip(a, b)]; sab = sum(x * y for x, y in zip(a, b))
+        both = sum(1 for x, y in zip(a, b) if x > 0 and y > 0); ta = sorted(range(len(us)), key=lambda i: -a[i])[:100]
+        tb = set(sorted(range(len(us)), key=lambda i: -b[i])[:1000])
+        ma, mb = sum(a) / len(a), sum(b) / len(b)
+        cov = sum((x - ma) * (y - mb) for x, y in zip(a, b)) / len(a); va = sum((x - ma) ** 2 for x in a) / len(a); vb = sum((y - mb) ** 2 for y in b) / len(b)
+        res["arms"][arm] = {"parents": len(us), "ess_naive_all_descents": ess(g), "ess_half_A": ess(a), "ess_half_B": ess(b),
+            "ess_true_parent_level_est": (sum(g) ** 2) / (4 * sab) if sab > 0 else None,
+            "corr_halves": cov / math.sqrt(va * vb) if va > 0 and vb > 0 else None, "top100_A_in_top1000_B": sum(1 for i in ta if i in tb) / 100}
+    res["descents_per_parent"] = per
+    print(json.dumps(res))
 def dedupe(src, out):
     t = open(os.path.join(src, "handoff.toml")).read()
     head, *rows = t.split("\n[[row]]\n"); seen = {}; keep = []
@@ -158,4 +188,5 @@ elif cmd == "gmerge": gmerge(sys.argv[2], sys.argv[3], sys.argv[4], int(sys.argv
 elif cmd == "dedupe": dedupe(sys.argv[2], sys.argv[3])
 elif cmd == "g": g_cmd(sys.argv[2], int(sys.argv[3]), sys.argv[4], sys.argv[5], sys.argv[6], int(sys.argv[7]) if len(sys.argv) > 7 else None)
 elif cmd == "score": score_cmd(sys.argv[2], int(sys.argv[3]), sys.argv[4], sys.argv[5])
+elif cmd == "split": split_cmd(sys.argv[2], int(sys.argv[3]), int(sys.argv[4]) if len(sys.argv) > 4 else 4)
 elif cmd == "prior": prior_cmd(sys.argv[2], sys.argv[3])
