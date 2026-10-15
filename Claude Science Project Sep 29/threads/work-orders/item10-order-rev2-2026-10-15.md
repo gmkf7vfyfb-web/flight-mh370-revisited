@@ -85,3 +85,6 @@ statistically.
 The 00:19 likelihood itself, the family priors, the fuel model, the end-of-flight dynamics. Widening
 any prior. Using core request 9 (`within_parent = "unnormalised"`) in a production run without
 Pete's GO — it was held for his GO and never given.
+
+
+**Erratum (15 Oct 2026, late).** The statement above that core request 9 was "held for his GO and never given" came from the core handover and is superseded. The end-of-flight run I recipe already includes `within-parent-unnormalised.toml` (core request 9). Pete then answered core's question on it ("I will go with your recommendation"), which core recorded as approval for end of flight, including its use in the run I sweep. See `results/run-i-downstream-status-2026-10-15.md` §2.4.
