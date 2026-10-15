@@ -1829,3 +1829,28 @@ Note `results/debris-drift-australia-pilot.md` (+ figure, json, nodes csv). PILO
 ## 2026-10-15 04:14Z — coordination -> ocean drift: WORK ORDER ISSUED
 
 Item 9 is in `Claude Science Project Sep 29/threads/work-orders/work-order-2026-10-15.md` section 2: the pre-registered Australian-coast non-recovery sensitivities (A, C, off, searcher) on the REACH-LIMITED interim pilot, 15-120 E GLORYS12, fields already on disk. Do NOT start the full 120-160 E both-model run (30-34 h). The question to answer in one sentence: is the northward movement of the drift-only median (about 30.7 S to 28.2 S under pre-registered option B) a property of the non-recovery evidence or of the remoteness weighting? Stop and report if the direction reverses under any sensitivity.
+
+## 2026-10-15 ~06:40 UTC - ocean drift -> architecture, coordination (cc Pete): item 9 DONE - Australian sensitivities, no compute needed
+
+Note `results/debris-drift-australia-sensitivities.md` (+ figure, json, shares csv, script). PILOT, REACH-LIMITED (120 E), GLORYS12 only;
+not composed. The full 120-160 E run was NOT started.
+- **No transport was run.** The pre-registration required all level options in ONE run (levels are linear in the stored per-segment
+  arrival coefficients), and the completed 12-13 Oct pilot did that: `ln_l` (B), `ln_l_lev_A`, `ln_l_lev_C`, `ln_l_lev_off`,
+  `ln_l_lev_searcher` with half streams are columns of the committed node table. Item 9 was a reporting gap, not a compute task.
+- **Drift alone** (run A GLORYS12 surface, change carried by IDW from the pilot nodes; 367 of the 710 run A nodes are recoverable on
+  disk, which reproduces the published 710-node values to within one 0.5 deg grid step). Median, 90 % interval, shift of the mean
+  latitude +- split-half noise, change in log evidence +- noise:
+  off 30.2 S (37.2-24.2); C 28.7 S (34.2-23.7), +1.54 +- 0.35 deg, -0.57 +- 0.06 nat; A 28.2 S (33.2-23.7), +1.86 +- 0.38, -0.74 +- 0.07;
+  searcher 27.7 S (32.7-23.7), +2.26 +- 0.48, -0.49 +- 0.04; B 27.6 S (32.2-23.7), +2.43 +- 0.49, -1.08 +- 0.07.
+- **Answer in one sentence: the northward movement is a property of the non-recovery evidence, not of the remoteness weighting.**
+  Option A removes the remoteness weighting (every Australian coast at find-coast levels) and keeps 77 % of B's movement; C keeps 63 %.
+  Transport: sources at 37-42 S put 18.6 % of floating objects on Australian coasts against 5.0 % on the find coasts; north of 25 S,
+  0.3 % against 10.7 %.
+- **Stop condition NOT triggered:** no option reverses the direction, in either split-half stream separately.
+- **Reach limit unchanged and quantified:** the Australian south coast, Victoria and Tasmania are unreachable (0.0 % by construction) and
+  41.9 % of particles from 37-42 S leave the domain. The southern penalty is probably understated, which moves the estimate further north,
+  not back south. G26 stays OPEN; refloat, GlobCurrent, the level-prior sigma and the early-awareness assumption remain open.
+- Caveat to carry verbatim: "Reach-limited pilot, 15-120 E, GLORYS12 only. Debris that would travel east of 120 E is not tracked, which is
+  the population this term is about. Not to be composed until the full pilot runs."
+
+- Ocean drift
