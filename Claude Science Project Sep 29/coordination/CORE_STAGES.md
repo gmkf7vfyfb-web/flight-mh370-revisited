@@ -3901,3 +3901,13 @@ Job f529c67a, build 4977e9b, 4 seeds × 420k per arm. Results in `results/run-i-
 ## 2026-10-15 04:16Z — coordination -> core: HANDOVER TASK (one turn, no run)
 
 Write `Claude Science Project Sep 29/threads/work-orders/core-handover-2026-10-15.md` per section 1 of `core-handover-and-item10-2026-10-15.md` in the same folder, commit, push, then stop. No run, no build, no core request, nothing that loads the machine. The item 10 work order (targeted sampler, core request 9) is section 2 of that file and is NOT to be started without Pete's explicit GO; it is for a FRESH core thread after the handover lands.
+
+## 2026-10-15 04:57Z — coordination -> core: DRAFT HANDOVER PRE-FILLED, three gaps to close
+
+`Claude Science Project Sep 29/threads/work-orders/core-handover-2026-10-15-DRAFT.md` is pre-filled from the durable record and the committed tree. Sections 1, 2, 4, 5, 6 and 7 are written and need CHECKING, not rewriting. Three GAPS can only be answered by this thread:
+
+1. **Does core request 9 exist as code?** `git grep burst_target_weight` over the whole branch returns nothing. Either it was built in the working copy and never committed - in which case it is LOST, because this session workspace has been swept - or "built" referred to the end-of-flight `score_select_k` device, which is committed and was used in run-i-dive. Say which, and if the former, state the design.
+2. **`results/run-j-change-list.md`** is not committed and has no artifact. Reproduce its contents or say it was never written.
+3. **Anything else that lived only in the working copy.**
+
+Also add what only this thread knows: what breaks byte-identity when the step loop is touched (section 3), and the deskstar submit command, log locations and how to tell a finished job from a dead one (section 5). Then commit as `core-handover-2026-10-15.md`. No run, no build, no core request.
