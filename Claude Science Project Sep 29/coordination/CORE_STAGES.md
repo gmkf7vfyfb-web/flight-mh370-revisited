@@ -3933,3 +3933,28 @@ Also filed for the record, no action needed: `item5-fuel-evidence-2026-10-15.md`
 
 ## 2026-10-15 18:41Z — coordination -> core: WORK ORDER ISSUED (fresh core thread)
 `threads/work-orders/core-order-2026-10-15b.md`, five steps: (1) regenerate gate B and gate C references FIRST; (2) copy compact_c.py and job-run-i-chain.sh into engine/scripts/; (3) fuel feasibility check at smoke scale (fuel tracked, not constraining); (4) item 10 Phase 1 design, no run; (5) run-J items 6–8 into the run-J proposal. Run J needs Pete's explicit GO. Do not use thread 386151e9.
+
+## 2026-10-15 19:38Z — core (fresh thread, order b): STARTED; step 2 DONE; steps 1 and 3 submitted as one deskstar job; step 3 predictions recorded BEFORE the run
+
+Prerequisites confirmed: deskstar enabled (load 1.4, 17 GB free, cgroup 36 GiB, oom_kill 0), GitHub push works, Downloads granted.
+
+**Deskstar heavy lock.** None existed (the Mac lock is `lockf /tmp/.mh370-heavy.lock`; deskstar has only `flock`). Defined now: `flock $HOME/.mh370-heavy.lock` on deskstar, wait at most 90 min, then NO-GO exit 8. Any deskstar job heavier than a smoke takes it.
+
+**Step 2 — DONE.** `engine/scripts/compact_c.py` (from J/53d0d251-…/, sha256 cff753aa…c436, 3,248 B) and `engine/scripts/job-run-i-chain.sh` (from J/6a2ec01f-…/, sha256 dac45a64…691c, 1,004 B). Each has one header line (source path, date, sha256 of the source without that line). No functional change. Note: `~/mh370/compact_c.py` on deskstar differs from the J/53d0d251 copy by one blank line only.
+
+**Steps 1 and 3 — one job, `engine/scripts/job-core-order-b.sh`,** under the deskstar heavy lock. Builds HEAD unmodified, runs the unit tests, then:
+- Step 1: gate B and gate C at RAYON_NUM_THREADS=6 (the references), repeated at 44 threads (this settles the handover's UNCERTAIN on byte identity across thread counts), and the regress-seed1 ln Z (davey2016 + regress-seed1, 1 seed × 7M, re-recorded on the 289.7° track). References kept on deskstar at `~/mh370/gates-2026-10-15/` with their binary, and staged to the exchange.
+- Step 3: two fuel-tracked, NOT constraining runs on `davey2016-inmarsat.toml` (`config/sensitivity/fuel-feasibility/`), 4 seeds × 1.75M (1/4 of Davey's per-seed count — larger than smoke, because a weighted share needs it):
+  - **ff-tables**: the fuel model the 0.12 reading came from (no-exhaustion-prior's tables, κ N(1.0085, 0.0178)).
+  - **ff-internal**: the production burn model (internal-v1, temperature, κ N(1.0004, 0.0196), two tanks, INOP flow 0.5).
+  - Both runs have no require_power_until, no hard reject, no ceiling, no single-engine dynamics and no speed envelope. Each of those would change Davey's posterior. So the posterior is Davey's, and fuel is bookkeeping only.
+  - Read by `engine/scripts/fuel_feasibility.py` (stdlib). It is also run over run I's repro stratum (J/6a2ec01f) for a like-for-like comparison.
+- Expected wall time is about 1 h (no overnight).
+
+**Step 3 predictions, recorded before the run:**
+1. **Discrepancy in the order.** The order's prediction ("share dry before 00:11 is 0.10–0.20") is the opposite of the reading it tests. e^−2.16 ≈ 0.12 is the FEASIBLE share. So if the reading holds, the share dry before 00:10:59 is about 0.88, not 0.12. Both quantities are reported.
+2. **Core's prediction, ff-tables.** Share dry before 00:10:59 is 0.80–0.92 (feasible 0.08–0.20). The identity Z_constrained / Z_unconstrained = P(feasible | data) is exact for a hard indicator on the same model. The reading's two runs also differed in the vertical-rate BFO term, the track sd and the then-current prior track, so I allow a band.
+3. **Core's prediction, ff-internal.** Share dry is 0.70–0.90. κ is about 0.8% lower, which gives roughly 3 min more endurance. The share above the weight-dependent ceiling is about 0.4–0.5, as the fuel audit found for reference-289.
+4. **FE quantiles.** In both runs, the 5% quantile is well before 00:00 and the 50% quantile is before 00:10:59. The share dry between arcs 6 and 7 is far below run I's 51.01%, because Davey's posterior is not conditioned on power at 00:11.
+5. **Gates.** t6 and t44 are byte-identical for B and C.
+-- Core
