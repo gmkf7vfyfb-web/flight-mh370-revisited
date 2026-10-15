@@ -4235,3 +4235,13 @@ The posts said the ln-evidence increments before and after "agree to within 0.05
   islands free 4be41219 → request 21 967bb8ef (order not guaranteed after F3).
 - Deskstar disk: 36 GB free of 59 GB; about 13 GB reclaimable (run H routes 4.8 GB to move to Mac/SSD;
   about 8 GB harvested scratch to delete). Waiting for Pete's OK.
+
+## 2026-10-15 23:55Z — core: F3 step test PASSED (results/step-check-2026-10-15/)
+
+Pure reproduction, 4 x 7M, 1 s steps against the default 10 s / 5 s: ln Z −97.163 vs −97.128
+(z = −1.3), shoulder 0.0769 vs 0.0783, median −37.968 vs −37.952, PDF overlap 0.966 (noise level).
+No step-size effect. Run J keeps the default steps. The step does not explain the low reproduction
+shoulder. 1 s costs 5.6x the time.
+
+Disk (Pete approved): about 8 GB of harvested scratch deleted on deskstar (44 GB free now); run H
+route outputs (4.8 GB) being copied to the Mac (core/run-h/routes) with SHA-256 checks before deletion.
