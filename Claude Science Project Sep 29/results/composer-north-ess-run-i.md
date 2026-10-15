@@ -22,13 +22,28 @@
 
 Full table, all families: `composer_north_ess_run_i.csv`.
 
-## Cause: few ancestral lineages, not few rows
-- Each seed has 3.2M impact rows. In the 00:11 hand-off, waypoints has 2,445–5,312 distinct filter particles north of 33 S per seed (905–2,941 north of 30 S), with within-seed Kish 942–2,002 (336–1,069).
-- By the ancestor index recorded in the hand-off (`origin`), the northern mass of each seed rests on 332–401 distinct lineages but only **22–78 effective lineages north of 33 S** (10–83 north of 30 S). The largest single lineage carries 4–31% of the northern mass. Free flight is similar (27–70).
-- So each seed is a few independent draws of "how much goes north". This is why the seed scatter is so large.
+## Cause (corrected the same evening)
+**My first diagnosis, "few ancestral lineages", was wrong.** The `origin` index is the particle's 18:01 index. The whole population collapses to about 21 effective 18:01 lineages per seed (waypoints; 13 south of 36 S, 37 north of 33 S), so this is ordinary SMC genealogy and is not specific to the north.
+
+**The measured cause is noise in the mode probabilities.** Waypoints, 00:11 hand-off, 8 seeds:
+
+| Mode | P(mode), median [range] | P(north of 33 S given mode) | Particles per seed | ln Z seed sd |
+|---|---|---|---|---|
+| true track | 0.600 [0.464–0.749] | 0.006 | 2.5M | 0.373 |
+| lateral navigation | 0.190 [0.126–0.333] | 0.010 | 2.5M | 0.294 |
+| true heading | 0.096 [0.068–0.143] | 0.077 | 1.0M | 0.157 |
+| magnetic track | 0.049 [0.028–0.123] | 0.251 | 0.5M | 0.245 |
+| magnetic heading | 0.024 [0.016–0.031] | 0.538 | 0.5M | 0.202 |
+
+- The north is carried by the magnetic modes, about 65% of the northern mass in waypoints. These modes get the fewest particles (0.5M each, 7%).
+- **Variance split.** Holding the mode probabilities at their 8-seed means cuts the seed sd of the northern mass from 0.0107 to 0.0049 (waypoints) and from 0.0159 to 0.0033 (free). Holding the within-mode shares fixed leaves it almost unchanged (0.0104; 0.0138). So about 80% of the variance is mode-probability noise.
+- **Where that noise enters.** Almost all the seed-to-seed variance of each mode's ln Z comes from the 00:11 increment: true track 0.382 of 0.373 total (waypoints) and 0.665 of 0.804 (free); lateral navigation 0.288 of 0.294 and 0.494 of 0.504. Effective sample after the 00:11 update: true track about 100k of 2.5M; magnetic modes 2.5k–6.9k of 0.5M.
+- **Not the usual importance-sampling error.** With N = 2.5M and an ESS of 100k, the textbook ln Z sd at that epoch would be about 0.003. The observed 0.38 means the 00:11 increment depends on where each seed's population stands when it reaches 00:11. That is earlier path-space noise expressed at 00:11, consistent with the core finding of 12 Oct that free-flight convergence is limited by which 18:01–22:41 lineages survive 00:11.
+- **Earlier tests do not settle it.** The tempering, adaptive-tempering, look-ahead, resample-move and arc-bridge tests were judged on the latitude split-half of the main mode, not on mode-probability noise.
 
 ## What it means for run J
 1. **More seeds help only linearly.** B″ gives waypoints 12 seeds (1.5×): implied effective sample north of 33 S about 100. To reach 1,000 would need about 15× the seeds (about 120 waypoint seeds), which is not practical.
 2. **Correction to my run-J note §4.4.** Giving free flight its seeds first does not fix the combined product: free flight carries 0.2–0.3% of it, and its northern lineage count is no better.
-3. **Aiming the 00:11 hand-off cannot fix it either.** It only re-allocates rows among lineages that already exist (the same ceiling as request 20). The aim must act inside the filter early enough to keep more lineages alive, for example an evidence-aimed look-ahead at 22:41 (horizon 00:11, where the look-ahead did work), with g from the downstream evidence at each particle's predicted end region, the exact correction and a defensive share. No latitude band is named.
-4. **Run J can still go tonight.** Its main-mode results (the publication convergence) are not affected. The northern result must be labelled with this effective sample size. An aimed supplement (run K) samples the same target and can be pooled with run J afterwards by standard combination of independent importance-sampling estimates, so run J is not wasted.
+3. **Aiming the 00:11 hand-off cannot fix it.** The noise is in the filter's per-mode evidence, before any hand-off.
+4. **Candidate fix for run J (exact, no latitude choice): re-allocate particles across modes.** Each mode is its own filter and the mixture is weighted by evidence, so the per-mode particle count changes only noise, not the target. Give the magnetic modes more (they carry the north), and test whether the 00:11 ln Z noise falls with more particles in a mode. A one-hour test on the repro stratum decides it (`threads/work-orders/mode-allocation-test-2026-10-15.md`).
+5. **Seed budget.** The composed product is 99.7% waypoints, so the definitive northern answer is limited by waypoint seeds. B″ gives waypoints the fewest (12).

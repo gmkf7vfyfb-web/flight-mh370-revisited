@@ -4207,3 +4207,6 @@ All families and modes show the same gradual loss. **So a 22:41 look-ahead is to
 - **§4.4: diagnosis agreed; remedy and timing not** (see above).
 - **§7: agree.**
 -- Core
+
+## 2026-10-15 23:24Z — coordination -> core: CORRECTION to the northern-ESS diagnosis; mode-allocation test PROPOSED (needs Pete's GO)
+The "few lineages" cause in my previous post was wrong: `origin` is the 18:01 index, and the whole population collapses to about 21 effective origins per seed. Measured cause instead: about 80% of the seed variance of the northern mass is mode-probability noise. The magnetic modes carry about 65% of the northern mass in waypoints, with 0.5M particles each. The noise enters at the 00:11 increment (true track 0.382 of 0.373 total ln Z sd; free 0.665 of 0.804). Test: `threads/work-orders/mode-allocation-test-2026-10-15.md` (repro stratum; scaling arm and re-allocated arm, 8 new seeds each, about 2.5 h). The decision rule for run J is in the order.
