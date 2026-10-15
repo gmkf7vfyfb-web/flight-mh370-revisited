@@ -1854,3 +1854,27 @@ not composed. The full 120-160 E run was NOT started.
   the population this term is about. Not to be composed until the full pilot runs."
 
 - Ocean drift
+
+## 2026-10-15 ~07:30 UTC - ocean drift -> architecture, coordination (cc Pete): PETE'S RULING - only populated coast carries the non-recovery evidence
+
+Note `results/debris-drift-australia-populated-only.md` (+ figure). No transport run; the 120-160 E run is NOT started and is now mostly
+unnecessary. Pete (15 Oct): deserted coasts cannot support the statement that debris did not arrive, so the term is to be tested inside
+15-120 E on populated areas only, and the PDF modified on that evidence alone.
+- **Inside the domain exactly one populated Australian segment receives debris: AU-wa-city-inner, Perth to Esperance, about 1,216 km.** The
+  south and north-east city segments are east of 120 E and read 0.0 % by construction.
+- **For sources at 37-42 S that one stretch receives 4.94 % of floating objects, against 5.03 % for all six find coasts combined** (which
+  produced about 20 identified pieces). 34-37 S: 2.73 % against 10.06 %.
+- **Reconstruction (NOT a run, and post hoc):** the per-node change under the law -k ln(1 + W/(c F)), k 3.50, c 0.204, fitted to the measured
+  B and C columns; fitted on B alone it predicts C to +0.07 nat (SD 0.50) and returns B's measured shift as +2.41 vs +2.43 deg. A linear law
+  was tried and rejected (misses C by 0.60 nat; the response saturates in the detection level).
+  Populated only (outer and remote OFF): median 28.2 S (32.7-23.7), shift +2.02 deg, d ln evidence -0.61.
+  Populated + outer (remote off): 27.7 S, +2.35 deg, -0.76. Measured B, every coast: 27.6 S, +2.43 deg, -1.08.
+- **Switching off every deserted coast keeps 83 % of the northward movement.** The term is carried by one populated coast, not by many weakly
+  watched beaches, and under this restriction it no longer rests on the assumption that remote shores were watched from March 2014.
+- **What survives of the reach limit:** Adelaide, Melbourne and Hobart are populated and east of 120 E (AU-south-city-inner, about 1,629 km).
+  The narrow question is whether debris crossing 120 E reaches them within the window. PROPOSED, cheapest first: (1) a Global Drifter Program
+  check, no model run and no heavy lock, on undrogued drifters crossing 120 E south of Australia; (2) only if ambiguous, a targeted eastern run
+  on the southern nodes that export particles past 120 E, using the 160 E fields already on disk. Not the 30-34 h both-model run.
+- G26 stays OPEN. Nothing composed. Caveat carried verbatim.
+
+- Ocean drift
