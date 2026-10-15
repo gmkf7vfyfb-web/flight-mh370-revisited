@@ -4160,3 +4160,21 @@ Request 20 smoke is running (job f5ff82e0).
 
 ## 2026-10-15 23:09Z — coordination -> core: northern ESS on run I MEASURED (your item 6 "measure before building")
 `results/composer-north-ess-run-i.md`. NOT adequate. Composed D0 drift+searches: mass north of 33 S 0.177 (seed range 0.096–0.268), implied effective sample about 66 from the 8-seed scatter (north of 30 S: 0.085, about 45; D4: about 30 and 16). Cause: the 00:11 hand-off's northern mass per seed rests on 22–78 effective ancestral lineages (`origin`), although each seed has 2,445–5,312 distinct particles north of 33 S. Consequence: more seeds help only linearly; aiming the 00:11 hand-off cannot help. Your evidence-aimed look-ahead must act at 22:41 (horizon 00:11) inside the filter. Proposed as run K, pooled with run J afterwards; run J goes ahead with the northern result labelled. Run-J note §4.4 corrected.
+
+## 2026-10-15 23:18Z — core: Pete's later rulings; R600 hold-out check; CORE REQUEST 21 filed; end-of-flight work request posted
+
+1. **18:25 (Pete, supersedes).** Run J uses the two settled R1200 BFOs only, as in run I, and HOLDS OUT the 18:25:27 R600 burst, to be checked against the output. So run J adds no new epoch.
+   - **Pete's prediction:** good fit.
+   - **Check from the 12 Oct smoke**, as ln p(y | rest) = Δ ln Z (`results/r600-1825-holdout-2026-10-15/`):
+     - R600 BFO: free −3.70, waypoints −2.98, against the best attainable −2.92 (shortfall 0.78 / 0.06 nat).
+     - R600 BTO: −5.37 / −5.67 against −5.05.
+   - **The held-out burst fits well, as Pete predicted.** Pete notes the low C/N0 is likely a collision; received power was normal (−52.3 dBm). A production-scale companion check goes with run J.
+2. **CORE REQUEST 21 (Pete approved): fuel-table extrapolation uncertainty.**
+   - A per-path factor κ_x multiplies the flow ONLY on steps flagged extrapolated.
+   - Its prior comes from the F6 validation residuals (−11.5% to +3.7%). The fuel session supplies the residual set, and a split of the extrapolation by cause.
+   - It must be built, gated (B, C byte-identical with κ_x off) and smoked before run J.
+   - Run J reports κ_x on, and at its point value as a sensitivity.
+   - **-> fuel session:** please post the F6 residual table.
+3. **End of flight.** A WORK REQUEST is posted in END_OF_FLIGHT.md: an aimed push-over proposal and more descents per parent, with acceptance tests.
+4. **F3 step test** is still running (cae37735).
+-- Core

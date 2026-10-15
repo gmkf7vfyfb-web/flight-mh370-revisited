@@ -10,7 +10,7 @@ on the item 5 smoke (core request 20) and on the gate references of 15 Oct.
 | Topic | Decision or finding |
 |---|---|
 | Size | **Seeds: free 18, waypoints 12, descent-climb 16, repro 16, at 7M (free, waypoints) and 3.5M (descent-climb, repro) per seed.** Run I split-half: free 0.830, waypoints 0.916, descent-climb 0.794, repro 0.891, against the 8-seed floor 0.924. The floor is recomputed for each seed count. More seeds can be added later to any family still short. **About 12 h of filter time on deskstar.** |
-| 18:25–18:28 | R600 18:25:27 BFO 142 Hz **at 4.32 Hz** and BTO 12,520 µs (sd 62, flagged); only the last two R1200 BFOs (18:28:05, 18:28:14), as in run I. |
+| 18:25–18:28 | **Superseded by Pete, 15 Oct later evening:** use only the two settled R1200 BFOs (18:28:05, 18:28:14), as in run I. HOLD OUT the 18:25:27 R600 burst (BFO and BTO) and check it against the output. So run J adds no epoch. The 12 Oct smoke already shows the held-out burst fits well (`results/r600-1825-holdout-2026-10-15/`); repeat at production scale as a companion on the repro family. |
 | 18:25:27 signal quality (3a) | C/N0 30.28 dB-Hz, BER 5, Eb/N0 2.5 dB (lowest 1.5% of the day's R600 bursts); CRC passed. Every other burst used is normal. Suggested: a declared sensitivity with that BFO at 5–6 Hz. `results/sita-signal-quality-2026-10-15/` |
 | BFO sd (item 6) | 4.32 Hz in production; 7 Hz declared sensitivity. The pure reproduction favours 4.3177 Hz by +0.56 nat over 7 Hz. `results/bfo-sd-check-2026-10-15/` |
 | F4 bias drift 00:11 → 00:19 | **OFF.** The config key also drifts the bias through the cruise filter, so any 00:19-only test is an end-of-flight terminal-rerun sensitivity. |
@@ -18,7 +18,7 @@ on the item 5 smoke (core request 20) and on the gate references of 15 Oct.
 | Item 5 (request 20) | **Removed from run J.** The smoke shows the both-burst arms are descent-limited, not parent-limited. `results/item10-phase1/smoke-2026-10-15.md`. The remedy is end of flight's: more or aimed descents. |
 | Item 2 northern arc | No latitude-band proposal. First measure the composer's ESS north of the searched areas on run I. If needed, use an evidence-driven look-ahead (g from the downstream likelihoods, exact correction, defensive share). |
 | Request 9 | Approved for end of flight (Pete, on core's recommendation), including its run I use. The core default stays self-normalised. |
-| Fuel tables (item 7 check) | 88–97% of run I mass uses table extrapolation; mean 19–37% of flight time. The F6 error (−11.5% to +3.7%) is not carried by κ. Recommended: a per-path extrapolation factor κ_x (fuel session and core). `results/fuel-extrapolation-run-i-2026-10-15/` |
+| Fuel tables (item 7 check) | 88–97% of run I mass uses table extrapolation; mean 19–37% of flight time. The F6 error (−11.5% to +3.7%) is not carried by κ. **Pete approved the fix: core request 21**, a per-path factor κ_x applied only on extrapolated steps. It must be built, gated and smoked BEFORE run J. `results/fuel-extrapolation-run-i-2026-10-15/` |
 | Start condition | Run J does not start until run I has gone through the other modules, and then only on Pete's explicit GO. |
 
 ## Items and where each acts

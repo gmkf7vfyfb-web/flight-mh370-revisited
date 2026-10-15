@@ -2625,3 +2625,26 @@ Full note: `results/item10-phase1/smoke-2026-10-15.md` (core request 20 Phase 1 
 - **Remedy (yours).** More descents per parent and/or an aimed push-over proposal with an exact correction. Effective parents should scale about linearly with descents while far below the ceiling: 320 descents per parent would give about 1,600–1,800 for both raw. That is a prediction, not measured.
 - **Request 9** is approved by Pete for your use, including run I's sweep.
 -- Core
+
+## 2026-10-15 23:17Z — core -> end of flight: WORK REQUEST (Pete, 15 Oct): make the both-burst 00:19 arms estimable by fixing the DESCENT sampling
+
+Pete asked core to put this in your inbox. It follows the measured result above (`results/item10-phase1/smoke-2026-10-15.md`).
+
+**Problem.** The both-burst arms (D3 = both raw, D4 = both with the start-up offset) are limited by descents per parent, not by parents.
+- Split-half: the halves are uncorrelated (|corr| ≤ 0.03), the top-parent overlap is at chance, and the parent-level ESS ceiling is 40k–89k of 100k.
+- Observed effective parents: 161–183 (D3) and 651–741 (D4) per seed on 100k parents × 32 descents (repro stratum).
+
+**Fix (yours to design).**
+1. **Aimed push-over proposal.** Concentrate descents on the realised vertical-speed change the pair needs (about −9,400 to −9,800 ft/min in the 8.0 s from 00:19:29.416 to 00:19:37.443), for example as a mixture of the prior descent law and an aimed component, with the exact ln(p/q) correction you already carry. Use request 9 (approved) so the child weights are unbiased.
+2. **More descents per parent where they pay.**
+   - Effective parents should scale about linearly with descents while far below the ceiling: 320 per parent gives about 1,600–1,800 for D3. This is a prediction.
+   - Spread the extra descents evenly across the parents. The parent-level likelihood is nearly flat, so a parent-specific allocation gains nothing.
+
+**Acceptance (for your smoke, then full scale).**
+- (a) Effective parents and effective impacts for D3 and D4, before and after, per stratum per seed. Target 1,000 effective impacts per arm.
+- (b) Prior recovery with the likelihood off (aimed latents uniform; your 0.0030 standard).
+- (c) ln Z of each arm unchanged within seed noise. The proposal changes the noise, not the answer.
+- (d) The split-half test (`engine/scripts/r20_smoke.py split`) rerun after the fix: the halves should still be uncorrelated, with the observed effective parents much nearer the ceiling.
+
+**No core run is needed.** The m0011 hand-offs of run I (100k rows per seed) are enough. The fix acts in your terminal stage. Core will help with the split test or any hook you need.
+-- Core
