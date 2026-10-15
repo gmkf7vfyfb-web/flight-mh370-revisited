@@ -31,7 +31,7 @@ Ran OUTSIDE the heavy lock (the end-of-flight round-3 sweep holds it) at 2 singl
    in any option, cause model, stratum or seed (worst single seed: 4.95 %, drift GLORYS12, free flight seed 6, R600 BTO + both BFOs as recorded
    × C2 silent, a cell with ESS 275).
 4. **What the ruling does change is the split-half verdicts** (ruling point 4, section 5). The tolerances from each factor's own seed spread are
-   **0.15-0.23 nat for drift, 0.14-0.30 nat for searches and 0.49-0.85 nat for Pléiades**, all wider than the old fixed 0.1 nat. Even so, drift,
+   **0.15-0.21 nat for drift, 0.14-0.30 nat for searches and 0.49-0.85 nat for Pléiades**, all wider than the old fixed 0.1 nat. Even so, drift,
    searches-after-drift and Pléiades still fail in most 00:19 options, narrowly: 13 of 14 failures exceed the tolerance by less than 13 %.
    The same seeds drive all of them (replicates 2 and 4 high, 5, 6 and 8 low), so this is one finding, not three independent ones. Each
    factor's evidence increment depends on its own seed's source posterior, and core run I is not converged.

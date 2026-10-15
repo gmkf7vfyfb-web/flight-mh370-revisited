@@ -12280,7 +12280,7 @@ reproduced unchanged (free-flight stratum: 7,956 values to CSV rounding; seabed 
 - **Sensitivity column (10 % rule) is empty on run I.** Drift's not-computed share is at most 0.092 % of the base weight on the core mixture
   (worst single seed 4.95 %); Pléiades < 10⁻⁶ % (worst seed 0.013 %); hydro and searches 0. The 16-25 % / 1-3 % in the ruling came from
   pass 0 on run B, not run I, so drift stays in the headline on run I.
-- **Split-half against each factor's own seed spread** (tolerance = 2σ of the half difference; drift 0.15-0.23 nat, searches 0.14-0.30,
+- **Split-half against each factor's own seed spread** (tolerance = 2σ of the half difference; drift 0.15-0.21 nat, searches 0.14-0.30,
   Pléiades 0.49-0.85): drift passes 1 of 6 options, searches-after-drift 1 of 6, Pléiades 3 of 6, searches-after-Pléiades 6 of 6. The
   failures are narrow (13 of 14 by < 13 %) and come from one seed pattern shared by all factors (core run I non-convergence). These factors
   are reported unconverged in those options.
