@@ -12211,3 +12211,61 @@ run the round-3 dynamics as a labelled sensitivity (~4 h production), and whethe
 ## 2026-10-15 04:51Z — Pete: RULING APPROVED, composition of not-computed rows
 
 Pete approved `threads/work-orders/ruling-composition-nan-2026-10-15.md` as drafted, including the 10 per cent threshold. In force from now: not-computed rows are carried at their (replicate, mode) mean likelihood ratio and are NEVER excluded; the not-computed share is reported per module per option in every composed table; a factor abstaining on more than 10 per cent of the weight is a labelled sensitivity rather than a headline, which places drift (16-25 per cent) in the sensitivity column on run I and leaves the imagery module (1-3 per cent) in the headline; and the split-half tolerance is set from each factor s own measured seed-to-seed spread, reported beside the measured spread, rather than from a fixed constant.
+## 2026-10-15 04:54Z — End of Flight Module → architecture (cc hydroacoustics, composer, Pete): ITEM 7 (Task A) COMPLETE — the dive probability is prior-dominated, and the three readings of the prior are identical
+
+**Note:** `results/eof-item7-dive-prob-oct15/README.md` (+ `sweep.json`, `families.json`, `family-ess.json`), script
+`hypotheses/end-of-flight/smoke/dive_probability_sweep.py`, config comment corrected in `full/dive-branch.toml`. No run:
+exact re-weighting of the stored run-i-dive sample, 127,999,840 impacts, 4 strata x 8 seeds. `make scope H=end-of-flight` passes.
+
+**1. The implementation question has a theorem for an answer, so no code change was made.** Each descent draws the branch once,
+so it enters that row's weight linearly in p, and the integral of 2p and of 2(1-p) over [0,1] is 1. Therefore a fixed coin at
+0.5, a per-parent U[0,1] hyper-prior, and one global p with prior U[0,1] marginalised over its posterior all give IDENTICAL
+impact distributions, identical evidence and identical consumer inputs. The run note's U[0,1] wording and the configured 0.5
+are the same model for everything this stage reports. The only quantity that differs is the within-parent dispersion of the
+dive share, which no product uses: measured over all 3,199,938 parents with a push-over draw (mean 12.62 draws each), the
+across-parent standard deviation is 0.1539 against 0.1539 predicted for the coin and 0.3148 for a per-parent hyper-prior,
+confirming the work order's diagnostic. The configuration comment now states this; nothing else changed.
+
+**2. The sweep (acceptance table).** Shares of weight, strata mixed at the core family prior; 00:19 columns are data
+treatments only (no survival factor, no cause mixture), matching the hydroacoustic loud-tail convention.
+
+| 00:19 data | p | FPA 10-45 deg | loud decile | energy q50 (GJ) | effective impacts |
+|---|---|---|---|---|---|
+| held out | 0.00 | 0.0354 | 0.0799 | 1.05 | 6,661,470 |
+| held out | 0.50 | 0.1628 | 0.1000 | 1.23 | 10,835,961 |
+| held out | 1.00 | 0.2902 | 0.1201 | 2.27 | 6,612,480 |
+| D2 R600 BTO + R600 BFO | 0.00 | 0.0407 | 0.0917 | 1.07 | 143,391 |
+| D2 R600 BTO + R600 BFO | 0.50 | 0.0829 | 0.1042 | 1.12 | 240,105 |
+| D2 R600 BTO + R600 BFO | 1.00 | 0.1295 | 0.1181 | 1.20 | 157,016 |
+| D4 R600 BTO + both BFOs, Holland transient bias added | 0.00 | 0.0393 | 0.0201 | 1.01 | 2,922 |
+| D4 (same) | 0.50 | 0.2907 | 0.0622 | 1.18 | 5,942 |
+| D4 (same) | 1.00 | 0.8558 | 0.1567 | 10.18 | 34,218 |
+
+Quartile rows p = 0.25 and 0.75, the full band split, the energy q05/q95 and the per-family effective impacts are in the note.
+
+**3. The finding, which is for hydroacoustics and the paper.** Under D4 — the treatment that drives the headline — the
+acoustically decisive 10-45 degree band share runs 0.0393 to 0.8558 across p, a factor of 21.8, and the median impact energy
+runs 1.01 to 10.18 GJ. The evidence barely constrains p: ln Z is affine in p and the whole range is worth 0.8100 nat under D4,
+0.1002 nat under D2 and 0.0001 nat with the bursts held out, giving a posterior mean of a global p of 0.436, 0.492 and 0.500.
+**The dive probability is prior-dominated and it governs every detectability and non-detection statement.** Consumers should
+carry the table, not a single number, and the paper's limitations should say so.
+
+**4. The dive branch acts only on the piloted families.** A1 and B uncontrolled have zero push-over eligibility and identical
+effective impacts at every p; 65.1 per cent of A2 and 70.1 per cent of B-controlled descents are eligible. Family shares are
+far less sensitive than the acoustic quantities (A1 0.0593 to 0.1334 under D4 across the whole range of p).
+
+**5. Prior recovery.** No proposal, sampler or binary changed, so test 6 stands as recorded (mean correction 1.0004 +/- 0.0013).
+The re-weighting's own check is the identity: the factor is 1 at p = 0.5 for every row, so the p = 0.5 column is the stored
+run-i-dive sample.
+
+**6. For Pete.** The ruling asked for (hyper-prior or coin) does not change a number. The ruling that does matter is how to
+report: (i) headline at p = 0.5 with the table as the declared sensitivity — the module's recommendation, and what all three
+readings give; (ii) a different p, which is a prior change needing a source; (iii) acoustic quantities as a function of p only.
+
+**7. Stale label corrected**, as instructed in the inbox: `results/eof-item1-asym-oct14/joined-asym-summary.json` and the
+exchange copy at `run-i-asym-joined/summary/` now say item 1 is landed and immaterial (at most 0.031 nat, at most 0.008 of any
+family share) and that the symmetric arm is a choice, not an omission. The plain V2 artefacts of 14 Oct keep their own label.
+
+**Next:** Task B (item 8), the round-3 laws as a labelled sensitivity: one sweep at run-I scale under the heavy lock.
+
+- End of Flight Module
