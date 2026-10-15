@@ -811,6 +811,11 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                 return Err(format!("output.handoff_lookahead.g_files: {e} has no entry in horizons"));
             }
         }
+        if let Some(ix) = l.g_index.as_deref() {
+            if ix != "candidate" && ix != "particle" {
+                return Err(format!("output.handoff_lookahead.g_index: {ix} is not \"candidate\" or \"particle\""));
+            }
+        }
     }
     let mut pending: Vec<PendingLookahead> = Vec::new();
     let mut lookahead_diagnostics: Vec<LookaheadDiagnostics> = Vec::new();
@@ -1360,8 +1365,15 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
                         let path = pattern.replace("{seed}", &seed.to_string()).replace("{mode}", &format!("{mode:?}"));
                         let mut g = Vec::with_capacity(candidates.len());
                         crate::output::read_npy_rows(std::path::Path::new(&path), |row| g.push(row[0]))?;
-                        if g.len() != candidates.len() || g.iter().any(|x| !(x.is_finite() && *x >= 0.0)) {
-                            return Err(format!("{path}: needs {} finite non-negative g values, one per candidate", candidates.len()));
+                        // Core request 20: a per-particle g file is mapped onto the candidates.
+                        let per_particle = lookahead.and_then(|l| l.g_index.as_deref()) == Some("particle");
+                        let expected = if per_particle { particles.len() } else { candidates.len() };
+                        if g.len() != expected || g.iter().any(|x| !(x.is_finite() && *x >= 0.0)) {
+                            let unit = if per_particle { "particle" } else { "candidate" };
+                            return Err(format!("{path}: needs {expected} finite non-negative g values, one per {unit}"));
+                        }
+                        if per_particle {
+                            g = candidates.iter().map(|c| g[c.particle]).collect();
                         }
                         let (drawn, z, pos, eu, el) = lookahead_draw(&candidates, &g, lookahead_eps, epoch_rows, &mut stream(5150 + k as u64, 0));
                         lookahead_diagnostics.push(LookaheadDiagnostics {

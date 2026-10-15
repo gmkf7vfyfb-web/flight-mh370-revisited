@@ -970,6 +970,12 @@ pub struct HandoffLookahead {
     /// smoothing for that epoch; its horizon entry is then ignored.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub g_files: Option<BTreeMap<String, String>>,
+    /// Core request 20 (Phase 1 smoke): how a `g_files` file is indexed. "candidate" (the
+    /// default, hook 5): one value per candidate in draw order. "particle": one value per filter
+    /// particle of the mode, and a candidate takes the value of the particle it was drawn from.
+    /// The importance correction is the same either way, so the target is unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub g_index: Option<String>,
 }
 
 /// Load a config and merge any override files over it, in order.
