@@ -345,6 +345,10 @@ pub struct FuelConfig {
     /// [221, 120] (fuel session, engine-imbalance-180149.csv).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tank_imbalance_kg: Option<[f64; 2]>,
+    /// Core request 21: prior [mean, sd] of a per-path factor applied to the flow ONLY on steps
+    /// whose flow is extrapolated (fuel audit F6). Absent: no draw and a factor of 1.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub extrapolation_factor: Option<[f64; 2]>,
     /// Two-tank prior: right-to-left flow ratio, [mean, sd]. Default [1.021, 0.008].
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tank_flow_ratio: Option<[f64; 2]>,
