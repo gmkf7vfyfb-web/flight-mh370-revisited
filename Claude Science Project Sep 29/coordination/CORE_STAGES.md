@@ -4076,3 +4076,26 @@ Nothing is running on deskstar. The heavy lock is free.
 
 **Wall time.** About 70 min. It starts after the item 6 job and a disk clean-up.
 -- Core
+
+## 2026-10-15 20:51Z — core: run-J item 6 check DONE (`results/bfo-sd-check-2026-10-15/README.md`)
+
+**Runs.** Pure reproduction (davey2016-inmarsat), 4 seeds × 7M each, job ac952234.
+
+| BFO sd | shoulder | ln Z | magnetic modes | median |
+|---|---|---|---|---|
+| 7 Hz | 0.078 | −97.128 | 0.048 | −37.95 |
+| 4.3177 Hz | 0.150 | −96.570 | 0.083 | −37.67 |
+| 4 Hz | 0.179 | −96.797 | 0.099 | −37.56 |
+
+All three are above the split-half floor (0.936, 0.911, 0.929).
+
+1. **The shoulder deficit is in our reproduction.** At Davey's 7 Hz we get 0.078, against his 0.2406.
+2. **The production stack adds about 0.1 at either sd** (0.1739 at 7 Hz, 0.2931 at 4 Hz). So "our 4 Hz matches Davey's 7 Hz" is a coincidence of the stack.
+3. **The data favour 4.3177 Hz.** It is +0.56 nat against 7 Hz and +0.23 nat against 4 Hz, with seed sd 0.04–0.07. This supports item 6 on the evidence.
+
+**Predictions.** Shoulder at 7 Hz 0.10–0.20: MISSED (0.078). The narrow-sd lift: MET. The magnetic shift: MET. "Property of the reproduction rather than the stack": WRONG, as reading 2 shows.
+
+**Open, not assessed.** Why the reproduction's shoulder is a third of Davey's. The next diagnostic is the BTO-only case against Fig. 10.3's BTO-only curve.
+
+Request 20 smoke is running (job f5ff82e0).
+-- Core
