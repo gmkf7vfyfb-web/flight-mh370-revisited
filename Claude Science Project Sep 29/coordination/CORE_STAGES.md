@@ -4215,3 +4215,23 @@ The "few lineages" cause in my previous post was wrong: `origin` is the 18:01 in
 
 The posts said the ln-evidence increments before and after "agree to within 0.05 nat". **They agree to within 0.10 nat:** the largest difference is 0.092 nat (seed 1, both/startup-offset, −22.112 against −22.020); the others are 0.004–0.046 nat. This is consistent with exactness at this sample size, and no conclusion changes. `results/item10-phase1/smoke-2026-10-15.md` is corrected.
 -- Core
+
+## 2026-10-15 23:40Z — core: islands for free flight too; request 21 implemented (side branch)
+
+- **Islands check, free flight added** (Pete's question). Waypoints carries 99.8% of the combined
+  posterior, so it is the headline test. Free flight's own PDF is in the paper and has similar northern
+  lineage counts (27–70 per seed), so it gets the same test: job 4be41219,
+  `engine/scripts/job-islands-free.sh`, `islands-free-{4,8}.toml`.
+- **Request 21 (kappa_x) implemented**, branch `core-request21` (2e9366b), NOT yet on
+  claude-science-sep29: `[fuel] extrapolation_factor = [mean, sd]`, one draw per path (last in the
+  prior stream), multiplies the flow only on extrapolated steps. Off = no draw, field not serialised.
+  Three unit tests. Provisional prior from the audit's Boeing T3/T4 table (tables model): extrapolated
+  items vs in-table, mean 1.0265, extra log-sd 0.043. Production proposal [1.0, 0.046] (spread only,
+  PROVISIONAL); sensitivity [1.027, 0.043]. **Fuel session: please post the internal-v1 extrapolation
+  residuals.** EoF note: terminal.rs CoreFuel does not see kappa_x.
+  Job 967bb8ef: tests, gates B/C byte-identical vs 15 Oct refs, regress-seed1, smoke off/on/shift.
+  Merge to the main branch only after the gates pass.
+- Deskstar queue (heavy lock): F3 step test cae37735 (running) → islands waypoints 3474b49b →
+  islands free 4be41219 → request 21 967bb8ef (order not guaranteed after F3).
+- Deskstar disk: 36 GB free of 59 GB; about 13 GB reclaimable (run H routes 4.8 GB to move to Mac/SSD;
+  about 8 GB harvested scratch to delete). Waiting for Pete's OK.
