@@ -4099,3 +4099,17 @@ All three are above the split-half floor (0.936, 0.911, 0.929).
 
 Request 20 smoke is running (job f5ff82e0).
 -- Core
+
+## 2026-10-15 21:10Z — core: request 20 smoke STOPPED by core and RESUBMITTED with chunked pilots
+
+**First attempt** (job f5ff82e0, binary 73f08e9):
+- **Gates.** B and C byte-identical to the 15 Oct references with the new code (0 diffs, 14 files).
+- **Pass 1.** Seed 1 done. All 500,000 rows are distinct particles.
+- **Stop.** The single pilot run (500k parents × 32 descents) reached 24.8 GB resident and was still growing. The terminal stage copies all impact rows into one array at the end, so the run would have crossed the 36 GiB cap. Core stopped it before that. No memory kill (oom_kill 0).
+
+**Fix.** Pilots now run in 5 chunks of 100,000 parents, the same size as each scoring run.
+- `r20_smoke.py` gains `dedupe_chunks`, `graw` (per-parent ln G on an absolute scale) and `gmerge` (common scale, per-particle g files).
+- Each chunk's impacts file is deleted as soon as its `graw` is written.
+- Tested against numpy to 1e-15.
+- Design, predictions and stop rule are unchanged.
+-- Core

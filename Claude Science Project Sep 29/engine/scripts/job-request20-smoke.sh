@@ -46,10 +46,16 @@ NPM=500000,250000,1250000,250000,1250000; T=88
 for k in 1 2; do
   printf 'seeds = [%d]\n' $k > $WORK/seed-$k.toml; ps=$((1000+k)); printf 'seeds = [%d]\n' $ps > $WORK/pseed-$k.toml
   RAYON_NUM_THREADS=$T $BIN $CHAIN $Q/pass1.toml $WORK/seed-$k.toml $WORK/p1-$k > $WORK/p1-$k.log 2>&1; tl "seed $k pass1 exit $?"
-  $PY dedupe $WORK/p1-$k/bto-bfo/seed-$k/handoff-m0011 $WORK/pin-$k/bto-bfo/seed-$ps > $WORK/dedupe-$k.json 2>&1; tl "seed $k dedupe exit $? $(cat $WORK/dedupe-$k.json | tail -1)"
-  RAYON_NUM_THREADS=$T $BIN terminal $WORK/pin-$k $CHAIN $EOFC $EXTRA $WORK/pseed-$k.toml $WORK/pilot-$k > $WORK/pilot-$k.log 2>&1; tl "seed $k pilots exit $? ($(tail -1 $WORK/pilot-$k.log))"
-  $PY g $WORK/pilot-$k $ps $WORK/pin-$k/bto-bfo/seed-$ps/map.json $NPM $GD $k > $WORK/g-$k.log 2>&1; tl "seed $k g exit $?"
-  cp $WORK/pilot-$k/bto-bfo/seed-$ps/terminal.json $WORK/pilot-terminal-$k.json 2>/dev/null; rm -f $WORK/pilot-$k/bto-bfo/seed-$ps/impacts.npy; rm -rf $WORK/pin-$k
+  # Pilots in chunks of 100,000 distinct parents (one pilot run of 500k x 32 descents would exceed the 36 GiB cap).
+  $PY dedupe_chunks $WORK/p1-$k/bto-bfo/seed-$k/handoff-m0011 $WORK/pin-$k seed-$ps 100000 > $WORK/dedupe-$k.json 2>&1; tl "seed $k dedupe exit $? $(tail -1 $WORK/dedupe-$k.json)"
+  PARTS=""
+  for CD in $(ls -d $WORK/pin-$k/c* | sort -V); do c=$(basename $CD)
+    RAYON_NUM_THREADS=$T $BIN terminal $CD $CHAIN $EOFC $EXTRA $WORK/pseed-$k.toml $WORK/pilot-$k-$c > $WORK/pilot-$k-$c.log 2>&1; rc=$?
+    $PY graw $WORK/pilot-$k-$c $ps $CD/bto-bfo/seed-$ps/map.json $WORK/graw-$k-$c.json > $WORK/graw-$k-$c.err 2>&1; tl "seed $k pilots $c exit $rc, graw exit $? ($(tail -1 $WORK/pilot-$k-$c.log)); peak $(( $(cat /sys/fs/cgroup/memory.peak 2>/dev/null || echo 0) / 1073741824 ))G"
+    cp $WORK/pilot-$k-$c/bto-bfo/seed-$ps/terminal.json $WORK/pilot-terminal-$k-$c.json 2>/dev/null; rm -f $WORK/pilot-$k-$c/bto-bfo/seed-$ps/impacts.npy
+    PARTS="$PARTS${PARTS:+,}$WORK/graw-$k-$c.json"
+  done
+  $PY gmerge $PARTS $NPM $GD $k > $WORK/g-$k.log 2>&1; tl "seed $k g merged exit $?"; rm -rf $WORK/pin-$k; gzip -f $WORK/graw-$k-*.json
   RAYON_NUM_THREADS=$T $BIN $CHAIN $Q/pass0.toml $WORK/seed-$k.toml $WORK/p0-$k > $WORK/p0-$k.log 2>&1; tl "seed $k pass0 exit $?"
   RAYON_NUM_THREADS=$T $BIN $CHAIN $WORK/pass2.toml $WORK/seed-$k.toml $WORK/p2-$k > $WORK/p2-$k.log 2>&1; tl "seed $k pass2 exit $?"
   for p in 0 1 2; do echo "pass$p $(sha256sum $WORK/p$p-$k/bto-bfo/seed-$k/final.npy | cut -c1-64)" >> $WORK/filter-identity-$k.txt; done
