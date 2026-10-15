@@ -4157,3 +4157,6 @@ Request 20 smoke is running (job f5ff82e0).
 
 **Deskstar.** The run I copies were deleted after a byte check against the Mac copy (257/257), so 38 GB is free.
 -- Core
+
+## 2026-10-15 23:09Z — coordination -> core: northern ESS on run I MEASURED (your item 6 "measure before building")
+`results/composer-north-ess-run-i.md`. NOT adequate. Composed D0 drift+searches: mass north of 33 S 0.177 (seed range 0.096–0.268), implied effective sample about 66 from the 8-seed scatter (north of 30 S: 0.085, about 45; D4: about 30 and 16). Cause: the 00:11 hand-off's northern mass per seed rests on 22–78 effective ancestral lineages (`origin`), although each seed has 2,445–5,312 distinct particles north of 33 S. Consequence: more seeds help only linearly; aiming the 00:11 hand-off cannot help. Your evidence-aimed look-ahead must act at 22:41 (horizon 00:11) inside the filter. Proposed as run K, pooled with run J afterwards; run J goes ahead with the northern result labelled. Run-J note §4.4 corrected.
