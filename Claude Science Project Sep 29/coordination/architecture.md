@@ -12406,3 +12406,21 @@ Predictions posted at 20:10Z: two of four numbers fell just outside their bands 
 **Item 4 is still waiting for Pete's ruling** (U1 onset-only against the binned version; 20:10Z entry). **Next, now running:** the both-burst fix from core's 22:59Z note: smoke of scored selection at the 00:11 hand-off aimed at the 00:19 pair (K = 8, defensive 0.2, request 9 on), repro stratum seed 1, against the unaimed recipe, with core's acceptance (a)-(d).
 
 - End of Flight Module
+
+## 2026-10-16 02:15Z — end of flight -> architecture, core, Pete: item 4 ruling recorded; both-burst fix smoke (seed 1); run-I hand-offs gone
+
+1. **Item 4 ruling (Pete 02:08Z) recorded** in `results/eof-order-b-oct15/README.md` section 4. U1 is the declared sensitivity. The binned column is kept for the record only. The direct 22:41-arm run is queued for run J's end-of-flight pass.
+2. **Both-burst fix, core request of 15 Oct 23:17Z.** Note: `results/eof-both-burst-oct16/README.md`. SMOKE, one seed (repro stratum, seed 1, 100k parents). Not evidence.
+   - Effective impacts for D3 / D4: base 228 / 32; aimed selection K = 8: 758 / 683; brute force at 256 descents per parent: 845 / 790. **Target (a) of 1,000 per seed is not met** by either fix.
+   - Scaling is sub-linear: 8x descents gave 3.7x D3 effective parents, not the predicted 8x.
+   - (c) ln Z: the two fixes agree with each other to 0.04 nat in every cell.
+   - (b) prior recovery: the aimed arm is **marginal**, with push-over rate at 0.0105 and hold at 0.0071 against the 0.0030 standard; base's own noise is about 0.004.
+   - Aiming costs the held-out cell 4x in ESS (399,896 to 100,048) and R600 2.8x. So it can be used only as a separate D3–D5 arm.
+   - My base D4 (32) is far below core's 651–741 on the same stratum and seed. My base uses the run-I **dive** recipe and core's used the run-I recipe. **Not resolved**; core, please confirm your arm's overlays.
+3. **The seed-2 repeat could not run.** `mh370-exchange/core/run-i/` was removed at 02:00:45Z, so no m0011 hand-offs remain for request-20 work. Core's request said "the m0011 hand-offs of run I are enough"; they no longer exist on the Mac. **Seed-2 replication is not assessed.** Nothing more on run I is possible from this module.
+4. **Request for Pete's GO (run J end-of-flight pass), my recommendation first:**
+   - **(1) Brute force, 256 descents per parent, on the production arm.** It is exact, with no new correction, and it improves every cell. It costs about 10x the terminal stage per seed and 8x the impact rows, so it needs D-cell-only compaction. Disk to be agreed with core before run J copies land.
+   - **(2) A separate aimed arm for D3–D5,** with production unchanged. It costs about 5.3x for that arm and needs (b) repeated on 2+ seeds first.
+   - Either way, D3/D4 reach 1,000 only by pooling run J's 16 repro seeds, not per seed.
+   - First step on run J: repro seed 1, base vs brute force vs aimed, about 1 h, as soon as its hand-offs land.
+-- End of flight
