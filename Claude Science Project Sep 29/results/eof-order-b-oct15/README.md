@@ -137,3 +137,63 @@ Median over 8 seeds, range in brackets. Source: run I joined V2 (`results/eof-jo
 **(a) Feasible set.** Item 2 removes from every product the 13.0 per cent of held-out weight that is physically impossible (on the sea before the final transmission) and the in-flight breakups before it. Item 3: a 777-200ER in an uncontrolled divergent spiral can overbank anywhere up to and past 90 deg; the Boeing traces show 53-60 deg in four no-input cases. Item 4: a planned descent may begin at any time before exhaustion.
 **(b) Model's reach.** The bank limit is now a sampled parameter with support [52, 90] deg, closing the reach gap of the fixed 52.5 deg cap; limits above 90 deg (overbank) remain outside the reach and are declared. The onset window proposal adds no reach; it changes only where samples land.
 **(c) Proposal's coverage.** D0' keeps 9.78 M effective impacts. The tail of the bank-limit prior carries 25,082-31,460 effective impacts per 10-deg bin on one smoke seed, so the tail weight is estimable by re-weighting from 0 to at least 0.5. The pre-00:11 B population under D0 has 140-229 effective impacts per seed under the fuel-tied prior and is a standing coverage gap; under D2 and D4 it has 1-11 and is NOT estimable (reported as such, not as absence).
+
+## 6. Item 3 full runs: the bank limit at run-I scale (round-3 laws, 4 strata x 8 seeds each)
+
+Two sweeps under the heavy lock, binary `mh370-eof-ob1`: sampled limit 20:10-22:28Z, fixed 90 deg 22:28Z-00:49Z (16 Oct). Fixed 52.5 deg is item 8's run. Per-seed files summarised per stratum and removed; tables and subsamples kept on the exchange at `end-of-flight/order-b-bank-cap/`. All three are labelled sensitivities on uncalibrated dynamics.
+
+### 6.1 Impact conditions on the feasible set (D0')
+
+| arm | FPA < 10 | 10-45 deg | > 45 deg | energy q50 (GJ) | tau90 q50 (s) | effective impacts |
+|---|---|---|---|---|---|---|
+| production (run-i-dive) | 0.8319 | **0.0955** | **0.0726** | 1.08 | 3.90 | 317,414 |
+| round-3, fixed 52.5 | 0.7705 | **0.2230** | **0.0065** | 1.02 | 3.85 | 295,342 |
+| round-3, sampled limit | 0.7423 | **0.2366** | **0.0210** | 0.97 | 3.48 | 283,982 |
+| round-3, fixed 90 | 0.7192 | **0.1243** | **0.1565** | 0.96 | 3.11 | 279,350 |
+
+These supersede item 8's impact-condition table, which used the raw held-out weights (round-3 10-45 deg 0.323 / above 45 deg 0.012 there; 0.223 / 0.0065 on the feasible set).
+
+Sampled arm, tail weight re-weighted exactly, and by drawn limit:
+
+| tail weight | 10-45 deg | > 45 deg | effective impacts |
+|---|---|---|---|
+| 0.00 | 0.2455 | 0.0072 | 227,993 |
+| 0.10 | 0.2411 | 0.0141 | 267,631 |
+| 0.20 | 0.2366 | 0.0210 | 283,982 |
+| 0.35 | 0.2299 | 0.0315 | 248,705 |
+| 0.50 | 0.2232 | 0.0420 | 181,246 |
+
+| drawn limit (deg) | share of weight | 10-45 deg | > 45 deg |
+|---|---|---|---|
+| 52-56 | 0.2960 | 0.2328 | 0.0068 |
+| 56-60 | 0.2886 | 0.2481 | 0.0072 |
+| 60-63 | 0.2175 | 0.2593 | 0.0075 |
+| 63-70 | 0.0515 | 0.2616 | 0.0101 |
+| 70-80 | 0.0737 | 0.2275 | 0.0529 |
+| 80-90 | 0.0727 | 0.1304 | 0.1495 |
+
+**Against the predictions posted at 20:10Z.** Sampled arm: 10-45 deg 0.237 against 0.20-0.23 predicted (**outside, by 0.007**; the one-seed smoke ran 0.02 low, as it did for the 52.5 deg arm), above 45 deg 0.021 against 0.012-0.025 (inside). Fixed 90: 10-45 deg 0.124 against 0.10-0.14 (inside), above 45 deg 0.157 against 0.11-0.15 (**outside, by 0.007**). The structural result held: the steep tail is set by limits above 70 deg (above 45 deg: 0.007-0.010 for limits below 70 deg, 0.053 at 70-80, 0.150 at 80-90).
+
+### 6.2 Evidence, latitude and family shares (two-factor totals, q = 1/3, C2 silent; change against the fixed 52.5 deg arm)
+
+| cell | ln Z, 52.5 | sampled (change) | fixed 90 (change) | latitude median 52.5 / sampled / 90 | A1 share 52.5 / sampled / 90 | effective impacts 52.5 / sampled / 90 |
+|---|---|---|---|---|---|---|
+| D0 | -7.424 | -7.471 (-0.048) | -7.499 (**-0.075**) | -37.13 / -37.17 / -37.21 | 0.180 / 0.178 / 0.169 | 754,291 / 708,703 / 665,660 |
+| D1 | -12.858 | -12.898 (-0.040) | -12.927 (**-0.068**) | -37.21 / -37.25 / -37.29 | 0.196 / 0.201 / 0.194 | 812,266 / 771,698 / 724,661 |
+| D2 | -19.036 | -19.076 (-0.040) | -19.084 (**-0.048**) | -37.15 / -37.19 / -37.21 | 0.208 / 0.223 / 0.231 | 62,024 / 59,332 / 57,153 |
+| D3 | -28.615 | -28.600 (+0.015) | -28.568 (**+0.047**) | -37.35 / -37.35 / -37.33 | 0.062 / 0.066 / 0.105 | 5,586 / 5,146 / 5,317 |
+| D4 | -28.703 | -28.576 (+0.127) | -27.885 (**+0.818**) | -37.33 / -37.28 / -37.10 | 0.103 / 0.206 / 0.578 | 33,343 / 18,797 / 8,923 |
+| D5 | -29.225 | -29.232 (-0.007) | -29.196 (**+0.028**) | -37.33 / -37.33 / -37.32 | 0.057 / 0.054 / 0.083 | 9,258 / 8,335 / 9,338 |
+| D4 x C2 silent | -32.932 | -32.691 (+0.240) | -31.903 (**+1.028**) | — | — | — |
+
+**Finding.** Held out and under D1-D3 and D5 the bank limit changes nothing that matters (|change| at most 0.08 nat, medians within 0.08 deg). **Under D4 — the treatment with Holland transient bias added — it changes the attribution.** With a fixed 90 deg limit the round-3 dynamics produce steep spiral dives that fit the D4 descent rates: ln Z rises 0.82 nat, the D4 x C2-silent cell by 1.03 nat (the only cell past 1 nat), **A1 (uncontrolled after fuel exhaustion) goes from 0.103 to 0.578 of the weight**, and the D4 median moves 0.23 deg north (−37.33 to −37.10). The sampled limit sits between (A1 0.206, +0.13 nat). Under the production dynamics with the same 90 deg cap A1 is 0.145 under D4, so it is the combination of the round-3 laws (fast spiral doubling, 26 s) with a high limit that does it.
+
+**Consequence for the paper.** Under D4, "which family" is decided by how much prior weight the bank limit has above 70 deg, which no Boeing trace informs, on dynamics that failed their calibration gate. The D4 family shares must be reported with the bank-limit prior beside them, and the A1 reading of Holland's Hypothesis 1 is not identified by this sample. The work order's 1-nat stop condition is about the held-out evidence (−0.075 nat, not tripped); the D4 x C2-silent cell exceeds 1 nat and is reported as a finding, not averaged away.
+
+**Coverage, item 3.** The bank-limit reach now spans 52-90 deg (overbank beyond 90 deg remains outside the reach, declared). Effective impacts per 10-deg limit bin above 63 deg: 14,566-20,848 on the feasible set, so the tail weight is estimable from 0 to 0.5. Under D4 the fixed-90 arm has 8,923 effective impacts, above the 1,000 gate.
+
+---
+
+Footnote (ASD-STE100). We removed from the held-out results the aircraft that were on the sea before the last signal. That was 13 per cent of the weight, not 33 per cent. We let the largest bank of an uncontrolled spiral change from flight to flight. Below 70 degrees it has almost no effect. Above 70 degrees it makes steep impacts. With the Holland reading of the last signals, a limit of 90 degrees makes the uncontrolled family the most probable. We do not know the correct limit. The descent physics is not calibrated, so you must not use the energy, the angle or the duration as a prediction.
+
+Footnote (technical). Source: core run I m0011 hand-offs; end of flight run-i-dive (binary mh370-eof-ri3) for items 1-2 and the production row; round-3 arms with `full/round3-laws.toml` (+ `bank-cap-sampled.toml` or `bank-cap-90.toml`), binary mh370-eof-ob1 (sha256 dc1f52f8...), 4 strata x 8 seeds, strata at the core family prior 0.9982 / 0.0011 / 0.0004 / 0.0002. D0' = airborne at 00:19:37.443 x (1 − P(in-flight breakup before it)). Two-factor cells q = 1/3, W = 3,898 s, C2 silent, survival factor. Dive probability 0.5 (Decision 4). Impact conditions from weight-proportional subsamples (50,000 per seed); energy, peak power, tau90 from the tau90_v1 sidecar. Uniform-onset results from run I joined V2 (stratum next-i-waypoints, 8 seeds). Core run I NOT CONVERGED; uncontrolled-arm dynamics NOT CALIBRATED (gate failed in all three rounds).

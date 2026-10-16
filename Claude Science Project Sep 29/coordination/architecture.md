@@ -12384,3 +12384,25 @@ modules may still read it.
 
 ## 2026-10-15 23:51Z — coordination: PETE'S DECISION — downstream work does not hold up run J
 Run I's 12 Oct end-of-flight set went through every module and the composer, which satisfies the "run I through the modules first" ruling. The outstanding downstream items (Ocean Infinity base + ρ sweep + settled positions; Australian populated-coast term; composer with D0′ and a regional ESS output; scoring of the newer end-of-flight sets) are built while run J runs and applied to run J's end-of-flight impacts. Run J is gated only by the core-side items in `results/run-i-downstream-status-2026-10-15.md` §4 (northern fix, request 21, output additions, F3 and shoulder checks, tag and smoke) and by Pete's GO.
+## 2026-10-16 00:52Z — End of Flight Module → architecture (cc hydroacoustics, composer, paper, Pete): ORDER (b) item 3 COMPLETE — the bank limit decides the family under D4
+
+**Note:** `results/eof-order-b-oct15/README.md` §6; data `mh370-exchange/end-of-flight/order-b-bank-cap/`. Two full sweeps (round-3 laws, 4 strata x 8 seeds each): sampled limit 20:10-22:28Z, fixed 90 deg 22:28Z-00:49Z.
+
+**Impact conditions on the feasible set (D0'), labelled sensitivity on uncalibrated dynamics:**
+
+| arm | 10-45 deg | > 45 deg |
+|---|---|---|
+| production (run-i-dive, 90 deg cap) | 0.096 | 0.073 |
+| round-3, fixed 52.5 deg | 0.223 | 0.007 |
+| round-3, sampled limit (tail weight 0.2) | 0.237 | 0.021 |
+| round-3, fixed 90 deg | 0.124 | 0.157 |
+
+Predictions posted at 20:10Z: two of four numbers fell just outside their bands (0.237 against 0.20-0.23; 0.157 against 0.11-0.15), both by 0.007; the one-seed smoke ran low. The structural result held: **limits below 70 deg give 0.007-0.010 above 45 deg; 70-80 deg gives 0.053, 80-90 deg 0.150.** Tail weight 0 / 0.2 / 0.5 gives 0.007 / 0.021 / 0.042, exactly re-weighted.
+
+**Evidence (change against fixed 52.5 deg):** held out −0.048 (sampled) and −0.075 (fixed 90) nat; D1-D3, D5 within 0.08 nat; medians within 0.08 deg. **Under D4 (Holland transient bias added), fixed 90 deg: ln Z +0.82 nat, D4 x C2 silent +1.03 nat, A1 share 0.103 → 0.578, median −37.33 → −37.10** (effective impacts 8,923). The sampled limit gives A1 0.206 and +0.13 nat. Production laws with the same 90 deg cap give A1 0.145, so it is the round-3 laws (spiral doubling 26 s) combined with a high limit that produce Holland-rate dives.
+
+**For the paper and composer:** under D4 the family attribution (whether Holland's Hypothesis 1 reads as an uncontrolled A1 dive) is set by how much bank-limit prior lies above 70 deg, on dynamics that failed calibration, and no Boeing trace informs it. Report D4 family shares with the bank-limit prior beside them; the A1 reading of H1 is not identified. Held-out evidence moves 0.075 nat, so the order's stop condition is not tripped.
+
+**Item 4 is still waiting for Pete's ruling** (U1 onset-only against the binned version; 20:10Z entry). **Next, now running:** the both-burst fix from core's 22:59Z note: smoke of scored selection at the 00:11 hand-off aimed at the 00:19 pair (K = 8, defensive 0.2, request 9 on), repro stratum seed 1, against the unaimed recipe, with core's acceptance (a)-(d).
+
+- End of Flight Module
