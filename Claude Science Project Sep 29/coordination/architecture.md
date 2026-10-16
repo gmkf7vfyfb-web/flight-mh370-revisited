@@ -12445,3 +12445,30 @@ Predictions posted at 20:10Z: two of four numbers fell just outside their bands 
 4. **Figures for the completed items (7, 8, order b 2–4, both-burst trial)** are in `results/eof-completed-items-figures-oct16/`.
    Each figure has a plain-words footnote and a technical footnote.
 -- End of flight
+
+## 2026-10-16 17:10Z — end of flight -> architecture, core, downstream modules, Pete: RUN J end-of-flight pass started (waypoints); two rulings by Pete
+
+**Pete's rulings (16 Oct, about 16:40Z, in this thread):**
+1. **Run J's production end-of-flight laws are the round-3 laws, with the divergent-spiral bank limit drawn UNIFORMLY on [52, 90] deg** (`full/bank-cap-uniform.toml`).
+   - The 52.5 deg round-3 cap rests on four Boeing no-input traces (maximum track-read bank 53–60 deg). Those traces may show where the trace ended, not an aerodynamic limit, so the headline must not depend on it.
+   - The drawn limit is recorded on every row (`latent:spiral_bank_cap_deg`). The Boeing-weighted prior (0.8 on 52–63, 0.2 on 63–90), the 90 deg end, or any other prior on [52, 90] is therefore an exact re-weighting.
+   - Overbank (above 90 deg) is outside the model's reach: a declared gap.
+   - Both changes were measured on run I: item 8 (round-3 laws) and order (b) item 3 (bank limit), `results/eof-order-b-oct15/`.
+   - Note: run-i-dive's production laws already capped the spiral at 90 deg (`smoke/terminal.toml`). The 52.5 deg value existed only in the round-3 fit.
+2. **Disk:** Pete will move the following to a backup drive: `next-run-c`, `run-i-asym-0011`, `run-i-asym-2241`, `run-i-asym-joined`, `run-h`, `order-b-bank-cap`, `round3-sensitivity` and the `run-i*.log` files (about 41 GB).
+   - `run-i-dive` (56 GB) and `run-i-joined-v2` (23 GB) stay until downstream modules have moved to run J.
+   - **Downstream modules: please say here when you no longer read `run-i-dive`.** The free, descent-climb and repro production passes need that space.
+
+**Running now (under the heavy lock, one queue):**
+- (a) **Production pass, run-J waypoints, 24 seeds.** About 5 min per seed, so about 2 h; 2.8 GB per seed.
+  - Output: `mh370-exchange/end-of-flight/run-j/run-j-waypoints/`. READY is written only after all 24 seeds verify.
+  - Seed 1 check: 6.40M rows; bank limit uniform (counts 1.60M in each quarter of 52–90); ESS held out 1.30M rows, D4 764, D3 182.
+- (b) **Both-burst supplementary pass** (Pete approved 03:40Z), now on the run-J production laws, waypoints seeds 1–8.
+  - Thinned to 1M rows per seed: `run-j-both-burst/run-j-waypoints/`.
+  - An earlier seed 1 on the old production laws is kept, labelled, in `run-j-both-burst-production-laws/`.
+- (c) **Joined V2 on run J waypoints, seeds 1–8** (J0011 and J2241). It uses the production laws above and **the clock-time onset proposal window in J2241**: Pete's item 4 ruling, the direct 22:41-arm run. Output: `run-j-joined-v2/`.
+- Free-disk guards are in the drivers. A seed waits if free space falls below 30 GiB (production), 40 GiB (supplementary) or 15 GiB (joined).
+- **The free stratum (landed 16:00Z) waits for disk.**
+
+Binary `/tmp/mh370-eof-rj1`, sha256 19031f41748ecb0c, built from 16f2eb1. New in `hypotheses/end-of-flight/`: `full/bank-cap-uniform.toml`, `full/seed-9..24.toml`, `full/run_j_production.sh`, `full/run_j_both_burst.sh`, `full/run_j_joined_v2.sh`, `smoke/onset-window-2241.toml`.
+-- End of flight
