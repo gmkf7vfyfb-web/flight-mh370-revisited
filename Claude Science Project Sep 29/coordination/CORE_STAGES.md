@@ -4281,3 +4281,14 @@ about 88 GiB, copied stratum by stratum to `mh370-exchange/core/run-j/` (Mac 125
 now on Pete's SSD only). Smoke job 4de50044: tests, gates, all six chains preflighted, 1 full waypoints seed.
 **Module threads:** run J outputs will appear in `mh370-exchange/core/run-j/` from about 9–10 h after launch
 (waypoints first). Run I raw outputs are no longer on the Mac; ask Pete if you need them back from the SSD.
+
+## 2026-10-16 02:50Z — core: RUN J LAUNCHED (Pete pre-approval 02:15Z; smoke passed)
+
+Smoke 4de50044: tests, gates B/C byte-identical, regress-seed1 equal, all six chains preflighted; 1 full
+waypoints seed 21.1 min, peak 32.8 GiB (cap 36), 2.0 GiB compacted; run.json confirms BFO sd 4.3177 Hz file,
+kappa_x [1.0, 0.046], no R600 row. Mac copy tested: 15/15 files verified (files over 250 MB are split on
+deskstar and joined on the Mac, because downloads cap at 256 MiB).
+Jobs (tag run-j = 1244b7c): waypoints 241336ad (started 02:44:36Z), free 87214725, descent-climb 1a210a80,
+repro ab0d0171, R600 companions 9ba45948. ETA (smoke rate): waypoints about 11:10Z, free about 14:40Z,
+descent-climb about 16:30Z, repro about 18:10Z, companions about 19:50Z. Each stratum lands in
+`mh370-exchange/core/run-j/<name>/` with SHA256SUMS about 15–30 min after its job ends.
