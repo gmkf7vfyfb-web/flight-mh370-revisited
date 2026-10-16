@@ -129,7 +129,7 @@ output is in the same compact layout. Tests on run J waypoints seed 1 (base arm,
 - At 300k rows kept, 263k rows have pi = 1 and every cell's ln Z, median latitude and A1 share are reproduced exactly.
 - At an extreme 3,000 rows kept (40 thinning seeds), the means agree with the full values within 1.2 standard errors: D4 ln Z
   −21.9582 ± 0.0039 against −21.9629, and A1 0.0637 ± 0.0011 against 0.0638.
-- Planned target: 1 M rows per supplementary seed. That is about 0.24 GB per seed, and about 8 GB for 32 seeds.
+- Planned target: 1 M rows per supplementary seed. Measured: 129 MB for 299,958 kept rows (about 450 bytes per row), so about 0.43 GB per seed and about 14 GB for 32 seeds. That is inside core's 35 GiB budget. [Corrected 16 Oct: first posted as 0.24 GB and 8 GB, from a column-count estimate rather than the measured file size.]
 
 ## 5. COVERAGE
 **(a) Feasible set.** The pair at 00:19:29.416 / 00:19:37.443 needs a vertical-speed change of about -9,400 to -9,800 ft/min in 8.0 s.
