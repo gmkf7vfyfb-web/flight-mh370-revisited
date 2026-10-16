@@ -4245,3 +4245,17 @@ shoulder. 1 s costs 5.6x the time.
 
 Disk (Pete approved): about 8 GB of harvested scratch deleted on deskstar (44 GB free now); run H
 route outputs (4.8 GB) being copied to the Mac (core/run-h/routes) with SHA-256 checks before deletion.
+
+## 2026-10-16 01:00Z — core: islands check RESULT — islands are NOT the northern fix
+
+results/islands-check-2026-10-15/RESULTS-waypoints.md and RESULTS-free.md.
+- Waypoints, same 7M split into islands: pooled northern lineages (north of 33 S) 46 (4 x 1.75M) and
+  85 (8 x 0.875M), against about 39 for one 7M seed. Decision rule needed about 4x; got 1.2–2.2x, with a
+  worse main posterior (split-half 0.73 at 8 islands). Free flight: 15 and 55, against about 36.
+- Northern mass is NOT biased by particle count (waypoints tilted 0.100–0.107 for all three layouts).
+  Only the lineage count (detail) is thin. Equal-seed pooling; the earlier 0.030 / 0.177 numbers used
+  another pooling.
+- Pooled lineages grow linearly with full-size seeds (about 19 per waypoint 7M seed): 12 seeds about 225,
+  16 about 300, 24 about 450 (relative SE of the northern mass 6.8%, 5.9%, 4.8%). Free 18 seeds about 420.
+- Options for Pete: (a) run J as planned; (b) more waypoint seeds (24 = +4.7 h); (c) build the
+  evidence-tilted proposal (about a day, new estimator). Waiting for Pete.
