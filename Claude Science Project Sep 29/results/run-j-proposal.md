@@ -81,3 +81,10 @@ so this term is common to both methods and cannot explain the shoulder.
    (the 4 Hz sweep records "+1.52 nat").
 2. Item 3 moves the early-turn timing only, and the 00:19 median moves by < 0.3°.
 3. Items 7 and 8 change no core output.
+
+### Ruling, 16 Oct 2026 01:00Z — northern fix
+
+Pete chose **24 waypoint seeds at 7M** (was 12). No islands, no evidence-tilted proposal.
+Basis: results/islands-check-2026-10-15/ (islands gave 1.2–2.2x; full-size seeds add about 19 northern
+lineages each). Expected: about 450 pooled northern lineages north of 33 S, relative SE of the northern
+mass 4.8%. Run J becomes about 17 h of filter time: free 18, waypoints 24, descent-climb 16, repro 16.

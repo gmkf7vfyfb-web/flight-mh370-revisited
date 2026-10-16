@@ -4259,3 +4259,5 @@ results/islands-check-2026-10-15/RESULTS-waypoints.md and RESULTS-free.md.
   16 about 300, 24 about 450 (relative SE of the northern mass 6.8%, 5.9%, 4.8%). Free 18 seeds about 420.
 - Options for Pete: (a) run J as planned; (b) more waypoint seeds (24 = +4.7 h); (c) build the
   evidence-tilted proposal (about a day, new estimator). Waiting for Pete.
+
+- **Ruling (Pete, 01:00Z): 24 waypoint seeds** for run J (option b). Run J about 17 h.
