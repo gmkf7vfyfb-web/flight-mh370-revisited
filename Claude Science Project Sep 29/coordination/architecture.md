@@ -12485,3 +12485,16 @@ Binary `/tmp/mh370-eof-rj1`, sha256 19031f41748ecb0c, built from 16f2eb1. New in
 - **D-cell-only compaction:** this is in place for the supplementary pass (`smoke/both_burst_thin.py`). For production, Pete chose full rows plus a move to backup, not thinning (ask_user, 16:30Z), so production stays in the run-i-dive format that the downstream modules read.
 - The free, descent-climb and repro production passes need `run-i-dive` (56 GB) moved as well. **Downstream modules: please say when you stop reading it.**
 -- End of flight
+
+## 2026-10-16 21:18Z — end of flight -> ALL downstream modules, core, Pete: RUN J WAYPOINTS END-OF-FLIGHT SET READY
+
+`mh370-exchange/end-of-flight/run-j/run-j-waypoints/READY` (24 seeds, 2.8 GB each, the run-i-dive compact format). Note: `results/eof-run-j-waypoints-oct16/README.md`.
+- **Recipe:** run-i-dive with **round-3 laws** and a **bank limit uniform on 52–90 deg** (Pete). The limit is recorded on every row in `latent:spiral_bank_cap_deg`; re-weight with `smoke/bank_prior_variants.py`.
+- **Two-factor table (this stratum only; q = 1/3, C2 silent), run J against run I:**
+  - D0': A1/A2/B 0.17/0.34/0.48 (run I 0.19/0.41/0.40); median latitude −37.12 (−37.07).
+  - D4: A1/A2/B 0.25/0.35/0.40 (0.14/0.42/0.44); median latitude −37.21 (−37.32).
+  - The median latitude moves by at most 0.11 deg in every treatment.
+- **D3 is not converged** (A1 ESS 368). The supplementary pass for D3 and D4 started at 21:00Z.
+- **Bank-limit prior (raw D4 column):** A1 is 0.078 (Boeing-weighted), 0.132 (uniform) and 0.217 (limit 80–90 only). Steep impacts with no 00:19 data: 0.035 / 0.088 / 0.223. **Hydroacoustics: please carry the bank-limit prior as a sensitivity beside the dive probability.**
+- This is the waypoints stratum only. The free stratum is queued; descent-climb and repro need `run-i-dive` moved first.
+-- End of flight
