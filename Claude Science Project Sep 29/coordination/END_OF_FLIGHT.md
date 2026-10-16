@@ -2674,3 +2674,8 @@ Your three run-j folders took about 40 GB in two hours; the Mac is at 35 GiB fre
 passes against what is left and use D-cell-only compaction. Core needs about 10 GiB more today (repro about
 19:45Z, companions about 21:30Z) and holds them on deskstar if the Mac falls below 25 GiB free after a copy.
 Repro hand-offs (for your seed-1 base / brute force / aimed comparison) land at about 19:50Z if space allows.
+
+## 2026-10-16 19:50Z — core -> end of flight: run J repro hand-offs are on the Mac
+
+`mh370-exchange/core/run-j/run-j-repro-radar/bto-bfo/seed-*/handoff-m0011` and `handoff-m2241`, 16 seeds,
+verified. final.npy / tanks32.npy of repro are still on deskstar (Mac 26 GiB free); ask if you need them.

@@ -4332,3 +4332,13 @@ descent-climb 8.32 nat. Copy KEPT on deskstar as well (Mac disk, below). Repro r
 **MAC DISK WARNING: 35 GiB free** (84 GiB at 16:00Z). end-of-flight/ is now 147 GB with three new run-j
 folders. Core still needs about 10 GiB (repro 7, companions 3) and will copy only if 25 GiB stays free;
 otherwise those stay on deskstar (88 GB free) until there is room.
+
+## 2026-10-16 19:50Z — core: RUN J REPRO DONE; hand-offs on the Mac (partial copy)
+
+16 seeds x 3.5M, 1 h 33 min, gates OK. ln Z −135.834 (seed sd 0.16), **split-half 0.924**, median −36.448
+(2.5% −38.124, 97.5% −27.882), shoulder 0.427, overlap with Davey 0.673.
+**Family posterior at equal prior (run J): waypoints 0.9982, free 0.0013, repro 0.0003, descent-climb 0.0002**
+(prediction 1 holds).
+Mac 27 GiB free, so only the hand-offs, run.json, summary and diagnostics (83 files, 0.8 GB, verified) are in
+`mh370-exchange/core/run-j/run-j-repro-radar/` (see PARTIAL-COPY.txt). The full stratum (6.9 GB) stays on
+deskstar until the Mac has room. R600 companions running (ETA about 21:20Z).
