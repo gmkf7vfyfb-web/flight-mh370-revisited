@@ -129,6 +129,7 @@ output is in the same compact layout. Tests on run J waypoints seed 1 (base arm,
 - At 300k rows kept, 263k rows have pi = 1 and every cell's ln Z, median latitude and A1 share are reproduced exactly.
 - At an extreme 3,000 rows kept (40 thinning seeds), the means agree with the full values within 1.2 standard errors: D4 ln Z
   −21.9582 ± 0.0039 against −21.9629, and A1 0.0637 ± 0.0011 against 0.0638.
+- **Normalisation (corrected 16 Oct 22:00Z):** ln Z from a thinned file must be normalised by `thinning.weight_sum_in` (the unthinned weight total), not by the sum of the stored weights, because rows with pi = 0 are dropped. The first version of the script's own `after` summary made this error (+2.157 nat on run-J waypoints seed 1; ESS and shares were unaffected). It is fixed, and seed 1's metadata is corrected.
 - Planned target: 1 M rows per supplementary seed. Measured: 129 MB for 299,958 kept rows (about 450 bytes per row), so about 0.43 GB per seed and about 14 GB for 32 seeds. That is inside core's 35 GiB budget. [Corrected 16 Oct: first posted as 0.24 GB and 8 GB, from a column-count estimate rather than the measured file size.]
 
 ## 5. COVERAGE

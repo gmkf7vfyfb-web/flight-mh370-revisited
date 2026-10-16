@@ -32,8 +32,8 @@ def cell_weights(g, w):
     return out
 
 
-def stats(w, cw):
-    return {k: {"ln_Z_rel": float(np.log(L.sum()) + s - np.log(w.sum())), "eff_impacts": float(L.sum() ** 2 / np.square(L).sum())}
+def stats(wsum, cw):
+    return {k: {"ln_Z_rel": float(np.log(L.sum()) + s - np.log(wsum)), "eff_impacts": float(L.sum() ** 2 / np.square(L).sum())}
             for k, (L, s) in cw.items()}
 
 
@@ -75,8 +75,9 @@ def thin(sd, out, target=1_000_000, seed=1):
                         "c": float(c), "target_rows": int(target), "expected_rows": float(pi.sum()), "kept_rows": int(len(idx)),
                         "rows_in": int(n), "rows_with_pi_1": int(np.sum(pi >= 1.0)), "rng_seed": int(seed),
                         "source_sha256": {l.split()[1]: l.split()[0] for l in (sd / "SHA256SUMS").read_text().splitlines()},
-                        "before": stats(w, cw), "after": stats(w_new, cw_after),
-                        "note": "Weights are w/pi; the held-out cell is NOT represented (production pass carries it)."}
+                        "weight_sum_in": float(w.sum()), "before": stats(w.sum(), cw), "after": stats(w.sum(), cw_after),
+                        "note": ("Weights are w/pi; the held-out cell is NOT represented (production pass carries it). ln Z must be normalised by "
+                                 "weight_sum_in (the unthinned total), not by the sum of the stored weights, which excludes rows with pi = 0.")}
     (out / "run.json").write_text(json.dumps(meta))
     lines = []
     for f in sorted(p.name for p in out.iterdir() if p.name != "SHA256SUMS"):
