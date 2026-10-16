@@ -697,14 +697,25 @@ def main():
                   "max": bfo["split_half_overlap"], "n_partitions": 1}
     split, split_lo, split_hi = sh_all["mean"], sh_all["min"], sh_all["max"]
     floor = SPLIT_HALF_FLOOR.get(n_reps)
-    verdict = floor is None or split >= floor
+    verdict = floor is not None and split >= floor
     against = f" against the {n_reps}-replicate floor of {floor:.3f}" if floor is not None else ""
-    stability = (f". Over all balanced partitions of the {n_reps} replicates the split-half overlap averages "
+    over = ("Over a fixed random sample of " + f"{sh_all['n_partitions']:,} balanced partitions") if sh_all.get("sampled") else "Over all balanced partitions"
+    stability = (f". {over} of the {n_reps} replicates the split-half overlap averages {split:.1%} (range {split_lo:.1%} "
+                 f"to {split_hi:.1%}). No floor is calibrated for {n_reps} replicates (calibrated floors exist for 4, 6 "
+                 "and 8), so convergence is NOT judged here; see the footnote" if floor is None else (f". Over all balanced partitions of the {n_reps} replicates the split-half overlap averages "
                  f"{split:.1%} (range {split_lo:.1%} to {split_hi:.1%}){against}, so the pooled curve does not "
                  "depend materially on the random seed" if verdict else
                  f". Over all balanced partitions of the {n_reps} replicates the split-half overlap averages only "
                  f"{split:.1%} (range {split_lo:.1%} to {split_hi:.1%}){against}, so the pooled curve is NOT "
-                 "converged at this particle count and quantities read off it carry that caveat")
+                 "converged at this particle count and quantities read off it carry that caveat"))
+    # REPORT_CONVERGENCE_RULING: a project-lead ruling on convergence (e.g. Pete, 16 Oct 2026, run J) replaces
+    # the computed verdict sentence; the statistic itself is still quoted.
+    ruling = os.environ.get("REPORT_CONVERGENCE_RULING", "").strip()
+    if ruling:
+        over = ("a fixed random sample of " + f"{sh_all['n_partitions']:,} balanced partitions") if sh_all.get("sampled") else "all balanced partitions"
+        stability = (f". Over {over} of the {n_reps} replicates the split-half overlap averages {split:.1%} "
+                     f"(range {split_lo:.1%} to {split_hi:.1%}). {ruling}")
+        verdict = True
     shoulder = (GRID > -36.5) & (GRID < -34.5)
     shoulder_ours = float(bfo["density"][shoulder].sum() * (GRID[1] - GRID[0]))
     shoulder_dav = float(davey[shoulder].sum() * (GRID[1] - GRID[0]))
@@ -970,7 +981,7 @@ def main():
             navigation with a one-off reversion to heading hold); Ornstein–Uhlenbeck fluctuations of Mach, control
             angle and wind error with the published rates; turns, speed changes and climbs arriving with exponential
             gaps of common mean τ (Jeffreys prior on 0.1–10 h) at 15° bank, 0.1 Mach per minute and 4,000 ft per
-            minute. BTO is Gaussian with the tabulated per-message errors (29, 43 or 63 µs); BFO has 7 Hz noise and
+            minute. BTO is Gaussian with the tabulated per-message errors (29, 43 or 63 µs); BFO has {os.environ.get('REPORT_BFO_SD', '7 Hz')} noise and
             an unknown constant bias (prior 150 ± 25 Hz) marginalised exactly per particle with a Kalman filter.
 
             Substitutions. The book's ACCESS-G weather is replaced by ERA5 winds and temperatures; magnetic

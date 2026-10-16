@@ -49,17 +49,30 @@ def balanced_partitions(n):
     return seen
 
 
-def split_half_all(densities, step):
-    """Mean, min and max split-half overlap over every balanced partition."""
-    parts = balanced_partitions(len(densities))
-    if not parts:
+def split_half_all(densities, step, max_partitions=20000, seed=0):
+    """Mean, min and max split-half overlap over every balanced partition.
+
+    Above `max_partitions` balanced partitions (n >= 18: C(18,9)/2 = 24,310) a fixed-seed random
+    sample of that many balanced partitions is used instead; `sampled` says which. Added for run J
+    (16 Oct 2026), whose 24-replicate stratum has 1.35 million partitions."""
+    n = len(densities)
+    if n % 2 or n == 0:
         return None
+    from math import comb
+    D = np.asarray(densities)
+    total = comb(n, n // 2) // 2
+    if total <= max_partitions:
+        parts = balanced_partitions(n)
+    else:
+        rng = np.random.default_rng(seed); parts = []
+        for _ in range(max_partitions):
+            p = rng.permutation(n); parts.append((sorted(p[: n // 2]), sorted(p[n // 2:])))
     vals = []
     for a, b in parts:
-        pa = np.mean([densities[i] for i in a], axis=0)
-        pb = np.mean([densities[i] for i in b], axis=0)
+        pa = D[list(a)].mean(axis=0)
+        pb = D[list(b)].mean(axis=0)
         vals.append(overlap(pa, pb, step))
-    return {"n_partitions": len(vals), "mean": float(np.mean(vals)),
+    return {"n_partitions": len(vals), "sampled": total > max_partitions, "mean": float(np.mean(vals)),
             "min": float(np.min(vals)), "max": float(np.max(vals))}
 
 

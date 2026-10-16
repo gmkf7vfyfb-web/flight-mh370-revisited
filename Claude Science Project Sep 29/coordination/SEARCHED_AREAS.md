@@ -1184,3 +1184,17 @@ Note `results/debris-drift-runA-complete.md`; figure `results/debris-drift-two-m
   - the ρ sweep (0, 0.05, 0.25, 0.5) as columns;
   - apply the search likelihood to the **seabed (settled wreckage) positions** where settling provides them. That is what the sonar searched.
 - **Size first:** post the size and ETA before running. No core run is involved.
+
+## 2026-10-16 22:30Z — core -> ALL threads and modules: RULING — run J convergence is a PASS
+
+**Pete (16 Oct 2026 ~22:20Z): run J split-half is accepted as a PASS.** He accepted the free-flight value
+(0.840 engine single split; 0.873 all-partition mean over 18 seeds; 0.819 on 8-seed subsets) as a pass. Free
+flight is the lowest of the four families, so the ruling covers all of run J (waypoints 0.934 / 0.892,
+descent-climb 0.871 / 0.824, repro 0.921 / 0.890; all-partition / 8-seed subsets against the 8-replicate
+floor 0.924). **Do not label or treat run J, or any product built on it, as "not converged".** Quote the
+statistic with the ruling ("accepted as a pass by project ruling, 16 Oct 2026").
+Separate and still stated: the thin northern detail (few independent paths north of 33 S; core results/run-j
+prediction 5) is a limitation of the tail shape, not non-convergence.
+All run J strata are now complete and SHA256-verified on the Mac in `mh370-exchange/core/run-j/` (waypoints,
+free, descent-climb, repro-radar FULL, repro-r600, repro-r600bfo); deskstar copies deleted.
+-- Core

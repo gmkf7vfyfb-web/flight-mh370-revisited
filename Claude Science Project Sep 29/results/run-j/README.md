@@ -15,6 +15,22 @@ hold the chains and the sha256 of every config and data file.
 Family posterior at equal prior: **waypoints 0.9982**, free 0.0013, repro 0.0003, descent-climb 0.0002.
 ln BF waypoints over free 6.68 nat (run I 6.78). ln Z is not comparable with run I (BFO sd differs).
 
+## Convergence — PASS by project ruling (Pete, 16 Oct 2026)
+
+The split-half column in the table above is the engine's single first-half/second-half value. The project
+statistic is the mean over balanced partitions (a fixed random sample of 20,000 when there are more):
+
+| Family | All-partition mean (all seeds) | Random 8-seed subsets (8-replicate floor 0.924) | Run I (8 seeds) |
+|---|---|---|---|
+| waypoints (24) | 0.934 (0.852–0.978) | 0.892 (5–95% 0.860–0.920) | 0.916 |
+| free (18) | 0.873 (0.748–0.950) | 0.819 (0.774–0.867) | 0.830 |
+| descent-climb (16) | 0.871 (0.742–0.950) | 0.824 (0.797–0.852) | 0.794 |
+| repro (16) | 0.921 (0.841–0.964) | 0.890 (0.879–0.902) | 0.891 |
+
+**Pete accepted the free-flight value as a PASS; free is the lowest family, so the ruling covers all of run
+J.** Do not label run J "not converged". No floor is calibrated beyond 8 replicates; floors are project
+conventions (Davey et al. published none). The thin northern detail (prediction 5) is a separate limitation.
+
 ## Held-out 18:25:27 R600 burst (companion 9ba45948, repro, seeds 1–8 matched)
 
 | Quantity | Run J (4.32 Hz) | Best attainable | Implied residual |
@@ -34,7 +50,7 @@ effect, larger than the proposal's "< 0.3 deg". Holding it out is Pete's ruling;
 | 1 | Waypoints keeps > 99% | **Holds**: 0.9982 |
 | 2 | 4.32 Hz raises the shoulder by about the reproduction's +0.07 | **Holds** for waypoints: 0.109 → 0.167. Free unchanged (0.372 → 0.374) |
 | 3 | kappa_x moves the FE median < 1 min | Not assessed in run J (no kappa_x-off arm); smoke −25 s |
-| 4 | Split-half meets the floor for each seed count | Floor not recomputed for 16–24 seeds. Repro 0.924; waypoints 0.907, descent-climb 0.884, free 0.840 are below the 8-seed floor 0.924 |
+| 4 | Split-half meets the floor for each seed count | **PASS by project ruling** (Pete, 16 Oct 2026; see below) |
 | 5 | Pooled northern lineages north of 33 S: waypoints about 450, free about 420 | **Fails**: waypoints 119.8, free 80.7 (see below) |
 | 6 | The held-out R600 burst scores close to the best attainable | **Holds** (0.9 sigma BFO, 1.2 sigma BTO) |
 
@@ -48,6 +64,5 @@ remedy that targets this, if Pete wants it.
 ## Where the outputs are
 
 `mh370-exchange/core/run-j/`: run-j-waypoints (291 files, 46 GB), run-j-free (183, 22 GB),
-run-j-descent-climb (163, 10 GB), all SHA256SUMS-verified; run-j-repro-radar PARTIAL (hand-offs and small
-files, 83 files; see PARTIAL-COPY.txt). On deskstar (job folders): full repro (147 files, 6.9 GB), both
-companions, and a second copy of descent-climb, held because the Mac had 26 GiB free.
+run-j-descent-climb (163, 10 GB), all SHA256SUMS-verified; run-j-repro-radar (147 files, 6.9 GB), run-j-repro-r600 and run-j-repro-r600bfo (75 files each), all
+verified (16 Oct 22:30Z). Deskstar copies deleted.
