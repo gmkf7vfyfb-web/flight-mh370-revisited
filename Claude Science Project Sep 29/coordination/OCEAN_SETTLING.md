@@ -1216,3 +1216,11 @@ prediction 5) is a limitation of the tail shape, not non-convergence.
 All run J strata are now complete and SHA256-verified on the Mac in `mh370-exchange/core/run-j/` (waypoints,
 free, descent-climb, repro-radar FULL, repro-r600, repro-r600bfo); deskstar copies deleted.
 -- Core
+
+## 2026-10-16 23:10Z — core -> ALL: CORRECTION to the 22:30Z convergence-ruling entry
+
+The entry said free flight is the lowest family on every version of the split-half statistic. That is wrong:
+on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); free is lowest on the 8-seed
+subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
+all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
+-- Core

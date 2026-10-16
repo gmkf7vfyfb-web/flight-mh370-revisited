@@ -34,8 +34,9 @@ for s, (d, lab, early) in FAM.items():
     step = sm["grid"]["step"]; dens = [np.array(r["density"]) for r in c["replicates"]]; n = len(dens)
     seeds = [r["seed"] for r in c["replicates"]]
     full = split_half_all(dens, step); m8, p05, p95 = sub8(dens)
-    RULING = ("Convergence: accepted as a PASS by project ruling (Pete, 16 Oct 2026), which applies to all four run-J families; "
-              "the free-flight value is the lowest of the four.")
+    RULING = ("Convergence: accepted as a PASS by project ruling (Pete, 16 Oct 2026, on the free-flight values). Core applies it to "
+              "all four run-J families because each is above, or within 0.002 of, the free-flight value on every version of the "
+              "statistic (all-partition mean: descent-climb 0.871 against free 0.873).")
     conv_p = (f"The convergence test gives {full['mean']:.3f} for {n} runs and {m8:.3f} for groups of 8 runs. "
               "The project lead accepts this result as converged (decision of 16 October 2026).")
     what = (f"Core run J, family '{lab}'. {early} After 18:40 the model is Davey's, with the fuel model, radar and one-engine flight. "

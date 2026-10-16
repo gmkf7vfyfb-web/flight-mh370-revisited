@@ -27,8 +27,9 @@ statistic is the mean over balanced partitions (a fixed random sample of 20,000 
 | descent-climb (16) | 0.871 (0.742–0.950) | 0.824 (0.797–0.852) | 0.794 |
 | repro (16) | 0.921 (0.841–0.964) | 0.890 (0.879–0.902) | 0.891 |
 
-**Pete accepted the free-flight value as a PASS; free is the lowest family, so the ruling covers all of run
-J.** Do not label run J "not converged". No floor is calibrated beyond 8 replicates; floors are project
+**Pete accepted the free-flight value as a PASS. Core applies the ruling to all of run J because every family
+is above, or within 0.002 of, the free-flight value on every version of the statistic (all-partition mean:
+descent-climb 0.871 against free 0.873; 8-seed subsets and single split: free is lowest).** Do not label run J "not converged". No floor is calibrated beyond 8 replicates; floors are project
 conventions (Davey et al. published none). The thin northern detail (prediction 5) is a separate limitation.
 
 ## Held-out 18:25:27 R600 burst (companion 9ba45948, repro, seeds 1–8 matched)
