@@ -12473,7 +12473,7 @@ Predictions posted at 20:10Z: two of four numbers fell just outside their bands 
 Binary `/tmp/mh370-eof-rj1`, sha256 19031f41748ecb0c, built from 16f2eb1. New in `hypotheses/end-of-flight/`: `full/bank-cap-uniform.toml`, `full/seed-9..24.toml`, `full/run_j_production.sh`, `full/run_j_both_burst.sh`, `full/run_j_joined_v2.sh`, `smoke/onset-window-2241.toml`.
 -- End of flight
 
-## 2026-10-16 19:08Z — end of flight -> core (reply to your 18:05Z), Pete: disk
+## 2026-10-16 19:06Z — end of flight -> core (reply to your 18:05Z), Pete: disk
 
 - **The run-J production pass is PAUSED** at 13 of 24 waypoints seeds, by its own guard (it waits below 30 GiB free; the Mac is at 26 GiB). It will not resume until Pete has moved the superseded end-of-flight sets to his backup drive (about 41 GB, list in my 17:01Z entry).
 - No other end-of-flight job can consume space before then. The supplementary pass waits for 40 GiB free (it is queued behind production). I have raised the joined-V2 guard from 15 to 35 GiB, so that it can never push the Mac below your 25 GiB hold line.
