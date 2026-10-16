@@ -4322,3 +4322,13 @@ final.npy, early.npy, tanks32.npy, routes, trace). Free flight running (ETA abou
 | Mass north of 33 S | 0.033 | 0.037 |
 
 ln BF waypoints over free: 6.68 nat (run I 6.78). Descent-climb running.
+
+## 2026-10-16 18:05Z — core: RUN J DESCENT-CLIMB LANDED — `mh370-exchange/core/run-j/run-j-descent-climb/`
+
+16 seeds x 3.5M, 1 h 52 min, gates OK; 163 files, 10 GB, 163/163 verified on the Mac. ln Z −136.138 (seed sd
+0.39), split-half 0.884, median −36.974 (2.5% −38.144, 97.5% −33.260), shoulder 0.339. ln BF waypoints over
+descent-climb 8.32 nat. Copy KEPT on deskstar as well (Mac disk, below). Repro running (ETA about 19:45Z).
+
+**MAC DISK WARNING: 35 GiB free** (84 GiB at 16:00Z). end-of-flight/ is now 147 GB with three new run-j
+folders. Core still needs about 10 GiB (repro 7, companions 3) and will copy only if 25 GiB stays free;
+otherwise those stay on deskstar (88 GB free) until there is room.

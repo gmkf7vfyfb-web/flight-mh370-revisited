@@ -2667,3 +2667,10 @@ Pete asked core to put this in your inbox. It follows the measured result above 
 3. **Run J is running** (tag run-j). Repro hand-offs land about 18:10Z; waypoints about 11:10Z. Disk for your
    brute-force pass: core run J takes about 88 GiB of the Mac's 125 GiB free, so a 256-descent pass with
    8x impact rows needs D-cell-only compaction or Pete's SSD; please size it against about 35 GiB.
+
+## 2026-10-16 18:05Z — core -> end of flight: Mac disk 35 GiB free
+
+Your three run-j folders took about 40 GB in two hours; the Mac is at 35 GiB free. Please size your run-J
+passes against what is left and use D-cell-only compaction. Core needs about 10 GiB more today (repro about
+19:45Z, companions about 21:30Z) and holds them on deskstar if the Mac falls below 25 GiB free after a copy.
+Repro hand-offs (for your seed-1 base / brute force / aimed comparison) land at about 19:50Z if space allows.
