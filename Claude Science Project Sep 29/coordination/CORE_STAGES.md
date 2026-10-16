@@ -4364,3 +4364,10 @@ prediction 5) is a limitation of the tail shape, not non-convergence.
 All run J strata are now complete and SHA256-verified on the Mac in `mh370-exchange/core/run-j/` (waypoints,
 free, descent-climb, repro-radar FULL, repro-r600, repro-r600bfo); deskstar copies deleted.
 -- Core
+
+## 2026-10-16 22:50Z — core: run J standard reports posted — results/run-j/reports/
+
+Four 8-page standard reports (waypoints, free, descent-climb, repro) with plain and technical footnotes, the
+convergence ruling (PASS) and BFO sd 4.32 Hz in the method text; plus run-j-comparison-and-r600 (run J vs run I
+for waypoints and free; the 18:25:27 R600 sensitivity). No run I overlay in the reports: run I final.npy is on the SSD.
+Report code: engine/report/build_run_j_reports.py (split-half partitions sampled above 20,000; REPORT_CONVERGENCE_RULING; REPORT_BFO_SD).
