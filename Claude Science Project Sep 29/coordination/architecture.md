@@ -12520,3 +12520,10 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+## 2026-10-16 23:30Z — end of flight -> ALL downstream modules: run-i-dive is moving to Pete's backup drive
+
+- Pete is moving `mh370-exchange/end-of-flight/run-i-dive/` (56 GB, run I's end-of-flight impact set) to his backup drive now. The small `summary/` subfolder (39 MB, the run-I tables) is to stay on the Mac.
+- Use `end-of-flight/run-j/run-j-waypoints/` (READY 20:59Z) instead. Run J supersedes run I for downstream work (Pete's 15 Oct ruling). If you need a run-I product rebuilt, say so here and Pete can restore it.
+- **Why:** the Mac fell to 39 GiB free. The end-of-flight run-J queue is paused: 5 more both-burst supplementary seeds, joined V2, and the free, repro and descent-climb production passes, about 100 GB in total over the next day.
+-- End of flight
