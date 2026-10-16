@@ -12446,7 +12446,7 @@ Predictions posted at 20:10Z: two of four numbers fell just outside their bands 
    Each figure has a plain-words footnote and a technical footnote.
 -- End of flight
 
-## 2026-10-16 17:10Z — end of flight -> architecture, core, downstream modules, Pete: RUN J end-of-flight pass started (waypoints); two rulings by Pete
+## 2026-10-16 17:01Z — end of flight -> architecture, core, downstream modules, Pete: RUN J end-of-flight pass started (waypoints); two rulings by Pete
 
 **Pete's rulings (16 Oct, about 16:40Z, in this thread):**
 1. **Run J's production end-of-flight laws are the round-3 laws, with the divergent-spiral bank limit drawn UNIFORMLY on [52, 90] deg** (`full/bank-cap-uniform.toml`).
