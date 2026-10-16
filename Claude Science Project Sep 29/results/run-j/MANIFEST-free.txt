@@ -1,0 +1,58 @@
+run J manifest, job 87214725-79aa-41dd-9d53-5637f85ab4f5, stratum free, 2026-10-16T11:43:18Z
+revision 1244b7c (tag run-j)
+dc18d92759f25599e7244c5df6efeb2decd5a9e7957a5b76772ae51efe506496  /home/pete/mh370/bin-1244b7c
+chain sampler: config/davey2016-inmarsat.toml config/sensitivity/no-exhaustion-prior.toml config/sensitivity/fuel-fixes/s1-factor.toml config/sensitivity/fuel-fixes/s2-temperature.toml config/sensitivity/fuel-fixes/s3-internal.toml config/sensitivity/fuel-fixes/s4-ceiling.toml config/sensitivity/fuel-fixes/s5-hard-reject.toml config/sensitivity/fuel-fixes/s6-tanks.toml config/sensitivity/reference-snapshots.toml config/sensitivity/early-families/radar-full.toml config/sensitivity/fuel-fixes/s7-single-engine.toml config/sensitivity/fuel-fixes/s8-hold-taper.toml config/sensitivity/fuel-fixes/inop-flow-fix.toml config/sensitivity/early-families/speed-envelope-throughout.toml config/sensitivity/handoff-lookahead-d.toml config/sensitivity/run-j/obs-bfo432.toml config/sensitivity/run-j/kx.toml config/sensitivity/early-families/route-sampler.toml config/sensitivity/run-j/size-sampler.toml
+chain free: config/davey2016-inmarsat.toml config/sensitivity/no-exhaustion-prior.toml config/sensitivity/fuel-fixes/s1-factor.toml config/sensitivity/fuel-fixes/s2-temperature.toml config/sensitivity/fuel-fixes/s3-internal.toml config/sensitivity/fuel-fixes/s4-ceiling.toml config/sensitivity/fuel-fixes/s5-hard-reject.toml config/sensitivity/fuel-fixes/s6-tanks.toml config/sensitivity/reference-snapshots.toml config/sensitivity/early-families/radar-full.toml config/sensitivity/fuel-fixes/s7-single-engine.toml config/sensitivity/fuel-fixes/s8-hold-taper.toml config/sensitivity/fuel-fixes/inop-flow-fix.toml config/sensitivity/early-families/speed-envelope-throughout.toml config/sensitivity/handoff-lookahead-d.toml config/sensitivity/run-j/obs-bfo432.toml config/sensitivity/run-j/kx.toml config/sensitivity/early-families/free.toml config/sensitivity/run-j/size-free.toml
+chain dc: config/davey2016-inmarsat.toml config/sensitivity/no-exhaustion-prior.toml config/sensitivity/fuel-fixes/s1-factor.toml config/sensitivity/fuel-fixes/s2-temperature.toml config/sensitivity/fuel-fixes/s3-internal.toml config/sensitivity/fuel-fixes/s4-ceiling.toml config/sensitivity/fuel-fixes/s5-hard-reject.toml config/sensitivity/fuel-fixes/s6-tanks.toml config/sensitivity/reference-snapshots.toml config/sensitivity/early-families/radar-full.toml config/sensitivity/fuel-fixes/s7-single-engine.toml config/sensitivity/fuel-fixes/s8-hold-taper.toml config/sensitivity/fuel-fixes/inop-flow-fix.toml config/sensitivity/early-families/speed-envelope-throughout.toml config/sensitivity/handoff-lookahead-d.toml config/sensitivity/run-j/obs-bfo432.toml config/sensitivity/run-j/kx.toml config/sensitivity/early-families/descent-climb.toml config/sensitivity/run-j/size-dc.toml
+chain repro: config/davey2016-inmarsat.toml config/sensitivity/no-exhaustion-prior.toml config/sensitivity/fuel-fixes/s1-factor.toml config/sensitivity/fuel-fixes/s2-temperature.toml config/sensitivity/fuel-fixes/s3-internal.toml config/sensitivity/fuel-fixes/s4-ceiling.toml config/sensitivity/fuel-fixes/s5-hard-reject.toml config/sensitivity/fuel-fixes/s6-tanks.toml config/sensitivity/reference-snapshots.toml config/sensitivity/early-families/radar-full.toml config/sensitivity/fuel-fixes/s7-single-engine.toml config/sensitivity/fuel-fixes/s8-hold-taper.toml config/sensitivity/fuel-fixes/inop-flow-fix.toml config/sensitivity/handoff-lookahead-d.toml config/sensitivity/run-j/obs-bfo432.toml config/sensitivity/run-j/kx.toml config/sensitivity/run-j/size-repro.toml
+chain repro-r600: config/davey2016-inmarsat.toml config/sensitivity/no-exhaustion-prior.toml config/sensitivity/fuel-fixes/s1-factor.toml config/sensitivity/fuel-fixes/s2-temperature.toml config/sensitivity/fuel-fixes/s3-internal.toml config/sensitivity/fuel-fixes/s4-ceiling.toml config/sensitivity/fuel-fixes/s5-hard-reject.toml config/sensitivity/fuel-fixes/s6-tanks.toml config/sensitivity/reference-snapshots.toml config/sensitivity/early-families/radar-full.toml config/sensitivity/fuel-fixes/s7-single-engine.toml config/sensitivity/fuel-fixes/s8-hold-taper.toml config/sensitivity/fuel-fixes/inop-flow-fix.toml config/sensitivity/handoff-lookahead-d.toml config/sensitivity/run-j/obs-bfo432.toml config/sensitivity/run-j/kx.toml config/sensitivity/run-j/size-repro-r600.toml config/sensitivity/run-j/companion-r600.toml
+chain repro-r600bfo: config/davey2016-inmarsat.toml config/sensitivity/no-exhaustion-prior.toml config/sensitivity/fuel-fixes/s1-factor.toml config/sensitivity/fuel-fixes/s2-temperature.toml config/sensitivity/fuel-fixes/s3-internal.toml config/sensitivity/fuel-fixes/s4-ceiling.toml config/sensitivity/fuel-fixes/s5-hard-reject.toml config/sensitivity/fuel-fixes/s6-tanks.toml config/sensitivity/reference-snapshots.toml config/sensitivity/early-families/radar-full.toml config/sensitivity/fuel-fixes/s7-single-engine.toml config/sensitivity/fuel-fixes/s8-hold-taper.toml config/sensitivity/fuel-fixes/inop-flow-fix.toml config/sensitivity/handoff-lookahead-d.toml config/sensitivity/run-j/obs-bfo432.toml config/sensitivity/run-j/kx.toml config/sensitivity/run-j/size-repro-r600bfo.toml config/sensitivity/run-j/companion-r600bfo.toml
+8e79e914b5a160a9f30053bf488fd96917d29ef47f740b47909cb8f621533480  config/davey2016-inmarsat.toml
+42d1685b433a6d67186c78f22128fcdbd3f7ee8b9336a7fc547e04d421e284ff  config/sensitivity/no-exhaustion-prior.toml
+e1afdf607c4acb7fed9a79c60f236aed299af2a225db143ba6f30856b20faddd  config/sensitivity/fuel-fixes/s1-factor.toml
+ac1ebd5e5663c9c0b4128f7e748d70b44cb0be4f9ebdd4dd69cf27e107d733f0  config/sensitivity/fuel-fixes/s2-temperature.toml
+f915510baae81c5638d736dbe8a6ecf19228075b74f477317a84b8e9a4d5002a  config/sensitivity/fuel-fixes/s3-internal.toml
+d3ad00e2c59008ec1368fbcdc01b0e9243bcc572d91f2bf4f15917215d2ce06d  config/sensitivity/fuel-fixes/s4-ceiling.toml
+d0625f5d585e5d1bdaa3005f64fc153d8ce8ea69f32f59cfccb697ed3f6c9f0d  config/sensitivity/fuel-fixes/s5-hard-reject.toml
+1cf73854621209835983cd591805fff22fedc9abdf00fd066ffac623ca5c3ee4  config/sensitivity/fuel-fixes/s6-tanks.toml
+9fca81780da68bffc35571f0c89947006945611a13f57bcdbfc5081b2a6fb459  config/sensitivity/reference-snapshots.toml
+0a85f7d275b35907d8b6cf16c20ebd9e2ebba06ba6027f10d9adb3f368242987  config/sensitivity/early-families/radar-full.toml
+751c62bc4294a845ddfc27061cd69481a3b61a82c995fff3eab54154e755a599  config/sensitivity/fuel-fixes/s7-single-engine.toml
+769fc60786efb3d9987bf3fa5bddd6053eec0b614fe7916cd98d574fe57b6b63  config/sensitivity/fuel-fixes/s8-hold-taper.toml
+f8a1fcf34bda83fb44358acfab3851d5c3cbe088d86eda3eb3d6586a2e912119  config/sensitivity/fuel-fixes/inop-flow-fix.toml
+e936df91f0051eef4831e6d166194d64bd2efbf72baef75965158396a4de5eca  config/sensitivity/early-families/speed-envelope-throughout.toml
+4fe894b3ac9e7be91e6aeaa6ae344e041d1b65f32b9d0c9c3dae30eaa710e101  config/sensitivity/handoff-lookahead-d.toml
+d82b4fdf512904e6154d85700085de678239e305c0f0771d526a82676f7acc6e  config/sensitivity/run-j/obs-bfo432.toml
+dffb8b734242567c34129123aa40842f8af68dfdcbc84eedd149594b78bf6c04  config/sensitivity/run-j/kx.toml
+7f1cf8694922faa3a122b2bfc7ca18080d43ac21e6385639c372cf41b522cb06  config/sensitivity/early-families/route-sampler.toml
+19b446a25cac9fba920fed3f2d821b12c0fdf3d370e4f17c36389086d924a28d  config/sensitivity/run-j/size-sampler.toml
+b7744f332b57abefc831ab1cbb45baea4afdf8bf23cfe336563b3b93bd2411c0  config/sensitivity/early-families/free.toml
+bdcf1dfd31933e832cde5d9bd86a23d0f1796565e4d3c9c5814968384f37b9be  config/sensitivity/early-families/descent-climb.toml
+bc8d1a03275a3b721c8124e31add0fb175623237c9da54c53eded6c73edbeada  config/sensitivity/run-j/README.md
+7f40ead194ef400d26a1918b471b93a813da550f61aa5fc583578198c7ff2193  config/sensitivity/run-j/companion-r600.toml
+9e4f581f37e39392e5a593b0f132a1d4df783fcdf97e133e8350547d131fd0a1  config/sensitivity/run-j/companion-r600bfo.toml
+dffb8b734242567c34129123aa40842f8af68dfdcbc84eedd149594b78bf6c04  config/sensitivity/run-j/kx.toml
+d82b4fdf512904e6154d85700085de678239e305c0f0771d526a82676f7acc6e  config/sensitivity/run-j/obs-bfo432.toml
+e3c552436f2530180dfc4923b0b46146eb0f2a144d9a56e6d155732b78e3c895  config/sensitivity/run-j/size-dc.toml
+a0ad8fef1dba3b5d4cfbf57442273b26bba2bec21cc1c7a89ebb013e2da62cc3  config/sensitivity/run-j/size-free.toml
+eca4756004555fe2c40c40c6b6df2f4036fc0a7dc8203181681beba7d0df4e75  config/sensitivity/run-j/size-repro-r600.toml
+a870e3e3dd845c860bf52b43ce282d7a0e85c53b6d257022539766ad2f3baafe  config/sensitivity/run-j/size-repro-r600bfo.toml
+d981b7ed573976f8525cc753c0eefb8fa42371add2caf188833d7d663187116d  config/sensitivity/run-j/size-repro.toml
+19b446a25cac9fba920fed3f2d821b12c0fdf3d370e4f17c36389086d924a28d  config/sensitivity/run-j/size-sampler.toml
+dbf11f1d843f8140eddcd9f8fc86637e2aa57cf66417fa55b03b503382ecbb5e  config/davey2016.toml
+737f4a32f2342b51b5d5491267317fdf1cd915ff3f9c06b1fc7fc5181e680281  data/sampling-region-phase3.csv
+34f9d35382caa0ab4814818c96e5788de17aa4c861e7557c278ad5baeae85095  data/satcom-1825-sequence.csv
+8ec8c211cf53dd765d4f1da26a39778124b7710c0e1710380d1bb0e3704f0187  data/satcom-observations.csv
+3601c96ca1ce9236b9f157a5c7484e6bb5e7eeaf843553f26fee0ece70ca7aff  data/satellite-ephemeris-inmarsat.csv
+4c56c26d77c826caa2a8084ee29ff459a493641c72ca165d52a92d29908ae2c2  data/satellite-ephemeris.csv
+c0eeffc07f9398e25afbca62ab9d7bdb070c7b14a24f8bdd4798657431724f0c  data/waypoints-n877-northern.csv
+07891cdec219fc9caf4c91a455df93e2e428afc6ec575da0a610f2e554da4f19  data/waypoints.csv
+81c6dee51c01043c8a876b49378450b3c04c452d3e81ae87a02ba4d5bbc60653  data/fuel-tables.json
+6dfdc4797ac59cf59511f2c5f6be4288f20bf9d067cd06a1364f0dca1d9c4698  data/igrf11-declination.manifest.json
+08e26e7f4eba72292fc35014a489d3f7d87f84c1ccda5e4465eda22f770b3d7a  data/igrf14-declination.manifest.json
+2cfbf42986ed20dba3938ad2ccb790933e73b44c90d5e9c972cc1abc9d7a3859  data/variants/satcom-observations-bfo432-r600-1825.csv
+7b0157e616cb3027edf337c9156dd66714530f8ba8000a35912a932c35aa7ec5  data/variants/satcom-observations-bfo432-r600bfo-1825.csv
+e6cd299870c8c094f73da51c36fe56687f3fc7060f87316a2e0ea698f6524b2c  data/variants/satcom-observations-bfo432.csv
+b740fee4f473a7db02ff78cdf3e2bff18517dce1e63194bc3037ec12fe86d22a  data/variants/satellite-ephemeris-inmarsat-r600-1825.csv
+c5fe32e3523cbb50f6c01c860ec1499255ecd71af36b90dcdddb4fe1419d15c8  data/external/fuel-model/internal-v1.json
+b6372d5072920c34708467585b19b010cf97d79e13327917060773d6b6e7cd8a  /home/pete/.claude-science-scratch/.claude-science/jobs/7ba3b89b-e955-45a6-90d5-a28d3164673b/engine-data.tar.gz

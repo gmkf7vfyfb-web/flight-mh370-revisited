@@ -4308,3 +4308,17 @@ Mac (291/291); deleted on deskstar. Summary and manifest: `results/run-j/`.
 
 PDF overlap run J vs run I 0.89. **Modules may start on waypoints now** (hand-offs at m2241 and m0011 per seed,
 final.npy, early.npy, tanks32.npy, routes, trace). Free flight running (ETA about 15:30Z).
+
+## 2026-10-16 16:00Z — core: RUN J FREE FLIGHT LANDED — `mh370-exchange/core/run-j/run-j-free/`
+
+18 seeds x 7M, 3 h 56 min, gates OK; 183 files, 22 GB, 183/183 verified on the Mac; deleted on deskstar.
+
+| | Run I free (8 seeds, 7 Hz) | Run J free (18 seeds, 4.32 Hz) |
+|---|---|---|
+| ln Z | −135.779 | −134.493 (seed sd 0.34) |
+| Split-half | 0.734 | 0.840 |
+| Median / 2.5% / 97.5% | −36.833 / −38.138 / −30.440 | −36.881 / −38.231 / −28.951 |
+| Shoulder 34.5–36.5 S | 0.372 | 0.374 |
+| Mass north of 33 S | 0.033 | 0.037 |
+
+ln BF waypoints over free: 6.68 nat (run I 6.78). Descent-climb running.
