@@ -1,6 +1,6 @@
 # Both-burst 00:19 cells (D3, D4): the descent-sampling fix, smoke on seed 1 — 16 Oct 2026
 
-**Status: SMOKE, one seed, one stratum. Not evidence; do not quote.** Answers core's work request of 15 Oct 23:17Z
+**Status: SMOKE (sections 1-4: run I repro seed 1; section 4b: run J waypoints seed 1). Not evidence; do not quote.** Answers core's work request of 15 Oct 23:17Z
 (`coordination/END_OF_FLIGHT.md`; core note `results/item10-phase1/smoke-2026-10-15.md`). The seed-2 repeat could not run:
 core's run-I hand-offs were removed from `mh370-exchange/core/run-i/` at 02:00:45Z on 16 Oct (folder time stamp), so the repeat is
 **not assessed**, not failed.
@@ -73,13 +73,62 @@ was meant to separate them; it is not assessed (see the status line). **Until it
 - The verification still needed is run J seed 1 of the repro stratum, base against children 64 against aimed, as soon as its
   hand-offs land (about 1 h).
 
+
+## 4b. Check on run J (16 Oct 2026, 03:32-04:28Z): waypoints stratum, seed 1, all three arms
+
+**Status: SMOKE, one seed. Not evidence.** Hand-off: core `run-j/run-j-smoke-waypoints/bto-bfo/seed-1/handoff-m0011` (sha256 of the
+uncompressed hand-off verified against core's COMPACT.txt; 99,998 parents). Config chain = core's run.json `config_paths` without
+`config/sensitivity/run-j/smoke.toml`, which is not in the repository (it sizes core's smoke filter, not the terminal stage). Binary built
+from 16f2eb1 in target-r3, sha256 19031f41748ecb0c (a second build after the run gave the same hash). Recipe as section 1. Times at 14 threads:
+base 3.0 min, children 64 31.1 min (10.4x), aimed 20.8 min (6.9x). This is the stratum that carries 0.9982 of the core prior.
+
+| 00:19 cell | base: eff parents / eff impacts | aimed K = 8 | children 64 | ln Z change, aimed | ln Z change, children 64 | parent ESS ceiling (base) |
+|---|---|---|---|---|---|---|
+| held out | 57,283 / 637,257 | 45,159 / 159,759 | 61,613 / 5,201,849 | +0.000 | +0.000 | 62,381 |
+| R600 BFO | 5,781 / 6,703 | 1,290 / 1,319 | 26,367 / 53,193 | +0.006 | -0.023 | 55,770 |
+| D3 both raw | 219 / 219 | 66 / 66 | 488 / 494 | +0.325 | +0.150 | 119,499 |
+| D4 both, start-up offset | 251 / 252 | 1,291 / 1,322 | 2,576 / 2,666 | -0.033 | -0.062 | 33,710 |
+| both, inflated sd | 3,299 / 3,479 | 9,816 / 11,696 | 19,620 / 27,637 | -0.022 | -0.020 | 76,326 |
+
+Prior recovery with the 00:19 likelihood off (held-out cell), max CDF difference against base (standard 0.0030):
+
+| quantity | aimed | children 64 |
+|---|---|---|
+| latitude_deg | 0.0018 | 0.0009 |
+| unix_s | 0.0015 | 0.0013 |
+| latent:onset_unix_s | 0.0036 | 0.0011 |
+| latent:pushover_rate_fpm | 0.0033 | 0.0016 |
+| latent:pushover_hold_s | 0.0051 | 0.0022 |
+| latent:max_descent_rate_fpm | 0.0021 | 0.0011 |
+| flight_path_angle_deg | 0.0047 | 0.0007 |
+
+**Reading.**
+1. **Children 64 passes (b) here:** the largest difference is 0.0022, which is inside the 0.0030 standard. **The aimed arm fails (b)** on
+   four quantities, the largest 0.0051 (push-over hold). This repeats the repro-stratum result on a second, independent hand-off. The
+   aimed arm is now **not recommended** at all.
+2. **The aimed arm makes D3 worse** (219 to 66 effective impacts), and its D3 ln Z moves by +0.33 nat. Its "both" target favours the
+   start-up-offset pair. So one aimed proposal cannot serve D3 and D4 together.
+3. **Children 64 meets (a) for D4 on this seed: 2,666 effective impacts** (base 252, 10.6x for 8x the descents). D3 rises only from 219
+   to 494 (2.3x) and does not meet (a) per seed. Pooled over 8 waypoints seeds, it would be about 4,000, if the seeds are independent.
+4. **(c):** children 64 moves D4 ln Z by −0.06 and D3 by +0.15 against a base of 219 effective impacts. That is consistent with base noise.
+5. **Production recipe on run J:** D4 base is 252 here, against 32 on run-I repro. The run-I repro base was therefore not typical of
+   the dominant stratum.
+
+**Plan (approved by Pete about 03:40Z on 16 Oct, to run after run J finishes): the supplementary pass.**
+- 224 extra descents per parent, scored for the both-burst cells (D3, D4, D5, plus the inflated-sd companion).
+- Production 32-descent pass unchanged.
+- Storage: a weighted resample per both-burst cell (systematic resampling to a fixed row count), not the full rows. A full children-64
+  compact file is 11 GB per waypoints seed (measured), so full storage is not possible inside core's 35 GiB budget.
+- Proposed size: 8 waypoints seeds (about 4.2 h at 14 threads) plus 4 seeds in each other stratum (about 2-3 h, estimated from
+  the run-I repro timings). Final size to be posted with the run-J hand-off landing times, under the heavy lock.
+
 ## 5. COVERAGE
 **(a) Feasible set.** The pair at 00:19:29.416 / 00:19:37.443 needs a vertical-speed change of about -9,400 to -9,800 ft/min in 8.0 s.
 The 777-200ER can reach this in an uncontrolled spiral or push-over after flame-out (Boeing no-input traces; ATSB).
 **(b) Model's reach.** The descent laws produce such pairs from almost any 00:11 parent; the parent ESS ceiling is 30k-122k of 100k
 parents' worth (base, seed 1). This fix does not change the reach.
 **(c) Proposal's coverage.** D3 and D4 are **estimable only at about 700-850 effective impacts per seed** under either fix (seed 1,
-repro stratum; other strata not run). They remain a declared coverage gap at the production setting (D3 228, D4 32). The held-out
+repro stratum). On run J waypoints seed 1, children 64 gives D4 2,666 and D3 494 (section 4b); D3 stays a per-seed gap. They remain a declared coverage gap at the production setting (D3 228, D4 32). The held-out
 and R600 cells are well covered in base and brute force. Under the aimed arm the held-out cell falls to 100k effective impacts and R600
 to 4,070. Families: A1, A2 and B controlled carry their shares within 0.001 in all arms; B uncontrolled (0.0011) has fewer than
 1,000 effective impacts in the both-burst cells and is not estimable there. Bounds: aimed K = 8 is a sampling choice and the selection

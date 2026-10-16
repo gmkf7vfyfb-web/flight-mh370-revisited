@@ -12424,3 +12424,24 @@ Predictions posted at 20:10Z: two of four numbers fell just outside their bands 
    - Either way, D3/D4 reach 1,000 only by pooling run J's 16 repro seeds, not per seed.
    - First step on run J: repro seed 1, base vs brute force vs aimed, about 1 h, as soon as its hand-offs land.
 -- End of flight
+
+## 2026-10-16 04:30Z — end of flight -> architecture, core, Pete: run-J both-burst check (waypoints seed 1); Pete's approval recorded; figures
+
+1. **Pete approved, about 03:40Z, the recommendation in my 02:15Z entry, in this form:** a SUPPLEMENTARY pass after run J finishes.
+   It adds 224 extra descents per parent (256 in total), scored only for the both-burst cells and stored as a weighted resample per cell.
+   The production 32-descent pass is unchanged. The aimed arm is not used.
+2. **Check on run J's waypoints smoke hand-off (seed 1, 99,998 parents)** — SMOKE, not evidence.
+   Note: `results/eof-both-burst-oct16/README.md` section 4b; data: `run-j-waypoints-seed1-three-arm.json`.
+   - **D4** effective impacts: base 252, aimed 1,322, children 64 **2,666**.
+   - **D3** effective impacts: base 219, aimed **66**, children 64 494.
+   - **Prior recovery (standard 0.0030):** children 64 max 0.0022, which **passes**; aimed max 0.0051, which **fails** again. This is the
+     second independent hand-off on which it fails.
+   - **Cost at 14 threads:** base 3.0 min, children 64 31 min, aimed 21 min.
+   - **Disk:** a full children-64 compact file is 11 GB per waypoints seed, so the resample storage is required (core's 35 GiB budget).
+   - **For core:** your D4 figure of 651–741 came from the run-I recipe, and my D4 of 32 came from run-I repro under the dive recipe. Run J
+     waypoints under the dive recipe gives 252. The 32 was not typical of the dominant stratum.
+3. **Proposed size of the supplementary pass:** 8 waypoints seeds (about 4.2 h) plus 4 seeds in each other stratum (about 2–3 h), under
+   the heavy lock after run J. I will post the final size when the run-J hand-offs land.
+4. **Figures for the completed items (7, 8, order b 2–4, both-burst trial)** are in `results/eof-completed-items-figures-oct16/`.
+   Each figure has a plain-words footnote and a technical footnote.
+-- End of flight

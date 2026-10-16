@@ -1,0 +1,206 @@
+{
+ "base": {
+  "rows": 3199936,
+  "rows_per_parent": 32,
+  "weight_sum": 0.9978509964435509,
+  "opts": {
+   "none": {
+    "ln_Z_rel": 0.0,
+    "eff_impacts": 637257.3383238048,
+    "eff_parents": 57282.86043305791,
+    "eff_parents_half_A": 52920.8447802545,
+    "eff_parents_half_B": 52989.63056541492,
+    "ceiling_parent_ess": 62380.962158570495,
+    "corr_halves": 0.6788125271507309
+   },
+   "r600/no-offset": {
+    "ln_Z_rel": -12.642033793360493,
+    "eff_impacts": 6702.874276472088,
+    "eff_parents": 5780.824290713505,
+    "eff_parents_half_A": 2855.4650882075066,
+    "eff_parents_half_B": 3276.792691139073,
+    "ceiling_parent_ess": 55769.74759240818,
+    "corr_halves": 0.025029474232591907
+   },
+   "both/no-offset": {
+    "ln_Z_rel": -21.99177721111227,
+    "eff_impacts": 219.29294104381526,
+    "eff_parents": 218.87190115335582,
+    "eff_parents_half_A": 127.3910847998758,
+    "eff_parents_half_B": 97.73223138995654,
+    "ceiling_parent_ess": 119498.7768092071,
+    "corr_halves": -0.00018127592755996986
+   },
+   "both/startup-offset": {
+    "ln_Z_rel": -21.960756068695286,
+    "eff_impacts": 252.22549124003191,
+    "eff_parents": 250.92941301644305,
+    "eff_parents_half_A": 190.9700892060505,
+    "eff_parents_half_B": 97.6348436937723,
+    "ceiling_parent_ess": 33710.130974734006,
+    "corr_halves": 0.002694888172713822
+   },
+   "both/inflated": {
+    "ln_Z_rel": -21.629526113192604,
+    "eff_impacts": 3478.9995032664992,
+    "eff_parents": 3298.9005488072535,
+    "eff_parents_half_A": 1680.7302667379931,
+    "eff_parents_half_B": 1691.0572261686332,
+    "ceiling_parent_ess": 76325.74264215164,
+    "corr_halves": 0.005319199153491394
+   }
+  }
+ },
+ "aimed": {
+  "rows": 3199936,
+  "rows_per_parent": 32,
+  "weight_sum": 0.9968277582188592,
+  "opts": {
+   "none": {
+    "ln_Z_rel": 0.0,
+    "eff_impacts": 159759.4273864361,
+    "eff_parents": 45158.61778166143,
+    "eff_parents_half_A": 35020.583939974524,
+    "eff_parents_half_B": 35756.76650446673,
+    "ceiling_parent_ess": 62389.88915760302,
+    "corr_halves": 0.3301575568686773
+   },
+   "r600/no-offset": {
+    "ln_Z_rel": -12.635992894375061,
+    "eff_impacts": 1319.31562454707,
+    "eff_parents": 1290.2193081738867,
+    "eff_parents_half_A": 836.9215130485669,
+    "eff_parents_half_B": 553.1900672387103,
+    "ceiling_parent_ess": 60641.67555748536,
+    "corr_halves": 0.004472291435774052
+   },
+   "both/no-offset": {
+    "ln_Z_rel": -21.66670841123237,
+    "eff_impacts": 66.18432978735244,
+    "eff_parents": 66.05719676652332,
+    "eff_parents_half_A": 39.264768026486145,
+    "eff_parents_half_B": 28.845762246238856,
+    "ceiling_parent_ess": 51891.49883113417,
+    "corr_halves": 0.00031235383189087305
+   },
+   "both/startup-offset": {
+    "ln_Z_rel": -21.99334244194051,
+    "eff_impacts": 1321.983462396058,
+    "eff_parents": 1290.9895140402036,
+    "eff_parents_half_A": 726.0747144966563,
+    "eff_parents_half_B": 590.2575526526507,
+    "ceiling_parent_ess": 75781.2348326211,
+    "corr_halves": 0.002105930125428048
+   },
+   "both/inflated": {
+    "ln_Z_rel": -21.651103525906862,
+    "eff_impacts": 11696.16047648198,
+    "eff_parents": 9816.019082572482,
+    "eff_parents_half_A": 7364.5967518285415,
+    "eff_parents_half_B": 4134.657008154996,
+    "ceiling_parent_ess": 69244.42742525841,
+    "corr_halves": 0.026009020842673196
+   }
+  },
+  "test6_vs_base": {
+   "weight_ratio_aimed_over_base": 0.9989745580970117,
+   "max_cdf_dev": {
+    "latitude_deg": 0.0017928077323855485,
+    "unix_s": 0.0014891851204086315,
+    "latent:onset_unix_s": 0.003641142044626955,
+    "latent:pushover_rate_fpm": 0.0032900478282851114,
+    "latent:pushover_hold_s": 0.0050843068337993735,
+    "latent:max_descent_rate_fpm": 0.0020802396245380717,
+    "flight_path_angle_deg": 0.00465931343947007
+   },
+   "family_shares_base": {
+    "1": 0.1545328263297721,
+    "2": 0.31867414900272284,
+    "3": 0.5258916478063015,
+    "6": 0.0009013768612035354
+   },
+   "family_shares_aimed": {
+    "1": 0.1549179586701411,
+    "2": 0.31989632034482934,
+    "3": 0.5242813824823321,
+    "6": 0.0009043385026976744
+   }
+  }
+ },
+ "ch64": {
+  "rows": 25599488,
+  "rows_per_parent": 256,
+  "weight_sum": 0.9970172951657913,
+  "opts": {
+   "none": {
+    "ln_Z_rel": 0.0,
+    "eff_impacts": 5201848.5098575475,
+    "eff_parents": 61613.44845462171,
+    "eff_parents_half_A": 60956.686039067936,
+    "eff_parents_half_B": 60914.06824209882,
+    "ceiling_parent_ess": 62306.78140870522,
+    "corr_halves": 0.9436545936223627
+   },
+   "r600/no-offset": {
+    "ln_Z_rel": -12.665244391593792,
+    "eff_impacts": 53193.36998911284,
+    "eff_parents": 26366.694398885433,
+    "eff_parents_half_A": 17744.52926838268,
+    "eff_parents_half_B": 17200.32404081313,
+    "ceiling_parent_ess": 53724.4330481532,
+    "corr_halves": 0.18234610910084723
+   },
+   "both/no-offset": {
+    "ln_Z_rel": -21.84227439994618,
+    "eff_impacts": 494.44904119659714,
+    "eff_parents": 488.38747871562504,
+    "eff_parents_half_A": 238.81643722406184,
+    "eff_parents_half_B": 254.0397985112079,
+    "ceiling_parent_ess": 30056.91679488459,
+    "corr_halves": 0.005777218995734996
+   },
+   "both/startup-offset": {
+    "ln_Z_rel": -22.02308474012228,
+    "eff_impacts": 2665.6758989290665,
+    "eff_parents": 2575.579055902125,
+    "eff_parents_half_A": 1214.2912180029634,
+    "eff_parents_half_B": 1433.6774075869541,
+    "ceiling_parent_ess": 68850.98508864727,
+    "corr_halves": 0.006051469067923763
+   },
+   "both/inflated": {
+    "ln_Z_rel": -21.649615229234747,
+    "eff_impacts": 27636.753559406527,
+    "eff_parents": 19620.366247137667,
+    "eff_parents_half_A": 11453.99334783636,
+    "eff_parents_half_B": 11366.436916951423,
+    "ceiling_parent_ess": 69959.25748360113,
+    "corr_halves": 0.05530503369353244
+   }
+  },
+  "test6_vs_base": {
+   "weight_ratio_aimed_over_base": 0.9991645032367247,
+   "max_cdf_dev": {
+    "latitude_deg": 0.0008711638576872349,
+    "unix_s": 0.0012660442420991957,
+    "latent:onset_unix_s": 0.001135669347937407,
+    "latent:pushover_rate_fpm": 0.0016004629363005618,
+    "latent:pushover_hold_s": 0.0021904654964767234,
+    "latent:max_descent_rate_fpm": 0.0010833192552853754,
+    "flight_path_angle_deg": 0.0007383964373940122
+   },
+   "family_shares_base": {
+    "1": 0.1545328263297721,
+    "2": 0.31867414900272284,
+    "3": 0.5258916478063015,
+    "6": 0.0009013768612035354
+   },
+   "family_shares_aimed": {
+    "1": 0.1550460975689589,
+    "2": 0.3187086488473663,
+    "3": 0.5253177254855673,
+    "6": 0.0009275280981075235
+   }
+  }
+ }
+}
