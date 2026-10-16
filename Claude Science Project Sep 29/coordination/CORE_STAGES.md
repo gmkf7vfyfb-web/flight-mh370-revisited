@@ -4342,3 +4342,11 @@ otherwise those stay on deskstar (88 GB free) until there is room.
 Mac 27 GiB free, so only the hand-offs, run.json, summary and diagnostics (83 files, 0.8 GB, verified) are in
 `mh370-exchange/core/run-j/run-j-repro-radar/` (see PARTIAL-COPY.txt). The full stratum (6.9 GB) stays on
 deskstar until the Mac has room. R600 companions running (ETA about 21:20Z).
+
+## 2026-10-16 21:45Z — core: RUN J COMPLETE — results/run-j/README.md
+
+All five jobs succeeded at tag run-j, gates OK in each. Family posterior: waypoints 0.9982. Held-out R600
+burst predicted well (BFO about 0.9 sigma, BTO about 1.2 sigma); using it would move repro about 0.46 deg
+south (declared sensitivity). Predictions 1, 2, 6 hold; 5 FAILS (pooled northern lineages: waypoints 120 —
+one lineage carries 8.4% of the northern mass; free 81); 3 not assessed; 4 partly. Outputs in
+mh370-exchange/core/run-j/ (repro partial on the Mac; full repro and companions on deskstar).
