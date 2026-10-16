@@ -4261,3 +4261,11 @@ results/islands-check-2026-10-15/RESULTS-waypoints.md and RESULTS-free.md.
   evidence-tilted proposal (about a day, new estimator). Waiting for Pete.
 
 - **Ruling (Pete, 01:00Z): 24 waypoint seeds** for run J (option b). Run J about 17 h.
+
+## 2026-10-16 01:10Z — core: request 21 (kappa_x) PASSED gates; merged to claude-science-sep29
+
+results/request21-2026-10-16/. Tests pass; gates B/C byte-identical; regress-seed1 equal. Smoke (2 x 1.75M,
+fuel not constraining): N(1.0, 0.046) moves the FE median by −25 s and widens the 5–95% band slightly;
+N(1.027, 0.043) moves it by −4.8 min and raises dry-before-00:11 from 0.918 to 0.937. ln Z unchanged by
+design. Run J uses `config/sensitivity/request21/kx-on.toml`'s [fuel] value [1.0, 0.046] (PROVISIONAL,
+pending the fuel session's internal-v1 residuals); [1.027, 0.043] is a declared sensitivity.
