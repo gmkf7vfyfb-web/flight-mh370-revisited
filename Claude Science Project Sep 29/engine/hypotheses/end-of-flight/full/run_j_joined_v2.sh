@@ -33,7 +33,7 @@ for arm in $ARMS; do for k in $SEEDS; do
   ln -s "$H/handoff.npy" $d/handoff.npy; gzip -dc "$H/handoff.toml.gz" > $d/handoff.toml
   want=$(cat "$SD/COMPACT.txt" "$CORE/COMPACT.txt" 2>/dev/null | grep "$st/bto-bfo/seed-$k/handoff-$ep/handoff.toml.gz" | head -1 | sed "s/.*sha256(uncompressed)=\([0-9a-f]*\).*/\1/")
   got=$(shasum -a 256 $d/handoff.toml | cut -c1-64); [ -n "$want" ] && [ "$want" != "$got" ] && { echo "SHA MISMATCH $arm $k"; continue; }
-  while :; do free=$(df -g /Users/pete | tail -1 | awk '{print $4}'); [ "$free" -ge "${EOF_MIN_FREE_GB:-15}" ] && break
+  while :; do free=$(df -g /Users/pete | tail -1 | awk '{print $4}'); [ "$free" -ge "${EOF_MIN_FREE_GB:-35}" ] && break
     echo "  waiting: ${free} GiB free ($(date -u +%T))"; sleep 300; done
   o=runs/RJV2-$arm-s$k; rm -rf $o
   echo "$arm seed $k start $(date -u +%T)" | tee -a $OUT/LOG
