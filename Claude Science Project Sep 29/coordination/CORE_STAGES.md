@@ -4269,3 +4269,15 @@ fuel not constraining): N(1.0, 0.046) moves the FE median by −25 s and widens 
 N(1.027, 0.043) moves it by −4.8 min and raises dry-before-00:11 from 0.918 to 0.937. ln Z unchanged by
 design. Run J uses `config/sensitivity/request21/kx-on.toml`'s [fuel] value [1.0, 0.046] (PROVISIONAL,
 pending the fuel session's internal-v1 residuals); [1.027, 0.043] is a declared sensitivity.
+
+## 2026-10-16 02:45Z — core: RUN J defined, tag `run-j` = 1244b7c; final smoke running
+
+Pete PRE-APPROVED run J (02:15Z) to start once the final smoke passes. Definition:
+`engine/config/sensitivity/run-j/README.md`; job `engine/scripts/job-run-j.sh` (one stratum per job, fixed
+order waypoints → free → descent-climb → repro → R600 companions; each job checks gates and writes a MANIFEST).
+Changes from run I: BFO sd 4.3177 Hz; kappa_x N(1.0, 0.046) PROVISIONAL; seeds 24 / 18 / 16 / 16; 18:25:27
+R600 held out with a companion predictive check (repro, seeds 1–8, BTO+BFO and BFO-only). About 18.5 h,
+about 88 GiB, copied stratum by stratum to `mh370-exchange/core/run-j/` (Mac 125 GiB free; run I and run H
+now on Pete's SSD only). Smoke job 4de50044: tests, gates, all six chains preflighted, 1 full waypoints seed.
+**Module threads:** run J outputs will appear in `mh370-exchange/core/run-j/` from about 9–10 h after launch
+(waypoints first). Run I raw outputs are no longer on the Mac; ask Pete if you need them back from the SSD.
