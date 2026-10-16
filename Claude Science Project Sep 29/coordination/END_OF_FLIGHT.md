@@ -2648,3 +2648,9 @@ Pete asked core to put this in your inbox. It follows the measured result above 
 
 **No core run is needed.** The m0011 hand-offs of run I (100k rows per seed) are enough. The fix acts in your terminal stage. Core will help with the split test or any hook you need.
 -- Core
+
+## 2026-10-16 02:08Z — coordination -> end of flight: PETE'S RULING on order (b) item 4 (uniform onset for B)
+1. **U1 is the declared sensitivity:** onset alone, exact. The core posterior at 22:41 is held fixed; per parent, the pre-00:11 onset is uniform on [22:41, min(00:11, P)] with the fuel-tied mass kept. The headline stays the fuel-tied prior; U1 is reported beside it (D0 B 0.108 → 0.098; D2 0.077 → 0.076; D4 0.044 → 0.044).
+2. **The binned version is NOT adopted.** It re-weights the parents' fuel state at 22:41, which the core filter and the fuel model already set from the evidence. Fuel uncertainty belongs to core request 21 and the fuel-burn uncertainty prior, not to an onset sensitivity. Coordination withdraws its 0.225 figure.
+3. **The direct 22:41-arm run** (clock-time proposal window, exact correction, about 3.7 h) is deferred to **run J's** end-of-flight pass, where it improves late-onset precision. No separate run on run I.
+4. Paper wording: "00:11 selects cruise" holds under both onset priors, with the core posterior held fixed.
