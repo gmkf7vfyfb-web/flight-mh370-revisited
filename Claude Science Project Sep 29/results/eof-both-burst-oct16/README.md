@@ -122,6 +122,15 @@ Prior recovery with the 00:19 likelihood off (held-out cell), max CDF difference
 - Proposed size: 8 waypoints seeds (about 4.2 h at 14 threads) plus 4 seeds in each other stratum (about 2-3 h, estimated from
   the run-I repro timings). Final size to be posted with the run-J hand-off landing times, under the heavy lock.
 
+**Storage, built and tested (16 Oct 04:50Z): `engine/hypotheses/end-of-flight/smoke/both_burst_thin.py`.** It applies Poisson
+(Horvitz-Thompson) thinning with inclusion probability pi = min(1, c x max over cells of the row's normalised cell weight), over r600/no-offset
+(which covers D5), both/no-offset, both/startup-offset and both/inflated. Kept rows carry weight w/pi, every column is kept, and the
+output is in the same compact layout. Tests on run J waypoints seed 1 (base arm, 3.2 M rows):
+- At 300k rows kept, 263k rows have pi = 1 and every cell's ln Z, median latitude and A1 share are reproduced exactly.
+- At an extreme 3,000 rows kept (40 thinning seeds), the means agree with the full values within 1.2 standard errors: D4 ln Z
+  −21.9582 ± 0.0039 against −21.9629, and A1 0.0637 ± 0.0011 against 0.0638.
+- Planned target: 1 M rows per supplementary seed. That is about 0.24 GB per seed, and about 8 GB for 32 seeds.
+
 ## 5. COVERAGE
 **(a) Feasible set.** The pair at 00:19:29.416 / 00:19:37.443 needs a vertical-speed change of about -9,400 to -9,800 ft/min in 8.0 s.
 The 777-200ER can reach this in an uncontrolled spiral or push-over after flame-out (Boeing no-input traces; ATSB).
