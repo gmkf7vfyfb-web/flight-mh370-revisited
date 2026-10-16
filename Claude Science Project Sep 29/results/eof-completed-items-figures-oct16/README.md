@@ -3,7 +3,7 @@
 Prepared 16 Oct 2026 for Pete Large. Source notes in the repository (branch `claude-science-sep29`):
 `results/eof-item7-dive-prob-oct15/`, `results/eof-item8-round3-oct15/`, `results/eof-order-b-oct15/`, `results/eof-both-burst-oct16/`.
 Every figure has two footnotes: one in plain words and one technical. The figures are made from the stored result files by
-[make_figs.py]({{artifact:art_aea3bec2-f52f-4ace-8ac2-68cf70cc53ec}}).
+[make_figs.py](make_figs.py).
 
 ## Summary
 
@@ -18,7 +18,7 @@ Every figure has two footnotes: one in plain words and one technical. The figure
 
 ## 1. Item 7: the dive probability
 
-![Dive probability]({{artifact:art_ad9a5d49-6507-4bf3-bfe1-8ee550b0450e}})
+![Dive probability](fig1-dive-probability.png)
 
 **Question.** After a push-over, does the aircraft continue to the sea (dive) or level off? Run I assumed that it always levels
 off, which is p = 0. Run-i-dive samples both branches equally, with p = 0.5.
@@ -33,7 +33,7 @@ This must be shown as a sensitivity range in the paper, not as one number.
 
 ## 2. Item 8: round-3 descent laws
 
-![Round-3 laws]({{artifact:art_f57d5fc6-c34c-4219-a21d-03e79334914d}})
+![Round-3 laws](fig2-round3-laws.png)
 
 **Question.** Does the round-3 fit to the Boeing traces change the answer?
 
@@ -47,7 +47,7 @@ uncalibrated (verbatim caveat in every technical footnote).
 
 ## 3. Order (b) item 2: the final transmission imposed on the held-out case
 
-![Transmission imposed]({{artifact:art_2ebb181d-2d9b-4227-a379-fd11503bd497}})
+![Transmission imposed](fig3-transmission-imposed.png)
 
 **Question.** The aircraft transmitted at 00:19:37.443. Some held-out samples were already on the sea before that time. How many were
 there, and what changes when they are removed?
@@ -60,7 +60,7 @@ share to 0.119–0.236, and D4/D0′ = 1.93 (not the 3.2 quoted earlier).
 
 ## 4. Order (b) item 3: the bank limit in an uncontrolled spiral
 
-![Bank limit]({{artifact:art_c582d419-2d6d-47a1-acdb-0b76ce6024c8}})
+![Bank limit](fig4-bank-limit.png)
 
 **Question.** The fixed 52.5° cap is a gap in the model's reach. An uncontrolled 777 can bank past 60° and up to 90°. What happens when
 the limit is sampled?
@@ -77,7 +77,7 @@ paper must state it as a conditional result. Limits above 90° (overbank) are ou
 
 ## 5. Order (b) item 4: a uniform start time for a planned descent
 
-![Onset prior]({{artifact:art_cae0b17a-5633-4b3e-b33d-e83ccbcb5bd4}})
+![Onset prior](fig5-onset-prior.png)
 
 **Question.** Does the planned-descent share depend on when the descent may start?
 
@@ -93,7 +93,7 @@ for run J's end-of-flight pass. "00:11 selects cruise" holds under both onset pr
 
 ## 6. Both-burst sampling fix (trial run only)
 
-![Both-burst trial]({{artifact:art_010b4823-c0fc-4576-938e-6a84d047d269}})
+![Both-burst trial](fig6-both-burst-trial.png)
 
 **Trial run, one seed, one stratum: not evidence.**
 - Aimed selection raised the both-burst cells (D3, D4) from 228 / 32 to 758 / 683 effective impacts. More descents (256 per parent)
