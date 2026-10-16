@@ -4292,3 +4292,19 @@ Jobs (tag run-j = 1244b7c): waypoints 241336ad (started 02:44:36Z), free 8721472
 repro ab0d0171, R600 companions 9ba45948. ETA (smoke rate): waypoints about 11:10Z, free about 14:40Z,
 descent-climb about 16:30Z, repro about 18:10Z, companions about 19:50Z. Each stratum lands in
 `mh370-exchange/core/run-j/<name>/` with SHA256SUMS about 15–30 min after its job ends.
+
+## 2026-10-16 12:00Z — core: RUN J WAYPOINTS LANDED — `mh370-exchange/core/run-j/run-j-waypoints/`
+
+24 seeds x 7M, 8 h 37 min (21.5 min/seed), no OOM, gates OK. 291 files, 46 GB, SHA256SUMS verified on the
+Mac (291/291); deleted on deskstar. Summary and manifest: `results/run-j/`.
+
+| | Run I waypoints (8 seeds, BFO 7 Hz) | Run J waypoints (24 seeds, BFO 4.32 Hz) |
+|---|---|---|
+| ln Z (not comparable: BFO sd differs) | −128.998 | −127.815 (seed sd 0.26) |
+| Split-half | 0.869 | 0.907 |
+| Median / 2.5% / 97.5% (deg) | −37.149 / −37.635 / −34.051 | −37.097 / −37.650 / −33.045 |
+| Shoulder 34.5–36.5 S | 0.109 | **0.167** (prediction 2 holds) |
+| Mass north of 33 S (before searched areas) | 0.0145 | 0.0246 |
+
+PDF overlap run J vs run I 0.89. **Modules may start on waypoints now** (hand-offs at m2241 and m0011 per seed,
+final.npy, early.npy, tanks32.npy, routes, trace). Free flight running (ETA about 15:30Z).
