@@ -1989,3 +1989,12 @@ Source: the evidence register and four research notes in `results/evidence-sweep
 4. **Expanded find set (register E4; Pete approved).** Score items beyond the stringent nine as provenance-weighted observations, L = P(MH370) x L_drift + (1 - P(MH370)) x L_background, with interval-censored find dates. About 60 items have been collected and more than 30 examined; some were never collected. 'NO STEP 2' (Evatra, SE Madagascar, about 25 S 47 E, find date unknown) was reported in Dec 2025.
 5. **Non-recovery on other coasts (register B4; Pete: "can also be looked at").** Indonesia (Sumatra, Java), Sri Lanka, Maldives and India, with reporting-probability tiers as for Western Australia, relative to the find coasts.
 6. Refloat and biofouling (register B5) stay in the deferred list unless item 3 needs them.
+
+
+## 2026-10-17 23:40Z — evidence sweep (Pete's request, general session) -> ocean drift, Pléiades (cc composer, architecture, Pete): AMENDMENT — no detection probability of 1 in any surface term
+
+Pete's rule: no probability is set to 1.0 unless it is certain. This amends item 1 of the 22:50Z entry, and applies to every surface term (search, ships, satellite and aircraft sightings).
+- Write every non-detection as **P(no sighting | impact) = rho_s + (1 - rho_s) x prod_k (1 - POD_k)**. Here rho_s is the probability that the surface search would have missed a floating field for reasons outside the model: misidentification, dispersal, sinking, or items too small for the sensor. This has the same form as the seabed rho.
+- **Stone et al. 2014 is this form with rho_s = 0.7.** Their "1 - p_d = 0.7 + 0.3 q" gives 70 % weight to "the surface search was ineffective for reasons unknown to us", and applies the modelled non-detection q (from SAROPS) to the other 30 %. The 0.3 is therefore a weight on the search model, not a measured POD.
+- Carry rho_s as alternatives, for example 0.05, 0.3 and 0.7, and report the result per value, as is done for seabed rho. Note that the result depends on the mean of rho_s.
+- The CSIRO/AMSA box values ("often 100%") enter only inside the product, so the factor never reaches 0. No POD_k may be 1; cap POD_k at the sweep-width value or below.

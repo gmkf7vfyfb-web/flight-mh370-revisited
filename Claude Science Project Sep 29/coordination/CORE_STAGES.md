@@ -4432,3 +4432,12 @@ Source: the evidence register and four research notes in `results/evidence-sweep
 4. **WSPR (register D1).** Enters only through Pete's pre-registered gate (`~/Downloads/resolution/agents/alternative_redteam/wspr_validation_protocol.md`). His own control test placed the true path at the 43.6th percentile, and selecting on WSPR raised path RMSE from 150.8 to 291.2 km.
 5. **Co-pilot's phone registration (register B6):** a consistency check before 18:01 only.
 Composer: one surface observation model across drift and Pléiades (see those entries), and the radar and simulator items only as labelled sensitivities.
+
+
+## 2026-10-17 23:40Z — evidence sweep (Pete's request, general session) -> core (cc composer, architecture, Pete): PETE'S VIEW on the radar items
+
+Pete thinks the Indonesian military radar was off that night. For item 1 of the 22:50Z entry:
+- carry P(operating) alternatives weighted towards "off" (for example 0, 0.1, 0.5);
+- report the radar term only as a labelled sensitivity;
+- expect the term to be near-null under Pete's prior.
+The same applies to the Indian Andaman and Nicobar radars, which were "as required".
