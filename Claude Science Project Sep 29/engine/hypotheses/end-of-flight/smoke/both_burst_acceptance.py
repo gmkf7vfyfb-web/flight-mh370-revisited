@@ -38,28 +38,42 @@ def arm(sd):
                           "ceiling_parent_ess": float(Gt.sum() ** 2 / (4 * cross)) if cross > 0 else None,
                           "corr_halves": float(np.corrcoef(GA, GB)[0, 1])}
     fam = g("family4_code") if "family4_code" in m["impact_columns"] else None
-    return out, w, {c: g(c) for c in LAT}, fam
+    return out, w, {c: g(c) for c in LAT}, fam, par
+
+
+def ks_band(x0, w0, p0, x1, w1, p1):
+    def neff(x, w, p):
+        m = np.isfinite(x) & (w > 0)
+        if m.sum() < 10: return None
+        G = np.bincount(p[m], weights=w[m]); return float(G.sum() ** 2 / np.square(G).sum())
+    a, b = neff(x0, w0, p0), neff(x1, w1, p1)
+    return float(1.36 * np.sqrt(1 / a + 1 / b)) if a and b else None
 
 
 def main(outp, arms):
     res, raw = {}, {}
     for lab, sd in arms.items():
-        res[lab], w, lat, fam = arm(sd); raw[lab] = (w, lat, fam)
+        res[lab], w, lat, fam, par = arm(sd); raw[lab] = (w, lat, fam, par)
         for o, v in res[lab]["opts"].items():
             print(f"{lab:6s} {o:20s} lnZ {v['ln_Z_rel']:9.3f} eff impacts {v['eff_impacts']:10,.0f} eff parents {v['eff_parents']:10,.0f} "
                   f"(halves {v['eff_parents_half_A']:,.0f} / {v['eff_parents_half_B']:,.0f}) ceiling {v['ceiling_parent_ess'] or float('nan'):10,.0f} corr {v['corr_halves']:+.3f}", flush=True)
-    w0, l0, f0 = raw["base"]
+    w0, l0, f0, p0 = raw["base"]
     for lab in arms:
         if lab == "base": continue
-        w1, l1, f1 = raw[lab]
+        w1, l1, f1, p1 = raw[lab]
         t6 = {"weight_ratio_aimed_over_base": float(w1.sum() / w0.sum()),
-              "max_cdf_dev": {c: wcdf_maxdev(l0[c], w0, l1[c], w1) for c in LAT}}
+              "max_cdf_dev": {c: wcdf_maxdev(l0[c], w0, l1[c], w1) for c in LAT},
+              # ESS-scaled criterion (17 Oct 2026): two-sample KS 95 % band from parent-level effective sizes of the rows where the
+              # quantity is defined. A fixed 0.0030 standard flags noise as failure in thin arms (results/eof-run-j-waypoints-oct16 3c).
+              "ks95_band": {c: ks_band(l0[c], w0, p0, l1[c], w1, p1) for c in LAT}}
+        t6["dev_over_band"] = {c: (t6["max_cdf_dev"][c] / t6["ks95_band"][c]) if t6["max_cdf_dev"][c] is not None and t6["ks95_band"][c] else None for c in LAT}
         if f0 is not None and f1 is not None:
             t6["family_shares_base"] = {str(int(k)): float(w0[f0 == k].sum() / w0.sum()) for k in np.unique(f0[np.isfinite(f0)])}
             t6["family_shares_aimed"] = {str(int(k)): float(w1[f1 == k].sum() / w1.sum()) for k in np.unique(f1[np.isfinite(f1)])}
         res[lab]["test6_vs_base"] = t6
         print(f"test 6 ({lab} vs base, sampling weight alone): weight ratio {t6['weight_ratio_aimed_over_base']:.4f}; max CDF dev",
               {k: (round(v, 4) if v is not None else None) for k, v in t6["max_cdf_dev"].items()})
+        print("   deviation / ESS-scaled 95 % band (pass if < 1):", {k: (round(v, 2) if v is not None else None) for k, v in t6["dev_over_band"].items()})
         if "family_shares_base" in t6: print("   families base", {k: round(v, 4) for k, v in t6["family_shares_base"].items()}, "aimed", {k: round(v, 4) for k, v in t6["family_shares_aimed"].items()})
     json.dump(res, open(outp, "w"), indent=1)
 
