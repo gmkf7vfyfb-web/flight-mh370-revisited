@@ -38,7 +38,9 @@ def d5_loglik(g, V, obs):
 def seed_terms(sd, handoff):
     meta, g = load(sd); logon = meta["config"]["hypotheses"]["end-of-flight"]["logon"]
     obs = {r["epoch_id"]: r for r in csv.DictReader(open(SATCOM_CSV))}
-    w = g("weight"); lw = np.log(w) - np.log(w.sum())
+    w = g("weight")
+    # Thinned files (both_burst_thin.py): normalise by the UNTHINNED weight total, not by the stored weights (16 Oct 2026).
+    wsum = float(meta.get("thinning", {}).get("weight_sum_in", w.sum())); lw = np.log(w) - np.log(wsum)
     present = [c[len("loglik:"):] for c in meta["impact_columns"] if c.startswith("loglik:")]; der = derived_logliks(meta, g, present)
     V = np.asarray(np.load(handoff, mmap_mode="r")[:, 9])[g("parent").astype(np.int64)]
     col = lambda k: np.where(np.isfinite(g("loglik:" + k)), g("loglik:" + k), -np.inf)
