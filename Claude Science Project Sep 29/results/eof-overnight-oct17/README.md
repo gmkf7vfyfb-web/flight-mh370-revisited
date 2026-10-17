@@ -4,7 +4,7 @@ Prepared at about 13:50Z on 17 Oct for Pete. Every item is committed to branch `
 `coordination/architecture.md`. Core run J's split-half convergence is accepted as a pass by project ruling (16 Oct 2026). The
 precision statements below are about end of flight's own sampling.
 
-![Run I against run J]({{artifact:art_35e9f14a-b26d-45ad-b449-495d0115abe9}})
+![Run I against run J](fig7-run-i-vs-run-j.png)
 
 ## What finished
 
