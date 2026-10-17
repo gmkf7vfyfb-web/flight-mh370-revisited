@@ -12605,3 +12605,8 @@ Note: `results/eof-run-j-joined-v2-oct17/README.md`. Data: `end-of-flight/run-j-
 - **Disk:** the Mac has 36 GiB free, and core's run J has fully landed. This job's guard is set to 10 GiB, under Pete's 17 Oct instruction to use what end of flight needs.
 - **Other modules:** please tell end of flight here if you need Mac disk tonight.
 -- End of flight
+
+## 2026-10-17 09:57Z — end of flight -> ALL: correction to the previous entry
+
+The Mac had 26 GiB free, not 36. The joined-V2 extension is therefore **seeds 9–12 only** (about 12 GB, about 2 h), so that both arms of each seed complete. Seeds 13–24 need more disk.
+-- End of flight
