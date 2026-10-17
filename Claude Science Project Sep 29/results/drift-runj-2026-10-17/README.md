@@ -2,7 +2,7 @@
 
 Architecture stand-in session (frame 0082820d), Pete's GO 16 Oct 2026 ("run them here as a stand-in"; overnight, no waiting).
 **Status: drift-only composition COMPLETE for the waypoints stratum (24 seeds); four-stratum mixture waits for end of flight's free,
-descent-climb and repro strata. Australian non-recovery: 15-160 E runs on deskstar in progress (section 6).** Not the full composer pass:
+descent-climb and repro strata. Australian non-recovery on 15-160 E: both ocean models run on deskstar and applied (section 6).** Not the full composer pass:
 the searched-areas, Pléiades and hydroacoustic modules have no run J columns yet.
 
 ## 1. What was done
@@ -72,8 +72,7 @@ the change of core run. A targeted southern refinement (more particles at the 34
 - **(a) Feasible set.** Start points: every run J waypoints impact, all six 00:19 treatments and all families. Object response: CSIRO flaperon trials and
   1.2 % / 3 % classes. Ocean: the true 2014-16 currents, represented by two reanalysis products.
 - **(b) Model's reach.** 710 nodes at 30 NM on the reference-289 extent (40.7-22.2 S); object classes and windage priors as run A (provisional bounds);
-  K log-uniform 100-1000 m2/s (provisional); ocean-error length 100 km (assumed); find coasts in 15-120 E. Australian non-recovery NOT in sections 2-3 (gap G26,
-  being closed in section 6). Breakup rows at the intact-entry approximation.
+  K log-uniform 100-1000 m2/s (provisional); ocean-error length 100 km (assumed); find coasts in 15-120 E. Australian non-recovery NOT in sections 2-3; modelled in section 6 as a labelled sensitivity. Breakup rows at the intact-entry approximation.
 - **(c) Proposal coverage.** Not computed 0.008-0.033 % of weight (50 km), up to 1.4 % at 25 km. ESS with drift: D0' 941k, D1 1.31M, D2 58.9k, D3 3.8k, D4 3.2k
   (GLORYS12 alone 1.5k), D5 15.9k. **D4 under drift on GLORYS12 is thin** (ESS ratio 0.07); D3 inherits end of flight's own thin A1 cell (A1 ESS 368).
 - **Gaps and status.** G26 Australian non-recovery: open, runs in progress. Strata free / descent-climb / repro: not assessed at this depth (end of flight
@@ -86,4 +85,72 @@ the change of core run. A targeted southern refinement (more particles at the 34
 `fig-drift-runj-waypoints.png/.pdf`, `analysis-runj-waypoints.json` (every statistic, bootstrap and noise intervals), `thin-grid-check.json`,
 `compose_drift_runj.py`, `analyze_runj.py`, `compose_thin.py`. Per-impact columns: `mh370-exchange/debris-drift/run-j/run-j-waypoints/` (9.2 GB, Mac only).
 
-## 6. Australian non-recovery on 15-160 E (in progress)
+## 6. Australian non-recovery on 15-160 E (both ocean models, 17 Oct)
+
+Both 15-160 E Australian pilot runs were run on deskstar on 17 Oct (Pete's GO 16 Oct), from drift's own d51d80a and its committed
+`australia-pilot-glorys12.toml` with only: domain 15-160 E, the joined 15-160 E manifests, 88 threads, output folder, and for GlobCurrent its
+production ocean-error (sigma 0.0869 m/s, T 10 d) and product-relative windage. Configs, scripts, node tables and logs: `australia-160E/`.
+GlobCurrent 00:38-02:45Z, 178/178 nodes, left-domain 6.7 %; GLORYS12 02:46-04:46Z, 177/178, left-domain 12.8 % (the 120 E pilot lost 21 % overall,
+42 % from 37-42 S). Peak memory 10.1 / 17.7 GB, no OOM. Forcing uploaded from the Mac and checked file by file against SHA-256 (27 + 21 files).
+
+**Method.** Delta(option) = ln L(option) - ln L(off) per pilot node, measured for B, A, C, searcher. Pete's ruling (only populated coast carries evidence)
+has no stored column, so it is RECONSTRUCTED with the drift module's law Delta = -k ln(1 + W/(c F)), refitted per model to that model's measured B and C
+(GLORYS12 k 5.47, c 0.388, held-out C residual +0.19 nat, SD 0.62; GlobCurrent k 4.60, c 0.366, +0.14, SD 0.49;
+the same code reproduces the drift module's 120 E fit, k 3.503 / c 0.204, exactly). Populated = ABS RA 2021 major-city + inner-regional segments, at the
+find coasts' level (option B's city level). Split-half SD of measured Delta_B per node: 0.50 / 0.49 nat. Delta is carried to every run A node by
+inverse-distance-squared over the 8 nearest pilot nodes and applied as L' = L exp(Delta) on the rebuilt run A surfaces (linear path, no impact rescored).
+
+![Australian term](fig-australia-runj-waypoints.png)
+
+**Arrival shares within the window, mean over the three object classes** (transport only, independent of any detection assumption):
+
+| source band | Perth-Augusta (GLORYS12 / GlobCurrent) | populated south and east | all Australian coasts | six find coasts | left 15-160 E domain |
+|---|---|---|---|---|---|
+| 37-40S | 5.04 / 5.52 % | 0.21 / 0.18 % | 34.45 / 31.08 % | 5.57 / 7.25 % | 15.35 / 8.21 % |
+| 34-37S | 2.76 / 2.14 % | 0.06 / 0.04 % | 17.22 / 11.27 % | 10.12 / 11.39 % | 10.61 / 5.21 % |
+| 31-34S | 0.97 / 0.79 % | 0.01 / 0.01 % | 6.28 / 3.60 % | 12.85 / 13.23 % | 9.56 / 4.52 % |
+| 28-31S | 0.46 / 0.21 % | 0.00 / 0.00 % | 2.57 / 1.00 % | 13.72 / 14.18 % | 10.63 / 5.28 % |
+| 25-28S | 0.13 / 0.07 % | 0.00 / 0.00 % | 0.78 / 0.30 % | 13.48 / 14.35 % | 12.85 / 6.88 % |
+
+**Effect on the run J impact PDF (00:19 data held out; latitudes at 0.5 deg resolution, which reproduces the exact no-drift quantiles to 0.07 deg):**
+
+| Australian term (00:19 data held out) | shift of mean latitude: GLORYS12 / GlobCurrent / two models | ln BF against uniform, two models | 5/50/95 % latitude, two models |
+|---|---|---|---|
+| finds only (no Australian term) | +0.89 / +0.52 / +0.70 | -0.76 | -38.22/-36.81/-30.79 |
+| populated south and east coasts only | +1.19 / +0.67 / +0.91 | -0.87 | - |
+| populated WA coast only (Perth-Augusta) | +5.75 / +3.33 / +4.38 | -2.28 | -36.97/-33.55/-25.71 |
+| **all populated coasts (Pete's ruling; reconstructed)** | +5.82 / +3.38 / +4.44 | -2.30 | -36.93/-33.46/-25.70 |
+| every coast, low detection (C) | +3.63 / +2.27 / +2.87 | -1.84 | - |
+| every coast at find-coast levels (A) | +6.35 / +3.47 / +4.55 | -2.31 | - |
+| every coast by remoteness (B, pre-registered) | +6.34 / +3.75 / +4.81 | -2.42 | -36.79/-33.09/-25.17 |
+| A plus active search (searcher) | +6.60 / +3.97 / +5.02 | -2.41 | - |
+
+**By 00:19 treatment:**
+
+| 00:19 treatment | shift, populated coasts, two models | ln BF, populated coasts, two models | shift, finds only |
+|---|---|---|---|
+| 00:19 data held out (D0') | +4.44 | -2.30 | +0.70 |
+| 00:19:29 BTO (D1) | +4.31 | -2.74 | +0.50 |
+| 00:19:29 BTO + BFO (D2) | +4.60 | -2.60 | +0.54 |
+| both BFOs as recorded (D3) | +4.48 | -2.73 | +0.46 |
+| both BFOs, shared start-up offset (D4) | +5.17 | -2.53 | +0.59 |
+| 00:19:37 BFO with start-up offset (D5) | +4.58 | -2.74 | +0.46 |
+
+**Reading.**
+1. **The no-finds-in-Australia evidence, restricted to populated coasts, moves the impact PDF 4.4 deg north on the two-model mixture**
+   (GLORYS12 5.8, GlobCurrent 3.4), ln BF -2.30 against the uniform reference (finds only -0.76). The median moves from -37.11 to -33.46.
+   This is the term that makes the drift-against-satellite tension large; the finds alone are mild.
+2. **Pete's proxy question (16 Oct): the populated WA coast carries the term; the populated south and east coasts add almost nothing.** From 37-40 S the
+   model puts 5.0-5.5 % of floating objects on Perth-Augusta and 0.18-0.21 % on the populated south and east coasts within the window. Most debris that used to
+   leave the 120 E domain strands on the remote WA south coast and the Bight, which carry no weight under the ruling. WA only gives +4.38 deg against +4.44.
+   The 15 Oct drifter check (6.1 % of undrogued drifters crossing 120 E reached the populated south-east) is not contradicted: few model particles cross
+   120 E south of Australia within the window, so 6 % of a small number is small.
+3. **The 120 E reach limit did not bias the populated term**: the dry run on the old 120 E GLORYS12 pilot gave +5.72 deg; the 160 E run gives +5.82.
+4. **The ocean model changes the effect by a factor of 1.7** (GLORYS12 against GlobCurrent), more than any level option except 'low detection'.
+5. **Assumptions that carry the result, for Pete:** (i) a populated Australian coast finds and reports MH370 debris at the same mean rate as the western Indian
+   Ocean coasts where debris was found (option C, lower detection on every coast, gives +2.87 deg, 0.65 of the populated-coast shift); (ii) the restriction to populated coasts was defined after the
+   120 E pilot was seen (post hoc); (iii) the populated variant comes from the fitted law, not a stored column; (iv) one transport realisation per model: no
+   transport-noise replicates for Delta yet (split-half SD about 0.5 nat per node, against Delta of -5 to -7 at 37-40 S).
+
+**Status.** G26 is now MODELLED as a labelled sensitivity ('populated-coast non-recovery, reconstructed, 15-160 E, two ocean models'). It is not in any
+headline until Pete rules on assumption (i). Not composed with searched areas, Pleiades or hydroacoustics.

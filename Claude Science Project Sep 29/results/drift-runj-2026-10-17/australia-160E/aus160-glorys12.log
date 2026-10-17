@@ -1,0 +1,40 @@
+start 2026-10-17T02:45:52Z bin=/home/pete/mh370/drift/target/release/deps/mh370_hypotheses-beedacd1154063da cfg=8997136e9b756f06
+
+running 1 test
+test debris_drift::tests::pilot has been running for over 60 seconds
+debris-drift: 50 of 178 nodes, 1423 s
+debris-drift: 100 of 178 nodes, 3494 s
+debris-drift: 150 of 178 nodes, 5957 s
+mode = evidence
+ocean_model = glorys12v1+era5-wind10
+nodes_released = 178
+nodes_scored = 177
+nodes_unresolved = 1
+nodes_land = 0
+trajectories = 17801424
+model_error_fraction = 0.021510
+left_domain_fraction = 0.128412
+split_particles = 1904856
+split_children = 52455600
+splitting = factor 20 at rodrigues 150 km x20, mossel-bay 500 km x100 (snapshots 24 h; classes ["low_exposure_exterior", "high_windage_interior"])
+bandwidth_km = 50 (sensitivities [25.0, 100.0, 200.0])
+particle_steps = 6.9727e10
+wall_s = 7163.7
+particle_steps_per_s = 9.7334e6
+threads = 88
+env_realisations = 4
+diffusivity_m2_s = 904.5;242.3;156.2;230.7
+level_draws = 256
+level_overrides = AU-north-east-city-inner:[0.0, 0.0, 0.0];AU-south-city-inner:[0.0, 0.0, 0.0];AU-wa-city-inner:[0.0, 0.0, 0.0];AU-north-east-outer:[-1.203973, -1.203973, -1.203973];AU-south-outer:[-1.203973, -1.203973, -1.203973];AU-wa-outer:[-1.203973, -1.203973, -1.203973];AU-indian-ocean-territories-remote:[-2.995732, -2.995732, -2.995732];AU-north-east-remote:[-2.995732, -2.995732, -2.995732];AU-south-remote:[-2.995732, -2.995732, -2.995732];AU-wa-remote:[-2.995732, -2.995732, -2.995732]
+level_alternatives = A[] C[AU-north-east-city-inner:[-1.203973, -1.203973, -1.203973];AU-south-city-inner:[-1.203973, -1.203973, -1.203973];AU-wa-city-inner:[-1.203973, -1.203973, -1.203973];AU-north-east-outer:[-2.302585, -2.302585, -2.302585];AU-south-outer:[-2.302585, -2.302585, -2.302585];AU-wa-outer:[-2.302585, -2.302585, -2.302585];AU-indian-ocean-territories-remote:[-3.912023, -3.912023, -3.912023];AU-north-east-remote:[-3.912023, -3.912023, -3.912023];AU-south-remote:[-3.912023, -3.912023, -3.912023];AU-wa-remote:[-3.912023, -3.912023, -3.912023]] off[AU-north-east-city-inner:[-30.0, -30.0, -30.0];AU-south-city-inner:[-30.0, -30.0, -30.0];AU-wa-city-inner:[-30.0, -30.0, -30.0];AU-north-east-outer:[-30.0, -30.0, -30.0];AU-south-outer:[-30.0, -30.0, -30.0];AU-wa-outer:[-30.0, -30.0, -30.0];AU-indian-ocean-territories-remote:[-30.0, -30.0, -30.0];AU-north-east-remote:[-30.0, -30.0, -30.0];AU-south-remote:[-30.0, -30.0, -30.0];AU-wa-remote:[-30.0, -30.0, -30.0]] searcher[S3-southern-mozambique:[-2.302585, -0.693147, 1.098612];S5-ne-madagascar:[-2.302585, -0.693147, 1.098612]]
+finds = debris:reunion-right-flaperon@seg0:class0:day508.0-509.0;debris:mossel-bay-engine-cowling-roy@seg3:class1:day655.0-656.0;debris:paindane-right-flap-fairing@seg2:class1:day659.0-660.0;debris:vilanculos-horizontal-stabilizer-panel@seg2:class1:day722.0-723.0;debris:mauritius-left-outboard-flap@seg1:class1:day794.0-795.0;debris:rodrigues-door-closet-panel@seg1:class2:day753.0-754.0;debris:chidenguele-right-fan-cowling@seg2:class1:day778.0-779.0;debris:antsiraka-cabin-interior-panel@seg4:class2:day827.0-828.0;debris:pemba-right-outboard-flap@seg5:class1:day838.0-839.0
+main_band_mass = 0.9903
+coverage_reached = 0.9903
+label = beaching: GSHHG coastline (snap 25 km); land gap is model error; extent map: debris-drift/data/reference-map-reference-289-m0019b.csv
+test debris_drift::tests::pilot ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 151 filtered out; finished in 7221.96s
+
+peak_rss_kb 17710724
+EXIT=0 end 2026-10-17T04:46:14Z
+oom_kill 0
