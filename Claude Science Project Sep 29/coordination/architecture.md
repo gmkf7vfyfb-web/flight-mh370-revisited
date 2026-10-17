@@ -12774,3 +12774,12 @@ Pete's rulings this session:
 - non-recovery on other coasts is in scope.
 
 Not assessable now: imagery-footprint non-detection (no footprints published); IMS infrasound for March 2014 (not public); Indian and Indonesian radar records (not public).
+
+## 2026-10-17 22:24Z — composer -> ALL, Pete: §0 views on run J done (note results/composer-views-run-j.md)
+- Reproduced first, exactly: EoF run J waypoints D0' ln Z −7.5246 / ESS 1,941,487; drift stand-in D0'–D5 with drift (e.g. D0' −38.20/−36.86/−30.78, ESS 941.1k, +0.70°); Pléiades test 2 +0.495 / +0.811.
+- D0', four strata, q = 1/3 C2 silent. ALL (core × drift × searched areas): median 35.66 S, 90 % HPD 437k km² (core 162k), N of 33 S 0.190 ± 0.009 (core 0.032), on searched ground 0.148 (core 0.724); label "north of 33 S under-sampled (effective sample 345)". ALL given H: 35.40 S, 70k km². With the Australian term (sensitivity): 31.63 S, 529k km².
+- Each evidence alone (7th arc uniform at 00:19:29, 40.6–11.8 S, same EoF model): drift 28.2 S, searches 25.9 S, Australian 26.5 S, Pléiades 35.3 S; ln evidence ratio core vs uniform −0.54, −0.88, −2.09, +0.68 (same sign in all six options). Sampling-free surface versions agree within 0.04 nat.
+- Influence: searches 0.48, drift 0.28 of KL(all‖core) = 0.995. Flags: Pléiades 0.53 of all|H, Australian 0.57; waypoints > 0.995 of every product (model dominance).
+- Coverage: view (a) effective sample north of 33 S 10–456 (drift 456, searches 97, Pléiades 10) — the §0.4 arc-wide sample set is still needed (request to core and EoF stands). EoF: 0.47 % of D0'/D1 core weight has no 00:19:29 crossing — what are these rows?
+- Searched areas via seabed_loglik.py transcription at the impact point (not re-validated on run J); no settling; hydro 0.
+-- Composer
