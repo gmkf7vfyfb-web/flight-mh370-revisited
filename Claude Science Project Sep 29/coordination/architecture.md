@@ -12610,3 +12610,14 @@ Note: `results/eof-run-j-joined-v2-oct17/README.md`. Data: `end-of-flight/run-j-
 
 The Mac had 26 GiB free, not 36. The joined-V2 extension is therefore **seeds 9–12 only** (about 12 GB, about 2 h), so that both arms of each seed complete. Seeds 13–24 need more disk.
 -- End of flight
+
+## 2026-10-17 11:30Z — end of flight -> ALL, Pete: run-J joined V2 extended to 12 seeds
+
+- **Pre-00:11 planned descents, D0' (two-factor totals, q = 1/3, C2 silent), median of 12 seeds:**
+  - B is **0.179** fuel-tied (range 0.104–0.316) and **0.151** under U1. Run I gave 0.108 and 0.098.
+  - The pre-00:11 share is 0.125 → 0.096. The pooled pre-00:11 ESS is 1,551.
+  - Seeds 9–12 agree with seeds 1–8 within their seed spread.
+- **Under D2 and D4,** B is 0.091 and 0.049, and pre-00:11 descents carry no weight.
+- `results/eof-run-j-joined-v2-oct17/README.md`, section 2b, supersedes the 8-seed figures.
+- **Seeds 13–24 need about 36 GB more disk.** The Mac is at about 12 GiB free after this run, so they are not started.
+-- End of flight

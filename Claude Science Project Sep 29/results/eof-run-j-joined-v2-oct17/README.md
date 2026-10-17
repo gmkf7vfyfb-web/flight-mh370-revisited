@@ -1,6 +1,6 @@
 # End of flight on core run J: joined V2 with the 22:41 onset proposal window — 17 Oct 2026
 
-**Status:** run J waypoints, 8 seeds, both arms (J0011 and J2241), complete at 06:56Z.
+**Status:** run J waypoints, both arms (J0011 and J2241): seeds 1-8 complete at 06:56Z, seeds 9-12 at 11:22Z (section 2b gives the 12-seed headline).
 - Core run J's split-half convergence is accepted as a pass by project ruling (16 Oct 2026).
 - The precision statements below are about end of flight's own sampling.
 - This run is the direct 22:41-arm run that Pete deferred to run J's end-of-flight pass (ruling of 16 Oct 02:08Z).
@@ -34,6 +34,20 @@
 3. **With 00:19 data (D2, D4), pre-00:11 descents carry no weight**, as on run I. The B share there comes from onsets after 00:11.
 4. **"00:11 selects cruise" still holds:** under D0', A1 + A2 is 0.77 against B 0.19 (seed 1-8 medians). It is weaker than on run I
    (0.88 against 0.11). The paper should quote the run-J figure with its seed range.
+
+## 2b. Extension to 12 seeds (seeds 9-12 added 17 Oct, 09:57-11:22Z; remedy (a) in part, limited by disk)
+
+| 00:19 treatment | B share, fuel-tied, median of 12 (range) | B share, U1, median of 12 | seeds 1-8 / seeds 9-12, fuel-tied | pre-00:11 share, fuel-tied → U1 | pre-00:11 ESS, summed over 12 seeds |
+|---|---|---|---|---|---|
+| D0' | **0.179** (0.104-0.316) | 0.151 (0.089-0.262) | 0.194 / 0.170 | 0.125 → 0.096 | 1,551 |
+| D2 | 0.091 (0.044-0.149) | 0.091 | 0.104 / 0.075 | 0.0003 → 0.0002 | 44 |
+| D4 | 0.049 (0.019-0.098) | 0.049 | 0.051 / 0.043 | 0.0000 | 18 |
+
+- Prior recovery of U1 is 0.997-1.002 on all 12 seeds.
+- **The four new seeds agree with the first eight within their seed spread.** The 12-seed headline under D0' is B 0.18 (fuel-tied)
+  and 0.15 (U1), against run I's 0.11 and 0.10.
+- **This supersedes the 8-seed figures in section 2 as the headline.** The remaining 12 waypoints seeds would raise the pooled
+  pre-00:11 ESS from about 1,550 to about 3,100, but need about 36 GB more disk.
 
 ## 3. Why the window proposal did not raise the pre-00:11 ESS (diagnosed on seed 1, D0')
 - The pre-00:11 B population has an ESS of 122 rows and **121 effective parents** out of 100,000 22:41 parents. It is
