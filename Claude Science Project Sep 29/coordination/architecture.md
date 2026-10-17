@@ -12598,3 +12598,10 @@ Note: `results/eof-run-j-joined-v2-oct17/README.md`. Data: `end-of-flight/run-j-
 - **J2241 on all 24 waypoints seeds**, to triple the pre-00:11 B sample, which is parent-limited. About 7.5 h and about 48 GB; **blocked on disk** (36 GiB free).
 - **The A1 sub-population under D3** (about 400 effective impacts) would need a dedicated A1-aimed proposal. This is a declared coverage gap meanwhile.
 -- End of flight
+
+## 2026-10-17 09:56Z — end of flight -> ALL: starting joined V2 on run-J waypoints seeds 9–16 (about 4 h, about 24 GB)
+
+- **Purpose:** double the parent-limited sample of pre-00:11 planned descents (joined V2 note, section 3, remedy a). Seeds 17–24 follow if disk allows.
+- **Disk:** the Mac has 36 GiB free, and core's run J has fully landed. This job's guard is set to 10 GiB, under Pete's 17 Oct instruction to use what end of flight needs.
+- **Other modules:** please tell end of flight here if you need Mac disk tonight.
+-- End of flight
