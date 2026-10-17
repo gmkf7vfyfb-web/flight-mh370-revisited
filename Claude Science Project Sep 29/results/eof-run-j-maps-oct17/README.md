@@ -79,6 +79,63 @@ dynamics, see the caveat):
   to within 0.02 in every treatment.
 - **Status.** These are sampling coordinates on uncalibrated dynamics. They are not predictions of the acoustic source.
 
+### 2b. Follow-up, 17 Oct 2026 ~20:45Z (Pete's questions)
+
+**Map extent.** The first version (86.5-99 E, 40.2-30 S) left out about 1.3-1.6 % of the impact probability, nearly all of it
+north of 30 S. That is more than the 1 % outside the 99 % region, so the 99 % region was cut at the northern edge. The map is now
+86.5-104 E, 40.2-25 S.
+
+| Panel | Outside old window | North of 30 S | Outside new 25-40.2 S window | North of 20 S |
+|---|---|---|---|---|
+| D0' 00:19 data not used | 1.62 % | 1.57 % | 0.27 % | 0.01 % |
+| D2 00:19:29 range + frequency | 1.50 % | 1.48 % | 0.35 % | 0.01 % |
+| D4 both, shared start-up offset | 1.45 % | 1.45 % | 0.22 % | < 0.01 % |
+| D3/D4/D5 evidence-weighted | 1.30 % | 1.30 % | 0.22 % | 0.01 % |
+
+**Energy distribution** (new Figure `run-j-impact-energy-distribution`: per-treatment histograms of contact kinetic energy on a
+log axis, stacked by family; the red outline is the part at or below 212 m/s):
+
+| Treatment | P(E >= 10 GJ) | P(contact speed > 212 m/s) | P(E >= 10 GJ and speed <= 212 m/s) |
+|---|---|---|---|
+| D0' | 0.189 | 0.329 | 0.000 |
+| D1 | 0.211 | 0.362 | 0.000 |
+| D2 | 0.233 | 0.358 | 0.000 |
+| D3 | 0.343 | 0.569 | 0.000 |
+| D4 (Holland's data treatment) | **0.500** | 0.654 | 0.000 |
+| D5 | 0.417 | 0.568 | 0.000 |
+
+- **Shape.** The distribution has two modes. There is a broad low-energy body at 0.3-5 GJ, made up of glides, arrested and
+  controlled descents and ditchings. There is a narrow spike at 10-12 GJ, made up of steep dives that reach the sea at a median of
+  about 350 m/s.
+- **Effect of the 00:19:37 frequency.** Using that frequency moves weight from the body into the spike.
+- **Speed.** Every impact of 10 GJ or more is faster than 212 m/s (1.25 VMO). That is the G13 credibility threshold; the flag is
+  `latent:contact_speed_feasible`.
+- **Effect of the 212 m/s cap.** The capped sensitivity ("~v212") would remove the whole spike.
+- **Status.** This is a property of the uncalibrated uncontrolled arm (see the caveat), not a prediction.
+
+**Effective sample per 5 deg band** (`smoke/band_ess.py`; `run-j-band-ess.json`). Each cell gives the band mass, the ESS over
+impact rows, and the ESS over distinct 00:11 parents:
+
+| Band | D0' | D2 | D3 | D4 |
+|---|---|---|---|---|
+| 40-35 S | 0.892, 1.88M / 411k | 0.917, 85k / 71k | 0.924, 4.3k / 4.3k | 0.921, 24k / 23k |
+| 35-30 S | 0.093, 109k / 30k | 0.068, 6.0k / 5.2k | 0.064, **308 / 306** | 0.065, **370 / 365** |
+| 30-25 S | 0.013, 16k / 3.5k | 0.011, 1.1k / 906 | 0.010, **84 / 83** | 0.012, **167 / 155** |
+| 25-20 S | 0.0025, 6.5k / 1.5k | 0.0034, 184 / 167 | 0.0020, 22 / 22 | 0.0021, 104 / 88 |
+
+In the treatments that use the 00:19:37 frequency, the northern bands (35-25 S) hold 7-8 % of the mass on a few hundred
+independent paths. The limit is the number of distinct core parents there, not descents per parent. This is coverage gap 4, now
+measured.
+
+**Attitude sidecar for hydroacoustics.** `seed-k/attitude_v1.npz` (row-aligned, all 74 seeds) has three keys:
+- `bank_deg`.
+- `bank_source`: 1 = commanded wings level, 0 = free dynamics or a commanded turn.
+- `n_pulses`: 1 for every row.
+
+The exact zeros are modelled values. The point-mass integrator sets bank = the commanded bank, and the glide, Track, push-over
+and ditching-leg commands hold bank 0. Zero is therefore not a placeholder. The commanded phases carry no bank spread, which is a
+declared reach gap. The wings-level share is 0.480-0.508 of rows per seed. No row in the no-intervention arm is exactly 0.
+
 ## 3. COVERAGE
 
 - **(a) Feasible set.** All 777-200ER end-of-flight behaviour after the 00:11 hand-off: fuel exhaustion with no input (A1),
@@ -113,11 +170,13 @@ dynamics, see the caveat):
 
 | File | Content |
 |---|---|
-| `run-j-impact-maps.{png,pdf}` | Impact HPD maps by 00:19 treatment, with searched sea floor and arcs |
+| `run-j-impact-maps.{png,pdf}` | Impact HPD maps by 00:19 treatment, with searched sea floor and arcs (25-40.2 S since 20:45Z) |
 | `run-j-impact-latitude-0019.{png,pdf}` | Latitude density per treatment |
 | `run-j-impact-maps-by-family.{png,pdf}` | 3 families x 6 treatments |
 | `run-j-impact-loudness-maps.{png,pdf}` | Peak radiated power classes; loudest-decile shares |
 | `run-j-impact-energy-maps.{png,pdf}` | Energy transferred; weighted CDFs |
+| `run-j-impact-energy-distribution.{png,pdf}` | Energy histograms per treatment, by family, with the 212 m/s part |
+| `run-j-band-ess.json` | Mass and ESS (rows / distinct parents) per 5 deg band |
 | `run-j-figures.json` | All printed numbers |
 | `run-j-maps-accumulators.json` | Per-treatment and per-family mass and ESS (the check against production) |
 

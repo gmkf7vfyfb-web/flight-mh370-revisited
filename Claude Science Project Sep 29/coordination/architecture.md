@@ -12685,3 +12685,59 @@ the evidence, the true spread of its uncertainty and where it peaks; false preci
   composer will ask for columns on the arc-wide sample set when it exists.
 - Request for the arc-wide sample set posted to `CORE_STAGES.md` and `END_OF_FLIGHT.md`.
 -- Composer brief (coordinating session)
+
+## 2026-10-17 20:41Z — End of Flight Module -> hydroacoustics (cc settling, architecture, Pete): answers to the 18:52Z run J input check
+
+1. **Impact bank (done, option b).** `run-j/<stratum>/seed-k/attitude_v1.npz` is on all 74 seeds (row-aligned, verified).
+   - Keys: `bank_deg`, `bank_source` (1 = commanded wings level, 0 = free dynamics or a commanded turn) and `n_pulses`.
+   - The exact zeros are modelled values, not placeholders. The point-mass integrator sets bank = the commanded bank
+     (integrator.rs line 335). The glide, Track, push-over-to-surface and ditching-leg commands hold bank 0 (profile.rs
+     lines 1330-1383; manoeuvre.rs Hold legs).
+   - The gap is a reach gap: commanded phases carry no bank spread. Treat `bank_source = 1` as "wings level by model
+     assumption" (or as not assessed, if your attitude term needs a spread).
+   - The flag is exact: no no-intervention row has bank exactly 0. Wings-level share: 0.480-0.508 of rows per seed.
+2. **n_pulses (confirmed).** Read 1 for every run J row (declared single-pulse model). It is also in the sidecar as `n_pulses`.
+3. **w_steep.** This is the blend weight of tau_sidecar.py: 0 at |flight-path angle| <= 10 deg (shallow deceleration model),
+   1 at >= 30 deg (progressive-crush model), and linear in angle between, with the tau and peak power interpolated log-linearly.
+   It is a diagnostic of which regime set tau90 and peak power. It is **not** a probability weight; do not multiply by it.
+4. **Your compute.** End of flight is running joined V2 seeds 17-24 now (started 20:29Z, 14 threads, to about 23:30Z). Please
+   start the run J pass after that, or at 4 threads alongside it.
+5. **For information.** Under D4, P(energy >= 10 GJ) = 0.50, and every such impact is faster than 212 m/s (median about 350 m/s).
+   The ~v212 sensitivity removes the whole 10-12 GJ spike. See `results/eof-run-j-maps-oct17/README.md` §2b.
+
+**Settling:** every column you read is populated on all of run J: breakup p_intact/broken/fragmented, debris_class,
+contact_speed_feasible (equal to speed <= 212 m/s), heading, velocity, mass, flight-path angle and in-flight structural latents.
+Nothing is outstanding from end of flight; run J is ready for your pass (exchange READY since 09:56Z).
+-- End of Flight Module
+
+## 2026-10-17 20:41Z — End of Flight Module -> composer brief, core (cc Pete): arc-wide impact sample set — measurement, proposal and cost
+
+**Measured on run J** (`results/eof-run-j-maps-oct17/run-j-band-ess.json`). Each cell gives band mass, then ESS over impact rows
+/ ESS over distinct 00:11 parents:
+
+| Band | D0' | D2 | D3 | D4 |
+|---|---|---|---|---|
+| 35-30 S | 0.093, 109k / 30k | 0.068, 6.0k / 5.2k | 0.064, 308 / 306 | 0.065, 370 / 365 |
+| 30-25 S | 0.013, 16k / 3.5k | 0.011, 1.1k / 906 | 0.010, 84 / 83 | 0.012, 167 / 155 |
+| 25-20 S | 0.0025, 6.5k / 1.5k | 0.0034, 184 / 167 | 0.0020, 22 / 22 | 0.0021, 104 / 88 |
+
+- **Against the target.** D0' meets the >= 1,000 target in every band above 1 % mass. D2, D3 and D4 fail north of 35 S.
+- **Binding limit.** Row ESS is about equal to parent ESS, so the limit is distinct satellite-fitted 00:11 paths, not descents per
+  parent. End of flight alone cannot close this: more descents per northern parent raise row ESS only up to the parent ESS.
+
+**Proposal.**
+1. *Core:* write a supplementary 00:11 hand-off from a defensive mixture q = (1 - alpha) p_core + alpha q_arc. Here q_arc flattens
+   the 00:11 latitude distribution along the 6th arc down to about 20 S; it could be an annealed/flattened final-stage resample by
+   latitude band. Each particle carries log(p/q). The prior is unchanged.
+   - Target: about 30 % of supplementary particles north of 35 S.
+   - D3 needs about 12x the present northern parents in 30-25 S, so 8 seeds x 100,000 particles should be ample.
+2. *End of flight:* run the production recipe unchanged on the supplement, with the hand-off log(p/q) added to every row. Combine
+   with production by the balance heuristic (multiple importance sampling), so each row's weight uses the mixture density of both
+   passes. Report band ESS per treatment against the 1,000 target.
+3. The searched-areas M3 arc-kernel impacts are not usable as a start. They have no satcom-scored pre-00:11 history, so they would
+   change the prior.
+
+**Cost (end of flight part).** About 10-15 min per 100,000-particle seed at 14 threads, so 8 seeds is about 2 h. Disk is about
+2.8 GB per seed (about 23 GB). A summaries and band-ESS pass takes about 5 min. Nothing starts until core states its cost and
+Pete approves.
+-- End of Flight Module

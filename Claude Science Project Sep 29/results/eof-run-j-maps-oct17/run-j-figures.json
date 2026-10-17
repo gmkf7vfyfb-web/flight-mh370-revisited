@@ -10,7 +10,9 @@
    "lat_q05": -38.41,
    "lat_q95": -33.87,
    "lat_peak": -37.09,
-   "eff_impacts": 1946624.3876713547
+   "eff_impacts": 1946624.3876713547,
+   "mass_outside_view": 0.0027170615731605396,
+   "mass_north_of_30S": 0.015723542118431695
   },
   "D2": {
    "hpd_area_thousand_km2": {
@@ -22,7 +24,9 @@
    "lat_q05": -38.17,
    "lat_q95": -34.35,
    "lat_peak": -37.09,
-   "eff_impacts": 92212.80492433415
+   "eff_impacts": 92212.80492433415,
+   "mass_outside_view": 0.003548689279280648,
+   "mass_north_of_30S": 0.014829755864198777
   },
   "D4": {
    "hpd_area_thousand_km2": {
@@ -34,7 +38,9 @@
    "lat_q05": -37.99,
    "lat_q95": -34.39,
    "lat_peak": -37.29,
-   "eff_impacts": 21215.14346495516
+   "eff_impacts": 21215.14346495516,
+   "mass_outside_view": 0.002214580410822675,
+   "mass_north_of_30S": 0.0144821701285907
   },
   "mixed": {
    "hpd_area_thousand_km2": {
@@ -46,7 +52,9 @@
    "lat_q05": -38.01,
    "lat_q95": -34.43,
    "lat_peak": -37.31,
-   "eff_impacts": null
+   "eff_impacts": null,
+   "mass_outside_view": 0.0021596226021327602,
+   "mass_north_of_30S": 0.012965493290141473
   }
  },
  "family_panels": {
@@ -403,7 +411,44 @@
    "eff_impacts": 25941.775485199018
   }
  },
- "energy": {},
+ "energy": {
+  "D0": {
+   "p_energy_ge_10GJ": 0.18918736216513599,
+   "p_speed_gt_212": 0.3291894929614597,
+   "p_energy_ge_10GJ_and_speed_le_212": 0.0,
+   "median_speed_energy_ge_9GJ": 353.2339172363281
+  },
+  "D1": {
+   "p_energy_ge_10GJ": 0.21099626359631332,
+   "p_speed_gt_212": 0.3615972361412901,
+   "p_energy_ge_10GJ_and_speed_le_212": 0.0,
+   "median_speed_energy_ge_9GJ": 353.3103942871094
+  },
+  "D2": {
+   "p_energy_ge_10GJ": 0.2330905363600262,
+   "p_speed_gt_212": 0.3575635094583828,
+   "p_energy_ge_10GJ_and_speed_le_212": 0.0,
+   "median_speed_energy_ge_9GJ": 354.6412658691406
+  },
+  "D3": {
+   "p_energy_ge_10GJ": 0.34291549088789103,
+   "p_speed_gt_212": 0.5688336943350969,
+   "p_energy_ge_10GJ_and_speed_le_212": 0.0,
+   "median_speed_energy_ge_9GJ": 346.81475830078125
+  },
+  "D4": {
+   "p_energy_ge_10GJ": 0.5003531514302719,
+   "p_speed_gt_212": 0.6542666595067509,
+   "p_energy_ge_10GJ_and_speed_le_212": 0.0,
+   "median_speed_energy_ge_9GJ": 352.3273620605469
+  },
+  "D5": {
+   "p_energy_ge_10GJ": 0.4167302224971787,
+   "p_speed_gt_212": 0.5684324789270297,
+   "p_energy_ge_10GJ_and_speed_le_212": 0.0,
+   "median_speed_energy_ge_9GJ": 348.9198913574219
+  }
+ },
  "mixed_weights": {
   "D3": 0.3805739503076222,
   "D4": 0.4078957155839496,

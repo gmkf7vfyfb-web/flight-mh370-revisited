@@ -123,15 +123,18 @@ def main(acc_dir, table_dir, core_root, out):
               ("c", TNAME["D4"], A["H_D4_all"].astype(np.float64), ess["D4/all"], "D4"),
               ("d", f"Average of the three both-frequency treatments,\nweighted by evidence (as recorded {post['D3']:.2f}, shared\noffset {post['D4']:.2f}, "
                     f"offset on 00:19:37 only {post['D5']:.2f})", Hmix, None, "mixed")]
-    fig, axs = plt.subplots(2, 2, figsize=(7.2, 8.8), sharex=True, sharey=True)
+    VIEW = (86.5, 104.0, -40.2, -25.0)
+    inview = ((lat_c >= VIEW[2]) & (lat_c < VIEW[3]))[:, None] & ((lon_c >= VIEW[0]) & (lon_c < VIEW[1]))[None, :]
+    fig, axs = plt.subplots(2, 2, figsize=(7.2, 9.4), sharex=True, sharey=True)
     for ax, (let, title, Hd, e, key) in zip(axs.ravel(), panels):
-        r = hpd(ax, Hd); r["eff_impacts"] = e; R["panels"][key] = r
+        r = hpd(ax, Hd); r["eff_impacts"] = e; r["mass_outside_view"] = float(1 - Hd[inview].sum() / Hd.sum())
+        r["mass_north_of_30S"] = float(Hd[lat_c >= -30].sum() / Hd.sum()); R["panels"][key] = r
         ax.set_title(f"{let}  {title}", fontsize=7)
         ax.text(0.98, 0.02, f"median {abs(r['lat_median']):.2f}°S, peak {abs(r['lat_peak']):.2f}°S\n90 % area {r['hpd_area_thousand_km2']['90%']:.0f} thousand km²"
-                + (f"\nESS {fess(e)}" if e else ""), transform=ax.transAxes, ha="right", va="bottom", fontsize=6)
+                + (f"\nESS {fess(e)}" if e else "") + f"\noutside this map {r['mass_outside_view']*100:.2f} %", transform=ax.transAxes, ha="right", va="bottom", fontsize=6)
         geo(ax)
     for ax in axs.ravel():
-        ax.set_xlim(86.5, 99.0); ax.set_ylim(-40.2, -30.0); ax.set_aspect(1 / np.cos(np.radians(-36)))
+        ax.set_xlim(VIEW[0], VIEW[1]); ax.set_ylim(VIEW[2], VIEW[3]); ax.set_aspect(1 / np.cos(np.radians(-33)))
     for ax in axs[1]: ax.set_xlabel("longitude")
     for ax in axs[:, 0]: ax.set_ylabel("latitude")
     fig.legend(handles=legend_items(), loc="upper center", ncol=3, fontsize=6, bbox_to_anchor=(0.5, 0.955))
@@ -142,7 +145,8 @@ def main(acc_dir, table_dir, core_root, out):
           "results can change.",
           TECH + f" Panel d = equal-prior average of D3/D4/D5 by ln Z (posterior weights {post['D3']:.3f}/{post['D4']:.3f}/{post['D5']:.3f}). Density 0.02 deg grid, "
           "Gaussian sigma 0.08 deg, HPD 50/90/99 %. Searched ground: coverage >= 0.5 outlines of the seabed-search rasters. ESS = Kish effective impacts "
-          "pooled over seeds. Masses reproduce table-0019-mixture.json (ln Z and ESS identical).", width=175)
+          "pooled over seeds. Masses reproduce table-0019-mixture.json (ln Z and ESS identical). Map 86.5-104 E, 40.2-25 S; probability outside it is "
+          "printed per panel (north of 30 S: " + " / ".join(f"{R['panels'][k]['mass_north_of_30S']*100:.1f} %" for k in ("D0", "D2", "D4", "mixed")) + ").", width=175)
     fig.subplots_adjust(left=0.09, right=0.98, top=0.87, bottom=0.19, hspace=0.2, wspace=0.06)
     for ext in ("png", "pdf"): fig.savefig(out / f"run-j-impact-maps.{ext}", dpi=250)
     plt.close(fig); R["mixed_weights"] = post
@@ -282,6 +286,41 @@ def main(acc_dir, table_dir, core_root, out):
             pass
         for ext in ("png", "pdf"): fig.savefig(out / f"run-j-impact-{kind}-maps.{ext}", dpi=300)
         plt.close(fig)
+    # ---------------- F6: energy distribution per treatment, stacked by family ----------------
+    VCAP = 212.0; bins = np.logspace(-1, np.log10(20), 41); fc = {"A1": "#3b3b3b", "A2": "#8c8c8c", "B": "#c9c9c9"}
+    fig, axs = plt.subplots(2, 3, figsize=(7.4, 5.4), sharex=True, sharey=True, gridspec_kw={"wspace": 0.08, "hspace": 0.32})
+    R["energy"] = {}
+    for k, d in enumerate(CELLS):
+        ax = axs.flat[k]; x = RS[d]; ok = np.isfinite(x[:, 6]); m = x[ok, 0] / x[ok, 0].sum(); e = np.clip(x[ok, 6] / 1e9, 0.1001, 19.99)
+        f = x[ok, 3]; v = x[ok, 8]; base = np.zeros(len(bins) - 1)
+        for fam, codes in (("A1", (1,)), ("A2", (2,)), ("B", (3, 6))):
+            h, _ = np.histogram(e, bins, weights=m * np.isin(f, codes))
+            ax.bar(bins[:-1], h, width=np.diff(bins), bottom=base, align="edge", color=fc[fam], edgecolor="none", label=FNAME[fam] if k == 0 else None)
+            base += h
+        hc, _ = np.histogram(e, bins, weights=m * (v <= VCAP))
+        ax.step(bins[:-1], hc, where="post", color="#b2182b", lw=0.9, label="contact speed at or below 212 m/s" if k == 0 else None)
+        ax.axvline(10, color="#4a6fa5", lw=0.8, ls="--")
+        p10 = float(m[e >= 10].sum()); pv = float(m[v > VCAP].sum()); p10c = float(m[(e >= 10) & (v <= VCAP)].sum())
+        R["energy"][d] = {"p_energy_ge_10GJ": p10, "p_speed_gt_212": pv, "p_energy_ge_10GJ_and_speed_le_212": p10c,
+                          "median_speed_energy_ge_9GJ": wq(v[e >= 9], m[e >= 9], (0.5,))[0] if (e >= 9).any() else None}
+        ax.text(0.03, 0.96, f"10 GJ or more: {p10:.2f}\nfaster than 212 m/s: {pv:.2f}", transform=ax.transAxes, va="top", fontsize=6)
+        ax.set_xscale("log"); ax.set_xlim(0.1, 20); ax.xaxis.set_major_formatter(FuncFormatter(lambda v_, _: f"{v_:g}"))
+        ax.set_title(f"{'abcdef'[k]}  {textwrap.fill(TNAME[d], 34, break_on_hyphens=False)}", fontsize=6.8)
+        if k >= 3: ax.set_xlabel("energy at impact (GJ, log scale)")
+        if k % 3 == 0: ax.set_ylabel("probability per bin")
+    fig.legend(loc="upper center", ncol=2, fontsize=6, bbox_to_anchor=(0.5, 0.95))
+    fig.suptitle("Half of the impacts carry 10 GJ or more when both 00:19 frequencies are used with a shared start-up offset;\n"
+                 "every impact of 10 GJ or more is faster than 212 m/s", x=0.015, ha="left", fontsize=7.2, y=0.995)
+    notes(fig, "Each panel shows how the energy at impact is spread, for one use of the 00:19 satellite data. The grey shades show the type of flight end. "
+          "The red line shows the part of the probability with a contact speed at or below 212 m/s (1.25 times the maximum operating speed). The impacts "
+          "near 10-12 GJ are steep dives at about 350 m/s. The flight model for a descent without control is not calibrated, so these energies are not "
+          "physical predictions.",
+          "NOT A PHYSICAL PREDICTION: " + CAVEAT + " " + TECH + " Energy = contact kinetic energy 0.5 m v^2 (tau90_v1 energy_transferred_j, the declared "
+          "upper bound). 40 log bins 0.1-20 GJ; values clipped into the range. 212 m/s = 1.25 VMO (330 kt), the G13 credibility threshold "
+          "(latent:contact_speed_feasible). Weighted mass-preserving resample, 10,000 rows per seed per treatment, all four strata.", width=200, fs=4.6)
+    fig.subplots_adjust(left=0.08, right=0.98, top=0.82, bottom=0.27)
+    for ext in ("png", "pdf"): fig.savefig(out / f"run-j-impact-energy-distribution.{ext}", dpi=300)
+    plt.close(fig)
     json.dump(R, open(out / "run-j-figures.json", "w"), indent=1)
     print(json.dumps({k: R[k] for k in ("panels", "mixed_weights", "latitude")}, indent=0)[:4000])
     print(json.dumps({k: {kk: (round(vv, 3) if isinstance(vv, float) else vv) for kk, vv in v.items()} if isinstance(v, dict) else v for k, v in R["loudness"].items()}, indent=0)[:3000])
