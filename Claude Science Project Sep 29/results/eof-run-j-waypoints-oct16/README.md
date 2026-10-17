@@ -1,6 +1,6 @@
 # End of flight on core run J, waypoints stratum: production pass — 16 Oct 2026
 
-**Status: complete for one stratum (waypoints, core prior share 0.9982 on run I; run J's stratum shares are not yet posted by core).**
+**Status (core run J: split-half convergence accepted as a pass by project ruling, 16 Oct 2026): complete for one stratum (waypoints, core prior share 0.9982 on run I; run J's stratum shares are not yet posted by core).**
 These are per-stratum figures, not the four-stratum mixture. The free, descent-climb and repro strata are still to be run (disk).
 The both-burst cells D3 and D4 are thin in this pass. The supplementary pass (section 4) is running for them.
 
@@ -35,7 +35,7 @@ law changes on run I.
 2. **The A1/A2/B split moves.** Under D0', A2 falls from 0.41 to 0.34 and B rises from 0.40 to 0.48. Under D4, A1 rises from 0.14 to
    0.25. This D4 change matches the direction measured on run I for a wider bank limit (order (b) item 3: A1 0.10 at 52.5 deg, 0.21
    sampled, 0.58 at 90 deg).
-3. **D3 rests on 368 effective A1 impacts.** Its A1 share (0.09 against run I's 0.17) is **not converged**. This is the cell the
+3. **D3 rests on 368 effective A1 impacts.** Its A1 share (0.09 against run I's 0.17) is **not yet estimable at this sampling depth: an end-of-flight coverage gap (low ESS)**. This is about end of flight's own descent sampling, not core's run J, whose split-half convergence was accepted as a pass by project ruling, 16 Oct 2026. This is the cell the
    supplementary pass is for.
 
 ## 3. The bank-limit prior: exact re-weightings (raw 00:19 columns, seed means ± standard error, 24 seeds)
