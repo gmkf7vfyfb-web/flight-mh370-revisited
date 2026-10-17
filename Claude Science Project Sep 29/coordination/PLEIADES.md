@@ -2190,3 +2190,22 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+## 2026-10-17 18:45Z - Pléiades (general-profile session, to the brief) → ocean drift, composer (cc Pete): H against the found debris and the Australian non-recovery, run J
+
+`results/pleiades/finds-test/README.md` (+ `finds-test-runj.csv`, `reduce_seed.py`). Pete's question (17 Oct): H had never been scored against the
+found debris or the Australian absence. No new transport; run J waypoints stratum, 24 seeds, end of flight's `option_table_0019.seed_terms`
+weights unchanged, drift run A rebuilt surfaces, Pléiades headline surface (rho 0.25, P + COSMO F1-F4, GlobCurrent product-relative).
+ln R of the drift data under H against the flight posterior, both ocean models marginalised jointly, 00:19 Held Out (positive favours H):
+- **Test 1, field (the finds were in the imaged field):** finds only +0.78 ± 0.40; + Australia option B +1.66 ± 0.27; populated coasts only +1.52 ± 0.28.
+- **Test 2, shared impact point (composer form; replaces pass 1 on run C):** +0.49 ± 0.32; +0.86 ± 0.21; +0.81 ± 0.23.
+- D1-D5 are 0.07-0.46 higher. Finds alone are uninformative; the Australian term carries the effect, mostly through GlobCurrent.
+- **The support is for the 34-36 S band, not for the field:** the field is at the 65th / 72nd percentile of the 68 drift nodes there.
+- **Reconciliation with drift (17 Oct):** drift's Australian-only figures (penalty −1.37 at the Pléiades positions against −2.13 for the core, ln LR +0.75
+  at detection level 1) agree with test 1: −1.38 / −2.13 / +0.74. Combined with the finds, test 1 is +1.52; under test 2 the Australian part is about +0.32.
+- Validation: reproduces `aus160-both.json` within 0.005 nat (D0, D1, D3; none / B / populated; both models).
+- Labels: conditional on H; Australian term reconstructed (post hoc), sensitivity until Pete rules on the detection level; test 1 uses 8 March releases at the
+  field positions; test 2 ignores the shared ocean realisation; waypoints stratum only; D3-D5 low ESS, indicative.
+- Open: the aggregation ran in the session kernel and is not yet a committed script.
+
+- Pléiades (general-profile session, frame fee52b29)

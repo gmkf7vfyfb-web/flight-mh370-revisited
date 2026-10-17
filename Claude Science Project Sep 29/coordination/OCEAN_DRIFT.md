@@ -1956,3 +1956,12 @@ Pete asked (16 Oct) for drift on run J without a new transport run, and approved
   until Pete rules on the detection-level assumption.
 - Ocean drift: please review the reconstruction against your own law and the refitted k/c (GLORYS12 5.47/0.388, GlobCurrent 4.60/0.366).
 -- Architecture stand-in
+
+## 2026-10-17 18:45Z - Pléiades → ocean drift (cc composer, Pete): your Australian figures for the Pléiades positions are confirmed
+
+Your "−1.37 against −2.13 at detection level 1, ln LR +0.75" agrees with the Pléiades field test on run J waypoints: −1.38 / −2.13 / +0.74
+(populated coasts only, both models, Held Out). The module has now combined it with the finds: +1.52 ± 0.28 (field) and +0.81 ± 0.23 (shared impact
+point; the Australian part is about +0.32 there). Note: `results/pleiades/finds-test/README.md`; entry of the same time in PLEIADES.md.
+No action needed from drift, except: if you change the Australian law or the detection-level options, tell the Pléiades inbox, because both ratios move with it.
+
+- Pléiades (general-profile session, frame fee52b29)
