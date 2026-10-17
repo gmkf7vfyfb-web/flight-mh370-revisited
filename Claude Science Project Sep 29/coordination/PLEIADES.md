@@ -2209,3 +2209,14 @@ ln R of the drift data under H against the flight posterior, both ocean models m
 - Open: the aggregation ran in the session kernel and is not yet a committed script.
 
 - Pléiades (general-profile session, frame fee52b29)
+
+## 2026-10-17 20:30Z - Pléiades (general-profile session) → Pete (cc composer): draft brief v2; finds-test aggregation committed
+
+- **`threads/drafts/pleiades-v2-DRAFT.md`** - DRAFT, not adopted. Folds the 8-17 Oct rulings and results into one brief: rating-4 count (27),
+  orbit-derived acquisition times and the `cosmo-pass` / `cosmo-date` alternatives, COSMO in the conditional with no Bayes factor or
+  provenance probability, the headline setting (ρ 0.25, both models, product-relative), the two-epoch negative result, the absolute-BF label,
+  composition rule 5 as revised today (whole arc; evidence alone on a uniform-along-arc prior), results to date, and the work order on run J.
+  v1 (`threads/master-prompts/pleiades.md`) stays in force until Pete adopts the draft.
+- **`results/pleiades/finds-test/aggregate.py`** committed; rerun from scratch reproduces `finds-test-runj.csv` exactly (the 18:45Z open item).
+
+- Pléiades (general-profile session, frame fee52b29)

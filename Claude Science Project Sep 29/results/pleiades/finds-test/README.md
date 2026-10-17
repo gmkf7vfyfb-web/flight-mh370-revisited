@@ -101,7 +101,7 @@ Cluster weights by object count instead of equal: test 1, D0 = +0.90 / +1.68 / +
 ## Files
 
 `finds-test-runj.csv` (every option, Australian level and ocean model, with seed and noise SDs); `reduce_seed.py` (per-seed
-reduction); this note (README.md). The aggregation (node-level Australian adjustments, bootstrap, noise replicates) ran in the session kernel and is not yet a committed script. Inputs: `mh370-exchange/end-of-flight/run-j/run-j-waypoints`, `core/run-j/run-j-waypoints/bto-bfo`,
+reduction); this note (README.md). `aggregate.py` (node-level Australian adjustments, both tests, bootstrap and noise replicates; rerun from scratch reproduces `finds-test-runj.csv` exactly). Order: `python reduce_seed.py K seed-K.npz` for K = 1..24, then `python aggregate.py REPO EXCHANGE out.csv out-summary.json`. Inputs: `mh370-exchange/end-of-flight/run-j/run-j-waypoints`, `core/run-j/run-j-waypoints/bto-bfo`,
 `debris-drift/run-j/run-j-waypoints`, `debris-drift/runA-rebuilt`, `pleiades/run-i/surfaces/joint-surface-rho0.25-gcrel`; repo
 `results/drift-runj-2026-10-17/australia-160E/` and `aus160-both.json`; end-of-flight scorer `smoke/option_table_0019.py` (branch
 hypothesis/end-of-flight).
