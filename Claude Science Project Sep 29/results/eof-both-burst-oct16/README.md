@@ -132,6 +132,8 @@ output is in the same compact layout. Tests on run J waypoints seed 1 (base arm,
 - **Normalisation (corrected 16 Oct 22:00Z):** ln Z from a thinned file must be normalised by `thinning.weight_sum_in` (the unthinned weight total), not by the sum of the stored weights, because rows with pi = 0 are dropped. The first version of the script's own `after` summary made this error (+2.157 nat on run-J waypoints seed 1; ESS and shares were unaffected). It is fixed, and seed 1's metadata is corrected.
 - Planned target: 1 M rows per supplementary seed. Measured: 129 MB for 299,958 kept rows (about 450 bytes per row), so about 0.43 GB per seed and about 14 GB for 32 seeds. That is inside core's 35 GiB budget. [Corrected 16 Oct: first posted as 0.24 GB and 8 GB, from a column-count estimate rather than the measured file size.]
 
+**Correction (17 Oct about 12:20Z).** The prior-recovery 'failures' of the aimed arm in sections 3 and 4b are within the ESS-scaled two-sample 95 % band (see `results/eof-run-j-waypoints-oct16/README.md` section 3c, item 3). They are Monte Carlo noise against a fixed 0.0030 standard that does not scale with ESS, not evidence of a biased correction. The choice of the unaimed pass stands on its other grounds.
+
 ## 5. COVERAGE
 **(a) Feasible set.** The pair at 00:19:29.416 / 00:19:37.443 needs a vertical-speed change of about -9,400 to -9,800 ft/min in 8.0 s.
 The 777-200ER can reach this in an uncontrolled spiral or push-over after flame-out (Boeing no-input traces; ATSB).

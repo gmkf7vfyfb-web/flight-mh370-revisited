@@ -107,11 +107,7 @@ totals of section 2, so the values differ from that table. They show what the pr
 2. No-input spirals almost never produce the raw 00:19 pair. The A1 share under D3 is consistent across all arms and both passes
    (0.06-0.09). **The shape of A1's impact distribution under D3 is not estimable** with any proposal now in the module. It is a
    declared coverage gap, and it carries about 0.07 of D3's weight.
-3. **Prior recovery fails again for the aimed selection:** push-over hold 0.0066 and push-over rate 0.0034, against the 0.0030
-   standard (`d3-aimed-smoke-seed1-acceptance.json`). The hold deviation is the largest on all three independent hand-offs tested
-   (0.0071 on run I repro, 0.0051 on the run J smoke, 0.0066 here), against about 0.002-0.004 for the unaimed children-64 arm.
-   **This looks systematic: a suspected defect in the selection correction, to be investigated in `lib.rs`.** Until then the aimed
-   arms are not used for any result.
+3. **Prior recovery: no evidence of a defect (corrected 17 Oct, about 12:20Z; an earlier version of this item said "suspected defect").** The largest deviations are push-over hold 0.0067 and push-over rate 0.0036, against the fixed 0.0030 standard. But the two-sample 95 % band, from parent-level effective sizes, is 0.0108 for the push-over quantities: aiming concentrates push-overs, so they rest on 24k effective parents in the aimed arm against 46k in production. The band is 0.0081 for the rest. Every deviation is at most 0.63 of its band. The fixed 0.0030 standard does not scale with ESS, so thin arms fail it from noise alone. The same holds for the earlier run-I repro value (0.0105 against a band of 0.0108 or more). **Recommendation: replace the fixed standard with the ESS-scaled band.** The decision to use the unaimed children-64 pass stands on other grounds: it improves every cell, and aiming for D4 hurt D3 on the run-J smoke.
 
 ## 4. Running and queued (heavy lock, one queue)
 - **Supplementary both-burst pass: done** (section 3b).

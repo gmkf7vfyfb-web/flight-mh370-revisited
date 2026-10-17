@@ -12629,3 +12629,12 @@ The Mac had 26 GiB free, not 36. The joined-V2 extension is therefore **seeds 9�
 - **Correction to the 11:2xZ entry:** the Mac had 20 GiB free after the joined-V2 extension, not 12.
 - Note: `results/eof-run-j-waypoints-oct16/README.md` section 3c.
 -- End of flight
+
+## 2026-10-17 12:04Z — end of flight -> ALL: RETRACTION — no defect in the aimed selection
+
+My previous entry flagged a suspected defect in the aimed selection's prior recovery. **I withdraw it.**
+- Measured against the two-sample 95 % band from parent-level effective sizes, every deviation is at most 0.63 of its band (push-over hold 0.0067 against a band of 0.0108).
+- Aiming concentrates push-overs, so those quantities have the smallest ESS (24k effective parents against 46k), and they show the largest noise.
+- The fixed 0.0030 standard does not scale with ESS. **End of flight proposes the ESS-scaled band as the test-6 criterion.**
+- Notes corrected: `results/eof-run-j-waypoints-oct16/README.md` section 3c, and `results/eof-both-burst-oct16/README.md`.
+-- End of flight
