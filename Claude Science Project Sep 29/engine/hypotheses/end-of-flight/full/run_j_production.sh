@@ -2,7 +2,8 @@
 # Run J PRODUCTION end-of-flight pass (Pete, 16 Oct 2026 ~16:40Z): run-i-dive recipe (C2-silent aim + dive branch, children-16 on
 # waypoints) with round-3 laws and the bank limit drawn uniformly on [52, 90] deg (full/bank-cap-uniform.toml).
 # One seed per sweep call, with a free-disk guard (EOF_MIN_FREE_GB, default 30) because core's run J is still landing on the same
-# disk. Per-seed calls write README/READY, which are removed until the last call; the final call over all seeds (all skipped,
+# disk. RJ_THREADS (default 14) and EOF_NOLOCK=1 (run outside the heavy lock; Pete 17 Oct ~00:30Z: the Mac is free tonight)
+# are passed through to sweep_run_i.sh. Per-seed calls write README/READY, which are removed until the last call; the final call over all seeds (all skipped,
 # already verified) writes the stratum README and READY. Usage (from engine/): RJ_WS=<workspace> RJ_STRATA="run-j-waypoints" bash ...
 set -u
 W=${RJ_WS:?workspace}; STRATA=${RJ_STRATA:-run-j-waypoints}; OUT=${RJ_OUT:-/Users/pete/Downloads/mh370-exchange/end-of-flight/run-j}
@@ -15,7 +16,7 @@ for st in $STRATA; do
   for k in $SEEDS; do
     while :; do free=$(df -g /Users/pete | tail -1 | awk '{print $4}'); [ "$free" -ge "$MIN" ] && break
       echo "  waiting: ${free} GiB free < $MIN ($(date -u +%T))"; sleep 300; done
-    EOF_CORE=$CORE EOF_BIN=${RJ_BIN:-/tmp/mh370-eof-rj1} EOF_EXTRA="$X" EOF_STRATA=$st EOF_SEEDS=$k EOF_THREADS=14 EOF_OUT=$OUT EOF_TAG=RJP \
+    EOF_CORE=$CORE EOF_BIN=${RJ_BIN:-/tmp/mh370-eof-rj1} EOF_EXTRA="$X" EOF_STRATA=$st EOF_SEEDS=$k EOF_THREADS=${RJ_THREADS:-14} EOF_OUT=$OUT EOF_TAG=RJP \
       bash $S/full/sweep_run_i.sh 2>&1 | grep -E "seed $k start|FAIL|MISMATCH|REFUS|MISSING|rror|skipped"
     rm -f "$OUT/$st/READY" "$OUT/$st/README.md"; echo "  seed $k done $(date -u +%T), $(df -g /Users/pete | tail -1 | awk '{print $4}') GiB free"
   done

@@ -12527,3 +12527,11 @@ all four families because each is above, or within 0.002 of, the free-flight val
 - Use `end-of-flight/run-j/run-j-waypoints/` (READY 20:59Z) instead. Run J supersedes run I for downstream work (Pete's 15 Oct ruling). If you need a run-I product rebuilt, say so here and Pete can restore it.
 - **Why:** the Mac fell to 39 GiB free. The end-of-flight run-J queue is paused: 5 more both-burst supplementary seeds, joined V2, and the free, repro and descent-climb production passes, about 100 GB in total over the next day.
 -- End of flight
+
+## 2026-10-17 00:23Z — end of flight -> ALL modules (recording Pete's ruling): the Mac heavy-work lock is retired as a standing requirement
+
+**Pete, 17 Oct about 00:40Z:** architecture has been inactive for a while; end of flight is to use the compute it needs and to override or retire the standing heavy-lock contract (`lockf -k /tmp/.mh370-heavy.lock` for jobs over about 10 minutes or 4 GB, 12 threads inside plus 2 outside).
+- Tonight only end of flight runs on the Mac; drift is on deskstar and uses deskstar's own flock.
+- End of flight now uses all 18 cores: the both-burst supplementary pass at 12 threads, and the free, repro and descent-climb production passes at 6 threads outside the lock. Joined V2 follows the supplementary pass.
+- **Any module that comes back to the Mac should check `coordination/architecture.md` and talk to end of flight before starting heavy local work**, so that the 18 cores are not oversubscribed. The lock file still exists, and my remaining drivers still take it, which is harmless.
+-- End of flight
