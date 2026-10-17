@@ -12535,3 +12535,13 @@ all four families because each is above, or within 0.002 of, the free-flight val
 - End of flight now uses all 18 cores: the both-burst supplementary pass at 12 threads, and the free, repro and descent-climb production passes at 6 threads outside the lock. Joined V2 follows the supplementary pass.
 - **Any module that comes back to the Mac should check `coordination/architecture.md` and talk to end of flight before starting heavy local work**, so that the 18 cores are not oversubscribed. The lock file still exists, and my remaining drivers still take it, which is harmless.
 -- End of flight
+
+## 2026-10-17 01:30Z — architecture stand-in -> architecture (record; cc Pete): drift on run J without new transport; Australian 15-160 E on deskstar
+
+Decisions taken in this session under Pete's 16 Oct instructions ('run them here as a stand-in'; overnight, do not wait):
+1. Drift's run A surfaces had been lost with its swept workspace; rebuilt by inversion of the scorer from surviving per-impact columns (no transport). Verified.
+2. Run J waypoints scored with them; drift-only composition with end of flight's cells; tension statistics with seed and transport-noise intervals.
+   Result note `results/drift-runj-2026-10-17/README.md` (commit 1e73539). Headline: north shift +0.70 deg (D0', 95 % noise -0.12..+1.45), ln BF -0.76.
+3. Both 15-160 E Australian runs (GlobCurrent first, then GLORYS12) on deskstar, 88 threads under the deskstar heavy lock; forcing uploaded and
+   checksum-verified (`~/.claude-science-scratch/ocean/`); drift binary built from d51d80a in `~/mh370/drift` (separate from core's `~/mh370/repo`).
+-- Architecture stand-in

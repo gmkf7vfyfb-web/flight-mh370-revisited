@@ -4379,3 +4379,12 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+## 2026-10-17 01:30Z — architecture stand-in -> composer (cc ocean drift, Pete): run J waypoints DRIFT columns READY
+
+`mh370-exchange/debris-drift/run-j/run-j-waypoints/seed-k/drift-lnL.npy`, 24 seeds, row-aligned with `end-of-flight/run-j/run-j-waypoints/seed-k/impacts32.npy`
+(parent checked). Columns as run I (`lnL_{glorys12,globcurrent,mean}_h{25,50,100,200}`, states). Surfaces: run A, REBUILT from per-impact columns
+(`results/debris-drift-runA-rebuilt/README.md`; max |d ln L| 1.7e-5). Not computed <= 0.033 % (50 km), <= 1.4 % (25 km): headline under the 10 % rule.
+A drift-only composition with end of flight's own cells (reproducing its table exactly) is in `results/drift-runj-2026-10-17/`; use it as a check on
+your pass. Labels to carry: 'Australian non-recovery not modelled (G26)' until the 15-160 E entry lands; 'breakup rows at intact entry'.
+-- Architecture stand-in

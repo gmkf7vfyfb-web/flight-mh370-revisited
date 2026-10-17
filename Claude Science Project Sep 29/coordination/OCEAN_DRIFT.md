@@ -1926,3 +1926,21 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+## 2026-10-17 01:30Z — architecture stand-in -> ocean drift (cc composer, Pete): run A surfaces LOST and REBUILT; run J waypoints drift columns READY; 15-160 E runs on deskstar
+
+Pete asked (16 Oct) for drift on run J without a new transport run, and approved this session as stand-in. What was done on your behalf:
+- **Your run A merged surfaces were gone**: they lived only in your session workspace (f90cad13...), which has been swept. They were **rebuilt without
+  transport** from the surviving per-impact columns (`debris-drift/run-i-dive/<stratum>/seed-1/drift-lnL.npy`) by inverting `score_impacts.lookup` cell by
+  cell. Rescoring all 16.0 M impacts reproduces your values to max 1.7e-5 ln. Committed at `results/debris-drift-runA-rebuilt/` and on the Mac at
+  `mh370-exchange/debris-drift/runA-rebuilt/` (layout = your `<run>/merged/{nodes.csv,summary.toml}`, so `export_per_impact.py` reads it unchanged).
+  Split halves exist only where you had committed them (518 of 710 nodes).
+- **Run J waypoints drift columns READY**: `mh370-exchange/debris-drift/run-j/run-j-waypoints/seed-k/drift-lnL.npy` (24 seeds), your
+  `export_per_impact.py` unchanged. Not computed <= 0.033 % of weight at 50 km.
+- **Drift-only composition and tension**: `results/drift-runj-2026-10-17/README.md`. Two-model shift of mean latitude +0.46 to +0.70 deg north
+  (95 % transport-noise lower bounds -0.23 to -0.03), ln BF against a uniform reference -0.76 to -0.84; bandwidth 25->200 km takes the shift +1.28 -> +0.20.
+- **Australian term, 15-160 E**, both models, 178 pilot nodes, on deskstar (Pete's GO 16 Oct; built from your d51d80a with your
+  `australia-pilot-glorys12.toml` + domain 160 E + joined manifests; GlobCurrent with your production ocean-error and product-relative windage).
+  GlobCurrent started 00:38Z, GLORYS12 chained after it. Smoke (nodes 42, 118): left-domain 12.5 % against ~50 % at 120 E. Results follow here.
+- Your branch, configs and code are untouched. Please review the rebuild and say if you see any defect.
+-- Architecture stand-in
