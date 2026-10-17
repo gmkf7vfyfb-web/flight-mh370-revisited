@@ -49,6 +49,8 @@ expected to dominate the currents.
    "impossible". Cover the prior's support or refuse.
 6. **Be accurate where the other evidence has mass** — roughly 30–40°S along the 7th arc — not
    only near your own peak.
+   *Revised 17 Oct 2026 (ARCHITECTURE.md rule 5): be accurate across the whole arc span that the flight
+   prior covers. Your evidence is also shown alone, on a prior uniform along the arc (composer.md §0).*
 7. **Measure Monte Carlo adequacy and report unconverged as unconverged.** The fix is the sampler,
    never the smoothing. Use `skill("mh370-run-reporting")` for the conventions.
 8. **Settle discrete choices by evidence, or carry them as declared alternatives with priors.**

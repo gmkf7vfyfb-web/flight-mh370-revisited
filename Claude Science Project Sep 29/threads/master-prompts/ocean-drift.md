@@ -69,6 +69,8 @@ the job, and a documented negative result about a published method is a contribu
    −37.225° with a 50% interval of [−37.85, −37.00] and 90% of [−38.35, −35.50] — not only near
    your own peak. The old drift answer peaked at 30.7°S, far north of that, so this rule is not
    rhetorical here.
+   *Revised 17 Oct 2026 (ARCHITECTURE.md rule 5): be accurate across the whole arc span that the flight
+   prior covers. Your evidence is also shown alone, on a prior uniform along the arc (composer.md §0).*
 6. **Measure Monte Carlo adequacy and report unconverged as unconverged.** See §5 for what
    acceptance means in this module specifically; it is not a smooth-looking drift map.
 7. **Ocean models are declared alternatives, not independent evidence.** They are competing

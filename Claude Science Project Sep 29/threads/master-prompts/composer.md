@@ -1,6 +1,7 @@
 # Composer — mission and master prompt
 
-**Status.** Written 8 October 2026 by the architecture session. ARCHITECTURE decision 1 was superseded
+**Status.** Written 8 October 2026 by the architecture session. **Amended 17 October 2026 at Pete's request: §0 (mission and evidence balance) added; it takes
+precedence over the later sections.** ARCHITECTURE decision 1 was superseded
 on ownership the same day: **the composer is its own piece of work; the runner stage stays with the core
 estimator.** The dividing line is which files the work edits — the composer reads `impacts.npy` and
 writes a new crate; the runner edits `main.rs` and `config.rs`.
@@ -10,6 +11,110 @@ starting specification and is reproduced in substance below; `ISO Sept 28 Status
 for the eight composition rules; `Claude Science Project Sep 29/ARCHITECTURE.md`.
 
 **Location.** New crate `crates/compose`. Branch `core/composer`, cut from `claude-science-sep29`.
+
+---
+
+## 0. Mission and evidence balance — amended 17 October 2026 (Pete)
+
+Read this before §1. Where this section and a later one disagree, this section wins.
+
+**Purpose.** No single evidence type can locate the aircraft. Satcom with flight dynamics, debris drift,
+hydroacoustics, searched areas and the conditional hypotheses are each sparse and under-determined, and each
+has wide uncertainty. If a solution exists, it comes from all of them together, each weighted by its own
+uncertainty. The composer is where they are combined. Its job is to give the posterior over seabed location
+given ALL the evidence, to show the true spread of that uncertainty and where the probability peaks, and to
+show which evidence makes each feature. Prior work relied mostly on one evidence type. This work must not.
+
+**False precision is a defect.** The satcom posterior peaks near 37 S, but solutions that agree with the
+satcom data exist far up the arc, and only one of them has to be true. A narrow composed region is a result
+only if it passes the checks in §0.1–§0.7. If a result is narrow because of the sampling, an understated
+model error or one dominant factor, report that as the result.
+
+**Not allowed.** Do not down-weight an evidence type by hand: no likelihood powers below 1 in a reported
+product, no fixed weights, no dropping a factor because it disagrees. Balance comes from (i) honest model
+error inside each likelihood, (ii) samples that cover the whole arc, and (iii) showing each evidence type's
+own view, so that a reader can see the triangulation and need not trust it. Tempering inside a sampler is
+permitted when it ends at power 1.
+
+### 0.1 Three views for every evidence type
+
+For each evidence type E (satcom + flight core; drift; hydroacoustics; searched areas; the Pléiades / COSMO
+conditional; settling where it changes the seabed), compute:
+
+- **(a) E alone:** E's likelihood on a prior that is uniform along the 7th arc over the full span that the
+  flight prior covers, with the same end-of-flight impact model. For the core, view (a) is the flight + end-of-flight
+  posterior.
+- **(b) core + E.**
+- **(c) all except E** (leave-one-out), and **all**.
+
+For each view report: median latitude along the arc, 50 % and 90 % HPD regions and their areas, mass per
+latitude band (§0.7) and ESS. A view that is not estimable is reported as a coverage gap, not dropped.
+
+### 0.2 Disagreement between evidence types
+
+For each E, between view (a) and the core, and between view (c) and all: the ln evidence ratio (state what it
+is conditional on); the overlap of the 90 % HPD regions (the share of each region inside the other, and the
+Bhattacharyya coefficient on the equal-area grid); the shift of the median along the arc. This generalises
+the Pléiades tension test of passes 0 and 1 to every evidence type. A large disagreement is a result, not a
+defect: it goes in the headline table, not in an appendix.
+
+### 0.3 Influence of each factor
+
+For each factor: the KL divergence (nats) from the base to the composed posterior, and the change in median
+and 90 % area when the factor is removed. Flag a factor that carries more than half of the total KL
+divergence of "all". Flag separately **model dominance**: one flight family or one mode carrying more than
+95 % of a product. Run I measured 0.995–0.997 for waypoints (`results/composer-north-ess-run-i.md`).
+
+### 0.4 Arc-wide sample set (core and end-of-flight request)
+
+A composed posterior is a reweighting of the impact samples. If the samples come only from the satcom
+posterior, other evidence can only reweight the places where satcom put samples. Measured on run I
+(`results/composer-north-ess-run-i.md`): with drift and searches, 0.177 of the mass is north of 33 S, on an
+implied effective sample of 66 (seed range 0.096–0.268). The north is under-sampled, not excluded.
+
+Required: an impact sample set whose proposal covers the full arc, for example the defensive mixture
+q = (1 − α) p_core + α q_arc, where q_arc is uniform along the arc span and uses the same end-of-flight descent
+model, with the importance weight p/q carried on each row. The prior does not change; only the sampling
+changes. The core and end-of-flight sessions own the method (the arc-kernel impacts of the searched-areas M3
+fixture are one candidate starting point). Target: at least 1,000 effective samples in each 5° latitude
+band that holds more than 1 % of the mass of any view (a) or any composed product.
+
+Until that sample set exists: every composed result carries the label "north of 33 S under-sampled
+(effective sample n)", with n measured; and view (a) uses the best arc-uniform set available, labelled
+with what it is.
+
+### 0.5 Model error and false-precision sensitivities
+
+Every factor's likelihood carries explicit model error (composition rule 4), with its validation source.
+The composer checks that each module declares it, and does not put a factor into a headline without it.
+Labelled sensitivities for each factor: model-error scale doubled; and a heavy-tailed version (for example
+Student-t, ν = 4) where the module supplies one. Report how far the headline moves. For the satcom core
+(BTO / BFO noise and the BFO bias-drift model) the likelihood is inside the filter: ask the core session for
+the sensitivity runs and compose them; do not change the core likelihood yourself.
+
+### 0.6 Shared inputs between modules
+
+Apart from the named alternatives, check that each input shared by two or more modules (ocean model,
+windage, impact energy and angle, end-of-flight family and its assumptions, the 00:19 option) is declared as
+a shared alternative or carried as an `ImpactView` column, so that it is marginalised jointly. An undeclared
+shared input is a dependence gap: report it in the COVERAGE section.
+
+### 0.7 Outputs describe the whole probability space
+
+Headline outputs: mass per 1° latitude band along the full arc span, with Monte Carlo error from the seed
+scatter; every mode with its mass; 50 / 90 / 95 % HPD regions on the equal-area grid; and the probability
+that the seabed is inside versus outside the searched areas, by region. Median and peak are shown with
+these, never alone. Results are per end-of-flight hypothesis first (§1, item 6). Charts and notes follow
+the project rules for titles, footnotes and language.
+
+### 0.8 Tests added to §3
+
+8. **Arc-wide proposal:** the importance weights alone recover the uniform prior along the arc on a
+   fixture, and a factor composed onto the mixed proposal gives the same posterior as on a direct sample
+   from the target, within Monte Carlo error.
+9. **Views and influence:** on a synthetic fixture with two factors that disagree by a known amount, the
+   composer recovers views (a)–(c), the ln evidence ratio, the HPD overlap and the KL influence of each
+   factor against the closed form.
 
 ---
 

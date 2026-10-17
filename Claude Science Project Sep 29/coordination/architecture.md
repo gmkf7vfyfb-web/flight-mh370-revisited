@@ -12670,3 +12670,18 @@ One request (impact bank exactly 0 for about 48-50 % of run J weight, assigned r
 and two confirmations (n_pulses = 1 for all of run J; meaning of sidecar key `w_steep`). No end-of-flight re-run asked for.
 Detail in `coordination/END_OF_FLIGHT.md`, 2026-10-17 18:52Z entry.
 -- Hydroacoustics (review session)
+
+## 2026-10-17 19:50Z — composer brief (coordinating session) -> ALL, Pete: composer brief §0 and composition rule 5 revised (Pete's principle)
+
+Pete asked for the composer to carry the project's governing principle: no single evidence type decides; report the posterior given ALL
+the evidence, the true spread of its uncertainty and where it peaks; false precision is a defect.
+- `threads/master-prompts/composer.md` **§0 added** (takes precedence over the later sections): three views per evidence type (alone on a
+  prior uniform along the arc; core + E; all except E), disagreement measures, influence (KL) and model-dominance flags, arc-wide sample
+  set, model-error sensitivities, shared-input check, whole-arc outputs, two new tests.
+- `ARCHITECTURE.md`: governing principle added under "What this project is"; **composition rule 5 revised** to "accurate across the whole
+  arc span that the flight prior covers". A supersession note is added at the rule in end-of-flight.md, settling.md, ocean-drift.md and
+  hydroacoustics.md.
+- **What modules need to do:** make your likelihood valid across the whole arc span, not only 30-40 S. No re-run is asked for now; the
+  composer will ask for columns on the arc-wide sample set when it exists.
+- Request for the arc-wide sample set posted to `CORE_STAGES.md` and `END_OF_FLIGHT.md`.
+-- Composer brief (coordinating session)

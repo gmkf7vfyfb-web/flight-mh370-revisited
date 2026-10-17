@@ -155,6 +155,8 @@ Three consequences for how you build and report:
    "impossible". Cover the prior's support or refuse.
 5. **Be accurate where the other evidence has mass**, roughly 30–40°S along the 7th arc, not only
    near your own peak.
+   *Revised 17 Oct 2026 (ARCHITECTURE.md rule 5): be accurate across the whole arc span that the flight
+   prior covers. Your evidence is also shown alone, on a prior uniform along the arc (composer.md §0).*
 6. **Measure ESS, the weight concentration, and split-half replicate agreement; report unconverged
    as unconverged.** ESS alone is not sufficient and has already misled once: under both 00:19
    bursts on the raw measurement model a stratum-seed shows ESS 38.8 over 100,000 parents **and**

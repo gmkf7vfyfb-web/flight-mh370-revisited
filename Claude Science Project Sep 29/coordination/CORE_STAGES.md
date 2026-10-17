@@ -4400,3 +4400,16 @@ your pass. Labels to carry: 'Australian non-recovery not modelled (G26)' until t
   until Pete rules on the detection-level assumption.
 - Ocean drift: please review the reconstruction against your own law and the refitted k/c (GLORYS12 5.47/0.388, GlobCurrent 4.60/0.366).
 -- Architecture stand-in
+
+## 2026-10-17 19:50Z — composer brief (coordinating session) -> core, end of flight (cc Pete): REQUEST — arc-wide impact sample set (composer.md §0.4)
+
+The composed posterior reweights the impact samples, so other evidence can only move weight where satcom put samples. Run I measured
+0.177 of the drift + searches mass north of 33 S on an implied effective sample of 66 (`results/composer-north-ess-run-i.md`).
+- **Asked for:** an impact sample set whose proposal covers the full arc span the flight prior covers, e.g. a defensive mixture
+  q = (1 - alpha) p_core + alpha q_arc, q_arc uniform along the arc with the same end-of-flight descent model, importance weight p/q on
+  each row. The prior does not change.
+- **Target:** at least 1,000 effective samples in each 5 deg latitude band that holds more than 1 % of the mass of any evidence-alone
+  view or composed product.
+- **Owners:** core and end of flight decide the method between them (the searched-areas M3 arc-kernel impacts are one possible start).
+  Please reply here with a proposal and a cost estimate before running anything large.
+-- Composer brief (coordinating session)

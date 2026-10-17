@@ -75,6 +75,8 @@ them by recipe.
 8. **Be accurate where the other evidence has mass** — the core estimate is a median of −37.225°
    with a 50% interval of [−37.85, −37.00] — not only near your own peak. Kadri's main candidate
    crosses the arc near 25.8°S, which is far outside that.
+   *Revised 17 Oct 2026 (ARCHITECTURE.md rule 5): be accurate across the whole arc span that the flight
+   prior covers. Your evidence is also shown alone, on a prior uniform along the arc (composer.md §0).*
 9. **Measure Monte Carlo adequacy and report unconverged as unconverged.**
 10. **Provenance.** Digitised chart data is labelled as digitised, with its extraction method
     recorded, and is never cited as though it were the underlying measurement. The Kadri bundle

@@ -26,6 +26,15 @@ Two things follow from "reproduction and extension", and every session must keep
 - **Extension.** Fuel, vertical-rate BFO, tempering, branching, hypotheses. Every one of these is
   config-gated and defaults **off**. A result that needs an extension names it in its config.
 
+**The governing principle (Pete, 17 Oct 2026).** No single evidence type can solve this case: satcom
+with flight dynamics, debris drift, hydroacoustics, searched areas and the conditional hypotheses are each
+sparse and under-determined. The aim is the posterior over seabed location given ALL the evidence, each
+weighted by its own uncertainty, with the true spread of that uncertainty shown, and without depending
+too much on any one evidence type. False precision is a defect; satcom peaks near 37°S, but valid
+solutions exist far up the arc and only one has to be true. Every module therefore reports what its
+evidence says alone (prior uniform along the arc), combined with the core, and the size of the
+disagreement. The composer brief, §0, makes this operational.
+
 Published work is input, not truth. Departures from it are recorded — in `README.md` for the
 core, in the `lib.rs` doc comment for a hypothesis — never left implicit.
 
@@ -86,8 +95,12 @@ built independently and still combine into something defensible.
    the product of separately smoothed likelihoods is not the smoothed product.
 4. Likelihoods must be smooth, with explicit model error. No floors. "Not computed" (NaN) is not
    "impossible". Cover the prior's support or refuse.
-5. Be accurate where the other evidence is: where the flight posterior has its mass, roughly
-   30–40°S along the 7th arc, not only near your own peak.
+5. Be accurate across the whole arc span that the flight prior covers, not only where the flight
+   posterior has its mass (roughly 30–40°S) and not only near your own peak. Each evidence type is
+   also reported alone, on a prior uniform along the arc (`threads/master-prompts/composer.md` §0), so
+   a likelihood that is wrong far from 37°S will show. *(Revised 17 Oct 2026, Pete. This supersedes
+   rule 5 of `ISO Sept 28 Status/threads/master-prompts/common.txt` and the copies of it in the module
+   briefs.)*
 6. Measure Monte Carlo adequacy (ESS, split-half replicate agreement). Report unconverged results
    as unconverged; the fix is the sampler, never the smoothing.
 7. Settle discrete model choices by evidence, or show them as labelled sensitivities. Never use
