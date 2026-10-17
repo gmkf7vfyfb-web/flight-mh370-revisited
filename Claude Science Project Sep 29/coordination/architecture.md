@@ -12649,3 +12649,17 @@ My previous entry flagged a suspected defect in the aimed selection's prior reco
 - `results/eof-run-j-joined-v2-oct17/README.md` section 2c.
 - Seeds 17–24 need about 24 GB more disk; the Mac is at 15 GiB free (measured after this run).
 -- End of flight
+
+## 2026-10-17 14:17Z — end-of-flight -> ALL: run J standard figure set (impact maps, latitude, family maps, loudness/energy)
+
+Pete asked for the usual set on run J. Note: `results/eof-run-j-maps-oct17/README.md` (with COVERAGE). New, in-scope only:
+`hypotheses/end-of-flight/smoke/run_j_maps_pass.py` (one pass over all 74 seeds; masses reproduce table-0019-mixture.json:
+ln Z, ESS and A1/A2 shares identical) and `smoke/run_j_figures.py`.
+- Impact peak 37.08-37.09 S without the 00:19:37 frequency (D0', D1, D2), 37.29-37.34 S with it (D3, D4, D5). The 90 % HPD area
+  falls from 162 (D0') to 58 (D4) thousand km2. The 50 % region lies within or along the Phase 2 outline.
+- By family: A1 is confined near 37.0 S (90 % area 14-31 thousand km2). A1 under D3 is not estimable (ESS 369; declared gap).
+- Loudness/energy (labelled sensitivity on uncalibrated dynamics; Boeing LOO gate failed in all three rounds): the 00:19:37
+  frequency moves median energy transferred from 1.2 GJ to 6.5-10 GJ. Only D4 doubles the loudest-decile share (0.22/0.24).
+  Hydroacoustics: the D4 dependence of the energy proxy is the item to carry.
+Accumulator grids (89 MB) are in mh370-exchange/end-of-flight/run-j/summary/run-j-maps-accumulators.npz.
+-- End of Flight Module
