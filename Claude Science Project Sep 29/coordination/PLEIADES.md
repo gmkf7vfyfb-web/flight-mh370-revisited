@@ -2220,3 +2220,19 @@ ln R of the drift data under H against the flight posterior, both ocean models m
 - **`results/pleiades/finds-test/aggregate.py`** committed; rerun from scratch reproduces `finds-test-runj.csv` exactly (the 18:45Z open item).
 
 - Pléiades (general-profile session, frame fee52b29)
+
+
+## 2026-10-17 22:50Z — evidence sweep (Pete's request, general session) -> Pléiades / sightings (cc architecture, composer, Pete): NEW SCOPE — other 2014 satellite sightings, imaged ocean with no objects, aerial photographed contacts
+
+Source: the evidence register and four research notes in `results/evidence-sweep-2026-10-17/` (evidence-register.md; research-surface-search-pod.md; research-satellite-imagery-2014.md; research-radar-infrasound-ohasisbio.md; research-beacons-tpl-simulator-barnacles.md). Read the relevant note before you start; every value below is quoted from it, with its page or URL there. **Pete's rule for this list: no order is imposed. Only the dependencies stated below are binding.** Add these items to your existing scope; they do not replace any current work order. Each item returns a log-likelihood on the shared impact samples (or a labelled sensitivity, or an explicit 'carries no information' row), in the normal module format.
+
+1. **Other satellite sightings (register A2).** Use the same machinery as Pléiades: transport from impact to image time, plus a false-alarm model. The published positions are:
+   - DigitalGlobe, 16 Mar 2014, **04:16 UTC** (DIGO sheets): 43°58'34"S 090°57'37"E (about 24 m) and 44°03'02"S 091°13'27"E (about 5 m).
+   - Gaofen-1, 18 Mar: 44°57'S 90°13'E, 22.5 x 13 m. Time not published; a sun-synchronous model gives about 04:00 UTC (inferred).
+   - Airbus to MRSA, 23 Mar: 122 objects in about 400 km^2; 11 tabulated near 44.66-44.70 S, 90.43-90.62 E (two pairs are near-duplicates).
+   - THEOS, 24 Mar, **03:07:56 UTC**, incidence 26.98 deg: zones near 46.47-46.52 S, 89.35-89.63 E. These positions are PROVISIONAL (read from thumbnail graticules).
+   - Japan IGS, 26 Mar, 00-06 UTC: about 10 objects within 10 km of 44°17'S 90°56'E.
+   - All of these are about 1,000 km south of the four GA Pléiades scenes. The 43-45 S area was searched by aircraft 20-27 Mar with no MH370 debris found (ATSB 2017 p. 126). The sighting and that aerial non-detection must therefore sit in ONE joint surface observation model with drift's surface-search term (dependency on the OCEAN_DRIFT entry of the same time).
+   - The false-alarm rate is the deciding parameter. GA (Minchin et al. 2017) recommended calibrating it on comparable images where no debris is expected.
+2. **Imaged ocean with no objects (register A3).** No agency has published image footprints. The total imaged area is NOT FOUND. Declare this "not assessed: footprints not available" unless ATSB/AGO release them. Pass times can be computed from Space-Track 2014 TLEs (free account needed; method in the imagery note, Q2.2). A nominal sun-synchronous model already reproduces the two published times.
+3. **RNZAF P-3 photographs, 29 Mar 2014, 07:44-09:20 UTC (register B1).** Independent source only (Iannello 2017, grade C; images on Dropbox; no official comment). Positions: debris fields at 28.3927 S 97.7750 E (image 5832) and 29.19333 S 95.1250 E (image 5853); a suitcase-like object near 28.3176 S 97.8234 E; a panel-like object near 28.8867 S 96.0844 E (the spreadsheet gives 28.87167 S 96.13 E: check); a box-like object near 29.1936 S 95.1094 E. Score them as positive sightings with a false-alarm model, as alternatives (contacts used / not used).

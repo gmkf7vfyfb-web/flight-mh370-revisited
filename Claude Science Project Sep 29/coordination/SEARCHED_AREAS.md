@@ -1206,3 +1206,16 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+
+## 2026-10-17 22:50Z — evidence sweep (Pete's request, general session) -> searched areas (cc architecture, composer, Pete): NEW SCOPE — passive acoustic (pinger) search; shipwreck controls; Ocean Infinity remaining area
+
+Source: the evidence register and four research notes in `results/evidence-sweep-2026-10-17/` (evidence-register.md; research-surface-search-pod.md; research-satellite-imagery-2014.md; research-radar-infrasound-ohasisbio.md; research-beacons-tpl-simulator-barnacles.md). Read the relevant note before you start; every value below is quoted from it, with its page or URL there. **Pete's rule for this list: no order is imposed. Only the dependencies stated below are binding.** Add these items to your existing scope; they do not replace any current work order. Each item returns a log-likelihood on the shared impact samples (or a labelled sensitivity, or an explicit 'carries no information' row), in the normal module format.
+
+1. **Passive acoustic search for the recorder beacons, 2-17 Apr 2014 (register B3).**
+   - The FDR beacon battery had expired in Dec 2012; the CVR beacon was valid to Jun 2014 (SIR p. 137). Beacon life is 30 days minimum, 40 days predicted.
+   - Coverage exists only as maps: ATSB Jun 2014 Fig. 12 (TPL tracks 4-14 Apr; 2,400 m swath; 3 km maximum effective range) and ATSB 2017 Fig. 23. Digitise both. RAAF sonobuoys covered about 3,000 km^2 per sortie, 6-17 Apr; their drop positions are not published.
+   - Haixun 01 contacts were at 25.975 S 101.461 E (4 Apr) and about 3 km west (5 Apr), and were not reacquired. The Ocean Shield contacts were at about 20.95-21.2 S, 104.0-104.2 E and were later attributed to the TPL itself.
+   - Term: P(no detection | seabed point) = 1 - P(CVR beacon working) x P(det | inside coverage). It is small in area but cheap. Coordinate with the existing Bluefin-21 entry so the area is not counted twice.
+2. **Shipwreck controls (cc from the settling entry):** take the q and rho check from settling when it is ready. This is a dependency on settling.
+3. **Ocean Infinity:** about 7,571 km^2 searched in Mar 2025 and 31 Dec 2025 to 23 Jan 2026. About 7,428 km^2 remain under contract to 30 Jun 2027; work is not expected before Nov 2026. Keep the campaign provenance, and add the new area when the polygons are published.

@@ -1581,3 +1581,12 @@ particles leave the domain on average and 42 % for impact points south of 37 S, 
 - Run I remains the source; the credit rule is unchanged; nothing composed.
 
 - Ocean drift
+
+
+## 2026-10-17 22:50Z — evidence sweep (Pete's request, general session) -> shared ocean transport (cc architecture, composer, Pete): NEW SCOPE — detection covariates and SST along paths
+
+Source: the evidence register and four research notes in `results/evidence-sweep-2026-10-17/` (evidence-register.md; research-surface-search-pod.md; research-satellite-imagery-2014.md; research-radar-infrasound-ohasisbio.md; research-beacons-tpl-simulator-barnacles.md). Read the relevant note before you start; every value below is quoted from it, with its page or URL there. **Pete's rule for this list: no order is imposed. Only the dependencies stated below are binding.** Add these items to your existing scope; they do not replace any current work order. Each item returns a log-likelihood on the shared impact samples (or a labelled sensitivity, or an explicit 'carries no information' row), in the normal module format.
+
+1. **Detection covariates (register E3).** Every surface-detection term (drift's surface search, ships, Pléiades and the other sightings) needs these at search and image times along the drifted debris field: 10 m wind and significant wave height (ERA5 single levels and ERA5 waves), total and low cloud cover (ERA5; MODIS cloud mask where a granule exists), sun elevation, and a visibility proxy. Period: 16 Mar to 28 Apr 2014; domain about 20-48 S, 80-110 E. Expose them through the same batch interface as transport, so that drift and Pléiades use identical values.
+2. **SST along trajectories** for drift's barnacle term: ocean-model near-surface temperature sampled along each particle path, with the model name carried as the same alternative as the currents.
+Consumers: ocean drift and Pléiades. Neither depends on the other for this item.

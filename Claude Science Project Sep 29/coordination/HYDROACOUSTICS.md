@@ -1630,3 +1630,20 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+
+## 2026-10-17 22:50Z — evidence sweep (Pete's request, general session) -> hydroacoustics (cc architecture, composer, Pete): NEW SCOPE — OHASISBIO report now public; infrasound row
+
+Source: the evidence register and four research notes in `results/evidence-sweep-2026-10-17/` (evidence-register.md; research-surface-search-pod.md; research-satellite-imagery-2014.md; research-radar-infrasound-ohasisbio.md; research-beacons-tpl-simulator-barnacles.md). Read the relevant note before you start; every value below is quoted from it, with its page or URL there. **Pete's rule for this list: no order is imposed. Only the dependencies stated below are binding.** Add these items to your existing scope; they do not replace any current work order. Each item returns a log-likelihood on the shared impact samples (or a labelled sensitivity, or an explicit 'carries no information' row), in the normal module format.
+
+1. **OHASISBIO (register A9).** Royer, LDO-201608, 22 Dec 2016, 18 pp. It is now PUBLIC (Google Drive link in Wise's July 2026 Substack) and has been read.
+   - 2014 network: 6 sites with 8 hydrophones (NCRO, WKER, the SWAMS triad, NEAMS, SSEIR, MAD), moored in the SOFAR axis at 970-1,260 m, recording at 240 Hz.
+   - **NEAMS (31°34'S 083°11'E), the site nearest the arc, was lost on recovery: no data.**
+   - Royer finds 5 events (6 solutions). D2 at 27.856 S 93.460 E, 01:06:05 UTC, is favoured and lies "in the vicinity of the presumed impact area" but in a seismically active area. B at 35.224 S 99.922 E, 00:21:30, is "very tentative". C1/C2 and D1/D2 are mutually exclusive alternatives. Event A is an iceberg. His time stamps were corrected from GPS to UTC (16 s).
+   - Add the report to the prior-work critique (item 7). Test B and D1/D2 against your prediction, power and coverage outputs. Request the raw 2014 data from the author (address printed in the report); no DOI was found.
+2. **Infrasound (register A8): expected to carry no information; run it as a declared row.**
+   - The CTBTO IDC search used KLIA at 16:41 UTC as the source, +/-900 s, all stations within 50 deg; it did NOT search the southern ocean.
+   - IS06 Cocos (I06AU) was operating, but March 2014 IMS infrasound is not public (EarthScope data begin 3 Apr 2014).
+   - Impact kinetic energy is 0.2-1.5 t TNT equivalent, against network thresholds of 50 t to 1 kt: a factor of 33-2,500 below, before any air coupling. The only case that could matter is a close Cocos flyby, which is a route question for core.
+   - Blackman et al. 2004 used no Cocos receivers.
+   - II.COCO seismic data for 8 Mar are public. The LLNL CASIS 2014 poster (Kane, Lehman, Candy) could not be read.

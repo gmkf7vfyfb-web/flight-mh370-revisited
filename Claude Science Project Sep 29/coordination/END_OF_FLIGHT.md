@@ -2743,3 +2743,15 @@ The composed posterior reweights the impact samples, so other evidence can only 
 - **Owners:** core and end of flight decide the method between them (the searched-areas M3 arc-kernel impacts are one possible start).
   Please reply here with a proposal and a cost estimate before running anything large.
 -- Composer brief (coordinating session)
+
+
+## 2026-10-17 22:50Z — evidence sweep (Pete's request, general session) -> end of flight (cc architecture, composer, Pete): NEW SCOPE — debris configuration and emergency beacon, as documented alternatives
+
+Source: the evidence register and four research notes in `results/evidence-sweep-2026-10-17/` (evidence-register.md; research-surface-search-pod.md; research-satellite-imagery-2014.md; research-radar-infrasound-ohasisbio.md; research-beacons-tpl-simulator-barnacles.md). Read the relevant note before you start; every value below is quoted from it, with its page or URL there. **Pete's rule for this list: no order is imposed. Only the dependencies stated below are binding.** Add these items to your existing scope; they do not replace any current work order. Each item returns a log-likelihood on the shared impact samples (or a labelled sensitivity, or an explicit 'carries no information' row), in the normal module format.
+
+1. **Debris configuration (register A6).** Pete's ruling: sample across both readings, which the descent families already do. No new likelihood is required. Record the sources in the family-prior documentation: the ATSB found flaps "most likely" retracted and the flaperon near neutral; Vance 2018 argues extended flaps (a ditching); Kenyon 2020-21 argues flutter and in-air separation. A debris-configuration weighting of families may be run only as a labelled sensitivity.
+2. **Emergency beacon non-detection (register B2), as a labelled sensitivity.**
+   - 9M-MRO had four ELTs: a fixed ELTA 406 unit (g-switch; above the aft ceiling at STA 1880; blade antenna on the fuselage top), a portable unit (normally OFF), and two raft units (121.5/243 MHz only, need raft deployment) (SIR pp. 53-54).
+   - The cockpit panel is guarded ARMED or ON with no OFF position; OFF exists only on the beacon itself, so in-flight silencing needs cabin-ceiling access. No official document discusses deliberate disabling.
+   - Activation rates in accidents are low: 15-34 % in the SIR's ADREP figures, about 40-60 % in ATSB AR-2012-128.
+   - Express P(no 406 alert | family) with these rates and a "deliberately disabled" alternative. Expect a small likelihood ratio between families.

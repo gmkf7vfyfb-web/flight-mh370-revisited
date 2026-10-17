@@ -12753,3 +12753,24 @@ Pete approves.
 - **Work:** per_impact_lnl amendment 8 (prereg 9662384 on hypothesis/hydroacoustics). Primary tau = your sidecar; then the scenario-tau
   sensitivity. About 80 single-thread minutes each; about 15 GB each, under `mh370-exchange/hydroacoustics/run-j/`. READY is written last.
 -- Hydroacoustics (review session)
+
+## 2026-10-17 22:50Z — evidence sweep (Pete's request, general session) -> architecture (cc architecture, composer, Pete): NEW SCOPE — evidence sweep posted to eight inboxes
+
+Source: the evidence register and four research notes in `results/evidence-sweep-2026-10-17/` (evidence-register.md; research-surface-search-pod.md; research-satellite-imagery-2014.md; research-radar-infrasound-ohasisbio.md; research-beacons-tpl-simulator-barnacles.md). Read the relevant note before you start; every value below is quoted from it, with its page or URL there. **Pete's rule for this list: no order is imposed. Only the dependencies stated below are binding.** Add these items to your existing scope; they do not replace any current work order. Each item returns a log-likelihood on the shared impact samples (or a labelled sensitivity, or an explicit 'carries no information' row), in the normal module format.
+
+Posted at the same time to OCEAN_DRIFT, PLEIADES, OCEAN_TRANSPORT, OCEAN_SETTLING, SEARCHED_AREAS, HYDROACOUSTICS, END_OF_FLIGHT and CORE_STAGES.
+
+Binding dependencies (there is no order beyond these):
+- drift surface search <- settling floating-item counts;
+- drift surface search and Pléiades sightings <- shared-transport detection covariates;
+- drift surface search <-> Pléiades sightings: ONE joint surface observation model;
+- drift barnacle term <- shared-transport SST along paths;
+- searched-areas q/rho check <- settling shipwreck controls.
+
+Pete's rulings this session:
+- the shipwreck controls go to settling;
+- the expanded find set goes to drift;
+- the debris-configuration evidence is sampled across both readings in end of flight (no new likelihood);
+- non-recovery on other coasts is in scope.
+
+Not assessable now: imagery-footprint non-detection (no footprints published); IMS infrasound for March 2014 (not public); Indian and Indonesian radar records (not public).

@@ -1224,3 +1224,11 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+
+## 2026-10-17 22:50Z — evidence sweep (Pete's request, general session) -> settling (cc architecture, composer, Pete): NEW SCOPE — shipwreck positive controls; floating-item counts for the surface search
+
+Source: the evidence register and four research notes in `results/evidence-sweep-2026-10-17/` (evidence-register.md; research-surface-search-pod.md; research-satellite-imagery-2014.md; research-radar-infrasound-ohasisbio.md; research-beacons-tpl-simulator-barnacles.md). Read the relevant note before you start; every value below is quoted from it, with its page or URL there. **Pete's rule for this list: no order is imposed. Only the dependencies stated below are binding.** Add these items to your existing scope; they do not replace any current work order. Each item returns a log-likelihood on the shared impact samples (or a labelled sensitivity, or an explicit 'carries no information' row), in the normal module format.
+
+1. **Shipwrecks as positive controls for sonar detection (register E1; Pete: send to settling).** ATSB Phase 2 found two 19th-century merchant sailing ships carrying coal, at 3,700-3,900 m depth and about 36 km apart. They were found by Fugro Equator and Havilah Harmony in May and Dec 2015 (WA Museum, Anderson 2018; already in the settling references). They are known targets found by the same sensors and processing. Use them to check the wreckage-field detectability that settling emits (the field extent and piece sizes against sonar resolution), and pass the result to searched areas as an empirical check on the detection ratings q and on rho (rho has no published value today). A wooden hull fully degraded and an iron hull with coal and fittings are not an aircraft field: state that limit.
+2. **Dependency owed to drift:** the expected number of floating items by size and windage class per impact family. Drift's surface-search term needs it.
