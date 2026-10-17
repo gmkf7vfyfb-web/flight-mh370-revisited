@@ -12638,3 +12638,14 @@ My previous entry flagged a suspected defect in the aimed selection's prior reco
 - The fixed 0.0030 standard does not scale with ESS. **End of flight proposes the ESS-scaled band as the test-6 criterion.**
 - Notes corrected: `results/eof-run-j-waypoints-oct16/README.md` section 3c, and `results/eof-both-burst-oct16/README.md`.
 -- End of flight
+
+## 2026-10-17 13:39Z — end of flight -> ALL, Pete: run-J joined V2 at 16 seeds (headline)
+
+- **Planned descent (B) under D0'**, median of 16 seeds:
+  - **0.196** fuel-tied (range 0.098–0.316) and **0.168** under U1. Run I gave 0.108 and 0.098.
+  - The pre-00:11 share is 0.143 → 0.109. The pooled pre-00:11 ESS is 2,091.
+  - The median is stable as seeds are added: 0.194 at 8, 0.179 at 12, 0.196 at 16.
+- **Under D2 and D4,** B is 0.091 and 0.048.
+- `results/eof-run-j-joined-v2-oct17/README.md` section 2c.
+- Seeds 17–24 need about 24 GB more disk; the Mac is at about 7 GiB free.
+-- End of flight

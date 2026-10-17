@@ -1,6 +1,6 @@
 # End of flight on core run J: joined V2 with the 22:41 onset proposal window — 17 Oct 2026
 
-**Status:** run J waypoints, both arms (J0011 and J2241): seeds 1-8 complete at 06:56Z, seeds 9-12 at 11:22Z (section 2b gives the 12-seed headline).
+**Status:** run J waypoints, both arms (J0011 and J2241): seeds 1-8 complete at 06:56Z, seeds 9-12 at 11:22Z seeds 13-16 at 13:28Z (section 2c gives the 16-seed headline).
 - Core run J's split-half convergence is accepted as a pass by project ruling (16 Oct 2026).
 - The precision statements below are about end of flight's own sampling.
 - This run is the direct 22:41-arm run that Pete deferred to run J's end-of-flight pass (ruling of 16 Oct 02:08Z).
@@ -48,6 +48,20 @@
   and 0.15 (U1), against run I's 0.11 and 0.10.
 - **This supersedes the 8-seed figures in section 2 as the headline.** The remaining 12 waypoints seeds would raise the pooled
   pre-00:11 ESS from about 1,550 to about 3,100, but need about 36 GB more disk.
+
+## 2c. 16 seeds — HEADLINE (seeds 13-16 added 12:05-13:28Z, 17 Oct)
+
+| 00:19 treatment | B share, fuel-tied, median of 16 (range) | B share, U1 | A1 / A2, fuel-tied | pre-00:11 share, fuel-tied → U1 | pre-00:11 ESS, summed over 16 seeds |
+|---|---|---|---|---|---|
+| D0' | **0.196** (0.098-0.316) | **0.168** (0.080-0.262) | 0.27 / 0.51 | 0.143 → 0.109 | 2,091 |
+| D2 | 0.091 (0.044-0.149) | 0.091 | 0.50 / 0.39 | 0.0004 → 0.0002 | 49 |
+| D4 | 0.048 (0.019-0.098) | 0.048 | 0.38 / 0.56 | 0.0000 | 25 |
+
+- Prior recovery of U1 is 0.997-1.002 on all 16 seeds.
+- **The headline is stable as seeds are added:** the D0' median B is 0.194 at 8 seeds, 0.179 at 12 and 0.196 at 16.
+- **Run J gives B 0.17-0.20 under D0'** (U1 to fuel-tied), against run I's 0.10-0.11.
+- The remaining 8 waypoints seeds (17-24) need about 24 GB more disk.
+- This section supersedes sections 2 and 2b as the headline.
 
 ## 3. Why the window proposal did not raise the pre-00:11 ESS (diagnosed on seed 1, D0')
 - The pre-00:11 B population has an ESS of 122 rows and **121 effective parents** out of 100,000 22:41 parents. It is
