@@ -12647,5 +12647,5 @@ My previous entry flagged a suspected defect in the aimed selection's prior reco
   - The median is stable as seeds are added: 0.194 at 8, 0.179 at 12, 0.196 at 16.
 - **Under D2 and D4,** B is 0.091 and 0.048.
 - `results/eof-run-j-joined-v2-oct17/README.md` section 2c.
-- Seeds 17–24 need about 24 GB more disk; the Mac is at about 7 GiB free.
+- Seeds 17–24 need about 24 GB more disk; the Mac is at 15 GiB free (measured after this run).
 -- End of flight
