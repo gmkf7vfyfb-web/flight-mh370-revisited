@@ -60,9 +60,37 @@ totals of section 2, so the values differ from that table. They show what the pr
    favours high limits by 0.19 nat.
 3. These repeat, on run J, the run-I finding of order (b) item 3. The paper must give D4 as a range over the bank-limit prior.
 
+## 3b. Both-burst supplementary pass (8 seeds, 256 descents per parent, thinned) — complete 03:00Z 17 Oct
+
+- **Method.** Same hand-offs as production seeds 1-8. Recipe: the production laws (round-3 + bank limit U[52, 90]) with children 64.
+  The output is Poisson-thinned to 1M rows per seed over the cells r600/no-offset, both/no-offset, both/startup-offset and
+  both/inflated (`smoke/both_burst_thin.py`; ln Z normalised by the unthinned total).
+- **Output:** `run-j-both-burst/run-j-waypoints/` (8 x 0.43 GB).
+- **Scope:** valid for D2-D5 only. The held-out D0' and D1 cells are not represented, and their rows in the table are not results.
+
+| 00:19 treatment (q = 1/3, C2 silent) | production, 24 seeds: ln Z / ESS / A1 ESS / A1-A2-B | supplementary, 8 seeds: ln Z / ESS / A1 ESS / A1-A2-B | median latitude, production / supplementary |
+|---|---|---|---|
+| D2 | −19.120 / 92k / 48k / 0.24-0.23-0.53 | −19.142 / 112k / 55k / 0.21-0.22-0.57 | −37.12 / −37.17 |
+| D3 | −28.581 / 4.7k / 368 / 0.09-0.41-0.50 | −28.596 / 6.3k / 409 / 0.08-0.37-0.55 | −37.29 / −37.31 |
+| D4 | −28.512 / 21k / 1.9k / 0.25-0.35-0.40 | −28.509 / 44k / 4.6k / 0.25-0.32-0.43 | −37.21 / −37.23 |
+| D5 | −29.168 / 26k / 2.2k / 0.06-0.42-0.52 | −29.220 / 27k / 1.8k / 0.05-0.38-0.57 | −37.27 / −37.31 |
+
+**Reading.**
+1. **The two passes are independent sets of descent draws, and they agree.** ln Z differs by at most 0.05 nat in D2-D5. Family
+   shares differ by at most 0.05, and median latitude by at most 0.05 deg. This is a direct check of both the thinning and the
+   production numbers.
+2. **D4 is now well sampled:** ESS 44k, of which 4.6k is A1. Its family split, 0.25 / 0.32-0.35 / 0.40-0.43, is robust.
+3. **D3 overall is well sampled (6.3k), but its A1 sub-population is not:** about 400 effective impacts in each pass, even at
+   256 descents per parent. A no-input spiral rarely gives both frequency values as recorded. The D3 A1 share is 0.08-0.09 in two
+   independent passes, and run I's round-3 arm gave 0.06 (item 8), so **the share is stable**. The **shape** of the D3 A1 impact
+   distribution is still a coverage gap.
+4. **Bank-limit prior, D4 raw column** (`bank-prior-variants-supplementary-8.json`, ESS 2,064 per seed under the uniform prior):
+   - A1 is 0.081 (Boeing-weighted), 0.132 (uniform) and 0.206 (limit 80-90 only).
+   - ln Z is −22.16, −22.07 and −21.95.
+   - These match the production pass (0.078 / 0.132 / 0.217) at three times the ESS.
+
 ## 4. Running and queued (heavy lock, one queue)
-- **Supplementary both-burst pass**, waypoints seeds 1-8, 256 descents per parent with the same laws, thinned to 1M rows per seed.
-  Started 21:00Z, about 3.7 h. Output: `run-j-both-burst/run-j-waypoints/`.
+- **Supplementary both-burst pass: done** (section 3b).
 - **Joined V2, waypoints seeds 1-8**, with the clock-time onset window in J2241 (Pete's item 4 ruling). Output: `run-j-joined-v2/`.
 - **Free-stratum production pass**, 18 seeds.
 - **Descent-climb and repro passes:** waiting for disk (`run-i-dive` must be moved first).
@@ -85,9 +113,8 @@ totals of section 2, so the values differ from that table. They show what the pr
 
 **(c) Proposal's coverage (this stratum).**
 - D0', D1 and D2 are well covered (92k-2.1M effective impacts).
-- D4 has 21k in total, but only 1.9k for A1, and 197-615 per seed in the raw column.
-- **D3 is a coverage gap at this setting:** 4.7k in total, 368 for A1, and 30-131 per seed in the raw column. The supplementary
-  pass is under way to close it.
+- D4: 21k in production and **44k in the supplementary pass (4.6k for A1): covered.**
+- D3: 4.7k in production and 6.3k in the supplementary pass. **The A1 sub-population under D3 stays at about 400 effective impacts.** Its share is stable across two independent passes (0.08-0.09), but the shape of its impact distribution is a declared end-of-flight coverage gap. A dedicated A1-aimed proposal would be needed to close it.
 - The "limit 80-90 only" variant rests on 217 effective impacts per seed under D4, so treat it as indicative.
 - The B-uncontrolled family (share about 0.001) is not estimable in D3 or D4.
 - Pre-00:11 planned descents come from joined V2 (queued); they are not in this pass.

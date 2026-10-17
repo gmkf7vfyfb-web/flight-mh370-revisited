@@ -7,7 +7,15 @@ import sys, json, glob, os
 import numpy as np
 from compact_impacts import load
 CELLS = ["none", "r600/no-offset", "both/no-offset", "both/startup-offset"]
+EF = {"uniform 52-90 (headline)": 1.0, "Boeing-weighted 0.8/0.2": 1.0, "limit 80-90 only": 10 / 38}   # E[f] under U[52, 90]
 PRIORS = {"uniform 52-90 (headline)": None, "Boeing-weighted 0.8/0.2": (0.8 / (11 / 38), 0.2 / (27 / 38)), "limit 80-90 only": "hi"}
+def norm(w, f, m, ef=1.0):
+    """Prior-weighted total. For thinned files (both_burst_thin.py) the stored weights exclude rows with pi = 0, so the unthinned
+    total weight_sum_in is used, times E[f] under the uniform draw (EF; exact for these priors)."""
+    t = m.get("thinning")
+    return float(t["weight_sum_in"]) * ef if t and "weight_sum_in" in t else float((w * f).sum())
+
+
 def main(base, outp):
     seeds = sorted(int(p.split("-")[-1]) for p in glob.glob(base + "/seed-*") if os.path.isdir(p) and os.path.exists(p + "/SHA256SUMS"))
     res = {}
@@ -20,7 +28,7 @@ def main(base, outp):
             for pn, pv in PRIORS.items():
                 f = np.ones(len(w)) if pv is None else (np.where(cap >= 80, 1.0, 0.0) if pv == "hi" else np.where(cap < 63, pv[0], pv[1]))
                 L = L0 * f; Z = L.sum(); o = np.argsort(lat); cc = np.cumsum(L[o]) / Z
-                res.setdefault(f"{c} | {pn}", []).append(dict(ln_Z=float(np.log(Z) + s - np.log((w * f).sum())), A1=float(L[fam == 1].sum() / Z),
+                res.setdefault(f"{c} | {pn}", []).append(dict(ln_Z=float(np.log(Z) + s - np.log(norm(w, f, m, EF[pn]))), A1=float(L[fam == 1].sum() / Z),
                     A2=float(L[fam == 2].sum() / Z), B=float(L[(fam == 3) | (fam == 6)].sum() / Z), lat_median=float(lat[o][np.searchsorted(cc, 0.5)]),
                     steep_gt45=float(L[fpa > 45].sum() / Z), ess=float(Z ** 2 / (L ** 2).sum())))
     out = {"seeds": seeds, "note": "raw 00:19 columns, not the two-factor D0'-D5 totals; seed mean and standard error", "cells": {}}

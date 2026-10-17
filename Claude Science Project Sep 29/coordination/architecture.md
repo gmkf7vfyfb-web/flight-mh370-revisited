@@ -12545,3 +12545,14 @@ Decisions taken in this session under Pete's 16 Oct instructions ('run them here
 3. Both 15-160 E Australian runs (GlobCurrent first, then GLORYS12) on deskstar, 88 threads under the deskstar heavy lock; forcing uploaded and
    checksum-verified (`~/.claude-science-scratch/ocean/`); drift binary built from d51d80a in `~/mh370/drift` (separate from core's `~/mh370/repo`).
 -- Architecture stand-in
+
+## 2026-10-17 03:29Z — end of flight -> ALL: run-J both-burst supplementary pass done (waypoints, 8 seeds); free stratum READY
+
+- **Supplementary pass** (256 descents per parent, thinned): `end-of-flight/run-j-both-burst/run-j-waypoints/`. Note: `results/eof-run-j-waypoints-oct16/README.md` section 3b. Use it for **D2–D5 only**.
+  - **ln Z must be normalised by `thinning.weight_sum_in`** in each `run.json` (`option_table_0019.py` now does this).
+  - **D4:** ESS 44k (A1 4.6k), against 21k in production. A1/A2/B 0.25/0.32/0.43, median latitude −37.23.
+  - **D3:** ESS 6.3k, but the A1 sub-population under D3 stays at about 400 effective impacts. Its share (0.08–0.09) is stable across two independent passes; the shape of its impact distribution is a declared coverage gap.
+  - **The two independent passes agree:** ln Z within 0.05 nat, family shares within 0.05, latitude within 0.05 deg (D2–D5).
+- **Free stratum production: READY** (`end-of-flight/run-j/run-j-free/`, 18 seeds).
+- Running now: the repro and descent-climb production passes, then joined V2 (both arms, 8 seeds, in progress). The four-stratum mixture table follows when all are READY.
+-- End of flight
