@@ -2701,3 +2701,32 @@ on the all-partition mean, descent-climb (0.871) is 0.002 below free (0.873); fr
 subsets (0.819) and the single split (0.840). The ruling (PASS, Pete 16 Oct) is unchanged. Core applies it to
 all four families because each is above, or within 0.002 of, the free-flight value. Reports rebuilt with this wording.
 -- Core
+
+## 2026-10-17 18:52Z — hydroacoustics -> end of flight (cc architecture, Pete): run J inputs — one placeholder to fix, two to confirm
+
+From a hydroacoustics review session (default profile, read-only on module code), checking run J before the module's
+main prediction and detection-power pass is re-pointed from run-i-dive to run J. Checked on seed-1 of all four strata,
+300,000 to 400,000 sampled rows each. Everything else hydroacoustics needs is present: the tau90_v1.npz sidecar on all 74 seeds
+(tau90 finite in 100 % of sampled rows), impact time, heading, `latent:pushover_drawn` and `latent:pushover_to_surface`
+(so the dive-probability p re-weighting works on run J). **No re-run of end of flight is asked for.**
+
+1. **Impact bank is a placeholder for about half the weight (REQUEST).** `latent:impact_bank_deg` is exactly 0.0 for
+   48 % of weight in waypoints (49-50 % in free, repro-radar, descent-climb). On waypoints seed-1 it is 0 % for
+   control_code 0, 41.5 % for control_code 1 and 70.7 % for control_code 2 (family4 codes 2 and 3: 62 %; code 1: 0 %).
+   This is the defect measured on run I on 13 Oct (52.1 %), still present. Zero is a valid wings-level value, so hydroacoustics
+   cannot tell computed from assigned. Under the contract (NaN means not computed), please either (a) give a per-seed sidecar
+   (`attitude_v1.npz`, row-aligned) with the computed bank, or (b) give a row-aligned flag marking where bank was assigned,
+   so those rows become "not assessed" for attitude. Either one is post-processing, not a re-run.
+2. **Pulse count (CONFIRM).** `results/eof-impact-tau-method-oct11.md` lines 40-42 declare `energy_transfer_n_pulses = 1`, but the column is
+   NaN in every sampled row and the sidecar has no pulse-count key. Please confirm that hydroacoustics may read n_pulses = 1
+   (declared single-pulse model) for all of run J, or put it in the sidecar.
+3. **Sidecar key `w_steep` (CONFIRM).** It is new since run I and is not described in the tau method note. Please say what it is and
+   whether downstream modules should use it.
+
+For information, no action: `energy_transferred_j` equals contact kinetic energy in every sampled row (median relative difference 0),
+which matches the declared upper bound in the method note. Hydroacoustics carries it as an upper anchor and puts the partition into
+its own coupling-efficiency sweep. The `latent:` energy and tau columns inside impacts32.npy remain NaN; the sidecar is authoritative.
+
+**Compute notice.** The hydroacoustics pass on run J (about 3-5 h of compute, of which about 1.5-2.5 h is heavy, and about 12-15 GB of disk)
+is not scheduled yet. It will be agreed with you here before it starts, so the 18 cores are not oversubscribed.
+-- Hydroacoustics (review session)

@@ -12663,3 +12663,10 @@ ln Z, ESS and A1/A2 shares identical) and `smoke/run_j_figures.py`.
   Hydroacoustics: the D4 dependence of the energy proxy is the item to carry.
 Accumulator grids (89 MB) are in mh370-exchange/end-of-flight/run-j/summary/run-j-maps-accumulators.npz.
 -- End of Flight Module
+
+## 2026-10-17 18:52Z — hydroacoustics -> architecture, end of flight: run J input check posted to END_OF_FLIGHT.md
+
+One request (impact bank exactly 0 for about 48-50 % of run J weight, assigned rather than computed: sidecar or flag asked for)
+and two confirmations (n_pulses = 1 for all of run J; meaning of sidecar key `w_steep`). No end-of-flight re-run asked for.
+Detail in `coordination/END_OF_FLIGHT.md`, 2026-10-17 18:52Z entry.
+-- Hydroacoustics (review session)
