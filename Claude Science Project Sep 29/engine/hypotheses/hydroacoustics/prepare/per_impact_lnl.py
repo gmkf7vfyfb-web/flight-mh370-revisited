@@ -45,6 +45,25 @@ AMENDMENT 3 (11 Oct 2026 ~16:40 UTC, PRE-REGISTERED before its first run; archit
       coupling has no angle/speed/breakup dependence and tau is drawn from the prior because end of flight's
       latent:energy_transfer_tau90_s is NaN in run C (coverage gap G-H1); TL NOT CALIBRATED (audit, rule C6):
       lnL_soft is a sensitivity only.
+AMENDMENT 8 (17 Oct 2026, PRE-REGISTERED and committed before any run J row is scored; Pete 17 Oct: start the run J pass
+  at 4 threads and expand as cores free; end of flight 20:41Z: run J inputs complete). Run J replaces run I and run-i-dive
+  for downstream work (Pete, 15 Oct). Changes, all format or provenance; no likelihood formula changes:
+  (a) Stratum directories run-<letter>-<family> (run J: run-j-waypoints, run-j-free, run-j-repro-radar, run-j-descent-climb)
+      map to the canonical rng stratum index like next-<letter>-<family> (waypoints 4, free 0, repro-radar 1, descent-climb 2).
+  (b) PRIMARY tau for run J is --tau eof: end of flight's tau90_v1.npz is on all 74 run J seeds (method == 1, asserted per
+      seed), so coverage gap G-H1 is closed for run J. The k in {0.5, 1, 2} mechanical-to-acoustic mapping of amendment 3 is
+      unchanged. --tau scenario is written to a separate output directory as the labelled SENSITIVITY.
+  (c) Not used, declared: attitude_v1.npz (bank_source = 1 is wings level by model assumption, about 0.48-0.51 of rows;
+      this chain's coupling has no attitude dependence, so attitude enters no value); n_pulses (= 1 for every row, declared
+      single-pulse model, which this chain already assumes); the tau sidecar key w_steep (a regime-blend diagnostic, not a
+      weight; end of flight 20:41Z). energy_transferred_j = contact kinetic energy is not read; KE is used as before.
+  (d) Reporting only: the per-seed summary adds tl_lat_clamped_share, the share of computed rows whose latitude lies outside
+      the TL table's latitude span and whose TL is therefore clamped to the nearest edge (whole-arc coverage, ARCHITECTURE
+      rule 5 as revised 17 Oct). Such rows carry the label "TL clamped at the table edge (reach gap)".
+  (e) Parallel workers: --part writes the per-invocation summary to <out>/_parts/<tag>.json and does NOT write README.txt or
+      READY; a finaliser writes README.txt and READY once, after every seed is present and checked. No value changes.
+  Labels carried unchanged from run I: TL NOT CALIBRATED; IMS P_D borrowed (IMOS 3274 + 4.8 dB); lnL_gated = 0.0 is the
+  module likelihood; lnL_soft is a sensitivity only. Run J convergence: "accepted as a pass by project ruling, 16 Oct 2026".
   AMENDMENT 7 (12 Oct 2026): run I stratum next-i-waypoints maps to rng stratum index 4 (new; nuisance stream only).
   AMENDMENT 6 (11 Oct 2026): stratum names next-<letter>-<family> accepted (run D-he); no value changes.
   AMENDMENT 5 (11 Oct 2026, labels only; no computed value changes): H08S on 8 March 2014 is contaminated by periodic
@@ -83,7 +102,7 @@ CANON = {"free": 0, "repro-radar": 1, "descent-climb": 2, "routes": 3, "waypoint
 
 def stratum_index(name):
     import re   # amendment 6 (11 Oct): run D-he strata are next-d-<family>; any next-<letter>- prefix is stripped
-    return CANON[re.sub(r"^next-(?:[a-z]-)?", "", name)]
+    return CANON[re.sub(r"^(?:next|run)-(?:[a-z]-)?", "", name)]   # amendment 8(a): run-<letter>- accepted
 
 
 class Terms(RV.ReviewModel):
@@ -157,6 +176,7 @@ def main():
     ap.add_argument("--tau", choices=["scenario", "eof"], default="scenario"); ap.add_argument("--tau-k", type=float)
     ap.add_argument("--seeds", nargs="+", type=int)
     ap.add_argument("--noise-sd", type=float, default=3.0)   # amendment 4
+    ap.add_argument("--part")   # amendment 8(e): parallel worker tag; no README/READY
     a = ap.parse_args(); out = pathlib.Path(a.out); out.mkdir(parents=True, exist_ok=True)
     compact = None
     if a.compact_reader:
@@ -187,7 +207,12 @@ def main():
             (od / "COLUMNS.txt").write_text("\n".join(DT.names) + "\n")
             (od / "SHA256SUMS").write_text(f"{hashlib.sha256(f.read_bytes()).hexdigest()}  hydro-lnL.npy\n")
             summ[f"{stratum}/{sd.name}"] = dict(rows=n, not_computed=int((~ok).sum()), lnL_soft_q=[float(np.quantile(rec["lnL_soft"][ok], q)) for q in (0.01, 0.5, 0.99)], tau_clamped_share=clamp)
+            la_ = D["latitude_deg"][ok]   # amendment 8(d): reporting only
+            summ[f"{stratum}/{sd.name}"]["tl_lat_clamped_share"] = float(np.mean((la_ < m.xs.min()) | (la_ > m.xs.max()))) if len(la_) else None
             print(f"{stratum}/{sd.name}: {n} rows, {time.time() - t0:.0f} s", flush=True)
+    if a.part:   # amendment 8(e)
+        (out / "_parts").mkdir(exist_ok=True); (out / "_parts" / f"{a.part}.json").write_text(json.dumps(summ, indent=1) + "\n")
+        return
     (out / "README.txt").write_text(__doc__ + "\nSummary per seed:\n" + json.dumps(summ, indent=1) + "\n")
     (out / "READY").write_text(f"hydroacoustics per-impact columns written {time.strftime('%Y-%m-%dT%H:%M:%SZ', time.gmtime())}; "
                                "lnL_gated = 0.0 (module likelihood); lnL_soft exploratory; see README.txt\n")
