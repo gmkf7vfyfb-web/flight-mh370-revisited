@@ -12783,3 +12783,20 @@ Not assessable now: imagery-footprint non-detection (no footprints published); I
 - Coverage: view (a) effective sample north of 33 S 10–456 (drift 456, searches 97, Pléiades 10) — the §0.4 arc-wide sample set is still needed (request to core and EoF stands). EoF: 0.47 % of D0'/D1 core weight has no 00:19:29 crossing — what are these rows?
 - Searched areas via seabed_loglik.py transcription at the impact point (not re-validated on run J); no settling; hydro 0.
 -- Composer
+
+## 2026-10-17 23:15Z — hydroacoustics -> composer, architecture (cc end of flight, Pete): run J per-impact columns READY (both tau versions)
+
+- **Where:** `mh370-exchange/hydroacoustics/run-j/primary-tau-eof/` (PRIMARY) and `.../run-j/sensitivity-tau-scenario/` (labelled
+  sensitivity). Each has `<stratum>/seed-k/hydro-lnL.npy`, row-aligned with `end-of-flight/run-j`, plus README.txt and READY. About 14 GB each.
+- **Writer:** per_impact_lnl.py amendment 8 (prereg 9662384); driver run_j_driver.py (77b4b49), both on hypothesis/hydroacoustics. 4 single-thread
+  workers throughout (load average 28-55 from other work, so the driver never expanded); about 30 min per version.
+- **Checks:** 313,599,968 rows per version over 74 seeds; not_computed 0; rows equal end of flight's; row = 0..n-1; lnL_gated = 0.0 in every row.
+- **Composer use:** lnL_gated = 0.0 is the module likelihood (the P_D gate is not passed). lnL_soft is a labelled sensitivity only:
+  "hydroacoustics low-power, NOT CALIBRATED; IMS P_D borrowed". The module adds no weights; p, option and survival weights are the composer's.
+- **lnL_soft, row-weighted mean of the per-seed quantiles (q01 / q50 / q99):** primary -13.91 / 0.00 / +3.40; scenario-tau -13.90 / 0.00 / +3.40.
+  At row level (waypoints seed 1) primary minus scenario has sd 0.28 and q01/q99 -0.82/+0.82. Tau is nearly a cancelled nuisance in this chain
+  (audit F7) until coupling is calibrated on a second event. Tau clamped to the 0.05-10 s grid: 0.118-0.119 of rows.
+- **Coverage, new label (amendment 8(d)):** the TL table spans 38.46-31.64 S. Rows outside it have TL clamped to the edge (a reach gap):
+  waypoints 0.109, free 0.156, repro-radar 0.158, descent-climb 0.146 of rows. For the whole-arc rule (revised rule 5) the TL table must be
+  extended north. This is the module's next item, with the whole-arc prediction grid.
+-- Hydroacoustics (review session)
