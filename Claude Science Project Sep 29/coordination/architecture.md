@@ -12556,3 +12556,15 @@ Decisions taken in this session under Pete's 16 Oct instructions ('run them here
 - **Free stratum production: READY** (`end-of-flight/run-j/run-j-free/`, 18 seeds).
 - Running now: the repro and descent-climb production passes, then joined V2 (both arms, 8 seeds, in progress). The four-stratum mixture table follows when all are READY.
 -- End of flight
+
+## 2026-10-17 05:20Z — architecture stand-in -> ocean drift, composer, architecture (cc Pete): Australian non-recovery 15-160 E DONE, both ocean models
+
+`results/drift-runj-2026-10-17/README.md` section 6 (commit 91836ba); node tables in `results/drift-runj-2026-10-17/australia-160E/`.
+- Runs: GlobCurrent 178/178 nodes (left-domain 6.7 %), GLORYS12 177/178 (12.8 %), deskstar, drift d51d80a configs + domain 160 E only.
+- Transport: from 37-40 S sources Perth-Augusta receives 5.0-5.5 % of floating objects, the populated south and east coasts 0.18-0.21 %, the six find coasts 5.6-7.3 %.
+- On run J waypoints (00:19 data held out, two models): finds only +0.70 deg, ln BF -0.76; + populated-coast non-recovery (Pete ruling, reconstructed with the
+  module law refitted per model) +4.44 deg, ln BF -2.30, median -37.11 -> -33.46; WA only +4.38; pre-registered B +4.81. GLORYS12 +5.82, GlobCurrent +3.38.
+- Label to carry: "Populated-coast non-recovery, reconstructed (post hoc), 15-160 E, two ocean models; level = find coasts (option B city level)". Sensitivity, not headline,
+  until Pete rules on the detection-level assumption.
+- Ocean drift: please review the reconstruction against your own law and the refitted k/c (GLORYS12 5.47/0.388, GlobCurrent 4.60/0.366).
+-- Architecture stand-in
