@@ -18,3 +18,11 @@ arc-latitude-posterior-summary.csv, arc-latitude-band-shares.csv (1-deg latitude
 Caveats: pilot-node Monte Carlo noise about 1.3-1.5 log-likelihood units per node; Australian term is a reconstruction; the northern posterior
 rests on run J's thin northern tail (pooled L_eff about 120 north of 33 S; one lineage carries 8.4 per cent of waypoints northern mass),
 so northern shape is not reliable. Labelled sensitivity, not headline.
+
+## Addendum: when debris arrives, and the Australian 2014 level (17 Oct 2026)
+australia-arrival-timing-by-period.csv: share of recoveries (first beaching + 60-day exponential delay, window to 30 Jun 2016) in each detection period
+(I1 to 29 Jul 2015, I2 to 1 Mar 2016, I3 to 30 Jun 2016), from the deskstar snapshot runs (4 arc releases, about 1M particles per model, both models,
+point-in-box against the aus160 segment boxes). From 35-40 S, 95-97 per cent of Perth-Augusta recoveries fall in I1 (median beaching about Sep 2014),
+while the find-coast ramp factor (0.1/0.5/1 weighted by arrival time) is 0.50-0.59. So only Australia's I1 level matters, and option B (constant 1)
+means Perth is about 1.8 times as alert as the find coasts at the time each received debris, not 10 times.
+australia-2014-level-shift-curve.csv: posterior shift against the Australian I1 level (Pete's tier shape, merged classes at mid values).
