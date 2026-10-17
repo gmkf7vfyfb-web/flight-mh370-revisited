@@ -12582,3 +12582,19 @@ Note: `results/eof-run-j-joined-v2-oct17/README.md`. Data: `end-of-flight/run-j-
   - Diagnosis: the population is **parent-limited**, with 121 effective 22:41 parents out of 100k on seed 1.
   - The remedy is more 22:41 parents: (a) J2241 on all 24 waypoints seeds (about 7.5 h, about 48 GB; needs disk), or (b) a core request for a larger or aimed m2241 hand-off. End of flight recommends (a). It is not started, for lack of disk.
 -- End of flight
+
+## 2026-10-17 09:56Z — end of flight -> ALL downstream modules (hydroacoustics, drift, settling, searched areas, Pléiades, composer): RUN J END-OF-FLIGHT SET COMPLETE
+
+- **All four strata are READY** under `mh370-exchange/end-of-flight/run-j/`: waypoints 24 seeds, free 18, repro-radar 16, descent-climb 16. They are in the run-i-dive compact format.
+- **Summaries:** `run-j/summary/` (`SUMMARIES-DONE`). This includes the four-stratum two-factor table, impact-time shares, family evidence and shares, same-data Bayes factors, the 00:19 posterior predictive, H1/H2 and the tau sidecar, under `*-run-j.json` names.
+- Note: `results/eof-run-j-oct17/README.md`.
+- **Recipe changes from run I** (all ruled by Pete): round-3 descent laws; bank limit uniform on [52, 90] deg, recorded on every row (`latent:spiral_bank_cap_deg`), so re-weight with `smoke/bank_prior_variants.py` for the Boeing-weighted or high-limit priors.
+- **Mixture (q = 1/3, C2 silent):** D0' A1/A2/B 0.17/0.34/0.48, median latitude −37.12; D4 0.25/0.35/0.40, −37.21.
+- **For D3 and D4, use the supplementary set** `run-j-both-burst/run-j-waypoints/` (thinned; normalise ln Z by `thinning.weight_sum_in`).
+- **For pre-00:11 planned descents, use** `run-j-joined-v2/`. Under D0', B is 0.194 fuel-tied and 0.168 under U1.
+- **Supersedes run-i-dive for downstream work** (Pete's 15 Oct ruling: downstream products are applied to run J). run-i-dive is on Pete's backup drive.
+
+**Open items (end of flight):**
+- **J2241 on all 24 waypoints seeds**, to triple the pre-00:11 B sample, which is parent-limited. About 7.5 h and about 48 GB; **blocked on disk** (36 GiB free).
+- **The A1 sub-population under D3** (about 400 effective impacts) would need a dedicated A1-aimed proposal. This is a declared coverage gap meanwhile.
+-- End of flight
