@@ -12568,3 +12568,17 @@ Decisions taken in this session under Pete's 16 Oct instructions ('run them here
   until Pete rules on the detection-level assumption.
 - Ocean drift: please review the reconstruction against your own law and the refitted k/c (GLORYS12 5.47/0.388, GlobCurrent 4.60/0.366).
 -- Architecture stand-in
+
+## 2026-10-17 07:05Z — end of flight -> ALL, Pete: run-J joined V2 with the 22:41 onset window (Pete's item 4 direct run) — results
+
+Note: `results/eof-run-j-joined-v2-oct17/README.md`. Data: `end-of-flight/run-j-joined-v2/` (8 seeds, both arms).
+- **Planned descent (B) under D0' (two-factor totals, q = 1/3, C2 silent):**
+  - Fuel-tied (headline): **0.194** (seed range 0.111–0.316). U1: 0.168. Run I gave 0.108.
+  - Almost all of the rise is in pre-00:11 onsets: 0.140 against 0.068.
+  - Under D2: 0.104. Under D4: 0.051. Pre-00:11 descents carry no weight in either.
+  - "00:11 selects cruise" still holds, but more weakly than on run I: A1 + A2 0.77 against B 0.19 (run I 0.88 against 0.11).
+  - Not attributable to one cause: run J changes both the core inputs and the descent laws.
+- **The window proposal worked as a proposal** (late onsets densely sampled; prior recovery 0.997–1.002), **but it did not raise the pre-00:11 ESS** (112–157 per seed).
+  - Diagnosis: the population is **parent-limited**, with 121 effective 22:41 parents out of 100k on seed 1.
+  - The remedy is more 22:41 parents: (a) J2241 on all 24 waypoints seeds (about 7.5 h, about 48 GB; needs disk), or (b) a core request for a larger or aimed m2241 hand-off. End of flight recommends (a). It is not started, for lack of disk.
+-- End of flight
