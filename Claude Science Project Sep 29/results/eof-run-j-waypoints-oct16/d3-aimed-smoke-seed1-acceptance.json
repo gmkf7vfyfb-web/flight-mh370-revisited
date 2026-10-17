@@ -1,0 +1,130 @@
+{
+ "base": {
+  "rows": 6399872,
+  "rows_per_parent": 64,
+  "weight_sum": 0.9967375432690588,
+  "opts": {
+   "none": {
+    "ln_Z_rel": 0.0,
+    "eff_impacts": 1302736.2902440508,
+    "eff_parents": 59725.431321001175,
+    "eff_parents_half_A": 57430.66788391965,
+    "eff_parents_half_B": 57259.49667028641,
+    "ceiling_parent_ess": 62312.10964706775,
+    "corr_halves": 0.8131190812274608
+   },
+   "r600/no-offset": {
+    "ln_Z_rel": -12.808273851360292,
+    "eff_impacts": 11436.870772134433,
+    "eff_parents": 8791.642920708147,
+    "eff_parents_half_A": 4881.049959874202,
+    "eff_parents_half_B": 4886.695805645786,
+    "ceiling_parent_ess": 44055.77319524774,
+    "corr_halves": 0.06521934435735637
+   },
+   "both/no-offset": {
+    "ln_Z_rel": -21.91022559576253,
+    "eff_impacts": 182.30279038472239,
+    "eff_parents": 182.12210702557698,
+    "eff_parents_half_A": 85.64245463957387,
+    "eff_parents_half_B": 97.18087563911882,
+    "ceiling_parent_ess": 189914.8851626988,
+    "corr_halves": -0.00043232474184663256
+   },
+   "both/startup-offset": {
+    "ln_Z_rel": -22.056922352320086,
+    "eff_impacts": 764.3778699509928,
+    "eff_parents": 756.7848782579455,
+    "eff_parents_half_A": 272.3776642145155,
+    "eff_parents_half_B": 824.4518860097432,
+    "ceiling_parent_ess": 68155.50567384779,
+    "corr_halves": 0.0022613384759853717
+   },
+   "both/inflated": {
+    "ln_Z_rel": -21.464588922765902,
+    "eff_impacts": 5478.8950736609595,
+    "eff_parents": 4790.283417326165,
+    "eff_parents_half_A": 1954.8316959655258,
+    "eff_parents_half_B": 3966.8548566310455,
+    "ceiling_parent_ess": 31079.452249091297,
+    "corr_halves": 0.06365567942496586
+   }
+  }
+ },
+ "aimed": {
+  "rows": 6399872,
+  "rows_per_parent": 64,
+  "weight_sum": 0.9956009343285923,
+  "opts": {
+   "none": {
+    "ln_Z_rel": 0.0,
+    "eff_impacts": 332287.72878088435,
+    "eff_parents": 52696.09366827043,
+    "eff_parents_half_A": 44820.492016828684,
+    "eff_parents_half_B": 46337.83873379368,
+    "ceiling_parent_ess": 62477.11113588755,
+    "corr_halves": 0.5029870264756116
+   },
+   "r600/no-offset": {
+    "ln_Z_rel": -12.775304709947063,
+    "eff_impacts": 2147.339826787742,
+    "eff_parents": 2040.842694678238,
+    "eff_parents_half_A": 1146.8054114572476,
+    "eff_parents_half_B": 962.3884106693885,
+    "ceiling_parent_ess": 43291.14010431153,
+    "corr_halves": 0.013909645018511907
+   },
+   "both/no-offset": {
+    "ln_Z_rel": -21.919861650580984,
+    "eff_impacts": 1123.5368080192293,
+    "eff_parents": 1109.0035480410338,
+    "eff_parents_half_A": 615.7998189615656,
+    "eff_parents_half_B": 514.3674010132148,
+    "ceiling_parent_ess": 107503.45500204705,
+    "corr_halves": -0.0003912219450801488
+   },
+   "both/startup-offset": {
+    "ln_Z_rel": -22.057394467060842,
+    "eff_impacts": 4046.309216757594,
+    "eff_parents": 3781.467636845554,
+    "eff_parents_half_A": 2082.8163337800834,
+    "eff_parents_half_B": 1852.2830346563487,
+    "ceiling_parent_ess": 55831.86591141461,
+    "corr_halves": 0.015857611419021922
+   },
+   "both/inflated": {
+    "ln_Z_rel": -21.47170816029516,
+    "eff_impacts": 27346.87586268962,
+    "eff_parents": 17078.95119045654,
+    "eff_parents_half_A": 9094.30172353092,
+    "eff_parents_half_B": 12035.738409620792,
+    "ceiling_parent_ess": 49131.17636539022,
+    "corr_halves": 0.12114822946123348
+   }
+  },
+  "test6_vs_base": {
+   "weight_ratio_aimed_over_base": 0.9988596707848099,
+   "max_cdf_dev": {
+    "latitude_deg": 0.0013984865054993412,
+    "unix_s": 0.0016507080153327358,
+    "latent:onset_unix_s": 0.0012430390760397314,
+    "latent:pushover_rate_fpm": 0.0033555794451171905,
+    "latent:pushover_hold_s": 0.00657650905683016,
+    "latent:max_descent_rate_fpm": 0.0012493957587843552,
+    "flight_path_angle_deg": 0.0010235033780449654
+   },
+   "family_shares_base": {
+    "1": 0.22370034030914365,
+    "2": 0.25015397673089895,
+    "3": 0.5252039737968016,
+    "6": 0.0009417091631557264
+   },
+   "family_shares_aimed": {
+    "1": 0.2243119239287328,
+    "2": 0.24932458220723092,
+    "3": 0.5254334140351675,
+    "6": 0.0009300798288687344
+   }
+  }
+ }
+}

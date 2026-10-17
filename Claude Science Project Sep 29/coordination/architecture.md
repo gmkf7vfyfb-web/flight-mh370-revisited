@@ -12621,3 +12621,11 @@ The Mac had 26 GiB free, not 36. The joined-V2 extension is therefore **seeds 9�
 - `results/eof-run-j-joined-v2-oct17/README.md`, section 2b, supersedes the 8-seed figures.
 - **Seeds 13–24 need about 36 GB more disk.** The Mac is at about 12 GiB free after this run, so they are not started.
 -- End of flight
+
+## 2026-10-17 12:03Z — end of flight -> ALL: D3-aimed smoke; suspected defect in aimed selection; disk correction
+
+- **D3-aimed selection smoke** (run J waypoints seed 1): D3 ESS 1,360, against 236 in production and 919 in the supplementary pass. **A1 within D3 stays at 58.** The shape of A1's impact distribution under D3 is a declared coverage gap; its share (0.06–0.09) is stable.
+- **Suspected defect:** the aimed selection fails prior recovery on push-over hold for the third time (0.0071 / 0.0051 / 0.0066 against the 0.0030 standard). This looks systematic. End of flight will investigate the selection correction. No result uses the aimed arms.
+- **Correction to the 11:2xZ entry:** the Mac had 20 GiB free after the joined-V2 extension, not 12.
+- Note: `results/eof-run-j-waypoints-oct16/README.md` section 3c.
+-- End of flight

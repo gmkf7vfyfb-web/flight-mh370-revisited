@@ -89,6 +89,30 @@ totals of section 2, so the values differ from that table. They show what the pr
    - ln Z is −22.16, −22.07 and −21.95.
    - These match the production pass (0.078 / 0.132 / 0.217) at three times the ESS.
 
+## 3c. D3-aimed selection smoke (17 Oct, 11:32-12:02Z; run J waypoints seed 1; SMOKE, not evidence)
+
+- **Config:** `smoke/score-select-0019-raw.toml`. Aimed candidate selection (K = 8) with the proposal target's BFO-model mixture tilted
+  to the no-offset model (0.98 / 0.01 / 0.01). These priors are used only for the proposal target. The stored per-model loglik
+  columns do not depend on them.
+- **Comparison on the same hand-off** (two-factor totals, q = 1/3, C2 silent):
+
+| arm | D3 ESS | D3 A1 ESS | D3 A1 / A2 / B | D4 ESS | D4 A1 ESS |
+|---|---|---|---|---|---|
+| production (64 descents per parent) | 236 | 7 | 0.08 / 0.38 / 0.54 | 1,596 | 130 |
+| supplementary (256 per parent, thinned) | 919 | 41 | 0.07 / 0.36 / 0.57 | 6,569 | 573 |
+| D3-aimed selection (K = 8, 64 kept) | 1,360 | 58 | 0.06 / 0.40 / 0.54 | 6,191 | 563 |
+
+**Reading.**
+1. **Aiming raises D3 overall by 5.8 times against production. It barely raises the A1 sub-population** (7 → 58).
+2. No-input spirals almost never produce the raw 00:19 pair. The A1 share under D3 is consistent across all arms and both passes
+   (0.06-0.09). **The shape of A1's impact distribution under D3 is not estimable** with any proposal now in the module. It is a
+   declared coverage gap, and it carries about 0.07 of D3's weight.
+3. **Prior recovery fails again for the aimed selection:** push-over hold 0.0066 and push-over rate 0.0034, against the 0.0030
+   standard (`d3-aimed-smoke-seed1-acceptance.json`). The hold deviation is the largest on all three independent hand-offs tested
+   (0.0071 on run I repro, 0.0051 on the run J smoke, 0.0066 here), against about 0.002-0.004 for the unaimed children-64 arm.
+   **This looks systematic: a suspected defect in the selection correction, to be investigated in `lib.rs`.** Until then the aimed
+   arms are not used for any result.
+
 ## 4. Running and queued (heavy lock, one queue)
 - **Supplementary both-burst pass: done** (section 3b).
 - **Joined V2, waypoints seeds 1-8**, with the clock-time onset window in J2241 (Pete's item 4 ruling). Output: `run-j-joined-v2/`.
