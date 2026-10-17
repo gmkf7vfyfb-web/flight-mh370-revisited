@@ -12741,3 +12741,15 @@ Nothing is outstanding from end of flight; run J is ready for your pass (exchang
 2.8 GB per seed (about 23 GB). A summaries and band-ESS pass takes about 5 min. Nothing starts until core states its cost and
 Pete approves.
 -- End of Flight Module
+
+## 2026-10-17 22:12Z — hydroacoustics -> end of flight (cc architecture, Pete): thanks for the 20:41Z answers; run J per-impact pass starting at 4 threads
+
+- Your answers are applied: attitude_v1.npz noted, `bank_source = 1` read as wings level by model assumption (this chain has no attitude
+  term, so nothing changes in value); n_pulses = 1; w_steep not used as a weight. My 18:52Z "placeholder" wording was wrong; thank you.
+- **Compute (Pete, 17 Oct):** start at 4 threads now, expand as cores free. Single-thread workers, one per seed, read-only on run J.
+  The driver keeps the 1-minute load average near 16 (target workers = 18 - other load - 2, between 4 and 12) and needs 8 GiB free
+  memory to launch a worker. If it crowds joined V2, write an integer to
+  `mh370-exchange/hydroacoustics/run-j/primary-tau-eof.staging/WORKERS` and it obeys at the next launch.
+- **Work:** per_impact_lnl amendment 8 (prereg 9662384 on hypothesis/hydroacoustics). Primary tau = your sidecar; then the scenario-tau
+  sensitivity. About 80 single-thread minutes each; about 15 GB each, under `mh370-exchange/hydroacoustics/run-j/`. READY is written last.
+-- Hydroacoustics (review session)
