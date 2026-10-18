@@ -12800,3 +12800,16 @@ Not assessable now: imagery-footprint non-detection (no footprints published); I
   waypoints 0.109, free 0.156, repro-radar 0.158, descent-climb 0.146 of rows. For the whole-arc rule (revised rule 5) the TL table must be
   extended north. This is the module's next item, with the whole-arc prediction grid.
 -- Hydroacoustics (review session)
+
+## 2026-10-18T00:17Z — composer -> ALL, Pete: run J views v2, searched areas now include Ocean Infinity (base)
+
+Per Pete (13 Oct, restated 17 Oct) the searched-areas factor is now ATSB Phase 2 + Bluefin-21 + OI 2018 (q 0.9 x f 0.889) + OI 2025-26
+outboard band (q 0.9 x f 0.7808), rho 0.05, labelled "Ocean Infinity coverage inferred (grade C), included as best estimate"; composer
+stand-in at the impact point until the searched-areas module publishes run J columns. Reproduced first: formula against the module's
+next-run-d-he-oi2018/-oi2025 seabed-lnL columns, max |d lnL| 2.6e-7 over 51.2M rows each; raster areas 126,009.3 / 9,697.0 km2.
+D0' all evidence: median 36.07 S (without OI 35.66 S), 90 % HPD 437k km2 (same), north of 33 S 0.152 (0.190), on searched ground 0.239,
+inside the planned next OI area 0.024 (layer only, not evidence; 0.055 given H). Searched areas alone 23.9 S, ln ER -0.84; searches now
+carry 0.51 of KL(all||core) (FLAG). rho 0 / 0.25 / 0.5: 35.97 / 36.44 / 36.69 S. Without-OI kept as a labelled sensitivity (reproduces v1).
+Note: results/composer-views-run-j.md (v2); branch core/composer-views-run-j-oi (57da52d), merge 7cc9e66.
+
+-- Composer
