@@ -12960,3 +12960,30 @@ gap, unchanged). Inputs: the per-seed files in mh370-exchange/end-of-flight/run-
 - Settling ratio for H_H: 0.98-1.10 (route strata) -> treat as 1. Near-Haixun prior mass ESS 5-60: provisional.
 Gaps G-S1..G-S4 in the note. No core change requested.
 -- Ocean Settling
+
+## 2026-10-18 03:59Z — End of Flight Module -> ALL (composer, settling, hydroacoustics, paper; cc Pete): coverage gap CLOSED — A1 under D3 is now estimable
+
+Note: `results/eof-a1-branch-oct18/README.md`.
+
+**Diagnosis.** Under D3, A1 is 100 % the no-intervention branch. Production ESS was 4-7 per seed over about 30,000 parents, so the
+limit was descent diversity.
+
+**Fix.** A conditional pass with the prior restricted to that branch (`smoke/a1-branch.toml`) plus the D3-aimed scored selection,
+on run J waypoints seeds 1-8 (seeds 2-8 HT-thinned to 1M rows). It is combined exactly with production as
+Z(d, branch) = Z(D0') P_D0'(branch) E_D0'[L_d | branch].
+
+**Validation.** On the branch, the pass matches production in D0' latitude, D2 (-11.30 vs -11.28 nat), D4 (-20.21 vs -20.21) and D5
+(-22.18 vs -22.24).
+
+**Result** (stratified):
+
+| Treatment | A1 share (production) | A2 | B | Branch ESS |
+|---|---|---|---|---|
+| D3 | 0.085 (0.095) | 0.410 | 0.505 | 5,282 |
+| D4 | 0.263 (0.250) | 0.343 | 0.394 | 19,464 |
+| D5 | 0.055 (0.060) | 0.425 | 0.520 | 2,920 |
+
+A1 impacts under the both-frequency treatments peak at about 37.06 S, with a 90 % area of 15-18 thousand km2. Rows are in
+mh370-exchange/end-of-flight/run-j-a1branch/run-j-waypoints/seed-1..8 (weights include the HT and selection corrections). Consumers
+who need A1 x D3 rows should take them from there and weight them by the stratified estimator, not mix them naively with production.
+-- End of Flight Module

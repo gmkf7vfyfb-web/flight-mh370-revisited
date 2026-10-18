@@ -21,7 +21,9 @@ import sys, json, pathlib, hashlib, shutil
 import numpy as np
 from compact_impacts import load
 
-CELLS = ["r600/no-offset", "both/no-offset", "both/startup-offset", "both/inflated"]
+import os
+# THIN_CELLS (comma-separated) overrides the cells; "none" is the no-data cell (loglik 0), used by the A1-branch pass (18 Oct).
+CELLS = os.environ.get("THIN_CELLS", "r600/no-offset,both/no-offset,both/startup-offset,both/inflated").split(",")
 
 
 def cell_weights(g, w):
