@@ -19,7 +19,7 @@ Core run J; end of flight run J, four families (waypoints 24 seeds, free 18, des
 |---|---|---|
 | Shift of mean latitude, finds only | +0.81 deg pooled (stored +0.70, independent re-run +0.93), ln BF -0.76 | `refine-core94.json` |
 | Same, other families | free +0.68, descent-climb +0.62, radar reproduction +0.74 | `results/drift-items-2026-10-17/drift-by-flight-family.csv` |
-| With Australian term, headline scheme (tiers 1/0.3/0, level 0.5) | +3.82 deg pooled (stored +3.83) (range 0.3-0.65: +2.84..+4.42), ln BF -2.12 | `australia-three-tier.csv` |
+| With Australian term, headline scheme (tiers 1/0.3/0, level 0.5) | +3.82 deg, ln BF -2.09 pooled (stored +3.83, ln BF -2.12; range 0.3-0.65 on stored: +2.84..+4.42) | `australia-three-tier.csv` |
 | Same, GlobCurrent alone / GLORYS12 alone | +2.86 / +5.17 deg | same |
 | Populated-only, level 1 (earlier sensitivity) | +4.44 deg, ln BF -2.30 (95 % incl. law misfit +3.64..+5.22) | `aus-noise.json` |
 | Sinking, e-folding 1/2/3 yr (level 1) | +6.4 / +5.5 / +5.1 deg | `sinking-effect.csv` |
