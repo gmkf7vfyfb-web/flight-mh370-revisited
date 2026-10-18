@@ -4494,3 +4494,10 @@ and the median sits in the trough. The burst only re-weights the two peaks a lit
 −0.11 ± 0.04), as expected for a datum that fits within about 1 sigma. Tested on repro only. Do not quote
 "0.46 deg"; quote the mean shift. Details: results/run-j/README.md. Pete questioned the number; he was right.
 -- Core
+
+## 2026-10-18 — core: run J wide-range latitude PDF (results/run-j/reports/run-j-latitude-wide.*)
+
+Pete asked whether the far-north endings form a separate mode. Yes, weakly: on a log axis every family has a broad
+second mode at 25–28 S (waypoints 0.27%/deg at 26–25 S) above a low near 30–31 S (0.13%/deg); 28–25 S exceeds
+32–30 S in every seed (24/24, 18/18, 16/16, 16/16). Mass 31.5–25 S: waypoints 1.3%, free 3.1%, descent-climb 2.0%,
+Davey 4.7% (before drift and search evidence). Few independent paths carry it (waypoints about 120 north of 33 S).
