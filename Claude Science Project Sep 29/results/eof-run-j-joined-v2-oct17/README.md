@@ -1,6 +1,6 @@
 # End of flight on core run J: joined V2 with the 22:41 onset proposal window — 17 Oct 2026
 
-**Status:** run J waypoints, both arms (J0011 and J2241): seeds 1-8 complete at 06:56Z, seeds 9-12 at 11:22Z seeds 13-16 at 13:28Z (section 2c gives the 16-seed headline).
+**Status:** run J waypoints, both arms (J0011 and J2241): seeds 1-8 complete at 06:56Z, seeds 9-12 at 11:22Z seeds 13-16 at 13:28Z (seeds 17-24 at 02:12Z 18 Oct; section 2d gives the 24-seed headline).
 - Core run J's split-half convergence is accepted as a pass by project ruling (16 Oct 2026).
 - The precision statements below are about end of flight's own sampling.
 - This run is the direct 22:41-arm run that Pete deferred to run J's end-of-flight pass (ruling of 16 Oct 02:08Z).
@@ -62,6 +62,34 @@
 - **Run J gives B 0.17-0.20 under D0'** (U1 to fuel-tied), against run I's 0.10-0.11.
 - The remaining 8 waypoints seeds (17-24) need about 24 GB more disk.
 - This section supersedes sections 2 and 2b as the headline.
+
+## 2d. 24 seeds — HEADLINE, with a correction to the estimator (18 Oct 2026, 02:20Z)
+
+Seeds 17-24 were run 20:29Z 17 Oct to 02:12Z 18 Oct, with the same binary (mh370-eof-rj1, sha256 19031f41) and recipe. All 24
+waypoints seeds of core run J are now in. Core run J is accepted as a pass by project ruling, 16 Oct 2026.
+
+**Correction.** Sections 2, 2b and 2c quote the *median over seeds* of the per-seed B share. The production 00:19 tables
+(option_table_0019.py) pool seeds *by evidence*: each seed's share is weighted by its Z, which is the consistent (ratio-of-means) combination of
+independent core replicates. The two differ here because the per-seed B share is strongly anticorrelated with the seed's ln Z
+(r = -0.87 / -0.89 / -0.91 at 8 / 16 / 24 seeds). Seed-to-seed variation in the 00:11-arm evidence drives the share; the B mass
+itself varies less. The evidence-pooled share is the estimator consistent with every other end-of-flight table, so it becomes the
+headline. The 16-seed pooled value was 0.172 (fuel-tied) and 0.144 (U1), not 0.196 / 0.168.
+
+| 00:19 treatment | B share, fuel-tied, pooled (median of 24; range) | B share, U1, pooled (median) | A1 / A2, fuel-tied, pooled | pre-00:11 share, fuel-tied → U1, pooled | B ESS / pre-00:11 ESS, summed over 24 seeds |
+|---|---|---|---|---|---|
+| D0' | **0.160** (0.193; 0.076-0.316) | **0.134** (0.163) | 0.29 / 0.54 | 0.116 → 0.089 | 5,966 / 3,133 |
+| D2 | 0.076 (0.091; 0.041-0.175) | 0.075 (0.091) | 0.55 / 0.37 | 0.003 → 0.002 | 10,302 / 95 |
+| D4 | 0.041 (0.048; 0.017-0.098) | 0.041 (0.048) | 0.38 / 0.57 | 0.0000 | 4,025 / 37 |
+
+- **Stability.** Pooled D0' B is 0.175 / 0.172 / 0.160 at 8 / 16 / 24 seeds (U1 0.148 / 0.144 / 0.134). The median is
+  0.194 / 0.196 / 0.193 at 8 / 16 / 24 seeds (0.179 at 12, 0.213 at 20). Both are stable within the seed scatter; the pooled value
+  is lower because high-evidence seeds carry less B.
+- **Against run I.** Run J gives B 0.13-0.16 under D0' (U1 to fuel-tied, pooled), against run I's 0.10-0.11.
+- **Pre-00:11 coverage.** The D0' pre-00:11 ESS summed over 24 seeds is 3,133; that is about 130 per seed on average, still
+  parent-limited (section 3). Under D2 and D4, pre-00:11 B is not estimable (ESS 95 and 37 summed): a coverage gap, unchanged.
+- **Prior recovery.** U1 prior recovery is 0.997-1.002 on all seeds, as in sections 2-2c.
+- **Status.** This section supersedes 2c as the headline. Per-seed files: `mh370-exchange/end-of-flight/run-j-joined-v2/summary/`
+  (`onset-uniform/seed-1..24.json`, `joined-s1..24.json`; 16-seed summary kept as `joined-v2-summary-16seed.json`).
 
 ## 3. Why the window proposal did not raise the pre-00:11 ESS (diagnosed on seed 1, D0')
 - The pre-00:11 B population has an ESS of 122 rows and **121 effective parents** out of 100,000 22:41 parents. It is
