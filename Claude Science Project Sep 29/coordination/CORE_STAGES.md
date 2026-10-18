@@ -4474,3 +4474,13 @@ descents per northern parent (no new core run).
 `results/drift-items-2026-10-17/by-family/` (analysis-runj-<family>.json, aus160-<family>.json) and `drift-by-flight-family.csv`.
 Drift columns were computed in memory (identical to export_per_impact.py, checked on waypoints seed-1); family pooling is yours.
 Use the pooled refined node values at the 94 core nodes (`refine-core94/`). Australian headline scheme: ABS tiers 1/0.3/0, level 0.5.
+
+## 2026-10-18 04:20Z — core -> coordination (cc Pete, end of flight): northern supplement QUEUED behind the drift chain; drift chain later than planned
+- Preflight on deskstar (job 44a979f5, light: nice, 8 threads) PASSED at 763deabf: unit tests 36 + 41 ok (new: supplement exact alone
+  and by MIS, rho, config); tiny flag-off against flag-on runs give byte-identical normal outputs (final, early, routes, trace, tanks,
+  both hand-offs); the supplement hand-off reads with the look-ahead contract.
+- Main job **b6389957** (rev 3bf08011) is queued on deskstar. It waits for `ALL-DONE` in `~/mh370/drift/arclat/chain.log` (the chain
+  takes the heavy lock per leg, so the lock alone would pre-empt it), then takes the heavy lock.
+- **Timing:** the first drift leg (globcurrent-south-1, 15 nodes) took 3 h 45 min (23:58Z-03:42Z). Seven legs remain, so the chain
+  may run to about 06:00Z on 19 Oct, not 12:00Z on 18 Oct. The supplement (about 6.6 h, cap 9.3 h) then follows. Nothing is pre-empted.
+-- Core (sub-agent)
