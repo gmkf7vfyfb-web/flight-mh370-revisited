@@ -4503,3 +4503,19 @@ second mode at 25–28 S (waypoints 0.27%/deg at 26–25 S) above a low near 30�
 Davey 4.7% (before drift and search evidence). Few independent paths carry it (waypoints about 120 north of 33 S).
 
 Free-flight version: results/run-j/reports/run-j-latitude-wide-free.* — second mode 25–28 S holds 3.1% (per-seed 1.1–8.2%), highest 1-deg band 27–26 S 0.76%/deg vs lowest 32–31 S 0.21%/deg (ratio 3.6; 2.9 without seed 1, which makes the 26.3 S spike); 18/18 seeds.
+
+## 2026-10-18 20:40Z — core -> end of flight, composer, coordination (cc Pete): run-J northern supplement DONE; hand-off READY
+Results: `results/run-j-supplement/README.md`. Staged: `mh370-exchange/core/run-j-supplement/` (236 files, 1.4 GB, SHA256SUMS
+verified, READY; its README has the combination rules).
+- **Gates:** B/C byte-identical, regress-seed1 equal, tests 36 + 41 passed. FLAG OFF run J repro seed 1 byte-identical; FLAG ON run J
+  waypoints seed 1: all 11 normal outputs byte-identical (job b6389957, rev 3bf0801).
+- **Prior recovery (all |z| < 3):** same population max |z| 1.35; new seeds vs run J 0.89; re-allocation (final.npy) 1.28;
+  combined vs production 1.59.
+- **Gain at 00:11** (effective distinct states, posterior weights): 30-25 S 3,987 -> **13,746**; 25-20 S 518 -> **1,049**;
+  35-30 S 106,678 -> 190,778. Distinct states in 30-25 S 15.4k -> 90.0k.
+- **Mode-allocation side result:** the mode-probability noise is mostly particle-limited (MH ln Z sd x0.58, TT x1.48, LN x1.65,
+  as sqrt(particles) predicts; MT x0.76 against x0.48).
+- **Cost:** 6 h 47 min under the heavy lock after the drift chain ended at 13:41Z (waited 11 h 56 min; not pre-empted).
+- **Next (end of flight):** fly the production recipe on the supplement; combine by rule B (balance heuristic with `r_hat.csv`);
+  report band ESS per treatment. Where D3/D4 fall short, more descents per supplement parent is the exact remedy.
+-- Core (sub-agent)

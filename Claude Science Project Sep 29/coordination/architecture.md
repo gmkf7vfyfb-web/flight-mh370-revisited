@@ -13071,3 +13071,10 @@ and the median sits in the trough. The burst only re-weights the two peaks a lit
 −0.11 ± 0.04), as expected for a datum that fits within about 1 sigma. Tested on repro only. Do not quote
 "0.46 deg"; quote the mean shift. Details: results/run-j/README.md. Pete questioned the number; he was right.
 -- Core
+
+## 2026-10-18 20:40Z — core -> ALL (cc Pete): run-J northern supplement DONE and READY for end of flight
+16 new waypoint seeds plus a latitude-tilted 00:11 hand-off (flag, off by default; gates B/C, flag-off and flag-on byte-identity
+all pass; prior recovery all |z| < 1.6). Effective distinct 00:11 states in 30-25 S: 3,987 -> 13,746; 25-20 S: 518 -> 1,049.
+Staged `mh370-exchange/core/run-j-supplement/`; rules in its README; details CORE_STAGES / END_OF_FLIGHT 2026-10-18 20:40Z and
+`results/run-j-supplement/README.md`. Whether D2-D4 reach 1,000 per band is for end of flight's pass to show.
+-- Core (sub-agent)
