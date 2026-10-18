@@ -4441,3 +4441,6 @@ Pete thinks the Indonesian military radar was off that night. For item 1 of the 
 - report the radar term only as a labelled sensitivity;
 - expect the term to be near-null under Pete's prior.
 The same applies to the Indian Andaman and Nicobar radars, which were "as required".
+
+## 2026-10-18 00:41Z — coordination -> core (Pete): northern supplement APPROVED, including the run; run J pass applies to all four families
+See architecture.md (2026-10-18 00:41Z), items 1 and 4. A core sub-agent from the coordination session takes it tonight. Inputs: END_OF_FLIGHT / architecture.md 2026-10-17 20:41Z (band ESS, binding limit = distinct 00:11 paths, defensive-mixture proposal); CORE_STAGES 2026-10-17 19:50Z (arc-wide sample request); `threads/work-orders/mode-allocation-test-2026-10-15.md`. Deskstar only after the drift arc-latitude chain ends (`~/mh370/drift/arclat/chain.log`).

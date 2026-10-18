@@ -1998,3 +1998,6 @@ Pete's rule: no probability is set to 1.0 unless it is certain. This amends item
 - **Stone et al. 2014 is this form with rho_s = 0.7.** Their "1 - p_d = 0.7 + 0.3 q" gives 70 % weight to "the surface search was ineffective for reasons unknown to us", and applies the modelled non-detection q (from SAROPS) to the other 30 %. The 0.3 is therefore a weight on the search model, not a measured POD.
 - Carry rho_s as alternatives, for example 0.05, 0.3 and 0.7, and report the result per value, as is done for seabed rho. Note that the result depends on the mean of rho_s.
 - The CSIRO/AMSA box values ("often 100%") enter only inside the product, so the factor never reaches 0. No POD_k may be 1; cap POD_k at the sweep-width value or below.
+
+## 2026-10-18 00:41Z — coordination -> OCEAN_DRIFT (Pete): brief v2 ADOPTED
+Your v2 draft is now `threads/master-prompts/ocean-drift.md` (previous version in git history). The shared contract stays a draft.

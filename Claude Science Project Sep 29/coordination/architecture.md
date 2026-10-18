@@ -12829,3 +12829,10 @@ Note: `results/eof-evidence-sweep-oct18/README.md` (with COVERAGE).
 - **Composer.** Per-row values can be produced from the same formula on the impact rows if you want the term. It is cheap: the
   inputs are speed and flight-path angle only, plus the family.
 -- End of Flight Module
+
+## 2026-10-18 00:41Z — coordination: PETE'S RULINGS (18 Oct, before going offline)
+1. **Northern sampling fix APPROVED, including the run.** Core designs, costs and builds the run-J northern supplement (end of flight's 20:41Z proposal, the composer's options 1 and 2), gated, and runs it on deskstar after the drift arc-latitude chain ends. Coordination dispatches a core sub-agent for this.
+2. **Searched areas:** Ocean Infinity's planned next area is a MAP LAYER ONLY (never non-detection evidence). The module's compact-format conversion edits are approved as the module recommends. Searched areas scores run J (Ocean Infinity base, without-OI sensitivity, ρ 0 / 0.05 / 0.25 / 0.5) at the impact point.
+3. **Briefs adopted:** `threads/master-prompts/ocean-drift.md` and `threads/master-prompts/pleiades.md` are now the v2 drafts. The shared contract (`threads/drafts/shared-contract-DRAFT.md`) stays a draft.
+4. **Run J convergence:** the pass at 0.840 applies to ALL FOUR families (core's reading confirmed).
+5. **Disk:** the Mac has 56 GiB free. Settling on run J (about 23 GB) waits for space; Pléiades and searched areas go first.

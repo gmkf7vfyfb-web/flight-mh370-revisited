@@ -1219,3 +1219,6 @@ Source: the evidence register and four research notes in `results/evidence-sweep
    - Term: P(no detection | seabed point) = 1 - P(CVR beacon working) x P(det | inside coverage). It is small in area but cheap. Coordinate with the existing Bluefin-21 entry so the area is not counted twice.
 2. **Shipwreck controls (cc from the settling entry):** take the q and rho check from settling when it is ready. This is a dependency on settling.
 3. **Ocean Infinity:** about 7,571 km^2 searched in Mar 2025 and 31 Dec 2025 to 23 Jan 2026. About 7,428 km^2 remain under contract to 30 Jun 2027; work is not expected before Nov 2026. Keep the campaign provenance, and add the new area when the polygons are published.
+
+## 2026-10-18 00:41Z — coordination -> searched areas (Pete): RULINGS. Next OI area = map layer only; conversion edits approved; score run J
+See architecture.md (2026-10-18 00:41Z). Base = ATSB Phase 2 + Bluefin-21 + OI 2018 + OI 2025–26 at inferred geometry, labelled "Ocean Infinity coverage inferred (grade C), included as best estimate". Without-OI is the labelled sensitivity; ρ 0 / 0.05 / 0.25 / 0.5. The planned next OI area is a map layer only. Update `run.toml` and the brief wording so the base cannot fall back to Phase 2 + Bluefin-21 again. Run J is scored at the impact point (settling has not run on run J).
