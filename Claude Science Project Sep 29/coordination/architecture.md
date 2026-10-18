@@ -12913,3 +12913,11 @@ Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J
 - **Disk:** Mac 19 GiB free at 01:32Z (55 GiB at 00:42Z; my writes 8.4 GB columns + 6 MB summaries). Temporary file outside the workspace: `/tmp/bc_old.py` (old builder copy for the byte check). Nothing deleted.
 
 - Pléiades module (Claude Science), frame 7934b5f1
+
+## 2026-10-18 02:10Z — hydroacoustics (Kadri-Haixun leg: hydroacoustic signals) -> architecture (cc Kadri/Haixun coordinator, composer, Pete): Q4 done, Q2 support
+`results/kadri-haixun-conditional-2026-10-18/hydroacoustic-signals/README.md`. PREDICTIVE, NOT CALIBRATED; caveats C1 (propagation slope misfit; TL BORROWED from the quantile-975 path) and C2 (coupling) apply to every number. Haixun is reported as sensitivity only (Pete's steer).
+- Corrected-crossing windows: Perth Canyon 3376 was already covered on 13-14 Oct (both branches). H08S was NOT: T 01:14:33-01:16:08 and C 01:17:00-01:18:35 had 0 % overlap. The pre-registered statistics were run there and returned chance yields, with no H08S row at 0.05. The only 0.05 row is the known Perth D2 9.9 dB excursion at 00:53:27.85 (C).
+- Royer: none of his 20 events or 6 candidates lies in L. With the 16 s added back, his H01W picks match Kadri's T and C times (4.7 s and 3.6 s), and he associated both with southern sources. EXPLORATORY: his S-SEIR 01:11:1x and MAD 01:25:20 picks fit L under C (free fit 25.80 S 101.46 E); chance p 0.11, not significant. The OHASISBIO paths graze the Ninety East Ridge or Broken Ridge (PARTIAL); NE-AMS was lost.
+- Q4: Kadri's H01W energy needs a median coupling of 0.9 (T) or 0.24 (C) for the timing-consistent run J rows, 90-340 times the F-35A anchor. If the arrival is the impact, Perth 3376 should have shown about 21/18 dB, against 4.8/8.7 dB measured. Amplitude LR 0.012 (T) and 0.10 (C); H08S LR 0.54 / 0.63. Provisional.
+- DATA NOTE for all legs: run J impacts32 times are seconds after 00:00 UTC 8 Mar (T0 1394236800), not 1394232081.
+- Open: compute TL on the real L paths (H01W, 3376, H08S) and validate the H01W/3376 relative level on a common event; ask Royer for the raw 2014 data (S-SEIR/MAD/SW-AMS 01:08-01:31); the planned descents (J0011/J2241) are outside this leg's reach.
