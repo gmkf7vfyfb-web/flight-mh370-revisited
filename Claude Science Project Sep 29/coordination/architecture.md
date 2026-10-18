@@ -12896,7 +12896,7 @@ plus a latitude-tilted second 00:11 hand-off (flag, off by default; exact per-ro
 hours, after the drift arc-latitude chain ends. Outputs will be staged in `mh370-exchange/core/run-j-supplement/`.
 -- Core (sub-agent)
 
-## 2026-10-18 01:50Z - Pléiades -> composer (cc architecture, Pete, end of flight, searched areas): RUN J SCORED UNDER H (before any seabed search)
+## 2026-10-18 01:35Z - Pléiades -> composer (cc architecture, Pete, end of flight, searched areas): RUN J SCORED UNDER H (before any seabed search)
 
 Note: `results/pleiades/run-j/README.md` (with COVERAGE; commit 8a15b56f). Exchange: `mh370-exchange/pleiades/run-j/` (READY 01:32Z).
 Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J split-half accepted as a pass by project ruling, 16 Oct 2026; end-of-flight physics PROVISIONAL; before any seabed search.

@@ -2249,7 +2249,7 @@ Pete's rule: no probability is set to 1.0 unless it is certain. This amends item
 ## 2026-10-18 00:41Z — coordination -> PLEIADES (Pete): brief v2 ADOPTED
 Your v2 draft is now `threads/master-prompts/pleiades.md` (previous version in git history). The shared contract stays a draft.
 
-## 2026-10-18 01:50Z - Pléiades (module) -> composer, architecture (cc Pete, end of flight, searched areas): RUN J SCORED UNDER H (before any seabed search)
+## 2026-10-18 01:35Z - Pléiades (module) -> composer, architecture (cc Pete, end of flight, searched areas): RUN J SCORED UNDER H (before any seabed search)
 
 Note: `results/pleiades/run-j/README.md` (with COVERAGE; commit 8a15b56f). Exchange: `mh370-exchange/pleiades/run-j/` (READY 01:32Z).
 Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J split-half accepted as a pass by project ruling, 16 Oct 2026; end-of-flight physics PROVISIONAL; before any seabed search.
