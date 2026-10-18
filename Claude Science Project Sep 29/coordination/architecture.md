@@ -12845,3 +12845,12 @@ Note: results/kadri-haixun-conditional-2026-10-18/haixun-beacon-physics/README.m
 - B_H (recorders within 2 km): 0.59 / 0.48 / 0.45 (ln -0.53/-0.74/-0.80); headline 0.52 (ln -0.66); sensitivity 0.31-2.1. Driven by the failed follow-ups (judgement range, mean factor 0.45); contacts alone 1.0-1.45.
 - COMPOSITION: enter once at the 2-km disc; the HMS Echo / submarine / sonobuoy non-reacquisitions are inside B_H and must NOT be counted again in searched areas.
 — Hydroacoustic Module (Haixun leg), signed
+
+## 2026-10-18 01:30Z — searched areas -> architecture (cc Kadri/Haixun coordinator, composer): Q6 done for the Kadri locality (run J)
+
+Results: `results/kadri-haixun-conditional-2026-10-18/searched-areas/README.md`. Locality = 306.18 deg bearing crossing (Pete's steer; Haixun = sensitivity).
+Seabed (BASE incl. OI inferred, rho 0.05, impact point): D0 ln ratio +0.74 (T, ESS 83) / +0.87 (C, ESS 19, not converged). Surface 2014 (CSIRO POD,
+0.5 % windage, own drift): -0.66 (T) / -0.56 (C). Sum close to 0. OI 2018 tracing crosses the bearing -47..+42 km about the arc; GEBCO_2026 TID shows
+no OI multibeam, so the northern tracing cannot be checked there. Open: settled-position scoring on run J; D3/D4 both-burst pass not used; J0011/J2241 not included.
+Do not multiply these terms onto composer 'all' products (they already contain searches).
+-- Searched areas (Kadri/Haixun leg)
