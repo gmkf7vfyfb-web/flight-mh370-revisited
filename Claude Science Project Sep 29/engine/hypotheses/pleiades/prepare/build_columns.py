@@ -36,9 +36,14 @@ STRATA = {"next-descent-climb": 0, "next-free": 1, "next-repro-radar": 2, "next-
 FAMILY_CODE = {"descent-climb": 0, "free": 1, "repro-radar": 2, "routes": 3, "waypoints": 4}   # waypoints: core run I   # stratum code from the name suffix (run b and run C)
 
 
+JOINED_CODE = {"J0011": 5, "J2241": 6}   # end of flight's run-j-joined-v2 sets (arm V2, mixed families; 18 Oct 2026)
+
+
 def stratum_code(name):
-    import re   # next-<family>, next-c-<family>, next-d-<family> (run b, run C, run D)
-    return FAMILY_CODE[re.fullmatch(r"next-(?:[a-z]-)?(.+)", name).group(1)]
+    import re   # next-<family>, next-c-<family>, ... (runs b-I); run-j-<family> (run J, 18 Oct 2026); J0011 / J2241 (joined V2)
+    if name in JOINED_CODE:
+        return JOINED_CODE[name]
+    return FAMILY_CODE[re.fullmatch(r"(?:next-(?:[a-z]-)?|run-[a-z]-)(.+)", name).group(1)]
 MSHORT = ["glorys12", "globcurrent"]
 VALS = [f"lnL_{f}_{m}" for f in ("pleiades", "cosmo", "both") for m in MSHORT + ["mean"]]
 DT = np.dtype([("stratum", "u1"), ("seed", "u1"), ("row", "<u4"), ("parent", "<i8"), ("cell", "<u4")]
@@ -115,6 +120,43 @@ def sha(p):
     return h.hexdigest()
 
 
+def build_seed(sd, st, out, fields, g=None):
+    """One seed: write <out>/<st>/<seed>/pleiades-lnL.npy; return (build-stats row, SHA256SUMS line). fields = (mp, P, Cm) from
+    branch_eof289.load_fields; g: optional column getter already open on this seed (saves a second read of impacts32)."""
+    mp, P, Cm = fields
+    lon0, lat0, nlat, nlon = mp["lon0"], mp["lat0"], int(mp["nlat"]), int(mp["nlon"])
+    code = stratum_code(st); sd = Path(sd); out = Path(out)
+    k = int(sd.name.split("-")[1])
+    if g is None:
+        cols, g, n = ce.seed_reader(sd)
+    lat, lon = g("latitude_deg"), g("longitude_deg"); n = len(lat)
+    j = np.floor((lon - (lon0 - b.STEP / 2)) / b.STEP).astype(np.int64)
+    i = np.floor((lat - (lat0 - b.STEP / 2)) / b.STEP).astype(np.int64)
+    ok = (i >= 0) & (i < nlat) & (j >= 0) & (j < nlon)
+    R = np.zeros(n, DT)
+    R["stratum"], R["seed"], R["row"], R["parent"] = code, k, np.arange(n, dtype=np.uint32), g("parent").astype(np.int64)
+    R["cell"] = OUTSIDE; R["cell"][ok] = (i[ok] * nlon + j[ok]).astype(np.uint32)
+    per = {}
+    for mi, m in enumerate(MSHORT):
+        lp = np.full(n, np.nan); lc = np.full(n, np.nan)
+        lp[ok] = P[mi, 0, 0, i[ok], j[ok]]; lc[ok] = Cm[mi, 1, i[ok], j[ok]]
+        per[m] = {"pleiades": lp, "cosmo": lc, "both": lp + lc}
+    for f in ("pleiades", "cosmo", "both"):
+        for m in MSHORT:
+            R[f"lnL_{f}_{m}"] = per[m][f]
+        s = np.stack([per[m][f] for m in MSHORT]); s = np.where(np.isfinite(s), s, -np.inf)
+        with np.errstate(invalid="ignore"):
+            mean = np.logaddexp(s[0], s[1]) - math.log(2.0)
+        R[f"lnL_{f}_mean"] = np.where(np.isfinite(mean), mean, np.nan)
+    R["not_computed"] = ~np.isfinite(R["lnL_both_mean"])
+    d = out / st / sd.name; d.mkdir(parents=True, exist_ok=True)
+    tmp = d / "pleiades-lnL.partial.npy"; np.save(tmp, R); tmp.rename(d / "pleiades-lnL.npy")
+    w = g("weight"); w = np.where(np.isfinite(w), w, 0.0)
+    stat = dict(stratum=st, seed=k, rows=int(n), outside_grid_rows=int((~ok).sum()), not_computed_rows=int(R["not_computed"].sum()),
+                not_computed_prior_weight_share=float(w[R["not_computed"].astype(bool)].sum() / w.sum()))
+    return stat, f"{sha(d / 'pleiades-lnL.npy')}  {st}/{sd.name}/pleiades-lnL.npy"
+
+
 def main(imp_root, surf, out, strata=None):
     """strata: stratum directory names to build (default: every stratum under <impacts root>); SHA256SUMS is appended per call."""
     imp_root, surf, out = Path(imp_root), Path(surf), Path(out)
@@ -129,36 +171,9 @@ def main(imp_root, surf, out, strata=None):
     lon0, lat0, nlat, nlon = mp["lon0"], mp["lat0"], int(mp["nlat"]), int(mp["nlon"])
     sums, stats = [], []
     for st in strata:
-        code = stratum_code(st)
         for sd in ce.seed_dirs(imp_root / st):
-            k = int(sd.name.split("-")[1])
-            cols, g, n = ce.seed_reader(sd)
-            lat, lon = g("latitude_deg"), g("longitude_deg")
-            j = np.floor((lon - (lon0 - b.STEP / 2)) / b.STEP).astype(np.int64)
-            i = np.floor((lat - (lat0 - b.STEP / 2)) / b.STEP).astype(np.int64)
-            ok = (i >= 0) & (i < nlat) & (j >= 0) & (j < nlon)
-            R = np.zeros(n, DT)
-            R["stratum"], R["seed"], R["row"], R["parent"] = code, k, np.arange(n, dtype=np.uint32), g("parent").astype(np.int64)
-            R["cell"] = OUTSIDE; R["cell"][ok] = (i[ok] * nlon + j[ok]).astype(np.uint32)
-            per = {}
-            for mi, m in enumerate(MSHORT):
-                lp = np.full(n, np.nan); lc = np.full(n, np.nan)
-                lp[ok] = P[mi, 0, 0, i[ok], j[ok]]; lc[ok] = Cm[mi, 1, i[ok], j[ok]]
-                per[m] = {"pleiades": lp, "cosmo": lc, "both": lp + lc}
-            for f in ("pleiades", "cosmo", "both"):
-                for m in MSHORT:
-                    R[f"lnL_{f}_{m}"] = per[m][f]
-                s = np.stack([per[m][f] for m in MSHORT]); s = np.where(np.isfinite(s), s, -np.inf)
-                with np.errstate(invalid="ignore"):
-                    mean = np.logaddexp(s[0], s[1]) - math.log(2.0)
-                R[f"lnL_{f}_mean"] = np.where(np.isfinite(mean), mean, np.nan)
-            R["not_computed"] = ~np.isfinite(R["lnL_both_mean"])
-            d = out / st / sd.name; d.mkdir(parents=True, exist_ok=True)
-            tmp = d / "pleiades-lnL.partial.npy"; np.save(tmp, R); tmp.rename(d / "pleiades-lnL.npy")
-            w = g("weight"); w = np.where(np.isfinite(w), w, 0.0)
-            stats.append(dict(stratum=st, seed=k, rows=int(n), outside_grid_rows=int((~ok).sum()), not_computed_rows=int(R["not_computed"].sum()),
-                              not_computed_prior_weight_share=float(w[R["not_computed"].astype(bool)].sum() / w.sum())))
-            sums.append(f"{sha(d / 'pleiades-lnL.npy')}  {st}/{sd.name}/pleiades-lnL.npy")
+            stat, line = build_seed(sd, st, out, (mp, P, Cm))
+            stats.append(stat); sums.append(line)
             print(st, sd.name, stats[-1]["not_computed_rows"], flush=True)
     sums += [f"{sha(out / 'surfaces' / f)}  surfaces/{f}" for f in sorted(p.name for p in (out / "surfaces").iterdir())]
     old = (out / "SHA256SUMS").read_text().splitlines() if (out / "SHA256SUMS").exists() else []
