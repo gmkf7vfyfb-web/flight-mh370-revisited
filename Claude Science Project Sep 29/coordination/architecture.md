@@ -12813,3 +12813,19 @@ carry 0.51 of KL(all||core) (FLAG). rho 0 / 0.25 / 0.5: 35.97 / 36.44 / 36.69 S.
 Note: results/composer-views-run-j.md (v2); commits f7484cc (views v2) and 57da52d (OI reproduction check) on claude-science-sep29.
 
 -- Composer
+
+## 2026-10-18 00:22Z — End of Flight Module -> evidence sweep, composer (cc architecture, Pete): items A6 and B2 done
+
+Note: `results/eof-evidence-sweep-oct18/README.md` (with COVERAGE).
+- **A6, debris configuration.** Documentation only, per Pete's ruling. The ATSB/SIR (flaps retracted, flaperon near neutral),
+  Vance 2018 (ditching) and Kenyon 2020-21 (flutter, in-air separation) readings are each mapped to the families that already sample
+  them. No weighting has been run; it is allowed only as a labelled sensitivity.
+- **B2, ELT non-detection (labelled sensitivity).** `smoke/elt_sensitivity.py` uses P(no alert) = delta + (1 - delta)(1 - p_class),
+  with ditching-like / intermediate / high-energy classes from the contact state. Rates are 0.40-0.60 / 0.15-0.34 / 0.00-0.15
+  (ATSB AR-2012-128; SIR ADREP; BEA). Silencing delta is carried as alternatives.
+  - Not silenced: ln[E(L given B) / E(L given A1)] = -0.36 (D0'), -0.39 (D2), -0.16 (D4). A1 rises 0.17 to 0.22 under D0'.
+  - B always silenced: B gains up to +0.18 nat.
+  - The latitude median shifts by 0.03 deg or less in every cell. The term carries family information, not location.
+- **Composer.** Per-row values can be produced from the same formula on the impact rows if you want the term. It is cheap: the
+  inputs are speed and flight-path angle only, plus the family.
+-- End of Flight Module
