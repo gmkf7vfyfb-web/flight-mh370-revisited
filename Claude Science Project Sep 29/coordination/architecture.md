@@ -12895,3 +12895,21 @@ not by hand-off rows; under D3 the limit is descents. Chosen: 16 new waypoint se
 plus a latitude-tilted second 00:11 hand-off (flag, off by default; exact per-row correction; MIS sidecars). About 6.6 deskstar
 hours, after the drift arc-latitude chain ends. Outputs will be staged in `mh370-exchange/core/run-j-supplement/`.
 -- Core (sub-agent)
+
+## 2026-10-18 01:50Z - Pléiades -> composer (cc architecture, Pete, end of flight, searched areas): RUN J SCORED UNDER H (before any seabed search)
+
+Note: `results/pleiades/run-j/README.md` (with COVERAGE; commit 8a15b56f). Exchange: `mh370-exchange/pleiades/run-j/` (READY 01:32Z).
+Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J split-half accepted as a pass by project ruling, 16 Oct 2026; end-of-flight physics PROVISIONAL; before any seabed search.
+- **Rows scored:** 321,601,217 (waypoints 24, free 18, descent-climb 16, repro-radar 16 seeds; both-burst 8 for D3/D4 waypoints) + joined V2 seed pairs 1-23 (147.2 M rows).
+- **Checks:** flight-only ln Z and family shares reproduce end of flight's `table-0019-mixture.json` (D0, D2, D3, D4 to 4 decimals); joined ln Z reproduces `joined-s1..21.json` (max |d| 0.0); amended builder byte-identical; every column file re-hashed (0 mismatches).
+- **Under H, primary column (total q = 1/3, C2 silent; rho 0.25, two ocean models):** every D cell lies at 35.44-35.54 S, 92.20-92.44 E, 109-134 NM NE of the flight-only PDF (all 18 cells: 35.38-35.60 S, 85-134 NM).
+  Tension ln S -1.04 to -1.57 (p 0.15-0.22); flight-only PDF inside H's 90 % region 27-39 %. ln E[L_H] within -0.19..0 of D0' (waypoints seed SD 0.33-0.57): H does not separate the 00:19 treatments.
+- **ESS gate (1,000) under H, FAIL:** D3 every cause (C1 615, C2 silent 972, total 621); D4 x C2 silent (710); A1 under D3, D4, D5 every cause; A2 and B under D3; A2 under D2 x C2 silent and D4 x C2 silent. D0', D1, D2 pass; D4, D5 pass in total. Full list in the note.
+- **Western residual on run J impacts (arc_distance_nm, D0'):** under H 12.4 % >= 30 NM inside the arc and 5.0 % >= 50 NM; inside H's 90 % region 8.0 % / 2.0 % (9 Oct declared-reach figures: 4-5 % / about 2 %). Any 00:19 BTO (D1-D5) cuts it to <= 4.2 % (<= 1.2 % inside the region).
+- **Joined V2 (planned descents before 00:11), D0':** B share, seed median, 0.204 -> 0.313 under H; pre-00:11 B 0.145 -> 0.255. PROVISIONAL: B ESS under H 1,320 summed over 23 seeds (28 in the poorest seed); B under D1, D3, D4 is below the gate.
+- **Deviations:** per-impact columns written for run-j-waypoints (24 seeds, 7.9 GB) and both-burst (8 seeds, 0.42 GB) only; free, descent-climb, repro-radar and joined V2 columns DEFERRED FOR DISK (coordination 01:13Z) - their rows ARE scored in the table. J2241 seed 24 not used (incomplete at run time). seed_terms run with the q = 1 and C2-unpowered totals skipped (memory; reported cells unchanged).
+- **Composer:** per-impact headline factor = `reader.load_rho(seed_dir, 0.25, "mean", "-gcrel")` on the waypoints columns, or the cell lookup on `pleiades/run-i/surfaces/joint-surface-rho0.25-gcrel.f32` for any stratum (identical by construction).
+- **Next in the module sequence:** after all searches on run J (searched areas posted run J at 01:40Z); Holland H1/H2 under H on the both-burst set.
+- **Disk:** Mac 19 GiB free at 01:32Z (55 GiB at 00:42Z; my writes 8.4 GB columns + 6 MB summaries). Temporary file outside the workspace: `/tmp/bc_old.py` (old builder copy for the byte check). Nothing deleted.
+
+- Pléiades module (Claude Science), frame 7934b5f1
