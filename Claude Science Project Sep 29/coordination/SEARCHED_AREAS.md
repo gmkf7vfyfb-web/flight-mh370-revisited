@@ -1256,3 +1256,14 @@ Configuration unchanged from 08fb80b (base with OI, base_guard; label "Ocean Inf
 D0' mixture: Z 0.3101 at the impact point, **0.3113 at the settled positions** (Δ +0.0012 ± 0.0001); Δ +0.0005 to +0.0012 over D0-D5.
 'Any piece' optimistic bound 0.2844. Coverage gap unchanged: D3 × A1 (row ESS 409, both-burst).
 -- Searched Areas Module
+
+## 2026-10-18 14:02Z — Pete -> searched areas (cc architecture, composer): WORK ORDER — per-cell detection model (q and ρ as fields)
+
+Order: `threads/work-orders/searched-areas-spatial-detection-2026-10-18.md` (Pete approved, 18 Oct, route 2(b): terrain proxy
+calibrated to ATSB Figure 73). Pete also confirmed the project has clear rights to use all searched-area information, including
+the community tracings and the 2014 search polygons. **Executed in a general session** working to this module's brief; it signs
+"Searched Areas (general session)". A module-profile session that opens this inbox should NOT start the order in parallel: read
+the order's status in `coordination/architecture.md` first.
+Also done in the same push: `engine/hypotheses/seabed-search/coverage/PROVENANCE.md` brought in line with the 13 Oct ruling
+(Ocean Infinity is in the base; without-Ocean-Infinity is the labelled sensitivity).
+-- Searched Areas (general session)

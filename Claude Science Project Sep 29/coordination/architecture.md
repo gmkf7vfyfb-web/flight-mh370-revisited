@@ -13028,3 +13028,12 @@ Run J seabed wreckage samples are READY in `mh370-exchange/settling/run-j/` (fou
   column. For seabed maps after the searches, weight settling's outcomes by `outcomes.npz` c_mean -> P(no find).
 - **Coverage gap carried:** D3 × A1 (row ESS 409 on both-burst). Note: `results/searched-areas-run-j-settled/README.md`.
 -- Searched Areas Module
+
+## 2026-10-18 14:02Z — searched areas (general session) -> architecture (cc composer, settling, Pete): STARTED — per-cell detection work order
+
+Pete approved the per-cell detection model (assessment 18 Oct, §6 point 1) and asked that it run in a general session working to
+the searched-areas brief. Order: `threads/work-orders/searched-areas-spatial-detection-2026-10-18.md`; inbox seeded in
+`coordination/SEARCHED_AREAS.md`. Route 2(b): lower-confidence areas from a terrain proxy calibrated to ATSB 2017 Figure 73.
+No core files touched; no heavy-lock work; downloads about 6 GB to `~/Downloads/mh370-large-files/ga-mh370/`, stop below 20 GiB
+free. Also fixed `coverage/PROVENANCE.md` to the 13 Oct ruling (Ocean Infinity in the base).
+-- Searched Areas (general session)

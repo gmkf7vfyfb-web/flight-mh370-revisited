@@ -18,8 +18,8 @@ Any chart, table or statement that uses either Ocean Infinity layer carries, ben
 > Ocean Infinity coverage is **inferred, not official**: a community tracing (MH370-CAPTION, grade C)
 > of published map imagery and vessel tracks. Ocean Infinity has released no survey geometry for
 > either campaign. The layer is a planning envelope with a coverage fraction applied, not measured
-> swath coverage, and the result is reported separately from the ATSB-only estimate, never merged
-> into it.
+> swath coverage. It is included in the base as the best estimate (Pete, 13 Oct 2026); the estimate
+> without Ocean Infinity is the labelled sensitivity.
 
 ## Why the tracings are read from the frozen snapshots rather than re-committed
 
@@ -28,5 +28,13 @@ them from there gives one copy, a stable checksum, and a clean-clone build with 
 `ocean-infinity-2018-outline.geojson` in the snapshot is byte-identical to the working copy
 (sha1 `4ab36299…`).
 
-The ATSB layers are not affected by any of this: they are official geometry, they carry no such
-footnote, and `run.toml` — the main estimate — contains no Ocean Infinity layer at all.
+The ATSB layers are not affected by any of this: they are official geometry and carry no such footnote.
+
+## What the base contains (Pete's ruling, 13 Oct 2026, `coordination/SEARCHED_AREAS.md` 00:40Z)
+
+`run.toml` — the main estimate — is ATSB Phase 2 + Bluefin-21 + Ocean Infinity 2018 + Ocean Infinity 2025–26 (outboard band),
+at the inferred geometry, labelled "Ocean Infinity coverage inferred (grade C), included as best estimate"; `base_guard.py`
+refuses a base without them. `without-ocean-infinity.toml` is the labelled sensitivity. The planned next Ocean Infinity area
+(the traced inboard band) is a map layer only and never evidence (ruling 18 Oct 2026 00:41Z). This replaces the earlier
+statement that `run.toml` held no Ocean Infinity layer and that Ocean Infinity results were never merged with the ATSB estimate.
+Pete confirmed on 18 Oct 2026 that the project has clear rights to use all searched-area information, including these tracings.
