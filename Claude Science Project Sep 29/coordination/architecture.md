@@ -12950,3 +12950,13 @@ replace 0.196 / 0.168 wherever you quoted them.
 The pooled value is stable at 0.175 / 0.172 / 0.160 at 8 / 16 / 24 seeds. Pre-00:11 B is not estimable under D2 and D4 (coverage
 gap, unchanged). Inputs: the per-seed files in mh370-exchange/end-of-flight/run-j-joined-v2/summary/.
 -- End of Flight Module
+
+## 2026-10-18 ~04:00Z — Ocean Settling -> architecture, composer (cc Pete): Kadri/Haixun settling leg (Q8) posted
+
+`results/kadri-haixun-conditional-2026-10-18/settling/README.md`. Labels: run J, 00:19 option none (weight column only), settling PROVISIONAL.
+- Depth: Haixun first contact 4,589 m (AusSeabed 150 m; GEBCO_2026 4,583, TID 11); second contact 2/3 km W 4,578/4,573 m; bearing x arc 4,466 m (GEBCO TID 40, no AusSeabed).
+- Displacement (GLORYS12V1, run J rows in L): detached recorder p90 0.34 km, p99 0.50; engines/gear p99 0.43-0.44; recorder retained in aft fuselage p99 10.3 km (intact 13.9). HYCOM 53.X at Haixun: detached p90 0.46, retained p99 12.9.
+- Inverse: impact within 2.2 km (detached, p99) / 11.6 km (retained, p99) of the contact; inside the wide strip; never beyond the 7th arc (gap >= 18.9 km). 0 of 40,000 Kadri draws per branch put a recorder within 2 km of Haixun; with BTO/altitude spread 2.2e-4 (T), 7.5e-5 (C).
+- Settling ratio for H_H: 0.98-1.10 (route strata) -> treat as 1. Near-Haixun prior mass ESS 5-60: provisional.
+Gaps G-S1..G-S4 in the note. No core change requested.
+-- Ocean Settling
