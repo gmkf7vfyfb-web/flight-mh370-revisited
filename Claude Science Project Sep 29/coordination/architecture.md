@@ -12887,3 +12887,11 @@ Label: **"Ocean Infinity coverage inferred (grade C), included as best estimate"
 - Kadri/Haixun leg (01:30Z, cc): these are now the module's run J columns. Hydroacoustics' B_H note is accepted: the Haixun / Echo
   non-reacquisitions will not enter the beacon term again.
 -- Searched Areas Module
+
+## 2026-10-18 01:45Z — core -> ALL (cc Pete): run-J northern supplement designed and gated in code; run waits for the drift chain
+Design, measurement, cost and predictions: CORE_STAGES.md 2026-10-18 01:45Z and `results/run-j-supplement/DESIGN.md`. Finding for
+end of flight and the composer: the north is limited by DISTINCT 00:11 states (D0' 30-25 S: 1.41k effective; 25-20 S: 378),
+not by hand-off rows; under D3 the limit is descents. Chosen: 16 new waypoint seeds with particles moved to the magnetic modes
+plus a latitude-tilted second 00:11 hand-off (flag, off by default; exact per-row correction; MIS sidecars). About 6.6 deskstar
+hours, after the drift arc-latitude chain ends. Outputs will be staged in `mh370-exchange/core/run-j-supplement/`.
+-- Core (sub-agent)

@@ -945,6 +945,68 @@ pub struct OutputConfig {
     /// The fewest rows any mode with posterior mass keeps at each of `handoff_epochs` (default 1).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub handoff_floor: Option<usize>,
+    /// Run-J northern supplement (see [`HandoffSupplement`]). Off when absent; when absent the
+    /// run, its outputs and this serialisation are unchanged.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub handoff_supplement: Option<HandoffSupplement>,
+}
+
+/// Run-J northern supplement (core, 18 Oct 2026; Pete approved the design and the run 18 Oct
+/// 00:41Z; results/run-j-supplement/). At one of `handoff_epochs` the filter writes, beside the
+/// normal hand-off and without changing it, a SECOND hand-off `handoff-<epoch>-supplement/` whose
+/// rows are drawn from the same per-mode candidates (the look-ahead rows) with a latitude tilt:
+///
+///   q(row) proportional to P(mode) / N_mode x r(lat),
+///   r(lat) = defensive + (1 - defensive) x h(bin of lat) / H,   h_b = target_b / p_b,
+///
+/// where p_b is the posterior probability of latitude bin b at the epoch (from the candidates)
+/// and H = sum of target_b over bins with p_b > 0, so the posterior mean of r is exactly 1.
+/// The flattened part therefore has the latitude shares `target`; the defensive part is the
+/// unchanged posterior. Mode s gets round(rows x P(s) x mean_s r) rows (at least 1). Each row
+/// carries weight P(s) / rows_s and log_correction = (look-ahead correction) + ln mean_s r -
+/// ln r(lat), so the corrected rows estimate the same posterior as the normal hand-off exactly
+/// (handoff::read_corrected). mis.npy and production-mis.npy give ln rho = ln(q_supp / q_prod)
+/// for every supplement and every normal row, for combining the two by multiple importance
+/// sampling (balance heuristic): normal-row weight x 1/(1 + rho), supplement-row weight x
+/// rho/(1 + rho). The filter itself, final.npy and the normal hand-offs are untouched: the draw
+/// uses its own random stream.
+#[derive(Deserialize, Serialize, Clone, Debug)]
+#[serde(deny_unknown_fields)]
+pub struct HandoffSupplement {
+    /// One of `handoff_epochs`, e.g. "m0011".
+    pub epoch: String,
+    /// Rows per replicate.
+    pub rows: usize,
+    /// Share of the unflattened posterior in the proposal, in (0, 1].
+    pub defensive: f64,
+    /// Ascending latitude bin edges (deg) at the epoch; outside them h = 0.
+    pub edges_deg: Vec<f64>,
+    /// Latitude share of the flattened part per bin (one per bin; normalised to sum 1).
+    pub target: Vec<f64>,
+}
+
+impl HandoffSupplement {
+    pub fn validate(&self, handoff_epochs: &[String]) -> Result<(), String> {
+        if !handoff_epochs.contains(&self.epoch) {
+            return Err(format!("output.handoff_supplement: epoch {} is not one of output.handoff_epochs", self.epoch));
+        }
+        if self.rows == 0 {
+            return Err("output.handoff_supplement: rows must be at least 1".into());
+        }
+        if !(self.defensive > 0.0 && self.defensive <= 1.0) {
+            return Err("output.handoff_supplement: defensive must be in (0, 1]".into());
+        }
+        if self.edges_deg.len() < 2 || self.edges_deg.windows(2).any(|w| !(w[1] > w[0])) {
+            return Err("output.handoff_supplement: edges_deg must be at least two strictly ascending values".into());
+        }
+        if self.target.len() + 1 != self.edges_deg.len() {
+            return Err("output.handoff_supplement: target needs one value per bin (edges_deg - 1)".into());
+        }
+        if self.target.iter().any(|t| !(t.is_finite() && *t >= 0.0)) || self.target.iter().sum::<f64>() <= 0.0 {
+            return Err("output.handoff_supplement: target values must be finite, non-negative and not all zero".into());
+        }
+        Ok(())
+    }
 }
 
 /// Core request 10 (architecture ruling 10 Oct 2026 ~08:55 UTC; Pete ~16:30 UTC): draw the rows of
@@ -1062,6 +1124,25 @@ fn merge(base: &mut toml::Table, over: toml::Table) {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Run-J northern supplement: the shipped overlay parses over the run J stack, validates, and
+    /// is absent (so the run is unchanged) without it.
+    #[test]
+    fn run_j_supplement_overlay_loads_and_validates() {
+        let dir = concat!(env!("CARGO_MANIFEST_DIR"), "/../../config/");
+        let paths = |ps: &[&str]| -> Vec<PathBuf> { ps.iter().map(|p| PathBuf::from(format!("{dir}{p}"))).collect() };
+        let base = ["davey2016.toml", "sensitivity/reference-snapshots.toml", "sensitivity/handoff-lookahead-d.toml", "sensitivity/run-j/size-sampler.toml"];
+        let without = load(&paths(&base)).unwrap();
+        assert!(without.output.handoff_supplement.is_none());
+        let mut with: Vec<&str> = base.to_vec();
+        with.extend(["sensitivity/run-j-supplement/size-north.toml", "sensitivity/run-j-supplement/supplement.toml"]);
+        let c = load(&paths(&with)).unwrap();
+        let s = c.output.handoff_supplement.as_ref().expect("supplement block");
+        s.validate(&c.output.handoff_epochs).unwrap();
+        assert_eq!((s.epoch.as_str(), s.rows, s.edges_deg.len(), s.target.len()), ("m0011", 100000, 28, 27));
+        assert_eq!(c.particles_per_mode.iter().sum::<usize>(), 7_000_000);
+        assert_eq!(c.output.handoff_rows, Some(100000));
+    }
 
     /// Fuel audit F19: a core exhaustion Gaussian and a terminal stage scoring 00:19 count the
     /// timing evidence twice, so the pair is refused unless declared.

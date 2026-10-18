@@ -409,6 +409,11 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
                 handoff::Stratum { mode: m, probability: (lp - total).exp(), final_offset: 0, candidates }
             })
             .collect();
+        // Run-J northern supplement: a copy of the candidates, drawn from after the normal rows.
+        let supplement = output.handoff_supplement.as_ref().filter(|s| s.epoch == *id);
+        let strata_copy: Option<Vec<handoff::Stratum>> = supplement.map(|_| {
+            strata.iter().map(|s| handoff::Stratum { mode: s.mode, probability: s.probability, final_offset: s.final_offset, candidates: s.candidates.clone() }).collect()
+        });
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
         rng.set_stream(u64::MAX - 2 - e as u64); // distinct from the route draw and the stop hand-off
         let mut rows = handoff::select(strata, output.handoff_rows.unwrap_or(0), output.handoff_floor.unwrap_or(1), &mut rng);
@@ -450,6 +455,39 @@ pub fn run_case<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, dir: &
             observations_not_used: Some(not_used.clone()),
         };
         handoff::write_with(&sub, &stop, &rows, lookahead.as_ref())?;
+        if let (Some(sup), Some(strata_copy)) = (supplement, strata_copy.as_ref()) {
+            let mut rng = ChaCha8Rng::seed_from_u64(seed);
+            rng.set_stream(u64::MAX - 16 - e as u64); // distinct from every other draw above
+            let (srows, log_rho, prod_log_rho, info) = handoff::supplement(
+                strata_copy,
+                &rows,
+                output.handoff_rows.unwrap_or(0),
+                output.handoff_floor.unwrap_or(1),
+                sup.rows,
+                sup.defensive,
+                &sup.edges_deg,
+                &sup.target,
+                id,
+                &mut rng,
+            )?;
+            let sub2 = dir.join(format!("handoff-{id}-supplement"));
+            std::fs::create_dir_all(&sub2).map_err(|err| err.to_string())?;
+            // The supplement's rows always carry a correction, so its file always declares the
+            // contract that makes read() refuse it and read_corrected() apply it.
+            let contract = handoff::Lookahead {
+                version: handoff::LOOKAHEAD_VERSION,
+                horizon: lookahead.as_ref().map_or("none".into(), |l| l.horizon.clone()),
+                defensive: lookahead.as_ref().map_or(1.0, |l| l.defensive),
+                oversample: lookahead.as_ref().map_or(1, |l| l.oversample),
+                g_source: format!("{}; latitude supplement (supplement.json)", lookahead.as_ref().map_or("none", |l| l.g_source.as_str())),
+                rule: handoff::LOOKAHEAD_RULE.into(),
+            };
+            handoff::write_with(&sub2, &stop, &srows, Some(&contract))?;
+            crate::output::write_npy64(&sub2.join("mis.npy"), &[log_rho.len(), 1], &log_rho)?;
+            crate::output::write_npy64(&sub2.join("production-mis.npy"), &[prod_log_rho.len(), 1], &prod_log_rho)?;
+            let text = serde_json::to_string_pretty(&info).map_err(|e| e.to_string())?;
+            std::fs::write(sub2.join("supplement.json"), text).map_err(|e| e.to_string())?;
+        }
         if let Some(points) = rows.first().and_then(|r| r.route.as_ref()).map(Vec::len) {
             let flat: Vec<f64> = rows
                 .iter()
@@ -777,6 +815,9 @@ fn run_filter<E: Environment>(ctx: &Context<E>, case: &Case, seed: u64, stratum:
         if let Some(id) = handoff_epochs.iter().find(|id| !ctx.steps.iter().any(|s| s.id == **id)) {
             return Err(format!("output.handoff_epochs: {id} is not among the filter's epochs (excluded, or unknown)"));
         }
+    }
+    if let Some(s) = &config.output.handoff_supplement {
+        s.validate(handoff_epochs)?;
     }
     // Core request 10: the hand-off look-ahead.
     let lookahead = config.output.handoff_lookahead.as_ref();

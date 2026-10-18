@@ -174,6 +174,161 @@ pub fn select(strata: Vec<Stratum>, k: usize, floor: usize, rng: &mut impl Rng) 
     rows
 }
 
+/// Contract version of the northern supplement (supplement.json, mis.npy, production-mis.npy).
+pub const SUPPLEMENT_VERSION: u32 = 1;
+
+/// Per-mode record of a supplement draw (supplement.json).
+#[derive(Serialize, Clone, Debug)]
+pub struct SupplementMode {
+    pub mode: usize,
+    /// P(mode | data to the epoch), as the normal hand-off.
+    pub probability: f64,
+    /// Candidate (look-ahead) rows the draws come from, N_s.
+    pub candidates: usize,
+    /// Rows of this mode in the normal hand-off, K_s (0 if the mode has none).
+    pub production_rows: usize,
+    /// Rows of this mode in the supplement, K2_s.
+    pub supplement_rows: usize,
+    /// Mean of r over the candidates, rbar_s.
+    pub mean_r: f64,
+}
+
+/// What a supplement draw used and how to combine it (written to supplement.json).
+#[derive(Serialize, Clone, Debug)]
+pub struct SupplementInfo {
+    pub version: u32,
+    pub epoch: String,
+    pub rows: usize,
+    pub defensive: f64,
+    pub edges_deg: Vec<f64>,
+    /// Normalised target shares per bin.
+    pub target: Vec<f64>,
+    /// Posterior probability of each bin at the epoch, p_b.
+    pub posterior_bin_probability: Vec<f64>,
+    /// h_b = target_b / p_b (0 where p_b = 0).
+    pub h: Vec<f64>,
+    /// H = sum of target_b over bins with p_b > 0.
+    pub h_norm: f64,
+    pub modes: Vec<SupplementMode>,
+    pub r_rule: String,
+    pub rho_rule: String,
+    pub standalone_rule: String,
+    pub mis_rule: String,
+}
+
+/// The tilt r(lat) of a supplement draw.
+pub fn supplement_r(lat: f64, defensive: f64, edges: &[f64], h: &[f64], h_norm: f64) -> f64 {
+    let flat = if lat >= edges[0] && lat < edges[edges.len() - 1] {
+        let b = edges.partition_point(|&e| e <= lat) - 1;
+        h[b] / h_norm
+    } else {
+        0.0
+    };
+    defensive + (1.0 - defensive) * flat
+}
+
+/// The northern supplement draw (config::HandoffSupplement). `strata` are the same per-mode
+/// candidates the normal hand-off was selected from, and `k`/`floor` its row count and floor,
+/// so each mode's normal row count K_s is known; `production` are the normal rows. Returns the
+/// supplement rows, ln rho for each of them, ln rho for each normal row, and the record.
+pub fn supplement(
+    strata: &[Stratum],
+    production: &[Row],
+    k: usize,
+    floor: usize,
+    rows: usize,
+    defensive: f64,
+    edges: &[f64],
+    target_raw: &[f64],
+    epoch: &str,
+    rng: &mut impl Rng,
+) -> Result<(Vec<Row>, Vec<f64>, Vec<f64>, SupplementInfo), String> {
+    let nb = target_raw.len();
+    let tsum: f64 = target_raw.iter().sum();
+    let target: Vec<f64> = target_raw.iter().map(|t| t / tsum).collect();
+    let bin = |lat: f64| -> Option<usize> {
+        (lat >= edges[0] && lat < edges[nb]).then(|| edges.partition_point(|&e| e <= lat) - 1)
+    };
+    // Posterior bin probabilities from the candidates: each candidate of mode s has base mass
+    // P(s) / N_s (its look-ahead correction stays a multiplier, exactly as in the normal draw).
+    let mut p = vec![0.0f64; nb];
+    for s in strata.iter().filter(|s| s.probability > 0.0 && !s.candidates.is_empty()) {
+        let w = s.probability / s.candidates.len() as f64;
+        for c in &s.candidates {
+            if let Some(b) = bin(c.aircraft.lat) {
+                p[b] += w;
+            }
+        }
+    }
+    let h: Vec<f64> = target.iter().zip(&p).map(|(t, pb)| if *pb > 0.0 { t / pb } else { 0.0 }).collect();
+    let h_norm: f64 = target.iter().zip(&p).filter(|(_, pb)| **pb > 0.0).map(|(t, _)| t).sum();
+    if !(h_norm > 0.0) {
+        return Err(format!("output.handoff_supplement: no candidate at {epoch} lies in any target bin"));
+    }
+    let r_of = |lat: f64| supplement_r(lat, defensive, edges, &h, h_norm);
+    let mut out = Vec::new();
+    let mut log_rho = Vec::new();
+    let mut modes = Vec::new();
+    let mut rho_factor = vec![f64::NAN; strata.iter().map(|s| s.mode + 1).max().unwrap_or(0)];
+    for s in strata {
+        let drawn = s.candidates.len();
+        if s.probability <= 0.0 || drawn == 0 {
+            continue;
+        }
+        // The normal hand-off's count for this mode, exactly as `select` computes it.
+        let keep = ((k as f64 * s.probability).round() as usize).max(floor).clamp(1, drawn);
+        let r: Vec<f64> = s.candidates.iter().map(|c| r_of(c.aircraft.lat)).collect();
+        let rsum: f64 = r.iter().sum();
+        let rbar = rsum / drawn as f64;
+        let keep2 = ((rows as f64 * s.probability * rbar).round() as usize).max(1);
+        let log_q: Vec<f64> = r.iter().map(|x| (x / rsum).ln()).collect();
+        // rho = q_supp / q_prod per candidate = (K2_s r / (N_s rbar)) / (K_s / N_s).
+        let factor = keep2 as f64 / (keep as f64 * rbar);
+        rho_factor[s.mode] = factor;
+        for j in crate::filter::systematic_resample(&log_q, keep2, rng) {
+            let c = &s.candidates[j];
+            out.push(Row {
+                weight: s.probability / keep2 as f64,
+                mode: s.mode,
+                alternative: 0,
+                particle: c.particle,
+                final_row: NO_FINAL_ROW,
+                origin: c.origin,
+                bias: Bias { mean_hz: c.bias.mean_hz, variance_hz2: c.bias.variance_hz2 },
+                aircraft: c.aircraft.clone(),
+                log_correction: c.log_correction + rbar.ln() - r[j].ln(),
+                route: None,
+            });
+            log_rho.push((factor * r[j]).ln());
+        }
+        modes.push(SupplementMode { mode: s.mode, probability: s.probability, candidates: drawn, production_rows: keep, supplement_rows: keep2, mean_r: rbar });
+    }
+    let production_log_rho = production
+        .iter()
+        .map(|row| {
+            let f = rho_factor.get(row.mode).copied().unwrap_or(f64::NAN);
+            (f * r_of(row.aircraft.lat)).ln()
+        })
+        .collect();
+    let info = SupplementInfo {
+        version: SUPPLEMENT_VERSION,
+        epoch: epoch.to_string(),
+        rows,
+        defensive,
+        edges_deg: edges.to_vec(),
+        target,
+        posterior_bin_probability: p,
+        h,
+        h_norm,
+        modes,
+        r_rule: "r(lat) = defensive + (1 - defensive) * h[bin(lat)] / h_norm, with h = 0 outside edges_deg; bins are [edges[i], edges[i+1])".into(),
+        rho_rule: "rho = q_supp / q_prod = supplement_rows_s / (production_rows_s * mean_r_s) * r(lat), for a row of mode s at latitude lat (handoff.npy column latitude_deg)".into(),
+        standalone_rule: "the supplement alone: multiply each row's weight by exp(log_correction), as for the normal hand-off (handoff::read_corrected)".into(),
+        mis_rule: "with the normal hand-off of the SAME replicate (balance heuristic): normal row weight * exp(log_correction) / (1 + rho); supplement row weight * exp(log_correction) * rho / (1 + rho); rho = exp(production-mis.npy) and exp(mis.npy), row-aligned".into(),
+    };
+    Ok((out, log_rho, production_log_rho, info))
+}
+
 pub fn write(dir: &Path, stop: &Stop, rows: &[Row]) -> Result<(), String> {
     write_with(dir, stop, rows, None)
 }
@@ -253,6 +408,118 @@ fn read_file(path: &Path) -> Result<File, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    fn test_strata() -> Vec<Stratum> {
+        use rand::SeedableRng;
+        let q = flight::Parameters::default();
+        let prior = flight::Prior {
+            unix_s: 0.0, lat: -30.0, lon: 95.0, position_sd_nm: 0.0, track_deg: 180.0, track_sd_deg: 0.0,
+            mach_range: (0.73, 0.84), mach_gaussian: None, altitude_levels: flight::Prior::uniform_altitude_levels(&q),
+        };
+        let a = Aircraft::sample(&prior, flight::Mode::TrueTrack, &q, &flight::environment::CalmAir, &mut rand_chacha::ChaCha8Rng::seed_from_u64(1));
+        let make = |mode: usize, p: f64, n: usize, south: f64, span: f64| {
+            let candidates = (0..n)
+                .map(|i| {
+                    let mut x = a.clone();
+                    // Deterministic spread, denser in the south as the real posterior is.
+                    let u = (i as f64 + 0.5) / n as f64;
+                    x.lat = south + span * u * u;
+                    Candidate { particle: i, aircraft: x, bias: BfoBias { mean_hz: 150.0, variance_hz2: 4.0 }, origin: i as u32,
+                                log_correction: 0.3 * ((i * 7919 % 13) as f64 / 13.0 - 0.5), route: None }
+                })
+                .collect();
+            Stratum { mode, probability: p, final_offset: 0, candidates }
+        };
+        vec![make(0, 0.62, 300, -38.0, 14.0), make(1, 0.0, 50, -38.0, 10.0), make(2, 0.38, 200, -36.0, 17.0)]
+    }
+
+    fn exact(strata: &[Stratum], f: impl Fn(f64) -> f64) -> f64 {
+        strata.iter().filter(|s| s.probability > 0.0)
+            .map(|s| s.probability / s.candidates.len() as f64 * s.candidates.iter().map(|c| c.log_correction.exp() * f(c.aircraft.lat)).sum::<f64>())
+            .sum()
+    }
+
+    fn copy(strata: &[Stratum]) -> Vec<Stratum> {
+        strata.iter().map(|s| Stratum { mode: s.mode, probability: s.probability, final_offset: 0, candidates: s.candidates.clone() }).collect()
+    }
+
+    /// Run-J northern supplement: the corrected supplement rows alone, and the balance-heuristic
+    /// combination with the normal rows, both estimate the hand-off posterior exactly (in
+    /// expectation over the draw), for f = 1, latitude and a northern indicator; the tilt has
+    /// posterior mean exactly 1; and the rows are moved north.
+    #[test]
+    fn supplement_is_exact_alone_and_combined() {
+        use rand::SeedableRng;
+        let strata = test_strata();
+        let (edges, target) = (vec![-34.0, -30.0, -26.0, -22.0], vec![0.5, 0.35, 0.15]);
+        let fs: [(&str, fn(f64) -> f64); 3] = [("one", |_| 1.0), ("lat", |x| x), ("north", |x| if x > -30.0 { 1.0 } else { 0.0 })];
+        let reps = 3000;
+        let (mut alone, mut mis) = ([0.0f64; 3], [0.0f64; 3]);
+        let mut north_share = 0.0;
+        for rep in 0..reps {
+            let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(1000 + rep);
+            let prod = select(copy(&strata), 40, 5, &mut rng);
+            let (srows, lr, plr, info) = supplement(&strata, &prod, 40, 5, 60, 0.2, &edges, &target, "m0011", &mut rng).unwrap();
+            if rep == 0 {
+                let mean: f64 = info.modes.iter().map(|m| m.probability * m.mean_r).sum();
+                assert!((mean - 1.0).abs() < 1e-12, "posterior mean of r {mean}");
+                assert_eq!(lr.len(), srows.len());
+                assert_eq!(plr.len(), prod.len());
+                assert!(plr.iter().all(|x| x.is_finite()) && lr.iter().all(|x| x.is_finite()));
+            }
+            north_share += srows.iter().filter(|r| r.aircraft.lat > -30.0).count() as f64 / srows.len() as f64 / reps as f64;
+            for (i, (_, f)) in fs.iter().enumerate() {
+                alone[i] += srows.iter().map(|r| r.weight * r.log_correction.exp() * f(r.aircraft.lat)).sum::<f64>() / reps as f64;
+                let a: f64 = prod.iter().zip(&plr).map(|(r, l)| r.weight * r.log_correction.exp() / (1.0 + l.exp()) * f(r.aircraft.lat)).sum();
+                let b: f64 = srows.iter().zip(&lr).map(|(r, l)| { let rho = l.exp(); r.weight * r.log_correction.exp() * rho / (1.0 + rho) * f(r.aircraft.lat) }).sum();
+                mis[i] += (a + b) / reps as f64;
+            }
+        }
+        for (i, (name, f)) in fs.iter().enumerate() {
+            let e = exact(&strata, f);
+            let tol = 0.004 * e.abs().max(0.05);
+            assert!((alone[i] - e).abs() < tol, "{name}: supplement alone {} against exact {e}", alone[i]);
+            assert!((mis[i] - e).abs() < tol, "{name}: combined {} against exact {e}", mis[i]);
+        }
+        let prior_north = exact(&strata, |x| if x > -30.0 { 1.0 } else { 0.0 }) / exact(&strata, |_| 1.0);
+        // Expected share north of 30 S: defensive x posterior + (1 - defensive) x target share (0.35 + 0.15).
+        let expected = 0.2 * prior_north + 0.8 * 0.5;
+        assert!((north_share - expected).abs() < 0.01, "supplement north share {north_share} against {expected} (posterior {prior_north})");
+    }
+
+    /// rho for a normal row is the same function of mode and latitude as for a supplement row.
+    #[test]
+    fn supplement_rho_is_one_function_of_mode_and_latitude() {
+        use rand::SeedableRng;
+        let strata = test_strata();
+        let (edges, target) = (vec![-34.0, -30.0, -26.0, -22.0], vec![0.5, 0.35, 0.15]);
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(7);
+        let prod = select(copy(&strata), 40, 5, &mut rng);
+        let (srows, lr, plr, info) = supplement(&strata, &prod, 40, 5, 60, 0.2, &edges, &target, "m0011", &mut rng).unwrap();
+        let rho = |mode: usize, lat: f64| {
+            let m = info.modes.iter().find(|m| m.mode == mode).unwrap();
+            m.supplement_rows as f64 / (m.production_rows as f64 * m.mean_r) * supplement_r(lat, info.defensive, &info.edges_deg, &info.h, info.h_norm)
+        };
+        for (r, l) in prod.iter().zip(&plr).chain(srows.iter().zip(&lr)) {
+            assert!((rho(r.mode, r.aircraft.lat).ln() - l).abs() < 1e-12);
+        }
+        // A mode with zero probability gets no supplement rows.
+        assert!(srows.iter().all(|r| r.mode != 1));
+    }
+
+    #[test]
+    fn supplement_config_is_validated() {
+        let ok = crate::config::HandoffSupplement { epoch: "m0011".into(), rows: 10, defensive: 0.1, edges_deg: vec![-35.0, -30.0, -20.0], target: vec![0.5, 0.5] };
+        let epochs = vec!["m2241".to_string(), "m0011".to_string()];
+        assert!(ok.validate(&epochs).is_ok());
+        let bad = |f: &dyn Fn(&mut crate::config::HandoffSupplement)| { let mut c = ok.clone(); f(&mut c); c.validate(&epochs).is_err() };
+        assert!(bad(&|c| c.epoch = "m0019a".into()));
+        assert!(bad(&|c| c.rows = 0));
+        assert!(bad(&|c| c.defensive = 0.0));
+        assert!(bad(&|c| c.edges_deg = vec![-30.0, -35.0, -20.0]));
+        assert!(bad(&|c| c.target = vec![1.0]));
+        assert!(bad(&|c| c.target = vec![0.0, 0.0]));
+    }
 
     /// Core request 18: a [stop] block written before the evidence fields still reads, and
     /// one with them round-trips.

@@ -4444,3 +4444,28 @@ The same applies to the Indian Andaman and Nicobar radars, which were "as requir
 
 ## 2026-10-18 00:41Z — coordination -> core (Pete): northern supplement APPROVED, including the run; run J pass applies to all four families
 See architecture.md (2026-10-18 00:41Z), items 1 and 4. A core sub-agent from the coordination session takes it tonight. Inputs: END_OF_FLIGHT / architecture.md 2026-10-17 20:41Z (band ESS, binding limit = distinct 00:11 paths, defensive-mixture proposal); CORE_STAGES 2026-10-17 19:50Z (arc-wide sample request); `threads/work-orders/mode-allocation-test-2026-10-15.md`. Deskstar only after the drift arc-latitude chain ends (`~/mh370/drift/arclat/chain.log`).
+
+## 2026-10-18 01:45Z — core -> end of flight, composer, coordination (cc Pete): run-J northern supplement — MEASUREMENT, DESIGN, COST, PREDICTIONS (posted before the run)
+
+Full note: `results/run-j-supplement/DESIGN.md` (measurement scripts and JSON in `measure/`).
+**Measured on all 74 run J seeds** (end of flight's band ESS reproduced exactly):
+- Under D3/D4 the band ESS rises about linearly with descents per parent AND with parents. Rows ESS = parents ESS means about
+  one descent per parent fits the two 00:19 BFOs; it does not mean the parents are exhausted.
+- **Distinct 00:11 states are the real limit in 30-25 S and north.** Identical resampled copies are separate hand-off rows but one
+  path. Effective distinct states (D0'): 35-30 S 17.5k, **30-25 S 1.41k, 25-20 S 378**; under D2/D4 in 30-25 S about 500 / 430
+  states can fit at all. So more descents alone, or a flattened re-draw from the existing populations (about 3x at most, with
+  all 24 seeds re-run), cannot reach 1,000 there.
+- The magnetic modes carry the north but their populations hold only about 45-53 effective distinct states per seed in 30-25 S.
+**Design (cheapest that reaches the target): (a)+(b) on 16 NEW waypoint seeds 1001-1016, about 6.6 deskstar h:**
+- (b) particles re-allocated to [1.2, 1.3, 1.1, 2.2, 1.2]M (run J [1.0, 0.5, 2.5, 0.5, 2.5]M; exact, config only);
+- (a) flag `output.handoff_supplement` (off by default): a second 00:11 hand-off `handoff-m0011-supplement/`, 100k rows per seed,
+  tilted by 00:11 latitude (45 / 40 / 15 % over -34.5..-29.5 / -29.5..-25.5 / -25.5..-21.0), defensive share 0.1. Every row
+  carries the exact correction (standalone = the normal recipe); `mis.npy` and `production-mis.npy` give ln rho for MIS.
+**Gates before any supplement seed:** unit tests; B/C byte-identical; FLAG OFF run J repro seed 1 byte-identical; FLAG ON run J
+waypoints seed 1 with every normal output byte-identical; prior recovery |z| < 3.
+**Start:** only after the drift arc-latitude chain writes ALL-DONE (that chain takes the heavy lock per leg). Cap: no seed starts
+that would end after 9.3 h.
+**Predictions (P1-P6 in the note):** after MIS with production at 64 rows per parent, D2 >= 1,000 in all three bands; D4 30-25 S
+0.8k-2.5k; D3 35-30 / 30-25 S 0.5k-1.5k. **D3 is descent-limited:** where it is short, end of flight closes it exactly with more
+descents per northern parent (no new core run).
+-- Core (sub-agent, for the coordination session)
