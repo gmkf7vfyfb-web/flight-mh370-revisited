@@ -53,8 +53,29 @@ For the nine primary finds (`debris-evidence-audit.csv`, decision primary*), the
 core from this term alone +0.752 (rho 0.1 +0.227, 0.3 +0.488, 2 +0.696). Approximation: the targets' 23 Mar release is treated as the
 8 Mar node surface.
 
-## Status at commit (17 Oct 2026)
+## 7. Targeted refinement of the core nodes (deskstar, 17 Oct 2026)
 
-Items 1-6 done. Items 7 (94-node refinement) and 8 (refloat snapshots) running on deskstar, ~/mh370/drift/job3 (chain3.sh);
-results to follow. Detection-level discussion with Pete and the arc-latitude thread is open (see drafts/ocean-drift-v2-DRAFT.md, section 5,
-which still carries the withdrawn "10x" wording until Pete rules).
+The 94 run A nodes carrying 95 % of the run J D0' core mass (39.2-32.7 S, 88.1-96.3 E; `scripts/nodes94.json`) were re-run with drift's
+production configs (`refine-core94/refine-core94-<model>.toml`: deskstar forcing, independent seeds: seed 2, environment seeds 5-8,
+1e5 particles per node, 15-120 E). Node tables: `refine-core94/refine-<model>-nodes.csv`. Comparison `refine-core94.json`
+(`scripts/refine_compare.py`):
+- independent minus stored ln L: mean +0.25 / +0.19, SD 1.57 / 1.63 (GLORYS12 / GlobCurrent), i.e. about 1.1 per node per run;
+- finds only, two models: shift +0.70 (stored), +0.93 (independent), +0.81 (pooled = mean in likelihood); ln BF -0.755 / -0.770 / -0.763;
+- headline Australian scheme (tiers 1/0.3/0, level 0.5): +3.83 / +3.81 / +3.82; ln BF -2.12 / -2.06 / -2.09.
+The pooled values are the best current estimate. The finds-only shift is still noise-limited (95 % transport-noise half-width
+about 0.8 before pooling, about 0.55 after, against the brief's 0.5 trigger); the Australian-term result is not.
+
+## 8. Refloat sensitivity (deskstar snapshot harness v2, 17 Oct 2026)
+
+`scripts/snapshots_onshore.rs` (untracked test on deskstar's drift copy; records where each object is onshore at each output time),
+core PDF releases (mode + 200 draws), both models, refloat off / 1/200 / 1/69 per day (`refloat-summary.csv`,
+`refloat-onshore-by-time.csv`). First beaching is unchanged by refloat (identical shares). With refloat, beached objects come ashore
+3.4 (1/200) or 6.5 (1/69) times on average; afloat at 2 years 44 % (off), 49 % (1/200), 54 % (1/69). The onshore ratio Western Australia :
+find regions falls by 3-13 % (1/200) and 7-28 % (1/69). Treated as a proportional change of the Australian detection ratio, the
+headline shift +3.83 becomes about +3.5..+3.7 (1/200) and +3.1..+3.7 (1/69). A drift likelihood run with refloat on would settle it.
+
+## Australian scheme (Pete, 17 Oct 2026)
+
+`australia-three-tier.csv`: ABS tiers 1 / 0.3 / 0 (major city + inner regional / outer regional / remote), level 0.3-0.65, central 0.5.
+D0' two models: +2.84 / +3.83 / +4.42 deg at 0.3 / 0.5 / 0.65; D1-D5 at 0.5: +3.55..+4.37. Agrees with the arc-latitude thread
+within 0.05 deg. `australia-awareness-by-period.csv`: 95 % of Western Australian arrivals fall before the flaperon.

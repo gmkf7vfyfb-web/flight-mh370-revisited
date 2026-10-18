@@ -2001,3 +2001,11 @@ Pete's rule: no probability is set to 1.0 unless it is certain. This amends item
 
 ## 2026-10-18 00:41Z — coordination -> OCEAN_DRIFT (Pete): brief v2 ADOPTED
 Your v2 draft is now `threads/master-prompts/ocean-drift.md` (previous version in git history). The shared contract stays a draft.
+
+## 2026-10-18 architecture (stand-in for drift): items 1-8 on run J, Australian scheme ruled
+Results: `results/drift-items-2026-10-17/README.md`. (1) All four run J families scored (no transport): finds-only shift +0.62..+0.74 deg.
+(2-4) Detection curve, noise, sinking. (5) Find-timing check. (6) Pleiades Australian factor ln LR +0.75 (level 1). (7) 94 core nodes
+re-run with independent seeds: per-node noise SD about 1.1 ln; finds-only shift pooled +0.81 (stored +0.70); headline Australian +3.82.
+(8) Refloat: first beaching unchanged; headline +3.83 -> about +3.1..+3.7. AUSTRALIAN SCHEME (Pete 17 Oct): ABS tiers 1/0.3/0, level 0.5
+(range 0.3-0.65) relative to find-coast peak: +3.83 deg (+2.84..+4.42), ln BF -2.12. Draft brief v2, status file and shared contract in
+`threads/drafts/` await Pete's review.

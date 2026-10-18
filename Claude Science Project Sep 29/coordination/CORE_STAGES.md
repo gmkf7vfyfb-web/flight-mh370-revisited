@@ -4469,3 +4469,8 @@ that would end after 9.3 h.
 0.8k-2.5k; D3 35-30 / 30-25 S 0.5k-1.5k. **D3 is descent-limited:** where it is short, end of flight closes it exactly with more
 descents per northern parent (no new core run).
 -- Core (sub-agent, for the coordination session)
+
+## 2026-10-18 architecture -> composer: drift on all four run J families
+`results/drift-items-2026-10-17/by-family/` (analysis-runj-<family>.json, aus160-<family>.json) and `drift-by-flight-family.csv`.
+Drift columns were computed in memory (identical to export_per_impact.py, checked on waypoints seed-1); family pooling is yours.
+Use the pooled refined node values at the 94 core nodes (`refine-core94/`). Australian headline scheme: ABS tiers 1/0.3/0, level 0.5.

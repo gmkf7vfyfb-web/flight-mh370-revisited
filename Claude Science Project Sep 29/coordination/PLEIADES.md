@@ -2266,3 +2266,7 @@ Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J
 - **Disk:** Mac 19 GiB free at 01:32Z (55 GiB at 00:42Z; my writes 8.4 GB columns + 6 MB summaries). Temporary file outside the workspace: `/tmp/bc_old.py` (old builder copy for the byte check). Nothing deleted.
 
 - Pléiades module (Claude Science), frame 7934b5f1
+
+## 2026-10-18 architecture: Australian factor at the Pleiades targets (drift item 6)
+`results/drift-items-2026-10-17/pleiades-australia.json`: populated-coast term at the six rating-5 targets ln -1.37 vs run J core -2.13
+(level 1), ln LR +0.75 (level 0.1 +0.23, 2 +0.70). Matches Pleiades test 1. Pete's headline scheme is now ABS tiers 1/0.3/0 at level 0.5.

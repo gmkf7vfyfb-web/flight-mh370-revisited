@@ -71,16 +71,19 @@ methods is part of the job.
 
 ## 5. The Australian non-recovery term
 
-- Pete's ruling (15 Oct 2026): only populated coast (ABS RA 2021 major city + inner regional) can support the
-  statement that debris did not arrive. Western Australia (Perth to Augusta) carries almost all of it.
-- Detection is stated relative to the find coasts, never as an absolute probability.
-- **Open assumption (Pete's call):** how alert populated Australian coasts were while the debris arrived (95 % of
-  Western Australian arrivals come before the flaperon find), compared with the find coasts at the same time. The
-  model's current setting (Australia constant at the find coasts' peak level) implies about 10 times the find
-  coasts' pre-flaperon level and is probably too strong. Until Pete rules, report the term at 1x, 3x, 5x and the
-  current setting, with the full detection curve.
-- The populated-coast term is post hoc and reconstructed with the fitted law Delta = -k ln(1 + W/(cF)); it stays a
-  labelled sensitivity until a dedicated run produces it directly.
+- Only coast where people go can support "debris did not arrive" (Pete, 15 Oct 2026). Detection is stated relative
+  to the find coasts, never as an absolute probability (Pete, 17 Oct 2026: his absolute tiers are not used).
+- **Headline scheme (Pete, 17 Oct 2026):** ABS RA 2021 tiers from the segment map: major city + inner regional
+  weight 1, outer regional 0.3, remote and very remote 0. Australian level relative to the find coasts' peak
+  awareness: central 0.5, declared range 0.3-0.65. Basis: an Augusta item was reported to police and assessed in
+  April 2014; the ATSB was still receiving public reports from Australian beaches in October 2014, when it also
+  said publicly that debris had more likely drifted west; 95 % of modelled Western Australian arrivals come before
+  the flaperon (median about September-November 2014). The likelihood compares each coast's alertness when its own
+  debris arrived; on that basis option B (Australia at 1) makes Perth about 1.8 times as alert as the find coasts.
+- Always report beside the headline: no Australian term; populated (major city + inner regional) only; the full
+  detection curve; the sinking and refloat sensitivities.
+- The term is reconstructed with the fitted law Delta = -k ln(1 + W/(cF)) from the 15-160 E pilot and was defined
+  after results were seen: it is labelled post hoc until a dedicated run with these tiers produces it directly.
 
 ## 6. Required statistics, adequacy and the triggers for new transport
 
