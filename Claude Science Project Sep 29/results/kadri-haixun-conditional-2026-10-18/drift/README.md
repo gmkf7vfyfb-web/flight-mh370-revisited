@@ -159,3 +159,15 @@ Tables: drift-conditional-llr.csv (all D, branch, bearing sigma, model, Australi
 backward-origin-ring-summary.csv, selected-rows-character.csv, drift-arc-profile-comparison.csv. Code: rowcond2.py (row-level accumulation), drift_eval.py
 (node surfaces, Australian term), figs.py, ring_hook.py, jobs/ (deskstar job scripts and two sample configs). Large binaries (snapshots, row accumulators) are in
 ~/Downloads/mh370-exchange/debris-drift/kadri-haixun-2026-10-18/ with SHA256SUMS.
+
+## Follow-up: queued dedicated run (not yet run when this note was committed)
+
+deskstar job 10b3068e-c457-4bc1-9975-96bc39bc0d8e (`jobs/kadriB.sh`; submitted 18 Oct 01:2xZ) waits for the drift arc-latitude chain
+(chain_arclat2.sh, still in its first of eight legs at 02:00Z under a host load of about 160), then holds `~/.mh370-heavy.lock` for:
+(1) 26 pilot legs: the six L points at their own T and C impact times (crossing and Haixun at 1e6 particles, strip points at 3e5) and three run J anchors
+(37/35/30 S track nodes, 3e5, 00:19:37), both ocean models, with three PROVISIONAL Indonesian segments (base level off, so B/C/off/A/searcher/populated
+equal the arclat definitions) and the level alternatives B_ID_low/mid/full, populated_ID_mid, off_ID_mid;
+(2) the origin-grid extension (833 points at 0.5 deg, 96-113 E, 35-17 S). Outputs: `out/<leg>-nodes.csv` and `snapE-<model>.bin` in the remote job workdir
+/home/pete/.claude-science-scratch/.claude-science/jobs/10b3068e-c457-4bc1-9975-96bc39bc0d8e/. To finish: the point LLRs are ln_l / ln_l_lev_* of the L legs
+minus the same columns of the 37 S anchor (same-run comparison), plus the anchor-to-reference offset from §3; the backward test re-runs with
+ring_hook.py on snapG + snapE. Until then the numbers above that rest on the run A surfaces (release 00:19:37) stand as the interim result.

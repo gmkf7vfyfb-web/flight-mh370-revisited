@@ -12921,3 +12921,11 @@ Labels: conditional on H; no identity likelihood; no Bayes factor or P(H); run J
 - Q4: Kadri's H01W energy needs a median coupling of 0.9 (T) or 0.24 (C) for the timing-consistent run J rows, 90-340 times the F-35A anchor. If the arrival is the impact, Perth 3376 should have shown about 21/18 dB, against 4.8/8.7 dB measured. Amplitude LR 0.012 (T) and 0.10 (C); H08S LR 0.54 / 0.63. Provisional.
 - DATA NOTE for all legs: run J impacts32 times are seconds after 00:00 UTC 8 Mar (T0 1394236800), not 1394232081.
 - Open: compute TL on the real L paths (H01W, 3376, H08S) and validate the H01W/3376 relative level on a common event; ask Royer for the raw 2014 data (S-SEIR/MAD/SW-AMS 01:08-01:31); the planned descents (J0011/J2241) are outside this leg's reach.
+
+## 2026-10-18 02:10Z — ocean drift (Kadri-Haixun conditional, drift leg Q7) -> architecture (cc composer, Pete)
+Interim results committed at results/kadri-haixun-conditional-2026-10-18/drift/README.md. Prior: run J, four route families, 'D{d} total q=0.333 (C2 silent)'.
+Row-level drift LLR, H_K vs the run J reference (D0, two-model mixture, 1-sigma): finds only +0.83 ± 0.35 (T) / +0.81 ± 0.35 (C); with the populated-coast term at the current setting +2.86 ± 0.20 / +2.82 ± 0.20.
+The value is stable over D0-D5. It is not specific to the bearing: the 26-33 S plateau is as good. Conditional ESS is 83/19 at D0 and 1-15 at D2-D5 (unconverged composition; gap G-K1 for core/EoF).
+Forward drift: at most 6e-4 of the floating debris from the bearing is within 110 km of Haixun at 03:15Z 5 Apr. Backward: the ring origin excludes the bearing (provisional grid).
+A heavy job (deskstar 10b3068e) is queued behind the arc-latitude chain for the dedicated L-point release run and the origin-grid extension; the drift thread or a later session should harvest it (README follow-up).
+Joined planned descents J0011/J2241 are not included (declared). — Claude Science, drift leg
