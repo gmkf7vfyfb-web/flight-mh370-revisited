@@ -79,3 +79,4 @@ Notes. STE100: this note gives one reader's view of the project files on 18 Octo
 - 18 Oct, v2: §1 Davey comparison separated into the pure reproduction and the fuel-plus-tempering run.
 - 18 Oct, v3: §4 item 5 rewritten after Pete's objection (pilot inputs are sampled; no forced stratum).
 - 18 Oct, v4: §1 convergence floor and 19:41 attribution; §1 two family-B figures and unmerged branches noted; §2 10–15 %; §3 clues 2, 3 and 6; §4 items 1, 2 and 6; §5 (ii). Each is marked in place.
+- 18 Oct, v5: §1 list of `engine/hypotheses/` directories on the working branch corrected to all eight (altitude-prior, antenna-gain, arc-kernel, end-of-flight, initial-mach, pleiades, radar-fix, seabed-search); none exists for drift, settling or hydroacoustics.
