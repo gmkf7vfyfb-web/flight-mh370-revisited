@@ -2,7 +2,7 @@
 
 Equal-area grid: as the composer's proposed summary.rs extension (results/composer-summary-rs.patch): cells uniform in longitude
 (0.25 deg) and in the WGS-84 authalic function q(latitude); q step = q(0.25 deg) - q(0), so every cell has the same area
-(0.5 a^2 dlon dq, about 769 km^2). Extent here 50-6 S, 78-116 E (run J impacts reach 46.6-10.4 S, 82.9-111.5 E).
+(0.5 a^2 dlon dq, about 769 km^2). Extent here 50-6 S, 78-116 E (run J impacts reach 46.6-10.4 S, 82.9-111.3 E (max 111.28 E, run-j-free)).
 Sub-bins: the union of 0.01 deg latitude edges and equal-area row edges, so that 1-D latitude products at 0.01 deg and
 row-wise (arc-uniform) reweighting are both exact sums of sub-bins.
 """
