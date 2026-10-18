@@ -8,7 +8,7 @@ itself and posts the columns, row-aligned with the release's own impact table.
   python hypotheses/seabed-search/publish_columns.py <adapted runs dir>... --out <exchange dir>
 
 Columns per seed, row-aligned with `impacts32.npy` (or `impacts.npy`):
-  seabed-lnL.npy                 float64  ln P(no find | impact), run.toml as committed
+  seabed-lnL.npy                 float64  ln P(no find | impact), run.toml as committed (BASE incl. Ocean Infinity since 18 Oct)
   seabed-coverage-phase2.npy     float32  raw raster coverage of the ATSB Phase 2 union
   seabed-coverage-bluefin.npy    float32  raw raster coverage of Bluefin-21/Artemis 2014
 """
@@ -39,6 +39,8 @@ def main():
     ap.add_argument("--out", required=True, type=pathlib.Path)
     ap.add_argument("--config", default="", help="extra run.toml override, e.g. ocean-infinity-2018.toml")
     a = ap.parse_args()
+    import base_guard
+    base_guard.check()   # run.toml must be the four-campaign base (Pete, 13 Oct / 18 Oct 2026)
     scratch = ROOT / "runs" / "seabed-search-analysis" / "scratch-publish"
     scratch.mkdir(parents=True, exist_ok=True)
     sums, nrows = [], 0

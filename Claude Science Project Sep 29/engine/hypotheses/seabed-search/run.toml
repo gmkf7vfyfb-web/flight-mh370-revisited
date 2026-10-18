@@ -1,6 +1,21 @@
 # The integrated estimate (filter to 00:11, end of flight to impact) with the seabed searches as
-# impact-level evidence: Phase 2 (2014-2017, measured valid-data coverage) and Bluefin-21 (2014,
-# display polygons). Check it on the fixture's impacts with `make evaluate H=seabed-search`.
+# impact-level evidence. Check it on the fixture's impacts with `make evaluate H=seabed-search`.
+#
+# BASE (Pete's ruling, 13 Oct 2026; restated 18 Oct 2026 00:41Z) - FOUR campaigns, all listed here:
+#   ATSB Phase 2 2014-2017 (measured valid-data coverage), Bluefin-21 2014 (display polygons),
+#   Ocean Infinity 2018 and Ocean Infinity 2025-26 (outboard band only), at the inferred geometry.
+# Label every product of this file: "Ocean Infinity coverage inferred (grade C), included as best
+# estimate". The two Ocean Infinity layers are community tracings (MH370-CAPTION), inferred from
+# vessel tracks and published imagery, NOT official geometry: see coverage/PROVENANCE.md.
+#
+# The case WITHOUT Ocean Infinity (Phase 2 + Bluefin-21 only) is a labelled SENSITIVITY, and only
+# through the override `without-ocean-infinity.toml`. It is never the base. `base_guard.py` refuses
+# to score with a run.toml that does not list all four campaigns below.
+#
+# The PLANNED next Ocean Infinity area (2025-26 inboard / north-west band) is NOT searched ground and
+# is NOT listed here. It is a map layer only, never non-detection evidence (Pete, 18 Oct 2026).
+# Bathymetric mapping, planned coverage and contract areas exclude nothing. The surface search
+# belongs to ocean drift.
 base = "../../config/integrated.toml"
 name = "seabed-search"
 
@@ -10,7 +25,7 @@ modules = ["seabed-search"]
 
 [hypotheses.seabed-search]
 # rho: the chance the wreck could not have been found even where the sonar looked. No published
-# value; report.py sweeps it.
+# value; reference 0.05 (Pete, 8 Oct), swept 0 / 0.05 / 0.25 / 0.5 as published columns.
 undetectable_probability = 0.05
 
 [[hypotheses.seabed-search.campaigns]]
@@ -22,3 +37,20 @@ detection_probability = 0.945
 name = "bluefin-2014"
 layer = "bluefin-2014"
 detection_probability = 0.9
+
+# OI reported "over 112,000 km2" (29 May 2018) on a layer of 126,009 km2 (the traced outline
+# less Phase 2 ground): coverage_fraction 0.889; 120,000 km2 (data donation) would be 0.952.
+[[hypotheses.seabed-search.campaigns]]
+name = "ocean-infinity-2018"
+layer_file = "hypotheses/seabed-search/coverage/ocean-infinity-2018.cov"
+detection_probability = 0.9
+coverage_fraction = 0.889
+
+# Reported survey 7,571 km2 put on the OUTBOARD / south-east band alone (9,696.9 km2 on the
+# authalic sphere): coverage_fraction 7,571 / 9,696.9 = 0.7808. The inboard / north-west band is the
+# residual (the planned next area) and is NOT searched ground; the contract area is NOT searched.
+[[hypotheses.seabed-search.campaigns]]
+name = "ocean-infinity-2025"
+layer_file = "hypotheses/seabed-search/coverage/ocean-infinity-2025.cov"
+detection_probability = 0.9
+coverage_fraction = 0.7808

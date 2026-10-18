@@ -53,7 +53,9 @@ LAYERS = [
     ("ocean-infinity-2018", "ocean-infinity-2018", 0.9, 0.889),
     ("ocean-infinity-2025", "ocean-infinity-2025", 0.9, 0.7808),
 ]
-BASE = ["phase2-2014-2017", "bluefin-2014"]
+# BASE = four campaigns (Pete, 13 Oct 2026; restated 18 Oct). Must match run.toml (base_guard.BASE).
+BASE = ["phase2-2014-2017", "bluefin-2014", "ocean-infinity-2018", "ocean-infinity-2025"]
+ATSB_ONLY = ["phase2-2014-2017", "bluefin-2014"]
 SPLIT = ["phase2-deep-tow", "phase2-go-phoenix", "phase2-dhj", "phase2-auv", "bluefin-2014"]
 
 
@@ -93,15 +95,11 @@ def scenarios():
     out += [(f"rho {r:g}", "rho", BASE, r, {}, "shared") for r in RHO_SWEEP if r != 0.05]
     for q in (0.90, 0.98):
         out.append((f"Phase 2 q {q:.2f}", "q", BASE, 0.05, {"phase2-2014-2017": q}, "shared"))
-    out.append(("Phase 2 split, shared misses", "repeat", SPLIT, 0.05, {}, "shared"))
-    out.append(("Phase 2 split, independent misses", "repeat", SPLIT, 0.05, {}, "independent"))
-    out.append(("+ OI 2025-26 inferred, outboard band only", "oi25",
-                BASE + ["ocean-infinity-2025"], 0.05, {}, "shared"))
-    out.append(("+ OI 2018 inferred, coverage 0.889", "oi",
-                BASE + ["ocean-infinity-2018"], 0.05, {}, "shared"))
-    out.append(("+ OI 2018 inferred, coverage 0.952", "oi", BASE + ["ocean-infinity-2018"], 0.05,
-                {"ocean-infinity-2018": 0.9 * 0.952}, "shared"))
-    order = ["bluefin-2014", "phase2-2014-2017", "ocean-infinity-2018"]
+    out.append(("Phase 2 split, shared misses", "repeat", SPLIT + BASE[2:], 0.05, {}, "shared"))
+    out.append(("Phase 2 split, independent misses", "repeat", SPLIT + BASE[2:], 0.05, {}, "independent"))
+    out.append(("sensitivity: without Ocean Infinity", "without-oi", ATSB_ONLY, 0.05, {}, "shared"))
+    out.append(("OI 2018 coverage 0.952", "oi", BASE, 0.05, {"ocean-infinity-2018": 0.9 * 0.952}, "shared"))
+    order = ["bluefin-2014", "phase2-2014-2017", "ocean-infinity-2018", "ocean-infinity-2025"]
     for k, c in enumerate(order):
         out.append((f"alone: {c}", "alone", [c], 0.0, {}, "shared"))
         out.append((f"adding, in order: {c}", "cumulative", order[:k + 1], 0.0, {}, "shared"))
@@ -125,6 +123,8 @@ def main():
     scratch = ROOT / "runs" / "seabed-search-analysis" / "scratch-sweep"
     scratch.mkdir(parents=True, exist_ok=True)
     (scratch / "all-layers.toml").write_text(all_layers_toml())
+    import base_guard
+    base_guard.check()
     scen = scenarios()
 
     acc, half = {}, {}

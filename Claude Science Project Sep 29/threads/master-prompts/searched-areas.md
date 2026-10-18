@@ -139,8 +139,15 @@ could have detected at the time.
 |---|---|
 | ATSB Phase 2 (2014–2017) | main estimate. Deep-tow 103,921.5 km², GO Phoenix 14,627.3, DHJ 3,164.3, AUV 16,164.1; **union 120,486.5 km²**, matching ATSB's ~120,000 |
 | Bluefin-21, 2014 | main estimate. 771.4 km² in the recovered layer against ATSB's stated 860 — reconcile or report the difference |
-| Ocean Infinity 2018 | **main estimate as inferred coverage**, with an **ATSB-only arm as a required comparison** (Pete, 8 Oct). Traced outline 148,993.2 km², less Phase 2 = 126,009.3 km²; implied coverage 0.889–0.952 |
-| Ocean Infinity 2025–26 | separately reported, much broader inferred variant, using the existing proposed-band reconstruction and vessel-track proxies |
+| Ocean Infinity 2018 | **in the BASE, as inferred coverage** (Pete, 8 Oct; 13 Oct; restated 18 Oct). Traced outline 148,993.2 km², less Phase 2 = 126,009.3 km²; coverage fraction 0.889 (0.952 as sensitivity), q 0.9 |
+| Ocean Infinity 2025–26 | **in the BASE, as inferred coverage** (Pete, 13 Oct; restated 18 Oct): the reported 7,571 km² on the outboard / south-east band only, coverage fraction 0.7808, q 0.9. The inboard band (the planned next area) is NOT searched ground |
+
+**The base is all four campaigns** — ATSB Phase 2 + Bluefin-21 + Ocean Infinity 2018 + Ocean Infinity 2025–26 at the
+inferred geometry — and every product of it carries the label **"Ocean Infinity coverage inferred (grade C), included as
+best estimate"**. **Without Ocean Infinity** (Phase 2 + Bluefin-21) is a **labelled sensitivity only, never the base**;
+`run.toml` lists all four campaigns, the sensitivity is the override `without-ocean-infinity.toml`, and `base_guard.py`
+refuses to score with any other base. The **planned next Ocean Infinity area** is a **map layer only**, never
+non-detection evidence (Pete, 18 Oct).
 
 **Areas cannot be added.** Overlapping campaigns overlap. The earlier claim that OI 2018 was ">112,000
 km², larger than Phase 2" is not established and is withdrawn — Phase 2 itself covered over 120,000 km².
@@ -234,7 +241,7 @@ been told to build to.
    samples when they exist.
 6. **The residual-PDF views** via the composer: reference posterior, OI-inclusive and ATSB-only, across
    the ρ sweep — and against any other source posterior selected, each labelled with its source.
-7. **The 2025–26 inferred variant**, separately reported.
+7. **The 2025–26 inferred layer** — in the base since 13 Oct (outboard band only); the planned next area is a map layer only.
 
 ---
 
@@ -282,6 +289,21 @@ elements, and leaving them out would be worse.
 - The OI 2025-26 rule stands as before: the reported area goes on the outboard band only, never on the
   contract area.
 
+
+## Amendment, 18 October 2026 - Ocean Infinity in the base; next area a map layer (Pete's rulings 13 Oct and 18 Oct)
+
+This replaces every earlier "labelled variant, never the base" or "separately reported" instruction about the Ocean
+Infinity 2018 and 2025-26 layers.
+- **Base:** ATSB Phase 2 + Bluefin-21 + Ocean Infinity 2018 + Ocean Infinity 2025-26 (outboard band), inferred geometry,
+  label "Ocean Infinity coverage inferred (grade C), included as best estimate". `run.toml` carries it;
+  `base_guard.py` enforces it, so the base cannot fall back to Phase 2 + Bluefin-21.
+- **Sensitivity:** without Ocean Infinity (`without-ocean-infinity.toml`), always labelled.
+- **rho:** 0 / 0.05 / 0.25 / 0.5, published as columns.
+- **The planned next Ocean Infinity area** (2025-26 inboard / north-west band; about 7,428 km2 still under contract):
+  a map layer only. Report the mass inside it; never use it as non-detection evidence. When the polygons of a new
+  search are published and the search is done, they enter as a campaign with their own provenance.
+- **Compact end-of-flight files:** the interim conversion (`pleiades/prepare/compact_eval.eval_input`, accepted 11 Oct,
+  approved by Pete 18 Oct) is the way `mh370 evaluate` reads them until core accepts the compact layout.
 
 ## Side questions (standing rule, Pete, 10 Oct 2026)
 

@@ -1222,3 +1222,15 @@ Source: the evidence register and four research notes in `results/evidence-sweep
 
 ## 2026-10-18 00:41Z — coordination -> searched areas (Pete): RULINGS. Next OI area = map layer only; conversion edits approved; score run J
 See architecture.md (2026-10-18 00:41Z). Base = ATSB Phase 2 + Bluefin-21 + OI 2018 + OI 2025–26 at inferred geometry, labelled "Ocean Infinity coverage inferred (grade C), included as best estimate". Without-OI is the labelled sensitivity; ρ 0 / 0.05 / 0.25 / 0.5. The planned next OI area is a map layer only. Update `run.toml` and the brief wording so the base cannot fall back to Phase 2 + Bluefin-21 again. Run J is scored at the impact point (settling has not run on run J).
+
+**DONE 2026-10-18 01:40Z (searched areas).** run.toml + brief updated, base_guard.py added; run J scored (74 seeds) plus the D3/D4 both-burst supplement; results/searched-areas-run-j/README.md; reply in architecture.md 01:40Z.
+
+## 2026-10-18 01:40Z — searched areas -> (record; cc architecture, composer): run J scored with Ocean Infinity in the base, impact point
+
+Acted on the 00:41Z rulings (entry above marked DONE). Note: `results/searched-areas-run-j/README.md`. Exchange
+`searched-areas/run-j/` (READY; 4 families, 74 seeds, 313,599,968 rows, 8.5 GB) and `searched-areas/run-j-both-burst/run-j-waypoints/`
+(READY; D3/D4 only, 8 seeds). Label: "Ocean Infinity coverage inferred (grade C), included as best estimate"; impact point, not seabed.
+Open items in this module's sequence after tonight: (1) settled-position scoring on run J, which waits for settling (and for disk);
+(2) passive acoustic beacon term (17 Oct scope), which must not double count the Haixun / Echo items that hydroacoustics' B_H already
+holds; (3) D3 A1 and D3 B are below ESS 1,000 after the searches: a coverage gap, and the fix is more both-burst seeds from end of flight.
+-- Searched Areas Module

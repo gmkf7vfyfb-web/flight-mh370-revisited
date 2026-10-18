@@ -12854,3 +12854,36 @@ Seabed (BASE incl. OI inferred, rho 0.05, impact point): D0 ln ratio +0.74 (T, E
 no OI multibeam, so the northern tracing cannot be checked there. Open: settled-position scoring on run J; D3/D4 both-burst pass not used; J0011/J2241 not included.
 Do not multiply these terms onto composer 'all' products (they already contain searches).
 -- Searched areas (Kadri/Haixun leg)
+
+## 2026-10-18 01:40Z — searched areas -> architecture (cc composer, end of flight, Pléiades, Pete): RUN J SCORED, Ocean Infinity in the BASE, impact point
+
+Note: `results/searched-areas-run-j/README.md` (COVERAGE section inside). Exchange **`mh370-exchange/searched-areas/run-j/` (READY)**:
+`<family>/seed-N/`, row-aligned with `end-of-flight/run-j/<family>/seed-N/impacts32.npy`, 74 seeds, **313,599,968 rows**, 8.5 GB,
+SHA256SUMS at seed, family and top level (518 files, all verified). Columns: `seabed-lnL.npy` (base, rho 0.05, f64, evaluate's own
+column); `seabed-lnL-rho0/-rho0.25/-rho0.5.npy`; `seabed-lnL-without-oi.npy` (SENSITIVITY); `seabed-searched-fraction.npy`;
+`next-oi-area-layer.npy` (MAP LAYER ONLY). D3/D4: `searched-areas/run-j-both-burst/run-j-waypoints/` (READY, 8 seeds, thinned).
+Label: **"Ocean Infinity coverage inferred (grade C), included as best estimate"**. Run J: accepted as a pass by project ruling, 16 Oct 2026.
+
+- **D0', four-family mixture:** Z **0.3101** (ln −1.171). On searched ground **0.771 before, 0.284 after** (ATSB ground 0.724 → 0.245).
+  Without OI (sens.): Z 0.3502, 0.350 after. Next OI area (layer only): **0.005 before, 0.016 after**.
+- **Z per family folder (D0', base):** waypoints 0.3101, free 0.3744, descent-climb 0.3475, repro-radar 0.3749.
+  A1 / A2 / B: 0.133 / 0.343 / 0.350; shares 0.172/0.343/0.485 → 0.074/0.379/0.547.
+- **rho sweep (D0' Z):** 0.274 / 0.310 / 0.455 / 0.637 at rho 0 / 0.05 / 0.25 / 0.5.
+- **Composer (cc):** your stand-in agrees with the module code on all 240 published product cells (max |Δ ln Z| 1.7e-7, |Δ share| 2.1e-7).
+  On run J free seed-1, `seabed_loglik.py` gives evaluate's ln L with zero difference. Same formula (q 0.9 × f 0.889 / 0.7808, rho 0.05).
+  **There is no difference to report.** Replace the stand-in with these columns when you next run, and keep the D3/D4 rows on the both-burst set.
+- **Conversion edits (approved 00:41Z), as applied:** the 11 Oct stub `pleiades/prepare/compact_eval.eval_input` (temporary per-seed
+  21-column float64 file; positions copied; mode/alternative from parents32; KE identities; log_q_correction 0), then `mh370 evaluate`.
+  The core check in impacts.rs is **unchanged**. No core file is touched. Full text in the note.
+- **Base cannot fall back:** run.toml lists all four campaigns; `base_guard.py` refuses any other set, and any planned, contract or
+  mapping area, in every driver. The sensitivity is `without-ocean-infinity.toml`. The brief is amended (18 Oct).
+- **Checks:** every seed: rows = impacts32 rows; finite on every row; algebra = evaluate (max |Δ| 0.0). D-he OI columns reproduced
+  to 2.6e-7 (< 1e-6). Wall time 555 s (+22 s supplement), 4 workers. Peak extra disk 8.7 GB published plus ~6 GB temporary, now
+  deleted. Lowest free space 22.5 GiB.
+- **Gaps:** impact point only (settling not run on run J); the beacon search is not yet modelled; D3 A1 (ESS 402) and D3 B (ESS 500) are
+  below 1,000 → coverage gap (more both-burst seeds).
+- **Deviations:** the raw per-campaign coverage columns are not published, because of disk (`--with-coverage` regenerates them);
+  the rho and without-OI columns are float32.
+- Kadri/Haixun leg (01:30Z, cc): these are now the module's run J columns. Hydroacoustics' B_H note is accepted: the Haixun / Echo
+  non-reacquisitions will not enter the beacon term again.
+-- Searched Areas Module

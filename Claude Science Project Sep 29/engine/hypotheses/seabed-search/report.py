@@ -72,23 +72,23 @@ def override(rho=None, campaigns=None, dependence=None):
 def scenarios(params, oi_campaigns, oi25=False):
     """(label, override text or path or None, kind). The first is run.toml itself."""
     base = params["campaigns"]
-    with_q = lambda q: [dict(c, detection_probability=q) if c["layer"] == "phase2" else c for c in base]
+    with_q = lambda q: [dict(c, detection_probability=q) if c.get("layer") == "phase2" else c for c in base]
     out = [("run.toml", None, "main")]
     out += [(f"rho {r:g}", override(rho=r), "rho") for r in RHO_SWEEP if r != params["undetectable_probability"]]
     out += [("Phase 2 q 0.90", override(campaigns=with_q(0.90)), "q"), ("Phase 2 q 0.98", override(campaigns=with_q(0.98)), "q")]
     # Repeat search: the same Phase 2 ground as four sensor campaigns instead of one union, so
     # that the 17,391 km2 the union hides is swept twice. The arms differ only there.
-    split = PER_SENSOR + [c for c in base if c["layer"] != "phase2"]
+    split = PER_SENSOR + [c for c in base if c.get("layer") != "phase2"]
     out.append(("Phase 2 split, shared misses", override(campaigns=split, dependence="shared"), "repeat"))
     out.append(("Phase 2 split, independent misses", override(campaigns=split, dependence="independent"), "repeat"))
-    if oi25:
-        out.append(("+ OI 2025-26 inferred, outboard band only", OI25_OVERRIDE, "oi25"))
-    if oi_campaigns:
-        out.append(("+ OI 2018 inferred, coverage 0.889", OI_OVERRIDE, "oi"))
-        high = [dict(c, coverage_fraction=0.952) if c["name"] == "ocean-infinity-2018" else c for c in oi_campaigns]
-        out.append(("+ OI 2018 inferred, coverage 0.952", override(campaigns=high), "oi"))
+    # Since 18 Oct 2026 run.toml IS the four-campaign base (Ocean Infinity included, base_guard.py). The old
+    # "+ OI" overrides would now REMOVE a campaign (arrays replace), so they are not used; the comparison is the
+    # labelled sensitivity without Ocean Infinity instead.
+    out.append(("sensitivity: without Ocean Infinity", HERE / "without-ocean-infinity.toml", "without-oi"))
+    high = [dict(c, coverage_fraction=0.952) if c["name"] == "ocean-infinity-2018" else c for c in base]
+    out.append(("OI 2018 coverage 0.952", override(campaigns=high), "oi"))
     # Each campaign alone and cumulatively, in the order the searches happened, at rho 0.
-    order = sorted(oi_campaigns or base, key=lambda c: {"bluefin-2014": 0, "phase2-2014-2017": 1}.get(c["name"], 2))
+    order = sorted(base, key=lambda c: {"bluefin-2014": 0, "phase2-2014-2017": 1, "ocean-infinity-2018": 2}.get(c["name"], 3))
     for k, c in enumerate(order):
         out.append((f"alone: {c['name']}", override(rho=0.0, campaigns=[c]), "alone"))
         out.append((f"adding, in order: {c['name']}", override(rho=0.0, campaigns=order[:k + 1]), "cumulative"))
@@ -182,6 +182,8 @@ def main():
     label += f"; 00:19 data option {args.option}, log-on cause {args.cause}"
     label += f", constraint +{args.constraint} (PROVISIONAL-OVERNIGHT)" if args.constraint else ""
     replicates = sorted((args.run / "bto-bfo").glob("seed-*/impacts.npy"), key=lambda p: int(p.parent.name[5:]))
+    import base_guard
+    base_guard.check()
     params = tomllib.loads((HERE / "run.toml").read_text())["hypotheses"][MODULE]
     oi = tomllib.loads(OI_OVERRIDE.read_text())["hypotheses"][MODULE]["campaigns"] if OI_LAYER.is_file() else None
     if oi is None:
