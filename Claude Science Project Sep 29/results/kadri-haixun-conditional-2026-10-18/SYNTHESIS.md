@@ -19,11 +19,11 @@ C = caption/Table 1 time 00:54:30. Haixun 01 is a sensitivity line only (Pete, 1
 |---|---|---|
 | Flight (`flight/`, 513bbfd) | Model reaches the signal (about 209 k T / 222 k C rows within 6 sigma). Posterior mass: 0.06-0.11 % in the bearing strip, 0.55-0.79 % within 200 km. Selected trajectories: unpowered piloted glides of 15-20 min after flame-out at 00:16:30-00:18:30 (fuel-exhaustion log-on >= 0.99), family B about 0.7, A2 about 0.3, A1 negligible; under D3-D5 an arrested dive then glide; impacts straddle the arc. | UNCONVERGED (cond. ESS <= 278); targeted re-simulation built, not run (disk) |
 | Hydro signals (`hydroacoustic-signals/`, 33b8f3e) | H08S corrected windows (T 01:14:33-01:16:08, C 01:17:00-01:18:35) had 0 % overlap with earlier searches; now searched: chance yields. Perth 3376 already covered. Royer: no event in L; his H01W picks match Kadri's times after +16 s; exploratory C recombination at 25.80 S 101.46 E, chance p 0.11. Kadri's H01W level needs coupling 0.24-0.9 (90-340x the F-35A anchor). | Amplitude terms PROVISIONAL (borrowed TL) |
-| Beacon physics (`haixun-beacon-physics/`, be408a1) | Seabed 4,577 m; P(detect beacon overhead) 0.08 / 0.02 / 2e-4 by calibration; two contacts 2-3 km apart need 4.9-5.0 km slant range. B_H = 0.52 (ln -0.66), range 0.31-2.1. | Follow-up miss probabilities are judgement ranges |
+| Beacon physics (`haixun-beacon-physics/`, be408a1) | Seabed 4,577 m (GEBCO 2020; AusSeabed gives 4,589 m); P(detect beacon overhead) 0.08 / 0.02 / 2e-4 by calibration; two contacts 2-3 km apart need 4.9-5.0 km slant range. B_H = 0.52 (ln -0.66), range 0.31-2.1. | Follow-up miss probabilities are judgement ranges |
 | Search coverage (`searched-areas/`, 5a64797) | No ATSB sonar or OI 2025-26 here. Pete's +/-25 NM strip = OI 2018 northern extension (to 24.73 S, grade C; Malaysian update 12 grade B). OI covers Kadri's inside-arc line only for mean speed <= 49 (T) / 42 (C) m/s. No 2014 surface box on the strip. | OI northern extent grade C |
 | Drift (`drift/`, c51f857) | Drift favours the 26-33 S plateau over 37 S generally, not the bearing specifically. Debris from the crossing is 190-1,140 km from Haixun on 5 Apr; ring share <= 6e-4. | Dedicated L-point run queued (deskstar 10b3068e) |
 | Sources (`sources-sightings/`, aafae81) | White objects: PLA AF aircraft, from 03:05 UTC 5 Apr, about 90 km, position unpublished, checked and unrelated (JACC 7 Apr). Satellite coverage of L: none public at <= 30 m; 'not assessed'. | Commercial archives untested |
-| Settling | Awaiting Pete's approval card | Open |
+| Settling (`settling/`, 07359a7) | Seabed 4,589 m at Haixun (AusSeabed 150 m), 4,466 m at the crossing (GEBCO, gravity-predicted). Detached recorder rests 0.18/0.34/0.50 km (p50/p90/p99) from impact; recorder kept in the aft fuselage 0.38/2.49/10.27 km. A beacon within 2 km of Haixun needs an impact within 2.2 km (detached) or 11.6 km (retained) of it, never on the arc (gap >= 18.9 km). No Kadri eq. 4 impact puts a recorder within 2 km of Haixun (< 7.5e-5; 2.2e-4 T / 7.5e-5 C with BTO and altitude spread), so Kadri's straight-line source and a Haixun beacon are not jointly compatible. Settling adds no information to H_H (ratio 0.98-1.10). | Physics provisional; 00:19 weights not applied; HYCOM at Haixun only |
 
 ## 3. Combined evidence for H_K (ln Bayes factor, D0, bearing sd 1.0 deg)
 Each non-acoustic term is the ratio of the acoustically weighted run J expectation to the run J reference, so it adds to the
@@ -49,7 +49,7 @@ H_H (Haixun beacon, sensitivity): B_H 0.52, so the contacts cannot move the site
 1. Free disk to >= 30 GiB and run the Flight targeted re-simulation (about 1.5 h); then recompute every ln B and the conditional maps.
 2. Real-path transmission loss (L to H01W, Perth 3376, H08S) before the amplitude term enters composition; validate on a common event.
 3. Drift dedicated L-point release at the branch times and origin-grid extension (deskstar 10b3068e, queued).
-4. Settling leg (awaiting approval).
+4. Settling: recorder detachment probability per breakup family is not modelled (G-S1); apply 00:19 option weights to its prior masses.
 5. Data requests: raw H01W via the Kadri package (confirm text vs caption time); Royer raw 2014 OHASISBIO and the 16 s correction;
    ATSB 2017 Table 17 from the PDF; Malaysian weekly update 12 (OI 2018 northern extension).
 6. Reconcile the two Haixun dossiers so the Echo/submarine non-reacquisition enters once.
