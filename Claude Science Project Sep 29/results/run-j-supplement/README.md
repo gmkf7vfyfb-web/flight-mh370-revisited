@@ -1,7 +1,7 @@
 # Run-J northern supplement — results (core, 18 Oct 2026)
 
 Approved by Pete 18 Oct 2026 00:41Z, including the run (architecture.md item 1). Design, measurement and predictions were
-posted before the run: `DESIGN.md` (CORE_STAGES 2026-10-18 01:45Z). Run J convergence: PASS by project ruling (16 Oct 2026);
+posted before the run: `DESIGN.md` (CORE_STAGES 2026-10-18 01:45Z). Run J convergence: PASS by project ruling (Pete, 16 Oct 2026 ~22:20Z; confirmed for all four families 18 Oct 2026);
 this supplement adds northern detail and does not re-open that ruling.
 
 Staged outputs: `mh370-exchange/core/run-j-supplement/` (236 files, 1.4 GB, SHA256SUMS verified, READY). The staged README

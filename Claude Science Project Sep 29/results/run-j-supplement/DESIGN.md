@@ -3,7 +3,7 @@
 Approval: Pete, 18 Oct 2026 00:41Z (architecture.md, item 1), including the run. Requests: END_OF_FLIGHT / architecture.md
 2026-10-17 20:41Z (end of flight), CORE_STAGES 2026-10-17 19:50Z (composer). Target: >= 1,000 effective distinct 00:11
 parents in every 5 deg band of impact latitude that holds > 1 % of the mass, under D2, D3 and D4, after combination with production.
-Run J convergence is a PASS by project ruling (16 Oct 2026); this work adds northern detail, it does not re-open that ruling.
+Run J convergence is a PASS by project ruling (Pete, 16 Oct 2026 ~22:20Z; confirmed for all four families 18 Oct 2026); this work adds northern detail, it does not re-open that ruling.
 
 ## 1. Measurement (run J as it is; all 74 seeds; scripts and JSON in `measure/`)
 
