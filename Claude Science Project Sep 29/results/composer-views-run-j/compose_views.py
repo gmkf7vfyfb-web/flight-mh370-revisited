@@ -23,16 +23,18 @@ STRATA = ['run-j-waypoints', 'run-j-free', 'run-j-repro-radar', 'run-j-descent-c
 DK = [f'D{d}' for d in range(6)]
 DNAME = {'D0': '00:19 data held out', 'D1': '00:19:29 BTO', 'D2': '00:19:29 BTO + BFO', 'D3': 'both 00:19 BFOs as recorded',
          'D4': 'both 00:19 BFOs, shared start-up offset', 'D5': '00:19:37 BFO with start-up offset'}
-PRODS = ['core', 'D', 'S', 'P', 'DS', 'DP', 'SP', 'DSP', 'A', 'AS', 'AP', 'ASP', 'D100', 'D100S', 'S10', 'DS10', 'DG', 'DC', 'DGS', 'DCS',
-         'U', 'UD', 'US', 'UP', 'UA', 'UD100', 'US10']
-UMAP = {'D': 'UD', 'S': 'US', 'P': 'UP', 'A': 'UA', 'D100': 'UD100', 'S10': 'US10'}
+PRODS = ['core', 'D', 'S', 'P', 'DS', 'DP', 'SP', 'DSP', 'A', 'AS', 'AP', 'ASP', 'D100', 'D100S', 'DG', 'DC', 'DGS', 'DCS',
+         'S00', 'S25', 'S50', 'DS00', 'DS25', 'DS50', 'SX', 'DSX', 'SPX', 'DSPX', 'ASX',
+         'U', 'UD', 'US', 'UP', 'UA', 'UD100', 'US00', 'US25', 'US50', 'USX']
+UMAP = {'D': 'UD', 'S': 'US', 'P': 'UP', 'A': 'UA', 'D100': 'UD100', 'S00': 'US00', 'S25': 'US25', 'S50': 'US50', 'SX': 'USX'}
+AE = ('D', 'S', 'P', 'A', 'D100', 'S00', 'S25', 'S50', 'SX')
 ARCR = np.load(WORK / 'arc-r.npz'); ARCINFO = json.loads(str(ARCR['info']))
 FAMN = ['A1', 'A2', 'B']
 lnZc = {s: json.load(open(X / f'core/run-j/{s}/summary.json'))['cases'][0]['log_evidence'] for s in STRATA}
 lse = logsumexp(list(lnZc.values())); PFAM = {s: float(np.exp(v - lse)) for s, v in lnZc.items()}
 rng = np.random.default_rng(17102026); NBOOT = 400
 
-WV = WORK / 'v5'
+WV = WORK / 'v6'
 files = {('prod', s): sorted(glob.glob(str(WV / f'prod_{s}_*.npz')), key=lambda f: int(re.findall(r'_(\d+)\.npz$', f)[0])) for s in STRATA}
 files[('both', 'run-j-waypoints')] = sorted(glob.glob(str(WV / 'both_run-j-waypoints_*.npz')))
 EXPECT = {'run-j-waypoints': 24, 'run-j-free': 18, 'run-j-repro-radar': 16, 'run-j-descent-climb': 16}
@@ -86,12 +88,13 @@ for f in order:
             klk = [kk.split('|')[3] for kk in z if kk.startswith(f'{d}|KL|{p}|')]
             for ctx, s1, s2, mp, kl in [('mix', S1, e * e * z[f'{d}|{p}|S2'][:V.NSUB], MP[0], 'KL')] + \
                     [(FAMN[i], FAM[i], e * e * z[f'{d}|{p}|FAM2'][i, :V.NSUB], MP[i + 1], i) for i in range(3)] + [(s, S1, e * e * z[f'{d}|{p}|S2'][:V.NSUB], MP[0], 'KL')]:
-                A = pool.setdefault((variant, d, p, ctx), {'S1': 0.0, 'S2': 0.0, 'IN': 0.0, 'MAP': 0.0, 'KL': {}, 'strat': {}, 'SB': 0.0})
+                A = pool.setdefault((variant, d, p, ctx), {'S1': 0.0, 'S2': 0.0, 'IN': 0.0, 'INX': 0.0, 'NX': 0.0, 'MAP': 0.0, 'KL': {}, 'strat': {}, 'SB': 0.0})
                 A['S1'] = A['S1'] + s1; A['S2'] = A['S2'] + s2; A['MAP'] = A['MAP'] + mp
                 if ctx in ('mix',) + tuple(STRATA):
                     A['SB'] = A['SB'] + e * z[f'{d}|{p}|SB'][:V.NSB]
                 if ctx in ('mix',) + tuple(STRATA):
-                    A['IN'] = A['IN'] + e * z[f'{d}|{p}|IN'][:V.NSUB]
+                    A['IN'] = A['IN'] + e * z[f'{d}|{p}|IN'][:V.NSUB]; A['INX'] = A['INX'] + e * z[f'{d}|{p}|INX'][:V.NSUB]
+                    A['NX'] = A['NX'] + e * float(z[f'{d}|{p}|NX'])
                 if ctx == 'mix':
                     A['strat'][s] = A['strat'].get(s, 0.0) + float(S1.sum())
                 for b in klk:
@@ -173,13 +176,17 @@ okp = (pi_ >= 0) & (pi_ < nl_) & (pj_ >= 0) & (pj_ < nn_)
 for mi, tag in ((0, 'G'), (1, 'C')):
     v = np.full(len(PL), np.nan); v[okp] = J[mi, pi_[okp], pj_[okp]]; surf['P' + tag] = np.where(np.isfinite(v), np.exp(v - PREF), np.nan)
 del J
-surf['S'] = np.exp(SL.loglik(PL, PO))
+surf['SX'] = np.exp(SL.loglik(PL, PO))
+_mB = (1 - 0.945 * SL.coverage(SL.decode(SL.COV / 'phase2.cov'), PL, PO)) * (1 - 0.9 * SL.coverage(SL.decode(SL.COV / 'bluefin-2014.cov'), PL, PO))
+for _n, _qf in (('ocean-infinity-2018', 0.9 * 0.889), ('ocean-infinity-2025', 0.9 * 0.7808)):
+    _mB = _mB * (1 - _qf * SL.coverage(SL.decode(SL.COV / f'{_n}.cov'), PL, PO))
+surf['S'] = 0.05 + 0.95 * _mB
 W2 = np.broadcast_to(dw[None], (len(sk), len(dw))).ravel() / len(sk)     # uniform over arc bins x displacement distribution
 li01 = np.clip(np.searchsorted(V.L01_EDGES, PL, side='right') - 1, 0, len(V.L01_MID) - 1)
 VI = {}
-for E in ('D', 'S', 'P', 'A'):
-    if E == 'S':
-        Ls = [surf['S']]
+for E in ('D', 'S', 'P', 'A', 'SX'):
+    if E in ('S', 'SX'):
+        Ls = [surf[E]]
     else:
         Ls = [surf[E + 'G'], surf[E + 'C']]
     lam = 0.0; ncw = 0.0
@@ -198,10 +205,14 @@ meta['view_a_i'] = {'arc_bins': int(len(sk)), 'displacement_points': int(len(dw)
 EVID = {'D': 'debris drift (finds)', 'S': 'searched areas', 'P': 'Pleiades objects (conditional on H)', 'A': 'debris drift with Australian non-recovery (sensitivity)'}
 ALL_U = 'DS'; ALL_H = 'DSP'
 LOO = {('D', ALL_U): 'S', ('S', ALL_U): 'D', ('D', ALL_H): 'SP', ('S', ALL_H): 'DP', ('P', ALL_H): 'DS',
-       ('A', 'AS'): 'S', ('S', 'AS'): 'A', ('A', 'ASP'): 'SP', ('S', 'ASP'): 'AP', ('P', 'ASP'): 'AS'}
+       ('A', 'AS'): 'S', ('S', 'AS'): 'A', ('A', 'ASP'): 'SP', ('S', 'ASP'): 'AP', ('P', 'ASP'): 'AS',
+       ('D', 'DSX'): 'SX', ('SX', 'DSX'): 'D', ('P', 'DSPX'): 'DSX', ('SX', 'DSPX'): 'DP', ('A', 'ASX'): 'SX', ('SX', 'ASX'): 'A'}
 RES = {'meta': meta, 'pfam': PFAM, 'cells': {}}
 def sm(P):
-    return summarise(P['S1'], P['S2'], np.asarray(P['MAP']), P.get('IN'))
+    out = summarise(P['S1'], P['S2'], np.asarray(P['MAP']), P.get('IN'))
+    if np.ndim(P.get('INX', 0)):
+        out['p_on_atsb_ground'] = float(np.sum(P['INX']) / np.sum(P['S1'])); out['p_in_next_oi_area'] = float(P['NX'] / np.sum(P['S1']))
+    return out
 ctxs = ['mix'] + FAMN + STRATA
 for variant in ('head', 'prodonly'):
     for d in DK:
@@ -219,10 +230,12 @@ for variant in ('head', 'prodonly'):
                 s_['KL'] = {b: VL.kl_from_sums(v, P['S1'].sum(), pool[(variant, d, b, ctx)]['S1'].sum()) for b, v in P['KL'].items()}
                 C[p] = s_
             # view (a)(ii) for each evidence type, disagreement against the core
-            for E in (('D', 'S', 'P', 'A', 'D100', 'S10') if variant == 'head' else ()):
+            for E in (AE if variant == 'head' else ()):
                 S1, S2, MAP, IN, lnEU, lost = view_a(variant, d, E, ctx)
                 va = summarise(S1, S2, MAP, IN); va['lnE_uniform'] = lnEU; va['uniform_share_unreachable'] = lost
                 PEu = pool[(variant, d, UMAP[E], ctx)]
+                if np.ndim(PEu.get('INX', 0)):
+                    va['p_on_atsb_ground'] = float(np.sum(PEu['INX']) / np.sum(PEu['S1'])); va['p_in_next_oi_area'] = float(PEu['NX'] / np.sum(PEu['S1']))
                 if np.ndim(PEu['SB']):
                     va['median_arc_nm'] = s_median(PEu['SB'])
                 va['lnER_core_vs_uniform'] = C[E]['lnE_given_core'] - lnEU
@@ -280,20 +293,21 @@ def implied(A_, draws, lo):
     return float(p_ * (1 - p_) / se ** 2) if se > 0 else np.nan
 RES['boot'] = {}
 for d in DK:
-    RES['boot'][d] = boot('head', d, ['core', 'D', 'S', 'P', 'A', 'DS', 'DSP', 'AS', 'ASP', 'DP', 'SP'], arcE=('D', 'S', 'P', 'A'))
-    pn = {p: RES['cells'][f'head|{d}|mix'][p]['north_of_33S'] for p in ('core', 'D', 'S', 'P', 'A', 'DS', 'DSP', 'AS', 'ASP', 'DP', 'SP')}
-    pn.update({'a_' + E: RES['cells'][f'head|{d}|mix']['a_' + E]['north_of_33S'] for E in 'DSPA'})
+    BP = ['core', 'D', 'S', 'P', 'A', 'DS', 'DSP', 'AS', 'ASP', 'DP', 'SP', 'SX', 'DSX', 'DSPX', 'ASX', 'DS00', 'DS25', 'DS50']
+    RES['boot'][d] = boot('head', d, BP, arcE=('D', 'S', 'P', 'A', 'SX'))
+    pn = {p: RES['cells'][f'head|{d}|mix'][p]['north_of_33S'] for p in BP}
+    pn.update({'a_' + E: RES['cells'][f'head|{d}|mix']['a_' + E]['north_of_33S'] for E in ('D', 'S', 'P', 'A', 'SX')})
     for p in pn:
         se = RES['boot'][d][p]['north33_se']; RES['boot'][d][p]['implied_n_north_of_33S'] = float(pn[p] * (1 - pn[p]) / se ** 2) if se > 0 else np.nan
     print('boot', d, flush=True)
 
 # ---------- maps needed for figures (head, D0, mix)
-np.savez_compressed(OUT / 'maps-D0-mix.npz', **{p: np.asarray(pool[('head', 'D0', p, 'mix')]['MAP'], np.float32) for p in ('core', 'DS', 'DSP', 'AS', 'D', 'S', 'P')},
-                    **{'a_' + E: view_a('head', 'D0', E, 'mix')[2].astype(np.float32) for E in ('D', 'S', 'P', 'A')}, NY=V.NY, NX=V.NX)
+np.savez_compressed(OUT / 'maps-D0-mix.npz', **{p: np.asarray(pool[('head', 'D0', p, 'mix')]['MAP'], np.float32) for p in ('core', 'DS', 'DSP', 'AS', 'D', 'S', 'P', 'DSX', 'DSPX', 'SX')},
+                    **{'a_' + E: view_a('head', 'D0', E, 'mix')[2].astype(np.float32) for E in ('D', 'S', 'P', 'A', 'SX')}, NY=V.NY, NX=V.NX)
 np.savez_compressed(OUT / 'view-a-i.npz', **{E: VI[E]['h01'] for E in VI}, **{E + '_SB': VI[E]['SB'] for E in VI}, mids=V.L01_MID)
 # 0.01 deg PDFs for figures
 np.savez_compressed(OUT / 'pdf01-mix.npz', mids=V.L01_MID, **{f'{d}|{p}': l01(pool[('head', d, p, 'mix')]['S1']) for d in DK for p in PRODS},
-                    **{f'{d}|a_{E}': l01(view_a('head', d, E, 'mix')[0]) for d in DK for E in ('D', 'S', 'P', 'A')})
+                    **{f'{d}|a_{E}': l01(view_a('head', d, E, 'mix')[0]) for d in DK for E in ('D', 'S', 'P', 'A', 'SX')})
 
 def clean(o):
     if isinstance(o, dict):

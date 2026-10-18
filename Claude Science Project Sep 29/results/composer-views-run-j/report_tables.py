@@ -4,15 +4,19 @@ OUT = pathlib.Path(sys.argv[1]); RJ = json.load(open(OUT / 'views-run-j.json'))
 DK = [f'D{d}' for d in range(6)]
 DNAME = {'D0': '00:19 data held out', 'D1': '00:19:29 BTO', 'D2': '00:19:29 BTO + BFO', 'D3': 'both 00:19 BFOs as recorded',
          'D4': 'both 00:19 BFOs, shared start-up offset', 'D5': '00:19:37 BFO with start-up offset'}
-PN = {'core': 'satcom + flight + end of flight (core)', 'D': 'core + debris drift (finds)', 'S': 'core + searched areas',
+PN = {'core': 'satcom + flight + end of flight (core)', 'D': 'core + debris drift (finds)', 'S': 'core + searched areas (ATSB + Ocean Infinity inferred, rho 0.05)',
       'P': 'core + Pleiades objects (conditional on H)', 'A': 'core + drift with Australian non-recovery (sensitivity)',
-      'DS': 'ALL (core + drift + searched areas)', 'DP': 'core + drift + Pleiades (conditional on H)', 'SP': 'core + searched areas + Pleiades (conditional on H)',
+      'DS': 'ALL (core + drift + searched areas incl. Ocean Infinity)', 'DP': 'core + drift + Pleiades (conditional on H)', 'SP': 'core + searched areas + Pleiades (conditional on H)',
       'DSP': 'ALL conditional on H (core + drift + searched areas + Pleiades)', 'AS': 'ALL with Australian non-recovery (sensitivity)',
       'AP': 'core + drift with Australian term + Pleiades (conditional, sensitivity)', 'ASP': 'ALL with Australian term, conditional on H (sensitivity)',
       'D100': 'core + drift, kernel 100 km (model error doubled)', 'D100S': 'ALL with drift kernel 100 km (model error doubled)',
-      'S10': 'core + searched areas, rho 0.10 (model error doubled)', 'DS10': 'ALL with searched-areas rho 0.10 (model error doubled)',
+      'S00': 'core + searched areas, rho 0', 'S25': 'core + searched areas, rho 0.25', 'S50': 'core + searched areas, rho 0.5',
+      'DS00': 'ALL, rho 0', 'DS25': 'ALL, rho 0.25', 'DS50': 'ALL, rho 0.5',
+      'SX': 'core + searched areas WITHOUT Ocean Infinity (sensitivity)', 'DSX': 'ALL WITHOUT Ocean Infinity (sensitivity)',
+      'SPX': 'core + searches without OI + Pleiades (conditional)', 'DSPX': 'ALL given H, WITHOUT Ocean Infinity (sensitivity)', 'ASX': 'ALL with Australian term, WITHOUT Ocean Infinity',
       'DG': 'core + drift, GLORYS12 only', 'DC': 'core + drift, GlobCurrent only', 'DGS': 'ALL, drift GLORYS12 only', 'DCS': 'ALL, drift GlobCurrent only'}
-EN = {'D': 'debris drift (finds)', 'S': 'searched areas', 'P': 'Pleiades objects (conditional on H)', 'A': 'drift with Australian non-recovery (sensitivity)'}
+EN = {'D': 'debris drift (finds)', 'S': 'searched areas incl. Ocean Infinity', 'P': 'Pleiades objects (conditional on H)', 'A': 'drift with Australian non-recovery (sensitivity)',
+      'D100': 'drift, kernel 100 km', 'S00': 'searched areas rho 0', 'S25': 'searched areas rho 0.25', 'S50': 'searched areas rho 0.5', 'SX': 'searched areas without Ocean Infinity'}
 CTX = ['mix', 'A1', 'A2', 'B', 'run-j-waypoints', 'run-j-free', 'run-j-repro-radar', 'run-j-descent-climb']
 def f(x, n=3):
     return '' if x is None else (f'{x:.{n}f}' if isinstance(x, float) else str(x))
@@ -21,7 +25,7 @@ rows = []
 for d in DK:
     for ctx in CTX:
         C = RJ['cells'][f'head|{d}|{ctx}']
-        for p, x in [(k, C[k]) for k in PN] + [('a_' + E, C['a_' + E]) for E in ('D', 'S', 'P', 'A', 'D100', 'S10')]:
+        for p, x in [(k, C[k]) for k in PN] + [('a_' + E, C['a_' + E]) for E in ('D', 'S', 'P', 'A', 'D100', 'S00', 'S25', 'S50', 'SX')]:
             b = RJ['boot'][d].get(p, {}) if ctx == 'mix' else {}
             n_impl = b.get('implied_n_north_of_33S'); n33 = None if n_impl is None else n_impl * x['north_of_33S']
             if p.startswith('a_') and ctx == 'mix':
@@ -32,7 +36,7 @@ for d in DK:
                          'median_lat': x['median'], 'median_se': b.get('median_se'), 'q05': x['q05'], 'q95': x['q95'], 'mean_lat': x['mean'],
                          'hpd50_km2': x['hpd50_km2'], 'hpd90_km2': x['hpd90_km2'], 'hpd95_km2': x['hpd95_km2'],
                          'north_of_33S': x['north_of_33S'], 'north_of_33S_se': b.get('north33_se'), 'eff_sample_north_of_33S_seed_scatter': n33, 'kish_ess_north_of_33S': kn, 'label_n_north_of_33S': label_n,
-                         'north_of_30S': x['north_of_30S'], 'ESS_kish': x['ESS'], 'p_on_searched_ground': x.get('p_on_searched_ground'),
+                         'north_of_30S': x['north_of_30S'], 'ESS_kish': x['ESS'], 'p_on_searched_ground_incl_OI': x.get('p_on_searched_ground'), 'p_on_atsb_ground': x.get('p_on_atsb_ground'), 'p_in_next_oi_area_not_evidence': x.get('p_in_next_oi_area'),
                          'lnE_given_core': x.get('lnE_given_core'), 'KL_vs_core': (x.get('KL') or {}).get('core'),
                          'waypoints_share': (x.get('stratum_share') or {}).get('run-j-waypoints'),
                          'A1_share': (x.get('family_share') or {}).get('A1'), 'A2_share': (x.get('family_share') or {}).get('A2'), 'B_share': (x.get('family_share') or {}).get('B'),
@@ -42,10 +46,10 @@ with open(OUT / 'products.csv', 'w', newline='') as fh:
 # 2. bands per option (mixture), with seed-bootstrap SE
 BE = np.arange(-50, -5, 1.0)
 with open(OUT / 'bands-1deg-mixture.csv', 'w', newline='') as fh:
-    w = csv.writer(fh); w.writerow(['option', 'product', 'band_south_edge', 'band_north_edge', 'mass', 'mc_se_seed_bootstrap', 'mass_on_searched_ground'])
+    w = csv.writer(fh); w.writerow(['option', 'product', 'band_south_edge', 'band_north_edge', 'mass', 'mc_se_seed_bootstrap', 'mass_on_searched_ground_incl_OI'])
     for d in DK:
         C = RJ['cells'][f'head|{d}|mix']
-        for p in list(PN) + ['a_D', 'a_S', 'a_P', 'a_A']:
+        for p in list(PN) + ['a_D', 'a_S', 'a_P', 'a_A', 'a_SX']:
             x = C[p]; se = RJ['boot'][d].get(p, {}).get('band_se'); sb = x.get('searched_by_band')
             for i, a in enumerate(BE[:-1]):
                 w.writerow([d, p, a, a + 1, f'{x["bands"][i]:.6g}', '' if se is None else f'{se[i]:.3g}', '' if sb is None else f'{sb[i]:.6g}'])
@@ -55,7 +59,7 @@ with open(OUT / 'modes.csv', 'w', newline='') as fh:
     for d in DK:
         for ctx in ('mix', 'A1', 'A2', 'B'):
             C = RJ['cells'][f'head|{d}|{ctx}']
-            for p in list(PN) + ['a_D', 'a_S', 'a_P', 'a_A']:
+            for p in list(PN) + ['a_D', 'a_S', 'a_P', 'a_A', 'a_SX']:
                 for m in C[p]['modes']:
                     w.writerow([d, ctx, p, f'{m["peak_lat"]:.2f}', f'{m["mass"]:.4f}', f'{m["from_lat"]:.2f}', f'{m["to_lat"]:.2f}'])
 # 4. disagreement and influence
@@ -63,7 +67,7 @@ dis = []
 for d in DK:
     for ctx in CTX:
         C = RJ['cells'][f'head|{d}|{ctx}']
-        for E in ('D', 'S', 'P', 'A', 'D100', 'S10'):
+        for E in ('D', 'S', 'P', 'A', 'D100', 'S00', 'S25', 'S50', 'SX'):
             a = C['a_' + E]; v = a['vs_core']
             dis.append({'option': d, 'context': ctx, 'evidence': E, 'comparison': '(a) E alone vs core',
                         'conditioning': 'ln E_core[L_E] - ln E_U[L_E]; U = uniform along the arc (span of run J impacts) with the core cross-arc impact spread per row; impact-point likelihoods',
@@ -87,7 +91,7 @@ with open(OUT / 'coverage-ess.csv', 'w', newline='') as fh:
     w = csv.writer(fh); w.writerow(['option', 'product', 'band_5deg_south_edge', 'mass', 'kish_ess_within_band', 'implied_n_total_from_seed_scatter', 'effective_sample_in_band'])
     for d in DK:
         C = RJ['cells'][f'head|{d}|mix']
-        for p in ['core', 'D', 'S', 'P', 'A', 'DS', 'DSP', 'AS', 'ASP', 'a_D', 'a_S', 'a_P', 'a_A']:
+        for p in ['core', 'D', 'S', 'P', 'A', 'DS', 'DSP', 'AS', 'ASP', 'SX', 'DSX', 'DSPX', 'a_D', 'a_S', 'a_P', 'a_A', 'a_SX']:
             x = C[p]; b = RJ['boot'][d].get(p, {})
             for lo in range(-50, -5, 5):
                 m = float(sum(x['bands'][i] for i, a in enumerate(BE[:-1]) if lo <= a < lo + 5)); ni = (b.get('implied_n_by_5deg') or {}).get(str(lo))

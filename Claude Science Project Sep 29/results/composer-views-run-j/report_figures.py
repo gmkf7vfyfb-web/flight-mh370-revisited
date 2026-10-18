@@ -16,7 +16,7 @@ BE = np.arange(-50, -5, 1.0); BM = BE[:-1] + 0.5
 C0 = RJ['cells']['head|D0|mix']; B0 = RJ['boot']['D0']
 DN = {'D0': '00:19 data\nheld out', 'D1': '00:19:29\nBTO', 'D2': '00:19:29\nBTO + BFO', 'D3': 'both BFOs\nas recorded', 'D4': 'both BFOs,\nshared offset', 'D5': '00:19:37 BFO\nwith offset'}
 GREY = '#9a9a9a'; BLACK = '#202020'
-COL = {'D': '#1f5fa8', 'S': '#b8641a', 'P': '#7a3d8f', 'A': '#b0283c'}
+COL = {'D': '#1f5fa8', 'S': '#b8641a', 'SX': '#8a8a8a', 'P': '#7a3d8f', 'A': '#b0283c'}
 def vi_bands(E):
     lat, m = VI['mids'], VI[E]; return np.array([m[(lat >= a) & (lat < a + 1)].sum() for a in BE[:-1]]) / m.sum()
 def step(ax, y, **kw):
@@ -27,7 +27,7 @@ lab = lambda d, p: next(r for r in [None] if r is None)
 fig, axs = plt.subplots(4, 1, figsize=(7.4, 10.6), sharex=True)
 fig.subplots_adjust(left=0.10, right=0.98, top=0.975, bottom=0.25, hspace=0.42)
 panels = [('D', 'DS', 'debris drift alone', 'all evidence: core + drift + searched areas'),
-          ('S', 'DS', 'searched areas alone', 'all evidence: core + drift + searched areas'),
+          ('S', 'DS', 'searched areas alone (ATSB + Ocean Infinity)', 'all evidence: core + drift + searched areas'),
           ('P', 'DSP', 'Pleiades objects alone, if they are aircraft debris', 'all evidence, if the objects are aircraft debris'),
           ('A', 'AS', 'drift with no finds in Australia alone (sensitivity)', 'all evidence with no finds in Australia')]
 for k, (ax, (E, allp, ename, aname)) in enumerate(zip(axs, panels)):
@@ -39,6 +39,8 @@ for k, (ax, (E, allp, ename, aname)) in enumerate(zip(axs, panels)):
     ax.plot(np.r_[BE[:-1], BE[-1]] , np.r_[a1, a1[-1]], drawstyle='steps-post', color=COL[E], lw=1.0, ls=(0, (3, 2)), label='this evidence alone (module surface on the arc)')
     step(ax, ce, color=COL[E], lw=0.9, alpha=0.55, label='core + this evidence')
     step(ax, al, color=BLACK, lw=1.3, label=aname)
+    if E == 'S':
+        step(ax, np.array(C0['a_SX']['bands']), color='#777777', lw=1.0, ls=(0, (1, 1.5)), label='searched areas alone, without Ocean Infinity (sensitivity)')
     med_a, med_c, med_all = C0['a_' + E]['median'], C0['core']['median'], C0[allp]['median']
     sh = C0['a_' + E]['vs_core']['median_shift_nm']; ler = C0['a_' + E]['lnER_core_vs_uniform']
     ax.set_title(f'{ename[0].upper() + ename[1:]}: median {abs(med_a):.1f} S, {abs(sh):.0f} NM {"north" if sh > 0 else "south"} of the core median; '
@@ -54,12 +56,12 @@ f1 = ('Plain English. Each panel shows one type of evidence. Grey: the impact po
       f'position on the 7th arc at 00:19:29 equally probable before the evidence ({abs(span[0]):.1f}-{abs(span[1]):.1f} S, the reach of the run J flight paths); the end-of-flight model then gives the impact. The samples for this '
       'line come from the satellite result, so few samples carry the north: bars show 2 standard errors from the seed scatter. Dashed: the module surface along the arc, '
       'with one fixed end-of-flight displacement. Black: all evidence together. The 00:19 data are held out. The 00:19 log-on cause: fuel exhaustion or another '
-      'cause (prior odds 1 to 3); under the other cause the aircraft is silent. The end-of-flight physics is not calibrated. Searched areas use the impact point, not the seabed. '
+      'cause (prior odds 1 to 3); under the other cause the aircraft is silent. The end-of-flight physics is not calibrated. Searched areas: ATSB Phase 2, Bluefin-21 and Ocean Infinity 2018 and 2025-26; the Ocean Infinity coverage is inferred (grade C), included as best estimate; the planned next Ocean Infinity area is not used as evidence. Searched areas use the impact point, not the seabed. '
       'Hydroacoustics gives no contribution. The Pleiades and the Australian panels are conditional or sensitivity results, not headline: a conditional PDF carries no Bayes factor.')
 f2 = ('Technical. Core run J (tag run-j 1244b7c), four strata mixed by core P(family) at equal prior (waypoints 0.9982); EoF run J run-i-dive recipe, round-3 laws, '
       'bank limit U[52,90]; cell \'D0 total q=0.333 (C2 silent)\' via option_table_0019.seed_terms; seeds pooled by evidence. Drift: run A rebuilt node surfaces, 50 km kernel, '
-      'GLORYS12V1 + ERA5 and GlobCurrent + ERA5 (product-relative windage), equal prior, marginalised jointly with Pleiades per row; nine finds. Searched areas: seabed_loglik.py '
-      '(lib.rs transcription), rho 0.05, Phase 2 q 0.945, Bluefin-21 q 0.9; Ocean Infinity layers excluded. Pleiades: joint-surface-rho0.25-gcrel (P + COSMO F1-F4). '
+      'GLORYS12V1 + ERA5 and GlobCurrent + ERA5 (product-relative windage), equal prior, marginalised jointly with Pleiades per row; nine finds. Searched areas (composer stand-in): lib.rs point target, rho 0.05, Phase 2 q 0.945, Bluefin-21 q 0.9, '
+      'OI 2018 q 0.9 x f 0.889, OI 2025-26 outboard q 0.9 x f 0.7808 (Ocean Infinity coverage inferred (grade C), included as best estimate); dotted = ATSB only. Pleiades: joint-surface-rho0.25-gcrel (P + COSMO F1-F4). '
       'Australian term: populated coasts, reconstructed law (k, c refitted), post hoc. Not-computed rows carried at the (seed, option) mean (ruling 15 Oct). '
       f'Reweighted views: r = u/q per 10 NM bin of the 00:19:29 arc position (circle about 0.57 N 64.25 E, radius 44.50 deg); Kish ESS drift {ess["D"]:.0f}, searches {ess["S"]:.0f}, Pleiades {ess["P"]:.0f}, Australian {ess["A"]:.0f}; '
       f'{100 * lost:.1f} % of the arc span has no proposal mass. Run J split-half accepted as a PASS by project ruling, 16 Oct 2026.')
@@ -68,10 +70,10 @@ fig.savefig(OUT / 'fig1-evidence-alone-along-arc.png', dpi=200); fig.savefig(OUT
 print('fig1 done')
 
 # ---------------- Figure 2: disagreement and influence table (00:19 data held out, mixture) + ln evidence ratio per option
-fig = plt.figure(figsize=(7.4, 6.4)); fig.subplots_adjust(left=0.03, right=0.98, top=0.95, bottom=0.25)
-axT = fig.add_axes([0.02, 0.56, 0.96, 0.36]); axT.axis('off')
+fig = plt.figure(figsize=(7.4, 6.6)); fig.subplots_adjust(left=0.03, right=0.98, top=0.95, bottom=0.25)
+axT = fig.add_axes([0.02, 0.56, 0.96, 0.33]); axT.axis('off')
 axB = fig.add_axes([0.10, 0.335, 0.86, 0.15])
-EN = [('D', 'DS', 'debris drift (finds)'), ('S', 'DS', 'searched areas'), ('P', 'DSP', 'Pleiades objects, if aircraft debris'), ('A', 'AS', 'drift, no Australian finds (sens.)')]
+EN = [('D', 'DS', 'debris drift (finds)'), ('S', 'DS', 'searched areas incl. Ocean Infinity'), ('SX', 'DSX', 'searched areas, ATSB only (sens.)'), ('P', 'DSP', 'Pleiades objects, if aircraft debris'), ('A', 'AS', 'drift, no Australian finds (sens.)')]
 hdr = ['evidence', 'median\nalone\n(deg)', 'ln evidence\nratio, core\nvs uniform', 'Bhatta-\ncharyya,\ncore vs alone', 'core mass\nin alone\n90 % HPD', 'alone mass\nin core\n90 % HPD',
        'median\nshift, alone\n- core (NM)', 'KL when\nremoved\nfrom all', 'share of\nall KL', 'median\nshift on\nremoval (NM)']
 cells = []
@@ -86,8 +88,8 @@ for (i, j), c in tb.get_celld().items():
     c.set_linewidth(0.4); c.set_edgecolor('#bbbbbb')
     if i == 0: c.set_facecolor('#eeeeee'); c.set_height(c.get_height() * 1.9)
     if j == 0 and i > 0: c.get_text().set_ha('left')
-axT.set_title('Each evidence type alone against the core, and its influence on all evidence (00:19 data held out)', loc='left', fontsize=8)
-axT.text(-0.015, 1.04, 'a', transform=axT.transAxes, fontweight='bold', fontsize=10, ha='right')
+fig.text(0.04, 0.975, 'Each evidence type alone against the core, and its influence on all evidence (00:19 data held out)', fontsize=8, va='top')
+fig.text(0.015, 0.978, 'a', fontweight='bold', fontsize=10, va='top')
 xs = np.arange(6)
 for k, (E, allp, nm) in enumerate(EN):
     y = [RJ['cells'][f'head|D{d}|mix']['a_' + E]['lnER_core_vs_uniform'] for d in range(6)]
@@ -97,14 +99,14 @@ axB.set_ylabel('ln evidence ratio\ncore vs uniform'); axB.legend(frameon=False, 
 axB.set_title('The sign of each ratio is the same for all six 00:19 treatments', loc='left', fontsize=8)
 axB.text(-0.09, 1.08, 'b', transform=axB.transAxes, fontweight='bold', fontsize=10)
 axB.text(1.0, 1.02, 'above 0 = evidence favours the core region', transform=axB.transAxes, ha='right', fontsize=6)
-g1 = ('Plain English. "Alone" means the evidence with every position on the 7th arc equally probable before it. The ln evidence ratio compares how well this evidence '
+g1 = ('Plain English. Searched areas include the Ocean Infinity searches of 2018 and 2025-26, whose coverage is inferred from published maps and vessel tracks. "Alone" means the evidence with every position on the 7th arc equally probable before it. The ln evidence ratio compares how well this evidence '
       'agrees with the core result and with a position anywhere along the arc: below 0, the evidence prefers other parts of the arc. The Bhattacharyya value is 1 when two PDFs '
       'are the same and 0 when they do not overlap. KL removed from all: how much the all-evidence PDF changes when this evidence is removed. * = more than half of the change '
       'that all the evidence makes to the core. Pleiades and the Australian term are conditional or sensitivity results. A conditional PDF carries no Bayes factor.')
 g2 = ('Technical. Run J, four strata by core P(family), cell D0 total q=1/3 (C2 silent); D3/D4 waypoints from the both-burst supplementary pass. ln ER = ln E_core[L_E] - ln E_U[L_E], '
       'U = uniform per NM of 00:19:29 arc position (40.6-11.8 S), same end-of-flight model; not-computed rows carried at each base\'s own mean. KL(all||all-E) = '
       'E_all[ln L_E] - ln(Z_all/Z_all-E); all = core x drift x searches (unconditional) or x Pleiades (conditional on H). HPD on the 769 km2 equal-area grid. Drift 50 km kernel, '
-      'two ocean models jointly with Pleiades; searches rho 0.05 at the impact point; Australian term reconstructed (post hoc). Hydroacoustics 0 by ruling (no P_D).')
+      'two ocean models jointly with Pleiades; searches rho 0.05 at the impact point, ATSB + OI 2018 + OI 2025-26 (Ocean Infinity coverage inferred (grade C), included as best estimate; ATSB-only row = sensitivity); Australian term reconstructed (post hoc). Hydroacoustics 0 (no P_D).')
 fig.text(0.03, 0.19, g1, fontsize=6.0, wrap=True, va='top'); fig.text(0.03, 0.085, g2, fontsize=5.6, wrap=True, va='top', color='#333333')
 fig.savefig(OUT / 'fig2-disagreement-influence.png', dpi=200); fig.savefig(OUT / 'fig2-disagreement-influence.pdf'); print('fig2 done')
 
@@ -115,7 +117,10 @@ SL = importlib.util.module_from_spec(spec); spec.loader.exec_module(SL); SL.COV 
 la_, lo_ = np.meshgrid(np.arange(-41, -24, 0.03), np.arange(86, 108, 0.03), indexing='ij')
 R_ = [(SL.decode(SL.COV / f'{n}.cov'), q) for n, q in SL.CAMPAIGNS]
 cu = 1 - np.prod([1 - SL.coverage(Rr, la_.ravel(), lo_.ravel()) for Rr, q in R_], 0).reshape(la_.shape)
-fig, axs = plt.subplots(1, 2, figsize=(7.4, 6.2), sharey=True); fig.subplots_adjust(left=0.08, right=0.98, top=0.93, bottom=0.33, wspace=0.05)
+coi = 1 - np.prod([1 - SL.coverage(SL.decode(SL.COV / f'{n_}.cov'), la_.ravel(), lo_.ravel()) for n_ in ('ocean-infinity-2018', 'ocean-infinity-2025')], 0).reshape(la_.shape)
+_doc = json.loads((PROJ.parent / 'Sept 27 2026 backup PL ChatGPT instance/2026-09-28_codex_drift_and_search_update/combined_panel_versions/search_footprints.geojson').read_text())
+NXT = np.asarray(next(f_ for f_ in _doc['features'] if f_['properties'].get('id') == 'oi2024_proposed_inboard_northwest')['geometry']['coordinates'][0])
+fig, axs = plt.subplots(1, 2, figsize=(7.4, 6.6), sharey=True); fig.subplots_adjust(left=0.08, right=0.98, top=0.93, bottom=0.36, wspace=0.05)
 yc = V.ROW_MID; xc = V.LON0 + (np.arange(V.NX) + 0.5) * V.STEP
 for k, (ax, (pa, pb, ta, tb_, ttl)) in enumerate(zip(axs, [('core', 'DS', 'core', 'all evidence', 'All evidence: the 90 % region extends north'),
                                                           ('core', 'DSP', 'core', 'all evidence, if the Pleiades objects are debris', 'If the Pleiades objects are debris: near 35 S')])):
@@ -125,28 +130,36 @@ for k, (ax, (pa, pb, ta, tb_, ttl)) in enumerate(zip(axs, [('core', 'DS', 'core'
             mk = VL.hpd_mask(m, lv).reshape(V.NY, V.NX).astype(float)
             ax.contour(xc, yc, mk, levels=[0.5], colors=[col], linewidths=lw_)
         ax.plot([], [], color=col, lw=1.3, label=f'{lab}: 50 % (thick) and 90 % (thin) HPD')
-    ax.contourf(lo_[0], la_[:, 0], cu, levels=[0.5, 1.01], colors=['#d9b98c'], alpha=0.45)
-    ax.plot([], [], color='#d9b98c', lw=6, alpha=0.6, label='searched seabed (Phase 2 and Bluefin-21)')
+    ax.contourf(lo_[0], la_[:, 0], coi, levels=[0.5, 1.01], colors=['#bcd7c4'], alpha=0.5)
+    ax.contourf(lo_[0], la_[:, 0], cu, levels=[0.5, 1.01], colors=['#d9b98c'], alpha=0.55)
+    ax.plot([], [], color='#d9b98c', lw=6, alpha=0.6, label='searched seabed, ATSB (Phase 2 and Bluefin-21)')
+    ax.plot([], [], color='#bcd7c4', lw=6, alpha=0.7, label='searched seabed, Ocean Infinity 2018 and 2025-26 (inferred)')
+    ax.plot(NXT[:, 0], NXT[:, 1], color='#2e7d4f', lw=1.0, ls=(0, (3, 2))); ax.plot([], [], color='#2e7d4f', lw=1.0, ls=(0, (3, 2)), label='planned next Ocean Infinity area (inferred; not evidence)')
+    if k == 0:
+        mk = VL.hpd_mask(MP['DSX'].astype(float), 0.9).reshape(V.NY, V.NX).astype(float)
+        ax.contour(xc, yc, mk, levels=[0.5], colors=['#1f5fa8'], linewidths=0.8, linestyles=[(0, (2, 2))])
+        ax.plot([], [], color='#1f5fa8', lw=0.8, ls=(0, (2, 2)), label='all evidence, ATSB searches only: 90 % HPD (sensitivity)')
     aL, aO = V.arc_point(np.arange(800, 2400, 5.0)); ax.plot(aO, aL, color='#555555', lw=0.7, ls=':'); ax.plot([], [], color='#555555', lw=0.7, ls=':', label='7th arc (00:19:29, fitted to run J)')
     ax.set_xlim(86, 106); ax.set_ylim(-41, -25); ax.set_xlabel('longitude (deg E)'); ax.set_aspect(1 / np.cos(np.radians(33)))
     ax.set_title(ttl, loc='left', fontsize=8); 
     ax.text(-0.10 if k == 0 else -0.05, 1.03, 'ab'[k], transform=ax.transAxes, fontweight='bold', fontsize=10, ha='right')
     a90 = C0[pb]['hpd90_km2'] / 1e3; c90 = C0['core']['hpd90_km2'] / 1e3
-    ax.text(0.02, 0.97, f'90 % area: core {c90:.0f}k km2, {tb_.split(":")[0]} {a90:.0f}k km2\non searched ground: core {C0["core"]["p_on_searched_ground"]:.2f}, this {C0[pb]["p_on_searched_ground"]:.2f}',
+    ax.text(0.02, 0.97, f'90 % area: core {c90:.0f}k km2, this {a90:.0f}k km2\non searched ground: core {C0["core"]["p_on_searched_ground"]:.2f}, this {C0[pb]["p_on_searched_ground"]:.2f}\nin planned next OI area: core {C0["core"]["p_in_next_oi_area"]:.3f}, this {C0[pb]["p_in_next_oi_area"]:.3f}',
             transform=ax.transAxes, va='top', fontsize=6)
 axs[0].set_ylabel('latitude (deg)')
 hh, ll = [], []
 for ax in axs:
     for h_, l_ in zip(*ax.get_legend_handles_labels()):
         if l_ not in ll: hh.append(h_); ll.append(l_)
-fig.legend(hh, ll, loc='lower center', bbox_to_anchor=(0.5, 0.245), ncol=2, frameon=False, fontsize=6)
+fig.legend(hh, ll, loc='lower center', bbox_to_anchor=(0.5, 0.235), ncol=2, frameon=False, fontsize=6)
 h1 = ('Plain English. Regions that hold 50 % and 90 % of the probability of the impact position. Grey: satellite data, aircraft performance and end of flight (core). Blue: with the '
       'debris drift (nine finds, two ocean models) and the searched areas. Purple: also with the Pleiades objects, on the condition that they are aircraft debris (a conditional '
-      'result). Tan: seabed searched by Phase 2 and Bluefin-21. 00:19 data held out; cause of the 00:19 log-on: fuel exhaustion or another cause with the aircraft silent '
-      '(prior odds 1 to 3). Positions are impact points, not seabed points. The end-of-flight physics is not calibrated. Ocean Infinity areas are not used.')
+      'result). Tan: seabed searched by Phase 2 and Bluefin-21. Green: seabed searched by Ocean Infinity, inferred from maps and vessel tracks (included as best estimate). '
+      'Green dashed line: the planned next Ocean Infinity area; it is not searched and is not evidence. 00:19 data held out; cause of the 00:19 log-on: fuel exhaustion or another cause with the aircraft silent '
+      '(prior odds 1 to 3). Positions are impact points, not seabed points. The end-of-flight physics is not calibrated.')
 h2 = ('Technical. Run J, four strata by core P(family); cell D0 total q=1/3 (C2 silent). Equal-area grid 0.25 deg x authalic q step, 769.3 km2 cells; HPD = smallest cell set. '
       'Drift run A rebuilt surfaces 50 km, GLORYS12V1/GlobCurrent + ERA5 at equal prior, marginalised jointly with Pleiades (rho 0.25, gcrel, P + COSMO F1-F4). Searches '
-      'seabed_loglik.py rho 0.05 (Phase 2 q 0.945, Bluefin-21 q 0.9); tan = union coverage >= 0.5. No settling resample on run J. Run J split-half accepted as a PASS by project ruling, 16 Oct 2026; '
+      'lib.rs point target rho 0.05: Phase 2 q 0.945, Bluefin-21 q 0.9, OI 2018 q 0.9 x f 0.889, OI 2025-26 outboard q 0.9 x f 0.7808 (Ocean Infinity coverage inferred (grade C), included as best estimate); shaded = coverage >= 0.5; next area = CAPTION inboard band (grade C), mass only. No settling resample on run J. Run J split-half accepted as a PASS by project ruling, 16 Oct 2026; '
       'north of 33 S under-sampled (see note). Not-computed rows carried at the (seed, option) mean.')
-fig.text(0.03, 0.20, h1, fontsize=6.0, wrap=True, va='top'); fig.text(0.03, 0.095, h2, fontsize=5.6, wrap=True, va='top', color='#333333')
+fig.text(0.03, 0.185, h1, fontsize=6.0, wrap=True, va='top'); fig.text(0.03, 0.085, h2, fontsize=5.6, wrap=True, va='top', color='#333333')
 fig.savefig(OUT / 'fig3-hpd-map-core-vs-all.png', dpi=200); fig.savefig(OUT / 'fig3-hpd-map-core-vs-all.pdf'); print('fig3 done')

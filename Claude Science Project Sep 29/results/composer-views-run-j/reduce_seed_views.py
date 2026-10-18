@@ -8,8 +8,11 @@ Factors per row (relative scale within a factor; all position-only):
           h100 kernel as the model-error-doubled sensitivity; Australian populated-coast term (RECONSTRUCTED, sensitivity) as
           L' = L exp(Delta_pop) at nodes (prep_nodes.py).
   Pleiades joint-surface-rho0.25-gcrel (P + COSMO F1-F4), per ocean model, cell lookup as pleiades/finds-test/reduce_seed.py.
-  searches seabed_loglik.py transcription (composer pass 1; rho 0.05, Phase 2 q 0.945, Bluefin-21 q 0.9, shared miss), point
-          target at the IMPACT point (no run J settling resample); rho 0.10 as the model-error-doubled sensitivity.
+  searches BASE (Pete 13 Oct 2026): ATSB Phase 2 (q 0.945) + Bluefin-21 (q 0.9) + Ocean Infinity 2018 (q 0.9 x coverage fraction
+          0.889) + Ocean Infinity 2025-26 outboard band (q 0.9 x 0.7808), Ocean Infinity coverage INFERRED (grade C), included as best
+          estimate; lib.rs point target, shared miss: L = rho + (1 - rho) prod_k (1 - c_k q_k f_k), at the IMPACT point (no run J
+          settling resample). rho 0 / 0.05 (reference) / 0.25 / 0.5. 'Without Ocean Infinity' (ATSB only, rho 0.05) = sensitivity.
+          The inferred NEXT Ocean Infinity area (2025-26 inboard band, planned, not searched) is NOT evidence: mass inside it only.
   hydro   0 by ruling (no P_D): contributes nothing; no column.
 Not computed rows (NaN) of any factor: carried at the (seed, option) weighted mean of that factor's computed rows under the core
 row mass, per ocean model (ruling 15 Oct 2026); never excluded. Shares reported.
@@ -42,15 +45,35 @@ PRODUCTS = {
     'core': (None, False, None), 'D': ('h50', False, None), 'S': (None, False, 's05'), 'P': (None, True, None),
     'DS': ('h50', False, 's05'), 'DP': ('h50', True, None), 'SP': (None, True, 's05'), 'DSP': ('h50', True, 's05'),
     'A': ('pop', False, None), 'AS': ('pop', False, 's05'), 'AP': ('pop', True, None), 'ASP': ('pop', True, 's05'),
-    'D100': ('h100', False, None), 'D100S': ('h100', False, 's05'), 'S10': (None, False, 's10'), 'DS10': ('h50', False, 's10'),
+    'D100': ('h100', False, None), 'D100S': ('h100', False, 's05'),
     'DG': ('h50G', False, None), 'DC': ('h50C', False, None), 'DGS': ('h50G', False, 's05'), 'DCS': ('h50C', False, 's05'),
+    'S00': (None, False, 's00'), 'S25': (None, False, 's25'), 'S50': (None, False, 's50'),
+    'DS00': ('h50', False, 's00'), 'DS25': ('h50', False, 's25'), 'DS50': ('h50', False, 's50'),
+    'SX': (None, False, 'x05'), 'DSX': ('h50', False, 'x05'), 'SPX': (None, True, 'x05'), 'DSPX': ('h50', True, 'x05'), 'ASX': ('pop', False, 'x05'),
 }
 # arc-uniform views (a)(ii): prior uniform per NM along the arc span (arc_r.py), same end-of-flight impact model
-UPRODUCTS = {'U': (None, None), 'UD': ('h50', None), 'US': (None, 's05'), 'UP': ('P', None), 'UA': ('pop', None), 'UD100': ('h100', None), 'US10': (None, 's10')}
+UPRODUCTS = {'U': (None, None), 'UD': ('h50', None), 'US': (None, 's05'), 'UP': ('P', None), 'UA': ('pop', None), 'UD100': ('h100', None),
+             'US00': (None, 's00'), 'US25': (None, 's25'), 'US50': (None, 's50'), 'USX': (None, 'x05')}
 KL_PAIRS = [('D', 'core'), ('S', 'core'), ('P', 'core'), ('A', 'core'), ('DS', 'core'), ('DS', 'S'), ('DS', 'D'),
             ('DSP', 'core'), ('DSP', 'SP'), ('DSP', 'DP'), ('DSP', 'DS'), ('AS', 'core'), ('AS', 'S'), ('AS', 'A'),
             ('ASP', 'core'), ('ASP', 'SP'), ('ASP', 'AP'), ('ASP', 'AS'), ('DP', 'D'), ('DP', 'P'), ('SP', 'S'), ('SP', 'P'),
-            ('AP', 'A'), ('AP', 'P'), ('D100S', 'S'), ('D100', 'core'), ('S10', 'core'), ('DS10', 'D')]
+            ('AP', 'A'), ('AP', 'P'), ('D100S', 'S'), ('D100', 'core'),
+            ('S00', 'core'), ('S25', 'core'), ('S50', 'core'), ('SX', 'core'), ('DSX', 'core'), ('DSX', 'SX'), ('DSX', 'D'),
+            ('DSPX', 'core'), ('DSPX', 'SPX'), ('DSPX', 'DSX'), ('ASX', 'core'), ('ASX', 'SX'), ('ASX', 'A')]
+OI = [('ocean-infinity-2018', 0.9 * 0.889), ('ocean-infinity-2025', 0.9 * 0.7808)]
+NEXT_GEOJSON = PROJ.parent / 'Sept 27 2026 backup PL ChatGPT instance/2026-09-28_codex_drift_and_search_update/combined_panel_versions/search_footprints.geojson'
+NEXT_ID = 'oi2024_proposed_inboard_northwest'
+
+def next_area_mask(lat, lon):
+    from matplotlib.path import Path as MPath
+    doc = json.loads(NEXT_GEOJSON.read_text()); f = next(f for f in doc['features'] if f['properties'].get('id') == NEXT_ID)
+    rings = f['geometry']['coordinates']; inside = np.zeros(len(lat), bool)
+    box = (lat > -40) & (lat < -30) & (lon > 88) & (lon < 100)
+    pts = np.column_stack([lon[box], lat[box]]); ib = MPath(np.asarray(rings[0])).contains_points(pts)
+    for hole in rings[1:]:
+        ib &= ~MPath(np.asarray(hole)).contains_points(pts)
+    inside[np.where(box)[0]] = ib
+    return inside
 
 
 def main(set_, st, k, outp, base=None):
@@ -93,12 +116,17 @@ def main(set_, st, k, outp, base=None):
     if SL._R is None:
         SL._R = [(SL.decode(SL.COV / f'{nm}.cov'), q) for nm, q in SL.CAMPAIGNS]
     cov = [SL.coverage(Rr, lat, lon) for Rr, q in SL._R]
-    miss = np.ones(n)
+    missX = np.ones(n)
     for (Rr, q), c in zip(SL._R, cov):
-        miss *= (1.0 - c * q)
-    cunion = 1.0 - (1.0 - cov[0]) * (1.0 - cov[1]); del cov
-    LS = {'s05': 0.05 + 0.95 * miss, 's10': 0.10 + 0.90 * miss}
-    chk_sl = float(np.nanmax(np.abs(np.log(LS['s05'][:200000]) - SL.loglik(lat[:200000], lon[:200000]))))
+        missX *= (1.0 - c * q)
+    cunionX = 1.0 - (1.0 - cov[0]) * (1.0 - cov[1])
+    missB = missX.copy(); cunion = 1.0 - (1.0 - cov[0]) * (1.0 - cov[1])
+    for nm_, qf in OI:
+        c = SL.coverage(SL.decode(SL.COV / f'{nm_}.cov'), lat, lon); missB *= (1.0 - c * qf); cunion = 1.0 - (1.0 - cunion) * (1.0 - c * (qf / 0.9))
+    del cov
+    LS = {'s05': 0.05 + 0.95 * missB, 's00': missB, 's25': 0.25 + 0.75 * missB, 's50': 0.5 + 0.5 * missB, 'x05': 0.05 + 0.95 * missX}
+    nxt = next_area_mask(lat, lon).astype(float)
+    chk_sl = float(np.nanmax(np.abs(np.log(LS['x05'][:200000]) - SL.loglik(lat[:200000], lon[:200000]))))
     # drift export check (waypoints production only): my lookup against the module's own per-impact columns
     exp_chk = {}
     dpath = X / f'debris-drift/run-j/{st}/seed-{k}/drift-lnL.npy'
@@ -112,7 +140,7 @@ def main(set_, st, k, outp, base=None):
         Lexp = np.where(scm, np.exp(np.where(scm, lnm, LREF) - LREF), 0.0)
     else:
         Aexp = None
-    out = {'n_rows': n, 'chk_seabed_max_abs': chk_sl, 'exp_chk': json.dumps(exp_chk), 'PREF': PREF, 'LREF': LREF,
+    out = {'n_rows': n, 'n_next_area_rows': int(nxt.sum()), 'chk_seabed_max_abs': chk_sl, 'exp_chk': json.dumps(exp_chk), 'PREF': PREF, 'LREF': LREF,
            'NSUB': V.NSUB, 'NY': V.NY, 'NX': V.NX, 'n_outside_grid': int((cell == V.NY * V.NX).sum()), 'n_outside_sub': int((sub == V.NSUB).sum()), 'n_fam_other': int((~famok).sum())}
     nc1 = V.NY * V.NX + 1
     if base is not None:   # U-only mode: keep every non-arc-uniform array of an earlier run of this script
@@ -157,6 +185,7 @@ def main(set_, st, k, outp, base=None):
             out[f'{d}|{pn}|S1'] = np.bincount(sub, w, V.NSUB + 1)
             out[f'{d}|{pn}|S2'] = np.bincount(sub, w * w, V.NSUB + 1)
             out[f'{d}|{pn}|IN'] = np.bincount(sub, w * cunion, V.NSUB + 1)
+            out[f'{d}|{pn}|INX'] = np.bincount(sub, w * cunionX, V.NSUB + 1); out[f'{d}|{pn}|NX'] = float(np.sum(w * nxt))
             out[f'{d}|{pn}|FAM'] = np.stack([np.bincount(sub[fam == i], w[fam == i], V.NSUB + 1) for i in range(3)])
             out[f'{d}|{pn}|FAM2'] = np.stack([np.bincount(sub[fam == i], (w * w)[fam == i], V.NSUB + 1) for i in range(3)])
             mp = np.zeros((4, nc1), np.float64); mp[0] = np.bincount(cell, w, nc1)
@@ -181,6 +210,7 @@ def main(set_, st, k, outp, base=None):
             w = mu * lam
             out[f'{d}|{pn}|S1'] = np.bincount(sub, w, V.NSUB + 1); out[f'{d}|{pn}|S2'] = np.bincount(sub, w * w, V.NSUB + 1)
             out[f'{d}|{pn}|IN'] = np.bincount(sub, w * cunion, V.NSUB + 1); out[f'{d}|{pn}|SB'] = np.bincount(sb, w, V.NSB + 1)
+            out[f'{d}|{pn}|INX'] = np.bincount(sub, w * cunionX, V.NSUB + 1); out[f'{d}|{pn}|NX'] = float(np.sum(w * nxt))
             out[f'{d}|{pn}|FAM'] = np.stack([np.bincount(sub[fam == i], w[fam == i], V.NSUB + 1) for i in range(3)])
             out[f'{d}|{pn}|FAM2'] = np.stack([np.bincount(sub[fam == i], (w * w)[fam == i], V.NSUB + 1) for i in range(3)])
             mp = np.zeros((4, nc1)); mp[0] = np.bincount(cell, w, nc1)
