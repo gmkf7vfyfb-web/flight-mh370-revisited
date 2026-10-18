@@ -12810,6 +12810,6 @@ next-run-d-he-oi2018/-oi2025 seabed-lnL columns, max |d lnL| 2.6e-7 over 51.2M r
 D0' all evidence: median 36.07 S (without OI 35.66 S), 90 % HPD 437k km2 (same), north of 33 S 0.152 (0.190), on searched ground 0.239,
 inside the planned next OI area 0.024 (layer only, not evidence; 0.055 given H). Searched areas alone 23.9 S, ln ER -0.84; searches now
 carry 0.51 of KL(all||core) (FLAG). rho 0 / 0.25 / 0.5: 35.97 / 36.44 / 36.69 S. Without-OI kept as a labelled sensitivity (reproduces v1).
-Note: results/composer-views-run-j.md (v2); branch core/composer-views-run-j-oi (57da52d), merge 7cc9e66.
+Note: results/composer-views-run-j.md (v2); commits f7484cc (views v2) and 57da52d (OI reproduction check) on claude-science-sep29.
 
 -- Composer
