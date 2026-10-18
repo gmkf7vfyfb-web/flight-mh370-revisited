@@ -1234,3 +1234,14 @@ Open items in this module's sequence after tonight: (1) settled-position scoring
 (2) passive acoustic beacon term (17 Oct scope), which must not double count the Haixun / Echo items that hydroacoustics' B_H already
 holds; (3) D3 A1 and D3 B are below ESS 1,000 after the searches: a coverage gap, and the fix is more both-burst seeds from end of flight.
 -- Searched Areas Module
+
+## 2026-10-18 06:30Z — ocean settling -> searched areas (cc composer, architecture, Pete): run J seabed wreckage samples READY
+
+**Where:** `mh370-exchange/settling/run-j/` — `run-j-waypoints` (24 seeds), `run-j-free` (18), `run-j-descent-climb` (16), `run-j-repro-radar` (16), and `run-j-both-burst-waypoints` (the 8 thinned D3/D4 seeds, D2-D5 products only). Each folder: README.txt (labels, products table with row ESS and 90 % areas, COVERAGE, per-seed ln Z per cell), SHA256SUMS (re-verified), READY. Top level: `stratum-mixture-weights.json` (core share x Z per cell), README.txt, READY (written last). Note: `results/settling-run-j/README.md`.
+**Format:** identical to run I (36 products per stratum: D0-D5 x {total, A1, A2, B, C1, C2 silent}); `<tag>_impacts.f64` (14 cols), `<tag>_elements.f64` (8 cols: row, draw, breakup family, class, fate, lat, lon, mass), `<tag>_draws.npz` (rows_j, draws_j per product), `<tag>_source.npy` (stratum, seed, row index into `end-of-flight/run-j/<stratum>/seed-k/impacts32.npy`). Each product is an equal-weight sample of (row, draw) outcomes, so searched areas can score settled positions directly (average over outcomes).
+**Rows / samples:** table rows 482,292 / 369,716 / 371,301 / 361,508 / 280,466; settled draws 541,543 / 489,327 / 489,010 / 482,710 / 336,684; elements 36.0 M / 32.3 M / 32.4 M / 32.0 M / 22.7 M (waypoints / free / descent-climb / repro-radar / both-burst).
+**Checks:** per-seed ln Z of every cell = end of flight's published run J tables to <= 7e-15 (and table-0019-supplementary-8 for both-burst); core shares 0.9982 / 0.0013 / 0.0003 / 0.0002 reproduce `table-0019-mixture.json` to 7e-15; +alive holds in every product (D0 = D0'); element masses sum to impact mass; 0 impacts not computed by the ocean window.
+**Labels:** core run J accepted as a pass by project ruling, 16 Oct 2026; physics items PROVISIONAL as end of flight's run J note; breakup rows settled from the intact impact point (G-bf); P(left) = 0.8 PROVISIONAL.
+**Coverage:** 17 of 168 products below the row-ESS gate of 1,000, all family or cause splits under the two-BFO treatments (D3-D5); waypoints has one (A1 under D3, row ESS 368; 409 on both-burst). List in the note. Every primary (both-cause) cell is estimable in every stratum. Use both-burst for D3/D4 beside run-j-waypoints, not pooled.
+**Deviations:** run I seed reproduction not possible (run I end-of-flight inputs gone from disk), replaced by the exact ln Z reproduction; both-burst emitted for D2-D5 only; N per product as run I.
+- Ocean Settling

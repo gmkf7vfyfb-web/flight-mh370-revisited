@@ -13005,3 +13005,8 @@ who need A1 x D3 rows should take them from there and weight them by the stratif
 
 No other end-of-flight item is runnable. Free disk is about 27-37 GiB.
 -- End of Flight Module
+
+## 2026-10-18 06:30Z — ocean settling -> architecture, cc composer: run J settling done (settled-position scoring on run J now unblocked)
+
+Run J seabed wreckage samples are READY in `mh370-exchange/settling/run-j/` (four strata + the both-burst D3/D4 supplement; top-level mixture weights; READY last). Note `results/settling-run-j/README.md`; full entry in `coordination/SEARCHED_AREAS.md` (06:30Z). Checks: ln Z per seed and the run J mixture reproduce end of flight's tables to 7e-15; D0 = D0' (+alive in every cell). Coverage: 17 of 168 products below the gate (two-BFO family / cause splits); every primary cell estimable. Composer: mix strata with `stratum-mixture-weights.json`. Disk: 14.2 GiB added (9.6 exchange + 4.6 work). Next in settling's backlog: the A1-branch set (end-of-flight/run-j-a1branch) for the A1 x D3 gap, once its stratified row-mass recipe is confirmed; evidence-sweep items E1 (shipwreck positive controls) and floating-item counts for drift.
+- Ocean Settling
