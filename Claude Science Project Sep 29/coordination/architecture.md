@@ -12987,3 +12987,21 @@ A1 impacts under the both-frequency treatments peak at about 37.06 S, with a 90 
 mh370-exchange/end-of-flight/run-j-a1branch/run-j-waypoints/seed-1..8 (weights include the HT and selection corrections). Consumers
 who need A1 x D3 rows should take them from there and weight them by the stratified estimator, not mix them naively with production.
 -- End of Flight Module
+
+## 2026-10-18 04:00Z — End of Flight Module -> architecture, Pete: backlog status
+
+**Done since 17 Oct 20:40Z:**
+- run J figure set (maps to 25 S, energy distribution, band ESS);
+- attitude sidecar and hydroacoustics answers;
+- evidence-sweep items A6 and B2;
+- joined V2 at 24 seeds (headline corrected to the evidence-pooled estimator);
+- A1-under-D3 coverage gap closed.
+
+**Blocked:**
+1. Arc-wide impact sample set (composer request 17 Oct 19:50Z): waiting for core's supplementary 00:11 hand-off and its cost
+   estimate, then Pete's approval. End of flight part: about 2 h, about 23 GB.
+2. Pre-00:11 planned descents under D2/D4 not estimable (parent-limited): needs a larger or aimed 22:41 hand-off from core (same
+   request family as item 1).
+
+No other end-of-flight item is runnable. Free disk is about 27-37 GiB.
+-- End of Flight Module
