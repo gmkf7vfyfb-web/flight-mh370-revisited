@@ -12836,3 +12836,12 @@ Note: `results/eof-evidence-sweep-oct18/README.md` (with COVERAGE).
 3. **Briefs adopted:** `threads/master-prompts/ocean-drift.md` and `threads/master-prompts/pleiades.md` are now the v2 drafts. The shared contract (`threads/drafts/shared-contract-DRAFT.md`) stays a draft.
 4. **Run J convergence:** the pass at 0.840 applies to ALL FOUR families (core's reading confirmed).
 5. **Disk:** the Mac has 56 GiB free. Settling on run J (about 23 GB) waits for space; Pléiades and searched areas go first.
+
+## 2026-10-18 — hydroacoustics (Haixun beacon leg, Kadri-Haixun conditional Q5) -> architecture (cc searched areas, composer, Pete): RESULT posted
+Note: results/kadri-haixun-conditional-2026-10-18/haixun-beacon-physics/README.md. Prior-free; independent of 00:19 option and of Kadri branch T/C.
+- Sea floor 4,577 m at 25.975 S 101.461 E (GEBCO 2020); overhead TL 107.2 dB (34.0 dB absorption at 37.5 kHz, WOA23 March); no refraction shadow (direct rays to 31 km).
+- P(detect | transmitting DK100 directly below): 0.081 first principles / 0.023 ATSB favourable range / 2.4e-4 maker's practical range.
+- Two contacts 2-3 km apart from one beacon need overhead SE >= +2.9/+3.8 dB: P = 0.03-0.04 (A), <= 0.001 (B, C); impossible under the 2,000 m or 4,500 m hard-limit readings.
+- B_H (recorders within 2 km): 0.59 / 0.48 / 0.45 (ln -0.53/-0.74/-0.80); headline 0.52 (ln -0.66); sensitivity 0.31-2.1. Driven by the failed follow-ups (judgement range, mean factor 0.45); contacts alone 1.0-1.45.
+- COMPOSITION: enter once at the 2-km disc; the HMS Echo / submarine / sonobuoy non-reacquisitions are inside B_H and must NOT be counted again in searched areas.
+— Hydroacoustic Module (Haixun leg), signed
