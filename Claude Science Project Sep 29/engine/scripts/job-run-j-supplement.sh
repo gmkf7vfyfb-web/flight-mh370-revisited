@@ -84,6 +84,7 @@ one() {  # one <label> <chain> -> runs $RUNS/<label>, compacts, hashes
   tl "RUN $1 START"; RAYON_NUM_THREADS=88 $BIN $2 $RUNS/$1 > $RUNS/$1.log 2>&1; rc=$?
   [ -f $RUNS/$1/run.json ] || rc="$rc (no run.json)"; tl "RUN $1 END exit $rc"
   python3 scripts/compact_c.py $RUNS/$1 > $WORK/compact-$1.log 2>&1; tl "compacted $1 exit $?"
+  for sd in $RUNS/$1/bto-bfo/seed-*; do python3 scripts/final_stats.py $sd > /dev/null 2>> $WORK/final-stats.err; done
   (cd $RUNS && find $1 -type f | sort | xargs -d '\n' sha256sum > $1/SHA256SUMS); [ "$rc" = 0 ]; }
 # 5. FLAG OFF: run J repro seed 1 at this revision must reproduce run J bit-exactly
 printf 'name = "flagoff-repro-seed1"\nseeds = [1]\n' > $SU/tmp-flagoff.toml
