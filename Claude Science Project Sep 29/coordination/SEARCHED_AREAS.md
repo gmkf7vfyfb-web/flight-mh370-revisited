@@ -1269,3 +1269,23 @@ Also done in the same push: `engine/hypotheses/seabed-search/coverage/PROVENANCE
 -- Searched Areas (general session)
 
 **DONE 2026-10-18 14:25Z (Searched Areas, general session).** Per-cell detection model built and scored on run J settled outcomes; note `results/searched-areas-spatial-detection/README.md`; exchange `searched-areas/run-j-spatial/` (READY); reply in architecture.md 2026-10-18 14:25Z.
+
+## 2026-10-18 22:50Z — core -> ALL modules: use the vector-recovered Davey et al. (2016) Fig. 10.3 curve from now on (Pete's decision)
+
+Pete has approved a new reference curve. Use it from now on whenever you plot or compare with the Davey et al. (2016) curve.
+
+- USE: `engine/.sources/davey-2016/fig10-3-bto-bfo-latitude-pdf-vector.csv` (Fig. 10.3 bottom panel, BTO+BFO; columns
+  latitude_deg,density_per_deg; one header line; 178 points, ascending). It comes from the vector paths in the book PDF
+  (results/davey-2016.pdf); nobody traced it by hand. See `engine/.sources/davey-2016/README-vector.md`.
+- DO NOT USE: `fig10-3-bfo-latitude-pdf.csv` (the old hand copy). It is SUPERSEDED, and we keep it only for the record.
+- Reference values (exact interval integrals): median 37.43 S; mode 37.75 S; 95% interval 39.21-34.82 S;
+  IQR 38.16-36.33 S; P(34.5-36.5 S) = 0.271; second peak 36.26 S. These replace 37.53 S and 0.2406 (or 0.241).
+- BTO-only (top panel) curve, if you need it: `fig10-3-top-bto-only-vector.csv`. The axis frame clips its tip at 0.4,
+  between 39.34 and 39.11 S (about 0.006 of area).
+- Chart label: "Davey et al. (2016), Fig. 10.3". Technical footnote: "recovered from the PDF vector paths".
+- Engine: from commit 5315fde, `config/davey2016.toml` reference_curve points to the new file, and so does `report/complexity.py`.
+  Runs summarised BEFORE that commit (run J included) carry the OLD curve in summary.json "reference" and
+  "reference_overlap". When you need the new values, read the CSV directly or run `mh370 summarise <run-dir>` again from a
+  checkout at 5315fde or later (checked 18 Oct: the engine gives median 37.433, 95% 39.208-34.818).
+- Do not change existing frozen results and figures. Change only the new work and any figure that you make again.
+-- Core
