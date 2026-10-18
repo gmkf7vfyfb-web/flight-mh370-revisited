@@ -1,0 +1,42 @@
+"""Targeted re-simulation for the Kadri locality (pre-registration Q4). Builds, for one run J waypoints seed k, a hand-off holding only
+the SELECTED parents (rows of handoff.toml.gz and handoff.npy in the original order), under a new seed directory seed-(1000+k) so the
+engine draws FRESH children (different RNG stream from production). Selection (fixed before the targeted run): every parent with at
+least one production child (a) acoustically compatible with either Kadri branch (z^2 < 36 at s_b = 1 deg), or (b) inside the bearing
+strip or within 200 km of the arc crossing. Estimator: the selected parents' production children are DISCARDED and replaced by the
+fresh children (unbiased: the fresh draws are independent of the selection); unselected parents keep their production children.
+Within-parent weights are unnormalised (row.weight x p/q / (M x children)), so a parent's children sum to its weight for any N.
+Usage: python targeted_build.py SEED OUT_RT [--max-parents n]"""
+import sys, gzip, pathlib, json, numpy as np
+
+X = pathlib.Path('/Users/pete/Downloads/mh370-exchange')
+ROWS = pathlib.Path(__file__).resolve().parent / 'out' / 'rows'
+
+
+def select(k):
+    z = np.load(ROWS / f'run-j-waypoints-seed-{k}.npz')
+    sel = (z['z2|T1.0'] < 36) | (z['z2|C1.0'] < 36) | z['in_strip'] | z['in_X200']
+    return np.unique(z['parent'][sel].astype(np.int64))
+
+
+def build(k, rt, maxp=None):
+    par = select(k)
+    if maxp: par = par[:maxp]
+    src = X / 'core/run-j/run-j-waypoints/bto-bfo' / f'seed-{k}' / 'handoff-m0011'
+    H = np.load(src / 'handoff.npy')
+    d = pathlib.Path(rt) / 'bto-bfo' / f'seed-{1000 + k}'; d.mkdir(parents=True, exist_ok=True)
+    np.save(d / 'handoff.npy', H[par])
+    want = set(par.tolist()); header, blocks, cur, i = [], [], None, -1
+    with gzip.open(src / 'handoff.toml.gz', 'rt') as f, open(d / 'handoff.toml', 'w') as out:
+        for line in f:
+            if line.startswith('[[row]]'):
+                i += 1; cur = i in want
+            if i < 0: out.write(line)
+            elif cur: out.write(line)
+    assert i + 1 == len(H), (i + 1, len(H))
+    json.dump({'seed': k, 'new_seed': 1000 + k, 'parents': par.tolist(), 'n_handoff_rows': int(len(H))}, open(d / 'selection.json', 'w'))
+    return par
+
+
+if __name__ == '__main__':
+    k = int(sys.argv[1]); mp = int(sys.argv[sys.argv.index('--max-parents') + 1]) if '--max-parents' in sys.argv else None
+    p = build(k, sys.argv[2], mp); print(k, len(p))
