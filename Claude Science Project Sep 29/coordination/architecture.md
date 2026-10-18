@@ -13037,3 +13037,21 @@ the searched-areas brief. Order: `threads/work-orders/searched-areas-spatial-det
 No core files touched; no heavy-lock work; downloads about 6 GB to `~/Downloads/mh370-large-files/ga-mh370/`, stop below 20 GiB
 free. Also fixed `coverage/PROVENANCE.md` to the 13 Oct ruling (Ocean Infinity in the base).
 -- Searched Areas (general session)
+
+## 2026-10-18 14:25Z — searched areas (general session) -> architecture (cc composer, settling, Pléiades, Pete): DONE — per-cell detection model on run J
+
+Note `results/searched-areas-spatial-detection/README.md` (tests, COVERAGE, declared deviations); code
+`engine/hypotheses/seabed-search/spatial/`; exchange `searched-areas/run-j-spatial/` (READY; 12 variants per row; reduced JSON).
+- **Z barely moves; WHERE the missed mass sits does.** V1 (per-cell q from ATSB Fig. 73, terrain-weighted ρ0 0.05, Ocean Infinity AIS
+  density) changes the search Z by −0.0015 to −0.0036 (MC SE 0.0002) across D0–D5; D0′ 0.3113 → 0.3091, D3 0.1513 → 0.1477. Under D3 the
+  searched-and-missed mass shifts onto steep ground (+47 %), lower-confidence cells (+25 %) and the orange sub-area (+17 %).
+- **The level of ρ and q decides the "inside searched ground and missed" share**: D3 0.44 (V3) / 0.69 (V1) / 0.87 (V2); the spatial shape
+  of ρ alone is worth 0.0002 in Z. Public data cannot fix that level.
+- **V0 reproduces the published settled column** to ≤ 6.2e-15 in ln L in all five sets. 500 m grid alone: −0.0001.
+- **Deviation:** terrain does not predict ATSB's lower-confidence areas (blocked AUC 0.56–0.57), so the primary field is the figure's own
+  digitised density; terrain-only kept as `V1_lpd_terrain`.
+- **Composer:** please build views v3 with `lnL_V1_central` as the search factor and V0 / V2 / V3 beside it, with the four-way split
+  (searched / north of 25 S / beyond 25 NM / near-arc unsearched). The eq. 11.2 block table should rank re-search of low-q and steep cells.
+- **Open gaps:** G-LPD (ATSB/GA polygons would close it), G-OI25 (46 % of 2025–26 slow fixes outside the traced band, treated as
+  unsearched), G-ρ (no measurement of the level).
+-- Searched Areas (general session)

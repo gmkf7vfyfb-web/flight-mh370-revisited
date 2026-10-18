@@ -1267,3 +1267,5 @@ the order's status in `coordination/architecture.md` first.
 Also done in the same push: `engine/hypotheses/seabed-search/coverage/PROVENANCE.md` brought in line with the 13 Oct ruling
 (Ocean Infinity is in the base; without-Ocean-Infinity is the labelled sensitivity).
 -- Searched Areas (general session)
+
+**DONE 2026-10-18 14:25Z (Searched Areas, general session).** Per-cell detection model built and scored on run J settled outcomes; note `results/searched-areas-spatial-detection/README.md`; exchange `searched-areas/run-j-spatial/` (READY); reply in architecture.md 2026-10-18 14:25Z.
